@@ -18,12 +18,10 @@ import { enrichThresholdOperatorOptionsForApiConfigs } from 'in-websites/alertin
 import ThresholdConditionFormGroup from 'in-new-components/Alerting/advanced/ThresholdConditionFormGroup';
 import ChartViewConfigurator from 'in-new-components/Alerting/components/ChartViewConfigurator';
 import { isPercentageMetric, getThresholdLabel } from 'in-websites/alerting/form/formUtils';
-import getJsErrorsChartConfig from 'in-websites/alerting/data/chartConfigForJsErrors';
-import { fieldNames } from 'in-websites/alerting/form/alertDialogFormDefinition';
 import AlertingBarChart from 'in-new-components/Alerting/Chart/AlertingBarChart';
 import { ruleMetricNameOptions } from 'in-websites/alerting/form/ruleFormData';
+import { getBlueprintConfig } from 'in-websites/alerting/data/blueprintConfig';
 import { findEntryByValue } from 'in-applications/alerting/form/formUtils';
-import { errorCount, errorRate } from 'in-websites/alerting/constants';
 import Dropdown from 'in-new-components/Dropdown';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
@@ -49,24 +47,29 @@ function JsErrorsInteractiveChart({
   const [tempThreshold, setTempThreshold] = useState(() => form.get('threshold').get('value').value);
   const [doDebounce, setDoDebounce] = useState(false);
 
-  if (!hasJsErrorSelected(form)) {
+  const percentageMetric = isPercentageMetric(metricName);
+  const alertConfig = {
+    ...form.toJS(),
+    threshold: {
+      ...form.get('threshold').toJS(),
+      value:
+        (doDebounce
+          ? getThresholdValueForPercentageMetric(tempThreshold, percentageMetric)
+          : form.get('threshold').get('value').value) || 0
+    }
+  };
+
+  const alertType = alertConfig.rule.alertType;
+  const metricName = alertConfig.rule.metricName;
+  const blueprintConfig = getBlueprintConfig(alertType);
+
+  if (!blueprintConfig.isRuleComplete(alertConfig.rule)) {
     return (
       <div className={locals.container}>
-        <IncompleteChartPlaceholder message="Please select a JS Error to see when this alert triggers" />
+        <IncompleteChartPlaceholder message={blueprintConfig.incompleteRuleMessage} />
       </div>
     );
   }
-
-  const metricName = form.get('rule').get('metricName').value;
-  const percentageMetric = isPercentageMetric(metricName);
-  const threshold = {
-    ...form.get('threshold').toJS(),
-    value:
-      (doDebounce
-        ? getThresholdValueForPercentageMetric(tempThreshold, percentageMetric)
-        : form.get('threshold').get('value').value) || 0
-  };
-  const granularity = form.get('granularity').value;
 
   return (
     <div className={locals.container}>
@@ -74,6 +77,7 @@ function JsErrorsInteractiveChart({
         {renderThresholdCondition(
           form,
           onChange,
+          blueprintConfig,
           doDebounce,
           tempThreshold,
           metricName,
@@ -92,21 +96,10 @@ function JsErrorsInteractiveChart({
         >
           {chartViewConfig => (
             <AlertingBarChart
-              chartConfigForBlueprint={getJsErrorsChartConfig({
-                websiteId: form.get(fieldNames.websiteId).value,
-                viewConfig: chartViewConfig,
-                tagFilters: form.get(fieldNames.tagFilters).value,
-                errorFilter: {
-                  name: 'beacon.error.message',
-                  operator: form.get('rule').get('operator').value,
-                  stringValue: form.get('rule').get('value').value
-                },
-                granularity: granularity,
-                metricName: metricName,
-                threshold: threshold,
-                timeThreshold: form.get('timeThreshold').toJS(),
-                alertsPreviewEnabled: true
-              })}
+              alertConfig={alertConfig}
+              viewConfig={chartViewConfig}
+              blueprintConfig={blueprintConfig}
+              alertsPreviewEnabled
               canReload
             />
           )}
@@ -119,6 +112,7 @@ function JsErrorsInteractiveChart({
 export function renderThresholdCondition(
   form,
   onChange,
+  blueprintConfig,
   doDebounce,
   tempThreshold,
   metricName,
@@ -131,18 +125,14 @@ export function renderThresholdCondition(
   const operatorValue = form.get('threshold').get('operator').value;
   const operatorOptions = enrichThresholdOperatorOptionsForApiConfigs(operatorValue);
   const operatorLabel = (findEntryByValue(operatorOptions, operatorValue) ?? operatorOptions[0]).label;
-
   const thresholdValueLabel = getThresholdLabel(form);
 
   return (
     <ThresholdConditionFormGroup>
       <Dropdown
         asSimpleDropdown
-        label={
-          findEntryByValue(ruleMetricNameOptions.specificJsError, metricName)?.label ??
-          ruleMetricNameOptions.specificJsError[0].label
-        }
-        defaultValue={errorCount}
+        label={blueprintConfig.getMetricLabel(metricName)}
+        defaultValue="errors"
         items={ruleMetricNameOptions.specificJsError}
         onChange={e => {
           const value = (e && e.value) || '';
@@ -170,7 +160,7 @@ export function renderThresholdCondition(
         id="thresholdValue"
         type="number"
         min="0"
-        max={getMaxThresholdValue(metricName)}
+        max={blueprintConfig.getMaxMetricValue(metricName)}
         name="thresholdValue"
         step="1"
         value={
@@ -209,15 +199,3 @@ JsErrorsInteractiveChart.propTypes = {
   onChartViewConfigChange: PropTypes.func.isRequired,
   selectedChartViewConfigIndex: PropTypes.number.isRequired
 };
-
-function hasJsErrorSelected(form) {
-  return !!(form && form.get('rule').get('value').value);
-}
-
-function getMaxThresholdValue(metricName) {
-  return isRateMetric(metricName) ? 100 : undefined;
-}
-
-function isRateMetric(metricName) {
-  return metricName === errorRate;
-}

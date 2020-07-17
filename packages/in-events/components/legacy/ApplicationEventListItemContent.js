@@ -6,11 +6,9 @@ import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-applic
 import ApplicationAlertConfigButton from 'in-events/components/ApplicationAlertConfigButton';
 import { getAlertConfigByIdAndTimestamp } from 'in-applications/api/applicationAlertConfig';
 import { alertingEventDetailsChartTimeframe } from 'in-new-components/Alerting/constants';
-import { getApplicationIdTagFilter } from 'in-applications/alerting/tagFilterUtils';
 import { getBlueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
 import AlertingBarChart from 'in-new-components/Alerting/Chart/AlertingBarChart';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
-import getChartConfig from 'in-applications/alerting/data/chartConfig';
 import { getChartTimeConfigByEvent } from 'in-events/timeframe';
 import { DescriptionItem } from 'in-components/DescriptionList';
 import connectTo from 'in-hoc/connectTo';
@@ -30,10 +28,8 @@ export default connectTo(
       return null;
     }
 
-    const entityId = event.get('entityId');
     const metadata = event.get('metadata');
     const applicationName = metadata.get('entityLabel');
-    const boundaryScope = alertConfig.boundaryScope;
     const tagFilters = alertConfig.tagFilters;
     const alertType = alertConfig.rule.alertType;
 
@@ -51,13 +47,7 @@ export default connectTo(
             <AnalyzeApplicationEventButton event={event} alertConfig={alertConfig} />
           </div>
 
-          <AlertingBarChart
-            chartConfigForBlueprint={getChartConfig({
-              alertConfig,
-              viewConfig: chartViewConfig,
-              blueprintConfig
-            })}
-          />
+          <AlertingBarChart alertConfig={alertConfig} viewConfig={chartViewConfig} blueprintConfig={blueprintConfig} />
         </div>
         <div className={locals.sectionWrapper}>
           <DescriptionItem title="Domain">
@@ -65,7 +55,7 @@ export default connectTo(
               <TagFilterListPresenter
                 tagFilters={translateDemocratisationTagFiltersToAnalyzeTagFilters({
                   applicationName,
-                  tagFilters: [getApplicationIdTagFilter({ entityId, boundaryScope }), ...tagFilters]
+                  tagFilters: [blueprintConfig.getEntityTagFilter(alertConfig), ...tagFilters]
                 })}
                 disabled
               />

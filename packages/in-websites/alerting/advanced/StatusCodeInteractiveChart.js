@@ -15,13 +15,12 @@ import {
 import { getBlueprintObject, debouncedThresholdValueChangedTracker } from 'in-websites/alerting/trackingHelpers';
 import { enrichThresholdOperatorOptionsForApiConfigs } from 'in-websites/alerting/form/thresholdFormData';
 import ThresholdConditionFormGroup from 'in-new-components/Alerting/advanced/ThresholdConditionFormGroup';
+import IncompleteChartPlaceholder from 'in-new-components/Alerting/components/IncompleteChartPlaceholder';
 import ChartViewConfigurator from 'in-new-components/Alerting/components/ChartViewConfigurator';
 import { isPercentageMetric, getThresholdLabel } from 'in-websites/alerting/form/formUtils';
-import getStatusCodeChartConfig from 'in-websites/alerting/data/chartConfigForStatusCode';
-import { statusCodeCount, statusCodeRate } from 'in-websites/alerting/constants';
 import AlertingBarChart from 'in-new-components/Alerting/Chart/AlertingBarChart';
 import { ruleMetricNameOptions } from 'in-websites/alerting/form/ruleFormData';
-import { findEntryByValue } from 'in-applications/alerting/form/formUtils';
+import { getBlueprintConfig } from 'in-websites/alerting/data/blueprintConfig';
 import Dropdown from 'in-new-components/Dropdown';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
@@ -47,23 +46,36 @@ function StatusCodeInteractiveChart({
   const [tempThreshold, setTempThreshold] = useState(() => form.get('threshold').get('value').value);
   const [doDebounce, setDoDebounce] = useState(false);
 
-  const metricName = form.get('rule').get('metricName').value;
   const percentageMetric = isPercentageMetric(metricName);
-
-  const threshold = {
-    ...form.get('threshold').toJS(),
-    value:
-      (doDebounce
-        ? getThresholdValueForPercentageMetric(tempThreshold, percentageMetric)
-        : form.get('threshold').get('value').value) || 0
+  const alertConfig = {
+    ...form.toJS(),
+    threshold: {
+      ...form.get('threshold').toJS(),
+      value:
+        (doDebounce
+          ? getThresholdValueForPercentageMetric(tempThreshold, percentageMetric)
+          : form.get('threshold').get('value').value) || 0
+    }
   };
-  const granularity = form.get('granularity').value;
+
+  const alertType = alertConfig.rule.alertType;
+  const metricName = alertConfig.rule.metricName;
+  const blueprintConfig = getBlueprintConfig(alertType);
+
+  if (!blueprintConfig.isRuleComplete(alertConfig.rule)) {
+    return (
+      <div className={locals.container}>
+        <IncompleteChartPlaceholder message={blueprintConfig.incompleteRuleMessage} />
+      </div>
+    );
+  }
 
   return (
     <div className={locals.container}>
       {renderThresholdCondition(
         form,
         onChange,
+        blueprintConfig,
         metricName,
         percentageMetric,
         updateForm,
@@ -82,21 +94,10 @@ function StatusCodeInteractiveChart({
       >
         {chartViewConfig => (
           <AlertingBarChart
-            chartConfigForBlueprint={getStatusCodeChartConfig({
-              websiteId: form.get('websiteId').value,
-              viewConfig: chartViewConfig,
-              tagFilters: form.get('tagFilters').value,
-              granularity: granularity,
-              numeratorFilter: {
-                name: 'beacon.http.status',
-                operator: form.get('rule').get('operator').value,
-                stringValue: form.get('rule').get('value').value
-              },
-              threshold: threshold,
-              timeThreshold: form.get('timeThreshold').toJS(),
-              metricName: metricName,
-              alertsPreviewEnabled: true
-            })}
+            alertConfig={alertConfig}
+            viewConfig={chartViewConfig}
+            blueprintConfig={blueprintConfig}
+            alertsPreviewEnabled
             canReload
           />
         )}
@@ -107,6 +108,7 @@ function StatusCodeInteractiveChart({
 export function renderThresholdCondition(
   form,
   onChange,
+  blueprintConfig,
   metricName,
   percentageMetric,
   updateForm,
@@ -126,8 +128,8 @@ export function renderThresholdCondition(
     <ThresholdConditionFormGroup>
       <Dropdown
         asSimpleDropdown
-        label={findEntryByValue(ruleMetricNameOptions.statusCode, metricName)?.label}
-        defaultValue={statusCodeCount}
+        label={blueprintConfig.getMetricLabel(metricName)}
+        defaultValue="httpxxx"
         items={ruleMetricNameOptions.statusCode}
         onChange={e => {
           const value = (e && e.value) || '';
@@ -157,7 +159,7 @@ export function renderThresholdCondition(
         className={locals.narrowControl}
         type="number"
         min="0"
-        max={getMaxThresholdValue(metricName)}
+        max={blueprintConfig.getMaxMetricValue(metricName)}
         name="thresholdValue"
         step="1"
         value={
@@ -197,11 +199,3 @@ StatusCodeInteractiveChart.propTypes = {
   debounceOnChange$: PropTypes.object,
   updateForm: PropTypes.func.isRequired
 };
-
-function getMaxThresholdValue(metricName) {
-  return isRateMetric(metricName) ? 100 : undefined;
-}
-
-function isRateMetric(metricName) {
-  return metricName === statusCodeRate;
-}

@@ -3,28 +3,18 @@ import { empty } from 'reactive-observables';
 import React from 'react';
 
 import {
-  getThresholdQueryForStatusCode,
-  getThresholdQueryForErrors,
-  getThresholdQuery
-} from 'in-websites/alerting/alertConfigDialogWithThreshold/thresholdSuggestionQueryUtils';
-import {
   websitesAlertingCloseDialog,
   websitesAlertingSwitchMode,
   websitesAlertingAlertCreated
 } from 'in-websites/alerting/tracker';
-import getWebsiteRateMetricThresholdSuggestion from 'in-websites/alerting/subscriptions/getWebsiteRateMetricThresholdSuggestion';
-import getWebsiteMetricsThresholdSuggestion from 'in-websites/alerting/subscriptions/getWebsiteMetricsThresholdSuggestion';
-import { errorCount, errorRate, statusCodeCount, statusCodeRate, onLoadTime } from 'in-websites/alerting/constants';
 import { thresholdOrBaselineLoadingSignal$ } from 'in-new-components/Alerting/Chart/AlertingBarChartWrapper';
 import AlertConfigDialogPresenter from 'in-new-components/Alerting/AlertConfigDialogPresenter';
 import AdvancedModeContainer from 'in-websites/alerting/advanced/AdvancedModeContainer';
 import SimpleModeContainer from 'in-websites/alerting/simple/SimpleModeContainer';
-import { fieldNames } from 'in-websites/alerting/form/alertDialogFormDefinition';
-import { getFormValueOrDefault } from 'in-websites/alerting/form/formUtils';
+import { getBlueprintConfig } from 'in-websites/alerting/data/blueprintConfig';
 import { modeAdvanced, modeSimple } from 'in-websites/alerting/constants';
 import { getBlueprintObject } from 'in-websites/alerting/trackingHelpers';
 import createThresholdForm from 'in-websites/alerting/form/thresholdForm';
-import { isBlank } from 'in-services/util/string';
 import connectTo from 'in-hoc/connectTo';
 
 export const AlertConfigDialogWithThreshold = compose(
@@ -79,77 +69,57 @@ export const AlertConfigDialogWithThreshold = compose(
 });
 
 function resolveThresholdRequest(form, fallbackOnError) {
-  const calculateThresholdOnBackend = form.get('hiddenFields').get('calculateThresholdOnBackend').value;
-  if (!calculateThresholdOnBackend) return empty;
+  const alertConfig = form.toJS();
+  const {
+    rule: { alertType, metricName },
+    threshold: { seasonality = null },
+    tagFilters,
+    granularity
+  } = alertConfig;
 
-  const websiteId = form.get(fieldNames.websiteId).value;
-  const stringValue = getFormValueOrDefault(form.get('rule'), 'value');
-  const operator = getFormValueOrDefault(form.get('rule'), 'operator');
-  const tagFilters = form.get(fieldNames.tagFilters).value;
-  const metricName = form.get('rule').get('metricName').value;
-  const granularity = form.get('granularity').value;
+  const blueprintConfig = getBlueprintConfig(alertType);
 
-  switch (metricName) {
-    case errorCount:
-      if (isBlank(stringValue)) {
-        return empty;
-      }
-
-      return getWebsiteMetricsThresholdSuggestion(
-        getThresholdQueryForErrors(websiteId, 'SUM', errorCount, stringValue, operator, tagFilters, granularity)
-      );
-    case errorRate:
-      if (isBlank(stringValue)) {
-        return empty;
-      }
-
-      return getWebsiteRateMetricThresholdSuggestion(
-        getThresholdQueryForErrors(websiteId, 'MEAN', errorRate, stringValue, operator, tagFilters, granularity)
-      );
-    case statusCodeCount:
-      return getWebsiteMetricsThresholdSuggestion(
-        getThresholdQueryForStatusCode(
-          websiteId,
-          'SUM',
-          statusCodeCount,
-          stringValue,
-          operator,
-          tagFilters,
-          granularity
-        )
-      );
-    case statusCodeRate: {
-      return getWebsiteRateMetricThresholdSuggestion(
-        getThresholdQueryForStatusCode(
-          websiteId,
-          'MEAN',
-          statusCodeRate,
-          stringValue,
-          operator,
-          tagFilters,
-          granularity
-        )
-      );
-    }
-    case onLoadTime: {
-      const aggregation = form.get('rule').get('aggregation').value;
-      const seasonality = getFormValueOrDefault(form.get('threshold'), 'seasonality');
-
-      return getWebsiteMetricsThresholdSuggestion(
-        getThresholdQuery(
-          websiteId,
-          aggregation,
-          onLoadTime,
-          tagFilters,
-          granularity,
-          fallbackOnError ? 'DAILY' : seasonality,
-          fallbackOnError
-        )
-      );
-    }
-    default:
-      return empty;
+  if (!blueprintConfig.isRuleComplete(alertConfig.rule)) {
+    return empty;
   }
+
+  const getSeasonality = () => {
+    if (!blueprintConfig.baselineEnabled) {
+      // request static threshold
+      return null;
+    }
+    return fallbackOnError ? 'DAILY' : seasonality;
+  };
+
+  const ruleTagFilters = blueprintConfig.getRuleTagFilters(alertConfig.rule);
+  let numeratorFilter;
+  let enrichedTagFilters;
+  if (blueprintConfig.isCustomRateMetric(metricName)) {
+    // at the moment, we only support a single numerator filter. All such blueprints have
+    // a single rule-specific tag-filter only
+    numeratorFilter = ruleTagFilters[0];
+    enrichedTagFilters = [...tagFilters, blueprintConfig.getEntityTagFilter(alertConfig)];
+  } else {
+    enrichedTagFilters = [
+      ...alertConfig.tagFilters,
+      blueprintConfig.getEntityTagFilter(alertConfig),
+      ...ruleTagFilters
+    ];
+  }
+
+  const thresholdSuggestionRequest = blueprintConfig.getThresholdSuggestionRequest(metricName);
+  return thresholdSuggestionRequest({
+    to: Date.now(),
+    tagFilters: enrichedTagFilters,
+    metric: {
+      metric: blueprintConfig.getMetricName(alertConfig.rule),
+      granularity,
+      aggregation: blueprintConfig.getAggregation(alertConfig.rule),
+      numeratorFilter
+    },
+    seasonality: getSeasonality(),
+    fallbackOnError
+  });
 }
 
 function updateThresholdInForm(form, updateForm, data, errors, time) {

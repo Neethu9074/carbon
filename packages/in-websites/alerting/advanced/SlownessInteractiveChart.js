@@ -16,8 +16,7 @@ import {
 } from 'in-websites/alerting/trackingHelpers';
 import {
   ruleAggregationForWeeklySeasonalityOptions,
-  ruleAggregationOptions,
-  ruleMetricNameOptions
+  ruleAggregationOptions
 } from 'in-websites/alerting/form/ruleFormData';
 import {
   thresholdTypeOptions,
@@ -28,8 +27,8 @@ import createThresholdForm, { defaultDeviationFactor } from 'in-websites/alertin
 import ChartViewConfigurator from 'in-new-components/Alerting/components/ChartViewConfigurator';
 import { getFormValueOrDefault, getThresholdLabel } from 'in-websites/alerting/form/formUtils';
 import { SensitivitySlider } from 'in-new-components/Alerting/advanced/SensitivitySlider';
-import getSlownessChartConfig from 'in-websites/alerting/data/chartConfigForSlowness';
 import AlertingBarChart from 'in-new-components/Alerting/Chart/AlertingBarChart';
+import { getBlueprintConfig } from 'in-websites/alerting/data/blueprintConfig';
 import { findEntryByValue } from 'in-applications/alerting/form/formUtils';
 import createRuleForm from 'in-websites/alerting/form/ruleForm';
 import Dropdown from 'in-new-components/Dropdown';
@@ -61,12 +60,21 @@ function SlownessInteractiveChart({
   const [doDebounceThreshold, setDoDebounceThreshold] = useState(false);
   const [doDebounceDeviationFactor, setDoDebounceDeviationFactor] = useState(false);
 
-  const threshold = {
-    ...form.get('threshold').toJS(),
-    value: (doDebounceThreshold ? tempThreshold : getFormValueOrDefault(form.get('threshold'), 'value')) || 0,
-    baseline: getFormValueOrDefault(form.get('threshold'), 'baseline') || []
+  const alertConfig = {
+    ...form.toJS(),
+    threshold: {
+      ...form.get('threshold').toJS(),
+      value: (doDebounceThreshold ? tempThreshold : getFormValueOrDefault(form.get('threshold'), 'value')) || 0,
+      baseline: getFormValueOrDefault(form.get('threshold'), 'baseline') || [],
+      deviationFactor: Number(
+        doDebounceDeviationFactor
+          ? tempThresholdDeviationFactor
+          : getFormValueOrDefault(form.get('threshold'), 'deviationFactor', 0)
+      )
+    }
   };
-  const granularity = form.get('granularity').value;
+  const alertType = alertConfig.rule.alertType;
+  const blueprintConfig = getBlueprintConfig(alertType);
 
   return (
     <div className={locals.container}>
@@ -74,6 +82,7 @@ function SlownessInteractiveChart({
         form,
         updateForm,
         onChange,
+        blueprintConfig,
         debounceOnChange$,
         onChartViewConfigChange,
         selectedChartViewConfigIndex,
@@ -81,7 +90,7 @@ function SlownessInteractiveChart({
         doDebounceDeviationFactor,
         setDoDebounceThreshold,
         setDoDebounceDeviationFactor,
-        threshold,
+        alertConfig.threshold,
         tempThreshold,
         setTempThreshold,
         tempThresholdDeviationFactor,
@@ -96,21 +105,10 @@ function SlownessInteractiveChart({
       >
         {chartViewConfig => (
           <AlertingBarChart
-            chartConfigForBlueprint={getSlownessChartConfig({
-              websiteId: form.get('websiteId').value,
-              threshold: threshold,
-              timeThreshold: form.get('timeThreshold').toJS(),
-              sensitivity: Number(
-                doDebounceDeviationFactor
-                  ? tempThresholdDeviationFactor
-                  : getFormValueOrDefault(form.get('threshold'), 'deviationFactor', 0)
-              ),
-              viewConfig: chartViewConfig,
-              tagFilters: form.get('tagFilters').value,
-              aggregation: form.get('rule').get('aggregation').value,
-              granularity: granularity,
-              alertsPreviewEnabled: true
-            })}
+            alertConfig={alertConfig}
+            viewConfig={chartViewConfig}
+            blueprintConfig={blueprintConfig}
+            alertsPreviewEnabled
             canReload
           />
         )}
@@ -123,6 +121,7 @@ export function renderThresholdCondition(
   form,
   updateForm,
   onChange,
+  blueprintConfig,
   debounceOnChange$,
   onChartViewConfigChange,
   selectedChartViewConfigIndex,
@@ -140,11 +139,12 @@ export function renderThresholdCondition(
   const operatorOptions = enrichThresholdOperatorOptionsForApiConfigs(operatorValue);
   const operatorLabel = operatorOptions.find(op => op.value === operatorValue).label;
   const thresholdType = form.get('threshold').get('type')?.value;
+  const metricName = form.get('rule').get('metricName').value;
 
   return (
     <>
       <ThresholdConditionFormGroup>
-        <Label>{ruleMetricNameOptions.slowness[0].label}</Label>
+        <Label>{blueprintConfig.getMetricLabel(metricName)}</Label>
         <Dropdown
           asSimpleDropdown
           name="ruleAggregation"

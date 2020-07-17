@@ -1,8 +1,4 @@
-import {
-  ruleMetricNameOptions,
-  getLogLevelRuleOperatorLabel,
-  getStatusCodeLabel
-} from 'in-applications/alerting/form/ruleFormData';
+import { getLogLevelRuleOperatorLabel, getStatusCodeLabel } from 'in-applications/alerting/form/ruleFormData';
 import { getValueRoundedToDecimals } from 'in-new-components/Alerting/utils/formatUtils';
 import { getAggregationText } from 'in-new-components/Alerting/utils/formUtils';
 import { operators } from 'in-analyze/applicationFilter';
@@ -13,35 +9,6 @@ const operatorDescriptionValues = {
   [operators.STARTS_WITH]: 'start with',
   [operators.ENDS_WITH]: 'end with'
 };
-
-export function getBlueprintLabel(alertType) {
-  switch (alertType) {
-    case 'errorRate':
-      return 'Error Rate';
-    case 'slowness':
-      return 'Slowness';
-    case 'logs':
-      return 'Log Message';
-    case 'statusCode':
-      return 'Status Code';
-    default:
-      throw Error('Unsupported alertType: ' + alertType);
-  }
-}
-
-export function getMetricLabel(alertType, value) {
-  const metricList = ruleMetricNameOptions[alertType];
-
-  if (!metricList) {
-    return '';
-  }
-
-  return metricList.filter(entry => entry.value === value)[0].label;
-}
-
-export function getFormValueOrDefault(form, key, defaultValue = null) {
-  return form.containsKey(key) ? form.get(key).value : defaultValue;
-}
 
 export function getThresholdLabel(form) {
   const metricName = form.get('rule').get('metricName').value;

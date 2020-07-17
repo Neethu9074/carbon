@@ -1,4 +1,8 @@
+import getApplicationMetricsThresholdSuggestion from 'in-applications/alerting/subscriptions/getApplicationMetricsThresholdSuggestion';
+import getApplicationMetricsAlertPreview from 'in-applications/alerting/subscriptions/getApplicationMetricsAlertsPreview';
+import getApplicationMetrics from 'in-subscription/application/getApplicationMetrics';
 import { percentage, millis, number } from 'in-services/formatters/number';
+import { isNotBlank } from 'in-services/util/string';
 
 export const blueprintConfig = Object.freeze([
   {
@@ -9,10 +13,18 @@ export const blueprintConfig = Object.freeze([
     text:
       'Receive an alert when calls to selected services and endpoints of this Application Perspective are slower than usual.',
     baselineEnabled: true,
-    metric: 'latency',
-    metricFormat: millis.forcedFixedCompact,
-    aggregation: undefined, // is not fixed and can be changed via config-attributes
-    isRuleComplete: () => true
+    isCustomRateMetric: () => false,
+    getMetricsRequest: () => getApplicationMetrics,
+    getAlertsPreviewRequest: () => getApplicationMetricsAlertPreview,
+    getThresholdSuggestionRequest: () => getApplicationMetricsThresholdSuggestion,
+    getMetricName: () => 'latency',
+    getMetricLabel: () => 'Latency',
+    getMetricFormat: () => millis.forcedFixedCompact,
+    getMaxMetricValue: () => undefined,
+    getAggregation: alertRule => alertRule.aggregation,
+    isRuleComplete: () => true,
+    getRuleTagFilters: () => [],
+    getEntityTagFilter: getApplicationIdTagFilter
   },
   {
     type: 'errorRate',
@@ -22,10 +34,18 @@ export const blueprintConfig = Object.freeze([
     text:
       'Receive an alert when the rate of erroneous calls for selected services and endpoints of this Application Perspective is higher than normal.',
     baselineEnabled: false,
-    metric: 'errors',
-    metricFormat: percentage.detailed,
-    aggregation: 'MEAN',
-    isRuleComplete: () => true
+    isCustomRateMetric: () => false,
+    getMetricsRequest: () => getApplicationMetrics,
+    getAlertsPreviewRequest: () => getApplicationMetricsAlertPreview,
+    getThresholdSuggestionRequest: () => getApplicationMetricsThresholdSuggestion,
+    getMetricName: () => 'errors',
+    getMetricLabel: () => 'Error Rate',
+    getMetricFormat: () => percentage.detailed,
+    getMaxMetricValue: () => 100,
+    getAggregation: () => 'MEAN',
+    isRuleComplete: () => true,
+    getRuleTagFilters: () => [],
+    getEntityTagFilter: getApplicationIdTagFilter
   },
   {
     type: 'logs',
@@ -35,11 +55,19 @@ export const blueprintConfig = Object.freeze([
     text:
       'Receive an alert when the number of calls logging matching error and warning messages is higher than expected.',
     baselineEnabled: false,
-    metric: 'calls',
-    metricFormat: number.forcedCompact,
-    aggregation: 'SUM',
-    isRuleComplete: alertRule => !!alertRule.message,
-    incompleteRuleMessage: 'Please select a Log Message to see when this alert triggers'
+    isCustomRateMetric: () => false,
+    getMetricsRequest: () => getApplicationMetrics,
+    getAlertsPreviewRequest: () => getApplicationMetricsAlertPreview,
+    getThresholdSuggestionRequest: () => getApplicationMetricsThresholdSuggestion,
+    getMetricName: () => 'calls',
+    getMetricLabel: () => 'Logs Count',
+    getMetricFormat: () => number.forcedCompact,
+    getMaxMetricValue: () => undefined,
+    getAggregation: () => 'SUM',
+    isRuleComplete: alertRule => isNotBlank(alertRule.message),
+    incompleteRuleMessage: 'Please select a Log Message to see when this alert triggers',
+    getRuleTagFilters: getLogLevelTagFilters,
+    getEntityTagFilter: getApplicationIdTagFilter
   },
   {
     type: 'statusCode',
@@ -48,11 +76,19 @@ export const blueprintConfig = Object.freeze([
     headline: 'Automatic Alerts for HTTP Status Codes',
     text: 'Receive an alert every time when matching HTTP Status Codes occur more often than usual.',
     baselineEnabled: false,
-    metric: 'calls',
-    metricFormat: number.forcedCompact,
-    aggregation: 'SUM',
+    isCustomRateMetric: () => false,
+    getMetricsRequest: () => getApplicationMetrics,
+    getAlertsPreviewRequest: () => getApplicationMetricsAlertPreview,
+    getThresholdSuggestionRequest: () => getApplicationMetricsThresholdSuggestion,
+    getMetricName: () => 'calls',
+    getMetricLabel: () => 'Status Code',
+    getMetricFormat: () => number.forcedCompact,
+    getMaxMetricValue: () => undefined,
+    getAggregation: () => 'SUM',
     isRuleComplete: alertRule => !!(alertRule.statusCodeStart && alertRule.statusCodeEnd),
-    incompleteRuleMessage: 'Please select a Status Code to see when this alert triggers'
+    incompleteRuleMessage: 'Please select a Status Code to see when this alert triggers',
+    getRuleTagFilters: getStatusCodeTagFilters,
+    getEntityTagFilter: getApplicationIdTagFilter
   }
 ]);
 
@@ -66,4 +102,52 @@ export function blacklistedTagFiltersOfAlertType(alertType) {
     return [...config.blacklistedTagFilters];
   }
   return [];
+}
+
+function getApplicationIdTagFilter(alertConfig) {
+  return {
+    name: alertConfig.boundaryScope === 'INBOUND' ? 'boundary.application.id' : 'application.id',
+    operator: 'EQUALS',
+    stringValue: alertConfig.applicationId
+  };
+}
+
+function getLogLevelTagFilters(alertRule) {
+  const tagFilters = [];
+  tagFilters.push({
+    name: 'log.message',
+    operator: alertRule.operator,
+    stringValue: alertRule.message
+  });
+  if (alertRule.level !== 'ANY') {
+    tagFilters.push({
+      name: 'log.level',
+      operator: 'EQUALS',
+      stringValue: alertRule.level
+    });
+  }
+  return tagFilters;
+}
+
+function getStatusCodeTagFilters(alertRule) {
+  const tagFilters = [];
+  if (alertRule.statusCodeStart === alertRule.statusCodeEnd) {
+    tagFilters.push({
+      name: 'call.http.status',
+      operator: 'EQUALS',
+      numberValue: alertRule.statusCodeStart
+    });
+  } else {
+    tagFilters.push({
+      name: 'call.http.status',
+      operator: 'GREATER_OR_EQUAL_THAN',
+      numberValue: alertRule.statusCodeStart
+    });
+    tagFilters.push({
+      name: 'call.http.status',
+      operator: 'LESS_OR_EQUAL_THAN',
+      numberValue: alertRule.statusCodeEnd
+    });
+  }
+  return tagFilters;
 }

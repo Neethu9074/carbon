@@ -8,13 +8,10 @@ import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilte
 import ChartViewConfigurator from 'in-new-components/Alerting/components/ChartViewConfigurator';
 import AlertChannelsViewer from 'in-new-components/Alerting/components/AlertChannelsViewer';
 import AlertPropertyInfos from 'in-new-components/Alerting/components/AlertPropertyInfos';
-import getStatusCodeChartConfig from 'in-websites/alerting/data/chartConfigForStatusCode';
 import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
 import AlertDetailsCard from 'in-new-components/Alerting/components/AlertDetailsCard';
-import getJsErrorsChartConfig from 'in-websites/alerting/data/chartConfigForJsErrors';
-import getSlownessChartConfig from 'in-websites/alerting/data/chartConfigForSlowness';
 import AlertingBarChart from 'in-new-components/Alerting/Chart/AlertingBarChart';
-import AlertTypeSwitch from 'in-websites/alerting/components/AlertTypeSwitch';
+import { getBlueprintConfig } from 'in-websites/alerting/data/blueprintConfig';
 import LocallyChangedTheme from 'in-themes/LocallyChangedTheme';
 import ExpandableCard from 'in-new-components/ExpandableCard';
 import { operators } from 'in-analyze/applicationFilter';
@@ -29,16 +26,13 @@ export default function AlertConfiguration({ alertConfig, websiteLabel }) {
   const [selectedChartViewConfigIndex, setSelectedChartViewConfigIndex] = useState(initialChartConfigIndex);
 
   const {
-    rule: { operator, value, metricName, alertType, aggregation },
-    threshold: { deviationFactor },
+    rule: { operator, value, alertType },
     timeThreshold,
     alertChannelIds,
-    tagFilters,
-    websiteId,
-    granularity
+    tagFilters
   } = alertConfig;
 
-  const tagFiltersWithWebsiteId = [getWebsiteIdTagFilter(websiteId), ...tagFilters];
+  const blueprintConfig = getBlueprintConfig(alertType);
 
   return (
     <AlertDetailsCard>
@@ -53,61 +47,24 @@ export default function AlertConfiguration({ alertConfig, websiteLabel }) {
           framed
         >
           {chartViewConfig => (
-            <AlertTypeSwitch
-              alertType={alertType}
-              renderJsErrors={() => (
-                <>
-                  <SelectedAlertTypeInfo
-                    title="Error Message"
-                    description={getDescription(operator, value)}
-                    svgIconType="lib_help_error_warning"
-                  />
-
-                  <AlertingBarChart
-                    chartConfigForBlueprint={getJsErrorsChartConfig({
-                      viewConfig: chartViewConfig,
-                      errorFilter: {
-                        name: 'beacon.error.message',
-                        operator: operator,
-                        stringValue: value
-                      },
-                      metricName: metricName,
-                      granularity: granularity,
-                      ...alertConfig
-                    })}
-                  />
-                </>
-              )}
-              renderStatusCode={() => (
-                <>
-                  <SelectedAlertTypeInfo title="HTTP Status Code" description={getStatusCodeLabel(value)} />
-                  <AlertingBarChart
-                    chartConfigForBlueprint={getStatusCodeChartConfig({
-                      viewConfig: chartViewConfig,
-                      numeratorFilter: {
-                        name: 'beacon.http.status',
-                        operator: operator,
-                        stringValue: value
-                      },
-                      metricName: metricName,
-                      granularity: granularity,
-                      ...alertConfig
-                    })}
-                  />
-                </>
-              )}
-              renderSlowness={() => (
-                <AlertingBarChart
-                  chartConfigForBlueprint={getSlownessChartConfig({
-                    sensitivity: deviationFactor,
-                    viewConfig: chartViewConfig,
-                    aggregation: aggregation,
-                    granularity: granularity,
-                    ...alertConfig
-                  })}
+            <>
+              {alertType === 'specificJsError' && (
+                <SelectedAlertTypeInfo
+                  title="Error Message"
+                  description={getDescription(operator, value)}
+                  svgIconType="lib_help_error_warning"
                 />
               )}
-            />
+              {alertType === 'specificStatusCode' && (
+                <SelectedAlertTypeInfo title="HTTP Status Code" description={getStatusCodeLabel(value)} />
+              )}
+
+              <AlertingBarChart
+                alertConfig={alertConfig}
+                viewConfig={chartViewConfig}
+                blueprintConfig={blueprintConfig}
+              />
+            </>
           )}
         </ChartViewConfigurator>
 
@@ -115,7 +72,7 @@ export default function AlertConfiguration({ alertConfig, websiteLabel }) {
           <div className={locals.filterList}>
             <TagFilterListPresenter
               tagFilters={translateDemocratisationTagFiltersToAnalyzeTagFilters({
-                tagFilters: tagFiltersWithWebsiteId,
+                tagFilters: [blueprintConfig.getEntityTagFilter(alertConfig), ...tagFilters],
                 websiteLabel
               })}
               disabled
@@ -158,12 +115,4 @@ function getDescription(operator, value) {
     description = `${description}: "${value}"`;
   }
   return description;
-}
-
-function getWebsiteIdTagFilter(websiteId) {
-  return {
-    name: 'beacon.website.id',
-    operator: 'EQUALS',
-    stringValue: websiteId
-  };
 }

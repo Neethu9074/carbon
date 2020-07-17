@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 import LogsInteractiveChart, { renderThresholdCondition } from 'in-applications/alerting/advanced/LogsInteractiveChart';
 import { createSmartAlertForm } from 'in-applications/alerting/form/smartAlertForm';
+import { getBlueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
 import { someLogsFormData } from './formSampleData';
 
 export default {
@@ -18,6 +19,7 @@ export const ThresholdCondition = () => {
   return renderThresholdCondition(
     form,
     (path, fn) => setForm(form.updateIn(path, fn)), //onChange,
+    getBlueprintConfig('logs'),
     true, // doDebounce,
     tempThreshold,
     noop, //setDoDebounce,

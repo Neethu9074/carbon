@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 import SlownessInteractiveChart from 'in-applications/alerting/advanced/SlownessInteractiveChart';
 import { createSmartAlertForm } from 'in-applications/alerting/form/smartAlertForm';
+import { getBlueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
 import { someSlownessFormData } from './formSampleData';
 
 export default {
@@ -15,6 +16,7 @@ export function SlownessInteractiveChart_simple() {
   let props = {
     form,
     onChange: (path, fn) => setForm(form.updateIn(path, fn)), // onChange
+    blueprintConfig: getBlueprintConfig('slowness'),
     updateForm: setForm
     // debounceOnChange$,
     // onChartViewConfigChange,

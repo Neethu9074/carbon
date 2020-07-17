@@ -19,11 +19,6 @@ export const fieldNames = Object.freeze({
   granularity: 'granularity'
 });
 
-// We don't sent this fields to the api
-export const hiddenFieldNames = Object.freeze({
-  calculateThresholdOnBackend: 'calculateThresholdOnBackend'
-});
-
 export default function alertFormDefinition(alertConfig) {
   const {
     tagFilters = [],

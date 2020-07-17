@@ -82,10 +82,13 @@ export const ruleStatusCodeValueOptions = Object.freeze([
 ]);
 
 export const ruleMetricNameOptions = Object.freeze({
-  specificJsError: [{ value: 'errors', label: 'Errors count' }, { value: 'specificJsErrorRate', label: 'Errors rate' }],
+  specificJsError: [
+    { value: 'errors', label: 'Error Count' },
+    { value: 'specificJsErrorRate', label: 'Error Rate' }
+  ],
   statusCode: [
-    { value: 'httpxxx', label: 'Status code count' },
-    { value: 'specificStatusCodeRate', label: 'Status code rate' }
+    { value: 'httpxxx', label: 'Status Code Count' },
+    { value: 'specificStatusCodeRate', label: 'Status Code Cate' }
   ],
   slowness: [{ value: 'onLoadTime', label: 'onLoad Time' }]
 });
@@ -114,18 +117,4 @@ export function getStatusCodeLabel(value) {
 
 export function getRuleOperatorLabel(value) {
   return ruleJsErrorsOperatorOptions.filter(entry => entry.value === value)[0].label;
-}
-
-export function getMetricLabel(alertType, value) {
-  const metricList = ruleMetricNameOptions[alertType];
-
-  if (!metricList) {
-    return '';
-  }
-
-  if (value === null && alertType === 'specificJsError') {
-    return 'Errors count';
-  }
-
-  return metricList.filter(entry => entry.value === value)[0].label;
 }

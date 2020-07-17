@@ -5,7 +5,6 @@ import IncompleteChartPlaceholder from 'in-new-components/Alerting/components/In
 import ChartViewConfigurator from 'in-new-components/Alerting/components/ChartViewConfigurator';
 import { getBlueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
 import AlertingBarChart from 'in-new-components/Alerting/Chart/AlertingBarChart';
-import getChartConfig from 'in-applications/alerting/data/chartConfig';
 
 import locals from './SimpleAlertConfigDialogChart.mless';
 
@@ -26,12 +25,10 @@ export default function SimpleAlertConfigDialogChart({ form, onChartViewConfigCh
           {isRuleComplete ? (
             <div className={locals.placeholder}>
               <AlertingBarChart
-                chartConfigForBlueprint={getChartConfig({
-                  alertConfig,
-                  viewConfig: chartViewConfig,
-                  blueprintConfig,
-                  alertsPreviewEnabled: true
-                })}
+                alertConfig={alertConfig}
+                viewConfig={chartViewConfig}
+                blueprintConfig={blueprintConfig}
+                alertsPreviewEnabled
                 canReload
               />
             </div>

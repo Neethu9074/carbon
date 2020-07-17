@@ -16,9 +16,8 @@ import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilte
 import { alertsTab, alertsTabDetailsFullyQualified } from 'in-websites/navigation/paths';
 import { alertCreated as alertCreatedMatrixParam } from 'in-websites/navigation/matrix';
 import evaluateClassNames, { joinClassNames } from 'in-services/util/classnames';
+import { getBlueprintConfig } from 'in-websites/alerting/data/blueprintConfig';
 import { alertId as alertIdMatrixParam } from 'in-websites/navigation/matrix';
-import { getMetricLabel } from 'in-websites/alerting/form/ruleFormData';
-import { alertTypes } from 'in-websites/alerting/data/blueprintConfig';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { mutateUrl } from 'in-stores/navigation/navigation';
 import Footer from 'in-new-components/Footer/Footer';
@@ -29,12 +28,6 @@ import Card from 'in-new-components/Card';
 import { role } from 'in-stores/user';
 
 import locals from './Alerts.mless';
-
-const useCaseByAlertType = Object.freeze({
-  [alertTypes.specificJsError]: 'JS Errors',
-  [alertTypes.specificStatusCode]: 'HTTP Status Codes',
-  [alertTypes.slowness]: 'Slowness'
-});
 
 function getColumnDefinitions(websiteLabel) {
   return [
@@ -129,10 +122,11 @@ function getNameContent(config) {
   );
 }
 
-function getSubtitle(config) {
-  const alertType = config.rule.alertType;
-  const useCaseTitle = useCaseByAlertType[alertType];
-  return `${useCaseTitle}, ${getMetricLabel(alertType, config.rule.metricName)}`;
+function getSubtitle(alertConfig) {
+  const alertType = alertConfig.rule.alertType;
+  const blueprintConfig = getBlueprintConfig(alertType);
+  const metricLabel = blueprintConfig.getMetricLabel(alertConfig.rule.metricName);
+  return `${blueprintConfig.name}, ${metricLabel}`;
 }
 
 function getFiltersContent(config, websiteLabel) {

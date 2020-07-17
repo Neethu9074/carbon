@@ -14,8 +14,8 @@ import {
 } from 'in-applications/api/applicationAlertConfig';
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
 import { alertsTab, alertsTabDetailsFullyQualified } from 'in-applications/navigation/paths';
-import { getMetricLabel, getBlueprintLabel } from 'in-applications/alerting/form/formUtils';
 import { alertCreated as alertCreatedMatrixParam } from 'in-applications/navigation/matrix';
+import { getBlueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
 import { alertId as alertIdMatrixParam } from 'in-applications/navigation/matrix';
 import evaluateClassNames, { joinClassNames } from 'in-services/util/classnames';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
@@ -122,9 +122,11 @@ function getNameContent(config) {
   );
 }
 
-function getSubtitle(config) {
-  const alertType = config.rule.alertType;
-  return `${getBlueprintLabel(alertType)}, ${getMetricLabel(alertType, config.rule.metricName)}`;
+function getSubtitle(alertConfig) {
+  const alertType = alertConfig.rule.alertType;
+  const blueprintConfig = getBlueprintConfig(alertType);
+  const metricLabel = blueprintConfig.getMetricLabel(alertConfig.rule.metricName);
+  return `${blueprintConfig.name}, ${metricLabel}`;
 }
 
 function getFiltersContent(config, applicationName) {

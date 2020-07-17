@@ -16,21 +16,19 @@ import {
 } from 'in-applications/alerting/trackingHelpers';
 import {
   ruleAggregationForWeeklySeasonalityOptions,
-  ruleAggregationOptions,
-  ruleMetricNameOptions
+  ruleAggregationOptions
 } from 'in-applications/alerting/form/ruleFormData';
 import {
   thresholdTypeOptions,
   enrichThresholdOperatorOptionsForApiConfigs
 } from 'in-applications/alerting/form/thresholdFormData';
-import { getFormValueOrDefault, getThresholdLabel, findEntryByValue } from 'in-applications/alerting/form/formUtils';
+import { getThresholdLabel, findEntryByValue } from 'in-applications/alerting/form/formUtils';
 import ThresholdConditionFormGroup from 'in-new-components/Alerting/advanced/ThresholdConditionFormGroup';
 import { createSlownessForm, defaultDeviationFactor } from 'in-applications/alerting/form/thresholdForm';
 import ChartViewConfigurator from 'in-new-components/Alerting/components/ChartViewConfigurator';
 import { SensitivitySlider } from 'in-new-components/Alerting/advanced/SensitivitySlider';
 import { getBlueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
 import AlertingBarChart from 'in-new-components/Alerting/Chart/AlertingBarChart';
-import getChartConfig from 'in-applications/alerting/data/chartConfig';
 import createRuleForm from 'in-applications/alerting/form/ruleForm';
 import Dropdown from 'in-new-components/Dropdown';
 import Input from 'in-components/form/Input';
@@ -83,6 +81,7 @@ function SlownessInteractiveChart({
         form,
         updateForm,
         onChange,
+        blueprintConfig,
         debounceOnChange$,
         onChartViewConfigChange,
         selectedChartViewConfigIndex,
@@ -105,12 +104,10 @@ function SlownessInteractiveChart({
       >
         {chartViewConfig => (
           <AlertingBarChart
-            chartConfigForBlueprint={getChartConfig({
-              alertConfig,
-              viewConfig: chartViewConfig,
-              blueprintConfig,
-              alertsPreviewEnabled: true
-            })}
+            alertConfig={alertConfig}
+            viewConfig={chartViewConfig}
+            blueprintConfig={blueprintConfig}
+            alertsPreviewEnabled
             canReload
           />
         )}
@@ -123,6 +120,7 @@ export function renderThresholdCondition(
   form,
   updateForm,
   onChange,
+  blueprintConfig,
   debounceOnChange$,
   onChartViewConfigChange,
   selectedChartViewConfigIndex,
@@ -140,11 +138,12 @@ export function renderThresholdCondition(
   const operatorOptions = enrichThresholdOperatorOptionsForApiConfigs(operatorValue);
   const operatorLabel = operatorOptions.find(op => op.value === operatorValue).label;
   const thresholdType = form.get('threshold').get('type')?.value;
+  const metricName = form.get('rule').get('metricName').value;
 
   return (
     <>
       <ThresholdConditionFormGroup>
-        <Label>{ruleMetricNameOptions.slowness[0].label}</Label>
+        <Label>{blueprintConfig.getMetricLabel(metricName)}</Label>
         <Dropdown
           asSimpleDropdown
           name="ruleAggregation"
@@ -297,6 +296,10 @@ function getAggregationOptions(form) {
     return ruleAggregationForWeeklySeasonalityOptions;
   }
   return ruleAggregationOptions;
+}
+
+function getFormValueOrDefault(form, key, defaultValue = null) {
+  return form.containsKey(key) ? form.get(key).value : defaultValue;
 }
 
 SlownessInteractiveChart.propTypes = {

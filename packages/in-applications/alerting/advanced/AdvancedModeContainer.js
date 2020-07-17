@@ -31,7 +31,6 @@ export default function AdvancedModeContainer(props) {
   const {
     form,
     timeConfig,
-    granularity,
     onChange,
     setSliderState,
     updateForm,
@@ -76,7 +75,6 @@ export default function AdvancedModeContainer(props) {
                   <ErrorRateInteractiveChart
                     form={form}
                     timeConfig={timeConfig}
-                    granularity={granularity}
                     onChange={onChange}
                     onChartViewConfigChange={onChartViewConfigChange}
                     selectedChartViewConfigIndex={selectedChartViewConfigIndex}
@@ -87,7 +85,6 @@ export default function AdvancedModeContainer(props) {
                     <SlownessInteractiveChart
                       form={form}
                       timeConfig={timeConfig}
-                      granularity={granularity}
                       onChange={onChange}
                       updateForm={updateForm}
                       onChartViewConfigChange={onChartViewConfigChange}
@@ -121,7 +118,6 @@ export default function AdvancedModeContainer(props) {
                     <LogsInteractiveChart
                       form={form}
                       timeConfig={timeConfig}
-                      granularity={granularity}
                       onChange={onChange}
                       onChartViewConfigChange={onChartViewConfigChange}
                       selectedChartViewConfigIndex={selectedChartViewConfigIndex}
@@ -135,7 +131,6 @@ export default function AdvancedModeContainer(props) {
                     </LightCard>
                     <StatusCodeInteractiveChart
                       form={form}
-                      granularity={granularity}
                       onChange={onChange}
                       updateForm={updateForm}
                       onChartViewConfigChange={onChartViewConfigChange}

@@ -9,12 +9,10 @@ import ApplicationAlertConfigButton from 'in-events/components/ApplicationAlertC
 import { createDefaultChartConfig } from 'in-new-components/Alerting/Chart/chartViewConfig';
 import { getAlertConfigByIdAndTimestamp } from 'in-applications/api/applicationAlertConfig';
 import { alertingEventDetailsChartTimeframe } from 'in-new-components/Alerting/constants';
-import { getApplicationIdTagFilter } from 'in-applications/alerting/tagFilterUtils';
 import { getBlueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
 import EntityInformation from 'in-components/EntityInformation/EntityInformation';
 import AlertingBarChart from 'in-new-components/Alerting/Chart/AlertingBarChart';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
-import getChartConfig from 'in-applications/alerting/data/chartConfig';
 import { Col, Row } from 'in-new-components/layout/Grid';
 import Card from 'in-new-components/Card';
 import connectTo from 'in-hoc/connectTo';
@@ -38,7 +36,7 @@ export default connectTo(
     const entityType = event.get('entityType');
     const metadata = event.get('metadata');
     const applicationName = metadata.get('entityLabel');
-    const { boundaryScope, tagFilters, rule } = alertConfig;
+    const { tagFilters, rule } = alertConfig;
     const alertType = rule.alertType;
 
     const blueprintConfig = getBlueprintConfig(alertType);
@@ -73,11 +71,9 @@ export default connectTo(
           <Col xs>
             <Card title="Metrics">
               <AlertingBarChart
-                chartConfigForBlueprint={getChartConfig({
-                  alertConfig,
-                  viewConfig: chartViewConfig,
-                  blueprintConfig
-                })}
+                alertConfig={alertConfig}
+                viewConfig={chartViewConfig}
+                blueprintConfig={blueprintConfig}
               />
             </Card>
           </Col>
@@ -90,7 +86,7 @@ export default connectTo(
                 <TagFilterListPresenter
                   tagFilters={translateDemocratisationTagFiltersToAnalyzeTagFilters({
                     applicationName,
-                    tagFilters: [getApplicationIdTagFilter({ entityId, boundaryScope }), ...tagFilters]
+                    tagFilters: [blueprintConfig.getEntityTagFilter(alertConfig), ...tagFilters]
                   })}
                   disabled
                 />

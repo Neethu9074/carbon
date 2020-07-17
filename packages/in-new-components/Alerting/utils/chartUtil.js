@@ -1,26 +1,3 @@
-import theme from 'in-themes';
-
-export const chartColors = Object.freeze([
-  theme.lib.colors.blue800,
-  theme.lib.colors.red800,
-  theme.lib.colors.lightBlue800,
-  theme.lib.colors.pink800
-]);
-
-export const legendColors = Object.freeze([
-  theme.lib.colors.blue800,
-  theme.lib.colors.red800,
-  theme.lib.colors.pink800_40
-]);
-
-export function enhanceNonToggleableSeries(metricName, tooltipContent) {
-  return new Map([['threshold', null], ['alerts', null], ['Violations', null]]).set(metricName, tooltipContent);
-}
-
-export function enhaceLabels(label, smoothMetric) {
-  return [`${label}${smoothMetric ? '*' : ''}`, 'Threshold', 'Violations'];
-}
-
 export function smoothMetrics(metrics, granularity, weights = [0.27901, 0.44198, 0.27901]) {
   const windowSize = weights.length;
   const metricsLength = metrics.length;
@@ -47,22 +24,4 @@ export function smoothMetrics(metrics, granularity, weights = [0.27901, 0.44198,
 
     return [metric[0], sumWeights > 0 ? val / sumWeights : val];
   });
-}
-
-export function getSmoothedMetricTooltipContent(isSmoothedMetric) {
-  return isSmoothedMetric ? ['Smoothed metric'] : null;
-}
-
-export function getMaxForBaselineChart({ metricsMaxValue, baseline, sensitivity }) {
-  let maxBaselineVal = 0;
-  if (baseline) {
-    for (let i = 0; i < baseline.length; ++i) {
-      const currentBaseline = baseline[i][1] + baseline[i][2] * sensitivity;
-      if (currentBaseline > maxBaselineVal) maxBaselineVal = currentBaseline;
-    }
-  }
-  const overallMaxValue = (baseline || [])
-    .map(v => v[1] + v[2] * sensitivity)
-    .reduce((a, b) => (a > b ? a : b), metricsMaxValue);
-  return overallMaxValue * 1.1;
 }

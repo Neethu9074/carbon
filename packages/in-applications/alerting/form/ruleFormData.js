@@ -1,12 +1,5 @@
 import { operators } from 'in-analyze/applicationFilter';
 
-export const ruleMetricNameOptions = Object.freeze({
-  errorRate: Object.freeze([{ value: 'errors', label: 'Error rate' }]),
-  slowness: Object.freeze([{ value: 'latency', label: 'Latency' }]),
-  logs: Object.freeze([{ value: 'calls', label: 'Logs count' }]),
-  statusCode: Object.freeze([{ value: 'calls', label: 'Status Code' }])
-});
-
 export const ruleAggregationOptions = Object.freeze([
   { value: 'MEAN', label: 'mean' },
   { value: 'MIN', label: 'min' },

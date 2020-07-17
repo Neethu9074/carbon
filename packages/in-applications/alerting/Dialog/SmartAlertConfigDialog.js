@@ -2,14 +2,10 @@ import { compose, withState } from 'recompose';
 import { empty } from 'reactive-observables';
 import React from 'react';
 
-import getApplicationMetricsThreshold from 'in-applications/alerting/subscriptions/getApplicationMetricsThresholdSuggestion';
 import { thresholdOrBaselineLoadingSignal$ } from 'in-new-components/Alerting/Chart/AlertingBarChartWrapper';
-import { getLogLevelTagFilters, getStatusCodeTagFilter } from 'in-applications/alerting/tagFilterUtils';
-import { getThresholdQuery } from 'in-applications/alerting/Dialog/thresholdSuggestionQueryUtils';
 import AlertConfigDialogPresenter from 'in-new-components/Alerting/AlertConfigDialogPresenter';
-import { getFormValueOrDefault } from 'in-applications/alerting/form/formUtils';
+import { getBlueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
 import createThresholdForm from 'in-applications/alerting/form/thresholdForm';
-import { isBlank } from 'in-services/util/string';
 import connectTo from 'in-hoc/connectTo';
 
 export const SmartAlertConfigDialog = compose(
@@ -28,76 +24,44 @@ export const SmartAlertConfigDialog = compose(
 });
 
 function resolveThresholdRequest(form, fallbackOnError) {
-  const calculateThresholdOnBackend = form.get('hiddenFields').get('calculateThresholdOnBackend').value;
-  if (!calculateThresholdOnBackend) return empty;
+  const alertConfig = form.toJS();
+  const {
+    rule: { alertType, metricName },
+    threshold: { seasonality = null },
+    tagFilters,
+    granularity
+  } = alertConfig;
 
-  const applicationId = form.get('applicationId').value;
-  const boundaryScope = form.get('boundaryScope').value;
-  const tagFilters = form.get('tagFilters').value;
-  const alertType = form.get('rule').get('alertType').value;
-  const granularity = form.get('granularity').value;
+  const blueprintConfig = getBlueprintConfig(alertType);
 
-  switch (alertType) {
-    case 'errorRate':
-      return getApplicationMetricsThreshold(
-        getThresholdQuery({
-          applicationId,
-          boundaryScope,
-          tagFilters,
-          aggregation: 'MEAN',
-          metric: 'errors',
-          granularity
-        })
-      );
-    case 'logs': {
-      const rule = form.get('rule').toJS();
-
-      if (isBlank(rule.message)) {
-        return empty;
-      }
-
-      return getApplicationMetricsThreshold(
-        getThresholdQuery({
-          applicationId,
-          boundaryScope,
-          tagFilters: getLogTagFilters(form),
-          aggregation: 'SUM',
-          metric: 'calls',
-          granularity
-        })
-      );
-    }
-    case 'slowness': {
-      const aggregation = form.get('rule').get('aggregation').value;
-      const seasonality = getFormValueOrDefault(form.get('threshold'), 'seasonality');
-
-      return getApplicationMetricsThreshold(
-        getThresholdQuery({
-          applicationId,
-          boundaryScope,
-          tagFilters,
-          aggregation,
-          metric: 'latency',
-          granularity,
-          seasonality: fallbackOnError ? 'DAILY' : seasonality,
-          fallbackOnError
-        })
-      );
-    }
-    case 'statusCode':
-      return getApplicationMetricsThreshold(
-        getThresholdQuery({
-          applicationId,
-          boundaryScope,
-          aggregation: 'SUM',
-          metric: 'calls',
-          granularity,
-          tagFilters: getStatusTagFilter(form)
-        })
-      );
-    default:
-      return empty;
+  if (!blueprintConfig.isRuleComplete(alertConfig.rule)) {
+    return empty;
   }
+
+  const getSeasonality = () => {
+    if (!blueprintConfig.baselineEnabled) {
+      // request static threshold
+      return null;
+    }
+    return fallbackOnError ? 'DAILY' : seasonality;
+  };
+
+  const thresholdSuggestionRequest = blueprintConfig.getThresholdSuggestionRequest(metricName);
+  return thresholdSuggestionRequest({
+    to: Date.now(),
+    tagFilters: [
+      blueprintConfig.getEntityTagFilter(alertConfig),
+      ...tagFilters,
+      ...blueprintConfig.getRuleTagFilters(alertConfig.rule)
+    ],
+    metric: {
+      metric: blueprintConfig.getMetricName(alertConfig.rule),
+      granularity,
+      aggregation: blueprintConfig.getAggregation(alertConfig.rule)
+    },
+    seasonality: getSeasonality(),
+    fallbackOnError
+  });
 }
 
 function updateThresholdInForm(form, updateForm, data, errors, time) {
@@ -132,19 +96,4 @@ function updateThresholdInForm(form, updateForm, data, errors, time) {
         .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(false))
     );
   }
-}
-
-function getLogTagFilters(form) {
-  const operator = form.get('rule').get('operator').value;
-  const message = form.get('rule').get('message').value;
-  const level = form.get('rule').get('level').value;
-
-  return [...form.get('tagFilters').toJS(), ...getLogLevelTagFilters(message, operator, level)];
-}
-
-function getStatusTagFilter(form) {
-  const statusCodeStart = form.get('rule').get('statusCodeStart').value;
-  const statusCodeEnd = form.get('rule').get('statusCodeEnd').value;
-
-  return [...form.get('tagFilters').toJS(), ...getStatusCodeTagFilter(statusCodeStart, statusCodeEnd)];
 }

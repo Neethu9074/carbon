@@ -11,10 +11,8 @@ import AlertChannelsViewer from 'in-new-components/Alerting/components/AlertChan
 import { getLogMessageRuleOperatorLabel } from 'in-applications/alerting/form/ruleFormData';
 import AlertPropertyInfos from 'in-new-components/Alerting/components/AlertPropertyInfos';
 import AlertDetailsCard from 'in-new-components/Alerting/components/AlertDetailsCard';
-import { getApplicationIdTagFilter } from 'in-applications/alerting/tagFilterUtils';
 import { getBlueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
 import AlertingBarChart from 'in-new-components/Alerting/Chart/AlertingBarChart';
-import getChartConfig from 'in-applications/alerting/data/chartConfig';
 import LocallyChangedTheme from 'in-themes/LocallyChangedTheme';
 import ExpandableCard from 'in-new-components/ExpandableCard';
 import { operators } from 'in-analyze/applicationFilter';
@@ -33,12 +31,10 @@ export default function AlertConfiguration({ alertConfig, applicationName }) {
     rule: { operator, alertType, message, level },
     timeThreshold,
     alertChannelIds,
-    tagFilters,
-    applicationId
+    tagFilters
   } = alertConfig;
 
   const blueprintConfig = getBlueprintConfig(alertType);
-  const tagFiltersWithApplicationId = [getApplicationIdTagFilter(applicationId), ...tagFilters];
 
   return (
     <AlertDetailsCard>
@@ -63,11 +59,9 @@ export default function AlertConfiguration({ alertConfig, applicationName }) {
               )}
 
               <AlertingBarChart
-                chartConfigForBlueprint={getChartConfig({
-                  alertConfig,
-                  viewConfig: chartViewConfig,
-                  blueprintConfig
-                })}
+                alertConfig={alertConfig}
+                viewConfig={chartViewConfig}
+                blueprintConfig={blueprintConfig}
               />
             </>
           )}
@@ -77,7 +71,7 @@ export default function AlertConfiguration({ alertConfig, applicationName }) {
           <div className={locals.filterList}>
             <TagFilterListPresenter
               tagFilters={translateDemocratisationTagFiltersToAnalyzeTagFilters({
-                tagFilters: tagFiltersWithApplicationId,
+                tagFilters: [blueprintConfig.getEntityTagFilter(alertConfig), ...tagFilters],
                 applicationName
               })}
               disabled

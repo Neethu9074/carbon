@@ -13,11 +13,9 @@ import { enrichThresholdOperatorOptionsForApiConfigs } from 'in-applications/ale
 import ThresholdConditionFormGroup from 'in-new-components/Alerting/advanced/ThresholdConditionFormGroup';
 import { applicationsAlertingThresholdOperatorChanged } from 'in-applications/alerting/tracker';
 import ChartViewConfigurator from 'in-new-components/Alerting/components/ChartViewConfigurator';
-import { ruleMetricNameOptions } from 'in-applications/alerting/form/ruleFormData';
 import { getBlueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
 import AlertingBarChart from 'in-new-components/Alerting/Chart/AlertingBarChart';
 import { getThresholdLabel } from 'in-applications/alerting/form/formUtils';
-import getChartConfig from 'in-applications/alerting/data/chartConfig';
 import Dropdown from 'in-new-components/Dropdown';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
@@ -60,6 +58,7 @@ function ErrorRateInteractiveChart({
       {renderThresholdCondition(
         form,
         onChange,
+        blueprintConfig,
         doDebounce,
         tempThreshold,
         setTempThreshold,
@@ -75,12 +74,10 @@ function ErrorRateInteractiveChart({
       >
         {chartViewConfig => (
           <AlertingBarChart
-            chartConfigForBlueprint={getChartConfig({
-              alertConfig,
-              viewConfig: chartViewConfig,
-              blueprintConfig,
-              alertsPreviewEnabled: true
-            })}
+            alertConfig={alertConfig}
+            viewConfig={chartViewConfig}
+            blueprintConfig={blueprintConfig}
+            alertsPreviewEnabled
             canReload
           />
         )}
@@ -91,6 +88,7 @@ function ErrorRateInteractiveChart({
 export function renderThresholdCondition(
   form,
   onChange,
+  blueprintConfig,
   doDebounce,
   tempThreshold,
   setTempThreshold,
@@ -102,11 +100,12 @@ export function renderThresholdCondition(
   const operatorLabel = operatorOptions.find(op => op.value === operatorValue)?.label;
 
   const thresholdValueLabel = getThresholdLabel(form);
+  const metricName = form.get('rule').get('metricName').value;
 
   return (
     <ThresholdConditionFormGroup>
       <Label id="errorRate" name="errorRate">
-        {ruleMetricNameOptions.errorRate[0].label}
+        {blueprintConfig.getMetricLabel(metricName)}
       </Label>
       <Dropdown
         asSimpleDropdown
@@ -123,7 +122,7 @@ export function renderThresholdCondition(
         className={locals.narrowControl}
         type="number"
         min="0"
-        max="100"
+        max={blueprintConfig.getMaxMetricValue(metricName)}
         name="thresholdValue"
         step="1"
         value={

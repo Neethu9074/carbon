@@ -13,11 +13,9 @@ import IncompleteChartPlaceholder from 'in-new-components/Alerting/components/In
 import { getThresholdValueForPercentageMetric } from 'in-new-components/Alerting/utils/formatUtils';
 import { applicationsAlertingThresholdOperatorChanged } from 'in-applications/alerting/tracker';
 import ChartViewConfigurator from 'in-new-components/Alerting/components/ChartViewConfigurator';
-import { ruleMetricNameOptions } from 'in-applications/alerting/form/ruleFormData';
 import { getBlueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
 import AlertingBarChart from 'in-new-components/Alerting/Chart/AlertingBarChart';
 import { getThresholdLabel } from 'in-applications/alerting/form/formUtils';
-import getChartConfig from 'in-applications/alerting/data/chartConfig';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import { joinClassNames } from 'in-services/util/classnames';
 import ComboBox from 'in-components/ComboBox/ComboBox';
@@ -65,6 +63,8 @@ function StatusCodeInteractiveChart({
     );
   }
 
+  const metricName = alertConfig.rule.metricName;
+
   return (
     <div className={locals.container}>
       <div className={locals.controls}>
@@ -74,7 +74,7 @@ function StatusCodeInteractiveChart({
             id="statusCode"
             className={joinClassNames(locals.narrowControl, locals.disabledControl)}
             name="statusCode"
-            value={ruleMetricNameOptions.statusCode[0].label}
+            value={blueprintConfig.getMetricLabel(metricName)}
             disabled
           />
         </FormGroup>
@@ -129,12 +129,10 @@ function StatusCodeInteractiveChart({
       >
         {chartViewConfig => (
           <AlertingBarChart
-            chartConfigForBlueprint={getChartConfig({
-              alertConfig,
-              viewConfig: chartViewConfig,
-              blueprintConfig,
-              alertsPreviewEnabled: true
-            })}
+            alertConfig={alertConfig}
+            viewConfig={chartViewConfig}
+            blueprintConfig={blueprintConfig}
+            alertsPreviewEnabled
             canReload
           />
         )}
@@ -146,7 +144,6 @@ function StatusCodeInteractiveChart({
 StatusCodeInteractiveChart.propTypes = {
   debounceOnChange$: PropTypes.object,
   form: PropTypes.object.isRequired,
-  granularity: PropTypes.number.isRequired,
   onChange: PropTypes.func.isRequired,
   onChartViewConfigChange: PropTypes.func.isRequired,
   selectedChartViewConfigIndex: PropTypes.number.isRequired

@@ -14,10 +14,8 @@ import { getThresholdValueForPercentageMetric } from 'in-new-components/Alerting
 import { applicationsAlertingThresholdOperatorChanged } from 'in-applications/alerting/tracker';
 import ChartViewConfigurator from 'in-new-components/Alerting/components/ChartViewConfigurator';
 import { findEntryByValue, getThresholdLabel } from 'in-applications/alerting/form/formUtils';
-import { ruleMetricNameOptions } from 'in-applications/alerting/form/ruleFormData';
 import { getBlueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
 import AlertingBarChart from 'in-new-components/Alerting/Chart/AlertingBarChart';
-import getChartConfig from 'in-applications/alerting/data/chartConfig';
 import Dropdown from 'in-new-components/Dropdown';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
@@ -68,6 +66,7 @@ function LogsInteractiveChart({
       {renderThresholdCondition(
         form,
         onChange,
+        blueprintConfig,
         doDebounce,
         tempThreshold,
         setDoDebounce,
@@ -83,12 +82,10 @@ function LogsInteractiveChart({
       >
         {chartViewConfig => (
           <AlertingBarChart
-            chartConfigForBlueprint={getChartConfig({
-              alertConfig,
-              viewConfig: chartViewConfig,
-              blueprintConfig,
-              alertsPreviewEnabled: true
-            })}
+            alertConfig={alertConfig}
+            viewConfig={chartViewConfig}
+            blueprintConfig={blueprintConfig}
+            alertsPreviewEnabled
             canReload
           />
         )}
@@ -100,6 +97,7 @@ function LogsInteractiveChart({
 export function renderThresholdCondition(
   form,
   onChange,
+  blueprintConfig,
   doDebounce,
   tempThreshold,
   setDoDebounce,
@@ -111,10 +109,11 @@ export function renderThresholdCondition(
   const operatorLabel = findEntryByValue(operatorOptions, operatorValue)?.label ?? thresholdOperatorOptions[0].label;
 
   const thresholdValueLabel = getThresholdLabel(form);
+  const metricName = form.get('rule').get('metricName').value;
 
   return (
     <ThresholdConditionFormGroup>
-      <Label>{ruleMetricNameOptions.logs[0].label}</Label>
+      <Label>{blueprintConfig.getMetricLabel(metricName)}</Label>
       <Dropdown
         asSimpleDropdown
         name="thresholdOperator"
