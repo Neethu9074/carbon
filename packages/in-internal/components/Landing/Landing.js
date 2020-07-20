@@ -487,12 +487,6 @@ export default connectTo({ timeConfig: timeConfig$, isInternalVisible: isInterna
                             external
                             description="A SaaS unit monitoring the internal development units."
                           />
-                          <LinkListItem
-                            label="Dev"
-                            href="https://dev-instanaops.instana.io"
-                            external
-                            description="Tools we are using for development purposes, e.g. Jenkins, are reporting to this unit."
-                          />
                         </LinkList>
                       </LinkListItem>
 
