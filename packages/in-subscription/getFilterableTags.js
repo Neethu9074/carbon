@@ -1,6 +1,7 @@
 import { List } from 'immutable';
 
 import createSubscription from 'in-subscription/subscription';
+import { compareIgnoreCase } from 'in-services/util/string';
 
 export default createSubscription({
   eventId: 'subscribe-filterable-tags',
@@ -14,11 +15,7 @@ export default createSubscription({
 
   transform(observable) {
     return observable.map(filterableTags => {
-      filterableTags.sort((a, b) => {
-        return a.localeCompare(b, 'en-US', {
-          sensitivity: 'base'
-        });
-      });
+      filterableTags.sort(compareIgnoreCase);
       return List(filterableTags);
     });
   }
