@@ -6,7 +6,6 @@ import ExternallyDefinedWidthAndHeight from 'in-new-components/layout/Externally
 import Legend, { HEIGHT as legendHeight } from 'in-components/Chart/components/Legend';
 import MetricAwareAxis from 'in-components/Chart/components/MetricAwareAxis';
 import ChartOverlay from 'in-components/Chart/components/ChartOverlay';
-import { evaluateClassNames } from 'in-services/util/classnames';
 import getElementDimensions from 'in-hoc/getElementDimensions';
 import Chart from 'in-components/Chart/Chart';
 
@@ -36,10 +35,6 @@ const ChartReactWrapper = compose(withState('chart', 'setChart', null))(
   class ChartReactWrapper extends React.Component {
     static displayName = 'ChartReactWrapper';
 
-    state = {
-      hoverState: {}
-    };
-
     componentDidMount() {
       const chart = new Chart(this.canvas, this.props);
       this.props.setChart(chart);
@@ -63,27 +58,25 @@ const ChartReactWrapper = compose(withState('chart', 'setChart', null))(
         timeConfig: this.props.timeConfig.autoRefresh
           ? this.props.originalTimeConfig ?? this.props.timeConfig
           : this.props.timeConfig, // for non live mode we need the chart-time-config.
-        onHover: hoverState => this.setState({ hoverState }),
-        hoverState: this.state.hoverState,
         granularity: this.props.chart?.config?.rollup,
-        chartWidth: width,
         chartBucketWidth: chart?.renderScheduler
           ?.getRenderProps()
-          ?.xScaleBackBuffer?.getRangeArea(chart?.config?.rollup)
+          ?.xScaleBackBuffer?.getRangeArea(chart?.config?.rollup),
+        chartWidth: width,
+        chartHeight: height,
+        timeAxisHeight: chart?.config?.timeAxisHeight,
+        markerPaneHeight: chart?.config?.markerPaneHeight
       };
 
       return (
         <div className={locals.chart} ref={chartWrapper => (this.chartWrapper = chartWrapper)}>
           {chart && renderLegend && <Legend chart={chart} />}
-          {this.props.renderPreChartContent?.({
-            ...preAndPostContentConfig,
-            chartContentPosition: 'pre'
-          })}
-          <HighlightOverlayWrapper
-            hoverState={this.state.hoverState}
-            timeAxisHeight={chart?.config?.timeAxisHeight}
-            markerPaneHeight={chart?.config?.markerPaneHeight}
-          >
+
+          <HighlightOverlayWrapper>
+            {this.props.renderPreChartContent?.({
+              ...preAndPostContentConfig,
+              chartContentPosition: 'pre'
+            })}
             <div className={locals.chartAxisWrapper}>
               {chart && chart.config.y1 && (
                 <MetricAwareAxis chart={chart} axisName="y1" height={heightOfDrawableCanvas} align="left" />
@@ -106,59 +99,17 @@ const ChartReactWrapper = compose(withState('chart', 'setChart', null))(
                 <MetricAwareAxis chart={chart} axisName="y2" height={heightOfDrawableCanvas} align="right" />
               )}
             </div>
+            {this.props.renderPostChartContent?.({
+              ...preAndPostContentConfig,
+              chartContentPosition: 'post'
+            })}
           </HighlightOverlayWrapper>
-          {this.props.renderPostChartContent?.({
-            ...preAndPostContentConfig,
-            chartContentPosition: 'post'
-          })}
         </div>
       );
     }
   }
 );
 
-function HighlightOverlayWrapper({ children, hoverState, timeAxisHeight, markerPaneHeight }) {
-  const { overlayVisible, lineVisible, xPos, color, width, chartContentPosition } = hoverState;
-
-  return (
-    <div className={locals.markerLanesWrapper}>
-      {children}
-      {(overlayVisible || lineVisible) && (
-        <div>
-          <div
-            className={evaluateClassNames({
-              [locals.highlightClusterOverlayWrapper]: overlayVisible,
-              [locals.highlightLineOverlayWrapper]: lineVisible
-            })}
-            style={{
-              transform: `translateX(${getPosition()}px)`,
-              width: overlayVisible ? `${width}px` : undefined,
-              color,
-              ...getTopAndBottomOffset()
-            }}
-          >
-            <div
-              style={{
-                color
-              }}
-              className={evaluateClassNames({
-                [locals.highlightOverlayPre]: overlayVisible && chartContentPosition === 'pre',
-                [locals.highlightOverlayPost]: overlayVisible && chartContentPosition === 'post'
-              })}
-            />
-          </div>
-        </div>
-      )}
-    </div>
-  );
-
-  function getPosition() {
-    if (overlayVisible) return xPos - width / 2;
-    if (lineVisible) return xPos;
-  }
-
-  function getTopAndBottomOffset() {
-    if (chartContentPosition === 'pre') return { bottom: timeAxisHeight, top: 0 };
-    if (chartContentPosition === 'post') return { bottom: 0, top: markerPaneHeight };
-  }
+function HighlightOverlayWrapper({ children }) {
+  return <div className={locals.markerLanesWrapper}>{children}</div>;
 }

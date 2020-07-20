@@ -7,16 +7,15 @@ import { sizes } from 'in-components/SvgIcon/SvgIcon';
 
 import locals from './MarkerLanesPresenter.mless';
 
-const minPixelsPerBlock = sizes.xs;
+const minBlockWidth = sizes.xs;
 export default function MarkerLanesPresenter({
   children,
   granularity,
-  hoverState,
   chartWidth,
   chartBucketWidth,
   ...remainingProps
 }) {
-  if (!children || !granularity || !hoverState) return null;
+  if (!children || !granularity) return null;
 
   const [labelAlignment, setLabelAligment] = useState('left');
   const [labelVisible, setLabelVisible] = useState(false);
@@ -27,7 +26,7 @@ export default function MarkerLanesPresenter({
         labelVisible={labelVisible}
         labelAlignment={labelAlignment}
         chartWidth={chartWidth}
-        isClustered={chartBucketWidth < minPixelsPerBlock - 2}
+        isClustered={chartBucketWidth < minBlockWidth - 2}
         granularity={granularity}
         remainingProps={remainingProps}
       />
@@ -35,7 +34,6 @@ export default function MarkerLanesPresenter({
         className={locals[labelAlignment]}
         onMouseEnter={() => setLabelAligment(labelAlignment === 'left' ? 'right' : 'left')}
       />
-      <HoverLine {...hoverState} />
     </div>
   );
 
@@ -63,38 +61,10 @@ export default function MarkerLanesPresenter({
   }
 }
 
-function HoverLine({ overlayVisible, lineVisible, xPos, chartContentPosition, color }) {
-  return (
-    <>
-      {(overlayVisible || lineVisible) && (
-        <div
-          className={locals.hoverLine}
-          style={{
-            transform: `translateX(${xPos}px)`,
-            color,
-            ...getTopAndBottomOffset()
-          }}
-        />
-      )}
-    </>
-  );
-
-  function getTopAndBottomOffset() {
-    if (overlayVisible) {
-      if (chartContentPosition === 'pre') return { bottom: '5px', top: '8px' };
-      if (chartContentPosition === 'post') return { bottom: '8px', top: '5px' };
-    }
-    if (lineVisible) {
-      if (chartContentPosition === 'pre') return { bottom: '0px', top: '8px' };
-      if (chartContentPosition === 'post') return { bottom: '8px', top: '0px' };
-    }
-  }
-}
-
 function getClusterSizeMillis({ windowSize, width, granularity }) {
   return getBlockSizeMillis({
     windowSize,
-    minPixelsPerBlock,
+    minPixelsPerBlock: minBlockWidth,
     width,
     rollup: granularity
   });
@@ -104,7 +74,6 @@ MarkerLanesPresenter.propTypes = {
   timeConfig: propTypeTimeConfig,
   children: PropTypes.oneOfType([PropTypes.element, PropTypes.arrayOf(PropTypes.element)]),
   granularity: PropTypes.number,
-  hoverState: PropTypes.object,
   chartWidth: PropTypes.number,
   chartBucketWidth: PropTypes.number
 };

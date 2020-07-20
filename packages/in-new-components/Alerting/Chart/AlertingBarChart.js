@@ -2,10 +2,10 @@ import PropTypes from 'prop-types';
 import theme from 'in-themes';
 import React from 'react';
 
+import SmartAlertMarkerLane from 'in-components/Chart/markerLanes/AlertMarkerLane/SmartAlertMarkerLane';
 import AlertingBarChartWrapper from 'in-new-components/Alerting/Chart/AlertingBarChartWrapper';
 import { chartViewConfigPropType } from 'in-new-components/Alerting/Chart/chartViewConfig';
 import MarkerLanesPresenter from 'in-components/Chart/markerLanes/MarkerLanesPresenter';
-import SmartAlertMarkerLane from 'in-components/Chart/markerLanes/AlertMarkerLane';
 import { smoothMetrics } from 'in-new-components/Alerting/utils/chartUtil';
 import Renderer from 'in-new-components/Alerting/Chart/renderer/Renderer';
 
@@ -177,7 +177,11 @@ function enhanceLabels(label, smoothMetric) {
 }
 
 function enhanceNonToggleableSeries(metricName, tooltipContent) {
-  return new Map([['threshold', null], ['alerts', null], ['Violations', null]]).set(metricName, tooltipContent);
+  return new Map([
+    ['threshold', null],
+    ['alerts', null],
+    ['Violations', null]
+  ]).set(metricName, tooltipContent);
 }
 
 function getSmoothedMetricTooltipContent(isSmoothedMetric) {

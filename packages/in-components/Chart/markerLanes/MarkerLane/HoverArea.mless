@@ -1,0 +1,37 @@
+@import '~in-themes/active.less';
+@import '~in-themes/mixins.less';
+
+:local {
+  .highlightClusterOverlay {
+    display: flex;
+    justify-content: center;
+
+    display: block;
+
+    position: absolute;
+    width: 100%;
+
+    top: 0;
+    bottom: 0;
+
+    background-color: currentColor;
+    opacity: 0.3;
+    z-index: 1;
+  }
+
+  .highlightClusterOverlayWrapper {
+    position: absolute;
+    border-left: 1px solid currentColor;
+    border-right: 1px solid currentColor;
+    opacity: 0.5;
+  }
+
+  .line {
+    position: absolute;
+    width: 1px;
+    background: currentColor;
+    opacity: 0.5;
+    pointer-events: none;
+    z-index: 1;
+  }
+}

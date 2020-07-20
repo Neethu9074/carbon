@@ -2,14 +2,11 @@
 
 :local {
   .markerLanesContainer {
-    position: relative;
     padding: 0.5rem 0;
   }
 
   .markerLanesWrapper {
-    position: relative;
-
-    > div:nth-child(even) {
+    > div:nth-of-type(even) {
       background-color: @lib__colors__N050;
     }
   }
@@ -28,13 +25,5 @@
 
   .right {
     right: 0;
-  }
-
-  .hoverLine {
-    position: absolute;
-    background: currentColor;
-    width: 1px;
-    opacity: 0.5;
-    pointer-events: none;
   }
 }

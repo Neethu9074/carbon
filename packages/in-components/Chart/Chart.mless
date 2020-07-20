@@ -19,63 +19,6 @@
     max-width: 100%;
   }
 
-  .highlightOverlayMixin {
-    display: flex;
-    justify-content: center;
-
-    position: relative;
-    width: 100%;
-    height: 100%;
-
-    background-color: currentColor;
-    opacity: 0.3;
-  }
-
-  .arrowMixin {
-    --arrow-size: 6px;
-    content: '';
-    width: 0;
-    height: 0;
-    border-left: var(--arrow-size) solid transparent;
-    border-right: var(--arrow-size) solid transparent;
-  }
-
-  .highlightOverlayPre {
-    .highlightOverlayMixin();
-    &:after {
-      .arrowMixin();
-      margin-top: calc(var(--arrow-size) * -1);
-      border-bottom: var(--arrow-size) solid currentColor;
-    }
-  }
-
-  .highlightOverlayPost {
-    .highlightOverlayMixin();
-    &:after {
-      .arrowMixin();
-      align-self: flex-end;
-      margin-bottom: calc(var(--arrow-size) * -1);
-      border-top: var(--arrow-size) solid currentColor;
-    }
-  }
-
-  .highlightOverlayWrapperMixin {
-    position: absolute;
-    opacity: 0.5;
-  }
-
-  .highlightClusterOverlayWrapper {
-    .highlightOverlayWrapperMixin();
-    border-left: 1px solid currentColor;
-    border-right: 1px solid currentColor;
-  }
-
-  .highlightLineOverlayWrapper {
-    .highlightOverlayWrapperMixin();
-    background: currentColor;
-    width: 1px;
-  }
-
   .markerLanesWrapper {
     position: relative;
     height: 100%;

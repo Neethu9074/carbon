@@ -1,0 +1,30 @@
+import PropTypes from 'prop-types';
+import React from 'react';
+
+import locals from './HoverLine.mless';
+
+export default function HoverLine({ xPos, color, chartContentPosition, timeAxisHeight, markerPaneHeight }) {
+  return (
+    <div
+      className={locals.hoverLine}
+      style={{
+        transform: `translateX(${xPos}px)`,
+        color,
+        ...getTopAndBottomOffset()
+      }}
+    />
+  );
+
+  function getTopAndBottomOffset() {
+    if (chartContentPosition === 'pre') return { bottom: timeAxisHeight, top: '8px' };
+    if (chartContentPosition === 'post') return { bottom: '8px', top: markerPaneHeight };
+  }
+}
+
+HoverLine.propTypes = {
+  chartContentPosition: PropTypes.string,
+  color: PropTypes.string,
+  markerPaneHeight: PropTypes.number,
+  timeAxisHeight: PropTypes.number,
+  xPos: PropTypes.number
+};

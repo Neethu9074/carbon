@@ -23,28 +23,6 @@
     background: rgba(253, 253, 253, 0.5);
   }
 
-  .laneItem {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    width: 1px;
-
-    &:hover:before {
-      content: '';
-      position: absolute;
-      width: calc(var(--lane-height) - 0.25rem);
-      height: calc(var(--lane-height) - 0.25rem);
-      border-radius: @lib__shapes__radius_round;
-      background: @lib__colors__N600Light;
-      opacity: 0.3;
-    }
-  }
-
   .marker {
     position: relative;
     top: 0;

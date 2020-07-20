@@ -27,8 +27,16 @@ export const MarkerLanes = () => {
     const numEvents = 8;
     for (let i = 0; i < numEvents; i++) {
       randomEvents[i] = {
-        start: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * Math.random(),
-        name: `Release: ${i}`
+        count: 1,
+        startTime: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * 8000,
+        clusteredReleases: [
+          {
+            name: 'Release Lane Test: abc',
+            start: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * 9000,
+            id: '2WqiOdUES2yLLk8kqKfxzQ',
+            lastUpdated: 1594973648774
+          }
+        ]
       };
     }
     return randomEvents;

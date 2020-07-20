@@ -1,7 +1,7 @@
 import React from 'react';
 
+import ReleaseMarkerLane from 'in-components/Chart/markerLanes/ReleaseMarkerLane/ReleaseMarkerLane';
 import MarkerLanesPresenter from 'in-components/Chart/markerLanes/MarkerLanesPresenter';
-import ReleaseMarkerLane from 'in-components/Chart/markerLanes/ReleaseMarkerLane';
 
 export default function ApplicationDashboardsMarkerLanes(props) {
   return (
