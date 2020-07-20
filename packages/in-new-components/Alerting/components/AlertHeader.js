@@ -243,20 +243,13 @@ export default function AlertHeader({
         />
       )}
       {isNotLatestRevision && (
-        <Message
-          withIcon
-          className={locals.bottomSpace}
-          title={`You are looking at revision ${alertRevision} of this alert configuration`}
-          description={
-            <>
-              Please select the
-              <Button className={locals.latestButton} kind="action" onClick={() => setRevision(null)}>
-                latest revision
-              </Button>
-              if you want to make changes.
-            </>
-          }
-        />
+        <Message withIcon className={locals.bottomSpace}>
+          You are looking at revision {alertRevision} of this alert configuration. Please select the
+          <Button className={locals.latestButton} kind="action" onClick={() => setRevision(null)}>
+            latest revision
+          </Button>
+          if you want to make changes.
+        </Message>
       )}
     </div>
   );
