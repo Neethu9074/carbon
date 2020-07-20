@@ -3,5 +3,6 @@
     position: absolute;
     top: 1rem;
     right: 1.25rem;
+    z-index: 1;
   }
 }
