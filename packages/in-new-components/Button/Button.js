@@ -51,6 +51,9 @@ export default function Button({
   autoFocus,
   noAutoMargin
 }) {
+  // Avoid changing the element type every time the link goes from unresolved to resolved.
+  // This can cause several problems: Lost focus, tooltip component breaking…
+  const willBeALink = href$ || href;
   const resolvedHref = useObservable(href$, [href$]) || href;
   let classes = `${locals.button} ${noAutoMargin ? locals.noAutoMargin : ''} ${locals[kind] || ''} ${locals[size] ||
     ''}`;
@@ -84,7 +87,7 @@ export default function Button({
     );
   }
 
-  if (!resolvedHref) {
+  if (!willBeALink) {
     return (
       <button
         id={id}
