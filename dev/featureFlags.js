@@ -23,5 +23,6 @@ module.exports = {
   routeIdOverPathTplEnabled: false,
   sloConfigurationEnabled: true,
   infrastructureExploreEnabled: true,
-  latencyDistributionBase10Enabled: true
+  latencyDistributionBase10Enabled: true,
+  newApCreationEnabled: true
 };

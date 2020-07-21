@@ -19,11 +19,11 @@ import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
 import WithEmptyStateFallback from 'in-new-components/WithEmptyStateFallback';
 import CreateApplication from 'in-applications/creation/CreateApplication';
 import { applicationOpenSubmitFormTracker } from 'in-applications/tracker';
-import { instanaInternalFeaturesEnabled } from 'in-services/featureFlags';
 import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
 import ViewSwitcher from 'in-applications/lists/components/ViewSwitcher';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
+import { newApCreationEnabled } from 'in-services/featureFlags';
 import { boundaryScopes } from 'in-applications/constants';
 import { timeConfig$ } from 'in-stores/time/config';
 import Footer from 'in-new-components/Footer';
@@ -162,7 +162,7 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
 
 const rightHeader = role.canConfigureApplications && (
   <>
-    {instanaInternalFeaturesEnabled ? (
+    {newApCreationEnabled ? (
       <CreateApplication className={locals.button} />
     ) : (
       <Button
@@ -189,31 +189,30 @@ export default function ApplicationsLisPresenter({
   snapshotId,
   plugin
 }) {
-  const scopeNotification = (applicationId || serviceId || endpointId || tagFilters) &&
-    contextScope && (
-      <ScopeNotification
-        icon={contextScope == 'UPSTREAM' ? 'lib_context_guide_upstream' : 'lib_context_guide_downstream'}
-        productArea="application"
-        applicationId={applicationId}
-        serviceId={serviceId}
-        endpointId={endpointId}
-        contextScope={contextScope}
-        tagFilters={tagFilters}
-        snapshotId={snapshotId}
-        plugin={plugin}
-        onClose={() =>
-          setFilter({
-            applicationId: '',
-            serviceId: '',
-            endpointId: '',
-            contextScope: '',
-            tagFilters: [],
-            snapshotId: '',
-            plugin: ''
-          })
-        }
-      />
-    );
+  const scopeNotification = (applicationId || serviceId || endpointId || tagFilters) && contextScope && (
+    <ScopeNotification
+      icon={contextScope == 'UPSTREAM' ? 'lib_context_guide_upstream' : 'lib_context_guide_downstream'}
+      productArea="application"
+      applicationId={applicationId}
+      serviceId={serviceId}
+      endpointId={endpointId}
+      contextScope={contextScope}
+      tagFilters={tagFilters}
+      snapshotId={snapshotId}
+      plugin={plugin}
+      onClose={() =>
+        setFilter({
+          applicationId: '',
+          serviceId: '',
+          endpointId: '',
+          contextScope: '',
+          tagFilters: [],
+          snapshotId: '',
+          plugin: ''
+        })
+      }
+    />
+  );
 
   return (
     <Sticky header={<ViewSwitcher />}>

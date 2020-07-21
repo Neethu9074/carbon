@@ -10,7 +10,9 @@ export default function MultipleTechnologiesIcon({ type, technologies, iconSize,
   let iconPath = showTechnologyIcon(type, technologies, icon);
 
   let technologyLabels = [];
-  technologies?.map(technology => technologyLabels.push(getTechnologyLabel(technology)));
+  technologies
+    ?.filter(technology => technology !== 'aerospike')
+    .map(technology => technologyLabels.push(getTechnologyLabel(technology)));
   const tooltipLabels = technologyLabels.join(', ');
 
   if (technologies?.length > 1) {
