@@ -3,76 +3,72 @@ import { get } from 'lodash';
 import React from 'react';
 
 import ServicesNoDataNotification from 'in-applications/lists/components/ServicesNoDataNotification';
-import { getTagFilterToUrlString, getTagFilterFromUrlString } from 'in-analyze/filterBuilder';
-import { tagFilter as tagFilterMatrixParameter } from 'in-analyze/navigation/matrix';
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
+import { buildJsonSerializer, buildJsonParser } from 'in-stores/navigation/matrix';
 import { isWebGLSupported, getWebGLCanvasContext } from 'in-map/services/webGL';
 import WithEmptyStateFallback from 'in-new-components/WithEmptyStateFallback';
 import ApplicationMap from 'in-new-components/ApplicationMap/ApplicationMap';
 import { showHelp, closeHelpIfOpen } from 'in-stores/navigation/navigation';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import getServiceMap from 'in-subscription/application/getServiceMap';
-import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import getElementDimensions from 'in-hoc/getElementDimensions';
 import { timeConfig$ } from 'in-stores/time/config';
+import withUrlState from 'in-hoc/withUrlState';
 import connect from 'in-hoc/connectTo';
 
 import locals from './ApplicationMap.mless';
 
 export default compose(
-  withUrlDependingState({
-    replaceHistory: false,
-    getPathSegment: () => '/map',
-    getMatrixPrefix: () => 'applicationMap.',
-    boundKeys: [tagFilterMatrixParameter, 'layouter', 'particles', 'traffic', 'sizingMetric'],
-    getResettingProps: () => [],
-    getInitialState: () => {
-      const initialState = {
-        layouter: 'flow',
-        particles: true,
-        traffic: false,
-        sizingMetric: null
-      };
-      initialState[tagFilterMatrixParameter] = [];
-      return initialState;
-    },
-    reducerName: 'onChangeUrlProperties',
-    getParsedUrlValues: values => {
-      const urlFilters = values[tagFilterMatrixParameter];
-      const tagFilter = getTagFilterFromUrlString(urlFilters);
-
-      const objectToReturn = {
-        layouter: values.layouter,
-        particles: values.particles === 'true' ? true : false,
-        traffic: values.traffic === 'true' ? true : false,
-        sizingMetric: values.sizingMetric
-      };
-      objectToReturn[tagFilterMatrixParameter] = tagFilter;
-
-      return objectToReturn;
-    },
-    getSerializedUrlValues: props => {
-      const tagFilter = props[tagFilterMatrixParameter];
-      const urlReadyTagFilter = getTagFilterToUrlString(tagFilter);
-
-      const objectToStore = {
-        layouter: props.layouter,
-        particles: props.particles,
-        traffic: props.traffic,
-        sizingMetric: props.sizingMetric
-      };
-      objectToStore[tagFilterMatrixParameter] = urlReadyTagFilter;
-      return objectToStore;
-    }
+  withUrlState({
+    bind: [
+      {
+        path: '/map',
+        name: 'tagFilter',
+        as: 'tagFilters',
+        initialState: [],
+        parser: buildJsonParser([]),
+        serializer: buildJsonSerializer()
+      },
+      {
+        path: '/map',
+        name: 'layouter',
+        as: 'layouter',
+        initialState: 'flow'
+      },
+      {
+        path: '/map',
+        name: 'particles',
+        as: 'particles',
+        initialState: true,
+        parser: v => v === 'true',
+        serializer: String
+      },
+      {
+        path: '/map',
+        name: 'traffic',
+        as: 'traffic',
+        initialState: false,
+        parser: v => v === 'true',
+        serializer: String
+      },
+      {
+        path: '/map',
+        name: 'sizingMetric',
+        as: 'sizingMetric',
+        initialState: null
+      }
+    ],
+    reducerName: 'onChangeUrlProperties'
   }),
-  connect(({ traffic, applicationId }) => ({
+  connect(({ traffic, applicationId, boundaryScope }) => ({
     result: timeConfig$.flatMap(
       timeConfig =>
         getServiceMap({
           filter: {
             timeConfig,
             // when we want to see all services, remove the application filter
-            application: traffic ? null : applicationId
+            application: traffic ? null : applicationId,
+            applicationBoundaryScope: boundaryScope
           }
         }).nextFrame() // avoids firing the intermediate progress result if the subscription is re-used
     )
@@ -178,7 +174,7 @@ export const ApplicationMapReactComponent = getElementDimensions(
   }
 );
 
-function getHasDataToRender({ traffic, applicationId }) {
+function getHasDataToRender({ traffic, applicationId, boundaryScope }) {
   return timeConfig$
     .flatMap(
       timeConfig =>
@@ -186,7 +182,8 @@ function getHasDataToRender({ traffic, applicationId }) {
           filter: {
             timeConfig,
             // when we want to see all services, remove the application filter
-            application: traffic ? null : applicationId
+            application: traffic ? null : applicationId,
+            applicationBoundaryScope: boundaryScope
           }
         }).nextFrame() // avoids firing the intermediate progress result if the subscription is re-used
     )
