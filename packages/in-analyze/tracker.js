@@ -11,7 +11,9 @@ import {
   ANALYZE_GROUP_CLICK,
   ANALYZE_GROUP_REMOVED,
   ANALYZE_METRIC_CHANGED,
-  ANALYZE_TRACE_CLICK
+  ANALYZE_TRACE_CLICK,
+  ANALYZE_LATENCY_PERCENTILE_MENU_CLICK,
+  ANALYZE_LATENCY_SELECTION_CHANGED
 } from 'in-services/tracking/tracking';
 
 export const groupAddedTracker = e => track(ANALYZE_GROUP_ADDED, e);
@@ -24,6 +26,8 @@ export const filterRemovedTracker = e => track(ANALYZE_FILTER_REMOVED, e);
 export const filterClearedTracker = e => track(ANALYZE_FILTER_CLEARED, e);
 
 export const metricChangedTracker = e => track(ANALYZE_METRIC_CHANGED, e);
+export const latencyPercentileMenuClickedTracker = e => track(ANALYZE_LATENCY_PERCENTILE_MENU_CLICK, e);
+export const latencySelectionChanged = e => track(ANALYZE_LATENCY_SELECTION_CHANGED, e);
 
 export const groupClickedTracker = e => track(ANALYZE_GROUP_CLICK, e);
 export const traceClickedTracker = e => track(ANALYZE_TRACE_CLICK, e);

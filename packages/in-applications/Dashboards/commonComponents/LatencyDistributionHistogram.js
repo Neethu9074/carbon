@@ -4,6 +4,7 @@ import LatencyDistributionBase10Chart from 'in-new-components/LatencyDistributio
 import LatencyDistributionChart from 'in-new-components/LatencyDistributionChart/LatencyDistributionChart';
 import getLatencyDistributionBase10 from 'in-subscription/application/getLatencyDistributionBase10';
 import getLatencyDistribution from 'in-subscription/application/getLatencyDistribution';
+import { jumpToUnboundedAnalyticsFromLatencyTracker } from 'in-applications/tracker';
 import { latencyDistributionBase10Enabled } from 'in-services/featureFlags';
 import getJumpToAnalyzeHref$ from '../../components/getJumpToAnalyzeHref';
 import { operators } from 'in-analyze/applicationFilter';
@@ -127,7 +128,17 @@ export default function LatencyDistributionHistogram({
                   filters: filterForLink(),
                   focusedMetric: 'calls_DISTRIBUTION'
                 }
-              )
+              ),
+            onClick: () => {
+              jumpToUnboundedAnalyticsFromLatencyTracker({
+                applicationId: applicationId,
+                serviceId: serviceId,
+                endpointId: endpointId,
+                boundaryScope: boundaryScope,
+                from: selectedLatencyRange.from,
+                to: selectedLatencyRange.to
+              });
+            }
           }
         ]}
         onSelectionChanged={setSelectedLatencyRange}

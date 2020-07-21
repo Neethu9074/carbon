@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 
 import ChartContextMenu from 'in-new-components/LatencyDistributionBase10Chart/components/ChartContextMenu';
 import { millis, number } from 'in-services/formatters/number';
+import { latencySelectionChanged } from 'in-analyze/tracker';
 import theme from 'in-themes';
 
 import locals from './LatencyChartOverlay.mless';
@@ -181,6 +182,7 @@ export default function LatencyChartOverlay({
         from: firstBucket && buckets[firstBucket].from,
         to: lastBucket && buckets[lastBucket].to
       });
+      latencySelectionChanged();
     }
   };
 

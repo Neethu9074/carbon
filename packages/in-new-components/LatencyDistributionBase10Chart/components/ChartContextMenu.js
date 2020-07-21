@@ -2,7 +2,6 @@ import { on } from 'reactive-observables';
 import React, { useEffect } from 'react';
 import rpt from 'prop-types';
 
-import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import { containsIgnoreCase } from 'in-services/util/string';
 import Button from 'in-new-components/Button';
@@ -60,7 +59,6 @@ export default function ChartContextMenu({
     if (config.onClick) {
       const originalOnClick = config.onClick;
       config.onClick = e => {
-        stopPropagationAndPreventDefault(e);
         setShowContextMenu(false);
         if (originalOnClick) {
           originalOnClick(e);

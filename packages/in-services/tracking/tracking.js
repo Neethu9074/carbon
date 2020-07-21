@@ -27,10 +27,13 @@ export const ANALYZE_GROUP_CLICK = 'analyze.group.click';
 export const ANALYZE_GROUP_REMOVED = 'analyze.group.removed';
 export const ANALYZE_METRIC_CHANGED = 'analyze.metric.changed';
 export const ANALYZE_TRACE_CLICK = 'analyze.trace.click';
+export const ANALYZE_LATENCY_PERCENTILE_MENU_CLICK = 'analyze.latency.percentile.click';
+export const ANALYZE_LATENCY_SELECTION_CHANGED = 'analyze.latency.selection.changed';
 
 export const APPLICATION_CLICK_CREATE = 'application.click.create';
 export const APPLICATION_CLICK_SUBMIT = 'application.click.submit';
 export const APPLICATION_CLICK_SOURCE_OR_DESTINATION = 'application.click.changeSourceOrDestination';
+export const APPLICATION_LATENCY_JUMP_TO_UNBOUNDED_ANALYTICS = 'application.click.latency.jumpToUA';
 
 export const APPLICATION_CREATION_OPEN_DIALOG_CLICK = 'application.creation.open.dialog.click';
 export const APPLCATION_CREATION_CLOSE_DIALOG_CLICK = 'application.creation.close.dialog.click';

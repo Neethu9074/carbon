@@ -1,6 +1,7 @@
 import { List } from 'immutable';
 import React from 'react';
 
+import { latencyPercentileMenuClickedTracker } from 'in-analyze/tracker';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import { joinClassNames } from 'in-services/util/classnames';
 import Overlay from 'in-new-components/overlays/Overlay';
@@ -13,11 +14,17 @@ export const ALL_PERCENTILES = List.of(50, 90, 95, 99);
 export default function PercentileMenu(props) {
   return (
     <Overlay withoutWrapper content={PercentileMenuContent} props={props}>
-      {({ toggle, refSetter }) => (
-        <Button refSetter={refSetter} onClick={toggle} kind="secondary" size="compact">
-          Percentile view
-        </Button>
-      )}
+      {({ toggle, refSetter }) => {
+        const trackAndToggle = () => {
+          latencyPercentileMenuClickedTracker();
+          toggle();
+        };
+        return (
+          <Button refSetter={refSetter} onClick={trackAndToggle} kind="secondary" size="compact">
+            Percentile view
+          </Button>
+        );
+      }}
     </Overlay>
   );
 }
