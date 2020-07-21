@@ -1,52 +1,82 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-import { tagsFilter$ } from 'in-components/Tags/TagList/stores/tagsFilterStore';
-import { filteredTags$, filterableTags$ } from 'in-stores/search/keywords/tags';
 import TagFilter from 'in-components/Tags/TagList/components/TagFilter';
+import getFilterableTags from 'in-subscription/getFilterableTags';
+import { filteredTags$ } from 'in-stores/search/keywords/tags';
+import { number } from 'in-services/formatters/number';
 import { emptySet } from 'in-services/fixedImmutables';
+import { timeConfig$ } from 'in-stores/time/config';
+import Button from 'in-new-components/Button';
 import connectTo from 'in-hoc/connectTo';
 import Tag from 'in-components/Tags/Tag';
 
-import './TagList.less';
+import locals from './TagList.mless';
 
-const block = 'in-tag-list';
+const maxTagsPerCollection = 200;
 
 export default connectTo(
   {
     filteredTags: filteredTags$,
-    tagsFilter: tagsFilter$,
-    tags: filterableTags$
+    tags: timeConfig$.flatMap(getFilterableTags)
   },
-  function TagList({ tags, tagsFilter, filteredTags = emptySet }) {
+  function TagList({ tags, filteredTags = emptySet }) {
+    const [tagsFilter, setTagsFilter] = useState('');
+
     if (!tags || tags.size === 0) {
-      return <div className={block + '__no-tags'}>There are no tags defined</div>;
+      return <div className={locals.noTags}>There are no tags defined</div>;
     }
 
     tags = tags.toArray();
-    tagsFilter = tagsFilter.toLowerCase();
 
     const activeTags = [];
     const inactiveTags = [];
 
+    const lowerCaseTagsFilter = tagsFilter.toLowerCase();
     for (let i = 0; i < tags.length; i++) {
       const tag = tags[i];
       const tagToLowerCase = tag.toLowerCase();
-      if (tagToLowerCase.indexOf(tagsFilter) === -1) {
+      if (tagToLowerCase.indexOf(lowerCaseTagsFilter) === -1) {
         continue;
       }
 
-      const collection = filteredTags.contains(tagToLowerCase) ? activeTags : inactiveTags;
-      collection.push(<Tag key={tag} tag={tag} isDark />);
+      const isActive = filteredTags.contains(tagToLowerCase);
+      const collection = isActive ? activeTags : inactiveTags;
+      collection.push(<Tag key={tag} tag={tag} isDark active={isActive} />);
     }
 
     return (
-      <div>
-        <div className={block}>
-          <div className={block + '__active-tags'}>{activeTags}</div>
-          {inactiveTags}
+      <>
+        <div className={locals.list}>
+          <div className={locals.activeTags}>
+            <TagListWithMaxLengthRestriction tags={activeTags} />
+          </div>
+
+          <TagListWithMaxLengthRestriction tags={inactiveTags} />
         </div>
-        <TagFilter />
-      </div>
+        <TagFilter value={tagsFilter} onChange={setTagsFilter} />
+      </>
     );
   }
 );
+
+function TagListWithMaxLengthRestriction({ tags }) {
+  const [showAll, setShowAll] = useState(false);
+  const actualNumberOfTags = tags.length;
+
+  if (!showAll) {
+    tags = tags.slice(0, maxTagsPerCollection);
+  }
+
+  return (
+    <>
+      {tags}
+
+      {actualNumberOfTags > maxTagsPerCollection &&
+        !showAll && (
+          <Button className={locals.button} size="compact" onClick={() => setShowAll(true)}>
+            Show all tags ({number.compact(actualNumberOfTags - maxTagsPerCollection)} more)
+          </Button>
+        )}
+    </>
+  );
+}
