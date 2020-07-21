@@ -12,40 +12,175 @@ export function toBackendQueryModel(formModel) {
     return createTagFilterExpression(OPERATOR_OR, []);
   }
 
-  return mapTags(formModel);
+  // convert all tag filters in the form model to our desired structure
+  formModel = formModel.map(element => (element.type === TAG ? toTagFilter(element) : element));
+
+  // Create levels for brackets
+  // [A, AND, NOT, (, B, AND, C, OR, D )] => [A, AND, NOT, [B, AND, C, OR, D]]
+  let result = createLevelsForBrackets(formModel, 0, formModel.length);
+
+  // Add levels for NOT conjunctions (stronger binding than OR)
+  // [A, AND, NOT, [B, AND, C, OR, D]] => [A, AND, [NOT, [B, AND, C, OR, D]]]
+  result = addLevelsForNegation(result);
+
+  // Add levels for AND conjunctions (stronger binding than OR)
+  // [A, AND, [NOT, [B, AND, C, OR, D]]] => [[A, AND, [NOT, [[B, AND, C], OR, D]]]]
+  result = addLevelsForAndConjunctions(result);
+
+  // transform conjunction/bracket levels into backend compatible logical expressions
+  result = transformLevelsToLogicalExpressions(result);
+
+  return result;
 }
 
-function mapTags(tags) {
-  return collectExpression(tags, 0).expression.elements[0];
-}
+function createLevelsForBrackets(elements, startIndexInclusive, endIndexExclusive) {
+  let openBracketStartIndices = [];
+  const levels = [];
+  for (let i = startIndexInclusive; i < endIndexExclusive; i++) {
+    const element = elements[i];
 
-function collectExpression(tags, cursor) {
-  let logicalOperator = OPERATOR_OR;
-  const elements = [];
-
-  while (cursor < tags.length) {
-    const tag = tags[cursor++];
-
-    if (tag.type === CLOSE_BRACKET) {
-      break;
+    if (element.type === OPEN_BRACKET) {
+      openBracketStartIndices.push(i + 1);
+    } else if (element.type === CLOSE_BRACKET) {
+      const startIndexOfNestedLevel = openBracketStartIndices.pop();
+      const endIndexOfNestedLevel = i;
+      levels.push(createLevelsForBrackets(elements, startIndexOfNestedLevel, endIndexOfNestedLevel));
+    } else if (openBracketStartIndices.length === 0) {
+      levels.push(element);
     }
-    if (tag.type === OPEN_BRACKET) {
-      const result = collectExpression(tags, cursor);
-      elements.push(result.expression);
-      cursor = result.cursor;
-    } else if (tag.type === TAG) {
-      elements.push(toTagFilter(tag));
-    } else if (tag.type === CONJUNCTION) {
-      logicalOperator = tag.logicalOperator;
+  }
+  return levels;
+}
+
+function addLevelsForAndConjunctions(elements) {
+  let startIndex = -1;
+  const result = [];
+  const hasNoAndConjunction = !elements.some(e => e.logicalOperator === OPERATOR_AND);
+
+  for (let i = 0; i < elements.length; i++) {
+    const element = elements[i];
+
+    if (element.type === CONJUNCTION && element.logicalOperator !== OPERATOR_NOT) {
+      if (element.logicalOperator === OPERATOR_OR) {
+        if (startIndex >= 0) {
+          result.push(
+            elements.slice(startIndex, i).map(e => {
+              if (e instanceof Array) {
+                return addLevelsForAndConjunctions(e);
+              } else {
+                return e;
+              }
+            })
+          );
+        }
+
+        result.push(element);
+        startIndex = -1;
+      } else if (element.logicalOperator === OPERATOR_AND && startIndex < 0) {
+        startIndex = i - 1;
+      }
+    } else if (startIndex < 0 && (i > 0 || hasNoAndConjunction)) {
+      if (element instanceof Array) {
+        result.push(addLevelsForAndConjunctions(element));
+      } else {
+        result.push(element);
+      }
     }
   }
 
-  const expression = createTagFilterExpression(logicalOperator, elements);
-  return {
-    cursor,
-    expression
-  };
+  if (startIndex >= 0) {
+    result.push(
+      elements.slice(startIndex, elements.length).map(e => {
+        if (e instanceof Array) {
+          return addLevelsForAndConjunctions(e);
+        } else {
+          return e;
+        }
+      })
+    );
+  }
+
+  return result;
 }
+
+function addLevelsForNegation(elements) {
+  const result = [];
+
+  for (let i = 0; i < elements.length; i++) {
+    const element = elements[i];
+
+    if (element.logicalOperator === OPERATOR_NOT) {
+      i++;
+      let nextElement = elements[i];
+      if (nextElement instanceof Array) {
+        nextElement = addLevelsForNegation(nextElement);
+      }
+      result.push([element, nextElement]);
+    } else if (element instanceof Array) {
+      result.push(addLevelsForNegation(element));
+    } else {
+      result.push(element);
+    }
+  }
+
+  return result;
+}
+
+function transformLevelsToLogicalExpressions(elements) {
+  if (!(elements instanceof Array)) {
+    return elements;
+  }
+
+  if (elements.length === 1) {
+    return transformLevelsToLogicalExpressions(elements[0]);
+  }
+
+  const logicalOperator = elements.find(e => e.type === CONJUNCTION).logicalOperator;
+  return createTagFilterExpression(
+    logicalOperator,
+    elements.filter(e => e.type !== CONJUNCTION).map(transformLevelsToLogicalExpressions)
+  );
+}
+
+// function toTree(formModel, parentNode) {
+
+// }
+
+// function analyzeBracketLevel(formModel) {
+//   return toTagFilter(formModel[0]);
+// }
+
+// function mapTags(tags) {
+//   return collectExpression(tags, 0).expression.elements[0];
+// }
+
+// function collectExpression(tags, cursor) {
+//   let logicalOperator = OPERATOR_OR;
+//   const elements = [];
+
+//   while (cursor < tags.length) {
+//     const tag = tags[cursor++];
+
+//     if (tag.type === CLOSE_BRACKET) {
+//       break;
+//     }
+//     if (tag.type === OPEN_BRACKET) {
+//       const result = collectExpression(tags, cursor);
+//       elements.push(result.expression);
+//       cursor = result.cursor;
+//     } else if (tag.type === TAG) {
+//       elements.push(toTagFilter(tag));
+//     } else if (tag.type === CONJUNCTION) {
+//       logicalOperator = tag.logicalOperator;
+//     }
+//   }
+
+//   const expression = createTagFilterExpression(logicalOperator, elements);
+//   return {
+//     cursor,
+//     expression
+//   };
+// }
 
 function createTagFilterExpression(logicalOperator, elements) {
   return {

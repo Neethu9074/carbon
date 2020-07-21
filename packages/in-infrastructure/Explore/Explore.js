@@ -37,7 +37,7 @@ export default function InfraExploreView() {
   const [tagFilters, setTagFilters] = useState(null);
   const [{ tagFilterExpression }, onChange] = useUrlState(urlStateDefinition);
   const validResult = useObservable(isQueryValid(tagFilterExpression), [tagFilterExpression]) ?? pendingResult;
-  const backendQueryModel = toBackendQueryModel(tagFilterExpression);
+  const backendQueryModel = validResult?.data && toBackendQueryModel(tagFilterExpression);
 
   return (
     <InfraPageHeaderWithTabs showSearchBar={false} theme={themes.light} addShadow addFooter>

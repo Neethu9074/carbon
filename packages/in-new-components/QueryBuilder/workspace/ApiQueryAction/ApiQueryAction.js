@@ -8,7 +8,12 @@ export default function ApiQueryAction({ backendQueryModel }) {
   return (
     <Overlay withoutWrapper align="bottomRight" content={ApiQueryOverlay} props={{ backendQueryModel }}>
       {({ toggle, refSetter }) => (
-        <Action icon="lib_views_code" refSetter={refSetter} onClick={toggle}>
+        <Action
+          disabled={!backendQueryModel}
+          icon="lib_views_code"
+          refSetter={refSetter}
+          onClick={() => backendQueryModel && toggle()}
+        >
           API query
         </Action>
       )}

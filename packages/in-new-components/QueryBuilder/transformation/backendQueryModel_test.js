@@ -12,7 +12,8 @@ import {
   toBackendQueryModel,
   EXPRESSION,
   OPERATOR_AND,
-  OPERATOR_OR
+  OPERATOR_OR,
+  OPERATOR_NOT
 } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 
 describe('in-new-components/QueryBuilder/transformation/backendQueryModel', () => {
@@ -44,6 +45,132 @@ describe('in-new-components/QueryBuilder/transformation/backendQueryModel', () =
       expect(
         toBackendQueryModel([{ ...tagFilter, otherPropertyWhichIsOnlyPartOfTheFormModel: 'foobar' }])
       ).to.deep.equal(tagFilter);
+    });
+
+    it('should map a single negated tag filter', () => {
+      expect(
+        toBackendQueryModel([
+          {
+            type: FM_CONJUNCTION,
+            logicalOperator: OPERATOR_NOT
+          },
+          {
+            type: FM_TAG,
+            name: 'service.name',
+            operator: 'EQUALS',
+            value: 'shop',
+            entity: 'DESTINATION',
+            key: undefined
+          }
+        ])
+      ).to.deep.equal({
+        elements: [
+          {
+            entity: 'DESTINATION',
+            key: undefined,
+            name: 'service.name',
+            operator: 'EQUALS',
+            type: 'TAG_FILTER',
+            value: 'shop'
+          }
+        ],
+        logicalOperator: 'NOT',
+        type: 'EXPRESSION'
+      });
+    });
+
+    it('should map two tag filters joined with a conjunction: OR', () => {
+      const tagFilters = [
+        {
+          type: FM_TAG,
+          name: 'service.name',
+          operator: 'EQUALS',
+          value: 'shop',
+          entity: 'DESTINATION',
+          key: undefined
+        },
+        {
+          type: FM_CONJUNCTION,
+          logicalOperator: OPERATOR_OR
+        },
+        {
+          type: FM_TAG,
+          name: 'service.name',
+          operator: 'EQUALS',
+          value: 'shipping',
+          entity: 'DESTINATION',
+          key: undefined
+        }
+      ];
+      expect(toBackendQueryModel(tagFilters)).to.deep.equal({
+        type: EXPRESSION,
+        logicalOperator: OPERATOR_OR,
+        elements: [
+          {
+            type: FM_TAG,
+            name: 'service.name',
+            operator: 'EQUALS',
+            value: 'shop',
+            entity: 'DESTINATION',
+            key: undefined
+          },
+          {
+            type: FM_TAG,
+            name: 'service.name',
+            operator: 'EQUALS',
+            value: 'shipping',
+            entity: 'DESTINATION',
+            key: undefined
+          }
+        ]
+      });
+    });
+
+    it('should map two tag filters joined with a conjunction: AND', () => {
+      const tagFilters = [
+        {
+          type: FM_TAG,
+          name: 'service.name',
+          operator: 'EQUALS',
+          value: 'shop',
+          entity: 'DESTINATION',
+          key: undefined
+        },
+        {
+          type: FM_CONJUNCTION,
+          logicalOperator: OPERATOR_AND
+        },
+        {
+          type: FM_TAG,
+          name: 'service.name',
+          operator: 'EQUALS',
+          value: 'shipping',
+          entity: 'DESTINATION',
+          key: undefined
+        }
+      ];
+      expect(toBackendQueryModel(tagFilters)).to.deep.equal({
+        type: EXPRESSION,
+        logicalOperator: OPERATOR_AND,
+        elements: [
+          {
+            type: FM_TAG,
+            name: 'service.name',
+            operator: 'EQUALS',
+            value: 'shop',
+            entity: 'DESTINATION',
+            key: undefined
+          },
+          {
+            type: FM_TAG,
+            name: 'service.name',
+            operator: 'EQUALS',
+            value: 'shipping',
+            entity: 'DESTINATION',
+            key: undefined
+          }
+        ]
+      });
     });
 
     it('should map multiple tag filters according to their type', () => {
@@ -120,9 +247,6 @@ describe('in-new-components/QueryBuilder/transformation/backendQueryModel', () =
     it('should map multiple tag filter expressions', () => {
       const tagFilters = [
         {
-          type: FM_OPEN_BRACKET
-        },
-        {
           type: FM_TAG,
           name: 'key',
           operator: 'EQUALS',
@@ -132,7 +256,11 @@ describe('in-new-components/QueryBuilder/transformation/backendQueryModel', () =
         },
         {
           type: FM_CONJUNCTION,
-          logicalOperator: OPERATOR_OR
+          logicalOperator: OPERATOR_AND
+        },
+        {
+          type: FM_CONJUNCTION,
+          logicalOperator: OPERATOR_NOT
         },
         {
           type: FM_OPEN_BRACKET
@@ -158,43 +286,72 @@ describe('in-new-components/QueryBuilder/transformation/backendQueryModel', () =
           key: undefined
         },
         {
-          type: FM_CLOSE_BRACKET
+          type: FM_CONJUNCTION,
+          logicalOperator: OPERATOR_OR
+        },
+        {
+          type: FM_TAG,
+          name: 'key',
+          operator: 'EQUALS',
+          value: 'D',
+          entity: 'DESTINATION',
+          key: undefined
         },
         {
           type: FM_CLOSE_BRACKET
         }
       ];
       expect(toBackendQueryModel(tagFilters)).to.deep.equal({
-        type: EXPRESSION,
-        logicalOperator: OPERATOR_OR,
+        type: 'EXPRESSION',
+        logicalOperator: 'AND',
         elements: [
           {
-            type: FM_TAG,
+            type: 'TAG_FILTER',
             name: 'key',
-            operator: 'EQUALS',
+            key: undefined,
             value: 'A',
-            entity: 'DESTINATION',
-            key: undefined
+            operator: 'EQUALS',
+            entity: 'DESTINATION'
           },
           {
-            type: EXPRESSION,
-            logicalOperator: OPERATOR_AND,
+            type: 'EXPRESSION',
+            logicalOperator: 'NOT',
             elements: [
               {
-                type: FM_TAG,
-                name: 'key',
-                operator: 'EQUALS',
-                value: 'B',
-                entity: 'DESTINATION',
-                key: undefined
-              },
-              {
-                type: FM_TAG,
-                name: 'key',
-                operator: 'EQUALS',
-                value: 'C',
-                entity: 'DESTINATION',
-                key: undefined
+                type: 'EXPRESSION',
+                logicalOperator: 'OR',
+                elements: [
+                  {
+                    type: 'EXPRESSION',
+                    logicalOperator: 'AND',
+                    elements: [
+                      {
+                        type: 'TAG_FILTER',
+                        name: 'key',
+                        key: undefined,
+                        value: 'B',
+                        operator: 'EQUALS',
+                        entity: 'DESTINATION'
+                      },
+                      {
+                        type: 'TAG_FILTER',
+                        name: 'key',
+                        key: undefined,
+                        value: 'C',
+                        operator: 'EQUALS',
+                        entity: 'DESTINATION'
+                      }
+                    ]
+                  },
+                  {
+                    type: 'TAG_FILTER',
+                    name: 'key',
+                    key: undefined,
+                    value: 'D',
+                    operator: 'EQUALS',
+                    entity: 'DESTINATION'
+                  }
+                ]
               }
             ]
           }
