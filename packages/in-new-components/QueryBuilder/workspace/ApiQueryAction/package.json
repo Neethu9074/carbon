@@ -1,0 +1,6 @@
+{
+  "name": "ApiQueryAction",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./ApiQueryAction.js"
+}

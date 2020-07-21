@@ -8,7 +8,7 @@ const tagCatalog = {
   tags: [
     {
       name: 'kubernetes.cluster.label',
-      type: 'STRING'
+      type: 'KEY_VALUE_PAIRS'
     },
     {
       name: 'kubernetes.cluster.name',
@@ -16,7 +16,7 @@ const tagCatalog = {
     },
     {
       name: 'kubernetes.namespace.label',
-      type: 'STRING'
+      type: 'KEY_VALUE_PAIRS'
     },
     {
       name: 'kubernetes.namespace.name',

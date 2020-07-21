@@ -1,0 +1,30 @@
+@import '~in-themes/mixins.less';
+@import '~in-themes/active.less';
+
+:local {
+  .section {
+    border-top: 1px solid @lib__colors__N400;
+    .spaceBetweenFlexbox();
+    background: @lib__colors__N100;
+  }
+
+  // Increase specificity to allow guaranteed button style overwrite
+  .section .button {
+    font-weight: 400;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    border-radius: 0;
+
+    & + .button {
+      margin-left: 0;
+    }
+  }
+
+  .left .button {
+    border-right: 1px solid @lib__colors__N400;
+  }
+
+  .right .button {
+    border-left: 1px solid @lib__colors__N400;
+  }
+}

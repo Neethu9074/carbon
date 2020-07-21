@@ -1,0 +1,19 @@
+import React from 'react';
+
+import Button from 'in-new-components/Button';
+
+import locals from './ActionSection.mless';
+
+export function ActionSection({ left, right }) {
+  return (
+    <div className={locals.section}>
+      <div className={locals.left}>{left}</div>
+
+      <div className={locals.right}>{right}</div>
+    </div>
+  );
+}
+
+export function Action(props) {
+  return <Button {...props} kind="subtle" size="compact" className={locals.button} />;
+}

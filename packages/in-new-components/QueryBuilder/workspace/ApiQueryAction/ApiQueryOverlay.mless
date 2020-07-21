@@ -1,0 +1,14 @@
+:local {
+  .header {
+    justify-content: space-between;
+    width: 30rem;
+    padding: 1rem 1.5rem;
+  }
+
+  .content {
+    max-height: 25rem;
+    padding-top: 1rem;
+    overflow: auto;
+    background: #1b2733;
+  }
+}
