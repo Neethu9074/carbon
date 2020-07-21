@@ -60,7 +60,6 @@ export default connectTo(
           />
 
           <div
-            style={style}
             className={evaluateClassNames({
               [locals.inputWrapper]: true,
               [locals[`inputWrapper${theme}`]]: theme
