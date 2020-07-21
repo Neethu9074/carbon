@@ -36,6 +36,7 @@ export const sloConfigurationEnabled = isFeatureFlagEnabled('sloConfigurationEna
 export const routeIdOverPathTplEnabled = isFeatureFlagEnabled('routeIdOverPathTplEnabled');
 export const infrastructureExploreEnabled = isFeatureFlagEnabled('infrastructureExploreEnabled');
 export const latencyDistributionBase10Enabled = isFeatureFlagEnabled('latencyDistributionBase10Enabled');
+export const newApCreationEnabled = isFeatureFlagEnabled('newApCreationEnabled');
 
 //platform feature flags
 export const pcfEnabled = isFeatureFlagEnabled('pcfEnabled');

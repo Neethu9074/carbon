@@ -132,5 +132,11 @@ module.exports = exports = (tenant, unit) => [
     instanaCtlKey: 'feature.latency.distribution.base.10.enabled',
     consulKey: `settings/${tenant}-${unit}/LATENCY_DISTRIBUTION_BASE_10_ENABLED`,
     defaultValue: false
+  },
+  {
+    uiClientKey: 'newApCreationEnabled',
+    instanaCtlKey: 'feature.new.ap.creation.enabled',
+    consulKey: `settings/${tenant}-${unit}/NEW_AP_CREATION_ENABLED`,
+    defaultValue: false
   }
 ];
