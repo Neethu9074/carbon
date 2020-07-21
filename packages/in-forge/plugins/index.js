@@ -2,6 +2,7 @@
 // this is the only module required by the application.
 import './activeMQ';
 import './activeMQArtemis';
+import './aerospike';
 import './application';
 import './availabilityZone';
 import './awsBeanstalk';
