@@ -4,12 +4,24 @@ import {
   CLOSE_BRACKET as CLOSE_BRACKET_TYPE,
   CONJUNCTION as CONJUNCTION_TYPE
 } from 'in-new-components/QueryBuilder/transformation/formModel';
+import { isAndOr, isNot } from 'in-new-components/QueryBuilder/validation/elementIdentificationHelpers';
 import {
-  OPERATOR_NOT,
-  OPERATOR_AND,
-  OPERATOR_OR
-} from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
-import { createTagForm } from 'in-new-components/QueryBuilder/validation/tagForm';
+  createTagForm,
+  isPreviousTagSiblingValid,
+  isNextTagSiblingValid
+} from 'in-new-components/QueryBuilder/validation/tagForm';
+import {
+  isPreviousOpenBracketSiblingValid,
+  isNextOpenBracketSiblingValid,
+  isPreviousCloseBracketSiblingValid,
+  isNextCloseBracketSiblingValid
+} from 'in-new-components/QueryBuilder/validation/bracket';
+import {
+  isPreviousAndOrSiblingValid,
+  isNextAndOrSiblingValid,
+  isPreviousNotSiblingValid,
+  isNextNotSiblingValid
+} from 'in-new-components/QueryBuilder/validation/conjunction';
 
 export function isFormModelValid({ tagCatalog, formModel }) {
   if (!(formModel instanceof Array)) {
@@ -67,54 +79,21 @@ export function isFormModelValid({ tagCatalog, formModel }) {
 }
 
 function isTagSiblingsValid(previous, next) {
-  const previousValid = !previous || isOpenBracket(previous) || isAndOr(previous) || isNot(previous);
-  const nextValid = !next || isAndOr(next) || isCloseBracket(next);
-  return previousValid && nextValid;
+  return isPreviousTagSiblingValid(previous) && isNextTagSiblingValid(next);
 }
 
 function isOpenBracketSiblingsValid(previous, next) {
-  const previousValid = !previous || isOpenBracket(previous) || isAndOr(previous) || isNot(previous);
-  const nextValid = next && (isNot(next) || isOpenBracket(next) || isTag(next));
-  return previousValid && nextValid;
+  return isPreviousOpenBracketSiblingValid(previous) && isNextOpenBracketSiblingValid(next);
 }
 
 function isCloseBracketSiblingsValid(previous, next) {
-  const previousValid = previous && (isCloseBracket(previous) || isTag(previous));
-  const nextValid = !next || isCloseBracket(next) || isAndOr(next);
-  return previousValid && nextValid;
+  return isPreviousCloseBracketSiblingValid(previous) && isNextCloseBracketSiblingValid(next);
 }
 
 function isAndOrSiblingsValid(previous, next) {
-  const previousValid = previous && (isCloseBracket(previous) || isTag(previous));
-  const nextValid = next && (isOpenBracket(next) || isTag(next) || isNot(next));
-  return previousValid && nextValid;
+  return isPreviousAndOrSiblingValid(previous) && isNextAndOrSiblingValid(next);
 }
 
 function isNotSiblingsValid(previous, next) {
-  const previousValid = !previous || isAndOr(previous) || isOpenBracket(previous);
-  const nextValid = next && (isOpenBracket(next) || isTag(next));
-  return previousValid && nextValid;
-}
-
-function isOpenBracket(element) {
-  return element.type === OPEN_BRACKET_TYPE;
-}
-
-function isCloseBracket(element) {
-  return element.type === CLOSE_BRACKET_TYPE;
-}
-
-function isTag(element) {
-  return element.type === TAG_TYPE;
-}
-
-function isAndOr(element) {
-  return (
-    element.type === CONJUNCTION_TYPE &&
-    (element.logicalOperator === OPERATOR_OR || element.logicalOperator === OPERATOR_AND)
-  );
-}
-
-function isNot(element) {
-  return element.type === CONJUNCTION_TYPE && element.logicalOperator === OPERATOR_NOT;
+  return isPreviousNotSiblingValid(previous) && isNextNotSiblingValid(next);
 }

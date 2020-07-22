@@ -6,6 +6,12 @@ import {
   booleanValidator,
   numberValidator
 } from 'in-services/validators/jsonType';
+import {
+  isOpenBracket,
+  isCloseBracket,
+  isAndOr,
+  isNot
+} from 'in-new-components/QueryBuilder/validation/elementIdentificationHelpers';
 import * as operatorValueRequirement from 'in-new-components/QueryBuilder/tagFilter/operatorValueRequirement';
 import * as operatorKeyRequirement from 'in-new-components/QueryBuilder/tagFilter/operatorKeyRequirement';
 import * as typeToOperatorsMapping from 'in-new-components/QueryBuilder/tagFilter/typeToOperatorsMapping';
@@ -202,4 +208,12 @@ function identifyFormRequirementsBasedOnPartialInput(tagCatalog, tagName, operat
   }
 
   return result;
+}
+
+export function isPreviousTagSiblingValid(previous) {
+  return !previous || isOpenBracket(previous) || isAndOr(previous) || isNot(previous);
+}
+
+export function isNextTagSiblingValid(next) {
+  return !next || isAndOr(next) || isCloseBracket(next);
 }

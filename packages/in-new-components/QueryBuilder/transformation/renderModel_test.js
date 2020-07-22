@@ -311,7 +311,12 @@ describe('in-new-components/QueryBuilder/transformation/renderModel', () => {
       resetIndices();
       const given = [rm_conjunction('NOT')];
       resetIndices();
-      const expected = [rm_conjunction('NOT')];
+      const expected = [
+        {
+          ...rm_conjunction('NOT'),
+          valid: false
+        }
+      ];
       expect(validate(given)).to.deep.equal(expected);
     });
   });

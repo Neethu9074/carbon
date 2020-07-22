@@ -1,20 +1,26 @@
+export {
+  CLOSE_BRACKET,
+  OPEN_BRACKET,
+  CONJUNCTION,
+  TAG,
+  EXPRESSION,
+  SPACING
+} from 'in-new-components/QueryBuilder/transformation/renderModelElementTypes';
+import {
+  CLOSE_BRACKET,
+  OPEN_BRACKET,
+  CONJUNCTION,
+  EXPRESSION,
+  SPACING
+} from 'in-new-components/QueryBuilder/transformation/renderModelElementTypes';
 import {
   CLOSE_BRACKET as CLOSE_BRACKET_TYPE,
-  OPEN_BRACKET as OPEN_BRACKET_TYPE,
-  CONJUNCTION as CONJUNCTION_TYPE,
-  TAG as TAG_TYPE
+  OPEN_BRACKET as OPEN_BRACKET_TYPE
 } from 'in-new-components/QueryBuilder/transformation/formModel';
 import validateConjunction from 'in-new-components/QueryBuilder/validation/conjunction';
 import validateExpression from 'in-new-components/QueryBuilder/validation/expression';
-import validateCloseBracked from 'in-new-components/QueryBuilder/validation/bracket';
+import { validateCloseBracket, validateOpenBracket } from 'in-new-components/QueryBuilder/validation/bracket';
 import validateSpacing from 'in-new-components/QueryBuilder/validation/spacing';
-
-export const CLOSE_BRACKET = CLOSE_BRACKET_TYPE;
-export const OPEN_BRACKET = OPEN_BRACKET_TYPE;
-export const CONJUNCTION = CONJUNCTION_TYPE;
-export const TAG = TAG_TYPE;
-export const EXPRESSION = 'EXPRESSION';
-export const SPACING = 'SPACING';
 
 export const LETTER = {
   type: SPACING,
@@ -100,8 +106,11 @@ export function validate(elements) {
         validate(element.elements);
         validateExpression(config);
         break;
+      case OPEN_BRACKET:
+        validateOpenBracket(config);
+        break;
       case CLOSE_BRACKET:
-        validateCloseBracked(config);
+        validateCloseBracket(config);
         break;
       case SPACING:
         validateSpacing(config);
