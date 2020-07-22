@@ -8,6 +8,7 @@ export const ID_OF_REGION = '7c238Z6UhpGTsuCTCehWnBoiaxs';
 export const nonServicePlugins = {
   activeMQ: 'activeMQ',
   activeMQArtemis: 'activeMQArtemis',
+  aerospike: 'aerospike',
   availabilityZone: 'availabilityZone',
   awsBeanstalk: 'awsBeanstalk',
   awsDynamoDb: 'awsDynamoDb',
@@ -187,6 +188,7 @@ export const customIssuesDisabledForPlugins = [...defaultAndUnknownPluginNames];
 export const fullyQualifiedPlugins = {
   activeMQ: 'com.instana.forge.infrastructure.messaging.activemq.ActiveMQ',
   activeMQArtemis: 'com.instana.forge.infrastructure.messaging.activemqartemis.ActiveMQArtemis',
+  aerospike: 'aerospike',
   application: 'com.instana.forge.application.Application',
   availabilityZone: 'com.instana.forge.hardware.AvailabilityZone',
   awsBeanstalk: 'com.instana.forge.hardware.virtual.aws.beanstalk.AwsBeanstalk',
