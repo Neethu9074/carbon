@@ -56,7 +56,7 @@ export default connectTo(
           )}
         </SecondLevelNavigation>
 
-        <SearchBar style={{ maxWidth: 'calc(100% - 18rem)' }} theme="light" />
+        <SearchBar style={{ maxWidth: 'calc(100% - 30rem)' }} theme="light" />
       </div>
     );
   }
