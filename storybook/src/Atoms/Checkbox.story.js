@@ -83,3 +83,16 @@ export const asRadioButton = () => {
     </Fragment>
   ));
 };
+
+export const indeterminate = () => {
+  const [value, setValue] = useState();
+  return (
+    <CheckboxFancy
+      label="This is a fancy checkbox is initially in an indeterminate state"
+      checked={value}
+      onChange={e => setValue(e.target.checked)}
+      size="largest"
+      indeterminate
+    />
+  );
+};

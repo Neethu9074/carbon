@@ -29,12 +29,13 @@ export default function PercentileMenu(props) {
   );
 }
 function PercentileMenuContent({ percentilesShown, onChange }) {
+  const indeterminateAll = 0 < percentilesShown.count() && percentilesShown.count() < ALL_PERCENTILES.count();
   return (
     <ul className={locals.list}>
       <li key="all" className={locals.item}>
         <CheckboxFancy
-          checked={percentilesShown.count() === ALL_PERCENTILES.count()}
-          indeterminate={0 < percentilesShown.count() && percentilesShown.count() < ALL_PERCENTILES.count()}
+          checked={indeterminateAll ? null : percentilesShown.count() === ALL_PERCENTILES.count()}
+          indeterminate={indeterminateAll}
           onChange={() =>
             percentilesShown.count() === ALL_PERCENTILES.count() ? onChange(List()) : onChange(ALL_PERCENTILES)
           }

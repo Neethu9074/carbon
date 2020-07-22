@@ -1,27 +1,29 @@
-import ReactDOM from 'react-dom';
-import React from 'react';
+import React, { useRef, useLayoutEffect } from 'react';
 
-export default class IndeterminateInput extends React.Component {
-  componentDidMount() {
-    if (this.props.indeterminate === true) {
-      this._setIndeterminate(true);
+export default function IndeterminateInput(allProps) {
+  // Strip out the indeterminate prop because it has to be set via
+  // JavaScript. It is unsupported as a regular HTML attribute. See
+  // https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox#Indeterminate_state_checkboxes
+  const { indeterminate, ...props } = allProps;
+  const { checked } = allProps;
+
+  const ref = useRef();
+  useLayoutEffect(() => {
+    if (ref.current) {
+      ref.current.indeterminate = Boolean(indeterminate && checked == null);
     }
-  }
+  }, [indeterminate, ref.current, checked]);
 
-  componentDidUpdate(previousProps) {
-    if (previousProps.indeterminate !== this.props.indeterminate) {
-      this._setIndeterminate(this.props.indeterminate);
-    }
-  }
-
-  _setIndeterminate(indeterminate) {
-    const node = ReactDOM.findDOMNode(this);
-    node.indeterminate = indeterminate;
-  }
-
-  render() {
-    // eslint-disable-next-line no-unused-vars
-    const { indeterminate, type, ...props } = this.props;
-    return <input type="checkbox" {...props} />;
-  }
+  return (
+    <input
+      {...props}
+      // Outside React state must be in sync with the component state.
+      // An indeterminate state must mean checked==null. However React
+      // requires the input to be either controlled or uncontrolled.
+      // So we pass checked=false to the inp
+      checked={checked ?? false}
+      ref={ref}
+      type="checkbox"
+    />
+  );
 }

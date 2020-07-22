@@ -76,7 +76,13 @@ export default function CheckboxFancy({
 
 CheckboxFancy.propTypes = {
   asRadioButton: PropTypes.bool,
-  checked: PropTypes.bool.isRequired,
+
+  // Not required because indeterminate inputs mean checked=null
+  checked: PropTypes.bool,
+  // You *must* defined checked=null or checked=undefined in order to render the
+  // indeterminate state. checked=false or checked=true would imply an inconsistent
+  // UI state. This is because the UI state cannot have a defined value on one side
+  // and present to the user that no value is known.
   indeterminate: PropTypes.bool,
   className: PropTypes.string,
   disabled: PropTypes.bool,
