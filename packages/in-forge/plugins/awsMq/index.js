@@ -15,5 +15,8 @@ registerSnapshotDefinition({
   metricDefinitions,
   getLabel(snapshot) {
     return snapshot.getIn(['data', 'broker_name'], '');
+  },
+  technologyDescriptor: {
+    label: 'AWS MQ'
   }
 });

@@ -10,6 +10,9 @@ registerSnapshotDefinition({
     singular: 'AWS SQS',
     plural: 'AWS SQSs'
   },
+  technologyDescriptor: {
+    label: 'AWS SQS'
+  },
   iconSvgPath,
   kpiDefinitions,
   metricDefinitions

@@ -16,5 +16,8 @@ registerSnapshotDefinition({
 
   getLabel(snapshot) {
     return snapshot.getIn(['data', 'kns_stream_name'], '');
+  },
+  technologyDescriptor: {
+    label: 'AWS Kinesis'
   }
 });

@@ -16,5 +16,8 @@ registerSnapshotDefinition({
 
   getLabel(snapshot) {
     return snapshot.getIn(['data', 'es_domain_name'], '');
+  },
+  technologyDescriptor: {
+    label: 'AWS Elasticsearch'
   }
 });

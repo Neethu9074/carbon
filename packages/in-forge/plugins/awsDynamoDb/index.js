@@ -16,5 +16,8 @@ registerSnapshotDefinition({
 
   getLabel(snapshot) {
     return snapshot.getIn(['data', 'dyndb_table_name'], '');
+  },
+  technologyDescriptor: {
+    label: 'AWS DynamoDB'
   }
 });
