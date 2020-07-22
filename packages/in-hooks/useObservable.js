@@ -1,3 +1,4 @@
+import shallowEquals from 'fbjs/lib/shallowEqual';
 import { useEffect, useState } from 'react';
 import invariant from 'invariant';
 
@@ -13,8 +14,14 @@ export default function useObservable(observable, fieldsToWatch, { pure = true }
   // In development mode we do not provide an initial value immediately/as part of the first render.
   // We do this in order to encourage proper usage of this hook. In production mode we will still get
   // improved rendering performance (through fewer render calls).
-  const initialState = __DEV__ ? undefined : observable?._lastEmittedValue;
-  const [lastKnownRenderState, scheduleRenderStateUpdate] = useInternalState(initialState, pure);
+  const initialStateValue = __DEV__ ? undefined : observable?._lastEmittedValue;
+  const [lastKnownRenderState, scheduleRenderStateUpdate] = useState(
+    {
+      value: initialStateValue,
+      fieldsToWatch
+    },
+    pure
+  );
 
   useEffect(() => {
     // We may have multiple state updates between React updates. In order to avoid any diffing
@@ -23,23 +30,27 @@ export default function useObservable(observable, fieldsToWatch, { pure = true }
     // considered a side-effect that we cannot trust.
     let state = lastKnownRenderState;
     function setState(v) {
-      state = v;
-      scheduleRenderStateUpdate(v);
+      const newState = {
+        value: v,
+        fieldsToWatch
+      };
+      state = newState;
+      scheduleRenderStateUpdate(newState);
     }
 
     // We allow usage such as useObservable(maybeTrue && createObservable(Ã¢â‚¬Â¦)) to support
     // React typical short-circuit logic. If also means that useObservable can be
     // combined with conditionals
     if (!observable) {
-      if (state !== undefined) {
+      if (state.value !== undefined) {
         setState(undefined);
       }
       return;
     }
 
-    if (!pure || state !== initialState) {
+    if (!pure || state.value !== initialStateValue) {
       // Re-set the state on observable change immediately to ensure consistent views.
-      setState(initialState);
+      setState(initialStateValue);
     }
 
     let disposing = false;
@@ -59,7 +70,7 @@ export default function useObservable(observable, fieldsToWatch, { pure = true }
       // stopped/disposed, we use a separate boolean flag.
       .delayedStop(500)
       .subscribe(v => {
-        if (disposing || (pure && v === state)) {
+        if (disposing || (pure && v === state.value)) {
           return;
         }
 
@@ -72,15 +83,13 @@ export default function useObservable(observable, fieldsToWatch, { pure = true }
     };
   }, fieldsToWatch);
 
-  return lastKnownRenderState;
-}
-
-function useInternalState(initialState, pure) {
-  if (pure) {
-    const [lastKnownRenderStateValue, scheduleRenderStateUpdate] = useState(initialState);
-    return [lastKnownRenderStateValue, scheduleRenderStateUpdate];
-  } else {
-    const [[lastKnownRenderStateValue], scheduleRenderStateUpdate] = useState([initialState]);
-    return [lastKnownRenderStateValue, v => scheduleRenderStateUpdate([v])];
+  // Return the initial state value on observable change immediately to ensure consistent views.
+  // Within the useEffect code path we are ensuring that the state kept in the useState hook
+  // is updated as well. Unfortunately the update path via useEffect => useState is asynchronous.
+  // This in turn requires us to have the logic two times.
+  let valueToReturn = lastKnownRenderState.value;
+  if (!shallowEquals(lastKnownRenderState.fieldsToWatch, fieldsToWatch)) {
+    valueToReturn = initialStateValue;
   }
+  return valueToReturn;
 }
