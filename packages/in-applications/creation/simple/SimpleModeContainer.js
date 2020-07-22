@@ -31,9 +31,7 @@ export default function SimpleModeContainer({ onClose, setSimpleModeStep, timeCo
 
   // Timeconfig is set here because we always want to see the last 24 hours.
   const liveTimeConfig = { to: null, windowSize: 86400000, focusedMoment: null, autoRefresh: false };
-  const servicesLiveList = useObservable(getStreamData({ timeConfig: liveTimeConfig, matchSpecificationTree }), [
-    matchSpecificationTree
-  ]);
+  const servicesLiveList = useObservable(getStreamData({ timeConfig: liveTimeConfig, matchSpecificationTree }), [form]);
 
   return (
     <SimpleModePageNavigation
