@@ -2,7 +2,7 @@ import { isEqual, findIndex } from 'lodash';
 import React, { useState } from 'react';
 
 import ChartContextMenu from 'in-new-components/LatencyDistributionBase10Chart/components/ChartContextMenu';
-import { millis, number } from 'in-services/formatters/number';
+import { millis, number, latency } from 'in-services/formatters/number';
 import { latencySelectionChanged } from 'in-analyze/tracker';
 import theme from 'in-themes';
 
@@ -271,7 +271,7 @@ function Tooltip({ bucket, percentiles, style }) {
       {percentiles.map(p => (
         <div key={p.percentile} className={locals.labelWrapper}>
           <span>p{p.percentile}</span>
-          <span className={locals.value}>{p.latency}</span>
+          <span className={locals.value}>{latency.compact(p.latency)}</span>
         </div>
       ))}
     </div>
