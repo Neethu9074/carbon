@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import { StyledMuiSliderBase } from 'in-new-components/Slider/base/StyledMuiSliderBase';
+import { identity } from 'in-services/util/function';
 import theme from 'in-themes';
 
 const StyledMuiSlider = withStyles({
@@ -13,8 +14,6 @@ const StyledMuiSlider = withStyles({
   }
 })(StyledMuiSliderBase);
 
-const Identity = x => x;
-
 export default function RestrictedSlider(props) {
   const {
     value,
@@ -24,7 +23,7 @@ export default function RestrictedSlider(props) {
     min,
     style,
     disabled = false,
-    valueLabelFormat = Identity,
+    valueLabelFormat = identity,
     valueLabelDisplay = 'on'
   } = props;
 
@@ -33,13 +32,13 @@ export default function RestrictedSlider(props) {
       style={{
         ...style,
         width: '100%',
-        minHeight: '5.5rem', // 64 without value label on hovering
+        minHeight: valueLabelDisplay === 'on' ? '5.5rem' : '4rem',
         padding: '0 2rem'
       }}
     >
       <StyledMuiSlider
         disabled={disabled}
-        orientation={'horizontal'}
+        orientation="horizontal"
         value={value}
         marks={marks}
         max={max}

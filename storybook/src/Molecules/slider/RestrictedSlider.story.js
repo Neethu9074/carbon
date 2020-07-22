@@ -58,7 +58,7 @@ export const equidistantCumulative = () => {
       label: 'monthly'
     }
   ];
-  const [value, setValue] = useState(marks[0].value);
+  const [value, setValue] = useState(marks[2].value);
   return <RestrictedSlider valueLabelDisplay="off" marks={marks} min={1} max={4} value={value} onChange={setValue} />;
 };
 

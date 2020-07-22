@@ -1,15 +1,17 @@
 import MuiSlider from '@material-ui/core/Slider';
 import { withStyles } from '@material-ui/core';
+import React from 'react';
 import PropTypes from 'prop-types';
+
 import theme from 'in-themes';
 
-export const StyledMuiSliderBase = withStyles({
+const common = {
   root: {
     fontFamily: theme.lib.fontFamily,
     color: theme.lib.colors.teal800,
     top: 0,
     lineHeight: 1.5,
-    marginTop: 32
+    marginBottom: 16
   },
   mark: {
     width: 4,
@@ -63,7 +65,33 @@ export const StyledMuiSliderBase = withStyles({
     opacity: 1,
     color: theme.lib.colors.N400
   }
-})(MuiSlider);
+};
+
+const withLabel = {
+  ...common,
+  root: {
+    ...common.root,
+    marginTop: 32
+  }
+};
+
+const withoutLabel = {
+  ...common,
+  root: {
+    ...common.root,
+    marginTop: 16
+  }
+};
+
+const SliderWithoutPermanentLabel = withStyles(withoutLabel)(MuiSlider);
+const SliderWithPermanentLabel = withStyles(withLabel)(MuiSlider);
+
+export const StyledMuiSliderBase = props => {
+  if (props.valueLabelDisplay === 'on') {
+    return <SliderWithPermanentLabel {...props} />;
+  }
+  return <SliderWithoutPermanentLabel {...props} />;
+};
 
 StyledMuiSliderBase.propTypes = {
   marks: PropTypes.arrayOf(

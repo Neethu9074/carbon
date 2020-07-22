@@ -1,9 +1,10 @@
 import { withStyles } from '@material-ui/core';
 import PropTypes from 'prop-types';
-import theme from 'in-themes';
 import React from 'react';
 
 import { StyledMuiSliderBase } from 'in-new-components/Slider/base/StyledMuiSliderBase';
+import { identity } from 'in-services/util/function';
+import theme from 'in-themes';
 
 const StyledMuiSlider = withStyles({
   mark: {
@@ -13,8 +14,6 @@ const StyledMuiSlider = withStyles({
     height: 4
   }
 })(StyledMuiSliderBase);
-
-const Identity = x => x;
 
 export default function DistinctSlider(props) {
   const {
@@ -26,7 +25,7 @@ export default function DistinctSlider(props) {
     min,
     style,
     disabled = false,
-    valueLabelFormat = Identity,
+    valueLabelFormat = identity,
     valueLabelDisplay = 'on'
   } = props;
 
@@ -35,7 +34,7 @@ export default function DistinctSlider(props) {
       style={{
         ...style,
         width: '100%',
-        minHeight: '4rem', // 64 without value label on hovering
+        minHeight: valueLabelDisplay === 'on' ? '5.5rem' : '4rem',
         padding: '0 2rem'
       }}
     >
