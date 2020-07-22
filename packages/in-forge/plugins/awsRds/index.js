@@ -10,6 +10,9 @@ registerSnapshotDefinition({
     singular: 'AWS RDS',
     plural: 'AWS RDSs'
   },
+  technologyDescriptor: {
+    label: 'AWS RDS'
+  },
   iconSvgPath,
   kpiDefinitions,
   metricDefinitions

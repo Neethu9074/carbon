@@ -13,7 +13,9 @@ registerSnapshotDefinition({
   iconSvgPath,
   kpiDefinitions,
   metricDefinitions,
-
+  technologyDescriptor: {
+    label: 'AWS S3'
+  },
   getLabel(snapshot) {
     return snapshot.getIn(['data', 's3_bucket_name'], '');
   }

@@ -16,5 +16,8 @@ registerSnapshotDefinition({
 
   getLabel(snapshot) {
     return snapshot.getIn(['data', 'load_balancer_name'], '');
+  },
+  technologyDescriptor: {
+    label: 'AWS ELB'
   }
 });
