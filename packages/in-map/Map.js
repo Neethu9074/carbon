@@ -6,6 +6,7 @@ import { showHelp, closeHelpIfOpen } from 'in-stores/navigation/navigation';
 import { isWebGLSupported, isContextLost$ } from 'in-map/services/webGL';
 import { canvas$, setCanvas, clear } from 'in-map/stores/indexStore';
 import TooltipHoster from 'in-map/components/tooltips/TooltipHoster';
+import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import MapNoContentMessage from 'in-components/MapNoContentMessage';
 import { getWebGLCanvasContext } from 'in-map/services/webGL';
 import { view$, types as views } from 'in-stores/view';
@@ -77,6 +78,13 @@ export default connectTo(
 
       return (
         <div className={className}>
+          <ViewTrackingMeta
+            data={{
+              productArea: 'Infrastructure',
+              pageRootName: 'Infra Map'
+            }}
+          />
+
           <Title title={this.getTitle()} />
           <canvas
             className={`${block}__canvas`}

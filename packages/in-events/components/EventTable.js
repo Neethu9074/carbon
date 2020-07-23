@@ -6,6 +6,7 @@ import React from 'react';
 import NavigatorSplitScreen from 'in-analyze/TraceDetail/components/NavigatorSplitScreen/NavigatorSplitScreen';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
+import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import DashboardHeader from 'in-new-components/DashboardHeader';
 import { isAppDataEntityType } from 'in-services/entityUtils';
@@ -59,6 +60,13 @@ export default class extends React.Component {
   render() {
     return (
       <div ref={table => (this.table = table)}>
+        <ViewTrackingMeta
+          data={{
+            productArea: 'Events',
+            pageRootName: 'Events List'
+          }}
+        />
+
         <EventTable {...this.props} />
       </div>
     );

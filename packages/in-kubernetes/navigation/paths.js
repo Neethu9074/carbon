@@ -187,6 +187,8 @@ export function getDashboardForEntity(snapshotId, plugin) {
   switch (plugin) {
     case plugins.kubernetesPod:
       return getPodDashboard(snapshotId);
+    case plugins.kubernetesNode:
+      return getNodeDashboard(snapshotId);
     case plugins.kubernetesService:
       return getServiceDashboard(snapshotId);
     case plugins.kubernetesDeployment:

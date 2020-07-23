@@ -8,6 +8,7 @@ import KubernetesIdsForBreadcrumb from 'in-kubernetes/breadcrumbs/KubernetesIdsF
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
+import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import EntityVersionList from 'in-new-components/EntityVersionList';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import DashboardHeader from 'in-new-components/DashboardHeader';
@@ -43,6 +44,13 @@ export default function WorkloadControllerDashboard({
 
   return (
     <>
+      <ViewTrackingMeta
+        data={{
+          productArea: 'Kubernetes',
+          pageRootName: `Kubernetes ${props.headerTitle}`
+        }}
+      />
+
       <KubernetesBreadcrumbs props={props} />
       <TabView
         result$={workloadControllerSubscriptionName({

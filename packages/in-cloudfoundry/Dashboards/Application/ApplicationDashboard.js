@@ -13,6 +13,7 @@ import { applicationDashboard } from 'in-cloudfoundry/navigation/paths';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import { ApplicationBreadcrumbs } from 'in-cloudfoundry/breadcrumbs';
 import tabs from 'in-cloudfoundry/Dashboards/Application/tabs/index';
+import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import EntityVersionList from 'in-new-components/EntityVersionList';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import DashboardHeader from 'in-new-components/DashboardHeader';
@@ -35,6 +36,12 @@ export default function ApplicationDashboard({ location }) {
   return (
     <>
       <Breadcrumbs items={ApplicationBreadcrumbs(props)} />
+      <ViewTrackingMeta
+        data={{
+          productArea: 'Cloud Foundry',
+          pageRootName: 'CF Application'
+        }}
+      />
 
       <TabView
         result$={getCloudfoundryApplication({
@@ -68,7 +75,7 @@ function Header(props) {
   return (
     <DashboardHeader
       {...props}
-      title="Application"
+      title="Cloud Foundry Application"
       icon="lib_cloudfoundry_application"
       label={get(props.result, ['data', 'label'])}
       renderButtonLine={renderButtonLine}

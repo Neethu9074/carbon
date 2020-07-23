@@ -90,7 +90,7 @@ export default class Elk extends React.Component {
 
     return (
       <SettingsDetailPage>
-        <Title title="ELK" />
+        <Title title="Configure ELK" />
         <SubViewHeader>{'Configure your ELK settings'}</SubViewHeader>
         <SectionLine />
         {form && (

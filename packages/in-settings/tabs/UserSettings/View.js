@@ -13,6 +13,7 @@ import type { NavigationTree } from 'in-new-components/layout/SideNavigationAndC
 import Communication from 'in-settings/tabs/UserSettings/pages/Communication';
 import AdvancedPage from 'in-settings/tabs/UserSettings/pages/Advanced';
 import GeneralPage from 'in-settings/tabs/UserSettings/pages/General';
+import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import Privacy from 'in-settings/tabs/UserSettings/pages/Privacy';
 import { fullTermsConfigEnabled } from 'in-services/featureFlags';
 import SetBodyColor from 'in-components/SetBodyColor';
@@ -42,6 +43,13 @@ const navigationTree: NavigationTree = [
 export default function View(props: any) {
   return (
     <Fragment>
+      <ViewTrackingMeta
+        data={{
+          productArea: 'Settings',
+          pageRootName: 'User Settings'
+        }}
+      />
+
       <SideNavigationAndContent
         stickySidebar
         navigationTree={navigationTree}

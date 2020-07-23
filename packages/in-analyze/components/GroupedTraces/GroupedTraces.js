@@ -44,50 +44,48 @@ export default compose(
     getParsedUrlValues: urlValues => ({
       [metricsMatrixParameter]: deserializeMetrics(urlValues[metricsMatrixParameter]),
       orderBy: urlValues.orderBy,
-      orderDirection: urlValues.orderDirection,
+      orderDirection: urlValues.orderDirection
     }),
     getSerializedUrlValues: props => ({
       [metricsMatrixParameter]: serializeMetrics(props[metricsMatrixParameter]),
       orderBy: props.orderBy,
-      orderDirection: props.orderDirection,
+      orderDirection: props.orderDirection
     }),
     reducerName: 'onChange'
   }),
-  withProps(
-    ({ dataSource, onChange, metrics, orderBy, orderDirection, showGraph, onShowGraphChange }) => ({
-      availableMetrics: availableMetrics,
-      onChange: e => {
-        onChange(e);
-        onShowGraphChange(e['showGraph']);
-      },
-      onChangeOrder: onChange,
-      showGraph: showGraph,
-      openMetricSelector: () => {
-        addActiveDialog(
-          <MetricSelector
-            title="Select Metrics"
-            help="Select which metrics should be available as columns within the table. It also defines which metrics could be viewed as graphs."
-            availableMetrics={availableMetrics}
-            selectedMetrics={metrics}
-            maximumNumberOfMetrics={5}
-            isGroupedView
-            onSave={metrics => {
-              const orderByMetricStillExists = metrics.reduce(
-                (agg, { metric, aggregation }) => agg || orderBy === `${metric}_${aggregation}_Agg`,
-                false
-              );
-              metricChangedTracker({ dataSource, metrics: JSON.stringify(metrics) });
-              onChange({
-                [metricsMatrixParameter]: metrics,
-                orderBy: orderByMetricStillExists ? orderBy : defaultOrder,
-                orderDirection: orderByMetricStillExists ? orderDirection : 'DESC'
-              });
-            }}
-          />
-        );
-      }
-    })
-  ),
+  withProps(({ dataSource, onChange, metrics, orderBy, orderDirection, showGraph, onShowGraphChange }) => ({
+    availableMetrics: availableMetrics,
+    onChange: e => {
+      onChange(e);
+      onShowGraphChange(e['showGraph']);
+    },
+    onChangeOrder: onChange,
+    showGraph: showGraph,
+    openMetricSelector: () => {
+      addActiveDialog(
+        <MetricSelector
+          title="Select Metrics"
+          help="Select which metrics should be available as columns within the table. It also defines which metrics could be viewed as graphs."
+          availableMetrics={availableMetrics}
+          selectedMetrics={metrics}
+          maximumNumberOfMetrics={5}
+          isGroupedView
+          onSave={metrics => {
+            const orderByMetricStillExists = metrics.reduce(
+              (agg, { metric, aggregation }) => agg || orderBy === `${metric}_${aggregation}_Agg`,
+              false
+            );
+            metricChangedTracker({ dataSource, metrics: JSON.stringify(metrics) });
+            onChange({
+              [metricsMatrixParameter]: metrics,
+              orderBy: orderByMetricStillExists ? orderBy : defaultOrder,
+              orderDirection: orderByMetricStillExists ? orderDirection : 'DESC'
+            });
+          }}
+        />
+      );
+    }
+  })),
   cursorPaginated({
     getResettingProps: () => ['filters', 'orderBy', 'orderDirection', 'showGraph', 'metrics', 'previewEnabled'],
     get: ({
@@ -156,7 +154,7 @@ function GroupedTraces(props) {
   );
   const groupNameProcessor = item => (dataSource === 'calls' ? getGroupNameProcessor(item) : identity(item));
   return (
-    <AnalyzeWorkspace {...props} title="Trace Analytics">
+    <AnalyzeWorkspace {...props}>
       <GroupingTableHeader itemType="Group" {...props} forAnalyzeCalls />
       {showGraph && (
         <ApplicationGroupMetricsChart {...props} groupColors={groupColors} groupNameProcessor={groupNameProcessor} />

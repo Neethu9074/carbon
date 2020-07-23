@@ -4,7 +4,8 @@ import Summary from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Summary';
 
 export default [
   {
-    label: 'Summary',
+    // called Detail until we have more than one tab
+    label: 'Detail',
     path: `${sessionViewPathFullyQualified}/summary`,
     component: Summary,
     hideTabLabelWhenAlone: true

@@ -11,6 +11,7 @@ import { namespaceList, getNamespaceDashboard } from 'in-kubernetes/navigation/p
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
 import WithEmptyStateFallback from 'in-new-components/WithEmptyStateFallback';
+import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import { isOpenshift } from 'in-kubernetes/clusterDistributions';
 import { timeConfig$ } from 'in-stores/time/config';
 import Card from 'in-new-components/Card';
@@ -112,6 +113,12 @@ export default connectTo(
     return (
       <Fragment>
         <Title title="Namespaces" />
+        <ViewTrackingMeta
+          data={{
+            productArea: 'Kubernetes',
+            pageRootName: 'Kubernetes Namespaces'
+          }}
+        />
 
         <WithEmptyStateFallback
           getHasDataToRender={getHasDataToRender}

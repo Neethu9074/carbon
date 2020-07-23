@@ -11,6 +11,7 @@ import DashboardSwitcher from 'in-custom-dashboards/DashboardSwitcher/DashboardS
 import DefaultLoadingDashboard from 'in-new-components/Loading/DefaultLoadingDashboard';
 import HorizontalIndicator from 'in-new-components/Loading/HorizontalIndicator';
 import DashboardHeader, { themes } from 'in-new-components/DashboardHeader';
+import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import Grid from 'in-custom-dashboards/CustomDashboard/Grid/Grid';
 import LocallyChangedTheme from 'in-themes/LocallyChangedTheme';
 import getElementDimensions from 'in-hoc/getElementDimensions';
@@ -85,7 +86,13 @@ function CustomDashboardPresenter(props) {
                     {result && <HorizontalIndicator progress={result.progress} />}
                     <DashboardHeaderShadowModule />
 
-                    <Title title="Dashboard" dynamic={config && config.title} />
+                    <Title title="Custom Dashboard" dynamic={config && config.title} />
+                    <ViewTrackingMeta
+                      data={{
+                        productArea: 'Custom Dashboard',
+                        pageRootName: 'Custom Dashboard'
+                      }}
+                    />
                   </>
                 }
               >

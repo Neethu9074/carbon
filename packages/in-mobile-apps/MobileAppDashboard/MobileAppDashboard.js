@@ -15,6 +15,7 @@ import QuickFilterBar from 'in-mobile-apps/analyze/AnalyzeView/QuickFilterBar';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import { tagFilterManipulators } from 'in-mobile-apps/tagFiltersHoc';
 import getMobileApp from 'in-mobile-apps/subscriptions/getMobileApp';
+import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import DashboardHeader from 'in-new-components/DashboardHeader';
 import { getTimeConfig } from 'in-stores/time/config';
@@ -101,6 +102,13 @@ function MobileAppDashboard({
 
   return (
     <>
+      <ViewTrackingMeta
+        data={{
+          productArea: 'EUM: Mobile Apps',
+          pageRootName: props.viewId ? 'Mobile App View' : 'Mobile App'
+        }}
+      />
+
       <TabView
         result$={getMobileApp({
           id: props.mobileAppId,

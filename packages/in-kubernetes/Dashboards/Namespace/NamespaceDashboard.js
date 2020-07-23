@@ -10,6 +10,7 @@ import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadge
 import { namespaceId as matrixNamespaceId } from 'in-kubernetes/navigation/matrix';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
+import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import EntityVersionList from 'in-new-components/EntityVersionList';
 import { namespaceDashboard } from 'in-kubernetes/navigation/paths';
 import { NamespaceBreadcrumbs } from 'in-kubernetes/breadcrumbs';
@@ -32,6 +33,13 @@ export default function NamespaceDashboard({ location }) {
 
   return (
     <>
+      <ViewTrackingMeta
+        data={{
+          productArea: 'Kubernetes',
+          pageRootName: 'Kubernetes Namespace'
+        }}
+      />
+
       <KubernetesIdsForBreadcrumb
         timeConfig={props.timeConfig}
         namespaceId={props.namespaceId}
@@ -83,7 +91,7 @@ function Header(props) {
   return (
     <DashboardHeader
       {...props}
-      title="Namespace"
+      title="Kubernetes Namespace"
       icon="lib_kubernetes_namespace"
       label={get(props.result, ['data', 'label'])}
       renderButtonLine={renderButtonLine}

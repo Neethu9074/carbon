@@ -13,6 +13,7 @@ import { applicationSmartAlertsEnabled } from 'in-services/featureFlags';
 import getApplication from 'in-subscription/application/getApplication';
 import { applicationDashboard } from 'in-applications/navigation/paths';
 import ContextGuide from 'in-new-components/ContextGuide/ContextGuide';
+import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import tabs from 'in-applications/Dashboards/application/tabs/index';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import DashboardHeader from 'in-new-components/DashboardHeader';
@@ -58,6 +59,13 @@ function ApplicationDashboard({
 
   return (
     <>
+      <ViewTrackingMeta
+        data={{
+          productArea: 'Applications',
+          pageRootName: 'Application'
+        }}
+      />
+
       <TabView
         HeaderComponent={Header}
         location={location}
@@ -114,19 +122,18 @@ function renderButtonLine(props) {
         area="application"
       />
 
-      {role.canConfigureCustomAlerts &&
-        applicationSmartAlertsEnabled && (
-          <FloatingActionButtons>
-            <CreateSmartAlert
-              applicationLabel={label}
-              serviceId={serviceId}
-              endpointId={endpointId}
-              applicationId={applicationId}
-              location={location}
-              boundaryScope={boundaryScope}
-            />
-          </FloatingActionButtons>
-        )}
+      {role.canConfigureCustomAlerts && applicationSmartAlertsEnabled && (
+        <FloatingActionButtons>
+          <CreateSmartAlert
+            applicationLabel={label}
+            serviceId={serviceId}
+            endpointId={endpointId}
+            applicationId={applicationId}
+            location={location}
+            boundaryScope={boundaryScope}
+          />
+        </FloatingActionButtons>
+      )}
     </>
   );
 }

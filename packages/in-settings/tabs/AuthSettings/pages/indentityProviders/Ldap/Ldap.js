@@ -47,7 +47,7 @@ export default function Ldap() {
 function render({ form, setForm, testResultMessage, setTestResultMessage }) {
   return (
     <>
-      <Title title="LDAP Configuration" />
+      <Title title="Configure LDAP" />
       <SubViewHeader>LDAP Configuration</SubViewHeader>
       <h2>
         Help and support is available in our{' '}

@@ -58,7 +58,7 @@ export default function DashboardHeader(props) {
   }
   return (
     <header className={joinClassNames(locals.dashboardHeader, locals[theme], className)}>
-      <Title title={title} dynamic={labelForTitle || label} />
+      <Title title={title} dynamic={labelForTitle ?? (typeof label === 'string' ? label : null)} />
       <div className={locals.firstLine}>
         <div className={locals.leftContent}>
           {contextConfigurations &&
@@ -67,7 +67,7 @@ export default function DashboardHeader(props) {
                 key={i}
                 {...config}
                 {...props}
-                renderLastIconDelimiter={i < contextConfigurations.length - 1 || (label || icon || renderIcon)}
+                renderLastIconDelimiter={i < contextConfigurations.length - 1 || label || icon || renderIcon}
               />
             ))}
           {renderIcon ? renderIcon() : icon ? <SvgIcon className={locals.icon} type={icon} size="l" /> : null}

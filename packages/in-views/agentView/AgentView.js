@@ -15,6 +15,7 @@ import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import AgentViewKpis from 'in-views/agentView/components/AgentViewKpis';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
+import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import AgentsTable from 'in-views/agentView/components/AgentsTable';
 import DashboardHeader from 'in-new-components/DashboardHeader';
@@ -52,6 +53,13 @@ export default connectTo(
     const agentSnapshots = agentSnapshotsResult.getIn(['data']);
     return (
       <>
+        <ViewTrackingMeta
+          data={{
+            productArea: 'Agents',
+            pageRootName: 'Agents'
+          }}
+        />
+
         <Switch>
           {DashboardNavigationRoute}
 

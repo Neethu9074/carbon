@@ -15,6 +15,7 @@ import WebsiteContext from 'in-websites/WebsiteDashboard/components/WebsiteConte
 import { websiteTabs, pageTabs } from 'in-websites/WebsiteDashboard/tabs/index';
 import { dashboardTagFilters as tagFiltersTrackers } from 'in-websites/tracker';
 import QuickFilterBar from 'in-websites/analyze/AnalyzeView/QuickFilterBar';
+import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import { tagFilterManipulators } from 'in-websites/tagFiltersHoc';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
@@ -101,6 +102,13 @@ function WebsiteDashboard({
 
   return (
     <>
+      <ViewTrackingMeta
+        data={{
+          productArea: 'EUM: Websites',
+          pageRootName: props.pageId ? 'Website Page' : 'Website'
+        }}
+      />
+
       <TabView
         result$={getWebsite({
           id: props.websiteId,
@@ -149,7 +157,7 @@ function Header(props) {
         {...props}
         icon={props.pageId ? 'lib_document' : 'lib_website'}
         label={props.pageId || (props.result.data && props.result.data.label)}
-        title={props.pageId ? 'Page' : 'Website'}
+        title={props.pageId ? 'Website Page' : 'Website'}
         renderButtonLine={renderButtonLine}
         contextConfigurations={contextConfigurations}
       />

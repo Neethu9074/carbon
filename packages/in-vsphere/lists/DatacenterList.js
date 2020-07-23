@@ -9,6 +9,7 @@ import { datacenterList, getVsphereDatacenterDashboard } from 'in-vsphere/naviga
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
 import WithEmptyStateFallback from 'in-new-components/WithEmptyStateFallback';
+import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import EntityLink from 'in-new-components/EntityLink/EntityLink';
 import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';
@@ -102,6 +103,12 @@ export default connectTo(
     return (
       <Fragment>
         <Title title="vSphere Clusters" />
+        <ViewTrackingMeta
+          data={{
+            productArea: 'vSphere',
+            pageRootName: 'vSphere Clusters'
+          }}
+        />
 
         <WithEmptyStateFallback
           getHasDataToRender={getHasDataToRender}

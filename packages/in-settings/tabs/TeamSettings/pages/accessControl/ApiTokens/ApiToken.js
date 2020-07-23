@@ -89,7 +89,7 @@ export default class extends React.Component {
 
     return (
       <SettingsDetailPage>
-        <Title title="Api Token" />
+        <Title title="API Token" />
 
         <SubViewHeader>{apiToken ? `API Token: ${apiToken.get('name')}` : 'API Token'}</SubViewHeader>
         <SectionLine />

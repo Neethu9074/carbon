@@ -23,6 +23,7 @@ import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
 import ViewSwitcher from 'in-applications/lists/components/ViewSwitcher';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
+import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import { newApCreationEnabled } from 'in-services/featureFlags';
 import { boundaryScopes } from 'in-applications/constants';
 import { timeConfig$ } from 'in-stores/time/config';
@@ -218,6 +219,12 @@ export default function ApplicationsLisPresenter({
     <Sticky header={<ViewSwitcher />}>
       <LeftRightPadding>
         <Title title="Applications" />
+        <ViewTrackingMeta
+          data={{
+            productArea: 'Applications',
+            pageRootName: 'Applications'
+          }}
+        />
 
         <WithEmptyStateFallback
           getHasDataToRender={getHasDataToRender}

@@ -3,7 +3,8 @@ import Summary from 'in-analyze/TraceDetail/tabs/Summary/Summary';
 
 export default [
   {
-    label: 'Summary',
+    // called Detail until we have more than one tab
+    label: 'Detail',
     path: `${traceDetailFullyQualified}/tree`,
     component: Summary,
     hideTabLabelWhenAlone: true,

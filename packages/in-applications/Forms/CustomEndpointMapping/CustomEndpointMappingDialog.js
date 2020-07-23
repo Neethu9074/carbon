@@ -19,6 +19,7 @@ import { routeIdOverPathTplEnabled } from 'in-services/featureFlags';
 import ExtractionRule from 'in-applications/Forms/CustomEndpointMapping/ExtractionRule';
 import RemoveSection from 'in-applications/Forms/CustomEndpointMapping/Remove';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
+import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import { serviceDashboard } from 'in-applications/navigation/paths';
 import DescriptionText from 'in-components/form/DescriptionText';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
@@ -105,6 +106,13 @@ function CustomEndpointMappingDialog({ isNewConfig, setIsNewConfig, location }) 
         renderFormContent={(config, form, setValue, updateForm) => {
           return (
             <Fragment>
+              <ViewTrackingMeta
+                data={{
+                  productArea: 'Applications',
+                  pageRootName: 'Service'
+                }}
+              />
+
               <Steps
                 steps={[
                   {

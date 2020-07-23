@@ -11,6 +11,7 @@ import { clusterList, getClusterDashboard } from 'in-kubernetes/navigation/paths
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
 import WithEmptyStateFallback from 'in-new-components/WithEmptyStateFallback';
+import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import { isOpenshift } from 'in-kubernetes/clusterDistributions';
 import { timeConfig$ } from 'in-stores/time/config';
 import SvgIcon from 'in-components/SvgIcon';
@@ -126,6 +127,12 @@ export default connectTo(
     return (
       <Fragment>
         <Title title="Clusters" />
+        <ViewTrackingMeta
+          data={{
+            productArea: 'Kubernetes',
+            pageRootName: 'Kubernetes Clusters'
+          }}
+        />
 
         <WithEmptyStateFallback
           getHasDataToRender={getHasDataToRender}

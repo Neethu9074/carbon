@@ -52,16 +52,13 @@ export default function Saml() {
 }
 
 function render({ file, form, setForm, input, setCanSaveItem }) {
-  useEffect(
-    () => {
-      setCanSaveItem(!!file);
-    },
-    [file]
-  );
+  useEffect(() => {
+    setCanSaveItem(!!file);
+  }, [file]);
 
   return (
     <>
-      <Title title="SAML Configuration" />
+      <Title title="Configure SAML" />
       <SubViewHeader>SAML Configuration</SubViewHeader>
       <h2>Activating SAML enables Instana to authenticate a user against your Identity Provider (IdP).</h2>
 

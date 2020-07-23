@@ -16,6 +16,7 @@ import ViewSwitcher from 'in-websites/WebsitesList/components/ViewSwitcher';
 import { number, meanLatencyFixed } from 'in-services/formatters/number';
 import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
+import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import { getLinkToWebsite } from 'in-websites/navigation/paths';
 import { websitesOpenAddForm } from 'in-websites/tracker';
 import { timeConfig$ } from 'in-stores/time/config';
@@ -127,6 +128,12 @@ export default connectTo(
       <Sticky header={<ViewSwitcher isWebsites />}>
         <LeftRightPadding>
           <Title title="Websites" />
+          <ViewTrackingMeta
+            data={{
+              productArea: 'EUM: Websites',
+              pageRootName: 'Websites'
+            }}
+          />
           <WithEmptyStateFallback
             getHasDataToRender={getHasDataToRender}
             FallbackComponent={WebsitesNoDataNotification}

@@ -14,6 +14,7 @@ import CreateSmartAlert from 'in-applications/alerting/components/CreateSmartAle
 import AnalyzeCallsButton from 'in-applications/components/AnalyzeCallsButton';
 import { applicationSmartAlertsEnabled } from 'in-services/featureFlags';
 import ContextGuide from 'in-new-components/ContextGuide/ContextGuide';
+import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import { serviceDashboard } from 'in-applications/navigation/paths';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
@@ -39,6 +40,14 @@ export default connectTo({ timeConfig: timeConfig$ }, function ServiceDashboard(
 
   return (
     <>
+      <ViewTrackingMeta
+        data={{
+          productArea: 'Applications',
+          pageRootName: 'Service',
+          inContextOfApplication: props.applicationId != null
+        }}
+      />
+
       <TabView
         HeaderComponent={Header}
         location={location}
@@ -55,18 +64,17 @@ export default connectTo({ timeConfig: timeConfig$ }, function ServiceDashboard(
         props={props}
       />
 
-      {role.canConfigureCustomAlerts &&
-        applicationSmartAlertsEnabled && (
-          <FloatingActionButtons>
-            <CreateSmartAlert
-              serviceId={props.serviceId}
-              endpointId={props.endpointId}
-              applicationId={props.applicationId}
-              location={location}
-              boundaryScope={props.boundaryScope}
-            />
-          </FloatingActionButtons>
-        )}
+      {role.canConfigureCustomAlerts && applicationSmartAlertsEnabled && (
+        <FloatingActionButtons>
+          <CreateSmartAlert
+            serviceId={props.serviceId}
+            endpointId={props.endpointId}
+            applicationId={props.applicationId}
+            location={location}
+            boundaryScope={props.boundaryScope}
+          />
+        </FloatingActionButtons>
+      )}
 
       <Footer />
     </>

@@ -47,7 +47,7 @@ export default class GlobeViewReactComponent extends React.Component {
         ref={container => (this.container = container)}
         style={{ height: this.props.customHeight }}
       >
-        <Title title="World Globe" />
+        <Title title="Website World Globe" />
 
         <canvas ref={canvas => (this.canvas = canvas)} className={locals.canvas} />
 

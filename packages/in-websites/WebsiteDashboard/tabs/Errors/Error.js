@@ -293,7 +293,7 @@ function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters
 
   return (
     <Fragment>
-      <Title title="Error Details" dynamic={result && result.data && result.data.message} />
+      <Title title="Website JS Error Details" dynamic={result && result.data && result.data.message} />
 
       <div className={locals.actions}>
         <BackButton

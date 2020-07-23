@@ -12,6 +12,7 @@ import DashboardHeader, { themes } from 'in-new-components/DashboardHeader';
 import SetAsLandingPage from 'in-client/js/LandingPage/SetAsLandingPage';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { pcfEnabled, vsphereEnabled } from 'in-services/featureFlags';
+import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import { settings$, setSingle } from 'in-services/settings/settings';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import getElementDimensions from 'in-hoc/getElementDimensions';
@@ -23,6 +24,7 @@ import SvgIcon from 'in-components/SvgIcon';
 import Sticky from 'in-components/Sticky';
 import connectTo from 'in-hoc/connectTo';
 import { role } from 'in-stores/user';
+import Title from 'in-components/Title';
 
 import draggableCardLocals from 'in-custom-dashboards/widgets/TopListWidget/DraggableLightCard.mless';
 import locals from './Cockpit.mless';
@@ -130,6 +132,14 @@ export default connectTo(
   function Cockpit({ settings }) {
     return (
       <>
+        <Title title="Home" />
+        <ViewTrackingMeta
+          data={{
+            productArea: 'Home',
+            pageRootName: 'Home'
+          }}
+        />
+
         <Sticky header={<Header />}>
           <Content itemOrder={filterItems(getOrderedItems(settings))} />
         </Sticky>

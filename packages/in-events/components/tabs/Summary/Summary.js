@@ -14,6 +14,7 @@ import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import ProcessTopList from 'in-forge/plugins/host/Dashboard/ProcessTopList';
 import PopulationChart from 'in-events/components/legacy/PopulationChart';
 import EventDetailsKPIs from 'in-events/components/EventDetailsKPIs';
+import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import EventList from 'in-events/components/legacy/EventList';
 import { getEventType, EVENT_TYPES } from 'in-stores/events';
 import EventChart from 'in-events/components/EventChart';
@@ -62,6 +63,13 @@ function EventContent({ event }) {
 
   return (
     <>
+      <ViewTrackingMeta
+        data={{
+          productArea: 'Events',
+          pageRootName: 'Event'
+        }}
+      />
+
       <Row withoutSideMargin>
         <Col xs>
           <Card title="Description">

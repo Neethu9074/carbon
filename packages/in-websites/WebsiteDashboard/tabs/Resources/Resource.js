@@ -412,7 +412,7 @@ function ResourceTab({ resourceId, result, websiteId, websiteLabel, pageId, tagF
 
   return (
     <Fragment>
-      <Title title="Resource Details" dynamic={resourceId} />
+      <Title title="Website Resource Details" dynamic={resourceId} />
 
       <div className={locals.actions}>
         <BackButton

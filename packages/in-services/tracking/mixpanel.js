@@ -19,12 +19,15 @@ export function init(callback) {
 }
 
 function initMixpanel(callback) {
+  const userSelfDefinedRole = window.instana?.termsAndPrivacySettings?.dynamicRole || window.instana?.termsAndPrivacySettings?.role;
+
   // We send the GK user ID , which avoids GDPR issues and does not require explicit consent because
   // we do not send personal information (like email adress or the user's name) to third parties.
   window.mixpanel.identify(user.id);
   window.mixpanel.people.set({
     $id: user.id,
-    last_page_load: new Date()
+    last_page_load: new Date(),
+    userSelfDefinedRole
   });
 
   const tenants = [];
@@ -43,8 +46,7 @@ function initMixpanel(callback) {
     tenantUnit: config.tenantUnit,
     tenants,
     roles,
-    userRole: window.instana?.termsAndPrivacySettings?.role,
-    userDefinedRole: window.instana?.termsAndPrivacySettings?.dynamicRole
+    userSelfDefinedRole
   });
 
   combineLatest([
@@ -57,7 +59,7 @@ function initMixpanel(callback) {
     window.mixpanel.register({
       companyId: companyInfo.companyId,
       companyName: companyInfo.companyName,
-      licenseType: usageInfo && usageInfo.activeLicenseType ? usageInfo.activeLicenseType : null
+      licenseType: usageInfo?.activeLicenseType
     });
 
     const units = tenantWithUnits[tenant.name];

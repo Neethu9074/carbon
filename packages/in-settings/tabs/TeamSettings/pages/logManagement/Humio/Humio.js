@@ -90,7 +90,7 @@ export default class Humio extends React.Component {
 
     return (
       <SettingsDetailPage>
-        <Title title="Humio" />
+        <Title title="Configure Humio" />
         <SubViewHeader>{'Configure your Humio settings'}</SubViewHeader>
         <SectionLine />
         {form && (

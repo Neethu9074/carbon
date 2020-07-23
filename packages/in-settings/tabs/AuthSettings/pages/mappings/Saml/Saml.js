@@ -24,7 +24,7 @@ function renderLoadingState() {
 function render() {
   return (
     <>
-      <Title title="SAML Mapping" />
+      <Title title="Configure SAML Mapping" />
       <SubViewHeader>SAML Mapping</SubViewHeader>
       <p>Users in the SAML groups below will be added to the selected instana teams.</p>
       <form />

@@ -20,7 +20,7 @@ export default function DaemonSetDashboard({ location }) {
       BreadCrumbComponent={WorkloadControllerBreadcrumbs}
       workloadControllerSubscriptionName={getKubernetesWorkloadController}
       tabChangeTracker={daemonSetTabChange}
-      headerTitle="DaemonSet"
+      headerTitle="Kubernetes DaemonSet"
       badgeType="K8s DaemonSet"
       tabs={tabs}
     />

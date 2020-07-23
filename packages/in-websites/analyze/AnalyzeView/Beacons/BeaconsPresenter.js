@@ -22,7 +22,6 @@ import AnalyzeHeader from 'in-analyze/components/AnalyzeHeader';
 import SetBodyColor from 'in-components/SetBodyColor';
 import { dataSourceTitles } from 'in-websites/tags';
 import Sticky from 'in-components/Sticky';
-import Title from 'in-components/Title';
 
 export default function BeaconsPresenter(props) {
   const {
@@ -46,7 +45,6 @@ export default function BeaconsPresenter(props) {
 
   return (
     <>
-      <Title title={`Analyze ${dataSourceTitles[beaconType]}s`} />
       <Sticky
         header={
           <>

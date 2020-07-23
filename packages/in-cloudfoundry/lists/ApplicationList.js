@@ -12,6 +12,7 @@ import ApplicationState from 'in-cloudfoundry/commonComponents/ApplicationState'
 import WithEmptyStateFallback from 'in-new-components/WithEmptyStateFallback';
 import InstanceMetric from 'in-cloudfoundry/commonComponents/InstanceMetric';
 import { bytesZeroDecimalPlaces } from 'in-services/formatters/number';
+import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import EntityLink from 'in-new-components/EntityLink/EntityLink';
 import { timeConfig$ } from 'in-stores/time/config';
 import Tooltip from 'in-components/Tooltip';
@@ -129,6 +130,12 @@ export default connectTo(
     return (
       <>
         <Title title="Cloud Foundry Applications" />
+        <ViewTrackingMeta
+          data={{
+            productArea: 'Cloud Foundry',
+            pageRootName: 'CF Applications'
+          }}
+        />
 
         <WithEmptyStateFallback
           getHasDataToRender={getHasDataToRender}

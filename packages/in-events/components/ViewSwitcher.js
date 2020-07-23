@@ -5,6 +5,7 @@ import { SecondLevelNavigation, SecondLevelNavigationItem } from 'in-new-compone
 import { agentMonitoringIssuesEnabled } from 'in-services/featureFlags';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import * as eventTypeLabels from 'in-events/eventTypeLabels';
 import { eventsPath } from 'in-events/navigation/paths';
 import SearchBar from 'in-components/SearchBar';
 
@@ -27,19 +28,19 @@ export default connectTo(
           />
           <SecondLevelNavigationItem
             href$={getModifiedUrlStream(location => setOrDeleteMatrixKey(location, eventsPath, 'view', 'incident'))}
-            label="Incidents"
+            label={eventTypeLabels.incident}
             isActive={selectedEventType === 'incident'}
             darkTheme
           />
           <SecondLevelNavigationItem
             href$={getModifiedUrlStream(location => setOrDeleteMatrixKey(location, eventsPath, 'view', 'issue'))}
-            label="Issues"
+            label={eventTypeLabels.issue}
             isActive={selectedEventType === 'issue'}
             darkTheme
           />
           <SecondLevelNavigationItem
             href$={getModifiedUrlStream(location => setOrDeleteMatrixKey(location, eventsPath, 'view', 'change'))}
-            label="Changes"
+            label={eventTypeLabels.change}
             isActive={selectedEventType === 'change'}
             darkTheme
           />
@@ -48,7 +49,7 @@ export default connectTo(
               href$={getModifiedUrlStream(location =>
                 setOrDeleteMatrixKey(location, eventsPath, 'view', 'agent_monitoring_issue')
               )}
-              label="Monitoring issues"
+              label={eventTypeLabels.agent_monitoring_issue}
               isActive={selectedEventType === 'agent_monitoring_issue'}
               addSeparator
               darkTheme

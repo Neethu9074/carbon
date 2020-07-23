@@ -18,6 +18,7 @@ import { analyze as appAnalyzePath } from 'in-analyze/navigation/paths';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import Overlay from 'in-new-components/overlays/Overlay/Overlay';
 import { isNotBlank } from 'in-services/util/string';
+import Title from 'in-components/Title/Title';
 import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './AnalyzeHeader.mless';
@@ -45,9 +46,9 @@ export default function AnalyzeHeader({ renderQuickFilterBar, isGrouped }) {
             )}
           </Overlay>
         }
-        labelForTitle={getLabelByType(activeConfiguration.dataSource, activeConfiguration.productArea)}
         title="Analytics"
       />
+      <Title title={getLabelByType(activeConfiguration.dataSource, activeConfiguration.productArea)} />
       {renderQuickFilterBar && (
         <DashboardHeaderModule theme={themes.light} withTopBorder>
           {renderQuickFilterBar()}

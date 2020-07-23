@@ -10,6 +10,7 @@ import { serviceId as matrixServiceId } from 'in-kubernetes/navigation/matrix';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import ContextGuide from 'in-new-components/ContextGuide/ContextGuide';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
+import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import EntityVersionList from 'in-new-components/EntityVersionList';
 import { serviceDashboard } from 'in-kubernetes/navigation/paths';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
@@ -32,6 +33,13 @@ export default function ServiceDashboard({ location }) {
 
   return (
     <>
+      <ViewTrackingMeta
+        data={{
+          productArea: 'Kubernetes',
+          pageRootName: 'Kubernetes Service'
+        }}
+      />
+
       <KubernetesIdsForBreadcrumb
         timeConfig={props.timeConfig}
         serviceId={props.serviceId}
@@ -83,7 +91,7 @@ function Header(props) {
   return (
     <DashboardHeader
       {...props}
-      title="Service"
+      title="Kubernetes Service"
       icon="lib_kubernetes_service"
       label={get(props.result, ['data', 'name'])}
       renderButtonLine={renderButtonLine}

@@ -18,10 +18,8 @@ import AnalyzeHeader from 'in-analyze/components/AnalyzeHeader';
 import { getChartGranularity } from 'in-applications/metrics';
 import SetBodyColor from 'in-components/SetBodyColor';
 import cursorPaginated from 'in-hoc/cursorPaginated';
-import { dataSourceTitles } from 'in-websites/tags';
 import withUrlState from 'in-hoc/withUrlState';
 import Sticky from 'in-components/Sticky';
-import Title from 'in-components/Title';
 
 const defaultCountMetric = {
   metric: 'beaconCount',
@@ -96,7 +94,7 @@ export default compose(
 )(GroupedBeacons);
 
 function GroupedBeacons(props) {
-  const { items, showGraph, beaconType } = props;
+  const { items, showGraph } = props;
 
   const groupColors = items.map(
     (group, groupIndex) =>
@@ -105,7 +103,6 @@ function GroupedBeacons(props) {
 
   return (
     <>
-      <Title title={`Analyze ${dataSourceTitles[beaconType]} Groups`} />
       <Sticky
         header={
           <>

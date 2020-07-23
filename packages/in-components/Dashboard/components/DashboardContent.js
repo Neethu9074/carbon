@@ -15,6 +15,7 @@ import { getSingular } from 'in-sdk/pluginName';
 import { getLabel } from 'in-sdk/snapshot';
 import Sticky from 'in-components/Sticky';
 import connectTo from 'in-hoc/connectTo';
+import Title from 'in-components/Title';
 import Jail from 'in-components/Jail';
 
 import locals from './DashboardContent.mless';
@@ -78,6 +79,7 @@ export default connectTo(
 
     return (
       <div>
+        <Title title="Infrastructure" />
         <div className={locals.mainContent}>
           <Sticky
             header={

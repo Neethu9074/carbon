@@ -90,7 +90,7 @@ export default class Coralogix extends React.Component {
 
     return (
       <SettingsDetailPage>
-        <Title title="Coralogix" />
+        <Title title="Configure Coralogix" />
         <SubViewHeader>{'Configure your Coralogix settings'}</SubViewHeader>
         <SectionLine />
         {form && (

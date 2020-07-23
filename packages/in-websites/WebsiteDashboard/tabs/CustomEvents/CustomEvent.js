@@ -41,7 +41,7 @@ export default function CustomEvent({ location, tagFilters, timeConfig, websiteI
 
   return (
     <>
-      <Title title="Custom Event Details" dynamic={customEventId} />
+      <Title title="Website Custom Event Details" dynamic={customEventId} />
 
       <div className={locals.actions}>
         <BackButton

@@ -5,6 +5,7 @@ import Delete from 'in-settings/components/ApiList/sharedComponents/Delete';
 import { ColumnizedContent, Ul, Li } from 'in-new-components/lists/List';
 import { getInvitations$, revokeInvitation } from 'in-api/users';
 import createApiList from 'in-settings/components/ApiList';
+import Title from 'in-components/Title/Title';
 import Gravatar from 'in-components/Gravatar';
 import { config } from 'in-services/config';
 
@@ -20,7 +21,12 @@ const InvitesList = createApiList({
 });
 
 export default function Invites() {
-  return <InvitesList />;
+  return (
+    <>
+      <Title title="Pending Invitations" />
+      <InvitesList />
+    </>
+  );
 }
 
 const columnDefinitions = [

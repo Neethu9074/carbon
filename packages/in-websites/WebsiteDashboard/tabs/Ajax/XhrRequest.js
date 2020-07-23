@@ -581,7 +581,7 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
 
   return (
     <Fragment>
-      <Title title="HTTP Request Details" dynamic={xhrId} />
+      <Title title="Website HTTP Request Details" dynamic={xhrId} />
 
       <div className={locals.actions}>
         <BackButton

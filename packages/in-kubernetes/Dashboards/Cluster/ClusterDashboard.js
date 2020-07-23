@@ -11,6 +11,7 @@ import TechnologyLabelWithIcon from 'in-new-components/TechnologyLabelWithIcon';
 import { clusterId as matrixClusterId } from 'in-kubernetes/navigation/matrix';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
+import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import EntityVersionList from 'in-new-components/EntityVersionList';
 import { clusterDashboard } from 'in-kubernetes/navigation/paths';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
@@ -34,6 +35,13 @@ export default function ClusterDashboard({ location }) {
 
   return (
     <>
+      <ViewTrackingMeta
+        data={{
+          productArea: 'Kubernetes',
+          pageRootName: 'Kubernetes Cluster'
+        }}
+      />
+
       <Breadcrumbs items={ClusterBreadcrumbs(props)} />
 
       <TabView
@@ -75,7 +83,7 @@ function Header(props) {
   return (
     <DashboardHeader
       {...props}
-      title="Cluster"
+      title="Kubernetes Cluster"
       icon={`lib_${clusterDistribution}`}
       label={get(props.result, ['data', 'label'])}
       renderButtonLine={renderButtonLine}

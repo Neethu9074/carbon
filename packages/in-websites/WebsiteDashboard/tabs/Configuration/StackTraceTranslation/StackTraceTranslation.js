@@ -52,7 +52,7 @@ export default compose(withState('message', 'setMessage', null))(function StackT
       />
 
       <List
-        title="File Download Configurations"
+        title="JS Stack Trace Translation Configurations"
         getHeader={defaultHeaderWithCount('File Download Configurations')}
         getEntityName={getEntityName}
         columnDefinitions={columnDefinitions}

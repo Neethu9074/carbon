@@ -15,6 +15,7 @@ import Skeleton from 'in-new-components/Loading/Skeleton';
 import { getRolesAsResultObservable } from 'in-api/roles';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import FormGroup from 'in-components/form/FormGroup';
+import Title from 'in-components/Title/Title';
 import Gravatar from 'in-components/Gravatar';
 import Label from 'in-components/form/Label';
 
@@ -23,31 +24,34 @@ import locals from './User.mless';
 export default function User({ match }) {
   const userId = match.params.id;
   return (
-    <ApiItemView
-      parentViewName="Users"
-      parentPath={teamSettingsAccessControlUsers}
-      getObservables={() => ({
-        user: getUsersAsResultObservable().map(usersResult => {
-          if (hasError(usersResult) || isLoading(usersResult)) {
-            return usersResult;
-          }
-          const userId = match.params.id;
-          const user = usersResult.data.filter(user => user.id === userId)[0];
-          if (!user) {
-            return errorResult([{ message: `Unable to find user: ${userId}` }]);
-          }
+    <>
+      <Title title="User" />
+      <ApiItemView
+        parentViewName="Users"
+        parentPath={teamSettingsAccessControlUsers}
+        getObservables={() => ({
+          user: getUsersAsResultObservable().map(usersResult => {
+            if (hasError(usersResult) || isLoading(usersResult)) {
+              return usersResult;
+            }
+            const userId = match.params.id;
+            const user = usersResult.data.filter(user => user.id === userId)[0];
+            if (!user) {
+              return errorResult([{ message: `Unable to find user: ${userId}` }]);
+            }
 
-          return successResult(user);
-        }),
-        roles: getRolesAsResultObservable()
-      })}
-      enrichForm={enrichForm}
-      saveItem={saveItem}
-      render={renderUser}
-      renderLoadingState={renderLoadingState}
-      // additional props which are passed down
-      userId={userId}
-    />
+            return successResult(user);
+          }),
+          roles: getRolesAsResultObservable()
+        })}
+        enrichForm={enrichForm}
+        saveItem={saveItem}
+        render={renderUser}
+        renderLoadingState={renderLoadingState}
+        // additional props which are passed down
+        userId={userId}
+      />
+    </>
   );
 }
 

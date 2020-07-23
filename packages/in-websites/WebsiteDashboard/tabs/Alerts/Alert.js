@@ -33,6 +33,7 @@ import { Row, Col } from 'in-new-components/layout/Grid';
 import SetBodyColor from 'in-components/SetBodyColor';
 import Footer from 'in-new-components/Footer';
 import connectTo from 'in-hoc/connectTo';
+import Title from 'in-components/Title';
 
 export default compose(
   withState('reload', 'triggerReload', undefined),
@@ -88,6 +89,8 @@ function Alert({
 
   return (
     <>
+      <Title title="Alert Details" dynamic={alertConfig.name} />
+
       {dialogOpen && (
         <AlertConfigDialog
           onClose={() => {

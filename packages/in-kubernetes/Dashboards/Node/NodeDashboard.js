@@ -10,6 +10,7 @@ import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import getKubernetesNode from 'in-subscription/kubernetes/getKubernetesNode';
 import { nodeId as matrixNodeId } from 'in-kubernetes/navigation/matrix';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
+import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import EntityVersionList from 'in-new-components/EntityVersionList';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import DashboardHeader from 'in-new-components/DashboardHeader';
@@ -32,6 +33,13 @@ export default function NodeDashboard({ location }) {
 
   return (
     <>
+      <ViewTrackingMeta
+        data={{
+          productArea: 'Kubernetes',
+          pageRootName: 'Kubernetes Node'
+        }}
+      />
+
       <KubernetesIdsForBreadcrumb
         timeConfig={props.timeConfig}
         nodeId={props.nodeId}
@@ -76,7 +84,7 @@ function Header(props) {
   return (
     <DashboardHeader
       {...props}
-      title="Node"
+      title="Kubernetes Node"
       icon="lib_kubernetes_node"
       label={get(props.result, ['data', 'name'])}
       renderButtonLine={renderButtonLine}

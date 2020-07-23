@@ -4,6 +4,8 @@ export function track(event, payload) {
   trackInternal(event, payload);
 }
 
+export const VIEW_CHANGE = 'page.view';
+
 export const URL_SHORTENER_OPEN = 'url.shortener.open';
 
 export const CUSTOM_DASHBOARD_CREATE = 'custom.dashboard.create';
@@ -217,12 +219,12 @@ export const SETTINGS_EVENT_VIEW = 'settings.event.custom.view';
 export const SETTINGS_EVENT_SUBMIT = 'settings.event.submit';
 export const SETTINGS_EVENT_OPEN_SUBMIT_FORM = 'settings.event.new';
 
-export const ONBOARDING_OPENED = 'dialog.opened';
-export const ONBOARDING_INSTANA_BEGINNER_VIDEOS_CLICKED = 'instanaBeginnerVideos.clicked';
-export const ONBOARDING_HELP_AND_SUPPORT_CLICKED = 'helpAndSupport.clicked';
-export const ONBOARDING_MAIN_TOPIC_CHANGED = 'mainTopic.changed';
-export const ONBOARDING_SUB_TOPIC_CHANGED = 'subTopic.changed';
-export const ONBOARDING_SEARCH_QUERY_CHANGED = 'searchQuery.changed';
+export const ONBOARDING_OPENED = 'onboardingNewUnit.dialog.opened';
+export const ONBOARDING_INSTANA_BEGINNER_VIDEOS_CLICKED = 'onboardingNewUnit.instanaBeginnerVideos.clicked';
+export const ONBOARDING_HELP_AND_SUPPORT_CLICKED = 'onboardingNewUnit.helpAndSupport.clicked';
+export const ONBOARDING_MAIN_TOPIC_CHANGED = 'onboardingNewUnit.mainTopic.changed';
+export const ONBOARDING_SUB_TOPIC_CHANGED = 'onboardingNewUnit.subTopic.changed';
+export const ONBOARDING_SEARCH_QUERY_CHANGED = 'onboardingNewUnit.searchQuery.changed';
 
 export const PROFILING_CPU_TREEVIEW_OPENEND = 'profiling.cpu.treeView.openend';
 export const PROFILING_CPU_FLAMEGRAPH_OPENEND = 'profiling.cpu.flameGraph.openend';

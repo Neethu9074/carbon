@@ -61,6 +61,9 @@ function identify() {
       false
     );
     extraTargetingProperties.allSupportAndResearchServicesAllowed = allSupportAndResearchServicesAllowed;
+    const userSelfDefinedRole =
+      window.instana?.termsAndPrivacySettings?.dynamicRole || window.instana?.termsAndPrivacySettings?.role;
+    extraTargetingProperties.userSelfDefinedRole = userSelfDefinedRole;
     if (allSupportAndResearchServicesAllowed === true) {
       extraTargetingProperties.email = user.email;
     }

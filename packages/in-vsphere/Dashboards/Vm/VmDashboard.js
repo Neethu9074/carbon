@@ -5,6 +5,7 @@ import { vmId as matrixVmId, hostId as matrixHostId } from 'in-vsphere/navigatio
 import { datacenterId as matrixDatacenterId } from 'in-vsphere/navigation/matrix';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
+import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import EntityVersionList from 'in-new-components/EntityVersionList';
 import getVsphereVm from 'in-vsphere/subscriptions/getVsphereVm';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
@@ -29,6 +30,12 @@ export default function VMDashboard({ location }) {
   return (
     <Fragment>
       <Breadcrumbs items={VmBreadcrumbs(props)} />
+      <ViewTrackingMeta
+        data={{
+          productArea: 'vSphere',
+          pageRootName: 'vSphere VM'
+        }}
+      />
 
       <TabView
         result$={getVsphereVm({
@@ -60,7 +67,12 @@ export default function VMDashboard({ location }) {
 
 function Header(props) {
   return (
-    <DashboardHeader {...props} title="VM" icon={resolveIcon(props)} label={get(props.result, ['data', 'label'])} />
+    <DashboardHeader
+      {...props}
+      title="vSphere VM"
+      icon={resolveIcon(props)}
+      label={get(props.result, ['data', 'label'])}
+    />
   );
 }
 

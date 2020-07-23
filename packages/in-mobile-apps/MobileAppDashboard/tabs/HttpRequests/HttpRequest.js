@@ -325,7 +325,7 @@ function HttpRequestTab({ mobileAppId, mobileAppLabel, viewId, tagFilters, timeC
 
   return (
     <Fragment>
-      <Title title="HTTP Request Details" dynamic={httpRequestId} />
+      <Title title="Mobile App HTTP Request Details" dynamic={httpRequestId} />
 
       <div className={locals.actions}>
         <BackButton

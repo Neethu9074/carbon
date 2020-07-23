@@ -14,7 +14,7 @@ require('in-stores/events').init();
 require('in-services/favicon').init();
 require('in-components/ErrorBoundary/store').init();
 require('in-services/debuggingBackchannel').init();
-require('in-services/tracking/mixpanelTrackers').init();
+require('in-services/tracking/viewTracking').init();
 require('in-services/tracking/appcues').init();
 require('in-stores/isMonitoring').init();
 require('in-new-components/SelectedElementHighlighter').init();

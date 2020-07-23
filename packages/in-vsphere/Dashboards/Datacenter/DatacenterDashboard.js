@@ -6,6 +6,7 @@ import getVsphereDatacenter from 'in-vsphere/subscriptions/getVsphereDatacenter'
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
+import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import EntityVersionList from 'in-new-components/EntityVersionList';
 import { datacenterDashboard } from 'in-vsphere/navigation/paths';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
@@ -26,6 +27,12 @@ export default function DatacenterDashboard({ location }) {
   return (
     <Fragment>
       <Breadcrumbs items={DatacenterBreadcrumbs(props)} />
+      <ViewTrackingMeta
+        data={{
+          productArea: 'vSphere',
+          pageRootName: 'vSphere Cluster'
+        }}
+      />
 
       <TabView
         result$={getVsphereDatacenter({
@@ -59,7 +66,7 @@ function Header(props) {
   return (
     <DashboardHeader
       {...props}
-      title="Application"
+      title="vSphere Cluster"
       icon="lib_vsphere_cluster"
       label={get(props.result, ['data', 'label'])}
     />

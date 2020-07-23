@@ -90,7 +90,7 @@ export default class Splunk extends React.Component {
 
     return (
       <SettingsDetailPage>
-        <Title title="Splunk" />
+        <Title title="Configure Splunk" />
         <SubViewHeader>{'Configure your Splunk settings'}</SubViewHeader>
         <SectionLine />
         {form && (

@@ -11,6 +11,7 @@ import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import getKubernetesPod from 'in-subscription/kubernetes/getKubernetesPod';
 import { podId as matrixPodId } from 'in-kubernetes/navigation/matrix';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
+import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import EntityVersionList from 'in-new-components/EntityVersionList';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import DashboardHeader from 'in-new-components/DashboardHeader';
@@ -32,6 +33,13 @@ export default function PodDashboard({ location }) {
 
   return (
     <>
+      <ViewTrackingMeta
+        data={{
+          productArea: 'Kubernetes',
+          pageRootName: 'Kubernetes Pod'
+        }}
+      />
+
       <KubernetesIdsForBreadcrumb
         timeConfig={props.timeConfig}
         podId={props.podId}
@@ -79,7 +87,7 @@ function Header(props) {
   return (
     <DashboardHeader
       {...props}
-      title="Pod"
+      title="Kubernetes Pod"
       icon="lib_kubernetes_pod"
       label={get(props.result, ['data', 'label'])}
       renderButtonLine={renderButtonLine}

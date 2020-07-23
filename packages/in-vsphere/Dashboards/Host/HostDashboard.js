@@ -6,6 +6,7 @@ import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import { hostId as matrixHostId } from 'in-vsphere/navigation/matrix';
 import getVsphereHost from 'in-vsphere/subscriptions/getVsphereHost';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
+import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import EntityVersionList from 'in-new-components/EntityVersionList';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import DashboardHeader from 'in-new-components/DashboardHeader';
@@ -28,6 +29,12 @@ export default function HostDashboard({ location }) {
   return (
     <Fragment>
       <Breadcrumbs items={HostBreadcrumbs(props)} />
+      <ViewTrackingMeta
+        data={{
+          productArea: 'vSphere',
+          pageRootName: 'vSphere ESXi Host'
+        }}
+      />
 
       <TabView
         result$={getVsphereHost({
@@ -58,5 +65,5 @@ export default function HostDashboard({ location }) {
 }
 
 function Header(props) {
-  return <DashboardHeader {...props} title="Host" icon="lib_linux" label={get(props.result, ['data', 'label'])} />;
+  return <DashboardHeader {...props} title="ESXi Host" icon="lib_linux" label={get(props.result, ['data', 'label'])} />;
 }

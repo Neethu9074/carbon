@@ -32,7 +32,7 @@ export default function GoogleSSO() {
 function render({ form, setForm }) {
   return (
     <>
-      <Title title="Google SSO Configuration" />
+      <Title title="Configure Google SSO" />
       <SubViewHeader>Google SSO Configuration</SubViewHeader>
       <h2>Configure allowed email domains</h2>
       <div className={indentityProvidersLocals.space} />

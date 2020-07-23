@@ -3,7 +3,8 @@ import Summary from 'in-websites/analyze/PageLoadView/tabs/Summary/Summary';
 
 export default [
   {
-    label: 'Summary',
+    // called Detail until we have more than one tab
+    label: 'Detail',
     path: `${pageLoadViewPathFullyQualified}/summary`,
     component: Summary,
     hideTabLabelWhenAlone: true

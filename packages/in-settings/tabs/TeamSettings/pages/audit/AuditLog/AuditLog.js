@@ -8,6 +8,7 @@ import ServerTable from 'in-components/tables/ServerTable';
 import { toHtml } from 'in-services/formatters/markdown';
 import { getAuditLog } from 'in-api/auditLog';
 import Gravatar from 'in-components/Gravatar';
+import Title from 'in-components/Title/Title';
 
 import locals from './AuditLog.mless';
 
@@ -15,10 +16,11 @@ const PAGE_SIZE = 15;
 
 export default function AuditLog() {
   return (
-    <ServerTable
-      get={({ query, page, pageSize }) =>
-        getAuditLog(calcOffset(page, pageSize), query, pageSize).map(
-          ({ entries, total }) =>
+    <>
+      <Title title="Audit Log" />
+      <ServerTable
+        get={({ query, page, pageSize }) =>
+          getAuditLog(calcOffset(page, pageSize), query, pageSize).map(({ entries, total }) =>
             entries
               ? success(
                   {
@@ -29,17 +31,18 @@ export default function AuditLog() {
                   Date.now()
                 )
               : loading
-        )
-      }
-      getResettingProps={() => ['query']}
-      defaultPageSize={PAGE_SIZE}
-      columnDefinitions={columnDefinitions}
-      paginationResettingProps={{}}
-      rightHeader={({ query, page, pageSize }) => (
-        <AuditLogDownloadView offset={calcOffset(page, pageSize)} query={query} />
-      )}
-      getRowProps={() => ({ size: 'compact' })}
-    />
+          )
+        }
+        getResettingProps={() => ['query']}
+        defaultPageSize={PAGE_SIZE}
+        columnDefinitions={columnDefinitions}
+        paginationResettingProps={{}}
+        rightHeader={({ query, page, pageSize }) => (
+          <AuditLogDownloadView offset={calcOffset(page, pageSize)} query={query} />
+        )}
+        getRowProps={() => ({ size: 'compact' })}
+      />
+    </>
   );
 }
 

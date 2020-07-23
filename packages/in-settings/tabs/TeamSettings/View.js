@@ -64,6 +64,7 @@ import ElkPage from 'in-settings/tabs/TeamSettings/pages/logManagement/Elk/Elk';
 import AuditLogPage from 'in-settings/tabs/TeamSettings/pages/audit/AuditLog';
 import { findFirstPermittedTeamPage } from 'in-settings/tabs/permissions';
 import { Page } from 'in-new-components/layout/SideNavigationAndContent';
+import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import NotFoundPage from 'in-settings/tabs/pages/NotFound';
 import SetBodyColor from 'in-components/SetBodyColor';
 import { role } from 'in-stores/user';
@@ -288,6 +289,13 @@ function navigationTreeForRole(role): NavigationTree {
 export default function View(props: any) {
   return (
     <Fragment>
+      <ViewTrackingMeta
+        data={{
+          productArea: 'Settings',
+          pageRootName: 'Team Settings'
+        }}
+      />
+
       <SideNavigationAndContent
         stickySidebar
         navigationTree={navigationTreeForRole(role)}

@@ -90,7 +90,7 @@ export default class LogDna extends React.Component {
 
     return (
       <SettingsDetailPage>
-        <Title title="LogDNA" />
+        <Title title="Configure LogDNA" />
         <SubViewHeader>{'Configure your LogDNA settings'}</SubViewHeader>
         <SectionLine />
         {form && (

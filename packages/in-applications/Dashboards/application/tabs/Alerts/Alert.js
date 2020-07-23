@@ -35,6 +35,7 @@ import { mutateUrl } from 'in-stores/navigation/navigation';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import SetBodyColor from 'in-components/SetBodyColor';
 import Footer from 'in-new-components/Footer/Footer';
+import Title from 'in-components/Title';
 import connectTo from 'in-hoc/connectTo';
 
 export default compose(
@@ -91,6 +92,8 @@ function Alert({
 
   return (
     <>
+      <Title title="Alert Details" dynamic={alertConfig.name} />
+
       {dialogOpen && (
         <SmartAlertConfigDialogWrapper
           applicationLabel={applicationName}

@@ -12,6 +12,7 @@ import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config'
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { themes } from 'in-new-components/DashboardHeader/DashboardHeader';
 import SearchBar from 'in-infrastructure/Explore/components/SearchBar';
+import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import { infraExplorePath } from 'in-infrastructure/navigation/paths';
 import getEntities from 'in-infrastructure/subscriptions/getEntities';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
@@ -41,6 +42,13 @@ export default function InfraExploreView() {
 
   return (
     <InfraPageHeaderWithTabs showSearchBar={false} theme={themes.light} addShadow addFooter>
+      <ViewTrackingMeta
+        data={{
+          productArea: 'Infrastructure',
+          pageRootName: 'Infra Explore'
+        }}
+      />
+
       <Title title="Explore" />
       <LeftRightPadding>
         <Stack>

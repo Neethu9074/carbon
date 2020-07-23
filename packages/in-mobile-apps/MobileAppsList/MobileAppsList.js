@@ -11,6 +11,7 @@ import WithEmptyStateFallback from 'in-new-components/WithEmptyStateFallback';
 import ViewSwitcher from 'in-websites/WebsitesList/components/ViewSwitcher';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { getLinkToMobileApp } from 'in-mobile-apps/navigation/paths';
+import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import { mobileAppsOpenAddForm } from 'in-mobile-apps/tracker';
 import { number } from 'in-services/formatters/number';
 import { timeConfig$ } from 'in-stores/time/config';
@@ -100,6 +101,12 @@ export default connectTo(
       <Sticky header={<ViewSwitcher />}>
         <LeftRightPadding>
           <Title title="Mobile Apps" />
+          <ViewTrackingMeta
+            data={{
+              productArea: 'EUM: Mobile Apps',
+              pageRootName: 'Mobile Apps'
+            }}
+          />
           <WithEmptyStateFallback
             getHasDataToRender={getHasDataToRender}
             FallbackComponent={MobileAppsNoDataNotification}

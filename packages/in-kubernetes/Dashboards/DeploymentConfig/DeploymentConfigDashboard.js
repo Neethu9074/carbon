@@ -20,7 +20,7 @@ export default function DeploymentConfigDashboard({ location }) {
       BreadCrumbComponent={WorkloadControllerBreadcrumbs}
       workloadControllerSubscriptionName={getKubernetesWorkloadController}
       tabChangeTracker={deploymentConfigTabChange}
-      headerTitle="Deployment Config"
+      headerTitle="Kubernetes Deployment Config"
       badgeType="K8s Deployment Config"
       tabs={tabs}
     />

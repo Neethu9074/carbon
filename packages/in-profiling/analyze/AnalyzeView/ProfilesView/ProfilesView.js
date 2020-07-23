@@ -116,9 +116,10 @@ function Header(props) {
   return (
     <DashboardHeader
       {...props}
-      title="Profiles of Process"
       icon="lib_profiling"
       label={label}
+      title="Profiles"
+      labelForTitle=""
       renderButtonLine={renderButtonLine}
       contextConfigurations={[{ renderContext, contextIcon: 'lib_analyze_inverted' }]}
     />

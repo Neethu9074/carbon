@@ -8,15 +8,13 @@ import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import AnalyzeHeader from 'in-analyze/components/AnalyzeHeader';
 import Sticky from 'in-components/Sticky';
-import Title from 'in-components/Title';
 
 export default function AnalyzeWorkspace(props) {
-  const { title, removeTagFilter, filters, children } = props;
+  const { removeTagFilter, filters, children } = props;
   const tagFilters = filters.tagFilter;
 
   return (
     <>
-      <Title title={title} />
       <Sticky
         header={
           <AnalyzeHeader

@@ -14,6 +14,7 @@ import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { timeConfig$, getTimeConfig } from 'in-stores/time/config';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import ViewSwitcher from 'in-events/components/ViewSwitcher';
+import * as eventTypeLabels from 'in-events/eventTypeLabels';
 import EventsChart from 'in-events/components/EventsChart';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import EventTable from 'in-events/components/EventTable';
@@ -50,16 +51,15 @@ const EventView = compose(
   withState('mouseMoveSignal$', 'setSignal', create()),
   withPropsOnChange(['mouseMoveSignal$'], ({ mouseMoveSignal$ }) => ({
     timeConfig$: timeConfig$
-      .flatMap(
-        timeConfig =>
-          timeConfig.autoRefresh
-            ? mouseMoveSignal$
-                .startWith(true)
-                .throttle(1000)
-                .flatMap(() => interval(1000 * 10))
-                .map(() => timeConfig)
-                .startWith(timeConfig)
-            : just(timeConfig)
+      .flatMap(timeConfig =>
+        timeConfig.autoRefresh
+          ? mouseMoveSignal$
+              .startWith(true)
+              .throttle(1000)
+              .flatMap(() => interval(1000 * 10))
+              .map(() => timeConfig)
+              .startWith(timeConfig)
+          : just(timeConfig)
       )
       .startWith(timeConfig$)
       .map(timeConfig => {
@@ -128,7 +128,12 @@ function EventViewComponent(props) {
     <Sticky
       header={
         <>
-          <DashboardHeader icon="lib_events_inverted" label="Events" title="Events" />
+          <DashboardHeader
+            icon="lib_events_inverted"
+            label="Events"
+            title={eventTypeLabels[eventType] ?? 'Events'}
+            labelForTitle=""
+          />
           <DashboardHeaderModule theme={themes.light} withBottomBorder={eventId}>
             <ViewSwitcher selectedEventType={eventType} />
           </DashboardHeaderModule>

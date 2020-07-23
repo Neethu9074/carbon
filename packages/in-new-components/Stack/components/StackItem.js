@@ -1,6 +1,7 @@
 import React from 'react';
 
 import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
+import { getDashboardForEntity as getDashboardForK8sEntity } from 'in-kubernetes/navigation/paths';
 import { getApplicationDashboard, getServiceDashboard } from 'in-applications/navigation/paths';
 import getProfilesAvailable from 'in-profiling/subscriptions/getProfilesAvailable';
 import { physicalDashboardPath } from 'in-stores/navigation/paths/mainPaths';
@@ -61,6 +62,12 @@ const dashboardLink = (id, applicationId, type) => {
   } else if (type === 'service') {
     return getServiceDashboard(id, { applicationId });
   }
+
+  const link = getDashboardForK8sEntity(id, type);
+  if (link) {
+    return link;
+  }
+
   return getDashboardLink(id, { pathname: physicalDashboardPath });
 };
 

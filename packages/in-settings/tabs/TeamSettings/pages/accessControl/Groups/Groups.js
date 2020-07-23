@@ -12,6 +12,7 @@ import createApiList from 'in-settings/components/ApiList';
 import { getView } from 'in-stores/navigation/navigation';
 import KeyValue from 'in-new-components/lists/KeyValue';
 import Button from 'in-new-components/Button';
+import Title from 'in-components/Title/Title';
 
 const GroupsList = createApiList({
   ListRenderer,
@@ -25,7 +26,12 @@ const GroupsList = createApiList({
 });
 
 export default function Groups() {
-  return <GroupsList />;
+  return (
+    <>
+      <Title title="Groups" />
+      <GroupsList />
+    </>
+  );
 }
 
 function ListRenderer({ items, deleteItem, currentDeletingItemIds }) {

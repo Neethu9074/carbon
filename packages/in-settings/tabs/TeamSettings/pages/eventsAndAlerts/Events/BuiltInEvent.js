@@ -70,7 +70,7 @@ export default connectTo(
 
     return (
       <SettingsDetailPage>
-        <Title title="Built-in Event" />
+        <Title title="Built-in Event Definition" />
         <SubViewHeader>Configure Built-in Event: {event.get('name')}</SubViewHeader>
         <SectionLine />
 

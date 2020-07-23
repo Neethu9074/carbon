@@ -18,6 +18,7 @@ import { savePermissionSet } from 'in-api/permissionSets';
 import FormGroup from 'in-settings/components/FormGroup';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import Toggle from 'in-components/form/Toggle';
+import Title from 'in-components/Title/Title';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import SvgIcon from 'in-components/SvgIcon';
@@ -27,19 +28,22 @@ import locals from './Group.mless';
 export default function Group({ match }) {
   const groupId = match.params.id;
   return (
-    <ApiItemView
-      parentViewName="Groups"
-      parentPath={teamSettingsAccessControlGroups}
-      getObservables={() => ({
-        group: groupId ? getGroupAsResultObservable(groupId) : just(successResult(createNewGroup()))
-      })}
-      enrichForm={enrichForm}
-      saveItem={saveItem}
-      renderLoadingState={renderLoadingState}
-      render={renderGroup}
-      // additional props which are passed down
-      groupId={groupId}
-    />
+    <>
+      <Title title="Group" />
+      <ApiItemView
+        parentViewName="Groups"
+        parentPath={teamSettingsAccessControlGroups}
+        getObservables={() => ({
+          group: groupId ? getGroupAsResultObservable(groupId) : just(successResult(createNewGroup()))
+        })}
+        enrichForm={enrichForm}
+        saveItem={saveItem}
+        renderLoadingState={renderLoadingState}
+        render={renderGroup}
+        // additional props which are passed down
+        groupId={groupId}
+      />
+    </>
   );
 }
 
