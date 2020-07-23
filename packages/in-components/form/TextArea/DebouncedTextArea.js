@@ -15,7 +15,7 @@ export default function DebouncedTextArea(props) {
         if (event.target) {
           debounced.onChange(event.target.value);
         }
-        props.onChange(event);
+        props.onChange?.(event);
       }}
     />
   );
