@@ -37,12 +37,6 @@ export default connectTo(
     };
   },
   function EventChart({ to, event }) {
-    const anomalyMap = {};
-    event
-      .getIn(['metadata', 'anomalies'], emptyList)
-      .toArray()
-      .forEach(anomalyConfig => (anomalyMap[anomalyConfig.get('metricName')] = anomalyConfig));
-
     const triggeringMetrics = event
       .getIn(['metadata', 'metrics'], emptyList)
       .toArray()
@@ -54,7 +48,6 @@ export default connectTo(
           const metricName = metric.get('metricName');
           const timeConfig = getChartTimeConfigByEvent({ event, to });
           const rollup = getRollupForTimeframe(timeConfig);
-          const anomalyConfig = anomalyMap[metricName];
           const plugin = translateFullyQualifiedPluginToShortPluginName(metric.getIn(['entityId', 'pluginId']));
 
           return (
@@ -69,7 +62,6 @@ export default connectTo(
               plugin={plugin}
               timeConfig={getTimeConfigFromEvent(event)}
               rollup={rollup.label}
-              anomalyConfig={anomalyConfig}
             />
           );
         })}
