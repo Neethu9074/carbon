@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import { debounce } from 'lodash';
 import React from 'react';
 
 import {
@@ -21,8 +20,6 @@ import Button from 'in-new-components/Button/Button';
 import Label from 'in-components/form/Label';
 
 import locals from './ProvideLogMessage.mless';
-
-const debouncedLogMsgChangedTracker = debounce(applicationsAlertingLogMsgChanged, 300);
 
 export default function ProvideLogMessage({ form, timeConfig, onSelectLogMessage, mode, updateForm }) {
   const operatorField = form.get('rule').get('operator');
@@ -135,7 +132,7 @@ export default function ProvideLogMessage({ form, timeConfig, onSelectLogMessage
               rows="3"
               value={field.value}
               onDebouncedChange={value => {
-                debouncedLogMsgChangedTracker(mode);
+                applicationsAlertingLogMsgChanged(mode);
                 updateForm(
                   form
                     .updateIn(['rule', 'message'], f => f.setValue(value ?? '').setTouched(true))

@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import { debounce } from 'lodash';
 import React from 'react';
 
 import {
@@ -19,8 +18,6 @@ import Button from 'in-new-components/Button/Button';
 import Label from 'in-components/form/Label';
 
 import locals from './ProvideJsError.mless';
-
-const debouncedErrorMsgChangedTracker = debounce(websitesAlertingJsErrorsMsgChanged, 300);
 
 export default function ProvideJsError({ form, timeConfig, onSelectJsError, mode, updateForm }) {
   const operatorField = form.get('rule').get('operator');
@@ -71,7 +68,7 @@ export default function ProvideJsError({ form, timeConfig, onSelectJsError, mode
                 rows="3"
                 value={field.value}
                 onDebouncedChange={value => {
-                  debouncedErrorMsgChangedTracker(mode);
+                  websitesAlertingJsErrorsMsgChanged(mode);
                   updateForm(
                     form
                       .updateIn(['rule', 'value'], f => f.setValue(value ?? '').setTouched(true))
