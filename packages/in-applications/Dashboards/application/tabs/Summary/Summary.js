@@ -1,6 +1,5 @@
 import React, { Fragment } from 'react';
 
-import InboundOrAllCallsChoiceHorizontal from 'in-applications/Dashboards/commonComponents/inboundOrAllCalls/InboundOrAllCallsChoiceHorizontal';
 import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import ApplicationDashboardsMarkerLanes from 'in-applications/Dashboards/ApplicationDashboardsMarkerLanes';
 import LatencyAndDistribution from 'in-applications/Dashboards/commonComponents/LatencyAndDistribution';
@@ -25,7 +24,6 @@ export default connectTo(
     applicationId,
     endpointId,
     serviceId,
-    onBoundaryStateChange,
     data: application,
     boundaryScope: urlBoundaryScope
   }) {
@@ -41,11 +39,6 @@ export default connectTo(
 
     return (
       <Fragment>
-        <InboundOrAllCallsChoiceHorizontal
-          boundaryScope={boundaryScope}
-          onBoundaryStateChange={onBoundaryStateChange}
-          defaultBoundaryScope={application.boundaryScope}
-        />
         <Row>
           <Col xs>
             <AppDataKpiCard

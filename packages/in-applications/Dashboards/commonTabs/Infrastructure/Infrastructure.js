@@ -8,7 +8,6 @@ import {
   getPodDashboard,
   getServiceDashboard
 } from 'in-kubernetes/navigation/paths';
-import InboundOrAllCallsChoiceHorizontal from 'in-applications/Dashboards/commonComponents/inboundOrAllCalls/InboundOrAllCallsChoiceHorizontal';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import { getSnapshot, shouldStayInCurrentTimeModeForNavigationToSnapshot } from 'in-stores/snapshot';
 import { getResolvedTimeConfig, getSparkChartGranularity } from 'in-applications/metrics';
@@ -187,7 +186,6 @@ function Infrastructure({
   serviceId,
   endpointId,
   timeConfig,
-  onBoundaryStateChange,
   selectedType,
   setType,
   boundaryScope: urlBoundaryScope,
@@ -235,13 +233,6 @@ function Infrastructure({
 
   return (
     <Fragment>
-      {onBoundaryStateChange && (
-        <InboundOrAllCallsChoiceHorizontal
-          boundaryScope={boundaryScope}
-          onBoundaryStateChange={onBoundaryStateChange}
-          defaultBoundaryScope={application.boundaryScope}
-        />
-      )}
       <Table
         get={getTableData}
         type={selectedType}

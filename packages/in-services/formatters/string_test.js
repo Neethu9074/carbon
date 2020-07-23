@@ -10,6 +10,10 @@ describe('in-services.string', () => {
       expect(capitalize('look at me!')).to.equal('Look at me!');
     });
 
+    it('must return the the uppercase string with only the first letter being uppercase', () => {
+      expect(capitalize('LOOK AT ME!')).to.equal('Look at me!');
+    });
+
     it('must not fail for falsy values', () => {
       expect(capitalize(null)).to.equal(null);
       expect(capitalize(undefined)).to.equal(undefined);

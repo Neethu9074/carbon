@@ -1,7 +1,6 @@
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
-import InboundOrAllCallsChoiceHorizontal from 'in-applications/Dashboards/commonComponents/inboundOrAllCalls/InboundOrAllCallsChoiceHorizontal';
 import LogMessagesTable from 'in-applications/Dashboards/commonTabs/messages/components/LogMessagesTable';
 import getEndpointInfo from 'in-subscription/application/getEndpointInfo';
 import getServiceLabel from 'in-subscription/application/getServiceLabel';
@@ -16,16 +15,11 @@ export default connectTo(
     serviceName: props.serviceId ? getServiceLabel({ id: props.serviceId }).map(getLabel) : null,
     endpointName: props.endpointId ? getEndpointInfo({ id: props.endpointId }).map(getLabel) : null
   }),
-  function LogMessages({ onBoundaryStateChange, boundaryScope: urlBoundaryScope, data: application, ...props }) {
+  function LogMessages({ boundaryScope: urlBoundaryScope, data: application, ...props }) {
     const boundaryScope = urlBoundaryScope || application.boundaryScope;
 
     return (
       <Fragment>
-        <InboundOrAllCallsChoiceHorizontal
-          boundaryScope={boundaryScope}
-          onBoundaryStateChange={onBoundaryStateChange}
-          defaultBoundaryScope={application.boundaryScope}
-        />
         <Card>
           <LogMessagesTable boundaryScope={boundaryScope} {...props} />
         </Card>
