@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import getLogMessages from 'in-applications/subscriptions/getLogMessages';
-import HelpText from 'in-components/form/HelpText/HelpText';
 import { propTypeTimeConfig } from 'in-stores/time/config';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import List from 'in-settings/components/List';
@@ -59,7 +58,6 @@ export default function LogMessagesList({
           slideOut();
         }}
       />
-      <HelpText>Click on a row to select a Log Message</HelpText>
     </>
   );
 }
@@ -99,7 +97,7 @@ function getTableData({ applicationId, applicationBoundaryScope, timeConfig }) {
 
 function LogRow(item) {
   return (
-    <Tooltip content={item.message} align="topLeft">
+    <Tooltip content={item.message} align="topLeft" delay={500}>
       <div className={locals.row}>{item.message}</div>
     </Tooltip>
   );

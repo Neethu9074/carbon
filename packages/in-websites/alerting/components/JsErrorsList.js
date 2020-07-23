@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import getWebsiteErrors from 'in-websites/subscriptions/getWebsiteErrors';
-import HelpText from 'in-components/form/HelpText/HelpText';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import List from 'in-settings/components/List';
 
@@ -47,7 +46,6 @@ export default function JsErrorsList({ websiteId, tagFilters, timeConfig, onJsEr
           slideOut();
         }}
       />
-      <HelpText>Click on a row to select a JS Error</HelpText>
     </>
   );
 }
@@ -83,7 +81,7 @@ function getTableData({ timeConfig, tagFilters }) {
 
 function ErrorRow(error) {
   return (
-    <Tooltip content={error.message} align="topLeft">
+    <Tooltip content={error.message} align="topLeft" delay={500}>
       <div className={locals.row}>{error.message}</div>
     </Tooltip>
   );
