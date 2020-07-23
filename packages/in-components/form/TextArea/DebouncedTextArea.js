@@ -5,8 +5,10 @@ import FormTextArea from 'in-components/form/TextArea/TextArea';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
 import { noop } from 'in-services/fixedObjects';
 
-export default function DebouncedTextArea(props) {
-  const debounced = useDebouncedValue(props.value, props.onDebouncedChange ?? noop, props.delay);
+// split debouncing specific properties to avoid react-dev-tools:
+// "Warning: Unknown event handler property `onDebouncedChange`. It will be ignored."
+export default function DebouncedTextArea({ onDebouncedChange, value, delay, ...props }) {
+  const debounced = useDebouncedValue(value, onDebouncedChange ?? noop, delay);
   return (
     <FormTextArea
       {...props}
