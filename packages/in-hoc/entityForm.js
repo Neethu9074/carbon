@@ -158,6 +158,14 @@ export default function entityForm(ComposedComponent) {
     };
 
     onChange = (fieldName, value, updateFormDefinition, forceSetValue) => {
+      if (typeof fieldName === 'function') {
+        const updater = fieldName;
+        const updatedForm = updater(this.state.form);
+        this.setState({
+          form: updatedForm
+        });
+        return updatedForm;
+      }
       const { entity } = this.state;
       let updatedForm = this.state.form;
       if (forceSetValue) {

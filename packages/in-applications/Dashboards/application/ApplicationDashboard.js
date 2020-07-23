@@ -122,18 +122,19 @@ function renderButtonLine(props) {
         area="application"
       />
 
-      {role.canConfigureCustomAlerts && applicationSmartAlertsEnabled && (
-        <FloatingActionButtons>
-          <CreateSmartAlert
-            applicationLabel={label}
-            serviceId={serviceId}
-            endpointId={endpointId}
-            applicationId={applicationId}
-            location={location}
-            boundaryScope={boundaryScope}
-          />
-        </FloatingActionButtons>
-      )}
+      {role.canConfigureCustomAlerts &&
+        applicationSmartAlertsEnabled && (
+          <FloatingActionButtons>
+            <CreateSmartAlert
+              applicationLabel={label}
+              serviceId={serviceId}
+              endpointId={endpointId}
+              applicationId={applicationId}
+              location={location}
+              boundaryScope={boundaryScope}
+            />
+          </FloatingActionButtons>
+        )}
     </>
   );
 }
@@ -145,6 +146,7 @@ function renderButtonLineSecondary({ onBoundaryStateChange, result, boundaryScop
       boundaryScope={boundaryScope}
       onBoundaryStateChange={onBoundaryStateChange}
       area="application"
+      defaultBoundaryScope={result.data?.boundaryScope}
     />
   );
 }

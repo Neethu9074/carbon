@@ -29,12 +29,12 @@ export default [
     path: `${applicationDashboard}/services`,
     component: Services
   },
-  {
+  role.canViewLogs && {
     label: 'Error Messages',
     path: `${applicationDashboard}/errorMessages`,
     component: ErrorMessagesTab
   },
-  {
+  role.canViewLogs && {
     label: 'Log Messages',
     path: `${applicationDashboard}/logMessages`,
     component: LogMessagesTab

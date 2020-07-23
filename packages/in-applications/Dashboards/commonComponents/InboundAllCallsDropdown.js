@@ -6,11 +6,12 @@ import { boundaryScopes } from 'in-applications/constants';
 import { capitalize } from 'in-services/formatters/string';
 import Overlay from 'in-new-components/overlays/Overlay';
 import SvgIcon from 'in-components/SvgIcon';
+import Tooltip from 'in-components/Tooltip';
 
 import locals from './InboundAllCallsDropdown.mless';
 
 export default function InboundAllCallsDropdown(props) {
-  const { boundaryScope: urlBoundaryScope, data: application } = props;
+  const { boundaryScope: urlBoundaryScope, data: application, defaultBoundaryScope } = props;
   const boundaryScope = urlBoundaryScope || application.boundaryScope;
 
   const boundaryScopeLabel = capitalize(boundaryScope);
@@ -23,6 +24,12 @@ export default function InboundAllCallsDropdown(props) {
               <div className={locals.buttonContent}>
                 <SvgIcon className={locals.icon} type={boundaryScopes.info[boundaryScope.toUpperCase()].icon} />
                 {boundaryScopeLabel} Calls
+                <Tooltip
+                  content={boundaryScopes.info[defaultBoundaryScope.toUpperCase()].overrideDefault}
+                  align="rightMiddle"
+                >
+                  <SvgIcon className={locals.tooltipIcon} type="lib_help_error_info_outline" size="xs" />
+                </Tooltip>
               </div>
             </DropdownButton>
           )}
