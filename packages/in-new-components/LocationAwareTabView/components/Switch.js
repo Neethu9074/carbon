@@ -4,6 +4,7 @@ import React, { Fragment } from 'react';
 import DashboardErroneousResultPresenter from 'in-new-components/DashboardErroneousResultPresenter';
 import DefaultLoadingDashboard from 'in-new-components/Loading/DefaultLoadingDashboard';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
+import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import Title from 'in-components/Title';
@@ -42,6 +43,11 @@ function ViewWrapper({ tab, data, location, props }) {
         [locals.noTopPadding]: tab.noTopPadding
       })}
     >
+      <ViewTrackingMeta
+        data={{
+          activeTabName: tab.label
+        }}
+      />
       <tab.component data={data} location={location} {...props} />
     </div>
   );
