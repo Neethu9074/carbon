@@ -41,11 +41,15 @@ export default function RoleForm({ form, onChange, roleId }) {
           form={form}
           disabled={disabled}
           onChange={(fieldName, value) => {
-            if (!value) {
-              onChange([fieldName, 'canViewLogs', 'canViewTraceDetails'], [value, false, false]);
-            } else {
-              onChange(fieldName, value);
-            }
+            onChange(form => {
+              form = form.updateIn([fieldName], field => field.setValue(value).setTouched(true));
+              if (!value) {
+                form = form
+                  .updateIn(['canViewLogs'], field => field.setValue(true).setTouched(true))
+                  .updateIn(['canViewTraceDetails'], field => field.setValue(true).setTouched(true));
+              }
+              return form;
+            });
           }}
           name="restrictedAccess"
           label={permissions['restrictedAccess']}
@@ -56,18 +60,20 @@ export default function RoleForm({ form, onChange, roleId }) {
             <Permission
               form={form}
               disabled={!field.value}
+              inverse
               onChange={onChange}
               name="canViewLogs"
               label={permissions['canViewLogs']}
-              helpText="Enable role based access control."
+              helpText="Restrict access to logs once role based access control is enabled."
             />
             <Permission
               form={form}
               disabled={!field.value}
+              inverse
               onChange={onChange}
               name="canViewTraceDetails"
               label={permissions['canViewTraceDetails']}
-              helpText="Enable role based access control."
+              helpText="Restrict access to trace details once role based access control is enabled."
             />
           </>
         ))}

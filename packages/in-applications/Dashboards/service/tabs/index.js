@@ -9,6 +9,7 @@ import Endpoints from 'in-applications/Dashboards/service/tabs/Endpoints';
 import FlowMap from 'in-applications/Dashboards/service/tabs/FlowMap';
 import Summary from 'in-applications/Dashboards/service/tabs/Summary';
 import { serviceDashboard } from 'in-applications/navigation/paths';
+import { role } from 'in-stores/user';
 
 export default [
   {
@@ -29,12 +30,12 @@ export default [
     path: `${serviceDashboard}/endpoints`,
     component: wrapWithMessage(Endpoints)
   },
-  {
+  role.canViewLogs && {
     label: 'Error Messages',
     path: `${serviceDashboard}/errorMessages`,
     component: wrapWithMessage(ErrorMessagesTab)
   },
-  {
+  role.canViewLogs && {
     label: 'Log Messages',
     path: `${serviceDashboard}/logMessages`,
     component: wrapWithMessage(LogMessagesTab)
