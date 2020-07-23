@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
-import TextArea from 'in-components/form/TextArea';
 import DebouncedTextArea from 'in-components/form/TextArea/DebouncedTextArea';
+import TextArea from 'in-components/form/TextArea';
 
 export default {
   title: 'Atoms|FormControl/TextArea',

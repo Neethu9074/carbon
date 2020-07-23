@@ -1,5 +1,5 @@
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
 
 import FormTextArea from 'in-components/form/TextArea/TextArea';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
