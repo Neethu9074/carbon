@@ -1,4 +1,3 @@
-import connect from 'in-hoc/connectTo';
 import React, { Fragment } from 'react';
 
 import LogTooltipContent from 'in-analyze/TraceDetail/components/LogTooltipContent';
@@ -6,6 +5,8 @@ import ErrorIndicator from 'in-analyze/TraceDetail/components/ErrorIndicator';
 import LogIndicator from 'in-analyze/TraceDetail/components/LogIndicator';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import Tooltip from 'in-components/Tooltip';
+import connect from 'in-hoc/connectTo';
+import { role } from 'in-stores/user';
 import theme from 'in-themes';
 
 import locals from './CallFrame.mless';
@@ -90,8 +91,13 @@ function CallFrame({ callFrame, xScale, isUnhighlighted, getColor, onCallClicked
 function LogIndicators({ parentCall, log, xScale, x, top, onCallClicked }) {
   const left = xScale.getRange(x);
   return (
-    <Tooltip themeStyle="light" content={<LogTooltipContent log={log} />} align="topMiddle">
+    <Tooltip themeStyle="light" content={getTooltipContent(log)} align="topMiddle">
       <LogIndicator inTimeline top={top} left={left} parentCall={parentCall} onCallClicked={onCallClicked} log={log} />
     </Tooltip>
   );
+}
+
+function getTooltipContent(log) {
+  if (!role.canViewLogs) return null;
+  return <LogTooltipContent log={log} />;
 }

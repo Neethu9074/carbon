@@ -45,7 +45,7 @@ export default [
     path: `${serviceDashboard}/infrastructure`,
     component: wrapWithMessage(InfrastructureTab)
   }
-];
+].filter(Boolean);
 
 function wrapWithMessage(Component) {
   return props => (
