@@ -1,0 +1,34 @@
+import { registerSpanDefinition } from 'in-sdk/tracing';
+
+registerSpanDefinition({
+  type: 'zf',
+  category: 'generic',
+  direction: 'local',
+
+  typeName: {
+    singular: 'Zend Framework',
+    plural: 'Zend Frameworks'
+  },
+
+  detailView: 'ZendFrameworkSpanDetailView',
+
+  getLabel(span) {
+    const module = span.getIn(['data', 'zf', 'module']);
+    const controller = span.getIn(['data', 'zf', 'controller']);
+    const action = span.getIn(['data', 'zf', 'action']);
+
+    if (module && controller && action) {
+      return module + ':' + controller + '::' + action;
+    }
+    if (controller && action) {
+      return controller + '::' + action;
+    }
+    if (controller && !action) {
+      return controller + '::unknown';
+    }
+    if (!controller && !action) {
+      return 'Unknown::' + action;
+    }
+    return 'Zend Framework';
+  }
+});
