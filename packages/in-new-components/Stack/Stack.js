@@ -3,13 +3,15 @@ import React from 'react';
 import {
   getStackForInfrastructure,
   getStackForApplication,
-  getStackForService
+  getStackForService,
+  getStackForEndpoint
 } from 'in-new-components/Stack/subscriptions/getStack';
-import { getApplicationDashboard, getServiceDashboard } from 'in-applications/navigation/paths';
+import { getApplicationDashboard, getServiceDashboard, getEndpointDashboard } from 'in-applications/navigation/paths';
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import getApplication from 'in-subscription/application/getApplication';
 import StackPresenter from 'in-new-components/Stack/StackPresenter';
+import getEndpoint from 'in-subscription/application/getEndpoint';
 import getService from 'in-subscription/application/getService';
 import { hasError, isLoading } from 'in-services/util/result';
 import { getIconSvgPath } from 'in-sdk/snapshot';
@@ -22,6 +24,8 @@ function getStackResult({ id, applicationId, timeConfig, productArea }) {
       return getStackForApplication({ id, timeConfig });
     case 'service':
       return getStackForService({ id, applicationId, timeConfig });
+    case 'endpoint':
+      return getStackForEndpoint({ id, applicationId, timeConfig });
     default:
       return getStackForInfrastructure({ id, timeConfig });
   }
@@ -38,6 +42,13 @@ function getSelfEntity({ id, timeConfig, applicationId, productArea }) {
           timeConfig
         }
       }).map(result => resolveServiceResult(result, applicationId));
+    case 'endpoint':
+      return getEndpoint({
+        id,
+        filter: {
+          timeConfig
+        }
+      }).map(result => resolveEndpointResult(result, applicationId));
     default:
       return getSnapshot(id, timeConfig).map(resolveSnapshotResult);
   }
@@ -88,6 +99,17 @@ function resolveServiceResult(result, applicationId) {
     icon: 'lib_application_service',
     label: result.data.label,
     href$: getServiceDashboard(result.data.id, { applicationId })
+  };
+}
+
+function resolveEndpointResult(result, applicationId) {
+  if (hasError(result) || isLoading(result)) {
+    return undefined;
+  }
+  return {
+    icon: 'lib_application_endpoint',
+    label: result.data.label,
+    href$: getEndpointDashboard(result.data.id, { applicationId })
   };
 }
 

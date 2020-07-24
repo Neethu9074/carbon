@@ -6,7 +6,6 @@ import ApplicationContextIcon from 'in-applications/components/ApplicationSwitch
 import TechnologyIndicatorList from 'in-applications/components/TechnologyIndicator/TechnologyIndicatorList';
 import { applicationId, serviceId, endpointId, boundaryScope } from 'in-applications/navigation/matrix';
 import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
-import UpstreamDownstreamButton from 'in-new-components/UpstreamDownstream/UpstreamDownstreamButton';
 import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
 import FloatingActionButtons from 'in-new-components/FloatingActionButton/FloatingActionButtons';
 import ApplicationSwitcherContext from 'in-applications/components/ApplicationSwitcherContext';
@@ -15,6 +14,7 @@ import CreateSmartAlert from 'in-applications/alerting/components/CreateSmartAle
 import AnalyzeCallsButton from 'in-applications/components/AnalyzeCallsButton';
 import { applicationSmartAlertsEnabled } from 'in-services/featureFlags';
 import ServiceContext from 'in-applications/components/ServiceContext';
+import ContextGuide from 'in-new-components/ContextGuide/ContextGuide';
 import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import { endpointDashboard } from 'in-applications/navigation/paths';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
@@ -127,11 +127,13 @@ function renderButtonLine({ applicationId, serviceId, endpointId, boundaryScope,
         resolvedEndpointId={get(result, ['data', 'id'])}
         timeConfig={timeConfig}
       />
-      <UpstreamDownstreamButton
+      <ContextGuide
+        id={endpointId}
+        timeConfig={timeConfig}
         applicationId={applicationId}
         serviceId={serviceId}
         endpointId={endpointId}
-        timeConfig={timeConfig}
+        productArea="endpoint"
       />
       <AnalyzeCallsButton
         applicationId={applicationId}

@@ -14,3 +14,8 @@ export const getStackForService = createResultSubscriptionFactory({
   eventId: 'getStackForService',
   trackSubscriptionStatistics: true
 });
+
+export const getStackForEndpoint = createResultSubscriptionFactory({
+  eventId: 'getStackForEndpoint',
+  trackSubscriptionStatistics: true
+});
