@@ -25,6 +25,6 @@ export default function DebouncedTextArea({ onValueChange: onValueChange, value,
 DebouncedTextArea.propTypes = {
   value: PropTypes.any.isRequired,
   onChange: PropTypes.func,
-  onDebouncedChange: PropTypes.func,
+  onValueChange: PropTypes.func,
   delay: PropTypes.number
 };
