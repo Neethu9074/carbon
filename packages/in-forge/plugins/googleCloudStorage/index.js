@@ -10,6 +10,9 @@ registerSnapshotDefinition({
     singular: 'GCP Storage Instance',
     plural: 'GCP Storage Instances'
   },
+  technologyDescriptor: {
+    label: 'GCP Storage Instance'
+  },
   iconSvgPath,
   kpiDefinitions,
   metricDefinitions,

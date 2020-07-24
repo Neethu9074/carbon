@@ -5,13 +5,13 @@ registerSpanDefinition({
   category: 'database',
 
   typeName: {
-    singular: 'Google Cloud Storage call',
-    plural: 'Google Cloud Storage calls'
+    singular: 'Google Cloud Storage',
+    plural: 'Google Cloud Storage'
   },
 
   detailView: 'GCSSpanDetailView',
 
   getLabel(span) {
-    return span.getIn(['data', 'gcs', 'op']) + ' ' + span.getIn(['data', 'gcs', 'bucket']);
+    return span.getIn(['data', 'gcs', 'op']);
   }
 });
