@@ -60,6 +60,10 @@
     }
   }
 
+  .iconExtraMargin {
+    margin-left: 4rem;
+  }
+
   .firstOperatorPlaceholder,
   .operatorPlaceholder,
   .spacedOperatorPlaceholder,
@@ -96,7 +100,7 @@
       top: 100%;
       left: 100%;
       content: '';
-      height: 2.125rem;
+      height: 1.9rem;
       width: 1px;
       background: @lib__colors__N300;
     }
@@ -130,7 +134,7 @@
       top: 100%;
       left: 50%;
       content: '';
-      height: 2.125rem;
+      height: 1.9rem;
       width: 1px;
       background: @lib__colors__N300;
     }
@@ -160,7 +164,7 @@
       bottom: 100%;
       left: 100%;
       content: '';
-      height: 2.125rem;
+      height: 1.9rem;
       width: 1px;
       background: @lib__colors__N300;
     }

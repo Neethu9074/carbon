@@ -1,5 +1,20 @@
 export const blueprintConfig = Object.freeze([
   {
+    type: 'servicesEndpoints',
+    name: 'Services & Endpoints',
+    headline: 'Services & Endpoints',
+    text: 'Create an Application Perspective with focus on Services and Endpoints',
+    htmlContent: `
+    <p><b>What is this for?</b></br>
+    Sometimes it is easiest to create a perspective by specifying the services or endpoints directly.  This can also be done using string operators like “contains”, “starts with”, etc.
+    </br> </br>
+    <b>Who uses this a lot?</b></br>
+    DevOps, Operations, SRE, Developer, QA, support, Business owner, Architect
+    </p>
+      `,
+    curatedTagFilters: []
+  },
+  {
     type: 'container',
     name: 'Container:  K8s or related. ',
     headline: 'Container:  K8s or related.',

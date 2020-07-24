@@ -83,8 +83,8 @@ function MultiSelectBarOverlayBehavior({
 
   if (existingTagFilters) {
     selectedItems = existingTagFilters
-      .filter(existingFilter => items.some(item => existingFilter.value === item.key))
-      .map(item => ({ key: item.value, label: item.value }));
+      .filter(existingFilter => items.some(item => existingFilter.value || existingFilter.stringValue === item.key))
+      .map(item => ({ key: item.value || item.stringValue, label: item.value || item.stringValue }));
   }
 
   return (
@@ -101,7 +101,10 @@ function MultiSelectBarOverlayBehavior({
           name: tag,
           stringValue: newItem.key,
           operator: operators.EQUALS,
-          entity: tag === 'technology' ? entityTypes.DESTINATION : entityTypes.NOT_APPLICABLE
+          entity:
+            tag === 'technology' || tag === 'service.name' || tag === 'endpoint.name'
+              ? entityTypes.DESTINATION
+              : entityTypes.NOT_APPLICABLE
         });
       }}
       moreDataAvailable={result.data && result.data.canLoadMore}

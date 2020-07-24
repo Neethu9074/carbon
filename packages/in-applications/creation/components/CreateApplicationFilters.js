@@ -16,8 +16,15 @@ import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import BarItem from 'in-analyze/components/filterBar/BarItem/BarItem';
 import { getApplicationCreationTagKeys } from 'in-applications/tags';
 import { entityTypes } from 'in-analyze/applicationFilter';
+import ServicesEndpointsBar from './ServicesEndpointsBar';
 
-export default function CreateApplicationFilters({ curatedTagFilters, timeConfig, form, updateForm }) {
+export default function CreateApplicationFilters({
+  curatedTagFilters,
+  timeConfig,
+  form,
+  updateForm,
+  selectedBlueprint
+}) {
   const tagFiltersForSubscription = getTagFilterListForBackendSubscription(form.get('matchSpecification').toJS());
   const filters = {
     timeConfig,
@@ -27,71 +34,73 @@ export default function CreateApplicationFilters({ curatedTagFilters, timeConfig
   return (
     <TagFilterConfigurationWrapper
       quickFilterBar={
-        <QuickFilterBar
-          hideClearFiltersButton
-          withoutFiltersLabel
-          curatedTagFilters={curatedTagFilters.map(curatedFilter => (
-            <BarItem
-              key={curatedFilter.category}
-              timeConfig={timeConfig}
-              onClick={() =>
-                addActiveDialog(
-                  <EditTagFilterDialog
-                    tagFilters={filters.tagFilter}
-                    tagSuggestions={curatedFilter.tags}
-                    getKeySuggestions={getSecondLevelKeySuggestions}
-                    getValueSuggestions={getValueSuggestions}
-                    timeConfig={filters.timeConfig}
-                    addTagFilter={_tag => {
-                      const additionalSubForm = getEnrichedMatchSpecificationForm({
-                        key: _tag.name,
-                        entity: _tag.entity,
-                        secondLevelName: _tag.secondLevelName || '',
-                        value: _tag.value || '',
-                        operator: _tag.operator
-                      });
-                      updateForm(
-                        form.updateIn(['matchSpecification'], list => list.push(additionalSubForm).setTouched(true))
-                      );
-                      applicationCreationAddTag({ _tag });
-                    }}
-                    conjunctions={conjunctions}
-                    forAnalyzeCalls
-                  />
-                )
-              }
-              showMore
-            >
-              {curatedFilter.category}
-            </BarItem>
-          ))}
-          onMoreClick={() => {
-            addActiveDialog(
-              <EditTagFilterDialog
-                tagFilters={filters.tagFilter}
-                tagSuggestions={getApplicationCreationTagKeys()}
-                getKeySuggestions={getSecondLevelKeySuggestions}
-                getValueSuggestions={getValueSuggestions}
-                timeConfig={filters.timeConfig}
-                addTagFilter={_tag => {
-                  const additionalSubForm = getEnrichedMatchSpecificationForm({
-                    key: _tag.name,
-                    entity: _tag.entity,
-                    secondLevelName: _tag.secondLevelName || '',
-                    value: _tag.value || '',
-                    operator: _tag.operator
-                  });
-                  updateForm(
-                    form.updateIn(['matchSpecification'], list => list.push(additionalSubForm).setTouched(true))
-                  );
-                  applicationCreationAddTag({ _tag });
-                }}
-                conjunctions={conjunctions}
-                forAnalyzeCalls
-              />
-            );
-          }}
-        />
+        selectedBlueprint.type === 'servicesEndpoints' ? (
+          <ServicesEndpointsBar
+            tagFilters={filters.tagFilter}
+            timeConfig={filters.timeConfig}
+            addTagFilter={_tag => addTagFunction(_tag, form, updateForm)}
+            removeTagFilter={(item, operator, secondLevelName, value) => {
+              multiSelectRemoveMatchspecification({ value, form, updateForm });
+            }}
+            onMoreClick={() => {
+              addActiveDialog(
+                <EditTagFilterDialog
+                  tagFilters={filters.tagFilter}
+                  tagSuggestions={getApplicationCreationTagKeys()}
+                  getKeySuggestions={getSecondLevelKeySuggestions}
+                  getValueSuggestions={getValueSuggestions}
+                  timeConfig={filters.timeConfig}
+                  addTagFilter={_tag => addTagFunction(_tag, form, updateForm)}
+                  conjunctions={conjunctions}
+                  forAnalyzeCalls
+                />
+              );
+            }}
+            withoutFiltersLabel
+          />
+        ) : (
+          <QuickFilterBar
+            curatedTagFilters={curatedTagFilters.map(curatedFilter => (
+              <BarItem
+                key={curatedFilter.category}
+                timeConfig={timeConfig}
+                onClick={() =>
+                  addActiveDialog(
+                    <EditTagFilterDialog
+                      tagFilters={filters.tagFilter}
+                      tagSuggestions={curatedFilter.tags}
+                      getKeySuggestions={getSecondLevelKeySuggestions}
+                      getValueSuggestions={getValueSuggestions}
+                      timeConfig={filters.timeConfig}
+                      addTagFilter={_tag => addTagFunction(_tag, form, updateForm)}
+                      conjunctions={conjunctions}
+                      forAnalyzeCalls
+                    />
+                  )
+                }
+                showMore
+              >
+                {curatedFilter.category}
+              </BarItem>
+            ))}
+            onMoreClick={() => {
+              addActiveDialog(
+                <EditTagFilterDialog
+                  tagFilters={filters.tagFilter}
+                  tagSuggestions={getApplicationCreationTagKeys()}
+                  getKeySuggestions={getSecondLevelKeySuggestions}
+                  getValueSuggestions={getValueSuggestions}
+                  timeConfig={filters.timeConfig}
+                  addTagFilter={_tag => addTagFunction(_tag, form, updateForm)}
+                  conjunctions={conjunctions}
+                  forAnalyzeCalls
+                />
+              );
+            }}
+            hideClearFiltersButton
+            withoutFiltersLabel
+          />
+        )
       }
       tagFilterList={
         <TagFilterList
@@ -163,13 +172,64 @@ export default function CreateApplicationFilters({ curatedTagFilters, timeConfig
   );
 }
 
-function getEnrichedMatchSpecificationForm(matchSpecification) {
+function getEnrichedMatchSpecificationForm(matchSpecification, form) {
+  const formMatchSpecification = form.get('matchSpecification');
+  const formMatchSpecificationSize = formMatchSpecification.size;
+
+  if (formMatchSpecificationSize === 0)
+    return getMatchSpecificationForm(matchSpecification).put(
+      'conjunction',
+      createField({
+        value: get(matchSpecification, 'conjunction', 'AND')
+      })
+    );
+
+  const lastItem = formMatchSpecification.get(formMatchSpecificationSize - 1);
+  const lastItemKey = lastItem.get('key').value;
   return getMatchSpecificationForm(matchSpecification).put(
     'conjunction',
     createField({
-      value: get(matchSpecification, 'conjunction', 'AND')
+      value: get(matchSpecification, 'conjunction', matchSpecification.key === lastItemKey ? 'OR' : 'AND')
     })
   );
+}
+
+function updateConjunction(form, tag) {
+  const matchSpecification = form.get('matchSpecification');
+  const matchSpecificationSize = matchSpecification.size;
+
+  if (matchSpecificationSize === 0) return form;
+
+  const lastItem = matchSpecification.get(matchSpecificationSize - 1);
+  const lastItemKey = lastItem.get('key').value;
+
+  return form.updateIn(['matchSpecification', matchSpecificationSize - 1, 'conjunction'], field =>
+    field.setValue(tag.name === lastItemKey ? 'OR' : 'AND').setTouched(true)
+  );
+}
+
+const addTagFunction = (_tag, form, updateForm) => {
+  const additionalSubForm = getEnrichedMatchSpecificationForm(
+    {
+      key: _tag.name,
+      entity: _tag.entity,
+      secondLevelName: _tag.secondLevelName || '',
+      value: _tag.value || _tag.stringValue || '',
+      operator: _tag.operator
+    },
+    form
+  );
+  const updatedForm = updateConjunction(form, _tag).updateIn(['matchSpecification'], list => {
+    const conjunction = additionalSubForm.get('conjunction').value;
+    return conjunction === 'OR' ? list.push(additionalSubForm).setTouched(true) : addToAnd(list, additionalSubForm);
+  });
+  updateForm(updatedForm, form);
+  applicationCreationAddTag({ _tag });
+};
+
+function addToAnd(list, additionalSubForm) {
+  const andArr = list.toJS().filter(item => item.conjunction === 'AND');
+  return list.insert(andArr.length == 1 ? andArr.length : andArr.length - 1, additionalSubForm).setTouched(true);
 }
 
 function getMatchSpecificationForm(matchSpecification = {}) {
@@ -213,4 +273,12 @@ function removeMatchSpecification(i, form, updateForm) {
   const tagToRemove = jsForm.matchSpecification[i];
   applicationCreationRemoveTag({ tagToRemove });
   updateForm(form.updateIn(['matchSpecification'], list => list.remove(i).setTouched(true)));
+}
+
+function multiSelectRemoveMatchspecification({ value, form, updateForm }) {
+  const jsForm = form.toJS();
+  const indexToRemove = jsForm.matchSpecification.map(item => item.value).indexOf(value);
+  const tagToRemove = jsForm.matchSpecification[indexToRemove];
+  applicationCreationRemoveTag({ tagToRemove });
+  updateForm(form.updateIn(['matchSpecification'], list => list.remove(indexToRemove).setTouched(true)));
 }

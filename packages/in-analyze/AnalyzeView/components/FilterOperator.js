@@ -10,7 +10,7 @@ import locals from './FilterOperator.mless';
 export default function FilterOperator({ selectedOperator, operators, onOperatorChanged }) {
   if (operators.length === 1) {
     return (
-      <Pill className={locals.operator} color={theme.lib.colors.N400}>
+      <Pill className={locals.operatorSingle} color={theme.lib.colors.N400}>
         {operators[0]}
       </Pill>
     );
@@ -22,8 +22,8 @@ export default function FilterOperator({ selectedOperator, operators, onOperator
         <div className={locals.wrapper} onClick={toggle}>
           <Pill className={locals.operator} color={theme.lib.colors.N400}>
             {selectedOperator}
+            <SvgIcon className={locals.expandIcon} type={isOpen ? 'lib_arrow_expand_up' : 'lib_arrow_expand_down'} />
           </Pill>
-          <SvgIcon className={locals.expandIcon} type={isOpen ? 'lib_arrow_expand_up' : 'lib_arrow_expand_down'} />
         </div>
       )}
     </Overlay>

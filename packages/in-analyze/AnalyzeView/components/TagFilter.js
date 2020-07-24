@@ -3,6 +3,7 @@ import React from 'react';
 import FilterOperator from 'in-analyze/AnalyzeView/components/FilterOperator';
 import { findSubTreeByFullyQualifiedName } from 'in-applications/tags';
 import EntityIndicator from 'in-analyze/components/EntityIndicator';
+import { evaluateClassNames } from 'in-services/util/classnames';
 import { getOperatorLabel } from 'in-analyze/applicationFilter';
 import SvgIcon from 'in-components/SvgIcon';
 
@@ -10,12 +11,14 @@ import locals from './TagFilter.mless';
 
 export default function TagFilter({
   tagFilter,
-  isFirstOperator,
   filterConnectionOperators,
   onOperatorChanged,
+  isFirstOperator,
   isLastOperator,
-  hasExtraMargin,
-  isOnlyFilter
+  isOnlyFilter,
+  allSameFilters,
+  index,
+  tagFiltersToPresent
 }) {
   let { name, secondLevelName, value, operator, entity } = tagFilter.tag;
   const node = findSubTreeByFullyQualifiedName(name);
@@ -23,6 +26,9 @@ export default function TagFilter({
   if (secondLevelName) {
     name = `${name}.${secondLevelName}`;
   }
+
+  const isOrOperator = tagFilter.tag.conjunction === 'OR';
+  const followsOrOperator = tagFiltersToPresent[index - 1]?.tag.conjunction === 'OR';
 
   return (
     <div className={locals.tagFilterWrapper}>
@@ -36,7 +42,7 @@ export default function TagFilter({
       {!isLastOperator &&
         filterConnectionOperators &&
         isFirstOperator && (
-          <div className={hasExtraMargin ? locals.firstSpacedOperatorPlaceholder : locals.firstOperatorPlaceholder}>
+          <div className={locals.firstOperatorPlaceholder}>
             <FilterOperator
               operators={filterConnectionOperators}
               selectedOperator={tagFilter.tag.conjunction}
@@ -44,10 +50,11 @@ export default function TagFilter({
             />
           </div>
         )}
+
       {filterConnectionOperators &&
         !isLastOperator &&
         !isFirstOperator && (
-          <div className={hasExtraMargin ? locals.spacedOperatorPlaceholder : locals.operatorPlaceholder}>
+          <div className={locals.operatorPlaceholder}>
             <FilterOperator
               operators={filterConnectionOperators}
               selectedOperator={tagFilter.tag.conjunction}
@@ -55,10 +62,20 @@ export default function TagFilter({
             />
           </div>
         )}
+
       {isLastOperator && !isOnlyFilter && <div className={locals.lastOperatorPlaceholder} />}
+
       {isOnlyFilter && <div className={locals.onlyOperatorPlaceholder} />}
 
-      <SvgIcon className={locals.removeIcon} type="lib_openclose_cancel" onClick={tagFilter.onRemove} />
+      <SvgIcon
+        className={evaluateClassNames({
+          [locals.removeIcon]: true,
+          [locals.iconExtraMargin]:
+            tagFiltersToPresent.length > 2 && !allSameFilters && (isOrOperator || followsOrOperator)
+        })}
+        type="lib_openclose_cancel"
+        onClick={tagFilter.onRemove}
+      />
     </div>
   );
 }

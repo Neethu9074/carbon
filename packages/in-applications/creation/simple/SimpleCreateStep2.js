@@ -22,6 +22,7 @@ export default function SimpleCreateStep2({
           curatedTagFilters={selectedBlueprint.curatedTagFilters}
           timeConfig={timeConfig}
           updateForm={updateForm}
+          selectedBlueprint={selectedBlueprint}
         />
       </div>
       <ServiceLiveList

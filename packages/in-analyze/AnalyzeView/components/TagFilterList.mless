@@ -34,7 +34,7 @@
       top: 100%;
       left: 0;
       content: '';
-      height: 2.125rem;
+      height: 1.9rem;
       width: 1px;
       background: @lib__colors__N300;
     }
