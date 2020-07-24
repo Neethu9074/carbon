@@ -39,7 +39,7 @@ export default function ConfigureAlertingThreshold({ form, onChange, updateForm 
       )}
       {granularity && timeThresholdType === timeThresholdTypes.userImpactOfViolationsInSequence && (
         <ConfigureTimeWindow
-          label="Evaluation window"
+          label="Evaluation Window"
           onChange={onChangeTimeWindow}
           timeThresholdTimeWindow={timeThresholdTimeWindow}
           granularity={granularity}
