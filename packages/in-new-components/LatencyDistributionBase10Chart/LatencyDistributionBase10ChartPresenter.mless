@@ -14,8 +14,10 @@
   }
 
   .horizontalLine {
+    position: relative;
     border-top: 1px solid @lib__colors__N600Light;
     opacity: 0.2;
+    z-index: @z-index__horizontalLine;
   }
 
   .header {

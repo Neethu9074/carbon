@@ -328,6 +328,7 @@ export const unboundedAnalytics = () => (
     chartDefinition={chartDefinition}
     cheight={number('Height', 172)}
     showPercentileMenu
+    selectionEditable
   />
 );
 

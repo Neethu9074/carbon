@@ -5,6 +5,7 @@ import PercentileMenu, {
   ALL_PERCENTILES
 } from 'in-new-components/LatencyDistributionBase10Chart/components/PercentileMenu';
 import LatencyChartOverlay from 'in-new-components/LatencyDistributionBase10Chart/components/LatencyChartOverlay';
+import PercentileMarkers from 'in-new-components/LatencyDistributionBase10Chart/components/PercentileMarkers';
 import HorizontalAxis from 'in-new-components/LatencyDistributionBase10Chart/components/HorizontalAxis';
 import BarChart from 'in-new-components/LatencyDistributionBase10Chart/components/BarChart';
 import { HEIGHT as horizontalAxisHeight } from 'in-new-components/Axis/HorizontalAxis';
@@ -22,9 +23,11 @@ export default function LatencyDistributionBase10ChartPresenter({
   customHeight,
   showPercentileMenu,
   showLegend,
+  selectionAdjustable,
   subscription,
   selectionMenuItems,
-  onSelectionChanged
+  onSelectionChanged,
+  selection
 }) {
   const [percentilesShown, setPercentilesShown] = useState(ALL_PERCENTILES);
 
@@ -71,7 +74,8 @@ export default function LatencyDistributionBase10ChartPresenter({
   // issues related to decimal pixel values.
   const bucketCenter = Math.floor(bucketWidth / 2);
 
-  const percentileHeight = Math.floor(0.725 * 16 + 20);
+  // hight of the percentile marker strip which sits directly above the chart
+  const percentileStripHeight = Math.floor(0.725 * 16 + 20);
   const maxCallCount = getMaxCallCount(buckets);
   return (
     <>
@@ -94,36 +98,43 @@ export default function LatencyDistributionBase10ChartPresenter({
       <div className={locals.container} style={{ width: chartWidth }}>
         <VerticalAxis
           scale={{ from: 0, to: maxCallCount }}
-          height={chartHeight - percentileHeight}
-          style={{ marginTop: percentileHeight, backgroundColor: 'white', position: 'absolute' }}
+          height={chartHeight - percentileStripHeight}
+          style={{ marginTop: percentileStripHeight, backgroundColor: 'white', position: 'absolute' }}
         />
-        <div className={locals.chart} style={{ height: chartHeight }}>
+        <div style={{ height: chartHeight }}>
           <LatencyChartOverlay
             buckets={buckets}
             percentileBuckets={percentileBuckets}
             bucketWidth={bucketWidth}
             bucketCenter={bucketCenter}
-            height={chartHeight - percentileHeight}
+            height={chartHeight - percentileStripHeight}
             width={chartWidth}
             selectionMenuItems={selectionMenuItems}
             onSelectionChanged={onSelectionChanged}
+            selectionAdjustable={selectionAdjustable}
+            selection={selection}
           />
           <BarChart
             buckets={buckets}
+            bucketWidth={bucketWidth}
+            maxCallCount={maxCallCount}
+            // 1 pixel less for the horizontal axis
+            height={chartHeight - percentileStripHeight - 1}
+            style={{ bottom: 0 }}
+          />
+          <PercentileMarkers
             percentileBuckets={percentileBuckets}
             bucketWidth={bucketWidth}
             bucketCenter={bucketCenter}
-            maxCallCount={maxCallCount}
             chartHeight={chartHeight}
-            percentileHeight={percentileHeight}
             percentilesShown={percentilesShown}
           />
           <HorizontalAxis buckets={buckets} bucketWidth={bucketWidth} bucketCenter={bucketCenter} />
           <HorizontalLines
             nbBars={4}
-            height={chartHeight - percentileHeight}
+            height={chartHeight - percentileStripHeight}
             width={bucketWidth * buckets.length}
-            style={{ marginTop: percentileHeight }}
+            style={{ marginTop: percentileStripHeight }}
           />
         </div>
       </div>

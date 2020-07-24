@@ -1,4 +1,4 @@
-@import '~in-themes/active.less';
+@import './shared.less';
 
 :local {
   .contextMenu {
@@ -54,7 +54,7 @@
     transform: translate(-100%, 4px);
     width: auto;
     height: 26px;
-    z-index: 10;
+    z-index: @z-index__contextMenuActionsButtonsWrapper;
   }
 
   .contextMenuOpenButtonIcon {

@@ -4,6 +4,7 @@ import React from 'react';
 import LatencyDistributionBase10Chart from 'in-new-components/LatencyDistributionBase10Chart/LatencyDistributionBase10Chart';
 import GroupMetricsChart, { metricsChartDefinitions } from 'in-analyze/components/MetricsChart/GroupMetricsChart';
 import getLatencyDistributionBase10 from 'in-subscription/application/getLatencyDistributionBase10';
+import { latencySelection } from 'in-analyze/components/MetricsChart/metricsChartUtils';
 import { getTagFilterListForBackendSubscription } from 'in-analyze/applicationFilter';
 import { latencyDistributionBase10Enabled } from 'in-services/featureFlags';
 import { number, millis } from 'in-services/formatters/number';
@@ -53,7 +54,14 @@ export default withProps(({ filters, metrics, availableMetrics, onFocusedMetricC
           tagFilters: getTagFilterListForBackendSubscription(filters.tagFilter),
           timeConfig
         });
-        return <LatencyDistributionBase10Chart subscription={subscription} showPercentileMenu />;
+        return (
+          <LatencyDistributionBase10Chart
+            subscription={subscription}
+            selection={latencySelection(filters)}
+            showPercentileMenu
+            selectionAdjustable
+          />
+        );
       }
     }
   ]

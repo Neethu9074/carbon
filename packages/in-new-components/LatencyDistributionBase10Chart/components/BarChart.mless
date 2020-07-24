@@ -2,9 +2,14 @@
 
 :local {
 
+  .wrapperContainer {
+    position: absolute;
+    width: 100%;
+  }
+
   .bucket {
     position: absolute;
-    top: 0px;
+    top: 0;
   }
 
   .bar {
@@ -12,30 +17,6 @@
     bottom: 1px;
     left: 1px;
     background-color: @color_calls;
+    z-index: @z-index__bar;
   }
-
-  .percentiles {
-    position: absolute;
-    top: 0px;
-    transform: translate(-50%, 0);
-    left: 50%;
-    overflow: visible;
-    padding: 0;
-
-    font-size: 0.6875rem;
-    border: 0.05rem solid @lib__colors__N500;
-    border-radius: 3px;
-    padding: 0.05rem 0.1rem;
-    background-color: @lib__colors__white;
-    opacity: 1;
-    white-space: nowrap;
-    user-select: none;
-  }
-
-  .dottedLine {
-    position: absolute;
-    top: 0px;
-    border-left: 1px dashed @lib__colors__N500;
-  }
-
 }

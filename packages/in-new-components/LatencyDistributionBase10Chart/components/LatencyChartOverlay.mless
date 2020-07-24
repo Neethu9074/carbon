@@ -2,7 +2,7 @@
 
 :local {
   .overlay {
-    position: relative;
+    position: absolute;
     height: 100%;
     bottom: 0;
   }
@@ -10,11 +10,8 @@
   .glassPane {
     position: absolute;
     bottom: 0;
-    left: 0;
-    right: 0;
-    width: 100%;
     opacity: 0.5;
-    z-index: 5;
+    z-index: @z-index__glassPane;
     cursor: pointer;
   }
 
@@ -22,16 +19,36 @@
     position: absolute;
     bottom: 0;
     height: 100%;
-    z-index: 1;
-    margin: 0px;
-    padding: 0px;
+    z-index: @z-index__selection;
+    margin: 0;
+    padding: 0;
+  }
+
+  @color__selection_border: @lib__colors__blue800;
+  @color__selection_border_sides: rgba(@color__selection_border, 0.4);
+
+  .selectionAdjustable {
+    border-right: 1px solid @color__selection_border_sides;
+    border-left: 1px solid @color__selection_border_sides;
+    border-bottom: 3px solid @color__selection_border;
+    margin-bottom: -3px;
+    box-sizing: content-box;
+  }
+
+  .selectionHandle {
+    position: absolute;
+    background-color: @lib__colors__white;
+    border: 1px solid @color__selection_border;
+    border-radius: 2px;
+    box-sizing: border-box;
+    z-index: @z-index__selectionHandle;
   }
 
   .tooltipContent {
     position: absolute;
     display: flex;
     flex-direction: column;
-    z-index: 1;
+    z-index: @z-index__tooltipContent;
     transform: translate(0, 100%);
     min-width: 12rem;
     max-width: 18rem;
@@ -76,7 +93,7 @@
     bottom: 0;
     width: 0;
     border-left: 1px solid @lib__colors__N500;
-    z-index: 1;
+    z-index: @z-index__barStrike;
   }
 }
 
