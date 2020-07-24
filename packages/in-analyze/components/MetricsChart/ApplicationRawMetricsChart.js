@@ -11,7 +11,7 @@ import { millis } from 'in-services/formatters/number';
 
 const latencyDistributionChartDefinition = {
   label: 'Latency (distribution)',
-  key: 'calls_DISTRIBUTION',
+  key: 'latency_DISTRIBUTION',
   formatter: millis.forcedCompactOnMs
 };
 
@@ -27,7 +27,8 @@ export default withProps(({ filters }) => ({
           maxLatencyBuckets: 80,
           filter: filters,
           tagFilters: getTagFilterListForBackendSubscription(filters.tagFilter),
-          timeConfig
+          timeConfig,
+          dataSource: filters.dataSource === 'traces' ? 'TRACES' : 'CALLS'
         });
         return (
           <LatencyDistributionBase10Chart
@@ -35,6 +36,7 @@ export default withProps(({ filters }) => ({
             selection={latencySelection(filters)}
             showPercentileMenu
             selectionAdjustable
+            dataSource={filters.dataSource}
           />
         );
       }

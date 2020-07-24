@@ -27,7 +27,8 @@ export default function LatencyDistributionBase10ChartPresenter({
   subscription,
   selectionMenuItems,
   onSelectionChanged,
-  selection
+  selection,
+  dataSource
 }) {
   const [percentilesShown, setPercentilesShown] = useState(ALL_PERCENTILES);
 
@@ -83,7 +84,7 @@ export default function LatencyDistributionBase10ChartPresenter({
         {showLegend && (
           <div className={locals.legend}>
             <div className={locals.dot} />
-            Calls
+            {dataSource === 'calls' ? 'Calls' : 'Traces'}
           </div>
         )}
         {showPercentileMenu && (
@@ -113,6 +114,7 @@ export default function LatencyDistributionBase10ChartPresenter({
             onSelectionChanged={onSelectionChanged}
             selectionAdjustable={selectionAdjustable}
             selection={selection}
+            dataSource={dataSource}
           />
           <BarChart
             buckets={buckets}

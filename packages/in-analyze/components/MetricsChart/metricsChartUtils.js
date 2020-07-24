@@ -5,7 +5,7 @@ export function latencySelection(filters) {
   // call.latency > 2 is more significant than call.latency > 1
   const latencyFilters = getNumberTagFilters({
     tagFilters: filters.tagFilter,
-    tag: 'call.latency',
+    tag: filters.dataSource === 'traces' ? 'trace.latency' : 'call.latency',
     showRange: true
   });
 

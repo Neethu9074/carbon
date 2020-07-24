@@ -36,7 +36,8 @@ export default function LatencyChartOverlay({
   // callback to call when selection changes, e.g., onSelectionChanged({from: 2, to: 3})
   onSelectionChanged,
   // can the selection be moved and resized?
-  selectionAdjustable
+  selectionAdjustable,
+  dataSource
 }) {
   // If the selection is adjustable the glass pane element which captures mouse events must be wider than
   // the chart on both sides (left and right) by GLASS_PANE_OFFSET, in order to:
@@ -380,6 +381,7 @@ export default function LatencyChartOverlay({
             bucket={buckets[highlightedBucketIndex]}
             percentiles={percentileBuckets[highlightedBucketIndex]}
             style={{ ...tooltipPositionStyle, bottom: height }}
+            dataSource={dataSource}
           />
         </>
       )}
@@ -445,7 +447,7 @@ function Selection({ height, selectionStart, selectionWidth, selectionAdjustable
   );
 }
 
-function Tooltip({ bucket, percentiles, style }) {
+function Tooltip({ bucket, percentiles, style, dataSource }) {
   const formatTime = millis.forcedCompactOnMs.detailed;
   const from = bucket.from && formatTime(bucket.from);
   const to = bucket.to && formatTime(bucket.to);
@@ -462,7 +464,7 @@ function Tooltip({ bucket, percentiles, style }) {
       <div className={locals.labelWrapper}>{latencyRangeLabel}</div>
       <div className={locals.labelWrapper}>
         <div className={locals.dot} />
-        <span>Calls (sum)</span>
+        <span>{dataSource === 'calls' ? 'Calls' : 'Traces'} (sum)</span>
         <span className={locals.value}>{number.forcedCompact.detailed(bucket.calls)}</span>
       </div>
       {percentiles.map(p => (

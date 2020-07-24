@@ -31,7 +31,7 @@ const countChartDefinitions = [
 
 const latencyDistributionChartDefinition = {
   label: 'Latency (distribution)',
-  key: 'calls_DISTRIBUTION',
+  key: 'latency_DISTRIBUTION',
   formatter: millis.forcedCompactOnMs
 };
 
@@ -45,14 +45,15 @@ export default withProps(({ filters, metrics, availableMetrics, onFocusedMetricC
   onChange: e => onFocusedMetricChange(e.focusedMetric),
   customChartRenderers: [
     {
-      key: 'calls_DISTRIBUTION',
+      key: 'latency_DISTRIBUTION',
       render: function LatencyDistribution() {
         const timeConfig = filters.timeConfig;
         const subscription = getLatencyDistributionBase10({
           maxLatencyBuckets: 80,
           filter: filters,
           tagFilters: getTagFilterListForBackendSubscription(filters.tagFilter),
-          timeConfig
+          timeConfig,
+          dataSource: filters.dataSource === 'traces' ? 'TRACES' : 'CALLS'
         });
         return (
           <LatencyDistributionBase10Chart
