@@ -21,33 +21,38 @@ export default function ConfigureAlertingThreshold({ form, onChange, updateForm 
   return (
     <div className={locals.alertThresholdConfigContainer}>
       {granularity && <ConfigureGranularity onChange={onChangeGranularity} granularity={granularity} />}
-      {granularity &&
-        timeThresholdType === timeThresholdTypes.violationsInSequence && (
-          <ConfigureTimeWindow
-            label="Number of Consecutive Violations"
-            onChange={onChangeTimeWindow}
-            timeThresholdTimeWindow={timeThresholdTimeWindow}
-            granularity={granularity}
-          />
-        )}
-      {granularity &&
-        timeThresholdType === timeThresholdTypes.violationsInPeriod && (
-          <ConfigureTimeWindow
-            label="Number of Consecutive Evaluations"
-            onChange={onChangeTimeWindow}
-            timeThresholdTimeWindow={timeThresholdTimeWindow}
-            granularity={granularity}
-          />
-        )}
-      {granularity &&
-        timeThresholdType === timeThresholdTypes.violationsInPeriod && (
-          <ConfigureViolations
-            label="Number of Violations"
-            onChange={onChangeViolationsInPeriode}
-            violations={timeThresholdViolations}
-            maxViolations={Math.round(timeThresholdTimeWindow / granularity)}
-          />
-        )}
+      {granularity && timeThresholdType === timeThresholdTypes.violationsInSequence && (
+        <ConfigureTimeWindow
+          label="Number of Consecutive Violations"
+          onChange={onChangeTimeWindow}
+          timeThresholdTimeWindow={timeThresholdTimeWindow}
+          granularity={granularity}
+        />
+      )}
+      {granularity && timeThresholdType === timeThresholdTypes.violationsInPeriod && (
+        <ConfigureTimeWindow
+          label="Number of Consecutive Evaluations"
+          onChange={onChangeTimeWindow}
+          timeThresholdTimeWindow={timeThresholdTimeWindow}
+          granularity={granularity}
+        />
+      )}
+      {granularity && timeThresholdType === timeThresholdTypes.userImpactOfViolationsInSequence && (
+        <ConfigureTimeWindow
+          label="Evaluation window"
+          onChange={onChangeTimeWindow}
+          timeThresholdTimeWindow={timeThresholdTimeWindow}
+          granularity={granularity}
+        />
+      )}
+      {granularity && timeThresholdType === timeThresholdTypes.violationsInPeriod && (
+        <ConfigureViolations
+          label="Number of Violations"
+          onChange={onChangeViolationsInPeriode}
+          violations={timeThresholdViolations}
+          maxViolations={Math.round(timeThresholdTimeWindow / granularity)}
+        />
+      )}
       {timeThresholdType === userImpactOfViolationsInSequence && (
         <ConfigureUserImpact form={form} onChange={onChange} updateForm={updateForm} />
       )}
