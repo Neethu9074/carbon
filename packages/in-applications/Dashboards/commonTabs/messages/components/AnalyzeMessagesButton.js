@@ -25,6 +25,16 @@ export default function AnalyzeMessagesButton({
   if (showErroneous) {
     filters.push({ name: 'call.erroneous', value: 'true', operator: 'EQUALS' });
   }
+  const orderBy = showErroneous ? 'erroneousCalls_SUM_Agg' : null;
+  const focusedMetric = showErroneous ? 'erroneousCalls_SUM' : null;
+  const metrics = showErroneous
+    ? [
+        {
+          metric: 'erroneousCalls',
+          aggregation: 'SUM'
+        }
+      ]
+    : null;
   return (
     <Button
       className={className}
@@ -36,7 +46,10 @@ export default function AnalyzeMessagesButton({
         dataSource: 'calls',
         groupByTag,
         boundaryScope,
-        filters
+        filters,
+        orderBy,
+        focusedMetric,
+        metrics
       })}
     >
       Analyze Messages
