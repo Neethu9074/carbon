@@ -4,7 +4,21 @@ import invariant from 'invariant';
 
 import { emptyObject } from 'in-services/fixedObjects';
 
-export default function useObservable(observable, fieldsToWatch, { pure = true } = emptyObject) {
+export default function useObservable(
+  observable,
+  fieldsToWatch,
+  {
+    // Whether or not to ignore observable updates that equal (===) the current state.
+    //  pure=true  => Only re-render when newValue !== currentState.
+    //  pure=false => Always re-render when the observable emits a value.
+    pure = true,
+    // In order to ensure consistency this hook will reset the state to `undefined`
+    // whenever `fieldsToWatch` changes. This can sometimes be undesirable and can
+    // even result in too many render executions / wrong behavior. However it is
+    // the technically consistent behavior.
+    resetStateOnObservableChange = true
+  } = emptyObject
+) {
   invariant(fieldsToWatch, 'fieldsToWatch (second parameter) must be defined.');
 
   // We access a field _lastEmittedValue from observables in order to avoid excessive updates.
@@ -48,7 +62,7 @@ export default function useObservable(observable, fieldsToWatch, { pure = true }
       return;
     }
 
-    if (!pure || state.value !== initialStateValue) {
+    if (resetStateOnObservableChange && (!pure || state.value !== initialStateValue)) {
       // Re-set the state on observable change immediately to ensure consistent views.
       setState(initialStateValue);
     }
@@ -88,7 +102,7 @@ export default function useObservable(observable, fieldsToWatch, { pure = true }
   // is updated as well. Unfortunately the update path via useEffect => useState is asynchronous.
   // This in turn requires us to have the logic two times.
   let valueToReturn = lastKnownRenderState.value;
-  if (!shallowEquals(lastKnownRenderState.fieldsToWatch, fieldsToWatch)) {
+  if (resetStateOnObservableChange && !shallowEquals(lastKnownRenderState.fieldsToWatch, fieldsToWatch)) {
     valueToReturn = initialStateValue;
   }
   return valueToReturn;

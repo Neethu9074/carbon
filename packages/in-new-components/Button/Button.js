@@ -3,6 +3,7 @@ import React from 'react';
 
 import { stopPropagation, stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { evaluateClassNames } from 'in-services/util/classnames';
+import { useObservableConfig } from 'in-components/Link/Link';
 import useObservable from 'in-hooks/useObservable';
 import SvgIcon from 'in-components/SvgIcon';
 
@@ -54,7 +55,7 @@ export default function Button({
   // Avoid changing the element type every time the link goes from unresolved to resolved.
   // This can cause several problems: Lost focus, tooltip component breaking…
   const willBeALink = href$ || href;
-  const resolvedHref = useObservable(href$, [href$]) || href;
+  const resolvedHref = useObservable(href$, [href$], useObservableConfig) || href;
   let classes = `${locals.button} ${noAutoMargin ? locals.noAutoMargin : ''} ${locals[kind] || ''} ${locals[size] ||
     ''}`;
 
