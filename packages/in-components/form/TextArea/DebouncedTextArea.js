@@ -6,9 +6,9 @@ import useDebouncedValue from 'in-hooks/useDebouncedValue';
 import { noop } from 'in-services/fixedObjects';
 
 // split debouncing specific properties to avoid react-dev-tools:
-// "Warning: Unknown event handler property `onDebouncedChange`. It will be ignored."
-export default function DebouncedTextArea({ onDebouncedChange, value, delay, ...props }) {
-  const debounced = useDebouncedValue(value, onDebouncedChange ?? noop, delay);
+// "Warning: Unknown event handler property `onValueChange`. It will be ignored."
+export default function DebouncedTextArea({ onValueChange: onValueChange, value, delay, ...props }) {
+  const debounced = useDebouncedValue(value, onValueChange ?? noop, delay);
   return (
     <FormTextArea
       {...props}

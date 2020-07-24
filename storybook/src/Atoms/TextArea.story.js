@@ -19,7 +19,7 @@ export const Debounced = () => {
     <>
       <DebouncedTextArea
         value={debouncedText}
-        onDebouncedChange={setDebouncedText}
+        onValueChange={setDebouncedText}
         onChange={({ target }) => setDirect(target.value)}
       />
       <p>

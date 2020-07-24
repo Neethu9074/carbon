@@ -131,7 +131,7 @@ export default function ProvideLogMessage({ form, timeConfig, onSelectLogMessage
               name={'ruleMessage'}
               rows="3"
               value={field.value}
-              onDebouncedChange={value => {
+              onValueChange={value => {
                 applicationsAlertingLogMsgChanged(mode);
                 updateForm(
                   form

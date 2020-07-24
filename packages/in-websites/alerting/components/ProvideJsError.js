@@ -67,7 +67,7 @@ export default function ProvideJsError({ form, timeConfig, onSelectJsError, mode
                 name={'ruleValue'}
                 rows="3"
                 value={field.value}
-                onDebouncedChange={value => {
+                onValueChange={value => {
                   websitesAlertingJsErrorsMsgChanged(mode);
                   updateForm(
                     form
