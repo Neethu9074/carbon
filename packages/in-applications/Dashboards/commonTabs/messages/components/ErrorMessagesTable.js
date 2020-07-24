@@ -37,8 +37,8 @@ const columnDefinitions = [
     ellipsis: '50vw'
   },
   {
-    id: 'callsAgg',
-    label: 'Count',
+    id: 'erroneousCallsAgg',
+    label: 'Erroneous Call Count',
     defaultOrderDirection: 'DESC',
     getContent(item, { result, timeConfig }) {
       return (
@@ -46,8 +46,8 @@ const columnDefinitions = [
           loading={result?.progress?.loading}
           rollup={getSparkChartGranularity(timeConfig)}
           timeConfig={getResolvedTimeConfig(timeConfig, result)}
-          metrics={item.metrics.calls}
-          metric={item.metrics.callsAgg}
+          metrics={item.metrics.erroneousCalls}
+          metric={item.metrics.erroneousCallsAgg}
           tooltipFormatter={number.compact}
         />
       );
@@ -143,12 +143,12 @@ function getTableData({
       applicationBoundaryScope: boundaryScope
     },
     metrics: {
-      callsAgg: {
-        metric: 'calls',
+      erroneousCallsAgg: {
+        metric: 'erroneousCalls',
         aggregation: 'SUM'
       },
-      calls: {
-        metric: 'calls',
+      erroneousCalls: {
+        metric: 'erroneousCalls',
         aggregation: 'SUM',
         granularity: getSparkChartGranularity(timeConfig)
       }
