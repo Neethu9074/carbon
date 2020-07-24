@@ -11,7 +11,6 @@ import { timeThresholdTypes } from 'in-new-components/Alerting/advanced/TimeThre
 import locals from './TimeThresholdConfig.mless';
 
 export default function ConfigureAlertingThreshold({ form, onChange, updateForm }) {
-  const { violationsInPeriod, userImpactOfViolationsInSequence, requestImpact } = timeThresholdTypes;
   const granularity = form.get('granularity')?.value;
   const timeThresholdForm = form.get('timeThreshold');
   const timeThresholdType = timeThresholdForm.get('type')?.value;
@@ -20,53 +19,61 @@ export default function ConfigureAlertingThreshold({ form, onChange, updateForm 
 
   return (
     <div className={locals.alertThresholdConfigContainer}>
-      {granularity && <ConfigureGranularity onChange={onChangeGranularity} granularity={granularity} />}
-      {granularity && timeThresholdType === timeThresholdTypes.violationsInSequence && (
-        <ConfigureTimeWindow
-          label="Number of Consecutive Violations"
-          onChange={onChangeTimeWindow}
-          timeThresholdTimeWindow={timeThresholdTimeWindow}
-          granularity={granularity}
-        />
+      {granularity && (
+        <>
+          <ConfigureGranularity onChange={onChangeGranularity} granularity={granularity} />
+          {getConfigureTimeWindow(timeThresholdType)}
+          {getConfigureViolationsOrUserImpact(timeThresholdType)}
+        </>
       )}
-      {granularity && timeThresholdType === timeThresholdTypes.violationsInPeriod && (
-        <ConfigureTimeWindow
-          label="Number of Consecutive Evaluations"
-          onChange={onChangeTimeWindow}
-          timeThresholdTimeWindow={timeThresholdTimeWindow}
-          granularity={granularity}
-        />
-      )}
-      {granularity && timeThresholdType === timeThresholdTypes.userImpactOfViolationsInSequence && (
-        <ConfigureTimeWindow
-          label="Evaluation Window"
-          onChange={onChangeTimeWindow}
-          timeThresholdTimeWindow={timeThresholdTimeWindow}
-          granularity={granularity}
-        />
-      )}
-      {granularity && timeThresholdType === timeThresholdTypes.violationsInPeriod && (
-        <ConfigureViolations
-          label="Number of Violations"
-          onChange={onChangeViolationsInPeriode}
-          violations={timeThresholdViolations}
-          maxViolations={Math.round(timeThresholdTimeWindow / granularity)}
-        />
-      )}
-      {timeThresholdType === userImpactOfViolationsInSequence && (
-        <ConfigureUserImpact form={form} onChange={onChange} updateForm={updateForm} />
-      )}
-      {timeThresholdType === requestImpact && <ConfigureRequestImpact form={form} onChange={onChange} />}
     </div>
   );
 
-  function onChangeViolationsInPeriode(violations) {
+  function getConfigureTimeWindow(timeThresholdType) {
+    let label;
+    if (timeThresholdType === timeThresholdTypes.violationsInSequence) {
+      label = 'Number of Consecutive Violations';
+    } else if (timeThresholdType === timeThresholdTypes.violationsInPeriod) {
+      label = 'Number of Consecutive Evaluations';
+    } else if (timeThresholdType === timeThresholdTypes.userImpactOfViolationsInSequence) {
+      label = 'Evaluation Window';
+    } else if (timeThresholdType === timeThresholdTypes.requestImpact) {
+      return <ConfigureRequestImpact form={form} onChange={onChange} />;
+    }
+    return (
+      <ConfigureTimeWindow
+        label={label}
+        onChange={onChangeTimeWindow}
+        timeThresholdTimeWindow={timeThresholdTimeWindow}
+        granularity={granularity}
+      />
+    );
+  }
+
+  function getConfigureViolationsOrUserImpact(timeThresholdType) {
+    if (timeThresholdType === timeThresholdTypes.violationsInPeriod) {
+      return (
+        <ConfigureViolations
+          label="Number of Violations"
+          onChange={onChangeViolationsInPeriod}
+          violations={timeThresholdViolations}
+          maxViolations={Math.round(timeThresholdTimeWindow / granularity)}
+        />
+      );
+    } else if (timeThresholdType === timeThresholdTypes.userImpactOfViolationsInSequence) {
+      return <ConfigureUserImpact form={form} onChange={onChange} updateForm={updateForm} />;
+    } else {
+      return null;
+    }
+  }
+
+  function onChangeViolationsInPeriod(violations) {
     updateForm(form.updateIn(['timeThreshold', 'violations'], f => f.setValue(violations).setTouched(true)));
   }
 
   function onChangeTimeWindow(timeWindowValue) {
     let updatedForm = timeThresholdForm.updateIn(['timeWindow'], f => f.setValue(timeWindowValue).setTouched(true));
-    if (timeThresholdType === violationsInPeriod) {
+    if (timeThresholdType === timeThresholdTypes.violationsInPeriod) {
       const granularity = form.get('granularity').value;
       const oldViolations = timeThresholdForm.get('violations').value;
       const maxViolations = parseInt(timeWindowValue / granularity);
