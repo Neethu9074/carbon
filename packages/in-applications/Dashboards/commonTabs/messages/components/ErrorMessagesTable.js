@@ -67,7 +67,7 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
     applicationDashboardUrlParameters.endpointId
   ],
   columnDefinitions,
-  defaultOrderBy: 'callsAgg',
+  defaultOrderBy: 'erroneousCallsAgg',
   defaultOrderDirection: 'DESC',
   defaultPageSize: 10,
   pathSegment,
@@ -117,7 +117,7 @@ function getTableData({
   query = '',
   page = 1,
   pageSize = 10,
-  orderBy = 'callsAgg',
+  orderBy = 'erroneousCallsAgg',
   orderDirection = 'DESC',
   applicationId,
   serviceId,
