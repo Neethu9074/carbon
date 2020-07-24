@@ -47,6 +47,7 @@ function JsErrorsInteractiveChart({
   const [tempThreshold, setTempThreshold] = useState(() => form.get('threshold').get('value').value);
   const [doDebounce, setDoDebounce] = useState(false);
 
+  const metricName = form.get('rule').get('metricName');
   const percentageMetric = isPercentageMetric(metricName);
   const alertConfig = {
     ...form.toJS(),
@@ -60,7 +61,6 @@ function JsErrorsInteractiveChart({
   };
 
   const alertType = alertConfig.rule.alertType;
-  const metricName = alertConfig.rule.metricName;
   const blueprintConfig = getBlueprintConfig(alertType);
 
   if (!blueprintConfig.isRuleComplete(alertConfig.rule)) {
