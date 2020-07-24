@@ -2,12 +2,9 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import ConjunctionsAndBrackets from 'in-new-components/QueryBuilder/TagSelectorOverlay/ConjunctionsAndBrackets';
-import PreviousUsedFilter from 'in-new-components/QueryBuilder/TagSelectorOverlay/PreviousUsedFilter';
 import TreeNodeList from 'in-new-components/QueryBuilder/TagSelectorOverlay/TreeNodeList';
 import SlideInView, { ListHeader } from 'in-new-components/SlideInView/LocalSlideInView';
-import OverlayOption from 'in-new-components/QueryBuilder/OverlayOption/OverlayOption';
 import TagTree from 'in-new-components/QueryBuilder/TagSelectorOverlay/TagTree';
-import { Ul, ListGroup } from 'in-new-components/lists/List/List';
 import ExternalSearchInput from 'in-new-components/SearchInput';
 
 import locals from './TagSelectorOverlay.mless';
@@ -56,7 +53,7 @@ export default function TagSelectorOverlay({ tagCatalog, onChange, close }) {
               }}
             />
 
-            {__DEV__ && (
+            {/* {__DEV__ && (
               <>
                 <Ul className={locals.filterList} framed={false} borderRadius="medium">
                   <PreviousUsedFilter filter="foo AND bar" onClick={() => {}} />
@@ -68,7 +65,7 @@ export default function TagSelectorOverlay({ tagCatalog, onChange, close }) {
                   </OverlayOption>
                 </ListGroup>
               </>
-            )}
+            )} */}
 
             {!activeGroup && <TagTree tagCatalog={tagCatalog} query={query} onChange={setActiveGroup} close={close} />}
           </div>

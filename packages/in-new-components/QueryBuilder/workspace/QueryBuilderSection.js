@@ -8,7 +8,7 @@ export default function QueryBuilderSection({ value: tagFilterExpression, onChan
     <Section
       icon="lib_actions_filter"
       title="Filter"
-      firstLineAlignmentOffsetPx={7}
+      firstLineAlignmentOffsetPx={3}
       actions={
         tagFilterExpression.length > 0 && (
           <Button kind="subtle" icon="lib_openclose_cancel" size="compact" onClick={() => onChange([])}>

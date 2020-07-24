@@ -8,9 +8,10 @@
     border: 1px solid @lib__colors__N400;
     border-radius: @lib__shapes__radius_medium;
     font-weight: 500;
-    line-height: @lib__typography__line-height;
-
-    // TODO this will likely need to be removed down the road
+    // Ensure that all tags have the same height. No matter whether they render
+    // an input field or not!
+    line-height: 1.6;
+    max-height: 1.6875rem;
     cursor: pointer;
 
     &:focus,

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 
 import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
@@ -39,6 +39,9 @@ export default function InfraExploreView() {
   const [{ tagFilterExpression }, onChange] = useUrlState(urlStateDefinition);
   const validResult = useObservable(isQueryValid(tagFilterExpression), [tagFilterExpression]) ?? pendingResult;
   const backendQueryModel = validResult?.data && toBackendQueryModel(tagFilterExpression);
+  const onTagFilterExpressionChange = useMemo(() => {
+    return tagFilterExpression => onChange({ tagFilterExpression });
+  }, [onChange]);
 
   return (
     <InfraPageHeaderWithTabs showSearchBar={false} theme={themes.light} addShadow addFooter>
@@ -67,7 +70,7 @@ export default function InfraExploreView() {
           <Sections>
             <QueryBuilderSection
               value={tagFilterExpression}
-              onChange={tagFilterExpression => onChange({ tagFilterExpression })}
+              onChange={onTagFilterExpressionChange}
               QueryBuilder={QueryBuilder}
             />
             <ActionSection

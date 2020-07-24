@@ -113,7 +113,7 @@ export default class Overlay extends React.Component {
       withoutWrapper,
       withoutArrow,
       kind,
-      children: Content,
+      children,
       props = emptyObject,
       align = props.align,
       content: OverlayContent
@@ -123,18 +123,16 @@ export default class Overlay extends React.Component {
 
     let content;
     if (withoutWrapper) {
-      content = (
-        <Content
-          isOpen={isOpen}
-          toggle={this.toggle}
-          open={this.open}
-          delayedOpen={this.delayedOpen}
-          close={this.close}
-          delayedClose={this.delayedClose}
-          {...props}
-          refSetter={this.refSetter}
-        />
-      );
+      content = children({
+        isOpen: isOpen,
+        toggle: this.toggle,
+        open: this.open,
+        delayedOpen: this.delayedOpen,
+        close: this.close,
+        delayedClose: this.delayedClose,
+        ...props,
+        refSetter: this.refSetter
+      });
     } else {
       content = (
         <div
@@ -144,7 +142,13 @@ export default class Overlay extends React.Component {
           onMouseLeave={autoClose ? this.delayedClose : undefined}
           ref={this.refSetter}
         >
-          <Content isOpen={isOpen} toggle={this.toggle} open={this.open} close={this.close} {...props} />
+          {children({
+            isOpen,
+            toggle: this.toggle,
+            open: this.open,
+            close: this.close,
+            ...props
+          })}
         </div>
       );
     }
@@ -181,8 +185,8 @@ export default class Overlay extends React.Component {
 }
 
 Overlay.propTypes = {
-  Content: PropTypes.any,
-  OverlayContent: PropTypes.any,
+  children: PropTypes.func.isRequired,
+  content: PropTypes.any,
   align: PropTypes.oneOf([
     'leftBottom',
     'leftMiddle',
@@ -211,7 +215,5 @@ Overlay.propTypes = {
   withoutWrapper: PropTypes.bool,
   wrapperClassName: PropTypes.string,
   wrapperStyle: PropTypes.object,
-  children: PropTypes.any,
-  props: PropTypes.any,
-  content: PropTypes.any
+  props: PropTypes.any
 };

@@ -31,7 +31,7 @@ export default function DragAndDropBehaviour({
   function getClosestElementDropIndex(e) {
     const closestElement = getNearestDomElement(
       e,
-      queryBuilderRef.querySelectorAll('[data-query-builder-space-element]')
+      queryBuilderRef.current.querySelectorAll('[data-query-builder-space-element]')
     );
 
     if (closestElement) {

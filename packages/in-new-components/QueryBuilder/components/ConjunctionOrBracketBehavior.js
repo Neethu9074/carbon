@@ -15,10 +15,7 @@ import { onElementKeyUp } from 'in-new-components/QueryBuilder/keyboardInteracti
 import Overlay from 'in-new-components/overlays/Overlay';
 
 export default function ConjunctionOrBracketBehavior({
-  element: {
-    renderModelIndex,
-    formModelIndex
-  },
+  element: { renderModelIndex, formModelIndex },
   onRemove,
   onChange: onChangeInFormModel,
   focus,
@@ -29,7 +26,6 @@ export default function ConjunctionOrBracketBehavior({
   return (
     <Overlay
       withoutWrapper
-      align="bottomMiddle"
       content={ConjunctionSelectorOverlay}
       props={{ value, onChange }}
       onCloseSideEffect={e => {

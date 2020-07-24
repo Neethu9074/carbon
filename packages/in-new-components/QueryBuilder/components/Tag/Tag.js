@@ -35,15 +35,13 @@ export default function Tag(props) {
       onKeyUp={event => onElementKeyUp({ event, renderModelIndex, formModelIndex, onRemove })}
       {...dragAndDropProps}
     >
-      {form
-        .get('entity')
-        ?.map(field => (
-          <Entity
-            entity={field.value}
-            renderModelIndex={renderModelIndex}
-            onChange={entity => onChange('entity', entity)}
-          />
-        ))}
+      {form.get('entity')?.map(field => (
+        <Entity
+          entity={field.value}
+          renderModelIndex={renderModelIndex}
+          onChange={entity => onChange('entity', entity)}
+        />
+      ))}
       <Name
         {...props}
         focus={focus}
@@ -56,17 +54,15 @@ export default function Tag(props) {
           }
         }}
       />
-      {form
-        .get('key')
-        ?.map(field => (
-          <Input
-            value={field.value || ''}
-            properyName="value"
-            onChange={value => onChange('key', value)}
-            valid={field.valid}
-            messages={field.messages}
-          />
-        ))}
+      {form.get('key')?.map(field => (
+        <Input
+          value={field.value || ''}
+          properyName="value"
+          onChange={value => onChange('key', value)}
+          valid={field.valid}
+          messages={field.messages}
+        />
+      ))}
       <Operator
         element={element}
         allowedOperators={allowedOperators}
@@ -122,11 +118,7 @@ function Input({ value, type, properyName, onChange, valid, messages }) {
   const result = useDebouncedValue(value, onChange, 500);
 
   return (
-    <Tooltip
-      themeStyle="light"
-      content={messages && messages.length > 0 ? messages[0].message : undefined}
-      align="bottomMiddle"
-    >
+    <Tooltip themeStyle="light" content={messages && messages.length > 0 ? messages[0].message : undefined}>
       <AutosizeInput
         inputClassName={evaluateClassNames({
           [locals.input]: true,

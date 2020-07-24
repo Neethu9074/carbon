@@ -99,7 +99,7 @@
     top: 1.8125rem;
     height: 1.1875rem;
 
-    padding-bottom: 1px;
+    padding-bottom: 0.125rem;
 
     font-weight: 500;
     color: @lib__colors__failure;

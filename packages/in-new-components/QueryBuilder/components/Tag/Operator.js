@@ -10,7 +10,6 @@ export default function Operator({ element: { operator, renderModelIndex }, allo
   return (
     <Overlay
       withoutWrapper
-      align="bottomMiddle"
       content={OperatorSelectorOverlay}
       props={{ value: operator, onChange, allowedOperators, tagType }}
       onCloseSideEffect={e => {

@@ -12,7 +12,6 @@ export default function Entity({ entity, onChange, renderModelIndex }) {
     return (
       <Overlay
         withoutWrapper
-        align="bottomMiddle"
         content={SourceDestinationSelectorOverlay}
         props={{ value: entity, onChange }}
         onCloseSideEffect={e => {

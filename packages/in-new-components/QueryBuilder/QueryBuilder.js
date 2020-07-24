@@ -53,21 +53,14 @@ function QueryBuilder({ value: formModel, onChange, getTagCatalog }) {
   // does not cause a re-render hence this workaround.
   const forceRerender = useState()[1];
   const postUpdateFocus = useRef();
-  const nextFocusId = postUpdateFocus.current?.id;
-  useLayoutEffect(
-    () => {
-      const index = postUpdateFocus.current?.index;
-      if (index != null && refContainer.current) {
-        const focusableElements = refContainer.current.querySelectorAll(`[data-render-model-index]`);
-        const nextFocusIndex = Math.max(0, Math.min(index, focusableElements.length - 1));
-        const element = focusableElements[nextFocusIndex];
-        if (element) {
-          element.focus();
-        }
-      }
-    },
-    [nextFocusId]
-  );
+  useLayoutEffect(() => {
+    const index = postUpdateFocus.current?.index;
+    if (index != null && refContainer.current) {
+      const focusableElements = refContainer.current.querySelectorAll(`[data-render-model-index]`);
+      const nextFocusIndex = Math.max(0, Math.min(index, focusableElements.length - 1));
+      focusableElements[nextFocusIndex]?.focus();
+    }
+  }, [postUpdateFocus.current?.id]);
 
   // TODO: loading state
   if (!tagCatalog || !tagCatalog.data) {
@@ -78,7 +71,7 @@ function QueryBuilder({ value: formModel, onChange, getTagCatalog }) {
 
   return (
     <QueryBuilderDragAndDropBehaviour
-      queryBuilderRef={refContainer.current}
+      queryBuilderRef={refContainer}
       totalItems={formModel.length}
       switchFormModelIndices={switchFormModelIndices}
       setDraggedFormModelIndex={index => draggedFormModelIndex$.emit(index)}

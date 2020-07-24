@@ -32,7 +32,6 @@ export default function Spacing({
 
   return (
     <Overlay
-      align="bottomMiddle"
       content={TagSelectorOverlay}
       props={{
         tagCatalog,

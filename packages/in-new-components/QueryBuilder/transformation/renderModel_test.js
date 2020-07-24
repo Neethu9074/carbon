@@ -282,23 +282,35 @@ describe('in-new-components/QueryBuilder/transformation/renderModel', () => {
         rm_word(),
         addValidation(
           rm_expression([
-            rm_openBracket(),
+            {
+              ...rm_openBracket(),
+              valid: true
+            },
             rm_letter(),
             rm_expression([
-              rm_openBracket(),
+              {
+                ...rm_openBracket(),
+                valid: true
+              },
               rm_letter(),
               rm_tag(),
               addValidation(rm_word(), ADD_CONJUNCTION),
               rm_tag(),
               rm_letter(),
-              rm_closeBracket()
+              {
+                ...rm_closeBracket(),
+                valid: true
+              }
             ]),
             rm_word(),
-            rm_conjunction(),
+            {
+              ...rm_conjunction(),
+              valid: true
+            },
             rm_word(),
             rm_tag(),
             rm_word(),
-            rm_conjunction(),
+            addValidation(rm_conjunction(), REMOVE_CONJUNCTION),
             addValidation(rm_word(), ADD_CLOSING_BRACKET)
           ]),
           MISSING_CLOSING_BRACKET

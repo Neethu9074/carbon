@@ -13,7 +13,6 @@ export default function Name({ tagCatalog, onChange, focus, element: { name, ren
   if (path) {
     return (
       <Overlay
-        align="bottomMiddle"
         content={TagSelectorOverlay}
         props={{
           tagCatalog,

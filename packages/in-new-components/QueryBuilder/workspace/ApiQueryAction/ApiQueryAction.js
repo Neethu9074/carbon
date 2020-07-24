@@ -6,7 +6,7 @@ import Overlay from 'in-new-components/overlays/Overlay';
 
 export default function ApiQueryAction({ backendQueryModel }) {
   return (
-    <Overlay withoutWrapper align="bottomRight" content={ApiQueryOverlay} props={{ backendQueryModel }}>
+    <Overlay withoutWrapper content={ApiQueryOverlay} props={{ backendQueryModel }}>
       {({ toggle, refSetter }) => (
         <Action
           disabled={!backendQueryModel}

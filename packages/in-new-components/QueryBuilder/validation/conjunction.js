@@ -11,27 +11,25 @@ export const REMOVE_CONJUNCTION = 'REMOVE_CONJUNCTION';
 
 export default function validate({ element, index, elements, addSuggestionToElement }) {
   if (isNot(element)) {
-    if (!isPreviousNotSiblingValid(elements[index - 2])) {
-      element.valid = false;
-    }
-
-    if (!isNextNotSiblingValid(elements[index + 2])) {
-      element.valid = false;
-    }
+    element.valid = Boolean(
+      isPreviousNotSiblingValid(elements[index - 2]) && isNextNotSiblingValid(elements[index + 2])
+    );
   } else {
-    const prevElement = elements[index - 2]; // skipping the space
-    if ((!prevElement || (!isTag(prevElement) && !isExpression(prevElement))) && !isNot(element)) {
+    element.valid = Boolean(
+      isPreviousAndOrSiblingValid(elements[index - 2]) && isNextAndOrSiblingValid(elements[index + 2])
+    );
+    if (!element.valid) {
       addSuggestionToElement(element, REMOVE_CONJUNCTION);
     }
   }
 }
 
 export function isPreviousAndOrSiblingValid(previous) {
-  return previous && (isCloseBracket(previous) || isTag(previous));
+  return previous && (isCloseBracket(previous) || isExpression(previous) || isTag(previous));
 }
 
 export function isNextAndOrSiblingValid(next) {
-  return next && (isOpenBracket(next) || isTag(next) || isNot(next));
+  return next && (isOpenBracket(next) || isExpression(next) || isTag(next) || isNot(next));
 }
 
 export function isPreviousNotSiblingValid(previous) {

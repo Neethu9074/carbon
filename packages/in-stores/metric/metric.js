@@ -33,6 +33,8 @@ const second = 1000;
 const minute = 60 * second;
 const hour = 60 * minute;
 const day = 24 * hour;
+// Ensure that this is kept in sync with the backend:
+// - https://github.com/instana/backend/blob/1f04be562b1310cbd7dd00ab3208c82042197b00/ui-backend/src/main/java/com/instana/ui/service/EventMetricService.java#L59
 export const sensibleGranularities = [
   second,
   5 * second,
