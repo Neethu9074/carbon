@@ -19,15 +19,13 @@ phases:
     runtime-versions:
       docker: 18
     commands:
-      # Set up the correct Node.js version
-      - n `cat .nvmrc`
       # git configuration to check out git submodules
       - echo "https://$GITHUB_READ_USER:$GITHUB_READ_PASSWORD@github.com" > $HOME/.git-credentials
       - git config --global credential.helper store
       # download git submodules so that our shared CI tools are available
       - git submodule update --init --recursive
       # Set up the shared tooling
-      - ./build/ci-shared-tools/scripts/setup.bash
+      - 'USE_N=true ./build/ci-shared-tools/scripts/setup.bash'
       - ./build/ci-shared-tools/scripts/codebuild/setup.bash
       # Define the standard build env vars
       - export GIT_COMMIT="$(./build/ci-shared-tools/scripts/git/getCommitId.js)"
@@ -37,6 +35,8 @@ phases:
       - INSTANA_CONTAINER_TAG="$(./build/ci-shared-tools/scripts/componentVersioning/getVersion.js ui-client $GIT_BRANCH $EXTERNAL_CONTAINER_TAG_OVERWRITE)" && export INSTANA_CONTAINER_TAG
       # Alias the value for the Node.js build process
       - export COM_INSTANA_IMAGE_TAG="$INSTANA_CONTAINER_TAG"
+      # Set up the correct Node.js version
+      - n `cat .nvmrc`
   pre_build:
     commands:
       # Install project dependencies
