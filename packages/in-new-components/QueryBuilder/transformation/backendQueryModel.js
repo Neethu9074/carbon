@@ -25,6 +25,7 @@ export function toBackendQueryModel(formModel) {
 
   // Add levels for AND conjunctions (stronger binding than OR)
   // [A, AND, [NOT, [B, AND, C, OR, D]]] => [[A, AND, [NOT, [[B, AND, C], OR, D]]]]
+  // [A, OR, B, AND, C] => [A, OR, [B, AND, C]]
   result = addLevelsForAndConjunctions(result);
 
   // transform conjunction/bracket levels into backend compatible logical expressions
@@ -79,7 +80,7 @@ function addLevelsForAndConjunctions(elements) {
       } else if (element.logicalOperator === OPERATOR_AND && startIndex < 0) {
         startIndex = i - 1;
       }
-    } else if (startIndex < 0 && (i > 0 || hasNoAndConjunction)) {
+    } else if (hasNoAndConjunction || (startIndex < 0 && elements[i + 1]?.logicalOperator !== OPERATOR_AND)) {
       if (element instanceof Array) {
         result.push(addLevelsForAndConjunctions(element));
       } else {

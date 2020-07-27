@@ -358,5 +358,66 @@ describe('in-new-components/QueryBuilder/transformation/backendQueryModel', () =
         ]
       });
     });
+
+    it('should map: A or B and C', () => {
+      const tagFilters = [
+        {
+          type: FM_TAG,
+          name: 'name',
+          operator: 'EQUALS',
+          value: 'a'
+        },
+        {
+          type: FM_CONJUNCTION,
+          logicalOperator: OPERATOR_OR
+        },
+        {
+          type: FM_TAG,
+          name: 'name',
+          operator: 'EQUALS',
+          value: 'b'
+        },
+        {
+          type: FM_CONJUNCTION,
+          logicalOperator: OPERATOR_AND
+        },
+        {
+          type: FM_TAG,
+          name: 'name',
+          operator: 'EQUALS',
+          value: 'c'
+        }
+      ];
+      expect(toBackendQueryModel(tagFilters)).to.deep.equal({
+        type: 'EXPRESSION',
+        logicalOperator: 'OR',
+        elements: [
+          {
+            type: 'TAG_FILTER',
+            name: 'name',
+            value: 'a',
+            operator: 'EQUALS'
+          },
+          {
+            type: 'EXPRESSION',
+            logicalOperator: 'AND',
+            elements: [
+              {
+                type: 'TAG_FILTER',
+                name: 'name',
+                value: 'b',
+                operator: 'EQUALS'
+              },
+              {
+                type: 'TAG_FILTER',
+                name: 'name',
+                value: 'c',
+                operator: 'EQUALS'
+              }
+            ]
+          }
+        ]
+      });
+    });
   });
 });
