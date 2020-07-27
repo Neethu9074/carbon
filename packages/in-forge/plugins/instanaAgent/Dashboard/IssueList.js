@@ -79,9 +79,10 @@ const cols = [
     typeArgs: {
       comparator: compareIgnoreCase,
       get(row) {
+        const args = row.arguments ? row.arguments.toJS() : {};
         const issueDefinition = getIssueDefinitionForSnapshotAndCode(row.snapshot, row.code);
         const label = issueDefinition.explanationLinkLabel;
-        const href = issueDefinition.explanationLinkHref;
+        const href = issueDefinition.getExplanationLinkHref?.(args) ?? issueDefinition.explanationLinkHref;
         return {
           value: label,
           content: (

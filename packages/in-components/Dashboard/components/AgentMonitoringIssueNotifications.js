@@ -65,7 +65,7 @@ export default connectTo(
                     </p>
                   </div>
                   <Button
-                    href={issueDefinition.explanationLinkHref}
+                    href={issueDefinition.getExplanationLinkHref?.(args) ?? issueDefinition.explanationLinkHref}
                     size="compact"
                     kind="secondary"
                     target="_blank"

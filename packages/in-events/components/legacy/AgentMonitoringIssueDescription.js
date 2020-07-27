@@ -30,7 +30,7 @@ export default connectTo(
     const issueDefinition = getIssueDefinitionForSnapshotAndCode(snapshot, issueCode);
 
     const label = issueDefinition.explanationLinkLabel;
-    const href = issueDefinition.explanationLinkHref;
+    const href = issueDefinition.getExplanationLinkHref?.(args) ?? issueDefinition.explanationLinkHref;
 
     return (
       <DescriptionList>
