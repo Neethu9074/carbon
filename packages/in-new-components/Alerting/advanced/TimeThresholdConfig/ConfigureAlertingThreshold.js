@@ -36,7 +36,7 @@ export default function ConfigureAlertingThreshold({ form, onChange, updateForm 
     } else if (timeThresholdType === timeThresholdTypes.violationsInPeriod) {
       label = 'Number of Consecutive Evaluations';
     } else if (timeThresholdType === timeThresholdTypes.userImpactOfViolationsInSequence) {
-      label = 'Evaluation Window';
+      label = 'Number of Evaluation Windows';
     } else if (timeThresholdType === timeThresholdTypes.requestImpact) {
       return <ConfigureRequestImpact form={form} onChange={onChange} />;
     }
