@@ -1,8 +1,15 @@
 import React, { useRef } from 'react';
 
+import {
+  LETTER,
+  WORD,
+  OPEN_BRACKET,
+  CLOSE_BRACKET,
+  CONJUNCTION
+} from 'in-new-components/QueryBuilder/transformation/renderModel';
 import { isPrimaryInteractiveElement, isDefaultInteractionTrigger } from 'in-new-components/interactiveCustomElement';
+import { and, or, not } from 'in-new-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import TagSelectorOverlay from 'in-new-components/QueryBuilder/TagSelectorOverlay/TagSelectorOverlay';
-import { LETTER, WORD } from 'in-new-components/QueryBuilder/transformation/renderModel';
 import Suggestions from 'in-new-components/QueryBuilder/components/Spacing/Suggestions';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { evaluateClassNames } from 'in-services/util/classnames';
@@ -94,6 +101,34 @@ export default function Spacing({
     } else if (onRemove && e.keyCode === keyCodes.delete) {
       stopPropagationAndPreventDefault(e);
       onRemove(rightFormModelIndex, renderModelIndex);
+    } else if (e.key === '(') {
+      stopPropagationAndPreventDefault(e);
+      onAddToFormModel({
+        type: OPEN_BRACKET
+      });
+    } else if (e.key === ')') {
+      stopPropagationAndPreventDefault(e);
+      onAddToFormModel({
+        type: CLOSE_BRACKET
+      });
+    } else if (e.key === '&') {
+      stopPropagationAndPreventDefault(e);
+      onAddToFormModel({
+        type: CONJUNCTION,
+        logicalOperator: and
+      });
+    } else if (e.key === '|') {
+      stopPropagationAndPreventDefault(e);
+      onAddToFormModel({
+        type: CONJUNCTION,
+        logicalOperator: or
+      });
+    } else if (e.key === '!') {
+      stopPropagationAndPreventDefault(e);
+      onAddToFormModel({
+        type: CONJUNCTION,
+        logicalOperator: not
+      });
     }
   }
 }
