@@ -16,7 +16,13 @@ export default function ReleaseMarkerLane(props) {
         granularity: props.clusterSizeMillis
       })
         .startWith(pendingResult)
-        .map(({ data = [] }) => data),
+        .map(({ data = [] }) =>
+          data.map(item => {
+            const i = { ...item };
+            i.startTime = i.timestamp;
+            return i;
+          })
+        ),
       [props.timeConfig]
     ) ?? emptyArray;
 
