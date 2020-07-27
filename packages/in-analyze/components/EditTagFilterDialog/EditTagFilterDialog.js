@@ -71,7 +71,7 @@ export default compose(
         .filter(
           operator =>
             !isIdTag(form.get('tag').value) ||
-            (operator == 'EQUALS' || operator == 'NOT_EQUAL' || operator == 'IS_EMPTY' || operator == 'NOT_EMPTY')
+            operator == 'EQUALS' || operator == 'NOT_EQUAL' || operator == 'IS_EMPTY' || operator == 'NOT_EMPTY'
         ),
       onRemoveTagFilter: () => {
         if (removeTagFilter) {
@@ -194,8 +194,8 @@ export default compose(
         props.conjunctions && props.conjunctions.includes('OR')
           ? []
           : props.tagFilter
-            ? props.tagFilters.filter(f => !isSameFilter(f, props.tagFilter))
-            : props.tagFilters
+          ? props.tagFilters.filter(f => !isSameFilter(f, props.tagFilter))
+          : props.tagFilters
     };
     let keySuggestions$;
     if (props.getKeySuggestions && props.selectedTagType === 'KEY_VALUE_PAIR') {
@@ -246,6 +246,8 @@ function setResolvedEntity(tag) {
   const tagEntity = getTagEntity(tag);
   if (tagEntity === entityTypes.NOT_APPLICABLE) {
     return entityTypes.NOT_APPLICABLE;
+  } else if (tagEntity === entityTypes.SOURCE) {
+    return entityTypes.SOURCE;
   }
   return entityTypes.DESTINATION;
 }

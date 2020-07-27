@@ -93,6 +93,8 @@ function setResolvedEntity(tag) {
   const tagEntity = getTagEntity(tag);
   if (tagEntity === entityTypes.NOT_APPLICABLE) {
     return entityTypes.NOT_APPLICABLE;
+  } else if (tagEntity === entityTypes.SOURCE) {
+    return entityTypes.SOURCE;
   }
   return entityTypes.DESTINATION;
 }
