@@ -20,7 +20,7 @@ export default withProps(({ filters }) => ({
   chartDefinitions: latencyDistributionBase10Enabled ? [latencyDistributionChartDefinition] : [],
   customChartRenderers: [
     {
-      key: 'calls_DISTRIBUTION',
+      key: 'latency_DISTRIBUTION',
       render: function LatencyDistribution() {
         const timeConfig = filters.timeConfig;
         const subscription = getLatencyDistributionBase10({

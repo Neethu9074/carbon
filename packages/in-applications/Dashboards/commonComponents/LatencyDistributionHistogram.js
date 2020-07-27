@@ -126,7 +126,7 @@ export default function LatencyDistributionHistogram({
                   boundaryScope,
                   groupByTag: {},
                   filters: filterForLink(),
-                  focusedMetric: 'calls_DISTRIBUTION'
+                  focusedMetric: 'latency_DISTRIBUTION'
                 }
               ),
             onClick: () => {
