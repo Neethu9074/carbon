@@ -20,6 +20,7 @@ import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import { ClusterBreadcrumbs } from 'in-kubernetes/breadcrumbs';
 import tabs from 'in-kubernetes/Dashboards/Cluster/tabs/index';
 import BadgeList from 'in-new-components/BadgeList/BadgeList';
+import { entityTypes } from 'in-analyze/applicationFilter';
 import { clusterTabChange } from 'in-kubernetes/tracker';
 import icons from 'in-components/SvgIcon/registry.json';
 import { getTimeConfig } from 'in-stores/time/config';
@@ -109,7 +110,7 @@ function renderButtonLine({ clusterId, timeConfig, result }) {
       />
       <AnalyzeCallsButton
         clusterName={get(result, ['data', 'label'], '')}
-        groupByTag={{ name: 'kubernetes.namespace' }}
+        groupByTag={{ name: 'kubernetes.namespace', entity: entityTypes.DESTINATION }}
         timeConfig={timeConfig}
       />
     </>

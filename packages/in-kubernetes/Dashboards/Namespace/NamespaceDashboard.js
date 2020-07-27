@@ -19,6 +19,7 @@ import tabs from 'in-kubernetes/Dashboards/Namespace/tabs/index';
 import { isOpenshift } from 'in-kubernetes/clusterDistributions';
 import DashboardHeader from 'in-new-components/DashboardHeader';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
+import { entityTypes } from 'in-analyze/applicationFilter';
 import { namespaceTabChange } from 'in-kubernetes/tracker';
 import { getTimeConfig } from 'in-stores/time/config';
 import Footer from 'in-new-components/Footer';
@@ -114,7 +115,7 @@ function renderButtonLine({ namespaceId, timeConfig, result }) {
       <AnalyzeCallsButton
         clusterName={get(result, ['data', 'clusterName'])}
         namespaceName={get(result, ['data', 'label'])}
-        groupByTag={{ name: 'kubernetes.service.name' }}
+        groupByTag={{ name: 'kubernetes.service.name', entity: entityTypes.DESTINATION }}
         timeConfig={timeConfig}
       />
     </>

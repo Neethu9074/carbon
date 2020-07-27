@@ -19,6 +19,7 @@ import DashboardHeader from 'in-new-components/DashboardHeader';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import tabs from 'in-kubernetes/Dashboards/Service/tabs/index';
 import { ServiceBreadcrumbs } from 'in-kubernetes/breadcrumbs';
+import { entityTypes } from 'in-analyze/applicationFilter';
 import { serviceTabChange } from 'in-kubernetes/tracker';
 import { getTimeConfig } from 'in-stores/time/config';
 import Footer from 'in-new-components/Footer';
@@ -126,7 +127,7 @@ function renderButtonLine({ timeConfig, result, serviceId }) {
         clusterName={clusterName}
         namespaceName={namespaceName}
         serviceName={serviceName}
-        groupByTag={{ name: 'kubernetes.pod.name' }}
+        groupByTag={{ name: 'kubernetes.pod.name', entity: entityTypes.DESTINATION }}
         timeConfig={timeConfig}
       />
     </>

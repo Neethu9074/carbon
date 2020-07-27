@@ -13,6 +13,7 @@ import EntityVersionList from 'in-new-components/EntityVersionList';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import DashboardHeader from 'in-new-components/DashboardHeader';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
+import { entityTypes } from 'in-analyze/applicationFilter';
 import { getTimeConfig } from 'in-stores/time/config';
 import Footer from 'in-new-components/Footer';
 
@@ -118,7 +119,7 @@ function renderButtonLine({ workloadControllerType, workloadControllerId, timeCo
   const analyzeCallsProps = {
     clusterName: clusterName,
     namespaceName: namespaceName,
-    groupByTag: { name: 'kubernetes.pod.name' },
+    groupByTag: { name: 'kubernetes.pod.name', entity: entityTypes.DESTINATION },
     timeConfig: timeConfig
   };
   const workloadControllerFieldName = `${workloadControllerType}Name`;
