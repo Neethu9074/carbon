@@ -6,7 +6,7 @@ import SvgIcon from 'in-components/SvgIcon/SvgIcon';
 
 import locals from './LaneItem.mless';
 
-export default function LaneItem({ xPos, iconConfig, onClick, onHover, containsMoreThenOneItem, startTime }) {
+export default function LaneItem({ xPos, iconConfig, onClick, onHover, containsMoreThenOneItem, timestamp }) {
   return (
     <div
       style={{ transform: `translateX(${xPos}px)` }}
@@ -15,7 +15,7 @@ export default function LaneItem({ xPos, iconConfig, onClick, onHover, containsM
         stopPropagationAndPreventDefault(e);
         onHover?.({
           isHovered: true,
-          startTime
+          startTime: timestamp
         });
       }}
       onMouseLeave={e => {
@@ -43,6 +43,6 @@ LaneItem.propTypes = {
   }),
   onClick: PropTypes.func,
   onHover: PropTypes.func,
-  startTime: PropTypes.number,
+  timestamp: PropTypes.number,
   xPos: PropTypes.number
 };

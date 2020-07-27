@@ -16,8 +16,8 @@ export default function SmartAlertMarkerLane({ alertsPreviewConfiguration, getAl
         .startWith(pendingResult)
         .map(
           ({ data }) =>
-            data?.alerts.map(([startTime, count]) => ({
-              startTime,
+            data?.alerts.map(([timestamp, count]) => ({
+              timestamp,
               count
             })) ?? []
         ),

@@ -73,18 +73,18 @@ function MarkersLanePresenter({
           const containsMoreThenOneItem = eventData?.count > 1;
 
           const xPos = isClustered
-            ? xScale?.getRange(eventData.startTime) + clusterWidth / 2
-            : xScale?.getRange(eventData.startTime);
+            ? xScale?.getRange(eventData.timestamp) + clusterWidth / 2
+            : xScale?.getRange(eventData.timestamp);
 
           return (
             <Tooltip
               align={getTooltipAlignmentForChartContentPosition(chartContentPosition)}
-              key={eventData.id ?? eventData.startTime}
+              key={eventData.id ?? eventData.timestamp}
               content={tooltipContent(eventData)}
             >
               <LaneItem
                 xPos={xPos}
-                startTime={eventData.startTime}
+                timestamp={eventData.timestamp}
                 containsMoreThenOneItem={containsMoreThenOneItem}
                 chartContentPosition={chartContentPosition}
                 isClustered={isClustered}
@@ -126,8 +126,7 @@ MarkersLane.propTypes = {
   label: PropTypes.string.isRequired,
   events: PropTypes.arrayOf(
     PropTypes.shape({
-      startTime: PropTypes.number.isRequired,
-      count: PropTypes.number
+      timestamp: PropTypes.number.isRequired
     })
   ).isRequired,
   onClick: PropTypes.func,
