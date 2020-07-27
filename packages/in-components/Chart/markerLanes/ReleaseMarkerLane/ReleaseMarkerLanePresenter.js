@@ -21,17 +21,22 @@ export default function ReleaseMarkerLanePresenter(props) {
         typeCluster: 'lib_release_rocket',
         color: theme.lib.colors.N700Medium
       }}
-      tooltipContent={({ clusteredReleases, count }) => (
-        <div className={locals.tooltipContent}>
-          {clusteredReleases.slice(0, maxNumReleasesToShow).map(({ name, start }) => (
-            <div key={start}>
-              <time dateTime={new Date(start).toISOString()}>{formatDateTime(start)}</time>
-              <div className={locals.name}>{`${name}`}</div>
-            </div>
-          ))}
-          {count > maxNumReleasesToShow && <div>{`+${count - maxNumReleasesToShow} more releases`}</div>}
-        </div>
-      )}
+      tooltipContent={({ clusteredReleases = [] }) => {
+        const visibleReleasesCount = 3;
+        return (
+          <div className={locals.tooltipContent}>
+            {clusteredReleases.slice(0, maxNumReleasesToShow).map(({ name, start }) => (
+              <div key={start}>
+                <time dateTime={new Date(start).toISOString()}>{formatDateTime(start)}</time>
+                <div className={locals.name}>{`${name}`}</div>
+              </div>
+            ))}
+            {visibleReleasesCount > maxNumReleasesToShow && (
+              <div>{`+${visibleReleasesCount - maxNumReleasesToShow} more releases`}</div>
+            )}
+          </div>
+        );
+      }}
     />
   );
 }
