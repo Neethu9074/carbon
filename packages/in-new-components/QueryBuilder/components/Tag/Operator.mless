@@ -3,7 +3,8 @@
 :local {
   .operator {
     margin-right: 0.25rem;
-    padding: 0.0625rem 0.3125rem;
+    padding: 0.0225rem 0.3125rem;
+    background: #fff;
 
     border: 1px solid @lib__colors__N300;
     border-radius: @lib__shapes__radius_large;
@@ -11,8 +12,16 @@
     cursor: pointer;
 
     &:hover {
-      background: @lib__colors__N300;
-      border: 1px solid @lib__colors__N400;
+      color: @lib__colors__N600Light;
+      outline: none;
+      background: @lib__colors__N200;
+      border-color: @lib__colors__light-blue800;
+    }
+
+    &:focus, &:active {
+      outline: none;
+      background: @lib__colors__N200;
+      border-color: @lib__colors__light-blue800;
     }
   }
 }

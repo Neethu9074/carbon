@@ -28,6 +28,7 @@ module.exports = {
     delete globals['Notification'];
     delete globals['find'];
     delete globals['close'];
+    delete globals['focus'];
     globals.Promise = false;
     globals.__DEV__ = false;
     globals.__HOT_RELOAD__ = false;

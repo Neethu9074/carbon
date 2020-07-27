@@ -9,7 +9,6 @@ export default function Remove({ element, onRemove }) {
     <SvgIcon
       className={locals.icon}
       type="lib_openclose_cancel"
-      tabIndex={-1}
       onClick={() => onRemove(element.formModelIndex, element.renderModelIndex - 1)}
     />
   );

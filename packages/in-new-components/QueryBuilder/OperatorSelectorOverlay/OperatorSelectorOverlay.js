@@ -24,7 +24,7 @@ export default function OperatorSelectorOverlay({ value, allowedOperators, onCha
             value={operator}
           >
             {operatorLabels[`${tagType}_${operator}`]}
-            {description ? ` ${description}` : null}
+            {description ? ` (${description})` : null}
           </OverlayOption>
         );
       })}

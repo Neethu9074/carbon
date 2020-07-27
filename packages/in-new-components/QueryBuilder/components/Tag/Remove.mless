@@ -7,8 +7,10 @@
 
     fill: @lib__colors__N400;
     cursor: pointer;
-    &:hover {
-      fill: @lib__colors__N600Light;
+
+    &:hover, &:active, &:focus {
+      fill: @lib__colors__light-blue800;
+      outline: none;
     }
   }
 }

@@ -2,11 +2,16 @@ import React from 'react';
 
 import OperatorSelectorOverlay from 'in-new-components/QueryBuilder/OperatorSelectorOverlay/OperatorSelectorOverlay';
 import * as operatorLabels from 'in-new-components/QueryBuilder/tagFilter/operatorLabelsMapping';
+import { toInteractiveElement } from 'in-new-components/interactiveCustomElement';
 import Overlay from 'in-new-components/overlays/Overlay';
+import { compositeRef } from 'in-services/util/react';
 
 import locals from './Operator.mless';
 
-export default function Operator({ element: { operator, renderModelIndex }, allowedOperators, tagType, onChange }) {
+export default React.forwardRef(function Operator(
+  { element: { operator, renderModelIndex }, allowedOperators, tagType, onChange, focus },
+  ref
+) {
   return (
     <Overlay
       withoutWrapper
@@ -20,10 +25,16 @@ export default function Operator({ element: { operator, renderModelIndex }, allo
       }}
     >
       {({ toggle, refSetter }) => (
-        <span className={locals.operator} onClick={toggle} ref={refSetter}>
+        <div
+          {...toInteractiveElement({
+            onDefaultInteraction: () => toggle()
+          })}
+          className={locals.operator}
+          ref={compositeRef(refSetter, ref)}
+        >
           {operatorLabels[`${tagType}_${operator}`]}
-        </span>
+        </div>
       )}
     </Overlay>
   );
-}
+});

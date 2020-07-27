@@ -119,7 +119,14 @@ function QueryBuilder({ value: formModel, onChange, getTagCatalog }) {
   }
 
   function onAddFormModelElement({ formModelIndex, renderModelIndex, newFormModel }) {
-    updateFormModel({ formModelIndex, renderModelIndex, newFormModel, removeTargetItem: false });
+    focus(
+      renderModelIndex + 1,
+      // Forced re-render not necessary because the onChange call down below will also
+      // cause a re-render.
+      false
+    );
+
+    updateFormModel({ formModelIndex, renderModelIndex: renderModelIndex + 1, newFormModel, removeTargetItem: false });
   }
 
   function updateFormModel({ formModelIndex, renderModelIndex, newFormModel, removeTargetItem, changeFocus }) {
@@ -127,9 +134,9 @@ function QueryBuilder({ value: formModel, onChange, getTagCatalog }) {
     copiedFormModel.splice(formModelIndex, removeTargetItem ? 1 : 0, newFormModel);
     if (changeFocus) {
       focus(
-        renderModelIndex + 1,
+        renderModelIndex,
         // Forced re-render not necessary because the onChange call down below will also
-        // caused a re-render.
+        // cause a re-render.
         false
       );
     }

@@ -1,6 +1,6 @@
 /* eslint-disable react/display-name */
+import React, { useRef, useLayoutEffect, useState } from 'react';
 import AutosizeInput from 'react-input-autosize';
-import React from 'react';
 
 import {
   changeOperator,
@@ -21,10 +21,24 @@ import Tooltip from 'in-components/Tooltip';
 import locals from './Tag.mless';
 
 export default function Tag(props) {
-  const { onChange: onChangeInFormModel, onRemove, dragAndDropProps, focus, tagCatalog, element } = props;
+  const { onChange: onChangeInFormModel, onRemove, dragAndDropProps, tagCatalog, element } = props;
   const { renderModelIndex, formModelIndex } = element;
   const form = createTagForm(tagCatalog, element);
   const { allowedOperators, valueType, type: tagType } = getFormPresentationInformation(tagCatalog, form);
+
+  // To allow re-rendering when no React state has changed. We use this when we change the
+  // postUpdateFocus ref in order to force React to re-execute the hooks. Updating a ref
+  // does not cause a re-render hence this workaround.
+  const forceRerender = useState()[1];
+  const autoFocusTargets = {
+    entity: useRef(),
+    name: useRef(),
+    operator: useRef()
+  };
+  const postUpdateFocus = useRef();
+  useLayoutEffect(() => {
+    autoFocusTargets[postUpdateFocus.current?.target]?.current?.focus();
+  }, [postUpdateFocus.current?.id]);
 
   return (
     <div
@@ -37,20 +51,27 @@ export default function Tag(props) {
     >
       {form.get('entity')?.map(field => (
         <Entity
+          focus={() => focusField('entity', true)}
+          ref={autoFocusTargets.entity}
           entity={field.value}
           renderModelIndex={renderModelIndex}
-          onChange={entity => onChange('entity', entity)}
+          onChange={entity => {
+            focusField('entity', false);
+            onChange('entity', entity);
+          }}
         />
       ))}
       <Name
         {...props}
-        focus={focus}
+        focus={() => focusField('name', true)}
+        ref={autoFocusTargets.name}
         onChange={newTag => {
           if (newTag.type === TAG) {
             const newForm = changeName(tagCatalog, form, newTag.name);
+            focusField('name', false);
             onChangeInFormModel(newForm.toJS(), false);
           } else {
-            onChangeInFormModel(newTag, false);
+            onChangeInFormModel(newTag, true);
           }
         }}
       />
@@ -68,9 +89,12 @@ export default function Tag(props) {
         allowedOperators={allowedOperators}
         onChange={_operator => {
           const newForm = changeOperator(tagCatalog, form, _operator);
+          focusField('operator', false);
           onChangeInFormModel(newForm.toJS(), false);
         }}
         tagType={tagType}
+        focus={() => focusField('operator', true)}
+        ref={autoFocusTargets.operator}
       />
       {form.get('value')?.map(field => (
         <>
@@ -100,6 +124,17 @@ export default function Tag(props) {
       <Remove element={element} onRemove={onRemove} />
     </div>
   );
+
+  function focusField(name, executeForcedRerender = false) {
+    postUpdateFocus.current = {
+      id: Date.now(),
+      target: name
+    };
+
+    if (executeForcedRerender) {
+      forceRerender(Date.now());
+    }
+  }
 
   function onChange(propName, value) {
     onChangeInFormModel(

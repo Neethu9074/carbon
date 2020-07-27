@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useRef } from 'react';
 
+import { isPrimaryInteractiveElement, isDefaultInteractionTrigger } from 'in-new-components/interactiveCustomElement';
 import TagSelectorOverlay from 'in-new-components/QueryBuilder/TagSelectorOverlay/TagSelectorOverlay';
 import { LETTER, WORD } from 'in-new-components/QueryBuilder/transformation/renderModel';
-import { isDefaultInteractionTrigger } from 'in-new-components/interactiveCustomElement';
 import Suggestions from 'in-new-components/QueryBuilder/components/Spacing/Suggestions';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { evaluateClassNames } from 'in-services/util/classnames';
@@ -17,10 +17,13 @@ export default function Spacing({
   onRemove,
   tagCatalog,
   focus,
-  onAdd: onAddToFormModel,
+  onAdd: onExternalAddToFormModel,
   draggedFormModelIndex$,
   dragAndDropProps
 }) {
+  // We must not execute the onCloseSideEffect when we just triggered a form model change
+  // as this would place the focus onto the wrong element.
+  const lastTimeExternalAddToFormModelWasCalledRef = useRef();
   const { renderModelIndex, leftFormModelIndex, rightFormModelIndex, suggestions, size } = element;
   const isHighlightedThroughDrag = useObservable(
     draggedFormModelIndex$
@@ -37,7 +40,14 @@ export default function Spacing({
         tagCatalog,
         onChange: onAddToFormModel
       }}
-      onCloseSideEffect={() => focus(renderModelIndex)}
+      onCloseSideEffect={() => {
+        if (
+          lastTimeExternalAddToFormModelWasCalledRef.current == null ||
+          lastTimeExternalAddToFormModelWasCalledRef.current < Date.now() - 500
+        ) {
+          focus(renderModelIndex);
+        }
+      }}
       withoutWrapper
     >
       {({ toggle, open: openTagSuggestionOverlay, refSetter }) => (
@@ -63,7 +73,17 @@ export default function Spacing({
     </Overlay>
   );
 
+  function onAddToFormModel(opts) {
+    lastTimeExternalAddToFormModelWasCalledRef.current = Date.now();
+    return onExternalAddToFormModel(opts);
+  }
+
   function onKeyUp(e, openTagSuggestionOverlay) {
+    if (isPrimaryInteractiveElement(e.target)) {
+      // Do execute custom keyboard logic when typing in regular input fields
+      return;
+    }
+
     if (isDefaultInteractionTrigger(e)) {
       stopPropagationAndPreventDefault(e);
       openTagSuggestionOverlay();
@@ -79,6 +99,11 @@ export default function Spacing({
 }
 
 function onKeyDown(e) {
+  if (isPrimaryInteractiveElement(e.target)) {
+    // Do execute custom keyboard logic when typing in regular input fields
+    return;
+  }
+
   if (isDefaultInteractionTrigger(e)) {
     // Need to stop this already in onKeyDown as otherwise the browser
     // may start to scroll when using the spacebar to trigger the default

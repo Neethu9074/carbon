@@ -16,16 +16,17 @@ import * as operatorValueRequirement from 'in-new-components/QueryBuilder/tagFil
 import * as operatorKeyRequirement from 'in-new-components/QueryBuilder/tagFilter/operatorKeyRequirement';
 import * as typeToOperatorsMapping from 'in-new-components/QueryBuilder/tagFilter/typeToOperatorsMapping';
 import { stringMaxLengthValidator, notBlankValidator } from 'in-services/validators/string';
+import { SOURCE, DESTINATION } from 'in-new-components/QueryBuilder/tagFilter/entities';
 import { NUMBER, BOOLEAN } from 'in-new-components/QueryBuilder/tagFilter/types';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
-import * as entities from 'in-new-components/QueryBuilder/tagFilter/entities';
 import { TAG } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { enrichTagCatalog } from 'in-new-components/QueryBuilder/tagCatalog';
 import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
 import { buildEnumValidator } from 'in-services/validators/enum';
 
-const allAllowedEntities = Object.values(entities);
+const allAllowedEntities = [SOURCE, DESTINATION];
+const defaultEntity = DESTINATION;
 
 export function createTagForm(tagCatalog, tagFormModel) {
   tagCatalog = enrichTagCatalog(tagCatalog);
@@ -108,7 +109,7 @@ export function createTagForm(tagCatalog, tagFormModel) {
     form = form.put(
       'entity',
       createField({
-        value: tagFormModel?.entity || allAllowedEntities[0],
+        value: tagFormModel?.entity || defaultEntity,
         validator: composeAndShortCircuitOnError(stringValidator, buildEnumValidator(allAllowedEntities))
       })
     );

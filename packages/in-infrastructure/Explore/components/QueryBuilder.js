@@ -20,7 +20,9 @@ const tagCatalog = {
     },
     {
       name: 'kubernetes.namespace.name',
-      type: 'STRING'
+      type: 'STRING',
+      canApplyToSource: true,
+      canApplyToDestination: true
     }
   ],
 

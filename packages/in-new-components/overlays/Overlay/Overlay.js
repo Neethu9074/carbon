@@ -74,11 +74,24 @@ export default class Overlay extends React.Component {
   delayedClose = () => this.delayedAutoOpenStateChange$.emit(false);
 
   refSetter = r => {
-    this.setState({ wrapper: r });
+    if (r === this.state.wrapper || !r) {
+      // State updates on ref changes are an anti pattern. It can happen that we end up
+      // in cyclic updates to our refs. A workaround to avoid this is to ignore at least
+      // the ref clear events.
+      //
+      // In this specific case it is safe to do so because an non-existing DOM element could
+      // never trigger an overlay.
+      return;
+    }
+
+    const change = {
+      wrapper: r
+    };
     const parentOverlayDomNode = identifyOverlay(r);
     if (parentOverlayDomNode) {
-      this.setState({ parentOverlay: parentOverlayDomNode.dataset.overlayId });
+      change.parentOverlay = parentOverlayDomNode.dataset.overlayId;
     }
+    this.setState(change);
   };
 
   componentDidMount() {

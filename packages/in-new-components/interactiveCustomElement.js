@@ -46,17 +46,17 @@ export function withInteractivitySideEffects({
     },
     onKeyDown(e) {
       if (isDefaultInteractionTrigger(e)) {
+        onDefaultInteraction();
+      }
+    },
+    onKeyUp(e) {
+      if (isDefaultInteractionTrigger(e)) {
         if (stopPropagation) {
           e.stopPropagation();
         }
         if (preventDefault) {
           e.preventDefault();
         }
-      }
-    },
-    onKeyUp(e) {
-      if (isDefaultInteractionTrigger(e)) {
-        onDefaultInteraction();
       }
     }
   };

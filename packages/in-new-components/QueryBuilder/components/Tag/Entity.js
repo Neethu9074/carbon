@@ -3,11 +3,12 @@ import React from 'react';
 import SourceDestinationSelectorOverlay from 'in-new-components/QueryBuilder/SourceDestinationSelectorOverlay/SourceDestinationSelectorOverlay';
 import { SOURCE, DESTINATION } from 'in-new-components/QueryBuilder/tagFilter/entities';
 import Overlay from 'in-new-components/overlays/Overlay';
+import { compositeRef } from 'in-services/util/react';
 import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './Entity.mless';
 
-export default function Entity({ entity, onChange, renderModelIndex }) {
+export default React.forwardRef(function Entity({ entity, onChange, renderModelIndex, focus }, ref) {
   if (entity === SOURCE || entity === DESTINATION) {
     return (
       <Overlay
@@ -22,15 +23,17 @@ export default function Entity({ entity, onChange, renderModelIndex }) {
         }}
       >
         {({ toggle, refSetter }) => (
-          <SvgIcon
-            className={locals.icon}
-            type={entity === SOURCE ? 'lib_application_call_source' : 'lib_application_call_destination'}
-            refSetter={refSetter}
-            onClick={toggle}
-          />
+          <div className={locals.wrapper}>
+            <SvgIcon
+              className={locals.icon}
+              type={entity === SOURCE ? 'lib_application_call_source' : 'lib_application_call_destination'}
+              refSetter={compositeRef(refSetter, ref)}
+              onClick={toggle}
+            />
+          </div>
         )}
       </Overlay>
     );
   }
   return null;
-}
+});

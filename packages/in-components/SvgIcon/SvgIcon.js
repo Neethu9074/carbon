@@ -2,9 +2,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { getKeyboardActivatedOnClickHandler } from 'in-services/util/accessibility';
+import { toInteractiveElement } from 'in-new-components/interactiveCustomElement';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import icons from 'in-components/SvgIcon/registry.json';
+import { emptyObject } from 'in-services/fixedObjects';
 import { getFactor } from 'in-services/util/dom';
 
 import locals from './SvgIcon.mless';
@@ -28,7 +29,7 @@ export default function SvgIcon({
   onClick,
   style,
   spinning,
-  tabIndex,
+  tabIndex = 0,
   role,
   'aria-label': ariaLabel,
   refSetter,
@@ -42,7 +43,6 @@ export default function SvgIcon({
 }) {
   ariaLabel = ariaLabel || type;
   role = role || (onClick ? 'button' : undefined);
-  tabIndex = tabIndex != null ? tabIndex : onClick ? 0 : undefined;
 
   if (!type && !customIcon) {
     type = 'lib_empty';
@@ -64,6 +64,16 @@ export default function SvgIcon({
   style.minWidth = `${sizeInPx}px`;
   style.maxWidth = style.minWidth;
 
+  let interactivityProps = emptyObject;
+  if (onClick) {
+    interactivityProps = toInteractiveElement({
+      onDefaultInteraction: onClick,
+      ariaLabel,
+      role,
+      tabIndex
+    });
+  }
+
   return (
     <svg
       className={evaluateClassNames({
@@ -77,11 +87,7 @@ export default function SvgIcon({
       style={style}
       viewBox={iconPath ? '0 0 128 128' : '0 0 24 24'}
       fill={color}
-      onClick={onClick}
-      onKeyUp={getKeyboardActivatedOnClickHandler(onClick)}
-      role={role}
-      tabIndex={tabIndex}
-      aria-label={ariaLabel}
+      {...interactivityProps}
       ref={refSetter}
       onBlur={onBlur}
       onFocus={onFocus}

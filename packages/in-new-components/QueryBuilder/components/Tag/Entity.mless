@@ -1,15 +1,25 @@
 @import '~in-themes/active.less';
 
 :local {
+  .wrapper {
+    position: relative;
+    margin-right: 1.5rem;
+    height: 0.5625rem;
+  }
+
   .icon {
-    // icons have a built in margin so we need to substract it when it is used in smaller frames
-    margin: -0.5rem 0.25rem -0.5rem 0;
+    // The icon's size triggers a very weird flexbox behavior for its parent element.
+    // Work around this behavior by positioning this one absolutely to its wrapper.
+    position: absolute;
+    top: -.45rem;
+    left: 0;
 
     fill: @lib__colors__N700Medium;
     cursor: pointer;
 
-    &:hover {
-      fill: @lib__colors__N500;
+    &:hover, &:active, &:focus {
+      fill: @lib__colors__light-blue800;
+      outline: none;
     }
   }
 }

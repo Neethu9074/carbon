@@ -5,9 +5,24 @@
     margin-right: 0.25rem;
     font-weight: 600;
     color: @lib__colors__N900Primary;
+    border: 0;
+    background: none;
+    padding: 0 0.25rem;
+    border: 1px solid transparent;
+    border-radius: @lib__shapes__radius_medium;
+    cursor: pointer;
 
     &:hover {
       color: @lib__colors__N600Light;
+      outline: none;
+      background: @lib__colors__N200;
+      border-color: @lib__colors__light-blue800;
+    }
+
+    &:focus, &:active {
+      outline: none;
+      background: @lib__colors__N200;
+      border-color: @lib__colors__light-blue800;
     }
   }
 

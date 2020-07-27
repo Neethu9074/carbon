@@ -4,6 +4,7 @@ import React from 'react';
 import { OPEN_BRACKET, CLOSE_BRACKET, CONJUNCTION } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { and, or, not } from 'in-new-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';
+import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import Button from 'in-new-components/Button';
 
 import locals from './ConjunctionsAndBrackets.mless';
@@ -15,45 +16,62 @@ export default function ConjunctionsAndBrackets({ onChange }) {
         <Button
           size="compact"
           kind="secondary"
-          onClick={() =>
+          onClick={e => {
+            stopPropagationAndPreventDefault(e);
             onChange({
               type: CONJUNCTION,
               logicalOperator: and
-            })
-          }
+            });
+          }}
         >
           AND
         </Button>
         <Button
           size="compact"
           kind="secondary"
-          onClick={() =>
+          onClick={e => {
+            stopPropagationAndPreventDefault(e);
             onChange({
               type: CONJUNCTION,
               logicalOperator: or
-            })
-          }
+            });
+          }}
         >
           OR
         </Button>
         <Button
           size="compact"
           kind="secondary"
-          onClick={() =>
+          onClick={e => {
+            stopPropagationAndPreventDefault(e);
             onChange({
               type: CONJUNCTION,
               logicalOperator: not
-            })
-          }
+            });
+          }}
         >
           NOT
         </Button>
       </div>
       <div>
-        <Button size="compact" kind="secondary" onClick={() => onChange({ type: OPEN_BRACKET })}>
+        <Button
+          size="compact"
+          kind="secondary"
+          onClick={e => {
+            stopPropagationAndPreventDefault(e);
+            onChange({ type: OPEN_BRACKET });
+          }}
+        >
           (
         </Button>
-        <Button size="compact" kind="secondary" onClick={() => onChange({ type: CLOSE_BRACKET })}>
+        <Button
+          size="compact"
+          kind="secondary"
+          onClick={e => {
+            stopPropagationAndPreventDefault(e);
+            onChange({ type: CLOSE_BRACKET });
+          }}
+        >
           )
         </Button>
       </div>
