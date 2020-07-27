@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import { debounce } from 'lodash';
 import React from 'react';
 
 import {
@@ -9,18 +8,16 @@ import {
   websitesAlertingJsErrorsOpenErrorSelectView
 } from 'in-websites/alerting/tracker';
 import { ruleJsErrorsOperatorOptions } from 'in-websites/alerting/form/ruleFormData';
+import DebouncedTextArea from 'in-components/form/TextArea/DebouncedTextArea';
 import JsErrorsList from 'in-websites/alerting/components/JsErrorsList';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import { operators } from 'in-analyze/applicationFilter';
 import ComboBox from 'in-components/ComboBox/ComboBox';
 import Button from 'in-new-components/Button/Button';
-import TextArea from 'in-components/form/TextArea';
 import Label from 'in-components/form/Label';
 
 import locals from './ProvideJsError.mless';
-
-const debouncedErrorMsgChangedTracker = debounce(websitesAlertingJsErrorsMsgChanged, 300);
 
 export default function ProvideJsError({ form, timeConfig, onSelectJsError, mode, updateForm }) {
   const operatorField = form.get('rule').get('operator');
@@ -66,15 +63,15 @@ export default function ProvideJsError({ form, timeConfig, onSelectJsError, mode
         ruleValueField.map(field => (
           <FormGroup>
             <div className={locals.jsErrorSelection}>
-              <TextArea
+              <DebouncedTextArea
                 name={'ruleValue'}
                 rows="3"
                 value={field.value}
-                onChange={e => {
-                  debouncedErrorMsgChangedTracker(mode);
+                onValueChange={value => {
+                  websitesAlertingJsErrorsMsgChanged(mode);
                   updateForm(
                     form
-                      .updateIn(['rule', 'value'], f => f.setValue((e && e.target.value) || '').setTouched(true))
+                      .updateIn(['rule', 'value'], f => f.setValue(value ?? '').setTouched(true))
                       .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
                   );
                 }}
