@@ -10,6 +10,29 @@ import { getFactor } from 'in-services/util/dom';
 
 import locals from './SvgIcon.mless';
 
+const informationAboutUnnecessaryEventHandlerCalls = () => {
+  if (__DEV__) {
+    // eslint-disable-next-line no-console
+    console.warn(
+      `stopPropagation/preventDefault was called in response to an SvgIcon's onClick handler. This is ` +
+        `no longer necessary. Please remove the stopPropagation/preventDefault call in the onClick handler code path. ` +
+        `Stack trace for this unnecessary call:`,
+      new Error().stack
+    );
+  }
+};
+
+// The old (pre 2020-07-27) SvgIcon API did pass a MouseClick event to its
+// callers whenever the onClick event was triggered. This was removed in
+// order to establish a consistent API between mouse and keyboard activation
+// of the default interaction. To retain backwards compatibility we raise
+// the onClick event with an immutable event placeholder so that all old
+// code paths
+const eventPlaceholder = Object.freeze({
+  stopPropagation: informationAboutUnnecessaryEventHandlerCalls,
+  preventDefault: informationAboutUnnecessaryEventHandlerCalls
+});
+
 export const sizes = {
   xxs: 12,
   xs: 16,
@@ -67,7 +90,7 @@ export default function SvgIcon({
   let interactivityProps = emptyObject;
   if (onClick) {
     interactivityProps = toInteractiveElement({
-      onDefaultInteraction: onClick,
+      onDefaultInteraction: () => onClick(eventPlaceholder),
       ariaLabel,
       role,
       tabIndex

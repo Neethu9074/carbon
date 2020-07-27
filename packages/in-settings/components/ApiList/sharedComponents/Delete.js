@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import SvgIcon from 'in-components/SvgIcon';
@@ -16,8 +15,7 @@ export default function Delete({ dialogMessage, itemName, confirmLabel, doDelete
     <SvgIcon
       className={locals.icon}
       type="lib_actions_delete"
-      onClick={e => {
-        stopPropagationAndPreventDefault(e);
+      onClick={() => {
         if (skipDialog) {
           return doDelete();
         }

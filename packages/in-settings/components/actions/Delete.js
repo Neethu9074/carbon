@@ -2,7 +2,6 @@ import theme from 'in-themes';
 import React from 'react';
 
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
-import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import SvgIcon from 'in-components/SvgIcon';
@@ -29,8 +28,7 @@ export default function Delete({
       onClick={
         disabled
           ? null
-          : e => {
-              stopPropagationAndPreventDefault(e);
+          : () => {
               if (disabled) {
                 return;
               }
