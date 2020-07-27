@@ -88,7 +88,7 @@ export const ruleMetricNameOptions = Object.freeze({
   ],
   statusCode: [
     { value: 'httpxxx', label: 'Status Code Count' },
-    { value: 'specificStatusCodeRate', label: 'Status Code Cate' }
+    { value: 'specificStatusCodeRate', label: 'Status Code Rate' }
   ],
   slowness: [{ value: 'onLoadTime', label: 'onLoad Time' }]
 });
