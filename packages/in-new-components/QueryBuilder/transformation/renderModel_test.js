@@ -331,6 +331,81 @@ describe('in-new-components/QueryBuilder/transformation/renderModel', () => {
       ];
       expect(validate(given)).to.deep.equal(expected);
     });
+
+    it('should validate missing conjunction after closing bracket', () => {
+      resetIndices();
+      const given = [
+        rm_expression([rm_openBracket(), rm_letter(), rm_tag(), rm_word(), rm_tag(), rm_letter(), rm_closeBracket()]),
+        rm_word(),
+        rm_tag()
+      ];
+      resetIndices();
+      expect(validate(given)).to.deep.equal([
+        {
+          type: 'EXPRESSION',
+          elements: [
+            {
+              type: 'OPEN_BRACKET',
+              formModelIndex: 0,
+              valid: true
+            },
+            {
+              type: 'SPACING',
+              size: 'LETTER',
+              leftFormModelIndex: 0,
+              rightFormModelIndex: 1
+            },
+            {
+              type: 'TAG_FILTER',
+              formModelIndex: 1
+            },
+            {
+              type: 'SPACING',
+              size: 'WORD',
+              leftFormModelIndex: 1,
+              rightFormModelIndex: 2,
+              valid: false,
+              suggestions: [
+                {
+                  type: 'ADD_CONJUNCTION'
+                }
+              ]
+            },
+            {
+              type: 'TAG_FILTER',
+              formModelIndex: 2
+            },
+            {
+              type: 'SPACING',
+              size: 'LETTER',
+              leftFormModelIndex: 2,
+              rightFormModelIndex: 3
+            },
+            {
+              type: 'CLOSE_BRACKET',
+              formModelIndex: 3,
+              valid: true
+            }
+          ]
+        },
+        {
+          type: 'SPACING',
+          size: 'WORD',
+          leftFormModelIndex: 3,
+          rightFormModelIndex: 4,
+          valid: false,
+          suggestions: [
+            {
+              type: 'ADD_CONJUNCTION'
+            }
+          ]
+        },
+        {
+          type: 'TAG_FILTER',
+          formModelIndex: 4
+        }
+      ]);
+    });
   });
 
   describe('#toRenderModel', () => {

@@ -126,11 +126,10 @@ export function validate(elements) {
 
 function addSuggestionToElement(element, suggestion) {
   element.valid = false;
-  if (element.suggestions) {
-    element.suggestions.push({ type: suggestion });
-  } else {
-    element.suggestions = [{ type: suggestion }];
-  }
+  element.suggestions = element.suggestions || [];
+  // avoid duplicates
+  element.suggestions = element.suggestions.filter(s => s.type !== suggestion);
+  element.suggestions.push({ type: suggestion });
 }
 
 function createSpacing(type, index) {
