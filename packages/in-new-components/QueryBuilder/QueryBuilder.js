@@ -58,7 +58,14 @@ function QueryBuilder({ value: formModel, onChange, getTagCatalog }) {
     if (index != null && refContainer.current) {
       const focusableElements = refContainer.current.querySelectorAll(`[data-render-model-index]`);
       const nextFocusIndex = Math.max(0, Math.min(index, focusableElements.length - 1));
-      focusableElements[nextFocusIndex]?.focus();
+      let nextFocusElement = focusableElements[nextFocusIndex];
+      if (nextFocusElement) {
+        const childElementSelector = postUpdateFocus.current?.childElementSelector;
+        if (childElementSelector) {
+          nextFocusElement = nextFocusElement.querySelector(childElementSelector) || nextFocusElement;
+        }
+        nextFocusElement.focus();
+      }
     }
   }, [postUpdateFocus.current?.id]);
 
@@ -119,11 +126,27 @@ function QueryBuilder({ value: formModel, onChange, getTagCatalog }) {
   }
 
   function onAddFormModelElement({ formModelIndex, renderModelIndex, newFormModel }) {
+    let nextFocusIndex = renderModelIndex + 1;
+    let childSelector;
+    if (newFormModel.type === TAG) {
+      // Auto-focus the first input element for new tag filters.
+      childSelector = 'input';
+    } else if (
+      newFormModel.type === CONJUNCTION ||
+      newFormModel.type === OPEN_BRACKET ||
+      newFormModel.type === CLOSE_BRACKET
+    ) {
+      // No need to focus the conjunction/bracket. They are not configurable so focussing these doesn't
+      // provide any additional value. Instead focus the next element to make the addition of new tags easier.
+      nextFocusIndex++;
+    }
+
     focus(
-      renderModelIndex + 1,
+      nextFocusIndex,
       // Forced re-render not necessary because the onChange call down below will also
       // cause a re-render.
-      false
+      false,
+      childSelector
     );
 
     updateFormModel({ formModelIndex, renderModelIndex: renderModelIndex + 1, newFormModel, removeTargetItem: false });
@@ -155,10 +178,11 @@ function QueryBuilder({ value: formModel, onChange, getTagCatalog }) {
     onChange(copiedFormModel);
   }
 
-  function focus(renderModelIndex, executeForcedRerender = true) {
+  function focus(renderModelIndex, executeForcedRerender = true, childElementSelector) {
     postUpdateFocus.current = {
       id: Date.now(),
-      index: renderModelIndex
+      index: renderModelIndex,
+      childElementSelector
     };
 
     if (executeForcedRerender) {

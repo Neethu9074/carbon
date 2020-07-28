@@ -69,8 +69,7 @@ export default function Spacing({
           data-render-model-index={renderModelIndex}
           data-query-builder-element="true"
           data-query-builder-space-element="true"
-          onKeyDown={onKeyDown}
-          onKeyUp={e => onKeyUp(e, openTagSuggestionOverlay)}
+          onKeyDown={e => onKeyDown(e, openTagSuggestionOverlay)}
           {...dragAndDropProps}
           ref={refSetter}
         >
@@ -87,7 +86,7 @@ export default function Spacing({
     return onExternalAddToFormModel(opts);
   }
 
-  function onKeyUp(e, openTagSuggestionOverlay) {
+  function onKeyDown(e, openTagSuggestionOverlay) {
     if (isPrimaryInteractiveElement(e.target)) {
       // Do execute custom keyboard logic when typing in regular input fields
       return;
@@ -132,19 +131,5 @@ export default function Spacing({
         logicalOperator: not
       });
     }
-  }
-}
-
-function onKeyDown(e) {
-  if (isPrimaryInteractiveElement(e.target)) {
-    // Do execute custom keyboard logic when typing in regular input fields
-    return;
-  }
-
-  if (isDefaultInteractionTrigger(e)) {
-    // Need to stop this already in onKeyDown as otherwise the browser
-    // may start to scroll when using the spacebar to trigger the default
-    // interaction.
-    stopPropagationAndPreventDefault(e);
   }
 }
