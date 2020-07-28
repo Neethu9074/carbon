@@ -1,12 +1,31 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
-import ReleaseMarkerLane from 'in-components/Chart/markerLanes/ReleaseMarkerLane/ReleaseMarkerLane';
 import MarkerLanesPresenter from 'in-components/Chart/markerLanes/MarkerLanesPresenter';
+import getApplicationAlertClusters from '../subscriptions/getApplicationAlertClusters';
+import ReleasesLane from 'in-components/Chart/markerLanes/ReleasesLane/ReleasesLane';
+import AlertsLane from 'in-components/Chart/markerLanes/AlertsLane/AlertsLane';
 
-export default function ApplicationDashboardsMarkerLanes(props) {
-  return (
-    <MarkerLanesPresenter {...props}>
-      <ReleaseMarkerLane />
-    </MarkerLanesPresenter>
-  );
+export default function ApplicationDashboardsMarkerLanes({ applicationId, serviceId, endpointId }) {
+  return function MarkerLanesApplications(lanesProps) {
+    return (
+      <MarkerLanesPresenter {...lanesProps}>
+        <ReleasesLane />
+        <AlertsLane
+          getAlerts={getApplicationAlertClusters}
+          config={{
+            applicationId,
+            endpointId,
+            serviceId
+          }}
+        />
+      </MarkerLanesPresenter>
+    );
+  };
 }
+
+ApplicationDashboardsMarkerLanes.propTypes = {
+  applicationId: PropTypes.string.isRequired,
+  endpointId: PropTypes.string,
+  serviceId: PropTypes.string
+};

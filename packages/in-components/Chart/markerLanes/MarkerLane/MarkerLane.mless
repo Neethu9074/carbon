@@ -8,7 +8,9 @@
     height: var(--lane-height);
     line-height: var(--lane-height);
     overflow: hidden;
+  }
 
+  .lanePostChart {
     border-bottom: 1px @lib__colors__N300 solid;
   }
 
@@ -20,13 +22,10 @@
 
   .laneLabelText {
     color: @lib__colors__N600Light;
-    background: rgba(253, 253, 253, 0.5);
+    background: rgba(253, 253, 253, 0.8);
   }
 
-  .marker {
-    position: relative;
-    top: 0;
-    bottom: 0;
-    padding: 4px;
+  .hoverAreaContainer {
+    display: block;
   }
 }

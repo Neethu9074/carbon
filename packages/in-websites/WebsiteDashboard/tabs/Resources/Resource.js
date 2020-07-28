@@ -99,6 +99,8 @@ function ResourceTab({ resourceId, result, websiteId, websiteLabel, pageId, tagF
       }
     };
 
+    const MarkerLanes = WebsiteDashboardsMarkerLanes({ websiteId });
+
     content = (
       <Fragment>
         <Row>
@@ -130,6 +132,7 @@ function ResourceTab({ resourceId, result, websiteId, websiteLabel, pageId, tagF
               ]}
               translateLabel={label => resourceTypes[label] && resourceTypes[label].long}
               translateColor={label => resourceTypes[label] && resourceTypes[label].color}
+              renderPostChartContent={MarkerLanes}
             />
           </Col>
 
@@ -197,7 +200,7 @@ function ResourceTab({ resourceId, result, websiteId, websiteLabel, pageId, tagF
                   }
                 }
               }}
-              renderPostChartContent={WebsiteDashboardsMarkerLanes}
+              renderPostChartContent={MarkerLanes}
             />
           </Col>
         </Row>
@@ -302,7 +305,7 @@ function ResourceTab({ resourceId, result, websiteId, websiteLabel, pageId, tagF
                         }
                       }
                     }}
-                    renderPostChartContent={WebsiteDashboardsMarkerLanes}
+                    renderPostChartContent={MarkerLanes}
                   />
                 )}
               </AggregationSelector>
@@ -333,6 +336,7 @@ function ResourceTab({ resourceId, result, websiteId, websiteLabel, pageId, tagF
                   }
                 ]}
                 translateLabel={label => cacheTypes[label] && cacheTypes[label].long}
+                renderPostChartContent={MarkerLanes}
               />
             </Col>
 
@@ -371,6 +375,7 @@ function ResourceTab({ resourceId, result, websiteId, websiteLabel, pageId, tagF
                 ]}
                 translateLabel={label => resourceTypes[label] && resourceTypes[label].long}
                 translateColor={label => resourceTypes[label] && resourceTypes[label].color}
+                renderPostChartContent={MarkerLanes}
               />
             </Col>
           </Row>

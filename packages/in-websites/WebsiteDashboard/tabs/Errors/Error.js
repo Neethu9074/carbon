@@ -58,6 +58,8 @@ function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters
   const tagFiltersWithErrorId = tagFilters.slice();
   tagFiltersWithErrorId.push({ name: 'beacon.error.id', stringValue: errorId, operator: 'EQUALS' });
 
+  const MarkerLanes = WebsiteDashboardsMarkerLanes({ websiteId, pageId });
+
   let content;
   if (result.progress.loading) {
     content = <DefaultLoadingDashboard />;
@@ -196,7 +198,7 @@ function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters
                   }
                 }
               }}
-              renderPostChartContent={WebsiteDashboardsMarkerLanes}
+              renderPostChartContent={MarkerLanes}
             />
           </Col>
           <Col lg={4}>
@@ -225,7 +227,7 @@ function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters
                   }
                 }
               }}
-              renderPostChartContent={WebsiteDashboardsMarkerLanes}
+              renderPostChartContent={MarkerLanes}
             />
           </Col>
           <Col lg={4}>
@@ -252,7 +254,7 @@ function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters
                   }
                 }
               }}
-              renderPostChartContent={WebsiteDashboardsMarkerLanes}
+              renderPostChartContent={MarkerLanes}
             />
           </Col>
         </Row>

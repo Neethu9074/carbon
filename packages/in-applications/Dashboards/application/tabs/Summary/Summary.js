@@ -37,6 +37,8 @@ export default connectTo(
       applicationBoundaryScope: boundaryScope
     };
 
+    const MarkerLanes = ApplicationDashboardsMarkerLanes({ applicationId, endpointId, serviceId });
+
     return (
       <Fragment>
         <Row>
@@ -101,7 +103,7 @@ export default connectTo(
               timeConfig={timeConfig}
               boundaryScope={boundaryScope}
               groupByTag={{ name: 'service.name', entity: entityTypes.DESTINATION }}
-              renderPostChartContent={ApplicationDashboardsMarkerLanes}
+              renderPostChartContent={MarkerLanes}
             />
           </Col>
           <Col lg={4}>
@@ -113,7 +115,7 @@ export default connectTo(
               timeConfig={timeConfig}
               boundaryScope={boundaryScope}
               groupByTag={{ name: 'service.name', entity: entityTypes.DESTINATION }}
-              renderPostChartContent={ApplicationDashboardsMarkerLanes}
+              renderPostChartContent={MarkerLanes}
             />
           </Col>
           <Col lg={4}>
@@ -125,7 +127,7 @@ export default connectTo(
               timeConfig={timeConfig}
               boundaryScope={boundaryScope}
               percentileGroupBy={{ name: 'service.name', entity: entityTypes.DESTINATION }}
-              renderPostChartContent={ApplicationDashboardsMarkerLanes}
+              renderPostChartContent={MarkerLanes}
             />
           </Col>
         </Row>
@@ -134,7 +136,7 @@ export default connectTo(
             <IssuesAndEvents
               applicationId={applicationId}
               timeConfig={timeConfig}
-              renderPostChartContent={ApplicationDashboardsMarkerLanes}
+              renderPostChartContent={MarkerLanes}
             />
           </Col>
           <Col lg={4}>
@@ -146,7 +148,7 @@ export default connectTo(
               serviceId={serviceId}
               boundaryScope={boundaryScope}
               timeConfig={timeConfig}
-              renderPostChartContent={ApplicationDashboardsMarkerLanes}
+              renderPostChartContent={MarkerLanes}
             />
           </Col>
         </Row>

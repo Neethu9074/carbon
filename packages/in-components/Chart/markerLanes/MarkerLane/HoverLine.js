@@ -16,8 +16,8 @@ export default function HoverLine({ xPos, color, chartContentPosition, timeAxisH
   );
 
   function getTopAndBottomOffset() {
-    if (chartContentPosition === 'pre') return { bottom: timeAxisHeight, top: '8px' };
-    if (chartContentPosition === 'post') return { bottom: '8px', top: markerPaneHeight };
+    if (chartContentPosition === 'pre') return { bottom: timeAxisHeight, top: 8 };
+    if (chartContentPosition === 'post') return { bottom: 8, top: markerPaneHeight };
   }
 }
 

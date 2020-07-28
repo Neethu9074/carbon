@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import SmartAlertMarkerLanePresenter from 'in-components/Chart/markerLanes/AlertMarkerLane/SmartAlertMarkerLanePresenter';
+import AlertsPreviewLanePresenter from 'in-components/Chart/markerLanes/AlertsPreviewLane/AlertsPreviewLanePresenter';
 import { pendingResult, emptyArray } from 'in-services/fixedObjects';
 import useObservable from 'in-hooks/useObservable';
 
-export default function SmartAlertMarkerLane({ alertsPreviewConfiguration, getAlertsPreview, ...remainingProps }) {
+export default function AlertsPreviewLane({ alertsPreviewConfiguration, getAlertsPreview, ...remainingProps }) {
   if (!alertsPreviewConfiguration || !getAlertsPreview || !isConfigValid(alertsPreviewConfiguration)) return null;
 
   const { clusterSizeMillis } = remainingProps;
@@ -24,14 +24,7 @@ export default function SmartAlertMarkerLane({ alertsPreviewConfiguration, getAl
       [alertsPreviewConfiguration, getAlertsPreview]
     ) ?? emptyArray;
 
-  return (
-    <SmartAlertMarkerLanePresenter
-      {...{
-        ...remainingProps,
-        alerts
-      }}
-    />
-  );
+  return <AlertsPreviewLanePresenter {...remainingProps} alerts={alerts} />;
 }
 
 function isConfigValid({ threshold }) {
@@ -44,7 +37,7 @@ function isConfigValid({ threshold }) {
   return true;
 }
 
-SmartAlertMarkerLane.propTypes = {
+AlertsPreviewLane.propTypes = {
   alertsPreviewConfiguration: PropTypes.object,
   getAlertsPreview: PropTypes.func
 };

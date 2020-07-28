@@ -11,8 +11,10 @@ import { getChartGranularity } from 'in-websites/metrics';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import Footer from 'in-new-components/Footer';
 
-export default function Speed({ timeConfig, tagFilters, websiteLabel }) {
+export default function Speed({ timeConfig, tagFilters, websiteLabel, websiteId }) {
   const granularity = getChartGranularity(timeConfig);
+
+  const MarkerLanes = WebsiteDashboardsMarkerLanes({ websiteId });
 
   return (
     <Fragment>
@@ -58,7 +60,7 @@ export default function Speed({ timeConfig, tagFilters, websiteLabel }) {
                 }
               }
             }}
-            renderPostChartContent={WebsiteDashboardsMarkerLanes}
+            renderPostChartContent={MarkerLanes}
           />
         </Col>
         <Col lg={6}>
@@ -132,7 +134,7 @@ export default function Speed({ timeConfig, tagFilters, websiteLabel }) {
                 }
               }
             }}
-            renderPostChartContent={WebsiteDashboardsMarkerLanes}
+            renderPostChartContent={MarkerLanes}
           />
         </Col>
       </Row>
@@ -261,7 +263,7 @@ export default function Speed({ timeConfig, tagFilters, websiteLabel }) {
                     }
                   }
                 }}
-                renderPostChartContent={WebsiteDashboardsMarkerLanes}
+                renderPostChartContent={MarkerLanes}
               />
             )}
           </AggregationSelector>
@@ -309,7 +311,7 @@ export default function Speed({ timeConfig, tagFilters, websiteLabel }) {
                     }
                   }
                 }}
-                renderPostChartContent={WebsiteDashboardsMarkerLanes}
+                renderPostChartContent={MarkerLanes}
               />
             )}
           </AggregationSelector>
@@ -345,7 +347,7 @@ export default function Speed({ timeConfig, tagFilters, websiteLabel }) {
                     }
                   }
                 }}
-                renderPostChartContent={WebsiteDashboardsMarkerLanes}
+                renderPostChartContent={MarkerLanes}
               />
             )}
           </AggregationSelector>
@@ -379,7 +381,7 @@ export default function Speed({ timeConfig, tagFilters, websiteLabel }) {
                     }
                   }
                 }}
-                renderPostChartContent={WebsiteDashboardsMarkerLanes}
+                renderPostChartContent={MarkerLanes}
               />
             )}
           </AggregationSelector>

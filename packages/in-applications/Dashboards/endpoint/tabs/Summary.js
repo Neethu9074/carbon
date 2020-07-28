@@ -32,6 +32,8 @@ export default connectTo(
       includeSyntheticCalls
     };
 
+    const MarkerLanes = ApplicationDashboardsMarkerLanes({ applicationId, endpointId, serviceId });
+
     return (
       <Fragment>
         <Row>
@@ -98,7 +100,7 @@ export default connectTo(
                 includeSyntheticCalls={includeSyntheticCalls}
                 timeConfig={timeConfig}
                 callGroupByTag={{ name: 'call.name', entity: entityTypes.NOT_APPLICABLE }}
-                renderPostChartContent={ApplicationDashboardsMarkerLanes}
+                renderPostChartContent={MarkerLanes}
               />
             ) : (
               <CallsErrors
@@ -110,7 +112,7 @@ export default connectTo(
                 includeSyntheticCalls={includeSyntheticCalls}
                 timeConfig={timeConfig}
                 groupByTag={{ name: 'call.name', entity: entityTypes.NOT_APPLICABLE }}
-                renderPostChartContent={ApplicationDashboardsMarkerLanes}
+                renderPostChartContent={MarkerLanes}
               />
             )}
           </Col>
@@ -124,7 +126,7 @@ export default connectTo(
               includeSyntheticCalls={includeSyntheticCalls}
               timeConfig={timeConfig}
               groupByTag={{ name: 'call.name', entity: entityTypes.NOT_APPLICABLE }}
-              renderPostChartContent={ApplicationDashboardsMarkerLanes}
+              renderPostChartContent={MarkerLanes}
             />
           </Col>
           <Col lg={4}>
@@ -138,7 +140,7 @@ export default connectTo(
               timeConfig={timeConfig}
               percentileGroupBy={{ name: 'endpoint.name', entity: entityTypes.NOT_APPLICABLE }}
               callType={type}
-              renderPostChartContent={ApplicationDashboardsMarkerLanes}
+              renderPostChartContent={MarkerLanes}
             />
           </Col>
         </Row>
@@ -151,7 +153,7 @@ export default connectTo(
                   serviceId={serviceId}
                   endpointId={endpointId}
                   timeConfig={timeConfig}
-                  renderPostChartContent={ApplicationDashboardsMarkerLanes}
+                  renderPostChartContent={MarkerLanes}
                 />
               </Col>
               <Col lg={6}>
@@ -168,7 +170,7 @@ export default connectTo(
                     applicationId={applicationId}
                     endpointId={endpointId}
                     timeConfig={timeConfig}
-                    renderPostChartContent={ApplicationDashboardsMarkerLanes}
+                    renderPostChartContent={MarkerLanes}
                   />
                 )}
               </Col>

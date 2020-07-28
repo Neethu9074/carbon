@@ -4,8 +4,6 @@
 :local {
   .hoverLine {
     position: absolute;
-    top: 0;
-    bottom: 0;
     width: 1px;
     background: currentColor;
     opacity: 0.5;

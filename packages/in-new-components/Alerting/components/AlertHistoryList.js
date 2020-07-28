@@ -44,6 +44,7 @@ export const AlertHistoryListPresenter = ({ rawEvents, timeConfig }) => {
             if (e.entityType === 'App20') {
               viewFilterParams.applicationId = e.entityId;
             }
+
             const analyseEvent$ = getEventsViewFilteredBy(viewFilterParams);
 
             return (

@@ -39,6 +39,8 @@ export default function CustomEvent({ location, tagFilters, timeConfig, websiteI
     }
   };
 
+  const MarkerLanes = WebsiteDashboardsMarkerLanes({ websiteId, pageId });
+
   return (
     <>
       <Title title="Website Custom Event Details" dynamic={customEventId} />
@@ -131,7 +133,7 @@ export default function CustomEvent({ location, tagFilters, timeConfig, websiteI
                 }
               }
             }}
-            renderPostChartContent={WebsiteDashboardsMarkerLanes}
+            renderPostChartContent={MarkerLanes}
           />
         </Col>
         <Col lg={6}>
@@ -158,7 +160,7 @@ export default function CustomEvent({ location, tagFilters, timeConfig, websiteI
                 }
               }
             }}
-            renderPostChartContent={WebsiteDashboardsMarkerLanes}
+            renderPostChartContent={MarkerLanes}
           />
         </Col>
       </Row>
@@ -228,7 +230,7 @@ export default function CustomEvent({ location, tagFilters, timeConfig, websiteI
                 }
               }
             }}
-            renderPostChartContent={WebsiteDashboardsMarkerLanes}
+            renderPostChartContent={MarkerLanes}
           />
         </Col>
       </Row>

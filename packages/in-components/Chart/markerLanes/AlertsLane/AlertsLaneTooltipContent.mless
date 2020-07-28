@@ -1,0 +1,18 @@
+@import '~in-themes/active.less';
+
+:local {
+  .tooltipContent {
+    > div:not(:only-of-type):not(:last-of-type) {
+      margin-bottom: 0.5rem;
+      padding-bottom: 0.5rem;
+      border-bottom: solid 1px @lib__colors__N500;
+    }
+    width: max-content;
+    font-weight: 300;
+    line-height: 1.25rem;
+  }
+
+  .name {
+    font-weight: normal;
+  }
+}

@@ -18,6 +18,9 @@ import Card from 'in-new-components/Card';
 
 export default function Summary({ websiteId, tagFilters, timeConfig, pageId, websiteLabel }) {
   const granularity = getChartGranularity(timeConfig);
+
+  const MarkerLanes = WebsiteDashboardsMarkerLanes({ websiteId, pageId });
+
   return (
     <Fragment>
       <Row>
@@ -137,7 +140,7 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
                 }
               }
             }}
-            renderPostChartContent={WebsiteDashboardsMarkerLanes}
+            renderPostChartContent={MarkerLanes}
           />
         </Col>
         <Col lg={4}>
@@ -167,7 +170,7 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
                 }
               }
             }}
-            renderPostChartContent={WebsiteDashboardsMarkerLanes}
+            renderPostChartContent={MarkerLanes}
           />
         </Col>
         <Col lg={4}>
@@ -199,7 +202,7 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
                     }
                   }
                 }}
-                renderPostChartContent={WebsiteDashboardsMarkerLanes}
+                renderPostChartContent={MarkerLanes}
               />
             )}
           </AggregationSelector>

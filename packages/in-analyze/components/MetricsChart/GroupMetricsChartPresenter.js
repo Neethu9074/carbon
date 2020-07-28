@@ -23,7 +23,8 @@ export default function GroupMetricsChartPresenter({
   metricIds,
   metrics,
   primaryContextMenuAction,
-  additionalContextMenuButtons
+  additionalContextMenuButtons,
+  renderPostChartContent
 }) {
   cardHeader = (
     <div className={locals.actions}>
@@ -51,7 +52,8 @@ export default function GroupMetricsChartPresenter({
     y1: {
       formatter: selectedMetricDefinition.formatter,
       renderer: selectedMetricDefinition.renderer
-    }
+    },
+    renderPostChartContent
   };
 
   const validItem = findValidItem(result, selectedMetricKey);

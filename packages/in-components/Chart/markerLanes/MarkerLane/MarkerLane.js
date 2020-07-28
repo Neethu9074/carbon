@@ -3,14 +3,34 @@ import PropTypes from 'prop-types';
 
 import RenderScheduler from 'in-components/Chart/RenderScheduler';
 import getElementDimensions from 'in-hoc/getElementDimensions';
+import evaluateClassNames from 'in-services/util/classnames';
 import { propTypeTimeConfig } from 'in-stores/time/config';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import useObservable from 'in-hooks/useObservable';
-import HoverLine from './HoverLine';
-import HoverArea from './HoverArea';
-import LaneItem from './LaneItem';
 
 import locals from './MarkerLane.mless';
+
+/*
+ Adding a new LaneItem:
+ If you want to add a completely new item which doesn't wrap around an existing one like "SingleIconLaneItem",
+ you need to ensure that it provides the functions outlined below. Otherwise Showing overlays would not work
+ because we need some hover data about the hovered item. For reference please have a look at component
+ "SingleIconLaneItem".
+
+  onMouseEnter={e => {
+    stopPropagationAndPreventDefault(e);
+    onHover?.({
+      isHovered: true,
+      timestamp: eventData.timestamp,
+      iconConfig
+    });
+  }}
+
+  onMouseLeave={e => {
+    stopPropagationAndPreventDefault(e);
+    onHover?.({});
+  }}
+*/
 
 class MarkersLane extends React.Component {
   constructor(props) {
@@ -41,40 +61,38 @@ function MarkersLanePresenter({
   label,
   chartContentPosition,
   isClustered,
-  timeAxisHeight,
-  markerPaneHeight,
-  iconConfig,
-  chartHeight,
+  renderLaneItem,
+  renderHoverOverlay,
+  chartBucketWidth,
   ...remainingProps
 }) {
   const xScale = useObservable(renderScheduler.xScaleBackBuffer$.nextFrame(), [], { pure: false });
-  const [{ isHovered, startTime }, setHoverState] = useState({});
+  const [{ isHovered, timestamp, iconConfig: laneItemIconConfig }, setHoverState] = useState({});
 
-  const clusterWidth = xScale?.getRangeArea(remainingProps.clusterSizeMillis);
+  const clusterAreaWidth = xScale?.getRangeArea(remainingProps.clusterSizeMillis);
 
   return (
     <>
-      <span style={{ display: 'block' }}>
-        {isHovered && isClustered && (
-          <HoverArea
-            xPos={xScale?.getRange(startTime) + clusterWidth / 2}
-            clusterWidth={clusterWidth}
-            color={iconConfig.color}
-            chartContentPosition={chartContentPosition}
-            timeAxisHeight={timeAxisHeight}
-            markerPaneHeight={markerPaneHeight}
-            chartHeight={chartHeight}
-          />
-        )}
-        {isHovered && !isClustered && <HoverLine xPos={xScale?.getRange(startTime)} color={iconConfig.color} />}
+      <span className={locals.hoverAreaContainer}>
+        {isHovered &&
+          renderHoverOverlay({
+            xPos: getXposCluster(timestamp),
+            color: laneItemIconConfig.color,
+            chartContentPosition,
+            clusterWidth: clusterAreaWidth,
+            ...remainingProps
+          })}
       </span>
-      <div className={locals.lane}>
+      <div
+        className={evaluateClassNames({
+          [locals.lane]: true,
+          [locals.lanePostChart]: chartContentPosition === 'post'
+        })}
+      >
         {events.map(eventData => {
-          const containsMoreThenOneItem = eventData?.count > 1;
+          const showIconForCluster = eventData?.count > 1;
 
-          const xPos = isClustered
-            ? xScale?.getRange(eventData.timestamp) + clusterWidth / 2
-            : xScale?.getRange(eventData.timestamp);
+          const xPos = isClustered ? getXposCluster(eventData.timestamp) : xScale?.getRange(eventData.timestamp);
 
           return (
             <Tooltip
@@ -82,17 +100,15 @@ function MarkersLanePresenter({
               key={eventData.id ?? eventData.timestamp}
               content={tooltipContent(eventData)}
             >
-              <LaneItem
-                xPos={xPos}
-                timestamp={eventData.timestamp}
-                containsMoreThenOneItem={containsMoreThenOneItem}
-                chartContentPosition={chartContentPosition}
-                isClustered={isClustered}
-                onHover={s => setHoverState(s)}
-                iconConfig={iconConfig}
-                {...eventData}
-                {...remainingProps}
-              />
+              {renderLaneItem({
+                xPos: xPos,
+                onHover: s => setHoverState(s),
+                showIconForCluster,
+                chartContentPosition,
+                isClustered,
+                eventData,
+                ...remainingProps
+              })}
             </Tooltip>
           );
         })}
@@ -112,6 +128,10 @@ function MarkersLanePresenter({
     </>
   );
 
+  function getXposCluster(timestamp) {
+    return xScale?.getRange(timestamp) + clusterAreaWidth / 2 - chartBucketWidth / 2;
+  }
+
   function getTooltipAlignmentForChartContentPosition(chartContentPosition) {
     if (chartContentPosition === 'pre') return 'topMiddle';
     if (chartContentPosition === 'post') return 'bottomMiddle';
@@ -129,11 +149,10 @@ MarkersLane.propTypes = {
       timestamp: PropTypes.number.isRequired
     })
   ).isRequired,
-  onClick: PropTypes.func,
   chartContentPosition: PropTypes.oneOf(['pre', 'post']).isRequired,
-  timeAxisHeight: PropTypes.number.isRequired,
-  markerPaneHeight: PropTypes.number.isRequired,
-  chartHeight: PropTypes.number.isRequired
+  renderLaneItem: PropTypes.func.isRequired,
+  renderHoverOverlay: PropTypes.func.isRequired,
+  chartBucketWidth: PropTypes.number
 };
 
 export default getElementDimensions(MarkersLane);

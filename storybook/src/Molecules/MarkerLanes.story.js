@@ -2,8 +2,9 @@ import { text } from '@storybook/addon-knobs/react';
 import { action } from '@storybook/addon-actions';
 import React from 'react';
 
-import SmartAlertMarkerLanePresenter from 'in-components/Chart/markerLanes/AlertMarkerLane/SmartAlertMarkerLanePresenter';
-import ReleaseMarkerLanePresenter from 'in-components/Chart/markerLanes/ReleaseMarkerLane/ReleaseMarkerLanePresenter';
+import AlertsPreviewLanePresenter from 'in-components/Chart/markerLanes/AlertsPreviewLane/AlertsPreviewLanePresenter';
+import ReleasesLanePresenter from 'in-components/Chart/markerLanes/ReleasesLane/ReleasesLanePresenter';
+import AlertsLanePresenter from 'in-components/Chart/markerLanes/AlertsLane/AlertsLanePresenter';
 import MarkerLanesPresenter from 'in-components/Chart/markerLanes/MarkerLanesPresenter';
 import DialogWithSlideInView from 'in-new-components/Dialog/DialogWithSlideInView';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
@@ -21,50 +22,16 @@ const now = Date.now();
 const oneMinute = 1000 * 60;
 const timeConfig = generateTimeframe(oneMinute);
 
-export const MarkerLanes = () => {
-  function getReleases(timeConfig) {
-    const randomEvents = [];
-    const numEvents = 8;
-    for (let i = 0; i < numEvents; i++) {
-      randomEvents[i] = {
-        count: 1,
-        startTime: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * 8000,
-        clusteredReleases: [
-          {
-            name: 'Release Lane Test: abc',
-            start: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * 9000,
-            id: '2WqiOdUES2yLLk8kqKfxzQ',
-            lastUpdated: 1594973648774
-          }
-        ]
-      };
-    }
-    return randomEvents;
-  }
-
-  function getAlerts(timeConfig) {
-    const randomEvents = [];
-    const numEvents = 8;
-    for (let i = 0; i < numEvents; i++) {
-      randomEvents[i] = {
-        start: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * Math.random(),
-        numAlertsInCluster: i
-      };
-    }
-
-    return randomEvents;
-  }
-
+export const MarkerLanesBelowChart = () => {
   return (
     <div>
       <h2>Marker lanes</h2>
       <BarChart
         renderPostChartContent={props => (
           <MarkerLanesPresenter {...props}>
-            <ReleaseMarkerLanePresenter releases={getReleases(timeConfig)} />
-            <SmartAlertMarkerLanePresenter alerts={getAlerts(timeConfig)} />
-            <ReleaseMarkerLanePresenter releases={getReleases(timeConfig)} />
-            <SmartAlertMarkerLanePresenter alerts={getAlerts(timeConfig)} />
+            <AlertsPreviewLanePresenter alerts={getAlerts(timeConfig)} />
+            <ReleasesLanePresenter releases={getReleases(timeConfig)} />
+            <AlertsLanePresenter alerts={getAlertsAndIncidents(timeConfig)} />
           </MarkerLanesPresenter>
         )}
       />
@@ -73,26 +40,13 @@ export const MarkerLanes = () => {
 };
 
 export const MarkerLanesAboveChart = () => {
-  function getAlerts(timeConfig) {
-    const randomEvents = [];
-    const numEvents = 8;
-    for (let i = 0; i < numEvents; i++) {
-      randomEvents[i] = {
-        start: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * Math.random(),
-        numAlertsInCluster: i
-      };
-    }
-
-    return randomEvents;
-  }
-
   return (
     <div>
-      <h2>Marker lanes above chart (Smart Alerts preview lane)</h2>
+      <h2>Marker lanes</h2>
       <BarChart
         renderPreChartContent={props => (
           <MarkerLanesPresenter {...props}>
-            <SmartAlertMarkerLanePresenter alerts={getAlerts(timeConfig)} />
+            <AlertsPreviewLanePresenter alerts={getAlerts(timeConfig)} />
           </MarkerLanesPresenter>
         )}
       />
@@ -146,4 +100,109 @@ function generateMetrics(numMetrics, maxValue, windowSize) {
   }
   metrics.sort((a, b) => compare(a[0], b[0]));
   return metrics;
+}
+
+function getReleases(timeConfig) {
+  const events = [];
+  const numEvents = 8;
+  for (let i = 0; i < numEvents; i++) {
+    events[i] = {
+      count: 1,
+      timestamp: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (i / 10),
+      clusteredReleases: [
+        {
+          name: 'Release Lane Test: abc',
+          start: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (i / 10),
+          id: '2WqiOdUES2yLLk8kqKfxzQ',
+          lastUpdated: 1594973648774
+        }
+      ]
+    };
+  }
+  return events;
+}
+
+function getAlerts(timeConfig) {
+  const events = [];
+  const numEvents = 18;
+  for (let i = 0; i < numEvents; i++) {
+    events[i] = {
+      timestamp: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (i / 8),
+      numAlertsInCluster: i
+    };
+  }
+
+  return events;
+}
+
+function getAlertsAndIncidents(timeConfig) {
+  const events = [];
+  const numEvents = 12;
+  for (let i = 0; i < numEvents; i++) {
+    events[i] = {
+      timestamp: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (i / 9), // backend property name is "timestamp"
+      smartAlerts:
+        i % 2 !== 0
+          ? [
+              {
+                eventId: 'ZBW7TkyST2mh6xy9foCtFA',
+                name: "I'm a cool smart alert",
+                triggeringTime: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (i / 5),
+                start: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (i / 7),
+                end: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (i / 9)
+              }
+            ]
+          : [],
+      incidents:
+        i % 2 === 0
+          ? [
+              {
+                eventId: 'ZBW7TkyST2mh6xy9foCtFA',
+                name: "I'm a cool Incident",
+                triggeringTime: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (i / 5),
+                start: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (i / 7),
+                end: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (i / 9)
+              },
+              {
+                eventId: 'ZBW7TkyST2mh6xy9foCtFA',
+                name: "I'm an awesome Incident",
+                triggeringTime: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (i / 5),
+                start: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (i / 7),
+                end: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (i / 9)
+              }
+            ]
+          : []
+    };
+  }
+
+  events[3] = {
+    timestamp: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (3 / 9), // backend property name is "timestamp"
+    smartAlerts: [
+      {
+        eventId: 'ZBW7TkyST2mh6xy9foCtFA',
+        name: "I'm a cool smart alert",
+        triggeringTime: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (3 / 5),
+        start: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (3 / 7),
+        end: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (3 / 9)
+      }
+    ],
+    incidents: [
+      {
+        eventId: 'ZBW7TkyST2mh6xy9foCtFA',
+        name: "I'm a cool Incident in a cluster",
+        triggeringTime: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (3 / 5),
+        start: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (3 / 7),
+        end: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (3 / 9)
+      },
+      {
+        eventId: 'ZBW7TkyST2mh6xy9foCtFA',
+        name: "I'm an awesome Incident in a cluster",
+        triggeringTime: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (3 / 5),
+        start: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (3 / 7),
+        end: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (3 / 9)
+      }
+    ]
+  };
+
+  return events;
 }

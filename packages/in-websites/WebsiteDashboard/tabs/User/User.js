@@ -15,6 +15,8 @@ import Footer from 'in-new-components/Footer';
 export default function User({ timeConfig, tagFilters, websiteId, websiteLabel }) {
   const granularity = getChartGranularity(timeConfig);
 
+  const MarkerLanes = WebsiteDashboardsMarkerLanes({ websiteId });
+
   return (
     <Fragment>
       <Row>
@@ -60,7 +62,7 @@ export default function User({ timeConfig, tagFilters, websiteId, websiteLabel }
                 }
               }
             }}
-            renderPostChartContent={WebsiteDashboardsMarkerLanes}
+            renderPostChartContent={MarkerLanes}
           />
         </Col>
       </Row>

@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import theme from 'in-themes';
 import React from 'react';
 
-import SmartAlertMarkerLane from 'in-components/Chart/markerLanes/AlertMarkerLane/SmartAlertMarkerLane';
+import AlertsPreviewLane from 'in-components/Chart/markerLanes/AlertsPreviewLane/AlertsPreviewLane';
 import AlertingBarChartWrapper from 'in-new-components/Alerting/Chart/AlertingBarChartWrapper';
 import { chartViewConfigPropType } from 'in-new-components/Alerting/Chart/chartViewConfig';
 import MarkerLanesPresenter from 'in-components/Chart/markerLanes/MarkerLanesPresenter';
@@ -69,7 +69,7 @@ export default function AlertingBarChart({
               timeThreshold
             })}
           >
-            <SmartAlertMarkerLane />
+            <AlertsPreviewLane />
           </MarkerLanesPresenter>
         );
       }}

@@ -26,8 +26,8 @@ export default function MarkerLanesPresenter({
         labelVisible={labelVisible}
         labelAlignment={labelAlignment}
         chartWidth={chartWidth}
-        isClustered={chartBucketWidth < minBlockWidth - 2}
         granularity={granularity}
+        chartBucketWidth={chartBucketWidth}
         remainingProps={remainingProps}
       />
       <div
@@ -37,7 +37,16 @@ export default function MarkerLanesPresenter({
     </div>
   );
 
-  function MarkerLanesWrapper({ labelVisible, labelAlignment, chartWidth, isClustered, granularity, remainingProps }) {
+  function MarkerLanesWrapper({
+    labelVisible,
+    labelAlignment,
+    chartWidth,
+    granularity,
+    chartBucketWidth,
+    remainingProps
+  }) {
+    const isClustered = chartBucketWidth < minBlockWidth - 2;
+
     const markerLanesWrapperRef = useRef(null);
     return (
       <div ref={markerLanesWrapperRef} className={locals.markerLanesWrapper} onMouseEnter={() => setLabelVisible(true)}>
@@ -53,7 +62,8 @@ export default function MarkerLanesPresenter({
                   granularity
                 })
               : granularity,
-            isClustered
+            isClustered,
+            chartBucketWidth
           });
         })}
       </div>

@@ -94,6 +94,8 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
       }
     };
 
+    const MarkerLanes = WebsiteDashboardsMarkerLanes({ websiteId, pageId });
+
     content = (
       <Fragment>
         <Row>
@@ -134,7 +136,7 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
                   }
                 }
               }}
-              renderPostChartContent={WebsiteDashboardsMarkerLanes}
+              renderPostChartContent={MarkerLanes}
             />
           </Col>
           <Col lg={4}>
@@ -161,7 +163,7 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
                   }
                 }
               }}
-              renderPostChartContent={WebsiteDashboardsMarkerLanes}
+              renderPostChartContent={MarkerLanes}
             />
           </Col>
           <Col lg={4}>
@@ -228,7 +230,7 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
                   }
                 }
               }}
-              renderPostChartContent={WebsiteDashboardsMarkerLanes}
+              renderPostChartContent={MarkerLanes}
             />
           </Col>
         </Row>
@@ -320,7 +322,7 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
                         }
                       }
                     }}
-                    renderPostChartContent={WebsiteDashboardsMarkerLanes}
+                    renderPostChartContent={MarkerLanes}
                   />
                 )}
               </AggregationSelector>
@@ -385,7 +387,7 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
                   }
                 }
               }}
-              renderPostChartContent={WebsiteDashboardsMarkerLanes}
+              renderPostChartContent={MarkerLanes}
             />
           </Col>
 
@@ -431,7 +433,7 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
                   }
                 }
               }}
-              renderPostChartContent={WebsiteDashboardsMarkerLanes}
+              renderPostChartContent={MarkerLanes}
             />
           </Col>
         </Row>
@@ -459,7 +461,7 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
                   }
                 ]}
                 translateLabel={label => cacheTypes[label] && cacheTypes[label].long}
-                renderPostChartContent={WebsiteDashboardsMarkerLanes}
+                renderPostChartContent={MarkerLanes}
               />
             </Col>
 
@@ -501,7 +503,7 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
                         }
                       }
                     }}
-                    renderPostChartContent={WebsiteDashboardsMarkerLanes}
+                    renderPostChartContent={MarkerLanes}
                   />
                 )}
               </AggregationSelector>
@@ -530,7 +532,7 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
                     fallbackMetricValue: 0
                   }
                 ]}
-                renderPostChartContent={WebsiteDashboardsMarkerLanes}
+                renderPostChartContent={MarkerLanes}
               />
             </Col>
 
