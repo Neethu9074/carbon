@@ -7,6 +7,7 @@ import LogIndicator from 'in-analyze/TraceDetail/components/LogIndicator';
 import { isFakeRootCall } from 'in-analyze/TraceDetail/shared/CallHelper';
 import { latencyFixed } from 'in-services/formatters/number';
 import Tooltip from 'in-components/Tooltip';
+import { role } from 'in-stores/user';
 
 import locals from './ChildrenDistributionTimeLine.mless';
 
@@ -31,9 +32,11 @@ export default function ChildrenDistributionTimeLine({ call, getColor, scale, on
           className={locals.subCallIndicator}
         />
       ))}
-      {call.children.filter(subCall => subCall.model === 'LOG').map((subCall, i) => (
-        <LogIndicators key={i} parentCall={call} log={subCall} scale={scale} onCallClicked={onCallClicked} />
-      ))}
+      {call.children
+        .filter(subCall => subCall.model === 'LOG')
+        .map((subCall, i) => (
+          <LogIndicators key={i} parentCall={call} log={subCall} scale={scale} onCallClicked={onCallClicked} />
+        ))}
     </div>
   );
 }
@@ -136,8 +139,13 @@ function LogIndicators({ parentCall, log, scale, onCallClicked }) {
   const left = scale.getDomainFrom() === scale.getDomainTo() ? scale.getRangeFrom() : scale.getRange(log.start);
 
   return (
-    <Tooltip themeStyle="light" content={<LogTooltipContent log={log} />} align="topMiddle">
+    <Tooltip themeStyle="light" content={getTooltipContent(log)} align="topMiddle">
       <LogIndicator inTimeline left={left} parentCall={parentCall} onCallClicked={onCallClicked} log={log} />
     </Tooltip>
   );
+}
+
+function getTooltipContent(log) {
+  if (!role.canViewLogs) return null;
+  return <LogTooltipContent log={log} />;
 }
