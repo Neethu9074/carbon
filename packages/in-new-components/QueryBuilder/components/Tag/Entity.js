@@ -15,6 +15,7 @@ export default React.forwardRef(function Entity({ entity, onChange, renderModelI
         withoutWrapper
         content={SourceDestinationSelectorOverlay}
         props={{ value: entity, onChange }}
+        align="bottomMiddle"
         onCloseSideEffect={e => {
           // Ensure the element retains its focus when closing the overlay with the escape key.
           if (e instanceof KeyboardEvent) {

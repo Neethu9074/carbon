@@ -28,6 +28,7 @@ export default function ConjunctionOrBracketBehavior({
       withoutWrapper
       content={ConjunctionSelectorOverlay}
       props={{ value, onChange }}
+      align="bottomMiddle"
       onCloseSideEffect={e => {
         // Ensure the element retains its focus when closing the overlay with the escape key.
         if (e instanceof KeyboardEvent) {

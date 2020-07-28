@@ -26,6 +26,7 @@ export default React.forwardRef(function Name(
         tagCatalog,
         onChange
       }}
+      align="bottomMiddle"
       onCloseSideEffect={e => {
         // Ensure the element retains its focus when closing the overlay with the escape key.
         if (e instanceof KeyboardEvent) {

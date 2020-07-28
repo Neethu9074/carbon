@@ -17,6 +17,7 @@ export default React.forwardRef(function Operator(
       withoutWrapper
       content={OperatorSelectorOverlay}
       props={{ value: operator, onChange, allowedOperators, tagType }}
+      align="bottomMiddle"
       onCloseSideEffect={e => {
         // Ensure the element retains its focus when closing the overlay with the escape key.
         if (e instanceof KeyboardEvent) {

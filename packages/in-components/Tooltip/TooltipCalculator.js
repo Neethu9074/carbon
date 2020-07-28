@@ -153,6 +153,7 @@ const TooltipCalculator = {
   // L: Left
   // T: Top
   calculate(bounds, tooltip, reference, forceConfiguredAlignment = false) {
+    forceAutoAlignmentWhenPositionBelowOrAboveDoesNotWork(bounds, tooltip, reference);
     let data = createElement();
     const mask = this.retreiveMask(bounds, tooltip, reference);
     this.calculateInternally(data, mask, bounds, tooltip, reference);
@@ -315,3 +316,12 @@ const TooltipCalculator = {
 };
 
 export default TooltipCalculator;
+
+function forceAutoAlignmentWhenPositionBelowOrAboveDoesNotWork(bounds, tooltip, reference) {
+  const tooltipHeight = tooltip.bottom - tooltip.top;
+  if (tooltip.align?.startsWith('top') && reference.top - tooltipHeight < 0) {
+    tooltip.align = 'auto';
+  } else if (tooltip.align?.startsWith('bottom') && reference.bottom + tooltipHeight > bounds.bottom) {
+    tooltip.align = 'auto';
+  }
+}

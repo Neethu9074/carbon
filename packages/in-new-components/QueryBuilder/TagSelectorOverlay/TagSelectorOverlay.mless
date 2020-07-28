@@ -12,7 +12,9 @@
   }
 
   .content {
-    min-height: 30rem;
+    @height: 20rem;
+    min-height: @height;
+    max-height: @height;
   }
 
   .filterList {

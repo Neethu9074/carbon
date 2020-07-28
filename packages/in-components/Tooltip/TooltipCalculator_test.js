@@ -285,5 +285,17 @@ describe('in-components/TooltipCalculator', () => {
       TooltipCalculator.calculate(bounds, tooltip, reference);
       expect(tooltip.align).to.equal('bottomRight');
     });
+
+    it('should not position below when there is not sufficient space above the element', () => {
+      prepare(100, bounds.bottom / 2, bounds.right / 2, bounds.bottom / 2, 200, 200, 'bottomMiddle');
+      TooltipCalculator.calculate(bounds, tooltip, reference);
+      expect(tooltip.align).to.equal('leftMiddle');
+    });
+
+    it('should not position above when there is not sufficient space above the element', () => {
+      prepare(100, bounds.bottom / 2, bounds.right / 2 - 200, bounds.bottom / 2 - 200, 400, 400, 'topMiddle');
+      TooltipCalculator.calculate(bounds, tooltip, reference);
+      expect(tooltip.align).to.equal('leftMiddle');
+    });
   });
 });

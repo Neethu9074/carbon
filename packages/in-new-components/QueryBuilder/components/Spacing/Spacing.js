@@ -47,6 +47,7 @@ export default function Spacing({
         tagCatalog,
         onChange: onAddToFormModel
       }}
+      align="bottomMiddle"
       onCloseSideEffect={() => {
         if (
           lastTimeExternalAddToFormModelWasCalledRef.current == null ||
