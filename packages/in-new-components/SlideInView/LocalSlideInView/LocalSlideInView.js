@@ -16,10 +16,11 @@ export default function LocalSlideInView({
   slideIn,
   title,
   onTitleIconClick,
-  HeaderComponent = DialogHeader
+  HeaderComponent = DialogHeader,
+  transitionDurationMillis = 500
 }) {
   const [scrollShadow, setScrollShadow] = useState(false);
-  const { doSlideIn, style } = useCustomSlideInBehaviour(slideIn);
+  const { doSlideIn, style } = useCustomSlideInBehaviour(slideIn, transitionDurationMillis);
   const top = HeaderComponent === DialogHeader ? '5rem' : '3.5rem';
 
   return (
@@ -27,7 +28,7 @@ export default function LocalSlideInView({
       <div className={locals.content}>{children}</div>
 
       <div
-        style={{ top }}
+        style={{ top, transitionDuration: `${transitionDurationMillis}ms` }}
         className={evaluateClassNames({
           [locals.inputBlocker]: true,
           [locals.slideIn]: slideIn
@@ -35,7 +36,7 @@ export default function LocalSlideInView({
       />
 
       <div
-        style={{ ...style, top }}
+        style={{ ...style, top, transitionDuration: `${transitionDurationMillis}ms` }}
         className={evaluateClassNames({
           [locals.slider]: true,
           [locals.slideIn]: doSlideIn
@@ -63,12 +64,13 @@ LocalSlideInView.propTypes = {
   sliderContent: PropTypes.node,
   slideIn: PropTypes.bool,
   title: PropTypes.string,
-  onTitleIconClick: PropTypes.func
+  onTitleIconClick: PropTypes.func,
+  transitionDurationMillis: PropTypes.number
 };
 
 // Safari keeps focus on the selected slideIn component, which leads to a broken ui when tagFilter dropdown is selected.
 // For that we need to remove the slide-In so that Safari looses focus
-function useCustomSlideInBehaviour(slideIn) {
+function useCustomSlideInBehaviour(slideIn, transitionDurationMillis) {
   const [doSlideIn, setDoSlideIn] = useState(false);
   const [style, setStyle] = useState({});
 
@@ -79,23 +81,20 @@ function useCustomSlideInBehaviour(slideIn) {
     }
   }
 
-  useEffect(
-    () => {
-      disposeTimeout();
-      if (!slideIn) {
-        setDoSlideIn(false);
-        currentTimeout = setTimeout(() => {
-          setStyle({ display: 'none' });
-        }, 500);
-      } else {
-        setStyle({ display: 'block' });
-        currentTimeout = setTimeout(() => {
-          setDoSlideIn(true);
-        }, 100);
-      }
-      return disposeTimeout;
-    },
-    [slideIn]
-  );
+  useEffect(() => {
+    disposeTimeout();
+    if (!slideIn) {
+      setDoSlideIn(false);
+      currentTimeout = setTimeout(() => {
+        setStyle({ display: 'none' });
+      }, transitionDurationMillis);
+    } else {
+      setStyle({ display: 'block' });
+      currentTimeout = setTimeout(() => {
+        setDoSlideIn(true);
+      }, Math.ceil(transitionDurationMillis / 5));
+    }
+    return disposeTimeout;
+  }, [slideIn, transitionDurationMillis]);
   return { doSlideIn, style };
 }

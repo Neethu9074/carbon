@@ -31,6 +31,7 @@ export default function TagSelectorOverlay({ tagCatalog, onChange, close }) {
           title={activeGroup?.label}
           slideIn={!!activeGroup}
           HeaderComponent={ListHeader}
+          transitionDurationMillis={250}
           sliderContent={
             activeGroup?.children && (
               <TreeNodeList
