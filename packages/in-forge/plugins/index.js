@@ -79,6 +79,8 @@ import './hazelcastNode';
 import './hBase';
 import './host';
 import './httpd';
+import './iBMMQCluster';
+import './iBMMQQueueManager';
 import './instanaAgent';
 import './jBossAsApplicationContainer';
 import './jbossDataGrid';

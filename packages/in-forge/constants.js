@@ -83,6 +83,8 @@ export const nonServicePlugins = {
   hBase: 'hBase',
   host: 'host',
   httpd: 'httpd',
+  iBMMQCluster: 'iBMMQCluster',
+  iBMMQQueueManager: 'iBMMQQueueManager',
   instanaAgent: 'instanaAgent',
   jBossAsApplicationContainer: 'jBossAsApplicationContainer',
   jbossDataGrid: 'jbossDataGrid',
@@ -267,6 +269,9 @@ export const fullyQualifiedPlugins = {
   hBase: 'com.instana.forge.infrastructure.database.hbase.HBase',
   host: 'com.instana.forge.infrastructure.os.host.Host',
   httpd: 'com.instana.forge.infrastructure.webserver.httpd.Httpd',
+  iBMMQCluster: 'com.instana.forge.infrastructure.messaging.ibm_mq.IBMMQCluster',
+  iBMMQQueueManager:
+    'com.instana.forge.infrastructure.messaging.ibm_mq.derivedentity.ibm_mq_queue_manager.IBMMQQueueManager',
   instanaAgent: 'com.instana.forge.infrastructure.application.instana.agent.InstanaAgent',
   jBossAsApplicationContainer: 'com.instana.forge.infrastructure.application.jbossas.JBossAsApplicationContainer',
   jbossDataGrid: 'com.instana.forge.infrastructure.cache.jbossdatagrid.JbossDataGrid',
