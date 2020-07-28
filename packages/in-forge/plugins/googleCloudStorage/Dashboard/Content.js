@@ -54,7 +54,7 @@ export default function GoogleCLoudStorageDashboard({ snapshot, timeConfig }) {
         </DashboardSection>
       </Columize>
       <Columize>
-        <DashboardSection title="Object">
+        <DashboardSection title="Objects">
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
