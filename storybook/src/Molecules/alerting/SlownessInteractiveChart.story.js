@@ -15,7 +15,7 @@ export function SlownessInteractiveChart_simple() {
 
   let props = {
     form,
-    onChange: (path, fn) => setForm(form.updateIn(path, fn)), // onChange
+    onChange: (path, fn) => setForm(form.updateIn(path, fn)),
     blueprintConfig: getBlueprintConfig('slowness'),
     updateForm: setForm
     // debounceOnChange$,

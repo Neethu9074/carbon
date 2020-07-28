@@ -10,7 +10,6 @@ import {
   websitesAlertingThresholdTypeChanged
 } from 'in-websites/alerting/tracker';
 import {
-  getBlueprintObject,
   debouncedThresholdValueChangedTracker,
   debouncedThresholdDeviationFactorChangedTracker
 } from 'in-websites/alerting/trackingHelpers';
@@ -27,8 +26,8 @@ import createThresholdForm, { defaultDeviationFactor } from 'in-websites/alertin
 import ChartViewConfigurator from 'in-new-components/Alerting/components/ChartViewConfigurator';
 import { getFormValueOrDefault, getThresholdLabel } from 'in-websites/alerting/form/formUtils';
 import { SensitivitySlider } from 'in-new-components/Alerting/advanced/SensitivitySlider';
+import { blueprintConfigPropType } from 'in-applications/alerting/data/blueprintConfig';
 import AlertingBarChart from 'in-new-components/Alerting/Chart/AlertingBarChart';
-import { getBlueprintConfig } from 'in-websites/alerting/data/blueprintConfig';
 import { findEntryByValue } from 'in-applications/alerting/form/formUtils';
 import createRuleForm from 'in-websites/alerting/form/ruleForm';
 import Dropdown from 'in-new-components/Dropdown';
@@ -46,6 +45,7 @@ export default compose(
 )(SlownessInteractiveChart);
 
 function SlownessInteractiveChart({
+  blueprintConfig,
   form,
   onChange,
   debounceOnChange$,
@@ -60,6 +60,7 @@ function SlownessInteractiveChart({
   const [doDebounceThreshold, setDoDebounceThreshold] = useState(false);
   const [doDebounceDeviationFactor, setDoDebounceDeviationFactor] = useState(false);
 
+  const metricName = form.get('rule').get('metricName');
   const alertConfig = {
     ...form.toJS(),
     threshold: {
@@ -73,29 +74,27 @@ function SlownessInteractiveChart({
       )
     }
   };
-  const alertType = alertConfig.rule.alertType;
-  const blueprintConfig = getBlueprintConfig(alertType);
 
   return (
     <div className={locals.container}>
-      {renderThresholdCondition(
-        form,
-        updateForm,
-        onChange,
-        blueprintConfig,
-        debounceOnChange$,
-        onChartViewConfigChange,
-        selectedChartViewConfigIndex,
-        doDebounceThreshold,
-        doDebounceDeviationFactor,
-        setDoDebounceThreshold,
-        setDoDebounceDeviationFactor,
-        alertConfig.threshold,
-        tempThreshold,
-        setTempThreshold,
-        tempThresholdDeviationFactor,
-        setTempThresholdDeviationFactor
-      )}
+      <ThresholdCondition
+        {...{
+          form,
+          updateForm,
+          onChange,
+          blueprintConfig,
+          debounceOnChange$,
+          doDebounceThreshold,
+          doDebounceDeviationFactor,
+          setDoDebounceThreshold,
+          setDoDebounceDeviationFactor,
+          tempThreshold,
+          metricName,
+          setTempThreshold,
+          tempThresholdDeviationFactor,
+          setTempThresholdDeviationFactor
+        }}
+      />
 
       <ChartViewConfigurator
         onChartViewConfigChange={onChartViewConfigChange}
@@ -117,29 +116,27 @@ function SlownessInteractiveChart({
   );
 }
 
-export function renderThresholdCondition(
+export function ThresholdCondition({
   form,
   updateForm,
   onChange,
   blueprintConfig,
   debounceOnChange$,
-  onChartViewConfigChange,
-  selectedChartViewConfigIndex,
   doDebounceThreshold,
   doDebounceDeviationFactor,
   setDoDebounceThreshold,
   setDoDebounceDeviationFactor,
-  threshold,
   tempThreshold,
+  metricName,
   setTempThreshold,
   tempThresholdDeviationFactor,
   setTempThresholdDeviationFactor
-) {
+}) {
   const operatorValue = form.get('threshold').get('operator').value;
   const operatorOptions = enrichThresholdOperatorOptionsForApiConfigs(operatorValue);
   const operatorLabel = operatorOptions.find(op => op.value === operatorValue).label;
+
   const thresholdType = form.get('threshold').get('type')?.value;
-  const metricName = form.get('rule').get('metricName').value;
 
   return (
     <>
@@ -147,40 +144,33 @@ export function renderThresholdCondition(
         <Label>{blueprintConfig.getMetricLabel(metricName)}</Label>
         <Dropdown
           asSimpleDropdown
-          name="ruleAggregation"
           label={getAggregationLabelAndUpdateFormIfNeeded(form, updateForm)}
           items={getAggregationOptions(form)}
-          onChange={e => {
-            const value = (e && e.value) || '';
+          onChange={({ value = '' }) => {
             updateForm(
               form
                 .updateIn(['rule', 'aggregation'], f => f.setValue(value).setTouched(true))
                 .updateIn(['threshold', 'baseline'], f => f.setValue([]).setTouched(true)) // reset baseline
                 .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
             );
-            websitesAlertingAggregationChanged({ ...getBlueprintObject(form), value });
+            websitesAlertingAggregationChanged({ blueprintConfig, value });
           }}
-          defaultValue="P90"
         />
         <Dropdown
           asSimpleDropdown
-          name="thresholdOperator"
           label={operatorLabel}
           items={operatorOptions}
-          onChange={e => {
-            const value = (e && e.value) || '';
+          onChange={({ value = '' }) => {
             onChange(['threshold', 'operator'], f => f.setValue(value).setTouched(true));
-            websitesAlertingThresholdOperatorChanged({ ...getBlueprintObject(form), value: e.value });
+            websitesAlertingThresholdOperatorChanged({ blueprintConfig, value });
           }}
-          defaultValue=">="
         />
         <Dropdown
           asSimpleDropdown
-          name="thresholdType"
           label={findEntryByValue(thresholdTypeOptions, getThresholdComboBoxValue(form))?.label}
           items={thresholdTypeOptions}
           onChange={e => {
-            const value = e.value || '';
+            const value = e?.value ?? '';
             const valueParts = value.split('.');
             const thresholdType = valueParts[0];
 
@@ -207,9 +197,8 @@ export function renderThresholdCondition(
                 .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
             );
 
-            websitesAlertingThresholdTypeChanged({ ...getBlueprintObject(form), value: thresholdType });
+            websitesAlertingThresholdTypeChanged({ blueprintConfig, value: thresholdType });
           }}
-          defaultValue="staticThreshold"
         />
       </ThresholdConditionFormGroup>
       {thresholdType === 'staticThreshold' && (
@@ -221,8 +210,11 @@ export function renderThresholdCondition(
             name="thresholdValue"
             value={doDebounceThreshold ? tempThreshold : getFormValueOrDefault(form.get('threshold'), 'value')}
             step="1"
-            onChange={e => {
-              const value = e.target.value !== '' ? Math.abs(e.target.value) : '';
+            onChange={({ target }) => {
+              let value = '';
+              if (target.value !== '') {
+                value = Math.abs(target.value);
+              }
 
               setDoDebounceThreshold(true);
               setTempThreshold(value);
@@ -233,7 +225,7 @@ export function renderThresholdCondition(
               };
 
               debounceOnChange$.emit(onChangCallback.bind(this));
-              debouncedThresholdValueChangedTracker({ ...getBlueprintObject(form), value });
+              debouncedThresholdValueChangedTracker({ blueprintConfig, value });
             }}
           />
 
@@ -261,7 +253,7 @@ export function renderThresholdCondition(
               };
 
               debounceOnChange$.emit(onChangCallback.bind(this));
-              debouncedThresholdDeviationFactorChangedTracker({ ...getBlueprintObject(form), value });
+              debouncedThresholdDeviationFactorChangedTracker({ blueprintConfig, value });
             }}
           />
         </ThresholdConditionFormGroup>
@@ -303,6 +295,7 @@ function getAggregationOptions(form) {
 
 SlownessInteractiveChart.propTypes = {
   debounceOnChange$: PropTypes.object,
+  blueprintConfig: blueprintConfigPropType,
   form: PropTypes.object.isRequired,
   onChange: PropTypes.func.isRequired,
   updateForm: PropTypes.func.isRequired,

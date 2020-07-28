@@ -13,6 +13,7 @@ import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-applications/
 import StatusCodeInteractiveChart from 'in-applications/alerting/advanced/StatusCodeInteractiveChart';
 import GlobalAdvancedModeContainer from 'in-new-components/Alerting/advanced/AdvancedModeContainer';
 import ErrorRateInteractiveChart from 'in-applications/alerting/advanced/ErrorRateInteractiveChart';
+import { blueprintConfig, getBlueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
 import SlownessInteractiveChart from 'in-applications/alerting/advanced/SlownessInteractiveChart';
 import InboundOutboundCallsSwitch from './InboundOutboundCallsSwitch/InboundOutboundCallsSwitch';
 import AlertLocationFilters from 'in-applications/alerting/components/AlertLocationFilters';
@@ -23,7 +24,6 @@ import BlueprintSelection from 'in-applications/alerting/advanced/BlueprintSelec
 import ProvideLogMessage from 'in-applications/alerting/components/ProvideLogMessage';
 import ProvideStatusCode from 'in-applications/alerting/components/ProvideStatusCode';
 import AlertTypeSwitch from 'in-applications/alerting/components/AlertTypeSwitch';
-import { blueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
 import LightCard from 'in-new-components/Card/LightCard';
 import Message from 'in-new-components/Message';
 
@@ -39,6 +39,9 @@ export default function AdvancedModeContainer(props) {
     selectedChartViewConfigIndex,
     thresholdResult
   } = props;
+
+  const alertType = form.get('rule').get('alertType').value;
+  const blueprint = getBlueprintConfig(alertType);
 
   return (
     <GlobalAdvancedModeContainer
@@ -70,9 +73,10 @@ export default function AdvancedModeContainer(props) {
             <>
               <BlueprintSelection form={form} updateForm={updateForm} blueprintConfig={blueprintConfig} />
               <AlertTypeSwitch
-                alertType={form.get('rule').get('alertType').value}
+                alertType={alertType}
                 renderErrorRate={() => (
                   <ErrorRateInteractiveChart
+                    blueprintConfig={blueprint}
                     form={form}
                     timeConfig={timeConfig}
                     onChange={onChange}
@@ -83,6 +87,7 @@ export default function AdvancedModeContainer(props) {
                 renderSlowness={() => (
                   <>
                     <SlownessInteractiveChart
+                      blueprintConfig={blueprint}
                       form={form}
                       timeConfig={timeConfig}
                       onChange={onChange}
@@ -103,19 +108,18 @@ export default function AdvancedModeContainer(props) {
                 renderLogs={() => (
                   <>
                     <LightCard title="Log Message" withoutPadding darkFrame>
-                      {
-                        <ProvideLogMessage
-                          form={form}
-                          timeConfig={{
-                            windowSize: alertingDialogItemPickerTimeframe
-                          }}
-                          updateForm={updateForm}
-                          onSelectLogMessage={setSliderState}
-                          mode="Advanced"
-                        />
-                      }
+                      <ProvideLogMessage
+                        form={form}
+                        timeConfig={{
+                          windowSize: alertingDialogItemPickerTimeframe
+                        }}
+                        updateForm={updateForm}
+                        onSelectLogMessage={setSliderState}
+                        mode="Advanced"
+                      />
                     </LightCard>
                     <LogsInteractiveChart
+                      blueprintConfig={blueprint}
                       form={form}
                       timeConfig={timeConfig}
                       onChange={onChange}
@@ -130,6 +134,7 @@ export default function AdvancedModeContainer(props) {
                       <ProvideStatusCode form={form} updateForm={updateForm} mode="Advanced" />
                     </LightCard>
                     <StatusCodeInteractiveChart
+                      blueprintConfig={blueprint}
                       form={form}
                       onChange={onChange}
                       updateForm={updateForm}

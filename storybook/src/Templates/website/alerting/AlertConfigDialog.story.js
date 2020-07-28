@@ -1,7 +1,6 @@
 import { action } from '@storybook/addon-actions';
 import React, { useState } from 'react';
 
-import { alertingDialogChartTimeframe, alertingMetricsGranularity } from 'in-websites/alerting/constants';
 import AlertConfigDialogPresenter from 'in-new-components/Alerting/AlertConfigDialogPresenter';
 import alertFormDefinition from 'in-websites/alerting/form/alertDialogFormDefinition';
 import SimpleModeContainer from 'in-websites/alerting/simple/SimpleModeContainer';
@@ -15,7 +14,6 @@ export default {
 const timeConfig = {
   to: null,
   focusedMoment: null,
-  windowSize: alertingDialogChartTimeframe,
   autoRefresh: false
 };
 function createOnChange(setForm, externalForm) {
@@ -51,7 +49,6 @@ export const AlertConfigDialog = () => {
       onCreate={action('create')}
       timeConfig={timeConfig}
       websiteLabel={'shop'}
-      granularity={alertingMetricsGranularity}
       simpleModeElement={SimpleModeContainer}
       advancedModeElement={AdvancedModeContainer}
     />

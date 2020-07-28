@@ -7,14 +7,14 @@ import {
   enrichThresholdOperatorOptionsForApiConfigs,
   thresholdOperatorOptions
 } from 'in-applications/alerting/form/thresholdFormData';
-import { getBlueprintObject, debouncedThresholdValueChangedTracker } from 'in-applications/alerting/trackingHelpers';
 import IncompleteChartPlaceholder from 'in-new-components/Alerting/components/IncompleteChartPlaceholder';
 import ThresholdConditionFormGroup from 'in-new-components/Alerting/advanced/ThresholdConditionFormGroup';
 import { getThresholdValueForPercentageMetric } from 'in-new-components/Alerting/utils/formatUtils';
+import { debouncedThresholdValueChangedTracker } from 'in-applications/alerting/trackingHelpers';
 import { applicationsAlertingThresholdOperatorChanged } from 'in-applications/alerting/tracker';
 import ChartViewConfigurator from 'in-new-components/Alerting/components/ChartViewConfigurator';
 import { findEntryByValue, getThresholdLabel } from 'in-applications/alerting/form/formUtils';
-import { getBlueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
+import { blueprintConfigPropType } from 'in-applications/alerting/data/blueprintConfig';
 import AlertingBarChart from 'in-new-components/Alerting/Chart/AlertingBarChart';
 import Dropdown from 'in-new-components/Dropdown';
 import Input from 'in-components/form/Input';
@@ -31,6 +31,7 @@ export default compose(
 )(LogsInteractiveChart);
 
 function LogsInteractiveChart({
+  blueprintConfig,
   form,
   onChange,
   debounceOnChange$,
@@ -50,8 +51,6 @@ function LogsInteractiveChart({
           : form.get('threshold').get('value').value) || 0
     }
   };
-  const alertType = alertConfig.rule.alertType;
-  const blueprintConfig = getBlueprintConfig(alertType);
 
   if (!blueprintConfig.isRuleComplete(alertConfig.rule)) {
     return (
@@ -63,16 +62,18 @@ function LogsInteractiveChart({
 
   return (
     <div className={locals.container}>
-      {renderThresholdCondition(
-        form,
-        onChange,
-        blueprintConfig,
-        doDebounce,
-        tempThreshold,
-        setDoDebounce,
-        setTempThreshold,
-        debounceOnChange$
-      )}
+      <ThresholdCondition
+        {...{
+          form,
+          onChange,
+          blueprintConfig,
+          doDebounce,
+          tempThreshold,
+          setDoDebounce,
+          setTempThreshold,
+          debounceOnChange$
+        }}
+      />
 
       <ChartViewConfigurator
         onChartViewConfigChange={onChartViewConfigChange}
@@ -94,7 +95,7 @@ function LogsInteractiveChart({
   );
 }
 
-export function renderThresholdCondition(
+export function ThresholdCondition({
   form,
   onChange,
   blueprintConfig,
@@ -103,7 +104,7 @@ export function renderThresholdCondition(
   setDoDebounce,
   setTempThreshold,
   debounceOnChange$
-) {
+}) {
   const operatorValue = form.get('threshold').get('operator').value;
   const operatorOptions = enrichThresholdOperatorOptionsForApiConfigs(operatorValue);
   const operatorLabel = findEntryByValue(operatorOptions, operatorValue)?.label ?? thresholdOperatorOptions[0].label;
@@ -116,13 +117,11 @@ export function renderThresholdCondition(
       <Label>{blueprintConfig.getMetricLabel(metricName)}</Label>
       <Dropdown
         asSimpleDropdown
-        name="thresholdOperator"
         label={operatorLabel}
         items={operatorOptions}
-        onChange={e => {
-          const value = (e && e.value) || '';
+        onChange={({ value = '' }) => {
           onChange(['threshold', 'operator'], f => f.setValue(value).setTouched(true));
-          applicationsAlertingThresholdOperatorChanged({ ...getBlueprintObject(form), value });
+          applicationsAlertingThresholdOperatorChanged({ blueprintConfig, value });
         }}
       />
       <Input
@@ -132,8 +131,8 @@ export function renderThresholdCondition(
         name="thresholdValue"
         step="1"
         value={(doDebounce ? tempThreshold : form.get('threshold').get('value').value) ?? 0}
-        onChange={e => {
-          let value = e.target.value !== '' ? Math.abs(e.target.value) : '';
+        onChange={({ target }) => {
+          const value = target.value == '' ? '' : Math.abs(target.value);
 
           setDoDebounce(true);
           setTempThreshold(value);
@@ -144,7 +143,7 @@ export function renderThresholdCondition(
           };
 
           debounceOnChange$.emit(onChangCallback.bind(this));
-          debouncedThresholdValueChangedTracker({ ...getBlueprintObject(form), value });
+          debouncedThresholdValueChangedTracker({ blueprintConfig, value });
         }}
       />
       {thresholdValueLabel !== 'Count' && <Label htmlFor="thresholdValue">{thresholdValueLabel}</Label>}
@@ -154,6 +153,7 @@ export function renderThresholdCondition(
 
 LogsInteractiveChart.propTypes = {
   debounceOnChange$: PropTypes.object,
+  blueprintConfig: blueprintConfigPropType,
   form: PropTypes.object.isRequired,
   onChange: PropTypes.func.isRequired,
   onChartViewConfigChange: PropTypes.func.isRequired,
