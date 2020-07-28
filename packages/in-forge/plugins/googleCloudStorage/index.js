@@ -7,11 +7,11 @@ import { plugins } from 'in-forge/constants';
 registerSnapshotDefinition({
   plugin: plugins.googleCloudStorage,
   pluginName: {
-    singular: 'GCP Storage Instance',
-    plural: 'GCP Storage Instances'
+    singular: 'GCP GCS Bucket',
+    plural: 'GCP GCS Buckets'
   },
   technologyDescriptor: {
-    label: 'GCP Storage Instance'
+    label: 'GCP GCS Bucket'
   },
   iconSvgPath,
   kpiDefinitions,

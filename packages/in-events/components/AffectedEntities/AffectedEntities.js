@@ -72,7 +72,7 @@ function enrichMetricResults([affected, total]) {
 
 function enrichItemsWithTotalCounts(affectedCalls = {}, total = {}) {
   function enrichWithCallsForEntityWithSameName(entity) {
-    const totalMetric = total.items?.find(totalEntry => totalEntry.name === entity.name)?.metrics?.calls_SUM_Agg;
+    const totalMetric = total?.items?.find(totalEntry => totalEntry.name === entity.name)?.metrics?.calls_SUM_Agg;
     if (totalMetric) {
       return {
         ...entity,
