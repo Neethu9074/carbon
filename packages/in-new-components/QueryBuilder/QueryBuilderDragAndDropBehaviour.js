@@ -17,7 +17,7 @@ export default function DragAndDropBehaviour({
 
   function onDragOver(e) {
     stopPropagationAndPreventDefault(e);
-    setDraggedFormModelIndex(getClosestElementDropIndex(e) || totalItems);
+    setDraggedFormModelIndex(getClosestElementDropIndex(e) || null);
   }
 
   function onDrop(e) {
