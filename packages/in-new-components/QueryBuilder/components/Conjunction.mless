@@ -2,7 +2,7 @@
 
 :local {
   .draggableWrapper {
-    display: inline;
+    display: inline-block;
   }
 
   .conjunction {
