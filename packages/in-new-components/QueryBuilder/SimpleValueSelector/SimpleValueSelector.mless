@@ -1,7 +1,58 @@
 @import '~in-themes/active.less';
 
 :local {
+  .list {
+    position: absolute;
+    left: 0;
+
+    width: 100%;
+    max-height: 12.875rem;
+    min-width: 10rem;
+
+    cursor: default;
+  }
+
   .highlighted {
     background: @lib__colors__faded-blue800;
+  }
+
+  .input {
+    max-width: 7.5rem;
+
+    margin-right: 0.25rem;
+
+    background: @lib__colors__N050;
+    line-height: 0.75rem;
+    border: 1px solid transparent;
+    border-radius: @lib__shapes__radius_small;
+
+    &:focus,
+    &:active,
+    &:hover {
+      outline: 0;
+    }
+
+    &::placeholder {
+      color: @lib__colors__N400;
+      opacity: 1; /* Firefox */
+    }
+  }
+
+  .invalid {
+    border: 1px solid @lib__colors__failure;
+  }
+
+  .option {
+    justify-content: flex-start;
+  }
+
+  .skeleton {
+    margin: 0.375rem 0;
+    height: 0.75rem;
+  }
+
+  .moreOptionsLabel {
+    font-size: 0.6875rem;
+    color: @lib__colors__N600Light;
   }
 }

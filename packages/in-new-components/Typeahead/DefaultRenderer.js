@@ -13,8 +13,16 @@ export default function DefaultRenderer({
   selectedItem,
   inputValue
 }) {
+  const menuProps = getMenuProps();
+
   return (
-    <ul className={locals.list} {...getMenuProps()}>
+    <ul
+      className={locals.list}
+      aria-labelledby={menuProps['aria-labelledby']}
+      id={menuProps.id}
+      role={menuProps.role}
+      refSetter={menuProps.ref}
+    >
       {filteredOptions.map((item, index) => (
         <li
           className={locals.listItem}

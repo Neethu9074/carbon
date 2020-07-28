@@ -1,35 +1,78 @@
-import PropTypes from 'prop-types';
+import AutosizeInput from 'react-input-autosize';
 import React from 'react';
 
 import OverlayOption from 'in-new-components/QueryBuilder/OverlayOption/OverlayOption';
-import Typeahead from 'in-analyze/components/EditTagFilterDialog/Typeahead';
+import LoadingList from 'in-new-components/lists/List/sharedComponents/LoadingList';
 import { evaluateClassNames } from 'in-services/util/classnames';
-import { Ul } from 'in-new-components/lists/List/List';
+import { Ul, Li } from 'in-new-components/lists/List/List';
+import { isLoading } from 'in-services/util/result';
+import Typeahead from 'in-new-components/Typeahead';
+import useObservable from 'in-hooks/useObservable';
 
 import locals from './SimpleValueSelector.mless';
 
-export default function SimpleValueSelector({ onChange, close, values }) {
+export default function SimpleValueSelector({ onChange, close, getSuggestions, fieldsToWatch, inputProps = {} }) {
   return (
     <Typeahead
-      options={values}
+      render={render}
       resultsToShow={42}
       value=""
       onChange={e => onChange(e.value)}
       close={close}
-      InputRenderer={InputRenderer}
-      ListRenderer={ListRenderer}
+      inputProps={inputProps}
+      getSuggestions={getSuggestions}
+      fieldsToWatch={fieldsToWatch}
     />
   );
 }
 
-function InputRenderer({ getInputProps, openMenu }) {
-  return <input {...getInputProps({ onFocus: openMenu })} />;
-}
-
-function ListRenderer({ close, getMenuProps, getItemProps, filteredOptions, highlightedIndex }) {
-  const menuProps = getMenuProps();
+function render({ inputProps, getInputProps, isOpen, openMenu, ...remainingProps }) {
   return (
-    <Ul {...menuProps} refSetter={menuProps.ref}>
+    <>
+      <AutosizeInput
+        inputClassName={evaluateClassNames({
+          [locals.input]: true,
+          [locals.invalid]: !inputProps.valid
+        })}
+        type={inputProps.type}
+        minWidth={32}
+        placeholder={inputProps.placeholder}
+        {...getInputProps({ onFocus: openMenu })}
+      />
+      {isOpen && <SuggestionsList {...remainingProps} />}
+    </>
+  );
+}
+function SuggestionsList({
+  lowerCaseInputValue,
+  inputValue,
+  getMenuProps,
+  getSuggestions,
+  getItemProps,
+  highlightedIndex,
+  close,
+  fieldsToWatch
+}) {
+  const suggestionsResult = useObservable(getSuggestions(), fieldsToWatch);
+
+  if (isLoading(suggestionsResult)) {
+    return <LoadingList className={locals.list} skeletonClassName={locals.skeleton} size="compact" />;
+  }
+
+  const suggestions = suggestionsResult?.data?.suggestions ?? [];
+  const totalHits = suggestionsResult?.data?.totalHits ?? 0;
+
+  const filteredOptions = suggestions.filter(item => !inputValue || item.toLowerCase().includes(lowerCaseInputValue));
+  const menuProps = getMenuProps();
+
+  return (
+    <Ul
+      className={locals.list}
+      aria-labelledby={menuProps['aria-labelledby']}
+      id={menuProps.id}
+      role={menuProps.role}
+      refSetter={menuProps.ref}
+    >
       {filteredOptions.map((item, index) => {
         const itemProps = getItemProps({
           index,
@@ -40,6 +83,7 @@ function ListRenderer({ close, getMenuProps, getItemProps, filteredOptions, high
           <OverlayOption
             key={index}
             className={evaluateClassNames({
+              [locals.option]: true,
               [locals.highlighted]: highlightedIndex === index
             })}
             {...itemProps}
@@ -51,12 +95,11 @@ function ListRenderer({ close, getMenuProps, getItemProps, filteredOptions, high
           </OverlayOption>
         );
       })}
+      {totalHits > suggestions.length && (
+        <Li className={locals.moreOptionsLabel} size="compact">
+          {totalHits - suggestions.length} More
+        </Li>
+      )}
     </Ul>
   );
 }
-
-SimpleValueSelector.propTypes = {
-  onChange: PropTypes.func.isRequired,
-  values: PropTypes.array.isRequired,
-  close: PropTypes.func.isRequired
-};

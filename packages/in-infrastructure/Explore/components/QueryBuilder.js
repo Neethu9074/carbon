@@ -1,5 +1,5 @@
-import { successObservableFactory } from 'in-services/util/result';
 import { createQueryBuilder } from 'in-new-components/QueryBuilder';
+import { successObservableFactory } from 'in-services/util/result';
 
 // Currently hard-coded: Should be loaded from ui-backend. See:
 // com.instana.ui.resource.api.websites.CatalogResource#getWebsiteCatalogTags
@@ -78,10 +78,14 @@ const tagCatalog = {
   ]
 };
 
+const suggestions = ['k8s-demo-cluster', 'sb-test-cluster', 'kube-node-lease', 'kube-public'];
+
 const { QueryBuilder, isQueryValid: isQueryValidInternal } = createQueryBuilder({
   // see dedicated TagCatalog story for more information about the
   // TagCatalog structure.
-  getTagCatalog: successObservableFactory(tagCatalog)
+  getTagCatalog: successObservableFactory(tagCatalog),
+
+  getSuggestions: successObservableFactory({ suggestions, totalHits: suggestions.length + 10 })
 });
 
 export default QueryBuilder;

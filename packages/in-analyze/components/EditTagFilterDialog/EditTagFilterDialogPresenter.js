@@ -2,7 +2,6 @@ import CreatableSelect from 'react-select/lib/Creatable';
 import React from 'react';
 
 import { getOperatorLabel, entityTypes } from 'in-analyze/applicationFilter';
-import Typeahead from 'in-analyze/components/EditTagFilterDialog/Typeahead';
 import RadioGroup from 'in-analyze/components/RadioButtons/RadioGroup';
 import { isBlank, compareIgnoreCase } from 'in-services/util/string';
 import TouchedMessages from 'in-components/form/TouchedMessages';
@@ -10,6 +9,7 @@ import { evaluateClassNames } from 'in-services/util/classnames';
 import { emptyArray } from 'in-services/fixedObjects';
 import Dialog from 'in-new-components/Dialog/Dialog';
 import FormGroup from 'in-components/form/FormGroup';
+import Typeahead from 'in-new-components/Typeahead';
 import Message from 'in-new-components/Message';
 import Select from 'in-components/form/Select';
 import Button from 'in-new-components/Button';

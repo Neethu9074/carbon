@@ -8,7 +8,7 @@ import memoize from 'in-services/util/memoizingObservableGenerator';
 import { timeConfig$ } from 'in-stores/time/config';
 import { success } from 'in-services/util/result';
 
-export function createQueryBuilder({ getTagCatalog: originalGetTagCatalog }) {
+export function createQueryBuilder({ getTagCatalog: originalGetTagCatalog, getSuggestions }) {
   // Ensure that we only ever receive the tag catalog once (per time config).
   const getTagCatalog = memoize(
     () =>
@@ -26,7 +26,7 @@ export function createQueryBuilder({ getTagCatalog: originalGetTagCatalog }) {
 
   return {
     QueryBuilder: function CreatedQueryBuilder(props) {
-      return <QueryBuilder {...props} getTagCatalog={getTagCatalog} />;
+      return <QueryBuilder {...props} getTagCatalog={getTagCatalog} getSuggestions={getSuggestions} />;
     },
 
     // Observable<Result<Boolean>>

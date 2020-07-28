@@ -1,6 +1,5 @@
 /* eslint-disable react/display-name */
 import React, { useRef, useLayoutEffect, useState } from 'react';
-import AutosizeInput from 'react-input-autosize';
 
 import {
   changeOperator,
@@ -8,20 +7,20 @@ import {
   createTagForm,
   getFormPresentationInformation
 } from 'in-new-components/QueryBuilder/validation/tagForm';
+import SimpleValueSelector from 'in-new-components/QueryBuilder/SimpleValueSelector/SimpleValueSelector';
 import { onElementKeyUp } from 'in-new-components/QueryBuilder/keyboardInteraction';
 import Operator from 'in-new-components/QueryBuilder/components/Tag/Operator';
 import { TAG } from 'in-new-components/QueryBuilder/transformation/formModel';
 import Entity from 'in-new-components/QueryBuilder/components/Tag/Entity';
 import Remove from 'in-new-components/QueryBuilder/components/Tag/Remove';
 import Name from 'in-new-components/QueryBuilder/components/Tag/Name';
-import { evaluateClassNames } from 'in-services/util/classnames';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
-import Tooltip from 'in-components/Tooltip';
+import useTimeConfig from 'in-hooks/useTimeConfig';
 
 import locals from './Tag.mless';
 
 export default function Tag(props) {
-  const { onChange: onChangeInFormModel, onRemove, dragAndDropProps, tagCatalog, element } = props;
+  const { onChange: onChangeInFormModel, onRemove, dragAndDropProps, tagCatalog, element, getSuggestions } = props;
   const { renderModelIndex, formModelIndex } = element;
   const form = createTagForm(tagCatalog, element);
   const { allowedOperators, valueType, type: tagType } = getFormPresentationInformation(tagCatalog, form);
@@ -75,15 +74,9 @@ export default function Tag(props) {
           }
         }}
       />
-      {form.get('key')?.map(field => (
-        <Input
-          value={field.value || ''}
-          properyName="value"
-          onChange={value => onChange('key', value)}
-          valid={field.valid}
-          messages={field.messages}
-        />
-      ))}
+
+      <KeyInput form={form} onChange={onChange} tagType={tagType} getSuggestions={getSuggestions} />
+
       <Operator
         element={element}
         allowedOperators={allowedOperators}
@@ -96,31 +89,15 @@ export default function Tag(props) {
         focus={() => focusField('operator', true)}
         ref={autoFocusTargets.operator}
       />
-      {form.get('value')?.map(field => (
-        <>
-          {valueType === Boolean && <span className={locals.booleanPlaceholder}>true</span>}
-          {valueType === Number && (
-            <Input
-              type="number"
-              value={field.value || 0}
-              properyName="valueAsNumber"
-              onChange={value => onChange('value', value)}
-              valid={field.valid}
-              messages={field.messages}
-            />
-          )}
-          {valueType === String && (
-            <Input
-              type="text"
-              value={field.value || ''}
-              properyName="value"
-              onChange={value => onChange('value', value)}
-              valid={field.valid}
-              messages={field.messages}
-            />
-          )}
-        </>
-      ))}
+
+      <ValueInput
+        valueType={valueType}
+        form={form}
+        onChange={onChange}
+        tagType={tagType}
+        getSuggestions={getSuggestions}
+      />
+
       <Remove element={element} onRemove={onRemove} />
     </div>
   );
@@ -149,21 +126,81 @@ export default function Tag(props) {
   }
 }
 
-function Input({ value, type, properyName, onChange, valid, messages }) {
+function KeyInput({ form, onChange, tagType, getSuggestions }) {
+  const entity = form.get('entity')?.value;
+  const timeConfig = useTimeConfig();
+
+  return form.get('key')?.map(field => (
+    <Input
+      value={field.value || ''}
+      onChange={value => onChange('key', value)}
+      placeholder="Key"
+      valid={field.valid}
+      fieldsToWatch={[tagType, entity, timeConfig]}
+      getSuggestions={() =>
+        getSuggestions({
+          // TODO: tagFilterExpression,
+          name: tagType,
+          entity,
+          timeConfig,
+          propose: 'KEYS'
+        })
+      }
+    />
+  ));
+}
+
+function ValueInput({ valueType, form, onChange, tagType, getSuggestions }) {
+  const field = form.get('value');
+  if (!field) {
+    return null;
+  }
+
+  if (valueType === Boolean) {
+    return <span className={locals.booleanPlaceholder}>true</span>;
+  }
+
+  const entity = form.get('entity')?.value;
+  const key = form.get('key')?.value;
+  const timeConfig = useTimeConfig();
+
+  const inputProps = {
+    placeholder: 'Value',
+    onChange: value => onChange('value', value),
+    valid: field.valid,
+    fieldsToWatch: [entity, timeConfig, field.value, key],
+    getSuggestions: () =>
+      getSuggestions({
+        // TODO: tagFilterExpression,
+        key,
+        value: field.value || valueType === Number ? 0 : '',
+        entity,
+        name: tagType,
+        timeConfig,
+        propose: 'VALUES'
+      })
+  };
+
+  if (valueType === Number) {
+    return <Input type="number" value={field.value || 0} {...inputProps} />;
+  }
+  return <Input type="text" value={field.value || ''} {...inputProps} />;
+}
+
+function Input({ value, type, fieldsToWatch, placeholder, onChange, getSuggestions, valid }) {
   const result = useDebouncedValue(value, onChange, 500);
 
   return (
-    <Tooltip themeStyle="light" content={messages && messages.length > 0 ? messages[0].message : undefined}>
-      <AutosizeInput
-        inputClassName={evaluateClassNames({
-          [locals.input]: true,
-          [locals.invalid]: !valid
-        })}
-        type={type}
-        minWidth={32}
-        value={result.value}
-        onChange={e => result.onChange(e.target[properyName])}
-      />
-    </Tooltip>
+    <SimpleValueSelector
+      onChange={result.onChange}
+      close={() => {}}
+      getSuggestions={getSuggestions}
+      fieldsToWatch={fieldsToWatch}
+      inputProps={{
+        type,
+        valid,
+        placeholder
+      }}
+    />
   );
 }

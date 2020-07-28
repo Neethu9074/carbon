@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Typeahead from 'in-analyze/components/EditTagFilterDialog/Typeahead';
+import Typeahead from 'in-new-components/Typeahead';
 
 const options = [];
 for (let i = 0; i < 10000; i = i + 1) {

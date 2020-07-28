@@ -42,7 +42,7 @@ export default function QueryBuilderErrorBoundry(props) {
   );
 }
 
-function QueryBuilder({ value: formModel, onChange, getTagCatalog }) {
+function QueryBuilder({ value: formModel, onChange, getTagCatalog, getSuggestions }) {
   const tagCatalog = useObservable(getTagCatalog(), [getTagCatalog]);
   const resolvedCreateTagForm = tagCatalog?.data && createTagForm.bind(null, tagCatalog);
   const [draggedFormModelIndex$] = useState(create());
@@ -96,6 +96,7 @@ function QueryBuilder({ value: formModel, onChange, getTagCatalog }) {
             switchFormModelIndices={switchFormModelIndices}
             createTagForm={resolvedCreateTagForm}
             onChange={onChangeFormModelElement}
+            getSuggestions={getSuggestions}
             onAdd={onAddFormModelElement}
             tagCatalog={tagCatalog.data}
             elements={renderModel}
@@ -195,6 +196,7 @@ function Elements({
   elements,
   switchFormModelIndices,
   draggedFormModelIndex$,
+  getSuggestions,
   createTagForm,
   tagCatalog,
   onRemove,
@@ -222,6 +224,7 @@ function Elements({
                 // React's reserved words, e.g. key or ref
                 element={element}
                 tagCatalog={tagCatalog}
+                getSuggestions={getSuggestions}
                 onRemove={onRemove}
                 createTagForm={createTagForm}
                 onChange={(newFormModel, changeFocus = true) =>
@@ -249,6 +252,7 @@ function Elements({
                     tagCatalog={tagCatalog}
                     draggedFormModelIndex$={draggedFormModelIndex$}
                     switchFormModelIndices={switchFormModelIndices}
+                    getSuggestions={getSuggestions}
                     createTagForm={createTagForm}
                     elements={element.elements}
                     onRemove={onRemove}
@@ -270,5 +274,6 @@ function Elements({
 QueryBuilder.propTypes = {
   onChange: rpt.func.isRequired,
   value: rpt.array.isRequired,
-  getTagCatalog: rpt.func.isRequired
+  getTagCatalog: rpt.func.isRequired,
+  getSuggestions: rpt.func.isRequired
 };

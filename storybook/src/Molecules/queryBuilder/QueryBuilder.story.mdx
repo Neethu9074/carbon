@@ -14,7 +14,8 @@ import tagCatalogExample from './tagCatalogExample.png';
 ## Example
 
 export const DefaultExampleQueryBuilder = createQueryBuilder({
-  getTagCatalog: successObservableFactory(tagCatalogExampleJson)
+  getTagCatalog: successObservableFactory(tagCatalogExampleJson),
+  getSuggestions: successObservableFactory({suggestions: ['Suggestion 1', 'Suggestion 2', 'Suggestion 3'], totalHits: 42}),
 }).QueryBuilder;
 
 export function DefaultExample() {
