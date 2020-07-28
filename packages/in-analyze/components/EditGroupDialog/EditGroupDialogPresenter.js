@@ -90,7 +90,10 @@ export default function EditGroupDialogPresenter({
             .map(field => (
               <RadioGroup
                 disabled={
-                  tagEntity === entityTypes.NOT_APPLICABLE || !sourceEntityAvailability || tagName.includes('beacon.')
+                  tagEntity === entityTypes.NOT_APPLICABLE ||
+                  !sourceEntityAvailability ||
+                  tagName.includes('beacon.') ||
+                  tagName.startsWith('geo.')
                 }
                 value={field.value}
                 onChange={e => onEntityChange(e.target.value)}

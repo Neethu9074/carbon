@@ -173,7 +173,9 @@ export default function EditTagFilterDialogPresenter({
             .get('entity')
             .map(field => (
               <RadioGroup
-                disabled={tagEntity === entityTypes.NOT_APPLICABLE || !sourceEntityAvailability}
+                disabled={
+                  tagEntity === entityTypes.NOT_APPLICABLE || !sourceEntityAvailability || tagName.startsWith('geo.')
+                }
                 value={field.value}
                 onChange={e => onEntityChange(e.target.value)}
                 tagName={tagName}

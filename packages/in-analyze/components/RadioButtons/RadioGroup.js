@@ -10,12 +10,16 @@ import locals from './RadioGroup.mless';
 const RadioGroup = ({ disabled, onChange, value, sourceEntityAvailability }) => {
   if (!sourceEntityAvailability) {
     return <Message small title="Filtering and grouping on source is not available for the selected timeframe" />;
-  } else if (disabled) {
+  } else if (disabled && value !== entityTypes.SOURCE) {
     return <Message small title="This tag is independent of source and destination" />;
   }
   return (
     <Fragment>
-      <span className={locals.textLabel}>Apply to call source or destination</span>
+      <span className={locals.textLabel}>
+        {disabled && value === entityTypes.SOURCE
+          ? 'Applies only to the source of the call'
+          : 'Apply to call source or destination'}
+      </span>
       <div className={locals.inputGroup}>
         <label
           className={evaluateClassNames({
