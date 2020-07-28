@@ -21,11 +21,18 @@ export default function SimpleCreateStep1({ selectedBlueprint, setSelectedBluepr
           applicationCreationSelectedBlueprint({ item });
         }}
       />
-      <SelectedBlueprintPresenter title={selectedBlueprint.headline} description={selectedBlueprint.text}>
-        {selectedBlueprint.htmlContent && (
-          <DangerousHtmlPresenter className={locals.htmlText} html={selectedBlueprint.htmlContent} />
-        )}
-      </SelectedBlueprintPresenter>
+      <div className={locals.presenterWrapper}>
+        <SelectedBlueprintPresenter title={selectedBlueprint.headline}>
+          {selectedBlueprint.description?.map(paragraph => {
+            return (
+              <>
+                <div className={locals.descriptionHeadline}>{paragraph.headline}</div>
+                <DangerousHtmlPresenter className={locals.htmlText} html={paragraph.htmlContent} />
+              </>
+            );
+          })}
+        </SelectedBlueprintPresenter>
+      </div>
     </SimpleModeStepContentWrapper>
   );
 }

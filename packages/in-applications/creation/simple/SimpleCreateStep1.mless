@@ -2,10 +2,25 @@
 
 :local {
   .htmlText {
-    font-size: inherit;
+    font-size: 0.875rem;
     color: currentColor;
 
     .breakWord();
     white-space: normal;
+  }
+
+  .presenterWrapper {
+    grid-column-start: 2;
+    grid-column-end: -1;
+  }
+
+  .padding {
+    padding: 0 1rem 1rem 1rem;
+  }
+
+  .descriptionHeadline {
+    font-size: 0.875rem;
+    font-weight: bold;
+    margin: 1rem 0 .25rem;
   }
 }

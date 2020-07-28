@@ -7,7 +7,7 @@ export default function SelectedBlueprintPresenter({ title, description, childre
   return (
     <div className={locals.container}>
       <h2 className={locals.headline}>{title}</h2>
-      <p className={locals.description}>{description}</p>
+      {description && <p className={locals.description}>description</p>}
       {children}
     </div>
   );
@@ -15,6 +15,6 @@ export default function SelectedBlueprintPresenter({ title, description, childre
 
 SelectedBlueprintPresenter.propTypes = {
   title: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
+  description: PropTypes.string,
   children: PropTypes.node
 };

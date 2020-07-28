@@ -3,25 +3,42 @@ export const blueprintConfig = Object.freeze([
     type: 'servicesEndpoints',
     name: 'Services & Endpoints',
     headline: 'Services & Endpoints',
-    text: 'Create an Application Perspective with focus on Services and Endpoints',
-    htmlContent: `
-    <p><b>What is this for?</b></br>
-    Sometimes it is easiest to create a perspective by specifying the services or endpoints directly.  This can also be done using string operators like “contains”, “starts with”, etc.
-    </br> </br>
-    <b>Who uses this a lot?</b></br>
-    DevOps, Operations, SRE, Developer, QA, support, Business owner, Architect
-    </p>
-      `,
+    description: [
+      {
+        headline: 'What is this for?',
+        htmlContent: `Sometimes it is easiest to create a perspective by specifying the services or endpoints directly.  This can also be done using string operators like “contains”, “starts with”, etc.`
+      },
+      {
+        headline: 'Who uses this a lot?',
+        htmlContent: 'DevOps, Operations, SRE, Developer, QA, support, Business owner, Architect'
+      }
+    ],
     curatedTagFilters: []
   },
   {
     type: 'container',
     name: 'Container:  K8s or related. ',
     headline: 'Container:  K8s or related.',
-    text: 'Create a perspective for containers with inter-dependencies to monitor them as a group in a perspective.',
-    htmlContent: `
-      <p>The simplest way is to use the container name, or other Docker meta-data, to create a group.  Kubernetes has many different ways of grouping containers, such as node, deployment, or namespace, which are all supported.  Other orchestration tools  like cloud foundry, openshift, marathon, etc. have their own meta-data tat can be used.</p>
-      `,
+    description: [
+      {
+        headline: 'What is this for?',
+        htmlContent: `When you want to group services based on:
+        <ul><li>Namespace (this is frequently used)</li>
+        <li>Container or image name</li>
+        <li>Platform related service names</li>
+        <li>Deployment information</li>
+        <li>Labels</li>
+        </ul>
+        Tags are available for:  Kubernetes, OpenShift, Docker, Cloud Foundry, Marathon, and Nomad.`
+      },
+      { headline: 'Who uses this a lot?', htmlContent: `SRE, operations, DevOps` },
+      {
+        headline: 'Some tips for using.',
+        htmlContent: `Environments can be distinguished by combining this with a location (e.g., agent.zone) or cluster (kubernetes.cluster.name) to distinguish environments.
+        If you will use this for troubleshooting then you want to see the end-to-end flow.  Please set downstream service to ON and choose Inbound Calls..
+        Click on “All Filters” if you don’t see the tag you want.`
+      }
+    ],
     curatedTagFilters: [
       {
         category: 'Docker',
@@ -63,11 +80,31 @@ export const blueprintConfig = Object.freeze([
     type: 'location',
     name: 'Location: env, geo or host.',
     headline: 'Location: env, geo or host.',
-    text:
-      'Infrastructure has dependencies between them so monitor them as a group of related services in an infrastructure perspective.  This is done at different levels of scale.',
-    htmlContent: `
-      <p>The largest scope is by cloud or cloud specific information such as cluster, zone, or cloud provider. This can be shrunk to a zone. Lastly all the services running on a host can be grouped.</p>
-      `,
+    description: [
+      { headline: '', htmlContent: `` },
+      {
+        headline: 'What is this for?',
+        htmlContent: ` When you want to group services based on information about an environment that
+        may be big (e.g., cloud zone) or small (e.g. host). It also has zone
+        identifiers. It can be added to a query to distinguish between different
+        environments. Group services together based on information about their
+        location. The largest scope is cloud or cloud specific information such as
+        cluster, zone, or cloud provider. Next is a zone. All the services running on
+        a host can be grouped too. Reducing the scope to an environment.`
+      },
+      { headline: 'Who uses this a lot?', htmlContent: `SRE, operations, DevOps, developers` },
+      {
+        headline: 'Some tips for using',
+        htmlContent: `Combine this with a location (e.g., agent.zone) or
+        cluster (kubernetes.cluster.name) to distinguish environments. If you will use
+        this for troubleshooting then you want to see the end-to-end flow. Please set
+        downstream service to ON and choose Inbound Calls.. Click on “All Filters” if
+        you don’t see the tag you want. All downstream service=off unless …
+        Infrastructure has dependencies between them so monitor them as a group of
+        related services in an infrastructure perspective. This is done at different
+        levels of scale.`
+      }
+    ],
     curatedTagFilters: [
       {
         category: 'Zone',

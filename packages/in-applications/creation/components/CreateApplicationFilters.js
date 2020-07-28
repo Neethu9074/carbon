@@ -74,6 +74,7 @@ export default function CreateApplicationFilters({
                       timeConfig={filters.timeConfig}
                       addTagFilter={_tag => addTagFunction(_tag, form, updateForm)}
                       conjunctions={conjunctions}
+                      categoryTitle={curatedFilter.category}
                       forAnalyzeCalls
                     />
                   )

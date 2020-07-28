@@ -49,8 +49,11 @@ export default function CreateApplicationDialogPresenter(props) {
           {simpleMode ? 'Advanced Mode' : 'Simple Mode'}
         </Button>
       )}
+      withoutBodyPadding
     >
-      <div className={locals.dialog}>{simpleMode ? SimpleMode : AdvancedMode}</div>
+      <div className={simpleMode ? locals.simpleDialog : locals.advancedDialog}>
+        {simpleMode ? SimpleMode : AdvancedMode}
+      </div>
     </Dialog>
   );
 }

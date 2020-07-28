@@ -42,10 +42,15 @@ export default function EditTagFilterDialogPresenter({
   tagEntity,
   sourceEntityAvailability,
   forAnalyzeCalls,
-  hiddenSourceDestination
+  hiddenSourceDestination,
+  categoryTitle
 }) {
   return (
-    <Dialog title={editMode ? 'Edit Filter' : 'Add Filter'} onClose={onClose} showOverflow>
+    <Dialog
+      title={editMode ? 'Edit Filter' : `Add ${categoryTitle ? categoryTitle : ''} Filter`}
+      onClose={onClose}
+      showOverflow
+    >
       <form onSubmit={onSubmit} autoComplete="off">
         <Message
           small

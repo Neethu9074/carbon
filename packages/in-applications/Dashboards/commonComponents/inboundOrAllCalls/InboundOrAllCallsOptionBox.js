@@ -6,8 +6,14 @@ import { boundaryScopes } from 'in-applications/constants';
 
 import locals from './InboundOrAllCallsChoiceHorizontal.mless';
 
-export default function InboundOrAllCallsOptionBox({ boundaryScope, onBoundaryStateChange, scope, noPaddingBottom }) {
-  const { icon, text, dashboard } = boundaryScopes.info[scope];
+export default function InboundOrAllCallsOptionBox({
+  boundaryScope,
+  onBoundaryStateChange,
+  scope,
+  noPaddingBottom,
+  apCreation
+}) {
+  const { icon, text, dashboard, creation } = boundaryScopes.info[scope];
   return (
     <OptionBox
       icon={icon}
@@ -18,7 +24,7 @@ export default function InboundOrAllCallsOptionBox({ boundaryScope, onBoundarySt
         [locals.noPaddingBottom]: noPaddingBottom,
         [locals.optionBoxUnchecked]: scope !== boundaryScope
       })}
-      description={dashboard}
+      description={apCreation ? creation : dashboard}
       checked={scope === boundaryScope}
       onChange={() => onBoundaryStateChange({ boundaryScope: scope })}
     />

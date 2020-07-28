@@ -1,13 +1,11 @@
 @import '~in-themes/active.less';
 
 :local {
-  .maxWidthFullscreenContainer {
-    max-width: 56.25rem;
-    padding-bottom: 5rem;
-    margin-top: 1rem;
+  .container {
+    padding: 0 1rem;
   }
 
-  .advancedDescription {
+  .descriptionText {
     font-size: .8rem;
     line-height: 1.5;
   }

@@ -1,9 +1,9 @@
 import React from 'react';
 
 import SimpleModeStepContentWrapper from 'in-new-components/BlueprintFormMultistep/SimpleModeStepContentWrapper';
-import ApplicationScopeSelector from 'in-applications/creation/components/ApplicationScopeSelector';
 import InboundAllCalls from 'in-applications/creation/components/InboundAllCalls';
 import ServiceLiveList from 'in-applications/creation/components/ServiceLiveList';
+import TouchedMessages from 'in-components/form/TouchedMessages';
 import Spacer from 'in-applications/Forms/components/Spacer';
 import FormGroup from 'in-components/form/FormGroup';
 import Label from 'in-components/form/Label';
@@ -33,10 +33,10 @@ export default function SimpleCreateStep3({ form, updateForm, servicesLiveList, 
             autoFocus
           />
         </FormGroup>
+        <TouchedMessages field={labelField} />
         <Spacer type="dark" />
-        <InboundAllCalls form={form} updateForm={updateForm} />
-        <Spacer type="dark" />
-        <ApplicationScopeSelector form={form} updateForm={updateForm} />
+        <Label>Select the default dashboard view</Label>
+        <InboundAllCalls form={form} updateForm={updateForm} apCreation />
       </div>
       <ServiceLiveList
         servicesLiveList={servicesLiveList}
