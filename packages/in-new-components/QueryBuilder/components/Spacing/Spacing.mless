@@ -23,9 +23,14 @@
     line-height: @lib__typography__line-height;
 
     &:focus,
-    &:active {
+    &:active,
+    &:hover {
       .addIndicator {
         display: flex;
+      }
+
+      .hoverEnabler {
+        display: block;
       }
     }
   }
@@ -86,6 +91,19 @@
         animation-timing-function: step-end;
       }
     }
+  }
+
+  // This elements exists so that users can click on the add indicator when
+  // this is only shown via hover on the spacing. Without this it would not
+  // be possible to go from the spacing hover effect to the addIndicator without
+  // a mouseLeave event triggering.
+  .hoverEnabler {
+    height: 0.5rem;
+    position: absolute;
+    bottom: -0.5rem;
+    left: -0.2rem;
+    right: -0.2rem;
+    display: none;
   }
 
   .addIndicator,

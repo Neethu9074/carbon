@@ -73,6 +73,7 @@ export default function Spacing({
           {...dragAndDropProps}
           ref={refSetter}
         >
+          <div className={locals.hoverEnabler} />
           <Suggestions toggle={toggle} suggestions={suggestions} onAddToFormModel={onAddToFormModel} />
           &nbsp;
         </div>
