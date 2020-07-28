@@ -2,10 +2,9 @@ import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
 import { getColor as getColorForEndpointType } from 'in-applications/endpointTypes';
+import ErrorIndicator from 'in-analyze/TraceDetail/components/ErrorIndicator';
 import { isUnknownTypeSpan } from 'in-analyze/TraceDetail/shared/CallHelper';
 import Skeleton from 'in-new-components/Loading/Skeleton';
-import { error } from 'in-new-components/Message/types';
-import Message from 'in-new-components/Message';
 import SvgIcon from 'in-components/SvgIcon';
 import Pill from 'in-new-components/Pill';
 
@@ -21,21 +20,19 @@ export default function Header({ call }) {
       <div className={locals.title}>
         {call ? (
           <div className={locals.entityInformation}>
+            <ErrorIndicator erroneous={call.errorCount} />
             <SvgIcon type="lib_application_call" />
             <span className={locals.callLabel}>{call.label || 'Undefined'}</span>
-            {!isUnknownTypeSpan(call) &&
-              endpoint &&
-              !isLogSpan && (
-                <Pill kind="light" color={getColorForEndpointType(endpoint.type)}>
-                  {endpoint.type}
-                </Pill>
-              )}
+            {!isUnknownTypeSpan(call) && endpoint && !isLogSpan && (
+              <Pill kind="light" color={getColorForEndpointType(endpoint.type)}>
+                {endpoint.type}
+              </Pill>
+            )}
           </div>
         ) : (
           <Skeleton className={locals.skeleton} />
         )}
       </div>
-      {call && call.errorCount > 0 && <Message className={locals.message} small type={error} title="Erroneous Call" />}
     </Fragment>
   );
 }
