@@ -130,24 +130,26 @@ function KeyInput({ form, onChange, tagType, getSuggestions }) {
   const entity = form.get('entity')?.value;
   const timeConfig = useTimeConfig();
 
-  return form.get('key')?.map(field => (
-    <Input
-      value={field.value || ''}
-      onChange={value => onChange('key', value)}
-      placeholder="Key"
-      valid={field.valid}
-      fieldsToWatch={[tagType, entity, timeConfig]}
-      getSuggestions={() =>
-        getSuggestions({
-          // TODO: tagFilterExpression,
-          name: tagType,
-          entity,
-          timeConfig,
-          propose: 'KEYS'
-        })
-      }
-    />
-  ));
+  return (
+    form.get('key')?.map(field => (
+      <Input
+        value={field.value || ''}
+        onChange={value => onChange('key', value)}
+        placeholder="Key"
+        valid={field.valid}
+        fieldsToWatch={[tagType, entity, timeConfig]}
+        getSuggestions={() =>
+          getSuggestions({
+            // TODO: tagFilterExpression,
+            name: tagType,
+            entity,
+            timeConfig,
+            propose: 'KEYS'
+          })
+        }
+      />
+    )) ?? null
+  );
 }
 
 function ValueInput({ valueType, form, onChange, tagType, getSuggestions }) {
