@@ -38,21 +38,21 @@ export default connectTo(
     };
   },
   function AlertingBarChartWrapper(props) {
-    enrichChartMetrics(props);
     return (
       <div className={locals.container}>
-        <ChartWrapper showNoDataInfoWhenEmpty={false} {...props} />
+        <ChartWrapper showNoDataInfoWhenEmpty={false} {...extendProps(props)} />
       </div>
     );
   }
 );
 
-function enrichChartMetrics(props) {
-  props.metricsConfiguration.metrics['threshold'] = {
-    metric: 'threshold'
-  };
-  props.metricsConfiguration.metrics['alerts'] = {
-    metric: 'alerts'
+function extendProps(props) {
+  return {
+    ...props,
+    metricsConfiguration: {
+      ...props.metricsConfiguration,
+      metrics: { ...props.metricsConfiguration.metrics, threshold: { metric: 'threshold' } }
+    }
   };
 }
 
