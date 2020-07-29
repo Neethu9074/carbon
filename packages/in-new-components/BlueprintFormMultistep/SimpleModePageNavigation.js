@@ -14,6 +14,7 @@ export default function SimpleModePageNavigation({
   onClose,
   onCreate,
   setSimpleModeStep,
+  simpleModeStep,
   updateForm,
   renderStep,
   stepConfigs,
@@ -21,6 +22,10 @@ export default function SimpleModePageNavigation({
   isSaving
 }) {
   const [step, setStep] = useState(0);
+
+  if (simpleModeStep && simpleModeStep > step) {
+    setStep(simpleModeStep);
+  }
 
   const handleUpdateState = (oldStep, nextStep) => {
     setStep(nextStep);
@@ -48,13 +53,14 @@ export default function SimpleModePageNavigation({
 
   const handleSubmit = (event, step) => {
     stopPropagationAndPreventDefault(event);
-
     const stepValid = validateStep(step, stepConfigs, form, updateForm);
 
     if (stepValid) {
       nextOrCreate(step);
     }
   };
+
+  const isDisabled = (step === stepConfigs.length - 1 && !form.hierarchyValid) || isStepValid(step, stepConfigs, form);
 
   return (
     <>
@@ -72,7 +78,7 @@ export default function SimpleModePageNavigation({
             kind="primary"
             className={locals.button}
             form={form}
-            disabled={step === stepConfigs.length - 1 && !form.hierarchyValid}
+            disabled={isDisabled}
             isSaving={isSaving}
           >
             {step === stepConfigs.length - 1 ? (editMode ? 'Save' : 'Create') : 'Next'}
@@ -98,7 +104,8 @@ SimpleModePageNavigation.propTypes = {
     })
   ).isRequired,
   onStepChanged: PropTypes.func,
-  isSaving: PropTypes.bool
+  isSaving: PropTypes.bool,
+  simpleModeStep: PropTypes.number
 };
 
 function mapTitles(stepConfigs) {
@@ -107,7 +114,6 @@ function mapTitles(stepConfigs) {
 
 function validateStep(step, stepConfigs, form, updateForm) {
   const fieldsToValidate = stepConfigs[step].validateIntermediately;
-
   if (!fieldsToValidate || fieldsToValidate.length === 0) {
     return true;
   }
@@ -119,6 +125,26 @@ function validateStep(step, stepConfigs, form, updateForm) {
       if (field && !field.valid) {
         updateForm(form.updateIn(fieldPath, f => f.setTouched(true)));
         valid = false;
+      }
+    } catch (ignore) {
+      // don't validate if field not present
+    }
+  });
+  return valid;
+}
+
+function isStepValid(step, stepConfigs, form) {
+  const fieldsToValidate = stepConfigs[step].validateIntermediately;
+  if (!fieldsToValidate || fieldsToValidate.length === 0) {
+    return false;
+  }
+
+  let valid = false;
+  fieldsToValidate.forEach(fieldPath => {
+    try {
+      const field = form.getIn(fieldPath);
+      if (field && !field.valid) {
+        valid = true;
       }
     } catch (ignore) {
       // don't validate if field not present

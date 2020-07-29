@@ -15,14 +15,23 @@ const stepConfigs = [
     title: 'Step 1: Define Application'
   },
   {
-    title: 'Step 2: Build your Application'
+    title: 'Step 2: Build your Application',
+    validateIntermediately: [['matchSpecification']]
   },
   {
     title: 'Step 3: Configuration Options'
   }
 ];
 
-export default function SimpleModeContainer({ onClose, setSimpleModeStep, timeConfig, form, updateForm, onCreate }) {
+export default function SimpleModeContainer({
+  onClose,
+  setSimpleModeStep,
+  simpleModeStep,
+  timeConfig,
+  form,
+  updateForm,
+  onCreate
+}) {
   const [selectedBlueprint, setSelectedBlueprint] = useState(blueprintConfig[0]);
 
   const jsForm = form.toJS();
@@ -39,6 +48,7 @@ export default function SimpleModeContainer({ onClose, setSimpleModeStep, timeCo
       updateForm={updateForm}
       onClose={onClose}
       setSimpleModeStep={setSimpleModeStep}
+      simpleModeStep={simpleModeStep}
       stepConfigs={stepConfigs}
       onCreate={onCreate}
       onStepChanged={(oldStep, nextStep) => applicationCreationStepSwitch({ oldStep, nextStep })}

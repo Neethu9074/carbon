@@ -25,10 +25,10 @@ export default function SimpleCreateStep1({ selectedBlueprint, setSelectedBluepr
         <SelectedBlueprintPresenter title={selectedBlueprint.headline}>
           {selectedBlueprint.description?.map(paragraph => {
             return (
-              <>
+              <div key={paragraph.headline}>
                 <div className={locals.descriptionHeadline}>{paragraph.headline}</div>
                 <DangerousHtmlPresenter className={locals.htmlText} html={paragraph.htmlContent} />
-              </>
+              </div>
             );
           })}
         </SelectedBlueprintPresenter>
