@@ -14,7 +14,7 @@ import AdvancedModeContainer from 'in-applications/alerting/advanced/AdvancedMod
 import SimpleModeContainer from 'in-applications/alerting/simple/SimpleModeContainer';
 import { chartViewConfigs } from 'in-new-components/Alerting/Chart/chartViewConfig';
 import { createSmartAlertForm } from 'in-applications/alerting/form/smartAlertForm';
-import { getBlueprintObject } from 'in-applications/alerting/trackingHelpers';
+import { getTrackingObject } from 'in-new-components/Alerting/trackingHelpers';
 
 const logger = createLogger('in-applications/alerting/Dialog/SmartAlertConfigDialogWrapper');
 
@@ -40,23 +40,31 @@ export default function SmartAlertConfigDialogWrapper({ applicationLabel, onClos
       timeConfig={chartViewConfigs[selectedChartViewConfigIndex].timeConfig}
       trackModeSwitch={(simpleMode, step) => {
         applicationsAlertingSwitchMode(
-          simpleMode
-            ? {
-                destinationMode: 'Advanced',
-                step,
-                ...getBlueprintObject(form)
-              }
-            : {
-                destinationMode: 'Simple',
-                ...getBlueprintObject(form)
-              }
+          getTrackingObject(
+            form,
+            simpleMode
+              ? {
+                  destinationMode: 'Advanced',
+                  step
+                }
+              : {
+                  destinationMode: 'Simple'
+                }
+          )
         );
       }}
       withTrackClose={trackingConfig => {
         applicationsAlertingCloseDialog(
-          trackingConfig
-            ? { step: trackingConfig, ...getBlueprintObject(form) }
-            : { mode: 'Advanced', ...getBlueprintObject(form) }
+          getTrackingObject(
+            form,
+            trackingConfig
+              ? {
+                  step: trackingConfig
+                }
+              : {
+                  mode: 'Advanced'
+                }
+          )
         );
         onClose();
       }}

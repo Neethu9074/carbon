@@ -13,8 +13,9 @@ import { getThresholdValueForPercentageMetric } from 'in-new-components/Alerting
 import { debouncedThresholdValueChangedTracker } from 'in-applications/alerting/trackingHelpers';
 import { applicationsAlertingThresholdOperatorChanged } from 'in-applications/alerting/tracker';
 import ChartViewConfigurator from 'in-new-components/Alerting/components/ChartViewConfigurator';
-import { blueprintConfigPropType } from 'in-applications/alerting/data/blueprintConfig';
 import AlertingBarChart from 'in-new-components/Alerting/Chart/AlertingBarChart';
+import { blueprintConfigPropType } from 'in-new-components/Alerting/constants';
+import { getTrackingObject } from 'in-new-components/Alerting/trackingHelpers';
 import { getThresholdLabel } from 'in-applications/alerting/form/formUtils';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import { joinClassNames } from 'in-services/util/classnames';
@@ -132,7 +133,7 @@ export function ThresholdCondition({
           options={enrichThresholdOperatorOptionsForApiConfigs(form.get('threshold').get('operator').value)}
           onChange={({ value = '' }) => {
             onChange(['threshold', 'operator'], f => f.setValue(value).setTouched(true));
-            applicationsAlertingThresholdOperatorChanged({ blueprintConfig, value });
+            applicationsAlertingThresholdOperatorChanged(getTrackingObject(form, { value }));
           }}
           defaultValue={thresholdOperatorOptions[0].value}
           clearable={false}
@@ -160,7 +161,7 @@ export function ThresholdCondition({
             };
 
             debounceOnChange$.emit(onChangCallback.bind(this));
-            debouncedThresholdValueChangedTracker({ blueprintConfig, value });
+            debouncedThresholdValueChangedTracker(getTrackingObject(form, { value }));
           }}
         />
       </FormGroup>

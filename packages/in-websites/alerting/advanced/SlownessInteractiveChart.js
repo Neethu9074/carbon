@@ -26,8 +26,9 @@ import createThresholdForm, { defaultDeviationFactor } from 'in-websites/alertin
 import ChartViewConfigurator from 'in-new-components/Alerting/components/ChartViewConfigurator';
 import { getFormValueOrDefault, getThresholdLabel } from 'in-websites/alerting/form/formUtils';
 import { SensitivitySlider } from 'in-new-components/Alerting/advanced/SensitivitySlider';
-import { blueprintConfigPropType } from 'in-applications/alerting/data/blueprintConfig';
 import AlertingBarChart from 'in-new-components/Alerting/Chart/AlertingBarChart';
+import { getTrackingObject } from 'in-new-components/Alerting/trackingHelpers';
+import { blueprintConfigPropType } from 'in-new-components/Alerting/constants';
 import { findEntryByValue } from 'in-applications/alerting/form/formUtils';
 import createRuleForm from 'in-websites/alerting/form/ruleForm';
 import Dropdown from 'in-new-components/Dropdown';
@@ -153,7 +154,7 @@ export function ThresholdCondition({
                 .updateIn(['threshold', 'baseline'], f => f.setValue([]).setTouched(true)) // reset baseline
                 .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
             );
-            websitesAlertingAggregationChanged({ blueprintConfig, value });
+            websitesAlertingAggregationChanged(getTrackingObject(form, { value }));
           }}
         />
         <Dropdown
@@ -162,7 +163,7 @@ export function ThresholdCondition({
           items={operatorOptions}
           onChange={({ value = '' }) => {
             onChange(['threshold', 'operator'], f => f.setValue(value).setTouched(true));
-            websitesAlertingThresholdOperatorChanged({ blueprintConfig, value });
+            websitesAlertingThresholdOperatorChanged(getTrackingObject(form, { value }));
           }}
         />
         <Dropdown
@@ -197,7 +198,7 @@ export function ThresholdCondition({
                 .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
             );
 
-            websitesAlertingThresholdTypeChanged({ blueprintConfig, value: thresholdType });
+            websitesAlertingThresholdTypeChanged(getTrackingObject(form, { value: thresholdType }));
           }}
         />
       </ThresholdConditionFormGroup>
@@ -225,7 +226,7 @@ export function ThresholdCondition({
               };
 
               debounceOnChange$.emit(onChangCallback.bind(this));
-              debouncedThresholdValueChangedTracker({ blueprintConfig, value });
+              debouncedThresholdValueChangedTracker(getTrackingObject(form, { value }));
             }}
           />
 
@@ -253,7 +254,7 @@ export function ThresholdCondition({
               };
 
               debounceOnChange$.emit(onChangCallback.bind(this));
-              debouncedThresholdDeviationFactorChangedTracker({ blueprintConfig, value });
+              debouncedThresholdDeviationFactorChangedTracker(getTrackingObject(form, { value }));
             }}
           />
         </ThresholdConditionFormGroup>

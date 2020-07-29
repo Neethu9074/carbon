@@ -26,8 +26,9 @@ import { createSlownessForm, defaultDeviationFactor } from 'in-applications/aler
 import ChartViewConfigurator from 'in-new-components/Alerting/components/ChartViewConfigurator';
 import { getThresholdLabel, findEntryByValue } from 'in-applications/alerting/form/formUtils';
 import { SensitivitySlider } from 'in-new-components/Alerting/advanced/SensitivitySlider';
-import { blueprintConfigPropType } from 'in-applications/alerting/data/blueprintConfig';
 import AlertingBarChart from 'in-new-components/Alerting/Chart/AlertingBarChart';
+import { blueprintConfigPropType } from 'in-new-components/Alerting/constants';
+import { getTrackingObject } from 'in-new-components/Alerting/trackingHelpers';
 import createRuleForm from 'in-applications/alerting/form/ruleForm';
 import Dropdown from 'in-new-components/Dropdown';
 import Input from 'in-components/form/Input';
@@ -150,7 +151,7 @@ export function ThresholdCondition({
                 .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
                 .updateIn(['threshold', 'value'], f => f.setValue(null).setTouched(true)) // reset "old" value to ensure that we only call endpoints with the "new" threshold suggestion
             );
-            applicationsAlertingThresholdAggregationChanged({ blueprintConfig, value });
+            applicationsAlertingThresholdAggregationChanged(getTrackingObject(form, { value }));
           }}
         />
         <Dropdown
@@ -159,7 +160,7 @@ export function ThresholdCondition({
           items={operatorOptions}
           onChange={({ value = '' }) => {
             onChange(['threshold', 'operator'], f => f.setValue(value).setTouched(true));
-            applicationsAlertingThresholdOperatorChanged({ blueprintConfig, value });
+            applicationsAlertingThresholdOperatorChanged(getTrackingObject(form, { value }));
           }}
         />
         <Dropdown
@@ -191,7 +192,7 @@ export function ThresholdCondition({
                 .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
             );
 
-            applicationsAlertingThresholdTypeChanged({ blueprintConfig, value: thresholdType });
+            applicationsAlertingThresholdTypeChanged(getTrackingObject(form, { value: thresholdType }));
           }}
         />
       </ThresholdConditionFormGroup>
@@ -216,7 +217,7 @@ export function ThresholdCondition({
               };
 
               debounceOnChange$.emit(onChangCallback.bind(this));
-              debouncedThresholdValueChangedTracker({ blueprintConfig, value });
+              debouncedThresholdValueChangedTracker(getTrackingObject(form, { value }));
             }}
           />
 
@@ -244,7 +245,7 @@ export function ThresholdCondition({
               };
 
               debounceOnChange$.emit(onChangCallback.bind(this));
-              debouncedThresholdDeviationFactorChangedTracker({ blueprintConfig, value });
+              debouncedThresholdDeviationFactorChangedTracker(getTrackingObject(form, { value }));
             }}
           />
         </ThresholdConditionFormGroup>

@@ -14,8 +14,9 @@ import { debouncedThresholdValueChangedTracker } from 'in-applications/alerting/
 import { applicationsAlertingThresholdOperatorChanged } from 'in-applications/alerting/tracker';
 import ChartViewConfigurator from 'in-new-components/Alerting/components/ChartViewConfigurator';
 import { findEntryByValue, getThresholdLabel } from 'in-applications/alerting/form/formUtils';
-import { blueprintConfigPropType } from 'in-applications/alerting/data/blueprintConfig';
 import AlertingBarChart from 'in-new-components/Alerting/Chart/AlertingBarChart';
+import { getTrackingObject } from 'in-new-components/Alerting/trackingHelpers';
+import { blueprintConfigPropType } from 'in-new-components/Alerting/constants';
 import Dropdown from 'in-new-components/Dropdown';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
@@ -121,7 +122,7 @@ export function ThresholdCondition({
         items={operatorOptions}
         onChange={({ value = '' }) => {
           onChange(['threshold', 'operator'], f => f.setValue(value).setTouched(true));
-          applicationsAlertingThresholdOperatorChanged({ blueprintConfig, value });
+          applicationsAlertingThresholdOperatorChanged(getTrackingObject(form, { value }));
         }}
       />
       <Input
@@ -143,7 +144,7 @@ export function ThresholdCondition({
           };
 
           debounceOnChange$.emit(onChangCallback.bind(this));
-          debouncedThresholdValueChangedTracker({ blueprintConfig, value });
+          debouncedThresholdValueChangedTracker(getTrackingObject(form, { value }));
         }}
       />
       {thresholdValueLabel !== 'Count' && <Label htmlFor="thresholdValue">{thresholdValueLabel}</Label>}

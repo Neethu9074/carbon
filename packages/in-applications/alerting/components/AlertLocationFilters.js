@@ -16,7 +16,7 @@ import ApplicationEditTagFilterDialog from 'in-applications/alerting/analyze/App
 import TagFilterConfigurationWrapper from 'in-analyze/AnalyzeView/components/TagFilterConfigurationWrapper';
 import { blacklistedTagFiltersOfAlertType } from 'in-applications/alerting/data/blueprintConfig';
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
-import { getBlueprintObject } from 'in-applications/alerting/trackingHelpers';
+import { getTrackingObject } from 'in-new-components/Alerting/trackingHelpers';
 import QuickFilterBar from 'in-applications/alerting/analyze/QuickFilterBar';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { getAnalyzeFilterTagKeys } from 'in-applications/tags';
@@ -70,11 +70,12 @@ export default function AlertLocationFilters({
 
                   updateTagfilterForm(newTagFilters, updateForm, form);
 
-                  applicationsAlertingFilterRemove({
-                    ...getBlueprintObject(form),
-                    mode: advancedMode ? 'Advanced' : 'Simple',
-                    filterName: tag
-                  });
+                  applicationsAlertingFilterRemove(
+                    getTrackingObject(form, {
+                      mode: advancedMode ? 'Advanced' : 'Simple',
+                      filterName: tag
+                    })
+                  );
                 }
               }}
               onMoreClick={tagFilter => {
@@ -83,11 +84,12 @@ export default function AlertLocationFilters({
                     tagFilter={tagFilter}
                     tagFilters={getTagFilters(form)}
                     setTagFilters={tagFilters => {
-                      applicationsAlertingFilterSet({
-                        ...getBlueprintObject(form),
-                        mode: advancedMode ? 'Advanced' : 'Simple',
-                        tagFilters
-                      });
+                      applicationsAlertingFilterSet(
+                        getTrackingObject(form, {
+                          mode: advancedMode ? 'Advanced' : 'Simple',
+                          tagFilters
+                        })
+                      );
                       updateTagfilterForm(tagFilters, updateForm, form);
                     }}
                     tagSuggestions={tagSuggestions}
@@ -114,11 +116,12 @@ export default function AlertLocationFilters({
                     tagFilters={getTagFilters(form)}
                     setTagFilters={tagFilters => {
                       updateTagfilterForm(withoutTagFiltersForNameAndValue(tagFilters, tagFilter), updateForm, form);
-                      applicationsAlertingFilterEdit({
-                        ...getBlueprintObject(form),
-                        mode: advancedMode ? 'Advanced' : 'Simple',
-                        tagFilters
-                      });
+                      applicationsAlertingFilterEdit(
+                        getTrackingObject(form, {
+                          mode: advancedMode ? 'Advanced' : 'Simple',
+                          tagFilters
+                        })
+                      );
                     }}
                     tagSuggestions={tagSuggestions}
                     timeConfig={timeConfig}
@@ -128,11 +131,12 @@ export default function AlertLocationFilters({
               }}
               onRemoveTagFilter={tagFilter => {
                 updateTagfilterForm(withoutTagFiltersForNameAndValue(getTagFilters(form), tagFilter), updateForm, form);
-                applicationsAlertingFilterRemove({
-                  ...getBlueprintObject(form),
-                  mode: advancedMode ? 'Advanced' : 'Simple',
-                  filterName: tagFilter.name
-                });
+                applicationsAlertingFilterRemove(
+                  getTrackingObject(form, {
+                    mode: advancedMode ? 'Advanced' : 'Simple',
+                    filterName: tagFilter.name
+                  })
+                );
               }}
               tagFilters={getTagFilterListForBackendSubscription(
                 mutateFiltersForView({ tagFilters: getTagFilters(form), applicationLabel })
@@ -170,11 +174,12 @@ function addFilter(form, newTagFilter, updateForm, advancedMode) {
 
 function addNewTagFiltersToFormWithTracking(updateForm, form, newTagFilters, advancedMode, newTagFilter) {
   updateTagfilterForm(newTagFilters, updateForm, form);
-  applicationsAlertingFilterAdd({
-    ...getBlueprintObject(form),
-    mode: advancedMode ? 'Advanced' : 'Simple',
-    filterName: newTagFilter.name
-  });
+  applicationsAlertingFilterAdd(
+    getTrackingObject(form, {
+      mode: advancedMode ? 'Advanced' : 'Simple',
+      filterName: newTagFilter.name
+    })
+  );
 }
 
 function updateTagfilterForm(newTagFilters, updateForm, form) {

@@ -12,8 +12,8 @@ import AlertConfigDialogPresenter from 'in-new-components/Alerting/AlertConfigDi
 import AdvancedModeContainer from 'in-websites/alerting/advanced/AdvancedModeContainer';
 import SimpleModeContainer from 'in-websites/alerting/simple/SimpleModeContainer';
 import { getBlueprintConfig } from 'in-websites/alerting/data/blueprintConfig';
+import { getTrackingObject } from 'in-new-components/Alerting/trackingHelpers';
 import { modeAdvanced, modeSimple } from 'in-websites/alerting/constants';
-import { getBlueprintObject } from 'in-websites/alerting/trackingHelpers';
 import createThresholdForm from 'in-websites/alerting/form/thresholdForm';
 import connectTo from 'in-hoc/connectTo';
 
@@ -33,28 +33,21 @@ export const AlertConfigDialogWithThreshold = compose(
   withProps(({ onClose, onCreate, form }) => ({
     withTrackClose: trackingConfig => {
       if (trackingConfig) {
-        websitesAlertingCloseDialog({ step: trackingConfig, ...getBlueprintObject(form) });
+        websitesAlertingCloseDialog(getTrackingObject(form, { step: trackingConfig }));
       } else {
-        websitesAlertingCloseDialog({ mode: modeAdvanced, ...getBlueprintObject(form) });
+        websitesAlertingCloseDialog(getTrackingObject(form, { mode: modeAdvanced }));
       }
       onClose();
     },
     trackModeSwitch: (simpleMode, step) => {
       if (simpleMode) {
-        websitesAlertingSwitchMode({
-          destinationMode: modeAdvanced,
-          step,
-          ...getBlueprintObject(form)
-        });
+        websitesAlertingSwitchMode(getTrackingObject(form, { destinationMode: modeAdvanced, step }));
       } else {
-        websitesAlertingSwitchMode({
-          destinationMode: modeSimple,
-          ...getBlueprintObject(form)
-        });
+        websitesAlertingSwitchMode(getTrackingObject(form, { destinationMode: modeSimple }));
       }
     },
     withTrackCreate: simpleMode => {
-      websitesAlertingAlertCreated({ mode: simpleMode ? modeSimple : modeAdvanced });
+      websitesAlertingAlertCreated(getTrackingObject(form, { mode: simpleMode ? modeSimple : modeAdvanced }));
       onCreate();
     }
   }))

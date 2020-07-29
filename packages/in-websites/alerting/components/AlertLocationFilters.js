@@ -13,9 +13,9 @@ import WebsiteEditTagFilterDialog from 'in-websites/analyze/AnalyzeView/WebsiteE
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
 import { blacklistedTagFiltersOfAlertType } from 'in-websites/alerting/data/blueprintConfig';
 import { availableTagFiltersPerAlertType } from 'in-websites/alerting/data/blueprintConfig';
+import { getTrackingObject } from 'in-new-components/Alerting/trackingHelpers';
 import QuickFilterBar from 'in-websites/analyze/AnalyzeView/QuickFilterBar';
 import { modeAdvanced, modeSimple } from 'in-websites/alerting/constants';
-import { getBlueprintObject } from 'in-websites/alerting/trackingHelpers';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 
 const BEACON_WEBSITE_NAME = 'beacon.website.name';
@@ -55,11 +55,12 @@ export default function AlertLocationFilters({ advancedMode, form, timeConfig, w
                       .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
                   );
 
-                  websitesAlertingFilterRemove({
-                    ...getBlueprintObject(form),
-                    mode: advancedMode ? modeAdvanced : modeSimple,
-                    filterName: name
-                  });
+                  websitesAlertingFilterRemove(
+                    getTrackingObject(form, {
+                      mode: advancedMode ? modeAdvanced : modeSimple,
+                      filterName: name
+                    })
+                  );
                 }
               }}
               onMoreClick={tagFilter => {
@@ -68,11 +69,12 @@ export default function AlertLocationFilters({ advancedMode, form, timeConfig, w
                     tagFilter={tagFilter}
                     tagFilters={getTagFilters(form)}
                     setTagFilters={tagFilters => {
-                      websitesAlertingFilterSet({
-                        ...getBlueprintObject(form),
-                        mode: advancedMode ? modeAdvanced : modeSimple,
-                        tagFilters
-                      });
+                      websitesAlertingFilterSet(
+                        getTrackingObject(form, {
+                          mode: advancedMode ? modeAdvanced : modeSimple,
+                          tagFilters
+                        })
+                      );
                       updateForm(
                         form
                           .updateIn(['tagFilters'], f => f.setValue(tagFilters).setTouched(true))
@@ -109,11 +111,12 @@ export default function AlertLocationFilters({ advancedMode, form, timeConfig, w
                           .updateIn(['tagFilters'], f => f.setValue(tagFilters).setTouched(true))
                           .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
                       );
-                      websitesAlertingFilterEdit({
-                        ...getBlueprintObject(form),
-                        mode: advancedMode ? modeAdvanced : modeSimple,
-                        tagFilters
-                      });
+                      websitesAlertingFilterEdit(
+                        getTrackingObject(form, {
+                          mode: advancedMode ? modeAdvanced : modeSimple,
+                          tagFilters
+                        })
+                      );
                     }}
                     tagSuggestions={tagSuggestions}
                     timeConfig={timeConfig}
@@ -128,11 +131,12 @@ export default function AlertLocationFilters({ advancedMode, form, timeConfig, w
                     )
                     .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
                 );
-                websitesAlertingFilterRemove({
-                  ...getBlueprintObject(form),
-                  mode: advancedMode ? modeAdvanced : modeSimple,
-                  filterName: name
-                });
+                websitesAlertingFilterRemove(
+                  getTrackingObject(form, {
+                    mode: advancedMode ? modeAdvanced : modeSimple,
+                    filterName: name
+                  })
+                );
               }}
               tagFilters={mutateFiltersForView(getTagFilters(form), websiteLabel)}
               readonlyFilterNames={[BEACON_WEBSITE_NAME]}
@@ -160,11 +164,12 @@ function addFilter(form, newTagFilter, updateForm, advancedMode) {
       .updateIn(['tagFilters'], f => f.setValue(newTagFilters).setTouched(true))
       .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
   );
-  websitesAlertingFilterAdd({
-    ...getBlueprintObject(form),
-    mode: advancedMode ? modeAdvanced : modeSimple,
-    filterName: newTagFilter.name
-  });
+  websitesAlertingFilterAdd(
+    getTrackingObject(form, {
+      mode: advancedMode ? modeAdvanced : modeSimple,
+      filterName: newTagFilter.name
+    })
+  );
 }
 
 function withoutTagFiltersForName(tagFilters, name) {

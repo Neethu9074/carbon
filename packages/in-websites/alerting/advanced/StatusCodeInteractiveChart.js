@@ -18,9 +18,10 @@ import IncompleteChartPlaceholder from 'in-new-components/Alerting/components/In
 import ChartViewConfigurator from 'in-new-components/Alerting/components/ChartViewConfigurator';
 import { debouncedThresholdValueChangedTracker } from 'in-websites/alerting/trackingHelpers';
 import { isPercentageMetric, getThresholdLabel } from 'in-websites/alerting/form/formUtils';
-import { blueprintConfigPropType } from 'in-applications/alerting/data/blueprintConfig';
 import AlertingBarChart from 'in-new-components/Alerting/Chart/AlertingBarChart';
+import { getTrackingObject } from 'in-new-components/Alerting/trackingHelpers';
 import { ruleMetricNameOptions } from 'in-websites/alerting/form/ruleFormData';
+import { blueprintConfigPropType } from 'in-new-components/Alerting/constants';
 import Dropdown from 'in-new-components/Dropdown';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
@@ -139,7 +140,7 @@ export function ThresholdCondition({
               .updateIn(['threshold', 'value'], f => f.setValue(null).setTouched(true)) // reset "old" value to ensure that we only call endpoints with the "new" threshold suggestion
           );
 
-          websitesAlertingThresholdMetricChanged({ blueprintConfig, value });
+          websitesAlertingThresholdMetricChanged(getTrackingObject(form, { value }));
         }}
       />
       <Dropdown
@@ -148,7 +149,7 @@ export function ThresholdCondition({
         items={operatorOptions}
         onChange={({ value = '' }) => {
           onChange(['threshold', 'operator'], f => f.setValue(value).setTouched(true));
-          websitesAlertingThresholdOperatorChanged({ blueprintConfig, value });
+          websitesAlertingThresholdOperatorChanged(getTrackingObject(form, { value }));
         }}
       />
       <Input
@@ -179,7 +180,7 @@ export function ThresholdCondition({
           };
 
           debounceOnChange$.emit(onChangCallback.bind(this));
-          debouncedThresholdValueChangedTracker({ blueprintConfig, value });
+          debouncedThresholdValueChangedTracker(getTrackingObject(form, { value }));
         }}
       />
       {thresholdValueLabel !== 'Count' && <Label htmlFor="thresholdValue">{thresholdValueLabel}</Label>}
