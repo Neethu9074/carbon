@@ -2,7 +2,7 @@ import {
   blacklistedTagFiltersOfAlertType,
   availableTagFiltersPerAlertType
 } from 'in-websites/alerting/data/blueprintConfig';
-import { metricNameForAlertType } from 'in-websites/alerting/form/thresholdFormData';
+import { getBlueprintConfig } from 'in-websites/alerting/data/blueprintConfig';
 import createThresholdForm from 'in-websites/alerting/form/thresholdForm';
 import createRuleForm from 'in-websites/alerting/form/ruleForm';
 
@@ -15,11 +15,13 @@ export default function createBlueprintForm(form, alertType) {
   const availableTagFilters = availableTagFiltersPerAlertType[alertType];
   const isAvailable = availableTagFilters ? filter => availableTagFilters.includes(filter.name) : () => true;
 
+  const blueprintConfig = getBlueprintConfig(alertType);
   const newThresholdForm = createThresholdForm(
     {
       ...threshold,
-      type: getThresholdTypeForAlertType(alertType, threshold),
-      value: null // reset the "old" value
+      type: blueprintConfig.baselineEnabled ? threshold.type : 'staticThreshold',
+      value: null, // reset the "old" value if present
+      baseline: null // reset the "old" value if present
     },
     alertType
   );
@@ -31,24 +33,11 @@ export default function createBlueprintForm(form, alertType) {
       .remove('value')
       .toJS(),
     alertType,
-    metricName: metricNameForAlertType[alertType]
+    metricName: blueprintConfig.defaultMetric
   });
 
   return form
     .updateIn(['tagFilters'], f => f.setValue(tagFilters.filter(isNotBlacklisted).filter(isAvailable)))
     .put('rule', newRuleForm)
     .put('threshold', newThresholdForm);
-}
-
-function getThresholdTypeForAlertType(alertType, threshold) {
-  if (alertType === 'specificJsError' || alertType === 'statusCode') {
-    return 'staticThreshold';
-  }
-  if (alertType === 'slowness') {
-    return getSlownessThresholdType(threshold);
-  }
-}
-
-function getSlownessThresholdType(threshold) {
-  return threshold.baseline && threshold.baseline.length > 0 ? 'historicBaseline' : 'staticThreshold';
 }

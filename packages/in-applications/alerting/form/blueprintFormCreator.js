@@ -1,5 +1,6 @@
+import { createViolationsInSequenceForm } from 'in-new-components/Alerting/advanced/TimeThresholdConfig/form';
 import { blacklistedTagFiltersOfAlertType } from 'in-applications/alerting/data/blueprintConfig';
-import { metricNameForAlertType } from 'in-applications/alerting/form/thresholdFormData';
+import { getBlueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
 import createThresholdForm from 'in-applications/alerting/form/thresholdForm';
 import createRuleForm from 'in-applications/alerting/form/ruleForm';
 
@@ -10,10 +11,13 @@ export default function createBlueprintForm(form, alertType) {
   const blacklistedTagFilters = blacklistedTagFiltersOfAlertType(alertType);
   const isNotBlacklisted = filter => !blacklistedTagFilters.includes(filter.name);
 
+  const blueprintConfig = getBlueprintConfig(alertType);
   const newThresholdForm = createThresholdForm(
     {
       ...threshold,
-      type: getThresholdTypeForAlertType(alertType, threshold)
+      type: blueprintConfig.baselineEnabled ? threshold.type : 'staticThreshold',
+      value: null, // reset the "old" value if present
+      baseline: null // reset the "old" value if present
     },
     alertType
   );
@@ -27,19 +31,18 @@ export default function createBlueprintForm(form, alertType) {
       .remove('level')
       .toJS(),
     alertType,
-    metricName: metricNameForAlertType[alertType]
+    metricName: blueprintConfig.defaultMetric
   });
 
-  return form
+  let updatedForm = form
     .updateIn(['tagFilters'], f => f.setValue(tagFilters.filter(isNotBlacklisted)))
     .put('rule', newRuleForm)
     .put('threshold', newThresholdForm);
-}
 
-function getThresholdTypeForAlertType(alertType, threshold) {
-  return alertType === 'slowness' ? getSlownessThresholdType(threshold) : 'staticThreshold';
-}
+  const timeThreshold = updatedForm.get('timeThreshold').toJS();
+  if (blueprintConfig.impactTimeThresholdDisabled && timeThreshold.type === 'requestImpact') {
+    updatedForm = updatedForm.put('timeThreshold', createViolationsInSequenceForm(timeThreshold));
+  }
 
-function getSlownessThresholdType(threshold) {
-  return threshold.baseline && threshold.baseline.length > 0 ? 'historicBaseline' : 'staticThreshold';
+  return updatedForm;
 }

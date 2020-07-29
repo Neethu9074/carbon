@@ -9,6 +9,13 @@ import Card from 'in-new-components/Card';
 import Link from 'in-components/Link';
 
 export function SmartAlertAffectedEntities({ alertConfig, event }) {
+  if (alertConfig.rule.alertType === 'throughput') {
+    // we don't show the affected services/endpoints list for this blueprint type, because there is no simple property
+    // to differentiate single calls from being violated or non-violated. Thus, we have to come up with a new way to do
+    // this distinction.
+    return null;
+  }
+
   const timeConfig = getTimeConfigFromEvent(event);
   const filters = getEnrichedAnalyzeFilters(alertConfig, timeConfig);
   const totalFilters = convertToAnalyzeFilters(alertConfig.tagFilters);

@@ -67,6 +67,10 @@
     }
   }
 
+  .checkboxDisabled {
+    color: @lib__colors__N500;
+  }
+
   .checked {
     font-weight: bold;
     background-color: @lib__colors__white;

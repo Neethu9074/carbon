@@ -18,6 +18,10 @@ export default function createThresholdForm(threshold, alertType) {
   if (alertType === 'statusCode') {
     return createStatusCodeForm(threshold);
   }
+
+  if (alertType === 'throughput') {
+    return createThroughputForm(threshold);
+  }
 }
 
 export function createErrorRateForm(threshold = {}) {
@@ -33,6 +37,14 @@ export function createStatusCodeForm(threshold = {}) {
 }
 
 export function createSlownessForm(threshold = {}) {
+  return createBaselineEnabledForm(threshold);
+}
+
+export function createThroughputForm(threshold = {}) {
+  return createBaselineEnabledForm(threshold);
+}
+
+function createBaselineEnabledForm(threshold) {
   const thresholdType = threshold.type;
 
   if (thresholdType === 'staticThreshold') {
@@ -46,7 +58,7 @@ export function createSlownessForm(threshold = {}) {
   throw new Error(`Unknown threshold type ${thresholdType}.`);
 }
 
-function createStaticThresholdForm(threshold = {}) {
+function createStaticThresholdForm(threshold) {
   return createBaseForm(threshold).put(
     'value',
     createField({
@@ -65,7 +77,7 @@ function createStaticThresholdForm(threshold = {}) {
   );
 }
 
-function createHistoricBaselineForm(threshold = {}) {
+function createHistoricBaselineForm(threshold) {
   return createBaseForm(threshold)
     .put(
       'seasonality',
@@ -97,7 +109,7 @@ function createHistoricBaselineForm(threshold = {}) {
     );
 }
 
-function createBaseForm(threshold = {}) {
+function createBaseForm(threshold) {
   return createMapForm()
     .put(
       'type',

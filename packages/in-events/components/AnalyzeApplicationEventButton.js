@@ -10,6 +10,12 @@ import { getTimeConfigFromEvent } from 'in-events/timeframe';
 import Button from 'in-new-components/Button';
 
 export default function AnalyzeApplicationEventButton({ event, alertConfig }) {
+  if (alertConfig.rule.alertType === 'throughput') {
+    // TODO enable the analyze-link for this blueprint type, as soon as there is a decision about how the generated link
+    //      should exactly look like (e.g. which timeframe, which additional filters, distribution-chart enabled, ...?)
+    return null;
+  }
+
   const metadata = event.get('metadata');
   const applicationName = metadata.get('entityLabel');
   const boundaryScope = alertConfig.boundaryScope;

@@ -1,11 +1,6 @@
 import { createMapForm, createField } from 'formalistic';
 
-import {
-  createSlownessForm,
-  createErrorRateForm,
-  createLogsForm,
-  createStatusCodeForm
-} from 'in-applications/alerting/form/thresholdForm';
+import createThresholdForm from 'in-applications/alerting/form/thresholdForm';
 import createTimeThresholdForm from 'in-new-components/Alerting/advanced/TimeThresholdConfig/form';
 import createRuleForm from 'in-applications/alerting/form/ruleForm';
 
@@ -100,22 +95,7 @@ export function createSmartAlertForm(alertConfig) {
     );
 
   const alertType = alertConfig.rule?.alertType ?? 'errorRate';
-
-  if (alertType === 'errorRate') {
-    return form.put('threshold', createErrorRateForm(alertConfig.threshold));
-  }
-
-  if (alertType === 'slowness') {
-    return form.put('threshold', createSlownessForm(alertConfig.threshold));
-  }
-
-  if (alertType === 'logs') {
-    return form.put('threshold', createLogsForm(alertConfig.threshold));
-  }
-
-  if (alertType === 'statusCode') {
-    return form.put('threshold', createStatusCodeForm(alertConfig.threshold));
-  }
+  return form.put('threshold', createThresholdForm(alertConfig.threshold, alertType));
 }
 
 function createHiddenFieldsForm(timeThreshold, calculateThresholdOnBackend = false) {

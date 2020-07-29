@@ -4,7 +4,7 @@ import getApplicationMetrics from 'in-applications/subscriptions/getApplicationM
 import { percentage, millis, number } from 'in-services/formatters/number';
 import { isNotBlank } from 'in-services/util/string';
 
-export const blueprintConfig = Object.freeze([
+export const blueprintConfigs = Object.freeze([
   {
     type: 'slowness',
     blacklistedTagFilters: ['call.latency'],
@@ -17,6 +17,7 @@ export const blueprintConfig = Object.freeze([
     getMetricsRequest: () => getApplicationMetrics,
     getAlertsPreviewRequest: () => getApplicationMetricsAlertPreview,
     getThresholdSuggestionRequest: () => getApplicationMetricsThresholdSuggestion,
+    defaultMetric: 'latency',
     getMetricName: () => 'latency',
     getMetricLabel: () => 'Latency',
     getMetricFormat: () => millis.forcedFixedCompact,
@@ -38,6 +39,7 @@ export const blueprintConfig = Object.freeze([
     getMetricsRequest: () => getApplicationMetrics,
     getAlertsPreviewRequest: () => getApplicationMetricsAlertPreview,
     getThresholdSuggestionRequest: () => getApplicationMetricsThresholdSuggestion,
+    defaultMetric: 'errors',
     getMetricName: () => 'errors',
     getMetricLabel: () => 'Error Rate',
     getMetricFormat: () => percentage.detailed,
@@ -59,6 +61,7 @@ export const blueprintConfig = Object.freeze([
     getMetricsRequest: () => getApplicationMetrics,
     getAlertsPreviewRequest: () => getApplicationMetricsAlertPreview,
     getThresholdSuggestionRequest: () => getApplicationMetricsThresholdSuggestion,
+    defaultMetric: 'calls',
     getMetricName: () => 'calls',
     getMetricLabel: () => 'Logs Count',
     getMetricFormat: () => number.forcedCompact,
@@ -80,6 +83,7 @@ export const blueprintConfig = Object.freeze([
     getMetricsRequest: () => getApplicationMetrics,
     getAlertsPreviewRequest: () => getApplicationMetricsAlertPreview,
     getThresholdSuggestionRequest: () => getApplicationMetricsThresholdSuggestion,
+    defaultMetric: 'calls',
     getMetricName: () => 'calls',
     getMetricLabel: () => 'Status Code',
     getMetricFormat: () => number.forcedCompact,
@@ -89,11 +93,33 @@ export const blueprintConfig = Object.freeze([
     incompleteRuleMessage: 'Please select a Status Code to see when this alert triggers',
     getRuleTagFilters: getStatusCodeTagFilters,
     getEntityTagFilter: getApplicationIdTagFilter
+  },
+  {
+    type: 'throughput',
+    blacklistedTagFilters: [],
+    name: 'Throughput',
+    headline: 'Automatic Alerts on Call Throughput Violations',
+    text: 'Receive an alert every time the number of calls significantly differs from the usual call throughput.',
+    baselineEnabled: true,
+    isCustomRateMetric: () => false,
+    getMetricsRequest: () => getApplicationMetrics,
+    getAlertsPreviewRequest: () => getApplicationMetricsAlertPreview,
+    getThresholdSuggestionRequest: () => getApplicationMetricsThresholdSuggestion,
+    defaultMetric: 'calls',
+    getMetricName: () => 'calls',
+    getMetricLabel: () => 'Calls',
+    getMetricFormat: () => number.forcedCompact,
+    getMaxMetricValue: () => undefined,
+    getAggregation: () => 'SUM',
+    isRuleComplete: () => true,
+    getRuleTagFilters: () => [],
+    getEntityTagFilter: getApplicationIdTagFilter,
+    impactTimeThresholdDisabled: true
   }
 ]);
 
 export function getBlueprintConfig(alertType) {
-  return blueprintConfig.find(blueprint => blueprint.type === alertType);
+  return blueprintConfigs.find(blueprint => blueprint.type === alertType);
 }
 
 export function blacklistedTagFiltersOfAlertType(alertType) {

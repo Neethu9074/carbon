@@ -54,6 +54,8 @@ export function getTitlePlaceholder(form) {
       const statusCodeEnd = ruleForm.get('statusCodeEnd').value;
       return `Too many calls with HTTP Status Code ${getStatusCodeShortText(statusCodeStart, statusCodeEnd)}`;
     }
+    case 'throughput':
+      return 'Unexpected high number of calls';
     default:
       throw Error('Unsupported alertType: ' + alertType);
   }
@@ -111,6 +113,14 @@ export function getDescriptionPlaceholder(form) {
         statusCodeStart,
         statusCodeEnd
       )} is ${getHigherOrLowerOperatorText(thresholdOperator)} ${thresholdValue}.`;
+    }
+    case 'throughput': {
+      const thresholdType = thresholdForm.get('type').value;
+      if (thresholdType === 'staticThreshold') {
+        const thresholdValue = thresholdForm.get('value').value;
+        return `The number of calls is ${getHigherOrLowerOperatorText(thresholdOperator)} ${thresholdValue} calls.`;
+      }
+      return `The number of calls is ${getHigherOrLowerOperatorText(thresholdOperator)} the expectation.`;
     }
     default:
       throw Error('Unsupported alertType: ' + alertType);

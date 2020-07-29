@@ -24,7 +24,7 @@ const statusCodeMetricLabelsByName = Object.freeze({
   specificStatusCodeRate: 'Status Code Rate'
 });
 
-export const blueprintConfig = Object.freeze([
+export const blueprintConfigs = Object.freeze([
   {
     type: slowness,
     name: 'Slowness',
@@ -47,6 +47,7 @@ export const blueprintConfig = Object.freeze([
     getMetricsRequest: () => getWebsiteMetrics,
     getAlertsPreviewRequest: () => getWebsiteMetricAlertsPreview,
     getThresholdSuggestionRequest: () => getWebsiteMetricsThresholdSuggestion,
+    defaultMetric: 'onLoadTime',
     getMetricName: () => 'onLoadTime',
     getMetricLabel: () => 'onLoad Time',
     getMetricFormat: () => millis.forcedFixedCompact,
@@ -69,6 +70,7 @@ export const blueprintConfig = Object.freeze([
       isCustomRateMetric(metricName) ? getWebsiteRateMetricAlertsPreview : getWebsiteMetricAlertsPreview,
     getThresholdSuggestionRequest: metricName =>
       isCustomRateMetric(metricName) ? getWebsiteRateMetricThresholdSuggestion : getWebsiteMetricsThresholdSuggestion,
+    defaultMetric: 'errors',
     getMetricName: alertRule => alertRule.metricName,
     getMetricLabel: metricName => jsErrorMetricLabelsByName[metricName],
     getMetricFormat: metricName => (isCustomRateMetric(metricName) ? percentage.detailed : number.forcedCompact),
@@ -92,6 +94,7 @@ export const blueprintConfig = Object.freeze([
       isCustomRateMetric(metricName) ? getWebsiteRateMetricAlertsPreview : getWebsiteMetricAlertsPreview,
     getThresholdSuggestionRequest: metricName =>
       isCustomRateMetric(metricName) ? getWebsiteRateMetricThresholdSuggestion : getWebsiteMetricsThresholdSuggestion,
+    defaultMetric: 'httpxxx',
     getMetricName: alertRule => alertRule.metricName,
     getMetricLabel: metricName => statusCodeMetricLabelsByName[metricName],
     getMetricFormat: metricName => (isCustomRateMetric(metricName) ? percentage.detailed : number.forcedCompact),
@@ -105,7 +108,7 @@ export const blueprintConfig = Object.freeze([
 ]);
 
 export function getBlueprintConfig(alertType) {
-  return blueprintConfig.find(blueprint => blueprint.type === alertType);
+  return blueprintConfigs.find(blueprint => blueprint.type === alertType);
 }
 
 export const availableTagFiltersPerAlertType = {
@@ -114,8 +117,8 @@ export const availableTagFiltersPerAlertType = {
   [specificStatusCode]: availableFilterTags.httpRequest
 };
 
-export function blacklistedTagFiltersOfAlertType(type) {
-  const config = blueprintConfig.find(blueprint => blueprint.type === type);
+export function blacklistedTagFiltersOfAlertType(alertType) {
+  const config = getBlueprintConfig(alertType);
   if (config) {
     return [...config.blacklistedTagFilters];
   }

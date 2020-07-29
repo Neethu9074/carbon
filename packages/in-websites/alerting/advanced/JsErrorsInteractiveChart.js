@@ -12,8 +12,8 @@ import {
   websitesAlertingThresholdMetricChanged,
   websitesAlertingThresholdOperatorChanged
 } from 'in-websites/alerting/tracker';
+import { enrichThresholdOperatorOptionsForApiConfigs } from 'in-new-components/Alerting/advanced/thresholdFormData';
 import IncompleteChartPlaceholder from 'in-new-components/Alerting/components/IncompleteChartPlaceholder';
-import { enrichThresholdOperatorOptionsForApiConfigs } from 'in-websites/alerting/form/thresholdFormData';
 import ThresholdConditionFormGroup from 'in-new-components/Alerting/advanced/ThresholdConditionFormGroup';
 import ChartViewConfigurator from 'in-new-components/Alerting/components/ChartViewConfigurator';
 import { debouncedThresholdValueChangedTracker } from 'in-websites/alerting/trackingHelpers';

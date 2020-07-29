@@ -20,7 +20,7 @@ import {
 import {
   thresholdTypeOptions,
   enrichThresholdOperatorOptionsForApiConfigs
-} from 'in-applications/alerting/form/thresholdFormData';
+} from 'in-new-components/Alerting/advanced/thresholdFormData';
 import ThresholdConditionFormGroup from 'in-new-components/Alerting/advanced/ThresholdConditionFormGroup';
 import { createSlownessForm, defaultDeviationFactor } from 'in-applications/alerting/form/thresholdForm';
 import ChartViewConfigurator from 'in-new-components/Alerting/components/ChartViewConfigurator';
@@ -114,7 +114,7 @@ function SlownessInteractiveChart({
   );
 }
 
-export function ThresholdCondition({
+function ThresholdCondition({
   form,
   updateForm,
   onChange,
@@ -145,12 +145,19 @@ export function ThresholdCondition({
           label={getAggregationLabelAndUpdateFormIfNeeded(form, updateForm)}
           items={getAggregationOptions(form)}
           onChange={({ value = '' }) => {
-            updateForm(
-              form
-                .updateIn(['rule', 'aggregation'], f => f.setValue(value).setTouched(true))
-                .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
-                .updateIn(['threshold', 'value'], f => f.setValue(null).setTouched(true)) // reset "old" value to ensure that we only call endpoints with the "new" threshold suggestion
-            );
+            let updatedForm = form
+              .updateIn(['rule', 'aggregation'], f => f.setValue(value).setTouched(true))
+              .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true));
+
+            const thresholdType = updatedForm.get('threshold').get('type').value;
+            // reset "old" threshold/baseline-value to ensure that we don't call endpoints with the previous values
+            if (thresholdType === 'historicBaseline') {
+              updatedForm = updatedForm.updateIn(['threshold', 'baseline'], f => f.setValue(null).setTouched(true));
+            } else {
+              updatedForm = updatedForm.updateIn(['threshold', 'value'], f => f.setValue(null).setTouched(true));
+            }
+
+            updateForm(updatedForm);
             applicationsAlertingThresholdAggregationChanged(getTrackingObject(form, { value }));
           }}
         />
@@ -175,7 +182,8 @@ export function ThresholdCondition({
               ...form.get('threshold').toJS(),
               type: thresholdType,
               operator: null, // reset to default value (happens in createSlownessForm)
-              value: null // reset "old" value to ensure that we only call endpoints with the "new" threshold suggestion
+              value: null, // reset "old" value to ensure that we only call endpoints with the "new" threshold suggestion
+              baseline: null
             });
 
             if (valueParts.length > 1) {

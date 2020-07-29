@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import {
   enrichThresholdOperatorOptionsForApiConfigs,
   thresholdOperatorOptions
-} from 'in-applications/alerting/form/thresholdFormData';
+} from 'in-new-components/Alerting/advanced/thresholdFormData';
 import IncompleteChartPlaceholder from 'in-new-components/Alerting/components/IncompleteChartPlaceholder';
 import { getThresholdValueForPercentageMetric } from 'in-new-components/Alerting/utils/formatUtils';
 import { debouncedThresholdValueChangedTracker } from 'in-applications/alerting/trackingHelpers';
@@ -98,7 +98,7 @@ function StatusCodeInteractiveChart({
   );
 }
 
-export function ThresholdCondition({
+function ThresholdCondition({
   form,
   onChange,
   blueprintConfig,

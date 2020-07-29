@@ -10,13 +10,13 @@ import { light } from 'in-themes/themes';
 import locals from './BlueprintSelection.mless';
 
 export default function BlueprintSelection({
-  blueprintConfig,
+  blueprintConfigs,
   trackBlueprintChange,
   updateFormForSelectedBlueprint,
   form
 }) {
   const alertType = form.get('rule').get('alertType').value;
-  const selectedBlueprintConfig = blueprintConfig.find(item => item.type === alertType);
+  const selectedBlueprintConfig = blueprintConfigs.find(item => item.type === alertType);
 
   const [config, setConfig] = useState(selectedBlueprintConfig);
   const [selectButtonDisabled, setSelectButtonDisabled] = useState(true);
@@ -32,7 +32,7 @@ export default function BlueprintSelection({
       >
         <div className={locals.container}>
           <Menu
-            items={blueprintConfig}
+            items={blueprintConfigs}
             onItemClick={item => {
               setSelectButtonDisabled(false);
               setConfig(item);
@@ -57,7 +57,7 @@ export default function BlueprintSelection({
 }
 
 BlueprintSelection.propTypes = {
-  blueprintConfig: PropTypes.arrayOf(
+  blueprintConfigs: PropTypes.arrayOf(
     PropTypes.shape({
       type: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,

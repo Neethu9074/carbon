@@ -1,17 +1,13 @@
-export const thresholdOperatorOptions = Object.freeze([{ value: '>=', label: '≥' }, { value: '>', label: '>' }]);
+export const thresholdOperatorOptions = Object.freeze([
+  { value: '>=', label: '≥' },
+  { value: '>', label: '>' }
+]);
 
 export const thresholdTypeOptions = Object.freeze([
   { value: 'staticThreshold', label: 'Static Threshold' },
   { value: 'historicBaseline.DAILY', label: 'Baseline (Daily Seasonality)' },
   { value: 'historicBaseline.WEEKLY', label: 'Baseline (Weekly Seasonality)' }
 ]);
-
-export const metricNameForAlertType = Object.freeze({
-  errorRate: 'errors',
-  slowness: 'latency',
-  logs: 'calls',
-  statusCode: 'calls'
-});
 
 /**
  * We removed LT/LTE operators. To don't break older configs which have one of those operators,

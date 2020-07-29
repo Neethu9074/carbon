@@ -15,7 +15,7 @@ import {
 import AlertPropertiesContainer from 'in-new-components/Alerting/advanced/AlertProperties/AlertPropertiesContainer';
 import { default as GlobalAdvancedModeContainer } from 'in-new-components/Alerting/advanced/AdvancedModeContainer';
 import StatusCodeInteractiveChart from 'in-websites/alerting/advanced/StatusCodeInteractiveChart';
-import { blueprintConfig, getBlueprintConfig } from 'in-websites/alerting/data/blueprintConfig';
+import { blueprintConfigs, getBlueprintConfig } from 'in-websites/alerting/data/blueprintConfig';
 import SlownessInteractiveChart from 'in-websites/alerting/advanced/SlownessInteractiveChart';
 import JsErrorsInteractiveChart from 'in-websites/alerting/advanced/JsErrorsInteractiveChart';
 import SelectAlertChannel from 'in-new-components/Alerting/components/SelectAlertChannel';
@@ -43,9 +43,8 @@ export default function AdvancedModeContainer(props) {
     selectedChartViewConfigIndex,
     thresholdResult
   } = props;
-
   const alertType = form.get('rule').get('alertType').value;
-  const blueprint = getBlueprintConfig(alertType);
+  const blueprintConfig = getBlueprintConfig(alertType);
 
   return (
     <GlobalAdvancedModeContainer
@@ -72,7 +71,7 @@ export default function AdvancedModeContainer(props) {
           checked: validateTrigger(form),
           content: (
             <>
-              <BlueprintSelection form={form} updateForm={updateForm} blueprintConfig={blueprintConfig} />
+              <BlueprintSelection form={form} updateForm={updateForm} blueprintConfigs={blueprintConfigs} />
               <AlertTypeSwitch
                 alertType={alertType}
                 renderJsErrors={() => (
@@ -89,7 +88,7 @@ export default function AdvancedModeContainer(props) {
                       />
                     </LightCard>
                     <JsErrorsInteractiveChart
-                      blueprintConfig={blueprint}
+                      blueprintConfig={blueprintConfig}
                       form={form}
                       timeConfig={timeConfig}
                       onChange={onChange}
@@ -102,7 +101,7 @@ export default function AdvancedModeContainer(props) {
                 renderSlowness={() => (
                   <>
                     <SlownessInteractiveChart
-                      blueprintConfig={blueprint}
+                      blueprintConfig={blueprintConfig}
                       form={form}
                       timeConfig={timeConfig}
                       onChange={onChange}
@@ -126,7 +125,7 @@ export default function AdvancedModeContainer(props) {
                       <ProvideStatusCode form={form} updateForm={updateForm} mode={modeAdvanced} />
                     </LightCard>
                     <StatusCodeInteractiveChart
-                      blueprintConfig={blueprint}
+                      blueprintConfig={blueprintConfig}
                       form={form}
                       onChange={onChange}
                       updateForm={updateForm}
@@ -145,7 +144,15 @@ export default function AdvancedModeContainer(props) {
           label: 'Time Threshold',
           title: 'Time Threshold: When do you want to be alerted?',
           checked: true,
-          content: <TimeThresholdConfig form={form} onChange={onChange} updateForm={updateForm} hasUserImpactOption />
+          content: (
+            <TimeThresholdConfig
+              form={form}
+              onChange={onChange}
+              updateForm={updateForm}
+              impactTimeThresholdDisabled={blueprintConfig.impactTimeThresholdDisabled}
+              hasUserImpactOption
+            />
+          )
         },
         {
           scrollId: '4',

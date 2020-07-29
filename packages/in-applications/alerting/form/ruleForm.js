@@ -6,7 +6,7 @@ export default function createRuleForm(rule) {
   const { alertType } = rule;
   const baseForm = createBaseForm(rule);
 
-  if (alertType === 'errorRate') {
+  if (alertType === 'errorRate' || alertType === 'throughput') {
     return baseForm;
   }
 

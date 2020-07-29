@@ -20,7 +20,13 @@ export const timeThresholdLabels = Object.freeze({
   requestImpact: 'When a certain amount of requests are impacted'
 });
 
-export default function SelectThreshold({ form, updateForm, hasUserImpactOption, hasRequestImpactOption }) {
+export default function SelectTimeThreshold({
+  form,
+  updateForm,
+  hasUserImpactOption,
+  hasRequestImpactOption,
+  impactTimeThresholdDisabled
+}) {
   const {
     violationsInSequence,
     violationsInPeriod,
@@ -33,30 +39,32 @@ export default function SelectThreshold({ form, updateForm, hasUserImpactOption,
   ];
 
   if (hasUserImpactOption) {
-    checkboxes.push(createOption(form, updateForm, userImpactOfViolationsInSequence));
+    checkboxes.push(createOption(form, updateForm, userImpactOfViolationsInSequence, impactTimeThresholdDisabled));
   }
 
   if (hasRequestImpactOption) {
-    checkboxes.push(createOption(form, updateForm, requestImpact));
+    checkboxes.push(createOption(form, updateForm, requestImpact, impactTimeThresholdDisabled));
   }
 
   return (
     <>
-      {checkboxes.map(({ label, checked, onChange }, i) => (
+      {checkboxes.map(({ label, checked, onChange, disabled }, i) => (
         <div
           key={i}
           className={evaluateClassNames({
             [locals.thresholdTypeSelection]: true,
-            [locals.checked]: checked
+            [locals.checked]: checked,
+            [locals.disabled]: disabled
           })}
         >
           <CheckboxFancy
-            wrapperClassName={locals.checkbox}
+            wrapperClassName={disabled ? locals.checkboxDisabled : locals.checkbox}
             label={label}
             checked={checked}
             onChange={onChange}
             asRadioButton
             withControlsGrayscale
+            disabled={disabled}
           />
         </div>
       ))}
@@ -64,11 +72,12 @@ export default function SelectThreshold({ form, updateForm, hasUserImpactOption,
   );
 }
 
-function createOption(form, updateForm, thresholdType) {
+function createOption(form, updateForm, thresholdType, disabled = false) {
   return {
     label: timeThresholdLabels[thresholdType],
     checked: form.get('timeThreshold').get('type').value === thresholdType,
-    onChange: () => updateForm(form.put('timeThreshold', getTimeThresholdFormForType(form, thresholdType)))
+    onChange: () => updateForm(form.put('timeThreshold', getTimeThresholdFormForType(form, thresholdType))),
+    disabled
   };
 }
 
@@ -87,9 +96,10 @@ function getTimeThresholdFormForType(form, thresholdType) {
   }
 }
 
-SelectThreshold.propTypes = {
+SelectTimeThreshold.propTypes = {
   form: PropTypes.object.isRequired,
   updateForm: PropTypes.func.isRequired,
   hasUserImpactOption: PropTypes.bool,
-  hasRequestImpactOption: PropTypes.bool
+  hasRequestImpactOption: PropTypes.bool,
+  impactTimeThresholdDisabled: PropTypes.bool
 };

@@ -3,8 +3,8 @@ import { get } from 'lodash';
 import React from 'react';
 
 import ConfigureAlertingThreshold from 'in-new-components/Alerting/advanced/TimeThresholdConfig/ConfigureAlertingThreshold';
+import SelectTimeThreshold from 'in-new-components/Alerting/advanced/TimeThresholdConfig/SelectTimeThreshold';
 import { timeThresholdTypes } from 'in-new-components/Alerting/advanced/TimeThresholdConfig/formData';
-import SelectThreshold from 'in-new-components/Alerting/advanced/TimeThresholdConfig/SelectThreshold';
 import TwoColumnContainer from 'in-new-components/Alerting/components/TwoColumnContainer';
 import Link from 'in-components/Link';
 
@@ -21,7 +21,8 @@ export default function TimeThresholdConfigPresenter({
   uniqueUsersOrSessionsResult,
   updateForm,
   hasRequestImpactOption,
-  hasUserImpactOption
+  hasUserImpactOption,
+  impactTimeThresholdDisabled
 }) {
   return (
     <TwoColumnContainer
@@ -29,11 +30,12 @@ export default function TimeThresholdConfigPresenter({
       mainContentHeadline={getTitle(form.get('timeThreshold'))}
       mainContent={<ConfigureAlertingThreshold form={form} onChange={onChange} updateForm={updateForm} />}
       secondaryContent={
-        <SelectThreshold
+        <SelectTimeThreshold
           form={form}
           updateForm={updateForm}
           hasUserImpactOption={hasUserImpactOption}
           hasRequestImpactOption={hasRequestImpactOption}
+          impactTimeThresholdDisabled={impactTimeThresholdDisabled}
         />
       }
       warnMessage={
@@ -69,5 +71,6 @@ TimeThresholdConfigPresenter.propTypes = {
   uniqueUsersOrSessionsResult: PropTypes.object,
   updateForm: PropTypes.func.isRequired,
   hasRequestImpactOption: PropTypes.bool,
-  hasUserImpactOption: PropTypes.bool
+  hasUserImpactOption: PropTypes.bool,
+  impactTimeThresholdDisabled: PropTypes.bool
 };

@@ -9,11 +9,20 @@ export default function BlueprintSelection(props) {
     <GlobalBlueprintSelection
       {...props}
       updateFormForSelectedBlueprint={alertType => {
-        props.updateForm(
-          createBlueprintForm(props.form, alertType)
-            .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
-            .updateIn(['threshold', 'value'], f => f.setValue(null).setTouched(true)) // reset "old" value to ensure that we only call endpoints with the "new" threshold suggestion
+        let updatedForm = createBlueprintForm(props.form, alertType).updateIn(
+          ['hiddenFields', 'calculateThresholdOnBackend'],
+          f => f.setValue(true)
         );
+
+        const thresholdType = updatedForm.get('threshold').get('type').value;
+        // reset "old" threshold/baseline-value to ensure that we don't call endpoints with the previous values
+        if (thresholdType === 'historicBaseline') {
+          updatedForm = updatedForm.updateIn(['threshold', 'baseline'], f => f.setValue(null).setTouched(true));
+        } else {
+          updatedForm = updatedForm.updateIn(['threshold', 'value'], f => f.setValue(null).setTouched(true));
+        }
+
+        props.updateForm(updatedForm);
       }}
       trackBlueprintChange={newBlueprint => applicationsAlertingBlueprintChanged({ newBlueprint, mode: 'advanced' })}
     />

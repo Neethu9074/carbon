@@ -8,7 +8,7 @@ import {
   getValueRoundedToDecimals,
   round
 } from 'in-new-components/Alerting/utils/formatUtils';
-import { enrichThresholdOperatorOptionsForApiConfigs } from 'in-applications/alerting/form/thresholdFormData';
+import { enrichThresholdOperatorOptionsForApiConfigs } from 'in-new-components/Alerting/advanced/thresholdFormData';
 import ThresholdConditionFormGroup from 'in-new-components/Alerting/advanced/ThresholdConditionFormGroup';
 import { debouncedThresholdValueChangedTracker } from 'in-applications/alerting/trackingHelpers';
 import { applicationsAlertingThresholdOperatorChanged } from 'in-applications/alerting/tracker';

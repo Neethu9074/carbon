@@ -1,6 +1,13 @@
 import PropTypes from 'prop-types';
 
-export default function AlertTypeSwitch({ alertType, renderErrorRate, renderSlowness, renderLogs, renderStatusCode }) {
+export default function AlertTypeSwitch({
+  alertType,
+  renderErrorRate,
+  renderSlowness,
+  renderLogs,
+  renderStatusCode,
+  renderThroughput
+}) {
   if (alertType === 'errorRate') {
     return renderErrorRate();
   } else if (alertType === 'slowness') {
@@ -9,6 +16,8 @@ export default function AlertTypeSwitch({ alertType, renderErrorRate, renderSlow
     return renderLogs();
   } else if (alertType === 'statusCode') {
     return renderStatusCode();
+  } else if (alertType === 'throughput') {
+    return renderThroughput();
   }
 }
 
@@ -17,5 +26,6 @@ AlertTypeSwitch.propTypes = {
   renderErrorRate: PropTypes.func.isRequired,
   renderSlowness: PropTypes.func.isRequired,
   renderLogs: PropTypes.func.isRequired,
-  renderStatusCode: PropTypes.func.isRequired
+  renderStatusCode: PropTypes.func.isRequired,
+  renderThroughput: PropTypes.func.isRequired
 };

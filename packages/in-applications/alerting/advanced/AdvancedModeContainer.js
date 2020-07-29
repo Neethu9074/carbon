@@ -11,9 +11,10 @@ import TimeThresholdConfigPresenter from 'in-new-components/Alerting/advanced/Ti
 import AlertPropertiesContainer from 'in-new-components/Alerting/advanced/AlertProperties/AlertPropertiesContainer';
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-applications/alerting/form/formUtils';
 import StatusCodeInteractiveChart from 'in-applications/alerting/advanced/StatusCodeInteractiveChart';
+import ThroughputInteractiveChart from 'in-applications/alerting/advanced/ThroughputInteractiveChart';
+import { blueprintConfigs, getBlueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
 import GlobalAdvancedModeContainer from 'in-new-components/Alerting/advanced/AdvancedModeContainer';
 import ErrorRateInteractiveChart from 'in-applications/alerting/advanced/ErrorRateInteractiveChart';
-import { blueprintConfig, getBlueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
 import SlownessInteractiveChart from 'in-applications/alerting/advanced/SlownessInteractiveChart';
 import InboundOutboundCallsSwitch from './InboundOutboundCallsSwitch/InboundOutboundCallsSwitch';
 import AlertLocationFilters from 'in-applications/alerting/components/AlertLocationFilters';
@@ -39,9 +40,8 @@ export default function AdvancedModeContainer(props) {
     selectedChartViewConfigIndex,
     thresholdResult
   } = props;
-
   const alertType = form.get('rule').get('alertType').value;
-  const blueprint = getBlueprintConfig(alertType);
+  const blueprintConfig = getBlueprintConfig(alertType);
 
   return (
     <GlobalAdvancedModeContainer
@@ -71,12 +71,12 @@ export default function AdvancedModeContainer(props) {
           checked: true,
           content: (
             <>
-              <BlueprintSelection form={form} updateForm={updateForm} blueprintConfig={blueprintConfig} />
+              <BlueprintSelection form={form} updateForm={updateForm} blueprintConfigs={blueprintConfigs} />
               <AlertTypeSwitch
                 alertType={alertType}
                 renderErrorRate={() => (
                   <ErrorRateInteractiveChart
-                    blueprintConfig={blueprint}
+                    blueprintConfig={blueprintConfig}
                     form={form}
                     timeConfig={timeConfig}
                     onChange={onChange}
@@ -87,7 +87,7 @@ export default function AdvancedModeContainer(props) {
                 renderSlowness={() => (
                   <>
                     <SlownessInteractiveChart
-                      blueprintConfig={blueprint}
+                      blueprintConfig={blueprintConfig}
                       form={form}
                       timeConfig={timeConfig}
                       onChange={onChange}
@@ -95,14 +95,7 @@ export default function AdvancedModeContainer(props) {
                       onChartViewConfigChange={onChartViewConfigChange}
                       selectedChartViewConfigIndex={selectedChartViewConfigIndex}
                     />
-                    {hasBaselineError(thresholdResult) && (
-                      <Message type="neutral" iconColor={theme.lib.colors.failure} withIcon>
-                        Insufficient data to compute the selected baseline. Please select <i>Static Threshold</i>{' '}
-                        instead.
-                        <br />
-                        <b>Reason:</b> {getErrorReason(thresholdResult)}
-                      </Message>
-                    )}
+                    <BaselineErrorMessage thresholdResult={thresholdResult} />
                   </>
                 )}
                 renderLogs={() => (
@@ -119,7 +112,7 @@ export default function AdvancedModeContainer(props) {
                       />
                     </LightCard>
                     <LogsInteractiveChart
-                      blueprintConfig={blueprint}
+                      blueprintConfig={blueprintConfig}
                       form={form}
                       timeConfig={timeConfig}
                       onChange={onChange}
@@ -134,13 +127,27 @@ export default function AdvancedModeContainer(props) {
                       <ProvideStatusCode form={form} updateForm={updateForm} mode="Advanced" />
                     </LightCard>
                     <StatusCodeInteractiveChart
-                      blueprintConfig={blueprint}
+                      blueprintConfig={blueprintConfig}
                       form={form}
                       onChange={onChange}
                       updateForm={updateForm}
                       onChartViewConfigChange={onChartViewConfigChange}
                       selectedChartViewConfigIndex={selectedChartViewConfigIndex}
                     />
+                  </>
+                )}
+                renderThroughput={() => (
+                  <>
+                    <ThroughputInteractiveChart
+                      blueprintConfig={blueprintConfig}
+                      form={form}
+                      timeConfig={timeConfig}
+                      onChange={onChange}
+                      updateForm={updateForm}
+                      onChartViewConfigChange={onChartViewConfigChange}
+                      selectedChartViewConfigIndex={selectedChartViewConfigIndex}
+                    />
+                    <BaselineErrorMessage thresholdResult={thresholdResult} />
                   </>
                 )}
               />
@@ -157,6 +164,7 @@ export default function AdvancedModeContainer(props) {
               form={form}
               onChange={onChange}
               updateForm={updateForm}
+              impactTimeThresholdDisabled={blueprintConfig.impactTimeThresholdDisabled}
               hasRequestImpactOption
             />
           )
@@ -189,6 +197,20 @@ export default function AdvancedModeContainer(props) {
         }
       ]}
     />
+  );
+}
+
+function BaselineErrorMessage({ thresholdResult }) {
+  if (!hasBaselineError(thresholdResult)) {
+    return null;
+  }
+
+  return (
+    <Message type="neutral" iconColor={theme.lib.colors.failure} withIcon>
+      Insufficient data to compute the selected baseline. Please select <i>Static Threshold</i> instead.
+      <br />
+      <b>Reason:</b> {getErrorReason(thresholdResult)}
+    </Message>
   );
 }
 
