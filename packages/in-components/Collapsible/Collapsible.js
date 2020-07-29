@@ -12,7 +12,7 @@ class Collapsible extends React.PureComponent {
   static propTypes = {
     children: rpt.array.isRequired,
     initiallyOpen: rpt.bool,
-    onOpen: rpt.function
+    onOpen: rpt.func
   };
 
   state = {
