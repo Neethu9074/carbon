@@ -198,6 +198,7 @@ function Input({ value, type, fieldsToWatch, placeholder, onChange, getSuggestio
   return (
     <SimpleValueSelector
       onChange={result.onChange}
+      value={result.value}
       close={() => {}}
       getSuggestions={getSuggestions}
       fieldsToWatch={fieldsToWatch}

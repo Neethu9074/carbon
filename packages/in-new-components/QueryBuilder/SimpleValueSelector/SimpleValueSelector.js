@@ -11,12 +11,19 @@ import useObservable from 'in-hooks/useObservable';
 
 import locals from './SimpleValueSelector.mless';
 
-export default function SimpleValueSelector({ onChange, close, getSuggestions, fieldsToWatch, inputProps = {} }) {
+export default function SimpleValueSelector({
+  onChange,
+  value,
+  close,
+  getSuggestions,
+  fieldsToWatch,
+  inputProps = {}
+}) {
   return (
     <Typeahead
       render={render}
       resultsToShow={42}
-      value=""
+      value={value}
       onChange={e => onChange(e.value)}
       close={close}
       inputProps={inputProps}
