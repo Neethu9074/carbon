@@ -9,17 +9,16 @@ import {
   thresholdOperatorOptions
 } from 'in-new-components/Alerting/advanced/thresholdFormData';
 import IncompleteChartPlaceholder from 'in-new-components/Alerting/components/IncompleteChartPlaceholder';
+import ThresholdConditionFormGroup from 'in-new-components/Alerting/advanced/ThresholdConditionFormGroup';
 import { getThresholdValueForPercentageMetric } from 'in-new-components/Alerting/utils/formatUtils';
 import { debouncedThresholdValueChangedTracker } from 'in-applications/alerting/trackingHelpers';
 import { applicationsAlertingThresholdOperatorChanged } from 'in-applications/alerting/tracker';
 import ChartViewConfigurator from 'in-new-components/Alerting/components/ChartViewConfigurator';
+import { findEntryByValue, getThresholdLabel } from 'in-applications/alerting/form/formUtils';
 import AlertingBarChart from 'in-new-components/Alerting/Chart/AlertingBarChart';
 import { blueprintConfigPropType } from 'in-new-components/Alerting/constants';
 import { getTrackingObject } from 'in-new-components/Alerting/trackingHelpers';
-import { getThresholdLabel } from 'in-applications/alerting/form/formUtils';
-import FormGroup from 'in-components/form/FormGroup/FormGroup';
-import { joinClassNames } from 'in-services/util/classnames';
-import ComboBox from 'in-components/ComboBox/ComboBox';
+import Dropdown from 'in-new-components/Dropdown';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
 import connectTo from 'in-hoc/connectTo';
@@ -108,64 +107,49 @@ function ThresholdCondition({
   setDoDebounce,
   debounceOnChange$
 }) {
-  const metricName = form.get('rule').get('metricName');
+  const operatorValue = form.get('threshold').get('operator').value;
+  const operatorOptions = enrichThresholdOperatorOptionsForApiConfigs(operatorValue);
+  const operatorLabel = findEntryByValue(operatorOptions, operatorValue)?.label ?? thresholdOperatorOptions[0].label;
+
+  const thresholdValueLabel = getThresholdLabel(form);
+  const metricName = form.get('rule').get('metricName').value;
 
   return (
-    // TODO needs refactoring to new design, similar to other blueprints..
-    <div className={locals.controls}>
-      <FormGroup>
-        <Label htmlFor="statusCode">Metric</Label>
-        <Input
-          id="statusCode"
-          className={joinClassNames(locals.narrowControl, locals.disabledControl)}
-          name="statusCode"
-          value={blueprintConfig.getMetricLabel(metricName)}
-          disabled
-        />
-      </FormGroup>
-      <FormGroup>
-        <Label htmlFor="thresholdOperator">Operator</Label>
-        <ComboBox
-          id="thresholdOperator"
-          className={locals.narrowControl}
-          name="thresholdOperator"
-          value={form.get('threshold').get('operator').value}
-          options={enrichThresholdOperatorOptionsForApiConfigs(form.get('threshold').get('operator').value)}
-          onChange={({ value = '' }) => {
-            onChange(['threshold', 'operator'], f => f.setValue(value).setTouched(true));
-            applicationsAlertingThresholdOperatorChanged(getTrackingObject(form, { value }));
-          }}
-          defaultValue={thresholdOperatorOptions[0].value}
-          clearable={false}
-        />
-      </FormGroup>
-      <FormGroup>
-        <Label htmlFor="thresholdValue">{getThresholdLabel(form)}</Label>
-        <Input
-          id="thresholdValue"
-          className={locals.narrowControl}
-          type="number"
-          min="0"
-          name="thresholdValue"
-          step="1"
-          value={doDebounce ? tempThreshold : form.get('threshold').get('value').value ?? 0}
-          onChange={({ target }) => {
-            const value = target.value == '' ? '' : Math.abs(target.value);
+    <ThresholdConditionFormGroup>
+      <Label>{blueprintConfig.getMetricLabel(metricName)}</Label>
+      <Dropdown
+        asSimpleDropdown
+        label={operatorLabel}
+        items={operatorOptions}
+        onChange={({ value = '' }) => {
+          onChange(['threshold', 'operator'], f => f.setValue(value).setTouched(true));
+          applicationsAlertingThresholdOperatorChanged(getTrackingObject(form, { value }));
+        }}
+      />
+      <Input
+        id="thresholdValue"
+        type="number"
+        min="0"
+        name="thresholdValue"
+        step="1"
+        value={(doDebounce ? tempThreshold : form.get('threshold').get('value').value) ?? 0}
+        onChange={({ target }) => {
+          const value = target.value == '' ? '' : Math.abs(target.value);
 
-            setDoDebounce(true);
-            setTempThreshold(value);
+          setDoDebounce(true);
+          setTempThreshold(value);
 
-            const onChangCallback = () => {
-              onChange(['threshold', 'value'], f => f.setValue(value).setTouched(true));
-              setDoDebounce(false);
-            };
+          const onChangCallback = () => {
+            onChange(['threshold', 'value'], f => f.setValue(value).setTouched(true));
+            setDoDebounce(false);
+          };
 
-            debounceOnChange$.emit(onChangCallback.bind(this));
-            debouncedThresholdValueChangedTracker(getTrackingObject(form, { value }));
-          }}
-        />
-      </FormGroup>
-    </div>
+          debounceOnChange$.emit(onChangCallback.bind(this));
+          debouncedThresholdValueChangedTracker(getTrackingObject(form, { value }));
+        }}
+      />
+      {thresholdValueLabel !== 'Count' && <Label htmlFor="thresholdValue">{thresholdValueLabel}</Label>}
+    </ThresholdConditionFormGroup>
   );
 }
 
