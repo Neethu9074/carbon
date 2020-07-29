@@ -4,6 +4,7 @@
   .fileName {
     color: @lib__colors__N500;
     .ellipsis();
+    flex-shrink: 1;
   }
 
   .fileNameWithSourceCode {

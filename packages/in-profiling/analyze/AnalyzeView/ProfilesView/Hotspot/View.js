@@ -3,17 +3,18 @@ import React from 'react';
 import { cpuColorMapper, memColorMapper, timeColorMapper } from 'in-profiling/analyze/AnalyzeView/colors';
 import FileNameAndLine from 'in-profiling/analyze/AnalyzeView/ProfilesView/FileNameAndLine';
 import StackTrace from 'in-profiling/analyze/AnalyzeView/ProfilesView/Hotspot/StackTrace';
-import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';
 import MethodName from 'in-profiling/analyze/AnalyzeView/ProfilesView/MethodName';
+import ViewAllWrapper from 'in-new-components/TopListCard/ViewAllWrapper';
 import { Ul, Li, ColumnizedContent } from 'in-new-components/lists/List';
 import { serializeLine } from 'in-new-components/StackTrace/serializer';
 import At from 'in-profiling/analyze/AnalyzeView/ProfilesView/At';
+import { getLinkToProfile } from 'in-profiling/navigation/paths';
 import { percentage } from 'in-services/formatters/number';
 import { Col, Row } from 'in-new-components/layout/Grid';
 import SetBodyColor from 'in-components/SetBodyColor';
 import Tooltip from 'in-components/Tooltip';
-import SvgIcon from 'in-components/SvgIcon';
 import Card from 'in-new-components/Card';
+import Link from 'in-components/Link';
 
 import locals from './View.mless';
 
@@ -25,9 +26,24 @@ export default function HotspotView({ profiles }) {
       <SetBodyColor color="#F7F9FA" />
 
       <Row>
-        <Hotspot title="CPU" profile={profiles.cpuProfile} getColorFn={cpuColorMapper} />
-        <Hotspot title="Memory" profile={profiles.memoryProfile} getColorFn={memColorMapper} />
-        <Hotspot title="Wait Time" profile={profiles.timeProfile} getColorFn={timeColorMapper} />
+        <Hotspot
+          title="CPU"
+          profile={profiles.cpuProfile}
+          getColorFn={cpuColorMapper}
+          viewAllHref$={getLinkToProfile('cpu')}
+        />
+        <Hotspot
+          title="Memory"
+          profile={profiles.memoryProfile}
+          getColorFn={memColorMapper}
+          viewAllHref$={getLinkToProfile('memory')}
+        />
+        <Hotspot
+          title="Wait Time"
+          profile={profiles.timeProfile}
+          getColorFn={timeColorMapper}
+          viewAllHref$={getLinkToProfile('time')}
+        />
       </Row>
     </div>
   );
@@ -37,12 +53,7 @@ const headerColumnDefinitions = [
   {
     width: '6rem',
     getContent() {
-      return (
-        <HorizontalFlexWrapper>
-          <span className={locals.headerTextBold}>Used</span>
-          <SvgIcon className={locals.icon} type="lib_arrow_short_down" size="s" />
-        </HorizontalFlexWrapper>
-      );
+      return <span className={locals.headerText}>Used</span>;
     }
   },
   {
@@ -76,7 +87,7 @@ const columnDefinitions = [
   }
 ];
 
-function Hotspot({ title, profile, getColorFn }) {
+function Hotspot({ title, profile, viewAllHref$, getColorFn }) {
   if (!profile) {
     return null;
   }
@@ -104,6 +115,8 @@ function Hotspot({ title, profile, getColorFn }) {
               </Li>
             ))}
           </Ul>
+
+          <ViewAllWrapper renderViewAll={ViewAll} viewAllHref$={viewAllHref$} className={locals.viewAllLink} />
         </div>
       </Card>
     </Col>
@@ -160,4 +173,12 @@ function add(profile, list) {
       add(profile.children[i], list);
     }
   }
+}
+
+function ViewAll({ viewAllHref$ }, className) {
+  return (
+    <Link className={className} href$={viewAllHref$}>
+      View all
+    </Link>
+  );
 }

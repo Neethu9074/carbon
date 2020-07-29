@@ -1,6 +1,7 @@
 import React from 'react';
 
 import FileNameAndLine from 'in-profiling/analyze/AnalyzeView/ProfilesView/FileNameAndLine';
+import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';
 import MethodName from 'in-profiling/analyze/AnalyzeView/ProfilesView/MethodName';
 import At from 'in-profiling/analyze/AnalyzeView/ProfilesView/At';
 import { percentage } from 'in-services/formatters/number';
@@ -16,14 +17,16 @@ export default function StackTrace({ profile }) {
     <div>
       {items.map((_profile, i) => (
         <div key={i} className={locals.line}>
-          {i === items.length - 1 ? (
-            <SvgIcon className={locals.icon} type="lib_arrow_short_right" size="xs" />
-          ) : (
-            <div className={locals.iconPlaceholder} />
-          )}
-          <MethodName methodName={_profile.methodName} />
-          <At />
-          <FileNameAndLine canFetchSourceCode={false} profileNode={_profile} />
+          <HorizontalFlexWrapper className={locals.signature}>
+            {i === items.length - 1 ? (
+              <SvgIcon className={locals.icon} type="lib_arrow_short_right" size="xs" />
+            ) : (
+              <div className={locals.iconPlaceholder} />
+            )}
+            <MethodName methodName={_profile.methodName} />
+            <At />
+            <FileNameAndLine canFetchSourceCode={false} profileNode={_profile} />
+          </HorizontalFlexWrapper>
           <span className={locals.percent}>({percentage.detailed(_profile.percent / 100)})</span>
         </div>
       ))}

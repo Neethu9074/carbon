@@ -36,3 +36,9 @@ export function getLinkToProfiles({ processSnapshotId, time }) {
     }
   });
 }
+
+export function getLinkToProfile(subpath) {
+  return getModifiedUrlStream(params => {
+    params.pathname = `${analyzeProfilePathFullyQualified}/${subpath}`;
+  });
+}

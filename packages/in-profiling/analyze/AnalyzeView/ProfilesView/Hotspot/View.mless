@@ -5,22 +5,12 @@
     margin: 0 -1rem;
   }
 
-  .headerTextBold,
   .headerText {
     font-size: 0.75rem;
   }
 
   .headerText {
     color: @lib__colors__N600Light;
-  }
-
-  .headerTextBold {
-    font-weight: bold;
-    color: @lib__colors__N900Primary;
-  }
-
-  .icon {
-    fill: @lib__colors__N900Primary;
   }
 
   .hotspotLine {

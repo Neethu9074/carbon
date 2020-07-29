@@ -2,8 +2,13 @@
 :local {
   .line {
     display: flex;
+    justify-content: space-between;
 
     padding: 0.25rem 0;
+  }
+
+  .signature {
+    overflow: hidden;
   }
 
   .selectedLine {
@@ -15,7 +20,7 @@
   }
 
   .iconPlaceholder {
-    width: 1rem;
+    min-width: 1rem;
   }
 
   .percent {
