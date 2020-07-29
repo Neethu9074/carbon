@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import theme from 'in-themes';
 
 import LogTooltipContent from 'in-analyze/TraceDetail/components/LogTooltipContent';
 import ErrorIndicator from 'in-analyze/TraceDetail/components/ErrorIndicator';
@@ -7,7 +8,6 @@ import { evaluateClassNames } from 'in-services/util/classnames';
 import Tooltip from 'in-components/Tooltip';
 import connect from 'in-hoc/connectTo';
 import { role } from 'in-stores/user';
-import theme from 'in-themes';
 
 import locals from './CallFrame.mless';
 

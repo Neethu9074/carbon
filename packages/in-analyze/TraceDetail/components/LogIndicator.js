@@ -1,6 +1,5 @@
-import React from 'react';
-
 import theme from 'in-themes';
+import React from 'react';
 
 import locals from './LogIndicator.mless';
 

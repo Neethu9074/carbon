@@ -19,6 +19,7 @@ import Button from 'in-new-components/Button';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
 import Sticky from 'in-components/Sticky';
+import { role } from 'in-stores/user';
 import Link from 'in-components/Link';
 
 import locals from './TraceDetail.mless';
@@ -115,6 +116,10 @@ function Header(props) {
 }
 
 function renderButtonLine({ traceId }) {
+  if (!role.canViewLogs || !role.canViewTraceDetails) {
+    return null;
+  }
+
   return (
     <>
       <Button

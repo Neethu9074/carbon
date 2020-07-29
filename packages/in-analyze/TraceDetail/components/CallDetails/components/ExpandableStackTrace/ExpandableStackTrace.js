@@ -1,5 +1,5 @@
-import { withState } from 'recompose';
 import React, { Fragment } from 'react';
+import { withState } from 'recompose';
 
 import StackTraceBehavior from 'in-analyze/TraceDetail/components/CallDetails/components/StackTrace/StackTraceBehavior';
 import LogIndicator from 'in-analyze/TraceDetail/components/LogIndicator';
@@ -10,12 +10,11 @@ import Code from 'in-components/Code/Code';
 
 import locals from './ExpandableStackTrace.mless';
 
-export default withState('isExpanded', 'setIsExpanded', false)(function ExpandableStackTrace({
-  call,
-  log,
-  isExpanded,
-  setIsExpanded
-}) {
+export default withState(
+  'isExpanded',
+  'setIsExpanded',
+  false
+)(function ExpandableStackTrace({ call, log, isExpanded, setIsExpanded }) {
   const logData = log.data.log;
   const msg = logData && logData.message;
   const isString = typeof msg === 'string';
@@ -54,13 +53,12 @@ export default withState('isExpanded', 'setIsExpanded', false)(function Expandab
       </div>
       {isExpanded && (
         <Fragment>
-          {logData &&
-            logData.parameters && (
-              <div className={locals.stackTraceWrapper}>
-                <div className={locals.stackTraceWrapperHeader}>Log Parameters</div>
-                <div className={locals.logParameters}>{logData.parameters}</div>
-              </div>
-            )}
+          {logData && logData.parameters && (
+            <div className={locals.stackTraceWrapper}>
+              <div className={locals.stackTraceWrapperHeader}>Log Parameters</div>
+              <div className={locals.logParameters}>{logData.parameters}</div>
+            </div>
+          )}
 
           {log.stackTrace.length > 0 && (
             <div className={locals.stackTraceWrapper}>

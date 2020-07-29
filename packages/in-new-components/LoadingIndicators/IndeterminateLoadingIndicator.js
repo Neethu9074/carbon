@@ -1,5 +1,4 @@
-import React, { Component, createElement } from 'react';
-import { shallowEqual } from 'recompose';
+import React, { PureComponent, createElement } from 'react';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
 
@@ -20,7 +19,7 @@ const DEFAULT_STYLES = {
   strokeWidth: 1.5
 };
 
-export default class IndeterminateLoadingIndicator extends Component {
+export default class IndeterminateLoadingIndicator extends PureComponent {
   static displayName = 'IndeterminateLoadingIndicator';
 
   static defaultProps = {
@@ -76,20 +75,23 @@ export default class IndeterminateLoadingIndicator extends Component {
     );
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    const { props, state } = this;
-    return !shallowEqual(props, nextProps) || !shallowEqual(state, nextState);
-  }
-
-  calculatePathLength = id => r => {
-    const currentLength = r && r.getTotalLength ? r.getTotalLength() : 0;
-    this.setState({ [id]: currentLength });
+  getPathLengthCalculatingRef = id => r => {
+    try {
+      const currentLength = r && r.getTotalLength ? r.getTotalLength() : 0;
+      this.setState({ [id]: currentLength });
+    } catch (e) {
+      // Ignore: The SVG element could be hidden in which case getTotalLength would throw an error:
+      // > Failed to execute 'getTotalLength' on 'SVGGeometryElement': This element is non-rendered element.
+      // We have no way to know within this component whether a surrounding element is causing the
+      // SVG element to be invisible. We therefore just swallow the error and rely on the fact that the
+      // re-render call will cause the ref to update.
+    }
   };
 
   renderSvgElement = ({ type, key, ...props }) =>
     createElement(type, {
       key,
-      ref: this.calculatePathLength(key),
+      ref: this.getPathLengthCalculatingRef(key),
       fillRule: 'nonzero',
       strokeWidth: this.props.customStyle.strokeWidth || DEFAULT_STYLES.strokeWidth,
       ...props
