@@ -13,6 +13,7 @@ import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicat
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import VerticalAxis from 'in-new-components/Axis/VerticalAxis';
 import useObservable from 'in-hooks/useObservable';
+import theme from 'in-themes';
 
 import locals from './LatencyDistributionBase10ChartPresenter.mless';
 
@@ -100,7 +101,13 @@ export default function LatencyDistributionBase10ChartPresenter({
         <VerticalAxis
           scale={{ from: 0, to: maxCallCount }}
           height={chartHeight - percentileStripHeight}
-          style={{ marginTop: percentileStripHeight, backgroundColor: 'white', position: 'absolute' }}
+          style={{
+            marginTop: percentileStripHeight,
+            backgroundColor: theme.lib.colors.white,
+            position: 'absolute',
+            zIndex: 1 // z-index__axisLabel from shared
+          }}
+          tickLabelBackgroundColor={theme.lib.colors.white}
         />
         <div style={{ height: chartHeight }}>
           <LatencyChartOverlay

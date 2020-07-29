@@ -23,6 +23,7 @@ export default function Axis({
   detailedFormatting = false,
   tickColor,
   tickLabelColor,
+  tickLabelBackgroundColor,
   tickPositions,
   renderTickLines = true,
   style
@@ -58,6 +59,7 @@ export default function Axis({
       <TickLabels
         tickPositions={tickPositions.slice(tickPositions.length - 1)}
         tickColor={tickLabelColor}
+        backgroundColor={tickLabelBackgroundColor}
         detailedFormatting={detailedFormatting}
         isVertical={isVertical}
         formatter={formatter}

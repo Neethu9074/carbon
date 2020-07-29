@@ -12,13 +12,15 @@ export default function Ticks({
   align,
   tickLength,
   detailedFormatting,
-  tickColor
+  tickColor,
+  backgroundColor
 }) {
   return (
     <Fragment>
       {tickPositions.map(tick => {
         const style = getTickStyle(tick, isVertical, align, tickLength + 1, tickLength - 2);
         style.color = tickColor;
+        style.backgroundColor = backgroundColor;
         return (
           <div
             key={tick.range}
