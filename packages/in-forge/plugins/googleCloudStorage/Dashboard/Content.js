@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
-import { number, bytesZeroDecimalPlaces } from 'in-services/formatters/number';
+import { number, bytesZeroDecimalPlaces, bytesPerSecondTwoDecimalPlaces } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import Columize from 'in-sdk/components/dashboard/Columize';
@@ -14,7 +14,7 @@ export default function GoogleCLoudStorageDashboard({ snapshot, timeConfig }) {
     <div>
       <KpiSection>
         <KpiKeyValue label="Requests">
-          <MetricValue snapshotId={snapshotId} metric="api.request_count" formatter={number.detailed} />
+          <MetricValue snapshotId={snapshotId} metric="api.request_count" formatter={number.perSecond.detailed} />
         </KpiKeyValue>
         <KpiKeyValue label="Objects Count">
           <MetricValue snapshotId={snapshotId} metric="storage.object_count" formatter={number.detailed} />
@@ -85,7 +85,7 @@ export default function GoogleCLoudStorageDashboard({ snapshot, timeConfig }) {
               metrics: ['network.sent_bytes_count', 'network.received_bytes_count'],
               labels: ['Sent', 'Received'],
               type: 'line',
-              formatter: bytesZeroDecimalPlaces
+              formatter: bytesPerSecondTwoDecimalPlaces
             }}
           />
         </DashboardSection>
