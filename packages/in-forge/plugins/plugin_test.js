@@ -10,6 +10,7 @@ import fs from 'fs';
 
 import { getOptionalSnapshotDefinition } from 'in-sdk/snapshot/registry';
 import { plugins, fullyQualifiedPlugins } from 'in-forge/constants';
+import { getKpiDefinitions } from 'in-sdk/metrics/kpis';
 import { getChartWiggleRoom } from 'in-sdk/snapshot';
 
 const dirNames = fs.readdirSync(__dirname).filter(file => fs.statSync(path.join(__dirname, file)).isDirectory());
@@ -45,6 +46,14 @@ describe('in-forge/plugins', () => {
 
       it('must be registered in the snapshot SDK', () => {
         expect(getChartWiggleRoom(plugin)).to.be.a('number');
+      });
+
+      it('must only define functions as formatters for KPIs', () => {
+        getKpiDefinitions(plugin).forEach(kpi => {
+          if (kpi.formatter != null) {
+            expect(kpi.formatter).to.be.a('function');
+          }
+        });
       });
     });
   });

@@ -4,16 +4,16 @@ export default [
   {
     label: 'Connector Count',
     metric: 'connectorCount',
-    formatter: number
+    formatter: number.compact
   },
   {
     label: 'Connector Startup Failure',
     metric: 'connectorStartupFailurePercentage',
-    formatter: percentage
+    formatter: percentage.compact
   },
   {
     label: 'Task Startup Failure',
     metric: 'taskStartupFailurePercentage',
-    formatter: percentage
+    formatter: percentage.compact
   }
 ];

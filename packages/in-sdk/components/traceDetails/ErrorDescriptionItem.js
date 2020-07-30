@@ -6,7 +6,7 @@ import Code from 'in-components/Code';
 import theme from 'in-themes';
 
 export default function ErrorDescriptionItem({ error }) {
-  if (isBlank(error)) {
+  if (typeof error !== 'string' || isBlank(error)) {
     return null;
   }
 

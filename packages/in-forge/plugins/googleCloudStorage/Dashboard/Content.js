@@ -1,23 +1,23 @@
 import React from 'react';
 
+import { number, bytesZeroDecimalPlaces, bytesPerSecondTwoDecimalPlaces } from 'in-services/formatters/number';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
-import { number, bytesZeroDecimalPlaces } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import MetricValue from 'in-components/MetricValue';
 
-export default function GoogleCLoudStorageDashboard({ snapshot, timeConfig }) {
+export default function GoogleCloudStorageDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
 
   return (
     <div>
       <KpiSection>
-        <KpiKeyValue label="Requests">
+        <KpiKeyValue label="Requests per second">
           <MetricValue snapshotId={snapshotId} metric="api.request_count" formatter={number.detailed} />
         </KpiKeyValue>
         <KpiKeyValue label="Objects Count">
-          <MetricValue snapshotId={snapshotId} metric="storage.object_count" formatter={number.detailed} />
+          <MetricValue snapshotId={snapshotId} metric="storage.object_count" formatter={number.compact} />
         </KpiKeyValue>
         <KpiKeyValue label="Objects Size">
           <MetricValue snapshotId={snapshotId} metric="storage.total_bytes" formatter={bytesZeroDecimalPlaces} />
@@ -85,7 +85,7 @@ export default function GoogleCLoudStorageDashboard({ snapshot, timeConfig }) {
               metrics: ['network.sent_bytes_count', 'network.received_bytes_count'],
               labels: ['Sent', 'Received'],
               type: 'line',
-              formatter: bytesZeroDecimalPlaces
+              formatter: bytesPerSecondTwoDecimalPlaces
             }}
           />
         </DashboardSection>
