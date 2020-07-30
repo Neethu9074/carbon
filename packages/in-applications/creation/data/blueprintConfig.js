@@ -12,8 +12,7 @@ export const blueprintConfig = Object.freeze([
         headline: 'Who uses this a lot?',
         htmlContent: 'DevOps, Operations, SRE, Developer, QA, support, Business owner, Architect'
       }
-    ],
-    curatedTagFilters: []
+    ]
   },
   {
     type: 'container',
@@ -81,7 +80,6 @@ export const blueprintConfig = Object.freeze([
     name: 'Location: env, geo or host.',
     headline: 'Location: env, geo or host.',
     description: [
-      { headline: '', htmlContent: `` },
       {
         headline: 'What is this for?',
         htmlContent: ` When you want to group services based on information about an environment that
@@ -135,6 +133,95 @@ export const blueprintConfig = Object.freeze([
           'jboss.node.name',
           'kubernetes.cluster.name',
           'kubernetes.node.name'
+        ]
+      }
+    ]
+  },
+  {
+    type: 'httpOrRpc',
+    name: 'HTTP or RPC',
+    headline: 'HTTP or RPC',
+    description: [
+      {
+        headline: 'What is this for?',
+        htmlContent: `Standard HTTP header information can group services, even from the source or destination information.  User defined X-headers can be used too. The HTTP status can group services using integer operators, such as: greater than, less than, equals, etc. The URL itself can form a perspective using powerful operators like: beings with, contains, does not contain, etc. There are several RPC protocols supported using similar operators.
+      `
+      },
+      { headline: 'Who uses this a lot?', htmlContent: `DevOps, Operations, SRE, Developer, QA, support` }
+    ],
+    curatedTagFilters: [
+      {
+        category: 'HTTP Header',
+        tags: ['call.http.header']
+      },
+      {
+        category: 'HTTP URL',
+        tags: ['call.http.path', 'call.http.pathTemplate', 'call.http.method', 'call.http.params', 'call.http.url']
+      },
+      {
+        category: 'HTTP Misc',
+        tags: ['call.http.host', 'call.http.protocol', 'call.http.status']
+      },
+      {
+        category: 'RPC',
+        tags: ['call.rpc.method', 'call.rpc.object']
+      }
+    ]
+  },
+  {
+    type: 'technologyGrouping',
+    name: 'Technology Grouping',
+    headline: 'Technology Grouping',
+    description: [
+      {
+        headline: 'What is this for?',
+        htmlContent: `A coarse grouping by all the services of the same technology provides a high level perspective. Some technologies have tags that can further refine the group. For example, databases can be grouped by schema, type, or connection. Java is a well supported technology with grouping by deployment information or JVM name. Grouping by applications for scripting languages are supported.
+      `
+      },
+      {
+        headline: 'Who uses this a lot?',
+        htmlContent: `DevOps, Operations, SRE, Developer, QA, support, Business owner, Architect`
+      }
+    ],
+    curatedTagFilters: [
+      {
+        category: 'Database',
+        tags: ['call.database.connection', 'call.database.scheme', 'call.database.type']
+      },
+      { category: 'Technology', tags: ['call.type', 'technology'] },
+      { category: 'Java', tags: ['call.deployment.name', 'jboss.server.name', 'jvm.app.name', 'springboot.name'] },
+      { category: 'Scripting', tags: ['nodejs.app.name', 'nodejs.app.version', 'nodejs.version', 'ruby.app.name'] }
+    ]
+  },
+  {
+    type: 'custom',
+    name: 'Custom Tags',
+    headline: 'Custom Tags',
+    description: [
+      {
+        headline: 'What is this for?',
+        htmlContent: `Users add their own custom meta-data to calls using the SDK and then these calls are used to create the perspectives they want. These custom tags are available in this blueprint to make them easy to find. These include HTTP, agent, AWS, call, kubernetes, and docker related custom tags or labels.
+      `
+      },
+      {
+        headline: 'Who uses this a lot?',
+        htmlContent: `Developers, DevOps, Operations, SRE, QA, Support
+        `
+      }
+    ],
+    curatedTagFilters: [
+      {
+        category: 'HTTP',
+        tags: ['call.http.header', 'call.http.params', 'call.http.pathTemplate']
+      },
+      { category: 'Miscellaneous', tags: ['agent.tag', 'aws.ec2.tag', 'call.inbound_of_application', 'call.tag'] },
+      {
+        category: 'Kubernetes',
+        tags: [
+          'docker.label',
+          'kubernetes.deployment.label',
+          'kubernetes.pod.label',
+          'openshift.deploymentconfig.label'
         ]
       }
     ]
