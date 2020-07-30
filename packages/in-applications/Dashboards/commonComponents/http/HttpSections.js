@@ -37,7 +37,6 @@ export default connectTo(
     if (!hasHttpEndpoints(types)) {
       return null;
     }
-
     const granularity = getChartGranularity(timeConfig);
     const metricsIds = ['http.1xx', 'http.2xx', 'http.3xx', 'http.4xx', 'http.5xx'];
     return (
@@ -115,9 +114,13 @@ export default connectTo(
                     ? [
                         { name: 'call.is_synthetic', value: 'true' },
                         { name: 'include_synthetic', value: 'true' },
+                        { name: 'call.type', value: 'HTTP', operator: 'EQUALS', entity: 'NOT_APPLICABLE' },
                         ...mapMetricsToAdd(filters, metricsToAdd.renderedMetrics, metricsIds)
                       ]
-                    : mapMetricsToAdd(filters, metricsToAdd.renderedMetrics, metricsIds),
+                    : [
+                        { name: 'call.type', value: 'HTTP', operator: 'EQUALS', entity: 'NOT_APPLICABLE' },
+                        ...mapMetricsToAdd(filters, metricsToAdd.renderedMetrics, metricsIds)
+                      ],
                   groupByTag: groupByTag ? groupByTag : {},
                   timeConfig: highlightedTime,
                   metrics: metrics ? metrics : null
