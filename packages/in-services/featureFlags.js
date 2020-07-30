@@ -36,6 +36,7 @@ export const sloConfigurationEnabled = isFeatureFlagEnabled('sloConfigurationEna
 export const sloWidgetEnabled = isFeatureFlagEnabled('sloWidgetEnabled', false);
 export const routeIdOverPathTplEnabled = isFeatureFlagEnabled('routeIdOverPathTplEnabled');
 export const infrastructureExploreEnabled = isFeatureFlagEnabled('infrastructureExploreEnabled');
+export const beeinstanaToggleEnabled = infrastructureExploreEnabled && onlyInternally;
 export const latencyDistributionBase10Enabled = isFeatureFlagEnabled('latencyDistributionBase10Enabled');
 export const newApCreationEnabled = isFeatureFlagEnabled('newApCreationEnabled');
 export const entityCountWidgetEnabled = isFeatureFlagEnabled('entityCountWidgetEnabled');

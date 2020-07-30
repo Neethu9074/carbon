@@ -2,13 +2,13 @@ import React from 'react';
 
 import DashboardHeaderButton from 'in-new-components/DashboardHeader/DashboardHeaderButton';
 import { useBeeInstant$, setUseBeeInstant } from 'in-stores/metric/beeInstant';
-import { instanaInternalFeaturesEnabled } from 'in-services/featureFlags';
+import { beeinstanaToggleEnabled } from 'in-services/featureFlags';
 import useObservable from 'in-hooks/useObservable';
 import Toggle from 'in-components/form/Toggle';
 import Tooltip from 'in-components/Tooltip';
 
 export default function UseBeeInstantToggle() {
-  if (!instanaInternalFeaturesEnabled) {
+  if (!beeinstanaToggleEnabled) {
     return;
   }
 
