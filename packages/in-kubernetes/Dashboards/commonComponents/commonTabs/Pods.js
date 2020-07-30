@@ -12,7 +12,8 @@ import {
   daemonSetIdUrlParameter,
   deploymentIdUrlParameter,
   deploymentConfigIdUrlParameter,
-  phasePodListUrlParameter
+  phasePodListUrlParameter,
+  statefulSetIdUrlParameter,
 } from 'in-kubernetes/navigation/urlParameters';
 import ServerSideSortedMetricValue from 'in-components/tables/sharedComponents/ServerSideSortedMetricValue';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
@@ -201,7 +202,8 @@ function createTable(columnDefinitions) {
       daemonSetIdUrlParameter,
       deploymentIdUrlParameter,
       deploymentConfigIdUrlParameter,
-      phasePodListUrlParameter
+      phasePodListUrlParameter,
+      statefulSetIdUrlParameter,
     ],
     columnDefinitions,
     defaultOrderBy: 'name',

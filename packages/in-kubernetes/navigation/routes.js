@@ -11,6 +11,7 @@ import ServiceDashboard from 'promise-loader?global,kubernetes!in-kubernetes/Das
 import NodeDashboard from 'promise-loader?global,kubernetes!in-kubernetes/Dashboards/Node/NodeDashboard';
 import PodDashboard from 'promise-loader?global,kubernetes!in-kubernetes/Dashboards/Pod/PodDashboard';
 import KubernetesMainView from 'promise-loader?global,kubernetes!in-kubernetes/KubernetesMainView';
+import StatefulSetDashboard from 'promise-loader?global,kubernetes!in-kubernetes/Dashboards/StatefulSet/StatefulSetDashboard';
 
 import {
   kubernetes,
@@ -21,7 +22,8 @@ import {
   nodeDashboardFullyQualified,
   daemonSetDashboardFullyQualified,
   deploymentDashboardFullyQualified,
-  deploymentConfigDashboardFullyQualified
+  deploymentConfigDashboardFullyQualified,
+  statefulSetDashboardFullyQualified,
 } from 'in-kubernetes/navigation/paths';
 import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
 
@@ -34,6 +36,7 @@ export default (
     <Route path={podDashboardFullyQualified} component={createAsyncViewComponent(PodDashboard)} />
     <Route path={daemonSetDashboardFullyQualified} component={createAsyncViewComponent(DaemonSetDashboard)} />
     <Route path={deploymentDashboardFullyQualified} component={createAsyncViewComponent(DeploymentDashboard)} />
+    <Route path={statefulSetDashboardFullyQualified} component={createAsyncViewComponent(StatefulSetDashboard)} />
     <Route
       path={deploymentConfigDashboardFullyQualified}
       component={createAsyncViewComponent(DeploymentConfigDashboard)}

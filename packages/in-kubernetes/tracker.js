@@ -16,6 +16,10 @@ export const daemonSetTabChange = e => {
   track(KUBERNETES_DASHBOARD_TAB_CHANGE, { ...e, dashboard: 'daemonSet' });
 };
 
+export const statefulSetTabChange = e => {
+  track(KUBERNETES_DASHBOARD_TAB_CHANGE, { ...e, dashboard: 'statefulSet' });
+};
+
 export const namespaceTabChange = e => {
   track(KUBERNETES_DASHBOARD_TAB_CHANGE, { ...e, dashboard: 'namespace' });
 };

@@ -51,11 +51,11 @@ const allColumns = [
   {
     id: 'name',
     label: 'Involved Object',
-    getContent(item, { clusterId, daemonSetId, deploymentId, deploymentConfigId, namespaceId, serviceId, podId }) {
+    getContent(item, { clusterId, daemonSetId, deploymentId, deploymentConfigId, namespaceId, serviceId, statefulSetId, podId }) {
       const plugin = translateFullyQualifiedPluginToShortPluginName(item.sourcePlugin);
       const isLinkableEntity =
         plugin &&
-        [clusterId, daemonSetId, deploymentId, deploymentConfigId, namespaceId, serviceId, podId].indexOf(
+        [clusterId, daemonSetId, deploymentId, deploymentConfigId, namespaceId, serviceId, statefulSetId, podId].indexOf(
           item.sourceId
         ) === -1 &&
         plugin !== plugins.kubernetesReplicaSet;

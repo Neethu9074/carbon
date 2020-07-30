@@ -11,7 +11,8 @@ import {
   nodeId as matrixNodeId,
   deploymentId as matrixDeploymentId,
   deploymentConfigId as matrixDeploymentConfigId,
-  daemonSetId as matrixDaemonSetId
+  daemonSetId as matrixDaemonSetId,
+  statefulSetId as matrixStatefulSetId,
 } from 'in-kubernetes/navigation/matrix';
 
 export const kubernetes = '/kubernetes';
@@ -51,6 +52,10 @@ export const deploymentConfigDashboardDetailsFullyQualified = `${deploymentConfi
 export const daemonSetDashboard = `/daemonset`;
 export const daemonSetDashboardFullyQualified = `${kubernetes}${daemonSetDashboard}`;
 export const daemonSetDashboardDetailsFullyQualified = `${daemonSetDashboardFullyQualified}/details`;
+
+export const statefulSetDashboard = `/statefulset`;
+export const statefulSetDashboardFullyQualified = `${kubernetes}${statefulSetDashboard}`;
+export const statefulSetDashboardDetailsFullyQualified = `${statefulSetDashboardFullyQualified}/details`;
 
 export function getServiceDashboard(serviceId, { tab, tabMatrix, timeConfig, namespaceId, clusterId } = emptyObject) {
   return getDashboard({
@@ -183,6 +188,25 @@ export function getDaemonSetDashboard(
   });
 }
 
+export function getStatefulSetDashboard(
+  id,
+  { tab, tabMatrix, timeConfig, clusterId, namespaceId } = emptyObject
+) {
+  return getDashboard({
+    base: statefulSetDashboardFullyQualified,
+    tab,
+    tabMatrix,
+    timeConfig,
+    matrixSegment: statefulSetDashboard,
+    matrixParam: matrixStatefulSetId,
+    id,
+    paramsCallback: params => {
+      setOrDeleteMatrixKey(params, statefulSetDashboard, matrixClusterId, clusterId);
+      setOrDeleteMatrixKey(params, statefulSetDashboard, matrixNamespaceId, namespaceId);
+    }
+  });
+}
+
 export function getDashboardForEntity(snapshotId, plugin) {
   switch (plugin) {
     case plugins.kubernetesPod:
@@ -201,6 +225,8 @@ export function getDashboardForEntity(snapshotId, plugin) {
       return getNamespaceDashboard(snapshotId);
     case plugins.kubernetesCluster:
       return getClusterDashboard(snapshotId);
+    case plugins.kubernetesStatefulSet:
+      return getStatefulSetDashboard(snapshotId);
   }
 }
 

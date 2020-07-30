@@ -10,8 +10,9 @@ export default function AnalyzeCallsButton({
   deploymentName,
   deploymentConfigName,
   serviceName,
+  statefulSetName,
   podName,
-  groupByTag
+  groupByTag,
 }) {
   return (
     <Button
@@ -26,6 +27,7 @@ export default function AnalyzeCallsButton({
           deploymentName,
           deploymentConfigName,
           serviceName,
+          statefulSetName,
           podName
         }),
         groupByTag: groupByTag ? groupByTag : {}
@@ -43,6 +45,7 @@ export function getFilters({
   deploymentName,
   deploymentConfigName,
   serviceName,
+  statefulSetName,
   podName
 }) {
   const filters = [];
@@ -68,6 +71,15 @@ export function getFilters({
     });
   }
 
+  if (statefulSetName) {
+    filters.push({
+      name: 'kubernetes.statefulset.name',
+      value: statefulSetName,
+      operator: 'EQUALS',
+      entity: 'DESTINATION'
+    });
+  }
+
   if (deploymentName) {
     filters.push({
       name: 'kubernetes.deployment.name',
@@ -87,11 +99,21 @@ export function getFilters({
   }
 
   if (serviceName) {
-    filters.push({ name: 'kubernetes.service.name', value: serviceName, operator: 'EQUALS', entity: 'DESTINATION' });
+    filters.push({
+      name: 'kubernetes.service.name',
+      value: serviceName,
+      operator: 'EQUALS',
+      entity: 'DESTINATION'
+    });
   }
 
   if (podName) {
-    filters.push({ name: 'kubernetes.pod.name', value: podName, operator: 'EQUALS', entity: 'DESTINATION' });
+    filters.push({
+      name: 'kubernetes.pod.name',
+      value: podName,
+      operator: 'EQUALS',
+      entity: 'DESTINATION'
+    });
   }
 
   return filters;

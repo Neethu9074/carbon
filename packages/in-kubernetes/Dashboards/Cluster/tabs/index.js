@@ -3,7 +3,8 @@ import React from 'react';
 import {
   getDaemonSetDashboard,
   getDeploymentDashboard,
-  getDeploymentConfigDashboard
+  getDeploymentConfigDashboard,
+  getStatefulSetDashboard,
 } from 'in-kubernetes/navigation/paths';
 import getKubernetesClusterItemCounters from 'in-subscription/kubernetes/getKubernetesClusterItemCounters';
 import WorkloadControllers from 'in-kubernetes/Dashboards/commonComponents/commonTabs/WorkloadControllers';
@@ -12,6 +13,7 @@ import TabLabelWithCounter from 'in-kubernetes/Dashboards/commonComponents/TabLa
 import getKubernetesDeployments from 'in-subscription/kubernetes/getKubernetesDeployments';
 import Namespaces from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Namespaces';
 import getKubernetesDaemonSets from 'in-subscription/kubernetes/getKubernetesDaemonSets';
+import getKubernetesStatefulSets from 'in-subscription/kubernetes/getKubernetesStatefulSets';
 import Services from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Services';
 import Infrastructure from 'in-kubernetes/Dashboards/Cluster/tabs/Infrastructure';
 import Events from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Events';
@@ -90,6 +92,20 @@ export default [
         entityName: 'daemonsets'
       }),
     header: props => getCounterComponent(props, 'daemonSets')
+  },
+  {
+    label: 'StatefulSets',
+    path: `${clusterDashboardFullyQualified}/statefulsets`,
+    component: props =>
+      WorkloadControllers({
+        ...props,
+        workloadControllerType: 'daemonset',
+        getWorkloadControllers$: getKubernetesStatefulSets,
+        getWorkloadControllerDashboard: getStatefulSetDashboard,
+        pathSegment: '/statefulsets',
+        entityName: 'statefulsets'
+      }),
+    header: props => getCounterComponent(props, 'statefulSets')
   },
   {
     label: 'K8s Services',

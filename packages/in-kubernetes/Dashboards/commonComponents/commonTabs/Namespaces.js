@@ -57,6 +57,13 @@ const columnDefinitions = [
     }
   },
   {
+    id: 'statefulSets',
+    label: 'StatefulSets',
+    getContent(item) {
+      return <EntityCounter icon="lib_kubernetes_workload" count={item.statefulSets} />;
+    }
+  },
+  {
     id: 'services',
     label: 'Services',
     getContent(item) {

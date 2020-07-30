@@ -5,7 +5,8 @@ import {
   getClusterDashboard,
   getDaemonSetDashboard,
   getDeploymentDashboard,
-  getDeploymentConfigDashboard
+  getDeploymentConfigDashboard,
+  getStatefulSetDashboard,
 } from 'in-kubernetes/navigation/paths';
 import getKubernetesWorkloadController from 'in-subscription/kubernetes/getKubernetesWorkloadController';
 import WorkloadControllerBreadcrumb from 'in-kubernetes/breadcrumbs/WorkloadControllerBreadcrumb';
@@ -63,6 +64,16 @@ export function PodBreadcrumbs(props) {
           {...props}
           headerTitle="DaemonSet"
           href$={getDaemonSetDashboard(workloadControllerId)}
+          workloadControllerId={workloadControllerId}
+          workloadControllerSubscriptionName={getKubernetesWorkloadController}
+        />
+      ),
+      workloadControllerId &&
+      workloadControllerType === fullyQualifiedPlugins.kubernetesStatefulSet && (
+        <WorkloadControllerBreadcrumb
+          {...props}
+          headerTitle="StatefulSet"
+          href$={getStatefulSetDashboard(workloadControllerId)}
           workloadControllerId={workloadControllerId}
           workloadControllerSubscriptionName={getKubernetesWorkloadController}
         />

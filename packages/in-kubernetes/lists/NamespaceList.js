@@ -65,6 +65,13 @@ const columnDefinitions = [
     }
   },
   {
+    id: 'statefulSets',
+    label: 'StatefulSets',
+    getContent(item) {
+      return <EntityCounter icon="lib_kubernetes_workload" count={item.statefulSets} />;
+    }
+  },
+  {
     id: 'services',
     label: 'Services',
     getContent(item) {
@@ -127,17 +134,7 @@ export default connectTo(
           <Card>
             <ServerTableWithUrlState
               get={getTableData}
-              filterColumnDefinitions={({ result }) => {
-                const anyOpenshift =
-                  result.data &&
-                  result.data.items &&
-                  Boolean(
-                    find(result.data.items, item =>
-                      isOpenshift(get(item, ['namespace', 'clusterDistribution'], 'kubernetes'))
-                    )
-                  );
-                return columnDefinition => anyOpenshift || columnDefinition.id !== 'deploymentConfigs';
-              }}
+              filterColumnDefinitions={createColumnFilter}
               timeConfig={timeConfig}
             />
           </Card>
@@ -146,6 +143,22 @@ export default connectTo(
     );
   }
 );
+
+function createColumnFilter({data}) {
+  const items = data && data.items || [];
+  const anyOpenshift = Boolean(
+                    find(items, item =>
+                      isOpenshift(get(item, ['namespace', 'clusterDistribution'], 'kubernetes'))
+                    )
+                  );
+
+  return ({id}) => {
+    if (anyOpenshift) {
+      return true;
+    }
+    return id !== 'deploymentConfigs';
+  };
+}
 
 function getTableData(params) {
   return getKubernetesNamespacesSubscribeEvent(params);

@@ -15,6 +15,7 @@ export default connectTo(
         serviceId: props.serviceId,
         nodeId: props.nodeId,
         podId: props.podId,
+        statefulSetId: props.statefulSetId,
         timeConfig: props.timeConfig
       }
     })

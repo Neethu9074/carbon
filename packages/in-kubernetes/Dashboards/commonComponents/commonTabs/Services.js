@@ -5,7 +5,8 @@ import {
   namespaceIdUrlParameter,
   daemonSetIdUrlParameter,
   deploymentIdUrlParameter,
-  deploymentConfigIdUrlParameter
+  deploymentConfigIdUrlParameter,
+  statefulSetIdUrlParameter,
 } from 'in-kubernetes/navigation/urlParameters';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator/EntityHealthIndicator';
@@ -108,7 +109,8 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
     namespaceIdUrlParameter,
     daemonSetIdUrlParameter,
     deploymentIdUrlParameter,
-    deploymentConfigIdUrlParameter
+    deploymentConfigIdUrlParameter,
+    statefulSetIdUrlParameter,
   ],
   columnDefinitions,
   defaultOrderBy: 'name',

@@ -8,7 +8,8 @@ import {
   nodeDashboard,
   daemonSetDashboard,
   deploymentDashboard,
-  deploymentConfigDashboard
+  deploymentConfigDashboard,
+  statefulSetDashboard,
 } from 'in-kubernetes/navigation/paths';
 
 import {
@@ -19,7 +20,8 @@ import {
   nodeId,
   daemonSetId,
   deploymentId,
-  deploymentConfigId
+  deploymentConfigId,
+  statefulSetId,
 } from 'in-kubernetes/navigation/matrix';
 
 export const clusterIdUrlParameter = {
@@ -50,6 +52,11 @@ export const nodeIdUrlParameter = {
 export const daemonSetIdUrlParameter = {
   path: daemonSetDashboard,
   name: daemonSetId
+};
+
+export const statefulSetIdUrlParameter = {
+  path: statefulSetDashboard,
+  name: statefulSetId
 };
 
 export const deploymentIdUrlParameter = {
