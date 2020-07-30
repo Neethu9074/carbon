@@ -40,11 +40,6 @@ export default function MetricConfigurator({
             ({ source, enabled }) =>
               (enabled && disabledDataSources.indexOf(source) === -1) || sourceField.value === source
           )
-          .concat({
-            source: 'infra',
-            label: 'Infrastructure & Platforms (coming soon)',
-            disabled: true
-          })
           .sort((a, b) => compareIgnoreCase(a.label, b.label))
           .map(({ source, label, disabled }) => (
             <option key={source} value={source} disabled={disabled}>

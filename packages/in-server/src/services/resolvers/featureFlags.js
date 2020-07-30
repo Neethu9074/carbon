@@ -138,5 +138,11 @@ module.exports = exports = (tenant, unit) => [
     instanaCtlKey: 'feature.new.ap.creation.enabled',
     consulKey: `settings/${tenant}-${unit}/NEW_AP_CREATION_ENABLED`,
     defaultValue: false
+  },
+  {
+    uiClientKey: 'entityCountWidgetEnabled',
+    instanaCtlKey: 'feature.entity.count.widget.enabled',
+    consulKey: `settings/${tenant}-${unit}/ENTITY_COUNT_WIDGET_ENABLED`,
+    defaultValue: false
   }
 ];

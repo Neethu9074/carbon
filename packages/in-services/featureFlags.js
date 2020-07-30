@@ -38,6 +38,7 @@ export const routeIdOverPathTplEnabled = isFeatureFlagEnabled('routeIdOverPathTp
 export const infrastructureExploreEnabled = isFeatureFlagEnabled('infrastructureExploreEnabled');
 export const latencyDistributionBase10Enabled = isFeatureFlagEnabled('latencyDistributionBase10Enabled');
 export const newApCreationEnabled = isFeatureFlagEnabled('newApCreationEnabled');
+export const entityCountWidgetEnabled = isFeatureFlagEnabled('entityCountWidgetEnabled');
 
 //platform feature flags
 export const pcfEnabled = isFeatureFlagEnabled('pcfEnabled');

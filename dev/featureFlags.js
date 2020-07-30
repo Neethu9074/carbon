@@ -25,5 +25,6 @@ module.exports = {
   sloWidgetEnabled: true,
   infrastructureExploreEnabled: true,
   latencyDistributionBase10Enabled: true,
-  newApCreationEnabled: true
+  newApCreationEnabled: true,
+  entityCountWidgetEnabled: true
 };
