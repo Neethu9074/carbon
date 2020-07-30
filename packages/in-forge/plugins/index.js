@@ -99,7 +99,6 @@ import './kubernetesNode';
 import './kubernetesPod';
 import './kubernetesReplicaSet';
 import './kubernetesService';
-import './kubernetesStatefulSet';
 import './openshiftDeploymentConfig';
 import './liferayApplicationContainer';
 import './lxc';
