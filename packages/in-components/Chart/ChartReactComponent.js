@@ -7,6 +7,7 @@ import Legend, { HEIGHT as legendHeight } from 'in-components/Chart/components/L
 import MetricAwareAxis from 'in-components/Chart/components/MetricAwareAxis';
 import ChartOverlay from 'in-components/Chart/components/ChartOverlay';
 import getElementDimensions from 'in-hoc/getElementDimensions';
+import evaluateClassNames from 'in-services/util/classnames';
 import Chart from 'in-components/Chart/Chart';
 
 import locals from './Chart.mless';
@@ -35,6 +36,10 @@ const ChartReactWrapper = compose(withState('chart', 'setChart', null))(
   class ChartReactWrapper extends React.Component {
     static displayName = 'ChartReactWrapper';
 
+    state = {
+      overflowHidden: false
+    };
+
     componentDidMount() {
       const chart = new Chart(this.canvas, this.props);
       this.props.setChart(chart);
@@ -51,7 +56,16 @@ const ChartReactWrapper = compose(withState('chart', 'setChart', null))(
     }
 
     render() {
-      const { chart, width, height, timeConfig, renderLegend = true, reverseTooltipOrder } = this.props;
+      const {
+        chart,
+        width,
+        height,
+        timeConfig,
+        renderLegend = true,
+        reverseTooltipOrder,
+        renderPostChartContent,
+        renderPreChartContent
+      } = this.props;
       const heightOfDrawableCanvas = chart ? height - chart.config.timeAxisHeight - chart.config.markerPaneHeight : 0;
 
       const preAndPostContentConfig = {
@@ -72,11 +86,15 @@ const ChartReactWrapper = compose(withState('chart', 'setChart', null))(
         <div className={locals.chart} ref={chartWrapper => (this.chartWrapper = chartWrapper)}>
           {chart && renderLegend && <Legend chart={chart} />}
 
-          <HighlightOverlayWrapper>
-            {this.props.renderPreChartContent?.({
-              ...preAndPostContentConfig,
-              chartContentPosition: 'pre'
-            })}
+          <HighlightOverlayWrapper overflowHidden={this.state.overflowHidden}>
+            {renderPreChartContent && (
+              <div {...enhanceWithHoverActions(this)}>
+                {renderPreChartContent({
+                  ...preAndPostContentConfig,
+                  chartContentPosition: 'pre'
+                })}
+              </div>
+            )}
             <div className={locals.chartAxisWrapper}>
               {chart && chart.config.y1 && (
                 <MetricAwareAxis chart={chart} axisName="y1" height={heightOfDrawableCanvas} align="left" />
@@ -99,10 +117,14 @@ const ChartReactWrapper = compose(withState('chart', 'setChart', null))(
                 <MetricAwareAxis chart={chart} axisName="y2" height={heightOfDrawableCanvas} align="right" />
               )}
             </div>
-            {this.props.renderPostChartContent?.({
-              ...preAndPostContentConfig,
-              chartContentPosition: 'post'
-            })}
+            {renderPostChartContent && (
+              <span {...enhanceWithHoverActions(this)}>
+                {renderPostChartContent({
+                  ...preAndPostContentConfig,
+                  chartContentPosition: 'post'
+                })}
+              </span>
+            )}
           </HighlightOverlayWrapper>
         </div>
       );
@@ -110,6 +132,22 @@ const ChartReactWrapper = compose(withState('chart', 'setChart', null))(
   }
 );
 
-function HighlightOverlayWrapper({ children }) {
-  return <div className={locals.markerLanesWrapper}>{children}</div>;
+function enhanceWithHoverActions(context) {
+  return {
+    onMouseEnter: () => context.setState({ overflowHidden: true }),
+    onMouseLeave: () => context.setState({ overflowHidden: false })
+  };
+}
+
+function HighlightOverlayWrapper({ children, overflowHidden }) {
+  return (
+    <div
+      className={evaluateClassNames({
+        [locals.markerLanesWrapper]: true,
+        [locals.overflowHidden]: overflowHidden
+      })}
+    >
+      {children}
+    </div>
+  );
 }

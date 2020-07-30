@@ -64,10 +64,11 @@ function MarkersLanePresenter({
   renderLaneItem,
   renderHoverOverlay,
   chartBucketWidth,
+  renderSecondaryHoverOverlay,
   ...remainingProps
 }) {
   const xScale = useObservable(renderScheduler.xScaleBackBuffer$.nextFrame(), [], { pure: false });
-  const [{ isHovered, timestamp, iconConfig: laneItemIconConfig }, setHoverState] = useState({});
+  const [{ isHovered, eventData: laneItemEventData, iconConfig: laneItemIconConfig }, setHoverState] = useState({});
 
   const clusterAreaWidth = xScale?.getRangeArea(remainingProps.clusterSizeMillis);
 
@@ -76,10 +77,20 @@ function MarkersLanePresenter({
       <span className={locals.hoverAreaContainer}>
         {isHovered &&
           renderHoverOverlay({
-            xPos: getXposCluster(timestamp),
+            xPos: getXposCluster(laneItemEventData.timestamp),
             color: laneItemIconConfig.color,
             chartContentPosition,
             clusterWidth: clusterAreaWidth,
+            ...remainingProps
+          })}
+        {isHovered &&
+          renderSecondaryHoverOverlay?.({
+            xPos: getXposCluster(laneItemEventData.timestamp),
+            color: laneItemIconConfig.color,
+            chartContentPosition,
+            clusterWidth: clusterAreaWidth,
+            eventData: laneItemEventData,
+            xScale,
             ...remainingProps
           })}
       </span>
@@ -152,7 +163,8 @@ MarkersLane.propTypes = {
   chartContentPosition: PropTypes.oneOf(['pre', 'post']).isRequired,
   renderLaneItem: PropTypes.func.isRequired,
   renderHoverOverlay: PropTypes.func.isRequired,
-  chartBucketWidth: PropTypes.number
+  chartBucketWidth: PropTypes.number,
+  renderSecondaryHoverOverlay: PropTypes.func
 };
 
 export default getElementDimensions(MarkersLane);

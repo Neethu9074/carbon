@@ -26,7 +26,7 @@ export default function SingleIconLaneItem({
         stopPropagationAndPreventDefault(e);
         onHover?.({
           isHovered: true,
-          timestamp: eventData.timestamp,
+          eventData,
           iconConfig
         });
       }}

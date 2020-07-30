@@ -9,6 +9,7 @@ import MarkerLane from 'in-components/Chart/markerLanes/MarkerLane/MarkerLane';
 import HoverLine from 'in-components/Chart/markerLanes/MarkerLane/HoverLine';
 import HoverArea from 'in-components/Chart/markerLanes/MarkerLane/HoverArea';
 import AlertsLaneTooltipContent from './AlertsLaneTooltipContent';
+import EventDurationIndicator from './EventDurationIndicator';
 import { formatDateTime } from 'in-services/formatters/date';
 import { Li, Ul } from 'in-new-components/lists/List';
 import SvgIcon from 'in-components/SvgIcon/SvgIcon';
@@ -50,6 +51,7 @@ export default function AlertsLanePresenter({ alerts, ...remainingProps }) {
             </Ul>
           );
         }}
+        renderSecondaryHoverOverlay={EventDurationIndicator}
       />
     </>
   );

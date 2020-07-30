@@ -147,9 +147,14 @@ function getAlertsAndIncidents(timeConfig) {
               {
                 eventId: 'ZBW7TkyST2mh6xy9foCtFA',
                 name: "I'm a cool smart alert",
-                triggeringTime: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (i / 5),
-                start: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (i / 7),
-                end: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (i / 9)
+                triggeringTime: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (i / 9),
+                start: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (i / 8),
+                end: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (i / 7),
+                duration:
+                  timeConfig.to -
+                  timeConfig.windowSize +
+                  timeConfig.windowSize * (i / 7) -
+                  (timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (i / 9))
               }
             ]
           : [],
@@ -159,16 +164,26 @@ function getAlertsAndIncidents(timeConfig) {
               {
                 eventId: 'ZBW7TkyST2mh6xy9foCtFA',
                 name: "I'm a cool Incident",
-                triggeringTime: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (i / 5),
-                start: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (i / 7),
-                end: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (i / 9)
+                triggeringTime: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (i / 9),
+                start: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (i / 8),
+                end: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (i / 7),
+                duration:
+                  timeConfig.to -
+                  timeConfig.windowSize +
+                  timeConfig.windowSize * (i / 7) -
+                  (timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (i / 9))
               },
               {
                 eventId: 'ZBW7TkyST2mh6xy9foCtFA',
                 name: "I'm an awesome Incident",
-                triggeringTime: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (i / 5),
+                triggeringTime: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (i / 9),
                 start: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (i / 7),
-                end: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (i / 9)
+                end: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (i / 5),
+                duration:
+                  timeConfig.to -
+                  timeConfig.windowSize +
+                  timeConfig.windowSize * (i / 5) -
+                  (timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (i / 9))
               }
             ]
           : []
@@ -181,25 +196,40 @@ function getAlertsAndIncidents(timeConfig) {
       {
         eventId: 'ZBW7TkyST2mh6xy9foCtFA',
         name: "I'm a cool smart alert",
-        triggeringTime: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (3 / 5),
+        triggeringTime: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (3 / 9),
         start: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (3 / 7),
-        end: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (3 / 9)
+        end: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (3 / 5),
+        duration:
+          timeConfig.to -
+          timeConfig.windowSize +
+          timeConfig.windowSize * (3 / 5) -
+          (timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (3 / 9))
       }
     ],
     incidents: [
       {
         eventId: 'ZBW7TkyST2mh6xy9foCtFA',
         name: "I'm a cool Incident in a cluster",
-        triggeringTime: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (3 / 5),
+        triggeringTime: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (3 / 9),
         start: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (3 / 7),
-        end: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (3 / 9)
+        end: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (3 / 5),
+        duration:
+          timeConfig.to -
+          timeConfig.windowSize +
+          timeConfig.windowSize * (3 / 5) -
+          (timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (3 / 9))
       },
       {
         eventId: 'ZBW7TkyST2mh6xy9foCtFA',
         name: "I'm an awesome Incident in a cluster",
-        triggeringTime: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (3 / 5),
+        triggeringTime: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (3 / 9),
         start: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (3 / 7),
-        end: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (3 / 9)
+        end: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (3 / 5),
+        duration:
+          timeConfig.to -
+          timeConfig.windowSize +
+          timeConfig.windowSize * (3 / 5) -
+          (timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (3 / 9))
       }
     ]
   };
