@@ -40,13 +40,15 @@ export default function AlertsLanePresenter({ alerts, ...remainingProps }) {
         renderHoverOverlay={remainingProps.isClustered ? HoverArea : HoverLine}
         calloutContent={({ iconConfig, eventData, timeConfig }) => {
           const { incidents, smartAlerts } = eventData;
+          const enahncedAndSortedEvents = [
+            ...incidents.map(incident => ({ ...incident, iconType: 'lib_events_warning' })),
+            ...smartAlerts.map(incident => ({ ...incident, iconType: 'lib_events_incident' }))
+          ].sort((a, b) => a.start - b.start);
+
           return (
             <Ul className={locals.list}>
-              {smartAlerts.map(({ name, start, eventId }) =>
-                ListItem({ start, iconConfig, name, iconType: 'lib_events_warning', eventId, timeConfig })
-              )}
-              {incidents.map(({ name, start, eventId }) =>
-                ListItem({ start, iconConfig, name, iconType: 'lib_events_incident', eventId, timeConfig })
+              {enahncedAndSortedEvents.map(({ name, start, eventId, iconType }) =>
+                ListItem({ start, iconConfig, name, iconType, eventId, timeConfig })
               )}
             </Ul>
           );
@@ -59,7 +61,7 @@ export default function AlertsLanePresenter({ alerts, ...remainingProps }) {
 
 function ListItem({ start, iconConfig, name, iconType, ...remainingProps }) {
   return (
-    <Li key={start} className={locals.listItem} href$={getLinkToEventsList(remainingProps)}>
+    <Li key={`${start}${iconType}`} className={locals.listItem} href$={getLinkToEventsList(remainingProps)}>
       <SvgIcon type={iconType} color={iconConfig.color} />
       <div style={{ marginLeft: '12px' }}>
         <time dateTime={new Date(start).toISOString()}>{formatDateTime(start)}</time>

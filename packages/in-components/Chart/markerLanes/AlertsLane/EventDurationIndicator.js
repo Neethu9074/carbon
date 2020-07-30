@@ -7,8 +7,8 @@ import locals from './EventDurationIndicator.mless';
 
 export default function EventDurationIndicator({ color, timeAxisHeight, chartHeight, eventData, xScale }) {
   const sortedEvents = [eventData.smartAlerts[0], eventData.incidents[0]]
-    .sort((a, b) => a.xPos - b.triggeringTime)
-    .sort((a, b) => a.duraxPos - b.duration);
+    .sort((a, b) => a.triggeringTime - b.triggeringTime)
+    .sort((a, b) => a.duration - b.duration);
 
   const oldestEvent = sortedEvents[0];
   const { triggeringTime = undefined, start = undefined, end = undefined, duration } = oldestEvent;
