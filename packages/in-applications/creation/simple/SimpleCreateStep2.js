@@ -35,7 +35,7 @@ export default function SimpleCreateStep2({
       <ServiceLiveList
         servicesLiveList={servicesLiveList}
         headerText="Services in this Application Perspective..."
-        descriptionText="Based on the last 24 hours."
+        descriptionText="Based on the last hour."
         matchSpecification={matchSpecification}
       />
     </SimpleModeStepContentWrapper>

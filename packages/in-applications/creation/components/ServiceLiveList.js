@@ -31,7 +31,7 @@ export default function ServiceLiveList({ servicesLiveList, headerText, descript
       ) : (
         <ul className={locals.listWrapper}>
           {servicesLiveList?.data &&
-            servicesLiveList.data.items.map(item => <ServiceLiveListItem item={item} key={item.service.id} />)}
+            servicesLiveList.data.items.map(item => <ServiceLiveListItem item={item} key={item.id} />)}
         </ul>
       )}
     </div>

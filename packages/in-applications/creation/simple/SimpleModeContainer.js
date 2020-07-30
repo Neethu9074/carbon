@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 
 import SimpleModePageNavigation from 'in-new-components/BlueprintFormMultistep/SimpleModePageNavigation';
+import getApplicationLiveView from 'in-subscription/application/getApplicationLiveView';
 import SimpleCreateStep1 from 'in-applications/creation/simple/SimpleCreateStep1';
 import SimpleCreateStep2 from 'in-applications/creation/simple/SimpleCreateStep2';
 import SimpleCreateStep3 from 'in-applications/creation/simple/SimpleCreateStep3';
 import { applicationCreationStepSwitch } from 'in-applications/creation/tracker';
 import { blueprintConfig } from 'in-applications/creation/data/blueprintConfig';
 import { mapMatchSpecificationListToTree } from 'in-api/applicationConfigs';
-import getServices from 'in-subscription/application/getServices';
+import { successObservable } from 'in-services/util/result';
 import useObservable from 'in-hooks/useObservable';
 
 const stepConfigs = [
@@ -36,11 +37,15 @@ export default function SimpleModeContainer({
 
   const jsForm = form.toJS();
   const matchSpecification = jsForm.matchSpecification;
+  const downstreamScope = jsForm.scope;
   const matchSpecificationTree = mapMatchSpecificationListToTree(matchSpecification);
 
-  // Timeconfig is set here because we always want to see the last 24 hours.
-  const liveTimeConfig = { to: null, windowSize: 86400000, focusedMoment: null, autoRefresh: false };
-  const servicesLiveList = useObservable(getStreamData({ timeConfig: liveTimeConfig, matchSpecificationTree }), [form]);
+  // The live view is based on historic data from last hour
+  const liveViewTimeConfig = { to: null, windowSize: 3600000, focusedMoment: null, autoRefresh: false };
+  const servicesLiveList = useObservable(
+    getStreamData({ timeConfig: liveViewTimeConfig, matchSpecificationTree, downstreamScope }),
+    [form]
+  );
 
   return (
     <SimpleModePageNavigation
@@ -85,25 +90,15 @@ export default function SimpleModeContainer({
   );
 }
 
-function getStreamData({
-  page = 1,
-  pageSize = 100,
-  orderBy = 'callsAgg',
-  orderDirection = 'DESC',
-  boundaryScope,
-  timeConfig,
-  matchSpecificationTree
-}) {
-  return getServices({
+function getStreamData({ page = 1, pageSize = 100, timeConfig, matchSpecificationTree, downstreamScope }) {
+  if (!matchSpecificationTree) {
+    return successObservable([]);
+  }
+
+  return getApplicationLiveView({
+    timeConfig,
     pagination: { page, pageSize },
-    order: { by: orderBy, direction: orderDirection },
-    metrics: {
-      callsAgg: { metric: 'calls', aggregation: 'SUM' }
-    },
-    filter: {
-      applicationBoundaryScope: boundaryScope,
-      timeConfig
-    },
-    matchExpression: matchSpecificationTree
+    matchExpression: matchSpecificationTree,
+    downstreamScope
   });
 }
