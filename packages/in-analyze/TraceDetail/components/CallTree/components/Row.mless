@@ -25,7 +25,7 @@
     border-radius: 4px;
   }
 
-  .openedRow.erroneousCall, 
+  .openedRow.erroneousCall,
   .selectedRow.erroneousCall {
     background: #fdf4f9
   }
@@ -43,6 +43,11 @@
 
     min-width: 40%;
     max-width: 40%;
+  }
+
+  .leftLargeTrace {
+    display: flex;
+    align-items: center;
   }
 
   .expandIcon {

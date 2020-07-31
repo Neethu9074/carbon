@@ -63,7 +63,7 @@ export default function GoogleCloudStorageDashboard({ snapshot, timeConfig }) {
               metrics: ['storage.object_count'],
               labels: ['Count'],
               type: 'line',
-              formatter: number.detailed
+              formatter: number.compact
             }}
             y2={{
               min: 0,
