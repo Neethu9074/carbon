@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import ConjunctionsAndBrackets from 'in-new-components/QueryBuilder/TagSelectorOverlay/ConjunctionsAndBrackets';
 import TreeNodeList from 'in-new-components/QueryBuilder/TagSelectorOverlay/TreeNodeList';
-import SlideInView, { ListHeader } from 'in-new-components/SlideInView/LocalSlideInView';
+import SlideInView, { ListHeader } from 'in-new-components/SlideInView/SlideInView';
 import TagTree from 'in-new-components/QueryBuilder/TagSelectorOverlay/TagTree';
 import ExternalSearchInput from 'in-new-components/SearchInput';
 
@@ -28,11 +28,12 @@ export default function TagSelectorOverlay({ tagCatalog, onChange, close }) {
       </div>
       <div className={locals.overlay}>
         <SlideInView
-          title={activeGroup?.label}
-          slideIn={!!activeGroup}
+          showSlideInContent={!!activeGroup}
+          onShowSlideInContentChange={() => setActiveGroup(null)}
           HeaderComponent={ListHeader}
           transitionDurationMillis={250}
-          sliderContent={
+          slideInContentTitle={activeGroup?.label}
+          slideInContent={
             activeGroup?.children && (
               <TreeNodeList
                 nodes={activeGroup.children}
@@ -44,33 +45,19 @@ export default function TagSelectorOverlay({ tagCatalog, onChange, close }) {
               />
             )
           }
-          onTitleIconClick={() => setActiveGroup(null)}
-        >
-          <div className={locals.content}>
-            <ConjunctionsAndBrackets
-              onChange={v => {
-                onChange(v);
-                close();
-              }}
-            />
+          staticContent={
+            <div className={locals.content}>
+              <ConjunctionsAndBrackets
+                onChange={v => {
+                  onChange(v);
+                  close();
+                }}
+              />
 
-            {/* {__DEV__ && (
-              <>
-                <Ul className={locals.filterList} framed={false} borderRadius="medium">
-                  <PreviousUsedFilter filter="foo AND bar" onClick={() => {}} />
-                </Ul>
-
-                <ListGroup label="Recently Used">
-                  <OverlayOption className={locals.option} onChange={onChange} close={close} value="foobar">
-                    foobar
-                  </OverlayOption>
-                </ListGroup>
-              </>
-            )} */}
-
-            {!activeGroup && <TagTree tagCatalog={tagCatalog} query={query} onChange={setActiveGroup} close={close} />}
-          </div>
-        </SlideInView>
+              <TagTree tagCatalog={tagCatalog} query={query} onChange={setActiveGroup} close={close} />
+            </div>
+          }
+        />
       </div>
     </div>
   );

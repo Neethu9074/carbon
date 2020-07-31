@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { stopPropagation, stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { evaluateClassNames, joinClassNames } from 'in-services/util/classnames';
-import SlideInView from 'in-new-components/SlideInView/LocalSlideInView';
+import SlideInView from 'in-new-components/SlideInView/SlideInView';
 import Header from 'in-new-components/Dialog/Header';
 
 import locals from './Dialog.mless';
@@ -45,33 +45,36 @@ export default function DialogWithSlideInView({
         onScroll={e => setScrollshadow(e.target.scrollTop > 0)}
       >
         <SlideInView
-          onTitleIconClick={onSlideInViewTitleClick}
-          title={slideInViewTitle}
-          sliderContent={slideInViewComponent}
-          slideIn={slideInViewVisible}
-        >
-          {!headless && (
-            <Header
-              icon={titleIconType}
-              onIconClick={onTitleIconClick}
-              title={title}
-              renderCustomCloseBehaviour={() => {
-                return renderCustomCloseBehaviour && renderCustomCloseBehaviour(resetScrollShadow);
-              }}
-              onClose={onClose}
-              addScrollShadow={scrollshadow}
-            />
-          )}
-          <div
-            className={evaluateClassNames({
-              [locals.body]: true,
-              [locals.withoutPadding]: withoutBodyPadding,
-              [locals.showOverflow]: showOverflow
-            })}
-          >
-            {children}
-          </div>
-        </SlideInView>
+          onShowSlideInContentChange={onSlideInViewTitleClick}
+          slideInContentTitle={slideInViewTitle}
+          slideInContent={slideInViewComponent}
+          showSlideInContent={slideInViewVisible}
+          staticContent={
+            <>
+              {!headless && (
+                <Header
+                  icon={titleIconType}
+                  onIconClick={onTitleIconClick}
+                  title={title}
+                  renderCustomCloseBehaviour={() => {
+                    return renderCustomCloseBehaviour && renderCustomCloseBehaviour(resetScrollShadow);
+                  }}
+                  onClose={onClose}
+                  addScrollShadow={scrollshadow}
+                />
+              )}
+              <div
+                className={evaluateClassNames({
+                  [locals.body]: true,
+                  [locals.withoutPadding]: withoutBodyPadding,
+                  [locals.showOverflow]: showOverflow
+                })}
+              >
+                {children}
+              </div>
+            </>
+          }
+        />
       </section>
     </div>
   );
