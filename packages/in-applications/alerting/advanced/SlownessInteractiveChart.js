@@ -151,12 +151,18 @@ export function renderThresholdCondition(
           items={getAggregationOptions(form)}
           onChange={e => {
             const value = (e && e.value) || '';
+
+            const thresholdType = form.get('threshold').get('type').value;
             updateForm(
               form
                 .updateIn(['rule', 'aggregation'], f => f.setValue(value).setTouched(true))
                 .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
-                .updateIn(['threshold', 'value'], f => f.setValue(null).setTouched(true)) // reset "old" value to ensure that we only call endpoints with the "new" threshold suggestion
+                // reset "old" threshold/baseline-value to ensure that we don't call endpoints with the previous values
+                .updateIn(['threshold', thresholdType === 'historicBaseline' ? 'baseline' : 'value'], f =>
+                  f.setValue(null).setTouched(true)
+                )
             );
+
             applicationsAlertingThresholdAggregationChanged({ ...getBlueprintObject(form), value });
           }}
           defaultValue="P90"
@@ -186,7 +192,8 @@ export function renderThresholdCondition(
               ...form.get('threshold').toJS(),
               type: thresholdType,
               operator: null, // reset to default value (happens in createSlownessForm)
-              value: null // reset "old" value to ensure that we only call endpoints with the "new" threshold suggestion
+              value: null, // reset "old" value to ensure that we only call endpoints with the "new" threshold suggestion
+              baseline: null
             });
 
             if (valueParts.length > 1) {

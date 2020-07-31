@@ -152,12 +152,18 @@ export function renderThresholdCondition(
           items={getAggregationOptions(form)}
           onChange={e => {
             const value = (e && e.value) || '';
+
+            const thresholdType = form.get('threshold').get('type').value;
             updateForm(
               form
                 .updateIn(['rule', 'aggregation'], f => f.setValue(value).setTouched(true))
-                .updateIn(['threshold', 'baseline'], f => f.setValue([]).setTouched(true)) // reset baseline
                 .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
+                // reset "old" threshold/baseline-value to ensure that we don't call endpoints with the previous values
+                .updateIn(['threshold', thresholdType === 'historicBaseline' ? 'baseline' : 'value'], f =>
+                  f.setValue(null).setTouched(true)
+                )
             );
+
             websitesAlertingAggregationChanged({ ...getBlueprintObject(form), value });
           }}
           defaultValue="P90"
