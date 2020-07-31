@@ -27,20 +27,11 @@ export default function SimpleAlertConfigDialogStep1({
       <Menu
         items={blueprintConfigs}
         onItemClick={item => {
-          let updatedForm = createBlueprintForm(form, item.type).updateIn(
-            ['hiddenFields', 'calculateThresholdOnBackend'],
-            f => f.setValue(true)
+          updateForm(
+            createBlueprintForm(form, item.type).updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f =>
+              f.setValue(true)
+            )
           );
-
-          const thresholdType = updatedForm.get('threshold').get('type').value;
-          // reset "old" threshold/baseline-value to ensure that we don't call endpoints with the previous values
-          if (thresholdType === 'historicBaseline') {
-            updatedForm = updatedForm.updateIn(['threshold', 'baseline'], f => f.setValue(null).setTouched(true));
-          } else {
-            updatedForm = updatedForm.updateIn(['threshold', 'value'], f => f.setValue(null).setTouched(true));
-          }
-
-          updateForm(updatedForm);
 
           applicationsAlertingBlueprintChanged({ newBluePrint: alertType, mode: 'Simple' });
         }}
