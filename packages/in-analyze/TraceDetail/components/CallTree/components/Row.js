@@ -125,7 +125,12 @@ function CallInformation(props) {
 
   return (
     <div className={locals.detailGroup}>
-      <div className={locals.left}>
+      <div
+        className={evaluateClassNames({
+          [locals.left]: !isLargeTrace,
+          [locals.leftLargeTrace]: isLargeTrace
+        })}
+      >
         <HorizontalLine {...props} marginLeft={marginLeft} lineWidth={lineWidth} />
         {hasChildren && (
           <SvgIcon
@@ -159,12 +164,11 @@ function CallInformation(props) {
             </Pill>
           </Tooltip>
         )}
-        {!isUnknownTypeSpan(call) &&
-          call.endpoint && (
-            <Pill kind="light" color={getEndpointColor(call.endpoint.type)}>
-              {call.endpoint.type}
-            </Pill>
-          )}
+        {!isUnknownTypeSpan(call) && call.endpoint && (
+          <Pill kind="light" color={getEndpointColor(call.endpoint.type)}>
+            {call.endpoint.type}
+          </Pill>
+        )}
         {!isLargeTrace && <div className={locals.dashedLine} />}
       </div>
 
