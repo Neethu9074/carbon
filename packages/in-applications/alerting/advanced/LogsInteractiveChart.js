@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 import {
   enrichThresholdOperatorOptionsForApiConfigs,
-  thresholdOperatorOptions
+  thresholdGreaterOperatorOptions
 } from 'in-new-components/Alerting/advanced/thresholdFormData';
 import IncompleteChartPlaceholder from 'in-new-components/Alerting/components/IncompleteChartPlaceholder';
 import ThresholdConditionFormGroup from 'in-new-components/Alerting/advanced/ThresholdConditionFormGroup';
@@ -108,7 +108,8 @@ export function ThresholdCondition({
 }) {
   const operatorValue = form.get('threshold').get('operator').value;
   const operatorOptions = enrichThresholdOperatorOptionsForApiConfigs(operatorValue);
-  const operatorLabel = findEntryByValue(operatorOptions, operatorValue)?.label ?? thresholdOperatorOptions[0].label;
+  const operatorLabel =
+    findEntryByValue(operatorOptions, operatorValue)?.label ?? thresholdGreaterOperatorOptions[0].label;
 
   const thresholdValueLabel = getThresholdLabel(form);
   const metricName = form.get('rule').get('metricName').value;

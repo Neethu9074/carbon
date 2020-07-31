@@ -4,122 +4,169 @@ import getApplicationMetrics from 'in-applications/subscriptions/getApplicationM
 import { percentage, millis, number } from 'in-services/formatters/number';
 import { isNotBlank } from 'in-services/util/string';
 
+const slownessBlueprintConfig = Object.freeze({
+  type: 'slowness',
+  blacklistedTagFilters: ['call.latency'],
+  name: 'Slow Calls',
+  headline: 'Automatic Alerts for Slow Calls',
+  text:
+    'Receive an alert when calls to selected services and endpoints of this Application Perspective are slower than usual.',
+  baselineEnabled: true,
+  isCustomRateMetric: () => false,
+  getMetricsRequest: () => getApplicationMetrics,
+  getAlertsPreviewRequest: () => getApplicationMetricsAlertPreview,
+  getThresholdSuggestionRequest: () => getApplicationMetricsThresholdSuggestion,
+  defaultMetric: 'latency',
+  getMetricName: () => 'latency',
+  getMetricLabel: () => 'Latency',
+  getMetricFormat: () => millis.forcedFixedCompact,
+  getMaxMetricValue: () => undefined,
+  getAggregation: alertRule => alertRule.aggregation,
+  isRuleComplete: () => true,
+  getRuleTagFilters: () => [],
+  getEntityTagFilter: getApplicationIdTagFilter
+});
+
+const errorRateBlueprintConfig = Object.freeze({
+  type: 'errorRate',
+  blacklistedTagFilters: ['call.erroneous', 'call.error.count', 'call.error.message'],
+  name: 'Erroneous Calls',
+  headline: 'Automatic Alerts for Erroneous Calls',
+  text:
+    'Receive an alert when the rate of erroneous calls for selected services and endpoints of this Application Perspective is higher than normal.',
+  baselineEnabled: false,
+  isCustomRateMetric: () => false,
+  getMetricsRequest: () => getApplicationMetrics,
+  getAlertsPreviewRequest: () => getApplicationMetricsAlertPreview,
+  getThresholdSuggestionRequest: () => getApplicationMetricsThresholdSuggestion,
+  defaultMetric: 'errors',
+  getMetricName: () => 'errors',
+  getMetricLabel: () => 'Error Rate',
+  getMetricFormat: () => percentage.detailed,
+  getMaxMetricValue: () => 100,
+  getAggregation: () => 'MEAN',
+  isRuleComplete: () => true,
+  getRuleTagFilters: () => [],
+  getEntityTagFilter: getApplicationIdTagFilter
+});
+
+const logsBlueprintConfig = Object.freeze({
+  type: 'logs',
+  blacklistedTagFilters: ['log.message', 'log.level'],
+  name: 'Error and Warning Logs',
+  headline: 'Automatic Alerts for Error and Warning Logs',
+  text:
+    'Receive an alert when the number of calls logging matching error and warning messages is higher than expected.',
+  baselineEnabled: false,
+  isCustomRateMetric: () => false,
+  getMetricsRequest: () => getApplicationMetrics,
+  getAlertsPreviewRequest: () => getApplicationMetricsAlertPreview,
+  getThresholdSuggestionRequest: () => getApplicationMetricsThresholdSuggestion,
+  defaultMetric: 'calls',
+  getMetricName: () => 'calls',
+  getMetricLabel: () => 'Logs Count',
+  getMetricFormat: () => number.forcedCompact,
+  getMaxMetricValue: () => undefined,
+  getAggregation: () => 'SUM',
+  isRuleComplete: alertRule => isNotBlank(alertRule.message),
+  incompleteRuleMessage: 'Please select a Log Message to see when this alert triggers',
+  getRuleTagFilters: getLogLevelTagFilters,
+  getEntityTagFilter: getApplicationIdTagFilter
+});
+
+const statusCodeBlueprintConfig = Object.freeze({
+  type: 'statusCode',
+  blacklistedTagFilters: ['call.http.status'],
+  name: 'HTTP Status Codes',
+  headline: 'Automatic Alerts for HTTP Status Codes',
+  text: 'Receive an alert every time when matching HTTP Status Codes occur more often than usual.',
+  baselineEnabled: false,
+  isCustomRateMetric: () => false,
+  getMetricsRequest: () => getApplicationMetrics,
+  getAlertsPreviewRequest: () => getApplicationMetricsAlertPreview,
+  getThresholdSuggestionRequest: () => getApplicationMetricsThresholdSuggestion,
+  defaultMetric: 'calls',
+  getMetricName: () => 'calls',
+  getMetricLabel: () => 'Status Code',
+  getMetricFormat: () => number.forcedCompact,
+  getMaxMetricValue: () => undefined,
+  getAggregation: () => 'SUM',
+  isRuleComplete: alertRule => !!(alertRule.statusCodeStart && alertRule.statusCodeEnd),
+  incompleteRuleMessage: 'Please select a Status Code to see when this alert triggers',
+  getRuleTagFilters: getStatusCodeTagFilters,
+  getEntityTagFilter: getApplicationIdTagFilter
+});
+
+const throughputBlueprintConfig = Object.freeze({
+  type: 'throughput',
+  blacklistedTagFilters: [],
+  name: 'Throughput',
+  headline: 'Automatic Alerts on Call Throughput Violations',
+  text: 'Receive an alert every time the number of calls significantly differs from the usual call throughput.',
+  baselineEnabled: true,
+  isCustomRateMetric: () => false,
+  getMetricsRequest: () => getApplicationMetrics,
+  getAlertsPreviewRequest: () => getApplicationMetricsAlertPreview,
+  getThresholdSuggestionRequest: () => getApplicationMetricsThresholdSuggestion,
+  defaultMetric: 'calls',
+  getMetricName: () => 'calls',
+  getMetricLabel: () => 'Calls',
+  getMetricFormat: () => number.forcedCompact,
+  getMaxMetricValue: () => undefined,
+  getAggregation: () => 'SUM',
+  isRuleComplete: () => true,
+  getRuleTagFilters: () => [],
+  getEntityTagFilter: getApplicationIdTagFilter,
+  impactTimeThresholdDisabled: true
+});
+
 export const blueprintConfigs = Object.freeze([
+  slownessBlueprintConfig,
+  errorRateBlueprintConfig,
+  logsBlueprintConfig,
+  statusCodeBlueprintConfig,
+  throughputBlueprintConfig
+]);
+
+export const simpleModeBlueprintConfigs = Object.freeze([
+  slownessBlueprintConfig,
+  errorRateBlueprintConfig,
+  logsBlueprintConfig,
+  statusCodeBlueprintConfig,
   {
-    type: 'slowness',
-    blacklistedTagFilters: ['call.latency'],
-    name: 'Slow Calls',
-    headline: 'Automatic Alerts for Slow Calls',
+    ...throughputBlueprintConfig,
+    subType: 'unexpectedDrop',
+    name: 'Unexpected drop in calls',
+    headline: 'Automatic Alerts for Unexpected Drop in Calls',
     text:
-      'Receive an alert when calls to selected services and endpoints of this Application Perspective are slower than usual.',
-    baselineEnabled: true,
-    isCustomRateMetric: () => false,
-    getMetricsRequest: () => getApplicationMetrics,
-    getAlertsPreviewRequest: () => getApplicationMetricsAlertPreview,
-    getThresholdSuggestionRequest: () => getApplicationMetricsThresholdSuggestion,
-    defaultMetric: 'latency',
-    getMetricName: () => 'latency',
-    getMetricLabel: () => 'Latency',
-    getMetricFormat: () => millis.forcedFixedCompact,
-    getMaxMetricValue: () => undefined,
-    getAggregation: alertRule => alertRule.aggregation,
-    isRuleComplete: () => true,
-    getRuleTagFilters: () => [],
-    getEntityTagFilter: getApplicationIdTagFilter
+      'You will be alerted every time the number of calls significantly dropped below the expected number of calls in a time window of 10 minutes.',
+    thresholdDefaults: {
+      operator: '<='
+    },
+    isSelected: alertThreshold => alertThreshold.operator === '<=' || alertThreshold.operator === '<'
   },
   {
-    type: 'errorRate',
-    blacklistedTagFilters: ['call.erroneous', 'call.error.count', 'call.error.message'],
-    name: 'Erroneous Calls',
-    headline: 'Automatic Alerts for Erroneous Calls',
+    ...throughputBlueprintConfig,
+    subType: 'unexpectedlyHighNumber',
+    name: 'Unexpectedly high number of calls',
+    headline: 'Automatic Alerts for Unexpectedly High Number of Calls',
     text:
-      'Receive an alert when the rate of erroneous calls for selected services and endpoints of this Application Perspective is higher than normal.',
-    baselineEnabled: false,
-    isCustomRateMetric: () => false,
-    getMetricsRequest: () => getApplicationMetrics,
-    getAlertsPreviewRequest: () => getApplicationMetricsAlertPreview,
-    getThresholdSuggestionRequest: () => getApplicationMetricsThresholdSuggestion,
-    defaultMetric: 'errors',
-    getMetricName: () => 'errors',
-    getMetricLabel: () => 'Error Rate',
-    getMetricFormat: () => percentage.detailed,
-    getMaxMetricValue: () => 100,
-    getAggregation: () => 'MEAN',
-    isRuleComplete: () => true,
-    getRuleTagFilters: () => [],
-    getEntityTagFilter: getApplicationIdTagFilter
-  },
-  {
-    type: 'logs',
-    blacklistedTagFilters: ['log.message', 'log.level'],
-    name: 'Error and Warning Logs',
-    headline: 'Automatic Alerts for Error and Warning Logs',
-    text:
-      'Receive an alert when the number of calls logging matching error and warning messages is higher than expected.',
-    baselineEnabled: false,
-    isCustomRateMetric: () => false,
-    getMetricsRequest: () => getApplicationMetrics,
-    getAlertsPreviewRequest: () => getApplicationMetricsAlertPreview,
-    getThresholdSuggestionRequest: () => getApplicationMetricsThresholdSuggestion,
-    defaultMetric: 'calls',
-    getMetricName: () => 'calls',
-    getMetricLabel: () => 'Logs Count',
-    getMetricFormat: () => number.forcedCompact,
-    getMaxMetricValue: () => undefined,
-    getAggregation: () => 'SUM',
-    isRuleComplete: alertRule => isNotBlank(alertRule.message),
-    incompleteRuleMessage: 'Please select a Log Message to see when this alert triggers',
-    getRuleTagFilters: getLogLevelTagFilters,
-    getEntityTagFilter: getApplicationIdTagFilter
-  },
-  {
-    type: 'statusCode',
-    blacklistedTagFilters: ['call.http.status'],
-    name: 'HTTP Status Codes',
-    headline: 'Automatic Alerts for HTTP Status Codes',
-    text: 'Receive an alert every time when matching HTTP Status Codes occur more often than usual.',
-    baselineEnabled: false,
-    isCustomRateMetric: () => false,
-    getMetricsRequest: () => getApplicationMetrics,
-    getAlertsPreviewRequest: () => getApplicationMetricsAlertPreview,
-    getThresholdSuggestionRequest: () => getApplicationMetricsThresholdSuggestion,
-    defaultMetric: 'calls',
-    getMetricName: () => 'calls',
-    getMetricLabel: () => 'Status Code',
-    getMetricFormat: () => number.forcedCompact,
-    getMaxMetricValue: () => undefined,
-    getAggregation: () => 'SUM',
-    isRuleComplete: alertRule => !!(alertRule.statusCodeStart && alertRule.statusCodeEnd),
-    incompleteRuleMessage: 'Please select a Status Code to see when this alert triggers',
-    getRuleTagFilters: getStatusCodeTagFilters,
-    getEntityTagFilter: getApplicationIdTagFilter
-  },
-  {
-    type: 'throughput',
-    blacklistedTagFilters: [],
-    name: 'Throughput',
-    headline: 'Automatic Alerts on Call Throughput Violations',
-    text: 'Receive an alert every time the number of calls significantly differs from the usual call throughput.',
-    baselineEnabled: true,
-    isCustomRateMetric: () => false,
-    getMetricsRequest: () => getApplicationMetrics,
-    getAlertsPreviewRequest: () => getApplicationMetricsAlertPreview,
-    getThresholdSuggestionRequest: () => getApplicationMetricsThresholdSuggestion,
-    defaultMetric: 'calls',
-    getMetricName: () => 'calls',
-    getMetricLabel: () => 'Calls',
-    getMetricFormat: () => number.forcedCompact,
-    getMaxMetricValue: () => undefined,
-    getAggregation: () => 'SUM',
-    isRuleComplete: () => true,
-    getRuleTagFilters: () => [],
-    getEntityTagFilter: getApplicationIdTagFilter,
-    impactTimeThresholdDisabled: true
+      'You will be alerted every time the number of calls significantly higher than the expected number of calls in a time window of 10 minutes.',
+    thresholdDefaults: {
+      operator: '>='
+    },
+    isSelected: alertThreshold => alertThreshold.operator === '>=' || alertThreshold.operator === '>'
   }
 ]);
 
 export function getBlueprintConfig(alertType) {
   return blueprintConfigs.find(blueprint => blueprint.type === alertType);
+}
+
+export function getSimpleModeBlueprintConfig(alertType, alertThreshold) {
+  return simpleModeBlueprintConfigs
+    .filter(blueprint => blueprint.type === alertType)
+    .find(blueprint => !blueprint.isSelected || blueprint.isSelected(alertThreshold));
 }
 
 export function blacklistedTagFiltersOfAlertType(alertType) {

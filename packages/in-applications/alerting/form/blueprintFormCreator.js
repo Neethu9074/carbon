@@ -4,7 +4,7 @@ import { getBlueprintConfig } from 'in-applications/alerting/data/blueprintConfi
 import createThresholdForm from 'in-applications/alerting/form/thresholdForm';
 import createRuleForm from 'in-applications/alerting/form/ruleForm';
 
-export default function createBlueprintForm(form, alertType) {
+export default function createBlueprintForm(form, alertType, alertThreshold = {}) {
   const threshold = form.get('threshold').toJS();
   const tagFilters = form.get('tagFilters').value;
 
@@ -15,6 +15,7 @@ export default function createBlueprintForm(form, alertType) {
   const newThresholdForm = createThresholdForm(
     {
       ...threshold,
+      ...alertThreshold,
       type: blueprintConfig.baselineEnabled ? threshold.type : 'staticThreshold',
       value: null, // reset the "old" value if present
       baseline: null // reset the "old" value if present

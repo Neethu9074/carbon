@@ -1,6 +1,13 @@
-export const thresholdOperatorOptions = Object.freeze([
+export const thresholdGreaterOperatorOptions = Object.freeze([
   { value: '>=', label: '≥' },
   { value: '>', label: '>' }
+]);
+
+export const thresholdOperatorOptions = Object.freeze([
+  { value: '>=', label: '≥' },
+  { value: '>', label: '>' },
+  { value: '<=', label: '≤' },
+  { value: '<', label: '<' }
 ]);
 
 export const thresholdTypeOptions = Object.freeze([
@@ -24,5 +31,5 @@ export function enrichThresholdOperatorOptionsForApiConfigs(operator) {
     legacyOperator = { value: '<', label: '<' };
   }
 
-  return Object.freeze([...thresholdOperatorOptions, legacyOperator].filter(Boolean));
+  return Object.freeze([...thresholdGreaterOperatorOptions, legacyOperator].filter(Boolean));
 }

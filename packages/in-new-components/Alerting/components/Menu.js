@@ -26,7 +26,7 @@ export default function Menu({ addRightSeparator = false, items, onItemClick, in
             key={i}
             className={evaluateClassNames({
               [locals.item]: true,
-              [locals.selected]: itemSelected.type === item.type
+              [locals.selected]: itemSelected.type === item.type && itemSelected.subType === item.subType
             })}
             onClick={() => {
               setItemSelected(item);
@@ -46,6 +46,7 @@ Menu.propTypes = {
   items: PropTypes.arrayOf(
     PropTypes.shape({
       type: PropTypes.string.isRequired,
+      subType: PropTypes.string,
       name: PropTypes.string.isRequired
     })
   ).isRequired,

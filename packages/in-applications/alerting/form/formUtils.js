@@ -54,8 +54,11 @@ export function getTitlePlaceholder(form) {
       const statusCodeEnd = ruleForm.get('statusCodeEnd').value;
       return `Too many calls with HTTP Status Code ${getStatusCodeShortText(statusCodeStart, statusCodeEnd)}`;
     }
-    case 'throughput':
-      return 'Unexpected high number of calls';
+    case 'throughput': {
+      const thresholdOperator = form.get('threshold').get('operator').value;
+      return isGreaterOperator(thresholdOperator) ? 'Unexpectedly high number of calls' : 'Unexpected drop in calls';
+    }
+
     default:
       throw Error('Unsupported alertType: ' + alertType);
   }
@@ -184,4 +187,8 @@ function getSlowerOrBelowOperatorText(operator) {
 export function findEntryByValue(valueLabelPairList, value) {
   const items = valueLabelPairList ?? [];
   return items.find(item => item?.value === value);
+}
+
+function isGreaterOperator(operator) {
+  return operator === '>=' || operator === '>';
 }

@@ -24,6 +24,7 @@ export default function SmartAlertConfigDialogWrapper({ applicationLabel, onClos
   const [selectedChartViewConfigIndex, setSelectedChartViewConfigIndex] = useState(initialChartConfigIndex);
   const [form, setForm] = useState(() => createSmartAlertForm(formData));
   const [isSaving, setIsSaving] = useState(false);
+
   return (
     <SmartAlertConfigDialog
       applicationLabel={applicationLabel}

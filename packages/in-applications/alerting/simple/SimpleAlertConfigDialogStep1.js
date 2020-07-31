@@ -3,7 +3,10 @@ import React from 'react';
 import SimpleModeStepContentWrapper from 'in-new-components/BlueprintFormMultistep/SimpleModeStepContentWrapper';
 import SelectedBlueprintPresenter from 'in-new-components/BlueprintFormMultistep/SelectedBlueprintPresenter';
 import SimpleAlertConfigDialogChart from 'in-applications/alerting/simple/SimpleAlertConfigDialogChart';
-import { blueprintConfigs, getBlueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
+import {
+  getSimpleModeBlueprintConfig,
+  simpleModeBlueprintConfigs
+} from 'in-applications/alerting/data/blueprintConfig';
 import { alertingDialogItemPickerTimeframe } from 'in-new-components/Alerting/constants';
 import { applicationsAlertingBlueprintChanged } from 'in-applications/alerting/tracker';
 import ProvideLogMessage from 'in-applications/alerting/components/ProvideLogMessage';
@@ -20,16 +23,18 @@ export default function SimpleAlertConfigDialogStep1({
   selectedChartViewConfigIndex
 }) {
   const alertType = form.get('rule').get('alertType').value;
-  const blueprintConfig = getBlueprintConfig(alertType);
+
+  const alertThreshold = form.get('threshold').toJS();
+  const blueprintConfig = getSimpleModeBlueprintConfig(alertType, alertThreshold);
 
   return (
     <SimpleModeStepContentWrapper headline="What do you want to be alerted on?">
       <Menu
-        items={blueprintConfigs}
+        items={simpleModeBlueprintConfigs}
         onItemClick={item => {
           updateForm(
-            createBlueprintForm(form, item.type).updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f =>
-              f.setValue(true)
+            createBlueprintForm(form, item.type, item.thresholdDefaults)
+              .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true)
             )
           );
 

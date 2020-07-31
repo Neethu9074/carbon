@@ -12,10 +12,7 @@ import {
   debouncedThresholdValueChangedTracker,
   debouncedThresholdDeviationFactorChangedTracker
 } from 'in-applications/alerting/trackingHelpers';
-import {
-  thresholdTypeOptions,
-  enrichThresholdOperatorOptionsForApiConfigs
-} from 'in-new-components/Alerting/advanced/thresholdFormData';
+import { thresholdTypeOptions, thresholdOperatorOptions } from 'in-new-components/Alerting/advanced/thresholdFormData';
 import { getThresholdLabel, findEntryByValue } from 'in-applications/alerting/form/formUtils';
 import ThresholdConditionFormGroup from 'in-new-components/Alerting/advanced/ThresholdConditionFormGroup';
 import { createThroughputForm, defaultDeviationFactor } from 'in-applications/alerting/form/thresholdForm';
@@ -123,8 +120,7 @@ function ThresholdCondition({
   setTempThresholdDeviationFactor
 }) {
   const operatorValue = form.get('threshold').get('operator').value;
-  const operatorOptions = enrichThresholdOperatorOptionsForApiConfigs(operatorValue);
-  const operatorLabel = operatorOptions.find(op => op.value === operatorValue).label;
+  const operatorLabel = thresholdOperatorOptions.find(op => op.value === operatorValue).label;
   const thresholdType = form.get('threshold').get('type')?.value;
   const metricName = form.get('rule').get('metricName').value;
 
@@ -136,7 +132,7 @@ function ThresholdCondition({
           asSimpleDropdown
           name="thresholdOperator"
           label={operatorLabel}
-          items={operatorOptions}
+          items={thresholdOperatorOptions}
           onChange={e => {
             const value = (e && e.value) || '';
             onChange(['threshold', 'operator'], f => f.setValue(value).setTouched(true));
