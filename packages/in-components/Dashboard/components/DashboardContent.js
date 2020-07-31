@@ -1,4 +1,4 @@
-import { timeout, combineLatest } from 'reactive-observables';
+import { fromPromise, timeout, combineLatest } from 'reactive-observables';
 import React from 'react';
 
 import AgentMonitoringIssueNotifications from 'in-components/Dashboard/components/AgentMonitoringIssueNotifications';
@@ -9,8 +9,9 @@ import DashboardHeader from 'in-components/Dashboard/components/DashboardHeader'
 import SidebarContent from 'in-components/MapSidebar/components/SidebarContent';
 import NotFoundDialog from 'in-components/Dashboard/components/NotFoundDialog';
 import { timeConfig$, getTimeConfigAtMoment } from 'in-stores/time/config';
-import getForgeComponent from 'in-services/getForgeComponent';
+import { getForgeComponent } from 'in-services/getForgeComponent';
 import { scrollToTopSmoothly } from 'in-services/util/dom';
+import useObservable from 'in-hooks/useObservable';
 import { getSingular } from 'in-sdk/pluginName';
 import { getLabel } from 'in-sdk/snapshot';
 import Sticky from 'in-components/Sticky';
@@ -48,7 +49,20 @@ export default connectTo(
     versionsForFocusedMoment,
     versionsForLive
   }) {
-    if ((!snapshot && !showVersionSelector) || (snapshot && snapshotId !== snapshot.get('id'))) {
+    const plugin = snapshot?.get('plugin');
+    const DashboardImpl = useObservable(plugin && fromPromise(getForgeComponent(`./${plugin}/Dashboard/Content.js`)), [
+      plugin
+    ]);
+    const SidebarImpl = useObservable(plugin && fromPromise(getForgeComponent(`./${plugin}/Dashboard/Sidebar.js`)), [
+      plugin
+    ]);
+
+    if (
+      !DashboardImpl ||
+      !SidebarImpl ||
+      (!snapshot && !showVersionSelector) ||
+      (snapshot && snapshotId !== snapshot.get('id'))
+    ) {
       return (
         <div className={locals.loadingIndicatorWrapper}>
           <LoadingIndicator />
@@ -70,12 +84,6 @@ export default connectTo(
     // when the dashboard is closed and the selectedSnapshotId store is already cleared while
     // the selectedSnapshot store is not.
     snapshotId = snapshot.get('id');
-
-    //check if new dashboard implementation is needed
-    const plugin = snapshot.get('plugin');
-
-    const DashboardImpl = getForgeComponent(`./${plugin}/Dashboard/Content.js`);
-    const SidebarImpl = getForgeComponent(`./${plugin}/Dashboard/Sidebar.js`);
 
     return (
       <div>

@@ -1,7 +1,7 @@
 /* global require:false */
 
-const context = require.context('../in-forge/plugins', true, /\/[a-zA-Z0-9]+\.js$/);
+const context = require.context('../in-forge/plugins', true, /\/[a-zA-Z0-9]+\.js$/, 'lazy-once');
 
-export default function getForgeComponent(path) {
-  return context(path).default;
+export function getForgeComponent(path) {
+  return context(path).then(mod => mod.default);
 }

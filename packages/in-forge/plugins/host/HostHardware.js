@@ -1,25 +1,32 @@
+import { fromPromise } from 'reactive-observables';
 import React from 'react';
 
 import { getSnapshot, getFoundations } from 'in-stores/snapshot';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
-import getForgeComponent from 'in-services/getForgeComponent';
+import { getForgeComponent } from 'in-services/getForgeComponent';
 import { alwaysNull } from 'in-services/fixedStreams';
+import useObservable from 'in-hooks/useObservable';
 import { getSingular } from 'in-sdk/pluginName';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
   props => {
     return {
-      foundationSnapshot: getFoundations(props.snapshotId).flatMap(
-        snapshots => (snapshots.size > 0 ? getSnapshot(snapshots.first()) : alwaysNull)
+      foundationSnapshot: getFoundations(props.snapshotId).flatMap(snapshots =>
+        snapshots.size > 0 ? getSnapshot(snapshots.first()) : alwaysNull
       )
     };
   },
   function HostHardware({ foundationSnapshot }) {
-    if (!foundationSnapshot) {
+    const foundationSnapshotPlugin = foundationSnapshot?.get('plugin');
+    const Details = useObservable(
+      foundationSnapshotPlugin && fromPromise(getForgeComponent(`./${foundationSnapshotPlugin}/Info.js`)),
+      [foundationSnapshotPlugin]
+    );
+
+    if (!foundationSnapshot || !Details) {
       return null;
     }
-    const Details = getForgeSpecificComponent(foundationSnapshot);
 
     return (
       <div>
@@ -33,7 +40,3 @@ export default connectTo(
     );
   }
 );
-
-function getForgeSpecificComponent(snapshot) {
-  return getForgeComponent('./' + snapshot.get('plugin') + '/Info.js');
-}
