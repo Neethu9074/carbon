@@ -102,7 +102,7 @@ export default function AlertProperties({
               }
             }}
             hasError={hasError(form.get('description'))}
-            maxLength={500}
+            maxLength={250}
             placeholder={getDescriptionPlaceholder(form)}
           />
         }
