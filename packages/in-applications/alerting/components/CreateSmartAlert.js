@@ -1,3 +1,4 @@
+import { just } from 'reactive-observables';
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
@@ -14,9 +15,10 @@ import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(({ applicationLabel, applicationId, serviceId, endpointId }) => {
   const observables = {};
-  if (!applicationLabel && applicationId) {
-    observables.applicationLabel = getApplication({ id: applicationId }).map(getLabel);
-  }
+
+  observables.applicationLabel =
+    !applicationLabel && applicationId ? getApplication({ id: applicationId }).map(getLabel) : just(applicationLabel);
+
   if (serviceId) {
     observables.serviceLabel = getServiceLabel({ id: serviceId }).map(getLabel);
   }
