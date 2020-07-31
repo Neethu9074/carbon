@@ -145,19 +145,17 @@ function ThresholdCondition({
           label={getAggregationLabelAndUpdateFormIfNeeded(form, updateForm)}
           items={getAggregationOptions(form)}
           onChange={({ value = '' }) => {
-            let updatedForm = form
-              .updateIn(['rule', 'aggregation'], f => f.setValue(value).setTouched(true))
-              .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true));
+            const thresholdType = form.get('threshold').get('type').value;
+            updateForm(
+              form
+                .updateIn(['rule', 'aggregation'], f => f.setValue(value).setTouched(true))
+                .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
+                // reset "old" threshold/baseline-value to ensure that we don't call endpoints with the previous values
+                .updateIn(['threshold', thresholdType === 'historicBaseline' ? 'baseline' : 'value'], f =>
+                  f.setValue(null).setTouched(true)
+                )
+            );
 
-            const thresholdType = updatedForm.get('threshold').get('type').value;
-            // reset "old" threshold/baseline-value to ensure that we don't call endpoints with the previous values
-            if (thresholdType === 'historicBaseline') {
-              updatedForm = updatedForm.updateIn(['threshold', 'baseline'], f => f.setValue(null).setTouched(true));
-            } else {
-              updatedForm = updatedForm.updateIn(['threshold', 'value'], f => f.setValue(null).setTouched(true));
-            }
-
-            updateForm(updatedForm);
             applicationsAlertingThresholdAggregationChanged(getTrackingObject(form, { value }));
           }}
         />
