@@ -1,4 +1,4 @@
-import { healthFormatter } from 'in-forge/plugins/ceph/Dashboard/Content';
+import { healthFormatter } from 'in-forge/plugins/ceph/formatters';
 import { bytes } from 'in-services/formatters/number';
 
 export default [

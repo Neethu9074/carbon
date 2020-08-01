@@ -1,3 +1,4 @@
+import { fromPromise } from 'reactive-observables';
 import React, { Fragment } from 'react';
 import { compose } from 'recompose';
 
@@ -20,11 +21,13 @@ import { getVsphereDatacenterDashboard } from 'in-vsphere/navigation/paths';
 import { getApplicationDashboard } from 'in-cloudfoundry/navigation/paths';
 import { getOptionalSnapshotDefinition } from 'in-sdk/snapshot/registry';
 import { pcfEnabled, vsphereEnabled } from 'in-services/featureFlags';
+import { getForgeComponent } from 'in-services/getForgeComponent';
 import EntityLink from 'in-new-components/EntityLink/EntityLink';
 import { getTimeConfigAtMoment } from 'in-stores/time/config';
 import { formatDateTime } from 'in-services/formatters/date';
 import ButtonGroup from 'in-new-components/ButtonGroup';
 import Footer from 'in-new-components/Footer/Footer';
+import useObservable from 'in-hooks/useObservable';
 import PluginIcon from 'in-components/PluginIcon';
 import withUrlState from 'in-hoc/withUrlState';
 import { plugins } from 'in-forge/constants';
@@ -558,8 +561,12 @@ function UnmonitoredEntity() {
 
 function SubscriptComponentForSnapshot({ plugin, snapshot, time }) {
   const snapshotDefinition = getOptionalSnapshotDefinition(plugin);
-  if (snapshotDefinition && typeof snapshotDefinition.infrastructureTabSubscript === 'function') {
-    const Subscript = snapshotDefinition.infrastructureTabSubscript;
+  const Subscript = useObservable(
+    snapshotDefinition.supportsInfrastructureTabSubscript &&
+      fromPromise(getForgeComponent(`./${plugin}/InfrastructureTabSubscript/InfrastructureTabSubscript.js`)),
+    [plugin]
+  );
+  if (Subscript) {
     return <Subscript snapshot={snapshot} time={time} />;
   }
   return null;

@@ -1,4 +1,3 @@
-import infrastructureTabSubscript from './InfrastructureTabSubscript/InfrastructureTabSubscript';
 import iconSvgPath from 'in-forge/plugins/awsEcsContainer/iconPath';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
@@ -10,5 +9,5 @@ registerSnapshotDefinition({
     plural: 'AWS ECS Containers'
   },
   iconSvgPath,
-  infrastructureTabSubscript
+  supportsInfrastructureTabSubscript: true
 });

@@ -1,4 +1,4 @@
-import { greaterThanZeroFormatter } from 'in-forge/plugins/rabbitMq/Dashboard/Content';
+import { greaterThanZeroFormatter } from 'in-forge/plugins/rabbitMq/formatters';
 
 export default [
   {

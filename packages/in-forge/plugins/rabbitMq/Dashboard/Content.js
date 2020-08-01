@@ -3,6 +3,7 @@ import React from 'react';
 import { zeroDecimalPlaces, twoDecimalPlaces } from 'in-services/formatters/number';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
+import { greaterThanZeroFormatter } from 'in-forge/plugins/rabbitMq/formatters';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import QueuesTable from 'in-forge/plugins/rabbitMq/Dashboard/QueuesTable';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
@@ -11,8 +12,6 @@ import DashboardNotification from 'in-components/DashboardNotification';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { emptyMap } from 'in-services/fixedImmutables';
 import MetricValue from 'in-components/MetricValue';
-
-export const greaterThanZeroFormatter = value => (value < 0 ? '—' : zeroDecimalPlaces(value));
 
 export default function RabbitMqDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');

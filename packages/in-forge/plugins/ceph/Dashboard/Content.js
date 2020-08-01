@@ -11,6 +11,7 @@ import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import DashboardNotification from 'in-components/DashboardNotification';
+import { healthFormatter } from 'in-forge/plugins/ceph/formatters';
 import PoolTable from 'in-forge/plugins/ceph/Dashboard/PoolTable';
 import MetricValue from 'in-components/MetricValue';
 
@@ -193,14 +194,4 @@ export default function CephDashboard({ snapshot, timeConfig }) {
       <PoolTable snapshot={snapshot} timeConfig={timeConfig} />
     </div>
   );
-}
-
-export function healthFormatter(value) {
-  if (value === 0) {
-    return 'HEALTH_OK';
-  } else if (value === 1) {
-    return 'HEALTH_WARN';
-  } else {
-    return 'HEALTH_ERR';
-  }
 }
