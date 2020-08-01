@@ -1,11 +1,6 @@
 import initialiseSteps from 'in-init/initialiseSteps';
 
 initialiseSteps([
-  // polyfills
-  'coreJsPolyfills',
-  'perfNowPolyfill',
-  'mapPolyfill',
-
   // console concat and build information
   'consoleBuildInformation',
 
