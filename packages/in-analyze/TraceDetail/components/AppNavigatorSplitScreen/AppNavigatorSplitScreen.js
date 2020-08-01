@@ -2,8 +2,8 @@ import { compose } from 'recompose';
 import { findIndex } from 'lodash';
 import React from 'react';
 
-import { leftArrowId, rightArrowId } from 'in-analyze/TraceDetail/components/NavigatorSplitScreen/NavigatorSplitScreen';
 import { traceId as traceIdMatrixParameter, callId as callIdMatrixParameter } from 'in-analyze/navigation/matrix';
+import { leftArrowId, rightArrowId } from 'in-analyze/TraceDetail/components/NavigatorSplitScreen/elementIds';
 import getTraceActivityTreeNodeDetails from 'in-subscription/application/getTraceActivityTreeNodeDetails';
 import { debouncedResize$, refreshWindowSizeDependingState } from 'in-services/browser';
 import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';

@@ -1,6 +1,7 @@
 import { compose } from 'recompose';
 import React from 'react';
 
+import { leftArrowId, rightArrowId } from 'in-analyze/TraceDetail/components/NavigatorSplitScreen/elementIds';
 import { debouncedResize$, refreshWindowSizeDependingState } from 'in-services/browser';
 import SideEffectOnPropertyChange from 'in-components/SideEffectOnPropertyChange';
 import withPropDependingState from 'in-hoc/withPropDependingState';
@@ -12,9 +13,6 @@ import Sticky from 'in-components/Sticky';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './NavigatorSplitScreen.mless';
-
-export const leftArrowId = 'navigator-previous-item';
-export const rightArrowId = 'navigator-next-item';
 
 export default compose(
   connectTo({

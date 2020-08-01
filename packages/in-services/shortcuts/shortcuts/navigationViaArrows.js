@@ -1,4 +1,4 @@
-import { leftArrowId, rightArrowId } from 'in-analyze/TraceDetail/components/NavigatorSplitScreen/NavigatorSplitScreen';
+import { leftArrowId, rightArrowId } from 'in-analyze/TraceDetail/components/NavigatorSplitScreen/elementIds';
 
 export function onLeftArrow(e) {
   tryClick(e, leftArrowId);
