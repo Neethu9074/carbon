@@ -1,3 +1,4 @@
+import { ensureInfraPluginsAreEvaluated } from 'in-sdk/asyncEvaluation';
 import { emptyMap } from 'in-services/fixedImmutables';
 import unknownIconSvgPath from './unknownIconPath';
 
@@ -14,11 +15,13 @@ export function addIconPathCallback(plugin, callback) {
 }
 
 export function getIconSvgPath(snapshotOrPlugin) {
+  ensureInfraPluginsAreEvaluated();
   const match = iconSvgPathRegistry[getIconPath(snapshotOrPlugin)];
   return match ? match : unknownIconSvgPath;
 }
 
 export function getIconPath(snapshotOrPlugin) {
+  ensureInfraPluginsAreEvaluated();
   const isSnapshot = typeof snapshotOrPlugin === 'object';
   if (isSnapshot) {
     const plugin = snapshotOrPlugin.get('plugin');
@@ -30,6 +33,7 @@ export function getIconPath(snapshotOrPlugin) {
 }
 
 export function getAllSvgIconPaths() {
+  ensureInfraPluginsAreEvaluated();
   const icons = [
     {
       id: 'unknownIcon',

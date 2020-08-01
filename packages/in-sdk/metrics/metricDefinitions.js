@@ -1,3 +1,4 @@
+import { ensureInfraPluginsAreEvaluated } from 'in-sdk/asyncEvaluation';
 import { number } from 'in-services/formatters/number';
 import { emptyArray } from 'in-services/fixedObjects';
 
@@ -151,6 +152,7 @@ function alwaysTrue() {
 }
 
 export function getMetricDefinition(plugin, metric) {
+  ensureInfraPluginsAreEvaluated();
   const metricDefinitionsForPlugin = metricDefinitions[plugin];
   if (!metricDefinitionsForPlugin) {
     return getDefaultMetricDefinition(metric);
@@ -208,6 +210,7 @@ function simpleCurryOne(fn, value) {
  * Get the metric definitions for the given plugin for plain metrics.
  */
 export function getCategories(plugin) {
+  ensureInfraPluginsAreEvaluated();
   if (categories[plugin]) {
     return categories[plugin];
   }
@@ -242,6 +245,7 @@ function buildCategories(plugin) {
  * Get the metric definitions for the given plugin for dynamic metrics (with only one placeholder).
  */
 export function getDynamicMetricCategories(plugin) {
+  ensureInfraPluginsAreEvaluated();
   if (dynamicMetricCategories[plugin]) {
     return dynamicMetricCategories[plugin];
   }

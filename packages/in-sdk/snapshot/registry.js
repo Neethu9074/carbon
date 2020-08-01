@@ -1,6 +1,7 @@
 import { clone } from 'lodash';
 
 import { addIconSvgPathToRegistry, addIconPathCallback } from 'in-sdk/iconRegistry';
+import { ensureInfraPluginsAreEvaluated } from 'in-sdk/asyncEvaluation';
 import { addToRegistry } from 'in-applications/technologyRegistry';
 import { setHumanReadablePluginName } from 'in-sdk/pluginName';
 import { registerKpiDefinition } from 'in-sdk/metrics/kpis';
@@ -23,6 +24,7 @@ export function registerSnapshotDefinition(snapshotDefinition) {
 }
 
 export function getOptionalSnapshotDefinition(plugin) {
+  ensureInfraPluginsAreEvaluated();
   return registry[plugin];
 }
 

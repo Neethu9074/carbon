@@ -1,3 +1,5 @@
+import { ensureInfraPluginsAreEvaluated } from 'in-sdk/asyncEvaluation';
+
 const registry = {};
 
 export function registerKpiDefinition(plugin, kpiDefinitions) {
@@ -5,6 +7,7 @@ export function registerKpiDefinition(plugin, kpiDefinitions) {
 }
 
 export function getKpiDefinitions(plugin) {
+  ensureInfraPluginsAreEvaluated();
   const kpiDefinitions = registry[plugin];
 
   if (kpiDefinitions) {

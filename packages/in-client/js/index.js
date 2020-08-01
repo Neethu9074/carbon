@@ -19,9 +19,6 @@ initialiseSteps([
   // dev mode globals
   'dev',
 
-  // plugin system
-  'forge',
-
   // end-user monitoring for internal purposes
   'ineum',
 

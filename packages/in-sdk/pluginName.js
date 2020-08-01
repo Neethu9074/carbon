@@ -1,3 +1,5 @@
+import { ensureInfraPluginsAreEvaluated } from 'in-sdk/asyncEvaluation';
+
 const translationTable = {};
 
 export function setHumanReadablePluginName(plugin, singular, plural) {
@@ -16,6 +18,7 @@ export function getPlural(plugin) {
 }
 
 function get(plugin, prop) {
+  ensureInfraPluginsAreEvaluated();
   if (!(plugin in translationTable)) {
     return plugin;
   }

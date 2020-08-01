@@ -28,7 +28,13 @@ glyphTexture.generateMipmaps = false;
 glyphTexture.needsUpdate = true;
 glyphTexture.flipY = false;
 
+let initialized = false;
 export function init() {
+  if (initialized) {
+    return;
+  }
+  initialized = true;
+
   const iconWidth = config.iconWidth;
   let column = 0;
   let row = 0;

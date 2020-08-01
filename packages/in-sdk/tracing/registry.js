@@ -1,6 +1,7 @@
 import { createLogger } from 'instalog';
 
 import genericLogSpanDefinition from 'in-forge/tracing/log/genericLogSpanDefinition';
+import { ensurTracingPluginsAreEvaluated } from 'in-sdk/asyncEvaluation';
 
 let missingSpanDefinitionReported = false;
 
@@ -33,6 +34,7 @@ export function registerSpanDefinition(spanDefinition) {
 }
 
 export function getSpanDefinition(type, span) {
+  ensurTracingPluginsAreEvaluated();
   const spanDefinition = registry[type];
   if (spanDefinition) {
     return spanDefinition;

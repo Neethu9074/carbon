@@ -6,7 +6,6 @@ import React from 'react';
 import 'in-themes/foundation.less';
 import './globals';
 import './globalTagDefinition';
-import 'in-forge';
 // End: Initialize Instana specific globals
 // ################################################
 

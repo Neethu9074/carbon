@@ -1,3 +1,4 @@
+import { ensureInfraPluginsAreEvaluated } from 'in-sdk/asyncEvaluation';
 import { compareIgnoreCase } from 'in-services/util/string';
 
 const UNKNOWN_LABEL = 'Unknown';
@@ -19,6 +20,8 @@ export function getLabel(snapshot, fallback) {
   if (!snapshot) {
     return fallback;
   }
+
+  ensureInfraPluginsAreEvaluated();
 
   const plugin = snapshot.get('plugin');
   const finder = labelFinder[plugin];

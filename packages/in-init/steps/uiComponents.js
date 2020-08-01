@@ -1,6 +1,5 @@
 /* global require:false */
 
-require('in-map/singleMeshFactories/pluginIconsGlyphTexture').init();
 require('in-services/browser').init();
 require('in-stores/timeOffset').init();
 require('in-components/MessageDialog/MessageDialogStores').init();

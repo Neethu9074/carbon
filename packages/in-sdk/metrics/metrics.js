@@ -15,7 +15,7 @@ export {
   isMetricPercentile
 } from 'in-sdk/metrics/metricDefinitions';
 
-import { getCategories, getDynamicMetricCategories } from 'in-sdk/metrics';
+import { getCategories, getDynamicMetricCategories } from 'in-sdk/metrics/metricDefinitions';
 
 const dynamicMetricNoPostfixItemDelimiter = '.*';
 const dynamicMetricItemDelimiter = '.*.';

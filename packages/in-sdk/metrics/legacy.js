@@ -1,3 +1,4 @@
+import { ensureInfraPluginsAreEvaluated } from 'in-sdk/asyncEvaluation';
 import { find } from 'in-services/arrayUtils';
 
 // {
@@ -30,6 +31,7 @@ export function addFormattedValueLocator(metric, locator) {
 }
 
 export function getMaxValue(metric, snapshot) {
+  ensureInfraPluginsAreEvaluated();
   const locator = find(maxValueLocators, eachLocator => metric.match(eachLocator.metric));
 
   if (!locator) {
@@ -40,6 +42,7 @@ export function getMaxValue(metric, snapshot) {
 }
 
 export function getMinValue(metric, snapshot) {
+  ensureInfraPluginsAreEvaluated();
   const locator = find(minValueLocators, eachLocator => metric.match(eachLocator.metric));
 
   if (!locator) {
@@ -49,6 +52,7 @@ export function getMinValue(metric, snapshot) {
 }
 
 export function getFormattedValue(metric, snapshot, value) {
+  ensureInfraPluginsAreEvaluated();
   const locator = find(formattedValueLocators, eachLocator => metric.match(eachLocator.metric));
 
   if (!locator) {
