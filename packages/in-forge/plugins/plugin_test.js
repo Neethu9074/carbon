@@ -9,6 +9,7 @@ import path from 'path';
 import fs from 'fs';
 
 import { getOptionalSnapshotDefinition } from 'in-sdk/snapshot/registry';
+import { metricDefinitions } from 'in-sdk/metrics/metricDefinitions';
 import { plugins, fullyQualifiedPlugins } from 'in-forge/constants';
 import { getKpiDefinitions } from 'in-sdk/metrics/kpis';
 import { getChartWiggleRoom } from 'in-sdk/snapshot';
@@ -52,6 +53,19 @@ describe('in-forge/plugins', () => {
         getKpiDefinitions(plugin).forEach(kpi => {
           if (kpi.formatter != null) {
             expect(kpi.formatter).to.be.a('function');
+          }
+        });
+      });
+
+      it('must only define objects with compact/details fields as formatters for metric definitions', () => {
+        (metricDefinitions[plugin] || []).forEach(metric => {
+          if (metric.formatter != null) {
+            const explanation =
+              `Metric ${JSON.stringify(metric.metric)} of plugin ${plugin} does not define an object with 'compact' ` +
+              `and 'detailed' fields as its formatter.`;
+            expect(metric.formatter).to.be.an('object', explanation);
+            expect(metric.formatter.compact).to.be.a('function', explanation);
+            expect(metric.formatter.detailed).to.be.a('function', explanation);
           }
         });
       });

@@ -69,6 +69,19 @@ export function registerMetricDefinition(plugin, metricDefinition) {
   }
 
   const metricDefinitionsForPlugin = (metricDefinitions[plugin] = metricDefinitions[plugin] || []);
+  let formatter = number;
+  if (typeof metricDefinition.formatter === 'function') {
+    formatter = {
+      compact: metricDefinition.formatter,
+      detailed: metricDefinition.formatter
+    };
+  } else if (
+    typeof metricDefinition.formatter === 'object' &&
+    typeof metricDefinition.formatter.compact === 'function' &&
+    typeof metricDefinition.formatter.detailed === 'function'
+  ) {
+    formatter = metricDefinition.formatter;
+  }
 
   for (let i = 0, len = metricDefinition.metrics.length; i < len; i++) {
     const metric = metricDefinition.metrics[i];
@@ -82,7 +95,7 @@ export function registerMetricDefinition(plugin, metricDefinition) {
       hideInMetricSelector: !!metricDefinition.hideInMetricSelector,
       getMin: getMin(metricDefinition),
       getMax: getMax(metricDefinition),
-      formatter: metricDefinition.formatter || number,
+      formatter,
       isPercentile: metricDefinition.isPercentile
     });
   }

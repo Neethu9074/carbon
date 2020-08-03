@@ -6,7 +6,7 @@ export default [
     label: 'Duration',
     category: ['Ping'],
     min: 0,
-    formatter: millis.fixedCompact
+    formatter: millis
   },
   {
     metric: 'status',
