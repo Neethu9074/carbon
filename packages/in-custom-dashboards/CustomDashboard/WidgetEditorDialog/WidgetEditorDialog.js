@@ -1,5 +1,5 @@
 import { createMapForm, createField, notBlankValidator } from 'formalistic';
-import { compose, withState, withProps } from 'recompose';
+import React, { useState } from 'react';
 
 import WidgetEditorDialogPresenter from 'in-custom-dashboards/CustomDashboard/WidgetEditorDialog/WidgetEditorDialogPresenter';
 import { stringValidator, numberValidator } from 'in-services/validators/jsonType';
@@ -11,35 +11,42 @@ import { close } from 'in-components/DialogPresenter/store';
 import { generateUniqueShortId } from 'in-services/util/id';
 import widgets, { enabledWidgets } from 'in-custom-dashboards/widgets';
 
-export default compose(
-  withState('form', 'setForm', ({ widget }) => getInitialFormState(widget)),
-  withProps(({ form, setForm, onSubmit, widget }) => ({
-    isEditing: widget != null,
-    onChange: (path, fn) => setForm(form.updateIn(path, fn)),
-    onChangeType: type => {
-      if (type === form.get('type').value) {
-        return;
-      }
+export default function WidgetEditorDialog({ widget, onSubmit }) {
+  const [form, setForm] = useState(getInitialFormState(widget));
+  const [slideInView, setSlideInView] = useState(null);
 
-      setForm(
-        form
-          .updateIn(['type'], field => field.setValue(type).setTouched(true))
-          .put('config', widgets[type].createForm())
-          // Do not show any validation failures when switching the widget type.
-          .setTouched(false, { recurse: true })
-      );
-    },
-    onSubmit: () => {
-      if (!form.hierarchyValid) {
-        setForm(form.setTouched(true, { recurse: true }));
-        return;
-      }
+  return (
+    <WidgetEditorDialogPresenter
+      form={form}
+      isEditing={widget != null}
+      onChange={(path, fn) => setForm(form.updateIn(path, fn))}
+      onChangeType={type => {
+        if (type === form.get('type').value) {
+          return;
+        }
 
-      onSubmit(form.toJS());
-      close();
-    }
-  }))
-)(WidgetEditorDialogPresenter);
+        setForm(
+          form
+            .updateIn(['type'], field => field.setValue(type).setTouched(true))
+            .put('config', widgets[type].createForm())
+            // Do not show any validation failures when switching the widget type.
+            .setTouched(false, { recurse: true })
+        );
+      }}
+      onSubmit={() => {
+        if (!form.hierarchyValid) {
+          setForm(form.setTouched(true, { recurse: true }));
+          return;
+        }
+
+        onSubmit(form.toJS());
+        close();
+      }}
+      slideInView={slideInView}
+      setSlideInView={setSlideInView}
+    />
+  );
+}
 
 export function getInitialFormState(widget) {
   const type = widget?.type ?? defaultType;

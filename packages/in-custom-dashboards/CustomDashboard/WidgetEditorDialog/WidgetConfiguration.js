@@ -7,7 +7,7 @@ import widgets from 'in-custom-dashboards/widgets';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
 
-export default function WidgetConfiguration({ form, onChange }) {
+export default function WidgetConfiguration({ form, onChange, setSlideInView }) {
   const selectedType = form.get('type').value;
   const widget = widgets[selectedType];
 
@@ -17,6 +17,7 @@ export default function WidgetConfiguration({ form, onChange }) {
       onChange={(path, fn) => onChange(['config', ...path], fn)}
       widgetTitleFormGroup={<TitleInput form={form} onChange={onChange} />}
       widgetPreview={<WidgetPreview form={form} onChange={onChange} />}
+      setSlideInView={setSlideInView}
     />
   );
 }

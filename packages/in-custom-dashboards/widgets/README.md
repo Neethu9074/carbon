@@ -47,6 +47,29 @@ Each widget needs to define the following exports.
    - `widgetTitleFormGroup`: A React element to render the form group containing the widget
                              title input field.
    - `widgetPreview`: A react element containing the logic to render a widget preview.
+   - `setSlideInView`: A function that can be used to trigger a slide-in view across the
+                       whole dialog. Usage example:
+
+```
+<Button
+  onClick={() =>
+    setSlideInView({
+      title: 'My Slide In View',
+      getContent({ slideOut }) {
+        return (
+          <p>
+            Hello from my slide in view!
+            <Button onClick={slideOut}>Close slide in view</Button>
+          </p>
+        );
+      }
+    })
+  }
+>
+  Do something in a slide in view!
+</Button>
+```
+
  - `minimumWidth`: The minimum number of horizontal grid cells necessary in order to
                    render this widget. Users cannot configure the widget to use
                    fewer than these number of vertical cells.
