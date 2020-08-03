@@ -15,8 +15,8 @@ export default function ProfileChart({ profile, timeConfig, jvmSnapshot, process
     type: 'line'
   };
   if (jvmSnapshot) {
-    const collectors = jvmSnapshot.getIn(['data', 'jvm.collectors']).toArray();
-    if (collectors.length > 0) {
+    const collectors = jvmSnapshot.getIn(['data', 'jvm.collectors'])?.toArray();
+    if (collectors?.length > 0) {
       chart = (
         <Chart
           key={1}
