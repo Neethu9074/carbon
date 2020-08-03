@@ -4,7 +4,6 @@
   .operator {
     margin-right: 0.25rem;
     padding: 0.0225rem 0.3125rem;
-    background: #fff;
 
     border: 1px solid @lib__colors__N300;
     border-radius: @lib__shapes__radius_large;
@@ -18,7 +17,18 @@
       border-color: @lib__colors__light-blue800;
     }
 
-    &:focus, &:active {
+    .operator {
+      background: @lib__colors__N050;
+      color: @lib__colors__N900Primary;
+    }
+
+    .operator_dark {
+      background: @lib__colors__N900Primary;
+      color: @lib__colors__N050;
+    }
+
+    &:focus,
+    &:active {
       outline: none;
       background: @lib__colors__N200;
       border-color: @lib__colors__light-blue800;

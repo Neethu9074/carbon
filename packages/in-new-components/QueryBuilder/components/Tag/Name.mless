@@ -4,7 +4,9 @@
   .name {
     margin-right: 0.25rem;
     font-weight: 600;
-    color: @lib__colors__N900Primary;
+
+    color: var(--query-builder-element-color);
+
     border: 0;
     background: none;
     padding: 0 0.25rem;
@@ -12,7 +14,9 @@
     border-radius: @lib__shapes__radius_medium;
     cursor: pointer;
 
-    &:focus, &:active, &:hover {
+    &:focus,
+    &:active,
+    &:hover {
       outline: none;
       color: @lib__colors__light-blue800;
 

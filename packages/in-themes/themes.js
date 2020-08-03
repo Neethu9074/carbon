@@ -1,5 +1,6 @@
 import React from 'react';
 
+export const dark = 'dark';
 export const light = 'light';
 export const lightV2 = 'lightV2';
 

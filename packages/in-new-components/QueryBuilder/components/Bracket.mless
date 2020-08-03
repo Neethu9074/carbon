@@ -5,12 +5,12 @@
     display: inline-block;
   }
 
-  .bracket {
+  .bracket,
+  .bracket_dark {
     display: inline;
 
     padding: 0.3rem;
 
-    background: @lib__colors__N050;
     color: @lib__colors__success;
     border: 1px solid @lib__colors__N400;
     border-radius: @lib__shapes__radius_medium;
@@ -25,6 +25,14 @@
       background: @lib__colors__N200;
       border-color: @lib__colors__light-blue800;
     }
+  }
+
+  .bracket {
+    background: @lib__colors__N050;
+  }
+
+  .bracket_dark {
+    background: @lib__colors__N900Primary;
   }
 
   .invalid {

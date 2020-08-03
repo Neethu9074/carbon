@@ -4,10 +4,11 @@ import React from 'react';
 import { stopPropagation, stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import { useObservableConfig } from 'in-components/Link/Link';
+import useThemedLocals from 'in-hooks/useThemedLocals';
 import useObservable from 'in-hooks/useObservable';
 import SvgIcon from 'in-components/SvgIcon';
 
-import locals from './Button.mless';
+import styleDefs from './Button.mless';
 
 export const kinds = [
   'primary',
@@ -52,6 +53,8 @@ export default function Button({
   autoFocus,
   noAutoMargin
 }) {
+  const locals = useThemedLocals(styleDefs);
+
   // Avoid changing the element type every time the link goes from unresolved to resolved.
   // This can cause several problems: Lost focus, tooltip component breaking…
   const willBeALink = href$ || href;

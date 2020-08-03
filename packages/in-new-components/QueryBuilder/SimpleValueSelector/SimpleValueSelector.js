@@ -5,11 +5,12 @@ import OverlayOption from 'in-new-components/QueryBuilder/OverlayOption/OverlayO
 import LoadingList from 'in-new-components/lists/List/sharedComponents/LoadingList';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import { Ul, Li } from 'in-new-components/lists/List/List';
+import useThemedLocals from 'in-hooks/useThemedLocals';
 import { isLoading } from 'in-services/util/result';
 import Typeahead from 'in-new-components/Typeahead';
 import useObservable from 'in-hooks/useObservable';
 
-import locals from './SimpleValueSelector.mless';
+import styleDefs from './SimpleValueSelector.mless';
 
 export default function SimpleValueSelector({
   onChange,
@@ -19,6 +20,8 @@ export default function SimpleValueSelector({
   fieldsToWatch,
   inputProps = {}
 }) {
+  const locals = useThemedLocals(styleDefs);
+  
   return (
     <Typeahead
       render={render}
@@ -26,14 +29,17 @@ export default function SimpleValueSelector({
       value={value}
       onChange={e => onChange(e.value)}
       close={close}
-      inputProps={inputProps}
+      inputProps={{ ...inputProps, locals }}
       getSuggestions={getSuggestions}
       fieldsToWatch={fieldsToWatch}
+      locals={locals}
     />
   );
 }
 
 function render({ inputProps, getInputProps, isOpen, openMenu, ...remainingProps }) {
+  const { locals } = inputProps;
+
   return (
     <>
       <AutosizeInput
@@ -58,7 +64,8 @@ function SuggestionsList({
   getItemProps,
   highlightedIndex,
   close,
-  fieldsToWatch
+  fieldsToWatch,
+  locals
 }) {
   const suggestionsResult = useObservable(getSuggestions(), fieldsToWatch);
 

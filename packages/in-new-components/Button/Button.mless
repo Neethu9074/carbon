@@ -214,6 +214,31 @@
     }
   }
 
+  .subtle_dark {
+    .buttonStyle(
+        // bg
+          @lib__colors__transparent,
+        // hover bg
+          @lib__colors__N300,
+        // font
+          @lib__colors__white,
+        // hover font
+          @lib__colors__N600Light,
+        //font size
+          @lib__typography__button__font-size,
+        //font weight
+          200
+      )
+      ;;
+
+    &.disabled,
+    &.disabled:hover,
+    &.disabled:focus {
+      color: rgba(98, 117, 125, 0.48);
+      background: @lib__colors__white;
+    }
+  }
+
   .create {
     .buttonStyle(
         // bg
@@ -371,7 +396,7 @@
   }
 
   .xl {
-    padding: .3rem 1rem;
+    padding: 0.3rem 1rem;
     height: 3.375rem;
     font-size: 1rem;
     font-weight: 600;

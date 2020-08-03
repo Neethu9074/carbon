@@ -15,15 +15,18 @@ import Entity from 'in-new-components/QueryBuilder/components/Tag/Entity';
 import Remove from 'in-new-components/QueryBuilder/components/Tag/Remove';
 import Name from 'in-new-components/QueryBuilder/components/Tag/Name';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
+import useThemedLocals from 'in-hooks/useThemedLocals';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 
-import locals from './Tag.mless';
+import styleDefs from './Tag.mless';
 
 export default function Tag(props) {
   const { onChange: onChangeInFormModel, onRemove, dragAndDropProps, tagCatalog, element, getSuggestions } = props;
   const { renderModelIndex, formModelIndex } = element;
   const form = createTagForm(tagCatalog, element);
   const { allowedOperators, valueType, type: tagType } = getFormPresentationInformation(tagCatalog, form);
+
+  const locals = useThemedLocals(styleDefs);
 
   // To allow re-rendering when no React state has changed. We use this when we change the
   // postUpdateFocus ref in order to force React to re-execute the hooks. Updating a ref
@@ -161,6 +164,7 @@ function ValueInput({ valueType, form, onChange, tagType, getSuggestions }) {
     return null;
   }
 
+  const locals = useThemedLocals(styleDefs);
   if (valueType === Boolean) {
     return <span className={locals.booleanPlaceholder}>true</span>;
   }

@@ -6,14 +6,14 @@ import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './Section.mless';
 
-export default function Section({ title, icon, children, actions, firstLineAlignmentOffsetPx = 0 }) {
+export default function Section({ className, title, icon, children, actions, firstLineAlignmentOffsetPx = 0 }) {
   const verticalPositionCorrection = {
     position: 'relative',
     top: `${firstLineAlignmentOffsetPx}px`
   };
 
   return (
-    <Li component="div" noAlternatingBg>
+    <Li className={className} component="div" noAlternatingBg>
       <div className={locals.section}>
         <div className={locals.title} style={verticalPositionCorrection}>
           {icon && <SvgIcon type={icon} />}
@@ -38,6 +38,7 @@ Section.propTypes = {
   // within children.
   firstLineAlignmentOffsetPx: PropTypes.number,
   icon: PropTypes.string.isRequired,
+  className: PropTypes.string,
   actions: PropTypes.oneOfType([PropTypes.element, PropTypes.bool]),
   children: PropTypes.node.isRequired
 };

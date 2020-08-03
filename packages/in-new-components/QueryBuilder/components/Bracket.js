@@ -7,11 +7,13 @@ import {
 import ConjunctionOrBracketBehavior from 'in-new-components/QueryBuilder/components/ConjunctionOrBracketBehavior';
 import { OPEN_BRACKET } from 'in-new-components/QueryBuilder/transformation/renderModel';
 import { evaluateClassNames } from 'in-services/util/classnames';
+import useThemedLocals from 'in-hooks/useThemedLocals';
 
-import locals from './Bracket.mless';
+import styleDefs from './Bracket.mless';
 
 export default function Bracket(props) {
   const { element, renderModelIndex, dragAndDropProps } = props;
+  const locals = useThemedLocals(styleDefs);
 
   return (
     <ConjunctionOrBracketBehavior

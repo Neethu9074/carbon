@@ -1,26 +1,46 @@
 @import '~in-themes/active.less';
 
 :local {
-  .tag {
+  .tag,
+  .tag_dark {
     display: inline-flex;
     align-items: center;
+
+    max-height: 1.6875rem;
+
     padding: 0.1875rem 0.3rem 0.1875rem 0.25rem;
-    background: @lib__colors__N050;
+
     border: 1px solid @lib__colors__N400;
     border-radius: @lib__shapes__radius_medium;
     font-weight: 500;
     // Ensure that all tags have the same height. No matter whether they render
     // an input field or not!
     line-height: 1.6;
-    max-height: 1.6875rem;
     cursor: pointer;
 
     &:focus,
     &:active,
     &:hover {
       outline: 0;
-      background: @lib__colors__N200;
       border-color: @lib__colors__light-blue800;
+    }
+  }
+
+  .tag {
+    background: @lib__colors__N050;
+    &:focus,
+    &:active,
+    &:hover {
+      background: @lib__colors__N200;
+    }
+  }
+
+  .tag_dark {
+    background: @lib__colors__N900Primary;
+    &:focus,
+    &:active,
+    &:hover {
+      background: @lib__colors__N700Medium;
     }
   }
 

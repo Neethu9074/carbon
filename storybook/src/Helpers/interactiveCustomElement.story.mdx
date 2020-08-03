@@ -39,7 +39,8 @@ function MyComponent() {
       {...toInteractiveElement({
         onDefaultInteraction: () => console.log('hey!'),
         ariaLabel: 'Do Something!'
-      })}>
+      })}
+    >
       My custom interactive element!
     </div>
   );
@@ -73,13 +74,14 @@ import { withInteractivitySideEffects } from 'in-new-components/interactiveCusto
 
 export default function MyComponent() {
   return (
-    <a href="https://example.com"
-       {...withInteractivitySideEffects({
+    <a
+      href="https://example.com"
+      {...withInteractivitySideEffects({
         onDefaultInteraction: () => track('user went somewhere')
-       })}>
+      })}
+    >
       Go somewhere!
     </a>
   );
 }
 ```
-

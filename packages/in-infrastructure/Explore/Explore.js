@@ -12,9 +12,9 @@ import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config'
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { themes } from 'in-new-components/DashboardHeader/DashboardHeader';
 import SearchBar from 'in-infrastructure/Explore/components/SearchBar';
-import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import { infraExplorePath } from 'in-infrastructure/navigation/paths';
 import getEntities from 'in-infrastructure/subscriptions/getEntities';
+import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import EntityLink from 'in-new-components/EntityLink/EntityLink';
 import { warning, error } from 'in-new-components/Message/types';
@@ -59,7 +59,7 @@ export default function InfraExploreView() {
             This is a work in progress. The final version of Infra Explore might look nothing like this.
           </Message>
 
-          {/* TODO remove once tag filter expressions are supported by the bacend */}
+          {/* TODO remove once tag filter expressions are supported by the backend */}
           <SearchBar onFiltersChanged={filters => setTagFilters(filters)} />
 
           <Message type={warning} withIcon small>
@@ -73,6 +73,7 @@ export default function InfraExploreView() {
               onChange={onTagFilterExpressionChange}
               QueryBuilder={QueryBuilder}
             />
+
             <ActionSection
               left={
                 <>

@@ -2,12 +2,14 @@ import React from 'react';
 
 import ConjunctionOrBracketBehavior from 'in-new-components/QueryBuilder/components/ConjunctionOrBracketBehavior';
 import { evaluateClassNames } from 'in-services/util/classnames';
+import useThemedLocals from 'in-hooks/useThemedLocals';
 
-import locals from './Conjunction.mless';
+import styleDefs from './Conjunction.mless';
 
 export default function Conjunction(props) {
   const { element, renderModelIndex, dragAndDropProps } = props;
   const { logicalOperator, valid } = element;
+  const locals = useThemedLocals(styleDefs);
 
   return (
     <ConjunctionOrBracketBehavior

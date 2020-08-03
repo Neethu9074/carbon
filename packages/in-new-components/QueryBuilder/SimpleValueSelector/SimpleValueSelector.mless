@@ -16,12 +16,12 @@
     background: @lib__colors__faded-blue800;
   }
 
-  .input {
+  .input,
+  .input_dark {
     max-width: 7.5rem;
 
     margin-right: 0.25rem;
 
-    background: @lib__colors__N050;
     line-height: 0.75rem;
     border: 1px solid transparent;
     border-radius: @lib__shapes__radius_small;
@@ -36,6 +36,14 @@
       color: @lib__colors__N400;
       opacity: 1; /* Firefox */
     }
+  }
+
+  .input {
+    background: @lib__colors__white;
+  }
+
+  .input_dark {
+    background: @lib__colors__N800Dark;
   }
 
   .invalid {
