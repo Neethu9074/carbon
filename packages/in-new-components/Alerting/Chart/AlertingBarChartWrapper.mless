@@ -1,7 +1,0 @@
-@import '~in-themes/active.less';
-
-:local {
-  .container {
-    min-height: 15.5rem;
-  }
-}
