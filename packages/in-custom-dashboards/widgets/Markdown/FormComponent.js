@@ -36,7 +36,7 @@ export default function MarkdownWidgetFormComponent({ form: field, onChange, wid
             <Link href="https://en.wikipedia.org/wiki/Markdown" external>
               standard Markdown syntax
             </Link>{' '}
-            to define arbitray text content for your dashboard.
+            to define arbitrary text content for your dashboard.
           </HelpText>
         </FormGroup>
       </StackItem>
