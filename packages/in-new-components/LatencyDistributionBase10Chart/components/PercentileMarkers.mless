@@ -7,15 +7,9 @@
     top: 0;
   }
 
-  .bucket {
-    position: absolute;
-    top: 0;
-  }
-
   .percentiles {
     position: absolute;
     top: 0;
-    transform: translate(-50%, 0);
     left: 50%;
     overflow: visible;
     padding: 0;

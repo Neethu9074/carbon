@@ -169,8 +169,8 @@ const mockSubscription2 = {
     percentiles: [
       { percentile: 50, latency: 0 },
       { percentile: 90, latency: 0 },
-      { percentile: 95, latency: 10 },
-      { percentile: 99, latency: 122 }
+      { percentile: 95, latency: 60001 },
+      { percentile: 99, latency: 60001 }
     ]
   },
   time: 1582718129565,
