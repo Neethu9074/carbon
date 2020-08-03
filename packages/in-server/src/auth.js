@@ -3,11 +3,11 @@ const fetch = require('node-fetch');
 const config = require('./serverConfig.js');
 
 exports.getCurrentUser = async req => {
-  const cookieValue = req.cookies && req.cookies[config.cookie.name];
-  if (cookieValue == null || typeof cookieValue !== 'string' || cookieValue.trim().length < 5) {
+  if (!exports.isRequestCarryingAValidSeemingCookie(req)) {
     return [401, null];
   }
 
+  const cookieValue = req.cookies && req.cookies[config.cookie.name];
   const response = await fetch(req.uiBackendBaseUrl + '/api/checkUserAccessPermitted', {
     headers: {
       Cookie: `${config.cookie.name}=${cookieValue}`
@@ -21,4 +21,9 @@ exports.getCurrentUser = async req => {
   }
 
   return [response.status, userStr];
+};
+
+exports.isRequestCarryingAValidSeemingCookie = req => {
+  const cookieValue = req.cookies && req.cookies[config.cookie.name];
+  return typeof cookieValue === 'string' && cookieValue.trim().length > 5;
 };

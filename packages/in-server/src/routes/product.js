@@ -4,14 +4,15 @@ const express = require('express');
 const uuid = require('node-uuid');
 const fs = require('fs');
 
+const { getCurrentUser, isRequestCarryingAValidSeemingCookie } = require('../auth');
 const getNumberLocaleDefinition = require('../services/numberLocale');
 const { getMixpanelToken } = require('../services/mixpanel');
 const buildInformation = require('../../assets/build.json');
+const configResolver = require('../services/config');
 const checkSumMod = require('../services/checksum');
 const serverConfig = require('../serverConfig.js');
 const errorPages = require('../errorPages.js');
 const { getCsp } = require('../services/csp');
-const { getCurrentUser } = require('../auth');
 const paths = require('../services/paths');
 
 const router = (module.exports = express.Router());
@@ -80,79 +81,111 @@ const prefetchItems = fs
     };
   });
 
-router.get('/', (req, res) => {
-  res.vary('*');
-  res.set('cache-control', 'private, no-cache, no-store, must-revalidate, max-age=0');
+router.get('/', async (req, res) => {
+  try {
+    res.vary('*');
+    res.set('cache-control', 'private, no-cache, no-store, must-revalidate, max-age=0');
 
-  getCurrentUser(req)
-    .then(([statusCode, userStr]) => {
-      if (statusCode === 401) {
-        const nonce = uuid.v4();
-        res
-          .status(401)
-          .set('Content-Security-Policy', `default-src 'self'; script-src 'self' 'nonce-${nonce}'`)
-          .send(
-            compiledRedirectTemplate({
-              signInUrl: `${req.uiClientBaseUrl}/auth/signIn`,
-              returnUrlWithoutHash: encodeURIComponent(req.uiClientBaseUrl + req.originalUrl),
-              nonce
-            })
-          );
-        return;
-      } else if (statusCode === 403) {
-        errorPages.send403(req, res);
-        return;
-      } else if (statusCode < 200 || statusCode > 299) {
-        console.error(
-          `Server returned unknown status code ${statusCode} while trying to receive user info with user cookie.`
+    // We can cut page load time in half by executing all of the sub requests for user settings
+    // etc. even before we know whether the user is properly authenticated or not. It is not
+    // an issue do so because all downstream services will also check for proper authentication
+    // (we just forward the cookie). However this could be abused in DOS cases as ui-client
+    // would multiply each incoming call x10. To somewhat reduce the risk we will only execute
+    // the sub requests permaturely when the request carries a valid looking cookie.
+    // This is not a real protection, but it can reduce the impact. For everything else we will
+    // have Cloudflare's DDOS protection :)
+    const subRequestPromises = isRequestCarryingAValidSeemingCookie(req)
+      ? initializeSubRequestPromises(req)
+      : undefined;
+    const [statusCode, userStr] = await getCurrentUser(req);
+    if (statusCode === 401) {
+      const uiClientBaseUrl = await configResolver.getBaseUrl(req.tenant, req.unit);
+      const nonce = uuid.v4();
+      res
+        .status(401)
+        .set('Content-Security-Policy', `default-src 'self'; script-src 'self' 'nonce-${nonce}'`)
+        .send(
+          compiledRedirectTemplate({
+            signInUrl: `${uiClientBaseUrl}/auth/signIn`,
+            returnUrlWithoutHash: encodeURIComponent(uiClientBaseUrl + req.originalUrl),
+            nonce
+          })
         );
-        errorPages.send500(req, res);
-        return;
-      }
-
-      return Promise.all([
-        getUserSettings(req),
-        getSearchFields(req),
-        getFilterTags(req),
-        getCsrfToken(req),
-        getUserPermissions(req),
-        getTermsAndPrivacySettings(req),
-        getLatestTermsAndPrivacyAcceptance(req),
-        getIsMonitoring(req),
-        getStarredItems(req)
-      ]).then(
-        ([
-          userSettings,
-          searchFieldsStr,
-          filterTags,
-          csrf,
-          permissions,
-          termsAndPrivacySettings,
-          termsAndPrivacyAccepted,
-          reportingData,
-          starredItems
-        ]) =>
-          sendIndex(
-            req,
-            res,
-            userStr,
-            userSettings,
-            searchFieldsStr,
-            filterTags,
-            csrf,
-            permissions,
-            termsAndPrivacySettings,
-            termsAndPrivacyAccepted,
-            reportingData,
-            starredItems
-          )
+      return;
+    } else if (statusCode === 403) {
+      errorPages.send403(req, res);
+      return;
+    } else if (statusCode < 200 || statusCode > 299) {
+      console.error(
+        `Server returned unknown status code ${statusCode} while trying to receive user info with user cookie.`
       );
-    })
-    .catch(err => {
-      console.error('Failed to deliver index.html to user:', err);
       errorPages.send500(req, res);
-    });
+      return;
+    }
+
+    const [
+      userSettings,
+      searchFieldsStr,
+      filterTags,
+      csrf,
+      permissions,
+      termsAndPrivacySettings,
+      termsAndPrivacyAccepted,
+      reportingData,
+      starredItems,
+      clientConfig
+    ] = await (subRequestPromises || initializeSubRequestPromises(req));
+
+    const nonce = uuid.v4();
+    res.set('Content-Security-Policy', getCsp(nonce));
+
+    const termsAndPrivacy = JSON.parse(termsAndPrivacySettings);
+    res.send(
+      compiledTemplate({
+        indexJsChecksum,
+        nonce,
+        appcuesId: termsAndPrivacy.allSupportAndResearchServices && serverConfig.appcuesId,
+        mixpanelToken: getMixpanelToken(getParsedUser(userStr), termsAndPrivacy.allAnalyticsServices),
+        eumTrackingDomain: serverConfig.eum.domain,
+        eumTrackingApiKey: serverConfig.eum.apiKey,
+        eumRetrievalDomain: serverConfig.eum.retrievalDomain || serverConfig.eum.domain,
+        backendTraceId: req.get('x-instana-t') || '',
+        prefetchItems,
+        user: userStr,
+        permissions: permissions,
+        config: stringifyClientConfig(clientConfig, termsAndPrivacy.allSupportAndResearchServices),
+        build: stringifiedBuildInformation,
+        searchFields: searchFieldsStr,
+        settings: userSettings,
+        tags: filterTags,
+        csrf,
+        numberLocale: getNumberLocaleDefinition(req),
+        termsAndPrivacySettings,
+        termsAndPrivacyAccepted,
+        reportingData,
+        starredItems
+      })
+    );
+  } catch (e) {
+    console.error('Failed to deliver index.html to user:', e);
+    errorPages.send500(req, res);
+  }
 });
+
+function initializeSubRequestPromises(req) {
+  return Promise.all([
+    getUserSettings(req),
+    getSearchFields(req),
+    getFilterTags(req),
+    getCsrfToken(req),
+    getUserPermissions(req),
+    getTermsAndPrivacySettings(req),
+    getLatestTermsAndPrivacyAcceptance(req),
+    getIsMonitoring(req),
+    getStarredItems(req),
+    configResolver.getClientConfig(req, req.tenant, req.unit)
+  ]);
+}
 
 function getTermsAndPrivacySettings(req) {
   return new Promise((resolve, reject) => {
@@ -345,54 +378,6 @@ function getStarredItems(req) {
       }
     );
   });
-}
-
-function sendIndex(
-  req,
-  res,
-  userStr,
-  userSettings,
-  searchFieldsStr,
-  filterTags,
-  csrf,
-  permissions,
-  termsAndPrivacySettings,
-  termsAndPrivacyAccepted,
-  reportingData,
-  starredItems
-) {
-  const nonce = uuid.v4();
-  res.set('Content-Security-Policy', getCsp(nonce));
-
-  const termsAndPrivacy = JSON.parse(termsAndPrivacySettings);
-  const user = getParsedUser(userStr);
-
-  res.send(
-    compiledTemplate({
-      indexJsChecksum,
-      nonce,
-      appcuesId: termsAndPrivacy.allSupportAndResearchServices && serverConfig.appcuesId,
-      mixpanelToken: getMixpanelToken(user, termsAndPrivacy.allAnalyticsServices),
-      eumTrackingDomain: serverConfig.eum.domain,
-      eumTrackingApiKey: serverConfig.eum.apiKey,
-      eumRetrievalDomain: serverConfig.eum.retrievalDomain || serverConfig.eum.domain,
-      backendTraceId: req.get('x-instana-t') || '',
-      prefetchItems,
-      user: userStr,
-      permissions: permissions,
-      config: stringifyClientConfig(req.clientConfig, termsAndPrivacy.allSupportAndResearchServices),
-      build: stringifiedBuildInformation,
-      searchFields: searchFieldsStr,
-      settings: userSettings,
-      tags: filterTags,
-      csrf,
-      numberLocale: getNumberLocaleDefinition(req),
-      termsAndPrivacySettings,
-      termsAndPrivacyAccepted,
-      reportingData,
-      starredItems
-    })
-  );
 }
 
 function stringifyClientConfig(clientConfig, zendeskAllowedByUser) {

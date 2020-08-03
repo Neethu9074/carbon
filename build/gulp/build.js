@@ -136,7 +136,7 @@ function writeTryBuildServerConfigFile(cb) {
     adminPort: 3132,
     bindAddress: '0.0.0.0',
     cookie: {
-      name: 'in-token'
+      name: 'in-token-test'
     },
     mixpanelToken: '3f2a70afd2509a7a526380e354dce94b',
     eum: {

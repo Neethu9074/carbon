@@ -2,41 +2,19 @@ const { getUnitInfo } = require('../services/availableUnits');
 const configResolver = require('../services/config');
 const errorPages = require('../errorPages');
 
-module.exports = exports = function enrichRequestWithConfig(req, res, next) {
-  configResolver
-    .getUiBackendBaseUrl(req.tenant, req.unit)
-    .then(
-      uiBackendBaseUrl => {
-        req.uiBackendBaseUrl = uiBackendBaseUrl;
-
-        return Promise.all([
-          configResolver.getClientConfig(req, req.tenant, req.unit),
-          configResolver.getBaseUrl(req.tenant, req.unit)
-        ]).then(
-          ([clientConfig, baseUrl]) => {
-            req.clientConfig = clientConfig;
-            req.uiClientBaseUrl = baseUrl;
-            next();
-          },
-          error => {
-            logError(error);
-            errorPages.send500(req, res);
-          }
-        );
-      },
-      error => {
-        if (error.notFound) {
-          return handleUiBackendNotFound(req.tenant, req.unit, req, res);
-        } else {
-          logError(error);
-          errorPages.send500(req, res);
-        }
-      }
-    )
-    .catch(error => {
+module.exports = exports = async function enrichRequestWithConfig(req, res, next) {
+  try {
+    const uiBackendBaseUrl = await configResolver.getUiBackendBaseUrl(req.tenant, req.unit);
+    req.uiBackendBaseUrl = uiBackendBaseUrl;
+    next();
+  } catch (error) {
+    if (error.notFound) {
+      handleUiBackendNotFound(req.tenant, req.unit, req, res);
+    } else {
       logError(error);
       errorPages.send500(req, res);
-    });
+    }
+  }
 };
 
 function logError(error) {
