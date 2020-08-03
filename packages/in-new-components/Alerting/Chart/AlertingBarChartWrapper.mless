@@ -2,6 +2,6 @@
 
 :local {
   .container {
-    min-height: 13.5rem;
+    min-height: 15.5rem;
   }
 }
