@@ -1,7 +1,8 @@
-import { find, union, intersection } from 'lodash';
+import { find } from 'lodash';
 import React from 'react';
 
 import { getChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
+import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import Chart from 'in-components/Chart/ChartReactComponent';
@@ -25,12 +26,6 @@ function GroupMetricsChart({
   focusedMetric,
   customChartRenderers = []
 }) {
-  if (!items || !time) {
-    // the errors and progress information of this chart will be rendered by the call group table, no need to
-    // render them twice.
-    return null;
-  }
-
   // auto refresh mode is not supported in analyze.
   timeConfig = {
     to: time,
@@ -38,48 +33,38 @@ function GroupMetricsChart({
     autoRefresh: false,
     windowSize: timeConfig.windowSize
   };
-  const metricsKeys = Object.keys(items[0]?.metrics ?? {});
-  const chartDefinitionKeys = chartDefinitions.map(d => d.key);
-  const metricsAvailableForPresentation = intersection(metricsKeys, chartDefinitionKeys);
-  const customChartRendererKeys = customChartRenderers.map(d => d.key);
-  const customChartsAvailableForPresentation = intersection(chartDefinitionKeys, customChartRendererKeys);
 
-  const supportedMetricKeys = union(metricsAvailableForPresentation, customChartsAvailableForPresentation);
-  if (supportedMetricKeys.length === 0) {
+  const chartDefinitionKeys = chartDefinitions.map(d => d.key);
+  if (chartDefinitionKeys.length === 0) {
     // no metrics to show
     return null;
   }
 
-  const chartDefinitionsAvailableForPresentation = chartDefinitions.filter(
-    def => supportedMetricKeys.indexOf(def.key) !== -1
-  );
-
-  const chartDefinition =
-    find(chartDefinitionsAvailableForPresentation, d => d.key.includes(focusedMetric)) ??
-    chartDefinitionsAvailableForPresentation[0];
-  const selectedChart = chartDefinition.key;
+  if (!focusedMetric || !chartDefinitionKeys.includes(focusedMetric)) {
+    focusedMetric = chartDefinitionKeys[0];
+  }
 
   // Render chart selector and chart.
   return (
     <div className={locals.charts}>
       <div className={locals.buttonGroup}>
         <ButtonGroup
-          buttonPropsList={chartDefinitionsAvailableForPresentation.map(({ label, key }) => ({
+          buttonPropsList={chartDefinitions.map(({ label, key }) => ({
             text: label,
             key,
             onClick: () => onChange({ focusedMetric: key })
           }))}
-          activeKey={selectedChart}
+          activeKey={focusedMetric}
         />
       </div>
 
       <ChartElement
-        groups={items.slice(0, 5)}
+        items={items}
         groupColors={groupColors}
         time={time}
         timeConfig={timeConfig}
-        selectedChart={selectedChart}
-        chartDefinitions={chartDefinitionsAvailableForPresentation}
+        focusedMetric={focusedMetric}
+        chartDefinitions={chartDefinitions}
         groupNameProcessor={groupNameProcessor}
         customChartRenderers={customChartRenderers}
       />
@@ -90,25 +75,30 @@ function GroupMetricsChart({
 }
 
 function ChartElement({
-  groups,
+  items,
   groupColors,
   timeConfig,
   time,
-  selectedChart,
+  focusedMetric,
   chartDefinitions,
   groupNameProcessor = identity,
   customChartRenderers
 }) {
-  const customChartRenderer = find(customChartRenderers, renderer => renderer.key === selectedChart);
+  const customChartRenderer = find(customChartRenderers, renderer => renderer.key === focusedMetric);
   if (customChartRenderer) {
     return customChartRenderer.render();
   }
 
-  if (groups.length === 0) {
+  if (!items || !time) {
+    return <LoadingIndicator height={189} size="xxl" />;
+  }
+
+  const groups = items.slice(0, 5);
+  if (groups.length === 0 || !groups[0]?.metrics || !groups[0]?.metrics[focusedMetric]) {
     return <NoDataAvailable height={189} icon={'lib_bar_chart'} text={'No data to display'} />;
   }
 
-  const chartDefinition = find(chartDefinitions, d => d.key === selectedChart);
+  const chartDefinition = find(chartDefinitions, d => d.key === focusedMetric);
 
   const chartTimeConfig = getResolvedTimeConfig(timeConfig, time);
   const granularity = getChartGranularity(timeConfig);
@@ -118,7 +108,7 @@ function ChartElement({
     renderer: chartDefinition.renderer,
     formatter: chartDefinition.formatter,
     colors: groupColors,
-    metrics: groups.map(group => group.metrics[selectedChart]),
+    metrics: groups.map(group => group.metrics[focusedMetric]),
     aggregations: Array(groups.length).fill(chartDefinition.aggregation),
     min: chartDefinition.min
   };

@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import React from 'react';
+import React, { useState } from 'react';
 
 import PercentileMenu, {
   ALL_PERCENTILES
@@ -52,7 +51,7 @@ export default function LatencyDistributionBase10ChartPresenter({
     // First time progress received, percentage seems to be empty, so start with 0.2 to have a small arc
     return (
       <div className={locals.container}>
-        <LoadingIndicator height={chartHeight} />
+        <LoadingIndicator height={chartHeight} size="xxl" />
       </div>
     );
   } else if (subscriptionResult.data.buckets.map(b => b.calls).reduce((a, b) => a + b, 0) === 0) {

@@ -1,7 +1,7 @@
 import { find, sortBy } from 'lodash';
 
-const valueAsc = t => t.value;
-const valueDesc = t => -1 * t.value;
+const valueAsc = t => parseInt(t.value);
+const valueDesc = t => -1 * parseInt(t.value);
 
 export function getNumberTagFilters({ tagFilters, tag, showRange, showEquality }) {
   const eq = showEquality && find(tagFilters, f => f.name === tag && f.operator === 'EQUALS');

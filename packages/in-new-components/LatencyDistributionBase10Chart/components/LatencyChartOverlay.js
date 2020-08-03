@@ -1,5 +1,5 @@
-import { isEqual, findIndex } from 'lodash';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { isEqual } from 'lodash';
 
 import ChartContextMenu from 'in-new-components/LatencyDistributionBase10Chart/components/ChartContextMenu';
 import { millis, number, latency } from 'in-services/formatters/number';
@@ -52,34 +52,36 @@ export default function LatencyChartOverlay({
     RESIZE_RIGHT: 3
   };
 
-  const initSelectedBuckets = () => {
-    if (
-      !selection ||
-      (selection.from == null && selection.to == null) ||
-      // invalid selection
-      (selection.from && selection.to && selection.from > selection.to)
-    ) {
-      return null;
-    }
-    const bucketFrom = findBucketIndexByLatency(buckets, selection.from) || 0;
-    // the upper bound is specified as strict inequality (<), turn it into a not strict one (<=)
-    const notStrictTo = selection.to && selection.to - 1;
-    const bucketTo = findBucketIndexByLatency(buckets, notStrictTo) || buckets.length - 1;
-    return {
-      fromBucketIndex: bucketFrom,
-      numberOfBuckets: bucketTo - bucketFrom + 1
-    };
-  };
-
   const findBucketIndexByLatency = (buckets, latency) => {
     if (latency == null) {
       return null;
     }
-    const bucketIndex = findIndex(
-      buckets,
+    const bucketIndex = buckets.findIndex(
       bucket => (bucket.from == null || bucket.from <= latency) && (bucket.to == null || latency < bucket.to)
     );
-    return bucketIndex == -1 ? null : bucketIndex;
+    return bucketIndex === -1 ? null : bucketIndex;
+  };
+
+  const latencyToBucketSelection = latencySelection => {
+    if (
+      !latencySelection ||
+      (latencySelection.from == null && latencySelection.to == null) ||
+      // invalid selection
+      (latencySelection.from && latencySelection.to && latencySelection.from > latencySelection.to)
+    ) {
+      return null;
+    }
+    const bucketFrom = findBucketIndexByLatency(buckets, latencySelection.from) || 0;
+    // the upper bound is specified as strict inequality (<), turn it into a not strict one (<=)
+    const notStrictTo = latencySelection.to && latencySelection.to - 1;
+    let bucketTo = findBucketIndexByLatency(buckets, notStrictTo);
+    if (bucketTo == null) {
+      bucketTo = buckets.length - 1;
+    }
+    return {
+      fromBucketIndex: bucketFrom,
+      numberOfBuckets: bucketTo - bucketFrom + 1
+    };
   };
 
   // Mouse current state e.g., {
@@ -94,7 +96,7 @@ export default function LatencyChartOverlay({
   // }
   const [mouseState, setMouseState] = useState(null);
   // Current bucket selection, e.g., {fromBucketIndex: 0, numberOfBuckets: 10}
-  const [selectedBuckets, setSelectedBuckets] = useState(initSelectedBuckets());
+  const [selectedBuckets, setSelectedBuckets] = useState(latencyToBucketSelection(selection));
   // Which bucket should be highlighted + tooltip
   const [highlightedBucketIndex, setHighlightedBucketIndex] = useState(null);
   // Should the context menu be shown?
@@ -102,6 +104,14 @@ export default function LatencyChartOverlay({
   // Should the context menu be opened immediately instead of showing the quick buttons first?
   // Used only for single bucket click selection.
   const [immediatelyOpenContextMenu, setImmediatelyOpenContextMenu] = useState(false);
+
+  // update selected buckets when the 'selection' property changes
+  useEffect(() => {
+    const newSelectedBuckets = latencyToBucketSelection(selection);
+    if (!isEqual(selectedBuckets, newSelectedBuckets)) {
+      setSelectedBuckets(newSelectedBuckets);
+    }
+  }, [selection]);
 
   const selectionStartX = selectedBuckets ? selectedBuckets.fromBucketIndex * bucketWidth : 0;
   const selectionWidth = selectedBuckets ? selectedBuckets.numberOfBuckets * bucketWidth : 0;
@@ -113,21 +123,24 @@ export default function LatencyChartOverlay({
     setImmediatelyOpenContextMenu(false);
   };
 
+  // If the selection is adjustable, the selection won't be clear by clicking somewhere
+  // as in case of normal charts. We need to provide a menu item to clear the selection instead.
   const menuItems = selectionAdjustable
     ? [
         {
           name: 'clear_selection',
           icon: 'lib_openclose_cancel',
           label: 'Remove latency filter',
-          onClick: () => resetSelection()
+          onClick: () => {
+            resetSelection();
+            notifyOnSelectionChangedHandler(null);
+          }
         },
         ...selectionMenuItems
       ]
     : selectionMenuItems;
 
-  const getMouseX = e => {
-    return e.nativeEvent.offsetX - GLASS_PANE_OFFSET;
-  };
+  const getMouseX = synthEvent => synthEvent.nativeEvent.offsetX - GLASS_PANE_OFFSET;
 
   const getBucketIndexAt = mousePosition => {
     let bucketIndex = Math.floor(mousePosition / bucketWidth);
@@ -181,7 +194,7 @@ export default function LatencyChartOverlay({
     const selectedBucketLast = selectedBuckets && selectedBucketFirst + selectedBuckets.numberOfBuckets - 1;
     if (mouseState?.selecting) {
       const startBucketIndex = getBucketIndexAt(mouseState.startX);
-      selectBuckets(startBucketIndex, currentBucketIndex);
+      updateSelectedBuckets(startBucketIndex, currentBucketIndex);
       updateMouseState({ lastX: currentMousePosition, moved: true });
     } else if (mouseState?.moving) {
       const lastBucketIndex = getBucketIndexAt(mouseState.lastX);
@@ -194,7 +207,7 @@ export default function LatencyChartOverlay({
         // limit leftwards movement at the first bucket
         moveDistanceInBuckets = Math.max(0, selectedBucketFirst + moveDistanceInBuckets) - selectedBucketFirst;
       }
-      selectBuckets(selectedBucketFirst + moveDistanceInBuckets, selectedBucketLast + moveDistanceInBuckets);
+      updateSelectedBuckets(selectedBucketFirst + moveDistanceInBuckets, selectedBucketLast + moveDistanceInBuckets);
       updateMouseState({ lastX: currentMousePosition });
     } else if (mouseState?.resizingRight) {
       // limit leftwards movement at the first selected bucket
@@ -205,7 +218,7 @@ export default function LatencyChartOverlay({
         moveDistanceInBuckets =
           Math.min(buckets.length - 1, selectedBucketLast + moveDistanceInBuckets) - selectedBucketLast;
       }
-      selectBuckets(selectedBucketFirst, selectedBucketLast + moveDistanceInBuckets);
+      updateSelectedBuckets(selectedBucketFirst, selectedBucketLast + moveDistanceInBuckets);
       updateMouseState({ lastX: currentMousePosition });
     } else if (mouseState?.resizingLeft) {
       // limit rightwards movement at the last selected bucket
@@ -215,7 +228,7 @@ export default function LatencyChartOverlay({
         // limit leftwards movement at the very first bucket
         moveDistanceInBuckets = Math.max(0, selectedBucketFirst + moveDistanceInBuckets) - selectedBucketFirst;
       }
-      selectBuckets(selectedBucketFirst + moveDistanceInBuckets, selectedBucketLast);
+      updateSelectedBuckets(selectedBucketFirst + moveDistanceInBuckets, selectedBucketLast);
       updateMouseState({ lastX: currentMousePosition });
     } else if (selectionAdjustable) {
       // adjust the mouse cursor to give a visual clue, whether resizing or moving of the selection can start
@@ -240,16 +253,36 @@ export default function LatencyChartOverlay({
 
   const onMouseUp = event => {
     if (mouseState?.selecting) {
-      completeSelection(event);
+      const startBucketIndex = getBucketIndexAt(mouseState.startX);
+      const endBucketIndex = getBucketIndexAt(getMouseX(event));
+      let newBucketSelection = null;
+      if (selectionAdjustable && startBucketIndex === 0 && endBucketIndex === buckets.length - 1) {
+        // If selection is adjustable, selecting all buckets clears the selection. This is necessary, because selection
+        // is always kept in sync with latency filters and currently there is no way expressing selection of the whole
+        // latency range. Theoretically, full selection could be expressed as 'call.latency >= 0', but currently
+        // all latency based filters have to use positive latency values. The reason for this is that all latencies in
+        // range from 0 to 1ms are stored in backed as 0ms. Latencies from this range are displayed across the product
+        // as '< 1' and we want to avoid querying calls by 'call.latency = 0'.
+        newBucketSelection = null;
+        setSelectedBuckets(null);
+      } else {
+        newBucketSelection = updateSelectedBuckets(startBucketIndex, endBucketIndex);
+        // Show context menu right away only for a single bucket selection (click without moving the cursor)
+        // and never when the selection is adjustable.
+        if (mouseState.moved !== true && !selectionAdjustable) {
+          setImmediatelyOpenContextMenu(true);
+          setShowContextMenu(true);
+        }
+      }
+      notifyOnSelectionChangedHandler(newBucketSelection);
+    } else if (mouseState?.moving || mouseState?.resizingLeft || mouseState?.resizingRight) {
+      notifyOnSelectionChangedHandler(selectedBuckets);
     }
     setMouseState(null);
   };
 
   const onMouseLeave = event => {
-    if (mouseState?.selecting) {
-      completeSelection(event);
-    }
-    setMouseState(null);
+    onMouseUp(event);
     setHighlightedBucketIndex(null);
   };
 
@@ -275,50 +308,59 @@ export default function LatencyChartOverlay({
     return null;
   };
 
-  const completeSelection = event => {
-    const currentMousePosition = getMouseX(event);
-    const selectionBucketStart = getBucketIndexAt(mouseState.startX);
-    const selectionBucketEnd = getBucketIndexAt(currentMousePosition);
-    selectBuckets(selectionBucketStart, selectionBucketEnd);
+  const notifyOnSelectionChangedHandler = newBucketSelection => {
+    if (onSelectionChanged == null) {
+      // no handler registered
+      return;
+    }
 
-    // Show context menu right away only for a single bucket selection (click without moving the cursor)
-    // and never when the selection is adjustable.
-    if (mouseState.moved !== true && !selectionAdjustable) {
-      setImmediatelyOpenContextMenu(true);
-      setShowContextMenu(true);
+    const newSelection = {};
+    if (newBucketSelection) {
+      const fromBucketIndex = newBucketSelection.fromBucketIndex;
+      const toBucketIndex = newBucketSelection.fromBucketIndex + newBucketSelection.numberOfBuckets - 1;
+
+      let fromLatency = null;
+      if (mouseState?.resizingRight && selection?.from != null) {
+        // after resizing the selection rightwards, keep the original "from" value,
+        // instead of "snapping" to the start of the first selected bucket
+        fromLatency = selection.from;
+      } else if (fromBucketIndex != null) {
+        fromLatency = buckets[fromBucketIndex].from;
+      }
+
+      let toLatency = null;
+      if (mouseState?.resizingLeft && selection?.to != null) {
+        // after resizing the selection leftwards, keep the original "to" value,
+        // instead of "snapping" to the end of the last selected bucket
+        toLatency = selection.to;
+      } else if (toBucketIndex != null) {
+        toLatency = buckets[toBucketIndex].to;
+      }
+
+      if (fromLatency) {
+        // discard from=0 latency filter
+        newSelection.from = fromLatency;
+      }
+      if (toLatency) {
+        newSelection.to = toLatency;
+      }
+    }
+
+    if (!isEqual(selection, newSelection)) {
+      // notify only if the selection really changed
+      onSelectionChanged(newSelection);
+      latencySelectionChanged();
     }
   };
 
-  const selectBuckets = (startBucketIndex, endBucketIndex) => {
-    const fromBucketIndex = Math.min(startBucketIndex, endBucketIndex);
-    const lastBucketIndex = Math.max(startBucketIndex, endBucketIndex);
-    const numberOfBuckets = Math.abs(startBucketIndex - endBucketIndex) + 1;
-    if (
-      selectBuckets &&
-      selectBuckets.fromBucketIndex === fromBucketIndex &&
-      selectBuckets.numberOfBuckets === numberOfBuckets
-    ) {
-      // no change, no need to update the state
-      return;
-    }
-    setSelectedBuckets({
-      fromBucketIndex: fromBucketIndex,
-      numberOfBuckets: numberOfBuckets
-    });
-    if (onSelectionChanged != null) {
-      // after resizing the selection rightwards, keep the original "from" value, instead
-      // of "snapping" to the start of the first bucket
-      let from =
-        selection?.from && mouseState?.resizingRight
-          ? selection.from
-          : fromBucketIndex && buckets[fromBucketIndex].from;
-      // after resizing the selection leftwards, keep the original "to" value, instead
-      // of "snapping" to the end of the last bucket
-      let to =
-        selection?.to && mouseState?.resizingLeft ? selection.to : lastBucketIndex && buckets[lastBucketIndex].to;
-      onSelectionChanged({ from: from, to: to });
-      latencySelectionChanged();
-    }
+  const updateSelectedBuckets = (startBucketIndex, endBucketIndex) => {
+    const newState = {
+      fromBucketIndex: Math.min(startBucketIndex, endBucketIndex),
+      numberOfBuckets: Math.abs(startBucketIndex - endBucketIndex) + 1
+    };
+    // don't update state unless it changed
+    setSelectedBuckets(prevState => (isEqual(newState, prevState) ? prevState : newState));
+    return newState;
   };
 
   const tooltipPositionStyle =
@@ -348,6 +390,10 @@ export default function LatencyChartOverlay({
         onMouseDown={onMouseDown}
         onMouseMove={onMouseMove}
         onMouseLeave={onMouseLeave}
+        onContextMenu={e => {
+          e.preventDefault();
+          return false;
+        }}
       />
       {selectedBuckets && (
         <Selection

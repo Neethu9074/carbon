@@ -14,6 +14,7 @@ import {
   getGroupFromUrlString,
   getGroupToUrlString
 } from 'in-analyze/filterBuilder';
+import { updateLatencyFilters } from 'in-new-components/LatencyDistributionBase10Chart/latencyUtils';
 import { focusedMetric as focusedMetricMatrixParameter } from 'in-analyze/navigation/matrix';
 import EditGroupDialog from 'in-analyze/AnalyzeView/components/AnalyzeEditGroupDialog';
 import { getTagFilterListForBackendSubscription } from 'in-analyze/applicationFilter';
@@ -88,7 +89,7 @@ export default compose(
       [tagFilterMatrixParameter]: [],
       [previewEnabledMatrixParameter]: false,
       [showGraphMatrixParameter]: initialShowGraph(props),
-      [focusedMetricMatrixParameter]: initialFocusedMetric(props),
+      [focusedMetricMatrixParameter]: initialFocusedMetric(props)
     }),
     reducerName: 'onChangeAnalyzeConfig',
     getParsedUrlValues: values => ({
@@ -150,7 +151,7 @@ export default compose(
 )(AnalyzeView);
 
 function AnalyzeView(props) {
-  const { isDialogActive, isRawView, dataSource, filters } = props;
+  const { isDialogActive, isRawView, dataSource, filters, setTagFilters } = props;
   // Deliberately not part of the dataSources, as this would result in inclusion of the analyze views
   // in the index bundle.
   let View = GroupedTraces;
@@ -161,6 +162,7 @@ function AnalyzeView(props) {
       View = RawCalls;
     }
   }
+
   return (
     <WithEmptyStateFallback
       center={false}
@@ -187,6 +189,9 @@ function AnalyzeView(props) {
             newState[focusedMetricMatrixParameter] = value;
             props.onChangeAnalyzeConfig(newState);
           }}
+          onLatencySelectionChanged={latencySelection =>
+            setTagFilters(updateLatencyFilters(filters.dataSource, filters.tagFilter, latencySelection))
+          }
           openEditGroupDialog={() =>
             addActiveDialog(
               <EditGroupDialog

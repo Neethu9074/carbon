@@ -2,9 +2,8 @@ import { withProps } from 'recompose';
 import React from 'react';
 
 import LatencyDistributionBase10Chart from 'in-new-components/LatencyDistributionBase10Chart/LatencyDistributionBase10Chart';
+import { getLatencySelectionFromFilters } from 'in-new-components/LatencyDistributionBase10Chart/latencyUtils';
 import getLatencyDistributionBase10 from 'in-subscription/application/getLatencyDistributionBase10';
-import { latencySelection } from 'in-analyze/components/MetricsChart/metricsChartUtils';
-import { getTagFilterListForBackendSubscription } from 'in-analyze/applicationFilter';
 import RawMetricsChart from 'in-analyze/components/MetricsChart/RawMetricsChart';
 import { latencyDistributionBase10Enabled } from 'in-services/featureFlags';
 import { millis } from 'in-services/formatters/number';
@@ -15,31 +14,36 @@ const latencyDistributionChartDefinition = {
   formatter: millis.forcedCompactOnMs
 };
 
-export default withProps(({ filters }) => ({
-  timeConfig: filters.timeConfig,
-  chartDefinitions: latencyDistributionBase10Enabled ? [latencyDistributionChartDefinition] : [],
-  customChartRenderers: [
-    {
-      key: 'latency_DISTRIBUTION',
-      render: function LatencyDistribution() {
-        const timeConfig = filters.timeConfig;
-        const subscription = getLatencyDistributionBase10({
-          maxLatencyBuckets: 80,
-          filter: filters,
-          tagFilters: getTagFilterListForBackendSubscription(filters.tagFilter),
-          timeConfig,
-          dataSource: filters.dataSource === 'traces' ? 'TRACES' : 'CALLS'
-        });
-        return (
-          <LatencyDistributionBase10Chart
-            subscription={subscription}
-            selection={latencySelection(filters)}
-            showPercentileMenu
-            selectionAdjustable
-            dataSource={filters.dataSource}
-          />
-        );
+export default withProps(({ filters, onLatencySelectionChanged }) => {
+  const latencyTag = filters.dataSource === 'traces' ? 'trace.latency' : 'call.latency';
+  return {
+    timeConfig: filters.timeConfig,
+    chartDefinitions: latencyDistributionBase10Enabled ? [latencyDistributionChartDefinition] : [],
+    customChartRenderers: [
+      {
+        key: 'latency_DISTRIBUTION',
+        render: function LatencyDistribution() {
+          const timeConfig = filters.timeConfig;
+          const subscription = getLatencyDistributionBase10({
+            maxLatencyBuckets: 80,
+            filter: {
+              timeConfig
+            },
+            tagFilters: filters.tagFilter.filter(f => f.name !== latencyTag),
+            dataSource: filters.dataSource === 'traces' ? 'TRACES' : 'CALLS'
+          });
+          return (
+            <LatencyDistributionBase10Chart
+              subscription={subscription}
+              selection={getLatencySelectionFromFilters(filters.dataSource, filters.tagFilter)}
+              showPercentileMenu
+              selectionAdjustable
+              dataSource={filters.dataSource}
+              onSelectionChanged={onLatencySelectionChanged}
+            />
+          );
+        }
       }
-    }
-  ]
-}))(RawMetricsChart);
+    ]
+  };
+})(RawMetricsChart);
