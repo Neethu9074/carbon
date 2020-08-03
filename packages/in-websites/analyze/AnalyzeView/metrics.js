@@ -24,8 +24,12 @@ export function buildOrderByCriteria(metric, aggregation) {
 
 export const defaultMetrics = {
   pageLoad: [{ metric: 'beaconDuration', aggregation: 'MEAN' }],
+  pageChange: [{ metric: 'uniqueUsersOrSessions', aggregation: 'DISTINCT_COUNT' }],
   resourceLoad: [{ metric: 'beaconDuration', aggregation: 'MEAN' }],
-  httpRequest: [{ metric: 'beaconDuration', aggregation: 'MEAN' }, { metric: 'beaconErrorRate', aggregation: 'MEAN' }],
+  httpRequest: [
+    { metric: 'beaconDuration', aggregation: 'MEAN' },
+    { metric: 'beaconErrorRate', aggregation: 'MEAN' }
+  ],
   error: [{ metric: 'uniqueUsersOrSessions', aggregation: 'DISTINCT_COUNT' }],
   custom: [{ metric: 'uniqueUsersOrSessions', aggregation: 'DISTINCT_COUNT' }]
 };
@@ -207,6 +211,12 @@ export const availableMetrics = {
         tag: 'beacon.cumulativeLayoutShift'
       }
     )
+  ],
+  pageChange: [
+    newNumberMetric({ metric: 'pageTransitions', label: 'Page Transitions' }),
+    uniqueUsers,
+    uniqueSessions,
+    uniqueUsersOrSessions
   ],
   resourceLoad: [
     newNumberMetric({ metric: 'beaconCount', label: 'Resource Loads' }),

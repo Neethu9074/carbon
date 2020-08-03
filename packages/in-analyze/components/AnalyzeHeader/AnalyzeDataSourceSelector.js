@@ -56,6 +56,14 @@ const productAreas = [
           })
       },
       {
+        dataSource: 'pageChange',
+        getHref$: ({ isGrouped }) =>
+          getLinkToWebsiteAnalyze({
+            group: isGrouped ? defaultWebsiteGroupings.pageChange : emptyObject,
+            beaconType: 'pageChange'
+          })
+      },
+      {
         dataSource: 'resourceLoad',
         getHref$: ({ isGrouped }) =>
           getLinkToWebsiteAnalyze({
@@ -138,47 +146,49 @@ export default function AnalyzeDataSourceSelector({ activeConfiguration, isGroup
 
   return (
     <Ul className={locals.wrapper}>
-      {productAreas.filter(({ hasAccess }) => hasAccess).map(({ productArea, dataSources }, i) => {
-        const dataSourceListEntries = dataSources.map(({ dataSource, getHref$ }) => (
-          <Li
-            key={dataSource}
-            noAlternatingBg
-            href$={getHref$(getHref$Opts)}
-            onDefaultHrefInteractionSideEffect={close}
-          >
-            <div
-              className={evaluateClassNames({
-                [locals.iconAndType]: true,
-                [locals.active]:
-                  productArea === activeConfiguration.productArea && dataSource === activeConfiguration.dataSource
-              })}
+      {productAreas
+        .filter(({ hasAccess }) => hasAccess)
+        .map(({ productArea, dataSources }, i) => {
+          const dataSourceListEntries = dataSources.map(({ dataSource, getHref$ }) => (
+            <Li
+              key={dataSource}
+              noAlternatingBg
+              href$={getHref$(getHref$Opts)}
+              onDefaultHrefInteractionSideEffect={close}
             >
-              <SvgIcon type={getIconByType(dataSource, productArea)} />
-              {getLabelByType(dataSource, productArea)}
-            </div>
-          </Li>
-        ));
+              <div
+                className={evaluateClassNames({
+                  [locals.iconAndType]: true,
+                  [locals.active]:
+                    productArea === activeConfiguration.productArea && dataSource === activeConfiguration.dataSource
+                })}
+              >
+                <SvgIcon type={getIconByType(dataSource, productArea)} />
+                {getLabelByType(dataSource, productArea)}
+              </div>
+            </Li>
+          ));
 
-        if (dataSourceListEntries.length === 1) {
-          return dataSourceListEntries[0];
-        }
+          if (dataSourceListEntries.length === 1) {
+            return dataSourceListEntries[0];
+          }
 
-        return (
-          <Li
-            key={productArea}
-            initiallyOpen={productArea === activeConfiguration.productArea}
-            noAlternatingBg
-            toggleContentOnRowClick
-            autoFocus={i === 0}
-            subList={<Ul>{dataSourceListEntries}</Ul>}
-          >
-            <div className={locals.iconAndType}>
-              <SvgIcon type={productAreaIcons[productArea]} />
-              {productAreaLabels[productArea]}
-            </div>
-          </Li>
-        );
-      })}
+          return (
+            <Li
+              key={productArea}
+              initiallyOpen={productArea === activeConfiguration.productArea}
+              noAlternatingBg
+              toggleContentOnRowClick
+              autoFocus={i === 0}
+              subList={<Ul>{dataSourceListEntries}</Ul>}
+            >
+              <div className={locals.iconAndType}>
+                <SvgIcon type={productAreaIcons[productArea]} />
+                {productAreaLabels[productArea]}
+              </div>
+            </Li>
+          );
+        })}
     </Ul>
   );
 }

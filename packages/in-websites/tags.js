@@ -31,6 +31,7 @@ function getWebsiteLabelTagFilter(websiteLabel) {
 
 export const dataSourceTitles = {
   pageLoad: 'Page Load',
+  pageChange: 'Page Transition',
   resourceLoad: 'Resource',
   httpRequest: 'HTTP Request',
   error: 'JS Error',
@@ -41,6 +42,9 @@ export const defaultGroupings = {
   none: {},
   pageLoad: {
     groupbyTag: 'beacon.location.path'
+  },
+  pageChange: {
+    groupbyTag: 'beacon.page.name'
   },
   resourceLoad: {
     groupbyTag: 'beacon.http.origin'
@@ -91,6 +95,7 @@ const commonGroupingTags = [
 
 export const availableGroupingTags = {
   pageLoad: [...commonGroupingTags].sort(),
+  pageChange: [...commonGroupingTags].sort(),
   resourceLoad: [
     ...commonGroupingTags,
     'beacon.http.origin',
@@ -193,6 +198,7 @@ export const availableFilterTags = {
     'beacon.timing.largestContentfulPaint',
     'beacon.timing.firstInputDelay'
   ].sort(),
+  pageChange: [...availableGroupingTags.pageChange, ...commonFilterTagsWithoutCommonGroupingTags].sort(),
   resourceLoad: [
     ...availableGroupingTags.resourceLoad,
     ...commonFilterTagsWithoutCommonGroupingTags,

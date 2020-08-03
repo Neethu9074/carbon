@@ -72,6 +72,7 @@ const icons = deepFreeze({
   },
   website: {
     pageLoad: 'lib_website_page_load',
+    pageChange: 'lib_website_page_load',
     resourceLoad: 'lib_website_resource',
     httpRequest: 'lib_website_ajax',
     error: 'lib_website_error',
@@ -94,6 +95,8 @@ export function getIconByType(type, productArea) {
 export function getEntityNameByType(type) {
   if (type === 'pageLoad') {
     return 'Page loads';
+  } else if (type === 'pageChange') {
+    return 'Page transitions';
   } else if (type === 'resourceLoad') {
     return 'Resources';
   } else if (type === 'httpRequest') {
@@ -114,6 +117,8 @@ export function getEntityNameByType(type) {
 export function getLabelByType(type) {
   if (type === 'pageLoad') {
     return `${websiteDataSourceTitles.pageLoad}s`;
+  } else if (type === 'pageChange') {
+    return `${websiteDataSourceTitles.pageChange}s`;
   } else if (type === 'resourceLoad') {
     return `${websiteDataSourceTitles.resourceLoad}s`;
   } else if (type === 'httpRequest') {

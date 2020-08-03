@@ -15,7 +15,7 @@ export const perTypeColumnCount = 3;
 export function TableHeaderColumns({ orderBy, orderDirection, onChangeOrder }) {
   return (
     <Fragment>
-      <Th>Path</Th>
+      <Th>Page</Th>
       <Th>Website</Th>
       <SortableColumn
         orderBy={orderBy}
@@ -35,17 +35,17 @@ export function TableRowColumns({ item }) {
       <Td>
         <TableLinkWithIcon
           isPrimary
-          href$={getLinkToPageLoad({ pageLoadId: item.beacon.pageLoadId, beaconTimestamp: item.beacon.timestamp })}
+          href$={getLinkToPageLoad({
+            pageLoadId: item.beacon.pageLoadId,
+            beaconId: item.beacon.beaconId,
+            beaconTimestamp: item.beacon.timestamp
+          })}
         >
-          <EllipsisCell>
-            {item.beacon.locationPath.length > 5
-              ? item.beacon.locationPath
-              : `${item.beacon.locationOrigin}${item.beacon.locationPath}`}
-          </EllipsisCell>
+          <EllipsisCell>{item.beacon.page}</EllipsisCell>
         </TableLinkWithIcon>
         <BatchingIndicator
           batchCount={item.beacon.batchSize}
-          tooltipContent={`This page load is batched and represents ${item.beacon.batchSize} individual page loads.`}
+          tooltipContent={`This page transition is batched and represents ${item.beacon.batchSize} individual page transitions.`}
         />
       </Td>
 
