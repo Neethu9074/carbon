@@ -14,7 +14,8 @@ export const slideInStates = {
     },
     slideInContentStyle: {
       visibility: 'visible',
-      transitionDuration: `${slideTransitionDurationMillis}ms`
+      transitionDuration: `${slideTransitionDurationMillis}ms`,
+      transform: `translateX(0%)`
     }
   }),
   transition: slideTransitionDurationMillis => ({

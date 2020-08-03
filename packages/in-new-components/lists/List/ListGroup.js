@@ -6,7 +6,7 @@ import locals from './ListGroup.mless';
 
 export default function ListGroup({ numMoreItems, label, children }) {
   return (
-    <div>
+    <>
       <div className={locals.groupHead}>{label}</div>
       <Ul framed="topBottom">
         {children}
@@ -16,6 +16,6 @@ export default function ListGroup({ numMoreItems, label, children }) {
           </Li>
         )}
       </Ul>
-    </div>
+    </>
   );
 }

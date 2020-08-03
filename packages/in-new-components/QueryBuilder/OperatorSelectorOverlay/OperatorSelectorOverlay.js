@@ -1,16 +1,16 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { onKeyDown } from 'in-new-components/QueryBuilder/ConjunctionSelectorOverlay/ConjunctionSelectorOverlay';
 import * as operatorLabels from 'in-new-components/QueryBuilder/tagFilter/operatorLabelsMapping';
 import OverlayOption from 'in-new-components/QueryBuilder/OverlayOption/OverlayOption';
+import { onArrowKeyDownFocusSiblings } from 'in-services/util/domFocus';
 import { Ul } from 'in-new-components/lists/List/List';
 
 import locals from './OperatorSelectorOverlay.mless';
 
 export default function OperatorSelectorOverlay({ value, allowedOperators, onChange, close, tagType }) {
   return (
-    <Ul framed={false} className={locals.list} borderRadius="medium" onKeyDown={onKeyDown}>
+    <Ul framed={false} className={locals.list} borderRadius="medium" onKeyDown={onArrowKeyDownFocusSiblings}>
       {allowedOperators.map(operator => {
         const description = operatorLabels[`${tagType}_${operator}_DESCRIPTION`];
         return (

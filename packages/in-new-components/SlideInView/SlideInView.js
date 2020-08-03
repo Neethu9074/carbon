@@ -1,10 +1,12 @@
-import PropTypes from 'prop-types';
 import React, { useState, useRef, useLayoutEffect } from 'react';
+import PropTypes from 'prop-types';
 
 import DialogHeaderComponent from 'in-new-components/SlideInView/internalComponents/DialogHeader';
 import ListHeaderComponent from 'in-new-components/SlideInView/internalComponents/ListHeader';
-
 import { slideInStates, slideOutStates } from 'in-new-components/SlideInView/states';
+import { supportsFocussingWithPreventedScrolling } from 'in-services/util/domFocus';
+import { evaluateClassNames } from 'in-services/util/classnames';
+import { getInteractiveElements } from 'in-services/util/dom';
 
 import locals from './SlideInView.mless';
 
@@ -25,7 +27,8 @@ export default function SlideInView({
   onAfterSlideOut = focusFirstInteractiveElement,
 
   // Behavior modification
-  slideTransitionDurationMillis = 500
+  slideTransitionDurationMillis = 500,
+  enforceMaxHeightForStaticContent
 }) {
   // To ensure that the states' showSlideInContent field matches the possible values provided by
   // component users. Not doing this causes the state to be different and therefore a transition
@@ -54,13 +57,24 @@ export default function SlideInView({
 
     const timeouts = [];
     if (showSlideInContent) {
-      afterStateChangeEffect.current = () => {
-        onAfterSlideIn(getInteractiveElements(slideInContentWrapperRef.current));
-      };
+      const afterStateChangeEffectFn = () => onAfterSlideIn(getInteractiveElements(slideInContentWrapperRef.current));
+      if (supportsFocussingWithPreventedScrolling) {
+        // Side-effect are very likely to make use of preventScroll: true. Unfortunately
+        // preventScroll: true is not yet supported in all web browsers. For web browsers which
+        // do not support focussing with disabled scrolling we schedule the side-effect after the
+        // transition has ended. This ensures that the web browser does not accelerate/does not break
+        // the side effect.
+        afterStateChangeEffect.current = afterStateChangeEffectFn;
+      }
       setState(slideInStates.before(slideTransitionDurationMillis));
       timeouts.push(setTimeout(() => setState(slideInStates.transition(slideTransitionDurationMillis)), 0));
       timeouts.push(
-        setTimeout(() => setState(slideInStates.after(slideTransitionDurationMillis)), slideTransitionDurationMillis)
+        setTimeout(() => {
+          if (!supportsFocussingWithPreventedScrolling) {
+            afterStateChangeEffect.current = afterStateChangeEffectFn;
+          }
+          setState(slideInStates.after(slideTransitionDurationMillis));
+        }, slideTransitionDurationMillis)
       );
     } else {
       afterStateChangeEffect.current = () => {
@@ -80,7 +94,14 @@ export default function SlideInView({
 
   return (
     <div className={locals.container}>
-      <div ref={staticContentWrapperRef} className={locals.staticContent} style={state.staticContentStyle}>
+      <div
+        ref={staticContentWrapperRef}
+        className={evaluateClassNames({
+          [locals.staticContent]: true,
+          [locals.enforceMaxHeightForStaticContent]: enforceMaxHeightForStaticContent
+        })}
+        style={state.staticContentStyle}
+      >
         {staticContent}
       </div>
       <div className={locals.inputBlocker} style={state.inputBlockerStyle} />
@@ -115,14 +136,9 @@ SlideInView.propTypes = {
   slideInContentTitle: PropTypes.node,
   slideTransitionDurationMillis: PropTypes.number,
   staticContent: PropTypes.node.isRequired,
-  HeaderComponent: PropTypes.oneOf([DialogHeader, ListHeader])
+  HeaderComponent: PropTypes.oneOf([DialogHeader, ListHeader]),
+  enforceMaxHeightForStaticContent: PropTypes.bool
 };
-
-function getInteractiveElements(parent) {
-  return Array.prototype.slice
-    .call(parent.querySelectorAll('a, button, input, textarea, select, details,[tabindex]:not([tabindex="-1"])'))
-    .filter(element => !element.hasAttribute('disabled') && element.clientWidth > 0);
-}
 
 function focusFirstInteractiveElement(interactiveElements) {
   interactiveElements[0]?.focus?.({

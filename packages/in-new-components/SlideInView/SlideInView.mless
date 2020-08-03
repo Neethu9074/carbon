@@ -14,6 +14,11 @@
     z-index: 1;
   }
 
+  .enforceMaxHeightForStaticContent {
+    max-height: 100%;
+    overflow: auto;
+  }
+
   .inputBlocker {
     position: absolute;
     z-index: 2;
@@ -41,6 +46,7 @@
     bottom: 0;
     background: @lib__colors__white;
     transition: box-shadow 0.1s 0.5s ease-in-out, transform 0.5s ease-in-out;
+    transform: translateX(0%);
     box-shadow: -5px 0 5px -5px rgba(0, 0, 0, 0);
     overflow-x: hidden;
     overflow-y: auto;

@@ -41,6 +41,12 @@ export default {
       canApplyToDestination: true
     },
     {
+      name: 'trace.latency',
+      type: 'NUMBER',
+      canApplyToSource: true,
+      canApplyToDestination: true
+    },
+    {
       name: 'call.erroneous',
       type: 'BOOLEAN',
       canApplyToSource: true,
@@ -169,6 +175,18 @@ export default {
               label: 'HTTP Headers',
               description: 'HTTP headers in HTTP request',
               tagName: 'call.http.header'
+            }
+          ]
+        },
+        {
+          type: 'LEVEL',
+          label: 'Trace',
+          children: [
+            {
+              type: 'TAG',
+              label: 'Latency',
+              description: 'Trace latency',
+              tagName: 'trace.latency'
             }
           ]
         }

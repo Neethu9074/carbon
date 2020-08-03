@@ -5,8 +5,8 @@ import {
   source,
   destination
 } from 'in-new-components/QueryBuilder/SourceDestinationSelectorOverlay/supportedSelections';
-import { onKeyDown } from 'in-new-components/QueryBuilder/ConjunctionSelectorOverlay/ConjunctionSelectorOverlay';
 import OverlayOption from 'in-new-components/QueryBuilder/OverlayOption/OverlayOption';
+import { onArrowKeyDownFocusSiblings } from 'in-services/util/domFocus';
 import { ColumnizedContent } from 'in-new-components/lists/List';
 import { Ul } from 'in-new-components/lists/List/List';
 import SvgIcon from 'in-components/SvgIcon';
@@ -29,7 +29,7 @@ const columnDefinitions = [
 
 export default function SourceDestinationSelectorOverlay({ value, onChange, close }) {
   return (
-    <Ul framed={false} className={locals.list} borderRadius="medium" onKeyDown={onKeyDown}>
+    <Ul framed={false} className={locals.list} borderRadius="medium" onKeyDown={onArrowKeyDownFocusSiblings}>
       <OverlayOption
         autoFocus={value !== destination}
         className={locals.option}

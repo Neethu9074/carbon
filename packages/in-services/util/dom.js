@@ -99,3 +99,9 @@ export function getFactor() {
 export function convertRemToPx(rem) {
   return rem * getDefaultFontSize();
 }
+
+export function getInteractiveElements(parent) {
+  return Array.prototype.slice
+    .call(parent.querySelectorAll('a, button, input, textarea, select, details,[tabindex]:not([tabindex="-1"])'))
+    .filter(element => !element.hasAttribute('disabled') && element.clientWidth > 0);
+}

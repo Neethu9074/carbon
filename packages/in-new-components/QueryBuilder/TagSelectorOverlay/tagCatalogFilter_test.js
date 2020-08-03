@@ -6,11 +6,11 @@ import filterCatalog from 'in-new-components/QueryBuilder/TagSelectorOverlay/tag
 
 describe('in-new-components/QueryBuilder/TagSelectorOverlay/tagCatalogFilter', () => {
   it('should return the whole tree if the query is empty', () => {
-    expect(filterCatalog(exampleCatalog, '')).to.deep.equal(exampleCatalog);
+    expect(deleteOriginalChildrenForTestingPurposes(filterCatalog(exampleCatalog, ''))).to.deep.equal(exampleCatalog);
   });
 
   it('should filter by group level', () => {
-    expect(filterCatalog(exampleCatalog, 'Kubernetes')).to.deep.equal({
+    expect(deleteOriginalChildrenForTestingPurposes(filterCatalog(exampleCatalog, 'Kubernetes'))).to.deep.equal({
       tags: [],
       tagTree: [
         kubernetesGroup([
@@ -20,24 +20,24 @@ describe('in-new-components/QueryBuilder/TagSelectorOverlay/tagCatalogFilter', (
       ]
     });
 
-    expect(filterCatalog(exampleCatalog, 'Application')).to.deep.equal({
+    expect(deleteOriginalChildrenForTestingPurposes(filterCatalog(exampleCatalog, 'Application'))).to.deep.equal({
       tags: [],
       tagTree: [applicationGroup([applicationSubGroup([applicationName]), serviceSubGroup([serviceName])])]
     });
   });
 
   it('should filter by sub-group level', () => {
-    expect(filterCatalog(exampleCatalog, 'Cluster')).to.deep.equal({
+    expect(deleteOriginalChildrenForTestingPurposes(filterCatalog(exampleCatalog, 'Cluster'))).to.deep.equal({
       tags: [],
       tagTree: [kubernetesGroup([clusterSubGroup([clusterLabel, clusterName])])]
     });
 
-    expect(filterCatalog(exampleCatalog, 'Namespace')).to.deep.equal({
+    expect(deleteOriginalChildrenForTestingPurposes(filterCatalog(exampleCatalog, 'Namespace'))).to.deep.equal({
       tags: [],
       tagTree: [kubernetesGroup([namespaceSubGroup([namespaceLabel, namespaceName])])]
     });
 
-    expect(filterCatalog(exampleCatalog, 'Service')).to.deep.equal({
+    expect(deleteOriginalChildrenForTestingPurposes(filterCatalog(exampleCatalog, 'Service'))).to.deep.equal({
       tags: [],
       tagTree: [applicationGroup([serviceSubGroup([serviceName])])]
     });
@@ -45,12 +45,12 @@ describe('in-new-components/QueryBuilder/TagSelectorOverlay/tagCatalogFilter', (
 
   describe('', () => {
     it('should filter by tag level', () => {
-      expect(filterCatalog(exampleCatalog, 'Label')).to.deep.equal({
+      expect(deleteOriginalChildrenForTestingPurposes(filterCatalog(exampleCatalog, 'Label'))).to.deep.equal({
         tags: [],
         tagTree: [kubernetesGroup([clusterSubGroup([clusterLabel]), namespaceSubGroup([namespaceLabel])])]
       });
 
-      expect(filterCatalog(exampleCatalog, 'Name')).to.deep.equal({
+      expect(deleteOriginalChildrenForTestingPurposes(filterCatalog(exampleCatalog, 'Name'))).to.deep.equal({
         tags: [],
         tagTree: [
           kubernetesGroup([clusterSubGroup([clusterName]), namespaceSubGroup([namespaceLabel, namespaceName])]),
@@ -153,3 +153,13 @@ const exampleCatalog = {
     applicationGroup([applicationSubGroup([applicationName]), serviceSubGroup([serviceName])])
   ]
 };
+
+function deleteOriginalChildrenForTestingPurposes(tagCatalog) {
+  tagCatalog.tagTree.forEach(deleteOriginalChildrenForTestingPurposesFromNode);
+  return tagCatalog;
+}
+
+function deleteOriginalChildrenForTestingPurposesFromNode(node) {
+  delete node.originalChildren;
+  node.children?.forEach(deleteOriginalChildrenForTestingPurposesFromNode);
+}

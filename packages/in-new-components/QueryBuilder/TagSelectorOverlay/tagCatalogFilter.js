@@ -17,6 +17,7 @@ function searchGroup(group, query) {
   if (filteredSubGroups.length > 0) {
     return {
       ...group,
+      originalChildren: group.children,
       children: filteredSubGroups
     };
   }
@@ -31,6 +32,7 @@ function searchSubGroup(subGroup, query) {
   if (filteredTags.length > 0) {
     return {
       ...subGroup,
+      originalChildren: subGroup.children,
       children: filteredTags
     };
   }

@@ -9,4 +9,15 @@
     justify-content: space-between;
     font-weight: normal;
   }
+
+  .childCount {
+    text-align: right;
+    display: block;
+    margin-right: 0.5rem;
+    color: @lib__colors__N700Medium;
+  }
+
+  .filteredChildCount {
+    color: @font-color;
+  }
 }
