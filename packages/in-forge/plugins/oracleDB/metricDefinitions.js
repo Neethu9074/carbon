@@ -111,14 +111,14 @@ export default [
   {
     formatter: bytes,
     metric: getDynamicMetricMatch('stats.tablespaceStats', 'usedSpace', 'Tablespace'),
-    labels: ['Used Space'],
+    label: 'Used Space',
     category: ['Tablespaces'],
     min: 0
   },
   {
     formatter: percentage,
     metric: getDynamicMetricMatch('stats.tablespaceStats', 'usedPercent', 'Tablespace'),
-    labels: ['Used Percent'],
+    label: 'Used Percent',
     category: ['Tablespaces'],
     min: 0,
     max: 1
