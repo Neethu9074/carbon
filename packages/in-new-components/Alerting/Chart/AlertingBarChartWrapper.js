@@ -6,8 +6,6 @@ import { getBaselineValue } from 'in-new-components/Alerting/utils/baselineUtils
 import ChartWrapper from 'in-components/Chart/ChartWrapper';
 import connectTo from 'in-hoc/connectTo';
 
-import locals from './AlertingBarChartWrapper.mless';
-
 export const thresholdOrBaselineLoadingSignal$ = create().emit(false);
 
 export default connectTo(
@@ -39,11 +37,7 @@ export default connectTo(
   },
   function AlertingBarChartWrapper(props) {
     enrichChartMetrics(props);
-    return (
-      <div className={locals.container}>
-        <ChartWrapper showNoDataInfoWhenEmpty={false} {...props} />
-      </div>
-    );
+    return <ChartWrapper showNoDataInfoWhenEmpty={false} {...props} />;
   }
 );
 
