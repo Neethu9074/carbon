@@ -71,16 +71,16 @@ export default function LatencyChartOverlay({
     ) {
       return null;
     }
-    const bucketFrom = findBucketIndexByLatency(buckets, latencySelection.from) || 0;
+    const fromIndex = findBucketIndexByLatency(buckets, latencySelection.from) || 0;
     // the upper bound is specified as strict inequality (<), turn it into a not strict one (<=)
     const notStrictTo = latencySelection.to && latencySelection.to - 1;
-    let bucketTo = findBucketIndexByLatency(buckets, notStrictTo);
-    if (bucketTo == null) {
-      bucketTo = buckets.length - 1;
+    let toIndex = findBucketIndexByLatency(buckets, notStrictTo);
+    if (toIndex == null) {
+      toIndex = buckets.length - 1;
     }
     return {
-      fromBucketIndex: bucketFrom,
-      numberOfBuckets: bucketTo - bucketFrom + 1
+      fromIndex: fromIndex,
+      toIndex: toIndex
     };
   };
 
@@ -95,7 +95,7 @@ export default function LatencyChartOverlay({
   //   moving: false            // selection is being moved
   // }
   const [mouseState, setMouseState] = useState(null);
-  // Current bucket selection, e.g., {fromBucketIndex: 0, numberOfBuckets: 10}
+  // Current bucket selection, e.g., {fromIndex: 0, toIndex: 10}
   const [selectedBuckets, setSelectedBuckets] = useState(latencyToBucketSelection(selection));
   // Which bucket should be highlighted + tooltip
   const [highlightedBucketIndex, setHighlightedBucketIndex] = useState(null);
@@ -113,8 +113,8 @@ export default function LatencyChartOverlay({
     }
   }, [selection]);
 
-  const selectionStartX = selectedBuckets ? selectedBuckets.fromBucketIndex * bucketWidth : 0;
-  const selectionWidth = selectedBuckets ? selectedBuckets.numberOfBuckets * bucketWidth : 0;
+  const selectionStartX = selectedBuckets ? selectedBuckets.fromIndex * bucketWidth : 0;
+  const selectionWidth = selectedBuckets ? (selectedBuckets.toIndex - selectedBuckets.fromIndex + 1) * bucketWidth : 0;
 
   const resetSelection = () => {
     setSelectedBuckets(null);
@@ -190,8 +190,8 @@ export default function LatencyChartOverlay({
   const onMouseMove = event => {
     const currentMousePosition = getMouseX(event);
     const currentBucketIndex = getBucketIndexAt(currentMousePosition);
-    const selectedBucketFirst = selectedBuckets && selectedBuckets.fromBucketIndex;
-    const selectedBucketLast = selectedBuckets && selectedBucketFirst + selectedBuckets.numberOfBuckets - 1;
+    const selectedBucketFirst = selectedBuckets && selectedBuckets.fromIndex;
+    const selectedBucketLast = selectedBuckets && selectedBuckets.toIndex;
     if (mouseState?.selecting) {
       const startBucketIndex = getBucketIndexAt(mouseState.startX);
       updateSelectedBuckets(startBucketIndex, currentBucketIndex);
@@ -294,6 +294,9 @@ export default function LatencyChartOverlay({
   };
 
   const getHoverPosition = currentMousePosition => {
+    if (!selectedBuckets) {
+      return null;
+    }
     const resizeFrom = selectionStartX - SELECTION_HANDLE_BOUND_IN_PX;
     const moveFrom = selectionStartX + SELECTION_HANDLE_BOUND_IN_PX;
     const moveTo = selectionStartX + selectionWidth - SELECTION_HANDLE_BOUND_IN_PX;
@@ -316,8 +319,8 @@ export default function LatencyChartOverlay({
 
     const newSelection = {};
     if (newBucketSelection) {
-      const fromBucketIndex = newBucketSelection.fromBucketIndex;
-      const toBucketIndex = newBucketSelection.fromBucketIndex + newBucketSelection.numberOfBuckets - 1;
+      const fromBucketIndex = newBucketSelection.fromIndex;
+      const toBucketIndex = newBucketSelection.toIndex;
 
       let fromLatency = null;
       if (mouseState?.resizingRight && selection?.from != null) {
@@ -359,8 +362,8 @@ export default function LatencyChartOverlay({
 
   const updateSelectedBuckets = (startBucketIndex, endBucketIndex) => {
     const newState = {
-      fromBucketIndex: Math.min(startBucketIndex, endBucketIndex),
-      numberOfBuckets: Math.abs(startBucketIndex - endBucketIndex) + 1
+      fromIndex: Math.min(startBucketIndex, endBucketIndex),
+      toIndex: Math.max(startBucketIndex, endBucketIndex)
     };
     // don't update state unless it changed
     setSelectedBuckets(prevState => (isEqual(newState, prevState) ? prevState : newState));
@@ -374,9 +377,21 @@ export default function LatencyChartOverlay({
       : { left: (highlightedBucketIndex + 1.5) * bucketWidth });
   const strikeLinePosition = highlightedBucketIndex != null && highlightedBucketIndex * bucketWidth + bucketCenter;
 
+  const tooltipForSelection =
+    selectionAdjustable &&
+    (mouseState?.selecting || mouseState?.resizingLeft || mouseState?.resizingRight || mouseState?.moving);
+  let tooltipFrom = null;
+  let tooltipTo = null;
+  if (tooltipForSelection) {
+    tooltipFrom = selectedBuckets && selectedBuckets.fromIndex;
+    tooltipTo = selectedBuckets && selectedBuckets.toIndex;
+  } else if (highlightedBucketIndex != null) {
+    tooltipFrom = highlightedBucketIndex;
+    tooltipTo = highlightedBucketIndex;
+  }
+
   const selectionDone = !mouseState?.selecting && selectedBuckets;
-  const contextMenuLeftAligned =
-    selectedBuckets && selectedBuckets.fromBucketIndex + selectedBuckets.numberOfBuckets - 1 < buckets.length / 2;
+  const contextMenuLeftAligned = selectedBuckets && selectedBuckets.toIndex < buckets.length / 2;
   const cursor = mouseState?.cursor || cursors.pointer;
 
   return (
@@ -420,16 +435,12 @@ export default function LatencyChartOverlay({
         />
       )}
 
-      {highlightedBucketIndex != null && (
+      {tooltipFrom != null && (
         <>
-          {// Don't show the strike line while resizing the selection to minimize disruption. It's obvious enough
-          // for which bucket the tooltip is shown.
-          !(mouseState?.resizingLeft || mouseState?.resizingRight) && (
-            <StrikeLine style={{ height: height, left: strikeLinePosition }} />
-          )}
+          {!tooltipForSelection && <StrikeLine style={{ height: height, left: strikeLinePosition }} />}
           <Tooltip
-            bucket={buckets[highlightedBucketIndex]}
-            percentiles={percentileBuckets[highlightedBucketIndex]}
+            buckets={buckets.slice(tooltipFrom, tooltipTo + 1)}
+            percentileBuckets={percentileBuckets.slice(tooltipFrom, tooltipTo + 1)}
             style={{ ...tooltipPositionStyle, bottom: height }}
             dataSource={dataSource}
           />
@@ -497,10 +508,13 @@ function Selection({ height, selectionStart, selectionWidth, selectionAdjustable
   );
 }
 
-function Tooltip({ bucket, percentiles, style, dataSource }) {
+function Tooltip({ buckets, percentileBuckets, style, dataSource }) {
   const formatTime = millis.forcedCompactOnMs.detailed;
-  const from = bucket.from && formatTime(bucket.from);
-  const to = bucket.to && formatTime(bucket.to);
+  const from = buckets[0].from && formatTime(buckets[0].from);
+  const to = buckets[buckets.length - 1].to && formatTime(buckets[buckets.length - 1].to);
+  const count = buckets.map(b => b.calls).reduce((a, v) => a + v, 0);
+  const percentiles = percentileBuckets.reduce((a, v) => a.concat(v), []);
+
   let latencyRangeLabel;
   if (to == null) {
     latencyRangeLabel = `> ${from}`;
@@ -509,13 +523,14 @@ function Tooltip({ bucket, percentiles, style, dataSource }) {
   } else {
     latencyRangeLabel = `${from} to ${to}`;
   }
+
   return (
     <div className={locals.tooltipContent} style={style}>
       <div className={locals.labelWrapper}>{latencyRangeLabel}</div>
       <div className={locals.labelWrapper}>
         <div className={locals.dot} />
         <span>{dataSource === 'calls' ? 'Calls' : 'Traces'} (sum)</span>
-        <span className={locals.value}>{number.forcedCompact.detailed(bucket.calls)}</span>
+        <span className={locals.value}>{number.forcedCompact.detailed(count)}</span>
       </div>
       {percentiles.map(p => (
         <div key={p.percentile} className={locals.labelWrapper}>
