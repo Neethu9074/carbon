@@ -260,85 +260,82 @@ function AwsSensorContent({ agentKey, agentEndpoint, agentEndpointPort }) {
 
   let permissions = {
     Version: '2012-10-17',
-    Statement: [{
-      Action: [
-        'elasticbeanstalk:DescribeEnvironments',
-        'elasticbeanstalk:ListTagsForResource',
-        'elasticbeanstalk:DescribeInstancesHealth',
-        'dynamodb:ListTables',
-        'dynamodb:DescribeTable',
-        'dynamodb:ListTagsOfResource',
-        'rds:DescribeDBInstances',
-        'rds:DescribeEvents',
-        'rds:ListTagsForResource',
-        'sqs:ListQueues',
-        'sqs:GetQueueAttributes',
-        'sqs:ListQueueTags',
-        'elasticache:ListTagsForResource',
-        'elasticache:DescribeCacheClusters',
-        'elasticache:DescribeEvents',
-        'elasticloadbalancing:DescribeLoadBalancers',
-        'elasticloadbalancing:DescribeTags',
-        'elasticmapreduce:ListClusters',
-        'elasticmapreduce:DescribeCluster',
-        'es:ListDomainNames',
-        'es:DescribeElasticsearchDomain',
-        'es:ListTags',
-        'ec2:DescribeInstances',
-        'ec2:DescribeTags',
-        'ec2:DescribeVolumes',
-        'kinesis:ListStreams',
-        'kinesis:DescribeStream',
-        'kinesis:ListTagsForStream',
-        'lambda:ListTags',
-        'lambda:ListFunctions',
-        'lambda:ListVersionsByFunction',
-        'lambda:ListEventSourceMappings',
-        'lambda:GetFunctionConfiguration',
-        'mq:ListBrokers',
-        'mq:DescribeBroker',
-        's3:GetBucketTagging',
-        's3:ListAllMyBuckets',
-        's3:GetBucketLocation',
-        'xray:BatchGetTraces',
-        'xray:GetTraceSummaries',
-        'tag:GetResources'
-      ],
-      Effect: 'Allow',
-      Resource: '*'
-    },
-    {
-      Action: [
-        'cloudwatch:GetMetricStatistics',
-        'cloudwatch:GetMetricData',
-        'cloudwatch:ListMetrics'
-      ],
-      Effect: 'Allow',
-      Resource: '*'
-    }]
+    Statement: [
+      {
+        Action: [
+          'elasticbeanstalk:DescribeEnvironments',
+          'elasticbeanstalk:ListTagsForResource',
+          'elasticbeanstalk:DescribeInstancesHealth',
+          'dynamodb:ListTables',
+          'dynamodb:DescribeTable',
+          'dynamodb:ListTagsOfResource',
+          'rds:DescribeDBInstances',
+          'rds:DescribeEvents',
+          'rds:ListTagsForResource',
+          'sqs:ListQueues',
+          'sqs:GetQueueAttributes',
+          'sqs:ListQueueTags',
+          'elasticache:ListTagsForResource',
+          'elasticache:DescribeCacheClusters',
+          'elasticache:DescribeEvents',
+          'elasticloadbalancing:DescribeLoadBalancers',
+          'elasticloadbalancing:DescribeTags',
+          'elasticmapreduce:ListClusters',
+          'elasticmapreduce:DescribeCluster',
+          'es:ListDomainNames',
+          'es:DescribeElasticsearchDomain',
+          'es:ListTags',
+          'ec2:DescribeInstances',
+          'ec2:DescribeTags',
+          'ec2:DescribeVolumes',
+          'kinesis:ListStreams',
+          'kinesis:DescribeStream',
+          'kinesis:ListTagsForStream',
+          'lambda:ListTags',
+          'lambda:ListFunctions',
+          'lambda:ListVersionsByFunction',
+          'lambda:ListEventSourceMappings',
+          'lambda:GetFunctionConfiguration',
+          'mq:ListBrokers',
+          'mq:DescribeBroker',
+          's3:GetBucketTagging',
+          's3:ListAllMyBuckets',
+          's3:GetBucketLocation',
+          'xray:BatchGetTraces',
+          'xray:GetTraceSummaries',
+          'tag:GetResources'
+        ],
+        Effect: 'Allow',
+        Resource: '*'
+      },
+      {
+        Action: ['cloudwatch:GetMetricStatistics', 'cloudwatch:GetMetricData', 'cloudwatch:ListMetrics'],
+        Effect: 'Allow',
+        Resource: '*'
+      }
+    ]
   };
 
   let content;
 
   const iamPermissions = (
     <Fragment>
-      <JSONFile
-        title="IAM permissions"
-        content={JSON.stringify(permissions, 0, 2)}
-      />
+      <JSONFile title="IAM permissions" content={JSON.stringify(permissions, 0, 2)} />
     </Fragment>
   );
 
   if (selectedPlatform === platformOptions[0]) {
     let trustRelationship = {
       Version: '2012-10-17',
-      Statement: [{
-        Effect: 'Allow',
-        Principal: {
-          Service: 'ec2.amazonaws.com'
-        },
-        Action: 'sts:AssumeRole'
-      }]
+      Statement: [
+        {
+          Effect: 'Allow',
+          Principal: {
+            Service: 'ec2.amazonaws.com'
+          },
+          Action: 'sts:AssumeRole'
+        }
+      ]
     };
 
     content = (
@@ -373,42 +370,41 @@ function AwsSensorContent({ agentKey, agentEndpoint, agentEndpointPort }) {
             'The IAM role containing the permissions above needs to be able to perform the "AssumeRole" action, so, make sure to edit the "Trust Relationship" with something like the following:'
           ]}
         />
-        <JSONFile
-          title="Trust Relationship"
-          content={JSON.stringify(trustRelationship, 0, 2)}
-        />
+        <JSONFile title="Trust Relationship" content={JSON.stringify(trustRelationship, 0, 2)} />
       </Fragment>
     );
   } else if (selectedPlatform === platformOptions[1]) {
     const taskDefinition = {
       family: 'instana-aws-sensor',
-      containerDefinitions: [{
-        name: 'aws-sensor',
-        image: 'instana/agent',
-        environment: [
-          {
-            name: 'INSTANA_AGENT_ENDPOINT',
-            value: agentEndpoint
-          },
-          {
-            name: 'INSTANA_AGENT_ENDPOINT_PORT',
-            value: agentEndpointPort
-          },
-          {
-            name: 'INSTANA_AGENT_KEY',
-            value: agentKey
-          },
-          {
-            name: 'INSTANA_AGENT_MODE',
-            value: 'AWS'
-          }
-        ]
-      }],
+      containerDefinitions: [
+        {
+          name: 'aws-sensor',
+          image: 'instana/agent',
+          environment: [
+            {
+              name: 'INSTANA_AGENT_ENDPOINT',
+              value: agentEndpoint
+            },
+            {
+              name: 'INSTANA_AGENT_ENDPOINT_PORT',
+              value: agentEndpointPort
+            },
+            {
+              name: 'INSTANA_AGENT_KEY',
+              value: agentKey
+            },
+            {
+              name: 'INSTANA_AGENT_MODE',
+              value: 'AWS'
+            }
+          ]
+        }
+      ],
       cpu: '2048',
       memory: '4096',
       requiresCompatibilities: ['FARGATE'],
       networkMode: 'awsvpc'
-  };
+    };
 
     content = (
       <Fragment>
@@ -421,10 +417,7 @@ function AwsSensorContent({ agentKey, agentEndpoint, agentEndpointPort }) {
         </HelpBox>
         <Spacer />
         <Description lines={['Create an ECS Task Definition using this template:']} />
-        <JSONFile
-          title="Task Definition"
-          content={JSON.stringify(taskDefinition, 0, 2)}
-        />
+        <JSONFile title="Task Definition" content={JSON.stringify(taskDefinition, 0, 2)} />
         <Spacer />
         <Description
           lines={['Assign to the ECS Task Definition a role with at least the following IAM permissions:']}
@@ -697,7 +690,7 @@ function AWSLambdaContent({ agentKey, serverlessEndpoint }) {
   let steps;
 
   if (selectedRuntime === runtimeOptions[0]) {
-    const nodejsLayerVersion = '29';
+    const nodejsLayerVersion = '30';
 
     steps = (
       <Fragment>
