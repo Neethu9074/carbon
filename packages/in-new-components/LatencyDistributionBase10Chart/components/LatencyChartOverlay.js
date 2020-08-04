@@ -349,7 +349,11 @@ export default function LatencyChartOverlay({
     if (!isEqual(selection, newSelection)) {
       // notify only if the selection really changed
       onSelectionChanged(newSelection);
-      latencySelectionChanged();
+      latencySelectionChanged({
+        selecting: mouseState?.selecting,
+        resizing: mouseState?.resizingLeft || mouseState?.resizingRight,
+        moving: mouseState?.moving
+      });
     }
   };
 
