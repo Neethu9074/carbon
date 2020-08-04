@@ -25,6 +25,7 @@ import Stack from 'in-new-components/layout/Stack';
 import useObservable from 'in-hooks/useObservable';
 import Message from 'in-new-components/Message';
 import useUrlState from 'in-hooks/useUrlState';
+import locals from 'in-components/Link/Link.mless';
 import Card from 'in-new-components/Card';
 import Title from 'in-components/Title';
 
@@ -132,7 +133,14 @@ const columnDefinitions = [
     id: 'label',
     label: 'Name',
     getContent(item) {
-      return <EntityLink label={item.label} plugin={item.pluginId} href$={getDashboardLink(item.snapshotId)} />;
+      return (
+        <EntityLink
+          className={locals.ellipsis}
+          label={item.label}
+          plugin={item.pluginId}
+          href$={getDashboardLink(item.snapshotId)}
+        />
+      );
     }
   }
 ];
