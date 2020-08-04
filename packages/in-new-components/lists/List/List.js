@@ -30,15 +30,18 @@ export function Ul({
   refSetter,
   onKeyUp,
   onKeyDown,
-  component: Component = 'ul'
+  component: Component = 'ul',
+  space = 'disabled'
 }) {
   return (
     <Component
       className={evaluateClassNames({
         [locals.list]: true,
-        [locals.framed]: framed === true,
+        [locals.framed]: framed === true && space === 'disabled',
         [locals.framedTopBottom]: framed === 'topBottom',
+        [locals.frameChildren]: framed === true && space !== 'disabled',
         [className]: className,
+        [locals[`spacing-${space}`]]: space,
         [locals[`${borderRadius}BorderRadius`]]: borderRadius
       })}
       style={style}
@@ -66,7 +69,9 @@ export function Li(props) {
     initiallyOpen,
     onDefaultHrefInteractionSideEffect,
     autoFocus,
-    component: Component = 'li'
+    component: Component = 'li',
+    borderRadius,
+    highlightOpenState = true
   } = props;
   let { onClick } = props;
 
@@ -139,7 +144,8 @@ export function Li(props) {
       className={evaluateClassNames({
         [locals.listItem]: true,
         [locals.noAlternatingBg]: noAlternatingBg,
-        [locals.expanded]: open
+        [locals.expanded]: open && highlightOpenState,
+        [locals[`${borderRadius}ListItemBorderRadius`]]: borderRadius
       })}
     >
       {href || href$ ? (

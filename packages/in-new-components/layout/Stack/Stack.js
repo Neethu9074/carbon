@@ -7,7 +7,7 @@ import locals from './Stack.mless';
 
 const components = ['div', 'ul', 'ol'];
 const alignments = ['left', 'center', 'right'];
-const spaces = ['disabled', 'xxsmall', 'xsmall', 'small', 'gutter', 'medium', 'large', 'xlarge', 'xxlarge'];
+export const spaces = ['disabled', 'xxsmall', 'xsmall', 'small', 'gutter', 'medium', 'large', 'xlarge', 'xxlarge'];
 
 // An implementation of https://seek-oss.github.io/braid-design-system/components/Stack/
 export default function Stack({ component: Component = 'div', space = 'gutter', align = null, children }) {

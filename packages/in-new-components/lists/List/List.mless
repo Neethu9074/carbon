@@ -1,9 +1,12 @@
 @import '~in-themes/active.less';
+@import '~in-new-components/layout/Stack/spacings.less';
 
 :local {
   .list {
     margin: 0;
     padding: 0;
+
+    .spacings();
   }
 
   .mediumBorderRadius {
@@ -45,6 +48,28 @@
     border-bottom: 1px solid @lib__colors__N400;
   }
 
+  .frameChildren {
+    .frameTableChildren();
+  }
+
+  .frameTableChildren() {
+    border: 0px solid @lib__colors__N400;
+
+    & > .listItem {
+      border: 1px solid @lib__colors__N400;
+    }
+
+    & > .listItem {
+      border-top: 1px solid @lib__colors__N400;
+      border-bottom: 1px solid @lib__colors__N400;
+    }
+  }
+
+  .frameOnlyChildren {
+    border-top: 1px solid @lib__colors__N400;
+    border-bottom: 1px solid @lib__colors__N400;
+  }
+
   .listItem {
     display: flex;
     flex-direction: column;
@@ -65,6 +90,10 @@
       border-top: 0;
       border-bottom: 0;
     }
+  }
+
+  .mediumListItemBorderRadius {
+    .borderRadius(@lib__shapes__radius_medium);
   }
 
   .noAlternatingBg {
