@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { propTypeTimeConfig } from 'in-stores/time/config';
 import Overlay from 'in-new-components/overlays/Overlay';
 import SvgIcon from 'in-components/SvgIcon/SvgIcon';
@@ -22,16 +21,14 @@ export default function SingleIconLaneItem({
     <div
       style={{ transform: `translateX(${xPos}px)` }}
       className={locals.laneItem}
-      onMouseEnter={e => {
-        stopPropagationAndPreventDefault(e);
+      onMouseEnter={() => {
         onHover?.({
           isHovered: true,
           eventData,
           iconConfig
         });
       }}
-      onMouseLeave={e => {
-        stopPropagationAndPreventDefault(e);
+      onMouseLeave={() => {
         onHover?.({});
       }}
     >

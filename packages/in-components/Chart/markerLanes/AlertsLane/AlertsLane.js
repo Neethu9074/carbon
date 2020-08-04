@@ -6,8 +6,6 @@ import { pendingResult, emptyArray } from 'in-services/fixedObjects';
 import useObservable from 'in-hooks/useObservable';
 
 export default function AlertsLane({ getAlerts, config = {}, ...remainingProps }) {
-  if (!getAlerts) return null;
-
   const { clusterSizeMillis } = remainingProps;
 
   const alerts =

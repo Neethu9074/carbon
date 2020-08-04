@@ -18,7 +18,6 @@ import locals from './MarkerLane.mless';
  "SingleIconLaneItem".
 
   onMouseEnter={e => {
-    stopPropagationAndPreventDefault(e);
     onHover?.({
       isHovered: true,
       timestamp: eventData.timestamp,
@@ -27,7 +26,6 @@ import locals from './MarkerLane.mless';
   }}
 
   onMouseLeave={e => {
-    stopPropagationAndPreventDefault(e);
     onHover?.({});
   }}
 */
