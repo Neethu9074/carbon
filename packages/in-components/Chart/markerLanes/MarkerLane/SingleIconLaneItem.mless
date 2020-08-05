@@ -25,8 +25,4 @@
       pointer-events: none;
     }
   }
-
-  .marker {
-    padding: 4px;
-  }
 }

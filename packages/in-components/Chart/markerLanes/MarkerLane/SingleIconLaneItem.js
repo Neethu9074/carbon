@@ -36,7 +36,6 @@ export default function SingleIconLaneItem({
         {({ toggle, refSetter }) => (
           <SvgIcon
             size="xs"
-            className={locals.marker}
             onClick={
               !calloutContent && !onclick
                 ? undefined
