@@ -8,10 +8,11 @@ export default function BlueprintSelection(props) {
   return (
     <GlobalBlueprintSelection
       {...props}
-      updateFormForSelectedBlueprint={alertType => {
+      updateFormForSelectedBlueprint={blueprintConfig => {
         props.updateForm(
-          createBlueprintForm(props.form, alertType).updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f =>
-            f.setValue(true)
+          createBlueprintForm(props.form, blueprintConfig.type, blueprintConfig.thresholdDefaults).updateIn(
+            ['hiddenFields', 'calculateThresholdOnBackend'],
+            f => f.setValue(true)
           )
         );
       }}

@@ -24,8 +24,22 @@ const statusCodeMetricLabelsByName = Object.freeze({
   specificStatusCodeRate: 'Status Code Rate'
 });
 
+const baseBlueprint = Object.freeze({
+  isCustomRateMetric: isCustomRateMetric,
+  getMetricsRequest: metricName => (isCustomRateMetric(metricName) ? getWebsiteRateMetric : getWebsiteMetrics),
+  getAlertsPreviewRequest: metricName =>
+    isCustomRateMetric(metricName) ? getWebsiteRateMetricAlertsPreview : getWebsiteMetricAlertsPreview,
+  getThresholdSuggestionRequest: metricName =>
+    isCustomRateMetric(metricName) ? getWebsiteRateMetricThresholdSuggestion : getWebsiteMetricsThresholdSuggestion,
+  getEntityTagFilter: getWebsiteIdTagFilter,
+  thresholdDefaults: {
+    operator: '>='
+  }
+});
+
 export const blueprintConfigs = Object.freeze([
   {
+    ...baseBlueprint,
     type: slowness,
     name: 'Slowness',
     blacklistedTagFilters: ['beacon.duration'],
@@ -43,10 +57,6 @@ export const blueprintConfigs = Object.freeze([
       <ul>
     `,
     baselineEnabled: true,
-    isCustomRateMetric: () => false,
-    getMetricsRequest: () => getWebsiteMetrics,
-    getAlertsPreviewRequest: () => getWebsiteMetricAlertsPreview,
-    getThresholdSuggestionRequest: () => getWebsiteMetricsThresholdSuggestion,
     defaultMetric: 'onLoadTime',
     getMetricName: () => 'onLoadTime',
     getMetricLabel: () => 'onLoad Time',
@@ -54,22 +64,16 @@ export const blueprintConfigs = Object.freeze([
     getMaxMetricValue: () => undefined,
     getAggregation: alertRule => alertRule.aggregation,
     isRuleComplete: () => true,
-    getRuleTagFilters: () => [],
-    getEntityTagFilter: getWebsiteIdTagFilter
+    getRuleTagFilters: () => []
   },
   {
+    ...baseBlueprint,
     type: specificJsError,
     name: 'JS Errors',
     blacklistedTagFilters: ['beacon.error.message'],
     headline: 'Automatic Alerts for JS Errors',
     text: 'Receive an alert every time when matching JS Error messages occur more often than usual.',
     baselineEnabled: false,
-    isCustomRateMetric: isCustomRateMetric,
-    getMetricsRequest: metricName => (isCustomRateMetric(metricName) ? getWebsiteRateMetric : getWebsiteMetrics),
-    getAlertsPreviewRequest: metricName =>
-      isCustomRateMetric(metricName) ? getWebsiteRateMetricAlertsPreview : getWebsiteMetricAlertsPreview,
-    getThresholdSuggestionRequest: metricName =>
-      isCustomRateMetric(metricName) ? getWebsiteRateMetricThresholdSuggestion : getWebsiteMetricsThresholdSuggestion,
     defaultMetric: 'errors',
     getMetricName: alertRule => alertRule.metricName,
     getMetricLabel: metricName => jsErrorMetricLabelsByName[metricName],
@@ -78,22 +82,16 @@ export const blueprintConfigs = Object.freeze([
     getAggregation: alertRule => (isCustomRateMetric(alertRule.metricName) ? 'MEAN' : 'SUM'),
     isRuleComplete: alertRule => isNotBlank(alertRule.value),
     incompleteRuleMessage: 'Please select a JS Error to see when this alert triggers',
-    getRuleTagFilters: alertRule => [getJsErrorsTagFilter(alertRule)],
-    getEntityTagFilter: getWebsiteIdTagFilter
+    getRuleTagFilters: alertRule => [getJsErrorsTagFilter(alertRule)]
   },
   {
+    ...baseBlueprint,
     type: specificStatusCode,
     name: 'HTTP Status Codes',
     blacklistedTagFilters: ['beacon.http.status'],
     headline: 'Automatic Alerts for HTTP Status Codes',
     text: 'Receive an alert every time when matching HTTP Status Codes occur more often than usual.',
     baselineEnabled: false,
-    isCustomRateMetric: isCustomRateMetric,
-    getMetricsRequest: metricName => (isCustomRateMetric(metricName) ? getWebsiteRateMetric : getWebsiteMetrics),
-    getAlertsPreviewRequest: metricName =>
-      isCustomRateMetric(metricName) ? getWebsiteRateMetricAlertsPreview : getWebsiteMetricAlertsPreview,
-    getThresholdSuggestionRequest: metricName =>
-      isCustomRateMetric(metricName) ? getWebsiteRateMetricThresholdSuggestion : getWebsiteMetricsThresholdSuggestion,
     defaultMetric: 'httpxxx',
     getMetricName: alertRule => alertRule.metricName,
     getMetricLabel: metricName => statusCodeMetricLabelsByName[metricName],
@@ -102,8 +100,7 @@ export const blueprintConfigs = Object.freeze([
     getAggregation: alertRule => (isCustomRateMetric(alertRule.metricName) ? 'MEAN' : 'SUM'),
     isRuleComplete: alertRule => isNotBlank(alertRule.value),
     incompleteRuleMessage: 'Please select a Status Code to see when this alert triggers',
-    getRuleTagFilters: alertRule => [getStatusCodeTagFilter(alertRule)],
-    getEntityTagFilter: getWebsiteIdTagFilter
+    getRuleTagFilters: alertRule => [getStatusCodeTagFilter(alertRule)]
   }
 ]);
 

@@ -6,7 +6,7 @@ import Button from 'in-new-components/Button/Button';
 
 import locals from './BlueprintDescription.mless';
 
-export function BlueprintDescription({ config, selectButtonDisabled, isSimpleMode, onSelectBlueprintForAlertType }) {
+export function BlueprintDescription({ config, selectButtonDisabled, isSimpleMode, onSelectBlueprint }) {
   const { headline, text } = config;
 
   return (
@@ -20,7 +20,7 @@ export function BlueprintDescription({ config, selectButtonDisabled, isSimpleMod
           kind={selectButtonDisabled ? 'info' : 'primary'}
           className={locals.button}
           disabled={selectButtonDisabled}
-          onClick={() => onSelectBlueprintForAlertType({ alertType: config.type })}
+          onClick={() => onSelectBlueprint(config)}
         >
           Select
         </Button>
@@ -33,5 +33,5 @@ BlueprintDescription.propTypes = {
   config: PropTypes.object.isRequired,
   selectButtonDisabled: PropTypes.bool,
   isSimpleMode: PropTypes.bool,
-  onSelectBlueprintForAlertType: PropTypes.func
+  onSelectBlueprint: PropTypes.func
 };

@@ -8,11 +8,12 @@ export default function BlueprintSelection(props) {
   return (
     <GlobalBlueprintSelection
       {...props}
-      updateFormForSelectedBlueprint={alertType => {
-        let updatedForm = createBlueprintForm(props.form, alertType).updateIn(
-          ['hiddenFields', 'calculateThresholdOnBackend'],
-          f => f.setValue(true)
-        );
+      updateFormForSelectedBlueprint={blueprintConfig => {
+        let updatedForm = createBlueprintForm(
+          props.form,
+          blueprintConfig.type,
+          blueprintConfig.thresholdDefaults
+        ).updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true));
 
         const thresholdType = updatedForm.get('threshold').get('type').value;
         // reset "old" threshold/baseline-value to ensure that we don't call endpoints with the previous values

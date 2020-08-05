@@ -4,7 +4,19 @@ import getApplicationMetrics from 'in-applications/subscriptions/getApplicationM
 import { percentage, millis, number } from 'in-services/formatters/number';
 import { isNotBlank } from 'in-services/util/string';
 
+const baseBlueprint = Object.freeze({
+  isCustomRateMetric: () => false,
+  getMetricsRequest: () => getApplicationMetrics,
+  getAlertsPreviewRequest: () => getApplicationMetricsAlertPreview,
+  getThresholdSuggestionRequest: () => getApplicationMetricsThresholdSuggestion,
+  thresholdDefaults: {
+    operator: '>='
+  },
+  getEntityTagFilter: getApplicationIdTagFilter
+});
+
 const slownessBlueprintConfig = Object.freeze({
+  ...baseBlueprint,
   type: 'slowness',
   blacklistedTagFilters: ['call.latency'],
   name: 'Slow Calls',
@@ -12,10 +24,6 @@ const slownessBlueprintConfig = Object.freeze({
   text:
     'Receive an alert when calls to selected services and endpoints of this Application Perspective are slower than usual.',
   baselineEnabled: true,
-  isCustomRateMetric: () => false,
-  getMetricsRequest: () => getApplicationMetrics,
-  getAlertsPreviewRequest: () => getApplicationMetricsAlertPreview,
-  getThresholdSuggestionRequest: () => getApplicationMetricsThresholdSuggestion,
   defaultMetric: 'latency',
   getMetricName: () => 'latency',
   getMetricLabel: () => 'Latency',
@@ -23,11 +31,11 @@ const slownessBlueprintConfig = Object.freeze({
   getMaxMetricValue: () => undefined,
   getAggregation: alertRule => alertRule.aggregation,
   isRuleComplete: () => true,
-  getRuleTagFilters: () => [],
-  getEntityTagFilter: getApplicationIdTagFilter
+  getRuleTagFilters: () => []
 });
 
 const errorRateBlueprintConfig = Object.freeze({
+  ...baseBlueprint,
   type: 'errorRate',
   blacklistedTagFilters: ['call.erroneous', 'call.error.count', 'call.error.message'],
   name: 'Erroneous Calls',
@@ -35,10 +43,6 @@ const errorRateBlueprintConfig = Object.freeze({
   text:
     'Receive an alert when the rate of erroneous calls for selected services and endpoints of this Application Perspective is higher than normal.',
   baselineEnabled: false,
-  isCustomRateMetric: () => false,
-  getMetricsRequest: () => getApplicationMetrics,
-  getAlertsPreviewRequest: () => getApplicationMetricsAlertPreview,
-  getThresholdSuggestionRequest: () => getApplicationMetricsThresholdSuggestion,
   defaultMetric: 'errors',
   getMetricName: () => 'errors',
   getMetricLabel: () => 'Error Rate',
@@ -46,11 +50,11 @@ const errorRateBlueprintConfig = Object.freeze({
   getMaxMetricValue: () => 100,
   getAggregation: () => 'MEAN',
   isRuleComplete: () => true,
-  getRuleTagFilters: () => [],
-  getEntityTagFilter: getApplicationIdTagFilter
+  getRuleTagFilters: () => []
 });
 
 const logsBlueprintConfig = Object.freeze({
+  ...baseBlueprint,
   type: 'logs',
   blacklistedTagFilters: ['log.message', 'log.level'],
   name: 'Error and Warning Logs',
@@ -58,10 +62,6 @@ const logsBlueprintConfig = Object.freeze({
   text:
     'Receive an alert when the number of calls logging matching error and warning messages is higher than expected.',
   baselineEnabled: false,
-  isCustomRateMetric: () => false,
-  getMetricsRequest: () => getApplicationMetrics,
-  getAlertsPreviewRequest: () => getApplicationMetricsAlertPreview,
-  getThresholdSuggestionRequest: () => getApplicationMetricsThresholdSuggestion,
   defaultMetric: 'calls',
   getMetricName: () => 'calls',
   getMetricLabel: () => 'Logs Count',
@@ -70,21 +70,17 @@ const logsBlueprintConfig = Object.freeze({
   getAggregation: () => 'SUM',
   isRuleComplete: alertRule => isNotBlank(alertRule.message),
   incompleteRuleMessage: 'Please select a Log Message to see when this alert triggers',
-  getRuleTagFilters: getLogLevelTagFilters,
-  getEntityTagFilter: getApplicationIdTagFilter
+  getRuleTagFilters: getLogLevelTagFilters
 });
 
 const statusCodeBlueprintConfig = Object.freeze({
+  ...baseBlueprint,
   type: 'statusCode',
   blacklistedTagFilters: ['call.http.status'],
   name: 'HTTP Status Codes',
   headline: 'Automatic Alerts for HTTP Status Codes',
   text: 'Receive an alert every time when matching HTTP Status Codes occur more often than usual.',
   baselineEnabled: false,
-  isCustomRateMetric: () => false,
-  getMetricsRequest: () => getApplicationMetrics,
-  getAlertsPreviewRequest: () => getApplicationMetricsAlertPreview,
-  getThresholdSuggestionRequest: () => getApplicationMetricsThresholdSuggestion,
   defaultMetric: 'calls',
   getMetricName: () => 'calls',
   getMetricLabel: () => 'Status Code',
@@ -93,21 +89,17 @@ const statusCodeBlueprintConfig = Object.freeze({
   getAggregation: () => 'SUM',
   isRuleComplete: alertRule => !!(alertRule.statusCodeStart && alertRule.statusCodeEnd),
   incompleteRuleMessage: 'Please select a Status Code to see when this alert triggers',
-  getRuleTagFilters: getStatusCodeTagFilters,
-  getEntityTagFilter: getApplicationIdTagFilter
+  getRuleTagFilters: getStatusCodeTagFilters
 });
 
 const throughputBlueprintConfig = Object.freeze({
+  ...baseBlueprint,
   type: 'throughput',
   blacklistedTagFilters: [],
   name: 'Throughput',
   headline: 'Automatic Alerts on Call Throughput Violations',
   text: 'Receive an alert every time the number of calls significantly differs from the usual call throughput.',
   baselineEnabled: true,
-  isCustomRateMetric: () => false,
-  getMetricsRequest: () => getApplicationMetrics,
-  getAlertsPreviewRequest: () => getApplicationMetricsAlertPreview,
-  getThresholdSuggestionRequest: () => getApplicationMetricsThresholdSuggestion,
   defaultMetric: 'calls',
   getMetricName: () => 'calls',
   getMetricLabel: () => 'Calls',
@@ -116,7 +108,6 @@ const throughputBlueprintConfig = Object.freeze({
   getAggregation: () => 'SUM',
   isRuleComplete: () => true,
   getRuleTagFilters: () => [],
-  getEntityTagFilter: getApplicationIdTagFilter,
   impactTimeThresholdDisabled: true
 });
 
@@ -152,9 +143,6 @@ export const simpleModeBlueprintConfigs = Object.freeze([
     headline: 'Automatic Alerts for Unexpectedly High Number of Calls',
     text:
       'You will be alerted every time the number of calls significantly higher than the expected number of calls in a time window of 10 minutes.',
-    thresholdDefaults: {
-      operator: '>='
-    },
     isSelected: alertThreshold => alertThreshold.operator === '>=' || alertThreshold.operator === '>'
   }
 ]);

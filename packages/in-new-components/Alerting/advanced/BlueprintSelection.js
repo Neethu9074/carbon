@@ -44,9 +44,9 @@ export default function BlueprintSelection({
             <BlueprintDescription
               config={config}
               selectButtonDisabled={selectButtonDisabled}
-              onSelectBlueprintForAlertType={({ alertType }) => {
+              onSelectBlueprint={blueprintConfig => {
                 setSelectButtonDisabled(true);
-                updateFormForSelectedBlueprint(alertType);
+                updateFormForSelectedBlueprint(blueprintConfig);
               }}
             />
           </div>
