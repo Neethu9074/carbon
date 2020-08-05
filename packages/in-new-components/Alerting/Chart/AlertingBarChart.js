@@ -6,6 +6,8 @@ import AlertsPreviewLane from 'in-components/Chart/markerLanes/AlertsPreviewLane
 import AlertingBarChartWrapper from 'in-new-components/Alerting/Chart/AlertingBarChartWrapper';
 import { chartViewConfigPropType } from 'in-new-components/Alerting/Chart/chartViewConfig';
 import MarkerLanesPresenter from 'in-components/Chart/markerLanes/MarkerLanesPresenter';
+import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
+import { isGreaterOperator } from 'in-new-components/Alerting/utils/alertUtils';
 import { smoothMetrics } from 'in-new-components/Alerting/utils/chartUtil';
 import Renderer from 'in-new-components/Alerting/Chart/renderer/Renderer';
 
@@ -48,6 +50,7 @@ export default function AlertingBarChart({
   }
 
   const metricChartGranularity = Math.max(granularity, viewConfig.minChartMetricGranularity);
+  const formatter = blueprintConfig.getMetricFormat(metricName);
 
   return (
     <AlertingBarChartWrapper
@@ -103,7 +106,7 @@ export default function AlertingBarChart({
           getSmoothedMetricTooltipContent(viewConfig.smoothMetric)
         ),
         labels: enhanceLabels(metricLabel, viewConfig.smoothMetric),
-        formatter: blueprintConfig.getMetricFormat(metricName),
+        tooltipFormatter: value => (value < 0 ? valueMissingPlaceholder : formatter.detailed(value)),
         renderer: getRenderer(isStaticThreshold, viewConfig.smoothMetric),
         icons: {
           types: [viewConfig.smoothMetric ? 'lib_line_chart' : 'lib_bar_chart', 'lib_threshold', 'lib_actions_stop'],
@@ -123,6 +126,7 @@ export default function AlertingBarChart({
           }
           return getMaxForBaselineChart({
             metricsMaxValue,
+            operator: threshold.operator,
             baseline: threshold.baseline,
             sensitivity: threshold.deviationFactor
           });
@@ -188,16 +192,10 @@ function getSmoothedMetricTooltipContent(isSmoothedMetric) {
   return isSmoothedMetric ? ['Smoothed metric'] : null;
 }
 
-function getMaxForBaselineChart({ metricsMaxValue, baseline, sensitivity }) {
-  let maxBaselineVal = 0;
-  if (baseline) {
-    for (let i = 0; i < baseline.length; ++i) {
-      const currentBaseline = baseline[i][1] + baseline[i][2] * sensitivity;
-      if (currentBaseline > maxBaselineVal) maxBaselineVal = currentBaseline;
-    }
-  }
+function getMaxForBaselineChart({ metricsMaxValue, operator, baseline, sensitivity }) {
+  const opSign = isGreaterOperator(operator) ? 1 : -1;
   const overallMaxValue = (baseline || [])
-    .map(v => v[1] + v[2] * sensitivity)
+    .map(v => v[1] + opSign * v[2] * sensitivity)
     .reduce((a, b) => (a > b ? a : b), metricsMaxValue);
   return overallMaxValue * 1.1;
 }

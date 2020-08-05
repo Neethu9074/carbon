@@ -3,6 +3,7 @@ import React from 'react';
 
 import { finishedProgress, emptyArray, indeterminateProgress } from 'in-services/fixedObjects';
 import { getBaselineValue } from 'in-new-components/Alerting/utils/baselineUtils';
+import { isGreaterOperator } from 'in-new-components/Alerting/utils/alertUtils';
 import ChartWrapper from 'in-components/Chart/ChartWrapper';
 import connectTo from 'in-hoc/connectTo';
 
@@ -95,8 +96,4 @@ function mergeResult(
   };
 
   return mergedResult;
-}
-
-function isGreaterOperator(operator) {
-  return operator === '>=' || operator === '>';
 }

@@ -3,10 +3,10 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { AlertConfigDialogWithThreshold } from 'in-websites/alerting/alertConfigDialogWithThreshold/AlertConfigDialogWithThreshold';
+import alertFormDefinition, { fieldNames } from 'in-websites/alerting/form/alertDialogFormDefinition';
+import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-websites/alerting/form/formUtils';
 import { createAlertConfig, updateAlertConfig } from 'in-websites/api/websiteAlertConfig';
-import alertFormDefinition from 'in-websites/alerting/form/alertDialogFormDefinition';
 import { chartViewConfigs } from 'in-new-components/Alerting/Chart/chartViewConfig';
-import toAlertConfig from 'in-websites/alerting/alertConfigUtil';
 
 const logger = createLogger('in-websites/alerting/AlertDialog');
 const initialChartConfigIndex = 0;
@@ -89,4 +89,21 @@ function createAlert(form, setForm, onClose, editMode, setIsSaving) {
       }
     );
   }
+}
+
+function toAlertConfig(form) {
+  return Object.freeze({
+    rule: form.get('rule').toJS(),
+    tagFilters: form.get(fieldNames.tagFilters).value,
+    alertChannelIds: form.get(fieldNames.alertChannelIds).value,
+    enabled: form.get(fieldNames.enabled).value,
+    triggering: form.get(fieldNames.triggering).value,
+    severity: form.get(fieldNames.severity).value,
+    description: form.get(fieldNames.description).value || getDescriptionPlaceholder(form),
+    name: form.get(fieldNames.name).value || getTitlePlaceholder(form),
+    websiteId: form.get(fieldNames.websiteId).value,
+    threshold: form.get('threshold').toJS(),
+    timeThreshold: form.get('timeThreshold').toJS(),
+    granularity: form.get(fieldNames.granularity).value
+  });
 }

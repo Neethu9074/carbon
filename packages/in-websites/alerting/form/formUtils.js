@@ -1,4 +1,5 @@
 import { onLoadTime, errorRate, statusCodeRate, errorCount, statusCodeCount } from 'in-websites/alerting/constants';
+import { isGreaterOperator } from 'in-new-components/Alerting/utils/alertUtils';
 import { getAggregationText } from 'in-new-components/Alerting/utils/formUtils';
 import { getStatusCodeLabel } from 'in-websites/alerting/form/ruleFormData';
 import { alertTypes } from 'in-websites/alerting/data/blueprintConfig';
@@ -128,8 +129,4 @@ function getGreaterOrLessOperatorText(operator) {
 
 function getSimpleAboveOrBelowOperatorText(operator) {
   return isGreaterOperator(operator) ? 'above' : 'below';
-}
-
-function isGreaterOperator(operator) {
-  return operator === '>=' || operator === '>';
 }

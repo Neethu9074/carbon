@@ -46,7 +46,7 @@ const errorRateBlueprintConfig = Object.freeze({
   defaultMetric: 'errors',
   getMetricName: () => 'errors',
   getMetricLabel: () => 'Error Rate',
-  getMetricFormat: () => percentage.detailed,
+  getMetricFormat: () => percentage,
   getMaxMetricValue: () => 100,
   getAggregation: () => 'MEAN',
   isRuleComplete: () => true,

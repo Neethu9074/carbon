@@ -1,7 +1,7 @@
 import invariant from 'invariant';
 
+import { isGreaterOperator } from 'in-new-components/Alerting/utils/alertUtils';
 import { smoothMetrics } from 'in-new-components/Alerting/utils/chartUtil';
-import { isGreaterOperator } from 'in-websites/alerting/alertConfigUtil';
 import line from 'in-components/Chart/renderer/line';
 
 export default {

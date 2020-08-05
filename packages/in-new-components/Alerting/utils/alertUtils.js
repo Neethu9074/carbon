@@ -12,3 +12,7 @@ export function toTagFilterNumberOperator(thresholdOperator) {
       return thresholdOperator;
   }
 }
+
+export function isGreaterOperator(operator) {
+  return operator === '>=' || operator === '>';
+}
