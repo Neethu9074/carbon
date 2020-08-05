@@ -1,9 +1,9 @@
 import React from 'react';
 
 import getIBMMQQueuesForQueueManager from 'in-subscription/iBMMQQueueManager/getIBMMQQueuesForQueueManager';
-import { zeroDecimalPlaces, seconds } from 'in-services/formatters/number';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import { zeroDecimalPlaces, seconds } from 'in-services/formatters/number';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';

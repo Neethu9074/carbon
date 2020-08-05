@@ -1,5 +1,20 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
-export default function IBMMQQueueManagerSidebar() {
-  return <div />;
+import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
+import Collapsible from 'in-sdk/components/sidebar/Collapsible';
+import Info from '../Info';
+
+export default function IBMMQQueueManagerSidebar({ snapshot }) {
+  return (
+    <Fragment>
+      <Collapsible initiallyOpen>
+        <Collapsible.Header>IBM MQ QueueManager</Collapsible.Header>
+        <Collapsible.Content>
+          <Info snapshot={snapshot} />
+        </Collapsible.Content>
+      </Collapsible>
+
+      <ServiceInstancesList snapshot={snapshot} />
+    </Fragment>
+  );
 }

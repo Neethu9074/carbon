@@ -1,6 +1,9 @@
 import React from 'react';
 
 import getIBMMQQueuesUsageForQueueManager from 'in-subscription/iBMMQQueueManager/getIBMMQQueuesUsageForQueueManager';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import { zeroDecimalPlaces } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';
 import { getSnapshots } from 'in-stores/snapshot';
@@ -98,38 +101,29 @@ const cols = [
     }
   },
   {
-    title: 'Name',
+    title: 'Last Message At',
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.snapshot.getIn(['data', 'queueName']);
+        return row.snapshot.getIn(['data', 'lastMessageAt']);
       }
     }
   },
   {
-    title: 'Name',
+    title: 'Handle State',
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.snapshot.getIn(['data', 'queueName']);
+        return row.snapshot.getIn(['data', 'handleState']);
       }
     }
   },
   {
-    title: 'Name',
+    title: 'User',
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.snapshot.getIn(['data', 'queueName']);
-      }
-    }
-  },
-  {
-    title: 'Name',
-    type: 'string',
-    typeArgs: {
-      getValue(row) {
-        return row.snapshot.getIn(['data', 'queueName']);
+        return row.snapshot.getIn(['data', 'user']);
       }
     }
   }
@@ -156,6 +150,33 @@ export default connectTo(
       };
     });
 
-    return <Table withoutPadding cardTitle={`Queues Usage (${rows.length})`} cols={cols} rows={rows} />;
+    return (
+      <Table
+        withoutPadding
+        cardTitle={`Queues Usage (${rows.length})`}
+        cols={cols}
+        rows={rows}
+        getRowDetails={getDetails}
+      />
+    );
   }
 );
+
+function getDetails(row) {
+  return (
+    <div>
+      <Chart
+        snapshotId={row.snapshotId}
+        timeConfig={row.timeConfig}
+        y1={{
+          formatter: zeroDecimalPlaces,
+          tooltipFormatter: zeroDecimalPlaces,
+          metrics: [`openInputs`, `openOutputs`],
+          labels: ['Open Inputs', 'Open Outputs'],
+          type: 'line'
+        }}
+        renderPostChartContent={PluginDashboardsMarkerLanes}
+      />
+    </div>
+  );
+}
