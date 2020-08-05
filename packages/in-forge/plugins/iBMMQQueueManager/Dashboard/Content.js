@@ -1,5 +1,37 @@
 import React from 'react';
 
-export default function IBMMQQueueManagerDashboard() {
-  return <div />;
+import QueuesUsageTable from 'in-forge/plugins/iBMMQQueueManager/Dashboard/QueuesUsageTable.js';
+import QueuesTable from 'in-forge/plugins/iBMMQQueueManager/Dashboard/QueuesTable.js';
+import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import { zeroDecimalPlaces } from 'in-services/formatters/number';
+import MetricValue from 'in-components/MetricValue';
+
+export default function IBMMQQueueManagerDashboard({ snapshot, timeConfig }) {
+  const snapshotId = snapshot.get('id');
+  return (
+    <div>
+      <KpiSection>
+        <KpiKeyValue label="Connections">
+          <MetricValue snapshotId={snapshotId} metric="connectionCount" />
+        </KpiKeyValue>
+      </KpiSection>
+      <DashboardSection title="Connections">
+        <Chart
+          snapshotId={snapshotId}
+          timeConfig={timeConfig}
+          y1={{
+            metrics: ['connectionCount'],
+            labels: ['Count'],
+            type: 'line',
+            formatter: zeroDecimalPlaces
+          }}
+        />
+      </DashboardSection>
+
+      <QueuesUsageTable snapshot={snapshot} timeConfig={timeConfig} />
+      <QueuesTable snapshot={snapshot} timeConfig={timeConfig} />
+    </div>
+  );
 }
