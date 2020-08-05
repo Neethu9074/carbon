@@ -1,0 +1,44 @@
+@import '~in-themes/mixins.less';
+
+:local {
+  .wrapper {
+    padding: 0.625rem 1rem;
+    .ellipsis();
+    position: relative;
+  }
+
+  .useMaxAvailableHeight {
+    height: 100%;
+  }
+
+  .title {
+    color: @lib__colors__N900Primary;
+    font-size: 1rem;
+  }
+
+  .value {
+    color: @lib__colors__N900Primary;
+    font-size: @lib__typography__h700__font-size;
+    font-weight: @lib__typography__h700__font-weight;
+  }
+
+  .leftspace {
+    padding-left: 0.25em;
+  }
+
+  .unit {
+    font-size: 1.5rem;
+  }
+
+  .targetInfo {
+    font-size: @lib__typography__body__font-size;
+  }
+
+  .actions {
+    position: absolute;
+    top: 0.625rem;
+    right: 1rem;
+    display: flex;
+    align-items: center;
+  }
+}

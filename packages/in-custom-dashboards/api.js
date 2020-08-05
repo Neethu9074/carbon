@@ -107,3 +107,38 @@ function getConfiguredSlis() {
     })
   );
 }
+
+export const getSliConfiguration = memoize(getConfiguredSli, sliId => sliId, 20000);
+function getConfiguredSli(sliId) {
+  return (
+    refreshSignal
+      .startWith(sliId)
+      .flatMap(() =>
+        createObservable(
+          http({
+            method: 'GET',
+            maxRetries: 3,
+            url: `/api/settings/sli/${encodeURIComponent(sliId)}`
+          })
+        )
+      )
+  );
+}
+
+export const getSliReport = memoize(getSliReportRequest, (sliId, slo) => sliId + slo, 20000);
+function getSliReportRequest(sliId, slo) {
+  return (
+    refreshSignal
+      .startWith(sliId)
+      .flatMap(() =>
+        createObservable(
+          http({
+            method: 'GET',
+            maxRetries: 3,
+            url: `/api/sli/report/phani-test-1`,
+            queryParams: { from: '1588779900000', to: '1594817079371', slo }
+          })
+        )
+      )
+  );
+}

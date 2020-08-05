@@ -1,0 +1,46 @@
+@import '~in-themes/active.less';
+
+:local {
+
+  .bodyNoPadding {
+    padding: 0;
+  }
+
+  .title {
+    font-size: @lib__typography__h600__font-size;
+    font-weight: @lib__typography__h600__font-weight;
+    color: @lib__colors__N800Dark;
+    background-color: @lib__colors__white;
+  }
+
+  .apName {
+    margin-left: -0.5rem;
+    margin-bottom: 0.125rem;
+    align-self: flex-end;
+    font-size: @lib__typography__body__font-size;
+    font-weight: @lib__typography__h400__font-weight;
+    color: @lib__colors__N600Light;
+  }
+
+  .grid {
+    display: grid;
+    grid-column-gap: 0;
+    grid-template-columns: 1fr 1fr 1fr;
+    height: 100%;
+  }
+
+  .col + .col {
+    border-left: @lib__colors__N300 1px solid;
+  }
+
+  .col {
+    border-top: @lib__colors__N300 1px solid;
+  }
+
+  .timeRangeValue {
+    margin: 0.25rem 0;
+    display: block;
+    color: @lib__colors__N600Light;
+    font-size: @lib__typography__body__font-size;
+  }
+}
