@@ -1,6 +1,7 @@
 import React from 'react';
 
 import QueuesUsageTable from 'in-forge/plugins/iBMMQQueueManager/Dashboard/QueuesUsageTable.js';
+import ChannelsTable from 'in-forge/plugins/iBMMQQueueManager/Dashboard/ChannelsTable.js';
 import QueuesTable from 'in-forge/plugins/iBMMQQueueManager/Dashboard/QueuesTable.js';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
@@ -32,6 +33,7 @@ export default function IBMMQQueueManagerDashboard({ snapshot, timeConfig }) {
 
       <QueuesUsageTable snapshot={snapshot} timeConfig={timeConfig} />
       <QueuesTable snapshot={snapshot} timeConfig={timeConfig} />
+      <ChannelsTable snapshot={snapshot} timeConfig={timeConfig} />
     </div>
   );
 }

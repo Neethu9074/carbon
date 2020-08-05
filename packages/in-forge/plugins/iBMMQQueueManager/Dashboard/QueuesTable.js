@@ -125,13 +125,7 @@ export default connectTo(
     });
 
     return (
-      <Table
-        withoutPadding
-        cardTitle={`Queues Usage (${rows.length})`}
-        cols={cols}
-        rows={rows}
-        getRowDetails={getDetails}
-      />
+      <Table withoutPadding cardTitle={`Queues (${rows.length})`} cols={cols} rows={rows} getRowDetails={getDetails} />
     );
   }
 );
