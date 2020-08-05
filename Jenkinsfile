@@ -9,6 +9,7 @@ def archiveName         = null
 def latestReleaseBranch = null
 
 def autoDeployReleaseFullstack = true
+def autoDeployMagenta = true
 
 void setBuildStatus(String message, String state) {
   commitSha     = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
@@ -93,6 +94,23 @@ stage('Deployment') {
     }
 
     parallel deployments
+  }
+}
+
+stage (name: 'K8s Deploy') {
+  milestone label: "K8s deployment"
+  timeout(time: 30, unit: 'MINUTES') {
+    if (env.BRANCH_NAME == 'develop') {
+      build job: '/retag-artifacts', parameters: [
+          string(name: 'BRANCH', value: env.BRANCH_NAME, trim: true),
+          string(name: 'ENVIRONMENT', value: 'pink', trim: true)
+      ]
+    } else if ( env.BRANCH_NAME == latestReleaseBranch && autoDeployMagenta ) {
+      build job: '/retag-artifacts', parameters: [
+          string(name: 'BRANCH', value: env.BRANCH_NAME, trim: true),
+          string(name: 'ENVIRONMENT', value: 'magenta', trim: true)
+      ]
+    }
   }
 }
 
