@@ -14,7 +14,7 @@ export default {
 const mockSubscription = {
   data: {
     buckets: [
-      { to: 1, calls: 51880, tickMark: true },
+      { from: 0, to: 1, calls: 51880, tickMark: true },
       { from: 1, to: 2, calls: 119719, tickMark: false },
       { from: 2, to: 3, calls: 26471, tickMark: false },
       { from: 3, to: 4, calls: 13724, tickMark: false },
@@ -98,7 +98,7 @@ const mockSubscription = {
 const mockSubscription2 = {
   data: {
     buckets: [
-      { to: 1, calls: 51880, tickMark: true },
+      { from: 0, to: 1, calls: 51880, tickMark: true },
       { from: 1, to: 2, calls: 119719, tickMark: false },
       { from: 2, to: 3, calls: 26471, tickMark: false },
       { from: 3, to: 4, calls: 13724, tickMark: false },
@@ -182,7 +182,7 @@ const mockSubscription2 = {
 const mockSubscription3 = {
   data: {
     buckets: [
-      { to: 1, calls: 51880, tickMark: true },
+      { from: 0, to: 1, calls: 51880, tickMark: true },
       { from: 1, to: 2, calls: 119719, tickMark: false },
       { from: 2, to: 3, calls: 26471, tickMark: false },
       { from: 3, to: 4, calls: 13724, tickMark: false },
@@ -266,7 +266,7 @@ const mockSubscription3 = {
 const mockEmptySubscription = {
   data: {
     buckets: [
-      { to: 1, calls: 0, tickMark: true },
+      { from: 0, to: 1, calls: 0, tickMark: true },
       { from: 1, to: 60000, calls: 0, tickMark: false },
       { from: 60000, calls: 0, tickMark: true }
     ],
@@ -328,7 +328,7 @@ export const unboundedAnalytics = () => (
     chartDefinition={chartDefinition}
     cheight={number('Height', 172)}
     showPercentileMenu
-    selectionEditable
+    selectionAdjustable
   />
 );
 

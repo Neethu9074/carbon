@@ -149,6 +149,30 @@ export default function LatencyChartOverlay({
     return Math.min(bucketIndex, buckets.length - 1);
   };
 
+  /**
+   * Returns 'from' and 'to' indices of buckets between two X coordinates. A bucket is selected only
+   * if its center is included in the selection.
+   */
+  const getBucketsBetweenXCoordinates = (x1, x2) => {
+    const leftX = Math.min(x1, x2);
+    const rightX = Math.max(x1, x2);
+
+    let fromIndex = Math.round(leftX / bucketWidth);
+    let toIndex = Math.round(rightX / bucketWidth) - 1;
+
+    if (toIndex < fromIndex) {
+      return [null, null];
+    }
+
+    // clicking outside the buckets should snap to the first/last bucket
+    fromIndex = Math.max(0, fromIndex);
+    fromIndex = Math.min(fromIndex, buckets.length - 1);
+    toIndex = Math.max(0, toIndex);
+    toIndex = Math.min(toIndex, buckets.length - 1);
+
+    return [fromIndex, toIndex];
+  };
+
   const updateMouseState = stateUpdates => {
     setMouseState(prevState => {
       const newState = { ...prevState, ...stateUpdates };
@@ -193,8 +217,8 @@ export default function LatencyChartOverlay({
     const selectedBucketFirst = selectedBuckets && selectedBuckets.fromIndex;
     const selectedBucketLast = selectedBuckets && selectedBuckets.toIndex;
     if (mouseState?.selecting) {
-      const startBucketIndex = getBucketIndexAt(mouseState.startX);
-      updateSelectedBuckets(startBucketIndex, currentBucketIndex);
+      const [fromIndex, toIndex] = getBucketsBetweenXCoordinates(mouseState.startX, currentMousePosition);
+      updateSelectedBuckets(fromIndex, toIndex);
       updateMouseState({ lastX: currentMousePosition, moved: true });
     } else if (mouseState?.moving) {
       const lastBucketIndex = getBucketIndexAt(mouseState.lastX);
@@ -210,25 +234,16 @@ export default function LatencyChartOverlay({
       updateSelectedBuckets(selectedBucketFirst + moveDistanceInBuckets, selectedBucketLast + moveDistanceInBuckets);
       updateMouseState({ lastX: currentMousePosition });
     } else if (mouseState?.resizingRight) {
-      // limit leftwards movement at the first selected bucket
-      const hoveredOverBucketCurrent = Math.max(selectedBucketFirst, currentBucketIndex);
-      let moveDistanceInBuckets = hoveredOverBucketCurrent - selectedBucketLast;
-      if (moveDistanceInBuckets > 0) {
-        // limit rightwards movement at the very last bucket
-        moveDistanceInBuckets =
-          Math.min(buckets.length - 1, selectedBucketLast + moveDistanceInBuckets) - selectedBucketLast;
-      }
-      updateSelectedBuckets(selectedBucketFirst, selectedBucketLast + moveDistanceInBuckets);
+      // limit leftwards movement at the right edge of the first selected bucket
+      const rightX = Math.max((selectedBucketFirst + 1) * bucketWidth, currentMousePosition);
+      const [fromIndex, toIndex] = getBucketsBetweenXCoordinates(selectedBucketFirst * bucketWidth, rightX);
+      updateSelectedBuckets(fromIndex, toIndex);
       updateMouseState({ lastX: currentMousePosition });
     } else if (mouseState?.resizingLeft) {
-      // limit rightwards movement at the last selected bucket
-      const hoveredOverBucketCurrent = Math.min(selectedBucketLast, currentBucketIndex);
-      let moveDistanceInBuckets = hoveredOverBucketCurrent - selectedBucketFirst;
-      if (moveDistanceInBuckets < 0) {
-        // limit leftwards movement at the very first bucket
-        moveDistanceInBuckets = Math.max(0, selectedBucketFirst + moveDistanceInBuckets) - selectedBucketFirst;
-      }
-      updateSelectedBuckets(selectedBucketFirst + moveDistanceInBuckets, selectedBucketLast);
+      // limit rightwards movement at the left edge of the last selected bucket
+      const leftX = Math.min(selectedBucketLast * bucketWidth, currentMousePosition);
+      const [fromIndex, toIndex] = getBucketsBetweenXCoordinates(leftX, (selectedBucketLast + 1) * bucketWidth);
+      updateSelectedBuckets(fromIndex, toIndex);
       updateMouseState({ lastX: currentMousePosition });
     } else if (selectionAdjustable) {
       // adjust the mouse cursor to give a visual clue, whether resizing or moving of the selection can start
@@ -253,10 +268,9 @@ export default function LatencyChartOverlay({
 
   const onMouseUp = event => {
     if (mouseState?.selecting) {
-      const startBucketIndex = getBucketIndexAt(mouseState.startX);
-      const endBucketIndex = getBucketIndexAt(getMouseX(event));
+      const [fromIndex, toIndex] = getBucketsBetweenXCoordinates(mouseState.startX, getMouseX(event));
       let newBucketSelection = null;
-      if (selectionAdjustable && startBucketIndex === 0 && endBucketIndex === buckets.length - 1) {
+      if (selectionAdjustable && fromIndex === 0 && toIndex === buckets.length - 1) {
         // If selection is adjustable, selecting all buckets clears the selection. This is necessary, because selection
         // is always kept in sync with latency filters and currently there is no way expressing selection of the whole
         // latency range. Theoretically, full selection could be expressed as 'call.latency >= 0', but currently
@@ -266,7 +280,7 @@ export default function LatencyChartOverlay({
         newBucketSelection = null;
         setSelectedBuckets(null);
       } else {
-        newBucketSelection = updateSelectedBuckets(startBucketIndex, endBucketIndex);
+        newBucketSelection = updateSelectedBuckets(fromIndex, toIndex);
         // Show context menu right away only for a single bucket selection (click without moving the cursor)
         // and never when the selection is adjustable.
         if (mouseState.moved !== true && !selectionAdjustable) {
@@ -361,10 +375,13 @@ export default function LatencyChartOverlay({
   };
 
   const updateSelectedBuckets = (startBucketIndex, endBucketIndex) => {
-    const newState = {
-      fromIndex: Math.min(startBucketIndex, endBucketIndex),
-      toIndex: Math.max(startBucketIndex, endBucketIndex)
-    };
+    const newState =
+      startBucketIndex != null && endBucketIndex != null
+        ? {
+            fromIndex: Math.min(startBucketIndex, endBucketIndex),
+            toIndex: Math.max(startBucketIndex, endBucketIndex)
+          }
+        : null;
     // don't update state unless it changed
     setSelectedBuckets(prevState => (isEqual(newState, prevState) ? prevState : newState));
     return newState;
