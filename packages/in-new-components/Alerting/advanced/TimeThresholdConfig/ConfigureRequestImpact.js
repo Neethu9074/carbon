@@ -14,27 +14,30 @@ export default function ConfigureRequestImpact({ form, onChange }) {
 
   return (
     <>
-      <AlertThresholdConfigItemContainer iconType="lib_application_boundary_inbound_calls" hasExtraColumnOnRight>
-        <div className={locals.operatorLabel}>At least</div>
-        <div>
-          <FormGroup className={locals.formGroup} withoutBottomMargin>
-            <Label># of Requests</Label>
-            {timeThresholdForm.get('requests').map(({ value }) => (
-              <Input
-                className={locals.input}
-                type="number"
-                min="1"
-                name="requests"
-                value={value}
-                onChange={e =>
-                  onChange(['timeThreshold', 'requests'], field =>
-                    field.setValue(e.target.value !== '' ? Math.abs(e.target.value) : '').setTouched(true)
-                  )
-                }
-                step="1"
-              />
-            ))}
-          </FormGroup>
+      <AlertThresholdConfigItemContainer iconType="lib_application_boundary_inbound_calls" noIcon>
+        <div>Number of Requests Threshold</div>
+        <div className={locals.configureImpactControlsWrapper}>
+          <div className={locals.operatorLabel}>At least</div>
+          <div>
+            <FormGroup className={locals.formGroup} withoutBottomMargin>
+              <Label># of Requests</Label>
+              {timeThresholdForm.get('requests').map(({ value }) => (
+                <Input
+                  className={locals.input}
+                  type="number"
+                  min="1"
+                  name="requests"
+                  value={value}
+                  onChange={e =>
+                    onChange(['timeThreshold', 'requests'], field =>
+                      field.setValue(e.target.value !== '' ? Math.abs(e.target.value) : '').setTouched(true)
+                    )
+                  }
+                  step="1"
+                />
+              ))}
+            </FormGroup>
+          </div>
         </div>
       </AlertThresholdConfigItemContainer>
       <TouchedMessages field={timeThresholdForm.get('requests')} />

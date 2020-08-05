@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import AlertThresholdConfigItemContainer from 'in-new-components/Alerting/advanced/TimeThresholdConfig/AlertThresholdConfigItemContainer';
-import DistinctSlider from '../../../Slider/DistinctSlider';
+import DistinctSlider from 'in-new-components/Slider/DistinctSlider';
 
 export default function ConfigureViolations({ label, onChange, violations, maxViolations }) {
   return (
