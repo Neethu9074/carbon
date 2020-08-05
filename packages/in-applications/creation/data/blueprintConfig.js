@@ -46,6 +46,7 @@ export const blueprintConfig = Object.freeze([
       {
         category: 'General Kubernetes',
         tags: [
+          'kubernetes.label',
           'kubernetes.container.name',
           'kubernetes.deployment.namespace',
           'kubernetes.deployment.label',
@@ -63,7 +64,7 @@ export const blueprintConfig = Object.freeze([
       {
         category: 'Orchestration',
         tags: [
-          'cloudfoundry.app.name',
+          'cloudfoundry.application.name',
           'cloudfoundry.organization.name',
           'openshift.deploymentconfig.label',
           'openshift.deploymentconfig.name',
@@ -219,6 +220,7 @@ export const blueprintConfig = Object.freeze([
         category: 'Kubernetes',
         tags: [
           'docker.label',
+          'kubernetes.label',
           'kubernetes.deployment.label',
           'kubernetes.pod.label',
           'openshift.deploymentconfig.label'

@@ -11,7 +11,7 @@ import locals from './SimpleCreateStep1.mless';
 
 export default function SimpleCreateStep1({ selectedBlueprint, setSelectedBlueprint }) {
   return (
-    <SimpleModeStepContentWrapper headline="What's inside this Application Perspective?">
+    <SimpleModeStepContentWrapper headline="How do you want to group the services to model?">
       <Menu
         items={blueprintConfig}
         addRightSeparator

@@ -13,14 +13,14 @@ import useObservable from 'in-hooks/useObservable';
 
 const stepConfigs = [
   {
-    title: 'Step 1: Define Application'
+    title: 'Step 1: Select Model'
   },
   {
-    title: 'Step 2: Build your Application',
+    title: 'Step 2: Select the Services',
     validateIntermediately: [['matchSpecification']]
   },
   {
-    title: 'Step 3: Configuration Options'
+    title: 'Step 3: Configuration Details'
   }
 ];
 
