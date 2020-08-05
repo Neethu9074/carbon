@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import theme from 'in-themes';
 
+import AlertingRenderer from 'in-new-components/Alerting/Chart/renderer/Renderer';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import { getChartGranularity } from 'in-applications/metrics';
@@ -262,7 +263,7 @@ export function BarWithThreshold() {
               theme.lib.colors.lightBlue800,
               theme.lib.colors.pink800
             ],
-            renderer: Renderer.barWithThreshold,
+            renderer: AlertingRenderer.lineWithThreshold,
             metrics: metricsBarWithThreshold,
             labels: ['Data']
           }
@@ -304,7 +305,7 @@ export function BarWithBaseline() {
               theme.lib.colors.lightBlue800,
               theme.lib.colors.pink800
             ],
-            renderer: Renderer.barWithBaseline,
+            renderer: AlertingRenderer.lineWithBaseline,
             metrics: metricsBarWithBaseline,
             baseline: baselineBarWithBaseline,
             operator: '>=',

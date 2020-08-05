@@ -36,7 +36,7 @@ export default connectTo(
       })
     };
   },
-  function AlertingBarChartWrapper(props) {
+  function AlertingChartWrapper(props) {
     return <ChartWrapper showNoDataInfoWhenEmpty={false} {...extendProps(props)} />;
   }
 );

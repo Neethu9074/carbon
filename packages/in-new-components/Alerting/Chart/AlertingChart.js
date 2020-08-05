@@ -3,8 +3,8 @@ import theme from 'in-themes';
 import React from 'react';
 
 import AlertsPreviewLane from 'in-components/Chart/markerLanes/AlertsPreviewLane/AlertsPreviewLane';
-import AlertingBarChartWrapper from 'in-new-components/Alerting/Chart/AlertingBarChartWrapper';
 import { chartViewConfigPropType } from 'in-new-components/Alerting/Chart/chartViewConfig';
+import AlertingChartWrapper from 'in-new-components/Alerting/Chart/AlertingChartWrapper';
 import MarkerLanesPresenter from 'in-components/Chart/markerLanes/MarkerLanesPresenter';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import { isGreaterOperator } from 'in-new-components/Alerting/utils/alertUtils';
@@ -20,7 +20,7 @@ const chartColors = [
 
 const legendColors = [theme.lib.colors.blue800, theme.lib.colors.red800, theme.lib.colors.pink800_40];
 
-export default function AlertingBarChart({
+export default function AlertingChart({
   alertConfig,
   viewConfig,
   blueprintConfig,
@@ -53,7 +53,7 @@ export default function AlertingBarChart({
   const formatter = blueprintConfig.getMetricFormat(metricName);
 
   return (
-    <AlertingBarChartWrapper
+    <AlertingChartWrapper
       renderPreChartContent={props => {
         if (!alertsPreviewEnabled) return;
 
@@ -107,13 +107,14 @@ export default function AlertingBarChart({
         ),
         labels: enhanceLabels(metricLabel, viewConfig.smoothMetric),
         tooltipFormatter: value => (value < 0 ? valueMissingPlaceholder : formatter.detailed(value)),
-        renderer: getRenderer(isStaticThreshold, viewConfig.smoothMetric),
+        renderer: isStaticThreshold ? Renderer.lineWithThreshold : Renderer.lineWithBaseline,
         icons: {
-          types: [viewConfig.smoothMetric ? 'lib_line_chart' : 'lib_bar_chart', 'lib_threshold', 'lib_actions_stop'],
+          types: ['lib_line_chart', 'lib_threshold', 'lib_actions_stop'],
           colors: legendColors
         },
         thresholdGranularity: granularity,
-        lineWidth: 1,
+        lineWidth: 1.75,
+        thresholdLineWidth: 1,
         threshold: threshold.value,
         operator: threshold.operator,
         sensitivity: threshold.deviationFactor,
@@ -136,14 +137,6 @@ export default function AlertingBarChart({
       nonInteractive
     />
   );
-}
-
-function getRenderer(isStaticThreshold, smoothMetric) {
-  if (isStaticThreshold) {
-    return smoothMetric ? Renderer.lineWithThreshold : Renderer.barWithThreshold;
-  } else {
-    return smoothMetric ? Renderer.lineWithBaseline : Renderer.barWithBaseline;
-  }
 }
 
 function getAlertsPreviewQuery({
@@ -200,7 +193,7 @@ function getMaxForBaselineChart({ metricsMaxValue, operator, baseline, sensitivi
   return overallMaxValue * 1.1;
 }
 
-AlertingBarChart.propTypes = {
+AlertingChart.propTypes = {
   viewConfig: chartViewConfigPropType.isRequired,
   alertConfig: PropTypes.object.isRequired,
   blueprintConfig: PropTypes.object.isRequired,

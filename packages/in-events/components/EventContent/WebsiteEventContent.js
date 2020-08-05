@@ -9,9 +9,9 @@ import AnalyzeWebsiteEventButton from 'in-events/components/AnalyzeWebsiteEventB
 import WebsiteAlertConfigButton from 'in-events/components/WebsiteAlertConfigButton';
 import { getAlertConfigByIdAndTimestamp } from 'in-websites/api/websiteAlertConfig';
 import EntityInformation from 'in-components/EntityInformation/EntityInformation';
-import AlertingBarChart from 'in-new-components/Alerting/Chart/AlertingBarChart';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import { getBlueprintConfig } from 'in-websites/alerting/data/blueprintConfig';
+import AlertingChart from 'in-new-components/Alerting/Chart/AlertingChart';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import Card from 'in-new-components/Card';
 import connectTo from 'in-hoc/connectTo';
@@ -69,11 +69,7 @@ export default connectTo(
         <Row withoutSideMargin>
           <Col xs>
             <Card title="Metrics">
-              <AlertingBarChart
-                alertConfig={alertConfig}
-                viewConfig={chartViewConfig}
-                blueprintConfig={blueprintConfig}
-              />
+              <AlertingChart alertConfig={alertConfig} viewConfig={chartViewConfig} blueprintConfig={blueprintConfig} />
             </Card>
           </Col>
         </Row>

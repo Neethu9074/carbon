@@ -6,9 +6,9 @@ import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websit
 import AnalyzeWebsiteEventButton from 'in-events/components/AnalyzeWebsiteEventButton';
 import WebsiteAlertConfigButton from 'in-events/components/WebsiteAlertConfigButton';
 import { getAlertConfigByIdAndTimestamp } from 'in-websites/api/websiteAlertConfig';
-import AlertingBarChart from 'in-new-components/Alerting/Chart/AlertingBarChart';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import { getBlueprintConfig } from 'in-websites/alerting/data/blueprintConfig';
+import AlertingChart from 'in-new-components/Alerting/Chart/AlertingChart';
 import { getChartTimeConfigByEvent } from 'in-events/timeframe';
 import { DescriptionItem } from 'in-components/DescriptionList';
 import connectTo from 'in-hoc/connectTo';
@@ -49,7 +49,7 @@ export default connectTo(
             <AnalyzeWebsiteEventButton event={event} alertConfig={alertConfig} />
           </div>
 
-          <AlertingBarChart alertConfig={alertConfig} viewConfig={chartViewConfig} blueprintConfig={blueprintConfig} />
+          <AlertingChart alertConfig={alertConfig} viewConfig={chartViewConfig} blueprintConfig={blueprintConfig} />
         </div>
         <div className={locals.sectionWrapper}>
           <DescriptionItem title="Domain">

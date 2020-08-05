@@ -12,6 +12,7 @@ export default {
     const yScale = config.scales.y1;
     const chartHeight = scale.getRangeFrom();
     const chartWidth = xScale.getRangeTo();
+    const thresholdLineWidth = config.y1.thresholdLineWidth;
     const threshold = yScale.getRangeFrom() - yScale.getRange(config.y1.threshold);
     const thresholdColor = colors[1];
     const alrightColor = colors[2];
@@ -42,7 +43,7 @@ export default {
     backBufferCtx.beginPath();
     backBufferCtx.globalAlpha = 1;
     backBufferCtx.moveTo(0, chartHeight - threshold);
-    backBufferCtx.lineWidth = 1;
+    backBufferCtx.lineWidth = thresholdLineWidth;
     backBufferCtx.strokeStyle = thresholdColor;
     backBufferCtx.lineTo(chartWidth, chartHeight - threshold);
     backBufferCtx.stroke();

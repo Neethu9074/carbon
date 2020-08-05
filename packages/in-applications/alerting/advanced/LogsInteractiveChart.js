@@ -14,9 +14,9 @@ import { debouncedThresholdValueChangedTracker } from 'in-applications/alerting/
 import { applicationsAlertingThresholdOperatorChanged } from 'in-applications/alerting/tracker';
 import ChartViewConfigurator from 'in-new-components/Alerting/components/ChartViewConfigurator';
 import { findEntryByValue, getThresholdLabel } from 'in-applications/alerting/form/formUtils';
-import AlertingBarChart from 'in-new-components/Alerting/Chart/AlertingBarChart';
 import { getTrackingObject } from 'in-new-components/Alerting/trackingHelpers';
 import { blueprintConfigPropType } from 'in-new-components/Alerting/constants';
+import AlertingChart from 'in-new-components/Alerting/Chart/AlertingChart';
 import Dropdown from 'in-new-components/Dropdown';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
@@ -83,7 +83,7 @@ function LogsInteractiveChart({
         headerTransparent
       >
         {chartViewConfig => (
-          <AlertingBarChart
+          <AlertingChart
             alertConfig={alertConfig}
             viewConfig={chartViewConfig}
             blueprintConfig={blueprintConfig}

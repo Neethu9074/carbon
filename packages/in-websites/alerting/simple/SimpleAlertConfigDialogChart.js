@@ -3,8 +3,8 @@ import React from 'react';
 
 import IncompleteChartPlaceholder from 'in-new-components/Alerting/components/IncompleteChartPlaceholder';
 import ChartViewConfigurator from 'in-new-components/Alerting/components/ChartViewConfigurator';
-import AlertingBarChart from 'in-new-components/Alerting/Chart/AlertingBarChart';
 import { getBlueprintConfig } from 'in-websites/alerting/data/blueprintConfig';
+import AlertingChart from 'in-new-components/Alerting/Chart/AlertingChart';
 
 import locals from './SimpleAlertConfigDialogChart.mless';
 
@@ -25,7 +25,7 @@ export default function SimpleAlertConfigDialogChart({ form, onChartViewConfigCh
         <>
           {isRuleComplete ? (
             <div className={locals.placeholder}>
-              <AlertingBarChart
+              <AlertingChart
                 alertConfig={alertConfig}
                 viewConfig={chartViewConfig}
                 blueprintConfig={blueprintConfig}

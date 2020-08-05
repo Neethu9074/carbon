@@ -2,7 +2,7 @@ import { compose, withState } from 'recompose';
 import { empty } from 'reactive-observables';
 import React from 'react';
 
-import { thresholdOrBaselineLoadingSignal$ } from 'in-new-components/Alerting/Chart/AlertingBarChartWrapper';
+import { thresholdOrBaselineLoadingSignal$ } from 'in-new-components/Alerting/Chart/AlertingChartWrapper';
 import AlertConfigDialogPresenter from 'in-new-components/Alerting/AlertConfigDialogPresenter';
 import { getBlueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
 import createThresholdForm from 'in-applications/alerting/form/thresholdForm';

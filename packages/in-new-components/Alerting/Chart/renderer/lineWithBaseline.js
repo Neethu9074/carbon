@@ -19,11 +19,11 @@ export default {
   }
 };
 
-function drawLineGraph(len, config, upperThresholdInTimeframe, scale) {
+function drawLineGraph(len, config, oneSidedThresholdInTimeframe, scale) {
   for (let i = 0; i < len; ++i) {
     config.backBufferCtx.lineTo(
-      config.xScaleBackBuffer.getRange(upperThresholdInTimeframe[i][0]),
-      scale.getRange(upperThresholdInTimeframe[i][1])
+      config.xScaleBackBuffer.getRange(oneSidedThresholdInTimeframe[i][0]),
+      scale.getRange(oneSidedThresholdInTimeframe[i][1])
     );
   }
 }
@@ -34,6 +34,7 @@ function renderBaseline(axis, config, scale, colors) {
     return;
   }
   const sensitivity = config.y1.sensitivity;
+  const thresholdLineWidth = config.y1.thresholdLineWidth;
   const thresholdGranularity = config.y1.thresholdGranularity;
   const timeConfig = config.timeConfig;
   const baselineWindowSize = (timeConfig.windowSize / thresholdGranularity) * thresholdGranularity;
@@ -45,19 +46,19 @@ function renderBaseline(axis, config, scale, colors) {
   const alrightColor = colors[2];
   const violationColor = colors[3];
   const isGreaterOp = config.y1.operator === undefined || isGreaterOperator(config.y1.operator);
-  const upperThresholdInTimeframe = [];
+  const oneSidedThresholdInTimeframe = [];
 
   for (let timestamp = chartFrom; timestamp <= chartTo; timestamp += thresholdGranularity) {
     const thresholdValue = getBaselineValue(timestamp, baseline, sensitivity, thresholdGranularity, isGreaterOp);
-    upperThresholdInTimeframe.push([timestamp, thresholdValue]);
+    oneSidedThresholdInTimeframe.push([timestamp, thresholdValue]);
   }
 
   // Backgrounds
-  const len = upperThresholdInTimeframe.length;
-  const xPosStart = config.xScaleBackBuffer.getRange(upperThresholdInTimeframe[0][0]);
-  const xPosEnd = config.xScaleBackBuffer.getRange(upperThresholdInTimeframe[len - 1][0]);
+  const len = oneSidedThresholdInTimeframe.length;
+  const xPosStart = config.xScaleBackBuffer.getRange(oneSidedThresholdInTimeframe[0][0]);
+  const xPosEnd = config.xScaleBackBuffer.getRange(oneSidedThresholdInTimeframe[len - 1][0]);
   const markerPaneHeight = config.markerPaneHeight;
-  const yPosStart = scale.getRange(upperThresholdInTimeframe[0][1]);
+  const yPosStart = scale.getRange(oneSidedThresholdInTimeframe[0][1]);
 
   config.backBufferCtx.save();
 
@@ -67,7 +68,7 @@ function renderBaseline(axis, config, scale, colors) {
   config.backBufferCtx.beginPath();
   config.backBufferCtx.moveTo(xPosStart, yPosStart);
 
-  drawLineGraph(len, config, upperThresholdInTimeframe, scale);
+  drawLineGraph(len, config, oneSidedThresholdInTimeframe, scale);
   config.backBufferCtx.lineTo(xPosEnd, chartHeight);
   config.backBufferCtx.lineTo(xPosStart, chartHeight);
   config.backBufferCtx.closePath();
@@ -77,16 +78,28 @@ function renderBaseline(axis, config, scale, colors) {
   config.backBufferCtx.fillStyle = isGreaterOp ? violationColor : alrightColor;
   config.backBufferCtx.beginPath();
   config.backBufferCtx.moveTo(xPosStart, yPosStart);
-  drawLineGraph(len, config, upperThresholdInTimeframe, scale);
+  drawLineGraph(len, config, oneSidedThresholdInTimeframe, scale);
   config.backBufferCtx.lineTo(xPosEnd, markerPaneHeight);
   config.backBufferCtx.lineTo(xPosStart, markerPaneHeight);
   config.backBufferCtx.closePath();
   config.backBufferCtx.fill();
   config.backBufferCtx.restore();
 
-  // upper-baseline
+  // one-sided time-dependent threshold line
   config.backBufferCtx.save();
-  line.render({ dataSeries: upperThresholdInTimeframe, color: thresholdColor, scale, config });
+  config.backBufferCtx.lineWidth = thresholdLineWidth;
+  line.render({
+    dataSeries: oneSidedThresholdInTimeframe,
+    color: thresholdColor,
+    scale,
+    config: {
+      ...config,
+      y1: {
+        ...config.y1,
+        lineWidth: thresholdLineWidth
+      }
+    }
+  });
   config.backBufferCtx.restore();
 }
 

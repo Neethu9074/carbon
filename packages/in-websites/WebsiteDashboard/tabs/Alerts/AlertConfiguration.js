@@ -10,8 +10,8 @@ import AlertChannelsViewer from 'in-new-components/Alerting/components/AlertChan
 import AlertPropertyInfos from 'in-new-components/Alerting/components/AlertPropertyInfos';
 import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
 import AlertDetailsCard from 'in-new-components/Alerting/components/AlertDetailsCard';
-import AlertingBarChart from 'in-new-components/Alerting/Chart/AlertingBarChart';
 import { getBlueprintConfig } from 'in-websites/alerting/data/blueprintConfig';
+import AlertingChart from 'in-new-components/Alerting/Chart/AlertingChart';
 import LocallyChangedTheme from 'in-themes/LocallyChangedTheme';
 import ExpandableCard from 'in-new-components/ExpandableCard';
 import { operators } from 'in-analyze/applicationFilter';
@@ -59,11 +59,7 @@ export default function AlertConfiguration({ alertConfig, websiteLabel }) {
                 <SelectedAlertTypeInfo title="HTTP Status Code" description={getStatusCodeLabel(value)} />
               )}
 
-              <AlertingBarChart
-                alertConfig={alertConfig}
-                viewConfig={chartViewConfig}
-                blueprintConfig={blueprintConfig}
-              />
+              <AlertingChart alertConfig={alertConfig} viewConfig={chartViewConfig} blueprintConfig={blueprintConfig} />
             </>
           )}
         </ChartViewConfigurator>

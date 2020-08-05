@@ -26,9 +26,9 @@ import { createSlownessForm, defaultDeviationFactor } from 'in-applications/aler
 import ChartViewConfigurator from 'in-new-components/Alerting/components/ChartViewConfigurator';
 import { getThresholdLabel, findEntryByValue } from 'in-applications/alerting/form/formUtils';
 import { SensitivitySlider } from 'in-new-components/Alerting/advanced/SensitivitySlider';
-import AlertingBarChart from 'in-new-components/Alerting/Chart/AlertingBarChart';
 import { blueprintConfigPropType } from 'in-new-components/Alerting/constants';
 import { getTrackingObject } from 'in-new-components/Alerting/trackingHelpers';
+import AlertingChart from 'in-new-components/Alerting/Chart/AlertingChart';
 import createRuleForm from 'in-applications/alerting/form/ruleForm';
 import Dropdown from 'in-new-components/Dropdown';
 import Input from 'in-components/form/Input';
@@ -101,7 +101,7 @@ function SlownessInteractiveChart({
         headerTransparent
       >
         {chartViewConfig => (
-          <AlertingBarChart
+          <AlertingChart
             alertConfig={alertConfig}
             viewConfig={chartViewConfig}
             blueprintConfig={blueprintConfig}

@@ -18,11 +18,11 @@ import ThresholdConditionFormGroup from 'in-new-components/Alerting/advanced/Thr
 import ChartViewConfigurator from 'in-new-components/Alerting/components/ChartViewConfigurator';
 import { debouncedThresholdValueChangedTracker } from 'in-websites/alerting/trackingHelpers';
 import { isPercentageMetric, getThresholdLabel } from 'in-websites/alerting/form/formUtils';
-import AlertingBarChart from 'in-new-components/Alerting/Chart/AlertingBarChart';
 import { blueprintConfigPropType } from 'in-new-components/Alerting/constants';
 import { ruleMetricNameOptions } from 'in-websites/alerting/form/ruleFormData';
 import { getTrackingObject } from 'in-new-components/Alerting/trackingHelpers';
 import { findEntryByValue } from 'in-applications/alerting/form/formUtils';
+import AlertingChart from 'in-new-components/Alerting/Chart/AlertingChart';
 import Dropdown from 'in-new-components/Dropdown';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
@@ -95,7 +95,7 @@ function JsErrorsInteractiveChart({
         headerTransparent
       >
         {chartViewConfig => (
-          <AlertingBarChart
+          <AlertingChart
             alertConfig={alertConfig}
             viewConfig={chartViewConfig}
             blueprintConfig={blueprintConfig}
