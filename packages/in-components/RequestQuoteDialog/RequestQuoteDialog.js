@@ -33,7 +33,7 @@ class RequestQuoteDialog extends React.Component {
   render() {
     const { form } = this.props;
     return (
-      <Dialog onClose={close}>
+      <Dialog title="Request Quote" onClose={close}>
         {!form && (
           <div className={locals.loadingState}>
             <LoadingIndicator className={locals.loadingStateIcon} width={300} text="Loading necessary information…" />
