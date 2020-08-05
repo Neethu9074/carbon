@@ -2,10 +2,11 @@ import { Meta, Story, Preview } from '@storybook/addon-docs/blocks';
 import { action } from '@storybook/addon-actions';
 
 import {Widget, demo, createForm, Form} from 'in-custom-dashboards/widgets/TimeZones';
-
 import DemoDataStructure from './DemoDataStructure';
 
-<Meta title="Templates|CustomDashboard/widgets/TimeZones" component={Widget} />
+<Meta title="Templates|CustomDashboard/widgets/TimeZones" component={Widget}
+    parameters={{ chromatic: { disable: true } /* it uses current server time */}}
+/>
 
 # Introduction
 

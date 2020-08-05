@@ -5,6 +5,10 @@ import { plugins } from 'in-forge/constants';
 
 export default {
   title: 'Organisms|EntityVersionList',
+  parameters: {
+    // ignoring this story because it renders differently everytime
+    chromatic: { disable: true }
+  },
   component: EntityVersionListPresenter
 };
 

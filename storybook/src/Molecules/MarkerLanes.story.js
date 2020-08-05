@@ -11,9 +11,14 @@ import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { compare } from 'in-services/util/number';
 
+/* there are random data and current date is used */
 export default {
   title: 'Molecules|MarkerLanes',
   component: DialogWithSlideInView,
+  parameters: {
+    // ignoring this story because it renders differently everytime
+    chromatic: { disable: true }
+  },
   decorator: { text, action }
 };
 

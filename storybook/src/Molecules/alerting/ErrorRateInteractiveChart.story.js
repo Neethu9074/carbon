@@ -10,6 +10,10 @@ import { noop } from 'in-services/fixedObjects';
 
 export default {
   title: 'Molecules|alerting/interactiveCharts/ErrorRateInteractiveChart',
+  parameters: {
+    // Error: Evaluation failed: TypeError: (void 0) is not a function
+    chromatic: { disable: true }
+  },
   component: ErrorRateInteractiveChart
 };
 

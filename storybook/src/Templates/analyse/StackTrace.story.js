@@ -4,6 +4,9 @@ import StackTraceBehavior from 'in-analyze/TraceDetail/components/CallDetails/co
 
 export default {
   title: 'Templates|analyze/StackTraceBehavior',
+  parameters: {
+    chromatic: { disable: true }
+  },
   component: StackTraceBehavior
 };
 

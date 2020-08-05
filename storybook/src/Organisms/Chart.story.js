@@ -14,10 +14,14 @@ const oneSecond = 1000;
 const oneMinute = oneSecond * 60;
 const oneHour = oneMinute * 60;
 const oneDay = oneHour * 24;
-const now = Date.now();
+const now = Date.now(); // TODO: use fixed time (part of https://instana.kanbanize.com/ctrl_board/59/cards/20424)
 
 export default {
   title: 'Organisms|Chart',
+  parameters: {
+    // ignoring this story because it renders differently everytime
+    chromatic: { disable: true }
+  },
   component: ResultAwareChart
 };
 

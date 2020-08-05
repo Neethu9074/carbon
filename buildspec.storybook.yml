@@ -3,6 +3,7 @@ version: 0.2
 env:
   variables:
     CODEBUILD_PROJECT_NAME: "ui-client-storybook"
+    RUN_UI_TEST_ON_DELIVERY: "false"
   parameter-store:
     EFS_DATA_DIR: "efs.data.dir"
     EFS_DNS: "efs.data.dns"
@@ -14,6 +15,7 @@ env:
     ARTIFACT_INSTANA_IO_PASSWORD: "artifact.instana.io.password"
     S3_AWS_ACCESS_KEY_ID: "s3.access.key.id"
     S3_AWS_SECRET_ACCESS_KEY: "s3.secret.access.key"
+    CHROMATIC_PROJECT_TOKEN: "ui_client.chromatic.project.token"
 
 phases:
   install:
@@ -40,3 +42,4 @@ phases:
     commands:
       - yarn run storybookBuild
       - s3cmd sync --no-mime-magic --guess-mime-type --delete-removed ./storybookTarget/ s3://storybook.instana.io/7550eeca-f0eb-4039-b87a-c3fbd0d2eaad/$GIT_BRANCH/
+      - 'test -n "$RUN_UI_TEST_ON_DELIVERY" -a "$RUN_UI_TEST_ON_DELIVERY" = "true" && yarn run storybookTest || true # ignore failing build'

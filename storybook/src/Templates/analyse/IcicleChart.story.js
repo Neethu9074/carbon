@@ -12,6 +12,10 @@ const getColorByEndpointType = ({ endpoint }) =>
 
 export default {
   title: 'Templates|analyze/IcicleChart',
+  parameters: {
+    // TODO remove after fixing broken story
+    chromatic: { disable: true }
+  },
   component: IcicleChart
 };
 

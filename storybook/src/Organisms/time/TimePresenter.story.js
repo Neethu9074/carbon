@@ -7,6 +7,10 @@ import TimePresenter from 'in-new-components/time/TimePresenter';
 export default {
   title: 'Organisms|time/TimePresenter',
   component: TimePresenter,
+  parameters: {
+    // ignoring this story because it renders differently everytime
+    chromatic: { disable: true }
+  },
   decorators: [withKnobs]
 };
 

@@ -6,6 +6,10 @@ import UpstreamDownstreamPresenter from 'in-new-components/UpstreamDownstream/Up
 export default {
   title: 'Molecules|UpstreamDownstream',
   component: UpstreamDownstreamPresenter,
+  parameters: {
+    // Error creating WebGL context. ... at new WebGLRenderer
+    chromatic: { disable: true }
+  },
   decorators: [withKnobs]
 };
 

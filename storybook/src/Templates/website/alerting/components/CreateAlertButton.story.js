@@ -4,6 +4,10 @@ import CreateAlert from 'in-websites/alerting/CreateAlert';
 
 export default {
   title: 'Templates|website/alerting/components/CreateAlertButton',
+  parameters: {
+    // TODO remove after fixing broken story
+    chromatic: { disable: true }
+  },
   component: CreateAlert
 };
 

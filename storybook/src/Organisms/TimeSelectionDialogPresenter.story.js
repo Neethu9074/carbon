@@ -5,6 +5,10 @@ import TimeSelectionDialogPresenter from 'in-new-components/time/TimeSelectionDi
 
 export default {
   title: 'Organisms|TimeSelectionDialog',
+  parameters: {
+    // ignoring this story because it renders differently everytime
+    chromatic: { disable: true }
+  },
   component: TimeSelectionDialogPresenter
 };
 

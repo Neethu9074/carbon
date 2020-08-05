@@ -4,6 +4,10 @@ import TimeCount from 'in-new-components/time/TimeCount';
 
 export default {
   title: 'Organisms|time/TimeCount',
+  parameters: {
+    // ignoring this story because it renders differently everytime
+    chromatic: { disable: true }
+  },
   component: TimeCount
 };
 

@@ -115,16 +115,26 @@ stage (name: 'K8s Deploy') {
 }
 
 stage('Storybook') {
-  if (env.BRANCH_NAME == 'develop' || env.BRANCH_NAME.startsWith('release-')) {
+  if (env.BRANCH_NAME == 'develop'
+   || env.BRANCH_NAME.startsWith('release-')
+   || env.BRANCH_NAME.startsWith('storybook-')
+   || env.BRANCH_NAME.startsWith('chromatic-')
+   ) {
     node {
       timeout(time: 10, unit: 'MINUTES') {
         try {
+          def RUN_UI_TEST_ON_DELIVERY = (
+             env.BRANCH_NAME.startsWith('storybook-') ||
+             env.BRANCH_NAME.startsWith('chromatic-'))
+             ? "true" : "false"
+
           awsCodeBuild credentialsType: 'jenkins',
             credentialsId: 'codebuild',
             projectName:
             'ui-client-storybook',
             region: 'us-west-2',
             sourceControlType: 'project',
+            envVariables: '[ {RUN_UI_TEST_ON_DELIVERY, ' + RUN_UI_TEST_ON_DELIVERY + '} ]',
             sourceVersion: gitCommitId
 
           if ( currentBuild.currentResult == 'SUCCESS' ) {

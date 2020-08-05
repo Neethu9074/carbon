@@ -25,27 +25,7 @@ export default {
   component: Table
 };
 
-export function Overview() {
-  return <OverviewStory />;
-}
-
-export function Loading() {
-  return <LoadingState />;
-}
-
-export function TreeTableWithLoadMore() {
-  return <TreeTableWithLoadMoreStory />;
-}
-
-export function TableWithLargeCellContent() {
-  return <TableWithLargeCellContentStory />;
-}
-
-export function TableWithConfigurableCellContent() {
-  return <TableWithConfigurableCellContentStory />;
-}
-
-function OverviewStory() {
+export function OverviewStory() {
   return (
     <>
       <Row>
@@ -154,7 +134,7 @@ function OverviewStory() {
   );
 }
 
-function LoadingState() {
+export function Loading() {
   return (
     <>
       <Row>
@@ -212,7 +192,7 @@ function LoadingState() {
   );
 }
 
-function TreeTableWithLoadMoreStory() {
+export function TreeTableWithLoadMore() {
   return (
     <>
       <Row>
@@ -286,7 +266,7 @@ function TreeTableWithLoadMoreStory() {
   );
 }
 
-function TableWithLargeCellContentStory() {
+function TableWithLargeCellContent() {
   return (
     <>
       <Table>
@@ -336,7 +316,7 @@ function TableWithLargeCellContentStory() {
   );
 }
 
-function TableWithConfigurableCellContentStory() {
+export function TableWithConfigurableCellContent() {
   return (
     <>
       <Table>

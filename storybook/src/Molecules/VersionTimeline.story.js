@@ -4,6 +4,10 @@ import VersionTimeline from 'in-new-components/VersionTimeline';
 
 export default {
   title: 'Molecules|VersionTimeline',
+  parameters: {
+    // ignoring this story because it renders differently everytime
+    chromatic: { disable: true }
+  },
   component: VersionTimeline
 };
 

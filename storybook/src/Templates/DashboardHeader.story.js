@@ -8,6 +8,10 @@ import SvgIcon from 'in-components/SvgIcon';
 
 export default {
   title: 'Templates|Dashboard Header',
+  parameters: {
+    // ignoring this story because it renders differently everytime
+    chromatic: { disable: true }
+  },
   component: DashboardHeader
 };
 

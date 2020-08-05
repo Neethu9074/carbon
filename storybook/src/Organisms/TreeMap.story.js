@@ -5,6 +5,10 @@ import ResultAwareTreeMap from 'in-new-components/TreeMap/ResultAwareTreeMap';
 
 export default {
   title: 'Organisms|TreeMap',
+  parameters: {
+    // ignoring this story because it renders differently everytime
+    chromatic: { disable: true }
+  },
   component: ResultAwareTreeMap
 };
 
