@@ -9,17 +9,16 @@ import { noop } from 'in-services/util/function';
 import { find } from 'in-services/arrayUtils';
 import config from 'in-services/config';
 
-export function init(callback) {
+export function init() {
   if (window.mixpanel) {
-    initMixpanel(callback);
-  } else {
-    callback(false);
+    initMixpanel();
   }
   registerTracker(track);
 }
 
-function initMixpanel(callback) {
-  const userSelfDefinedRole = window.instana?.termsAndPrivacySettings?.dynamicRole || window.instana?.termsAndPrivacySettings?.role;
+function initMixpanel() {
+  const userSelfDefinedRole =
+    window.instana?.termsAndPrivacySettings?.dynamicRole || window.instana?.termsAndPrivacySettings?.role;
 
   // We send the GK user ID , which avoids GDPR issues and does not require explicit consent because
   // we do not send personal information (like email adress or the user's name) to third parties.
@@ -64,16 +63,15 @@ function initMixpanel(callback) {
 
     const units = tenantWithUnits[tenant.name];
     if (!units) {
-      return callback(true);
+      return;
     }
+
     const currentUnit = find(units, unit => unit.name === config.tenantUnit);
-    if (!currentUnit) {
-      return callback(true);
+    if (currentUnit) {
+      window.mixpanel.register({
+        tenantUnitId: currentUnit.id
+      });
     }
-    window.mixpanel.register({
-      tenantUnitId: currentUnit.id
-    });
-    return callback(true);
   });
 }
 

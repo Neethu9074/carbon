@@ -49,14 +49,11 @@ export default function CustomDataDescriptionItem({ span }) {
     const overflowComponentRef = createRef();
     const [overflow, setOverflow] = useState(false);
 
-    useEffect(
-      () => {
-        if (overflowComponentRef && overflowComponentRef.current) {
-          setOverflow(overflowComponentRef.current.scrollWidth > overflowComponentRef.current.offsetWidth);
-        }
-      },
-      [overflowComponentRef]
-    );
+    useEffect(() => {
+      if (overflowComponentRef && overflowComponentRef.current) {
+        setOverflow(overflowComponentRef.current.scrollWidth > overflowComponentRef.current.offsetWidth);
+      }
+    }, [overflowComponentRef]);
 
     if (overflow) {
       return (
@@ -82,7 +79,7 @@ export default function CustomDataDescriptionItem({ span }) {
           <Card title={'Tags'} withoutPadding>
             <Ul>
               {Object.entries(tags).map(key => (
-                <TagLineWithTooltipOnOverflow name={key[0]} value={key[1]} key={key[0]} />
+                <TagLineWithTooltipOnOverflow name={key[0]} value={String(key[1])} key={key[0]} />
               ))}
             </Ul>
           </Card>
