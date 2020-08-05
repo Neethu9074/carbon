@@ -19,8 +19,7 @@ export default function LatencyDistributionChartPresenter({
   serviceId,
   endpointId,
   boundaryScope,
-  includeSyntheticCalls,
-  callType
+  includeSyntheticCalls
 }) {
   let content;
 
@@ -64,7 +63,6 @@ export default function LatencyDistributionChartPresenter({
                 endpointId={endpointId}
                 boundaryScope={boundaryScope}
                 includeSyntheticCalls={includeSyntheticCalls}
-                callType={callType}
               />
             ))}
           </div>

@@ -135,7 +135,6 @@ export default connectTo(
               boundaryScope={boundaryScope}
               timeConfig={timeConfig}
               percentileGroupBy={{ name: 'endpoint.name', entity: entityTypes.DESTINATION }}
-              callType={data.types[0]}
               renderPostChartContent={MarkerLanes}
             />
           </Col>

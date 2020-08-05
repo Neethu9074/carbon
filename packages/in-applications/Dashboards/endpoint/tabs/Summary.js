@@ -139,7 +139,6 @@ export default connectTo(
               includeSyntheticCalls={includeSyntheticCalls}
               timeConfig={timeConfig}
               percentileGroupBy={{ name: 'endpoint.name', entity: entityTypes.NOT_APPLICABLE }}
-              callType={type}
               renderPostChartContent={MarkerLanes}
             />
           </Col>

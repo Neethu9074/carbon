@@ -14,7 +14,6 @@ export default function LatencyAndDistribution({
   includeSyntheticCalls,
   cardTitle,
   percentileGroupBy,
-  callType,
   renderPostChartContent
 }) {
   const tabs = ['Over Time', 'Distribution'];
@@ -56,7 +55,6 @@ export default function LatencyAndDistribution({
           timeConfig={timeConfig}
           boundaryScope={boundaryScope}
           includeSyntheticCalls={includeSyntheticCalls}
-          callType={callType}
           renderPostChartContent={renderPostChartContent}
         />
       )}

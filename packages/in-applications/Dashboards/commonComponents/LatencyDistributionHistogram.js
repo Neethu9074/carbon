@@ -16,7 +16,6 @@ export default function LatencyDistributionHistogram({
   endpointId,
   boundaryScope,
   includeSyntheticCalls,
-  callType,
   renderPostChartContent
 }) {
   const [selectedLatencyRange, setSelectedLatencyRange] = useState({ from: null, to: null });
@@ -46,13 +45,6 @@ export default function LatencyDistributionHistogram({
         });
       }
     }
-    if (callType) {
-      filters.push({
-        name: 'call.type',
-        value: callType,
-        operator: 'EQUALS'
-      });
-    }
     if (includeSyntheticCalls) {
       filters.push({
         name: 'include_synthetic',
@@ -65,12 +57,6 @@ export default function LatencyDistributionHistogram({
   if (latencyDistributionBase10Enabled) {
     return (
       <LatencyDistributionBase10Chart
-        applicationId={applicationId}
-        serviceId={serviceId}
-        endpointId={endpointId}
-        boundaryScope={boundaryScope}
-        includeSyntheticCalls={includeSyntheticCalls}
-        callType={callType}
         subscription={getLatencyDistributionBase10({
           maxLatencyBuckets: 80,
           filter: {
@@ -156,7 +142,6 @@ export default function LatencyDistributionHistogram({
       endpointId={endpointId}
       boundaryScope={boundaryScope}
       includeSyntheticCalls={includeSyntheticCalls}
-      callType={callType}
       subscription={getLatencyDistribution({
         maxLatencyBuckets: 10,
         filter: {

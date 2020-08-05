@@ -17,10 +17,9 @@ export default function Bar({
   serviceId,
   endpointId,
   boundaryScope,
-  includeSyntheticCalls,
-  callType
+  includeSyntheticCalls
 }) {
-  const filters = filterForLink(bucket, callType);
+  const filters = filterForLink(bucket);
 
   return (
     <Tooltip themeStyle="light" content={TooltipContent(bucket)}>
@@ -51,7 +50,7 @@ export default function Bar({
   );
 }
 
-function filterForLink(bucket, callType) {
+function filterForLink(bucket) {
   let filters = [];
 
   const from = bucket.from;
@@ -86,15 +85,6 @@ function filterForLink(bucket, callType) {
     });
   } else {
     filters = [...latencyFilters];
-  }
-
-  if (callType) {
-    filters.push({
-      name: 'call.type',
-      value: callType,
-      operator: 'EQUALS',
-      entity: 'NOT_APPLICABLE'
-    });
   }
 
   return filters;
