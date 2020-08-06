@@ -113,6 +113,7 @@ export default function Grid({
             actions={actions}
             dragHandle={isDraggable && dragHandle}
             config={widget.config}
+            setApDialogOpen={widget.setApDialogOpen}
           />
         );
 

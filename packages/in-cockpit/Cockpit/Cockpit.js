@@ -1,9 +1,12 @@
+import React, { useState } from 'react';
 import theme from 'in-themes';
-import React from 'react';
 
 import DashboardHeaderShadowModule from 'in-new-components/DashboardHeader/DashboardHeaderShadowModule';
 import { setLandingPage, isLandingPage } from 'in-client/js/LandingPage/supportedLandingPages/cockpit';
 import { hasApplicationsAccess, hasWebsitesAccess, hasMobileAppsAccess } from 'in-stores/permission';
+import CreateApplicationDialog from 'in-applications/creation/Dialog/CreateApplicationDialog';
+import { getNewApplicationWaiterViewPath } from 'in-applications/creation/CreateApplication';
+import { createNewApplicationConfig, getApplicationConfig } from 'in-api/applicationConfigs';
 import DashboardSwitcher from 'in-custom-dashboards/DashboardSwitcher/DashboardSwitcher';
 import OpenIncidentsButton from 'in-cockpit/Cockpit/components/OpenIncidentsButton';
 import Grid, { getWidgetId } from 'in-custom-dashboards/CustomDashboard/Grid/Grid';
@@ -16,15 +19,18 @@ import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import { settings$, setSingle } from 'in-services/settings/settings';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import getElementDimensions from 'in-hoc/getElementDimensions';
+import { successObservable } from 'in-services/util/result';
 import { hasKubernetesAccess } from 'in-stores/permission';
 import { convertRemToPx } from 'in-services/util/dom';
+import { getTimeConfig } from 'in-stores/time/config';
+import useObservable from 'in-hooks/useObservable';
 import SideNav from 'in-new-components/SideNav';
 import Button from 'in-new-components/Button';
 import SvgIcon from 'in-components/SvgIcon';
 import Sticky from 'in-components/Sticky';
 import connectTo from 'in-hoc/connectTo';
-import { role } from 'in-stores/user';
 import Title from 'in-components/Title';
+import { role } from 'in-stores/user';
 
 import draggableCardLocals from 'in-custom-dashboards/widgets/TopListWidget/DraggableLightCard.mless';
 import locals from './Cockpit.mless';
@@ -198,7 +204,7 @@ function Header() {
   );
 }
 
-const Content = getElementDimensions(function Content({ itemOrder, width }) {
+const Content = getElementDimensions(function Content({ itemOrder, width, timeConfig, applicationId }) {
   const setNewItemOrder = items => {
     items = items.slice();
     items.sort((i1, i2) => i1.y - i2.y);
@@ -206,6 +212,11 @@ const Content = getElementDimensions(function Content({ itemOrder, width }) {
   };
 
   const renderNavigation = width > 1200;
+  const [apDialogOpen, setApDialogOpen] = useState(false);
+  const entityResult = useObservable(
+    applicationId ? getApplicationConfig(applicationId) : successObservable(createNewApplicationConfig()),
+    [applicationId]
+  );
 
   return (
     <div className={locals.wrapper}>
@@ -216,7 +227,8 @@ const Content = getElementDimensions(function Content({ itemOrder, width }) {
               config={{
                 widgets: itemOrder.map(config => ({
                   ...config,
-                  ...configEnrichmentLookUpTable[config.id]
+                  ...configEnrichmentLookUpTable[config.id],
+                  setApDialogOpen
                 }))
               }}
               isResizable={false}
@@ -237,6 +249,15 @@ const Content = getElementDimensions(function Content({ itemOrder, width }) {
               renderPreIcon={renderIcon}
             />
           </div>
+        )}
+        {apDialogOpen && (
+          <CreateApplicationDialog
+            timeConfig={timeConfig || getTimeConfig({ pathname: '/applications', query: {} })}
+            formData={entityResult.data}
+            onClose={() => setApDialogOpen(false)}
+            getOnSavePath={app => getNewApplicationWaiterViewPath(app)}
+            editMode
+          />
         )}
       </>
     </div>

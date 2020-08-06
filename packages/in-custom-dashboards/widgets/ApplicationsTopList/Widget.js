@@ -7,15 +7,13 @@ import WithApplicationHealthIndicationBehaviour from 'in-components/health/WithH
 import ApplicationsNoDataNotification from 'in-applications/lists/components/ApplicationsNoDataNotification';
 import { getApplicationsWithDefaults } from 'in-subscription/application/getApplications';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
+import { applicationCreationOpenDialogClick } from 'in-applications/creation/tracker';
 import { number, meanLatencyFixed, percentage } from 'in-services/formatters/number';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import { application as applicationType } from 'in-stores/starredItems/types';
 import { getApplicationDashboard } from 'in-applications/navigation/paths';
-import { applicationOpenSubmitFormTracker } from 'in-applications/tracker';
 import getApplication from 'in-subscription/application/getApplication';
 import TopListWidget from 'in-custom-dashboards/widgets/TopListWidget';
-import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
-import { newApplicationView } from 'in-applications/navigation/paths';
 import HealthDot from 'in-new-components/health/HealthDot/HealthDot';
 import { applicationsList } from 'in-applications/navigation/paths';
 import getMetrics from 'in-subscription/application/getMetrics';
@@ -29,15 +27,17 @@ import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
 import { role } from 'in-stores/user';
 
-export default function ApplicationsTopList({ config }) {
+export default function ApplicationsTopList({ config, setApDialogOpen }) {
   const header = role.canConfigureApplications && (
     <Button
       kind="action"
-      href$={getModifiedUrlStream(p => (p.pathname = newApplicationView))}
-      onClick={() => applicationOpenSubmitFormTracker()}
       icon="lib_openclose_add_circle_outline"
+      onClick={() => {
+        setApDialogOpen(true);
+        applicationCreationOpenDialogClick({ status: 'Open Creation Dialog' });
+      }}
     >
-      Add Application Perspective
+      Create New Application Perspective
     </Button>
   );
 
