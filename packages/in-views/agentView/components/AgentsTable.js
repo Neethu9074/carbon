@@ -131,10 +131,17 @@ const cols = [
     type: 'custom',
     width: 120,
     typeArgs: {
-      comparator: (a, b) => compare(a.value, b.value),
+      comparator: (a, b) => {
+        // Compare first on high-level status OFFLINE | DEGRADED | ONLINE, then for DEGRADED compare on issue count.
+        if (a.status === ReportingStatus.DEGRADED && b.status === ReportingStatus.DEGRADED) {
+          return compare(a.totalIssueCount, b.totalIssueCount);
+        } else {
+          return compare(a.status.value, b.status.value);
+        }
+      },
       get(row) {
         return {
-          value: row.reportingStatus,
+          value: { status: row.reportingStatus, totalIssueCount: row.totalIssueCount },
           content: <ReportingIndicator row={row} />
         };
       }
@@ -157,6 +164,7 @@ export default connectTo(
         key: snapshot.get('id'),
         snapshot: snapshot,
         timeConfig,
+        totalIssueCount: count,
         reportingStatus:
           showDetailedAgentStatus && count && count > 0 ? ReportingStatus.DEGRADED : ReportingStatus.ONLINE
       });
