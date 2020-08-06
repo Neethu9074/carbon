@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { propTypeTimeConfig } from 'in-stores/time/config';
 import Overlay from 'in-new-components/overlays/Overlay';
 import SvgIcon from 'in-components/SvgIcon/SvgIcon';
@@ -21,15 +22,13 @@ export default function SingleIconLaneItem({
     <div
       style={{ transform: `translateX(${xPos}px)` }}
       className={locals.laneItem}
-      onMouseEnter={() => {
-        onHover?.({
-          isHovered: true,
-          eventData,
-          iconConfig
-        });
+      onMouseEnter={e => {
+        stopPropagationAndPreventDefault(e);
+        onHover?.(eventData);
       }}
-      onMouseLeave={() => {
-        onHover?.({});
+      onMouseLeave={e => {
+        stopPropagationAndPreventDefault(e);
+        onHover?.(null);
       }}
     >
       <Overlay props={{ iconConfig, eventData, timeConfig }} content={calloutContent} autoOpen={false} withoutWrapper>
@@ -37,11 +36,11 @@ export default function SingleIconLaneItem({
           <SvgIcon
             size="xs"
             onClick={
-              !calloutContent && !onclick
+              !calloutContent && !onClick
                 ? undefined
                 : () => {
                     if (calloutContent) toggle();
-                    onClick?.();
+                    onClick?.(eventData);
                   }
             }
             type={showIconForCluster ? iconConfig.typeCluster : iconConfig.type}

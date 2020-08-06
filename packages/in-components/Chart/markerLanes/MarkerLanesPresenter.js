@@ -63,7 +63,8 @@ export default function MarkerLanesPresenter({
                 })
               : granularity,
             isClustered,
-            chartBucketWidth
+            chartBucketWidth,
+            chartWidth
           });
         })}
       </div>

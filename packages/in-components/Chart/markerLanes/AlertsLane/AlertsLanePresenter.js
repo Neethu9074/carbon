@@ -35,6 +35,7 @@ export default function AlertsLanePresenter({ alerts, ...remainingProps }) {
             color: theme.lib.colors.red800
           }
         }}
+        color={theme.lib.colors.red800}
         tooltipContent={AlertsLaneTooltipContent}
         renderLaneItem={TwoIconsLaneItem}
         renderHoverOverlay={remainingProps.isClustered ? HoverArea : HoverLine}

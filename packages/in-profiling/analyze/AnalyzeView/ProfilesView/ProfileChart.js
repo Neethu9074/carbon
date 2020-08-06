@@ -1,6 +1,8 @@
 import React from 'react';
 
-import ProfilesInTimeIndicator from 'in-profiling/analyze/AnalyzeView/ProfilesView/ProfilesInTimeIndicator';
+import globalHighlightAction from 'in-components/Chart/components/ContextMenu/actions/globalHighlight';
+import MarkerLanesPresenter from 'in-components/Chart/markerLanes/MarkerLanesPresenter';
+import ProfilesLane from 'in-profiling/analyze/AnalyzeView/ProfilesView/ProfilesLane';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { percentage, time } from 'in-services/formatters/number';
 
@@ -14,6 +16,7 @@ export default function ProfileChart({ profile, timeConfig, jvmSnapshot, process
     formatter: percentage,
     type: 'line'
   };
+  const renderPostChartContent = props => <ProfilesMarkerLanes {...props} profile={profile} />;
   if (jvmSnapshot) {
     const collectors = jvmSnapshot.getIn(['data', 'jvm.collectors'])?.toArray();
     if (collectors?.length > 0) {
@@ -30,18 +33,32 @@ export default function ProfileChart({ profile, timeConfig, jvmSnapshot, process
             formatter: time,
             type: 'line'
           }}
+          renderPostChartContent={renderPostChartContent}
+          primaryContextMenuAction={globalHighlightAction.name}
         />
       );
     }
   }
   if (!chart) {
-    chart = <Chart key={2} snapshotId={processId} timeConfig={timeConfig} y1={y1} />;
+    chart = (
+      <Chart
+        key={2}
+        snapshotId={processId}
+        timeConfig={timeConfig}
+        y1={y1}
+        renderPostChartContent={renderPostChartContent}
+        primaryContextMenuAction={globalHighlightAction.name}
+      />
+    );
   }
 
+  return <div className={locals.chartWrapper}>{chart}</div>;
+}
+
+function ProfilesMarkerLanes(props) {
   return (
-    <div className={locals.chartWrapper}>
-      {chart}
-      <ProfilesInTimeIndicator timeConfig={timeConfig} profile={profile} />
-    </div>
+    <MarkerLanesPresenter {...props}>
+      <ProfilesLane />
+    </MarkerLanesPresenter>
   );
 }

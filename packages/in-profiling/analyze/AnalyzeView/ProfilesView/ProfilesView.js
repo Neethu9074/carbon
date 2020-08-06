@@ -3,6 +3,8 @@ import { just } from 'reactive-observables';
 import React, { useState } from 'react';
 
 import { processIdUrlParameter, timeUrlParameter, thresholdUrlParameter } from 'in-profiling/navigation/urlParameters';
+import { highlightedTimeframe$ } from 'in-stores/timeline/highlightedTimeframe';
+import { hasError, isLoading, success } from 'in-services/util/result';
 import ContextGuide from 'in-new-components/ContextGuide/ContextGuide';
 import { closeProfilesViewLink } from 'in-profiling/navigation/paths';
 import tabs from 'in-profiling/analyze/AnalyzeView/ProfilesView/tabs';
@@ -54,9 +56,10 @@ export default compose(
       );
     return {
       deepestTechSnapshot: hierachy$.flatMap(hierachy => getSnapshot(hierachy.get(0), timeConfigForSnapshots)),
-      jvmSnapshot: jvmSnapshot$,
       historicalProcessSnapshot: getSnapshot(processId, timeConfigForSnapshots),
+      highlightedTimeframe: highlightedTimeframe$,
       processSnapshot: getSnapshot(processId, timeConfig),
+      jvmSnapshot: jvmSnapshot$,
 
       // we only allow source code when using a jvm based tech
       canFetchSourceCode: jvmSnapshot$.flatMap(jvmSnapshot => (jvmSnapshot ? isEntityOnline(processId) : just(false)))
@@ -78,6 +81,7 @@ function ProfilesView(props) {
     timeConfig,
     threshold,
     location,
+    highlightedTimeframe,
     onChangeUrlState
   } = props;
 
@@ -88,15 +92,13 @@ function ProfilesView(props) {
       HeaderComponent={Header}
       tabs={tabs}
       location={location}
-      result$={getProfiles({
-        processSnapshotId: processId,
-        filter: { timeConfig }
-      }).distinct()}
+      result$={getProfileResult(processId, timeConfig, highlightedTimeframe)}
       withProps={({ result }) => ({
         viewType,
         setViewType,
         profiles: result.data,
         processSnapshot,
+        highlightedTimeframe,
         deepestTechSnapshot: deepestTechSnapshot || processSnapshot || historicalProcessSnapshot,
         jvmSnapshot,
         canFetchSourceCode,
@@ -136,4 +138,82 @@ function renderContext() {
       Analyze profiles
     </Link>
   );
+}
+
+function getProfileResult(processId, timeConfig, highlightedTimeframe) {
+  return (
+    getProfiles({
+      processSnapshotId: processId,
+      filter: { timeConfig }
+    })
+      .distinct()
+      // one can highlight a timeframe and the whole view will be reduced to this time
+      // thought the raw event timestamps must be the same as in the "original" result
+      .flatMap(profileResult => {
+        if (!highlightedTimeframe || isLoading(profileResult) || hasError(profileResult)) {
+          return just(profileResult);
+        }
+
+        return getProfiles({
+          processSnapshotId: processId,
+          filter: {
+            timeConfig: {
+              ...timeConfig,
+              windowSize: highlightedTimeframe[1] - highlightedTimeframe[0],
+              focusedMoment: highlightedTimeframe[1],
+              to: highlightedTimeframe[1]
+            }
+          }
+        })
+          .distinct()
+          .map(profileResultForTimeframe => {
+            if (isLoading(profileResultForTimeframe) || hasError(profileResultForTimeframe)) {
+              return profileResultForTimeframe;
+            }
+            if (
+              !profileResultForTimeframe.data.cpuProfile &&
+              !profileResultForTimeframe.data.memoryProfile &&
+              !profileResultForTimeframe.data.timeProfile
+            ) {
+              const flaggedData = {
+                ...profileResult.data
+              };
+              addMissingProfileFlagToProfile(flaggedData, 'cpuProfile');
+              addMissingProfileFlagToProfile(flaggedData, 'memoryProfile');
+              addMissingProfileFlagToProfile(flaggedData, 'timeProfile');
+              return success(flaggedData);
+            }
+            return success(mergeResultWithOriginalRawTimestamps(profileResultForTimeframe.data, profileResult.data));
+          });
+      })
+  );
+}
+
+function addMissingProfileFlagToProfile(data, profilePropertyName) {
+  if (data[profilePropertyName]) {
+    data[profilePropertyName] = {
+      ...data[profilePropertyName],
+      __missingProfileFlag: true
+    };
+  }
+}
+
+function mergeResultWithOriginalRawTimestamps(data, originalData) {
+  const mergedData = {
+    ...data
+  };
+  copyTimestampsForProfile(mergedData, data, originalData, 'cpuProfile');
+  copyTimestampsForProfile(mergedData, data, originalData, 'memoryProfile');
+  copyTimestampsForProfile(mergedData, data, originalData, 'timeProfile');
+  return mergedData;
+}
+
+function copyTimestampsForProfile(mergedData, data, originalData, profilePropertyName) {
+  if (data[profilePropertyName] && originalData[profilePropertyName]) {
+    mergedData[profilePropertyName] = {
+      ...data[profilePropertyName],
+      rawProfileTimestamps: originalData[profilePropertyName].rawProfileTimestamps,
+      numberOfProfiles: data[profilePropertyName]?.rawProfileTimestamps?.length
+    };
+  }
 }

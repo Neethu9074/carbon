@@ -63,34 +63,39 @@ function MarkersLanePresenter({
   renderHoverOverlay,
   chartBucketWidth,
   renderSecondaryHoverOverlay,
+  color,
+  selectedEventData,
   ...remainingProps
 }) {
   const xScale = useObservable(renderScheduler.xScaleBackBuffer$.nextFrame(), [], { pure: false });
-  const [{ isHovered, eventData: laneItemEventData, iconConfig: laneItemIconConfig }, setHoverState] = useState({});
+  const [hoveredEventData, setHoveredEventData] = useState(null);
 
   const clusterAreaWidth = xScale?.getRangeArea(remainingProps.clusterSizeMillis);
 
   return (
     <>
       <span className={locals.hoverAreaContainer}>
-        {isHovered &&
-          renderHoverOverlay({
-            xPos: getXposCluster(laneItemEventData.timestamp),
-            color: laneItemIconConfig.color,
-            chartContentPosition,
-            clusterWidth: clusterAreaWidth,
-            ...remainingProps
-          })}
-        {isHovered &&
-          renderSecondaryHoverOverlay?.({
-            xPos: getXposCluster(laneItemEventData.timestamp),
-            color: laneItemIconConfig.color,
-            chartContentPosition,
-            clusterWidth: clusterAreaWidth,
-            eventData: laneItemEventData,
-            xScale,
-            ...remainingProps
-          })}
+        {(hoveredEventData || selectedEventData) &&
+          (() => {
+            const xPos = getXposCluster(hoveredEventData?.timestamp ?? selectedEventData.timestamp);
+            const config = {
+              xPos,
+              fromXPos: Math.max(0, xPos - clusterAreaWidth / 2),
+              toXPos: Math.min(xPos + clusterAreaWidth / 2, xScale.getRangeTo()),
+              chartContentPosition,
+              eventData: hoveredEventData ?? selectedEventData,
+              color,
+              xScale,
+              clusterWidth: clusterAreaWidth,
+              ...remainingProps
+            };
+            return (
+              <>
+                {renderHoverOverlay(config)}
+                {renderSecondaryHoverOverlay?.(config)}
+              </>
+            );
+          })()}
       </span>
       <div
         className={evaluateClassNames({
@@ -100,7 +105,6 @@ function MarkersLanePresenter({
       >
         {events.map(eventData => {
           const showIconForCluster = eventData?.count > 1;
-
           const xPos = isClustered ? getXposCluster(eventData.timestamp) : xScale?.getRange(eventData.timestamp);
 
           return (
@@ -110,8 +114,8 @@ function MarkersLanePresenter({
               content={tooltipContent(eventData)}
             >
               {renderLaneItem({
-                xPos: xPos,
-                onHover: s => setHoverState(s),
+                xPos,
+                onHover: s => setHoveredEventData(s),
                 showIconForCluster,
                 chartContentPosition,
                 isClustered,

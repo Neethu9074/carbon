@@ -5,11 +5,14 @@ import locals from './HoverArea.mless';
 
 export default function HoverArea({
   xPos,
+  fromXPos,
+  toXPos,
   clusterWidth,
   color,
   chartContentPosition,
   timeAxisHeight,
   markerPaneHeight,
+  renderLine = true,
   chartHeight
 }) {
   return (
@@ -17,8 +20,8 @@ export default function HoverArea({
       <div
         className={locals.highlightClusterOverlayWrapper}
         style={{
-          transform: `translateX(${xPos - clusterWidth / 2}px)`,
-          width: `${clusterWidth}px`,
+          transform: `translateX(${fromXPos !== undefined ? fromXPos : xPos - clusterWidth / 2}px)`,
+          width: `${toXPos !== undefined && fromXPos !== undefined ? toXPos - fromXPos + 0.5 : clusterWidth}px`,
           color,
           height: getClusterOverlayHeight(),
           ...getClusterOverlayTopAndBottomOffset()
@@ -31,14 +34,16 @@ export default function HoverArea({
           className={locals.highlightClusterOverlay}
         />
       </div>
-      <div
-        className={locals.line}
-        style={{
-          transform: `translateX(${xPos}px)`,
-          color,
-          ...getLineTopAndBottomOffset()
-        }}
-      />
+      {renderLine && (
+        <div
+          className={locals.line}
+          style={{
+            transform: `translateX(${Math.max(Math.min(xPos, toXPos - 1), fromXPos)}px)`,
+            color,
+            ...getLineTopAndBottomOffset()
+          }}
+        />
+      )}
     </>
   );
 
@@ -65,5 +70,8 @@ HoverArea.propTypes = {
   color: PropTypes.string,
   markerPaneHeight: PropTypes.number,
   timeAxisHeight: PropTypes.number,
-  xPos: PropTypes.number
+  xPos: PropTypes.number,
+  fromXPos: PropTypes.number,
+  renderLine: PropTypes.bool,
+  toXPos: PropTypes.number
 };

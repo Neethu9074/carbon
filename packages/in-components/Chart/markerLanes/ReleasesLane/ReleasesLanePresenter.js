@@ -24,6 +24,7 @@ export default function ReleasesLanePresenter(props) {
         typeCluster: 'lib_release_rocket',
         color: theme.lib.colors.N700Medium
       }}
+      color={theme.lib.colors.N700Medium}
       tooltipContent={({ clusteredReleases, count }) => (
         <div className={locals.tooltipContent}>
           {clusteredReleases.slice(0, maxNumReleasesToShow).map(({ name, start }) => (

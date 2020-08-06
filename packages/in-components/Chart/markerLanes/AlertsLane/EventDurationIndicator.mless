@@ -9,6 +9,8 @@
     right: 0;
     height: var(--height);
     background: transparent;
+
+    overflow-x: hidden;
   }
 
   .eventDuration {

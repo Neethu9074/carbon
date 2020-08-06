@@ -38,4 +38,10 @@
     width: max-content;
     min-width: 100%;
   }
+
+  .timeselectionIndicator {
+    margin-bottom: 1rem;
+
+    border: 1px solid @lib__colors__N300;
+  }
 }

@@ -20,6 +20,7 @@ export default function AlertsPreviewLanePresenter({ alerts, ...remainingProps }
         typeCluster: 'lib_alerts_multiple_alerts',
         color: theme.lib.colors.red800
       }}
+      color={theme.lib.colors.red800}
       tooltipContent={({ count }) => (
         <div className={locals.tooltipContent}>
           <div>Alerts: {count}</div>
