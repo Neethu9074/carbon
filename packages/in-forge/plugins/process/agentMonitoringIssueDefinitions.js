@@ -42,7 +42,7 @@ export default {
       }
     },
     explanationLinkLabel: `Troubleshooting docs`,
-    explanationLinkHref: `https://docs.instana.io/ecosystem/python/#python_autotrace_failed`
+    explanationLinkHref: `https://docs.instana.io/ecosystem/python/troubleshooting#python_autotrace_failed`
   },
   python_sensor_not_installed: {
     issueDescription: {
@@ -56,7 +56,7 @@ export default {
       }
     },
     explanationLinkLabel: `Troubleshooting docs`,
-    explanationLinkHref: `https://docs.instana.io/ecosystem/python/#python_sensor_not_installed`
+    explanationLinkHref: `https://docs.instana.io/ecosystem/python/troubleshooting#python_sensor_not_installed`
   },
   ruby_sensor_not_installed: {
     issueDescription: {
