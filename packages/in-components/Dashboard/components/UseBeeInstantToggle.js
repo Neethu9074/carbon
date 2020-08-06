@@ -7,7 +7,7 @@ import useObservable from 'in-hooks/useObservable';
 import Toggle from 'in-components/form/Toggle';
 import Tooltip from 'in-components/Tooltip';
 
-export default function UseBeeInstantToggle() {
+export default function UseBeeInstantToggle({ theme }) {
   if (!beeinstanaToggleEnabled) {
     return;
   }
@@ -15,8 +15,8 @@ export default function UseBeeInstantToggle() {
   const useBeeInstant = useObservable(useBeeInstant$, []) || false;
 
   return (
-    <Tooltip themeStyle="light" content={tooltipContent()} align="bottomMiddle">
-      <DashboardHeaderButton outlineOnly onClick={() => setUseBeeInstant(!useBeeInstant)}>
+    <Tooltip themeStyle={theme} content={tooltipContent()} align="bottomMiddle">
+      <DashboardHeaderButton darkTheme={theme === 'dark'} outlineOnly onClick={() => setUseBeeInstant(!useBeeInstant)}>
         <div>Use BeeInstana</div>
         <Toggle checked={useBeeInstant} onChange={e => setUseBeeInstant(e.target.checked)} />
       </DashboardHeaderButton>
