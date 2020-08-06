@@ -17,7 +17,7 @@ import locals from './IssueList.mless';
 
 const cols = [
   {
-    title: 'Name',
+    title: 'On',
     type: 'custom',
     typeArgs: {
       comparator: compareIgnoreCase,
