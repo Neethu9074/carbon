@@ -190,8 +190,7 @@ export function getDaemonSetDashboard(
 
 export function getStatefulSetDashboard(
   id,
-  { tab, tabMatrix, timeConfig, clusterId, namespaceId } = emptyObject
-) {
+  { tab, tabMatrix, timeConfig, clusterId, namespaceId } = emptyObject) {
   return getDashboard({
     base: statefulSetDashboardFullyQualified,
     tab,

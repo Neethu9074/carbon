@@ -6,10 +6,9 @@ import {
   getDeploymentConfigDashboard,
   getStatefulSetDashboard,
 } from 'in-kubernetes/navigation/paths';
-import getKubernetesClusterItemCounters from 'in-subscription/kubernetes/getKubernetesClusterItemCounters';
 import WorkloadControllers from 'in-kubernetes/Dashboards/commonComponents/commonTabs/WorkloadControllers';
 import getOpenShiftDeploymentConfigs from 'in-subscription/kubernetes/getOpenShiftDeploymentConfigs';
-import TabLabelWithCounter from 'in-kubernetes/Dashboards/commonComponents/TabLabelWithCounter';
+import { ClusterTab } from 'in-kubernetes/Dashboards/commonComponents/Tabs';
 import getKubernetesDeployments from 'in-subscription/kubernetes/getKubernetesDeployments';
 import Namespaces from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Namespaces';
 import getKubernetesDaemonSets from 'in-subscription/kubernetes/getKubernetesDaemonSets';
@@ -43,13 +42,13 @@ export default [
     label: 'Nodes',
     path: `${clusterDashboardFullyQualified}/nodes`,
     component: Nodes,
-    header: props => getCounterComponent(props, 'nodes')
+    header: props => getCounterComponent(props, v => v.nodes)
   },
   {
     label: 'Namespaces',
     path: `${clusterDashboardFullyQualified}/namespaces`,
     component: Namespaces,
-    header: props => getCounterComponent(props, 'namespaces')
+    header: props => getCounterComponent(props, v => v.namespaces)
   },
   {
     label: 'Deployments',
@@ -63,7 +62,7 @@ export default [
         pathSegment: '/deployments',
         entityName: 'deployments'
       }),
-    header: props => getCounterComponent(props, 'deployments')
+    header: props => getCounterComponent(props, v => v.workloads.deployments)
   },
   {
     label: 'Deployment Configs',
@@ -77,7 +76,7 @@ export default [
         pathSegment: '/deploymentconfigs',
         entityName: 'deployment configs'
       }),
-    header: props => getCounterComponent(props, 'deploymentConfigs')
+    header: props => getCounterComponent(props, v => v.workloads.deploymentConfigs)
   },
   {
     label: 'DaemonSets',
@@ -91,7 +90,7 @@ export default [
         pathSegment: '/daemonsets',
         entityName: 'daemonsets'
       }),
-    header: props => getCounterComponent(props, 'daemonSets')
+    header: props => getCounterComponent(props, v => v.workloads.daemonSets)
   },
   {
     label: 'StatefulSets',
@@ -99,41 +98,40 @@ export default [
     component: props =>
       WorkloadControllers({
         ...props,
-        workloadControllerType: 'daemonset',
+        workloadControllerType: 'statefulset',
         getWorkloadControllers$: getKubernetesStatefulSets,
         getWorkloadControllerDashboard: getStatefulSetDashboard,
         pathSegment: '/statefulsets',
         entityName: 'statefulsets'
       }),
-    header: props => getCounterComponent(props, 'statefulSets')
+    header: props => getCounterComponent(props, v => v.workloads.statefulSets)
   },
   {
     label: 'K8s Services',
     path: `${clusterDashboardFullyQualified}/services`,
     component: Services,
-    header: props => getCounterComponent(props, 'services')
+    header: props => getCounterComponent(props, v => v.services)
   },
   {
     label: 'Pods',
     path: `${clusterDashboardFullyQualified}/pods`,
     component: Pods,
-    header: props => getCounterComponent(props, 'pods'),
+    header: props => getCounterComponent(props, v => v.workloads.pods),
     stickToBottom: true
   },
   {
     label: 'Infrastructure',
     path: `${clusterDashboardFullyQualified}/hosts`,
     component: Infrastructure,
-    header: props => getCounterComponent(props, 'hosts')
+    header: props => getCounterComponent(props, v => v.nodes)
   }
 ].filter(Boolean);
 
-function getCounterComponent(props, resultPropName) {
-  return (
-    <TabLabelWithCounter
-      label={props.tab.label}
-      getCounters={() => getKubernetesClusterItemCounters({ clusterId: props.clusterId, timeConfig: props.timeConfig })}
-      resultPropName={resultPropName}
-    />
-  );
+function getCounterComponent({clusterId, tab, timeConfig}, valueExtractor) {
+  return (<ClusterTab 
+    clusterId={clusterId}
+    label={tab.label}
+    timeConfig={timeConfig}
+    valueExtractor={valueExtractor} 
+    />);
 }

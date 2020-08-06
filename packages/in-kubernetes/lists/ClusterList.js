@@ -51,13 +51,6 @@ const columnDefinitions = [
     }
   },
   {
-    id: 'services',
-    label: 'Services',
-    getContent(item) {
-      return <EntityCounter icon="lib_kubernetes_service" count={item.services} />;
-    }
-  },
-  {
     id: 'nodes',
     label: 'Nodes',
     getContent(item) {
@@ -65,38 +58,45 @@ const columnDefinitions = [
     }
   },
   {
+    id: 'services',
+    label: 'Services',
+    getContent(item) {
+      return <EntityCounter icon="lib_kubernetes_service" count={item.services} />;
+    }
+  },
+  {
     id: 'pods',
     label: 'Pods',
-    getContent(item) {
-      return <EntityCounter icon="lib_kubernetes_pod" count={item.pods} />;
+    getContent({workloads}) {
+      return <EntityCounter icon="lib_kubernetes_pod" count={workloads.pods} />;
     }
   },
   {
     id: 'deployments',
     label: 'Deployments',
-    getContent(item) {
-      return <EntityCounter icon="lib_kubernetes_workload" count={item.deployments} />;
+    getContent({workloads}) {
+      return <EntityCounter icon="lib_kubernetes_workload" count={workloads.deployments} />;
     }
   },
   {
     id: 'deploymentConfigs',
     label: 'Deployment Configs',
-    getContent(item) {
-      return <EntityCounter icon="lib_kubernetes_workload" count={item.deploymentConfigs} />;
+    getContent({workloads}) {
+      return <EntityCounter icon="lib_kubernetes_workload" count={workloads.deploymentConfigs} />;
     }
   },
   {
     id: 'daemonSets',
     label: 'DaemonSets',
-    getContent(item) {
-      return <EntityCounter icon="lib_kubernetes_workload" count={item.daemonSets} />;
+    getContent({workloads}) {
+      return <EntityCounter icon="lib_kubernetes_workload" count={workloads.daemonSets} />;
     }
   },
   {
     id: 'statefulSets',
     label: 'StatefulSets',
-    getContent(item) {
-      return <EntityCounter icon="lib_kubernetes_workload" count={item.statefulSets} />;
+    getContent({workloads}) {
+      return <EntityCounter icon="lib_kubernetes_workload" count={workloads.statefulSets} />;
     }
   },
   {

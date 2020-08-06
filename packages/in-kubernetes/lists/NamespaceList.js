@@ -44,34 +44,6 @@ const columnDefinitions = [
     }
   },
   {
-    id: 'deployments',
-    label: 'Deployments',
-    getContent(item) {
-      return <EntityCounter icon="lib_kubernetes_workload" count={item.deployments} />;
-    }
-  },
-  {
-    id: 'deploymentConfigs',
-    label: 'Deployment Configs',
-    getContent(item) {
-      return <EntityCounter icon="lib_kubernetes_workload" count={item.deploymentConfigs} />;
-    }
-  },
-  {
-    id: 'daemonSets',
-    label: 'DaemonSets',
-    getContent(item) {
-      return <EntityCounter icon="lib_kubernetes_workload" count={item.daemonSets} />;
-    }
-  },
-  {
-    id: 'statefulSets',
-    label: 'StatefulSets',
-    getContent(item) {
-      return <EntityCounter icon="lib_kubernetes_workload" count={item.statefulSets} />;
-    }
-  },
-  {
     id: 'services',
     label: 'Services',
     getContent(item) {
@@ -81,8 +53,36 @@ const columnDefinitions = [
   {
     id: 'pods',
     label: 'Pods',
-    getContent(item) {
-      return <EntityCounter icon="lib_kubernetes_pod" count={item.pods} />;
+    getContent({workloads}) {
+      return <EntityCounter icon="lib_kubernetes_pod" count={workloads.pods} />;
+    }
+  },
+  {
+    id: 'deployments',
+    label: 'Deployments',
+    getContent({workloads}) {
+      return <EntityCounter icon="lib_kubernetes_workload" count={workloads.deployments} />;
+    }
+  },
+  {
+    id: 'deploymentConfigs',
+    label: 'Deployment Configs',
+    getContent({workloads}) {
+      return <EntityCounter icon="lib_kubernetes_workload" count={workloads.deploymentConfigs} />;
+    }
+  },
+  {
+    id: 'daemonSets',
+    label: 'DaemonSets',
+    getContent({workloads}) {
+      return <EntityCounter icon="lib_kubernetes_workload" count={workloads.daemonSets} />;
+    }
+  },
+  {
+    id: 'statefulSets',
+    label: 'StatefulSets',
+    getContent({workloads}) {
+      return <EntityCounter icon="lib_kubernetes_workload" count={workloads.statefulSets} />;
     }
   },
   {

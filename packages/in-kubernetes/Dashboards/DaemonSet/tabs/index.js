@@ -1,8 +1,7 @@
 import React from 'react';
 
-import getKubernetesWorkloadControllerItemCounters from 'in-subscription/kubernetes/getKubernetesWorkloadControllerItemCounters';
 import { EventsWithoutNamespace } from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Events';
-import TabLabelWithCounter from 'in-kubernetes/Dashboards/commonComponents/TabLabelWithCounter';
+import { WorkloadTab } from 'in-kubernetes/Dashboards/commonComponents/Tabs';
 import Services from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Services';
 import { daemonSetDashboardFullyQualified } from 'in-kubernetes/navigation/paths';
 import Nodes from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Nodes';
@@ -30,33 +29,28 @@ export default [
     label: 'Nodes',
     path: `${daemonSetDashboardFullyQualified}/nodes`,
     component: Nodes,
-    header: props => getCounterComponent(props, 'nodes')
+    header: props => getCounterComponent(props, v => v.nodes)
   },
   {
     label: 'K8s Services',
     path: `${daemonSetDashboardFullyQualified}/services`,
     component: Services,
-    header: props => getCounterComponent(props, 'services')
+    header: props => getCounterComponent(props, v => v.services)
   },
   {
     label: 'Pods',
     path: `${daemonSetDashboardFullyQualified}/pods`,
     component: Pods,
-    header: props => getCounterComponent(props, 'pods')
+    header: props => getCounterComponent(props, v => v.pods)
   }
 ].filter(Boolean);
 
-function getCounterComponent(props, resultPropName) {
-  return (
-    <TabLabelWithCounter
-      label={props.tab.label}
-      getCounters={() =>
-        getKubernetesWorkloadControllerItemCounters({
-          workloadControllerId: props.workloadControllerId,
-          timeConfig: props.timeConfig
-        })
-      }
-      resultPropName={resultPropName}
-    />
-  );
+
+function getCounterComponent({workloadControllerId, tab, timeConfig}, valueExtractor) {
+  return (<WorkloadTab 
+    workloadControllerId={workloadControllerId}
+    label={tab.label}
+    timeConfig={timeConfig}
+    valueExtractor={valueExtractor} 
+    />);
 }

@@ -6,11 +6,10 @@ import {
   getDeploymentConfigDashboard,
   getStatefulSetDashboard,
 } from 'in-kubernetes/navigation/paths';
-import getKubernetesServiceItemCounters from 'in-subscription/kubernetes/getKubernetesServiceItemCounters';
 import WorkloadControllers from 'in-kubernetes/Dashboards/commonComponents/commonTabs/WorkloadControllers';
 import getOpenShiftDeploymentConfigs from 'in-subscription/kubernetes/getOpenShiftDeploymentConfigs';
 import { EventsWithoutNamespace } from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Events';
-import TabLabelWithCounter from 'in-kubernetes/Dashboards/commonComponents/TabLabelWithCounter';
+import { ServiceTab } from 'in-kubernetes/Dashboards/commonComponents/Tabs';
 import getKubernetesDeployments from 'in-subscription/kubernetes/getKubernetesDeployments';
 import getKubernetesDaemonSets from 'in-subscription/kubernetes/getKubernetesDaemonSets';
 import getKubernetesStatefulSets from 'in-subscription/kubernetes/getKubernetesStatefulSets';
@@ -47,7 +46,7 @@ export default [
         pathSegment: '/deployments',
         entityName: 'deployments'
       }),
-    header: props => getCounterComponent(props, 'deployments')
+    header: props => getCounterComponent(props, v => v.workloads.deployments)
   },
   {
     label: 'Deployment Configs',
@@ -61,7 +60,7 @@ export default [
         pathSegment: '/deploymentconfigs',
         entityName: 'deployment configs'
       }),
-    header: props => getCounterComponent(props, 'deploymentConfigs')
+    header: props => getCounterComponent(props, v => v.workloads.deploymentConfigs)
   },
   {
     label: 'DaemonSets',
@@ -75,7 +74,7 @@ export default [
         pathSegment: '/daemonsets',
         entityName: 'daemonsets'
       }),
-    header: props => getCounterComponent(props, 'daemonSets')
+    header: props => getCounterComponent(props, v => v.workloads.daemonSets)
   },
   {
     label: 'StatefulSets',
@@ -89,23 +88,21 @@ export default [
         pathSegment: '/statefulsets',
         entityName: 'statefulsets'
       }),
-    header: props => getCounterComponent(props, 'statefulSets')
+    header: props => getCounterComponent(props, v => v.workloads.statefulSets)
   },
-
   {
     label: 'Pods',
     path: `${serviceDashboardFullyQualified}/pods`,
     component: Pods,
-    header: props => getCounterComponent(props, 'pods')
+    header: props => getCounterComponent(props, v => v.workloads.pods)
   }
 ].filter(Boolean);
 
-function getCounterComponent(props, resultPropName) {
-  return (
-    <TabLabelWithCounter
-      label={props.tab.label}
-      getCounters={() => getKubernetesServiceItemCounters({ serviceId: props.serviceId, timeConfig: props.timeConfig })}
-      resultPropName={resultPropName}
-    />
-  );
+function getCounterComponent({serviceId, tab, timeConfig}, valueExtractor) {
+  return (<ServiceTab 
+    serviceId={serviceId}
+    label={tab.label}
+    timeConfig={timeConfig}
+    valueExtractor={valueExtractor} 
+    />);
 }

@@ -1,10 +1,7 @@
 import React from 'react';
 
-import getKubernetesWorkloadControllerItemCounters from 'in-subscription/kubernetes/getKubernetesWorkloadControllerItemCounters';
-import ConditionsTabHeader from 'in-kubernetes/Dashboards/commonComponents/commonTabs/ConditionsTabHeader';
 import { EventsWithoutNamespace } from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Events';
-import getKubernetesWorkloadController from 'in-subscription/kubernetes/getKubernetesWorkloadController';
-import TabLabelWithCounter from 'in-kubernetes/Dashboards/commonComponents/TabLabelWithCounter';
+import { DeploymentConfigConditionsTab, WorkloadTab } from 'in-kubernetes/Dashboards/commonComponents/Tabs';
 import Conditions from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Conditions';
 import { deploymentConfigDashboardFullyQualified } from 'in-kubernetes/navigation/paths';
 import Services from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Services';
@@ -32,46 +29,27 @@ export default [
     label: 'Conditions',
     path: `${deploymentConfigDashboardFullyQualified}/conditions`,
     component: Conditions,
-    header: ConditionsHeader
+    header: DeploymentConfigConditionsTab
   },
   {
     label: 'K8s Services',
     path: `${deploymentConfigDashboardFullyQualified}/services`,
     component: Services,
-    header: props => getCounterComponent(props, 'services')
+    header: props => getCounterComponent(props, v => v.services)
   },
   {
     label: 'Pods',
     path: `${deploymentConfigDashboardFullyQualified}/pods`,
     component: Pods,
-    header: props => getCounterComponent(props, 'pods')
+    header: props => getCounterComponent(props, v => v.pods)
   }
 ].filter(Boolean);
 
-function getCounterComponent(props, resultPropName) {
-  return (
-    <TabLabelWithCounter
-      label={props.tab.label}
-      getCounters={() =>
-        getKubernetesWorkloadControllerItemCounters({
-          workloadControllerId: props.deploymentConfigId,
-          timeConfig: props.timeConfig
-        })
-      }
-      resultPropName={resultPropName}
-    />
-  );
-}
-
-function ConditionsHeader({ deploymentConfigId, timeConfig }) {
-  return (
-    <ConditionsTabHeader
-      getCounter={() =>
-        getKubernetesWorkloadController({
-          id: deploymentConfigId,
-          timeConfig
-        }).map(result => (result.data ? { data: result.data.conditions } : null))
-      }
-    />
-  );
+function getCounterComponent({deploymentConfigId, tab, timeConfig}, valueExtractor) {
+  return (<WorkloadTab 
+    workloadControllerId={deploymentConfigId}
+    label={tab.label}
+    timeConfig={timeConfig}
+    valueExtractor={valueExtractor} 
+    />);
 }

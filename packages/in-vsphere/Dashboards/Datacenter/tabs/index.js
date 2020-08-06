@@ -1,6 +1,6 @@
 import React from 'react';
 
-import TabLabelWithCounter from 'in-kubernetes/Dashboards/commonComponents/TabLabelWithCounter';
+import TabLabelWithCounter from 'in-vsphere/Dashboards/commonComponents/TabLabelWithCounter';
 import getVsphereDatacenter from 'in-vsphere/subscriptions/getVsphereDatacenter';
 import { datacenterDashboardFullyQualified } from 'in-vsphere/navigation/paths';
 import VSphereHosts from 'in-vsphere/Dashboards/Datacenter/tabs/VsphereHosts';
