@@ -12,7 +12,7 @@ import useUrlState from 'in-hooks/useUrlState';
 
 export default function createServerTableWithUrlState({
   paginationResettingUrlParameters = emptyArray,
-  columnDefinitions,
+  columnDefinitions: staticColumnDefinitions,
   defaultOrderBy,
   defaultOrderDirection,
   defaultPageSize,
@@ -30,7 +30,7 @@ export default function createServerTableWithUrlState({
         path: pathSegment,
         name: `${matrixPrefix}orderBy`,
         as: 'orderBy',
-        initialState: defaultOrderBy || columnDefinitions[0].id
+        initialState: defaultOrderBy || staticColumnDefinitions[0].id
       },
       {
         path: pathSegment,
@@ -86,6 +86,7 @@ export default function createServerTableWithUrlState({
 
   return function ServerTable(props) {
     const [urlState, setUrlState] = useUrlState(urlStateDefinition);
+    const columnDefinitionsFn = props.columnDefinitions || (() => staticColumnDefinitions);
 
     const propsForObservable = {
       ...props,
@@ -96,6 +97,8 @@ export default function createServerTableWithUrlState({
         ? timeout(800).flatMap(() => props.get(propsForObservable))
         : props.get(propsForObservable);
     const result = useObservable(observable, Object.values(propsForObservable)) ?? pendingResult;
+
+    const columnDefinitions = columnDefinitionsFn(result);
 
     const optionalColumns = useMemo(() => columnDefinitions.filter(columnDefinition => columnDefinition.optional), [
       columnDefinitions

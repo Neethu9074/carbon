@@ -4,6 +4,7 @@ import React from 'react';
 import DashboardNavigationRoute from 'in-components/Navigation/DashboardNavigationRoute/DashboardNavigationRoute';
 import DashboardHeaderShadowModule from 'in-new-components/DashboardHeader/DashboardHeaderShadowModule';
 import DashboardHeaderModule from 'in-new-components/DashboardHeader/DashboardHeaderModule';
+import UseBeeInstantToggle from 'in-components/Dashboard/components/UseBeeInstantToggle';
 import DashboardHeader, { themes } from 'in-new-components/DashboardHeader';
 import ViewSwitcher from 'in-views/tableView/components/ViewSwitcher';
 import Footer from 'in-new-components/Footer';
@@ -26,7 +27,12 @@ export default function InfraPageHeaderWithTabs({
             <Sticky
               header={
                 <>
-                  <DashboardHeader theme={theme} icon="lib_infrastructure" label="Infrastructure" />
+                  <DashboardHeader
+                    theme={theme}
+                    icon="lib_infrastructure"
+                    label="Infrastructure"
+                    renderTopLevelButtonLine={UseBeeInstantToggle}
+                  />
                   <DashboardHeaderModule theme={theme} withBottomBorder>
                     <ViewSwitcher theme={theme} showSearchBar={showSearchBar} />
                   </DashboardHeaderModule>

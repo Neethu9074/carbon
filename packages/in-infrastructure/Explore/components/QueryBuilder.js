@@ -23,6 +23,10 @@ const tagCatalog = {
       type: 'STRING',
       canApplyToSource: true,
       canApplyToDestination: true
+    },
+    {
+      name: 'entity.selfType',
+      type: 'STRING'
     }
   ],
 
@@ -70,6 +74,25 @@ const tagCatalog = {
               icon: 'lib_kubernetes_label',
               description: 'String - Namespace´s name',
               tagName: 'kubernetes.namespace.name'
+            }
+          ]
+        }
+      ]
+    },
+    {
+      type: 'LEVEL',
+      label: 'Instana',
+      children: [
+        {
+          type: 'LEVEL',
+          label: 'Internal',
+          children: [
+            {
+              type: 'TAG',
+              label: 'Type',
+              icon: 'lib_kubernetes_label',
+              description: 'Exact type of entity',
+              tagName: 'entity.selfType'
             }
           ]
         }

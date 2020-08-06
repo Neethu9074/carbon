@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useMemo } from 'react';
 
 import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
@@ -11,7 +11,6 @@ import { tagFilterExpressionMatrixParameter } from 'in-infrastructure/navigation
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { themes } from 'in-new-components/DashboardHeader/DashboardHeader';
-import SearchBar from 'in-infrastructure/Explore/components/SearchBar';
 import { infraExplorePath } from 'in-infrastructure/navigation/paths';
 import getEntities from 'in-infrastructure/subscriptions/getEntities';
 import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
@@ -20,14 +19,17 @@ import EntityLink from 'in-new-components/EntityLink/EntityLink';
 import { warning, error } from 'in-new-components/Message/types';
 import Sections from 'in-new-components/workspace/Sections';
 import { pendingResult } from 'in-services/fixedObjects';
+import { getKpiDefinitions } from 'in-sdk/metrics/kpis';
+import MetricValue from 'in-components/MetricValue';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Stack from 'in-new-components/layout/Stack';
 import useObservable from 'in-hooks/useObservable';
 import Message from 'in-new-components/Message';
 import useUrlState from 'in-hooks/useUrlState';
-import locals from 'in-components/Link/Link.mless';
 import Card from 'in-new-components/Card';
 import Title from 'in-components/Title';
+
+import locals from './Explore.mless';
 
 const urlStateDefinition = {
   bind: [tagFilterExpressionMatrixParameter]
@@ -35,8 +37,6 @@ const urlStateDefinition = {
 
 export default function InfraExploreView() {
   const timeConfig = useTimeConfig();
-  // TODO remove once tag filter expressions are supported by the bacend
-  const [tagFilters, setTagFilters] = useState(null);
   const [{ tagFilterExpression }, onChange] = useUrlState(urlStateDefinition);
   const validResult = useObservable(isQueryValid(tagFilterExpression), [tagFilterExpression]) ?? pendingResult;
   const backendQueryModel = validResult?.data && toBackendQueryModel(tagFilterExpression);
@@ -58,14 +58,6 @@ export default function InfraExploreView() {
         <Stack>
           <Message type={warning} withIcon small>
             This is a work in progress. The final version of Infra Explore might look nothing like this.
-          </Message>
-
-          {/* TODO remove once tag filter expressions are supported by the backend */}
-          <SearchBar onFiltersChanged={filters => setTagFilters(filters)} />
-
-          <Message type={warning} withIcon small>
-            The query builder is not yet connected to the backend. Whatever you enter down below will be transmitted to
-            the backend, but not yet interpreted.
           </Message>
 
           <Sections>
@@ -95,11 +87,11 @@ export default function InfraExploreView() {
           {validResult.data === true && (
             <Card>
               <ServerTableWithUrlState
+                columnDefinitions={getColumnDefinitions}
                 get={getTableData}
                 timeConfig={timeConfig}
                 backendQueryModel={backendQueryModel}
-                // TODO remove once tag filter expressions are supported by the backend
-                tagFilters={tagFilters}
+                fixedLayout
               />
             </Card>
           )}
@@ -109,11 +101,9 @@ export default function InfraExploreView() {
   );
 }
 
-function getTableData({ timeConfig, page, pageSize, tagFilters, backendQueryModel, orderBy, orderDirection }) {
+function getTableData({ timeConfig, page, pageSize, backendQueryModel, orderBy, orderDirection }) {
   return getEntities({
     filter: {
-      // TODO remove once tag filter expressions are supported by the bacend
-      tagFilters: tagFilters ?? [],
       tagFilterExpression: backendQueryModel,
       timeConfig
     },
@@ -135,7 +125,7 @@ const columnDefinitions = [
     getContent(item) {
       return (
         <EntityLink
-          className={locals.ellipsis}
+          className={locals.link}
           label={item.label}
           plugin={item.pluginId}
           href$={getDashboardLink(item.snapshotId)}
@@ -147,10 +137,32 @@ const columnDefinitions = [
 
 const ServerTableWithUrlState = createServerTableWithUrlState({
   paginationResettingUrlParameters: [...timeConfigUrlParameters],
-  columnDefinitions,
   defaultOrderBy: 'label',
   defaultOrderDirection: 'ASC',
   isSearchable: false,
   pathSegment: infraExplorePath,
   matrixPrefix: 'table.'
 });
+
+function getColumnDefinitions(result) {
+  if (result.data) {
+    const plugins = new Set(result.data.items.map(i => i.pluginId));
+    if (plugins.size === 1) {
+      const plugin = plugins.values().next().value;
+      const kpiDefinitions = getKpiDefinitions(plugin);
+      return columnDefinitions.concat(
+        kpiDefinitions.map(({ label, metric, formatter }) => ({
+          id: metric,
+          label,
+          sortable: false,
+          width: '10rem',
+          widthInAbsoluteUnit: true,
+          getContent(item) {
+            return <MetricValue snapshotId={item.snapshotId} metric={metric} formatter={formatter} />;
+          }
+        }))
+      );
+    }
+  }
+  return columnDefinitions;
+}
