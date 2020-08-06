@@ -1,10 +1,7 @@
 import React from 'react';
 
 import getIBMMQTopicsForCluster from 'in-subscription/iBMMQCluster/getIBMMQTopicsForCluster';
-import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
-import Columize from 'in-sdk/components/dashboard/Columize';
 import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';
 import { getSnapshots } from 'in-stores/snapshot';
@@ -13,10 +10,10 @@ import connectTo from 'in-hoc/connectTo';
 const cols = [
   {
     title: 'Name',
-    type: 'string',
+    type: 'snapshotLink',
     typeArgs: {
-      getValue(row) {
-        return row.topicName;
+      getSnapshotId(row) {
+        return row.key;
       }
     }
   },
@@ -25,7 +22,7 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.qmName;
+        return row.topic.getIn(['data', 'qmName']);
       }
     }
   },
@@ -34,7 +31,7 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.clusterName;
+        return row.topic.getIn(['data', 'clusterName']);
       }
     }
   },
@@ -43,7 +40,7 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.topicType;
+        return row.topic.getIn(['data', 'topicType']);
       }
     }
   },
@@ -52,7 +49,7 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.topicAlternatedAt;
+        return row.topic.getIn(['data', 'topicAlternatedAt']);
       }
     }
   },
@@ -121,68 +118,11 @@ export default connectTo(
     const rows = topics.map(topic => {
       return {
         key: topic.get('id'),
-        topicName: topic.getIn(['data', 'topicName']),
-        qmName: topic.getIn(['data', 'qmName']),
-        clusterName: topic.getIn(['data', 'clusterName']),
-        topicType: topic.getIn(['data', 'topicType']),
-        topicAlternatedAt: topic.getIn(['data', 'topicAlternatedAt']),
         topic,
         timeConfig
       };
     });
 
-    return (
-      <Table withoutPadding cardTitle={`Topics (${rows.length})`} cols={cols} rows={rows} getRowDetails={getDetails} />
-    );
+    return <Table withoutPadding cardTitle={`Topics (${rows.length})`} cols={cols} rows={rows} />;
   }
 );
-
-function getDetails(row) {
-  return (
-    <div>
-      <Chart
-        snapshotId={row.key}
-        timeConfig={row.timeConfig}
-        y1={{
-          formatter: zeroDecimalPlaces,
-          tooltipFormatter: zeroDecimalPlaces,
-          metrics: [`messagesCount`],
-          labels: ['Messages Count'],
-          type: 'line'
-        }}
-        renderPostChartContent={PluginDashboardsMarkerLanes}
-      />
-
-      <Columize>
-        <div>
-          <Chart
-            snapshotId={row.key}
-            timeConfig={row.timeConfig}
-            y1={{
-              formatter: zeroDecimalPlaces,
-              tooltipFormatter: zeroDecimalPlaces,
-              metrics: [`publishCount`],
-              labels: ['Publish Count'],
-              type: 'line'
-            }}
-            renderPostChartContent={PluginDashboardsMarkerLanes}
-          />
-        </div>
-        <div>
-          <Chart
-            snapshotId={row.key}
-            timeConfig={row.timeConfig}
-            y1={{
-              formatter: zeroDecimalPlaces,
-              tooltipFormatter: zeroDecimalPlaces,
-              metrics: [`subscriptionCount`],
-              labels: ['Subscription Count'],
-              type: 'line'
-            }}
-            renderPostChartContent={PluginDashboardsMarkerLanes}
-          />
-        </div>
-      </Columize>
-    </div>
-  );
-}

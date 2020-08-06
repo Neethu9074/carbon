@@ -1,10 +1,6 @@
 import React from 'react';
 
 import getIBMMQChannelsForQueueManager from 'in-subscription/iBMMQQueueManager/getIBMMQChannelsForQueueManager';
-import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
-import { zeroDecimalPlaces } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';
 import { getSnapshots } from 'in-stores/snapshot';
@@ -13,10 +9,10 @@ import connectTo from 'in-hoc/connectTo';
 const cols = [
   {
     title: 'Name',
-    type: 'string',
+    type: 'snapshotLink',
     typeArgs: {
-      getValue(row) {
-        return row.snapshot.getIn(['data', 'channelName']);
+      getSnapshotId(row) {
+        return row.key;
       }
     }
   },
@@ -106,63 +102,6 @@ export default connectTo(
       };
     });
 
-    return (
-      <Table
-        withoutPadding
-        cardTitle={`Channels (${rows.length})`}
-        cols={cols}
-        rows={rows}
-        getRowDetails={getDetails}
-      />
-    );
+    return <Table withoutPadding cardTitle={`Channels (${rows.length})`} cols={cols} rows={rows} />;
   }
 );
-
-function getDetails(row) {
-  return (
-    <div>
-      <DashboardSection title="Messages">
-        <Chart
-          snapshotId={row.snapshotId}
-          timeConfig={row.timeConfig}
-          y1={{
-            formatter: zeroDecimalPlaces,
-            tooltipFormatter: zeroDecimalPlaces,
-            metrics: [`messagesSent`, `messagesAvailable`],
-            labels: ['Sent/Received', 'Available'],
-            type: 'line'
-          }}
-          renderPostChartContent={PluginDashboardsMarkerLanes}
-        />
-      </DashboardSection>
-      <DashboardSection title="Sequence Number">
-        <Chart
-          snapshotId={row.snapshotId}
-          timeConfig={row.timeConfig}
-          y1={{
-            formatter: zeroDecimalPlaces,
-            tooltipFormatter: zeroDecimalPlaces,
-            metrics: [`sequenceNumberCurrent`, `sequenceNumberLast`],
-            labels: ['Current', 'Last'],
-            type: 'line'
-          }}
-          renderPostChartContent={PluginDashboardsMarkerLanes}
-        />
-      </DashboardSection>
-      <DashboardSection title="Buffers">
-        <Chart
-          snapshotId={row.snapshotId}
-          timeConfig={row.timeConfig}
-          y1={{
-            formatter: zeroDecimalPlaces,
-            tooltipFormatter: zeroDecimalPlaces,
-            metrics: [`buffersSent`, `buffersReceived`],
-            labels: ['Sent', 'Received'],
-            type: 'line'
-          }}
-          renderPostChartContent={PluginDashboardsMarkerLanes}
-        />
-      </DashboardSection>
-    </div>
-  );
-}
