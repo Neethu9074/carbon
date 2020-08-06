@@ -21,7 +21,7 @@ export default function DefaultRenderer({
       aria-labelledby={menuProps['aria-labelledby']}
       id={menuProps.id}
       role={menuProps.role}
-      refSetter={menuProps.ref}
+      ref={menuProps.ref}
     >
       {filteredOptions.map((item, index) => (
         <li
