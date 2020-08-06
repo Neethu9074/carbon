@@ -1,10 +1,10 @@
-import { just } from 'reactive-observables';
 import React, { useState } from 'react';
 
 import CreateApplicationDialog from 'in-applications/creation/Dialog/CreateApplicationDialog';
 import { createNewApplicationConfig, getApplicationConfig } from 'in-api/applicationConfigs';
 import { applicationCreationOpenDialogClick } from 'in-applications/creation/tracker';
 import { newApplicationWaiterView } from 'in-applications/navigation/paths';
+import { successObservable } from 'in-services/util/result';
 import { getTimeConfig } from 'in-stores/time/config';
 import useObservable from 'in-hooks/useObservable';
 import Button from 'in-new-components/Button';
@@ -12,9 +12,7 @@ import Button from 'in-new-components/Button';
 export default function CreateApplication({ applicationId, timeConfig, className }) {
   const [dialogOpen, setDialogOpen] = useState(false);
   const entityResult = useObservable(
-    applicationId
-      ? getApplicationConfig(applicationId)
-      : just({ progress: { loading: false }, errors: [], data: createNewApplicationConfig() }),
+    applicationId ? getApplicationConfig(applicationId) : successObservable(createNewApplicationConfig()),
     [applicationId]
   );
 
