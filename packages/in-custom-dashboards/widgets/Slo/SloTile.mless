@@ -32,6 +32,9 @@
 
   .targetInfo {
     font-size: @lib__typography__body__font-size;
+    font-weight: 600;
+    line-height: 1.25rem;
+    color: @lib__colors__N600Light;
   }
 
   .actions {

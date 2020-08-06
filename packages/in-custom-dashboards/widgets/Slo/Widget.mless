@@ -18,7 +18,7 @@
     margin-bottom: 0.125rem;
     align-self: flex-end;
     font-size: @lib__typography__body__font-size;
-    font-weight: @lib__typography__h400__font-weight;
+    font-weight: 600;
     color: @lib__colors__N600Light;
   }
 
@@ -38,7 +38,8 @@
   }
 
   .timeRangeValue {
-    margin: 0.25rem 0;
+    margin: 0.125rem 0;
+    line-height: 1.25rem;
     display: block;
     color: @lib__colors__N600Light;
     font-size: @lib__typography__body__font-size;

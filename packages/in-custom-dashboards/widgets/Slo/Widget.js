@@ -2,7 +2,7 @@ import React from 'react';
 
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import { sloApName, sloTarget } from 'in-custom-dashboards/widgets/Slo/form';
-import { twoDecimalPlaces } from 'in-services/formatters/number';
+import { twoDecimalPlaces, number } from 'in-services/formatters/number';
 import SloTile from 'in-custom-dashboards/widgets/Slo/SloTile';
 import { formatDateTime } from 'in-services/formatters/date';
 import LightCardV2 from 'in-new-components/Card/LightCardV2';
@@ -14,16 +14,20 @@ import locals from './Widget.mless';
 
 const GREEN = theme.lib.colors.green800;
 const RED = theme.lib.colors.red800;
+const DEFAULT_API = {
+  getSliReport: (name, slo) => getSliReport('phani-test-1', slo)
+};
 
-export default function Widget({ actions, config, title, dragHandle }) {
-  const target = config?.[sloTarget] ?? 99;
+export default function Widget({ actions, config, title, dragHandle, api = DEFAULT_API }) {
+  const target = config?.[sloTarget] ?? 0.99;
   const apName = config?.[sloApName] ?? '';
-
-  const sliReport = useObservable(getSliReport('phani-test-1', target), [target, apName]);
+  const sliReport = useObservable(api.getSliReport('phani-test-1', target), [target, apName]);
 
   const { sli, slo, totalErrorBudget, errorBudgetRemaining, fromTimestamp, toTimestamp } = sliReport?.data ?? {};
 
-  const sliColor = !slo || !sli ? '' : slo >= sli ? GREEN : RED;
+  const sliColor = !slo || !sli ? '' : sli >= slo ? GREEN : RED;
+  const errorBudgetSpend =
+    !errorBudgetRemaining || !totalErrorBudget ? valueMissingPlaceholder : totalErrorBudget - errorBudgetRemaining;
   const budgetColor = !errorBudgetRemaining || !totalErrorBudget ? '' : errorBudgetRemaining > 0 ? GREEN : RED;
 
   return (
@@ -35,7 +39,7 @@ export default function Widget({ actions, config, title, dragHandle }) {
           {actions}
         </>
       }
-      title={title ?? ' '}
+      title={title}
       headerClassName={locals.title}
       leftHeaderContent={<span className={locals.apName}>{apName ?? valueMissingPlaceholder}</span>}
     >
@@ -53,8 +57,8 @@ export default function Widget({ actions, config, title, dragHandle }) {
         <div className={locals.col}>
           <SloTile
             title="Error Budget Spent"
-            value={errorBudgetRemaining ?? valueMissingPlaceholder}
-            targetValue={totalErrorBudget ?? valueMissingPlaceholder}
+            value={number.compact(errorBudgetSpend)}
+            targetValue={number.compact(totalErrorBudget) ?? valueMissingPlaceholder}
             color={budgetColor}
             unit="calls"
             targetInfo="Error Budget:"
