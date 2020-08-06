@@ -46,6 +46,8 @@ export default function LatencyChartOverlay({
   //   exits the chart area by max GLASS_PANE_OFFSET.
   const GLASS_PANE_OFFSET = selectionAdjustable ? 30 : 0;
 
+  const MIN_PX_TO_MOVE_UNTIL_DRAG_STARTS = 3;
+
   const hoverPositions = {
     RESIZE_LEFT: 1,
     MOVE: 2,
@@ -142,34 +144,35 @@ export default function LatencyChartOverlay({
 
   const getMouseX = synthEvent => synthEvent.nativeEvent.offsetX - GLASS_PANE_OFFSET;
 
+  const normalizeBucketIndex = bucketIndex => {
+    return Math.min(Math.max(0, bucketIndex), buckets.length - 1);
+  };
+
   const getBucketIndexAt = mousePosition => {
     let bucketIndex = Math.floor(mousePosition / bucketWidth);
-    // clicking outside the buckets should snap to the first/last bucket
-    bucketIndex = Math.max(0, bucketIndex);
-    return Math.min(bucketIndex, buckets.length - 1);
+    return normalizeBucketIndex(bucketIndex);
   };
 
   /**
-   * Returns 'from' and 'to' indices of buckets between two X coordinates. A bucket is selected only
-   * if its center is included in the selection.
+   * Returns 'from' and 'to' indices of buckets between two X coordinates. The bucket at the
+   * start coordinate will be always included in the selection, while the bucket at the end
+   * coordinate will be selected only if its center is included in the selection.
    */
-  const getBucketsBetweenXCoordinates = (x1, x2) => {
-    const leftX = Math.min(x1, x2);
-    const rightX = Math.max(x1, x2);
-
-    let fromIndex = Math.round(leftX / bucketWidth);
-    let toIndex = Math.round(rightX / bucketWidth) - 1;
-
-    if (toIndex < fromIndex) {
-      return [null, null];
+  const getBucketsBetweenXCoordinates = (start, end) => {
+    let fromIndex = null;
+    let toIndex = null;
+    if (start < end) {
+      // rightwards change
+      fromIndex = getBucketIndexAt(start);
+      toIndex = Math.max(normalizeBucketIndex(Math.round(end / bucketWidth) - 1), fromIndex);
+    } else if (end < start) {
+      // leftwards change
+      toIndex = getBucketIndexAt(start);
+      fromIndex = Math.min(normalizeBucketIndex(Math.round(end / bucketWidth)), toIndex);
+    } else {
+      fromIndex = getBucketIndexAt(start);
+      toIndex = fromIndex;
     }
-
-    // clicking outside the buckets should snap to the first/last bucket
-    fromIndex = Math.max(0, fromIndex);
-    fromIndex = Math.min(fromIndex, buckets.length - 1);
-    toIndex = Math.max(0, toIndex);
-    toIndex = Math.min(toIndex, buckets.length - 1);
-
     return [fromIndex, toIndex];
   };
 
@@ -216,10 +219,16 @@ export default function LatencyChartOverlay({
     const currentBucketIndex = getBucketIndexAt(currentMousePosition);
     const selectedBucketFirst = selectedBuckets && selectedBuckets.fromIndex;
     const selectedBucketLast = selectedBuckets && selectedBuckets.toIndex;
+    let newHighlightedBucket = currentBucketIndex;
     if (mouseState?.selecting) {
-      const [fromIndex, toIndex] = getBucketsBetweenXCoordinates(mouseState.startX, currentMousePosition);
-      updateSelectedBuckets(fromIndex, toIndex);
-      updateMouseState({ lastX: currentMousePosition, moved: true });
+      const diff = Math.abs(mouseState.startX - currentMousePosition);
+      const moved = mouseState.moved === true || diff > MIN_PX_TO_MOVE_UNTIL_DRAG_STARTS;
+      if (moved) {
+        const [fromIndex, toIndex] = getBucketsBetweenXCoordinates(mouseState.startX, currentMousePosition);
+        updateSelectedBuckets(fromIndex, toIndex);
+        newHighlightedBucket = mouseState.startX < currentMousePosition ? toIndex : fromIndex;
+      }
+      updateMouseState({ lastX: currentMousePosition, moved: moved });
     } else if (mouseState?.moving) {
       const lastBucketIndex = getBucketIndexAt(mouseState.lastX);
       let moveDistanceInBuckets = currentBucketIndex - lastBucketIndex;
@@ -239,36 +248,36 @@ export default function LatencyChartOverlay({
       const [fromIndex, toIndex] = getBucketsBetweenXCoordinates(selectedBucketFirst * bucketWidth, rightX);
       updateSelectedBuckets(fromIndex, toIndex);
       updateMouseState({ lastX: currentMousePosition });
+      newHighlightedBucket = toIndex;
     } else if (mouseState?.resizingLeft) {
       // limit rightwards movement at the left edge of the last selected bucket
       const leftX = Math.min(selectedBucketLast * bucketWidth, currentMousePosition);
-      const [fromIndex, toIndex] = getBucketsBetweenXCoordinates(leftX, (selectedBucketLast + 1) * bucketWidth);
+      const [fromIndex, toIndex] = getBucketsBetweenXCoordinates(selectedBucketLast * bucketWidth, leftX);
       updateSelectedBuckets(fromIndex, toIndex);
       updateMouseState({ lastX: currentMousePosition });
+      newHighlightedBucket = fromIndex;
     } else if (selectionAdjustable) {
       // adjust the mouse cursor to give a visual clue, whether resizing or moving of the selection can start
       updateMouseCursor(currentMousePosition);
     }
 
     if (selectionAdjustable || (!mouseState?.selecting && !selectedBuckets)) {
-      // update highlighted bucket index
-      let highlightedBucketIndex = currentBucketIndex;
-      // When we reach the last/first bucket during resizing from the left/right, the selection will be
-      // only one bucket wide and we don't allow to resize pass this (swapping selection's start and end).
-      // We should do the same for the highlighted bucket as well. This way the tooltip stays on the selected
-      // bucket, which feels more natural.
-      if (mouseState?.resizingLeft) {
-        highlightedBucketIndex = Math.min(highlightedBucketIndex, selectedBucketLast);
-      } else if (mouseState?.resizingRight) {
-        highlightedBucketIndex = Math.max(highlightedBucketIndex, selectedBucketFirst);
-      }
-      setHighlightedBucketIndex(highlightedBucketIndex);
+      setHighlightedBucketIndex(newHighlightedBucket);
     }
   };
 
   const onMouseUp = event => {
     if (mouseState?.selecting) {
-      const [fromIndex, toIndex] = getBucketsBetweenXCoordinates(mouseState.startX, getMouseX(event));
+      const currentMousePosition = getMouseX(event);
+      let fromIndex,
+        toIndex = null;
+      if (mouseState.moved === true) {
+        [fromIndex, toIndex] = getBucketsBetweenXCoordinates(mouseState.startX, currentMousePosition);
+      } else {
+        // single bucket "click" selection
+        const currentBucketIndex = getBucketIndexAt(currentMousePosition);
+        [fromIndex, toIndex] = [currentBucketIndex, currentBucketIndex];
+      }
       let newBucketSelection = null;
       if (selectionAdjustable && fromIndex === 0 && toIndex === buckets.length - 1) {
         // If selection is adjustable, selecting all buckets clears the selection. This is necessary, because selection

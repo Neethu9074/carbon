@@ -57,6 +57,7 @@ export default function LatencyDistributionHistogram({
   if (latencyDistributionBase10Enabled) {
     return (
       <LatencyDistributionBase10Chart
+        dataSource="calls"
         subscription={getLatencyDistributionBase10({
           maxLatencyBuckets: 80,
           filter: {
