@@ -122,7 +122,7 @@ export default connectTo(
 
     return (
       <Table
-        cardTitle="Issues"
+        cardTitle="Monitoring Issues"
         withoutPadding
         cols={cols}
         rows={rows}
