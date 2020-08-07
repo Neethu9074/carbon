@@ -35,7 +35,7 @@ export default function getByDataSource(dataSource) {
         isSyntheticTagPreset: 'call.is_synthetic',
         countMetricText: 'Calls',
         countMetricKey: 'calls',
-        defaultGrouping: { name: 'endpoint.name', value: '', entity: entityTypes.DESTINATION },
+        defaultGrouping: groupByEndpointName,
         defaultFilters: [],
         breadcrumbLabel: 'Call Analytics',
         getMatcher: (traceId, callId) => item => item.call.id === callId && item.call.traceId === traceId,
@@ -50,6 +50,18 @@ export default function getByDataSource(dataSource) {
   }
   return configs[dataSource] || {};
 }
+
+export const groupByEndpointName = {
+  name: 'endpoint.name',
+  value: '',
+  entity: entityTypes.DESTINATION
+};
+
+export const groupByServiceName = {
+  name: 'service.name',
+  value: '',
+  entity: entityTypes.DESTINATION
+};
 
 export const productAreaLabels = Object.freeze({
   application: 'Applications',
