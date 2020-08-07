@@ -1,4 +1,10 @@
-export function smoothMetrics(metrics, granularity, weights = [0.27901, 0.44198, 0.27901]) {
+/**
+ * Applies smoothing to the given metrics time series using a gaussian kernel.
+ * @param metrics The metric to smooth.
+ * @param granularity The metrics granularity.
+ * @param weights The kernel weights, using a gaussian-kernel with ksize=3 and sigma=0.5 by default.
+ */
+export function smoothMetrics(metrics, granularity, weights = [0.157731, 0.684538, 0.157731]) {
   const windowSize = weights.length;
   const metricsLength = metrics.length;
   const leftRightCount = Math.trunc(windowSize / 2);

@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-import { hoursToMillis, minutesToMillis } from 'in-new-components/Alerting/utils/formatUtils';
+import { hoursToMillis } from 'in-new-components/Alerting/utils/formatUtils';
 import { propTypeTimeConfig } from 'in-stores/time/config';
 
 export const chartViewConfigPropType = PropTypes.shape({
@@ -29,7 +29,7 @@ export const chartViewConfigs = Object.freeze([
     timeConfig: {
       windowSize: hoursToMillis(7 * 24)
     },
-    minChartMetricGranularity: minutesToMillis(10),
+    minChartMetricGranularity: 0, // at the moment we don't use a higher granularity for the metric, because we don't handle that properly for count metrics (using SUM)
     smoothMetric: true
   }
 ]);
