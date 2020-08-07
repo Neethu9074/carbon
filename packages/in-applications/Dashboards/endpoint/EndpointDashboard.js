@@ -23,12 +23,13 @@ import tabs from 'in-applications/Dashboards/endpoint/tabs/index';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import DashboardHeader from 'in-new-components/DashboardHeader';
 import { entityTypes } from 'in-analyze/applicationFilter';
-import { timeConfig$ } from 'in-stores/time/config';
+import useTimeConfig from 'in-hooks/useTimeConfig';
 import Footer from 'in-new-components/Footer';
-import connectTo from 'in-hoc/connectTo';
 import { role } from 'in-stores/user';
 
-export default connectTo({ timeConfig: timeConfig$ }, function EndpointDashboard({ location, timeConfig }) {
+export default function EndpointDashboard({ location }) {
+  const timeConfig = useTimeConfig();
+
   const props = {
     applicationId: getMatrixParameter(location, endpointDashboard, applicationId),
     serviceId: getMatrixParameter(location, endpointDashboard, serviceId),
@@ -86,7 +87,7 @@ export default connectTo({ timeConfig: timeConfig$ }, function EndpointDashboard
       <Footer />
     </>
   );
-});
+}
 
 function Header(props) {
   const contextConfigurations = [];

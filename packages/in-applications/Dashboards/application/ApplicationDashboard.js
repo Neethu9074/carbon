@@ -1,4 +1,3 @@
-import { compose } from 'recompose';
 import { get } from 'lodash';
 import React from 'react';
 
@@ -18,42 +17,28 @@ import tabs from 'in-applications/Dashboards/application/tabs/index';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import DashboardHeader from 'in-new-components/DashboardHeader';
 import { entityTypes } from 'in-analyze/applicationFilter';
-import { timeConfig$ } from 'in-stores/time/config';
-import withUrlState from 'in-hoc/withUrlState';
-import connectTo from 'in-hoc/connectTo';
+import useTimeConfig from 'in-hooks/useTimeConfig';
+import useUrlState from 'in-hooks/useUrlState';
 import { role } from 'in-stores/user';
 
-export default compose(
-  withUrlState({
+export default function ApplicationDashboard({ location }) {
+  const [urlState, setUrlState] = useUrlState({
     bind: [
       applicationDashboardUrlParameters.applicationId,
       applicationDashboardUrlParameters.serviceId,
       applicationDashboardUrlParameters.endpointId,
       applicationDashboardUrlParameters.boundaryScope
-    ],
-    reducerName: 'onBoundaryStateChange'
-  }),
-  connectTo({
-    timeConfig: timeConfig$
-  })
-)(ApplicationDashboard);
-function ApplicationDashboard({
-  onBoundaryStateChange,
-  appId,
-  boundaryScope,
-  serviceId,
-  endpointId,
-  location,
-  timeConfig
-}) {
+    ]
+  });
+  const timeConfig = useTimeConfig();
   const props = {
-    applicationId: appId,
-    serviceId,
-    endpointId,
+    applicationId: urlState.appId,
+    serviceId: urlState.serviceId,
+    endpointId: urlState.endpointId,
     viewPath: applicationDashboard,
-    onBoundaryStateChange,
+    onBoundaryStateChange: setUrlState,
     timeConfig,
-    boundaryScope,
+    boundaryScope: urlState.boundaryScope,
     location
   };
 
@@ -71,7 +56,7 @@ function ApplicationDashboard({
         location={location}
         tabs={tabs}
         props={props}
-        result$={getApplication({ id: appId })}
+        result$={getApplication({ id: props.applicationId })}
         withProps={({ result }) => ({
           applicationName: get(result, ['data', 'label'])
         })}
@@ -122,19 +107,18 @@ function renderButtonLine(props) {
         area="application"
       />
 
-      {role.canConfigureCustomAlerts &&
-        applicationSmartAlertsEnabled && (
-          <FloatingActionButtons>
-            <CreateSmartAlert
-              applicationLabel={label}
-              serviceId={serviceId}
-              endpointId={endpointId}
-              applicationId={applicationId}
-              location={location}
-              boundaryScope={boundaryScope}
-            />
-          </FloatingActionButtons>
-        )}
+      {role.canConfigureCustomAlerts && applicationSmartAlertsEnabled && (
+        <FloatingActionButtons>
+          <CreateSmartAlert
+            applicationLabel={label}
+            serviceId={serviceId}
+            endpointId={endpointId}
+            applicationId={applicationId}
+            location={location}
+            boundaryScope={boundaryScope}
+          />
+        </FloatingActionButtons>
+      )}
     </>
   );
 }
