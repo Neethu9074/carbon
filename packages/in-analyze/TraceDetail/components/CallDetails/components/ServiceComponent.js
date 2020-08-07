@@ -12,6 +12,7 @@ import StackTraceBehavior from 'in-analyze/TraceDetail/components/CallDetails/co
 import InfrastructureHierarchy from 'in-analyze/TraceDetail/components/CallDetails/components/InfrastructureHierarchy';
 import MobileAppBeaconDetails from 'in-analyze/TraceDetail/components/CallDetails/components/MobileAppBeaconDetails';
 import WebsiteBeaconDetails from 'in-analyze/TraceDetail/components/CallDetails/components/WebsiteBeaconDetails';
+import ProfileInformation from 'in-analyze/TraceDetail/components/CallDetails/components/ProfileInformation';
 import SpanDetails from 'in-analyze/TraceDetail/components/CallDetails/components/SpanDetails';
 import CallLogs from 'in-analyze/TraceDetail/components/CallDetails/components/CallLogs';
 import { physicalDashboardPath } from 'in-stores/navigation/paths/mainPaths';
@@ -54,6 +55,9 @@ export default function ServiceComponent({ call, websiteBeacon, mobileAppBeacon 
   const canSeeCallDetails = role.canViewTraceDetails;
   const canViewLogs = role.canViewLogs;
 
+  const sourceProcessSnapshotId = sourcePhysicalContext?.process?.id;
+  const destinationProcessSnapshotId = destinationPhysicalContext?.process?.id;
+
   if (sourcePhysicalContext === null && destinationPhysicalContext === null) {
     return (
       <div className={locals.serviceLine}>
@@ -78,18 +82,17 @@ export default function ServiceComponent({ call, websiteBeacon, mobileAppBeacon 
             span={intermediateSpan}
             inProcessCall
           />
-          {canSeeCallDetails &&
-            hasNonEmptyData(intermediateSpan) && (
-              <ExpandableGroup
-                title={intermediateSpan.stackTrace.length > 0 ? 'Details & Stack Trace' : 'Details'}
-                defaultExpanded
-              >
-                <SpanDetails call={call} span={intermediateSpan} />
-                {intermediateSpan.stackTrace.length > 0 && (
-                  <StackTraceBehavior stackTrace={intermediateSpan.stackTrace} relation={call.source} noPadding />
-                )}
-              </ExpandableGroup>
-            )}
+          {canSeeCallDetails && hasNonEmptyData(intermediateSpan) && (
+            <ExpandableGroup
+              title={intermediateSpan.stackTrace.length > 0 ? 'Details & Stack Trace' : 'Details'}
+              defaultExpanded
+            >
+              <SpanDetails call={call} span={intermediateSpan} />
+              {intermediateSpan.stackTrace.length > 0 && (
+                <StackTraceBehavior stackTrace={intermediateSpan.stackTrace} relation={call.source} noPadding />
+              )}
+            </ExpandableGroup>
+          )}
           <ExpandableGroup
             title={
               <div className={locals.infraTitle}>
@@ -117,181 +120,192 @@ export default function ServiceComponent({ call, websiteBeacon, mobileAppBeacon 
     );
   }
 
-  return (
-    <Fragment>
-      {service &&
-        endpoint && (
-          <Fragment>
-            <div className={batchCallWithoutSource ? undefined : locals.arrowWrapper}>
-              {batchCallWithoutSource || (
-                <>
-                  <div className={locals.verticalLineTop} />
-                  <div className={locals.verticalLine} />
-                  <div className={locals.verticalLineBottom}>
-                    <svg viewBox="0 0 13.25 15.95" className={locals.lineArrow}>
-                      <path fill="#808285" d="M0 0v15.95l13.25-7.98L0 0z" />
-                    </svg>
-                  </div>
-                  {websiteBeacon &&
-                    sourceService.id === 'ROOT' && <WebsiteSourceLocation location={'source'} beacon={websiteBeacon} />}
-                  {mobileAppBeacon &&
-                    sourceService.id === 'ROOT' && (
-                      <MobileAppSourceLocation location={'source'} beacon={mobileAppBeacon} />
-                    )}
-                  {((!websiteBeacon && !mobileAppBeacon) || sourceService.id !== 'ROOT') && (
-                    <SourceLocation
-                      location={'source'}
-                      service={sourceService}
-                      snapshotId={sourceSnapshotId}
-                      entity={sourceEntity}
-                      span={exitSpan}
-                      physicalContext={sourcePhysicalContext}
-                    />
-                  )}
-                  <div className={locals.sourceChildren}>
-                    {websiteBeacon &&
-                      sourceService.id === 'ROOT' && (
-                        <ExpandableGroup title="Details" defaultExpanded>
-                          <WebsiteBeaconDetails beacon={websiteBeacon} />
-                        </ExpandableGroup>
-                      )}
-                    {mobileAppBeacon &&
-                      sourceService.id === 'ROOT' && (
-                        <ExpandableGroup title="Details" defaultExpanded>
-                          <MobileAppBeaconDetails beacon={mobileAppBeacon} />
-                        </ExpandableGroup>
-                      )}
-                    {canSeeCallDetails &&
-                      hasNonEmptyData(exitSpan) && (
-                        <ExpandableGroup
-                          title={exitSpan.stackTrace.length > 0 ? 'Details & Stack Trace' : 'Details'}
-                          defaultExpanded
-                        >
-                          <SpanDetails call={call} span={exitSpan} />
-                          {exitSpan.stackTrace.length > 0 && (
-                            <StackTraceBehavior stackTrace={exitSpan.stackTrace} relation={call.source} noPadding />
-                          )}
-                        </ExpandableGroup>
-                      )}
-                    {sourceService.id === 'ROOT' &&
-                      !websiteBeacon &&
-                      !mobileAppBeacon && (
-                        <ExpandableGroup title="Details" defaultExpanded>
-                          <p>
-                            The source of this call has not been traced and as a result no information can be provided
-                            about the source. All information shown about this call is provided by the destination.
-                          </p>
-                        </ExpandableGroup>
-                      )}
-                    {exitSpan &&
-                      sourceSnapshotId && (
-                        <ExpandableGroup
-                          expandedTitle="Infrastructure"
-                          title={
-                            <div className={locals.infraTitle}>
-                              <span>Infrastructure</span>
-                              {sourceEntity && (
-                                <InfrastructureEntityLink
-                                  entity={sourceEntity}
-                                  plugin={sourceEntity && sourceEntity.plugin}
-                                  snapshotId={sourceSnapshotId}
-                                  physicalContext={sourcePhysicalContext}
-                                />
-                              )}
-                            </div>
-                          }
-                        >
-                          <InfrastructureHierarchy
-                            snapshotId={sourceSnapshotId}
-                            calculateHierarchy
-                            pathname={physicalDashboardPath}
-                            entity={sourceEntity}
-                            plugin={sourceEntity && sourceEntity.plugin}
-                            physicalContext={sourcePhysicalContext}
-                          />
-                        </ExpandableGroup>
-                      )}
-                  </div>
-                </>
-              )}
-              <DestinationLocation
-                location={'destination'}
-                endpoint={endpoint}
-                service={service}
-                snapshotId={destinationSnapshotId}
-                entity={destinationEntity}
-                span={entrySpan}
-                inProcessCall={batchCallWithoutSource}
-              />
-            </div>
-            <div className={locals.destinationChildren}>
-              {canSeeCallDetails &&
-                (hasNonEmptyData(entrySpan) || isSyntheticBatchSpan) && (
-                  <ExpandableGroup
-                    title={entrySpan.stackTrace.length > 0 ? 'Details & Stack Trace' : 'Details'}
-                    defaultExpanded
-                  >
-                    <SpanDetails call={call} span={entrySpan} />
-                    {entrySpan.stackTrace.length > 0 && (
-                      <StackTraceBehavior stackTrace={entrySpan.stackTrace} relation={call.destination} noPadding />
-                    )}
-                  </ExpandableGroup>
-                )}
+  if (!service || !endpoint) {
+    return null;
+  }
 
-              {(entrySpan || (destinationSnapshotId && !destinationPhysicalContext.cluster)) && (
+  return (
+    <>
+      <div className={batchCallWithoutSource ? undefined : locals.arrowWrapper}>
+        {batchCallWithoutSource || (
+          <>
+            <div className={locals.verticalLineTop} />
+            <div className={locals.verticalLine} />
+            <div className={locals.verticalLineBottom}>
+              <svg viewBox="0 0 13.25 15.95" className={locals.lineArrow}>
+                <path fill="#808285" d="M0 0v15.95l13.25-7.98L0 0z" />
+              </svg>
+            </div>
+            {websiteBeacon && sourceService.id === 'ROOT' && (
+              <WebsiteSourceLocation location={'source'} beacon={websiteBeacon} />
+            )}
+            {mobileAppBeacon && sourceService.id === 'ROOT' && (
+              <MobileAppSourceLocation location={'source'} beacon={mobileAppBeacon} />
+            )}
+            {((!websiteBeacon && !mobileAppBeacon) || sourceService.id !== 'ROOT') && (
+              <SourceLocation
+                location={'source'}
+                service={sourceService}
+                snapshotId={sourceSnapshotId}
+                entity={sourceEntity}
+                span={exitSpan}
+                physicalContext={sourcePhysicalContext}
+              />
+            )}
+            <div className={locals.sourceChildren}>
+              {websiteBeacon && sourceService.id === 'ROOT' && (
+                <ExpandableGroup title="Details" defaultExpanded>
+                  <WebsiteBeaconDetails beacon={websiteBeacon} />
+                </ExpandableGroup>
+              )}
+              {mobileAppBeacon && sourceService.id === 'ROOT' && (
+                <ExpandableGroup title="Details" defaultExpanded>
+                  <MobileAppBeaconDetails beacon={mobileAppBeacon} />
+                </ExpandableGroup>
+              )}
+              {canSeeCallDetails && hasNonEmptyData(exitSpan) && (
+                <ExpandableGroup
+                  title={exitSpan.stackTrace.length > 0 ? 'Details & Stack Trace' : 'Details'}
+                  defaultExpanded
+                >
+                  <SpanDetails call={call} span={exitSpan} />
+                  {exitSpan.stackTrace.length > 0 && (
+                    <StackTraceBehavior stackTrace={exitSpan.stackTrace} relation={call.source} noPadding />
+                  )}
+                </ExpandableGroup>
+              )}
+              {sourceService.id === 'ROOT' && !websiteBeacon && !mobileAppBeacon && (
+                <ExpandableGroup title="Details" defaultExpanded>
+                  <p>
+                    The source of this call has not been traced and as a result no information can be provided about the
+                    source. All information shown about this call is provided by the destination.
+                  </p>
+                </ExpandableGroup>
+              )}
+
+              {sourceEntity && sourceProcessSnapshotId && (
+                <ProfileInformation
+                  processSnapshotId={sourceProcessSnapshotId}
+                  start={call.start}
+                  end={call.start + call.duration}
+                  time={sourceEntity.time}
+                />
+              )}
+
+              {exitSpan && sourceSnapshotId && (
                 <ExpandableGroup
                   expandedTitle="Infrastructure"
                   title={
                     <div className={locals.infraTitle}>
                       <span>Infrastructure</span>
-                      <InfrastructureEntityLink
-                        entity={destinationEntity}
-                        plugin={destinationEntity && destinationEntity.plugin}
-                        snapshotId={destinationSnapshotId}
-                        physicalContext={destinationPhysicalContext}
-                      />
+                      {sourceEntity && (
+                        <InfrastructureEntityLink
+                          entity={sourceEntity}
+                          plugin={sourceEntity && sourceEntity.plugin}
+                          snapshotId={sourceSnapshotId}
+                          physicalContext={sourcePhysicalContext}
+                        />
+                      )}
                     </div>
                   }
                 >
-                  {destinationEntity && (
-                    <InfrastructureHierarchy
-                      snapshotId={destinationSnapshotId}
-                      calculateHierarchy
-                      pathname={physicalDashboardPath}
-                      entity={destinationEntity}
-                      plugin={destinationEntity && destinationEntity.plugin}
-                      physicalContext={destinationPhysicalContext}
-                    />
-                  )}
+                  <InfrastructureHierarchy
+                    snapshotId={sourceSnapshotId}
+                    calculateHierarchy
+                    pathname={physicalDashboardPath}
+                    entity={sourceEntity}
+                    plugin={sourceEntity && sourceEntity.plugin}
+                    physicalContext={sourcePhysicalContext}
+                  />
                 </ExpandableGroup>
               )}
-              {destinationPhysicalContext &&
-                destinationPhysicalContext.cluster && (
-                  <ExpandableGroup
-                    expandedTitle="Infrastructure"
-                    title={
-                      <Tooltip
-                        content="The destination is a cluster, Instana could not correlate this call to any specific nodes."
-                        align="bottomLeft"
-                      >
-                        <div className={locals.infraTitle}>
-                          <span>Infrastructure</span>
-                          <InfrastructureEntityLink
-                            entity={destinationEntity}
-                            plugin={destinationEntity && destinationEntity.plugin}
-                            snapshotId={destinationSnapshotId}
-                            physicalContext={destinationPhysicalContext}
-                          />
-                        </div>
-                      </Tooltip>
-                    }
-                  />
-                )}
-              <Logs />
             </div>
-          </Fragment>
+          </>
         )}
-    </Fragment>
+        <DestinationLocation
+          location={'destination'}
+          endpoint={endpoint}
+          service={service}
+          snapshotId={destinationSnapshotId}
+          entity={destinationEntity}
+          span={entrySpan}
+          inProcessCall={batchCallWithoutSource}
+        />
+      </div>
+      <div className={locals.destinationChildren}>
+        {canSeeCallDetails && (hasNonEmptyData(entrySpan) || isSyntheticBatchSpan) && (
+          <ExpandableGroup
+            title={entrySpan.stackTrace.length > 0 ? 'Details & Stack Trace' : 'Details'}
+            defaultExpanded
+          >
+            <SpanDetails call={call} span={entrySpan} />
+            {entrySpan.stackTrace.length > 0 && (
+              <StackTraceBehavior stackTrace={entrySpan.stackTrace} relation={call.destination} noPadding />
+            )}
+          </ExpandableGroup>
+        )}
+
+        {(entrySpan || (destinationSnapshotId && !destinationPhysicalContext.cluster)) && (
+          <ExpandableGroup
+            expandedTitle="Infrastructure"
+            title={
+              <div className={locals.infraTitle}>
+                <span>Infrastructure</span>
+                <InfrastructureEntityLink
+                  entity={destinationEntity}
+                  plugin={destinationEntity && destinationEntity.plugin}
+                  snapshotId={destinationSnapshotId}
+                  physicalContext={destinationPhysicalContext}
+                />
+              </div>
+            }
+          >
+            {destinationEntity && (
+              <InfrastructureHierarchy
+                snapshotId={destinationSnapshotId}
+                calculateHierarchy
+                pathname={physicalDashboardPath}
+                entity={destinationEntity}
+                plugin={destinationEntity && destinationEntity.plugin}
+                physicalContext={destinationPhysicalContext}
+              />
+            )}
+          </ExpandableGroup>
+        )}
+
+        {destinationEntity && destinationProcessSnapshotId && (
+          <ProfileInformation
+            processSnapshotId={destinationProcessSnapshotId}
+            start={call.start}
+            end={call.start + call.duration}
+            time={destinationEntity.time}
+          />
+        )}
+
+        {destinationPhysicalContext && destinationPhysicalContext.cluster && (
+          <ExpandableGroup
+            expandedTitle="Infrastructure"
+            title={
+              <Tooltip
+                content="The destination is a cluster, Instana could not correlate this call to any specific nodes."
+                align="bottomLeft"
+              >
+                <div className={locals.infraTitle}>
+                  <span>Infrastructure</span>
+                  <InfrastructureEntityLink
+                    entity={destinationEntity}
+                    plugin={destinationEntity && destinationEntity.plugin}
+                    snapshotId={destinationSnapshotId}
+                    physicalContext={destinationPhysicalContext}
+                  />
+                </div>
+              </Tooltip>
+            }
+          />
+        )}
+        <Logs />
+      </div>
+    </>
   );
 
   function Logs() {

@@ -1,8 +1,8 @@
 import React from 'react';
 
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
+import { getLinkToProfiles } from 'in-new-components/Profiling/navigation/paths';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
-import { getLinkToProfiles } from 'in-profiling/navigation/paths';
 import EntityLink from 'in-new-components/EntityLink/EntityLink';
 import { Tr, Td } from 'in-components/tables/sharedComponents';
 

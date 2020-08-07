@@ -2,10 +2,10 @@ import { just } from 'reactive-observables';
 import React from 'react';
 
 import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
+import getProfilesAvailable from 'in-new-components/Profiling/subscriptions/getProfilesAvailable';
 import EntityVersionDialog from 'in-components/Dashboard/components/EntityVersionDialog';
-import getProfilesAvailable from 'in-profiling/subscriptions/getProfilesAvailable';
+import { getLinkToProfiles } from 'in-new-components/Profiling/navigation/paths';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
-import { getLinkToProfiles } from 'in-profiling/navigation/paths';
 import { MoreMenuCollapser } from 'in-new-components/MoreMenu';
 import { getDashboardHeaderActions } from 'in-sdk/snapshot';
 import { getPhysicalHierarchy } from 'in-stores/snapshot';

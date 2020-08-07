@@ -3,16 +3,16 @@ import React from 'react';
 
 import { getIconByType, getLabelByType, productAreaLabels, productAreaIcons } from 'in-analyze/AnalyzeView/dataSources';
 import { analyzePath as mobileAppAnalyzePath, mobileAppMonitoringPath } from 'in-mobile-apps/navigation/paths';
+import { dataSource as dataSourceTypeMatrixParameter } from 'in-new-components/Profiling/navigation/matrix';
 import { analyzePath as websiteAnalyzePath, websiteMonitoringPath } from 'in-websites/navigation/paths';
 import DashboardHeaderShadowModule from 'in-new-components/DashboardHeader/DashboardHeaderShadowModule';
 import AnalyzeDataSourceSelector from 'in-analyze/components/AnalyzeHeader/AnalyzeDataSourceSelector';
 import { beaconType as mobileAppBeaconTypeMatrixParameter } from 'in-mobile-apps/navigation/matrix';
+import { analyzePath as profilingAnalyzePath } from 'in-new-components/Profiling/navigation/paths';
 import { beaconType as websiteBeaconTypeMatrixParameter } from 'in-websites/navigation/matrix';
-import { dataSource as dataSourceTypeMatrixParameter } from 'in-profiling/navigation/matrix';
 import DashboardHeaderModule from 'in-new-components/DashboardHeader/DashboardHeaderModule';
 import DashboardHeaderButton from 'in-new-components/DashboardHeader/DashboardHeaderButton';
 import { dataSource as dataSourceMatrixParameter } from 'in-analyze/navigation/matrix';
-import { analyzePath as profilingAnalyzePath } from 'in-profiling/navigation/paths';
 import DashboardHeader, { themes } from 'in-new-components/DashboardHeader';
 import { analyze as appAnalyzePath } from 'in-analyze/navigation/paths';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';

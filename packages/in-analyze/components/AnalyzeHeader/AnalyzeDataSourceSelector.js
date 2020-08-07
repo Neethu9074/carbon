@@ -6,9 +6,9 @@ import getConfigByDataSource, {
   productAreaLabels,
   productAreaIcons
 } from 'in-analyze/AnalyzeView/dataSources';
+import { getLinkToAnalyze as getLinkToProfilesAnalyze } from 'in-new-components/Profiling/navigation/paths';
 import { hasApplicationsAccess, hasWebsitesAccess, hasMobileAppsAccess } from 'in-stores/permission';
 import { getLinkToAnalyze as getLinkToMobileAppAnalyze } from 'in-mobile-apps/navigation/paths';
-import { getLinkToAnalyze as getLinkToProfilesAnalyze } from 'in-profiling/navigation/paths';
 import { getLinkToAnalyze as getLinkToWebsiteAnalyze } from 'in-websites/navigation/paths';
 import { defaultGroupings as defaultMobileAppGroupings } from 'in-mobile-apps/tags';
 import { defaultGroupings as defaultWebsiteGroupings } from 'in-websites/tags';

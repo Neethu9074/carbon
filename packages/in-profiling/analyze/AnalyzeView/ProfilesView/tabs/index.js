@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { analyzeProfilePathFullyQualified } from 'in-profiling/navigation/paths';
+import { analyzeProfilePathFullyQualified } from 'in-new-components/Profiling/navigation/paths';
 import View from 'in-profiling/analyze/AnalyzeView/ProfilesView/Hotspot/View';
 import Profile from 'in-profiling/analyze/AnalyzeView/ProfilesView/Profile';
 

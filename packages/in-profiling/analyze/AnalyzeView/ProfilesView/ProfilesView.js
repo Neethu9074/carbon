@@ -3,13 +3,13 @@ import { just } from 'reactive-observables';
 import React, { useState } from 'react';
 
 import { processIdUrlParameter, timeUrlParameter, thresholdUrlParameter } from 'in-profiling/navigation/urlParameters';
+import { closeProfilesViewLink } from 'in-new-components/Profiling/navigation/paths';
 import { highlightedTimeframe$ } from 'in-stores/timeline/highlightedTimeframe';
-import { hasError, isLoading, success } from 'in-services/util/result';
+import getProfiles from 'in-new-components/Profiling/subscriptions/getProfiles';
+import { hasError, isLoading, success, error } from 'in-services/util/result';
 import ContextGuide from 'in-new-components/ContextGuide/ContextGuide';
-import { closeProfilesViewLink } from 'in-profiling/navigation/paths';
 import tabs from 'in-profiling/analyze/AnalyzeView/ProfilesView/tabs';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
-import getProfiles from 'in-profiling/subscriptions/getProfiles';
 import DashboardHeader from 'in-new-components/DashboardHeader';
 import { getSnapshot, getSnapshots } from 'in-stores/snapshot';
 import { getPhysicalHierarchy } from 'in-stores/snapshot';
@@ -32,18 +32,24 @@ export default compose(
     bind: [processIdUrlParameter, timeUrlParameter, thresholdUrlParameter],
     reducerName: 'onChangeUrlState'
   }),
-  withPropsOnChange(['timeConfig', 'time'], ({ timeConfig, time }) => ({
-    timeConfigForSnapshots: {
-      to: time ? time : timeConfig.to,
-      focusedMoment: time ? time : timeConfig.focusedMoment,
-      autoRefresh: false,
-      windowSize: timeConfig.windowSize
-    },
-    timeConfig: {
-      ...timeConfig,
-      autoRefresh: false
-    }
-  })),
+  withPropsOnChange(['timeConfig', 'time'], ({ timeConfig, time }) => {
+    // make sure, the event view is not updating any data automatically
+    const to = timeConfig.to || Date.now();
+    return {
+      timeConfigForSnapshots: {
+        to: time ? time : timeConfig.to,
+        focusedMoment: time ? time : timeConfig.focusedMoment,
+        autoRefresh: false,
+        windowSize: timeConfig.windowSize
+      },
+      timeConfig: {
+        ...timeConfig,
+        to,
+        focusedMoment: to,
+        autoRefresh: false
+      }
+    };
+  }),
   connect(({ processId, timeConfigForSnapshots, timeConfig }) => {
     const hierachy$ = getPhysicalHierarchy({ snapshotId: processId, timeConfigForSnapshots }).filter(
       hierarchy => hierarchy && hierarchy.size > 0
@@ -152,6 +158,9 @@ function getProfileResult(processId, timeConfig, highlightedTimeframe) {
       .flatMap(profileResult => {
         if (!highlightedTimeframe || isLoading(profileResult) || hasError(profileResult)) {
           return just(profileResult);
+        }
+        if (!profileResult.data.cpuProfile && !profileResult.data.memoryProfile && !profileResult.data.timeProfile) {
+          return just(error([{ message: 'No profile found for the given entity or timeframe' }]));
         }
 
         return getProfiles({
