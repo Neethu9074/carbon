@@ -5,9 +5,10 @@ import LatencyDistributionChart from 'in-new-components/LatencyDistributionChart
 import getLatencyDistributionBase10 from 'in-subscription/application/getLatencyDistributionBase10';
 import getLatencyDistribution from 'in-subscription/application/getLatencyDistribution';
 import { jumpToUnboundedAnalyticsFromLatencyTracker } from 'in-applications/tracker';
+import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
 import { latencyDistributionBase10Enabled } from 'in-services/featureFlags';
-import getJumpToAnalyzeHref$ from '../../components/getJumpToAnalyzeHref';
 import { operators } from 'in-analyze/applicationFilter';
+import { fixateTimeConfig } from 'in-stores/time/config';
 
 export default function LatencyDistributionHistogram({
   timeConfig,
@@ -109,6 +110,7 @@ export default function LatencyDistributionHistogram({
               getJumpToAnalyzeHref$(
                 { applicationId: applicationId, serviceId: serviceId, endpointId: endpointId },
                 {
+                  timeConfig: fixateTimeConfig(timeConfig),
                   boundaryScope,
                   groupByTag: {},
                   filters: filterForLink(),
