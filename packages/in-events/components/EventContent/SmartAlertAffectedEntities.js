@@ -2,6 +2,7 @@ import React from 'react';
 
 import { getEnrichedAnalyzeFilters, convertToAnalyzeFilters } from 'in-events/components/AnalyzeApplicationEventButton';
 import { applicationsAlertingEventDetailsGoToAnalyze } from 'in-applications/alerting/tracker';
+import { groupByEndpointName, groupByServiceName } from 'in-analyze/AnalyzeView/dataSources';
 import { tagFiltersForBoundaryScope, getLinkToAnalyze } from 'in-analyze/navigation/paths';
 import AffectedEntities from 'in-events/components/AffectedEntities/AffectedEntities';
 import { getTimeConfigFromEvent } from 'in-events/timeframe';
@@ -21,7 +22,7 @@ export function SmartAlertAffectedEntities({ alertConfig, event }) {
   const totalFilters = convertToAnalyzeFilters(alertConfig.tagFilters);
 
   const needsGroupByEndpoint = filters.find(isEndpointOrServiceFilter);
-  const group = needsGroupByEndpoint ? groupByEndPoints : groupByService;
+  const group = needsGroupByEndpoint ? groupByEndpointName : groupByServiceName;
 
   const { boundaryScope } = alertConfig;
   const metadata = event.get('metadata');
@@ -69,18 +70,6 @@ export function SmartAlertAffectedEntities({ alertConfig, event }) {
     </Card>
   );
 }
-
-const groupByEndPoints = {
-  name: 'endpoint.name',
-  value: '',
-  entity: 'DESTINATION'
-};
-
-const groupByService = {
-  name: 'service.name',
-  value: '',
-  entity: 'DESTINATION'
-};
 
 const isEndpointOrServiceFilter = filter =>
   filter?.name &&

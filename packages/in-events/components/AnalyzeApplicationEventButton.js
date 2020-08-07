@@ -4,22 +4,19 @@ import React from 'react';
 import { applicationsAlertingEventDetailsGoToAnalyze } from 'in-applications/alerting/tracker';
 import { toTagFilterNumberOperator } from 'in-new-components/Alerting/utils/alertUtils';
 import { getBaselineValue } from 'in-new-components/Alerting/utils/baselineUtils';
-import getConfigByDataSource from 'in-analyze/AnalyzeView/dataSources';
+import getConfigByDataSource, { groupByEndpointName, groupByServiceName } from 'in-analyze/AnalyzeView/dataSources';
 import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
 import { getTimeConfigFromEvent } from 'in-events/timeframe';
 import Button from 'in-new-components/Button';
 
-export default function AnalyzeApplicationEventButton({ event, alertConfig }) {
-  if (alertConfig.rule.alertType === 'throughput') {
-    // TODO enable the analyze-link for this blueprint type, as soon as there is a decision about how the generated link
-    //      should exactly look like (e.g. which timeframe, which additional filters, distribution-chart enabled, ...?)
-    return null;
-  }
+const dataSource = 'calls';
+const alertTypeWithDisabledGrouping = ['errorRate', 'slowness'];
 
+export default function AnalyzeApplicationEventButton({ event, alertConfig }) {
   const metadata = event.get('metadata');
   const applicationName = metadata.get('entityLabel');
   const boundaryScope = alertConfig.boundaryScope;
-  const timeConfig = getTimeConfigFromEvent(event);
+  const timeConfig = getRelevantEventTimeframe(event, alertConfig);
   const analyzeFilters = getEnrichedAnalyzeFilters(alertConfig, timeConfig);
 
   return (
@@ -39,9 +36,6 @@ AnalyzeApplicationEventButton.propTypes = {
 };
 
 function GoToAnalyzeButton({ applicationName, boundaryScope, filters, timeConfig, alertType }) {
-  const dataSource = 'calls';
-  const disableDefaultGrouping = ['errorRate', 'slowness'].includes(alertType);
-  const groupByTag = disableDefaultGrouping ? {} : getConfigByDataSource(dataSource).defaultGrouping;
   return (
     <Button
       kind="primary"
@@ -52,13 +46,30 @@ function GoToAnalyzeButton({ applicationName, boundaryScope, filters, timeConfig
         dataSource,
         boundaryScope,
         filters,
-        groupByTag,
+        groupByTag: getGrouping(alertType, filters),
+        focusedMetric: getFocusedMetric(alertType),
         timeConfig
       })}
     >
       Analyze Calls
     </Button>
   );
+}
+
+function getRelevantEventTimeframe(event, alertConfig) {
+  const timeConfig = getTimeConfigFromEvent(event);
+  if (alertConfig.rule.alertType === 'throughput') {
+    // extend begin and end by 1 bucket each
+    const granularity = alertConfig.granularity;
+    const adjustedTo = timeConfig.to + granularity;
+    return {
+      to: adjustedTo,
+      focusedMoment: adjustedTo,
+      windowSize: timeConfig.windowSize + 2 * granularity,
+      autoRefresh: alertConfig.autoRefresh
+    };
+  }
+  return timeConfig;
 }
 
 export function getEnrichedAnalyzeFilters(alertConfig, timeConfig) {
@@ -170,3 +181,35 @@ function getLogCallsAnalyzeFilters(rule) {
   }
   return analyzeFilters;
 }
+
+function getFocusedMetric(alertType) {
+  if (alertType === 'slowness') {
+    return 'latency_DISTRIBUTION';
+  }
+  if (alertType === 'errorRate') {
+    return 'errors_MEAN';
+  }
+  // at the moment only 'latency_DISTRIBUTION' is available when no grouping is set. However, the analyze-view handles
+  // this case properly and then shows the latency-distribution chart instead.
+  return 'calls_SUM';
+}
+
+function getGrouping(alertType, filters) {
+  if (alertTypeWithDisabledGrouping.includes(alertType)) {
+    return {}; // no grouping
+  }
+
+  if (alertType === 'throughput') {
+    const needsGroupByEndpoint = filters.find(isEndpointOrServiceFilter);
+    return needsGroupByEndpoint ? groupByEndpointName : groupByServiceName;
+  }
+
+  return getConfigByDataSource(dataSource).defaultGrouping;
+}
+
+const isEndpointOrServiceFilter = filter =>
+  filter?.name &&
+  (filter.name === 'endpoint.name' ||
+    filter.name === 'service.name' ||
+    filter.name === 'endpoint.id' ||
+    filter.name === 'service.id');
