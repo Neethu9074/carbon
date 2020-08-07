@@ -2,9 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { isEqual } from 'lodash';
 
 import ChartContextMenu from 'in-new-components/LatencyDistributionBase10Chart/components/ChartContextMenu';
+import { setTimeConfig, getTimeConfig, fixateTimeConfig } from 'in-stores/time/config';
 import { millis, number, latency } from 'in-services/formatters/number';
 import { latencySelectionChanged } from 'in-analyze/tracker';
 import evaluateClassNames from 'in-services/util/classnames';
+import { mutateUrl } from 'in-stores/navigation';
 import cursors from 'in-components/cursors';
 import theme from 'in-themes';
 
@@ -112,6 +114,15 @@ export default function LatencyChartOverlay({
     const newSelectedBuckets = latencyToBucketSelection(selection);
     if (!isEqual(selectedBuckets, newSelectedBuckets)) {
       setSelectedBuckets(newSelectedBuckets);
+    }
+  }, [selection]);
+
+  // Fixate time config when latency selection is made. This is necessary because the latency chart won't
+  // get refreshed when selection is adjusted, however, the result table does. If the time config would not
+  // be fixated, the chart and the table would show data for different time frames.
+  useEffect(() => {
+    if (selection?.from || selection?.to) {
+      mutateUrl(location => setTimeConfig(location, fixateTimeConfig(getTimeConfig(location))));
     }
   }, [selection]);
 
