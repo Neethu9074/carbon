@@ -203,20 +203,20 @@ export function DownloadButton({ href, title = 'Download' }) {
   );
 }
 
-export function Bash(props) {
-  return <Script {...props} pre={['#!/bin/bash', '']} />;
+export function Bash({ lines }) {
+  return <Script lines={['#!/bin/bash', ''].concat(lines)} />;
 }
 
-export function Cmd(props) {
-  return <Script {...props} pre={['@ECHO OFF', '']} />;
+export function Cmd({ lines }) {
+  return <Script lines={['@ECHO OFF', ''].concat(lines)} />;
 }
 
-export function PowershellEC2(props) {
-  return <Script {...props} pre={['<powershell>']} post={['</powershell>']} />;
+export function PowershellEC2({ lines }) {
+  return <Script lines={['<powershell>'].concat(lines).concat(['</powershell>'])} />;
 }
 
-export function Dockerfile(props) {
-  return <Script {...props} pre={['# Dockerfile', '']} />;
+export function Dockerfile({ lines }) {
+  return <Script pre={['# Dockerfile', '']} lines={lines} />;
 }
 
 export function Script({ pre = [], post = [], lines, disabledErrorMessage }) {
