@@ -18,6 +18,10 @@ export default function EventDurationIndicator({ color, timeAxisHeight, chartHei
   const xPosEnd = end && xScale?.getRange(end);
   const durationWidth = duration ? xScale?.getRangeArea(duration) : null;
 
+  if (durationWidth < 10) {
+    return null;
+  }
+
   return (
     <div className={locals.eventDurationIndicatorWrapper} style={{ color, top: chartHeight - timeAxisHeight + 2 }}>
       <div className={locals.triggeringTimeIndicator} style={getTransformTranslateX(xPosTriggering)} />
