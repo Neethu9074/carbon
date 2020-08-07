@@ -47,11 +47,7 @@ highlightedTimeframe$
   .debounce(500)
   .subscribe(tf => {
     mutateUrl(navParams => {
-      if (tf) {
-        navParams.query[queryKey] = `${tf[0]},${tf[1]}`;
-      } else {
-        delete navParams.query[queryKey];
-      }
+      addOrDeleteHighlightedTimeframeToParams(navParams, tf && tf[0], tf && tf[1]);
       return navParams;
     });
   });
@@ -62,4 +58,12 @@ export function setHighlightedTimeframe(from, to) {
 
 export function clearHighlightedTimeframe() {
   store.mutateTo(null);
+}
+
+export function addOrDeleteHighlightedTimeframeToParams(params, from, to) {
+  if (from && to) {
+    params.query[queryKey] = `${from},${to}`;
+  } else {
+    delete params.query[queryKey];
+  }
 }

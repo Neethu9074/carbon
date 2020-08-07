@@ -3,9 +3,9 @@ import { compose } from 'recompose';
 import React from 'react';
 
 import ProfiledProcessesPresenter from 'in-profiling/analyze/AnalyzeView/ProfiledProcesses/ProfiledProcessesPresenter';
+import { analyzeProfilePathFullyQualified } from 'in-new-components/Profiling/navigation/paths';
 import ProfilesView from 'in-profiling/analyze/AnalyzeView/ProfilesView/ProfilesView';
 import getProfiledProcesses from 'in-profiling/subscriptions/getProfiledProcesses';
-import { analyzeProfilePathFullyQualified } from 'in-profiling/navigation/paths';
 import cursorPaginated from 'in-hoc/cursorPaginated';
 import { query$ } from 'in-stores/search/query';
 import connectTo from 'in-hoc/connectTo';

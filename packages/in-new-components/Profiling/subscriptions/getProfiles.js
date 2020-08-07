@@ -1,5 +1,5 @@
+import { init, get, calculate } from 'in-new-components/Profiling/subscriptions/selfTimeCalculator';
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
-import { init, get, calculate } from 'in-profiling/subscriptions/selfTimeCalculator';
 
 export default createResultSubscriptionFactory({
   eventId: 'getProfiles',

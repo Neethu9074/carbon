@@ -24,11 +24,11 @@ import {
 import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import { pcfEnabled, vsphereEnabled, releaseNotesEnabled, tenantSwitcherEnabled } from 'in-services/featureFlags';
 import { clusterListFullyQualified as kubernetesClusterList, kubernetes } from 'in-kubernetes/navigation/paths';
+import { isAnalyzeView as isProfileAnalyzeView } from 'in-new-components/Profiling/navigation/paths';
 import { physicalPath, containerPath, isTableView } from 'in-stores/navigation/paths/mainPaths';
 import { SubViewItem } from 'in-new-components/MainNavigation/components/ViewSwitcher/SubView';
 import { applicationsList, isApplicationsView } from 'in-applications/navigation/paths';
 import { getView, isView, getModifiedUrlStream } from 'in-stores/navigation/navigation';
-import { isAnalyzeView as isProfileAnalyzeView } from 'in-profiling/navigation/paths';
 import { datacenterListFullyQualified, vsphere } from 'in-vsphere/navigation/paths';
 import { defaultGroupings as defaultMobileAppGroupings } from 'in-mobile-apps/tags';
 import View from 'in-new-components/MainNavigation/components/ViewSwitcher/View';
@@ -309,8 +309,14 @@ function WebsiteMobileAppView(props) {
   const showWebNavigationItem = hasWebsitesAccess;
   const showMobileAppNavigationItem = hasMobileAppsAccess;
 
-  const isWebsiteView$ = all(isView(websiteMonitoringPath), isWebsiteAnalyzeView.map(v => !v));
-  const isMobileAppView$ = all(isView(mobileAppMonitoringPath), isMobileAppAnalyzeView.map(v => !v));
+  const isWebsiteView$ = all(
+    isView(websiteMonitoringPath),
+    isWebsiteAnalyzeView.map(v => !v)
+  );
+  const isMobileAppView$ = all(
+    isView(mobileAppMonitoringPath),
+    isMobileAppAnalyzeView.map(v => !v)
+  );
 
   if (showWebNavigationItem && showMobileAppNavigationItem) {
     return (

@@ -1,11 +1,10 @@
+import AnalyzeView from 'promise-loader?global,profiling!in-profiling/analyze/AnalyzeView/AnalyzeView';
 import { Route } from 'react-router-dom';
 import React from 'react';
 
-import { analyzePathFullyQualified, profilingPath, analyzePath } from 'in-profiling/navigation/paths';
+import { analyzePathFullyQualified, profilingPath, analyzePath } from 'in-new-components/Profiling/navigation/paths';
 import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
 import RedirectWithHash from 'in-components/Navigation/RedirectWithHash';
-
-import AnalyzeView from 'promise-loader?global,profiling!in-profiling/analyze/AnalyzeView/AnalyzeView';
 
 export default (
   <>

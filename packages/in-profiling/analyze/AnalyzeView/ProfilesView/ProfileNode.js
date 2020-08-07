@@ -1,11 +1,11 @@
 import React, { Fragment, useRef, useState } from 'react';
 
 import PercentIndicator from 'in-profiling/analyze/AnalyzeView/ProfilesView/PercentIndicator';
-import FileNameAndLine from 'in-profiling/analyze/AnalyzeView/ProfilesView/FileNameAndLine';
-import MethodName from 'in-profiling/analyze/AnalyzeView/ProfilesView/MethodName';
+import FileNameAndLine from 'in-new-components/Profiling/components/FileNameAndLine';
 import { toInteractiveElement } from 'in-new-components/interactiveCustomElement';
-import At from 'in-profiling/analyze/AnalyzeView/ProfilesView/At';
+import MethodName from 'in-new-components/Profiling/components/MethodName';
 import { evaluateClassNames } from 'in-services/util/classnames';
+import At from 'in-new-components/Profiling/components/At';
 import { treeViewExpanded } from 'in-profiling/tracker';
 import { scrollIntoView } from 'in-services/util/dom';
 import SvgIcon from 'in-components/SvgIcon';
@@ -74,22 +74,21 @@ export default function ProfileNode({
         />
       </Row>
 
-      {expanded &&
-        hasChildren && (
-          <div className={locals.childrenWrapper}>
-            <ChildProfiles
-              threshold={threshold}
-              depth={depth}
-              highlightedProfileConfig={highlightedProfileConfig}
-              profiles={filteredChildren}
-              processSnapshot={processSnapshot}
-              canFetchSourceCode={canFetchSourceCode}
-              selectedProfileNode={selectedProfileNode}
-              setSelectedProfileNode={setSelectedProfileNode}
-              onKeyDown={onKeyDown}
-            />
-          </div>
-        )}
+      {expanded && hasChildren && (
+        <div className={locals.childrenWrapper}>
+          <ChildProfiles
+            threshold={threshold}
+            depth={depth}
+            highlightedProfileConfig={highlightedProfileConfig}
+            profiles={filteredChildren}
+            processSnapshot={processSnapshot}
+            canFetchSourceCode={canFetchSourceCode}
+            selectedProfileNode={selectedProfileNode}
+            setSelectedProfileNode={setSelectedProfileNode}
+            onKeyDown={onKeyDown}
+          />
+        </div>
+      )}
     </div>
   );
 }

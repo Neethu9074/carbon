@@ -5,14 +5,6 @@
     margin: 0 -1rem;
   }
 
-  .headerText {
-    font-size: 0.75rem;
-  }
-
-  .headerText {
-    color: @lib__colors__N600Light;
-  }
-
   .hotspotLine {
     position: relative;
 

@@ -1,7 +1,8 @@
 import {
   dataSource as dataSourceMatrixParameter,
   processId as processIdMatrixParameter,
-  time as timeMatrixParameter
+  time as timeMatrixParameter,
+  hotspotAutoExpandRowId as hotspotAutoExpandRowIdMatrixParameter
 } from 'in-new-components/Profiling/navigation/matrix';
 import { addOrDeleteHighlightedTimeframeToParams } from 'in-stores/timeline/highlightedTimeframe';
 import { getModifiedUrlStream, navigationParameters$ } from 'in-stores/navigation/navigation';
@@ -28,7 +29,14 @@ export function getLinkToAnalyze() {
   });
 }
 
-export function getLinkToProfiles({ subPath, processSnapshotId, time, start, end }) {
+export function getLinkToProfiles({
+  subPath = 'summary',
+  hotspotAutoExpandRowId,
+  processSnapshotId,
+  time,
+  start,
+  end
+}) {
   return getModifiedUrlStream(params => {
     params.pathname = `${analyzeProfilePathFullyQualified}/${subPath || 'summary'}`;
 
@@ -40,6 +48,12 @@ export function getLinkToProfiles({ subPath, processSnapshotId, time, start, end
     }
     if (time) {
       setOrDeleteMatrixKey(params, profilingPath, timeMatrixParameter, time);
+    }
+    // we want to provide a jump from somewhere to the profiling summary page and auto expand a target row. For this,
+    // we will transport the info within the URL as a matrix param which is bound to the summary path so it gets deleted
+    // automatically when navigating away from the summary page
+    if (hotspotAutoExpandRowId) {
+      setOrDeleteMatrixKey(params, `/${subPath}`, hotspotAutoExpandRowIdMatrixParameter, hotspotAutoExpandRowId);
     }
   });
 }
