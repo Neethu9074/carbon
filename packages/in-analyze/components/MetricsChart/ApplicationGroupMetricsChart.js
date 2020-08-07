@@ -44,7 +44,8 @@ export default withProps(({ filters, metrics, availableMetrics, onFocusedMetricC
           const subscription = getLatencyDistributionBase10({
             maxLatencyBuckets: 80,
             filter: {
-              timeConfig
+              // auto refresh mode is not supported in UA
+              timeConfig: { ...timeConfig, autoRefresh: false }
             },
             tagFilters: filters.tagFilter.filter(f => f.name !== latencyTag),
             dataSource: dataSource === 'traces' ? 'TRACES' : 'CALLS'

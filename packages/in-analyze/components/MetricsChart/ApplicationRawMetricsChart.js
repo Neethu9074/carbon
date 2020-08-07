@@ -27,7 +27,8 @@ export default withProps(({ filters, onLatencySelectionChanged }) => {
           const subscription = getLatencyDistributionBase10({
             maxLatencyBuckets: 80,
             filter: {
-              timeConfig
+              // auto refresh mode is not supported in UA
+              timeConfig: { ...timeConfig, autoRefresh: false }
             },
             tagFilters: filters.tagFilter.filter(f => f.name !== latencyTag),
             dataSource: filters.dataSource === 'traces' ? 'TRACES' : 'CALLS'
