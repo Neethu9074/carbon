@@ -13,6 +13,10 @@
     border-radius: @lib__shapes__radius_round;
     padding: 0.5rem;
     margin-right: 0.25rem;
+
+    &.disabled {
+      pointer-events: none;
+    }
   }
 
   .iconButton:before {

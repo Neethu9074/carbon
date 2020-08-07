@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import SvgIcon, { sizes as iconSizes } from 'in-components/SvgIcon/SvgIcon';
 import evaluateClassNames from 'in-services/util/classnames';
 
@@ -33,7 +34,7 @@ export default function IconButton({
         [locals.leftAligned]: leftAligned,
         [locals.disabled]: disabled
       })}
-      onClick={e => onClick && onClick(e)}
+      onClick={e => (disabled ? stopPropagationAndPreventDefault(e) : onClick?.(e))}
     >
       <SvgIcon
         type={type}
