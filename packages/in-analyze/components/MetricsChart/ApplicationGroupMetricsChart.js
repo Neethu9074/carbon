@@ -57,6 +57,7 @@ export default withProps(({ filters, metrics, availableMetrics, onFocusedMetricC
               showPercentileMenu
               selectionAdjustable
               onSelectionChanged={onLatencySelectionChanged}
+              dataSource={dataSource}
             />
           );
         }
