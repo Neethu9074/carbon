@@ -46,7 +46,7 @@ export default function AlertProperties({
               }
             }}
             hasError={hasError(form.get('name'))}
-            maxLength={500}
+            maxLength={256}
             placeholder={getTitlePlaceholder(form)}
           />
         }
@@ -102,7 +102,7 @@ export default function AlertProperties({
               }
             }}
             hasError={hasError(form.get('description'))}
-            maxLength={250}
+            maxLength={65536}
             placeholder={getDescriptionPlaceholder(form)}
           />
         }
