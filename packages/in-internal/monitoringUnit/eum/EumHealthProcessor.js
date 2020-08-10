@@ -97,6 +97,36 @@ export default connectTo(
         </Columize>
 
         <Columize>
+          <DashboardSection title={`Config Evaluations`}>
+            <Chart
+              snapshotIds={rows.map(r => r.dropwizard.get('id'))}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: number.perSecond.compact,
+                metrics: rows.map(() => `metrics.meters.KPI.processing.evaluated_health_buckets.calls`),
+                labels,
+                type: 'stackedArea'
+              }}
+            />
+          </DashboardSection>
+
+          <DashboardSection title={`Config Evaluation Failures`}>
+            <Chart
+              snapshotIds={rows.map(r => r.dropwizard.get('id'))}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: number.perSecond.compact,
+                metrics: rows.map(() => `metrics.meters.KPI.processing.evaluated_health_buckets.errors`),
+                labels,
+                type: 'stackedArea'
+              }}
+            />
+          </DashboardSection>
+        </Columize>
+
+        <Columize>
           <DashboardSection title={`Outgoing Events`}>
             <Chart
               snapshotIds={rows.map(r => r.dropwizard.get('id'))}
