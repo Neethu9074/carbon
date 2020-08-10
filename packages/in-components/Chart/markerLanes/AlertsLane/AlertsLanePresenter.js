@@ -6,8 +6,8 @@ import { alertsLaneAlertsPropType } from 'in-components/Chart/markerLanes/Alerts
 import TwoIconsLaneItem from 'in-components/Chart/markerLanes/MarkerLane/TwoIconsLaneItem';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import MarkerLane from 'in-components/Chart/markerLanes/MarkerLane/MarkerLane';
-import HoverLine from 'in-components/Chart/markerLanes/MarkerLane/HoverLine';
 import HoverArea from 'in-components/Chart/markerLanes/MarkerLane/HoverArea';
+import HoverLine from 'in-components/Chart/markerLanes/MarkerLane/HoverLine';
 import AlertsLaneTooltipContent from './AlertsLaneTooltipContent';
 import EventDurationIndicator from './EventDurationIndicator';
 import { formatDateTime } from 'in-services/formatters/date';
@@ -48,9 +48,9 @@ export default function AlertsLanePresenter({ alerts, ...remainingProps }) {
 
           return (
             <Ul className={locals.list}>
-              {enahncedAndSortedEvents.map(({ name, start, eventId, iconType }) =>
-                ListItem({ start, iconConfig, name, iconType, eventId, timeConfig })
-              )}
+              {enahncedAndSortedEvents.map(({ name, start, eventId, iconType }) => {
+                return ListItem({ start, iconConfig, name, iconType, eventId, timeConfig });
+              })}
             </Ul>
           );
         }}

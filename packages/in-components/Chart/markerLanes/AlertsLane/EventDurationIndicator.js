@@ -11,10 +11,10 @@ export default function EventDurationIndicator({ color, timeAxisHeight, chartHei
     .sort((a, b) => a.duration - b.duration);
 
   const oldestEvent = sortedEvents[0];
-  const { triggeringTime = undefined, start = undefined, end = undefined, duration } = oldestEvent;
+  const { triggeringTime, start, end, duration, adjustedTriggeringTime, adjustedStart } = oldestEvent ?? {};
 
-  const xPosTriggering = xScale?.getRange(triggeringTime);
-  const xPosStart = xScale?.getRange(start);
+  const xPosTriggering = xScale?.getRange(adjustedTriggeringTime || triggeringTime);
+  const xPosStart = xScale?.getRange(adjustedStart || start);
   const xPosEnd = end && xScale?.getRange(end);
   const durationWidth = duration ? xScale?.getRangeArea(duration) : null;
 
