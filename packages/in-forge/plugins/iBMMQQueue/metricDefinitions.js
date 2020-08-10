@@ -1,4 +1,4 @@
-import { number, seconds } from 'in-services/formatters/number';
+import { number, seconds, micros } from 'in-services/formatters/number';
 
 export default [
   {
@@ -16,11 +16,18 @@ export default [
     formatter: number
   },
   {
-    metrics: ['oldestMessage', 'onQueueMessageTime'],
-    labels: ['Oldest Message', 'On Queue Message Time'],
+    metrics: ['oldestMessage'],
+    labels: ['Oldest Message'],
     min: 0,
     category: ['Message Time'],
-    formatter: number
+    formatter: seconds
+  },
+  {
+    metrics: ['onQueueMessageTime'],
+    labels: ['On Queue Message Time'],
+    min: 0,
+    category: ['Message Time'],
+    formatter: micros
   },
   {
     metrics: ['lastResetTime'],

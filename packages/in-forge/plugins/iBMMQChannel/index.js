@@ -1,3 +1,4 @@
+import metricDefinitions from 'in-forge/plugins/iBMMQChannel/metricDefinitions';
 import kpiDefinitions from 'in-forge/plugins/iBMMQChannel/kpiDefinitions';
 import iconSvgPath from 'in-forge/plugins/iBMMQChannel/iconPath';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
@@ -10,5 +11,6 @@ registerSnapshotDefinition({
     plural: 'IBM MQ Channels'
   },
   iconSvgPath,
-  kpiDefinitions
+  kpiDefinitions,
+  metricDefinitions
 });

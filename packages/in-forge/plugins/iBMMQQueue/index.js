@@ -1,3 +1,4 @@
+import metricDefinitions from 'in-forge/plugins/iBMMQQueue/metricDefinitions';
 import kpiDefinitions from 'in-forge/plugins/iBMMQQueue/kpiDefinitions';
 import iconSvgPath from 'in-forge/plugins/iBMMQQueue/iconPath';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
@@ -10,5 +11,6 @@ registerSnapshotDefinition({
     plural: 'IBM MQ Queues'
   },
   iconSvgPath,
-  kpiDefinitions
+  kpiDefinitions,
+  metricDefinitions
 });

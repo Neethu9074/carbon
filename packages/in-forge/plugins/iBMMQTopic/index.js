@@ -1,3 +1,4 @@
+import metricDefinitions from 'in-forge/plugins/iBMMQTopic/metricDefinitions';
 import kpiDefinitions from 'in-forge/plugins/iBMMQTopic/kpiDefinitions';
 import iconSvgPath from 'in-forge/plugins/iBMMQTopic/iconPath';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
@@ -10,5 +11,6 @@ registerSnapshotDefinition({
     plural: 'IBM MQ Topics'
   },
   iconSvgPath,
-  kpiDefinitions
+  kpiDefinitions,
+  metricDefinitions
 });
