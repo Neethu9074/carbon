@@ -13,7 +13,7 @@
 
   .list {
     max-height: 21rem;
-    overflow-y: scroll;
+    overflow-y: auto;
   }
 
   .listItem {
