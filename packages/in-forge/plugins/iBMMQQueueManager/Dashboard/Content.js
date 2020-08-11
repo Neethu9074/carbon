@@ -6,13 +6,16 @@ import QueuesTable from 'in-forge/plugins/iBMMQQueueManager/Dashboard/QueuesTabl
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import DashboardNotification from 'in-components/DashboardNotification';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
 import MetricValue from 'in-components/MetricValue';
 
 export default function IBMMQQueueManagerDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
+
   return (
     <div>
+      {getSensorConnectionStatus(snapshot)}
       <KpiSection>
         <KpiKeyValue label="Connections">
           <MetricValue snapshotId={snapshotId} metric="connectionCount" />
@@ -36,4 +39,11 @@ export default function IBMMQQueueManagerDashboard({ snapshot, timeConfig }) {
       <ChannelsTable snapshot={snapshot} timeConfig={timeConfig} />
     </div>
   );
+}
+
+function getSensorConnectionStatus(snapshot) {
+  const sensorConnectionStatus = snapshot.getIn(['data', 'sensorConnectionStatus'], 'OK');
+  if (sensorConnectionStatus !== 'OK') {
+    return <DashboardNotification type="info">{sensorConnectionStatus}</DashboardNotification>;
+  }
 }
