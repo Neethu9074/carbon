@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
-import { sloApName, sloTarget } from 'in-custom-dashboards/widgets/Slo/form';
+import { SloApName, SloTarget, SliConfigId } from 'in-custom-dashboards/widgets/Slo/form';
 import { twoDecimalPlaces, number } from 'in-services/formatters/number';
 import SloTile from 'in-custom-dashboards/widgets/Slo/SloTile';
 import { formatDateTime } from 'in-services/formatters/date';
@@ -11,23 +11,36 @@ import useObservable from 'in-hooks/useObservable';
 import theme from 'in-themes';
 
 import locals from './Widget.mless';
+import useTimeConfig from 'in-hooks/useTimeConfig';
 
 const GREEN = theme.lib.colors.green800;
 const RED = theme.lib.colors.red800;
 const DEFAULT_API = {
-  getSliReport: (name, slo) => getSliReport('phani-test-1', slo)
+  getSliReport: (sliId, slo, from, to) => getSliReport(sliId, slo, from, to)
 };
 
 export default function Widget({ actions, config, title, dragHandle, api = DEFAULT_API }) {
-  const target = config?.[sloTarget] ?? 0.99;
-  const apName = config?.[sloApName] ?? '';
-  const sliReport = useObservable(api.getSliReport('phani-test-1', target), [target, apName]);
+  const target = config?.[SloTarget] ?? 0.99;
+  const apName = config?.[SloApName] ?? '';
+  const sliConfigId = config?.[SliConfigId] ?? 'phani-test-1';
+
+  const timeConfig = useTimeConfig();
+  timeConfig.to = timeConfig.to ?? new Date().getTime();
+
+  const from = timeConfig.from ?? timeConfig.to - timeConfig.windowSize;
+  const sliReport = useObservable(api.getSliReport(sliConfigId, target, from, timeConfig.to), [
+    target,
+    from,
+    timeConfig.to
+  ]);
 
   const { sli, slo, totalErrorBudget, errorBudgetRemaining, fromTimestamp, toTimestamp } = sliReport?.data ?? {};
 
-  const sliColor = !slo || !sli ? '' : sli >= slo ? GREEN : RED;
-  const errorBudgetSpend =
-    !errorBudgetRemaining || !totalErrorBudget ? valueMissingPlaceholder : totalErrorBudget - errorBudgetRemaining;
+  const sliColor = slo === null || sli === null ? '' : sli >= slo ? GREEN : RED;
+  const errorBudgetSpent =
+    errorBudgetRemaining === null || totalErrorBudget === null
+      ? valueMissingPlaceholder
+      : totalErrorBudget - errorBudgetRemaining;
   const budgetColor = !errorBudgetRemaining || !totalErrorBudget ? '' : errorBudgetRemaining > 0 ? GREEN : RED;
 
   return (
@@ -57,7 +70,7 @@ export default function Widget({ actions, config, title, dragHandle, api = DEFAU
         <div className={locals.col}>
           <SloTile
             title="Error Budget Spent"
-            value={number.compact(errorBudgetSpend)}
+            value={number.compact(errorBudgetSpent)}
             targetValue={number.compact(totalErrorBudget) ?? valueMissingPlaceholder}
             color={budgetColor}
             unit="calls"
@@ -67,7 +80,7 @@ export default function Widget({ actions, config, title, dragHandle, api = DEFAU
         <div className={locals.col}>
           <SloTile
             title="Time Window"
-            targetInfo="Fixed time intervall"
+            targetInfo="Dynamic time window"
             valuesClassName={locals.timeRangeValue}
             renderValue={() => (
               <div>

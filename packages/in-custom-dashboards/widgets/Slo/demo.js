@@ -1,6 +1,7 @@
-import { sloApName, sloTarget } from 'in-custom-dashboards/widgets/Slo/form.js';
+import { SloApName, SloTarget, SliConfigId } from 'in-custom-dashboards/widgets/Slo/form.js';
 
 export const demo = {
-  [sloApName]: 'robot shop > checkout',
-  [sloTarget]: 0.995
+  [SliConfigId]: 'phani-test-1',
+  [SloApName]: 'robot shop > checkout',
+  [SloTarget]: 0.995
 };
