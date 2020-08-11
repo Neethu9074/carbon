@@ -90,13 +90,13 @@ function renderGroup(props) {
       <Row>
         <Col lg={6}>
           <Users
-            userIds={form.get('userIds').value}
+            members={form.get('members').value}
             removeUser={id => {
-              const userIds = form
-                .get('userIds')
+              const members = form
+                .get('members')
                 .value.slice()
-                .filter(userId => userId !== id);
-              setForm(form.updateIn(['userIds'], f => f.setValue(userIds).setTouched(true)));
+                .filter(member => member.userId !== id);
+              setForm(form.updateIn(['members'], f => f.setValue(members).setTouched(true)));
             }}
             addUsers={users => addUsers(users, form, setForm)}
           />
@@ -171,8 +171,10 @@ function removeDfq(form, setForm) {
 
 function addUsers(users, form, setForm) {
   setForm(
-    form.updateIn(['userIds'], f =>
-      f.setValue([...form.get('userIds').value, ...users.map(user => user.id)]).setTouched(true)
+    form.updateIn(['members'], f =>
+      f
+        .setValue([...form.get('members').value, ...users.map(({ id, email }) => ({ userId: id, email }))])
+        .setTouched(true)
     )
   );
 }
@@ -194,7 +196,7 @@ function saveItem({ form, setMessage, setCanSaveItem, setForm }) {
       const group = {
         id: form.get('id').value,
         name: form.get('name').value,
-        members: form.get('userIds').value.map(id => ({ userId: id })),
+        members: form.get('members').value,
         permissions: [{ id: savedPermissionSet.id, scope: 'TU' }]
       };
       setForm(form.updateIn(['permissionSet'], f => f.setValue(savedPermissionSet)));
@@ -227,9 +229,9 @@ function enrichForm(form, { result: { group } }) {
       })
     )
     .put(
-      'userIds',
+      'members',
       createField({
-        value: group.members.map(({ userId }) => userId)
+        value: group.members
       })
     )
     .put(

@@ -6,18 +6,19 @@ import withSelectableItems from 'in-settings/components/withSelectableItems';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import Dialog from 'in-new-components/Dialog/Dialog';
+import { find } from 'in-services/arrayUtils';
 import Button from 'in-new-components/Button';
 
 import locals from './AddUserButton.mless';
 
-export default function AddUserButton({ userIds, addUsers }) {
+export default function AddUserButton({ members, addUsers }) {
   return (
     <Button
       kind="action"
       onClick={() => {
         addActiveDialog(
           <AddUserDialog
-            userIds={userIds}
+            members={members}
             onSubmit={users => {
               addUsers(users);
               close();
@@ -34,7 +35,7 @@ export default function AddUserButton({ userIds, addUsers }) {
 
 const AddUserDialog = withSelectableItems(function AddUserDialog({
   onSubmit,
-  userIds,
+  members,
   selectedEntities,
   checkIfSelected,
   toggleItem
@@ -44,7 +45,7 @@ const AddUserDialog = withSelectableItems(function AddUserDialog({
       <form onSubmit={() => onSubmit(Array.from(selectedEntities.values()))}>
         <UserList
           pageSize={10}
-          filterFunction={user => userIds.indexOf(user.id) === -1}
+          filterFunction={user => !find(members, member => member.userId === user.id)}
           onUserClick={user => toggleItem(user.id, user)}
           columnDefinitions={[
             {
