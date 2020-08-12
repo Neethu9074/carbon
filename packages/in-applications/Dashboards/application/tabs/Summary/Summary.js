@@ -153,29 +153,33 @@ export default connectTo(
                   }
                 }
               }}
-              iconAction={{
-                text: 'View in Analyze',
-                kind: 'subtle',
-                icon: 'lib_analyze_inverted',
-                href$: getJumpToAnalyzeHref$(
-                  { applicationId, serviceId, endpointId },
-                  {
-                    timeConfig,
-                    boundaryScope,
-                    filters: [
-                      {
-                        name: 'call.latency',
-                        value: latencyResult.data?.latency90[0][1],
-                        operator: 'GREATER_OR_EQUAL_THAN',
-                        entity: 'NOT_APPLICABLE'
-                      }
-                    ],
-                    groupByTag: { name: 'service.name', entity: entityTypes.DESTINATION },
-                    orderBy: 'latency_MEAN_Agg',
-                    orderDirection: 'DESC'
-                  }
-                )
-              }}
+              iconAction={
+                latencyResult.data?.latency90.length > 0
+                  ? {
+                      text: 'View in Analyze',
+                      kind: 'subtle',
+                      icon: 'lib_analyze_inverted',
+                      href$: getJumpToAnalyzeHref$(
+                        { applicationId, serviceId, endpointId },
+                        {
+                          timeConfig,
+                          boundaryScope,
+                          filters: [
+                            {
+                              name: 'call.latency',
+                              value: latencyResult.data?.latency90[0][1],
+                              operator: 'GREATER_OR_EQUAL_THAN',
+                              entity: 'NOT_APPLICABLE'
+                            }
+                          ],
+                          groupByTag: { name: 'service.name', entity: entityTypes.DESTINATION },
+                          orderBy: 'latency_MEAN_Agg',
+                          orderDirection: 'DESC'
+                        }
+                      )
+                    }
+                  : null
+              }
             />
           </Col>
         </Row>
