@@ -34,16 +34,15 @@ export default function InfrastructureEntityLink({ entity, snapshot, plugin, phy
       plugin={plugin}
       snapshot={snapshot}
       label={entity.label || `Unknown at ${formatDateTime(entity.time)}`}
-      href$={shouldStayInCurrentTimeModeForNavigationToSnapshot(entity.id).flatMap(
-        stay =>
-          stay
-            ? getDashboardLink(entity.id, { pathname: '/physical/dashboard' })
-            : getDashboardLink(entity.id, {
-                pathname: '/physical/dashboard',
-                to: entity.time,
-                focusedMoment: entity.time,
-                autoRefresh: false
-              })
+      href$={shouldStayInCurrentTimeModeForNavigationToSnapshot(entity.id).flatMap(stay =>
+        stay
+          ? getDashboardLink(entity.id, { pathname: '/physical/dashboard' })
+          : getDashboardLink(entity.id, {
+              pathname: '/physical/dashboard',
+              to: entity.time,
+              focusedMoment: entity.time,
+              autoRefresh: false
+            })
       )}
     />
   );
