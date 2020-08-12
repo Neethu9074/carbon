@@ -2,27 +2,24 @@ import React from 'react';
 
 import ResultAwareKpiCard from 'in-new-components/KpiCard/ResultAwareKpiCard';
 import getMetrics from 'in-subscription/application/getMetrics';
+import { pendingResult } from 'in-services/fixedObjects';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
-import connectTo from 'in-hoc/connectTo';
+import useObservable from 'in-hooks/useObservable';
 
-export default connectTo(
-  props => ({
-    result: getMetrics(props.metricsConfig)
-  }),
-  function AppDataKpiCard({ title, result, metricsConfig, formatter, companionFormatter }) {
-    return (
-      <ResultAwareKpiCard
-        title={title}
-        result={result}
-        renderKpiCard={result => {
-          const value = getMetricValue(result, metricsConfig, 0, formatter);
-          const companionValue = getMetricValue(result, metricsConfig, 1, companionFormatter);
-          return <KpiCard title={title} value={value} companionValue={companionValue} />;
-        }}
-      />
-    );
-  }
-);
+export default function AppDataKpiCard({ title, metricsConfig, formatter, companionFormatter, iconAction }) {
+  const result = useObservable(getMetrics(metricsConfig), []) ?? pendingResult;
+  return (
+    <ResultAwareKpiCard
+      title={title}
+      result={result}
+      renderKpiCard={result => {
+        const value = getMetricValue(result, metricsConfig, 0, formatter);
+        const companionValue = getMetricValue(result, metricsConfig, 1, companionFormatter);
+        return <KpiCard title={title} value={value} companionValue={companionValue} iconAction={iconAction} />;
+      }}
+    />
+  );
+}
 
 function getMetricValue(result, metricsConfig, metricNum, formatter) {
   const metrics = Object.keys(metricsConfig.metrics);

@@ -6,6 +6,8 @@ import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlacehold
 import { evaluateClassNames } from 'in-services/util/classnames';
 import { joinClassNames } from 'in-services/util/classnames';
 import WithActiveTheme from 'in-themes/WithActiveTheme';
+import Button from 'in-new-components/Button';
+import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './KpiCard.mless';
 
@@ -21,7 +23,8 @@ export default function KpiCard({
   valuesClassName,
   borderless = false,
   color,
-  useMaxAvailableHeight = true
+  useMaxAvailableHeight = true,
+  iconAction
 }) {
   if (raw || renderValue) {
     return (
@@ -50,7 +53,23 @@ export default function KpiCard({
 
   return (
     <Wrapper borderless={borderless} useMaxAvailableHeight={useMaxAvailableHeight} actions={actions}>
-      <div className={locals.title}>{title}</div>
+      <div className={locals.title}>
+        <>{title}</>
+        {iconAction && (
+          <div className={locals.actionWrapper}>
+            <SvgIcon className={locals.actionIcon} type={iconAction.icon} />
+            <Button
+              className={locals.action}
+              icon={iconAction.icon}
+              href$={iconAction.href$}
+              onClick={iconAction.onClick}
+              kind={iconAction.kind}
+            >
+              {iconAction.text}
+            </Button>
+          </div>
+        )}
+      </div>
       <span className={locals.major} style={{ color: color }}>
         {major}
       </span>
@@ -70,7 +89,8 @@ KpiCard.propTypes = {
   valuesClassName: PropTypes.string,
   borderless: PropTypes.bool,
   color: PropTypes.string,
-  useMaxAvailableHeight: PropTypes.bool
+  useMaxAvailableHeight: PropTypes.bool,
+  iconAction: PropTypes.object
 };
 
 function Wrapper({ children, borderless, useMaxAvailableHeight, actions }) {

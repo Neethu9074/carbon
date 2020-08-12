@@ -6,13 +6,17 @@ import LatencyAndDistribution from 'in-applications/Dashboards/commonComponents/
 import TechnologyBreakdown from 'in-applications/Dashboards/commonComponents/TechnologyBreakdown';
 import ServiceTopList from 'in-applications/Dashboards/application/tabs/Summary/ServiceTopList';
 import IssuesAndEvents from 'in-applications/Dashboards/commonComponents/IssuesAndEvents';
+import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
 import CallsErrors from 'in-applications/Dashboards/commonComponents/CallsErrors';
 import { number, meanLatency, percentage } from 'in-services/formatters/number';
 import Errors from 'in-applications/Dashboards/commonComponents/Errors';
 import AppDataKpiCard from 'in-new-components/KpiCard/AppDataKpiCard';
+import getMetrics from 'in-subscription/application/getMetrics';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import { Row, Col } from 'in-new-components/layout/Grid';
+import { pendingResult } from 'in-services/fixedObjects';
 import Footer from 'in-new-components/Footer/Footer';
+import useObservable from 'in-hooks/useObservable';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
@@ -38,6 +42,19 @@ export default connectTo(
     };
 
     const MarkerLanes = ApplicationDashboardsMarkerLanes({ applicationId, endpointId, serviceId });
+    const latencyResult =
+      useObservable(
+        getMetrics({
+          filter,
+          metrics: {
+            latency90: {
+              metric: 'latency',
+              aggregation: 'P90'
+            }
+          }
+        }),
+        []
+      ) ?? pendingResult;
 
     return (
       <Fragment>
@@ -54,6 +71,28 @@ export default connectTo(
                     aggregation: 'SUM'
                   }
                 }
+              }}
+              iconAction={{
+                text: 'View in Analyze',
+                kind: 'subtle',
+                icon: 'lib_analyze_inverted',
+                href$: getJumpToAnalyzeHref$(
+                  { applicationId, serviceId, endpointId },
+                  {
+                    timeConfig,
+                    boundaryScope,
+                    groupByTag: { name: 'service.name', entity: entityTypes.DESTINATION },
+                    filters: [],
+                    metrics: [
+                      { metric: 'erroneousCalls', aggregation: 'SUM' },
+                      {
+                        metric: 'latency',
+                        aggregation: 'MEAN'
+                      }
+                    ],
+                    focusedMetric: 'calls_SUM'
+                  }
+                )
               }}
             />
           </Col>
@@ -75,20 +114,67 @@ export default connectTo(
                   }
                 }
               }}
+              iconAction={{
+                text: 'View in Analyze',
+                kind: 'subtle',
+                icon: 'lib_analyze_inverted',
+                href$: getJumpToAnalyzeHref$(
+                  { applicationId, serviceId, endpointId },
+                  {
+                    timeConfig,
+                    boundaryScope,
+                    groupByTag: { name: 'service.name', entity: entityTypes.DESTINATION },
+                    filters: [{ name: 'call.erroneous', value: 'true' }],
+                    metrics: [
+                      { metric: 'errors', aggregation: 'MEAN' },
+                      { metric: 'latency', aggregation: 'MEAN' }
+                    ],
+                    focusedMetric: 'errors_MEAN'
+                  }
+                )
+              }}
             />
           </Col>
           <Col xs>
             <AppDataKpiCard
               title="Mean Latency"
               formatter={meanLatency.detailed}
+              companionFormatter={v => `${meanLatency.detailed(v)} for 90th`}
               metricsConfig={{
                 filter,
                 metrics: {
                   latency: {
                     metric: 'latency',
                     aggregation: 'MEAN'
+                  },
+                  latency90: {
+                    metric: 'latency',
+                    aggregation: 'P90'
                   }
                 }
+              }}
+              iconAction={{
+                text: 'View in Analyze',
+                kind: 'subtle',
+                icon: 'lib_analyze_inverted',
+                href$: getJumpToAnalyzeHref$(
+                  { applicationId, serviceId, endpointId },
+                  {
+                    timeConfig,
+                    boundaryScope,
+                    filters: [
+                      {
+                        name: 'call.latency',
+                        value: latencyResult.data?.latency90[0][1],
+                        operator: 'GREATER_OR_EQUAL_THAN',
+                        entity: 'NOT_APPLICABLE'
+                      }
+                    ],
+                    groupByTag: { name: 'service.name', entity: entityTypes.DESTINATION },
+                    orderBy: 'latency_MEAN_Agg',
+                    orderDirection: 'DESC'
+                  }
+                )
               }}
             />
           </Col>

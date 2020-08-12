@@ -30,6 +30,26 @@
     color: @lib__colors__N700Medium;
     font-size: 1rem;
     font-weight: 200;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .action {
+    display: none;
+    margin: -4px 0;
+  }
+
+  .actionIcon {
+    fill: @lib__colors__N600Light;
+  }
+
+  .wrapper:hover .action {
+    display: block;
+  }
+
+  .wrapper:hover .actionIcon {
+    display: none;
   }
 
   .major,
