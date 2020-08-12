@@ -1,7 +1,8 @@
 import React from 'react';
 
 import SliFormComponent from 'in-custom-dashboards/widgets/Slo/SliFormComponent';
-import { SloTarget } from 'in-custom-dashboards/widgets/Slo/form';
+import { SloTarget, SliApConfigId } from 'in-custom-dashboards/widgets/Slo/form';
+import APConfigSelector from 'in-custom-dashboards/widgets/Slo/APConfigForm';
 import StackItem from 'in-new-components/layout/Stack/StackItem';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import Header from 'in-components/form/Header/Header';
@@ -10,10 +11,11 @@ import Stack from 'in-new-components/layout/Stack';
 import Select from 'in-components/form/Select';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
-import Button from 'in-components/Button';
 import SvgIcon from 'in-components/SvgIcon';
+import Button from 'in-components/Button';
 
-export default function FormComponent({ form, onChange, widgetTitleFormGroup, setSlideInView, widgetPreview }) {
+export default function FormComponent({ form, onChange, widgetTitleFormGroup, setSlideInView, widgetPreview, api }) {
+  const apConfigId = form.get(SliApConfigId)?.value;
   return (
     <>
       <Stack space="large">
@@ -24,18 +26,19 @@ export default function FormComponent({ form, onChange, widgetTitleFormGroup, se
 
         <StackItem>
           <Header>SLO Configuration</Header>
-          {
-            // <ApplicationSelection form={form} onChange={onChange} />
-          }
+          <APConfigSelector form={form} onChange={onChange} api={api} />
         </StackItem>
         <StackItem>
           <SliFormComponent
             form={form}
+            apConfigId={apConfigId}
             onChange={onChange}
+            api={api}
             widgetPreview={false}
             widgetTitleFormGroup={widgetTitleFormGroup}
             openManageSLIComponent={
               <Button
+                disabled={!apConfigId}
                 kind={'primary'}
                 onClick={() =>
                   setSlideInView({
@@ -152,8 +155,8 @@ export default function FormComponent({ form, onChange, widgetTitleFormGroup, se
 
 const DropDownMock = ({ options }) => (
   <Select>
-    {(options ?? []).map(({ id, label }) => (
-      <option key={id} value={id}>
+    {(options ?? []).map(({ id, value, label }) => (
+      <option key={id ?? value} value={id}>
         {label}
       </option>
     ))}

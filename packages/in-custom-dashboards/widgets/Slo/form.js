@@ -8,6 +8,7 @@ import { demo } from 'in-custom-dashboards/widgets/Slo';
 export const SliConfigId = 'sliConfigId';
 export const SloTarget = 'slo';
 export const SloApName = 'apName';
+export const SliApConfigId = 'apConfigId';
 
 export function createForm(oldSavedState) {
   const savedState = oldSavedState ?? {
@@ -20,6 +21,13 @@ export function createForm(oldSavedState) {
     SloApName,
     createField({
       value: savedState[SloApName] ?? demo[SloApName]
+    })
+  );
+  form = form.put(
+    SliApConfigId,
+    createField({
+      validator: composeAndShortCircuitOnError(notUndefinedValidator, notBlankValidator),
+      value: savedState[SliApConfigId]
     })
   );
   form = form.put(

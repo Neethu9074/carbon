@@ -15,7 +15,7 @@ export default connectTo({
   sliConfigurations: getSliConfigurations().map(({ data }) => data)
 })(SliFormComponent);
 
-function SliFormComponent({ form, onChange, sliConfigurations, openManageSLIComponent }) {
+function SliFormComponent({ form, onChange, sliConfigurations, apConfigId, openManageSLIComponent }) {
   return (
     <Row withoutTopMargin>
       <Col md={2}>
@@ -26,6 +26,7 @@ function SliFormComponent({ form, onChange, sliConfigurations, openManageSLIComp
         {form.get(SliConfigId)?.map(field => (
           <FormGroup>
             <Select
+              disabled={!apConfigId}
               id="metric-configurator-sli-id"
               value={field?.value}
               onChange={e =>
