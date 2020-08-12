@@ -46,7 +46,7 @@ export default function CreateApplicationDialogPresenter(props) {
           }}
           kind="action"
         >
-          {simpleMode ? 'Advanced Mode' : 'Simple Mode'}
+          {simpleMode ? 'Switch to Advanced Mode' : 'Switch to Simple Mode'}
         </Button>
       )}
       withoutBodyPadding

@@ -4,7 +4,7 @@ import InboundOrAllCallsChoiceVertical from 'in-applications/Dashboards/commonCo
 import { applicationCreationBoundaryScopeSelect } from 'in-applications/creation/tracker';
 import FormGroup from 'in-components/form/FormGroup';
 
-export default function InboundAllCalls({ form, updateForm, apCreation }) {
+export default function InboundAllCalls({ form, updateForm }) {
   const boundaryScopeField = form.get('boundaryScope');
 
   return (
@@ -16,7 +16,6 @@ export default function InboundAllCalls({ form, updateForm, apCreation }) {
             applicationCreationBoundaryScopeSelect({ value });
             updateForm(form.updateIn(['boundaryScope'], field => field.setValue(value.boundaryScope).setTouched(true)));
           }}
-          apCreation={apCreation}
         />
       </FormGroup>
     </div>

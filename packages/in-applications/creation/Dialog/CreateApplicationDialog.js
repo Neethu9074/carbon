@@ -31,11 +31,11 @@ export default function CreateApplicationDialog({ formData, timeConfig, onClose,
         applicationCreationModeSwitch(
           simpleMode
             ? {
-                destinationMode: 'Advanced',
+                destinationMode: 'Advanced Mode',
                 step
               }
             : {
-                destinationMode: 'Simple'
+                destinationMode: 'Simple Mode'
               }
         );
       }}

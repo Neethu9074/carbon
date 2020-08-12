@@ -18,9 +18,8 @@ export default function SimpleCreateStep2({
   matchSpecification
 }) {
   return (
-    <SimpleModeStepContentWrapper headline="Build your Application Perspective">
+    <SimpleModeStepContentWrapper headline="Specify your Application Perspective">
       <div className={locals.filterWrapper}>
-        <Label>Define the Application Perspective using one or more tags.</Label>
         <CreateApplicationFilters
           form={form}
           curatedTagFilters={selectedBlueprint.curatedTagFilters}
@@ -29,13 +28,12 @@ export default function SimpleCreateStep2({
           selectedBlueprint={selectedBlueprint}
         />
         <Spacer type="dark" />
-        <Label>Choose which downstream services to include in the Application Perspective.</Label>
+        <Label>Choose which downstream services to include.</Label>
         <ApplicationScopeSelector form={form} updateForm={updateForm} />
       </div>
       <ServiceLiveList
         servicesLiveList={servicesLiveList}
-        headerText="Services in this Application Perspective..."
-        descriptionText="Based on the last hour."
+        headerText="Matched services in the last hour"
         matchSpecification={matchSpecification}
       />
     </SimpleModeStepContentWrapper>

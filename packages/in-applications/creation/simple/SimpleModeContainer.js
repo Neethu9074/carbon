@@ -16,11 +16,11 @@ const stepConfigs = [
     title: 'Step 1: Select Model'
   },
   {
-    title: 'Step 2: Select the Services',
+    title: 'Step 2: Specify your application',
     validateIntermediately: [['matchSpecification']]
   },
   {
-    title: 'Step 3: Configuration Details'
+    title: 'Step 3: Provide Details'
   }
 ];
 

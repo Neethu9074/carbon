@@ -2,106 +2,51 @@ export const blueprintConfig = Object.freeze([
   {
     type: 'servicesEndpoints',
     name: 'Services & Endpoints',
-    headline: 'Services & Endpoints',
+    headline: 'A collection of services or endpoints',
     description: [
       {
         headline: 'What is this for?',
-        htmlContent: `Sometimes it is easiest to create a perspective by specifying the services or endpoints directly.  This can also be done using string operators like “contains”, “starts with”, etc.`
+        htmlContent:
+          'If the services or endpoints are well known and the group won’t change soon. This is often an application that a specific team is responsible for, or which provides a single function (eg. Payment Application). This is the simplest approach.'
       },
       {
         headline: 'Who uses this a lot?',
-        htmlContent: 'DevOps, Operations, SRE, Developer, QA, support, Business owner, Architect'
-      }
-    ]
-  },
-  {
-    type: 'container',
-    name: 'Container:  K8s or related. ',
-    headline: 'Container:  K8s or related.',
-    description: [
-      {
-        headline: 'What is this for?',
-        htmlContent: `When you want to group services based on:
-        <ul><li>Namespace (this is frequently used)</li>
-        <li>Container or image name</li>
-        <li>Platform related service names</li>
-        <li>Deployment information</li>
-        <li>Labels</li>
-        </ul>
-        Tags are available for:  Kubernetes, OpenShift, Docker, Cloud Foundry, Marathon, and Nomad.`
-      },
-      { headline: 'Who uses this a lot?', htmlContent: `SRE, operations, DevOps` },
-      {
-        headline: 'Some tips for using.',
-        htmlContent: `Environments can be distinguished by combining this with a location (e.g., agent.zone) or cluster (kubernetes.cluster.name) to distinguish environments.
-        If you will use this for troubleshooting then you want to see the end-to-end flow.  Please set downstream service to ON and choose Inbound Calls..
-        Click on “All Filters” if you don’t see the tag you want.`
-      }
-    ],
-    curatedTagFilters: [
-      {
-        category: 'Docker',
-        tags: ['container.name', 'container.image.name', 'docker.compose.service', 'docker.image.name', 'docker.label']
+        htmlContent: 'DevOps, Operations, SRE, Developer, QA, Support, Business owner.'
       },
       {
-        category: 'General Kubernetes',
-        tags: [
-          'kubernetes.label',
-          'kubernetes.container.name',
-          'kubernetes.deployment.namespace',
-          'kubernetes.deployment.label',
-          'kubernetes.namespace',
-          'kubernetes.node.name',
-          'kubernetes.pod.label',
-          'kubernetes.pod.name',
-          'kubernetes.pod.namespace',
-          'kubernetes.replicaset.namespace',
-          'kubernetes.replicationcontroller.namespace',
-          'kubernetes.service.name',
-          'kubernetes.service.namespace'
-        ]
-      },
-      {
-        category: 'Orchestration',
-        tags: [
-          'cloudfoundry.application.name',
-          'cloudfoundry.organization.name',
-          'openshift.deploymentconfig.label',
-          'openshift.deploymentconfig.name',
-          'openshift.deploymentconfig.namespace',
-          'marathon.app.id',
-          'marathon.label',
-          'nomad.job.name'
-        ]
+        headline: 'Some tips for using',
+        htmlContent: `
+          Use string operators (e.g., like “contains”, “starts with”) to select several services with one filter.
+          Add setup,  environment, or custom tags to narrow the scope. <br>
+          Use "No downstream services" and "Inbound calls" for the source's perspective.<br>
+          Use "All downstream services" and  "All calls" for the end-to-end view.<br>
+          Use "Immediate downstream services" to include the direct database or messaging services.<br>
+          Click on “All Filters”to add additional tags.
+        `
       }
     ]
   },
   {
     type: 'location',
     name: 'Location: env, geo or host.',
-    headline: 'Location: env, geo or host.',
+    headline: 'An environment or region (eg. prod, staging, US East)',
     description: [
       {
         headline: 'What is this for?',
-        htmlContent: ` When you want to group services based on information about an environment that
-        may be big (e.g., cloud zone) or small (e.g. host). It also has zone
-        identifiers. It can be added to a query to distinguish between different
-        environments. Group services together based on information about their
-        location. The largest scope is cloud or cloud specific information such as
-        cluster, zone, or cloud provider. Next is a zone. All the services running on
-        a host can be grouped too. Reducing the scope to an environment.`
+        htmlContent: `When you want to group services using information from the environment, such as
+        <ul><li>Cloud information</li>
+        <li>Zone names</li>
+        <li>Host name or ID</li></ul>
+        It can be added to distinguish between different environments.
+        `
       },
-      { headline: 'Who uses this a lot?', htmlContent: `SRE, operations, DevOps, developers` },
+      { headline: 'Who uses this a lot?', htmlContent: `DevOps, Operations, SRE, QA, Business owner` },
       {
         headline: 'Some tips for using',
-        htmlContent: `Combine this with a location (e.g., agent.zone) or
-        cluster (kubernetes.cluster.name) to distinguish environments. If you will use
-        this for troubleshooting then you want to see the end-to-end flow. Please set
-        downstream service to ON and choose Inbound Calls.. Click on “All Filters” if
-        you don’t see the tag you want. All downstream service=off unless …
-        Infrastructure has dependencies between them so monitor them as a group of
-        related services in an infrastructure perspective. This is done at different
-        levels of scale.`
+        htmlContent: `Use "No downstream services" and "Inbound calls" for the source's perspective. <br>
+        Use "All downstream services" and  "All calls" for the end-to-end view.<br>
+        Use "Immediate downstream services" to include the direct database or messaging services.
+        `
       }
     ],
     curatedTagFilters: [
@@ -139,16 +84,98 @@ export const blueprintConfig = Object.freeze([
     ]
   },
   {
-    type: 'httpOrRpc',
-    name: 'HTTP or RPC',
-    headline: 'HTTP or RPC',
+    type: 'container',
+    name: 'Container:  K8s or related. ',
+    headline: 'An application modeled by Kubernetes or container labels',
     description: [
       {
         headline: 'What is this for?',
-        htmlContent: `Standard HTTP header information can group services, even from the source or destination information.  User defined X-headers can be used too. The HTTP status can group services using integer operators, such as: greater than, less than, equals, etc. The URL itself can form a perspective using powerful operators like: beings with, contains, does not contain, etc. There are several RPC protocols supported using similar operators.
+        htmlContent: `When you want to group services based on:
+        <ul><li>Namespace (this is frequently used)</li>
+        <li>Container or image name</li>
+        <li>Platform related service names</li>
+        <li>Deployment information</li>
+        <li>Labels</li>
+        </ul>
+        Tags are available for:  Kubernetes, OpenShift, Docker, Cloud Foundry, Marathon, and Nomad.`
+      },
+      { headline: 'Who uses this a lot?', htmlContent: `DevOps, Operations, SRE, Developer` },
+      {
+        headline: 'Some tips for using.',
+        htmlContent: `Add setup,  environment, or custom tags to narrow the scope.<br>
+        Use "No downstream services" and "Inbound calls" for the source's perspective.<br>
+        Use "All downstream services" and  "All calls" for the end-to-end view.<br>
+        Use "Immediate downstream services" to include the direct database or messaging services.
+        `
+      }
+    ],
+    curatedTagFilters: [
+      {
+        category: 'Container',
+        tags: ['container.name', 'container.image.name', 'docker.compose.service', 'docker.image.name', 'docker.label']
+      },
+      {
+        category: 'Kubernetes',
+        tags: [
+          'kubernetes.label',
+          'kubernetes.container.name',
+          'kubernetes.deployment.namespace',
+          'kubernetes.deployment.label',
+          'kubernetes.namespace',
+          'kubernetes.node.name',
+          'kubernetes.pod.label',
+          'kubernetes.pod.name',
+          'kubernetes.pod.namespace',
+          'kubernetes.replicaset.namespace',
+          'kubernetes.replicationcontroller.namespace',
+          'kubernetes.service.name',
+          'kubernetes.cluster.name',
+          'kubernetes.service.namespace'
+        ]
+      },
+      {
+        category: 'Orchestration',
+        tags: [
+          'cloudfoundry.application.name',
+          'cloudfoundry.organization.name',
+          'openshift.deploymentconfig.label',
+          'openshift.deploymentconfig.name',
+          'openshift.deploymentconfig.namespace',
+          'marathon.app.id',
+          'marathon.label',
+          'nomad.job.name'
+        ]
+      }
+    ]
+  },
+  {
+    type: 'httpOrRpc',
+    name: 'HTTP or RPC',
+    headline: 'An application based on request attributes (eg. HTTP headers, query parameters)',
+    description: [
+      {
+        headline: 'What is this for?',
+        htmlContent: `It can be added to distinguish between different environments.
+        <ul><li>HTTP headers, including X-headers</li>
+        <li>HTTP return code status</li>
+        <li>Portions of the URL</li>
+        <li>Request parameters</li>
+        <li>RPC method or object.</li>
+        There are several RPC protocols supported using similar operators.
+
       `
       },
-      { headline: 'Who uses this a lot?', htmlContent: `DevOps, Operations, SRE, Developer, QA, support` }
+      { headline: 'Who uses this a lot?', htmlContent: `DevOps, Operations, SRE, Developer, QA, Support` },
+      {
+        headline: 'Some tips for using.',
+        htmlContent: `
+      Use string operators (e.g., like “contains”, “starts with”) to simplify the filter.<br>
+      Add setup,  environment, or custom tags to narrow the scope.<br>
+      Use "No downstream services" and "Inbound calls" for the source's perspective.<br>
+      Use "All downstream services" and  "All calls" for the end-to-end view.<br>
+      Use "Immediate downstream services" to include the direct database or messaging services.
+      `
+      }
     ],
     curatedTagFilters: [
       {
@@ -172,16 +199,28 @@ export const blueprintConfig = Object.freeze([
   {
     type: 'technologyGrouping',
     name: 'Technology Grouping',
-    headline: 'Technology Grouping',
+    headline: 'All services of a specific technology (eg. MySQL, all databases)',
     description: [
       {
         headline: 'What is this for?',
-        htmlContent: `A coarse grouping by all the services of the same technology provides a high level perspective. Some technologies have tags that can further refine the group. For example, databases can be grouped by schema, type, or connection. Java is a well supported technology with grouping by deployment information or JVM name. Grouping by applications for scripting languages are supported.
+        htmlContent: `A coarse grouping by the type of technology or application:
+        <ul><li>Database details, like the schema</li>
+        <li>Java application name</li>
+        <li>A scripting application name</li></ul>
+
       `
       },
       {
         headline: 'Who uses this a lot?',
-        htmlContent: `DevOps, Operations, SRE, Developer, QA, support, Business owner, Architect`
+        htmlContent: `Operations, SRE, Developer, QA, Support, Business owner`
+      },
+      {
+        headline: 'Some tips for using',
+        htmlContent: `
+      Use "No downstream services" and "Inbound calls" for the source's perspective.</br>
+      Use "All downstream services" and  "All calls" for the end-to-end view.</br>
+      Use "Immediate downstream services" to include the direct database or messaging services.
+      `
       }
     ],
     curatedTagFilters: [
@@ -197,16 +236,30 @@ export const blueprintConfig = Object.freeze([
   {
     type: 'custom',
     name: 'Custom Tags',
-    headline: 'Custom Tags',
+    headline: 'An application based on custom metadata added by your or your platform',
     description: [
       {
         headline: 'What is this for?',
-        htmlContent: `Users add their own custom meta-data to calls using the SDK and then these calls are used to create the perspectives they want. These custom tags are available in this blueprint to make them easy to find. These include HTTP, agent, AWS, call, kubernetes, and docker related custom tags or labels.
+        htmlContent: `Adding your own data via the SDK, the platform, etc. is easy This custom data can be used to form an AP from:
+        <ul><li>HTTP protocol</li>
+        <li>Instana agent</li>
+        <li>AWS</li>
+        <li>Data that is attached to a call</li>
+        <li>Kubernetes labels</li>
+        <li>Container labels</li></ul>
+        This blueprint puts them all together so they are easy to find.
+
       `
       },
       {
         headline: 'Who uses this a lot?',
-        htmlContent: `Developers, DevOps, Operations, SRE, QA, Support
+        htmlContent: `DevOps, Developer, QA`
+      },
+      {
+        headline: 'Some tips for using',
+        htmlContent: `Use "No downstream services" and "Inbound calls" for the source's perspective.<br>
+        Use "All downstream services" and  "All calls" for the end-to-end view.<br>
+        Use "Immediate downstream services" to include the direct database or messaging services.
         `
       }
     ],
