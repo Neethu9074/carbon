@@ -36,7 +36,7 @@ export default function SimpleCreateStep3({ form, updateForm, servicesLiveList, 
         <TouchedMessages field={labelField} />
         <Spacer type="dark" />
         <Label>Select the default dashboard view</Label>
-        <InboundAllCalls form={form} updateForm={updateForm} apCreation />
+        <InboundAllCalls form={form} updateForm={updateForm} />
       </div>
       <ServiceLiveList
         servicesLiveList={servicesLiveList}
