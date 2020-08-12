@@ -4,6 +4,7 @@ import React from 'react';
 import LatencyDistributionBase10Chart from 'in-new-components/LatencyDistributionBase10Chart/LatencyDistributionBase10Chart';
 import { getLatencySelectionFromFilters } from 'in-new-components/LatencyDistributionBase10Chart/latencyUtils';
 import getLatencyDistributionBase10 from 'in-subscription/application/getLatencyDistributionBase10';
+import { getTagFilterListForBackendSubscription } from 'in-analyze/applicationFilter';
 import RawMetricsChart from 'in-analyze/components/MetricsChart/RawMetricsChart';
 import { latencyDistributionBase10Enabled } from 'in-services/featureFlags';
 import { millis } from 'in-services/formatters/number';
@@ -30,7 +31,7 @@ export default withProps(({ filters, onLatencySelectionChanged }) => {
               // auto refresh mode is not supported in UA
               timeConfig: { ...timeConfig, autoRefresh: false }
             },
-            tagFilters: filters.tagFilter.filter(f => f.name !== latencyTag),
+            tagFilters: getTagFilterListForBackendSubscription(filters.tagFilter.filter(f => f.name !== latencyTag)),
             dataSource: filters.dataSource === 'traces' ? 'TRACES' : 'CALLS'
           });
           return (
