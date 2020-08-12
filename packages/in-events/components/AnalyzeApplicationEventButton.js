@@ -59,13 +59,14 @@ function GoToAnalyzeButton({ applicationName, boundaryScope, filters, timeConfig
 function getRelevantEventTimeframe(event, alertConfig) {
   const timeConfig = getTimeConfigFromEvent(event);
   if (alertConfig.rule.alertType === 'throughput') {
-    // extend begin and end by 1 bucket each
+    // extend begin by one bucket, and end also by bucket bucket in case the to-timestamp is fixed
+    const toIsFixed = !!timeConfig.to;
     const granularity = alertConfig.granularity;
-    const adjustedTo = timeConfig.to + granularity;
+    const adjustedTo = toIsFixed ? timeConfig.to + granularity : timeConfig.to;
     return {
       to: adjustedTo,
       focusedMoment: adjustedTo,
-      windowSize: timeConfig.windowSize + 2 * granularity,
+      windowSize: timeConfig.windowSize + (toIsFixed ? 2 : 1) * granularity,
       autoRefresh: alertConfig.autoRefresh
     };
   }

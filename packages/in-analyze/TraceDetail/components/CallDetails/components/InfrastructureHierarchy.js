@@ -13,8 +13,8 @@ import locals from './InfrastructureHierarchy.mless';
 
 export default compose(
   connectTo(({ snapshotId, timeConfig }) => ({
-    timeConfig: shouldStayInCurrentTimeModeForNavigationToSnapshot(snapshotId).map(
-      stay => (stay ? undefined : timeConfig)
+    timeConfig: shouldStayInCurrentTimeModeForNavigationToSnapshot(snapshotId).map(stay =>
+      stay ? undefined : timeConfig
     )
   })),
   connectTo(({ snapshotId, timeConfig, calculateHierarchy }) => {

@@ -44,7 +44,7 @@ export default function Profile({
   if (!profile) {
     return (
       <Message type={error} withIcon>
-        The are no profiles in the selected timeframe.
+        There are no profiles in the selected timeframe.
       </Message>
     );
   }
@@ -189,7 +189,7 @@ export default function Profile({
           className={locals.timeselectionIndicator}
           entityName="profiles"
           message={
-            profile.__missingProfileFlag && 'The are no profiles in the selected timeframe. Showing all instead.'
+            profile.__missingProfileFlag && 'There are no profiles in the selected timeframe. Showing all instead.'
           }
         />
       )}

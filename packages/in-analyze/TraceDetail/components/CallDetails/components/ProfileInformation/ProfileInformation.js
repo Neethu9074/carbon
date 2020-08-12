@@ -13,22 +13,50 @@ import { error, warning } from 'in-new-components/Message/types';
 import ExpandableGroup from 'in-new-components/ExpandableGroup';
 import { hasError, isLoading } from 'in-services/util/result';
 import { percentage } from 'in-services/formatters/number';
+import { getPhysicalHierarchy } from 'in-stores/snapshot';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import useObservable from 'in-hooks/useObservable';
+import { getSnapshots } from 'in-stores/snapshot';
 import Message from 'in-new-components/Message';
+import { plugins } from 'in-forge/constants';
 import Link from 'in-components/Link';
 
 import locals from './ProfileInformation.mless';
 
-export default function ProfileInformation({ processSnapshotId, time, start, end }) {
+const twoMinutes = 1000 * 60 * 2;
+
+export default function ProfileInformationSnapshotResolver({ processSnapshotId, ...remainingProps }) {
   const timeConfig = useTimeConfig();
+
+  // resolve process plugin snapshot id
+  const physicalHierarchySnapshots = useObservable(
+    getPhysicalHierarchy({ snapshotId: processSnapshotId, includeCluster: false, timeConfig }).flatMap(getSnapshots),
+    [processSnapshotId, timeConfig]
+  );
+
+  if (!physicalHierarchySnapshots) {
+    return null;
+  }
+  const processEntity = physicalHierarchySnapshots.filter(item => item.get('plugin') === plugins.process)[0];
+  if (!processEntity) {
+    return null;
+  }
+
+  return <ProfileInformation {...remainingProps} timeConfig={timeConfig} processSnapshotId={processEntity.get('id')} />;
+}
+
+function ProfileInformation({ processSnapshotId, time, start, end, timeConfig }) {
+  const windowSize = twoMinutes * Math.ceil((end - start) / twoMinutes);
+  const from = start;
+  const to = from + windowSize;
+
   const profilesAvailable = useObservable(
     getProfilesAvailable({
       processSnapshotId,
       timeConfig: {
-        windowSize: end - start,
-        to: end,
-        focusedMoment: end
+        windowSize,
+        to,
+        focusedMoment: to
       }
     }).map(result => result?.data?.containsProfiles || false),
     [processSnapshotId, timeConfig]
@@ -40,24 +68,31 @@ export default function ProfileInformation({ processSnapshotId, time, start, end
 
   return (
     <ExpandableGroup title="Profiling">
-      <Content processSnapshotId={processSnapshotId} start={start} end={end} time={time} />
+      <Content
+        processSnapshotId={processSnapshotId}
+        start={start}
+        end={end}
+        to={to}
+        windowSize={windowSize}
+        time={time}
+      />
     </ExpandableGroup>
   );
 }
 
-function Content({ processSnapshotId, start, end, time }) {
+function Content({ processSnapshotId, to, windowSize, time }) {
   const result = useObservable(
     getProfiles({
       processSnapshotId,
       filter: {
         timeConfig: {
-          windowSize: end - start,
-          to: end,
-          focusedMoment: end
+          windowSize,
+          to,
+          focusedMoment: to
         }
       }
     }).distinct(),
-    [processSnapshotId, start, end]
+    [processSnapshotId, to, windowSize]
   );
 
   if (!result || isLoading(result)) {
@@ -84,7 +119,7 @@ function Content({ processSnapshotId, start, end, time }) {
       <Chart
         key={2}
         snapshotId={processSnapshotId}
-        timeConfig={getChartTimeConfig(cpuProfile, end)}
+        timeConfig={getChartTimeConfig(windowSize, to)}
         y1={{
           metrics: ['cpu.user'],
           labels: ['CPU User'],
@@ -95,33 +130,30 @@ function Content({ processSnapshotId, start, end, time }) {
 
       <ProfileStackTrace
         processSnapshotId={processSnapshotId}
-        start={start}
-        end={end}
+        to={to}
+        windowSize={windowSize}
         time={time}
         cpuProfile={cpuProfile}
       />
 
       <ViewAllWrapper
         renderViewAll={ViewAll}
-        viewAllHref$={getLinkToProfiles({ processSnapshotId, start, end, time })}
+        viewAllHref$={getLinkToProfiles({ processSnapshotId, start: to - windowSize, end: to, time })}
       />
     </div>
   );
 }
 
-function getChartTimeConfig(cpuProfile, end) {
-  const to = cpuProfile.rawProfileTimestamps[cpuProfile.rawProfileTimestamps.length - 1] ?? end;
-  const from = cpuProfile.rawProfileTimestamps[0];
-  const twoMinutes = 1000 * 60 * 2;
+function getChartTimeConfig(windowSize, to) {
   return {
     to,
     focusedMoment: to,
-    windowSize: Math.max(to - from, twoMinutes),
+    windowSize,
     autoRefresh: false
   };
 }
 
-function ProfileStackTrace({ processSnapshotId, cpuProfile, start, end, time }) {
+function ProfileStackTrace({ processSnapshotId, cpuProfile, to, windowSize, time }) {
   const { enrichedProfilesWithSelfTimes } = getTopSelfTimeList(cpuProfile);
   return (
     <>
@@ -134,8 +166,8 @@ function ProfileStackTrace({ processSnapshotId, cpuProfile, start, end, time }) 
           getLinkToProfiles({
             hotspotAutoExpandRowId: createProfileSignature(_profile),
             processSnapshotId,
-            start,
-            end,
+            start: to - windowSize,
+            end: to,
             time
           })
         }
