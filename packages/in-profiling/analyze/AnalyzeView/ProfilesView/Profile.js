@@ -14,10 +14,12 @@ import ProfileChart from 'in-profiling/analyze/AnalyzeView/ProfilesView/ProfileC
 import countSamples from 'in-profiling/analyze/AnalyzeView/ProfilesView/sampleCount';
 import ProfileTree from 'in-profiling/analyze/AnalyzeView/ProfilesView/ProfileTree';
 import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';
+import { error } from 'in-new-components/Message/types';
 import ButtonGroup from 'in-new-components/ButtonGroup';
 import SearchInput from 'in-new-components/SearchInput';
 import SetBodyColor from 'in-components/SetBodyColor';
 import SvgIcon from 'in-components/SvgIcon/SvgIcon';
+import Message from 'in-new-components/Message';
 import Button from 'in-new-components/Button';
 import Tooltip from 'in-components/Tooltip';
 
@@ -39,6 +41,14 @@ export default function Profile({
   isWaitTimeProfile,
   highlightedTimeframe
 }) {
+  if (!profile) {
+    return (
+      <Message type={error} withIcon>
+        The are no profiles in the selected timeframe.
+      </Message>
+    );
+  }
+
   const [showGraph, setShowGraph] = useState(true);
   const [query, setQuery] = useState('');
   const [selectedNode, setSelectedNode] = useState(null);
@@ -179,7 +189,7 @@ export default function Profile({
           className={locals.timeselectionIndicator}
           entityName="profiles"
           message={
-            profile.__missingProfileFlag ?? 'The are no profiles in the selected timeframe. Showing all instead.'
+            profile.__missingProfileFlag && 'The are no profiles in the selected timeframe. Showing all instead.'
           }
         />
       )}
