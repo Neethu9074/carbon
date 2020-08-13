@@ -15,7 +15,7 @@ export default function SimpleCreateStep3({ form, updateForm, servicesLiveList, 
   const labelField = form.get('label');
 
   return (
-    <SimpleModeStepContentWrapper headline="Configuration Details">
+    <SimpleModeStepContentWrapper headline="Provide Details">
       <div className={locals.filterWrapper}>
         <FormGroup>
           <Label htmlFor="label" hasError={!labelField.valid && labelField.touched}>

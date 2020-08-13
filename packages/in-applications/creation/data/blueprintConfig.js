@@ -16,7 +16,7 @@ export const blueprintConfig = Object.freeze([
       {
         headline: 'Some tips for using',
         htmlContent: `
-          Use string operators (e.g., like “contains”, “starts with”) to select several services with one filter.
+          Use string operators (e.g., like “contains”, “starts with”) to select several services with one filter.<br>
           Add setup,  environment, or custom tags to narrow the scope. <br>
           Use "No downstream services" and "Inbound calls" for the source's perspective.<br>
           Use "All downstream services" and  "All calls" for the end-to-end view.<br>
@@ -161,6 +161,7 @@ export const blueprintConfig = Object.freeze([
         <li>Portions of the URL</li>
         <li>Request parameters</li>
         <li>RPC method or object.</li>
+        </ul>
         There are several RPC protocols supported using similar operators.
 
       `
@@ -270,7 +271,7 @@ export const blueprintConfig = Object.freeze([
       },
       { category: 'Miscellaneous', tags: ['agent.tag', 'aws.ec2.tag', 'call.inbound_of_application', 'call.tag'] },
       {
-        category: 'Kubernetes',
+        category: 'Platform',
         tags: [
           'docker.label',
           'kubernetes.label',
