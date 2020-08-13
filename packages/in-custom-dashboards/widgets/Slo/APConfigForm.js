@@ -23,7 +23,7 @@ function APConfigForm({ form, onChange, apConfigs }) {
     <div>
       <Row withoutTopMargin>
         <Col md={2}>
-          <KeyValue label={'User Journey / Offering'} value={'Application Perspective'} inverted />
+          <KeyValue label="User Journey / Offering" value="Application Perspective" inverted />
         </Col>
         <Col xs>
           {sliApConfigIdField.map(field => (

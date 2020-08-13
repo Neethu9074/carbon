@@ -16,6 +16,7 @@ export default connectTo({
 })(SliFormComponent);
 
 function SliFormComponent({ form, onChange, sliConfigurations, apConfigId, openManageSLIComponent }) {
+  const filteredSLIs = sliConfigurations?.filter(sli => sli?.sliEntity?.applicationId === apConfigId) ?? [];
   return (
     <Row withoutTopMargin>
       <Col md={2}>
@@ -36,13 +37,13 @@ function SliFormComponent({ form, onChange, sliConfigurations, apConfigId, openM
               }
               hasError={!field.valid && field.touched}
             >
-              <option value="">Please select</option>
-              {sliConfigurations &&
-                sliConfigurations.map(({ id, sliName }) => (
-                  <option key={id} value={id}>
-                    {sliName}
-                  </option>
-                ))}
+              {filteredSLIs.length === 0 && <option value="">None available, create one.</option>}
+              {filteredSLIs.length !== 0 && <option value="">Please select</option>}
+              {filteredSLIs.map(({ id, sliName }) => (
+                <option key={id} value={id}>
+                  {sliName}
+                </option>
+              ))}
             </Select>
             <TouchedMessages field={field} />
             <HelpText>You can set up new SLIs using our API.</HelpText>

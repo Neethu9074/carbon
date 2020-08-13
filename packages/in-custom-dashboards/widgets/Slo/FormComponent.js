@@ -3,6 +3,7 @@ import React from 'react';
 import SliFormComponent from 'in-custom-dashboards/widgets/Slo/SliFormComponent';
 import { SloTarget, SliApConfigId } from 'in-custom-dashboards/widgets/Slo/form';
 import APConfigSelector from 'in-custom-dashboards/widgets/Slo/APConfigForm';
+import SliManageList from 'in-custom-dashboards/widgets/Slo/SliManageList';
 import StackItem from 'in-new-components/layout/Stack/StackItem';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import Header from 'in-components/form/Header/Header';
@@ -43,15 +44,8 @@ export default function FormComponent({ form, onChange, widgetTitleFormGroup, se
                 onClick={() =>
                   setSlideInView({
                     title: 'Sli Management',
-                    getContent({ slideOut }) {
-                      return (
-                        <>
-                          <p>More to come</p>
-                          <Button kind={'primary'} onClick={slideOut}>
-                            Cancel
-                          </Button>
-                        </>
-                      );
+                    getContent() {
+                      return <SliManageList applicationId={apConfigId} api={api} />;
                     }
                   })
                 }

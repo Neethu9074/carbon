@@ -26,7 +26,7 @@ export function createForm(oldSavedState) {
   form = form.put(
     SliApConfigId,
     createField({
-      validator: composeAndShortCircuitOnError(notUndefinedValidator, notBlankValidator),
+      validator: composeAndShortCircuitOnError(notUndefinedValidator),
       value: savedState[SliApConfigId]
     })
   );
