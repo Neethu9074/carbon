@@ -11,9 +11,9 @@ import Header from 'in-components/form/Header';
 import Label from 'in-components/form/Label';
 import connectTo from 'in-hoc/connectTo';
 
-export default connectTo({
-  sliConfigurations: getSliConfigurations().map(({ data }) => data)
-})(SliFormComponent);
+export default connectTo(({ api }) => ({
+  sliConfigurations: (api?.getSliConfigurations ?? getSliConfigurations)().map(({ data }) => data)
+}))(SliFormComponent);
 
 function SliFormComponent({ form, onChange, sliConfigurations, apConfigId, openManageSLIComponent }) {
   const filteredSLIs = sliConfigurations?.filter(sli => sli?.sliEntity?.applicationId === apConfigId) ?? [];

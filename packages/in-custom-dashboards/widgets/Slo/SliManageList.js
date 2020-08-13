@@ -34,7 +34,7 @@ export default function SliManageList({ api = DEFAULT_API, applicationId }) {
   return (
     <SliList
       columnDefinitions={columnDefinitions}
-      getItems={() => api.getSliConfigurations().map(onlyWithAPid(applicationId))}
+      getItems={() => api.getSliConfigurations()?.map(onlyWithAPid(applicationId)) ?? null}
       rightHeader={createSliHeader}
     />
   );
