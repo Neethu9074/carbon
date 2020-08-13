@@ -31,6 +31,7 @@ function renderDefault({
   options,
   placeholder,
   resultsToShow = 50,
+  maxLength = 512,
   InputRenderer = DefaultInput,
   ListRenderer = DefaultRenderer,
   inputProps,
@@ -42,7 +43,9 @@ function renderDefault({
   openMenu,
   ...remainingProps
 }) {
-  const filteredOptions = options.filter(item => !inputValue || item.toLowerCase().includes(lowerCaseInputValue));
+  const filteredOptions = options
+    .map(item => item.substring(0, maxLength))
+    .filter(item => !inputValue || item.toLowerCase().includes(lowerCaseInputValue));
   return (
     <>
       <InputRenderer
@@ -51,6 +54,7 @@ function renderDefault({
         getToggleButtonProps={getToggleButtonProps}
         openMenu={openMenu}
         placeholder={placeholder}
+        maxLength={maxLength}
         {...inputProps}
       />
       {isOpen && filteredOptions.length > 0 && (
