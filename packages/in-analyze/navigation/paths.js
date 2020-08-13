@@ -12,17 +12,13 @@ import {
   focusedMetric as focusedMetricMatrixParameter,
   serializeMetrics
 } from 'in-analyze/navigation/matrix';
-import {
-  getTagFilterToUrlString,
-  getGroupToUrlString,
-  getTagFilterFromUrlString
-} from 'in-analyze/filterBuilder';
+import { getTagFilterToUrlString, getGroupToUrlString, getTagFilterFromUrlString } from 'in-analyze/filterBuilder';
 import { APPLICATION, APPLICATION_INBOUND, SERVICE, ENDPOINT } from 'in-analyze/applicationFilter';
+import { callAnalysisBlacklistedTags, traceAnalysisBlacklistedTags } from 'in-applications/tags';
 import { setOrDeleteMatrixKey, getMatrixParameter } from 'in-stores/navigation/matrix';
 import { latencyDistributionBase10Enabled } from 'in-services/featureFlags';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { entityTypes, operators } from 'in-analyze/applicationFilter';
-import { callAnalysisBlacklistedTags } from 'in-applications/tags';
 import { getRootPathPredicate } from 'in-stores/navigation/paths';
 import { boundaryScopes } from 'in-applications/constants';
 import { emptyObject } from 'in-services/fixedObjects';
@@ -131,12 +127,13 @@ export function getLinkToAnalyze({
 
     if (tagFilter != null) {
       setOrDeleteMatrixKey(params, analyze, `callList.${tagFilterMatrixParameter}`, getTagFilterToUrlString(tagFilter));
-    } else if (dataSource === 'calls') {
+    } else if (dataSource === 'calls' || dataSource === 'traces') {
       // remove blacklisted filters
       let existingTagFilters = getTagFilterFromUrlString(
         getMatrixParameter(params, analyze, `callList.${tagFilterMatrixParameter}`)
       );
-      existingTagFilters = existingTagFilters.filter(t => callAnalysisBlacklistedTags.indexOf(t.name) === -1);
+      const blacklistedTags = dataSource === 'calls' ? callAnalysisBlacklistedTags : traceAnalysisBlacklistedTags;
+      existingTagFilters = existingTagFilters.filter(t => blacklistedTags.indexOf(t.name) === -1);
       setOrDeleteMatrixKey(
         params,
         analyze,
