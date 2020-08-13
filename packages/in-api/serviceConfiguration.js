@@ -118,8 +118,14 @@ export function fillEmptyValues(config) {
 }
 
 function getKeyValueTag(matchSpecificationKey) {
+  const keyValuePairTag = getKeyValuePairTag(matchSpecificationKey);
+  if (keyValuePairTag) {
+    return keyValuePairTag;
+  }
   // the 'jvm.args' tag is not part of the /api/tags and needs to be treated explicitly here.
-  return getKeyValuePairTag(matchSpecificationKey) || matchSpecificationKey.indexOf('jvm.args') === 0
-    ? { fullyQualifiedName: 'jvm.args' } // we only need the FQN for mapping
-    : null;
+  if (matchSpecificationKey.indexOf('jvm.args') === 0) {
+    return { fullyQualifiedName: 'jvm.args' }; // we only need the FQN for mapping
+  } else {
+    return null;
+  }
 }
