@@ -12,6 +12,7 @@ export default function Typeahead({
   value,
   onChange,
   resultsToShow = 50,
+  maxLength = 512,
   InputRenderer = DefaultInput,
   ListRenderer = DefaultRenderer,
   ...remainingProps
@@ -38,7 +39,9 @@ export default function Typeahead({
         openMenu
       }) => {
         const lowerCaseInputValue = inputValue.toLowerCase();
-        const filteredOptions = options.filter(item => !inputValue || item.toLowerCase().includes(lowerCaseInputValue));
+        const filteredOptions = options
+          .map(item => item.substring(0, maxLength))
+          .filter(item => !inputValue || item.toLowerCase().includes(lowerCaseInputValue));
 
         return (
           <div className={locals.wrapper}>
@@ -48,20 +51,20 @@ export default function Typeahead({
               getToggleButtonProps={getToggleButtonProps}
               openMenu={openMenu}
               placeholder={placeholder}
+              maxLength={maxLength}
             />
-            {isOpen &&
-              filteredOptions.length > 0 && (
-                <ListRenderer
-                  {...remainingProps}
-                  onChange={onChange}
-                  getItemProps={getItemProps}
-                  getMenuProps={getMenuProps}
-                  filteredOptions={filteredOptions.slice(0, resultsToShow)}
-                  highlightedIndex={highlightedIndex}
-                  selectedItem={selectedItem}
-                  inputValue={inputValue}
-                />
-              )}
+            {isOpen && filteredOptions.length > 0 && (
+              <ListRenderer
+                {...remainingProps}
+                onChange={onChange}
+                getItemProps={getItemProps}
+                getMenuProps={getMenuProps}
+                filteredOptions={filteredOptions.slice(0, resultsToShow)}
+                highlightedIndex={highlightedIndex}
+                selectedItem={selectedItem}
+                inputValue={inputValue}
+              />
+            )}
           </div>
         );
       }}
