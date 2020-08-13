@@ -1,21 +1,41 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Th, SortableTh } from 'in-components/tables/sharedComponents';
+import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
+import { compareIgnoreCase } from 'in-services/util/string';
 import Overlay from 'in-new-components/overlays/Overlay';
+import SearchInput from 'in-new-components/SearchInput';
+import Pagination from 'in-new-components/Pagination';
 import Button from 'in-new-components/Button';
 import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './ConfigurableTh.mless';
 
 export default function ConfigurableTh(props) {
-  const { isSortedByThisColumn, sortDirection, onClick, children, sortable } = props;
+  const {
+    isSortedByThisColumn,
+    sortDirection,
+    onClick,
+    children,
+    sortable,
+    className,
+    noWrap,
+    width,
+    widthInAbsoluteUnit
+  } = props;
 
   const wrapContent = content => <ConfigureButton {...props}>{content}</ConfigureButton>;
 
   if (sortable === false) {
     return (
-      <Th {...props} wrapContent={wrapContent}>
+      <Th
+        className={className}
+        noWrap={noWrap}
+        width={width}
+        widthInAbsoluteUnit={widthInAbsoluteUnit}
+        wrapContent={wrapContent}
+      >
         {children}
       </Th>
     );
@@ -59,25 +79,86 @@ function Component({ toggle, refSetter }) {
 }
 
 function Content({ availableColumnDefinitions, columnDefinitions, onColumnChecked }) {
+  const [query, setQuery] = useState('');
+  const [page, setPage] = useState(1);
   const currentIds = columnDefinitions.map(def => def.id);
+  const pageSize = availableColumnDefinitions.length < 15 ? availableColumnDefinitions.length : 10;
 
+  const filteredDefinitions = availableColumnDefinitions
+    .filter(def => def.label.toLowerCase().includes(query.toLowerCase()))
+    .sort(compareCheckedAndLabel(currentIds));
+
+  const numPages = Math.ceil(filteredDefinitions.length / pageSize);
+  const paginatedDefinitions = filteredDefinitions.slice((page - 1) * pageSize, page * pageSize);
   return (
-    <ul className={locals.list}>
-      {availableColumnDefinitions.map(columnDefinition => {
-        const isDisabled = !columnDefinition.optional;
-        const isEnabled = currentIds.indexOf(columnDefinition.id) >= 0;
-        return (
-          <li key={columnDefinition.id} className={locals.item}>
-            <CheckboxFancy
-              checked={isDisabled || isEnabled}
-              disabled={isDisabled}
-              onChange={() => onColumnChecked(columnDefinition.id, !isEnabled)}
-              label={columnDefinition.label}
-              size="large"
-            />
-          </li>
-        );
-      })}
-    </ul>
+    <div className={locals.overlay}>
+      {availableColumnDefinitions.length > pageSize && (
+        <SearchBar
+          query={query}
+          placeholder={`Search ${availableColumnDefinitions.length} items`}
+          onChange={q => {
+            setQuery(q);
+            setPage(1);
+          }}
+        />
+      )}
+      <ul className={locals.list}>
+        {paginatedDefinitions.map(columnDefinition => {
+          const { id, optional, label, renderLabel } = columnDefinition;
+          const isDisabled = !optional;
+          const isEnabled = currentIds.indexOf(id) >= 0;
+          return (
+            <li key={id} className={locals.item}>
+              <CheckboxFancy
+                labelClassName={locals.label}
+                checked={isDisabled || isEnabled}
+                disabled={isDisabled}
+                onChange={() => onColumnChecked(id, !isEnabled)}
+                label={renderLabel ? renderLabel(columnDefinition) : label}
+                size="large"
+              />
+            </li>
+          );
+        })}
+      </ul>
+      {filteredDefinitions.length == 0 && <NoDataAvailable className={locals.empty} text="No matches" />}
+      {filteredDefinitions.length > pageSize && (
+        <Pagination currentPage={page} numPages={numPages} onChange={setPage} />
+      )}
+    </div>
   );
+}
+
+function SearchBar({ query, placeholder, onChange }) {
+  return (
+    <div className={locals.search}>
+      <SearchInput query={query} placeholder={placeholder} onChange={query => onChange(query)} />
+    </div>
+  );
+}
+
+function compareCheckedAndLabel(selectedIds) {
+  return (defA, defB) => {
+    const aIsChecked = isChecked(selectedIds, defA);
+    const bIsChecked = isChecked(selectedIds, defB);
+    if (aIsChecked === bIsChecked) {
+      return compareIgnoreCase(defA.label, defB.label);
+    } else if (aIsChecked) {
+      return -1;
+    } else {
+      return 1;
+    }
+  };
+}
+
+function isDisabled(def) {
+  return !def.optional;
+}
+
+function isEnabled(selectedIds, def) {
+  return selectedIds.indexOf(def.id) >= 0;
+}
+
+function isChecked(selectedIds, def) {
+  return isDisabled(def) || isEnabled(selectedIds, def);
 }

@@ -1,5 +1,5 @@
+import { timeout, just } from 'reactive-observables';
 import shallowEquals from 'fbjs/lib/shallowEqual';
-import { timeout } from 'reactive-observables';
 import React, { useMemo } from 'react';
 
 import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
@@ -65,6 +65,15 @@ export default function createServerTableWithUrlState({
         getInitialState: () => getInitialDisabledColumns(settingsKey, defaultDisabledColumns),
         parser: buildJsonParser([]),
         serializer: buildJsonSerializer()
+      },
+      // for columns that are defaultDisabled
+      {
+        path: pathSegment,
+        name: `${matrixPrefix}enabledColumns`,
+        as: 'enabledColumns',
+        initialState: [],
+        parser: buildJsonParser([]),
+        serializer: buildJsonSerializer()
       }
     ],
 
@@ -86,7 +95,7 @@ export default function createServerTableWithUrlState({
 
   return function ServerTable(props) {
     const [urlState, setUrlState] = useUrlState(urlStateDefinition);
-    const columnDefinitionsFn = props.columnDefinitions || (() => staticColumnDefinitions);
+    const columnDefinitionsFn = props.columnDefinitions || (() => just(staticColumnDefinitions));
 
     const propsForObservable = {
       ...props,
@@ -98,7 +107,11 @@ export default function createServerTableWithUrlState({
         : props.get(propsForObservable);
     const result = useObservable(observable, Object.values(propsForObservable)) ?? pendingResult;
 
-    const columnDefinitions = columnDefinitionsFn(result);
+    const columnDefinitions =
+      useObservable(
+        columnDefinitionsFn({ ...propsForObservable, result }),
+        Object.values(propsForObservable).concat([result])
+      ) ?? [];
 
     const optionalColumns = useMemo(() => columnDefinitions.filter(columnDefinition => columnDefinition.optional), [
       columnDefinitions

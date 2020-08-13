@@ -24,6 +24,9 @@ export default function Columns(props) {
         const isConfigurationColum = optionalColumns && optionalColumns.length > 0 && isLast;
         const headCellProps = getHeadCellProps(columnDefinition);
         const isSortedByThisColumn = columnDefinition.sortable !== false && orderBy === columnDefinition.id;
+        const label = columnDefinition.renderLabel
+          ? columnDefinition.renderLabel(columnDefinition)
+          : columnDefinition.label;
 
         if (columnDefinition.selectAllCheckbox) {
           // render toggle-all checkbox in thead
@@ -49,7 +52,7 @@ export default function Columns(props) {
               onClick={e => onClick(e, setOrder, columnDefinition, isSortedByThisColumn, orderDirection)}
               sortable={columnDefinition.sortable}
             >
-              {columnDefinition.label}
+              {label}
             </ConfigurableTh>
           );
         }
@@ -57,7 +60,7 @@ export default function Columns(props) {
         if (columnDefinition.sortable === false) {
           return (
             <Th key={columnDefinition.id} {...headCellProps}>
-              {columnDefinition.label}
+              {label}
             </Th>
           );
         }
@@ -70,7 +73,7 @@ export default function Columns(props) {
             sortDirection={orderDirection}
             onClick={e => onClick(e, setOrder, columnDefinition, isSortedByThisColumn, orderDirection)}
           >
-            {columnDefinition.label}
+            {label}
           </SortableTh>
         );
       })}

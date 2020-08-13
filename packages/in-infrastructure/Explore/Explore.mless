@@ -4,4 +4,12 @@
   .link {
     .ellipsis();
   }
+
+  .metricLabel {
+    display: inline-block;
+    width: 100%;
+    padding-right: 0.5rem;
+    vertical-align: bottom;
+    .ellipsisLeft();
+  }
 }

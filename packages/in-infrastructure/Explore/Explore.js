@@ -1,3 +1,4 @@
+import { just } from 'reactive-observables';
 import React, { useMemo } from 'react';
 
 import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
@@ -8,6 +9,8 @@ import QueryBuilder, { isQueryValid } from 'in-infrastructure/Explore/components
 import QueryBuilderSection from 'in-new-components/QueryBuilder/workspace/QueryBuilderSection';
 import InfraPageHeaderWithTabs from 'in-infrastructure/components/InfraPageHeaderWithTabs';
 import { tagFilterExpressionMatrixParameter } from 'in-infrastructure/navigation/paths';
+import getAvailableMetrics from 'in-infrastructure/subscriptions/getAvailableMetrics';
+import { valueWithFormatterToReadableString } from 'in-services/formatters/number';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { themes } from 'in-new-components/DashboardHeader/DashboardHeader';
@@ -26,6 +29,7 @@ import Stack from 'in-new-components/layout/Stack';
 import useObservable from 'in-hooks/useObservable';
 import Message from 'in-new-components/Message';
 import useUrlState from 'in-hooks/useUrlState';
+import Tooltip from 'in-components/Tooltip';
 import Card from 'in-new-components/Card';
 import Title from 'in-components/Title';
 
@@ -127,7 +131,7 @@ const columnDefinitions = [
         <EntityLink
           className={locals.link}
           label={item.label}
-          plugin={item.pluginId}
+          plugin={item.plugin}
           href$={getDashboardLink(item.snapshotId)}
         />
       );
@@ -144,25 +148,74 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
   matrixPrefix: 'table.'
 });
 
-function getColumnDefinitions(result) {
+function getColumnDefinitions({ timeConfig, backendQueryModel, result }) {
   if (result.data) {
-    const plugins = new Set(result.data.items.map(i => i.pluginId));
+    const plugins = new Set(result.data.items.map(i => i.plugin));
     if (plugins.size === 1) {
       const plugin = plugins.values().next().value;
       const kpiDefinitions = getKpiDefinitions(plugin);
-      return columnDefinitions.concat(
+      const defaultColumns = columnDefinitions.concat(
         kpiDefinitions.map(({ label, metric, formatter }) => ({
           id: metric,
           label,
           sortable: false,
           width: '10rem',
           widthInAbsoluteUnit: true,
+          optional: true,
           getContent(item) {
             return <MetricValue snapshotId={item.snapshotId} metric={metric} formatter={formatter} />;
           }
         }))
       );
+      const defaultColumnIds = defaultColumns.map(def => def.id);
+      return getAvailableMetrics({
+        filter: {
+          timeConfig,
+          tagFilterExpression: backendQueryModel
+        },
+        plugin
+      })
+        .map(availableMetrics => {
+          if (availableMetrics.data) {
+            return defaultColumns.concat(
+              availableMetrics.data.metrics
+                .filter(({ id }) => !defaultColumnIds.includes(id))
+                .map(({ id, label, format }) => {
+                  const formatter = v => valueWithFormatterToReadableString(v, format);
+                  return {
+                    id,
+                    label,
+                    renderLabel,
+                    sortable: false,
+                    width: '15rem',
+                    widthInAbsoluteUnit: true,
+                    optional: true,
+                    defaultDisabled: true,
+                    getContent(item) {
+                      return <MetricValue snapshotId={item.snapshotId} metric={id} formatter={formatter} />;
+                    }
+                  };
+                })
+            );
+          } else {
+            return defaultColumns;
+          }
+        })
+        .startWith(defaultColumns);
     }
   }
-  return columnDefinitions;
+  return just(columnDefinitions);
+}
+
+function renderLabel({ label }) {
+  const content = <span className={locals.metricLabel}>{label}</span>;
+  // take a guess that the content will be truncated, although this is a bit hacky because
+  // the truncation happens in CSS
+  return label.length > 30 ? (
+    <Tooltip content={label} align="bottomMiddle">
+      {content}
+    </Tooltip>
+  ) : (
+    content
+  );
 }

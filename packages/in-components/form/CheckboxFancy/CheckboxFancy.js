@@ -34,7 +34,8 @@ export default function CheckboxFancy({
   style,
   disabled,
   withControlsGrayscale,
-  verticalLabel
+  verticalLabel,
+  labelClassName
 }) {
   const input = (
     <Input
@@ -61,7 +62,8 @@ export default function CheckboxFancy({
         <div
           className={evaluateClassNames({
             [locals.label]: true,
-            [locals.verticalLabel]: verticalLabel
+            [locals.verticalLabel]: verticalLabel,
+            [labelClassName]: labelClassName
           })}
         >
           {label}
@@ -93,7 +95,8 @@ CheckboxFancy.propTypes = {
   style: PropTypes.object,
   verticalLabel: PropTypes.bool,
   wrapperClassName: PropTypes.string,
-  withControlsGrayscale: PropTypes.bool
+  withControlsGrayscale: PropTypes.bool,
+  labelClassName: PropTypes.string
 };
 
 function Input({

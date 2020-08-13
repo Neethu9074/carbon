@@ -39,6 +39,8 @@ export default function ServerTablePresenter(props) {
     columnDefinitions,
     optionalColumns,
     disabledColumns = [],
+    // for columns that are defaultDisabled
+    enabledColumns = [],
     filterColumnDefinitions = () => () => true,
     getRowProps,
     onRowClick,
@@ -74,7 +76,7 @@ export default function ServerTablePresenter(props) {
   const containsOptionalColumns = optionalColumns && optionalColumns.length > 0;
   if (containsOptionalColumns) {
     filteredAndDisabledColumnDefinitions = filteredColumnDefinitions.filter(
-      def => disabledColumns.indexOf(def.id) === -1
+      def => disabledColumns.indexOf(def.id) === -1 && (!def.defaultDisabled || enabledColumns.indexOf(def.id) >= 0)
     );
   }
 
@@ -113,7 +115,7 @@ export default function ServerTablePresenter(props) {
           setSelectedStateForRows={setSelectedStateForRows}
           optionalColumns={optionalColumns}
           availableColumnDefinitions={filteredColumnDefinitions}
-          onColumnChecked={(id, c) => onColumnChecked(onChange, disabledColumns, id, c)}
+          onColumnChecked={(id, c) => onColumnChecked(onChange, disabledColumns, enabledColumns, id, c)}
         />
       </Thead>
       <Tbody>{body}</Tbody>
@@ -124,9 +126,9 @@ export default function ServerTablePresenter(props) {
       className={scrollWrapperClassName}
       contentChangeMarker={
         /*
-          * Triggers a re-render when the number of rows change (which is necessary because the height of the content
-          * will change).
-          */
+         * Triggers a re-render when the number of rows change (which is necessary because the height of the content
+         * will change).
+         */
         result.data && result.data.items ? result.data.items.length : 0
       }
     >
@@ -153,16 +155,15 @@ export default function ServerTablePresenter(props) {
     );
   }
 
-  const pagination = result.data &&
-    result.data.totalHits > result.data.pageSize && (
-      <div className={locals.paginationWrapper}>
-        <Pagination
-          currentPage={page}
-          numPages={Math.ceil(result.data.totalHits / result.data.pageSize)}
-          onChange={page => onChange({ query, orderBy, orderDirection, page, pageSize })}
-        />
-      </div>
-    );
+  const pagination = result.data && result.data.totalHits > result.data.pageSize && (
+    <div className={locals.paginationWrapper}>
+      <Pagination
+        currentPage={page}
+        numPages={Math.ceil(result.data.totalHits / result.data.pageSize)}
+        onChange={page => onChange({ query, orderBy, orderDirection, page, pageSize })}
+      />
+    </div>
+  );
 
   let scope;
   if (scopeNotification) {
@@ -198,12 +199,22 @@ export default function ServerTablePresenter(props) {
   );
 }
 
-function onColumnChecked(onChange, disabledColumns, columnId, checked) {
-  onChange({
-    disabledColumns: checked
-      ? disabledColumns.filter(_columnId => _columnId !== columnId)
-      : [...disabledColumns, columnId]
-  });
+function onColumnChecked(onChange, disabledColumns, enabledColumns, columnId, checked) {
+  const disabledIdx = disabledColumns.indexOf(columnId);
+  const enabledIdx = enabledColumns.indexOf(columnId);
+  if (checked) {
+    if (disabledIdx >= 0) {
+      onChange({ disabledColumns: disabledColumns.filter(c => c !== columnId) });
+    } else {
+      onChange({ enabledColumns: [...enabledColumns, columnId] });
+    }
+  } else {
+    if (enabledIdx >= 0) {
+      onChange({ enabledColumns: enabledColumns.filter(c => c !== columnId) });
+    } else {
+      onChange({ disabledColumns: [...disabledColumns, columnId] });
+    }
+  }
 }
 
 function getLoadingContent(filteredAndDisabledColumnDefinitions, numSkeletonRows, result) {
