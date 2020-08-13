@@ -36,6 +36,19 @@ export default function IBMMQQueueManagerDashboard({ snapshot, timeConfig }) {
           }}
         />
       </DashboardSection>
+      <DashboardSection title="Messages">
+        <Chart
+          snapshotId={snapshotId}
+          timeConfig={timeConfig}
+          y1={{
+            formatter: zeroDecimalPlaces,
+            tooltipFormatter: zeroDecimalPlaces,
+            metrics: [`messagesIn`, `messagesOut`, `uncommittedMessages`],
+            labels: ['In', 'Out', 'Uncommiited'],
+            type: 'line'
+          }}
+        />
+      </DashboardSection>
 
       <QueuesUsageTable snapshot={snapshot} timeConfig={timeConfig} />
       <QueuesTable snapshot={snapshot} timeConfig={timeConfig} />

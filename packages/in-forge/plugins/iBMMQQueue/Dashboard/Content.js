@@ -1,13 +1,23 @@
 import React from 'react';
 
+import { zeroDecimalPlaces, seconds, micros } from 'in-services/formatters/number';
+import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import { zeroDecimalPlaces, seconds } from 'in-services/formatters/number';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import MetricValue from 'in-components/MetricValue';
 
 export default function IBMMQQueueDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
   return (
     <div>
+      <KpiSection>
+        <KpiKeyValue label="Queue Depth">
+          <MetricValue snapshotId={snapshotId} metric="queueDepth" />
+        </KpiKeyValue>
+        <KpiKeyValue label="Oldest Message">
+          <MetricValue snapshotId={snapshotId} metric="oldestMessage" formatter={seconds.fixedCompact} />
+        </KpiKeyValue>
+      </KpiSection>
       <DashboardSection title="Depth">
         <Chart
           snapshotId={snapshotId}
@@ -32,11 +42,24 @@ export default function IBMMQQueueDashboard({ snapshot, timeConfig }) {
             labels: ['In', 'Out', 'Uncommiited'],
             type: 'line'
           }}
+        />
+      </DashboardSection>
+      <DashboardSection title="Message Time">
+        <Chart
+          snapshotId={snapshotId}
+          timeConfig={timeConfig}
+          y1={{
+            formatter: seconds.fixedCompact,
+            tooltipFormatter: seconds.fixedCompacts,
+            metrics: [`oldestMessage`],
+            labels: ['Oldest'],
+            type: 'line'
+          }}
           y2={{
-            formatter: zeroDecimalPlaces,
-            tooltipFormatter: zeroDecimalPlaces,
-            metrics: [`oldestMessage`, `onQueueMessageTime`],
-            labels: ['Oldest', 'On Queue'],
+            formatter: micros.compact,
+            tooltipFormatter: micros.compact,
+            metrics: [`onQueueMessageTime`],
+            labels: ['On Queue'],
             type: 'line'
           }}
         />
