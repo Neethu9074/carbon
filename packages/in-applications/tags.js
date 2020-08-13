@@ -71,6 +71,8 @@ export const callAnalysisBlacklistedTags = [
   'call.inbound_of_application'
 ];
 
+export const traceAnalysisBlacklistedTags = ['call.latency'];
+
 const blacklists = {
   generalBlacklist: (() => {
     const blacklist = {
@@ -357,13 +359,12 @@ export function translateDemocratisationTagFiltersToAnalyzeTagFilters({ applicat
   }
   // replace application ID filter with something more understandable by users.
   if (tagFiltersForAnalyze.some(f => f.name === 'application.id' || f.name === 'boundary.application.id')) {
-    return tagFiltersForAnalyze.map(
-      f =>
-        f.name === 'application.id'
-          ? getApplicationNameTagFilter(applicationName)
-          : f.name === 'boundary.application.id'
-            ? getInboundApplicationNameTagFilter(applicationName)
-            : f
+    return tagFiltersForAnalyze.map(f =>
+      f.name === 'application.id'
+        ? getApplicationNameTagFilter(applicationName)
+        : f.name === 'boundary.application.id'
+        ? getInboundApplicationNameTagFilter(applicationName)
+        : f
     );
   }
   // or add the application label tag filter to the end if application ID is filter is not present
