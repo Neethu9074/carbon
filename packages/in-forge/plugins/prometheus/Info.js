@@ -4,10 +4,10 @@ import { DescriptionItem, DescriptionList } from 'in-sdk/components/sidebar/Desc
 import { emptyList } from 'in-services/fixedImmutables';
 
 export default function Info({ snapshot }) {
-  const counters = snapshot.getIn(['data', 'metrics.counters'], emptyList).size;
-  const gauges = snapshot.getIn(['data', 'metrics.gauges'], emptyList).size;
-  const histograms = snapshot.getIn(['data', 'metrics.histograms'], emptyList).size;
-  const summaries = snapshot.getIn(['data', 'metrics.summaries'], emptyList).size;
+  const counters = countMetrics(snapshot, 'metrics.counters');
+  const gauges = countMetrics(snapshot, 'metrics.gauges');
+  const histograms = countMetrics(snapshot, 'metrics.histograms');
+  const summaries = countMetrics(snapshot, 'metrics.summaries');
 
   return (
     <DescriptionList>
@@ -17,4 +17,14 @@ export default function Info({ snapshot }) {
       <DescriptionItem title="Summaries">{summaries}</DescriptionItem>
     </DescriptionList>
   );
+}
+
+function countMetrics(snapshot, prefix) {
+  const metricCount = snapshot.get('metricIds').filter(m => m.startsWith(prefix)).size;
+
+  if (metricCount > 0) {
+    return metricCount;
+  }
+
+  return snapshot.getIn(['data', prefix], emptyList).size;
 }

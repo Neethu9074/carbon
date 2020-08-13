@@ -36,8 +36,8 @@ const cols = [
 
 export default function JmxMetricsTable({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
-  const rows = snapshot
-    .getIn(['data', 'jmx'], emptyList)
+
+  const rows = getMetricIds(snapshot)
     .toArray()
     .map(name => {
       return {
@@ -61,6 +61,15 @@ export default function JmxMetricsTable({ snapshot, timeConfig }) {
       getRowDetails={getRowDetails}
     />
   );
+}
+
+export function getMetricIds(snapshot) {
+  const metricIds = snapshot.get('metricIds');
+  if (metricIds) {
+    return metricIds.filter(id => id.startsWith('jmx.')).map(id => id.slice(id.indexOf('.') + 1));
+  }
+
+  return snapshot.getIn(['data', 'jmx'], emptyList);
 }
 
 function getRowDetails(row) {

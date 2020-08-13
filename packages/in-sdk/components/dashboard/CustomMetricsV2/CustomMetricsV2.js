@@ -200,177 +200,216 @@ function getDetails(row) {
   );
 }
 
-function getDefaultRows({
+export function getDefaultRows({
   snapshot,
   timeConfig,
   setPinnedMetrics,
   pinnedMetrics,
-  countersSnapshotLocation = ['data', 'metrics.counters'],
-  countersMetricPrefix = 'metrics.counters.',
-  gaugesSnapshotLocation = ['data', 'metrics.gauges'],
-  gaugesMetricPrefix = 'metrics.gauges.',
-  histogramsSnapshotLocation = ['data', 'metrics.histograms'],
-  histogramsMetricPrefix = 'metrics.histograms.',
-  metersSnapshotLocation = ['data', 'metrics.meters'],
-  metersMetricPrefix = 'metrics.meters.',
-  timersSnapshotLocation = ['data', 'metrics.timers'],
-  timersMetricPrefix = 'metrics.timers.',
-  metricIdExtractor = (key, value) => value,
-  metricNameExtractor = (key, value) => value
+  noExpandSubMetrics = false,
+  specs = DEFAULT_SPECS
 }) {
-  let rows = [];
   const snapshotId = snapshot.get('id');
+  const expandSubMetrics = !noExpandSubMetrics;
 
-  rows = rows.concat(
-    snapshot
-      .getIn(countersSnapshotLocation, emptyList)
-      .map((value, key) => {
-        return {
-          key: `counter${metricIdExtractor(key, value)}`,
-          name: metricNameExtractor(key, value),
-          type: 'counter',
-          snapshotId,
-          timeConfig,
-          color: '#00CC66',
-          setPinnedMetrics,
-          pinnedMetrics,
-          metrics: [
-            {
-              name: `${countersMetricPrefix}${metricIdExtractor(key, value)}`,
-              label: 'Count',
-              formatter: withSiMultiplyPrefixThreeDecimalPlaces
-            }
-          ]
-        };
-      })
-      .toArray()
-  );
+  const metrics = getMetricIds(snapshot, expandSubMetrics, specs).reduce((acc, id) => {
+    const metric = expandMetric(id, expandSubMetrics, specs);
+    if (!metric) {
+      return acc;
+    }
+    const { i, key, name, type, color, tableMetric, label, formatter } = metric;
+    acc[key] = acc[key] || {
+      key,
+      name,
+      type,
+      color,
+      tableMetric,
+      snapshotId,
+      timeConfig,
+      setPinnedMetrics,
+      pinnedMetrics,
+      metrics: []
+    };
+    acc[key].metrics.push({
+      name: id,
+      label,
+      formatter,
+      i
+    });
+    acc[key].metrics.sort((l, r) => l.i - r.i);
+    return acc;
+  }, {});
 
-  rows = rows.concat(
-    snapshot
-      .getIn(gaugesSnapshotLocation, emptyList)
-      .map((value, key) => {
-        return {
-          key: `gauge${metricIdExtractor(key, value)}`,
-          name: metricNameExtractor(key, value),
-          type: 'gauge',
-          snapshotId,
-          timeConfig,
-          color: '#D90368',
-          setPinnedMetrics,
-          pinnedMetrics,
-          metrics: [
-            {
-              name: `${gaugesMetricPrefix}${metricIdExtractor(key, value)}`,
-              label: 'Value',
-              formatter: withSiMultiplyPrefixThreeDecimalPlaces
-            }
-          ]
-        };
-      })
-      .toArray()
-  );
-
-  rows = rows.concat(
-    snapshot
-      .getIn(histogramsSnapshotLocation, emptyList)
-      .map((value, key) => {
-        return {
-          key: `histogram${metricIdExtractor(key, value)}`,
-          name: metricNameExtractor(key, value),
-          type: 'histogram',
-          snapshotId,
-          timeConfig,
-          color: '#F1C40F',
-          setPinnedMetrics,
-          pinnedMetrics,
-          metrics: [
-            {
-              name: `${histogramsMetricPrefix}${metricIdExtractor(key, value)}.mean`,
-              label: 'Mean',
-              formatter: withSiMultiplyPrefixThreeDecimalPlaces
-            },
-            {
-              name: `${histogramsMetricPrefix}${metricIdExtractor(key, value)}.50th`,
-              label: '50th',
-              formatter: withSiMultiplyPrefixThreeDecimalPlaces
-            },
-            {
-              name: `${histogramsMetricPrefix}${metricIdExtractor(key, value)}.99th`,
-              label: '99th',
-              formatter: withSiMultiplyPrefixThreeDecimalPlaces
-            }
-          ]
-        };
-      })
-      .toArray()
-  );
-
-  rows = rows.concat(
-    snapshot
-      .getIn(metersSnapshotLocation, emptyList)
-      .map((value, key) => {
-        return {
-          key: `meter${metricIdExtractor(key, value)}`,
-          name: metricNameExtractor(key, value),
-          type: 'meter',
-          snapshotId,
-          timeConfig,
-          color: '#2274A5',
-          setPinnedMetrics,
-          pinnedMetrics,
-          metrics: [
-            {
-              name: `${metersMetricPrefix}${metricIdExtractor(key, value)}`,
-              label: 'Rate',
-              formatter: rateFormatter
-            }
-          ]
-        };
-      })
-      .toArray()
-  );
-
-  rows = rows.concat(
-    snapshot
-      .getIn(timersSnapshotLocation, emptyList)
-      .map((value, key) => {
-        return {
-          key: `timer${metricIdExtractor(key, value)}`,
-          name: metricNameExtractor(key, value),
-          type: 'timer',
-          snapshotId,
-          timeConfig,
-          color: '#F75C03',
-          setPinnedMetrics,
-          pinnedMetrics,
-          tableMetric: 1,
-          metrics: [
-            {
-              name: `${timersMetricPrefix}${metricIdExtractor(key, value)}.rate`,
-              label: 'Rate',
-              formatter: rateFormatter
-            },
-            {
-              name: `${timersMetricPrefix}${metricIdExtractor(key, value)}.mean`,
-              label: 'Mean',
-              formatter: timeByMillisTwoDecimalPlaces
-            },
-            {
-              name: `${timersMetricPrefix}${metricIdExtractor(key, value)}.50th`,
-              label: '50th',
-              formatter: timeByMillisTwoDecimalPlaces
-            },
-            {
-              name: `${timersMetricPrefix}${metricIdExtractor(key, value)}.99th`,
-              label: '99th',
-              formatter: timeByMillisTwoDecimalPlaces
-            }
-          ]
-        };
-      })
-      .toArray()
-  );
-
-  return rows;
+  return Object.values(metrics);
 }
+
+function getMetricIds(snapshot, expandSubMetrics, specs) {
+  const metricIds = snapshot.get('metricIds');
+  if (metricIds) {
+    return metricIds;
+  }
+
+  return specs.flatMap(({ prefix, path, metrics }) =>
+    snapshot
+      .getIn(path, emptyList)
+      .flatMap(metric => metrics.map(metrics => prefix + metric + (metrics.suffix || '')))
+      .toJS()
+  );
+}
+
+function expandMetric(id, expandSubMetrics, specs) {
+  const spec = specs.find(spec => id.startsWith(spec.prefix));
+  if (!spec) return null;
+
+  const metric = spec.metrics.map((metric, i) => ({...metric, i})).find(metric => !metric.suffix || id.endsWith(metric.suffix));
+  if (!metric) return null;
+
+  const suffixLength = metric.suffix?.length ?? 0;
+  const key = id.slice(0, id.length - suffixLength);
+  const name = id.slice(spec.prefix.length, id.length - suffixLength);
+  const { type, color, tableMetric } = spec;
+
+  return {
+    key,
+    name,
+    type,
+    color,
+    tableMetric,
+    ...metric
+  };
+}
+
+export const AVAILABLE_SPECS = {
+  COUNTER: {
+    prefix: 'metrics.counters.',
+    path: ['data', 'metrics.counters'],
+    type: 'counter',
+    color: '#00CC66',
+    metrics: [
+      {
+        label: 'Count',
+        formatter: withSiMultiplyPrefixThreeDecimalPlaces
+      }
+    ]
+  },
+  GAUGE: {
+    prefix: 'metrics.gauges.',
+    path: ['data', 'metrics.gauges'],
+    type: 'gauge',
+    color: '#D90368',
+    metrics: [
+      {
+        label: 'Value',
+        formatter: withSiMultiplyPrefixThreeDecimalPlaces
+      }
+    ]
+  },
+  HISTOGRAM: {
+    prefix: 'metrics.histograms.',
+    path: ['data', 'metrics.histograms'],
+    type: 'histogram',
+    color: '#F1C40F',
+    metrics: [
+      {
+        label: 'Value',
+        formatter: withSiMultiplyPrefixThreeDecimalPlaces
+      }
+    ]
+  },
+  EXPANDED_HISTOGRAM: {
+    prefix: 'metrics.histograms.',
+    path: ['data', 'metrics.histograms'],
+    type: 'histogram',
+    color: '#F1C40F',
+    metrics: [
+      {
+        suffix: '.mean',
+        label: 'Mean',
+        formatter: timeByMillisTwoDecimalPlaces
+      },
+      {
+        suffix: '.50th',
+        label: '50th',
+        formatter: timeByMillisTwoDecimalPlaces
+      },
+      {
+        suffix: '.99th',
+        label: '99th',
+        formatter: timeByMillisTwoDecimalPlaces
+      }
+    ]
+  },
+  METER: {
+    prefix: 'metrics.meters.',
+    path: ['data', 'metrics.meters'],
+    type: 'meter',
+    color: '#2274A5',
+    metrics: [
+      {
+        label: 'Rate',
+        formatter: rateFormatter
+      }
+    ]
+  },
+  TIMER: {
+    prefix: 'metrics.timers.',
+    path: ['data', 'metrics.timers'],
+    type: 'timer',
+    color: '#F75C03',
+    metrics: [
+      {
+        label: 'Value',
+        formatter: withSiMultiplyPrefixThreeDecimalPlaces
+      }
+    ]
+  },
+  EXPANDED_TIMER: {
+    prefix: 'metrics.timers.',
+    path: ['data', 'metrics.timers'],
+    type: 'timer',
+    color: '#F75C03',
+    tableMetric: 1,
+    metrics: [
+      {
+        suffix: '.rate',
+        label: 'Rate',
+        formatter: rateFormatter
+      },
+      {
+        suffix: '.mean',
+        label: 'Mean',
+        formatter: timeByMillisTwoDecimalPlaces
+      },
+      {
+        suffix: '.50th',
+        label: '50th',
+        formatter: timeByMillisTwoDecimalPlaces
+      },
+      {
+        suffix: '.99th',
+        label: '99th',
+        formatter: timeByMillisTwoDecimalPlaces
+      }
+    ]
+  },
+  SUMMARY: {
+    prefix: 'metrics.summaries.',
+    path: ['data', 'metrics.summaries'],
+    type: 'summary',
+    color: '#f75c03',
+    metrics: [
+      {
+        label: 'Value',
+        formatter: withSiMultiplyPrefixThreeDecimalPlaces
+      }
+    ]
+  }
+};
+
+export const DEFAULT_SPECS = [
+  AVAILABLE_SPECS.COUNTER,
+  AVAILABLE_SPECS.GAUGE,
+  AVAILABLE_SPECS.EXPANDED_HISTOGRAM,
+  AVAILABLE_SPECS.METER,
+  AVAILABLE_SPECS.EXPANDED_TIMER,
+  AVAILABLE_SPECS.SUMMARY
+];
