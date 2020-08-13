@@ -48,7 +48,7 @@ function renderButtonLine(props) {
         timeConfig={timeConfig}
       />
 
-      {![plugins.instanaAgent, plugins.prometheus].includes(snapshot.get('plugin')) && (
+      {![plugins.instanaAgent].includes(snapshot.get('plugin')) && (
         <ContextGuide
           id={snapshot.get('id')}
           timeConfig={timeConfig}
