@@ -20,7 +20,7 @@ export default function Info({ snapshot }) {
 }
 
 function countMetrics(snapshot, prefix) {
-  const metricCount = snapshot.get('metricIds').filter(m => m.startsWith(prefix)).size;
+  const metricCount = snapshot.get('metricIds', emptyList).filter(m => m.startsWith(prefix)).size;
 
   if (metricCount > 0) {
     return metricCount;
