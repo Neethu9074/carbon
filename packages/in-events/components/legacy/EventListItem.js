@@ -8,11 +8,12 @@ import WebsiteEventListItemContent from 'in-events/components/legacy/WebsiteEven
 import EventDurationMarker from 'in-events/components/legacy/marker/EventDurationMarker';
 import EventListItemContent from 'in-events/components/legacy/EventListItemContent';
 import { getTimeConfigFromEventForSnapshotRetrieval } from 'in-events/timeframe';
-import Marker, { hasServiceImpact } from 'in-events/components/legacy/Marker';
 import { getColorForEventAtFocusedMomentAsStream } from 'in-stores/events';
 import { getCurrentViewWithTimelineFocusedAt } from 'in-stores/timeline';
 import EndedMarker from 'in-events/components/legacy/marker/EndedMarker';
+import { isAppDataEntityType } from 'in-services/entityUtils';
 import { formatTime } from 'in-services/formatters/date';
+import Marker from 'in-events/components/legacy/Marker';
 import EventIcon from 'in-events/components/EventIcon';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
@@ -60,13 +61,11 @@ export default connectTo(
 
       return (
         <div className={className} id={`event-${event.get('id')}`}>
-          {serviceImpact ? (
-            <Marker className={`${block}__affected-service-marker`} label="service impact" event={event} />
-          ) : null}
+          {serviceImpact && <Marker className={`${block}__affected-service-marker`} label="service impact" />}
 
-          {isTriggeringEvent ? (
-            <Marker className={`${block}__triggering-event-marker`} label="triggering event" event={event} />
-          ) : null}
+          {isTriggeringEvent && serviceImpact && (
+            <Marker className={`${block}__triggering-event-marker`} label="triggering event" />
+          )}
 
           <TimeIndicator event={event} isTriggeringEvent={isTriggeringEvent} />
 
@@ -152,6 +151,11 @@ function ListItemContent({ event }) {
   } else {
     return <EventListItemContent event={event} />;
   }
+}
+
+function hasServiceImpact(event) {
+  const entityType = event.get('entityType');
+  return isAppDataEntityType(entityType);
 }
 
 function isWebsiteSmartAlertEvent(event) {
