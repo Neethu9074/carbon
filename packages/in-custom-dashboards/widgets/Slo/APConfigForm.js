@@ -33,7 +33,7 @@ function APConfigForm({ form, onChange, apConfigs }) {
                 value={field?.value}
                 onChange={e => {
                   const apId = e.target.value;
-                  onChange([SliApConfigId], f => f.setValue(apId).setTouched(true));
+                  onChange([SliApConfigId], apId);
                 }}
                 hasError={!field.valid && field.touched}
               >
