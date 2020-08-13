@@ -37,7 +37,7 @@ function SliFormComponent({ form, onChange, sliConfigurations, apConfigId, openM
               }
               hasError={!field.valid && field.touched}
             >
-              {filteredSLIs.length === 0 && <option value="">None available, create one.</option>}
+              {filteredSLIs.length === 0 && <option value="">None available, please create one.</option>}
               {filteredSLIs.length !== 0 && <option value="">Please select</option>}
               {filteredSLIs.map(({ id, sliName }) => (
                 <option key={id} value={id}>
