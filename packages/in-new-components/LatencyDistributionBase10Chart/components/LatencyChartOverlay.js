@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { isEqual } from 'lodash';
+import theme from 'in-themes';
 
 import ChartContextMenu from 'in-new-components/LatencyDistributionBase10Chart/components/ChartContextMenu';
 import { setTimeConfig, fixateTimeConfig } from 'in-stores/time/config';
@@ -9,7 +10,6 @@ import evaluateClassNames from 'in-services/util/classnames';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { mutateUrl } from 'in-stores/navigation';
 import cursors from 'in-components/cursors';
-import theme from 'in-themes';
 
 import locals from './LatencyChartOverlay.mless';
 
@@ -451,6 +451,7 @@ export default function LatencyChartOverlay({
           selectionStart={selectionStartX}
           selectionWidth={selectionWidth}
           selectionAdjustable={selectionAdjustable}
+          bucketWidth={bucketWidth}
         />
       )}
       {selectionDone && (
@@ -496,12 +497,14 @@ export default function LatencyChartOverlay({
   }
 }
 
-function Selection({ height, selectionStart, selectionWidth, selectionAdjustable }) {
+function Selection({ height, selectionStart, selectionWidth, selectionAdjustable, bucketWidth }) {
   const selectionHandleBaseStyle = {
     width: SELECTION_HANDLE_WIDTH_IN_PX + 'px',
     bottom: (height - SELECTION_HANDLE_HEIGHT_IN_PX) / 2 + 'px',
     height: SELECTION_HANDLE_HEIGHT_IN_PX + 'px'
   };
+  // To adjust for the bucketWidth as well and avoid the selection extending outside the bucket.
+  const selectionAdjustment = bucketWidth > 5 ? 2 : 1;
 
   return (
     <>
@@ -513,7 +516,7 @@ function Selection({ height, selectionStart, selectionWidth, selectionAdjustable
         style={{
           height: height,
           left: selectionStart,
-          width: selectionWidth,
+          width: selectionWidth - selectionAdjustment,
           backgroundColor: theme.lib.colors.chartSelection
         }}
       />
