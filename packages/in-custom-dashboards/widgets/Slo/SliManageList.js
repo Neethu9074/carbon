@@ -1,41 +1,47 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
+import SlideInView, { ListHeader } from 'in-new-components/SlideInView/SlideInView';
 import { getSliConfigurations } from 'in-custom-dashboards/api';
 import SliList from 'in-custom-dashboards/widgets/Slo/SliList';
 import { isLoading, hasError } from 'in-services/util/result';
 import { formatDateTime } from 'in-services/formatters/date';
 import KeyValue from 'in-new-components/lists/KeyValue';
-import { noop } from 'in-services/fixedObjects';
 import Button from 'in-new-components/Button';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
-import { role } from 'in-stores/user';
-
-const createSliHeader = (true || // in storybook
-  role.canConfigureObjectives) && (
-  <Button
-    disabled
-    kind="action"
-    onClick={
-      noop // TODO mixpanel tracking () => applicationOpenSubmitFormTracker()
-    }
-    icon="lib_openclose_add"
-  >
-    Create SLI
-  </Button>
-);
 
 const DEFAULT_API = {
   getSliConfigurations: getSliConfigurations
 };
 
 export default function SliManageList({ api = DEFAULT_API, applicationId }) {
+  const [showInnerDialog, setShowInnerDialog] = useState(false);
+
+  const createSliHeader = (
+    <Button kind="action" onClick={() => setShowInnerDialog(true)} icon="lib_openclose_add">
+      Create SLI
+    </Button>
+  );
+
   return (
-    <SliList
-      columnDefinitions={columnDefinitions}
-      getItems={() => api.getSliConfigurations()?.map(onlyWithAPid(applicationId)) ?? null}
-      rightHeader={createSliHeader}
+    <SlideInView
+      onShowSlideInContentChange={setShowInnerDialog}
+      showSlideInContent={showInnerDialog}
+      HeaderComponent={ListHeader}
+      slideTransitionDurationMillis={250}
+      slideInContentTitle={'Create a new SLI ☀️'}
+      slideInContent={<Button onClick={() => setShowInnerDialog(false)}>Back to List of SLIs</Button>}
+      staticContent={
+        <div>
+          <SliList
+            columnDefinitions={columnDefinitions}
+            getItems={() => api.getSliConfigurations()?.map(onlyWithAPid(applicationId)) ?? null}
+            rightHeader={createSliHeader}
+          />
+        </div>
+      }
+      enforceMaxHeightForStaticContent
     />
   );
 }
