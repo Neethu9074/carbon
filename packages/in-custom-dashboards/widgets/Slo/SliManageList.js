@@ -10,13 +10,14 @@ import KeyValue from 'in-new-components/lists/KeyValue';
 import Button from 'in-new-components/Button';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
+import CreateNewSLIForm from 'in-custom-dashboards/widgets/Slo/CreateSLIForm';
 
 const DEFAULT_API = {
   getSliConfigurations: getSliConfigurations
 };
 
 export default function SliManageList({ api = DEFAULT_API, applicationId }) {
-  const [showInnerDialog, setShowInnerDialog] = useState(false);
+  const [showInnerDialog, setShowInnerDialog] = useState(true);
 
   const createSliHeader = (
     <Button kind="action" onClick={() => setShowInnerDialog(true)} icon="lib_openclose_add">
@@ -30,8 +31,34 @@ export default function SliManageList({ api = DEFAULT_API, applicationId }) {
       showSlideInContent={showInnerDialog}
       HeaderComponent={ListHeader}
       slideTransitionDurationMillis={250}
-      slideInContentTitle={'Create a new SLI ☀️'}
-      slideInContent={<Button onClick={() => setShowInnerDialog(false)}>Back to List of SLIs</Button>}
+      slideInContentTitle={'Back to SLIs️'}
+      slideInContent={
+        <div
+          style={{
+            paddingLeft: '1rem',
+            paddingRight: '1rem'
+          }}
+        >
+          {<Button onClick={() => setShowInnerDialog(false)}>Back to List of SLIs</Button>}
+          <CreateNewSLIForm
+            sliConfig={{
+              sliName: 'robert-create-a-new-sli',
+              metricConfiguration: {
+                metricName: 'latency',
+                metricAggregation: 'P90',
+                threshold: 10
+              },
+              sliEntity: {
+                sliType: 'application',
+                applicationId: 'acfRC1IqTVi41OMLAJU4Cw',
+                serviceId: null,
+                endpointId: null,
+                boundaryScope: 'ALL'
+              }
+            }}
+          />
+        </div>
+      }
       staticContent={
         <div>
           <SliList
