@@ -23,6 +23,9 @@ export default function IBMMQQueueManagerDashboard({ snapshot, timeConfig }) {
         <KpiKeyValue label="Connections">
           <MetricValue snapshotId={snapshotId} metric="connectionCount" />
         </KpiKeyValue>
+        <KpiKeyValue label="Messages In">
+          <MetricValue snapshotId={snapshotId} metric="messagesIn" />
+        </KpiKeyValue>
       </KpiSection>
       <DashboardSection title="Connections">
         <Chart

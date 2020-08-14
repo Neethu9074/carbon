@@ -45,7 +45,7 @@ const cols = [
     }
   },
   {
-    title: 'Started at',
+    title: 'Started At',
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -54,7 +54,7 @@ const cols = [
     }
   },
   {
-    title: 'Alternated at',
+    title: 'Alternated At',
     type: 'string',
     typeArgs: {
       getValue(row) {

@@ -7,8 +7,8 @@ export default function Info({ snapshot }) {
   return (
     <DescriptionList>
       <DescriptionItem title="Name">{data.get('clusterName')}</DescriptionItem>
-      <DescriptionItem title="Started at">{data.get('clusterDateTime')}</DescriptionItem>
-      <DescriptionItem title="Alternated at">{data.get('clusterAlternated')}</DescriptionItem>
+      <DescriptionItem title="Started At">{data.get('clusterDateTime')}</DescriptionItem>
+      <DescriptionItem title="Alternated At">{data.get('clusterAlternated')}</DescriptionItem>
     </DescriptionList>
   );
 }

@@ -1,13 +1,23 @@
 import React from 'react';
 
+import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
+import MetricValue from 'in-components/MetricValue';
 
 export default function IBMMQChannelDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
   return (
     <div>
+      <KpiSection>
+        <KpiKeyValue label="Messages Sent">
+          <MetricValue snapshotId={snapshotId} metric="messagesSent" />
+        </KpiKeyValue>
+        <KpiKeyValue label="Messages Available">
+          <MetricValue snapshotId={snapshotId} metric="messagesAvailable" />
+        </KpiKeyValue>
+      </KpiSection>
       <DashboardSection title="Messages">
         <Chart
           snapshotId={snapshotId}
