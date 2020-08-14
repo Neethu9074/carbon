@@ -16,7 +16,7 @@ const stepConfigs = [
     title: 'Step 1: Select Model'
   },
   {
-    title: 'Step 2: Specify your application',
+    title: 'Step 2: Specify Application',
     validateIntermediately: [['matchSpecification']]
   },
   {

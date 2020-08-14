@@ -15,11 +15,11 @@ export default function SimpleCreateStep3({ form, updateForm, servicesLiveList, 
   const labelField = form.get('label');
 
   return (
-    <SimpleModeStepContentWrapper headline="Configuration Details">
+    <SimpleModeStepContentWrapper headline="What is the name of this application?">
       <div className={locals.filterWrapper}>
         <FormGroup>
           <Label htmlFor="label" hasError={!labelField.valid && labelField.touched}>
-            Name your new Application Perspective
+            Application Name
           </Label>
           <Input
             type="text"
@@ -35,12 +35,12 @@ export default function SimpleCreateStep3({ form, updateForm, servicesLiveList, 
         </FormGroup>
         <TouchedMessages field={labelField} />
         <Spacer type="dark" />
-        <Label>Select the default dashboard view</Label>
+        <Label>Are you interested just in the calls to this application, or also the internal calls?</Label>
         <InboundAllCalls form={form} updateForm={updateForm} />
       </div>
       <ServiceLiveList
         servicesLiveList={servicesLiveList}
-        headerText="Services in this Application Perspective..."
+        headerText="Matched services in the last hour"
         descriptionText="Not impacted by settings in this step."
         matchSpecification={matchSpecification}
       />

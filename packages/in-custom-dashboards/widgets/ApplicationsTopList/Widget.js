@@ -37,7 +37,7 @@ export default function ApplicationsTopList({ config, setApDialogOpen }) {
         applicationCreationOpenDialogClick({ status: 'Open Creation Dialog' });
       }}
     >
-      Create New Application Perspective
+      New Application Perspective
     </Button>
   );
 
