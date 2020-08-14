@@ -19,6 +19,7 @@ export default function IBMMQQueueManagerDashboard({ snapshot, timeConfig }) {
   }
   return (
     <div>
+      {getSensorConnectionStatus(snapshot)}
       <KpiSection>
         <KpiKeyValue label="Connections">
           <MetricValue snapshotId={snapshotId} metric="connectionCount" />
@@ -58,4 +59,11 @@ export default function IBMMQQueueManagerDashboard({ snapshot, timeConfig }) {
       <ChannelsTable snapshot={snapshot} timeConfig={timeConfig} />
     </div>
   );
+}
+
+function getSensorConnectionStatus(snapshot) {
+  const sensorConnectionStatus = snapshot.getIn(['data', 'sensorConnectionStatus'], 'OK');
+  if (sensorConnectionStatus !== 'OK') {
+    return <DashboardNotification type="info">{sensorConnectionStatus}</DashboardNotification>;
+  }
 }
