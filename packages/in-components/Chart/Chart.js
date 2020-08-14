@@ -36,7 +36,7 @@ export default class Chart {
   }
 
   atomicRender(renderProps) {
-    this.calculateTicks(renderProps);
+    this.calculateTicksForNonLiveMode(renderProps);
     this.render(renderProps);
   }
 
@@ -49,7 +49,7 @@ export default class Chart {
     this.updateExistingTickPositions(renderProps);
   }
 
-  calculateTicks(renderProps) {
+  calculateTicksForNonLiveMode(renderProps) {
     const { backBufferWidth } = renderProps;
     const { timeConfig } = this.config;
     if (!backBufferWidth) {
@@ -179,9 +179,10 @@ export default class Chart {
       xScaleBackBuffer.getDomainFrom() - (xScaleBackBuffer.getDomainTo() - xScaleBackBuffer.getDomainFrom()) / 4; // give the ticks some room so they can vanish out of view nicely
     this.tickPositions = this.tickPositions.filter(tick => tick > from);
 
-    const distanceBetweenTicks = this.getDistanceBetweenTicks();
+    const distanceBetweenTicks = this.getDistanceBetweenTicks(this.tickPositions);
     if (!distanceBetweenTicks) {
-      return;
+      // when no ticks can be calculated because there are to less datapoints, recalculate a whole set
+      return this.calculateTicksForNonLiveMode(renderProps);
     }
 
     const to = xScaleBackBuffer.getDomainTo();
@@ -192,12 +193,12 @@ export default class Chart {
     }
   }
 
-  getDistanceBetweenTicks() {
+  getDistanceBetweenTicks(tickPositions) {
     // you need at least two points to calculate a distance
-    if (!this.tickPositions || this.tickPositions.length < 2) {
+    if (!tickPositions || tickPositions.length < 2) {
       return null;
     }
-    return this.tickPositions[1] - this.tickPositions[0];
+    return tickPositions[1] - tickPositions[0];
   }
 
   dispose() {

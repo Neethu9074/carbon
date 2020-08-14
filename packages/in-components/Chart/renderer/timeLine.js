@@ -11,11 +11,32 @@ const dayAxisFont = `9px ${theme.fontFamilySansSerif}`;
 let timeLabelWidth;
 
 export default function axis(config, tickPositions) {
+  const { backBufferCtx: ctx } = config;
+
+  ctx.save();
+  ctx.beginPath();
+  ctx.fillStyle = theme.lib.colors.N300;
+
+  drawLine(config);
+  drawTicks(tickPositions, config);
+
+  ctx.fill();
+  ctx.restore();
+}
+
+function drawLine(config) {
+  const { backBufferCtx: ctx, height, timeAxisHeight, backBufferWidth } = config;
+  const timeLineTop = height - timeAxisHeight;
+  ctx.rect(0, timeLineTop, backBufferWidth, 1);
+}
+
+function drawTicks(tickPositions, config) {
+  const { backBufferCtx: ctx, xScaleBackBuffer, bufferOffsetInPx, height, timeAxisHeight, backBufferWidth } = config;
+
   if (!tickPositions || tickPositions.length === 0) {
     return;
   }
 
-  const { backBufferCtx: ctx, xScaleBackBuffer, bufferOffsetInPx, height, timeAxisHeight, backBufferWidth } = config;
   if (!timeLabelWidth) {
     timeLabelWidth = ctx.measureText('00:00:00').width;
   }
@@ -28,11 +49,6 @@ export default function axis(config, tickPositions) {
     .filter(({ xPos }) => xPos + bufferOffsetInPx >= 0);
 
   const timeLineTop = height - timeAxisHeight;
-
-  ctx.save();
-  ctx.beginPath();
-  ctx.fillStyle = theme.lib.colors.N300;
-  ctx.rect(0, timeLineTop, backBufferWidth, 1);
 
   let dateLabel;
   for (let i = 0; i < tickPositions.length; i++) {
@@ -53,9 +69,6 @@ export default function axis(config, tickPositions) {
       dateLabel = currentDateLabel;
     }
   }
-
-  ctx.fill();
-  ctx.restore();
 }
 
 function renderTickLine(ctx, xPos, timeLineTop) {
