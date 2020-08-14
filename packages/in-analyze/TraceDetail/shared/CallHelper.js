@@ -15,3 +15,7 @@ export function isUnknownTypeSpan(call) {
 export function isInternalCall(call) {
   return call.endpoint.type === 'INTERNAL';
 }
+
+export function isLog(call) {
+  return call.model === 'LOG';
+}

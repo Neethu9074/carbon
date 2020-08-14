@@ -3,7 +3,7 @@ import React from 'react';
 
 import ChildrenDistributionTimeLine from 'in-analyze/TraceDetail/components/CallTree/components/ChildrenDistributionTimeLine';
 import ServiceEndpointInformation from 'in-analyze/TraceDetail/components/CallTree/components/ServiceEndpointInformation';
-import { isFakeRootCall, isUnknownTypeSpan, isInternalCall } from 'in-analyze/TraceDetail/shared/CallHelper';
+import { isFakeRootCall, isUnknownTypeSpan, isInternalCall, isLog } from 'in-analyze/TraceDetail/shared/CallHelper';
 import ErrorIndicator from 'in-analyze/TraceDetail/components/ErrorIndicator';
 import { getColor as getEndpointColor } from 'in-applications/endpointTypes';
 import { evaluateClassNames } from 'in-services/util/classnames';
@@ -44,7 +44,7 @@ function Row(props) {
     isLargeTrace
   } = props;
 
-  const hasChildren = call.children && call.children.length > 0;
+  const hasChildren = call.children && call.children.filter(child => !isLog(child)).length > 0;
   const marginLeft = Math.max(0, depth - 1) * marginPerDepth;
   const lineWidth = getLineWidth(depth, hasChildren);
 
@@ -86,7 +86,7 @@ function Row(props) {
 
       {isExpanded &&
         call.children
-          .filter(subCall => subCall.model !== 'LOG')
+          .filter(child => !isLog(child))
           .map((subCall, i) => (
             <EnhancedRow
               key={subCall.id}
