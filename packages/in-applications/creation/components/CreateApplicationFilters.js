@@ -230,7 +230,7 @@ const addTagFunction = (_tag, form, updateForm) => {
 
 function addToAnd(list, additionalSubForm) {
   const andArr = list.toJS().filter(item => item.conjunction === 'AND');
-  return list.insert(andArr.length === 1 ? 0 : andArr.length - 1, additionalSubForm).setTouched(true);
+  return list.insert(andArr.length === 1 ? 1 : andArr.length - 1, additionalSubForm).setTouched(true);
 }
 
 function getMatchSpecificationForm(matchSpecification = {}) {

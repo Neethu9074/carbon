@@ -274,7 +274,6 @@ export const blueprintConfig = Object.freeze([
             <li>Kubernetes labels</li>
             <li>Container labels</li>
           </ul>
-  
           This blueprint puts them all together so they are easy to find.
       `
       },
@@ -300,7 +299,7 @@ export const blueprintConfig = Object.freeze([
       },
       { category: 'Miscellaneous', tags: ['agent.tag', 'aws.ec2.tag', 'call.inbound_of_application', 'call.tag'] },
       {
-        category: 'Kubernetes',
+        category: 'Platform',
         tags: [
           'docker.label',
           'kubernetes.label',
