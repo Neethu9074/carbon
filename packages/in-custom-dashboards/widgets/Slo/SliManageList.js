@@ -17,18 +17,33 @@ const DEFAULT_API = {
 };
 
 export default function SliManageList({ api = DEFAULT_API, applicationId, apName }) {
-  const [showInnerDialog, setShowInnerDialog] = useState(true);
+  const [sliSelected, selectSli] = useState(null);
+  const sliConfig_example = {
+    sliName: 'robert-create-a-new-sli',
+    metricConfiguration: {
+      metricName: 'latency',
+      metricAggregation: 'P90',
+      threshold: 10
+    },
+    sliEntity: {
+      sliType: 'application',
+      applicationId: 'acfRC1IqTVi41OMLAJU4Cw',
+      serviceId: null,
+      endpointId: null,
+      boundaryScope: 'ALL'
+    }
+  };
 
   const createSliHeader = (
-    <Button kind="action" onClick={() => setShowInnerDialog(true)} icon="lib_openclose_add">
+    <Button kind="action" onClick={() => selectSli(sliConfig_example)} icon="lib_openclose_add">
       Create SLI
     </Button>
   );
 
   return (
     <SlideInView
-      onShowSlideInContentChange={setShowInnerDialog}
-      showSlideInContent={showInnerDialog}
+      onShowSlideInContentChange={() => selectSli(null)}
+      showSlideInContent={sliSelected}
       HeaderComponent={ListHeader}
       slideTransitionDurationMillis={250}
       slideInContentTitle={'Back to SLIs️'}
@@ -39,30 +54,27 @@ export default function SliManageList({ api = DEFAULT_API, applicationId, apName
             paddingRight: '1rem'
           }}
         >
-          {<Button onClick={() => setShowInnerDialog(false)}>Back to List of SLIs</Button>}
-          <CreateNewSLIForm
-            sliConfig={{
-              sliName: 'robert-create-a-new-sli',
-              metricConfiguration: {
-                metricName: 'latency',
-                metricAggregation: 'P90',
-                threshold: 10
-              },
-              sliEntity: {
-                sliType: 'application',
-                applicationId: 'acfRC1IqTVi41OMLAJU4Cw',
-                serviceId: null,
-                endpointId: null,
-                boundaryScope: 'ALL'
-              }
-            }}
-          />
+          {<Button onClick={() => selectSli(null)}>Back to List of SLIs</Button>}
+          {sliSelected && <CreateNewSLIForm apName={apName} sliConfig={sliSelected} />}
         </div>
       }
       staticContent={
         <div>
           <SliList
-            columnDefinitions={columnDefinitions}
+            columnDefinitions={[
+              ...columnDefinitions,
+              {
+                sortable: false,
+                width: '2rem',
+                getContent() {
+                  return (
+                    <Tooltip content="View/Clone SLI">
+                      <SvgIcon type="lib_actions_edit" color={'rgb(0,152,232)'} />
+                    </Tooltip>
+                  );
+                }
+              }
+            ]}
             getItems={() => api.getSliConfigurations()?.map(onlyWithAPid(applicationId)) ?? null}
             rightHeader={createSliHeader}
           />
@@ -128,17 +140,6 @@ const columnDefinitions = [
         <time dateTime={new Date(timestamp).toISOString()}>{formatDateTime(timestamp)}</time>
       ) : (
         <span>{valueMissingPlaceholder}</span>
-      );
-    }
-  },
-  {
-    sortable: false,
-    width: '2rem',
-    getContent() {
-      return (
-        <Tooltip content="View/Clone SLI, will come soon">
-          <SvgIcon type="lib_actions_edit" color={'primary'} />
-        </Tooltip>
       );
     }
   }
