@@ -35,7 +35,7 @@ export default function CreateApplicationDialogPresenter(props) {
   return (
     <Dialog
       titleIconType="lib_application"
-      title="Create New Application Perspective"
+      title="New Application Perspective"
       onClose={() => withTrackClose(simpleMode && simpleModeStep)}
       renderCustomCloseBehaviour={() => (
         <Button

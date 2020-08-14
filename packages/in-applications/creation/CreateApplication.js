@@ -27,7 +27,7 @@ export default function CreateApplication({ applicationId, timeConfig, className
         }}
         className={className}
       >
-        Create New Application Perspective
+        New Application Perspective
       </Button>
       {dialogOpen && (
         <CreateApplicationDialog

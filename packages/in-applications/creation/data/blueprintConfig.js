@@ -1,58 +1,68 @@
+const whenToUse = 'When to use?';
+const whoShouldUse = 'Who should use?';
+const tipsForUsing = 'Tips for using';
+
 export const blueprintConfig = Object.freeze([
   {
     type: 'servicesEndpoints',
-    name: 'Services & Endpoints',
+    name: 'Services or Endpoints',
     headline: 'A collection of services or endpoints',
     description: [
       {
-        headline: 'What is this for?',
+        headline: whenToUse,
         htmlContent:
           'If the services or endpoints are well known and the group won’t change soon. This is often an application that a specific team is responsible for, or which provides a single function (eg. Payment Application). This is the simplest approach.'
       },
       {
-        headline: 'Who uses this a lot?',
+        headline: whoShouldUse,
         htmlContent: 'DevOps, Operations, SRE, Developer, QA, Support, Business owner.'
       },
       {
-        headline: 'Some tips for using',
+        headline: tipsForUsing,
         htmlContent: `
-          Use string operators (e.g., like “contains”, “starts with”) to select several services with one filter.<br>
-          Add setup,  environment, or custom tags to narrow the scope. <br>
-          Use "No downstream services" and "Inbound calls" for the source's perspective.<br>
-          Use "All downstream services" and  "All calls" for the end-to-end view.<br>
-          Use "Immediate downstream services" to include the direct database or messaging services.<br>
-          Click on “All Filters”to add additional tags.
+          <ul>
+            <li>Use string operators (e.g., like “contains”, “starts with”) to select several services with one filter.</li>
+            <li>Add setup,  environment, or custom tags to narrow the scope.</li>
+            <li>Use "No downstream services" and "Inbound calls" for the source's perspective.</li>
+            <li>Use "All downstream services" and  "All calls" for the end-to-end view.</li>
+            <li>Use "Immediate downstream services" to include the direct database or messaging services.</li>
+          </ul>
         `
       }
     ]
   },
   {
     type: 'location',
-    name: 'Location: env, geo or host.',
+    name: 'Environment or Region',
     headline: 'An environment or region (eg. prod, staging, US East)',
     description: [
       {
-        headline: 'What is this for?',
-        htmlContent: `When you want to group services using information from the environment, such as
-        <ul><li>Cloud information</li>
-        <li>Zone names</li>
-        <li>Host name or ID</li></ul>
-        It can be added to distinguish between different environments.
+        headline: whenToUse,
+        htmlContent: `
+          When you want to model applications using information from the environment, such as:
+          <ul>
+            <li>Cloud information</li>
+            <li>Zone or region</li>
+            <li>Host name or ID</li>
+          </ul>
         `
       },
-      { headline: 'Who uses this a lot?', htmlContent: `DevOps, Operations, SRE, QA, Business owner` },
+      { headline: whoShouldUse, htmlContent: `DevOps, Operations, SRE, QA, Business owner` },
       {
-        headline: 'Some tips for using',
-        htmlContent: `Use "No downstream services" and "Inbound calls" for the source's perspective. <br>
-        Use "All downstream services" and  "All calls" for the end-to-end view.<br>
-        Use "Immediate downstream services" to include the direct database or messaging services.
+        headline: tipsForUsing,
+        htmlContent: `
+          <ul>
+            <li>Use "No downstream services" and "Inbound calls" for the source's perspective.</li>
+            <li>Use "All downstream services" and  "All calls" for the end-to-end view.</li>
+            <li>Use "Immediate downstream services" to include the direct database or messaging services.</li>
+          </ul>
         `
       }
     ],
     curatedTagFilters: [
       {
         category: 'Zone',
-        tags: ['agent.zone', 'aws.ec2.zone', 'azure.zone', 'cloudfoundry.space.name']
+        tags: ['agent.zone', 'aws.ec2.zone', 'azure.zone', 'gce.zone', 'cloudfoundry.space.name']
       },
       {
         category: 'Cloud',
@@ -65,6 +75,7 @@ export const blueprintConfig = Object.freeze([
           'aws.ecs.cluster.name',
           'aws.ec2.zone',
           'azure.zone',
+          'gce.zone',
           'cloud.provider'
         ]
       },
@@ -85,27 +96,33 @@ export const blueprintConfig = Object.freeze([
   },
   {
     type: 'container',
-    name: 'Container:  K8s or related. ',
+    name: 'Kubernetes or Container',
     headline: 'An application modeled by Kubernetes or container labels',
     description: [
       {
-        headline: 'What is this for?',
-        htmlContent: `When you want to group services based on:
-        <ul><li>Namespace (this is frequently used)</li>
-        <li>Container or image name</li>
-        <li>Platform related service names</li>
-        <li>Deployment information</li>
-        <li>Labels</li>
-        </ul>
-        Tags are available for:  Kubernetes, OpenShift, Docker, Cloud Foundry, Marathon, and Nomad.`
+        headline: whenToUse,
+        htmlContent: `
+          When you want to group services based on:
+            <ul>
+              <li>Namespace (this is frequently used)</li>
+              <li>Container or image name</li>
+              <li>Platform related service names</li>
+              <li>Deployment information</li>
+              <li>Labels</li>
+            </ul>
+
+          Tags are available for:  Kubernetes, OpenShift, Docker, Cloud Foundry, Marathon, and Nomad.`
       },
-      { headline: 'Who uses this a lot?', htmlContent: `DevOps, Operations, SRE, Developer` },
+      { headline: whoShouldUse, htmlContent: `DevOps, Operations, SRE, Developer` },
       {
-        headline: 'Some tips for using.',
-        htmlContent: `Add setup,  environment, or custom tags to narrow the scope.<br>
-        Use "No downstream services" and "Inbound calls" for the source's perspective.<br>
-        Use "All downstream services" and  "All calls" for the end-to-end view.<br>
-        Use "Immediate downstream services" to include the direct database or messaging services.
+        headline: tipsForUsing,
+        htmlContent: `
+          <ul>
+            <li>Add setup,  environment, or custom tags to narrow the scope.</li>
+            <li>Use "No downstream services" and "Inbound calls" for the source's perspective.</li>
+            <li>Use "All downstream services" and  "All calls" for the end-to-end view.</li>
+            <li>Use "Immediate downstream services" to include the direct database or messaging services.</li>
+          </ul>
         `
       }
     ],
@@ -150,31 +167,33 @@ export const blueprintConfig = Object.freeze([
   },
   {
     type: 'httpOrRpc',
-    name: 'HTTP or RPC',
+    name: 'Request Attributes',
     headline: 'An application based on request attributes (eg. HTTP headers, query parameters)',
     description: [
       {
-        headline: 'What is this for?',
+        headline: whenToUse,
         htmlContent: `It can be added to distinguish between different environments.
-        <ul><li>HTTP headers, including X-headers</li>
-        <li>HTTP return code status</li>
-        <li>Portions of the URL</li>
-        <li>Request parameters</li>
-        <li>RPC method or object.</li>
+        <ul>
+          <li>HTTP headers, including X-headers</li>
+          <li>HTTP return code status</li>
+          <li>Portions of the URL</li>
+          <li>Request parameters</li>
+          <li>RPC method or object.</li>
         </ul>
         There are several RPC protocols supported using similar operators.
-
       `
       },
-      { headline: 'Who uses this a lot?', htmlContent: `DevOps, Operations, SRE, Developer, QA, Support` },
+      { headline: whoShouldUse, htmlContent: `DevOps, Operations, SRE, Developer, QA, Support` },
       {
-        headline: 'Some tips for using.',
+        headline: tipsForUsing,
         htmlContent: `
-      Use string operators (e.g., like “contains”, “starts with”) to simplify the filter.<br>
-      Add setup,  environment, or custom tags to narrow the scope.<br>
-      Use "No downstream services" and "Inbound calls" for the source's perspective.<br>
-      Use "All downstream services" and  "All calls" for the end-to-end view.<br>
-      Use "Immediate downstream services" to include the direct database or messaging services.
+          <ul>
+            <li>Use string operators (e.g., like “contains”, “starts with”) to simplify the filter.</li>
+            <li>Add setup,  environment, or custom tags to narrow the scope.</li>
+            <li>Use "No downstream services" and "Inbound calls" for the source's perspective.</li>
+            <li>Use "All downstream services" and  "All calls" for the end-to-end view.</li>
+            <li>Use "Immediate downstream services" to include the direct database or messaging services.</li>
+          </ul>
       `
       }
     ],
@@ -199,28 +218,32 @@ export const blueprintConfig = Object.freeze([
   },
   {
     type: 'technologyGrouping',
-    name: 'Technology Grouping',
+    name: 'Technology',
     headline: 'All services of a specific technology (eg. MySQL, all databases)',
     description: [
       {
-        headline: 'What is this for?',
-        htmlContent: `A coarse grouping by the type of technology or application:
-        <ul><li>Database details, like the schema</li>
-        <li>Java application name</li>
-        <li>A scripting application name</li></ul>
-
+        headline: whenToUse,
+        htmlContent: `
+        A coarse grouping by the type of technology or application:
+        <ul>
+          <li>Database details, like the type or schema</li>
+          <li>Java application name</li>
+          <li>A scripting application name</li>
+        </ul>
       `
       },
       {
-        headline: 'Who uses this a lot?',
+        headline: whoShouldUse,
         htmlContent: `Operations, SRE, Developer, QA, Support, Business owner`
       },
       {
-        headline: 'Some tips for using',
+        headline: tipsForUsing,
         htmlContent: `
-      Use "No downstream services" and "Inbound calls" for the source's perspective.</br>
-      Use "All downstream services" and  "All calls" for the end-to-end view.</br>
-      Use "Immediate downstream services" to include the direct database or messaging services.
+          <ul>
+            <li>Use "No downstream services" and "Inbound calls" for the source's perspective.</li>
+            <li>Use "All downstream services" and  "All calls" for the end-to-end view.</li>
+            <li>Use "Immediate downstream services" to include the direct database or messaging services.</li>
+          </ul>
       `
       }
     ],
@@ -240,27 +263,33 @@ export const blueprintConfig = Object.freeze([
     headline: 'An application based on custom metadata added by your or your platform',
     description: [
       {
-        headline: 'What is this for?',
-        htmlContent: `Adding your own data via the SDK, the platform, etc. is easy This custom data can be used to form an AP from:
-        <ul><li>HTTP protocol</li>
-        <li>Instana agent</li>
-        <li>AWS</li>
-        <li>Data that is attached to a call</li>
-        <li>Kubernetes labels</li>
-        <li>Container labels</li></ul>
-        This blueprint puts them all together so they are easy to find.
+        headline: whenToUse,
+        htmlContent: `
+          When you want to add your own data via the SDK, the platform, etc. This custom data can be added from:
+          <ul>
+            <li>HTTP protocol</li>
+            <li>Instana agent</li>
+            <li>AWS</li>
+            <li>Data that is attached to a call</li>
+            <li>Kubernetes labels</li>
+            <li>Container labels</li>
+          </ul>
 
+          This blueprint puts them all together so they are easy to find.
       `
       },
       {
-        headline: 'Who uses this a lot?',
+        headline: whoShouldUse,
         htmlContent: `DevOps, Developer, QA`
       },
       {
-        headline: 'Some tips for using',
-        htmlContent: `Use "No downstream services" and "Inbound calls" for the source's perspective.<br>
-        Use "All downstream services" and  "All calls" for the end-to-end view.<br>
-        Use "Immediate downstream services" to include the direct database or messaging services.
+        headline: tipsForUsing,
+        htmlContent: `
+          <ul>
+            <li>Use "No downstream services" and "Inbound calls" for the source's perspective.</li>
+            <li>Use "All downstream services" and  "All calls" for the end-to-end view.</li>
+            <li>Use "Immediate downstream services" to include the direct database or messaging services.</li>
+          </ul>
         `
       }
     ],
