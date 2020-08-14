@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { getApplicationConfigsAsResultObservable } from 'in-api/applicationConfigs';
-import { SliApConfigId } from 'in-custom-dashboards/widgets/Slo/form';
+import { SliApConfigId, SloApName } from 'in-custom-dashboards/widgets/Slo/form';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { Row, Col } from 'in-new-components/layout/Grid';
@@ -33,7 +33,9 @@ function APConfigForm({ form, onChange, apConfigs }) {
                 value={field?.value}
                 onChange={e => {
                   const apId = e.target.value;
+                  const apName = apConfigs?.find(ap => ap.id == apId).label ?? '';
                   onChange([SliApConfigId], f => f.setValue(apId).setTouched(true));
+                  onChange([SloApName], f => f.setValue(apName).setTouched(true));
                 }}
                 hasError={!field.valid && field.touched}
               >

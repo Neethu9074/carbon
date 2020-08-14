@@ -80,13 +80,13 @@ function resetFormForSliType(sliType, setForm, form, sliConfig) {
 }
 
 export default function CreateNewSLIForm({
-  applicationName,
+  apName,
   sliConfig
   //form,
   // onChange,
   // onChangeType
 }) {
-  const [form, setForm] = useState(createForm(sliConfig));
+  const [form, setForm] = useState(createForm(sliConfig ?? {}));
 
   const onChange = (path, fn) => {
     setForm(form.updateIn(path, fn));
@@ -152,7 +152,7 @@ export default function CreateNewSLIForm({
           </Col>
           <Col md={3}>
             <FormGroup>
-              <Input disabled value={applicationName} />
+              <Input disabled value={apName} />
             </FormGroup>
           </Col>
         </Row>

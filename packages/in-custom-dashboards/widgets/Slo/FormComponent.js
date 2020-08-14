@@ -1,7 +1,7 @@
 import React from 'react';
 
 import SliFormComponent from 'in-custom-dashboards/widgets/Slo/SliFormComponent';
-import { SloTarget, SliApConfigId } from 'in-custom-dashboards/widgets/Slo/form';
+import { SloTarget, SliApConfigId, SloApName } from 'in-custom-dashboards/widgets/Slo/form';
 import APConfigSelector from 'in-custom-dashboards/widgets/Slo/APConfigForm';
 import SliManageList from 'in-custom-dashboards/widgets/Slo/SliManageList';
 import StackItem from 'in-new-components/layout/Stack/StackItem';
@@ -45,7 +45,7 @@ export default function FormComponent({ form, onChange, widgetTitleFormGroup, se
                   setSlideInView({
                     title: 'Sli Management',
                     getContent() {
-                      return <SliManageList applicationId={apConfigId} api={api} />;
+                      return <SliManageList applicationId={apConfigId} apName={form.get(SloApName)?.value} api={api} />;
                     }
                   })
                 }
@@ -69,7 +69,7 @@ export default function FormComponent({ form, onChange, widgetTitleFormGroup, se
                   value={form.get(SloTarget).value * 100}
                   onChange={({ target }) => {
                     onChange([SloTarget], f =>
-                      f.setValue(target.value == '' ? '' : target.value / 100).setTouched(true)
+                      f.setValue(target.value === '' ? '' : target.value / 100).setTouched(true)
                     );
                   }}
                 />

@@ -13,7 +13,7 @@ export function Default() {
     getSliConfigurations,
     getApplicationConfigsAsResultObservable
   };
-  const savedState = {
+  const sliConfig = {
     id: 'joschi-test-1',
     sliName: 'SLI on all services latency p90 <10ms',
     metricConfiguration: {
@@ -30,7 +30,5 @@ export function Default() {
     }
   };
 
-  const sliConfig = savedState;
-
-  return <CreateNewSLIForm api={api} sliConfig={sliConfig} applicationName={'All Servics'} />;
+  return <CreateNewSLIForm api={api} sliConfig={sliConfig} apName={'All Servics'} />;
 }

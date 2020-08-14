@@ -13,10 +13,10 @@ import SvgIcon from 'in-components/SvgIcon';
 import CreateNewSLIForm from 'in-custom-dashboards/widgets/Slo/CreateSLIForm';
 
 const DEFAULT_API = {
-  getSliConfigurations: getSliConfigurations
+  getSliConfigurations
 };
 
-export default function SliManageList({ api = DEFAULT_API, applicationId }) {
+export default function SliManageList({ api = DEFAULT_API, applicationId, apName }) {
   const [showInnerDialog, setShowInnerDialog] = useState(true);
 
   const createSliHeader = (
