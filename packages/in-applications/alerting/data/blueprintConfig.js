@@ -97,8 +97,9 @@ const throughputBlueprintConfig = Object.freeze({
   type: 'throughput',
   blacklistedTagFilters: [],
   name: 'Throughput',
-  headline: 'Automatic Alerts on Call Throughput Violations',
-  text: 'Receive an alert every time the number of calls significantly differs from the usual call throughput.',
+  headline: 'Automatic Alerts for Calls Count',
+  text:
+    'Automatic alerts on anomalously low or high number of calls for selected services and endpoints of this Application Perspective.',
   baselineEnabled: true,
   defaultMetric: 'calls',
   getMetricName: () => 'calls',
@@ -127,10 +128,10 @@ export const simpleModeBlueprintConfigs = Object.freeze([
   {
     ...throughputBlueprintConfig,
     subType: 'unexpectedDrop',
-    name: 'Unexpected drop in calls',
-    headline: 'Automatic Alerts for Unexpected Drop in Calls',
+    name: 'Unexpectedly Low Number of Calls',
+    headline: 'Automatic Alerts on Anomalously Low Number of Calls',
     text:
-      'You will be alerted every time the number of calls significantly dropped below the expected number of calls in a time window of 10 minutes.',
+      'Receive an alert when the number of calls is significantly lower than expected compared to the available past data. This might be an indication of a problem upstream of this application or a drop in the user traffic to the application.',
     thresholdDefaults: {
       operator: '<='
     },
@@ -139,10 +140,10 @@ export const simpleModeBlueprintConfigs = Object.freeze([
   {
     ...throughputBlueprintConfig,
     subType: 'unexpectedlyHighNumber',
-    name: 'Unexpectedly high number of calls',
-    headline: 'Automatic Alerts for Unexpectedly High Number of Calls',
+    name: 'Unexpectedly High Number of Calls',
+    headline: 'Automatic Alerts on Anomalously High Number of Calls',
     text:
-      'You will be alerted every time the number of calls significantly higher than the expected number of calls in a time window of 10 minutes.',
+      'Receive an alert when the number of calls is significantly higher than expected compared to the available past data. This might be an indication of an attack or a bot generating too many requests to the application.',
     isSelected: alertThreshold => alertThreshold.operator === '>=' || alertThreshold.operator === '>'
   }
 ]);
