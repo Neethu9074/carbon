@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
+import { enableBodyScroll, disableBodyScroll } from 'in-components/DisabledBodyScroll';
 import { Th, SortableTh } from 'in-components/tables/sharedComponents';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
@@ -81,6 +82,10 @@ function Component({ toggle, refSetter }) {
 function Content({ availableColumnDefinitions, columnDefinitions, onColumnChecked }) {
   const [query, setQuery] = useState('');
   const [page, setPage] = useState(1);
+  useEffect(() => {
+    disableBodyScroll();
+    return enableBodyScroll;
+  });
   const currentIds = columnDefinitions.map(def => def.id);
   const pageSize = availableColumnDefinitions.length < 15 ? availableColumnDefinitions.length : 10;
 

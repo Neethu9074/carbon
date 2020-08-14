@@ -153,55 +153,10 @@ function getColumnDefinitions({ timeConfig, backendQueryModel, result }) {
     const plugins = new Set(result.data.items.map(i => i.plugin));
     if (plugins.size === 1) {
       const plugin = plugins.values().next().value;
-      const kpiDefinitions = getKpiDefinitions(plugin);
-      const defaultColumns = columnDefinitions.concat(
-        kpiDefinitions.map(({ label, metric, formatter }) => ({
-          id: metric,
-          label,
-          sortable: false,
-          width: '10rem',
-          widthInAbsoluteUnit: true,
-          optional: true,
-          getContent(item) {
-            return <MetricValue snapshotId={item.snapshotId} metric={metric} formatter={formatter} />;
-          }
-        }))
+      const defaultColumns = columnDefinitions.concat(getKpiColumns(plugin));
+      return getAllMetricColumns({ timeConfig, backendQueryModel, plugin }).map(allMetricColumns =>
+        defaultColumns.concat(allMetricColumns.filter(({ id }) => !defaultColumns.find(def => def.id === id)))
       );
-      const defaultColumnIds = defaultColumns.map(def => def.id);
-      return getAvailableMetrics({
-        filter: {
-          timeConfig,
-          tagFilterExpression: backendQueryModel
-        },
-        plugin
-      })
-        .map(availableMetrics => {
-          if (availableMetrics.data) {
-            return defaultColumns.concat(
-              availableMetrics.data.metrics
-                .filter(({ id }) => !defaultColumnIds.includes(id))
-                .map(({ id, label, format }) => {
-                  const formatter = v => valueWithFormatterToReadableString(v, format);
-                  return {
-                    id,
-                    label,
-                    renderLabel,
-                    sortable: false,
-                    width: '15rem',
-                    widthInAbsoluteUnit: true,
-                    optional: true,
-                    defaultDisabled: true,
-                    getContent(item) {
-                      return <MetricValue snapshotId={item.snapshotId} metric={id} formatter={formatter} />;
-                    }
-                  };
-                })
-            );
-          } else {
-            return defaultColumns;
-          }
-        })
-        .startWith(defaultColumns);
     }
   }
   return just(columnDefinitions);
@@ -218,4 +173,53 @@ function renderLabel({ label }) {
   ) : (
     content
   );
+}
+
+function getKpiColumns(plugin) {
+  const kpiDefinitions = getKpiDefinitions(plugin);
+
+  return kpiDefinitions.map(({ label, metric, formatter }) => ({
+    id: metric,
+    label,
+    sortable: false,
+    width: '10rem',
+    widthInAbsoluteUnit: true,
+    optional: true,
+    getContent(item) {
+      return <MetricValue snapshotId={item.snapshotId} metric={metric} formatter={formatter} />;
+    }
+  }));
+}
+
+function getAllMetricColumns({ timeConfig, backendQueryModel, plugin }) {
+  return getAvailableMetrics({
+    filter: {
+      timeConfig,
+      tagFilterExpression: backendQueryModel
+    },
+    plugin
+  })
+    .map(availableMetrics => {
+      if (availableMetrics.data) {
+        return availableMetrics.data.metrics.map(({ id, label, format }) => {
+          const formatter = v => valueWithFormatterToReadableString(v, format);
+          return {
+            id,
+            label,
+            renderLabel,
+            sortable: false,
+            width: '15rem',
+            widthInAbsoluteUnit: true,
+            optional: true,
+            defaultDisabled: true,
+            getContent(item) {
+              return <MetricValue snapshotId={item.snapshotId} metric={id} formatter={formatter} />;
+            }
+          };
+        });
+      } else {
+        return [];
+      }
+    })
+    .startWith([]);
 }

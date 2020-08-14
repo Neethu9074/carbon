@@ -7,25 +7,19 @@ import { successObservableFactory } from 'in-services/util/result';
 const tagCatalog = {
   tags: [
     {
-      name: 'kubernetes.cluster.label',
-      type: 'KEY_VALUE_PAIRS'
-    },
-    {
-      name: 'kubernetes.cluster.name',
+      name: 'entity.kubernetes.cluster.label',
       type: 'STRING'
     },
     {
-      name: 'kubernetes.namespace.label',
-      type: 'KEY_VALUE_PAIRS'
-    },
-    {
-      name: 'kubernetes.namespace.name',
-      type: 'STRING',
-      canApplyToSource: true,
-      canApplyToDestination: true
+      name: 'entity.kubernetes.namespace',
+      type: 'STRING'
     },
     {
       name: 'entity.selfType',
+      type: 'STRING'
+    },
+    {
+      name: 'entity.label',
       type: 'STRING'
     }
   ],
@@ -42,17 +36,10 @@ const tagCatalog = {
           children: [
             {
               type: 'TAG',
-              label: 'Label',
-              icon: 'lib_kubernetes_label',
-              description: 'Key/Value - Defined in Kubernetes',
-              tagName: 'kubernetes.cluster.label'
-            },
-            {
-              type: 'TAG',
               label: 'Name',
               icon: 'lib_kubernetes_label',
-              description: 'String - Cluster´s name',
-              tagName: 'kubernetes.cluster.name'
+              description: 'String - Cluster´s label',
+              tagName: 'entity.kubernetes.cluster.label'
             }
           ]
         },
@@ -63,17 +50,10 @@ const tagCatalog = {
           children: [
             {
               type: 'TAG',
-              label: 'Label',
-              icon: 'lib_kubernetes_label',
-              description: 'Key/Value - Defined in Kubernetes',
-              tagName: 'kubernetes.namespace.label'
-            },
-            {
-              type: 'TAG',
               label: 'Name',
               icon: 'lib_kubernetes_label',
-              description: 'String - Namespace´s name',
-              tagName: 'kubernetes.namespace.name'
+              description: 'String - Namespace Name',
+              tagName: 'entity.kubernetes.namespace'
             }
           ]
         }
@@ -90,9 +70,16 @@ const tagCatalog = {
             {
               type: 'TAG',
               label: 'Type',
-              icon: 'lib_kubernetes_label',
-              description: 'Exact type of entity',
+              icon: 'lib_views_tag',
+              description: 'Type of entity',
               tagName: 'entity.selfType'
+            },
+            {
+              type: 'TAG',
+              label: 'Label',
+              icon: 'lib_views_tag',
+              description: 'Label of entity',
+              tagName: 'entity.label'
             }
           ]
         }
