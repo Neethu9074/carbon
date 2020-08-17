@@ -1879,10 +1879,10 @@
   resolved "https://registry.yarnpkg.com/@browser-logos/chromium/-/chromium-1.1.1.tgz#694eacd6344b5880f364a131186ed90028870c1c"
   integrity sha512-p8recL9zlEDrpArPSMWvXRZCQlLpBgoDiYwGgjJBmcqaGlJEHM0jIBK3PWsTjW5293JYFmg0wOofm1Ek/YGg9g==
 
-"@browser-logos/edge@^1.0.3":
-  version "1.0.10"
-  resolved "https://registry.yarnpkg.com/@browser-logos/edge/-/edge-1.0.10.tgz#495869a941d57f4318753795bee22350badf8dbd"
-  integrity sha512-PYqLl7uSAYSmV6/uY6Y0o/CyK6gT2Ddi9G/Y88xWXrAtdK88Q0Zqw+e3CRII8pvy2ihFo3OQ9zPx/mW6LlUDNw==
+"@browser-logos/edge@2.0.5":
+  version "2.0.5"
+  resolved "https://registry.yarnpkg.com/@browser-logos/edge/-/edge-2.0.5.tgz#01173fb59e5cc8fecd7fd4774af6704c4a1f5f8c"
+  integrity sha512-5eEA9FQw8wxLruWSygbwadtYhvr9RS3nZI7M6tSxIoxcMgpDZ4npbkDCJ5+QXYuCriQAsKeQKX+tW6u2wWJMvg==
 
 "@browser-logos/electron@^1.0.0":
   version "1.0.12"

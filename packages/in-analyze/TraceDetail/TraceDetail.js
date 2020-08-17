@@ -7,6 +7,7 @@ import { getIconByType, getLabelByType } from 'in-analyze/AnalyzeView/dataSource
 import { traceId as traceIdMatrixParameter } from 'in-analyze/navigation/matrix';
 import getTraceSummary from 'in-subscription/application/getTraceSummary';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
+import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import DashboardHeader from 'in-new-components/DashboardHeader';
@@ -69,6 +70,13 @@ function TraceDetail({ location, colorCode: getColor, navigator, filters, setCol
 
   return (
     <>
+      <ViewTrackingMeta
+        data={{
+          productArea: 'Applications',
+          pageRootName: 'Analytics'
+        }}
+      />
+
       <Sticky
         header={
           <DashboardHeader

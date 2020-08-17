@@ -13,6 +13,7 @@ import { getHighlighterId } from 'in-websites/analyze/PageLoadView/tabs/Summary/
 import { triggerHighlight } from 'in-new-components/SelectedElementHighlighter';
 import { closePageLoadViewLink } from 'in-websites/navigation/paths';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
+import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import DashboardHeader from 'in-new-components/DashboardHeader';
 import { shorten, isNotBlank } from 'in-services/util/string';
 import tabs from 'in-websites/analyze/PageLoadView/tabs';
@@ -37,6 +38,13 @@ function PageLoadView(props) {
   const beaconId = props.beaconId || pageLoadId;
   return (
     <>
+      <ViewTrackingMeta
+        data={{
+          productArea: 'EUM: Websites',
+          pageRootName: 'Analytics'
+        }}
+      />
+
       <Sticky
         header={
           <DashboardHeader

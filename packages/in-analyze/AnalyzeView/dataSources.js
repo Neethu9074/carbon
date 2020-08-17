@@ -70,6 +70,13 @@ export const productAreaLabels = Object.freeze({
   profiles: 'Profiles'
 });
 
+export const productAreaTrackingNames = Object.freeze({
+  application: 'Applications',
+  website: 'EUM: Websites',
+  mobileApp: 'EUM: Mobile Apps',
+  profiles: 'Profiles'
+});
+
 export const productAreaIcons = Object.freeze({
   application: 'lib_application_invert',
   website: 'lib_website',

@@ -37,7 +37,7 @@ export default class extends React.Component {
   }
 
   makeSticky = () => {
-    if (!this.wrapper) {
+    if (!this.wrapper || !this.header) {
       return;
     }
 
@@ -93,7 +93,10 @@ export default class extends React.Component {
   }
 }
 
-const Header = withSideEffect(reduceProps, after)(function Header({ children, setHeader }) {
+const Header = withSideEffect(
+  reduceProps,
+  after
+)(function Header({ children, setHeader }) {
   return <div ref={r => setHeader(r)}>{children}</div>;
 });
 

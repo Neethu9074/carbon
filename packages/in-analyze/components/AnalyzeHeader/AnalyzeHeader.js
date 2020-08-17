@@ -1,7 +1,13 @@
 import { useLocation } from 'react-router';
 import React from 'react';
 
-import { getIconByType, getLabelByType, productAreaLabels, productAreaIcons } from 'in-analyze/AnalyzeView/dataSources';
+import {
+  getIconByType,
+  getLabelByType,
+  productAreaLabels,
+  productAreaIcons,
+  productAreaTrackingNames
+} from 'in-analyze/AnalyzeView/dataSources';
 import { analyzePath as mobileAppAnalyzePath, mobileAppMonitoringPath } from 'in-mobile-apps/navigation/paths';
 import { dataSource as dataSourceTypeMatrixParameter } from 'in-new-components/Profiling/navigation/matrix';
 import { analyzePath as websiteAnalyzePath, websiteMonitoringPath } from 'in-websites/navigation/paths';
@@ -15,6 +21,7 @@ import DashboardHeaderButton from 'in-new-components/DashboardHeader/DashboardHe
 import { dataSource as dataSourceMatrixParameter } from 'in-analyze/navigation/matrix';
 import DashboardHeader, { themes } from 'in-new-components/DashboardHeader';
 import { analyze as appAnalyzePath } from 'in-analyze/navigation/paths';
+import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import Overlay from 'in-new-components/overlays/Overlay/Overlay';
 import { isNotBlank } from 'in-services/util/string';
@@ -49,6 +56,12 @@ export default function AnalyzeHeader({ renderQuickFilterBar, isGrouped }) {
         title="Analytics"
       />
       <Title title={getLabelByType(activeConfiguration.dataSource, activeConfiguration.productArea)} />
+      <ViewTrackingMeta
+        data={{
+          productArea: productAreaTrackingNames[activeConfiguration.productArea],
+          pageRootName: 'Analytics'
+        }}
+      />
       {renderQuickFilterBar && (
         <DashboardHeaderModule theme={themes.light} withTopBorder>
           {renderQuickFilterBar()}
