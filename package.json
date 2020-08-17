@@ -49,7 +49,7 @@
   "dependencies": {
     "@browser-logos/chrome": "^1.0.4",
     "@browser-logos/chromium": "^1.0.2",
-    "@browser-logos/edge": "^1.0.3",
+    "@browser-logos/edge": "2.0.5",
     "@browser-logos/electron": "^1.0.0",
     "@browser-logos/firefox": "^2.0.0",
     "@browser-logos/internet-explorer-tile_10-11": "^1.0.4",
