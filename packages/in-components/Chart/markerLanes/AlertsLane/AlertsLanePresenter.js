@@ -42,14 +42,14 @@ export default function AlertsLanePresenter({ alerts, ...remainingProps }) {
         calloutContent={({ iconConfig, eventData, timeConfig }) => {
           const { incidents, smartAlerts } = eventData;
           const enahncedAndSortedEvents = [
-            ...incidents.map(incident => ({ ...incident, iconType: 'lib_events_warning' })),
-            ...smartAlerts.map(incident => ({ ...incident, iconType: 'lib_events_incident' }))
+            ...incidents.map(incident => ({ ...incident, iconType: 'lib_events_incident' })),
+            ...smartAlerts.map(incident => ({ ...incident, iconType: 'lib_events_warning' }))
           ].sort((a, b) => a.start - b.start);
 
           return (
             <Ul className={locals.list}>
-              {enahncedAndSortedEvents.map(({ name, start, eventId, iconType }) => {
-                return ListItem({ start, iconConfig, name, iconType, eventId, timeConfig });
+              {enahncedAndSortedEvents.map(({ name, start, eventId, iconType }, index) => {
+                return ListItem({ start, iconConfig, name, iconType, eventId, timeConfig, index });
               })}
             </Ul>
           );
@@ -60,9 +60,9 @@ export default function AlertsLanePresenter({ alerts, ...remainingProps }) {
   );
 }
 
-function ListItem({ start, iconConfig, name, iconType, ...remainingProps }) {
+function ListItem({ start, iconConfig, name, iconType, index, ...remainingProps }) {
   return (
-    <Li key={`${start}${iconType}`} className={locals.listItem} href$={getLinkToEventsList(remainingProps)}>
+    <Li key={`${index}`} className={locals.listItem} href$={getLinkToEventsList(remainingProps)}>
       <SvgIcon type={iconType} color={iconConfig.color} />
       <div style={{ marginLeft: '12px' }}>
         <time dateTime={new Date(start).toISOString()}>{formatDateTime(start)}</time>
