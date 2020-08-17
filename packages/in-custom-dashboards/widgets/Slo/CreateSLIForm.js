@@ -228,7 +228,7 @@ export default function CreateNewSLIForm({
           </Col>
           <Col xs={3}>
             <FormGroup withoutBottomMargin>
-              <ServicesSelectBox />
+              <ServicesSelectBox apName={apName} />
             </FormGroup>
           </Col>
         </Row>
