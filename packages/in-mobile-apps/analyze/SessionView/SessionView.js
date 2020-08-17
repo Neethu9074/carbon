@@ -12,6 +12,7 @@ import BeaconsNavigator from 'in-mobile-apps/analyze/AnalyzeView/Beacons/Beacons
 import { getHighlighterId } from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon';
 import { triggerHighlight } from 'in-new-components/SelectedElementHighlighter';
 import { closeSessionViewLink } from 'in-mobile-apps/navigation/paths';
+import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import DashboardHeader from 'in-new-components/DashboardHeader';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
@@ -39,6 +40,13 @@ function SessionView(props) {
   const beaconId = props.beaconId || sessionId;
   return (
     <>
+      <ViewTrackingMeta
+        data={{
+          productArea: 'EUM: Mobile Apps',
+          pageRootName: 'Analytics'
+        }}
+      />
+
       <Sticky
         header={
           <DashboardHeader
