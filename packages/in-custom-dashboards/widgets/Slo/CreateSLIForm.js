@@ -101,12 +101,22 @@ function createForm(savedState) {
   if (sliConfig.metricConfiguration) {
     form = form.put('metricConfiguration', createMetricsForm(savedState.metricConfiguration));
   }
+
+  const { sliType } = sliEntity ?? {};
+  if (sliType === 'application') {
+    form = form.put('metricConfiguration', createMetricsForm(sliConfig.metricConfiguration ?? {}));
+  }
   return form;
 }
 
 function resetFormForSliType(sliType, setForm, form, sliConfig) {
   if (sliType === 'application') {
-    setForm(form.put('metricConfiguration', createMetricsForm(sliConfig.metricConfiguration ?? {})));
+    setForm(
+      form
+        .put('metricConfiguration', createMetricsForm(sliConfig.metricConfiguration ?? {}))
+        .updateIn(['sliEntity'], f => f.remove('goodEventFilters'))
+        .updateIn(['sliEntity'], f => f.remove('badEventFilters'))
+    );
   } else {
     setForm(form.remove('metricConfiguration'));
   }

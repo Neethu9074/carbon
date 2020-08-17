@@ -8,9 +8,10 @@ import useTimeConfig from 'in-hooks/useTimeConfig';
 import useObservable from 'in-hooks/useObservable';
 import { noop } from 'in-services/util/function';
 
-export default function ServicesSelectBox() {
+export default function ServicesSelectBox({ apName }) {
+
   const timeConfig = useTimeConfig();
-  const appNameTag = [{ name: 'application.name', operator: 'EQUALS', value: 'All Services', entity: 'DESTINATION' }];
+  const appNameTag = [{ name: 'application.name', operator: 'EQUALS', value: apName, entity: 'DESTINATION' }];
   /*
   {"name":"application.name","value":"All Services","operator":"EQUALS","entity":"DESTINATION"}
     same as used here:
