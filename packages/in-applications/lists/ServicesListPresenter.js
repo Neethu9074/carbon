@@ -26,6 +26,7 @@ import ViewSwitcher from 'in-applications/lists/components/ViewSwitcher';
 import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
+import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import { newServiceView } from 'in-applications/navigation/paths';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import Filters from 'in-applications/components/Filters';
@@ -243,6 +244,13 @@ export default function ServicesList({
     <Sticky header={<ViewSwitcher />}>
       <LeftRightPadding>
         <Title title="Services" />
+        <ViewTrackingMeta
+          data={{
+            productArea: 'Applications',
+            pageRootName: 'Services'
+          }}
+        />
+
         <WithEmptyStateFallback getHasDataToRender={getHasDataToRender} FallbackComponent={ServicesNoDataNotification}>
           <Card useMaxAvailableHeight={false} hasMarginBottom>
             <ServerTableWithUrlState

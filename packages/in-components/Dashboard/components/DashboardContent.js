@@ -9,6 +9,7 @@ import DashboardHeader from 'in-components/Dashboard/components/DashboardHeader'
 import SidebarContent from 'in-components/MapSidebar/components/SidebarContent';
 import NotFoundDialog from 'in-components/Dashboard/components/NotFoundDialog';
 import { timeConfig$, getTimeConfigAtMoment } from 'in-stores/time/config';
+import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import { getForgeComponent } from 'in-services/getForgeComponent';
 import { scrollToTopSmoothly } from 'in-services/util/dom';
 import useObservable from 'in-hooks/useObservable';
@@ -88,6 +89,13 @@ export default connectTo(
     return (
       <div>
         <Title title="Infrastructure" />
+        <ViewTrackingMeta
+          data={{
+            productArea: 'Infrastructure',
+            pageRootName: 'Infrastructure'
+          }}
+        />
+
         <div className={locals.mainContent}>
           <Sticky
             header={
