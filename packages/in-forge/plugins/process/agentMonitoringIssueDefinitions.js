@@ -108,7 +108,7 @@ export default {
       }
     },
     explanationLinkLabel: `Troubleshooting docs`,
-    explanationLinkHref: `https://docs.instana.io/ecosystem/node-js/#nodejs_collector_not_installed`
+    explanationLinkHref: `https://www.instana.com/docs/ecosystem/node-js/#nodejs_collector_not_installed`
   },
   python_autotrace_failed: {
     issueDescription: {
@@ -117,7 +117,7 @@ export default {
       }
     },
     explanationLinkLabel: `Troubleshooting docs`,
-    explanationLinkHref: `https://docs.instana.io/ecosystem/python/troubleshooting#python_autotrace_failed`
+    explanationLinkHref: `https://www.instana.com/docs/ecosystem/python/troubleshooting#python_autotrace_failed`
   },
   python_sensor_not_installed: {
     issueDescription: {
@@ -131,7 +131,7 @@ export default {
       }
     },
     explanationLinkLabel: `Troubleshooting docs`,
-    explanationLinkHref: `https://docs.instana.io/ecosystem/python/troubleshooting#python_sensor_not_installed`
+    explanationLinkHref: `https://www.instana.com/docs/ecosystem/python/troubleshooting#python_sensor_not_installed`
   },
   ruby_sensor_not_installed: {
     issueDescription: {
@@ -145,6 +145,6 @@ export default {
       }
     },
     explanationLinkLabel: `Troubleshooting docs`,
-    explanationLinkHref: `https://docs.instana.io/ecosystem/ruby/#ruby_sensor_not_installed`
+    explanationLinkHref: `https://www.instana.com/docs/ecosystem/ruby/#ruby_sensor_not_installed`
   }
 };

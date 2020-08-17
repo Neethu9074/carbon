@@ -57,7 +57,8 @@ export function getTitlePlaceholder(form) {
     }
     case 'throughput': {
       const thresholdOperator = form.get('threshold').get('operator').value;
-      return isGreaterOperator(thresholdOperator) ? 'Unexpectedly high number of calls' : 'Unexpected drop in calls';
+      const isGreaterOp = isGreaterOperator(thresholdOperator);
+      return `Number of calls is anomalously ${isGreaterOp ? 'high' : 'low'}`;
     }
 
     default:
@@ -124,7 +125,7 @@ export function getDescriptionPlaceholder(form) {
         const thresholdValue = thresholdForm.get('value').value;
         return `The number of calls is ${getHigherOrLowerOperatorText(thresholdOperator)} ${thresholdValue} calls.`;
       }
-      return `The number of calls is ${getHigherOrLowerOperatorText(thresholdOperator)} the expectation.`;
+      return `The number of calls is ${getHigherOrLowerOperatorText(thresholdOperator)} expected.`;
     }
     default:
       throw Error('Unsupported alertType: ' + alertType);

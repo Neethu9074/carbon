@@ -31,7 +31,7 @@ function fallbackAgentMonitoringIssueDefinition(code) {
       }
     },
     explanationLinkLabel: `Troubleshooting docs`,
-    explanationLinkHref: `https://docs.instana.io/`
+    explanationLinkHref: `https://www.instana.com/docs/`
   };
 }
 

@@ -13,6 +13,10 @@ export function toTagFilterNumberOperator(thresholdOperator) {
   }
 }
 
-export function isGreaterOperator(operator) {
-  return operator === '>=' || operator === '>';
+export function isGreaterOperator(thresholdOperator) {
+  return thresholdOperator === '>=' || thresholdOperator === '>';
+}
+
+export function isDifferentOperatorDirection(thresholdOperatorA, thresholdOperatorB) {
+  return isGreaterOperator(thresholdOperatorA) !== isGreaterOperator(thresholdOperatorB);
 }

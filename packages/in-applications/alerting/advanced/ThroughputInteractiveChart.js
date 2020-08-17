@@ -17,6 +17,7 @@ import { getThresholdLabel, findEntryByValue } from 'in-applications/alerting/fo
 import ThresholdConditionFormGroup from 'in-new-components/Alerting/advanced/ThresholdConditionFormGroup';
 import { createThroughputForm, defaultDeviationFactor } from 'in-applications/alerting/form/thresholdForm';
 import ChartViewConfigurator from 'in-new-components/Alerting/components/ChartViewConfigurator';
+import { isDifferentOperatorDirection } from 'in-new-components/Alerting/utils/alertUtils';
 import { SensitivitySlider } from 'in-new-components/Alerting/advanced/SensitivitySlider';
 import { getTrackingObject } from 'in-new-components/Alerting/trackingHelpers';
 import { blueprintConfigPropType } from 'in-new-components/Alerting/constants';
@@ -134,9 +135,18 @@ function ThresholdCondition({
           label={operatorLabel}
           items={thresholdOperatorOptions}
           onChange={e => {
-            const value = (e && e.value) || '';
-            onChange(['threshold', 'operator'], f => f.setValue(value).setTouched(true));
-            applicationsAlertingThresholdOperatorChanged(getTrackingObject(form, { value }));
+            const newOperator = (e && e.value) || '';
+
+            let updatedForm = form.updateIn(['threshold', 'operator'], f => f.setValue(newOperator).setTouched(true));
+            if (thresholdType === 'staticThreshold' && isDifferentOperatorDirection(newOperator, operatorValue)) {
+              // if the operator direction changed in case of static-threshold: request new suggestion
+              updatedForm = updatedForm.updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f =>
+                f.setValue(true)
+              );
+            }
+            updateForm(updatedForm);
+
+            applicationsAlertingThresholdOperatorChanged(getTrackingObject(form, { value: newOperator }));
           }}
         />
         <Dropdown
@@ -145,21 +155,23 @@ function ThresholdCondition({
           label={findEntryByValue(thresholdTypeOptions, getThresholdComboBoxValue(form))?.label}
           items={thresholdTypeOptions}
           onChange={e => {
-            const value = e.value || '';
-            const valueParts = value.split('.');
-            const thresholdType = valueParts[0];
+            const newThresholdTypeWithSeasonality = (e && e.value) || '';
+            const valueParts = newThresholdTypeWithSeasonality.split('.');
+            const newThresholdType = valueParts[0];
 
             let newThresholdForm = createThroughputForm({
               ...form.get('threshold').toJS(),
-              type: thresholdType,
+              type: newThresholdType,
               operator: null, // reset to default value (happens in createSlownessForm)
               value: null, // reset "old" value to ensure that we only call endpoints with the "new" threshold suggestion
               baseline: null
             });
 
             if (valueParts.length > 1) {
-              const seasonality = valueParts[1];
-              newThresholdForm = newThresholdForm.updateIn(['seasonality'], f => f.setValue(seasonality).setTouched());
+              const newSeasonality = valueParts[1];
+              newThresholdForm = newThresholdForm.updateIn(['seasonality'], f =>
+                f.setValue(newSeasonality).setTouched()
+              );
             }
 
             const newRuleForm = createRuleForm({ ...form.get('rule').toJS(), aggregation: null }); // reset to default value (happens in createRuleForm)
@@ -171,7 +183,7 @@ function ThresholdCondition({
                 .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
             );
 
-            applicationsAlertingThresholdTypeChanged(getTrackingObject(form, { value: thresholdType }));
+            applicationsAlertingThresholdTypeChanged(getTrackingObject(form, { value: newThresholdType }));
           }}
           defaultValue="staticThreshold"
         />
@@ -186,18 +198,18 @@ function ThresholdCondition({
             value={doDebounceThreshold ? tempThreshold : getFormValueOrDefault(form.get('threshold'), 'value')}
             step="1"
             onChange={e => {
-              const value = e.target.value !== '' ? Math.abs(e.target.value) : '';
+              const newThresholdValue = e.target.value !== '' ? Math.abs(e.target.value) : '';
 
               setDoDebounceThreshold(true);
-              setTempThreshold(value);
+              setTempThreshold(newThresholdValue);
 
               const onChangCallback = () => {
-                onChange(['threshold', 'value'], f => f.setValue(value).setTouched(true));
+                onChange(['threshold', 'value'], f => f.setValue(newThresholdValue).setTouched(true));
                 setDoDebounceThreshold(false);
               };
 
               debounceOnChange$.emit(onChangCallback.bind(this));
-              debouncedThresholdValueChangedTracker(getTrackingObject(form, { value }));
+              debouncedThresholdValueChangedTracker(getTrackingObject(form, { value: newThresholdValue }));
             }}
           />
 

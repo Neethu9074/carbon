@@ -14,7 +14,7 @@ export default {
       }
     },
     explanationLinkLabel: `Troubleshooting docs`,
-    explanationLinkHref: `https://docs.instana.io/ecosystem/jvm#java_8_unmonitored_version`
+    explanationLinkHref: `https://www.instana.com/docs/ecosystem/jvm/#java_8_unmonitored_version`
   },
   jvm_incompatible_agent_detected: {
     issueDescription: {
@@ -29,6 +29,6 @@ export default {
       }
     },
     explanationLinkLabel: `Troubleshooting docs`,
-    explanationLinkHref: `https://docs.instana.io/ecosystem/jvm#jvm_incompatible_agent_detected`
+    explanationLinkHref: `https://www.instana.com/docs/ecosystem/jvm/#jvm_incompatible_agent_detected`
   }
 };
