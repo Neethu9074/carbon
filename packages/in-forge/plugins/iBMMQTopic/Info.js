@@ -8,7 +8,7 @@ export default function Info({ snapshot }) {
     <DescriptionList>
       <DescriptionItem title="Name">{data.get('topicName')}</DescriptionItem>
       <DescriptionItem title="Application">{data.get('qmName')}</DescriptionItem>
-      <DescriptionItem title="Channel">{data.get('clusterName')}</DescriptionItem>
+      <DescriptionItem title="Cluster Name">{data.get('clusterName')}</DescriptionItem>
       <DescriptionItem title="Connection">{data.get('topicType')}</DescriptionItem>
       <DescriptionItem title="Input Type">{data.get('topicAlternatedAt')}</DescriptionItem>
     </DescriptionList>

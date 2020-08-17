@@ -9,10 +9,10 @@ import connectTo from 'in-hoc/connectTo';
 const cols = [
   {
     title: 'Name',
-    type: 'string',
+    type: 'snapshotLink',
     typeArgs: {
-      getValue(row) {
-        return row.listenerName;
+      getSnapshotId(row) {
+        return row.key;
       }
     }
   },
