@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import InboundOrAllCallsOption from 'in-applications/alerting/advanced/InboundOutboundCallsSwitch/InboundOrAllCallsOption';
 import { boundaryScopes } from 'in-applications/alerting/advanced/InboundOutboundCallsSwitch/config';
 import ServicesSelectBox from 'in-custom-dashboards/widgets/Slo/components/ServicesSelectBox';
+import EndpointSelectBox from 'in-custom-dashboards/widgets/Slo/components/EndpointSelectBox';
 import EventBasedForm from 'in-custom-dashboards/widgets/Slo/components/GoodBadEventsForm';
 import { MetricsForm } from 'in-custom-dashboards/widgets/Slo/components/MetricsForm';
 import DropDownMock from 'in-custom-dashboards/widgets/Slo/components/DropDownMock';
@@ -228,7 +229,7 @@ export default function CreateNewSLIForm({
           </Col>
           <Col xs={3}>
             <FormGroup withoutBottomMargin>
-              <ServicesSelectBox apName={apName} />
+              <ServicesSelectBox api={api} applicationId={sliConfig.applicationId} />
             </FormGroup>
           </Col>
         </Row>
@@ -240,8 +241,11 @@ export default function CreateNewSLIForm({
           </Col>
           <Col xs={3}>
             <FormGroup withoutBottomMargin>
-              <DropDownMock options={[{ value: '', label: 'All Endpoints' }]} value={''} onChange={noop} />
-              {false && <DropDownMock options={[{ value: '', label: 'Please select' }]} value={null} />}
+              <EndpointSelectBox
+                apName={apName}
+                applicationId={sliConfig.applicationId}
+                serviceId={sliConfig.sliEntity?.serviceId}
+              />
             </FormGroup>
           </Col>
         </Row>
