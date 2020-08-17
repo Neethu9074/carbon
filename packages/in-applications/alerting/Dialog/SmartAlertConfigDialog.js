@@ -27,7 +27,7 @@ function resolveThresholdRequest(form, fallbackOnError) {
   const alertConfig = form.toJS();
   const {
     rule: { alertType, metricName },
-    threshold: { seasonality = null },
+    threshold: { operator, seasonality = null },
     tagFilters,
     granularity
   } = alertConfig;
@@ -59,6 +59,7 @@ function resolveThresholdRequest(form, fallbackOnError) {
       granularity,
       aggregation: blueprintConfig.getAggregation(alertConfig.rule)
     },
+    operator,
     seasonality: getSeasonality(),
     fallbackOnError
   });
