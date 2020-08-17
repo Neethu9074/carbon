@@ -142,26 +142,26 @@ export default function CreateNewSLIForm({
         <Header>SLI Customization</Header>
       </StackItem>
       <StackItem>
-        <Row>
-          <Col md={2}>
+        <Row withoutTopMargin>
+          <Col xs={2}>
             <FormGroup>
               <Label>Name</Label>
             </FormGroup>
           </Col>
-          <Col md={3}>
-            <FormGroup>
+          <Col xs={3}>
+            <FormGroup withoutBottomMargin>
               <InputMock form={form} onChange={onChange} fieldName="sliName" />
             </FormGroup>
           </Col>
         </Row>
-        <Row>
-          <Col md={2}>
-            <FormGroup>
+        <Row withoutTopMargin>
+          <Col xs={2}>
+            <FormGroup withoutBottomMargin>
               <Label>Type: {sliType}</Label>
             </FormGroup>
           </Col>
-          <Col md={3}>
-            <FormGroup>
+          <Col xs={3}>
+            <FormGroup withoutBottomMargin>
               <DropDownMock
                 value={sliType}
                 onChange={({ target }) => onChangeType(target.value)}
@@ -177,32 +177,32 @@ export default function CreateNewSLIForm({
       </StackItem>
       <StackItem>
         <Header>SLI Entity</Header>
-        <Row>
-          <Col md={2}>
+        <Row withoutTopMargin>
+          <Col xs={2}>
             <FormGroup>
               <Label>Application Perspective</Label>
             </FormGroup>
           </Col>
-          <Col md={3}>
-            <FormGroup>
+          <Col xs={3}>
+            <FormGroup withoutBottomMargin>
               <Input disabled value={apName} />
             </FormGroup>
           </Col>
         </Row>
-        <Row>
-          <Col md={2}>
+        <Row withoutTopMargin>
+          <Col xs={2}>
             <FormGroup>
               <Label>Boundary</Label>
             </FormGroup>
           </Col>
-          <Col md={5}>
+          <Col xs={4} md={5}>
             <InboundOrAllCallsOption
               boundaryScope={boundaryScope}
               onBoundaryStateChange={() => updateBoundaryScope(boundaryScopes.inbound)}
               scope={boundaryScopes.inbound}
             />
           </Col>
-          <Col md={5} mdOffset={2}>
+          <Col xs={4} md={5}>
             <InboundOrAllCallsOption
               boundaryScope={boundaryScope}
               onBoundaryStateChange={() => updateBoundaryScope(boundaryScopes.all)}
@@ -210,26 +210,26 @@ export default function CreateNewSLIForm({
             />
           </Col>
         </Row>
-        <Row>
-          <Col md={2}>
+        <Row withoutTopMargin>
+          <Col xs={2}>
             <FormGroup>
               <Label>Service</Label>
             </FormGroup>
           </Col>
-          <Col md={3}>
-            <FormGroup>
+          <Col xs={3}>
+            <FormGroup withoutBottomMargin>
               <ServicesSelectBox />
             </FormGroup>
           </Col>
         </Row>
-        <Row>
-          <Col md={2}>
+        <Row withoutTopMargin>
+          <Col xs={2}>
             <FormGroup>
               <Label>Endpoints</Label>
             </FormGroup>
           </Col>
-          <Col md={3}>
-            <FormGroup>
+          <Col xs={3}>
+            <FormGroup withoutBottomMargin>
               <DropDownMock options={[{ value: '', label: 'All Endpoints' }]} value={''} onChange={noop} />
               {false && <DropDownMock options={[{ value: '', label: 'Please select' }]} value={null} />}
             </FormGroup>
