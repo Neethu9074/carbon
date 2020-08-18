@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 
 import APConfigForm from 'in-custom-dashboards/widgets/Slo/APConfigForm';
-import { getApplicationConfigsAsResultObservable } from './apiMock';
 import { createForm } from 'in-custom-dashboards/widgets/Slo';
 
 export default {
@@ -14,8 +13,5 @@ export function Default() {
   const onChange = (fieldPaths, fn) => {
     setForm(form.updateIn(fieldPaths, fn));
   };
-  const mockApi = {
-    getApplicationConfigsAsResultObservable
-  };
-  return <APConfigForm form={form} onChange={onChange} api={mockApi} />;
+  return <APConfigForm form={form} onChange={onChange} />;
 }
