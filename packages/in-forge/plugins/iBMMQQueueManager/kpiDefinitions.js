@@ -1,0 +1,14 @@
+import { number } from 'in-services/formatters/number';
+
+export default [
+  {
+    label: 'Connections',
+    metric: 'connectionCount',
+    formatter: number.compact
+  },
+  {
+    label: 'Messages In',
+    metric: 'messagesIn',
+    formatter: number.compact
+  }
+];

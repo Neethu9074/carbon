@@ -1,0 +1,62 @@
+import React from 'react';
+
+import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import { zeroDecimalPlaces } from 'in-services/formatters/number';
+import MetricValue from 'in-components/MetricValue';
+
+export default function IBMMQTopicDashboard({ snapshot, timeConfig }) {
+  const snapshotId = snapshot.get('id');
+  return (
+    <div>
+      <KpiSection>
+        <KpiKeyValue label="Messages Count">
+          <MetricValue snapshotId={snapshotId} metric="messagesCount" />
+        </KpiKeyValue>
+        <KpiKeyValue label="Publish Count">
+          <MetricValue snapshotId={snapshotId} metric="publishCount" />
+        </KpiKeyValue>
+      </KpiSection>
+      <DashboardSection title="Messages">
+        <Chart
+          snapshotId={snapshotId}
+          timeConfig={timeConfig}
+          y1={{
+            formatter: zeroDecimalPlaces,
+            tooltipFormatter: zeroDecimalPlaces,
+            metrics: [`messagesCount`],
+            labels: ['Count'],
+            type: 'line'
+          }}
+        />
+      </DashboardSection>
+      <DashboardSection title="Publish">
+        <Chart
+          snapshotId={snapshotId}
+          timeConfig={timeConfig}
+          y1={{
+            formatter: zeroDecimalPlaces,
+            tooltipFormatter: zeroDecimalPlaces,
+            metrics: [`publishCount`],
+            labels: ['Count'],
+            type: 'line'
+          }}
+        />
+      </DashboardSection>
+      <DashboardSection title="Subscription">
+        <Chart
+          snapshotId={snapshotId}
+          timeConfig={timeConfig}
+          y1={{
+            formatter: zeroDecimalPlaces,
+            tooltipFormatter: zeroDecimalPlaces,
+            metrics: [`subscriptionCount`],
+            labels: ['Count'],
+            type: 'line'
+          }}
+        />
+      </DashboardSection>
+    </div>
+  );
+}
