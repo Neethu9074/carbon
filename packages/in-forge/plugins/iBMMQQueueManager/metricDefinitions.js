@@ -21,7 +21,7 @@ export default [
   },
   {
     metrics: ['uncommittedMessages'],
-    labels: ['Uncommited Messages'],
+    labels: ['Uncommitted Messages'],
     min: 0,
     formatter: number
   }

@@ -39,7 +39,7 @@ export default function IBMMQQueueDashboard({ snapshot, timeConfig }) {
             formatter: zeroDecimalPlaces,
             tooltipFormatter: zeroDecimalPlaces,
             metrics: [`messagesIn`, `messagesOut`, `uncommittedMessages`],
-            labels: ['In', 'Out', 'Uncommiited'],
+            labels: ['In', 'Out', 'Uncommitted'],
             type: 'line'
           }}
         />

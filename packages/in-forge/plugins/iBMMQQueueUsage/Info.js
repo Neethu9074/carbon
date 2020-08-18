@@ -15,7 +15,6 @@ export default function Info({ snapshot }) {
       <DescriptionItem title="Inquire">{data.get('inquire')}</DescriptionItem>
       <DescriptionItem title="Set">{data.get('set')}</DescriptionItem>
       <DescriptionItem title="Browse">{data.get('browse')}</DescriptionItem>
-      <DescriptionItem title="Output Count">{data.get('output')}</DescriptionItem>
       <DescriptionItem title="Last Message At">{data.get('lastMessageAt')}</DescriptionItem>
       <DescriptionItem title="Handle State">{data.get('handleState')}</DescriptionItem>
       <DescriptionItem title="User">{data.get('user')}</DescriptionItem>

@@ -11,10 +11,10 @@ export default function IBMMQTopicDashboard({ snapshot, timeConfig }) {
   return (
     <div>
       <KpiSection>
-        <KpiKeyValue label="Messages">
+        <KpiKeyValue label="Messages Count">
           <MetricValue snapshotId={snapshotId} metric="messagesCount" />
         </KpiKeyValue>
-        <KpiKeyValue label="Publish">
+        <KpiKeyValue label="Publish Count">
           <MetricValue snapshotId={snapshotId} metric="publishCount" />
         </KpiKeyValue>
       </KpiSection>
