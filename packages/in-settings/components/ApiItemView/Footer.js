@@ -11,6 +11,7 @@ export default function Footer({
   canDeleteItem,
   onDeleteClick,
   onCancelClick,
+  deleteLabel,
   parentPath,
   form
 }) {
@@ -20,7 +21,7 @@ export default function Footer({
         <CancelButton href$={parentPath ? getView(parentPath) : undefined} onClick={onCancelClick} />
       )}
       {onSaveClick && <SaveButton onClick={onSaveClick} disabled={!canSaveItem} form={form} />}
-      {onDeleteClick && <DeleteButton onClick={onDeleteClick} disabled={!canDeleteItem} />}
+      {onDeleteClick && <DeleteButton onClick={onDeleteClick} disabled={!canDeleteItem} label={deleteLabel} />}
     </FormFooter>
   );
 }

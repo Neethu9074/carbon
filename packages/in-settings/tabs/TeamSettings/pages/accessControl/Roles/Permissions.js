@@ -185,6 +185,15 @@ export default function Permissions({ form, onChange, disabled }) {
           label={permissions['canViewAuditLog']}
           helpText="Permits access to audit log for all users."
         />
+
+        <Permission
+          form={form}
+          disabled={disabled}
+          onChange={onChange}
+          name="canConfigureSessionSettings"
+          label={permissions['canConfigureSessionSettings']}
+          helpText="Permits access to configure token and session timeouts."
+        />
       </FormGroup>
 
       <SectionHeading>Usage</SectionHeading>

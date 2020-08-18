@@ -8,10 +8,12 @@ import {
   ldap,
   twoFaUsers,
   samlMapping,
-  ldapMapping
+  ldapMapping,
+  timeouts
 } from 'in-settings/navigation/paths';
 import GoogleSSO from 'in-settings/tabs/AuthSettings/pages/indentityProviders/GoogleSSO/GoogleSSO';
 import { isAvailable as isGoogleSSOAvailable } from 'in-settings/tabs/AuthSettings/api/googleSSO';
+import SessionSettings from 'in-settings/tabs/AuthSettings/pages/sessionSettings/SessionSettings';
 import SideNavigationAndContent from 'in-new-components/layout/SideNavigationAndContent';
 import type { NavigationTree } from 'in-new-components/layout/SideNavigationAndContent';
 import { isAvailable as isSamlAvailable } from 'in-settings/tabs/AuthSettings/api/saml';
@@ -49,6 +51,7 @@ function getNavigationTree(props: any): NavigationTree {
         }
       ].filter(Boolean)
     },
+
     isOwner && {
       title: '2Factor',
       pages: [
@@ -56,6 +59,17 @@ function getNavigationTree(props: any): NavigationTree {
           path: twoFaUsers,
           label: 'Users',
           component: Users
+        }
+      ]
+    },
+
+    role.canConfigureSessionSettings && {
+      title: 'Session',
+      pages: [
+        {
+          path: timeouts,
+          label: 'Timeouts',
+          component: SessionSettings
         }
       ]
     }
@@ -98,6 +112,9 @@ export default connectTo(
       } else {
         defaultRedirect = ldap;
       }
+    }
+    if (role.canConfigureSessionSettings) {
+      defaultRedirect = timeouts;
     }
     return (
       <SideNavigationAndContent

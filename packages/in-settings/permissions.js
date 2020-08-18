@@ -21,5 +21,6 @@ export default {
   canCreatePublicCustomDashboards: 'Creation of public custom dashboards',
   restrictedAccess: 'Limit access by group access scopes',
   canViewLogs: 'Restricted access of logs in the trace detail view',
-  canViewTraceDetails: 'Restricted access of trace details in the trace detail view'
+  canViewTraceDetails: 'Restricted access of trace details in the trace detail view',
+  canConfigureSessionSettings: 'Access to token and session timeout settings'
 };

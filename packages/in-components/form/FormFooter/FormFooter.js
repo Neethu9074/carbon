@@ -30,7 +30,7 @@ export function CancelButton(props) {
 export function DeleteButton(props) {
   return (
     <DeleteButtonComponent className={locals.button} {...props}>
-      Delete
+      {props.label || 'Delete'}
     </DeleteButtonComponent>
   );
 }

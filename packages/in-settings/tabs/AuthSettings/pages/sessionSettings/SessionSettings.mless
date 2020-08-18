@@ -1,0 +1,21 @@
+:local {
+  .formGroup {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+
+    margin: 2rem 0 3rem;
+  }
+
+  .label {
+    min-width: 9rem;
+    max-width: 9rem;
+
+    font-weight: 600;
+  }
+
+  .slider {
+    width: 100%;
+    max-width: 40rem;
+  }
+}

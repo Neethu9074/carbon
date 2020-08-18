@@ -21,6 +21,7 @@ export default connectTo(
       render,
       renderLoadingState = renderLoadingStateDefault,
       enrichForm,
+      deleteLabel,
       result,
       saveItem,
       onCancelClick,
@@ -82,6 +83,7 @@ export default connectTo(
             deleteItem ? () => deleteItem({ ...props, setMessage, form, setForm, setCanSaveItem }) : undefined
           }
           onCancelClick={onCancelClick}
+          deleteLabel={deleteLabel}
           parentPath={parentPath}
           form={form}
         />
