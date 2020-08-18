@@ -7,6 +7,7 @@ import { refreshSignalUsers } from 'in-api/users';
 import http from 'in-services/http';
 
 const refreshSignal = create().emit(true);
+const refreshSignalSlis = create().emit(true);
 
 export const getCustomDashboards = memoize(getCustomDashboardsInternal, () => '', 60000);
 function getCustomDashboardsInternal() {
@@ -99,12 +100,14 @@ function getUsersInternal() {
 
 export const getSliConfigurations = memoize(getConfiguredSlis, () => '', 60000);
 function getConfiguredSlis() {
-  return createObservable(
-    http({
-      method: 'GET',
-      maxRetries: 3,
-      url: '/api/settings/sli'
-    })
+  return refreshSignalSlis.flatMap(() =>
+    createObservable(
+      http({
+        method: 'GET',
+        maxRetries: 3,
+        url: '/api/settings/sli'
+      })
+    )
   );
 }
 
@@ -118,24 +121,10 @@ export function createSliConfiguration(sliConfiguration) {
       data: sliConfiguration
     }).map(res => {
       if (res?.body?.id) {
-        //TODO replace refreshSignal with sli specific one
-        refreshSignal.emit(res.body.id);
+        refreshSignalSlis.emit(res.body.id);
       }
       return res;
     })
-  );
-}
-
-export const getSliConfiguration = memoize(getConfiguredSli, sliId => sliId, 20000);
-function getConfiguredSli(sliId) {
-  return refreshSignal.startWith(sliId).flatMap(() =>
-    createObservable(
-      http({
-        method: 'GET',
-        maxRetries: 3,
-        url: `/api/settings/sli/${encodeURIComponent(sliId)}`
-      })
-    )
   );
 }
 
