@@ -6,6 +6,7 @@ import { SliForm } from 'in-custom-dashboards/widgets/Slo/SLIFormPresenter';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { createSliConfiguration } from 'in-custom-dashboards/api';
 import Button from 'in-new-components/Button';
+import { DebugInfo } from 'in-custom-dashboards/widgets/Slo/DebugInfo';
 
 export default function CreateNewSLIForm({ api, apName, applicationId, close, sliConfig }) {
   const [form, setForm] = useState(createForm(sliConfig ?? {}, applicationId));
@@ -40,8 +41,9 @@ export default function CreateNewSLIForm({ api, apName, applicationId, close, sl
       error: false
     });
 
+    const newSliId = apName + '-' + uuidv4().slice(8);
     const enrichtedSliConfiguration = {
-      id: apName + '-' + uuidv4().slice(8), // e.g. 'appname-1b9d6bcd'
+      id: newSliId, // e.g. 'appname-1b9d6bcd'
       ...form.toJS()
     };
     createSliConfiguration(enrichtedSliConfiguration).subscribe(result => {
@@ -66,18 +68,19 @@ export default function CreateNewSLIForm({ api, apName, applicationId, close, sl
           },
           'custom-dashboard-error'
         );
+      } else {
+        close();
       }
-      // TODO: close now.
     });
   };
 
-  const savingStateName = 'Creating…';
-  const saveButtonLabel = 'Create';
+  const savingStateName = sliConfig?.id ? 'Cloning' : 'Creating…';
+  const saveButtonLabel = sliConfig?.id ? 'Clone' : 'Create';
 
   return (
     <form onSubmit={e => onSubmit(e, form, setForm)}>
+      app: {applicationId}
       <SliForm form={form} onChange={onChange} onChangeType={onChangeType} apName={apName} api={api} />
-
       <div>
         <Button kind="subtle" size="compact" onClick={close}>
           cancel
@@ -93,6 +96,7 @@ export default function CreateNewSLIForm({ api, apName, applicationId, close, sl
             {saving ? savingStateName : saveButtonLabel}
           </Button>
         )}
+        <DebugInfo {...form.items} maxLevel={8} />
       </div>
     </form>
   );

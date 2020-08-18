@@ -72,10 +72,10 @@ export default function SliManageList({ api = DEFAULT_API, applicationId, apName
               {
                 sortable: false,
                 width: '2rem',
-                getContent() {
+                getContent(item) {
                   return (
                     <Tooltip content="View/Clone SLI">
-                      <SvgIcon type="lib_actions_edit" color={'rgb(0,152,232)'} />
+                      <SvgIcon type="lib_actions_edit" color={'rgb(0,152,232)'} onClick={() => selectSli(item)} />
                     </Tooltip>
                   );
                 }

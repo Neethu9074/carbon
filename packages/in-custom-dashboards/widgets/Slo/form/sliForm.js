@@ -8,8 +8,11 @@ export function createForm(sliConfig, applicationId) {
       applicationId
     }
   };
-  const { sliName, sliEntity, metricConfiguration } = sliEntityWithApplicationId;
+  const { id, sliName, sliEntity, metricConfiguration } = sliEntityWithApplicationId;
   let form = createMapForm();
+  if (id) {
+    form = form.put('id', createField({ value: id }));
+  }
   form = form.put('sliName', createField({ value: sliName ?? '' }));
   form = form.put('sliEntity', createSliEntityForm(sliEntity));
   if (sliEntity.sliType === 'application') {
