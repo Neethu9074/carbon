@@ -20,6 +20,7 @@ export function SliForm({ form, onChange, onChangeType, apName, api }) {
   const sliEntityForm = form.get('sliEntity');
   const applicationId = sliEntityForm?.get('applicationId')?.value;
   const serviceId = sliEntityForm?.get('serviceId')?.value;
+  const endpointId = sliEntityForm?.get('endpointId')?.value;
   const boundaryScope = sliEntityForm?.get('boundaryScope')?.value;
 
   const onUpdateBoundaryScope = value => {
@@ -110,7 +111,17 @@ export function SliForm({ form, onChange, onChangeType, apName, api }) {
           </Col>
           <Col xs={3}>
             <FormGroup withoutBottomMargin>
-              <ServicesSelectBox api={api} boundaryScope={boundaryScope} applicationId={applicationId} />
+              <ServicesSelectBox
+                api={api}
+                boundaryScope={boundaryScope}
+                applicationId={applicationId}
+                value={serviceId}
+                onChange={value =>
+                  onChange(['sliEntity', 'serviceId'], f =>
+                    f.setValue(convertEmptyStringToNull(value)).setTouched(true)
+                  )
+                }
+              />
             </FormGroup>
           </Col>
         </Row>
@@ -127,6 +138,12 @@ export function SliForm({ form, onChange, onChangeType, apName, api }) {
                 boundaryScope={boundaryScope}
                 applicationId={applicationId}
                 serviceId={serviceId}
+                value={endpointId}
+                onChange={value =>
+                  onChange(['sliEntity', 'endpointId'], f =>
+                    f.setValue(convertEmptyStringToNull(value)).setTouched(true)
+                  )
+                }
               />
             </FormGroup>
           </Col>
@@ -137,3 +154,5 @@ export function SliForm({ form, onChange, onChangeType, apName, api }) {
     </Stack>
   );
 }
+
+const convertEmptyStringToNull = value => (value === '' ? null : value);

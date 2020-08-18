@@ -5,9 +5,8 @@ import getEndpoints from 'in-applications/subscriptions/getEndpoints';
 import { pendingResult } from 'in-services/fixedObjects';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import useObservable from 'in-hooks/useObservable';
-import { noop } from 'in-services/util/function';
 
-export default function EndpointSelectBox({ applicationId, serviceId, boundaryScope }) {
+export default function EndpointSelectBox({ applicationId, serviceId, boundaryScope, value, onChange }) {
   const timeConfig = useTimeConfig();
   const endpoints$ = getEndpoints({
     pagination: {
@@ -51,8 +50,8 @@ export default function EndpointSelectBox({ applicationId, serviceId, boundarySc
             { value: '', label: 'All Endpoints' },
             ...endpointItems
           ]}
-          value={''}
-          onChange={noop}
+          value={value ?? ''}
+          onChange={({ target }) => onChange?.(target?.value)}
         />
       )}
     </>

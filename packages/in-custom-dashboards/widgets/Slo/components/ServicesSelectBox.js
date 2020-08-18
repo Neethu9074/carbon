@@ -5,9 +5,8 @@ import getServices from 'in-subscription/application/getServices';
 import { pendingResult } from 'in-services/fixedObjects';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import useObservable from 'in-hooks/useObservable';
-import { noop } from 'in-services/util/function';
 
-export default function ServicesSelectBox({ applicationId, boundaryScope }) {
+export default function ServicesSelectBox({ applicationId, boundaryScope, value, onChange }) {
   const timeConfig = useTimeConfig();
   const services$ = getServices({
     pagination: {
@@ -49,8 +48,8 @@ export default function ServicesSelectBox({ applicationId, boundaryScope }) {
             { value: '', label: 'All Services' },
             ...serviceItems
           ]}
-          value={''}
-          onChange={noop}
+          value={value ?? ''}
+          onChange={({ target }) => onChange?.(target?.value)}
         />
       )}
     </>
