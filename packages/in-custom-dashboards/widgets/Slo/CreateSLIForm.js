@@ -85,7 +85,7 @@ function createSliTypeForm(sliEntity) {
   return sliEntityForm;
 }
 
-function createForm(savedState) {
+function createForm(savedState, applicationId) {
   const sliConfig = savedState;
 
   let form = createMapForm();
@@ -96,7 +96,7 @@ function createForm(savedState) {
     })
   );
 
-  const sliEntity = savedState?.sliEntity ?? {};
+  const sliEntity = { ...savedState?.sliEntity, applicationId: applicationId };
   if (sliEntity) {
     form = form.put('sliEntity', createSliTypeForm(sliEntity));
   }
@@ -124,9 +124,15 @@ function resetFormForSliType(sliType, setForm, form, sliConfig) {
   }
 }
 
-function renderForm(form, onChange, onChangeType, apName, updateBoundaryScope, api, sliConfig) {
+function renderForm(form, onChange, onChangeType, apName, sliConfig, api) {
   const sliEntityForm = form.get('sliEntity');
+  const applicationId = sliEntityForm?.get('applicationId')?.value;
+  const serviceId = sliEntityForm?.get('serviceId')?.value;
   const boundaryScope = sliEntityForm?.get('boundaryScope')?.value;
+  const onUpdateBoundaryScope = value => {
+    onChange(['sliEntity', 'boundaryScope'], f => f.setValue(value).setTouched(true));
+  };
+
   const sliType = sliEntityForm.get('sliType').value;
 
   return (
@@ -191,14 +197,14 @@ function renderForm(form, onChange, onChangeType, apName, updateBoundaryScope, a
           <Col xs={4} md={5}>
             <InboundOrAllCallsOption
               boundaryScope={boundaryScope}
-              onBoundaryStateChange={() => updateBoundaryScope(boundaryScopes.inbound)}
+              onBoundaryStateChange={() => onUpdateBoundaryScope(boundaryScopes.inbound)}
               scope={boundaryScopes.inbound}
             />
           </Col>
           <Col xs={4} md={5}>
             <InboundOrAllCallsOption
               boundaryScope={boundaryScope}
-              onBoundaryStateChange={() => updateBoundaryScope(boundaryScopes.all)}
+              onBoundaryStateChange={() => onUpdateBoundaryScope(boundaryScopes.all)}
               scope={boundaryScopes.all}
             />
           </Col>
@@ -211,7 +217,7 @@ function renderForm(form, onChange, onChangeType, apName, updateBoundaryScope, a
           </Col>
           <Col xs={3}>
             <FormGroup withoutBottomMargin>
-              <ServicesSelectBox api={api} applicationId={sliConfig.applicationId} />
+              <ServicesSelectBox api={api} boundaryScope={boundaryScope ?? null} applicationId={applicationId} />
             </FormGroup>
           </Col>
         </Row>
@@ -225,8 +231,8 @@ function renderForm(form, onChange, onChangeType, apName, updateBoundaryScope, a
             <FormGroup withoutBottomMargin>
               <EndpointSelectBox
                 apName={apName}
-                applicationId={sliConfig.applicationId}
-                serviceId={sliConfig.sliEntity?.serviceId}
+                applicationId={applicationId}
+                serviceId={serviceId}
               />
             </FormGroup>
           </Col>
@@ -241,8 +247,11 @@ function renderForm(form, onChange, onChangeType, apName, updateBoundaryScope, a
 export default function CreateNewSLIForm({
   api,
   apName,
+  applicationId,
   sliConfig
 }) {
+  const [form, setForm] = useState(createForm(sliConfig ?? {}, applicationId));
+
   const [state, setState] = useState({
     success: false,
     saving: false,
@@ -250,7 +259,6 @@ export default function CreateNewSLIForm({
   });
   const { saving, error, success } = state;
 
-  const [form, setForm] = useState(createForm(sliConfig ?? {}));
 
   const onChange = (path, fn) => {
     console.log('updating ... on path', path, fn);
@@ -259,10 +267,6 @@ export default function CreateNewSLIForm({
   const onChangeType = sliType => {
     let updatedForm = form.updateIn(['sliEntity', 'sliType'], f => f.setValue(sliType).setTouched(true));
     resetFormForSliType(sliType, setForm, updatedForm, sliConfig);
-  };
-
-  const updateBoundaryScope = value => {
-    onChange(['sliEntity', 'boundaryScope'], f => f.setValue(value).setTouched(true));
   };
 
   const onSubmit = (e, form) => {
@@ -285,11 +289,9 @@ export default function CreateNewSLIForm({
   const savingStateName = 'Saving…';
   const saveButtonLabel = 'Save';
 
-  const updateForm = setForm;
-
   return (
-    <form onSubmit={e => onSubmit(e, form, updateForm)}>
-      {renderForm(form, onChange, onChangeType, apName, updateBoundaryScope, api, sliConfig)}
+    <form onSubmit={e => onSubmit(e, form, setForm)}>
+      {renderForm(form, onChange, onChangeType, apName, sliConfig, api)}
 
       <Spacer type="dark" />
       <div>
