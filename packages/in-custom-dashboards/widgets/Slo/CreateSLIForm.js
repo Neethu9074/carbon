@@ -10,7 +10,6 @@ import DropDownMock from 'in-custom-dashboards/widgets/Slo/components/DropDownMo
 import InputMock from 'in-custom-dashboards/widgets/Slo/components/InputMock';
 import { DebugInfo } from 'in-custom-dashboards/widgets/Slo/DebugInfo';
 import StackItem from 'in-new-components/layout/Stack/StackItem';
-import Spacer from 'in-applications/Forms/components/Spacer';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import { createMapForm, createField } from 'formalistic';
 import FormGroup from 'in-components/form/FormGroup';
@@ -248,6 +247,7 @@ export default function CreateNewSLIForm({
   api,
   apName,
   applicationId,
+  close,
   sliConfig
 }) {
   const [form, setForm] = useState(createForm(sliConfig ?? {}, applicationId));
@@ -293,9 +293,8 @@ export default function CreateNewSLIForm({
     <form onSubmit={e => onSubmit(e, form, setForm)}>
       {renderForm(form, onChange, onChangeType, apName, sliConfig, api)}
 
-      <Spacer type="dark" />
       <div>
-        <Button kind="subtle" size="compact">
+        <Button kind="subtle" size="compact" onClick={close}>
           cancel
         </Button>
         {form && ( // && form.touched
