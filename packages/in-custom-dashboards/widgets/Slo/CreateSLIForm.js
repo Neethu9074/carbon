@@ -8,14 +8,15 @@ import EventBasedForm from 'in-custom-dashboards/widgets/Slo/components/GoodBadE
 import { MetricsForm } from 'in-custom-dashboards/widgets/Slo/components/MetricsForm';
 import DropDownMock from 'in-custom-dashboards/widgets/Slo/components/DropDownMock';
 import InputMock from 'in-custom-dashboards/widgets/Slo/components/InputMock';
+import { DebugInfo } from 'in-custom-dashboards/widgets/Slo/DebugInfo';
 import StackItem from 'in-new-components/layout/Stack/StackItem';
+import Spacer from 'in-applications/Forms/components/Spacer';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import { createMapForm, createField } from 'formalistic';
-import { demo } from 'in-custom-dashboards/widgets/Slo';
 import FormGroup from 'in-components/form/FormGroup';
 import Stack from 'in-new-components/layout/Stack';
-import { noop } from 'in-services/util/function';
 import Header from 'in-components/form/Header';
+import Button from 'in-new-components/Button';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 
@@ -91,7 +92,7 @@ function createForm(savedState) {
   form = form.put(
     'sliName',
     createField({
-      value: savedState['sliName'] ?? demo['sliName'] ?? all_services_mock
+      value: savedState['sliName'] ?? ''
     })
   );
 
@@ -123,28 +124,9 @@ function resetFormForSliType(sliType, setForm, form, sliConfig) {
   }
 }
 
-export default function CreateNewSLIForm({
-  apName,
-  sliConfig
-  //form,
-  // onChange,
-  // onChangeType
-}) {
-  const [form, setForm] = useState(createForm(sliConfig ?? {}));
-
-  const onChange = (path, fn) => {
-    setForm(form.updateIn(path, fn));
-  };
-  const onChangeType = sliType => {
-    let updatedForm = form.updateIn(['sliEntity', 'sliType'], f => f.setValue(sliType).setTouched(true));
-    resetFormForSliType(sliType, setForm, updatedForm, sliConfig);
-  };
-
+function renderForm(form, onChange, onChangeType, apName, updateBoundaryScope, api, sliConfig) {
   const sliEntityForm = form.get('sliEntity');
   const boundaryScope = sliEntityForm?.get('boundaryScope')?.value;
-  const updateBoundaryScope = value => {
-    onChange(['sliEntity', 'boundaryScope'], f => f.setValue(value).setTouched(true));
-  };
   const sliType = sliEntityForm.get('sliType').value;
 
   return (
@@ -256,7 +238,79 @@ export default function CreateNewSLIForm({
   );
 }
 
-const all_services_mock = 'btg-B701Rx6o9QNXUS4TVw';
+export default function CreateNewSLIForm({
+  api,
+  apName,
+  sliConfig
+}) {
+  const [state, setState] = useState({
+    success: false,
+    saving: false,
+    error: false
+  });
+  const { saving, error, success } = state;
+
+  const [form, setForm] = useState(createForm(sliConfig ?? {}));
+
+  const onChange = (path, fn) => {
+    console.log('updating ... on path', path, fn);
+    setForm(form.updateIn(path, fn));
+  };
+  const onChangeType = sliType => {
+    let updatedForm = form.updateIn(['sliEntity', 'sliType'], f => f.setValue(sliType).setTouched(true));
+    resetFormForSliType(sliType, setForm, updatedForm, sliConfig);
+  };
+
+  const updateBoundaryScope = value => {
+    onChange(['sliEntity', 'boundaryScope'], f => f.setValue(value).setTouched(true));
+  };
+
+  const onSubmit = (e, form) => {
+    e.preventDefault();
+
+    if (!form.hierarchyValid) {
+      updateForm(form.setTouched(true, { recurse: true }));
+      return;
+    }
+
+    const entityToUpdate = form.toJS();
+
+    setState({
+      saving: true,
+      success: false,
+      error: false
+    });
+  };
+
+  const savingStateName = 'Saving…';
+  const saveButtonLabel = 'Save';
+
+  const updateForm = setForm;
+
+  return (
+    <form onSubmit={e => onSubmit(e, form, updateForm)}>
+      {renderForm(form, onChange, onChangeType, apName, updateBoundaryScope, api, sliConfig)}
+
+      <Spacer type="dark" />
+      <div>
+        <Button kind="subtle" size="compact">
+          cancel
+        </Button>
+        {form && ( // && form.touched
+          <Button
+            icon={saving ? 'lib_actions_loading' : null}
+            iconSpinning
+            kind="create"
+            type="submit"
+            disabled={(!form.hierarchyValid && form.touched) || saving}
+          >
+            {saving ? savingStateName : saveButtonLabel}
+          </Button>
+        )}
+      </div>
+    </form>
+  );
+}
 
 export function createMetricsForm(metricConfiguration) {
   return createMapForm()
