@@ -6,6 +6,10 @@ export default function createRuleForm(rule) {
   const { alertType } = rule;
   const baseForm = createBaseForm(rule);
 
+  if (alertType === 'throughput') {
+    return baseForm;
+  }
+
   if (alertType === 'slowness') {
     return extendForSlowness(baseForm, rule);
   }

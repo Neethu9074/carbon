@@ -67,6 +67,7 @@ function resolveThresholdRequest(form, fallbackOnError) {
 
 function updateThresholdInForm(form, updateForm, data, errors, time) {
   const calculateThresholdOnBackend = form.get('hiddenFields').get('calculateThresholdOnBackend').value;
+
   if (calculateThresholdOnBackend) {
     thresholdOrBaselineLoadingSignal$.emit(false);
 

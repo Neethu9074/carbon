@@ -21,7 +21,7 @@ import { isPercentageMetric, getThresholdLabel } from 'in-websites/alerting/form
 import { blueprintConfigPropType } from 'in-new-components/Alerting/constants';
 import { ruleMetricNameOptions } from 'in-websites/alerting/form/ruleFormData';
 import { getTrackingObject } from 'in-new-components/Alerting/trackingHelpers';
-import { findEntryByValue } from 'in-applications/alerting/form/formUtils';
+import { findEntryByValue } from 'in-new-components/Alerting/utils/formUtils';
 import AlertingChart from 'in-new-components/Alerting/Chart/AlertingChart';
 import Dropdown from 'in-new-components/Dropdown';
 import Input from 'in-components/form/Input';

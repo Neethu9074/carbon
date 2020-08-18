@@ -18,3 +18,8 @@ export function getAggregationText(aggregation) {
       return aggregation.toLowerCase();
   }
 }
+
+export function findEntryByValue(valueLabelPairList, value) {
+  const items = valueLabelPairList ?? [];
+  return items.find(item => item?.value === value);
+}

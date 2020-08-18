@@ -1,4 +1,3 @@
-import theme from 'in-themes';
 import React from 'react';
 
 import {
@@ -15,9 +14,11 @@ import {
 import AlertPropertiesContainer from 'in-new-components/Alerting/advanced/AlertProperties/AlertPropertiesContainer';
 import { default as GlobalAdvancedModeContainer } from 'in-new-components/Alerting/advanced/AdvancedModeContainer';
 import StatusCodeInteractiveChart from 'in-websites/alerting/advanced/StatusCodeInteractiveChart';
+import ThroughputInteractiveChart from 'in-websites/alerting/advanced/ThroughputInteractiveChart';
 import { blueprintConfigs, getBlueprintConfig } from 'in-websites/alerting/data/blueprintConfig';
 import SlownessInteractiveChart from 'in-websites/alerting/advanced/SlownessInteractiveChart';
 import JsErrorsInteractiveChart from 'in-websites/alerting/advanced/JsErrorsInteractiveChart';
+import BaselineErrorMessage from 'in-new-components/Alerting/components/BaselineErrorMessage';
 import SelectAlertChannel from 'in-new-components/Alerting/components/SelectAlertChannel';
 import { alertingDialogItemPickerTimeframe } from 'in-new-components/Alerting/constants';
 import AlertLocationFilters from 'in-websites/alerting/components/AlertLocationFilters';
@@ -29,7 +30,6 @@ import AlertTypeSwitch from 'in-websites/alerting/components/AlertTypeSwitch';
 import ProvideJsError from 'in-websites/alerting/components/ProvideJsError';
 import { modeAdvanced } from 'in-websites/alerting/constants';
 import LightCard from 'in-new-components/Card/LightCard';
-import Message from 'in-new-components/Message';
 
 export default function AdvancedModeContainer(props) {
   const {
@@ -109,14 +109,7 @@ export default function AdvancedModeContainer(props) {
                       onChartViewConfigChange={onChartViewConfigChange}
                       selectedChartViewConfigIndex={selectedChartViewConfigIndex}
                     />
-                    {hasBaselineError(thresholdResult) && (
-                      <Message type="neutral" iconColor={theme.lib.colors.failure} withIcon>
-                        Insufficient data to compute the selected baseline. Please select <i>Static Threshold</i>{' '}
-                        instead.
-                        <br />
-                        <b>Reason:</b> {getErrorReason(thresholdResult)}
-                      </Message>
-                    )}
+                    <BaselineErrorMessage thresholdResult={thresholdResult} />
                   </>
                 )}
                 renderStatusCode={() => (
@@ -133,6 +126,20 @@ export default function AdvancedModeContainer(props) {
                       onChartViewConfigChange={onChartViewConfigChange}
                       selectedChartViewConfigIndex={selectedChartViewConfigIndex}
                     />
+                  </>
+                )}
+                renderThroughput={() => (
+                  <>
+                    <ThroughputInteractiveChart
+                      blueprintConfig={blueprintConfig}
+                      form={form}
+                      timeConfig={timeConfig}
+                      onChange={onChange}
+                      updateForm={updateForm}
+                      onChartViewConfigChange={onChartViewConfigChange}
+                      selectedChartViewConfigIndex={selectedChartViewConfigIndex}
+                    />
+                    <BaselineErrorMessage thresholdResult={thresholdResult} />
                   </>
                 )}
               />
@@ -194,12 +201,4 @@ function validateTrigger(form) {
   } else {
     return true;
   }
-}
-
-function hasBaselineError(thresholdResult) {
-  return thresholdResult && thresholdResult.errors.length > 0;
-}
-
-function getErrorReason(thresholdResult) {
-  return thresholdResult.errors[0].message;
 }

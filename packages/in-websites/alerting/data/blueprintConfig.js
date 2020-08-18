@@ -8,12 +8,6 @@ import { percentage, millis, number } from 'in-services/formatters/number';
 import { availableFilterTags, commonFilterTags } from 'in-websites/tags';
 import { isNotBlank } from 'in-services/util/string';
 
-const slowness = 'slowness';
-const specificStatusCode = 'statusCode';
-const specificJsError = 'specificJsError';
-
-export const alertTypes = Object.freeze({ specificJsError, slowness, specificStatusCode });
-
 const jsErrorMetricLabelsByName = Object.freeze({
   errors: 'Error Count',
   specificJsErrorRate: 'Error Rate'
@@ -22,6 +16,11 @@ const jsErrorMetricLabelsByName = Object.freeze({
 const statusCodeMetricLabelsByName = Object.freeze({
   httpxxx: 'Status Code Count',
   specificStatusCodeRate: 'Status Code Rate'
+});
+
+const throughputMetricLabelsByName = Object.freeze({
+  pageLoads: 'Page Loads',
+  pageTransitions: 'Page Transitions'
 });
 
 const baseBlueprint = Object.freeze({
@@ -37,14 +36,13 @@ const baseBlueprint = Object.freeze({
   }
 });
 
-export const blueprintConfigs = Object.freeze([
-  {
-    ...baseBlueprint,
-    type: slowness,
-    name: 'Slowness',
-    blacklistedTagFilters: ['beacon.duration'],
-    headline: 'Automatic Alerts for onLoad Time',
-    text: `
+const slownessBlueprintConfig = Object.freeze({
+  ...baseBlueprint,
+  type: 'slowness',
+  name: 'Slowness',
+  blacklistedTagFilters: ['beacon.duration'],
+  headline: 'Automatic Alerts for onLoad Time',
+  text: `
       <p>
       OnLoad Time measures the time passed in between the user navigating to a website and being able to interact with the website.
       </p>
@@ -56,51 +54,106 @@ export const blueprintConfigs = Object.freeze([
         <li>Running all scripts that need to run on page load</li>
       <ul>
     `,
-    baselineEnabled: true,
-    defaultMetric: 'onLoadTime',
-    getMetricName: () => 'onLoadTime',
-    getMetricLabel: () => 'onLoad Time',
-    getMetricFormat: () => millis.forcedFixedCompact,
-    getMaxMetricValue: () => undefined,
-    getAggregation: alertRule => alertRule.aggregation,
-    isRuleComplete: () => true,
-    getRuleTagFilters: () => []
+  baselineEnabled: true,
+  defaultMetric: 'onLoadTime',
+  getMetricName: () => 'onLoadTime',
+  getMetricLabel: () => 'onLoad Time',
+  getMetricFormat: () => millis.forcedFixedCompact,
+  getMaxMetricValue: () => undefined,
+  getAggregation: alertRule => alertRule.aggregation,
+  isRuleComplete: () => true,
+  getRuleTagFilters: () => []
+});
+
+const jsErrorsBlueprintConfig = Object.freeze({
+  ...baseBlueprint,
+  type: 'specificJsError',
+  name: 'JS Errors',
+  blacklistedTagFilters: ['beacon.error.message'],
+  headline: 'Automatic Alerts for JS Errors',
+  text: 'Receive an alert every time when matching JS Error messages occur more often than usual.',
+  baselineEnabled: false,
+  defaultMetric: 'errors',
+  getMetricName: alertRule => alertRule.metricName,
+  getMetricLabel: metricName => jsErrorMetricLabelsByName[metricName],
+  getMetricFormat: metricName => (isCustomRateMetric(metricName) ? percentage : number.forcedCompact),
+  getMaxMetricValue: metricName => (isCustomRateMetric(metricName) ? 100 : undefined),
+  getAggregation: alertRule => (isCustomRateMetric(alertRule.metricName) ? 'MEAN' : 'SUM'),
+  isRuleComplete: alertRule => isNotBlank(alertRule.value),
+  incompleteRuleMessage: 'Please select a JS Error to see when this alert triggers',
+  getRuleTagFilters: alertRule => [getJsErrorsTagFilter(alertRule)]
+});
+
+const statusCodeBlueprintConfig = Object.freeze({
+  ...baseBlueprint,
+  type: 'statusCode',
+  name: 'HTTP Status Codes',
+  blacklistedTagFilters: ['beacon.http.status'],
+  headline: 'Automatic Alerts for HTTP Status Codes',
+  text: 'Receive an alert every time when matching HTTP Status Codes occur more often than usual.',
+  baselineEnabled: false,
+  defaultMetric: 'httpxxx',
+  getMetricName: alertRule => alertRule.metricName,
+  getMetricLabel: metricName => statusCodeMetricLabelsByName[metricName],
+  getMetricFormat: metricName => (isCustomRateMetric(metricName) ? percentage : number.forcedCompact),
+  getMaxMetricValue: metricName => (isCustomRateMetric(metricName) ? 100 : undefined),
+  getAggregation: alertRule => (isCustomRateMetric(alertRule.metricName) ? 'MEAN' : 'SUM'),
+  isRuleComplete: alertRule => isNotBlank(alertRule.value),
+  incompleteRuleMessage: 'Please select a Status Code to see when this alert triggers',
+  getRuleTagFilters: alertRule => [getStatusCodeTagFilter(alertRule)]
+});
+
+const throughputBlueprintConfig = Object.freeze({
+  ...baseBlueprint,
+  type: 'throughput',
+  name: 'Throughput',
+  blacklistedTagFilters: [],
+  headline: 'Automatic Alerts for Page Views',
+  text:
+    'Automatic alerts on anomalously low or high number of Page Loads or Page Transitions for selected pages of this Website.',
+  baselineEnabled: true,
+  defaultMetric: 'pageLoads',
+  getMetricName: alertRule => alertRule.metricName,
+  getMetricLabel: metricName => throughputMetricLabelsByName[metricName],
+  getMetricFormat: () => number.forcedCompact,
+  getMaxMetricValue: () => undefined,
+  getAggregation: () => 'SUM',
+  isRuleComplete: () => true,
+  getRuleTagFilters: () => [],
+  impactTimeThresholdDisabled: true
+});
+
+export const blueprintConfigs = Object.freeze([
+  slownessBlueprintConfig,
+  jsErrorsBlueprintConfig,
+  statusCodeBlueprintConfig,
+  throughputBlueprintConfig
+]);
+
+export const simpleModeBlueprintConfigs = Object.freeze([
+  slownessBlueprintConfig,
+  jsErrorsBlueprintConfig,
+  statusCodeBlueprintConfig,
+  {
+    ...throughputBlueprintConfig,
+    subType: 'unexpectedDrop',
+    name: 'Unexpectedly Low Number of Page Loads',
+    headline: 'Automatic Alerts on Anomalously Low Number of Page Loads',
+    text:
+      'Receive an alert when the number of Page Loads is significantly lower than expected compared to the available past data.',
+    thresholdDefaults: {
+      operator: '<='
+    },
+    isSelected: alertThreshold => alertThreshold.operator === '<=' || alertThreshold.operator === '<'
   },
   {
-    ...baseBlueprint,
-    type: specificJsError,
-    name: 'JS Errors',
-    blacklistedTagFilters: ['beacon.error.message'],
-    headline: 'Automatic Alerts for JS Errors',
-    text: 'Receive an alert every time when matching JS Error messages occur more often than usual.',
-    baselineEnabled: false,
-    defaultMetric: 'errors',
-    getMetricName: alertRule => alertRule.metricName,
-    getMetricLabel: metricName => jsErrorMetricLabelsByName[metricName],
-    getMetricFormat: metricName => (isCustomRateMetric(metricName) ? percentage : number.forcedCompact),
-    getMaxMetricValue: metricName => (isCustomRateMetric(metricName) ? 100 : undefined),
-    getAggregation: alertRule => (isCustomRateMetric(alertRule.metricName) ? 'MEAN' : 'SUM'),
-    isRuleComplete: alertRule => isNotBlank(alertRule.value),
-    incompleteRuleMessage: 'Please select a JS Error to see when this alert triggers',
-    getRuleTagFilters: alertRule => [getJsErrorsTagFilter(alertRule)]
-  },
-  {
-    ...baseBlueprint,
-    type: specificStatusCode,
-    name: 'HTTP Status Codes',
-    blacklistedTagFilters: ['beacon.http.status'],
-    headline: 'Automatic Alerts for HTTP Status Codes',
-    text: 'Receive an alert every time when matching HTTP Status Codes occur more often than usual.',
-    baselineEnabled: false,
-    defaultMetric: 'httpxxx',
-    getMetricName: alertRule => alertRule.metricName,
-    getMetricLabel: metricName => statusCodeMetricLabelsByName[metricName],
-    getMetricFormat: metricName => (isCustomRateMetric(metricName) ? percentage : number.forcedCompact),
-    getMaxMetricValue: metricName => (isCustomRateMetric(metricName) ? 100 : undefined),
-    getAggregation: alertRule => (isCustomRateMetric(alertRule.metricName) ? 'MEAN' : 'SUM'),
-    isRuleComplete: alertRule => isNotBlank(alertRule.value),
-    incompleteRuleMessage: 'Please select a Status Code to see when this alert triggers',
-    getRuleTagFilters: alertRule => [getStatusCodeTagFilter(alertRule)]
+    ...throughputBlueprintConfig,
+    subType: 'unexpectedlyHighNumber',
+    name: 'Unexpectedly High Number of Page Loads',
+    headline: 'Automatic Alerts on Anomalously High Number of Page Loads',
+    text:
+      'Receive an alert when the number of Page Loads is significantly higher than expected compared to the available past data. This might be an indication of an attack or a bot generating too many requests to the website.',
+    isSelected: alertThreshold => alertThreshold.operator === '>=' || alertThreshold.operator === '>'
   }
 ]);
 
@@ -108,11 +161,26 @@ export function getBlueprintConfig(alertType) {
   return blueprintConfigs.find(blueprint => blueprint.type === alertType);
 }
 
-export const availableTagFiltersPerAlertType = {
-  [specificJsError]: commonFilterTags,
-  [slowness]: availableFilterTags.pageLoad,
-  [specificStatusCode]: availableFilterTags.httpRequest
-};
+export function getSimpleModeBlueprintConfig(alertType, alertThreshold) {
+  return simpleModeBlueprintConfigs
+    .filter(blueprint => blueprint.type === alertType)
+    .find(blueprint => !blueprint.isSelected || blueprint.isSelected(alertThreshold));
+}
+
+export function getAvailableTagFiltersPerAlertType(alertType, metricName) {
+  switch (alertType) {
+    case 'specificJsError':
+      return commonFilterTags;
+    case 'slowness':
+      return availableFilterTags.pageLoad;
+    case 'statusCode':
+      return availableFilterTags.httpRequest;
+    case 'throughput':
+      return metricName === 'pageLoads' ? availableFilterTags.pageLoad : availableFilterTags.pageChange;
+    default:
+      throw Error('Unsupported alertType: ' + alertType);
+  }
+}
 
 export function blacklistedTagFiltersOfAlertType(alertType) {
   const config = getBlueprintConfig(alertType);

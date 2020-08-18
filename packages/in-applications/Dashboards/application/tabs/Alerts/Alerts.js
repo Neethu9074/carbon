@@ -113,7 +113,7 @@ function getNameContent(config) {
         type="lib_alerts_alert"
       />
       <div className={joinClassNames(locals.column, locals.fullWidth)}>
-        <Tooltip themeStyle="light" content={config.description} align="topMiddle">
+        <Tooltip themeStyle="light" content={config.description} align="topMiddle" delay={500}>
           <div className={joinClassNames(locals.name, locals.fullWidth)}>{config.name}</div>
         </Tooltip>
         <div className={locals.nameSubtext}>{getSubtitle(config)}</div>
@@ -148,6 +148,7 @@ function getFiltersContent(config, applicationName) {
           themeStyle="light"
           content={<TagFilterListPresenter tagFilters={config.tagFilters} readonly />}
           align="topMiddle"
+          delay={500}
         >
           <span className={locals.centered}>
             <SvgIcon className={locals.filterIcon} type="lib_actions_filter" />

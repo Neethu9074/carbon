@@ -14,9 +14,10 @@ import { getThresholdValueForPercentageMetric } from 'in-new-components/Alerting
 import { debouncedThresholdValueChangedTracker } from 'in-applications/alerting/trackingHelpers';
 import { applicationsAlertingThresholdOperatorChanged } from 'in-applications/alerting/tracker';
 import ChartViewConfigurator from 'in-new-components/Alerting/components/ChartViewConfigurator';
-import { findEntryByValue, getThresholdLabel } from 'in-applications/alerting/form/formUtils';
 import { blueprintConfigPropType } from 'in-new-components/Alerting/constants';
 import { getTrackingObject } from 'in-new-components/Alerting/trackingHelpers';
+import { findEntryByValue } from 'in-new-components/Alerting/utils/formUtils';
+import { getThresholdLabel } from 'in-applications/alerting/form/formUtils';
 import AlertingChart from 'in-new-components/Alerting/Chart/AlertingChart';
 import Dropdown from 'in-new-components/Dropdown';
 import Input from 'in-components/form/Input';

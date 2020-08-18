@@ -90,7 +90,11 @@ export const ruleMetricNameOptions = Object.freeze({
     { value: 'httpxxx', label: 'Status Code Count' },
     { value: 'specificStatusCodeRate', label: 'Status Code Rate' }
   ],
-  slowness: [{ value: 'onLoadTime', label: 'onLoad Time' }]
+  slowness: [{ value: 'onLoadTime', label: 'onLoad Time' }],
+  throughput: [
+    { value: 'pageLoads', label: 'Page Loads' },
+    { value: 'pageTransitions', label: 'Page Transitions' }
+  ]
 });
 
 export const ruleAggregationOptions = Object.freeze([

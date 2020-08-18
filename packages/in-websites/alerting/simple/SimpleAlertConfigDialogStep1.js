@@ -1,10 +1,10 @@
 import React from 'react';
 
+import { getSimpleModeBlueprintConfig, simpleModeBlueprintConfigs } from 'in-websites/alerting/data/blueprintConfig';
 import SimpleModeStepContentWrapper from 'in-new-components/BlueprintFormMultistep/SimpleModeStepContentWrapper';
 import SelectedBlueprintPresenter from 'in-new-components/BlueprintFormMultistep/SelectedBlueprintPresenter';
 import SimpleAlertConfigDialogChart from 'in-websites/alerting/simple/SimpleAlertConfigDialogChart';
 import { BlueprintDescription } from 'in-new-components/Alerting/components/BlueprintDescription';
-import { getBlueprintConfig, blueprintConfigs } from 'in-websites/alerting/data/blueprintConfig';
 import { alertingDialogItemPickerTimeframe } from 'in-new-components/Alerting/constants';
 import ProvideStatusCode from 'in-websites/alerting/components/ProvideStatusCode';
 import createBlueprintForm from 'in-websites/alerting/form/blueprintFormCreator';
@@ -23,16 +23,19 @@ export default function SimpleAlertConfigDialogStep1({
   selectedChartViewConfigIndex
 }) {
   const alertType = form.get('rule').get('alertType').value;
-  const blueprintConfig = getBlueprintConfig(alertType);
+
+  const alertThreshold = form.get('threshold').toJS();
+  const blueprintConfig = getSimpleModeBlueprintConfig(alertType, alertThreshold);
 
   return (
     <SimpleModeStepContentWrapper headline="What do you want to be alerted on?">
       <Menu
-        items={blueprintConfigs}
+        items={simpleModeBlueprintConfigs}
         onItemClick={item => {
           updateForm(
-            createBlueprintForm(form, item.type).updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f =>
-              f.setValue(true)
+            createBlueprintForm(form, item.type, item.thresholdDefaults).updateIn(
+              ['hiddenFields', 'calculateThresholdOnBackend'],
+              f => f.setValue(true)
             )
           );
 
@@ -62,6 +65,7 @@ export default function SimpleAlertConfigDialogStep1({
             <ProvideStatusCode form={form} onChange={onChange} updateForm={updateForm} mode={modeSimple} />
           </SelectedBlueprintPresenter>
         )}
+        renderThroughput={() => <BlueprintDescription config={blueprintConfig} isSimpleMode />}
       />
       <SimpleAlertConfigDialogChart
         form={form}

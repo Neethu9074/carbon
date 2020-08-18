@@ -1,4 +1,3 @@
-import theme from 'in-themes';
 import React from 'react';
 
 import {
@@ -17,6 +16,7 @@ import GlobalAdvancedModeContainer from 'in-new-components/Alerting/advanced/Adv
 import ErrorRateInteractiveChart from 'in-applications/alerting/advanced/ErrorRateInteractiveChart';
 import SlownessInteractiveChart from 'in-applications/alerting/advanced/SlownessInteractiveChart';
 import InboundOutboundCallsSwitch from './InboundOutboundCallsSwitch/InboundOutboundCallsSwitch';
+import BaselineErrorMessage from 'in-new-components/Alerting/components/BaselineErrorMessage';
 import AlertLocationFilters from 'in-applications/alerting/components/AlertLocationFilters';
 import LogsInteractiveChart from 'in-applications/alerting/advanced/LogsInteractiveChart';
 import SelectAlertChannel from 'in-new-components/Alerting/components/SelectAlertChannel';
@@ -25,8 +25,8 @@ import BlueprintSelection from 'in-applications/alerting/advanced/BlueprintSelec
 import ProvideLogMessage from 'in-applications/alerting/components/ProvideLogMessage';
 import ProvideStatusCode from 'in-applications/alerting/components/ProvideStatusCode';
 import AlertTypeSwitch from 'in-applications/alerting/components/AlertTypeSwitch';
+
 import LightCard from 'in-new-components/Card/LightCard';
-import Message from 'in-new-components/Message';
 
 export default function AdvancedModeContainer(props) {
   const {
@@ -198,26 +198,4 @@ export default function AdvancedModeContainer(props) {
       ]}
     />
   );
-}
-
-function BaselineErrorMessage({ thresholdResult }) {
-  if (!hasBaselineError(thresholdResult)) {
-    return null;
-  }
-
-  return (
-    <Message type="neutral" iconColor={theme.lib.colors.failure} withIcon>
-      Insufficient data to compute the selected baseline. Please select <i>Static Threshold</i> instead.
-      <br />
-      <b>Reason:</b> {getErrorReason(thresholdResult)}
-    </Message>
-  );
-}
-
-function hasBaselineError(thresholdResult) {
-  return thresholdResult && thresholdResult.errors.length > 0;
-}
-
-function getErrorReason(thresholdResult) {
-  return thresholdResult.errors[0].message;
 }

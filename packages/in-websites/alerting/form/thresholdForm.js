@@ -6,7 +6,7 @@ export default function createThresholdForm(threshold, alertType) {
   const baseForm = createBaseForm(threshold);
 
   if (alertType === 'slowness') {
-    return createSlownessForm(baseForm, threshold);
+    return createBaselineEnabledForm(baseForm, threshold);
   }
 
   if (alertType === 'specificJsError') {
@@ -15,6 +15,10 @@ export default function createThresholdForm(threshold, alertType) {
 
   if (alertType === 'statusCode') {
     return createStatusCodeForm(baseForm, threshold);
+  }
+
+  if (alertType === 'throughput') {
+    return createBaselineEnabledForm(baseForm, threshold);
   }
 }
 
@@ -40,7 +44,7 @@ function createBaseForm(threshold) {
     );
 }
 
-function createSlownessForm(baseForm, threshold) {
+function createBaselineEnabledForm(baseForm, threshold) {
   const thresholdType = threshold.type;
 
   if (thresholdType === 'staticThreshold') {

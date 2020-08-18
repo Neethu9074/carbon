@@ -1,8 +1,8 @@
 import { onLoadTime, errorRate, statusCodeRate, errorCount, statusCodeCount } from 'in-websites/alerting/constants';
 import { isGreaterOperator } from 'in-new-components/Alerting/utils/alertUtils';
 import { getAggregationText } from 'in-new-components/Alerting/utils/formUtils';
+import { getBlueprintConfig } from 'in-websites/alerting/data/blueprintConfig';
 import { getStatusCodeLabel } from 'in-websites/alerting/form/ruleFormData';
-import { alertTypes } from 'in-websites/alerting/data/blueprintConfig';
 import { operators } from 'in-analyze/applicationFilter';
 
 const operatorDescriptionValues = {
@@ -13,25 +13,33 @@ const operatorDescriptionValues = {
 };
 
 export function getTitlePlaceholder(form) {
-  const ruleForm = form.get('rule');
-  const alertType = ruleForm.get('alertType').value;
+  const rule = form.get('rule').toJS();
+  const alertType = rule.alertType;
   switch (alertType) {
-    case alertTypes.specificJsError: {
-      const operator = ruleForm.get('operator').value;
-      if (operator === operators.NOT_EMPTY) {
+    case 'specificJsError': {
+      if (rule.operator === operators.NOT_EMPTY) {
         return `Any JS Errors`;
       }
-      const errorMessage = ruleForm.get('value').value;
+      const errorMessage = rule.value;
       return `JS Error(s): "${errorMessage}"`;
     }
-    case alertTypes.specificStatusCode: {
-      const statusCodeString = ruleForm.get('value').value;
+    case 'statusCode': {
+      const statusCodeString = rule.value;
       return `HTTP Status Code(s): ${fillStatusCodeValue(statusCodeString)}`;
     }
-    case alertTypes.slowness: {
-      const aggregation = ruleForm.get('aggregation').value;
-      const operator = form.get('threshold').get('operator').value;
-      return `onLoad Time (${getAggregationText(aggregation)}) is too ${isGreaterOperator(operator) ? 'high' : 'low'}`;
+    case 'slowness': {
+      const thresholdOperator = form.get('threshold').get('operator').value;
+      return `onLoad Time (${getAggregationText(rule.aggregation)}) is too ${getSimpleHighOrLowOperatorText(
+        thresholdOperator
+      )}`;
+    }
+    case 'throughput': {
+      const blueprintConfig = getBlueprintConfig(alertType);
+      const metricName = blueprintConfig.getMetricName(rule);
+      const thresholdOperator = form.get('threshold').get('operator').value;
+      return `Number of ${blueprintConfig.getMetricLabel(metricName)} is anomalously ${getSimpleHighOrLowOperatorText(
+        thresholdOperator
+      )}`;
     }
     default:
       throw Error('Unsupported alertType: ' + alertType);
@@ -39,40 +47,47 @@ export function getTitlePlaceholder(form) {
 }
 
 export function getDescriptionPlaceholder(form) {
-  const ruleForm = form.get('rule');
+  const rule = form.get('rule').toJS();
+  const alertType = rule.alertType;
   const thresholdForm = form.get('threshold');
-  const alertType = ruleForm.get('alertType').value;
+  const thresholdOperator = thresholdForm.get('operator').value;
 
   switch (alertType) {
-    case alertTypes.specificJsError: {
-      const ruleOperator = ruleForm.get('operator').value;
-      if (ruleOperator === operators.NOT_EMPTY) {
+    case 'specificJsError': {
+      if (rule.operator === operators.NOT_EMPTY) {
         return `JS Errors have been detected.`;
       }
-      return `JS Errors which ${operatorDescriptionValues[ruleOperator]} "${
-        ruleForm.get('value').value
-      }" have been detected.`;
+      return `JS Errors which ${operatorDescriptionValues[rule.operator]} "${rule.value}" have been detected.`;
     }
-    case alertTypes.specificStatusCode: {
-      const statusCodeString = ruleForm.get('value').value;
-      const operator = thresholdForm.get('operator').value;
+    case 'statusCode': {
+      const statusCodeString = rule.value;
       return `Occurrences of HTTP Status Code ${getStatusCodeLabel(
         statusCodeString
-      )} is ${getSimpleAboveOrBelowOperatorText(operator)} the expectation.`;
+      )} is ${getSimpleAboveOrBelowOperatorText(thresholdOperator)} the expectation.`;
     }
-    case alertTypes.slowness: {
-      const aggregation = ruleForm.get('aggregation').value;
-      const operator = thresholdForm.get('operator').value;
+    case 'slowness': {
       const thresholdType = thresholdForm.get('type').value;
       if (thresholdType === 'staticThreshold') {
         const thresholdValue = thresholdForm.get('value').value;
-        return `The onLoad Time (${getAggregationText(aggregation)}) is ${getGreaterOrLessOperatorText(
-          operator
+        return `The onLoad Time (${getAggregationText(rule.aggregation)}) is ${getGreaterOrLessOperatorText(
+          thresholdOperator
         )} ${thresholdValue} ms.`;
       }
-      return `The onLoad Time (${getAggregationText(aggregation)}) is ${getSimpleAboveOrBelowOperatorText(
-        operator
+      return `The onLoad Time (${getAggregationText(rule.aggregation)}) is ${getSimpleAboveOrBelowOperatorText(
+        thresholdOperator
       )} the expectation.`;
+    }
+    case 'throughput': {
+      const blueprintConfig = getBlueprintConfig(alertType);
+      const metricName = blueprintConfig.getMetricName(rule);
+      const metricLabel = blueprintConfig.getMetricLabel(metricName);
+      const thresholdType = thresholdForm.get('type').value;
+
+      if (thresholdType === 'staticThreshold') {
+        const thresholdValue = thresholdForm.get('value').value;
+        return `The number of ${metricLabel} is ${getHigherOrLowerOperatorText(thresholdOperator)} ${thresholdValue}.`;
+      }
+      return `The number of ${metricLabel} is ${getHigherOrLowerOperatorText(thresholdOperator)} expected.`;
     }
     default:
       throw Error('Unsupported alertType: ' + alertType);
@@ -93,6 +108,8 @@ export function getThresholdLabel(form) {
       return 'Percentage';
     case errorCount:
     case statusCodeCount:
+    case 'pageLoads':
+    case 'pageTransitions':
       return 'Count';
     default:
       return 'Value';
@@ -127,6 +144,25 @@ function getGreaterOrLessOperatorText(operator) {
   }
 }
 
+function getHigherOrLowerOperatorText(operator) {
+  switch (operator) {
+    case '>':
+      return 'higher than';
+    case '>=':
+      return 'higher or equal to';
+    case '<':
+      return 'lower than';
+    case '<=':
+      return 'lower or equal to';
+    default:
+      throw Error('Unsupported operator: ' + operator);
+  }
+}
+
 function getSimpleAboveOrBelowOperatorText(operator) {
   return isGreaterOperator(operator) ? 'above' : 'below';
+}
+
+function getSimpleHighOrLowOperatorText(operator) {
+  return isGreaterOperator(operator) ? 'high' : 'low';
 }

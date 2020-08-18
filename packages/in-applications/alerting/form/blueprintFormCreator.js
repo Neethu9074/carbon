@@ -1,6 +1,5 @@
+import { getBlueprintConfig, blacklistedTagFiltersOfAlertType } from 'in-applications/alerting/data/blueprintConfig';
 import { createViolationsInSequenceForm } from 'in-new-components/Alerting/advanced/TimeThresholdConfig/form';
-import { blacklistedTagFiltersOfAlertType } from 'in-applications/alerting/data/blueprintConfig';
-import { getBlueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
 import createThresholdForm from 'in-applications/alerting/form/thresholdForm';
 import createRuleForm from 'in-applications/alerting/form/ruleForm';
 

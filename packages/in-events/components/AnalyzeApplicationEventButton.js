@@ -1,12 +1,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import getConfigByDataSource, { groupByEndpointName, groupByServiceName } from 'in-analyze/AnalyzeView/dataSources';
 import { applicationsAlertingEventDetailsGoToAnalyze } from 'in-applications/alerting/tracker';
+import { getTimeConfigFromEvent, getWidenedTimeConfigFromEvent } from 'in-events/timeframe';
 import { toTagFilterNumberOperator } from 'in-new-components/Alerting/utils/alertUtils';
 import { getBaselineValue } from 'in-new-components/Alerting/utils/baselineUtils';
-import getConfigByDataSource, { groupByEndpointName, groupByServiceName } from 'in-analyze/AnalyzeView/dataSources';
 import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
-import { getTimeConfigFromEvent } from 'in-events/timeframe';
 import Button from 'in-new-components/Button';
 
 const dataSource = 'calls';
@@ -57,20 +57,10 @@ function GoToAnalyzeButton({ applicationName, boundaryScope, filters, timeConfig
 }
 
 function getRelevantEventTimeframe(event, alertConfig) {
-  const timeConfig = getTimeConfigFromEvent(event);
   if (alertConfig.rule.alertType === 'throughput') {
-    // extend begin by one bucket, and end also by bucket bucket in case the to-timestamp is fixed
-    const toIsFixed = !!timeConfig.to;
-    const granularity = alertConfig.granularity;
-    const adjustedTo = toIsFixed ? timeConfig.to + granularity : timeConfig.to;
-    return {
-      to: adjustedTo,
-      focusedMoment: adjustedTo,
-      windowSize: timeConfig.windowSize + (toIsFixed ? 2 : 1) * granularity,
-      autoRefresh: alertConfig.autoRefresh
-    };
+    return getWidenedTimeConfigFromEvent(event, alertConfig.granularity);
   }
-  return timeConfig;
+  return getTimeConfigFromEvent(event);
 }
 
 export function getEnrichedAnalyzeFilters(alertConfig, timeConfig) {

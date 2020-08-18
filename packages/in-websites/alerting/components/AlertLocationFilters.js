@@ -8,11 +8,13 @@ import {
   websitesAlertingFilterRemove,
   websitesAlertingFilterEdit
 } from 'in-websites/alerting/tracker';
+import {
+  blacklistedTagFiltersOfAlertType,
+  getAvailableTagFiltersPerAlertType
+} from 'in-websites/alerting/data/blueprintConfig';
 import TagFilterConfigurationWrapper from 'in-analyze/AnalyzeView/components/TagFilterConfigurationWrapper';
 import WebsiteEditTagFilterDialog from 'in-websites/analyze/AnalyzeView/WebsiteEditTagFilterDialog';
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
-import { blacklistedTagFiltersOfAlertType } from 'in-websites/alerting/data/blueprintConfig';
-import { availableTagFiltersPerAlertType } from 'in-websites/alerting/data/blueprintConfig';
 import { getTrackingObject } from 'in-new-components/Alerting/trackingHelpers';
 import QuickFilterBar from 'in-websites/analyze/AnalyzeView/QuickFilterBar';
 import { modeAdvanced, modeSimple } from 'in-websites/alerting/constants';
@@ -22,9 +24,14 @@ const BEACON_WEBSITE_NAME = 'beacon.website.name';
 const BEACON_WEBSITE_ID = 'beacon.website.id';
 
 export default function AlertLocationFilters({ advancedMode, form, timeConfig, websiteLabel, updateForm }) {
-  const alertType = form.get('rule').get('alertType').value;
+  const ruleForm = form.get('rule');
+  const alertType = ruleForm.get('alertType').value;
+  const metricName = ruleForm.get('metricName').value;
+
   const blacklistedTagFilters = blacklistedTagFiltersOfAlertType(alertType);
-  const tagSuggestions = availableTagFiltersPerAlertType[alertType].filter(tag => !blacklistedTagFilters.includes(tag));
+  const tagSuggestions = getAvailableTagFiltersPerAlertType(alertType, metricName).filter(
+    tag => !blacklistedTagFilters.includes(tag)
+  );
 
   if (__DEV__) {
     invariant(tagSuggestions, `Tag suggestions not defined for alert type ${alertType}`);

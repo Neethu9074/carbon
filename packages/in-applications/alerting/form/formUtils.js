@@ -60,7 +60,6 @@ export function getTitlePlaceholder(form) {
       const isGreaterOp = isGreaterOperator(thresholdOperator);
       return `Number of calls is anomalously ${isGreaterOp ? 'high' : 'low'}`;
     }
-
     default:
       throw Error('Unsupported alertType: ' + alertType);
   }
@@ -71,6 +70,7 @@ export function getDescriptionPlaceholder(form) {
   const alertType = ruleForm.get('alertType').value;
   const thresholdForm = form.get('threshold');
   const thresholdOperator = thresholdForm.get('operator').value;
+
   switch (alertType) {
     case 'errorRate': {
       const thresholdValue = thresholdForm.get('value').value;
@@ -97,17 +97,16 @@ export function getDescriptionPlaceholder(form) {
       const ruleOperator = ruleForm.get('operator').value;
       const level = ruleForm.get('level').value;
       const levelText = getLogLevelRuleOperatorLabel(level);
-      const operator = thresholdForm.get('operator').value;
       const thresholdValue = thresholdForm.get('value').value;
 
-      if (operator === operators.NOT_EMPTY) {
+      if (thresholdOperator === operators.NOT_EMPTY) {
         return `Number of calls logging ${levelText} messages is ${getHigherOrLowerOperatorText(
-          operator
+          thresholdOperator
         )} ${thresholdValue}.`;
       }
       return `Number of calls logging ${levelText} messages which ${
         operatorDescriptionValues[ruleOperator]
-      } "${message}" is ${getHigherOrLowerOperatorText(operator)} ${thresholdValue}.`;
+      } "${message}" is ${getHigherOrLowerOperatorText(thresholdOperator)} ${thresholdValue}.`;
     }
     case 'statusCode': {
       const statusCodeStart = ruleForm.get('statusCodeStart').value;
@@ -184,9 +183,4 @@ function getSlowerOrBelowOperatorText(operator) {
     default:
       throw Error('Unsupported operator: ' + operator);
   }
-}
-
-export function findEntryByValue(valueLabelPairList, value) {
-  const items = valueLabelPairList ?? [];
-  return items.find(item => item?.value === value);
 }

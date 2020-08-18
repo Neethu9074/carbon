@@ -3,11 +3,10 @@ import React from 'react';
 
 import { defaultGroupings, translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
 import { toTagFilterNumberOperator, isGreaterOperator } from 'in-new-components/Alerting/utils/alertUtils';
+import { getTimeConfigFromEvent, getWidenedTimeConfigFromEvent } from 'in-events/timeframe';
 import { websitesAlertingEventDetailsGoToAnalyze } from 'in-websites/alerting/tracker';
 import { getBaselineValue } from 'in-new-components/Alerting/utils/baselineUtils';
-import { alertTypes } from 'in-websites/alerting/data/blueprintConfig';
 import { getLinkToAnalyze } from 'in-websites/navigation/paths';
-import { getTimeConfigFromEvent } from 'in-events/timeframe';
 import Button from 'in-new-components/Button';
 
 const emptyTagFilter = {};
@@ -19,14 +18,13 @@ export default function AnalyzeWebsiteEventButton({ event, alertConfig }) {
   const tagFilters = alertConfig.tagFilters;
   const tagFiltersWithWebsiteId = [getWebsiteIdTagFilter(entityId), ...tagFilters];
   const alertType = alertConfig.rule.alertType;
-  const timeConfig = getTimeConfigFromEvent(event);
 
-  if (alertType === alertTypes.specificJsError) {
+  if (alertType === 'specificJsError') {
     return (
       <GoToAnalyzeButton
         websiteLabel={websiteLabel}
         tagFilters={[...tagFiltersWithWebsiteId, getErrorMessageTagFilter(alertConfig.rule)]}
-        timeConfig={timeConfig}
+        timeConfig={getTimeConfigFromEvent(event)}
         icon="lib_website_error"
         group={defaultGroupings.error}
         beaconType="error"
@@ -34,7 +32,8 @@ export default function AnalyzeWebsiteEventButton({ event, alertConfig }) {
       />
     );
   }
-  if (alertType === alertTypes.slowness) {
+  if (alertType === 'slowness') {
+    const timeConfig = getTimeConfigFromEvent(event);
     const analyzeTagFilters =
       alertConfig.threshold.type === 'staticThreshold'
         ? [
@@ -54,16 +53,31 @@ export default function AnalyzeWebsiteEventButton({ event, alertConfig }) {
       />
     );
   }
-  if (alertType === alertTypes.specificStatusCode) {
+  if (alertType === 'statusCode') {
     return (
       <GoToAnalyzeButton
         websiteLabel={websiteLabel}
         tagFilters={[...tagFiltersWithWebsiteId, getStatusCodeTagFilter(alertConfig.rule)]}
-        timeConfig={timeConfig}
+        timeConfig={getTimeConfigFromEvent(event)}
         icon="lib_website_ajax"
         group={defaultGroupings.httpRequest}
         beaconType="httpRequest"
         title="Analyze HTTP Requests"
+      />
+    );
+  }
+  if (alertType === 'throughput') {
+    const metricName = alertConfig.threshold.metricName;
+    const isPageLoadMetric = metricName === 'pageLoads';
+    return (
+      <GoToAnalyzeButton
+        websiteLabel={websiteLabel}
+        tagFilters={tagFiltersWithWebsiteId}
+        timeConfig={getRelevantEventTimeframe(event, alertConfig)}
+        icon="lib_website_page_load"
+        group={isPageLoadMetric ? defaultGroupings.pageLoad : defaultGroupings.pageChange}
+        beaconType={isPageLoadMetric ? 'pageLoad' : 'pageChange'}
+        title={isPageLoadMetric ? 'Analyze Page Loads' : 'Analyze Page Transitions'}
       />
     );
   }
@@ -87,12 +101,20 @@ function GoToAnalyzeButton({ websiteLabel, tagFilters, timeConfig, icon, group, 
         beaconType,
         tagFilters: translateDemocratisationTagFiltersToAnalyzeTagFilters({ websiteLabel, tagFilters }),
         group,
-        timeConfig
+        timeConfig,
+        showGraph: true
       })}
     >
       {title}
     </Button>
   );
+}
+
+function getRelevantEventTimeframe(event, alertConfig) {
+  if (alertConfig.rule.alertType === 'throughput') {
+    return getWidenedTimeConfigFromEvent(event, alertConfig.granularity);
+  }
+  return getTimeConfigFromEvent(event);
 }
 
 function getWebsiteIdTagFilter(websiteId) {

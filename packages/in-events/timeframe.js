@@ -43,6 +43,25 @@ export function getTimeConfigFromEvent(event) {
   };
 }
 
+/**
+ * Get the timeframe from an event and, if possible, widens the timeConfig on both sides, to return a bigger timeframe.
+ * This can be useful when it is known that the surrounding area is actually from interest too.
+ * @param event                The event to retrieve the timeframe from.
+ * @param widenTimeframeMillis The time in millis to extend both sides. If to is NULL, then only the LHS is extended.
+ */
+export function getWidenedTimeConfigFromEvent(event, widenTimeframeMillis) {
+  const timeConfig = getTimeConfigFromEvent(event);
+  // extend begin by one bucket, and end also by bucket bucket in case the to-timestamp is fixed
+  const toIsFixed = !!timeConfig.to;
+  const adjustedTo = toIsFixed ? timeConfig.to + widenTimeframeMillis : timeConfig.to;
+  return {
+    to: adjustedTo,
+    focusedMoment: adjustedTo,
+    windowSize: timeConfig.windowSize + (toIsFixed ? 2 : 1) * widenTimeframeMillis,
+    autoRefresh: timeConfig.autoRefresh
+  };
+}
+
 export function getTimeConfigFromEventForSnapshotRetrieval(event) {
   const from = getFromOfEvent(event);
   if (from === undefined) {
@@ -84,8 +103,8 @@ function getToOfEvent(event) {
       ? event.get('end')
       : null
     : event.state === 'closed'
-      ? event.end
-      : null;
+    ? event.end
+    : null;
 }
 
 function getFocusedMomentOfEvent(event) {
