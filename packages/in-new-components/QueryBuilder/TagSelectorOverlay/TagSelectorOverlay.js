@@ -79,14 +79,7 @@ export default function TagSelectorOverlay({ tagCatalog, onChange, close }) {
             activeGroup?.children && (
               <TreeNodeList
                 nodes={activeGroup.children}
-                onChange={selectedNode => {
-                  onChange(selectedNode);
-                  setState({
-                    query,
-                    activeGroup,
-                    showGroup: false
-                  });
-                }}
+                onChange={onChangeTag}
                 onSlideOut={() =>
                   setState({
                     query,
@@ -114,6 +107,7 @@ export default function TagSelectorOverlay({ tagCatalog, onChange, close }) {
                     showGroup: true
                   })
                 }
+                onChangeTag={onChangeTag}
                 close={close}
                 ref={staticContentWrapperRef}
               />
@@ -124,6 +118,15 @@ export default function TagSelectorOverlay({ tagCatalog, onChange, close }) {
       </div>
     </div>
   );
+
+  function onChangeTag(selectedNode) {
+    onChange(selectedNode);
+    setState({
+      query,
+      activeGroup,
+      showGroup: false
+    });
+  }
 }
 
 TagSelectorOverlay.propTypes = {

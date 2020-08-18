@@ -1,6 +1,10 @@
 export default {
   tags: [
     {
+      name: 'kubernetes.label',
+      type: 'STRING'
+    },
+    {
       name: 'kubernetes.cluster.label',
       type: 'STRING'
     },
@@ -62,9 +66,23 @@ export default {
 
   tagTree: [
     {
+      type: 'TAG',
+      label: 'Label',
+      icon: 'lib_kubernetes_label',
+      description: 'Root level tag',
+      tagName: 'kubernetes.label'
+    },
+    {
       type: 'LEVEL',
       label: 'Kubernetes',
       children: [
+        {
+          type: 'TAG',
+          label: 'Label',
+          icon: 'lib_kubernetes_label',
+          description: 'Key/Value - Defined in Kubernetes (matches Cluster/POD… labels)',
+          tagName: 'kubernetes.label'
+        },
         {
           type: 'LEVEL',
           label: 'Cluster',

@@ -3,10 +3,11 @@ import React, { forwardRef } from 'react';
 
 import filterCatalog from 'in-new-components/QueryBuilder/TagSelectorOverlay/tagCatalogFilter';
 import OverlayOption from 'in-new-components/QueryBuilder/OverlayOption/OverlayOption';
+import { ListGroup, ColumnizedContent } from 'in-new-components/lists/List/List';
+import Tag from 'in-new-components/QueryBuilder/TagSelectorOverlay/Tag';
 import { onArrowKeyDownFocusSiblings } from 'in-services/util/domFocus';
-import { ColumnizedContent } from 'in-new-components/lists/List';
-import { ListGroup } from 'in-new-components/lists/List/List';
-import { isBlank } from 'in-services/util/string';
+import { isBlank, isNotBlank } from 'in-services/util/string';
+import KeyValue from 'in-new-components/lists/KeyValue';
 import keyCodes from 'in-components/keyCodes';
 import SvgIcon from 'in-components/SvgIcon';
 
@@ -21,6 +22,9 @@ const columnDefinitions = [
   },
   {
     getContent({ child }) {
+      if (isNotBlank(child.description)) {
+        return <KeyValue value={child.label} label={child.description} inverted accentuated />;
+      }
       return child.label;
     }
   },
@@ -51,27 +55,39 @@ const columnDefinitions = [
 
 export default forwardRef(TagTree);
 
-function TagTree({ tagCatalog, query, onChange }, ref) {
+function TagTree({ tagCatalog, query, onChange, onChangeTag, close }, ref) {
   const tagTreeNodes = filterCatalog(tagCatalog, query).tagTree;
   return (
     <div ref={ref} onKeyDown={onKeyDown}>
-      {tagTreeNodes.map(group => (
-        <ListGroup key={group.label} label={group.label}>
-          {group.children.map(child => (
-            <OverlayOption
-              key={child.label}
-              className={locals.option}
-              onChange={onChange}
-              size="compact"
-              // clicking a group does not close the overlay
-              close={() => {}}
-              value={child}
-            >
-              <ColumnizedContent columnDefinitions={columnDefinitions} child={child} query={query} />
-            </OverlayOption>
-          ))}
-        </ListGroup>
-      ))}
+      {tagTreeNodes.map(group => {
+        if (group.type === 'TAG') {
+          return <Tag key={group.label} node={group} close={close} onChange={onChangeTag} />;
+        }
+
+        return (
+          <ListGroup key={group.label} label={group.label}>
+            {group.children.map(child => {
+              if (child.type === 'TAG') {
+                return <Tag key={child.label} node={child} close={close} onChange={onChangeTag} />;
+              }
+
+              return (
+                <OverlayOption
+                  key={child.label}
+                  className={locals.option}
+                  onChange={onChange}
+                  size="compact"
+                  // clicking a group does not close the overlay
+                  close={() => {}}
+                  value={child}
+                >
+                  <ColumnizedContent columnDefinitions={columnDefinitions} child={child} query={query} />
+                </OverlayOption>
+              );
+            })}
+          </ListGroup>
+        );
+      })}
     </div>
   );
 }
@@ -89,5 +105,7 @@ export function onKeyDown(event) {
 TagTree.propTypes = {
   tagCatalog: PropTypes.any.isRequired,
   query: PropTypes.string,
-  onChange: PropTypes.func.isRequired
+  onChange: PropTypes.func.isRequired,
+  onChangeTag: PropTypes.func.isRequired,
+  close: PropTypes.func.isRequired
 };

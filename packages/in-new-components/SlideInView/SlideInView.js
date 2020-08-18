@@ -131,7 +131,7 @@ SlideInView.propTypes = {
   onAfterSlideIn: PropTypes.func,
   onAfterSlideOut: PropTypes.func,
   onShowSlideInContentChange: PropTypes.func.isRequired,
-  showSlideInContent: PropTypes.bool.isRequired,
+  showSlideInContent: PropTypes.bool,
   slideInContent: PropTypes.node,
   slideInContentTitle: PropTypes.node,
   slideTransitionDurationMillis: PropTypes.number,
