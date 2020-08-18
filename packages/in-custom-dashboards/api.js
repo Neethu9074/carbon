@@ -97,13 +97,31 @@ function getUsersInternal() {
   );
 }
 
-export const getSliConfigurations = memoize(getConfiguredSlis, () => '', 60000);
+export const getSliConfigurations = memoize(getConfiguredSlis, () => '', 6000);
 function getConfiguredSlis() {
   return createObservable(
     http({
       method: 'GET',
       maxRetries: 3,
       url: '/api/settings/sli'
+    })
+  );
+}
+
+export function createSliConfiguration(sliConfiguration) {
+  return createObservable(
+    http({
+      method: 'POST',
+      maxRetries: 3,
+      url: `/api/settings/sli`,
+      headers: getCsrfHeader(),
+      data: sliConfiguration
+    }).map(res => {
+      if (res?.body?.id) {
+        //TODO replace refreshSignal with sli specific one
+        refreshSignal.emit(res.body.id);
+      }
+      return res;
     })
   );
 }
