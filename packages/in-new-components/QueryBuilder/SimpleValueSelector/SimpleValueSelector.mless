@@ -3,6 +3,8 @@
 :local {
   .list {
     position: absolute;
+    // avoid list elements to be below tag input fields and make them on the same level as addIndicators
+    z-index: 1;
     left: 0;
 
     width: 100%;

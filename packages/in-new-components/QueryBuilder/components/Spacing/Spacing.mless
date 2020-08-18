@@ -100,6 +100,8 @@
   .hoverEnabler {
     height: 0.5rem;
     position: absolute;
+    // avoid addIndicator to be below tag input fields
+    z-index: 1;
     bottom: -0.5rem;
     left: -0.2rem;
     right: -0.2rem;
@@ -114,6 +116,8 @@
     justify-content: center;
 
     position: absolute;
+    // avoid addIndicator to be below tag input fields
+    z-index: 1;
     top: 1.8125rem;
     height: 1.1875rem;
 
