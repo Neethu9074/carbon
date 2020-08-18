@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
+import { markerLaneLabelVisibleSignal$ } from '../MarkerLanesPresenter';
 import RenderScheduler from 'in-components/Chart/RenderScheduler';
 import getElementDimensions from 'in-hoc/getElementDimensions';
 import evaluateClassNames from 'in-services/util/classnames';
@@ -54,7 +55,6 @@ function MarkersLanePresenter({
   events,
   tooltipContent,
   renderScheduler,
-  labelVisible,
   labelAlignment,
   label,
   chartContentPosition,
@@ -67,6 +67,7 @@ function MarkersLanePresenter({
   selectedEventData,
   ...remainingProps
 }) {
+  const labelVisible = useObservable(markerLaneLabelVisibleSignal$, [label, labelAlignment]);
   const xScale = useObservable(renderScheduler.xScaleBackBuffer$.nextFrame(), [], { pure: false });
   const [hoveredEventData, setHoveredEventData] = useState(null);
 
@@ -153,7 +154,6 @@ function MarkersLanePresenter({
 
 MarkersLane.propTypes = {
   timeConfig: propTypeTimeConfig.isRequired,
-  labelVisible: PropTypes.bool,
   labelAlignment: PropTypes.oneOf(['left', 'right']).isRequired,
   tooltipContent: PropTypes.func.isRequired,
   label: PropTypes.string.isRequired,

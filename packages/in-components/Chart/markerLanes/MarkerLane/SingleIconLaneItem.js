@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
+import { clearActiveTooltip } from 'in-services/stores/tooltip';
 import { propTypeTimeConfig } from 'in-stores/time/config';
 import Overlay from 'in-new-components/overlays/Overlay';
 import SvgIcon from 'in-components/SvgIcon/SvgIcon';
@@ -31,16 +32,19 @@ export default function SingleIconLaneItem({
         onHover?.(null);
       }}
     >
-      <Overlay props={{ iconConfig, eventData, timeConfig }} content={calloutContent} autoOpen={false} withoutWrapper>
-        {({ toggle, refSetter }) => (
+      <Overlay props={{ iconConfig, eventData, timeConfig }} content={calloutContent}>
+        {({ open, refSetter }) => (
           <SvgIcon
             size="xs"
+            className={locals.icon}
             onClick={
               !calloutContent && !onClick
                 ? undefined
-                : () => {
-                    if (calloutContent) toggle();
-                    onClick?.(eventData);
+                : e => {
+                    stopPropagationAndPreventDefault(e);
+                    if (calloutContent) open();
+                    // onClick?.(eventData);
+                    clearActiveTooltip();
                   }
             }
             type={showIconForCluster ? iconConfig.typeCluster : iconConfig.type}

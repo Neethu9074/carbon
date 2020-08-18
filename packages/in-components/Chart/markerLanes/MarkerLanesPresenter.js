@@ -1,11 +1,15 @@
 import React, { useState, Children, cloneElement, useRef } from 'react';
+import { create } from 'reactive-observables';
 import PropTypes from 'prop-types';
 
+import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { getBlockSizeMillis } from 'in-services/util/dynamicAggregation';
 import { propTypeTimeConfig } from 'in-stores/time/config';
 import { sizes } from 'in-components/SvgIcon/SvgIcon';
 
 import locals from './MarkerLanesPresenter.mless';
+
+export const markerLaneLabelVisibleSignal$ = create().emit(false);
 
 const minBlockWidth = sizes.xs;
 export default function MarkerLanesPresenter({
@@ -18,12 +22,17 @@ export default function MarkerLanesPresenter({
   if (!children || !granularity) return null;
 
   const [labelAlignment, setLabelAligment] = useState('left');
-  const [labelVisible, setLabelVisible] = useState(false);
 
   return (
-    <div className={locals.markerLanesContainer} onMouseLeave={() => setLabelVisible(false)}>
+    <div
+      className={locals.markerLanesContainer}
+      onMouseLeave={e => {
+        stopPropagationAndPreventDefault(e);
+        markerLaneLabelVisibleSignal$.emit(false);
+        // setLabelVisible(false);
+      }}
+    >
       <MarkerLanesWrapper
-        labelVisible={labelVisible}
         labelAlignment={labelAlignment}
         chartWidth={chartWidth}
         granularity={granularity}
@@ -32,28 +41,31 @@ export default function MarkerLanesPresenter({
       />
       <div
         className={locals[labelAlignment]}
-        onMouseEnter={() => setLabelAligment(labelAlignment === 'left' ? 'right' : 'left')}
+        onMouseEnter={e => {
+          stopPropagationAndPreventDefault(e);
+          setLabelAligment(labelAlignment === 'left' ? 'right' : 'left');
+        }}
       />
     </div>
   );
 
-  function MarkerLanesWrapper({
-    labelVisible,
-    labelAlignment,
-    chartWidth,
-    granularity,
-    chartBucketWidth,
-    remainingProps
-  }) {
+  function MarkerLanesWrapper({ labelAlignment, chartWidth, granularity, chartBucketWidth, remainingProps }) {
     const isClustered = chartBucketWidth < minBlockWidth - 2;
 
     const markerLanesWrapperRef = useRef(null);
     return (
-      <div ref={markerLanesWrapperRef} className={locals.markerLanesWrapper} onMouseEnter={() => setLabelVisible(true)}>
+      <div
+        ref={markerLanesWrapperRef}
+        className={locals.markerLanesWrapper}
+        onMouseEnter={e => {
+          stopPropagationAndPreventDefault(e);
+          markerLaneLabelVisibleSignal$.emit(true);
+          // setLabelVisible(true);
+        }}
+      >
         {Children.map(children, child => {
           return cloneElement(child, {
             ...remainingProps,
-            labelVisible,
             labelAlignment,
             clusterSizeMillis: isClustered
               ? getClusterSizeMillis({
