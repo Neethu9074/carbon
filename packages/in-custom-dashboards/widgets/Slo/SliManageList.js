@@ -19,24 +19,8 @@ const DEFAULT_API = {
 
 export default function SliManageList({ api = DEFAULT_API, applicationId, apName }) {
   const [sliSelected, selectSli] = useState(null);
-  const sliConfig_example = {
-    sliName: 'robert-create-a-new-sli',
-    metricConfiguration: {
-      metricName: 'latency',
-      metricAggregation: 'P90',
-      threshold: 10
-    },
-    sliEntity: {
-      sliType: 'application',
-      applicationId: 'acfRC1IqTVi41OMLAJU4Cw',
-      serviceId: null,
-      endpointId: null,
-      boundaryScope: 'ALL'
-    }
-  };
-
   const createSliHeader = (
-    <Button kind="action" onClick={() => selectSli(sliConfig_example)} icon="lib_openclose_add">
+    <Button kind="action" onClick={() => selectSli({})} icon="lib_openclose_add">
       Create SLI
     </Button>
   );
