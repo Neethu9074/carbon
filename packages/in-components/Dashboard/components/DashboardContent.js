@@ -59,9 +59,7 @@ export default connectTo(
     ]);
 
     if (
-      !DashboardImpl ||
-      !SidebarImpl ||
-      (!snapshot && !showVersionSelector) ||
+      ((!DashboardImpl || !SidebarImpl) && !snapshot && !showVersionSelector) ||
       (snapshot && snapshotId !== snapshot.get('id'))
     ) {
       return (
