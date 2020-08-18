@@ -7,19 +7,8 @@ import useTimeConfig from 'in-hooks/useTimeConfig';
 import useObservable from 'in-hooks/useObservable';
 import { noop } from 'in-services/util/function';
 
-export default function EndpointSelectBox({ applicationId, serviceId }) {
+export default function EndpointSelectBox({ applicationId, serviceId, boundaryScope }) {
   const timeConfig = useTimeConfig();
-  const api = {
-    getTagSuggestions: () => {
-      return just({
-        progress: { loading: false },
-        data: {
-          suggestions: ['Service 1', 'Service 2']
-        }
-      });
-    }
-  };
-
   const endpoints$ = getEndpoints({
     pagination: {
       page: 1,
@@ -38,12 +27,14 @@ export default function EndpointSelectBox({ applicationId, serviceId }) {
     filter: {
       service: serviceId,
       application: applicationId,
+      applicationBoundaryScope: boundaryScope,
       timeConfig
     },
     contextScope: 'NONE'
   });
 
-  const endpointsResponse = useObservable(endpoints$, [applicationId, serviceId]) ?? pendingResult;
+  const endpointsResponse =
+    useObservable(endpoints$, [applicationId, serviceId, boundaryScope, timeConfig]) ?? pendingResult;
   const { progress, errors, data } = endpointsResponse;
   const endpointItems = data?.items?.map(({ endpoint }) => ({ value: endpoint.id, label: endpoint.label }));
 

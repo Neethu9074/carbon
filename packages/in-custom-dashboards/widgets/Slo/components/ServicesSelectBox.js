@@ -7,7 +7,7 @@ import useTimeConfig from 'in-hooks/useTimeConfig';
 import useObservable from 'in-hooks/useObservable';
 import { noop } from 'in-services/util/function';
 
-export default function ServicesSelectBox({ applicationId }) {
+export default function ServicesSelectBox({ applicationId, boundaryScope }) {
   const timeConfig = useTimeConfig();
   const services$ = getServices({
     pagination: {
@@ -26,12 +26,13 @@ export default function ServicesSelectBox({ applicationId }) {
     },
     filter: {
       application: applicationId,
+      applicationBoundaryScope: boundaryScope,
       timeConfig
     },
     contextScope: 'NONE'
   });
 
-  const services = useObservable(services$, [applicationId]) ?? pendingResult;
+  const services = useObservable(services$, [applicationId, boundaryScope, timeConfig]) ?? pendingResult;
   const { progress, errors, data } = services;
   const serviceItems = data?.items?.map(({ service }) => ({ value: service.id, label: service.label }));
 

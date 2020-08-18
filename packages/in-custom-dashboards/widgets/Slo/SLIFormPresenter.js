@@ -110,7 +110,7 @@ export function SliForm({ form, onChange, onChangeType, apName, api }) {
           </Col>
           <Col xs={3}>
             <FormGroup withoutBottomMargin>
-              <ServicesSelectBox api={api} boundaryScope={boundaryScope ?? null} applicationId={applicationId} />
+              <ServicesSelectBox api={api} boundaryScope={boundaryScope} applicationId={applicationId} />
             </FormGroup>
           </Col>
         </Row>
@@ -124,7 +124,7 @@ export function SliForm({ form, onChange, onChangeType, apName, api }) {
             <FormGroup withoutBottomMargin>
               <EndpointSelectBox
                 apName={apName}
-                boundaryScope={boundaryScope ?? null}
+                boundaryScope={boundaryScope}
                 applicationId={applicationId}
                 serviceId={serviceId}
               />
