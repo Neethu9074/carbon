@@ -2,15 +2,16 @@ import React, { useState } from 'react';
 
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import SlideInView, { ListHeader } from 'in-new-components/SlideInView/SlideInView';
+import CreateNewSLIForm from 'in-custom-dashboards/widgets/Slo/CreateSLIForm';
 import { getSliConfigurations } from 'in-custom-dashboards/api';
 import SliList from 'in-custom-dashboards/widgets/Slo/SliList';
 import { isLoading, hasError } from 'in-services/util/result';
+import LightCardV2 from 'in-new-components/Card/LightCardV2';
 import { formatDateTime } from 'in-services/formatters/date';
 import KeyValue from 'in-new-components/lists/KeyValue';
 import Button from 'in-new-components/Button';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
-import CreateNewSLIForm from 'in-custom-dashboards/widgets/Slo/CreateSLIForm';
 
 const DEFAULT_API = {
   getSliConfigurations
@@ -39,13 +40,14 @@ export default function SliManageList({ api = DEFAULT_API, applicationId, apName
       Create SLI
     </Button>
   );
+  const close = () => selectSli(null);
 
   return (
     <SlideInView
-      onShowSlideInContentChange={() => selectSli(null)}
+      onShowSlideInContentChange={close}
       showSlideInContent={sliSelected}
       HeaderComponent={ListHeader}
-      slideTransitionDurationMillis={250}
+      slideTransitionDurationMillis={500}
       slideInContentTitle={'Back to SLIs️'}
       slideInContent={
         <div
@@ -55,7 +57,11 @@ export default function SliManageList({ api = DEFAULT_API, applicationId, apName
           }}
         >
           {<Button onClick={() => selectSli(null)}>Back to List of SLIs</Button>}
-          {sliSelected && <CreateNewSLIForm apName={apName} sliConfig={sliSelected} />}
+          {sliSelected && (
+            <LightCardV2>
+              <CreateNewSLIForm apName={apName} sliConfig={sliSelected} applicationId={applicationId} close={close} />
+            </LightCardV2>
+          )}
         </div>
       }
       staticContent={
