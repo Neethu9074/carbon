@@ -8,18 +8,17 @@ export function createForm(sliConfig, applicationId) {
       applicationId
     }
   };
-  const { sliType, sliEntity, metricConfiguration, sliName } = sliEntityWithApplicationId;
-
+  const { sliName, sliEntity, metricConfiguration } = sliEntityWithApplicationId;
   let form = createMapForm();
   form = form.put('sliName', createField({ value: sliName ?? '' }));
-  form = form.put('sliEntity', createSliTypeForm(sliEntity));
-  if (sliType === 'application') {
+  form = form.put('sliEntity', createSliEntityForm(sliEntity));
+  if (sliEntity.sliType === 'application') {
     form = form.put('metricConfiguration', createMetricsForm(metricConfiguration ?? {}));
   }
   return form;
 }
 
-function createSliTypeForm(sliEntity) {
+function createSliEntityForm(sliEntity) {
   return createMapForm()
     .put(
       'sliType',
@@ -72,19 +71,19 @@ function createMetricsForm(metricConfiguration) {
     .put(
       'metricName',
       createField({
-        value: metricConfiguration.metricName ?? 'unknoWNmatrix'
+        value: metricConfiguration.metricName ?? 'latency'
       })
     )
     .put(
       'metricAggregation',
       createField({
-        value: metricConfiguration.metricAggregation ?? 'P97'
+        value: metricConfiguration.metricAggregation ?? 'P75'
       })
     )
     .put(
       'threshold',
       createField({
-        value: metricConfiguration.threshold ?? 111
+        value: metricConfiguration.threshold ?? 99
       })
     );
 }
