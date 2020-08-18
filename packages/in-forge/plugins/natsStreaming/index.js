@@ -6,12 +6,12 @@ import { plugins } from 'in-forge/constants';
 registerSnapshotDefinition({
   plugin: plugins.natsStreaming,
   pluginName: {
-    singular: 'NATS',
-    plural: 'NATS'
+    singular: 'NATS Streaming',
+    plural: 'NATS Streaming'
   },
   iconSvgPath,
   kpiDefinitions,
   technologyDescriptor: {
-    label: 'NATS'
+    label: 'NATS Streaming'
   }
 });
