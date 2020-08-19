@@ -51,7 +51,7 @@ export function SliForm({ form, onChange, onChangeType, apName, api }) {
         <Row withoutTopMargin>
           <Col xs={2}>
             <FormGroup withoutBottomMargin>
-              <Label>Type: {sliType}</Label>
+              <Label>Type</Label>
             </FormGroup>
           </Col>
           <Col xs={3}>
