@@ -67,13 +67,13 @@ export default function AnalyzeWebsiteEventButton({ event, alertConfig }) {
     );
   }
   if (alertType === 'throughput') {
-    const metricName = alertConfig.threshold.metricName;
+    const metricName = alertConfig.rule.metricName;
     const isPageLoadMetric = metricName === 'pageLoads';
     return (
       <GoToAnalyzeButton
         websiteLabel={websiteLabel}
         tagFilters={tagFiltersWithWebsiteId}
-        timeConfig={getRelevantEventTimeframe(event, alertConfig)}
+        timeConfig={getWidenedTimeConfigFromEvent(event, alertConfig.granularity)}
         icon="lib_website_page_load"
         group={isPageLoadMetric ? defaultGroupings.pageLoad : defaultGroupings.pageChange}
         beaconType={isPageLoadMetric ? 'pageLoad' : 'pageChange'}
@@ -108,13 +108,6 @@ function GoToAnalyzeButton({ websiteLabel, tagFilters, timeConfig, icon, group, 
       {title}
     </Button>
   );
-}
-
-function getRelevantEventTimeframe(event, alertConfig) {
-  if (alertConfig.rule.alertType === 'throughput') {
-    return getWidenedTimeConfigFromEvent(event, alertConfig.granularity);
-  }
-  return getTimeConfigFromEvent(event);
 }
 
 function getWebsiteIdTagFilter(websiteId) {
