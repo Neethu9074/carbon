@@ -110,12 +110,6 @@ module.exports = exports = (tenant, unit) => [
     defaultValue: false
   },
   {
-    uiClientKey: 'sloConfigurationEnabled',
-    instanaCtlKey: 'feature.slo.configuration.enabled',
-    consulKey: `settings/${tenant}-${unit}/SLO_CONFIGURATION_ENABLED`,
-    defaultValue: false
-  },
-  {
     uiClientKey: 'routeIdOverPathTplEnabled',
     instanaCtlKey: 'feature.route.id.over.path.tpl.enabled',
     consulKey: `settings/${tenant}-${unit}/ROUTE_ID_OVER_PATH_TPL_ENABLED`,
