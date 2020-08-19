@@ -1,23 +1,21 @@
 import React from 'react';
 
 import { getApplicationConfigsAsResultObservable } from 'in-api/applicationConfigs';
-import { SliApConfigId } from 'in-custom-dashboards/widgets/Slo/form';
+import { SliApConfigId, SloApName } from 'in-custom-dashboards/widgets/Slo/form';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import KeyValue from 'in-new-components/lists/KeyValue';
 import FormGroup from 'in-components/form/FormGroup';
+import useObservable from 'in-hooks/useObservable';
 import Message from 'in-new-components/Message';
 import Select from 'in-components/form/Select';
-import connectTo from 'in-hoc/connectTo';
 
-export default connectTo(({ api }) => ({
-  apConfigs: (api?.getApplicationConfigsAsResultObservable ?? getApplicationConfigsAsResultObservable)().map(
-    ({ data }) => data
-  )
-}))(APConfigForm);
-
-function APConfigForm({ form, onChange, apConfigs }) {
+export default function APConfigForm({ api, form, onChange }) {
+  const apConfigs = useObservable(
+    (api?.getApplicationConfigsAsResultObservable ?? getApplicationConfigsAsResultObservable)().map(({ data }) => data),
+    []
+  );
   const sliApConfigIdField = form.get(SliApConfigId);
   return (
     <div>
@@ -33,7 +31,13 @@ function APConfigForm({ form, onChange, apConfigs }) {
                 value={field?.value}
                 onChange={e => {
                   const apId = e.target.value;
-                  onChange([SliApConfigId], f => f.setValue(apId).setTouched(true));
+                  const apConfig = apConfigs?.find(ap => ap.id === apId);
+                  const apName = apConfig?.label ?? '';
+                  onChange([], formField =>
+                    formField
+                      .updateIn([SliApConfigId], f => f.setValue(apId).setTouched(true))
+                      .updateIn([SloApName], f => f.setValue(apName).setTouched(true))
+                  );
                 }}
                 hasError={!field.valid && field.touched}
               >

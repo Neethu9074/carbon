@@ -11,11 +11,11 @@ import Header from 'in-components/form/Header';
 import Label from 'in-components/form/Label';
 import connectTo from 'in-hoc/connectTo';
 
-export default connectTo({
-  sliConfigurations: getSliConfigurations().map(({ data }) => data)
-})(SliFormComponent);
+export default connectTo(({ api }) => ({
+  sliConfigurations: (api?.getSliConfigurations ?? getSliConfigurations)().map(({ data }) => data)
+}))(SliSelectionForm);
 
-function SliFormComponent({ form, onChange, sliConfigurations, apConfigId, openManageSLIComponent }) {
+function SliSelectionForm({ form, onChange, sliConfigurations, apConfigId, openManageSLIComponent }) {
   const filteredSLIs = sliConfigurations?.filter(sli => sli?.sliEntity?.applicationId === apConfigId) ?? [];
   return (
     <Row withoutTopMargin>
@@ -37,7 +37,7 @@ function SliFormComponent({ form, onChange, sliConfigurations, apConfigId, openM
               }
               hasError={!field.valid && field.touched}
             >
-              {filteredSLIs.length === 0 && <option value="">None available, create one.</option>}
+              {filteredSLIs.length === 0 && <option value="">None available, please create one.</option>}
               {filteredSLIs.length !== 0 && <option value="">Please select</option>}
               {filteredSLIs.map(({ id, sliName }) => (
                 <option key={id} value={id}>

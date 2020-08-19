@@ -1,41 +1,76 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
+import SlideInView, { ListHeader } from 'in-new-components/SlideInView/SlideInView';
+import CreateNewSLIForm from 'in-custom-dashboards/widgets/Slo/CreateSLIForm';
 import { getSliConfigurations } from 'in-custom-dashboards/api';
 import SliList from 'in-custom-dashboards/widgets/Slo/SliList';
 import { isLoading, hasError } from 'in-services/util/result';
+import LightCardV2 from 'in-new-components/Card/LightCardV2';
 import { formatDateTime } from 'in-services/formatters/date';
 import KeyValue from 'in-new-components/lists/KeyValue';
-import { noop } from 'in-services/fixedObjects';
 import Button from 'in-new-components/Button';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
-import { role } from 'in-stores/user';
-
-const createSliHeader = (true || // in storybook
-  role.canConfigureObjectives) && (
-  <Button
-    disabled
-    kind="action"
-    onClick={
-      noop // TODO mixpanel tracking () => applicationOpenSubmitFormTracker()
-    }
-    icon="lib_openclose_add"
-  >
-    Create SLI
-  </Button>
-);
 
 const DEFAULT_API = {
-  getSliConfigurations: getSliConfigurations
+  getSliConfigurations
 };
 
-export default function SliManageList({ api = DEFAULT_API, applicationId }) {
+export default function SliManageList({ api = DEFAULT_API, applicationId, apName }) {
+  const [sliSelected, selectSli] = useState(null);
+  const createSliHeader = (
+    <Button kind="action" onClick={() => selectSli({})} icon="lib_openclose_add">
+      Create SLI
+    </Button>
+  );
+  const close = () => selectSli(null);
+
   return (
-    <SliList
-      columnDefinitions={columnDefinitions}
-      getItems={() => api.getSliConfigurations().map(onlyWithAPid(applicationId))}
-      rightHeader={createSliHeader}
+    <SlideInView
+      onShowSlideInContentChange={close}
+      showSlideInContent={sliSelected}
+      HeaderComponent={ListHeader}
+      slideTransitionDurationMillis={500}
+      slideInContentTitle={'Back to SLIs️'}
+      slideInContent={
+        <div
+          style={{
+            paddingLeft: '1rem',
+            paddingRight: '1rem'
+          }}
+        >
+          {<Button onClick={() => selectSli(null)}>Back to List of SLIs</Button>}
+          {sliSelected && (
+            <LightCardV2>
+              <CreateNewSLIForm apName={apName} sliConfig={sliSelected} applicationId={applicationId} close={close} />
+            </LightCardV2>
+          )}
+        </div>
+      }
+      staticContent={
+        <div>
+          <SliList
+            columnDefinitions={[
+              ...columnDefinitions,
+              {
+                sortable: false,
+                width: '2rem',
+                getContent(item) {
+                  return (
+                    <Tooltip content="View/Clone SLI">
+                      <SvgIcon type="lib_actions_edit" color={'rgb(0,152,232)'} onClick={() => selectSli(item)} />
+                    </Tooltip>
+                  );
+                }
+              }
+            ]}
+            getItems={() => api.getSliConfigurations()?.map(onlyWithAPid(applicationId)) ?? null}
+            rightHeader={createSliHeader}
+          />
+        </div>
+      }
+      enforceMaxHeightForStaticContent
     />
   );
 }
@@ -95,17 +130,6 @@ const columnDefinitions = [
         <time dateTime={new Date(timestamp).toISOString()}>{formatDateTime(timestamp)}</time>
       ) : (
         <span>{valueMissingPlaceholder}</span>
-      );
-    }
-  },
-  {
-    sortable: false,
-    width: '2rem',
-    getContent() {
-      return (
-        <Tooltip content="View/Clone SLI, will come soon">
-          <SvgIcon type="lib_actions_edit" color={'primary'} />
-        </Tooltip>
       );
     }
   }
