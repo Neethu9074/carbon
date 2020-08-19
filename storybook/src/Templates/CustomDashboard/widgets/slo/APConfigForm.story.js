@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import APConfigForm from 'in-custom-dashboards/widgets/Slo/APConfigForm';
+import APConfigForm from 'in-custom-dashboards/widgets/Slo/components/APConfigForm';
 import { getApplicationConfigsAsResultObservable } from './apiMock';
 import { createForm } from 'in-custom-dashboards/widgets/Slo';
 

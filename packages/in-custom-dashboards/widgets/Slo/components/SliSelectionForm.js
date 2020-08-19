@@ -13,9 +13,9 @@ import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(({ api }) => ({
   sliConfigurations: (api?.getSliConfigurations ?? getSliConfigurations)().map(({ data }) => data)
-}))(SliFormComponent);
+}))(SliSelectionForm);
 
-function SliFormComponent({ form, onChange, sliConfigurations, apConfigId, openManageSLIComponent }) {
+function SliSelectionForm({ form, onChange, sliConfigurations, apConfigId, openManageSLIComponent }) {
   const filteredSLIs = sliConfigurations?.filter(sli => sli?.sliEntity?.applicationId === apConfigId) ?? [];
   return (
     <Row withoutTopMargin>

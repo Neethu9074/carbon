@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 import { resetFormForSliType, createForm } from 'in-custom-dashboards/widgets/Slo/form/sliForm';
-import { SliForm } from 'in-custom-dashboards/widgets/Slo/SLIFormPresenter';
+import { SliForm } from 'in-custom-dashboards/widgets/Slo/SliFormPresenter';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { createSliConfiguration } from 'in-custom-dashboards/api';
 import Button from 'in-new-components/Button';

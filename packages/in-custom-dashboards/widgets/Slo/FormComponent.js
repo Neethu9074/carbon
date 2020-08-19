@@ -1,8 +1,8 @@
 import React from 'react';
 
-import SliFormComponent from 'in-custom-dashboards/widgets/Slo/SliFormComponent';
+import SliFormComponent from 'in-custom-dashboards/widgets/Slo/components/SliSelectionForm';
 import { SloTarget, SliApConfigId, SloApName } from 'in-custom-dashboards/widgets/Slo/form';
-import APConfigSelector from 'in-custom-dashboards/widgets/Slo/APConfigForm';
+import APConfigSelector from 'in-custom-dashboards/widgets/Slo/components/APConfigForm';
 import SliManageList from 'in-custom-dashboards/widgets/Slo/SliManageList';
 import StackItem from 'in-new-components/layout/Stack/StackItem';
 import { Row, Col } from 'in-new-components/layout/Grid';
