@@ -2,6 +2,7 @@ import React from 'react';
 
 import InboundOrAllCallsOption from 'in-applications/alerting/advanced/InboundOutboundCallsSwitch/InboundOrAllCallsOption';
 import { boundaryScopes } from 'in-applications/alerting/advanced/InboundOutboundCallsSwitch/config';
+import { AvailabilityType, ApplicationType } from 'in-custom-dashboards/widgets/Slo/form/sliForm';
 import ServicesSelectBox from 'in-custom-dashboards/widgets/Slo/components/ServicesSelectBox';
 import EndpointSelectBox from 'in-custom-dashboards/widgets/Slo/components/EndpointSelectBox';
 import EventBasedForm from 'in-custom-dashboards/widgets/Slo/components/GoodBadEventsForm';
@@ -60,8 +61,8 @@ export function SliForm({ form, onChange, onChangeType, apName, api }) {
                 onChange={({ target }) => onChangeType(target.value)}
                 options={[
                   { value: '', label: 'Please select' },
-                  { value: 'application', label: 'Time-based' },
-                  { value: 'availability', label: 'Event-based', description: 'e.g. availability' }
+                  { value: ApplicationType, label: 'Time-based' },
+                  { value: AvailabilityType, label: 'Event-based' }
                 ]}
               />
             </FormGroup>

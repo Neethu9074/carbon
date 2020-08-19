@@ -1,5 +1,8 @@
 import { createMapForm, createField } from 'formalistic';
 
+export const ApplicationType = 'application';
+export const AvailabilityType = 'availability';
+
 export function createForm(sliConfig, applicationId) {
   const sliEntityWithApplicationId = {
     ...sliConfig,
@@ -15,7 +18,7 @@ export function createForm(sliConfig, applicationId) {
   }
   form = form.put('sliName', createField({ value: sliName ?? '' }));
   form = form.put('sliEntity', createSliEntityForm(sliEntity));
-  if (sliEntity.sliType === 'application') {
+  if (sliEntity.sliType === ApplicationType) {
     form = form.put('metricConfiguration', createMetricsForm(metricConfiguration ?? {}));
   }
   return form;
@@ -57,7 +60,7 @@ function createSliEntityForm(sliEntity) {
 
 export function resetFormForSliType(sliType, setForm, form) {
   let newForm = form.updateIn(['sliEntity', 'sliType'], f => f.setValue(sliType).setTouched(true));
-  if (sliType === 'application') {
+  if (sliType === ApplicationType) {
     setForm(
       newForm
         .put('metricConfiguration', createMetricsForm({}))
