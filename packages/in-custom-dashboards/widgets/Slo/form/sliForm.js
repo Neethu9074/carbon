@@ -25,7 +25,7 @@ export function createForm(sliConfig, applicationId) {
 }
 
 function createSliEntityForm(sliEntity) {
-  return createMapForm()
+  const form = createMapForm()
     .put(
       'sliType',
       createField({
@@ -56,6 +56,27 @@ function createSliEntityForm(sliEntity) {
         value: sliEntity.boundaryScope ?? null
       })
     );
+
+  if (sliEntity.sliType === AvailabilityType) {
+    return addGoodBadEventsForm(form, sliEntity);
+  }
+  return form;
+}
+
+function addGoodBadEventsForm(form, sliEntity) {
+  return form
+    .put(
+      'goodEventFilters',
+      createField({
+        value: sliEntity?.goodEventFilters ?? null
+      })
+    )
+    .put(
+      'badEventFilters',
+      createField({
+        value: sliEntity?.badEventFilters ?? null
+      })
+    );
 }
 
 export function resetFormForSliType(sliType, setForm, form) {
@@ -68,7 +89,8 @@ export function resetFormForSliType(sliType, setForm, form) {
         .updateIn(['sliEntity'], f => f.remove('badEventFilters'))
     );
   } else {
-    setForm(newForm.remove('metricConfiguration'));
+    newForm = newForm.remove('metricConfiguration');
+    setForm(addGoodBadEventsForm(newForm));
   }
 }
 
