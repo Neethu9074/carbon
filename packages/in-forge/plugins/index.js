@@ -64,6 +64,7 @@ import './finagleApplicationContainer';
 import './f5';
 import './garden';
 import './gce';
+import './googleCloudRunServiceRevision';
 import './googleCloudSQL';
 import './googleCloudStorage';
 import './genericHardware';
