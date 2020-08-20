@@ -40,43 +40,27 @@ export default function RoleForm({ form, onChange, roleId }) {
         <Permission
           form={form}
           disabled={disabled}
-          onChange={(fieldName, value) => {
-            onChange(form => {
-              form = form.updateIn([fieldName], field => field.setValue(value).setTouched(true));
-              if (!value) {
-                form = form
-                  .updateIn(['canViewLogs'], field => field.setValue(true).setTouched(true))
-                  .updateIn(['canViewTraceDetails'], field => field.setValue(true).setTouched(true));
-              }
-              return form;
-            });
-          }}
+          onChange={onChange}
           name="restrictedAccess"
           label={permissions['restrictedAccess']}
           helpText="Enable role based access control."
         />
-        {form.get('restrictedAccess').map(field => (
-          <>
-            <Permission
-              form={form}
-              disabled={!field.value}
-              inverse
-              onChange={onChange}
-              name="canViewLogs"
-              label={permissions['canViewLogs']}
-              helpText="Restrict access to logs once role based access control is enabled."
-            />
-            <Permission
-              form={form}
-              disabled={!field.value}
-              inverse
-              onChange={onChange}
-              name="canViewTraceDetails"
-              label={permissions['canViewTraceDetails']}
-              helpText="Restrict access to trace details once role based access control is enabled."
-            />
-          </>
-        ))}
+        <Permission
+          form={form}
+          disabled={disabled}
+          onChange={onChange}
+          name="canViewLogs"
+          label={permissions['canViewLogs']}
+          helpText="Restrict access to logs once role based access control is enabled."
+        />
+        <Permission
+          form={form}
+          disabled={disabled}
+          onChange={onChange}
+          name="canViewTraceDetails"
+          label={permissions['canViewTraceDetails']}
+          helpText="Restrict access to trace details once role based access control is enabled."
+        />
       </FormGroup>
 
       <Permissions form={form} onChange={onChange} disabled={disabled} />
