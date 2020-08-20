@@ -40,7 +40,7 @@ export default function CreateNewSLIForm({ api, apName, applicationId, close, sl
       error: false
     });
 
-    const newSliId = apName + '-' + uuidv4().slice(8);
+    const newSliId = uuidv4().slice(8);
     const enrichtedSliConfiguration = {
       id: newSliId, // e.g. 'appname-1b9d6bcd'
       ...form.toJS()

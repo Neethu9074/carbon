@@ -128,6 +128,20 @@ export function createSliConfiguration(sliConfiguration) {
   );
 }
 
+export function deleteSliConfiguration(id) {
+  return createObservable(
+    http({
+      method: 'DELETE',
+      maxRetries: 3,
+      url: `/api/settings/sli/${encodeURIComponent(id)}`,
+      headers: getCsrfHeader()
+    }).map(res => {
+      refreshSignalSlis.emit(id);
+      return res.body;
+    })
+  );
+}
+
 export const getSliReport = memoize(getSliReportRequest, (sliId, slo, from, to) => '' + sliId + slo + from + to, 20000);
 function getSliReportRequest(sliId = 'phani-test-1', slo, from, to) {
   return refreshSignal.startWith(sliId).flatMap(() =>

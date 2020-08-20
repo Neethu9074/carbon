@@ -27,7 +27,7 @@ export const MetricsForm = ({ form, onChange }) => {
           <InputMock form={metricConfiguration} onChange={localOnChange} fieldName="metricAggregation" />
         </FormGroup>
         <Label>Threshold</Label>
-        <InputMock form={metricConfiguration} onChange={onChange} fieldName={'threshold'} />
+        <InputMock form={metricConfiguration} onChange={localOnChange} fieldName="threshold" />
       </FormGroup>
     </StackItem>
   );
