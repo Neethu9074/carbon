@@ -562,7 +562,7 @@ function UnmonitoredEntity() {
 function SubscriptComponentForSnapshot({ plugin, snapshot, time }) {
   const snapshotDefinition = getOptionalSnapshotDefinition(plugin);
   const Subscript = useObservable(
-    snapshotDefinition.supportsInfrastructureTabSubscript &&
+    snapshotDefinition?.supportsInfrastructureTabSubscript &&
       fromPromise(getForgeComponent(`./${plugin}/InfrastructureTabSubscript/InfrastructureTabSubscript.js`)),
     [plugin]
   );
