@@ -1,6 +1,6 @@
 import React from 'react';
 
-import getIBMMQQueuesUsageForQueueManager from 'in-subscription/ibmMqQueueManager/getIBMMQQueuesUsageForQueueManager';
+import getIbmMqQueuesUsageForQueueManager from 'in-subscription/ibmMqQueueManager/getIbmMqQueuesUsageForQueueManager';
 import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';
 import { getSnapshots } from 'in-stores/snapshot';
@@ -66,7 +66,7 @@ const cols = [
 export default connectTo(
   props => ({
     queuesUsage: timeConfig$
-      .flatMap(timeConfig => getIBMMQQueuesUsageForQueueManager({ snapshotId: props.snapshot.get('id'), timeConfig }))
+      .flatMap(timeConfig => getIbmMqQueuesUsageForQueueManager({ snapshotId: props.snapshot.get('id'), timeConfig }))
       .flatMap(getSnapshots)
   }),
   function QueuesUsageTable({ queuesUsage, timeConfig }) {

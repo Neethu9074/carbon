@@ -1,6 +1,6 @@
 import React from 'react';
 
-import getIBMMQChannelsForQueueManager from 'in-subscription/ibmMqQueueManager/getIBMMQChannelsForQueueManager';
+import getIbmMqChannelsForQueueManager from 'in-subscription/ibmMqQueueManager/getIbmMqChannelsForQueueManager';
 import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';
 import { getSnapshots } from 'in-stores/snapshot';
@@ -84,7 +84,7 @@ const cols = [
 export default connectTo(
   props => ({
     channels: timeConfig$
-      .flatMap(timeConfig => getIBMMQChannelsForQueueManager({ snapshotId: props.snapshot.get('id'), timeConfig }))
+      .flatMap(timeConfig => getIbmMqChannelsForQueueManager({ snapshotId: props.snapshot.get('id'), timeConfig }))
       .flatMap(getSnapshots)
   }),
   function QueuesUsageTable({ channels, timeConfig }) {

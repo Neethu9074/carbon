@@ -1,6 +1,6 @@
 import React from 'react';
 
-import getIBMMQTopicsForCluster from 'in-subscription/ibmMqCluster/getIBMMQTopicsForCluster';
+import getIbmMqTopicsForCluster from 'in-subscription/ibmMqCluster/getIbmMqTopicsForCluster';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';
@@ -106,7 +106,7 @@ const cols = [
 export default connectTo(
   props => ({
     topics: timeConfig$
-      .flatMap(timeConfig => getIBMMQTopicsForCluster({ snapshotId: props.snapshot.get('id'), timeConfig }))
+      .flatMap(timeConfig => getIbmMqTopicsForCluster({ snapshotId: props.snapshot.get('id'), timeConfig }))
       .flatMap(getSnapshots)
   }),
 

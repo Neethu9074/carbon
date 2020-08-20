@@ -1,6 +1,6 @@
 import React from 'react';
 
-import getIBMMQQueueManagersForCluster from 'in-subscription/ibmMqCluster/getIBMMQQueueManagersForCluster';
+import getIbmMqQueueManagersForCluster from 'in-subscription/ibmMqCluster/getIbmMqQueueManagersForCluster';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';
@@ -93,7 +93,7 @@ const cols = [
 export default connectTo(
   props => ({
     queueManagers: timeConfig$
-      .flatMap(timeConfig => getIBMMQQueueManagersForCluster({ snapshotId: props.snapshot.get('id'), timeConfig }))
+      .flatMap(timeConfig => getIbmMqQueueManagersForCluster({ snapshotId: props.snapshot.get('id'), timeConfig }))
       .flatMap(getSnapshots)
   }),
 
