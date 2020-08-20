@@ -1,0 +1,16 @@
+import metricDefinitions from 'in-forge/plugins/ibmMqQueueUsage/metricDefinitions';
+import kpiDefinitions from 'in-forge/plugins/ibmMqQueueUsage/kpiDefinitions';
+import iconSvgPath from 'in-forge/plugins/ibmMqQueueUsage/iconPath';
+import { registerSnapshotDefinition } from 'in-sdk/snapshot';
+import { plugins } from 'in-forge/constants';
+
+registerSnapshotDefinition({
+  plugin: plugins.ibmMqQueueUsage,
+  pluginName: {
+    singular: 'IBM MQ Queue Usage',
+    plural: 'IBM MQ Queue Usages'
+  },
+  iconSvgPath,
+  kpiDefinitions,
+  metricDefinitions
+});
