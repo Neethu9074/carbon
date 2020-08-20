@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { applicationCreationScopeSelect } from 'in-applications/creation/tracker';
 import { evaluateClassNames } from 'in-services/util/classnames';
@@ -7,8 +7,14 @@ import FormGroup from 'in-components/form/FormGroup';
 
 import locals from './ApplicationScopeSelector.mless';
 
-export default function ApplicationScopeSelector({ form, updateForm, description }) {
+export default function ApplicationScopeSelector({ form, updateForm, description, selectedBlueprint }) {
   const scopeField = form.get('scope');
+  const applicationScope = selectedBlueprint?.presetFormFields.applicationScope;
+  if (applicationScope)
+    useEffect(() => {
+      updateForm(form.updateIn(['scope'], field => field.setValue(applicationScope).setTouched(true)));
+    }, []);
+
   return (
     <div>
       <FormGroup>

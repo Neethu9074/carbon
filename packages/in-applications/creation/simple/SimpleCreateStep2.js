@@ -18,7 +18,7 @@ export default function SimpleCreateStep2({
   matchSpecification
 }) {
   return (
-    <SimpleModeStepContentWrapper headline="Specify your application">
+    <SimpleModeStepContentWrapper headline="Specify your Application Perspective">
       <div className={locals.filterWrapper}>
         <CreateApplicationFilters
           form={form}
@@ -29,7 +29,7 @@ export default function SimpleCreateStep2({
         />
         <Spacer type="dark" />
         <Label>Which downstream services would you like to include?</Label>
-        <ApplicationScopeSelector form={form} updateForm={updateForm} />
+        <ApplicationScopeSelector form={form} updateForm={updateForm} selectedBlueprint={selectedBlueprint} />
       </div>
       <ServiceLiveList
         servicesLiveList={servicesLiveList}

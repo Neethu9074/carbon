@@ -11,15 +11,21 @@ import Input from 'in-components/form/Input';
 
 import locals from './SimpleCreateStep2.mless';
 
-export default function SimpleCreateStep3({ form, updateForm, servicesLiveList, matchSpecification }) {
+export default function SimpleCreateStep3({
+  form,
+  updateForm,
+  servicesLiveList,
+  matchSpecification,
+  selectedBlueprint
+}) {
   const labelField = form.get('label');
 
   return (
-    <SimpleModeStepContentWrapper headline="What is the name of this application?">
+    <SimpleModeStepContentWrapper headline="What is the name of this Application Perspective?">
       <div className={locals.filterWrapper}>
         <FormGroup>
           <Label htmlFor="label" hasError={!labelField.valid && labelField.touched}>
-            Application Name
+            Application Perspective Name
           </Label>
           <Input
             type="text"
@@ -36,7 +42,7 @@ export default function SimpleCreateStep3({ form, updateForm, servicesLiveList, 
         <TouchedMessages field={labelField} />
         <Spacer type="dark" />
         <Label>Are you interested just in the calls to this application, or also the internal calls?</Label>
-        <InboundAllCalls form={form} updateForm={updateForm} />
+        <InboundAllCalls form={form} updateForm={updateForm} selectedBlueprint={selectedBlueprint} />
       </div>
       <ServiceLiveList
         servicesLiveList={servicesLiveList}

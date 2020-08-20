@@ -34,7 +34,7 @@ export default function CreateApplicationFilters({
   return (
     <TagFilterConfigurationWrapper
       quickFilterBar={
-        selectedBlueprint.type === 'servicesEndpoints' ? (
+        selectedBlueprint.type === 'servicesEndpoints' || selectedBlueprint.type === 'userJourney' ? (
           <ServicesEndpointsBar
             tagFilters={filters.tagFilter}
             timeConfig={filters.timeConfig}
