@@ -48,6 +48,7 @@
   .leftLargeTrace {
     display: flex;
     align-items: center;
+    overflow: hidden;
   }
 
   .expandIcon {
