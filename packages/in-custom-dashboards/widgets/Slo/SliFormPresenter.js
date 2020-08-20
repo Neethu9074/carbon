@@ -151,7 +151,7 @@ export function SliForm({ form, onChange, onChangeType, apName, api }) {
         </Row>
       </StackItem>
       <MetricsForm form={form} onChange={onChange} />
-      {sliType === 'availability' && <EventBasedForm form={form} onChange={onChange} />}
+      {sliType === AvailabilityType && <EventBasedForm form={form} onChange={onChange} />}
     </Stack>
   );
 }
