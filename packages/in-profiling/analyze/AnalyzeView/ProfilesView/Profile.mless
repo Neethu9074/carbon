@@ -44,4 +44,12 @@
 
     border: 1px solid @lib__colors__N300;
   }
+
+  .infiniteCircle {
+    background: none;
+  }
+
+  .contentLoadingWrapper {
+    justify-content: center;
+  }
 }

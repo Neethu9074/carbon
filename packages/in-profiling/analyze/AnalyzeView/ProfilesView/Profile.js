@@ -12,38 +12,42 @@ import ProfileFlameGraph from 'in-profiling/analyze/AnalyzeView/ProfilesView/Pro
 import ResultForTimeSelectionIndicator from 'in-new-components/ResultForTimeSelectionIndicator';
 import SettingsButton from 'in-profiling/analyze/AnalyzeView/ProfilesView/SettingsButton';
 import { viewTypes } from 'in-profiling/analyze/AnalyzeView/ProfilesView/ProfilesView';
-import ProfileChart from 'in-profiling/analyze/AnalyzeView/ProfilesView/ProfileChart';
 import countSamples from 'in-profiling/analyze/AnalyzeView/ProfilesView/sampleCount';
+import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import ProfileTree from 'in-profiling/analyze/AnalyzeView/ProfilesView/ProfileTree';
 import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';
+import InfiniteCircle from 'in-new-components/Loading/InfiniteCircle';
+import { hasError, isLoading } from 'in-services/util/result';
+import { formatTime } from 'in-services/formatters/date';
 import { error } from 'in-new-components/Message/types';
 import ButtonGroup from 'in-new-components/ButtonGroup';
 import SearchInput from 'in-new-components/SearchInput';
 import SetBodyColor from 'in-components/SetBodyColor';
 import SvgIcon from 'in-components/SvgIcon/SvgIcon';
 import Message from 'in-new-components/Message';
-import Button from 'in-new-components/Button';
+import { plugins } from 'in-forge/constants';
 import Tooltip from 'in-components/Tooltip';
 
 import locals from './Profile.mless';
 
 export default function Profile({
-  renderChart,
-  viewType,
-  setViewType,
   profile,
-  canFetchSourceCode,
+  viewType,
   threshold,
-  setThreshold,
-  deepestTechSnapshot,
-  timeConfig,
   processId,
+  timeConfig,
+  setViewType,
+  renderChart,
   jvmSnapshot,
-  processSnapshot,
   isCpuProfile,
-  isWaitTimeProfile,
+  setThreshold,
+  processSnapshot,
   isMemoryProfile,
-  highlightedTimeframe
+  isWaitTimeProfile,
+  canFetchSourceCode,
+  deepestTechSnapshot,
+  highlightedTimeframe,
+  profileForHighlightedTimeframeResult
 }) {
   if (!profile) {
     return (
@@ -52,14 +56,21 @@ export default function Profile({
       </Message>
     );
   }
-
-  const profileEntityTechnology = deepestTechSnapshot.get('plugin');
+  if (hasError(profileForHighlightedTimeframeResult)) {
+    return (
+      <Message type={error} withIcon>
+        Error while loading profiles for the highlighted time: + profileForHighlightedTimeframeResult.errors[0]
+      </Message>
+    );
+  }
 
   const [showGraph, setShowGraph] = useState(true);
   const [query, setQuery] = useState('');
   const [selectedNode, setSelectedNode] = useState(null);
   const [selfTimeHighlighted, setSelfTimeHighlighted] = useState(true);
   const [highlightedProfileConfig, setHighlightedProfileConfig] = useState(null);
+
+  const profileEntityTechnology = deepestTechSnapshot ? deepestTechSnapshot.get('plugin') : plugins.process;
 
   // the tree view auto expands if the highlighted id was set. This should only happen once and only on id change
   useEffect(() => {
@@ -81,19 +92,22 @@ export default function Profile({
     if (isWaitTimeProfile && viewType === 'flameGraph') waitTimeFlameGraphOpened(profileEntityTechnology);
     if (isMemoryProfile && viewType === 'tree') memoryTreeViewOpened(profileEntityTechnology);
     if (isMemoryProfile && viewType === 'flameGraph') memoryFlameGraphOpened(profileEntityTechnology);
-  }, [viewType]);
+  }, [viewType, deepestTechSnapshot]);
+
+  const isLoadingProfileForHighlightedTimeframe = isLoading(profileForHighlightedTimeframeResult);
+  const profileForHighlightedTimeframeOrDefault = profileForHighlightedTimeframeResult?.data ?? profile;
 
   let totalNumSamples = 0;
   let profilesVisualisation;
-  if (profile) {
-    for (let i = 0; i < profile.profileGraph.length; i++) {
-      totalNumSamples += countSamples(profile.profileGraph[i]);
+  if (profileForHighlightedTimeframeOrDefault) {
+    for (let i = 0; i < profileForHighlightedTimeframeOrDefault.profileGraph.length; i++) {
+      totalNumSamples += countSamples(profileForHighlightedTimeframeOrDefault.profileGraph[i]);
     }
 
     profilesVisualisation =
       viewType === viewTypes.tree ? (
         <ProfileTree
-          profile={profile}
+          profile={profileForHighlightedTimeframeOrDefault}
           processSnapshot={processSnapshot}
           canFetchSourceCode={canFetchSourceCode}
           highlightedProfileConfig={highlightedProfileConfig}
@@ -102,7 +116,7 @@ export default function Profile({
         />
       ) : (
         <ProfileFlameGraph
-          profile={profile}
+          profile={profileForHighlightedTimeframeOrDefault}
           query={query}
           selectedNode={selectedNode}
           setSelectedNode={setSelectedNode}
@@ -113,7 +127,9 @@ export default function Profile({
       );
   }
 
-  const numberOfProfiles = profile.numberOfProfiles || profile.rawProfileTimestamps.length;
+  const numberOfProfiles =
+    profileForHighlightedTimeframeOrDefault.numberOfProfiles ||
+    profileForHighlightedTimeframeOrDefault.rawProfileTimestamps.length;
 
   return (
     <>
@@ -146,33 +162,14 @@ export default function Profile({
             ]}
             activeKey={viewType}
           />
-          {renderChart && (
-            <Button
-              className={locals.graphButton}
-              kind="secondary"
-              icon="lib_views_stats"
-              onClick={() => setShowGraph(!showGraph)}
-            >
-              {showGraph ? 'Hide ' : 'Show '} CPU graph
-            </Button>
-          )}
-          {profile && (
-            <span className={locals.numProfilesLabel}>
-              {numberOfProfiles} Profile
-              {numberOfProfiles > 1 ? 's' : ''}
-            </span>
-          )}
-          {!profile && <span className={locals.numProfilesLabel}>0 Profiles</span>}
-          {totalNumSamples > 0 && totalNumSamples < 100 && (
-            <Tooltip
-              content={`Statistical confidence in percentage distribution is low, because not enough samples were collected (${totalNumSamples} samples) in the selected Timeframe.`}
-              align="rightMiddle"
-            >
-              <SvgIcon className={locals.icon} type="lib_approximately_equal" />
-            </Tooltip>
-          )}
-        </div>
 
+          <ProfilesIndicator
+            isLoadingProfileForHighlightedTimeframe={isLoadingProfileForHighlightedTimeframe}
+            profileForHighlightedTimeframeOrDefault={profileForHighlightedTimeframeOrDefault}
+            numberOfProfiles={numberOfProfiles}
+            totalNumSamples={totalNumSamples}
+          />
+        </div>
         <HorizontalFlexWrapper>
           <SettingsButton
             threshold={threshold}
@@ -190,19 +187,63 @@ export default function Profile({
           )}
         </HorizontalFlexWrapper>
       </div>
-      {showGraph && renderChart && (
-        <ProfileChart profile={profile} timeConfig={timeConfig} processId={processId} jvmSnapshot={jvmSnapshot} />
-      )}
-      {(highlightedTimeframe || profile.__missingProfileFlag) && (
+
+      {/* the chart always takes the original profile */}
+      {showGraph &&
+        renderChart({ profileTimestamps: profile.rawProfileTimestamps, timeConfig, processId, jvmSnapshot })}
+
+      {!isLoadingProfileForHighlightedTimeframe && profileForHighlightedTimeframeResult && (
         <ResultForTimeSelectionIndicator
           className={locals.timeselectionIndicator}
           entityName="profiles"
           message={
-            profile.__missingProfileFlag && 'There are no profiles in the selected timeframe. Showing all instead.'
+            !profileForHighlightedTimeframeResult.data
+              ? `There are no profiles in the selected timeframe (${formatTime(highlightedTimeframe[0])} - ${formatTime(
+                  highlightedTimeframe[1]
+                )}). Showing all instead.`
+              : `Showing profiles for selection (${formatTime(highlightedTimeframe[0])} - ${formatTime(
+                  highlightedTimeframe[1]
+                )})`
           }
         />
       )}
-      {profilesVisualisation}
+      {isLoadingProfileForHighlightedTimeframe ? (
+        <HorizontalFlexWrapper className={locals.contentLoadingWrapper}>
+          <LoadingIndicator width={150} height={150} text="Loading profiles" />
+        </HorizontalFlexWrapper>
+      ) : (
+        profilesVisualisation
+      )}
+    </>
+  );
+}
+
+function ProfilesIndicator({
+  isLoadingProfileForHighlightedTimeframe,
+  profileForHighlightedTimeframeOrDefault,
+  numberOfProfiles,
+  totalNumSamples
+}) {
+  if (isLoadingProfileForHighlightedTimeframe) {
+    return <InfiniteCircle className={locals.infiniteCircle} width={72} height={24} />;
+  }
+
+  return (
+    <>
+      {profileForHighlightedTimeframeOrDefault && (
+        <span className={locals.numProfilesLabel}>
+          {numberOfProfiles} Profile
+          {numberOfProfiles > 1 ? 's' : ''}
+        </span>
+      )}
+      {totalNumSamples > 0 && totalNumSamples < 100 && (
+        <Tooltip
+          content={`Statistical confidence in percentage distribution is low, because not enough samples were collected (${totalNumSamples} samples) in the selected Timeframe.`}
+          align="rightMiddle"
+        >
+          <SvgIcon className={locals.icon} type="lib_approximately_equal" />
+        </Tooltip>
+      )}
     </>
   );
 }

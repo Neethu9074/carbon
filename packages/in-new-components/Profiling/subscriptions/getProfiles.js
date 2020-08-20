@@ -4,6 +4,7 @@ import { createResultSubscriptionFactory } from 'in-subscription/resultSubscript
 export default createResultSubscriptionFactory({
   eventId: 'getProfiles',
   disposeSubscriptionOnDocumentHidden: false,
+  memoizeFor: 60 * 1000,
   mapResult
 });
 

@@ -6,6 +6,7 @@ import { clearActiveTooltip } from 'in-services/stores/tooltip';
 import { propTypeTimeConfig } from 'in-stores/time/config';
 import Overlay from 'in-new-components/overlays/Overlay';
 import SvgIcon from 'in-components/SvgIcon/SvgIcon';
+import Link from 'in-components/Link';
 
 import locals from './SingleIconLaneItem.mless';
 
@@ -14,6 +15,7 @@ export default function SingleIconLaneItem({
   iconConfig,
   onClick,
   onHover,
+  getHref$,
   showIconForCluster,
   eventData,
   calloutContent,
@@ -33,25 +35,31 @@ export default function SingleIconLaneItem({
       }}
     >
       <Overlay props={{ iconConfig, eventData, timeConfig }} content={calloutContent}>
-        {({ open, refSetter }) => (
-          <SvgIcon
-            size="xs"
-            className={locals.icon}
-            onClick={
-              !calloutContent && !onClick
-                ? undefined
-                : e => {
-                    stopPropagationAndPreventDefault(e);
-                    if (calloutContent) open();
-                    // onClick?.(eventData);
-                    clearActiveTooltip();
-                  }
-            }
-            type={showIconForCluster ? iconConfig.typeCluster : iconConfig.type}
-            color={iconConfig.color}
-            refSetter={refSetter}
-          />
-        )}
+        {({ open, refSetter }) => {
+          const icon = (
+            <SvgIcon
+              size="xs"
+              className={locals.icon}
+              onClick={
+                !calloutContent && !onClick
+                  ? undefined
+                  : e => {
+                      stopPropagationAndPreventDefault(e);
+                      if (calloutContent) open();
+                      onClick?.(eventData);
+                      clearActiveTooltip();
+                    }
+              }
+              type={showIconForCluster ? iconConfig.typeCluster : iconConfig.type}
+              color={iconConfig.color}
+              refSetter={refSetter}
+            />
+          );
+          if (getHref$) {
+            return <Link href$={getHref$(eventData)}>{icon}</Link>;
+          }
+          return icon;
+        }}
       </Overlay>
     </div>
   );
@@ -69,5 +77,6 @@ SingleIconLaneItem.propTypes = {
   onHover: PropTypes.func,
   xPos: PropTypes.number,
   calloutContent: PropTypes.func,
-  timeConfig: propTypeTimeConfig
+  timeConfig: propTypeTimeConfig,
+  getHref$: PropTypes.func
 };

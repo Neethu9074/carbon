@@ -22,4 +22,12 @@
   .item:hover {
     border: 1px dashed @lib__colors__N500;
   }
+
+  .timeselectionIndicator {
+    background: none;
+  }
+
+  .contentLoadingWrapper {
+    justify-content: center;
+  }
 }

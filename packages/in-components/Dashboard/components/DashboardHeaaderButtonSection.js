@@ -43,7 +43,7 @@ export default connectTo(
           },
           profilesAvailable && {
             label: 'Analyze Profiles',
-            icon: 'lib_application_trace',
+            icon: 'lib_profiling',
             href$: getLinkToProfiles({ processSnapshotId })
           }
         ].filter(Boolean)}

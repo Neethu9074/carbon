@@ -1,17 +1,24 @@
 import React, { useMemo } from 'react';
 import theme from 'in-themes';
 
+import {
+  highlightedTimeframe$,
+  addOrDeleteHighlightedTimeframeToParams
+} from 'in-stores/timeline/highlightedTimeframe';
 import SingleIconLaneItem from 'in-components/Chart/markerLanes/MarkerLane/SingleIconLaneItem';
-import { setHighlightedTimeframe } from 'in-stores/timeline/highlightedTimeframe';
 import MarkerLane from 'in-components/Chart/markerLanes/MarkerLane/MarkerLane';
 import HoverArea from 'in-components/Chart/markerLanes/MarkerLane/HoverArea';
+import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { formatDateTime } from 'in-services/formatters/date';
 import bucketize from 'in-services/util/bucketize';
+import useObservable from 'in-hooks/useObservable';
 
 import locals from './ProfilesLane.mless';
 
 export default function ProfilesLane(props) {
-  const clusteredProfiles = useClusteredTimestamps(props.chartWidth, props.timeConfig, props.profile);
+  const clusteredProfiles = useClusteredTimestamps(props.chartWidth, props.timeConfig, props.profileTimestamps);
+  const highlightedTimeframe = useObservable(highlightedTimeframe$, []);
+
   return (
     <MarkerLane
       {...props}
@@ -26,7 +33,14 @@ export default function ProfilesLane(props) {
         color: theme.lib.colors.N700Medium
       }}
       color={theme.lib.colors.N700Medium}
-      onClick={({ from, to }) => setHighlightedTimeframe(from, to)}
+      getHref$={({ from, to }) =>
+        getModifiedUrlStream(params => {
+          if (highlightedTimeframe && highlightedTimeframe[0] === from && highlightedTimeframe[1] === to) {
+            return addOrDeleteHighlightedTimeframeToParams(params);
+          }
+          addOrDeleteHighlightedTimeframeToParams(params, from, to);
+        })
+      }
       tooltipContent={TooltipContent}
       renderLaneItem={SingleIconLaneItem}
       renderHoverOverlay={HoverClusterArea}
@@ -34,15 +48,15 @@ export default function ProfilesLane(props) {
   );
 }
 
-function useClusteredTimestamps(chartWidth, timeConfig, profile) {
+function useClusteredTimestamps(chartWidth, timeConfig, profileTimestamps) {
   const bucketSizeInMillis = getClusterSizeInMillis(chartWidth, timeConfig.windowSize);
   return useMemo(() => {
     const bucketResult = bucketize({
-      sortedTimestamps: profile.rawProfileTimestamps,
+      sortedTimestamps: profileTimestamps,
       bucketSizeInMillis
     });
     return bucketResult;
-  }, [chartWidth, timeConfig.windowSize, timeConfig.to, profile.rawProfileTimestamps]);
+  }, [chartWidth, timeConfig.windowSize, timeConfig.to, profileTimestamps]);
 }
 
 function mapClusterToMarkerLaneEvents(timeConfig, clusteredTimestamps, prevCluster) {
