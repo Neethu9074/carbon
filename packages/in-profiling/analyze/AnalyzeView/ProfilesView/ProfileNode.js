@@ -14,6 +14,7 @@ import locals from './ProfileNode.mless';
 
 export default function ProfileNode({
   highlightedProfileConfig,
+  profileEntityTechnology,
   setSelectedProfileNode,
   selectedProfileNode,
   canFetchSourceCode,
@@ -57,7 +58,7 @@ export default function ProfileNode({
           setExpanded={expand => {
             setExpanded(expand);
             if (expand) {
-              treeViewExpanded(depth);
+              treeViewExpanded(depth, profileEntityTechnology);
             }
           }}
           depth={depth}
@@ -77,6 +78,7 @@ export default function ProfileNode({
       {expanded && hasChildren && (
         <div className={locals.childrenWrapper}>
           <ChildProfiles
+            profileEntityTechnology={profileEntityTechnology}
             threshold={threshold}
             depth={depth}
             highlightedProfileConfig={highlightedProfileConfig}
@@ -99,6 +101,7 @@ function ChildProfiles({
   onKeyDown,
   setSelectedProfileNode,
   depth,
+  profileEntityTechnology,
   profiles,
   processSnapshot,
   threshold,
@@ -112,6 +115,7 @@ function ChildProfiles({
     highlightedProfileConfig,
     setSelectedProfileNode,
     onKeyDown,
+    profileEntityTechnology,
     processSnapshot,
     canFetchSourceCode,
     depth: depth + 1

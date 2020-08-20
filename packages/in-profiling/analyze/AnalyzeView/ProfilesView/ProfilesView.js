@@ -3,10 +3,10 @@ import { just } from 'reactive-observables';
 import React, { useState } from 'react';
 
 import { processIdUrlParameter, timeUrlParameter, thresholdUrlParameter } from 'in-profiling/navigation/urlParameters';
+import { hasError, isLoading, loading, success, error } from 'in-services/util/result';
 import { closeProfilesViewLink } from 'in-new-components/Profiling/navigation/paths';
 import { highlightedTimeframe$ } from 'in-stores/timeline/highlightedTimeframe';
 import getProfiles from 'in-new-components/Profiling/subscriptions/getProfiles';
-import { hasError, isLoading, success, error } from 'in-services/util/result';
 import ContextGuide from 'in-new-components/ContextGuide/ContextGuide';
 import tabs from 'in-profiling/analyze/AnalyzeView/ProfilesView/tabs';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
@@ -98,7 +98,13 @@ function ProfilesView(props) {
       HeaderComponent={Header}
       tabs={tabs}
       location={location}
-      result$={getProfileResult(processId, timeConfig, highlightedTimeframe)}
+      result$={getProfileResult(processId, timeConfig, highlightedTimeframe).map(result => {
+        //  because of tracking, we want to wait until both, the profiling data and the snapshot is present
+        if (result.data && !deepestTechSnapshot) {
+          return loading;
+        }
+        return result;
+      })}
       withProps={({ result }) => ({
         viewType,
         setViewType,

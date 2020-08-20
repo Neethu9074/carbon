@@ -3,6 +3,8 @@ import React, { useState, useEffect } from 'react';
 import {
   cpuTreeViewOpened,
   cpuFlameGraphOpened,
+  memoryTreeViewOpened,
+  memoryFlameGraphOpened,
   waitTimeTreeViewOpened,
   waitTimeFlameGraphOpened
 } from 'in-profiling/tracker';
@@ -33,12 +35,14 @@ export default function Profile({
   canFetchSourceCode,
   threshold,
   setThreshold,
+  deepestTechSnapshot,
   timeConfig,
   processId,
   jvmSnapshot,
   processSnapshot,
   isCpuProfile,
   isWaitTimeProfile,
+  isMemoryProfile,
   highlightedTimeframe
 }) {
   if (!profile) {
@@ -48,6 +52,8 @@ export default function Profile({
       </Message>
     );
   }
+
+  const profileEntityTechnology = deepestTechSnapshot.get('plugin');
 
   const [showGraph, setShowGraph] = useState(true);
   const [query, setQuery] = useState('');
@@ -69,10 +75,12 @@ export default function Profile({
 
   useEffect(() => setQuery(''), [viewType]);
   useEffect(() => {
-    if (isCpuProfile && viewType === 'tree') cpuTreeViewOpened();
-    if (isCpuProfile && viewType === 'flameGraph') cpuFlameGraphOpened();
-    if (isWaitTimeProfile && viewType === 'tree') waitTimeTreeViewOpened();
-    if (isWaitTimeProfile && viewType === 'flameGraph') waitTimeFlameGraphOpened();
+    if (isCpuProfile && viewType === 'tree') cpuTreeViewOpened(profileEntityTechnology);
+    if (isCpuProfile && viewType === 'flameGraph') cpuFlameGraphOpened(profileEntityTechnology);
+    if (isWaitTimeProfile && viewType === 'tree') waitTimeTreeViewOpened(profileEntityTechnology);
+    if (isWaitTimeProfile && viewType === 'flameGraph') waitTimeFlameGraphOpened(profileEntityTechnology);
+    if (isMemoryProfile && viewType === 'tree') memoryTreeViewOpened(profileEntityTechnology);
+    if (isMemoryProfile && viewType === 'flameGraph') memoryFlameGraphOpened(profileEntityTechnology);
   }, [viewType]);
 
   let totalNumSamples = 0;
@@ -89,6 +97,7 @@ export default function Profile({
           processSnapshot={processSnapshot}
           canFetchSourceCode={canFetchSourceCode}
           highlightedProfileConfig={highlightedProfileConfig}
+          profileEntityTechnology={profileEntityTechnology}
           threshold={threshold}
         />
       ) : (

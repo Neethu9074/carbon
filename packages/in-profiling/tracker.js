@@ -2,16 +2,25 @@ import {
   track,
   PROFILING_CPU_TREEVIEW_OPENEND,
   PROFILING_CPU_FLAMEGRAPH_OPENEND,
+  PROFILING_MEMORY_TREEVIEW_OPENEND,
+  PROFILING_MEMORY_FLAMEGRAPH_OPENEND,
   PROFILING_WAITTIME_TREEVIEW_OPENEND,
   PROFILING_WAITTIME_FLAMEGRAPH_OPENEND,
-  PROFILING_TREEVIEW_EXPANDED,
-  PROFILING_FLAMEGRAPH_CLICKED
+  PROFILING_TREEVIEW_EXPANDED
 } from 'in-services/tracking/tracking';
 
-export const cpuTreeViewOpened = () => track(PROFILING_CPU_TREEVIEW_OPENEND);
-export const cpuFlameGraphOpened = () => track(PROFILING_CPU_FLAMEGRAPH_OPENEND);
-export const waitTimeTreeViewOpened = () => track(PROFILING_WAITTIME_TREEVIEW_OPENEND);
-export const waitTimeFlameGraphOpened = () => track(PROFILING_WAITTIME_FLAMEGRAPH_OPENEND);
+export const cpuTreeViewOpened = profileEntityTechnology =>
+  track(PROFILING_CPU_TREEVIEW_OPENEND, { profileEntityTechnology });
+export const cpuFlameGraphOpened = profileEntityTechnology =>
+  track(PROFILING_CPU_FLAMEGRAPH_OPENEND, { profileEntityTechnology });
+export const waitTimeTreeViewOpened = profileEntityTechnology =>
+  track(PROFILING_WAITTIME_TREEVIEW_OPENEND, { profileEntityTechnology });
+export const waitTimeFlameGraphOpened = profileEntityTechnology =>
+  track(PROFILING_WAITTIME_FLAMEGRAPH_OPENEND, { profileEntityTechnology });
+export const memoryTreeViewOpened = profileEntityTechnology =>
+  track(PROFILING_MEMORY_TREEVIEW_OPENEND, { profileEntityTechnology });
+export const memoryFlameGraphOpened = profileEntityTechnology =>
+  track(PROFILING_MEMORY_FLAMEGRAPH_OPENEND, { profileEntityTechnology });
 
-export const treeViewExpanded = depth => track(PROFILING_TREEVIEW_EXPANDED, { depth });
-export const flameGraphClicked = depth => track(PROFILING_FLAMEGRAPH_CLICKED, { depth });
+export const treeViewExpanded = (depth, profileEntityTechnology) =>
+  track(PROFILING_TREEVIEW_EXPANDED, { depth, profileEntityTechnology });

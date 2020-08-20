@@ -10,9 +10,10 @@ import locals from './ProfileTree.mless';
 
 export default function ProfileTree({
   profile,
+  highlightedProfileConfig,
+  profileEntityTechnology,
   canFetchSourceCode,
   processSnapshot,
-  highlightedProfileConfig,
   threshold
 }) {
   if (!profile) {
@@ -23,20 +24,23 @@ export default function ProfileTree({
 
   return (
     <>
-      {profile.profileGraph.filter(profileNode => profileNode.percent >= threshold).map((profileNode, i) => (
-        <div key={i} className={locals.profile}>
-          <ProfileNode
-            threshold={threshold}
-            profileNode={profileNode}
-            highlightedProfileConfig={highlightedProfileConfig}
-            processSnapshot={processSnapshot}
-            canFetchSourceCode={canFetchSourceCode}
-            selectedProfileNode={selectedProfileNode}
-            setSelectedProfileNode={setSelectedProfileNode}
-            onKeyDown={onKeyDown}
-          />
-        </div>
-      ))}
+      {profile.profileGraph
+        .filter(profileNode => profileNode.percent >= threshold)
+        .map((profileNode, i) => (
+          <div key={i} className={locals.profile}>
+            <ProfileNode
+              profileEntityTechnology={profileEntityTechnology}
+              threshold={threshold}
+              profileNode={profileNode}
+              highlightedProfileConfig={highlightedProfileConfig}
+              processSnapshot={processSnapshot}
+              canFetchSourceCode={canFetchSourceCode}
+              selectedProfileNode={selectedProfileNode}
+              setSelectedProfileNode={setSelectedProfileNode}
+              onKeyDown={onKeyDown}
+            />
+          </div>
+        ))}
     </>
   );
 }
