@@ -11,12 +11,9 @@ import CallsErrors from 'in-applications/Dashboards/commonComponents/CallsErrors
 import { number, meanLatency, percentage } from 'in-services/formatters/number';
 import Errors from 'in-applications/Dashboards/commonComponents/Errors';
 import AppDataKpiCard from 'in-new-components/KpiCard/AppDataKpiCard';
-import getMetrics from 'in-subscription/application/getMetrics';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import { Row, Col } from 'in-new-components/layout/Grid';
-import { pendingResult } from 'in-services/fixedObjects';
 import Footer from 'in-new-components/Footer/Footer';
-import useObservable from 'in-hooks/useObservable';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
@@ -42,19 +39,6 @@ export default connectTo(
     };
 
     const MarkerLanes = ApplicationDashboardsMarkerLanes({ applicationId, endpointId, serviceId });
-    const latencyResult =
-      useObservable(
-        getMetrics({
-          filter,
-          metrics: {
-            latency90: {
-              metric: 'latency',
-              aggregation: 'P90'
-            }
-          }
-        }),
-        []
-      ) ?? pendingResult;
 
     return (
       <Fragment>
@@ -153,33 +137,21 @@ export default connectTo(
                   }
                 }
               }}
-              iconAction={
-                latencyResult.data?.latency90.length > 0
-                  ? {
-                      text: 'View in Analyze',
-                      kind: 'subtle',
-                      icon: 'lib_analyze_inverted',
-                      href$: getJumpToAnalyzeHref$(
-                        { applicationId, serviceId, endpointId },
-                        {
-                          timeConfig,
-                          boundaryScope,
-                          filters: [
-                            {
-                              name: 'call.latency',
-                              value: latencyResult.data?.latency90[0][1],
-                              operator: 'GREATER_OR_EQUAL_THAN',
-                              entity: 'NOT_APPLICABLE'
-                            }
-                          ],
-                          groupByTag: { name: 'service.name', entity: entityTypes.DESTINATION },
-                          orderBy: 'latency_MEAN_Agg',
-                          orderDirection: 'DESC'
-                        }
-                      )
-                    }
-                  : null
-              }
+              iconAction={{
+                text: 'View in Analyze',
+                kind: 'subtle',
+                icon: 'lib_analyze_inverted',
+                href$: getJumpToAnalyzeHref$(
+                  { applicationId, serviceId, endpointId },
+                  {
+                    timeConfig,
+                    boundaryScope,
+                    groupByTag: { name: 'service.name', entity: entityTypes.DESTINATION },
+                    orderBy: 'latency_MEAN_Agg',
+                    orderDirection: 'DESC'
+                  }
+                )
+              }}
             />
           </Col>
         </Row>

@@ -8,6 +8,7 @@ import TechnologyBreakdown from 'in-applications/Dashboards/commonComponents/Tec
 import IssuesAndEvents from 'in-applications/Dashboards/commonComponents/IssuesAndEvents';
 import EndpointTopList from 'in-applications/Dashboards/service/tabs/EndpointTopList';
 import CallsAndHttp from 'in-applications/Dashboards/commonComponents/CallsAndHttp';
+import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
 import CallsErrors from 'in-applications/Dashboards/commonComponents/CallsErrors';
 import { number, meanLatency, percentage } from 'in-services/formatters/number';
 import Errors from 'in-applications/Dashboards/commonComponents/Errors';
@@ -49,6 +50,28 @@ export default connectTo(
                   }
                 }
               }}
+              iconAction={{
+                text: 'View in Analyze',
+                kind: 'subtle',
+                icon: 'lib_analyze_inverted',
+                href$: getJumpToAnalyzeHref$(
+                  { applicationId, serviceId, endpointId },
+                  {
+                    timeConfig,
+                    boundaryScope,
+                    groupByTag: { name: 'endpoint.name', entity: entityTypes.DESTINATION },
+                    filters: [],
+                    metrics: [
+                      { metric: 'erroneousCalls', aggregation: 'SUM' },
+                      {
+                        metric: 'latency',
+                        aggregation: 'MEAN'
+                      }
+                    ],
+                    focusedMetric: 'calls_SUM'
+                  }
+                )
+              }}
             />
           </Col>
           <Col xs>
@@ -69,20 +92,59 @@ export default connectTo(
                   }
                 }
               }}
+              iconAction={{
+                text: 'View in Analyze',
+                kind: 'subtle',
+                icon: 'lib_analyze_inverted',
+                href$: getJumpToAnalyzeHref$(
+                  { applicationId, serviceId, endpointId },
+                  {
+                    timeConfig,
+                    boundaryScope,
+                    groupByTag: { name: 'endpoint.name', entity: entityTypes.DESTINATION },
+                    filters: [{ name: 'call.erroneous', value: 'true' }],
+                    metrics: [
+                      { metric: 'errors', aggregation: 'MEAN' },
+                      { metric: 'latency', aggregation: 'MEAN' }
+                    ],
+                    focusedMetric: 'errors_MEAN'
+                  }
+                )
+              }}
             />
           </Col>
           <Col xs>
             <AppDataKpiCard
               title="Mean Latency"
               formatter={meanLatency.detailed}
+              companionFormatter={v => `${meanLatency.detailed(v)} for 90th`}
               metricsConfig={{
                 filter,
                 metrics: {
                   latency: {
                     metric: 'latency',
                     aggregation: 'MEAN'
+                  },
+                  latency90: {
+                    metric: 'latency',
+                    aggregation: 'P90'
                   }
                 }
+              }}
+              iconAction={{
+                text: 'View in Analyze',
+                kind: 'subtle',
+                icon: 'lib_analyze_inverted',
+                href$: getJumpToAnalyzeHref$(
+                  { applicationId, serviceId, endpointId },
+                  {
+                    timeConfig,
+                    boundaryScope,
+                    groupByTag: { name: 'endpoint.name', entity: entityTypes.DESTINATION },
+                    orderBy: 'latency_MEAN_Agg',
+                    orderDirection: 'DESC'
+                  }
+                )
               }}
             />
           </Col>

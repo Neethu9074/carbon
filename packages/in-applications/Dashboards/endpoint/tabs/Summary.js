@@ -8,6 +8,7 @@ import DatabaseSections from 'in-applications/Dashboards/commonComponents/databa
 import TechnologyBreakdown from 'in-applications/Dashboards/commonComponents/TechnologyBreakdown';
 import IssuesAndEvents from 'in-applications/Dashboards/commonComponents/IssuesAndEvents';
 import CallsAndHttp from 'in-applications/Dashboards/commonComponents/CallsAndHttp';
+import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
 import CallsErrors from 'in-applications/Dashboards/commonComponents/CallsErrors';
 import { number, meanLatency, percentage } from 'in-services/formatters/number';
 import Errors from 'in-applications/Dashboards/commonComponents/Errors';
@@ -39,7 +40,7 @@ export default connectTo(
         <Row>
           <Col xs>
             <AppDataKpiCard
-              title="Total Calls"
+              title="Calls"
               formatter={number.compact}
               metricsConfig={{
                 filter,
@@ -49,6 +50,28 @@ export default connectTo(
                     aggregation: 'SUM'
                   }
                 }
+              }}
+              iconAction={{
+                text: 'View in Analyze',
+                kind: 'subtle',
+                icon: 'lib_analyze_inverted',
+                href$: getJumpToAnalyzeHref$(
+                  { applicationId, serviceId, endpointId },
+                  {
+                    timeConfig,
+                    boundaryScope,
+                    groupByTag: { name: 'call.name', entity: entityTypes.NOT_APPLICABLE },
+                    filters: [],
+                    metrics: [
+                      { metric: 'erroneousCalls', aggregation: 'SUM' },
+                      {
+                        metric: 'latency',
+                        aggregation: 'MEAN'
+                      }
+                    ],
+                    focusedMetric: 'calls_SUM'
+                  }
+                )
               }}
             />
           </Col>
@@ -70,20 +93,59 @@ export default connectTo(
                   }
                 }
               }}
+              iconAction={{
+                text: 'View in Analyze',
+                kind: 'subtle',
+                icon: 'lib_analyze_inverted',
+                href$: getJumpToAnalyzeHref$(
+                  { applicationId, serviceId, endpointId },
+                  {
+                    timeConfig,
+                    boundaryScope,
+                    groupByTag: { name: 'call.name', entity: entityTypes.NOT_APPLICABLE },
+                    filters: [{ name: 'call.erroneous', value: 'true' }],
+                    metrics: [
+                      { metric: 'errors', aggregation: 'MEAN' },
+                      { metric: 'latency', aggregation: 'MEAN' }
+                    ],
+                    focusedMetric: 'errors_MEAN'
+                  }
+                )
+              }}
             />
           </Col>
           <Col xs>
             <AppDataKpiCard
               title="Mean Latency"
               formatter={meanLatency.detailed}
+              companionFormatter={v => `${meanLatency.detailed(v)} for 90th`}
               metricsConfig={{
                 filter,
                 metrics: {
                   latency: {
                     metric: 'latency',
                     aggregation: 'MEAN'
+                  },
+                  latency90: {
+                    metric: 'latency',
+                    aggregation: 'P90'
                   }
                 }
+              }}
+              iconAction={{
+                text: 'View in Analyze',
+                kind: 'subtle',
+                icon: 'lib_analyze_inverted',
+                href$: getJumpToAnalyzeHref$(
+                  { applicationId, serviceId, endpointId },
+                  {
+                    timeConfig,
+                    boundaryScope,
+                    groupByTag: { name: 'call.name', entity: entityTypes.NOT_APPLICABLE },
+                    orderBy: 'latency_MEAN_Agg',
+                    orderDirection: 'DESC'
+                  }
+                )
               }}
             />
           </Col>
