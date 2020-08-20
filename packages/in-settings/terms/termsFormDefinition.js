@@ -5,7 +5,8 @@ export default function termsFormDefinition(userSettings, withAcceptanceFields =
     .put(
       'role',
       createField({
-        value: userSettings ? userSettings.role : ''
+        value: userSettings ? userSettings.role : '',
+        validator: withAcceptanceFields && roleValidator
       })
     )
     .put(
@@ -67,6 +68,15 @@ function checkboxCheckedValidator(value) {
     return null;
   }
   return [{ severity: 'error', message: 'Terms agreement missing' }];
+}
+
+function roleValidator(value) {
+  // yes, also empty string
+  if (!value) {
+    return [{ severity: 'error', message: 'Role missing' }];
+  }
+
+  return null;
 }
 
 export function addDynamicRoleField(form, userSettings) {

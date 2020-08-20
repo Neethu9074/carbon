@@ -71,7 +71,7 @@ export default function TermsPage1({ form, onChange, onNext }) {
           ))}
         </span>
       </div>
-      {(!form.get('tosAccepted').valid || !form.get('privacyAgreementAccepted').valid) && (
+      {(!form.get('tosAccepted').valid || !form.get('privacyAgreementAccepted').valid || !form.get('role').valid) && (
         <div
           className={evaluateClassNames({
             [locals.warningText]: true,
@@ -79,21 +79,22 @@ export default function TermsPage1({ form, onChange, onNext }) {
           })}
         >
           <SvgIcon className={locals.icon} type="lib_help_error_error_circle" size="s" />
-          <span>You cannot use Instana until you have accepted the Terms of Service and Privacy Policy.</span>
+          <span>
+            You cannot use Instana until you have accepted the Terms of Service and Privacy Policy and selected a role.
+          </span>
         </div>
       )}
-      {form.get('dynamicRole') &&
-        !form.get('dynamicRole').valid && (
-          <div
-            className={evaluateClassNames({
-              [locals.warningText]: true,
-              [locals.hidden]: !messageVisible || form.hierarchyValid
-            })}
-          >
-            <SvgIcon className={locals.icon} type="lib_help_error_error_circle" size="s" />
-            <span>You need to type in a role.</span>
-          </div>
-        )}
+      {form.get('dynamicRole') && !form.get('dynamicRole').valid && (
+        <div
+          className={evaluateClassNames({
+            [locals.warningText]: true,
+            [locals.hidden]: !messageVisible || form.hierarchyValid
+          })}
+        >
+          <SvgIcon className={locals.icon} type="lib_help_error_error_circle" size="s" />
+          <span>You need to type in a role.</span>
+        </div>
+      )}
       <div className={locals.buttons}>
         <Button
           className={evaluateClassNames({ [locals.disabled]: !form.hierarchyValid })}
