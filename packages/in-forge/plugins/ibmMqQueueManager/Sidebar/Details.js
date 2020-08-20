@@ -1,2 +1,2 @@
-import Details from 'in-forge/plugins/iBMMQQueueManager/Dashboard/Sidebar';
+import Details from 'in-forge/plugins/ibmMqQueueManager/Dashboard/Sidebar';
 export default Details;
