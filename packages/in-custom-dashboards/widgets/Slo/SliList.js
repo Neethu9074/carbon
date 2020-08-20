@@ -4,6 +4,7 @@ import React from 'react';
 
 import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
 import connectTo from 'in-hoc/connectTo';
+import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 
 export default compose(
   setPropTypes({
@@ -21,13 +22,14 @@ function SliList(props) {
   const { columnDefinitions, rightHeader } = props;
   return (
     <ServerTablePresenter
-      isSearchable={false}
       orderDirection="ASC"
       cardTitle="Service Level Indicators"
       rightHeader={rightHeader}
       {...props}
       numSkeletonRows={3}
+      isSearchable={false}
       columnDefinitions={columnDefinitions}
+      renderNoDataAvailable={() => NoDataAvailable}
     />
   );
 }

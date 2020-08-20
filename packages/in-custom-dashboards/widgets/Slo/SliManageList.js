@@ -1,17 +1,27 @@
 import React, { useState } from 'react';
 
+import { getSliConfigurations, deleteSliConfiguration } from 'in-custom-dashboards/api';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import SlideInView, { ListHeader } from 'in-new-components/SlideInView/SlideInView';
 import CreateNewSLIForm from 'in-custom-dashboards/widgets/Slo/CreateSLIForm';
-import { getSliConfigurations } from 'in-custom-dashboards/api';
+import getServiceLabel from 'in-subscription/application/getServiceLabel';
+import getEndpointInfo from 'in-subscription/application/getEndpointInfo';
+import { addMessage } from 'in-components/MessageFlyout/stores/messages';
+import getApplication from 'in-subscription/application/getApplication';
 import SliList from 'in-custom-dashboards/widgets/Slo/SliList';
 import { isLoading, hasError } from 'in-services/util/result';
 import LightCardV2 from 'in-new-components/Card/LightCardV2';
 import { formatDateTime } from 'in-services/formatters/date';
-import KeyValue from 'in-new-components/lists/KeyValue';
+
+import { alwaysNull } from 'in-services/fixedStreams';
 import Button from 'in-new-components/Button';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
+import WithSubscript from './WithSubscript';
+import connectTo from 'in-hoc/connectTo';
+import { get } from 'lodash';
+
+import locals from './SliManageList.mless';
 
 const DEFAULT_API = {
   getSliConfigurations
@@ -19,8 +29,9 @@ const DEFAULT_API = {
 
 export default function SliManageList({ api = DEFAULT_API, applicationId, apName }) {
   const [sliSelected, selectSli] = useState(null);
+  const queryState = useState('');
   const createSliHeader = (
-    <Button kind="action" onClick={() => selectSli({})} icon="lib_openclose_add">
+    <Button className={locals.createNewButton} kind="action" onClick={() => selectSli({})} icon="lib_openclose_add">
       Create SLI
     </Button>
   );
@@ -58,8 +69,48 @@ export default function SliManageList({ api = DEFAULT_API, applicationId, apName
                 width: '2rem',
                 getContent(item) {
                   return (
-                    <Tooltip content="View/Clone SLI">
+                    <Tooltip content="View/Clone SLI Configuration">
                       <SvgIcon type="lib_actions_edit" color={'rgb(0,152,232)'} onClick={() => selectSli(item)} />
+                    </Tooltip>
+                  );
+                }
+              },
+              {
+                sortable: false,
+                width: '2rem',
+                getContent(item) {
+                  return (
+                    <Tooltip content="Delete SLI Configuration">
+                      <SvgIcon
+                        type="lib_actions_delete"
+                        color={'rgb(0,152,232)'}
+                        onClick={() =>
+                          deleteSliConfiguration(item.id).subscribe(result => {
+                            if (result.progress.loading) {
+                              return;
+                            }
+                            if (result.errors.length > 0) {
+                              addMessage(
+                                {
+                                  type: 'danger',
+                                  timeout: 3000,
+                                  content: 'Failed to delete the sli.'
+                                },
+                                'custom-dashboard-error'
+                              );
+                            } else {
+                              addMessage(
+                                {
+                                  type: 'info',
+                                  timeout: 2000,
+                                  content: 'Sli configuration was successfully deleted.'
+                                },
+                                'custom-dashboard-info'
+                              );
+                            }
+                          })
+                        }
+                      />
                     </Tooltip>
                   );
                 }
@@ -67,6 +118,7 @@ export default function SliManageList({ api = DEFAULT_API, applicationId, apName
             ]}
             getItems={() => api.getSliConfigurations()?.map(onlyWithAPid(applicationId)) ?? null}
             rightHeader={createSliHeader}
+            query={queryState}
           />
         </div>
       }
@@ -94,18 +146,15 @@ const columnDefinitions = [
   {
     sortable: false,
     width: '3rem',
-    getContent() {
-      return <SvgIcon type="lib_application" />;
+    getContent(item) {
+      return getSvgIcon(item);
     }
   },
   {
     sortable: false,
     label: 'Name',
     getContent(item) {
-      if (item?.apConfigName) {
-        return <KeyValue label={`${item?.apConfigName}`} value={item?.sliName} accentuated />;
-      }
-      return <KeyValue value={item?.sliName} accentuated />;
+      return getSliNameWithSubscript(item);
     }
   },
   {
@@ -134,3 +183,55 @@ const columnDefinitions = [
     }
   }
 ];
+
+function getSvgIcon(item) {
+  if (item?.sliEntity?.endpointId) {
+    return <SvgIcon type="lib_application_endpoint" />;
+  } else if (item?.sliEntity?.serviceId) {
+    return <SvgIcon type="lib_application_service" />;
+  }
+  return <SvgIcon type="lib_application" />;
+}
+
+function getLabel(result) {
+  return get(result, ['data', 'label'], null);
+}
+
+function getSliNameWithSubscript(item) {
+  return (
+    <WithSubscript
+      subscript={
+        <Labels
+          applicationId={item?.sliEntity?.applicationId}
+          serviceId={item?.sliEntity?.serviceId}
+          endpointId={item?.sliEntity?.endpointId}
+        />
+      }
+    >
+      <span className={locals.ellipsis}>{item.sliName}</span>
+    </WithSubscript>
+  );
+}
+
+const Labels = connectTo(
+  props => {
+    return {
+      applicationLabel: props.applicationId ? getApplication({ id: props.applicationId }).map(getLabel) : alwaysNull,
+      serviceLabel: props.serviceId ? getServiceLabel({ id: props.serviceId }).map(getLabel) : alwaysNull,
+      endpointLabel: props.endpointId ? getEndpointInfo({ id: props.endpointId }).map(getLabel) : alwaysNull
+    };
+  },
+  function Labels({ ...props }) {
+    let subscript = '';
+    if (props.applicationLabel) {
+      subscript = subscript + props.applicationLabel;
+    }
+    if (props.serviceLabel) {
+      subscript = subscript + ' > ' + props.serviceLabel;
+    }
+    if (props.endpointLabel) {
+      subscript = subscript + ' > ' + props.endpointLabel;
+    }
+    return subscript;
+  }
+);
