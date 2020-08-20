@@ -12,7 +12,7 @@ import 'in-themes/foundation.less';
 
 export function init() {
   const accepted = window.instana.termsAndPrivacyAccepted;
-  if (accepted) {
+  if (accepted && !userHasDeprecatedRole()) {
     return just(true);
   }
 
@@ -36,5 +36,15 @@ function onSave(tosPrivacyAgreement, setIsError) {
       logger.error(`failed to save TosPrivacyAgreement: ${tosPrivacyAgreement} ${error.message}`, error);
       setIsError(true);
     }
+  );
+}
+
+function userHasDeprecatedRole() {
+  const userSelfDefinedRole = window.instana?.termsAndPrivacySettings?.role;
+  return (
+    userSelfDefinedRole === 'undefined' ||
+    userSelfDefinedRole === 'developer' ||
+    userSelfDefinedRole === 'sysadmin' ||
+    userSelfDefinedRole === 'nonTechnical'
   );
 }

@@ -168,7 +168,7 @@ export function ThresholdCondition({
         onChange={({ target }) => {
           let value = '';
           if (target.value !== '') {
-            value = percentageMetric ? round(Math.abs(value) / 100, 3) : Math.abs(value);
+            value = percentageMetric ? round(Math.abs(target.value) / 100, 3) : Math.abs(target.value);
           }
 
           setDoDebounce(true);

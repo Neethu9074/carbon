@@ -59,10 +59,9 @@ export default connectTo(
     ]);
 
     if (
-      !DashboardImpl ||
-      !SidebarImpl ||
       (!snapshot && !showVersionSelector) ||
-      (snapshot && snapshotId !== snapshot.get('id'))
+      (snapshot && snapshotId !== snapshot.get('id')) ||
+      (snapshot && (!DashboardImpl || !SidebarImpl))
     ) {
       return (
         <div className={locals.loadingIndicatorWrapper}>
