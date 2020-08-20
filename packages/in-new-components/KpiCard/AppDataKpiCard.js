@@ -7,7 +7,7 @@ import KpiCard from 'in-new-components/KpiCard/KpiCard';
 import useObservable from 'in-hooks/useObservable';
 
 export default function AppDataKpiCard({ title, metricsConfig, formatter, companionFormatter, iconAction }) {
-  const result = useObservable(getMetrics(metricsConfig), []) ?? pendingResult;
+  const result = useObservable(getMetrics(metricsConfig), [metricsConfig]) ?? pendingResult;
   return (
     <ResultAwareKpiCard
       title={title}
