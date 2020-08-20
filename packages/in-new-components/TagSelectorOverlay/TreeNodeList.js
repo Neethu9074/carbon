@@ -2,8 +2,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
-import Tag from 'in-new-components/QueryBuilder/TagSelectorOverlay/Tag';
 import { onArrowKeyDownFocusSiblings } from 'in-services/util/domFocus';
+import Tag from 'in-new-components/TagSelectorOverlay/Tag';
 import { Ul } from 'in-new-components/lists/List/List';
 import keyCodes from 'in-components/keyCodes';
 

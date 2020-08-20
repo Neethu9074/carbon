@@ -1,10 +1,9 @@
 import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 
-import ConjunctionsAndBrackets from 'in-new-components/QueryBuilder/TagSelectorOverlay/ConjunctionsAndBrackets';
-import TreeNodeList from 'in-new-components/QueryBuilder/TagSelectorOverlay/TreeNodeList';
 import SlideInView, { ListHeader } from 'in-new-components/SlideInView/SlideInView';
-import TagTree from 'in-new-components/QueryBuilder/TagSelectorOverlay/TagTree';
+import TreeNodeList from 'in-new-components/TagSelectorOverlay/TreeNodeList';
+import TagTree from 'in-new-components/TagSelectorOverlay/TagTree';
 import ExternalSearchInput from 'in-new-components/SearchInput';
 import { getInteractiveElements } from 'in-services/util/dom';
 
@@ -27,13 +26,7 @@ export default function TagSelectorOverlay({ tagCatalog, onChange, close }) {
   const lastFocusedElementRef = useRef();
 
   return (
-    <div>
-      <ConjunctionsAndBrackets
-        onChange={v => {
-          onChange(v);
-          close();
-        }}
-      />
+    <>
       <div className={locals.searchInputWrapper}>
         <ExternalSearchInput
           placeholder="Search"
@@ -116,7 +109,7 @@ export default function TagSelectorOverlay({ tagCatalog, onChange, close }) {
           enforceMaxHeightForStaticContent
         />
       </div>
-    </div>
+    </>
   );
 
   function onChangeTag(selectedNode) {

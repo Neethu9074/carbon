@@ -7,9 +7,9 @@ import {
   CLOSE_BRACKET,
   CONJUNCTION
 } from 'in-new-components/QueryBuilder/transformation/renderModel';
+import ConjunctionTagSelectorOverlay from 'in-new-components/QueryBuilder/ConjunctionTagSelectorOverlay/ConjunctionTagSelectorOverlay';
 import { isPrimaryInteractiveElement, isDefaultInteractionTrigger } from 'in-new-components/interactiveCustomElement';
 import { and, or, not } from 'in-new-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
-import TagSelectorOverlay from 'in-new-components/QueryBuilder/TagSelectorOverlay/TagSelectorOverlay';
 import Suggestions from 'in-new-components/QueryBuilder/components/Spacing/Suggestions';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { evaluateClassNames } from 'in-services/util/classnames';
@@ -42,7 +42,7 @@ export default function Spacing({
 
   return (
     <Overlay
-      content={TagSelectorOverlay}
+      content={ConjunctionTagSelectorOverlay}
       props={{
         tagCatalog,
         onChange: onAddToFormModel

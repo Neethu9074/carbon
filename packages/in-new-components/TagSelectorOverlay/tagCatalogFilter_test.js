@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import filterCatalog from 'in-new-components/QueryBuilder/TagSelectorOverlay/tagCatalogFilter';
+import filterCatalog from 'in-new-components/TagSelectorOverlay/tagCatalogFilter';
 
 /* eslint-env mocha */
 

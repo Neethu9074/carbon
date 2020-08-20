@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import * as operatorLabels from 'in-new-components/QueryBuilder/tagFilter/operatorLabelsMapping';
-import OverlayOption from 'in-new-components/QueryBuilder/OverlayOption/OverlayOption';
+import OverlayOption from 'in-new-components/OverlayOption/OverlayOption';
 import { onArrowKeyDownFocusSiblings } from 'in-services/util/domFocus';
 import { Ul } from 'in-new-components/lists/List/List';
 

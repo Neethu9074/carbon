@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import OverlayOption from 'in-new-components/QueryBuilder/OverlayOption/OverlayOption';
+import OverlayOption from 'in-new-components/OverlayOption/OverlayOption';
 import { ColumnizedContent } from 'in-new-components/lists/List';
 import KeyValue from 'in-new-components/lists/KeyValue';
 import { isNotBlank } from 'in-services/util/string';
@@ -33,9 +33,7 @@ export default function Tag({ node, onChange, close, autoFocus }) {
       className={locals.option}
       onChange={() =>
         onChange({
-          type: 'TAG_FILTER',
-          name: node.tagName,
-          operator: 'EQUALS'
+          name: node.tagName
         })
       }
       autoFocus={autoFocus}

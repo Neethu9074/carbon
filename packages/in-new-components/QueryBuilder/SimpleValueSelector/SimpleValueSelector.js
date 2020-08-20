@@ -1,7 +1,7 @@
 import AutosizeInput from 'react-input-autosize';
 import React from 'react';
 
-import OverlayOption from 'in-new-components/QueryBuilder/OverlayOption/OverlayOption';
+import OverlayOption from 'in-new-components/OverlayOption/OverlayOption';
 import LoadingList from 'in-new-components/lists/List/sharedComponents/LoadingList';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import { Ul, Li } from 'in-new-components/lists/List/List';
@@ -21,7 +21,7 @@ export default function SimpleValueSelector({
   inputProps = {}
 }) {
   const locals = useThemedLocals(styleDefs);
-  
+
   return (
     <Typeahead
       render={render}

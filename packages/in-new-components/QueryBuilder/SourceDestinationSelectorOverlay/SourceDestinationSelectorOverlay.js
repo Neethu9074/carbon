@@ -5,7 +5,7 @@ import {
   source,
   destination
 } from 'in-new-components/QueryBuilder/SourceDestinationSelectorOverlay/supportedSelections';
-import OverlayOption from 'in-new-components/QueryBuilder/OverlayOption/OverlayOption';
+import OverlayOption from 'in-new-components/OverlayOption/OverlayOption';
 import { onArrowKeyDownFocusSiblings } from 'in-services/util/domFocus';
 import { ColumnizedContent } from 'in-new-components/lists/List';
 import { Ul } from 'in-new-components/lists/List/List';

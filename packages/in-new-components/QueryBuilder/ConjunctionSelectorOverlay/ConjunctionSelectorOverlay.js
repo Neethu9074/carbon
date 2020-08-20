@@ -9,7 +9,7 @@ import {
   closeBracket,
   clear
 } from 'in-new-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
-import OverlayOption from 'in-new-components/QueryBuilder/OverlayOption/OverlayOption';
+import OverlayOption from 'in-new-components/OverlayOption/OverlayOption';
 import { onArrowKeyDownFocusSiblings } from 'in-services/util/domFocus';
 import { Ul } from 'in-new-components/lists/List/List';
 import SvgIcon from 'in-components/SvgIcon';

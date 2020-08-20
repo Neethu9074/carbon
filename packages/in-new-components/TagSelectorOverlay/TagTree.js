@@ -1,12 +1,12 @@
 import PropTypes from 'prop-types';
 import React, { forwardRef } from 'react';
 
-import filterCatalog from 'in-new-components/QueryBuilder/TagSelectorOverlay/tagCatalogFilter';
-import OverlayOption from 'in-new-components/QueryBuilder/OverlayOption/OverlayOption';
 import { ListGroup, ColumnizedContent } from 'in-new-components/lists/List/List';
-import Tag from 'in-new-components/QueryBuilder/TagSelectorOverlay/Tag';
+import filterCatalog from 'in-new-components/TagSelectorOverlay/tagCatalogFilter';
+import OverlayOption from 'in-new-components/OverlayOption/OverlayOption';
 import { onArrowKeyDownFocusSiblings } from 'in-services/util/domFocus';
 import { isBlank, isNotBlank } from 'in-services/util/string';
+import Tag from 'in-new-components/TagSelectorOverlay/Tag';
 import KeyValue from 'in-new-components/lists/KeyValue';
 import keyCodes from 'in-components/keyCodes';
 import SvgIcon from 'in-components/SvgIcon';
