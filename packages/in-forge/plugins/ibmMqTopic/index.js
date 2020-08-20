@@ -1,0 +1,16 @@
+import metricDefinitions from 'in-forge/plugins/ibmMqTopic/metricDefinitions';
+import kpiDefinitions from 'in-forge/plugins/ibmMqTopic/kpiDefinitions';
+import iconSvgPath from 'in-forge/plugins/ibmMqTopic/iconPath';
+import { registerSnapshotDefinition } from 'in-sdk/snapshot';
+import { plugins } from 'in-forge/constants';
+
+registerSnapshotDefinition({
+  plugin: plugins.ibmMqTopic,
+  pluginName: {
+    singular: 'IBM MQ Topic',
+    plural: 'IBM MQ Topics'
+  },
+  iconSvgPath,
+  kpiDefinitions,
+  metricDefinitions
+});
