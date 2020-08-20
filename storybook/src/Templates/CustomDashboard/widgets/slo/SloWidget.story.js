@@ -14,22 +14,24 @@ export function States() {
     <Stack>
       <Widget />
       <Widget title="Demo" config={demo} />
-      <Widget title="isPreview" config={demo} customHeight={200} isPreview />
+      <Widget title="Loading" config={demo} customHeight={200} />
     </Stack>
   );
 }
 
+const ts = new Date('2020-08-20 20:20:00').getTime(); // 1597947600000
+
 const demoApi = {
-  getSliReport: (id, slo) =>
+  getUnifiedMetrics: () =>
     just({
-      data: {
-        sli: 0.979,
-        slo,
-        totalErrorBudget: 81066,
-        errorBudgetRemaining: 81066 - 46200,
-        fromTimestamp: 1588779900000,
-        toTimestamp: 1594817079371
-      }
+      errors: [],
+      progress: { loading: false },
+      data: [
+        { id: 'sli', values: [[ts, 0.979]] },
+        { id: 'budget', values: [[ts, 81066]] },
+        { id: 'spent', values: [[ts, 46200]] },
+        { id: 'remaining', values: [[ts, 81066 - 46200]] }
+      ]
     })
 };
 

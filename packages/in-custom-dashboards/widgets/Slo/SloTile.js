@@ -6,6 +6,7 @@ import { joinClassNames } from 'in-services/util/classnames';
 import WithActiveTheme from 'in-themes/WithActiveTheme';
 
 import locals from './SloTile.mless';
+import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 
 export default function SloTile({
   title,
@@ -44,14 +45,14 @@ export default function SloTile({
       <div className={locals.title}>{title}</div>
 
       <div className={locals.value} style={{ color: color }}>
-        <span>{value}</span>
-        {unit && <span className={joinClassNames(locals.unit, locals.leftspace)}>{unit}</span>}
+        <span>{value ?? valueMissingPlaceholder}</span>
+        {value && unit && <span className={joinClassNames(locals.unit, locals.leftspace)}>{unit}</span>}
       </div>
 
       <div className={locals.targetInfo}>
-        {targetInfo && <span>{targetInfo}</span>}
+        <span>{targetInfo ?? valueMissingPlaceholder}</span>
         {targetValue && <span className={locals.leftspace}>{targetValue}</span>}
-        {unit && <span className={locals.leftspace}>{unit}</span>}
+        {targetValue && unit && <span className={locals.leftspace}>{unit}</span>}
       </div>
     </Wrapper>
   );

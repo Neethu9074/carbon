@@ -1,15 +1,16 @@
 import React from 'react';
 
+import { SloTarget, SliApConfigId, SloApName, SliConfigId } from 'in-custom-dashboards/widgets/Slo/form';
 import SliFormComponent from 'in-custom-dashboards/widgets/Slo/components/SliSelectionForm';
-import { SloTarget, SliApConfigId, SloApName } from 'in-custom-dashboards/widgets/Slo/form';
 import APConfigSelector from 'in-custom-dashboards/widgets/Slo/components/APConfigForm';
+import DropDownMock from 'in-custom-dashboards/widgets/Slo/components/DropDownMock';
+import InputMock from 'in-custom-dashboards/widgets/Slo/components/InputMock';
 import SliManageList from 'in-custom-dashboards/widgets/Slo/SliManageList';
 import StackItem from 'in-new-components/layout/Stack/StackItem';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import Header from 'in-components/form/Header/Header';
 import FormGroup from 'in-components/form/FormGroup';
 import Stack from 'in-new-components/layout/Stack';
-import Select from 'in-components/form/Select';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
 import SvgIcon from 'in-components/SvgIcon';
@@ -17,6 +18,7 @@ import Button from 'in-components/Button';
 
 export default function FormComponent({ form, onChange, widgetTitleFormGroup, setSlideInView, widgetPreview, api }) {
   const apConfigId = form.get(SliApConfigId)?.value;
+  const sliConfigId = form.get(SliConfigId)?.value;
   return (
     <>
       <Stack space="large">
@@ -141,20 +143,14 @@ export default function FormComponent({ form, onChange, widgetTitleFormGroup, se
             </Col>
           </Row>
         </StackItem>
+        {false && (
+          <StackItem>
+            ap-id: {apConfigId}
+            sli: {sliConfigId}
+          </StackItem>
+        )}
         <StackItem>{widgetPreview}</StackItem>
       </Stack>
     </>
   );
 }
-
-const DropDownMock = ({ options }) => (
-  <Select>
-    {(options ?? []).map(({ id, value, label }) => (
-      <option key={id ?? value} value={id}>
-        {label}
-      </option>
-    ))}
-  </Select>
-);
-
-const InputMock = ({ value, type, ...props }) => <Input type={type} value={value} {...props} />;
