@@ -104,13 +104,13 @@ function createMetricsForm(metricConfiguration) {
     .put(
       'metricAggregation',
       createField({
-        value: metricConfiguration.metricAggregation ?? 'P75'
+        value: metricConfiguration.metricAggregation ?? 'P90'
       })
     )
     .put(
       'threshold',
       createField({
-        value: metricConfiguration.threshold ?? 99
+        value: metricConfiguration.threshold ?? 15
       })
     );
 }

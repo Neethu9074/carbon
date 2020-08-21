@@ -1,7 +1,21 @@
+@import '~in-themes/mixins.less';
 @import '~in-themes/active.less';
 
+
 :local {
+
+   .icon {
+     fill: @lib__colors__N500;
+     margin-right: 0;
+   }
+
   .createNewButton {
     margin-right: 1.5rem;
+  }
+
+  .ellipsis {
+    font-size: 1rem;
+    font-weight: 300;
+    .ellipsis();
   }
 }
