@@ -47,6 +47,11 @@ exports = module.exports = {
     unit: 'release',
     baseDomain: 'magenta.instana.rocks'
   },
+  'Release Fullstack': {
+    tenant: 'instana',
+    unit: 'release',
+    baseDomain: 'instana.io'
+  },
   'Old Test Environment (deprecated)': {
     tenant: 'instana',
     unit: 'test',
