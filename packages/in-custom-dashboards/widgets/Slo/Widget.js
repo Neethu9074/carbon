@@ -15,12 +15,13 @@ import {
   Dynamic
 } from 'in-custom-dashboards/widgets/Slo/form';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
-import { twoDecimalPlaces, number } from 'in-services/formatters/number';
+import { getSliFormatter } from 'in-custom-dashboards/widgets/Slo/sliConfigUtils';
+import SloTimeTile from 'in-custom-dashboards/widgets/Slo/Tiles/SloTimeTile';
+import SloTile from 'in-custom-dashboards/widgets/Slo/Tiles/SloTile';
 import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
 import { getSliConfiguration } from 'in-custom-dashboards/api';
-import SloTile from 'in-custom-dashboards/widgets/Slo/SloTile';
-import { formatDateTime } from 'in-services/formatters/date';
 import LightCardV2 from 'in-new-components/Card/LightCardV2';
+import { percentage } from 'in-services/formatters/number';
 import Chart from 'in-custom-dashboards/widgets/Slo/Chart';
 import { pendingResult } from 'in-services/fixedObjects';
 import useObservable from 'in-hooks/useObservable';
@@ -154,6 +155,9 @@ export default function Widget({ actions, config, isPreview, title, dragHandle, 
   const sliColor = slo === null || sli === null ? '' : sli >= slo ? GREEN : RED;
   const budgetColor = !remaining ? '' : remaining > 0 ? GREEN : RED;
 
+  const sliEntity = sliConfig?.sliEntity;
+  const sliFormatter = getSliFormatter(sliEntity);
+
   return (
     <LightCardV2
       bodyClassName={locals.bodyNoPadding}
@@ -171,41 +175,28 @@ export default function Widget({ actions, config, isPreview, title, dragHandle, 
         <div className={locals.col}>
           <SloTile
             title="Status"
-            value={sli ? twoDecimalPlaces(100 * sli) : valueMissingPlaceholder}
-            targetValue={slo ? twoDecimalPlaces(100 * slo) : valueMissingPlaceholder}
-            color={sliColor}
-            unit="%"
+            value={sli ? percentage.detailed(sli) : valueMissingPlaceholder}
             targetInfo="Target:"
+            targetValue={slo ? percentage.detailed(slo) : valueMissingPlaceholder}
+            color={sliColor}
           />
         </div>
         <div className={locals.col}>
           <SloTile
             title="Error Budget Spent"
-            value={spent ? number.compact(spent) : null}
-            targetValue={budget ? number.compact(budget) : null}
-            color={budgetColor}
-            unit="calls"
+            value={spent ? sliFormatter(spent) : valueMissingPlaceholder}
             targetInfo="Error Budget:"
+            targetValue={budget ? sliFormatter(budget) : valueMissingPlaceholder}
+            color={budgetColor}
           />
         </div>
         <div className={locals.col}>
-          <SloTile
+          <SloTimeTile
             title="Time Window"
-            targetInfo={isDynamic ? 'Dynamic time window' : isRolling ? 'Rolling time window' : 'Fixed time window'}
+            info={isDynamic ? 'Dynamic time window' : isRolling ? 'Rolling time window' : 'Fixed time window'}
             valuesClassName={locals.timeRangeValue}
-            renderValue={() => (
-              <div>
-                from{' '}
-                {fromTimestamp && (
-                  <time dateTime={new Date(fromTimestamp).toISOString()}>{formatDateTime(fromTimestamp)}</time>
-                )}
-                <br />
-                to{' '}
-                {toTimestamp && (
-                  <time dateTime={new Date(toTimestamp).toISOString()}>{formatDateTime(toTimestamp)}</time>
-                )}
-              </div>
-            )}
+            fromTimestamp={fromTimestamp}
+            toTimestamp={toTimestamp}
           />
         </div>
       </div>
@@ -216,7 +207,7 @@ export default function Widget({ actions, config, isPreview, title, dragHandle, 
           consumed={filterAvailableData(findResultMetric('consumed'))}
           hourlyBudget={filterAvailableData(findResultMetric('hourlyBudget'))}
           budget={budget}
-          sliEntity={sliConfig?.sliEntity}
+          sliEntity={sliEntity}
           isPreview={isPreview}
         />
       </div>
@@ -224,13 +215,13 @@ export default function Widget({ actions, config, isPreview, title, dragHandle, 
   );
 }
 
-const filterAvailableData = dataSerie => {
-  if (!dataSerie) {
+const filterAvailableData = dataSeries => {
+  if (!dataSeries) {
     return [];
   }
   // when no data for a specific metric was returned
-  if (dataSerie.length === 1) {
-    if (dataSerie[0][0] == null) {
+  if (dataSeries.length === 1) {
+    if (dataSeries[0][0] == null) {
       return [];
     }
   }
@@ -238,5 +229,5 @@ const filterAvailableData = dataSerie => {
   // This should be done on the backend normally, but it was not specified, hence it was
   // implemented on the client in time.
   const now = new Date().getTime();
-  return dataSerie.filter(([ts]) => ts <= now);
+  return dataSeries.filter(([ts]) => ts <= now);
 };

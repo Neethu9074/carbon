@@ -3,6 +3,7 @@ import React from 'react';
 import stairway, { hourlyBudgetMetricId } from 'in-custom-dashboards/widgets/Slo/renderer/stairway';
 import { groupByEndpointName, groupByServiceName } from 'in-analyze/AnalyzeView/dataSources';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
+import { getSliFormatter } from 'in-custom-dashboards/widgets/Slo/sliConfigUtils';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import theme from 'in-themes';
 
@@ -30,7 +31,8 @@ export default function Chart({ result, timeConfig, consumed, hourlyBudget, budg
           },
           colors: [theme.lib.colors.blue800, theme.lib.colors.red800],
           renderer: stairway,
-          metrics: [...metrics]
+          metrics: [...metrics],
+          formatter: getSliFormatter(sliEntity)
         },
         nonInteractive: isPreview,
         ...getCustomAnalyzeContextMenuProperties(sliEntity)
