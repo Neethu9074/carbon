@@ -1,20 +1,11 @@
-import {
-  getBlueprintConfig,
-  blacklistedTagFiltersOfAlertType,
-  getAvailableTagFiltersPerAlertType
-} from 'in-websites/alerting/data/blueprintConfig';
 import { createViolationsInSequenceForm } from 'in-new-components/Alerting/advanced/TimeThresholdConfig/form';
+import { getBlueprintConfig } from 'in-websites/alerting/data/blueprintConfig';
 import createThresholdForm from 'in-websites/alerting/form/thresholdForm';
 import createRuleForm from 'in-websites/alerting/form/ruleForm';
 
 export default function createBlueprintForm(form, alertType, alertThreshold = {}) {
   const threshold = form.get('threshold').toJS();
   const tagFilters = form.get('tagFilters').value;
-
-  const blacklistedTagFilters = blacklistedTagFiltersOfAlertType(alertType);
-  const isNotBlacklisted = filter => !blacklistedTagFilters.includes(filter.name);
-  const availableTagFilters = getAvailableTagFiltersPerAlertType(alertType, threshold.metricName);
-  const isAvailable = availableTagFilters ? filter => availableTagFilters.includes(filter.name) : () => true;
 
   const blueprintConfig = getBlueprintConfig(alertType);
   const newThresholdForm = createThresholdForm(
@@ -38,8 +29,9 @@ export default function createBlueprintForm(form, alertType, alertThreshold = {}
     metricName: blueprintConfig.defaultMetric
   });
 
+  const isNotBlacklisted = filter => !blueprintConfig.blacklistedTagFilters.includes(filter.name);
   let updatedForm = form
-    .updateIn(['tagFilters'], f => f.setValue(tagFilters.filter(isNotBlacklisted).filter(isAvailable)))
+    .updateIn(['tagFilters'], f => f.setValue(tagFilters.filter(isNotBlacklisted)))
     .put('rule', newRuleForm)
     .put('threshold', newThresholdForm);
 

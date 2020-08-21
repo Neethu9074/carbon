@@ -16,54 +16,63 @@ import SvgIcon from 'in-components/SvgIcon';
 import locals from './QuickFilterBar.mless';
 
 export default function QuickFilterBar(props) {
-  const { tagFilters, onMoreClick, timeConfig, withoutFiltersLabel, withoutLatencyItem } = props;
+  const { tagFilters, onMoreClick, timeConfig, blackListedTagFilters, withoutFiltersLabel, withoutLatencyItem } = props;
+  const isNotBlackListed = tagFilter => !blackListedTagFilters.includes(tagFilter);
   return (
     <Bar showClearFilters={false} withoutFiltersLabel={withoutFiltersLabel}>
-      <AnalyzeSelectBarItem
-        {...props}
-        timeConfig={timeConfig}
-        tagFilters={tagFilters}
-        tag="service.name"
-        singularLabel="Service"
-        pluralLabel="Services"
-        itemLabelRenderer={renderApplicationServiceEndpointItem('lib_application_service')}
-        withoutTextTransform
-      />
-      <AnalyzeSelectBarItem
-        {...props}
-        timeConfig={timeConfig}
-        tagFilters={tagFilters}
-        tag="endpoint.name"
-        singularLabel="Endpoint"
-        pluralLabel="Endpoints"
-        itemLabelRenderer={renderApplicationServiceEndpointItem('lib_application_endpoint')}
-        precondition={() => !!getTagFromList(tagFilters, { name: 'service.name' })}
-        preconditionFailedTooltip="Please select a service before selecting an endpoint."
-        withoutTextTransform
-      />
-      <AnalyzeSelectBarItem
-        {...props}
-        timeConfig={timeConfig}
-        tagFilters={tagFilters}
-        tag="call.type"
-        singularLabel="Type"
-        pluralLabel="Types"
-        selectedItemRenderer={renderType}
-        itemLabelRenderer={renderType}
-      />
-      <AnalyzeMultiSelectBarItem
-        {...props}
-        timeConfig={timeConfig}
-        tagFilters={tagFilters}
-        tag="technology"
-        singularLabel="Technology"
-        pluralLabel="Technologies"
-        selectedItemRenderer={getTechnologyLabel}
-        itemLabelRenderer={itemLabel => (
-          <TechnologyLabelWithIcon plugin={itemLabel} label={getTechnologyLabel(itemLabel)} is10Icon />
-        )}
-      />
-      {!withoutLatencyItem && (
+      {isNotBlackListed('service.name') && (
+        <AnalyzeSelectBarItem
+          {...props}
+          timeConfig={timeConfig}
+          tagFilters={tagFilters}
+          tag="service.name"
+          singularLabel="Service"
+          pluralLabel="Services"
+          itemLabelRenderer={renderApplicationServiceEndpointItem('lib_application_service')}
+          withoutTextTransform
+        />
+      )}
+      {isNotBlackListed('endpoint.name') && (
+        <AnalyzeSelectBarItem
+          {...props}
+          timeConfig={timeConfig}
+          tagFilters={tagFilters}
+          tag="endpoint.name"
+          singularLabel="Endpoint"
+          pluralLabel="Endpoints"
+          itemLabelRenderer={renderApplicationServiceEndpointItem('lib_application_endpoint')}
+          precondition={() => !!getTagFromList(tagFilters, { name: 'service.name' })}
+          preconditionFailedTooltip="Please select a service before selecting an endpoint."
+          withoutTextTransform
+        />
+      )}
+      {isNotBlackListed('call.type') && (
+        <AnalyzeSelectBarItem
+          {...props}
+          timeConfig={timeConfig}
+          tagFilters={tagFilters}
+          tag="call.type"
+          singularLabel="Type"
+          pluralLabel="Types"
+          selectedItemRenderer={renderType}
+          itemLabelRenderer={renderType}
+        />
+      )}
+      {isNotBlackListed('technology') && (
+        <AnalyzeMultiSelectBarItem
+          {...props}
+          timeConfig={timeConfig}
+          tagFilters={tagFilters}
+          tag="technology"
+          singularLabel="Technology"
+          pluralLabel="Technologies"
+          selectedItemRenderer={getTechnologyLabel}
+          itemLabelRenderer={itemLabel => (
+            <TechnologyLabelWithIcon plugin={itemLabel} label={getTechnologyLabel(itemLabel)} is10Icon />
+          )}
+        />
+      )}
+      {!withoutLatencyItem && isNotBlackListed('call.latency') && (
         <NumberBarItem
           {...props}
           tagFilters={tagFilters}
@@ -75,13 +84,15 @@ export default function QuickFilterBar(props) {
           minValue="1"
         />
       )}
-      <BooleanBarItem
-        {...props}
-        timeConfig={timeConfig}
-        tagFilters={tagFilters}
-        tag="call.erroneous"
-        singularLabel="Erroneous"
-      />
+      {isNotBlackListed('call.erroneous') && (
+        <BooleanBarItem
+          {...props}
+          timeConfig={timeConfig}
+          tagFilters={tagFilters}
+          tag="call.erroneous"
+          singularLabel="Erroneous"
+        />
+      )}
       {onMoreClick && <MoreBarItem {...props} onClick={onMoreClick} />}
     </Bar>
   );

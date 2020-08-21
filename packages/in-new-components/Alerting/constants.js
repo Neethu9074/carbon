@@ -6,10 +6,11 @@ export const alertingEventDetailsChartTimeframe = hoursToMillis(12);
 
 export const blueprintConfigPropType = PropTypes.shape({
   type: PropTypes.string.isRequired,
-  blacklistedTagFilters: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
   name: PropTypes.string.isRequired,
   headline: PropTypes.string.isRequired,
   text: PropTypes.string.isRequired,
+  getAllTagFilters: PropTypes.func.isRequired,
+  blacklistedTagFilters: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
   baselineEnabled: PropTypes.bool.isRequired,
   isCustomRateMetric: PropTypes.func.isRequired,
   getMetricsRequest: PropTypes.func.isRequired,
