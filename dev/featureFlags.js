@@ -20,10 +20,9 @@ module.exports = {
   ruleDeprecationValidationChecksEnabled: true,
   samplingIndicatorEnabled: true,
   skipOnboardingDialog: false,
-  sloConfigurationEnabled: true,
   sloWidgetEnabled: true,
   tenantSwitcherEnabled: true,
   useInstanaSaasEumTrackingUrlEnabled: true,
   vsphereEnabled: true,
-  websiteUserBreakdownEnabled: true,
+  websiteUserBreakdownEnabled: true
 };
