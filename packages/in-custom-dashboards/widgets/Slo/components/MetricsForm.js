@@ -1,6 +1,10 @@
 import React from 'react';
 
-import { aggregationOptions, metricOptions } from 'in-custom-dashboards/widgets/Slo/components/metricFormData';
+import {
+  timeAggregationOptions,
+  metricOptions,
+  sumAggregation
+} from 'in-custom-dashboards/widgets/Slo/components/metricFormData';
 import DropDownMock from 'in-custom-dashboards/widgets/Slo/components/DropDownMock';
 import InputMock from 'in-custom-dashboards/widgets/Slo/components/InputMock';
 import StackItem from 'in-new-components/layout/Stack/StackItem';
@@ -33,7 +37,7 @@ export const MetricsForm = ({ form, onChange }) => {
       <FormGroup>
         <Label>Aggregation</Label>
         <DropDownMock
-          options={[{ value: undefined, label: 'Please select' }, ...aggregationOptions]}
+          options={getAggregationOptions(metricConfiguration)}
           value={aggregationValue ?? ''}
           onChange={({ target }) =>
             localOnChange?.(['metricAggregation'], f => f.setValue(target.value).setTouched(true))
@@ -47,3 +51,14 @@ export const MetricsForm = ({ form, onChange }) => {
     </StackItem>
   );
 };
+
+function getAggregationOptions(metricConfiguration) {
+  if (getFormValueOrDefault(metricConfiguration.get('metricName'), 'latency') !== 'latency') {
+    return sumAggregation;
+  }
+  return timeAggregationOptions;
+}
+
+function getFormValueOrDefault(form, key, defaultValue = null) {
+  return form.containsKey(key) ? form.get(key).value : defaultValue;
+}
