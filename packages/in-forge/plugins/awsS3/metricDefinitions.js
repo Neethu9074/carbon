@@ -31,6 +31,12 @@ export default [
   },
   {
     metrics: ['4xx_errors', '5xx_errors'],
+    labels: ['Client HTTP 4xx', 'Server HTTP 5xx'],
+    min: 0,
+    formatter: number
+  },
+  {
+    metrics: ['first_byte_latency', 'total_request_latency'],
     labels: ['First Byte Latency', 'Total Request Latency'],
     min: 0,
     formatter: millis

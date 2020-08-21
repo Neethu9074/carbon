@@ -1,4 +1,4 @@
-import { number, bytes, millis } from 'in-services/formatters/number';
+import { number, bytes, millis, percentage } from 'in-services/formatters/number';
 
 export default [
   {
@@ -19,6 +19,27 @@ export default [
     category: ['Records'],
     min: 0,
     formatter: number
+  },
+  {
+    metric: 'put_record_bytes',
+    label: 'Put Record bytes',
+    category: ['Records'],
+    min: 0,
+    formatter: bytes
+  },
+  {
+    metric: 'put_record_latency',
+    label: 'Put Record latency',
+    category: ['Records'],
+    min: 0,
+    formatter: millis
+  },
+  {
+    metric: 'put_record_success',
+    label: 'Put Record success',
+    category: ['Records'],
+    min: 0,
+    formatter: percentage
   },
   {
     metric: 'put_records_success',
@@ -74,7 +95,7 @@ export default [
     label: 'Put Records traffic',
     category: ['Records'],
     min: 0,
-    formatter: number
+    formatter: bytes
   },
   {
     metric: 'read_provisioned_throughput_exceeded',

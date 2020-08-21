@@ -37,6 +37,13 @@ export default [
     formatter: number
   },
   {
+    metric: 'num_of_msg_deleted',
+    label: 'Number of messages empty deleted',
+    category: ['Messages'],
+    min: 0,
+    formatter: number
+  },
+  {
     metric: 'num_of_msg_received',
     label: 'Number of messages receives',
     category: ['Messages'],
