@@ -4,6 +4,7 @@ import { SloApName, SloTarget, SliConfigId } from 'in-custom-dashboards/widgets/
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import { twoDecimalPlaces, number } from 'in-services/formatters/number';
 import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
+import { getSliConfiguration } from 'in-custom-dashboards/api';
 import SloTile from 'in-custom-dashboards/widgets/Slo/SloTile';
 import { formatDateTime } from 'in-services/formatters/date';
 import LightCardV2 from 'in-new-components/Card/LightCardV2';
@@ -21,12 +22,16 @@ const DEFAULT_API = {
   getUnifiedMetrics
 };
 
-export default function Widget({ actions, config, title, dragHandle, api = DEFAULT_API }) {
+const oneWeekTimeConfig = {
+  windowSize: 7 * 24 * 60 * 60 * 1000
+};
+
+export default function Widget({ actions, config, isPreview, title, dragHandle, api = DEFAULT_API }) {
   const slo = config?.[SloTarget] ?? 0.99;
   const apName = config?.[SloApName] ?? '';
-  const sliConfigId = config?.[SliConfigId] ?? 'phani-test-1';
+  const sliConfigId = config?.[SliConfigId];
 
-  const timeConfig = useTimeConfig();
+  const timeConfig = isPreview ? oneWeekTimeConfig : useTimeConfig();
   timeConfig.to = timeConfig.to ?? new Date().getTime();
 
   const fromTimestamp = timeConfig.from ?? timeConfig.to - timeConfig.windowSize;
@@ -36,7 +41,7 @@ export default function Widget({ actions, config, title, dragHandle, api = DEFAU
     sliConfigId: sliConfigId,
     timeShift: { offset: 0 },
     slo,
-    aggregation: 'MEAN', // a value must be sent to the backe - it has no meaning at all
+    aggregation: 'MEAN', // a value must be sent to the backend - it has no meaning at all
     source: 'SLI',
     timeConfig,
     resultType: 'TIME_SERIES'
@@ -85,6 +90,11 @@ export default function Widget({ actions, config, title, dragHandle, api = DEFAU
   const budget = findResultMetric('budget')?.[0][1];
   const remaining = findResultMetric('remaining')?.[0][1];
   const spent = findResultMetric('spent')?.[0][1];
+
+  const sliConfig = useObservable(
+    getSliConfiguration(sliConfigId).map(({ data }) => data),
+    [sliConfigId]
+  );
 
   const sliColor = slo === null || sli === null ? '' : sli >= slo ? GREEN : RED;
   const budgetColor = !remaining ? '' : remaining > 0 ? GREEN : RED;
@@ -151,19 +161,21 @@ export default function Widget({ actions, config, title, dragHandle, api = DEFAU
           consumed={filterAvailableData(findResultMetric('consumed'))}
           hourlyBudget={filterAvailableData(findResultMetric('hourlyBudget'))}
           budget={budget}
+          sliEntity={sliConfig?.sliEntity}
+          isPreview={isPreview}
         />
       </div>
     </LightCardV2>
   );
 }
 
-const filterAvailableData = dataserie => {
-  if (!dataserie) {
+const filterAvailableData = dataSerie => {
+  if (!dataSerie) {
     return [];
   }
   // when no data for a specific metric was returned
-  if (dataserie.length === 1) {
-    if (dataserie[0][0] == null) {
+  if (dataSerie.length === 1) {
+    if (dataSerie[0][0] == null) {
       return [];
     }
   }
@@ -171,5 +183,5 @@ const filterAvailableData = dataserie => {
   // This should be done on the backend normally, but it was not specified, hence it was
   // implemented on the client in time.
   const now = new Date().getTime();
-  return dataserie.filter(([ts]) => ts <= now);
+  return dataSerie.filter(([ts]) => ts <= now);
 };
