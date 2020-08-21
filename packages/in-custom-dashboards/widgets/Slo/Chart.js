@@ -1,7 +1,7 @@
 import React from 'react';
 
+import stairway, { hourlyBudgetMetricId } from 'in-custom-dashboards/widgets/Slo/renderer/stairway';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
-import stairway from 'in-components/Chart/renderer/stairway';
 import theme from 'in-themes';
 
 export default function Chart({ result, timeConfig, consumed, hourlyBudget, budget }) {
@@ -20,8 +20,8 @@ export default function Chart({ result, timeConfig, consumed, hourlyBudget, budg
         granularity: 3600 * 1000,
         timeConfig: timeConfig,
         y1: {
-          metricIds: ['consumed', 'hourlyBudget'],
-          labels: ['spent', 'budget'],
+          metricIds: ['consumed', hourlyBudgetMetricId],
+          labels: ['Spent', 'Budget'],
           icons: {
             types: ['lib_flame', 'lib_actions_stop']
           },

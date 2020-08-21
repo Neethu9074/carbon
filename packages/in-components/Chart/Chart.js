@@ -108,6 +108,7 @@ export default class Chart {
       return;
     }
 
+    const metricIds = axis.metricIds.filter((series, i) => filteredIndices.indexOf(i) === -1);
     const metrics = axis.metrics.filter((series, i) => filteredIndices.indexOf(i) === -1);
     const colors = axis.colors.filter((series, i) => filteredIndices.indexOf(i) === -1);
     const colors100 = axis.colors100.filter((series, i) => filteredIndices.indexOf(i) === -1);
@@ -115,6 +116,7 @@ export default class Chart {
     if (axis.valuesNeedToBeStacked || axis.valuesDependOnEachOther || axis.manualRenderLoop) {
       axis.renderer.render({
         axis,
+        metricIds: metricIds,
         metrics,
         colors,
         colors100,
@@ -130,6 +132,7 @@ export default class Chart {
         axis.renderer.render({
           axis,
           index: i,
+          metricId: metricIds[i],
           dataSeries: metrics[i],
           color: colors100[i],
           colors,

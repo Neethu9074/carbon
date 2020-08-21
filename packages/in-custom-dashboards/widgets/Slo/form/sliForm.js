@@ -68,13 +68,13 @@ function addGoodBadEventsForm(form, sliEntity) {
     .put(
       'goodEventFilters',
       createField({
-        value: sliEntity?.goodEventFilters ?? null
+        value: sliEntity?.goodEventFilters ?? []
       })
     )
     .put(
       'badEventFilters',
       createField({
-        value: sliEntity?.badEventFilters ?? null
+        value: sliEntity?.badEventFilters ?? []
       })
     );
 }
@@ -89,8 +89,7 @@ export function resetFormForSliType(sliType, setForm, form) {
         .updateIn(['sliEntity'], f => f.remove('badEventFilters'))
     );
   } else {
-    newForm = newForm.remove('metricConfiguration');
-    setForm(addGoodBadEventsForm(newForm));
+    setForm(newForm.remove('metricConfiguration').updateIn(['sliEntity'], f => addGoodBadEventsForm(f)));
   }
 }
 
