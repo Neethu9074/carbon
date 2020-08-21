@@ -13,6 +13,7 @@ import { isLoading, hasError } from 'in-services/util/result';
 import LightCardV2 from 'in-new-components/Card/LightCardV2';
 import { formatDateTime } from 'in-services/formatters/date';
 import { alwaysNull } from 'in-services/fixedStreams';
+import WithIcon from 'in-new-components/WithIcon';
 import Button from 'in-new-components/Button';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
@@ -143,20 +144,20 @@ const onlyWithAPid = applicationId => {
 
 const columnDefinitions = [
   {
-    sortable: false,
-    width: '1rem',
-    getContent(item) {
-      return getSvgIcon(item);
-    }
-  },
-  {
-    sortable: false,
+    id: 'name',
+    sortable: true,
     label: 'Name',
     getContent(item) {
-      return getSliNameWithSubscript(item);
+      const icon = getIcon(item);
+      return (
+        <WithIcon className={locals.icon} icon={icon.icon}>
+          {getSliNameWithSubscript(item)}
+        </WithIcon>
+      );
     }
   },
   {
+    id: 'metric',
     sortable: false,
     label: 'Metric',
     getContent(item) {
@@ -170,6 +171,7 @@ const columnDefinitions = [
     }
   },
   {
+    id: 'firstEvaluation',
     sortable: false,
     label: 'First evaluation',
     getContent(item) {
@@ -183,13 +185,13 @@ const columnDefinitions = [
   }
 ];
 
-function getSvgIcon(item) {
+function getIcon(item) {
   if (item?.sliEntity?.endpointId) {
-    return <SvgIcon type="lib_application_endpoint" />;
+    return { icon: 'lib_application_endpoint' };
   } else if (item?.sliEntity?.serviceId) {
-    return <SvgIcon type="lib_application_service" />;
+    return { icon: 'lib_application_service' };
   }
-  return <SvgIcon type="lib_application" />;
+  return { icon: 'lib_application' };
 }
 
 function getLabel(result) {

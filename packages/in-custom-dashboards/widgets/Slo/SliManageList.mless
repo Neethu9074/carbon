@@ -3,6 +3,12 @@
 
 
 :local {
+
+   .icon {
+     fill: @lib__colors__N500;
+     margin-right: 0;
+   }
+
   .createNewButton {
     margin-right: 1.5rem;
   }
