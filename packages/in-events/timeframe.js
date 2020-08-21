@@ -51,7 +51,7 @@ export function getTimeConfigFromEvent(event) {
  */
 export function getWidenedTimeConfigFromEvent(event, widenTimeframeMillis) {
   const timeConfig = getTimeConfigFromEvent(event);
-  // extend begin by one bucket, and end also by bucket bucket in case the to-timestamp is fixed
+  // extend begin by one bucket, and end also by bucket in case the to-timestamp is fixed
   const toIsFixed = !!timeConfig.to;
   const adjustedTo = toIsFixed ? timeConfig.to + widenTimeframeMillis : timeConfig.to;
   return {

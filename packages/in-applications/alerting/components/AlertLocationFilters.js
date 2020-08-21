@@ -14,16 +14,14 @@ import {
 } from 'in-analyze/applicationFilter';
 import ApplicationEditTagFilterDialog from 'in-applications/alerting/analyze/ApplicationEditTagFilterDialog';
 import TagFilterConfigurationWrapper from 'in-analyze/AnalyzeView/components/TagFilterConfigurationWrapper';
-import { blacklistedTagFiltersOfAlertType } from 'in-applications/alerting/data/blueprintConfig';
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
+import { getBlueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
 import { getTrackingObject } from 'in-new-components/Alerting/trackingHelpers';
 import QuickFilterBar from 'in-applications/alerting/analyze/QuickFilterBar';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
-import { getAnalyzeFilterTagKeys } from 'in-applications/tags';
 import { propTypeTimeConfig } from 'in-stores/time/config';
 
 const applicationNameTag = 'application.name';
-const notContainedInTagSuggestions = ['application.id', 'application.name', 'service.id', 'endpoint.id'];
 
 export default function AlertLocationFilters({
   advancedMode,
@@ -33,11 +31,14 @@ export default function AlertLocationFilters({
   updateForm,
   withoutLatencyItem
 }) {
-  const alertType = form.get('rule').get('alertType').value;
-  const blacklistedTagFilters = blacklistedTagFiltersOfAlertType(alertType);
-  const tagSuggestions = getAnalyzeFilterTagKeys()
-    .filter(tag => !notContainedInTagSuggestions.includes(tag))
-    .filter(tag => !blacklistedTagFilters.includes(tag));
+  const ruleForm = form.get('rule');
+  const alertType = ruleForm.get('alertType').value;
+  const metricName = ruleForm.get('metricName').value;
+
+  const blueprintConfig = getBlueprintConfig(alertType);
+  const tagSuggestions = blueprintConfig
+    .getAllTagFilters(metricName)
+    .filter(tag => !blueprintConfig.blacklistedTagFilters.includes(tag));
 
   return (
     form && (
@@ -57,7 +58,7 @@ export default function AlertLocationFilters({
                 addFilter(form, newTagFilter, updateForm, advancedMode);
               }}
               setTagFilters={newTagFilters => {
-                updateTagfilterForm(newTagFilters, updateForm, form);
+                updateTagFilterForm(newTagFilters, updateForm, form);
               }}
               removeTagFilter={(...args) => {
                 const tag = args[0];
@@ -68,7 +69,7 @@ export default function AlertLocationFilters({
                     ? withoutTagFiltersForNameAndValue(getTagFilters(form), { name: tag, value: key })
                     : withoutTagFiltersForName(getTagFilters(form), tag);
 
-                  updateTagfilterForm(newTagFilters, updateForm, form);
+                  updateTagFilterForm(newTagFilters, updateForm, form);
 
                   applicationsAlertingFilterRemove(
                     getTrackingObject(form, {
@@ -90,7 +91,7 @@ export default function AlertLocationFilters({
                           tagFilters
                         })
                       );
-                      updateTagfilterForm(tagFilters, updateForm, form);
+                      updateTagFilterForm(tagFilters, updateForm, form);
                     }}
                     tagSuggestions={tagSuggestions}
                     timeConfig={timeConfig}
@@ -99,12 +100,13 @@ export default function AlertLocationFilters({
                 );
               }}
               align="bottomMiddle"
+              blackListedTagFilters={blueprintConfig.blacklistedTagFilters}
+              withoutLatencyItem={withoutLatencyItem} // only for the purpose because otherwise the filter-bar would overflow in Simple-mode
+              withoutFiltersLabel
               showPageSelector
               removeBarPadding
               removeBarBackgroundColor
               hideClearFiltersButton
-              withoutFiltersLabel
-              withoutLatencyItem={withoutLatencyItem || alertType === 'slowness'}
             />
           }
           tagFilterList={
@@ -115,7 +117,7 @@ export default function AlertLocationFilters({
                     tagFilter={convertToApplicationAreaSpecificTagFilter([tagFilter])?.[0]}
                     tagFilters={getTagFilters(form)}
                     setTagFilters={tagFilters => {
-                      updateTagfilterForm(withoutTagFiltersForNameAndValue(tagFilters, tagFilter), updateForm, form);
+                      updateTagFilterForm(withoutTagFiltersForNameAndValue(tagFilters, tagFilter), updateForm, form);
                       applicationsAlertingFilterEdit(
                         getTrackingObject(form, {
                           mode: advancedMode ? 'Advanced' : 'Simple',
@@ -130,7 +132,7 @@ export default function AlertLocationFilters({
                 );
               }}
               onRemoveTagFilter={tagFilter => {
-                updateTagfilterForm(withoutTagFiltersForNameAndValue(getTagFilters(form), tagFilter), updateForm, form);
+                updateTagFilterForm(withoutTagFiltersForNameAndValue(getTagFilters(form), tagFilter), updateForm, form);
                 applicationsAlertingFilterRemove(
                   getTrackingObject(form, {
                     mode: advancedMode ? 'Advanced' : 'Simple',
@@ -173,7 +175,7 @@ function addFilter(form, newTagFilter, updateForm, advancedMode) {
 }
 
 function addNewTagFiltersToFormWithTracking(updateForm, form, newTagFilters, advancedMode, newTagFilter) {
-  updateTagfilterForm(newTagFilters, updateForm, form);
+  updateTagFilterForm(newTagFilters, updateForm, form);
   applicationsAlertingFilterAdd(
     getTrackingObject(form, {
       mode: advancedMode ? 'Advanced' : 'Simple',
@@ -182,7 +184,7 @@ function addNewTagFiltersToFormWithTracking(updateForm, form, newTagFilters, adv
   );
 }
 
-function updateTagfilterForm(newTagFilters, updateForm, form) {
+function updateTagFilterForm(newTagFilters, updateForm, form) {
   const backendTagFilters = getTagFilterListForBackendSubscription(newTagFilters);
   const tagFilters = withoutViewOnlyFilters(backendTagFilters);
   updateForm(

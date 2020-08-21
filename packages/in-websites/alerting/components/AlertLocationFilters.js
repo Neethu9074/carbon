@@ -8,30 +8,26 @@ import {
   websitesAlertingFilterRemove,
   websitesAlertingFilterEdit
 } from 'in-websites/alerting/tracker';
-import {
-  blacklistedTagFiltersOfAlertType,
-  getAvailableTagFiltersPerAlertType
-} from 'in-websites/alerting/data/blueprintConfig';
 import TagFilterConfigurationWrapper from 'in-analyze/AnalyzeView/components/TagFilterConfigurationWrapper';
 import WebsiteEditTagFilterDialog from 'in-websites/analyze/AnalyzeView/WebsiteEditTagFilterDialog';
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
+import { getBlueprintConfig } from 'in-websites/alerting/data/blueprintConfig';
 import { getTrackingObject } from 'in-new-components/Alerting/trackingHelpers';
 import QuickFilterBar from 'in-websites/analyze/AnalyzeView/QuickFilterBar';
 import { modeAdvanced, modeSimple } from 'in-websites/alerting/constants';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 
-const BEACON_WEBSITE_NAME = 'beacon.website.name';
-const BEACON_WEBSITE_ID = 'beacon.website.id';
+const websiteNameTag = 'beacon.website.name';
 
 export default function AlertLocationFilters({ advancedMode, form, timeConfig, websiteLabel, updateForm }) {
   const ruleForm = form.get('rule');
   const alertType = ruleForm.get('alertType').value;
   const metricName = ruleForm.get('metricName').value;
 
-  const blacklistedTagFilters = blacklistedTagFiltersOfAlertType(alertType);
-  const tagSuggestions = getAvailableTagFiltersPerAlertType(alertType, metricName).filter(
-    tag => !blacklistedTagFilters.includes(tag)
-  );
+  const blueprintConfig = getBlueprintConfig(alertType);
+  const tagSuggestions = blueprintConfig
+    .getAllTagFilters(metricName)
+    .filter(tag => !blueprintConfig.blacklistedTagFilters.includes(tag));
 
   if (__DEV__) {
     invariant(tagSuggestions, `Tag suggestions not defined for alert type ${alertType}`);
@@ -53,7 +49,7 @@ export default function AlertLocationFilters({ advancedMode, form, timeConfig, w
                 addFilter(form, newTagFilter, updateForm, advancedMode);
               }}
               removeTagFilter={name => {
-                if (name !== BEACON_WEBSITE_NAME) {
+                if (name !== websiteNameTag) {
                   updateForm(
                     form
                       .updateIn(['tagFilters'], f =>
@@ -88,10 +84,7 @@ export default function AlertLocationFilters({ advancedMode, form, timeConfig, w
                           .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
                       );
                     }}
-                    tagSuggestions={tagSuggestions.filter(
-                      name =>
-                        name !== BEACON_WEBSITE_NAME && name !== BEACON_WEBSITE_ID && name !== 'beacon.error.message'
-                    )}
+                    tagSuggestions={tagSuggestions}
                     timeConfig={timeConfig}
                   />
                 );
@@ -146,7 +139,7 @@ export default function AlertLocationFilters({ advancedMode, form, timeConfig, w
                 );
               }}
               tagFilters={mutateFiltersForView(getTagFilters(form), websiteLabel)}
-              readonlyFilterNames={[BEACON_WEBSITE_NAME]}
+              readonlyFilterNames={[websiteNameTag]}
             />
           }
         />
@@ -184,12 +177,12 @@ function withoutTagFiltersForName(tagFilters, name) {
 }
 
 function mutateFiltersForView(tagFilters, websiteLabel) {
-  const hasWebsiteName = tagFilters.some(({ name }) => name === BEACON_WEBSITE_NAME);
+  const hasWebsiteName = tagFilters.some(({ name }) => name === websiteNameTag);
   return hasWebsiteName
     ? tagFilters
     : [
         {
-          name: BEACON_WEBSITE_NAME,
+          name: websiteNameTag,
           operator: 'EQUALS',
           stringValue: websiteLabel
         },

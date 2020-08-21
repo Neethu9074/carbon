@@ -1,13 +1,27 @@
+import moment from 'moment';
 import React from 'react';
 
-import { SloApName, SloTarget, SliConfigId } from 'in-custom-dashboards/widgets/Slo/form';
+import {
+  SloApName,
+  SloTarget,
+  SliConfigId,
+  TimeWindowType,
+  TimeWindowDuration,
+  TimeWindowDurationUnit,
+  TimeWindowStart,
+  parsedTimestamp,
+  Fixed,
+  Rolling,
+  Dynamic
+} from 'in-custom-dashboards/widgets/Slo/form';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
-import { twoDecimalPlaces, number } from 'in-services/formatters/number';
+import { getSliFormatter } from 'in-custom-dashboards/widgets/Slo/sliConfigUtils';
+import SloTimeTile from 'in-custom-dashboards/widgets/Slo/Tiles/SloTimeTile';
+import SloTile from 'in-custom-dashboards/widgets/Slo/Tiles/SloTile';
 import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
 import { getSliConfiguration } from 'in-custom-dashboards/api';
-import SloTile from 'in-custom-dashboards/widgets/Slo/SloTile';
-import { formatDateTime } from 'in-services/formatters/date';
 import LightCardV2 from 'in-new-components/Card/LightCardV2';
+import { percentage } from 'in-services/formatters/number';
 import Chart from 'in-custom-dashboards/widgets/Slo/Chart';
 import { pendingResult } from 'in-services/fixedObjects';
 import useObservable from 'in-hooks/useObservable';
@@ -27,23 +41,65 @@ const oneWeekTimeConfig = {
 };
 
 export default function Widget({ actions, config, isPreview, title, dragHandle, api = DEFAULT_API }) {
-  const slo = config?.[SloTarget] ?? 0.99;
+  const slo = config?.[SloTarget] ?? '';
   const apName = config?.[SloApName] ?? '';
   const sliConfigId = config?.[SliConfigId];
 
-  const timeConfig = isPreview ? oneWeekTimeConfig : useTimeConfig();
-  timeConfig.to = timeConfig.to ?? new Date().getTime();
+  const timeWindowType = config?.[TimeWindowType] ?? Dynamic;
+  const isDynamic = timeWindowType === Dynamic;
+  const isRolling = timeWindowType === Rolling;
+  const isFixed = timeWindowType === Fixed;
+  const timeWindowDuration = config?.[TimeWindowDuration] ?? 1;
+  const timeWindowDurationUnit = config?.[TimeWindowDurationUnit] ?? 'month';
+  const timeWindowStartDate = config?.[TimeWindowStart]?.date;
+  const timeWindowStartTime = config?.[TimeWindowStart]?.time;
 
-  const fromTimestamp = timeConfig.from ?? timeConfig.to - timeConfig.windowSize;
-  if (!timeConfig.focusedMoment) timeConfig.focusedMoment = timeConfig.to;
+  const timeConfig = isPreview ? oneWeekTimeConfig : useTimeConfig();
+
+  const timeWindowConfig = {
+    ...timeConfig
+  };
+
+  let fromTimestamp = timeConfig.from ?? (timeConfig.to ?? new Date().getTime()) - timeConfig.windowSize;
+  let toTimestamp = timeConfig.to ?? fromTimestamp + timeConfig.windowSize;
+
+  if (isRolling) {
+    fromTimestamp = moment(toTimestamp)
+      .subtract(timeWindowDuration, timeWindowDurationUnit)
+      .valueOf();
+    timeWindowConfig.windowSize = toTimestamp - fromTimestamp;
+    timeWindowConfig.from = fromTimestamp;
+  }
+
+  if (isFixed) {
+    let timeWindowStartTimeStamp = parsedTimestamp(timeWindowStartDate + '  ' + timeWindowStartTime);
+    if (timeWindowStartTimeStamp) {
+      let now = moment();
+      let nextStart = moment(timeWindowStartTimeStamp);
+      let latestIntervalStart;
+      do {
+        latestIntervalStart = nextStart;
+        nextStart = latestIntervalStart.clone().add(timeWindowDuration, timeWindowDurationUnit);
+      } while (nextStart.isBefore(now));
+
+      fromTimestamp = latestIntervalStart.valueOf();
+      toTimestamp = nextStart.valueOf();
+      timeWindowConfig.from = fromTimestamp;
+      timeWindowConfig.windowSize = nextStart.valueOf() - fromTimestamp;
+    }
+  }
+  if (!timeConfig.autoRefresh) {
+    timeWindowConfig.to = toTimestamp;
+    timeWindowConfig.focusedMoment = toTimestamp;
+  }
 
   const metricBaseConfig = {
-    sliConfigId: sliConfigId,
+    sliConfigId,
     timeShift: { offset: 0 },
     slo,
     aggregation: 'MEAN', // a value must be sent to the backend - it has no meaning at all
     source: 'SLI',
-    timeConfig,
+    timeConfig: timeWindowConfig,
     resultType: 'TIME_SERIES'
   };
 
@@ -99,6 +155,9 @@ export default function Widget({ actions, config, isPreview, title, dragHandle, 
   const sliColor = slo === null || sli === null ? '' : sli >= slo ? GREEN : RED;
   const budgetColor = !remaining ? '' : remaining > 0 ? GREEN : RED;
 
+  const sliEntity = sliConfig?.sliEntity;
+  const sliFormatter = getSliFormatter(sliEntity);
+
   return (
     <LightCardV2
       bodyClassName={locals.bodyNoPadding}
@@ -116,52 +175,39 @@ export default function Widget({ actions, config, isPreview, title, dragHandle, 
         <div className={locals.col}>
           <SloTile
             title="Status"
-            value={sli ? twoDecimalPlaces(100 * sli) : valueMissingPlaceholder}
-            targetValue={slo ? twoDecimalPlaces(100 * slo) : valueMissingPlaceholder}
-            color={sliColor}
-            unit="%"
+            value={sli ? percentage.detailed(sli) : valueMissingPlaceholder}
             targetInfo="Target:"
+            targetValue={slo ? percentage.detailed(slo) : valueMissingPlaceholder}
+            color={sliColor}
           />
         </div>
         <div className={locals.col}>
           <SloTile
             title="Error Budget Spent"
-            value={spent ? number.compact(spent) : null}
-            targetValue={budget ? number.compact(budget) : null}
-            color={budgetColor}
-            unit="calls"
+            value={spent ? sliFormatter(spent) : valueMissingPlaceholder}
             targetInfo="Error Budget:"
+            targetValue={budget ? sliFormatter(budget) : valueMissingPlaceholder}
+            color={budgetColor}
           />
         </div>
         <div className={locals.col}>
-          <SloTile
+          <SloTimeTile
             title="Time Window"
-            targetInfo="Dynamic time window"
+            info={isDynamic ? 'Dynamic time window' : isRolling ? 'Rolling time window' : 'Fixed time window'}
             valuesClassName={locals.timeRangeValue}
-            renderValue={() => (
-              <div>
-                from{' '}
-                {fromTimestamp && (
-                  <time dateTime={new Date(fromTimestamp).toISOString()}>{formatDateTime(fromTimestamp)}</time>
-                )}
-                <br />
-                to{' '}
-                {timeConfig.to && (
-                  <time dateTime={new Date(timeConfig.to).toISOString()}>{formatDateTime(timeConfig.to)}</time>
-                )}
-              </div>
-            )}
+            fromTimestamp={fromTimestamp}
+            toTimestamp={toTimestamp}
           />
         </div>
       </div>
       <div className={locals.chart}>
         <Chart
           result={result}
-          timeConfig={timeConfig}
+          timeConfig={timeWindowConfig}
           consumed={filterAvailableData(findResultMetric('consumed'))}
           hourlyBudget={filterAvailableData(findResultMetric('hourlyBudget'))}
           budget={budget}
-          sliEntity={sliConfig?.sliEntity}
+          sliEntity={sliEntity}
           isPreview={isPreview}
         />
       </div>
@@ -169,13 +215,13 @@ export default function Widget({ actions, config, isPreview, title, dragHandle, 
   );
 }
 
-const filterAvailableData = dataSerie => {
-  if (!dataSerie) {
+const filterAvailableData = dataSeries => {
+  if (!dataSeries) {
     return [];
   }
   // when no data for a specific metric was returned
-  if (dataSerie.length === 1) {
-    if (dataSerie[0][0] == null) {
+  if (dataSeries.length === 1) {
+    if (dataSeries[0][0] == null) {
       return [];
     }
   }
@@ -183,5 +229,5 @@ const filterAvailableData = dataSerie => {
   // This should be done on the backend normally, but it was not specified, hence it was
   // implemented on the client in time.
   const now = new Date().getTime();
-  return dataSerie.filter(([ts]) => ts <= now);
+  return dataSeries.filter(([ts]) => ts <= now);
 };

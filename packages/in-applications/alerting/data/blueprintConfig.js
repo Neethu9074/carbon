@@ -2,6 +2,7 @@ import getApplicationMetricsThresholdSuggestion from 'in-applications/alerting/s
 import getApplicationMetricsAlertPreview from 'in-applications/alerting/subscriptions/getApplicationMetricsAlertsPreview';
 import getApplicationMetrics from 'in-applications/subscriptions/getApplicationMetrics';
 import { percentage, millis, number } from 'in-services/formatters/number';
+import { getAnalyzeFilterTagKeys } from 'in-applications/tags';
 import { isNotBlank } from 'in-services/util/string';
 
 const baseBlueprint = Object.freeze({
@@ -12,17 +13,20 @@ const baseBlueprint = Object.freeze({
   thresholdDefaults: {
     operator: '>='
   },
-  getEntityTagFilter: getApplicationIdTagFilter
+  getEntityTagFilter: getApplicationIdTagFilter,
+  // Note: had to keep the blacklisted tagFilters separate from this, because of test-dependencies within
+  // in-applications/tags_test.js related to the only once-registered set of tags via getAnalyzeFilterTagKeys()
+  getAllTagFilters: () => getAnalyzeFilterTagKeys()
 });
 
 const slownessBlueprintConfig = Object.freeze({
   ...baseBlueprint,
   type: 'slowness',
-  blacklistedTagFilters: ['call.latency'],
   name: 'Slow Calls',
   headline: 'Automatic Alerts for Slow Calls',
   text:
     'Receive an alert when calls to selected services and endpoints of this Application Perspective are slower than usual.',
+  blacklistedTagFilters: createBlacklist(['call.latency']),
   baselineEnabled: true,
   defaultMetric: 'latency',
   getMetricName: () => 'latency',
@@ -37,11 +41,11 @@ const slownessBlueprintConfig = Object.freeze({
 const errorRateBlueprintConfig = Object.freeze({
   ...baseBlueprint,
   type: 'errorRate',
-  blacklistedTagFilters: ['call.erroneous', 'call.error.count', 'call.error.message'],
   name: 'Erroneous Calls',
   headline: 'Automatic Alerts for Erroneous Calls',
   text:
     'Receive an alert when the rate of erroneous calls for selected services and endpoints of this Application Perspective is higher than normal.',
+  blacklistedTagFilters: createBlacklist(['call.erroneous', 'call.error.count', 'call.error.message']),
   baselineEnabled: false,
   defaultMetric: 'errors',
   getMetricName: () => 'errors',
@@ -56,11 +60,11 @@ const errorRateBlueprintConfig = Object.freeze({
 const logsBlueprintConfig = Object.freeze({
   ...baseBlueprint,
   type: 'logs',
-  blacklistedTagFilters: ['log.message', 'log.level'],
   name: 'Error and Warning Logs',
   headline: 'Automatic Alerts for Error and Warning Logs',
   text:
     'Receive an alert when the number of calls logging matching error and warning messages is higher than expected.',
+  blacklistedTagFilters: createBlacklist(['log.message', 'log.level']),
   baselineEnabled: false,
   defaultMetric: 'calls',
   getMetricName: () => 'calls',
@@ -76,10 +80,10 @@ const logsBlueprintConfig = Object.freeze({
 const statusCodeBlueprintConfig = Object.freeze({
   ...baseBlueprint,
   type: 'statusCode',
-  blacklistedTagFilters: ['call.http.status'],
   name: 'HTTP Status Codes',
   headline: 'Automatic Alerts for HTTP Status Codes',
   text: 'Receive an alert every time when matching HTTP Status Codes occur more often than usual.',
+  blacklistedTagFilters: createBlacklist(['call.http.status']),
   baselineEnabled: false,
   defaultMetric: 'calls',
   getMetricName: () => 'calls',
@@ -95,11 +99,11 @@ const statusCodeBlueprintConfig = Object.freeze({
 const throughputBlueprintConfig = Object.freeze({
   ...baseBlueprint,
   type: 'throughput',
-  blacklistedTagFilters: [],
   name: 'Throughput',
   headline: 'Automatic Alerts for Calls Count',
   text:
     'Automatic alerts on anomalously low or high number of calls for selected services and endpoints of this Application Perspective.',
+  blacklistedTagFilters: createBlacklist(),
   baselineEnabled: true,
   defaultMetric: 'calls',
   getMetricName: () => 'calls',
@@ -158,12 +162,8 @@ export function getSimpleModeBlueprintConfig(alertType, alertThreshold) {
     .find(blueprint => !blueprint.isSelected || blueprint.isSelected(alertThreshold));
 }
 
-export function blacklistedTagFiltersOfAlertType(alertType) {
-  const config = getBlueprintConfig(alertType);
-  if (config) {
-    return [...config.blacklistedTagFilters];
-  }
-  return [];
+function createBlacklist(blacklistedTagFilters = []) {
+  return ['application.id', 'application.name', 'service.id', 'endpoint.id', ...blacklistedTagFilters];
 }
 
 function getApplicationIdTagFilter(alertConfig) {

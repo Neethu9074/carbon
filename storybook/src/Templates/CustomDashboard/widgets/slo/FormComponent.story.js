@@ -1,5 +1,13 @@
 import React, { useState } from 'react';
 
+import {
+  SloTarget,
+  SliApConfigId,
+  SloApName,
+  TimeWindowType,
+  SliConfigId
+} from 'in-custom-dashboards/widgets/Slo/form';
+
 import { getApplicationConfigsAsResultObservable, getSliConfigurations } from './apiMock';
 import { Form, createForm } from 'in-custom-dashboards/widgets/Slo';
 import { noop } from 'in-services/util/function';
@@ -15,7 +23,12 @@ export function Default() {
   };
   const widgetTitleFormGroup = <div>TitleForm placeholder</div>;
 
-  const [form, setForm] = useState(createForm());
+  const [form, setForm] = useState(
+    createForm({
+      [TimeWindowType]: 'fixed',
+      [SloTarget]: 0.77
+    })
+  );
   const onChange = (path, fn) => {
     setForm(form.updateIn(path, fn));
   };

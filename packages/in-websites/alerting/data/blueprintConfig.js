@@ -40,7 +40,6 @@ const slownessBlueprintConfig = Object.freeze({
   ...baseBlueprint,
   type: 'slowness',
   name: 'Slowness',
-  blacklistedTagFilters: ['beacon.duration'],
   headline: 'Automatic Alerts for onLoad Time',
   text: `
       <p>
@@ -54,6 +53,8 @@ const slownessBlueprintConfig = Object.freeze({
         <li>Running all scripts that need to run on page load</li>
       <ul>
     `,
+  getAllTagFilters: () => availableFilterTags.pageLoad,
+  blacklistedTagFilters: createBlacklist(['beacon.duration']),
   baselineEnabled: true,
   defaultMetric: 'onLoadTime',
   getMetricName: () => 'onLoadTime',
@@ -69,9 +70,10 @@ const jsErrorsBlueprintConfig = Object.freeze({
   ...baseBlueprint,
   type: 'specificJsError',
   name: 'JS Errors',
-  blacklistedTagFilters: ['beacon.error.message'],
   headline: 'Automatic Alerts for JS Errors',
   text: 'Receive an alert every time when matching JS Error messages occur more often than usual.',
+  getAllTagFilters: () => commonFilterTags,
+  blacklistedTagFilters: createBlacklist(['beacon.error.message']),
   baselineEnabled: false,
   defaultMetric: 'errors',
   getMetricName: alertRule => alertRule.metricName,
@@ -88,9 +90,10 @@ const statusCodeBlueprintConfig = Object.freeze({
   ...baseBlueprint,
   type: 'statusCode',
   name: 'HTTP Status Codes',
-  blacklistedTagFilters: ['beacon.http.status'],
   headline: 'Automatic Alerts for HTTP Status Codes',
   text: 'Receive an alert every time when matching HTTP Status Codes occur more often than usual.',
+  getAllTagFilters: () => availableFilterTags.httpRequest,
+  blacklistedTagFilters: createBlacklist(['beacon.http.status']),
   baselineEnabled: false,
   defaultMetric: 'httpxxx',
   getMetricName: alertRule => alertRule.metricName,
@@ -107,10 +110,12 @@ const throughputBlueprintConfig = Object.freeze({
   ...baseBlueprint,
   type: 'throughput',
   name: 'Throughput',
-  blacklistedTagFilters: [],
   headline: 'Automatic Alerts for Page Views',
   text:
     'Automatic alerts on anomalously low or high number of Page Loads or Page Transitions for selected pages of this Website.',
+  getAllTagFilters: metricName =>
+    metricName === 'pageLoads' ? availableFilterTags.pageLoad : availableFilterTags.pageChange,
+  blacklistedTagFilters: createBlacklist([]),
   baselineEnabled: true,
   defaultMetric: 'pageLoads',
   getMetricName: alertRule => alertRule.metricName,
@@ -167,27 +172,8 @@ export function getSimpleModeBlueprintConfig(alertType, alertThreshold) {
     .find(blueprint => !blueprint.isSelected || blueprint.isSelected(alertThreshold));
 }
 
-export function getAvailableTagFiltersPerAlertType(alertType, metricName) {
-  switch (alertType) {
-    case 'specificJsError':
-      return commonFilterTags;
-    case 'slowness':
-      return availableFilterTags.pageLoad;
-    case 'statusCode':
-      return availableFilterTags.httpRequest;
-    case 'throughput':
-      return metricName === 'pageLoads' ? availableFilterTags.pageLoad : availableFilterTags.pageChange;
-    default:
-      throw Error('Unsupported alertType: ' + alertType);
-  }
-}
-
-export function blacklistedTagFiltersOfAlertType(alertType) {
-  const config = getBlueprintConfig(alertType);
-  if (config) {
-    return [...config.blacklistedTagFilters];
-  }
-  return [];
+function createBlacklist(blacklistedTagFilters = []) {
+  return ['beacon.website.id', 'beacon.website.name', 'beacon.error.message', ...blacklistedTagFilters];
 }
 
 function isCustomRateMetric(metricName) {
