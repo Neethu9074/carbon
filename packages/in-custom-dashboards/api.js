@@ -111,6 +111,20 @@ function getConfiguredSlis() {
   );
 }
 
+export const getSliConfiguration = memoize(getConfiguredSliById, sliConfigId => sliConfigId, 60000);
+function getConfiguredSliById(sliConfigId) {
+  return refreshSignalSlis.flatMap(() =>
+    createObservable(
+      http({
+        method: 'GET',
+        maxRetries: 3,
+        url: `/api/settings/sli/${encodeURIComponent(sliConfigId)}`,
+        headers: getCsrfHeader()
+      })
+    )
+  );
+}
+
 export function createSliConfiguration(sliConfiguration) {
   return createObservable(
     http({
