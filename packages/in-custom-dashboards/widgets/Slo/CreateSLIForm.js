@@ -1,11 +1,15 @@
-import React, { useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 import { resetFormForSliType, createForm } from 'in-custom-dashboards/widgets/Slo/form/sliForm';
 import { SliForm } from 'in-custom-dashboards/widgets/Slo/SliFormPresenter';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { createSliConfiguration } from 'in-custom-dashboards/api';
+import SectionLine from 'in-settings/components/SectionLine';
+import Section from 'in-settings/components/Section';
 import Button from 'in-new-components/Button';
+
+import locals from './CreateSLIForm.mless';
 
 export default function CreateNewSLIForm({ api, apName, applicationId, close, sliConfig }) {
   const [form, setForm] = useState(createForm(sliConfig ?? {}, applicationId));
@@ -42,7 +46,7 @@ export default function CreateNewSLIForm({ api, apName, applicationId, close, sl
 
     const newSliId = uuidv4().slice(8);
     const enrichtedSliConfiguration = {
-      id: newSliId, // e.g. 'appname-1b9d6bcd'
+      id: newSliId,
       ...form.toJS()
     };
     createSliConfiguration(enrichtedSliConfiguration).subscribe(result => {
@@ -79,22 +83,28 @@ export default function CreateNewSLIForm({ api, apName, applicationId, close, sl
   return (
     <form onSubmit={e => onSubmit(e, form, setForm)}>
       <SliForm form={form} onChange={onChange} onChangeType={onChangeType} apName={apName} api={api} />
-      <div>
-        <Button kind="subtle" size="compact" onClick={close}>
-          cancel
-        </Button>
-        {form && (
-          <Button
-            icon={saving ? 'lib_actions_loading' : null}
-            iconSpinning
-            kind="create"
-            type="submit"
-            disabled={(!form.hierarchyValid && form.touched) || saving}
-          >
-            {saving ? savingStateName : saveButtonLabel}
+      <Fragment>
+        <Section className={locals.line}>
+          <SectionLine withMarginBottom={false} />
+        </Section>
+        <Section className={locals.saveCancelRow}>
+          <Button kind="subtle" size="compact" className={locals.button} onClick={close}>
+            Cancel
           </Button>
-        )}
-      </div>
+          {form && (
+            <Button
+              icon={saving ? 'lib_actions_loading' : null}
+              iconSpinning
+              className={locals.button}
+              kind="create"
+              type="submit"
+              disabled={(!form.hierarchyValid && form.touched) || saving}
+            >
+              {saving ? savingStateName : saveButtonLabel}
+            </Button>
+          )}
+        </Section>
+      </Fragment>
     </form>
   );
 }

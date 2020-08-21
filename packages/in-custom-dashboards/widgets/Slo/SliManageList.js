@@ -12,7 +12,6 @@ import SliList from 'in-custom-dashboards/widgets/Slo/SliList';
 import { isLoading, hasError } from 'in-services/util/result';
 import LightCardV2 from 'in-new-components/Card/LightCardV2';
 import { formatDateTime } from 'in-services/formatters/date';
-
 import { alwaysNull } from 'in-services/fixedStreams';
 import Button from 'in-new-components/Button';
 import Tooltip from 'in-components/Tooltip';
@@ -145,7 +144,7 @@ const onlyWithAPid = applicationId => {
 const columnDefinitions = [
   {
     sortable: false,
-    width: '3rem',
+    width: '1rem',
     getContent(item) {
       return getSvgIcon(item);
     }
