@@ -35,7 +35,7 @@ export const MetricsForm = ({ form, onChange }) => {
           value={metricName ?? ''}
           onChange={({ target }) => localOnChange?.(['metricName'], f => f.setValue(target.value).setTouched(true))}
         />
-        <TouchedMessages field={metricConfiguration?.get('metricAggregation')} />
+        <TouchedMessages field={metricConfiguration.get('metricName')} />
       </FormGroup>
       <FormGroup>
         <Label>Aggregation</Label>
@@ -46,12 +46,12 @@ export const MetricsForm = ({ form, onChange }) => {
             localOnChange?.(['metricAggregation'], f => f.setValue(target.value).setTouched(true))
           }
         />
-        <TouchedMessages field={metricConfiguration?.get('metricName')} />
+        <TouchedMessages field={metricConfiguration.get('metricAggregation')} />
       </FormGroup>
       <FormGroup>
         <Label>{getThresholdLabelWithUnit(metricName ?? 'latency')}</Label>
         <InputMock form={metricConfiguration} onChange={localOnChange} fieldName="threshold" />
-        <TouchedMessages field={metricConfiguration?.get('threshold')} />
+        <TouchedMessages field={metricConfiguration.get('threshold')} />
       </FormGroup>
     </StackItem>
   );
@@ -61,7 +61,7 @@ function getThresholdLabelWithUnit(metricName) {
   if (metricName === 'latency') {
     return 'Threshold (ms)';
   } else if (metricName === 'errors') {
-    return 'Threshold (percentage)';
+    return 'Threshold (rate)';
   }
   return 'Threshold (count)';
 }

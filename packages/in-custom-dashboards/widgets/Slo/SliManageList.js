@@ -166,10 +166,13 @@ const columnDefinitions = [
         return valueMissingPlaceholder;
       };
       const value = item => {
-        if (item?.sliEntity?.sliType === 'application') {
+        if (item.sliEntity?.sliType === 'application') {
           return 'Time-based, ' + (item?.metricConfiguration && metric(item.metricConfiguration));
+        } else if (item.sliEntity?.sliType === 'availability') {
+          return 'Event-based';
+        } else {
+          return '';
         }
-        return 'Event-based';
       };
       return (item && value(item)) ?? valueMissingPlaceholder;
     }

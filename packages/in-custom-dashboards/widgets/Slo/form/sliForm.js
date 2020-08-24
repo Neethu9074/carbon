@@ -140,7 +140,7 @@ function createMetricsForm(metricConfiguration) {
     .put(
       'threshold',
       createField({
-        validator: composeAndShortCircuitOnError(numericValidator, notUndefinedValidator),
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, numericValidator),
         value: metricConfiguration.threshold ?? 15
       })
     );
