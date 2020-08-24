@@ -122,24 +122,23 @@ function renderButtonLine(props) {
         area="application"
       />
 
-      {role.canConfigureCustomAlerts &&
-        applicationSmartAlertsEnabled && (
-          <FloatingActionButtons>
-            <CreateSmartAlert
-              applicationLabel={label}
-              serviceId={serviceId}
-              endpointId={endpointId}
-              applicationId={applicationId}
-              location={location}
-              boundaryScope={boundaryScope}
-            />
-          </FloatingActionButtons>
-        )}
+      {role.canConfigureCustomAlerts && applicationSmartAlertsEnabled && (
+        <FloatingActionButtons>
+          <CreateSmartAlert
+            applicationLabel={label}
+            serviceId={serviceId}
+            endpointId={endpointId}
+            applicationId={applicationId}
+            location={location}
+            boundaryScope={boundaryScope}
+          />
+        </FloatingActionButtons>
+      )}
     </>
   );
 }
 
-function renderButtonLineSecondary({ onBoundaryStateChange, result, boundaryScope }) {
+function renderButtonLineSecondary({ onBoundaryStateChange, result, boundaryScope, location }) {
   return (
     <InboundAllCallsDropdown
       data={result.data}
@@ -147,6 +146,7 @@ function renderButtonLineSecondary({ onBoundaryStateChange, result, boundaryScop
       onBoundaryStateChange={onBoundaryStateChange}
       area="application"
       defaultBoundaryScope={result.data?.boundaryScope}
+      disabled={location.pathname === '/application/map'}
     />
   );
 }
