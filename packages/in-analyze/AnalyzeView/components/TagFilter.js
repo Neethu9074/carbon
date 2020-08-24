@@ -18,7 +18,8 @@ export default function TagFilter({
   isOnlyFilter,
   allSameFilters,
   index,
-  tagFiltersToPresent
+  tagFiltersToPresent,
+  readonly
 }) {
   let { name, secondLevelName, value, operator, entity } = tagFilter.tag;
   const node = findSubTreeByFullyQualifiedName(name);
@@ -32,50 +33,54 @@ export default function TagFilter({
 
   return (
     <div className={locals.tagFilterWrapper}>
-      <div className={locals.tagFilter} onClick={tagFilter.onClick}>
+      <div
+        className={evaluateClassNames({
+          [locals.tagFilter]: true,
+          [locals.readonly]: readonly
+        })}
+        onClick={tagFilter.onClick}
+      >
         <EntityIndicator type={name} groupedByEntity={entity} />
         <span className={locals.name}>{name}</span>
         {operator && <span className={locals.operator}>{node ? getOperatorLabel(node.type, operator) : operator}</span>}
-        {value && <span className={locals.value}>{value}</span>}
+        {value && <span className={locals.value}>{`${value}`}</span>}
       </div>
 
-      {!isLastOperator &&
-        filterConnectionOperators &&
-        isFirstOperator && (
-          <div className={locals.firstOperatorPlaceholder}>
-            <FilterOperator
-              operators={filterConnectionOperators}
-              selectedOperator={tagFilter.tag.conjunction}
-              onOperatorChanged={onOperatorChanged}
-            />
-          </div>
-        )}
+      {!isLastOperator && filterConnectionOperators && isFirstOperator && (
+        <div className={locals.firstOperatorPlaceholder}>
+          <FilterOperator
+            operators={filterConnectionOperators}
+            selectedOperator={tagFilter.tag.conjunction}
+            onOperatorChanged={readonly ? () => {} : onOperatorChanged}
+          />
+        </div>
+      )}
 
-      {filterConnectionOperators &&
-        !isLastOperator &&
-        !isFirstOperator && (
-          <div className={locals.operatorPlaceholder}>
-            <FilterOperator
-              operators={filterConnectionOperators}
-              selectedOperator={tagFilter.tag.conjunction}
-              onOperatorChanged={onOperatorChanged}
-            />
-          </div>
-        )}
+      {filterConnectionOperators && !isLastOperator && !isFirstOperator && (
+        <div className={locals.operatorPlaceholder}>
+          <FilterOperator
+            operators={filterConnectionOperators}
+            selectedOperator={tagFilter.tag.conjunction}
+            onOperatorChanged={readonly ? () => {} : onOperatorChanged}
+          />
+        </div>
+      )}
 
       {isLastOperator && !isOnlyFilter && <div className={locals.lastOperatorPlaceholder} />}
 
       {isOnlyFilter && <div className={locals.onlyOperatorPlaceholder} />}
 
-      <SvgIcon
-        className={evaluateClassNames({
-          [locals.removeIcon]: true,
-          [locals.iconExtraMargin]:
-            tagFiltersToPresent.length > 2 && !allSameFilters && (isOrOperator || followsOrOperator)
-        })}
-        type="lib_openclose_cancel"
-        onClick={tagFilter.onRemove}
-      />
+      {!readonly && (
+        <SvgIcon
+          className={evaluateClassNames({
+            [locals.removeIcon]: true,
+            [locals.iconExtraMargin]:
+              tagFiltersToPresent.length > 2 && !allSameFilters && (isOrOperator || followsOrOperator)
+          })}
+          type="lib_openclose_cancel"
+          onClick={tagFilter.onRemove}
+        />
+      )}
     </div>
   );
 }

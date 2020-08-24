@@ -169,4 +169,9 @@
       background: @lib__colors__N300;
     }
   }
+
+  .readonly {
+    cursor: not-allowed;
+    pointer-events: none;
+  }
 }

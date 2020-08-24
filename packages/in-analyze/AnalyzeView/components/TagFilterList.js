@@ -8,7 +8,9 @@ export default function TagFilterList({
   tagFilters,
   defaultFilters,
   filterConnectionOperators = ['AND'],
-  onOperatorChanged
+  onOperatorChanged,
+  readonlyFilterNames = [],
+  hiddenFilterNames = []
 }) {
   const tagFiltersToPresent = tagFilters.filter(tagFilter => !isInDefaultFilters(defaultFilters, tagFilter)); // do not display default filters
 
@@ -20,22 +22,27 @@ export default function TagFilterList({
     <div className={locals.tagFilterListWrapper}>
       <ul className={locals.tagFilterList}>
         {tagFiltersToPresent.map((tagFilter, i) => {
-          return (
-            <li key={i} className={locals.item}>
-              <TagFilter
-                tagFilter={tagFilter}
-                isFirstOperator={i === 0}
-                isLastOperator={i === tagFilters.length - 1}
-                isOrConjunction={tagFilter.tag.conjunction === 'OR'}
-                filterConnectionOperators={filterConnectionOperators}
-                onOperatorChanged={operator => onOperatorChanged(i, operator)}
-                isOnlyFilter={tagFilters.length === 1}
-                allSameFilters={isSameConjunctions(tagFiltersToPresent)}
-                index={i}
-                tagFiltersToPresent={tagFiltersToPresent}
-              />
-            </li>
-          );
+          if (hiddenFilterNames?.includes(tagFilter.tag.name)) {
+            return null;
+          } else {
+            return (
+              <li key={i} className={locals.item}>
+                <TagFilter
+                  tagFilter={tagFilter}
+                  isFirstOperator={i === 0}
+                  isLastOperator={i === tagFilters.length - hiddenFilterNames.length - 1}
+                  isOrConjunction={tagFilter.tag.conjunction === 'OR'}
+                  filterConnectionOperators={filterConnectionOperators}
+                  onOperatorChanged={operator => onOperatorChanged(i, operator)}
+                  isOnlyFilter={tagFilters.length - hiddenFilterNames.length === 1}
+                  allSameFilters={isSameConjunctions(tagFiltersToPresent)}
+                  index={i}
+                  tagFiltersToPresent={tagFiltersToPresent}
+                  readonly={readonlyFilterNames.includes(tagFilter.tag.name)}
+                />
+              </li>
+            );
+          }
         })}
       </ul>
     </div>

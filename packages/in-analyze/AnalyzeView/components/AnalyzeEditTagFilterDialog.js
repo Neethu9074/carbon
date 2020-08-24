@@ -11,11 +11,13 @@ import { TAG_TYPES } from 'in-analyze/applicationFilter';
 const mapResultData = mapDataHO(data => data.suggestions);
 
 export default withProps(props => {
-  const { filters, addTagFilter, setTagFilters, trackFilterChanged, trackFilterRemoved } = props;
+  const { filters, addTagFilter, setTagFilters, trackFilterChanged, trackFilterRemoved, excludedTagFilters } = props;
   const dataSourceConfig = getConfigByDataSource(filters.dataSource);
   const tagFilters = filters.tagFilter;
   const timeConfig = filters.timeConfig;
-  const filterTagKeys = dataSourceConfig.filterTagKeys;
+  const filterTagKeys = excludedTagFilters
+    ? dataSourceConfig.filterTagKeys.filter(tag => !excludedTagFilters.includes(tag))
+    : dataSourceConfig.filterTagKeys;
 
   return {
     tagFilters,
