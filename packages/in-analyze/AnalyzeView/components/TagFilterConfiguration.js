@@ -40,10 +40,17 @@ export default compose(
 )(QuickFilterForm);
 
 function QuickFilterForm(props) {
-  const { tagFilters, removeTagFilter } = props;
+  const { tagFilters, removeTagFilter, excludedTagFilters } = props;
   return (
     <TagFilterConfigurationWrapper
-      quickFilterBar={<QuickFilterBar {...props} showLatencySelector={false} showHiddenCallsSelector={false} />}
+      quickFilterBar={
+        <QuickFilterBar
+          {...props}
+          showLatencySelector={false}
+          showHiddenCallsSelector={false}
+          excludedTagFilters={excludedTagFilters}
+        />
+      }
       isEmpty={tagFilters.length === 0}
       tagFilterList={
         // For some reason the AP tag filter list needs a custom tag filters list. No idea why it just

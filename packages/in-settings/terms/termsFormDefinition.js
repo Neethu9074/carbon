@@ -1,11 +1,13 @@
 import { createField, createMapForm, notBlankValidator } from 'formalistic';
 
+import { isDeprecatedUserDefinedRole } from 'in-stores/user';
+
 export default function termsFormDefinition(userSettings, withAcceptanceFields = true) {
   let form = createMapForm()
     .put(
       'role',
       createField({
-        value: userSettings ? userSettings.role : '',
+        value: userSettings && !isDeprecatedUserDefinedRole(userSettings.role) ? userSettings.role : '',
         validator: withAcceptanceFields && roleValidator
       })
     )

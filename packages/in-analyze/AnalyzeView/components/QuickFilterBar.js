@@ -18,69 +18,88 @@ import SvgIcon from 'in-components/SvgIcon';
 import locals from './QuickFilterBar.mless';
 
 export default function QuickFilterBar(props) {
-  const { filters, clearTagFilters, onMoreClick, showHiddenCallsSelector = true, showLatencySelector = true } = props;
+  const {
+    filters,
+    clearTagFilters,
+    onMoreClick,
+    showHiddenCallsSelector = true,
+    showLatencySelector = true,
+    excludedTagFilters = []
+  } = props;
   const dataSourceConfig = getConfigByDataSource(filters.dataSource);
 
   const tagFilters = filters.tagFilter;
   const timeConfig = filters.timeConfig;
 
+  const isNotExcluded = tagFilter => !excludedTagFilters.includes(tagFilter);
+
   return (
     <Bar showClearFilters={tagFilters.length > 0} onClearFilters={clearTagFilters}>
-      <AnalyzeSelectBarItem
-        {...props}
-        timeConfig={timeConfig}
-        tagFilters={tagFilters}
-        tag="application.name"
-        singularLabel="Application"
-        pluralLabel="Application"
-        itemLabelRenderer={renderApplicationServiceEndpointItem('lib_application')}
-        withoutTextTransform
-      />
-      <AnalyzeSelectBarItem
-        {...props}
-        timeConfig={timeConfig}
-        tagFilters={tagFilters}
-        tag="service.name"
-        singularLabel="Service"
-        pluralLabel="Services"
-        itemLabelRenderer={renderApplicationServiceEndpointItem('lib_application_service')}
-        withoutTextTransform
-      />
-      <AnalyzeSelectBarItem
-        {...props}
-        timeConfig={timeConfig}
-        tagFilters={tagFilters}
-        tag="endpoint.name"
-        singularLabel="Endpoint"
-        pluralLabel="Endpoints"
-        itemLabelRenderer={renderApplicationServiceEndpointItem('lib_application_endpoint')}
-        precondition={() => !!getTagFromList(tagFilters, { name: 'service.name' })}
-        preconditionFailedTooltip="Please select a service before selecting an endpoint."
-        withoutTextTransform
-      />
-      <AnalyzeSelectBarItem
-        {...props}
-        timeConfig={timeConfig}
-        tagFilters={tagFilters}
-        tag="call.type"
-        singularLabel="Type"
-        pluralLabel="Types"
-        selectedItemRenderer={renderType}
-        itemLabelRenderer={renderType}
-      />
-      <AnalyzeMultiSelectBarItem
-        {...props}
-        timeConfig={timeConfig}
-        tagFilters={tagFilters}
-        tag="technology"
-        singularLabel="Technology"
-        pluralLabel="Technologies"
-        selectedItemRenderer={getTechnologyLabel}
-        itemLabelRenderer={itemLabel => (
-          <TechnologyLabelWithIcon plugin={itemLabel} label={getTechnologyLabel(itemLabel)} is10Icon />
-        )}
-      />
-      {showLatencySelector && (
+      {isNotExcluded('application.name') && (
+        <AnalyzeSelectBarItem
+          {...props}
+          timeConfig={timeConfig}
+          tagFilters={tagFilters}
+          tag="application.name"
+          singularLabel="Application"
+          pluralLabel="Application"
+          itemLabelRenderer={renderApplicationServiceEndpointItem('lib_application')}
+          withoutTextTransform
+        />
+      )}
+      {isNotExcluded('service.name') && (
+        <AnalyzeSelectBarItem
+          {...props}
+          timeConfig={timeConfig}
+          tagFilters={tagFilters}
+          tag="service.name"
+          singularLabel="Service"
+          pluralLabel="Services"
+          itemLabelRenderer={renderApplicationServiceEndpointItem('lib_application_service')}
+          withoutTextTransform
+        />
+      )}
+      {isNotExcluded('endpoint.name') && (
+        <AnalyzeSelectBarItem
+          {...props}
+          timeConfig={timeConfig}
+          tagFilters={tagFilters}
+          tag="endpoint.name"
+          singularLabel="Endpoint"
+          pluralLabel="Endpoints"
+          itemLabelRenderer={renderApplicationServiceEndpointItem('lib_application_endpoint')}
+          precondition={() => !!getTagFromList(tagFilters, { name: 'service.name' })}
+          preconditionFailedTooltip="Please select a service before selecting an endpoint."
+          withoutTextTransform
+        />
+      )}
+      {isNotExcluded('call.type') && (
+        <AnalyzeSelectBarItem
+          {...props}
+          timeConfig={timeConfig}
+          tagFilters={tagFilters}
+          tag="call.type"
+          singularLabel="Type"
+          pluralLabel="Types"
+          selectedItemRenderer={renderType}
+          itemLabelRenderer={renderType}
+        />
+      )}
+      {isNotExcluded('technology') && (
+        <AnalyzeMultiSelectBarItem
+          {...props}
+          timeConfig={timeConfig}
+          tagFilters={tagFilters}
+          tag="technology"
+          singularLabel="Technology"
+          pluralLabel="Technologies"
+          selectedItemRenderer={getTechnologyLabel}
+          itemLabelRenderer={itemLabel => (
+            <TechnologyLabelWithIcon plugin={itemLabel} label={getTechnologyLabel(itemLabel)} is10Icon />
+          )}
+        />
+      )}
+      {showLatencySelector && isNotExcluded(dataSourceConfig.latencyTagPreset) && (
         <NumberBarItem
           {...props}
           tagFilters={tagFilters}
@@ -92,14 +111,15 @@ export default function QuickFilterBar(props) {
           minValue="1"
         />
       )}
-      <BooleanBarItem
-        {...props}
-        timeConfig={timeConfig}
-        tagFilters={tagFilters}
-        tag={dataSourceConfig.errorneousTagPreset}
-        singularLabel="Erroneous"
-      />
-
+      {isNotExcluded(dataSourceConfig.errorneousTagPreset) && (
+        <BooleanBarItem
+          {...props}
+          timeConfig={timeConfig}
+          tagFilters={tagFilters}
+          tag={dataSourceConfig.errorneousTagPreset}
+          singularLabel="Erroneous"
+        />
+      )}
       {showHiddenCallsSelector && (
         <CheckboxBarItem
           {...props}

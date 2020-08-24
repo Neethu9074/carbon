@@ -15,8 +15,8 @@ export function translateDemocratisationTagFiltersToAnalyzeTagFilters({ mobileAp
   }
   // replace mobile app ID filter with something more understandable by users.
   if (tagFiltersForAnalyze.some(f => f.name === 'mobileBeacon.mobileApp.id')) {
-    return tagFiltersForAnalyze.map(
-      f => (f.name !== 'mobileBeacon.mobileApp.id' ? f : getMobileAppLabelTagFilter(mobileAppLabel))
+    return tagFiltersForAnalyze.map(f =>
+      f.name !== 'mobileBeacon.mobileApp.id' ? f : getMobileAppLabelTagFilter(mobileAppLabel)
     );
   }
   // or add the mobile app label tag filter to the end if mobile app ID is filter is not present
@@ -75,7 +75,8 @@ const commonGroupingTags = [
   'mobileBeacon.app.version',
   'mobileBeacon.os.name',
   'mobileBeacon.os.version',
-  'mobileBeacon.device.name'
+  'mobileBeacon.device.name',
+  'mobileBeacon.platform'
 ];
 
 export const availableGroupingTags = {
