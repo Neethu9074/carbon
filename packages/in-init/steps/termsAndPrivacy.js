@@ -7,12 +7,13 @@ import { saveTosPrivacyAgreement } from 'in-settings/api/saveTosPrivacyAgreement
 import ErrorBoundary from 'in-components/ErrorBoundary/ErrorBoundary';
 import { fullTermsConfigEnabled } from 'in-services/featureFlags';
 import TermsDialog from 'in-settings/terms/dialog/TermsDialog';
+import { isDeprecatedUserDefinedRole } from 'in-stores/user';
 
 import 'in-themes/foundation.less';
 
 export function init() {
   const accepted = window.instana.termsAndPrivacyAccepted;
-  if (accepted && !userHasDeprecatedRole()) {
+  if (accepted && !isDeprecatedUserDefinedRole(window.instana?.termsAndPrivacySettings?.role)) {
     return just(true);
   }
 
@@ -36,15 +37,5 @@ function onSave(tosPrivacyAgreement, setIsError) {
       logger.error(`failed to save TosPrivacyAgreement: ${tosPrivacyAgreement} ${error.message}`, error);
       setIsError(true);
     }
-  );
-}
-
-function userHasDeprecatedRole() {
-  const userSelfDefinedRole = window.instana?.termsAndPrivacySettings?.role;
-  return (
-    userSelfDefinedRole === 'undefined' ||
-    userSelfDefinedRole === 'developer' ||
-    userSelfDefinedRole === 'sysadmin' ||
-    userSelfDefinedRole === 'nonTechnical'
   );
 }
