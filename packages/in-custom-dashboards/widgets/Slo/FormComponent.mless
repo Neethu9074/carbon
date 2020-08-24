@@ -12,6 +12,9 @@
 
     max-width: 1002px;
   }
+  .previewContainer {
+    height: 450px;
+  }
 
   .field {
     width: 6rem;
@@ -20,6 +23,9 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+  }
+  .oneLineLabel {
+    margin-top: 0.25rem;
   }
   .sloUnit {
     margin-left: 0.5rem;
