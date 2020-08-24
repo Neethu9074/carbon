@@ -20,10 +20,31 @@ export default {
     }
 
     const lineWidth = config.y1?.lineWidth ?? 2;
+    const isStaticBudget = config.y1?.isStaticBudget ?? false;
     const markerPaneHeight = config.markerPaneHeight;
+
+    // we want to shift the metric half a "bucket" to the left, to that the plateau is in the middle
+    const stepDelta =
+      config.xScaleBackBuffer.getRange(dataSeries[1][0]) - config.xScaleBackBuffer.getRange(dataSeries[0][0]);
+    const shiftX = stepDelta / 2.0;
 
     let previousPosY;
     const lineVertices = [];
+
+    // extend first value by half a bucket
+    const firstDataPoint = dataSeries[0];
+    const firstPosX = config.xScaleBackBuffer.getRange(firstDataPoint[0]);
+    if (isStaticBudget) {
+      // extend first value as is
+      const posY = scale.getRange(firstDataPoint[1]);
+      lineVertices.push([firstPosX - stepDelta, posY]);
+    } else {
+      // extend fist value as new zero-step if the budget is hourly changing
+      const posY = scale.getRange(0);
+      lineVertices.push([firstPosX - stepDelta, posY]);
+      lineVertices.push([firstPosX - shiftX, posY]);
+    }
+
     for (let i = 0; i < dataSeries.length; i++) {
       const dataPoint = dataSeries[i];
       if (!dataPoint) {
@@ -33,12 +54,16 @@ export default {
       const posX = config.xScaleBackBuffer.getRange(dataPoint[0]);
       const posY = scale.getRange(dataPoint[1]);
       if (previousPosY) {
-        lineVertices.push([posX, previousPosY]);
+        lineVertices.push([posX - shiftX, previousPosY]);
       }
-      lineVertices.push([posX, posY]);
+      lineVertices.push([posX - shiftX, posY]);
 
       previousPosY = posY;
     }
+
+    // extend last value by half a bucket
+    const posX = config.xScaleBackBuffer.getRange(dataSeries[dataSeries.length - 1][0]);
+    lineVertices.push([posX + shiftX, previousPosY]);
 
     config.backBufferCtx.beginPath();
     config.backBufferCtx.strokeStyle = color;
