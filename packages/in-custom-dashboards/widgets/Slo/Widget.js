@@ -155,8 +155,7 @@ export default function Widget({ actions, config, isPreview, title, dragHandle, 
   const sliColor = slo === null || sli === null ? '' : sli >= slo ? GREEN : RED;
   const budgetColor = !remaining ? '' : remaining > 0 ? GREEN : RED;
 
-  const sliEntity = sliConfig?.sliEntity;
-  const sliFormatter = getSliFormatter(sliEntity);
+  const sliFormatter = getSliFormatter(sliConfig?.sliEntity);
 
   return (
     <LightCardV2
@@ -207,7 +206,7 @@ export default function Widget({ actions, config, isPreview, title, dragHandle, 
           consumed={filterAvailableData(findResultMetric('consumed'))}
           hourlyBudget={filterAvailableData(findResultMetric('hourlyBudget'))}
           budget={budget}
-          sliEntity={sliEntity}
+          sliConfig={sliConfig}
           isPreview={isPreview}
         />
       </div>

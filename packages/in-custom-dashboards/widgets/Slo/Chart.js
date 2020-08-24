@@ -2,14 +2,14 @@ import React from 'react';
 
 import stairway, { hourlyBudgetMetricId } from 'in-custom-dashboards/widgets/Slo/renderer/stairway';
 import { groupByEndpointName, groupByServiceName } from 'in-analyze/AnalyzeView/dataSources';
+import { EQUALS, GREATER_THAN } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
 import { getSliFormatter } from 'in-custom-dashboards/widgets/Slo/sliConfigUtils';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import theme from 'in-themes';
 
-export default function Chart({ result, timeConfig, consumed, hourlyBudget, budget, sliEntity, isPreview }) {
+export default function Chart({ result, timeConfig, consumed, hourlyBudget, budget, sliConfig, isPreview }) {
   const isStaticBudget = hourlyBudget === null || hourlyBudget.length === 0;
-
   let metrics = [consumed, hourlyBudget];
   if (isStaticBudget) {
     // TODO replace with a more elegant way, by moving this feature into the renderer
@@ -34,20 +34,23 @@ export default function Chart({ result, timeConfig, consumed, hourlyBudget, budg
           colors: [theme.lib.colors.blue800, theme.lib.colors.red800],
           renderer: stairway,
           metrics: [...metrics],
-          formatter: getSliFormatter(sliEntity),
+          formatter: getSliFormatter(sliConfig?.sliEntity),
           isStaticBudget
         },
         nonInteractive: isPreview,
-        ...getCustomAnalyzeContextMenuProperties(sliEntity)
+        ...getCustomAnalyzeContextMenuProperties(sliConfig)
       }}
     />
   );
 }
 
-function getCustomAnalyzeContextMenuProperties(sliEntity) {
-  if (!sliEntity) {
+function getCustomAnalyzeContextMenuProperties(sliConfig) {
+  if (!sliConfig) {
     return {}; // use defaults
   }
+
+  const sliEntity = sliConfig.sliEntity;
+  const filters = getAnalyzeFilters(sliConfig);
 
   return {
     primaryContextMenuAction: 'analyze',
@@ -67,10 +70,62 @@ function getCustomAnalyzeContextMenuProperties(sliEntity) {
               timeConfig: highlightedTime,
               boundaryScope: sliEntity.boundaryScope,
               groupByTag:
-                sliEntity.serviceId == null && sliEntity.endpointId == null ? groupByServiceName : groupByEndpointName
+                sliEntity.serviceId == null && sliEntity.endpointId == null ? groupByServiceName : groupByEndpointName,
+              filters
             }
           )
       }
     ]
   };
+}
+
+function getAnalyzeFilters(sliConfig) {
+  const filters = [];
+  const sliEntity = sliConfig.sliEntity;
+  if (sliEntity.sliType === 'availability') {
+    const badAnalyzeFilters = convertToAnalyzeFilters(sliEntity.badEventFilters);
+    filters.push(...badAnalyzeFilters);
+  } else if (sliEntity.sliType === 'application') {
+    switch (sliConfig.metricConfiguration.metricName) {
+      case 'latency': {
+        const thresholdValue = sliConfig.metricConfiguration.threshold;
+        filters.push(createAnalyzeFilter('call.latency', GREATER_THAN, thresholdValue));
+        break;
+      }
+      case 'errors':
+      case 'erroneousCalls':
+        filters.push(createAnalyzeFilter('call.erroneous', EQUALS, true));
+        break;
+      case 'calls':
+      default:
+        // no filter to add
+        break;
+    }
+  }
+  return filters;
+}
+
+function convertToAnalyzeFilters(tagFilters) {
+  return tagFilters.map(tagFilter => {
+    return {
+      name: tagFilter.name,
+      operator: tagFilter.operator,
+      value: getTagFilterValue(tagFilter),
+      entity: tagFilter.entity
+    };
+  });
+}
+
+function getTagFilterValue(tagFilter) {
+  if (tagFilter.hasOwnProperty('stringValue')) {
+    return tagFilter.stringValue;
+  }
+  if (tagFilter.hasOwnProperty('numberValue')) {
+    return tagFilter.numberValue;
+  }
+  return tagFilter.booleanValue;
+}
+
+function createAnalyzeFilter(name, operator, value) {
+  return { name, operator, value };
 }
