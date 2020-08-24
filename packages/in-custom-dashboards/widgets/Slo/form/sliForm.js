@@ -1,9 +1,9 @@
 import { createMapForm, createField } from 'formalistic';
-
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
 import { notBlankValidator } from 'in-services/validators/string';
 import { buildEnumValidator } from 'in-services/validators/enum';
+import { numericValidator } from 'in-services/validators/number';
 import { boundaryScopes } from 'in-applications/constants';
 
 export const ApplicationType = 'application';
@@ -126,18 +126,21 @@ function createMetricsForm(metricConfiguration) {
     .put(
       'metricName',
       createField({
+        validator: composeAndShortCircuitOnError(notBlankValidator, notUndefinedValidator),
         value: metricConfiguration.metricName ?? 'latency'
       })
     )
     .put(
       'metricAggregation',
       createField({
+        validator: composeAndShortCircuitOnError(notBlankValidator, notUndefinedValidator),
         value: metricConfiguration.metricAggregation ?? 'P90'
       })
     )
     .put(
       'threshold',
       createField({
+        validator: composeAndShortCircuitOnError(numericValidator, notUndefinedValidator),
         value: metricConfiguration.threshold ?? 15
       })
     );
