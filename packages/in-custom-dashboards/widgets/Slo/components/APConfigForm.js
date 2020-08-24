@@ -58,6 +58,7 @@ export default function APConfigForm({ api, form, onChange }) {
         <Col xs={12}>
           <Message
             withIcon
+            small
             title="Set up user journeys / offerings by modeling them as an Application Perspective in the Applications area of
           the product."
           />

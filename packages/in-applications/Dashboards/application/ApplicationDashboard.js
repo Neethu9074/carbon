@@ -123,7 +123,7 @@ function renderButtonLine(props) {
   );
 }
 
-function renderButtonLineSecondary({ onBoundaryStateChange, result, boundaryScope }) {
+function renderButtonLineSecondary({ onBoundaryStateChange, result, boundaryScope, location }) {
   return (
     <InboundAllCallsDropdown
       data={result.data}
@@ -131,6 +131,7 @@ function renderButtonLineSecondary({ onBoundaryStateChange, result, boundaryScop
       onBoundaryStateChange={onBoundaryStateChange}
       area="application"
       defaultBoundaryScope={result.data?.boundaryScope}
+      disabled={location.pathname === '/application/map'}
     />
   );
 }

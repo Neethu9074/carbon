@@ -37,23 +37,22 @@ export default function EndpointSelectBox({ applicationId, serviceId, boundarySc
   const { progress, errors, data } = endpointsResponse;
   const endpointItems = data?.items?.map(({ endpoint }) => ({ value: endpoint.id, label: endpoint.label }));
 
-  // TODO: improve error handling
+  if (progress?.loading) return <DropDownMock options={[{ value: '', label: '<loading>' }]} disabled />;
+
   return (
     <>
-      {!endpointItems && progress?.loading && !errors && (
-        <DropDownMock options={[{ value: '', label: '<loading>' }]} disabled />
-      )}
-      {endpointItems && (
+      {
         <DropDownMock
+          disabled={errors && errors?.length !== 0}
           options={[
             { value: undefined, label: 'Please select' },
             { value: '', label: 'All Endpoints' },
-            ...endpointItems
+            ...(endpointItems ?? [])
           ]}
           value={value ?? ''}
           onChange={({ target }) => onChange?.(target?.value)}
         />
-      )}
+      }
     </>
   );
 }

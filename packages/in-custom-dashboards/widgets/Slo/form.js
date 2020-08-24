@@ -1,11 +1,13 @@
 import { createMapForm, notBlankValidator, createField, composeValidators } from 'formalistic';
 import moment from 'moment';
 
+import { sloValidator } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/sli/form';
+import { numericValidator, positiveNumberValidator } from 'in-services/validators/number';
 import { formatDate, formatTime, parseDateTime } from 'in-services/formatters/date';
+import { numberValidator, stringValidator } from 'in-services/validators/jsonType';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { dateValidator, timeValidator } from 'in-services/validators/date';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
-import { numericValidator } from 'in-services/validators/number';
 import { demo } from 'in-custom-dashboards/widgets/Slo';
 
 export const SliConfigId = 'sliConfigId';
@@ -38,21 +40,21 @@ export function createForm(oldSavedState) {
   form = form.put(
     SliApConfigId,
     createField({
-      validator: composeAndShortCircuitOnError(notUndefinedValidator),
+      validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator),
       value: savedState[SliApConfigId]
     })
   );
   form = form.put(
     SloTarget,
     createField({
-      validator: composeAndShortCircuitOnError(notUndefinedValidator, numericValidator),
+      validator: composeAndShortCircuitOnError(notUndefinedValidator, numberValidator, sloValidator),
       value: savedState[SloTarget] ?? demo[SloTarget]
     })
   );
   form = form.put(
     SliConfigId,
     createField({
-      validator: composeAndShortCircuitOnError(notUndefinedValidator, notBlankValidator),
+      validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator),
       value: savedState[SliConfigId]
     })
   );
@@ -72,7 +74,7 @@ export function createForm(oldSavedState) {
   form = form.put(
     TimeWindowDuration,
     createField({
-      validator: composeAndShortCircuitOnError(numericValidator),
+      validator: composeAndShortCircuitOnError(numericValidator, notBlankValidator, positiveNumberValidator),
       value: savedState[TimeWindowDuration] ?? '1'
     })
   );

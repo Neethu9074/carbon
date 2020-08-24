@@ -1,7 +1,18 @@
 import { createMapForm, createField } from 'formalistic';
 
+import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
+import { notUndefinedValidator } from 'in-services/validators/undefined';
+import { notBlankValidator } from 'in-services/validators/string';
+import { buildEnumValidator } from 'in-services/validators/enum';
+import { boundaryScopes } from 'in-applications/constants';
+
 export const ApplicationType = 'application';
 export const AvailabilityType = 'availability';
+
+export const sliTypeOptions = Object.freeze([
+  { value: ApplicationType, label: 'Time-based' },
+  { value: AvailabilityType, label: 'Event-based' }
+]);
 
 export function createForm(sliConfig, applicationId) {
   const sliEntityWithApplicationId = {
@@ -16,7 +27,13 @@ export function createForm(sliConfig, applicationId) {
   if (id) {
     form = form.put('id', createField({ value: id }));
   }
-  form = form.put('sliName', createField({ value: sliName ?? '' }));
+  form = form.put(
+    'sliName',
+    createField({
+      value: sliName ?? '',
+      validator: composeAndShortCircuitOnError(notUndefinedValidator, notBlankValidator)
+    })
+  );
   form = form.put('sliEntity', createSliEntityForm(sliEntity));
   if (sliEntity.sliType === ApplicationType) {
     form = form.put('metricConfiguration', createMetricsForm(metricConfiguration ?? {}));
@@ -29,6 +46,11 @@ function createSliEntityForm(sliEntity) {
     .put(
       'sliType',
       createField({
+        validator: composeAndShortCircuitOnError(
+          notUndefinedValidator,
+          notNullValidator,
+          buildEnumValidator([ApplicationType, AvailabilityType])
+        ),
         value: sliEntity.sliType ?? null
       })
     )
@@ -53,7 +75,7 @@ function createSliEntityForm(sliEntity) {
     .put(
       'boundaryScope',
       createField({
-        value: sliEntity.boundaryScope ?? null
+        value: sliEntity.boundaryScope ?? boundaryScopes.inbound
       })
     );
 
@@ -89,7 +111,13 @@ export function resetFormForSliType(sliType, setForm, form) {
         .updateIn(['sliEntity'], f => f.remove('badEventFilters'))
     );
   } else {
-    setForm(newForm.remove('metricConfiguration').updateIn(['sliEntity'], f => addGoodBadEventsForm(f)));
+    setForm(
+      newForm
+        .updateIn(['sliEntity', 'serviceId'], f => f.setValue(null).setTouched(true))
+        .updateIn(['sliEntity', 'endpointId'], f => f.setValue(null).setTouched(true))
+        .remove('metricConfiguration')
+        .updateIn(['sliEntity'], f => addGoodBadEventsForm(f))
+    );
   }
 }
 
@@ -114,3 +142,14 @@ function createMetricsForm(metricConfiguration) {
       })
     );
 }
+
+const notNullValidator = v => {
+  if (v === null) {
+    return [
+      {
+        severity: 'error',
+        message: `A value must be selected.`
+      }
+    ];
+  }
+};

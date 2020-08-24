@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { get } from 'lodash';
 
 import { getSliConfigurations, deleteSliConfiguration } from 'in-custom-dashboards/api';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
@@ -12,14 +13,14 @@ import SliList from 'in-custom-dashboards/widgets/Slo/SliList';
 import { isLoading, hasError } from 'in-services/util/result';
 import LightCardV2 from 'in-new-components/Card/LightCardV2';
 import { formatDateTime } from 'in-services/formatters/date';
+import KeyValue from 'in-new-components/lists/KeyValue';
 import { alwaysNull } from 'in-services/fixedStreams';
 import WithIcon from 'in-new-components/WithIcon';
 import Button from 'in-new-components/Button';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
-import WithSubscript from './WithSubscript';
 import connectTo from 'in-hoc/connectTo';
-import { get } from 'lodash';
+import theme from 'in-themes';
 
 import locals from './SliManageList.mless';
 
@@ -43,7 +44,7 @@ export default function SliManageList({ api = DEFAULT_API, applicationId, apName
       showSlideInContent={sliSelected}
       HeaderComponent={ListHeader}
       slideTransitionDurationMillis={500}
-      slideInContentTitle={'Back to SLIs️'}
+      slideInContentTitle={'SLI List'}
       slideInContent={
         <div
           style={{
@@ -51,7 +52,6 @@ export default function SliManageList({ api = DEFAULT_API, applicationId, apName
             paddingRight: '1rem'
           }}
         >
-          {<Button onClick={() => selectSli(null)}>Back to List of SLIs</Button>}
           {sliSelected && (
             <LightCardV2>
               <CreateNewSLIForm apName={apName} sliConfig={sliSelected} applicationId={applicationId} close={close} />
@@ -103,7 +103,7 @@ export default function SliManageList({ api = DEFAULT_API, applicationId, apName
                                 {
                                   type: 'info',
                                   timeout: 2000,
-                                  content: 'Sli configuration was successfully deleted.'
+                                  content: 'SLI configuration was successfully deleted.'
                                 },
                                 'custom-dashboard-info'
                               );
@@ -145,12 +145,11 @@ const onlyWithAPid = applicationId => {
 const columnDefinitions = [
   {
     id: 'name',
-    sortable: true,
+    sortable: false,
     label: 'Name',
     getContent(item) {
-      const icon = getIcon(item);
       return (
-        <WithIcon className={locals.icon} icon={icon.icon}>
+        <WithIcon iconColor={theme.lib.colors.N500} icon={getIcon(item)} className={locals.withIcon}>
           {getSliNameWithSubscript(item)}
         </WithIcon>
       );
@@ -187,11 +186,11 @@ const columnDefinitions = [
 
 function getIcon(item) {
   if (item?.sliEntity?.endpointId) {
-    return { icon: 'lib_application_endpoint' };
+    return 'lib_application_endpoint';
   } else if (item?.sliEntity?.serviceId) {
-    return { icon: 'lib_application_service' };
+    return 'lib_application_service';
   }
-  return { icon: 'lib_application' };
+  return 'lib_application';
 }
 
 function getLabel(result) {
@@ -200,17 +199,12 @@ function getLabel(result) {
 
 function getSliNameWithSubscript(item) {
   return (
-    <WithSubscript
-      subscript={
-        <Labels
-          applicationId={item?.sliEntity?.applicationId}
-          serviceId={item?.sliEntity?.serviceId}
-          endpointId={item?.sliEntity?.endpointId}
-        />
-      }
-    >
-      <span className={locals.ellipsis}>{item.sliName}</span>
-    </WithSubscript>
+    <Labels
+      sliName={item.sliName}
+      applicationId={item?.sliEntity?.applicationId}
+      serviceId={item?.sliEntity?.serviceId}
+      endpointId={item?.sliEntity?.endpointId}
+    />
   );
 }
 
@@ -233,6 +227,6 @@ const Labels = connectTo(
     if (props.endpointLabel) {
       subscript = subscript + ' > ' + props.endpointLabel;
     }
-    return subscript;
+    return <KeyValue label={subscript} value={props.sliName} />;
   }
 );

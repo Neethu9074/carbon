@@ -1,0 +1,7 @@
+@import '~in-themes/active.less';
+
+:local {
+  .applicationName[disabled]{
+    color: @lib__colors__N700Medium;
+  }
+}

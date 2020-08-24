@@ -5,18 +5,12 @@ import DisabledBodyScroll from 'in-components/DisabledBodyScroll';
 import ApplicationMap from 'in-new-components/ApplicationMap';
 
 export default function _Map(props) {
-  const { boundaryScope: urlBoundaryScope, applicationId, data } = props;
-  const boundaryScope = urlBoundaryScope || data.boundaryScope;
+  const { applicationId, data } = props;
   return (
     <Fragment>
       <FullHeightWrapper
         render={height => (
-          <ApplicationMap
-            data={data}
-            boundaryScope={boundaryScope}
-            applicationId={applicationId}
-            customHeight={height}
-          />
+          <ApplicationMap data={data} boundaryScope={'ALL'} applicationId={applicationId} customHeight={height} />
         )}
       />
       <DisabledBodyScroll />
