@@ -8,8 +8,10 @@ import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import theme from 'in-themes';
 
 export default function Chart({ result, timeConfig, consumed, hourlyBudget, budget, sliEntity, isPreview }) {
+  const isStaticBudget = hourlyBudget === null || hourlyBudget.length === 0;
+
   let metrics = [consumed, hourlyBudget];
-  if (hourlyBudget === null || hourlyBudget.length === 0) {
+  if (isStaticBudget) {
     // TODO replace with a more elegant way, by moving this feature into the renderer
     metrics = [consumed, consumed.map(timeValue => [timeValue[0], budget])];
   }
@@ -32,7 +34,8 @@ export default function Chart({ result, timeConfig, consumed, hourlyBudget, budg
           colors: [theme.lib.colors.blue800, theme.lib.colors.red800],
           renderer: stairway,
           metrics: [...metrics],
-          formatter: getSliFormatter(sliEntity)
+          formatter: getSliFormatter(sliEntity),
+          isStaticBudget
         },
         nonInteractive: isPreview,
         ...getCustomAnalyzeContextMenuProperties(sliEntity)
