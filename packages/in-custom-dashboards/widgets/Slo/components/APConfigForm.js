@@ -8,7 +8,7 @@ import { Row, Col } from 'in-new-components/layout/Grid';
 import KeyValue from 'in-new-components/lists/KeyValue';
 import FormGroup from 'in-components/form/FormGroup';
 import useObservable from 'in-hooks/useObservable';
-import Message from 'in-new-components/Message';
+import HelpText from 'in-components/form/HelpText';
 import Select from 'in-components/form/Select';
 
 export default function APConfigForm({ api, form, onChange }) {
@@ -25,7 +25,7 @@ export default function APConfigForm({ api, form, onChange }) {
         </Col>
         <Col xs>
           {sliApConfigIdField.map(field => (
-            <FormGroup>
+            <FormGroup withoutBottomMargin>
               <Select
                 id="sli-config-ap"
                 value={field?.value}
@@ -52,16 +52,12 @@ export default function APConfigForm({ api, form, onChange }) {
                   ))}
               </Select>
               <TouchedMessages field={field} />
+              <HelpText>
+                Set up user journeys / offerings by modeling them as an Application Perspective in the Applications area
+                of the product.
+              </HelpText>
             </FormGroup>
           ))}
-        </Col>
-        <Col xs={12}>
-          <Message
-            withIcon
-            small
-            title="Set up user journeys / offerings by modeling them as an Application Perspective in the Applications area of
-          the product."
-          />
         </Col>
       </Row>
     </div>

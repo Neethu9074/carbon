@@ -108,7 +108,7 @@ export default class Chart {
       return;
     }
 
-    const metricIds = axis.metricIds.filter((series, i) => filteredIndices.indexOf(i) === -1);
+    const metricIds = axis.metricIds?.filter((series, i) => filteredIndices.indexOf(i) === -1);
     const metrics = axis.metrics.filter((series, i) => filteredIndices.indexOf(i) === -1);
     const colors = axis.colors.filter((series, i) => filteredIndices.indexOf(i) === -1);
     const colors100 = axis.colors100.filter((series, i) => filteredIndices.indexOf(i) === -1);

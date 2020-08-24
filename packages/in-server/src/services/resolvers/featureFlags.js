@@ -138,5 +138,11 @@ module.exports = exports = (tenant, unit) => [
     instanaCtlKey: 'feature.entity.count.widget.enabled',
     consulKey: `settings/${tenant}-${unit}/ENTITY_COUNT_WIDGET_ENABLED`,
     defaultValue: false
+  },
+  {
+    uiClientKey: 'sloWidgetEnabled',
+    instanaCtlKey: 'feature.slo.widget.enabled',
+    consulKey: `settings/${tenant}-${unit}/SLO_WIDGET_ENABLED`,
+    defaultValue: false
   }
 ];

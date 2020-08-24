@@ -28,7 +28,7 @@ import KeyValue from 'in-new-components/lists/KeyValue';
 import Header from 'in-components/form/Header/Header';
 import FormGroup from 'in-components/form/FormGroup';
 import DateInput from 'in-components/form/DateInput';
-import Message from 'in-new-components/Message';
+import HelpText from 'in-components/form/HelpText';
 import Input from 'in-components/form/Input';
 import SvgIcon from 'in-components/SvgIcon';
 import Button from 'in-components/Button';
@@ -108,7 +108,7 @@ export default function FormComponent({ form, onChange, widgetTitleFormGroup, se
         <Row>
           <Col md={2}>
             <FormGroup withoutBottomMargin>
-              <KeyValue value="SLO Target" inverted />
+              <KeyValue value="SLO Target" inverted className={locals.oneLineLabel} />
             </FormGroup>
           </Col>
           <Col md={2}>
@@ -144,12 +144,12 @@ export default function FormComponent({ form, onChange, widgetTitleFormGroup, se
       <StackItem>
         <Row>
           <Col md={2}>
-            <FormGroup>
-              <KeyValue value="Time Window Type" inverted />
+            <FormGroup withoutBottomMargin>
+              <KeyValue value="Time Window Type" inverted className={locals.oneLineLabel} />
             </FormGroup>
           </Col>
           <Col md={3}>
-            <FormGroup>
+            <FormGroup withoutBottomMargin>
               <DropDownMock
                 value={timeWindowTypeValue}
                 options={[
@@ -161,35 +161,32 @@ export default function FormComponent({ form, onChange, widgetTitleFormGroup, se
               />
             </FormGroup>
           </Col>
-          <Col xs={12}>
-            <Message
-              small
-              bold
-              withIcon
-              title="Fixed time interval"
-              description="A time window with a defined start and duration. Eg. monthly starting 2020-01-01. The last partial time interval for the time selection from the global time picker will be displayed."
-            />
-            <Message
-              small
-              bold
-              withIcon
-              title="Rolling time window"
-              description="A time window with a defined duration, where the end is defined by the global time picker’s right hand date/time selection, eg. last 2 weeks."
-            />
-            <Message
-              small
-              bold
-              withIcon
-              title="Dynamic time window"
-              description="The SLO is calculated for the time window selected in the global time picker."
-            />
+          <Col xsOffset={2} xs={10} style={{ marginTop: 0 }}>
+            <HelpText>
+              <strong>Fixed time interval:</strong>
+              <br />
+              <br />A time window with a defined start and duration. Eg. monthly starting 2020-01-01. The last partial
+              time interval for the time selection from the global time picker will be displayed.
+            </HelpText>
+            <HelpText>
+              <strong>Rolling time window:</strong>
+              <br />
+              <br />A time window with a defined duration, where the end is defined by the global time picker’s right
+              hand date/time selection, eg. last 2 weeks.
+            </HelpText>
+            <HelpText>
+              <strong>Dynamic time window:</strong>
+              <br />
+              <br />
+              The SLO is calculated for the time window selected in the global time picker.
+            </HelpText>
           </Col>
         </Row>
         {(isRolling || isFixed) && (
           <Row>
             <Col md={2}>
               <FormGroup withoutBottomMargin>
-                <KeyValue value="Time Window Size" inverted />
+                <KeyValue value="Time Window Size" inverted className={locals.oneLineLabel} />
               </FormGroup>
             </Col>
             <Col md={2}>
@@ -219,7 +216,7 @@ export default function FormComponent({ form, onChange, widgetTitleFormGroup, se
           <Row>
             <Col md={2}>
               <FormGroup withoutBottomMargin>
-                <KeyValue value="Time Window Start" inverted />
+                <KeyValue value="Time Window Start" inverted className={locals.oneLineLabel} />
               </FormGroup>
             </Col>
             <Col md={2}>
@@ -261,7 +258,7 @@ export default function FormComponent({ form, onChange, widgetTitleFormGroup, se
           </Row>
         )}
       </StackItem>
-      <StackItem>{widgetPreview}</StackItem>
+      <div className={locals.previewContainer}>{widgetPreview}</div>
     </div>
   );
 }

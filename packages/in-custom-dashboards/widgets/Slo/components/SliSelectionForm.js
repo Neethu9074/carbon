@@ -4,11 +4,10 @@ import { SliConfigId } from 'in-custom-dashboards/widgets/Slo/form';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { getSliConfigurations } from 'in-custom-dashboards/api';
 import { Row, Col } from 'in-new-components/layout/Grid';
+import KeyValue from 'in-new-components/lists/KeyValue';
 import FormGroup from 'in-components/form/FormGroup';
-import Message from 'in-new-components/Message';
+import HelpText from 'in-components/form/HelpText';
 import Select from 'in-components/form/Select';
-import Header from 'in-components/form/Header';
-import Label from 'in-components/form/Label';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './SliSelectionForm.mless';
@@ -21,10 +20,9 @@ function SliSelectionForm({ form, onChange, sliConfigurations, apConfigId, openM
   const filteredSLIs = sliConfigurations?.filter(sli => sli?.sliEntity?.applicationId === apConfigId) ?? [];
   return (
     <>
-      <Row withoutTopMargin>
+      <Row withoutTopMargin withBottomMargin={false}>
         <Col md={2}>
-          <Header>SLI</Header>
-          <Label htmlFor="metric-configurator-sli-id">Service Level Indicator</Label>
+          <KeyValue value="SLI" label="Service Level Indicator" inverted />
         </Col>
         <Col md={10} className={locals.rightAligned}>
           {form.get(SliConfigId)?.map(field => (
@@ -54,9 +52,9 @@ function SliSelectionForm({ form, onChange, sliConfigurations, apConfigId, openM
           {openManageSLIComponent}
         </Col>
       </Row>
-      <Row withoutTopMargin>
-        <Col xs={12}>
-          <Message small withIcon title="You can set up new SLIs using our API." />
+      <Row withoutTopMargin withBottomMargin={false}>
+        <Col xsOffset={2} xs={10}>
+          <HelpText>You can set up new SLIs using our API.</HelpText>
         </Col>
       </Row>
     </>
