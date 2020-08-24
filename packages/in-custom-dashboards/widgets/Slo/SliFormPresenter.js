@@ -1,8 +1,8 @@
 import React from 'react';
 
 import InboundOrAllCallsOption from 'in-applications/alerting/advanced/InboundOutboundCallsSwitch/InboundOrAllCallsOption';
+import { AvailabilityType, sliTypeOptions, ApplicationType } from 'in-custom-dashboards/widgets/Slo/form/sliForm';
 import { boundaryScopes } from 'in-applications/alerting/advanced/InboundOutboundCallsSwitch/config';
-import { AvailabilityType, ApplicationType } from 'in-custom-dashboards/widgets/Slo/form/sliForm';
 import ServicesSelectBox from 'in-custom-dashboards/widgets/Slo/components/ServicesSelectBox';
 import EndpointSelectBox from 'in-custom-dashboards/widgets/Slo/components/EndpointSelectBox';
 import EventBasedForm from 'in-custom-dashboards/widgets/Slo/components/GoodBadEventsForm';
@@ -10,12 +10,15 @@ import { MetricsForm } from 'in-custom-dashboards/widgets/Slo/components/Metrics
 import DropDownMock from 'in-custom-dashboards/widgets/Slo/components/DropDownMock';
 import InputMock from 'in-custom-dashboards/widgets/Slo/components/InputMock';
 import StackItem from 'in-new-components/layout/Stack/StackItem';
+import TouchedMessages from 'in-components/form/TouchedMessages';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import FormGroup from 'in-components/form/FormGroup';
 import Stack from 'in-new-components/layout/Stack';
 import Header from 'in-components/form/Header';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
+
+import locals from './SliForm.mless';
 
 export function SliForm({ form, onChange, onChangeType, apName, api }) {
   const sliEntityForm = form.get('sliEntity');
@@ -45,6 +48,7 @@ export function SliForm({ form, onChange, onChangeType, apName, api }) {
           <Col xs={3}>
             <FormGroup withoutBottomMargin>
               <InputMock form={form} onChange={onChange} fieldName="sliName" />
+              <TouchedMessages field={form.get('sliName')} />
             </FormGroup>
           </Col>
         </Row>
@@ -58,13 +62,11 @@ export function SliForm({ form, onChange, onChangeType, apName, api }) {
             <FormGroup withoutBottomMargin>
               <DropDownMock
                 value={sliType}
+                hasError={true || (!sliEntityForm.get('sliType')?.valid && sliEntityForm.get('sliType')?.touched)}
                 onChange={({ target }) => onChangeType(target.value)}
-                options={[
-                  { value: '', label: 'Please select' },
-                  { value: ApplicationType, label: 'Time-based' },
-                  { value: AvailabilityType, label: 'Event-based' }
-                ]}
+                options={[{ value: '', label: 'Please select' }, ...sliTypeOptions]}
               />
+              <TouchedMessages field={sliEntityForm.get('sliType')} />
             </FormGroup>
           </Col>
         </Row>
@@ -79,7 +81,7 @@ export function SliForm({ form, onChange, onChangeType, apName, api }) {
           </Col>
           <Col xs={3}>
             <FormGroup withoutBottomMargin>
-              <Input disabled value={apName} />
+              <Input disabled value={apName} className={locals.applicationName} />
             </FormGroup>
           </Col>
         </Row>
@@ -104,51 +106,55 @@ export function SliForm({ form, onChange, onChangeType, apName, api }) {
             />
           </Col>
         </Row>
-        <Row withoutTopMargin>
-          <Col xs={2}>
-            <FormGroup>
-              <Label>Service</Label>
-            </FormGroup>
-          </Col>
-          <Col xs={3}>
-            <FormGroup withoutBottomMargin>
-              <ServicesSelectBox
-                api={api}
-                boundaryScope={boundaryScope}
-                applicationId={applicationId}
-                value={serviceId}
-                onChange={value =>
-                  onChange(['sliEntity', 'serviceId'], f =>
-                    f.setValue(convertEmptyStringToNull(value)).setTouched(true)
-                  )
-                }
-              />
-            </FormGroup>
-          </Col>
-        </Row>
-        <Row withoutTopMargin>
-          <Col xs={2}>
-            <FormGroup>
-              <Label>Endpoints</Label>
-            </FormGroup>
-          </Col>
-          <Col xs={3}>
-            <FormGroup withoutBottomMargin>
-              <EndpointSelectBox
-                apName={apName}
-                boundaryScope={boundaryScope}
-                applicationId={applicationId}
-                serviceId={serviceId}
-                value={endpointId}
-                onChange={value =>
-                  onChange(['sliEntity', 'endpointId'], f =>
-                    f.setValue(convertEmptyStringToNull(value)).setTouched(true)
-                  )
-                }
-              />
-            </FormGroup>
-          </Col>
-        </Row>
+        {sliType === ApplicationType && (
+          <Row withoutTopMargin>
+            <Col xs={2}>
+              <FormGroup>
+                <Label>Service</Label>
+              </FormGroup>
+            </Col>
+            <Col xs={3}>
+              <FormGroup withoutBottomMargin>
+                <ServicesSelectBox
+                  api={api}
+                  boundaryScope={boundaryScope}
+                  applicationId={applicationId}
+                  value={serviceId}
+                  onChange={value =>
+                    onChange(['sliEntity', 'serviceId'], f =>
+                      f.setValue(convertEmptyStringToNull(value)).setTouched(true)
+                    )
+                  }
+                />
+              </FormGroup>
+            </Col>
+          </Row>
+        )}
+        {sliType === ApplicationType && (
+          <Row withoutTopMargin>
+            <Col xs={2}>
+              <FormGroup>
+                <Label>Endpoints</Label>
+              </FormGroup>
+            </Col>
+            <Col xs={3}>
+              <FormGroup withoutBottomMargin>
+                <EndpointSelectBox
+                  apName={apName}
+                  boundaryScope={boundaryScope}
+                  applicationId={applicationId}
+                  serviceId={serviceId}
+                  value={endpointId}
+                  onChange={value =>
+                    onChange(['sliEntity', 'endpointId'], f =>
+                      f.setValue(convertEmptyStringToNull(value)).setTouched(true)
+                    )
+                  }
+                />
+              </FormGroup>
+            </Col>
+          </Row>
+        )}
       </StackItem>
       <MetricsForm form={form} onChange={onChange} />
       {sliType === AvailabilityType && <EventBasedForm form={form} onChange={onChange} />}

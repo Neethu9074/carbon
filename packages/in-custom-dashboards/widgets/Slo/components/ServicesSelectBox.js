@@ -35,23 +35,22 @@ export default function ServicesSelectBox({ applicationId, boundaryScope, value,
   const { progress, errors, data } = services;
   const serviceItems = data?.items?.map(({ service }) => ({ value: service.id, label: service.label }));
 
-  // TODO: improve error handling
+  if (progress?.loading) return <DropDownMock options={[{ value: '', label: '<loading>' }]} disabled />;
+
   return (
     <>
-      {!serviceItems && progress.loading && !errors && (
-        <DropDownMock options={[{ value: '', label: '<loading>' }]} disabled />
-      )}
-      {serviceItems && (
+      {
         <DropDownMock
+          disabled={errors && errors?.length !== 0}
           options={[
             { value: undefined, label: 'Please select' },
             { value: '', label: 'All Services' },
-            ...serviceItems
+            ...(serviceItems ?? [])
           ]}
           value={value ?? ''}
           onChange={({ target }) => onChange?.(target?.value)}
         />
-      )}
+      }
     </>
   );
 }

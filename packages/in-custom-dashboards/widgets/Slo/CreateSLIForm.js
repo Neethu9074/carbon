@@ -44,40 +44,54 @@ export default function CreateNewSLIForm({ api, apName, applicationId, close, sl
       error: false
     });
 
-    const newSliId = uuidv4().slice(8);
+    const newSliId = uuidv4().slice(9);
     const enrichtedSliConfiguration = {
       id: newSliId,
       ...form.toJS()
     };
-    createSliConfiguration(enrichtedSliConfiguration).subscribe(result => {
-      if (result.progress.loading) {
-        setState({
-          success: false,
-          saving: true,
-          error: false
-        });
-      }
-      if (result.errors.length > 0) {
-        setState({
-          success: false,
-          saving: false,
-          error: true
-        });
-        addMessage(
-          {
-            type: 'danger',
-            timeout: 3000,
-            content: 'Failed to create the sli.'
-          },
-          'custom-dashboard-error'
-        );
-      } else {
-        close();
-      }
-    });
+    if (form.hierarchyValid) {
+      (api?.createSliConfiguration ?? createSliConfiguration)?.(enrichtedSliConfiguration).subscribe(result => {
+        if (result.progress.loading) {
+          setState({
+            success: false,
+            saving: true,
+            error: false
+          });
+          return;
+        }
+        if (result.errors.length > 0) {
+          setState({
+            success: false,
+            saving: false,
+            error: true,
+            errors: result.errors
+          });
+          addMessage(
+            {
+              type: 'danger',
+              timeout: 4000,
+              title: 'Failed to create the SLI.',
+              content: `There was a problem creating this SLI: "${enrichtedSliConfiguration.sliName}"`
+            },
+            'custom-dashboard-error'
+          );
+        } else {
+          addMessage(
+            {
+              type: 'info',
+              timeout: 4000,
+              title: 'SLI created successfully',
+              content: `SLI "${enrichtedSliConfiguration.sliName}" has been created.`
+            },
+            'custom-dashboard-sli'
+          );
+          close();
+        }
+      });
+    }
   };
 
-  const savingStateName = sliConfig?.id ? 'Cloning' : 'Creating…';
+  const savingStateName = sliConfig?.id ? 'Cloning…' : 'Creating…';
   const saveButtonLabel = sliConfig?.id ? 'Clone' : 'Create';
 
   return (

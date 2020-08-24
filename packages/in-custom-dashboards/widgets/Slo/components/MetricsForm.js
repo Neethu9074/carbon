@@ -37,7 +37,7 @@ export const MetricsForm = ({ form, onChange }) => {
       <FormGroup>
         <Label>Aggregation</Label>
         <DropDownMock
-          options={getAggregationOptions(metricConfiguration)}
+          options={getAggregationOptions(metricName ?? 'latency')}
           value={aggregationValue ?? ''}
           onChange={({ target }) =>
             localOnChange?.(['metricAggregation'], f => f.setValue(target.value).setTouched(true))
@@ -52,13 +52,9 @@ export const MetricsForm = ({ form, onChange }) => {
   );
 };
 
-function getAggregationOptions(metricConfiguration) {
-  if (getFormValueOrDefault(metricConfiguration.get('metricName'), 'latency') !== 'latency') {
-    return sumAggregation;
+function getAggregationOptions(metricName) {
+  if (metricName === 'latency') {
+    return timeAggregationOptions;
   }
-  return timeAggregationOptions;
-}
-
-function getFormValueOrDefault(form, key, defaultValue = null) {
-  return form.containsKey(key) ? form.get(key).value : defaultValue;
+  return sumAggregation;
 }
