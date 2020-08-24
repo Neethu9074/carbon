@@ -1,15 +1,75 @@
-import { text } from '@storybook/addon-knobs/react';
+import { withKnobs, text } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 import React, { useState } from 'react';
 import theme from 'in-themes';
 
 import DialogWithSlideInView from 'in-new-components/Dialog/DialogWithSlideInView';
+import SlideInView, { NoHeader } from 'in-new-components/SlideInView/SlideInView';
 import Button from 'in-new-components/Button/Button';
+
+const WithPadding = ({ children }) => <div style={{ padding: '0 1.5rem 1.5rem' }}>{children}</div>;
 
 export default {
   title: 'Molecules|Dialogs/DialogWithSlideInView',
   component: DialogWithSlideInView,
-  decorator: { text, action }
+  decorators: [withKnobs]
+};
+
+export const TwoLevels = () => {
+  const [slideInVisible, setSlideInVisible] = useState(false);
+  let [secondLevelActive, setSecondLevelActive] = useState(false); // level0 or level1
+
+  return (
+    <div style={{ height: '50vh' }}>
+      <DialogWithSlideInView
+        title={'With two slide-ins'}
+        onClose={action('onClose')}
+        slideInViewVisible={slideInVisible}
+        onSlideInViewTitleClick={() => {
+          action('intercepting slide-in-View-Title clicking...')();
+          if (secondLevelActive) {
+            setSecondLevelActive(false);
+          } else {
+            setSlideInVisible(false);
+          }
+        }}
+        slideInViewTitle={!secondLevelActive ? 'slide 1' : 'slide 2'}
+        slideInViewComponent={
+          <SlideInView
+            enforceMaxHeightForStaticContent
+            HeaderComponent={NoHeader}
+            slideInContent={
+              <WithPadding>
+                <p>This is slide 2.</p>
+                <Button onClick={() => setSecondLevelActive(false)}>Go back to previous slide: 1!</Button>
+              </WithPadding>
+            }
+            showSlideInContent={secondLevelActive}
+            staticContent={
+              <WithPadding>
+                <p>This is slide 1.</p>
+                <Button onClick={() => setSecondLevelActive(true)}>Go to next slide: 2!</Button>
+              </WithPadding>
+            }
+          />
+        }
+      >
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere accusantium aliquid alias voluptatem odio
+          dolorem cumque! Ad temporibus non fuga aut sequi et qui. Eaque fugiat sint, necessitatibus reiciendis
+          consequuntur?
+        </p>
+        <Button
+          kind={'primary'}
+          onClick={() => {
+            setSlideInVisible(true);
+          }}
+        >
+          Open Slides...
+        </Button>
+      </DialogWithSlideInView>
+    </div>
+  );
 };
 
 export const Default = () => (

@@ -12,6 +12,7 @@ import locals from './SlideInView.mless';
 
 export const DialogHeader = DialogHeaderComponent;
 export const ListHeader = ListHeaderComponent;
+export const NoHeader = () => false;
 
 export default function SlideInView({
   // Content description
@@ -35,7 +36,7 @@ export default function SlideInView({
   // to trigger in unwanted cases.
   showSlideInContent = Boolean(showSlideInContent);
 
-  const headerSize = HeaderComponent === DialogHeader ? '5rem' : '3.5rem';
+  const headerSize = HeaderComponent === NoHeader ? 0 : HeaderComponent === DialogHeader ? '5rem' : '3.5rem';
 
   // Refs used to allow identification of interactive element for focus handling
   // support.

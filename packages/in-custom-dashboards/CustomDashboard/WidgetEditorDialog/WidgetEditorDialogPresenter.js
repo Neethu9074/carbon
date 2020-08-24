@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import WidgetConfiguration from 'in-custom-dashboards/CustomDashboard/WidgetEditorDialog/WidgetConfiguration';
 import WidgetTypeSelector from 'in-custom-dashboards/CustomDashboard/WidgetEditorDialog/WidgetTypeSelector';
@@ -20,6 +20,7 @@ export default function WidgetEditorDialogPresenter({
   slideInView,
   setSlideInView
 }) {
+  const subSlideState = useState(null);
   return (
     <DialogWithSlideInView
       titleIconType="lib_views_grid"
@@ -28,10 +29,11 @@ export default function WidgetEditorDialogPresenter({
       doNotCloseOnOutsideClick
       className={locals.dialog}
       slideInViewVisible={slideInView?.visible}
-      onSlideInViewTitleClick={slideOut}
-      slideInViewTitle={slideInView?.title}
+      onSlideInViewTitleClick={slideInView?.slideOutHandler?.(slideOut, subSlideState) ?? slideOut}
+      slideInViewTitle={slideInView?.renderTitle?.(subSlideState[0]) ?? slideInView?.title}
       slideInViewComponent={slideInView?.getContent?.({
-        slideOut
+        slideOut,
+        subSlideState
       })}
     >
       <form
