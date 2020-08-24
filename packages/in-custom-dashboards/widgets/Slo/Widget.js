@@ -36,8 +36,11 @@ const DEFAULT_API = {
   getUnifiedMetrics
 };
 
+const oneMinute = 60 * 1000;
+const oneHour = 60 * oneMinute;
+const oneDay = 24 * oneHour;
 const oneWeekTimeConfig = {
-  windowSize: 7 * 24 * 60 * 60 * 1000
+  windowSize: 7 * oneDay
 };
 
 export default function Widget({ actions, config, isPreview, title, dragHandle, api = DEFAULT_API }) {
@@ -103,11 +106,12 @@ export default function Widget({ actions, config, isPreview, title, dragHandle, 
     resultType: 'TIME_SERIES'
   };
 
+  const granularity = getGranularity(timeWindowConfig);
   const metrics = {
     consumed: {
       ...metricBaseConfig,
-      granularity: 3600000,
-      metric: 'CONSUMED_ERROR_BUDGET_CHART'
+      metric: 'CONSUMED_ERROR_BUDGET_CHART',
+      granularity
     },
     sli: {
       ...metricBaseConfig,
@@ -131,15 +135,15 @@ export default function Widget({ actions, config, isPreview, title, dragHandle, 
     },
     hourlyBudget: {
       ...metricBaseConfig,
-      granularity: 3600000,
-      metric: 'HOURLY_ERROR_BUDGET_CHART'
+      metric: 'HOURLY_ERROR_BUDGET_CHART',
+      granularity
     }
   };
 
   const result = useObservable(api.getUnifiedMetrics({ metrics }), [timeConfig, config]) ?? pendingResult;
 
   const findResultMetric = id => {
-    return (result?.data ?? []).find(dataSerie => dataSerie.id === id)?.values;
+    return (result?.data ?? []).find(dataSeries => dataSeries.id === id)?.values;
   };
 
   const sli = findResultMetric('sli')?.[0][1];
@@ -203,6 +207,7 @@ export default function Widget({ actions, config, isPreview, title, dragHandle, 
         <Chart
           result={result}
           timeConfig={timeWindowConfig}
+          granularity={granularity}
           consumed={filterAvailableData(findResultMetric('consumed'))}
           hourlyBudget={filterAvailableData(findResultMetric('hourlyBudget'))}
           budget={budget}
@@ -230,3 +235,16 @@ const filterAvailableData = dataSeries => {
   const now = new Date().getTime();
   return dataSeries.filter(([ts]) => ts <= now);
 };
+
+function getGranularity(timeConfig) {
+  const now = Date.now();
+  const toOrNow = timeConfig.to ?? now;
+  const from = toOrNow - timeConfig.windowSize;
+
+  if (timeConfig.windowSize <= oneDay && from > now - 7 * oneDay) {
+    // if timeframe is within the last 7 days, and window-size less or equal to a day,
+    // then request metric even in one minute granularity
+    return oneMinute;
+  }
+  return oneHour;
+}
