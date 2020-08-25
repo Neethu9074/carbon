@@ -1,11 +1,17 @@
-import { minutes, number } from 'in-services/formatters/number';
+import { number } from 'in-services/formatters/number';
 
 export function getSliFormatter(sliEntity) {
   const isAvailabilitySli = sliEntity?.sliType === 'availability';
-  return isAvailabilitySli ? callsFormatter : minutes.compact;
+  return isAvailabilitySli ? callsFormatter : minutesFormatter;
 }
 
 function callsFormatter(value) {
-  const unit = value == 1 ? 'call' : 'calls';
+  const unit = value === 1 ? 'call' : 'calls';
   return `${number.compact(value)} ${unit}`;
+}
+
+function minutesFormatter(value) {
+  // not using the existing minutes formatter, because it starts rounding values to hours when >= 60, and also does not
+  // include a whitespace between the value and the unit
+  return `${number.compact(value)} m`;
 }

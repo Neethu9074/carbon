@@ -8,7 +8,17 @@ import { getSliFormatter } from 'in-custom-dashboards/widgets/Slo/sliConfigUtils
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import theme from 'in-themes';
 
-export default function Chart({ result, timeConfig, granularity, consumed, hourlyBudget, budget, sliConfig, isPreview }) {
+export default function Chart({
+  result,
+  timeConfig,
+  granularity,
+  consumed,
+  hourlyBudget,
+  budget,
+  sliConfig,
+  isPreview,
+  disableZooming
+}) {
   const isStaticBudget = hourlyBudget === null || hourlyBudget.length === 0;
   let metrics = [consumed, hourlyBudget];
   if (isStaticBudget) {
@@ -38,13 +48,13 @@ export default function Chart({ result, timeConfig, granularity, consumed, hourl
           isStaticBudget
         },
         nonInteractive: isPreview,
-        ...getCustomAnalyzeContextMenuProperties(sliConfig)
+        ...getCustomAnalyzeContextMenuProperties(sliConfig, disableZooming)
       }}
     />
   );
 }
 
-function getCustomAnalyzeContextMenuProperties(sliConfig) {
+function getCustomAnalyzeContextMenuProperties(sliConfig, disableZooming) {
   if (!sliConfig) {
     return {}; // use defaults
   }
@@ -54,6 +64,7 @@ function getCustomAnalyzeContextMenuProperties(sliConfig) {
 
   return {
     primaryContextMenuAction: 'analyze',
+    excludedContextMenuActions: disableZooming ? ['zoomIn'] : [],
     additionalContextMenuButtons: [
       {
         name: 'analyze',

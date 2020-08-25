@@ -13,7 +13,7 @@ import Input from 'in-components/form/Input';
 import locals from './DateInput.mless';
 
 export default function DatePicker(props) {
-  const { value, onChange = identity, disabled } = props;
+  const { value, onChange = identity, disabled, iconType } = props;
   const inputProps = assign({}, props);
   delete inputProps.onChange;
   delete inputProps.type;
@@ -24,13 +24,13 @@ export default function DatePicker(props) {
     return <Input type="text" {...inputProps} />;
   }
   return (
-    <Overlay content={DatePickerOverlay} props={{ value, onChange, inputProps }} withoutWrapper>
+    <Overlay content={DatePickerOverlay} props={{ value, onChange, inputProps, iconType }} withoutWrapper>
       {DatePickerInput}
     </Overlay>
   );
 }
 
-function DatePickerInput({ open, onChange, refSetter, inputProps, close }) {
+function DatePickerInput({ open, onChange, refSetter, inputProps, close, iconType }) {
   return (
     <Input
       type="text"
@@ -45,6 +45,7 @@ function DatePickerInput({ open, onChange, refSetter, inputProps, close }) {
       }}
       onClick={open}
       refSetter={refSetter}
+      onIconClick={iconType ? open : undefined}
       {...inputProps}
     />
   );

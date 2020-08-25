@@ -5,7 +5,7 @@ import { getSliConfigurations } from './apiMock';
 import { noop } from 'in-services/util/function';
 
 export default {
-  title: 'Templates|CustomDashboard/widgets/SliManage',
+  title: 'Templates|CustomDashboard/widgets/SLO/SLI-management',
   component: SliManageList
 };
 

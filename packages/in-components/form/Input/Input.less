@@ -16,7 +16,16 @@
   }
 
   &[disabled] {
-    color: rgba(58,75,81,0.48);
+    color: rgba(58, 75, 81, 0.48);
     cursor: not-allowed;
+  }
+
+  &--with-icon {
+    display: flex;
+    align-items: center;
+    > svg {
+      margin: 0 0 0 0.5rem;
+      fill: @lib__colors__N800Dark;
+    }
   }
 }

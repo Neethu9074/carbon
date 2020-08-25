@@ -30,7 +30,6 @@ import FormGroup from 'in-components/form/FormGroup';
 import DateInput from 'in-components/form/DateInput';
 import HelpText from 'in-components/form/HelpText';
 import Input from 'in-components/form/Input';
-import SvgIcon from 'in-components/SvgIcon';
 import Button from 'in-components/Button';
 
 import locals from './FormComponent.mless';
@@ -63,6 +62,33 @@ export default function FormComponent({ form, onChange, widgetTitleFormGroup, se
   const dateField = form.get(TimeWindowStart)?.get('date');
   const timeField = form.get(TimeWindowStart)?.get('time');
 
+  function activateManageSliSlideIn() {
+    return setSlideInView({
+      renderTitle(sliSelected) {
+        return sliSelected === null ? 'Sli Management' : sliSelected?.id ? 'Edit SLI' : 'Create SLI';
+      },
+      slideOutHandler(slideOut, [sliSelected, selectSli]) {
+        return () => {
+          if (sliSelected == null) {
+            slideOut();
+          } else {
+            selectSli(null);
+          }
+        };
+      },
+      getContent({ subSlideState }) {
+        return (
+          <SliManageList
+            applicationId={apConfigId}
+            apName={form.get(SloApName)?.value}
+            api={api}
+            subSlideState={subSlideState}
+          />
+        );
+      }
+    });
+  }
+
   return (
     <div
       className={evaluateClassNames({
@@ -87,18 +113,7 @@ export default function FormComponent({ form, onChange, widgetTitleFormGroup, se
           widgetPreview={false}
           widgetTitleFormGroup={widgetTitleFormGroup}
           openManageSLIComponent={
-            <Button
-              disabled={!apConfigId}
-              kind={'primary'}
-              onClick={() =>
-                setSlideInView({
-                  title: 'Sli Management',
-                  getContent() {
-                    return <SliManageList applicationId={apConfigId} apName={form.get(SloApName)?.value} api={api} />;
-                  }
-                })
-              }
-            >
+            <Button disabled={!apConfigId} kind={'primary'} onClick={() => activateManageSliSlideIn()}>
               Manage SLIs
             </Button>
           }
@@ -226,8 +241,8 @@ export default function FormComponent({ form, onChange, widgetTitleFormGroup, se
                   onChange={v => onChange([TimeWindowStart, 'date'], f => f.setValue(v).setTouched(true))}
                   hasError={!dateField?.valid && dateField?.touched}
                   className={locals.field}
+                  iconType="lib_datetime_date"
                 />
-                <SvgIcon type="lib_datetime_date" className={locals.dateTimeIcons} />
               </FormGroup>
             </Col>
             <Col md={2}>
@@ -246,9 +261,9 @@ export default function FormComponent({ form, onChange, widgetTitleFormGroup, se
                     }
                     hasError={!timeField.valid && timeField.touched}
                     className={locals.field}
+                    iconType="lib_datetime_time"
                   />
                 )}
-                <SvgIcon type="lib_datetime_time" className={locals.dateTimeIcons} />
               </FormGroup>
             </Col>
             <Col mdOffset={2} md={12}>

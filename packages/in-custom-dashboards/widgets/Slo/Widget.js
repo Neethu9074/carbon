@@ -213,6 +213,7 @@ export default function Widget({ actions, config, isPreview, title, dragHandle, 
           budget={budget}
           sliConfig={sliConfig}
           isPreview={isPreview}
+          disableZooming={isFixed || isRolling}
         />
       </div>
     </LightCardV2>
