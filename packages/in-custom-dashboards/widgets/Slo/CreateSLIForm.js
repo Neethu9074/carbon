@@ -46,8 +46,8 @@ export default function CreateNewSLIForm({ api, apName, applicationId, close, sl
 
     const newSliId = uuidv4().slice(9);
     const enrichtedSliConfiguration = {
-      id: newSliId,
-      ...form.toJS()
+      ...form.toJS(),
+      id: newSliId
     };
     if (form.hierarchyValid) {
       (api?.createSliConfiguration ?? createSliConfiguration)?.(enrichtedSliConfiguration).subscribe(result => {
