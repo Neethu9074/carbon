@@ -10,10 +10,13 @@ import { dateValidator, timeValidator } from 'in-services/validators/date';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
 import { demo } from 'in-custom-dashboards/widgets/Slo';
 
-export const SliConfigId = 'sliConfigId';
+// internal fields just for app-config information used internally
+export const ApConfigId = 'apConfigId';
+export const ApName = 'apName';
+export const ApBoundaryScope = 'apBoundaryScope';
+
 export const SloTarget = 'slo';
-export const SloApName = 'apName';
-export const SliApConfigId = 'apConfigId';
+export const SliConfigId = 'sliConfigId';
 export const TimeWindowType = 'timeWindowType';
 export const TimeWindowStart = 'timeWindowStart';
 export const TimeWindowDuration = 'timeWindowDuration';
@@ -32,16 +35,22 @@ export function createForm(oldSavedState) {
   let form = createMapForm();
 
   form = form.put(
-    SloApName,
+    ApName,
     createField({
-      value: savedState[SloApName] ?? demo[SloApName]
+      value: savedState[ApName] ?? demo[ApName]
     })
   );
   form = form.put(
-    SliApConfigId,
+    ApBoundaryScope,
+    createField({
+      value: savedState[ApBoundaryScope] ?? demo[ApBoundaryScope]
+    })
+  );
+  form = form.put(
+    ApConfigId,
     createField({
       validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator),
-      value: savedState[SliApConfigId]
+      value: savedState[ApConfigId]
     })
   );
   form = form.put(

@@ -30,7 +30,7 @@ export function ViewExistingSLI() {
     }
   };
 
-  return <CreateNewSLIForm api={api} sliConfig={sliConfig} apName={'All Servics'} />;
+  return <CreateNewSLIForm api={api} sliConfig={sliConfig} apName="All Services" />;
 }
 
 export function CreateNewSLI() {
@@ -40,5 +40,5 @@ export function CreateNewSLI() {
   };
   const sliConfig = {};
 
-  return <CreateNewSLIForm api={api} sliConfig={sliConfig} apName={'All Servics'} />;
+  return <CreateNewSLIForm api={api} sliConfig={sliConfig} apName="All Services" />;
 }

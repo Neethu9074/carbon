@@ -11,8 +11,8 @@ import Button from 'in-new-components/Button';
 
 import locals from './CreateSLIForm.mless';
 
-export default function CreateNewSLIForm({ api, apName, applicationId, close, sliConfig }) {
-  const [form, setForm] = useState(createForm(sliConfig ?? {}, applicationId));
+export default function CreateNewSLIForm({ api, apName, applicationId, apDefaultBoundaryScope, close, sliConfig }) {
+  const [form, setForm] = useState(createForm(sliConfig ?? {}, applicationId, apDefaultBoundaryScope));
 
   const [state, setState] = useState({
     success: false,

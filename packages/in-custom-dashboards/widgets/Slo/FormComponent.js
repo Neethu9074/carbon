@@ -2,8 +2,9 @@ import React from 'react';
 
 import {
   SloTarget,
-  SliApConfigId,
-  SloApName,
+  ApConfigId,
+  ApName,
+  ApBoundaryScope,
   TimeWindowType,
   TimeWindowDuration,
   TimeWindowDurationUnit,
@@ -35,7 +36,7 @@ import Button from 'in-components/Button';
 import locals from './FormComponent.mless';
 
 export default function FormComponent({ form, onChange, widgetTitleFormGroup, setSlideInView, widgetPreview, api }) {
-  const apConfigId = form.get(SliApConfigId)?.value;
+  const apConfigId = form.get(ApConfigId)?.value;
   const sloTarget = form.get(SloTarget)?.value;
   const timeWindowTypeValue = form.get(TimeWindowType)?.value ?? Dynamic;
   const isFixed = timeWindowTypeValue === Fixed;
@@ -65,7 +66,10 @@ export default function FormComponent({ form, onChange, widgetTitleFormGroup, se
   function activateManageSliSlideIn() {
     return setSlideInView({
       renderTitle(sliSelected) {
-        return sliSelected === null ? 'Sli Management' : sliSelected?.id ? 'Edit SLI' : 'Create SLI';
+        if (sliSelected === null) {
+          return 'SLI Management';
+        }
+        return sliSelected?.id ? 'Edit SLI' : 'Create SLI';
       },
       slideOutHandler(slideOut, [sliSelected, selectSli]) {
         return () => {
@@ -80,7 +84,8 @@ export default function FormComponent({ form, onChange, widgetTitleFormGroup, se
         return (
           <SliManageList
             applicationId={apConfigId}
-            apName={form.get(SloApName)?.value}
+            apName={form.get(ApName)?.value}
+            apDefaultBoundaryScope={form.get(ApBoundaryScope)?.value}
             api={api}
             subSlideState={subSlideState}
           />

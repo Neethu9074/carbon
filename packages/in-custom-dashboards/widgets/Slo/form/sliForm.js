@@ -4,7 +4,6 @@ import { notUndefinedValidator } from 'in-services/validators/undefined';
 import { notBlankValidator } from 'in-services/validators/string';
 import { buildEnumValidator } from 'in-services/validators/enum';
 import { numericValidator } from 'in-services/validators/number';
-import { boundaryScopes } from 'in-applications/constants';
 
 export const ApplicationType = 'application';
 export const AvailabilityType = 'availability';
@@ -14,7 +13,7 @@ export const sliTypeOptions = Object.freeze([
   { value: AvailabilityType, label: 'Event-based' }
 ]);
 
-export function createForm(sliConfig, applicationId) {
+export function createForm(sliConfig, applicationId, apDefaultBoundaryScope) {
   const sliEntityWithApplicationId = {
     ...sliConfig,
     sliEntity: {
@@ -22,6 +21,7 @@ export function createForm(sliConfig, applicationId) {
       applicationId
     }
   };
+
   const { id, sliName, sliEntity, metricConfiguration } = sliEntityWithApplicationId;
   let form = createMapForm();
   if (id) {
@@ -34,14 +34,14 @@ export function createForm(sliConfig, applicationId) {
       validator: composeAndShortCircuitOnError(notUndefinedValidator, notBlankValidator)
     })
   );
-  form = form.put('sliEntity', createSliEntityForm(sliEntity));
+  form = form.put('sliEntity', createSliEntityForm(sliEntity, apDefaultBoundaryScope));
   if (sliEntity.sliType === ApplicationType) {
     form = form.put('metricConfiguration', createMetricsForm(metricConfiguration ?? {}));
   }
   return form;
 }
 
-function createSliEntityForm(sliEntity) {
+function createSliEntityForm(sliEntity, apDefaultBoundaryScope) {
   const form = createMapForm()
     .put(
       'sliType',
@@ -75,7 +75,7 @@ function createSliEntityForm(sliEntity) {
     .put(
       'boundaryScope',
       createField({
-        value: sliEntity.boundaryScope ?? boundaryScopes.inbound
+        value: sliEntity.boundaryScope ?? apDefaultBoundaryScope
       })
     );
 

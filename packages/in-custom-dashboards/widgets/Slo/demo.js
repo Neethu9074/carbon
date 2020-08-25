@@ -1,7 +1,9 @@
-import { SloApName, SloTarget, SliConfigId } from 'in-custom-dashboards/widgets/Slo/form.js';
+import { ApName, SloTarget, SliConfigId, ApBoundaryScope } from 'in-custom-dashboards/widgets/Slo/form';
+import { boundaryScopes } from 'in-applications/constants';
 
 export const demo = {
   [SliConfigId]: 'phani-test-1',
-  [SloApName]: 'robot shop > checkout',
-  [SloTarget]: 0.995
+  [ApName]: 'robot shop > checkout',
+  [SloTarget]: 0.995,
+  [ApBoundaryScope]: boundaryScopes.inbound
 };
