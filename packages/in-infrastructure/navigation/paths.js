@@ -12,6 +12,12 @@ export const tagFilterExpressionMatrixParameter = {
   initialState: emptyArray
 };
 
+export const groupByMatrixParameter = {
+  path: infraExplorePath,
+  name: 'groupBy',
+  initialState: ''
+};
+
 export function isInfraExploreView() {
   return navigationParameters$.map(location => location.pathname.indexOf(infraExplorePath) === 0);
 }
