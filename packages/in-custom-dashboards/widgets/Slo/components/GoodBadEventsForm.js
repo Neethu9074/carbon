@@ -43,11 +43,11 @@ export default function EventBasedForm({ form, applicationName, onChange }) {
   ];
 
   const onGoodChange = params => {
-    onChange(['sliEntity', 'goodEventFilters'], f => f.setValue(withoutViewOnlyFilters(params)).setTouched(true));
+    onChange(['sliEntity', 'goodEventFilters'], f => f.setValue(withoutViewHiddenFilters(params)).setTouched(true));
   };
 
   const onBadChange = params => {
-    onChange(['sliEntity', 'badEventFilters'], f => f.setValue(withoutViewOnlyFilters(params)).setTouched(true));
+    onChange(['sliEntity', 'badEventFilters'], f => f.setValue(withoutViewHiddenFilters(params)).setTouched(true));
   };
 
   return (
@@ -72,6 +72,6 @@ export default function EventBasedForm({ form, applicationName, onChange }) {
   );
 }
 
-function withoutViewOnlyFilters(tagFilters) {
-  return tagFilters.filter(tf => tf.name !== 'application.name');
+function withoutViewHiddenFilters(tagFilters) {
+  return tagFilters.filter(tf => !hiddenFilterNames.includes(tf.name));
 }
