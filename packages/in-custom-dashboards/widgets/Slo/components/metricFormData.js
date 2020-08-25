@@ -13,12 +13,11 @@ export const timeAggregationOptions = Object.freeze([
 
 export const sumAggregation = Object.freeze([{ value: 'SUM', label: 'sum' }]);
 
+export const meanAggregation = Object.freeze([{ value: 'MEAN', label: 'mean' }]);
+
 export const metricOptions = Object.freeze([
   { value: 'latency', label: 'Latency' },
-  { value: 'errors', label: 'Error rate' },
   { value: 'calls', label: 'Call count' },
-  { value: 'erroneousCalls', label: 'Erroneous calls' },
-  { value: 'http.4xx', label: 'HTTP calls with 4XX responses' },
-  { value: 'http.5xx', label: 'HTTP calls with 5XX responses' },
-  { value: 'logs.error', label: 'Number of error logs' }
+  { value: 'errors', label: 'Error rate' },
+  { value: 'erroneousCalls', label: 'Erroneous calls' }
 ]);

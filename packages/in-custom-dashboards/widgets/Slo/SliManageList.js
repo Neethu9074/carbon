@@ -12,7 +12,6 @@ import getApplication from 'in-subscription/application/getApplication';
 import SliList from 'in-custom-dashboards/widgets/Slo/SliList';
 import { isLoading, hasError } from 'in-services/util/result';
 import LightCardV2 from 'in-new-components/Card/LightCardV2';
-import { formatDateTime } from 'in-services/formatters/date';
 import KeyValue from 'in-new-components/lists/KeyValue';
 import { alwaysNull } from 'in-services/fixedStreams';
 import WithIcon from 'in-new-components/WithIcon';
@@ -32,7 +31,7 @@ export default function SliManageList({ api = DEFAULT_API, applicationId, apName
   const [sliSelected, selectSli] = useState(null);
   const queryState = useState('');
   const createSliHeader = (
-    <Button className={locals.createNewButton} kind="action" onClick={() => selectSli({})} icon="lib_openclose_add">
+    <Button kind="action" onClick={() => selectSli({})} icon="lib_openclose_add">
       Create SLI
     </Button>
   );
@@ -158,7 +157,7 @@ const columnDefinitions = [
   {
     id: 'metric',
     sortable: false,
-    label: 'Metric',
+    label: 'SLI Type',
     getContent(item) {
       const metric = metricConfiguration => {
         if (metricConfiguration) {
@@ -166,20 +165,16 @@ const columnDefinitions = [
         }
         return valueMissingPlaceholder;
       };
-      return (item?.metricConfiguration && metric(item.metricConfiguration)) ?? valueMissingPlaceholder;
-    }
-  },
-  {
-    id: 'firstEvaluation',
-    sortable: false,
-    label: 'First evaluation',
-    getContent(item) {
-      const timestamp = item?.initialEvaluationTimestamp;
-      return timestamp ? (
-        <time dateTime={new Date(timestamp).toISOString()}>{formatDateTime(timestamp)}</time>
-      ) : (
-        <span>{valueMissingPlaceholder}</span>
-      );
+      const value = item => {
+        if (item.sliEntity?.sliType === 'application') {
+          return 'Time-based, ' + (item?.metricConfiguration && metric(item.metricConfiguration));
+        } else if (item.sliEntity?.sliType === 'availability') {
+          return 'Event-based';
+        } else {
+          return '';
+        }
+      };
+      return (item && value(item)) ?? valueMissingPlaceholder;
     }
   }
 ];
