@@ -4,11 +4,11 @@ import { getApplicationConfigsAsResultObservable, getSliConfigurations } from '.
 import CreateNewSLIForm from 'in-custom-dashboards/widgets/Slo/CreateSLIForm';
 
 export default {
-  title: 'Templates|CustomDashboard/widgets/slo/createSLI',
+  title: 'Templates|CustomDashboard/widgets/SLO/SLI-management/SLIForm',
   component: CreateNewSLIForm
 };
 
-export function Default() {
+export function ViewExistingSLI() {
   const api = {
     getSliConfigurations,
     getApplicationConfigsAsResultObservable
@@ -29,6 +29,16 @@ export function Default() {
       boundaryScope: 'ALL'
     }
   };
+
+  return <CreateNewSLIForm api={api} sliConfig={sliConfig} apName={'All Servics'} />;
+}
+
+export function CreateNewSLI() {
+  const api = {
+    getSliConfigurations,
+    getApplicationConfigsAsResultObservable
+  };
+  const sliConfig = {};
 
   return <CreateNewSLIForm api={api} sliConfig={sliConfig} apName={'All Servics'} />;
 }

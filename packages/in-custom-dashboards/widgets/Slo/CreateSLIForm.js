@@ -1,12 +1,12 @@
-import React, { Fragment, useState } from 'react';
+import React, { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 import { resetFormForSliType, createForm } from 'in-custom-dashboards/widgets/Slo/form/sliForm';
 import { SliForm } from 'in-custom-dashboards/widgets/Slo/SliFormPresenter';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { createSliConfiguration } from 'in-custom-dashboards/api';
-import SectionLine from 'in-settings/components/SectionLine';
 import Section from 'in-settings/components/Section';
+import Message from 'in-new-components/Message';
 import Button from 'in-new-components/Button';
 
 import locals from './CreateSLIForm.mless';
@@ -45,12 +45,12 @@ export default function CreateNewSLIForm({ api, apName, applicationId, close, sl
     });
 
     const newSliId = uuidv4().slice(9);
-    const enrichtedSliConfiguration = {
+    const enrichedSliConfiguration = {
       ...form.toJS(),
       id: newSliId
     };
     if (form.hierarchyValid) {
-      (api?.createSliConfiguration ?? createSliConfiguration)?.(enrichtedSliConfiguration).subscribe(result => {
+      (api?.createSliConfiguration ?? createSliConfiguration)?.(enrichedSliConfiguration).subscribe(result => {
         if (result.progress.loading) {
           setState({
             success: false,
@@ -71,7 +71,7 @@ export default function CreateNewSLIForm({ api, apName, applicationId, close, sl
               type: 'danger',
               timeout: 4000,
               title: 'Failed to create the SLI.',
-              content: `There was a problem creating this SLI: "${enrichtedSliConfiguration.sliName}"`
+              content: `There was a problem creating this SLI: "${enrichedSliConfiguration.sliName}"`
             },
             'custom-dashboard-error'
           );
@@ -81,7 +81,7 @@ export default function CreateNewSLIForm({ api, apName, applicationId, close, sl
               type: 'info',
               timeout: 4000,
               title: 'SLI created successfully',
-              content: `SLI "${enrichtedSliConfiguration.sliName}" has been created.`
+              content: `SLI "${enrichedSliConfiguration.sliName}" has been created.`
             },
             'custom-dashboard-sli'
           );
@@ -97,28 +97,31 @@ export default function CreateNewSLIForm({ api, apName, applicationId, close, sl
   return (
     <form onSubmit={e => onSubmit(e, form, setForm)}>
       <SliForm form={form} onChange={onChange} onChangeType={onChangeType} apName={apName} api={api} />
-      <Fragment>
-        <Section className={locals.line}>
-          <SectionLine withMarginBottom={false} />
+      {sliConfig?.id && (
+        <Section>
+          <Message>
+            The parameters of the SLI cannot be modified to prevent invalidation of the calculated spent budgets. This
+            is why the SLI needs to be cloned when you change any parameter.
+          </Message>
         </Section>
-        <Section className={locals.saveCancelRow}>
-          <Button kind="subtle" size="compact" className={locals.button} onClick={close}>
-            Cancel
+      )}
+      <Section className={locals.saveCancelRow}>
+        <Button kind="subtle" size="compact" className={locals.button} onClick={close}>
+          Cancel
+        </Button>
+        {form && (
+          <Button
+            icon={saving ? 'lib_actions_loading' : null}
+            iconSpinning
+            className={locals.button}
+            kind="create"
+            type="submit"
+            disabled={(!form.hierarchyValid && form.touched) || saving}
+          >
+            {saving ? savingStateName : saveButtonLabel}
           </Button>
-          {form && (
-            <Button
-              icon={saving ? 'lib_actions_loading' : null}
-              iconSpinning
-              className={locals.button}
-              kind="create"
-              type="submit"
-              disabled={(!form.hierarchyValid && form.touched) || saving}
-            >
-              {saving ? savingStateName : saveButtonLabel}
-            </Button>
-          )}
-        </Section>
-      </Fragment>
+        )}
+      </Section>
     </form>
   );
 }

@@ -5,7 +5,7 @@ import { getApplicationConfigsAsResultObservable } from './apiMock';
 import { createForm } from 'in-custom-dashboards/widgets/Slo';
 
 export default {
-  title: 'Templates|CustomDashboard/widgets/slo/config/APForm',
+  title: 'Templates|CustomDashboard/widgets/SLO/config/APForm',
   component: APConfigForm
 };
 
