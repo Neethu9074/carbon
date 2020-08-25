@@ -3,7 +3,7 @@ import { get } from 'lodash';
 
 import { getSliConfigurations, deleteSliConfiguration } from 'in-custom-dashboards/api';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
-import SlideInView, { ListHeader } from 'in-new-components/SlideInView/SlideInView';
+import SlideInView, { NoHeader } from 'in-new-components/SlideInView/SlideInView';
 import CreateNewSLIForm from 'in-custom-dashboards/widgets/Slo/CreateSLIForm';
 import getServiceLabel from 'in-subscription/application/getServiceLabel';
 import getEndpointInfo from 'in-subscription/application/getEndpointInfo';
@@ -11,7 +11,6 @@ import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import getApplication from 'in-subscription/application/getApplication';
 import SliList from 'in-custom-dashboards/widgets/Slo/SliList';
 import { isLoading, hasError } from 'in-services/util/result';
-import LightCardV2 from 'in-new-components/Card/LightCardV2';
 import KeyValue from 'in-new-components/lists/KeyValue';
 import { alwaysNull } from 'in-services/fixedStreams';
 import WithIcon from 'in-new-components/WithIcon';
@@ -27,8 +26,8 @@ const DEFAULT_API = {
   getSliConfigurations
 };
 
-export default function SliManageList({ api = DEFAULT_API, applicationId, apName }) {
-  const [sliSelected, selectSli] = useState(null);
+export default function SliManageList({ api = DEFAULT_API, applicationId, apName, subSlideState }) {
+  const [sliSelected, selectSli] = subSlideState;
   const queryState = useState('');
   const createSliHeader = (
     <Button kind="action" onClick={() => selectSli({})} icon="lib_openclose_add">
@@ -41,7 +40,7 @@ export default function SliManageList({ api = DEFAULT_API, applicationId, apName
     <SlideInView
       onShowSlideInContentChange={close}
       showSlideInContent={sliSelected}
-      HeaderComponent={ListHeader}
+      HeaderComponent={NoHeader}
       slideTransitionDurationMillis={500}
       slideInContentTitle={'SLI List'}
       slideInContent={
@@ -52,9 +51,7 @@ export default function SliManageList({ api = DEFAULT_API, applicationId, apName
           }}
         >
           {sliSelected && (
-            <LightCardV2>
-              <CreateNewSLIForm apName={apName} sliConfig={sliSelected} applicationId={applicationId} close={close} />
-            </LightCardV2>
+            <CreateNewSLIForm apName={apName} sliConfig={sliSelected} applicationId={applicationId} close={close} />
           )}
         </div>
       }

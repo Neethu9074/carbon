@@ -63,6 +63,33 @@ export default function FormComponent({ form, onChange, widgetTitleFormGroup, se
   const dateField = form.get(TimeWindowStart)?.get('date');
   const timeField = form.get(TimeWindowStart)?.get('time');
 
+  function activateManageSliSlideIn() {
+    return setSlideInView({
+      renderTitle(sliSelected) {
+        return sliSelected === null ? 'Sli Management' : sliSelected?.id ? 'Edit SLI' : 'Create SLI';
+      },
+      slideOutHandler(slideOut, [sliSelected, selectSli]) {
+        return () => {
+          if (sliSelected == null) {
+            slideOut();
+          } else {
+            selectSli(null);
+          }
+        };
+      },
+      getContent({ subSlideState }) {
+        return (
+          <SliManageList
+            applicationId={apConfigId}
+            apName={form.get(SloApName)?.value}
+            api={api}
+            subSlideState={subSlideState}
+          />
+        );
+      }
+    });
+  }
+
   return (
     <div
       className={evaluateClassNames({
@@ -87,18 +114,7 @@ export default function FormComponent({ form, onChange, widgetTitleFormGroup, se
           widgetPreview={false}
           widgetTitleFormGroup={widgetTitleFormGroup}
           openManageSLIComponent={
-            <Button
-              disabled={!apConfigId}
-              kind={'primary'}
-              onClick={() =>
-                setSlideInView({
-                  title: 'Sli Management',
-                  getContent() {
-                    return <SliManageList applicationId={apConfigId} apName={form.get(SloApName)?.value} api={api} />;
-                  }
-                })
-              }
-            >
+            <Button disabled={!apConfigId} kind={'primary'} onClick={() => activateManageSliSlideIn()}>
               Manage SLIs
             </Button>
           }
