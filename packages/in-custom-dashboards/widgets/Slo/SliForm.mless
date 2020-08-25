@@ -4,4 +4,10 @@
   .applicationName[disabled]{
     color: @lib__colors__N700Medium;
   }
+  .oneLineLabel {
+    margin-top: 0.25rem;
+  }
+  .boundaryLabel {
+    margin-top: 2.5rem;
+  }
 }

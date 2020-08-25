@@ -34,6 +34,7 @@ import Input from 'in-components/form/Input';
 import Button from 'in-components/Button';
 
 import locals from './FormComponent.mless';
+import { PercentageFormInput } from 'in-custom-dashboards/widgets/Slo/components/PercentageFormInput';
 
 export default function FormComponent({ form, onChange, widgetTitleFormGroup, setSlideInView, widgetPreview, api }) {
   const apConfigId = form.get(ApConfigId)?.value;
@@ -133,26 +134,7 @@ export default function FormComponent({ form, onChange, widgetTitleFormGroup, se
           </Col>
           <Col md={2}>
             <FormGroup withoutBottomMargin className={locals.inRow}>
-              <Input
-                value={
-                  typeof sloTarget === 'number'
-                    ? parseFloat(Number.parseFloat(sloTarget * 100).toPrecision(6))
-                    : sloTarget
-                }
-                type="number"
-                onChange={({ target }) => {
-                  const value = target.value;
-                  onChange([SloTarget], f =>
-                    f
-                      .setValue(value ? parseFloat(Number.parseFloat(target.valueAsNumber / 100).toPrecision(6)) : '')
-                      .setTouched(true)
-                  );
-                }}
-                hasError={!form.get(SloTarget).valid && form.get(SloTarget).touched}
-                min={0}
-                max={99.999}
-                step="any"
-              />
+              <PercentageFormInput value={sloTarget} onChange={onChange} form={form} fieldName={SloTarget} />
               <span className={locals.sloUnit}>%</span>
             </FormGroup>
           </Col>

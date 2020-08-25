@@ -155,17 +155,3 @@ export function deleteSliConfiguration(id) {
     })
   );
 }
-
-export const getSliReport = memoize(getSliReportRequest, (sliId, slo, from, to) => '' + sliId + slo + from + to, 20000);
-function getSliReportRequest(sliId = 'phani-test-1', slo, from, to) {
-  return refreshSignal.startWith(sliId).flatMap(() =>
-    createObservable(
-      http({
-        method: 'GET',
-        maxRetries: 3,
-        url: `/api/sli/report/${encodeURIComponent(sliId)}`,
-        queryParams: { from, to, slo }
-      })
-    )
-  );
-}

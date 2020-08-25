@@ -12,10 +12,10 @@ import InputMock from 'in-custom-dashboards/widgets/Slo/components/InputMock';
 import StackItem from 'in-new-components/layout/Stack/StackItem';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { Row, Col } from 'in-new-components/layout/Grid';
+import KeyValue from 'in-new-components/lists/KeyValue';
 import FormGroup from 'in-components/form/FormGroup';
 import Stack from 'in-new-components/layout/Stack';
 import Header from 'in-components/form/Header';
-import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 
 import locals from './SliForm.mless';
@@ -39,66 +39,72 @@ export function SliForm({ form, onChange, onChangeType, apName, api }) {
         <Header>SLI Customization</Header>
       </StackItem>
       <StackItem>
-        <Row withoutTopMargin>
-          <Col xs={2}>
-            <FormGroup>
-              <Label>Name</Label>
+        <Row>
+          <Col md={2}>
+            <FormGroup withoutBottomMargin>
+              <KeyValue value="Name" inverted className={locals.oneLineLabel} />
             </FormGroup>
           </Col>
-          <Col xs={3}>
+          <Col md={3}>
             <FormGroup withoutBottomMargin>
               <InputMock form={form} onChange={onChange} fieldName="sliName" />
-              <TouchedMessages field={form.get('sliName')} />
             </FormGroup>
+          </Col>
+          <Col mdOffset={2} md={10}>
+            <TouchedMessages field={form.get('sliName')} />
           </Col>
         </Row>
-        <Row withoutTopMargin>
-          <Col xs={2}>
+        <Row>
+          <Col md={2}>
             <FormGroup withoutBottomMargin>
-              <Label>Type</Label>
+              <KeyValue value="Type" inverted className={locals.oneLineLabel} />
             </FormGroup>
           </Col>
-          <Col xs={3}>
+          <Col md={3}>
             <FormGroup withoutBottomMargin>
               <DropDownMock
                 value={sliType}
-                hasError={true || (!sliEntityForm.get('sliType')?.valid && sliEntityForm.get('sliType')?.touched)}
+                hasError={!sliEntityForm.get('sliType')?.valid && sliEntityForm.get('sliType')?.touched}
                 onChange={({ target }) => onChangeType(target.value)}
                 options={[{ value: '', label: 'Please select' }, ...sliTypeOptions]}
               />
-              <TouchedMessages field={sliEntityForm.get('sliType')} />
             </FormGroup>
+          </Col>
+          <Col mdOffset={2} md={10}>
+            <TouchedMessages field={sliEntityForm.get('sliType')} />
           </Col>
         </Row>
       </StackItem>
       <StackItem>
         <Header>SLI Entity</Header>
-        <Row withoutTopMargin>
-          <Col xs={2}>
+      </StackItem>
+      <StackItem>
+        <Row>
+          <Col md={2}>
             <FormGroup>
-              <Label>Application Perspective</Label>
+              <KeyValue value="Application Perspective" inverted className={locals.oneLineLabel} />
             </FormGroup>
           </Col>
-          <Col xs={3}>
+          <Col md={3}>
             <FormGroup withoutBottomMargin>
               <Input disabled value={apName} className={locals.applicationName} />
             </FormGroup>
           </Col>
         </Row>
         <Row withoutTopMargin>
-          <Col xs={2}>
+          <Col md={2}>
             <FormGroup>
-              <Label>Boundary</Label>
+              <KeyValue value="Boundary" inverted className={locals.boundaryLabel} />
             </FormGroup>
           </Col>
-          <Col xs={4} md={5}>
+          <Col md={4} xs={5}>
             <InboundOrAllCallsOption
               boundaryScope={boundaryScope}
               onBoundaryStateChange={() => onUpdateBoundaryScope(boundaryScopes.inbound)}
               scope={boundaryScopes.inbound}
             />
           </Col>
-          <Col xs={4} md={5}>
+          <Col md={4} xs={5}>
             <InboundOrAllCallsOption
               boundaryScope={boundaryScope}
               onBoundaryStateChange={() => onUpdateBoundaryScope(boundaryScopes.all)}
@@ -107,13 +113,13 @@ export function SliForm({ form, onChange, onChangeType, apName, api }) {
           </Col>
         </Row>
         {sliType === ApplicationType && (
-          <Row withoutTopMargin>
-            <Col xs={2}>
-              <FormGroup>
-                <Label>Service</Label>
+          <Row>
+            <Col md={2}>
+              <FormGroup withoutBottomMargin>
+                <KeyValue value="Service" inverted className={locals.oneLineLabel} />
               </FormGroup>
             </Col>
-            <Col xs={3}>
+            <Col md={3}>
               <FormGroup withoutBottomMargin>
                 <ServicesSelectBox
                   api={api}
@@ -131,13 +137,13 @@ export function SliForm({ form, onChange, onChangeType, apName, api }) {
           </Row>
         )}
         {sliType === ApplicationType && (
-          <Row withoutTopMargin>
-            <Col xs={2}>
+          <Row>
+            <Col md={2}>
               <FormGroup>
-                <Label>Endpoints</Label>
+                <KeyValue value="Endpoints" inverted className={locals.oneLineLabel} />
               </FormGroup>
             </Col>
-            <Col xs={3}>
+            <Col md={3}>
               <FormGroup withoutBottomMargin>
                 <EndpointSelectBox
                   apName={apName}
