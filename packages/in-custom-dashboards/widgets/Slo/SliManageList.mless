@@ -1,9 +1,7 @@
 @import '~in-themes/mixins.less';
 @import '~in-themes/active.less';
 
-
 :local {
-
   .ellipsis {
     font-size: 1rem;
     font-weight: 300;
@@ -12,5 +10,10 @@
 
   .withIcon {
     margin-right: 0.5rem;
+  }
+
+  .controls {
+    display: flex;
+    justify-content: flex-end;
   }
 }

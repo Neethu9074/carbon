@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import theme from 'in-themes';
 import { get } from 'lodash';
 
 import { getSliConfigurations, deleteSliConfiguration } from 'in-custom-dashboards/api';
@@ -18,7 +19,6 @@ import Button from 'in-new-components/Button';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
-import theme from 'in-themes';
 
 import locals from './SliManageList.mless';
 
@@ -30,7 +30,7 @@ export default function SliManageList({ api = DEFAULT_API, applicationId, apName
   const [sliSelected, selectSli] = subSlideState;
   const queryState = useState('');
   const createSliHeader = (
-    <Button kind="action" onClick={() => selectSli({})} icon="lib_openclose_add">
+    <Button kind="action" onClick={() => selectSli({})} icon="lib_openclose_add_circle_outline">
       Create SLI
     </Button>
   );
@@ -62,52 +62,56 @@ export default function SliManageList({ api = DEFAULT_API, applicationId, apName
               ...columnDefinitions,
               {
                 sortable: false,
-                width: '2rem',
+                width: '1',
                 getContent(item) {
                   return (
-                    <Tooltip content="View/Clone SLI Configuration">
-                      <SvgIcon type="lib_actions_edit" color={'rgb(0,152,232)'} onClick={() => selectSli(item)} />
-                    </Tooltip>
+                    <div className={locals.controls}>
+                      <Tooltip content="View/Clone SLI Configuration">
+                        <SvgIcon type="lib_actions_edit" color={'rgb(0,152,232)'} onClick={() => selectSli(item)} />
+                      </Tooltip>
+                    </div>
                   );
                 }
               },
               {
                 sortable: false,
-                width: '2rem',
+                width: '1',
                 getContent(item) {
                   return (
-                    <Tooltip content="Delete SLI Configuration">
-                      <SvgIcon
-                        type="lib_actions_delete"
-                        color={'rgb(0,152,232)'}
-                        onClick={() =>
-                          deleteSliConfiguration(item.id).subscribe(result => {
-                            if (result.progress.loading) {
-                              return;
-                            }
-                            if (result.errors.length > 0) {
-                              addMessage(
-                                {
-                                  type: 'danger',
-                                  timeout: 3000,
-                                  content: 'Failed to delete the sli.'
-                                },
-                                'custom-dashboard-error'
-                              );
-                            } else {
-                              addMessage(
-                                {
-                                  type: 'info',
-                                  timeout: 2000,
-                                  content: 'SLI configuration was successfully deleted.'
-                                },
-                                'custom-dashboard-info'
-                              );
-                            }
-                          })
-                        }
-                      />
-                    </Tooltip>
+                    <div className={locals.controls}>
+                      <Tooltip content="Delete SLI Configuration">
+                        <SvgIcon
+                          type="lib_actions_delete"
+                          color={'rgb(0,152,232)'}
+                          onClick={() =>
+                            deleteSliConfiguration(item.id).subscribe(result => {
+                              if (result.progress.loading) {
+                                return;
+                              }
+                              if (result.errors.length > 0) {
+                                addMessage(
+                                  {
+                                    type: 'danger',
+                                    timeout: 3000,
+                                    content: 'Failed to delete the sli.'
+                                  },
+                                  'custom-dashboard-error'
+                                );
+                              } else {
+                                addMessage(
+                                  {
+                                    type: 'info',
+                                    timeout: 2000,
+                                    content: 'SLI configuration was successfully deleted.'
+                                  },
+                                  'custom-dashboard-info'
+                                );
+                              }
+                            })
+                          }
+                        />
+                      </Tooltip>
+                    </div>
                   );
                 }
               }
