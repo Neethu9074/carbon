@@ -13,7 +13,7 @@ import connectTo from 'in-hoc/connectTo';
 export default connectTo(
   {
     timeConfig: timeConfig$,
-    rows: getDropwizardWithContext('entity.label:"eum-processor"')
+    rows: getDropwizardWithContext('entity.jvm.app.name:"eum-processor"')
   },
   function EumProcessor({ rows, timeConfig }) {
     if (rows.length === 0) {

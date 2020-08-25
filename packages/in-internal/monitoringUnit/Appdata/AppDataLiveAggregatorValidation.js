@@ -13,7 +13,7 @@ import connectTo from 'in-hoc/connectTo';
 
 export default connectTo({
   timeConfig: timeConfig$,
-  rows: getDropwizardWithContext('entity.label:"appdata-reader"')
+  rows: getDropwizardWithContext('entity.jvm.app.name:"appdata-reader"')
 })(function AppDataLiveAggregatorValidation({ rows, timeConfig }) {
   if (rows.length === 0) {
     return <LoadingIndicator />;

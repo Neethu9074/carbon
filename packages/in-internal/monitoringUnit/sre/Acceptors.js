@@ -109,7 +109,7 @@ const cols = [
 export default connectTo(
   {
     timeConfig: timeConfig$,
-    acceptors: getDropwizardWithContext('entity.label:"acceptor"')
+    acceptors: getDropwizardWithContext('entity.jvm.app.name:"acceptor"')
   },
   function Overview({ acceptors, timeConfig }) {
     if (acceptors.length === 0) {

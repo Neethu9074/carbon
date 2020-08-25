@@ -8,13 +8,12 @@ import { number, millis } from 'in-services/formatters/number';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { timeConfig$ } from 'in-stores/time/config';
-import { region } from 'in-services/config';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
   {
     timeConfig: timeConfig$,
-    rows: getDropwizardWithContext('entity.label:"eum-acceptor"')
+    rows: getDropwizardWithContext('entity.jvm.app.name:"eum-acceptor"')
   },
   function EumAcceptor({ rows, timeConfig }) {
     if (rows.length === 0) {
@@ -210,7 +209,7 @@ export default connectTo(
               }}
             />
           </DashboardSection>
-          <DashboardSection title={`SPA`}>
+          <DashboardSection title={`Page Change`}>
             <Chart
               snapshotIds={rows.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -219,7 +218,7 @@ export default connectTo(
               y1={{
                 min: 0,
                 formatter: number.perSecond.compact,
-                metrics: rows.map(() => `metrics.meters.instana.beaconProcessing.beaconsByType.spa`),
+                metrics: rows.map(() => `metrics.meters.instana.beaconProcessing.beaconsByType.pc`),
                 labels,
                 type: 'stackedArea'
               }}
@@ -227,10 +226,10 @@ export default connectTo(
           </DashboardSection>
         </Columize>
 
-        <h2>Cross Region Data Transfer</h2>
+        <h2>Kafka</h2>
 
         <Columize>
-          <DashboardSection title={`Kafka Writes In Same Region`}>
+          <DashboardSection title={`Website Beacon Writes`}>
             <Chart
               snapshotIds={rows.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -245,7 +244,7 @@ export default connectTo(
             />
           </DashboardSection>
 
-          <DashboardSection title={`Kafka Writes Into Other Region (${region})`}>
+          <DashboardSection title={`Mobile App Beacon Writes`}>
             <Chart
               snapshotIds={rows.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -253,7 +252,7 @@ export default connectTo(
               y1={{
                 min: 0,
                 formatter: number.perSecond.compact,
-                metrics: rows.map(() => `metrics.meters.kafka.writes.by_topic.${region}_website_monitoring_beacons`),
+                metrics: rows.map(() => `metrics.meters.kafka.writes.by_topic.mobile_app_monitoring_beacons`),
                 labels,
                 type: 'stackedArea'
               }}

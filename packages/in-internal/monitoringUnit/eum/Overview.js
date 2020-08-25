@@ -17,10 +17,10 @@ import connectTo from 'in-hoc/connectTo';
 export default connectTo(
   {
     timeConfig: timeConfig$,
-    appdataWriters: getDropwizardWithContext('entity.label:"appdata-writer"'),
-    eumAcceptors: getDropwizardWithContext('entity.label:"eum-acceptor"'),
-    eumProcessors: getDropwizardWithContext('entity.label:"eum-processor"'),
-    jsStackTraceTranslators: getDropwizardWithContext('entity.label:"js-stack-trace-translator"'),
+    appdataWriters: getDropwizardWithContext('entity.jvm.app.name:"appdata-writer"'),
+    eumAcceptors: getDropwizardWithContext('entity.jvm.app.name:"eum-acceptor"'),
+    eumProcessors: getDropwizardWithContext('entity.jvm.app.name:"eum-processor"'),
+    jsStackTraceTranslators: getDropwizardWithContext('entity.jvm.app.name:"js-stack-trace-translator"'),
     eumLoadbalancers: getNginxWithContext('entity.host.name:"loadbalancer-eum-*"')
   },
   function Overview({
@@ -34,12 +34,7 @@ export default connectTo(
     // Not deployed everywhere as of 2019-08-06
     jsStackTraceTranslators = jsStackTraceTranslators || [];
 
-    if (
-      appdataWriters.length === 0 ||
-      eumAcceptors.length === 0 ||
-      eumProcessors.length === 0 ||
-      eumLoadbalancers.length === 0
-    ) {
+    if (appdataWriters.length === 0 || eumAcceptors.length === 0 || eumProcessors.length === 0) {
       return <LoadingIndicator />;
     }
 
@@ -49,8 +44,11 @@ export default connectTo(
     const eumAcceptorLabels = getLabels(eumAcceptors, /^(eum-acceptor-\d+).*$/i);
     eumProcessors = sort(eumProcessors);
     const eumProcessorLabels = getLabels(eumProcessors, /^(eum-processor-\d+).*$/i);
-    eumLoadbalancers = sort(eumLoadbalancers);
-    const eumLoadbalancerLabels = getLabels(eumLoadbalancers, /^(loadbalancer-eum-\d+).*$/i);
+    let eumLoadbalancerLabels;
+    if (eumLoadbalancers) {
+      eumLoadbalancers = sort(eumLoadbalancers);
+      eumLoadbalancerLabels = getLabels(eumLoadbalancers, /^(loadbalancer-eum-\d+).*$/i);
+    }
     jsStackTraceTranslators = jsStackTraceTranslators
       .slice()
       .sort((a, b) => compareIgnoreCase(getJsStackTraceTranslatorLabel(a), getJsStackTraceTranslatorLabel(b)));
@@ -58,63 +56,67 @@ export default connectTo(
 
     return (
       <div>
-        <h1>loadbalancer-eum (edge)</h1>
+        {eumLoadbalancers?.length > 0 && (
+          <>
+            <h1>loadbalancer-eum (edge)</h1>
 
-        <Columize>
-          <DashboardSection title={`Requests`}>
-            <Chart
-              snapshotIds={eumLoadbalancers.map(r => r.nginx.get('id'))}
-              timeConfig={timeConfig}
-              y1={{
-                min: 0,
-                formatter: number.perSecond.compact,
-                metrics: eumLoadbalancers.map(() => `requests`),
-                labels: eumLoadbalancerLabels,
-                type: 'stackedArea'
-              }}
-            />
-          </DashboardSection>
+            <Columize>
+              <DashboardSection title={`Requests`}>
+                <Chart
+                  snapshotIds={eumLoadbalancers.map(r => r.nginx.get('id'))}
+                  timeConfig={timeConfig}
+                  y1={{
+                    min: 0,
+                    formatter: number.perSecond.compact,
+                    metrics: eumLoadbalancers.map(() => `requests`),
+                    labels: eumLoadbalancerLabels,
+                    type: 'stackedArea'
+                  }}
+                />
+              </DashboardSection>
 
-          <DashboardSection title={`Dropped connections`}>
-            <Chart
-              snapshotIds={eumLoadbalancers.map(r => r.nginx.get('id'))}
-              timeConfig={timeConfig}
-              y1={{
-                min: 0,
-                formatter: number.perSecond.compact,
-                metrics: eumLoadbalancers.map(() => `connections.dropped`),
-                labels: eumLoadbalancerLabels,
-                type: 'line'
-              }}
-            />
-          </DashboardSection>
-        </Columize>
+              <DashboardSection title={`Dropped connections`}>
+                <Chart
+                  snapshotIds={eumLoadbalancers.map(r => r.nginx.get('id'))}
+                  timeConfig={timeConfig}
+                  y1={{
+                    min: 0,
+                    formatter: number.perSecond.compact,
+                    metrics: eumLoadbalancers.map(() => `connections.dropped`),
+                    labels: eumLoadbalancerLabels,
+                    type: 'line'
+                  }}
+                />
+              </DashboardSection>
+            </Columize>
 
-        <Columize>
-          <DashboardSection title={`CPU load`}>
-            <Chart
-              snapshotIds={eumLoadbalancers.map(r => r.host.get('id'))}
-              timeConfig={timeConfig}
-              minRollup={5000}
-              y1={{
-                min: 0,
-                formatter: number.detailed,
-                tooltipFormatter: number.detailed,
-                metrics: eumLoadbalancers.map(() => 'load.1min'),
-                labels: eumLoadbalancers.map(r => r.host.get('label')),
-                type: 'line'
-              }}
-            />
-          </DashboardSection>
+            <Columize>
+              <DashboardSection title={`CPU load`}>
+                <Chart
+                  snapshotIds={eumLoadbalancers.map(r => r.host.get('id'))}
+                  timeConfig={timeConfig}
+                  minRollup={5000}
+                  y1={{
+                    min: 0,
+                    formatter: number.detailed,
+                    tooltipFormatter: number.detailed,
+                    metrics: eumLoadbalancers.map(() => 'load.1min'),
+                    labels: eumLoadbalancers.map(r => r.host.get('label')),
+                    type: 'line'
+                  }}
+                />
+              </DashboardSection>
 
-          <Table
-            cardTitle="CPU Usage"
-            cols={hostTableCols}
-            rows={eumLoadbalancers}
-            getRowDetails={getHostDetails}
-            maxItemsPerPage={5}
-          />
-        </Columize>
+              <Table
+                cardTitle="CPU Usage"
+                cols={hostTableCols}
+                rows={eumLoadbalancers}
+                getRowDetails={getHostDetails}
+                maxItemsPerPage={5}
+              />
+            </Columize>
+          </>
+        )}
 
         <h1>eum-acceptor (data collection)</h1>
 

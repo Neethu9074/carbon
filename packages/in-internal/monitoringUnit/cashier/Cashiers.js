@@ -13,7 +13,7 @@ export default connectTo(
   {
     timeConfig: timeConfig$,
     cashieracceptors: getDropwizardWithContext('entity.kubernetes.deployment.name:"cashier-acceptor"'),
-    cashierusagetransfers: getDropwizardWithContext('entity.label:"cashier-usage-transfer"'),
+    cashierusagetransfers: getDropwizardWithContext('entity.jvm.app.name:"cashier-usage-transfer"'),
     cashieringests: getDropwizardWithContext('entity.kubernetes.deployment.name:"cashier-ingest"'),
     cashierrollups: getDropwizardWithContext('entity.kubernetes.deployment.name:"cashier-rollup"')
   },

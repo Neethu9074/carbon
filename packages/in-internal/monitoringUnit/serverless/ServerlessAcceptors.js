@@ -109,7 +109,7 @@ const cols = [
 export default connectTo(
   {
     timeConfig: timeConfig$,
-    serverlessacceptors: getDropwizardWithContext('entity.label:"serverless-acceptor"')
+    serverlessacceptors: getDropwizardWithContext('entity.jvm.app.name:"serverless-acceptor"')
   },
   function Overview({ serverlessacceptors, timeConfig }) {
     if (serverlessacceptors.length === 0) {
