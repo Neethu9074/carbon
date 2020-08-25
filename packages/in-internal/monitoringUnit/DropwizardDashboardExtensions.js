@@ -172,6 +172,6 @@ kubectl port-forward --namespace ${namespace} ${name} 8600 8601
   const componentName = jvm.getIn(['data', 'appInfo', 'title']);
   return `
 # Get logs directly from machine. Remember to insert your user name
-    ssh -t $INSTANA_LDAP_USER@${fqdn} 'less /mnt/data/nomad/alloc/${allocId}/alloc/logs/${componentName}.log'
+ssh -t $INSTANA_LDAP_USER@${fqdn} 'less /mnt/data/nomad/alloc/${allocId}/alloc/logs/${componentName}.log'
     `.trim();
 }

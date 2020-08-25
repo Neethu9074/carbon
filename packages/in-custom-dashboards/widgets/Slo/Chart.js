@@ -8,7 +8,7 @@ import { getSliFormatter } from 'in-custom-dashboards/widgets/Slo/sliConfigUtils
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import theme from 'in-themes';
 
-export default function Chart({ result, timeConfig, consumed, hourlyBudget, budget, sliConfig, isPreview }) {
+export default function Chart({ result, timeConfig, granularity, consumed, hourlyBudget, budget, sliConfig, isPreview }) {
   const isStaticBudget = hourlyBudget === null || hourlyBudget.length === 0;
   let metrics = [consumed, hourlyBudget];
   if (isStaticBudget) {
@@ -23,8 +23,8 @@ export default function Chart({ result, timeConfig, consumed, hourlyBudget, budg
       customHeight={50}
       result={result}
       config={{
-        granularity: 3600 * 1000,
-        timeConfig: timeConfig,
+        granularity,
+        timeConfig,
         y1: {
           metricIds: ['consumed', hourlyBudgetMetricId],
           labels: ['Spent', 'Budget'],
