@@ -47,8 +47,7 @@ export default function FormComponent({ form, onChange, widgetTitleFormGroup, se
     onChange([], form => {
       let updatedForm;
       if (value === Fixed) {
-        const now = new Date().getTime();
-        updatedForm = addFormForStartTimeStamp(form, now);
+        updatedForm = addFormForStartTimeStamp(form);
       } else {
         updatedForm = removeFormForStartTimeStamp(form);
       }

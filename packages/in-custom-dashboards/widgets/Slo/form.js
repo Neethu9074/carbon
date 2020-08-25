@@ -76,7 +76,7 @@ export function createForm(oldSavedState) {
   if (savedState[TimeWindowType] === Fixed) {
     const start = savedState[TimeWindowStart];
     // auto-corrects invalid dates:
-    const ts = parsedTimestamp(start?.date + ' ' + start?.time) ?? new Date().getTime();
+    const ts = parsedTimestamp(start?.date + ' ' + start?.time);
     form = addFormForStartTimeStamp(form, ts);
   }
 
@@ -107,20 +107,21 @@ export function removeFormForStartTimeStamp(form) {
 }
 
 export function addFormForStartTimeStamp(form, ts) {
+  const timestamp = ts ?? new Date().setHours(0, 0, 0, 0);
   return form.put(
     TimeWindowStart,
     createMapForm()
       .put(
         'date',
         createField({
-          value: formatDate(ts),
+          value: formatDate(timestamp),
           validator: composeValidators(notBlankValidator, dateValidator)
         })
       )
       .put(
         'time',
         createField({
-          value: formatTime(ts),
+          value: formatTime(timestamp),
           validator: composeValidators(notBlankValidator, timeValidator)
         })
       )
