@@ -44,8 +44,10 @@ export default class extends React.Component {
     ];
 
     const primaryContextMenuAction = chart.config.primaryContextMenuAction || zoomInAction.name;
+    const excludedContextMenuActions = chart.config.excludedContextMenuActions || [];
     const contextMenuButtons = [...chart.config.additionalContextMenuButtons, ...basicButtonConfigs]
       .filter(Boolean)
+      .filter(config => !excludedContextMenuActions.includes(config.name))
       .sort((a1, a2) => sortByPrimaryAction(a1, a2, primaryContextMenuAction))
       .map(config => {
         if (config.onClick) {
