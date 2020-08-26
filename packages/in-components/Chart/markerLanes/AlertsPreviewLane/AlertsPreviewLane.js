@@ -21,7 +21,7 @@ export default function AlertsPreviewLane({ alertsPreviewConfiguration, getAlert
               count
             })) ?? []
         ),
-      [alertsPreviewConfiguration, getAlertsPreview]
+      [alertsPreviewConfiguration, clusterSizeMillis]
     ) ?? emptyArray;
 
   return <AlertsPreviewLanePresenter {...remainingProps} alerts={alerts} />;

@@ -17,7 +17,7 @@ export default function AlertsLane({ getAlerts, config = {}, ...remainingProps }
       })
         .startWith(pendingResult)
         .map(({ data = [] }) => data),
-      [getAlerts]
+      [config, clusterSizeMillis, remainingProps.timeConfig]
     ) ?? emptyArray;
 
   return <AlertsLanePresenter {...remainingProps} alerts={alerts} />;
