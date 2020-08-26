@@ -2,7 +2,7 @@ import moment from 'moment';
 import React from 'react';
 
 import {
-  SloApName,
+  ApName,
   SloTarget,
   SliConfigId,
   TimeWindowType,
@@ -45,7 +45,7 @@ const oneWeekTimeConfig = {
 
 export default function Widget({ actions, config, isPreview, title, dragHandle, api = DEFAULT_API }) {
   const slo = config?.[SloTarget] ?? '';
-  const apName = config?.[SloApName] ?? '';
+  const apName = config?.[ApName] ?? '';
   const sliConfigId = config?.[SliConfigId];
 
   const timeWindowType = config?.[TimeWindowType] ?? Dynamic;

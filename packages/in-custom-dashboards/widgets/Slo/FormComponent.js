@@ -2,8 +2,9 @@ import React from 'react';
 
 import {
   SloTarget,
-  SliApConfigId,
-  SloApName,
+  ApConfigId,
+  ApName,
+  ApBoundaryScope,
   TimeWindowType,
   TimeWindowDuration,
   TimeWindowDurationUnit,
@@ -33,9 +34,10 @@ import Input from 'in-components/form/Input';
 import Button from 'in-components/Button';
 
 import locals from './FormComponent.mless';
+import { PercentageFormInput } from 'in-custom-dashboards/widgets/Slo/components/PercentageFormInput';
 
 export default function FormComponent({ form, onChange, widgetTitleFormGroup, setSlideInView, widgetPreview, api }) {
-  const apConfigId = form.get(SliApConfigId)?.value;
+  const apConfigId = form.get(ApConfigId)?.value;
   const sloTarget = form.get(SloTarget)?.value;
   const timeWindowTypeValue = form.get(TimeWindowType)?.value ?? Dynamic;
   const isFixed = timeWindowTypeValue === Fixed;
@@ -45,8 +47,7 @@ export default function FormComponent({ form, onChange, widgetTitleFormGroup, se
     onChange([], form => {
       let updatedForm;
       if (value === Fixed) {
-        const now = new Date().getTime();
-        updatedForm = addFormForStartTimeStamp(form, now);
+        updatedForm = addFormForStartTimeStamp(form);
       } else {
         updatedForm = removeFormForStartTimeStamp(form);
       }
@@ -65,7 +66,10 @@ export default function FormComponent({ form, onChange, widgetTitleFormGroup, se
   function activateManageSliSlideIn() {
     return setSlideInView({
       renderTitle(sliSelected) {
-        return sliSelected === null ? 'Sli Management' : sliSelected?.id ? 'Edit SLI' : 'Create SLI';
+        if (sliSelected === null) {
+          return 'SLI Management';
+        }
+        return sliSelected?.id ? 'Edit SLI' : 'Create SLI';
       },
       slideOutHandler(slideOut, [sliSelected, selectSli]) {
         return () => {
@@ -80,7 +84,8 @@ export default function FormComponent({ form, onChange, widgetTitleFormGroup, se
         return (
           <SliManageList
             applicationId={apConfigId}
-            apName={form.get(SloApName)?.value}
+            apName={form.get(ApName)?.value}
+            apDefaultBoundaryScope={form.get(ApBoundaryScope)?.value}
             api={api}
             subSlideState={subSlideState}
           />
@@ -128,26 +133,7 @@ export default function FormComponent({ form, onChange, widgetTitleFormGroup, se
           </Col>
           <Col md={2}>
             <FormGroup withoutBottomMargin className={locals.inRow}>
-              <Input
-                value={
-                  typeof sloTarget === 'number'
-                    ? parseFloat(Number.parseFloat(sloTarget * 100).toPrecision(6))
-                    : sloTarget
-                }
-                type="number"
-                onChange={({ target }) => {
-                  const value = target.value;
-                  onChange([SloTarget], f =>
-                    f
-                      .setValue(value ? parseFloat(Number.parseFloat(target.valueAsNumber / 100).toPrecision(6)) : '')
-                      .setTouched(true)
-                  );
-                }}
-                hasError={!form.get(SloTarget).valid && form.get(SloTarget).touched}
-                min={0}
-                max={99.999}
-                step="any"
-              />
+              <PercentageFormInput value={sloTarget} onChange={onChange} form={form} fieldName={SloTarget} />
               <span className={locals.sloUnit}>%</span>
             </FormGroup>
           </Col>

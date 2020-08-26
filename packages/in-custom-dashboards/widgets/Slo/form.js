@@ -10,10 +10,13 @@ import { dateValidator, timeValidator } from 'in-services/validators/date';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
 import { demo } from 'in-custom-dashboards/widgets/Slo';
 
-export const SliConfigId = 'sliConfigId';
+// internal fields just for app-config information used internally
+export const ApConfigId = 'apConfigId';
+export const ApName = 'apName';
+export const ApBoundaryScope = 'apBoundaryScope';
+
 export const SloTarget = 'slo';
-export const SloApName = 'apName';
-export const SliApConfigId = 'apConfigId';
+export const SliConfigId = 'sliConfigId';
 export const TimeWindowType = 'timeWindowType';
 export const TimeWindowStart = 'timeWindowStart';
 export const TimeWindowDuration = 'timeWindowDuration';
@@ -32,16 +35,22 @@ export function createForm(oldSavedState) {
   let form = createMapForm();
 
   form = form.put(
-    SloApName,
+    ApName,
     createField({
-      value: savedState[SloApName] ?? demo[SloApName]
+      value: savedState[ApName] ?? demo[ApName]
     })
   );
   form = form.put(
-    SliApConfigId,
+    ApBoundaryScope,
+    createField({
+      value: savedState[ApBoundaryScope] ?? demo[ApBoundaryScope]
+    })
+  );
+  form = form.put(
+    ApConfigId,
     createField({
       validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator),
-      value: savedState[SliApConfigId]
+      value: savedState[ApConfigId]
     })
   );
   form = form.put(
@@ -67,7 +76,7 @@ export function createForm(oldSavedState) {
   if (savedState[TimeWindowType] === Fixed) {
     const start = savedState[TimeWindowStart];
     // auto-corrects invalid dates:
-    const ts = parsedTimestamp(start?.date + ' ' + start?.time) ?? new Date().getTime();
+    const ts = parsedTimestamp(start?.date + ' ' + start?.time);
     form = addFormForStartTimeStamp(form, ts);
   }
 
@@ -98,20 +107,21 @@ export function removeFormForStartTimeStamp(form) {
 }
 
 export function addFormForStartTimeStamp(form, ts) {
+  const timestamp = ts ?? new Date().setHours(0, 0, 0, 0);
   return form.put(
     TimeWindowStart,
     createMapForm()
       .put(
         'date',
         createField({
-          value: formatDate(ts),
+          value: formatDate(timestamp),
           validator: composeValidators(notBlankValidator, dateValidator)
         })
       )
       .put(
         'time',
         createField({
-          value: formatTime(ts),
+          value: formatTime(timestamp),
           validator: composeValidators(notBlankValidator, timeValidator)
         })
       )

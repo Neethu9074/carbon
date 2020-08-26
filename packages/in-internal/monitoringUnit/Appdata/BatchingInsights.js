@@ -58,7 +58,7 @@ const types = [
 export default connectTo(
   {
     timeConfig: timeConfig$,
-    rows: getDropwizardWithContext('entity.label:"appdata-writer"')
+    rows: getDropwizardWithContext('entity.jvm.app.name:"appdata-writer"')
   },
   function AppDataWriter({ rows, timeConfig }) {
     if (rows.length === 0) {

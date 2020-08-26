@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { getApplicationConfigsAsResultObservable } from 'in-api/applicationConfigs';
-import { SliApConfigId, SloApName } from 'in-custom-dashboards/widgets/Slo/form';
+import { ApConfigId, ApBoundaryScope, ApName } from 'in-custom-dashboards/widgets/Slo/form';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { Row, Col } from 'in-new-components/layout/Grid';
@@ -16,7 +16,7 @@ export default function APConfigForm({ api, form, onChange }) {
     (api?.getApplicationConfigsAsResultObservable ?? getApplicationConfigsAsResultObservable)().map(({ data }) => data),
     []
   );
-  const sliApConfigIdField = form.get(SliApConfigId);
+  const apConfigIdField = form.get(ApConfigId);
   return (
     <div>
       <Row withoutTopMargin>
@@ -24,7 +24,7 @@ export default function APConfigForm({ api, form, onChange }) {
           <KeyValue label="User Journey / Offering" value="Application Perspective" inverted />
         </Col>
         <Col xs>
-          {sliApConfigIdField.map(field => (
+          {apConfigIdField.map(field => (
             <FormGroup withoutBottomMargin>
               <Select
                 id="sli-config-ap"
@@ -33,10 +33,12 @@ export default function APConfigForm({ api, form, onChange }) {
                   const apId = e.target.value;
                   const apConfig = apConfigs?.find(ap => ap.id === apId);
                   const apName = apConfig?.label ?? '';
+                  const apBoundaryScope = apConfig?.boundaryScope;
                   onChange([], formField =>
                     formField
-                      .updateIn([SliApConfigId], f => f.setValue(apId).setTouched(true))
-                      .updateIn([SloApName], f => f.setValue(apName).setTouched(true))
+                      .updateIn([ApConfigId], f => f.setValue(apId).setTouched(true))
+                      .updateIn([ApName], f => f.setValue(apName).setTouched(true))
+                      .updateIn([ApBoundaryScope], f => f.setValue(apBoundaryScope).setTouched(true))
                   );
                 }}
                 hasError={!field.valid && field.touched}

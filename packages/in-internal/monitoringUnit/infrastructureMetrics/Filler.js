@@ -56,7 +56,7 @@ const cols = [
 
 export default connectTo({
   timeConfig: timeConfig$,
-  rows: getDropwizardWithContext('entity.label:filler*')
+  rows: getDropwizardWithContext('entity.jvm.app.name:filler')
 })(function AppDataProcessorStatistics({ rows }) {
   if (rows.length === 0) {
     return <LoadingIndicator />;

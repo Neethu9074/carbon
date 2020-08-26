@@ -26,7 +26,13 @@ const DEFAULT_API = {
   getSliConfigurations
 };
 
-export default function SliManageList({ api = DEFAULT_API, applicationId, apName, subSlideState }) {
+export default function SliManageList({
+  api = DEFAULT_API,
+  applicationId,
+  apName,
+  apDefaultBoundaryScope,
+  subSlideState
+}) {
   const [sliSelected, selectSli] = subSlideState;
   const queryState = useState('');
   const createSliHeader = (
@@ -51,7 +57,13 @@ export default function SliManageList({ api = DEFAULT_API, applicationId, apName
           }}
         >
           {sliSelected && (
-            <CreateNewSLIForm apName={apName} sliConfig={sliSelected} applicationId={applicationId} close={close} />
+            <CreateNewSLIForm
+              apName={apName}
+              sliConfig={sliSelected}
+              applicationId={applicationId}
+              apDefaultBoundaryScope={apDefaultBoundaryScope}
+              close={close}
+            />
           )}
         </div>
       }

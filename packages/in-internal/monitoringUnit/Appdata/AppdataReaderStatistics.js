@@ -58,7 +58,7 @@ const cols = [
 
 export default connectTo({
   timeConfig: timeConfig$,
-  rows: getDropwizardWithContext('entity.label:"appdata-reader"')
+  rows: getDropwizardWithContext('entity.jvm.app.name:"appdata-reader"')
 })(function AppdataWriterStatistics({ rows, timeConfig }) {
   if (rows.length === 0) {
     return <LoadingIndicator />;
