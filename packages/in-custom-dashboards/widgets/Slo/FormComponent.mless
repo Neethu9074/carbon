@@ -30,6 +30,9 @@
   .sloUnit {
     margin-left: 0.5rem;
   }
+  .windowHelpText {
+    line-height: 1.25rem;
+  }
   .dateTimeIcons {
     margin-left: 0.5rem;
   }

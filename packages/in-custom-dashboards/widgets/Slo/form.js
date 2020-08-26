@@ -28,16 +28,14 @@ export const Dynamic = 'dynamic';
 export const Rolling = 'rolling';
 
 export function createForm(oldSavedState) {
-  const savedState = oldSavedState ?? {
-    ...demo
-  };
+  const savedState = oldSavedState ?? {};
 
   let form = createMapForm();
 
   form = form.put(
     ApName,
     createField({
-      value: savedState[ApName] ?? demo[ApName]
+      value: savedState[ApName] ?? ''
     })
   );
   form = form.put(
@@ -57,7 +55,7 @@ export function createForm(oldSavedState) {
     SloTarget,
     createField({
       validator: composeAndShortCircuitOnError(notUndefinedValidator, numberValidator, sloValidator),
-      value: savedState[SloTarget] ?? demo[SloTarget]
+      value: savedState[SloTarget] ?? ''
     })
   );
   form = form.put(
