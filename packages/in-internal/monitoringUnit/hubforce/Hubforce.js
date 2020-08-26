@@ -118,39 +118,6 @@ export default connectTo(
           </DashboardSection>
         </Columize>
 
-        <h2>Hubspot</h2>
-        <Columize>
-          <DashboardSection title={'Number of Hubspot API calls left'}>
-            <Chart
-              snapshotIds={hubforce.map(r => r.dropwizard.get('id'))}
-              timeConfig={timeConfig}
-              y1={{
-                min: 0,
-                formatter: number.detailed,
-                metrics: ['metrics.gauges.com.instana.hubforce.io.hubspot.HubspotIOService.Hubspot API Wait Timer'],
-                labels: ['# calls'],
-                type: 'line'
-              }}
-            />
-          </DashboardSection>
-
-          <DashboardSection title={'Number of Hubspot API calls within 10s timeframe'}>
-            <Chart
-              snapshotIds={hubforce.map(r => r.dropwizard.get('id'))}
-              timeConfig={timeConfig}
-              y1={{
-                min: 0,
-                formatter: number.detailed,
-                metrics: [
-                  'metrics.gauges.com.instana.hubforce.io.hubspot.HubspotIOService.Remaining Hubspot API Calls within 10 seconds timeframe'
-                ],
-                labels: ['# calls'],
-                type: 'line'
-              }}
-            />
-          </DashboardSection>
-        </Columize>
-
         <h2>Salesforce</h2>
         <Columize>
           <DashboardSection title={'Salesforce API calls duration (mean)'}>
