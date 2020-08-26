@@ -28,8 +28,8 @@ function searchSubGroup(subGroup, query) {
     return subGroup;
   }
 
-  const filteredTags = subGroup.children.filter(tag => searchTag(tag, query));
-  if (filteredTags.length > 0) {
+  const filteredTags = subGroup.children?.filter(tag => searchTag(tag, query));
+  if (filteredTags && filteredTags.length > 0) {
     return {
       ...subGroup,
       originalChildren: subGroup.children,
