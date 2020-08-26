@@ -128,6 +128,7 @@ export default connectTo(
         rows={rows}
         initialSortColumn={0}
         initialSortDirection="desc"
+        noDataText="No issues found."
       />
     );
   }
