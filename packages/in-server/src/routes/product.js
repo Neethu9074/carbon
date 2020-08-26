@@ -1,5 +1,5 @@
 const Handlebars = require('handlebars');
-const sendRequest = require('request');
+const fetch = require('node-fetch');
 const express = require('express');
 const uuid = require('node-uuid');
 const fs = require('fs');
@@ -167,7 +167,7 @@ router.get('/', async (req, res) => {
       })
     );
   } catch (e) {
-    console.error('Failed to deliver index.html to user:', e);
+    console.error('Failed to deliver index.html to user:', e.message, e);
     errorPages.send500(req, res);
   }
 });
@@ -187,196 +187,95 @@ function initializeSubRequestPromises(req) {
   ]);
 }
 
-function getTermsAndPrivacySettings(req) {
-  return new Promise((resolve, reject) => {
-    sendRequest(
-      {
-        url: req.uiBackendBaseUrl + '/api/user-settings',
-        headers: {
-          Cookie: `${serverConfig.cookie.name}=${req.cookies[serverConfig.cookie.name]}`
-        },
-        timeout: 15000
+async function getFromUiBackend({ req, path, resolveWithResponse = false }) {
+  let response;
+  try {
+    response = await fetch(req.uiBackendBaseUrl + path, {
+      headers: {
+        Cookie: `${serverConfig.cookie.name}=${req.cookies[serverConfig.cookie.name]}`
       },
-      (error, response, termsAndPrivacySettings) => {
-        if (error) {
-          reject(new Error('Failed to retrieve user settings for tos and privacy from ui-backend: ' + String(error)));
-        } else {
-          resolve(termsAndPrivacySettings);
-        }
-      }
-    );
+      timeout: 15000
+    });
+  } catch (e) {
+    throw new Error(`Failed to call GET ${path} from ui-backend: ${e.message} ${e}`);
+  }
+
+  if (!response.ok) {
+    throw new Error(`Retrieved status code ${response.status} for GET ${path} from ui-backend.`);
+  }
+
+  if (resolveWithResponse) {
+    return response;
+  }
+
+  return await response.text();
+}
+
+function getTermsAndPrivacySettings(req) {
+  return getFromUiBackend({
+    req,
+    path: '/api/user-settings'
   });
 }
 
 function getLatestTermsAndPrivacyAcceptance(req) {
-  return new Promise((resolve, reject) => {
-    sendRequest(
-      {
-        url: req.uiBackendBaseUrl + '/api/tos-privacy-agreement/checkUserAcceptance',
-        headers: {
-          Cookie: `${serverConfig.cookie.name}=${req.cookies[serverConfig.cookie.name]}`
-        },
-        timeout: 15000
-      },
-      (error, response, termsAndPrivacyAcceptance) => {
-        if (error) {
-          reject(new Error('Failed to retrieve latest tos acceptance from ui-backend: ' + String(error)));
-        } else {
-          resolve(termsAndPrivacyAcceptance);
-        }
-      }
-    );
+  return getFromUiBackend({
+    req,
+    path: '/api/tos-privacy-agreement/checkUserAcceptance'
   });
 }
 
 function getUserPermissions(req) {
-  return new Promise((resolve, reject) => {
-    sendRequest(
-      {
-        url: req.uiBackendBaseUrl + '/api/permissions',
-        headers: {
-          Cookie: `${serverConfig.cookie.name}=${req.cookies[serverConfig.cookie.name]}`
-        },
-        timeout: 15000
-      },
-      (error, response, userSettings) => {
-        if (error) {
-          reject(new Error('Failed to retrieve user permissions from ui-backend: ' + String(error)));
-        } else {
-          resolve(userSettings);
-        }
-      }
-    );
+  return getFromUiBackend({
+    req,
+    path: '/api/permissions'
   });
 }
 
 function getUserSettings(req) {
-  return new Promise((resolve, reject) => {
-    sendRequest(
-      {
-        url: req.uiBackendBaseUrl + '/api/ui/settings',
-        headers: {
-          Cookie: `${serverConfig.cookie.name}=${req.cookies[serverConfig.cookie.name]}`
-        },
-        timeout: 15000
-      },
-      (error, response, userSettings) => {
-        if (error) {
-          reject(new Error('Failed to retrieve user settings from ui-backend: ' + String(error)));
-        } else {
-          resolve(userSettings);
-        }
-      }
-    );
+  return getFromUiBackend({
+    req,
+    path: '/api/ui/settings'
   });
 }
 
 function getSearchFields(req) {
-  return new Promise((resolve, reject) => {
-    sendRequest(
-      {
-        url: req.uiBackendBaseUrl + '/api/search/fields',
-        headers: {
-          Cookie: `${serverConfig.cookie.name}=${req.cookies[serverConfig.cookie.name]}`
-        },
-        timeout: 15000
-      },
-      (error, response, searchFields) => {
-        if (error) {
-          reject(new Error('Failed to retrieve user settings from ui-backend: ' + String(error)));
-        } else {
-          resolve(searchFields);
-        }
-      }
-    );
+  return getFromUiBackend({
+    req,
+    path: '/api/search/fields'
   });
 }
 
 function getFilterTags(req) {
-  return new Promise((resolve, reject) => {
-    sendRequest(
-      {
-        url: req.uiBackendBaseUrl + '/api/tags',
-        headers: {
-          Cookie: `${serverConfig.cookie.name}=${req.cookies[serverConfig.cookie.name]}`
-        },
-        timeout: 15000
-      },
-      (error, response, tags) => {
-        if (error) {
-          reject(new Error('Failed to retrieve filter tags from ui-backend: ' + String(error)));
-        } else {
-          resolve(tags);
-        }
-      }
-    );
+  return getFromUiBackend({
+    req,
+    path: '/api/tags'
   });
 }
 
-function getCsrfToken(req) {
-  return new Promise((resolve, reject) => {
-    sendRequest(
-      {
-        url: req.uiBackendBaseUrl + '/api/csrf/token',
-        headers: {
-          Cookie: `${serverConfig.cookie.name}=${req.cookies[serverConfig.cookie.name]}`
-        },
-        timeout: 15000
-      },
-      (error, response) => {
-        if (error) {
-          reject(new Error('Failed to retrieve csrf token from ui-backend: ' + String(error)));
-        } else {
-          resolve(
-            JSON.stringify({
-              token: response.headers['x-csrf-token']
-            })
-          );
-        }
-      }
-    );
+async function getCsrfToken(req) {
+  const response = await getFromUiBackend({
+    req,
+    path: '/api/csrf/token',
+    resolveWithResponse: true
+  });
+
+  return JSON.stringify({
+    token: response.headers.get('x-csrf-token')
   });
 }
 
 function getIsMonitoring(req) {
-  return new Promise((resolve, reject) => {
-    sendRequest(
-      {
-        url: req.uiBackendBaseUrl + '/api/infrastructure-monitoring/monitoring-state',
-        headers: {
-          Cookie: `${serverConfig.cookie.name}=${req.cookies[serverConfig.cookie.name]}`
-        },
-        timeout: 15000
-      },
-      (error, response, monitoringResult) => {
-        if (error) {
-          reject(new Error('Failed to retrieve monitoring state from ui-backend: ' + String(error)));
-        } else {
-          resolve(monitoringResult);
-        }
-      }
-    );
+  return getFromUiBackend({
+    req,
+    path: '/api/infrastructure-monitoring/monitoring-state'
   });
 }
 
 function getStarredItems(req) {
-  return new Promise((resolve, reject) => {
-    sendRequest(
-      {
-        url: req.uiBackendBaseUrl + '/api/starred-item',
-        headers: {
-          Cookie: `${serverConfig.cookie.name}=${req.cookies[serverConfig.cookie.name]}`
-        },
-        timeout: 15000
-      },
-      (error, response, starredItems) => {
-        if (error) {
-          reject(new Error('Failed to retrieve starred items from ui-backend: ' + String(error)));
-        } else {
-          resolve(starredItems);
-        }
-      }
-    );
+  return getFromUiBackend({
+    req,
+    path: '/api/starred-item'
   });
 }
 
