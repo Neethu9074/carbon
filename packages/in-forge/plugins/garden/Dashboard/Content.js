@@ -43,7 +43,6 @@ export default function GardenDashboard({ snapshot, timeConfig }) {
           timeConfig={timeConfig}
           y1={{
             min: 0,
-            max: 1,
             metrics: ['cpu.total', 'cpu.system', 'cpu.user'],
             labels: ['Total', 'Kernel', 'User'],
             formatter: percentageTwoDecimalPlaces,
