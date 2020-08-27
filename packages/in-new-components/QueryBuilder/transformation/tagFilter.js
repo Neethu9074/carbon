@@ -2,7 +2,7 @@ import { createLogger } from 'instalog';
 import { pick } from 'lodash';
 
 import { KEY_VALUE_PAIRS } from 'in-new-components/QueryBuilder/tagFilter/types';
-import { enrichTagCatalog } from 'in-new-components/QueryBuilder/tagCatalog';
+import { enrichTagCatalog } from 'in-services/tags/tagCatalog';
 import { isNotBlank } from 'in-services/util/string';
 
 const logger = createLogger('in-new-components/QueryBuilder/transformation/tagFilter');

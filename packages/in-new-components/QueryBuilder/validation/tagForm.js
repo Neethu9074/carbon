@@ -20,10 +20,10 @@ import { SOURCE, DESTINATION } from 'in-new-components/QueryBuilder/tagFilter/en
 import { NUMBER, BOOLEAN } from 'in-new-components/QueryBuilder/tagFilter/types';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { TAG } from 'in-new-components/QueryBuilder/transformation/formModel';
-import { enrichTagCatalog } from 'in-new-components/QueryBuilder/tagCatalog';
 import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
 import { buildEnumValidator } from 'in-services/validators/enum';
+import { enrichTagCatalog } from 'in-services/tags/tagCatalog';
 
 const allAllowedEntities = [SOURCE, DESTINATION];
 const defaultEntity = DESTINATION;

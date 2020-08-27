@@ -2,27 +2,13 @@ import React from 'react';
 
 import { fromTagFiltersArray } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { isFormModelValid } from 'in-new-components/QueryBuilder/validation/formModel';
-import { enrichTagCatalog } from 'in-new-components/QueryBuilder/tagCatalog';
 import QueryBuilder from 'in-new-components/QueryBuilder/QueryBuilder';
-import memoize from 'in-services/util/memoizingObservableGenerator';
-import { timeConfig$ } from 'in-stores/time/config';
+import { getTagCatalogOnce } from 'in-services/tags/tagCatalog';
 import { success } from 'in-services/util/result';
 
 export function createQueryBuilder({ getTagCatalog: originalGetTagCatalog, getSuggestions }) {
   // Ensure that we only ever receive the tag catalog once (per time config).
-  const getTagCatalog = memoize(
-    () =>
-      timeConfig$.flatMap(timeConfig =>
-        originalGetTagCatalog({ timeConfig }).map(result => {
-          if (result.data) {
-            return success(enrichTagCatalog(result.data));
-          }
-          return result;
-        })
-      ),
-    () => '',
-    Number.MAX_VALUE
-  );
+  const getTagCatalog = getTagCatalogOnce(originalGetTagCatalog);
 
   return {
     QueryBuilder: function CreatedQueryBuilder(props) {

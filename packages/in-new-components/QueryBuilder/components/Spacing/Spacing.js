@@ -18,6 +18,7 @@ import useObservable from 'in-hooks/useObservable';
 import keyCodes from 'in-components/keyCodes';
 
 import locals from './Spacing.mless';
+import { DESTINATION } from '../../tagFilter/entities';
 
 export default function Spacing({
   element,
@@ -82,6 +83,12 @@ export default function Spacing({
   );
 
   function onAddToFormModel(opts) {
+    if (opts.type === 'TAG_FILTER') {
+      const tagTreeNode = tagCatalog.tagsByName[opts.name];
+      if (tagTreeNode.canApplyToSource && tagTreeNode.canApplyToDestination) {
+        opts.entity = DESTINATION;
+      }
+    }
     lastTimeExternalAddToFormModelWasCalledRef.current = Date.now();
     return onExternalAddToFormModel(opts);
   }

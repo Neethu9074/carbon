@@ -1,14 +1,18 @@
+import { createGroupingConfigurator } from 'in-new-components/GroupingConfigurator';
 import getTagCatalog from 'in-infrastructure/subscriptions/getTagCatalog';
-import { createQueryBuilder } from 'in-new-components/QueryBuilder';
 import { successObservableFactory } from 'in-services/util/result';
 
 const suggestions = ['k8s-demo-cluster', 'sb-test-cluster', 'kube-node-lease', 'kube-public'];
 
-const { QueryBuilder, isQueryValid: isQueryValidInternal } = createQueryBuilder({
+const {
+  GroupingConfigurator,
+  isGroupingConfigurationValid: isGroupingConfigurationValidInternal
+} = createGroupingConfigurator({
   getTagCatalog,
+
   getSuggestions: successObservableFactory({ suggestions, totalHits: suggestions.length + 10 })
 });
 
-export default QueryBuilder;
+export default GroupingConfigurator;
 
-export const isQueryValid = isQueryValidInternal;
+export const isGroupingConfigurationValid = isGroupingConfigurationValidInternal;

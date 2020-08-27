@@ -1,6 +1,6 @@
 import { buildJsonSerializer, buildJsonParser } from 'in-stores/navigation/matrix';
 import { navigationParameters$ } from 'in-stores/navigation/navigation';
-import { emptyArray } from 'in-services/fixedObjects';
+import { emptyArray, emptyObject } from 'in-services/fixedObjects';
 
 export const infraExplorePath = '/explore';
 
@@ -12,10 +12,12 @@ export const tagFilterExpressionMatrixParameter = {
   initialState: emptyArray
 };
 
-export const groupByMatrixParameter = {
+export const groupMatrixParameter = {
   path: infraExplorePath,
-  name: 'groupBy',
-  initialState: ''
+  name: 'group',
+  serializer: buildJsonSerializer(),
+  parser: buildJsonParser(emptyArray),
+  initialState: emptyObject
 };
 
 export function isInfraExploreView() {

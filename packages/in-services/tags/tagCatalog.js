@@ -1,3 +1,7 @@
+import memoize from 'in-services/util/memoizingObservableGenerator';
+import { timeConfig$ } from 'in-stores/time/config';
+import { success } from 'in-services/util/result';
+
 // We frequently need to access the tag catalog in ways that would be unoptimized
 // given its native structure. We therefore index it in a variety of different
 // ways in order to allow faster execution within the components.
@@ -23,6 +27,22 @@ export function enrichTagCatalog(tagCatalog) {
   tagCatalog.allTagNames = Object.keys(tagCatalog.tagsByName);
 
   return tagCatalog;
+}
+
+export function getTagCatalogOnce(originalGetTagCatalog) {
+  return memoize(
+    () =>
+      timeConfig$.flatMap(timeConfig =>
+        originalGetTagCatalog({ timeConfig }).map(result => {
+          if (result.data) {
+            return success(enrichTagCatalog(result.data));
+          }
+          return result;
+        })
+      ),
+    () => '',
+    Number.MAX_VALUE
+  );
 }
 
 function resolveTagsFromTree(tree) {

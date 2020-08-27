@@ -1,6 +1,10 @@
 import React, { useMemo } from 'react';
 
-import { tagFilterExpressionMatrixParameter, groupByMatrixParameter } from 'in-infrastructure/navigation/paths';
+import GroupingConfigurator, {
+  isGroupingConfigurationValid
+} from 'in-infrastructure/Explore/components/GroupingConfigurator';
+import { tagFilterExpressionMatrixParameter, groupMatrixParameter } from 'in-infrastructure/navigation/paths';
+import GroupingConfiguratorSection from 'in-new-components/GroupingConfigurator/GroupingConfiguratorSection';
 import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import ApiQueryAction from 'in-new-components/QueryBuilder/workspace/ApiQueryAction/ApiQueryAction';
 import { ActionSection, Action } from 'in-new-components/workspace/ActionSection/ActionSection';
@@ -14,27 +18,38 @@ import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { warning, error } from 'in-new-components/Message/types';
 import Sections from 'in-new-components/workspace/Sections';
-import useDebouncedValue from 'in-hooks/useDebouncedValue';
 import { pendingResult } from 'in-services/fixedObjects';
-import useTimeConfig from 'in-hooks/useTimeConfig';
 import Stack from 'in-new-components/layout/Stack';
 import useObservable from 'in-hooks/useObservable';
+import useTimeConfig from 'in-hooks/useTimeConfig';
 import Message from 'in-new-components/Message';
 import useUrlState from 'in-hooks/useUrlState';
-import Input from 'in-components/form/Input';
 import Title from 'in-components/Title';
 
 const urlStateDefinition = {
-  bind: [tagFilterExpressionMatrixParameter, groupByMatrixParameter]
+  bind: [tagFilterExpressionMatrixParameter, groupMatrixParameter]
 };
 
 export default function InfraExploreView() {
   const timeConfig = useTimeConfig();
-  const [{ tagFilterExpression, groupBy }, onChange] = useUrlState(urlStateDefinition);
-  const validResult = useObservable(isQueryValid(tagFilterExpression), [tagFilterExpression]) ?? pendingResult;
-  const backendQueryModel = validResult?.data && toBackendQueryModel(tagFilterExpression);
-  const onTagFilterExpressionChange = useMemo(() => {
-    return tagFilterExpression => onChange({ tagFilterExpression });
+  const [{ tagFilterExpression, group }, onChange] = useUrlState(urlStateDefinition);
+
+  const validTagFilterExpressionResult =
+    useObservable(isQueryValid(tagFilterExpression), [tagFilterExpression]) ?? pendingResult;
+  const validGroupResult = useObservable(isGroupingConfigurationValid(group), [group]) ?? pendingResult;
+  // in case of a pending result (validTagFilterExpressionResult.data === null) we do not want to show the user an error message
+  const isValid = validTagFilterExpressionResult.data === true && validGroupResult.data === true;
+  const isInvalid = validTagFilterExpressionResult.data === false && validGroupResult.data === false;
+
+  const backendQueryModel = isValid && toBackendQueryModel(tagFilterExpression);
+
+  const onTagFilterExpressionChange = useMemo(() => tagFilterExpression => onChange({ tagFilterExpression }), [
+    onChange
+  ]);
+  const onGroupChange = useMemo(() => {
+    return group => {
+      return onChange({ group });
+    };
   }, [onChange]);
 
   return (
@@ -60,10 +75,16 @@ export default function InfraExploreView() {
               QueryBuilder={QueryBuilder}
             />
 
+            <GroupingConfiguratorSection
+              value={group}
+              onChange={onGroupChange}
+              GroupingConfigurator={GroupingConfigurator}
+              tagFilterExpression={backendQueryModel || toBackendQueryModel([])}
+            />
+
             <ActionSection
               left={
                 <>
-                  <Action icon="lib_help_error_help_outline">Add grouping</Action>
                   <Action icon="lib_bar_chart">Add chart</Action>
                 </>
               }
@@ -71,41 +92,25 @@ export default function InfraExploreView() {
             />
           </Sections>
 
-          <DebouncedInput
-            type="text"
-            id="groupBy"
-            value={groupBy}
-            autoComplete="off"
-            placeholder="Group by... e.g. entity.selfType"
-            onChange={value => onChange({ groupBy: value })}
-          />
-
-          {validResult.data === false && (
+          {isInvalid && (
             <Message type={error} withIcon small>
-              The filter expression is invalid. Please address the validation failures before continuing.
+              The query configuration is invalid. Please address the validation failures before continuing.
             </Message>
           )}
 
-          {validResult.data === true && groupBy === '' && (
+          {isValid && group?.groupbyTag && (
             <InfrastructureList timeConfig={timeConfig} tagFilterExpression={backendQueryModel} />
           )}
 
-          {validResult.data === true && groupBy !== '' && (
+          {isValid && group?.groupbyTag && (
             <GroupedInfrastructure
               timeConfig={timeConfig}
               tagFilterExpression={backendQueryModel}
-              groupBy={groupBy.split(',')}
+              groupBy={[group.groupbyTag]}
             />
           )}
         </Stack>
       </LeftRightPadding>
     </InfraPageHeaderWithTabs>
   );
-}
-
-function DebouncedInput(props) {
-  const { value, onChange, ...rest } = props;
-  const result = useDebouncedValue(value, onChange);
-
-  return <Input value={result.value} onChange={e => result.onChange(e.target.value)} {...rest} />;
 }

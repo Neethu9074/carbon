@@ -1,5 +1,5 @@
 import { create, just, timeout } from 'reactive-observables';
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { throttle } from 'lodash';
 
@@ -167,7 +167,7 @@ export default class Overlay extends React.Component {
     }
 
     return (
-      <Fragment>
+      <>
         {isOpen && this.state.wrapper && (
           <OverlayMounter
             id={id}
@@ -192,7 +192,7 @@ export default class Overlay extends React.Component {
           />
         )}
         {content}
-      </Fragment>
+      </>
     );
   }
 }

@@ -38,18 +38,17 @@ export default function SimpleValueSelector({
 }
 
 function render({ inputProps, getInputProps, isOpen, openMenu, ...remainingProps }) {
-  const { locals } = inputProps;
+  const { locals, valid, ...remainingInputProps } = inputProps;
 
   return (
     <>
       <AutosizeInput
+        minWidth={32}
         inputClassName={evaluateClassNames({
           [locals.input]: true,
-          [locals.invalid]: !inputProps.valid
+          [locals.invalid]: !valid
         })}
-        type={inputProps.type}
-        minWidth={32}
-        placeholder={inputProps.placeholder}
+        {...remainingInputProps}
         {...getInputProps({ onFocus: openMenu })}
       />
       {isOpen && <SuggestionsList {...remainingProps} />}

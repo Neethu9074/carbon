@@ -1,6 +1,6 @@
 import React from 'react';
 
-import TagSelectorOverlay from 'in-new-components/QueryBuilder/ConjunctionTagSelectorOverlay/ConjunctionTagSelectorOverlay';
+import ConjunctionTagSelectorOverlay from 'in-new-components/QueryBuilder/ConjunctionTagSelectorOverlay/ConjunctionTagSelectorOverlay';
 import { toInteractiveElement } from 'in-new-components/interactiveCustomElement';
 import Overlay from 'in-new-components/overlays/Overlay';
 import { compositeRef } from 'in-services/util/react';
@@ -21,7 +21,7 @@ export default React.forwardRef(function Name(
 
   return (
     <Overlay
-      content={TagSelectorOverlay}
+      content={ConjunctionTagSelectorOverlay}
       props={{
         tagCatalog,
         onChange
