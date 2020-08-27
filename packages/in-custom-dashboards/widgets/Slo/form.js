@@ -30,7 +30,9 @@ export const Rolling = 'rolling';
 export function createForm(oldSavedState) {
   const savedState = oldSavedState ?? {};
 
-  let form = createMapForm();
+  let form = createMapForm({
+    validator: validateTimeWindow
+  });
 
   form = form.put(
     ApName,
@@ -81,17 +83,48 @@ export function createForm(oldSavedState) {
   form = form.put(
     TimeWindowDuration,
     createField({
-      validator: composeAndShortCircuitOnError(numericValidator, notBlankValidator, positiveNumberValidator),
-      value: savedState[TimeWindowDuration] ?? '1'
+      validator: composeAndShortCircuitOnError(numericValidator, positiveNumberValidator),
+      value: savedState[TimeWindowDuration] ?? 1
     })
   );
   form = form.put(
     TimeWindowDurationUnit,
     createField({
-      value: savedState[TimeWindowDurationUnit] ?? 'months'
+      value: savedState[TimeWindowDurationUnit] ?? 'weeks'
     })
   );
   return form;
+}
+
+function validateTimeWindow({ timeWindowDuration, timeWindowDurationUnit }) {
+  if (!timeWindowDuration || !timeWindowDurationUnit || !timeWindowDuration.valid || !timeWindowDurationUnit.valid) {
+    return null;
+  }
+
+  const timeWindowDurationInDays = getTimeWindowDurationInDays(timeWindowDuration.value, timeWindowDurationUnit.value);
+
+  if (timeWindowDurationInDays > 31) {
+    return [
+      {
+        severity: 'error',
+        message: 'The time window size has be be less or equal to 31 days.'
+      }
+    ];
+  }
+
+  return null;
+}
+
+function getTimeWindowDurationInDays(value, unit) {
+  switch (unit) {
+    case 'days':
+      return value;
+    case 'weeks':
+      return value * 7;
+    case 'months':
+    default:
+      return value * 31;
+  }
 }
 
 export const parsedTimestamp = str => {

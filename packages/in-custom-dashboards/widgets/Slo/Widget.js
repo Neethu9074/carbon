@@ -53,7 +53,7 @@ export default function Widget({ actions, config, isPreview, title, dragHandle, 
   const isRolling = timeWindowType === Rolling;
   const isFixed = timeWindowType === Fixed;
   const timeWindowDuration = config?.[TimeWindowDuration] ?? 1;
-  const timeWindowDurationUnit = config?.[TimeWindowDurationUnit] ?? 'month';
+  const timeWindowDurationUnit = config?.[TimeWindowDurationUnit] ?? 'weeks';
   const timeWindowStartDate = config?.[TimeWindowStart]?.date;
   const timeWindowStartTime = config?.[TimeWindowStart]?.time;
 

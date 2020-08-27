@@ -20,7 +20,6 @@ import formatInputTime from 'in-new-components/time/TimeSelectionDialogPresenter
 import SliFormComponent from 'in-custom-dashboards/widgets/Slo/components/SliSelectionForm';
 import APConfigSelector from 'in-custom-dashboards/widgets/Slo/components/APConfigForm';
 import DropDownMock from 'in-custom-dashboards/widgets/Slo/components/DropDownMock';
-import InputMock from 'in-custom-dashboards/widgets/Slo/components/InputMock';
 import SliManageList from 'in-custom-dashboards/widgets/Slo/SliManageList';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import StackItem from 'in-new-components/layout/Stack/StackItem';
@@ -55,10 +54,18 @@ export default function FormComponent({ form, onChange, widgetTitleFormGroup, se
     });
   };
 
-  const timeWindowDurationUnitValue = form.get(TimeWindowDurationUnit)?.value ?? 'm';
+  const timeWindowDurationUnitValue = form.get(TimeWindowDurationUnit)?.value ?? 'weeks';
 
   const onChangeTimeDurationUnit = value => {
-    onChange([TimeWindowDurationUnit], f => f.setValue(value).setTouched(true));
+    onChange([], form => {
+      const oldDuration = form.get(TimeWindowDuration).value;
+      const maxDurationForThisUnit = getMaxTimeWindowDurationValue(value);
+      return form
+        .updateIn([TimeWindowDurationUnit], f => f.setValue(value).setTouched(true))
+        .updateIn([TimeWindowDuration], f =>
+          f.setValue(Math.min(oldDuration, maxDurationForThisUnit)).setTouched(true)
+        );
+    });
   };
   const dateField = form.get(TimeWindowStart)?.get('date');
   const timeField = form.get(TimeWindowStart)?.get('time');
@@ -179,34 +186,48 @@ export default function FormComponent({ form, onChange, widgetTitleFormGroup, se
           </Col>
         </Row>
         {(isRolling || isFixed) && (
-          <Row>
-            <Col md={2}>
-              <FormGroup withoutBottomMargin>
-                <KeyValue value="Time Window Size" inverted className={locals.oneLineLabel} />
-              </FormGroup>
-            </Col>
-            <Col md={2}>
-              <FormGroup withoutBottomMargin>
-                <InputMock form={form} onChange={onChange} fieldName={TimeWindowDuration} />
-              </FormGroup>
-            </Col>
-            <Col md={2}>
-              <FormGroup withoutBottomMargin>
-                <DropDownMock
-                  value={timeWindowDurationUnitValue}
-                  options={[
-                    { value: 'months', label: 'months' },
-                    { value: 'weeks', label: 'weeks' },
-                    { value: 'days', label: 'days' }
-                  ]}
-                  onChange={({ target }) => onChangeTimeDurationUnit(target.value)}
-                />
-              </FormGroup>
-            </Col>
-            <Col mdOffset={2} md={12}>
-              <TouchedMessages field={form.get(TimeWindowDuration)} />
-            </Col>
-          </Row>
+          <>
+            <Row>
+              <Col md={2}>
+                <FormGroup withoutBottomMargin>
+                  <KeyValue value="Time Window Size" inverted className={locals.oneLineLabel} />
+                </FormGroup>
+              </Col>
+              <Col md={2}>
+                <FormGroup withoutBottomMargin>
+                  {form.get(TimeWindowDuration).map(field => (
+                    <Input
+                      type="number"
+                      step="1"
+                      min="1"
+                      max={getMaxTimeWindowDurationValue(timeWindowDurationUnitValue)}
+                      value={field?.value}
+                      hasError={field && !field?.valid && field?.touched}
+                      onChange={({ target }) =>
+                        onChange([TimeWindowDuration], f => f.setValue(target.value).setTouched(true))
+                      }
+                    />
+                  ))}
+                </FormGroup>
+              </Col>
+              <Col md={2}>
+                <FormGroup withoutBottomMargin>
+                  <DropDownMock
+                    value={timeWindowDurationUnitValue}
+                    options={[
+                      { value: 'days', label: 'days' },
+                      { value: 'weeks', label: 'weeks' },
+                      { value: 'months', label: 'months' }
+                    ]}
+                    onChange={({ target }) => onChangeTimeDurationUnit(target.value)}
+                  />
+                </FormGroup>
+              </Col>
+              <Col mdOffset={2} md={12}>
+                <TouchedMessages field={form} />
+              </Col>
+            </Row>
+          </>
         )}
         {isFixed && dateField && timeField && (
           <Row>
@@ -257,4 +278,16 @@ export default function FormComponent({ form, onChange, widgetTitleFormGroup, se
       <div className={locals.previewContainer}>{widgetPreview}</div>
     </div>
   );
+}
+
+function getMaxTimeWindowDurationValue(timeWindowDurationUnit) {
+  switch (timeWindowDurationUnit) {
+    case 'days':
+      return 31;
+    case 'weeks':
+      return 4;
+    case 'months':
+    default:
+      return 1;
+  }
 }
