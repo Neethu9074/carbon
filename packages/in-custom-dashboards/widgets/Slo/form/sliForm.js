@@ -90,12 +90,14 @@ function addGoodBadEventsForm(form, sliEntity) {
     .put(
       'goodEventFilters',
       createField({
+        validator: noEmptyFilterListValidator,
         value: sliEntity?.goodEventFilters ?? []
       })
     )
     .put(
       'badEventFilters',
       createField({
+        validator: noEmptyFilterListValidator,
         value: sliEntity?.badEventFilters ?? []
       })
     );
@@ -155,4 +157,14 @@ const notNullValidator = v => {
       }
     ];
   }
+};
+
+const noEmptyFilterListValidator = filterArray => {
+  if (filterArray?.length > 0) return null;
+  return [
+    {
+      severity: 'error',
+      message: 'At least one filter condition must be configured.'
+    }
+  ];
 };

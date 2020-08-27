@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 import { resetFormForSliType, createForm } from 'in-custom-dashboards/widgets/Slo/form/sliForm';
+import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
 import { SliForm } from 'in-custom-dashboards/widgets/Slo/SliFormPresenter';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { createSliConfiguration } from 'in-custom-dashboards/api';
@@ -105,6 +106,7 @@ export default function CreateNewSLIForm({ api, apName, applicationId, apDefault
           </Message>
         </Section>
       )}
+      <Section>{state?.errors && <ErroneousResultPresenter errors={state.errors} />}</Section>
       <Section className={locals.saveCancelRow}>
         <Button kind="subtle" size="compact" className={locals.button} onClick={close}>
           Cancel

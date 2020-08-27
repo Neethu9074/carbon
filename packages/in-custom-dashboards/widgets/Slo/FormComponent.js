@@ -15,6 +15,7 @@ import {
   Fixed,
   Rolling
 } from 'in-custom-dashboards/widgets/Slo/form';
+import { PercentageFormInput } from 'in-custom-dashboards/widgets/Slo/components/PercentageFormInput';
 import formatInputTime from 'in-new-components/time/TimeSelectionDialogPresenter/timeInputFormatter';
 import SliFormComponent from 'in-custom-dashboards/widgets/Slo/components/SliSelectionForm';
 import APConfigSelector from 'in-custom-dashboards/widgets/Slo/components/APConfigForm';
@@ -34,7 +35,6 @@ import Input from 'in-components/form/Input';
 import Button from 'in-components/Button';
 
 import locals from './FormComponent.mless';
-import { PercentageFormInput } from 'in-custom-dashboards/widgets/Slo/components/PercentageFormInput';
 
 export default function FormComponent({ form, onChange, widgetTitleFormGroup, setSlideInView, widgetPreview, api }) {
   const apConfigId = form.get(ApConfigId)?.value;
