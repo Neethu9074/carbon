@@ -87,7 +87,8 @@ export const productAreaIcons = Object.freeze({
 const icons = deepFreeze({
   application: {
     traces: 'lib_application_trace',
-    calls: 'lib_application_call'
+    calls: 'lib_application_call',
+    callsUQB: 'lib_application_call'
   },
   website: {
     pageLoad: 'lib_website_page_load',
@@ -154,6 +155,8 @@ export function getLabelByType(type) {
     return 'Traces';
   } else if (type === 'calls') {
     return 'Calls';
+  } else if (type === 'callsUQB') {
+    return 'Calls with new Query Builder';
   }
 
   return type;

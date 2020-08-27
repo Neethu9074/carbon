@@ -24,5 +24,6 @@ module.exports = {
   tenantSwitcherEnabled: true,
   useInstanaSaasEumTrackingUrlEnabled: true,
   vsphereEnabled: true,
-  websiteUserBreakdownEnabled: true
+  websiteUserBreakdownEnabled: true,
+  newAnalyticsEnabled: true
 };

@@ -144,5 +144,11 @@ module.exports = exports = (tenant, unit) => [
     instanaCtlKey: 'feature.slo.widget.enabled',
     consulKey: `settings/${tenant}-${unit}/SLO_WIDGET_ENABLED`,
     defaultValue: false
+  },
+  {
+    uiClientKey: 'newAnalyticsEnabled',
+    instanaCtlKey: 'feature.new.analytics.enabled',
+    consulKey: `settings/${tenant}-${unit}/NEW_ANALYTICS_ENABLED`,
+    defaultValue: false
   }
 ];

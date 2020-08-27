@@ -1,3 +1,7 @@
+import { buildJsonSerializer, buildJsonParser } from 'in-stores/navigation/matrix';
+import { emptyArray } from 'in-services/fixedObjects';
+import { analyze } from 'in-analyze/navigation/paths';
+
 export const applicationId = 'appId';
 export const serviceId = 'serviceId';
 export const endpointId = 'endpointId';
@@ -15,3 +19,19 @@ export const serviceListPrefix = 'service.';
 // alert view
 export const alertId = 'alertId';
 export const alertCreated = 'alertCreated';
+
+export const tagFilterExpressionMatrixParameter = {
+  path: analyze,
+  name: 'tagFilterExpression',
+  serializer: buildJsonSerializer(),
+  parser: buildJsonParser(emptyArray),
+  initialState: emptyArray
+};
+
+export const groupMatrixParameter = {
+  path: analyze,
+  name: 'group',
+  serializer: buildJsonSerializer(),
+  parser: buildJsonParser(emptyArray),
+  initialState: null
+};

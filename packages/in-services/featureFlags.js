@@ -39,6 +39,7 @@ export const beeinstanaToggleEnabled = infrastructureExploreEnabled && onlyInter
 export const latencyDistributionBase10Enabled = isFeatureFlagEnabled('latencyDistributionBase10Enabled');
 export const newApCreationEnabled = isFeatureFlagEnabled('newApCreationEnabled');
 export const entityCountWidgetEnabled = isFeatureFlagEnabled('entityCountWidgetEnabled');
+export const newAnalyticsEnabled = isFeatureFlagEnabled('newAnalyticsEnabled');
 
 //platform feature flags
 export const pcfEnabled = isFeatureFlagEnabled('pcfEnabled');

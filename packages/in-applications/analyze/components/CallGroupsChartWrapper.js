@@ -1,7 +1,9 @@
 import { compose, withState, withProps } from 'recompose';
 import { find } from 'lodash';
 
-import GroupMetricsChartPresenter, { getMetricKey } from 'in-analyze/components/MetricsChart/GroupMetricsChartPresenter';
+import GroupMetricsChartPresenter, {
+  getMetricKey
+} from 'in-analyze/components/MetricsChart/GroupMetricsChartPresenter';
 import getCallGroups from 'in-subscription/application/getCallGroups';
 import { getChartGranularity } from 'in-applications/metrics';
 import connectTo from 'in-hoc/connectTo';

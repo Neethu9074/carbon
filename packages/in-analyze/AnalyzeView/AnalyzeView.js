@@ -20,7 +20,6 @@ import EditGroupDialog from 'in-analyze/AnalyzeView/components/AnalyzeEditGroupD
 import { getTagFilterListForBackendSubscription } from 'in-analyze/applicationFilter';
 import EmptyAnalyzeView from 'in-analyze/AnalyzeView/components/EmptyAnalyzeView';
 import WithEmptyStateFallback from 'in-new-components/WithEmptyStateFallback';
-
 import { groupAddedTracker, groupChangedTracker } from 'in-analyze/tracker';
 import getConfigByDataSource from 'in-analyze/AnalyzeView/dataSources';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
@@ -31,6 +30,7 @@ import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import GroupedTraces from 'in-analyze/components/GroupedTraces';
 import getCalls from 'in-subscription/application/getCalls';
 import RawTraces from 'in-analyze/components/RawTraces';
+import Analyze from 'in-applications/analyze/Analyze';
 import RawCalls from 'in-analyze/components/RawCalls';
 import { getTimeConfig } from 'in-stores/time/config';
 import { analyze } from 'in-analyze/navigation/paths';
@@ -152,6 +152,13 @@ export default compose(
 
 function AnalyzeView(props) {
   const { isDialogActive, isRawView, dataSource, filters, setTagFilters } = props;
+
+  // Eventually this will only route to the new analyze view and the rest of this
+  // component can be removed.
+  if (dataSource === 'callsUQB') {
+    return <Analyze />;
+  }
+
   // Deliberately not part of the dataSources, as this would result in inclusion of the analyze views
   // in the index bundle.
   let View = GroupedTraces;

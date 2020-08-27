@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 
-import CallGroupsChartWrapper from 'in-applications/analyze/CallGroupsChartWrapper';
+import CallGroupsChartWrapper from 'in-applications/analyze/components/CallGroupsChartWrapper';
 import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
 import { number, millis } from 'in-services/formatters/number';
 import Renderer from 'in-components/Chart/renderer/Renderer';

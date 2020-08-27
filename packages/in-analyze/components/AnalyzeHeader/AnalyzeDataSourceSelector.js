@@ -12,6 +12,7 @@ import { getLinkToAnalyze as getLinkToMobileAppAnalyze } from 'in-mobile-apps/na
 import { getLinkToAnalyze as getLinkToWebsiteAnalyze } from 'in-websites/navigation/paths';
 import { defaultGroupings as defaultMobileAppGroupings } from 'in-mobile-apps/tags';
 import { defaultGroupings as defaultWebsiteGroupings } from 'in-websites/tags';
+import { newAnalyticsEnabled } from 'in-services/featureFlags';
 import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
 import evaluateClassNames from 'in-services/util/classnames';
 import { emptyObject } from 'in-services/fixedObjects';
@@ -34,6 +35,16 @@ const productAreas = [
           })
       },
       {
+        // The data source will eventually be removed
+        dataSource: 'callsUQB',
+        getHref$: ({ isGrouped }) =>
+          getLinkToAnalyze({
+            dataSource: 'callsUQB',
+            groupByTag: isGrouped ? getConfigByDataSource('calls').defaultGrouping : emptyObject
+          }),
+        enabled: newAnalyticsEnabled
+      },
+      {
         dataSource: 'traces',
         getHref$: ({ isGrouped }) =>
           getLinkToAnalyze({
@@ -41,7 +52,7 @@ const productAreas = [
             groupByTag: isGrouped ? getConfigByDataSource('traces').defaultGrouping : emptyObject
           })
       }
-    ]
+    ].filter(({ enabled }) => enabled == null || enabled)
   },
   {
     productArea: 'website',
