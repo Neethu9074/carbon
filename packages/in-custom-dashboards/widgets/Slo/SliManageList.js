@@ -15,10 +15,12 @@ import { isLoading, hasError } from 'in-services/util/result';
 import KeyValue from 'in-new-components/lists/KeyValue';
 import { alwaysNull } from 'in-services/fixedStreams';
 import WithIcon from 'in-new-components/WithIcon';
+import Message from 'in-new-components/Message';
 import Button from 'in-new-components/Button';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
+import { role } from 'in-stores/user';
 
 import locals from './SliManageList.mless';
 
@@ -35,11 +37,6 @@ export default function SliManageList({
 }) {
   const [sliSelected, selectSli] = subSlideState;
   const queryState = useState('');
-  const createSliHeader = (
-    <Button kind="action" onClick={() => selectSli({})} icon="lib_openclose_add_circle_outline">
-      Create SLI
-    </Button>
-  );
   const close = () => selectSli(null);
 
   return (
@@ -69,6 +66,12 @@ export default function SliManageList({
       }
       staticContent={
         <div>
+          {!role.canConfigureServiceLevelIndicators && (
+            <Message className={locals.message} withIcon>
+              You are not having the required <i>CAN_CONFIGURE_SERVICE_LEVEL_INDICATORS</i> permission to create or edit
+              SLIs.
+            </Message>
+          )}
           <SliList
             columnDefinitions={[
               ...columnDefinitions,
@@ -76,6 +79,9 @@ export default function SliManageList({
                 sortable: false,
                 width: '1',
                 getContent(item) {
+                  if (!role.canConfigureServiceLevelIndicators) {
+                    return null;
+                  }
                   return (
                     <div className={locals.controls}>
                       <Tooltip content="View/Clone SLI Configuration">
@@ -89,6 +95,9 @@ export default function SliManageList({
                 sortable: false,
                 width: '1',
                 getContent(item) {
+                  if (!role.canConfigureServiceLevelIndicators) {
+                    return null;
+                  }
                   return (
                     <div className={locals.controls}>
                       <Tooltip content="Delete SLI Configuration">
@@ -129,7 +138,13 @@ export default function SliManageList({
               }
             ]}
             getItems={() => api.getSliConfigurations()?.map(onlyWithAPid(applicationId)) ?? null}
-            rightHeader={createSliHeader}
+            rightHeader={
+              role.canConfigureServiceLevelIndicators && (
+                <Button kind="action" onClick={() => selectSli({})} icon="lib_openclose_add_circle_outline">
+                  Create SLI
+                </Button>
+              )
+            }
             query={queryState}
           />
         </div>
