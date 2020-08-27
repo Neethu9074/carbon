@@ -6,7 +6,8 @@ import {
   msTwoDecimalPlaces,
   withSiPrefixThreeDecimalPlaces,
   withSiPrefixZeroDecimalPlaces,
-  twoDecimalPlaces
+  twoDecimalPlaces,
+  bytes
 } from 'in-services/formatters/number';
 import IndicesTable from 'in-forge/plugins/elasticsearchNode/Dashboard/IndicesTable.js';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
@@ -215,6 +216,20 @@ export default function ElasticsearchDashboard({ snapshot, timeConfig }) {
             labels: ['Search', 'Index', 'Bulk', 'Get'],
             formatter: twoDecimalPlaces,
             type: 'stackedArea'
+          }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
+        />
+      </DashboardSection>
+      <DashboardSection title="Transport">
+        <Chart
+          snapshotId={snapshot.get('id')}
+          timeConfig={timeConfig}
+          y1={{
+            min: 0,
+            metrics: ['tx_count', 'rx_count'],
+            labels: ['Sent', 'Received'],
+            formatter: bytes.detailed,
+            type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />

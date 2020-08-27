@@ -84,29 +84,72 @@ export default [
     formatter: number
   },
   {
-    metric: getDynamicMetricMatch('index', 'document_count', 'Index'),
-    label: 'Documents',
-    category: ['Index'],
-    min: 0,
-    formatter: siMultiplyPrefix
-  },
-  {
-    metric: getDynamicMetricMatch('index', 'deleted_count', 'Index'),
-    label: 'Deletions',
-    category: ['Index'],
-    min: 0,
-    formatter: siMultiplyPrefix
-  },
-  {
-    metric: getDynamicMetricMatch('index', 'size', 'Index'),
-    label: 'Size',
-    category: ['Index'],
-    min: 0,
-    formatter: bytes
-  },
-  {
     metric: 'cluster_health.status',
     label: 'Health status',
     formatter: number
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch('index', 'document_count', 'Index'),
+      getDynamicMetricMatch('index', 'deleted_count', 'Index')
+    ],
+    labels: ['Documents', 'Deletions'],
+    category: ['Index'],
+    min: 0,
+    formatter: siMultiplyPrefix
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch('index', 'query_current', 'Index'),
+      getDynamicMetricMatch('index', 'query_total', 'Index'),
+      getDynamicMetricMatch('index', 'fetch_current', 'Index'),
+      getDynamicMetricMatch('index', 'fetch_count', 'Index'),
+      getDynamicMetricMatch('index', 'query_cache_evictions', 'Index'),
+      getDynamicMetricMatch('index', 'request_cache_evictions', 'Index'),
+      getDynamicMetricMatch('index', 'get_count', 'Index'),
+      getDynamicMetricMatch('index', 'missing_count', 'Index'),
+      getDynamicMetricMatch('index', 'failed', 'Index'),
+      getDynamicMetricMatch('index', 'merge_current', 'Index')
+    ],
+    labels: [
+      'Queries Current',
+      'Queries Total',
+      'Fetches Current',
+      'Fetches Total',
+      'Query Cache Evictions',
+      'Request Cache Evictions',
+      'Get Requests Total Count',
+      'Get Requests Failed Count',
+      'Indexing Operations Failed',
+      'Current Merges Count'
+    ],
+    category: ['Index'],
+    min: 0,
+    formatter: number
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch('index', 'query_time', 'Index'),
+      getDynamicMetricMatch('index', 'fetch_time', 'Index'),
+      getDynamicMetricMatch('index', 'get_time', 'Index'),
+      getDynamicMetricMatch('index', 'missing_time', 'Index'),
+      getDynamicMetricMatch('index', 'merge_time', 'Index')
+    ],
+    labels: ['Query Time', 'Fetch Time', 'Get Requests Time', 'Get Requests Failed Time', 'Total Merges Time'],
+    category: ['Index'],
+    min: 0,
+    formatter: millis
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch('index', 'size', 'Index'),
+      getDynamicMetricMatch('index', 'query_cache_size', 'Index'),
+      getDynamicMetricMatch('index', 'request_cache_size', 'Index'),
+      getDynamicMetricMatch('index', 'merge_size', 'Index')
+    ],
+    labels: ['Size', 'Query Cache Memory', 'Request Cache Memory', 'Total Merges Size'],
+    category: ['Index'],
+    min: 0,
+    formatter: bytes
   }
 ];
