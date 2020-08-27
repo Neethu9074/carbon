@@ -46,7 +46,15 @@ export const MetricsForm = ({ form, onChange }) => {
                 options={[{ value: undefined, label: 'Please select' }, ...metricOptions]}
                 value={metricName ?? ''}
                 onChange={({ target }) =>
-                  localOnChange?.(['metricName'], f => f.setValue(target.value).setTouched(true))
+                  onChange([], form => {
+                    return (
+                      form
+                        .updateIn(['metricConfiguration', 'metricName'], f => f.setValue(target.value).setTouched(true))
+                        // reset threshold value when metric changed, because value for metric A does not have any meaning
+                        // for metric B, as well as the format of the threshold could have completely changed
+                        .updateIn(['metricConfiguration', 'threshold'], f => f.setValue('').setTouched(false))
+                    );
+                  })
                 }
               />
               <TouchedMessages field={metricConfiguration.get('metricName')} />
