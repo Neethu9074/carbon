@@ -65,7 +65,19 @@ import {createQueryBuilder} from 'in-new-components/QueryBuilder';
 const {QueryBuilder, isQueryValid} = createQueryBuilder({
   // see dedicated TagCatalog story for more information about the
   // TagCatalog structure.
-  getTagCatalog: Observable<Result<TagCatalog>>
+  getTagCatalog: Observable<Result<TagCatalog>>,
+
+  getSuggestions: {
+    name: String,
+    entity: undefined|'SOURCE'|'DESTINATION'
+    key: ?String,
+    value: ?String,
+    timeConfig: TimeConfig,
+    propose: 'KEYS'|'VALUES'
+  } => Observable<Result<{
+    suggestions: String[],
+    totalHits: Number
+  }>>
 });
 
 function MyQueryBuilder({value, onChange}) {
