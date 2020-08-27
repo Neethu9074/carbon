@@ -148,8 +148,9 @@ function KeyInput({ form, onChange, tagType, getSuggestions }) {
       getSuggestions={() =>
         getSuggestions({
           // TODO: tagFilterExpression,
-          name: tagType,
+          name: form.get('name').value,
           entity,
+          key: field.value,
           timeConfig,
           propose: 'KEYS'
         })
@@ -158,7 +159,7 @@ function KeyInput({ form, onChange, tagType, getSuggestions }) {
   );
 }
 
-function ValueInput({ valueType, form, onChange, tagType, getSuggestions }) {
+function ValueInput({ valueType, form, onChange, getSuggestions }) {
   const field = form.get('value');
   if (!field) {
     return null;
@@ -182,9 +183,9 @@ function ValueInput({ valueType, form, onChange, tagType, getSuggestions }) {
       getSuggestions({
         // TODO: tagFilterExpression,
         key,
-        value: field.value || valueType === Number ? 0 : '',
+        value: field.value,
         entity,
-        name: tagType,
+        name: form.get('name').value,
         timeConfig,
         propose: 'VALUES'
       })
