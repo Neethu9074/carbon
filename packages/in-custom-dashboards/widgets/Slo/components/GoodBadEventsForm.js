@@ -1,9 +1,12 @@
 import React from 'react';
 
 import TagFilterConfiguration from 'in-analyze/AnalyzeView/components/TagFilterConfiguration';
+import TouchedMessages from 'in-components/form/TouchedMessages';
 import StackItem from 'in-new-components/layout/Stack/StackItem';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Header from 'in-components/form/Header';
+
+import locals from './GoodBadEventsForm.mless';
 
 const excludedTagFilters = [
   'application.name',
@@ -16,6 +19,8 @@ const hiddenFilterNames = ['application.id', 'application.name'];
 export default function EventBasedForm({ form, applicationName, onChange }) {
   const timeConfig = useTimeConfig();
   const sliEntityForm = form.get('sliEntity');
+  const goodEventFiltersForm = sliEntityForm?.get('goodEventFilters');
+  const badEventFiltersForm = sliEntityForm?.get('badEventFilters');
 
   const applicationIdTagFilter = {
     entity: 'DESTINATION',
@@ -31,16 +36,8 @@ export default function EventBasedForm({ form, applicationName, onChange }) {
     stringValue: applicationName
   };
 
-  const goodEventFilters = [
-    ...sliEntityForm?.get('goodEventFilters')?.value,
-    applicationIdTagFilter,
-    applicationNameTagFilter
-  ];
-  const badEventFilters = [
-    ...sliEntityForm?.get('badEventFilters')?.value,
-    applicationIdTagFilter,
-    applicationNameTagFilter
-  ];
+  const goodEventFilters = [...goodEventFiltersForm?.value, applicationIdTagFilter, applicationNameTagFilter];
+  const badEventFilters = [...badEventFiltersForm?.value, applicationIdTagFilter, applicationNameTagFilter];
 
   const onGoodChange = params => {
     onChange(['sliEntity', 'goodEventFilters'], f => f.setValue(withoutViewHiddenFilters(params)).setTouched(true));
@@ -60,6 +57,7 @@ export default function EventBasedForm({ form, applicationName, onChange }) {
         excludedTagFilters={excludedTagFilters}
         hiddenFilterNames={hiddenFilterNames}
       />
+      {goodEventFiltersForm && <TouchedMessages field={goodEventFiltersForm} className={locals.validationText} />}
       <Header>Bad Events</Header>
       <TagFilterConfiguration
         tagFilters={badEventFilters}
@@ -68,6 +66,7 @@ export default function EventBasedForm({ form, applicationName, onChange }) {
         excludedTagFilters={excludedTagFilters}
         hiddenFilterNames={hiddenFilterNames}
       />
+      {badEventFiltersForm && <TouchedMessages field={badEventFiltersForm} className={locals.validationText} />}
     </StackItem>
   );
 }

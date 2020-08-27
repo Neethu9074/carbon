@@ -2,13 +2,14 @@ import React from 'react';
 
 import { getApplicationConfigsAsResultObservable, getSliConfigurations } from './apiMock';
 import CreateNewSLIForm from 'in-custom-dashboards/widgets/Slo/CreateSLIForm';
+import { just } from 'reactive-observables';
 
 export default {
   title: 'Templates|CustomDashboard/widgets/SLO/SLI-management/SLIForm',
   component: CreateNewSLIForm
 };
 
-export function ViewExistingSLI() {
+export function ViewExistingTimeBasedSLI() {
   const api = {
     getSliConfigurations,
     getApplicationConfigsAsResultObservable
@@ -31,6 +32,52 @@ export function ViewExistingSLI() {
   };
 
   return <CreateNewSLIForm api={api} sliConfig={sliConfig} apName="All Services" />;
+}
+
+export function ErrorHandlingOnSave() {
+  const apiErrorOnSavingSLI = {
+    createSliConfiguration: () =>
+      just({
+        data: null,
+        errors: [
+          {
+            code: 'CLIENT',
+            message:
+              'sliEntity.goodEventFilters size must be between 1 and 2147483647 | sliEntity.badEventFilters size must be between 1 and 2147483647'
+          }
+        ],
+        progress: {
+          loading: false
+        }
+      }),
+    getSliConfigurations,
+    getApplicationConfigsAsResultObservable
+  };
+  const somefilters = [
+    {
+      name: 'call.http.status',
+      stringValue: '2',
+      numberValue: null,
+      booleanValue: null,
+      operator: 'STARTS_WITH',
+      entity: 'NOT_APPLICABLE'
+    }
+  ];
+  const sliConfig = {
+    id: 'event-based--incomplete-data',
+    sliName: 'good-bad-events-filters--missing',
+    sliEntity: {
+      sliType: 'availability',
+      applicationId: 'acfRC1IqTVi41OMLAJU4Cw',
+      serviceId: null,
+      endpointId: null,
+      goodEventFilters: somefilters,
+      badEventFilters: somefilters,
+      boundaryScope: 'ALL'
+    }
+  };
+
+  return <CreateNewSLIForm api={apiErrorOnSavingSLI} sliConfig={sliConfig} apName="All Services" />;
 }
 
 export function CreateNewSLI() {

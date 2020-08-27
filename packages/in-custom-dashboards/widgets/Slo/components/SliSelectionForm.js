@@ -18,6 +18,7 @@ export default connectTo(({ api }) => ({
 
 function SliSelectionForm({ form, onChange, sliConfigurations, apConfigId, openManageSLIComponent }) {
   const filteredSLIs = sliConfigurations?.filter(sli => sli?.sliEntity?.applicationId === apConfigId) ?? [];
+  const sliConfigField = form.get(SliConfigId);
   return (
     <>
       <Row withoutTopMargin withBottomMargin={false}>
@@ -25,7 +26,7 @@ function SliSelectionForm({ form, onChange, sliConfigurations, apConfigId, openM
           <KeyValue value="SLI" label="Service Level Indicator" inverted />
         </Col>
         <Col md={10} className={locals.rightAligned}>
-          {form.get(SliConfigId)?.map(field => (
+          {sliConfigField.map(field => (
             <FormGroup withoutBottomMargin className={locals.form}>
               <Select
                 disabled={!apConfigId}
@@ -45,11 +46,13 @@ function SliSelectionForm({ form, onChange, sliConfigurations, apConfigId, openM
                   </option>
                 ))}
               </Select>
-              <TouchedMessages field={field} />
             </FormGroup>
           ))}
           <div className={locals.gap} />
           {openManageSLIComponent}
+        </Col>
+        <Col mdOffset={2} md={10}>
+          <TouchedMessages field={sliConfigField} />
         </Col>
       </Row>
       <Row withoutTopMargin withBottomMargin={false}>

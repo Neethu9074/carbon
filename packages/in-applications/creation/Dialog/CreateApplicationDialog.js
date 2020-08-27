@@ -1,7 +1,11 @@
 import { createLogger } from 'instalog';
 import React, { useState } from 'react';
 
-import { applicationCreationModeSwitch, applicationCreationCloseDialogClick } from 'in-applications/creation/tracker';
+import {
+  applicationCreationModeSwitch,
+  applicationCreationCloseDialogClick,
+  applicationCreationCreateClick
+} from 'in-applications/creation/tracker';
 import CreateApplicationDialogPresenter from 'in-applications/creation/Dialog/CreateApplicationDialogPresenter';
 import { createApplicationPerspectiveForm } from 'in-applications/creation/form/createApplicationForm';
 import AdvancedModeContainer from 'in-applications/creation/advanced/AdvancedModeContainer';
@@ -24,7 +28,9 @@ export default function CreateApplicationDialog({ formData, timeConfig, onClose,
       updateForm={setForm}
       timeConfig={timeConfig}
       onClose={onClose}
-      onCreate={() => createApplication(form, getOnSavePath, setForm, isSaving, setIsSaving)}
+      onCreate={() =>
+        createApplication(form, getOnSavePath, setForm, isSaving, setIsSaving, applicationCreationCreateClick)
+      }
       simpleMode={simpleMode}
       setSimpleMode={setSimpleMode}
       trackModeSwitch={(simpleMode, step) => {
@@ -47,7 +53,7 @@ export default function CreateApplicationDialog({ formData, timeConfig, onClose,
   );
 }
 
-function createApplication(form, getOnSavePath, setForm, isSaving, setIsSaving) {
+function createApplication(form, getOnSavePath, setForm, isSaving, setIsSaving, applicationCreationCreateClick) {
   setIsSaving(true);
 
   if (!form.hierarchyValid) {
@@ -56,11 +62,13 @@ function createApplication(form, getOnSavePath, setForm, isSaving, setIsSaving) 
     return;
   }
   const entityToUpdate = form.toJS();
-
   const result$ = addApplicationConfig(entityToUpdate);
 
   result$.once(
-    result => goToPath(getOnSavePath(result)),
+    result => {
+      applicationCreationCreateClick(entityToUpdate);
+      goToPath(getOnSavePath(result));
+    },
     error => {
       logger.error(`failed to create AP: ${error.message}`, error);
       setIsSaving(false);

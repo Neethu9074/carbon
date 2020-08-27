@@ -242,9 +242,11 @@ function getGranularity(timeConfig) {
   const toOrNow = timeConfig.to ?? now;
   const from = toOrNow - timeConfig.windowSize;
 
-  if (timeConfig.windowSize <= oneDay && from > now - 7 * oneDay) {
-    // if timeframe is within the last 7 days, and window-size less or equal to a day,
-    // then request metric even in one minute granularity
+  const wiggleRoom = oneMinute;
+  if (timeConfig.windowSize <= 7 * oneDay && from > now - 7 * oneDay - wiggleRoom) {
+    // if timeframe is within the last 7 days, and window-size less or equal to a day, then request metric even in
+    // one minute granularity. We use a small "wiggle-room" of 1 minutes to circumvent that settings of "Last 7 days"
+    // don't end up with wrong granularity due to small shifts or delays
     return oneMinute;
   }
   return oneHour;

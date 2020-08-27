@@ -12,6 +12,7 @@ import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import DashboardHeader from 'in-new-components/DashboardHeader';
 import { getSnapshot, getSnapshots } from 'in-stores/snapshot';
 import { getPhysicalHierarchy } from 'in-stores/snapshot';
+import { pendingResult } from 'in-services/fixedObjects';
 import { isEntityOnline } from 'in-stores/snapshot';
 import useObservable from 'in-hooks/useObservable';
 import { loading } from 'in-services/util/result';
@@ -109,13 +110,15 @@ function ProfilesView(props) {
       HeaderComponent={Header}
       tabs={tabs}
       location={location}
-      result$={getProfileResult(processId, timeConfig).map(result => {
-        //  because of tracking, we want to wait until both, the profiling data and the snapshot is present
-        if (result.data && !deepestTechSnapshot) {
-          return loading;
-        }
-        return result;
-      })}
+      result$={getProfileResult(processId, timeConfig)
+        .map(result => {
+          //  because of tracking, we want to wait until both, the profiling data and the snapshot is present
+          if (result.data && !deepestTechSnapshot) {
+            return loading;
+          }
+          return result;
+        })
+        .startWith(pendingResult)}
       withProps={({ result }) => ({
         viewType,
         setViewType,

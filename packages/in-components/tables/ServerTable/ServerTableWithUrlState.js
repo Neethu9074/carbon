@@ -1,5 +1,5 @@
-import { timeout, just } from 'reactive-observables';
 import shallowEquals from 'fbjs/lib/shallowEqual';
+import { timeout } from 'reactive-observables';
 import React, { useMemo } from 'react';
 
 import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
@@ -95,7 +95,6 @@ export default function createServerTableWithUrlState({
 
   return function ServerTable(props) {
     const [urlState, setUrlState] = useUrlState(urlStateDefinition);
-    const columnDefinitionsFn = props.columnDefinitions || (() => just(staticColumnDefinitions));
 
     const propsForObservable = {
       ...props,
@@ -109,9 +108,9 @@ export default function createServerTableWithUrlState({
 
     const columnDefinitions =
       useObservable(
-        columnDefinitionsFn({ ...propsForObservable, result }),
+        props.columnDefinitions && props.columnDefinitions({ ...propsForObservable, result }),
         Object.values(propsForObservable).concat([result])
-      ) ?? [];
+      ) ?? (props.columnDefinitions ? [] : staticColumnDefinitions);
 
     const optionalColumns = useMemo(() => columnDefinitions.filter(columnDefinition => columnDefinition.optional), [
       columnDefinitions

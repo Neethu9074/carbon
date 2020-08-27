@@ -15,6 +15,7 @@ import {
   Fixed,
   Rolling
 } from 'in-custom-dashboards/widgets/Slo/form';
+import { PercentageFormInput } from 'in-custom-dashboards/widgets/Slo/components/PercentageFormInput';
 import formatInputTime from 'in-new-components/time/TimeSelectionDialogPresenter/timeInputFormatter';
 import SliFormComponent from 'in-custom-dashboards/widgets/Slo/components/SliSelectionForm';
 import APConfigSelector from 'in-custom-dashboards/widgets/Slo/components/APConfigForm';
@@ -34,7 +35,6 @@ import Input from 'in-components/form/Input';
 import Button from 'in-components/Button';
 
 import locals from './FormComponent.mless';
-import { PercentageFormInput } from 'in-custom-dashboards/widgets/Slo/components/PercentageFormInput';
 
 export default function FormComponent({ form, onChange, widgetTitleFormGroup, setSlideInView, widgetPreview, api }) {
   const apConfigId = form.get(ApConfigId)?.value;
@@ -163,23 +163,18 @@ export default function FormComponent({ form, onChange, widgetTitleFormGroup, se
             </FormGroup>
           </Col>
           <Col xsOffset={2} xs={10} style={{ marginTop: 0 }}>
-            <HelpText>
-              <strong>Fixed time interval:</strong>
-              <br />
-              <br />A time window with a defined start and duration. Eg. monthly starting 2020-01-01. The last partial
-              time interval for the time selection from the global time picker will be displayed.
-            </HelpText>
-            <HelpText>
-              <strong>Rolling time window:</strong>
-              <br />
-              <br />A time window with a defined duration, where the end is defined by the global time picker’s right
-              hand date/time selection, eg. last 2 weeks.
-            </HelpText>
-            <HelpText>
-              <strong>Dynamic time window:</strong>
+            <HelpText className={locals.windowHelpText}>
+              <strong>Fixed time interval:</strong> A time window with a defined start and duration. Eg. monthly
+              starting 2020-01-01. The last partial time interval for the time selection from the global time picker
+              will be displayed.
               <br />
               <br />
-              The SLO is calculated for the time window selected in the global time picker.
+              <strong>Rolling time window:</strong> A time window with a defined duration, where the end is defined by
+              the global time picker’s right hand date/time selection, eg. last 2 weeks.
+              <br />
+              <br />
+              <strong>Dynamic time window:</strong> The SLO is calculated for the time window selected in the global
+              time picker.
             </HelpText>
           </Col>
         </Row>
