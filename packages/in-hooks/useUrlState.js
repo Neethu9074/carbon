@@ -15,7 +15,7 @@ export default function useUrlState({
   onUpdate,
   replaceHistory = true
 }) {
-  let [state, setState] = useState(determineStateChange(bind, history.location, emptyObject) || emptyObject);
+  const [state, setState] = useState(determineStateChange(bind, history.location, emptyObject) || emptyObject);
 
   useEffect(() => {
     addReset(executeResets);
@@ -31,15 +31,16 @@ export default function useUrlState({
       // cancel the location subscription.
       .nextFrame()
       .subscribe(location => {
-        const newState = determineStateChange(bind, location, state);
-        if (newState) {
-          const prevState = state;
-          state = newState;
+        setState(prevState => {
+          const newState = determineStateChange(bind, location, prevState);
+          if (!newState) {
+            return prevState;
+          }
           if (onUpdate) {
             onUpdate(prevState, newState);
           }
-          setState(newState);
-        }
+          return newState;
+        });
       });
 
     return () => {
@@ -51,15 +52,17 @@ export default function useUrlState({
   return [state, exposedSetState, exposedGetStateChangedUrl];
 
   function exposedSetState(change) {
-    const newState = reducer(state, change);
     mutateUrl(location => {
       // Synchronously update the state to ensure that quick user interaction will correctly
       // be reflected within the React state tree. The successive URL update will
       // (asynchronously) update the state again. This state update will be a noop in all interaction
       // cases that happen via the Instana user interface. Cases in which this is not a noop are
       // URL changes caused by the browser itself, e.g. browser back button.
-      setState(newState);
-      modifyLocation(bind, newState, location);
+      setState(prev => {
+        const newState = reducer(prev, change);
+        modifyLocation(bind, newState, location);
+        return newState;
+      });
     }, replaceHistory);
   }
 
