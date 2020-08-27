@@ -1,14 +1,14 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import SingleIconLaneItem from './SingleIconLaneItem';
+import SingleMarkerLaneItem from './SingleMarkerLaneItem';
 
 export default function TwoIconsLaneItem({ iconConfigForMultipleAlertTypes, eventData, ...remainingProps }) {
   const clusterSections = Object.keys(iconConfigForMultipleAlertTypes);
   const alertTypeConfig0 = iconConfigForMultipleAlertTypes[clusterSections[0]];
   const alertTypeConfig1 = iconConfigForMultipleAlertTypes[clusterSections[1]];
 
-  return <SingleIconLaneItem {...remainingProps} {...getIconRenderState()} eventData={eventData} />;
+  return <SingleMarkerLaneItem {...remainingProps} {...getIconRenderState()} eventData={eventData} />;
 
   function getIconRenderState() {
     const alertTypeZeroHasItems = eventData[clusterSections[0]]?.length;

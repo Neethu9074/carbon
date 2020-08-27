@@ -5,13 +5,14 @@ import {
   highlightedTimeframe$,
   addOrDeleteHighlightedTimeframeToParams
 } from 'in-stores/timeline/highlightedTimeframe';
-import SingleIconLaneItem from 'in-components/Chart/markerLanes/MarkerLane/SingleIconLaneItem';
+import SingleMarkerLaneItem from 'in-components/Chart/markerLanes/MarkerLane/SingleMarkerLaneItem';
 import MarkerLane from 'in-components/Chart/markerLanes/MarkerLane/MarkerLane';
 import HoverArea from 'in-components/Chart/markerLanes/MarkerLane/HoverArea';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { formatDateTime } from 'in-services/formatters/date';
 import bucketize from 'in-services/util/bucketize';
 import useObservable from 'in-hooks/useObservable';
+import ProfileMarker from './ProfileMarker';
 
 import locals from './ProfilesLane.mless';
 
@@ -42,8 +43,9 @@ export default function ProfilesLane(props) {
         })
       }
       tooltipContent={TooltipContent}
-      renderLaneItem={SingleIconLaneItem}
+      renderLaneItem={SingleMarkerLaneItem}
       renderHoverOverlay={HoverClusterArea}
+      renderMarkerItem={ProfileMarker}
     />
   );
 }

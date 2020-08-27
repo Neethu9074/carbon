@@ -13,10 +13,10 @@ import locals from './MarkerLane.mless';
 
 /*
  Adding a new LaneItem:
- If you want to add a completely new item which doesn't wrap around an existing one like "SingleIconLaneItem",
+ If you want to add a completely new item which doesn't wrap around an existing one like "SingleMarkerLaneItem",
  you need to ensure that it provides the functions outlined below. Otherwise Showing overlays would not work
  because we need some hover data about the hovered item. For reference please have a look at component
- "SingleIconLaneItem".
+ "SingleMarkerLaneItem".
 
   onMouseEnter={e => {
     onHover?.({
