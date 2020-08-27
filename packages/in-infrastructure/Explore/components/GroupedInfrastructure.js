@@ -1,46 +1,52 @@
-import React, { useState } from 'react';
+import React from 'react';
 
+import { ColumnizedContent, Ul, Li, LoadingSkeletonLi, HorizontalIndicatorLi } from 'in-new-components/lists/List';
 import InfrastructureList from 'in-infrastructure/Explore/components/InfrastructureList';
 import createGetGroupsSubscription from 'in-infrastructure/subscriptions/getGroups';
-import LoadingList from 'in-new-components/lists/List/sharedComponents/LoadingList';
-import ErrorList from 'in-new-components/lists/List/sharedComponents/ErrorList';
-import { ColumnizedContent, Ul, Li } from 'in-new-components/lists/List';
+import LoadMoreLi from 'in-new-components/lists/List/LoadMoreLi/LoadMoreLi';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
+import { error as errorType } from 'in-new-components/Message/types';
+import { indeterminateProgress } from 'in-services/fixedObjects';
 import IconButton from 'in-new-components/IconButton/IconButton';
-import Pagination from 'in-new-components/Pagination/Pagination';
-import { hasError, isLoading } from 'in-services/util/result';
+import useCursorPagination from 'in-hooks/useCursorPagination';
+import useFixedTimeConfig from 'in-hooks/useFixedTimeConfig';
 import KeyValue from 'in-new-components/lists/KeyValue';
-import useObservable from 'in-hooks/useObservable';
+import Message from 'in-new-components/Message';
 
 import locals from './GroupedInfrastructure.mless';
 
-export default function GroupedInfrastructure({ timeConfig, tagFilterExpression, groupBy }) {
-  const [page, setPage] = useState(1);
-  const result = useObservable(getGroups({ timeConfig, tagFilterExpression, groupBy, page }), [
+export default function GroupedInfrastructure({ tagFilterExpression, groupBy }) {
+  const timeConfig = useFixedTimeConfig();
+
+  const props = useCursorPagination(({ cursor }) => getGroups({ timeConfig, tagFilterExpression, groupBy, cursor }), [
     timeConfig,
     tagFilterExpression,
-    groupBy,
-    page
+    groupBy
   ]);
 
-  if (!result || isLoading(result)) {
-    return <LoadingList className={locals.list} numSkeletonRows={5} />;
-  }
-  if (hasError(result)) {
-    return <ErrorList className={locals.list} errors={result.errors} />;
-  }
+  return <Presenter timeConfig={timeConfig} tagFilterExpression={tagFilterExpression} groupBy={groupBy} {...props} />;
+}
 
-  if (result.data.items.length == 0) {
-    return <NoDataAvailable height={240} />;
-  }
-
+function Presenter({
+  progress,
+  errors,
+  canLoadMore,
+  loadMore,
+  totalHits,
+  items,
+  timeConfig,
+  tagFilterExpression,
+  groupBy
+}) {
+  const hasErrors = errors?.length > 0;
+  const isLoading = progress?.loading;
   const columnDefinitions = columns(groupBy);
 
   return (
     <>
-      <HeaderRow totalGroups={result.data.totalHits} />
+      {totalHits > 0 && <HeaderRow totalGroups={totalHits} />}
       <Ul space="xsmall">
-        {result.data.items.map((item, rowIndex) => (
+        {items.map((item, rowIndex) => (
           <Li
             key={rowIndex}
             noAlternatingBg
@@ -54,8 +60,19 @@ export default function GroupedInfrastructure({ timeConfig, tagFilterExpression,
             <ColumnizedContent columnDefinitions={columnDefinitions} group={item} />
           </Li>
         ))}
+        {isLoading && <HorizontalIndicatorLi progress={indeterminateProgress} />}
+        {isLoading && <LoadingSkeletonLi />}
+        {hasErrors &&
+          errors.map(error => (
+            <Li key={error}>
+              <Message className={locals.message} type={errorType} small>
+                {error}
+              </Message>
+            </Li>
+          ))}
+        {canLoadMore && <LoadMoreLi loadMore={loadMore} />}
       </Ul>
-      <Footer result={result} setPage={setPage} />
+      {!isLoading && items.length === 0 && <NoDataAvailable height={240} />}
     </>
   );
 }
@@ -100,15 +117,15 @@ function getColumnWidth(groupBy, index) {
   }
 }
 
-function getGroups({ timeConfig, tagFilterExpression, groupBy, page }) {
+function getGroups({ timeConfig, tagFilterExpression, groupBy, cursor }) {
   return createGetGroupsSubscription({
     filter: {
       timeConfig,
       tagFilterExpression
     },
     pagination: {
-      page: page,
-      pageSize: 20
+      cursor,
+      retrievalSize: 20
     },
     groupBy
   });
@@ -123,7 +140,7 @@ function ExpandedGroup({ group, tagFilterExpression, timeConfig }) {
     <InfrastructureList
       tagFilterExpression={addTagFilters(tagFilterExpression, group.tags)}
       timeConfig={timeConfig}
-      pageSize={5}
+      retrievalSize={5}
       numSkeletonRows={Math.min(group.count, 5)}
     />
   );
@@ -144,17 +161,4 @@ function addTagFilters(tagFilterExpression, tags) {
     logicalOperator: 'AND',
     elements: [tagFilterExpression, ...tagFilters].filter(Boolean)
   };
-}
-
-function Footer({ result, setPage }) {
-  return (
-    result.data &&
-    result.data.totalHits > result.data.pageSize && (
-      <Pagination
-        currentPage={result.data.page}
-        numPages={Math.ceil(result.data.totalHits / result.data.pageSize)}
-        onChange={setPage}
-      />
-    )
-  );
 }

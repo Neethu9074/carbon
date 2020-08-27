@@ -38,7 +38,8 @@ export default ({ getResettingProps, get, loadMoreName = 'loadMore', reloadName 
         totalHits: null,
         totalRepresentedItemCount: null,
         canLoadMore: true,
-        items: emptyArray
+        items: emptyArray,
+        next: null
       };
     }
 
@@ -81,6 +82,9 @@ export default ({ getResettingProps, get, loadMoreName = 'loadMore', reloadName 
       if (state.items.length === 0) {
         return null;
       }
+      if (state.next) {
+        return state.next;
+      }
       return state.items[state.items.length - 1].cursor;
     }
 
@@ -93,15 +97,16 @@ export default ({ getResettingProps, get, loadMoreName = 'loadMore', reloadName 
           canLoadMore: false
         });
       } else {
-        this.setState(({ items }) => ({
+        this.setState(({ items, totalHits, totalRepresentedItemCount }) => ({
           progress: result.progress,
           adjustedWindowSize: result.adjustedWindowSize,
           errors: result.errors,
           time: result.time,
           canLoadMore: result.data.canLoadMore,
-          totalHits: result.data.totalHits,
-          totalRepresentedItemCount: result.data.totalRepresentedItemCount,
-          items: items.concat(result.data.items)
+          totalHits: result.data.totalHits ?? totalHits,
+          totalRepresentedItemCount: result.data.totalRepresentedItemCount ?? totalRepresentedItemCount,
+          items: items.concat(result.data.items),
+          next: result.data.next
         }));
       }
 

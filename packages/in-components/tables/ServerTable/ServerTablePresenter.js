@@ -1,19 +1,12 @@
 import React, { Fragment } from 'react';
 import invariant from 'invariant';
 
-import {
-  ErrorRows,
-  HorizontalIndicatorRow,
-  LoadingSkeletonRows,
-  Table,
-  Tbody,
-  Tr,
-  Td,
-  Thead
-} from 'in-components/tables/sharedComponents';
+import { filterColumns } from 'in-components/tables/ServerTable/internalComponents/columnBehavior';
+import EmptyContent from 'in-components/tables/ServerTable/internalComponents/EmptyContent';
+import LoadingRows from 'in-components/tables/ServerTable/internalComponents/LoadingRows';
+import { ErrorRows, Table, Tbody, Thead } from 'in-components/tables/sharedComponents';
 import Columns from 'in-components/tables/ServerTable/internalComponents/Columns';
 import Row from 'in-components/tables/ServerTable/internalComponents/Row';
-import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import { joinClassNames } from 'in-services/util/classnames';
 import { pendingResult } from 'in-services/fixedObjects';
 import SearchInput from 'in-new-components/SearchInput';
@@ -35,13 +28,6 @@ export default function ServerTablePresenter(props) {
     orderDirection,
     pageSize,
 
-    // values that define the content
-    columnDefinitions,
-    optionalColumns,
-    disabledColumns = [],
-    // for columns that are defaultDisabled
-    enabledColumns = [],
-    filterColumnDefinitions = () => () => true,
     getRowProps,
     onRowClick,
     result = pendingResult,
@@ -67,33 +53,32 @@ export default function ServerTablePresenter(props) {
     onRowMouseEnter = () => {},
     onRowMouseLeave = () => {}
   } = props;
-  const filteredColumnDefinitions = columnDefinitions.filter(filterColumnDefinitions(props));
-
   const isLoading = result.progress.loading;
   const hasErrors = result.errors.length > 0;
 
-  let filteredAndDisabledColumnDefinitions = filteredColumnDefinitions;
-  const containsOptionalColumns = optionalColumns && optionalColumns.length > 0;
-  if (containsOptionalColumns) {
-    filteredAndDisabledColumnDefinitions = filteredColumnDefinitions.filter(
-      def => disabledColumns.indexOf(def.id) === -1 && (!def.defaultDisabled || enabledColumns.indexOf(def.id) >= 0)
-    );
-  }
+  const { availableColumns, visibleColumns, optionalColumns, onColumnChecked } = filterColumns(props);
 
   let body = null;
   if (isLoading) {
-    body = getLoadingContent(filteredAndDisabledColumnDefinitions, numSkeletonRows, result);
+    body = <LoadingRows cols={visibleColumns.length} progress={result.progress} numSkeletonRows={numSkeletonRows} />;
   } else if (hasErrors) {
-    body = <ErrorRows cols={filteredAndDisabledColumnDefinitions.length} errors={result.errors} size={size} />;
+    body = <ErrorRows cols={visibleColumns.length} errors={result.errors} size={size} />;
   } else if (result.data.items.length === 0) {
-    body = getEmptyContent(filteredAndDisabledColumnDefinitions, size, renderNoDataAvailable, noDataMessage);
+    body = (
+      <EmptyContent
+        cols={visibleColumns.length}
+        size={size}
+        renderNoDataAvailable={renderNoDataAvailable}
+        noDataMessage={noDataMessage}
+      />
+    );
   } else {
     body = result.data.items.map((item, i) => (
       <Row
         key={item.id || i}
         item={item}
         size={size}
-        columnDefinitions={filteredAndDisabledColumnDefinitions}
+        columnDefinitions={visibleColumns}
         cellOpts={props}
         onMouseEnter={onRowMouseEnter}
         onMouseLeave={onRowMouseLeave}
@@ -108,14 +93,14 @@ export default function ServerTablePresenter(props) {
       <Thead>
         <Columns
           setOrder={(orderBy, orderDirection) => onChange({ query, orderBy, orderDirection, page: 1, pageSize })}
-          columnDefinitions={filteredAndDisabledColumnDefinitions}
+          columnDefinitions={visibleColumns}
           orderBy={orderBy}
           orderDirection={orderDirection}
           allRowsAreSelected={allRowsAreSelected}
           setSelectedStateForRows={setSelectedStateForRows}
           optionalColumns={optionalColumns}
-          availableColumnDefinitions={filteredColumnDefinitions}
-          onColumnChecked={(id, c) => onColumnChecked(onChange, disabledColumns, enabledColumns, id, c)}
+          availableColumnDefinitions={availableColumns}
+          onColumnChecked={onColumnChecked}
         />
       </Thead>
       <Tbody>{body}</Tbody>
@@ -196,46 +181,5 @@ export default function ServerTablePresenter(props) {
       {content}
       {pagination}
     </Fragment>
-  );
-}
-
-function onColumnChecked(onChange, disabledColumns, enabledColumns, columnId, checked) {
-  const disabledIdx = disabledColumns.indexOf(columnId);
-  const enabledIdx = enabledColumns.indexOf(columnId);
-  if (checked) {
-    if (disabledIdx >= 0) {
-      onChange({ disabledColumns: disabledColumns.filter(c => c !== columnId) });
-    } else {
-      onChange({ enabledColumns: [...enabledColumns, columnId] });
-    }
-  } else {
-    if (enabledIdx >= 0) {
-      onChange({ enabledColumns: enabledColumns.filter(c => c !== columnId) });
-    } else {
-      onChange({ disabledColumns: [...disabledColumns, columnId] });
-    }
-  }
-}
-
-function getLoadingContent(filteredAndDisabledColumnDefinitions, numSkeletonRows, result) {
-  return (
-    <Fragment>
-      <HorizontalIndicatorRow cols={filteredAndDisabledColumnDefinitions.length} progress={result.progress} />
-      <LoadingSkeletonRows cols={filteredAndDisabledColumnDefinitions.length} rows={numSkeletonRows} />
-    </Fragment>
-  );
-}
-
-function getEmptyContent(filteredAndDisabledColumnDefinitions, size, renderNoDataAvailable, noDataMessage) {
-  return (
-    <Tr size={size}>
-      <Td colSpan={filteredAndDisabledColumnDefinitions.length}>
-        {renderNoDataAvailable ? (
-          renderNoDataAvailable(noDataMessage)
-        ) : (
-          <NoDataAvailable text={noDataMessage} height={80} />
-        )}
-      </Td>
-    </Tr>
   );
 }

@@ -1,13 +1,14 @@
+import React, { useMemo, useReducer } from 'react';
 import { just } from 'reactive-observables';
-import React, { useMemo, useState } from 'react';
 
-import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
+import CursorPaginatedTable from 'in-components/tables/ServerTable/CursorPaginatedTable';
 import getAvailableMetrics from 'in-infrastructure/subscriptions/getAvailableMetrics';
 import { valueWithFormatterToReadableString } from 'in-services/formatters/number';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import getEntities from 'in-infrastructure/subscriptions/getEntities';
 import EntityLink from 'in-new-components/EntityLink/EntityLink';
-import { pendingResult } from 'in-services/fixedObjects';
+import useCursorPagination from 'in-hooks/useCursorPagination';
+import useFixedTimeConfig from 'in-hooks/useFixedTimeConfig';
 import { getKpiDefinitions } from 'in-sdk/metrics/kpis';
 import MetricValue from 'in-components/MetricValue';
 import useObservable from 'in-hooks/useObservable';
@@ -15,50 +16,46 @@ import Tooltip from 'in-components/Tooltip';
 
 import locals from './InfrastructureList.mless';
 
-export default function InfrastructureList({ timeConfig, tagFilterExpression, pageSize = 20, numSkeletonRows = 3 }) {
-  const [tableState, setTableState] = useState({
+export default function InfrastructureList({ retrievalSize = 20, numSkeletonRows = 3, tagFilterExpression }) {
+  const timeConfig = useFixedTimeConfig();
+  const [state, setState] = useReducer((prev, next) => ({ ...prev, ...next }), {
     orderBy: staticColumnDefinitions[0].id,
-    orderDirection: 'ASC',
-    page: 1,
-    pageSize
+    orderDirection: 'ASC'
   });
-
-  const result =
-    useObservable(getTableData({ timeConfig, tagFilterExpression, ...tableState }), [
-      timeConfig,
-      tagFilterExpression,
-      tableState
-    ]) || pendingResult;
+  const { orderBy, orderDirection } = state;
+  const { items, ...tableProps } = useCursorPagination(
+    ({ cursor }) => {
+      return getTableData({ timeConfig, retrievalSize, tagFilterExpression, orderBy, orderDirection, cursor });
+    },
+    [timeConfig, retrievalSize, tagFilterExpression, orderBy, orderDirection]
+  );
 
   const columnDefinitions =
-    useObservable(getColumnDefinitions({ timeConfig, tagFilterExpression, result }), [
+    useObservable(getColumnDefinitions({ timeConfig, tagFilterExpression, items }), [
       timeConfig,
       tagFilterExpression,
-      result
+      items
     ]) || staticColumnDefinitions;
 
   const optionalColumns = useMemo(() => columnDefinitions.filter(columnDefinition => columnDefinition.optional), [
     columnDefinitions
   ]);
 
-  const onChange = newState => setTableState(prev => Object.assign({}, prev, newState));
-
   return (
-    <ServerTablePresenter
+    <CursorPaginatedTable
       columnDefinitions={columnDefinitions}
       optionalColumns={optionalColumns}
       numSkeletonRows={numSkeletonRows}
-      onChange={onChange}
-      isSearchable={false}
-      pageSize={pageSize}
-      result={result}
-      {...tableState}
+      onChange={setState}
+      {...tableProps}
+      items={items}
       fixedLayout
+      {...state}
     />
   );
 }
 
-function getTableData({ timeConfig, page, pageSize, tagFilterExpression, orderBy, orderDirection }) {
+function getTableData({ timeConfig, retrievalSize, tagFilterExpression, orderBy, orderDirection, cursor }) {
   return getEntities({
     filter: {
       tagFilterExpression,
@@ -69,8 +66,8 @@ function getTableData({ timeConfig, page, pageSize, tagFilterExpression, orderBy
       direction: orderDirection
     },
     pagination: {
-      page,
-      pageSize
+      retrievalSize,
+      cursor
     }
   });
 }
@@ -92,9 +89,9 @@ const staticColumnDefinitions = [
   }
 ];
 
-function getColumnDefinitions({ timeConfig, tagFilterExpression, result }) {
-  if (result.data) {
-    const plugins = new Set(result.data.items.map(i => i.plugin));
+function getColumnDefinitions({ timeConfig, tagFilterExpression, items }) {
+  if (items) {
+    const plugins = new Set(items.map(i => i.plugin));
     if (plugins.size === 1) {
       const plugin = plugins.values().next().value;
       const defaultColumns = staticColumnDefinitions.concat(getKpiColumns(plugin));

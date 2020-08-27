@@ -1,7 +1,7 @@
 import { just, combineLatest } from 'reactive-observables';
 import { get } from 'lodash';
 
-import { emptyArray, finishedProgress, pendingResult } from 'in-services/fixedObjects';
+import { emptyArray, finishedProgress, pendingResult, listData } from 'in-services/fixedObjects';
 import { identity } from 'in-services/util/function';
 
 export function mapData(result, fn) {
@@ -61,6 +61,8 @@ export function listSuccess(data, totalHits = data.length, pageSize = data.lengt
     time
   );
 }
+
+export const emptyListResult = success(listData);
 
 export function arrayToResult(array, totalHits, pageSize, itemMapper = identity, time = Date.now()) {
   return array ? listSuccess(array.map(itemMapper), totalHits, pageSize, time) : loading;

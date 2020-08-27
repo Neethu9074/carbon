@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 
 import GroupingConfigurator, {
   isGroupingConfigurationValid
@@ -26,6 +26,8 @@ import Message from 'in-new-components/Message';
 import useUrlState from 'in-hooks/useUrlState';
 import Title from 'in-components/Title';
 
+import locals from './Explore.mless';
+
 const urlStateDefinition = {
   bind: [tagFilterExpressionMatrixParameter, groupMatrixParameter]
 };
@@ -41,16 +43,13 @@ export default function InfraExploreView() {
   const isValid = validTagFilterExpressionResult.data === true && validGroupResult.data === true;
   const isInvalid = validTagFilterExpressionResult.data === false && validGroupResult.data === false;
 
-  const backendQueryModel = isValid && toBackendQueryModel(tagFilterExpression);
-
-  const onTagFilterExpressionChange = useMemo(() => tagFilterExpression => onChange({ tagFilterExpression }), [
-    onChange
+  const backendQueryModel = useMemo(() => isValid && toBackendQueryModel(tagFilterExpression), [
+    isValid,
+    tagFilterExpression
   ]);
-  const onGroupChange = useMemo(() => {
-    return group => {
-      return onChange({ group });
-    };
-  }, [onChange]);
+
+  const onTagFilterExpressionChange = useCallback(tagFilterExpression => onChange({ tagFilterExpression }), [onChange]);
+  const onGroupChange = useCallback(group => onChange({ group }), [onChange]);
 
   return (
     <InfraPageHeaderWithTabs showSearchBar={false} theme={themes.light} addShadow addFooter>
@@ -62,7 +61,7 @@ export default function InfraExploreView() {
       />
 
       <Title title="Explore" />
-      <LeftRightPadding>
+      <LeftRightPadding className={locals.stack}>
         <Stack>
           <Message type={warning} withIcon small>
             This is a work in progress. The final version of Infra Explore might look nothing like this.
@@ -98,7 +97,7 @@ export default function InfraExploreView() {
             </Message>
           )}
 
-          {isValid && group?.groupbyTag && (
+          {isValid && !group?.groupbyTag && (
             <InfrastructureList timeConfig={timeConfig} tagFilterExpression={backendQueryModel} />
           )}
 

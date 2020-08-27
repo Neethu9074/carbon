@@ -6,7 +6,7 @@ import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePr
 import EntityPageMainNotification from 'in-new-components/EntityPageMainNotification';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import WithEmptyStateFallback from 'in-new-components/WithEmptyStateFallback';
-import { emptyListResult } from 'in-services/fixedObjects';
+import { emptyListResult } from 'in-services/util/result';
 import { getPlural } from 'in-sdk/pluginName';
 
 export default function withEmptyTableState(props) {

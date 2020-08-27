@@ -38,7 +38,8 @@ describe('in-hoc/cursorPaginated', () => {
         loading: true
       },
       totalHits: null,
-      totalRepresentedItemCount: null
+      totalRepresentedItemCount: null,
+      next: null
     });
   });
 
@@ -58,7 +59,8 @@ describe('in-hoc/cursorPaginated', () => {
         loading: false
       },
       totalHits: result.data.totalHits,
-      totalRepresentedItemCount: result.data.totalRepresentedItemCount
+      totalRepresentedItemCount: result.data.totalRepresentedItemCount,
+      next: undefined
     });
   });
 
@@ -185,7 +187,8 @@ describe('in-hoc/cursorPaginated', () => {
       },
       time: undefined,
       totalHits: null,
-      totalRepresentedItemCount: null
+      totalRepresentedItemCount: null,
+      next: null
     });
   });
 });
