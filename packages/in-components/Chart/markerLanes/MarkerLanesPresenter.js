@@ -9,7 +9,13 @@ import { sizes } from 'in-components/SvgIcon/SvgIcon';
 
 import locals from './MarkerLanesPresenter.mless';
 
-export const markerLaneLabelVisibleSignal$ = create().emit(false);
+const markerLaneLabelVisibleSignalSrc$ = create();
+
+export function setMarkerLaneLabelVisibility(labelVisible) {
+  markerLaneLabelVisibleSignalSrc$.emit(labelVisible);
+}
+
+export const markerLaneLabelVisibleSignal$ = markerLaneLabelVisibleSignalSrc$.emit(false);
 
 const minBlockWidth = sizes.xs;
 export default function MarkerLanesPresenter({
@@ -29,7 +35,6 @@ export default function MarkerLanesPresenter({
       onMouseLeave={e => {
         stopPropagationAndPreventDefault(e);
         markerLaneLabelVisibleSignal$.emit(false);
-        // setLabelVisible(false);
       }}
     >
       <MarkerLanesWrapper
@@ -60,7 +65,6 @@ export default function MarkerLanesPresenter({
         onMouseEnter={e => {
           stopPropagationAndPreventDefault(e);
           markerLaneLabelVisibleSignal$.emit(true);
-          // setLabelVisible(true);
         }}
       >
         {Children.map(children, child => {

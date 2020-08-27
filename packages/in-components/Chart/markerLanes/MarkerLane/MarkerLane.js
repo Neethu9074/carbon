@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-import { markerLaneLabelVisibleSignal$ } from '../MarkerLanesPresenter';
+import { markerLaneLabelVisibleSignal$, setMarkerLaneLabelVisibility } from '../MarkerLanesPresenter';
 import RenderScheduler from 'in-components/Chart/RenderScheduler';
 import getElementDimensions from 'in-hoc/getElementDimensions';
 import evaluateClassNames from 'in-services/util/classnames';
@@ -40,6 +40,7 @@ class MarkersLane extends React.Component {
   componentDidUpdate() {
     // eslint-disable-next-line react/prop-types
     this.renderScheduler.update(this.props.timeConfig, this.props.width);
+    setMarkerLaneLabelVisibility(this.props.events?.length === 0);
   }
 
   componentWillUnmount() {
