@@ -29,7 +29,7 @@ export default function useCursorPagination(create, deps = []) {
     }));
   }, [progress, errors, time, adjustedWindowSize]);
 
-  const setCursor = useCallback(cursor => setState(prev => ({ cursor, ...prev })));
+  const setCursor = useCallback(cursor => setState(prev => ({ ...prev, cursor })));
   const loadMore = useCallback(() => setCursor(nextCursor), [nextCursor]);
   const reload = useCallback(() => setCursor(undefined));
 

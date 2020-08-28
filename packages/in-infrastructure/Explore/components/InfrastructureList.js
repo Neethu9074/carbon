@@ -24,9 +24,7 @@ export default function InfrastructureList({ retrievalSize = 20, numSkeletonRows
   });
   const { orderBy, orderDirection } = state;
   const { items, ...tableProps } = useCursorPagination(
-    ({ cursor }) => {
-      return getTableData({ timeConfig, retrievalSize, tagFilterExpression, orderBy, orderDirection, cursor });
-    },
+    ({ cursor }) => getTableData({ timeConfig, retrievalSize, tagFilterExpression, orderBy, orderDirection, cursor }),
     [timeConfig, retrievalSize, tagFilterExpression, orderBy, orderDirection]
   );
 
