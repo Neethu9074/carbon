@@ -128,6 +128,14 @@ export default function Permissions({ form, onChange, disabled }) {
           label={permissions['canConfigureReleases']}
           helpText="Permits configuration of releases."
         />
+        <Permission
+          form={form}
+          disabled={disabled}
+          onChange={onChange}
+          name="canConfigureServiceLevelIndicators"
+          label={permissions['canConfigureServiceLevelIndicators']}
+          helpText="Permits definition and configuration of SLIs."
+        />
       </FormGroup>
 
       <SectionHeading>Access Control</SectionHeading>

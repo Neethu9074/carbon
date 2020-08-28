@@ -44,12 +44,11 @@ function CustomTime({ form, onChange, setForm }) {
       <DateTimeInput title="From" form={form} path="from" setValue={setValue} className={locals.from} />
       <DateTimeInput title="To" form={form} path="to" setValue={setValue} className={locals.to} />
 
-      {form.touched &&
-        form.messages.length > 0 && (
-          <div className={locals.errors}>
-            <TouchedMessages field={form} />
-          </div>
-        )}
+      {form.touched && form.messages.length > 0 && (
+        <div className={locals.errors}>
+          <TouchedMessages field={form} />
+        </div>
+      )}
 
       <div className={locals.buttons}>
         <Button type="submit">Set Time</Button>
@@ -125,14 +124,14 @@ function validateForm({ from: fromForm, to: toForm }) {
     return [
       {
         severity: 'error',
-        message: `The from date cannot be greather than the to date.`
+        message: 'The from date cannot be greater than the to date.'
       }
     ];
   } else if (to - from > maximumWindow) {
     return [
       {
         severity: 'error',
-        message: `The largest selectable timespan is one month.`
+        message: 'The largest selectable timespan is one month.'
       }
     ];
   }
