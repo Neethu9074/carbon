@@ -1,6 +1,6 @@
 /* eslint-env mocha */
 
-import { renderHook } from '@testing-library/react-hooks';
+import { renderHook, act } from '@testing-library/react-hooks';
 import { create } from 'reactive-observables';
 import { expect } from 'chai';
 
@@ -20,23 +20,21 @@ describe('in-hooks/useCursorPagination', () => {
   it('must return items from observable', async () => {
     const endpoint = new MockEndpoint();
 
-    const { result, rerender } = renderHook(() => useCursorPagination(endpoint.observableCreator()));
+    const { result } = renderHook(() => useCursorPagination(endpoint.observableCreator()));
 
-    endpoint.emit(successResult({ items: [item(1), item(2)] }));
-
-    rerender();
+    act(() => endpoint.emit(successResult({ items: [item(1), item(2)] })));
 
     expect(result.current.items).to.deep.equal([item(1), item(2)]);
+    expect(result.current.progress.loading).to.deep.equal(false);
+    expect(result.current.errors).to.deep.equal([]);
   });
 
   it('must return errors from observable', async () => {
     const endpoint = new MockEndpoint();
 
-    const { result, rerender } = renderHook(() => useCursorPagination(endpoint.observableCreator()));
+    const { result } = renderHook(() => useCursorPagination(endpoint.observableCreator()));
 
-    endpoint.emit(error([{ message: 'some error', code: 'SERVER' }]));
-
-    rerender();
+    act(() => endpoint.emit(error([{ message: 'some error', code: 'SERVER' }])));
 
     expect(result.current.errors).to.deep.equal([{ message: 'some error', code: 'SERVER' }]);
   });
@@ -44,11 +42,9 @@ describe('in-hooks/useCursorPagination', () => {
   it('must return time from observable', async () => {
     const endpoint = new MockEndpoint();
 
-    const { result, rerender } = renderHook(() => useCursorPagination(endpoint.observableCreator()));
+    const { result } = renderHook(() => useCursorPagination(endpoint.observableCreator()));
 
-    endpoint.emit({ time: 1234 });
-
-    rerender();
+    act(() => endpoint.emit({ time: 1234 }));
 
     expect(result.current.time).to.deep.equal(1234);
   });
@@ -56,11 +52,9 @@ describe('in-hooks/useCursorPagination', () => {
   it('must return adjusted window size from observable', async () => {
     const endpoint = new MockEndpoint();
 
-    const { result, rerender } = renderHook(() => useCursorPagination(endpoint.observableCreator()));
+    const { result } = renderHook(() => useCursorPagination(endpoint.observableCreator()));
 
-    endpoint.emit({ adjustedWindowSize: 1234 });
-
-    rerender();
+    act(() => endpoint.emit({ adjustedWindowSize: 1234 }));
 
     expect(result.current.adjustedWindowSize).to.deep.equal(1234);
   });
@@ -68,20 +62,16 @@ describe('in-hooks/useCursorPagination', () => {
   it('must load more if there are more items load via cursor on last item', async () => {
     const endpoint = new MockEndpoint();
 
-    const { result, rerender } = renderHook(() => useCursorPagination(endpoint.observableCreator()));
+    const { result } = renderHook(() => useCursorPagination(endpoint.observableCreator()));
 
-    endpoint.emit(successResult({ items: [item(1), item(2, '3')], canLoadMore: true }));
-
-    rerender();
+    act(() => endpoint.emit(successResult({ items: [item(1), item(2, '3')], canLoadMore: true })));
 
     expect(result.current.canLoadMore).to.equal(true);
     expect(result.current.items).to.deep.equal([item(1), item(2, '3')]);
 
-    result.current.loadMore();
+    act(() => result.current.loadMore());
 
-    endpoint.emit(successResult({ items: [item(3)] }));
-
-    rerender();
+    act(() => endpoint.emit(successResult({ items: [item(3)] })));
 
     expect(result.current.items).to.deep.equal([item(1), item(2, '3'), item(3)]);
   });
@@ -89,21 +79,17 @@ describe('in-hooks/useCursorPagination', () => {
   it('must load more if there are more items to load via top level next cursor', async () => {
     const endpoint = new MockEndpoint();
 
-    const { result, rerender } = renderHook(() => useCursorPagination(endpoint.observableCreator()));
+    const { result } = renderHook(() => useCursorPagination(endpoint.observableCreator()));
 
-    endpoint.emit(successResult({ items: [item(1), item(2)], next: '3', canLoadMore: true }));
-
-    rerender();
+    act(() => endpoint.emit(successResult({ items: [item(1), item(2)], next: '3', canLoadMore: true })));
 
     expect(endpoint.popRequest()).to.deep.equal({ cursor: undefined });
     expect(result.current.canLoadMore).to.equal(true);
     expect(result.current.items).to.deep.equal([item(1), item(2)]);
 
-    result.current.loadMore();
+    act(() => result.current.loadMore());
 
-    endpoint.emit(successResult({ items: [item(3)] }));
-
-    rerender();
+    act(() => endpoint.emit(successResult({ items: [item(3)] })));
 
     expect(endpoint.popRequest()).to.deep.equal({ cursor: '3' });
     expect(result.current.items).to.deep.equal([item(1), item(2), item(3)]);
@@ -112,11 +98,9 @@ describe('in-hooks/useCursorPagination', () => {
   it('must return totalHits and totalRepresentedItemCount', async () => {
     const endpoint = new MockEndpoint();
 
-    const { result, rerender } = renderHook(() => useCursorPagination(endpoint.observableCreator()));
+    const { result } = renderHook(() => useCursorPagination(endpoint.observableCreator()));
 
-    endpoint.emit(successResult({ totalHits: 10, totalRepresentedItemCount: 20 }));
-
-    rerender();
+    act(() => endpoint.emit(successResult({ totalHits: 10, totalRepresentedItemCount: 20 })));
 
     expect(result.current.totalHits).to.equal(10);
     expect(result.current.totalRepresentedItemCount).to.equal(20);
@@ -125,25 +109,23 @@ describe('in-hooks/useCursorPagination', () => {
   it('must retain totalHits and totalRepresentedItemCount if not returned in subsquent requests', async () => {
     const endpoint = new MockEndpoint();
 
-    const { result, rerender } = renderHook(() => useCursorPagination(endpoint.observableCreator()));
+    const { result } = renderHook(() => useCursorPagination(endpoint.observableCreator()));
 
-    endpoint.emit(
-      successResult({
-        items: [item(1), item(2)],
-        next: '3',
-        canLoadMore: true,
-        totalHits: 10,
-        totalRepresentedItemCount: 20
-      })
+    act(() =>
+      endpoint.emit(
+        successResult({
+          items: [item(1), item(2)],
+          next: '3',
+          canLoadMore: true,
+          totalHits: 10,
+          totalRepresentedItemCount: 20
+        })
+      )
     );
 
-    rerender();
+    act(() => result.current.loadMore());
 
-    result.current.loadMore();
-
-    endpoint.emit(successResult({ items: [item(3)], canLoadMore: false }));
-
-    rerender();
+    act(() => endpoint.emit(successResult({ items: [item(3)], canLoadMore: false })));
 
     expect(result.current.totalHits).to.equal(10);
     expect(result.current.totalRepresentedItemCount).to.equal(20);
@@ -152,27 +134,27 @@ describe('in-hooks/useCursorPagination', () => {
   it('must reload from first page', async () => {
     const endpoint = new MockEndpoint();
 
-    const { result, rerender } = renderHook(() => useCursorPagination(endpoint.observableCreator()));
+    const { result } = renderHook(() => useCursorPagination(endpoint.observableCreator()));
 
-    endpoint.emit(
-      successResult({
-        items: [item(1), item(2)]
-      })
+    act(() =>
+      endpoint.emit(
+        successResult({
+          items: [item(1), item(2)]
+        })
+      )
     );
-
-    rerender();
 
     expect(endpoint.popRequest()).to.deep.equal({ cursor: undefined });
 
-    result.current.reload();
+    act(() => result.current.reload());
 
-    endpoint.emit(
-      successResult({
-        items: [item('a'), item('b')]
-      })
+    act(() =>
+      endpoint.emit(
+        successResult({
+          items: [item('a'), item('b')]
+        })
+      )
     );
-
-    rerender();
 
     expect(endpoint.popRequest()).to.deep.equal({ cursor: undefined });
   });
@@ -184,42 +166,55 @@ describe('in-hooks/useCursorPagination', () => {
       initialProps: 'numbers'
     });
 
-    endpoint.emit(
-      successResult({
-        items: [item(1), item(2)]
-      })
+    act(() =>
+      endpoint.emit(
+        successResult({
+          items: [item(1), item(2)]
+        })
+      )
     );
-
-    rerender();
 
     expect(endpoint.popRequest()).to.deep.equal({ cursor: undefined });
     expect(result.current.items).to.deep.equal([item(1), item(2)]);
 
     rerender('letters');
 
-    endpoint.emit(
-      successResult({
-        items: [item('a'), item('b')]
-      })
+    act(() =>
+      endpoint.emit(
+        successResult({
+          items: [item('a'), item('b')]
+        })
+      )
     );
-
-    rerender();
 
     expect(endpoint.popRequest()).to.deep.equal({ cursor: undefined });
     expect(result.current.items).to.deep.equal([item('a'), item('b')]);
+  });
+
+  it('should not accept any more updates from the observable after receiving the result', async () => {
+    const endpoint = new MockEndpoint();
+
+    const { result } = renderHook(() => useCursorPagination(endpoint.observableCreator()), {
+      initialProps: 'numbers'
+    });
+
+    act(() => endpoint.emit(successResult({ items: [item(1), item(2)] })));
+
+    act(() => endpoint.emit(successResult({ items: [item(1), item(2)] })));
+
+    expect(result.current.items).to.deep.equal([item(1), item(2)]);
   });
 });
 
 class MockEndpoint {
   constructor() {
     this.requests = [];
-    this.obs = create();
   }
 
   observableCreator() {
     return request => {
       this.requests.push(request);
-      return this.obs;
+      return (this.obs = create());
     };
   }
 

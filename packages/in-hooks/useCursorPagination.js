@@ -5,42 +5,75 @@ import { pendingResult, emptyArray, indeterminateProgress } from 'in-services/fi
 
 export default function useCursorPagination(create, deps = []) {
   const [state, setState] = useState(initialState);
-  const { cursor, nextCursor } = state;
-  const observable = useMemo(() => create({ cursor }), [create, cursor, ...deps]);
-  const { data, progress, errors, time, adjustedWindowSize } = useObservable(observable, [observable]) ?? pendingResult;
   useEffect(() => setState(initialState), deps);
-  useEffect(() => {
-    setState(prev => ({
-      ...prev,
-      items: (prev.items ?? []).concat(data?.items ?? []),
-      totalHits: data?.totalHits ?? prev.totalHits,
-      totalRepresentedItemCount: data?.totalRepresentedItemCount ?? prev.totalRepresentedItemCount,
-      canLoadMore: data?.canLoadMore,
-      nextCursor: data?.next ?? data?.items?.[data?.items.length - 1]?.cursor
-    }));
-  }, [data]);
-  useEffect(() => {
-    setState(prev => ({
-      ...prev,
-      progress,
-      errors,
-      time,
-      adjustedWindowSize
-    }));
-  }, [progress, errors, time, adjustedWindowSize]);
+
+  const {
+    totalRepresentedItemCount,
+    adjustedWindowSize,
+    canLoadMore,
+    reloadCount,
+    nextCursor,
+    totalHits,
+    progress,
+    cursor,
+    errors,
+    items,
+    time
+  } = state;
+  const observable = useMemo(() => create({ cursor }), [cursor, reloadCount, ...deps]);
+  useEffect(() => setState(awaitItems), [observable]);
+
+  const result = useObservable(observable, [observable]) ?? pendingResult;
+  useEffect(() => setState(prev => updateResult(prev, result)), [result]);
 
   const setCursor = useCallback(cursor => setState(prev => ({ ...prev, cursor })));
   const loadMore = useCallback(() => setCursor(nextCursor), [nextCursor]);
-  const reload = useCallback(() => setCursor(undefined));
+  const reload = useCallback(() => setState(prev => ({ ...prev, reloadCount: prev.reloadCount + 1 })));
 
   return {
-    ...state,
+    totalRepresentedItemCount,
+    adjustedWindowSize,
+    canLoadMore,
+    totalHits,
+    progress,
     loadMore,
-    reload
+    errors,
+    reload,
+    items,
+    time
   };
 }
 
 const initialState = {
   items: emptyArray,
-  progress: indeterminateProgress
+  progress: indeterminateProgress,
+  awaitingData: true,
+  reloadCount: 0
 };
+
+function awaitItems(prev) {
+  return { ...prev, awaitingData: true };
+}
+
+function updateResult(prev, result) {
+  if (!prev.awaitingData) {
+    return prev;
+  }
+  const { data } = result;
+  if (!data) {
+    return {
+      ...prev,
+      ...result
+    };
+  }
+  return {
+    ...prev,
+    ...result,
+    totalRepresentedItemCount: data.totalRepresentedItemCount ?? prev.totalRepresentedItemCount,
+    awaitingData: false,
+    canLoadMore: data.canLoadMore,
+    nextCursor: data.next ?? data.items?.[data.items.length - 1]?.cursor,
+    totalHits: data.totalHits ?? prev.totalHits,
+    items: (prev.items ?? []).concat(data.items ?? [])
+  };
+}
