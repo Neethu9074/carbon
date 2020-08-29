@@ -71,9 +71,12 @@ describe('in-hooks/useCursorPagination', () => {
 
     act(() => result.current.loadMore());
 
+    expect(result.current.canLoadMore).to.equal(false);
+
     act(() => endpoint.emit(successResult({ items: [item(3)] })));
 
     expect(result.current.items).to.deep.equal([item(1), item(2, '3'), item(3)]);
+    expect(result.current.canLoadMore).to.equal(false);
   });
 
   it('must load more if there are more items to load via top level next cursor', async () => {
@@ -89,10 +92,13 @@ describe('in-hooks/useCursorPagination', () => {
 
     act(() => result.current.loadMore());
 
+    expect(result.current.canLoadMore).to.equal(false);
+
     act(() => endpoint.emit(successResult({ items: [item(3)] })));
 
     expect(endpoint.popRequest()).to.deep.equal({ cursor: '3' });
     expect(result.current.items).to.deep.equal([item(1), item(2), item(3)]);
+    expect(result.current.canLoadMore).to.equal(false);
   });
 
   it('must return totalHits and totalRepresentedItemCount', async () => {

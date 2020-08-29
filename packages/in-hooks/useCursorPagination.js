@@ -48,11 +48,12 @@ const initialState = {
   items: emptyArray,
   progress: indeterminateProgress,
   awaitingData: true,
+  canLoadMore: false,
   reloadCount: 0
 };
 
 function awaitItems(prev) {
-  return { ...prev, awaitingData: true };
+  return { ...prev, awaitingData: true, canLoadMore: false };
 }
 
 function updateResult(prev, result) {
