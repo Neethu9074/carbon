@@ -1,7 +1,8 @@
+import { create } from 'reactive-observables';
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-import { markerLaneLabelVisibleSignal$, setMarkerLaneLabelVisibility } from '../MarkerLanesPresenter';
+import { markerLaneLabelVisibleSignal$ } from 'in-components/Chart/markerLanes/MarkerLanesPresenter';
 import RenderScheduler from 'in-components/Chart/RenderScheduler';
 import getElementDimensions from 'in-hoc/getElementDimensions';
 import evaluateClassNames from 'in-services/util/classnames';
@@ -31,6 +32,13 @@ import locals from './MarkerLane.mless';
   }}
 */
 
+const setHasMarkersToRenderSignalSrc$ = create();
+export const hasMarkersToRenderSignal$ = setHasMarkersToRenderSignalSrc$.emit(false);
+
+export function setHasMarkersToRenderSignal(hasMarkersToRender) {
+  setHasMarkersToRenderSignalSrc$.emit(hasMarkersToRender);
+}
+
 class MarkersLane extends React.Component {
   constructor(props) {
     super(props);
@@ -40,7 +48,7 @@ class MarkersLane extends React.Component {
   componentDidUpdate() {
     // eslint-disable-next-line react/prop-types
     this.renderScheduler.update(this.props.timeConfig, this.props.width);
-    setMarkerLaneLabelVisibility(this.props.events?.length === 0);
+    setHasMarkersToRenderSignal(this.props.events?.length > 0);
   }
 
   componentWillUnmount() {

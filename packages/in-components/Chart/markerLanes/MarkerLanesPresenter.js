@@ -1,7 +1,8 @@
-import React, { useState, Children, cloneElement, useRef } from 'react';
+import React, { useState, Children, cloneElement, useRef, useEffect } from 'react';
 import { create } from 'reactive-observables';
 import PropTypes from 'prop-types';
 
+import { hasMarkersToRenderSignal$ } from 'in-components/Chart/markerLanes/MarkerLane/MarkerLane';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { getBlockSizeMillis } from 'in-services/util/dynamicAggregation';
 import { propTypeTimeConfig } from 'in-stores/time/config';
@@ -28,13 +29,25 @@ export default function MarkerLanesPresenter({
   if (!children || !granularity) return null;
 
   const [labelAlignment, setLabelAligment] = useState('left');
+  const [hasMarkersToRender, setHasMarkersToRender] = useState(true);
+
+  useEffect(() => {
+    let noMarkersInAnyLaneSignalSub = hasMarkersToRenderSignal$.subscribe(hasMarkers => {
+      setHasMarkersToRender(hasMarkers);
+      setMarkerLaneLabelVisibility(!hasMarkers);
+    });
+    return () => {
+      noMarkersInAnyLaneSignalSub.dispose();
+      noMarkersInAnyLaneSignalSub = null;
+    };
+  }, []);
 
   return (
     <div
       className={locals.markerLanesContainer}
       onMouseLeave={e => {
         stopPropagationAndPreventDefault(e);
-        markerLaneLabelVisibleSignal$.emit(false);
+        if (hasMarkersToRender) markerLaneLabelVisibleSignal$.emit(false);
       }}
     >
       <MarkerLanesWrapper
@@ -48,7 +61,7 @@ export default function MarkerLanesPresenter({
         className={locals[labelAlignment]}
         onMouseEnter={e => {
           stopPropagationAndPreventDefault(e);
-          setLabelAligment(labelAlignment === 'left' ? 'right' : 'left');
+          if (hasMarkersToRender) setLabelAligment(labelAlignment === 'left' ? 'right' : 'left');
         }}
       />
     </div>
