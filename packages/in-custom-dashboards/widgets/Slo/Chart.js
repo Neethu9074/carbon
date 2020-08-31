@@ -82,6 +82,7 @@ function getCustomAnalyzeContextMenuProperties(sliConfig, disableZooming) {
               boundaryScope: sliEntity.boundaryScope,
               groupByTag:
                 sliEntity.serviceId == null && sliEntity.endpointId == null ? groupByServiceName : groupByEndpointName,
+              focusedMetric: getFocusedMetric(sliConfig),
               filters
             }
           )
@@ -128,10 +129,10 @@ function convertToAnalyzeFilters(tagFilters) {
 }
 
 function getTagFilterValue(tagFilter) {
-  if (tagFilter.hasOwnProperty('stringValue')) {
+  if (tagFilter?.stringValue) {
     return tagFilter.stringValue;
   }
-  if (tagFilter.hasOwnProperty('numberValue')) {
+  if (tagFilter?.numberValue) {
     return tagFilter.numberValue;
   }
   return tagFilter.booleanValue;
@@ -139,4 +140,14 @@ function getTagFilterValue(tagFilter) {
 
 function createAnalyzeFilter(name, operator, value) {
   return { name, operator, value };
+}
+
+function getFocusedMetric(sliConfig) {
+  if (sliConfig.sliEntity.sliType === 'application') {
+    const metricName = sliConfig.metricConfiguration.metricName;
+    if (metricName === 'latency') {
+      return 'latency_DISTRIBUTION';
+    }
+  }
+  return 'calls_SUM';
 }

@@ -43,7 +43,7 @@ export default function TagFilter({
         <EntityIndicator type={name} groupedByEntity={entity} />
         <span className={locals.name}>{name}</span>
         {operator && <span className={locals.operator}>{node ? getOperatorLabel(node.type, operator) : operator}</span>}
-        {value && <span className={locals.value}>{`${value}`}</span>}
+        {value != null && <span className={locals.value}>{`${value}`}</span>}
       </div>
 
       {!isLastOperator && filterConnectionOperators && isFirstOperator && (
