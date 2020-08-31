@@ -70,7 +70,7 @@
     "d3-hierarchy": "^1.1.8",
     "deep-diff": "^1.0.2",
     "deep-freeze-strict": "^1.1.1",
-    "dompurify": "^0.8.3",
+    "dompurify": "^2.0.3",
     "eventemitter3": "^2.0.3",
     "favico.js": "^0.3.10",
     "fbjs": "^0.8.3",
