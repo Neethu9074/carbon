@@ -42,14 +42,17 @@
 
   .actionIcon {
     fill: @lib__colors__N600Light;
+    cursor: pointer;
   }
 
-  .wrapper:hover .action {
-    display: block;
-  }
+  .wrapper:hover .showLongVariantOnHover {
+    .action {
+      display: inline-flex;
+    }
 
-  .wrapper:hover .actionIcon {
-    display: none;
+    .actionIcon {
+      display: none;
+    }
   }
 
   .major,

@@ -100,6 +100,7 @@ const icons = deepFreeze({
   },
   mobileApp: {
     sessionStart: 'lib_mobile_app_session',
+    viewChange: 'lib_mobile_app',
     httpRequest: 'lib_mobile_app_request',
     custom: 'lib_mobile_app_custom_event'
   },
@@ -129,6 +130,8 @@ export function getEntityNameByType(type) {
     return 'Profiles';
   } else if (type === 'sessionStart') {
     return 'Session Start';
+  } else if (type === 'viewChange') {
+    return 'View transitions';
   }
 
   return type;
@@ -149,6 +152,8 @@ export function getLabelByType(type) {
     return `${websiteDataSourceTitles.custom}s`;
   } else if (type === 'sessionStart') {
     return `${mobileAppDataSourceTitles.sessionStart}s`;
+  } else if (type === 'viewChange') {
+    return `${mobileAppDataSourceTitles.viewChange}s`;
   } else if (type === 'profiles') {
     return 'Profiles';
   } else if (type === 'traces') {

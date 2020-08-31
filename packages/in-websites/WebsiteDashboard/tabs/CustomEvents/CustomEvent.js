@@ -84,6 +84,22 @@ export default function CustomEvent({ location, tagFilters, timeConfig, websiteI
                 }
               }
             }}
+            iconAction={{
+              text: 'View in Analyze',
+              kind: 'subtle',
+              icon: 'lib_analyze_inverted',
+              href$: getLinkToAnalyze({
+                beaconType: 'custom',
+                tagFilters: translateDemocratisationTagFiltersToAnalyzeTagFilters({
+                  websiteLabel,
+                  tagFilters
+                }),
+                group: {
+                  groupbyTag: 'beacon.location.path'
+                },
+                showGraph: true
+              })
+            }}
           />
         </Col>
         <Col lg={3}>
@@ -99,6 +115,30 @@ export default function CustomEvent({ location, tagFilters, timeConfig, websiteI
                   aggregation: 'DISTINCT_COUNT'
                 }
               }
+            }}
+            iconAction={{
+              text: 'View in Analyze',
+              kind: 'subtle',
+              icon: 'lib_analyze_inverted',
+              href$: getLinkToAnalyze({
+                beaconType: 'custom',
+                tagFilters: translateDemocratisationTagFiltersToAnalyzeTagFilters({
+                  websiteLabel,
+                  tagFilters
+                }),
+                group: {
+                  groupbyTag: 'beacon.location.path'
+                },
+                showGraph: true,
+                metrics: [
+                  {
+                    metric: 'uniqueUsersOrSessions',
+                    aggregation: 'DISTINCT_COUNT'
+                  }
+                ],
+                focusedMetric: 'uniqueUsersOrSessions',
+                focusedMetricAggregation: 'DISTINCT_COUNT'
+              })
             }}
           />
         </Col>

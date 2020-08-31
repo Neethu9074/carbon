@@ -50,7 +50,7 @@ export default function Errors({
         {
           name: 'analyze',
           icon: 'lib_analyze',
-          label: 'View in Analytics',
+          label: 'View in Analyze',
           getHref$: highlightedTime =>
             getJumpToAnalyzeHref$(
               { applicationId, serviceId, endpointId },
@@ -65,7 +65,10 @@ export default function Errors({
                       { name: 'call.erroneous', value: 'true' }
                     ]
                   : [{ name: 'call.erroneous', value: 'true' }],
-                metrics: [{ metric: 'errors', aggregation: 'MEAN' }, { metric: 'latency', aggregation: 'MEAN' }],
+                metrics: [
+                  { metric: 'errors', aggregation: 'MEAN' },
+                  { metric: 'latency', aggregation: 'MEAN' }
+                ],
                 focusedMetric: 'errors_MEAN'
               }
             )

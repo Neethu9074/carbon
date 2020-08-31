@@ -67,7 +67,7 @@ export default function Latency({
         {
           name: 'analyze',
           icon: 'lib_analyze',
-          label: 'View in Analytics',
+          label: 'View in Analyze',
           getHref$: (highlightedTime, metricsToAdd) =>
             getJumpToAnalyzeHref$(
               { applicationId, serviceId, endpointId },
@@ -76,7 +76,10 @@ export default function Latency({
                 boundaryScope,
                 groupByTag,
                 filters: isSynthetic
-                  ? [{ name: 'call.is_synthetic', value: 'true' }, { name: 'include_synthetic', value: 'true' }]
+                  ? [
+                      { name: 'call.is_synthetic', value: 'true' },
+                      { name: 'include_synthetic', value: 'true' }
+                    ]
                   : [],
                 metrics: mapMetricsToAdd(metricsToAdd.renderedMetrics),
                 focusedMetric: focusBasedOnMetrics(metricsToAdd.renderedMetrics)
@@ -97,7 +100,7 @@ function mapMetricsToAdd(metrics) {
 }
 function focusBasedOnMetrics(metrics) {
   const metricsList = mapMetricsToAdd(metrics);
-  if (metricsList.length > 1 && (metricsList[0].aggregation === 'P99' && metricsList[1].aggregation === 'MAX')) {
+  if (metricsList.length > 1 && metricsList[0].aggregation === 'P99' && metricsList[1].aggregation === 'MAX') {
     return `latency_MAX`;
   }
   return `latency_${metricsList[0].aggregation}`;

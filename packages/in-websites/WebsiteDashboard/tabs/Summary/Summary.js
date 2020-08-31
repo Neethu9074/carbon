@@ -6,10 +6,12 @@ import WebsiteMetricsKpiCard from 'in-websites/WebsiteDashboard/components/Websi
 import WebsiteChartWrapper from 'in-websites/WebsiteDashboard/components/WebsiteChartWrapper';
 import Deprecations from 'in-websites/WebsiteDashboard/components/Deprecations/Deprecations';
 import WebsiteGeoHeatMap from 'in-websites/WebsiteDashboard/components/WebsiteGeoHeatMap';
+import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
 import { number, millis, meanLatency, latency } from 'in-services/formatters/number';
 import ErrorTopList from 'in-websites/WebsiteDashboard/tabs/Summary/ErrorTopList';
 import PagesTopList from 'in-websites/WebsiteDashboard/tabs/Summary/PagesTopList';
 import AggregationSelector from 'in-new-components/AggregationSelector';
+import { getLinkToAnalyze } from 'in-websites/navigation/paths';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { getChartGranularity } from 'in-websites/metrics';
 import { Row, Col } from 'in-new-components/layout/Grid';
@@ -38,6 +40,22 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
                 }
               }
             }}
+            iconAction={{
+              text: 'View in Analyze',
+              kind: 'subtle',
+              icon: 'lib_analyze_inverted',
+              href$: getLinkToAnalyze({
+                beaconType: 'pageLoad',
+                tagFilters: translateDemocratisationTagFiltersToAnalyzeTagFilters({
+                  websiteLabel,
+                  tagFilters
+                }),
+                group: {
+                  groupbyTag: 'beacon.location.path'
+                },
+                showGraph: true
+              })
+            }}
           />
         </Col>
         <Col xs>
@@ -53,6 +71,22 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
                   aggregation: 'SUM'
                 }
               }
+            }}
+            iconAction={{
+              text: 'View in Analyze',
+              kind: 'subtle',
+              icon: 'lib_analyze_inverted',
+              href$: getLinkToAnalyze({
+                beaconType: 'pageChange',
+                tagFilters: translateDemocratisationTagFiltersToAnalyzeTagFilters({
+                  websiteLabel,
+                  tagFilters
+                }),
+                group: {
+                  groupbyTag: 'beacon.page.name'
+                },
+                showGraph: true
+              })
             }}
           />
         </Col>
@@ -70,6 +104,37 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
                 }
               }
             }}
+            iconAction={{
+              text: 'View in Analyze',
+              kind: 'subtle',
+              icon: 'lib_analyze_inverted',
+              href$: getLinkToAnalyze({
+                beaconType: 'pageLoad',
+                tagFilters: translateDemocratisationTagFiltersToAnalyzeTagFilters({
+                  websiteLabel,
+                  tagFilters
+                }),
+                group: {
+                  groupbyTag: 'beacon.location.path'
+                },
+                showGraph: true,
+                metrics: [
+                  {
+                    metric: 'beaconDuration',
+                    aggregation: 'MEAN'
+                  },{
+                    metric: 'beaconDuration',
+                    aggregation: 'P90'
+                  },
+                  {
+                    metric: 'beaconDuration',
+                    aggregation: 'P95'
+                  }
+                ],
+                focusedMetric: 'beaconDuration',
+                focusedMetricAggregation: 'MEAN'
+              })
+            }}
           />
         </Col>
         <Col xs>
@@ -86,6 +151,37 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
                 }
               }
             }}
+            iconAction={{
+              text: 'View in Analyze',
+              kind: 'subtle',
+              icon: 'lib_analyze_inverted',
+              href$: getLinkToAnalyze({
+                beaconType: 'pageLoad',
+                tagFilters: translateDemocratisationTagFiltersToAnalyzeTagFilters({
+                  websiteLabel,
+                  tagFilters
+                }),
+                group: {
+                  groupbyTag: 'beacon.location.path'
+                },
+                showGraph: true,
+                metrics: [
+                  {
+                    metric: 'beaconDuration',
+                    aggregation: 'MEAN'
+                  },{
+                    metric: 'beaconDuration',
+                    aggregation: 'P90'
+                  },
+                  {
+                    metric: 'beaconDuration',
+                    aggregation: 'P95'
+                  }
+                ],
+                focusedMetric: 'beaconDuration',
+                focusedMetricAggregation: 'P90'
+              })
+            }}
           />
         </Col>
         <Col xs>
@@ -101,6 +197,37 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
                   aggregation: 'P95'
                 }
               }
+            }}
+            iconAction={{
+              text: 'View in Analyze',
+              kind: 'subtle',
+              icon: 'lib_analyze_inverted',
+              href$: getLinkToAnalyze({
+                beaconType: 'pageLoad',
+                tagFilters: translateDemocratisationTagFiltersToAnalyzeTagFilters({
+                  websiteLabel,
+                  tagFilters
+                }),
+                group: {
+                  groupbyTag: 'beacon.location.path'
+                },
+                showGraph: true,
+                metrics: [
+                  {
+                    metric: 'beaconDuration',
+                    aggregation: 'MEAN'
+                  },{
+                    metric: 'beaconDuration',
+                    aggregation: 'P90'
+                  },
+                  {
+                    metric: 'beaconDuration',
+                    aggregation: 'P95'
+                  }
+                ],
+                focusedMetric: 'beaconDuration',
+                focusedMetricAggregation: 'P95'
+              })
             }}
           />
         </Col>

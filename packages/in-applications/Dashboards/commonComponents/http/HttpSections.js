@@ -99,7 +99,7 @@ export default connectTo(
           {
             name: 'analyze',
             icon: 'lib_analyze',
-            label: 'View in Analytics',
+            label: 'View in Analyze',
             getHref$: (highlightedTime, metricsToAdd) =>
               getJumpToAnalyzeHref$(
                 {

@@ -1,7 +1,9 @@
 import { compose, withState, withProps } from 'recompose';
 import { find } from 'lodash';
 
-import GroupMetricsChartPresenter, { getMetricKey } from 'in-analyze/components/MetricsChart/GroupMetricsChartPresenter';
+import GroupMetricsChartPresenter, {
+  getMetricKey
+} from 'in-analyze/components/MetricsChart/GroupMetricsChartPresenter';
 import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
 import getWebsiteBeaconGroups from 'in-websites/subscriptions/getWebsiteBeaconGroups';
 import { actionName, getButton } from 'in-components/Chart/actions/viewInAnalytics';
@@ -72,7 +74,7 @@ function getAdditionalChartActions(tagFilters, metrics, group, viewInAnalytics, 
   if (!viewInAnalytics || !viewInAnalytics.websiteLabel) {
     if (__DEV__) {
       throw new Error(
-        'Incomplete chart configuration for website charts that causes "View in Analytics" to not be available.'
+        'Incomplete chart configuration for website charts that causes "View in Analyze" to not be available.'
       );
     }
     return emptyObject;
@@ -82,7 +84,7 @@ function getAdditionalChartActions(tagFilters, metrics, group, viewInAnalytics, 
   if (!beaconType) {
     if (__DEV__) {
       throw new Error(
-        'Beacon type could not be automatically identified which causes "View in Analytics" not to be available.'
+        'Beacon type could not be automatically identified which causes "View in Analyze" not to be available.'
       );
     }
     return emptyObject;

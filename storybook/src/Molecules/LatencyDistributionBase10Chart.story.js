@@ -314,7 +314,7 @@ export const dashboard = () => (
       {
         name: 'analyze',
         icon: 'lib_analyze',
-        label: 'View in Analytics',
+        label: 'View in Analyze',
         onClick: () => alert(`Selected latency range: ${latencySelection?.from} - ${latencySelection?.to}`)
       }
     ]}

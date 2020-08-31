@@ -60,7 +60,7 @@ export default function CallsErrors({
         {
           name: 'analyze',
           icon: 'lib_analyze',
-          label: 'View in Analytics',
+          label: 'View in Analyze',
           getHref$: (highlightedTime, config) =>
             getJumpToAnalyzeHref$(
               { applicationId, serviceId, endpointId },
@@ -69,7 +69,10 @@ export default function CallsErrors({
                 boundaryScope,
                 groupByTag,
                 filters: isSynthetic
-                  ? [{ name: 'call.is_synthetic', value: 'true' }, { name: 'include_synthetic', value: 'true' }]
+                  ? [
+                      { name: 'call.is_synthetic', value: 'true' },
+                      { name: 'include_synthetic', value: 'true' }
+                    ]
                   : [],
                 metrics: [
                   { metric: 'erroneousCalls', aggregation: 'SUM' },

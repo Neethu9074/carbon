@@ -4,7 +4,9 @@ import HttpRequestOriginTopList from 'in-mobile-apps/MobileAppDashboard/tabs/Sum
 import MobileAppMetricsKpiCard from 'in-mobile-apps/MobileAppDashboard/components/MobileAppMetricsKpiCard';
 import MobileAppChartWrapper from 'in-mobile-apps/MobileAppDashboard/components/MobileAppChartWrapper';
 import MobileAppGeoHeatMap from 'in-mobile-apps/MobileAppDashboard/components/MobileAppGeoHeatMap';
+import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-mobile-apps/tags';
 import ViewsTopList from 'in-mobile-apps/MobileAppDashboard/tabs/Summary/ViewsTopList';
+import { getLinkToAnalyze } from 'in-mobile-apps/navigation/paths';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { getChartGranularity } from 'in-mobile-apps/metrics';
 import { Row, Col } from 'in-new-components/layout/Grid';
@@ -31,11 +33,27 @@ export default function Summary({ tagFilters, timeConfig, mobileAppId, mobileApp
                 }
               }
             }}
+            iconAction={{
+              text: 'View in Analyze',
+              kind: 'subtle',
+              icon: 'lib_analyze_inverted',
+              href$: getLinkToAnalyze({
+                beaconType: 'sessionStart',
+                tagFilters: translateDemocratisationTagFiltersToAnalyzeTagFilters({
+                  mobileAppLabel,
+                  tagFilters
+                }),
+                group: {
+                  groupbyTag: 'mobileBeacon.view.name'
+                },
+                showGraph: true
+              })
+            }}
           />
         </Col>
         <Col xs>
           <MobileAppMetricsKpiCard
-            title={'View Changes'}
+            title={'View Transitions'}
             formatter={number.compact}
             metricsConfig={{
               tagFilters,
@@ -46,6 +64,22 @@ export default function Summary({ tagFilters, timeConfig, mobileAppId, mobileApp
                   aggregation: 'SUM'
                 }
               }
+            }}
+            iconAction={{
+              text: 'View in Analyze',
+              kind: 'subtle',
+              icon: 'lib_analyze_inverted',
+              href$: getLinkToAnalyze({
+                beaconType: 'viewChange',
+                tagFilters: translateDemocratisationTagFiltersToAnalyzeTagFilters({
+                  mobileAppLabel,
+                  tagFilters
+                }),
+                group: {
+                  groupbyTag: 'mobileBeacon.view.name'
+                },
+                showGraph: true
+              })
             }}
           />
         </Col>
@@ -62,7 +96,7 @@ export default function Summary({ tagFilters, timeConfig, mobileAppId, mobileApp
             y1={{
               renderer: Renderer.stackedBar,
               formatter: number.forcedCompact,
-              labels: ['Session Starts', 'View Changes'],
+              labels: ['Session Starts', 'View Transitions'],
               metricIds: ['sessions', 'views']
             }}
             metricsConfiguration={{

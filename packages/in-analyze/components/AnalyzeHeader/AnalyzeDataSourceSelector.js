@@ -121,6 +121,14 @@ const productAreas = [
           })
       },
       {
+        dataSource: 'viewChange',
+        getHref$: ({ isGrouped }) =>
+          getLinkToMobileAppAnalyze({
+            group: isGrouped ? defaultMobileAppGroupings.viewChange : emptyObject,
+            beaconType: 'viewChange'
+          })
+      },
+      {
         dataSource: 'httpRequest',
         getHref$: ({ isGrouped }) =>
           getLinkToMobileAppAnalyze({

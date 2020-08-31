@@ -13,7 +13,11 @@ export function buildOrderByCriteria(metric, aggregation) {
 
 export const defaultMetrics = {
   sessionStart: [{ metric: 'uniqueUsers', aggregation: 'DISTINCT_COUNT' }],
-  httpRequest: [{ metric: 'beaconDuration', aggregation: 'MEAN' }, { metric: 'beaconErrorRate', aggregation: 'MEAN' }],
+  viewChange: [{ metric: 'uniqueUsers', aggregation: 'DISTINCT_COUNT' }],
+  httpRequest: [
+    { metric: 'beaconDuration', aggregation: 'MEAN' },
+    { metric: 'beaconErrorRate', aggregation: 'MEAN' }
+  ],
   custom: [{ metric: 'uniqueUsers', aggregation: 'DISTINCT_COUNT' }]
 };
 
@@ -59,6 +63,7 @@ const errorRate = {
 
 export const availableMetrics = {
   sessionStart: [newNumberMetric({ metric: 'beaconCount', label: 'Session Starts' }), uniqueUsers],
+  viewChange: [newNumberMetric({ metric: 'beaconCount', label: 'View Transitions' }), uniqueUsers],
   httpRequest: [
     newNumberMetric({ metric: 'beaconCount', label: 'Calls' }),
     newNumberMetric({ metric: 'beaconErrorCount', label: 'Erroneous Calls' }),

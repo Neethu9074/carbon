@@ -69,7 +69,7 @@ function getCustomAnalyzeContextMenuProperties(sliConfig, disableZooming) {
       {
         name: 'analyze',
         icon: 'lib_analyze',
-        label: 'View in Analytics',
+        label: 'View in Analyze',
         getHref$: highlightedTime =>
           getJumpToAnalyzeHref$(
             {

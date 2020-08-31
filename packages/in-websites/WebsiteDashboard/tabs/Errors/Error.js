@@ -91,6 +91,22 @@ function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters
                   }
                 }
               }}
+              iconAction={{
+                text: 'View in Analyze',
+                kind: 'subtle',
+                icon: 'lib_analyze_inverted',
+                href$: getLinkToAnalyze({
+                  beaconType: 'error',
+                  tagFilters: translateDemocratisationTagFiltersToAnalyzeTagFilters({
+                    websiteLabel,
+                    tagFilters: tagFiltersWithErrorId
+                  }),
+                  group: {
+                    groupbyTag: 'beacon.location.path'
+                  },
+                  showGraph: true
+                })
+              }}
             />
           </Col>
           <Col lg={3}>
@@ -106,6 +122,30 @@ function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters
                     aggregation: 'DISTINCT_COUNT'
                   }
                 }
+              }}
+              iconAction={{
+                text: 'View in Analyze',
+                kind: 'subtle',
+                icon: 'lib_analyze_inverted',
+                href$: getLinkToAnalyze({
+                  beaconType: 'error',
+                  tagFilters: translateDemocratisationTagFiltersToAnalyzeTagFilters({
+                    websiteLabel,
+                    tagFilters: tagFiltersWithErrorId
+                  }),
+                  group: {
+                    groupbyTag: 'beacon.location.path'
+                  },
+                  showGraph: true,
+                  metrics: [
+                    {
+                      metric: 'uniqueUsersOrSessions',
+                      aggregation: 'DISTINCT_COUNT'
+                    }
+                  ],
+                  focusedMetric: 'uniqueUsersOrSessions',
+                  focusedMetricAggregation: 'DISTINCT_COUNT'
+                })
               }}
             />
           </Col>

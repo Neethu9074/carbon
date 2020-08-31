@@ -9,7 +9,7 @@ export default connectTo(
   props => ({
     result: getMobileAppMetrics(props.metricsConfig)
   }),
-  function MobileAppMetricsKpiCard({ title, result, metricsConfig, formatter }) {
+  function MobileAppMetricsKpiCard({ title, result, metricsConfig, formatter, iconAction }) {
     return (
       <ResultAwareKpiCard
         title={title}
@@ -25,7 +25,7 @@ export default connectTo(
             value = formatter(value);
           }
 
-          return <KpiCard title={title} value={value} />;
+          return <KpiCard title={title} value={value} iconAction={iconAction} />;
         }}
       />
     );

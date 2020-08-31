@@ -22,7 +22,7 @@ function getAdditionalChartActions({ metricsConfiguration, viewInAnalytics }) {
   if (!viewInAnalytics || !viewInAnalytics.mobileAppLabel) {
     if (__DEV__) {
       throw new Error(
-        'Incomplete chart configuration for mobile apps charts that causes "View in Analytics" to not be available.'
+        'Incomplete chart configuration for mobile apps charts that causes "View in Analyze" to not be available.'
       );
     }
     return emptyObject;

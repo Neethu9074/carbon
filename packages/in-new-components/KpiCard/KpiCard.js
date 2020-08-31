@@ -1,13 +1,15 @@
+import useResizeObserver from 'use-resize-observer/polyfilled';
 import PropTypes from 'prop-types';
 import React from 'react';
 
 import { decimalSeparator, thousandsSeparator } from 'in-services/formatters/number';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
-import { evaluateClassNames } from 'in-services/util/classnames';
-import { joinClassNames } from 'in-services/util/classnames';
+import { evaluateClassNames, joinClassNames } from 'in-services/util/classnames';
 import WithActiveTheme from 'in-themes/WithActiveTheme';
 import Button from 'in-new-components/Button';
 import SvgIcon from 'in-components/SvgIcon';
+import Tooltip from 'in-components/Tooltip';
+import Link from 'in-components/Link';
 
 import locals from './KpiCard.mless';
 
@@ -26,56 +28,80 @@ export default function KpiCard({
   useMaxAvailableHeight = true,
   iconAction
 }) {
+  const { ref, width } = useResizeObserver();
+
+  let content;
   if (raw || renderValue) {
-    return (
-      <Wrapper borderless={borderless} useMaxAvailableHeight={useMaxAvailableHeight} actions={actions}>
-        <div className={locals.title}>{title}</div>
-        <span className={joinClassNames(locals.minor, valuesClassName)}>
-          {renderValue ? renderValue(value) : value}
+    content = (
+      <span className={joinClassNames(locals.minor, valuesClassName)}>{renderValue ? renderValue(value) : value}</span>
+    );
+  } else {
+    let major = valueMissingPlaceholder;
+    let minor = null;
+
+    if (value != null) {
+      const match = String(value).match(valueSplitRegExp);
+      if (!match) {
+        major = value;
+      } else {
+        major = match[1];
+        minor = match[2];
+      }
+    }
+
+    content = (
+      <>
+        <span className={locals.major} style={{ color: color }}>
+          {major}
         </span>
-        {companionValue && <span className={locals.companion}>{companionValue}</span>}
-      </Wrapper>
+        {minor && <span className={locals.minor}>{minor}</span>}
+      </>
     );
   }
 
-  let major = valueMissingPlaceholder;
-  let minor = null;
-
-  if (value != null) {
-    const match = String(value).match(valueSplitRegExp);
-    if (!match) {
-      major = value;
-    } else {
-      major = match[1];
-      minor = match[2];
-    }
-  }
-
   return (
-    <Wrapper borderless={borderless} useMaxAvailableHeight={useMaxAvailableHeight} actions={actions}>
-      <div className={locals.title}>
-        <>{title}</>
-        {iconAction && (
-          <div className={locals.actionWrapper}>
-            <SvgIcon className={locals.actionIcon} type={iconAction.icon} />
-            <Button
-              className={locals.action}
-              icon={iconAction.icon}
-              href$={iconAction.href$}
-              onClick={iconAction.onClick}
-              kind={iconAction.kind}
-            >
-              {iconAction.text}
-            </Button>
+    <WithActiveTheme>
+      {theme => (
+        <div
+          className={evaluateClassNames({
+            [locals.wrapper]: true,
+            [locals[theme]]: true,
+            [locals.borderless]: borderless,
+            [locals.useMaxAvailableHeight]: useMaxAvailableHeight
+          })}
+        >
+          <div className={locals.title} ref={ref}>
+            <>{title}</>
+            {iconAction && (
+              <div
+                className={evaluateClassNames({
+                  [locals.actionWrapper]: true,
+                  [locals.showLongVariantOnHover]: width > 300
+                })}
+              >
+                <Tooltip content={iconAction.text}>
+                  <Link href$={iconAction.href$}>
+                    <SvgIcon className={locals.actionIcon} type={iconAction.icon} onClick={iconAction.onClick} />
+                  </Link>
+                </Tooltip>
+                <Button
+                  className={locals.action}
+                  icon={iconAction.icon}
+                  href$={iconAction.href$}
+                  onClick={iconAction.onClick}
+                  kind={iconAction.kind}
+                >
+                  {iconAction.text}
+                </Button>
+              </div>
+            )}
           </div>
-        )}
-      </div>
-      <span className={locals.major} style={{ color: color }}>
-        {major}
-      </span>
-      {minor && <span className={locals.minor}>{minor}</span>}
-      {companionValue && <span className={locals.companion}>{companionValue}</span>}
-    </Wrapper>
+          {content}
+          {companionValue && <span className={locals.companion}>{companionValue}</span>}
+          {actions && <div className={locals.actions}>{actions}</div>}
+        </div>
+      )}
+    </WithActiveTheme>
   );
 }
 
@@ -92,24 +118,3 @@ KpiCard.propTypes = {
   useMaxAvailableHeight: PropTypes.bool,
   iconAction: PropTypes.object
 };
-
-function Wrapper({ children, borderless, useMaxAvailableHeight, actions }) {
-  return (
-    <WithActiveTheme>
-      {theme => (
-        <div
-          className={evaluateClassNames({
-            [locals.wrapper]: true,
-            [locals[theme]]: true,
-            [locals.borderless]: borderless,
-            [locals.useMaxAvailableHeight]: useMaxAvailableHeight
-          })}
-        >
-          {children}
-
-          {actions && <div className={locals.actions}>{actions}</div>}
-        </div>
-      )}
-    </WithActiveTheme>
-  );
-}

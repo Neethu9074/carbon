@@ -106,7 +106,7 @@ export default function LatencyDistributionHistogram({
           {
             name: 'analyze',
             icon: 'lib_analyze',
-            label: 'View in Analytics',
+            label: 'View in Analyze',
             getHref$: () =>
               getJumpToAnalyzeHref$(
                 { applicationId: applicationId, serviceId: serviceId, endpointId: endpointId },

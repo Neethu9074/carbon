@@ -54,7 +54,7 @@ const columnDefinitions = [
   },
   {
     id: 'viewsAgg',
-    label: 'View Changes',
+    label: 'View Transitions',
     defaultOrderDirection: 'DESC',
     getContent(item, { result, timeConfig }) {
       return (
