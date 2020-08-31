@@ -357,7 +357,7 @@ function AwsSensorContent({ agentKey, agentEndpoint, agentEndpointPort }) {
         <HelpBox title="User Data in AWS EC2">
           <TextWithLink
             text="For more information on how to use the script above with User Data in AWS EC2, refer to the "
-            linkText="&quot;Running Commands on Your Linux Instance at Launch&quot; page."
+            linkText='"Running Commands on Your Linux Instance at Launch" page.'
             href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html"
           />
         </HelpBox>
@@ -690,7 +690,7 @@ function AWSLambdaContent({ agentKey, serverlessEndpoint }) {
   let steps;
 
   if (selectedRuntime === runtimeOptions[0]) {
-    const nodejsLayerVersion = '30';
+    const nodejsLayerVersion = '31';
 
     steps = (
       <Fragment>
@@ -1036,7 +1036,7 @@ function ElasticComputingWindowsContent({ agentKey, agentEndpoint, agentEndpoint
       <HelpBox title="User Data in AWS EC2">
         <TextWithLink
           text="For more information on how to use the script above with User Data in AWS EC2, refer to the "
-          linkText="&quot;Running commands on your Windows instance at launch&quot; page."
+          linkText='"Running commands on your Windows instance at launch" page.'
           href="https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/ec2-windows-user-data.html#user-data-scripts"
         />
       </HelpBox>
@@ -1057,7 +1057,7 @@ function ElasticComputingLinuxContent({ agentKey, agentEndpoint, agentEndpointPo
       <HelpBox title="User Data in AWS EC2">
         <TextWithLink
           text="For more information on how to use the script above with User Data in AWS EC2, refer to the "
-          linkText="&quot;Running Commands on Your Linux Instance at Launch&quot; page."
+          linkText='"Running Commands on Your Linux Instance at Launch" page.'
           href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html"
         />
       </HelpBox>
@@ -1156,7 +1156,7 @@ function GoogleComputeEngineContent({ agentKey, agentEndpoint, agentEndpointPort
       <HelpBox title="Startup Scripts in Google Compute Engine">
         <TextWithLink
           text="For more information on how to use the script above as a startup script in GCE, refer to the "
-          linkText="&quot;Running startup scripts&quot; page."
+          linkText='"Running startup scripts" page.'
           href="https://cloud.google.com/compute/docs/startupscript"
         />
       </HelpBox>
@@ -1443,7 +1443,7 @@ function CfAndBoshContent({ agentKey, agentEndpoint }) {
             <HelpBox title="Instana BOSH addon">
               <TextWithLink
                 text="BOSH addons are runtime configurations for BOSH that allow you to declare additional jobs to be run in your deployments. For more information on BOSH runtime configurations and addons, refer to the "
-                linkText="&quot;BOSH Runtime Configurations&quot; documentation."
+                linkText='"BOSH Runtime Configurations" documentation.'
                 href="https://bosh.io/docs/runtime-config/"
               />
               <Spacer />
@@ -1499,7 +1499,7 @@ function CfAndBoshContent({ agentKey, agentEndpoint }) {
               </Row>
               <TextWithLink
                 text="For more information on how to set up BOSH runtime configurations, refer to the "
-                linkText="&quot;Applying the Instana agent runtime configurations&quot; page."
+                linkText='"Applying the Instana agent runtime configurations" page.'
                 href="https://docs.instana.io/setup_and_manage/host_agent/on/cloud-foundry#applying-the-instana-agent-runtime-configurations"
               />
             </HelpBox>
@@ -1528,13 +1528,13 @@ function PcfContent({ agentKey, agentEndpoint, agentEndpointPort }) {
   return (
     <>
       <TextWithLink
-        text="Download the &quot;Instana Microservices Application Monitoring&quot; tile from "
+        text='Download the "Instana Microservices Application Monitoring" tile from '
         href="https://network.pivotal.io/products/instana-microservices-application-monitoring"
         linkText="VMware Tanzu Network."
       />
       <Spacer />
       <TextWithLink
-        text="Upload the &quot;Instana Microservices Application Monitoring&quot; tile to your Ops Manager as described in the"
+        text='Upload the "Instana Microservices Application Monitoring" tile to your Ops Manager as described in the'
         href="https://docs.pivotal.io/partners/instana/installing.html"
         linkText="Instana tile documentation on VMware Tanzu Network."
       />
@@ -1564,7 +1564,7 @@ function PcfContent({ agentKey, agentEndpoint, agentEndpointPort }) {
           'Finally, you will need to give your VMware Tanzu foundation a name, for example "prod-eu" or "dev01", via the Agent Zone setting in the Agent Configuration tab.'
         ]}
       />
-      <TextWithLink text="Apply the changes introduced by the &quot;Instana Microservices Application Monitoring&quot; tile to all tiles in the Ops Manager. Tiles that are not selected for the &quot;Apply changes&quot; step in Ops Manager will not be visible in Instana." />
+      <TextWithLink text='Apply the changes introduced by the "Instana Microservices Application Monitoring" tile to all tiles in the Ops Manager. Tiles that are not selected for the "Apply changes" step in Ops Manager will not be visible in Instana.' />
       <Spacer />
       <HelpBox title="Supported Ops Manager versions">
         <Listing items={['2.3+']} />
