@@ -145,9 +145,11 @@ export default [
       getDynamicMetricMatch('index', 'size', 'Index'),
       getDynamicMetricMatch('index', 'query_cache_size', 'Index'),
       getDynamicMetricMatch('index', 'request_cache_size', 'Index'),
-      getDynamicMetricMatch('index', 'merge_size', 'Index')
+      getDynamicMetricMatch('index', 'merge_size', 'Index'),
+      'rx_count',
+      'tx_count'
     ],
-    labels: ['Size', 'Query Cache Memory', 'Request Cache Memory', 'Total Merges Size'],
+    labels: ['Size', 'Query Cache Memory', 'Request Cache Memory', 'Total Merges Size', 'Received', 'Sent'],
     category: ['Index'],
     min: 0,
     formatter: bytes
