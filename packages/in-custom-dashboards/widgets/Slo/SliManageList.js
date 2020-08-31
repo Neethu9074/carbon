@@ -189,7 +189,8 @@ const columnDefinitions = [
     getContent(item) {
       const metric = metricConfiguration => {
         if (metricConfiguration) {
-          return `${metricConfiguration.metricName} (${metricConfiguration.metricAggregation})`;
+          const { metricName, metricAggregation } = metricConfiguration;
+          return metricName === 'latency' ? `${metricName} (${metricAggregation})` : metricName;
         }
         return valueMissingPlaceholder;
       };

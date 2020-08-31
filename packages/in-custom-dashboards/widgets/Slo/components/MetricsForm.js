@@ -1,11 +1,6 @@
 import React from 'react';
 
-import {
-  timeAggregationOptions,
-  metricOptions,
-  sumAggregation,
-  meanAggregation
-} from 'in-custom-dashboards/widgets/Slo/components/metricFormData';
+import { metricOptions, metricAggregations } from 'in-custom-dashboards/widgets/Slo/components/metricFormData';
 import { PercentageFormInput } from 'in-custom-dashboards/widgets/Slo/components/PercentageFormInput';
 import DropDownMock from 'in-custom-dashboards/widgets/Slo/components/DropDownMock';
 import InputMock from 'in-custom-dashboards/widgets/Slo/components/InputMock';
@@ -24,6 +19,7 @@ export const MetricsForm = ({ form, onChange }) => {
 
   const aggregationValue = metricConfiguration.get('metricAggregation')?.value;
   const metricName = metricConfiguration.get('metricName')?.value;
+  const aggregationData = metricAggregations[metricName];
   const percentThreshold = metricName === 'errors';
 
   const localOnChange = (path, fn) => {
@@ -43,13 +39,20 @@ export const MetricsForm = ({ form, onChange }) => {
           <Col md={3}>
             <FormGroup withoutBottomMargin>
               <DropDownMock
-                options={[{ value: undefined, label: 'Please select' }, ...metricOptions]}
+                options={metricOptions}
                 value={metricName ?? ''}
                 onChange={({ target }) =>
                   onChange([], form => {
+                    const newMetricName = target.value;
+                    const aggregationData = metricAggregations[newMetricName];
                     return (
                       form
-                        .updateIn(['metricConfiguration', 'metricName'], f => f.setValue(target.value).setTouched(true))
+                        .updateIn(['metricConfiguration', 'metricName'], f =>
+                          f.setValue(newMetricName).setTouched(true)
+                        )
+                        .updateIn(['metricConfiguration', 'metricAggregation'], f =>
+                          f.setValue(aggregationData.defaultValue).setTouched(true)
+                        )
                         // reset threshold value when metric changed, because value for metric A does not have any meaning
                         // for metric B, as well as the format of the threshold could have completely changed
                         .updateIn(['metricConfiguration', 'threshold'], f => f.setValue('').setTouched(false))
@@ -68,8 +71,8 @@ export const MetricsForm = ({ form, onChange }) => {
           <Col md={3}>
             <FormGroup withoutBottomMargin>
               <DropDownMock
-                options={getAggregationOptions(metricName ?? 'latency')}
-                value={aggregationValue ?? ''}
+                options={aggregationData.options}
+                value={aggregationValue ?? aggregationData.defaultValue}
                 onChange={({ target }) =>
                   localOnChange?.(['metricAggregation'], f => f.setValue(target.value).setTouched(true))
                 }
@@ -110,13 +113,4 @@ function getThresholdLabelWithUnit(metricName) {
     return 'Threshold (%)';
   }
   return 'Threshold (count)';
-}
-
-function getAggregationOptions(metricName) {
-  if (metricName === 'latency') {
-    return timeAggregationOptions;
-  } else if (metricName === 'errors') {
-    return meanAggregation;
-  }
-  return sumAggregation;
 }
