@@ -8,16 +8,16 @@ import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import getEntities from 'in-infrastructure/subscriptions/getEntities';
 import EntityLink from 'in-new-components/EntityLink/EntityLink';
 import useCursorPagination from 'in-hooks/useCursorPagination';
-import useFixedTimeConfig from 'in-hooks/useFixedTimeConfig';
 import { getKpiDefinitions } from 'in-sdk/metrics/kpis';
 import MetricValue from 'in-components/MetricValue';
 import useObservable from 'in-hooks/useObservable';
+import useTimeConfig from 'in-hooks/useTimeConfig';
 import Tooltip from 'in-components/Tooltip';
 
 import locals from './InfrastructureList.mless';
 
 export default function InfrastructureList({ retrievalSize = 20, numSkeletonRows = 3, tagFilterExpression }) {
-  const timeConfig = useFixedTimeConfig();
+  const timeConfig = useTimeConfig();
   const [state, setState] = useReducer((prev, next) => ({ ...prev, ...next }), {
     orderBy: staticColumnDefinitions[0].id,
     orderDirection: 'ASC'

@@ -5,6 +5,7 @@ import GroupingConfigurator, {
 } from 'in-infrastructure/Explore/components/GroupingConfigurator';
 import { tagFilterExpressionMatrixParameter, groupMatrixParameter } from 'in-infrastructure/navigation/paths';
 import GroupingConfiguratorSection from 'in-new-components/GroupingConfigurator/GroupingConfiguratorSection';
+import FixatedTimeConfigContextModification from 'in-stores/time/FixatedTimeConfigContextModification';
 import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import ApiQueryAction from 'in-new-components/QueryBuilder/workspace/ApiQueryAction/ApiQueryAction';
 import { ActionSection, Action } from 'in-new-components/workspace/ActionSection/ActionSection';
@@ -33,6 +34,14 @@ const urlStateDefinition = {
 };
 
 export default function InfraExploreView() {
+  return (
+    <FixatedTimeConfigContextModification>
+      {({ refresh }) => <InfraExploreViewWithFixatedTimeConfig refreshFixatedTimeConfig={refresh} />}
+    </FixatedTimeConfigContextModification>
+  );
+}
+
+function InfraExploreViewWithFixatedTimeConfig() {
   const timeConfig = useTimeConfig();
   const [{ tagFilterExpression, group }, onChange] = useUrlState(urlStateDefinition);
 

@@ -9,14 +9,14 @@ import { error as errorType } from 'in-new-components/Message/types';
 import { indeterminateProgress } from 'in-services/fixedObjects';
 import IconButton from 'in-new-components/IconButton/IconButton';
 import useCursorPagination from 'in-hooks/useCursorPagination';
-import useFixedTimeConfig from 'in-hooks/useFixedTimeConfig';
 import KeyValue from 'in-new-components/lists/KeyValue';
+import useTimeConfig from 'in-hooks/useTimeConfig';
 import Message from 'in-new-components/Message';
 
 import locals from './GroupedInfrastructure.mless';
 
 export default function GroupedInfrastructure({ tagFilterExpression, groupBy }) {
-  const timeConfig = useFixedTimeConfig();
+  const timeConfig = useTimeConfig();
 
   const props = useCursorPagination(({ cursor }) => getGroups({ timeConfig, tagFilterExpression, groupBy, cursor }), [
     timeConfig,

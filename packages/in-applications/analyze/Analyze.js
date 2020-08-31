@@ -6,6 +6,7 @@ import CallGroupingConfigurator, {
 import CallQueryBuilder, { isCallQueryValid } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import GroupingConfiguratorSection from 'in-new-components/GroupingConfigurator/GroupingConfiguratorSection';
 import { tagFilterExpressionMatrixParameter, groupMatrixParameter } from 'in-applications/navigation/matrix';
+import FixatedTimeConfigContextModification from 'in-stores/time/FixatedTimeConfigContextModification';
 import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import ApiQueryAction from 'in-new-components/QueryBuilder/workspace/ApiQueryAction/ApiQueryAction';
 import { ActionSection, Action } from 'in-new-components/workspace/ActionSection/ActionSection';
@@ -27,6 +28,14 @@ const urlStateDefinition = {
 };
 
 export default function ApplicationAnalyzeView() {
+  return (
+    <FixatedTimeConfigContextModification>
+      {({ refresh }) => <ApplicationAnalyzeViewWithFixatedTimeConfig refreshFixatedTimeConfig={refresh} />}
+    </FixatedTimeConfigContextModification>
+  );
+}
+
+function ApplicationAnalyzeViewWithFixatedTimeConfig() {
   const [{ tagFilterExpression, group }, onChange] = useUrlState(urlStateDefinition);
 
   const validTagFilterExpressionResult =
