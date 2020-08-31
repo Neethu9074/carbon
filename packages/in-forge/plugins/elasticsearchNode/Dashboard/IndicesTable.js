@@ -138,7 +138,7 @@ function getDetails(row) {
             snapshotId={row.snapshotId}
             timeConfig={row.timeConfig}
             y1={{
-              metrics: ['index.' + row.name + '.query_time', 'index.' + row.name + 'fetch_time'],
+              metrics: ['index.' + row.name + '.query_time', 'index.' + row.name + '.fetch_time'],
               labels: ['Query Time', 'Fetch Time'],
               formatter: millis.detailed,
               type: 'line'
@@ -150,7 +150,7 @@ function getDetails(row) {
               snapshotId={row.snapshotId}
               timeConfig={row.timeConfig}
               y1={{
-                metrics: ['index.' + row.name + '.query_cache_size', 'index.' + row.name + 'request_cache_size'],
+                metrics: ['index.' + row.name + '.query_cache_size', 'index.' + row.name + '.request_cache_size'],
                 labels: ['Query Cache Memory', 'Request Cache Memory'],
                 formatter: bytes.detailed,
                 type: 'line'
@@ -163,7 +163,7 @@ function getDetails(row) {
               y1={{
                 metrics: [
                   'index.' + row.name + '.query_cache_evictions',
-                  'index.' + row.name + 'request_cache_evictions'
+                  'index.' + row.name + '.request_cache_evictions'
                 ],
                 labels: ['Query Cache Evictions', 'Request Cache Evictions'],
                 formatter: number.compact,
@@ -183,7 +183,7 @@ function getDetails(row) {
                 type: 'line'
               }}
               y2={{
-                metrics: ['index.' + row.name + 'get_time'],
+                metrics: ['index.' + row.name + '.get_time'],
                 labels: ['Get Requests Time'],
                 formatter: millis.detailed,
                 type: 'line'
