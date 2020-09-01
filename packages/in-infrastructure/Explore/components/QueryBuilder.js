@@ -1,12 +1,17 @@
 import getTagCatalog from 'in-infrastructure/subscriptions/getTagCatalog';
+import getTagValueSearchSuggestions from 'in-infrastructure/subscriptions/getTagValueSuggestions';
 import { createQueryBuilder } from 'in-new-components/QueryBuilder';
-import { successObservableFactory } from 'in-services/util/result';
-
-const suggestions = ['k8s-demo-cluster', 'sb-test-cluster', 'kube-node-lease', 'kube-public'];
 
 const { QueryBuilder, isQueryValid: isQueryValidInternal } = createQueryBuilder({
   getTagCatalog,
-  getSuggestions: successObservableFactory({ suggestions, totalHits: suggestions.length + 10 })
+  getSuggestions: searchContext => {
+    return getTagValueSearchSuggestions({
+      tagName: searchContext.name,
+      timeConfig: searchContext.timeConfig,
+      partialTagValue: searchContext.value,
+      valueCount: 10
+    });
+  }
 });
 
 export default QueryBuilder;
