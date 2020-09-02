@@ -87,10 +87,10 @@ const cols = [
         return row.snapshotId;
       },
       getMetricName(row) {
-        return row.metrics[row.tableMetric || 0].name;
+        return (row.metrics[row.tableMetric] || row.metrics[0]).name;
       },
       getContent(value, row) {
-        return row.metrics[row.tableMetric || 0].formatter(value);
+        return (row.metrics[row.tableMetric] || row.metrics[0]).formatter(value);
       },
       getTimeWindowAggregation() {
         return 'mean';
@@ -260,7 +260,9 @@ function expandMetric(id, expandSubMetrics, specs) {
   const spec = specs.find(spec => id.startsWith(spec.prefix));
   if (!spec) return null;
 
-  const metric = spec.metrics.map((metric, i) => ({...metric, i})).find(metric => !metric.suffix || id.endsWith(metric.suffix));
+  const metric = spec.metrics
+    .map((metric, i) => ({ ...metric, i }))
+    .find(metric => !metric.suffix || id.endsWith(metric.suffix));
   if (!metric) return null;
 
   const suffixLength = metric.suffix?.length ?? 0;
