@@ -27,6 +27,9 @@ export const beeinstanaToggleEnabled = infrastructureExploreEnabled;
 export const latencyDistributionBase10Enabled = isFeatureFlagEnabled('latencyDistributionBase10Enabled');
 export const newApCreationEnabled = isFeatureFlagEnabled('newApCreationEnabled');
 export const entityCountWidgetEnabled = isFeatureFlagEnabled('entityCountWidgetEnabled');
+export const ampEnabled = isFeatureFlagEnabled('ampEnabled', false);
+
+//platform feature flags
 export const newAnalyticsEnabled = isFeatureFlagEnabled('newAnalyticsEnabled');
 export const pcfEnabled = isFeatureFlagEnabled('pcfEnabled');
 export const vsphereEnabled = isFeatureFlagEnabled('vsphereEnabled');

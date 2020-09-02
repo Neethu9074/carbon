@@ -45,6 +45,11 @@ export const ldapMapping = `${mapping}/ldap`;
 export const alerting = `${teamSettings}/alerting`;
 const channels = `/channels`;
 
+// amp
+export const ampSettings = `${settingsPath}/amp`;
+export const ampCompanyInfo = `${ampSettings}/company`;
+export const ampUsage = `${ampSettings}/usage`;
+
 // current events & alerting configuration paths (after unification of alerting configuration in 2019-02)
 export const teamSettingsAlertingEventBuiltIn = `${alerting}/events/builtIn`;
 export const teamSettingsAlertingEventBuiltInEdit = `${alerting}/events/builtIn/:id`;

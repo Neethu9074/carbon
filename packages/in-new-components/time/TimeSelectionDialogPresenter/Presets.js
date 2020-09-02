@@ -40,15 +40,9 @@ function Presets({ timeConfig, onChange, result, closeOverlay }) {
           {getFixedTimePresets().map((preset, i) => (
             <SelectableItem timeConfig={timeConfig} newTimeframe={preset} onChange={onChange} key={i} />
           ))}
-          {result.data &&
-            result.data.totalHits > 0 && (
-              <ReleasesPresets
-                onChange={onChange}
-                timeConfig={timeConfig}
-                result={result}
-                closeOverlay={closeOverlay}
-              />
-            )}
+          {result.data && result.data.totalHits > 0 && (
+            <ReleasesPresets onChange={onChange} timeConfig={timeConfig} result={result} closeOverlay={closeOverlay} />
+          )}
         </div>
       </div>
     </div>

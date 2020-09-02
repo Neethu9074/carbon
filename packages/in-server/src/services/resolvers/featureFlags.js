@@ -134,6 +134,11 @@ module.exports = exports = (tenant, unit) => [
     defaultValue: false
   },
   {
+    uiClientKey: 'ampEnabled',
+    instanaCtlKey: 'feature.amp.enabled',
+    consulKey: `settings/${tenant}-${unit}/AMP_ENABLED`
+  },
+  {
     uiClientKey: 'sloWidgetEnabled',
     instanaCtlKey: 'feature.slo.widget.enabled',
     consulKey: `settings/${tenant}-${unit}/SLO_WIDGET_ENABLED`,

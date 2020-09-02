@@ -1,34 +1,14 @@
-import { find } from 'lodash';
 import React from 'react';
 
-import { renderer as availableRenderers, defaultRenderer } from 'in-custom-dashboards/widgets/Chart/renderer';
-import { formatters, defaultFormatter } from 'in-custom-dashboards/widgets/_shared/formatters';
-import { extendWindowSizeOnLiveMode, getChartGranularity } from 'in-applications/metrics';
-import { translateOffsetToTimeShiftConfig } from 'in-stores/time/shifting';
-import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
-import ChartWrapper from 'in-components/Chart/ChartWrapper';
-import { pendingResult } from 'in-services/fixedObjects';
+import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import useObservable from 'in-hooks/useObservable';
 
 export default function ChartWidget({ actions, config, title, isPreview, dragHandle, customHeight }) {
   const timeConfig = useTimeConfig();
-  let result = useResultData(config, timeConfig) ?? pendingResult;
-
-  // Transform result data structure into the structure expected by the chart
-  if (result && result.data) {
-    result = {
-      ...result,
-      data: result.data.reduce((agg, { id, values }) => {
-        agg[id] = values;
-        return agg;
-      }, {})
-    };
-  }
 
   return (
-    <ChartWrapper
-      cardTitle={title}
+    <UnifiedMetricsChart
+      timeConfig={timeConfig}
       cardUseMaxAvailableHeight={!isPreview}
       cardHeader={
         <>
@@ -36,92 +16,10 @@ export default function ChartWidget({ actions, config, title, isPreview, dragHan
           {actions}
         </>
       }
-      timeConfig={timeConfig}
-      y1={toAxisConfiguration('y1', config.y1)}
-      y2={toAxisConfiguration('y2', config.y2)}
-      metricsConfiguration={toMetricsConfiguration(config)}
-      primaryContextMenuAction={config.primaryContextMenuAction}
-      additionalContextMenuButtons={config.additionalContextMenuButtons}
-      result={result}
+      config={config}
+      title={title}
       automaticallySize={!isPreview && !customHeight}
       customHeight={customHeight}
     />
   );
-}
-
-function useResultData(config, timeConfig) {
-  const timeConfigExtendedForLiveMode = extendWindowSizeOnLiveMode(timeConfig);
-  const granularity = getChartGranularity(timeConfigExtendedForLiveMode);
-
-  const metrics = {};
-
-  config.y1.metrics.forEach(
-    (metricConfiguration, i) =>
-      (metrics[getMetricId('y1', i)] = {
-        ...metricConfiguration,
-        resultType: config.type,
-        granularity,
-        timeConfig: timeConfigExtendedForLiveMode,
-        timeShift: translateOffsetToTimeShiftConfig(metricConfiguration.timeShift, timeConfigExtendedForLiveMode)
-      })
-  );
-
-  config.y2.metrics.forEach(
-    (metricConfiguration, i) =>
-      (metrics[getMetricId('y2', i)] = {
-        ...metricConfiguration,
-        resultType: config.type,
-        granularity,
-        timeConfig: timeConfigExtendedForLiveMode,
-        timeShift: translateOffsetToTimeShiftConfig(metricConfiguration.timeShift, timeConfigExtendedForLiveMode)
-      })
-  );
-
-  return useObservable(getUnifiedMetrics({ metrics }), [timeConfig, config]);
-}
-
-function toAxisConfiguration(name, axis) {
-  if (axis.metrics.length === 0) {
-    return;
-  }
-
-  return {
-    renderer: (find(availableRenderers, ({ id }) => id === axis.renderer) || defaultRenderer).renderer,
-    formatter: (find(formatters, ({ id }) => id === axis.formatter) || defaultFormatter).formatter,
-    labels: axis.metrics.map(({ label }) => label),
-    colors: axis.colors,
-    metricIds: axis.metrics.map((definition, i) => getMetricId(name, i)),
-    min: axis.min,
-    max: axis.max
-  };
-}
-
-function getMetricId(axis, index) {
-  return `${axis}-${index}`;
-}
-
-function toMetricsConfiguration(config) {
-  const metricsConfiguration = {
-    metrics: {}
-  };
-
-  config.y1.metrics.forEach(
-    ({ metric, aggregation, timeShift }, i) =>
-      (metricsConfiguration.metrics[getMetricId('y1', i)] = {
-        metric,
-        aggregation,
-        timeShift
-      })
-  );
-
-  config.y2.metrics.forEach(
-    ({ metric, aggregation, timeShift }, i) =>
-      (metricsConfiguration.metrics[getMetricId('y2', i)] = {
-        metric,
-        aggregation,
-        timeShift
-      })
-  );
-
-  return metricsConfiguration;
 }

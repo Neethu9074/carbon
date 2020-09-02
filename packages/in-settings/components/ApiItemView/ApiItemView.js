@@ -25,6 +25,7 @@ export default connectTo(
       result,
       saveItem,
       onCancelClick,
+      hideFooter = false,
       deleteItem
     } = props;
 
@@ -75,18 +76,20 @@ export default connectTo(
           {render(renderProps)}
         </div>
 
-        <Footer
-          canSaveItem={canSaveItem}
-          canDeleteItem={canDeleteItem}
-          onSaveClick={saveItem ? () => saveItem({ ...props, setMessage, form, setForm, setCanSaveItem }) : undefined}
-          onDeleteClick={
-            deleteItem ? () => deleteItem({ ...props, setMessage, form, setForm, setCanSaveItem }) : undefined
-          }
-          onCancelClick={onCancelClick}
-          deleteLabel={deleteLabel}
-          parentPath={parentPath}
-          form={form}
-        />
+        {!hideFooter && (
+          <Footer
+            canSaveItem={canSaveItem}
+            canDeleteItem={canDeleteItem}
+            onSaveClick={saveItem ? () => saveItem({ ...props, setMessage, form, setForm, setCanSaveItem }) : undefined}
+            onDeleteClick={
+              deleteItem ? () => deleteItem({ ...props, setMessage, form, setForm, setCanSaveItem }) : undefined
+            }
+            onCancelClick={onCancelClick}
+            deleteLabel={deleteLabel}
+            parentPath={parentPath}
+            form={form}
+          />
+        )}
       </div>
     );
   }

@@ -1,7 +1,7 @@
 import { generatePath, matchPath } from 'react-router';
 import React from 'react';
 
-import { settingsBasePath, teamSettings, userSettingsGeneral } from 'in-settings/navigation/paths';
+import { settingsBasePath, teamSettings, userSettingsGeneral, ampSettings } from 'in-settings/navigation/paths';
 import { isAvailable as isGoogleSSOAvailable } from 'in-settings/tabs/AuthSettings/api/googleSSO';
 import RedirectWithHash from 'in-components/Navigation/RedirectWithHash/RedirectWithHash';
 import { isAvailable as isSamlAvailable } from 'in-settings/tabs/AuthSettings/api/saml';
@@ -40,7 +40,16 @@ export default connectTo(
 );
 
 function Header(props) {
-  return <DashboardHeader {...props} title="Settings" icon="lib_actions_settings" label="Settings" />;
+  const isAmpView = props.location.pathname.indexOf(ampSettings) >= 0;
+  return (
+    <DashboardHeader
+      {...props}
+      title="Settings"
+      icon="lib_actions_settings"
+      label="Settings"
+      renderTimeSelection={isAmpView ? () => null : undefined}
+    />
+  );
 }
 
 function createLegacyRedirect(legacyRedirect, match, props) {
