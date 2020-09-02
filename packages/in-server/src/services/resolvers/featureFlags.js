@@ -31,12 +31,6 @@ module.exports = exports = (tenant, unit) => [
     defaultValue: false
   },
   {
-    uiClientKey: 'ruleDeprecationValidationChecksEnabled',
-    instanaCtlKey: 'feature.rule.deprecation.validation.checks.enabled',
-    consulKey: `settings/${tenant}-${unit}/RULE_DEPRECATION_VALIDATION_CHECKS_ENABLED`,
-    defaultValue: true
-  },
-  {
     uiClientKey: 'containerInfoEnabled',
     instanaCtlKey: 'feature.container.info.enabled',
     consulKey: `settings/${tenant}-${unit}/CONTAINER_INFO_ENABLED`,

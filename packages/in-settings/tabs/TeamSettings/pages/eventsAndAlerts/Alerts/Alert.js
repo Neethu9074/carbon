@@ -18,12 +18,10 @@ import { queryValidationResultValidator, queryValidationInProgressValidator, val
 import { getAlertingConfig, saveAlertingConfig, createAlertingConfig } from 'in-api/alertingConfiguration';
 import AlertForm from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/AlertForm';
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
-import { addStaticJsonPayloadToEventsConfig } from 'in-services/featureFlags';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { teamSettingsAlertingAlerts } from 'in-settings/navigation/paths';
 import DescriptionText from 'in-components/form/DescriptionText';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
-import { staticJsonPayloadFieldName } from './components/Step5';
 import SectionLine from 'in-settings/components/SectionLine';
 import SaveCancel from 'in-settings/components/SaveCancel';
 import Notification from 'in-components/form/Notification';
@@ -151,11 +149,6 @@ function createForm(alertEntity, isCreate) {
     ? { applyOn: null, applicationName: null, applicationIds: [] }
     : parseQuery(query);
 
-  let staticJsonPayload;
-  if (addStaticJsonPayloadToEventsConfig) {
-    staticJsonPayload = alertEntity.get(staticJsonPayloadFieldName);
-  }
-
   let form = createMapForm()
     .put(
       'name',
@@ -209,17 +202,6 @@ function createForm(alertEntity, isCreate) {
         validator: notBlankValidator
       })
     );
-
-  if (addStaticJsonPayloadToEventsConfig) {
-    if (staticJsonPayload) {
-      form = form.put(
-        staticJsonPayloadFieldName,
-        createField({
-          value: staticJsonPayload
-        })
-      );
-    }
-  }
 
   if (eventSelectionMode === modeEventTypes) {
     form = putEventTypesField(form, eventTypes);
@@ -416,10 +398,6 @@ function save(alertEntity, form) {
   const scopeType = form.get('applyOn').value;
 
   let customPayload;
-  if (addStaticJsonPayloadToEventsConfig) {
-    customPayload = form.get(staticJsonPayloadFieldName) && form.get(staticJsonPayloadFieldName).value;
-  }
-
   submitAlertTracker({
     numOfAlertChannels: selectedAlertChannels.length,
     numOfEvents: selectedEvents ? selectedEvents.length : 0,

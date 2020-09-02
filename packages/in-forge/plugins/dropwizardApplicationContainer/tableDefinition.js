@@ -1,6 +1,6 @@
-import { instanaInternalFeaturesEnabled } from 'in-services/featureFlags';
+import { internalMonitoringUnit } from 'in-services/featureFlags';
 
 import instanaTableDefinition from 'in-forge/plugins/dropwizardApplicationContainer/instanaTableDefinition';
 
-const tableDefinition = instanaInternalFeaturesEnabled ? instanaTableDefinition : undefined;
+const tableDefinition = internalMonitoringUnit ? instanaTableDefinition : undefined;
 export default tableDefinition;

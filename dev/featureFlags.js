@@ -1,5 +1,7 @@
 // the keys (not the values) need to be kept in sync with
 // packages/in-server/services/resolvers/consul.js
+// and
+// in-services/featureFlags
 module.exports = {
   agentMonitoringIssuesEnabled: false,
   applicationSmartAlertsEnabled: true,
@@ -17,7 +19,6 @@ module.exports = {
   pcfEnabled: true,
   releaseNotesEnabled: true,
   routeIdOverPathTplEnabled: false,
-  ruleDeprecationValidationChecksEnabled: true,
   samplingIndicatorEnabled: true,
   skipOnboardingDialog: false,
   sloWidgetEnabled: true,

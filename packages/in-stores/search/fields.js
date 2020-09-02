@@ -1,4 +1,4 @@
-import { blackListedSearchFieldValues, getBlackListedSearchFieldKeywords } from 'in-services/featureFlags';
+import { hiddenSearchFieldValues, getHiddenSearchFieldKeywords } from 'in-services/featureFlags';
 import { filters$ } from 'in-components/SearchBar/stores/filters';
 import { requiresQuotes } from 'in-stores/search/manipulation';
 import { emptyArray } from 'in-services/fixedObjects';
@@ -115,11 +115,11 @@ export function node(name, props = {}) {
 export function buildCategorizedFields(searchContext, fields) {
   const root = node('root');
   fields = fields || getGlobalFields(searchContext);
-  const blackListedSearchFieldKeywords = getBlackListedSearchFieldKeywords(searchContext);
+  const hiddenSearchFieldKeywords = getHiddenSearchFieldKeywords(searchContext);
 
   fields.forEach(field => {
-    for (let i = 0, length = blackListedSearchFieldKeywords.length; i < length; i++) {
-      if (field.keyword.indexOf(blackListedSearchFieldKeywords[i]) === 0) {
+    for (let i = 0, length = hiddenSearchFieldKeywords.length; i < length; i++) {
+      if (field.keyword.indexOf(hiddenSearchFieldKeywords[i]) === 0) {
         return;
       }
     }
@@ -233,7 +233,7 @@ export function getValueSuggestions(keyword, currentValue, searchContext) {
   }
 
   const values = field.fixedValues.filter(
-    value => !blackListedSearchFieldValues[keyword] || blackListedSearchFieldValues[keyword].indexOf(value) === -1
+    value => !hiddenSearchFieldValues[keyword] || hiddenSearchFieldValues[keyword].indexOf(value) === -1
   );
 
   // also empty string should lead to all values
@@ -243,9 +243,7 @@ export function getValueSuggestions(keyword, currentValue, searchContext) {
 
   return values
     .filter(value => value.indexOf(currentValue) === 0)
-    .filter(
-      value => !blackListedSearchFieldValues[keyword] || blackListedSearchFieldValues[keyword].indexOf(value) === -1
-    );
+    .filter(value => !hiddenSearchFieldValues[keyword] || hiddenSearchFieldValues[keyword].indexOf(value) === -1);
 }
 
 function getGlobalFields(searchContext) {

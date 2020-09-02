@@ -1097,7 +1097,6 @@
       "featureFlag.useInstanaSaasEumTrackingUrlEnabled": "true",
       "featureFlag.containerInfoEnabled": "true",
       "unit": "test",
-      "featureFlag.ruleDeprecationValidationChecksEnabled": "true",
       "build.tag": "1.158.199",
       "featureFlag.isSelfService": "false",
       "config.maxAllowedAlertingConfigurations": "200",
