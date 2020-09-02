@@ -6,9 +6,11 @@ import LoadingList from 'in-new-components/lists/List/sharedComponents/LoadingLi
 import { evaluateClassNames } from 'in-services/util/classnames';
 import { Ul, Li } from 'in-new-components/lists/List/List';
 import useThemedLocals from 'in-hooks/useThemedLocals';
+import { number } from 'in-services/formatters/number';
 import { isLoading } from 'in-services/util/result';
 import Typeahead from 'in-new-components/Typeahead';
 import useObservable from 'in-hooks/useObservable';
+import { shorten } from 'in-services/util/string';
 
 import styleDefs from './SimpleValueSelector.mless';
 
@@ -104,13 +106,13 @@ function SuggestionsList({
             close={close}
             value={item}
           >
-            {item}
+            {shorten(item, 190)}
           </OverlayOption>
         );
       })}
       {totalHits > suggestions.length && (
         <Li className={locals.moreOptionsLabel} size="compact">
-          {totalHits - suggestions.length} More
+          {number.compact(totalHits - suggestions.length)} More
         </Li>
       )}
     </Ul>
