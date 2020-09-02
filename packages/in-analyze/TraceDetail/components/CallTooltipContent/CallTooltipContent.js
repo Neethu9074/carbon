@@ -39,13 +39,16 @@ export default function CallTooltipContent({ call }) {
   return (
     <div className={locals.content}>
       <div className={locals.heading}>
-        {call.endpoint &&
-          !isUnknownTypeSpan(call) && (
-            <Pill kind="light" color={getEndpointColor(call.endpoint.type)}>
-              {call.endpoint.type}
-            </Pill>
-          )}
-
+        {call.endpoint && !isUnknownTypeSpan(call) && (
+          <Pill kind="light" color={getEndpointColor(call.endpoint.type)}>
+            {call.endpoint.type}
+          </Pill>
+        )}
+        {call.batchSize > 1 && (
+          <Pill className={locals.batchSizeIndicator} kind="lighter">
+            {call.batchSize}
+          </Pill>
+        )}
         <span className={locals.headingLabel}>{shorten(call.label, 32)}</span>
       </div>
       {call.errorCount > 0 && <div className={locals.errorCount}>{call.errorCount} Errors</div>}
