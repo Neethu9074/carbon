@@ -1,12 +1,12 @@
 import React from 'react';
 
-import TagFilterConfiguration from 'in-analyze/AnalyzeView/components/TagFilterConfiguration';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import StackItem from 'in-new-components/layout/Stack/StackItem';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Header from 'in-components/form/Header';
 
 import locals from './GoodBadEventsForm.mless';
+import TagFilterConfiguration from 'in-custom-dashboards/widgets/Slo/components/TagFilterConfiguration';
 
 const excludedTagFilters = [
   'application.name',

@@ -14,6 +14,12 @@ import { tagFilterManipulators } from 'in-analyze/tagFiltersHoc';
 import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';
 
+/*
+ * This is a copy of packages/in-analyze/AnalyzeView/components/TagFilterConfiguration.js
+ * with this adaption:
+ * We manipulate the tagFilters before opening the EditTagFilterDialog with
+ * withValueConvertedToStringObject()
+ */
 export default compose(
   connectTo({
     timeConfig: timeConfig$
@@ -58,12 +64,16 @@ function QuickFilterForm(props) {
         <TagFilterList
           {...props}
           tagFilters={tagFilters.map(tagFilter => {
-            if (tagFilter.hasOwnProperty('value')) {
-              tagFilter.value = String(tagFilter.value);
-            }
             return {
               tag: tagFilter,
-              onClick: () => addActiveDialog(<EditTagFilterDialog {...props} tagFilter={tagFilter} forAnalyzeCalls />),
+              onClick: () =>
+                addActiveDialog(
+                  <EditTagFilterDialog
+                    {...props}
+                    tagFilter={withValueConvertedToStringObject(tagFilter)}
+                    forAnalyzeCalls
+                  />
+                ),
               onRemove: () =>
                 removeTagFilter(tagFilter.name, null, tagFilter.secondLevelName, tagFilter.value, tagFilter.entity)
             };
@@ -72,4 +82,11 @@ function QuickFilterForm(props) {
       }
     />
   );
+}
+
+function withValueConvertedToStringObject(tagFilter) {
+  if (tagFilter.hasOwnProperty('value') && typeof tagFilter.value !== 'string') {
+    return { ...tagFilter, value: String(tagFilter.value) };
+  }
+  return tagFilter;
 }
