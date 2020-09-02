@@ -100,7 +100,7 @@ function renderCompanionValue(config, result, value, formatter, timeConfig) {
     comparisonValue = dataPoint.values[0][1];
   }
 
-  if (comparisonValue == null || comparisonValue === 0) {
+  if (comparisonValue == null) {
     return null;
   }
 
@@ -111,7 +111,7 @@ function renderCompanionValue(config, result, value, formatter, timeConfig) {
     colorId = config.comparisonDecreaseColor;
   }
 
-  const difference = value / comparisonValue - 1;
+  const difference = comparisonValue === 0 ? (value === 0 ? 0 : value / Math.abs(value)) : value / comparisonValue - 1;
 
   let formattedDifference = percentage.detailed(difference);
   if (difference > 0) {
