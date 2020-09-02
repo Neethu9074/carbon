@@ -1,5 +1,4 @@
 const Handlebars = require('handlebars');
-const fetch = require('node-fetch');
 const express = require('express');
 const uuid = require('node-uuid');
 const fs = require('fs');
@@ -13,6 +12,7 @@ const checkSumMod = require('../services/checksum');
 const serverConfig = require('../serverConfig.js');
 const errorPages = require('../errorPages.js');
 const { getCsp } = require('../services/csp');
+const fetch = require('../services/fetch');
 const paths = require('../services/paths');
 
 const router = (module.exports = express.Router());

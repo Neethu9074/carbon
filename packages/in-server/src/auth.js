@@ -1,6 +1,5 @@
-const fetch = require('node-fetch');
-
 const config = require('./serverConfig.js');
+const fetch = require('./services/fetch');
 
 exports.getCurrentUser = async req => {
   if (!exports.isRequestCarryingAValidSeemingCookie(req)) {

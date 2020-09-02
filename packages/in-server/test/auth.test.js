@@ -1,7 +1,7 @@
-jest.mock('node-fetch', () => require('fetch-mock-jest').sandbox());
+jest.mock('../src/services/fetch', () => require('fetch-mock-jest').sandbox());
 jest.mock('../src/serverConfig');
 
-const fetchMock = require('node-fetch');
+const fetchMock = require('../src/services/fetch');
 
 const { getCurrentUser } = require('../src/auth');
 const config = require('../src/serverConfig');
@@ -11,7 +11,7 @@ const validCookieValue = 'someValidCookieValue';
 const validUserStringValue = JSON.stringify({ name: 'Jane' });
 
 describe('in-server/src/auth', () => {
-  afterEach(fetchMock.reset);
+  afterEach(() => fetchMock.reset());
 
   describe('getCurrentUser', () => {
     it('must resolve with user string', async () => {
