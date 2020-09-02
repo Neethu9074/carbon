@@ -5,6 +5,7 @@ import { getColor as getColorForEndpointType } from 'in-applications/endpointTyp
 import ErrorIndicator from 'in-analyze/TraceDetail/components/ErrorIndicator';
 import { isUnknownTypeSpan } from 'in-analyze/TraceDetail/shared/CallHelper';
 import Skeleton from 'in-new-components/Loading/Skeleton';
+import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
 import Pill from 'in-new-components/Pill';
 
@@ -23,6 +24,16 @@ export default function Header({ call }) {
             <ErrorIndicator erroneous={call.errorCount} />
             <SvgIcon type="lib_application_call" />
             <span className={locals.callLabel}>{call.label || 'Undefined'}</span>
+            {call.batchSize > 1 && (
+              <Tooltip
+                themeStyle="light"
+                content={`This call is batched and represents ${call.batchSize} individual calls.`}
+              >
+                <Pill className={locals.batchSizeIndicator} kind="lighter">
+                  {call.batchSize}
+                </Pill>
+              </Tooltip>
+            )}
             {!isUnknownTypeSpan(call) && endpoint && !isLogSpan && (
               <Pill kind="light" color={getColorForEndpointType(endpoint.type)}>
                 {endpoint.type}

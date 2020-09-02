@@ -82,6 +82,10 @@
     fill: @lib__colors__blue800;
   }
 
+  .batchSizeIndicator {
+    margin-right: 0.5rem;
+  }
+
   .link {
     .ellipsis();
   }
