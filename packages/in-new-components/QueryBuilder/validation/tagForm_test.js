@@ -89,11 +89,25 @@ describe('in-new-components/QueryBuilder/validation/tagForm', () => {
     });
     expect(form.hierarchyValid).to.equal(true);
 
-    const changedForm = changeName(tagCatalog, form, 'erroneous');
+    const changedForm = changeName(tagCatalog, form, 'application');
     expect(changedForm.hierarchyValid).to.equal(false);
-    expect(changedForm.get('name').value).to.equal('erroneous');
+    expect(changedForm.get('name').value).to.equal('application');
     expect(changedForm.get('operator').value).to.equal(EQUALS);
     expect(changedForm.get('value').value).to.equal(undefined);
+  });
+
+  it('must set default value (true) when switching the tag to one that is of type boolean', () => {
+    const form = createTagForm(tagCatalog, {
+      name: 'latency',
+      operator: GREATER_THAN,
+      value: 42
+    });
+    expect(form.hierarchyValid).to.equal(true);
+
+    const changedForm = changeName(tagCatalog, form, 'erroneous');
+    expect(changedForm.get('name').value).to.equal('erroneous');
+    expect(changedForm.get('operator').value).to.equal(EQUALS);
+    expect(changedForm.get('value').value).to.equal(true);
   });
 
   it('must nost drop the value/operator when switching to the same tag type', () => {

@@ -16,6 +16,7 @@ import styleDefs from './SimpleValueSelector.mless';
 
 export default function SimpleValueSelector({
   onChange,
+  isKey,
   value,
   close,
   getSuggestions,
@@ -31,7 +32,7 @@ export default function SimpleValueSelector({
       value={value}
       onChange={e => onChange(e.value)}
       close={close}
-      inputProps={{ ...inputProps, locals }}
+      inputProps={{ ...inputProps, locals, isKey }}
       getSuggestions={getSuggestions}
       fieldsToWatch={fieldsToWatch}
       locals={locals}
@@ -40,7 +41,7 @@ export default function SimpleValueSelector({
 }
 
 function render({ inputProps, getInputProps, isOpen, openMenu, ...remainingProps }) {
-  const { locals, valid, ...remainingInputProps } = inputProps;
+  const { locals, valid, isKey, ...remainingInputProps } = inputProps;
 
   return (
     <>
@@ -48,7 +49,8 @@ function render({ inputProps, getInputProps, isOpen, openMenu, ...remainingProps
         minWidth={32}
         inputClassName={evaluateClassNames({
           [locals.input]: true,
-          [locals.invalid]: !valid
+          [locals.invalid]: !valid,
+          [locals.keyField]: isKey
         })}
         {...remainingInputProps}
         {...getInputProps({ onFocus: openMenu })}

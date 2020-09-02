@@ -2,15 +2,26 @@
 
 :local {
   .icon {
-    // icons have a built in margin so we need to substract it when it is used in smaller frames
-    margin: -0.5rem -0.25rem -0.5rem 0.25rem;
+    padding-top: 0.0225rem;
+    padding-bottom: 0.0225rem;
+    border-left: 1px solid #DFE4E8;
+    border-bottom: none;
+    border-top: none;
+    line-height: 2;
+    cursor: pointer;
 
     fill: @lib__colors__N400;
     cursor: pointer;
 
     &:hover, &:active, &:focus {
       fill: @lib__colors__light-blue800;
+      border-color: @lib__colors__light-blue800;
       outline: none;
     }
+  }
+
+  .hasBooleanSelectorBefore {
+    // to avoid having two borders next to each other
+    margin-left: -1px;
   }
 }

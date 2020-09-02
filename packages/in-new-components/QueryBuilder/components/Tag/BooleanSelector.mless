@@ -1,11 +1,10 @@
 @import '~in-themes/active.less';
 
 :local {
-  .operator {
+  .booleanValue {
     padding: 0.0225rem 0.3125rem;
     margin-top: -0.25rem;
     margin-bottom: -0.25rem;
-    border-left: 1px solid @lib__colors__N300;
     border-right: 1px solid @lib__colors__N300;
     border-bottom: none;
     border-top: none;
@@ -19,17 +18,14 @@
       background: @lib__colors__N200;
       border-bottom: 1px solid;
       border-top: 1px solid;
+      border-left: 1px solid;
+      margin-left: -1px;
       border-color: @lib__colors__light-blue800;
     }
 
-    .operator {
+    .booleanValue {
       background: @lib__colors__N050;
       color: @lib__colors__N900Primary;
-    }
-
-    .operator_dark {
-      background: @lib__colors__N900Primary;
-      color: @lib__colors__N050;
     }
 
     &:focus,
@@ -38,6 +34,8 @@
       background: @lib__colors__N200;
       border-bottom: 1px solid;
       border-top: 1px solid;
+      border-left: 1px solid;
+      margin-left: -1px;
       border-color: @lib__colors__light-blue800;
     }
   }

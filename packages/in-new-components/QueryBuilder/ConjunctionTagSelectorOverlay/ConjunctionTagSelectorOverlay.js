@@ -19,7 +19,8 @@ export default function ConjunctionTagSelectorOverlay({ tagCatalog, onChange, cl
           onChange({
             type: 'TAG_FILTER',
             name,
-            operator: 'EQUALS'
+            operator: 'EQUALS',
+            value: setDefaultValueWhenTagTypeBoolean(name, tagCatalog)
           });
         }}
         close={close}
@@ -27,6 +28,15 @@ export default function ConjunctionTagSelectorOverlay({ tagCatalog, onChange, cl
       />
     </>
   );
+}
+
+function setDefaultValueWhenTagTypeBoolean(tagName, tagCatalog) {
+  const tagTreeNode = tagCatalog.tagsByName[tagName];
+  if (tagTreeNode.type === 'BOOLEAN') {
+    return true;
+  }
+
+  return undefined;
 }
 
 ConjunctionTagSelectorOverlay.propTypes = {

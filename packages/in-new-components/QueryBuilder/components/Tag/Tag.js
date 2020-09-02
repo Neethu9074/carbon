@@ -8,12 +8,15 @@ import {
   getFormPresentationInformation
 } from 'in-new-components/QueryBuilder/validation/tagForm';
 import SimpleValueSelector from 'in-new-components/QueryBuilder/SimpleValueSelector/SimpleValueSelector';
+import BooleanSelector from 'in-new-components/QueryBuilder/components/Tag/BooleanSelector';
 import { onElementKeyUp } from 'in-new-components/QueryBuilder/keyboardInteraction';
+import NumberInput from 'in-new-components/QueryBuilder/components/Tag/NumberInput';
 import Operator from 'in-new-components/QueryBuilder/components/Tag/Operator';
 import { TAG } from 'in-new-components/QueryBuilder/transformation/formModel';
 import Entity from 'in-new-components/QueryBuilder/components/Tag/Entity';
 import Remove from 'in-new-components/QueryBuilder/components/Tag/Remove';
 import Name from 'in-new-components/QueryBuilder/components/Tag/Name';
+import { evaluateClassNames } from 'in-services/util/classnames';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
 import useThemedLocals from 'in-hooks/useThemedLocals';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -35,7 +38,8 @@ export default function Tag(props) {
   const autoFocusTargets = {
     entity: useRef(),
     name: useRef(),
-    operator: useRef()
+    operator: useRef(),
+    booleanSelector: useRef()
   };
   const postUpdateFocus = useRef();
   useLayoutEffect(() => {
@@ -44,7 +48,10 @@ export default function Tag(props) {
 
   return (
     <div
-      className={locals.tag}
+      className={evaluateClassNames({
+        [locals.tag]: true,
+        [locals.invalid]: !form.hierarchyValid
+      })}
       tabIndex={0}
       data-render-model-index={renderModelIndex}
       data-query-builder-element="true"
@@ -98,10 +105,13 @@ export default function Tag(props) {
         form={form}
         onChange={onChange}
         tagType={tagType}
+        focusField={focusField}
+        booleanSelectorRef={autoFocusTargets.booleanSelector}
+        renderModelIndex={renderModelIndex}
         getSuggestions={getSuggestions}
       />
 
-      <Remove element={element} onRemove={onRemove} />
+      <RemoveIcon form={form} element={element} tagType={tagType} onRemove={onRemove} />
     </div>
   );
 
@@ -129,6 +139,15 @@ export default function Tag(props) {
   }
 }
 
+function RemoveIcon({ form, element, tagType, onRemove }) {
+  const field = form.get('value');
+  if (!field || (field && tagType !== 'BOOLEAN')) {
+    return <Remove element={element} onRemove={onRemove} />;
+  }
+
+  return <Remove element={element} onRemove={onRemove} nextToBooleanSelector />;
+}
+
 function KeyInput({ form, onChange, tagType, getSuggestions }) {
   const field = form.get('key');
   if (!field) {
@@ -140,6 +159,7 @@ function KeyInput({ form, onChange, tagType, getSuggestions }) {
 
   return (
     <Input
+      isKey
       value={field.value || ''}
       onChange={value => onChange('key', value)}
       placeholder="Key"
@@ -159,15 +179,35 @@ function KeyInput({ form, onChange, tagType, getSuggestions }) {
   );
 }
 
-function ValueInput({ valueType, form, onChange, getSuggestions }) {
+function ValueInput({ valueType, form, onChange, getSuggestions, focusField, booleanSelectorRef }) {
   const field = form.get('value');
   if (!field) {
     return null;
   }
 
-  const locals = useThemedLocals(styleDefs);
   if (valueType === Boolean) {
-    return <span className={locals.booleanPlaceholder}>true</span>;
+    return (
+      <BooleanSelector
+        onChange={value => {
+          focusField('booleanSelector', false);
+          onChange('value', value === 'true');
+        }}
+        focus={() => focusField('booleanSelector', true)}
+        value={field.value}
+        ref={booleanSelectorRef}
+      />
+    );
+  }
+
+  if (valueType === Number) {
+    return (
+      <NumberInput
+        value={field.value || ''}
+        valid={field.valid}
+        placeholder="Value"
+        onChange={value => onChange('value', value)}
+      />
+    );
   }
 
   const entity = form.get('entity')?.value;
@@ -191,24 +231,22 @@ function ValueInput({ valueType, form, onChange, getSuggestions }) {
       })
   };
 
-  if (valueType === Number) {
-    return <Input type="number" value={field.value || 0} {...inputProps} />;
-  }
   return <Input type="text" value={field.value || ''} {...inputProps} />;
 }
 
-function Input({ value, type, fieldsToWatch, placeholder, onChange, getSuggestions, valid }) {
+function Input({ value, isKey = false, fieldsToWatch, placeholder, onChange, getSuggestions, valid }) {
   const result = useDebouncedValue(value, onChange, 500);
 
   return (
     <SimpleValueSelector
+      isKey={isKey}
       onChange={result.onChange}
       value={result.value}
       close={() => {}}
       getSuggestions={getSuggestions}
       fieldsToWatch={fieldsToWatch}
       inputProps={{
-        type,
+        type: 'text',
         valid,
         placeholder
       }}

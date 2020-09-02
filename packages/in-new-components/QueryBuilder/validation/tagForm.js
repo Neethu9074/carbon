@@ -138,6 +138,11 @@ export function changeName(tagCatalog, formalisticTagForm, newName) {
     if (previousTagDefinition?.type !== tagDefinition.type) {
       tagForm.value = undefined;
     }
+
+    // boolean values get a default selection due to the dropdown
+    if (tagDefinition.type === 'BOOLEAN') {
+      tagForm.value = true;
+    }
   } else {
     // Clear both previously set values. This is an abnormal code path. Under
     // normal circumstances we should be able to identify the tag definition.
