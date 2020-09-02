@@ -57,17 +57,12 @@ function QuickFilterForm(props) {
         // doesn't use the same mechanism as the bar :(.
         <TagFilterList
           {...props}
-          tagFilters={tagFilters.map(tagFilter => {
-            if (tagFilter.hasOwnProperty('value')) {
-              tagFilter.value = String(tagFilter.value);
-            }
-            return {
-              tag: tagFilter,
-              onClick: () => addActiveDialog(<EditTagFilterDialog {...props} tagFilter={tagFilter} forAnalyzeCalls />),
-              onRemove: () =>
-                removeTagFilter(tagFilter.name, null, tagFilter.secondLevelName, tagFilter.value, tagFilter.entity)
-            };
-          })}
+          tagFilters={tagFilters.map(tagFilter => ({
+            tag: tagFilter,
+            onClick: () => addActiveDialog(<EditTagFilterDialog {...props} tagFilter={tagFilter} forAnalyzeCalls />),
+            onRemove: () =>
+              removeTagFilter(tagFilter.name, null, tagFilter.secondLevelName, tagFilter.value, tagFilter.entity)
+          }))}
         />
       }
     />
