@@ -1,6 +1,6 @@
 import { dataSource, processId, time, threshold } from 'in-new-components/Profiling/navigation/matrix';
 import { analyzePath, profilingPath } from 'in-new-components/Profiling/navigation/paths';
-import { intParser } from 'in-stores/navigation/urlParameterUtils';
+import { numberParser } from 'in-stores/navigation/urlParameterUtils';
 
 export const analyzeDataSourceUrlParameter = {
   path: analyzePath,
@@ -22,6 +22,6 @@ export const thresholdUrlParameter = {
   path: profilingPath,
   name: threshold,
 
-  parser: intParser,
+  parser: numberParser,
   initialState: 1
 };

@@ -30,7 +30,7 @@ export default function ProfilesLane(props) {
       label="Profiles"
       iconConfig={{
         type: 'lib_datetime_timer',
-        typeCluster: 'lib_openclose_add_circle',
+        typeCluster: 'lib_datetime_timer_multiple',
         color: theme.lib.colors.N700Medium
       }}
       color={theme.lib.colors.N700Medium}

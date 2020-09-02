@@ -86,13 +86,18 @@ function ProfilesView(props) {
 
   const deepestTechSnapshot = useObservable(
     hierachy$.flatMap(hierachy => getSnapshot(hierachy.get(0), timeConfigForSnapshots)),
-    [timeConfigForSnapshots]
+    [timeConfigForSnapshots.to, timeConfigForSnapshots.windowSize]
   );
   const historicalProcessSnapshot = useObservable(getSnapshot(processId, timeConfigForSnapshots), [
     processId,
-    timeConfigForSnapshots
+    timeConfigForSnapshots.to,
+    timeConfigForSnapshots.windowSize
   ]);
-  const processSnapshot = useObservable(getSnapshot(processId, timeConfig), [processId, timeConfig]);
+  const processSnapshot = useObservable(getSnapshot(processId, timeConfig), [
+    processId,
+    timeConfig.to,
+    timeConfig.windowSize
+  ]);
   const jvmSnapshot = useObservable(jvmSnapshot$, []);
   // we only allow source code when using a jvm based tech
   const canFetchSourceCode = useObservable(
@@ -154,7 +159,21 @@ function Header(props) {
 }
 
 function renderButtonLine({ processId, timeConfig }) {
-  return <ContextGuide id={processId} timeConfig={timeConfig} includeSelfEntity />;
+  return (
+    <ContextGuide
+      id={processId}
+      timeConfig={timeConfig}
+      plugin={plugins.process}
+      tagFilters={[
+        {
+          name: 'process.snapshotId',
+          operator: 'EQUALS',
+          value: processId
+        }
+      ]}
+      includeSelfEntity
+    />
+  );
 }
 
 function renderContext() {

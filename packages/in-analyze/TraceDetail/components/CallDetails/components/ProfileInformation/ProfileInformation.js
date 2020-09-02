@@ -2,6 +2,7 @@ import React from 'react';
 
 import getProfilesAvailable from 'in-new-components/Profiling/subscriptions/getProfilesAvailable';
 import { getTopSelfTimeList, createProfileSignature } from 'in-new-components/Profiling/utils';
+import getProcessSnapshotId from 'in-infrastructure/subscriptions/getProcessSnapshotId';
 import { getUniqueErrors } from 'in-new-components/Errors/ErroneousResultPresenter';
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import { getLinkToProfiles } from 'in-new-components/Profiling/navigation/paths';
@@ -13,12 +14,9 @@ import { error, warning } from 'in-new-components/Message/types';
 import ExpandableGroup from 'in-new-components/ExpandableGroup';
 import { hasError, isLoading } from 'in-services/util/result';
 import { percentage } from 'in-services/formatters/number';
-import { getPhysicalHierarchy } from 'in-stores/snapshot';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import useObservable from 'in-hooks/useObservable';
-import { getSnapshots } from 'in-stores/snapshot';
 import Message from 'in-new-components/Message';
-import { plugins } from 'in-forge/constants';
 import Link from 'in-components/Link';
 
 import locals from './ProfileInformation.mless';
@@ -28,25 +26,20 @@ const twoMinutes = 1000 * 60 * 2;
 export default function ProfileInformationSnapshotResolver({ processSnapshotId, ...remainingProps }) {
   const timeConfig = useTimeConfig();
 
-  // resolve process plugin snapshot id
-  const physicalHierarchySnapshots = useObservable(
-    getPhysicalHierarchy({ snapshotId: processSnapshotId, includeCluster: false, timeConfig }).flatMap(getSnapshots),
-    [processSnapshotId, timeConfig]
-  );
+  const processEntitySnapshotId = useObservable(getProcessSnapshotId({ snapshotId: processSnapshotId, timeConfig }), [
+    processSnapshotId,
+    timeConfig
+  ]);
 
-  if (!physicalHierarchySnapshots) {
-    return null;
-  }
-  const processEntity = physicalHierarchySnapshots.filter(item => item.get('plugin') === plugins.process)[0];
-  if (!processEntity) {
+  if (!processEntitySnapshotId) {
     return null;
   }
 
-  return <ProfileInformation {...remainingProps} timeConfig={timeConfig} processSnapshotId={processEntity.get('id')} />;
+  return <ProfileInformation {...remainingProps} timeConfig={timeConfig} processSnapshotId={processEntitySnapshotId} />;
 }
 
 function ProfileInformation({ processSnapshotId, time, start, end, timeConfig }) {
-  const windowSize = twoMinutes * Math.ceil((end - start) / twoMinutes);
+  const windowSize = Math.max(twoMinutes, twoMinutes * Math.ceil((end - start) / twoMinutes));
   const from = start;
   const to = from + windowSize;
 
