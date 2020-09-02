@@ -606,20 +606,13 @@ function AWSFargateContent({ agentKey, serverlessEndpoint }) {
           lines={[
             'FROM <base-image> # This is the *last* FROM clause in your Dockerfile',
             '',
-            'COPY --from=containers.instana.io/instana/release/aws/fargate/nodejs /instana /instana',
+            'COPY --from=instana/aws-fargate-nodejs:latest /instana /instana',
             'RUN /instana/setup.sh',
             'ENV NODE_OPTIONS="--require /instana/node_modules/@instana/aws-fargate"',
             '',
             '# Other stuff in your Docker image'
           ]}
         />
-
-        <Spacer />
-
-        <Description
-          lines={['The Docker build process needs to log into containers.instana.io using the following credentials:']}
-        />
-        <Bash lines={[`docker login containers.instana.io --username _ --password ${agentKey}`]} />
 
         <Spacer />
 
