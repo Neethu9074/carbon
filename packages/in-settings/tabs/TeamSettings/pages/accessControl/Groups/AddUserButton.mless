@@ -2,4 +2,8 @@
   .dialog {
     min-width: 50rem;
   }
+
+  .button {
+    margin-top: 1rem;
+  }
 }
