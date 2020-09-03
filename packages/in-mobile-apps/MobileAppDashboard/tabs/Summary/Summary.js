@@ -36,7 +36,7 @@ export default function Summary({ tagFilters, timeConfig, mobileAppId, mobileApp
             iconAction={{
               text: 'View in Analyze',
               kind: 'subtle',
-              icon: 'lib_analyze_inverted',
+              icon: 'lib_analyze',
               href$: getLinkToAnalyze({
                 beaconType: 'sessionStart',
                 tagFilters: translateDemocratisationTagFiltersToAnalyzeTagFilters({
@@ -68,7 +68,7 @@ export default function Summary({ tagFilters, timeConfig, mobileAppId, mobileApp
             iconAction={{
               text: 'View in Analyze',
               kind: 'subtle',
-              icon: 'lib_analyze_inverted',
+              icon: 'lib_analyze',
               href$: getLinkToAnalyze({
                 beaconType: 'viewChange',
                 tagFilters: translateDemocratisationTagFiltersToAnalyzeTagFilters({

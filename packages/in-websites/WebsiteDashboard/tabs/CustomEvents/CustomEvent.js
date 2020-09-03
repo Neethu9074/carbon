@@ -87,7 +87,7 @@ export default function CustomEvent({ location, tagFilters, timeConfig, websiteI
             iconAction={{
               text: 'View in Analyze',
               kind: 'subtle',
-              icon: 'lib_analyze_inverted',
+              icon: 'lib_analyze',
               href$: getLinkToAnalyze({
                 beaconType: 'custom',
                 tagFilters: translateDemocratisationTagFiltersToAnalyzeTagFilters({
@@ -119,7 +119,7 @@ export default function CustomEvent({ location, tagFilters, timeConfig, websiteI
             iconAction={{
               text: 'View in Analyze',
               kind: 'subtle',
-              icon: 'lib_analyze_inverted',
+              icon: 'lib_analyze',
               href$: getLinkToAnalyze({
                 beaconType: 'custom',
                 tagFilters: translateDemocratisationTagFiltersToAnalyzeTagFilters({

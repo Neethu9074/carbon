@@ -94,7 +94,7 @@ function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters
               iconAction={{
                 text: 'View in Analyze',
                 kind: 'subtle',
-                icon: 'lib_analyze_inverted',
+                icon: 'lib_analyze',
                 href$: getLinkToAnalyze({
                   beaconType: 'error',
                   tagFilters: translateDemocratisationTagFiltersToAnalyzeTagFilters({
@@ -126,7 +126,7 @@ function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters
               iconAction={{
                 text: 'View in Analyze',
                 kind: 'subtle',
-                icon: 'lib_analyze_inverted',
+                icon: 'lib_analyze',
                 href$: getLinkToAnalyze({
                   beaconType: 'error',
                   tagFilters: translateDemocratisationTagFiltersToAnalyzeTagFilters({
