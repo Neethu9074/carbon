@@ -6,9 +6,9 @@ import { boundaryScopes } from 'in-applications/alerting/advanced/InboundOutboun
 import ServicesSelectBox from 'in-custom-dashboards/widgets/Slo/components/ServicesSelectBox';
 import EndpointSelectBox from 'in-custom-dashboards/widgets/Slo/components/EndpointSelectBox';
 import EventBasedForm from 'in-custom-dashboards/widgets/Slo/components/GoodBadEventsForm';
+import FormInputField from 'in-custom-dashboards/widgets/Slo/components/FormInputField';
 import { MetricsForm } from 'in-custom-dashboards/widgets/Slo/components/MetricsForm';
-import DropDownMock from 'in-custom-dashboards/widgets/Slo/components/DropDownMock';
-import InputMock from 'in-custom-dashboards/widgets/Slo/components/InputMock';
+import FormDropDown from 'in-custom-dashboards/widgets/Slo/components/FormDropDown';
 import StackItem from 'in-new-components/layout/Stack/StackItem';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { Row, Col } from 'in-new-components/layout/Grid';
@@ -47,7 +47,7 @@ export function SliForm({ form, onChange, onChangeType, apName, api }) {
           </Col>
           <Col md={3}>
             <FormGroup withoutBottomMargin>
-              <InputMock form={form} onChange={onChange} fieldName="sliName" />
+              <FormInputField form={form} onChange={onChange} fieldName="sliName" />
             </FormGroup>
           </Col>
           <Col mdOffset={2} md={10}>
@@ -62,7 +62,7 @@ export function SliForm({ form, onChange, onChangeType, apName, api }) {
           </Col>
           <Col md={3}>
             <FormGroup withoutBottomMargin>
-              <DropDownMock
+              <FormDropDown
                 value={sliType}
                 hasError={!sliEntityForm.get('sliType')?.valid && sliEntityForm.get('sliType')?.touched}
                 onChange={({ target }) => onChangeType(target.value)}

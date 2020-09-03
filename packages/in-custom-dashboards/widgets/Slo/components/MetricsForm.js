@@ -2,8 +2,8 @@ import React from 'react';
 
 import { metricOptions, metricAggregations } from 'in-custom-dashboards/widgets/Slo/components/metricFormData';
 import { PercentageFormInput } from 'in-custom-dashboards/widgets/Slo/components/PercentageFormInput';
-import DropDownMock from 'in-custom-dashboards/widgets/Slo/components/DropDownMock';
-import InputMock from 'in-custom-dashboards/widgets/Slo/components/InputMock';
+import FormInputField from 'in-custom-dashboards/widgets/Slo/components/FormInputField';
+import FormDropDown from 'in-custom-dashboards/widgets/Slo/components/FormDropDown';
 import StackItem from 'in-new-components/layout/Stack/StackItem';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { Col, Row } from 'in-new-components/layout/Grid';
@@ -38,7 +38,7 @@ export const MetricsForm = ({ form, onChange }) => {
           </Col>
           <Col md={3}>
             <FormGroup withoutBottomMargin>
-              <DropDownMock
+              <FormDropDown
                 options={metricOptions}
                 value={metricName ?? ''}
                 onChange={({ target }) =>
@@ -70,7 +70,7 @@ export const MetricsForm = ({ form, onChange }) => {
           </Col>
           <Col md={3}>
             <FormGroup withoutBottomMargin>
-              <DropDownMock
+              <FormDropDown
                 options={aggregationData.options}
                 value={aggregationValue ?? aggregationData.defaultValue}
                 onChange={({ target }) =>
@@ -95,7 +95,7 @@ export const MetricsForm = ({ form, onChange }) => {
                 <PercentageFormInput form={metricConfiguration} onChange={localOnChange} fieldName="threshold" />
               )}
               {!percentThreshold && (
-                <InputMock form={metricConfiguration} onChange={localOnChange} fieldName="threshold" />
+                <FormInputField form={metricConfiguration} onChange={localOnChange} fieldName="threshold" />
               )}
               <TouchedMessages field={metricConfiguration.get('threshold')} />
             </FormGroup>

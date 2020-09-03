@@ -7,6 +7,9 @@ export function getSliFormatter(sliEntity) {
 
 function callsFormatter(value) {
   const unit = value === 1 ? 'call' : 'calls';
+  if (value >= 10000) {
+    return `${number.detailed(value / 1000)}K ${unit}`;
+  }
   return `${number.compact(value)} ${unit}`;
 }
 

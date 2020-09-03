@@ -2,7 +2,7 @@ import React from 'react';
 
 import Select from 'in-components/form/Select';
 
-export default function DropDownMock({ options, ...props }) {
+export default function FormDropDown({ options, ...props }) {
   return (
     <Select {...props}>
       {(options ?? []).map(({ value, label }) => {
