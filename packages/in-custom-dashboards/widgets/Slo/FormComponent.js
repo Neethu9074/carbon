@@ -19,7 +19,8 @@ import { PercentageFormInput } from 'in-custom-dashboards/widgets/Slo/components
 import formatInputTime from 'in-new-components/time/TimeSelectionDialogPresenter/timeInputFormatter';
 import SliFormComponent from 'in-custom-dashboards/widgets/Slo/components/SliSelectionForm';
 import APConfigSelector from 'in-custom-dashboards/widgets/Slo/components/APConfigForm';
-import DropDownMock from 'in-custom-dashboards/widgets/Slo/components/DropDownMock';
+import FormDropDown from 'in-custom-dashboards/widgets/Slo/components/FormDropDown';
+import FormInputField from 'in-custom-dashboards/widgets/Slo/components/FormInputField';
 import SliManageList from 'in-custom-dashboards/widgets/Slo/SliManageList';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import StackItem from 'in-new-components/layout/Stack/StackItem';
@@ -158,7 +159,7 @@ export default function FormComponent({ form, onChange, widgetTitleFormGroup, se
           </Col>
           <Col md={3}>
             <FormGroup withoutBottomMargin>
-              <DropDownMock
+              <FormDropDown
                 value={timeWindowTypeValue}
                 options={[
                   { value: Fixed, label: 'Fixed time interval' },
@@ -196,7 +197,7 @@ export default function FormComponent({ form, onChange, widgetTitleFormGroup, se
               <Col md={2}>
                 <FormGroup withoutBottomMargin>
                   {form.get(TimeWindowDuration).map(field => (
-                    <Input
+                    <FormInputField
                       type="number"
                       step="1"
                       min="1"
@@ -212,7 +213,7 @@ export default function FormComponent({ form, onChange, widgetTitleFormGroup, se
               </Col>
               <Col md={2}>
                 <FormGroup withoutBottomMargin>
-                  <DropDownMock
+                  <FormDropDown
                     value={timeWindowDurationUnitValue}
                     options={[
                       { value: 'days', label: 'days' },

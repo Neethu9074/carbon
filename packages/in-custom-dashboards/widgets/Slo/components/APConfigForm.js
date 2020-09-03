@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { getApplicationConfigsAsResultObservable } from 'in-api/applicationConfigs';
 import { ApConfigId, ApBoundaryScope, ApName } from 'in-custom-dashboards/widgets/Slo/form';
+import { getApplicationConfigsAsResultObservable } from 'in-api/applicationConfigs';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { Row, Col } from 'in-new-components/layout/Grid';

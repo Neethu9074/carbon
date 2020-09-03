@@ -1,6 +1,6 @@
 import React from 'react';
 
-import DropDownMock from 'in-custom-dashboards/widgets/Slo/components/DropDownMock';
+import FormDropDown from 'in-custom-dashboards/widgets/Slo/components/FormDropDown';
 import getEndpoints from 'in-applications/subscriptions/getEndpoints';
 import { pendingResult } from 'in-services/fixedObjects';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -37,12 +37,12 @@ export default function EndpointSelectBox({ applicationId, serviceId, boundarySc
   const { progress, errors, data } = endpointsResponse;
   const endpointItems = data?.items?.map(({ endpoint }) => ({ value: endpoint.id, label: endpoint.label }));
 
-  if (progress?.loading) return <DropDownMock options={[{ value: '', label: '<loading>' }]} disabled />;
+  if (progress?.loading) return <FormDropDown options={[{ value: '', label: '<loading>' }]} disabled />;
 
   return (
     <>
       {
-        <DropDownMock
+        <FormDropDown
           disabled={errors && errors?.length !== 0}
           options={[
             { value: undefined, label: 'Please select' },

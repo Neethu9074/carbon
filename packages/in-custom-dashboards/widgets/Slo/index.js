@@ -7,6 +7,6 @@ import { sloWidgetEnabled } from 'in-services/featureFlags';
 
 export const type = 'slo';
 export const label = 'SLO';
-export const minimumWidth = 7;
+export const minimumWidth = 8;
 export const minimumHeight = 18;
 export const enabled = sloWidgetEnabled;

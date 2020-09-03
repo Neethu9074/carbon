@@ -2,7 +2,7 @@ import React from 'react';
 
 import Input from 'in-components/form/Input';
 
-export default function InputMock({ form, onChange, fieldName, ...props }) {
+export default function FormInputField({ form, onChange, fieldName, ...props }) {
   const field = form?.get(fieldName);
   return (
     <Input
