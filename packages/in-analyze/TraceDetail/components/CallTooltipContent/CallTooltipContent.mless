@@ -2,7 +2,6 @@
 
 :local {
   .content {
-    width: 18rem;
     padding: 0.5rem;
   }
 
@@ -31,6 +30,10 @@
     display: flex;
     justify-content: space-between;
     margin-bottom: 0.5rem;
+  }
+
+  .batchSizeIndicator {
+    margin-left: 0.5rem;
   }
 
   .label {
