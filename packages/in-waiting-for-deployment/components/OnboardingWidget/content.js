@@ -497,10 +497,6 @@ function AWSFargateContent({ agentKey, serverlessEndpoint }) {
   } else if (selectedRuntime === runtimeOptions[1]) {
     steps = (
       <Fragment>
-        <HelpBox title="Technical Preview">
-          <Description lines={['Support for Java applications running on AWS Fargate is in technical preview.']} />
-        </HelpBox>
-
         <Spacer />
 
         <Description
@@ -542,9 +538,6 @@ function AWSFargateContent({ agentKey, serverlessEndpoint }) {
   } else if (selectedRuntime === runtimeOptions[2]) {
     steps = (
       <Fragment>
-        <HelpBox title="Technical Preview">
-          <Description lines={['Support for .NET Core applications running on AWS Fargate is in technical preview.']} />
-        </HelpBox>
         <Spacer />
         Linux base image: &nbsp;
         <DropDown value={baseImageName} options={baseImageOptions} onChange={setBaseImageName} />
@@ -593,10 +586,6 @@ function AWSFargateContent({ agentKey, serverlessEndpoint }) {
   } else if (selectedRuntime === runtimeOptions[3]) {
     steps = (
       <Fragment>
-        <HelpBox title="Technical Preview">
-          <Description lines={['Support for Node.js applications running on AWS Fargate is in technical preview.']} />
-        </HelpBox>
-
         <Spacer />
 
         <Description
