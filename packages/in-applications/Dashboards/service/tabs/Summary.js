@@ -53,7 +53,7 @@ export default connectTo(
               iconAction={{
                 text: 'View in Analyze',
                 kind: 'subtle',
-                icon: 'lib_analyze_inverted',
+                icon: 'lib_analyze',
                 href$: getJumpToAnalyzeHref$(
                   { applicationId, serviceId, endpointId },
                   {
@@ -95,7 +95,7 @@ export default connectTo(
               iconAction={{
                 text: 'View in Analyze',
                 kind: 'subtle',
-                icon: 'lib_analyze_inverted',
+                icon: 'lib_analyze',
                 href$: getJumpToAnalyzeHref$(
                   { applicationId, serviceId, endpointId },
                   {
@@ -134,7 +134,7 @@ export default connectTo(
               iconAction={{
                 text: 'View in Analyze',
                 kind: 'subtle',
-                icon: 'lib_analyze_inverted',
+                icon: 'lib_analyze',
                 href$: getJumpToAnalyzeHref$(
                   { applicationId, serviceId, endpointId },
                   {

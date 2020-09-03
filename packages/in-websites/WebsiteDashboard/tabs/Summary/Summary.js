@@ -43,7 +43,7 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
             iconAction={{
               text: 'View in Analyze',
               kind: 'subtle',
-              icon: 'lib_analyze_inverted',
+              icon: 'lib_analyze',
               href$: getLinkToAnalyze({
                 beaconType: 'pageLoad',
                 tagFilters: translateDemocratisationTagFiltersToAnalyzeTagFilters({
@@ -75,7 +75,7 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
             iconAction={{
               text: 'View in Analyze',
               kind: 'subtle',
-              icon: 'lib_analyze_inverted',
+              icon: 'lib_analyze',
               href$: getLinkToAnalyze({
                 beaconType: 'pageChange',
                 tagFilters: translateDemocratisationTagFiltersToAnalyzeTagFilters({
@@ -107,7 +107,7 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
             iconAction={{
               text: 'View in Analyze',
               kind: 'subtle',
-              icon: 'lib_analyze_inverted',
+              icon: 'lib_analyze',
               href$: getLinkToAnalyze({
                 beaconType: 'pageLoad',
                 tagFilters: translateDemocratisationTagFiltersToAnalyzeTagFilters({
@@ -122,7 +122,8 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
                   {
                     metric: 'beaconDuration',
                     aggregation: 'MEAN'
-                  },{
+                  },
+                  {
                     metric: 'beaconDuration',
                     aggregation: 'P90'
                   },
@@ -154,7 +155,7 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
             iconAction={{
               text: 'View in Analyze',
               kind: 'subtle',
-              icon: 'lib_analyze_inverted',
+              icon: 'lib_analyze',
               href$: getLinkToAnalyze({
                 beaconType: 'pageLoad',
                 tagFilters: translateDemocratisationTagFiltersToAnalyzeTagFilters({
@@ -169,7 +170,8 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
                   {
                     metric: 'beaconDuration',
                     aggregation: 'MEAN'
-                  },{
+                  },
+                  {
                     metric: 'beaconDuration',
                     aggregation: 'P90'
                   },
@@ -201,7 +203,7 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
             iconAction={{
               text: 'View in Analyze',
               kind: 'subtle',
-              icon: 'lib_analyze_inverted',
+              icon: 'lib_analyze',
               href$: getLinkToAnalyze({
                 beaconType: 'pageLoad',
                 tagFilters: translateDemocratisationTagFiltersToAnalyzeTagFilters({
@@ -216,7 +218,8 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
                   {
                     metric: 'beaconDuration',
                     aggregation: 'MEAN'
-                  },{
+                  },
+                  {
                     metric: 'beaconDuration',
                     aggregation: 'P90'
                   },
