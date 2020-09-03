@@ -460,7 +460,7 @@ function AwsSensorContent({ agentKey, agentEndpoint, agentEndpointPort }) {
 }
 
 function AWSFargateContent({ agentKey, serverlessEndpoint }) {
-  const runtimeOptions = ['Go', 'Java', '.NET Core', 'Node.js'];
+  const runtimeOptions = ['Go', 'Java', '.NET Core', 'Node.js', 'Python'];
   const baseImageOptions = ['Linux (glibc-based)', 'Alpine Linux (musl-based)'];
 
   const [selectedRuntime, setRuntime] = useState(runtimeOptions[0]);
@@ -478,10 +478,10 @@ function AWSFargateContent({ agentKey, serverlessEndpoint }) {
         <TextWithLink
           text="The support for Go on Fargate on ECS works the same way as with any Go application. Follow the instructions of the "
           linkText="Go documentation."
-          href="https://docs.instana.com/ecosystem/go"
+          href="https://www.instana.com/docs/ecosystem/go"
         />
         <Spacer />
-        <Description lines={['Set the following environment variable in the ECS Task Definition:']} />
+        <Description lines={['Set the following environment variables in the ECS Task Definition:']} />
         <GridRow>
           <Col xs={6}>
             <Description lines={['INSTANA_ENDPOINT_URL']} />
@@ -522,7 +522,7 @@ function AWSFargateContent({ agentKey, serverlessEndpoint }) {
 
         <Spacer />
 
-        <Description lines={['Set the following environment variable in the ECS Task Definition:']} />
+        <Description lines={['Set the following environment variables in the ECS Task Definition:']} />
         <GridRow>
           <Col xs={6}>
             <Description lines={['INSTANA_ENDPOINT_URL']} />
@@ -550,7 +550,7 @@ function AWSFargateContent({ agentKey, serverlessEndpoint }) {
           ]}
         />
         <Spacer />
-        <Description lines={['Set the following environment variable in the ECS Task Definition:']} />
+        <Description lines={['Set the following environment variables in the ECS Task Definition:']} />
         <Spacer />
         Your application directory in the container (you usually set this as the WORKDIR directory in the Dockerfile):
         <Spacer />
@@ -605,7 +605,29 @@ function AWSFargateContent({ agentKey, serverlessEndpoint }) {
 
         <Spacer />
 
-        <Description lines={['Set the following environment variable in the ECS Task Definition:']} />
+        <Description lines={['Set the following environment variables in the ECS Task Definition:']} />
+        <GridRow>
+          <Col xs={6}>
+            <Description lines={['INSTANA_ENDPOINT_URL']} />
+            <Script lines={[serverlessEndpoint]} />
+          </Col>
+          <Col xs={6}>
+            <Description lines={['INSTANA_AGENT_KEY']} />
+            <Script lines={[agentKey]} />
+          </Col>
+        </GridRow>
+      </Fragment>
+    );
+  } else if (selectedRuntime === runtimeOptions[4]) {
+    steps = (
+      <Fragment>
+        <TextWithLink
+          text="The support for Python on Fargate on ECS works the same way as with any Python application. Follow the instructions of the "
+          linkText="Python documentation."
+          href="https://www.instana.com/docs/ecosystem/python"
+        />
+        <Spacer />
+        <Description lines={['Set the following environment variables in the ECS Task Definition:']} />
         <GridRow>
           <Col xs={6}>
             <Description lines={['INSTANA_ENDPOINT_URL']} />
