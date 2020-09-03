@@ -8,14 +8,14 @@ import Overlay from 'in-new-components/overlays/Overlay';
 import { Ul } from 'in-new-components/lists/List/List';
 import { compositeRef } from 'in-services/util/react';
 
-export default function SortingConfigurator({ options, value, onChange }) {
-  const valueLabel = options.find(option => option.value === value)?.label ?? 'N/A';
+export default function SortingConfigurator({ options, order, onChange }) {
+  const valueLabel = options.find(option => option.value === order.by)?.label ?? 'N/A';
   const ref = useRef();
 
   return (
     <Overlay
       content={Options}
-      props={{ options, onChange, value }}
+      props={{ options, onChange, order }}
       withoutWrapper
       onCloseSideEffect={() => ref.current?.focus()}
     >
@@ -38,24 +38,33 @@ SortingConfigurator.propTypes = {
   options: PropTypes.arrayOf(
     PropTypes.shape({ value: PropTypes.string.isRequired, label: PropTypes.node.isRequired }).isRequired
   ).isRequired,
-  value: PropTypes.string.isRequired
+  // see com.instana.ui.model.pagination.Order
+  order: PropTypes.shape({ by: PropTypes.string.isRequired, direction: PropTypes.oneOf(['ASC', 'DESC']).isRequired })
+    .isRequired
 };
 
-function Options({ options, onChange, value, close }) {
+function Options({ options, onChange, order, close }) {
   return (
     <Ul framed={false} borderRadius="medium" onKeyDown={onArrowKeyDownFocusSiblings}>
       {options.map((option, i) => (
         <OverlayOption
           onChange={onChange}
           key={option.value}
-          autoFocus={(value == null && i === 0) || value === option.value}
+          autoFocus={(order.by == null && i === 0) || order.by === option.value}
           close={close}
-          value={option.value}
+          value={{ by: option.value, direction: order.direction }}
           size="compact"
         >
           {option.label}
         </OverlayOption>
       ))}
+      <OverlayOption onChange={onChange} close={close} value={{ by: order.by, direction: 'ASC' }} size="compact">
+        ASC
+      </OverlayOption>
+
+      <OverlayOption onChange={onChange} close={close} value={{ by: order.by, direction: 'DESC' }} size="compact">
+        DESC
+      </OverlayOption>
     </Ul>
   );
 }
