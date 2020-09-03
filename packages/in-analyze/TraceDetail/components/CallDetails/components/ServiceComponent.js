@@ -315,9 +315,8 @@ export default function ServiceComponent({ call, websiteBeacon, mobileAppBeacon 
 
     return (
       <ExpandableGroup
-        title={`Logs ( ${errorLogs.length > 0 ? `${errorLogs.length} Error` : ''} ${
-          warnLogs.length > 0 ? `${warnLogs.length} Warning` : ''
-        } )`}
+        title={`Logs ( ${errorLogs.length > 0 ? `${errorLogs.length} ${errorLogs.length > 1 ? 'Errors' : 'Error'}` : ''}
+        ${warnLogs.length > 0 ? `${warnLogs.length} ${warnLogs.length > 1 ? 'Warnings' : 'Warning'}` : ''} )`}
       >
         <CallLogs call={call} />
       </ExpandableGroup>
