@@ -86,7 +86,7 @@ export default {
         {
           type: 'LEVEL',
           label: 'Cluster',
-          icon: 'lib_kubernetes_cluster',
+          icon: 'plugin:kubernetesCluster',
           children: [
             {
               type: 'TAG',

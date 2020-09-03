@@ -6,7 +6,9 @@ import { toInteractiveElement } from 'in-new-components/interactiveCustomElement
 import { evaluateClassNames } from 'in-services/util/classnames';
 import icons from 'in-components/SvgIcon/registry.json';
 import { emptyObject } from 'in-services/fixedObjects';
+import { getIconSvgPath } from 'in-sdk/iconRegistry';
 import { getFactor } from 'in-services/util/dom';
+import { getSingular } from 'in-sdk/pluginName';
 
 import locals from './SvgIcon.mless';
 
@@ -44,6 +46,8 @@ export const sizes = {
   xxxl: 96
 };
 
+export const infrastructurePluginPrefix = 'plugin:';
+
 export default function SvgIcon({
   className,
   type,
@@ -64,19 +68,41 @@ export default function SvgIcon({
   onMouseEnter,
   onMouseLeave
 }) {
-  ariaLabel = ariaLabel || type;
   role = role || (onClick ? 'button' : undefined);
 
   if (!type && !customIcon) {
     type = 'lib_empty';
   }
 
-  const icon = type ? icons[type] : customIcon;
-  if (!icon) {
-    if (__DEV__) {
-      console.error(`SVG icon ${type} is unknown.`);
+  let icon;
+  let viewBox;
+
+  if (type?.startsWith(infrastructurePluginPrefix)) {
+    const plugin = type.substring(infrastructurePluginPrefix.length);
+    if (plugin) {
+      iconPath = getIconSvgPath(plugin);
+      // Custom viewBox for infrastructure icons to ensure a visually consistent icon size.
+      viewBox = '-26 -26 180 180';
+      if (!ariaLabel) {
+        ariaLabel = `${getSingular(plugin)} icon`;
+      }
     }
-    return null;
+  } else {
+    if (type) {
+      icon = icons[type];
+      viewBox = '0 0 24 24';
+      ariaLabel = ariaLabel || type;
+    } else if (customIcon) {
+      icon = customIcon;
+      viewBox = '0 0 128 128';
+    }
+
+    if (!icon) {
+      if (__DEV__) {
+        console.error(`SVG icon ${type} is unknown.`);
+      }
+      return null;
+    }
   }
 
   const sizeInPx = getPixelsBySize(size);
@@ -108,8 +134,9 @@ export default function SvgIcon({
       width={sizeInPx}
       height={sizeInPx}
       style={style}
-      viewBox={iconPath ? '0 0 128 128' : '0 0 24 24'}
+      viewBox={viewBox}
       fill={color}
+      aria-label={ariaLabel}
       {...interactivityProps}
       ref={refSetter}
       onBlur={onBlur}
