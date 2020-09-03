@@ -1,6 +1,6 @@
 import React from 'react';
 
-import TagFilterConfiguration from 'in-analyze/AnalyzeView/components/TagFilterConfiguration';
+import TagFilterConfiguration from 'in-custom-dashboards/widgets/Slo/components/TagFilterConfiguration';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import StackItem from 'in-new-components/layout/Stack/StackItem';
 import useTimeConfig from 'in-hooks/useTimeConfig';

@@ -2,6 +2,7 @@ import React from 'react';
 
 import ClusterNodesTable from 'in-forge/plugins/clickHouseCluster/Dashboard/ClusterNodesTable';
 import ClusterSummary from 'in-forge/plugins/clickHouseCluster/Dashboard/ClusterSummary';
+import MetricsTable from 'in-forge/plugins/clickHouseDatabase/Dashboard/MetricsTable';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import Columize from 'in-sdk/components/dashboard/Columize';
@@ -39,6 +40,7 @@ export default function ClickHouseClusterDashboard({ snapshot, timeConfig }) {
         </Columize>
       </DashboardSection>
       <ClusterNodesTable clusterSnapshotId={snapshotId} timeConfig={timeConfig} />
+      <MetricsTable snapshot={snapshot} timeConfig={timeConfig} />
     </div>
   );
 }

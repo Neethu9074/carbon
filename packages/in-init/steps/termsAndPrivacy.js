@@ -3,11 +3,11 @@ import { createLogger } from 'instalog';
 import ReactDOM from 'react-dom';
 import React from 'react';
 
+import { isDeprecatedUserDefinedRole } from 'in-settings/terms/userSelfDefinedRole';
 import { saveTosPrivacyAgreement } from 'in-settings/api/saveTosPrivacyAgreement';
 import ErrorBoundary from 'in-components/ErrorBoundary/ErrorBoundary';
 import { fullTermsConfigEnabled } from 'in-services/featureFlags';
 import TermsDialog from 'in-settings/terms/dialog/TermsDialog';
-import { isDeprecatedUserDefinedRole } from 'in-stores/user';
 
 import 'in-themes/foundation.less';
 
