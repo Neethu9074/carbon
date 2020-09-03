@@ -85,5 +85,16 @@ export default [
     category: ['Servlets'],
     min: 0,
     formatter: millis
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch('safAgents', 'messagesCurrentCount', 'SAF Agent'),
+      getDynamicMetricMatch('safAgents', 'messagesPendingCount', 'SAF Agent'),
+      getDynamicMetricMatch('safAgents', 'remoteEndpointsCurrentCount', 'SAF Agent')
+    ],
+    labels: ['Current Messages ', 'Pending Messages', 'Remote Endpoints Current'],
+    category: ['SAF Agent'],
+    min: 0,
+    formatter: number
   }
 ];

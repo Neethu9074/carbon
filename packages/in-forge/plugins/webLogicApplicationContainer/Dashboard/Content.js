@@ -6,6 +6,7 @@ import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
 import JMSDestinationsTable from './JMSDestinationsTable';
 import DatasourcesTable from './DatasourcesTable';
+import SAFAgentsTable from './SAFAgentsTable';
 import WebAppsTable from './WebAppsTable';
 
 export default function Dashboard({ snapshot, timeConfig }) {
@@ -68,6 +69,8 @@ export default function Dashboard({ snapshot, timeConfig }) {
       <DatasourcesTable snapshot={snapshot} timeConfig={timeConfig} />
 
       <JMSDestinationsTable snapshot={snapshot} timeConfig={timeConfig} />
+
+      <SAFAgentsTable snapshot={snapshot} timeConfig={timeConfig} />
     </div>
   );
 }
