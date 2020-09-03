@@ -58,6 +58,20 @@ export function updateAgent(snapshot) {
   });
 }
 
+export function updateConfiguration({ volatileId, remoteName, remoteBranch, remoteUri }) {
+  createAgentResponseObservable({
+    action: 'agent.configuration.update',
+    target: volatileId,
+    args: {
+      remoteName,
+      remoteBranch,
+      remoteUri
+    }
+  }).once(response => {
+    logger.info('Agent Configuration response', response);
+  });
+}
+
 export function rebootAgent(snapshot) {
   createAgentResponseObservable({
     action: 'agent.reboot',

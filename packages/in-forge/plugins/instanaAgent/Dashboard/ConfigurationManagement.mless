@@ -1,0 +1,10 @@
+@import '~in-themes/active.less';
+
+:local {
+  .list {
+    padding: 0
+  }
+  .error {
+    color: @lib__colors__failure
+  }
+}

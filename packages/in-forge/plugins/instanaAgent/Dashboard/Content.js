@@ -13,12 +13,15 @@ import {
   time
 } from 'in-services/formatters/number';
 import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
+import ConfigurationManagementDialog from 'in-forge/plugins/instanaAgent/Dashboard/ConfigurationManagementDialog';
 import ManagementButtonSection from 'in-forge/plugins/instanaAgent/Dashboard/ManagementButtonSection';
+import ConfigurationManagement from 'in-forge/plugins/instanaAgent/Dashboard/ConfigurationManagement';
 import InfoButtonSection from 'in-forge/plugins/instanaAgent/Dashboard/InfoButtonSection';
 import SensorTimingList from 'in-forge/plugins/instanaAgent/Dashboard/SensorTimingList';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import LogStreamer from 'in-forge/plugins/instanaAgent/Dashboard/LogStreamer';
 import SpanMetrics from 'in-forge/plugins/instanaAgent/Dashboard/SpanMetrics';
+import ImageButton from 'in-forge/plugins/instanaAgent/Dashboard/ImageButton';
 import BundleList from 'in-forge/plugins/instanaAgent/Dashboard/BundleList';
 import LogMetrics from 'in-forge/plugins/instanaAgent/Dashboard/LogMetrics';
 import SensorList from 'in-forge/plugins/instanaAgent/Dashboard/SensorList';
@@ -27,6 +30,7 @@ import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import IssueList from 'in-forge/plugins/instanaAgent/Dashboard/IssueList';
 import { agentMonitoringIssuesEnabled } from 'in-services/featureFlags';
+import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import connectTo from 'in-hoc/connectTo';
 import { role } from 'in-stores/user';
@@ -42,13 +46,29 @@ export default connectTo(
         <DashboardSection title="Management">
           <ManagementButtonSection snapshot={snapshot} />
         </DashboardSection>
-        <DashboardSection title="Info">
-          <InfoButtonSection snapshot={snapshot} />
-        </DashboardSection>
+        <Columize>
+          <DashboardSection title="Info">
+            <InfoButtonSection snapshot={snapshot} />
+          </DashboardSection>
+          <DashboardSection
+            title="Configuration Management"
+            button={
+              role.canConfigureAgents && snapshot.getIn(['data', 'git', 'present']) ? (
+                <ImageButton
+                  iconType="lib_actions_edit"
+                  onClick={() => addActiveDialog(<ConfigurationManagementDialog snapshot={snapshot} />)}
+                >
+                  {snapshot.getIn(['data', 'git', 'initialized']) ? 'Update' : 'Initialize'}
+                </ImageButton>
+              ) : null
+            }
+          >
+            <ConfigurationManagement snapshot={snapshot} />
+          </DashboardSection>
+        </Columize>
         {(agentMonitoringIssuesEnabled || isInternalVisible) && (
           <IssueList snapshot={snapshot} timeConfig={timeConfig} />
         )}
-
         <Columize>
           {snapshot.getIn(['data', 'hasCpuLoad']) ? (
             <DashboardSection title="CPU Load">

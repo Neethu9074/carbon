@@ -1,12 +1,14 @@
 /* eslint-disable react/no-multi-comp */
 import React, { Fragment } from 'react';
 
+import { joinClassNames } from 'in-services/util/classnames';
+
 import locals from './DescriptionList.mless';
 
-export function DescriptionList({ children }) {
+export function DescriptionList({ children, className }) {
   return (
     <Fragment>
-      <dl className={locals.descriptionList}>{children}</dl>
+      <dl className={joinClassNames(locals.descriptionList, className)}>{children}</dl>
       <div className={locals.descriptionListNoDetails}>No details available.</div>
     </Fragment>
   );
