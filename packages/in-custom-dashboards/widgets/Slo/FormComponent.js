@@ -283,11 +283,11 @@ export default function FormComponent({ form, onChange, widgetTitleFormGroup, se
 function getMaxTimeWindowDurationValue(timeWindowDurationUnit) {
   switch (timeWindowDurationUnit) {
     case 'days':
-      return 31;
+      return 365;
     case 'weeks':
-      return 4;
+      return 48;
     case 'months':
     default:
-      return 1;
+      return 12;
   }
 }

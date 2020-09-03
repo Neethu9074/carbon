@@ -103,11 +103,11 @@ function validateTimeWindow({ timeWindowDuration, timeWindowDurationUnit }) {
 
   const timeWindowDurationInDays = getTimeWindowDurationInDays(timeWindowDuration.value, timeWindowDurationUnit.value);
 
-  if (timeWindowDurationInDays > 31) {
+  if (timeWindowDurationInDays > 365) {
     return [
       {
         severity: 'error',
-        message: 'The time window size has be be less or equal to 31 days.'
+        message: 'The time window size has be be less or equal to 365 days.'
       }
     ];
   }
