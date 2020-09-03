@@ -22,12 +22,3 @@ export const tenantUnitStructure$ = createTrackingStore({
   name: 'tenantUnitStructure',
   observable: getTenantsWithUnits()
 }).observable;
-
-export function isDeprecatedUserDefinedRole(userSelfDefinedRole) {
-  return (
-    userSelfDefinedRole === 'undefined' ||
-    userSelfDefinedRole === 'developer' ||
-    userSelfDefinedRole === 'sysadmin' ||
-    userSelfDefinedRole === 'nonTechnical'
-  );
-}
