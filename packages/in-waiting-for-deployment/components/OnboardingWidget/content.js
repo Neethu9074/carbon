@@ -441,7 +441,7 @@ function AwsSensorContent({ agentKey, agentEndpoint, agentEndpointPort }) {
         <TextWithLink
           text="The AWS Agent monitors lots of different AWS technologies in one single package. For the full list, refer to the "
           linkText="supported AWS Services list."
-          href="https://docs.instana.io/ecosystem/aws/#monitored-services"
+          href="https://www.instana.com/docs/ecosystem/aws/#monitored-services"
         />
       </HelpBox>
 
@@ -718,7 +718,7 @@ function AWSLambdaContent({ agentKey, serverlessEndpoint }) {
           <TextWithLink
             text="A detailed guide (including screenshots) on how to configure your Lambda function for AutoTrace using the AWS Web Console can be found in our "
             linkText="documentation for Lambda AutoTrace"
-            href="https://docs.instana.io/ecosystem/aws-lambda-native-tracing/#autotrace-aws-lambdas"
+            href="https://www.instana.com/docs/ecosystem/aws-lambda/#autotrace-aws-lambdas"
           />
           <Description lines={['In short, the steps are as follows']} />
           <GridRow>
@@ -846,7 +846,7 @@ function AWSLambdaContent({ agentKey, serverlessEndpoint }) {
       <TextWithLink
         text="The preferred way to configure AWS Lambda functions based on Node.js 8.x is to use the "
         linkText="Instana Lambda layer with manual wrapping."
-        href="https://docs.instana.io/ecosystem/aws-lambda#manual-wrapping"
+        href="https://www.instana.com/docs/ecosystem/aws-lambda#manual-wrapping"
       />
     );
   } else if (selectedRuntime === runtimeOptions[2]) {
@@ -874,7 +874,7 @@ function AWSLambdaContent({ agentKey, serverlessEndpoint }) {
           <TextWithLink
             text="A detailed guide (including screenshots) on how to configure your Lambda function for AutoTrace using the AWS Web Console can be found in our "
             linkText="documentation for Lambda AutoTrace"
-            href="https://docs.instana.io/ecosystem/aws-lambda#instana-autotrace"
+            href="https://www.instana.com/docs/ecosystem/aws-lambda#instana-autotrace"
           />
           <Description lines={['In short, the steps are as follows']} />
           <GridRow>
@@ -998,14 +998,14 @@ function AWSLambdaContent({ agentKey, serverlessEndpoint }) {
       <TextWithLink
         text="Make sure you have an Instana AWS Sensor running in your AWS region. For details on setting up the Instana AWS Sensor, refer to the "
         linkText="AWS Service documentation."
-        href="https://docs.instana.io/ecosystem/aws"
+        href="https://www.instana.com/docs/ecosystem/aws"
       />
       <Spacer />
 
       <TextWithLink
         text="Next, configure your AWS Lambda functions for native tracing as described in the steps below. Other options to set up native Lambda tracing and more details about this feature are available in the"
         linkText="documentation."
-        href="https://docs.instana.io/ecosystem/aws-lambda"
+        href="https://www.instana.com/docs/ecosystem/aws-lambda"
       />
       <Spacer />
 
@@ -1245,7 +1245,7 @@ function K8sHelmChartContent({ agentKey, agentEndpoint, agentEndpointPort }) {
           <HelpBox>
             <TextWithLink
               text="These instructions are for Helm Version 3. For more information visit the"
-              href="https://docs.instana.io/ecosystem/kubernetes/"
+              href="https://www.instana.com/docs/ecosystem/kubernetes/"
               linkText="Instana Kubernetes documentation."
             />
           </HelpBox>
@@ -1281,7 +1281,7 @@ function K8sDaemonSetContent({ agentKey, agentEndpoint, agentEndpointPort }) {
           <HelpBox>
             <TextWithLink
               text="For more information visit the"
-              href="https://docs.instana.io/ecosystem/kubernetes/"
+              href="https://www.instana.com/docs/ecosystem/kubernetes/"
               linkText="Instana Kubernetes documentation."
             />
           </HelpBox>
@@ -1296,7 +1296,7 @@ function K8sOperatorContent({ agentKey, agentEndpoint, agentEndpointPort }) {
     <>
       <TextWithLink
         text="Installing the Instana agent using a Kubernetes operator is described in"
-        href="https://docs.instana.io/setup_and_manage/host_agent/on/kubernetes/#install-using-the-operator"
+        href="https://www.instana.com/docs/setup_and_manage/host_agent/on/kubernetes/#install-using-the-operator"
         linkText="the Instana Kubernetes documentation."
       />
       <Spacer />
@@ -1504,7 +1504,7 @@ function CfAndBoshContent({ agentKey, agentEndpoint }) {
               <TextWithLink
                 text="For more information on how to set up BOSH runtime configurations, refer to the "
                 linkText='"Applying the Instana agent runtime configurations" page.'
-                href="https://docs.instana.io/setup_and_manage/host_agent/on/cloud-foundry#applying-the-instana-agent-runtime-configurations"
+                href="https://www.instana.com/docs/setup_and_manage/host_agent/on/cloud-foundry#applying-the-instana-agent-runtime-configurations"
               />
             </HelpBox>
             <Spacer />
@@ -1517,7 +1517,7 @@ function CfAndBoshContent({ agentKey, agentEndpoint }) {
               />
               <TextWithLink
                 text="For more information on host configurations that you can apply over the 'instana-agent' BOSH release, consult the "
-                href="https://docs.instana.io/ecosystem/cloudfoundry/"
+                href="https://www.instana.com/docs/ecosystem/cloudfoundry/"
                 linkText="Instana Cloud Foundry documentation."
               />
             </HelpBox>
