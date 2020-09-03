@@ -41,7 +41,7 @@ export default function SimpleValueSelector({
 }
 
 function render({ inputProps, getInputProps, isOpen, openMenu, ...remainingProps }) {
-  const { locals, valid, isKey, ...remainingInputProps } = inputProps;
+  const { locals, valid, ...remainingInputProps } = inputProps;
 
   return (
     <>
@@ -49,8 +49,7 @@ function render({ inputProps, getInputProps, isOpen, openMenu, ...remainingProps
         minWidth={32}
         inputClassName={evaluateClassNames({
           [locals.input]: true,
-          [locals.invalid]: !valid,
-          [locals.keyField]: isKey
+          [locals.invalid]: !valid
         })}
         {...remainingInputProps}
         {...getInputProps({ onFocus: openMenu })}
@@ -80,6 +79,10 @@ function SuggestionsList({
   const totalHits = suggestionsResult?.data?.totalHits ?? 0;
 
   const filteredOptions = suggestions.filter(item => !inputValue || item.toLowerCase().includes(lowerCaseInputValue));
+  if (filteredOptions.length === 0) {
+    return null;
+  }
+
   const menuProps = getMenuProps();
 
   return (

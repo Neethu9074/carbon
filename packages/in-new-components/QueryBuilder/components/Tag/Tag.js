@@ -159,7 +159,6 @@ function KeyInput({ form, onChange, tagType, getSuggestions }) {
 
   return (
     <Input
-      isKey
       value={field.value || ''}
       onChange={value => onChange('key', value)}
       placeholder="Key"
@@ -234,12 +233,11 @@ function ValueInput({ valueType, form, onChange, getSuggestions, focusField, boo
   return <Input type="text" value={field.value || ''} {...inputProps} />;
 }
 
-function Input({ value, isKey = false, fieldsToWatch, placeholder, onChange, getSuggestions, valid }) {
+function Input({ value, fieldsToWatch, placeholder, onChange, getSuggestions, valid }) {
   const result = useDebouncedValue(value, onChange, 500);
 
   return (
     <SimpleValueSelector
-      isKey={isKey}
       onChange={result.onChange}
       value={result.value}
       close={() => {}}
