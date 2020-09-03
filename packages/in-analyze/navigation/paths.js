@@ -14,7 +14,7 @@ import {
 } from 'in-analyze/navigation/matrix';
 import { getTagFilterToUrlString, getGroupToUrlString, getTagFilterFromUrlString } from 'in-analyze/filterBuilder';
 import { APPLICATION, APPLICATION_INBOUND, SERVICE, ENDPOINT } from 'in-analyze/applicationFilter';
-import { callAnalysisBlacklistedTags, traceAnalysisBlacklistedTags } from 'in-applications/tags';
+import { callAnalysisDisabledTags, traceAnalysisDisabledTags } from 'in-applications/tags';
 import { setOrDeleteMatrixKey, getMatrixParameter } from 'in-stores/navigation/matrix';
 import { latencyDistributionBase10Enabled } from 'in-services/featureFlags';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
@@ -128,12 +128,12 @@ export function getLinkToAnalyze({
     if (tagFilter != null) {
       setOrDeleteMatrixKey(params, analyze, `callList.${tagFilterMatrixParameter}`, getTagFilterToUrlString(tagFilter));
     } else if (dataSource === 'calls' || dataSource === 'traces') {
-      // remove blacklisted filters
+      // remove disabled filters
       let existingTagFilters = getTagFilterFromUrlString(
         getMatrixParameter(params, analyze, `callList.${tagFilterMatrixParameter}`)
       );
-      const blacklistedTags = dataSource === 'calls' ? callAnalysisBlacklistedTags : traceAnalysisBlacklistedTags;
-      existingTagFilters = existingTagFilters.filter(t => blacklistedTags.indexOf(t.name) === -1);
+      const disabledTags = dataSource === 'calls' ? callAnalysisDisabledTags : traceAnalysisDisabledTags;
+      existingTagFilters = existingTagFilters.filter(t => disabledTags.indexOf(t.name) === -1);
       setOrDeleteMatrixKey(
         params,
         analyze,

@@ -29,9 +29,9 @@ export default function createBlueprintForm(form, alertType, alertThreshold = {}
     metricName: blueprintConfig.defaultMetric
   });
 
-  const isNotBlacklisted = filter => !blueprintConfig.blacklistedTagFilters.includes(filter.name);
+  const isNotDisabled = filter => !blueprintConfig.disabledTagFilters.includes(filter.name);
   let updatedForm = form
-    .updateIn(['tagFilters'], f => f.setValue(tagFilters.filter(isNotBlacklisted)))
+    .updateIn(['tagFilters'], f => f.setValue(tagFilters.filter(isNotDisabled)))
     .put('rule', newRuleForm)
     .put('threshold', newThresholdForm);
 

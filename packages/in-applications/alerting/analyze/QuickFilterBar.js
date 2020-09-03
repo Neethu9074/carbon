@@ -16,11 +16,11 @@ import SvgIcon from 'in-components/SvgIcon';
 import locals from './QuickFilterBar.mless';
 
 export default function QuickFilterBar(props) {
-  const { tagFilters, onMoreClick, timeConfig, blackListedTagFilters, withoutFiltersLabel, withoutLatencyItem } = props;
-  const isNotBlackListed = tagFilter => !blackListedTagFilters.includes(tagFilter);
+  const { tagFilters, onMoreClick, timeConfig, disabledTagFilters, withoutFiltersLabel, withoutLatencyItem } = props;
+  const isNotDisabled = tagFilter => !disabledTagFilters.includes(tagFilter);
   return (
     <Bar showClearFilters={false} withoutFiltersLabel={withoutFiltersLabel}>
-      {isNotBlackListed('service.name') && (
+      {isNotDisabled('service.name') && (
         <AnalyzeSelectBarItem
           {...props}
           timeConfig={timeConfig}
@@ -32,7 +32,7 @@ export default function QuickFilterBar(props) {
           withoutTextTransform
         />
       )}
-      {isNotBlackListed('endpoint.name') && (
+      {isNotDisabled('endpoint.name') && (
         <AnalyzeSelectBarItem
           {...props}
           timeConfig={timeConfig}
@@ -46,7 +46,7 @@ export default function QuickFilterBar(props) {
           withoutTextTransform
         />
       )}
-      {isNotBlackListed('call.type') && (
+      {isNotDisabled('call.type') && (
         <AnalyzeSelectBarItem
           {...props}
           timeConfig={timeConfig}
@@ -58,7 +58,7 @@ export default function QuickFilterBar(props) {
           itemLabelRenderer={renderType}
         />
       )}
-      {isNotBlackListed('technology') && (
+      {isNotDisabled('technology') && (
         <AnalyzeMultiSelectBarItem
           {...props}
           timeConfig={timeConfig}
@@ -72,7 +72,7 @@ export default function QuickFilterBar(props) {
           )}
         />
       )}
-      {!withoutLatencyItem && isNotBlackListed('call.latency') && (
+      {!withoutLatencyItem && isNotDisabled('call.latency') && (
         <NumberBarItem
           {...props}
           tagFilters={tagFilters}
@@ -84,7 +84,7 @@ export default function QuickFilterBar(props) {
           minValue="1"
         />
       )}
-      {isNotBlackListed('call.erroneous') && (
+      {isNotDisabled('call.erroneous') && (
         <BooleanBarItem
           {...props}
           timeConfig={timeConfig}

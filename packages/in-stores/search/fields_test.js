@@ -92,7 +92,7 @@ describe('in-components/SearchBar/misc/fields', () => {
       expect(mod.findNode('.')).to.equal(null);
     });
 
-    it('must skip blacklisted items', () => {
+    it('must skip disabled items', () => {
       expect(mod.findNode('log')).to.equal(null);
       expect(mod.findNode('span')).to.equal(null);
       expect(mod.findNode('trace')).to.equal(null);
@@ -184,7 +184,7 @@ describe('in-components/SearchBar/misc/fields', () => {
       expect(mod.findNode('.', ctx)).to.equal(null);
     });
 
-    it('must skip blacklisted items', () => {
+    it('must skip disabled items', () => {
       expect(mod.findNode('log', ctx)).to.equal(null);
     });
 

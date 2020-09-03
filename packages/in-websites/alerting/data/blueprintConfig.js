@@ -54,7 +54,7 @@ const slownessBlueprintConfig = Object.freeze({
       <ul>
     `,
   getAllTagFilters: () => availableFilterTags.pageLoad,
-  blacklistedTagFilters: createBlacklist(['beacon.duration']),
+  disabledTagFilters: createDisableList(['beacon.duration']),
   baselineEnabled: true,
   defaultMetric: 'onLoadTime',
   getMetricName: () => 'onLoadTime',
@@ -73,7 +73,7 @@ const jsErrorsBlueprintConfig = Object.freeze({
   headline: 'Automatic Alerts for JS Errors',
   text: 'Receive an alert every time when matching JS Error messages occur more often than usual.',
   getAllTagFilters: () => commonFilterTags,
-  blacklistedTagFilters: createBlacklist(['beacon.error.message']),
+  disabledTagFilters: createDisableList(['beacon.error.message']),
   baselineEnabled: false,
   defaultMetric: 'errors',
   getMetricName: alertRule => alertRule.metricName,
@@ -93,7 +93,7 @@ const statusCodeBlueprintConfig = Object.freeze({
   headline: 'Automatic Alerts for HTTP Status Codes',
   text: 'Receive an alert every time when matching HTTP Status Codes occur more often than usual.',
   getAllTagFilters: () => availableFilterTags.httpRequest,
-  blacklistedTagFilters: createBlacklist(['beacon.http.status']),
+  disabledTagFilters: createDisableList(['beacon.http.status']),
   baselineEnabled: false,
   defaultMetric: 'httpxxx',
   getMetricName: alertRule => alertRule.metricName,
@@ -115,7 +115,7 @@ const throughputBlueprintConfig = Object.freeze({
     'Automatic alerts on anomalously low or high number of Page Loads or Page Transitions for selected pages of this Website.',
   getAllTagFilters: metricName =>
     metricName === 'pageLoads' ? availableFilterTags.pageLoad : availableFilterTags.pageChange,
-  blacklistedTagFilters: createBlacklist([]),
+  disabledTagFilters: createDisableList([]),
   baselineEnabled: true,
   defaultMetric: 'pageLoads',
   getMetricName: alertRule => alertRule.metricName,
@@ -172,8 +172,8 @@ export function getSimpleModeBlueprintConfig(alertType, alertThreshold) {
     .find(blueprint => !blueprint.isSelected || blueprint.isSelected(alertThreshold));
 }
 
-function createBlacklist(blacklistedTagFilters = []) {
-  return ['beacon.website.id', 'beacon.website.name', 'beacon.error.message', ...blacklistedTagFilters];
+function createDisableList(disabledTagFilters = []) {
+  return ['beacon.website.id', 'beacon.website.name', 'beacon.error.message', ...disabledTagFilters];
 }
 
 function isCustomRateMetric(metricName) {

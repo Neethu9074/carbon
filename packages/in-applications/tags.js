@@ -61,7 +61,7 @@ export const customServiceMappingTagKeys = [
   'tanzu.foundation.name'
 ];
 
-export const callAnalysisBlacklistedTags = [
+export const callAnalysisDisabledTags = [
   'trace.id',
   'trace.name',
   'trace.endpoint.name',
@@ -71,11 +71,11 @@ export const callAnalysisBlacklistedTags = [
   'call.inbound_of_application'
 ];
 
-export const traceAnalysisBlacklistedTags = ['call.latency'];
+export const traceAnalysisDisabledTags = ['call.latency'];
 
-const blacklists = {
-  generalBlacklist: (() => {
-    const blacklist = {
+const disabledLists = {
+  general: (() => {
+    const disabledList = {
       'application.id': !isInstanaEngineer,
       'service.id': !isInstanaEngineer,
       'service.rule_id': !isInstanaEngineer,
@@ -98,16 +98,16 @@ const blacklists = {
       'related.infra.entity.snapshotId': !isInstanaEngineer,
       'related.infra.entity.pluginId': !isInstanaEngineer
     };
-    return tag => blacklist[tag];
+    return tag => disabledList[tag];
   })(),
-  callGroupBlacklist: (() => {
-    const blacklist = callAnalysisBlacklistedTags.reduce((agg, k) => {
+  callGroup: (() => {
+    const disabledList = callAnalysisDisabledTags.reduce((agg, k) => {
       agg[k] = true;
       return agg;
     }, {});
-    return tag => blacklist[tag] || isBeaconTag(tag);
+    return tag => disabledList[tag] || isBeaconTag(tag);
   })(),
-  analyzeFilterBlacklist: isBeaconTag
+  analyzeFilter: isBeaconTag
 };
 
 function isBeaconTag(tag) {
@@ -123,16 +123,16 @@ export const getTraceGroupTagKeys = () => ['trace.endpoint.name', 'trace.service
 
 export const getCallGroupTagKeys = () =>
   getTagTree()
-    .getChildren({ blacklist: blacklists.callGroupBlacklist })
+    .getChildren({ isTagOnDisabledList: disabledLists.callGroup })
     .map(node => node.name);
 
 export const getAnalyzeFilterTagKeys = () =>
   getTagTree()
-    .getChildren({ blacklist: blacklists.analyzeFilterBlacklist })
+    .getChildren({ isTagOnDisabledList: disabledLists.analyzeFilter })
     .map(node => node.name);
 
 export function getApplicationCreationTagKeys() {
-  const applicationCreationBlacklist = {
+  const applicationCreationDisabledlist = {
     'host.mac': true,
     'docker.container.name': true,
     'crio.container.name': true,
@@ -159,7 +159,7 @@ export function getApplicationCreationTagKeys() {
       (tag.type === TAG_TYPES.STRING.technicalName ||
         tag.type === TAG_TYPES.KEY_VALUE_PAIR.technicalName ||
         tag.name === 'call.http.status') &&
-      !applicationCreationBlacklist[tag.fullyQualifiedName] &&
+      !applicationCreationDisabledlist[tag.fullyQualifiedName] &&
       !isBeaconTag(tag.fullyQualifiedName)
     ) {
       tagKeys.push(tag.fullyQualifiedName);
@@ -168,8 +168,8 @@ export function getApplicationCreationTagKeys() {
   return tagKeys;
 }
 
-function isOnBlacklist(serverTag, blacklist) {
-  return blacklist(serverTag.fullyQualifiedName) || blacklist(serverTag.name);
+function isDisabled(serverTag, isTagOnDisabledList) {
+  return isTagOnDisabledList(serverTag.fullyQualifiedName) || isTagOnDisabledList(serverTag.name);
 }
 
 let tagTree = null;
@@ -202,7 +202,7 @@ function buildTagTree() {
   }
 
   tags = deepCopy(tags)
-    .filter(tag => !isOnBlacklist(tag, blacklists.generalBlacklist))
+    .filter(tag => !isDisabled(tag, disabledLists.general))
     .sort((a, b) => compareIgnoreCase(a.name, b.name));
 
   for (let i = 0; i < tags.length; i++) {
@@ -228,11 +228,10 @@ function createNode(name, props = {}) {
     name,
     parentNode: props.parentNode,
     fullyQualifiedName: props.fullyQualifiedName,
-    getChildren(params = {}) {
-      const { blacklist } = params;
+    getChildren({ isTagOnDisabledList } = {}) {
       let _children = children;
-      if (blacklist) {
-        _children = _children.filter(tag => !isOnBlacklist(tag, blacklist));
+      if (isTagOnDisabledList) {
+        _children = _children.filter(tag => !isDisabled(tag, isTagOnDisabledList));
       }
       return _children;
     },

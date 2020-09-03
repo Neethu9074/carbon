@@ -38,7 +38,7 @@ export default function AlertLocationFilters({
   const blueprintConfig = getBlueprintConfig(alertType);
   const tagSuggestions = blueprintConfig
     .getAllTagFilters(metricName)
-    .filter(tag => !blueprintConfig.blacklistedTagFilters.includes(tag));
+    .filter(tag => !blueprintConfig.disabledTagFilters.includes(tag));
 
   return (
     form && (
@@ -100,7 +100,7 @@ export default function AlertLocationFilters({
                 );
               }}
               align="bottomMiddle"
-              blackListedTagFilters={blueprintConfig.blacklistedTagFilters}
+              disabledTagFilters={blueprintConfig.disabledTagFilters}
               withoutLatencyItem={withoutLatencyItem} // only for the purpose because otherwise the filter-bar would overflow in Simple-mode
               withoutFiltersLabel
               showPageSelector

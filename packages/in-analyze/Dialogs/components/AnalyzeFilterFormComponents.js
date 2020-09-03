@@ -83,13 +83,13 @@ export function CustomKeySection({ value, messages, onChange, node, tagSecondLev
   );
 }
 
-export function OperatorSelection({ value, onChange, node, operatorBlacklist }) {
+export function OperatorSelection({ value, onChange, node, disabledOperators }) {
   if (!node) {
     return <input className={locals.fixedOperator} type="text" id="operator" value="equals" disabled />;
   }
 
   const operators = TAG_TYPES[node.type].operators.filter(
-    operator => !operatorBlacklist || !operatorBlacklist.includes(operator)
+    operator => !disabledOperators || !disabledOperators.includes(operator)
   );
   if (operators.length === 1) {
     return (
@@ -139,7 +139,10 @@ function ValueInputByType({ tagKey, value, onChange, tagSuggestionResult }) {
         id="value"
         value={value}
         onChange={e => onChange(e.value)}
-        options={[{ label: 'false', value: 'false' }, { label: 'true', value: 'true' }]}
+        options={[
+          { label: 'false', value: 'false' },
+          { label: 'true', value: 'true' }
+        ]}
       />
     );
   }

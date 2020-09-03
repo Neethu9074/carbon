@@ -64,14 +64,8 @@ export const entityTypesLUT = {
   NOT_APPLICABLE: ''
 };
 
-export const operatorBlacklists = {
-  appConfigBlacklist: [operators.IS_EMPTY],
-  syntheticEndpointConfigBlacklist: [
-    operators.NOT_EQUAL,
-    operators.NOT_CONTAIN,
-    operators.NOT_EMPTY,
-    operators.IS_EMPTY
-  ]
+export const disabledOperators = {
+  syntheticEndpointConfig: [operators.NOT_EQUAL, operators.NOT_CONTAIN, operators.NOT_EMPTY, operators.IS_EMPTY]
 };
 
 export const TAG_TYPES = {

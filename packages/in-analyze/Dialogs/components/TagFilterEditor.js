@@ -21,7 +21,7 @@ export default function TagFilterEditor({
   valueFieldMessages,
   tagSuggestionResult,
   tagSecondLevelNameSuggestionResult,
-  operatorBlacklist,
+  disabledOperators,
   onChange,
   autoFocus
 }) {
@@ -49,19 +49,18 @@ export default function TagFilterEditor({
         value={operator}
         onChange={value => onChange('operator', value)}
         node={node}
-        operatorBlacklist={operatorBlacklist}
+        disabledOperators={disabledOperators}
       />
 
-      {operator !== operators.NOT_EMPTY &&
-        operator !== operators.IS_EMPTY && (
-          <ValueInput
-            tagKey={tagKey}
-            value={value}
-            messages={valueFieldMessages}
-            tagSuggestionResult={tagSuggestionResult}
-            onChange={value => onChange('value', value)}
-          />
-        )}
+      {operator !== operators.NOT_EMPTY && operator !== operators.IS_EMPTY && (
+        <ValueInput
+          tagKey={tagKey}
+          value={value}
+          messages={valueFieldMessages}
+          tagSuggestionResult={tagSuggestionResult}
+          onChange={value => onChange('value', value)}
+        />
+      )}
     </FlexWrapper>
   );
 }
