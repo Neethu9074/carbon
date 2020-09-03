@@ -8,20 +8,21 @@ import locals from './InfiniteCircle.mless';
 export default function InfiniteCircle({ width, height, percentage, customText, className }) {
   const angle = !percentage ? 270 : 360 * percentage;
 
-  const customIcon = {
-    width: 24,
-    height: 24,
-    ratio: 1,
-    path: describeArc(12, 12, 8, 2, 0, angle)
-  };
-
   return (
     <BasicWrapper
       className={className}
       width={width}
       height={height}
       text={customText || 'Loading data'}
-      renderIcon={size => <SvgIcon className={locals.icon} customIcon={customIcon} size={size} spinning />}
+      renderIcon={size => (
+        <SvgIcon
+          className={locals.icon}
+          viewBox="0 0 24 24"
+          iconPath={describeArc(12, 12, 8, 2, 0, angle)}
+          size={size}
+          spinning
+        />
+      )}
     />
   );
 }

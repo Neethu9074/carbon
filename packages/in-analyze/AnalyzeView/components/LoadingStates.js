@@ -106,16 +106,15 @@ function QueryFailed({ errors }) {
 function LoadingCircle({ percentage }) {
   const angle = !percentage ? 270 : 360 * percentage;
 
-  const customIcon = {
-    width: 24,
-    height: 24,
-    ratio: 1,
-    path: describeArc(12, 12, 10, 1, 0, angle)
-  };
-
   return (
     <div className={locals.loadingSpinnerContainer}>
-      <SvgIcon className={locals.spinningIcon} customIcon={customIcon} size="xxxl" spinning />
+      <SvgIcon
+        className={locals.spinningIcon}
+        viewBox="0 0 24 24"
+        iconPath={describeArc(12, 12, 10, 1, 0, angle)}
+        size="xxxl"
+        spinning
+      />
       <SvgIcon size="xl" className={locals.traceIcon} type="lib_application_trace" />
     </div>
   );

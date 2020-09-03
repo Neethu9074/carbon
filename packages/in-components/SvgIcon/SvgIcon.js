@@ -51,7 +51,6 @@ export const infrastructurePluginPrefix = 'plugin:';
 export default function SvgIcon({
   className,
   type,
-  customIcon,
   color,
   onClick,
   style,
@@ -62,6 +61,7 @@ export default function SvgIcon({
   refSetter,
   id,
   iconPath,
+  viewBox = '0 0 128 128',
   size = 'regular',
   onBlur,
   onFocus,
@@ -69,13 +69,6 @@ export default function SvgIcon({
   onMouseLeave
 }) {
   role = role || (onClick ? 'button' : undefined);
-
-  if (!type && !customIcon) {
-    type = 'lib_empty';
-  }
-
-  let icon;
-  let viewBox;
 
   if (type?.startsWith(infrastructurePluginPrefix)) {
     const plugin = type.substring(infrastructurePluginPrefix.length);
@@ -87,19 +80,14 @@ export default function SvgIcon({
         ariaLabel = `${getSingular(plugin)} icon`;
       }
     }
-  } else {
+  } else if (type) {
     if (type) {
-      icon = icons[type];
+      iconPath = icons[type]?.path;
       viewBox = '0 0 24 24';
       ariaLabel = ariaLabel || type;
-    } else if (customIcon) {
-      icon = customIcon;
-      viewBox = '0 0 128 128';
-    }
-
-    if (!icon) {
+    } else if (!iconPath) {
       if (__DEV__) {
-        console.error(`SVG icon ${type} is unknown.`);
+        console.error(`SVG icon type '${type}' is unknown.`);
       }
       return null;
     }
@@ -147,7 +135,7 @@ export default function SvgIcon({
     >
       {/* Ensure that the whole width/height is clickable in Safari */}
       <rect width="100%" height="100%" fill="rgba(0, 0, 0, 0)" />
-      <path d={iconPath ? iconPath : icon.path} />
+      <path d={iconPath} />
     </svg>
   );
 }
@@ -171,8 +159,8 @@ SvgIcon.propTypes = {
   'aria-label': PropTypes.string,
   className: PropTypes.string,
   color: PropTypes.string,
-  customIcon: PropTypes.object,
   iconPath: PropTypes.string,
+  viewBox: PropTypes.string,
   id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   onBlur: PropTypes.func,
   onFocus: PropTypes.func,
