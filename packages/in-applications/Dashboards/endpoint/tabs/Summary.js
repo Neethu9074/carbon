@@ -21,7 +21,7 @@ export default connectTo(
   {
     isInternalVisible: isInternalVisible$
   },
-  function Summary({ timeConfig, applicationId, serviceId, endpointId, boundaryScope, data }) {
+  function Summary({ timeConfig, applicationId, serviceId, endpointId, boundaryScope, data, isInternalVisible }) {
     const includeSyntheticCalls = get(data, 'synthetic', false);
     const type = data.type;
 
@@ -34,6 +34,14 @@ export default connectTo(
     };
 
     const MarkerLanes = ApplicationDashboardsMarkerLanes({ applicationId, endpointId, serviceId });
+    const withPotentialProblemsLane = isInternalVisible
+      ? ApplicationDashboardsMarkerLanes({
+          applicationId,
+          endpointId,
+          serviceId,
+          showPotentialProblemsLane: true
+        })
+      : MarkerLanes;
 
     return (
       <Fragment>
@@ -162,7 +170,7 @@ export default connectTo(
                 includeSyntheticCalls={includeSyntheticCalls}
                 timeConfig={timeConfig}
                 callGroupByTag={{ name: 'call.name', entity: entityTypes.NOT_APPLICABLE }}
-                renderPostChartContent={MarkerLanes}
+                renderPostChartContent={withPotentialProblemsLane}
               />
             ) : (
               <CallsErrors
@@ -174,7 +182,7 @@ export default connectTo(
                 includeSyntheticCalls={includeSyntheticCalls}
                 timeConfig={timeConfig}
                 groupByTag={{ name: 'call.name', entity: entityTypes.NOT_APPLICABLE }}
-                renderPostChartContent={MarkerLanes}
+                renderPostChartContent={withPotentialProblemsLane}
               />
             )}
           </Col>
@@ -188,7 +196,7 @@ export default connectTo(
               includeSyntheticCalls={includeSyntheticCalls}
               timeConfig={timeConfig}
               groupByTag={{ name: 'call.name', entity: entityTypes.NOT_APPLICABLE }}
-              renderPostChartContent={MarkerLanes}
+              renderPostChartContent={withPotentialProblemsLane}
             />
           </Col>
           <Col lg={4}>
@@ -201,7 +209,7 @@ export default connectTo(
               includeSyntheticCalls={includeSyntheticCalls}
               timeConfig={timeConfig}
               percentileGroupBy={{ name: 'endpoint.name', entity: entityTypes.NOT_APPLICABLE }}
-              renderPostChartContent={MarkerLanes}
+              renderPostChartContent={withPotentialProblemsLane}
             />
           </Col>
         </Row>

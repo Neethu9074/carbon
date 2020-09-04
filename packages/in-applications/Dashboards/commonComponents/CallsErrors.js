@@ -2,6 +2,7 @@ import theme from 'in-themes';
 import React from 'react';
 
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
+import { getBlueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
 import AppdataChartWrapper from 'in-applications/components/AppdataChartWrapper';
 import { getChartGranularity } from 'in-applications/metrics';
 import Renderer from 'in-components/Chart/renderer/Renderer';
@@ -21,9 +22,35 @@ export default function CallsErrors({
 }) {
   const granularity = getChartGranularity(timeConfig);
   const labels = ['Calls', 'Erroneous Calls'];
+  const throughputBlueprintConfig = getBlueprintConfig('throughput');
+  const errorRateBlueprintConfig = getBlueprintConfig('errorRate');
+
   return (
     <AppdataChartWrapper
-      renderPostChartContent={renderPostChartContent}
+      renderPostChartContent={props =>
+        renderPostChartContent({
+          ...props,
+          alertRules: {
+            throughput: {
+              rule: {
+                alertType: throughputBlueprintConfig.type,
+                aggregation: throughputBlueprintConfig.getAggregation(),
+                metricName: throughputBlueprintConfig.getMetricName()
+              },
+              operator: throughputBlueprintConfig.thresholdDefaults.operator,
+              granularity: 60000
+            },
+            errorRate: {
+              rule: {
+                alertType: errorRateBlueprintConfig.type,
+                aggregation: errorRateBlueprintConfig.getAggregation(),
+                metricName: errorRateBlueprintConfig.getMetricName()
+              },
+              granularity: 60000
+            }
+          }
+        })
+      }
       cardTitle={cardTitle}
       timeConfig={timeConfig}
       y1={{

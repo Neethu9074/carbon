@@ -2,6 +2,7 @@ import React from 'react';
 
 import { millis, latencyFixed, meanLatencyFixed } from 'in-services/formatters/number';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
+import { getBlueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
 import AppdataChartWrapper from 'in-applications/components/AppdataChartWrapper';
 import { getChartGranularity } from 'in-applications/metrics';
 import Renderer from 'in-components/Chart/renderer/Renderer';
@@ -19,10 +20,29 @@ export default function Latency({
   renderPostChartContent
 }) {
   const granularity = getChartGranularity(timeConfig);
+  const slownessBlueprintConfig = getBlueprintConfig('slowness');
+  const aggregations = ['P50', 'P90', 'P95', 'P99', 'MAX', 'MEAN'];
+  const alertRules = {};
+
+  for (const aggregation of aggregations) {
+    alertRules[`slowness_${aggregation}`] = {
+      rule: {
+        alertType: slownessBlueprintConfig.type,
+        aggregation,
+        metricName: slownessBlueprintConfig.getMetricName()
+      },
+      granularity: 60000
+    };
+  }
 
   return (
     <AppdataChartWrapper
-      renderPostChartContent={renderPostChartContent}
+      renderPostChartContent={props =>
+        renderPostChartContent({
+          alertRules,
+          ...props
+        })
+      }
       cardTitle={cardTitle}
       timeConfig={timeConfig}
       reverseTooltipOrder

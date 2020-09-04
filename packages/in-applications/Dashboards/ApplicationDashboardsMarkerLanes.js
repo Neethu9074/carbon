@@ -1,12 +1,19 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import PotentialProblemsLane from 'in-components/Chart/markerLanes/PotentialProblemsLane/PotentialProblemsLane';
 import MarkerLanesPresenter from 'in-components/Chart/markerLanes/MarkerLanesPresenter';
 import getApplicationAlertClusters from '../subscriptions/getApplicationAlertClusters';
 import ReleasesLane from 'in-components/Chart/markerLanes/ReleasesLane/ReleasesLane';
 import AlertsLane from 'in-components/Chart/markerLanes/AlertsLane/AlertsLane';
 
-export default function ApplicationDashboardsMarkerLanes({ applicationId, serviceId, endpointId }) {
+export default function ApplicationDashboardsMarkerLanes({
+  applicationId,
+  serviceId,
+  endpointId,
+  showPotentialProblemsLane = false,
+  ...remainingProps
+}) {
   return function MarkerLanesApplications(lanesProps) {
     return (
       <MarkerLanesPresenter {...lanesProps}>
@@ -19,6 +26,14 @@ export default function ApplicationDashboardsMarkerLanes({ applicationId, servic
             serviceId
           }}
         />
+        {showPotentialProblemsLane ? (
+          <PotentialProblemsLane
+            {...remainingProps}
+            applicationId={applicationId}
+            serviceId={serviceId}
+            endpointId={endpointId}
+          />
+        ) : null}
       </MarkerLanesPresenter>
     );
   };
@@ -27,5 +42,6 @@ export default function ApplicationDashboardsMarkerLanes({ applicationId, servic
 ApplicationDashboardsMarkerLanes.propTypes = {
   applicationId: PropTypes.string.isRequired,
   endpointId: PropTypes.string,
-  serviceId: PropTypes.string
+  serviceId: PropTypes.string,
+  showPotentialProblemsLane: PropTypes.element
 };

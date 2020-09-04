@@ -1,0 +1,18 @@
+@import '~in-themes/active.less';
+@import '~in-themes/mixins.less';
+
+:local {
+  .highlightClusterOverlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+
+    background-color: rgba(130, 87, 217, 0.1); // @lib__colors__deep-purple800;
+    border: 1px solid rgba(130, 87, 217, 0.5); // @lib__colors__deep-purple800;;
+    border-top: none;
+    border-bottom: none;
+
+    z-index: 1;
+    pointer-events: none;
+  }
+}

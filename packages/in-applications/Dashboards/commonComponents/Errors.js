@@ -2,6 +2,7 @@ import theme from 'in-themes';
 import React from 'react';
 
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
+import { getBlueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
 import AppdataChartWrapper from 'in-applications/components/AppdataChartWrapper';
 import { getChartGranularity } from 'in-applications/metrics';
 import Renderer from 'in-components/Chart/renderer/Renderer';
@@ -20,10 +21,25 @@ export default function Errors({
   renderPostChartContent
 }) {
   const granularity = getChartGranularity(timeConfig);
+  const errorRateBlueprintConfig = getBlueprintConfig('errorRate');
 
   return (
     <AppdataChartWrapper
-      renderPostChartContent={renderPostChartContent}
+      renderPostChartContent={props =>
+        renderPostChartContent({
+          ...props,
+          alertRules: {
+            errorRate: {
+              rule: {
+                alertType: errorRateBlueprintConfig.type,
+                aggregation: errorRateBlueprintConfig.getAggregation(),
+                metricName: errorRateBlueprintConfig.getMetricName()
+              },
+              granularity: 60000
+            }
+          }
+        })
+      }
       cardTitle={cardTitle}
       timeConfig={timeConfig}
       y1={{

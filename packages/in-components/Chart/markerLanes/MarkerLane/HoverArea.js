@@ -59,7 +59,7 @@ export default function HoverArea({
 
   function getLineTopAndBottomOffset() {
     if (chartContentPosition === 'pre') return { bottom: chartHeight, top: 8 };
-    if (chartContentPosition === 'post') return { top: chartHeight, bottom: 8 };
+    if (chartContentPosition === 'post') return { top: chartHeight, bottom: 0 };
   }
 }
 

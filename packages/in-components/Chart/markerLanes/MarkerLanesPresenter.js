@@ -80,22 +80,24 @@ export default function MarkerLanesPresenter({
           markerLaneLabelVisibleSignal$.emit(true);
         }}
       >
-        {Children.map(children, child => {
-          return cloneElement(child, {
-            ...remainingProps,
-            labelAlignment,
-            clusterSizeMillis: isClustered
-              ? getClusterSizeMillis({
-                  width: chartWidth ?? markerLanesWrapperRef.current?.getBoundingClientRect()?.width,
-                  windowSize: remainingProps.timeConfig.windowSize,
-                  granularity
-                })
-              : granularity,
-            isClustered,
-            chartBucketWidth,
-            chartWidth
-          });
-        })}
+        {Children.toArray(children)
+          .filter(Boolean)
+          .map(child => {
+            return cloneElement(child, {
+              ...remainingProps,
+              labelAlignment,
+              clusterSizeMillis: isClustered
+                ? getClusterSizeMillis({
+                    width: chartWidth || markerLanesWrapperRef.current?.getBoundingClientRect()?.width,
+                    windowSize: remainingProps.timeConfig.windowSize,
+                    granularity
+                  })
+                : granularity,
+              isClustered,
+              chartBucketWidth,
+              chartWidth
+            });
+          })}
       </div>
     );
   }

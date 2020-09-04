@@ -14,7 +14,8 @@ export default function CallsAndHttp({
   cardTitle,
   callGroupByTag,
   includeSyntheticCalls,
-  renderPostChartContent
+  renderPostChartContent,
+  renderPostChartContentHttpStatus
 }) {
   const tabs = ['Call count', 'HTTP status codes'];
   const [activeTab, setActiveTab] = useState(tabs[0]);
@@ -55,7 +56,7 @@ export default function CallsAndHttp({
           boundaryScope={boundaryScope}
           timeConfig={timeConfig}
           groupByTag={{ name: 'call.http.status' }}
-          renderPostChartContent={renderPostChartContent}
+          renderPostChartContentHttpStatus={renderPostChartContentHttpStatus}
           showGraph
         />
       )}

@@ -33,6 +33,14 @@ export default connectTo(
       applicationBoundaryScope: boundaryScope
     };
     const MarkerLanes = ApplicationDashboardsMarkerLanes({ applicationId, endpointId, serviceId });
+    const withPotentialProblemsLane = props.isInternalVisible
+      ? ApplicationDashboardsMarkerLanes({
+          applicationId,
+          endpointId,
+          serviceId,
+          showPotentialProblemsLane: true
+        })
+      : MarkerLanes;
 
     return (
       <>
@@ -161,7 +169,8 @@ export default connectTo(
                 boundaryScope={boundaryScope}
                 timeConfig={timeConfig}
                 callGroupByTag={{ name: 'endpoint.name', entity: entityTypes.DESTINATION }}
-                renderPostChartContent={MarkerLanes}
+                renderPostChartContent={withPotentialProblemsLane}
+                renderPostChartContentHttpStatus={MarkerLanes}
               />
             ) : (
               <CallsErrors
@@ -172,7 +181,7 @@ export default connectTo(
                 boundaryScope={boundaryScope}
                 timeConfig={timeConfig}
                 groupByTag={{ name: 'endpoint.name', entity: entityTypes.DESTINATION }}
-                renderPostChartContent={MarkerLanes}
+                renderPostChartContent={withPotentialProblemsLane}
               />
             )}
           </Col>
@@ -185,7 +194,7 @@ export default connectTo(
               boundaryScope={boundaryScope}
               timeConfig={timeConfig}
               groupByTag={{ name: 'endpoint.name', entity: entityTypes.DESTINATION }}
-              renderPostChartContent={MarkerLanes}
+              renderPostChartContent={withPotentialProblemsLane}
             />
           </Col>
           <Col lg={4}>
@@ -197,7 +206,7 @@ export default connectTo(
               boundaryScope={boundaryScope}
               timeConfig={timeConfig}
               percentileGroupBy={{ name: 'endpoint.name', entity: entityTypes.DESTINATION }}
-              renderPostChartContent={MarkerLanes}
+              renderPostChartContent={withPotentialProblemsLane}
             />
           </Col>
         </Row>

@@ -2,6 +2,7 @@ import { text } from '@storybook/addon-knobs/react';
 import { action } from '@storybook/addon-actions';
 import React from 'react';
 
+import PotentialProblemsLanePresenter from 'in-components/Chart/markerLanes/PotentialProblemsLane/PotentialProblemsLanePresenter';
 import AlertsPreviewLanePresenter from 'in-components/Chart/markerLanes/AlertsPreviewLane/AlertsPreviewLanePresenter';
 import ReleasesLanePresenter from 'in-components/Chart/markerLanes/ReleasesLane/ReleasesLanePresenter';
 import AlertsLanePresenter from 'in-components/Chart/markerLanes/AlertsLane/AlertsLanePresenter';
@@ -22,7 +23,7 @@ export default {
   decorator: { text, action }
 };
 
-const now = Date.now();
+const now = 1598609654147;
 
 const oneMinute = 1000 * 60;
 const timeConfig = generateTimeframe(oneMinute);
@@ -34,9 +35,9 @@ export const MarkerLanesBelowChart = () => {
       <BarChart
         renderPostChartContent={props => (
           <MarkerLanesPresenter {...props}>
-            <AlertsPreviewLanePresenter alerts={getAlerts(timeConfig)} />
             <ReleasesLanePresenter releases={getReleases(timeConfig)} />
             <AlertsLanePresenter alerts={getAlertsAndIncidents(timeConfig)} />
+            <PotentialProblemsLanePresenter potentialProblems={getPotentialPoblems(timeConfig)} />
           </MarkerLanesPresenter>
         )}
       />
@@ -240,4 +241,51 @@ function getAlertsAndIncidents(timeConfig) {
   };
 
   return events;
+}
+
+function getPotentialPoblems(timeConfig) {
+  const alertResults = [];
+  const numEvents = 8;
+  const alertConfig = {};
+
+  for (let i = 0; i < numEvents; i++) {
+    alertConfig[`key${i}`] = {
+      rule: {
+        alertType: 'slowness',
+        metricName: `onLoadTime_${i}`,
+        aggregation: 'p90'
+      },
+      threshold: {
+        type: 'staticThreshold',
+        operator: '<=',
+        value: 5,
+        seasonality: 'WEEKLY'
+      }
+    };
+
+    alertResults.push({
+      timestamp: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (i / 10),
+      start: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (i / 7),
+      end: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (i / 5),
+      duration:
+        timeConfig.to -
+        timeConfig.windowSize +
+        timeConfig.windowSize * (i / 7) -
+        timeConfig.to -
+        timeConfig.windowSize +
+        timeConfig.windowSize * (i / 5),
+      alerts: [
+        {
+          key: `key${i}`,
+          start: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (i / 4),
+          end: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (i / 2)
+        }
+      ]
+    });
+  }
+
+  return {
+    alertConfig,
+    alertResults
+  };
 }

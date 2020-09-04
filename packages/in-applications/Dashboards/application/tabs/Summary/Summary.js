@@ -26,7 +26,8 @@ export default connectTo(
     endpointId,
     serviceId,
     data: application,
-    boundaryScope: urlBoundaryScope
+    boundaryScope: urlBoundaryScope,
+    isInternalVisible
   }) {
     const boundaryScope = urlBoundaryScope || application.boundaryScope;
 
@@ -39,6 +40,14 @@ export default connectTo(
     };
 
     const MarkerLanes = ApplicationDashboardsMarkerLanes({ applicationId, endpointId, serviceId });
+    const withPotentialProblemsLane = isInternalVisible
+      ? ApplicationDashboardsMarkerLanes({
+          applicationId,
+          endpointId,
+          serviceId,
+          showPotentialProblemsLane: true
+        })
+      : MarkerLanes;
 
     return (
       <Fragment>
@@ -165,7 +174,7 @@ export default connectTo(
               timeConfig={timeConfig}
               boundaryScope={boundaryScope}
               groupByTag={{ name: 'service.name', entity: entityTypes.DESTINATION }}
-              renderPostChartContent={MarkerLanes}
+              renderPostChartContent={withPotentialProblemsLane}
             />
           </Col>
           <Col lg={4}>
@@ -177,7 +186,7 @@ export default connectTo(
               timeConfig={timeConfig}
               boundaryScope={boundaryScope}
               groupByTag={{ name: 'service.name', entity: entityTypes.DESTINATION }}
-              renderPostChartContent={MarkerLanes}
+              renderPostChartContent={withPotentialProblemsLane}
             />
           </Col>
           <Col lg={4}>
@@ -189,7 +198,7 @@ export default connectTo(
               timeConfig={timeConfig}
               boundaryScope={boundaryScope}
               percentileGroupBy={{ name: 'service.name', entity: entityTypes.DESTINATION }}
-              renderPostChartContent={MarkerLanes}
+              renderPostChartContent={withPotentialProblemsLane}
             />
           </Col>
         </Row>

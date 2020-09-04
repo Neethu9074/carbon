@@ -101,7 +101,7 @@ function MarkersLanePresenter({
             };
             return (
               <>
-                {renderHoverOverlay(config)}
+                {renderHoverOverlay?.(config)}
                 {renderSecondaryHoverOverlay?.(config)}
               </>
             );
@@ -130,6 +130,7 @@ function MarkersLanePresenter({
                 chartContentPosition,
                 isClustered,
                 eventData,
+                xScale,
                 ...remainingProps
               })}
             </Tooltip>
@@ -173,7 +174,7 @@ MarkersLane.propTypes = {
   ).isRequired,
   chartContentPosition: PropTypes.oneOf(['pre', 'post']).isRequired,
   renderLaneItem: PropTypes.func.isRequired,
-  renderHoverOverlay: PropTypes.func.isRequired,
+  renderHoverOverlay: PropTypes.func,
   chartBucketWidth: PropTypes.number,
   renderSecondaryHoverOverlay: PropTypes.func
 };
