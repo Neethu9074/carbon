@@ -36,6 +36,17 @@ export default function getPowerFunctions(incomingConnectionsMap) {
     minMax.errorRate.min = Math.min(minMax.errorRate.min, serviceMaxErrorRate);
   }
 
+  // If no calls/errors/latency is registered, the minimum value may stay at MAX, therefore resetting to 0.
+  if (minMax.calls.min === Number.MAX_VALUE) {
+    minMax.calls.min = 0;
+  }
+  if (minMax.latency.min === Number.MAX_VALUE) {
+    minMax.latency.min = 0;
+  }
+  if (minMax.errorRate.min === Number.MAX_VALUE) {
+    minMax.errorRate.min = 0;
+  }
+
   serviceIds = nodes.keys();
   for (const serviceId of serviceIds) {
     const node = nodes.get(serviceId);
