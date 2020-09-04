@@ -18,7 +18,7 @@ export default function ProfileNode({
   setSelectedProfileNode,
   selectedProfileNode,
   canFetchSourceCode,
-  processSnapshot,
+  entitySnapshot,
   profileNode,
   depth = 0,
   threshold,
@@ -70,7 +70,7 @@ export default function ProfileNode({
         <At />
         <FileNameAndLine
           canFetchSourceCode={canFetchSourceCode}
-          processSnapshot={processSnapshot}
+          entitySnapshot={entitySnapshot}
           profileNode={profileNode}
         />
       </Row>
@@ -83,7 +83,7 @@ export default function ProfileNode({
             depth={depth}
             highlightedProfileConfig={highlightedProfileConfig}
             profiles={filteredChildren}
-            processSnapshot={processSnapshot}
+            entitySnapshot={entitySnapshot}
             canFetchSourceCode={canFetchSourceCode}
             selectedProfileNode={selectedProfileNode}
             setSelectedProfileNode={setSelectedProfileNode}
@@ -103,8 +103,9 @@ function ChildProfiles({
   depth,
   profileEntityTechnology,
   profiles,
-  processSnapshot,
+  entitySnapshot,
   threshold,
+  runtime,
   canFetchSourceCode
 }) {
   const lastProfile = profiles[profiles.length - 1];
@@ -116,7 +117,8 @@ function ChildProfiles({
     setSelectedProfileNode,
     onKeyDown,
     profileEntityTechnology,
-    processSnapshot,
+    entitySnapshot,
+    runtime,
     canFetchSourceCode,
     depth: depth + 1
   };

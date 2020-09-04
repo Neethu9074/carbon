@@ -25,7 +25,6 @@ import SearchInput from 'in-new-components/SearchInput';
 import SetBodyColor from 'in-components/SetBodyColor';
 import SvgIcon from 'in-components/SvgIcon/SvgIcon';
 import Message from 'in-new-components/Message';
-import { plugins } from 'in-forge/constants';
 import Tooltip from 'in-components/Tooltip';
 
 import locals from './Profile.mless';
@@ -38,14 +37,13 @@ export default function Profile({
   timeConfig,
   setViewType,
   renderChart,
+  phpSnapshot,
   jvmSnapshot,
   isCpuProfile,
   setThreshold,
-  processSnapshot,
   isMemoryProfile,
   isWaitTimeProfile,
   canFetchSourceCode,
-  deepestTechSnapshot,
   highlightedTimeframe,
   profileForHighlightedTimeframeResult
 }) {
@@ -64,13 +62,12 @@ export default function Profile({
     );
   }
 
+  const { runtime } = profile;
   const [showGraph, setShowGraph] = useState(true);
   const [query, setQuery] = useState('');
   const [selectedNode, setSelectedNode] = useState(null);
   const [selfTimeHighlighted, setSelfTimeHighlighted] = useState(true);
   const [highlightedProfileConfig, setHighlightedProfileConfig] = useState(null);
-
-  const profileEntityTechnology = deepestTechSnapshot ? deepestTechSnapshot.get('plugin') : plugins.process;
 
   // the tree view auto expands if the highlighted id was set. This should only happen once and only on id change
   useEffect(() => {
@@ -86,13 +83,13 @@ export default function Profile({
 
   useEffect(() => setQuery(''), [viewType]);
   useEffect(() => {
-    if (isCpuProfile && viewType === 'tree') cpuTreeViewOpened(profileEntityTechnology);
-    if (isCpuProfile && viewType === 'flameGraph') cpuFlameGraphOpened(profileEntityTechnology);
-    if (isWaitTimeProfile && viewType === 'tree') waitTimeTreeViewOpened(profileEntityTechnology);
-    if (isWaitTimeProfile && viewType === 'flameGraph') waitTimeFlameGraphOpened(profileEntityTechnology);
-    if (isMemoryProfile && viewType === 'tree') memoryTreeViewOpened(profileEntityTechnology);
-    if (isMemoryProfile && viewType === 'flameGraph') memoryFlameGraphOpened(profileEntityTechnology);
-  }, [viewType, deepestTechSnapshot]);
+    if (isCpuProfile && viewType === 'tree') cpuTreeViewOpened(runtime);
+    if (isCpuProfile && viewType === 'flameGraph') cpuFlameGraphOpened(runtime);
+    if (isWaitTimeProfile && viewType === 'tree') waitTimeTreeViewOpened(runtime);
+    if (isWaitTimeProfile && viewType === 'flameGraph') waitTimeFlameGraphOpened(runtime);
+    if (isMemoryProfile && viewType === 'tree') memoryTreeViewOpened(runtime);
+    if (isMemoryProfile && viewType === 'flameGraph') memoryFlameGraphOpened(runtime);
+  }, [viewType]);
 
   const isLoadingProfileForHighlightedTimeframe = isLoading(profileForHighlightedTimeframeResult);
   const profileForHighlightedTimeframeOrDefault = profileForHighlightedTimeframeResult?.data ?? profile;
@@ -108,10 +105,9 @@ export default function Profile({
       viewType === viewTypes.tree ? (
         <ProfileTree
           profile={profileForHighlightedTimeframeOrDefault}
-          processSnapshot={processSnapshot}
           canFetchSourceCode={canFetchSourceCode}
           highlightedProfileConfig={highlightedProfileConfig}
-          profileEntityTechnology={profileEntityTechnology}
+          entitySnapshot={phpSnapshot || jvmSnapshot}
           threshold={threshold}
         />
       ) : (

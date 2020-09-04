@@ -9,12 +9,12 @@ import nodeLocals from './ProfileNode.mless';
 import locals from './ProfileTree.mless';
 
 export default function ProfileTree({
-  profile,
   highlightedProfileConfig,
   profileEntityTechnology,
   canFetchSourceCode,
-  processSnapshot,
-  threshold
+  entitySnapshot,
+  threshold,
+  profile
 }) {
   if (!profile) {
     return null;
@@ -33,7 +33,7 @@ export default function ProfileTree({
               threshold={threshold}
               profileNode={profileNode}
               highlightedProfileConfig={highlightedProfileConfig}
-              processSnapshot={processSnapshot}
+              entitySnapshot={entitySnapshot}
               canFetchSourceCode={canFetchSourceCode}
               selectedProfileNode={selectedProfileNode}
               setSelectedProfileNode={setSelectedProfileNode}

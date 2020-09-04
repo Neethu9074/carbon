@@ -3,11 +3,11 @@ import React from 'react';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { evaluateClassNames } from 'in-services/util/classnames';
-import { getCodeView } from 'in-forge/codeView/java';
+import { getCodeView } from 'in-sdk/snapshot/snapshot';
 
 import locals from './FileNameAndLine.mless';
 
-export default function FileNameAndLine({ canFetchSourceCode, processSnapshot, profileNode }) {
+export default function FileNameAndLine({ canFetchSourceCode, entitySnapshot, profileNode }) {
   return (
     <span
       className={evaluateClassNames({
@@ -18,7 +18,7 @@ export default function FileNameAndLine({ canFetchSourceCode, processSnapshot, p
         canFetchSourceCode
           ? e => {
               stopPropagationAndPreventDefault(e);
-              addActiveDialog(getCodeView(processSnapshot, profileNode.fileName, profileNode.fileLine));
+              addActiveDialog(getCodeView(entitySnapshot, profileNode.fileName, profileNode.fileLine));
             }
           : undefined
       }

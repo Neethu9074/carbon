@@ -3,11 +3,16 @@ import React from 'react';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import { getLinkToProfiles } from 'in-new-components/Profiling/navigation/paths';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
+import { getSnapshot, getSnapshotVersions } from 'in-stores/snapshot';
 import EntityLink from 'in-new-components/EntityLink/EntityLink';
 import { Tr, Td } from 'in-components/tables/sharedComponents';
+import useObservable from 'in-hooks/useObservable';
 
 export default function Row({ item }) {
   const { processSnapshotId, time, entityLabel, entityPlugin, hostSnapshotPreview } = item;
+  if (entityLabel === null) {
+    return <RowLabelResolver item={item} />;
+  }
 
   return (
     <Tr size="compact">
@@ -34,4 +39,42 @@ function HostInformation({ hostSnapshotPreview }) {
       href$={getDashboardLink(hostSnapshotPreview.id, { pathname: '/physical/dashboard' })}
     />
   );
+}
+
+function RowLabelResolver({ item }) {
+  const { processSnapshotId, time } = item;
+  const snapshot = useObservable(
+    getSnapshotVersions(processSnapshotId)
+      .filter(Boolean)
+      .flatMap(versionList =>
+        getSnapshot(processSnapshotId, getTimeConfigForSnapshot(getTimeForSnapshot(versionList.get(0)) || time))
+      ),
+    [processSnapshotId, time]
+  );
+
+  return (
+    <Row
+      item={{
+        ...item,
+        entityLabel: snapshot ? snapshot.get('label') : 'Unknown',
+        entityPlugin: snapshot ? snapshot.get('plugin') : undefined
+      }}
+    />
+  );
+}
+
+function getTimeForSnapshot(version) {
+  if (!version) {
+    return null;
+  }
+  return version.get('to') - (version.get('to') - version.get('from')) / 2;
+}
+
+function getTimeConfigForSnapshot(to) {
+  return {
+    to,
+    focusedMoment: to,
+    windowSize: 1,
+    autoRefresh: false
+  };
 }

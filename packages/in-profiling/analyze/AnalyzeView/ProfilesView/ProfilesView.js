@@ -15,7 +15,6 @@ import { getPhysicalHierarchy } from 'in-stores/snapshot';
 import { pendingResult } from 'in-services/fixedObjects';
 import { isEntityOnline } from 'in-stores/snapshot';
 import useObservable from 'in-hooks/useObservable';
-import { loading } from 'in-services/util/result';
 import { mutateUrl } from 'in-stores/navigation';
 import useUrlState from 'in-hooks/useUrlState';
 import { plugins } from 'in-forge/constants';
@@ -77,13 +76,7 @@ function ProfilesView(props) {
   const hierachy$ = getPhysicalHierarchy({ snapshotId: processId, timeConfigForSnapshots }).filter(
     hierarchy => hierarchy && hierarchy.size > 0
   );
-  const jvmSnapshot$ = hierachy$
-    .flatMap(hierachy => getSnapshots(hierachy.toJS(), timeConfigForSnapshots))
-    .map(
-      hierarchySnapshots =>
-        hierarchySnapshots.filter(snapshot => snapshot.get('plugin') === plugins.jvmRuntimePlatform)[0]
-    );
-
+  const hierachySnapshots$ = hierachy$.flatMap(hierachy => getSnapshots(hierachy.toJS(), timeConfigForSnapshots));
   const deepestTechSnapshot = useObservable(
     hierachy$.flatMap(hierachy => getSnapshot(hierachy.get(0), timeConfigForSnapshots)),
     [timeConfigForSnapshots.to, timeConfigForSnapshots.windowSize]
@@ -98,10 +91,25 @@ function ProfilesView(props) {
     timeConfig.to,
     timeConfig.windowSize
   ]);
-  const jvmSnapshot = useObservable(jvmSnapshot$, []);
+  const jvmSnapshot = useObservable(
+    hierachySnapshots$.map(hierarchySnapshots => getSnapshotWithPlugin(hierarchySnapshots, plugins.jvmRuntimePlatform)),
+    []
+  );
+  const phpSnapshot = useObservable(
+    hierachySnapshots$.map(hierarchySnapshots =>
+      getSnapshotWithPlugins(hierarchySnapshots, [plugins.phpFpmRuntimePlatform, plugins.phpRuntimePlatform])
+    ),
+    []
+  );
+
   // we only allow source code when using a jvm based tech
   const canFetchSourceCode = useObservable(
-    jvmSnapshot$.flatMap(jvmSnapshot => (jvmSnapshot ? isEntityOnline(processId) : just(false))),
+    hierachySnapshots$.flatMap(hierachySnapshots =>
+      getSnapshotWithPlugin(hierachySnapshots, plugins.phpFpmRuntimePlatform) ||
+      getSnapshotWithPlugin(hierachySnapshots, plugins.jvmRuntimePlatform)
+        ? isEntityOnline(processId)
+        : just(false)
+    ),
     [processId]
   );
 
@@ -115,20 +123,12 @@ function ProfilesView(props) {
       HeaderComponent={Header}
       tabs={tabs}
       location={location}
-      result$={getProfileResult(processId, timeConfig)
-        .map(result => {
-          //  because of tracking, we want to wait until both, the profiling data and the snapshot is present
-          if (result.data && !deepestTechSnapshot) {
-            return loading;
-          }
-          return result;
-        })
-        .startWith(pendingResult)}
+      result$={getProfileResult(processId, timeConfig).startWith(pendingResult)}
       withProps={({ result }) => ({
         viewType,
         setViewType,
         profiles: result.data,
-        processSnapshot,
+        phpSnapshot,
         deepestTechSnapshot: deepestTechSnapshot || processSnapshot || historicalProcessSnapshot,
         jvmSnapshot,
         canFetchSourceCode,
@@ -189,4 +189,12 @@ function getProfileResult(processId, timeConfig) {
     processSnapshotId: processId,
     filter: { timeConfig }
   }).distinct();
+}
+
+function getSnapshotWithPlugin(snapshots, plugin) {
+  return snapshots.filter(snapshot => snapshot.get('plugin') === plugin)[0];
+}
+
+function getSnapshotWithPlugins(snapshots, _plugins) {
+  return snapshots.filter(snapshot => _plugins.indexOf(snapshot.get('plugin') !== -1))[0];
 }
