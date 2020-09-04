@@ -11,6 +11,8 @@ import {
   TimeWindowStart,
   removeFormForStartTimeStamp,
   addFormForStartTimeStamp,
+  removeFormForTimeDuration,
+  addFormForTimeDuration,
   Dynamic,
   Fixed,
   Rolling
@@ -48,8 +50,14 @@ export default function FormComponent({ form, onChange, widgetTitleFormGroup, se
       let updatedForm;
       if (value === Fixed) {
         updatedForm = addFormForStartTimeStamp(form);
+        updatedForm = addFormForTimeDuration(updatedForm, {}, false);
       } else {
         updatedForm = removeFormForStartTimeStamp(form);
+        if (value === Dynamic) {
+          updatedForm = removeFormForTimeDuration(updatedForm);
+        } else {
+          updatedForm = addFormForTimeDuration(updatedForm, {}, false);
+        }
       }
       return updatedForm.updateIn([TimeWindowType], f => f.setValue(value).setTouched(true));
     });
@@ -196,17 +204,15 @@ export default function FormComponent({ form, onChange, widgetTitleFormGroup, se
               </Col>
               <Col md={2}>
                 <FormGroup withoutBottomMargin>
-                  {form.get(TimeWindowDuration).map(field => (
+                  {form.get(TimeWindowDuration).map(() => (
                     <FormInputField
+                      form={form}
+                      onChange={onChange}
+                      fieldName={TimeWindowDuration}
                       type="number"
                       step="1"
                       min="1"
                       max={getMaxTimeWindowDurationValue(timeWindowDurationUnitValue)}
-                      value={field?.value}
-                      hasError={field && !field?.valid && field?.touched}
-                      onChange={({ target }) =>
-                        onChange([TimeWindowDuration], f => f.setValue(target.value).setTouched(true))
-                      }
                     />
                   ))}
                 </FormGroup>
