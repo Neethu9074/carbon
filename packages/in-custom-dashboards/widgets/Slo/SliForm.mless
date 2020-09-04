@@ -10,4 +10,13 @@
   .boundaryLabel {
     margin-top: 2.5rem;
   }
+  .helpIcon {
+    fill: @lib__colors__N700Medium;
+    margin-right: 0.25rem;
+    vertical-align: text-top;
+  }
+  .linkDocs {
+    font-size: 0.75rem;
+    margin-top: 0.5rem;
+  }
 }

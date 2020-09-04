@@ -1,6 +1,7 @@
 import React from 'react';
 
 import InboundOrAllCallsOption from 'in-applications/alerting/advanced/InboundOutboundCallsSwitch/InboundOrAllCallsOption';
+import { OverridingTextTouchedMessage } from 'in-custom-dashboards/widgets/Slo/components/OverridingTextTouchedMessage';
 import { AvailabilityType, sliTypeOptions, ApplicationType } from 'in-custom-dashboards/widgets/Slo/form/sliForm';
 import { boundaryScopes } from 'in-applications/alerting/advanced/InboundOutboundCallsSwitch/config';
 import ServicesSelectBox from 'in-custom-dashboards/widgets/Slo/components/ServicesSelectBox';
@@ -10,13 +11,14 @@ import FormInputField from 'in-custom-dashboards/widgets/Slo/components/FormInpu
 import { MetricsForm } from 'in-custom-dashboards/widgets/Slo/components/MetricsForm';
 import FormDropDown from 'in-custom-dashboards/widgets/Slo/components/FormDropDown';
 import StackItem from 'in-new-components/layout/Stack/StackItem';
-import TouchedMessages from 'in-components/form/TouchedMessages';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import KeyValue from 'in-new-components/lists/KeyValue';
 import FormGroup from 'in-components/form/FormGroup';
 import Stack from 'in-new-components/layout/Stack';
 import Header from 'in-components/form/Header';
 import Input from 'in-components/form/Input';
+import SvgIcon from 'in-components/SvgIcon';
+import Link from 'in-components/Link';
 
 import locals from './SliForm.mless';
 
@@ -51,7 +53,7 @@ export function SliForm({ form, onChange, onChangeType, apName, api }) {
             </FormGroup>
           </Col>
           <Col mdOffset={2} md={10}>
-            <TouchedMessages field={form.get('sliName')} />
+            <OverridingTextTouchedMessage field={form.get('sliName')} message="The SLI name cannot be empty." />
           </Col>
         </Row>
         <Row>
@@ -70,8 +72,19 @@ export function SliForm({ form, onChange, onChangeType, apName, api }) {
               />
             </FormGroup>
           </Col>
+          <Col md={6} className={locals.linkDocs}>
+            <SvgIcon type="lib_help_error_help_outline" size="xs" className={locals.helpIcon} />
+            Information about SLI customization and SLI types are located{' '}
+            <Link href="https://www.instana.com/docs/service_level_objectives/#sli-configuration/" external>
+              within our docs
+            </Link>
+            .
+          </Col>
           <Col mdOffset={2} md={10}>
-            <TouchedMessages field={sliEntityForm.get('sliType')} />
+            <OverridingTextTouchedMessage
+              field={sliEntityForm.get('sliType')}
+              message="The SLI type must be either a time-based or an event-based SLI."
+            />
           </Col>
         </Row>
       </StackItem>

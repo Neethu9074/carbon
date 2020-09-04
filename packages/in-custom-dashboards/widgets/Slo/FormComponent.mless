@@ -36,4 +36,7 @@
   .dateTimeIcons {
     margin-left: 0.5rem;
   }
+  .withoutMarginTop {
+    margin-top: 0;
+  }
 }

@@ -17,12 +17,13 @@ import {
   Fixed,
   Rolling
 } from 'in-custom-dashboards/widgets/Slo/form';
+import { OverridingTextTouchedMessage } from 'in-custom-dashboards/widgets/Slo/components/OverridingTextTouchedMessage';
 import { PercentageFormInput } from 'in-custom-dashboards/widgets/Slo/components/PercentageFormInput';
 import formatInputTime from 'in-new-components/time/TimeSelectionDialogPresenter/timeInputFormatter';
 import SliFormComponent from 'in-custom-dashboards/widgets/Slo/components/SliSelectionForm';
 import APConfigSelector from 'in-custom-dashboards/widgets/Slo/components/APConfigForm';
-import FormDropDown from 'in-custom-dashboards/widgets/Slo/components/FormDropDown';
 import FormInputField from 'in-custom-dashboards/widgets/Slo/components/FormInputField';
+import FormDropDown from 'in-custom-dashboards/widgets/Slo/components/FormDropDown';
 import SliManageList from 'in-custom-dashboards/widgets/Slo/SliManageList';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import StackItem from 'in-new-components/layout/Stack/StackItem';
@@ -154,7 +155,10 @@ export default function FormComponent({ form, onChange, widgetTitleFormGroup, se
             </FormGroup>
           </Col>
           <Col mdOffset={2} md={10}>
-            <TouchedMessages field={form.get(SloTarget)} />
+            <OverridingTextTouchedMessage
+              field={form.get(SloTarget)}
+              message="Please enter a time in the format HH:mm:ss."
+            />
           </Col>
         </Row>
       </StackItem>
@@ -178,7 +182,7 @@ export default function FormComponent({ form, onChange, widgetTitleFormGroup, se
               />
             </FormGroup>
           </Col>
-          <Col xsOffset={2} xs={10} style={{ marginTop: 0 }}>
+          <Col mdOffset={2} md={10} className={locals.withoutMarginTop}>
             <HelpText className={locals.windowHelpText}>
               <strong>Fixed time interval:</strong> A time window with a defined start and duration. Eg. monthly
               starting 2020-01-01. The last partial time interval for the time selection from the global time picker
@@ -231,6 +235,10 @@ export default function FormComponent({ form, onChange, widgetTitleFormGroup, se
                 </FormGroup>
               </Col>
               <Col mdOffset={2} md={12}>
+                <OverridingTextTouchedMessage
+                  field={form.get(TimeWindowDuration)}
+                  message={`Please specify the number of ${timeWindowDurationUnitValue}.`}
+                />
                 <TouchedMessages field={form} />
               </Col>
             </Row>
@@ -254,7 +262,7 @@ export default function FormComponent({ form, onChange, widgetTitleFormGroup, se
                 />
               </FormGroup>
             </Col>
-            <Col md={2}>
+            <Col md={8}>
               <FormGroup withoutBottomMargin className={locals.inRow}>
                 {timeField && (
                   <Input
@@ -275,9 +283,11 @@ export default function FormComponent({ form, onChange, widgetTitleFormGroup, se
                 )}
               </FormGroup>
             </Col>
-            <Col mdOffset={2} md={12}>
-              {dateField && <TouchedMessages field={dateField} />}
-              {timeField && <TouchedMessages field={timeField} />}
+            <Col mdOffset={2} md={2}>
+              <OverridingTextTouchedMessage field={dateField} message="Please enter a date in the format YYYY-MM-DD." />
+            </Col>
+            <Col md={2}>
+              <OverridingTextTouchedMessage field={dateField} message="Please enter a time in the format HH:mm:ss." />
             </Col>
           </Row>
         )}

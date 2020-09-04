@@ -1,8 +1,8 @@
 import React from 'react';
 
+import { OverridingTextTouchedMessage } from 'in-custom-dashboards/widgets/Slo/components/OverridingTextTouchedMessage';
 import { ApConfigId, ApBoundaryScope, ApName } from 'in-custom-dashboards/widgets/Slo/form';
 import { getApplicationConfigsAsResultObservable } from 'in-api/applicationConfigs';
-import TouchedMessages from 'in-components/form/TouchedMessages';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import KeyValue from 'in-new-components/lists/KeyValue';
@@ -53,7 +53,7 @@ export default function APConfigForm({ api, form, onChange }) {
                     </option>
                   ))}
               </Select>
-              <TouchedMessages field={field} />
+              <OverridingTextTouchedMessage field={field} message="Please select an Application Perspective." />
               <HelpText>
                 Set up user journeys / offerings by modeling them as an Application Perspective in the Applications area
                 of the product.
