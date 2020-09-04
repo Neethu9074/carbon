@@ -1,7 +1,7 @@
 import invariant from 'invariant';
+import theme from 'in-themes';
 
 import { addTransparency } from 'in-themes/utils';
-import theme from 'in-themes';
 
 export const endpointNameTranslations = {
   BATCH: 'Batch',
@@ -31,7 +31,7 @@ export const colorTranslation = {
   UNDEFINED: theme.lib.colors.purple800,
   UNKNOWN: theme.lib.colors.purple800,
   SELF: theme.lib.colors.N400,
-  SDK: theme.lib.colors.N400
+  SDK: theme.lib.colors.N600Light
 };
 
 export function getColor(type) {
