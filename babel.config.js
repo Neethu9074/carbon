@@ -51,7 +51,7 @@ module.exports = {
     path.join(__dirname, 'storybook', '**', '*.js'),
     path.join(__dirname, 'storybook', '**', '*.mdx'),
     // Note that we deliberately do not transpile everything under node_modules. This is not
-    // forbidden per se, but we should whitelist this on a case-by-case basis.
+    // forbidden per se, but we should allow this on a case-by-case basis.
     path.join(__dirname, 'node_modules', 'd3-flame-graph', '**', '*.js')
   ]
 };

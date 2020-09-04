@@ -4,7 +4,7 @@ const serverConfig = require('../serverConfig.js');
 
 const allowedScriptOrigins = ['*.instana.io'];
 
-if (isRequiringInstanaRocksWhitelisting()) {
+if (isRequiringInstanaRocks()) {
   allowedScriptOrigins.push('*.instana.rocks');
 }
 
@@ -29,7 +29,7 @@ exports.getCsp = nonce => {
   return `script-src 'self' 'nonce-${nonce}' ${allowedScriptOrigins.join(' ')}`;
 };
 
-function isRequiringInstanaRocksWhitelisting() {
+function isRequiringInstanaRocks() {
   return (
     isInstanaRocks(get(serverConfig, ['eum', 'domain'])) ||
     isInstanaRocks(get(serverConfig, ['eum', 'retrievalDomain']))
