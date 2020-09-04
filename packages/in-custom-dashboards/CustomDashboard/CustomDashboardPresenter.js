@@ -22,6 +22,7 @@ import Tooltip from 'in-components/Tooltip';
 import { lightV2 } from 'in-themes/themes';
 import Sticky from 'in-components/Sticky';
 import Title from 'in-components/Title';
+import { uniqBy } from 'lodash';
 
 import locals from './CustomDashboardPresenter.mless';
 
@@ -90,7 +91,8 @@ function CustomDashboardPresenter(props) {
                     <ViewTrackingMeta
                       data={{
                         productArea: 'Custom Dashboard',
-                        pageRootName: 'Custom Dashboard'
+                        pageRootName: 'Custom Dashboard',
+                        widgetTypes: uniqBy(config?.widgets.map(w => w.type) ?? []).join(', ')
                       }}
                     />
                   </>
