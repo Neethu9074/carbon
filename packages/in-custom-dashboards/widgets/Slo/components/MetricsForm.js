@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { OverridingTextTouchedMessage } from 'in-custom-dashboards/widgets/Slo/components/OverridingTextTouchedMessage';
 import { metricOptions, metricAggregations } from 'in-custom-dashboards/widgets/Slo/components/metricFormData';
 import { PercentageFormInput } from 'in-custom-dashboards/widgets/Slo/components/PercentageFormInput';
 import FormInputField from 'in-custom-dashboards/widgets/Slo/components/FormInputField';
@@ -92,12 +93,20 @@ export const MetricsForm = ({ form, onChange }) => {
           <Col md={3}>
             <FormGroup withoutBottomMargin>
               {percentThreshold && (
-                <PercentageFormInput form={metricConfiguration} onChange={localOnChange} fieldName="threshold" />
+                <>
+                  <PercentageFormInput form={metricConfiguration} onChange={localOnChange} fieldName="threshold" />
+                  <TouchedMessages field={metricConfiguration.get('threshold')} />
+                </>
               )}
               {!percentThreshold && (
-                <FormInputField form={metricConfiguration} onChange={localOnChange} fieldName="threshold" />
+                <>
+                  <FormInputField form={metricConfiguration} onChange={localOnChange} fieldName="threshold" />
+                  <OverridingTextTouchedMessage
+                    field={metricConfiguration.get('threshold')}
+                    message="The value of threshold must not be invalid or empty."
+                  />
+                </>
               )}
-              <TouchedMessages field={metricConfiguration.get('threshold')} />
             </FormGroup>
           </Col>
         </Row>

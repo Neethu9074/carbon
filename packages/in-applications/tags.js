@@ -389,3 +389,24 @@ function getInboundApplicationNameTagFilter(applicationName) {
 export function isIdTag(tagName) {
   return tagName.endsWith('.id') || tagName.endsWith('.snapshotId');
 }
+
+export function convertToAnalyzeFilters(tagFilters) {
+  return tagFilters.map(tagFilter => {
+    return {
+      name: tagFilter.name,
+      operator: tagFilter.operator,
+      value: getTagFilterValue(tagFilter),
+      entity: tagFilter.entity
+    };
+  });
+}
+
+function getTagFilterValue(tagFilter) {
+  if (tagFilter.stringValue != null) {
+    return tagFilter.stringValue;
+  }
+  if (tagFilter.numberValue != null) {
+    return tagFilter.numberValue;
+  }
+  return tagFilter.booleanValue;
+}

@@ -1,12 +1,11 @@
 import React from 'react';
 
+import { OverridingTextTouchedMessage } from 'in-custom-dashboards/widgets/Slo/components/OverridingTextTouchedMessage';
 import { SliConfigId } from 'in-custom-dashboards/widgets/Slo/form';
-import TouchedMessages from 'in-components/form/TouchedMessages';
 import { getSliConfigurations } from 'in-custom-dashboards/api';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import KeyValue from 'in-new-components/lists/KeyValue';
 import FormGroup from 'in-components/form/FormGroup';
-import HelpText from 'in-components/form/HelpText';
 import Select from 'in-components/form/Select';
 import connectTo from 'in-hoc/connectTo';
 
@@ -52,12 +51,7 @@ function SliSelectionForm({ form, onChange, sliConfigurations, apConfigId, openM
           {openManageSLIComponent}
         </Col>
         <Col mdOffset={2} md={10}>
-          <TouchedMessages field={sliConfigField} />
-        </Col>
-      </Row>
-      <Row withoutTopMargin withBottomMargin={false}>
-        <Col xsOffset={2} xs={10}>
-          <HelpText>You can set up new SLIs using our API.</HelpText>
+          <OverridingTextTouchedMessage field={sliConfigField} message="Please select a SLI." />
         </Col>
       </Row>
     </>

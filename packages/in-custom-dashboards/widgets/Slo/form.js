@@ -67,32 +67,22 @@ export function createForm(oldSavedState) {
       value: savedState[SliConfigId]
     })
   );
+  const windowType = savedState[TimeWindowType];
   form = form.put(
     TimeWindowType,
     createField({
-      value: savedState[TimeWindowType]
+      value: windowType
     })
   );
-  if (savedState[TimeWindowType] === Fixed) {
+  if (windowType === Fixed) {
     const start = savedState[TimeWindowStart];
     // auto-corrects invalid dates:
     const ts = parsedTimestamp(start?.date + ' ' + start?.time);
     form = addFormForStartTimeStamp(form, ts);
   }
-
-  form = form.put(
-    TimeWindowDuration,
-    createField({
-      validator: composeAndShortCircuitOnError(numericValidator, positiveNumberValidator),
-      value: savedState[TimeWindowDuration] ?? 1
-    })
-  );
-  form = form.put(
-    TimeWindowDurationUnit,
-    createField({
-      value: savedState[TimeWindowDurationUnit] ?? 'weeks'
-    })
-  );
+  if (windowType === Fixed || windowType === Rolling) {
+    form = addFormForTimeDuration(form, savedState);
+  }
   return form;
 }
 
@@ -134,7 +124,10 @@ export const parsedTimestamp = str => {
 };
 
 export function removeFormForStartTimeStamp(form) {
-  return form.remove(TimeWindowStart);
+  if (form.containsKey(TimeWindowStart)) {
+    return form.remove(TimeWindowStart);
+  }
+  return form;
 }
 
 export function addFormForStartTimeStamp(form, ts) {
@@ -157,4 +150,33 @@ export function addFormForStartTimeStamp(form, ts) {
         })
       )
   );
+}
+
+export function removeFormForTimeDuration(form) {
+  if (form.containsKey(TimeWindowDuration)) {
+    form = form.remove(TimeWindowDuration);
+  }
+  if (form.containsKey(TimeWindowDurationUnit)) {
+    form = form.remove(TimeWindowDurationUnit);
+  }
+  return form;
+}
+
+export function addFormForTimeDuration(form, savedState, override = true) {
+  if (override || !form.containsKey(TimeWindowDuration))
+    form = form.put(
+      TimeWindowDuration,
+      createField({
+        validator: composeAndShortCircuitOnError(numericValidator, positiveNumberValidator),
+        value: savedState[TimeWindowDuration] ?? '1'
+      })
+    );
+  if (override || !form.containsKey(TimeWindowDurationUnit))
+    form = form.put(
+      TimeWindowDurationUnit,
+      createField({
+        value: savedState[TimeWindowDurationUnit] ?? 'weeks'
+      })
+    );
+  return form;
 }

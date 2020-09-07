@@ -5,6 +5,7 @@ import CreateNewSLIForm from 'in-custom-dashboards/widgets/Slo/CreateSLIForm';
 import { getSliConfigurations } from 'in-custom-dashboards/api';
 import SliList from 'in-custom-dashboards/widgets/Slo/SliList';
 import { isLoading, hasError } from 'in-services/util/result';
+import { compareIgnoreCase } from 'in-services/util/string';
 import Message from 'in-new-components/Message';
 import Button from 'in-new-components/Button';
 import { role } from 'in-stores/user';
@@ -98,7 +99,8 @@ const onlyWithAPidAndNameMatchingQuery = (applicationId, nameQuery = '') => {
         items:
           sliConfigs?.data
             ?.filter(sli => sli?.sliEntity?.applicationId === applicationId)
-            .filter(sli => sli?.sliName.includes(nameQuery)) ?? []
+            .filter(sli => sli?.sliName.includes(nameQuery))
+            .sort((a, b) => compareIgnoreCase(a.sliName, b.sliName)) ?? []
       }
     };
   };

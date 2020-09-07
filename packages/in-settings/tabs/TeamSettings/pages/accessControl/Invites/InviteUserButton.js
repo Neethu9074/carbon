@@ -32,7 +32,7 @@ function onDoInviteUser(setMessage, email, roleId, reload) {
   setMessage({ text: 'Sending invitation…', type: success });
   const invitationResult$ = sendInvitation(email, roleId);
   invitationResult$.once(() => {
-    setMessage({ text: 'Invitation successfully send.', type: success });
+    setMessage({ text: 'Invitation successfully sent.', type: success });
     if (reload) {
       reload();
     }

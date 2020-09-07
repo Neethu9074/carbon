@@ -43,8 +43,8 @@ export function getHiddenSearchFieldKeywords() {
 }
 export const hiddenSearchFieldValues = {
   'event.type': ['objectiveViolation', 'event', 'changeDetected', 'changeAndPresence'],
-  'entity.type': ['agent'],
-  'entity.selfType': ['steadyMetrics', 'tenantUnit', 'agentStatistics', 'entityStatistics', 'region']
+  'entity.type': ['agent', 'beeinstana'],
+  'entity.selfType': ['beeinstana', 'steadyMetrics', 'tenantUnit', 'agentStatistics', 'entityStatistics', 'region']
 };
 
 // ########################################################################################

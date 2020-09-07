@@ -94,7 +94,7 @@ export const availableGroupingTags = {
     'mobileBeacon.http.path',
     'mobileBeacon.http.status'
   ].sort(),
-  custom: [...commonGroupingTags, 'mobileBeacon.customEvent.name'].sort()
+  custom: [...commonGroupingTags, 'mobileBeacon.customEvent.name', 'mobileBeacon.error.message'].sort()
 };
 
 const commonFilterTags = [];

@@ -46,6 +46,7 @@ export const Body = ({ beacon }) => {
           <Dl>
             <Di title="Event Name">{beacon.customEventName}</Di>
             <BackendDi beacon={beacon} />
+            <Di title="Error Message">{beacon.errorMessage}</Di>
           </Dl>
         </Col>
 
