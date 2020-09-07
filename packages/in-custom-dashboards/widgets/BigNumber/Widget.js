@@ -1,10 +1,10 @@
 import { find } from 'lodash';
 import React from 'react';
 
-import { defaultFormatter, formatters } from 'in-custom-dashboards/widgets/_shared/formatters';
 import { translateOffsetToTimeShiftConfig, getTimeShiftLabel } from 'in-stores/time/shifting';
 import { blue } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
 import ResultAwareKpiCard from 'in-new-components/KpiCard/ResultAwareKpiCard';
+import { defaultFormatter, formatters } from 'in-stores/metric/formatters';
 import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
 import Badge from 'in-custom-dashboards/widgets/BigNumber/Badge';
 import { percentage } from 'in-services/formatters/number';

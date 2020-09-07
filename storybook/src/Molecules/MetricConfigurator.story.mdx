@@ -1,0 +1,55 @@
+import { Meta, Story, Preview, Props } from '@storybook/addon-docs/blocks';
+import { action as storybookAction } from '@storybook/addon-actions';
+
+import MetricConfigurator from 'in-new-components/MetricConfigurator/MetricConfigurator';
+
+## MetricConfigurator
+
+<Meta title="Molecules|MetricConfigurator" component={MetricConfigurator} />
+
+export const options = [
+  {
+    metricId: 'beaconCount',
+    label: 'Beacon count',
+    description: 'How many beacons matching a filter were recorded.',
+    aggregations: ['SUM'],
+  },
+  {
+    metricId: 'beaconDuration',
+    label: 'Beacon duration',
+    description: 'The recorded duration for a beacon.',
+    aggregations: ['P99', 'MEAN', 'P25', 'MIN', 'MAX', 'P90', 'SUM', 'P50', 'P95', 'P98', 'P75'],
+  },
+  {
+    metricId: 'pageLoads',
+    label: 'Page loads',
+    description:
+      'How often a full page load occurred. This typically requires retrieval of an HTML document from a server (unless cached) and then the full onLoad cycle.',
+    aggregations: ['SUM'],
+  }
+];
+
+
+<Preview>
+  <Story name="default">
+    <MetricConfigurator options={options}
+      values={[
+        {
+          metricId: 'pageLoads',
+          aggregation: 'SUM'
+        },
+        {
+          metricId: 'beaconDuration',
+          aggregation: 'P90'
+        },
+        {
+          metricId: 'beaconDuration',
+          aggregation: 'P95'
+        }
+      ]}
+      onChange={storybookAction('onChange')} />
+  </Story>
+</Preview>
+
+### Props
+<Props of={MetricConfigurator} />

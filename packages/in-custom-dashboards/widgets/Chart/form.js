@@ -1,9 +1,9 @@
 import { createMapForm, notBlankValidator, createField, createListForm } from 'formalistic';
 
 import { createForm as createMetricConfigurationForm } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/form';
-import { defaultFormatter, allFormatterIds } from 'in-custom-dashboards/widgets/_shared/formatters';
 import { stringValidator, numberValidator, arrayValidator } from 'in-services/validators/jsonType';
 import { defaultRenderer, allRendererIds } from 'in-custom-dashboards/widgets/Chart/renderer';
+import { defaultFormatter, allFormatterIds } from 'in-stores/metric/formatters';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
 import { buildEnumValidator } from 'in-services/validators/enum';

@@ -2,9 +2,9 @@ import { find } from 'lodash';
 import React from 'react';
 
 import { renderer as availableRenderers, defaultRenderer } from 'in-custom-dashboards/widgets/Chart/renderer';
-import { formatters, defaultFormatter } from 'in-custom-dashboards/widgets/_shared/formatters';
 import { extendWindowSizeOnLiveMode, getChartGranularity } from 'in-applications/metrics';
 import { translateOffsetToTimeShiftConfig } from 'in-stores/time/shifting';
+import { formatters, defaultFormatter } from 'in-stores/metric/formatters';
 import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
 import ChartWrapper from 'in-components/Chart/ChartWrapper';
 import { pendingResult } from 'in-services/fixedObjects';

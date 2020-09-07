@@ -2,11 +2,11 @@ import React from 'react';
 
 import DataSeriesFormComponent from 'in-custom-dashboards/widgets/Chart/DataSeriesFormComponent';
 import { renderer as availableRenderers } from 'in-custom-dashboards/widgets/Chart/renderer';
-import { formatters } from 'in-custom-dashboards/widgets/_shared/formatters';
 import { createMetricForm } from 'in-custom-dashboards/widgets/Chart/form';
 import StackItem from 'in-new-components/layout/Stack/StackItem';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { Row, Col } from 'in-new-components/layout/Grid';
+import { formatters } from 'in-stores/metric/formatters';
 import Header from 'in-components/form/Header/Header';
 import FormGroup from 'in-components/form/FormGroup';
 import Stack from 'in-new-components/layout/Stack';
