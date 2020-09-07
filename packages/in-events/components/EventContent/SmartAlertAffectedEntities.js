@@ -1,10 +1,11 @@
 import React from 'react';
 
-import { getEnrichedAnalyzeFilters, convertToAnalyzeFilters } from 'in-events/components/AnalyzeApplicationEventButton';
+import { getEnrichedAnalyzeFilters } from 'in-events/components/AnalyzeApplicationEventButton';
 import { applicationsAlertingEventDetailsGoToAnalyze } from 'in-applications/alerting/tracker';
 import { groupByEndpointName, groupByServiceName } from 'in-analyze/AnalyzeView/dataSources';
 import { tagFiltersForBoundaryScope, getLinkToAnalyze } from 'in-analyze/navigation/paths';
 import AffectedEntities from 'in-events/components/AffectedEntities/AffectedEntities';
+import { convertToAnalyzeFilters } from 'in-applications/tags';
 import { getTimeConfigFromEvent } from 'in-events/timeframe';
 import Card from 'in-new-components/Card';
 import Link from 'in-components/Link';

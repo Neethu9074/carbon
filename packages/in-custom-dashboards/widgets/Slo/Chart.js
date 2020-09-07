@@ -6,6 +6,7 @@ import { EQUALS, GREATER_THAN } from 'in-new-components/QueryBuilder/tagFilter/o
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
 import { getSliFormatter } from 'in-custom-dashboards/widgets/Slo/sliConfigUtils';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
+import { convertToAnalyzeFilters } from 'in-applications/tags';
 import theme from 'in-themes';
 
 export default function Chart({
@@ -115,27 +116,6 @@ function getAnalyzeFilters(sliConfig) {
     }
   }
   return filters;
-}
-
-function convertToAnalyzeFilters(tagFilters) {
-  return tagFilters.map(tagFilter => {
-    return {
-      name: tagFilter.name,
-      operator: tagFilter.operator,
-      value: getTagFilterValue(tagFilter),
-      entity: tagFilter.entity
-    };
-  });
-}
-
-function getTagFilterValue(tagFilter) {
-  if (tagFilter?.stringValue) {
-    return tagFilter.stringValue;
-  }
-  if (tagFilter?.numberValue) {
-    return tagFilter.numberValue;
-  }
-  return tagFilter.booleanValue;
 }
 
 function createAnalyzeFilter(name, operator, value) {

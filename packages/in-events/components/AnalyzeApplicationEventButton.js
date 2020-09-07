@@ -6,6 +6,7 @@ import { applicationsAlertingEventDetailsGoToAnalyze } from 'in-applications/ale
 import { getTimeConfigFromEvent, getWidenedTimeConfigFromEvent } from 'in-events/timeframe';
 import { toTagFilterNumberOperator } from 'in-new-components/Alerting/utils/alertUtils';
 import { getBaselineValue } from 'in-new-components/Alerting/utils/baselineUtils';
+import { convertToAnalyzeFilters } from 'in-applications/tags';
 import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
 import Button from 'in-new-components/Button';
 
@@ -76,26 +77,6 @@ export function getEnrichedAnalyzeFilters(alertConfig, timeConfig) {
     analyzeFilters = analyzeFilters.concat(getStatusCodeAnalyzeFilter(alertConfig.rule));
   }
   return analyzeFilters;
-}
-
-export function convertToAnalyzeFilters(tagFilters) {
-  return tagFilters.map(tagFilter => {
-    return {
-      name: tagFilter.name,
-      operator: tagFilter.operator,
-      value: getTagFilterValue(tagFilter)
-    };
-  });
-}
-
-function getTagFilterValue(tagFilter) {
-  if (tagFilter.hasOwnProperty('stringValue')) {
-    return tagFilter.stringValue;
-  }
-  if (tagFilter.hasOwnProperty('numberValue')) {
-    return tagFilter.numberValue;
-  }
-  return tagFilter.booleanValue;
 }
 
 function getErroneousCallsAnalyzeFilter() {
