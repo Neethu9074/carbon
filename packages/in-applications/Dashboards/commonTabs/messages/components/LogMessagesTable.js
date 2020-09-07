@@ -113,6 +113,7 @@ export default function LogMessagesTable({
           boundaryScope={boundaryScope}
           query={query}
           includeInternal
+          includeSynthetic
         />
       )}
     />
@@ -168,6 +169,7 @@ function Message({ message, applicationName, serviceName, endpointName, boundary
     : { name: 'log.message', operator: 'IS_EMPTY' };
 
   const includeInternalFilter = { name: 'include_internal', value: 'true', operator: 'EQUALS' };
+  const includeSyntheticFilter = { name: 'include_synthetic', value: 'true', operator: 'EQUALS' };
 
   return (
     <Link
@@ -177,7 +179,7 @@ function Message({ message, applicationName, serviceName, endpointName, boundary
         endpointName,
         dataSource: 'calls',
         groupByTag: {},
-        filters: [logMessageFilter, includeInternalFilter],
+        filters: [logMessageFilter, includeInternalFilter, includeSyntheticFilter],
         boundaryScope
       })}
     >

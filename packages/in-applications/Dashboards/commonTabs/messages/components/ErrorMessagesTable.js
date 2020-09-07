@@ -106,6 +106,7 @@ export default function ErrorMessagesTable({
           boundaryScope={boundaryScope}
           query={query}
           includeInternal
+          includeSynthetic
           showErroneous
         />
       )}
@@ -160,7 +161,8 @@ function Message({ message, applicationName, serviceName, endpointName, boundary
   let displayedMessage;
   let errorMessageFilter;
   const erroneousFilter = { name: 'call.erroneous', value: 'true' };
-  const includeInternal = { name: 'include_internal', value: 'true', operator: 'EQUALS' };
+  const includeInternalFilter = { name: 'include_internal', value: 'true', operator: 'EQUALS' };
+  const includeSyntheticFilter = { name: 'include_synthetic', value: 'true', operator: 'EQUALS' };
 
   if (!message || message === '') {
     displayedMessage = 'Erroneous call without error message';
@@ -178,7 +180,7 @@ function Message({ message, applicationName, serviceName, endpointName, boundary
         endpointName,
         dataSource: 'calls',
         groupByTag: {},
-        filters: [erroneousFilter, errorMessageFilter, includeInternal],
+        filters: [erroneousFilter, errorMessageFilter, includeInternalFilter, includeSyntheticFilter],
         boundaryScope
       })}
     >
