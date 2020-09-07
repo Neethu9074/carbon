@@ -4,12 +4,6 @@ import { getServiceLocators } from 'in-components/FlowMap/serviceLocator/service
 import FlowMapBaseEntity from 'in-components/FlowMap/sceneObjects/FlowMapBaseEntity';
 import Child from 'in-components/FlowMap/sceneObjects/Child';
 
-// 0.1, because we want to give the calculation a bit of space (10%) until the screenposition is invalid
-const leftBoundary = -0.1;
-const rightBoundary = 1.1;
-const topBoundary = -0.1;
-const bottomBoundary = 1.1;
-
 export default class Node extends FlowMapBaseEntity {
   constructor(serviceLocatorUid, id) {
     super(serviceLocatorUid, id);
@@ -44,22 +38,10 @@ export default class Node extends FlowMapBaseEntity {
     screenPosition.x = (screenPosition.x + 1) / 2;
     screenPosition.y = -(screenPosition.y - 1) / 2;
 
-    if (
-      screenPosition.x > leftBoundary &&
-      screenPosition.x < rightBoundary &&
-      screenPosition.y > topBoundary &&
-      screenPosition.y < bottomBoundary
-    ) {
-      screenPosition.x *= scene.camera.width;
-      screenPosition.y *= scene.camera.height;
-      this.events$.emit('screenPosition', screenPosition);
-      this.screenPosition = screenPosition;
-    } else {
-      if (this.screenPosition != null) {
-        this.screenPosition = null;
-        this.events$.emit('screenPosition', null);
-      }
-    }
+    screenPosition.x *= scene.camera.width;
+    screenPosition.y *= scene.camera.height;
+    this.events$.emit('screenPosition', screenPosition);
+    this.screenPosition = screenPosition;
   }
 
   addChildren(children) {
