@@ -18,6 +18,7 @@ export default function Step1({ form, onChange }) {
         id="name"
         type="text"
         value={field.value}
+        maxLength={256}
         onChange={e => onChange('name', e.target.value)}
         hasError={!field.valid}
       />
