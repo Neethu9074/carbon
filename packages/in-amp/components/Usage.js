@@ -73,7 +73,7 @@ function Usage({ tenantUnits, showAggregatedMetrics, setShowAggregatedMetrics })
             <Card title="APM Usage">
               <UsageChart
                 showAggregatedMetrics={showAggregatedMetrics}
-                y1={{ ...tenantUnit, metrics: ['apmhost'], labels: ['AMP Hosts'] }}
+                y1={{ ...tenantUnit, metrics: ['apmhost'], labels: ['APM Hosts'] }}
                 y2={{
                   ...tenantUnit,
                   metrics: ['licensed_apm_hosts'],

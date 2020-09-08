@@ -36,7 +36,11 @@ function render({ form, setForm }) {
 
   return (
     <>
-      <Message className={locals.message} withIcon title="placeholder title" description="Placeholder content" />
+      <Message
+        className={locals.message}
+        withIcon
+        title="If any of the info on this page needs corrections, please contact salesops@instana.com"
+      />
       <Title title="Company Information" />
 
       <HorizontalFlexWrapper>
