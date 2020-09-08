@@ -144,7 +144,8 @@ export default class Overlay extends React.Component {
         close: this.close,
         delayedClose: this.delayedClose,
         ...props,
-        refSetter: this.refSetter
+        refSetter: this.refSetter,
+        ref: this.refSetter
       });
     } else {
       content = (

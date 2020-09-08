@@ -31,7 +31,8 @@ const iconDimensions = {
   compact: 'xs'
 };
 
-export default function Button({
+
+const Button = React.forwardRef(function Button({
   icon,
   iconSpinning,
   iconSize,
@@ -52,7 +53,7 @@ export default function Button({
   refSetter,
   autoFocus,
   noAutoMargin
-}) {
+}, ref) {
   const locals = useThemedLocals(styleDefs);
 
   // Avoid changing the element type every time the link goes from unresolved to resolved.
@@ -101,7 +102,7 @@ export default function Button({
         onMouseLeave={onMouseLeave}
         style={style}
         type={type}
-        ref={refSetter}
+        ref={ref || refSetter}
         autoFocus={autoFocus}
       >
         {iconElement} {children}
@@ -120,13 +121,14 @@ export default function Button({
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
       style={style}
-      ref={refSetter}
+      ref={ref || refSetter}
       autoFocus={autoFocus}
     >
       {iconElement} {children}
     </a>
   );
-}
+});
+export default Button;
 
 Button.propTypes = {
   /** Icon here */

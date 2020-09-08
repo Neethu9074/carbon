@@ -9,7 +9,7 @@
 
     border: 0;
     background: none;
-    padding: 0 0.25rem;
+    padding: 0 0.25rem 0 0.1875rem;
     border: 1px solid transparent;
     border-radius: @lib__shapes__radius_medium;
     cursor: pointer;

@@ -3,12 +3,17 @@ import React, { useCallback, useMemo } from 'react';
 import GroupingConfigurator, {
   isGroupingConfigurationValid
 } from 'in-infrastructure/Explore/components/GroupingConfigurator';
-import { tagFilterExpressionMatrixParameter, groupMatrixParameter } from 'in-infrastructure/navigation/paths';
+import {
+  tagFilterExpressionMatrixParameter,
+  groupMatrixParameter,
+  chartsMatrixParameter
+} from 'in-infrastructure/navigation/paths';
 import GroupingConfiguratorSection from 'in-new-components/GroupingConfigurator/GroupingConfiguratorSection';
+import ChartingConfiguratorSection from 'in-new-components/ChartingConfigurator/ChartingConfiguratorSection';
 import FixatedTimeConfigContextModification from 'in-stores/time/FixatedTimeConfigContextModification';
 import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import ApiQueryAction from 'in-new-components/QueryBuilder/workspace/ApiQueryAction/ApiQueryAction';
-import { ActionSection, Action } from 'in-new-components/workspace/ActionSection/ActionSection';
+import { ActionSection } from 'in-new-components/workspace/ActionSection/ActionSection';
 import QueryBuilder, { isQueryValid } from 'in-infrastructure/Explore/components/QueryBuilder';
 import QueryBuilderSection from 'in-new-components/QueryBuilder/workspace/QueryBuilderSection';
 import GroupedInfrastructure from 'in-infrastructure/Explore/components/GroupedInfrastructure';
@@ -19,6 +24,7 @@ import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { warning, error } from 'in-new-components/Message/types';
 import Sections from 'in-new-components/workspace/Sections';
+import { allRenderers } from 'in-stores/metric/renderer';
 import { pendingResult } from 'in-services/fixedObjects';
 import Stack from 'in-new-components/layout/Stack';
 import useObservable from 'in-hooks/useObservable';
@@ -30,7 +36,7 @@ import Title from 'in-components/Title';
 import locals from './Explore.mless';
 
 const urlStateDefinition = {
-  bind: [tagFilterExpressionMatrixParameter, groupMatrixParameter]
+  bind: [tagFilterExpressionMatrixParameter, groupMatrixParameter, chartsMatrixParameter]
 };
 
 export default function InfraExploreView() {
@@ -43,7 +49,7 @@ export default function InfraExploreView() {
 
 function InfraExploreViewWithFixatedTimeConfig() {
   const timeConfig = useTimeConfig();
-  const [{ tagFilterExpression, group }, onChange] = useUrlState(urlStateDefinition);
+  const [{ tagFilterExpression, group, charts }, onChange] = useUrlState(urlStateDefinition);
 
   const validTagFilterExpressionResult =
     useObservable(isQueryValid(tagFilterExpression), [tagFilterExpression]) ?? pendingResult;
@@ -90,14 +96,52 @@ function InfraExploreViewWithFixatedTimeConfig() {
               tagFilterExpression={backendQueryModel || toBackendQueryModel([])}
             />
 
-            <ActionSection
-              left={
-                <>
-                  <Action icon="lib_bar_chart">Add chart</Action>
-                </>
+            <ChartingConfiguratorSection
+              value={charts[0]}
+              onChange={chart =>
+                onChange({
+                  charts: chart ? [chart] : []
+                })
               }
-              right={<ApiQueryAction backendQueryModel={backendQueryModel} />}
+              options={[
+                {
+                  metricId: 'latency',
+                  label: 'Latency',
+                  formatter: 'millis.compact',
+                  aggregations: [
+                    {
+                      id: 'MIN',
+                      label: 'MIN',
+                      renderers: allRenderers
+                    },
+                    {
+                      id: 'MEAN',
+                      label: 'MEAN',
+                      renderers: allRenderers
+                    },
+                    {
+                      id: 'MAX',
+                      label: 'MAX',
+                      renderers: allRenderers
+                    }
+                  ]
+                },
+                {
+                  metricId: 'count',
+                  label: 'Count',
+                  formatter: 'number.compact',
+                  aggregations: [
+                    {
+                      id: 'SUM',
+                      label: 'SUM',
+                      renderers: allRenderers
+                    }
+                  ]
+                }
+              ]}
             />
+
+            <ActionSection right={<ApiQueryAction backendQueryModel={backendQueryModel} />} />
           </Sections>
 
           {isInvalid && (

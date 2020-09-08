@@ -7,9 +7,9 @@ import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './Button.mless';
 
-export default function DropdownButton(props) {
+const DropdownButton = React.forwardRef(function DropdownButton(props, ref) {
   return (
-    <Button {...props} className={joinClassNames(props.className, locals.dropdownButton)}>
+    <Button {...props} ref={ref} className={joinClassNames(props.className, locals.dropdownButton)}>
       {/* Group into one flexbox item */}
       <span>{props.children}</span>
 
@@ -19,7 +19,8 @@ export default function DropdownButton(props) {
       />
     </Button>
   );
-}
+});
+export default DropdownButton;
 
 DropdownButton.propTypes = {
   ...Button.propTypes,

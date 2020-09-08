@@ -16,7 +16,6 @@ import styleDefs from './SimpleValueSelector.mless';
 
 export default function SimpleValueSelector({
   onChange,
-  isKey,
   value,
   close,
   getSuggestions,
@@ -32,7 +31,7 @@ export default function SimpleValueSelector({
       value={value}
       onChange={e => onChange(e.value)}
       close={close}
-      inputProps={{ ...inputProps, locals, isKey }}
+      inputProps={{ ...inputProps, locals }}
       getSuggestions={getSuggestions}
       fieldsToWatch={fieldsToWatch}
       locals={locals}

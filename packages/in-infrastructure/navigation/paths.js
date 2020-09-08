@@ -16,6 +16,14 @@ export const groupMatrixParameter = {
   path: infraExplorePath,
   name: 'group',
   serializer: buildJsonSerializer(),
+  parser: buildJsonParser(emptyObject),
+  initialState: emptyObject
+};
+
+export const chartsMatrixParameter = {
+  path: infraExplorePath,
+  name: 'charts',
+  serializer: buildJsonSerializer(),
   parser: buildJsonParser(emptyArray),
   initialState: emptyObject
 };
