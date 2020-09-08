@@ -1,3 +1,5 @@
+@import '~in-themes/active.less';
+
 :local {
   .buttonHeader {
     display: flex;
@@ -5,5 +7,13 @@
     justify-content: space-between;
 
     margin-bottom: 1rem;
+  }
+
+  .dropdown {
+    padding: 0.25rem 0.5rem;
+
+    background: @lib__colors__N050;
+    color: @lib__colors__N800Dark;
+    border: 1px solid @lib__colors__N400;
   }
 }

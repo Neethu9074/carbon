@@ -12,7 +12,7 @@ import connectTo from 'in-hoc/connectTo';
 import locals from './ApiItemView.mless';
 
 export default connectTo(
-  ({ getObservables }) => combineResultObservables(getObservables()),
+  ({ getObservables }) => (getObservables ? combineResultObservables(getObservables()) : {}),
 
   function ApiItemView(props) {
     const {

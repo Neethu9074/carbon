@@ -19,6 +19,8 @@ export default function UsageChart({ showAggregatedMetrics, y1, y2 }) {
           metrics: y1.metrics.map((metric, i) => ({
             label: y1.labels[i],
             metric,
+            unit: y1.unit,
+            tenant: y1.tenant,
             ...defaultProps
           })),
           formatter: 'number.compact'
@@ -28,6 +30,8 @@ export default function UsageChart({ showAggregatedMetrics, y1, y2 }) {
           metrics: y2.metrics.map((metric, i) => ({
             label: y2.labels[i],
             metric,
+            unit: y1.unit,
+            tenant: y1.tenant,
             ...defaultProps
           })),
           formatter: 'number.compact'
