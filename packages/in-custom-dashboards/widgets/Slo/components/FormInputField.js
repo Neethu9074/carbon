@@ -10,6 +10,7 @@ export default function FormInputField({ form, onChange, fieldName, ...props }) 
       value={field?.value}
       hasError={field && !field?.valid && field?.touched}
       onChange={({ target }) => onChange([fieldName], f => f.setValue(target.value).setTouched(true))}
+      maxLength={256}
     />
   );
 }

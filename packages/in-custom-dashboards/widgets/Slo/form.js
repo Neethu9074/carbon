@@ -113,7 +113,7 @@ function getTimeWindowDurationInDays(value, unit) {
       return value * 7;
     case 'months':
     default:
-      return value * 31;
+      return value === 12 ? 365 : value * 31;
   }
 }
 

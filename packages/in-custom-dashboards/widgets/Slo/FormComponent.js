@@ -302,7 +302,7 @@ function getMaxTimeWindowDurationValue(timeWindowDurationUnit) {
     case 'days':
       return 365;
     case 'weeks':
-      return 48;
+      return 52;
     case 'months':
     default:
       return 12;
