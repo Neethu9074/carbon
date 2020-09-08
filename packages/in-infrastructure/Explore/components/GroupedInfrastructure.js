@@ -2,6 +2,7 @@ import React from 'react';
 
 import { ColumnizedContent, Ul, Li, LoadingSkeletonLi, HorizontalIndicatorLi } from 'in-new-components/lists/List';
 import InfrastructureList from 'in-infrastructure/Explore/components/InfrastructureList';
+import { getUniqueErrors } from 'in-new-components/Errors/ErroneousResultPresenter';
 import createGetGroupsSubscription from 'in-infrastructure/subscriptions/getGroups';
 import LoadMoreLi from 'in-new-components/lists/List/LoadMoreLi/LoadMoreLi';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
@@ -63,7 +64,7 @@ function Presenter({
         {isLoading && <HorizontalIndicatorLi progress={indeterminateProgress} />}
         {isLoading && <LoadingSkeletonLi />}
         {hasErrors &&
-          errors.map(error => (
+          getUniqueErrors(errors).map(error => (
             <Li key={error}>
               <Message className={locals.message} type={errorType} small>
                 {error}
