@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { hotspotAutoExpandRowId as hotspotAutoExpandRowIdMatrixParameter } from 'in-new-components/Profiling/navigation/matrix';
 import { cpuColorMapper, memColorMapper, timeColorMapper } from 'in-profiling/analyze/AnalyzeView/colors';
@@ -16,6 +16,7 @@ import { buildJsonParser } from 'in-stores/navigation/matrix';
 import { percentage } from 'in-services/formatters/number';
 import { formatTime } from 'in-services/formatters/date';
 import { Col, Row } from 'in-new-components/layout/Grid';
+import { overviewOpened } from 'in-profiling/tracker';
 import SetBodyColor from 'in-components/SetBodyColor';
 import { isLoading } from 'in-services/util/result';
 import useUrlState from 'in-hooks/useUrlState';
@@ -46,6 +47,13 @@ export default function HotspotView({
 
   const hotspotAutoExpandRowConfig = urlState?.hotspotAutoExpandRow;
   const isLoadingProfilesForHighlightedTimeframe = isLoading(profilesForHighlightedTimeframeResult);
+  useEffect(
+    () =>
+      overviewOpened(
+        profiles?.cpuProfile?.runtime ?? profiles?.memoryProfile?.runtime ?? profiles?.timeProfile?.runtime
+      ),
+    []
+  );
 
   return (
     <div className={locals.wrapper}>
