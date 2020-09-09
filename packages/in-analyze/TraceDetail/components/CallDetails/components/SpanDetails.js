@@ -16,6 +16,21 @@ export default connectTo(
   function SpanDetails({ call, span, isInternalVisible }) {
     const convertedSpan = fromJS(convert(span));
     const spanDefinition = getSpanDefinition(span.name, span);
+    const hasCxfType = isInternalVisible && span.data?.cxf?.type;
+    if (hasCxfType) {
+      var cxfType = span.data.cxf.type;
+      switch (span.data.cxf.type) {
+        case 'apache':
+          cxfType = 'Apache CXF';
+          break;
+        case 'ri':
+          cxfType = 'JAX-WS RI';
+          break;
+        case 'rt':
+          cxfType = 'JAX-WS RT';
+          break;
+      }
+    }
     return (
       <Fragment>
         {isInternalVisible && (
@@ -26,6 +41,7 @@ export default connectTo(
           </Dl>
         )}
         <Dl>
+          {hasCxfType && <Di title="CXF type">{cxfType}</Di>}
           <Di title="Type">{spanDefinition.typeName.singular}</Di>
           <Di title="Category">{spanDefinition.category}</Di>
         </Dl>
