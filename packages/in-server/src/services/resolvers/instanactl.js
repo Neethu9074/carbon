@@ -24,7 +24,21 @@ const pool = new Pool({
   max: serverConfig.instanactlCockroachDb.maxPooledConnections || 64
 });
 
-exports.getUiBackendBaseUrl = (tenant, unit) => Promise.resolve(`http://${tenant}-${unit}-ui-backend:8600`);
+exports.getUiBackendBaseUrl = async (tenant, unit) => {
+  let hostNamePrefix = '';
+  try {
+    hostNamePrefix = await getSetting({
+      tenant,
+      unit,
+      key: 'config.tu.component.host.name.prefix',
+      notDefinedFallback: '',
+      valueParser: String
+    });
+  } catch (e) {
+    console.error('Failed to retrieve component host name prefix. Will not use any prefix.', e);
+  }
+  return `http://${hostNamePrefix}${tenant}-${unit}-ui-backend:8600`;
+};
 
 exports.getGroundskeeperBaseUrl = () => Promise.resolve(serverConfig.groundskeeperBaseUrl);
 
