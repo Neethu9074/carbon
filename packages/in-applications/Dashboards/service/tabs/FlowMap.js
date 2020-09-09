@@ -30,7 +30,8 @@ export default compose(
         application: applicationId,
         service: serviceId,
         endpoint: endpointId,
-        timeConfig
+        timeConfig,
+        applicationBoundaryScope: boundaryScopes.all
       },
       metrics: {
         callsAgg: {
@@ -78,7 +79,6 @@ export default compose(
             rootNodeData={{
               id: data.id,
               applicationContext: applicationId,
-              applicationBoundaryScope: boundaryScopes.all,
               service: data,
               metricValues
             }}

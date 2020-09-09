@@ -31,7 +31,8 @@ export default compose(
         filter: {
           application: applicationId,
           endpoint: endpointId,
-          timeConfig
+          timeConfig,
+          applicationBoundaryScope: boundaryScopes.all
         },
         metrics: {
           callsAgg: {
@@ -94,7 +95,6 @@ export default compose(
             rootNodeData={{
               id: serviceId,
               applicationContext: applicationId,
-              applicationBoundaryScope: boundaryScopes.all,
               service,
               endpoint: data,
               metricValues
