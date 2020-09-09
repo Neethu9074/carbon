@@ -8,6 +8,7 @@ export default function Info({ snapshot }) {
   const gauges = countMetrics(snapshot, 'metrics.gauges');
   const histograms = countMetrics(snapshot, 'metrics.histograms');
   const summaries = countMetrics(snapshot, 'metrics.summaries');
+  const untyped = countMetrics(snapshot, 'metrics.untyped');
 
   return (
     <DescriptionList>
@@ -15,6 +16,7 @@ export default function Info({ snapshot }) {
       <DescriptionItem title="Gauges">{gauges}</DescriptionItem>
       <DescriptionItem title="Histograms">{histograms}</DescriptionItem>
       <DescriptionItem title="Summaries">{summaries}</DescriptionItem>
+      <DescriptionItem title="Untyped metrics">{untyped}</DescriptionItem>
     </DescriptionList>
   );
 }
