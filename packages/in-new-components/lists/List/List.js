@@ -77,11 +77,7 @@ export function Li(props) {
 
   const expandable = renderNestedContent || subList;
   const [open, setOpen] = useState(initiallyOpen);
-
-  let itemElementRef;
-  if (autoFocus) {
-    itemElementRef = useAutoFocus();
-  }
+  const itemElementRef = useAutoFocus();
 
   let itemElementInteractivityProps = emptyObject;
   if (onClick) {
@@ -108,7 +104,7 @@ export function Li(props) {
       })}
       style={style}
       {...itemElementInteractivityProps}
-      ref={itemElementRef}
+      ref={autoFocus ? itemElementRef : undefined}
     >
       {children}
 

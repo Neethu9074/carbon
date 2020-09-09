@@ -31,7 +31,7 @@ import { blueprintConfigPropType } from 'in-new-components/Alerting/constants';
 import { findEntryByValue } from 'in-new-components/Alerting/utils/formUtils';
 import AlertingChart from 'in-new-components/Alerting/Chart/AlertingChart';
 import createRuleForm from 'in-websites/alerting/form/ruleForm';
-import Dropdown from 'in-new-components/Dropdown';
+import Dropdown from 'in-new-components/Alerting/Dropdown';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
 import connectTo from 'in-hoc/connectTo';

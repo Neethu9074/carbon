@@ -37,8 +37,8 @@ function BackendDi({ traceSummaries }) {
 
   return (
     <Di title="Backend">
-      {traceSummaries.map(summary => (
-        <Tooltip content="Open backend trace" align="topMiddle">
+      {traceSummaries.map((summary, i) => (
+        <Tooltip key={i} content="Open backend trace" align="topMiddle">
           <div>
             <Link href$={getLinkToTraceDetail(summary.id)} onClick={() => navigateToBackendTraceFromPageLoad()}>
               {latencyFixed.compact(summary.duration)} for {number.compact(summary.callCount)} call

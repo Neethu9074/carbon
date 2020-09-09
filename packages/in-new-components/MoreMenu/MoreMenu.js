@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { joinClassNames } from 'in-services/util/classnames';
+import { stopPropagation } from 'in-services/util/function';
 import Overlay from 'in-new-components/overlays/Overlay';
 import Button from 'in-new-components/Button';
 
@@ -18,7 +19,10 @@ export default function MoreMenu({ children, kind = 'secondary', size = 'normal'
       {({ toggle, refSetter }) => (
         <Button
           className={joinClassNames(locals.button, className)}
-          onClick={toggle}
+          onClick={e => {
+            stopPropagation(e);
+            toggle();
+          }}
           refSetter={refSetter}
           icon="lib_menu_more_horizontal"
           size={size}

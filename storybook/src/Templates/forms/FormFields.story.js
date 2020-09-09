@@ -54,6 +54,12 @@ export function SelectStory() {
   return (
     <>
       <h2>Default</h2>
+
+      <p>
+        A plain HTML select box. This component is slowly being phased out. See
+        <code>ComboBox</code> for a more modern equivalents.
+      </p>
+
       <FormGroup>
         <Label>Field label</Label>
         <Select onChange={() => {}} autoComplete="off">
@@ -78,7 +84,11 @@ export function SelectStory() {
 
 export function ComboBoxStory() {
   const [value, setValue] = useState(null);
-  const options = [{ value: 'foo', label: 'foo' }, { value: 'bar', label: 'bar' }, { value: 'baz', label: 'baz' }];
+  const options = [
+    { value: 'foo', label: 'foo' },
+    { value: 'bar', label: 'bar' },
+    { value: 'baz', label: 'baz' }
+  ];
 
   return (
     <>

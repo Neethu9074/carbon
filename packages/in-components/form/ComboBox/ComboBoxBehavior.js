@@ -71,10 +71,10 @@ ComboBoxBehavior.propTypes = {
   options: PropTypes.arrayOf(
     PropTypes.shape({
       value: PropTypes.any.isRequired,
-      label: PropTypes.string.isRequired
+      label: PropTypes.node.isRequired
     })
   ).isRequired,
-  value: PropTypes.any.isRequired,
+  value: PropTypes.any,
 
   requiresCustomInteractivity: PropTypes.bool,
   disableAutomaticOptionSorting: PropTypes.bool,

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import theme from 'in-themes';
 
-import RevisionDropdown from 'in-new-components/Alerting/components/RevisionDropdown';
+import RevisionDropdown, {toAlertRevision} from 'in-new-components/Alerting/components/RevisionDropdown';
 import { getModifiedUrlStream, mutateUrl } from 'in-stores/navigation/navigation';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
@@ -284,8 +284,4 @@ export function getRevision(alertConfig, alertConfigVersions) {
     }
   }
   return alertConfigVersions.length;
-}
-
-function toAlertRevision(i, alertConfigVersions) {
-  return alertConfigVersions.length - i;
 }

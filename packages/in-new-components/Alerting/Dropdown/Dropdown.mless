@@ -1,15 +1,6 @@
 @import '~in-themes/active.less';
 
 :local {
-  .list {
-    max-height: 23rem;
-    overflow-y: auto;
-  }
-
-  .expandIcon {
-    margin-left: 0.25rem;
-  }
-
   .simpleDropdown {
     color: @lib__colors__N700Medium;
     font-weight: normal;

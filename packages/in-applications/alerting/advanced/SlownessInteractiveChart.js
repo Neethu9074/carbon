@@ -31,7 +31,7 @@ import { findEntryByValue } from 'in-new-components/Alerting/utils/formUtils';
 import { getThresholdLabel } from 'in-applications/alerting/form/formUtils';
 import AlertingChart from 'in-new-components/Alerting/Chart/AlertingChart';
 import createRuleForm from 'in-applications/alerting/form/ruleForm';
-import Dropdown from 'in-new-components/Dropdown';
+import Dropdown from 'in-new-components/Alerting/Dropdown';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
 import connectTo from 'in-hoc/connectTo';

@@ -21,6 +21,8 @@ export default class Overlay extends React.Component {
     parentOverlay: null
   };
 
+  asyncCloseTimeouts = [];
+
   toggle = () => {
     const newState = !this.state.isOpen;
     this.setOpen(newState);
@@ -72,6 +74,11 @@ export default class Overlay extends React.Component {
 
   delayedOpen = () => this.delayedAutoOpenStateChange$.emit(true);
   delayedClose = () => this.delayedAutoOpenStateChange$.emit(false);
+  asyncClose = () => setTimeout(() => {
+    if (!this.unmounted) {
+      this.close();
+    }
+  }, 0);
 
   refSetter = r => {
     if (r === this.state.wrapper || !r) {
@@ -175,7 +182,8 @@ export default class Overlay extends React.Component {
             content={OverlayContent}
             props={{
               ...props,
-              close: this.close
+              close: this.close,
+              asyncClose: this.asyncClose
             }}
             relativeTo={this.state.wrapper}
             parentOverlay={this.state.parentOverlay}

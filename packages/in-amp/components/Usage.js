@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
-import theme from 'in-themes';
+import React from 'react';
 
 import UsageTimeConfigContextModification from 'in-amp/components/UsageTimeConfigContextModification';
 import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';
+import { buildJsonSerializer, buildJsonParser } from 'in-stores/navigation/matrix';
+import ComboBoxBehavior from 'in-components/form/ComboBox/ComboBoxBehavior';
 import { getCompanyInfoAsResultObservable } from 'in-amp/api/companyInfo';
+import DropdownButton from 'in-new-components/Button/DropdownButton';
 import AmpTimeSelection from 'in-amp/components/TimeSelection';
 import { hasError, isLoading } from 'in-services/util/result';
 import ApiItemView from 'in-settings/components/ApiItemView';
@@ -12,16 +14,39 @@ import { Row, Col } from 'in-new-components/layout/Grid';
 import UsageChart from 'in-amp/components/UsageChart';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import useObservable from 'in-hooks/useObservable';
-import Dropdown from 'in-new-components/Dropdown';
+import useUrlState from 'in-hooks/useUrlState';
 import Button from 'in-new-components/Button';
 import Card from 'in-new-components/Card';
 import Title from 'in-components/Title';
+import theme from 'in-themes';
 
 import locals from './Usage.mless';
 
+const timeRestrictedUsageWrapperUrlStateDefinition = {
+  bind: [
+    {
+      path: '/usage',
+      name: 'showAggregatedMetrics',
+      parser: v => v === 'true',
+      initialState: true
+    }
+  ]
+};
+
+const usageUrlStateDefinition = {
+  bind: [
+    {
+      path: '/usage',
+      name: 'tenantUnit',
+      serializer: buildJsonSerializer(),
+      parser: buildJsonParser()
+    }
+  ]
+};
+
 export default function TimeRestrictedUsageWrapper() {
   const timeConfig = useTimeConfig();
-  const [showAggregatedMetrics, setShowAggregatedMetrics] = useState(true);
+  const [{ showAggregatedMetrics }, setState] = useUrlState(timeRestrictedUsageWrapperUrlStateDefinition);
   const companyInfoResult = useObservable(getCompanyInfoAsResultObservable(), []);
 
   if (!companyInfoResult || hasError(companyInfoResult) || isLoading(companyInfoResult)) {
@@ -33,14 +58,19 @@ export default function TimeRestrictedUsageWrapper() {
       <Usage
         tenantUnits={companyInfoResult.data.environments}
         showAggregatedMetrics={showAggregatedMetrics}
-        setShowAggregatedMetrics={setShowAggregatedMetrics}
+        setShowAggregatedMetrics={showAggregatedMetrics => setState({ showAggregatedMetrics })}
       />
     </UsageTimeConfigContextModification>
   );
 }
 
 function Usage({ tenantUnits, showAggregatedMetrics, setShowAggregatedMetrics }) {
-  const [tenantUnit, setTenantUnit] = useState(tenantUnits[0]);
+  const [state, setState] = useUrlState(usageUrlStateDefinition);
+  const tenantUnit = state.tenantUnit || tenantUnits[0];
+  const unitSelectorOptions = tenantUnits.map(({ tenant, unit }) => ({
+    label: `${tenant}-${unit}`,
+    value: { tenant, unit }
+  }));
 
   return (
     <>
@@ -55,13 +85,23 @@ function Usage({ tenantUnits, showAggregatedMetrics, setShowAggregatedMetrics })
             {`${showAggregatedMetrics ? 'Show single unit metrics' : 'Show aggregated metrics'}`}
           </Button>
           {!showAggregatedMetrics && (
-            <Dropdown
-              className={locals.dropdown}
-              label={`${tenantUnit.tenant}-${tenantUnit.unit}`}
-              asSimpleDropdown
-              items={tenantUnits.map(({ tenant, unit }) => ({ label: `${tenant}-${unit}`, tenant, unit }))}
-              onChange={({ tenant, unit }) => setTenantUnit({ tenant, unit })}
-            />
+            <ComboBoxBehavior
+              align="bottomRight"
+              value={
+                unitSelectorOptions.find(
+                  ({ value: { tenant, unit } }) => tenant === tenantUnit.tenant && unit === tenantUnit.unit
+                )?.value
+              }
+              options={unitSelectorOptions}
+              onChange={tenantUnit => setState({ tenantUnit })}
+              disableAutomaticOptionSorting
+            >
+              {({ elementProps, isOpen }) => (
+                <DropdownButton {...elementProps} kind="secondary" expanded={isOpen}>
+                  {tenantUnit.tenant}-{tenantUnit.unit}
+                </DropdownButton>
+              )}
+            </ComboBoxBehavior>
           )}
         </HorizontalFlexWrapper>
         {!showAggregatedMetrics && <AmpTimeSelection />}

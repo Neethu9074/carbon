@@ -1,43 +1,52 @@
 import React from 'react';
 
+import ComboBoxBehavior from 'in-components/form/ComboBox/ComboBoxBehavior';
+import DropdownButton from 'in-new-components/Button/DropdownButton';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import { formatDateTime } from 'in-services/formatters/date';
-import Dropdown from 'in-new-components/Dropdown';
 
 import locals from './RevisionDropdown.mless';
 
 export default function RevisionDropdown({ alertConfig, alertConfigVersions, setRevision, alertRevision }) {
+  const options = alertConfigVersions.map((v, i) => ({
+    value: v,
+    label: renderItemContent(v, i, alertConfig, alertConfigVersions)
+  }));
   return (
-    <Dropdown
-      icon="lib_datetime_timerange"
-      label={`Revision ${alertRevision}`}
+    <ComboBoxBehavior
       align="bottomRight"
-      items={alertConfigVersions}
-      renderItemContent={(item, i) => renderItemContent(item, i, alertConfig, alertConfigVersions)}
+      value={options[alertConfigVersions.length - alertRevision]?.value}
+      options={options}
       onChange={revision => {
         setRevision(revision.created);
       }}
-    />
+      disableAutomaticOptionSorting
+    >
+      {({ elementProps, isOpen }) => (
+        <DropdownButton {...elementProps} kind="primaryv2" icon="lib_datetime_timerange" expanded={isOpen}>
+          Revision {alertRevision}
+        </DropdownButton>
+      )}
+    </ComboBoxBehavior>
   );
 }
 
-function toAlertRevision(i, alertConfigVersions) {
+export function toAlertRevision(i, alertConfigVersions) {
   return alertConfigVersions.length - i;
 }
 
 function renderItemContent(item, i, alertConfig, alertConfigVersions) {
   return (
-    <div className={locals.item}>
-      <span>
-        <span
-          className={evaluateClassNames({
-            [locals.selectedItem]: item.created === alertConfig.created
-          })}
-        >
-          {`Revision ${toAlertRevision(i, alertConfigVersions)} `}
-        </span>
-        <span className={locals.createdDate}>({formatDateTime(item.created)})</span>
+    <>
+      <span
+        className={evaluateClassNames({
+          [locals.selectedItem]: item.created === alertConfig.created
+        })}
+      >
+        Revision {toAlertRevision(i, alertConfigVersions)}
       </span>
-    </div>
+      &nbsp;
+      <span className={locals.createdDate}>({formatDateTime(item.created)})</span>
+    </>
   );
 }

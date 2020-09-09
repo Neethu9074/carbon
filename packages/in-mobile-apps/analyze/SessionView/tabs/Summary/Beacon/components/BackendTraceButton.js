@@ -4,11 +4,10 @@ import React from 'react';
 
 import getMobileAppBackendTraces from 'in-mobile-apps/subscriptions/getMobileAppBackendTraces';
 import { navigateToBackendTraceFromSession } from 'in-mobile-apps/tracker';
+import { MoreMenu, MoreMenuButton } from 'in-new-components/MoreMenu';
 import { getLinkToTraceDetail } from 'in-analyze/navigation/paths';
-import Dropdown from 'in-new-components/Dropdown';
 import Button from 'in-new-components/Button';
 import connect from 'in-hoc/connectTo';
-import Link from 'in-components/Link';
 
 import locals from './BackendTraceButton.mless';
 
@@ -31,6 +30,7 @@ const InternalBackendTraceButton = connect(({ beacon }) => ({
     return (
       <Button
         className={locals.button}
+        kind="primaryv2"
         href$={getLinkToTraceDetail(traces[0].traceId, { callId: 'ROOT' })}
         onClick={e => {
           e.stopPropagation();
@@ -43,23 +43,17 @@ const InternalBackendTraceButton = connect(({ beacon }) => ({
     );
   } else {
     return (
-      <Dropdown
-        className={locals.dropdown}
-        label="View Backend Traces"
-        items={traces}
-        renderItemContent={trace => (
-          <Link
-            href$={getLinkToTraceDetail(trace.traceId, { callId: 'ROOT' })}
-            onClick={e => {
-              e.stopPropagation();
-              navigateToBackendTraceFromSession();
-            }}
+      <MoreMenu kind="primaryv2" size="compact" className={locals.button}>
+        {traces.map(({ traceId }) => (
+          <MoreMenuButton
+            key={traceId}
+            href$={getLinkToTraceDetail(traceId, { callId: 'ROOT' })}
+            onClick={() => navigateToBackendTraceFromSession()}
           >
-            id:
-            {trace.traceId}
-          </Link>
-        )}
-      />
+            ID: {traceId}
+          </MoreMenuButton>
+        ))}
+      </MoreMenu>
     );
   }
 });
