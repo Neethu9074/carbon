@@ -103,7 +103,9 @@ stage (name: 'K8s Deploy') {
     if (env.BRANCH_NAME == 'develop') {
       build job: '/retag-artifacts', parameters: [
           string(name: 'BRANCH', value: env.BRANCH_NAME, trim: true),
-          string(name: 'ENVIRONMENT', value: 'pink', trim: true)
+          string(name: 'ENVIRONMENT', value: 'pink', trim: true),
+          string(name: 'TENANT', value: 'instana', trim: true),
+          string(name: 'UNIT', value: 'test', trim: true),
       ]
     } else if ( env.BRANCH_NAME == latestReleaseBranch && autoDeployMagenta ) {
       build job: '/retag-artifacts', parameters: [
