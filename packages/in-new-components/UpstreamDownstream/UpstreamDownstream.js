@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import UpstreamDownstreamPresenter from 'in-new-components/UpstreamDownstream/UpstreamDownstreamPresenter';
 import { relationships } from 'in-new-components/UpstreamDownstream/constants';
@@ -48,8 +48,6 @@ export default connectTo(
     })
   }),
   function UpstreamDownstream({
-    activeTabIndex,
-    onTabSelect,
     timeConfig,
     serviceId,
     applicationId,
@@ -63,28 +61,28 @@ export default connectTo(
     snapshotId,
     plugin
   }) {
+    const [activeTabIndex, onTabSelect] = useState(0);
+
     const stream = activeTabIndex === 0 ? upstream : downstream;
     const streamApplications = activeTabIndex === 0 ? upstreamApplications : downstreamApplications;
 
     return (
-      <>
-        <UpstreamDownstreamPresenter
-          result={stream}
-          resultApplication={streamApplications}
-          activeTabIndex={activeTabIndex}
-          onTabSelect={onTabSelect}
-          items={stream.data?.items}
-          itemsApplication={streamApplications.data?.items}
-          timeConfig={timeConfig}
-          serviceId={serviceId}
-          applicationId={applicationId}
-          endpointId={endpointId}
-          close={close}
-          tagFilters={tagFilters}
-          snapshotId={snapshotId}
-          plugin={plugin}
-        />
-      </>
+      <UpstreamDownstreamPresenter
+        result={stream}
+        resultApplication={streamApplications}
+        activeTabIndex={activeTabIndex}
+        onTabSelect={onTabSelect}
+        items={stream.data?.items}
+        itemsApplication={streamApplications.data?.items}
+        timeConfig={timeConfig}
+        serviceId={serviceId}
+        applicationId={applicationId}
+        endpointId={endpointId}
+        close={close}
+        tagFilters={tagFilters}
+        snapshotId={snapshotId}
+        plugin={plugin}
+      />
     );
   }
 );

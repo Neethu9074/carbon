@@ -1,10 +1,10 @@
-import React, { Fragment } from 'react';
 import { compose } from 'recompose';
+import React from 'react';
 
 import FullHeightWrapper from 'in-applications/Dashboards/commonComponents/FullHeightWrapper';
 import getEndpointFlowNodes from 'in-applications/subscriptions/getEndpointFlowNodes';
 import { hideUpstream, hideDownstream } from 'in-applications/navigation/matrix';
-import DisabledBodyScroll from 'in-components/DisabledBodyScroll';
+import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
 import getMetrics from 'in-subscription/application/getMetrics';
 import getService from 'in-subscription/application/getService';
 import { boundaryScopes } from 'in-applications/constants';
@@ -82,34 +82,33 @@ export default compose(
   hideUpstream,
   hideDownstream
 }) {
+  useDisabledBodyScroll();
+
   if (!service || !metricValues) {
     return null;
   }
 
   return (
-    <Fragment>
-      <FullHeightWrapper
-        render={height => (
-          <ServerFlowMap
-            height={height}
-            rootNodeData={{
-              id: serviceId,
-              applicationContext: applicationId,
-              service,
-              endpoint: data,
-              metricValues
-            }}
-            serviceId={serviceId}
-            applicationId={applicationId}
-            endpointId={endpointId}
-            timeConfig={timeConfig}
-            getFlowNodes={getEndpointFlowNodes}
-            collapseLeft={hideUpstream}
-            collapseRight={hideDownstream}
-          />
-        )}
-      />
-      <DisabledBodyScroll />
-    </Fragment>
+    <FullHeightWrapper
+      render={height => (
+        <ServerFlowMap
+          height={height}
+          rootNodeData={{
+            id: serviceId,
+            applicationContext: applicationId,
+            service,
+            endpoint: data,
+            metricValues
+          }}
+          serviceId={serviceId}
+          applicationId={applicationId}
+          endpointId={endpointId}
+          timeConfig={timeConfig}
+          getFlowNodes={getEndpointFlowNodes}
+          collapseLeft={hideUpstream}
+          collapseRight={hideDownstream}
+        />
+      )}
+    />
   );
 });

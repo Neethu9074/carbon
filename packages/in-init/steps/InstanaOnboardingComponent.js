@@ -2,7 +2,7 @@ import { compose } from 'recompose';
 import React from 'react';
 
 import FullViewOnboardingWidget from 'in-waiting-for-deployment/components/FullViewOnboardingWidget';
-import DisabledBodyScroll from 'in-components/DisabledBodyScroll';
+import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
 import getResultFromApiPing from 'in-hoc/getResultFromApiPing';
 import checkIfUserCanPass from 'in-init/steps/checkUserPass';
 import DialogPresenter from 'in-components/DialogPresenter';
@@ -23,11 +23,11 @@ export default compose(
 )(InstanaOnboardingComponent);
 
 function InstanaOnboardingComponent({ onDialogSkip, apiCallSatisfied, agentKey = 'AGENT_KEY' }) {
+  useDisabledBodyScroll();
+
   return (
     <ErrorBoundary name="Instana onboarding dialog">
       <DialogPresenter />
-
-      <DisabledBodyScroll />
 
       <MessageFlyout filterRegularMessages />
 

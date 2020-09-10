@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 
 import { contextGuideStackLoadedDurationTracker } from 'in-infrastructure/tracking/tracking';
-import { enableBodyScroll, disableBodyScroll } from 'in-components/DisabledBodyScroll';
 import InlineTabNavigation from 'in-new-components/InlineTabNavigation';
 import SelfEntityHeader from 'in-new-components/Stack/SelfEntityHeader';
 import { LoadingIndicator } from 'in-new-components/LoadingIndicators';
 import { setSingle, getSingle } from 'in-services/settings/settings';
 import EmptyPane from 'in-new-components/Stack/components/EmptyPane';
 import StackPane from 'in-new-components/Stack/components/StackPane';
+import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
 import SEVERITY_MAP from 'in-new-components/Stack/severity.json';
 import tabList from 'in-new-components/Stack/tabs';
 
@@ -16,11 +16,7 @@ import locals from './StackPresenter.mless';
 const preferredContextGuideTabSettingsKey = 'preferredContextGuideTab';
 
 export default function StackPresenter({ applicationId, stack, isLoading, productArea, selfEntity, plugin }) {
-  useEffect(() => {
-    disableBodyScroll();
-    return enableBodyScroll;
-  });
-
+  useDisabledBodyScroll();
   useEffect(() => trackLoading(isLoading, { dashboard: plugin || productArea }), [isLoading]);
 
   if (isLoading) {

@@ -1,19 +1,17 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import FullHeightWrapper from 'in-applications/Dashboards/commonComponents/FullHeightWrapper';
-import DisabledBodyScroll from 'in-components/DisabledBodyScroll';
+import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
 import ApplicationMap from 'in-new-components/ApplicationMap';
 
 export default function _Map(props) {
   const { applicationId, data } = props;
+  useDisabledBodyScroll();
   return (
-    <Fragment>
-      <FullHeightWrapper
-        render={height => (
-          <ApplicationMap data={data} boundaryScope={'ALL'} applicationId={applicationId} customHeight={height} />
-        )}
-      />
-      <DisabledBodyScroll />
-    </Fragment>
+    <FullHeightWrapper
+      render={height => (
+        <ApplicationMap data={data} boundaryScope={'ALL'} applicationId={applicationId} customHeight={height} />
+      )}
+    />
   );
 }

@@ -4,7 +4,6 @@ import InfraPageHeaderWithTabs from 'in-infrastructure/components/InfraPageHeade
 import WithEmptyStateFallback from 'in-new-components/WithEmptyStateFallback';
 import { getViewStructure } from 'in-map/stores/physical/viewStructureStore';
 import NotMonitoringMap from 'in-map/components/NotMonitoringMap';
-import DisabledBodyScroll from 'in-components/DisabledBodyScroll';
 import Controls from 'in-components/MapOverlayControls';
 import MapSidebar from 'in-components/MapSidebar';
 import LegacyView from 'in-components/LegacyView';
@@ -17,7 +16,6 @@ export default function MapHandler(props) {
       <WithEmptyStateFallback getHasDataToRender={getHasDataToRender} FallbackComponent={NotMonitoringMap}>
         <section>
           <LegacyView />
-          <DisabledBodyScroll />
           <Map />
           <Controls />
           <MapSidebar />

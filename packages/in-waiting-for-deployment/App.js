@@ -3,7 +3,7 @@ import React from 'react';
 
 import FullViewOnboardingWidget from 'in-waiting-for-deployment/components/FullViewOnboardingWidget';
 import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
-import DisabledBodyScroll from 'in-components/DisabledBodyScroll';
+import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
 import getResultFromApiPing from 'in-hoc/getResultFromApiPing';
 import DialogPresenter from 'in-components/DialogPresenter';
 import ErrorBoundary from 'in-components/ErrorBoundary';
@@ -20,12 +20,12 @@ export default compose(
 )(App);
 
 function App({ apiCallSatisfied }) {
+  useDisabledBodyScroll();
+
   return (
     <ErrorBoundary name="app">
       <GlobalTheme>
         <DialogPresenter />
-
-        <DisabledBodyScroll />
 
         <FullViewOnboardingWidget
           isRestricted

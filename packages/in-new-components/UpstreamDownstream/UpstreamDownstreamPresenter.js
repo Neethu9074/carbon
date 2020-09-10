@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import UpstreamDownstreamPane from 'in-new-components/UpstreamDownstream/components/UpstreamDownstreamPane';
-import { enableBodyScroll, disableBodyScroll } from 'in-components/DisabledBodyScroll';
 import InlineTabNavigation from 'in-new-components/InlineTabNavigation';
 import { LoadingIndicator } from 'in-new-components/LoadingIndicators';
+import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
 import tabList from 'in-new-components/UpstreamDownstream/tabs';
 
 import locals from './UpstreamDownstreamPresenter.mless';
@@ -24,15 +24,11 @@ export default function UpstreamDownstreamPresenter({
   snapshotId,
   plugin
 }) {
+  useDisabledBodyScroll();
+
   const isLoading =
     (result.progress && result.progress.loading) || (resultApplication.progress && resultApplication.progress.loading);
   const { key } = tabList[activeTabIndex];
-
-  useEffect(() => {
-    disableBodyScroll();
-
-    return enableBodyScroll;
-  });
 
   return (
     <>
@@ -40,23 +36,21 @@ export default function UpstreamDownstreamPresenter({
       {isLoading === true ? (
         <Loader />
       ) : (
-        <>
-          <UpstreamDownstreamPane
-            applicationId={applicationId}
-            activeTab={key}
-            items={items}
-            itemsApplication={itemsApplication}
-            result={result}
-            resultApplication={resultApplication}
-            serviceId={serviceId}
-            timeConfig={timeConfig}
-            endpointId={endpointId}
-            close={close}
-            tagFilters={tagFilters}
-            snapshotId={snapshotId}
-            plugin={plugin}
-          />
-        </>
+        <UpstreamDownstreamPane
+          applicationId={applicationId}
+          activeTab={key}
+          items={items}
+          itemsApplication={itemsApplication}
+          result={result}
+          resultApplication={resultApplication}
+          serviceId={serviceId}
+          timeConfig={timeConfig}
+          endpointId={endpointId}
+          close={close}
+          tagFilters={tagFilters}
+          snapshotId={snapshotId}
+          plugin={plugin}
+        />
       )}
     </>
   );

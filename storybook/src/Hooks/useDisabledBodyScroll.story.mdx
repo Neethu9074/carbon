@@ -1,0 +1,47 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Hooks|useDisabledBodyScroll" />
+
+## Disabling Body Scrolling
+
+You can use the `useDisabledBodyScroll` hook to disable body scrolling as long as the component calling the hook is mounted.
+
+## Import
+
+```js
+import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
+```
+
+## Best-Practice Usage
+
+```js
+import React from 'react';
+
+import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
+
+function MyComponent() {
+  useDisabledBodyScroll();
+
+  return (
+    …
+  );
+}
+```
+
+## Conditionally Disabling Body Scrolling
+
+```js
+import React from 'react';
+
+import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
+
+function MyComponent() {
+  const disable = false;
+  useDisabledBodyScroll(disable);
+
+  return (
+    …
+  );
+}
+```
+

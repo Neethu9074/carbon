@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import UpstreamDownstream from 'in-new-components/UpstreamDownstream/UpstreamDownstream';
@@ -25,8 +25,6 @@ export default connectTo(
     tagFilters,
     plugin
   }) {
-    const [activeTabIndex, onTabSelect] = useState(0);
-
     if (isInternalVisible || contextGuideEnabled) {
       return (
         <Overlay
@@ -34,8 +32,6 @@ export default connectTo(
           content={({ close }) => (
             <UpstreamDownstream
               timeConfig={timeConfig}
-              activeTabIndex={activeTabIndex}
-              onTabSelect={onTabSelect}
               snapshotId={snapshotId}
               serviceId={serviceId}
               applicationId={applicationId}

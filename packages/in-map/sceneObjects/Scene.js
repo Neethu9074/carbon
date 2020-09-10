@@ -1,5 +1,3 @@
-import { on } from 'reactive-observables';
-
 import CameraControllerServiceLocator from 'in-map/misc/serviceLocator/cameraController/CameraControllerServiceLocator';
 import { clear as clearRenderingStore, requestRendering, frame$ } from 'in-map/stores/renderingStore';
 import PhysicsServiceLocator from 'in-map/misc/serviceLocator/physics/PhysicsServiceLocator';
@@ -7,7 +5,6 @@ import { update as updateTime, getDeltaTime, reset as resetTime } from 'in-map/m
 import createNullService from 'in-map/misc/serviceLocator/physics/PhysicsNullService';
 import createPhysicsService from 'in-map/misc/serviceLocator/physics/PhysicsService';
 import { setScene, clear as clearSceneStore } from 'in-map/stores/sceneStore';
-import { contextIsLost, contextIsAvailable } from 'in-map/services/webGL';
 import { clear as clearFactories } from 'in-map/stores/factoriesStore';
 import { eventBus, createEventBus } from 'in-map/services/eventBus';
 import { WebGLRenderer, Scene } from 'in-map/3DLibProvider';
@@ -21,8 +18,6 @@ export default class MainScene extends SceneObject {
 
     // clears the old one and fires up a new to remove all stored messages
     createEventBus();
-
-    contextIsAvailable();
 
     // init service locator
     PhysicsServiceLocator.provide(createPhysicsService());
@@ -60,7 +55,6 @@ export default class MainScene extends SceneObject {
       debouncedResize$.subscribe(() => this.onResize())
     ]);
 
-    this.handleLostContext();
     this.handleAnimationFrames(0);
     this.onResize();
   }
@@ -137,27 +131,6 @@ export default class MainScene extends SceneObject {
     requestRendering();
   }
 
-  // the GPU is a shared resource and as such there are times when it might be taken away from the app.
-  // examples: another page does something that takes the GPU too long and the browser
-  // or the OS decides to reset the GPU to get control back. the event is called >>webglcontextlost<<
-  handleLostContext() {
-    this.addSubscriptions([
-      on(this.canvas, 'webglcontextlost').subscribe(event => {
-        event.preventDefault();
-        contextIsLost();
-      }),
-      on(this.canvas, 'webglcontextrestored').subscribe(() => {
-        // at the point that this method is called the browser has reset all state
-        // to the default WebGL state and all previously allocated resources are invalid.
-        // so you need to re-create textures, buffers, framebuffers, renderbuffers, shaders, programs
-        // and setup your state (clearColor, blendFunc, depthFunc, etc...)
-        // to make it short... reload the page
-        contextIsAvailable();
-        window.location.reload();
-      })
-    ]);
-  }
-
   getChromeVersion() {
     const raw = navigator.userAgent.match(/Chrom(e|ium)\/([0-9]+)\./);
     return raw ? parseInt(raw[2], 10) : false;
@@ -174,7 +147,6 @@ export default class MainScene extends SceneObject {
     clearFactories();
 
     PhysicsServiceLocator.provide(createNullService());
-    contextIsAvailable();
 
     this.shouldRenderScene = null;
     this.renderTarget = null;

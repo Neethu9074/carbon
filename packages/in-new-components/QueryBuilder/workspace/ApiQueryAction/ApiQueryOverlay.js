@@ -2,17 +2,18 @@ import React from 'react';
 
 import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import CopyToClipboardButton from 'in-new-components/CopyToClipboardButton';
-import DisabledBodyScroll from 'in-components/DisabledBodyScroll';
+import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
 import KeyValue from 'in-new-components/lists/KeyValue';
 import CodeComponent from 'in-components/Code';
 
 import locals from './ApiQueryOverlay.mless';
 
 export default function ApiQueryOverlay({ backendQueryModel }) {
+  useDisabledBodyScroll();
   const jsonString = JSON.stringify(backendQueryModel, 0, 2);
+
   return (
     <div className={locals.wrapper}>
-      <DisabledBodyScroll />
       <HorizontalFlexWrapper className={locals.header}>
         <KeyValue
           className={locals.keyValue}

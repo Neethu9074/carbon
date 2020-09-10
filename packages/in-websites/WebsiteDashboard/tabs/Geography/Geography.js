@@ -9,7 +9,7 @@ import { createAsyncViewComponent } from 'in-components/routing/createAsyncCompo
 import WithEmptyStateFallback from 'in-new-components/WithEmptyStateFallback';
 import { websitePathFullyQualified } from 'in-websites/navigation/paths';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
-import DisabledBodyScroll from 'in-components/DisabledBodyScroll';
+import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
 import Button from 'in-new-components/MapControls/Button';
 import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
@@ -21,6 +21,8 @@ const GlobeView = createAsyncViewComponent(GlobeViewLoader);
 
 export default function Geography(props) {
   const { tagFilters, timeConfig } = props;
+  useDisabledBodyScroll();
+
   return (
     <WithEmptyStateFallback
       getHasDataToRender={() => getHasDataToRender(props)}
@@ -81,8 +83,6 @@ export default function Geography(props) {
             </Switch>
           )}
         />
-
-        <DisabledBodyScroll />
       </div>
     </WithEmptyStateFallback>
   );

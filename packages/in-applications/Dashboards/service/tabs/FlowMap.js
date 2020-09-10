@@ -1,10 +1,10 @@
-import React, { Fragment } from 'react';
 import { compose } from 'recompose';
+import React from 'react';
 
 import FullHeightWrapper from 'in-applications/Dashboards/commonComponents/FullHeightWrapper';
 import getServiceFlowNodes from 'in-applications/subscriptions/getServiceFlowNodes';
 import { hideUpstream, hideDownstream } from 'in-applications/navigation/matrix';
-import DisabledBodyScroll from 'in-components/DisabledBodyScroll';
+import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
 import getMetrics from 'in-subscription/application/getMetrics';
 import { boundaryScopes } from 'in-applications/constants';
 import ServerFlowMap from 'in-components/ServerFlowMap';
@@ -67,32 +67,31 @@ export default compose(
   hideUpstream,
   hideDownstream
 }) {
+  useDisabledBodyScroll();
+
   if (!metricValues) {
     return null;
   }
   return (
-    <Fragment>
-      <FullHeightWrapper
-        render={height => (
-          <ServerFlowMap
-            height={height}
-            rootNodeData={{
-              id: data.id,
-              applicationContext: applicationId,
-              service: data,
-              metricValues
-            }}
-            serviceId={serviceId}
-            applicationId={applicationId}
-            endpointId={endpointId}
-            timeConfig={timeConfig}
-            getFlowNodes={getServiceFlowNodes}
-            collapseLeft={hideUpstream}
-            collapseRight={hideDownstream}
-          />
-        )}
-      />
-      <DisabledBodyScroll />
-    </Fragment>
+    <FullHeightWrapper
+      render={height => (
+        <ServerFlowMap
+          height={height}
+          rootNodeData={{
+            id: data.id,
+            applicationContext: applicationId,
+            service: data,
+            metricValues
+          }}
+          serviceId={serviceId}
+          applicationId={applicationId}
+          endpointId={endpointId}
+          timeConfig={timeConfig}
+          getFlowNodes={getServiceFlowNodes}
+          collapseLeft={hideUpstream}
+          collapseRight={hideDownstream}
+        />
+      )}
+    />
   );
 });

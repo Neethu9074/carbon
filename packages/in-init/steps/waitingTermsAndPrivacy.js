@@ -8,7 +8,7 @@ import React from 'react';
 import FullViewWrapper from 'in-waiting-for-deployment/components/FullViewWrapper';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import ErrorBoundary from 'in-components/ErrorBoundary/ErrorBoundary';
-import DisabledBodyScroll from 'in-components/DisabledBodyScroll';
+import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
 import TermsDialog from 'in-settings/terms/dialog/TermsDialog';
 import DialogPresenter from 'in-components/DialogPresenter';
 import http from 'in-services/http/http';
@@ -27,21 +27,24 @@ export function init() {
 
   const observable = create();
 
-  ReactDOM.render(
+  ReactDOM.render(<App />, document.getElementById('main'));
+
+  // Force stop the UI init process at this step. The TermsDialog will force a page reload once completed.
+  return observable;
+}
+
+function App({ observable }) {
+  useDisabledBodyScroll();
+
+  return (
     <ErrorBoundary name="terms-and-privacy-dialog">
       <DialogPresenter />
-
-      <DisabledBodyScroll />
 
       <FullViewWrapper>
         <TermsDialog onSave={onSave} onSkip={() => observable.emit(true)} />
       </FullViewWrapper>
-    </ErrorBoundary>,
-    document.getElementById('main')
+    </ErrorBoundary>
   );
-
-  // Force stop the UI init process at this step. The TermsDialog will force a page reload once completed.
-  return observable;
 }
 
 function save(data) {

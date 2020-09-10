@@ -1,10 +1,10 @@
-import useResizeObserver from 'use-resize-observer/polyfilled';
 import PropTypes from 'prop-types';
 import React from 'react';
 
 import { decimalSeparator, thousandsSeparator } from 'in-services/formatters/number';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import { evaluateClassNames, joinClassNames } from 'in-services/util/classnames';
+import useResizeObserver from 'in-hooks/useResizeObserver';
 import WithActiveTheme from 'in-themes/WithActiveTheme';
 import Button from 'in-new-components/Button';
 import SvgIcon from 'in-components/SvgIcon';

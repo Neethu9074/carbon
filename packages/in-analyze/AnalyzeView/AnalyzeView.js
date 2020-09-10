@@ -24,7 +24,7 @@ import { groupAddedTracker, groupChangedTracker } from 'in-analyze/tracker';
 import getConfigByDataSource from 'in-analyze/AnalyzeView/dataSources';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { activeDialogs$ } from 'in-components/DialogPresenter/store';
-import DisabledBodyScroll from 'in-components/DisabledBodyScroll';
+import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
 import { tagFilterManipulators } from 'in-analyze/tagFiltersHoc';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import GroupedTraces from 'in-analyze/components/GroupedTraces';
@@ -153,6 +153,8 @@ export default compose(
 function AnalyzeView(props) {
   const { isDialogActive, isRawView, dataSource, filters, setTagFilters } = props;
 
+  useDisabledBodyScroll(isDialogActive);
+
   // Eventually this will only route to the new analyze view and the rest of this
   // component can be removed.
   if (dataSource === 'callsUQB') {
@@ -177,7 +179,6 @@ function AnalyzeView(props) {
       FallbackComponent={EmptyAnalyzeView}
       type={dataSource}
     >
-      {isDialogActive && <DisabledBodyScroll />}
       {
         <View
           {...props}

@@ -1,0 +1,16 @@
+@import '~in-themes/active.less';
+
+:local {
+  .map {
+    // needed for the stickies and the tooltips
+    position: relative;
+
+    // needed for blend modes
+    background: black;
+  }
+
+  .canvas {
+    display: block;
+    transition: height 0.2s ease-in-out;
+  }
+}
