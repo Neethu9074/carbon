@@ -90,17 +90,18 @@ export function removeUserFromTenant(userId) {
   });
 }
 
-export function sendInvitation(email, roleId) {
+// it is possible to either pass a string for emails and roleIds or pass an array for each of them
+export function sendInvitation(emails, roleIds) {
   return http({
     method: 'POST',
     url: `/api/settings/users/invitations`,
     headers: getCsrfHeader(),
     queryParams: {
-      email,
-      roleId
+      email: emails,
+      roleId: roleIds
     }
   }).map(v => {
-    refreshSignalInvitations.emit(email);
+    refreshSignalInvitations.emit(emails);
     return v;
   });
 }

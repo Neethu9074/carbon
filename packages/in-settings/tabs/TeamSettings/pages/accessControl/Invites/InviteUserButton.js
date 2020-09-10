@@ -17,7 +17,16 @@ export default function InviteUserButton({ setMessage, reload }) {
       onClick={() => {
         track(USER_INVITE);
         addActiveDialog(
-          <InviteUserDialog onSubmit={(email, roleId) => onDoInviteUser(setMessage, email, roleId, reload)} />
+          <InviteUserDialog
+            onSubmit={invitations =>
+              onDoInviteUser(
+                setMessage,
+                invitations.map(i => i.email),
+                invitations.map(i => i.roleId),
+                reload
+              )
+            }
+          />
         );
       }}
       icon="lib_openclose_add_circle_outline"
@@ -27,10 +36,10 @@ export default function InviteUserButton({ setMessage, reload }) {
   );
 }
 
-function onDoInviteUser(setMessage, email, roleId, reload) {
+function onDoInviteUser(setMessage, emails, roleIds, reload) {
   close();
   setMessage({ text: 'Sending invitation…', type: success });
-  const invitationResult$ = sendInvitation(email, roleId);
+  const invitationResult$ = sendInvitation(emails, roleIds);
   invitationResult$.once(() => {
     setMessage({ text: 'Invitation successfully sent.', type: success });
     if (reload) {
@@ -41,7 +50,7 @@ function onDoInviteUser(setMessage, email, roleId, reload) {
     }, 5000);
   });
   invitationResult$.errors().once(error => {
-    setMessage({ text: `Failed to send invitation for ${email}: ${error.message}`, type: errorType });
+    setMessage({ text: `Failed to send invitation: ${error.message}`, type: errorType });
     logger.error(error);
   });
 }
