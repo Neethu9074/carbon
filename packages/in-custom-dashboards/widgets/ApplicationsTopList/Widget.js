@@ -231,6 +231,7 @@ const columnDefinitions = [
           tooltipFormatter={percentage.detailed}
           showDashOnMissingOrNullMetric
           hideChartOnEmptyMetrics
+          percentageMetric
         />
       );
     }

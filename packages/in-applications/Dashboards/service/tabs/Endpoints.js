@@ -139,6 +139,7 @@ const columnDefinitions = [
           metrics={item.metrics.errors}
           metric={item.metrics.errorsAgg}
           tooltipFormatter={percentage.detailed}
+          percentageMetric
         />
       );
     }

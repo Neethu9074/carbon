@@ -12,6 +12,7 @@ export default class LineMetricRenderer {
 
     this.width = props.width;
     this.height = props.height;
+    this.percentageMetric = props.percentageMetric;
     this.theme = props.theme;
 
     const { paddingLeft = 0, paddingRight = 0, paddingTop = 0, paddingBottom = 0 } = props;
@@ -103,7 +104,11 @@ export default class LineMetricRenderer {
      * to paint the full range.
      */
     let upperBound = Math.max(maxMetricValue, upperBoundValue);
-    if (upperBound > 0 && upperBound < 5 && standardDeviation > 0 && standardDeviation < 1) {
+    if (this.percentageMetric) {
+      if (upperBound < 0.05) {
+        upperBound = 0.05;
+      }
+    } else if (upperBound > 0 && upperBound < 5 && standardDeviation > 0 && standardDeviation < 1) {
       /*
        * Let's put in perspective those pesky 1%~3% error rate spikes.
        * With spikes over 5%, the headroom built based on standard deviation
