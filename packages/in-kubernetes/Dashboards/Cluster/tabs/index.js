@@ -4,7 +4,7 @@ import {
   getDaemonSetDashboard,
   getDeploymentDashboard,
   getDeploymentConfigDashboard,
-  getStatefulSetDashboard,
+  getStatefulSetDashboard
 } from 'in-kubernetes/navigation/paths';
 import WorkloadControllers from 'in-kubernetes/Dashboards/commonComponents/commonTabs/WorkloadControllers';
 import getOpenShiftDeploymentConfigs from 'in-subscription/kubernetes/getOpenShiftDeploymentConfigs';
@@ -21,6 +21,8 @@ import Nodes from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Nodes';
 import Details from 'in-kubernetes/Dashboards/Cluster/tabs/Details';
 import Summary from 'in-kubernetes/Dashboards/Cluster/tabs/Summary';
 import Pods from 'in-kubernetes/Dashboards/Cluster/tabs/Pods';
+import PersistentVolumes from 'in-kubernetes/Dashboards/Cluster/tabs/PersistentVolumes';
+import { persistentVolumeSupportEnabled } from 'in-services/featureFlags';
 
 export default [
   {
@@ -119,6 +121,13 @@ export default [
     header: props => getCounterComponent(props, v => v.workloads.pods),
     stickToBottom: true
   },
+  persistentVolumeSupportEnabled && {
+    label: 'Persistent Volumes',
+    path: `${clusterDashboardFullyQualified}/persistentvolumes`,
+    component: PersistentVolumes,
+    header: props => getCounterComponent(props, v => v.persistentVolumes),
+    stickToBottom: true
+  },
   {
     label: 'Infrastructure',
     path: `${clusterDashboardFullyQualified}/hosts`,
@@ -127,11 +136,6 @@ export default [
   }
 ].filter(Boolean);
 
-function getCounterComponent({clusterId, tab, timeConfig}, valueExtractor) {
-  return (<ClusterTab 
-    clusterId={clusterId}
-    label={tab.label}
-    timeConfig={timeConfig}
-    valueExtractor={valueExtractor} 
-    />);
+function getCounterComponent({ clusterId, tab, timeConfig }, valueExtractor) {
+  return <ClusterTab clusterId={clusterId} label={tab.label} timeConfig={timeConfig} valueExtractor={valueExtractor} />;
 }
