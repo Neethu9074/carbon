@@ -11,7 +11,13 @@ import connectTo from 'in-hoc/connectTo';
 export const SmartAlertConfigDialog = compose(
   withState('simpleMode', 'setSimpleMode', props => !props.editMode),
   connectTo(({ form, updateForm, simpleMode }) => {
-    thresholdOrBaselineLoadingSignal$.emit(form.get('hiddenFields').get('calculateThresholdOnBackend').value);
+    const calculateThresholdOnBackend = form.get('hiddenFields').get('calculateThresholdOnBackend').value;
+    thresholdOrBaselineLoadingSignal$.emit(calculateThresholdOnBackend);
+    if (!calculateThresholdOnBackend) {
+      return {
+        thresholdResult: empty
+      };
+    }
 
     return {
       thresholdResult: resolveThresholdRequest(form, simpleMode)
