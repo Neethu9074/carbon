@@ -1,5 +1,5 @@
 import memoize from 'in-services/util/memoizingObservableGenerator';
-import { timeConfig$ } from 'in-stores/time/config';
+import { generateStableHash } from 'in-services/util/id';
 import { success } from 'in-services/util/result';
 
 // We frequently need to access the tag catalog in ways that would be unoptimized
@@ -31,16 +31,14 @@ export function enrichTagCatalog(tagCatalog) {
 
 export function getTagCatalogOnce(originalGetTagCatalog) {
   return memoize(
-    () =>
-      timeConfig$.flatMap(timeConfig =>
-        originalGetTagCatalog({ timeConfig }).map(result => {
-          if (result.data) {
-            return success(enrichTagCatalog(result.data));
-          }
-          return result;
-        })
-      ),
-    () => '',
+    ({ timeConfig }) =>
+      originalGetTagCatalog({ timeConfig }).map(result => {
+        if (result.data) {
+          return success(enrichTagCatalog(result.data));
+        }
+        return result;
+      }),
+    generateStableHash,
     Number.MAX_VALUE
   );
 }

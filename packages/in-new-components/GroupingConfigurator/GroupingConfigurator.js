@@ -3,9 +3,11 @@ import rpt from 'prop-types';
 
 import ActiveGroupingConfiguration from 'in-new-components/GroupingConfigurator/ActiveGroupingConfiguration';
 import TagSelectorOverlay from 'in-new-components/TagSelectorOverlay/TagSelectorOverlay';
+import LoadingIndicator from 'in-new-components/GroupingConfigurator/LoadingIndicator';
 import { DESTINATION } from 'in-new-components/QueryBuilder/tagFilter/entities';
 import Overlay from 'in-new-components/overlays/Overlay';
 import useObservable from 'in-hooks/useObservable';
+import useTimeConfig from 'in-hooks/useTimeConfig';
 import Button from 'in-new-components/Button';
 
 import locals from './GroupingConfigurator.mless';
@@ -17,12 +19,12 @@ export default function GroupingConfigurator({
   getTagCatalog,
   getSuggestions
 }) {
-  const tagCatalog = useObservable(getTagCatalog(), [getTagCatalog]);
+  const timeConfig = useTimeConfig();
+  const tagCatalog = useObservable(getTagCatalog({ timeConfig }), [getTagCatalog]);
   const autoFocus = useRef();
 
-  // TODO: loading state
-  if (!tagCatalog || !tagCatalog.data) {
-    return null;
+  if (!tagCatalog?.data) {
+    return <LoadingIndicator />;
   }
 
   return (

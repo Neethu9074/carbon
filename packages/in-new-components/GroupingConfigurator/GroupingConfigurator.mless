@@ -48,7 +48,7 @@
     // icons have a built in margin so we need to substract it when it is used in smaller frames
     margin: -0.5rem -0.25rem;
 
-    fill: @lib__colors__N700Medium;
+    fill: @lib__colors__N400;
   }
 
   .removeIcon {

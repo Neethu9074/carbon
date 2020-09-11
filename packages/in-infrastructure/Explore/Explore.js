@@ -52,8 +52,8 @@ function InfraExploreViewWithFixatedTimeConfig() {
   const [{ tagFilterExpression, group, charts }, onChange] = useUrlState(urlStateDefinition);
 
   const validTagFilterExpressionResult =
-    useObservable(isQueryValid(tagFilterExpression), [tagFilterExpression]) ?? pendingResult;
-  const validGroupResult = useObservable(isGroupingConfigurationValid(group), [group]) ?? pendingResult;
+    useObservable(isQueryValid(tagFilterExpression, timeConfig), [tagFilterExpression]) ?? pendingResult;
+  const validGroupResult = useObservable(isGroupingConfigurationValid(group, timeConfig), [group]) ?? pendingResult;
   // in case of a pending result (validTagFilterExpressionResult.data === null) we do not want to show the user an error message
   const isValid = validTagFilterExpressionResult.data === true && validGroupResult.data === true;
   const isInvalid = validTagFilterExpressionResult.data === false && validGroupResult.data === false;

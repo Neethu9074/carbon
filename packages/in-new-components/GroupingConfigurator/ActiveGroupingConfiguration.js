@@ -62,7 +62,7 @@ export default React.forwardRef(function ActiveGroupingConfiguration(
           .slice(0, path.length - 1)
           .map(node => node.label)
           .join(' ')}
-        <SvgIcon className={locals.icon} type="lib_arrow_expand_right" />
+        <SvgIcon className={locals.icon} type="lib_arrow_drop_right" />
         {currentGroup.label}
       </span>
 

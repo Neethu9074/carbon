@@ -14,8 +14,8 @@ export function createGroupingConfigurator({ getTagCatalog: originalGetTagCatalo
     },
 
     // Observable<Result<Boolean>>
-    isGroupingConfigurationValid: groupingConfiguration =>
-      getTagCatalog().map(result => {
+    isGroupingConfigurationValid: (groupingConfiguration, timeConfig) =>
+      getTagCatalog({ timeConfig }).map(result => {
         if (!result.data) {
           return result;
         }

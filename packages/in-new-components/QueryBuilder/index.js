@@ -16,8 +16,8 @@ export function createQueryBuilder({ getTagCatalog: originalGetTagCatalog, getSu
     },
 
     // Observable<Result<Boolean>>
-    isQueryValid: formModel =>
-      getTagCatalog().map(result => {
+    isQueryValid: (formModel, timeConfig) =>
+      getTagCatalog({ timeConfig }).map(result => {
         if (!result.data) {
           return result;
         }
@@ -25,8 +25,8 @@ export function createQueryBuilder({ getTagCatalog: originalGetTagCatalog, getSu
       }),
 
     // Observable<Result<FormModel>>
-    toFormModel: tagFilterArray =>
-      getTagCatalog().map(result => {
+    toFormModel: (tagFilterArray, timeConfig) =>
+      getTagCatalog({ timeConfig }).map(result => {
         if (!result.data) {
           return result;
         }

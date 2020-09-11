@@ -18,6 +18,7 @@ import Sections from 'in-new-components/workspace/Sections';
 import { pendingResult } from 'in-services/fixedObjects';
 import useObservable from 'in-hooks/useObservable';
 import Stack from 'in-new-components/layout/Stack';
+import useTimeConfig from 'in-hooks/useTimeConfig';
 import Message from 'in-new-components/Message';
 import useUrlState from 'in-hooks/useUrlState';
 import Footer from 'in-new-components/Footer';
@@ -36,11 +37,12 @@ export default function ApplicationAnalyzeView() {
 }
 
 function ApplicationAnalyzeViewWithFixatedTimeConfig() {
+  const timeConfig = useTimeConfig();
   const [{ tagFilterExpression, group }, onChange] = useUrlState(urlStateDefinition);
 
   const validTagFilterExpressionResult =
-    useObservable(isCallQueryValid(tagFilterExpression), [tagFilterExpression]) ?? pendingResult;
-  const validGroupResult = useObservable(isCallGroupingConfigurationValid(group), [group]) ?? pendingResult;
+    useObservable(isCallQueryValid(tagFilterExpression, timeConfig), [tagFilterExpression]) ?? pendingResult;
+  const validGroupResult = useObservable(isCallGroupingConfigurationValid(group, timeConfig), [group]) ?? pendingResult;
   // in case of a pending result (validTagFilterExpressionResult.data === null) we do not want to show the user an error message
   const isValid = validTagFilterExpressionResult.data === true && validGroupResult.data === true;
   const isInvalid = validTagFilterExpressionResult.data === false && validGroupResult.data === false;
