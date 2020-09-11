@@ -92,4 +92,8 @@
   .withControlsGrayscale {
     filter: grayscale(1);
   }
+
+  .hiddenCheckbox {
+    display: none;
+  }
 }

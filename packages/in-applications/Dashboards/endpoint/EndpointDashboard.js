@@ -4,6 +4,7 @@ import { get } from 'lodash';
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
 import ApplicationContextIcon from 'in-applications/components/ApplicationSwitcherContext/ApplicationContextIcon';
 import TechnologyIndicatorList from 'in-applications/components/TechnologyIndicator/TechnologyIndicatorList';
+import InboundAllCallsDropdown from 'in-applications/Dashboards/commonComponents/InboundAllCallsDropdown';
 import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
 import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
 import FloatingActionButtons from 'in-new-components/FloatingActionButton/FloatingActionButtons';
@@ -27,7 +28,6 @@ import { defaultTimeShift } from 'in-stores/time/shifting';
 import { setTimeConfig } from 'in-stores/time/config';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { mutateUrl } from 'in-stores/navigation';
-
 import useUrlState from 'in-hooks/useUrlState';
 import Footer from 'in-new-components/Footer';
 import { role } from 'in-stores/user';
@@ -58,7 +58,9 @@ export default function EndpointDashboard({ location }) {
     timeConfig,
     timeShift: urlState.timeShift,
     onUpdate: result => setLastUsedTimestamp(result?.time),
-    lastUsedTimestamp
+    lastUsedTimestamp,
+    onBoundaryStateChange: setUrlState,
+    location
   };
 
   useEffect(() => {
@@ -179,30 +181,48 @@ function renderButtonLine({ applicationId, serviceId, endpointId, boundaryScope,
   );
 }
 
-function renderButtonLineSecondary({ timeConfig, timeShift, onChange, currentTab, lastUsedTimestamp }) {
+function renderButtonLineSecondary({
+  timeConfig,
+  timeShift,
+  onChange,
+  currentTab,
+  lastUsedTimestamp,
+  applicationId,
+  boundaryScope,
+  onBoundaryStateChange
+}) {
   return (
-    <TimeShiftDropdown
-      value={timeShift}
-      onChange={e => {
-        onChange(e);
-        // When using time shift, freeze the time range when one of the 'Last X' time ranges is used.
-        if (e.timeShift !== 0 && timeConfig.to == null) {
-          const to = lastUsedTimestamp != null ? lastUsedTimestamp : Date.now();
-          mutateUrl(
-            location =>
-              setTimeConfig(location, {
-                to: to,
-                focusedMoment: to,
-                autoRefresh: false,
-                windowSize: timeConfig.windowSize
-              }),
-            true
-          );
-        }
-      }}
-      timeConfig={timeConfig}
-      disabled={currentTab !== summaryTab}
-    />
+    <>
+      <TimeShiftDropdown
+        value={timeShift}
+        onChange={e => {
+          onChange(e);
+          // When using time shift, freeze the time range when one of the 'Last X' time ranges is used.
+          if (e.timeShift !== 0 && timeConfig.to == null) {
+            const to = lastUsedTimestamp != null ? lastUsedTimestamp : Date.now();
+            mutateUrl(
+              location =>
+                setTimeConfig(location, {
+                  to: to,
+                  focusedMoment: to,
+                  autoRefresh: false,
+                  windowSize: timeConfig.windowSize
+                }),
+              true
+            );
+          }
+        }}
+        timeConfig={timeConfig}
+        disabled={currentTab !== summaryTab}
+      />
+      {applicationId && (
+        <InboundAllCallsDropdown
+          boundaryScope={boundaryScope}
+          onBoundaryStateChange={onBoundaryStateChange}
+          disabled={location.pathname === '/endpoint/flowMap'}
+        />
+      )}
+    </>
   );
 }
 

@@ -49,7 +49,8 @@ export default function ApplicationDashboard({ location }) {
     location,
     currentTab: location.pathname.substr(location.pathname.lastIndexOf('/')),
     onUpdate: result => setLastUsedTimestamp(result?.time),
-    lastUsedTimestamp
+    lastUsedTimestamp,
+    onBoundaryStateChange: setUrlState
   };
 
   useEffect(() => {
@@ -139,7 +140,8 @@ function renderButtonLineSecondary({
   boundaryScope,
   timeShift,
   currentTab,
-  lastUsedTimestamp
+  lastUsedTimestamp,
+  onBoundaryStateChange
 }) {
   return (
     <>
@@ -168,9 +170,9 @@ function renderButtonLineSecondary({
       <InboundAllCallsDropdown
         data={result.data}
         boundaryScope={boundaryScope}
-        onBoundaryStateChange={onChange}
-        area="application"
+        onBoundaryStateChange={onBoundaryStateChange}
         defaultBoundaryScope={result.data?.boundaryScope}
+        disabled={location.pathname === '/application/map'}
       />
     </>
   );

@@ -1,10 +1,6 @@
-:local {
-  .overlay {
-    min-width: 30rem;
-    max-width: 30rem;
-    padding-bottom: 1rem;
-  }
+@import '~in-themes/active.less';
 
+:local {
   .buttonContent {
     display: flex;
     align-items: center;
@@ -16,5 +12,35 @@
 
   .tooltipIcon {
     margin: -0.25rem 0.5rem -0.25rem 0.5rem;
+  }
+
+  .option {
+    min-width: 30rem;
+    max-width: 30rem;
+    display: grid;
+    grid-template-columns: 2rem auto;
+  }
+
+  .optionText {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .optionIcon {
+    align-self: center;
+  }
+
+  .label {
+    color: @lib__colors__N600Light;
+    font-size: 1rem;
+    grid-column-start: 2;
+  }
+
+  .description {
+    font-size: 0.75rem;
+    font-weight: 300;
+    color: @lib__colors__N600Light;
+    margin-top: 0.5rem;
+    grid-column-start: 2;
   }
 }

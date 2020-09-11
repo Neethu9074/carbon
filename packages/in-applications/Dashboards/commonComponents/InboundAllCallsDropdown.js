@@ -1,56 +1,64 @@
 import React from 'react';
 
-import InboundOrAllCallsChoiceVertical from 'in-applications/Dashboards/commonComponents/inboundOrAllCalls/InboundOrAllCallsChoiceVertical';
+import ComboBoxBehavior from 'in-components/form/ComboBox/ComboBoxBehavior';
 import DropdownButton from 'in-new-components/Button/DropdownButton';
 import { boundaryScopes } from 'in-applications/constants';
 import { capitalize } from 'in-services/formatters/string';
-import Overlay from 'in-new-components/overlays/Overlay';
 import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
 
 import locals from './InboundAllCallsDropdown.mless';
 
 export default function InboundAllCallsDropdown(props) {
-  const { boundaryScope: urlBoundaryScope, data: application, defaultBoundaryScope, disabled } = props;
+  const {
+    boundaryScope: urlBoundaryScope,
+    data: application,
+    defaultBoundaryScope,
+    disabled,
+    onBoundaryStateChange
+  } = props;
   const boundaryScope = disabled ? 'ALL' : urlBoundaryScope || application.boundaryScope;
 
   const boundaryScopeLabel = capitalize(boundaryScope);
+
   return (
-    <>
-      {boundaryScope && (
-        <Overlay withoutWrapper content={InboundAllCallsDropdownOverlay} props={props}>
-          {({ toggle, isOpen, refSetter }) => (
-            <DropdownButton
-              expanded={isOpen}
-              onClick={toggle}
-              refSetter={refSetter}
-              kind="secondary"
-              disabled={disabled}
-            >
-              <div className={locals.buttonContent}>
-                <SvgIcon className={locals.icon} type={boundaryScopes.info[boundaryScope.toUpperCase()].icon} />
-                {boundaryScopeLabel} Calls
-                <Tooltip
-                  content={boundaryScopes.info[defaultBoundaryScope.toUpperCase()].overrideDefault}
-                  align="rightMiddle"
-                >
-                  <SvgIcon className={locals.tooltipIcon} type="lib_help_error_info_outline" size="xs" />
-                </Tooltip>
-              </div>
-            </DropdownButton>
-          )}
-        </Overlay>
+    <ComboBoxBehavior
+      value={boundaryScope}
+      options={[
+        { value: 'INBOUND', label: renderItemContent('INBOUND') },
+        { value: 'ALL', label: renderItemContent('ALL') }
+      ]}
+      onChange={value => onBoundaryStateChange({ boundaryScope: value })}
+    >
+      {({ elementProps, isOpen }) => (
+        <DropdownButton {...elementProps} expanded={isOpen} kind="secondary" disabled={disabled}>
+          <div className={locals.buttonContent}>
+            <SvgIcon className={locals.icon} type={boundaryScopes.info[boundaryScope.toUpperCase()].icon} />
+            {boundaryScopeLabel} Calls
+            {defaultBoundaryScope && (
+              <Tooltip
+                content={boundaryScopes.info[defaultBoundaryScope.toUpperCase()].overrideDefault}
+                align="rightMiddle"
+              >
+                <SvgIcon className={locals.tooltipIcon} type="lib_help_error_info_outline" size="xs" />
+              </Tooltip>
+            )}
+          </div>
+        </DropdownButton>
       )}
-    </>
+    </ComboBoxBehavior>
   );
 }
 
-function InboundAllCallsDropdownOverlay(props) {
-  const { boundaryScope: urlBoundaryScope, data: application, onBoundaryStateChange } = props;
-  const boundaryScope = urlBoundaryScope || application.boundaryScope;
+function renderItemContent(item) {
+  const { icon, text, dashboard } = boundaryScopes.info[item];
   return (
-    <div className={locals.overlay}>
-      <InboundOrAllCallsChoiceVertical boundaryScope={boundaryScope} onBoundaryStateChange={onBoundaryStateChange} />
+    <div className={locals.option}>
+      <SvgIcon className={locals.optionIcon} type={icon} />
+      <div className={locals.optionText}>
+        <div className={locals.label}>{text}</div>
+        <div className={locals.description}>{dashboard}</div>
+      </div>
     </div>
   );
 }

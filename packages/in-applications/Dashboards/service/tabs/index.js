@@ -1,7 +1,6 @@
 /* eslint-disable react/display-name */
 import React from 'react';
 
-import ServiceDashboardNotifications from 'in-applications/Dashboards/service/components/ServiceDashboardNotifications';
 import ErrorMessagesTab from 'in-applications/Dashboards/commonTabs/messages/ErrorMessages';
 import LogMessagesTab from 'in-applications/Dashboards/commonTabs/messages/LogMessages';
 import InfrastructureTab from 'in-applications/Dashboards/commonTabs/Infrastructure';
@@ -50,7 +49,6 @@ export default [
 function wrapWithMessage(Component) {
   return props => (
     <>
-      <ServiceDashboardNotifications {...props} />
       <Component {...props} />
     </>
   );

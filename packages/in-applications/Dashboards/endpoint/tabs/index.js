@@ -1,7 +1,6 @@
 /* eslint-disable react/display-name */
 import React from 'react';
 
-import EndpointDashboardNotifications from 'in-applications/Dashboards/endpoint/components/EndpointDashboardNotifications';
 import ErrorMessagesTab from 'in-applications/Dashboards/commonTabs/messages/ErrorMessages';
 import LogMessagesTab from 'in-applications/Dashboards/commonTabs/messages/LogMessages';
 import Infrastructure from 'in-applications/Dashboards/commonTabs/Infrastructure';
@@ -44,7 +43,6 @@ export default [
 function wrapWithMessage(Component) {
   return props => (
     <>
-      <EndpointDashboardNotifications {...props} />
       <Component {...props} />
     </>
   );

@@ -5,6 +5,7 @@ import InstanaServiceToCloudfoundryApplicationButton from 'in-cloudfoundry/commo
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
 import ApplicationContextIcon from 'in-applications/components/ApplicationSwitcherContext/ApplicationContextIcon';
 import TechnologyIndicatorList from 'in-applications/components/TechnologyIndicator/TechnologyIndicatorList';
+import InboundAllCallsDropdown from 'in-applications/Dashboards/commonComponents/InboundAllCallsDropdown';
 import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
 import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
 import FloatingActionButtons from 'in-new-components/FloatingActionButton/FloatingActionButtons';
@@ -26,7 +27,6 @@ import { defaultTimeShift } from 'in-stores/time/shifting';
 import { setTimeConfig } from 'in-stores/time/config';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { mutateUrl } from 'in-stores/navigation';
-
 import useUrlState from 'in-hooks/useUrlState';
 import Footer from 'in-new-components/Footer';
 import { role } from 'in-stores/user';
@@ -55,7 +55,9 @@ export default function ServiceDashboard({ location }) {
     timeConfig,
     timeShift: urlState.timeShift,
     onUpdate: result => setLastUsedTimestamp(result?.time),
-    lastUsedTimestamp
+    lastUsedTimestamp,
+    location,
+    onBoundaryStateChange: setUrlState
   };
 
   useEffect(() => {
@@ -165,7 +167,10 @@ function renderButtonLineSecondary({
   timeShift,
   onChange,
   currentTab,
-  lastUsedTimestamp
+  lastUsedTimestamp,
+  boundaryScope,
+  onBoundaryStateChange,
+  location
 }) {
   return (
     <>
@@ -196,6 +201,13 @@ function renderButtonLineSecondary({
         timeConfig={timeConfig}
         disabled={currentTab !== summaryTab}
       />
+      {applicationId && (
+        <InboundAllCallsDropdown
+          boundaryScope={boundaryScope}
+          onBoundaryStateChange={onBoundaryStateChange}
+          disabled={location.pathname === '/service/flowMap'}
+        />
+      )}
     </>
   );
 }
