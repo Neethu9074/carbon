@@ -77,6 +77,7 @@ const disabledLists = {
   general: (() => {
     const disabledList = {
       'application.id': !isInstanaEngineer,
+      'boundary.application.id': !isInstanaEngineer,
       'service.id': !isInstanaEngineer,
       'service.rule_id': !isInstanaEngineer,
       'endpoint.id': !isInstanaEngineer,
@@ -94,9 +95,13 @@ const disabledLists = {
       'call.span_type': !isInstanaEngineer,
       'call.http.hostCapturedFromSource': !isInstanaEngineer,
       'call.meta_tags': !isInstanaEngineer,
+      'call.ingestion_time': !isInstanaEngineer,
       'log.span_type': !isInstanaEngineer,
       'related.infra.entity.snapshotId': !isInstanaEngineer,
-      'related.infra.entity.pluginId': !isInstanaEngineer
+      'related.infra.entity.pluginId': !isInstanaEngineer,
+      'eum.correlation.id': !isInstanaEngineer,
+      'eum.correlation.type': !isInstanaEngineer,
+      'trace.service.id': !isInstanaEngineer
     };
     return tag => disabledList[tag];
   })(),
