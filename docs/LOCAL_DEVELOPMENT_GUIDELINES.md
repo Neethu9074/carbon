@@ -8,7 +8,8 @@ Tasks are defined in the `package.json`. They can be executed via `yarn run <tas
 
  - `yarn run dev`: Starts the development mode. This is what you want most of the time. The development mode will ask you several questions during startup. When you are just starting out you should always select the default options, i.e. always hit `return` to accept the defaults.
  - `yarn run storybook`: Starts up our storybook/component catalog locally.
- - `yarn run test`: Executes the tests suite and lints the whole source code.
+ - `yarn run test`: Executes the test suite and lints the whole source code.
+ - `yarn run test:unit:watch`: Re-executes the whole test suite on file change. Most of the time this is too slow for a good TDD flow. You may want to temporarily adapt the file watch configuration from `packages/**/*_test.js` to, e.g., `packages/in-foobar/my_test.js`, to only re-execute a specific test or the tests in a specific sub-directory.
  - `yarn run build`: Builds the whole source code. This is not required for most local development workflows. *You probably don't need this.*
  - `yarn run try-build`: Can be executed after a successful `yarn run build` to start up the UI in a way that is similar to production deployments. The UI will expect that backend components are available locally using their default development ports, e.g. the ports opened via our tunnel script. *You probably don't need this.*
 
