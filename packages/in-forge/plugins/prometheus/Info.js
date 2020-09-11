@@ -16,7 +16,7 @@ export default function Info({ snapshot }) {
       <DescriptionItem title="Gauges">{gauges}</DescriptionItem>
       <DescriptionItem title="Histograms">{histograms}</DescriptionItem>
       <DescriptionItem title="Summaries">{summaries}</DescriptionItem>
-      <DescriptionItem title="Untyped metrics">{untyped}</DescriptionItem>
+      <DescriptionItem title="Untyped">{untyped}</DescriptionItem>
     </DescriptionList>
   );
 }
