@@ -2,13 +2,13 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import AlertThresholdConfigItemContainer from 'in-new-components/Alerting/advanced/TimeThresholdConfig/AlertThresholdConfigItemContainer';
-import DistinctSlider from 'in-new-components/Slider/DistinctSlider';
+import DebouncedDistinctSlider from 'in-new-components/Slider/DebouncedDistinctSlider';
 
 export default function ConfigureViolations({ label, onChange, violations, maxViolations }) {
   return (
     <AlertThresholdConfigItemContainer noIcon>
       <label>{label}</label>
-      <DistinctSlider
+      <DebouncedDistinctSlider
         value={violations}
         marks={Array.from(Array(maxViolations).fill(0), (x, i) => ({
           value: i + 1,
