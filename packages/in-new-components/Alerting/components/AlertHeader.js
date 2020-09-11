@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import theme from 'in-themes';
 
-import RevisionDropdown, {toAlertRevision} from 'in-new-components/Alerting/components/RevisionDropdown';
+import RevisionDropdown, { toAlertRevision } from 'in-new-components/Alerting/components/RevisionDropdown';
 import { getModifiedUrlStream, mutateUrl } from 'in-stores/navigation/navigation';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
@@ -89,9 +89,7 @@ export default function AlertHeader({
     doRestoreConfig$(alertConfig, alertConfig.id).once(
       () => setRevision(null),
       error => {
-        const errorMessage = `Failed to restore alert config revision with ID ${alertConfig.id} and version ${
-          alertConfig.created
-        }: ${error.message}`;
+        const errorMessage = `Failed to restore alert config revision with ID ${alertConfig.id} and version ${alertConfig.created}: ${error.message}`;
         setErrorMessage(errorMessage);
       }
     );
@@ -138,100 +136,94 @@ export default function AlertHeader({
             />
           )}
 
-          {alertConfig.readOnly &&
-            !isDeletedConfig && (
-              <Tooltip content={`Restore Revision ${alertRevision}`}>
+          {alertConfig.readOnly && !isDeletedConfig && (
+            <Tooltip content={`Restore Revision ${alertRevision}`}>
+              <SvgIcon
+                className={locals.actionIcon}
+                type="lib_actions_revert"
+                onClick={() => {
+                  addActiveDialog(
+                    <ConfirmationDialog
+                      header="Please Confirm"
+                      description={
+                        <span>
+                          Are you sure you want to restore{' '}
+                          <strong>
+                            &quot;Revision {alertRevision}
+                            &quot;
+                          </strong>
+                          ?
+                        </span>
+                      }
+                      bButtonLabel="Restore"
+                      onB={() => {
+                        close();
+                        doRestore();
+                      }}
+                      bButtonIcon="lib_actions_revert"
+                    />
+                  );
+                }}
+              />
+            </Tooltip>
+          )}
+
+          {role.canConfigureCustomAlerts && !alertConfig.readOnly && (
+            <>
+              <Tooltip content={` ${alertConfig.enabled ? 'Disable' : 'Enable'}`}>
                 <SvgIcon
                   className={locals.actionIcon}
-                  type="lib_actions_revert"
+                  type={
+                    isToggling ? 'lib_actions_loading' : alertConfig.enabled ? 'lib_actions_pause' : 'lib_actions_play'
+                  }
+                  spinning={isToggling}
                   onClick={() => {
-                    addActiveDialog(
-                      <ConfirmationDialog
-                        header="Please Confirm"
-                        description={
-                          <span>
-                            Are you sure you want to restore{' '}
-                            <strong>
-                              &quot;Revision {alertRevision}
-                              &quot;
-                            </strong>
-                            ?
-                          </span>
-                        }
-                        bButtonLabel="Restore"
-                        onB={() => {
-                          close();
-                          doRestore();
-                        }}
-                        bButtonIcon="lib_actions_revert"
-                      />
-                    );
+                    if (!isToggling) {
+                      doToggleEnabled();
+                    }
                   }}
                 />
               </Tooltip>
-            )}
 
-          {role.canConfigureCustomAlerts &&
-            !alertConfig.readOnly && (
-              <>
-                <Tooltip content={` ${alertConfig.enabled ? 'Disable' : 'Enable'}`}>
-                  <SvgIcon
-                    className={locals.actionIcon}
-                    type={
-                      isToggling
-                        ? 'lib_actions_loading'
-                        : alertConfig.enabled
-                          ? 'lib_actions_pause'
-                          : 'lib_actions_play'
+              <Tooltip content={`Edit`}>
+                <SvgIcon className={locals.actionIcon} type="lib_actions_edit" onClick={openDialog} />
+              </Tooltip>
+
+              <Tooltip content={`Delete`}>
+                <SvgIcon
+                  className={locals.actionIcon}
+                  type={isDeleting ? 'lib_actions_loading' : 'lib_actions_delete'}
+                  spinning={isDeleting}
+                  onClick={() => {
+                    if (!isDeleting) {
+                      addActiveDialog(
+                        <ConfirmationDialog
+                          header="Please Confirm"
+                          description={
+                            <span>
+                              Are you sure you want to remove the{' '}
+                              <strong>
+                                alert &quot;
+                                {alertConfig.name}
+                                &quot;
+                              </strong>
+                              ?
+                            </span>
+                          }
+                          bButtonLabel="Remove"
+                          onB={() => {
+                            close();
+                            doDelete();
+                          }}
+                          bButtonIcon="lib_actions_delete"
+                        />
+                      );
                     }
-                    spinning={isToggling}
-                    onClick={() => {
-                      if (!isToggling) {
-                        doToggleEnabled();
-                      }
-                    }}
-                  />
-                </Tooltip>
-
-                <Tooltip content={`Edit`}>
-                  <SvgIcon className={locals.actionIcon} type="lib_actions_edit" onClick={openDialog} />
-                </Tooltip>
-
-                <Tooltip content={`Delete`}>
-                  <SvgIcon
-                    className={locals.actionIcon}
-                    type={isDeleting ? 'lib_actions_loading' : 'lib_actions_delete'}
-                    spinning={isDeleting}
-                    onClick={() => {
-                      if (!isDeleting) {
-                        addActiveDialog(
-                          <ConfirmationDialog
-                            header="Please Confirm"
-                            description={
-                              <span>
-                                Are you sure you want to remove the{' '}
-                                <strong>
-                                  alert &quot;
-                                  {alertConfig.name}
-                                  &quot;
-                                </strong>
-                                ?
-                              </span>
-                            }
-                            bButtonLabel="Remove"
-                            onB={() => {
-                              close();
-                              doDelete();
-                            }}
-                            bButtonIcon="lib_actions_delete"
-                          />
-                        );
-                      }
-                    }}
-                  />
-                </Tooltip>
-              </>
-            )}
+                  }}
+                />
+              </Tooltip>
+            </>
+          )}
         </div>
       </div>
       {isDeletedConfig && (

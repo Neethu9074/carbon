@@ -3,8 +3,8 @@ import { assign } from 'lodash';
 
 import { tenant, tenantUnitStructure$, user } from 'in-stores/user';
 import { registerTracker } from 'in-services/tracking/trackers';
-import getCompanyInfo from 'in-subscription/getCompanyInfo';
 import getUsageInfo from 'in-subscription/getUsageInfo';
+import getAccount from 'in-subscription/getAccount';
 import { noop } from 'in-services/util/function';
 import { find } from 'in-services/arrayUtils';
 import config from 'in-services/config';
@@ -51,13 +51,13 @@ function initMixpanel() {
   combineLatest([
     tenantUnitStructure$,
     getUsageInfo(),
-    getCompanyInfo()
+    getAccount()
       .map(result => (result && result.data ? result.data : null))
       .filter(Boolean)
-  ]).once(([tenantWithUnits, usageInfo, companyInfo]) => {
+  ]).once(([tenantWithUnits, usageInfo, account]) => {
     window.mixpanel.register({
-      companyId: companyInfo.companyId,
-      companyName: companyInfo.companyName,
+      companyId: account.id,
+      companyName: account.name,
       licenseType: usageInfo?.activeLicenseType
     });
 

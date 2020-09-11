@@ -74,11 +74,12 @@ export default class Overlay extends React.Component {
 
   delayedOpen = () => this.delayedAutoOpenStateChange$.emit(true);
   delayedClose = () => this.delayedAutoOpenStateChange$.emit(false);
-  asyncClose = () => setTimeout(() => {
-    if (!this.unmounted) {
-      this.close();
-    }
-  }, 0);
+  asyncClose = () =>
+    setTimeout(() => {
+      if (!this.unmounted) {
+        this.close();
+      }
+    }, 0);
 
   refSetter = r => {
     if (r === this.state.wrapper || !r) {

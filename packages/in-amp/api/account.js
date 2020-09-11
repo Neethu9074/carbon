@@ -12,14 +12,14 @@ export function refresh() {
 
 // observables
 
-export const getCompanyInfoAsResultObservable = memoize(getCompanyInfoAsResultObservableInternal, () => '', 60000);
-function getCompanyInfoAsResultObservableInternal() {
+export const getAccountAsResultObservable = memoize(getAccountAsResultObservableInternal, () => '', 60000);
+function getAccountAsResultObservableInternal() {
   return refreshSignal.flatMap(() =>
     createObservable(
       http({
         method: 'GET',
         maxRetries: 3,
-        url: `/api/settings/amp/companyInfo`
+        url: `/api/settings/amp/account`
       })
     )
   );
@@ -27,15 +27,15 @@ function getCompanyInfoAsResultObservableInternal() {
 
 // regular calls
 
-export function setCompanyInfo(companyInfo) {
+export function setCompanyInfo(account) {
   return http({
     method: 'POST',
     maxRetries: 3,
-    url: `/api/settings/amp/companyInfo`,
+    url: `/api/settings/amp/account`,
     headers: getCsrfHeader(),
-    data: companyInfo
+    data: account
   }).map(v => {
-    refreshSignal.emit(companyInfo);
+    refreshSignal.emit(account);
     return v;
   });
 }

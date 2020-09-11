@@ -2,8 +2,8 @@ import { createField, notBlankValidator } from 'formalistic';
 import React, { useState } from 'react';
 
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
-import { getCompanyInfoAsResultObservable, refresh } from 'in-amp/api/companyInfo';
 import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';
+import { getAccountAsResultObservable, refresh } from 'in-amp/api/account';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import ApiItemView from 'in-settings/components/ApiItemView';
@@ -21,7 +21,7 @@ export default function CompanyInfo() {
     <ApiItemView
       hideFooter
       getObservables={() => ({
-        companyInfo: getCompanyInfoAsResultObservable()
+        account: getAccountAsResultObservable()
       })}
       enrichForm={enrichForm}
       onCancelClick={refresh}
@@ -139,45 +139,30 @@ function InputField({ form, setForm, title, fieldName, isEditable }) {
   ));
 }
 
-function enrichForm(form, { result: { companyInfo } }) {
+function enrichForm(form, { result: { account } }) {
   return form
-    .put('name', createField({ value: companyInfo.name || '', validator: notBlankValidator }))
-    .put('companyId', createField({ value: companyInfo.companyId }))
-    .put('companyDomains', createField({ value: companyInfo.companyDomains }))
-    .put('environments', createField({ value: companyInfo.environments }))
-    .put('billingCity', createField({ value: companyInfo.billingAddress.city || '', validator: notBlankValidator }))
-    .put(
-      'billingCountry',
-      createField({ value: companyInfo.billingAddress.country || '', validator: notBlankValidator })
-    )
-    .put('billingState', createField({ value: companyInfo.billingAddress.state || '', validator: notBlankValidator }))
-    .put('billingStreet', createField({ value: companyInfo.billingAddress.street || '', validator: notBlankValidator }))
-    .put(
-      'billingStreet2',
-      createField({ value: companyInfo.billingAddress.street2 || '', validator: notBlankValidator })
-    )
-    .put('billingZip', createField({ value: companyInfo.billingAddress.zip || '', validator: notBlankValidator }))
-    .put('shippingCity', createField({ value: companyInfo.shippingAddress.city || '', validator: notBlankValidator }))
-    .put(
-      'shippingCountry',
-      createField({ value: companyInfo.shippingAddress.country || '', validator: notBlankValidator })
-    )
-    .put('shippingState', createField({ value: companyInfo.shippingAddress.state || '', validator: notBlankValidator }))
-    .put(
-      'shippingStreet',
-      createField({ value: companyInfo.shippingAddress.street || '', validator: notBlankValidator })
-    )
-    .put(
-      'shippingStreet2',
-      createField({ value: companyInfo.shippingAddress.street2 || '', validator: notBlankValidator })
-    )
-    .put('shippingZip', createField({ value: companyInfo.shippingAddress.zip || '', validator: notBlankValidator }));
+    .put('name', createField({ value: account.name || '', validator: notBlankValidator }))
+    .put('accountId', createField({ value: account.accountId }))
+    .put('companyDomains', createField({ value: account.companyDomains }))
+    .put('environments', createField({ value: account.environments }))
+    .put('billingCity', createField({ value: account.billingAddress.city || '', validator: notBlankValidator }))
+    .put('billingCountry', createField({ value: account.billingAddress.country || '', validator: notBlankValidator }))
+    .put('billingState', createField({ value: account.billingAddress.state || '', validator: notBlankValidator }))
+    .put('billingStreet', createField({ value: account.billingAddress.street || '', validator: notBlankValidator }))
+    .put('billingStreet2', createField({ value: account.billingAddress.street2 || '', validator: notBlankValidator }))
+    .put('billingZip', createField({ value: account.billingAddress.zip || '', validator: notBlankValidator }))
+    .put('shippingCity', createField({ value: account.shippingAddress.city || '', validator: notBlankValidator }))
+    .put('shippingCountry', createField({ value: account.shippingAddress.country || '', validator: notBlankValidator }))
+    .put('shippingState', createField({ value: account.shippingAddress.state || '', validator: notBlankValidator }))
+    .put('shippingStreet', createField({ value: account.shippingAddress.street || '', validator: notBlankValidator }))
+    .put('shippingStreet2', createField({ value: account.shippingAddress.street2 || '', validator: notBlankValidator }))
+    .put('shippingZip', createField({ value: account.shippingAddress.zip || '', validator: notBlankValidator }));
 }
 
 // function fromToModel(form) {
 //   return {
 //     name: form.name,
-//     companyId: form.companyId,
+//     accountId: form.accountId,
 //     companyDomains: form.companyDomains,
 //     environments: form.environments,
 //     mutatorEmail: user.email,

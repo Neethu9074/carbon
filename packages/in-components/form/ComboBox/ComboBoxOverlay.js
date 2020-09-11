@@ -7,13 +7,7 @@ import { Ul } from 'in-new-components/lists/List/List';
 
 import locals from './ComboBoxOverlay.mless';
 
-export default function ComboBoxOverlay({
-  options,
-  value,
-  onChange,
-  asyncClose,
-  disableAutomaticOptionSorting
-}) {
+export default function ComboBoxOverlay({ options, value, onChange, asyncClose, disableAutomaticOptionSorting }) {
   if (!disableAutomaticOptionSorting) {
     options = options.sort(optionLabelComparator);
   }

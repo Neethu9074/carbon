@@ -1,11 +1,12 @@
+import theme from 'in-themes';
 import React from 'react';
 
 import UsageTimeConfigContextModification from 'in-amp/components/UsageTimeConfigContextModification';
 import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';
 import { buildJsonSerializer, buildJsonParser } from 'in-stores/navigation/matrix';
 import ComboBoxBehavior from 'in-components/form/ComboBox/ComboBoxBehavior';
-import { getCompanyInfoAsResultObservable } from 'in-amp/api/companyInfo';
 import DropdownButton from 'in-new-components/Button/DropdownButton';
+import { getAccountAsResultObservable } from 'in-amp/api/account';
 import AmpTimeSelection from 'in-amp/components/TimeSelection';
 import { hasError, isLoading } from 'in-services/util/result';
 import ApiItemView from 'in-settings/components/ApiItemView';
@@ -15,23 +16,10 @@ import UsageChart from 'in-amp/components/UsageChart';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import useObservable from 'in-hooks/useObservable';
 import useUrlState from 'in-hooks/useUrlState';
-import Button from 'in-new-components/Button';
 import Card from 'in-new-components/Card';
 import Title from 'in-components/Title';
-import theme from 'in-themes';
 
 import locals from './Usage.mless';
-
-const timeRestrictedUsageWrapperUrlStateDefinition = {
-  bind: [
-    {
-      path: '/usage',
-      name: 'showAggregatedMetrics',
-      parser: v => v === 'true',
-      initialState: true
-    }
-  ]
-};
 
 const usageUrlStateDefinition = {
   bind: [
@@ -46,30 +34,39 @@ const usageUrlStateDefinition = {
 
 export default function TimeRestrictedUsageWrapper() {
   const timeConfig = useTimeConfig();
-  const [{ showAggregatedMetrics }, setState] = useUrlState(timeRestrictedUsageWrapperUrlStateDefinition);
-  const companyInfoResult = useObservable(getCompanyInfoAsResultObservable(), []);
+  const accountResult = useObservable(getAccountAsResultObservable(), []);
 
-  if (!companyInfoResult || hasError(companyInfoResult) || isLoading(companyInfoResult)) {
-    return <ApiItemView hideFooter result={companyInfoResult ?? pendingResult} />;
+  const [{ tenantUnit }, onChange] = useUrlState(usageUrlStateDefinition);
+
+  if (!accountResult || hasError(accountResult) || isLoading(accountResult)) {
+    return <ApiItemView hideFooter result={accountResult ?? pendingResult} />;
   }
 
+  const aggregatedOption = { label: 'All units (aggregated)' };
+  const showAggregatedMetrics = tenantUnit.label === aggregatedOption.label;
   return (
     <UsageTimeConfigContextModification timeConfig={timeConfig} showAggregatedMetrics={showAggregatedMetrics}>
       <Usage
-        tenantUnits={companyInfoResult.data.environments}
+        tenantUnits={[
+          aggregatedOption,
+          ...accountResult.data.environments.map(({ tenant, unit }) => ({
+            label: `${tenant}-${unit}`,
+            tenant,
+            unit
+          }))
+        ]}
         showAggregatedMetrics={showAggregatedMetrics}
-        setShowAggregatedMetrics={showAggregatedMetrics => setState({ showAggregatedMetrics })}
+        tenantUnit={tenantUnit || aggregatedOption}
+        setTenantUnit={tu => onChange({ tenantUnit: tu })}
       />
     </UsageTimeConfigContextModification>
   );
 }
 
-function Usage({ tenantUnits, showAggregatedMetrics, setShowAggregatedMetrics }) {
-  const [state, setState] = useUrlState(usageUrlStateDefinition);
-  const tenantUnit = state.tenantUnit || tenantUnits[0];
-  const unitSelectorOptions = tenantUnits.map(({ tenant, unit }) => ({
-    label: `${tenant}-${unit}`,
-    value: { tenant, unit }
+function Usage({ tenantUnits, showAggregatedMetrics, tenantUnit, setTenantUnit }) {
+  const unitSelectorOptions = tenantUnits.map(({ label, tenant, unit }) => ({
+    label,
+    value: { tenant, unit, label }
   }));
 
   return (
@@ -78,31 +75,19 @@ function Usage({ tenantUnits, showAggregatedMetrics, setShowAggregatedMetrics })
 
       <div className={locals.buttonHeader}>
         <HorizontalFlexWrapper>
-          <Button
-            kind={showAggregatedMetrics ? 'primaryv2' : 'secondary'}
-            onClick={() => setShowAggregatedMetrics(!showAggregatedMetrics)}
+          <ComboBoxBehavior
+            align="bottomRight"
+            value={unitSelectorOptions.find(({ label }) => label === tenantUnit.label)?.value}
+            options={unitSelectorOptions}
+            onChange={setTenantUnit}
+            disableAutomaticOptionSorting
           >
-            {`${showAggregatedMetrics ? 'Show single unit metrics' : 'Show aggregated metrics'}`}
-          </Button>
-          {!showAggregatedMetrics && (
-            <ComboBoxBehavior
-              align="bottomRight"
-              value={
-                unitSelectorOptions.find(
-                  ({ value: { tenant, unit } }) => tenant === tenantUnit.tenant && unit === tenantUnit.unit
-                )?.value
-              }
-              options={unitSelectorOptions}
-              onChange={tenantUnit => setState({ tenantUnit })}
-              disableAutomaticOptionSorting
-            >
-              {({ elementProps, isOpen }) => (
-                <DropdownButton {...elementProps} kind="secondary" expanded={isOpen}>
-                  {tenantUnit.tenant}-{tenantUnit.unit}
-                </DropdownButton>
-              )}
-            </ComboBoxBehavior>
-          )}
+            {({ elementProps, isOpen }) => (
+              <DropdownButton {...elementProps} kind="secondary" expanded={isOpen}>
+                {tenantUnit.label}
+              </DropdownButton>
+            )}
+          </ComboBoxBehavior>
         </HorizontalFlexWrapper>
         {!showAggregatedMetrics && <AmpTimeSelection />}
       </div>

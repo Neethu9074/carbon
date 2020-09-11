@@ -6,13 +6,13 @@ import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicat
 import RequestQuoteForm from 'in-components/RequestQuoteDialog/RequestQuoteForm';
 import { track, REQUEST_QUOTE_SUBMITTED } from 'in-services/tracking/tracking';
 import withPropDependingState from 'in-hoc/withPropDependingState';
-import getCompanyInfo from 'in-subscription/getCompanyInfo';
 import { close } from 'in-components/DialogPresenter/store';
 import Notification from 'in-components/form/Notification';
 import requestQuote from 'in-subscription/requestQuote';
 import { emptyObject } from 'in-services/fixedObjects';
 import Dialog from 'in-new-components/Dialog/Dialog';
 import Section from 'in-settings/components/Section';
+import getAccount from 'in-subscription/getAccount';
 import Button from 'in-new-components/Button';
 import connect from 'in-hoc/connectTo';
 
@@ -119,7 +119,7 @@ class RequestQuoteDialog extends React.Component {
 
 export default compose(
   connect({
-    result: getCompanyInfo()
+    result: getAccount()
   }),
   withPropDependingState({
     getInitialState,

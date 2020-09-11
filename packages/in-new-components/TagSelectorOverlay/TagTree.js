@@ -1,8 +1,8 @@
-import PropTypes from 'prop-types';
 import React, { forwardRef } from 'react';
+import PropTypes from 'prop-types';
 
-import { ListGroup, ColumnizedContent } from 'in-new-components/lists/List/List';
 import filterCatalog from 'in-new-components/TagSelectorOverlay/tagCatalogFilter';
+import { ListGroup, ColumnizedContent } from 'in-new-components/lists/List/List';
 import OverlayOption from 'in-new-components/OverlayOption/OverlayOption';
 import { onArrowKeyDownFocusSiblings } from 'in-services/util/domFocus';
 import { isBlank, isNotBlank } from 'in-services/util/string';
