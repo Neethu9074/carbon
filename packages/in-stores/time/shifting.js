@@ -2,26 +2,31 @@ import { formatDuration } from 'in-services/formatters/date';
 
 export const defaultTimeShift = {
   offset: 0,
-  label: `No time shift`
+  label: `No time shift`,
+  description: `View data without time shift`
 };
 
 export const timeShifts = [
   defaultTimeShift,
   {
     offset: 'auto',
-    label: `Previous time window`
+    label: `Previous time window`,
+    description: `Compare with data immediately before the selected time window`
   },
   {
     offset: -1 * 1000 * 60 * 60,
-    label: `Previous hour`
+    label: `Previous hour`,
+    description: `Compare with data recorded 1 hour before the selected time window`
   },
   {
     offset: -1 * 1000 * 60 * 60 * 24,
-    label: `Yesterday`
+    label: `Yesterday`,
+    description: `Compare with data recorded 24 hours before the selected time window`
   },
   {
     offset: -1 * 1000 * 60 * 60 * 24 * 7,
     label: `Last week`,
+    description: `Compare with from one week before the selected time window`,
     disallowSelection: true
   }
 ];

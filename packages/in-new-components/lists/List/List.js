@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 import { toInteractiveElement, withInteractivitySideEffects } from 'in-new-components/interactiveCustomElement';
 import HorizontalIndicatorLiComponent from 'in-new-components/lists/List/HorizontalIndicatorLi';
+export { default as ColumnizedContent } from 'in-new-components/lists/List/ColumnizedContent';
 import LoadingSkeletonLiComponent from 'in-new-components/lists/List/LoadingSkeletonLi';
 import LoadMoreLiComponent from 'in-new-components/lists/List/LoadMoreLi';
 import ListGroupComponent from 'in-new-components/lists/List/ListGroup';
@@ -12,8 +13,6 @@ import SvgIcon from 'in-components/SvgIcon';
 import Link from 'in-components/Link';
 
 import locals from './List.mless';
-
-export { default as ColumnizedContent } from 'in-new-components/lists/List/ColumnizedContent';
 
 export const ListGroup = ListGroupComponent;
 export const LoadMoreLi = LoadMoreLiComponent;

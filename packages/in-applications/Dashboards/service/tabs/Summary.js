@@ -5,16 +5,22 @@ import ApplicationDashboardsMarkerLanes from 'in-applications/Dashboards/Applica
 import LatencyAndDistribution from 'in-applications/Dashboards/commonComponents/LatencyAndDistribution';
 import DatabaseSections from 'in-applications/Dashboards/commonComponents/database/DatabaseSections';
 import TechnologyBreakdown from 'in-applications/Dashboards/commonComponents/TechnologyBreakdown';
+import { DESTINATION, NOT_APPLICABLE } from 'in-new-components/QueryBuilder/tagFilter/entities';
 import IssuesAndEvents from 'in-applications/Dashboards/commonComponents/IssuesAndEvents';
 import EndpointTopList from 'in-applications/Dashboards/service/tabs/EndpointTopList';
 import CallsAndHttp from 'in-applications/Dashboards/commonComponents/CallsAndHttp';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
 import CallsErrors from 'in-applications/Dashboards/commonComponents/CallsErrors';
 import { number, meanLatency, percentage } from 'in-services/formatters/number';
+import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
+import BigNumberKpiCard from 'in-new-components/KpiCard/BigNumberKpiCard';
 import Errors from 'in-applications/Dashboards/commonComponents/Errors';
-import AppDataKpiCard from 'in-new-components/KpiCard/AppDataKpiCard';
+import getApplication from 'in-subscription/application/getApplication';
+import { boundaryScopes } from 'in-applications/constants';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import { Row, Col } from 'in-new-components/layout/Grid';
+import { alwaysNull } from 'in-services/fixedStreams';
+import useObservable from 'in-hooks/useObservable';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
@@ -22,40 +28,58 @@ export default connectTo(
     isInternalVisible: isInternalVisible$
   },
   function Summary(props) {
-    const { timeConfig, endpointId, applicationId, serviceId, boundaryScope: boundaryScope, data } = props;
+    const { timeConfig, applicationId, serviceId, boundaryScope, data, timeShift, onUpdate } = props;
     const types = data.types;
 
-    const filter = {
-      timeConfig,
-      endpoint: endpointId,
-      application: applicationId,
-      service: serviceId,
-      applicationBoundaryScope: boundaryScope
-    };
-    const MarkerLanes = ApplicationDashboardsMarkerLanes({ applicationId, endpointId, serviceId });
+    const MarkerLanes = ApplicationDashboardsMarkerLanes({ applicationId, serviceId });
     const withPotentialProblemsLane = props.isInternalVisible
       ? ApplicationDashboardsMarkerLanes({
           applicationId,
-          endpointId,
           serviceId,
           showPotentialProblemsLane: true
         })
       : MarkerLanes;
+    const applicationLabel = useObservable(
+      applicationId ? getApplication({ id: applicationId }).map(r => r?.data?.label) : alwaysNull,
+      [applicationId]
+    );
+
+    let tagFilters = [{ stringValue: serviceId, name: 'service.id', entity: DESTINATION, operator: EQUALS }];
+    if (applicationId != null) {
+      if (boundaryScope === boundaryScopes.all) {
+        tagFilters.push({ stringValue: applicationId, name: 'application.id', entity: DESTINATION, operator: EQUALS });
+      } else {
+        if (applicationLabel == null) {
+          // application label not available yet
+          return null;
+        }
+        tagFilters.push({
+          stringValue: applicationLabel,
+          name: 'call.inbound_of_application',
+          entity: NOT_APPLICABLE,
+          operator: EQUALS
+        });
+      }
+    }
 
     return (
       <>
         <Row>
           <Col xs>
-            <AppDataKpiCard
+            <BigNumberKpiCard
               title="Calls"
               formatter={number.compact}
-              metricsConfig={{
-                filter,
-                metrics: {
-                  calls: {
-                    metric: 'calls',
-                    aggregation: 'SUM'
-                  }
+              // it is enough to have the onUpdate callback on just one of the widgets
+              onUpdate={onUpdate}
+              config={{
+                comparisonDecreaseColor: 'redish',
+                comparisonIncreaseColor: 'greenish',
+                metricConfiguration: {
+                  metric: 'calls',
+                  aggregation: 'SUM',
+                  source: 'APPLICATION',
+                  tagFilters: tagFilters,
+                  timeShift: timeShift
                 }
               }}
               iconAction={{
@@ -63,7 +87,7 @@ export default connectTo(
                 kind: 'subtle',
                 icon: 'lib_analyze',
                 href$: getJumpToAnalyzeHref$(
-                  { applicationId, serviceId, endpointId },
+                  { applicationId, serviceId },
                   {
                     timeConfig,
                     boundaryScope,
@@ -83,21 +107,25 @@ export default connectTo(
             />
           </Col>
           <Col xs>
-            <AppDataKpiCard
+            <BigNumberKpiCard
               title="Erroneous Calls"
               formatter={number.compact}
               companionFormatter={v => `${percentage.detailed(v)} of all calls`}
-              metricsConfig={{
-                filter,
-                metrics: {
-                  erroneousCalls: {
-                    metric: 'erroneousCalls',
-                    aggregation: 'SUM'
-                  },
-                  errors: {
-                    metric: 'errors',
-                    aggregation: 'MEAN'
-                  }
+              config={{
+                comparisonDecreaseColor: 'greenish',
+                comparisonIncreaseColor: 'redish',
+                metricConfiguration: {
+                  metric: 'erroneousCalls',
+                  aggregation: 'SUM',
+                  source: 'APPLICATION',
+                  tagFilters: tagFilters,
+                  timeShift: timeShift
+                },
+                companionMetricConfiguration: {
+                  metric: 'errors',
+                  aggregation: 'MEAN',
+                  source: 'APPLICATION',
+                  tagFilters: tagFilters
                 }
               }}
               iconAction={{
@@ -105,7 +133,7 @@ export default connectTo(
                 kind: 'subtle',
                 icon: 'lib_analyze',
                 href$: getJumpToAnalyzeHref$(
-                  { applicationId, serviceId, endpointId },
+                  { applicationId, serviceId },
                   {
                     timeConfig,
                     boundaryScope,
@@ -122,21 +150,25 @@ export default connectTo(
             />
           </Col>
           <Col xs>
-            <AppDataKpiCard
+            <BigNumberKpiCard
               title="Mean Latency"
               formatter={meanLatency.detailed}
               companionFormatter={v => `${meanLatency.detailed(v)} for 90th`}
-              metricsConfig={{
-                filter,
-                metrics: {
-                  latency: {
-                    metric: 'latency',
-                    aggregation: 'MEAN'
-                  },
-                  latency90: {
-                    metric: 'latency',
-                    aggregation: 'P90'
-                  }
+              config={{
+                comparisonDecreaseColor: 'greenish',
+                comparisonIncreaseColor: 'redish',
+                metricConfiguration: {
+                  metric: 'latency',
+                  aggregation: 'MEAN',
+                  source: 'APPLICATION',
+                  tagFilters: tagFilters,
+                  timeShift: timeShift
+                },
+                companionMetricConfiguration: {
+                  metric: 'latency',
+                  aggregation: 'P90',
+                  source: 'APPLICATION',
+                  tagFilters: tagFilters
                 }
               }}
               iconAction={{
@@ -144,7 +176,7 @@ export default connectTo(
                 kind: 'subtle',
                 icon: 'lib_analyze',
                 href$: getJumpToAnalyzeHref$(
-                  { applicationId, serviceId, endpointId },
+                  { applicationId, serviceId },
                   {
                     timeConfig,
                     boundaryScope,
@@ -165,7 +197,6 @@ export default connectTo(
                 cardTitle="Calls"
                 applicationId={applicationId}
                 serviceId={serviceId}
-                endpointId={endpointId}
                 boundaryScope={boundaryScope}
                 timeConfig={timeConfig}
                 callGroupByTag={{ name: 'endpoint.name', entity: entityTypes.DESTINATION }}
@@ -177,7 +208,6 @@ export default connectTo(
                 cardTitle="Calls"
                 applicationId={applicationId}
                 serviceId={serviceId}
-                endpointId={endpointId}
                 boundaryScope={boundaryScope}
                 timeConfig={timeConfig}
                 groupByTag={{ name: 'endpoint.name', entity: entityTypes.DESTINATION }}
@@ -190,7 +220,6 @@ export default connectTo(
               cardTitle="Erroneous Call Rate"
               applicationId={applicationId}
               serviceId={serviceId}
-              endpointId={endpointId}
               boundaryScope={boundaryScope}
               timeConfig={timeConfig}
               groupByTag={{ name: 'endpoint.name', entity: entityTypes.DESTINATION }}
@@ -202,7 +231,6 @@ export default connectTo(
               cardTitle="Latency"
               applicationId={applicationId}
               serviceId={serviceId}
-              endpointId={endpointId}
               boundaryScope={boundaryScope}
               timeConfig={timeConfig}
               percentileGroupBy={{ name: 'endpoint.name', entity: entityTypes.DESTINATION }}

@@ -1,43 +1,69 @@
+import React, { useEffect, useState } from 'react';
 import { get } from 'lodash';
-import React from 'react';
 
 import InstanaServiceToCloudfoundryApplicationButton from 'in-cloudfoundry/commonComponents/InstanaServiceToCloudfoundryApplicationButton';
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
 import ApplicationContextIcon from 'in-applications/components/ApplicationSwitcherContext/ApplicationContextIcon';
 import TechnologyIndicatorList from 'in-applications/components/TechnologyIndicator/TechnologyIndicatorList';
-import { applicationId, serviceId, endpointId, boundaryScope } from 'in-applications/navigation/matrix';
 import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
 import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
 import FloatingActionButtons from 'in-new-components/FloatingActionButton/FloatingActionButtons';
 import ApplicationSwitcherContext from 'in-applications/components/ApplicationSwitcherContext';
+import { serviceDashboardUrlParameters } from 'in-applications/navigation/urlParameters';
 import CreateSmartAlert from 'in-applications/alerting/components/CreateSmartAlert';
+import { serviceDashboard, summaryTab } from 'in-applications/navigation/paths';
 import AnalyzeCallsButton from 'in-applications/components/AnalyzeCallsButton';
+import TimeShiftDropdown from 'in-new-components/TimeShift/TimeShiftDropdown';
 import { applicationSmartAlertsEnabled } from 'in-services/featureFlags';
 import ContextGuide from 'in-new-components/ContextGuide/ContextGuide';
 import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
-import { serviceDashboard } from 'in-applications/navigation/paths';
-import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import tabs from 'in-applications/Dashboards/service/tabs/index';
 import getService from 'in-subscription/application/getService';
 import DashboardHeader from 'in-new-components/DashboardHeader';
 import { entityTypes } from 'in-analyze/applicationFilter';
+import { defaultTimeShift } from 'in-stores/time/shifting';
+import { setTimeConfig } from 'in-stores/time/config';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import { mutateUrl } from 'in-stores/navigation';
+
+import useUrlState from 'in-hooks/useUrlState';
 import Footer from 'in-new-components/Footer';
 import { role } from 'in-stores/user';
 
 export default function ServiceDashboard({ location }) {
+  const [urlState, setUrlState] = useUrlState({
+    bind: [
+      serviceDashboardUrlParameters.applicationId,
+      serviceDashboardUrlParameters.serviceId,
+      serviceDashboardUrlParameters.boundaryScope,
+      serviceDashboardUrlParameters.timeShift
+    ]
+  });
   const timeConfig = useTimeConfig();
 
+  // When one of the 'Last X' time ranges is used, the to timestamp is set in the backend. To be able to
+  // freeze the last used time range, we need to keep track of the timestamp returned by the backed.
+  const [lastUsedTimestamp, setLastUsedTimestamp] = useState(timeConfig.to);
   const props = {
-    applicationId: getMatrixParameter(location, serviceDashboard, applicationId),
-    serviceId: getMatrixParameter(location, serviceDashboard, serviceId),
-    endpointId: getMatrixParameter(location, serviceDashboard, endpointId),
-    boundaryScope: getMatrixParameter(location, serviceDashboard, boundaryScope),
+    applicationId: urlState.appId,
+    serviceId: urlState.serviceId,
+    boundaryScope: urlState.boundaryScope,
     viewPath: serviceDashboard,
     currentTab: location.pathname.substr(location.pathname.lastIndexOf('/')),
-    timeConfig
+    onChange: setUrlState,
+    timeConfig,
+    timeShift: urlState.timeShift,
+    onUpdate: result => setLastUsedTimestamp(result?.time),
+    lastUsedTimestamp
   };
+
+  useEffect(() => {
+    // reset time shift, when one of the 'Last X' time ranges is selected
+    if (timeConfig.to == null && props.timeShift !== defaultTimeShift.offset) {
+      props.onChange({ timeShift: defaultTimeShift.offset });
+    }
+  }, [timeConfig.to, props.timeShift]);
 
   return (
     <>
@@ -58,7 +84,6 @@ export default function ServiceDashboard({ location }) {
           filter: {
             application: props.applicationId,
             service: props.serviceId,
-            endpoint: props.endpointId,
             timeConfig
           }
         })}
@@ -69,7 +94,6 @@ export default function ServiceDashboard({ location }) {
         <FloatingActionButtons>
           <CreateSmartAlert
             serviceId={props.serviceId}
-            endpointId={props.endpointId}
             applicationId={props.applicationId}
             location={location}
             boundaryScope={props.boundaryScope}
@@ -105,14 +129,13 @@ function Header(props) {
   );
 }
 
-function renderButtonLine({ applicationId, serviceId, endpointId, boundaryScope, timeConfig, result }) {
+function renderButtonLine({ applicationId, serviceId, boundaryScope, timeConfig, result }) {
   return (
     <>
       <ApplicationEntityHealthIndicatorBehavior
         IndicatorPresenter={HealthIndicatorButtonPresenter}
         applicationId={applicationId}
         serviceId={serviceId}
-        endpointId={endpointId}
         timeConfig={timeConfig}
       />
       <ContextGuide
@@ -120,13 +143,11 @@ function renderButtonLine({ applicationId, serviceId, endpointId, boundaryScope,
         timeConfig={timeConfig}
         applicationId={applicationId}
         serviceId={serviceId}
-        endpointId={endpointId}
         productArea="service"
       />
       <AnalyzeCallsButton
         applicationId={applicationId}
         serviceId={serviceId}
-        endpointId={endpointId}
         boundaryScope={boundaryScope}
         timeConfig={timeConfig}
         groupByTag={{ name: 'endpoint.name', entity: entityTypes.DESTINATION }}
@@ -137,13 +158,45 @@ function renderButtonLine({ applicationId, serviceId, endpointId, boundaryScope,
   );
 }
 
-function renderButtonLineSecondary({ applicationId, serviceId, timeConfig }) {
+function renderButtonLineSecondary({
+  applicationId,
+  serviceId,
+  timeConfig,
+  timeShift,
+  onChange,
+  currentTab,
+  lastUsedTimestamp
+}) {
   return (
-    <InstanaServiceToCloudfoundryApplicationButton
-      applicationId={applicationId}
-      serviceId={serviceId}
-      timeConfig={timeConfig}
-    />
+    <>
+      <InstanaServiceToCloudfoundryApplicationButton
+        applicationId={applicationId}
+        serviceId={serviceId}
+        timeConfig={timeConfig}
+      />
+      <TimeShiftDropdown
+        value={timeShift}
+        onChange={e => {
+          onChange(e);
+          // When using time shift, freeze the time range when one of the 'Last X' time ranges is used.
+          if (e.timeShift !== 0 && timeConfig.to == null) {
+            const to = lastUsedTimestamp != null ? lastUsedTimestamp : Date.now();
+            mutateUrl(
+              location =>
+                setTimeConfig(location, {
+                  to: to,
+                  focusedMoment: to,
+                  autoRefresh: false,
+                  windowSize: timeConfig.windowSize
+                }),
+              true
+            );
+          }
+        }}
+        timeConfig={timeConfig}
+        disabled={currentTab !== summaryTab}
+      />
+    </>
   );
 }
 

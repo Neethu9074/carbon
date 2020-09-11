@@ -1,0 +1,24 @@
+@import '~in-themes/active.less';
+
+:local {
+  .overlay {
+    min-width: 30rem;
+    max-width: 30rem;
+  }
+
+  .option {
+    justify-content: flex-start;
+  }
+
+  .label {
+    color: @lib__colors__N600Light;
+    font-size: 1rem;
+  }
+
+  .description {
+    font-size: 0.75rem;
+    font-weight: 300;
+    color: @lib__colors__N600Light;
+    margin-top: 0.5rem;
+  }
+}

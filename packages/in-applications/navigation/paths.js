@@ -32,6 +32,8 @@ export const serviceDashboard = '/service';
 export const endpointDashboard = '/endpoint';
 export const configureEndpointsView = '/service/endpoints/configure';
 
+export const summaryTab = '/summary';
+
 export const alertsTab = '/alerts';
 export const alertsTabListFullyQualified = `${applicationDashboard}${alertsTab}`;
 export const alertsTabDetailsFullyQualified = `${alertsTabListFullyQualified}/details`;
@@ -180,7 +182,7 @@ function getDashboard({
   serviceId,
   endpointId,
   boundaryScope,
-  tab = '/summary',
+  tab = summaryTab,
   tabMatrix = {},
   timeConfig
 }) {

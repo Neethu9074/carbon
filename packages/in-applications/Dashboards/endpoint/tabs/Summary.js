@@ -6,32 +6,45 @@ import ApplicationDashboardsMarkerLanes from 'in-applications/Dashboards/Applica
 import LatencyAndDistribution from 'in-applications/Dashboards/commonComponents/LatencyAndDistribution';
 import DatabaseSections from 'in-applications/Dashboards/commonComponents/database/DatabaseSections';
 import TechnologyBreakdown from 'in-applications/Dashboards/commonComponents/TechnologyBreakdown';
+import { DESTINATION, NOT_APPLICABLE } from 'in-new-components/QueryBuilder/tagFilter/entities';
 import IssuesAndEvents from 'in-applications/Dashboards/commonComponents/IssuesAndEvents';
 import CallsAndHttp from 'in-applications/Dashboards/commonComponents/CallsAndHttp';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
 import CallsErrors from 'in-applications/Dashboards/commonComponents/CallsErrors';
 import { number, meanLatency, percentage } from 'in-services/formatters/number';
+import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
+import BigNumberKpiCard from 'in-new-components/KpiCard/BigNumberKpiCard';
+import getApplication from 'in-subscription/application/getApplication';
 import Errors from 'in-applications/Dashboards/commonComponents/Errors';
-import AppDataKpiCard from 'in-new-components/KpiCard/AppDataKpiCard';
+import { boundaryScopes } from 'in-applications/constants';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import { Row, Col } from 'in-new-components/layout/Grid';
+import { alwaysNull } from 'in-services/fixedStreams';
+import useObservable from 'in-hooks/useObservable';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
   {
     isInternalVisible: isInternalVisible$
   },
-  function Summary({ timeConfig, applicationId, serviceId, endpointId, boundaryScope, data, isInternalVisible }) {
+  function Summary({
+    timeConfig,
+    applicationId,
+    serviceId,
+    endpointId,
+    boundaryScope,
+    data,
+    isInternalVisible,
+    timeShift,
+    onUpdate
+  }) {
     const includeSyntheticCalls = get(data, 'synthetic', false);
     const type = data.type;
 
-    const filter = {
-      timeConfig,
-      endpoint: endpointId,
-      application: applicationId,
-      applicationBoundaryScope: boundaryScope,
-      includeSyntheticCalls
-    };
+    const applicationLabel = useObservable(
+      applicationId ? getApplication({ id: applicationId }).map(r => r?.data?.label) : alwaysNull,
+      [applicationId]
+    );
 
     const MarkerLanes = ApplicationDashboardsMarkerLanes({ applicationId, endpointId, serviceId });
     const withPotentialProblemsLane = isInternalVisible
@@ -43,20 +56,47 @@ export default connectTo(
         })
       : MarkerLanes;
 
+    let tagFilters = [
+      { stringValue: serviceId, name: 'service.id', entity: DESTINATION, operator: EQUALS },
+      { stringValue: endpointId, name: 'endpoint.id', entity: DESTINATION, operator: EQUALS },
+      { booleanValue: includeSyntheticCalls, name: 'include_synthetic', entity: NOT_APPLICABLE, operator: EQUALS }
+    ];
+
+    if (applicationId != null) {
+      if (boundaryScope === boundaryScopes.all) {
+        tagFilters.push({ stringValue: applicationId, name: 'application.id', entity: DESTINATION, operator: EQUALS });
+      } else {
+        if (applicationLabel == null) {
+          // application label not available yet
+          return null;
+        }
+        tagFilters.push({
+          stringValue: applicationLabel,
+          name: 'call.inbound_of_application',
+          entity: NOT_APPLICABLE,
+          operator: EQUALS
+        });
+      }
+    }
+
     return (
       <Fragment>
         <Row>
           <Col xs>
-            <AppDataKpiCard
+            <BigNumberKpiCard
               title="Calls"
               formatter={number.compact}
-              metricsConfig={{
-                filter,
-                metrics: {
-                  calls: {
-                    metric: 'calls',
-                    aggregation: 'SUM'
-                  }
+              // it is enough to have the onUpdate callback on just one of the widgets
+              onUpdate={onUpdate}
+              config={{
+                comparisonDecreaseColor: 'redish',
+                comparisonIncreaseColor: 'greenish',
+                metricConfiguration: {
+                  metric: 'calls',
+                  aggregation: 'SUM',
+                  source: 'APPLICATION',
+                  tagFilters: tagFilters,
+                  timeShift: timeShift
                 }
               }}
               iconAction={{
@@ -84,21 +124,25 @@ export default connectTo(
             />
           </Col>
           <Col xs>
-            <AppDataKpiCard
+            <BigNumberKpiCard
               title="Erroneous Calls"
               formatter={number.compact}
               companionFormatter={v => `${percentage.detailed(v)} of all calls`}
-              metricsConfig={{
-                filter,
-                metrics: {
-                  erroneousCalls: {
-                    metric: 'erroneousCalls',
-                    aggregation: 'SUM'
-                  },
-                  errors: {
-                    metric: 'errors',
-                    aggregation: 'MEAN'
-                  }
+              config={{
+                comparisonDecreaseColor: 'greenish',
+                comparisonIncreaseColor: 'redish',
+                metricConfiguration: {
+                  metric: 'erroneousCalls',
+                  aggregation: 'SUM',
+                  source: 'APPLICATION',
+                  tagFilters: tagFilters,
+                  timeShift: timeShift
+                },
+                companionMetricConfiguration: {
+                  metric: 'errors',
+                  aggregation: 'MEAN',
+                  source: 'APPLICATION',
+                  tagFilters: tagFilters
                 }
               }}
               iconAction={{
@@ -123,21 +167,25 @@ export default connectTo(
             />
           </Col>
           <Col xs>
-            <AppDataKpiCard
+            <BigNumberKpiCard
               title="Mean Latency"
               formatter={meanLatency.detailed}
               companionFormatter={v => `${meanLatency.detailed(v)} for 90th`}
-              metricsConfig={{
-                filter,
-                metrics: {
-                  latency: {
-                    metric: 'latency',
-                    aggregation: 'MEAN'
-                  },
-                  latency90: {
-                    metric: 'latency',
-                    aggregation: 'P90'
-                  }
+              config={{
+                comparisonDecreaseColor: 'greenish',
+                comparisonIncreaseColor: 'redish',
+                metricConfiguration: {
+                  metric: 'latency',
+                  aggregation: 'MEAN',
+                  source: 'APPLICATION',
+                  tagFilters: tagFilters,
+                  timeShift: timeShift
+                },
+                companionMetricConfiguration: {
+                  metric: 'latency',
+                  aggregation: 'P90',
+                  source: 'APPLICATION',
+                  tagFilters: tagFilters
                 }
               }}
               iconAction={{
