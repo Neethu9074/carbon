@@ -4,7 +4,7 @@ import { expect } from 'chai';
 
 import { createTagForm, changeName, changeOperator } from 'in-new-components/QueryBuilder/validation/tagForm';
 import { EQUALS, IS_BLANK, CONTAINS, GREATER_THAN } from 'in-new-components/QueryBuilder/tagFilter/operators';
-import { STRING, NUMBER, BOOLEAN, KEY_VALUE_PAIRS } from 'in-new-components/QueryBuilder/tagFilter/types';
+import { STRING, NUMBER, BOOLEAN, KEY_VALUE_PAIR } from 'in-new-components/QueryBuilder/tagFilter/types';
 import { DESTINATION } from 'in-new-components/QueryBuilder/tagFilter/entities';
 import { deepFreeze } from 'in-services/util/object';
 
@@ -30,7 +30,7 @@ const tagCatalog = deepFreeze({
     },
     {
       name: 'meta',
-      type: KEY_VALUE_PAIRS
+      type: KEY_VALUE_PAIR
     }
   ]
 });

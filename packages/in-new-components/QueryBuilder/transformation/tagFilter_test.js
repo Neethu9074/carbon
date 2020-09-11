@@ -3,7 +3,7 @@
 import { expect } from 'chai';
 
 import { toNewTagFilterFormat, type, toTagFilter } from 'in-new-components/QueryBuilder/transformation/tagFilter';
-import { KEY_VALUE_PAIRS, STRING } from 'in-new-components/QueryBuilder/tagFilter/types';
+import { KEY_VALUE_PAIR, STRING } from 'in-new-components/QueryBuilder/tagFilter/types';
 import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
 
 describe('in-new-components/QueryBuilder/transformation/tagFilter#toNewTagFilterFormat', () => {
@@ -18,7 +18,7 @@ describe('in-new-components/QueryBuilder/transformation/tagFilter#toNewTagFilter
         },
         {
           name: 'http.headers',
-          type: KEY_VALUE_PAIRS
+          type: KEY_VALUE_PAIR
         }
       ]
     };

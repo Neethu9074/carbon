@@ -61,13 +61,13 @@ export const NUMBER_NOT_ENDS_WITH = 'does not end with';
 
 export const BOOLEAN_EQUALS = 'is';
 
-export const KEY_VALUE_PAIRS_EQUALS = 'equals';
-export const KEY_VALUE_PAIRS_NOT_EQUAL = 'does not equal';
-export const KEY_VALUE_PAIRS_CONTAINS = 'contains';
-export const KEY_VALUE_PAIRS_NOT_CONTAIN = 'does not contain';
-export const KEY_VALUE_PAIRS_NOT_EMPTY = 'is present';
-export const KEY_VALUE_PAIRS_IS_EMPTY = 'is not present';
-export const KEY_VALUE_PAIRS_IS_BLANK = 'does not have value';
-export const KEY_VALUE_PAIRS_NOT_BLANK = 'has value';
-export const KEY_VALUE_PAIRS_STARTS_WITH = 'starts with';
-export const KEY_VALUE_PAIRS_ENDS_WITH = 'ends with';
+export const KEY_VALUE_PAIR_EQUALS = 'equals';
+export const KEY_VALUE_PAIR_NOT_EQUAL = 'does not equal';
+export const KEY_VALUE_PAIR_CONTAINS = 'contains';
+export const KEY_VALUE_PAIR_NOT_CONTAIN = 'does not contain';
+export const KEY_VALUE_PAIR_NOT_EMPTY = 'is present';
+export const KEY_VALUE_PAIR_IS_EMPTY = 'is not present';
+export const KEY_VALUE_PAIR_IS_BLANK = 'does not have value';
+export const KEY_VALUE_PAIR_NOT_BLANK = 'has value';
+export const KEY_VALUE_PAIR_STARTS_WITH = 'starts with';
+export const KEY_VALUE_PAIR_ENDS_WITH = 'ends with';

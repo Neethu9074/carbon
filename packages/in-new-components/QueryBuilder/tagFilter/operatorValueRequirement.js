@@ -2,10 +2,10 @@
 //
 // Missing combinations of ${type}_${operator} fall back to 'true'
 
-export const KEY_VALUE_PAIRS_NOT_EMPTY = false;
-export const KEY_VALUE_PAIRS_IS_EMPTY = false;
-export const KEY_VALUE_PAIRS_IS_BLANK = false;
-export const KEY_VALUE_PAIRS_NOT_BLANK = false;
+export const KEY_VALUE_PAIR_NOT_EMPTY = false;
+export const KEY_VALUE_PAIR_IS_EMPTY = false;
+export const KEY_VALUE_PAIR_IS_BLANK = false;
+export const KEY_VALUE_PAIR_NOT_BLANK = false;
 
 export const STRING_NOT_EMPTY = false;
 export const STRING_IS_EMPTY = false;

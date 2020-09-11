@@ -45,7 +45,7 @@ export const NUMBER = [
   GREATER_OR_EQUAL_THAN
 ];
 
-export const KEY_VALUE_PAIRS = [
+export const KEY_VALUE_PAIR = [
   EQUALS,
   NOT_EQUAL,
   CONTAINS,

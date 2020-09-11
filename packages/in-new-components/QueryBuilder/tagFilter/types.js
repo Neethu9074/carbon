@@ -5,4 +5,4 @@ export const NUMBER = 'NUMBER';
 export const STRING_SET = 'STRING_SET';
 // Ordered list.
 export const STRING_LIST = 'STRING_LIST';
-export const KEY_VALUE_PAIRS = 'KEY_VALUE_PAIRS';
+export const KEY_VALUE_PAIR = 'KEY_VALUE_PAIR';

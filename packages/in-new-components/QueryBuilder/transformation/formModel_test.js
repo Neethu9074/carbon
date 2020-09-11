@@ -8,7 +8,7 @@ import {
 } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { and } from 'in-new-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import { type as TAG_FILTER_TYPE } from 'in-new-components/QueryBuilder/transformation/tagFilter';
-import { KEY_VALUE_PAIRS, STRING } from 'in-new-components/QueryBuilder/tagFilter/types';
+import { KEY_VALUE_PAIR, STRING } from 'in-new-components/QueryBuilder/tagFilter/types';
 import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
 
 describe('in-new-components/QueryBuilder/transformation/formModel', () => {
@@ -23,7 +23,7 @@ describe('in-new-components/QueryBuilder/transformation/formModel', () => {
         },
         {
           name: 'http.headers',
-          type: KEY_VALUE_PAIRS
+          type: KEY_VALUE_PAIR
         }
       ]
     };

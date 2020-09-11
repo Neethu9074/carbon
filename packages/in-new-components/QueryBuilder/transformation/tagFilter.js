@@ -1,7 +1,7 @@
 import { createLogger } from 'instalog';
 import { pick } from 'lodash';
 
-import { KEY_VALUE_PAIRS } from 'in-new-components/QueryBuilder/tagFilter/types';
+import { KEY_VALUE_PAIR } from 'in-new-components/QueryBuilder/tagFilter/types';
 import { enrichTagCatalog } from 'in-services/tags/tagCatalog';
 import { isNotBlank } from 'in-services/util/string';
 
@@ -61,7 +61,7 @@ function transformStringValue(tagCatalog, tagFilter) {
   const tagDefinition = tagCatalog.tagsByName[tagFilter.name];
 
   if (tagDefinition) {
-    if (tagDefinition.type === KEY_VALUE_PAIRS) {
+    if (tagDefinition.type === KEY_VALUE_PAIR) {
       const splitResult = tagFilter.stringValue.split('=', 2);
       if (isNotBlank(splitResult[0])) {
         key = splitResult[0];
