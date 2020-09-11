@@ -6,7 +6,8 @@ import {
   PROFILING_MEMORY_FLAMEGRAPH_OPENEND,
   PROFILING_WAITTIME_TREEVIEW_OPENEND,
   PROFILING_WAITTIME_FLAMEGRAPH_OPENEND,
-  PROFILING_TREEVIEW_EXPANDED
+  PROFILING_TREEVIEW_EXPANDED,
+  PROFILING_OVERVIEW_OPENED
 } from 'in-services/tracking/tracking';
 
 export const cpuTreeViewOpened = profileEntityTechnology =>
@@ -24,3 +25,5 @@ export const memoryFlameGraphOpened = profileEntityTechnology =>
 
 export const treeViewExpanded = (depth, profileEntityTechnology) =>
   track(PROFILING_TREEVIEW_EXPANDED, { depth, profileEntityTechnology });
+
+export const overviewOpened = profileEntityTechnology => track(PROFILING_OVERVIEW_OPENED, { profileEntityTechnology });

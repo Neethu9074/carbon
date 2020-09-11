@@ -191,7 +191,7 @@ const Incidents = connectTo(
     events: openEventsAtServerTime$,
     isActive: isView(eventsPath)
   },
-  function Incidents({ events, isActive, sidebarIsExpanded, onClick, onMouseLeave }) {
+  function Incidents({ events, isActive, sidebarIsExpanded, onClick, onMouseEnter, onMouseLeave }) {
     const numIncidents = events ? events.get('incidentCount') : 0;
     const maxSeverity = events ? events.get('maxIncidentSeverity') : 0;
 
@@ -210,6 +210,7 @@ const Incidents = connectTo(
           isActive={isActive}
           sidebarIsExpanded={sidebarIsExpanded}
           onClick={onClick}
+          onMouseEnter={onMouseEnter}
           onMouseLeave={onMouseLeave}
         />
         {numIncidents > 0 && (

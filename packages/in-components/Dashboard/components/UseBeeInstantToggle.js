@@ -1,18 +1,24 @@
 import React from 'react';
 
+import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import DashboardHeaderButton from 'in-new-components/DashboardHeader/DashboardHeaderButton';
 import { useBeeInstant$, setUseBeeInstant } from 'in-stores/metric/beeInstant';
-import { beeinstanaToggleEnabled } from 'in-services/featureFlags';
+import { infrastructureExploreEnabled } from 'in-services/featureFlags';
 import useObservable from 'in-hooks/useObservable';
 import Toggle from 'in-components/form/Toggle';
 import Tooltip from 'in-components/Tooltip';
 
 export default function UseBeeInstantToggle({ theme }) {
-  if (!beeinstanaToggleEnabled) {
+  if (!infrastructureExploreEnabled) {
     return;
   }
 
+  const internalVisible = useObservable(isInternalVisible$, []) || false;
   const useBeeInstant = useObservable(useBeeInstant$, []) || false;
+
+  if (!internalVisible) {
+    return;
+  }
 
   return (
     <Tooltip themeStyle={theme} content={tooltipContent()} align="bottomMiddle">

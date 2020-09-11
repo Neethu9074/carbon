@@ -26,16 +26,26 @@ const twoMinutes = 1000 * 60 * 2;
 export default function ProfileInformationSnapshotResolver({ processSnapshotId, ...remainingProps }) {
   const timeConfig = useTimeConfig();
 
-  const processEntitySnapshotId = useObservable(getProcessSnapshotId({ snapshotId: processSnapshotId, timeConfig }), [
-    processSnapshotId,
-    timeConfig
-  ]);
+  const processEntitySnapshotIdResult = useObservable(
+    getProcessSnapshotId({ snapshotId: processSnapshotId, timeConfig }),
+    [processSnapshotId, timeConfig]
+  );
 
-  if (!processEntitySnapshotId) {
+  if (
+    !processEntitySnapshotIdResult ||
+    isLoading(processEntitySnapshotIdResult) ||
+    hasError(processEntitySnapshotIdResult)
+  ) {
     return null;
   }
 
-  return <ProfileInformation {...remainingProps} timeConfig={timeConfig} processSnapshotId={processEntitySnapshotId} />;
+  return (
+    <ProfileInformation
+      {...remainingProps}
+      timeConfig={timeConfig}
+      processSnapshotId={processEntitySnapshotIdResult.data}
+    />
+  );
 }
 
 function ProfileInformation({ processSnapshotId, time, start, end, timeConfig }) {

@@ -226,6 +226,7 @@ export const ONBOARDING_MAIN_TOPIC_CHANGED = 'onboardingNewUnit.mainTopic.change
 export const ONBOARDING_SUB_TOPIC_CHANGED = 'onboardingNewUnit.subTopic.changed';
 export const ONBOARDING_SEARCH_QUERY_CHANGED = 'onboardingNewUnit.searchQuery.changed';
 
+export const PROFILING_OVERVIEW_OPENED = 'profiling.overview.openend';
 export const PROFILING_CPU_TREEVIEW_OPENEND = 'profiling.cpu.treeView.openend';
 export const PROFILING_CPU_FLAMEGRAPH_OPENEND = 'profiling.cpu.flameGraph.openend';
 export const PROFILING_WAITTIME_TREEVIEW_OPENEND = 'profiling.waitTime.treeView.openend';
