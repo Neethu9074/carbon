@@ -111,8 +111,8 @@ module.exports = exports = (tenant, unit) => [
   },
   {
     uiClientKey: 'infrastructureExploreEnabled',
-    instanaCtlKey: 'feature.infrastructure.explore.enabled',
-    consulKey: `settings/${tenant}-${unit}/INFRASTRUCTURE_EXPLORE_ENABLED`,
+    instanaCtlKey: 'feature.infrastructure.explore.presentation.enabled',
+    consulKey: `settings/${tenant}-${unit}/INFRASTRUCTURE_EXPLORE_PRESENTATION_ENABLED`,
     defaultValue: false
   },
   {
