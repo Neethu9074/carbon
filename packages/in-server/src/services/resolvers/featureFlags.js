@@ -152,7 +152,7 @@ module.exports = exports = (tenant, unit) => [
     defaultValue: false
   },
   {
-    persistentVolumeSupportEnabled: 'newAnalyticsEnabled',
+    uiClientKey: 'persistentVolumeSupportEnabled',
     instanaCtlKey: 'feature.kubernetes.pvc.enabled',
     consulKey: `settings/${tenant}-${unit}/KUBERNETES_PVC_ENABLED`,
     defaultValue: false
