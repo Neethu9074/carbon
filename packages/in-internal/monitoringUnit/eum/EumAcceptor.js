@@ -62,7 +62,7 @@ export default connectTo(
         </Columize>
 
         <Columize>
-          <DashboardSection title={`Beacon Requests`}>
+          <DashboardSection title={`Requests`}>
             <Chart
               snapshotIds={rows.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -70,7 +70,9 @@ export default connectTo(
               y1={{
                 min: 0,
                 formatter: number.perSecond.compact,
-                metrics: rows.map(() => `metrics.meters.instana.beaconRequests.total`),
+                metrics: rows.map(
+                  () => `metrics.timers.io.dropwizard.jetty.MutableServletContextHandler.requests.rate`
+                ),
                 labels,
                 type: 'stackedArea'
               }}
