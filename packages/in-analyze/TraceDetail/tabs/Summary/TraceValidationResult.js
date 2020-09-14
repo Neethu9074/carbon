@@ -10,8 +10,7 @@ export const issueMessages = {
   duplicated_spans: 'The trace contains duplicated calls with the same id.',
   too_many_spans: 'The trace contains too many calls, it can only be partially displayed and downloaded.',
   missing_parent_span: 'Parent span is missing for some of the entry spans in this trace during the processing.',
-  malformed_trace:
-    'The trace contains some unexpected parent-child span relations, such as an exit span followed by an intermediate or exit span.'
+  exit_spans_followed_by_intermediate_spans: 'Some exit spans are followed by intermediate spans.'
 };
 
 export default function TraceValidationResult({ issues }) {
