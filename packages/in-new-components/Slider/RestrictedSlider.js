@@ -1,9 +1,10 @@
 import { withStyles } from '@material-ui/core';
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import { StyledMuiSliderBase } from 'in-new-components/Slider/base/StyledMuiSliderBase';
+import { restrictedSliderPropTypes } from 'in-new-components/Slider/proptypes';
 import { identity } from 'in-services/util/function';
+
 import theme from 'in-themes';
 
 const StyledMuiSlider = withStyles({
@@ -54,19 +55,4 @@ export default function RestrictedSlider(props) {
   );
 }
 
-RestrictedSlider.propTypes = {
-  marks: PropTypes.arrayOf(
-    PropTypes.shape({
-      value: PropTypes.number.isRequired,
-      label: PropTypes.string.isRequired
-    }).isRequired
-  ).isRequired,
-  max: PropTypes.number.isRequired,
-  min: PropTypes.number.isRequired,
-  onChange: PropTypes.func.isRequired,
-  valueLabelFormat: PropTypes.func,
-  valueLabelDisplay: PropTypes.oneOf(['on', 'off', 'auto']),
-  disabled: PropTypes.bool,
-  style: PropTypes.any,
-  value: PropTypes.number.isRequired
-};
+RestrictedSlider.propTypes = restrictedSliderPropTypes;

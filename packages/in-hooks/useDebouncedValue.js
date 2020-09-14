@@ -3,7 +3,7 @@ import { create } from 'reactive-observables';
 
 // Just a small alias to debounce value setting, similar to rxjs.debounce but
 // for functional React components
-export default function useDebouncedValue(value, onChange, delay = 1000) {
+export default function useDebouncedValue(value, onChange, delay = 1000, opts) {
   const [value$] = useState(create());
   const [stateValue, setStateValue] = useState(value);
   const [subscription, setSubscription] = useState(null);
@@ -14,20 +14,17 @@ export default function useDebouncedValue(value, onChange, delay = 1000) {
   if (!subscription) {
     setSubscription(
       value$
-        .debounce(delay)
+        .debounce(delay, opts)
         .distinct()
         .subscribe(v => onChangeRef.current(v))
     );
   }
 
-  useEffect(
-    () => {
-      if (value !== stateValue) {
-        setStateValue(value);
-      }
-    },
-    [value]
-  );
+  useEffect(() => {
+    if (value !== stateValue) {
+      setStateValue(value);
+    }
+  }, [value]);
 
   useEffect(() => {
     return () => {

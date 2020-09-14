@@ -9,7 +9,6 @@ import {
 } from 'in-new-components/Alerting/advanced/thresholdFormData';
 import IncompleteChartPlaceholder from 'in-new-components/Alerting/components/IncompleteChartPlaceholder';
 import ThresholdConditionFormGroup from 'in-new-components/Alerting/advanced/ThresholdConditionFormGroup';
-import { getThresholdValueForPercentageMetric } from 'in-new-components/Alerting/utils/formatUtils';
 import { debouncedThresholdValueChangedTracker } from 'in-applications/alerting/trackingHelpers';
 import { applicationsAlertingThresholdOperatorChanged } from 'in-applications/alerting/tracker';
 import ChartViewConfigurator from 'in-new-components/Alerting/components/ChartViewConfigurator';
@@ -47,10 +46,7 @@ function LogsInteractiveChart({
     ...form.toJS(),
     threshold: {
       ...form.get('threshold').toJS(),
-      value:
-        (doDebounce
-          ? getThresholdValueForPercentageMetric(tempThreshold, true)
-          : form.get('threshold').get('value').value) || 0
+      value: (doDebounce ? tempThreshold : form.get('threshold').get('value').value) || 0
     }
   };
 

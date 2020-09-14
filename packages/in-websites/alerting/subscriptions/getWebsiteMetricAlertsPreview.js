@@ -2,5 +2,6 @@ import { createResultSubscriptionFactory } from 'in-subscription/resultSubscript
 
 export default createResultSubscriptionFactory({
   eventId: 'getWebsiteMetricAlertsPreview',
+  memoizeFor: 1000,
   trackSubscriptionStatistics: true
 });
