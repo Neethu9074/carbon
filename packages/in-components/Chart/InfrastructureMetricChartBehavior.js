@@ -1,5 +1,5 @@
 import { create } from 'reactive-observables';
-import { isEqual } from 'lodash';
+import { isEqual, omit } from 'lodash';
 import React from 'react';
 
 import { getBlockSizeMillis, getPredefinedBlockSizeMillisForBlockSize } from 'in-services/util/dynamicAggregation';
@@ -40,7 +40,7 @@ export default getElementDimensions(
     }
 
     componentDidUpdate(prevProps, prevState) {
-      if (prevState.useBeeInstant !== this.state.useBeeInstant || !isEqual(prevProps, this.props)) {
+      if (this.shouldResetData(prevState, prevProps)) {
         this.disposeMetricSubscriptions();
 
         this.queues$ = create();
@@ -64,6 +64,16 @@ export default getElementDimensions(
     componentWillUnmount() {
       this.disposeMetricSubscriptions();
       this.useBeeInstantSubscription.dispose();
+    }
+
+    shouldResetData(prevState, prevProps) {
+      //avoid unnecessary chart resetting in live mode when chart width changes by only re-rendering charts with dynamically aggregated axes.
+      const widthChangeShouldTriggerRedraw =
+        isDynamicallyAggregated(this.props.y1) || isDynamicallyAggregated(this.props.y2);
+      const propsChangeShouldTriggerRedraw = widthChangeShouldTriggerRedraw
+        ? !isEqual(prevProps, this.props)
+        : !isEqual(omit(prevProps, 'width'), omit(this.props, 'width'));
+      return prevState.useBeeInstant !== this.state.useBeeInstant || propsChangeShouldTriggerRedraw;
     }
 
     mapProps = props => {
@@ -149,7 +159,7 @@ export default getElementDimensions(
       for (let i = 0, len = metrics.length; i < len; i++) {
         const snapshotId = axis.snapshotId || this.props.snapshotId || this.props.snapshotIds[i];
 
-        const isDynamicAggregated = !!(axis.maxDataPoints || axis.aggregation);
+        const isDynamicAggregated = isDynamicallyAggregated(axis);
         let blockSizeMillis;
         if (isDynamicAggregated) {
           blockSizeMillis = getPredefinedBlockSizeMillisForBlockSize(
@@ -282,4 +292,8 @@ function mapAxis(axis) {
 
 function getChartCanvasWidth({ width = 0 }) {
   return width;
+}
+
+function isDynamicallyAggregated(axis) {
+  return !!(axis?.maxDataPoints || axis?.aggregation);
 }
