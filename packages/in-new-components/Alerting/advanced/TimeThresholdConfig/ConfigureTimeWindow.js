@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import AlertThresholdConfigItemContainer from 'in-new-components/Alerting/advanced/TimeThresholdConfig/AlertThresholdConfigItemContainer';
-import DistinctSlider from '../../../Slider/DistinctSlider';
+import DebouncedDistinctSlider from 'in-new-components/Slider/DebouncedDistinctSlider';
 
 const marks = Object.freeze(
   [1, 3, 6, 9, 12].map(num => ({
@@ -15,7 +15,7 @@ export default function ConfigureTimeWindow({ label, onChange, granularity, time
   return (
     <AlertThresholdConfigItemContainer noIcon>
       <label>{label}</label>
-      <DistinctSlider
+      <DebouncedDistinctSlider
         onChange={value => onChange(value * granularity)}
         value={timeThresholdTimeWindow / granularity}
         marks={marks}

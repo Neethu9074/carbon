@@ -2,8 +2,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import AlertThresholdConfigItemContainer from 'in-new-components/Alerting/advanced/TimeThresholdConfig/AlertThresholdConfigItemContainer';
+import DebouncedRestrictedSlider from 'in-new-components/Slider/DebouncedRestrictedSlider';
 import { minutesToMillis } from 'in-new-components/Alerting/utils/formatUtils';
-import RestrictedSlider from 'in-new-components/Slider/RestrictedSlider';
 
 const marks = Object.freeze(
   [5, 10, 30].map(min => ({
@@ -18,7 +18,7 @@ export default function ConfigureGranularity({ onChange, granularity }) {
   return (
     <AlertThresholdConfigItemContainer noIcon>
       <label>Evaluation Granularity</label>
-      <RestrictedSlider
+      <DebouncedRestrictedSlider
         marks={marks}
         max={marks[marks.length - 1].value}
         min={0}

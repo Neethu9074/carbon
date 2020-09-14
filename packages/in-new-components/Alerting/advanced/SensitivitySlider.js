@@ -1,5 +1,6 @@
-import DistinctSlider from '../../Slider/DistinctSlider';
 import React from 'react';
+
+import DebouncedDistinctSlider from 'in-new-components/Slider/DebouncedDistinctSlider';
 
 export const SensitivitySlider = ({ value, defaultValue, onChange }) => {
   const linearScaleMin = 0;
@@ -15,7 +16,7 @@ export const SensitivitySlider = ({ value, defaultValue, onChange }) => {
   ];
 
   return (
-    <DistinctSlider
+    <DebouncedDistinctSlider
       valueLabelDisplay="off"
       marks={labeledTicks}
       min={linearScaleMin}
