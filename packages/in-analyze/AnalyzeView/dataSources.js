@@ -161,7 +161,7 @@ export function getLabelByType(type) {
   } else if (type === 'calls') {
     return 'Calls';
   } else if (type === 'callsUQB') {
-    return 'Calls (beta)';
+    return 'Calls (v2 beta)';
   }
 
   return type;
