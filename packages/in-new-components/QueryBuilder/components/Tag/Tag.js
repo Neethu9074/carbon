@@ -16,6 +16,7 @@ import { TAG } from 'in-new-components/QueryBuilder/transformation/formModel';
 import Entity from 'in-new-components/QueryBuilder/components/Tag/Entity';
 import Remove from 'in-new-components/QueryBuilder/components/Tag/Remove';
 import Name from 'in-new-components/QueryBuilder/components/Tag/Name';
+import { getSuggestionsTagFilterExpression } from 'in-new-components/QueryBuilder/tagFilter/tagSuggestions';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
 import useThemedLocals from 'in-hooks/useThemedLocals';
@@ -24,7 +25,15 @@ import useTimeConfig from 'in-hooks/useTimeConfig';
 import styleDefs from './Tag.mless';
 
 export default function Tag(props) {
-  const { onChange: onChangeInFormModel, onRemove, dragAndDropProps, tagCatalog, element, getSuggestions } = props;
+  const {
+    onChange: onChangeInFormModel,
+    onRemove,
+    dragAndDropProps,
+    tagCatalog,
+    element,
+    getSuggestions,
+    formModel
+  } = props;
   const { renderModelIndex, formModelIndex } = element;
   const form = createTagForm(tagCatalog, element);
   const { allowedOperators, valueType, type: tagType } = getFormPresentationInformation(tagCatalog, form);
@@ -85,7 +94,14 @@ export default function Tag(props) {
         }}
       />
 
-      <KeyInput form={form} onChange={onChange} tagType={tagType} getSuggestions={getSuggestions} />
+      <KeyInput
+        form={form}
+        onChange={onChange}
+        tagType={tagType}
+        getSuggestions={getSuggestions}
+        formModel={formModel}
+        formModelIndex={formModelIndex}
+      />
 
       <Operator
         element={element}
@@ -109,6 +125,8 @@ export default function Tag(props) {
         booleanSelectorRef={autoFocusTargets.booleanSelector}
         renderModelIndex={renderModelIndex}
         getSuggestions={getSuggestions}
+        formModel={formModel}
+        formModelIndex={formModelIndex}
       />
 
       <RemoveIcon form={form} element={element} tagType={tagType} onRemove={onRemove} />
@@ -148,7 +166,7 @@ function RemoveIcon({ form, element, tagType, onRemove }) {
   return <Remove element={element} onRemove={onRemove} nextToBooleanSelector />;
 }
 
-function KeyInput({ form, onChange, tagType, getSuggestions }) {
+function KeyInput({ form, onChange, tagType, getSuggestions, formModel, formModelIndex }) {
   const field = form.get('key');
   if (!field) {
     return null;
@@ -166,8 +184,9 @@ function KeyInput({ form, onChange, tagType, getSuggestions }) {
       fieldsToWatch={[tagType, entity, timeConfig]}
       getSuggestions={() =>
         getSuggestions({
-          // TODO: tagFilterExpression,
+          tagFilterExpression: getSuggestionsTagFilterExpression(formModel, formModelIndex),
           name: form.get('name').value,
+          tagName: form.get('name').value,
           entity,
           key: field.value,
           timeConfig,
@@ -178,7 +197,16 @@ function KeyInput({ form, onChange, tagType, getSuggestions }) {
   );
 }
 
-function ValueInput({ valueType, form, onChange, getSuggestions, focusField, booleanSelectorRef }) {
+function ValueInput({
+  valueType,
+  form,
+  onChange,
+  getSuggestions,
+  focusField,
+  booleanSelectorRef,
+  formModel,
+  formModelIndex
+}) {
   const field = form.get('value');
   if (!field) {
     return null;
@@ -220,11 +248,12 @@ function ValueInput({ valueType, form, onChange, getSuggestions, focusField, boo
     fieldsToWatch: [entity, timeConfig, field.value, key],
     getSuggestions: () =>
       getSuggestions({
-        // TODO: tagFilterExpression,
+        tagFilterExpression: getSuggestionsTagFilterExpression(formModel, formModelIndex),
         key,
         value: field.value,
         entity,
         name: form.get('name').value,
+        tagName: form.get('name').value,
         timeConfig,
         propose: 'VALUES'
       })

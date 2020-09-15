@@ -104,6 +104,7 @@ function QueryBuilder({ value: formModel, onChange, getTagCatalog, getSuggestion
             elements={renderModel}
             onRemove={onRemove}
             focus={focus}
+            formModel={formModel}
           />
           {formModel.length === 0 && (
             <span className={locals.emptyQueryHelpText}>Filter using a tag or search through all tags</span>
@@ -205,7 +206,8 @@ function Elements({
   onChange,
   onAdd,
   focus,
-  depth = 0
+  depth = 0,
+  formModel
 }) {
   return (
     <>
@@ -248,6 +250,7 @@ function Elements({
                 depth={depth}
                 dragAndDropProps={dragAndDropProps}
                 draggedFormModelIndex$={draggedFormModelIndex$}
+                formModel={formModel}
               >
                 {element.elements && (
                   <Elements
@@ -262,6 +265,7 @@ function Elements({
                     onAdd={onAdd}
                     focus={focus}
                     depth={depth + 1}
+                    formModel={formModel}
                   />
                 )}
               </Component>
