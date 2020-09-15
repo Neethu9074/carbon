@@ -24,7 +24,7 @@ export default function UsageTimeConfigContextModification({ timeConfig, showAgg
 UsageTimeConfigContextModification.propTypes = {
   showAggregatedMetrics: PropTypes.bool.isRequired,
   timeConfig: PropTypes.object.isRequired,
-  children: PropTypes.object.isRequired
+  children: PropTypes.oneOfType([PropTypes.object.isRequired, PropTypes.array.isRequired])
 };
 
 function modifyTimeConfig(timeConfig, showAggregatedMetrics) {

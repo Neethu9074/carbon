@@ -9,69 +9,70 @@ import DropdownButton from 'in-new-components/Button/DropdownButton';
 import { getAccountAsResultObservable } from 'in-amp/api/account';
 import AmpTimeSelection from 'in-amp/components/TimeSelection';
 import { hasError, isLoading } from 'in-services/util/result';
+import QueuedLicenses from 'in-amp/components/QueuedLicenses';
 import ApiItemView from 'in-settings/components/ApiItemView';
 import { pendingResult } from 'in-services/fixedObjects';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import UsageChart from 'in-amp/components/UsageChart';
+import { tenantUnitChanged } from 'in-amp/tracker';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import useObservable from 'in-hooks/useObservable';
+import Licenses from 'in-amp/components/Licenses';
+import Message from 'in-new-components/Message';
 import useUrlState from 'in-hooks/useUrlState';
 import Card from 'in-new-components/Card';
 import Title from 'in-components/Title';
 
 import locals from './Usage.mless';
 
-const usageUrlStateDefinition = {
-  bind: [
-    {
-      path: '/usage',
-      name: 'tenantUnit',
-      serializer: buildJsonSerializer(),
-      parser: buildJsonParser()
-    }
-  ]
-};
+const aggregatedState = { label: 'All units (aggregated)' };
 
-export default function TimeRestrictedUsageWrapper() {
+export default function UsageWithAccountInfo() {
   const timeConfig = useTimeConfig();
   const accountResult = useObservable(getAccountAsResultObservable(), []);
-
-  const [{ tenantUnit }, onChange] = useUrlState(usageUrlStateDefinition);
 
   if (!accountResult || hasError(accountResult) || isLoading(accountResult)) {
     return <ApiItemView hideFooter result={accountResult ?? pendingResult} />;
   }
 
-  const aggregatedOption = { label: 'All units (aggregated)' };
-  const showAggregatedMetrics = tenantUnit.label === aggregatedOption.label;
-  return (
-    <UsageTimeConfigContextModification timeConfig={timeConfig} showAggregatedMetrics={showAggregatedMetrics}>
-      <Usage
-        tenantUnits={[
-          aggregatedOption,
-          ...accountResult.data.environments.map(({ tenant, unit }) => ({
-            label: `${tenant}-${unit}`,
-            tenant,
-            unit
-          }))
-        ]}
-        showAggregatedMetrics={showAggregatedMetrics}
-        tenantUnit={tenantUnit || aggregatedOption}
-        setTenantUnit={tu => onChange({ tenantUnit: tu })}
-      />
-    </UsageTimeConfigContextModification>
-  );
+  return <Usage timeConfig={timeConfig} environments={accountResult.data.environments} />;
 }
 
-function Usage({ tenantUnits, showAggregatedMetrics, tenantUnit, setTenantUnit }) {
-  const unitSelectorOptions = tenantUnits.map(({ label, tenant, unit }) => ({
-    label,
-    value: { tenant, unit, label }
-  }));
+function Usage({ timeConfig, environments }) {
+  const unitSelectorOptions = environments.map(({ tenant, unit }) => {
+    const label = `${tenant}-${unit}`;
+    return {
+      label,
+      value: { tenant, unit, label }
+    };
+  });
+
+  const canShowAggregatedMetrics = containsPaidLicenses(environments);
+  const initialState = canShowAggregatedMetrics ? aggregatedState : unitSelectorOptions[0].value;
+  const [{ tenantUnit }, onChange] = useUrlState({
+    bind: [
+      {
+        path: '/usage',
+        name: 'tenantUnit',
+        serializer: buildJsonSerializer(),
+        parser: buildJsonParser(),
+        initialState
+      }
+    ]
+  });
+  const setTenantUnit = _tenantUnit => {
+    tenantUnitChanged(_tenantUnit);
+    onChange({ tenantUnit: _tenantUnit });
+  };
+
+  const showAggregatedMetrics = tenantUnit.label === aggregatedState.label;
+  if (canShowAggregatedMetrics) {
+    unitSelectorOptions.unshift({ label: aggregatedState.label, value: { label: aggregatedState.label } });
+  }
 
   return (
-    <>
-      <Title title="Company Information" />
+    <UsageTimeConfigContextModification timeConfig={timeConfig} showAggregatedMetrics={showAggregatedMetrics}>
+      <Title title="Account Usage" />
 
       <div className={locals.buttonHeader}>
         <HorizontalFlexWrapper>
@@ -88,13 +89,20 @@ function Usage({ tenantUnits, showAggregatedMetrics, tenantUnit, setTenantUnit }
               </DropdownButton>
             )}
           </ComboBoxBehavior>
+          {showAggregatedMetrics && (
+            <Message
+              className={locals.message}
+              withIcon
+              title="Customer usage is reported across all units of your Account with a paid license."
+            />
+          )}
         </HorizontalFlexWrapper>
         {!showAggregatedMetrics && <AmpTimeSelection />}
       </div>
 
       <form>
         <Row>
-          <Col xs={12}>
+          <Col xs={6}>
             <Card title="APM Usage">
               <UsageChart
                 showAggregatedMetrics={showAggregatedMetrics}
@@ -108,9 +116,7 @@ function Usage({ tenantUnits, showAggregatedMetrics, tenantUnit, setTenantUnit }
               />
             </Card>
           </Col>
-        </Row>
-        <Row>
-          <Col xs={12}>
+          <Col xs={6}>
             <Card title="Infra Usage">
               <UsageChart
                 showAggregatedMetrics={showAggregatedMetrics}
@@ -130,7 +136,7 @@ function Usage({ tenantUnits, showAggregatedMetrics, tenantUnit, setTenantUnit }
           </Col>
         </Row>
         <Row>
-          <Col xs={12}>
+          <Col xs={6}>
             <Card title="Container Usage">
               <UsageChart
                 showAggregatedMetrics={showAggregatedMetrics}
@@ -149,8 +155,52 @@ function Usage({ tenantUnits, showAggregatedMetrics, tenantUnit, setTenantUnit }
               />
             </Card>
           </Col>
+          <Col xs={6}>
+            <Card title="Serverless Tracing">
+              <UsageChart
+                showAggregatedMetrics={showAggregatedMetrics}
+                y1={{
+                  ...tenantUnit,
+                  metrics: ['tracingserverless'],
+                  labels: ['Serverless Tracing']
+                }}
+                y2={{
+                  ...tenantUnit,
+                  metrics: ['tracingserverless'],
+                  labels: ['Serverless Tracing']
+                }}
+              />
+            </Card>
+          </Col>
+        </Row>
+        <Row>
+          <Col xs={12}>
+            <Card title="Licenses">
+              <Licenses />
+            </Card>
+          </Col>
+        </Row>
+        <Row>
+          <Col xs={12}>
+            <Card title="Queued Licenses">
+              <QueuedLicenses />
+            </Card>
+          </Col>
         </Row>
       </form>
-    </>
+    </UsageTimeConfigContextModification>
   );
+}
+
+function containsPaidLicenses(environments) {
+  for (let i = 0; i < environments.length; i++) {
+    const licenses = environments[i].licenses ?? [];
+    for (let i2 = 0; i2 < licenses.length; i2++) {
+      const license = licenses[i2];
+      if (license.paid) {
+        return true;
+      }
+    }
+  }
+  return false;
 }

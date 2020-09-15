@@ -1,6 +1,7 @@
 import React from 'react';
 
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
+import useTimeConfig from 'in-hooks/useTimeConfig';
 
 export default function UsageChart({ showAggregatedMetrics, y1, y2 }) {
   const defaultProps = {
@@ -9,6 +10,7 @@ export default function UsageChart({ showAggregatedMetrics, y1, y2 }) {
     showAggregatedMetrics
   };
 
+  const timeConfig = useTimeConfig();
   return (
     <UnifiedMetricsChart
       shareMaxAxisDomain
@@ -36,8 +38,14 @@ export default function UsageChart({ showAggregatedMetrics, y1, y2 }) {
           })),
           formatter: 'number.compact'
         },
-        type: 'TIME_SERIES'
+        type: 'TIME_SERIES',
+        granularity: getGranularity(timeConfig.windowSize)
       }}
     />
   );
+}
+
+function getGranularity(windowSize) {
+  const oneHour = 1000 * 60 * 60;
+  return windowSize > oneHour * 24 * 7 ? oneHour * 24 : oneHour;
 }

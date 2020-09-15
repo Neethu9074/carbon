@@ -37,7 +37,9 @@ export default function getTabs({ isGoogleSSOAvailable, isSamlAvailable, isLdapA
     role.canConfigureSessionSettings ||
     (role.canConfigureAuthenticationMethods && (isGoogleSSOAvailable || isSamlAvailable || isLdapAvailable));
 
-  return [roleHasAnyTeamPermissions() && teamTab, userTab, authTabVisible && authTab, ampEnabled && ampTab].filter(
+  const ampTabVisible = ampEnabled && isOwner;
+
+  return [roleHasAnyTeamPermissions() && teamTab, userTab, authTabVisible && authTab, ampTabVisible && ampTab].filter(
     Boolean
   );
 }

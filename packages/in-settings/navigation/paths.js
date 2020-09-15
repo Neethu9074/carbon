@@ -47,7 +47,7 @@ const channels = `/channels`;
 
 // amp
 export const ampSettings = `${settingsPath}/amp`;
-export const ampCompanyInfo = `${ampSettings}/company`;
+export const ampAccountSettings = `${ampSettings}/account`;
 export const ampUsage = `${ampSettings}/usage`;
 
 // current events & alerting configuration paths (after unification of alerting configuration in 2019-02)

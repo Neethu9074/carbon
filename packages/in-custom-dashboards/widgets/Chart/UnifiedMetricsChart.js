@@ -46,6 +46,7 @@ export default function UnifiedMetricsChart({
       primaryContextMenuAction={config.primaryContextMenuAction}
       additionalContextMenuButtons={config.additionalContextMenuButtons}
       result={result}
+      granularity={config.granularity}
       automaticallySize={automaticallySize}
       customHeight={customHeight}
       shareMaxAxisDomain={shareMaxAxisDomain}
@@ -55,7 +56,7 @@ export default function UnifiedMetricsChart({
 
 function useResultData(config, timeConfig) {
   const timeConfigExtendedForLiveMode = extendWindowSizeOnLiveMode(timeConfig);
-  const granularity = getChartGranularity(timeConfigExtendedForLiveMode);
+  const granularity = config.granularity ?? getChartGranularity(timeConfigExtendedForLiveMode);
 
   const metrics = {};
 

@@ -22,7 +22,7 @@ export default function TimeSelection() {
     >
       {({ elementProps, isOpen }) => (
         <DropdownButton {...elementProps} kind="secondary" expanded={isOpen}>
-          {formatDurationAccurately(timeConfig.windowSize)}
+          {formatDurationAccurately(timeConfig.windowSize, 0, false)}
         </DropdownButton>
       )}
     </ComboBoxBehavior>

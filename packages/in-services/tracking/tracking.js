@@ -238,3 +238,5 @@ export const PROFILING_TREEVIEW_EXPANDED = 'profiling.treeView.expanded';
 export const INFRASTRUCTURE_CONTEXT_GUIDE_STACK_LOADED = 'infrastructure.context.guide.stack.loaded';
 export const INFRASTRUCTURE_SIDEBAR_RELATED_ENTITIES_EXPANDED = 'infrastructure.sidebar.related.entities.expanded';
 export const INFRASTRUCTURE_SIDEBAR_RELATED_ENTITIES_CLICKED = 'infrastructure.sidebar.related.entities.clicked';
+
+export const AMP_TENANT_UNIT_CHANGED = 'amp.tenant.unit.metrics.changed';

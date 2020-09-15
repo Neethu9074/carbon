@@ -1,6 +1,5 @@
 import { create } from 'reactive-observables';
 
-import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createObservable from 'in-services/http/observableHttpResult';
 import memoize from 'in-services/util/memoizingObservableGenerator';
 import http from 'in-services/http';
@@ -25,17 +24,34 @@ function getAccountAsResultObservableInternal() {
   );
 }
 
-// regular calls
+export const getLicensesAsResultObservable = memoize(getLicensesAsResultObservableInternal, page => page, 60000);
+function getLicensesAsResultObservableInternal(page, pageSize) {
+  return refreshSignal.flatMap(() =>
+    createObservable(
+      http({
+        method: 'GET',
+        maxRetries: 3,
+        url: `/api/settings/amp/account/licenses`,
+        queryParams: { page, pageSize }
+      })
+    )
+  );
+}
 
-export function setCompanyInfo(account) {
-  return http({
-    method: 'POST',
-    maxRetries: 3,
-    url: `/api/settings/amp/account`,
-    headers: getCsrfHeader(),
-    data: account
-  }).map(v => {
-    refreshSignal.emit(account);
-    return v;
-  });
+export const getQueuedLicensesAsResultObservable = memoize(
+  getQueuedLicensesAsResultObservableInternal,
+  page => page,
+  60000
+);
+function getQueuedLicensesAsResultObservableInternal(page, pageSize) {
+  return refreshSignal.flatMap(() =>
+    createObservable(
+      http({
+        method: 'GET',
+        maxRetries: 3,
+        url: `/api/settings/amp/account/queuedLicenses`,
+        queryParams: { page, pageSize }
+      })
+    )
+  );
 }

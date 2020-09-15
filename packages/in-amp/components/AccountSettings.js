@@ -1,22 +1,19 @@
 import { createField, notBlankValidator } from 'formalistic';
-import React, { useState } from 'react';
+import React from 'react';
 
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
-import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';
 import { getAccountAsResultObservable, refresh } from 'in-amp/api/account';
-import TouchedMessages from 'in-components/form/TouchedMessages';
+import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import ApiItemView from 'in-settings/components/ApiItemView';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import Message from 'in-new-components/Message';
 import Title from 'in-components/Title/Title';
-import Label from 'in-components/form/Label';
-import Input from 'in-components/form/Input';
 import SvgIcon from 'in-components/SvgIcon';
 
-import locals from './CompanyInfo.mless';
+import locals from './AccountSettings.mless';
 
-export default function CompanyInfo() {
+export default function AccountSettings() {
   return (
     <ApiItemView
       hideFooter
@@ -30,23 +27,20 @@ export default function CompanyInfo() {
   );
 }
 
-function render({ form, setForm }) {
-  // editable will come later
-  const [isEditable] = useState(false);
-
+function render({ form }) {
   return (
     <>
-      <Message
-        className={locals.message}
-        withIcon
-        title="If any of the info on this page needs corrections, please contact salesops@instana.com"
-      />
-      <Title title="Company Information" />
+      <Title title="Account Settings" />
 
-      <HorizontalFlexWrapper>
+      <div className={locals.subViewHeading}>
         <SvgIcon className={locals.icon} type="lib_home" size="l" />
-        <SubViewHeader>{form.get('name').value}</SubViewHeader>
-      </HorizontalFlexWrapper>
+        <div>
+          <SubViewHeader>{form.get('name').value}</SubViewHeader>
+          {form.get('companyDomains').map(field => (
+            <span className={locals.domains}>{field.value.join(', ')}</span>
+          ))}
+        </div>
+      </div>
 
       <form>
         <Row className={locals.row}>
@@ -57,86 +51,45 @@ function render({ form, setForm }) {
             <span className={locals.heading}>Shipping Address</span>
           </Col>
         </Row>
+
         <Row className={locals.row}>
-          <InputField
-            title="Country"
-            fieldName="billingCountry"
-            form={form}
-            setForm={setForm}
-            isEditable={isEditable}
-          />
-          <InputField
-            title="Country"
-            fieldName="shippingCountry"
-            form={form}
-            setForm={setForm}
-            isEditable={isEditable}
-          />
+          <Col xs={4}>
+            <Dl>
+              <FormValue title="Country" form={form} fieldName="billingCountry" />
+              <FormValue title="State" form={form} fieldName="billingState" />
+              <FormValue title="Zip" form={form} fieldName="billingZip" />
+              <FormValue title="City" form={form} fieldName="billingCity" />
+              <FormValue title="Address" form={form} fieldName="billingStreet" />
+              <FormValue title="Additional Address" form={form} fieldName="billingStreet2" />
+            </Dl>
+          </Col>
+          <Col xs={4}>
+            <Dl>
+              <FormValue title="Country" form={form} fieldName="shippingCountry" />
+              <FormValue title="State" form={form} fieldName="shippingState" />
+              <FormValue title="Zip" form={form} fieldName="shippingZip" />
+              <FormValue title="City" form={form} fieldName="shippingCity" />
+              <FormValue title="Address" form={form} fieldName="shippingStreet" />
+              <FormValue title="Additional Address" form={form} fieldName="shippingStreet2" />
+            </Dl>
+          </Col>
         </Row>
-        <Row className={locals.row}>
-          <InputField title="State" fieldName="billingState" form={form} setForm={setForm} isEditable={isEditable} />
-          <InputField title="State" fieldName="shippingState" form={form} setForm={setForm} isEditable={isEditable} />
-        </Row>
-        <Row className={locals.row}>
-          <InputField title="Zip" fieldName="billingZip" form={form} setForm={setForm} isEditable={isEditable} />
-          <InputField title="Zip" fieldName="shippingZip" form={form} setForm={setForm} isEditable={isEditable} />
-        </Row>
-        <Row className={locals.row}>
-          <InputField title="City" fieldName="billingCity" form={form} setForm={setForm} isEditable={isEditable} />
-          <InputField title="City" fieldName="shippingCity" form={form} setForm={setForm} isEditable={isEditable} />
-        </Row>
-        <Row className={locals.row}>
-          <InputField title="Street" fieldName="billingStreet" form={form} setForm={setForm} isEditable={isEditable} />
-          <InputField title="Street" fieldName="shippingStreet" form={form} setForm={setForm} isEditable={isEditable} />
-        </Row>
-        <Row className={locals.row}>
-          <InputField
-            title="Street 2"
-            fieldName="billingStreet2"
-            form={form}
-            setForm={setForm}
-            isEditable={isEditable}
-          />
-          <InputField
-            title="Street 2"
-            fieldName="shippingStreet2"
-            form={form}
-            setForm={setForm}
-            isEditable={isEditable}
-          />
-        </Row>
+        <Message
+          className={locals.message}
+          withIcon
+          title="If any of the info on this page needs corrections, please contact salesops@instana.com"
+        />
       </form>
     </>
   );
 }
 
-function InputField({ form, setForm, title, fieldName, isEditable }) {
-  return form.get(fieldName).map(field => (
-    <Col xs={4}>
-      <HorizontalFlexWrapper>
-        <Label className={locals.label} htmlFor={fieldName} hasError={!field.valid && field.touched}>
-          {title}
-        </Label>
-        {isEditable ? (
-          <Input
-            className={locals.input}
-            id={fieldName}
-            value={field.value}
-            onChange={e => {
-              setForm(form.updateIn([fieldName], f => f.setValue(e.target.value).setTouched(true)));
-            }}
-            hasError={!field.valid && field.touched}
-          />
-        ) : (
-          <Label className={locals.inputLabel} htmlFor={fieldName} hasError={!field.valid && field.touched}>
-            {field.value || valueMissingPlaceholder}
-          </Label>
-        )}
-
-        <TouchedMessages field={field} />
-      </HorizontalFlexWrapper>
-    </Col>
-  ));
+function FormValue({ title, form, fieldName }) {
+  return (
+    <Di dtClassName={locals.title} title={title + ':'} ddClassName={locals.label}>
+      {form.get(fieldName).value || valueMissingPlaceholder}
+    </Di>
+  );
 }
 
 function enrichForm(form, { result: { account } }) {

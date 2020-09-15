@@ -2,9 +2,9 @@
 import React from 'react';
 
 import SideNavigationAndContent from 'in-new-components/layout/SideNavigationAndContent';
-import { ampSettings, ampCompanyInfo, ampUsage } from 'in-settings/navigation/paths';
+import { ampSettings, ampAccountSettings, ampUsage } from 'in-settings/navigation/paths';
+import AccountSettings from 'in-amp/components/AccountSettings';
 import NotFoundPage from 'in-settings/tabs/pages/NotFound';
-import CompanyInfo from 'in-amp/components/CompanyInfo';
 import Usage from 'in-amp/components/Usage';
 
 export default function View(props: any) {
@@ -21,9 +21,9 @@ export default function View(props: any) {
               component: Usage
             },
             {
-              path: ampCompanyInfo,
-              label: 'Company Info',
-              component: CompanyInfo
+              path: ampAccountSettings,
+              label: 'Account Settings',
+              component: AccountSettings
             }
           ]
         }
