@@ -1,0 +1,15 @@
+@import '~in-themes/active.less';
+@import '~in-themes/mixins.less';
+
+:local {
+  .erroneous {
+    display: flex;
+    align-items: center;
+  }
+  .dot {
+    width: 0.625rem;
+    height: 0.625rem;
+    border-radius: 50%;
+    background-color: @lib__colors__N700Medium;
+  }
+}

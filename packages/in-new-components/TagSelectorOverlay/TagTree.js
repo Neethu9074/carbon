@@ -67,13 +67,14 @@ function TagTree({ tagCatalog, query, onChange, onChangeTag, close }, ref) {
         return (
           <ListGroup key={group.label} label={group.label}>
             {group.children.map(child => {
+              const key = `${group.label}-${child.label}`;
               if (child.type === 'TAG') {
-                return <Tag key={'tag-' + child.label} node={child} close={close} onChange={onChangeTag} />;
+                return <Tag key={key} node={child} close={close} onChange={onChangeTag} />;
               }
 
               return (
                 <OverlayOption
-                  key={'child-' + child.label}
+                  key={key}
                   className={locals.option}
                   onChange={onChange}
                   size="compact"

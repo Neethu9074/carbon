@@ -40,8 +40,6 @@ export default React.forwardRef(function ActiveGroupingConfiguration(
     return null;
   }
 
-  const currentGroup = path[path.length - 1];
-
   return (
     <div className={locals.groupingConfigurator} ref={ref}>
       {tagTreeNode.canApplyToSource && tagTreeNode.canApplyToDestination && (
@@ -56,17 +54,17 @@ export default React.forwardRef(function ActiveGroupingConfiguration(
         {...toInteractiveElement({
           onDefaultInteraction: toggle
         })}
-        ref={autoFocus && currentGroup.type !== 'KEY_VALUE_PAIR' ? tagNameRef : undefined}
+        ref={autoFocus && tagTreeNode.type !== 'KEY_VALUE_PAIR' ? tagNameRef : undefined}
       >
         {path
           .slice(0, path.length - 1)
           .map(node => node.label)
           .join(' ')}
         <SvgIcon className={locals.icon} type="lib_arrow_drop_right" />
-        {currentGroup.label}
+        {tagTreeNode.label}
       </span>
 
-      {currentGroup.type === 'KEY_VALUE_PAIR' && (
+      {tagTreeNode.type === 'KEY_VALUE_PAIR' && (
         <SimpleValueSelector
           onChange={result.onChange}
           value={result.value}

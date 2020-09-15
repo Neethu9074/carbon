@@ -8,14 +8,14 @@ import Overlay from 'in-new-components/overlays/Overlay';
 import { Ul } from 'in-new-components/lists/List/List';
 import { compositeRef } from 'in-services/util/react';
 
-export default function SortingConfigurator({ options, order, onChange }) {
-  const valueLabel = options.find(option => option.value === order.by)?.label ?? 'N/A';
+export default function SortingConfigurator({ options, orderBy, onChange }) {
+  const valueLabel = options.find(option => option.value === orderBy.by)?.label ?? 'N/A';
   const ref = useRef();
 
   return (
     <Overlay
       content={Options}
-      props={{ options, onChange, order }}
+      props={{ options, onChange, orderBy }}
       withoutWrapper
       onCloseSideEffect={() => ref.current?.focus()}
     >
@@ -39,30 +39,30 @@ SortingConfigurator.propTypes = {
     PropTypes.shape({ value: PropTypes.string.isRequired, label: PropTypes.node.isRequired }).isRequired
   ).isRequired,
   // see com.instana.ui.model.pagination.Order
-  order: PropTypes.shape({ by: PropTypes.string.isRequired, direction: PropTypes.oneOf(['ASC', 'DESC']).isRequired })
+  orderBy: PropTypes.shape({ by: PropTypes.string.isRequired, direction: PropTypes.oneOf(['ASC', 'DESC']).isRequired })
     .isRequired
 };
 
-function Options({ options, onChange, order, close }) {
+function Options({ options, onChange, orderBy, close }) {
   return (
     <Ul framed={false} borderRadius="medium" onKeyDown={onArrowKeyDownFocusSiblings}>
       {options.map((option, i) => (
         <OverlayOption
           onChange={onChange}
           key={option.value}
-          autoFocus={(order.by == null && i === 0) || order.by === option.value}
+          autoFocus={(orderBy.by == null && i === 0) || orderBy.by === option.value}
           close={close}
-          value={{ by: option.value, direction: order.direction }}
+          value={{ by: option.value, direction: orderBy.direction }}
           size="compact"
         >
           {option.label}
         </OverlayOption>
       ))}
-      <OverlayOption onChange={onChange} close={close} value={{ by: order.by, direction: 'ASC' }} size="compact">
+      <OverlayOption onChange={onChange} close={close} value={{ by: orderBy.by, direction: 'ASC' }} size="compact">
         ASC
       </OverlayOption>
 
-      <OverlayOption onChange={onChange} close={close} value={{ by: order.by, direction: 'DESC' }} size="compact">
+      <OverlayOption onChange={onChange} close={close} value={{ by: orderBy.by, direction: 'DESC' }} size="compact">
         DESC
       </OverlayOption>
     </Ul>

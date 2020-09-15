@@ -1,11 +1,12 @@
 import React, { Fragment } from 'react';
 
-import { LoadMoreRow, ErrorRows, Table, Tbody, Thead } from 'in-components/tables/sharedComponents';
+import { ActionColumn, ErrorRows, Table, Tbody, Thead } from 'in-components/tables/sharedComponents';
 import { filterColumns } from 'in-components/tables/ServerTable/internalComponents/columnBehavior';
 import EmptyContent from 'in-components/tables/ServerTable/internalComponents/EmptyContent';
 import LoadingRows from 'in-components/tables/ServerTable/internalComponents/LoadingRows';
 import Columns from 'in-components/tables/ServerTable/internalComponents/Columns';
 import Row from 'in-components/tables/ServerTable/internalComponents/Row';
+import { Tr } from 'in-components/tables/sharedComponents/Table';
 
 export default function CursorPaginatedTable(props) {
   const {
@@ -17,6 +18,7 @@ export default function CursorPaginatedTable(props) {
     errors,
     canLoadMore,
     loadMore,
+    loadMoreLabel,
     items,
 
     getRowProps,
@@ -30,6 +32,7 @@ export default function CursorPaginatedTable(props) {
     allRowsAreSelected = false,
     setSelectedStateForRows,
     renderNoDataAvailable,
+    filterBy,
 
     // events
     onChange,
@@ -85,9 +88,28 @@ export default function CursorPaginatedTable(props) {
             <LoadingRows cols={visibleColumns.length} progress={progress} numSkeletonRows={numSkeletonRows} />
           )}
           {hasErrors && <ErrorRows cols={visibleColumns.length} errors={errors} size={size} />}
-          {canLoadMore && <LoadMoreRow cols={visibleColumns.length} loadMore={loadMore} />}
+          {
+            <LoadMoreRow
+              cols={visibleColumns.length}
+              loadMore={canLoadMore && loadMore}
+              label={loadMoreLabel}
+              filterBy={filterBy}
+              filterByLabel={'Analyze this group'}
+            />
+          }
         </Tbody>
       </Table>
     </Fragment>
+  );
+}
+
+function LoadMoreRow({ depth, cols, loadMore, label = 'Load More', size, className, filterBy, filterByLabel }) {
+  const filterByCols = loadMore ? cols - 2 : cols;
+  const loadMoreCols = filterBy ? cols - filterByCols : cols;
+  return (
+    <Tr depth={depth} size={size} className={className}>
+      {filterBy && <ActionColumn cols={filterByCols} action={filterBy} label={filterByLabel} />}
+      {loadMore && <ActionColumn cols={loadMoreCols} action={loadMore} label={label} />}
+    </Tr>
   );
 }

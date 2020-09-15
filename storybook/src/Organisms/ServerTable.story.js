@@ -180,7 +180,8 @@ const columnDefinitions = [
     label: 'Name',
     getContent(item) {
       return <span>{item}</span>;
-    }
+    },
+    width: '1rem'
   },
   {
     id: 'Endpoints',
@@ -194,7 +195,15 @@ const columnDefinitions = [
       return (
         <SparkChart
           timeframe={{ windowSize: 6000, to: 6000 }}
-          metrics={[[0, 10], [1000, 15], [2000, 4], [3000, 3], [4000, 13], [5000, 20], [6000, 16]]}
+          metrics={[
+            [0, 10],
+            [1000, 15],
+            [2000, 4],
+            [3000, 3],
+            [4000, 13],
+            [5000, 20],
+            [6000, 16]
+          ]}
           metric={67}
           tooltipFormatter={number.compact}
         />
@@ -207,7 +216,15 @@ const columnDefinitions = [
       return (
         <SparkChart
           timeframe={{ windowSize: 6000, to: 6000 }}
-          metrics={[[0, 100], [1000, 105], [2000, 400], [3000, 30], [4000, 130], [5000, 200], [6000, 160]]}
+          metrics={[
+            [0, 100],
+            [1000, 105],
+            [2000, 400],
+            [3000, 30],
+            [4000, 130],
+            [5000, 200],
+            [6000, 160]
+          ]}
           metric={145}
           tooltipFormatter={millis.compact}
         />
@@ -220,7 +237,15 @@ const columnDefinitions = [
       return (
         <SparkChart
           timeframe={{ windowSize: 6000, to: 6000 }}
-          metrics={[[0, 0.1], [1000, 0.05], [2000, 0.25], [3000, 0.1], [4000, 0.3], [5000, 0], [6000, 0.1]]}
+          metrics={[
+            [0, 0.1],
+            [1000, 0.05],
+            [2000, 0.25],
+            [3000, 0.1],
+            [4000, 0.3],
+            [5000, 0],
+            [6000, 0.1]
+          ]}
           metric={0.12}
           tooltipFormatter={percentage.detailed}
         />

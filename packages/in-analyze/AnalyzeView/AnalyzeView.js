@@ -158,7 +158,12 @@ function AnalyzeView(props) {
   // Eventually this will only route to the new analyze view and the rest of this
   // component can be removed.
   if (dataSource === 'callsUQB') {
-    return <Analyze />;
+    if (isRawView) {
+      // To show trace details, hijack the datasource to use RawCalls
+      filters.dataSource = 'calls';
+    } else {
+      return <Analyze />;
+    }
   }
 
   // Deliberately not part of the dataSources, as this would result in inclusion of the analyze views

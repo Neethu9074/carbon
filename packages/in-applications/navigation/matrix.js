@@ -1,5 +1,5 @@
 import { buildJsonSerializer, buildJsonParser } from 'in-stores/navigation/matrix';
-import { emptyArray } from 'in-services/fixedObjects';
+import { emptyArray, emptyObject } from 'in-services/fixedObjects';
 import { analyze } from 'in-analyze/navigation/paths';
 
 export const applicationId = 'appId';
@@ -25,14 +25,38 @@ export const tagFilterExpressionMatrixParameter = {
   path: analyze,
   name: 'tagFilterExpression',
   serializer: buildJsonSerializer(),
-  parser: buildJsonParser(emptyArray),
+  parser: buildJsonParser(emptyObject),
   initialState: emptyArray
 };
 
-export const groupMatrixParameter = {
+export const groupByMatrixParameter = {
   path: analyze,
-  name: 'group',
+  name: 'groupBy',
   serializer: buildJsonSerializer(),
   parser: buildJsonParser(emptyArray),
   initialState: null
+};
+
+export const orderByGroupsMatrixParameter = {
+  path: analyze,
+  name: 'orderByGroups',
+  serializer: buildJsonSerializer(),
+  parser: buildJsonParser(emptyObject),
+  initialState: { by: 'calls_SUM_Agg', direction: 'DESC' }
+};
+
+export const orderByCallsMatrixParameter = {
+  path: analyze,
+  name: 'orderByCalls',
+  serializer: buildJsonSerializer(),
+  parser: buildJsonParser(emptyObject),
+  initialState: { by: 'latency', direction: 'DESC' }
+};
+
+export const metricsMatrixParameter = {
+  path: analyze,
+  name: 'metrics',
+  serializer: buildJsonSerializer(),
+  parser: buildJsonParser(emptyArray),
+  initialState: []
 };
