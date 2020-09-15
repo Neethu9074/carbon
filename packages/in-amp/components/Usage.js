@@ -117,13 +117,13 @@ function Usage({ timeConfig, environments }) {
             </Card>
           </Col>
           <Col xs={6}>
-            <Card title="Infra Usage">
+            <Card title="Infrastructure Usage">
               <UsageChart
                 showAggregatedMetrics={showAggregatedMetrics}
                 y1={{
                   ...tenantUnit,
                   metrics: ['infrahost'],
-                  labels: ['Infra Hosts']
+                  labels: ['IQM Hosts']
                 }}
                 y2={{
                   ...tenantUnit,
@@ -162,12 +162,12 @@ function Usage({ timeConfig, environments }) {
                 y1={{
                   ...tenantUnit,
                   metrics: ['tracingserverless'],
-                  labels: ['Serverless Tracing']
+                  labels: ['Serverless Functions per Region']
                 }}
                 y2={{
                   ...tenantUnit,
-                  metrics: ['tracingserverless'],
-                  labels: ['Serverless Tracing']
+                  metrics: ['licensed_tracingserverless'],
+                  labels: ['Purchased']
                 }}
               />
             </Card>
