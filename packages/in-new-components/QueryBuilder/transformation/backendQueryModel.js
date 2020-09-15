@@ -17,7 +17,7 @@ export function toBackendQueryModel(formModel) {
 
   // Create levels for brackets
   // [A, AND, NOT, (, B, AND, C, OR, D )] => [A, AND, NOT, [B, AND, C, OR, D]]
-  let result = createLevelsForBrackets(formModel, 0, formModel.length);
+  let result = createLevelsForBrackets(formModel, 0, formModel.length, []).levels;
 
   // Add levels for NOT conjunctions (stronger binding than OR)
   // [A, AND, NOT, [B, AND, C, OR, D]] => [A, AND, [NOT, [B, AND, C, OR, D]]]
@@ -34,23 +34,32 @@ export function toBackendQueryModel(formModel) {
   return result;
 }
 
-function createLevelsForBrackets(elements, startIndexInclusive, endIndexExclusive) {
-  let openBracketStartIndices = [];
-  const levels = [];
-  for (let i = startIndexInclusive; i < endIndexExclusive; i++) {
-    const element = elements[i];
+function createLevelsForBrackets(elements, index, endIndexExclusive, levels) {
+  const element = elements[index];
 
-    if (element.type === OPEN_BRACKET) {
-      openBracketStartIndices.push(i + 1);
-    } else if (element.type === CLOSE_BRACKET) {
-      const startIndexOfNestedLevel = openBracketStartIndices.pop();
-      const endIndexOfNestedLevel = i;
-      levels.push(createLevelsForBrackets(elements, startIndexOfNestedLevel, endIndexOfNestedLevel));
-    } else if (openBracketStartIndices.length === 0) {
-      levels.push(element);
-    }
+  var nextIndex = index + 1;
+
+  if (element.type === OPEN_BRACKET) {
+    const nextStep = createLevelsForBrackets(elements, nextIndex, endIndexExclusive, []);
+    levels.push(nextStep.levels);
+    nextIndex = nextStep.index + 1;
+  } else if (element.type === CLOSE_BRACKET) {
+    return {
+      levels: levels,
+      index: index
+    };
+  } else {
+    levels.push(element);
   }
-  return levels;
+
+  if (nextIndex >= endIndexExclusive) {
+    return {
+      levels: levels,
+      nextStep: endIndexExclusive
+    };
+  }
+
+  return createLevelsForBrackets(elements, nextIndex, endIndexExclusive, levels);
 }
 
 function addLevelsForAndConjunctions(elements) {

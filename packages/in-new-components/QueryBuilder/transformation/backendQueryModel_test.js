@@ -419,5 +419,79 @@ describe('in-new-components/QueryBuilder/transformation/backendQueryModel', () =
         ]
       });
     });
+
+    it('should handle multiple enclosing brackets', () => {
+      expect(
+        toBackendQueryModel([
+          {
+            type: FM_OPEN_BRACKET
+          },
+          {
+            type: FM_OPEN_BRACKET
+          },
+          {
+            type: FM_TAG,
+            name: 'name',
+            operator: 'EQUALS',
+            value: 'a'
+          },
+          {
+            type: FM_CONJUNCTION,
+            logicalOperator: OPERATOR_AND
+          },
+          {
+            type: FM_TAG,
+            name: 'name',
+            operator: 'EQUALS',
+            value: 'b'
+          },
+          {
+            type: FM_CLOSE_BRACKET
+          },
+          {
+            type: FM_CONJUNCTION,
+            logicalOperator: OPERATOR_AND
+          },
+          {
+            type: FM_TAG,
+            name: 'name',
+            operator: 'EQUALS',
+            value: 'c'
+          },
+          {
+            type: FM_CLOSE_BRACKET
+          }
+        ])
+      ).to.deep.equal({
+        type: 'EXPRESSION',
+        logicalOperator: 'AND',
+        elements: [
+          {
+            type: 'EXPRESSION',
+            logicalOperator: 'AND',
+            elements: [
+              {
+                type: 'TAG_FILTER',
+                name: 'name',
+                value: 'a',
+                operator: 'EQUALS'
+              },
+              {
+                type: 'TAG_FILTER',
+                name: 'name',
+                value: 'b',
+                operator: 'EQUALS'
+              }
+            ]
+          },
+          {
+            type: 'TAG_FILTER',
+            name: 'name',
+            value: 'c',
+            operator: 'EQUALS'
+          }
+        ]
+      });
+    });
   });
 });
