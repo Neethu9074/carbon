@@ -189,16 +189,17 @@ const Labels = connectTo(
     };
   },
   function Labels({ ...props }) {
+    const { serviceLabel, endpointLabel, applicationLabel, sliName } = props;
     let subscript = '';
-    if (props.applicationLabel) {
-      subscript = subscript + props.applicationLabel;
+    if (applicationLabel) {
+      subscript = subscript + applicationLabel;
     }
-    if (props.serviceLabel) {
-      subscript = subscript + ' > ' + props.serviceLabel;
+    if (serviceLabel) {
+      subscript = `${subscript} > ${serviceLabel}`;
     }
-    if (props.endpointLabel) {
-      subscript = subscript + ' > ' + props.endpointLabel;
+    if (endpointLabel) {
+      subscript = `${subscript} > ${endpointLabel}`;
     }
-    return <KeyValue label={subscript} value={props.sliName} />;
+    return <KeyValue label={subscript} value={sliName} className={locals.nameColumn} />;
   }
 );

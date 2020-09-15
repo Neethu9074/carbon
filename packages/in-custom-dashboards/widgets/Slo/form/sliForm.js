@@ -1,9 +1,11 @@
 import { createMapForm, createField } from 'formalistic';
+
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
 import { notBlankValidator } from 'in-services/validators/string';
 import { buildEnumValidator } from 'in-services/validators/enum';
 import { numericValidator } from 'in-services/validators/number';
+import { boundaryScopes } from 'in-applications/constants';
 
 export const ApplicationType = 'application';
 export const AvailabilityType = 'availability';
@@ -75,7 +77,9 @@ function createSliEntityForm(sliEntity, apDefaultBoundaryScope) {
     .put(
       'boundaryScope',
       createField({
-        value: sliEntity.boundaryScope ?? apDefaultBoundaryScope
+        value:
+          sliEntity.boundaryScope ??
+          (apDefaultBoundaryScope === 'DEFAULT' ? boundaryScopes.inbound : apDefaultBoundaryScope)
       })
     );
 

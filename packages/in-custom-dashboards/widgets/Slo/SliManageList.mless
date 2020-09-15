@@ -12,6 +12,10 @@
     margin-right: 0.5rem;
   }
 
+  .nameColumn {
+    max-width: 50rem;
+  }
+
   .controls {
     display: flex;
     justify-content: flex-end;

@@ -42,11 +42,7 @@ export default function ServicesSelectBox({ applicationId, boundaryScope, value,
       {
         <FormDropDown
           disabled={errors && errors?.length !== 0}
-          options={[
-            { value: undefined, label: 'Please select' },
-            { value: '', label: 'All Services' },
-            ...(serviceItems ?? [])
-          ]}
+          options={[{ value: '', label: 'All Services' }, ...(serviceItems ?? [])]}
           value={value ?? ''}
           onChange={({ target }) => onChange?.(target?.value)}
         />

@@ -97,7 +97,7 @@ function validateTimeWindow({ timeWindowDuration, timeWindowDurationUnit }) {
     return [
       {
         severity: 'error',
-        message: 'The time window size has be be less or equal to 365 days.'
+        message: 'The time window size has to be less or equal to 365 days.'
       }
     ];
   }

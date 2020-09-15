@@ -44,11 +44,7 @@ export default function EndpointSelectBox({ applicationId, serviceId, boundarySc
       {
         <FormDropDown
           disabled={errors && errors?.length !== 0}
-          options={[
-            { value: undefined, label: 'Please select' },
-            { value: '', label: 'All Endpoints' },
-            ...(endpointItems ?? [])
-          ]}
+          options={[{ value: '', label: 'All Endpoints' }, ...(endpointItems ?? [])]}
           value={value ?? ''}
           onChange={({ target }) => onChange?.(target?.value)}
         />

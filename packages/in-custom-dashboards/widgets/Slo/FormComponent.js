@@ -211,7 +211,9 @@ export default function FormComponent({ form, onChange, widgetTitleFormGroup, se
                   {form.get(TimeWindowDuration).map(() => (
                     <FormInputField
                       form={form}
-                      onChange={onChange}
+                      onChange={(paths, field) => {
+                        onChange([], form => form.setTouched(true).updateIn(paths, field));
+                      }}
                       fieldName={TimeWindowDuration}
                       type="number"
                       step="1"
@@ -287,7 +289,7 @@ export default function FormComponent({ form, onChange, widgetTitleFormGroup, se
               <OverridingTextTouchedMessage field={dateField} message="Please enter a date in the format YYYY-MM-DD." />
             </Col>
             <Col md={2}>
-              <OverridingTextTouchedMessage field={dateField} message="Please enter a time in the format HH:mm:ss." />
+              <OverridingTextTouchedMessage field={timeField} message="Please enter a time in the format HH:mm:ss." />
             </Col>
           </Row>
         )}
