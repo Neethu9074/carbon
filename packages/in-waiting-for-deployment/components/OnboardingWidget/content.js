@@ -162,6 +162,28 @@ export default function getEntries({ disableAwsSensorDocumentation }) {
       ]
     },
     {
+      label: 'OpenShift',
+      icon: 'lib_openshift',
+      category: 'Platform',
+      subTechnologies: [
+        {
+          label: 'Helm chart',
+          keyWords: 'kuberneteshelmchartk8s',
+          Content: K8sHelmChartContent
+        },
+        {
+          label: 'DaemonSet',
+          keyWords: 'kubernetesdeamonsetk8s',
+          Content: K8sDaemonSetContent
+        },
+        {
+          label: 'Operator',
+          keywords: 'kubernetesoperatork8s',
+          Content: OpenShiftOperatorContent
+        }
+      ]
+    },
+    {
       label: 'Cloud Foundry and BOSH',
       fullLabel: 'Cloud Foundry and other BOSH-based deployments',
       icon: 'lib_cloudfoundry',
@@ -1295,7 +1317,7 @@ function K8sOperatorContent({ agentKey, agentEndpoint, agentEndpointPort }) {
   return (
     <>
       <TextWithLink
-        text="Installing the Instana agent using a Kubernetes operator is described in"
+        text="Installing the Instana agent using the Kubernetes operator is described in"
         href="https://www.instana.com/docs/setup_and_manage/host_agent/on/kubernetes/#install-using-the-operator"
         linkText="the Instana Kubernetes documentation."
       />
@@ -1322,6 +1344,47 @@ function K8sOperatorContent({ agentKey, agentEndpoint, agentEndpointPort }) {
       </GridRow>
       <Spacer />
       <HelpBox title="Name your Kubernetes cluster">
+        <TextWithLink
+          text="You will also want to provide a descriptive name for your cluster, like 'prod-eu' or 'dev' using the 'cluster.name' option in the"
+          href="https://github.com/instana/instana-agent-operator/blob/master/deploy/instana-agent.customresource.yaml"
+          linkText="Instana agent custom resource file"
+        />
+      </HelpBox>
+    </>
+  );
+}
+
+function OpenShiftOperatorContent({ agentKey, agentEndpoint, agentEndpointPort }) {
+  return (
+    <>
+      <TextWithLink
+        text="Installing the Instana agent using the OpenShift operator is described in"
+        href="https://www.instana.com/docs/setup_and_manage/host_agent/on/openshift/#install-using-the-operator"
+        linkText="the Instana OpenShift documentation."
+      />
+      <Spacer />
+      <TextWithLink
+        text="The following configuration values will be needed to be populated in the"
+        href="https://github.com/instana/instana-agent-operator/blob/master/deploy/instana-agent.customresource.yaml"
+        linkText="Instana agent custom resource file"
+      />
+      <Spacer />
+      <GridRow>
+        <Col xs={4}>
+          <Description lines={['Instana Service Endpoint']} />
+          <Script lines={[agentEndpoint]} />
+        </Col>
+        <Col xs={4}>
+          <Description lines={['Instana Service port']} />
+          <Script lines={[agentEndpointPort]} />
+        </Col>
+        <Col xs={4}>
+          <Description lines={['Instana Application Key']} />
+          <Script lines={[agentKey]} />
+        </Col>
+      </GridRow>
+      <Spacer />
+      <HelpBox title="Name your OpenShift cluster">
         <TextWithLink
           text="You will also want to provide a descriptive name for your cluster, like 'prod-eu' or 'dev' using the 'cluster.name' option in the"
           href="https://github.com/instana/instana-agent-operator/blob/master/deploy/instana-agent.customresource.yaml"
