@@ -161,7 +161,7 @@ export function getLabelByType(type) {
   } else if (type === 'calls') {
     return 'Calls';
   } else if (type === 'callsUQB') {
-    return 'Calls with new Query Builder';
+    return 'Calls (beta)';
   }
 
   return type;
