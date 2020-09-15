@@ -167,7 +167,8 @@ function Usage({ timeConfig, environments }) {
                 y2={{
                   ...tenantUnit,
                   metrics: ['licensed_tracingserverless'],
-                  labels: ['Purchased']
+                  labels: ['Purchased'],
+                  colors: [theme.lib.colors.failure]
                 }}
               />
             </Card>
@@ -175,7 +176,7 @@ function Usage({ timeConfig, environments }) {
         </Row>
         <Row>
           <Col xs={12}>
-            <Card title="Licenses">
+            <Card title="Active Licenses">
               <Licenses />
             </Card>
           </Col>
