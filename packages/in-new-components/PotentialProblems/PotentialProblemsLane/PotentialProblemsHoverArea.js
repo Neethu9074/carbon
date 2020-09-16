@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { eventDataPropType } from 'in-components/Chart/markerLanes/PotentialProblemsLane/constants';
+import { eventDataPropType } from 'in-new-components/PotentialProblems/PotentialProblemsLane/proptypes';
 
 import locals from './PotentialProblemsHoverArea.mless';
 

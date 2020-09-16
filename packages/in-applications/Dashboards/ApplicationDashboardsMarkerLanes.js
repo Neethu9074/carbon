@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import PotentialProblemsLane from 'in-components/Chart/markerLanes/PotentialProblemsLane/PotentialProblemsLane';
+import PotentialProblemsLane from 'in-new-components/PotentialProblems/PotentialProblemsLane/PotentialProblemsLane';
 import MarkerLanesPresenter from 'in-components/Chart/markerLanes/MarkerLanesPresenter';
 import getApplicationAlertClusters from '../subscriptions/getApplicationAlertClusters';
 import ReleasesLane from 'in-components/Chart/markerLanes/ReleasesLane/ReleasesLane';

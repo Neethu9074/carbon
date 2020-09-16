@@ -1,0 +1,39 @@
+@import '~in-themes/active.less';
+@import '~in-themes/mixins.less';
+
+:local {
+  .list {
+    border: none;
+    border-bottom: 1px solid @lib__colors__N300;
+  }
+
+  .listItem {
+    border: none;
+  }
+
+  .itemInnerWrapper {
+    display: flex;
+    align-items: center;
+  }
+
+  .icon {
+    margin-right: 1rem;
+    fill: @lib__colors__light-blue800;
+  }
+
+  .itemName {
+    color: @lib__colors__N600Light;
+    font-size: 0.75rem;
+    line-height: 1rem;
+  }
+
+  .itemDescription {
+    color: @lib__colors__N900Primary;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+  }
+
+  .type {
+    text-transform: capitalize;
+  }
+}

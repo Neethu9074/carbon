@@ -1,0 +1,23 @@
+@import '~in-themes/active.less';
+@import '~in-themes/mixins.less';
+
+:local {
+  .container {
+    display: grid;
+    max-width: 68.75rem;
+    height: 36.5rem;
+    border-top: 0.0625rem solid @lib__colors__N300;
+  }
+
+  .twoColums {
+    grid-template-columns: 25rem 1fr;
+  }
+
+  .listWrapper {
+    border-right: 0.0625rem solid @lib__colors__N300;
+  }
+
+  .contentWrapper {
+    padding: 1rem;
+  }
+}

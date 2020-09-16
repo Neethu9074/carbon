@@ -1,0 +1,69 @@
+@import '~in-themes/active.less';
+@import '~in-themes/mixins.less';
+
+:local {
+  .container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .headline {
+    color: @lib__colors__N600Light;
+    font-size: @lib__typography__h500__font-size;
+    font-weight: @lib__typography__h500__font-weight;
+    line-height: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .entity {
+    display: flex;
+    align-items: center;
+    font-size: 0.75rem;
+    font-weight: 300;
+    color: @lib__colors__N500;
+    margin: 0 0 0.25rem -0.125rem;
+
+    svg {
+      fill: currentColor;
+    }
+  }
+
+  .duration {
+    display: flex;
+    align-items: center;
+    color: @lib__colors__N600Light;
+    line-height: 1.25rem;
+    font-size: 0.875rem;
+    margin-bottom: 1.5rem;
+
+    > svg {
+      fill: currentColor;
+    }
+  }
+
+  .durationDevider {
+    margin: 0 0.25rem;
+  }
+
+  .description {
+    font-size: 0.875rem;
+    color: @lib__colors__N900Primary;
+    margin-bottom: 4rem;
+  }
+
+  .chartWrapper {
+    width: 80%;
+    margin: 0 auto;
+  }
+
+  .controls {
+    display: flex;
+    justify-content: center;
+    margin-top: auto;
+  }
+
+  .icon {
+    margin-right: 0.125rem;
+  }
+}
