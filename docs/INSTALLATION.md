@@ -12,6 +12,13 @@ This repository is using Git submodules. If you prefer to interact with GitHub v
 git config --global url.git@github.com:.insteadof https://github.com/
 ```
 
+## Cloning the Repository
+
+```
+git clone git@github.com:instana/ui-client.git
+cd ui-client
+```
+
 ## Setting up local domains
 
 In order for cookies to be send to the backend you need to configure rules in `/etc/hosts` to route all traffic for `local-instana.instana.io` and others to `127.0.0.1`. Only access the local development environment using one of these domains!
