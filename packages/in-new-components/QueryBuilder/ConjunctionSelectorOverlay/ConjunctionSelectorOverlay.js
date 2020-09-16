@@ -4,7 +4,6 @@ import React from 'react';
 import {
   and,
   or,
-  not,
   openBracket,
   closeBracket,
   clear
@@ -19,6 +18,9 @@ import locals from './ConjunctionSelectorOverlay.mless';
 export default function ConjunctionSelectorOverlay({ value, onChange, close }) {
   return (
     <Ul framed={false} className={locals.list} borderRadius="medium" onKeyDown={onArrowKeyDownFocusSiblings}>
+      <OverlayOption className={locals.clear} onChange={onChange} close={close} selectedValue={value} value={clear}>
+        <SvgIcon size="s" type="lib_openclose_cancel" /> Clear
+      </OverlayOption>
       <OverlayOption
         autoFocus={value == null || value === and}
         onChange={onChange}
@@ -31,9 +33,6 @@ export default function ConjunctionSelectorOverlay({ value, onChange, close }) {
       <OverlayOption onChange={onChange} close={close} selectedValue={value} value={or}>
         OR
       </OverlayOption>
-      <OverlayOption onChange={onChange} close={close} selectedValue={value} value={not}>
-        NOT
-      </OverlayOption>
       <div className={locals.paranthesis}>
         <OverlayOption onChange={onChange} close={close} selectedValue={value} value={openBracket}>
           (
@@ -42,9 +41,6 @@ export default function ConjunctionSelectorOverlay({ value, onChange, close }) {
           )
         </OverlayOption>
       </div>
-      <OverlayOption className={locals.clear} onChange={onChange} close={close} selectedValue={value} value={clear}>
-        <SvgIcon size="s" type="lib_openclose_cancel" /> Clear
-      </OverlayOption>
     </Ul>
   );
 }

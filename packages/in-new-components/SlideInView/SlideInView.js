@@ -107,11 +107,13 @@ export default function SlideInView({
       </div>
       <div className={locals.inputBlocker} style={state.inputBlockerStyle} />
       <div className={locals.header} style={state.headerStyle}>
-        <HeaderComponent
-          scrollShadow={showScrollShadow}
-          title={slideInContentTitle}
-          onTitleIconClick={() => onShowSlideInContentChange(!showSlideInContent)}
-        />
+        {slideInContentTitle && (
+          <HeaderComponent
+            scrollShadow={showScrollShadow}
+            title={slideInContentTitle}
+            onTitleIconClick={() => onShowSlideInContentChange(!showSlideInContent)}
+          />
+        )}
       </div>
       <div
         ref={slideInContentWrapperRef}

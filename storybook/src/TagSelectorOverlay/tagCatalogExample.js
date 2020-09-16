@@ -58,7 +58,7 @@ export default {
     },
     {
       name: 'call.http.header',
-      type: 'KEY_VALUE_PAIRS',
+      type: 'KEY_VALUE_PAIR',
       canApplyToSource: true,
       canApplyToDestination: true
     }
@@ -70,7 +70,7 @@ export default {
       label: 'Label',
       icon: 'lib_kubernetes_label',
       description: 'Root level tag',
-      tagName: 'kubernetes.label'
+      tagName: 'root.level.label'
     },
     {
       type: 'LEVEL',

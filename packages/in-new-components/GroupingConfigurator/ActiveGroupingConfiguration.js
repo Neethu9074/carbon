@@ -61,7 +61,7 @@ export default React.forwardRef(function ActiveGroupingConfiguration(
           .map(node => node.label)
           .join(' ')}
         <SvgIcon className={locals.icon} type="lib_arrow_drop_right" />
-        {tagTreeNode.label}
+        {path[path.length - 1].label}
       </span>
 
       {tagTreeNode.type === 'KEY_VALUE_PAIR' && (

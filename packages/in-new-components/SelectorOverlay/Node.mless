@@ -1,0 +1,13 @@
+@import '~in-themes/active.less';
+
+:local {
+  .icon {
+    fill: @lib__colors__N600Light;
+  }
+
+  .option {
+    font-weight: normal;
+    font-size: 0.75rem;
+    padding: 0.4rem 0.8rem;
+  }
+}

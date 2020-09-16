@@ -17,6 +17,6 @@ export default function ListHeader({ title, onTitleIconClick }) {
 }
 
 ListHeader.propTypes = {
-  title: PropTypes.string,
+  title: PropTypes.node.isRequired,
   onTitleIconClick: PropTypes.func
 };

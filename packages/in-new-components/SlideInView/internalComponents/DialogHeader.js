@@ -24,6 +24,6 @@ export default function DialogHeader({ title, onTitleIconClick, scrollShadow }) 
 
 DialogHeader.propTypes = {
   scrollShadow: PropTypes.bool,
-  title: PropTypes.string,
+  title: PropTypes.node.isRequired,
   onTitleIconClick: PropTypes.func
 };

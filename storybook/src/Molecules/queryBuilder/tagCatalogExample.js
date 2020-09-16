@@ -58,7 +58,7 @@ export default {
     },
     {
       name: 'call.http.header',
-      type: 'KEY_VALUE_PAIRS',
+      type: 'KEY_VALUE_PAIR',
       canApplyToSource: true,
       canApplyToDestination: true
     }
