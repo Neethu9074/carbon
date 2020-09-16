@@ -1,6 +1,10 @@
 import React from 'react';
 
-import { getChartTimeConfigByEvent, getTimeConfigFromEventForSnapshotRetrieval } from 'in-events/timeframe';
+import {
+  getChartTimeConfigByEvent,
+  getTimeConfigFromEvent,
+  getTimeConfigFromEventForSnapshotRetrieval
+} from 'in-events/timeframe';
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
 import { createDefaultChartConfig } from 'in-new-components/Alerting/Chart/chartViewConfig';
 import { alertingEventDetailsChartTimeframe } from 'in-new-components/Alerting/constants';
@@ -55,6 +59,7 @@ export default connectTo(
                 entityType={entityType}
                 metadata={metadata}
                 timeConfig={getTimeConfigFromEventForSnapshotRetrieval(event)}
+                linkTimeConfig={getTimeConfigFromEvent(event)}
               />
 
               <ProblemDescription event={event} className="in-event-view-event-content" />

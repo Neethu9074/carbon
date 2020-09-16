@@ -95,19 +95,24 @@ function EntityInformation10({
   );
 }
 
-function EntityInformation20({ entity, entityType, label }) {
+function EntityInformation20({ entity, entityType, label, linkTimeConfig }) {
   const data = entity.data;
   let href$;
   let iconType;
   if (isApplicationEntity(entityType)) {
-    href$ = getApplicationDashboard(data.id);
+    href$ = getApplicationDashboard(data.id, {
+      timeConfig: linkTimeConfig
+    });
     iconType = 'lib_application';
   } else if (isServiceEntity(entityType)) {
-    href$ = getServiceDashboard(data.id);
+    href$ = getServiceDashboard(data.id, {
+      timeConfig: linkTimeConfig
+    });
     iconType = 'lib_application_service';
   } else if (isEndpointEntity(entityType)) {
     href$ = getEndpointDashboard(data.id, {
-      serviceId: data.serviceId
+      serviceId: data.serviceId,
+      timeConfig: linkTimeConfig
     });
     iconType = 'lib_application_endpoint';
   }
@@ -122,10 +127,15 @@ function EntityInformation20({ entity, entityType, label }) {
   );
 }
 
-function EntityWebsiteInformation({ entity }) {
+function EntityWebsiteInformation({ entity, linkTimeConfig }) {
   return (
     <EntityInformationPresenter>
-      <Link href$={getLinkToWebsite(entity.data.id)} className={locals.entity}>
+      <Link
+        className={locals.entity}
+        href$={getLinkToWebsite(entity.data.id, {
+          timeConfig: linkTimeConfig
+        })}
+      >
         <SvgIcon className={locals.entityIcon} type="lib_website" size="xxs" />
         {entity.data.label}
       </Link>

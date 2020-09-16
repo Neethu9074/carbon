@@ -1,6 +1,10 @@
 import React from 'react';
 
-import { getChartTimeConfigByEvent, getTimeConfigFromEventForSnapshotRetrieval } from 'in-events/timeframe';
+import {
+  getChartTimeConfigByEvent,
+  getTimeConfigFromEventForSnapshotRetrieval,
+  getTimeConfigFromEvent
+} from 'in-events/timeframe';
 import { SmartAlertAffectedEntities } from 'in-events/components/EventContent/SmartAlertAffectedEntities';
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
 import AnalyzeApplicationEventButton from 'in-events/components/AnalyzeApplicationEventButton';
@@ -56,6 +60,7 @@ export default connectTo(
                 entityType={entityType}
                 metadata={metadata}
                 timeConfig={getTimeConfigFromEventForSnapshotRetrieval(event)}
+                linkTimeConfig={getTimeConfigFromEvent(event)}
               />
 
               <ProblemDescription event={event} className="in-event-view-event-content" />
