@@ -494,8 +494,8 @@ function AWSFargateContent({ agentKey, serverlessEndpoint }) {
   if (selectedRuntime === runtimeOptions[0]) {
     steps = (
       <Fragment>
-        <HelpBox title="Alpha">
-          <Description lines={['Support for Go applications running on AWS Fargate is in alpha.']} />
+        <HelpBox title="Technical Preview">
+          <Description lines={['Support for Go applications running on AWS Fargate is in technical preview.']} />
         </HelpBox>
         <TextWithLink
           text="The support for Go on Fargate on ECS works the same way as with any Go application. Follow the instructions of the "
