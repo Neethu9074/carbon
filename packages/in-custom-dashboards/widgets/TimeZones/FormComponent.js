@@ -1,6 +1,5 @@
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-import moment from 'in-services/moment-timezone';
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import { createTimeZoneSubForm } from 'in-custom-dashboards/widgets/TimeZones/form';
 import TouchedMessages from 'in-components/form/TouchedMessages';
@@ -9,6 +8,7 @@ import { Row, Col } from 'in-new-components/layout/Grid';
 import Header from 'in-components/form/Header/Header';
 import FormGroup from 'in-components/form/FormGroup';
 import Stack from 'in-new-components/layout/Stack';
+import moment from 'in-services/moment-timezone';
 import Select from 'in-components/form/Select';
 import Button from 'in-new-components/Button';
 import Input from 'in-components/form/Input';
@@ -18,17 +18,13 @@ import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './FormComponent.mless';
 
-let supportedTimeZones;
-
 export default function TimeZoneWidgetFormComponent({
   form: timeZonesForm,
   onChange,
   widgetTitleFormGroup,
   widgetPreview
 }) {
-  if (!supportedTimeZones) {
-    supportedTimeZones = moment.tz.names().filter(isSupportedTimeZone);
-  }
+  const supportedTimeZones = useMemo(() => moment.tz.names().filter(isSupportedTimeZone));
 
   return (
     <Stack space="large">

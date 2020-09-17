@@ -1,30 +1,14 @@
-import { compose, setPropTypes, withPropsOnChange } from 'recompose';
+import React, { useMemo } from 'react';
 import rpt from 'prop-types';
-import React from 'react';
 
+import useObservable from 'in-hooks/useObservable';
 import { serverTime$ } from 'in-stores/serverTime';
 import Card from 'in-new-components/Card';
-import connecTo from 'in-hoc/connectTo';
 
 import locals from './Widget.mless';
 
-const timeZoneShape = rpt.shape({
-  timeZone: rpt.string.isRequired,
-  label: rpt.string.isRequired
-});
-
-export default compose(
-  setPropTypes({
-    title: rpt.string.isRequired,
-    config: rpt.arrayOf(timeZoneShape).isRequired
-  }),
-  connecTo({
-    serverTime: serverTime$.nextFrame().throttle(10000)
-  })
-)(TimeZonesWidget);
-
-function TimeZonesWidget({ title, config: timeZones, serverTime, actions, isPreview, dragHandle }) {
-  serverTime = serverTime || Date.now();
+export default function TimeZonesWidget({ title, config: timeZones, actions, isPreview, dragHandle }) {
+  const serverTime = useObservable(serverTime$.nextFrame().throttle(10000), []) ?? Date.now();
 
   return (
     <Card
@@ -47,20 +31,31 @@ function TimeZonesWidget({ title, config: timeZones, serverTime, actions, isPrev
   );
 }
 
-const TimeZone = compose(
-  withPropsOnChange(['timeZone'], ({ timeZone }) => ({
-    formatter: new Intl.DateTimeFormat('de-de', {
-      timeZone,
-      hour12: false,
-      hour: 'numeric',
-      minute: 'numeric'
+TimeZonesWidget.protpTypes = {
+  title: rpt.string.isRequired,
+  config: rpt.arrayOf(
+    rpt.shape({
+      timeZone: rpt.string.isRequired,
+      label: rpt.string.isRequired
     })
-  }))
-)(function TimeZone({ formatter, serverTime, label }) {
+  ).isRequired
+};
+
+function TimeZone({ serverTime, label, timeZone }) {
+  const formatter = useMemo(
+    () =>
+      new Intl.DateTimeFormat('de-de', {
+        timeZone,
+        hour12: false,
+        hour: 'numeric',
+        minute: 'numeric'
+      }),
+    [timeZone]
+  );
   return (
     <div className={locals.zone}>
       <dt className={locals.label}>{label}</dt>
       <dd className={locals.time}>{formatter.format(new Date(serverTime))}</dd>
     </div>
   );
-});
+}
