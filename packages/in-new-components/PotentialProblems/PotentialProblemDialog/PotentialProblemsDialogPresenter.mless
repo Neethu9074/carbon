@@ -15,6 +15,7 @@
 
   .listWrapper {
     border-right: 0.0625rem solid @lib__colors__N300;
+    overflow-y: auto;
   }
 
   .contentWrapper {

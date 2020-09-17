@@ -24,13 +24,7 @@ export default connectTo(
   {
     isInternalVisible: isInternalVisible$
   },
-  function Summary({
-    timeConfig,
-    applicationId,
-    data: application,
-    boundaryScope: urlBoundaryScope,
-    isInternalVisible
-  }) {
+  function Summary({ timeConfig, applicationId, data: application, boundaryScope: urlBoundaryScope }) {
     const timeShiftConfig = useTimeShiftConfig();
     const boundaryScope = urlBoundaryScope || application.boundaryScope;
 
@@ -46,12 +40,10 @@ export default connectTo(
     ];
 
     const MarkerLanes = ApplicationDashboardsMarkerLanes({ applicationId });
-    const withPotentialProblemsLane = isInternalVisible
-      ? ApplicationDashboardsMarkerLanes({
-          applicationId,
-          showPotentialProblemsLane: true
-        })
-      : MarkerLanes;
+    const withPotentialProblemsLane = ApplicationDashboardsMarkerLanes({
+      applicationId,
+      showPotentialProblemsLane: true
+    });
 
     return (
       <Fragment>

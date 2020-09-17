@@ -31,13 +31,11 @@ export default connectTo(
     const types = data.types;
 
     const MarkerLanes = ApplicationDashboardsMarkerLanes({ applicationId, serviceId });
-    const withPotentialProblemsLane = props.isInternalVisible
-      ? ApplicationDashboardsMarkerLanes({
-          applicationId,
-          serviceId,
-          showPotentialProblemsLane: true
-        })
-      : MarkerLanes;
+    const withPotentialProblemsLane = ApplicationDashboardsMarkerLanes({
+      applicationId,
+      serviceId,
+      showPotentialProblemsLane: true
+    });
 
     const tagFilters = [{ stringValue: serviceId, name: 'service.id', entity: DESTINATION, operator: EQUALS }];
     if (applicationId != null) {

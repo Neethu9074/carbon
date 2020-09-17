@@ -6,6 +6,7 @@ import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
 import { close } from 'in-components/DialogPresenter/store';
 import Button from 'in-new-components/Button/Button';
+import { role } from 'in-stores/user';
 
 export default function PotentialProblemContentControls({
   applicationLabel,
@@ -38,23 +39,26 @@ export default function PotentialProblemContentControls({
       >
         Investigate
       </Button>
-      <Button
-        kind="secondaryDarker"
-        onClick={() =>
-          addActiveDialog(
-            renderSmartAlertDialogComponent({
-              ...remainingProps,
-              ...alertConfig,
-              applicationLabel,
-              tagFilters,
-              boundaryScope
-            })
-          )
-        }
-        icon="lib_alerts_create"
-      >
-        Add Smart Alert
-      </Button>
+
+      {role.canConfigureCustomAlerts && (
+        <Button
+          kind="secondaryDarker"
+          onClick={() =>
+            addActiveDialog(
+              renderSmartAlertDialogComponent({
+                ...remainingProps,
+                ...alertConfig,
+                applicationLabel,
+                tagFilters,
+                boundaryScope
+              })
+            )
+          }
+          icon="lib_alerts_create"
+        >
+          Add Smart Alert
+        </Button>
+      )}
       {/* <Button kind="secondaryDarker" onClick={() => {}} icon="lib_actions_download">
   Generate Report
 </Button> */}

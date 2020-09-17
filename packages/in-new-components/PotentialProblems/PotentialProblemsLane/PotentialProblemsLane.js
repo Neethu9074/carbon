@@ -5,13 +5,25 @@ import PotentialProblemsPresenter from 'in-new-components/PotentialProblems/Pote
 import getPotentialProblems from 'in-new-components/PotentialProblems/subscription/getPotentialProblems';
 import getServiceLabel from 'in-subscription/application/getServiceLabel';
 import getEndpointInfo from 'in-subscription/application/getEndpointInfo';
+import { applicationSmartAlertsEnabled } from 'in-services/featureFlags';
 import getApplication from 'in-subscription/application/getApplication';
 import { emptyObject, pendingResult } from 'in-services/fixedObjects';
 import useObservable from 'in-hooks/useObservable';
 
-export default function PotentialProblemsLane({ applicationId, serviceId, endpointId, alertRules, ...remainingProps }) {
+export default function PotentialProblemsLane({
+  applicationId,
+  serviceId,
+  endpointId,
+  boundaryScope,
+  alertRules,
+  ...remainingProps
+}) {
+  if (!applicationSmartAlertsEnabled) {
+    return null;
+  }
+
   const { clusterSizeMillis } = remainingProps;
-  const tagFilters = getTagfilters({ applicationId, serviceId, endpointId });
+  const tagFilters = getTagfilters({ applicationId, serviceId, endpointId, boundaryScope });
 
   const potentialProblems =
     useObservable(
@@ -31,16 +43,17 @@ export default function PotentialProblemsLane({ applicationId, serviceId, endpoi
       {...remainingProps}
       {...useGetLabels(applicationId, serviceId, endpointId)}
       applicationId={applicationId}
+      boundaryScope={boundaryScope}
       potentialProblems={potentialProblems}
       tagFilters={tagFilters}
     />
   );
 }
 
-function getTagfilters({ applicationId, serviceId, endpointId }) {
+function getTagfilters({ applicationId, serviceId, endpointId, boundaryScope }) {
   const tagFilters = [
     {
-      name: 'application.id',
+      name: boundaryScope === 'INBOUND' ? 'boundary.application.id' : 'application.id',
       operator: 'EQUALS',
       stringValue: applicationId
     }
@@ -97,6 +110,7 @@ function getLabel(result) {
 PotentialProblemsLane.propTypes = {
   alertRules: PropTypes.object,
   applicationId: PropTypes.string,
+  boundaryScope: PropTypes.string,
   endpointId: PropTypes.string,
   serviceId: PropTypes.string
 };
