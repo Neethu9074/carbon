@@ -25,7 +25,9 @@ export default compose(
     timeConfig: timeConfig$
   }),
   withProps(({ tagFilters, onChange, timeConfig }) => {
-    const applicationAreaSpecificTagFilters = convertToApplicationAreaSpecificTagFilter(tagFilters);
+    const applicationAreaSpecificTagFilters = convertToApplicationAreaSpecificTagFilter(tagFilters).map(
+      withValueConvertedToStringObject
+    );
     return {
       tagFilters: applicationAreaSpecificTagFilters,
       filters: {
@@ -66,14 +68,7 @@ function QuickFilterForm(props) {
           tagFilters={tagFilters.map(tagFilter => {
             return {
               tag: tagFilter,
-              onClick: () =>
-                addActiveDialog(
-                  <EditTagFilterDialog
-                    {...props}
-                    tagFilter={withValueConvertedToStringObject(tagFilter)}
-                    forAnalyzeCalls
-                  />
-                ),
+              onClick: () => addActiveDialog(<EditTagFilterDialog {...props} tagFilter={tagFilter} forAnalyzeCalls />),
               onRemove: () =>
                 removeTagFilter(tagFilter.name, null, tagFilter.secondLevelName, tagFilter.value, tagFilter.entity)
             };
