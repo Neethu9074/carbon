@@ -3,7 +3,7 @@ import {
   serviceDashboard as serviceDashboardPth,
   endpointDashboard as endpointDashboardPath
 } from 'in-applications/navigation/paths';
-import { applicationId, serviceId, endpointId, boundaryScope, timeShift } from 'in-applications/navigation/matrix';
+import { applicationId, serviceId, endpointId, boundaryScope } from 'in-applications/navigation/matrix';
 import { buildJsonSerializer, buildJsonParser } from 'in-stores/navigation/matrix';
 
 export const applicationDashboardUrlParameters = createApplicationServiceEndpointParameters(applicationDashboardPath);
@@ -67,12 +67,6 @@ function createApplicationServiceEndpointParameters(path) {
     boundaryScope: {
       path,
       name: boundaryScope
-    },
-    timeShift: {
-      path,
-      name: timeShift,
-      parser: v => (v === 'auto' ? v : !isNaN(v) && Number(v)),
-      initialState: 0
     }
   };
 }

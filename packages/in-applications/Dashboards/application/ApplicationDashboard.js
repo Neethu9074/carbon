@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
 import { get } from 'lodash';
+import React from 'react';
 
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
 import InboundAllCallsDropdown from 'in-applications/Dashboards/commonComponents/InboundAllCallsDropdown';
@@ -17,48 +17,30 @@ import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import tabs from 'in-applications/Dashboards/application/tabs/index';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import DashboardHeader from 'in-new-components/DashboardHeader';
+import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import { entityTypes } from 'in-analyze/applicationFilter';
-import { defaultTimeShift } from 'in-stores/time/shifting';
-import { setTimeConfig } from 'in-stores/time/config';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import { mutateUrl } from 'in-stores/navigation';
 import useUrlState from 'in-hooks/useUrlState';
 import { role } from 'in-stores/user';
 
 export default function ApplicationDashboard({ location }) {
   const [urlState, setUrlState] = useUrlState({
-    bind: [
-      applicationDashboardUrlParameters.applicationId,
-      applicationDashboardUrlParameters.boundaryScope,
-      applicationDashboardUrlParameters.timeShift
-    ]
+    bind: [applicationDashboardUrlParameters.applicationId, applicationDashboardUrlParameters.boundaryScope]
   });
   const timeConfig = useTimeConfig();
-
-  // When one of the 'Last X' time ranges is used, the to timestamp is set in the backend. To be able to
-  // freeze the last used time range, we need to keep track of the timestamp returned by the backed.
-  const [lastUsedTimestamp, setLastUsedTimestamp] = useState(timeConfig.to);
+  const timeShiftConfig = useTimeShiftConfig();
 
   const props = {
     applicationId: urlState.appId,
     viewPath: applicationDashboard,
     timeConfig,
     boundaryScope: urlState.boundaryScope,
-    timeShift: urlState.timeShift,
+    timeShiftConfig: timeShiftConfig,
     onChange: setUrlState,
     location,
     currentTab: location.pathname.substr(location.pathname.lastIndexOf('/')),
-    onUpdate: result => setLastUsedTimestamp(result?.time),
-    lastUsedTimestamp,
     onBoundaryStateChange: setUrlState
   };
-
-  useEffect(() => {
-    // reset time shift, when one of the 'Last X' time ranges is selected
-    if (timeConfig.to == null && props.timeShift !== defaultTimeShift.offset) {
-      props.onChange({ timeShift: defaultTimeShift.offset });
-    }
-  }, [timeConfig.to, props.timeShift]);
 
   return (
     <>
@@ -133,40 +115,10 @@ function renderButtonLine(props) {
   );
 }
 
-function renderButtonLineSecondary({
-  timeConfig,
-  onChange,
-  result,
-  boundaryScope,
-  timeShift,
-  currentTab,
-  lastUsedTimestamp,
-  onBoundaryStateChange
-}) {
+function renderButtonLineSecondary({ result, boundaryScope, currentTab, onBoundaryStateChange }) {
   return (
     <>
-      <TimeShiftDropdown
-        value={timeShift}
-        onChange={e => {
-          onChange(e);
-          // When using time shift, freeze the time range when one of the 'Last X' time ranges is used.
-          if (e.timeShift !== 0 && timeConfig.to == null) {
-            const to = lastUsedTimestamp != null ? lastUsedTimestamp : Date.now();
-            mutateUrl(
-              location =>
-                setTimeConfig(location, {
-                  to: to,
-                  focusedMoment: to,
-                  autoRefresh: false,
-                  windowSize: timeConfig.windowSize
-                }),
-              true
-            );
-          }
-        }}
-        timeConfig={timeConfig}
-        disabled={currentTab !== summaryTab}
-      />
+      <TimeShiftDropdown disabled={currentTab !== summaryTab} />
       <InboundAllCallsDropdown
         data={result.data}
         boundaryScope={boundaryScope}

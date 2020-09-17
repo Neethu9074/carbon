@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
 import { get } from 'lodash';
+import React from 'react';
 
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
 import ApplicationContextIcon from 'in-applications/components/ApplicationSwitcherContext/ApplicationContextIcon';
@@ -23,11 +23,9 @@ import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import getEndpoint from 'in-subscription/application/getEndpoint';
 import tabs from 'in-applications/Dashboards/endpoint/tabs/index';
 import DashboardHeader from 'in-new-components/DashboardHeader';
+import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import { entityTypes } from 'in-analyze/applicationFilter';
-import { defaultTimeShift } from 'in-stores/time/shifting';
-import { setTimeConfig } from 'in-stores/time/config';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import { mutateUrl } from 'in-stores/navigation';
 import useUrlState from 'in-hooks/useUrlState';
 import Footer from 'in-new-components/Footer';
 import { role } from 'in-stores/user';
@@ -38,15 +36,12 @@ export default function EndpointDashboard({ location }) {
       endpointDashboardUrlParameters.applicationId,
       endpointDashboardUrlParameters.serviceId,
       endpointDashboardUrlParameters.endpointId,
-      endpointDashboardUrlParameters.boundaryScope,
-      endpointDashboardUrlParameters.timeShift
+      endpointDashboardUrlParameters.boundaryScope
     ]
   });
   const timeConfig = useTimeConfig();
+  const timeShiftConfig = useTimeShiftConfig();
 
-  // When one of the 'Last X' time ranges is used, the to timestamp is set in the backend. To be able to
-  // freeze the last used time range, we need to keep track of the timestamp returned by the backed.
-  const [lastUsedTimestamp, setLastUsedTimestamp] = useState(timeConfig.to);
   const props = {
     applicationId: urlState.appId,
     serviceId: urlState.serviceId,
@@ -56,19 +51,10 @@ export default function EndpointDashboard({ location }) {
     currentTab: location.pathname.substr(location.pathname.lastIndexOf('/')),
     onChange: setUrlState,
     timeConfig,
-    timeShift: urlState.timeShift,
-    onUpdate: result => setLastUsedTimestamp(result?.time),
-    lastUsedTimestamp,
+    timeShiftConfig: timeShiftConfig,
     onBoundaryStateChange: setUrlState,
     location
   };
-
-  useEffect(() => {
-    // reset time shift, when one of the 'Last X' time ranges is selected
-    if (timeConfig.to == null && props.timeShift !== defaultTimeShift.offset) {
-      props.onChange({ timeShift: defaultTimeShift.offset });
-    }
-  }, [timeConfig.to, props.timeShift]);
 
   const filterTabByResult = result =>
     get(result, ['data', 'syntheticType'], 'NON_SYNTHETIC') === 'SYNTHETIC'
@@ -181,40 +167,10 @@ function renderButtonLine({ applicationId, serviceId, endpointId, boundaryScope,
   );
 }
 
-function renderButtonLineSecondary({
-  timeConfig,
-  timeShift,
-  onChange,
-  currentTab,
-  lastUsedTimestamp,
-  applicationId,
-  boundaryScope,
-  onBoundaryStateChange
-}) {
+function renderButtonLineSecondary({ currentTab, applicationId, boundaryScope, onBoundaryStateChange }) {
   return (
     <>
-      <TimeShiftDropdown
-        value={timeShift}
-        onChange={e => {
-          onChange(e);
-          // When using time shift, freeze the time range when one of the 'Last X' time ranges is used.
-          if (e.timeShift !== 0 && timeConfig.to == null) {
-            const to = lastUsedTimestamp != null ? lastUsedTimestamp : Date.now();
-            mutateUrl(
-              location =>
-                setTimeConfig(location, {
-                  to: to,
-                  focusedMoment: to,
-                  autoRefresh: false,
-                  windowSize: timeConfig.windowSize
-                }),
-              true
-            );
-          }
-        }}
-        timeConfig={timeConfig}
-        disabled={currentTab !== summaryTab}
-      />
+      <TimeShiftDropdown disabled={currentTab !== summaryTab} />
       {applicationId && (
         <InboundAllCallsDropdown
           boundaryScope={boundaryScope}

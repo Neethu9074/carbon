@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
 import { find } from 'lodash';
+import React from 'react';
 
 import { translateOffsetToTimeShiftConfig, getTimeShiftLabel } from 'in-stores/time/shifting';
 import { blue } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
@@ -24,7 +24,6 @@ export default function BigNumberKpiCard({
   useMaxAvailableHeight,
   iconAction,
   config,
-  onUpdate,
   actions,
   dragHandle
 }) {
@@ -62,13 +61,6 @@ export default function BigNumberKpiCard({
   const result =
     useObservable(getUnifiedMetrics({ metrics }), [config, timeConfig, config.metricConfiguration.timeShift]) ??
     pendingResult;
-
-  useEffect(() => {
-    if (onUpdate && result && !result.progress.loading) {
-      // inform the parent component, when a new result is received from the backed
-      onUpdate(result);
-    }
-  }, [result]);
 
   return (
     <ResultAwareKpiCard

@@ -1,7 +1,41 @@
 import { formatDuration } from 'in-services/formatters/date';
 
+const initialState = 0;
+
+export const urlParameter = {
+  name: 'ts',
+  as: 'timeShiftOffset',
+  parser: v => {
+    if (v == null) {
+      return initialState;
+    }
+
+    if (v === 'auto') {
+      return v;
+    }
+
+    const parsed = parseInt(v, 10);
+    if (isNaN(parsed)) {
+      return initialState;
+    }
+    return parsed;
+  },
+  serializer: v => {
+    if (v === 'auto') {
+      return v;
+    }
+
+    if (typeof v === 'number' && !isNaN(v) && v !== initialState) {
+      return String(v);
+    }
+
+    return null;
+  },
+  initialState
+};
+
 export const defaultTimeShift = {
-  offset: 0,
+  offset: initialState,
   label: `No time shift`,
   description: `View data without time shift`
 };
@@ -31,13 +65,9 @@ export const timeShifts = [
   }
 ];
 
-const noTimeShiftingConfig = {
-  offset: 0
-};
-
 export function translateOffsetToTimeShiftConfig(timeShift, timeConfig) {
   if (timeShift == null) {
-    return noTimeShiftingConfig;
+    return defaultTimeShift;
   } else if (typeof timeShift === 'number') {
     return {
       offset: timeShift
@@ -51,7 +81,7 @@ export function translateOffsetToTimeShiftConfig(timeShift, timeConfig) {
     return translateOffsetToTimeShiftConfig(timeShift.offset, timeConfig);
   }
 
-  return noTimeShiftingConfig;
+  return defaultTimeShift;
 }
 
 export function getTimeShiftLabel(timeShift) {

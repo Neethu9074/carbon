@@ -1,23 +1,32 @@
 import React from 'react';
 
-import { timeShifts, getTimeShiftLabel, translateOffsetToTimeShiftConfig } from 'in-stores/time/shifting';
+import { urlParameter, timeShifts, getTimeShiftLabel, translateOffsetToTimeShiftConfig } from 'in-stores/time/shifting';
 import ComboBoxBehavior from 'in-components/form/ComboBox/ComboBoxBehavior';
 import DropdownButton from 'in-new-components/Button/DropdownButton';
+import useTimeConfig from 'in-hooks/useTimeConfig';
+import useUrlState from 'in-hooks/useUrlState';
 
 import locals from './TimeShiftDropdown.mless';
 
-export default function TimeShiftDropdown({ value, onChange, timeConfig, disabled }) {
+const urlStateDefinition = {
+  bind: [urlParameter]
+};
+
+export default function TimeShiftDropdown({ disabled }) {
+  const timeConfig = useTimeConfig();
+  const [{ timeShiftOffset }, onChange] = useUrlState(urlStateDefinition);
+
   const options = timeShifts.map(v => ({
     value: v.offset,
     label: renderItemContent(v)
   }));
 
-  const valueLabel = getTimeShiftLabel(translateOffsetToTimeShiftConfig(value, timeConfig));
+  const valueLabel = getTimeShiftLabel(translateOffsetToTimeShiftConfig(timeShiftOffset, timeConfig));
   return (
     <ComboBoxBehavior
-      value={value}
+      value={timeShiftOffset}
       options={options}
-      onChange={value => onChange({ timeShift: value })}
+      onChange={timeShiftOffset => onChange({ timeShiftOffset })}
       disableAutomaticOptionSorting
       ariaLabel="Change selected time shift"
     >

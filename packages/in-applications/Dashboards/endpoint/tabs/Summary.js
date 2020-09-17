@@ -35,8 +35,7 @@ export default connectTo(
     boundaryScope,
     data,
     isInternalVisible,
-    timeShift,
-    onUpdate
+    timeShiftConfig
   }) {
     const includeSyntheticCalls = get(data, 'synthetic', false);
     const type = data.type;
@@ -86,8 +85,6 @@ export default connectTo(
             <BigNumberKpiCard
               title="Calls"
               formatter={number.compact}
-              // it is enough to have the onUpdate callback on just one of the widgets
-              onUpdate={onUpdate}
               config={{
                 comparisonDecreaseColor: 'redish',
                 comparisonIncreaseColor: 'greenish',
@@ -96,7 +93,7 @@ export default connectTo(
                   aggregation: 'SUM',
                   source: 'APPLICATION',
                   tagFilters: tagFilters,
-                  timeShift: timeShift
+                  timeShift: timeShiftConfig.offset
                 }
               }}
               iconAction={{
@@ -136,7 +133,7 @@ export default connectTo(
                   aggregation: 'SUM',
                   source: 'APPLICATION',
                   tagFilters: tagFilters,
-                  timeShift: timeShift
+                  timeShift: timeShiftConfig.offset
                 },
                 companionMetricConfiguration: {
                   metric: 'errors',
@@ -179,7 +176,7 @@ export default connectTo(
                   aggregation: 'MEAN',
                   source: 'APPLICATION',
                   tagFilters: tagFilters,
-                  timeShift: timeShift
+                  timeShift: timeShiftConfig.offset
                 },
                 companionMetricConfiguration: {
                   metric: 'latency',
