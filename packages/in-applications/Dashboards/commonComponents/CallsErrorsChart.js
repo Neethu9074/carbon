@@ -5,35 +5,48 @@ import { getTimeShiftLabel, translateOffsetToTimeShiftConfig } from 'in-stores/t
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
 import { getBlueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
+import { barOverlapping, line } from 'in-stores/metric/renderer';
 import { getChartGranularity } from 'in-applications/metrics';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
-import { bar, line } from 'in-stores/metric/renderer';
 
-export default function Errors({
-  timeConfig,
-  endpointId,
+export default function CallsErrorsChart({
   applicationId,
   serviceId,
+  endpointId,
   tagFilters,
-  boundaryScope,
-  cardTitle,
+  timeConfig,
+  timeShiftMetric,
   isSynthetic,
   groupByTag,
+  boundaryScope,
+  cardTitle,
   renderPostChartContent
 }) {
   const granularity = getChartGranularity(timeConfig);
+  const throughputBlueprintConfig = getBlueprintConfig('throughput');
   const errorRateBlueprintConfig = getBlueprintConfig('errorRate');
   const timeShiftConfig = useTimeShiftConfig();
 
-  const errorRate = {
-    metric: 'errors',
-    label: 'Erroneous Call Rate',
-    aggregation: 'MEAN',
+  const defaultMetricConfig = {
+    granularity,
+    aggregation: 'SUM',
     source: 'APPLICATION',
     tagFilters: tagFilters,
     timeConfig: timeConfig,
-    granularity,
-    timeShift: 0,
+    timeShift: 0
+  };
+
+  const callsMetricConfig = {
+    ...defaultMetricConfig,
+    metric: 'calls',
+    label: 'Calls',
+    color: theme.lib.colors.chart.strokeColors25[0]
+  };
+
+  const erroneousCallsMetricConfig = {
+    ...defaultMetricConfig,
+    metric: 'erroneousCalls',
+    label: 'Erroneous Calls',
     color: theme.lib.colors.failure
   };
 
@@ -41,23 +54,28 @@ export default function Errors({
   let renderer;
   let colors;
   if (timeShiftConfig.offset) {
+    const timeShiftMetricConfig = {
+      ...(timeShiftMetric === 'calls' ? callsMetricConfig : erroneousCallsMetricConfig)
+    };
     metrics = [
       {
-        ...errorRate,
-        label: `${errorRate.label} (${getTimeShiftLabel(
+        ...timeShiftMetricConfig,
+        label: `${timeShiftMetricConfig.label} (${getTimeShiftLabel(
           translateOffsetToTimeShiftConfig(timeShiftConfig.offset, timeConfig)
         )})`,
         timeShift: timeShiftConfig.offset
       },
       // make sure the main metric renders over the time shifted metric
-      errorRate
+      {
+        ...timeShiftMetricConfig
+      }
     ];
-    colors = [theme.lib.colors.timeShift, errorRate.color];
+    colors = [theme.lib.colors.timeShift, timeShiftMetricConfig.color];
     renderer = line.id;
   } else {
-    metrics = [errorRate];
-    colors = [errorRate.color];
-    renderer = bar.id;
+    metrics = [callsMetricConfig, erroneousCallsMetricConfig];
+    colors = [callsMetricConfig.color, erroneousCallsMetricConfig.color];
+    renderer = barOverlapping.id;
   }
 
   return (
@@ -66,6 +84,15 @@ export default function Errors({
         renderPostChartContent({
           ...props,
           alertRules: {
+            throughput: {
+              rule: {
+                alertType: throughputBlueprintConfig.type,
+                aggregation: throughputBlueprintConfig.getAggregation(),
+                metricName: throughputBlueprintConfig.getMetricName()
+              },
+              operator: throughputBlueprintConfig.thresholdDefaults.operator,
+              granularity: 60000
+            },
             errorRate: {
               rule: {
                 alertType: errorRateBlueprintConfig.type,
@@ -84,9 +111,10 @@ export default function Errors({
       config={{
         y1: {
           metrics: metrics,
+          reverseOrder: true,
           colors: colors,
-          renderer: renderer,
-          formatter: 'percentage.detailed'
+          formatter: 'number.compact',
+          renderer: renderer
         },
         y2: {
           metrics: []
@@ -98,7 +126,7 @@ export default function Errors({
             name: 'analyze',
             icon: 'lib_analyze',
             label: 'View in Analyze',
-            getHref$: highlightedTime =>
+            getHref$: (highlightedTime, config) =>
               getJumpToAnalyzeHref$(
                 { applicationId, serviceId, endpointId },
                 {
@@ -108,15 +136,17 @@ export default function Errors({
                   filters: isSynthetic
                     ? [
                         { name: 'call.is_synthetic', value: 'true' },
-                        { name: 'include_synthetic', value: 'true' },
-                        { name: 'call.erroneous', value: 'true' }
+                        { name: 'include_synthetic', value: 'true' }
                       ]
-                    : [{ name: 'call.erroneous', value: 'true' }],
+                    : [],
                   metrics: [
-                    { metric: 'errors', aggregation: 'MEAN' },
-                    { metric: 'latency', aggregation: 'MEAN' }
+                    { metric: 'erroneousCalls', aggregation: 'SUM' },
+                    {
+                      metric: 'latency',
+                      aggregation: 'MEAN'
+                    }
                   ],
-                  focusedMetric: 'errors_MEAN'
+                  focusedMetric: focusBasedOnMetrics(config)
                 }
               )
           }
@@ -124,4 +154,11 @@ export default function Errors({
       }}
     />
   );
+}
+
+function focusBasedOnMetrics(config) {
+  if (config.renderedMetrics[0] === 'erroneousCalls') {
+    return 'erroneousCalls_SUM';
+  }
+  return 'calls_SUM';
 }

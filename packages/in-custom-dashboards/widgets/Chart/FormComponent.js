@@ -5,6 +5,7 @@ import { renderer as availableRenderers } from 'in-custom-dashboards/widgets/Cha
 import { createMetricForm } from 'in-custom-dashboards/widgets/Chart/form';
 import StackItem from 'in-new-components/layout/Stack/StackItem';
 import TouchedMessages from 'in-components/form/TouchedMessages';
+import { barOverlapping } from 'in-stores/metric/renderer';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import { formatters } from 'in-stores/metric/formatters';
 import Header from 'in-components/form/Header/Header';
@@ -68,7 +69,9 @@ function AxisFormComponent({ axisName, form, onChange }) {
                 }
                 hasError={!field.valid && field.touched}
               >
-                {availableRenderers.map(({ id, label }) => (
+                {
+                  // hide the bar overlapping chart type, which is not very intuitive to understand
+                  availableRenderers.filter(r => r.id !== barOverlapping.id).map(({ id, label }) => (
                   <option key={id} value={id}>
                     {label}
                   </option>

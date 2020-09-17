@@ -15,12 +15,10 @@ import { number, meanLatency, percentage } from 'in-services/formatters/number';
 import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import BigNumberKpiCard from 'in-new-components/KpiCard/BigNumberKpiCard';
 import Errors from 'in-applications/Dashboards/commonComponents/Errors';
-import getApplication from 'in-subscription/application/getApplication';
+import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import { boundaryScopes } from 'in-applications/constants';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import { Row, Col } from 'in-new-components/layout/Grid';
-import { alwaysNull } from 'in-services/fixedStreams';
-import useObservable from 'in-hooks/useObservable';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
@@ -28,7 +26,8 @@ export default connectTo(
     isInternalVisible: isInternalVisible$
   },
   function Summary(props) {
-    const { timeConfig, applicationId, serviceId, boundaryScope, data, timeShiftConfig } = props;
+    const timeShiftConfig = useTimeShiftConfig();
+    const { timeConfig, applicationId, serviceId, boundaryScope, data } = props;
     const types = data.types;
 
     const MarkerLanes = ApplicationDashboardsMarkerLanes({ applicationId, serviceId });
@@ -39,23 +38,15 @@ export default connectTo(
           showPotentialProblemsLane: true
         })
       : MarkerLanes;
-    const applicationLabel = useObservable(
-      applicationId ? getApplication({ id: applicationId }).map(r => r?.data?.label) : alwaysNull,
-      [applicationId]
-    );
 
-    let tagFilters = [{ stringValue: serviceId, name: 'service.id', entity: DESTINATION, operator: EQUALS }];
+    const tagFilters = [{ stringValue: serviceId, name: 'service.id', entity: DESTINATION, operator: EQUALS }];
     if (applicationId != null) {
       if (boundaryScope === boundaryScopes.all) {
         tagFilters.push({ stringValue: applicationId, name: 'application.id', entity: DESTINATION, operator: EQUALS });
       } else {
-        if (applicationLabel == null) {
-          // application label not available yet
-          return null;
-        }
         tagFilters.push({
-          stringValue: applicationLabel,
-          name: 'call.inbound_of_application',
+          stringValue: applicationId,
+          name: 'boundary.application.id',
           entity: NOT_APPLICABLE,
           operator: EQUALS
         });
@@ -195,6 +186,7 @@ export default connectTo(
                 cardTitle="Calls"
                 applicationId={applicationId}
                 serviceId={serviceId}
+                tagFilters={tagFilters}
                 boundaryScope={boundaryScope}
                 timeConfig={timeConfig}
                 callGroupByTag={{ name: 'endpoint.name', entity: entityTypes.DESTINATION }}
@@ -208,6 +200,7 @@ export default connectTo(
                 serviceId={serviceId}
                 boundaryScope={boundaryScope}
                 timeConfig={timeConfig}
+                tagFilters={tagFilters}
                 groupByTag={{ name: 'endpoint.name', entity: entityTypes.DESTINATION }}
                 renderPostChartContent={withPotentialProblemsLane}
               />
@@ -220,6 +213,7 @@ export default connectTo(
               serviceId={serviceId}
               boundaryScope={boundaryScope}
               timeConfig={timeConfig}
+              tagFilters={tagFilters}
               groupByTag={{ name: 'endpoint.name', entity: entityTypes.DESTINATION }}
               renderPostChartContent={withPotentialProblemsLane}
             />
@@ -231,6 +225,7 @@ export default connectTo(
               serviceId={serviceId}
               boundaryScope={boundaryScope}
               timeConfig={timeConfig}
+              tagFilters={tagFilters}
               percentileGroupBy={{ name: 'endpoint.name', entity: entityTypes.DESTINATION }}
               renderPostChartContent={withPotentialProblemsLane}
             />

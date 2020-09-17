@@ -6,10 +6,6 @@
     max-width: 30rem;
   }
 
-  .option {
-    justify-content: flex-start;
-  }
-
   .label {
     color: @lib__colors__N600Light;
     font-size: 1rem;

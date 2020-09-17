@@ -18,7 +18,10 @@ export default function UnifiedMetricsChart({
   automaticallySize,
   cardHeader,
   customHeight,
-  shareMaxAxisDomain
+  shareMaxAxisDomain,
+  renderPostChartContent,
+  reverseLegendOrder,
+  reverseTooltipOrder
 }) {
   const timeConfig = useTimeConfig();
   let result = useResultData(config, timeConfig) ?? pendingResult;
@@ -50,6 +53,9 @@ export default function UnifiedMetricsChart({
       automaticallySize={automaticallySize}
       customHeight={customHeight}
       shareMaxAxisDomain={shareMaxAxisDomain}
+      renderPostChartContent={renderPostChartContent}
+      reverseLegendOrder={reverseLegendOrder}
+      reverseTooltipOrder={reverseTooltipOrder}
     />
   );
 }
@@ -93,16 +99,26 @@ function toAxisConfiguration(name, axis) {
   return {
     renderer: (find(availableRenderers, ({ id }) => id === axis.renderer) || defaultRenderer).renderer,
     formatter: (find(formatters, ({ id }) => id === axis.formatter) || defaultFormatter).formatter,
+    tooltipFormatter: axis.tooltipFormatter,
     labels: axis.metrics.map(({ label }) => label),
     colors: axis.colors,
     metricIds: axis.metrics.map((definition, i) => getMetricId(name, i)),
+    defaultDisabledMetrics: axis.metrics
+      .map((m, i) => (m.defaultDisabled === true ? getMetricId(name, i) : null))
+      .filter(Boolean),
     min: axis.min,
-    max: axis.max
+    max: axis.max,
+    calculateStackDifferences: axis.calculateStackDifferences
   };
 }
 
 function getMetricId(axis, index) {
   return `${axis}-${index}`;
+}
+
+export function parseMetricId(metricId) {
+  const [axis, index] = metricId.split('-');
+  return { axis: axis, index: index };
 }
 
 function toMetricsConfiguration(config) {
@@ -127,6 +143,10 @@ function toMetricsConfiguration(config) {
         timeShift
       })
   );
+
+  if (config.reverseOrder) {
+    metricsConfiguration.reverseOrder = config.reverseOrder;
+  }
 
   return metricsConfiguration;
 }

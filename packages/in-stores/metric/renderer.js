@@ -22,6 +22,11 @@ export const stackedBar = {
   label: 'Bar (stacked)',
   renderer: Renderer.stackedBar
 };
+export const barOverlapping = {
+  id: 'barOverlapping',
+  label: 'Bar (overlapping)',
+  renderer: Renderer.barOverlapping
+};
 export const integral = {
   id: 'integral',
   label: 'Integral',
@@ -38,7 +43,7 @@ export const point = {
   renderer: Renderer.point
 };
 
-export const allRenderers = [line, area, stackedArea, bar, stackedBar, integral, point];
+export const allRenderers = [line, area, stackedArea, bar, stackedBar, barOverlapping, integral, point];
 export const allRendererIds = allRenderers.map(({ id }) => id);
 
 export const rendererIdPropType = PropTypes.oneOf(allRendererIds);

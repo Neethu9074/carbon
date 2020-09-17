@@ -16,10 +16,12 @@ export default function TimeShiftDropdown({ disabled }) {
   const timeConfig = useTimeConfig();
   const [{ timeShiftOffset }, onChange] = useUrlState(urlStateDefinition);
 
-  const options = timeShifts.map(v => ({
-    value: v.offset,
-    label: renderItemContent(v)
-  }));
+  const options = timeShifts
+    .filter(({ disallowSelection }) => disallowSelection !== true)
+    .map(v => ({
+      value: v.offset,
+      label: renderItemContent(v)
+    }));
 
   const valueLabel = getTimeShiftLabel(translateOffsetToTimeShiftConfig(timeShiftOffset, timeConfig));
   return (

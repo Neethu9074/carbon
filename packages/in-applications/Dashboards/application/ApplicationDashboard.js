@@ -17,7 +17,6 @@ import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import tabs from 'in-applications/Dashboards/application/tabs/index';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import DashboardHeader from 'in-new-components/DashboardHeader';
-import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import useUrlState from 'in-hooks/useUrlState';
@@ -28,14 +27,12 @@ export default function ApplicationDashboard({ location }) {
     bind: [applicationDashboardUrlParameters.applicationId, applicationDashboardUrlParameters.boundaryScope]
   });
   const timeConfig = useTimeConfig();
-  const timeShiftConfig = useTimeShiftConfig();
 
   const props = {
     applicationId: urlState.appId,
     viewPath: applicationDashboard,
     timeConfig,
     boundaryScope: urlState.boundaryScope,
-    timeShiftConfig: timeShiftConfig,
     onChange: setUrlState,
     location,
     currentTab: location.pathname.substr(location.pathname.lastIndexOf('/')),
