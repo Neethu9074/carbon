@@ -1401,20 +1401,20 @@ function CfAndBoshContent({ agentKey, agentEndpoint }) {
       <ValidatedInputFields
         fields={[
           {
+            name: 'agentReleaseVersion',
+            placeholder: "Release version, e.g. '0.0.1'",
+            validate: {
+              validator: validateAgentReleaseVersion,
+              validationMessage: 'The agent release version must be a valid semantic version'
+            }
+          },
+          {
             name: 'foundationName',
             placeholder: "Foundation name, e.g., 'prod'",
             validate: {
               validator: validateClusterName,
               validationMessage:
                 'The foundation name must be a combination of letters, dashes and underscores, up to 20 characters long'
-            }
-          },
-          {
-            name: 'agentReleaseVersion',
-            placeholder: "Release version, e.g. '0.0.1'",
-            validate: {
-              validator: validateAgentReleaseVersion,
-              validationMessage: 'The agent release version must be a valid semantic version'
             }
           },
           {
@@ -1453,6 +1453,10 @@ function CfAndBoshContent({ agentKey, agentEndpoint }) {
               <Listing items={['Ubuntu Trusty', 'Ubuntu Xenial']} />
             </HelpBox>
             <Spacer />
+            <HelpBox title="Instana BOSH agent version">
+              <Description lines={['Please provide the Instana BOSH release version you want to use:']} />
+              <Row>{agentReleaseVersionInput}</Row>
+            </HelpBox>
             <HelpBox title="Upload the Instana BOSH releases to the BOSH director">
               <Description lines={['Download the following BOSH releases']} />
               <DownloadButton
@@ -1514,13 +1518,8 @@ function CfAndBoshContent({ agentKey, agentEndpoint }) {
                 href="https://bosh.io/docs/runtime-config/"
               />
               <Spacer />
-              <Description
-                lines={['Pick a name for your Cloud Foundry foundation and select an Instana BOSH release version:']}
-              />
-              <Row>
-                {foundationNameInput}
-                {agentReleaseVersionInput}
-              </Row>
+              <Description lines={['Pick a name for your Cloud Foundry foundation:']} />
+              <Row>{foundationNameInput}</Row>
               <Spacer />
               <Description lines={['Apply the following as BOSH runtime configurations to your BOSH director:']} />
               <Row>
