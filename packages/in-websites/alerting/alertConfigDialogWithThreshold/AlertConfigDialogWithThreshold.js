@@ -22,11 +22,6 @@ export const AlertConfigDialogWithThreshold = compose(
   connectTo(({ form, updateForm, simpleMode }) => {
     const calculateThresholdOnBackend = form.get('hiddenFields').get('calculateThresholdOnBackend').value;
     thresholdOrBaselineLoadingSignal$.emit(calculateThresholdOnBackend);
-    if (!calculateThresholdOnBackend) {
-      return {
-        thresholdResult: empty
-      };
-    }
 
     return {
       thresholdResult: resolveThresholdRequest(form, simpleMode)
@@ -108,7 +103,6 @@ function resolveThresholdRequest(form, fallbackOnError) {
 
   const thresholdSuggestionRequest = blueprintConfig.getThresholdSuggestionRequest(metricName);
   return thresholdSuggestionRequest({
-    to: Date.now(),
     tagFilters: enrichedTagFilters,
     metric: {
       metric: blueprintConfig.getMetricName(alertConfig.rule),
