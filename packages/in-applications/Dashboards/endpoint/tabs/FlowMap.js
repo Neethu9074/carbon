@@ -96,6 +96,7 @@ export default compose(
           rootNodeData={{
             id: serviceId,
             applicationContext: applicationId,
+            applicationBoundaryScope: boundaryScopes.all,
             service,
             endpoint: data,
             metricValues

@@ -80,6 +80,7 @@ export default compose(
           rootNodeData={{
             id: data.id,
             applicationContext: applicationId,
+            applicationBoundaryScope: boundaryScopes.all,
             service: data,
             metricValues
           }}
