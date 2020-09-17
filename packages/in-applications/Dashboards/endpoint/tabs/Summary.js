@@ -14,36 +14,21 @@ import CallsErrors from 'in-applications/Dashboards/commonComponents/CallsErrors
 import { number, meanLatency, percentage } from 'in-services/formatters/number';
 import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import BigNumberKpiCard from 'in-new-components/KpiCard/BigNumberKpiCard';
-import getApplication from 'in-subscription/application/getApplication';
 import Errors from 'in-applications/Dashboards/commonComponents/Errors';
+import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import { boundaryScopes } from 'in-applications/constants';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import { Row, Col } from 'in-new-components/layout/Grid';
-import { alwaysNull } from 'in-services/fixedStreams';
-import useObservable from 'in-hooks/useObservable';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
   {
     isInternalVisible: isInternalVisible$
   },
-  function Summary({
-    timeConfig,
-    applicationId,
-    serviceId,
-    endpointId,
-    boundaryScope,
-    data,
-    isInternalVisible,
-    timeShiftConfig
-  }) {
+  function Summary({ timeConfig, applicationId, serviceId, endpointId, boundaryScope, data, isInternalVisible }) {
+    const timeShiftConfig = useTimeShiftConfig();
     const includeSyntheticCalls = get(data, 'synthetic', false);
     const type = data.type;
-
-    const applicationLabel = useObservable(
-      applicationId ? getApplication({ id: applicationId }).map(r => r?.data?.label) : alwaysNull,
-      [applicationId]
-    );
 
     const MarkerLanes = ApplicationDashboardsMarkerLanes({ applicationId, endpointId, serviceId });
     const withPotentialProblemsLane = isInternalVisible
@@ -55,7 +40,7 @@ export default connectTo(
         })
       : MarkerLanes;
 
-    let tagFilters = [
+    const tagFilters = [
       { stringValue: serviceId, name: 'service.id', entity: DESTINATION, operator: EQUALS },
       { stringValue: endpointId, name: 'endpoint.id', entity: DESTINATION, operator: EQUALS },
       { booleanValue: includeSyntheticCalls, name: 'include_synthetic', entity: NOT_APPLICABLE, operator: EQUALS }
@@ -65,13 +50,9 @@ export default connectTo(
       if (boundaryScope === boundaryScopes.all) {
         tagFilters.push({ stringValue: applicationId, name: 'application.id', entity: DESTINATION, operator: EQUALS });
       } else {
-        if (applicationLabel == null) {
-          // application label not available yet
-          return null;
-        }
         tagFilters.push({
-          stringValue: applicationLabel,
-          name: 'call.inbound_of_application',
+          stringValue: applicationId,
+          name: 'boundary.application.id',
           entity: NOT_APPLICABLE,
           operator: EQUALS
         });
@@ -211,8 +192,8 @@ export default connectTo(
                 applicationId={applicationId}
                 serviceId={serviceId}
                 endpointId={endpointId}
+                tagFilters={tagFilters}
                 boundaryScope={boundaryScope}
-                includeSyntheticCalls={includeSyntheticCalls}
                 timeConfig={timeConfig}
                 callGroupByTag={{ name: 'call.name', entity: entityTypes.NOT_APPLICABLE }}
                 renderPostChartContent={withPotentialProblemsLane}
@@ -224,7 +205,7 @@ export default connectTo(
                 serviceId={serviceId}
                 endpointId={endpointId}
                 boundaryScope={boundaryScope}
-                includeSyntheticCalls={includeSyntheticCalls}
+                tagFilters={tagFilters}
                 timeConfig={timeConfig}
                 groupByTag={{ name: 'call.name', entity: entityTypes.NOT_APPLICABLE }}
                 renderPostChartContent={withPotentialProblemsLane}
@@ -240,6 +221,7 @@ export default connectTo(
               boundaryScope={boundaryScope}
               includeSyntheticCalls={includeSyntheticCalls}
               timeConfig={timeConfig}
+              tagFilters={tagFilters}
               groupByTag={{ name: 'call.name', entity: entityTypes.NOT_APPLICABLE }}
               renderPostChartContent={withPotentialProblemsLane}
             />
@@ -253,6 +235,7 @@ export default connectTo(
               boundaryScope={boundaryScope}
               includeSyntheticCalls={includeSyntheticCalls}
               timeConfig={timeConfig}
+              tagFilters={tagFilters}
               percentileGroupBy={{ name: 'endpoint.name', entity: entityTypes.NOT_APPLICABLE }}
               renderPostChartContent={withPotentialProblemsLane}
             />

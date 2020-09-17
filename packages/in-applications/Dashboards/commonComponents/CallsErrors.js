@@ -1,125 +1,37 @@
-import theme from 'in-themes';
-import React from 'react';
+import React, { useState } from 'react';
 
-import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
-import { getBlueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
-import AppdataChartWrapper from 'in-applications/components/AppdataChartWrapper';
-import { getChartGranularity } from 'in-applications/metrics';
-import Renderer from 'in-components/Chart/renderer/Renderer';
-import { number } from 'in-services/formatters/number';
+import { ComboChartMetricSelector } from 'in-applications/Dashboards/commonComponents/ChartSelectors';
+import CallsErrorsChart from 'in-applications/Dashboards/commonComponents/CallsErrorsChart';
+import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
+import Card from 'in-new-components/Card';
 
-export default function CallsErrors({
-  applicationId,
-  serviceId,
-  endpointId,
-  timeConfig,
-  isSynthetic,
-  groupByTag,
-  includeSyntheticCalls,
-  boundaryScope,
-  cardTitle,
-  renderPostChartContent
-}) {
-  const granularity = getChartGranularity(timeConfig);
-  const labels = ['Calls', 'Erroneous Calls'];
-  const throughputBlueprintConfig = getBlueprintConfig('throughput');
-  const errorRateBlueprintConfig = getBlueprintConfig('errorRate');
+const metrics = [
+  {
+    label: 'Calls',
+    value: 'calls'
+  },
+  {
+    label: 'Erroneous Calls',
+    value: 'erroneousCalls'
+  }
+];
+
+export default function CallsErrors(props) {
+  const { cardTitle } = props;
+  const [activeMetric, setActiveMetric] = useState(metrics[0].value);
+  const timeShiftConfig = useTimeShiftConfig();
+
+  const header = timeShiftConfig.offset && (
+    <ComboChartMetricSelector metrics={metrics} selected={activeMetric} onChange={setActiveMetric} />
+  );
 
   return (
-    <AppdataChartWrapper
-      renderPostChartContent={props =>
-        renderPostChartContent({
-          ...props,
-          alertRules: {
-            throughput: {
-              rule: {
-                alertType: throughputBlueprintConfig.type,
-                aggregation: throughputBlueprintConfig.getAggregation(),
-                metricName: throughputBlueprintConfig.getMetricName()
-              },
-              operator: throughputBlueprintConfig.thresholdDefaults.operator,
-              granularity: 60000
-            },
-            errorRate: {
-              rule: {
-                alertType: errorRateBlueprintConfig.type,
-                aggregation: errorRateBlueprintConfig.getAggregation(),
-                metricName: errorRateBlueprintConfig.getMetricName()
-              },
-              granularity: 60000
-            }
-          }
-        })
-      }
-      cardTitle={cardTitle}
-      timeConfig={timeConfig}
-      y1={{
-        renderer: Renderer.barOverlapping,
-        labels: labels,
-        formatter: number.compact,
-        metricIds: ['calls', 'erroneousCalls'],
-        colors: [theme.lib.colors.lightPrimary240, theme.lib.colors.failure]
-      }}
-      metricsConfiguration={{
-        filter: {
-          timeConfig,
-          endpoint: endpointId,
-          application: applicationId,
-          service: serviceId,
-          applicationBoundaryScope: boundaryScope,
-          includeSyntheticCalls
-        },
-        metrics: {
-          calls: {
-            metric: 'calls',
-            granularity,
-            aggregation: 'SUM'
-          },
-          erroneousCalls: {
-            metric: 'erroneousCalls',
-            granularity,
-            aggregation: 'SUM'
-          }
-        }
-      }}
-      primaryContextMenuAction="analyze"
-      additionalContextMenuButtons={[
-        {
-          name: 'analyze',
-          icon: 'lib_analyze',
-          label: 'View in Analyze',
-          getHref$: (highlightedTime, config) =>
-            getJumpToAnalyzeHref$(
-              { applicationId, serviceId, endpointId },
-              {
-                timeConfig: highlightedTime,
-                boundaryScope,
-                groupByTag,
-                filters: isSynthetic
-                  ? [
-                      { name: 'call.is_synthetic', value: 'true' },
-                      { name: 'include_synthetic', value: 'true' }
-                    ]
-                  : [],
-                metrics: [
-                  { metric: 'erroneousCalls', aggregation: 'SUM' },
-                  {
-                    metric: 'latency',
-                    aggregation: 'MEAN'
-                  }
-                ],
-                focusedMetric: focusBasedOnMetrics(config)
-              }
-            )
-        }
-      ]}
-    />
+    <Card title={cardTitle} header={header}>
+      <CallsErrorsChart
+        {...props}
+        cardTitle={undefined}
+        timeShiftMetric={timeShiftConfig.offset ? activeMetric : null}
+      />
+    </Card>
   );
-}
-
-function focusBasedOnMetrics(config) {
-  if (config.renderedMetrics[0] === 'erroneousCalls') {
-    return 'erroneousCalls_SUM';
-  }
-  return 'calls_SUM';
 }

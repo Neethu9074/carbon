@@ -22,7 +22,6 @@ import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import tabs from 'in-applications/Dashboards/service/tabs/index';
 import getService from 'in-subscription/application/getService';
 import DashboardHeader from 'in-new-components/DashboardHeader';
-import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import useUrlState from 'in-hooks/useUrlState';
@@ -38,7 +37,6 @@ export default function ServiceDashboard({ location }) {
     ]
   });
   const timeConfig = useTimeConfig();
-  const timeShiftConfig = useTimeShiftConfig();
 
   const props = {
     applicationId: urlState.appId,
@@ -48,7 +46,6 @@ export default function ServiceDashboard({ location }) {
     currentTab: location.pathname.substr(location.pathname.lastIndexOf('/')),
     onChange: setUrlState,
     timeConfig,
-    timeShiftConfig: timeShiftConfig,
     location,
     onBoundaryStateChange: setUrlState
   };

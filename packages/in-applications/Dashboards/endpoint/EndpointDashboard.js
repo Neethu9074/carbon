@@ -23,7 +23,6 @@ import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import getEndpoint from 'in-subscription/application/getEndpoint';
 import tabs from 'in-applications/Dashboards/endpoint/tabs/index';
 import DashboardHeader from 'in-new-components/DashboardHeader';
-import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import useUrlState from 'in-hooks/useUrlState';
@@ -40,7 +39,6 @@ export default function EndpointDashboard({ location }) {
     ]
   });
   const timeConfig = useTimeConfig();
-  const timeShiftConfig = useTimeShiftConfig();
 
   const props = {
     applicationId: urlState.appId,
@@ -51,7 +49,6 @@ export default function EndpointDashboard({ location }) {
     currentTab: location.pathname.substr(location.pathname.lastIndexOf('/')),
     onChange: setUrlState,
     timeConfig,
-    timeShiftConfig: timeShiftConfig,
     onBoundaryStateChange: setUrlState,
     location
   };

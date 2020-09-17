@@ -5,12 +5,15 @@ import ApplicationDashboardsMarkerLanes from 'in-applications/Dashboards/Applica
 import LatencyAndDistribution from 'in-applications/Dashboards/commonComponents/LatencyAndDistribution';
 import TechnologyBreakdown from 'in-applications/Dashboards/commonComponents/TechnologyBreakdown';
 import ServiceTopList from 'in-applications/Dashboards/application/tabs/Summary/ServiceTopList';
+import { DESTINATION, NOT_APPLICABLE } from 'in-new-components/QueryBuilder/tagFilter/entities';
 import IssuesAndEvents from 'in-applications/Dashboards/commonComponents/IssuesAndEvents';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
 import CallsErrors from 'in-applications/Dashboards/commonComponents/CallsErrors';
 import { number, meanLatency, percentage } from 'in-services/formatters/number';
+import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import BigNumberKpiCard from 'in-new-components/KpiCard/BigNumberKpiCard';
 import Errors from 'in-applications/Dashboards/commonComponents/Errors';
+import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import { boundaryScopes } from 'in-applications/constants';
 import { Row, Col } from 'in-new-components/layout/Grid';
@@ -26,19 +29,19 @@ export default connectTo(
     applicationId,
     data: application,
     boundaryScope: urlBoundaryScope,
-    isInternalVisible,
-    timeShiftConfig
+    isInternalVisible
   }) {
+    const timeShiftConfig = useTimeShiftConfig();
     const boundaryScope = urlBoundaryScope || application.boundaryScope;
 
     let tagFilters = [
       boundaryScope === boundaryScopes.all
-        ? { stringValue: applicationId, name: 'application.id', entity: 'DESTINATION', operator: 'EQUALS' }
+        ? { stringValue: applicationId, name: 'application.id', entity: DESTINATION, operator: EQUALS }
         : {
-            stringValue: application.label,
-            name: 'call.inbound_of_application',
-            entity: 'NOT_APPLICABLE',
-            operator: 'EQUALS'
+            stringValue: applicationId,
+            name: 'boundary.application.id',
+            entity: NOT_APPLICABLE,
+            operator: EQUALS
           }
     ];
 
@@ -183,6 +186,7 @@ export default connectTo(
               applicationId={applicationId}
               timeConfig={timeConfig}
               boundaryScope={boundaryScope}
+              tagFilters={tagFilters}
               groupByTag={{ name: 'service.name', entity: entityTypes.DESTINATION }}
               renderPostChartContent={withPotentialProblemsLane}
             />
@@ -193,6 +197,7 @@ export default connectTo(
               applicationId={applicationId}
               timeConfig={timeConfig}
               boundaryScope={boundaryScope}
+              tagFilters={tagFilters}
               groupByTag={{ name: 'service.name', entity: entityTypes.DESTINATION }}
               renderPostChartContent={withPotentialProblemsLane}
             />
@@ -203,6 +208,7 @@ export default connectTo(
               applicationId={applicationId}
               timeConfig={timeConfig}
               boundaryScope={boundaryScope}
+              tagFilters={tagFilters}
               percentileGroupBy={{ name: 'service.name', entity: entityTypes.DESTINATION }}
               renderPostChartContent={withPotentialProblemsLane}
             />

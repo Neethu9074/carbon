@@ -1,14 +1,53 @@
 import React, { useState } from 'react';
 
+import { ComboChartMetricSelector, TabChartSelector } from 'in-applications/Dashboards/commonComponents/ChartSelectors';
 import LatencyDistributionHistogram from 'in-applications/Dashboards/commonComponents/LatencyDistributionHistogram';
 import Latency from 'in-applications/Dashboards/commonComponents/Latency';
-import ButtonGroup from 'in-new-components/ButtonGroup';
+import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import Card from 'in-new-components/Card';
+
+const tabOverTime = 'Over Time';
+const tabDistribution = 'Distribution';
+
+const tabs = [tabOverTime, tabDistribution];
+const metrics = [
+  {
+    label: '50th',
+    value: 'P50',
+    tab: tabOverTime
+  },
+  {
+    label: '90th',
+    value: 'P90',
+    tab: tabOverTime
+  },
+  {
+    label: '95th',
+    value: 'P95',
+    tab: tabOverTime
+  },
+  {
+    label: '99th',
+    value: 'P99',
+    tab: tabOverTime
+  },
+  {
+    label: 'Max',
+    value: 'MAX',
+    tab: tabOverTime
+  },
+  {
+    label: 'Mean',
+    value: 'MEAN',
+    tab: tabOverTime
+  }
+];
 
 export default function LatencyAndDistribution({
   applicationId,
   serviceId,
   endpointId,
+  tagFilters,
   timeConfig,
   boundaryScope,
   includeSyntheticCalls,
@@ -16,33 +55,30 @@ export default function LatencyAndDistribution({
   percentileGroupBy,
   renderPostChartContent
 }) {
-  const tabs = ['Over Time', 'Distribution'];
   const [activeTab, setActiveTab] = useState(tabs[0]);
+  const [activeAggregation, setActiveAggregation] = useState(metrics[0].value);
 
-  const header = (
-    <ButtonGroup
-      buttonPropsList={tabs.map(tab => ({
-        text: tab,
-        key: tab,
-        kind: 'primaryv2',
-        onClick: () => {
-          setActiveTab(tab);
-        }
-      }))}
-      activeKey={activeTab}
-    />
+  const timeShiftConfig = useTimeShiftConfig();
+
+  const header = timeShiftConfig.offset ? (
+    <ComboChartMetricSelector metrics={metrics} selected={activeAggregation} onChange={setActiveAggregation} />
+  ) : (
+    <TabChartSelector tabs={tabs} selected={activeTab} onChange={setActiveTab} />
   );
+
+  const selectedTab = timeShiftConfig.offset ? metrics.find(o => o.value === activeAggregation).tab : activeTab;
 
   return (
     <Card title={cardTitle} header={header}>
-      {activeTab === 'Over Time' && (
+      {selectedTab === tabOverTime && (
         <Latency
           applicationId={applicationId}
           serviceId={serviceId}
           endpointId={endpointId}
+          tagFilters={tagFilters}
           boundaryScope={boundaryScope}
-          includeSyntheticCalls={includeSyntheticCalls}
           timeConfig={timeConfig}
+          timeShiftAggregation={timeShiftConfig.offset ? activeAggregation : null}
           groupByTag={percentileGroupBy}
           renderPostChartContent={renderPostChartContent}
         />

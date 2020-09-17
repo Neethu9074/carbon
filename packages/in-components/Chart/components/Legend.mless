@@ -51,7 +51,8 @@
   }
 
   .disabledDot {
-    background: @lib__colors__N400 !important;
+    background: none !important;
+    border: 2px solid @lib__colors__N400;
   }
 
   .disabledIcon {

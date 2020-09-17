@@ -1,3 +1,4 @@
+import { range, rangeRight } from 'lodash';
 import React from 'react';
 
 import { getTimeShiftLabel, defaultTimeShift } from 'in-stores/time/shifting';
@@ -45,7 +46,8 @@ function MetricSeries({ chart, axis, config, filteredDataSeries, axisName }) {
 
   return (
     <ul className={locals.metricList}>
-      {axis.labels.map((label, i) => {
+      {(config.reverseLegendOrder ? rangeRight(axis.labels.length) : range(axis.labels.length)).map(i => {
+        const label = axis.labels[i];
         const dataSeriesName = `${axisName}-${i}`;
         const isDisabled = filteredDataSeries && filteredDataSeries.has(dataSeriesName);
         const isToggleable =
@@ -91,12 +93,11 @@ function MetricSeries({ chart, axis, config, filteredDataSeries, axisName }) {
 
             {label}
 
-            {timeShift &&
-              timeShift.offset !== 0 && (
-                <Tooltip content={`Metric is time shifted to: ${getTimeShiftLabel(timeShift)}`}>
-                  <SvgIcon className={locals.timeShift} size="xxs" type="lib_datetime_time" />
-                </Tooltip>
-              )}
+            {timeShift && timeShift.offset !== 0 && (
+              <Tooltip content={`Metric is time shifted to: ${getTimeShiftLabel(timeShift)}`}>
+                <SvgIcon className={locals.timeShift} size="xxs" type="lib_datetime_time" />
+              </Tooltip>
+            )}
           </li>
         );
         return isToggleable ? (

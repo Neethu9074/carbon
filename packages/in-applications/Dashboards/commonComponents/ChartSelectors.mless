@@ -1,0 +1,8 @@
+@import '~in-themes/active.less';
+
+:local {
+  .comboOption {
+    min-width: 8rem;
+    text-align: right;
+  }
+}
