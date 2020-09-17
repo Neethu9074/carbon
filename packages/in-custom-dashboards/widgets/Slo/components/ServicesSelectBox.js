@@ -2,6 +2,7 @@ import React from 'react';
 
 import FormDropDown from 'in-custom-dashboards/widgets/Slo/components/FormDropDown';
 import getServices from 'in-subscription/application/getServices';
+import { hasError, isLoading } from 'in-services/util/result';
 import { pendingResult } from 'in-services/fixedObjects';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import useObservable from 'in-hooks/useObservable';
@@ -32,16 +33,18 @@ export default function ServicesSelectBox({ applicationId, boundaryScope, value,
   });
 
   const services = useObservable(services$, [applicationId, boundaryScope, timeConfig]) ?? pendingResult;
-  const { progress, errors, data } = services;
+  const { data } = services;
   const serviceItems = data?.items?.map(({ service }) => ({ value: service.id, label: service.label }));
 
-  if (progress?.loading) return <FormDropDown options={[{ value: '', label: '<loading>' }]} disabled />;
+  if (isLoading(services)) {
+    return <FormDropDown options={[{ value: '', label: '<loading>' }]} disabled />;
+  }
 
   return (
     <>
       {
         <FormDropDown
-          disabled={errors && errors?.length !== 0}
+          disabled={hasError(services)}
           options={[{ value: '', label: 'All Services' }, ...(serviceItems ?? [])]}
           value={value ?? ''}
           onChange={({ target }) => onChange?.(target?.value)}

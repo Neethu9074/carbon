@@ -1,8 +1,6 @@
 import React from 'react';
 
-import { getApplicationConfigsAsResultObservable, getSliConfigurations } from './apiMock';
 import CreateNewSLIForm from 'in-custom-dashboards/widgets/Slo/CreateSLIForm';
-import { just } from 'reactive-observables';
 
 export default {
   title: 'Templates|CustomDashboard/widgets/SLO/SLI-management/SLIForm',
@@ -10,10 +8,6 @@ export default {
 };
 
 export function ViewExistingTimeBasedSLI() {
-  const api = {
-    getSliConfigurations,
-    getApplicationConfigsAsResultObservable
-  };
   const sliConfig = {
     id: 'joschi-test-1',
     sliName: 'SLI on all services latency p90 <10ms',
@@ -31,28 +25,10 @@ export function ViewExistingTimeBasedSLI() {
     }
   };
 
-  return <CreateNewSLIForm api={api} sliConfig={sliConfig} apName="All Services" />;
+  return <CreateNewSLIForm sliConfig={sliConfig} apName="All Services" />;
 }
 
-export function ErrorHandlingOnSave() {
-  const apiErrorOnSavingSLI = {
-    createSliConfiguration: () =>
-      just({
-        data: null,
-        errors: [
-          {
-            code: 'CLIENT',
-            message:
-              'sliEntity.goodEventFilters size must be between 1 and 2147483647 | sliEntity.badEventFilters size must be between 1 and 2147483647'
-          }
-        ],
-        progress: {
-          loading: false
-        }
-      }),
-    getSliConfigurations,
-    getApplicationConfigsAsResultObservable
-  };
+export function WithGoodBadFilters() {
   const somefilters = [
     {
       name: 'call.http.status',
@@ -77,15 +53,11 @@ export function ErrorHandlingOnSave() {
     }
   };
 
-  return <CreateNewSLIForm api={apiErrorOnSavingSLI} sliConfig={sliConfig} apName="All Services" />;
+  return <CreateNewSLIForm sliConfig={sliConfig} apName="All Services" />;
 }
 
 export function CreateNewSLI() {
-  const api = {
-    getSliConfigurations,
-    getApplicationConfigsAsResultObservable
-  };
   const sliConfig = {};
 
-  return <CreateNewSLIForm api={api} sliConfig={sliConfig} apName="All Services" />;
+  return <CreateNewSLIForm sliConfig={sliConfig} apName="All Services" />;
 }

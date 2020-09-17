@@ -8,12 +8,9 @@ import { numberValidator, stringValidator } from 'in-services/validators/jsonTyp
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { dateValidator, timeValidator } from 'in-services/validators/date';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
-import { demo } from 'in-custom-dashboards/widgets/Slo';
 
 // internal fields just for app-config information used internally
 export const ApConfigId = 'apConfigId';
-export const ApName = 'apName';
-export const ApBoundaryScope = 'apBoundaryScope';
 
 export const SloTarget = 'slo';
 export const SliConfigId = 'sliConfigId';
@@ -34,18 +31,6 @@ export function createForm(oldSavedState) {
     validator: validateTimeWindow
   });
 
-  form = form.put(
-    ApName,
-    createField({
-      value: savedState[ApName] ?? ''
-    })
-  );
-  form = form.put(
-    ApBoundaryScope,
-    createField({
-      value: savedState[ApBoundaryScope] ?? demo[ApBoundaryScope]
-    })
-  );
   form = form.put(
     ApConfigId,
     createField({

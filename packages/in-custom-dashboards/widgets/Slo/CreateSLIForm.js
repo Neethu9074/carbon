@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
-import { v4 as uuidv4 } from 'uuid';
 
 import { resetFormForSliType, createForm } from 'in-custom-dashboards/widgets/Slo/form/sliForm';
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
 import { SliForm } from 'in-custom-dashboards/widgets/Slo/SliFormPresenter';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { createSliConfiguration } from 'in-custom-dashboards/api';
+import { generateUniqueShortId } from 'in-services/util/id';
 import Section from 'in-settings/components/Section';
 import Message from 'in-new-components/Message';
 import Button from 'in-new-components/Button';
 
 import locals from './CreateSLIForm.mless';
 
-export default function CreateNewSLIForm({ api, apName, applicationId, apDefaultBoundaryScope, close, sliConfig }) {
+export default function CreateNewSLIForm({ apName, applicationId, apDefaultBoundaryScope, close, sliConfig }) {
   const [form, setForm] = useState(createForm(sliConfig ?? {}, applicationId, apDefaultBoundaryScope));
 
   const [state, setState] = useState({
@@ -45,38 +45,22 @@ export default function CreateNewSLIForm({ api, apName, applicationId, apDefault
       error: false
     });
 
-    const newSliId = uuidv4().slice(9);
     const enrichedSliConfiguration = {
       ...form.toJS(),
-      id: newSliId
+      id: generateUniqueShortId(9)
     };
     if (form.hierarchyValid) {
-      (api?.createSliConfiguration ?? createSliConfiguration)?.(enrichedSliConfiguration).subscribe(result => {
-        if (result.progress.loading) {
-          setState({
-            success: false,
-            saving: true,
-            error: false
-          });
-          return;
-        }
-        if (result.errors.length > 0) {
-          setState({
-            success: false,
-            saving: false,
-            error: true,
-            errors: result.errors
-          });
-          addMessage(
-            {
-              type: 'danger',
-              timeout: 4000,
-              title: 'Failed to create the SLI.',
-              content: `There was a problem creating this SLI: "${enrichedSliConfiguration.sliName}"`
-            },
-            'custom-dashboard-error'
-          );
-        } else {
+      const createSliConfigResult$ = createSliConfiguration(enrichedSliConfiguration);
+      createSliConfigResult$.once(
+        result => {
+          if (result.progress.loading) {
+            setState({
+              success: false,
+              saving: true,
+              error: false
+            });
+            return;
+          }
           addMessage(
             {
               type: 'info',
@@ -87,8 +71,18 @@ export default function CreateNewSLIForm({ api, apName, applicationId, apDefault
             'custom-dashboard-sli'
           );
           close();
-        }
-      });
+        },
+        () =>
+          addMessage(
+            {
+              type: 'danger',
+              timeout: 4000,
+              title: 'Failed to create the SLI.',
+              content: `There was a problem creating this SLI: "${enrichedSliConfiguration.sliName}"`
+            },
+            'custom-dashboard-error'
+          )
+      );
     }
   };
 
@@ -97,7 +91,7 @@ export default function CreateNewSLIForm({ api, apName, applicationId, apDefault
 
   return (
     <form onSubmit={e => onSubmit(e, form, setForm)}>
-      <SliForm form={form} onChange={onChange} onChangeType={onChangeType} apName={apName} api={api} />
+      <SliForm form={form} onChange={onChange} onChangeType={onChangeType} apName={apName} />
       {sliConfig?.id && (
         <Section>
           <Message>

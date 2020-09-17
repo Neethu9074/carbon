@@ -22,18 +22,19 @@ import Link from 'in-components/Link';
 
 import locals from './SliForm.mless';
 
-export function SliForm({ form, onChange, onChangeType, apName, api }) {
+export function SliForm({ form, onChange, onChangeType, apName }) {
   const sliEntityForm = form.get('sliEntity');
-  const applicationId = sliEntityForm?.get('applicationId')?.value;
-  const serviceId = sliEntityForm?.get('serviceId')?.value;
-  const endpointId = sliEntityForm?.get('endpointId')?.value;
-  const boundaryScope = sliEntityForm?.get('boundaryScope')?.value;
+  const applicationId = sliEntityForm.get('applicationId')?.value;
+  const serviceId = sliEntityForm.get('serviceId')?.value;
+  const endpointId = sliEntityForm.get('endpointId')?.value;
+  const boundaryScope = sliEntityForm.get('boundaryScope')?.value;
 
   const onUpdateBoundaryScope = value => {
     onChange(['sliEntity', 'boundaryScope'], f => f.setValue(value).setTouched(true));
   };
 
-  const sliType = sliEntityForm.get('sliType').value;
+  const sliTypeForm = sliEntityForm.get('sliType');
+  const sliType = sliTypeForm.value;
 
   return (
     <Stack space="medium">
@@ -65,8 +66,8 @@ export function SliForm({ form, onChange, onChangeType, apName, api }) {
           <Col md={3}>
             <FormGroup withoutBottomMargin>
               <FormDropDown
-                value={sliType}
-                hasError={!sliEntityForm.get('sliType')?.valid && sliEntityForm.get('sliType')?.touched}
+                value={sliType ?? ''}
+                hasError={!sliTypeForm?.valid && sliTypeForm?.touched}
                 onChange={({ target }) => onChangeType(target.value)}
                 options={[{ value: '', label: 'Please select' }, ...sliTypeOptions]}
               />
@@ -82,7 +83,7 @@ export function SliForm({ form, onChange, onChangeType, apName, api }) {
           </Col>
           <Col mdOffset={2} md={10}>
             <OverridingTextTouchedMessage
-              field={sliEntityForm.get('sliType')}
+              field={sliTypeForm}
               message="The SLI type must be either a time-based or an event-based SLI."
             />
           </Col>
@@ -135,7 +136,6 @@ export function SliForm({ form, onChange, onChangeType, apName, api }) {
             <Col md={3}>
               <FormGroup withoutBottomMargin>
                 <ServicesSelectBox
-                  api={api}
                   boundaryScope={boundaryScope}
                   applicationId={applicationId}
                   value={serviceId}

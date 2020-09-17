@@ -1,4 +1,5 @@
 import { compose, setPropTypes } from 'recompose';
+import theme from 'in-themes';
 import { get } from 'lodash';
 import rpt from 'prop-types';
 import React from 'react';
@@ -13,12 +14,12 @@ import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import { deleteSliConfiguration } from 'in-custom-dashboards/api';
 import KeyValue from 'in-new-components/lists/KeyValue';
 import { alwaysNull } from 'in-services/fixedStreams';
+import { isLoading } from 'in-services/util/result';
 import WithIcon from 'in-new-components/WithIcon';
 import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
 import { role } from 'in-stores/user';
-import theme from 'in-themes';
 
 import locals from 'in-custom-dashboards/widgets/Slo/SliManageList.mless';
 
@@ -47,9 +48,37 @@ function SliList(props) {
       isSearchable
       columnDefinitions={columnDefinitions}
       renderNoDataAvailable={() => NoDataAvailable}
+      deleteSli={deleteSliConfig}
     />
   );
 }
+const deleteSliConfig = id => {
+  deleteSliConfiguration(id).once(
+    result => {
+      if (isLoading(result)) {
+        return;
+      }
+      addMessage(
+        {
+          type: 'info',
+          timeout: 2000,
+          content: 'SLI configuration was successfully deleted.'
+        },
+        'custom-dashboard-info'
+      );
+    },
+    () => {
+      addMessage(
+        {
+          type: 'danger',
+          timeout: 3000,
+          content: 'Failed to delete the sli.'
+        },
+        'custom-dashboard-error'
+      );
+    }
+  );
+};
 const getRowProps = () => {
   return {
     size: 'compact'
@@ -94,6 +123,7 @@ const columnDefinitions = [
     }
   },
   {
+    id: 'view',
     sortable: false,
     width: '1',
     getContent(item, { selectSli }) {
@@ -103,13 +133,14 @@ const columnDefinitions = [
       return (
         <div className={locals.controls}>
           <Tooltip content="View/Clone SLI Configuration">
-            <SvgIcon type="lib_actions_edit" color="rgb(0,152,232)" onClick={() => selectSli(item)} />
+            <SvgIcon type="lib_actions_edit" className={locals.iconButton} onClick={() => selectSli(item)} />
           </Tooltip>
         </div>
       );
     }
   },
   {
+    id: 'delete',
     sortable: false,
     width: '1',
     getContent(item) {
@@ -119,36 +150,7 @@ const columnDefinitions = [
       return (
         <div className={locals.controls}>
           <Tooltip content="Delete SLI Configuration">
-            <SvgIcon
-              type="lib_actions_delete"
-              color="rgb(0,152,232)"
-              onClick={() =>
-                deleteSliConfiguration(item.id).subscribe(result => {
-                  if (result.progress.loading) {
-                    return;
-                  }
-                  if (result.errors.length > 0) {
-                    addMessage(
-                      {
-                        type: 'danger',
-                        timeout: 3000,
-                        content: 'Failed to delete the sli.'
-                      },
-                      'custom-dashboard-error'
-                    );
-                  } else {
-                    addMessage(
-                      {
-                        type: 'info',
-                        timeout: 2000,
-                        content: 'SLI configuration was successfully deleted.'
-                      },
-                      'custom-dashboard-info'
-                    );
-                  }
-                })
-              }
-            />
+            <SvgIcon type="lib_actions_delete" className={locals.iconButton} onClick={() => deleteSliConfig(item.id)} />
           </Tooltip>
         </div>
       );

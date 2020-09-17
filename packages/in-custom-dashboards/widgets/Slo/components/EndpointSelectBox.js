@@ -2,6 +2,7 @@ import React from 'react';
 
 import FormDropDown from 'in-custom-dashboards/widgets/Slo/components/FormDropDown';
 import getEndpoints from 'in-applications/subscriptions/getEndpoints';
+import { hasError, isLoading } from 'in-services/util/result';
 import { pendingResult } from 'in-services/fixedObjects';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import useObservable from 'in-hooks/useObservable';
@@ -32,18 +33,19 @@ export default function EndpointSelectBox({ applicationId, serviceId, boundarySc
     contextScope: 'NONE'
   });
 
-  const endpointsResponse =
-    useObservable(endpoints$, [applicationId, serviceId, boundaryScope, timeConfig]) ?? pendingResult;
-  const { progress, errors, data } = endpointsResponse;
+  const endpoints = useObservable(endpoints$, [applicationId, serviceId, boundaryScope, timeConfig]) ?? pendingResult;
+  const { data } = endpoints;
   const endpointItems = data?.items?.map(({ endpoint }) => ({ value: endpoint.id, label: endpoint.label }));
 
-  if (progress?.loading) return <FormDropDown options={[{ value: '', label: '<loading>' }]} disabled />;
+  if (isLoading(endpoints)) {
+    return <FormDropDown options={[{ value: '', label: '<loading>' }]} disabled />;
+  }
 
   return (
     <>
       {
         <FormDropDown
-          disabled={errors && errors?.length !== 0}
+          disabled={hasError(endpoints)}
           options={[{ value: '', label: 'All Endpoints' }, ...(endpointItems ?? [])]}
           value={value ?? ''}
           onChange={({ target }) => onChange?.(target?.value)}

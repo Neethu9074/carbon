@@ -139,7 +139,7 @@ SlideInView.propTypes = {
   slideInContentTitle: PropTypes.node,
   slideTransitionDurationMillis: PropTypes.number,
   staticContent: PropTypes.node.isRequired,
-  HeaderComponent: PropTypes.oneOf([DialogHeader, ListHeader]),
+  HeaderComponent: PropTypes.oneOf([DialogHeader, ListHeader, NoHeader]),
   enforceMaxHeightForStaticContent: PropTypes.bool
 };
 

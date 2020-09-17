@@ -1,22 +1,14 @@
 import React from 'react';
 
 import { OverridingTextTouchedMessage } from 'in-custom-dashboards/widgets/Slo/components/OverridingTextTouchedMessage';
-import { ApConfigId, ApBoundaryScope, ApName } from 'in-custom-dashboards/widgets/Slo/form';
-import { getApplicationConfigsAsResultObservable } from 'in-api/applicationConfigs';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import KeyValue from 'in-new-components/lists/KeyValue';
 import FormGroup from 'in-components/form/FormGroup';
-import useObservable from 'in-hooks/useObservable';
 import HelpText from 'in-components/form/HelpText';
 import Select from 'in-components/form/Select';
 
-export default function APConfigForm({ api, form, onChange }) {
-  const apConfigs = useObservable(
-    (api?.getApplicationConfigsAsResultObservable ?? getApplicationConfigsAsResultObservable)().map(({ data }) => data),
-    []
-  );
-  const apConfigIdField = form.get(ApConfigId);
+export default function APConfigForm({ apConfigIdField, apConfigs, onUpdateApConfigId }) {
   return (
     <div>
       <Row withoutTopMargin>
@@ -31,15 +23,7 @@ export default function APConfigForm({ api, form, onChange }) {
                 value={field?.value}
                 onChange={e => {
                   const apId = e.target.value;
-                  const apConfig = apConfigs?.find(ap => ap.id === apId);
-                  const apName = apConfig?.label ?? '';
-                  const apBoundaryScope = apConfig?.boundaryScope;
-                  onChange([], formField =>
-                    formField
-                      .updateIn([ApConfigId], f => f.setValue(apId).setTouched(true))
-                      .updateIn([ApName], f => f.setValue(apName).setTouched(true))
-                      .updateIn([ApBoundaryScope], f => f.setValue(apBoundaryScope).setTouched(true))
-                  );
+                  onUpdateApConfigId(apId);
                 }}
                 hasError={!field.valid && field.touched}
               >

@@ -11,8 +11,8 @@ import connectTo from 'in-hoc/connectTo';
 
 import locals from './SliSelectionForm.mless';
 
-export default connectTo(({ api }) => ({
-  sliConfigurations: (api?.getSliConfigurations ?? getSliConfigurations)().map(({ data }) => data)
+export default connectTo(() => ({
+  sliConfigurations: getSliConfigurations().map(({ data }) => data)
 }))(SliSelectionForm);
 
 function SliSelectionForm({ form, onChange, sliConfigurations, apConfigId, openManageSLIComponent }) {

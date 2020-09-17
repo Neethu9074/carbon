@@ -126,32 +126,28 @@ function getConfiguredSliById(sliConfigId) {
 }
 
 export function createSliConfiguration(sliConfiguration) {
-  return createObservable(
-    http({
-      method: 'POST',
-      maxRetries: 3,
-      url: `/api/settings/sli`,
-      headers: getCsrfHeader(),
-      data: sliConfiguration
-    }).map(res => {
-      if (res?.body?.id) {
-        refreshSignalSlis.emit(res.body.id);
-      }
-      return res;
-    })
-  );
+  return http({
+    method: 'POST',
+    maxRetries: 3,
+    url: `/api/settings/sli`,
+    headers: getCsrfHeader(),
+    data: sliConfiguration
+  }).map(res => {
+    if (res?.body?.id) {
+      refreshSignalSlis.emit(res.body.id);
+    }
+    return res;
+  });
 }
 
 export function deleteSliConfiguration(id) {
-  return createObservable(
-    http({
-      method: 'DELETE',
-      maxRetries: 3,
-      url: `/api/settings/sli/${encodeURIComponent(id)}`,
-      headers: getCsrfHeader()
-    }).map(res => {
-      refreshSignalSlis.emit(id);
-      return res.body;
-    })
-  );
+  return http({
+    method: 'DELETE',
+    maxRetries: 3,
+    url: `/api/settings/sli/${encodeURIComponent(id)}`,
+    headers: getCsrfHeader()
+  }).map(res => {
+    refreshSignalSlis.emit(id);
+    return res.body;
+  });
 }

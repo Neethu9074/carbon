@@ -8,6 +8,10 @@
     .ellipsis();
   }
 
+  .iconButton {
+    fill: @lib__colors__primary2;
+  }
+
   .withIcon {
     margin-right: 0.5rem;
   }

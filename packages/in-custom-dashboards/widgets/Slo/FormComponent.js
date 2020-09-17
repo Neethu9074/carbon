@@ -1,10 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import {
   SloTarget,
   ApConfigId,
-  ApName,
-  ApBoundaryScope,
   TimeWindowType,
   TimeWindowDuration,
   TimeWindowDurationUnit,
@@ -24,6 +22,7 @@ import SliFormComponent from 'in-custom-dashboards/widgets/Slo/components/SliSel
 import APConfigSelector from 'in-custom-dashboards/widgets/Slo/components/APConfigForm';
 import FormInputField from 'in-custom-dashboards/widgets/Slo/components/FormInputField';
 import FormDropDown from 'in-custom-dashboards/widgets/Slo/components/FormDropDown';
+import { getApplicationConfigsAsResultObservable } from 'in-api/applicationConfigs';
 import SliManageList from 'in-custom-dashboards/widgets/Slo/SliManageList';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import StackItem from 'in-new-components/layout/Stack/StackItem';
@@ -34,13 +33,27 @@ import Header from 'in-components/form/Header/Header';
 import FormGroup from 'in-components/form/FormGroup';
 import DateInput from 'in-components/form/DateInput';
 import HelpText from 'in-components/form/HelpText';
+import useObservable from 'in-hooks/useObservable';
 import Input from 'in-components/form/Input';
 import Button from 'in-components/Button';
 
 import locals from './FormComponent.mless';
 
-export default function FormComponent({ form, onChange, widgetTitleFormGroup, setSlideInView, widgetPreview, api }) {
+export default function FormComponent({ form, onChange, widgetTitleFormGroup, setSlideInView, widgetPreview }) {
+  const [apConfig, setApConfig] = useState();
   const apConfigId = form.get(ApConfigId)?.value;
+
+  const apConfigIdField = form.get(ApConfigId);
+  const apConfigs = useObservable(
+    getApplicationConfigsAsResultObservable().map(({ data }) => data),
+    []
+  );
+  if (apConfigs && !apConfig) {
+    // initial setting
+    const newApConfig = apConfigs.find(apConfig => apConfig.id === apConfigId);
+    if (newApConfig !== apConfig) setApConfig(newApConfig);
+  }
+
   const sloTarget = form.get(SloTarget)?.value;
   const timeWindowTypeValue = form.get(TimeWindowType)?.value ?? Dynamic;
   const isFixed = timeWindowTypeValue === Fixed;
@@ -101,14 +114,19 @@ export default function FormComponent({ form, onChange, widgetTitleFormGroup, se
         return (
           <SliManageList
             applicationId={apConfigId}
-            apName={form.get(ApName)?.value}
-            apDefaultBoundaryScope={form.get(ApBoundaryScope)?.value}
-            api={api}
+            apName={apConfig.label}
+            apDefaultBoundaryScope={apConfig.boundaryScope}
             subSlideState={subSlideState}
           />
         );
       }
     });
+  }
+
+  function onUpdateApConfigId(apId) {
+    const newApConfig = apConfigs.find(apConfig => apConfig.id === apId);
+    setApConfig(newApConfig);
+    onChange([], formField => formField.updateIn([ApConfigId], f => f.setValue(apId).setTouched(true)));
   }
 
   return (
@@ -124,18 +142,21 @@ export default function FormComponent({ form, onChange, widgetTitleFormGroup, se
       </StackItem>
       <Header>SLO Configuration</Header>
       <StackItem>
-        <APConfigSelector form={form} onChange={onChange} api={api} />
+        <APConfigSelector
+          apConfigIdField={apConfigIdField}
+          apConfigs={apConfigs}
+          onUpdateApConfigId={onUpdateApConfigId}
+        />
       </StackItem>
       <StackItem>
         <SliFormComponent
           form={form}
           apConfigId={apConfigId}
           onChange={onChange}
-          api={api}
           widgetPreview={false}
           widgetTitleFormGroup={widgetTitleFormGroup}
           openManageSLIComponent={
-            <Button disabled={!apConfigId} kind={'primary'} onClick={() => activateManageSliSlideIn()}>
+            <Button disabled={!apConfig} kind="primary" onClick={() => activateManageSliSlideIn()}>
               Manage SLIs
             </Button>
           }

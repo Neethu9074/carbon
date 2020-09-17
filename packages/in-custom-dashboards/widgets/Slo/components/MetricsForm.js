@@ -16,7 +16,7 @@ import locals from 'in-custom-dashboards/widgets/Slo/SliForm.mless';
 
 export const MetricsForm = ({ form, onChange }) => {
   const metricConfiguration = form.get('metricConfiguration');
-  if (!metricConfiguration) return false;
+  if (!metricConfiguration) return null;
 
   const aggregationValue = metricConfiguration.get('metricAggregation')?.value;
   const metricName = metricConfiguration.get('metricName')?.value;

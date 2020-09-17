@@ -12,20 +12,10 @@ import { role } from 'in-stores/user';
 
 import locals from './SliManageList.mless';
 
-const DEFAULT_API = {
-  getSliConfigurations
-};
-
-export default function SliManageList({
-  api = DEFAULT_API,
-  applicationId,
-  apName,
-  apDefaultBoundaryScope,
-  subSlideState
-}) {
-  const [sliSelected, selectSli] = subSlideState;
+export default function SliManageList({ applicationId, apName, apDefaultBoundaryScope, subSlideState }) {
+  const [sliSelected, setSelectedSli] = subSlideState;
   const queryState = useState('');
-  const close = () => selectSli(null);
+  const close = () => setSelectedSli(null);
 
   const sliDetailsViewSlideIn = (
     <div className={locals.slideInWrapper}>
@@ -53,13 +43,13 @@ export default function SliManageList({
           queryState[1](query);
         }}
         getItems={() =>
-          api.getSliConfigurations()?.map(onlyWithAPidAndNameMatchingQuery(applicationId, queryState[0])) ?? null
+          getSliConfigurations().map(onlyWithAPidAndNameMatchingQuery(applicationId, queryState[0])) ?? null
         }
         rightHeader={
           role.canConfigureServiceLevelIndicators && (
             <Button
               kind="action"
-              onClick={() => selectSli({})}
+              onClick={() => setSelectedSli({})}
               icon="lib_openclose_add_circle_outline"
               className={locals.createButton}
             >
@@ -68,7 +58,7 @@ export default function SliManageList({
           )
         }
         query={queryState[0]}
-        selectSli={selectSli}
+        selectSli={setSelectedSli}
       />
     </div>
   );
@@ -76,7 +66,7 @@ export default function SliManageList({
   return (
     <SlideInView
       onShowSlideInContentChange={close}
-      showSlideInContent={sliSelected}
+      showSlideInContent={!!sliSelected}
       HeaderComponent={NoHeader}
       slideTransitionDurationMillis={500}
       slideInContentTitle={'SLI List'}
@@ -87,7 +77,7 @@ export default function SliManageList({
   );
 }
 
-const onlyWithAPidAndNameMatchingQuery = (applicationId, nameQuery = '') => {
+export const onlyWithAPidAndNameMatchingQuery = (applicationId, nameQuery = '') => {
   return sliConfigs => {
     if (isLoading(sliConfigs) || hasError(sliConfigs)) {
       return sliConfigs;

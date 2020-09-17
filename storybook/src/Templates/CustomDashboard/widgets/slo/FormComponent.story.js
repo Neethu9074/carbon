@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 
 import { SloTarget, TimeWindowType } from 'in-custom-dashboards/widgets/Slo/form';
 
-import { getApplicationConfigsAsResultObservable, getSliConfigurations } from './apiMock';
 import { Form, createForm } from 'in-custom-dashboards/widgets/Slo';
 import { noop } from 'in-services/util/function';
 import Button from 'in-new-components/Button';
@@ -12,10 +11,6 @@ export default {
   component: Form
 };
 export function Default() {
-  const api = {
-    getSliConfigurations: getSliConfigurations,
-    getApplicationConfigsAsResultObservable: getApplicationConfigsAsResultObservable
-  };
   const widgetTitleFormGroup = <div>TitleForm placeholder</div>;
 
   const [form, setForm] = useState(
@@ -45,7 +40,6 @@ export function Default() {
         widgetTitleFormGroup={widgetTitleFormGroup}
         setSlideInView={noop}
         widgetPreview={<i>Widget Preview </i>}
-        api={api}
       />
     </>
   );

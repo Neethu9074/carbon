@@ -1,8 +1,11 @@
+import theme from 'in-themes';
+import { get } from 'lodash';
 import moment from 'moment';
 import React from 'react';
 
 import {
-  ApName,
+  ApConfigId,
+  Fixed,
   SloTarget,
   SliConfigId,
   TimeWindowType,
@@ -10,13 +13,13 @@ import {
   TimeWindowDurationUnit,
   TimeWindowStart,
   parsedTimestamp,
-  Fixed,
   Rolling,
   Dynamic
 } from 'in-custom-dashboards/widgets/Slo/form';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import { getSliFormatter } from 'in-custom-dashboards/widgets/Slo/sliConfigUtils';
 import SloTimeTile from 'in-custom-dashboards/widgets/Slo/Tiles/SloTimeTile';
+import getApplication from 'in-subscription/application/getApplication';
 import SloTile from 'in-custom-dashboards/widgets/Slo/Tiles/SloTile';
 import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
 import { getSliConfiguration } from 'in-custom-dashboards/api';
@@ -24,17 +27,15 @@ import LightCardV2 from 'in-new-components/Card/LightCardV2';
 import { percentage } from 'in-services/formatters/number';
 import Chart from 'in-custom-dashboards/widgets/Slo/Chart';
 import { pendingResult } from 'in-services/fixedObjects';
+import { alwaysNull } from 'in-services/fixedStreams';
 import useObservable from 'in-hooks/useObservable';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import theme from 'in-themes';
+import connectTo from 'in-hoc/connectTo';
 
 import locals from './Widget.mless';
 
 const GREEN = theme.lib.colors.green800;
 const RED = theme.lib.colors.red800;
-const DEFAULT_API = {
-  getUnifiedMetrics
-};
 
 const oneMinute = 60 * 1000;
 const oneHour = 60 * oneMinute;
@@ -43,9 +44,9 @@ const oneWeekTimeConfig = {
   windowSize: 7 * oneDay
 };
 
-export default function Widget({ actions, config, isPreview, title, dragHandle, api = DEFAULT_API }) {
+export default function Widget({ actions, config, isPreview, title, dragHandle }) {
   const slo = config?.[SloTarget] ?? '';
-  const apName = config?.[ApName] ?? '';
+  const apConfigId = config?.[ApConfigId];
   const sliConfigId = config?.[SliConfigId];
 
   const timeWindowType = config?.[TimeWindowType] ?? Dynamic;
@@ -140,7 +141,7 @@ export default function Widget({ actions, config, isPreview, title, dragHandle, 
     }
   };
 
-  const result = useObservable(api.getUnifiedMetrics({ metrics }), [timeConfig, config]) ?? pendingResult;
+  const result = useObservable(getUnifiedMetrics({ metrics }), [timeConfig, config]) ?? pendingResult;
 
   const findResultMetric = id => {
     return (result?.data ?? []).find(dataSeries => dataSeries.id === id)?.values;
@@ -172,7 +173,7 @@ export default function Widget({ actions, config, isPreview, title, dragHandle, 
       }
       title={title}
       headerClassName={locals.title}
-      leftHeaderContent={<span className={locals.apName}>{apName ?? valueMissingPlaceholder}</span>}
+      leftHeaderContent={<LeftHeader applicationId={apConfigId} />}
     >
       <div className={locals.grid}>
         <div className={locals.col}>
@@ -219,6 +220,17 @@ export default function Widget({ actions, config, isPreview, title, dragHandle, 
     </LightCardV2>
   );
 }
+
+const LeftHeader = connectTo(
+  ({ applicationId }) => ({
+    apName: applicationId
+      ? getApplication({ id: applicationId }).map(result => get(result, ['data', 'label'], null))
+      : alwaysNull
+  }),
+  function leftHeaderApName({ apName }) {
+    return <span className={locals.apName}>{apName ?? valueMissingPlaceholder}</span>;
+  }
+);
 
 const filterAvailableData = dataSeries => {
   if (!dataSeries) {
