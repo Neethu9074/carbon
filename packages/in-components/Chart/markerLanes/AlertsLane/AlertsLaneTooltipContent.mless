@@ -7,7 +7,6 @@
       padding-bottom: 0.5rem;
       border-bottom: solid 1px @lib__colors__N500;
     }
-    width: max-content;
     font-weight: 300;
     line-height: 1.25rem;
   }

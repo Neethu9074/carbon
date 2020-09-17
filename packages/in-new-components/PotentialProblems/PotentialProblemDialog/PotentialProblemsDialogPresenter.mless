@@ -4,7 +4,7 @@
 :local {
   .container {
     display: grid;
-    max-width: 68.75rem;
+    max-width: 68.5rem;
     height: 36.5rem;
     border-top: 0.0625rem solid @lib__colors__N300;
   }

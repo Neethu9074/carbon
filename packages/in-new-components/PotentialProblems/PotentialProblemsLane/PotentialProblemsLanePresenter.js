@@ -10,18 +10,7 @@ import { generateFormData } from 'in-applications/Dashboards/CreateApplicationSm
 import SingleMarkerLaneItem from 'in-components/Chart/markerLanes/MarkerLane/SingleMarkerLaneItem';
 import MarkerLane from 'in-components/Chart/markerLanes/MarkerLane/MarkerLane';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
-import DialogPresenter from 'in-components/DialogPresenter';
-
-/*
-  TODO: Remove this when getTitlePlaceholder(form) in
-  in-applications/alerting/form/formUtils is refactored
-  so that it takes a JSON object instead of a form to build the message strings
-*/
-const messages = {
-  errorRate: 'Error rate to high.',
-  throughput: 'Throughput is too low.',
-  slowness: 'Latency is to high'
-};
+import { getTitle } from 'in-new-components/PotentialProblems/textUtil';
 
 export default function PotentialProblemsLanePresenter({ potentialProblems, ...remainingProps }) {
   const { alertConfig: allAlertConfigs, alertResults = [] } = potentialProblems;
@@ -34,16 +23,14 @@ export default function PotentialProblemsLanePresenter({ potentialProblems, ...r
         label="PotentialProblems"
         tooltipContent={params => {
           const { alerts } = params;
-
           let text = '';
           if (alerts.length > 1) {
             text = `${alerts.length} Potential Problems`;
           } else {
             const alertConfig = allAlertConfigs[alerts[0].key];
-            text = messages[alertConfig.rule.alertType];
+            text = getTitle({ ...alertConfig });
           }
-
-          return <div>{text}</div>;
+          return <>{text}</>;
         }}
         renderHoverOverlay={PotentialProblemsHoverArea}
         onClick={alertResult => {
@@ -66,7 +53,6 @@ export default function PotentialProblemsLanePresenter({ potentialProblems, ...r
         renderMarkerItem={PotentialProblemMarker}
         hideDefaultHoverStyle
       />
-      <DialogPresenter />
     </>
   );
 }

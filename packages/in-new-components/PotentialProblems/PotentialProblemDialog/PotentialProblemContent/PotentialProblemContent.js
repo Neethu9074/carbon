@@ -1,16 +1,14 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
+import PotentialProblemContentControls from 'in-new-components/PotentialProblems/PotentialProblemDialog/PotentialProblemContent/PotentialProblemContentControls';
 import PotentialProblemChart from 'in-new-components/PotentialProblems/PotentialProblemDialog/PotentialProblemContent/PotentialProblemChart';
 import {
   getIconByType,
   getType
 } from 'in-new-components/PotentialProblems/PotentialProblemDialog/potentialProblemsDialogUtil';
-import getConfigByDataSource, { groupByEndpointName, groupByServiceName } from 'in-analyze/AnalyzeView/dataSources';
-import { addActiveDialog } from 'in-components/DialogPresenter/store';
-import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
+import { getDescription, getTitle } from 'in-new-components/PotentialProblems/textUtil';
 import { formatDateTime } from 'in-services/formatters/date';
-import { close } from 'in-components/DialogPresenter/store';
-import Button from 'in-new-components/Button/Button';
 import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './PotentialProblemContent.mless';
@@ -19,7 +17,6 @@ export default function PotentialProblemContent({
   alert,
   alertConfigs,
   selectedItem,
-  renderSmartAlertDialogComponent,
   applicationLabel,
   serviceLabel,
   endpointLabel,
@@ -32,7 +29,7 @@ export default function PotentialProblemContent({
   return (
     <div className={locals.container}>
       <div className={locals.contentHeader}>
-        <div className={locals.headline}>{`Latency (${alertType}) significantly higher than expected`}</div>
+        <div className={locals.headline}>{getTitle({ ...alertConfig })}</div>
         <div className={locals.entity}>
           <SvgIcon size="s" className={locals.icon} type={getIconByType(type)} />
           {getLabelText({
@@ -47,48 +44,19 @@ export default function PotentialProblemContent({
           <div className={locals.durationDevider}>—</div>
           <time dateTime={new Date(alert.end).toISOString()}>{formatDateTime(alert.end)}</time>
         </div>
-        <div className={locals.description}>
-          During the time period the Latency was up to 20% higher than expected, when compared to the historical data.
-        </div>
+        <div className={locals.description}>{getDescription({ ...alertConfig, alertType })}</div>
       </div>
       <div className={locals.chartWrapper}>
         <PotentialProblemChart {...remainingProps} alertConfig={alertConfig} alert={alert} alertType={alertType} />
       </div>
       <div className={locals.controls}>
-        <Button
-          kind="primary"
-          onClick={close}
-          icon="lib_analyze"
-          href$={getLinkToAnalyze({
-            dataSource: 'calls',
-            applicationName: applicationLabel,
-            filters: remainingProps.tagFilters,
-            boundaryScope: remainingProps.boundaryScope,
-            groupByTag: getGrouping(alertType, remainingProps.tagFilters),
-            focusedMetric: getFocusedMetric(alertType),
-            timeConfig: {
-              to: alert.start,
-              // focusedMoment: now,
-              // autoRefresh: false,
-              windowSize: alert.end - alert.start
-            }
-          })}
-        >
-          Investigate
-        </Button>
-        <Button
-          kind="secondaryDarker"
-          // TODO: make dialog injectable
-          onClick={() =>
-            addActiveDialog(renderSmartAlertDialogComponent({ ...remainingProps, alertConfig, applicationLabel }))
-          }
-          icon="lib_alerts_create"
-        >
-          Add Smart Alert
-        </Button>
-        {/* <Button kind="secondaryDarker" onClick={() => {}} icon="lib_actions_download">
-          Generate Report
-        </Button> */}
+        <PotentialProblemContentControls
+          {...remainingProps}
+          applicationLabel={applicationLabel}
+          alertType={alertType}
+          alertConfig={alertConfig}
+          alert={alert}
+        />
       </div>
     </div>
   );
@@ -115,35 +83,16 @@ function getLabelText({ applicationLabel, serviceLabel, endpointLabel }) {
   );
 }
 
-function getFocusedMetric(alertType) {
-  if (alertType === 'slowness') {
-    return 'latency_DISTRIBUTION';
-  }
-  if (alertType === 'errorRate') {
-    return 'errors_MEAN';
-  }
-  // at the moment only 'latency_DISTRIBUTION' is available when no grouping is set. However, the analyze-view handles
-  // this case properly and then shows the latency-distribution chart instead.
-  return 'calls_SUM';
-}
-
-function getGrouping(alertType, filters) {
-  const alertTypeWithDisabledGrouping = ['errorRate', 'slowness'];
-  if (alertTypeWithDisabledGrouping.includes(alertType)) {
-    return {}; // no grouping
-  }
-
-  if (alertType === 'throughput') {
-    const needsGroupByEndpoint = filters.find(isEndpointOrServiceFilter);
-    return needsGroupByEndpoint ? groupByEndpointName : groupByServiceName;
-  }
-
-  return getConfigByDataSource('calls').defaultGrouping;
-}
-
-const isEndpointOrServiceFilter = filter =>
-  filter?.name &&
-  (filter.name === 'endpoint.name' ||
-    filter.name === 'service.name' ||
-    filter.name === 'endpoint.id' ||
-    filter.name === 'service.id');
+PotentialProblemContent.propTypes = {
+  alert: PropTypes.shape({
+    end: PropTypes.number,
+    start: PropTypes.number.isRequired
+  }).isRequired,
+  alertConfigs: PropTypes.object.isRequired,
+  applicationLabel: PropTypes.string.isRequired,
+  endpointLabel: PropTypes.string,
+  selectedItem: PropTypes.shape({
+    key: PropTypes.string.isRequired
+  }).isRequired,
+  serviceLabel: PropTypes.string
+};

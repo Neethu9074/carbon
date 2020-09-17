@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import { createDefaultChartConfig } from 'in-new-components/Alerting/Chart/chartViewConfig';
@@ -38,3 +39,13 @@ export default function PotentialProblemChart({ applicationId, alertConfig, tagF
     };
   }
 }
+
+PotentialProblemChart.propTypes = {
+  alert: PropTypes.shape({
+    end: PropTypes.number
+  }).isRequired,
+  alertConfig: PropTypes.object.isRequired,
+  alertType: PropTypes.string.isRequired,
+  applicationId: PropTypes.string.isRequired,
+  tagFilters: PropTypes.arrayOf(PropTypes.object).isRequired
+};

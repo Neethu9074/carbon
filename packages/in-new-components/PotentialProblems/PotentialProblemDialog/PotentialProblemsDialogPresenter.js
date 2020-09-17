@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 
 import PotentialProblemContent from 'in-new-components/PotentialProblems/PotentialProblemDialog/PotentialProblemContent/PotentialProblemContent';
 import PotentialProblemsList from 'in-new-components/PotentialProblems/PotentialProblemDialog/PotentialProblemsList';
@@ -43,3 +44,10 @@ export default function PotentialProblemsDialogPresenter({ alertConfig, alertRes
     </Dialog>
   );
 }
+
+PotentialProblemsDialogPresenter.propTypes = {
+  alertConfig: PropTypes.object.isRequired,
+  alertResult: PropTypes.shape({
+    alerts: PropTypes.arrayOf(PropTypes.object)
+  }).isRequired
+};
