@@ -9,6 +9,7 @@ import { buildEnumValidator } from 'in-services/validators/enum';
 
 export default function MetricConfiguratorOverlay({
   onChange: onChangeExternal,
+  close,
   values,
   options,
   maximumNumberOfMetrics = 10
@@ -41,17 +42,17 @@ export default function MetricConfiguratorOverlay({
     onChange([], form => form.push(getMetricItem(options)).setTouched(false));
   }
 
-  function onMetricSelect(index, metricId) {
-    const aggregations = options.find(opt => opt.metricId === metricId)?.aggregations;
+  function onMetricSelect(index, metric) {
+    const aggregations = options.find(opt => opt.metric === metric)?.aggregations;
     if (aggregations && aggregations.length === 1) {
       // set the aggregation field immediately if there is only one possible aggregation
       setForm(
         form
-          .updateIn([index, 'metricId'], field => field.setValue(metricId).setTouched(true))
+          .updateIn([index, 'metric'], field => field.setValue(metric).setTouched(true))
           .updateIn([index, 'aggregation'], field => field.setValue(aggregations[0]).setTouched(true))
       );
     } else {
-      setForm(form.updateIn([index, 'metricId'], field => field.setValue(metricId)));
+      setForm(form.updateIn([index, 'metric'], field => field.setValue(metric)));
     }
   }
 
@@ -63,6 +64,7 @@ export default function MetricConfiguratorOverlay({
       return;
     }
 
+    close();
     onChangeExternal(form.toJS());
   }
 
@@ -92,30 +94,30 @@ function getInitialForm(values, options, maximumNumberOfMetrics) {
       return null;
     },
 
-    items: values.map(({ metricId, aggregation }) => getMetricItem(options, metricId, aggregation))
+    items: values.map(({ metric, aggregation }) => getMetricItem(options, metric, aggregation))
   });
 }
 
-function getMetricItem(options, metricId, aggregation) {
-  const supportedMetricIds = options.map(({ metricId }) => metricId);
+function getMetricItem(options, metric, aggregation) {
+  const supportedMetrics = options.map(({ metric }) => metric);
 
   return createMapForm({
-    validator: ({ metricId, aggregation }) => {
-      if (!metricId.valid || !aggregation.valid) {
+    validator: ({ metric, aggregation }) => {
+      if (!metric.valid || !aggregation.valid) {
         return null;
       }
 
-      const allowedAggregations = options.find(opt => opt.metricId === metricId.value).aggregations;
+      const allowedAggregations = options.find(opt => opt.metric === metric.value).aggregations;
       return buildEnumValidator(allowedAggregations)(aggregation.value);
     },
     items: {
-      metricId: createField({
-        value: metricId || '',
+      metric: createField({
+        value: metric || '',
         validator: composeAndShortCircuitOnError(
           notUndefinedValidator,
           stringValidator,
           notBlankValidator,
-          buildEnumValidator(supportedMetricIds)
+          buildEnumValidator(supportedMetrics)
         )
       }),
       aggregation: createField({

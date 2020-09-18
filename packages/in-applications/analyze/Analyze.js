@@ -20,6 +20,7 @@ import QueryBuilderSection from 'in-new-components/QueryBuilder/workspace/QueryB
 import GroupedCallsList from 'in-applications/analyze/components/GroupedCallsList';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import CallsList from 'in-applications/analyze/components/CallsList';
+import { aggregateMetric } from 'in-applications/analyze/metrics';
 import { warning, error } from 'in-new-components/Message/types';
 import AnalyzeHeader from 'in-analyze/components/AnalyzeHeader';
 import Sections from 'in-new-components/workspace/Sections';
@@ -72,8 +73,22 @@ function ApplicationAnalyzeViewWithFixatedTimeConfig() {
   const onChangeOrderByGroups = orderBy => onChange({ orderByGroups: orderBy });
   const onChangeOrderByCalls = orderBy =>
     onChange({ orderByCalls: { by: orderBy.orderBy, direction: orderBy.orderDirection } });
-  const onChangeMetrics = metrics => onChange({ metrics });
-
+  const onChangeMetrics = metrics => {
+    const isOrderByInMetricList = metrics
+      .map(metric => aggregateMetric(metric.metric, metric.aggregation))
+      .includes(orderByGroups.by);
+    if (isOrderByInMetricList) {
+      onChange({ metrics });
+    } else {
+      onChange({
+        metrics,
+        orderByGroups: {
+          by: aggregateMetric(metrics[0].metric, metrics[0].aggregation),
+          aggregation: metrics[0].aggregation
+        }
+      });
+    }
+  };
   return (
     <Sticky header={<AnalyzeHeader isGrouped={Boolean(groupBy?.groupbyTag)} />}>
       <LeftRightPadding>

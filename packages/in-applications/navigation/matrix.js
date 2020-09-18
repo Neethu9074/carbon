@@ -57,5 +57,9 @@ export const metricsMatrixParameter = {
   name: 'metrics',
   serializer: buildJsonSerializer(),
   parser: buildJsonParser(emptyArray),
-  initialState: []
+  initialState: [
+    { metric: 'calls', aggregation: 'SUM' },
+    { metric: 'latency', aggregation: 'MEAN' },
+    { metric: 'errors', aggregation: 'MEAN' }
+  ]
 };

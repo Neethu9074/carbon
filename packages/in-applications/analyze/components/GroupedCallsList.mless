@@ -30,4 +30,8 @@
       margin-top: 0.125rem;
     }
   }
+
+  .unspecified {
+    background: @lib__colors__N200;
+  }
 }

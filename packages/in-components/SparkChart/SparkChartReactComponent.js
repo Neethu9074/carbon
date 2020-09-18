@@ -30,7 +30,8 @@ function SparkChartReactComponent(props) {
     verticalMetricValue,
     aggregation,
     showNullValuesChartOnEmptyMetrics,
-    hideChartOnEmptyMetrics
+    hideChartOnEmptyMetrics,
+    valueTheme
   } = props;
   let metrics = props.metrics;
 
@@ -52,13 +53,7 @@ function SparkChartReactComponent(props) {
     if (label) {
       const value = aggregation ? (
         <div className={locals.iconValueWrapper}>
-          <Tooltip content={aggregation === 'SUM' ? 'sum' : 'mean'}>
-            <SvgIcon
-              className={locals.aggregationIcon}
-              type={aggregation === 'SUM' ? 'lib_sum' : 'lib_mean'}
-              size="xxs"
-            />
-          </Tooltip>
+          <AggregationSymbol aggregation={aggregation} />
           {horizontalMetricValue}
         </div>
       ) : (
@@ -68,7 +63,7 @@ function SparkChartReactComponent(props) {
         <div className={locals.withHorizontalMetricValueWrapper}>
           {sparkChart}
           <Tooltip content={customValueTooltip}>
-            <KeyValue className={locals.keyValue} label={label} customValue={value} accentuated />
+            <KeyValue className={locals.keyValue} label={label} customValue={value} theme={valueTheme} accentuated />
           </Tooltip>
         </div>
       );
@@ -91,6 +86,31 @@ function SparkChartReactComponent(props) {
   }
 
   return sparkChart;
+}
+
+function AggregationSymbol({ aggregation }) {
+  if (aggregation.startsWith('P')) {
+    return (
+      <Tooltip content={aggregation}>
+        <small className={locals.percentile}>
+          {aggregation.substring(1)}
+          <sup>th</sup>
+        </small>
+      </Tooltip>
+    );
+  }
+  if (aggregation === 'MEAN' || aggregation === 'SUM') {
+    return (
+      <Tooltip content={aggregation.toLowerCase()}>
+        <SvgIcon className={locals.aggregationIcon} type={aggregation === 'SUM' ? 'lib_sum' : 'lib_mean'} size="xxs" />
+      </Tooltip>
+    );
+  }
+  return (
+    <Tooltip content={aggregation}>
+      <small className={locals.percentile}>{aggregation.toLowerCase()}</small>
+    </Tooltip>
+  );
 }
 
 class SparkChartReactWrapper extends React.Component {
