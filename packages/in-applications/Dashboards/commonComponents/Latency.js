@@ -1,3 +1,4 @@
+import theme from 'in-themes';
 import React from 'react';
 
 import UnifiedMetricsChart, { parseMetricId } from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
@@ -8,7 +9,6 @@ import { getChartGranularity } from 'in-applications/metrics';
 import { latencyFixed } from 'in-services/formatters/number';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import { integral, line } from 'in-stores/metric/renderer';
-import theme from 'in-themes';
 
 export default function Latency({
   timeConfig,
@@ -36,7 +36,7 @@ export default function Latency({
         aggregation,
         metricName: slownessBlueprintConfig.getMetricName()
       },
-      granularity: 60000
+      seasonality: 'DAILY'
     };
   }
 

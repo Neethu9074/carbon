@@ -71,8 +71,7 @@ export default function Errors({
                 alertType: errorRateBlueprintConfig.type,
                 aggregation: errorRateBlueprintConfig.getAggregation(),
                 metricName: errorRateBlueprintConfig.getMetricName()
-              },
-              granularity: 60000
+              }
             }
           }
         })

@@ -90,16 +90,15 @@ export default function CallsErrorsChart({
                 aggregation: throughputBlueprintConfig.getAggregation(),
                 metricName: throughputBlueprintConfig.getMetricName()
               },
-              operator: throughputBlueprintConfig.thresholdDefaults.operator,
-              granularity: 60000
+              seasonality: 'DAILY',
+              operator: throughputBlueprintConfig.thresholdDefaults.operator
             },
             errorRate: {
               rule: {
                 alertType: errorRateBlueprintConfig.type,
                 aggregation: errorRateBlueprintConfig.getAggregation(),
                 metricName: errorRateBlueprintConfig.getMetricName()
-              },
-              granularity: 60000
+              }
             }
           }
         })

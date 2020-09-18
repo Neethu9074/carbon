@@ -1,8 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { eventDataPropType } from 'in-new-components/PotentialProblems/PotentialProblemsLane/proptypes';
-
 import locals from './PotentialProblemsHoverArea.mless';
 
 export default function PotentialProblemsHoverArea({
@@ -11,10 +9,9 @@ export default function PotentialProblemsHoverArea({
   timeAxisHeight,
   markerPaneHeight,
   xScale,
-  eventData
+  clusterWidth
 }) {
-  const { duration } = eventData;
-  const durationWidth = duration ? xScale?.getRangeArea(duration) : null;
+  const durationWidth = clusterWidth;
 
   const fromXPos = Math.max(0, xPos - durationWidth / 2);
   const toXPos = Math.min(xPos + durationWidth / 2, xScale?.getRangeTo());
@@ -23,8 +20,8 @@ export default function PotentialProblemsHoverArea({
     <div
       className={locals.highlightClusterOverlay}
       style={{
-        transform: `translateX(${fromXPos !== undefined ? fromXPos : xPos - durationWidth / 2}px)`,
-        width: `${toXPos !== undefined && fromXPos !== undefined ? toXPos - fromXPos + 0.5 : durationWidth}px`,
+        transform: `translateX(${fromXPos !== undefined ? fromXPos : xPos - clusterWidth / 2}px)`,
+        width: `${toXPos !== undefined && fromXPos !== undefined ? toXPos - fromXPos + 0.5 : clusterWidth}px`,
         ...getTopAndBottomOffset()
       }}
     />
@@ -38,12 +35,12 @@ export default function PotentialProblemsHoverArea({
 
 PotentialProblemsHoverArea.propTypes = {
   chartContentPosition: PropTypes.string,
-  eventData: eventDataPropType,
   markerPaneHeight: PropTypes.number,
   timeAxisHeight: PropTypes.number,
   xPos: PropTypes.number,
   xScale: PropTypes.shape({
     getRangeArea: PropTypes.func,
     getRangeTo: PropTypes.func
-  })
+  }),
+  clusterWidth: PropTypes.number
 };

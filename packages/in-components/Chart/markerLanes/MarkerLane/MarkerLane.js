@@ -70,7 +70,6 @@ function MarkersLanePresenter({
   isClustered,
   renderLaneItem,
   renderHoverOverlay,
-  chartBucketWidth,
   renderSecondaryHoverOverlay,
   color,
   selectedEventData,
@@ -153,7 +152,7 @@ function MarkersLanePresenter({
   );
 
   function getXposCluster(timestamp) {
-    return xScale?.getRange(timestamp) + clusterAreaWidth / 2 - chartBucketWidth / 2;
+    return xScale?.getRange(timestamp) + clusterAreaWidth / 2 - remainingProps.chartBucketWidth / 2;
   }
 
   function getTooltipAlignmentForChartContentPosition(chartContentPosition) {

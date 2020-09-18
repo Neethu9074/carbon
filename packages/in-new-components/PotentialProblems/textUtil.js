@@ -4,13 +4,13 @@ import { isGreaterOperator } from 'in-new-components/Alerting/utils/alertUtils';
 
 export function getTitle({ rule, threshold }) {
   const { operator } = threshold;
-  const { alertType } = rule;
+  const { alertType, aggregation } = rule;
 
   switch (alertType) {
     case 'errorRate':
       return 'Erroneous call rate is higher than normal';
     case 'slowness':
-      return `Calls (Latency ${getSlowerOrBelowOperatorText(operator)}) are slower than usual`;
+      return `Calls (Latency ${aggregation}) are slower than usual`;
     case 'throughput': {
       const isGreaterOp = isGreaterOperator(operator);
       return `Number of calls is anomalously ${isGreaterOp ? 'high' : 'low'}`;

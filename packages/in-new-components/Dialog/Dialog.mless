@@ -99,4 +99,8 @@
   .scrollShadow {
     box-shadow: @lib__shadows__subtle;
   }
+
+  .isStacked {
+    background: transparent;
+  }
 }

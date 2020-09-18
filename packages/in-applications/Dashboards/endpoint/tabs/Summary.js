@@ -25,20 +25,18 @@ export default connectTo(
   {
     isInternalVisible: isInternalVisible$
   },
-  function Summary({ timeConfig, applicationId, serviceId, endpointId, boundaryScope, data, isInternalVisible }) {
+  function Summary({ timeConfig, applicationId, serviceId, endpointId, boundaryScope, data }) {
     const timeShiftConfig = useTimeShiftConfig();
     const includeSyntheticCalls = get(data, 'synthetic', false);
     const type = data.type;
 
     const MarkerLanes = ApplicationDashboardsMarkerLanes({ applicationId, endpointId, serviceId });
-    const withPotentialProblemsLane = isInternalVisible
-      ? ApplicationDashboardsMarkerLanes({
-          applicationId,
-          endpointId,
-          serviceId,
-          showPotentialProblemsLane: true
-        })
-      : MarkerLanes;
+    const withPotentialProblemsLane = ApplicationDashboardsMarkerLanes({
+      applicationId,
+      endpointId,
+      serviceId,
+      showPotentialProblemsLane: true
+    });
 
     const tagFilters = [
       { stringValue: serviceId, name: 'service.id', entity: DESTINATION, operator: EQUALS },

@@ -3,7 +3,7 @@
 
 :local {
   .marker {
-    --item-height: 8px;
+    --item-height: 0.5rem;
     position: absolute;
     background: transparent;
     border: 2px solid @lib__colors__deep-purple800;
@@ -14,7 +14,7 @@
 
   .marker:hover {
     --hover-color: rgba(99, 114, 130, 0.3); // @lib__colors__N600Light
-    box-shadow: 0 0 0 4px var(--hover-color);
+    box-shadow: 0 0 0 0.25rem var(--hover-color);
     background: var(--hover-color);
   }
 }
