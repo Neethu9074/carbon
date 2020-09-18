@@ -7,7 +7,6 @@ import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHr
 import { getBlueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
 import { barOverlapping, line } from 'in-stores/metric/renderer';
 import { getChartGranularity } from 'in-applications/metrics';
-import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 
 export default function CallsErrorsChart({
   applicationId,
@@ -15,6 +14,7 @@ export default function CallsErrorsChart({
   endpointId,
   tagFilters,
   timeConfig,
+  timeShiftConfig,
   timeShiftMetric,
   isSynthetic,
   groupByTag,
@@ -25,7 +25,6 @@ export default function CallsErrorsChart({
   const granularity = getChartGranularity(timeConfig);
   const throughputBlueprintConfig = getBlueprintConfig('throughput');
   const errorRateBlueprintConfig = getBlueprintConfig('errorRate');
-  const timeShiftConfig = useTimeShiftConfig();
 
   const defaultMetricConfig = {
     granularity,

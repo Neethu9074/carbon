@@ -78,6 +78,7 @@ export default function LatencyAndDistribution({
           tagFilters={tagFilters}
           boundaryScope={boundaryScope}
           timeConfig={timeConfig}
+          timeShiftConfig={timeShiftConfig}
           timeShiftAggregation={timeShiftConfig.offset ? activeAggregation : null}
           groupByTag={percentileGroupBy}
           renderPostChartContent={renderPostChartContent}

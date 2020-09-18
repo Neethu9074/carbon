@@ -61,6 +61,7 @@ export default connectTo(
                 metadata={metadata}
                 timeConfig={getTimeConfigFromEventForSnapshotRetrieval(event)}
                 linkTimeConfig={getTimeConfigFromEvent(event)}
+                boundaryScope={alertConfig.boundaryScope}
               />
 
               <ProblemDescription event={event} className="in-event-view-event-content" />

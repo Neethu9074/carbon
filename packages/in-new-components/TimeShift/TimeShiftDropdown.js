@@ -1,6 +1,12 @@
 import React from 'react';
 
-import { urlParameter, timeShifts, getTimeShiftLabel, translateOffsetToTimeShiftConfig } from 'in-stores/time/shifting';
+import {
+  urlParameter,
+  timeShifts,
+  previousHourTimeShift,
+  getTimeShiftLabel,
+  translateOffsetToTimeShiftConfig
+} from 'in-stores/time/shifting';
 import ComboBoxBehavior from 'in-components/form/ComboBox/ComboBoxBehavior';
 import DropdownButton from 'in-new-components/Button/DropdownButton';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -17,7 +23,7 @@ export default function TimeShiftDropdown({ disabled }) {
   const [{ timeShiftOffset }, onChange] = useUrlState(urlStateDefinition);
 
   const options = timeShifts
-    .filter(({ disallowSelection }) => disallowSelection !== true)
+    .filter(({ disallowSelection, offset }) => disallowSelection !== true && offset !== previousHourTimeShift.offset)
     .map(v => ({
       value: v.offset,
       label: renderItemContent(v)

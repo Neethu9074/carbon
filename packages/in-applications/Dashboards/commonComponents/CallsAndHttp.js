@@ -81,6 +81,7 @@ export default function CallsAndHttp({
           tagFilters={tagFilters}
           boundaryScope={boundaryScope}
           timeConfig={timeConfig}
+          timeShiftConfig={timeShiftConfig}
           timeShiftMetric={timeShiftConfig.offset ? activeMetric : null}
           groupByTag={callGroupByTag}
           renderPostChartContent={renderPostChartContent}
@@ -93,6 +94,7 @@ export default function CallsAndHttp({
           tagFilters={tagFilters}
           boundaryScope={boundaryScope}
           timeConfig={timeConfig}
+          timeShiftConfig={timeShiftConfig}
           timeShiftMetric={timeShiftConfig.offset ? activeMetric : null}
           groupByTag={{ name: 'call.http.status' }}
           renderPostChartContentHttpStatus={renderPostChartContentHttpStatus}

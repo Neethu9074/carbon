@@ -95,24 +95,27 @@ function EntityInformation10({
   );
 }
 
-function EntityInformation20({ entity, entityType, label, linkTimeConfig }) {
+function EntityInformation20({ entity, entityType, label, linkTimeConfig, boundaryScope }) {
   const data = entity.data;
   let href$;
   let iconType;
   if (isApplicationEntity(entityType)) {
     href$ = getApplicationDashboard(data.id, {
-      timeConfig: linkTimeConfig
+      timeConfig: linkTimeConfig,
+      boundaryScope
     });
     iconType = 'lib_application';
   } else if (isServiceEntity(entityType)) {
     href$ = getServiceDashboard(data.id, {
-      timeConfig: linkTimeConfig
+      timeConfig: linkTimeConfig,
+      boundaryScope
     });
     iconType = 'lib_application_service';
   } else if (isEndpointEntity(entityType)) {
     href$ = getEndpointDashboard(data.id, {
       serviceId: data.serviceId,
-      timeConfig: linkTimeConfig
+      timeConfig: linkTimeConfig,
+      boundaryScope
     });
     iconType = 'lib_application_endpoint';
   }
