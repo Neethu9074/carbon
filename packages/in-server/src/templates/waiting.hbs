@@ -39,6 +39,7 @@
     ineum('beaconBatchingTime', 3000);
     ineum('traceId', '{{backendTraceId}}');
     ineum('ignoreUrls', [/.*\/api\/data.*/i, /.*\/build\.json.*/i, /.*\/notifications\/.*.md.*/i, /^https:\/\/api\.mixpanel\.com\/track.*/i]);
+    ineum('ignoreErrorMessages', [/^script error/i, /^ResizeObserver loop/i, /^Unhandled promise rejection: Loading chunk/i]);
     ineum('meta', 'build.tag', window.instana.build.tag);
     ineum('meta', 'build.revision', window.instana.build.revision);
     ineum('meta', 'build.date', window.instana.build.date);
