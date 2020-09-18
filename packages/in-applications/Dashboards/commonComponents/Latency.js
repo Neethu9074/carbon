@@ -7,11 +7,11 @@ import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHr
 import { getBlueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
 import { getChartGranularity } from 'in-applications/metrics';
 import { latencyFixed } from 'in-services/formatters/number';
-import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import { integral, line } from 'in-stores/metric/renderer';
 
 export default function Latency({
   timeConfig,
+  timeShiftConfig,
   endpointId,
   applicationId,
   serviceId,
@@ -23,7 +23,6 @@ export default function Latency({
   groupByTag,
   renderPostChartContent
 }) {
-  const timeShiftConfig = useTimeShiftConfig();
   const granularity = getChartGranularity(timeConfig);
   const slownessBlueprintConfig = getBlueprintConfig('slowness');
   const aggregations = ['P50', 'P90', 'P95', 'P99', 'MAX', 'MEAN'];
@@ -94,7 +93,7 @@ export default function Latency({
   let renderer;
   let colors;
   if (timeShiftConfig.offset) {
-    const timeShiftMetricConfig = latencyMetrics.find(m => m.aggregation === timeShiftAggregation);
+    const timeShiftMetricConfig = latencyMetrics.find(m => m.aggregation === timeShiftAggregation) ?? latencyMetrics[0];
     metricsConfig = [
       {
         ...timeShiftMetricConfig,

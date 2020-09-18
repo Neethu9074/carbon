@@ -40,6 +40,12 @@ export const defaultTimeShift = {
   description: `View data without time shift`
 };
 
+export const previousHourTimeShift = {
+  offset: -1 * 1000 * 60 * 60,
+  label: `Previous hour`,
+  description: `Compare with data recorded 1 hour before the selected time window`
+};
+
 export const timeShifts = [
   defaultTimeShift,
   {
@@ -47,11 +53,7 @@ export const timeShifts = [
     label: `Previous time window`,
     description: `Compare with data immediately before the selected time window`
   },
-  {
-    offset: -1 * 1000 * 60 * 60,
-    label: `Previous hour`,
-    description: `Compare with data recorded 1 hour before the selected time window`
-  },
+  previousHourTimeShift,
   {
     offset: -1 * 1000 * 60 * 60 * 24,
     label: `Yesterday`,

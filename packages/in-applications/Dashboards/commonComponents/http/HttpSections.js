@@ -9,7 +9,6 @@ import { NOT_APPLICABLE } from 'in-new-components/QueryBuilder/tagFilter/entitie
 import getEndpointTypes from 'in-applications/subscriptions/getEndpointTypes';
 import { getChartGranularity } from 'in-applications/metrics';
 import { stackedBar, line } from 'in-stores/metric/renderer';
-import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import { number } from 'in-services/formatters/number';
 import connectTo from 'in-hoc/connectTo';
 
@@ -38,12 +37,12 @@ export default connectTo(
     groupByTag,
     metrics,
     renderPostChartContentHttpStatus,
+    timeShiftConfig,
     timeShiftMetric
   }) {
     if (!hasHttpEndpoints(types)) {
       return null;
     }
-    const timeShiftConfig = useTimeShiftConfig();
     const granularity = getChartGranularity(timeConfig);
 
     const defaultMetricConfig = {
@@ -92,7 +91,7 @@ export default connectTo(
     let renderer;
     let colors;
     if (timeShiftConfig.offset) {
-      const timeShiftMetricConfig = statusMetrics.find(m => m.metric === timeShiftMetric);
+      const timeShiftMetricConfig = statusMetrics.find(m => m.metric === timeShiftMetric) ?? statusMetrics[0];
       metricsConfig = [
         {
           ...timeShiftMetricConfig,

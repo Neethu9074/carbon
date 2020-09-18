@@ -30,6 +30,7 @@ export default function CallsErrors(props) {
       <CallsErrorsChart
         {...props}
         cardTitle={undefined}
+        timeShiftConfig={timeShiftConfig}
         timeShiftMetric={timeShiftConfig.offset ? activeMetric : null}
       />
     </Card>
