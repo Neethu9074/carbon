@@ -3,8 +3,8 @@ import React from 'react';
 
 import { error as errorType } from 'in-new-components/Message/types';
 import { evaluateClassNames } from 'in-services/util/classnames';
+import { isTechnicalError } from 'in-services/util/error';
 import { emptyArray } from 'in-services/fixedObjects';
-import { isTechnicalError } from 'in-types/error';
 import Message from 'in-new-components/Message';
 
 import locals from './ErroneousResultPresenter.mless';

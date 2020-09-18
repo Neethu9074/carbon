@@ -3,7 +3,7 @@
 import { getInitializationCallStack, getSubscriptionPayload } from 'in-connection';
 import getClientMessages from 'in-subscription/getClientMessages';
 import type { Message } from 'in-subscription/getClientMessages';
-import { isTechnicalError } from 'in-types/error';
+import { isTechnicalError } from 'in-services/util/error';
 import { createStore } from 'in-stores/store';
 import { createLogger } from 'instalog';
 
