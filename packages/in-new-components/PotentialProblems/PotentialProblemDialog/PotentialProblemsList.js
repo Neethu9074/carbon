@@ -32,9 +32,7 @@ function PotentialProblemsListItem({ applicationLabel, serviceLabel, endpointLab
             {endpointLabel ?? serviceLabel ?? applicationLabel} (
             <span className={locals.type}>{getType({ applicationLabel, serviceLabel, endpointLabel })}</span>)
           </div>
-          <div className={locals.itemDescription}>{`${getTitle({ rule, threshold })}. ${
-            rule.alertType === 'slowness' ? `(${rule.aggregation})` : ''
-          }`}</div>
+          <div className={locals.itemDescription}>{`${getTitle({ rule, threshold })}`}</div>
         </div>
       </div>
     </Li>

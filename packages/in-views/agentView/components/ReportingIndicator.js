@@ -37,12 +37,15 @@ function getTooltipText(row) {
         ? ''
         : 'The agent reported in the selected time range but has not reported at the selected moment. ';
 
+    // When available, take the time the Agent got started. "from" timestamps might be newer for example when a new
+    // Snapshot was created during backend update or for other reasons. As users have no concept of these Snapshots,
+    // using the "from" time might confuse them.
+    const startedAt = row.snapshot.get('data')?.get('startedAt');
+    const from = startedAt ? startedAt : row.snapshot.get('from');
     if (!row.snapshot.get('to')) {
-      text += `The agent started at ${formatDateTime(row.snapshot.get('from'))} and is still reporting.`;
+      text += `The agent started at ${formatDateTime(from)} and is still reporting.`;
     } else {
-      text += `The agent reported between: ${formatDateTime(row.snapshot.get('from'))} and ${formatDateTime(
-        row.snapshot.get('to')
-      )}.`;
+      text += `The agent reported between: ${formatDateTime(from)} and ${formatDateTime(row.snapshot.get('to'))}.`;
     }
 
     return text;
