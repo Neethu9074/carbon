@@ -16,7 +16,7 @@ import Tooltip from 'in-components/Tooltip';
 
 import locals from './InfrastructureList.mless';
 
-export default function InfrastructureList({ retrievalSize = 20, numSkeletonRows = 3, tagFilterExpression }) {
+export default function InfrastructureList({ retrievalSize = 20, numSkeletonRows = 3, tagFilterExpression, plugin }) {
   const timeConfig = useTimeConfig();
   const [state, setState] = useReducer((prev, next) => ({ ...prev, ...next }), {
     orderBy: staticColumnDefinitions[0].id,
@@ -24,8 +24,9 @@ export default function InfrastructureList({ retrievalSize = 20, numSkeletonRows
   });
   const { orderBy, orderDirection } = state;
   const { items, ...tableProps } = useCursorPagination(
-    ({ cursor }) => getTableData({ timeConfig, retrievalSize, tagFilterExpression, orderBy, orderDirection, cursor }),
-    [timeConfig, retrievalSize, tagFilterExpression, orderBy, orderDirection]
+    ({ cursor }) =>
+      getTableData({ timeConfig, retrievalSize, tagFilterExpression, orderBy, plugin, orderDirection, cursor }),
+    [timeConfig, retrievalSize, tagFilterExpression, plugin, orderBy, orderDirection]
   );
 
   const columnDefinitions =
@@ -53,7 +54,7 @@ export default function InfrastructureList({ retrievalSize = 20, numSkeletonRows
   );
 }
 
-function getTableData({ timeConfig, retrievalSize, tagFilterExpression, orderBy, orderDirection, cursor }) {
+function getTableData({ timeConfig, retrievalSize, tagFilterExpression, plugin, orderBy, orderDirection, cursor }) {
   return getEntities({
     filter: {
       tagFilterExpression,
@@ -66,7 +67,8 @@ function getTableData({ timeConfig, retrievalSize, tagFilterExpression, orderBy,
     pagination: {
       retrievalSize,
       cursor
-    }
+    },
+    plugin
   });
 }
 

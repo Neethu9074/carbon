@@ -5,6 +5,7 @@ import InfrastructureList from 'in-infrastructure/Explore/components/Infrastruct
 import { getUniqueErrors } from 'in-new-components/Errors/ErroneousResultPresenter';
 import createGetGroupsSubscription from 'in-infrastructure/subscriptions/getGroups';
 import LoadMoreLi from 'in-new-components/lists/List/LoadMoreLi/LoadMoreLi';
+import { getOptionalSnapshotDefinition } from 'in-sdk/snapshot/registry';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import { error as errorType } from 'in-new-components/Message/types';
 import { indeterminateProgress } from 'in-services/fixedObjects';
@@ -16,16 +17,23 @@ import Message from 'in-new-components/Message';
 
 import locals from './GroupedInfrastructure.mless';
 
-export default function GroupedInfrastructure({ tagFilterExpression, groupBy }) {
+export default function GroupedInfrastructure({ tagFilterExpression, groupBy, plugin }) {
   const timeConfig = useTimeConfig();
 
-  const props = useCursorPagination(({ cursor }) => getGroups({ timeConfig, tagFilterExpression, groupBy, cursor }), [
-    timeConfig,
-    tagFilterExpression,
-    groupBy
-  ]);
+  const props = useCursorPagination(
+    ({ cursor }) => getGroups({ timeConfig, tagFilterExpression, groupBy, plugin, cursor }),
+    [timeConfig, tagFilterExpression, groupBy, plugin]
+  );
 
-  return <Presenter timeConfig={timeConfig} tagFilterExpression={tagFilterExpression} groupBy={groupBy} {...props} />;
+  return (
+    <Presenter
+      timeConfig={timeConfig}
+      tagFilterExpression={tagFilterExpression}
+      groupBy={groupBy}
+      plugin={plugin}
+      {...props}
+    />
+  );
 }
 
 function Presenter({
@@ -37,11 +45,12 @@ function Presenter({
   items,
   timeConfig,
   tagFilterExpression,
-  groupBy
+  groupBy,
+  plugin
 }) {
   const hasErrors = errors?.length > 0;
   const isLoading = progress?.loading;
-  const columnDefinitions = columns(groupBy);
+  const columnDefinitions = columns(groupBy, plugin);
 
   return (
     <>
@@ -55,7 +64,12 @@ function Presenter({
             toggleContentOnRowClick
             highlightOpenState={false}
             renderNestedContent={() => (
-              <ExpandedGroup group={item} tagFilterExpression={tagFilterExpression} timeConfig={timeConfig} />
+              <ExpandedGroup
+                group={item}
+                tagFilterExpression={tagFilterExpression}
+                timeConfig={timeConfig}
+                plugin={plugin}
+              />
             )}
           >
             <ColumnizedContent columnDefinitions={columnDefinitions} group={item} />
@@ -78,7 +92,9 @@ function Presenter({
   );
 }
 
-function columns(groupBy) {
+function columns(groupBy, type) {
+  const snapshotDefinition = getOptionalSnapshotDefinition(type);
+  const countLabel = snapshotDefinition ? snapshotDefinition.pluginName.plural : 'Count';
   return [
     {
       width: '3rem',
@@ -100,7 +116,7 @@ function columns(groupBy) {
       {
         width: '6rem',
         getContent({ group }) {
-          return <KeyValue label="Count" value={group.count} theme="blue" accentuated />;
+          return <KeyValue label={countLabel} value={group.count} theme="blue" accentuated />;
         }
       },
       {
@@ -118,7 +134,7 @@ function getColumnWidth(groupBy, index) {
   }
 }
 
-function getGroups({ timeConfig, tagFilterExpression, groupBy, cursor }) {
+function getGroups({ timeConfig, tagFilterExpression, groupBy, cursor, plugin }) {
   return createGetGroupsSubscription({
     filter: {
       timeConfig,
@@ -128,7 +144,8 @@ function getGroups({ timeConfig, tagFilterExpression, groupBy, cursor }) {
       cursor,
       retrievalSize: 20
     },
-    groupBy
+    groupBy,
+    plugin
   });
 }
 
@@ -136,11 +153,12 @@ function HeaderRow({ totalGroups }) {
   return <h3 className={locals.header}>{totalGroups} Groups</h3>;
 }
 
-function ExpandedGroup({ group, tagFilterExpression, timeConfig }) {
+function ExpandedGroup({ group, tagFilterExpression, timeConfig, plugin }) {
   return (
     <InfrastructureList
       tagFilterExpression={addTagFilters(tagFilterExpression, group.tags)}
       timeConfig={timeConfig}
+      plugin={plugin}
       retrievalSize={5}
       numSkeletonRows={Math.min(group.count, 5)}
     />

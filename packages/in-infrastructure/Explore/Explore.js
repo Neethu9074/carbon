@@ -1,24 +1,25 @@
 import React, { useCallback, useMemo } from 'react';
 
-import GroupingConfigurator, {
-  isGroupingConfigurationValid
-} from 'in-infrastructure/Explore/components/GroupingConfigurator';
 import {
   tagFilterExpressionMatrixParameter,
   groupMatrixParameter,
-  chartsMatrixParameter
+  chartsMatrixParameter,
+  typeMatrixParameter
 } from 'in-infrastructure/navigation/paths';
+import GroupingConfigurator, {
+  isGroupingConfigurationValid
+} from 'in-infrastructure/Explore/components/GroupingConfigurator';
 import GroupingConfiguratorSection from 'in-new-components/GroupingConfigurator/GroupingConfiguratorSection';
 import ChartingConfiguratorSection from 'in-new-components/ChartingConfigurator/ChartingConfiguratorSection';
 import FixatedTimeConfigContextModification from 'in-stores/time/FixatedTimeConfigContextModification';
 import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import ApiQueryAction from 'in-new-components/QueryBuilder/workspace/ApiQueryAction/ApiQueryAction';
-import { ActionSection } from 'in-new-components/workspace/ActionSection/ActionSection';
 import QueryBuilder, { isQueryValid } from 'in-infrastructure/Explore/components/QueryBuilder';
 import QueryBuilderSection from 'in-new-components/QueryBuilder/workspace/QueryBuilderSection';
 import GroupedInfrastructure from 'in-infrastructure/Explore/components/GroupedInfrastructure';
 import InfraPageHeaderWithTabs from 'in-infrastructure/components/InfraPageHeaderWithTabs';
 import InfrastructureList from 'in-infrastructure/Explore/components/InfrastructureList';
+import { ActionSection } from 'in-new-components/workspace/ActionSection/ActionSection';
 import { themes } from 'in-new-components/DashboardHeader/DashboardHeader';
 import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
@@ -36,7 +37,7 @@ import Title from 'in-components/Title';
 import locals from './Explore.mless';
 
 const urlStateDefinition = {
-  bind: [tagFilterExpressionMatrixParameter, groupMatrixParameter, chartsMatrixParameter]
+  bind: [tagFilterExpressionMatrixParameter, groupMatrixParameter, chartsMatrixParameter, typeMatrixParameter]
 };
 
 export default function InfraExploreView() {
@@ -49,7 +50,8 @@ export default function InfraExploreView() {
 
 function InfraExploreViewWithFixatedTimeConfig() {
   const timeConfig = useTimeConfig();
-  const [{ tagFilterExpression, group, charts }, onChange] = useUrlState(urlStateDefinition);
+  const [{ tagFilterExpression, group, charts, type }, onChange] = useUrlState(urlStateDefinition);
+  const plugin = type !== 'all' ? type : null;
 
   const validTagFilterExpressionResult =
     useObservable(isQueryValid(tagFilterExpression, timeConfig), [tagFilterExpression, timeConfig]) ?? pendingResult;
@@ -151,7 +153,7 @@ function InfraExploreViewWithFixatedTimeConfig() {
           )}
 
           {isValid && !group?.groupbyTag && (
-            <InfrastructureList timeConfig={timeConfig} tagFilterExpression={backendQueryModel} />
+            <InfrastructureList timeConfig={timeConfig} tagFilterExpression={backendQueryModel} plugin={plugin} />
           )}
 
           {isValid && group?.groupbyTag && (
@@ -159,6 +161,7 @@ function InfraExploreViewWithFixatedTimeConfig() {
               timeConfig={timeConfig}
               tagFilterExpression={backendQueryModel}
               groupBy={[group.groupbyTag]}
+              plugin={plugin}
             />
           )}
         </Stack>

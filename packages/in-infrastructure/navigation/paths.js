@@ -28,6 +28,12 @@ export const chartsMatrixParameter = {
   initialState: emptyObject
 };
 
+export const typeMatrixParameter = {
+  path: infraExplorePath,
+  name: 'type',
+  initialState: 'host'
+};
+
 export function isInfraExploreView() {
   return navigationParameters$.map(location => location.pathname.indexOf(infraExplorePath) === 0);
 }
