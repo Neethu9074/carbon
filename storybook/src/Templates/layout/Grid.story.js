@@ -3,7 +3,7 @@ import React from 'react';
 import { Row, Col } from 'in-new-components/layout/Grid';
 
 export default {
-  title: 'Templates|layout/Grid'
+  title: 'Templates/layout/Grid'
 };
 
 export function MixedGrid() {

@@ -5,7 +5,7 @@ import { warning } from 'in-new-components/Message/types';
 import { Ul, Li } from 'in-new-components/lists/List';
 
 export default {
-  title: 'Organisms|ApiList',
+  title: 'Organisms/ApiList',
   component: DefaultListRenderer
 };
 
@@ -35,7 +35,11 @@ export function WithDataStory() {
     <DefaultListRenderer
       itemName="Foobar"
       itemsResult={{
-        data: [{ id: 'f', label: 'foo' }, { id: 'f2', label: 'foo2' }, { id: 'b', label: 'bar' }]
+        data: [
+          { id: 'f', label: 'foo' },
+          { id: 'f2', label: 'foo2' },
+          { id: 'b', label: 'bar' }
+        ]
       }}
       searchFields={['label']}
       query="foo"
@@ -49,7 +53,11 @@ export function WithMessageStory() {
     <DefaultListRenderer
       itemName="Foobar"
       itemsResult={{
-        data: [{ id: 'f', label: 'foo' }, { id: 'f2', label: 'foo2' }, { id: 'b', label: 'bar' }]
+        data: [
+          { id: 'f', label: 'foo' },
+          { id: 'f2', label: 'foo2' },
+          { id: 'b', label: 'bar' }
+        ]
       }}
       searchFields={['label']}
       query=""

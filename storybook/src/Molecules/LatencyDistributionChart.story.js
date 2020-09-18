@@ -3,7 +3,7 @@ import React from 'react';
 import LatencyDistributionChartPresenter from 'in-new-components/LatencyDistributionChart/LatencyDistributionChartPresenter';
 
 export default {
-  title: 'Molecules|LatencyDistChart',
+  title: 'Molecules/LatencyDistChart',
   component: LatencyDistributionChartPresenter
 };
 

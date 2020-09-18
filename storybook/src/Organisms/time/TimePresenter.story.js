@@ -1,11 +1,11 @@
-import { withKnobs, number, boolean } from '@storybook/addon-knobs/react';
+import { withKnobs, number, boolean } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 import React from 'react';
 
 import TimePresenter from 'in-new-components/time/TimePresenter';
 
 export default {
-  title: 'Organisms|time/TimePresenter',
+  title: 'Organisms/time/TimePresenter',
   component: TimePresenter,
   parameters: {
     // ignoring this story because it renders differently everytime

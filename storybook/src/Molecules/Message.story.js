@@ -4,7 +4,7 @@ import { success, warning, error } from 'in-new-components/Message/types';
 import Message from 'in-new-components/Message';
 
 export default {
-  title: 'Molecules|Message',
+  title: 'Molecules/Message',
   component: Message
 };
 

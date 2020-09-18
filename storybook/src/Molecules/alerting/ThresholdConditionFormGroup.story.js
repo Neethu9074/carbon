@@ -3,7 +3,7 @@ import React from 'react';
 import ThresholdConditionFormGroup from 'in-new-components/Alerting/advanced/ThresholdConditionFormGroup';
 
 export default {
-  title: 'Molecules|alerting/advanced/ThresholdConditionFormGroup',
+  title: 'Molecules/alerting/advanced/ThresholdConditionFormGroup',
   component: ThresholdConditionFormGroup
 };
 

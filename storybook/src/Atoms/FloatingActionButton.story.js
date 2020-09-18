@@ -6,7 +6,7 @@ import FloatingActionButton from 'in-new-components/FloatingActionButton/Floatin
 import markdownNotes from './FloatingActionButton.md';
 
 export default {
-  title: 'Atoms|Buttons/Floating Action Button',
+  title: 'Atoms/Buttons/Floating Action Button',
   component: FloatingActionButton,
   decorators: [withKnobs],
   parameters: { notes: markdownNotes }

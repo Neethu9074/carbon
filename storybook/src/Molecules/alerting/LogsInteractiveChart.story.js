@@ -7,7 +7,7 @@ import { someLogsFormData } from './formSampleData';
 import { noop } from 'in-services/fixedObjects';
 
 export default {
-  title: 'Molecules|alerting/interactiveCharts',
+  title: 'Molecules/alerting/interactiveCharts',
   component: LogsInteractiveChart
 };
 

@@ -7,7 +7,7 @@ import Button from 'in-new-components/Button';
 import SvgIcon from 'in-components/SvgIcon';
 
 export default {
-  title: 'Templates|Dashboard Header',
+  title: 'Templates/Dashboard Header',
   parameters: {
     // ignoring this story because it renders differently everytime
     chromatic: { disable: true }

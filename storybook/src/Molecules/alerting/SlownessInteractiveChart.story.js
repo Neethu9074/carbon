@@ -6,7 +6,7 @@ import { getBlueprintConfig } from 'in-applications/alerting/data/blueprintConfi
 import { someSlownessFormData } from './formSampleData';
 
 export default {
-  title: 'Molecules|alerting/interactiveCharts/SlownessInteractiveChart',
+  title: 'Molecules/alerting/interactiveCharts/SlownessInteractiveChart',
   component: SlownessInteractiveChart
 };
 

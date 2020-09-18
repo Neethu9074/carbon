@@ -6,7 +6,7 @@ import icons from 'in-components/SvgIcon/registry.json';
 import SvgIcon, { sizes } from 'in-components/SvgIcon';
 
 export default {
-  title: 'DesignTokens|Icons',
+  title: 'DesignTokens/Icons',
   decorators: [withKnobs]
 };
 

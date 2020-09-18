@@ -4,7 +4,7 @@ import TechnologyIndicatorList from 'in-applications/components/TechnologyIndica
 import registry from 'in-applications/technologyRegistry';
 
 export default {
-  title: 'Atoms|TechnologyIndicatorList',
+  title: 'Atoms/TechnologyIndicatorList',
   component: TechnologyIndicatorList
 };
 

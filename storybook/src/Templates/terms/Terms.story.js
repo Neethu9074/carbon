@@ -8,7 +8,7 @@ import TermsPage1 from 'in-settings/terms/dialog/TermsPage1';
 import TermsPage2 from 'in-settings/terms/dialog/TermsPage2';
 
 export default {
-  title: 'Templates|terms/TermsDialog',
+  title: 'Templates/terms/TermsDialog',
   component: TermsDialogPresenter
   // decorators: [action]
 };

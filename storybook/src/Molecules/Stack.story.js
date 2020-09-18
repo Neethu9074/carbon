@@ -4,7 +4,7 @@ import React from 'react';
 import StackPresenter from 'in-new-components/Stack/StackPresenter';
 
 export default {
-  title: 'Molecules|Stack',
+  title: 'Molecules/Stack',
   component: StackPresenter,
   decorators: [withKnobs]
 };

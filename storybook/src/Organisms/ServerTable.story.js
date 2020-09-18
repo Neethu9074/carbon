@@ -1,4 +1,4 @@
-import { boolean, text } from '@storybook/addon-knobs/react';
+import { boolean, text } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 import React from 'react';
 
@@ -9,7 +9,7 @@ import { millis, percentage, number } from 'in-services/formatters/number';
 const onChange = action('onChange');
 
 export default {
-  title: 'Organisms|ServerTablePresenter',
+  title: 'Organisms/ServerTablePresenter',
   component: ServerTablePresenter
 };
 

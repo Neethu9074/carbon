@@ -3,7 +3,7 @@ import React from 'react';
 import ButtonGroup from 'in-new-components/ButtonGroup';
 
 export default {
-  title: 'Atoms|ButtonGroup',
+  title: 'Atoms/ButtonGroup',
   component: ButtonGroup
 };
 
@@ -12,7 +12,13 @@ export function Default() {
     <>
       <ButtonGroup buttonPropsList={[{ text: 'Button 1', key: '1' }]} activeKey="1" />
       <br />
-      <ButtonGroup buttonPropsList={[{ text: 'Button 1', key: '1' }, { text: 'Button 2', key: '2' }]} activeKey="2" />
+      <ButtonGroup
+        buttonPropsList={[
+          { text: 'Button 1', key: '1' },
+          { text: 'Button 2', key: '2' }
+        ]}
+        activeKey="2"
+      />
       <br />
       <ButtonGroup
         buttonPropsList={[
@@ -34,7 +40,10 @@ export function Segmented() {
       <br />
       <ButtonGroup
         segmented
-        buttonPropsList={[{ text: 'Button 1', key: '1' }, { text: 'Button 2', key: '2' }]}
+        buttonPropsList={[
+          { text: 'Button 1', key: '1' },
+          { text: 'Button 2', key: '2' }
+        ]}
         activeKey="2"
       />
       <br />

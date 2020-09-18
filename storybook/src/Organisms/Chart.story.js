@@ -18,7 +18,7 @@ const oneDay = oneHour * 24;
 const now = Date.now(); // TODO: use fixed time (part of https://instana.kanbanize.com/ctrl_board/59/cards/20424)
 
 export default {
-  title: 'Organisms|Chart',
+  title: 'Organisms/Chart',
   parameters: {
     // ignoring this story because it renders differently everytime
     chromatic: { disable: true }

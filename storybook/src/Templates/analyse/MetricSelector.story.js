@@ -1,5 +1,5 @@
 import { createField, createMapForm, notBlankValidator } from 'formalistic';
-import { withKnobs, boolean, text } from '@storybook/addon-knobs/react';
+import { withKnobs, boolean, text } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 import React from 'react';
 
@@ -7,7 +7,7 @@ import MetricSelectorPresenter from 'in-analyze/components/MetricSelector/Metric
 import { availableMetrics, defaultMetrics } from 'in-websites/analyze/AnalyzeView/metrics';
 
 export default {
-  title: 'Templates|analyze/MetricSelector',
+  title: 'Templates/analyze/MetricSelector',
   component: MetricSelectorPresenter,
   decorators: [withKnobs]
 };

@@ -4,7 +4,7 @@ import AlertChannelsViewer from 'in-new-components/Alerting/components/AlertChan
 import { Row, Col } from 'in-new-components/layout/Grid';
 
 export default {
-  title: 'Templates|website/alerting/components/AlertChannelsViewer',
+  title: 'Templates/website/alerting/components/AlertChannelsViewer',
   component: AlertChannelsViewer
 };
 

@@ -4,7 +4,7 @@ import { Widget, demo } from 'in-custom-dashboards/widgets/Slo';
 import Stack from 'in-new-components/layout/Stack';
 
 export default {
-  title: 'Templates|CustomDashboard/widgets/SLO',
+  title: 'Templates/CustomDashboard/widgets/SLO',
   component: Widget
 };
 

@@ -4,7 +4,7 @@ import MultiButton from 'in-new-components/MultiButton';
 import Button from 'in-new-components/Button';
 
 export default {
-  title: 'Molecules|MultiButton',
+  title: 'Molecules/MultiButton',
   component: MultiButton
 };
 const buttons = [

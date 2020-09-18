@@ -7,7 +7,7 @@ import icons from 'in-components/SvgIcon/registry.json';
 import { plugins } from 'in-forge/constants';
 
 export default {
-  title: 'Atoms|SvgIcon',
+  title: 'Atoms/SvgIcon',
   component: SvgIcon,
   decorators: [withKnobs]
 };

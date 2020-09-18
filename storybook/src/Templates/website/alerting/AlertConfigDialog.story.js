@@ -2,12 +2,12 @@ import { action } from '@storybook/addon-actions';
 import React, { useState } from 'react';
 
 import AlertConfigDialogPresenter from 'in-new-components/Alerting/AlertConfigDialogPresenter';
+import AdvancedModeContainer from 'in-websites/alerting/advanced/AdvancedModeContainer';
 import alertFormDefinition from 'in-websites/alerting/form/alertDialogFormDefinition';
 import SimpleModeContainer from 'in-websites/alerting/simple/SimpleModeContainer';
-import AdvancedModeContainer from 'in-websites/alerting/advanced/AdvancedModeContainer';
 
 export default {
-  title: 'Templates|website/alerting/AlertConfigDialog',
+  title: 'Templates/website/alerting/AlertConfigDialog',
   component: AlertConfigDialogPresenter,
   parameters: {
     // TODO remove after fixing broken story

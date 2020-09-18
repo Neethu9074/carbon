@@ -9,7 +9,7 @@ const lorem = (
 );
 
 export default {
-  title: 'DesignTokens|Typography'
+  title: 'DesignTokens/Typography'
 };
 
 export const Typography = () => {

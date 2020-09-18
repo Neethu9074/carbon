@@ -1,5 +1,5 @@
 import { createField, notBlankValidator } from 'formalistic';
-import { withKnobs, boolean } from '@storybook/addon-knobs/react';
+import { withKnobs, boolean } from '@storybook/addon-knobs';
 import React from 'react';
 
 import InputStepComponent from 'in-websites/NewWebsiteFlow/InputStep';
@@ -7,7 +7,7 @@ import ReadyStepComponent from 'in-websites/NewWebsiteFlow/ReadyStep';
 import WaitStepComponent from 'in-websites/NewWebsiteFlow/WaitStep';
 
 export default {
-  title: 'Templates|website/NewWebsite',
+  title: 'Templates/website/NewWebsite',
   decorators: [withKnobs]
 };
 

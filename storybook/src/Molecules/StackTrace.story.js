@@ -3,7 +3,7 @@ import React from 'react';
 import { StackTraceLines, StackTraceLine, InfoIndicator } from 'in-new-components/StackTrace';
 
 export default {
-  title: 'Molecules|StackTrace',
+  title: 'Molecules/StackTrace',
   component: StackTraceLine
 };
 

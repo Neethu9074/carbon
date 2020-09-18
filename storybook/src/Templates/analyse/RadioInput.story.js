@@ -3,7 +3,7 @@ import React from 'react';
 import RadioGroup from 'in-analyze/components/RadioButtons/RadioGroup';
 
 export default {
-  title: 'Templates|analyze/RadioGroup',
+  title: 'Templates/analyze/RadioGroup',
   component: RadioGroup
 };
 

@@ -4,7 +4,7 @@ import ConfigureTimeWindow from 'in-new-components/Alerting/advanced/TimeThresho
 import { minutesToMillis } from 'in-new-components/Alerting/utils/formatUtils';
 
 export default {
-  title: 'Molecules|alerting/interactiveCharts/ConfigureTimeWindow',
+  title: 'Molecules/alerting/interactiveCharts/ConfigureTimeWindow',
   component: ConfigureTimeWindow
 };
 

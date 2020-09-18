@@ -21,7 +21,7 @@ import { indeterminateProgress } from 'in-services/fixedObjects';
 import { Col, Row } from 'in-new-components/layout/Grid';
 
 export default {
-  title: 'Templates|table/Table',
+  title: 'Templates/table/Table',
   component: Table
 };
 
@@ -266,7 +266,7 @@ export function TreeTableWithLoadMore() {
   );
 }
 
-function TableWithLargeCellContent() {
+export function TableWithLargeCellContent() {
   return (
     <>
       <Table>

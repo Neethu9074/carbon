@@ -3,7 +3,7 @@ import React from 'react';
 import MultipleTechnologiesIcon from 'in-new-components/MultipleTechnologiesIcon';
 
 export default {
-  title: 'Molecules|MultipleTechnologiesIcon',
+  title: 'Molecules/MultipleTechnologiesIcon',
   component: MultipleTechnologiesIcon
 };
 

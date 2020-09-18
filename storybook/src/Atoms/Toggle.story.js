@@ -3,7 +3,7 @@ import React from 'react';
 import Toggle from 'in-components/form/Toggle';
 
 export default {
-  title: 'Atoms|FormControl/Toggle',
+  title: 'Atoms/FormControl/Toggle',
   component: Toggle
 };
 

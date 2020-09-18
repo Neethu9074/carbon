@@ -3,13 +3,13 @@ import React, { useState } from 'react';
 import ErrorRateInteractiveChart, {
   ThresholdCondition
 } from 'in-applications/alerting/advanced/ErrorRateInteractiveChart';
-import { getBlueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
 import { createSmartAlertForm } from 'in-applications/alerting/form/smartAlertForm';
+import { getBlueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
 import { someErrorRateFormData } from './formSampleData';
 import { noop } from 'in-services/fixedObjects';
 
 export default {
-  title: 'Molecules|alerting/interactiveCharts/ErrorRateInteractiveChart',
+  title: 'Molecules/alerting/interactiveCharts/ErrorRateInteractiveChart',
   parameters: {
     // Error: Evaluation failed: TypeError: (void 0) is not a function
     chromatic: { disable: true }

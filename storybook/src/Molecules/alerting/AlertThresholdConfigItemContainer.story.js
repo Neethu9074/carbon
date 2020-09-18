@@ -1,8 +1,9 @@
-import AlertThresholdConfigItemContainer from 'in-new-components/Alerting/advanced/TimeThresholdConfig/AlertThresholdConfigItemContainer';
 import React from 'react';
 
+import AlertThresholdConfigItemContainer from 'in-new-components/Alerting/advanced/TimeThresholdConfig/AlertThresholdConfigItemContainer';
+
 export default {
-  title: 'Molecules|alerting/advanced/AlertThresholdConfigItemContainer',
+  title: 'Molecules/alerting/advanced/AlertThresholdConfigItemContainer',
   component: AlertThresholdConfigItemContainer
 };
 

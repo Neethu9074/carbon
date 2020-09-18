@@ -5,7 +5,7 @@ import icons from 'in-components/SvgIcon/registry.json';
 import SvgIcon from 'in-components/SvgIcon';
 
 export default {
-  title: 'Molecules|health/WithHealthIndication',
+  title: 'Molecules/health/WithHealthIndication',
   component: WithHealthIndication
 };
 

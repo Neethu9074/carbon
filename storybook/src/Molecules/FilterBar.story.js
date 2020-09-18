@@ -1,5 +1,5 @@
 import { createField, createMapForm, notBlankValidator } from 'formalistic';
-import { text, boolean } from '@storybook/addon-knobs/react';
+import { text, boolean } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 import React from 'react';
 
@@ -12,7 +12,7 @@ import { numericValidator } from 'in-services/validators/number';
 import Bar from 'in-analyze/components/filterBar/Bar/Bar';
 
 export default {
-  title: 'Molecules|FilterBar',
+  title: 'Molecules/FilterBar',
   component: Bar,
   decorator: { action, text, boolean }
 };

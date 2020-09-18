@@ -6,7 +6,7 @@ import React from 'react';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
 
 export default {
-  title: 'Atoms|KpiCard',
+  title: 'Atoms/KpiCard',
   component: KpiCard,
   decorators: [withKnobs]
 };
