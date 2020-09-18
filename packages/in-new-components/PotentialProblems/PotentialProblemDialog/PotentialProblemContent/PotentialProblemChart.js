@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import { createDefaultChartConfig } from 'in-new-components/Alerting/Chart/chartViewConfig';
-import { alertingEventDetailsChartTimeframe } from 'in-new-components/Alerting/constants';
 import { getBlueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
 import AlertingChart from 'in-new-components/Alerting/Chart/AlertingChart';
 
@@ -25,24 +24,25 @@ export default function PotentialProblemChart({ applicationId, alertConfig, tagF
 
   /**
    * Behaviour of this function is partly from getChartTimeConfigByEvent()
-   * But some parts which we don't need are omitted, because we want to mimic the bhaviour
+   * But some parts which we don't need are omitted, because we want to mimic the behaviour
    * of the timeConfig for the Chart in "in-events/components/EventContent/ApplicationEventContent" (L43-L46)
    */
   function getTimeConfig() {
-    const to = alert.end ? alert.end - 1000 * 60 : null;
-    const isOpen = to == null;
+    const duration = alert.end - alert.start;
+    const to = alert.end + duration * 0.05;
+
     return {
       to,
       focusedMoment: to,
-      windowSize: alertingEventDetailsChartTimeframe,
-      autoRefresh: isOpen
+      windowSize: duration * 1.1
     };
   }
 }
 
 PotentialProblemChart.propTypes = {
   alert: PropTypes.shape({
-    end: PropTypes.number
+    end: PropTypes.number,
+    start: PropTypes.number
   }).isRequired,
   alertConfig: PropTypes.object.isRequired,
   alertType: PropTypes.string.isRequired,
