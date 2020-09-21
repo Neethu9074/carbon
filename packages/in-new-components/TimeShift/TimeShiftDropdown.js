@@ -18,7 +18,7 @@ const urlStateDefinition = {
   bind: [urlParameter]
 };
 
-export default function TimeShiftDropdown({ disabled }) {
+export default function TimeShiftDropdown({ disabled, onChange: onTimeShiftChange }) {
   const timeConfig = useTimeConfig();
   const [{ timeShiftOffset }, onChange] = useUrlState(urlStateDefinition);
 
@@ -34,7 +34,10 @@ export default function TimeShiftDropdown({ disabled }) {
     <ComboBoxBehavior
       value={timeShiftOffset}
       options={options}
-      onChange={timeShiftOffset => onChange({ timeShiftOffset })}
+      onChange={timeShiftOffset => {
+        onChange({ timeShiftOffset });
+        onTimeShiftChange(timeShiftOffset);
+      }}
       disableAutomaticOptionSorting
       ariaLabel="Change selected time shift"
     >

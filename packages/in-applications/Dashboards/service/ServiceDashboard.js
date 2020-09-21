@@ -15,6 +15,7 @@ import CreateSmartAlert from 'in-applications/alerting/components/CreateSmartAle
 import { serviceDashboard, summaryTab } from 'in-applications/navigation/paths';
 import AnalyzeCallsButton from 'in-applications/components/AnalyzeCallsButton';
 import TimeShiftDropdown from 'in-new-components/TimeShift/TimeShiftDropdown';
+import { applicationTimeShiftSelectTracker } from 'in-applications/tracker';
 import { applicationSmartAlertsEnabled } from 'in-services/featureFlags';
 import ContextGuide from 'in-new-components/ContextGuide/ContextGuide';
 import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
@@ -22,6 +23,7 @@ import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import tabs from 'in-applications/Dashboards/service/tabs/index';
 import getService from 'in-subscription/application/getService';
 import DashboardHeader from 'in-new-components/DashboardHeader';
+import { getTimeShiftLabel } from 'in-stores/time/shifting';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import useUrlState from 'in-hooks/useUrlState';
@@ -159,7 +161,17 @@ function renderButtonLineSecondary({
         serviceId={serviceId}
         timeConfig={timeConfig}
       />
-      <TimeShiftDropdown disabled={currentTab !== summaryTab} />
+      <TimeShiftDropdown
+        disabled={currentTab !== summaryTab}
+        onChange={offset =>
+          applicationTimeShiftSelectTracker({
+            area: 'service',
+            offset: getTimeShiftLabel({ offset: offset }),
+            windowSize: timeConfig.windowSize,
+            autoRefresh: timeConfig.autoRefresh
+          })
+        }
+      />
       {applicationId && (
         <InboundAllCallsDropdown
           boundaryScope={boundaryScope}

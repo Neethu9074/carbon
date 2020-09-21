@@ -15,6 +15,7 @@ import CreateSmartAlert from 'in-applications/alerting/components/CreateSmartAle
 import { endpointDashboard, summaryTab } from 'in-applications/navigation/paths';
 import AnalyzeCallsButton from 'in-applications/components/AnalyzeCallsButton';
 import TimeShiftDropdown from 'in-new-components/TimeShift/TimeShiftDropdown';
+import { applicationTimeShiftSelectTracker } from 'in-applications/tracker';
 import { applicationSmartAlertsEnabled } from 'in-services/featureFlags';
 import ServiceContext from 'in-applications/components/ServiceContext';
 import ContextGuide from 'in-new-components/ContextGuide/ContextGuide';
@@ -23,6 +24,7 @@ import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import getEndpoint from 'in-subscription/application/getEndpoint';
 import tabs from 'in-applications/Dashboards/endpoint/tabs/index';
 import DashboardHeader from 'in-new-components/DashboardHeader';
+import { getTimeShiftLabel } from 'in-stores/time/shifting';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import useUrlState from 'in-hooks/useUrlState';
@@ -164,10 +166,20 @@ function renderButtonLine({ applicationId, serviceId, endpointId, boundaryScope,
   );
 }
 
-function renderButtonLineSecondary({ currentTab, applicationId, boundaryScope, onBoundaryStateChange }) {
+function renderButtonLineSecondary({ currentTab, applicationId, boundaryScope, onBoundaryStateChange, timeConfig }) {
   return (
     <>
-      <TimeShiftDropdown disabled={currentTab !== summaryTab} />
+      <TimeShiftDropdown
+        disabled={currentTab !== summaryTab}
+        onChange={offset =>
+          applicationTimeShiftSelectTracker({
+            area: 'endpoint',
+            offset: getTimeShiftLabel({ offset: offset }),
+            windowSize: timeConfig.windowSize,
+            autoRefresh: timeConfig.autoRefresh
+          })
+        }
+      />
       {applicationId && (
         <InboundAllCallsDropdown
           boundaryScope={boundaryScope}

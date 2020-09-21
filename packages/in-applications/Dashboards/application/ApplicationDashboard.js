@@ -10,6 +10,7 @@ import CreateSmartAlert from 'in-applications/alerting/components/CreateSmartAle
 import { applicationDashboard, summaryTab } from 'in-applications/navigation/paths';
 import AnalyzeCallsButton from 'in-applications/components/AnalyzeCallsButton';
 import TimeShiftDropdown from 'in-new-components/TimeShift/TimeShiftDropdown';
+import { applicationTimeShiftSelectTracker } from 'in-applications/tracker';
 import { applicationSmartAlertsEnabled } from 'in-services/featureFlags';
 import getApplication from 'in-subscription/application/getApplication';
 import ContextGuide from 'in-new-components/ContextGuide/ContextGuide';
@@ -17,6 +18,7 @@ import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import tabs from 'in-applications/Dashboards/application/tabs/index';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import DashboardHeader from 'in-new-components/DashboardHeader';
+import { getTimeShiftLabel } from 'in-stores/time/shifting';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import useUrlState from 'in-hooks/useUrlState';
@@ -112,10 +114,20 @@ function renderButtonLine(props) {
   );
 }
 
-function renderButtonLineSecondary({ result, boundaryScope, currentTab, onBoundaryStateChange }) {
+function renderButtonLineSecondary({ result, boundaryScope, currentTab, onBoundaryStateChange, timeConfig }) {
   return (
     <>
-      <TimeShiftDropdown disabled={currentTab !== summaryTab} />
+      <TimeShiftDropdown
+        disabled={currentTab !== summaryTab}
+        onChange={offset =>
+          applicationTimeShiftSelectTracker({
+            area: 'application',
+            offset: getTimeShiftLabel({ offset: offset }),
+            windowSize: timeConfig.windowSize,
+            autoRefresh: timeConfig.autoRefresh
+          })
+        }
+      />
       <InboundAllCallsDropdown
         data={result.data}
         boundaryScope={boundaryScope}
