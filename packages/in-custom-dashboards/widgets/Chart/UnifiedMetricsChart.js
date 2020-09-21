@@ -12,16 +12,17 @@ import useTimeConfig from 'in-hooks/useTimeConfig';
 import useObservable from 'in-hooks/useObservable';
 
 export default function UnifiedMetricsChart({
-  cardUseMaxAvailableHeight,
   config,
   title,
-  automaticallySize,
   cardHeader,
   customHeight,
+  automaticallySize,
   shareMaxAxisDomain,
-  renderPostChartContent,
   reverseLegendOrder,
-  reverseTooltipOrder
+  reverseTooltipOrder,
+  tooltipTimeFormatter,
+  renderPostChartContent,
+  cardUseMaxAvailableHeight
 }) {
   const timeConfig = useTimeConfig();
   let result = useResultData(config, timeConfig) ?? pendingResult;
@@ -40,8 +41,6 @@ export default function UnifiedMetricsChart({
   return (
     <ChartWrapper
       cardTitle={title}
-      cardUseMaxAvailableHeight={cardUseMaxAvailableHeight}
-      cardHeader={cardHeader}
       timeConfig={timeConfig}
       y1={toAxisConfiguration('y1', config.y1)}
       y2={toAxisConfiguration('y2', config.y2)}
@@ -50,12 +49,16 @@ export default function UnifiedMetricsChart({
       additionalContextMenuButtons={config.additionalContextMenuButtons}
       result={result}
       granularity={config.granularity}
-      automaticallySize={automaticallySize}
+      // pass through props
+      cardHeader={cardHeader}
       customHeight={customHeight}
+      automaticallySize={automaticallySize}
       shareMaxAxisDomain={shareMaxAxisDomain}
-      renderPostChartContent={renderPostChartContent}
       reverseLegendOrder={reverseLegendOrder}
       reverseTooltipOrder={reverseTooltipOrder}
+      tooltipTimeFormatter={tooltipTimeFormatter}
+      renderPostChartContent={renderPostChartContent}
+      cardUseMaxAvailableHeight={cardUseMaxAvailableHeight}
     />
   );
 }

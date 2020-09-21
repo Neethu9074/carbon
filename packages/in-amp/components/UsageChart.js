@@ -1,8 +1,10 @@
 import React from 'react';
 
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
+import { formatDate, formatDateTime } from 'in-services/formatters/date';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 
+const oneMonth = 1000 * 60 * 60 * 24 * 30;
 export default function UsageChart({ showAggregatedMetrics, y1, y2 }) {
   const defaultProps = {
     aggregation: 'MEAN',
@@ -11,10 +13,15 @@ export default function UsageChart({ showAggregatedMetrics, y1, y2 }) {
   };
 
   const timeConfig = useTimeConfig();
+  let tooltipTimeFormatter = formatDateTime;
+  if (timeConfig.windowSize === oneMonth) {
+    tooltipTimeFormatter = formatDate;
+  }
   return (
     <UnifiedMetricsChart
       shareMaxAxisDomain
       automaticallySize={false}
+      tooltipTimeFormatter={tooltipTimeFormatter}
       config={{
         y1: {
           ...y1,
