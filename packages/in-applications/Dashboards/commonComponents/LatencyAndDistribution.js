@@ -70,7 +70,7 @@ export default function LatencyAndDistribution({
 
   return (
     <Card title={cardTitle} header={header}>
-      {selectedTab === tabOverTime && (
+      {selectedTab === tabOverTime ? (
         <Latency
           applicationId={applicationId}
           serviceId={serviceId}
@@ -83,8 +83,7 @@ export default function LatencyAndDistribution({
           groupByTag={percentileGroupBy}
           renderPostChartContent={renderPostChartContent}
         />
-      )}
-      {activeTab === 'Distribution' && (
+      ) : (
         <LatencyDistributionHistogram
           applicationId={applicationId}
           serviceId={serviceId}
