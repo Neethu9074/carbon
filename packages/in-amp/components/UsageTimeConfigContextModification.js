@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import moment from 'moment';
 import React from 'react';
 
 import LocalTimeConfigContextModification from 'in-stores/time/LocalTimeConfigContextModification';
@@ -28,10 +29,12 @@ UsageTimeConfigContextModification.propTypes = {
 };
 
 function modifyTimeConfig(timeConfig, showAggregatedMetrics) {
+  const windowSize = findNextPresetTime(timeConfig.windowSize, showAggregatedMetrics);
+  const to = getNearestReasonableTo(windowSize);
   return {
-    to: null,
-    focusedMoment: null,
-    windowSize: findNextPresetTime(timeConfig.windowSize, showAggregatedMetrics),
+    to,
+    focusedMoment: to,
+    windowSize,
     autoRefresh: false
   };
 }
@@ -47,4 +50,13 @@ function findNextPresetTime(windowSize, showAggregatedMetrics) {
     }
   }
   return timePresets[0].windowSize;
+}
+
+function getNearestReasonableTo(windowSize) {
+  const dailyData = windowSize > 1000 * 60 * 60 * 24 * 7;
+  return moment()
+    .startOf(dailyData ? 'day' : 'hour')
+    .subtract(1, dailyData ? 'day' : 'hour')
+    .toDate()
+    .getTime();
 }
