@@ -63,4 +63,9 @@
   .keyValue {
     margin-left: 0.25rem;
   }
+
+  .percentile {
+    color: @lib__colors__N600Light;
+    margin-right: 0.2rem;
+  }
 }

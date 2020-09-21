@@ -2,7 +2,10 @@ import { newTimeMetric, newNumberMetric } from 'in-analyze/metricDefinitionHelpe
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { percentage } from 'in-services/formatters/number';
 
-export const defaultMetrics = [{ metric: 'latency', aggregation: 'MEAN' }, { metric: 'errors', aggregation: 'MEAN' }];
+export const defaultMetrics = [
+  { metric: 'latency', aggregation: 'MEAN' },
+  { metric: 'errors', aggregation: 'MEAN' }
+];
 
 const calls = newNumberMetric({ metric: 'calls', label: 'Calls' });
 
@@ -28,3 +31,5 @@ const latency = {
 };
 
 export const availableMetrics = [calls, latency, erroneousCalls, errorRate];
+
+export const aggregateMetric = (metric, aggregation) => `${metric}_${aggregation}_Agg`;

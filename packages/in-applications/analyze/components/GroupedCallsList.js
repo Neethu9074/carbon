@@ -1,24 +1,32 @@
+import { partition } from 'lodash';
 import React from 'react';
 
 import { ColumnizedContent, Ul, Li, LoadingSkeletonLi, HorizontalIndicatorLi } from 'in-new-components/lists/List';
 import SortingConfigurator from 'in-new-components/SortingConfigurator/SortingConfigurator';
 import MetricConfigurator from 'in-new-components/MetricConfigurator/MetricConfigurator';
+import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
+import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import LoadMoreLi from 'in-new-components/lists/List/LoadMoreLi/LoadMoreLi';
+import { number, percentage, millis } from 'in-services/formatters/number';
+import { UNSPECIFIED } from 'in-analyze/components/GroupedTraces/Group';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import getCallGroups from 'in-subscription/application/getCallGroups';
 import CallsList from 'in-applications/analyze/components/CallsList';
 import { error as errorType } from 'in-new-components/Message/types';
+import { getSparkChartGranularity } from 'in-applications/metrics';
+import { aggregateMetric } from 'in-applications/analyze/metrics';
 import { indeterminateProgress } from 'in-services/fixedObjects';
 import IconButton from 'in-new-components/IconButton/IconButton';
+import { evaluateClassNames } from 'in-services/util/classnames';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import KeyValue from 'in-new-components/lists/KeyValue';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Message from 'in-new-components/Message';
 import locals from './GroupedCallsList.mless';
-import Link from 'in-components/Link';
+import SvgIcon from 'in-components/SvgIcon';
 
-const defaultOrder = 'calls_SUM_Agg';
+const defaultOrder = aggregateMetric('calls', 'SUM');
 const defaultDirection = 'DESC';
 
 export default function GroupedCallsList({
@@ -33,6 +41,7 @@ export default function GroupedCallsList({
   onChangeMetrics
 }) {
   const timeConfig = useTimeConfig();
+  const granularity = getSparkChartGranularity(timeConfig);
   const order = { by: orderBy.by || defaultOrder, direction: orderBy.direction || defaultDirection };
 
   const props = useCursorPagination(
@@ -42,7 +51,7 @@ export default function GroupedCallsList({
         tagFilterExpression,
         groupBy,
         order,
-        metrics: allMetrics(metrics),
+        metrics: convertMetricListToMetricObject(metrics, granularity),
         cursor
       }),
     [timeConfig, groupBy, orderBy, metrics]
@@ -56,6 +65,7 @@ export default function GroupedCallsList({
       order={order}
       orderByCalls={orderByCalls}
       metrics={metrics}
+      granularity={granularity}
       onChangeFilter={onChangeFilter}
       onChangeOrderBy={onChangeOrderBy}
       onChangeMetrics={onChangeMetrics}
@@ -78,6 +88,7 @@ function Presenter({
   order,
   orderByCalls,
   metrics,
+  granularity,
   onChangeFilter,
   onChangeOrderBy,
   onChangeMetrics,
@@ -85,8 +96,8 @@ function Presenter({
 }) {
   const hasErrors = errors?.length > 0;
   const isLoading = progress?.loading;
-  const selectableGroups = items.slice(0, 5).map(item => item.name);
-  const columnDefinitions = columns({ tagFilterExpression, groupBy, selectableGroups, onChangeFilter });
+  const columnDefinitions = columns({ groupBy, tagFilterExpression, onChangeFilter, metrics });
+  const columnDefinitionsForUnspecified = columnsForUnspecified({ metrics });
 
   return (
     <>
@@ -98,34 +109,51 @@ function Presenter({
         onChangeMetrics={onChangeMetrics}
       />
       <Ul space="xsmall">
-        {items.map((item, rowIndex) => (
-          <Li
-            key={rowIndex}
-            noAlternatingBg
-            borderRadius="medium"
-            toggleContentOnRowClick
-            highlightOpenState={false}
-            renderNestedContent={() => (
-              <ExpandedGroup
-                group={item}
-                tagFilterExpression={addTagFilters(tagFilterExpression, groupBy, item.name)}
-                timeConfig={timeConfig}
-                onChangeFilter={onChangeFilter}
-                orderByCalls={orderByCalls}
-                onChangeOrderByCalls={onChangeOrderByCalls}
-              />
-            )}
-          >
-            <ColumnizedContent columnDefinitions={columnDefinitions} group={item} />
-          </Li>
-        ))}
+        {partition(items, item => item.name !== UNSPECIFIED).map(partition =>
+          partition.map((item, rowIndex) => {
+            const filterForGroup = addTagFilters(
+              tagFilterExpression,
+              groupBy,
+              item.name,
+              item.name !== UNSPECIFIED ? undefined : 'IS_EMPTY'
+            );
+            return (
+              <Li
+                key={rowIndex}
+                noAlternatingBg
+                borderRadius="medium"
+                highlightOpenState={false}
+                toggleContentOnRowClick
+                className={evaluateClassNames({ [locals.unspecified]: item.name === UNSPECIFIED })}
+                renderNestedContent={() => (
+                  <ExpandedGroup
+                    group={item}
+                    tagFilterExpression={filterForGroup}
+                    timeConfig={timeConfig}
+                    onChangeFilter={onChangeFilter}
+                    orderByCalls={orderByCalls}
+                    onChangeOrderByCalls={onChangeOrderByCalls}
+                  />
+                )}
+              >
+                <ColumnizedContent
+                  columnDefinitions={item.name !== UNSPECIFIED ? columnDefinitions : columnDefinitionsForUnspecified}
+                  group={item}
+                  timeConfig={timeConfig}
+                  progress={progress}
+                  granularity={granularity}
+                />
+              </Li>
+            );
+          })
+        )}
         {isLoading && <HorizontalIndicatorLi progress={indeterminateProgress} />}
         {isLoading && <LoadingSkeletonLi />}
         {hasErrors &&
-          errors.map(error => (
-            <Li key={error}>
+          errors.map((error, index) => (
+            <Li key={index}>
               <Message className={locals.message} type={errorType} small>
-                {error}
+                {error.message}
               </Message>
             </Li>
           ))}
@@ -136,36 +164,79 @@ function Presenter({
   );
 }
 
-function columns({ tagFilterExpression, groupBy, selectableGroups, onChangeFilter }) {
+function columns({ groupBy, tagFilterExpression, onChangeFilter, metrics }) {
   const { groupbyTag, groupbyTagSecondLevelKey } = groupBy;
   return [
     {
       width: '3rem',
       getContent({ group }) {
-        return (
-          selectableGroups.includes(group.name) && (
-            <CheckboxFancy checked size="large" onChange={() => alert(`selected groupBy ${group.name}`)} />
-          )
-        );
+        return <CheckboxFancy checked size="large" onChange={() => alert(`selected groupBy ${group.name}`)} />;
       }
     },
     {
       width: '3rem',
       getContent() {
-        return <IconButton type="lib_application_endpoint" />;
+        return <SvgIcon type="lib_views_tag" />;
       }
     }
-  ].concat({
-    getContent({ group }) {
-      const label = groupbyTagSecondLevelKey ? `${groupbyTag} > ${groupbyTagSecondLevelKey}` : groupbyTag;
-      const value = (
-        <Link onClick={() => onChangeFilter([addTagFilters(tagFilterExpression, groupBy, group.name)])}>
-          {group.name}
-        </Link>
-      );
-      return <KeyValue label={label} value={value} accentuated />;
+  ]
+    .concat({
+      getContent({ group }) {
+        const label = groupbyTagSecondLevelKey ? `${groupbyTag} > ${groupbyTagSecondLevelKey}` : groupbyTag;
+        return <KeyValue label={label} value={group.name} accentuated />;
+      }
+    })
+    .concat(metrics.map(metric => metricToColumn(metric)))
+    .concat({
+      width: '3rem',
+      getContent({ group }) {
+        return (
+          <IconButton
+            type="lib_actions_filter"
+            onClick={() => onChangeFilter([addTagFilters(tagFilterExpression, groupBy, group.name)])}
+          />
+        );
+      }
+    });
+}
+
+function columnsForUnspecified({ metrics }) {
+  return [
+    {
+      width: '3rem',
+      getContent() {
+        return <SvgIcon type="lib_missing_data" />;
+      }
+    },
+    {
+      getContent() {
+        return 'Not grouped/Unspecified';
+      }
     }
-  });
+  ].concat(metrics.filter(metric => metric.metric === 'calls').map(metric => metricToColumn(metric)));
+}
+
+function metricToColumn(metric) {
+  const configuration = metricConfiguration[metric.metric];
+  return {
+    width: '13rem',
+    getContent({ group, timeConfig, progress, granularity }) {
+      return (
+        <SparkChart
+          loading={progress?.loading}
+          rollup={granularity}
+          timeConfig={timeConfig}
+          aggregation={metric.aggregation}
+          metrics={group.metrics[`${metric.metric}_${metric.aggregation}`]}
+          metric={group.metrics[aggregateMetric(metric.metric, metric.aggregation)]}
+          tooltipFormatter={configuration.formatter}
+          label={configuration.label}
+          valueTheme={'blue'}
+          percentageMetric={configuration.type === 'rate'}
+        />
+      );
+    }
+  };
 }
 
 function getGroups({ timeConfig, tagFilterExpression, groupBy, order, metrics, cursor }) {
@@ -184,40 +255,43 @@ function getGroups({ timeConfig, tagFilterExpression, groupBy, order, metrics, c
   });
 }
 
+function aggregationLabel(aggregation, type) {
+  if (aggregation.startsWith('P')) {
+    return `(${aggregation.substring(1)}th)`;
+  } else if (type === 'rate') {
+    return '(rate)';
+  } else if (type === 'count') {
+    return '(count)';
+  } else if (type === 'time') {
+    return `(${aggregation.toLowerCase()})`;
+  } else {
+    return '';
+  }
+}
+
 function HeaderRow({ totalGroups, order, onChangeOrderBy, metrics, onChangeMetrics }) {
-  const options = [
-    {
-      metricId: 'latency',
-      label: 'Latency',
-      aggregations: ['MEAN', 'MIN', 'P25', 'P50', 'P75', 'P90', 'P90', 'P95', 'P98', 'P99', 'MAX', 'SUM']
-    },
-    {
-      metricId: 'calls',
-      label: 'Calls',
-      aggregations: ['MEAN']
-    },
-    {
-      metricId: 'errors',
-      label: 'Erroneous calls',
-      aggregations: ['MEAN']
-    }
-  ];
-  const values = metrics;
+  const metricOptions = Object.entries(metricConfiguration).map(([key, value]) => ({
+    metric: key,
+    label: value.label,
+    aggregations: value.aggregations
+  }));
+  const sortingOptions = metrics.map(metric => {
+    const aggregation = aggregationLabel(metric.aggregation, metricConfiguration[metric.metric].type);
+    return {
+      value: aggregateMetric(metric.metric, metric.aggregation),
+      label: `${metricConfiguration[metric.metric].label} ${aggregation}`
+    };
+  });
   return (
     <div className={locals.wrapper}>
       <div className={locals.resultInformation}>
         {totalGroups > 0 && <h3 className={locals.header}>{totalGroups} Groups</h3>}
       </div>
       <div className={locals.configurationWrapper}>
-        {options.length > 0 && <MetricConfigurator values={values} options={options} onChange={onChangeMetrics} />}
-        <SortingConfigurator
-          options={[
-            { value: 'firstTimestamp', label: 'Earliest Timestamp' },
-            { value: 'calls_SUM_Agg', label: 'Count' }
-          ]}
-          orderBy={order}
-          onChange={order => onChangeOrderBy(order)}
-        />
+        {metricOptions.length > 0 && (
+          <MetricConfigurator values={metrics} options={metricOptions} onChange={onChangeMetrics} />
+        )}
+        <SortingConfigurator options={sortingOptions} orderBy={order} onChange={order => onChangeOrderBy(order)} />
       </div>
     </div>
   );
@@ -229,7 +303,7 @@ function ExpandedGroup({ group, tagFilterExpression, timeConfig, onChangeFilter,
       tagFilterExpression={tagFilterExpression}
       timeConfig={timeConfig}
       retrievalSize={20}
-      numSkeletonRows={Math.min(group.metrics['calls_SUM_Agg'][0][1], 20)}
+      numSkeletonRows={Math.min(group.metrics[aggregateMetric('calls', 'SUM')][0][1], 20)}
       filterBy={() => onChangeFilter([tagFilterExpression])}
       orderBy={orderByCalls}
       onChangeOrderBy={onChangeOrderByCalls}
@@ -237,13 +311,13 @@ function ExpandedGroup({ group, tagFilterExpression, timeConfig, onChangeFilter,
   );
 }
 
-function addTagFilters(tagFilterExpression, groupBy, group) {
+function addTagFilters(tagFilterExpression, groupBy, group, operator = EQUALS) {
   const tagFilter = {
     type: 'TAG_FILTER',
-    operator: 'EQUALS',
+    operator: operator,
     name: groupBy.groupbyTag,
     key: groupBy.groupbyTagSecondLevelKey,
-    value: group
+    value: operator === EQUALS ? group : undefined
   };
   if (tagFilterExpression.type === 'EXPRESSION' && tagFilterExpression.elements.length === 0) {
     return tagFilter;
@@ -255,31 +329,35 @@ function addTagFilters(tagFilterExpression, groupBy, group) {
   };
 }
 
-const defaultMetrics = {
-  calls_SUM_Agg: { metric: 'calls', aggregation: 'SUM' },
-  calls_SUM: { metric: 'calls', aggregation: 'SUM', granularity: 60000 }
+const metricConfiguration = {
+  calls: { formatter: number.compact, label: 'Calls', type: 'count', aggregations: ['SUM'] },
+  latency: {
+    formatter: millis.forcedCompactOnMs.detailed,
+    label: 'Latency',
+    type: 'time',
+    aggregations: ['MIN', 'P25', 'P50', 'P75', 'P90', 'P95', 'P98', 'P99', 'MAX']
+  },
+  errors: { formatter: percentage.detailed, label: 'Erroneous Calls Rate', type: 'rate', aggregations: ['MEAN'] },
+  erroneousCalls: { formatter: number.compact, label: 'Erroneous Calls', type: 'count', aggregations: ['SUM'] }
 };
 
-const convertMetricListToMetricObject = metrics =>
-  metrics.reduce((obj, metric) => {
-    if (metric.aggregation === 'SUM') {
-      return {
-        ...obj,
-        [`${metric.metricId}_${metric.aggregation}_Agg'}`]: {
-          metric: metric.metricId,
-          aggregation: metric.aggregation
-        }
-      };
-    } else {
-      return {
-        ...obj,
-        [`${metric.metricId}_${metric.aggregation}`]: {
-          metric: metric.metricId,
-          aggregation: metric.aggregation,
-          granularity: 60000
-        }
-      };
-    }
-  }, {});
+const convertMetricListToMetricObject = (metrics, granularity) =>
+  metrics.reduce(
+    (obj, metric) => ({
+      ...obj,
+      ...convertMetricToObject(metric, granularity)
+    }),
+    {}
+  );
 
-const allMetrics = metrics => ({ ...defaultMetrics, ...convertMetricListToMetricObject(metrics) });
+const convertMetricToObject = (metric, granularity) => ({
+  [`${metric.metric}_${metric.aggregation}`]: {
+    metric: metric.metric,
+    aggregation: metric.aggregation,
+    granularity
+  },
+  [aggregateMetric(metric.metric, metric.aggregation)]: {
+    metric: metric.metric,
+    aggregation: metric.aggregation
+  }
+});

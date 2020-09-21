@@ -45,16 +45,16 @@ export default function MetricConfiguratorOverlayPresenter({
                       </Tooltip>
                       <Row>
                         <Col xs={5}>
-                          {metric.get('metricId').map(field => (
+                          {metric.get('metric').map(field => (
                             <FormGroup>
                               <Label
-                                htmlFor={`metric-configuration-metricId-${i}`}
+                                htmlFor={`metric-configuration-metric-${i}`}
                                 hasError={!field.valid && field.touched}
                               >
                                 Metric
                               </Label>
                               <Select
-                                id={`metric-configuration-metricId-${i}`}
+                                id={`metric-configuration-metric-${i}`}
                                 value={field.value}
                                 onChange={e => onMetricSelect(i, e.target.value)}
                                 hasError={!field.valid && field.touched}
@@ -63,7 +63,7 @@ export default function MetricConfiguratorOverlayPresenter({
                                   Please Select
                                 </option>
                                 {options.map(metric => (
-                                  <option key={metric.metricId} value={metric.metricId}>
+                                  <option key={metric.metric} value={metric.metric}>
                                     {metric.label}
                                   </option>
                                 ))}
@@ -73,8 +73,8 @@ export default function MetricConfiguratorOverlayPresenter({
                           ))}
                         </Col>
                         <Col xs={5}>
-                          {options.find(option => option.metricId === metric.get('metricId').value)?.aggregations
-                            .length > 1 &&
+                          {options.find(option => option.metric === metric.get('metric').value)?.aggregations.length >
+                            1 &&
                             metric.get('aggregation').map(field => (
                               <FormGroup>
                                 <Label
@@ -97,7 +97,7 @@ export default function MetricConfiguratorOverlayPresenter({
                                     Please Select
                                   </option>
                                   {options
-                                    .find(option => option.metricId === metric.get('metricId').value)
+                                    .find(option => option.metric === metric.get('metric').value)
                                     .aggregations.map(aggregation => (
                                       <option key={aggregation} value={aggregation}>
                                         {aggregation}

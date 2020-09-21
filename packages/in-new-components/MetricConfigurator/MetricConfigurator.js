@@ -34,7 +34,7 @@ MetricConfigurator.propTypes = {
   onChange: PropTypes.func.isRequired,
   options: PropTypes.arrayOf(
     PropTypes.shape({
-      metricId: PropTypes.string.isRequired,
+      metric: PropTypes.string.isRequired,
       label: PropTypes.string.isRequired,
       description: PropTypes.node,
       aggregations: PropTypes.arrayOf(PropTypes.oneOf(Object.keys(aggregationLabels)).isRequired).isRequired
@@ -42,7 +42,7 @@ MetricConfigurator.propTypes = {
   ).isRequired,
   values: PropTypes.arrayOf(
     PropTypes.shape({
-      metricId: PropTypes.string.isRequired,
+      metric: PropTypes.string.isRequired,
       aggregation: PropTypes.oneOf(Object.keys(aggregationLabels)).isRequired
     })
   ).isRequired

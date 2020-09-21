@@ -156,13 +156,13 @@ function Usage({ timeConfig, environments }) {
             </Card>
           </Col>
           <Col xs={6}>
-            <Card title="Serverless Tracing">
+            <Card title="Serverless Usage">
               <UsageChart
                 showAggregatedMetrics={showAggregatedMetrics}
                 y1={{
                   ...tenantUnit,
                   metrics: ['tracingserverless'],
-                  labels: ['Serverless Functions per Region']
+                  labels: ['Serverless']
                 }}
                 y2={{
                   ...tenantUnit,
