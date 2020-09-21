@@ -1,9 +1,15 @@
 import React, { useCallback, useMemo } from 'react';
+import { isEmpty } from 'lodash';
 
+import {
+  emptyTagFilterExpression,
+  allInfrastructureType,
+  defaultAllInfraGroup
+} from 'in-infrastructure/Explore/constants';
+import { groupMatrixParameter, typeMatrixParameter } from 'in-infrastructure/navigation/paths';
 import DashboardHeaderButton from 'in-new-components/DashboardHeader/DashboardHeaderButton';
 import getAvailablePlugins from 'in-infrastructure/subscriptions/getAvailablePlugins';
 import { getOptionalSnapshotDefinition } from 'in-sdk/snapshot/registry';
-import { typeMatrixParameter } from 'in-infrastructure/navigation/paths';
 import Overlay from 'in-new-components/overlays/Overlay/Overlay';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { pendingResult } from 'in-services/fixedObjects';
@@ -16,19 +22,19 @@ import SvgIcon from 'in-components/SvgIcon';
 import locals from './TypeSelector.mless';
 
 const urlStateDefinition = {
-  bind: [typeMatrixParameter]
+  bind: [groupMatrixParameter, typeMatrixParameter]
 };
 
-const emptyTagFilterExpression = { type: 'EXPRESSION', logicalOperator: 'AND', elements: [] };
-const allInfrastructureType = { plugin: 'all', name: 'All Infrastructure', icon: 'lib_infrastructure' };
-
 export default function TypeSelector() {
-  const [{ type }, onChange] = useUrlState(urlStateDefinition);
-  const setType = useCallback(type => onChange({ type }));
+  const [{ group, type }, onChange] = useUrlState(urlStateDefinition);
   const timeConfig = useTimeConfig();
   const tagFilterExpression = emptyTagFilterExpression;
   const result =
     useObservable(getAvailablePlugins({ filter: { timeConfig, tagFilterExpression } }), [timeConfig]) || pendingResult;
+  const setType = useCallback(
+    type => onChange({ type, group: !group?.groupbyTag && type === 'all' ? defaultAllInfraGroup : group }),
+    [group]
+  );
   const types = useMemo(
     () =>
       (result?.data?.plugins || [])
@@ -86,7 +92,8 @@ function getType(type) {
   }
   const snapshotDefinition = getOptionalSnapshotDefinition(type);
   return (
-    snapshotDefinition && {
+    snapshotDefinition &&
+    !isEmpty(snapshotDefinition) && {
       plugin: type,
       icon: `plugin:${type}`,
       name: snapshotDefinition.pluginName.plural

@@ -153,7 +153,12 @@ function InfraExploreViewWithFixatedTimeConfig() {
           )}
 
           {isValid && !group?.groupbyTag && (
-            <InfrastructureList timeConfig={timeConfig} tagFilterExpression={backendQueryModel} plugin={plugin} />
+            <InfrastructureList
+              timeConfig={timeConfig}
+              tagFilterExpression={backendQueryModel}
+              plugin={plugin}
+              showTotals
+            />
           )}
 
           {isValid && group?.groupbyTag && (

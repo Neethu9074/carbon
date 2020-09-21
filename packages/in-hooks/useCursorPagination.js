@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
 
-import useObservable from 'in-hooks/useObservable';
 import { pendingResult, emptyArray, indeterminateProgress } from 'in-services/fixedObjects';
+import useObservable from 'in-hooks/useObservable';
 
 export default function useCursorPagination(create, deps = []) {
   const [state, setState] = useState(initialState);
@@ -70,11 +70,11 @@ function updateResult(prev, result) {
   return {
     ...prev,
     ...result,
-    totalRepresentedItemCount: data.totalRepresentedItemCount ?? prev.totalRepresentedItemCount,
+    totalRepresentedItemCount: data.totalRepresentedItemCount || prev.totalRepresentedItemCount,
     awaitingData: false,
     canLoadMore: data.canLoadMore,
     nextCursor: data.next ?? data.items?.[data.items.length - 1]?.cursor,
-    totalHits: data.totalHits ?? prev.totalHits,
+    totalHits: data.totalHits || prev.totalHits,
     items: (prev.items ?? []).concat(data.items ?? [])
   };
 }

@@ -5,6 +5,7 @@ import InfrastructureList from 'in-infrastructure/Explore/components/Infrastruct
 import { getUniqueErrors } from 'in-new-components/Errors/ErroneousResultPresenter';
 import createGetGroupsSubscription from 'in-infrastructure/subscriptions/getGroups';
 import LoadMoreLi from 'in-new-components/lists/List/LoadMoreLi/LoadMoreLi';
+import CountHeader from 'in-infrastructure/Explore/components/CountHeader';
 import { getOptionalSnapshotDefinition } from 'in-sdk/snapshot/registry';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import { error as errorType } from 'in-new-components/Message/types';
@@ -42,6 +43,7 @@ function Presenter({
   canLoadMore,
   loadMore,
   totalHits,
+  totalRepresentedItemCount,
   items,
   timeConfig,
   tagFilterExpression,
@@ -54,7 +56,14 @@ function Presenter({
 
   return (
     <>
-      {totalHits > 0 && <HeaderRow totalGroups={totalHits} />}
+      {totalHits > 0 && (
+        <CountHeader
+          totalHits={totalHits}
+          totalRepresentedItemCount={totalRepresentedItemCount}
+          hitName="Group"
+          itemName="Result"
+        />
+      )}
       <Ul space="xsmall">
         {items.map((item, rowIndex) => (
           <Li
@@ -147,10 +156,6 @@ function getGroups({ timeConfig, tagFilterExpression, groupBy, cursor, plugin })
     groupBy,
     plugin
   });
-}
-
-function HeaderRow({ totalGroups }) {
-  return <h3 className={locals.header}>{totalGroups} Groups</h3>;
 }
 
 function ExpandedGroup({ group, tagFilterExpression, timeConfig, plugin }) {

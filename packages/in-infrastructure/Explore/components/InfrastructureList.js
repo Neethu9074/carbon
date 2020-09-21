@@ -5,6 +5,7 @@ import CursorPaginatedTable from 'in-components/tables/ServerTable/CursorPaginat
 import getAvailableMetrics from 'in-infrastructure/subscriptions/getAvailableMetrics';
 import { valueWithFormatterToReadableString } from 'in-services/formatters/number';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
+import CountHeader from 'in-infrastructure/Explore/components/CountHeader';
 import getEntities from 'in-infrastructure/subscriptions/getEntities';
 import EntityLink from 'in-new-components/EntityLink/EntityLink';
 import useCursorPagination from 'in-hooks/useCursorPagination';
@@ -16,14 +17,20 @@ import Tooltip from 'in-components/Tooltip';
 
 import locals from './InfrastructureList.mless';
 
-export default function InfrastructureList({ retrievalSize = 20, numSkeletonRows = 3, tagFilterExpression, plugin }) {
+export default function InfrastructureList({
+  retrievalSize = 20,
+  numSkeletonRows = 3,
+  tagFilterExpression,
+  plugin,
+  showTotals = false
+}) {
   const timeConfig = useTimeConfig();
   const [state, setState] = useReducer((prev, next) => ({ ...prev, ...next }), {
     orderBy: staticColumnDefinitions[0].id,
     orderDirection: 'ASC'
   });
   const { orderBy, orderDirection } = state;
-  const { items, ...tableProps } = useCursorPagination(
+  const { items, totalHits, ...tableProps } = useCursorPagination(
     ({ cursor }) =>
       getTableData({ timeConfig, retrievalSize, tagFilterExpression, orderBy, plugin, orderDirection, cursor }),
     [timeConfig, retrievalSize, tagFilterExpression, plugin, orderBy, orderDirection]
@@ -41,16 +48,20 @@ export default function InfrastructureList({ retrievalSize = 20, numSkeletonRows
   ]);
 
   return (
-    <CursorPaginatedTable
-      columnDefinitions={columnDefinitions}
-      optionalColumns={optionalColumns}
-      numSkeletonRows={numSkeletonRows}
-      onChange={setState}
-      {...tableProps}
-      items={items}
-      fixedLayout
-      {...state}
-    />
+    <>
+      {showTotals && <CountHeader totalHits={totalHits} hitName="Result" />}
+      <CursorPaginatedTable
+        columnDefinitions={columnDefinitions}
+        optionalColumns={optionalColumns}
+        numSkeletonRows={numSkeletonRows}
+        totalHits={totalHits}
+        onChange={setState}
+        {...tableProps}
+        items={items}
+        fixedLayout
+        {...state}
+      />
+    </>
   );
 }
 

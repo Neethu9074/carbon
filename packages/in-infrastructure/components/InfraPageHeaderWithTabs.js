@@ -37,7 +37,7 @@ export default function InfraPageHeaderWithTabs({
                     contextConfigurations={[
                       { renderContext: () => 'Infrastructure', contextIcon: 'lib_infrastructure' }
                     ]}
-                    label={isInfraExploreActive && <TypeSelector />}
+                    label={isInfraExploreActive ? <TypeSelector /> : undefined}
                     renderTopLevelButtonLine={UseBeeInstantToggle}
                   />
                   <DashboardHeaderModule theme={theme} withBottomBorder>

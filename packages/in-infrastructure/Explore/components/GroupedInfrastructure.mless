@@ -1,10 +1,6 @@
 @import '~in-themes/active.less';
 
 :local {
-  .header {
-    padding-left: 0.25rem;
-  }
-
   .list {
     width: 100%;
 
