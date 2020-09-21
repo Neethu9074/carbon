@@ -3,7 +3,7 @@ import React from 'react';
 import Skeleton from 'in-new-components/Loading/Skeleton';
 
 export default {
-  title: 'Atoms/Skeleton',
+  title: 'Atoms|Skeleton',
   component: Skeleton
 };
 

@@ -4,7 +4,7 @@ import { EntityToInstanaServicesButton } from 'in-new-components/EntityToInstana
 import OverlayPresenter from 'in-new-components/overlays/OverlayPresenter';
 
 export default {
-  title: 'Templates/application/EntityToInstanaServicesButton',
+  title: 'Templates|application/EntityToInstanaServicesButton',
   component: EntityToInstanaServicesButton
 };
 

@@ -6,7 +6,7 @@ import Dialog from 'in-new-components/Dialog/Dialog';
 import Button from 'in-new-components/Button';
 
 export default {
-  title: 'Molecules/Dialogs/Behaviour',
+  title: 'Molecules|Dialogs/Behaviour',
   component: Dialog
 };
 

@@ -3,7 +3,7 @@ import React from 'react';
 import LightCard from 'in-new-components/Card/LightCardV2';
 
 export default {
-  title: 'Molecules/Cards/LightCard',
+  title: 'Molecules|Cards/LightCard',
   component: LightCard
 };
 

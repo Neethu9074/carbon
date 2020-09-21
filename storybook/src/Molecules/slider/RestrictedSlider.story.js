@@ -4,7 +4,7 @@ import DebouncedRestrictedSlider from 'in-new-components/Slider/DebouncedRestric
 import RestrictedSlider from 'in-new-components/Slider/RestrictedSlider';
 
 export default {
-  title: 'Molecules/slider/Sliders/restrictedValues'
+  title: 'Molecules|slider/Sliders/restrictedValues'
 };
 
 export const withNumericScale = () => {

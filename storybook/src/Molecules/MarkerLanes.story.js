@@ -1,5 +1,5 @@
+import { text } from '@storybook/addon-knobs/react';
 import { action } from '@storybook/addon-actions';
-import { text } from '@storybook/addon-knobs';
 import React from 'react';
 
 import PotentialProblemsLanePresenter from 'in-new-components/PotentialProblems/PotentialProblemsLane/PotentialProblemsLanePresenter';
@@ -14,7 +14,7 @@ import { compare } from 'in-services/util/number';
 
 /* there are random data and current date is used */
 export default {
-  title: 'Molecules/MarkerLanes',
+  title: 'Molecules|MarkerLanes',
   component: DialogWithSlideInView,
   parameters: {
     // ignoring this story because it renders differently everytime

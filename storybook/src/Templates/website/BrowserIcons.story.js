@@ -3,7 +3,7 @@ import React from 'react';
 import { userAgentParserBrowserNameToIcon } from 'in-websites/browserIcons';
 
 export default {
-  title: 'Templates/website/BrowserIconList'
+  title: 'Templates|website/BrowserIconList'
 };
 
 export function BrowserIcons() {

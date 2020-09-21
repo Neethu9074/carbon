@@ -3,7 +3,7 @@ import React from 'react';
 import { AlertHistoryListPresenter } from 'in-new-components/Alerting/components/AlertHistoryList';
 
 export default {
-  title: 'Templates/website/alerting/components/AlertHistoryListPresenter',
+  title: 'Templates|website/alerting/components/AlertHistoryListPresenter',
   component: AlertHistoryListPresenter
 };
 

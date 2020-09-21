@@ -1,6 +1,6 @@
-import { withKnobs, text, select } from '@storybook/addon-knobs';
 import React from 'react';
 
+import { withKnobs, text, select } from '@storybook/addon-knobs';
 import Pill from 'in-new-components/Pill';
 
 const options = {
@@ -23,7 +23,7 @@ const options = {
 };
 
 export default {
-  title: 'Atoms/Pill',
+  title: 'Atoms|Pill',
   component: Pill,
   decorators: [withKnobs]
 };

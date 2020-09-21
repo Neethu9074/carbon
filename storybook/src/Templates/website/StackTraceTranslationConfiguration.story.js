@@ -5,7 +5,7 @@ import FileDownloadConfigurationDialogPresenter from 'in-websites/WebsiteDashboa
 import { createForm } from 'in-websites/WebsiteDashboard/tabs/Configuration/StackTraceTranslation/FileDownloadConfigurationDialog';
 
 export default {
-  title: 'Templates/website/JSStackTraceTranslationConfiguration'
+  title: 'Templates|website/JSStackTraceTranslationConfiguration'
 };
 
 export function Empty() {

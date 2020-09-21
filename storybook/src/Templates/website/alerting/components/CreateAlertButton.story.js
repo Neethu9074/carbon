@@ -3,7 +3,7 @@ import React from 'react';
 import CreateAlert from 'in-websites/alerting/CreateAlert';
 
 export default {
-  title: 'Templates/website/alerting/components/CreateAlertButton',
+  title: 'Templates|website/alerting/components/CreateAlertButton',
   parameters: {
     // TODO remove after fixing broken story
     chromatic: { disable: true }

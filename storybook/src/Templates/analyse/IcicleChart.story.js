@@ -11,7 +11,7 @@ const getColorByEndpointType = ({ endpoint }) =>
   !endpoint || !endpoint.type ? theme.lib.colors.N500 : getColor(endpoint.type);
 
 export default {
-  title: 'Templates/analyze/IcicleChart',
+  title: 'Templates|analyze/IcicleChart',
   parameters: {
     // TODO remove after fixing broken story
     chromatic: { disable: true }

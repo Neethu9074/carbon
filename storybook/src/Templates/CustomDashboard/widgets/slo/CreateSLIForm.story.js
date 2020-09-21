@@ -3,7 +3,7 @@ import React from 'react';
 import CreateNewSLIForm from 'in-custom-dashboards/widgets/Slo/CreateSLIForm';
 
 export default {
-  title: 'Templates/CustomDashboard/widgets/SLO/SLI-management/SLIForm',
+  title: 'Templates|CustomDashboard/widgets/SLO/SLI-management/SLIForm',
   component: CreateNewSLIForm
 };
 

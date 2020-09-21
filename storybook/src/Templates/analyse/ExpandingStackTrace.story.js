@@ -4,7 +4,7 @@ import ExpandableStackTrace from 'in-analyze/TraceDetail/components/CallDetails/
 import { callExample } from './StackTrace.story.js';
 
 export default {
-  title: 'Templates/analyze/ExpandableStackTrace',
+  title: 'Templates|analyze/ExpandableStackTrace',
   component: ExpandableStackTrace
 };
 export function ExpandingStackTrace() {

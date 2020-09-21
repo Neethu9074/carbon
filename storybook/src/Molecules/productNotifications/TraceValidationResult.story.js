@@ -3,7 +3,7 @@ import React from 'react';
 import TraceValidationResult, { issueMessages } from 'in-analyze/TraceDetail/tabs/Summary/TraceValidationResult';
 
 export default {
-  title: 'Molecules/ProductNotifications/TraceValidation',
+  title: 'Molecules|ProductNotifications/TraceValidation',
   component: TraceValidationResult
 };
 

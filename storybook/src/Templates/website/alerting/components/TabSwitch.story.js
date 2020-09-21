@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import TabSwitch from 'in-websites/alerting/components/TabSwitch';
 
 export default {
-  title: 'Templates/website/alerting/components/TabSwitch',
+  title: 'Templates|website/alerting/components/TabSwitch',
   component: TabSwitch
 };
 

@@ -3,7 +3,7 @@ import React from 'react';
 import Input from 'in-components/form/Input';
 
 export default {
-  title: 'Atoms/FormControl/Input',
+  title: 'Atoms|FormControl/Input',
   component: Input
 };
 

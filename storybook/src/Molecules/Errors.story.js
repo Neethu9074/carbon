@@ -4,7 +4,7 @@ import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPr
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 
 export default {
-  title: 'Molecules/Errors'
+  title: 'Molecules|Errors'
 };
 
 export function SingleMessage() {

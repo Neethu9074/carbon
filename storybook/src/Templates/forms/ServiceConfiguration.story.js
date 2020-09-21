@@ -3,7 +3,7 @@ import React from 'react';
 import CustomServiceMappingDialog from 'in-applications/Forms/CustomServiceMapping/CustomServiceMappingDialog';
 
 export default {
-  title: 'Templates/forms/CustomServiceMapping',
+  title: 'Templates|forms/CustomServiceMapping',
   component: CustomServiceMappingDialog
 };
 

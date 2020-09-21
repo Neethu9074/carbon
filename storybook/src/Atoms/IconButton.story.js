@@ -4,7 +4,7 @@ import React from 'react';
 import IconButton, { kinds } from 'in-new-components/IconButton/IconButton';
 
 export default {
-  title: 'Atoms/Buttons/IconButton',
+  title: 'Atoms|Buttons/IconButton',
   component: IconButton
 };
 

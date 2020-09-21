@@ -3,7 +3,7 @@ import React from 'react';
 import HorizontalTimeAxis from 'in-new-components/Axis/HorizontalTimeAxis';
 
 export default {
-  title: 'Atoms/Axis/Time',
+  title: 'Atoms|Axis/Time',
   component: HorizontalTimeAxis
 };
 

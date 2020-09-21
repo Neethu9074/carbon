@@ -1,11 +1,12 @@
-import { withKnobs } from '@storybook/addon-knobs';
+import { withKnobs } from '@storybook/addon-knobs/react';
 import React from 'react';
 
-import OverviewChart from 'in-websites/analyze/PageLoadView/tabs/Summary/OverviewChart.js';
 import demoCase from './PageLoadView/demoCase.json';
 
+import OverviewChart from 'in-websites/analyze/PageLoadView/tabs/Summary/OverviewChart.js';
+
 export default {
-  title: 'Templates/website/OverviewChart',
+  title: 'Templates|website/OverviewChart',
   component: OverviewChart,
   decorators: [withKnobs]
 };

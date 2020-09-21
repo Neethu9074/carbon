@@ -1,12 +1,12 @@
 import { createField, createMapForm, notBlankValidator } from 'formalistic';
-import { withKnobs, boolean, text } from '@storybook/addon-knobs';
+import { withKnobs, boolean, text } from '@storybook/addon-knobs/react';
 import { action } from '@storybook/addon-actions';
 import React from 'react';
 
 import EditGroupDialogPresenter from 'in-analyze/components/EditGroupDialog/EditGroupDialogPresenter';
 
 export default {
-  title: 'Templates/analyze/EditGroupDialogPresenter',
+  title: 'Templates|analyze/EditGroupDialogPresenter',
   component: EditGroupDialogPresenter,
   decorators: [withKnobs]
 };

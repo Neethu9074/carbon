@@ -1,12 +1,12 @@
-import { withKnobs, number } from '@storybook/addon-knobs';
 import { just } from 'reactive-observables';
 import React from 'react';
 
 import LatencyDistributionBase10Chart from 'in-new-components/LatencyDistributionBase10Chart/LatencyDistributionBase10Chart';
 import { millis } from 'in-services/formatters/number';
+import { withKnobs, number } from '@storybook/addon-knobs';
 
 export default {
-  title: 'Molecules/LatencyDistributionBase10Chart',
+  title: 'Molecules|LatencyDistributionBase10Chart',
   component: LatencyDistributionBase10Chart,
   decorators: [withKnobs]
 };

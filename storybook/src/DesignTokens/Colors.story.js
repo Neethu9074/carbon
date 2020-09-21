@@ -4,7 +4,7 @@ import React from 'react';
 import { colorTranslation, getColor } from 'in-applications/endpointTypes';
 
 export default {
-  title: 'DesignTokens/Colors',
+  title: 'DesignTokens|Colors',
   component: Colors
 };
 

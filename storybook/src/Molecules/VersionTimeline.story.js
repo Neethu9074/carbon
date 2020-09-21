@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import VersionTimeline from 'in-new-components/VersionTimeline';
 
 export default {
-  title: 'Molecules/VersionTimeline',
+  title: 'Molecules|VersionTimeline',
   parameters: {
     // ignoring this story because it renders differently everytime
     chromatic: { disable: true }

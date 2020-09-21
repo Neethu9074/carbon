@@ -3,7 +3,7 @@ import React from 'react';
 import StackTraceBehavior from 'in-analyze/TraceDetail/components/CallDetails/components/StackTrace/StackTraceBehavior';
 
 export default {
-  title: 'Templates/analyze/StackTraceBehavior',
+  title: 'Templates|analyze/StackTraceBehavior',
   parameters: {
     chromatic: { disable: true }
   },

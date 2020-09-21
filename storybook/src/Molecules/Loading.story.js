@@ -1,4 +1,4 @@
-import { withKnobs, number } from '@storybook/addon-knobs';
+import { withKnobs, number } from '@storybook/addon-knobs/react';
 import React from 'react';
 
 import HorizontalIndicator from 'in-new-components/Loading/HorizontalIndicator';
@@ -6,7 +6,7 @@ import InfiniteCircle from 'in-new-components/Loading/InfiniteCircle';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 
 export default {
-  title: 'Molecules/Loading/Loading',
+  title: 'Molecules|Loading/Loading',
   decorators: [withKnobs]
 };
 

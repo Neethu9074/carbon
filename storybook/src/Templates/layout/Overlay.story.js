@@ -7,7 +7,7 @@ import { Row, Col } from 'in-new-components/layout/Grid';
 import Button from 'in-new-components/Button';
 
 export default {
-  title: 'Templates/layout/Overlay',
+  title: 'Templates|layout/Overlay',
   component: Overlay
 };
 

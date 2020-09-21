@@ -4,7 +4,7 @@ import React from 'react';
 import Menu from 'in-new-components/Alerting/components/Menu';
 
 export default {
-  title: 'Templates/website/alerting/components/Menu',
+  title: 'Templates|website/alerting/components/Menu',
   component: Menu,
   decorators: [action]
 };

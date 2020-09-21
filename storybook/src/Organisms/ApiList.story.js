@@ -5,7 +5,7 @@ import { warning } from 'in-new-components/Message/types';
 import { Ul, Li } from 'in-new-components/lists/List';
 
 export default {
-  title: 'Organisms/ApiList',
+  title: 'Organisms|ApiList',
   component: DefaultListRenderer
 };
 

@@ -1,12 +1,12 @@
+import { number } from '@storybook/addon-knobs/react';
 import { withKnobs } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
-import { number } from '@storybook/addon-knobs';
 import React from 'react';
 
 import Pagination from 'in-new-components/Pagination';
 
 export default {
-  title: 'Molecules/Pagination',
+  title: 'Molecules|Pagination',
   component: Pagination,
   decorators: [withKnobs]
 };

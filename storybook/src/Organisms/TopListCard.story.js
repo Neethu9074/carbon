@@ -12,7 +12,7 @@ const metrics = ['latency', 'selfLatency', 'calls', 'errors'];
 const labels = ['Elapsed Latency', 'Self Latency', 'Calls', 'Errors'];
 
 export default {
-  title: 'Organisms/TopListCard',
+  title: 'Organisms|TopListCard',
   component: TopListCardPresenter
 };
 

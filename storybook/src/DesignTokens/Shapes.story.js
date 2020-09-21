@@ -1,8 +1,9 @@
-import theme from 'in-themes';
 import React from 'react';
 
+import theme from 'in-themes';
+
 export default {
-  title: 'DesignTokens/Shapes'
+  title: 'DesignTokens|Shapes'
 };
 
 export const Shapes = () => {

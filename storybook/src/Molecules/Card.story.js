@@ -4,7 +4,7 @@ import Button from 'in-new-components/Button';
 import Card from 'in-new-components/Card';
 
 export default {
-  title: 'Molecules/Cards/Card',
+  title: 'Molecules|Cards/Card',
   component: Card
 };
 

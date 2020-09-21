@@ -5,7 +5,7 @@ import clockSkewProblemsData from './clockSkewProblems.json';
 import demoCaseData from './demoCase.json';
 
 export default {
-  title: 'Templates/website/PageLoadView',
+  title: 'Templates|website/PageLoadView',
   component: Summary
 };
 

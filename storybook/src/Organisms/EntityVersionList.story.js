@@ -4,7 +4,7 @@ import EntityVersionListPresenter from 'in-new-components/EntityVersionList/Enti
 import { plugins } from 'in-forge/constants';
 
 export default {
-  title: 'Organisms/EntityVersionList',
+  title: 'Organisms|EntityVersionList',
   parameters: {
     // ignoring this story because it renders differently everytime
     chromatic: { disable: true }

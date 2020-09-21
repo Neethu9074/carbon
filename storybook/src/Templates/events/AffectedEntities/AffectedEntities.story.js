@@ -1,12 +1,12 @@
-import { create } from 'reactive-observables';
 import React from 'react';
 
 import AffectedEntitiesPresenter from 'in-events/components/AffectedEntities/AffectedEntitiesPresenter';
 import { indeterminateProgress, finishedProgress } from 'in-services/fixedObjects';
 import { availableMetrics } from 'in-applications/analyze/metrics';
+import { create } from 'reactive-observables';
 
 export default {
-  title: 'Templates/events/AffectedEntities',
+  title: 'Templates|events/AffectedEntities',
   component: AffectedEntitiesPresenter
 };
 

@@ -8,7 +8,7 @@ import { createForm } from 'in-custom-dashboards/widgets/Slo';
 import useObservable from 'in-hooks/useObservable';
 
 export default {
-  title: 'Templates/CustomDashboard/widgets/SLO/config/APForm',
+  title: 'Templates|CustomDashboard/widgets/SLO/config/APForm',
   component: APConfigForm
 };
 

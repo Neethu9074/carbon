@@ -6,7 +6,7 @@ import { generateFormData } from 'in-applications/Dashboards/CreateApplicationSm
 import { close } from 'in-components/DialogPresenter/store';
 
 export default {
-  title: 'Templates/potentialProblems/PotentialProblemsDialogPresenter',
+  title: 'Templates|potentialProblems/PotentialProblemsDialogPresenter',
   component: PotentialProblemsDialogPresenter
 };
 

@@ -10,7 +10,7 @@ import Button from 'in-new-components/Button/Button';
 const WithPadding = ({ children }) => <div style={{ padding: '0 1.5rem 1.5rem' }}>{children}</div>;
 
 export default {
-  title: 'Molecules/Dialogs/DialogWithSlideInView',
+  title: 'Molecules|Dialogs/DialogWithSlideInView',
   component: DialogWithSlideInView,
   decorators: [withKnobs]
 };

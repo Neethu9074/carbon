@@ -4,7 +4,7 @@ import KpiGridRow from 'in-new-components/KpiGridRow/KpiGridRow';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
 
 export default {
-  title: 'Molecules/KpiGridRow',
+  title: 'Molecules|KpiGridRow',
   component: KpiGridRow
 };
 

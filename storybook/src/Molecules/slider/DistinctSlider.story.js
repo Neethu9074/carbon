@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import DistinctSlider from 'in-new-components/Slider/DistinctSlider';
 
 export default {
-  title: 'Molecules/slider/Sliders/discreteValues'
+  title: 'Molecules|slider/Sliders/discreteValues'
 };
 
 export const withPermanentLabel = () => {

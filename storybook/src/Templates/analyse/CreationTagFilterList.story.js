@@ -4,7 +4,7 @@ import React from 'react';
 import TagFilterList from 'in-analyze/AnalyzeView/components/TagFilterList';
 
 export default {
-  title: 'Templates/application/TagFilterList',
+  title: 'Templates|application/TagFilterList',
   component: TagFilterList
 };
 

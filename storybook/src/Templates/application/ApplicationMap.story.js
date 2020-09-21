@@ -9,7 +9,7 @@ import { ApplicationMapReactComponent } from 'in-new-components/ApplicationMap';
 import { deepCopy } from 'in-services/util/object';
 
 export default {
-  title: 'Templates/application/ApplicationMap',
+  title: 'Templates|application/ApplicationMap',
   component: ApplicationMapReactComponent
 };
 

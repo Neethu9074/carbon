@@ -3,7 +3,7 @@ import React from 'react';
 import ButtonGroup from 'in-new-components/ButtonGroup';
 
 export default {
-  title: 'Atoms/ButtonGroup',
+  title: 'Atoms|ButtonGroup',
   component: ButtonGroup
 };
 

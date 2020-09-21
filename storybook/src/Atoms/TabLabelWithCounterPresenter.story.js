@@ -3,7 +3,7 @@ import React from 'react';
 import TabLabelWithCounterPresenter from 'in-new-components/LocationAwareTabView/tabs/TabLabelWithCounterPresenter';
 
 export default {
-  title: 'Atoms/TabLabelWithCounter',
+  title: 'Atoms|TabLabelWithCounter',
   component: TabLabelWithCounterPresenter
 };
 

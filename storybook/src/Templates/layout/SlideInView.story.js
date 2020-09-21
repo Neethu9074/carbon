@@ -4,7 +4,7 @@ import SlideInView from 'in-new-components/SlideInView/SlideInView';
 import Button from 'in-new-components/Button/Button';
 
 export default {
-  title: 'Templates/layout/SlideInView',
+  title: 'Templates|layout/SlideInView',
   component: SlideInView
 };
 

@@ -4,7 +4,7 @@ import { percentageTwoDecimalPlaces } from 'in-services/formatters/number';
 import SparkChart from 'in-components/SparkChart';
 
 export default {
-  title: 'Atoms/Spark Chart',
+  title: 'Atoms|Spark Chart',
   component: SparkChart
 };
 

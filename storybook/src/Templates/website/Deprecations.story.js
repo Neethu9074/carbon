@@ -1,10 +1,10 @@
-import { withKnobs, boolean } from '@storybook/addon-knobs';
+import { withKnobs, boolean } from '@storybook/addon-knobs/react';
 import React from 'react';
 
 import DeprecationsPresenter from 'in-websites/WebsiteDashboard/components/Deprecations/DeprecationsPresenter';
 
 export default {
-  title: 'Templates/website/Deprecations',
+  title: 'Templates|website/Deprecations',
   component: DeprecationsPresenter,
   decorators: [withKnobs]
 };

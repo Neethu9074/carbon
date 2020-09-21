@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 
 import { SloTarget, TimeWindowType } from 'in-custom-dashboards/widgets/Slo/form';
+
 import { Form, createForm } from 'in-custom-dashboards/widgets/Slo';
 import { noop } from 'in-services/util/function';
 import Button from 'in-new-components/Button';
 
 export default {
-  title: 'Templates/CustomDashboard/widgets/SLO/config',
+  title: 'Templates|CustomDashboard/widgets/SLO/config',
   component: Form
 };
 export function Default() {

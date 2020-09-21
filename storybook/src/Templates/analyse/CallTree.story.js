@@ -1,4 +1,4 @@
-import { withKnobs } from '@storybook/addon-knobs';
+import { withKnobs } from '@storybook/addon-knobs/react';
 import { create } from 'reactive-observables';
 import React from 'react';
 
@@ -11,7 +11,7 @@ const getColorByServiceAndEndpoint = ({ service, endpoint }) =>
   byServiceEndpointCombinationColorPool.getColorHex(`${service.id}__${endpoint.id}`);
 
 export default {
-  title: 'Templates/analyze/CallTree',
+  title: 'Templates|analyze/CallTree',
   component: CallTree,
   decorators: [withKnobs]
 };

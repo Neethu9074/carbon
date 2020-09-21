@@ -3,7 +3,7 @@ import React from 'react';
 import { SourceLocation } from 'in-analyze/TraceDetail/components/CallDetails/components/LocationComponents';
 
 export default {
-  title: 'Templates/CallDetail/SourceLocation',
+  title: 'Templates|CallDetail/SourceLocation',
   component: SourceLocation
 };
 

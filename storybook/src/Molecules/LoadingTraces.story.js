@@ -1,4 +1,4 @@
-import { number } from '@storybook/addon-knobs';
+import { number } from '@storybook/addon-knobs/react';
 import React from 'react';
 
 import LoadingStates from 'in-analyze/AnalyzeView/components/LoadingStates';
@@ -60,6 +60,6 @@ const failedProgress = {
 };
 
 export default {
-  title: 'Molecules/Loading/LoadingTraces',
+  title: 'Molecules|Loading/LoadingTraces',
   component: LoadingStates
 };

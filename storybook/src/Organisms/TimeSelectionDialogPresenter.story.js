@@ -4,7 +4,7 @@ import React from 'react';
 import TimeSelectionDialogPresenter from 'in-new-components/time/TimeSelectionDialogPresenter';
 
 export default {
-  title: 'Organisms/TimeSelectionDialog',
+  title: 'Organisms|TimeSelectionDialog',
   parameters: {
     // ignoring this story because it renders differently everytime
     chromatic: { disable: true }

@@ -1,11 +1,11 @@
-import { withKnobs, boolean } from '@storybook/addon-knobs';
+import { withKnobs, boolean } from '@storybook/addon-knobs/react';
 import { action } from '@storybook/addon-actions';
 import React from 'react';
 
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
 
 export default {
-  title: 'Templates/analyze/TagFilterList',
+  title: 'Templates|analyze/TagFilterList',
   component: TagFilterListPresenter,
   decorators: [withKnobs]
 };

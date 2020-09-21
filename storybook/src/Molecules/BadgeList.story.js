@@ -5,7 +5,7 @@ import React from 'react';
 import BadgeList from 'in-new-components/BadgeList/BadgeList';
 
 export default {
-  title: 'Molecules/BadgeList',
+  title: 'Molecules|BadgeList',
   component: BadgeList,
   decorators: [withKnobs]
 };

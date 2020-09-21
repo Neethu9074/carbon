@@ -3,7 +3,7 @@ import React from 'react';
 import InfrastructureEntityLinkPresenter from 'in-analyze/TraceDetail/components/CallDetails/components/InfrastructureEntityLink/InfrastructureEntityLinkPresenter';
 
 export default {
-  title: 'Templates/analyze/CallDetail/InfraEntityLink',
+  title: 'Templates|analyze/CallDetail/InfraEntityLink',
   component: InfrastructureEntityLinkPresenter
 };
 

@@ -6,7 +6,7 @@ import FloatingActionButtonPresenter from 'in-new-components/FloatingActionButto
 import FloatingActionButton from 'in-new-components/FloatingActionButton/FloatingActionButton';
 
 export default {
-  title: 'Atoms/Buttons/Floating Action Button Presenter',
+  title: 'Atoms|Buttons/Floating Action Button Presenter',
   component: FloatingActionButtonPresenter,
   decorators: [withKnobs]
 };

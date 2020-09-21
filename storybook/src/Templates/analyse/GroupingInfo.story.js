@@ -1,11 +1,11 @@
-import { withKnobs, text } from '@storybook/addon-knobs';
+import { withKnobs, text } from '@storybook/addon-knobs/react';
 import { action } from '@storybook/addon-actions';
 import React from 'react';
 
 import GroupingInfo from 'in-analyze/components/GroupingInfo/GroupingInfo';
 
 export default {
-  title: 'Templates/analyze/GroupingInfo',
+  title: 'Templates|analyze/GroupingInfo',
   component: GroupingInfo,
   decorators: [withKnobs]
 };

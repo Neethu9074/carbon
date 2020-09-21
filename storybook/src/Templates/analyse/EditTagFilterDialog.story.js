@@ -1,12 +1,12 @@
 import { createField, createMapForm, notBlankValidator } from 'formalistic';
-import { withKnobs, boolean, text } from '@storybook/addon-knobs';
+import { withKnobs, boolean, text } from '@storybook/addon-knobs/react';
 import { action } from '@storybook/addon-actions';
 import React from 'react';
 
 import EditTagFilterDialogPresenter from 'in-analyze/components/EditTagFilterDialog/EditTagFilterDialogPresenter';
 
 export default {
-  title: 'Templates/analyze/EditTagFilterDialogPresenter',
+  title: 'Templates|analyze/EditTagFilterDialogPresenter',
   component: EditTagFilterDialogPresenter,
   decorators: [withKnobs]
 };

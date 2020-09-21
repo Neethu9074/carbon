@@ -3,7 +3,7 @@ import React from 'react';
 import Capitalize from 'in-new-components/Capitalize';
 
 export default {
-  title: 'Atoms/Capitalize',
+  title: 'Atoms|Capitalize',
   component: Capitalize
 };
 
