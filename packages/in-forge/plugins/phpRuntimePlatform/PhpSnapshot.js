@@ -1,76 +1,39 @@
-import React from 'react';
 import { combineLatest } from 'reactive-observables';
+import React from 'react';
 
-import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
 import { getProcessCompanions } from 'in-stores/snapshot/graph';
-import Collapsible from 'in-sdk/components/sidebar/Collapsible';
+import Info from 'in-forge/plugins/phpRuntimePlatform/Info';
+import useObservable from 'in-hooks/useObservable';
 import { getSnapshot } from 'in-stores/snapshot';
-import connectTo from 'in-hoc/connectTo';
 
-export default connectTo(
-  props => {
-    return {
-      companions: getProcessCompanions(props.snapshotId)
-        .flatMap(companionIds => {
-          const companions$ = companionIds.toArray().map(snapshotId => getSnapshot(snapshotId));
-          return combineLatest(companions$, false);
-        })
-        .map(companions =>
-          companions.filter(
-            m =>
-              !!m &&
-              // PHP companions may sometimes exist, but don't have any associated data.
-              // Until this is properly fixed, we add this additional filter
-              m.getIn(['data', 'version'])
-          )
-        )
-    };
-  },
-  function PhpSnapshot({ companions, initiallyOpen }) {
-    if (!companions || companions.length === 0) {
-      return null;
-    }
-
-    return (
-      <div>
-        {companions.map(companion => (
-          <div key={companion.get('id')}>
-            <Collapsible initiallyOpen={initiallyOpen}>
-              <Collapsible.Header>PHP</Collapsible.Header>
-              <Collapsible.Content>
-                <DescriptionList>
-                  <DescriptionItem title="Version">{companion.getIn(['data', 'version'])}</DescriptionItem>
-                  <DescriptionItem title="Server API">{companion.getIn(['data', 'serverApi'])}</DescriptionItem>
-                  <DescriptionItem title="Zend Thread Safety">{companion.getIn(['data', 'zts'])}</DescriptionItem>
-                  <DescriptionItem title="Main Ini File">{companion.getIn(['data', 'iniFile'])}</DescriptionItem>
-                  <DescriptionItem title="Ini Files Directory">{companion.getIn(['data', 'iniDir'])}</DescriptionItem>
-                  <DescriptionItem title="Additional Ini Files Parsed">
-                    {stripIniDir(companion.getIn(['data', 'iniFilesParsed']), companion.getIn(['data', 'iniDir']))}
-                  </DescriptionItem>
-                  <DescriptionItem title="Extensions Directory">
-                    {companion.getIn(['data', 'extensionsDir'])}
-                  </DescriptionItem>
-                  <DescriptionItem title="Instana Tracing Extension Version">
-                    {companion.getIn(['data', 'instanaVersion'])}
-                  </DescriptionItem>
-                </DescriptionList>
-              </Collapsible.Content>
-            </Collapsible>
-          </div>
-        ))}
-      </div>
-    );
-  }
-);
-
-function stripIniDir(iniFilesParsed, iniDir) {
-  if (iniFilesParsed != null && iniDir != null) {
-    return iniFilesParsed
-      .split(',')
-      .map(function(iniFile) {
-        return iniFile.replace(iniDir + '/', '');
+export default function PhpSnapshot({ snapshotId, initiallyOpen }) {
+  const companions = useObservable(
+    getProcessCompanions(snapshotId)
+      .flatMap(companionIds => {
+        const companions$ = companionIds.toArray().map(snapshotId => getSnapshot(snapshotId));
+        return combineLatest(companions$, false);
       })
-      .join(', ');
+      .map(companions =>
+        companions.filter(
+          m =>
+            !!m &&
+            // PHP companions may sometimes exist, but don't have any associated data.
+            // Until this is properly fixed, we add this additional filter
+            m.getIn(['data', 'version'])
+        )
+      ),
+    [snapshotId]
+  );
+
+  if (!companions || companions.length === 0) {
+    return null;
   }
-  return iniFilesParsed;
+
+  return (
+    <>
+      {companions.map(companion => (
+        <Info key={companion.get('id')} snapshot={companion} initiallyOpen={initiallyOpen} />
+      ))}
+    </>
+  );
 }
