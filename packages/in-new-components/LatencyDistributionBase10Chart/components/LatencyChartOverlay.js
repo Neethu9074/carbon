@@ -578,7 +578,7 @@ function Tooltip({ buckets, percentileBuckets, style, dataSource }) {
       {percentiles.map(p => (
         <div key={p.percentile} className={locals.labelWrapper}>
           <span>p{p.percentile}</span>
-          <span className={locals.value}>{latency.compact(p.latency)}</span>
+          <span className={locals.value}>{latency.detailed(p.latency)}</span>
         </div>
       ))}
     </div>
