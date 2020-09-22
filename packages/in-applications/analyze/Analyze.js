@@ -1,10 +1,5 @@
 import React from 'react';
 
-import CallGroupingConfigurator, {
-  isCallGroupingConfigurationValid
-} from 'in-applications/analyze/components/workspace/CallGroupingConfigurator';
-import CallQueryBuilder, { isCallQueryValid } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
-import GroupingConfiguratorSection from 'in-new-components/GroupingConfigurator/GroupingConfiguratorSection';
 import {
   tagFilterExpressionMatrixParameter,
   groupByMatrixParameter,
@@ -12,11 +7,16 @@ import {
   orderByCallsMatrixParameter,
   metricsMatrixParameter
 } from 'in-applications/navigation/matrix';
+import CallGroupingConfigurator, {
+  isCallGroupingConfigurationValid
+} from 'in-applications/analyze/components/workspace/CallGroupingConfigurator';
+import CallQueryBuilder, { isCallQueryValid } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
+import GroupingConfiguratorSection from 'in-new-components/GroupingConfigurator/GroupingConfiguratorSection';
 import FixatedTimeConfigContextModification from 'in-stores/time/FixatedTimeConfigContextModification';
 import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import ApiQueryAction from 'in-new-components/QueryBuilder/workspace/ApiQueryAction/ApiQueryAction';
-import { ActionSection } from 'in-new-components/workspace/ActionSection/ActionSection';
 import QueryBuilderSection from 'in-new-components/QueryBuilder/workspace/QueryBuilderSection';
+import { ActionSection } from 'in-new-components/workspace/ActionSection/ActionSection';
 import GroupedCallsList from 'in-applications/analyze/components/GroupedCallsList';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import CallsList from 'in-applications/analyze/components/CallsList';
@@ -58,7 +58,8 @@ function ApplicationAnalyzeViewWithFixatedTimeConfig() {
   const timeConfig = useTimeConfig();
 
   const validTagFilterExpressionResult =
-    useObservable(isCallQueryValid(tagFilterExpression, timeConfig), [tagFilterExpression, timeConfig]) ?? pendingResult;
+    useObservable(isCallQueryValid(tagFilterExpression, timeConfig), [tagFilterExpression, timeConfig]) ??
+    pendingResult;
   const validGroupResult =
     useObservable(isCallGroupingConfigurationValid(groupBy, timeConfig), [groupBy, timeConfig]) ?? pendingResult;
   // in case of a pending result (validTagFilterExpressionResult.data === null) we do not want to show the user an error message

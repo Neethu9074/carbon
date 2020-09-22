@@ -24,7 +24,7 @@ export default function InfrastructureTabSubscript({ snapshot, time }) {
           timeConfig: getTimeConfigAtMoment(time)
         })
       : alwaysNull,
-    [snapshotId]
+    [snapshotId, time]
   );
   const regionSnapshotId = useObservable(
     snapshotId
@@ -33,7 +33,7 @@ export default function InfrastructureTabSubscript({ snapshot, time }) {
           timeConfig: getTimeConfigAtMoment(time)
         })
       : alwaysNull,
-    [snapshotId]
+    [snapshotId, time]
   );
 
   const versionLabel = snapshot.getIn(['data', 'version'], '$LATEST');
