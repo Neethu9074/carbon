@@ -6,7 +6,6 @@ import { ColumnizedContent, Ul, Li } from 'in-new-components/lists/List';
 import createApiList from 'in-settings/components/ApiList';
 import { getRolesAsResultObservable } from 'in-api/roles';
 import KeyValue from 'in-new-components/lists/KeyValue';
-import { find } from 'in-services/arrayUtils';
 import Gravatar from 'in-components/Gravatar';
 import connectTo from 'in-hoc/connectTo';
 
@@ -75,28 +74,22 @@ function DefaultListRenderer({
   currentDeletingItemIds,
   columnDefinitions = defaultColumnDefinitions,
   getUserLink,
-  onUserClick,
-  members
+  onUserClick
 }) {
-  // userIds are only present when used inside the Group detail view. User plain users on all other views
-  const users = members ? members.map(({ userId, email }) => ({ id: userId, email })) : items;
-
   return (
     <Ul>
-      {users.map(({ id, email }) => {
-        const user = find(items, _user => _user.id === id);
-
+      {items.map(user => {
         return (
           <Li
-            key={id}
+            key={user.id}
             href$={getUserLink && user && getUserLink(user)}
             onClick={onUserClick && user ? () => onUserClick(user) : undefined}
           >
             <ColumnizedContent
               columnDefinitions={columnDefinitions}
-              userId={id}
+              userId={user.id}
               user={user}
-              email={email}
+              email={user.email}
               deleteItem={deleteItem}
               rolesResult={rolesResult}
               currentDeletingItemIds={currentDeletingItemIds}

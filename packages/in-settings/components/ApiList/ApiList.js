@@ -20,7 +20,8 @@ export default function createApiList(props) {
       bind: [
         {
           path: boundedPath,
-          name: 'query'
+          name: 'query',
+          initialState: ''
         },
         {
           path: boundedPath,
