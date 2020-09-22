@@ -21,7 +21,7 @@ export default function InfrastructureList({
   retrievalSize = 20,
   numSkeletonRows = 3,
   tagFilterExpression,
-  plugin,
+  type,
   showTotals = false
 }) {
   const timeConfig = useTimeConfig();
@@ -32,8 +32,8 @@ export default function InfrastructureList({
   const { orderBy, orderDirection } = state;
   const { items, totalHits, ...tableProps } = useCursorPagination(
     ({ cursor }) =>
-      getTableData({ timeConfig, retrievalSize, tagFilterExpression, orderBy, plugin, orderDirection, cursor }),
-    [timeConfig, retrievalSize, tagFilterExpression, plugin, orderBy, orderDirection]
+      getTableData({ timeConfig, retrievalSize, tagFilterExpression, orderBy, type, orderDirection, cursor }),
+    [timeConfig, retrievalSize, tagFilterExpression, type, orderBy, orderDirection]
   );
 
   const columnDefinitions =
@@ -65,7 +65,7 @@ export default function InfrastructureList({
   );
 }
 
-function getTableData({ timeConfig, retrievalSize, tagFilterExpression, plugin, orderBy, orderDirection, cursor }) {
+function getTableData({ timeConfig, retrievalSize, tagFilterExpression, type, orderBy, orderDirection, cursor }) {
   return getEntities({
     filter: {
       tagFilterExpression,
@@ -79,7 +79,7 @@ function getTableData({ timeConfig, retrievalSize, tagFilterExpression, plugin, 
       retrievalSize,
       cursor
     },
-    plugin
+    type
   });
 }
 

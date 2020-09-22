@@ -51,7 +51,7 @@ export default function InfraExploreView() {
 function InfraExploreViewWithFixatedTimeConfig() {
   const timeConfig = useTimeConfig();
   const [{ tagFilterExpression, group, charts, type }, onChange] = useUrlState(urlStateDefinition);
-  const plugin = type !== 'all' ? type : null;
+  const typeOrNull = type !== 'all' ? type : null;
 
   const validTagFilterExpressionResult =
     useObservable(isQueryValid(tagFilterExpression, timeConfig), [tagFilterExpression, timeConfig]) ?? pendingResult;
@@ -157,7 +157,7 @@ function InfraExploreViewWithFixatedTimeConfig() {
             <InfrastructureList
               timeConfig={timeConfig}
               tagFilterExpression={backendQueryModel}
-              plugin={plugin}
+              type={typeOrNull}
               showTotals
             />
           )}
@@ -167,7 +167,7 @@ function InfraExploreViewWithFixatedTimeConfig() {
               timeConfig={timeConfig}
               tagFilterExpression={backendQueryModel}
               groupBy={group.groupbyTag}
-              plugin={plugin}
+              type={typeOrNull}
             />
           )}
         </Stack>

@@ -19,12 +19,12 @@ import Message from 'in-new-components/Message';
 
 import locals from './GroupedInfrastructure.mless';
 
-export default function GroupedInfrastructure({ tagFilterExpression, groupBy, plugin }) {
+export default function GroupedInfrastructure({ tagFilterExpression, groupBy, type }) {
   const timeConfig = useTimeConfig();
 
   const props = useCursorPagination(
-    ({ cursor }) => getGroups({ timeConfig, tagFilterExpression, groupBy, plugin, cursor }),
-    [timeConfig, tagFilterExpression, groupBy, plugin]
+    ({ cursor }) => getGroups({ timeConfig, tagFilterExpression, groupBy, type, cursor }),
+    [timeConfig, tagFilterExpression, groupBy, type]
   );
 
   return (
@@ -32,7 +32,7 @@ export default function GroupedInfrastructure({ tagFilterExpression, groupBy, pl
       timeConfig={timeConfig}
       tagFilterExpression={tagFilterExpression}
       groupBy={[groupBy]}
-      plugin={plugin}
+      type={type}
       {...props}
     />
   );
@@ -49,11 +49,11 @@ function Presenter({
   timeConfig,
   tagFilterExpression,
   groupBy,
-  plugin
+  type
 }) {
   const hasErrors = errors?.length > 0;
   const isLoading = progress?.loading;
-  const columnDefinitions = columns(groupBy, plugin);
+  const columnDefinitions = columns(groupBy, type);
 
   return (
     <>
@@ -78,7 +78,7 @@ function Presenter({
                 group={item}
                 tagFilterExpression={tagFilterExpression}
                 timeConfig={timeConfig}
-                plugin={plugin}
+                type={type}
               />
             )}
           >
@@ -145,7 +145,7 @@ function getColumnWidth(groupBy, index) {
   }
 }
 
-function getGroups({ timeConfig, tagFilterExpression, groupBy, cursor, plugin }) {
+function getGroups({ timeConfig, tagFilterExpression, groupBy, cursor, type }) {
   return createGetGroupsSubscription({
     filter: {
       timeConfig,
@@ -156,16 +156,16 @@ function getGroups({ timeConfig, tagFilterExpression, groupBy, cursor, plugin })
       retrievalSize: 20
     },
     groupBy: [groupBy],
-    plugin
+    type
   });
 }
 
-function ExpandedGroup({ group, tagFilterExpression, timeConfig, plugin }) {
+function ExpandedGroup({ group, tagFilterExpression, timeConfig, type }) {
   return (
     <InfrastructureList
       tagFilterExpression={addTagFilters(tagFilterExpression, group.tags)}
       timeConfig={timeConfig}
-      plugin={plugin}
+      type={type}
       retrievalSize={5}
       numSkeletonRows={Math.min(group.count, 5)}
     />
