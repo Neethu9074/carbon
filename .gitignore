@@ -22,3 +22,5 @@ git-env.properties
 !/.vscode/tasks.json
 !/.vscode/javascript.code-snippets
 !/.vscode/settings.json
+ui-client-license-report.csv
+ui-server-license-report.csv
