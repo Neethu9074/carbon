@@ -12,7 +12,7 @@ Tasks are defined in the `package.json`. They can be executed via `yarn run <tas
  - `yarn run test:unit:watch`: Re-executes the whole test suite on file change. Most of the time this is too slow for a good TDD flow. You may want to temporarily adapt the file watch configuration from `packages/**/*_test.js` to, e.g., `packages/in-foobar/my_test.js`, to only re-execute a specific test or the tests in a specific sub-directory.
  - `yarn run build`: Builds the whole source code. This is not required for most local development workflows. *You probably don't need this.*
  - `yarn run try-build`: Can be executed after a successful `yarn run build` to start up the UI in a way that is similar to production deployments. The UI will expect that backend components are available locally using their default development ports, e.g. the ports opened via our tunnel script. *You probably don't need this.*
- - `yarn run check:licenses`: Generates a `licenses.csv` in the repository root which comes in handy when we need to validate licenses of our dependencies, e.g., for a technical due dilligence. *You probably don't need this.*
+ - `yarn run check:licenses`: Generates a `ui-client-license-report.csv` and a `ui-server-license-report.csv` in the repository root which comes in handy when we need to validate licenses of our dependencies, e.g., for a technical due dilligence. *You probably don't need this.*
 
 ## Advanced: The Node.js Front End Server
 

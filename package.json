@@ -16,7 +16,7 @@
     "test:unit:watch": "export IS_TEST='true' && gulp prepareTestExecution && node --max-old-space-size=4096 ./node_modules/.bin/mocha --timeout 6000 --require ./packages/in-test/testHarness --reporter dot --watch --exclude '**/node_modules/**' 'packages/**/*_test.js'",
     "test:flow": "flow check",
     "test:compression": "ls target/assets/bundle | grep \".js\" | grep -v \".js.map\" | grep -v \".json\" | xargs -I _ uglifyjs ./target/assets/bundle/_ -o /dev/null",
-    "check:licenses": "npx license-checker --production --csv > licenses.csv",
+    "check:licenses": "build/create-license-report.sh",
     "check:bundle-size": "ANALYZE_BUNDLE=true yarn run build",
     "check:yarn-lock-exists": "./build/precommit/checkYarnLock.js",
     "dev": "yarn && export BUILD_DEV='true' && export NODE_ENV='development' && node --max-old-space-size=4096 node_modules/gulp/bin/gulp.js dev",
