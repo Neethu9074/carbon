@@ -2,7 +2,7 @@ import React from 'react';
 
 import InboundOrAllCallsOption from 'in-applications/alerting/advanced/InboundOutboundCallsSwitch/InboundOrAllCallsOption';
 import { OverridingTextTouchedMessage } from 'in-custom-dashboards/widgets/Slo/components/OverridingTextTouchedMessage';
-import { AvailabilityType, sliTypeOptions, ApplicationType } from 'in-custom-dashboards/widgets/Slo/form/sliForm';
+import { availabilityType, sliTypeOptions, applicationType } from 'in-custom-dashboards/widgets/Slo/form/sliForm';
 import { boundaryScopes } from 'in-applications/alerting/advanced/InboundOutboundCallsSwitch/config';
 import ServicesSelectBox from 'in-custom-dashboards/widgets/Slo/components/ServicesSelectBox';
 import EndpointSelectBox from 'in-custom-dashboards/widgets/Slo/components/EndpointSelectBox';
@@ -126,7 +126,7 @@ export function SliForm({ form, onChange, onChangeType, apName }) {
             />
           </Col>
         </Row>
-        {sliType === ApplicationType && (
+        {sliType === applicationType && (
           <Row>
             <Col md={2}>
               <FormGroup withoutBottomMargin>
@@ -149,7 +149,7 @@ export function SliForm({ form, onChange, onChangeType, apName }) {
             </Col>
           </Row>
         )}
-        {sliType === ApplicationType && (
+        {sliType === applicationType && (
           <Row>
             <Col md={2}>
               <FormGroup>
@@ -176,7 +176,7 @@ export function SliForm({ form, onChange, onChangeType, apName }) {
         )}
       </StackItem>
       <MetricsForm form={form} onChange={onChange} />
-      {sliType === AvailabilityType && <EventBasedForm applicationName={apName} form={form} onChange={onChange} />}
+      {sliType === availabilityType && <EventBasedForm applicationName={apName} form={form} onChange={onChange} />}
     </Stack>
   );
 }

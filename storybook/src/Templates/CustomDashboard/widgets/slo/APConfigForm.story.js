@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 
 import APConfigForm from 'in-custom-dashboards/widgets/Slo/components/APConfigForm';
 import { getApplicationConfigsAsResultObservable } from './apiMock';
-import { ApConfigId } from 'in-custom-dashboards/widgets/Slo/form';
+import { apConfigId } from 'in-custom-dashboards/widgets/Slo/form';
 import { createForm } from 'in-custom-dashboards/widgets/Slo';
 import useObservable from 'in-hooks/useObservable';
 
@@ -15,12 +15,12 @@ export default {
 export function Default() {
   const [form, setForm] = useState(
     createForm({
-      [ApConfigId]: 'btg-B701Rx6o9QNXUS4TVw'
+      [apConfigId]: 'btg-B701Rx6o9QNXUS4TVw'
     })
   );
-  const onUpdateApConfigId = apConfigId => {
-    setForm(form.updateIn([ApConfigId], f => f.setValue(apConfigId)));
-    action('selected new apConfig')(apConfigId);
+  const onUpdateApConfigId = newApConfigId => {
+    setForm(form.updateIn([apConfigId], f => f.setValue(newApConfigId)));
+    action('selected new apConfig')(newApConfigId);
   };
 
   const apConfigs = useObservable(
@@ -30,7 +30,7 @@ export function Default() {
 
   return (
     <APConfigForm
-      apConfigIdField={form.get(ApConfigId)}
+      apConfigIdField={form.get(apConfigId)}
       apConfigs={apConfigs}
       onUpdateApConfigId={onUpdateApConfigId}
     />

@@ -7,12 +7,12 @@ import { buildEnumValidator } from 'in-services/validators/enum';
 import { numericValidator } from 'in-services/validators/number';
 import { boundaryScopes } from 'in-applications/constants';
 
-export const ApplicationType = 'application';
-export const AvailabilityType = 'availability';
+export const applicationType = 'application';
+export const availabilityType = 'availability';
 
 export const sliTypeOptions = Object.freeze([
-  { value: ApplicationType, label: 'Time-based' },
-  { value: AvailabilityType, label: 'Event-based' }
+  { value: applicationType, label: 'Time-based' },
+  { value: availabilityType, label: 'Event-based' }
 ]);
 
 export function createForm(sliConfig, applicationId, apDefaultBoundaryScope) {
@@ -37,7 +37,7 @@ export function createForm(sliConfig, applicationId, apDefaultBoundaryScope) {
     })
   );
   form = form.put('sliEntity', createSliEntityForm(sliEntity, apDefaultBoundaryScope));
-  if (sliEntity.sliType === ApplicationType) {
+  if (sliEntity.sliType === applicationType) {
     form = form.put('metricConfiguration', createMetricsForm(metricConfiguration ?? {}));
   }
   return form;
@@ -51,7 +51,7 @@ function createSliEntityForm(sliEntity, apDefaultBoundaryScope) {
         validator: composeAndShortCircuitOnError(
           notUndefinedValidator,
           notNullValidator,
-          buildEnumValidator([ApplicationType, AvailabilityType])
+          buildEnumValidator([applicationType, availabilityType])
         ),
         value: sliEntity.sliType ?? null
       })
@@ -83,7 +83,7 @@ function createSliEntityForm(sliEntity, apDefaultBoundaryScope) {
       })
     );
 
-  if (sliEntity.sliType === AvailabilityType) {
+  if (sliEntity.sliType === availabilityType) {
     return addGoodBadEventsForm(form, sliEntity);
   }
   return form;
@@ -109,7 +109,7 @@ function addGoodBadEventsForm(form, sliEntity) {
 
 export function resetFormForSliType(sliType, setForm, form) {
   let newForm = form.updateIn(['sliEntity', 'sliType'], f => f.setValue(sliType).setTouched(true));
-  if (sliType === ApplicationType) {
+  if (sliType === applicationType) {
     setForm(
       newForm
         .put('metricConfiguration', createMetricsForm({}))

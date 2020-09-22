@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 
-import { SloTarget, TimeWindowType } from 'in-custom-dashboards/widgets/Slo/form';
-
+import { sloTarget, timeWindowType, fixed } from 'in-custom-dashboards/widgets/Slo/form';
 import { Form, createForm } from 'in-custom-dashboards/widgets/Slo';
 import { noop } from 'in-services/util/function';
 import Button from 'in-new-components/Button';
@@ -15,8 +14,8 @@ export function Default() {
 
   const [form, setForm] = useState(
     createForm({
-      [TimeWindowType]: 'fixed',
-      [SloTarget]: ''
+      [timeWindowType]: fixed,
+      [sloTarget]: ''
     })
   );
   const onChange = (path, fn) => {

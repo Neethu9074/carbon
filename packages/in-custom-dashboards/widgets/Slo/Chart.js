@@ -1,13 +1,14 @@
+import theme from 'in-themes';
 import React from 'react';
 
 import stairway, { hourlyBudgetMetricId } from 'in-custom-dashboards/widgets/Slo/renderer/stairway';
+import { applicationType, availabilityType } from 'in-custom-dashboards/widgets/Slo/form/sliForm';
 import { groupByEndpointName, groupByServiceName } from 'in-analyze/AnalyzeView/dataSources';
 import { EQUALS, GREATER_THAN } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
 import { getSliFormatter } from 'in-custom-dashboards/widgets/Slo/sliConfigUtils';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import { convertToAnalyzeFilters } from 'in-applications/tags';
-import theme from 'in-themes';
 
 export default function Chart({
   result,
@@ -95,10 +96,10 @@ function getCustomAnalyzeContextMenuProperties(sliConfig, disableZooming) {
 function getAnalyzeFilters(sliConfig) {
   const filters = [];
   const sliEntity = sliConfig.sliEntity;
-  if (sliEntity.sliType === 'availability') {
+  if (sliEntity.sliType === availabilityType) {
     const badAnalyzeFilters = convertToAnalyzeFilters(sliEntity.badEventFilters);
     filters.push(...badAnalyzeFilters);
-  } else if (sliEntity.sliType === 'application') {
+  } else if (sliEntity.sliType === applicationType) {
     switch (sliConfig.metricConfiguration.metricName) {
       case 'latency': {
         const thresholdValue = sliConfig.metricConfiguration.threshold;

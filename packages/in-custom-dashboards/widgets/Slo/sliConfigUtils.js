@@ -1,7 +1,8 @@
+import { availabilityType } from 'in-custom-dashboards/widgets/Slo/form/sliForm';
 import { number } from 'in-services/formatters/number';
 
 export function getSliFormatter(sliEntity) {
-  const isAvailabilitySli = sliEntity?.sliType === 'availability';
+  const isAvailabilitySli = sliEntity?.sliType === availabilityType;
   return isAvailabilitySli ? callsFormatter : minutesFormatter;
 }
 

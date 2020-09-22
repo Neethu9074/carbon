@@ -4,17 +4,17 @@ import moment from 'moment';
 import React from 'react';
 
 import {
-  ApConfigId,
-  Fixed,
-  SloTarget,
-  SliConfigId,
-  TimeWindowType,
-  TimeWindowDuration,
-  TimeWindowDurationUnit,
-  TimeWindowStart,
+  apConfigId,
+  sloTarget,
+  sliConfigId,
+  timeWindowType,
+  timeWindowDuration,
+  timeWindowDurationUnit,
+  timeWindowStart,
   parsedTimestamp,
-  Rolling,
-  Dynamic
+  fixed,
+  rolling,
+  dynamic
 } from 'in-custom-dashboards/widgets/Slo/form';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import { getSliFormatter } from 'in-custom-dashboards/widgets/Slo/sliConfigUtils';
@@ -34,8 +34,7 @@ import connectTo from 'in-hoc/connectTo';
 
 import locals from './Widget.mless';
 
-const GREEN = theme.lib.colors.green800;
-const RED = theme.lib.colors.red800;
+const { green800, red800 } = theme.lib.colors;
 
 const oneMinute = 60 * 1000;
 const oneHour = 60 * oneMinute;
@@ -45,18 +44,18 @@ const oneWeekTimeConfig = {
 };
 
 export default function Widget({ actions, config, isPreview, title, dragHandle }) {
-  const slo = config?.[SloTarget] ?? '';
-  const apConfigId = config?.[ApConfigId];
-  const sliConfigId = config?.[SliConfigId];
+  const slo = config?.[sloTarget] ?? '';
+  const applicationId = config?.[apConfigId];
+  const sliConfigIdValue = config?.[sliConfigId];
 
-  const timeWindowType = config?.[TimeWindowType] ?? Dynamic;
-  const isDynamic = timeWindowType === Dynamic;
-  const isRolling = timeWindowType === Rolling;
-  const isFixed = timeWindowType === Fixed;
-  const timeWindowDuration = config?.[TimeWindowDuration] ?? 1;
-  const timeWindowDurationUnit = config?.[TimeWindowDurationUnit] ?? 'weeks';
-  const timeWindowStartDate = config?.[TimeWindowStart]?.date;
-  const timeWindowStartTime = config?.[TimeWindowStart]?.time;
+  const timeWindowTypeValue = config?.[timeWindowType] ?? dynamic;
+  const isDynamic = timeWindowTypeValue === dynamic;
+  const isRolling = timeWindowTypeValue === rolling;
+  const isFixed = timeWindowTypeValue === fixed;
+  const timeWindowDurationValue = config?.[timeWindowDuration] ?? 1;
+  const timeWindowDurationUnitValue = config?.[timeWindowDurationUnit] ?? 'weeks';
+  const timeWindowStartDate = config?.[timeWindowStart]?.date;
+  const timeWindowStartTime = config?.[timeWindowStart]?.time;
 
   const timeConfig = isPreview ? oneWeekTimeConfig : useTimeConfig();
 
@@ -69,7 +68,7 @@ export default function Widget({ actions, config, isPreview, title, dragHandle }
 
   if (isRolling) {
     fromTimestamp = moment(toTimestamp)
-      .subtract(timeWindowDuration, timeWindowDurationUnit)
+      .subtract(timeWindowDurationValue, timeWindowDurationUnitValue)
       .valueOf();
     timeWindowConfig.windowSize = toTimestamp - fromTimestamp;
     timeWindowConfig.from = fromTimestamp;
@@ -83,7 +82,7 @@ export default function Widget({ actions, config, isPreview, title, dragHandle }
       let latestIntervalStart;
       do {
         latestIntervalStart = nextStart;
-        nextStart = latestIntervalStart.clone().add(timeWindowDuration, timeWindowDurationUnit);
+        nextStart = latestIntervalStart.clone().add(timeWindowDurationValue, timeWindowDurationUnitValue);
       } while (nextStart.isBefore(now));
 
       fromTimestamp = latestIntervalStart.valueOf();
@@ -98,7 +97,7 @@ export default function Widget({ actions, config, isPreview, title, dragHandle }
   }
 
   const metricBaseConfig = {
-    sliConfigId,
+    sliConfigId: sliConfigIdValue,
     timeShift: { offset: 0 },
     slo,
     aggregation: 'MEAN', // a value must be sent to the backend - it has no meaning at all
@@ -153,12 +152,12 @@ export default function Widget({ actions, config, isPreview, title, dragHandle }
   const spent = findResultMetric('spent')?.[0][1];
 
   const sliConfig = useObservable(
-    getSliConfiguration(sliConfigId).map(({ data }) => data),
-    [sliConfigId]
+    getSliConfiguration(sliConfigIdValue).map(({ data }) => data),
+    [sliConfigIdValue]
   );
 
-  const sliColor = slo === null || sli === null ? '' : sli >= slo ? GREEN : RED;
-  const budgetColor = !remaining ? '' : remaining > 0 ? GREEN : RED;
+  const sliColor = slo === null || sli === null ? '' : sli >= slo ? green800 : red800;
+  const budgetColor = !remaining ? '' : remaining > 0 ? green800 : red800;
 
   const sliFormatter = getSliFormatter(sliConfig?.sliEntity);
 
@@ -173,7 +172,7 @@ export default function Widget({ actions, config, isPreview, title, dragHandle }
       }
       title={title}
       headerClassName={locals.title}
-      leftHeaderContent={<LeftHeader applicationId={apConfigId} />}
+      leftHeaderContent={<LeftHeader applicationId={applicationId} />}
     >
       <div className={locals.grid}>
         <div className={locals.col}>

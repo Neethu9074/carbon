@@ -4,6 +4,7 @@ import { get } from 'lodash';
 import rpt from 'prop-types';
 import React from 'react';
 
+import { applicationType, availabilityType } from 'in-custom-dashboards/widgets/Slo/form/sliForm';
 import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import getServiceLabel from 'in-subscription/application/getServiceLabel';
@@ -111,9 +112,9 @@ const columnDefinitions = [
         return valueMissingPlaceholder;
       };
       const value = item => {
-        if (item.sliEntity?.sliType === 'application') {
+        if (item.sliEntity?.sliType === applicationType) {
           return 'Time-based, ' + (item?.metricConfiguration && metric(item.metricConfiguration));
-        } else if (item.sliEntity?.sliType === 'availability') {
+        } else if (item.sliEntity?.sliType === availabilityType) {
           return 'Event-based';
         } else {
           return '';

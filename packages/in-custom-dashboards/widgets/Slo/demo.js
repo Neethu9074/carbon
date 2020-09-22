@@ -1,7 +1,7 @@
-import { SloTarget, SliConfigId, ApConfigId } from 'in-custom-dashboards/widgets/Slo/form';
+import { sloTarget, sliConfigId, apConfigId } from 'in-custom-dashboards/widgets/Slo/form';
 
 export const demo = {
-  [ApConfigId]: '',
-  [SliConfigId]: '',
-  [SloTarget]: 0.995
+  [apConfigId]: '',
+  [sliConfigId]: '',
+  [sloTarget]: 0.995
 };

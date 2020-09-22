@@ -1,24 +1,24 @@
 import React, { useState } from 'react';
 
 import {
-  SloTarget,
-  ApConfigId,
-  TimeWindowType,
-  TimeWindowDuration,
-  TimeWindowDurationUnit,
-  TimeWindowStart,
+  sloTarget,
+  apConfigId,
+  timeWindowType,
+  timeWindowDuration,
+  timeWindowDurationUnit,
+  timeWindowStart,
   removeFormForStartTimeStamp,
   addFormForStartTimeStamp,
   removeFormForTimeDuration,
   addFormForTimeDuration,
-  Dynamic,
-  Fixed,
-  Rolling
+  dynamic,
+  fixed,
+  rolling
 } from 'in-custom-dashboards/widgets/Slo/form';
 import { OverridingTextTouchedMessage } from 'in-custom-dashboards/widgets/Slo/components/OverridingTextTouchedMessage';
 import { PercentageFormInput } from 'in-custom-dashboards/widgets/Slo/components/PercentageFormInput';
 import formatInputTime from 'in-new-components/time/TimeSelectionDialogPresenter/timeInputFormatter';
-import SliFormComponent from 'in-custom-dashboards/widgets/Slo/components/SliSelectionForm';
+import SliSelectionForm from 'in-custom-dashboards/widgets/Slo/components/SliSelectionForm';
 import APConfigSelector from 'in-custom-dashboards/widgets/Slo/components/APConfigForm';
 import FormInputField from 'in-custom-dashboards/widgets/Slo/components/FormInputField';
 import FormDropDown from 'in-custom-dashboards/widgets/Slo/components/FormDropDown';
@@ -41,57 +41,57 @@ import locals from './FormComponent.mless';
 
 export default function FormComponent({ form, onChange, widgetTitleFormGroup, setSlideInView, widgetPreview }) {
   const [apConfig, setApConfig] = useState();
-  const apConfigId = form.get(ApConfigId)?.value;
 
-  const apConfigIdField = form.get(ApConfigId);
+  const apConfigIdField = form.get(apConfigId);
+  const appConfigIdValue = apConfigIdField?.value;
   const apConfigs = useObservable(
     getApplicationConfigsAsResultObservable().map(({ data }) => data),
     []
   );
   if (apConfigs && !apConfig) {
     // initial setting
-    const newApConfig = apConfigs.find(apConfig => apConfig.id === apConfigId);
+    const newApConfig = apConfigs.find(apConfig => apConfig.id === appConfigIdValue);
     if (newApConfig !== apConfig) setApConfig(newApConfig);
   }
 
-  const sloTarget = form.get(SloTarget)?.value;
-  const timeWindowTypeValue = form.get(TimeWindowType)?.value ?? Dynamic;
-  const isFixed = timeWindowTypeValue === Fixed;
-  const isRolling = timeWindowTypeValue === Rolling;
+  const sloTargetValue = form.get(sloTarget)?.value;
+  const timeWindowTypeValue = form.get(timeWindowType)?.value ?? dynamic;
+  const isFixed = timeWindowTypeValue === fixed;
+  const isRolling = timeWindowTypeValue === rolling;
 
   const onChangeTimeWindowType = value => {
     onChange([], form => {
       let updatedForm;
-      if (value === Fixed) {
+      if (value === fixed) {
         updatedForm = addFormForStartTimeStamp(form);
         updatedForm = addFormForTimeDuration(updatedForm, {}, false);
       } else {
         updatedForm = removeFormForStartTimeStamp(form);
-        if (value === Dynamic) {
+        if (value === dynamic) {
           updatedForm = removeFormForTimeDuration(updatedForm);
         } else {
           updatedForm = addFormForTimeDuration(updatedForm, {}, false);
         }
       }
-      return updatedForm.updateIn([TimeWindowType], f => f.setValue(value).setTouched(true));
+      return updatedForm.updateIn([timeWindowType], f => f.setValue(value).setTouched(true));
     });
   };
 
-  const timeWindowDurationUnitValue = form.get(TimeWindowDurationUnit)?.value ?? 'weeks';
+  const timeWindowDurationUnitValue = form.get(timeWindowDurationUnit)?.value ?? 'weeks';
 
   const onChangeTimeDurationUnit = value => {
     onChange([], form => {
-      const oldDuration = form.get(TimeWindowDuration).value;
+      const oldDuration = form.get(timeWindowDuration).value;
       const maxDurationForThisUnit = getMaxTimeWindowDurationValue(value);
       return form
-        .updateIn([TimeWindowDurationUnit], f => f.setValue(value).setTouched(true))
-        .updateIn([TimeWindowDuration], f =>
+        .updateIn([timeWindowDurationUnit], f => f.setValue(value).setTouched(true))
+        .updateIn([timeWindowDuration], f =>
           f.setValue(Math.min(oldDuration, maxDurationForThisUnit)).setTouched(true)
         );
     });
   };
-  const dateField = form.get(TimeWindowStart)?.get('date');
-  const timeField = form.get(TimeWindowStart)?.get('time');
+  const dateField = form.get(timeWindowStart)?.get('date');
+  const timeField = form.get(timeWindowStart)?.get('time');
 
   function activateManageSliSlideIn() {
     return setSlideInView({
@@ -113,7 +113,7 @@ export default function FormComponent({ form, onChange, widgetTitleFormGroup, se
       getContent({ subSlideState }) {
         return (
           <SliManageList
-            applicationId={apConfigId}
+            applicationId={appConfigIdValue}
             apName={apConfig.label}
             apDefaultBoundaryScope={apConfig.boundaryScope}
             subSlideState={subSlideState}
@@ -126,7 +126,7 @@ export default function FormComponent({ form, onChange, widgetTitleFormGroup, se
   function onUpdateApConfigId(apId) {
     const newApConfig = apConfigs.find(apConfig => apConfig.id === apId);
     setApConfig(newApConfig);
-    onChange([], formField => formField.updateIn([ApConfigId], f => f.setValue(apId).setTouched(true)));
+    onChange([], formField => formField.updateIn([apConfigId], f => f.setValue(apId).setTouched(true)));
   }
 
   return (
@@ -149,9 +149,9 @@ export default function FormComponent({ form, onChange, widgetTitleFormGroup, se
         />
       </StackItem>
       <StackItem>
-        <SliFormComponent
+        <SliSelectionForm
           form={form}
-          apConfigId={apConfigId}
+          applicationId={appConfigIdValue}
           onChange={onChange}
           widgetPreview={false}
           widgetTitleFormGroup={widgetTitleFormGroup}
@@ -171,13 +171,13 @@ export default function FormComponent({ form, onChange, widgetTitleFormGroup, se
           </Col>
           <Col md={2}>
             <FormGroup withoutBottomMargin className={locals.inRow}>
-              <PercentageFormInput value={sloTarget} onChange={onChange} form={form} fieldName={SloTarget} />
+              <PercentageFormInput value={sloTargetValue} onChange={onChange} form={form} fieldName={sloTarget} />
               <span className={locals.sloUnit}>%</span>
             </FormGroup>
           </Col>
           <Col mdOffset={2} md={10}>
             <OverridingTextTouchedMessage
-              field={form.get(SloTarget)}
+              field={form.get(sloTarget)}
               message="Please enter a time in the format HH:mm:ss."
             />
           </Col>
@@ -195,9 +195,9 @@ export default function FormComponent({ form, onChange, widgetTitleFormGroup, se
               <FormDropDown
                 value={timeWindowTypeValue}
                 options={[
-                  { value: Fixed, label: 'Fixed time interval' },
-                  { value: Rolling, label: 'Rolling time window' },
-                  { value: Dynamic, label: 'Dynamic time window' }
+                  { value: fixed, label: 'Fixed time interval' },
+                  { value: rolling, label: 'Rolling time window' },
+                  { value: dynamic, label: 'Dynamic time window' }
                 ]}
                 onChange={({ target }) => onChangeTimeWindowType(target.value)}
               />
@@ -229,13 +229,13 @@ export default function FormComponent({ form, onChange, widgetTitleFormGroup, se
               </Col>
               <Col md={2}>
                 <FormGroup withoutBottomMargin>
-                  {form.get(TimeWindowDuration).map(() => (
+                  {form.get(timeWindowDuration).map(() => (
                     <FormInputField
                       form={form}
                       onChange={(paths, field) => {
                         onChange([], form => form.setTouched(true).updateIn(paths, field));
                       }}
-                      fieldName={TimeWindowDuration}
+                      fieldName={timeWindowDuration}
                       type="number"
                       step="1"
                       min="1"
@@ -259,7 +259,7 @@ export default function FormComponent({ form, onChange, widgetTitleFormGroup, se
               </Col>
               <Col mdOffset={2} md={12}>
                 <OverridingTextTouchedMessage
-                  field={form.get(TimeWindowDuration)}
+                  field={form.get(timeWindowDuration)}
                   message={`Please specify the number of ${timeWindowDurationUnitValue}.`}
                 />
                 <TouchedMessages field={form} />
@@ -278,7 +278,7 @@ export default function FormComponent({ form, onChange, widgetTitleFormGroup, se
               <FormGroup withoutBottomMargin className={locals.inRow}>
                 <DateInput
                   value={dateField?.value}
-                  onChange={v => onChange([TimeWindowStart, 'date'], f => f.setValue(v).setTouched(true))}
+                  onChange={v => onChange([timeWindowStart, 'date'], f => f.setValue(v).setTouched(true))}
                   hasError={!dateField?.valid && dateField?.touched}
                   className={locals.field}
                   iconType="lib_datetime_date"
@@ -292,12 +292,12 @@ export default function FormComponent({ form, onChange, widgetTitleFormGroup, se
                     type="text"
                     value={timeField.value}
                     onBlur={({ target }) =>
-                      onChange([TimeWindowStart, 'time'], f =>
+                      onChange([timeWindowStart, 'time'], f =>
                         f.setValue(formatInputTime(target.value, 'HH:mm:ss')).setTouched(true)
                       )
                     }
                     onChange={({ target }) =>
-                      onChange([TimeWindowStart, 'time'], f => f.setValue(target.value).setTouched(true))
+                      onChange([timeWindowStart, 'time'], f => f.setValue(target.value).setTouched(true))
                     }
                     hasError={!timeField.valid && timeField.touched}
                     className={locals.field}
@@ -320,8 +320,8 @@ export default function FormComponent({ form, onChange, widgetTitleFormGroup, se
   );
 }
 
-function getMaxTimeWindowDurationValue(timeWindowDurationUnit) {
-  switch (timeWindowDurationUnit) {
+function getMaxTimeWindowDurationValue(unit) {
+  switch (unit) {
     case 'days':
       return 365;
     case 'weeks':

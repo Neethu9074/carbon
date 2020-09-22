@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { OverridingTextTouchedMessage } from 'in-custom-dashboards/widgets/Slo/components/OverridingTextTouchedMessage';
-import { SliConfigId } from 'in-custom-dashboards/widgets/Slo/form';
+import { sliConfigId } from 'in-custom-dashboards/widgets/Slo/form';
 import { getSliConfigurations } from 'in-custom-dashboards/api';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import KeyValue from 'in-new-components/lists/KeyValue';
@@ -15,9 +15,9 @@ export default connectTo(() => ({
   sliConfigurations: getSliConfigurations().map(({ data }) => data)
 }))(SliSelectionForm);
 
-function SliSelectionForm({ form, onChange, sliConfigurations, apConfigId, openManageSLIComponent }) {
-  const filteredSLIs = sliConfigurations?.filter(sli => sli?.sliEntity?.applicationId === apConfigId) ?? [];
-  const sliConfigField = form.get(SliConfigId);
+function SliSelectionForm({ form, onChange, sliConfigurations, applicationId, openManageSLIComponent }) {
+  const filteredSLIs = sliConfigurations?.filter(sli => sli?.sliEntity?.applicationId === applicationId) ?? [];
+  const sliConfigField = form.get(sliConfigId);
   return (
     <>
       <Row withoutTopMargin withBottomMargin={false}>
@@ -28,11 +28,11 @@ function SliSelectionForm({ form, onChange, sliConfigurations, apConfigId, openM
           {sliConfigField.map(field => (
             <FormGroup withoutBottomMargin className={locals.form}>
               <Select
-                disabled={!apConfigId}
+                disabled={!applicationId}
                 value={field?.value}
                 onChange={e =>
                   onChange([], form =>
-                    form.updateIn([SliConfigId], field => field.setValue(e.target.value).setTouched(true))
+                    form.updateIn([sliConfigId], field => field.setValue(e.target.value).setTouched(true))
                   )
                 }
                 hasError={!field.valid && field.touched}

@@ -10,19 +10,19 @@ import { dateValidator, timeValidator } from 'in-services/validators/date';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
 
 // internal fields just for app-config information used internally
-export const ApConfigId = 'apConfigId';
+export const apConfigId = 'apConfigId';
 
-export const SloTarget = 'slo';
-export const SliConfigId = 'sliConfigId';
-export const TimeWindowType = 'timeWindowType';
-export const TimeWindowStart = 'timeWindowStart';
-export const TimeWindowDuration = 'timeWindowDuration';
-export const TimeWindowDurationUnit = 'timeWindowDurationUnit';
+export const sloTarget = 'slo';
+export const sliConfigId = 'sliConfigId';
+export const timeWindowType = 'timeWindowType';
+export const timeWindowStart = 'timeWindowStart';
+export const timeWindowDuration = 'timeWindowDuration';
+export const timeWindowDurationUnit = 'timeWindowDurationUnit';
 
 // time-window types
-export const Fixed = 'fixed';
-export const Dynamic = 'dynamic';
-export const Rolling = 'rolling';
+export const fixed = 'fixed';
+export const dynamic = 'dynamic';
+export const rolling = 'rolling';
 
 export function createForm(oldSavedState) {
   const savedState = oldSavedState ?? {};
@@ -32,40 +32,40 @@ export function createForm(oldSavedState) {
   });
 
   form = form.put(
-    ApConfigId,
+    apConfigId,
     createField({
       validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator),
-      value: savedState[ApConfigId]
+      value: savedState[apConfigId]
     })
   );
   form = form.put(
-    SloTarget,
+    sloTarget,
     createField({
       validator: composeAndShortCircuitOnError(notUndefinedValidator, numberValidator, sloValidator),
-      value: savedState[SloTarget] ?? ''
+      value: savedState[sloTarget] ?? ''
     })
   );
   form = form.put(
-    SliConfigId,
+    sliConfigId,
     createField({
       validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator),
-      value: savedState[SliConfigId]
+      value: savedState[sliConfigId]
     })
   );
-  const windowType = savedState[TimeWindowType];
+  const windowType = savedState[timeWindowType];
   form = form.put(
-    TimeWindowType,
+    timeWindowType,
     createField({
       value: windowType
     })
   );
-  if (windowType === Fixed) {
-    const start = savedState[TimeWindowStart];
+  if (windowType === fixed) {
+    const start = savedState[timeWindowStart];
     // auto-corrects invalid dates:
     const ts = parsedTimestamp(start?.date + ' ' + start?.time);
     form = addFormForStartTimeStamp(form, ts);
   }
-  if (windowType === Fixed || windowType === Rolling) {
+  if (windowType === fixed || windowType === rolling) {
     form = addFormForTimeDuration(form, savedState);
   }
   return form;
@@ -109,8 +109,8 @@ export const parsedTimestamp = str => {
 };
 
 export function removeFormForStartTimeStamp(form) {
-  if (form.containsKey(TimeWindowStart)) {
-    return form.remove(TimeWindowStart);
+  if (form.containsKey(timeWindowStart)) {
+    return form.remove(timeWindowStart);
   }
   return form;
 }
@@ -118,7 +118,7 @@ export function removeFormForStartTimeStamp(form) {
 export function addFormForStartTimeStamp(form, ts) {
   const timestamp = ts ?? new Date().setHours(0, 0, 0, 0);
   return form.put(
-    TimeWindowStart,
+    timeWindowStart,
     createMapForm()
       .put(
         'date',
@@ -138,29 +138,29 @@ export function addFormForStartTimeStamp(form, ts) {
 }
 
 export function removeFormForTimeDuration(form) {
-  if (form.containsKey(TimeWindowDuration)) {
-    form = form.remove(TimeWindowDuration);
+  if (form.containsKey(timeWindowDuration)) {
+    form = form.remove(timeWindowDuration);
   }
-  if (form.containsKey(TimeWindowDurationUnit)) {
-    form = form.remove(TimeWindowDurationUnit);
+  if (form.containsKey(timeWindowDurationUnit)) {
+    form = form.remove(timeWindowDurationUnit);
   }
   return form;
 }
 
 export function addFormForTimeDuration(form, savedState, override = true) {
-  if (override || !form.containsKey(TimeWindowDuration))
+  if (override || !form.containsKey(timeWindowDuration))
     form = form.put(
-      TimeWindowDuration,
+      timeWindowDuration,
       createField({
         validator: composeAndShortCircuitOnError(numericValidator, positiveNumberValidator),
-        value: savedState[TimeWindowDuration] ?? '1'
+        value: savedState[timeWindowDuration] ?? '1'
       })
     );
-  if (override || !form.containsKey(TimeWindowDurationUnit))
+  if (override || !form.containsKey(timeWindowDurationUnit))
     form = form.put(
-      TimeWindowDurationUnit,
+      timeWindowDurationUnit,
       createField({
-        value: savedState[TimeWindowDurationUnit] ?? 'weeks'
+        value: savedState[timeWindowDurationUnit] ?? 'weeks'
       })
     );
   return form;
