@@ -2,7 +2,6 @@ import theme from 'in-themes';
 import React from 'react';
 
 import UnifiedMetricsChart, { parseMetricId } from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
-import { getTimeShiftLabel, translateOffsetToTimeShiftConfig } from 'in-stores/time/shifting';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
 import { getBlueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
 import { getChartGranularity } from 'in-applications/metrics';
@@ -97,9 +96,6 @@ export default function Latency({
     metricsConfig = [
       {
         ...timeShiftMetricConfig,
-        label: `${timeShiftMetricConfig.label} (${getTimeShiftLabel(
-          translateOffsetToTimeShiftConfig(timeShiftConfig.offset, timeConfig)
-        )})`,
         timeShift: timeShiftConfig.offset
       },
       // make sure the main metric renders over the time shifted metric

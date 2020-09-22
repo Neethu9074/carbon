@@ -3,7 +3,6 @@ import React from 'react';
 
 import { EQUALS, NOT_STARTS_WITH, STARTS_WITH } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import UnifiedMetricsChart, { parseMetricId } from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
-import { getTimeShiftLabel, translateOffsetToTimeShiftConfig } from 'in-stores/time/shifting';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
 import { NOT_APPLICABLE } from 'in-new-components/QueryBuilder/tagFilter/entities';
 import getEndpointTypes from 'in-applications/subscriptions/getEndpointTypes';
@@ -95,9 +94,6 @@ export default connectTo(
       metricsConfig = [
         {
           ...timeShiftMetricConfig,
-          label: `${timeShiftMetricConfig.label} (${getTimeShiftLabel(
-            translateOffsetToTimeShiftConfig(timeShiftConfig.offset, timeConfig)
-          )})`,
           timeShift: timeShiftConfig.offset
         },
         // make sure the main metric renders over the time shifted metric

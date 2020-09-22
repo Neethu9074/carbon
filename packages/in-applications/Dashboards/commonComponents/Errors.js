@@ -1,7 +1,6 @@
 import theme from 'in-themes';
 import React from 'react';
 
-import { getTimeShiftLabel, translateOffsetToTimeShiftConfig } from 'in-stores/time/shifting';
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
 import { getBlueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
@@ -44,9 +43,6 @@ export default function Errors({
     metrics = [
       {
         ...errorRate,
-        label: `${errorRate.label} (${getTimeShiftLabel(
-          translateOffsetToTimeShiftConfig(timeShiftConfig.offset, timeConfig)
-        )})`,
         timeShift: timeShiftConfig.offset
       },
       // make sure the main metric renders over the time shifted metric
