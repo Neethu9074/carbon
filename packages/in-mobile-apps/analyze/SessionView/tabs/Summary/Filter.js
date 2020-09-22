@@ -1,6 +1,5 @@
 import { sortedUniqBy } from 'lodash';
-import memoizeOne from 'memoize-one';
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import { types } from 'in-mobile-apps/analyze/SessionView/tabs/Summary/filterableTypes';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
@@ -13,10 +12,8 @@ import theme from 'in-themes';
 
 import locals from './Filter.mless';
 
-const memoizedGetViews = memoizeOne(getViews);
-
 export default function Filter({ filter, setFilter, beacons }) {
-  const views = memoizedGetViews(beacons);
+  const views = useMemo(() => getViews(beacons), [beacons]);
 
   return (
     <div className={locals.wrapper}>

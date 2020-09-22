@@ -1,10 +1,10 @@
 import React, { PureComponent, createElement } from 'react';
-import classnames from 'classnames';
 import PropTypes from 'prop-types';
 
 import { IndeterminateLoadingIndicatorLineCoordinates as SVG_LINES } from 'in-new-components/LoadingIndicators/SvgLineCoordinates.json';
 import { IndeterminateLoadingIndicatorPaths as SVG_PATHS } from 'in-new-components/LoadingIndicators/SvgPaths.json';
 import { sizes as ICON_SIZES } from 'in-components/SvgIcon/SvgIcon';
+import { evaluateClassNames } from 'in-services/util/classnames';
 import theme from 'in-themes';
 
 import locals from './IndeterminateLoadingIndicator.mless';
@@ -128,7 +128,9 @@ export default class IndeterminateLoadingIndicator extends PureComponent {
             strokeDasharray: this.state[key] || 0,
             strokeDashoffset: this.state[key] || 0,
             ...props[key],
-            className: classnames(locals.animatedSvgElement, locals.animationSequenceIn, {
+            className: evaluateClassNames({
+              [locals.animatedSvgElement]: true,
+              [locals.animationSequenceIn]: true,
               [locals.animationStartOnce]: this.state[key]
             })
           })
@@ -161,7 +163,9 @@ export default class IndeterminateLoadingIndicator extends PureComponent {
             animationDelay: `${Number(key + 1) * 1000}ms`,
             stroke: connectorStrokeColor || stroke
           },
-          className: classnames(locals.animatedSvgElement, locals.animationSequenceInOut, {
+          className: evaluateClassNames({
+            [locals.animatedSvgElement]: true,
+            [locals.animationSequenceInOut]: true,
             [locals.animationStart]: this.state[`line${key}`]
           })
         })}
@@ -175,7 +179,9 @@ export default class IndeterminateLoadingIndicator extends PureComponent {
             fill: hexagonFillColor || fill,
             stroke: hexagonStrokeColor || stroke
           },
-          className: classnames(locals.animatedSvgElement, locals.animationSequenceFadeInOut, {
+          className: evaluateClassNames({
+            [locals.animationSequenceFadeInOut]: true,
+            [locals.animatedSvgElement]: true,
             [locals.animationStart]: this.state[`hexagon${key}`]
           })
         })}

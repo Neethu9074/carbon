@@ -1,6 +1,5 @@
 import { sortedUniqBy } from 'lodash';
-import memoizeOne from 'memoize-one';
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import { types } from 'in-websites/analyze/PageLoadView/tabs/Summary/filterableTypes';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
@@ -13,10 +12,8 @@ import theme from 'in-themes';
 
 import locals from './Filter.mless';
 
-const memoizedGetPages = memoizeOne(getPages);
-
 export default function Filter({ filter, setFilter, beacons }) {
-  const pages = memoizedGetPages(beacons);
+  const pages = useMemo(() => getPages(beacons), [beacons]);
 
   return (
     <div className={locals.wrapper}>

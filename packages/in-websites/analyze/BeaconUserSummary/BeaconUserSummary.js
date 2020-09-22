@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { userAgentParserBrowserNameToIcon } from 'in-websites/browserIcons';
 import NotDefined from 'in-websites/analyze/BeaconUserSummary/NotDefined';
 import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 import { expandNestedSerializedJson } from 'in-services/util/json';
@@ -27,17 +26,7 @@ export default function BeaconUserSummary({ beacon, beacons, withoutSideMargin }
           <User beacon={beacon} beacons={beacons} />
 
           <Dl>
-            <Di title="Browser" ddClassName={locals.browserItem}>
-              {beacon.browserName &&
-                userAgentParserBrowserNameToIcon[beacon.browserName.toLowerCase()] && (
-                  <img
-                    src={userAgentParserBrowserNameToIcon[beacon.browserName.toLowerCase()]}
-                    alt={beacon.browserName}
-                    className={locals.browserIcon}
-                  />
-                )}
-              {[beacon.browserName, beacon.browserVersion].filter(Boolean).join(' ')}
-            </Di>
+            <Di title="Browser">{[beacon.browserName, beacon.browserVersion].filter(Boolean).join(' ')}</Di>
             <Di title="Operating System">{[beacon.osName, beacon.osVersion].filter(Boolean).join(' ')}</Di>
             <Di title="Window Dimensions">{[beacon.windowWidth, beacon.windowHeight].filter(Boolean).join('x')}</Di>
             <Di title="Preferred Languages">{beacon.userLanguages.filter(Boolean).join(', ')}</Di>

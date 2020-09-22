@@ -30,21 +30,4 @@
     max-height: 16.8rem;
     height: 100%;
   }
-
-  .browserItem {
-    position: relative;
-  }
-
-  .browserIcon {
-    width: 1.25rem;
-    position: absolute;
-    left: -1.65rem;
-    top: -0.2rem;
-    filter: saturate(0.3);
-    transition: filter 0.4s ease-in-out;
-
-    &:hover {
-      filter: saturate(1);
-    }
-  }
 }

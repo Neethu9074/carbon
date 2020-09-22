@@ -1,7 +1,6 @@
 import { compose, withState } from 'recompose';
 import { find, debounce } from 'lodash';
-import memoizeOne from 'memoize-one';
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import { fixClockSkewProblems } from 'in-mobile-apps/analyze/SessionView/tabs/Summary/fixClockSkewProblems';
 import ContentWrapper from 'in-new-components/LocationAwareTabView/components/ContentWrapper';
@@ -24,13 +23,11 @@ import locals from './Summary.mless';
 // views very quickly.
 const debouncedOpenSession = debounce(openSession, 1000);
 
-// Fixing is expensive. Luckily it is easy to avoid this via memoization.
-const memoizedFixClockSkewProblems = memoizeOne(fixClockSkewProblems);
-
 export default compose(withState('filter', 'setFilter', { query: '', view: '', types: [] }))(Summary);
 
 function Summary({ beacons, filter, setFilter, sessionLabel, sessionId }) {
-  const fixResult = memoizedFixClockSkewProblems(beacons);
+  // Fixing is expensive. Luckily it is easy to avoid this via memoization.
+  const fixResult = useMemo(() => fixClockSkewProblems(beacons), [beacons]);
   beacons = fixResult.beacons;
   const sessionStart = find(beacons, b => b.type === 'sessionStart');
   const firstBeacon = sessionStart || beacons[0];

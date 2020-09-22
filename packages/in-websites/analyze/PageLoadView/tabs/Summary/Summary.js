@@ -1,7 +1,6 @@
 import { compose, withState } from 'recompose';
 import { find, debounce } from 'lodash';
-import memoizeOne from 'memoize-one';
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import { fixClockSkewProblems } from 'in-websites/analyze/PageLoadView/tabs/Summary/fixClockSkewProblems';
 import ContentWrapper from 'in-new-components/LocationAwareTabView/components/ContentWrapper';
@@ -24,17 +23,13 @@ import locals from './Summary.mless';
 // views very quickly.
 const debouncedOpenPageLoad = debounce(openPageLoad, 1000);
 
-// Fixing is expensive. Luckily it is easy to avoid this via memoization.
-const memoizedFixClockSkewProblems = memoizeOne(fixClockSkewProblems);
-
-const memoizedBeaconsSorter = memoizeOne(beacons => beacons.slice().sort(beaconsComparator));
-
 export default compose(withState('filter', 'setFilter', { query: '', page: '', types: [] }))(Summary);
 
 function Summary({ beacons, filter, setFilter, pageLoadLabel, pageLoadId }) {
-  const fixResult = memoizedFixClockSkewProblems(beacons);
+  // Fixing is expensive. Luckily it is easy to avoid this via memoization.
+  const fixResult = useMemo(() => fixClockSkewProblems(beacons), [beacons]);
   beacons = fixResult.beacons;
-  beacons = memoizedBeaconsSorter(beacons);
+  beacons = useMemo(beacons => beacons.slice().sort(beaconsComparator), [beacons]);
   const pageLoad = find(beacons, b => b.type === 'pageLoad');
   const firstBeacon = pageLoad || beacons[0];
 
