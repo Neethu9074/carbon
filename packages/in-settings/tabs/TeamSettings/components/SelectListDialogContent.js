@@ -13,11 +13,8 @@ const defaultRequiresAtLeastOneMessage = 'Please select at least one item.';
 
 export default compose(
   withState('selectedItems', 'setSelectedItems', []),
-  withState(
-    'errorMessage',
-    'setErrorMessage',
-    ({ requiresAtLeastOneMessage }) =>
-      requiresAtLeastOneMessage ? requiresAtLeastOneMessage : defaultRequiresAtLeastOneMessage
+  withState('errorMessage', 'setErrorMessage', ({ requiresAtLeastOneMessage }) =>
+    requiresAtLeastOneMessage ? requiresAtLeastOneMessage : defaultRequiresAtLeastOneMessage
   )
 )(SelectListDialogContent);
 
@@ -96,10 +93,15 @@ function SelectListDialogContent({
       </FormGroup>
 
       <div className={locals.actions}>
-        <Button type="submit" kind={'secondary'} onClick={() => setSelectedItems([])}>
+        <Button type="submit" kind={'secondary'} onClick={() => setSelectedItems([])} className={locals.actionButton}>
           Cancel
         </Button>
-        <Button type="submit" kind={'primary'} disabled={requiresAtLeastOneMessage && numberOfItems === 0}>
+        <Button
+          type="submit"
+          kind={'primary'}
+          disabled={requiresAtLeastOneMessage && numberOfItems === 0}
+          className={locals.actionButton}
+        >
           {createSubmitLabel(numberOfItems)}
         </Button>
       </div>

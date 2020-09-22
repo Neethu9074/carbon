@@ -13,6 +13,10 @@
     margin: 1rem 0 0;
   }
 
+  .actionButton {
+    z-index: 1;
+  }
+
   .tableScrollWrapper {
     display: block;
     overflow-y: auto;
