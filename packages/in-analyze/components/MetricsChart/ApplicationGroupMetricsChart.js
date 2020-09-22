@@ -6,7 +6,6 @@ import GroupMetricsChart, { metricsChartDefinitions } from 'in-analyze/component
 import { getLatencySelectionFromFilters } from 'in-new-components/LatencyDistributionBase10Chart/latencyUtils';
 import getLatencyDistributionBase10 from 'in-subscription/application/getLatencyDistributionBase10';
 import { getTagFilterListForBackendSubscription } from 'in-analyze/applicationFilter';
-import { latencyDistributionBase10Enabled } from 'in-services/featureFlags';
 import { number, millis } from 'in-services/formatters/number';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 
@@ -15,8 +14,6 @@ const latencyDistributionChartDefinition = {
   key: 'latency_DISTRIBUTION',
   formatter: millis.forcedCompactOnMs
 };
-
-const latencyChartDefinitions = latencyDistributionBase10Enabled ? [latencyDistributionChartDefinition] : [];
 
 export default withProps(({ filters, metrics, availableMetrics, onFocusedMetricChange, onLatencySelectionChanged }) => {
   const dataSource = filters.dataSource;
@@ -33,7 +30,7 @@ export default withProps(({ filters, metrics, availableMetrics, onFocusedMetricC
   ];
   return {
     timeConfig: filters.timeConfig,
-    chartDefinitions: latencyChartDefinitions
+    chartDefinitions: [latencyDistributionChartDefinition]
       .concat(countChartDefinitions)
       .concat(metricsChartDefinitions(metrics, availableMetrics)),
     onChange: e => onFocusedMetricChange(e.focusedMetric),

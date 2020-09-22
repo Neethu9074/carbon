@@ -16,7 +16,6 @@ import { getTagFilterToUrlString, getGroupToUrlString, getTagFilterFromUrlString
 import { APPLICATION, APPLICATION_INBOUND, SERVICE, ENDPOINT } from 'in-analyze/applicationFilter';
 import { callAnalysisDisabledTags, traceAnalysisDisabledTags } from 'in-applications/tags';
 import { setOrDeleteMatrixKey, getMatrixParameter } from 'in-stores/navigation/matrix';
-import { latencyDistributionBase10Enabled } from 'in-services/featureFlags';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { entityTypes, operators } from 'in-analyze/applicationFilter';
 import { getRootPathPredicate } from 'in-stores/navigation/paths';
@@ -44,7 +43,7 @@ export function getLinkToAnalyze({
   orderDirection,
   timeConfig,
   metrics,
-  showGraph = latencyDistributionBase10Enabled,
+  showGraph,
   focusedMetric,
   jumpToSource,
   previewEnabled
