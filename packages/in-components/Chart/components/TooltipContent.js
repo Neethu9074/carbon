@@ -14,7 +14,7 @@ export default function TooltipContent({ timestamp, chart, reverseTooltipOrder, 
   return (
     <div className={locals.tooltipContent}>
       <div className={locals.heading}>
-        {formatDateTime(timestamp)}
+        {(chart.config.tooltipTimeFormatter ?? formatDateTime)(timestamp)}
         <span className={locals.rollupLabel}> ({chart.config.rollupLabel})</span>
       </div>
 

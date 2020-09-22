@@ -5,7 +5,7 @@ import Dialog from 'in-new-components/Dialog/Dialog';
 
 export default function EditConfigDialog({ title, content }) {
   return (
-    <Dialog title={title} onClose={close} titleIconType="lib_openclose_cancel">
+    <Dialog title={title} onClose={close}>
       {content}
     </Dialog>
   );

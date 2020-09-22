@@ -18,7 +18,7 @@ export default function PotentialProblemsLane({
   alertRules,
   ...remainingProps
 }) {
-  if (!applicationSmartAlertsEnabled) {
+  if (!applicationId || !applicationSmartAlertsEnabled) {
     return null;
   }
 
