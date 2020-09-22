@@ -1,21 +1,16 @@
 :local {
-  .title {
-    font-size: .875rem;
-    font-weight: 500;
-    margin-bottom: .4rem;
+  .wrapper {
+    display: flex;
+    flex-direction: column;
   }
 
   .inputs {
     display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-  }
-
-  .label {
-    font-weight: 400;
   }
 
   .field {
-    width: 8rem;
+    width: 7rem;
+
+    margin-right: 0.5rem;
   }
 }

@@ -39,13 +39,18 @@
 
   .tab {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
 
-    padding-bottom: 0.75rem;
     margin: 0 2rem 0 0.125rem;
+    padding-bottom: 0.25rem;
 
     font-size: 0.875rem;
     border-bottom: 3px solid transparent;
+
+    color: @lib__colors__N600Light;
+    .icon {
+      fill: @lib__colors__N600Light;
+    }
 
     .ellipsis();
 
@@ -54,10 +59,21 @@
     }
   }
 
+  .content {
+    display: flex;
+    align-items: center;
+
+    height: 2rem;
+  }
+
   .tabSelected {
-    color: @lib__colors__N900Primary;
     border-bottom: 3px solid @lib__colors__cyan800;
     cursor: default;
+
+    color: @lib__colors__N800Dark;
+    .icon {
+      fill: @lib__colors__N800Dark;
+    }
   }
 
   .tabDisabled {
@@ -77,6 +93,10 @@
       text-decoration: none;
       color: @lib__colors__N500;
     }
+  }
+
+  .icon {
+    margin-right: 0.25rem;
   }
 
   .addSeparator {

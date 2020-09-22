@@ -1,9 +1,8 @@
 import MuiSlider from '@material-ui/core/Slider';
 import { withStyles } from '@material-ui/core';
-import React from 'react';
 import PropTypes from 'prop-types';
-
 import theme from 'in-themes';
+import React from 'react';
 
 const common = {
   root: {
@@ -96,8 +95,8 @@ export const StyledMuiSliderBase = props => {
 StyledMuiSliderBase.propTypes = {
   marks: PropTypes.arrayOf(
     PropTypes.shape({
-      value: PropTypes.number.isRequired,
-      label: PropTypes.string
+      value: PropTypes.number,
+      label: PropTypes.oneOfType([PropTypes.string, PropTypes.object])
     }).isRequired
   ).isRequired,
   max: PropTypes.number.isRequired,
@@ -107,5 +106,5 @@ StyledMuiSliderBase.propTypes = {
   valueLabelDisplay: PropTypes.oneOf(['on', 'off', 'auto']),
   disabled: PropTypes.bool,
   style: PropTypes.any,
-  value: PropTypes.number.isRequired
+  value: PropTypes.oneOfType([PropTypes.number, PropTypes.array])
 };

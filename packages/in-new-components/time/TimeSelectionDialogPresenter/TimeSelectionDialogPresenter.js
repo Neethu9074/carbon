@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import {
   applicationsList,
@@ -10,7 +10,9 @@ import {
   newServiceView,
   endpointDashboard
 } from 'in-applications/navigation/paths';
+import { SecondLevelNavigation, SecondLevelNavigationItem } from 'in-new-components/SecondLevelNavigation';
 import CustomTime from 'in-new-components/time/TimeSelectionDialogPresenter/CustomTime';
+import Releases from 'in-new-components/time/TimeSelectionDialogPresenter/Releases';
 import Presets from 'in-new-components/time/TimeSelectionDialogPresenter/Presets';
 import { isView } from 'in-stores/navigation/navigation';
 import { analyze } from 'in-analyze/navigation/paths';
@@ -34,13 +36,35 @@ export default connectTo(
   },
   function TimeSelectionDialogPresenter(props) {
     const containsHistoricData = props.historicOrLargeDataResult?.containsHistoricData ?? props.containsHistoricData;
+    const [activeTabIndex, setActiveTabIndex] = useState(0);
+
     return (
-      <div>
-        <section className={locals.wrapper}>
-          <CustomTime {...props} containsHistoricData={containsHistoricData} />
-          <Presets {...props} containsHistoricData={containsHistoricData} />
-        </section>
-      </div>
+      <section className={locals.wrapper}>
+        <SecondLevelNavigation className={locals.tabs}>
+          <SecondLevelNavigationItem
+            className={locals.tab}
+            label="Time range"
+            icon="lib_application"
+            isActive={activeTabIndex === 0}
+            onClick={() => setActiveTabIndex(0)}
+          />
+          <SecondLevelNavigationItem
+            className={locals.tab}
+            label="Releases"
+            icon="lib_release_rocket"
+            isActive={activeTabIndex === 1}
+            onClick={() => setActiveTabIndex(1)}
+          />
+        </SecondLevelNavigation>
+        {activeTabIndex == 0 ? (
+          <>
+            <Presets {...props} containsHistoricData={containsHistoricData} />
+            <CustomTime {...props} containsHistoricData={containsHistoricData} />
+          </>
+        ) : (
+          <Releases {...props} />
+        )}
+      </section>
     );
   }
 );

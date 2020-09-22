@@ -1,59 +1,33 @@
 @import '~in-themes/active.less';
-@import '~in-themes/mixins.less';
 
 :local {
-  .wrapper {
-    width: 24.75rem;
+  .presetsContainer {
+    display: grid;
+    grid-gap: 0.5rem;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
   }
 
-  .header {
-    padding: 0.25rem 0.5rem;
-    line-height: 2rem;
-    font-weight: normal;
-    font-size: 1rem;
-    background: @lib__colors__N200;
-    color: @lib__colors__N700Medium;
-    margin-bottom: 0rem;
-  }
-
-  .button {
-    padding: 0.25rem 0.675rem;
-    width: 100%;
-    margin-top: 0.5rem;
-  }
-
-  .dialog {
-    width: 50vw;
-    max-width: 100rem;
-  }
-
-  .container {
+  .preset {
     display: flex;
-    flex-grow: 1;
-    min-width: 0;
+    align-items: center;
 
-    align-content: stretch;
-    margin-top: 0.25rem;
-    padding: 0.25rem;
-    line-height: 1.5rem;
-  }
+    padding: 0.5rem;
+    height: 3.5rem;
 
-  .leftColumn {
-    padding: 0.25rem;
-    min-width: 50%;
-  }
+    border: 1px solid @lib__colors__N300;
+    background: @lib__colors__white;
 
-  .rightColumn {
-    min-width: 50%;
-    padding: 0.25rem;
-  }
+    color: @lib__colors__N900Primary;
+    &:hover {
+      text-decoration: none;
+    }
 
-  .releases {
-    a {
-      width: 100%;
-      display: inline-block;
-      .ellipsis();
-      vertical-align: top;
+    font-weight: 500;
+
+    &:hover {
+      cursor: pointer;
+      box-shadow: @lib__shadows__subtle;
+      border-radius: @lib__shapes__radius_medium;
     }
   }
 }

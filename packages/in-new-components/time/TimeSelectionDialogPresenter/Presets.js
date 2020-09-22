@@ -1,100 +1,51 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 
-import TimePresetsForReleases, { getReleasesSubscribeEvent } from 'in-new-components/time/TimePresetsForReleases';
-import SelectableItem from 'in-new-components/time/TimeSelectionDialogPresenter/SelectableItem';
-import { getFixedTimePresets, getLivePresets } from 'in-new-components/time/timePresets';
-import Header from 'in-new-components/time/TimeSelectionDialogPresenter/Header';
-import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
-import { fromNowAccurately } from 'in-services/formatters/date';
-import { pendingResult } from 'in-services/fixedObjects';
-import Dialog from 'in-new-components/Dialog/Dialog';
-import Button from 'in-new-components/Button';
-import Tooltip from 'in-components/Tooltip';
-import connectTo from 'in-hoc/connectTo';
+import Secion from 'in-new-components/time/TimeSelectionDialogPresenter/Section';
+import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
+import { getTimePresets } from 'in-new-components/time/timePresets';
+import KeyValue from 'in-new-components/lists/KeyValue';
+import { setTimeConfig } from 'in-stores/time/config';
+import Link from 'in-components/Link';
 
 import locals from './Presets.mless';
 
-export default connectTo(props => {
-  const releaseTimeConfig = {
-    to: null,
-    focusedMoment: null,
-    autoRefresh: props.timeConfig.autoRefresh,
-    windowSize: 30 * 24 * 60 * 60 * 1000
-  };
-  return {
-    result: getReleasesSubscribeEvent({ timeConfig: releaseTimeConfig, page: 1, pageSize: 3 }).startWith(pendingResult)
-  };
-})(Presets);
-
-function Presets({ timeConfig, onChange, result, closeOverlay }) {
+export default function Presets({ onChange, closeOverlay }) {
   return (
-    <div className={locals.wrapper}>
-      <Header>Presets</Header>
-      <div className={locals.container}>
-        <div className={locals.leftColumn}>
-          {getLivePresets().map((preset, i) => (
-            <SelectableItem timeConfig={timeConfig} newTimeframe={preset} onChange={onChange} key={i} />
-          ))}
-        </div>
-        <div className={locals.rightColumn}>
-          {getFixedTimePresets().map((preset, i) => (
-            <SelectableItem timeConfig={timeConfig} newTimeframe={preset} onChange={onChange} key={i} />
-          ))}
-          {result.data && result.data.totalHits > 0 && (
-            <ReleasesPresets onChange={onChange} timeConfig={timeConfig} result={result} closeOverlay={closeOverlay} />
-          )}
-        </div>
+    <Secion title="Presets">
+      <div className={locals.presetsContainer}>
+        {getTimePresets().map(({ label, description, windowSize, to }) => (
+          <Preset
+            key={label}
+            label={label}
+            description={description}
+            windowSize={windowSize}
+            to={to}
+            onClick={() => {
+              onChange();
+              closeOverlay();
+            }}
+          />
+        ))}
       </div>
-    </div>
+    </Secion>
   );
 }
 
-function ReleasesPresets({ onChange, timeConfig, result, closeOverlay }) {
+function Preset({ label, onClick, description, windowSize, to }) {
   return (
-    <Fragment>
-      <h1 className={locals.header}>Go to a Release</h1>
-      {result.data.items.map(item => (
-        <ReleaseTimePreset key={item.id} item={item} onChange={onChange} timeConfig={timeConfig} />
-      ))}
-      <Button
-        className={locals.button}
-        kind="secondary"
-        onClick={() => {
-          closeOverlay();
-          addActiveDialog(
-            <Dialog className={locals.dialog} title="Search for a release" onClose={close}>
-              <TimePresetsForReleases onChange={onChange} timeConfig={timeConfig} pageSize={5} />
-            </Dialog>
-          );
-        }}
-        icon="lib_actions_search"
-      >
-        Search for a release
-      </Button>
-    </Fragment>
-  );
-}
-
-function ReleaseTimePreset({ item, timeConfig, onChange }) {
-  const label = item.name;
-  const suffix = fromNowAccurately(item.start) + ' ago';
-  const to = item.start + timeConfig.windowSize / 2;
-
-  const newTimeConfig = {
-    label: label,
-    windowSize: timeConfig.windowSize,
-    to
-  };
-
-  const selectable = (
-    <div className={locals.releases}>
-      <SelectableItem timeConfig={timeConfig} newTimeframe={newTimeConfig} onChange={onChange} hideTimeIcon />
-    </div>
-  );
-
-  return (
-    <Tooltip key={item.id} content={suffix}>
-      {selectable}
-    </Tooltip>
+    <Link
+      className={locals.preset}
+      onClick={onClick}
+      href$={getModifiedUrlStream(params => {
+        setTimeConfig(params, {
+          windowSize,
+          to,
+          focusedMoment: to,
+          autoRefresh: false
+        });
+      })}
+    >
+      {description ? <KeyValue label={description} value={label} /> : label}
+    </Link>
   );
 }

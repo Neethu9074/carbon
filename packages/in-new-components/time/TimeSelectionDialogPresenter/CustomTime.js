@@ -1,60 +1,130 @@
 import { createField, createMapForm, notBlankValidator, composeValidators } from 'formalistic';
-import { compose } from 'recompose';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import moment from 'moment';
 
+import { formatTime, formatDate, formatDateTime, parseDateTime } from 'in-services/formatters/date';
 import DateTimeInput from 'in-new-components/time/TimeSelectionDialogPresenter/DateTimeInput';
-import { formatTime, formatDate, parseDateTime } from 'in-services/formatters/date';
-import Header from 'in-new-components/time/TimeSelectionDialogPresenter/Header';
+import HorizontalFlexWrapper from '../../layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
+import Secion from 'in-new-components/time/TimeSelectionDialogPresenter/Section';
+import DistinctSlider from 'in-new-components/Slider/DebouncedDistinctSlider';
 import { timeValidator, dateValidator } from 'in-services/validators/date';
-import withPropDependingState from 'in-hoc/withPropDependingState';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import Button from 'in-new-components/Button';
+import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './CustomTime.mless';
 
-const maximumWindow = 1000 * 60 * 60 * 24 * 31;
+const oneHour = 1000 * 60 * 60;
+const maximumWindow = oneHour * 24 * 31;
 
-export default compose(
-  withPropDependingState({
-    getInitialState,
+export default function CustomTime({ timeConfig, onChange }) {
+  const [form, setForm] = useState(createForm(timeConfig));
+  useEffect(() => setForm(createForm(timeConfig)), [timeConfig]);
 
-    resets: [
-      {
-        getResettingProps: () => ['timeConfig'],
-        onReset: getInitialState
-      }
-    ],
+  const from = getTime(form.get('from'));
+  const to = getTime(form.get('to'));
 
-    reducerName: 'setForm',
-    reducer: (prevState, newForm) => ({ form: newForm })
-  })
-)(CustomTime);
-
-function getInitialState({ timeConfig }) {
-  return {
-    form: createForm(timeConfig)
-  };
-}
-
-function CustomTime({ form, onChange, setForm }) {
   return (
-    <form className={locals.wrapper} onSubmit={onSubmit}>
-      <Header>Custom Time Range</Header>
+    <Secion title="Time Range" light>
+      <form onSubmit={onSubmit}>
+        <TimeSlider form={form} setForm={setForm} from={from} to={to} />
 
-      <DateTimeInput title="From" form={form} path="from" setValue={setValue} className={locals.from} />
-      <DateTimeInput title="To" form={form} path="to" setValue={setValue} className={locals.to} />
-
-      {form.touched && form.messages.length > 0 && (
-        <div className={locals.errors}>
-          <TouchedMessages field={form} />
+        <div className={locals.controls}>
+          <div className={locals.inputs}>
+            <DateTimeInput form={form} path="from" setValue={setValue} />
+            <span className={locals.to}>to</span>
+            <DateTimeInput form={form} path="to" setValue={setValue} />
+          </div>
+          <Button className={locals.button} type="submit">
+            Set Time
+          </Button>
         </div>
-      )}
 
-      <div className={locals.buttons}>
-        <Button type="submit">Set Time</Button>
-      </div>
-    </form>
+        <div className={locals.notes}>
+          {form.touched && form.messages.length > 0 ? (
+            <TouchedMessages className={locals.error} field={form} />
+          ) : (
+            <GranularityHint />
+          )}
+        </div>
+      </form>
+    </Secion>
   );
+
+  function TimeSlider({ form, setForm, from, to }) {
+    const [now] = useState(Date.now());
+    const tickPositions = getTickPositions(now);
+
+    return (
+      <DistinctSlider
+        valueLabelDisplay="auto"
+        valueLabelFormat={formatDateTime}
+        marks={tickPositions}
+        min={tickPositions[0].value}
+        max={tickPositions[tickPositions.length - 1].value}
+        step={oneHour}
+        value={[from, to]}
+        onChange={([_from, _to]) => {
+          let updateForm = form.updateIn(['from', 'date'], item => item.setValue(formatDate(_from)).setTouched(true));
+          updateForm = updateForm.updateIn(['from', 'time'], item => item.setValue(formatTime(_from)).setTouched(true));
+          updateForm = updateForm.updateIn(['to', 'date'], item => item.setValue(formatDate(_to)).setTouched(true));
+          updateForm = updateForm.updateIn(['to', 'time'], item => item.setValue(formatTime(_to)).setTouched(true));
+          setForm(updateForm);
+        }}
+      />
+    );
+  }
+
+  function getTickPositions(now) {
+    const getTimeMinusDays = days =>
+      moment()
+        .startOf('day')
+        .subtract(days, 'days')
+        .toDate()
+        .getTime();
+
+    const today = getTimeMinusDays(0);
+    return [
+      ...[
+        getTimeMinusDays(7),
+        getTimeMinusDays(6),
+        getTimeMinusDays(5),
+        getTimeMinusDays(4),
+        getTimeMinusDays(3),
+        getTimeMinusDays(2)
+      ].map(timestamp => ({
+        value: timestamp,
+        label: getMark(timestamp)
+      })),
+      {
+        value: getTimeMinusDays(1),
+        label: 'Yesterday'
+      },
+      // 9 hours is the gap the label will need space. So there is no mark for today 00:00 before 9am
+      now - today > oneHour * 9 && {
+        value: getTimeMinusDays(0),
+        label: 'Today'
+      },
+      {
+        value: now,
+        label: 'Now'
+      }
+    ].filter(Boolean);
+  }
+
+  function getMark(value) {
+    const months = moment.monthsShort();
+    const date = new Date(value);
+    const days = moment.weekdaysShort();
+    return (
+      <div className={locals.mark}>
+        <span>{days[date.getDay()]}</span>
+        <span>
+          {months[date.getMonth()]} {date.getDate()}
+        </span>
+      </div>
+    );
+  }
 
   function setValue(form, path, value) {
     setForm(form.updateIn(path, item => item.setValue(value).setTouched(true)));
@@ -141,4 +211,13 @@ function validateForm({ from: fromForm, to: toForm }) {
 
 function getTime(form) {
   return parseDateTime(`${form.get('date').value} ${form.get('time').value}`).getTime();
+}
+
+function GranularityHint() {
+  return (
+    <HorizontalFlexWrapper>
+      <SvgIcon className={locals.icon} type="lib_help_error_info_circle" size="xs" />
+      <span className={locals.help}>Select a time range smaller than 24 hours to see per second-level data</span>
+    </HorizontalFlexWrapper>
+  );
 }

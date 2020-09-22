@@ -3,49 +3,35 @@ import React from 'react';
 import formatInputTime from 'in-new-components/time/TimeSelectionDialogPresenter/timeInputFormatter';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import DateInput from 'in-components/form/DateInput';
-import FormGroup from 'in-components/form/FormGroup';
-import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 
 import locals from './DateTimeInput.mless';
 
-export default function DateTimeInput({ title, form, path, setValue, className }) {
+export default function DateTimeInput({ form, path, setValue }) {
   const dateField = form.get(path).get('date');
   const timeField = form.get(path).get('time');
 
   return (
-    <div className={className}>
-      <h2 className={locals.title}>{title}</h2>
-
+    <div className={locals.wrapper}>
       <div className={locals.inputs}>
-        <FormGroup>
-          <Label htmlFor={`${path}-date`} hasError={!dateField.valid && dateField.touched} className={locals.label}>
-            Date
-          </Label>
-          <DateInput
-            id={`${path}-date`}
-            value={dateField.value}
-            onChange={v => setValue(form, [path, 'date'], v)}
-            hasError={!dateField.valid && dateField.touched}
-            className={locals.field}
-          />
-        </FormGroup>
-        <FormGroup>
-          <Label htmlFor={`${path}-time`} hasError={!timeField.valid && timeField.touched} className={locals.label}>
-            Time
-          </Label>
-          <Input
-            type="text"
-            id={`${path}-time`}
-            value={timeField.value}
-            onChange={e => setValue(form, [path, 'time'], e.target.value)}
-            onBlur={e => setValue(form, [path, 'time'], formatInputTime(e.target.value, 'HH:mm:ss'))}
-            hasError={!timeField.valid && timeField.touched}
-            className={locals.field}
-          />
-        </FormGroup>
-      </div>
+        <DateInput
+          className={locals.field}
+          id={`${path}-date`}
+          value={dateField.value}
+          onChange={v => setValue(form, [path, 'date'], v)}
+          hasError={!dateField.valid && dateField.touched}
+        />
 
+        <Input
+          className={locals.field}
+          type="text"
+          id={`${path}-time`}
+          value={timeField.value}
+          onChange={e => setValue(form, [path, 'time'], e.target.value)}
+          onBlur={e => setValue(form, [path, 'time'], formatInputTime(e.target.value, 'HH:mm:ss'))}
+          hasError={!timeField.valid && timeField.touched}
+        />
+      </div>
       <TouchedMessages field={dateField} />
       <TouchedMessages field={timeField} />
     </div>

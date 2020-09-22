@@ -1,108 +1,150 @@
 import moment from 'moment';
 
+import { formatDurationAccurately } from 'in-services/formatters/date';
+
 const minute = 60 * 1000;
 const hour = 60 * minute;
 const twentyFourHours = 24 * hour;
 const sevenDays = 7 * twentyFourHours;
 
-const livePresets = [
+export const fixedTimePickerPresets = [
   {
-    windowSize: minute,
-    to: null
-  },
-  {
-    windowSize: minute * 5,
-    to: null
-  },
-  {
-    windowSize: minute * 10,
-    to: null
-  },
-  {
-    windowSize: minute * 30,
-    to: null
-  },
-  {
-    windowSize: hour,
-    to: null
-  },
-  {
-    windowSize: hour * 6,
-    to: null
-  },
-  {
-    windowSize: hour * 12,
-    to: null
-  },
-  {
-    windowSize: hour * 24,
-    to: null
-  },
-  {
-    windowSize: sevenDays,
-    to: null
-  },
-  {
-    windowSize: hour * 24 * 31,
     to: null,
-    label: 'Last 31 days'
+    windowSize: minute,
+    label: format(minute)
+  },
+  {
+    to: null,
+    windowSize: minute * 5,
+    label: format(minute * 5)
+  },
+  {
+    to: null,
+    windowSize: minute * 10,
+    label: format(minute * 10)
+  },
+  {
+    to: null,
+    windowSize: minute * 30,
+    label: format(minute * 30)
+  },
+  {
+    to: null,
+    windowSize: hour,
+    label: format(hour)
+  },
+  {
+    to: null,
+    windowSize: hour * 6,
+    label: format(hour * 6)
+  },
+  {
+    to: null,
+    windowSize: hour * 12,
+    label: format(hour * 12)
+  },
+  {
+    to: null,
+    windowSize: hour * 24,
+    label: format(hour * 24)
   }
-].filter(Boolean);
+];
 
-export function getLivePresets() {
-  return livePresets;
+export function getTimePresets() {
+  const months = moment.monthsShort();
+  return [
+    ...fixedTimePickerPresets,
+    getYesterdayPreset(months),
+    getDayBeforeYesterdayPreset(months),
+    getThisWeekPreset(months),
+    getPreviousWeekPreset(months)
+  ];
 }
 
-export function getFixedTimePresets() {
-  return [getYesterdayPreset(), getDayBeforeYesterdayPreset(), getThisWeekPreset(), getPreviousWeekPreset()];
+export function getHistoricPresets() {
+  const months = moment.monthsShort();
+  return [
+    getYesterdayPreset(months),
+    getDayBeforeYesterdayPreset(months),
+    getThisWeekPreset(months),
+    getPreviousWeekPreset(months)
+  ];
 }
 
-function getYesterdayPreset() {
-  const to = moment()
-    .startOf('day')
-    .toDate()
-    .getTime();
-  return {
-    label: 'Yesterday',
-    windowSize: twentyFourHours,
-    to
-  };
-}
-
-function getDayBeforeYesterdayPreset() {
-  const to = moment()
+function getYesterdayPreset(months) {
+  const date = moment()
     .startOf('day')
     .subtract(1, 'days')
-    .toDate()
-    .getTime();
+    .toDate();
+  const to = date.getTime();
   return {
-    label: 'Day before Yesterday',
+    label: 'Yesterday',
+    description: `${months[date.getMonth()]} ${date.getDate()}`,
     windowSize: twentyFourHours,
     to
   };
 }
 
-function getThisWeekPreset() {
-  const to = moment()
-    .startOf('week')
-    .add(1, 'week')
-    .toDate()
-    .getTime();
+function getDayBeforeYesterdayPreset(months) {
+  const date = moment()
+    .startOf('day')
+    .subtract(2, 'days')
+    .toDate();
+  const to = date.getTime();
   return {
-    label: 'This week',
-    windowSize: sevenDays,
+    label: '2 days ago',
+    description: `${months[date.getMonth()]} ${date.getDate()}`,
+    windowSize: twentyFourHours,
     to
   };
 }
 
-function getPreviousWeekPreset() {
-  const to = moment()
+function getThisWeekPreset(months) {
+  const startOfWeek = moment()
     .startOf('week')
-    .toDate()
-    .getTime();
+    .add(1, 'days')
+    .toDate();
+  const endOfWeek = moment()
+    .startOf('week')
+    .add(1, 'week')
+    .toDate();
+  return {
+    label: 'This week',
+    description: `${months[startOfWeek.getMonth()]} ${startOfWeek.getDate()}- ${
+      months[endOfWeek.getMonth()]
+    } ${endOfWeek.getDate()}`,
+    windowSize: sevenDays,
+    to: endOfWeek.getTime()
+  };
+}
+
+function getPreviousWeekPreset(months) {
+  const startOfWeek = moment()
+    .startOf('week')
+    .subtract(1, 'week')
+    .add(1, 'days')
+    .toDate();
+  const endOfWeek = moment()
+    .startOf('week')
+    .toDate();
   return {
     label: 'Previous week',
+    description: `${months[startOfWeek.getMonth()]} ${startOfWeek.getDate()} - ${
+      months[endOfWeek.getMonth()]
+    } ${endOfWeek.getDate()}`,
     windowSize: sevenDays,
-    to
+    to: endOfWeek.getTime()
   };
+}
+
+export function format(windowSize) {
+  const result = `Last ${formatDurationAccurately(windowSize, 60000, false)}`;
+  const match = result.match(/^Last 1 ([a-z]+)$/i);
+  if (match && match[1] === 'day') {
+    return 'Last 24 hours';
+  } else if (match) {
+    return `Last ${match[1]}`;
+  } else {
+    return result;
+  }
 }

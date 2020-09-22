@@ -1,17 +1,19 @@
 import React from 'react';
 
 import { evaluateClassNames } from 'in-services/util/classnames';
+import SvgIcon from 'in-components/SvgIcon';
 import Link from 'in-components/Link';
 
 import locals from './SecondLevelNavigation.mless';
 
-export function SecondLevelNavigation({ children, darkTheme = false, hasGroups = false }) {
+export function SecondLevelNavigation({ className, children, darkTheme = false, hasGroups = false }) {
   let content = (
     <div
       className={evaluateClassNames({
         [locals.tabList]: true,
         [locals.tabListLight]: darkTheme,
-        [locals.tabListWithGroups]: hasGroups
+        [locals.tabListWithGroups]: hasGroups,
+        [className]: className
       })}
     >
       {children}
@@ -30,12 +32,14 @@ export function SecondLevelNavigation({ children, darkTheme = false, hasGroups =
 }
 
 export function SecondLevelNavigationItem({
+  className,
   isActive,
   href$,
   href,
   onClick,
   isDisabled,
   label,
+  icon,
   addSeparator,
   addGroupSeparator
 }) {
@@ -44,7 +48,8 @@ export function SecondLevelNavigationItem({
       className={evaluateClassNames({
         [locals.link]: true,
         [locals.addSeparator]: addSeparator,
-        [locals.addGroupSeparator]: addGroupSeparator
+        [locals.addGroupSeparator]: addGroupSeparator,
+        [className]: className
       })}
       href$={href$}
       href={href}
@@ -57,7 +62,10 @@ export function SecondLevelNavigationItem({
           [locals.tabDisabled]: isDisabled
         })}
       >
-        {label}
+        <div className={locals.content}>
+          {icon && <SvgIcon className={locals.icon} type={icon} />}
+          {label}
+        </div>
       </div>
     </Link>
   );

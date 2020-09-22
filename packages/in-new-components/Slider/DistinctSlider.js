@@ -1,10 +1,10 @@
 import { withStyles } from '@material-ui/core';
 import PropTypes from 'prop-types';
+import theme from 'in-themes';
 import React from 'react';
 
 import { StyledMuiSliderBase } from 'in-new-components/Slider/base/StyledMuiSliderBase';
 import { identity } from 'in-services/util/function';
-import theme from 'in-themes';
 
 const StyledMuiSlider = withStyles({
   mark: {
@@ -26,6 +26,7 @@ export default function DistinctSlider(props) {
     style,
     disabled = false,
     valueLabelFormat = identity,
+    ValueLabelComponent,
     valueLabelDisplay = 'on'
   } = props;
 
@@ -39,6 +40,7 @@ export default function DistinctSlider(props) {
       }}
     >
       <StyledMuiSlider
+        ValueLabelComponent={ValueLabelComponent}
         disabled={disabled}
         orientation="horizontal"
         value={value}
@@ -59,11 +61,12 @@ export default function DistinctSlider(props) {
 DistinctSlider.propTypes = {
   marks: PropTypes.arrayOf(
     PropTypes.shape({
-      value: PropTypes.number.isRequired,
-      label: PropTypes.string
+      value: PropTypes.oneOfType([PropTypes.number, PropTypes.array]),
+      label: PropTypes.oneOfType([PropTypes.string, PropTypes.object])
     }).isRequired
   ),
   step: PropTypes.number.isRequired,
+  ValueLabelComponent: PropTypes.func,
   max: PropTypes.number.isRequired,
   min: PropTypes.number.isRequired,
   onChange: PropTypes.func.isRequired,
@@ -71,5 +74,5 @@ DistinctSlider.propTypes = {
   valueLabelDisplay: PropTypes.oneOf(['on', 'off', 'auto']),
   disabled: PropTypes.bool,
   style: PropTypes.any,
-  value: PropTypes.number.isRequired
+  value: PropTypes.oneOfType([PropTypes.number.isRequired, PropTypes.array.isRequired])
 };

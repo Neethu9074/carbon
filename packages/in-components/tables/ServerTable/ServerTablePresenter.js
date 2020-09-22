@@ -31,6 +31,7 @@ export default function ServerTablePresenter(props) {
     getRowProps,
     onRowClick,
     result = pendingResult,
+    renderPagination,
     fixedLayout,
     scrollWrapperClassName,
     rightHeader,
@@ -140,15 +141,29 @@ export default function ServerTablePresenter(props) {
     );
   }
 
-  const pagination = result.data && result.data.totalHits > result.data.pageSize && (
-    <div className={locals.paginationWrapper}>
-      <Pagination
-        currentPage={page}
-        numPages={Math.ceil(result.data.totalHits / result.data.pageSize)}
-        onChange={page => onChange({ query, orderBy, orderDirection, page, pageSize })}
-      />
-    </div>
-  );
+  let pagination = null;
+  if (result.data && result.data.totalHits > result.data.pageSize) {
+    const numPages = Math.ceil(result.data.totalHits / result.data.pageSize);
+    pagination = renderPagination ? (
+      renderPagination({
+        page,
+        numPages,
+        orderDirection,
+        onChange,
+        pageSize,
+        query,
+        orderBy
+      })
+    ) : (
+      <div className={locals.paginationWrapper}>
+        <Pagination
+          currentPage={page}
+          numPages={numPages}
+          onChange={page => onChange({ query, orderBy, orderDirection, page, pageSize })}
+        />
+      </div>
+    );
+  }
 
   let scope;
   if (scopeNotification) {

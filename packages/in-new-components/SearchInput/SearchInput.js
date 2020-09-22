@@ -23,25 +23,34 @@ export default function SearchInput({
   onBlur
 }) {
   return (
-    <div className={locals.wrapper} style={{ maxWidth, width }}>
+    <div
+      className={evaluateClassNames({
+        [locals.wrapper]: true,
+        [className]: className
+      })}
+    >
       <Input
+        style={{ maxWidth, width }}
         className={evaluateClassNames({
           [locals.searchInput]: true,
           [locals.searchInputHasText]: isNotBlank(query),
-          [locals.hasError]: hasError,
-          [className]: className
+          [locals.hasError]: hasError
         })}
         disabled={disabled}
         type="search"
-        placeholder={placeholder}
+        placeholder={placeholder ?? 'Search...'}
         value={query}
         onChange={e => onChange(e.target.value)}
         autoFocus={autoFocus}
-        onKeyDown={onReturn ? e => {
-          if (e.keyCode === keyCodes.enter) {
-            onReturn(e);
-          }
-        } : undefined}
+        onKeyDown={
+          onReturn
+            ? e => {
+                if (e.keyCode === keyCodes.enter) {
+                  onReturn(e);
+                }
+              }
+            : undefined
+        }
         onFocus={onFocus}
         onBlur={onBlur}
       />

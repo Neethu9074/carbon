@@ -1,0 +1,7 @@
+:local {
+  .searchInput {
+    width: 49rem;
+
+    margin-right: 0.5rem;
+  }
+}

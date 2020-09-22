@@ -1,0 +1,23 @@
+@import '~in-themes/active.less';
+
+:local {
+  .wrapper {
+    background: @lib__colors__N050;
+    padding: 1.5rem 2rem;
+
+    & + .wrapper {
+      border-top: 1px solid @lib__colors__N300;
+    }
+  }
+
+  .lightWrapper {
+    background: @lib__colors__white;
+  }
+
+  .header {
+    font-size: 1rem;
+    font-weight: normal;
+
+    color: @lib__colors__N700Medium;
+  }
+}

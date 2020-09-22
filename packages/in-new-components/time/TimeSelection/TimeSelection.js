@@ -132,7 +132,10 @@ function TimeSelectionDialogPresenterWrapper({ timeConfig, close, historicOrLarg
 
   function onChange(timeConfig) {
     close();
-    setTimeframe(timeConfig.windowSize, timeConfig.to);
     track(TIME_WINDOW_SIZE_VIA_PICKER);
+
+    if (timeConfig) {
+      setTimeframe(timeConfig.windowSize, timeConfig.to);
+    }
   }
 }

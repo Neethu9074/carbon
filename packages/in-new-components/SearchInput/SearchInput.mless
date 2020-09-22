@@ -6,6 +6,15 @@
     width: 100%;
   }
 
+  .icon {
+    position: absolute;
+    right: 0;
+    top: 0.25rem;
+
+    fill: @lib__colors__N500;
+    margin-right: 0.25rem;
+  }
+
   .searchInput {
     width: 100%;
     border: 1px solid @lib__colors__N400;
@@ -13,15 +22,6 @@
 
   .searchInputHasText + svg {
     display: none;
-  }
-
-  .icon {
-    position: absolute;
-    right: 0;
-    top: 0.25rem;
-
-    fill: @lib__colors__primary1;
-    margin: 0 0.25rem;
   }
 
   .hasError {
