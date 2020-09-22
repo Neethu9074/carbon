@@ -11,6 +11,7 @@ import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import { error as errorType } from 'in-new-components/Message/types';
 import { indeterminateProgress } from 'in-services/fixedObjects';
 import IconButton from 'in-new-components/IconButton/IconButton';
+import { pluginTag } from 'in-infrastructure/Explore/constants';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import KeyValue from 'in-new-components/lists/KeyValue';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -30,7 +31,7 @@ export default function GroupedInfrastructure({ tagFilterExpression, groupBy, pl
     <Presenter
       timeConfig={timeConfig}
       tagFilterExpression={tagFilterExpression}
-      groupBy={groupBy}
+      groupBy={[groupBy]}
       plugin={plugin}
       {...props}
     />
@@ -107,8 +108,9 @@ function columns(groupBy, type) {
   return [
     {
       width: '3rem',
-      getContent() {
-        return <IconButton key="someKey1" type="lib_views_tag" />;
+      getContent({ group }) {
+        const icon = getGroupIcon(group);
+        return <IconButton key="someKey1" type={icon} />;
       }
     }
   ]
@@ -116,14 +118,14 @@ function columns(groupBy, type) {
       groupBy.map((groupKey, i) => ({
         width: getColumnWidth(groupBy, i),
         getContent({ group }) {
-          const value = group.tags[groupKey];
+          const value = getGroupTagValue(group, groupKey);
           return <KeyValue label={groupKey} value={value} accentuated />;
         }
       }))
     )
     .concat([
       {
-        width: '6rem',
+        width: '8rem',
         getContent({ group }) {
           return <KeyValue label={countLabel} value={group.count} theme="blue" accentuated />;
         }
@@ -153,7 +155,7 @@ function getGroups({ timeConfig, tagFilterExpression, groupBy, cursor, plugin })
       cursor,
       retrievalSize: 20
     },
-    groupBy,
+    groupBy: [groupBy],
     plugin
   });
 }
@@ -185,4 +187,25 @@ function addTagFilters(tagFilterExpression, tags) {
     logicalOperator: 'AND',
     elements: [tagFilterExpression, ...tagFilters].filter(Boolean)
   };
+}
+
+const defaultGroupIcon = 'lib_views_tag';
+
+function getGroupPlugin(group) {
+  const plugin = group.tags[pluginTag];
+  return plugin ? getOptionalSnapshotDefinition(plugin) : null;
+}
+
+function getGroupIcon(group) {
+  const plugin = getGroupPlugin(group);
+  return plugin ? `plugin:${plugin.plugin}` : defaultGroupIcon;
+}
+
+function getGroupTagValue(group, key) {
+  if (key === pluginTag) {
+    const plugin = getGroupPlugin(group);
+    return plugin && plugin.pluginName ? plugin.pluginName.singular : group.tags[key];
+  } else {
+    return group.tags[key];
+  }
 }

@@ -4,15 +4,16 @@ import { isEmpty } from 'lodash';
 import {
   emptyTagFilterExpression,
   allInfrastructureType,
-  defaultAllInfraGroup
+  defaultAllInfraGroup,
+  allTypes
 } from 'in-infrastructure/Explore/constants';
 import { groupMatrixParameter, typeMatrixParameter } from 'in-infrastructure/navigation/paths';
 import DashboardHeaderButton from 'in-new-components/DashboardHeader/DashboardHeaderButton';
 import getAvailablePlugins from 'in-infrastructure/subscriptions/getAvailablePlugins';
 import { getOptionalSnapshotDefinition } from 'in-sdk/snapshot/registry';
+import { pendingResult, emptyObject } from 'in-services/fixedObjects';
 import Overlay from 'in-new-components/overlays/Overlay/Overlay';
 import { compareIgnoreCase } from 'in-services/util/string';
-import { pendingResult } from 'in-services/fixedObjects';
 import { Ul, Li } from 'in-new-components/lists/List';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import useObservable from 'in-hooks/useObservable';
@@ -31,10 +32,7 @@ export default function TypeSelector() {
   const tagFilterExpression = emptyTagFilterExpression;
   const result =
     useObservable(getAvailablePlugins({ filter: { timeConfig, tagFilterExpression } }), [timeConfig]) || pendingResult;
-  const setType = useCallback(
-    type => onChange({ type, group: !group?.groupbyTag && type === 'all' ? defaultAllInfraGroup : group }),
-    [group]
-  );
+  const setType = useCallback(type => onChange({ type, group: updatedGroup(group, type) }), [group]);
   const types = useMemo(
     () =>
       (result?.data?.plugins || [])
@@ -87,7 +85,7 @@ function TypeRow({ icon, name }) {
 }
 
 function getType(type) {
-  if (type === 'all') {
+  if (type === allTypes) {
     return allInfrastructureType;
   }
   const snapshotDefinition = getOptionalSnapshotDefinition(type);
@@ -99,4 +97,12 @@ function getType(type) {
       name: snapshotDefinition.pluginName.plural
     }
   );
+}
+
+function updatedGroup(group, type) {
+  return !group?.groupbyTag && type === allTypes
+    ? defaultAllInfraGroup
+    : group === defaultAllInfraGroup && type !== allTypes
+    ? emptyObject
+    : group;
 }

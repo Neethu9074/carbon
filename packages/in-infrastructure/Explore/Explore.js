@@ -55,7 +55,8 @@ function InfraExploreViewWithFixatedTimeConfig() {
 
   const validTagFilterExpressionResult =
     useObservable(isQueryValid(tagFilterExpression, timeConfig), [tagFilterExpression, timeConfig]) ?? pendingResult;
-  const validGroupResult = useObservable(isGroupingConfigurationValid(group, timeConfig), [group, timeConfig]) ?? pendingResult;
+  const validGroupResult =
+    useObservable(isGroupingConfigurationValid(group, timeConfig), [group, timeConfig]) ?? pendingResult;
   // in case of a pending result (validTagFilterExpressionResult.data === null) we do not want to show the user an error message
   const isValid = validTagFilterExpressionResult.data === true && validGroupResult.data === true;
   const isInvalid = validTagFilterExpressionResult.data === false && validGroupResult.data === false;
@@ -165,7 +166,7 @@ function InfraExploreViewWithFixatedTimeConfig() {
             <GroupedInfrastructure
               timeConfig={timeConfig}
               tagFilterExpression={backendQueryModel}
-              groupBy={[group.groupbyTag]}
+              groupBy={group.groupbyTag}
               plugin={plugin}
             />
           )}
