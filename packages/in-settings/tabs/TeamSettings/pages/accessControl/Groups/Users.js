@@ -30,7 +30,6 @@ export default function Users({ members, addUsers, removeUser }) {
           }
         ]}
         addUsers={addUsers}
-        members={members}
         pageSize={10}
       />
     </LocallyChangedTheme>
