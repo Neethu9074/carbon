@@ -5,12 +5,12 @@ import { sensibleGranularities } from 'in-stores/metric/metric';
 export function getBlockSizeMillis({ windowSize, maxDataPoints, minPixelsPerBlock, width, rollup }) {
   rollup = rollup || 1000;
   const userDefinedMaxDataPoints = maxDataPoints || windowSize / rollup;
-  const userDefinedminPixelsPerBlock = minPixelsPerBlock || 10;
+  const userDefinedMinPixelsPerBlock = minPixelsPerBlock || 10;
 
-  const numDataPointsBasedOnPx = Math.floor(width / userDefinedminPixelsPerBlock);
+  const numDataPointsBasedOnPx = Math.floor(width / userDefinedMinPixelsPerBlock);
   const numDataPoints = Math.min(userDefinedMaxDataPoints, numDataPointsBasedOnPx);
 
-  const rawBlockSize = windowSize / numDataPoints;
+  const rawBlockSize = Math.round(windowSize / numDataPoints);
 
   const dynamicCalculatedBlockSizeMillis = rollup * Math.ceil(rawBlockSize / rollup);
 

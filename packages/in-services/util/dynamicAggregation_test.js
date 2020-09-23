@@ -54,4 +54,34 @@ describe('in-services/util/dynamicAggregation', () => {
     expect(getPredefinedBlockSizeMillisForBlockSize(1001)).to.equal(1000 * 5);
     expect(getPredefinedBlockSizeMillisForBlockSize(Number.MAX_VALUE)).to.equal(1000 * 60 * 60 * 24 * 10);
   });
+
+  it('should handle arbitrary windowSize', () => {
+    expect(
+      getBlockSizeMillis({
+        windowSize: 1338605,
+        maxDataPoints: undefined,
+        minPixelsPerBlock: 1,
+        width: 100,
+        rollup: 60000
+      })
+    ).to.equal(60000);
+    expect(
+      getBlockSizeMillis({
+        windowSize: 1338606,
+        maxDataPoints: undefined,
+        minPixelsPerBlock: 1,
+        width: 100,
+        rollup: 60000
+      })
+    ).to.equal(60000);
+    expect(
+      getBlockSizeMillis({
+        windowSize: 1338607,
+        maxDataPoints: undefined,
+        minPixelsPerBlock: 1,
+        width: 100,
+        rollup: 60000
+      })
+    ).to.equal(60000);
+  });
 });

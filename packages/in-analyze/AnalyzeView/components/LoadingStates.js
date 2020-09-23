@@ -82,6 +82,16 @@ function QueryFailed({ errors }) {
           <span className={locals.description}>{error.description}</span>
         </div>
       );
+    case 'TOO_MANY_REQUESTS':
+      return (
+        <div className={locals.stateWrapper}>
+          <div className={locals.bigIconContainer}>
+            <SvgIcon size="xl" className={locals.warnIcon} type="lib_help_error_error_circle" />
+          </div>
+          <div className={locals.progressText}>Too many requests</div>
+          <span className={locals.description}>Our system is currently busy. Please try again later.</span>
+        </div>
+      );
     case 'SERVER':
     default:
       return (
