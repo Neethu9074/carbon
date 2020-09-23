@@ -59,13 +59,14 @@ const postCssLoader = {
   options: {
     sourceMap: true,
     ident: 'postcss',
-    plugins: () => {
-      return [
-        require('autoprefixer')({
-          browsers: ['last 2 versions']
-        })
-      ];
-    }
+    plugins: [
+      require('postcss-discard-comments')({
+        removeAll: true
+      }),
+      require('autoprefixer')({
+        browsers: ['last 2 versions']
+      })
+    ]
   }
 };
 

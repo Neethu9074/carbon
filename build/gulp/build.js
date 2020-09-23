@@ -2,7 +2,7 @@
 /* eslint-disable no-var, strict, vars-on-top, no-console */
 'use strict';
 
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 const execSync = require('child_process').execSync;
 const nano = require('gulp-cssnano');
 const { clone } = require('lodash');
@@ -90,13 +90,14 @@ function webpackBuild(cb) {
   config.optimization = clone(config.optimization || {});
   config.optimization.concatenateModules = true;
   config.optimization.minimizer = [
-    new UglifyJsPlugin({
+    new TerserPlugin({
       sourceMap: true,
-      uglifyOptions: {
+      terserOptions: {
         output: {
-          comments: /\/DONOTKEEPANYCOMMENTS/
+          comments: false
         }
-      }
+      },
+      extractComments: false
     })
   ];
 
