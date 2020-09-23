@@ -8,6 +8,7 @@ import {
   translateOffsetToTimeShiftConfig
 } from 'in-stores/time/shifting';
 import ComboBoxBehavior from 'in-components/form/ComboBox/ComboBoxBehavior';
+import { formatExact } from 'in-new-components/time/timeframeFormatter';
 import DropdownButton from 'in-new-components/Button/DropdownButton';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import useUrlState from 'in-hooks/useUrlState';
@@ -26,10 +27,13 @@ export default function TimeShiftDropdown({ disabled, onChange: onTimeShiftChang
     .filter(({ disallowSelection, offset }) => disallowSelection !== true && offset !== previousHourTimeShift.offset)
     .map(v => ({
       value: v.offset,
-      label: renderItemContent(v)
+      label: renderItemContent(v, timeConfig)
     }));
 
-  const valueLabel = getTimeShiftLabel(translateOffsetToTimeShiftConfig(timeShiftOffset, timeConfig));
+  const valueLabel =
+    timeShifts.find(timeShift => timeShift.offset === timeShiftOffset)?.label ||
+    // fallback for non-predefined time shift offset values
+    getTimeShiftLabel(translateOffsetToTimeShiftConfig(timeShiftOffset, timeConfig));
   return (
     <ComboBoxBehavior
       value={timeShiftOffset}
@@ -56,11 +60,19 @@ export default function TimeShiftDropdown({ disabled, onChange: onTimeShiftChang
   );
 }
 
-function renderItemContent(item) {
+function renderItemContent(timeShiftConfig, timeConfig) {
+  const timeShiftTimeConfig = {
+    windowSize: timeConfig.windowSize,
+    to: (timeConfig.to || Date.now()) + translateOffsetToTimeShiftConfig(timeShiftConfig.offset, timeConfig).offset
+  };
   return (
     <div className={locals.overlay}>
-      <div className={locals.label}>{item.label}</div>
-      <div className={locals.description}>{item.description}</div>
+      <div className={locals.label}>{timeShiftConfig.label}</div>
+      <div className={locals.description}>
+        {timeShiftConfig.offset
+          ? `Superimpose data from ${formatExact(timeShiftTimeConfig)}`
+          : timeShiftConfig.description}
+      </div>
     </div>
   );
 }

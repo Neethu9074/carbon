@@ -2,7 +2,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { timeDisplayTopFormat, timeDisplayBottomFormat } from 'in-new-components/time/timeframeFormatter';
+import { timeDisplayTopFormat, timeDisplayBottomFormat, formatExact } from 'in-new-components/time/timeframeFormatter';
 
 describe('in-new-components/time/timeframeFormatter', () => {
   let clock;
@@ -65,6 +65,18 @@ describe('in-new-components/time/timeframeFormatter', () => {
 
     it('must format custom time modes on different days', () => {
       expect(timeDisplayBottomFormat({ to: 1519297047052, windowSize: 123400000 })).to.equal('Feb 21 - Feb 22');
+    });
+  });
+
+  describe('formatExact', () => {
+    it('must format custom time modes on same day', () => {
+      expect(formatExact({ to: 1600777638000, windowSize: 21600000 })).to.equal('Sep 22 08:27:18 to 14:27:18 (6h)');
+    });
+
+    it('must format custom time modes on different days', () => {
+      expect(formatExact({ to: 1600777662000, windowSize: 86400000 })).to.equal(
+        'Sep 21 14:27:42 to Sep 22 14:27:42 (1d)'
+      );
     });
   });
 });
