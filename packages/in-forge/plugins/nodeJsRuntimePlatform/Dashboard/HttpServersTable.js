@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { number } from 'in-services/formatters/number';
 import { emptyMap } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
+import { identity } from 'in-services/util/function';
 
 const cols = [
   {
@@ -30,7 +30,8 @@ const cols = [
       getValue(row) {
         return row.server.getIn(['address', 'port']);
       },
-      getContent: number.compact
+      // Do not format the port as a number, that is, omit digit group separator.
+      getContent: identity
     }
   }
 ];
