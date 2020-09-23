@@ -10,6 +10,7 @@ import {
 } from 'in-new-components/QueryBuilder/transformation/formModel';
 import {
   toBackendQueryModel,
+  addTagFilters,
   EXPRESSION,
   OPERATOR_AND,
   OPERATOR_OR,
@@ -490,6 +491,90 @@ describe('in-new-components/QueryBuilder/transformation/backendQueryModel', () =
             value: 'c',
             operator: 'EQUALS'
           }
+        ]
+      });
+    });
+
+    it('should add tag filters to tag filter', () => {
+      expect(
+        addTagFilters({ type: 'TAG_FILTER', name: 'name', value: 'a', operator: 'EQUALS' }, [
+          { type: 'TAG_FILTER', name: 'name', value: 'b', operator: 'EQUALS' },
+          { type: 'TAG_FILTER', name: 'name', value: 'c', operator: 'EQUALS' }
+        ])
+      ).to.deep.equals({
+        type: 'EXPRESSION',
+        logicalOperator: 'AND',
+        elements: [
+          { type: 'TAG_FILTER', name: 'name', value: 'a', operator: 'EQUALS' },
+          { type: 'TAG_FILTER', name: 'name', value: 'b', operator: 'EQUALS' },
+          { type: 'TAG_FILTER', name: 'name', value: 'c', operator: 'EQUALS' }
+        ]
+      });
+    });
+
+    it('should add tag filters to expression', () => {
+      expect(
+        addTagFilters(
+          {
+            type: 'EXPRESSION',
+            logicalOperator: 'OR',
+            elements: [
+              { type: 'TAG_FILTER', name: 'name', value: 'a', operator: 'EQUALS' },
+              { type: 'TAG_FILTER', name: 'name', value: 'b', operator: 'EQUALS' }
+            ]
+          },
+          [{ type: 'TAG_FILTER', name: 'name', value: 'c', operator: 'EQUALS' }],
+          OPERATOR_OR
+        )
+      ).to.deep.equals({
+        type: 'EXPRESSION',
+        logicalOperator: 'OR',
+        elements: [
+          {
+            type: 'EXPRESSION',
+            logicalOperator: 'OR',
+            elements: [
+              { type: 'TAG_FILTER', name: 'name', value: 'a', operator: 'EQUALS' },
+              { type: 'TAG_FILTER', name: 'name', value: 'b', operator: 'EQUALS' }
+            ]
+          },
+          { type: 'TAG_FILTER', name: 'name', value: 'c', operator: 'EQUALS' }
+        ]
+      });
+    });
+
+    it('should add single tag filter to empty expression as bare tag filter', () => {
+      expect(
+        addTagFilters(
+          {
+            type: 'EXPRESSION',
+            logicalOperator: 'OR',
+            elements: []
+          },
+          [{ type: 'TAG_FILTER', name: 'name', value: 'c', operator: 'EQUALS' }]
+        )
+      ).to.deep.equals({ type: 'TAG_FILTER', name: 'name', value: 'c', operator: 'EQUALS' });
+    });
+
+    it('should drop empty expression when adding multiple filters', () => {
+      expect(
+        addTagFilters(
+          {
+            type: 'EXPRESSION',
+            logicalOperator: 'OR',
+            elements: []
+          },
+          [
+            { type: 'TAG_FILTER', name: 'name', value: 'c', operator: 'EQUALS' },
+            { type: 'TAG_FILTER', name: 'name', value: 'd', operator: 'EQUALS' }
+          ]
+        )
+      ).to.deep.equals({
+        type: 'EXPRESSION',
+        logicalOperator: 'AND',
+        elements: [
+          { type: 'TAG_FILTER', name: 'name', value: 'c', operator: 'EQUALS' },
+          { type: 'TAG_FILTER', name: 'name', value: 'd', operator: 'EQUALS' }
         ]
       });
     });

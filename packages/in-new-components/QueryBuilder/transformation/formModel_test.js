@@ -4,9 +4,12 @@ import { expect } from 'chai';
 
 import {
   fromTagFiltersArray,
-  CONJUNCTION as CONJUNCTION_TYPE
+  joinExpressions,
+  CONJUNCTION as CONJUNCTION_TYPE,
+  OPEN_BRACKET as OPEN_BRACKET_TYPE,
+  CLOSE_BRACKET as CLOSE_BRACKET_TYPE
 } from 'in-new-components/QueryBuilder/transformation/formModel';
-import { and } from 'in-new-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
+import { or, and } from 'in-new-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import { type as TAG_FILTER_TYPE } from 'in-new-components/QueryBuilder/transformation/tagFilter';
 import { KEY_VALUE_PAIR, STRING } from 'in-new-components/QueryBuilder/tagFilter/types';
 import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
@@ -90,5 +93,58 @@ describe('in-new-components/QueryBuilder/transformation/formModel', () => {
       }
     ];
     expect(fromTagFiltersArray(tagFilters, tagCatalog)).to.deep.equal(tagFilters);
+  });
+
+  it('must join expressions', () => {
+    expect(
+      joinExpressions(
+        [{ type: TAG_FILTER_TYPE, name: 'host.name', operator: EQUALS, value: 'my-host' }],
+        [{ type: TAG_FILTER_TYPE, name: 'jvm.version', operator: EQUALS, value: '11.0.8' }]
+      )
+    ).to.deep.equal([
+      { type: TAG_FILTER_TYPE, name: 'host.name', operator: EQUALS, value: 'my-host' },
+      { type: CONJUNCTION_TYPE, logicalOperator: and },
+      { type: TAG_FILTER_TYPE, name: 'jvm.version', operator: EQUALS, value: '11.0.8' }
+    ]);
+  });
+
+  it('must enclose expressions when joining as needed', () => {
+    expect(
+      joinExpressions(
+        [
+          { type: TAG_FILTER_TYPE, name: 'host.name', operator: EQUALS, value: 'my-host' },
+          { type: CONJUNCTION_TYPE, logicalOperator: or },
+          { type: TAG_FILTER_TYPE, name: 'host.name', operator: EQUALS, value: 'other-host' }
+        ],
+        [{ type: TAG_FILTER_TYPE, name: 'jvm.version', operator: EQUALS, value: '11.0.8' }]
+      )
+    ).to.deep.equal([
+      { type: OPEN_BRACKET_TYPE },
+      { type: TAG_FILTER_TYPE, name: 'host.name', operator: EQUALS, value: 'my-host' },
+      { type: CONJUNCTION_TYPE, logicalOperator: or },
+      { type: TAG_FILTER_TYPE, name: 'host.name', operator: EQUALS, value: 'other-host' },
+      { type: CLOSE_BRACKET_TYPE },
+      { type: CONJUNCTION_TYPE, logicalOperator: and },
+      { type: TAG_FILTER_TYPE, name: 'jvm.version', operator: EQUALS, value: '11.0.8' }
+    ]);
+  });
+
+  it('must not enclose when joining if not needed', () => {
+    expect(
+      joinExpressions(
+        [
+          { type: TAG_FILTER_TYPE, name: 'host.name', operator: EQUALS, value: 'my-host' },
+          { type: CONJUNCTION_TYPE, logicalOperator: and },
+          { type: TAG_FILTER_TYPE, name: 'host.name', operator: EQUALS, value: 'other-host' }
+        ],
+        [{ type: TAG_FILTER_TYPE, name: 'jvm.version', operator: EQUALS, value: '11.0.8' }]
+      )
+    ).to.deep.equal([
+      { type: TAG_FILTER_TYPE, name: 'host.name', operator: EQUALS, value: 'my-host' },
+      { type: CONJUNCTION_TYPE, logicalOperator: and },
+      { type: TAG_FILTER_TYPE, name: 'host.name', operator: EQUALS, value: 'other-host' },
+      { type: CONJUNCTION_TYPE, logicalOperator: and },
+      { type: TAG_FILTER_TYPE, name: 'jvm.version', operator: EQUALS, value: '11.0.8' }
+    ]);
   });
 });

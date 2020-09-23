@@ -1,37 +1,48 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 
 import { ColumnizedContent, Ul, Li, LoadingSkeletonLi, HorizontalIndicatorLi } from 'in-new-components/lists/List';
+import { type as TAG_FILTER_TYPE } from 'in-new-components/QueryBuilder/transformation/tagFilter';
+import { addTagFilters } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
+import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
 import InfrastructureList from 'in-infrastructure/Explore/components/InfrastructureList';
 import { getUniqueErrors } from 'in-new-components/Errors/ErroneousResultPresenter';
 import createGetGroupsSubscription from 'in-infrastructure/subscriptions/getGroups';
+import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import LoadMoreLi from 'in-new-components/lists/List/LoadMoreLi/LoadMoreLi';
 import CountHeader from 'in-infrastructure/Explore/components/CountHeader';
 import { getOptionalSnapshotDefinition } from 'in-sdk/snapshot/registry';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
+import { getLinkToExplore } from 'in-infrastructure/navigation/paths';
 import { error as errorType } from 'in-new-components/Message/types';
 import { indeterminateProgress } from 'in-services/fixedObjects';
 import IconButton from 'in-new-components/IconButton/IconButton';
 import { pluginTag } from 'in-infrastructure/Explore/constants';
 import useCursorPagination from 'in-hooks/useCursorPagination';
+import MoreMenu from 'in-new-components/MoreMenu/MoreMenu';
 import KeyValue from 'in-new-components/lists/KeyValue';
+import { emptyObject } from 'in-services/fixedObjects';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Message from 'in-new-components/Message';
 
 import locals from './GroupedInfrastructure.mless';
 
-export default function GroupedInfrastructure({ tagFilterExpression, groupBy, type }) {
+export default function GroupedInfrastructure({ tagFilterExpression, backendQueryModel, onChange, group, type }) {
   const timeConfig = useTimeConfig();
 
-  const props = useCursorPagination(
-    ({ cursor }) => getGroups({ timeConfig, tagFilterExpression, groupBy, type, cursor }),
-    [timeConfig, tagFilterExpression, groupBy, type]
-  );
+  const props = useCursorPagination(({ cursor }) => getGroups({ timeConfig, backendQueryModel, group, type, cursor }), [
+    timeConfig,
+    backendQueryModel,
+    group,
+    type
+  ]);
 
   return (
     <Presenter
-      timeConfig={timeConfig}
       tagFilterExpression={tagFilterExpression}
-      groupBy={[groupBy]}
+      backendQueryModel={backendQueryModel}
+      timeConfig={timeConfig}
+      onChange={onChange}
+      group={group}
       type={type}
       {...props}
     />
@@ -39,21 +50,30 @@ export default function GroupedInfrastructure({ tagFilterExpression, groupBy, ty
 }
 
 function Presenter({
+  totalRepresentedItemCount,
+  tagFilterExpression,
+  backendQueryModel,
+  canLoadMore,
+  timeConfig,
+  totalHits,
+  onChange,
+  loadMore,
   progress,
   errors,
-  canLoadMore,
-  loadMore,
-  totalHits,
-  totalRepresentedItemCount,
+  group,
   items,
-  timeConfig,
-  tagFilterExpression,
-  groupBy,
   type
 }) {
   const hasErrors = errors?.length > 0;
   const isLoading = progress?.loading;
-  const columnDefinitions = columns(groupBy, type);
+  const getParamsForGroup = useCallback(
+    item => ({
+      group: emptyObject,
+      tagFilterExpression: joinExpressions(tagFilterExpression, toTagFilters(item.tags))
+    }),
+    [tagFilterExpression]
+  );
+  const columnDefinitions = columns({ groupBy: [group.groupbyTag], type, onChange, getParamsForGroup });
 
   return (
     <>
@@ -74,12 +94,7 @@ function Presenter({
             toggleContentOnRowClick
             highlightOpenState={false}
             renderNestedContent={() => (
-              <ExpandedGroup
-                group={item}
-                tagFilterExpression={tagFilterExpression}
-                timeConfig={timeConfig}
-                type={type}
-              />
+              <ExpandedGroup group={item} backendQueryModel={backendQueryModel} timeConfig={timeConfig} type={type} />
             )}
           >
             <ColumnizedContent columnDefinitions={columnDefinitions} group={item} />
@@ -102,7 +117,7 @@ function Presenter({
   );
 }
 
-function columns(groupBy, type) {
+function columns({ groupBy, type, getParamsForGroup }) {
   const snapshotDefinition = getOptionalSnapshotDefinition(type);
   const countLabel = snapshotDefinition ? snapshotDefinition.pluginName.plural : 'Count';
   return [
@@ -132,8 +147,12 @@ function columns(groupBy, type) {
       },
       {
         width: '3rem',
-        getContent() {
-          return <IconButton key="someKey" type="lib_menu_more_horizontal" />;
+        getContent({ group }) {
+          return (
+            <MoreMenu kind="subtle">
+              <MoreMenuContent groupParams={getParamsForGroup(group)} />
+            </MoreMenu>
+          );
         }
       }
     ]);
@@ -145,25 +164,33 @@ function getColumnWidth(groupBy, index) {
   }
 }
 
-function getGroups({ timeConfig, tagFilterExpression, groupBy, cursor, type }) {
+function getGroups({ timeConfig, backendQueryModel, group, cursor, type }) {
   return createGetGroupsSubscription({
     filter: {
       timeConfig,
-      tagFilterExpression
+      tagFilterExpression: backendQueryModel
     },
     pagination: {
       cursor,
       retrievalSize: 20
     },
-    groupBy: [groupBy],
+    groupBy: [group.groupbyTag],
     type
   });
 }
 
-function ExpandedGroup({ group, tagFilterExpression, timeConfig, type }) {
+function MoreMenuContent({ groupParams }) {
+  return (
+    <Ul>
+      <Li href$={getLinkToExplore(groupParams)}>Filter down using this group</Li>
+    </Ul>
+  );
+}
+
+function ExpandedGroup({ group, backendQueryModel, timeConfig, type }) {
   return (
     <InfrastructureList
-      tagFilterExpression={addTagFilters(tagFilterExpression, group.tags)}
+      backendQueryModel={addTagsToBackendModel(backendQueryModel, group.tags)}
       timeConfig={timeConfig}
       type={type}
       retrievalSize={5}
@@ -172,21 +199,17 @@ function ExpandedGroup({ group, tagFilterExpression, timeConfig, type }) {
   );
 }
 
-function addTagFilters(tagFilterExpression, tags) {
-  const tagFilters = Object.entries(tags).map(([key, value]) => ({
-    type: 'TAG_FILTER',
-    operator: 'EQUALS',
+function addTagsToBackendModel(backendQueryModel, tags) {
+  return addTagFilters(backendQueryModel, toTagFilters(tags));
+}
+
+function toTagFilters(tags) {
+  return Object.entries(tags).map(([key, value]) => ({
+    type: TAG_FILTER_TYPE,
+    operator: EQUALS,
     name: key,
     value
   }));
-  if (!tagFilterExpression && tagFilters.length == 1) {
-    return tagFilters[0];
-  }
-  return {
-    type: 'EXPRESSION',
-    logicalOperator: 'AND',
-    elements: [tagFilterExpression, ...tagFilters].filter(Boolean)
-  };
 }
 
 const defaultGroupIcon = 'lib_views_tag';

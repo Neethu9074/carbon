@@ -7,7 +7,7 @@ import {
   defaultAllInfraGroup,
   allTypes
 } from 'in-infrastructure/Explore/constants';
-import { groupMatrixParameter, typeMatrixParameter } from 'in-infrastructure/navigation/paths';
+import { groupMatrixParameter, typeMatrixParameter, getLinkToExplore } from 'in-infrastructure/navigation/paths';
 import DashboardHeaderButton from 'in-new-components/DashboardHeader/DashboardHeaderButton';
 import getAvailablePlugins from 'in-infrastructure/subscriptions/getAvailablePlugins';
 import { getOptionalSnapshotDefinition } from 'in-sdk/snapshot/registry';
@@ -27,12 +27,12 @@ const urlStateDefinition = {
 };
 
 export default function TypeSelector() {
-  const [{ group, type }, onChange] = useUrlState(urlStateDefinition);
+  const [{ group, type }] = useUrlState(urlStateDefinition);
   const timeConfig = useTimeConfig();
   const tagFilterExpression = emptyTagFilterExpression;
   const result =
     useObservable(getAvailablePlugins({ filter: { timeConfig, tagFilterExpression } }), [timeConfig]) || pendingResult;
-  const setType = useCallback(type => onChange({ type, group: updatedGroup(group, type) }), [group]);
+  const getParamsForType = useCallback(type => ({ type, group: updatedGroup(group, type) }), [group]);
   const types = useMemo(
     () =>
       (result?.data?.plugins || [])
@@ -45,7 +45,7 @@ export default function TypeSelector() {
   const { icon, name } = getType(type);
 
   return (
-    <Overlay props={{ types, setType }} withoutWrapper content={Dropdown}>
+    <Overlay props={{ types, getParamsForType }} withoutWrapper content={Dropdown}>
       {({ toggle, isOpen, refSetter }) => (
         <DashboardHeaderButton size="normal" refSetter={refSetter} onClick={toggle} expanded={isOpen}>
           <TypeRow icon={icon} name={name} />
@@ -55,17 +55,15 @@ export default function TypeSelector() {
   );
 }
 
-function Dropdown({ setType, types, close }) {
+function Dropdown({ getParamsForType, types, close }) {
   return (
     <div className={locals.dropdown}>
       <Ul>
         {types.map(({ plugin, icon, name }) => (
           <Li
             key={plugin}
-            onClick={() => {
-              close();
-              setType(plugin);
-            }}
+            href$={getLinkToExplore(getParamsForType(plugin))}
+            onDefaultHrefInteractionSideEffect={close}
           >
             <TypeRow icon={icon} name={name} />
           </Li>

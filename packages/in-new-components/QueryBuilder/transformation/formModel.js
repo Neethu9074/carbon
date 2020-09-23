@@ -30,3 +30,33 @@ export function fromTagFiltersArray(tagFilters, tagCatalog) {
   }
   return formModel;
 }
+
+export function joinExpressions(left, right, logicalOperator = and) {
+  if (left.length === 0) {
+    return right;
+  }
+
+  if (right.length === 0) {
+    return left;
+  }
+
+  const conjunction = { type: CONJUNCTION, logicalOperator };
+
+  return [...enclose(left), conjunction, ...enclose(right)];
+}
+
+function enclose(expression) {
+  if (isEnclosed(expression)) {
+    return expression;
+  }
+  return [{ type: OPEN_BRACKET }, ...expression, { type: CLOSE_BRACKET }];
+}
+
+function isEnclosed(expression) {
+  return (
+    expression.length === 0 ||
+    expression.length === 1 ||
+    expression.every(t => t.type === TAG_FILTER_TYPE || (t.type === CONJUNCTION && t.logicalOperator === and)) ||
+    (expression[0].type === OPEN_BRACKET && expression[expression.length - 1].type === CLOSE_BRACKET)
+  );
+}

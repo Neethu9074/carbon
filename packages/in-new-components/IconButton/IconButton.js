@@ -14,16 +14,10 @@ const iconDimensions = {
   compact: 'xs'
 };
 
-export default function IconButton({
-  type,
-  size = 'normal',
-  iconSize,
-  kind = 'action',
-  onClick,
-  disabled,
-  leftAligned,
-  rightAligned
-}) {
+const IconButton = React.forwardRef(function IconButton(
+  { type, size = 'normal', iconSize, kind = 'action', onClick, disabled, leftAligned, rightAligned, refSetter },
+  ref
+) {
   return (
     <button
       className={evaluateClassNames({
@@ -35,6 +29,7 @@ export default function IconButton({
         [locals.disabled]: disabled
       })}
       onClick={e => (disabled ? stopPropagationAndPreventDefault(e) : onClick?.(e))}
+      ref={ref || refSetter}
     >
       <SvgIcon
         type={type}
@@ -48,7 +43,9 @@ export default function IconButton({
       />
     </button>
   );
-}
+});
+
+export default IconButton;
 
 IconButton.propTypes = {
   disabled: PropTypes.bool,
@@ -58,5 +55,6 @@ IconButton.propTypes = {
   size: PropTypes.oneOf(Object.keys(iconDimensions)),
   type: PropTypes.string.isRequired,
   leftAligned: PropTypes.bool,
-  rightAligned: PropTypes.bool
+  rightAligned: PropTypes.bool,
+  refSetter: PropTypes.func
 };

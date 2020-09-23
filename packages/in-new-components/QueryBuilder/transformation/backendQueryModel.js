@@ -34,6 +34,29 @@ export function toBackendQueryModel(formModel) {
   return result;
 }
 
+export function addTagFilters(backendQueryModel, tagFilters, logicalOperator = OPERATOR_AND) {
+  if (isEmptyExpression(backendQueryModel)) {
+    if (tagFilters.length == 1) {
+      return tagFilters[0];
+    }
+
+    return {
+      type: EXPRESSION,
+      logicalOperator,
+      elements: tagFilters
+    };
+  }
+  return {
+    type: EXPRESSION,
+    logicalOperator,
+    elements: [backendQueryModel, ...tagFilters]
+  };
+}
+
+function isEmptyExpression(backendQueryModel) {
+  return !backendQueryModel || (backendQueryModel.type === EXPRESSION && backendQueryModel.elements.length === 0);
+}
+
 function createLevelsForBrackets(elements, index, endIndexExclusive, levels) {
   const element = elements[index];
 

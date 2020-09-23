@@ -20,7 +20,7 @@ import locals from './InfrastructureList.mless';
 export default function InfrastructureList({
   retrievalSize = 20,
   numSkeletonRows = 3,
-  tagFilterExpression,
+  backendQueryModel,
   type,
   showTotals = false
 }) {
@@ -32,14 +32,14 @@ export default function InfrastructureList({
   const { orderBy, orderDirection } = state;
   const { items, totalHits, ...tableProps } = useCursorPagination(
     ({ cursor }) =>
-      getTableData({ timeConfig, retrievalSize, tagFilterExpression, orderBy, type, orderDirection, cursor }),
-    [timeConfig, retrievalSize, tagFilterExpression, type, orderBy, orderDirection]
+      getTableData({ timeConfig, retrievalSize, backendQueryModel, orderBy, type, orderDirection, cursor }),
+    [timeConfig, retrievalSize, backendQueryModel, type, orderBy, orderDirection]
   );
 
   const columnDefinitions =
-    useObservable(getColumnDefinitions({ timeConfig, tagFilterExpression, items }), [
+    useObservable(getColumnDefinitions({ timeConfig, backendQueryModel, items }), [
       timeConfig,
-      tagFilterExpression,
+      backendQueryModel,
       items
     ]) || staticColumnDefinitions;
 
@@ -65,10 +65,10 @@ export default function InfrastructureList({
   );
 }
 
-function getTableData({ timeConfig, retrievalSize, tagFilterExpression, type, orderBy, orderDirection, cursor }) {
+function getTableData({ timeConfig, retrievalSize, backendQueryModel, type, orderBy, orderDirection, cursor }) {
   return getEntities({
     filter: {
-      tagFilterExpression,
+      tagFilterExpression: backendQueryModel,
       timeConfig
     },
     order: {
@@ -100,13 +100,13 @@ const staticColumnDefinitions = [
   }
 ];
 
-function getColumnDefinitions({ timeConfig, tagFilterExpression, items }) {
+function getColumnDefinitions({ timeConfig, backendQueryModel, items }) {
   if (items) {
     const plugins = new Set(items.map(i => i.plugin));
     if (plugins.size === 1) {
       const plugin = plugins.values().next().value;
       const defaultColumns = staticColumnDefinitions.concat(getKpiColumns(plugin));
-      return getAllMetricColumns({ timeConfig, tagFilterExpression, plugin }).map(allMetricColumns =>
+      return getAllMetricColumns({ timeConfig, backendQueryModel, plugin }).map(allMetricColumns =>
         defaultColumns.concat(allMetricColumns.filter(({ id }) => !defaultColumns.find(def => def.id === id)))
       );
     }
@@ -143,13 +143,13 @@ function getKpiColumns(plugin) {
   }));
 }
 
-function getAllMetricColumns({ timeConfig, tagFilterExpression, plugin }) {
+function getAllMetricColumns({ timeConfig, backendQueryModel, plugin }) {
   return getAvailableMetrics({
     filter: {
       timeConfig,
-      tagFilterExpression
+      tagFilterExpression: backendQueryModel
     },
-    plugin
+    type: plugin
   })
     .map(availableMetrics => {
       if (availableMetrics.data) {

@@ -155,8 +155,8 @@ function InfraExploreViewWithFixatedTimeConfig() {
 
           {isValid && !group?.groupbyTag && (
             <InfrastructureList
+              backendQueryModel={backendQueryModel}
               timeConfig={timeConfig}
-              tagFilterExpression={backendQueryModel}
               type={typeOrNull}
               showTotals
             />
@@ -164,9 +164,11 @@ function InfraExploreViewWithFixatedTimeConfig() {
 
           {isValid && group?.groupbyTag && (
             <GroupedInfrastructure
+              onChange={onChange}
+              tagFilterExpression={tagFilterExpression}
+              backendQueryModel={backendQueryModel}
+              group={group}
               timeConfig={timeConfig}
-              tagFilterExpression={backendQueryModel}
-              groupBy={group.groupbyTag}
               type={typeOrNull}
             />
           )}
