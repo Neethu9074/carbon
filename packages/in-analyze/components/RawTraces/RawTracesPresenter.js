@@ -15,7 +15,6 @@ import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/
 import ApplicationRawMetricsChart from 'in-analyze/components/MetricsChart/ApplicationRawMetricsChart';
 import GroupingTableHeader from 'in-analyze/components/GroupingTableHeader';
 import LoadingStates from 'in-analyze/AnalyzeView/components/LoadingStates';
-import { latencyDistributionBase10Enabled } from 'in-services/featureFlags';
 import TableLinkWithIcon from 'in-analyze/components/TableLinkWithIcon';
 import { getServiceDashboard } from 'in-applications/navigation/paths';
 import AnalyzeWorkspace from 'in-analyze/components/AnalyzeWorkspace';
@@ -51,9 +50,9 @@ export default connectTo({ isInternalVisible: isInternalVisible$ }, function Raw
         nbItems={totalRepresentedItemCount}
         {...props}
         forAnalyzeCalls
-        // disable the 'show/hide graph' button, if the FF is not enabled
-        onChange={latencyDistributionBase10Enabled ? e => onShowGraphChange(e['showGraph']) : null} />
-      {latencyDistributionBase10Enabled && showGraph && <ApplicationRawMetricsChart {...props} />}
+        onChange={e => onShowGraphChange(e['showGraph'])}
+      />
+      {showGraph && <ApplicationRawMetricsChart {...props} />}
       <Table tableInCard>
         <Thead>
           <Tr size="compact">

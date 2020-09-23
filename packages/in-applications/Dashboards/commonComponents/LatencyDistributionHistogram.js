@@ -1,12 +1,9 @@
 import React, { useState } from 'react';
 
 import LatencyDistributionBase10Chart from 'in-new-components/LatencyDistributionBase10Chart/LatencyDistributionBase10Chart';
-import LatencyDistributionChart from 'in-new-components/LatencyDistributionChart/LatencyDistributionChart';
 import getLatencyDistributionBase10 from 'in-subscription/application/getLatencyDistributionBase10';
-import getLatencyDistribution from 'in-subscription/application/getLatencyDistribution';
 import { jumpToUnboundedAnalyticsFromLatencyTracker } from 'in-applications/tracker';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
-import { latencyDistributionBase10Enabled } from 'in-services/featureFlags';
 import { operators } from 'in-analyze/applicationFilter';
 import { fixateTimeConfig } from 'in-stores/time/config';
 
@@ -16,8 +13,7 @@ export default function LatencyDistributionHistogram({
   serviceId,
   endpointId,
   boundaryScope,
-  includeSyntheticCalls,
-  renderPostChartContent
+  includeSyntheticCalls
 }) {
   const [selectedLatencyRange, setSelectedLatencyRange] = useState({ from: null, to: null });
 
@@ -55,107 +51,84 @@ export default function LatencyDistributionHistogram({
     return filters;
   };
 
-  if (latencyDistributionBase10Enabled) {
-    return (
-      <LatencyDistributionBase10Chart
-        dataSource="calls"
-        subscription={getLatencyDistributionBase10({
-          maxLatencyBuckets: 80,
-          filter: {
-            timeConfig,
-            application: applicationId,
-            service: serviceId,
-            endpoint: endpointId,
-            applicationBoundaryScope: boundaryScope
-          },
-          tagFilterExpression: {
-            type: 'EXPRESSION',
-            logicalOperator: 'AND',
-            elements: [
-              {
-                type: 'TAG_FILTER',
-                name: boundaryScope === 'INBOUND' ? 'boundary.application.id' : 'application.id',
-                stringValue: applicationId,
-                operator: operators.EQUALS
-              },
-              {
-                type: 'TAG_FILTER',
-                name: 'service.id',
-                stringValue: serviceId,
-                operator: operators.EQUALS
-              },
-              {
-                type: 'TAG_FILTER',
-                name: 'endpoint.id',
-                stringValue: endpointId,
-                operator: operators.EQUALS
-              }
-            ]
-              .filter(e => e.stringValue)
-              .concat([
-                {
-                  type: 'TAG_FILTER',
-                  name: 'call.is_synthetic',
-                  booleanValue: includeSyntheticCalls || false,
-                  operator: operators.EQUALS
-                }
-              ])
-          }
-        })}
-        selectionMenuItems={[
-          {
-            name: 'analyze',
-            icon: 'lib_analyze',
-            label: 'View in Analyze',
-            getHref$: () =>
-              getJumpToAnalyzeHref$(
-                { applicationId: applicationId, serviceId: serviceId, endpointId: endpointId },
-                {
-                  timeConfig: fixateTimeConfig(timeConfig),
-                  boundaryScope,
-                  groupByTag: {},
-                  filters: filterForLink(),
-                  focusedMetric: 'latency_DISTRIBUTION',
-                  orderBy: 'latency',
-                  orderDirection: 'DESC'
-                }
-              ),
-            onClick: () => {
-              jumpToUnboundedAnalyticsFromLatencyTracker({
-                applicationId: applicationId,
-                serviceId: serviceId,
-                endpointId: endpointId,
-                boundaryScope: boundaryScope,
-                from: selectedLatencyRange.from,
-                to: selectedLatencyRange.to
-              });
-            }
-          }
-        ]}
-        onSelectionChanged={setSelectedLatencyRange}
-        showLegend
-      />
-    );
-  }
   return (
-    <LatencyDistributionChart
-      renderPostChartContent={renderPostChartContent}
-      applicationId={applicationId}
-      serviceId={serviceId}
-      endpointId={endpointId}
-      boundaryScope={boundaryScope}
-      includeSyntheticCalls={includeSyntheticCalls}
-      subscription={getLatencyDistribution({
-        maxLatencyBuckets: 10,
+    <LatencyDistributionBase10Chart
+      dataSource="calls"
+      subscription={getLatencyDistributionBase10({
+        maxLatencyBuckets: 80,
         filter: {
           timeConfig,
           application: applicationId,
           service: serviceId,
           endpoint: endpointId,
-          applicationBoundaryScope: boundaryScope,
-          includeSyntheticCalls
+          applicationBoundaryScope: boundaryScope
+        },
+        tagFilterExpression: {
+          type: 'EXPRESSION',
+          logicalOperator: 'AND',
+          elements: [
+            {
+              type: 'TAG_FILTER',
+              name: boundaryScope === 'INBOUND' ? 'boundary.application.id' : 'application.id',
+              stringValue: applicationId,
+              operator: operators.EQUALS
+            },
+            {
+              type: 'TAG_FILTER',
+              name: 'service.id',
+              stringValue: serviceId,
+              operator: operators.EQUALS
+            },
+            {
+              type: 'TAG_FILTER',
+              name: 'endpoint.id',
+              stringValue: endpointId,
+              operator: operators.EQUALS
+            }
+          ]
+            .filter(e => e.stringValue)
+            .concat([
+              {
+                type: 'TAG_FILTER',
+                name: 'call.is_synthetic',
+                booleanValue: includeSyntheticCalls || false,
+                operator: operators.EQUALS
+              }
+            ])
         }
       })}
+      selectionMenuItems={[
+        {
+          name: 'analyze',
+          icon: 'lib_analyze',
+          label: 'View in Analyze',
+          getHref$: () =>
+            getJumpToAnalyzeHref$(
+              { applicationId: applicationId, serviceId: serviceId, endpointId: endpointId },
+              {
+                timeConfig: fixateTimeConfig(timeConfig),
+                boundaryScope,
+                groupByTag: {},
+                filters: filterForLink(),
+                focusedMetric: 'latency_DISTRIBUTION',
+                orderBy: 'latency',
+                orderDirection: 'DESC'
+              }
+            ),
+          onClick: () => {
+            jumpToUnboundedAnalyticsFromLatencyTracker({
+              applicationId: applicationId,
+              serviceId: serviceId,
+              endpointId: endpointId,
+              boundaryScope: boundaryScope,
+              from: selectedLatencyRange.from,
+              to: selectedLatencyRange.to
+            });
+          }
+        }
+      ]}
+      onSelectionChanged={setSelectedLatencyRange}
+      showLegend
     />
   );
 }

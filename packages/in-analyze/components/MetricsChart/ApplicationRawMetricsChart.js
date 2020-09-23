@@ -6,7 +6,6 @@ import { getLatencySelectionFromFilters } from 'in-new-components/LatencyDistrib
 import getLatencyDistributionBase10 from 'in-subscription/application/getLatencyDistributionBase10';
 import { getTagFilterListForBackendSubscription } from 'in-analyze/applicationFilter';
 import RawMetricsChart from 'in-analyze/components/MetricsChart/RawMetricsChart';
-import { latencyDistributionBase10Enabled } from 'in-services/featureFlags';
 import { millis } from 'in-services/formatters/number';
 
 const latencyDistributionChartDefinition = {
@@ -19,7 +18,7 @@ export default withProps(({ filters, onLatencySelectionChanged }) => {
   const latencyTag = filters.dataSource === 'traces' ? 'trace.latency' : 'call.latency';
   return {
     timeConfig: filters.timeConfig,
-    chartDefinitions: latencyDistributionBase10Enabled ? [latencyDistributionChartDefinition] : [],
+    chartDefinitions: [latencyDistributionChartDefinition],
     customChartRenderers: [
       {
         key: 'latency_DISTRIBUTION',

@@ -15,7 +15,6 @@ import {
 import ApplicationRawMetricsChart from '../MetricsChart/ApplicationRawMetricsChart';
 import GroupingTableHeader from 'in-analyze/components/GroupingTableHeader';
 import LoadingStates from 'in-analyze/AnalyzeView/components/LoadingStates';
-import { latencyDistributionBase10Enabled } from 'in-services/featureFlags';
 import TableLinkWithIcon from 'in-analyze/components/TableLinkWithIcon';
 import BatchingIndicator from 'in-analyze/components/BatchingIndicator';
 import { getServiceDashboard } from 'in-applications/navigation/paths';
@@ -51,10 +50,9 @@ export default function RawCallsPresenter(props) {
         nbItems={totalRepresentedItemCount}
         {...props}
         forAnalyzeCalls
-        // disable the 'show/hide graph' button, if the FF is not enabled
-        onChange={latencyDistributionBase10Enabled ? e => onShowGraphChange(e['showGraph']) : null}
+        onChange={e => onShowGraphChange(e['showGraph'])}
       />
-      {latencyDistributionBase10Enabled && showGraph && <ApplicationRawMetricsChart {...props} />}
+      {showGraph && <ApplicationRawMetricsChart {...props} />}
       <Table tableInCard>
         <Thead>
           <Tr size="compact">
