@@ -43,7 +43,7 @@ export function getLinkToAnalyze({
   orderDirection,
   timeConfig,
   metrics,
-  showGraph,
+  showGraph = true,
   focusedMetric,
   jumpToSource,
   previewEnabled
