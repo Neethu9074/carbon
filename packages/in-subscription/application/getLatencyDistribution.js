@@ -1,7 +1,0 @@
-import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
-
-export default createResultSubscriptionFactory({
-  eventId: 'getLatencyDistribution',
-  memoizeFor: 5000,
-  trackSubscriptionStatistics: true
-});
