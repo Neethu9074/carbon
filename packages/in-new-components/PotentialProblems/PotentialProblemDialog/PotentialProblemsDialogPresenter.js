@@ -2,6 +2,10 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import PotentialProblemContent from 'in-new-components/PotentialProblems/PotentialProblemDialog/PotentialProblemContent/PotentialProblemContent';
+import {
+  alertRulesPropType,
+  thresholdsPropType
+} from 'in-new-components/PotentialProblems/PotentialProblemsLane/proptypes';
 import PotentialProblemsList from 'in-new-components/PotentialProblems/PotentialProblemDialog/PotentialProblemsList';
 import evaluateClassNames from 'in-services/util/classnames';
 import { close } from 'in-components/DialogPresenter/store';
@@ -9,10 +13,15 @@ import Dialog from 'in-new-components/Dialog/Dialog';
 
 import locals from './PotentialProblemsDialogPresenter.mless';
 
-export default function PotentialProblemsDialogPresenter({ alertConfig, alertResult, ...remainingProps }) {
-  const isCluster = alertResult.alerts.length > 1;
-  const title = `Potential Problem${isCluster ? `s (${alertResult.alerts.length})` : ''}`;
-  const [selectedItem, setSelectedItem] = useState(alertResult.alerts[0]);
+export default function PotentialProblemsDialogPresenter({ alertRules, thresholds, alerts, ...remainingProps }) {
+  if (!alerts) return null;
+
+  const isCluster = alerts.length > 1;
+  const title = `Potential Problem${isCluster ? `s (${alerts.length})` : ''}`;
+
+  const [selectedItem, setSelectedItem] = useState(alerts[0]);
+  const ruleSelected = alertRules[selectedItem.key].rule;
+  const thresholdSelected = thresholds[selectedItem.key];
 
   return (
     <Dialog title={title} onClose={close} withoutBodyPadding>
@@ -26,9 +35,10 @@ export default function PotentialProblemsDialogPresenter({ alertConfig, alertRes
           <div className={locals.listWrapper}>
             <PotentialProblemsList
               {...remainingProps}
-              alerts={alertResult.alerts}
-              alertConfig={alertConfig}
+              alerts={alerts}
               onItemClick={item => setSelectedItem(item)}
+              thresholds={thresholds}
+              alertRules={alertRules}
             />
           </div>
         )}
@@ -36,8 +46,8 @@ export default function PotentialProblemsDialogPresenter({ alertConfig, alertRes
           <PotentialProblemContent
             {...remainingProps}
             alert={selectedItem}
-            alertConfigs={alertConfig}
-            selectedItem={selectedItem}
+            threshold={thresholdSelected}
+            rule={ruleSelected}
           />
         </div>
       </div>
@@ -46,8 +56,7 @@ export default function PotentialProblemsDialogPresenter({ alertConfig, alertRes
 }
 
 PotentialProblemsDialogPresenter.propTypes = {
-  alertConfig: PropTypes.object.isRequired,
-  alertResult: PropTypes.shape({
-    alerts: PropTypes.arrayOf(PropTypes.object)
-  }).isRequired
+  alertRules: alertRulesPropType.isRequired,
+  alerts: PropTypes.arrayOf(PropTypes.object).isRequired,
+  thresholds: thresholdsPropType.isRequired
 };

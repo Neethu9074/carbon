@@ -9,19 +9,27 @@ export default function PotentialProblemsHoverArea({
   timeAxisHeight,
   markerPaneHeight,
   xScale,
-  clusterWidth
+  eventData
 }) {
-  const durationWidth = clusterWidth;
+  const height = 8; // it's the same value as the --item-heigh var in the respective CSS file
+  const { duration } = eventData;
+  let durationWidth = duration ? xScale?.getRangeArea(duration) : null;
+  if (!durationWidth) return null;
+  if (durationWidth < height) durationWidth = height;
 
-  const fromXPos = Math.max(0, xPos - durationWidth / 2);
-  const toXPos = Math.min(xPos + durationWidth / 2, xScale?.getRangeTo());
+  const fromXPos = Math.max(0, xPos);
+  const toXPos = Math.min(xPos + durationWidth, xScale?.getRangeTo());
+  // const fromXPos = Math.max(0, xPos - durationWidth / 2) + durationWidth / 2;
+  // const toXPos = Math.min(xPos + durationWidth / 2, xScale?.getRangeTo()) + durationWidth / 2;
+  // const fromXPos = Math.max(0, xPos - durationWidth / 2);
+  // const toXPos = Math.min(xPos + durationWidth / 2, xScale?.getRangeTo());
 
   return (
     <div
       className={locals.highlightClusterOverlay}
       style={{
-        transform: `translateX(${fromXPos !== undefined ? fromXPos : xPos - clusterWidth / 2}px)`,
-        width: `${toXPos !== undefined && fromXPos !== undefined ? toXPos - fromXPos + 0.5 : clusterWidth}px`,
+        transform: `translateX(${fromXPos !== undefined ? fromXPos : xPos - durationWidth / 2}px)`,
+        width: `${toXPos !== undefined && fromXPos !== undefined ? toXPos - fromXPos + 0.5 : durationWidth}px`,
         ...getTopAndBottomOffset()
       }}
     />
@@ -35,12 +43,12 @@ export default function PotentialProblemsHoverArea({
 
 PotentialProblemsHoverArea.propTypes = {
   chartContentPosition: PropTypes.string,
+  eventData: PropTypes.object,
   markerPaneHeight: PropTypes.number,
   timeAxisHeight: PropTypes.number,
   xPos: PropTypes.number,
   xScale: PropTypes.shape({
     getRangeArea: PropTypes.func,
     getRangeTo: PropTypes.func
-  }),
-  clusterWidth: PropTypes.number
+  })
 };

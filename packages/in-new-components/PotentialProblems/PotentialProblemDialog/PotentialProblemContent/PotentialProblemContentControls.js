@@ -1,6 +1,11 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import {
+  alertPropType,
+  rulePropType,
+  thresholdPropType
+} from 'in-new-components/PotentialProblems/PotentialProblemsLane/proptypes';
 import getConfigByDataSource, { groupByEndpointName, groupByServiceName } from 'in-analyze/AnalyzeView/dataSources';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
@@ -10,11 +15,14 @@ import { role } from 'in-stores/user';
 
 export default function PotentialProblemContentControls({
   applicationLabel,
+  serviceLabel,
+  endpointLabel,
   tagFilters,
   boundaryScope,
   alert,
   alertType,
-  alertConfig,
+  rule,
+  threshold,
   renderSmartAlertDialogComponent,
   ...remainingProps
 }) {
@@ -27,7 +35,8 @@ export default function PotentialProblemContentControls({
         href$={getLinkToAnalyze({
           dataSource: 'calls',
           applicationName: applicationLabel,
-          filters: tagFilters,
+          serviceName: serviceLabel,
+          endpointName: endpointLabel,
           boundaryScope: boundaryScope,
           groupByTag: getGrouping(alertType, tagFilters),
           focusedMetric: getFocusedMetric(alertType),
@@ -39,7 +48,6 @@ export default function PotentialProblemContentControls({
       >
         Investigate
       </Button>
-
       {role.canConfigureCustomAlerts && (
         <Button
           kind="secondaryDarker"
@@ -47,7 +55,8 @@ export default function PotentialProblemContentControls({
             addActiveDialog(
               renderSmartAlertDialogComponent({
                 ...remainingProps,
-                ...alertConfig,
+                rule,
+                threshold,
                 applicationLabel,
                 tagFilters,
                 boundaryScope
@@ -100,14 +109,14 @@ const isEndpointOrServiceFilter = filter =>
     filter.name === 'service.id');
 
 PotentialProblemContentControls.propTypes = {
-  alert: PropTypes.shape({
-    end: PropTypes.number,
-    start: PropTypes.number.isRequired
-  }).isRequired,
-  alertConfig: PropTypes.object.isRequired,
+  alert: alertPropType.isRequired,
+  rule: rulePropType.isRequired,
   alertType: PropTypes.string.isRequired,
   applicationLabel: PropTypes.string.isRequired,
+  serviceLabel: PropTypes.string,
+  endpointLabel: PropTypes.string,
   boundaryScope: PropTypes.string,
   renderSmartAlertDialogComponent: PropTypes.func.isRequired,
-  tagFilters: PropTypes.arrayOf(PropTypes.object).isRequired
+  tagFilters: PropTypes.arrayOf(PropTypes.object).isRequired,
+  threshold: thresholdPropType.isRequired
 };

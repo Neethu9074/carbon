@@ -78,6 +78,7 @@ export default function CallsErrorsChart({
       renderPostChartContent={props =>
         renderPostChartContent({
           ...props,
+          boundaryScope,
           alertRules: {
             throughput: {
               rule: {

@@ -112,14 +112,14 @@ function MarkersLanePresenter({
           [locals.lanePostChart]: chartContentPosition === 'post'
         })}
       >
-        {events.map(eventData => {
+        {events.map((eventData, i) => {
           const showIconForCluster = eventData?.count > 1;
           const xPos = isClustered ? getXposCluster(eventData.timestamp) : xScale?.getRange(eventData.timestamp);
 
           return (
             <Tooltip
               align={getTooltipAlignmentForChartContentPosition(chartContentPosition)}
-              key={eventData.id ?? eventData.timestamp}
+              key={(eventData.id ?? eventData.timestamp) + i}
               content={tooltipContent(eventData)}
             >
               {renderLaneItem({

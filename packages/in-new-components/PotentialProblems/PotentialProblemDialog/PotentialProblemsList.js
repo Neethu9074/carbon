@@ -1,6 +1,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import {
+  alertRulesPropType,
+  thresholdsPropType
+} from 'in-new-components/PotentialProblems/PotentialProblemsLane/proptypes';
 import { getType } from 'in-new-components/PotentialProblems/PotentialProblemDialog/potentialProblemsDialogUtil';
 import { getTitle } from 'in-new-components/PotentialProblems/textUtil';
 import { Ul, Li } from 'in-new-components/lists/List/List';
@@ -8,21 +12,31 @@ import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './PotentialProblemsList.mless';
 
-export default function PotentialProblemsList({ alerts, alertConfig, ...remainingProps }) {
+export default function PotentialProblemsList({ alerts, thresholds, alertRules, ...remainingProps }) {
   if (alerts.length === 0) return null;
+
   return (
     <Ul className={locals.list}>
       {alerts.map((alert, i) => {
+        const rule = alertRules[alert.key].rule;
+        const threshold = thresholds[alert.key];
         return (
-          <PotentialProblemsListItem key={i} alertConfig={alertConfig[alert.key]} alert={alert} {...remainingProps} />
+          <PotentialProblemsListItem key={i} threshold={threshold} rule={rule} alert={alert} {...remainingProps} />
         );
       })}
     </Ul>
   );
 }
 
-function PotentialProblemsListItem({ applicationLabel, serviceLabel, endpointLabel, alertConfig, alert, onItemClick }) {
-  const { rule, threshold } = alertConfig;
+function PotentialProblemsListItem({
+  applicationLabel,
+  serviceLabel,
+  endpointLabel,
+  rule,
+  threshold,
+  alert,
+  onItemClick
+}) {
   return (
     <Li className={locals.listItem} onClick={() => onItemClick(alert)}>
       <div className={locals.itemInnerWrapper}>
@@ -40,12 +54,7 @@ function PotentialProblemsListItem({ applicationLabel, serviceLabel, endpointLab
 }
 
 PotentialProblemsList.propTypes = {
-  alertConfig: PropTypes.object.isRequired,
-  alerts: PropTypes.arrayOf(
-    PropTypes.shape({
-      key: PropTypes.string.isRequired,
-      end: PropTypes.number,
-      start: PropTypes.number.isRequired
-    }).isRequired
-  ).isRequired
+  alertRules: alertRulesPropType.isRequired,
+  alerts: PropTypes.arrayOf(PropTypes.object).isRequired,
+  thresholds: thresholdsPropType.isRequired
 };
