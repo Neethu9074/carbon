@@ -24,3 +24,4 @@ git-env.properties
 !/.vscode/settings.json
 ui-client-license-report.csv
 ui-server-license-report.csv
+.DS_Store
