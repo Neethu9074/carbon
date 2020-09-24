@@ -19,7 +19,6 @@ import { indeterminateProgress } from 'in-services/fixedObjects';
 import IconButton from 'in-new-components/IconButton/IconButton';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import useCursorPagination from 'in-hooks/useCursorPagination';
-import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import KeyValue from 'in-new-components/lists/KeyValue';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Message from 'in-new-components/Message';
@@ -167,12 +166,6 @@ function Presenter({
 function columns({ groupBy, tagFilterExpression, onChangeFilter, metrics }) {
   const { groupbyTag, groupbyTagSecondLevelKey } = groupBy;
   return [
-    {
-      width: '3rem',
-      getContent({ group }) {
-        return <CheckboxFancy checked size="large" onChange={() => alert(`selected groupBy ${group.name}`)} />;
-      }
-    },
     {
       width: '3rem',
       getContent() {
