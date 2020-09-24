@@ -26,7 +26,7 @@ const authTab = {
 };
 
 const ampTab = {
-  label: 'Account',
+  label: 'Account & Billing',
   path: ampSettings,
   component: AmpSettings
 };
