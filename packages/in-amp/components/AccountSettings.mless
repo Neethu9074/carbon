@@ -3,7 +3,7 @@
 :local {
   .subViewHeading {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
 
     h1 {
       line-height: 0.5rem;
@@ -37,12 +37,10 @@
   .label {
     width: 100%;
 
-    font-size: 0.875rem;
     font-weight: 600;
   }
 
   .heading {
-    font-size: 0.75rem;
     font-weight: 600;
   }
 }
