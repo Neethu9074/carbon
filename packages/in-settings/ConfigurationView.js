@@ -35,7 +35,7 @@ export default connectTo(
       }
     }
 
-    return <TabView HeaderComponent={Header} location={props.location} tabs={getTabs(props)} props={props} />;
+    return <TabView HeaderComponent={Header} location={props.location} tabs={getTabs()} props={props} />;
   }
 );
 

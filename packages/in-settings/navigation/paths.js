@@ -28,6 +28,8 @@ export const teamSettingsAccessControlApiTokens = `${accessControl}/apiTokens`;
 
 export const authSettings = `${settingsPath}/auth`;
 
+export const changePassword = `${authSettings}/password/change`;
+
 export const googleSSO = `${authSettings}/googleSingleSignOn`;
 export const saml = `${authSettings}/saml`;
 export const ldap = `${authSettings}/ldap`;

@@ -25,6 +25,7 @@ export default connectTo(
       result,
       saveItem,
       onCancelClick,
+      onSubmit,
       hideFooter = false,
       deleteItem
     } = props;
@@ -68,7 +69,7 @@ export default connectTo(
       setCanDeleteItem
     };
 
-    return (
+    const content = (
       <div className={locals.wrapper}>
         <div>
           <Header parentPath={parentPath} parentViewName={parentViewName} />
@@ -81,6 +82,7 @@ export default connectTo(
             canSaveItem={canSaveItem}
             canDeleteItem={canDeleteItem}
             onSaveClick={saveItem ? () => saveItem({ ...props, setMessage, form, setForm, setCanSaveItem }) : undefined}
+            onSubmit={onSubmit}
             onDeleteClick={
               deleteItem ? () => deleteItem({ ...props, setMessage, form, setForm, setCanSaveItem }) : undefined
             }
@@ -92,6 +94,11 @@ export default connectTo(
         )}
       </div>
     );
+
+    if (onSubmit) {
+      return <form onSubmit={e => onSubmit(e, renderProps)}>{content}</form>;
+    }
+    return content;
   }
 );
 

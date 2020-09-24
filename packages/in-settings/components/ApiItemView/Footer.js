@@ -8,6 +8,7 @@ import locals from './Footer.mless';
 export default function Footer({
   canSaveItem,
   onSaveClick,
+  onSubmit,
   canDeleteItem,
   onDeleteClick,
   onCancelClick,
@@ -20,7 +21,7 @@ export default function Footer({
       {(parentPath || onCancelClick) && (
         <CancelButton href$={parentPath ? getView(parentPath) : undefined} onClick={onCancelClick} />
       )}
-      {onSaveClick && <SaveButton onClick={onSaveClick} disabled={!canSaveItem} form={form} />}
+      {(onSaveClick || onSubmit) && <SaveButton onClick={onSaveClick} disabled={!canSaveItem} form={form} />}
       {onDeleteClick && <DeleteButton onClick={onDeleteClick} disabled={!canDeleteItem} label={deleteLabel} />}
     </FormFooter>
   );

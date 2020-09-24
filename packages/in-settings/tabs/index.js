@@ -5,7 +5,7 @@ import TeamSettings from 'in-settings/tabs/TeamSettings/View';
 import AuthSettings from 'in-settings/tabs/AuthSettings/View';
 import { ampEnabled } from 'in-services/featureFlags';
 import AmpSettings from 'in-settings/tabs/AMP/View';
-import { isOwner, role } from 'in-stores/user';
+import { isOwner } from 'in-stores/user';
 
 const teamTab = {
   label: 'Team Settings',
@@ -31,15 +31,7 @@ const ampTab = {
   component: AmpSettings
 };
 
-export default function getTabs({ isGoogleSSOAvailable, isSamlAvailable, isLdapAvailable }) {
-  const authTabVisible =
-    isOwner ||
-    role.canConfigureSessionSettings ||
-    (role.canConfigureAuthenticationMethods && (isGoogleSSOAvailable || isSamlAvailable || isLdapAvailable));
-
+export default function getTabs() {
   const ampTabVisible = ampEnabled && isOwner;
-
-  return [roleHasAnyTeamPermissions() && teamTab, userTab, authTabVisible && authTab, ampTabVisible && ampTab].filter(
-    Boolean
-  );
+  return [roleHasAnyTeamPermissions() && teamTab, userTab, authTab, ampTabVisible && ampTab].filter(Boolean);
 }

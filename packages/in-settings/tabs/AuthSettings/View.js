@@ -7,6 +7,7 @@ import {
   saml,
   ldap,
   twoFaUsers,
+  changePassword,
   samlMapping,
   ldapMapping,
   timeouts
@@ -15,6 +16,7 @@ import GoogleSSO from 'in-settings/tabs/AuthSettings/pages/indentityProviders/Go
 import { isAvailable as isGoogleSSOAvailable } from 'in-settings/tabs/AuthSettings/api/googleSSO';
 import SessionSettings from 'in-settings/tabs/AuthSettings/pages/sessionSettings/SessionSettings';
 import SideNavigationAndContent from 'in-new-components/layout/SideNavigationAndContent';
+import ChangePassword from 'in-settings/tabs/AuthSettings/pages/password/ChangePassword';
 import type { NavigationTree } from 'in-new-components/layout/SideNavigationAndContent';
 import { isAvailable as isSamlAvailable } from 'in-settings/tabs/AuthSettings/api/saml';
 import { isAvailable as isLdapAvailable } from 'in-settings/tabs/AuthSettings/api/ldap';
@@ -59,6 +61,17 @@ function getNavigationTree(props: any): NavigationTree {
           path: twoFaUsers,
           label: 'Users',
           component: Users
+        }
+      ]
+    },
+
+    {
+      title: 'Password',
+      pages: [
+        {
+          path: changePassword,
+          label: 'Change',
+          component: ChangePassword
         }
       ]
     },
