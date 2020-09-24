@@ -1,14 +1,19 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import PotentialProblemsPresenter from 'in-new-components/PotentialProblems/PotentialProblemsLane/PotentialProblemsLanePresenter';
+import PotentialProblemsLanePresenter from 'in-new-components/PotentialProblems/PotentialProblemsLane/PotentialProblemsLanePresenter';
 import getPotentialProblems from 'in-new-components/PotentialProblems/subscription/getPotentialProblems';
 import getServiceLabel from 'in-subscription/application/getServiceLabel';
 import getEndpointInfo from 'in-subscription/application/getEndpointInfo';
 import { applicationSmartAlertsEnabled } from 'in-services/featureFlags';
 import getApplication from 'in-subscription/application/getApplication';
-import { emptyObject, pendingResult } from 'in-services/fixedObjects';
+import { pendingResult } from 'in-services/fixedObjects';
 import useObservable from 'in-hooks/useObservable';
+
+const emptyPotentialProblems = {
+  alerts: [],
+  thresholds: {}
+};
 
 export default function PotentialProblemsLane({
   applicationId,
@@ -30,18 +35,18 @@ export default function PotentialProblemsLane({
       getPotentialProblems({
         timeConfig: remainingProps.timeConfig,
         alertRules,
-        tagFilters,
-        resultGranularity: clusterSizeMillis
+        tagFilters
       })
         .startWith(pendingResult)
-        .map(({ data = {} }) => data),
+        .map(({ data = emptyPotentialProblems }) => data),
       [remainingProps.timeConfig, clusterSizeMillis, alertRules]
-    ) ?? emptyObject;
+    ) ?? emptyPotentialProblems;
 
   return (
-    <PotentialProblemsPresenter
+    <PotentialProblemsLanePresenter
       {...remainingProps}
       {...useGetLabels(applicationId, serviceId, endpointId)}
+      alertRules={alertRules}
       applicationId={applicationId}
       boundaryScope={boundaryScope}
       potentialProblems={potentialProblems}

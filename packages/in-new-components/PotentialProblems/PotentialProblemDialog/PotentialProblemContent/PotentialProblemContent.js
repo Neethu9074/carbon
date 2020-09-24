@@ -7,6 +7,7 @@ import {
   getIconByType,
   getType
 } from 'in-new-components/PotentialProblems/PotentialProblemDialog/potentialProblemsDialogUtil';
+import { alertPropType, rulePropType } from 'in-new-components/PotentialProblems/PotentialProblemsLane/proptypes';
 import { getDescription, getTitle } from 'in-new-components/PotentialProblems/textUtil';
 import { formatDateTime } from 'in-services/formatters/date';
 import SvgIcon from 'in-components/SvgIcon';
@@ -15,21 +16,20 @@ import locals from './PotentialProblemContent.mless';
 
 export default function PotentialProblemContent({
   alert,
-  alertConfigs,
-  selectedItem,
   applicationLabel,
   serviceLabel,
   endpointLabel,
+  rule,
+  threshold,
   ...remainingProps
 }) {
-  const alertType = alertConfigs[selectedItem.key].rule.alertType;
-  const alertConfig = alertConfigs[alertType] ?? alertConfigs[selectedItem.key];
+  const alertType = rule.alertType;
   const type = getType({ applicationLabel, serviceLabel, endpointLabel });
 
   return (
     <div className={locals.container}>
       <div className={locals.contentHeader}>
-        <div className={locals.headline}>{getTitle({ ...alertConfig })}</div>
+        <div className={locals.headline}>{getTitle({ rule, threshold })}</div>
         <div className={locals.entity}>
           <SvgIcon size="s" className={locals.icon} type={getIconByType(type)} />
           {getLabelText({
@@ -44,17 +44,26 @@ export default function PotentialProblemContent({
           <div className={locals.durationDevider}>—</div>
           <time dateTime={new Date(alert.end).toISOString()}>{formatDateTime(alert.end)}</time>
         </div>
-        <div className={locals.description}>{getDescription({ ...alertConfig, alertType })}</div>
+        <div className={locals.description}>{getDescription({ rule, threshold, alertType })}</div>
       </div>
       <div className={locals.chartWrapper}>
-        <PotentialProblemChart {...remainingProps} alertConfig={alertConfig} alert={alert} alertType={alertType} />
+        <PotentialProblemChart
+          {...remainingProps}
+          rule={rule}
+          threshold={threshold}
+          alert={alert}
+          alertType={alertType}
+        />
       </div>
       <div className={locals.controls}>
         <PotentialProblemContentControls
           {...remainingProps}
           applicationLabel={applicationLabel}
+          serviceLabel={serviceLabel}
+          endpointLabel={endpointLabel}
           alertType={alertType}
-          alertConfig={alertConfig}
+          rule={rule}
+          threshold={threshold}
           alert={alert}
         />
       </div>
@@ -84,15 +93,10 @@ function getLabelText({ applicationLabel, serviceLabel, endpointLabel }) {
 }
 
 PotentialProblemContent.propTypes = {
-  alert: PropTypes.shape({
-    end: PropTypes.number,
-    start: PropTypes.number.isRequired
-  }).isRequired,
-  alertConfigs: PropTypes.object.isRequired,
+  alert: alertPropType.isRequired,
   applicationLabel: PropTypes.string.isRequired,
   endpointLabel: PropTypes.string,
-  selectedItem: PropTypes.shape({
-    key: PropTypes.string.isRequired
-  }).isRequired,
-  serviceLabel: PropTypes.string
+  rule: rulePropType.isRequired,
+  serviceLabel: PropTypes.string,
+  threshold: PropTypes.object.isRequired
 };

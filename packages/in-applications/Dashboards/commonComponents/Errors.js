@@ -65,6 +65,7 @@ export default function Errors({
       renderPostChartContent={props =>
         renderPostChartContent({
           ...props,
+          boundaryScope,
           alertRules: {
             errorRate: {
               rule: {

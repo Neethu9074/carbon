@@ -25,7 +25,7 @@ export default function Latency({
 }) {
   const granularity = getChartGranularity(timeConfig);
   const slownessBlueprintConfig = getBlueprintConfig('slowness');
-  const aggregations = ['P50', 'P90', 'P95', 'P99', 'MAX', 'MEAN'];
+  const aggregations = ['P90'];
   const alertRules = {};
 
   for (const aggregation of aggregations) {
@@ -119,6 +119,7 @@ export default function Latency({
       renderPostChartContent={props =>
         renderPostChartContent({
           alertRules,
+          boundaryScope,
           ...props
         })
       }

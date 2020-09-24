@@ -23,6 +23,7 @@ export default function PotentialProblemMarker({ eventData, xScale, onClick }) {
     <div
       className={locals.marker}
       style={{
+        transform: `translateX(${durationWidth / 2}px)`,
         width: durationWidth
       }}
       onClick={clickHandler}

@@ -1,18 +1,24 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import {
+  alertPropType,
+  rulePropType,
+  thresholdPropType
+} from 'in-new-components/PotentialProblems/PotentialProblemsLane/proptypes';
 import { createDefaultChartConfig } from 'in-new-components/Alerting/Chart/chartViewConfig';
 import { getBlueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
 import AlertingChart from 'in-new-components/Alerting/Chart/AlertingChart';
 
-export default function PotentialProblemChart({ applicationId, alertConfig, tagFilters, alert, alertType }) {
+export default function PotentialProblemChart({ applicationId, threshold, rule, tagFilters, alert, alertType }) {
   return (
     <AlertingChart
       alertConfig={{
-        ...alertConfig,
+        threshold,
+        rule,
         tagFilters: tagFilters.filter(({ name }) => name !== 'application.id'),
         applicationId,
-        granularity: 60000
+        granularity: 600000
       }}
       viewConfig={{
         ...createDefaultChartConfig(getTimeConfig()),
@@ -40,12 +46,10 @@ export default function PotentialProblemChart({ applicationId, alertConfig, tagF
 }
 
 PotentialProblemChart.propTypes = {
-  alert: PropTypes.shape({
-    end: PropTypes.number,
-    start: PropTypes.number
-  }).isRequired,
-  alertConfig: PropTypes.object.isRequired,
+  alert: alertPropType.isRequired,
   alertType: PropTypes.string.isRequired,
   applicationId: PropTypes.string.isRequired,
-  tagFilters: PropTypes.arrayOf(PropTypes.object).isRequired
+  rule: rulePropType.isRequired,
+  tagFilters: PropTypes.arrayOf(PropTypes.object).isRequired,
+  threshold: thresholdPropType.isRequired
 };
