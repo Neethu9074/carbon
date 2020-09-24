@@ -1,6 +1,6 @@
 # Production debugging
 
-The Instana Ui is a complex component which retrieves a lot of information at a high frequency. Sometimes, it can
+The Instana UI is a complex component which retrieves a lot of information at a high frequency. Sometimes, it can
 happen that user activity results in severe issues. This document describes a few debugging endpoints that come in
 handy when analyzing production issues.
 

@@ -29,7 +29,7 @@ const stringifiedBuildInformation = JSON.stringify(buildInformation);
 // Module file name patterns for which a prefetch instruction should be added to the HTML
 // document. Ordered by likelyhood of usage.
 const modulesToPrefetch = [
-  // It is very likely that either of these of configured as the landing page:
+  // It is very likely that either of these are configured as the landing page:
   // Prefetch with highest priority.
   /^cockpit\./i,
   /^customDashboarding\./i,

@@ -71,7 +71,7 @@ newgrp docker
 
 ## Editor Recommendations
 
-At the time of writing most UI engineers are using [VSCode](https://code.visualstudio.com/). We would recommend that you give this a try. VSCode will bring up a list of suggested extensions when opening the `ui-client` root directory in VSCode. We recommend that you install these as well for a good out of the box development experience.
+At the time of writing most UI engineers are using [VS Code](https://code.visualstudio.com/). We would recommend that you give this a try. VS Code will bring up a list of suggested extensions when opening the `ui-client` root directory in VS Code. We recommend that you install these as well for a good out of the box development experience.
 
 ## Next Steps
 

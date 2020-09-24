@@ -1,27 +1,20 @@
-const sendRequest = require('request');
-
-const configResolver = require('../services/config');
 const serverConfig = require('../serverConfig.js');
+const configResolver = require('./config');
+const fetch = require('./fetch');
 
-exports.getCsrfToken = function getCsrfToken(req) {
-  return configResolver.getButlerBaseUrl(req.tenant, req.unit).then(butlerBaseUrl => {
-    return new Promise((resolve, reject) => {
-      sendRequest(
-        {
-          url: `${butlerBaseUrl}/tos-privacy-agreement/csrf/token`,
-          headers: {
-            Cookie: `${serverConfig.cookie.name}=${req.cookies[serverConfig.cookie.name]}`
-          },
-          timeout: 15000
-        },
-        (error, response) => {
-          if (error) {
-            reject(new Error('Failed to retrieve csrf token from butler: ' + String(error)));
-          } else {
-            resolve(response.headers['x-csrf-token']);
-          }
-        }
-      );
+exports.getCsrfToken = async function getCsrfToken(req) {
+  try {
+    const butlerBaseUrl = await configResolver.getButlerBaseUrl(req.tenant, req.unit);
+    const response = await fetch(`${butlerBaseUrl}/tos-privacy-agreement/csrf/token`, {
+      headers: {
+        Cookie: `${serverConfig.cookie.name}=${req.cookies[serverConfig.cookie.name]}`
+      }
     });
-  });
+    if (!response.ok) {
+      throw new Error(`Retrieved status code ${response.status} while receiving CSRF token.`);
+    }
+    return response.headers.get('x-csrf-token');
+  } catch (e) {
+    throw new Error('Failed to retrieve csrf token from butler: ' + String(e));
+  }
 };

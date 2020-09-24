@@ -1,30 +1,22 @@
-const rp = require('request-promise');
+const cache = require('./loadingCache').createLoadingCache({ ttl: 1000 * 60 * 5 });
+const { getGroundskeeperBaseUrl } = require('./config');
+const fetch = require('./fetch');
 
-const cache = require('./loadingCache').createLoadingCache({ttl: 1000 * 60 * 5});
-const {getGroundskeeperBaseUrl} = require('./config');
-
-// returns Promises. Promise may resolve with null when no unit was found.
+// Returns Promises. Promise may resolve with null when no unit was found.
 // Erroneous promises indicate server problems.
-exports.getUnitInfo = (tenant, unit) => {
-  return cache('', loadUnits)
-    .then(units => units.filter(u => u.tenant === tenant && u.unit === unit)[0]);
+exports.getUnitInfo = async (tenant, unit) => {
+  const units = await cache('', loadUnits);
+  return units.filter(u => u.tenant === tenant && u.unit === unit)[0];
 };
 
-function loadUnits() {
-  return getGroundskeeperBaseUrl()
-    .then(baseUrl => {
-      if (!baseUrl) {
-        const e = new Error('List of units can only be loaded when Groundskeeper is configured in server config.');
-        e.ignoreStackTrace = true;
-        return Promise.reject(e);
-      }
+async function loadUnits() {
+  const baseUrl = await getGroundskeeperBaseUrl();
+  const url = `${baseUrl}/internal/units`;
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error(`Failed to provide unit list: Retrieved status code ${response.status} for GET ${url}.`);
+  }
 
-      return rp({
-        method: 'GET',
-        url: `${baseUrl}/internal/units`,
-        json: true,
-        simple: true,
-        timeout: 5000
-      });
-    });
+  const body = await response.text();
+  return JSON.parse(body);
 }

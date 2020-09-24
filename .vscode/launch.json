@@ -2,12 +2,25 @@
   // Use IntelliSense to learn about possible attributes.
   // Hover to view descriptions of existing attributes.
   // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  //
+  // For possible variables see
+  // https://code.visualstudio.com/docs/editor/variables-reference
   "version": "0.2.0",
   "configurations": [
     {
+      "command": "yarn run dev",
+      "name": "Client: Dev Mode",
+      "request": "launch",
+      "type": "node-terminal",
+      // Set this to 'true' when you are interested in debugging our build process
+      // itself. Otherwise keeping this disabled is most likely going to result
+      // in faster dev environments.
+      "autoAttachChildProcesses": false
+    },
+    {
       "type": "node",
       "request": "launch",
-      "name": "Client Unit Tests",
+      "name": "Client: Unit Tests",
       "args": [
         "--max-old-space-size=4096",
         "${workspaceFolder}/node_modules/mocha/bin/_mocha",
@@ -27,12 +40,39 @@
       "env": {
         "IS_TEST": "true"
       },
-      "skipFiles": ["<node_internals>/**"]
+      "skipFiles": ["<node_internals>/**"],
+      "outputCapture": "std"
     },
     {
       "type": "node",
       "request": "launch",
-      "name": "Server Unit Tests",
+      "name": "Client: Unit Tests (watch (sub-) dir of file active in editor)",
+      "args": [
+        "--max-old-space-size=4096",
+        "${workspaceFolder}/node_modules/mocha/bin/_mocha",
+        "--timeout",
+        "999999",
+        "--require",
+        "${workspaceFolder}/packages/in-test/testHarness",
+        "--colors",
+        "--reporter",
+        "dot",
+        "--exclude",
+        "**/node_modules/**",
+        "--watch",
+        "${workspaceFolder}/${relativeFileDirname}/**/*_test.js"
+      ],
+      "internalConsoleOptions": "openOnSessionStart",
+      "env": {
+        "IS_TEST": "true"
+      },
+      "skipFiles": ["<node_internals>/**"],
+      "outputCapture": "std"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Server: Unit Tests",
       "cwd": "${workspaceFolder}/packages/in-server",
       "args": [
         "node_modules/.bin/jest",
@@ -43,12 +83,13 @@
         "test/*"
       ],
       "internalConsoleOptions": "openOnSessionStart",
-      "skipFiles": ["<node_internals>/**"]
+      "skipFiles": ["<node_internals>/**"],
+      "outputCapture": "std"
     },
     {
       "type": "node",
       "request": "launch",
-      "name": "Server Unit Tests (watch)",
+      "name": "Server: Unit Tests (watch)",
       "cwd": "${workspaceFolder}/packages/in-server",
       "args": [
         "node_modules/.bin/jest",
@@ -60,7 +101,8 @@
         "test/*"
       ],
       "internalConsoleOptions": "openOnSessionStart",
-      "skipFiles": ["<node_internals>/**"]
+      "skipFiles": ["<node_internals>/**"],
+      "outputCapture": "std"
     }
   ]
 }
