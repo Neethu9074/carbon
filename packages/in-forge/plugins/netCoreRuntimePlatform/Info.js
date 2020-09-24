@@ -8,8 +8,8 @@ export default function NetCoreInfo({ snapshot }) {
   return (
     <DescriptionList>
       <DescriptionItem title="Name">{data.get('name')}</DescriptionItem>
-      <DescriptionItem title="Runtime-Version">{data.get('rv', 'UNKNOWN')}</DescriptionItem>
-      <DescriptionItem title="Target-Version">{data.get('tv', 'UNKNOWN')}</DescriptionItem>
+      <DescriptionItem title="Runtime-Version">{data.get('rv')}</DescriptionItem>
+      <DescriptionItem title="Target-Version">{data.get('tv')}</DescriptionItem>
     </DescriptionList>
   );
 }
