@@ -21,10 +21,10 @@ export default function useCursorPagination(create, deps = []) {
     time
   } = state;
   const observable = useMemo(() => create({ cursor }), [cursor, reloadCount, ...deps]);
-  useEffect(() => setState(awaitItems), [observable]);
+  useEffect(() => setState(awaitItems), [observable, ...deps]);
 
-  const result = useObservable(observable, [observable]) ?? pendingResult;
-  useEffect(() => setState(prev => updateResult(prev, result)), [result]);
+  const result = useObservable(observable, [observable, ...deps]) ?? pendingResult;
+  useEffect(() => setState(prev => updateResult(prev, result)), [result, ...deps]);
 
   const setCursor = useCallback(cursor => setState(prev => ({ ...prev, cursor })));
   const loadMore = useCallback(() => setCursor(nextCursor), [nextCursor]);
