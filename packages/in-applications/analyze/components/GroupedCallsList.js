@@ -16,7 +16,6 @@ import { error as errorType } from 'in-new-components/Message/types';
 import { getSparkChartGranularity } from 'in-applications/metrics';
 import { aggregateMetric } from 'in-applications/analyze/metrics';
 import { indeterminateProgress } from 'in-services/fixedObjects';
-import IconButton from 'in-new-components/IconButton/IconButton';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
@@ -24,6 +23,7 @@ import KeyValue from 'in-new-components/lists/KeyValue';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Message from 'in-new-components/Message';
 import locals from './GroupedCallsList.mless';
+import Button from 'in-new-components/Button';
 import SvgIcon from 'in-components/SvgIcon';
 
 const defaultOrder = aggregateMetric('calls', 'SUM');
@@ -188,13 +188,16 @@ function columns({ groupBy, tagFilterExpression, onChangeFilter, metrics }) {
     })
     .concat(metrics.map(metric => metricToColumn(metric)))
     .concat({
-      width: '3rem',
+      width: '9rem',
       getContent({ group }) {
         return (
-          <IconButton
-            type="lib_actions_filter"
+          <Button
+            icon="lib_actions_filter"
             onClick={() => onChangeFilter([addTagFilters(tagFilterExpression, groupBy, group.name)])}
-          />
+            kind="subtle"
+          >
+            Turn into filter
+          </Button>
         );
       }
     });
