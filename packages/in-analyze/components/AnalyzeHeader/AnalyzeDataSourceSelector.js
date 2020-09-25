@@ -1,4 +1,3 @@
-import { just } from 'reactive-observables';
 import React from 'react';
 
 import getConfigByDataSource, {
@@ -20,6 +19,7 @@ import evaluateClassNames from 'in-services/util/classnames';
 import { emptyObject } from 'in-services/fixedObjects';
 import { Ul, Li } from 'in-new-components/lists/List';
 import useObservable from 'in-hooks/useObservable';
+import { getSetting$ } from 'in-services/settings';
 import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './AnalyzeDataSourceSelector.mless';
@@ -45,7 +45,7 @@ const productAreas = [
             dataSource: 'callsUQB',
             groupByTag: isGrouped ? getConfigByDataSource('calls').defaultGrouping : emptyObject
           }),
-        enabled$: newAnalyticsEnabled ? just(true) : isInternalVisible$
+        enabled$: newAnalyticsEnabled ? getSetting$('beta_ua2') : isInternalVisible$
       },
       {
         dataSource: 'traces',
