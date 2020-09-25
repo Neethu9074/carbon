@@ -1,5 +1,6 @@
 const replacements = [
   'select',
+  'update',
   'from',
   'where',
   'group by',
@@ -42,7 +43,7 @@ export function formatSql(statement) {
   });
 
   // Indent the AND
-  formattedStatement = formattedStatement.replace(/AND /g, '\tAND ');
+  formattedStatement = formattedStatement.replace(/\nAND /g, '\n\tAND ');
 
   return formattedStatement.trim();
 }
