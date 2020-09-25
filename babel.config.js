@@ -12,8 +12,11 @@ module.exports = {
       }
     ],
     ['transform-class-properties', { spec: false }],
-    ['react-docgen']
-  ],
+
+    // Plugin should only be included when building the Storybook. In the regular
+    // dev mode/production build it only adds extra bytes that nobody cares about.
+    process.env.STORYBOOK === 'true' && ['react-docgen']
+  ].filter(Boolean),
   presets: [
     '@babel/preset-flow',
     '@babel/preset-react',
@@ -49,9 +52,8 @@ module.exports = {
     path.join(__dirname, 'packages', '**', '*.js'),
     // Storybook
     path.join(__dirname, 'storybook', '**', '*.js'),
-    path.join(__dirname, 'storybook', '**', '*.mdx'),
+    path.join(__dirname, 'storybook', '**', '*.mdx')
     // Note that we deliberately do not transpile everything under node_modules. This is not
     // forbidden per se, but we should allow this on a case-by-case basis.
-    path.join(__dirname, 'node_modules', 'd3-flame-graph', '**', '*.js')
   ]
 };
