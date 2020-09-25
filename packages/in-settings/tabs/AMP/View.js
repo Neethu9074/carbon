@@ -13,7 +13,7 @@ export default function View(props: any) {
       stickySidebar
       navigationTree={[
         {
-          title: 'Account',
+          title: 'Account & Billing',
           pages: [
             {
               path: ampUsage,
