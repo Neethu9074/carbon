@@ -10,7 +10,7 @@ const historicDataMessage = retention =>
   'You are viewing approximate data due to the data retention settings. Precise data is available within the last ' +
   retention +
   ' days.';
-const LARGE_DATA_MESSAGE =
+export const LARGE_DATA_MESSAGE =
   'You are viewing approximate data due to a large data set. Please reduce the time range for precise data.';
 
 export default function TimeIcon({ selected, containsHistoricData, retention, largeData, theme = 'dark', className }) {

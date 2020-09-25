@@ -8,6 +8,7 @@ import HorizontalFlexWrapper from '../../layout/HorizontalFlexWrapper/Horizontal
 import Secion from 'in-new-components/time/TimeSelectionDialogPresenter/Section';
 import DistinctSlider from 'in-new-components/Slider/DebouncedDistinctSlider';
 import { timeValidator, dateValidator } from 'in-services/validators/date';
+import { LARGE_DATA_MESSAGE } from 'in-new-components/time/TimeIcon';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import Button from 'in-new-components/Button';
 import SvgIcon from 'in-components/SvgIcon';
@@ -17,7 +18,7 @@ import locals from './CustomTime.mless';
 const oneHour = 1000 * 60 * 60;
 const maximumWindow = oneHour * 24 * 31;
 
-export default function CustomTime({ timeConfig, onChange }) {
+export default function CustomTime({ timeConfig, containsHistoricData, onChange }) {
   const [form, setForm] = useState(createForm(timeConfig));
   useEffect(() => setForm(createForm(timeConfig)), [timeConfig]);
 
@@ -44,7 +45,7 @@ export default function CustomTime({ timeConfig, onChange }) {
           {form.touched && form.messages.length > 0 ? (
             <TouchedMessages className={locals.error} field={form} />
           ) : (
-            <GranularityHint />
+            containsHistoricData && <GranularityHint />
           )}
         </div>
       </form>
@@ -217,7 +218,7 @@ function GranularityHint() {
   return (
     <HorizontalFlexWrapper>
       <SvgIcon className={locals.icon} type="lib_help_error_info_circle" size="xs" />
-      <span className={locals.help}>Select a time range smaller than 24 hours to see per second-level data</span>
+      <span className={locals.help}>{LARGE_DATA_MESSAGE}</span>
     </HorizontalFlexWrapper>
   );
 }
