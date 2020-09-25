@@ -13,6 +13,7 @@ import getAvailablePlugins from 'in-infrastructure/subscriptions/getAvailablePlu
 import { getOptionalSnapshotDefinition } from 'in-sdk/snapshot/registry';
 import { pendingResult, emptyObject } from 'in-services/fixedObjects';
 import Overlay from 'in-new-components/overlays/Overlay/Overlay';
+import { joinClassNames } from 'in-services/util/classnames';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { Ul, Li } from 'in-new-components/lists/List';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -35,20 +36,27 @@ export default function TypeSelector() {
   const getParamsForType = useCallback(type => ({ type, group: updatedGroup(group, type) }), [group]);
   const types = useMemo(
     () =>
-      (result?.data?.plugins || [])
-        .map(getType)
-        .filter(Boolean)
-        .concat([allInfrastructureType])
-        .sort((a, b) => compareIgnoreCase(a.name, b.name)),
+      [allInfrastructureType].concat(
+        (result?.data?.plugins || [])
+          .map(getType)
+          .filter(Boolean)
+          .sort((a, b) => compareIgnoreCase(a.name, b.name))
+      ),
     [result]
   );
   const { icon, name } = getType(type);
 
   return (
-    <Overlay props={{ types, getParamsForType }} withoutWrapper content={Dropdown}>
+    <Overlay props={{ types, getParamsForType }} withoutWrapper content={Dropdown} align="bottomLeft">
       {({ toggle, isOpen, refSetter }) => (
-        <DashboardHeaderButton size="normal" refSetter={refSetter} onClick={toggle} expanded={isOpen}>
-          <TypeRow icon={icon} name={name} />
+        <DashboardHeaderButton
+          size="normal"
+          refSetter={refSetter}
+          onClick={toggle}
+          expanded={isOpen}
+          className={locals.button}
+        >
+          <TypeRow icon={icon} name={name} className={locals.header} />
         </DashboardHeaderButton>
       )}
     </Overlay>
@@ -73,9 +81,9 @@ function Dropdown({ getParamsForType, types, close }) {
   );
 }
 
-function TypeRow({ icon, name }) {
+function TypeRow({ icon, name, className }) {
   return (
-    <div className={locals.typeRow}>
+    <div className={joinClassNames(locals.typeRow, className)}>
       <SvgIcon className={locals.icon} type={icon} />
       {name}
     </div>
