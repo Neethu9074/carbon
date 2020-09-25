@@ -1,3 +1,4 @@
+import { just } from 'reactive-observables';
 import React from 'react';
 
 import getConfigByDataSource, {
@@ -6,6 +7,7 @@ import getConfigByDataSource, {
   productAreaLabels,
   productAreaIcons
 } from 'in-analyze/AnalyzeView/dataSources';
+import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import { getLinkToAnalyze as getLinkToProfilesAnalyze } from 'in-new-components/Profiling/navigation/paths';
 import { hasApplicationsAccess, hasWebsitesAccess, hasMobileAppsAccess } from 'in-stores/permission';
 import { getLinkToAnalyze as getLinkToMobileAppAnalyze } from 'in-mobile-apps/navigation/paths';
@@ -17,6 +19,7 @@ import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
 import evaluateClassNames from 'in-services/util/classnames';
 import { emptyObject } from 'in-services/fixedObjects';
 import { Ul, Li } from 'in-new-components/lists/List';
+import useObservable from 'in-hooks/useObservable';
 import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './AnalyzeDataSourceSelector.mless';
@@ -42,7 +45,7 @@ const productAreas = [
             dataSource: 'callsUQB',
             groupByTag: isGrouped ? getConfigByDataSource('calls').defaultGrouping : emptyObject
           }),
-        enabled: newAnalyticsEnabled
+        enabled$: newAnalyticsEnabled ? just(true) : isInternalVisible$
       },
       {
         dataSource: 'traces',
@@ -52,7 +55,7 @@ const productAreas = [
             groupByTag: isGrouped ? getConfigByDataSource('traces').defaultGrouping : emptyObject
           })
       }
-    ].filter(({ enabled }) => enabled == null || enabled)
+    ]
   },
   {
     productArea: 'website',
@@ -168,25 +171,27 @@ export default function AnalyzeDataSourceSelector({ activeConfiguration, isGroup
       {productAreas
         .filter(({ hasAccess }) => hasAccess)
         .map(({ productArea, dataSources }, i) => {
-          const dataSourceListEntries = dataSources.map(({ dataSource, getHref$ }) => (
-            <Li
-              key={dataSource}
-              noAlternatingBg
-              href$={getHref$(getHref$Opts)}
-              onDefaultHrefInteractionSideEffect={close}
-            >
-              <div
-                className={evaluateClassNames({
-                  [locals.iconAndType]: true,
-                  [locals.active]:
-                    productArea === activeConfiguration.productArea && dataSource === activeConfiguration.dataSource
-                })}
+          const dataSourceListEntries = dataSources
+            .filter(({ enabled$ }) => !enabled$ || useObservable(enabled$, []))
+            .map(({ dataSource, getHref$ }) => (
+              <Li
+                key={dataSource}
+                noAlternatingBg
+                href$={getHref$(getHref$Opts)}
+                onDefaultHrefInteractionSideEffect={close}
               >
-                <SvgIcon type={getIconByType(dataSource, productArea)} />
-                {getLabelByType(dataSource, productArea)}
-              </div>
-            </Li>
-          ));
+                <div
+                  className={evaluateClassNames({
+                    [locals.iconAndType]: true,
+                    [locals.active]:
+                      productArea === activeConfiguration.productArea && dataSource === activeConfiguration.dataSource
+                  })}
+                >
+                  <SvgIcon type={getIconByType(dataSource, productArea)} />
+                  {getLabelByType(dataSource, productArea)}
+                </div>
+              </Li>
+            ));
 
           if (dataSourceListEntries.length === 1) {
             return dataSourceListEntries[0];

@@ -16,6 +16,16 @@ describe('in-forge/tracing/jdbc/sql', () => {
         expect(formatSql('select name from person')).to.equal('SELECT name\nFROM person');
       });
 
+      it('must indent where conditions', () => {
+        expect(formatSql('select name from person where name = ? and age < ?')).to.equal(
+          'SELECT name\nFROM person\nWHERE name = ?\n\tAND age < ?'
+        );
+      });
+
+      it('must not break SOLLBESTAND', () => {
+        expect(formatSql('update inventory SET SOLLBESTAND = ?')).to.equal('UPDATE inventory SET SOLLBESTAND = ?');
+      });
+
       it('must not fail on incomplete sql', () => {
         expect(formatSql('select name from person WHERE foo')).to.equal('SELECT name\nFROM person\nWHERE foo');
       });
