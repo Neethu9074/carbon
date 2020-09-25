@@ -1,5 +1,5 @@
 import { createField, createMapForm, notBlankValidator, composeValidators } from 'formalistic';
-import React, { useState, useEffect } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import moment from 'moment';
 
 import { formatTime, formatDate, formatDateTime, parseDateTime } from 'in-services/formatters/date';
@@ -54,7 +54,7 @@ export default function CustomTime({ timeConfig, containsHistoricData, onChange 
 
   function TimeSlider({ form, setForm, from, to }) {
     const [now] = useState(Date.now());
-    const tickPositions = getTickPositions(now);
+    const tickPositions = useMemo(() => getTickPositions(now), [now]);
 
     return (
       <DistinctSlider
@@ -63,6 +63,7 @@ export default function CustomTime({ timeConfig, containsHistoricData, onChange 
         marks={tickPositions}
         min={tickPositions[0].value}
         max={tickPositions[tickPositions.length - 1].value}
+        debounceMaxWait={1000 * 60}
         step={oneHour}
         value={[from, to]}
         onChange={([_from, _to]) => {
