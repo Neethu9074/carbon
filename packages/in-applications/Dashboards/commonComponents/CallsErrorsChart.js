@@ -84,14 +84,22 @@ export default function CallsErrorsChart({
           ...props,
           boundaryScope,
           alertRules: {
-            throughput: {
+            throughputHigh: {
+              rule: {
+                alertType: throughputBlueprintConfig.type,
+                aggregation: throughputBlueprintConfig.getAggregation(),
+                metricName: throughputBlueprintConfig.getMetricName()
+              },
+              seasonality: 'DAILY'
+            },
+            throughputLow: {
               rule: {
                 alertType: throughputBlueprintConfig.type,
                 aggregation: throughputBlueprintConfig.getAggregation(),
                 metricName: throughputBlueprintConfig.getMetricName()
               },
               seasonality: 'DAILY',
-              operator: throughputBlueprintConfig.thresholdDefaults.operator
+              operator: '<='
             },
             errorRate: {
               rule: {
