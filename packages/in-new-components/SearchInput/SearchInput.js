@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import evaluateClassNames from 'in-services/util/classnames';
 import { isNotBlank } from 'in-services/util/string';
@@ -22,10 +22,13 @@ export default function SearchInput({
   onFocus,
   onBlur
 }) {
+  const [hasFocus, setHasFocus] = useState(false);
+
   return (
     <div
       className={evaluateClassNames({
         [locals.wrapper]: true,
+        [locals.hasFocus]: hasFocus,
         [className]: className
       })}
     >
@@ -38,7 +41,7 @@ export default function SearchInput({
         })}
         disabled={disabled}
         type="search"
-        placeholder={placeholder ?? 'Search...'}
+        placeholder={placeholder ?? 'Search…'}
         value={query}
         onChange={e => onChange(e.target.value)}
         autoFocus={autoFocus}
@@ -51,8 +54,14 @@ export default function SearchInput({
               }
             : undefined
         }
-        onFocus={onFocus}
-        onBlur={onBlur}
+        onFocus={() => {
+          setHasFocus(true);
+          onFocus?.();
+        }}
+        onBlur={() => {
+          setHasFocus(false);
+          onBlur?.();
+        }}
       />
       <SvgIcon className={locals.icon} type="lib_actions_search" />
     </div>
