@@ -1,0 +1,50 @@
+@import '~in-themes/mixins.less';
+@import '~in-themes/active.less';
+
+:local {
+  .grid {
+    display: grid;
+    grid-template-columns:  20% 20% 1fr;
+    grid-template-rows: 1fr;
+    grid-column-gap: 1rem;
+    grid-row-gap: 0.5rem;
+  }
+
+  .row {
+    display: flex;
+  }
+
+  .colName, .colType {
+    width: 100%;
+  }
+
+  .delete {
+    margin-left: 0.5rem;
+    cursor: pointer;
+    fill: @lib__colors__primary2;
+
+    &:hover {
+      fill: @lib__colors__N700Medium;
+    }
+  }
+
+  .disabled {
+    opacity: 0.6;
+    cursor: default;
+  }
+
+  .controls {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .colValue {
+    width: 50%;
+    max-width: 50rem;
+    flex: 1;
+  }
+
+  .rightAligned {
+    justify-content: flex-end;
+  }
+}

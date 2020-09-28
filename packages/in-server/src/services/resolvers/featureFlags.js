@@ -134,6 +134,12 @@ module.exports = exports = (tenant, unit) => [
     defaultValue: false
   },
   {
+    uiClientKey: 'alertCustomPayloadEnabled',
+    instanaCtlKey: 'feature.alert.custom.payload.enabled',
+    consulKey: `settings/${tenant}-${unit}/ALERT_CUSTOM_PAYLOAD_ENABLED`,
+    defaultValue: false
+  },
+  {
     uiClientKey: 'sloWidgetEnabled',
     instanaCtlKey: 'feature.slo.widget.enabled',
     consulKey: `settings/${tenant}-${unit}/SLO_WIDGET_ENABLED`,

@@ -28,6 +28,7 @@ import {
   teamSettingsAlertingMaintenanceConfigurationEdit,
   teamSettingsAlertingMaintenanceConfigurationNew,
   teamSettingsAlertingMaintenanceConfigurations,
+  teamSettingsAlertingCustomPayloadConfigurations,
   teamSettingsAuditLog,
   teamSettingsLogManagementCoralogix,
   teamSettingsLogManagementElk,
@@ -40,6 +41,7 @@ import MaintenanceWindowPage from 'in-settings/tabs/TeamSettings/pages/eventsAnd
 import AlertChannelModificationPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannelModification';
 import AlertChannelsPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannels';
 import AlertChannelPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannel';
+import CustomPayloadPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/CustomPayloadPage';
 import BuiltInEventPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/BuiltInEvent';
 import CustomEventPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEvent';
 import ApiTokensPage from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiTokens';
@@ -65,6 +67,7 @@ import AuditLogPage from 'in-settings/tabs/TeamSettings/pages/audit/AuditLog';
 import { findFirstPermittedTeamPage } from 'in-settings/tabs/permissions';
 import { Page } from 'in-new-components/layout/SideNavigationAndContent';
 import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
+import { alertCustomPayloadEnabled } from 'in-services/featureFlags';
 import NotFoundPage from 'in-settings/tabs/pages/NotFound';
 import SetBodyColor from 'in-components/SetBodyColor';
 import { role } from 'in-stores/user';
@@ -228,6 +231,14 @@ function navigationTreeForRole(role): NavigationTree {
             component: MaintenanceWindowPage
           }
         ]
+      });
+    }
+
+    if (alertCustomPayloadEnabled) {
+      eventsAndAlertsPages.push({
+        path: teamSettingsAlertingCustomPayloadConfigurations,
+        label: 'Custom Payloads',
+        component: CustomPayloadPage
       });
     }
 
