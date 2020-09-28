@@ -36,4 +36,8 @@
     margin-right: 0.25rem;
     color: @lib__colors__N500;
   }
+
+  .buttonGroup {
+    margin-right: 0.5rem;
+  }
 }

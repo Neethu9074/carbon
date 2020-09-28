@@ -230,7 +230,9 @@ function Infrastructure({
     buttonPropsList.push({ text: 'Host', key: 'HOST', onClick: () => setType('HOST') });
   }
 
-  const rightHeader = <ButtonGroup buttonPropsList={buttonPropsList} activeKey={selectedType} />;
+  const rightHeader = (
+    <ButtonGroup buttonPropsList={buttonPropsList} activeKey={selectedType} className={locals.buttonGroup} />
+  );
   const Table = tablesByType[selectedType];
 
   return (
