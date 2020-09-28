@@ -19,10 +19,6 @@ export default function PotentialProblemsHoverArea({
 
   const fromXPos = Math.max(0, xPos);
   const toXPos = Math.min(xPos + durationWidth, xScale?.getRangeTo());
-  // const fromXPos = Math.max(0, xPos - durationWidth / 2) + durationWidth / 2;
-  // const toXPos = Math.min(xPos + durationWidth / 2, xScale?.getRangeTo()) + durationWidth / 2;
-  // const fromXPos = Math.max(0, xPos - durationWidth / 2);
-  // const toXPos = Math.min(xPos + durationWidth / 2, xScale?.getRangeTo());
 
   return (
     <div
