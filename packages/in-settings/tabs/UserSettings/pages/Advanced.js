@@ -170,10 +170,7 @@ export default function UiConfigAdvancedPage() {
             <SectionHeading>Beta Features</SectionHeading>
             <div style={{ marginBottom: '1rem' }}>
               <HorizontalFormGroup>
-                <Heading
-                  text="Enable Calls V2Beta in Analytics (new design and enhanced query builder)"
-                  htmlFor="beta_ua2"
-                />
+                <Heading text="Analytics – Enhanced query builder for calls" htmlFor="beta_ua2" />
                 <Toggle
                   id="beta_ua2"
                   checked={settings['beta_ua2']}
