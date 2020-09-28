@@ -32,6 +32,7 @@ import Message from 'in-new-components/Message';
 import useUrlState from 'in-hooks/useUrlState';
 import Footer from 'in-new-components/Footer';
 import Sticky from 'in-components/Sticky';
+import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
 
 const urlStateDefinition = {
   bind: [
@@ -70,7 +71,8 @@ function ApplicationAnalyzeViewWithFixatedTimeConfig() {
 
   const onTagFilterExpressionChange = tagFilterExpression => onChange({ tagFilterExpression });
   const onGroupByChange = groupBy => onChange({ groupBy });
-  const onFocusOnGroup = tagFilterExpression => onChange({ tagFilterExpression, groupBy: {} });
+  const onFocusOnGroup = tagFilterToAdd =>
+    onChange({ tagFilterExpression: joinExpressions(tagFilterExpression, [tagFilterToAdd]), groupBy: {} });
   const onChangeOrderByGroups = orderBy => onChange({ orderByGroups: orderBy });
   const onChangeOrderByCalls = orderBy =>
     onChange({ orderByCalls: { by: orderBy.orderBy, direction: orderBy.orderDirection } });
@@ -145,7 +147,7 @@ function ApplicationAnalyzeViewWithFixatedTimeConfig() {
               orderBy={orderByGroups}
               orderByCalls={orderByCalls}
               metrics={metrics}
-              onChangeFilter={onFocusOnGroup}
+              onFocusOnGroup={onFocusOnGroup}
               onChangeOrderBy={onChangeOrderByGroups}
               onChangeOrderByCalls={onChangeOrderByCalls}
               onChangeMetrics={onChangeMetrics}
