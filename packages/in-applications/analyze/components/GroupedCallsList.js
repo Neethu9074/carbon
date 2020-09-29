@@ -17,14 +17,14 @@ import { getSparkChartGranularity } from 'in-applications/metrics';
 import { aggregateMetric } from 'in-applications/analyze/metrics';
 import { indeterminateProgress } from 'in-services/fixedObjects';
 import { evaluateClassNames } from 'in-services/util/classnames';
+import IconButton from 'in-new-components/IconButton/IconButton';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import KeyValue from 'in-new-components/lists/KeyValue';
+import Tooltip from 'in-components/Tooltip/Tooltip';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Message from 'in-new-components/Message';
 import locals from './GroupedCallsList.mless';
-import Button from 'in-new-components/Button';
 import SvgIcon from 'in-components/SvgIcon';
-
 const defaultOrder = aggregateMetric('calls', 'SUM');
 const defaultDirection = 'DESC';
 
@@ -181,16 +181,15 @@ function columns({ groupBy, tagFilterExpression, onChangeFilter, metrics }) {
     })
     .concat(metrics.map(metric => metricToColumn(metric)))
     .concat({
-      width: '9rem',
+      width: '3rem',
       getContent({ group }) {
         return (
-          <Button
-            icon="lib_actions_filter"
-            onClick={() => onChangeFilter([addTagFilters(tagFilterExpression, groupBy, group.name)])}
-            kind="subtle"
-          >
-            Turn into filter
-          </Button>
+          <Tooltip content="Focus on this group">
+            <IconButton
+              type="lib_actions_filter"
+              onClick={() => onChangeFilter([addTagFilters(tagFilterExpression, groupBy, group.name)])}
+            />
+          </Tooltip>
         );
       }
     });
