@@ -29,6 +29,7 @@ export default function Users({ members, addUsers, removeUser }) {
             }
           }
         ]}
+        members={members}
         addUsers={addUsers}
         pageSize={10}
       />
