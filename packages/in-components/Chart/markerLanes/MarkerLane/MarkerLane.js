@@ -86,7 +86,8 @@ function MarkersLanePresenter({
       <span className={locals.hoverAreaContainer}>
         {(hoveredEventData || selectedEventData) &&
           (() => {
-            const xPos = getXposCluster(hoveredEventData?.timestamp ?? selectedEventData.timestamp);
+            const eventDataTimestamp = hoveredEventData?.timestamp ?? selectedEventData.timestamp;
+            const xPos = isClustered ? getXposCluster(eventDataTimestamp) : xScale?.getRange(eventDataTimestamp);
             const config = {
               xPos,
               fromXPos: Math.max(0, xPos - clusterAreaWidth / 2),

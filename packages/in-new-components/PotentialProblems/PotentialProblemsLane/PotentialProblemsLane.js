@@ -3,12 +3,14 @@ import React from 'react';
 
 import PotentialProblemsLanePresenter from 'in-new-components/PotentialProblems/PotentialProblemsLane/PotentialProblemsLanePresenter';
 import getPotentialProblems from 'in-new-components/PotentialProblems/subscription/getPotentialProblems';
+import { hoursToMillis } from 'in-new-components/Alerting/utils/formatUtils';
 import getServiceLabel from 'in-subscription/application/getServiceLabel';
 import getEndpointInfo from 'in-subscription/application/getEndpointInfo';
 import { applicationSmartAlertsEnabled } from 'in-services/featureFlags';
 import getApplication from 'in-subscription/application/getApplication';
 import { pendingResult } from 'in-services/fixedObjects';
 import useObservable from 'in-hooks/useObservable';
+import useTimeConfig from 'in-hooks/useTimeConfig';
 
 const emptyPotentialProblems = {
   alerts: [],
@@ -29,18 +31,21 @@ export default function PotentialProblemsLane({
 
   const { clusterSizeMillis } = remainingProps;
   const tagFilters = getTagfilters({ applicationId, serviceId, endpointId, boundaryScope });
+  const globalTimeConfig = useTimeConfig();
+  const outsideShortTermCallsStore = isOutsideCallsShortTermStorage(globalTimeConfig);
 
-  const potentialProblems =
-    useObservable(
-      getPotentialProblems({
-        timeConfig: remainingProps.timeConfig,
-        alertRules,
-        tagFilters
-      })
-        .startWith(pendingResult)
-        .map(({ data = emptyPotentialProblems }) => data),
-      [remainingProps.timeConfig, clusterSizeMillis, alertRules]
-    ) ?? emptyPotentialProblems;
+  const potentialProblems = outsideShortTermCallsStore
+    ? emptyPotentialProblems
+    : useObservable(
+        getPotentialProblems({
+          timeConfig: globalTimeConfig,
+          alertRules,
+          tagFilters
+        })
+          .startWith(pendingResult)
+          .map(({ data = emptyPotentialProblems }) => data),
+        [globalTimeConfig, clusterSizeMillis, alertRules]
+      ) ?? emptyPotentialProblems;
 
   return (
     <PotentialProblemsLanePresenter
@@ -51,6 +56,7 @@ export default function PotentialProblemsLane({
       boundaryScope={boundaryScope}
       potentialProblems={potentialProblems}
       tagFilters={tagFilters}
+      outsideShortTermCallsStore={outsideShortTermCallsStore}
     />
   );
 }
@@ -110,6 +116,28 @@ function useGetLabels(applicationId, serviceId, endpointId) {
 
 function getLabel(result) {
   return result?.data?.label ?? null;
+}
+
+/* This function is implemented after the respective backend function.
+   See: https://github.com/instana/backend/blob/c27424b3a0b64ea38169f102450c721292184e84/ui-backend/src/main/java/com/instana/ui/service/smartAlerts/application/ApplicationPotentialProblemsService.java#L86
+*/
+function isOutsideCallsShortTermStorage(globalTimeConfig) {
+  const now = Date.now();
+  const granularity = 600000;
+  const to = globalTimeConfig.to ?? now;
+  const windowSize = globalTimeConfig.windowSize;
+  const originalFrom = to - windowSize;
+  let adjustedFrom = originalFrom - (originalFrom % granularity);
+
+  if (adjustedFrom < originalFrom) {
+    // If the first bucket was shifted to the left, drop it, otherwise it might slip outside the
+    // short term retention storage (7 days by default) for "last 7 days" time frame and thus force
+    // usage of the less precise long term retention storage.
+    adjustedFrom = adjustedFrom + granularity;
+  }
+
+  const shortTermCutoff = now - hoursToMillis(7 * 24);
+  return adjustedFrom < shortTermCutoff;
 }
 
 PotentialProblemsLane.propTypes = {

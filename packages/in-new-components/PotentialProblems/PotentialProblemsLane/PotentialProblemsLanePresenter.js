@@ -11,7 +11,14 @@ import MarkerLane from 'in-components/Chart/markerLanes/MarkerLane/MarkerLane';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { getTitle } from 'in-new-components/PotentialProblems/textUtil';
 
-export default function PotentialProblemsLanePresenter({ potentialProblems, alertRules, ...remainingProps }) {
+export default function PotentialProblemsLanePresenter({
+  potentialProblems,
+  alertRules,
+  outsideShortTermCallsStore,
+  ...remainingProps
+}) {
+  if (outsideShortTermCallsStore) return null;
+
   const events = useMemo(() => {
     const alerts = potentialProblems.alerts;
     if (alerts.length === 0) return [];
@@ -47,7 +54,6 @@ export default function PotentialProblemsLanePresenter({ potentialProblems, aler
 
         // start new cluster
         lastStart = alert.start;
-        // lastEnd = Math.max(lastEnd, alert.end);
         lastEnd = alert.end;
         alertClusters = [alert];
       }
@@ -64,76 +70,74 @@ export default function PotentialProblemsLanePresenter({ potentialProblems, aler
   }, [...potentialProblems]);
 
   return (
-    <>
-      <MarkerLane
-        {...remainingProps}
-        events={events}
-        isCluster={false}
-        label="PotentialProblems"
-        tooltipContent={({ alerts }) => {
-          let text = '';
-          if (alerts.length > 1) {
-            text = `${alerts.length} Potential Problems`;
-          } else {
-            const { thresholds } = potentialProblems;
-            const key = alerts[0].key;
-            text = getTitle({ rule: alertRules[key].rule, threshold: thresholds[key] });
-          }
-          return <>{text}</>;
-        }}
-        renderHoverOverlay={PotentialProblemsHoverArea}
-        onClick={({ alerts, thresholds }) => {
-          addActiveDialog(
-            <PotentialProblemsDialogPresenter
-              {...remainingProps}
-              alertRules={alertRules}
-              alerts={alerts}
-              thresholds={thresholds}
-              renderSmartAlertDialogComponent={dialogProps => {
-                const { applicationLabel, serviceLabel, endpointLabel } = remainingProps;
-                const tagFilters = [
-                  {
-                    name: 'application.name',
-                    operator: 'EQUALS',
-                    stringValue: applicationLabel
-                  }
-                ];
-
-                if (serviceLabel) {
-                  tagFilters.push({
-                    name: 'service.name',
-                    operator: 'EQUALS',
-                    stringValue: serviceLabel
-                  });
+    <MarkerLane
+      {...remainingProps}
+      events={events}
+      isCluster={false}
+      label="PotentialProblems"
+      tooltipContent={({ alerts }) => {
+        let text = '';
+        if (alerts.length > 1) {
+          text = `${alerts.length} Potential Problems`;
+        } else {
+          const { thresholds } = potentialProblems;
+          const key = alerts[0].key;
+          text = getTitle({ rule: alertRules[key].rule, threshold: thresholds[key] });
+        }
+        return <>{text}</>;
+      }}
+      renderHoverOverlay={PotentialProblemsHoverArea}
+      onClick={({ alerts, thresholds }) => {
+        addActiveDialog(
+          <PotentialProblemsDialogPresenter
+            {...remainingProps}
+            alertRules={alertRules}
+            alerts={alerts}
+            thresholds={thresholds}
+            renderSmartAlertDialogComponent={dialogProps => {
+              const { applicationLabel, serviceLabel, endpointLabel } = remainingProps;
+              const tagFilters = [
+                {
+                  name: 'application.name',
+                  operator: 'EQUALS',
+                  stringValue: applicationLabel
                 }
+              ];
 
-                if (endpointLabel) {
-                  tagFilters.push({
-                    name: 'endpoint.name',
-                    operator: 'EQUALS',
-                    stringValue: endpointLabel
-                  });
-                }
+              if (serviceLabel) {
+                tagFilters.push({
+                  name: 'service.name',
+                  operator: 'EQUALS',
+                  stringValue: serviceLabel
+                });
+              }
 
-                return (
-                  <SmartAlertConfigDialogWrapper
-                    applicationLabel={remainingProps.applicationLabel}
-                    formData={{
-                      ...dialogProps,
-                      tagFilters
-                    }}
-                    onClose={close}
-                  />
-                );
-              }}
-            />
-          );
-        }}
-        renderLaneItem={SingleMarkerLaneItem}
-        renderMarkerItem={PotentialProblemMarker}
-        hideDefaultHoverStyle
-      />
-    </>
+              if (endpointLabel) {
+                tagFilters.push({
+                  name: 'endpoint.name',
+                  operator: 'EQUALS',
+                  stringValue: endpointLabel
+                });
+              }
+
+              return (
+                <SmartAlertConfigDialogWrapper
+                  applicationLabel={remainingProps.applicationLabel}
+                  formData={{
+                    ...dialogProps,
+                    tagFilters
+                  }}
+                  onClose={close}
+                />
+              );
+            }}
+          />
+        );
+      }}
+      renderLaneItem={SingleMarkerLaneItem}
+      renderMarkerItem={PotentialProblemMarker}
+      hideDefaultHoverStyle
+    />
   );
 }
 
@@ -153,5 +157,6 @@ PotentialProblemsLanePresenter.propTypes = {
         aggregation: PropTypes.string
       })
     })
-  })
+  }),
+  outsideShortTermCallsStore: PropTypes.bool
 };
