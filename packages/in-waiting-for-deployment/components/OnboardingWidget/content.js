@@ -167,16 +167,6 @@ export default function getEntries({ disableAwsSensorDocumentation }) {
       category: 'Platform',
       subTechnologies: [
         {
-          label: 'Helm chart',
-          keyWords: 'kuberneteshelmchartk8s',
-          Content: K8sHelmChartContent
-        },
-        {
-          label: 'DaemonSet',
-          keyWords: 'kubernetesdeamonsetk8s',
-          Content: K8sDaemonSetContent
-        },
-        {
           label: 'Operator',
           keywords: 'kubernetesoperatork8s',
           Content: OpenShiftOperatorContent
