@@ -23,7 +23,7 @@ export default function KafkaConnectWorkerDashboard({ snapshot, timeConfig }) {
       </KpiSection>
 
       <Columize>
-        <DashboardSection title="Rebalance">
+        <DashboardSection title="Completed Rebalances">
           <Chart
             snapshotId={snapshot.get('id')}
             timeConfig={timeConfig}
@@ -35,6 +35,8 @@ export default function KafkaConnectWorkerDashboard({ snapshot, timeConfig }) {
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
+        </DashboardSection>
+        <DashboardSection title="Rebalancing">
           <Chart
             snapshotId={snapshot.get('id')}
             timeConfig={timeConfig}
@@ -61,6 +63,8 @@ export default function KafkaConnectWorkerDashboard({ snapshot, timeConfig }) {
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
+        </DashboardSection>
+        <DashboardSection title="Rebalance Average Time">
           <Chart
             snapshotId={snapshot.get('id')}
             timeConfig={timeConfig}
