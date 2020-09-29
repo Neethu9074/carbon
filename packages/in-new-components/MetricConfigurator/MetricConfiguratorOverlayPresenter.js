@@ -44,7 +44,7 @@ export default function MetricConfiguratorOverlayPresenter({
                         </div>
                       </Tooltip>
                       <Row>
-                        <Col xs={5}>
+                        <Col xs={6}>
                           {metric.get('metric').map(field => (
                             <FormGroup>
                               <Label
@@ -72,7 +72,7 @@ export default function MetricConfiguratorOverlayPresenter({
                             </FormGroup>
                           ))}
                         </Col>
-                        <Col xs={5}>
+                        <Col xs={4}>
                           {options.find(option => option.metric === metric.get('metric').value)?.aggregations.length >
                             1 &&
                             metric.get('aggregation').map(field => (
