@@ -182,9 +182,9 @@ function createForm(integration) {
       })
     )
     .put(
-      'team',
+      'url',
       createField({
-        value: integration ? integration['team'] : ''
+        value: integration ? integration['url'] : ''
       })
     )
     .put(
@@ -204,5 +204,5 @@ function Heading({ text, htmlFor }) {
 }
 
 function areFieldsBlank(form) {
-  return isBlank(form.get('team').value);
+  return isBlank(form.get('url').value);
 }
