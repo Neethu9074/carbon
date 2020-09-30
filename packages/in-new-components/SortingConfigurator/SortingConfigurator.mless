@@ -1,0 +1,32 @@
+@import '~in-themes/active.less';
+
+:local {
+  .configurator {
+    display: inline-flex;
+    width: 10rem;
+    justify-content: space-between;
+  }
+
+  .sorting {
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+
+    &:hover, &:active, &:focus {
+      outline: none;
+    }
+
+    &:hover {
+      z-index: 1; // this is done in order to display border-right
+    }
+  }
+
+  .select {
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    margin-left: -1px; // this is done in order to display border-left 
+
+    &:hover, &:active, &:focus {
+      outline: none;
+    }
+  }
+}

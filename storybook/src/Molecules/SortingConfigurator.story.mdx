@@ -28,9 +28,11 @@ export const options = [
 
 <Preview>
   <Story name="default">
-    <SortingConfigurator options={options}
-      order={{by: options[1].value, direction: 'ASC'}}
-      onChange={storybookAction('onChange')} />
+    <SortingConfigurator
+      options={options}
+      orderBy={{by: options[1].value, direction: 'ASC'}}
+      onChange={storybookAction('onChange')}
+    />
   </Story>
 </Preview>
 

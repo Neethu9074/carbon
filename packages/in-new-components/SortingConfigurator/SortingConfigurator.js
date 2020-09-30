@@ -7,29 +7,42 @@ import DropdownButton from 'in-new-components/Button/DropdownButton';
 import Overlay from 'in-new-components/overlays/Overlay';
 import { Ul } from 'in-new-components/lists/List/List';
 import { compositeRef } from 'in-services/util/react';
+import Button from 'in-new-components/Button/Button';
+
+import locals from './SortingConfigurator.mless';
 
 export default function SortingConfigurator({ options, orderBy, onChange }) {
   const valueLabel = options.find(option => option.value === orderBy.by)?.label ?? 'N/A';
   const ref = useRef();
 
   return (
-    <Overlay
-      content={Options}
-      props={{ options, onChange, orderBy }}
-      withoutWrapper
-      onCloseSideEffect={() => ref.current?.focus()}
-    >
-      {({ toggle, refSetter }) => (
-        <DropdownButton
-          kind="secondary"
-          icon="lib_actions_sort"
-          refSetter={compositeRef(refSetter, ref)}
-          onClick={toggle}
-        >
-          Sort by: {valueLabel}
-        </DropdownButton>
-      )}
-    </Overlay>
+    <div className={locals.configurator}>
+      <Button
+        icon={orderBy.direction === 'ASC' ? 'lib_actions_sort_ascending' : 'lib_actions_sort_descending'}
+        kind="secondary"
+        className={locals.sorting}
+        onClick={() =>
+          onChange({
+            by: orderBy.by,
+            direction: orderBy.direction === 'ASC' ? 'DESC' : 'ASC'
+          })
+        }
+      >
+        {orderBy.direction === 'ASC' ? 'Ascending' : 'Descending'}
+      </Button>
+      <Overlay content={Options} props={{ options, onChange, orderBy }} onCloseSideEffect={() => ref.current?.focus()}>
+        {({ toggle, refSetter }) => (
+          <DropdownButton
+            className={locals.select}
+            kind="secondary"
+            refSetter={compositeRef(refSetter, ref)}
+            onClick={toggle}
+          >
+            {valueLabel}
+          </DropdownButton>
+        )}
+      </Overlay>
+    </div>
   );
 }
 
@@ -58,13 +71,6 @@ function Options({ options, onChange, orderBy, close }) {
           {option.label}
         </OverlayOption>
       ))}
-      <OverlayOption onChange={onChange} close={close} value={{ by: orderBy.by, direction: 'ASC' }} size="compact">
-        ASC
-      </OverlayOption>
-
-      <OverlayOption onChange={onChange} close={close} value={{ by: orderBy.by, direction: 'DESC' }} size="compact">
-        DESC
-      </OverlayOption>
     </Ul>
   );
 }
