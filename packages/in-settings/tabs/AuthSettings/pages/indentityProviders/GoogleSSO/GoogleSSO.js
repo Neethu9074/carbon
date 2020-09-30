@@ -7,13 +7,11 @@ import TouchedMessages from 'in-components/form/TouchedMessages';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import DescriptionText from 'in-components/form/DescriptionText';
 import ApiItemView from 'in-settings/components/ApiItemView';
-import { Row, Col } from 'in-new-components/layout/Grid';
+import Section from 'in-settings/components/Section';
 import FormGroup from 'in-components/form/FormGroup';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import Title from 'in-components/Title';
-
-import indentityProvidersLocals from '../indentityProviders.mless';
 
 export default function GoogleSSO() {
   return (
@@ -35,38 +33,32 @@ function render({ form, setForm }) {
       <Title title="Configure Google SSO" />
       <SubViewHeader>Google SSO Configuration</SubViewHeader>
       <h2>Configure allowed email domains</h2>
-      <div className={indentityProvidersLocals.space} />
 
       <form>
-        <p>
-          Only users with email addresses at the following domains will be allowed to sign in to your Instana tenant:
-        </p>
+        <Section restrictWidth="50rem">
+          {form.get('filter').map(field => (
+            <FormGroup>
+              <Label htmlFor="google_sso_filter" hasError={!field.valid && field.touched}>
+                Only users with email addresses at the following domains will be allowed to sign in to your Instana
+                tenant:
+              </Label>
 
-        <Row className={indentityProvidersLocals.row}>
-          <Col xs={12}>
-            {form.get('filter').map(field => (
-              <FormGroup>
-                <Label htmlFor="google_sso_filter" hasError={!field.valid && field.touched}>
-                  Domains
-                </Label>
-
-                <Input
-                  id="google_sso_filter"
-                  type="text"
-                  value={field.value}
-                  onChange={e => {
-                    setForm(form.updateIn(['filter'], f => f.setValue(e.target.value).setTouched(true)));
-                  }}
-                  placeholder="@example.com, @example.io"
-                  autoComplete="off"
-                  hasError={!field.valid && field.touched}
-                />
-                <DescriptionText>Separate multiple domains with a comma.</DescriptionText>
-                <TouchedMessages field={field} />
-              </FormGroup>
-            ))}
-          </Col>
-        </Row>
+              <Input
+                id="google_sso_filter"
+                type="text"
+                value={field.value}
+                onChange={e => {
+                  setForm(form.updateIn(['filter'], f => f.setValue(e.target.value).setTouched(true)));
+                }}
+                placeholder="@example.com, @example.io"
+                autoComplete="off"
+                hasError={!field.valid && field.touched}
+              />
+              <DescriptionText>Separate multiple domains with a comma.</DescriptionText>
+              <TouchedMessages field={field} />
+            </FormGroup>
+          ))}
+        </Section>
       </form>
     </>
   );

@@ -13,6 +13,6 @@
   }
 
   .button {
-    width: 6.25rem;
+    min-width: 6.25rem;
   }
 }

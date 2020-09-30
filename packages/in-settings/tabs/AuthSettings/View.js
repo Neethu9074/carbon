@@ -6,6 +6,7 @@ import {
   googleSSO,
   saml,
   ldap,
+  twoFactorAuth,
   twoFaUsers,
   changePassword,
   samlMapping,
@@ -15,6 +16,7 @@ import {
 import GoogleSSO from 'in-settings/tabs/AuthSettings/pages/indentityProviders/GoogleSSO/GoogleSSO';
 import { isAvailable as isGoogleSSOAvailable } from 'in-settings/tabs/AuthSettings/api/googleSSO';
 import SessionSettings from 'in-settings/tabs/AuthSettings/pages/sessionSettings/SessionSettings';
+import TwoFactorSettings from 'in-settings/tabs/AuthSettings/pages/twoFactorAuth/Settings';
 import SideNavigationAndContent from 'in-new-components/layout/SideNavigationAndContent';
 import ChangePassword from 'in-settings/tabs/AuthSettings/pages/password/ChangePassword';
 import type { NavigationTree } from 'in-new-components/layout/SideNavigationAndContent';
@@ -54,10 +56,15 @@ function getNavigationTree(props: any): NavigationTree {
       ].filter(Boolean)
     },
 
-    isOwner && {
-      title: '2Factor',
+    {
+      title: 'Two-Factor',
       pages: [
         {
+          path: twoFactorAuth,
+          label: 'Settings',
+          component: TwoFactorSettings
+        },
+        isOwner && {
           path: twoFaUsers,
           label: 'Users',
           component: Users

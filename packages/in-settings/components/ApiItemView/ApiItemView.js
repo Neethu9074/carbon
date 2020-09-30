@@ -21,6 +21,7 @@ export default connectTo(
       render,
       renderLoadingState = renderLoadingStateDefault,
       enrichForm,
+      saveLabel,
       deleteLabel,
       result,
       saveItem,
@@ -52,8 +53,11 @@ export default connectTo(
 
     const [message, setMessage] = useState(null);
     const [canSaveItem, setCanSaveItem] = useState(false);
+    const [savelabel, setSaveLabel] = useState(saveLabel);
     const [canDeleteItem, setCanDeleteItem] = useState(false);
-    const [form, setForm] = useState(() => createForm(enrichForm, { ...props, setCanSaveItem, setCanDeleteItem }));
+    const [form, setForm] = useState(() =>
+      createForm(enrichForm, { ...props, setCanSaveItem, setSaveLabel, setCanDeleteItem })
+    );
 
     const renderProps = {
       ...props,
@@ -65,6 +69,7 @@ export default connectTo(
         setForm(form.setTouched(true));
         setCanSaveItem(true);
       },
+      setSaveLabel,
       setCanSaveItem,
       setCanDeleteItem
     };
@@ -81,8 +86,9 @@ export default connectTo(
           <Footer
             canSaveItem={canSaveItem}
             canDeleteItem={canDeleteItem}
+            saveButtonVisible={saveItem || onSubmit}
+            saveLabel={savelabel}
             onSaveClick={saveItem ? () => saveItem({ ...props, setMessage, form, setForm, setCanSaveItem }) : undefined}
-            onSubmit={onSubmit}
             onDeleteClick={
               deleteItem ? () => deleteItem({ ...props, setMessage, form, setForm, setCanSaveItem }) : undefined
             }

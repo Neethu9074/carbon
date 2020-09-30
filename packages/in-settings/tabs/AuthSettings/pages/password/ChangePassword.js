@@ -8,9 +8,10 @@ import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { stringMaxLengthValidator } from 'in-services/validators/string';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import ValidationBlock from 'in-components/form/ValidationBlock';
+import SubViewHeader from 'in-settings/components/SubViewHeader';
 import ApiItemView from 'in-settings/components/ApiItemView';
-import { Row, Col } from 'in-new-components/layout/Grid';
 import FormGroup from 'in-components/form/FormGroup';
+import Section from 'in-settings/components/Section';
 import Title from 'in-components/Title/Title';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
@@ -20,7 +21,6 @@ import locals from './ChangePassword.mless';
 export default function ChangePassword() {
   return (
     <>
-      <Title title="Change Password" />
       <ApiItemView render={render} enrichForm={enrichForm} onSubmit={onSubmit} />
     </>
   );
@@ -31,8 +31,10 @@ function render({ form, setForm }) {
   const passwordStrength = useMemo(() => getPasswordStrength(newPassword), [newPassword]);
 
   return (
-    <Row>
-      <Col xs={4}>
+    <>
+      <Title title="Change Password" />
+      <SubViewHeader>Change Password</SubViewHeader>
+      <Section restrictWidth="50rem">
         <InputField label="Password" fieldName="password" form={form} setForm={setForm} autoFocus />
         <InputField
           label="New password"
@@ -42,8 +44,8 @@ function render({ form, setForm }) {
           passwordStrength={passwordStrength}
         />
         <InputField label="Repeat password" fieldName="repeatedPassword" form={form} setForm={setForm} />
-      </Col>
-    </Row>
+      </Section>
+    </>
   );
 }
 

@@ -1,0 +1,25 @@
+:local {
+  .qrCanvas {
+    width: 22rem;
+    height: 22rem;
+
+    margin: 4rem;
+  }
+
+  .input {
+    width: 9rem;
+  }
+
+  .scratchCodesSection {
+    margin-top: 2rem;
+  }
+
+  .scratchCodes {
+    padding: 0 0 0 2rem;
+  }
+
+  .scratchCode {
+    padding: 0.25rem 0;
+    font-size: 0.875rem;
+  }
+}

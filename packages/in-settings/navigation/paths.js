@@ -34,7 +34,7 @@ export const googleSSO = `${authSettings}/googleSingleSignOn`;
 export const saml = `${authSettings}/saml`;
 export const ldap = `${authSettings}/ldap`;
 
-const twoFactorAuth = `${authSettings}/2fa`;
+export const twoFactorAuth = `${authSettings}/2fa`;
 export const twoFaUsers = `${twoFactorAuth}/users`;
 
 const session = `${authSettings}/session`;
