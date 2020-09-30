@@ -175,7 +175,7 @@ function columns({ groupBy, type, getParamsForGroup, kpis, timeConfig, granulari
       }
     ])
     .concat(
-      kpis.map(({ label, metric, formatter }) => ({
+      kpis.map(({ label, metric, formatter = String }) => ({
         width: '12rem',
         getContent({ group }) {
           const kpi = group.metrics[metric + 'Agg'];
