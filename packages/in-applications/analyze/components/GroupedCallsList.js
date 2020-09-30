@@ -17,14 +17,14 @@ import { getSparkChartGranularity } from 'in-applications/metrics';
 import { aggregateMetric } from 'in-applications/analyze/metrics';
 import { indeterminateProgress } from 'in-services/fixedObjects';
 import { evaluateClassNames } from 'in-services/util/classnames';
+import IconButton from 'in-new-components/IconButton/IconButton';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import KeyValue from 'in-new-components/lists/KeyValue';
+import Tooltip from 'in-components/Tooltip/Tooltip';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Message from 'in-new-components/Message';
 import locals from './GroupedCallsList.mless';
-import Button from 'in-new-components/Button';
 import SvgIcon from 'in-components/SvgIcon';
-
 const defaultOrder = aggregateMetric('calls', 'SUM');
 const defaultDirection = 'DESC';
 
@@ -34,7 +34,7 @@ export default function GroupedCallsList({
   orderBy,
   orderByCalls,
   metrics,
-  onChangeFilter,
+  onFocusOnGroup,
   onChangeOrderBy,
   onChangeOrderByCalls,
   onChangeMetrics
@@ -59,13 +59,12 @@ export default function GroupedCallsList({
   return (
     <Presenter
       timeConfig={timeConfig}
-      tagFilterExpression={tagFilterExpression}
       groupBy={groupBy}
       order={order}
       orderByCalls={orderByCalls}
       metrics={metrics}
       granularity={granularity}
-      onChangeFilter={onChangeFilter}
+      onFocusOnGroup={onFocusOnGroup}
       onChangeOrderBy={onChangeOrderBy}
       onChangeMetrics={onChangeMetrics}
       onChangeOrderByCalls={onChangeOrderByCalls}
@@ -82,20 +81,19 @@ function Presenter({
   totalHits,
   items,
   timeConfig,
-  tagFilterExpression,
   groupBy,
   order,
   orderByCalls,
   metrics,
   granularity,
-  onChangeFilter,
+  onFocusOnGroup,
   onChangeOrderBy,
   onChangeMetrics,
   onChangeOrderByCalls
 }) {
   const hasErrors = errors?.length > 0;
   const isLoading = progress?.loading;
-  const columnDefinitions = columns({ groupBy, tagFilterExpression, onChangeFilter, metrics });
+  const columnDefinitions = columns({ groupBy, onFocusOnGroup, metrics });
   const columnDefinitionsForUnspecified = columnsForUnspecified({ metrics });
 
   return (
@@ -110,12 +108,11 @@ function Presenter({
       <Ul space="xsmall">
         {partition(items, item => item.name !== UNSPECIFIED).map(partition =>
           partition.map((item, rowIndex) => {
-            const filterForGroup = addTagFilters(
-              tagFilterExpression,
+            const filterForGroup = groupingFilter({
               groupBy,
-              item.name,
-              item.name !== UNSPECIFIED ? undefined : 'IS_EMPTY'
-            );
+              group: item.name,
+              operator: item.name !== UNSPECIFIED ? undefined : 'IS_EMPTY'
+            });
             return (
               <Li
                 key={rowIndex}
@@ -126,10 +123,11 @@ function Presenter({
                 className={evaluateClassNames({ [locals.unspecified]: item.name === UNSPECIFIED })}
                 renderNestedContent={() => (
                   <ExpandedGroup
+                    groupBy={groupBy}
                     group={item}
                     tagFilterExpression={filterForGroup}
                     timeConfig={timeConfig}
-                    onChangeFilter={onChangeFilter}
+                    onFocusOnGroup={onFocusOnGroup}
                     orderByCalls={orderByCalls}
                     onChangeOrderByCalls={onChangeOrderByCalls}
                   />
@@ -163,7 +161,7 @@ function Presenter({
   );
 }
 
-function columns({ groupBy, tagFilterExpression, onChangeFilter, metrics }) {
+function columns({ groupBy, onFocusOnGroup, metrics }) {
   const { groupbyTag, groupbyTagSecondLevelKey } = groupBy;
   return [
     {
@@ -181,16 +179,15 @@ function columns({ groupBy, tagFilterExpression, onChangeFilter, metrics }) {
     })
     .concat(metrics.map(metric => metricToColumn(metric)))
     .concat({
-      width: '9rem',
+      width: '3rem',
       getContent({ group }) {
         return (
-          <Button
-            icon="lib_actions_filter"
-            onClick={() => onChangeFilter([addTagFilters(tagFilterExpression, groupBy, group.name)])}
-            kind="subtle"
-          >
-            Turn into filter
-          </Button>
+          <Tooltip content="Focus on this group">
+            <IconButton
+              type="lib_actions_filter"
+              onClick={() => onFocusOnGroup(groupingFilter({ groupBy, group: group.name }))}
+            />
+          </Tooltip>
         );
       }
     });
@@ -293,35 +290,35 @@ function HeaderRow({ totalGroups, order, onChangeOrderBy, metrics, onChangeMetri
   );
 }
 
-function ExpandedGroup({ group, tagFilterExpression, timeConfig, onChangeFilter, orderByCalls, onChangeOrderByCalls }) {
+function ExpandedGroup({
+  groupBy,
+  group,
+  tagFilterExpression,
+  timeConfig,
+  onFocusOnGroup,
+  orderByCalls,
+  onChangeOrderByCalls
+}) {
   return (
     <CallsList
       tagFilterExpression={tagFilterExpression}
       timeConfig={timeConfig}
       retrievalSize={20}
       numSkeletonRows={Math.min(group.metrics[aggregateMetric('calls', 'SUM')][0][1], 20)}
-      filterBy={() => onChangeFilter([tagFilterExpression])}
+      filterBy={() => onFocusOnGroup(groupingFilter({ groupBy, group: group.name }))}
       orderBy={orderByCalls}
       onChangeOrderBy={onChangeOrderByCalls}
     />
   );
 }
 
-function addTagFilters(tagFilterExpression, groupBy, group, operator = EQUALS) {
-  const tagFilter = {
+function groupingFilter({ groupBy, group, operator = EQUALS }) {
+  return {
     type: 'TAG_FILTER',
     operator: operator,
     name: groupBy.groupbyTag,
     key: groupBy.groupbyTagSecondLevelKey,
     value: operator === EQUALS ? group : undefined
-  };
-  if (tagFilterExpression.type === 'EXPRESSION' && tagFilterExpression.elements.length === 0) {
-    return tagFilter;
-  }
-  return {
-    type: 'EXPRESSION',
-    logicalOperator: 'AND',
-    elements: [tagFilterExpression, tagFilter].filter(Boolean)
   };
 }
 
@@ -331,7 +328,7 @@ const metricConfiguration = {
     formatter: millis.forcedCompactOnMs.detailed,
     label: 'Latency',
     type: 'time',
-    aggregations: ['MIN', 'P25', 'P50', 'P75', 'P90', 'P95', 'P98', 'P99', 'MAX']
+    aggregations: ['MIN', 'P25', 'P50', 'P75', 'P90', 'P95', 'P98', 'P99', 'MAX', 'MEAN']
   },
   errors: { formatter: percentage.detailed, label: 'Erroneous Calls Rate', type: 'rate', aggregations: ['MEAN'] },
   erroneousCalls: { formatter: number.compact, label: 'Erroneous Calls', type: 'count', aggregations: ['SUM'] }

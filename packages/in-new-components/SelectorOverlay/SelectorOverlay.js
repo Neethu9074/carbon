@@ -57,9 +57,6 @@ export default function SelectorOverlay({ options, onChange, withIcons = true })
               groups[0].click();
             }
           }}
-          onFocus={e => {
-            lastFocusedElementRef.current = e.target;
-          }}
         />
       </div>
       <div className={locals.overlay}>
