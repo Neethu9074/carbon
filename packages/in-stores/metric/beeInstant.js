@@ -30,5 +30,5 @@ export function rollupForBeeInstantMetrics(rollup) {
     return rollup;
   }
 
-  return 10000;
+  return MINIMUM_ROLLUP;
 }

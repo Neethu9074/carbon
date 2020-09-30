@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo } from 'react';
-import { isEmpty } from 'lodash';
+import { isEmpty, isEqual } from 'lodash';
 
 import {
   emptyTagFilterExpression,
@@ -108,7 +108,7 @@ function getType(type) {
 function updatedGroup(group, type) {
   return !group?.groupbyTag && type === allTypes
     ? defaultAllInfraGroup
-    : group === defaultAllInfraGroup && type !== allTypes
+    : isEqual(group, defaultAllInfraGroup) && type !== allTypes
     ? emptyObject
     : group;
 }

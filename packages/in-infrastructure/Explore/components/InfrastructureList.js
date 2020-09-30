@@ -14,6 +14,7 @@ import MetricValue from 'in-components/MetricValue';
 import useObservable from 'in-hooks/useObservable';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Tooltip from 'in-components/Tooltip';
+import Pill from 'in-new-components/Pill';
 
 import locals from './InfrastructureList.mless';
 
@@ -26,7 +27,7 @@ export default function InfrastructureList({
 }) {
   const timeConfig = useTimeConfig();
   const [state, setState] = useReducer((prev, next) => ({ ...prev, ...next }), {
-    orderBy: staticColumnDefinitions[0].id,
+    orderBy: 'label',
     orderDirection: 'ASC'
   });
   const { orderBy, orderDirection } = state;
@@ -36,12 +37,11 @@ export default function InfrastructureList({
     [timeConfig, retrievalSize, backendQueryModel, type, orderBy, orderDirection]
   );
 
-  const columnDefinitions =
-    useObservable(getColumnDefinitions({ timeConfig, backendQueryModel, items }), [
-      timeConfig,
-      backendQueryModel,
-      items
-    ]) || staticColumnDefinitions;
+  const columnDefinitions = useObservable(getColumnDefinitions({ timeConfig, backendQueryModel, items }), [
+    timeConfig,
+    backendQueryModel,
+    items
+  ]) || [getLabelColumn({ timeConfig })];
 
   const optionalColumns = useMemo(() => columnDefinitions.filter(columnDefinition => columnDefinition.optional), [
     columnDefinitions
@@ -83,24 +83,32 @@ function getTableData({ timeConfig, retrievalSize, backendQueryModel, type, orde
   });
 }
 
-const staticColumnDefinitions = [
-  {
+function getLabelColumn({ timeConfig }) {
+  return {
     id: 'label',
     label: 'Name',
     getContent(item) {
+      const offlineTime = item.time < timeConfig.to ? item.time : undefined;
       return (
-        <EntityLink
-          className={locals.link}
-          label={item.label}
-          plugin={item.plugin}
-          href$={getDashboardLink(item.snapshotId)}
-        />
+        <div className={locals.entityLink}>
+          <EntityLink
+            label={item.label}
+            plugin={item.plugin}
+            href$={getDashboardLink(item.snapshotId, { to: offlineTime })}
+          />
+          {offlineTime && (
+            <Pill className={locals.pill} kind="lighter">
+              offline
+            </Pill>
+          )}
+        </div>
       );
     }
-  }
-];
+  };
+}
 
 function getColumnDefinitions({ timeConfig, backendQueryModel, items }) {
+  const staticColumnDefinitions = [getLabelColumn({ timeConfig })];
   if (items) {
     const plugins = new Set(items.map(i => i.plugin));
     if (plugins.size === 1) {

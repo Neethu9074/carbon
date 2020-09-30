@@ -5,6 +5,8 @@
   .wrapper {
     display: flex;
     align-items: center;
+    // this is required for making the contained label ellipsis correctly
+    min-width: 0;
 
     & + .wrapper {
       margin-left: 0.5rem;

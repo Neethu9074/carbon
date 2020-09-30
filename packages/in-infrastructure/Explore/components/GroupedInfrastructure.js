@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react';
 
 import { ColumnizedContent, Ul, Li, LoadingSkeletonLi, HorizontalIndicatorLi } from 'in-new-components/lists/List';
+import { percentageZeroDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import { type as TAG_FILTER_TYPE } from 'in-new-components/QueryBuilder/transformation/tagFilter';
 import { addTagFilters } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
@@ -11,6 +12,7 @@ import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import LoadMoreLi from 'in-new-components/lists/List/LoadMoreLi/LoadMoreLi';
 import CountHeader from 'in-infrastructure/Explore/components/CountHeader';
 import { getOptionalSnapshotDefinition } from 'in-sdk/snapshot/registry';
+import { rollupForBeeInstantMetrics } from 'in-stores/metric/beeInstant';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import { getLinkToExplore } from 'in-infrastructure/navigation/paths';
 import { error as errorType } from 'in-new-components/Message/types';
@@ -19,31 +21,45 @@ import IconButton from 'in-new-components/IconButton/IconButton';
 import { pluginTag } from 'in-infrastructure/Explore/constants';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import MoreMenu from 'in-new-components/MoreMenu/MoreMenu';
+import { getKpiDefinitions } from 'in-sdk/metrics/kpis';
 import KeyValue from 'in-new-components/lists/KeyValue';
 import { emptyObject } from 'in-services/fixedObjects';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import SparkChart from 'in-components/SparkChart';
 import Message from 'in-new-components/Message';
 
 import locals from './GroupedInfrastructure.mless';
 
-export default function GroupedInfrastructure({ tagFilterExpression, backendQueryModel, onChange, group, type }) {
+export default function GroupedInfrastructure({
+  tagFilterExpression,
+  backendQueryModel,
+  onChange,
+  group,
+  type,
+  aggregation = 'MEAN'
+}) {
   const timeConfig = useTimeConfig();
 
-  const props = useCursorPagination(({ cursor }) => getGroups({ timeConfig, backendQueryModel, group, type, cursor }), [
-    timeConfig,
-    backendQueryModel,
-    group,
-    type
-  ]);
+  const granularity = getGranularity(timeConfig);
+
+  const kpis = getKpis(type);
+
+  const props = useCursorPagination(
+    ({ cursor }) => getGroups({ timeConfig, backendQueryModel, group, type, kpis, granularity, aggregation, cursor }),
+    [timeConfig, backendQueryModel, group, type]
+  );
 
   return (
     <Presenter
       tagFilterExpression={tagFilterExpression}
       backendQueryModel={backendQueryModel}
+      granularity={granularity}
+      aggregation={aggregation}
       timeConfig={timeConfig}
       onChange={onChange}
       group={group}
       type={type}
+      kpis={kpis}
       {...props}
     />
   );
@@ -53,7 +69,9 @@ function Presenter({
   totalRepresentedItemCount,
   tagFilterExpression,
   backendQueryModel,
+  aggregation,
   canLoadMore,
+  granularity,
   timeConfig,
   totalHits,
   onChange,
@@ -62,6 +80,7 @@ function Presenter({
   errors,
   group,
   items,
+  kpis,
   type
 }) {
   const hasErrors = errors?.length > 0;
@@ -73,7 +92,16 @@ function Presenter({
     }),
     [tagFilterExpression]
   );
-  const columnDefinitions = columns({ groupBy: [group.groupbyTag], type, onChange, getParamsForGroup });
+  const columnDefinitions = columns({
+    groupBy: [group.groupbyTag],
+    type,
+    onChange,
+    getParamsForGroup,
+    kpis,
+    timeConfig,
+    granularity,
+    aggregation
+  });
 
   return (
     <>
@@ -117,7 +145,7 @@ function Presenter({
   );
 }
 
-function columns({ groupBy, type, getParamsForGroup }) {
+function columns({ groupBy, type, getParamsForGroup, kpis, timeConfig, granularity, aggregation }) {
   const snapshotDefinition = getOptionalSnapshotDefinition(type);
   const countLabel = snapshotDefinition ? snapshotDefinition.pluginName.plural : 'Count';
   return [
@@ -144,7 +172,28 @@ function columns({ groupBy, type, getParamsForGroup }) {
         getContent({ group }) {
           return <KeyValue label={countLabel} value={group.count} theme="blue" accentuated />;
         }
-      },
+      }
+    ])
+    .concat(
+      kpis.map(({ label, metric, formatter }) => ({
+        width: '12rem',
+        getContent({ group }) {
+          const kpi = group.metrics[metric + 'Agg'];
+          return (
+            <SparkChart
+              rollup={granularity}
+              timeConfig={timeConfig}
+              metrics={group.metrics[metric]}
+              aggregation={aggregation}
+              tooltipFormatter={formatter}
+              horizontalMetricValue={kpi ? formatter(kpi[0][1]) : '--'}
+              label={label}
+            />
+          );
+        }
+      }))
+    )
+    .concat([
       {
         width: '3rem',
         getContent({ group }) {
@@ -164,7 +213,7 @@ function getColumnWidth(groupBy, index) {
   }
 }
 
-function getGroups({ timeConfig, backendQueryModel, group, cursor, type }) {
+function getGroups({ timeConfig, backendQueryModel, group, cursor, type, kpis, granularity, aggregation }) {
   return createGetGroupsSubscription({
     filter: {
       timeConfig,
@@ -175,7 +224,20 @@ function getGroups({ timeConfig, backendQueryModel, group, cursor, type }) {
       retrievalSize: 20
     },
     groupBy: [group.groupbyTag],
-    type
+    type,
+    metrics: Object.fromEntries(
+      kpis.flatMap(({ metric }) => [
+        [
+          metric,
+          {
+            metric,
+            granularity,
+            aggregation
+          }
+        ],
+        [metric + 'Agg', { metric, granularity: timeConfig.windowSize, aggregation }]
+      ])
+    )
   });
 }
 
@@ -231,4 +293,30 @@ function getGroupTagValue(group, key) {
   } else {
     return group.tags[key];
   }
+}
+
+function getGranularity(timeConfig) {
+  const dataPoints = 10;
+
+  return rollupForBeeInstantMetrics(timeConfig.windowSize / dataPoints);
+}
+
+function getKpis(type) {
+  // hack for beeinstant not having derived metrics at the moment
+  if (type === 'host') {
+    return [
+      {
+        label: 'CPU (user)',
+        metric: 'cpu.user',
+        formatter: percentageZeroDecimalPlaces
+      },
+      {
+        label: 'Memory Free',
+        metric: 'memory.free',
+        formatter: bytesTwoDecimalPlaces
+      }
+    ];
+  }
+
+  return getKpiDefinitions(type);
 }

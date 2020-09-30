@@ -1,9 +1,9 @@
+import theme from 'in-themes';
 import React from 'react';
 
 import WithIcon from 'in-new-components/WithIcon';
 import Tooltip from 'in-components/Tooltip';
 import Link from 'in-components/Link';
-import theme from 'in-themes';
 
 import locals from './EntityLink.mless';
 

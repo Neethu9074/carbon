@@ -1,15 +1,21 @@
 @import '~in-themes/mixins.less';
 
 :local {
-  .link {
-    .ellipsis();
-  }
-
   .metricLabel {
     display: inline-block;
     width: 100%;
     padding-right: 0.5rem;
     vertical-align: bottom;
     .ellipsisLeft();
+  }
+
+  .entityLink {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .pill {
+    margin-left: 1rem;
   }
 }
