@@ -10,12 +10,19 @@ export const staticStringType = 'staticString';
 export const dynamicType = 'dynamic';
 export const defaultType = staticStringType;
 
+export const hardCodedDynamicValues = Object.freeze([
+  { value: { tagName: 'entity.kubernetes.cluster.label', key: null }, label: 'Kubernetes Cluster Labels' },
+  { value: { tagName: 'entity.kubernetes.pod.name', key: null }, label: 'Kubernetes Pod Name' },
+  { value: { tagName: 'entity.kubernetes.pod.label', key: 'app' }, label: 'Kubernetes Pod Label under "app"' }, //(this one exists on our demo cluster on k8s-test)
+  { value: { tagName: 'entity.kubernetes.node.name', key: null }, label: 'Kubernetes Node Name' },
+  { value: { tagName: 'entity.ec2.ipv4' }, label: 'AWS EC2 host public IP' }
+]);
+
 const exampleCustomPayload = {
   fields: [
     { type: staticStringType, key: 'testString', value: 'value1' },
     { type: staticBooleanType, key: 'testBool', value: true },
-    { type: staticNumberType, key: 'testNumber', value: 42 }
-    /*
+    { type: staticNumberType, key: 'testNumber', value: 42 },
     {
       type: dynamicType,
       key: 'dynamicK8sClusterName',
@@ -25,8 +32,8 @@ const exampleCustomPayload = {
       key: 'myDynamicPayload',
       type: dynamicType,
       value: {
-        tagName: 'entity.kubernetes.cluster.label',
-        key: 'alertingGroup' // key-matching is always EQUALS
+        tagName: 'entity.kubernetes.pod.label',
+        key: 'app' // key-matching is always EQUALS
       }
     },
     {
@@ -37,7 +44,6 @@ const exampleCustomPayload = {
         key: null // only non-null for key-value pairs
       }
     }
-    */
   ],
   lastUpdated: 1600683042893
 };

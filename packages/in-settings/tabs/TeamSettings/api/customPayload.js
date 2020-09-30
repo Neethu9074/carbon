@@ -30,7 +30,7 @@ function getGlobalCustomPayloadAsResultObservableInternal() {
   );
 }
 
-export function storeGlobalCustomPayload(customPayload) {
+export function saveGlobalCustomPayload(customPayload) {
   return http({
     method: 'PUT',
     url: `/api/events/settings/custom-payload-configurations`,

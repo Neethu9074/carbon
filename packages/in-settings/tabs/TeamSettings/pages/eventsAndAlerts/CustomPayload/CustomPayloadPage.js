@@ -8,19 +8,23 @@ import {
   staticNumberType,
   staticStringType,
   dynamicType,
+  hardCodedDynamicValues,
   createFormFieldForField,
   mergeResultWithPayloadForm,
   toServerItemModel,
   enrichedWithUniqId
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/form';
 import {
+  useSaveToServerHandler,
+  initialState
+} from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/useSaveToServerHandler';
+import {
   getGlobalCustomPayloadAsResultObservable,
-  storeGlobalCustomPayload
+  saveGlobalCustomPayload
 } from 'in-settings/tabs/TeamSettings/api/customPayload';
 import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
 import FormInputField from 'in-custom-dashboards/widgets/Slo/components/FormInputField';
 import FormDropDown from 'in-custom-dashboards/widgets/Slo/components/FormDropDown';
-import { savingMessage as entityFormSavingMessage } from 'in-hoc/entityForm';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import TouchedMessages from 'in-components/form/TouchedMessages';
@@ -43,42 +47,17 @@ const logger = createLogger('customPayloadConfig');
 
 export default function CustomPayloadPage() {
   const result = useObservable(getGlobalCustomPayloadAsResultObservable(), []) ?? pendingResult;
+  const { savingState, save } = useSaveToServerHandler(saveGlobalCustomPayload, logger);
   if (isLoading(result)) {
     return null;
   }
-  return <CustomPayload result={result} />;
+  return <CustomPayload result={result} save={save} savingState={savingState} />;
 }
 
 export function CustomPayload(props) {
-  const { result } = props;
+  const { result, save, savingState } = props;
   const [form, setForm] = useState(createForm(result?.data?.fields ?? []));
-  const [storingState, setStoringState] = useState({});
-  const { message, error, storing } = storingState;
-
-  function saveCustomPayload(fields) {
-    setStoringState({
-      message: entityFormSavingMessage,
-      storing: true,
-      error: false
-    });
-
-    const saveResult$ = storeGlobalCustomPayload({ fields });
-    saveResult$.once(() => {
-      setStoringState({
-        message: '',
-        storing: false,
-        error: false
-      });
-    });
-    saveResult$.errors().once(error => {
-      logger.error(`Failed to store custom payload: ${error.message}`, error);
-      setStoringState({
-        message: error.message,
-        storing: false,
-        error: true
-      });
-    });
-  }
+  const { message, error, storing } = savingState ?? initialState;
 
   function getRowIndex(payloadField) {
     return form.reduce((acc, item, i) => (item === payloadField ? i : acc), -1);
@@ -118,7 +97,7 @@ export function CustomPayload(props) {
           if (!form.hierarchyValid) {
             return false;
           }
-          saveCustomPayload(form.toJS().map(toServerItemModel));
+          save({ fields: form.toJS().map(toServerItemModel) });
         }}
       >
         <ServerTablePresenter
@@ -197,11 +176,12 @@ const columnDefinitions = [
     label: 'Value type',
     getContent(item, { getRowIndex, updateIn }) {
       const onChangeType = newType => {
-        if (newType === dynamicType) {
-          // currently ignored
-          return;
-        }
-        const newValue = newType === staticBooleanType ? true : '';
+        const defaults = {
+          [staticBooleanType]: true,
+          [staticNumberType]: 42,
+          [dynamicType]: hardCodedDynamicValues[0]
+        };
+        const newValue = defaults[newType] ?? '';
         updateIn([getRowIndex(item)], formFields => {
           return formFields
             .updateIn(['type'], f => f.setValue(newType).setTouched(true))
@@ -286,7 +266,40 @@ const columnDefinitions = [
         );
       }
 
-      return <span>This can yet not be edited - it will be untouched.</span>;
+      // in a next step, this list might already be pre-configured
+      const valuesList = hardCodedDynamicValues.map(v => ({ ...v, value: JSON.stringify(v.value) }));
+      const valueJson = JSON.stringify(value ?? '');
+
+      if (!value || 0 > valuesList.find(v => v.value === valueJson)) {
+        const syntheticUnknownEntry = {
+          value: valueJson,
+          label: `unknown value: ${valueJson}`
+        };
+        valuesList.push(syntheticUnknownEntry);
+      }
+
+      if (type === dynamicType) {
+        return (
+          <FormGroup withoutBottomMargin>
+            {valueField.map(field => {
+              return (
+                <FormDropDown
+                  className={locals.colName}
+                  value={valueJson}
+                  hasError={!field.valid && field.touched}
+                  onChange={({ target }) => {
+                    onChange(['value'], f => f.setValue(JSON.parse(target.value)).setTouched(true));
+                  }}
+                  options={valuesList}
+                />
+              );
+            })}
+            <TouchedMessages field={valueField} />
+          </FormGroup>
+        );
+      }
+
+      return <span>Unknown type: {type} - it can not be edited.</span>;
     }
   },
   {

@@ -3,6 +3,8 @@ import React from 'react';
 
 import { CustomPayload } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/CustomPayloadPage';
 import { mockResult } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/form';
+import SectionLine from 'in-settings/components/SectionLine';
+import Code from 'in-components/Code';
 
 const onChange = action('onChange');
 
@@ -70,10 +72,18 @@ export function Empty() {
 }
 
 export function WithAllTypesOfData() {
+  const [payload, setPayload] = React.useState('');
+  const successFulSave = payload => {
+    setPayload(payload);
+  };
   return (
     <>
       <p>With some data of different type.</p>
-      <CustomPayload onChange={onChange} result={mockResult} />
+      <SectionLine />
+      <CustomPayload onChange={onChange} result={mockResult} save={successFulSave} />
+
+      <p>Will be filled when saving:</p>
+      <Code lang="json" code={JSON.stringify(payload, null, 4)} softWrap showLineNumbers />
     </>
   );
 }
