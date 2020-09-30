@@ -1,7 +1,7 @@
 export const modes = {
   0: 'Disabled',
-  1: 'Infrastructure only',
-  2: 'Full APM'
+  1: 'Infrastructure',
+  2: 'APM'
 };
 
 export const logLevels = {
