@@ -15,11 +15,12 @@ export default function ReleasesLane(props) {
       getReleaseClusters({
         timeConfig: cleanUpChartTimeConfig(props.timeConfig),
         granularity: props.clusterSizeMillis,
-        serviceId: props.serviceId
+        serviceId: props.serviceId,
+        applicationId: props.applicationId
       })
         .startWith(pendingResult)
         .map(({ data }) => data),
-      [props.timeConfig, props.clusterSizeMillis, props.serviceId]
+      [props.timeConfig, props.clusterSizeMillis, props.serviceId, props.applicationId]
     ) ?? emptyArray;
 
   return <ReleasesLanePresenter {...props} releases={releases} />;
@@ -40,5 +41,6 @@ function cleanUpChartTimeConfig(timeConfig) {
 ReleasesLane.propTypes = {
   clusterSizeMillis: PropTypes.number,
   timeConfig: propTypeTimeConfig,
-  serviceId: PropTypes.string
+  serviceId: PropTypes.string,
+  applicationId: PropTypes.string
 };

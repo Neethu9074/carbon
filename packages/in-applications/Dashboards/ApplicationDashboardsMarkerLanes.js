@@ -17,7 +17,7 @@ export default function ApplicationDashboardsMarkerLanes({
   return function MarkerLanesApplications(lanesProps) {
     return (
       <MarkerLanesPresenter {...lanesProps}>
-        <ReleasesLane serviceId={serviceId} />
+        <ReleasesLane serviceId={serviceId} applicationId={applicationId} />
         <AlertsLane
           getAlerts={getApplicationAlertClusters}
           config={{
