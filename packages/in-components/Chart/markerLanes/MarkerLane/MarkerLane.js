@@ -97,6 +97,7 @@ function MarkersLanePresenter({
               color,
               xScale,
               clusterWidth: clusterAreaWidth,
+              isClustered,
               ...remainingProps
             };
             return (

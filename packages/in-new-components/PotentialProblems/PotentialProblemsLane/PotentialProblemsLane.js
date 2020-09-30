@@ -29,23 +29,23 @@ export default function PotentialProblemsLane({
     return null;
   }
 
+  const globalTimeConfig = useTimeConfig();
+  if (isOutsideCallsShortTermStorage(globalTimeConfig)) return null;
+
   const { clusterSizeMillis } = remainingProps;
   const tagFilters = getTagfilters({ applicationId, serviceId, endpointId, boundaryScope });
-  const globalTimeConfig = useTimeConfig();
-  const outsideShortTermCallsStore = isOutsideCallsShortTermStorage(globalTimeConfig);
 
-  const potentialProblems = outsideShortTermCallsStore
-    ? emptyPotentialProblems
-    : useObservable(
-        getPotentialProblems({
-          timeConfig: globalTimeConfig,
-          alertRules,
-          tagFilters
-        })
-          .startWith(pendingResult)
-          .map(({ data = emptyPotentialProblems }) => data),
-        [globalTimeConfig, clusterSizeMillis, alertRules]
-      ) ?? emptyPotentialProblems;
+  const potentialProblems =
+    useObservable(
+      getPotentialProblems({
+        timeConfig: globalTimeConfig,
+        alertRules,
+        tagFilters
+      })
+        .startWith(pendingResult)
+        .map(({ data = emptyPotentialProblems }) => data),
+      [globalTimeConfig, clusterSizeMillis, alertRules]
+    ) ?? emptyPotentialProblems;
 
   return (
     <PotentialProblemsLanePresenter
@@ -56,7 +56,6 @@ export default function PotentialProblemsLane({
       boundaryScope={boundaryScope}
       potentialProblems={potentialProblems}
       tagFilters={tagFilters}
-      outsideShortTermCallsStore={outsideShortTermCallsStore}
     />
   );
 }
