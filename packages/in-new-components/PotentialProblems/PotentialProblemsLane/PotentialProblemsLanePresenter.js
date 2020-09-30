@@ -11,14 +11,7 @@ import MarkerLane from 'in-components/Chart/markerLanes/MarkerLane/MarkerLane';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { getTitle } from 'in-new-components/PotentialProblems/textUtil';
 
-export default function PotentialProblemsLanePresenter({
-  potentialProblems,
-  alertRules,
-  outsideShortTermCallsStore,
-  ...remainingProps
-}) {
-  if (outsideShortTermCallsStore) return null;
-
+export default function PotentialProblemsLanePresenter({ potentialProblems, alertRules, ...remainingProps }) {
   const events = useMemo(() => {
     const alerts = potentialProblems.alerts;
     if (alerts.length === 0) return [];
@@ -73,7 +66,7 @@ export default function PotentialProblemsLanePresenter({
     <MarkerLane
       {...remainingProps}
       events={events}
-      isCluster={false}
+      isClustered={false}
       label="PotentialProblems"
       tooltipContent={({ alerts }) => {
         let text = '';
@@ -157,6 +150,5 @@ PotentialProblemsLanePresenter.propTypes = {
         aggregation: PropTypes.string
       })
     })
-  }),
-  outsideShortTermCallsStore: PropTypes.bool
+  })
 };

@@ -29,12 +29,15 @@ export default function MarkerLanesPresenter({
   if (!children || !granularity) return null;
 
   const [labelAlignment, setLabelAligment] = useState('left');
-  const [hasMarkersToRender, setHasMarkersToRender] = useState(true);
+  const [hasMarkersToRender, setHasMarkersToRender] = useState(false);
+
+  let laneWithMarkersCount = 0;
 
   useEffect(() => {
     let noMarkersInAnyLaneSignalSub = hasMarkersToRenderSignal$.subscribe(hasMarkers => {
-      setHasMarkersToRender(hasMarkers);
-      setMarkerLaneLabelVisibility(!hasMarkers);
+      if (hasMarkers) laneWithMarkersCount++;
+      setHasMarkersToRender(laneWithMarkersCount > 0);
+      setMarkerLaneLabelVisibility(laneWithMarkersCount === 0);
     });
     return () => {
       noMarkersInAnyLaneSignalSub.dispose();
