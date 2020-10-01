@@ -1,0 +1,7 @@
+@import './shared.less';
+
+:local {
+  .canvas {
+    position: absolute;
+  }
+}

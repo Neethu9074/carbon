@@ -79,7 +79,7 @@ const ChartReactWrapper = compose(withState('chart', 'setChart', null))(
 
       return (
         <div className={locals.chart} ref={chartWrapper => (this.chartWrapper = chartWrapper)}>
-          {chart && renderLegend && <Legend chart={chart} />}
+          {chart && renderLegend && <Legend chart={chart} filteredDataSeries={chart.config.filteredDataSeries} />}
 
           <HighlightOverlayWrapper>
             {renderPreChartContent &&

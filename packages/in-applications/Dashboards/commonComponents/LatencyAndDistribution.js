@@ -40,6 +40,11 @@ const metrics = [
     label: 'Mean',
     value: 'MEAN',
     tab: tabOverTime
+  },
+  {
+    label: 'Distribution',
+    value: 'DISTRIBUTION',
+    tab: tabDistribution
   }
 ];
 

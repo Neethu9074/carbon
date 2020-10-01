@@ -4,7 +4,6 @@ import theme from 'in-themes';
 
 import ChartContextMenu from 'in-new-components/LatencyDistributionBase10Chart/components/ChartContextMenu';
 import { setTimeConfig, fixateTimeConfig } from 'in-stores/time/config';
-import { millis, number, latency } from 'in-services/formatters/number';
 import { latencySelectionChanged } from 'in-analyze/tracker';
 import evaluateClassNames from 'in-services/util/classnames';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -25,7 +24,6 @@ const SELECTION_HANDLE_HEIGHT_IN_PX = 30;
  */
 export default function LatencyChartOverlay({
   buckets,
-  percentileBuckets,
   // width of a bucket in pixels
   bucketWidth,
   // horizontal center of a bucket in pixels
@@ -40,7 +38,8 @@ export default function LatencyChartOverlay({
   onSelectionChanged,
   // can the selection be moved and resized?
   selectionAdjustable,
-  dataSource
+  // object with a function: `render({from, to, style})` which will be used to render a tooltip
+  tooltipRenderer
 }) {
   // If the selection is adjustable the glass pane element which captures mouse events must be wider than
   // the chart on both sides (left and right) by GLASS_PANE_OFFSET, in order to:
@@ -424,10 +423,10 @@ export default function LatencyChartOverlay({
   let tooltipTo = null;
   if (tooltipForSelection) {
     tooltipFrom = selectedBuckets && selectedBuckets.fromIndex;
-    tooltipTo = selectedBuckets && selectedBuckets.toIndex;
+    tooltipTo = selectedBuckets && selectedBuckets.toIndex + 1;
   } else if (highlightedBucketIndex != null) {
     tooltipFrom = highlightedBucketIndex;
-    tooltipTo = highlightedBucketIndex;
+    tooltipTo = highlightedBucketIndex + 1;
   }
 
   const selectionDone = !mouseState?.selecting && selectedBuckets;
@@ -479,12 +478,11 @@ export default function LatencyChartOverlay({
       {tooltipFrom != null && (
         <>
           {!tooltipForSelection && <StrikeLine style={{ height: height, left: strikeLinePosition }} />}
-          <Tooltip
-            buckets={buckets.slice(tooltipFrom, tooltipTo + 1)}
-            percentileBuckets={percentileBuckets.slice(tooltipFrom, tooltipTo + 1)}
-            style={{ ...tooltipPositionStyle, bottom: height }}
-            dataSource={dataSource}
-          />
+          {tooltipRenderer.render({
+            from: tooltipFrom,
+            to: tooltipTo,
+            style: { ...tooltipPositionStyle, bottom: height }
+          })}
         </>
       )}
     </div>
@@ -548,40 +546,6 @@ function Selection({ height, selectionStart, selectionWidth, selectionAdjustable
         </>
       )}
     </>
-  );
-}
-
-function Tooltip({ buckets, percentileBuckets, style, dataSource }) {
-  const formatTime = millis.forcedCompactOnMs.detailed;
-  const from = buckets[0].from && formatTime(buckets[0].from);
-  const to = buckets[buckets.length - 1].to && formatTime(buckets[buckets.length - 1].to);
-  const count = buckets.map(b => b.calls).reduce((a, v) => a + v, 0);
-  const percentiles = percentileBuckets.reduce((a, v) => a.concat(v), []);
-
-  let latencyRangeLabel;
-  if (to == null) {
-    latencyRangeLabel = `> ${from}`;
-  } else if (from == null || from === 0) {
-    latencyRangeLabel = `< ${to}`;
-  } else {
-    latencyRangeLabel = `${from} to ${to}`;
-  }
-
-  return (
-    <div className={locals.tooltipContent} style={style}>
-      <div className={locals.labelWrapper}>{latencyRangeLabel}</div>
-      <div className={locals.labelWrapper}>
-        <div className={locals.dot} />
-        <span>{dataSource === 'calls' ? 'Calls' : 'Traces'} (sum)</span>
-        <span className={locals.value}>{number.forcedCompact.detailed(count)}</span>
-      </div>
-      {percentiles.map(p => (
-        <div key={p.percentile} className={locals.labelWrapper}>
-          <span>p{p.percentile}</span>
-          <span className={locals.value}>{latency.detailed(p.latency)}</span>
-        </div>
-      ))}
-    </div>
   );
 }
 

@@ -2,7 +2,10 @@ import React from 'react';
 
 import locals from './BarChart.mless';
 
-export default function BarChart({ buckets, bucketWidth, maxCallCount, height, style }) {
+export default function BarChart({ buckets, config, bucketWidth, maxCallCount, height, style }) {
+  if (config.isFiltered('y1', 0)) {
+    return null;
+  }
   return (
     <div className={locals.wrapperContainer} style={{ ...style, height: height }}>
       {buckets.map((bucket, i) => {
@@ -17,7 +20,7 @@ export default function BarChart({ buckets, bucketWidth, maxCallCount, height, s
             className={locals.bucket}
             style={{ width: bucketWidth + 'px', height: height + 'px', left: bucketPosition + 'px' }}
           >
-            <Bar height={barHeight} bucketWidth={bucketWidth} />
+            <Bar height={barHeight} bucketWidth={bucketWidth} color={config.y1.colors100[0]} />
           </div>
         );
       })}
@@ -25,7 +28,7 @@ export default function BarChart({ buckets, bucketWidth, maxCallCount, height, s
   );
 }
 
-function Bar({ height, bucketWidth }) {
+function Bar({ height, bucketWidth, color }) {
   // use smaller gap if buckets are very narrow
   const gap = bucketWidth > 5 ? 2 : 1;
   const barWidth = bucketWidth - gap;
@@ -33,7 +36,8 @@ function Bar({ height, bucketWidth }) {
     <div
       style={{
         height: height + 'px',
-        width: barWidth + 'px'
+        width: barWidth + 'px',
+        backgroundColor: color
       }}
       className={locals.bar}
     />

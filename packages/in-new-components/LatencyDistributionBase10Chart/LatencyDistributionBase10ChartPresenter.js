@@ -1,3 +1,4 @@
+import { create } from 'reactive-observables';
 import React, { useState } from 'react';
 
 import PercentileMenu, {
@@ -6,15 +7,22 @@ import PercentileMenu, {
 import LatencyChartOverlay from 'in-new-components/LatencyDistributionBase10Chart/components/LatencyChartOverlay';
 import PercentileMarkers from 'in-new-components/LatencyDistributionBase10Chart/components/PercentileMarkers';
 import HorizontalAxis from 'in-new-components/LatencyDistributionBase10Chart/components/HorizontalAxis';
+import LineChart from 'in-new-components/LatencyDistributionBase10Chart/components/LineChart';
 import BarChart from 'in-new-components/LatencyDistributionBase10Chart/components/BarChart';
+import Tooltip from 'in-new-components/LatencyDistributionBase10Chart/components/Tooltip';
 import { HEIGHT as horizontalAxisHeight } from 'in-new-components/Axis/HorizontalAxis';
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import VerticalAxis from 'in-new-components/Axis/VerticalAxis';
+import Legend from 'in-components/Chart/components/Legend.js';
 import useObservable from 'in-hooks/useObservable';
 import theme from 'in-themes';
 
 import locals from './LatencyDistributionBase10ChartPresenter.mless';
+import { defaultTimeShift } from 'in-stores/time/shifting';
+
+const colorLatency = theme.lib.colors.chart.strokeColors100[0];
+const colorLatencyTimeShift = theme.lib.colors.timeShift;
 
 export default function LatencyDistributionBase10ChartPresenter({
   height,
@@ -25,36 +33,57 @@ export default function LatencyDistributionBase10ChartPresenter({
   showLegend,
   selectionAdjustable,
   subscription,
+  timeShiftSubscription,
   selectionMenuItems,
   onSelectionChanged,
   selection,
-  dataSource
+  dataSource,
+  timeShiftConfig = defaultTimeShift
 }) {
+  // which metrics to hide on the chart
+  const filteredDataSeries$ = create();
+  const [filteredDataSeries, setFilteredDataSeries] = useState(new Set([]));
+
   const [percentilesShown, setPercentilesShown] = useState(ALL_PERCENTILES);
 
   const subscriptionResult = useObservable(subscription, [subscription]);
+  const timeShiftSubscriptionResult = useObservable(timeShiftSubscription, [timeShiftSubscription]);
 
-  if (!width || !subscriptionResult) {
+  const timeShiftEnabled = !!timeShiftConfig.offset;
+
+  if (!width || !subscriptionResult || (timeShiftSubscription && !timeShiftSubscriptionResult)) {
+    // observable results are not available yet
     return <div style={{ height: customHeight || height }} className={locals.histogram} />;
   }
 
   const chartWidth = customWidth || width;
   const chartHeight = (customHeight || height) - horizontalAxisHeight;
 
-  if (subscriptionResult.errors.length > 0) {
+  if (
+    subscriptionResult.errors.length > 0 ||
+    (timeShiftSubscription && timeShiftSubscriptionResult.errors.length > 0)
+  ) {
     return (
       <div className={locals.container}>
         <NoDataAvailable width={chartWidth} height={chartHeight} icon={'lib_bar_chart'} />
       </div>
     );
-  } else if (subscriptionResult.progress.loading) {
+  } else if (
+    subscriptionResult.progress.loading ||
+    (timeShiftSubscription && timeShiftSubscriptionResult.progress.loading)
+  ) {
     // First time progress received, percentage seems to be empty, so start with 0.2 to have a small arc
     return (
       <div className={locals.container}>
         <LoadingIndicator height={chartHeight} size="xxl" />
       </div>
     );
-  } else if (subscriptionResult.data.buckets.map(b => b.calls).reduce((a, b) => a + b, 0) === 0) {
+  } else if (
+    // all buckets are empty (have 0 calls)
+    subscriptionResult.data.buckets.map(b => b.calls).reduce((a, b) => a + b, 0) === 0 &&
+    (!timeShiftSubscription ||
+      timeShiftSubscriptionResult.data.buckets.map(b => b.calls).reduce((a, b) => a + b, 0) === 0)
+  ) {
     return (
       <div className={locals.container}>
         <NoDataAvailable width={chartWidth} height={chartHeight} icon={'lib_bar_chart'} text={'No data to display'} />
@@ -62,10 +91,49 @@ export default function LatencyDistributionBase10ChartPresenter({
     );
   }
 
+  const toggleDataSeries = name => {
+    setFilteredDataSeries(prevFilteredDataSeries => {
+      const newFilteredDataSeries = new Set(prevFilteredDataSeries.keys());
+      if (newFilteredDataSeries.has(name)) {
+        newFilteredDataSeries.delete(name);
+      } else {
+        newFilteredDataSeries.add(name);
+      }
+      filteredDataSeries$.emit(newFilteredDataSeries);
+      return newFilteredDataSeries;
+    });
+  };
+
+  const metricName = dataSource === 'traces' ? 'Traces' : 'Calls';
+  const chartConfig = {
+    config: {
+      y1: {
+        labels: [metricName],
+        colors100: [colorLatency],
+        timeShifts: [{ offset: 0 }],
+        reverseOrder: true
+      },
+      toggleDataSeries: toggleDataSeries,
+      filteredDataSeries$: filteredDataSeries$,
+      isFiltered: (axis, index) => filteredDataSeries.has(`${axis}-${index}`)
+    },
+    renderScheduler: {
+      forceRender: () => {}
+    }
+  };
+  if (timeShiftEnabled) {
+    chartConfig.config.y1.labels.push(metricName);
+    chartConfig.config.y1.colors100.push(colorLatencyTimeShift);
+    chartConfig.config.y1.timeShifts.push({ offset: timeShiftConfig.offset });
+  }
+  const enabledMetric = !filteredDataSeries.has('y1-0');
+  const enabledTimeShiftMetric = timeShiftEnabled && !filteredDataSeries.has('y1-1');
+
   // The grouping of data in the buckets are all based on whole numbers. But because of the grouping the to and from become integers.
   // We use Math.ceil to round the numbers to fit the buckets and filters since they also only use whole numbers.
   const data = subscriptionResult.data || { buckets: [] };
   const buckets = data.buckets;
+  const timeShiftBuckets = timeShiftSubscriptionResult?.data?.buckets;
   const percentileBuckets = createPercentileBuckets(buckets, data.percentiles);
 
   // Buckets should be at least 4 pixels wide. At least 1 pixel will be used for a
@@ -77,16 +145,15 @@ export default function LatencyDistributionBase10ChartPresenter({
 
   // hight of the percentile marker strip which sits directly above the chart
   const percentileStripHeight = Math.floor(0.725 * 16 + 20);
-  const maxCallCount = getMaxCallCount(buckets);
+  const maxCallCount = Math.max(
+    enabledMetric ? getMaxCallCount(buckets) : 0,
+    enabledTimeShiftMetric ? getMaxCallCount(timeShiftBuckets) : 0
+  );
+
   return (
     <>
       <div className={locals.header}>
-        {showLegend && (
-          <div className={locals.legend}>
-            <div className={locals.dot} />
-            {dataSource === 'calls' ? 'Calls' : 'Traces'}
-          </div>
-        )}
+        {showLegend && <Legend chart={chartConfig} filteredDataSeries={filteredDataSeries} />}
         {showPercentileMenu && (
           <div className={locals.percentileButton}>
             <PercentileMenu
@@ -97,21 +164,23 @@ export default function LatencyDistributionBase10ChartPresenter({
         )}
       </div>
       <div className={locals.container} style={{ width: chartWidth }}>
-        <VerticalAxis
-          scale={{ from: 0, to: maxCallCount }}
-          height={chartHeight - percentileStripHeight}
-          style={{
-            marginTop: percentileStripHeight,
-            backgroundColor: theme.lib.colors.white,
-            position: 'absolute',
-            zIndex: 1 // z-index__axisLabel from shared
-          }}
-          tickLabelBackgroundColor={theme.lib.colors.white}
-        />
+        {// for consistency with other charts hide the vertical axis when no metric is selected
+        (enabledMetric || enabledTimeShiftMetric) && (
+          <VerticalAxis
+            scale={{ from: 0, to: maxCallCount }}
+            height={chartHeight - percentileStripHeight}
+            style={{
+              marginTop: percentileStripHeight,
+              backgroundColor: theme.lib.colors.white,
+              position: 'absolute',
+              zIndex: 1 // z-index__axisLabel from shared
+            }}
+            tickLabelBackgroundColor={theme.lib.colors.white}
+          />
+        )}
         <div style={{ height: chartHeight }}>
           <LatencyChartOverlay
             buckets={buckets}
-            percentileBuckets={percentileBuckets}
             bucketWidth={bucketWidth}
             bucketCenter={bucketCenter}
             height={chartHeight - percentileStripHeight}
@@ -120,23 +189,51 @@ export default function LatencyDistributionBase10ChartPresenter({
             onSelectionChanged={onSelectionChanged}
             selectionAdjustable={selectionAdjustable}
             selection={selection}
-            dataSource={dataSource}
+            tooltipRenderer={{
+              render: function TooltipRenderer({ from, to, style }) {
+                return (
+                  <Tooltip
+                    metricBuckets={[buckets.slice(from, to), timeShiftBuckets?.slice(from, to)].filter(Boolean)}
+                    percentileBuckets={percentileBuckets.slice(from, to)}
+                    config={chartConfig.config}
+                    style={style}
+                  />
+                );
+              }
+            }}
           />
-          <BarChart
-            buckets={buckets}
-            bucketWidth={bucketWidth}
-            maxCallCount={maxCallCount}
-            // 1 pixel less for the horizontal axis
-            height={chartHeight - percentileStripHeight - 1}
-            style={{ bottom: 0 }}
-          />
-          <PercentileMarkers
-            percentileBuckets={percentileBuckets}
-            bucketWidth={bucketWidth}
-            bucketCenter={bucketCenter}
-            chartHeight={chartHeight}
-            percentilesShown={percentilesShown}
-          />
+          {timeShiftEnabled ? (
+            <LineChart
+              metricBuckets={[buckets, timeShiftBuckets].filter(Boolean)}
+              config={chartConfig.config}
+              bucketWidth={bucketWidth}
+              maxCallCount={maxCallCount}
+              // 1 pixel less for the horizontal axis
+              height={chartHeight - percentileStripHeight - 1}
+              width={chartWidth}
+              style={{ bottom: 0 }}
+            />
+          ) : (
+            <BarChart
+              buckets={buckets}
+              config={chartConfig.config}
+              bucketWidth={bucketWidth}
+              maxCallCount={maxCallCount}
+              // 1 pixel less for the horizontal axis
+              height={chartHeight - percentileStripHeight - 1}
+              style={{ bottom: 0 }}
+            />
+          )}
+          {// percentile markers are based on the normal metric (without time-shift), show it only if enabled
+          enabledMetric && (
+            <PercentileMarkers
+              percentileBuckets={percentileBuckets}
+              bucketWidth={bucketWidth}
+              bucketCenter={bucketCenter}
+              chartHeight={chartHeight}
+              percentilesShown={percentilesShown}
+            />
+          )}
           <HorizontalAxis buckets={buckets} bucketWidth={bucketWidth} bucketCenter={bucketCenter} />
           <HorizontalLines
             nbBars={4}

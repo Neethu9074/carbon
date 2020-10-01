@@ -26,6 +26,7 @@ export default withProps(({ filters, onLatencySelectionChanged }) => {
           const timeConfig = filters.timeConfig;
           const subscription = getLatencyDistributionBase10({
             maxLatencyBuckets: 80,
+            includePercentiles: true,
             filter: {
               // auto refresh mode is not supported in UA
               timeConfig: { ...timeConfig, autoRefresh: false }

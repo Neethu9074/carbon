@@ -2,8 +2,9 @@ import { just } from 'reactive-observables';
 import React from 'react';
 
 import LatencyDistributionBase10Chart from 'in-new-components/LatencyDistributionBase10Chart/LatencyDistributionBase10Chart';
-import { millis } from 'in-services/formatters/number';
+import { previousHourTimeShift } from 'in-stores/time/shifting';
 import { withKnobs, number } from '@storybook/addon-knobs';
+import { millis } from 'in-services/formatters/number';
 
 export default {
   title: 'Molecules|LatencyDistributionBase10Chart',
@@ -73,6 +74,90 @@ const mockSubscription = {
       { from: 13593, to: 15848, calls: 0, tickMark: false },
       { from: 15848, to: 18478, calls: 0, tickMark: false },
       { from: 18478, to: 21544, calls: 0, tickMark: false },
+      { from: 21544, to: 25118, calls: 0, tickMark: false },
+      { from: 25118, to: 29286, calls: 0, tickMark: false },
+      { from: 29286, to: 34145, calls: 0, tickMark: false },
+      { from: 34145, to: 39810, calls: 0, tickMark: false },
+      { from: 39810, to: 46415, calls: 0, tickMark: false },
+      { from: 46415, to: 54116, calls: 0, tickMark: false },
+      { from: 54116, to: 60000, calls: 0, tickMark: false },
+      { from: 60000, calls: 0, tickMark: true }
+    ],
+    percentiles: [
+      { percentile: 50, latency: 0 },
+      { percentile: 90, latency: 6 },
+      { percentile: 95, latency: 10 },
+      { percentile: 99, latency: 122 }
+    ]
+  },
+  time: 1582718129565,
+  adjustedWindowSize: null,
+  errors: [],
+  progress: { percentage: null, loading: false, note: null }
+};
+
+const mockTimeShiftSubscription = {
+  data: {
+    buckets: [
+      { from: 0, to: 1, calls: 880, tickMark: true },
+      { from: 1, to: 2, calls: 29719, tickMark: false },
+      { from: 2, to: 3, calls: 16737, tickMark: false },
+      { from: 3, to: 4, calls: 31724, tickMark: false },
+      { from: 4, to: 5, calls: 32135, tickMark: false },
+      { from: 5, to: 6, calls: 19261, tickMark: false },
+      { from: 6, to: 7, calls: 15240, tickMark: false },
+      { from: 7, to: 8, calls: 179719, tickMark: false },
+      { from: 8, to: 10, calls: 810, tickMark: false },
+      { from: 10, to: 11, calls: 6737, tickMark: true },
+      { from: 11, to: 13, calls: 2029, tickMark: false },
+      { from: 13, to: 15, calls: 2074, tickMark: false },
+      { from: 15, to: 18, calls: 1715, tickMark: false },
+      { from: 18, to: 21, calls: 1722, tickMark: false },
+      { from: 21, to: 25, calls: 111, tickMark: false },
+      { from: 25, to: 29, calls: 203, tickMark: false },
+      { from: 29, to: 34, calls: 261, tickMark: false },
+      { from: 34, to: 39, calls: 222, tickMark: false },
+      { from: 39, to: 46, calls: 354, tickMark: false },
+      { from: 46, to: 54, calls: 406, tickMark: false },
+      { from: 54, to: 63, calls: 316, tickMark: false },
+      { from: 63, to: 73, calls: 188, tickMark: false },
+      { from: 73, to: 85, calls: 170, tickMark: false },
+      { from: 85, to: 100, calls: 207, tickMark: false },
+      { from: 100, to: 116, calls: 45, tickMark: true },
+      { from: 116, to: 135, calls: 80, tickMark: false },
+      { from: 135, to: 158, calls: 89, tickMark: false },
+      { from: 158, to: 184, calls: 104, tickMark: false },
+      { from: 184, to: 215, calls: 265, tickMark: false },
+      { from: 215, to: 251, calls: 328, tickMark: false },
+      { from: 251, to: 292, calls: 152, tickMark: false },
+      { from: 292, to: 341, calls: 28, tickMark: false },
+      { from: 341, to: 398, calls: 59, tickMark: false },
+      { from: 398, to: 464, calls: 2317, tickMark: false },
+      { from: 464, to: 541, calls: 3344, tickMark: false },
+      { from: 541, to: 630, calls: 1228, tickMark: false },
+      { from: 630, to: 735, calls: 19, tickMark: false },
+      { from: 735, to: 857, calls: 14, tickMark: false },
+      { from: 857, to: 1000, calls: 14, tickMark: false },
+      { from: 1000, to: 1165, calls: 23, tickMark: true },
+      { from: 1165, to: 1359, calls: 28, tickMark: false },
+      { from: 1359, to: 1584, calls: 50, tickMark: false },
+      { from: 1584, to: 1847, calls: 18, tickMark: false },
+      { from: 1847, to: 2154, calls: 3, tickMark: false },
+      { from: 2154, to: 2511, calls: 2, tickMark: false },
+      { from: 2511, to: 2928, calls: 4, tickMark: false },
+      { from: 2928, to: 3414, calls: 1, tickMark: false },
+      { from: 3414, to: 3981, calls: 4, tickMark: false },
+      { from: 3981, to: 4641, calls: 372, tickMark: false },
+      { from: 4641, to: 5411, calls: 172, tickMark: false },
+      { from: 5411, to: 6309, calls: 169, tickMark: false },
+      { from: 6309, to: 7356, calls: 171, tickMark: false },
+      { from: 7356, to: 8576, calls: 37, tickMark: false },
+      { from: 8576, to: 10000, calls: 2, tickMark: true },
+      { from: 10000, to: 11659, calls: 0, tickMark: false },
+      { from: 11659, to: 13593, calls: 0, tickMark: false },
+      { from: 13593, to: 15848, calls: 0, tickMark: false },
+      { from: 15848, to: 18478, calls: 0, tickMark: false },
+      { from: 18478, to: 21544, calls: 45454, tickMark: false },
       { from: 21544, to: 25118, calls: 0, tickMark: false },
       { from: 25118, to: 29286, calls: 0, tickMark: false },
       { from: 29286, to: 34145, calls: 0, tickMark: false },
@@ -319,6 +404,28 @@ export const dashboard = () => (
       }
     ]}
     onSelectionChanged={e => (latencySelection = e)}
+  />
+);
+
+export const dashboardWithTimeShift = () => (
+  <LatencyDistributionBase10Chart
+    subscription={just(mockSubscription)}
+    timeShiftSubscription={just(mockTimeShiftSubscription)}
+    timeShiftConfig={previousHourTimeShift}
+    chartDefinition={chartDefinition}
+    cheight={number('Height', 182)}
+    cwidth={number('Width', 552)}
+    showLegend
+    selectionMenuItems={[
+      {
+        name: 'analyze',
+        icon: 'lib_analyze',
+        label: 'View in Analyze',
+        onClick: () => alert(`Selected latency range: ${latencySelection?.from} - ${latencySelection?.to}`)
+      }
+    ]}
+    onSelectionChanged={e => (latencySelection = e)}
+    lineChart
   />
 );
 

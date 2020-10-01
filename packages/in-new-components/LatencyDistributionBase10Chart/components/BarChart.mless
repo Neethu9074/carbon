@@ -16,7 +16,6 @@
     position: absolute;
     bottom: 1px;
     left: 1px;
-    background-color: @color_calls;
     z-index: @z-index__bar;
   }
 }

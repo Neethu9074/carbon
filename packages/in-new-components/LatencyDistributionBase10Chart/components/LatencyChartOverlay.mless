@@ -43,50 +43,6 @@
     z-index: @z-index__selectionHandle;
   }
 
-  .tooltipContent {
-    position: absolute;
-    display: flex;
-    flex-direction: column;
-    z-index: @z-index__tooltipContent;
-    transform: translate(0, 100%);
-    min-width: 12rem;
-    max-width: 18rem;
-    padding: 1rem 1rem 0.5rem;
-    color: @lib__colors__N800Dark;
-    background: @lib__colors__white;
-    border: 1px solid rgba(0, 0, 0, 0.16);
-    border-radius: @lib__shapes__radius_large;
-    box-shadow: @lib__shadows__subtle;
-
-    .labelWrapper {
-      display: flex;
-      justify-content: space-between;
-      flex-direction: row;
-      align-items: center;
-      margin-top: 0.7rem;
-      font-size: 0.875rem;
-    }
-
-    .labelWrapper:first-child {
-      margin: 0;
-      font-size: 0.75rem;
-    }
-
-    .dot {
-      min-width: 0.75rem;
-      min-height: 0.75rem;
-      margin-right: 0.375rem;
-      border-radius: 50%;
-      background: @color_calls;
-    }
-
-    .value {
-      margin-left: 2rem;
-      font-weight: bold;
-      color: @lib__colors__N900Primary;
-    }
-  }
-
   .barStrike {
     position: absolute;
     bottom: 0;
