@@ -75,11 +75,11 @@ export function formatExact(timeConfig) {
   const toTime = timeConfig.to || Date.now();
   const fromTime = timeConfig.to - timeConfig.windowSize;
   if (isOnSameDay(fromTime, toTime)) {
-    return `${formatDateShort(fromTime)} ${formatTime(fromTime)} to ${formatTime(toTime)} (${formatDurationAccurately(
+    return `${formatDateShort(fromTime)} ${formatTime(fromTime)} - ${formatTime(toTime)} (${formatDurationAccurately(
       timeConfig.windowSize
     )})`;
   } else {
-    return `${formatDateShort(fromTime)} ${formatTime(fromTime)} to ${formatDateShort(toTime)} ${formatTime(
+    return `${formatDateShort(fromTime)} ${formatTime(fromTime)} - ${formatDateShort(toTime)} ${formatTime(
       toTime
     )} (${formatDurationAccurately(timeConfig.windowSize)})`;
   }

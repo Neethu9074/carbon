@@ -36,7 +36,7 @@ export const urlParameter = {
 
 export const defaultTimeShift = {
   offset: initialState,
-  label: `No time shift`,
+  label: `Off`,
   description: `View data without time shift`
 };
 
@@ -50,7 +50,7 @@ export const timeShifts = [
   defaultTimeShift,
   {
     offset: 'auto',
-    label: `Previous time window`,
+    label: `Previous window`,
     description: `Compare with data immediately before the selected time window`
   },
   previousHourTimeShift,

@@ -69,9 +69,7 @@ function renderItemContent(timeShiftConfig, timeConfig) {
     <div className={locals.overlay}>
       <div className={locals.label}>{timeShiftConfig.label}</div>
       <div className={locals.description}>
-        {timeShiftConfig.offset
-          ? `Superimpose data from ${formatExact(timeShiftTimeConfig)}`
-          : timeShiftConfig.description}
+        {timeShiftConfig.offset ? `Compare to ${formatExact(timeShiftTimeConfig)}` : timeShiftConfig.description}
       </div>
     </div>
   );

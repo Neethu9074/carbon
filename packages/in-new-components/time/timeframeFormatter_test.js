@@ -70,12 +70,12 @@ describe('in-new-components/time/timeframeFormatter', () => {
 
   describe('formatExact', () => {
     it('must format custom time modes on same day', () => {
-      expect(formatExact({ to: 1600777638000, windowSize: 21600000 })).to.equal('Sep 22 08:27:18 to 14:27:18 (6h)');
+      expect(formatExact({ to: 1600777638000, windowSize: 21600000 })).to.equal('Sep 22 08:27:18 - 14:27:18 (6h)');
     });
 
     it('must format custom time modes on different days', () => {
       expect(formatExact({ to: 1600777662000, windowSize: 86400000 })).to.equal(
-        'Sep 21 14:27:42 to Sep 22 14:27:42 (1d)'
+        'Sep 21 14:27:42 - Sep 22 14:27:42 (1d)'
       );
     });
   });
