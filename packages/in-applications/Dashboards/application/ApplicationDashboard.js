@@ -120,7 +120,6 @@ function renderButtonLineSecondary({ result, boundaryScope, currentTab, onBounda
         data={result.data}
         boundaryScope={boundaryScope}
         onBoundaryStateChange={onBoundaryStateChange}
-        defaultBoundaryScope={result.data?.boundaryScope}
         disabled={location.pathname === '/application/map'}
       />
     </>

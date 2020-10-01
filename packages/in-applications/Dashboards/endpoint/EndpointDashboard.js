@@ -16,6 +16,7 @@ import { endpointDashboard, summaryTab } from 'in-applications/navigation/paths'
 import AnalyzeCallsButton from 'in-applications/components/AnalyzeCallsButton';
 import TimeShiftDropdown from 'in-new-components/TimeShift/TimeShiftDropdown';
 import { applicationSmartAlertsEnabled } from 'in-services/featureFlags';
+import getApplication from 'in-subscription/application/getApplication';
 import ServiceContext from 'in-applications/components/ServiceContext';
 import ContextGuide from 'in-new-components/ContextGuide/ContextGuide';
 import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
@@ -23,10 +24,13 @@ import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import getEndpoint from 'in-subscription/application/getEndpoint';
 import tabs from 'in-applications/Dashboards/endpoint/tabs/index';
 import DashboardHeader from 'in-new-components/DashboardHeader';
+import { boundaryScopes } from 'in-applications/constants';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import useObservable from 'in-hooks/useObservable';
 import useUrlState from 'in-hooks/useUrlState';
 import Footer from 'in-new-components/Footer';
+import { empty } from 'reactive-observables';
 import { role } from 'in-stores/user';
 
 export default function EndpointDashboard({ location }) {
@@ -52,6 +56,15 @@ export default function EndpointDashboard({ location }) {
     onBoundaryStateChange: setUrlState,
     location
   };
+
+  const missingBoundaryScope = props.applicationId && !props.boundaryScope;
+  const application = useObservable(missingBoundaryScope ? getApplication({ id: props.applicationId }) : empty, [
+    props.applicationId
+  ]);
+  if (missingBoundaryScope) {
+    // as long as the boundaryScope is not loaded use the default scope
+    props.boundaryScope = application?.data?.boundaryScope || boundaryScopes.default;
+  }
 
   const filterTabByResult = result =>
     get(result, ['data', 'syntheticType'], 'NON_SYNTHETIC') === 'SYNTHETIC'
