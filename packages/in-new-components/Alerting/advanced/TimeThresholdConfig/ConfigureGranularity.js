@@ -6,7 +6,7 @@ import DebouncedRestrictedSlider from 'in-new-components/Slider/DebouncedRestric
 import { minutesToMillis } from 'in-new-components/Alerting/utils/formatUtils';
 
 const marks = Object.freeze(
-  [5, 10, 30].map(min => ({
+  [5, 10, 15, 20, 30].map(min => ({
     value: min,
     label: `${min} min`,
     millis: minutesToMillis(min)
