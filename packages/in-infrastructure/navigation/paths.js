@@ -36,6 +36,24 @@ export const typeMatrixParameter = {
   initialState: defaultType
 };
 
+export const metricsMatrixParameter = {
+  path: infraExplorePath,
+  name: 'metrics',
+  serializer: buildJsonSerializer(),
+  parser: buildJsonParser(emptyArray),
+  initialState: emptyArray
+};
+
+export const resetMetricsOnTypeChange = {
+  bind: [
+    {
+      path: infraExplorePath,
+      name: 'type'
+    }
+  ],
+  reset: { metrics: emptyArray }
+};
+
 export function isInfraExploreView() {
   return navigationParameters$.map(location => location.pathname.indexOf(infraExplorePath) === 0);
 }

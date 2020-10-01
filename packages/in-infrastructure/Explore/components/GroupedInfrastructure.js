@@ -1,7 +1,6 @@
 import React, { useCallback } from 'react';
 
 import { ColumnizedContent, Ul, Li, LoadingSkeletonLi, HorizontalIndicatorLi } from 'in-new-components/lists/List';
-import { percentageZeroDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import { type as TAG_FILTER_TYPE } from 'in-new-components/QueryBuilder/transformation/tagFilter';
 import { addTagFilters } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
@@ -10,7 +9,6 @@ import { getUniqueErrors } from 'in-new-components/Errors/ErroneousResultPresent
 import createGetGroupsSubscription from 'in-infrastructure/subscriptions/getGroups';
 import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import LoadMoreLi from 'in-new-components/lists/List/LoadMoreLi/LoadMoreLi';
-import CountHeader from 'in-infrastructure/Explore/components/CountHeader';
 import { getOptionalSnapshotDefinition } from 'in-sdk/snapshot/registry';
 import { rollupForBeeInstantMetrics } from 'in-stores/metric/beeInstant';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
@@ -18,10 +16,10 @@ import { getLinkToExplore } from 'in-infrastructure/navigation/paths';
 import { error as errorType } from 'in-new-components/Message/types';
 import { indeterminateProgress } from 'in-services/fixedObjects';
 import IconButton from 'in-new-components/IconButton/IconButton';
+import Header from 'in-infrastructure/Explore/components/Header';
 import { pluginTag } from 'in-infrastructure/Explore/constants';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import MoreMenu from 'in-new-components/MoreMenu/MoreMenu';
-import { getKpiDefinitions } from 'in-sdk/metrics/kpis';
 import KeyValue from 'in-new-components/lists/KeyValue';
 import { emptyObject } from 'in-services/fixedObjects';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -30,36 +28,23 @@ import Message from 'in-new-components/Message';
 
 import locals from './GroupedInfrastructure.mless';
 
-export default function GroupedInfrastructure({
-  tagFilterExpression,
-  backendQueryModel,
-  onChange,
-  group,
-  type,
-  aggregation = 'MEAN'
-}) {
+export default function GroupedInfrastructure(props) {
+  const { backendQueryModel, metrics, group, type } = props;
   const timeConfig = useTimeConfig();
 
   const granularity = getGranularity(timeConfig);
 
-  const kpis = getKpis(type);
-
-  const props = useCursorPagination(
-    ({ cursor }) => getGroups({ timeConfig, backendQueryModel, group, type, kpis, granularity, aggregation, cursor }),
-    [timeConfig, backendQueryModel, group, type]
+  const cursorPaginatedProps = useCursorPagination(
+    ({ cursor }) => getGroups({ timeConfig, backendQueryModel, group, type, metrics, granularity, cursor }),
+    [timeConfig, backendQueryModel, group, type, metrics]
   );
 
   return (
     <Presenter
-      tagFilterExpression={tagFilterExpression}
       backendQueryModel={backendQueryModel}
       granularity={granularity}
-      aggregation={aggregation}
       timeConfig={timeConfig}
-      onChange={onChange}
-      group={group}
-      type={type}
-      kpis={kpis}
+      {...cursorPaginatedProps}
       {...props}
     />
   );
@@ -69,18 +54,18 @@ function Presenter({
   totalRepresentedItemCount,
   tagFilterExpression,
   backendQueryModel,
-  aggregation,
+  availableMetrics,
   canLoadMore,
   granularity,
   timeConfig,
+  setMetrics,
   totalHits,
-  onChange,
   loadMore,
   progress,
+  metrics,
   errors,
   group,
   items,
-  kpis,
   type
 }) {
   const hasErrors = errors?.length > 0;
@@ -94,25 +79,24 @@ function Presenter({
   );
   const columnDefinitions = columns({
     groupBy: [group.groupbyTag],
-    type,
-    onChange,
     getParamsForGroup,
-    kpis,
-    timeConfig,
     granularity,
-    aggregation
+    timeConfig,
+    metrics,
+    type
   });
 
   return (
     <>
-      {totalHits > 0 && (
-        <CountHeader
-          totalHits={totalHits}
-          totalRepresentedItemCount={totalRepresentedItemCount}
-          hitName="Group"
-          itemName="Result"
-        />
-      )}
+      <Header
+        totalRepresentedItemCount={totalRepresentedItemCount}
+        availableMetrics={availableMetrics}
+        setMetrics={setMetrics}
+        totalHits={totalHits}
+        metrics={metrics}
+        itemName="Result"
+        hitName="Group"
+      />
       <Ul space="xsmall">
         {items.map((item, rowIndex) => (
           <Li
@@ -122,7 +106,14 @@ function Presenter({
             toggleContentOnRowClick
             highlightOpenState={false}
             renderNestedContent={() => (
-              <ExpandedGroup group={item} backendQueryModel={backendQueryModel} timeConfig={timeConfig} type={type} />
+              <ExpandedGroup
+                backendQueryModel={backendQueryModel}
+                availableMetrics={availableMetrics}
+                timeConfig={timeConfig}
+                metrics={metrics}
+                group={item}
+                type={type}
+              />
             )}
           >
             <ColumnizedContent columnDefinitions={columnDefinitions} group={item} />
@@ -145,7 +136,7 @@ function Presenter({
   );
 }
 
-function columns({ groupBy, type, getParamsForGroup, kpis, timeConfig, granularity, aggregation }) {
+function columns({ groupBy, type, getParamsForGroup, metrics, timeConfig, granularity }) {
   const snapshotDefinition = getOptionalSnapshotDefinition(type);
   const countLabel = snapshotDefinition ? snapshotDefinition.pluginName.plural : 'Count';
   return [
@@ -175,7 +166,7 @@ function columns({ groupBy, type, getParamsForGroup, kpis, timeConfig, granulari
       }
     ])
     .concat(
-      kpis.map(({ label, metric, formatter = String }) => ({
+      metrics.map(({ label, metric, formatter = String, aggregation }) => ({
         width: '12rem',
         getContent({ group }) {
           const kpi = group.metrics[metric + 'Agg'];
@@ -213,7 +204,7 @@ function getColumnWidth(groupBy, index) {
   }
 }
 
-function getGroups({ timeConfig, backendQueryModel, group, cursor, type, kpis, granularity, aggregation }) {
+function getGroups({ timeConfig, backendQueryModel, group, cursor, type, metrics, granularity }) {
   return createGetGroupsSubscription({
     filter: {
       timeConfig,
@@ -226,7 +217,7 @@ function getGroups({ timeConfig, backendQueryModel, group, cursor, type, kpis, g
     groupBy: [group.groupbyTag],
     type,
     metrics: Object.fromEntries(
-      kpis.flatMap(({ metric }) => [
+      metrics.flatMap(({ metric, aggregation }) => [
         [
           metric,
           {
@@ -249,14 +240,16 @@ function MoreMenuContent({ groupParams }) {
   );
 }
 
-function ExpandedGroup({ group, backendQueryModel, timeConfig, type }) {
+function ExpandedGroup({ group, backendQueryModel, timeConfig, type, metrics, availableMetrics }) {
   return (
     <InfrastructureList
       backendQueryModel={addTagsToBackendModel(backendQueryModel, group.tags)}
-      timeConfig={timeConfig}
-      type={type}
-      retrievalSize={5}
       numSkeletonRows={Math.min(group.count, 5)}
+      availableMetrics={availableMetrics}
+      timeConfig={timeConfig}
+      retrievalSize={5}
+      metrics={metrics}
+      type={type}
     />
   );
 }
@@ -299,24 +292,4 @@ function getGranularity(timeConfig) {
   const dataPoints = 10;
 
   return rollupForBeeInstantMetrics(timeConfig.windowSize / dataPoints);
-}
-
-function getKpis(type) {
-  // hack for beeinstant not having derived metrics at the moment
-  if (type === 'host') {
-    return [
-      {
-        label: 'CPU (user)',
-        metric: 'cpu.user',
-        formatter: percentageZeroDecimalPlaces
-      },
-      {
-        label: 'Memory Free',
-        metric: 'memory.free',
-        formatter: bytesTwoDecimalPlaces
-      }
-    ];
-  }
-
-  return getKpiDefinitions(type);
 }

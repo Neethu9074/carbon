@@ -2,8 +2,10 @@ import React, { useCallback, useMemo } from 'react';
 
 import {
   tagFilterExpressionMatrixParameter,
-  groupMatrixParameter,
+  resetMetricsOnTypeChange,
+  metricsMatrixParameter,
   chartsMatrixParameter,
+  groupMatrixParameter,
   typeMatrixParameter
 } from 'in-infrastructure/navigation/paths';
 import GroupingConfigurator, {
@@ -20,13 +22,14 @@ import GroupedInfrastructure from 'in-infrastructure/Explore/components/GroupedI
 import InfraPageHeaderWithTabs from 'in-infrastructure/components/InfraPageHeaderWithTabs';
 import InfrastructureList from 'in-infrastructure/Explore/components/InfrastructureList';
 import { ActionSection } from 'in-new-components/workspace/ActionSection/ActionSection';
+import { getMetrics, fromUrlMetrics } from 'in-infrastructure/Explore/services/metrics';
 import { themes } from 'in-new-components/DashboardHeader/DashboardHeader';
 import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { warning, error } from 'in-new-components/Message/types';
 import Sections from 'in-new-components/workspace/Sections';
-import { allRenderers } from 'in-stores/metric/renderer';
 import { pendingResult } from 'in-services/fixedObjects';
+import { allRenderers } from 'in-stores/metric/renderer';
 import Stack from 'in-new-components/layout/Stack';
 import useObservable from 'in-hooks/useObservable';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -37,7 +40,14 @@ import Title from 'in-components/Title';
 import locals from './Explore.mless';
 
 const urlStateDefinition = {
-  bind: [tagFilterExpressionMatrixParameter, groupMatrixParameter, chartsMatrixParameter, typeMatrixParameter]
+  bind: [
+    tagFilterExpressionMatrixParameter,
+    groupMatrixParameter,
+    chartsMatrixParameter,
+    metricsMatrixParameter,
+    typeMatrixParameter
+  ],
+  resets: [resetMetricsOnTypeChange]
 };
 
 export default function InfraExploreView() {
@@ -50,8 +60,9 @@ export default function InfraExploreView() {
 
 function InfraExploreViewWithFixatedTimeConfig() {
   const timeConfig = useTimeConfig();
-  const [{ tagFilterExpression, group, charts, type }, onChange] = useUrlState(urlStateDefinition);
+  const [{ tagFilterExpression, group, charts, metrics: urlMetrics, type }, onChange] = useUrlState(urlStateDefinition);
   const typeOrNull = type !== 'all' ? type : null;
+  const setMetrics = useCallback(metrics => onChange({ metrics }), [onChange]);
 
   const validTagFilterExpressionResult =
     useObservable(isQueryValid(tagFilterExpression, timeConfig), [tagFilterExpression, timeConfig]) ?? pendingResult;
@@ -65,6 +76,15 @@ function InfraExploreViewWithFixatedTimeConfig() {
     isValid,
     tagFilterExpression
   ]);
+
+  const availableMetrics =
+    useObservable(getMetrics({ timeConfig, tagFilterExpression: backendQueryModel, type }), [
+      timeConfig,
+      backendQueryModel,
+      type
+    ]) || [];
+
+  const metrics = fromUrlMetrics({ urlMetrics, availableMetrics });
 
   const onTagFilterExpressionChange = useCallback(tagFilterExpression => onChange({ tagFilterExpression }), [onChange]);
   const onGroupChange = useCallback(group => onChange({ group }), [onChange]);
@@ -156,20 +176,25 @@ function InfraExploreViewWithFixatedTimeConfig() {
           {isValid && !group?.groupbyTag && (
             <InfrastructureList
               backendQueryModel={backendQueryModel}
+              availableMetrics={availableMetrics}
               timeConfig={timeConfig}
+              setMetrics={setMetrics}
+              metrics={metrics}
               type={typeOrNull}
-              showTotals
+              showHeader
             />
           )}
 
           {isValid && group?.groupbyTag && (
             <GroupedInfrastructure
-              onChange={onChange}
               tagFilterExpression={tagFilterExpression}
               backendQueryModel={backendQueryModel}
-              group={group}
+              availableMetrics={availableMetrics}
               timeConfig={timeConfig}
+              setMetrics={setMetrics}
+              metrics={metrics}
               type={typeOrNull}
+              group={group}
             />
           )}
         </Stack>

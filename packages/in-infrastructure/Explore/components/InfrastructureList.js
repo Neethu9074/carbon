@@ -1,17 +1,12 @@
-import React, { useMemo, useReducer } from 'react';
-import { just } from 'reactive-observables';
+import React, { useReducer } from 'react';
 
 import CursorPaginatedTable from 'in-components/tables/ServerTable/CursorPaginatedTable';
-import getAvailableMetrics from 'in-infrastructure/subscriptions/getAvailableMetrics';
-import { valueWithFormatterToReadableString } from 'in-services/formatters/number';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
-import CountHeader from 'in-infrastructure/Explore/components/CountHeader';
 import getEntities from 'in-infrastructure/subscriptions/getEntities';
+import Header from 'in-infrastructure/Explore/components/Header';
 import EntityLink from 'in-new-components/EntityLink/EntityLink';
 import useCursorPagination from 'in-hooks/useCursorPagination';
-import { getKpiDefinitions } from 'in-sdk/metrics/kpis';
 import MetricValue from 'in-components/MetricValue';
-import useObservable from 'in-hooks/useObservable';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Tooltip from 'in-components/Tooltip';
 import Pill from 'in-new-components/Pill';
@@ -22,8 +17,11 @@ export default function InfrastructureList({
   retrievalSize = 20,
   numSkeletonRows = 3,
   backendQueryModel,
-  type,
-  showTotals = false
+  showHeader = false,
+  availableMetrics,
+  setMetrics,
+  metrics,
+  type
 }) {
   const timeConfig = useTimeConfig();
   const [state, setState] = useReducer((prev, next) => ({ ...prev, ...next }), {
@@ -37,22 +35,21 @@ export default function InfrastructureList({
     [timeConfig, retrievalSize, backendQueryModel, type, orderBy, orderDirection]
   );
 
-  const columnDefinitions = useObservable(getColumnDefinitions({ timeConfig, backendQueryModel, items }), [
-    timeConfig,
-    backendQueryModel,
-    items
-  ]) || [getLabelColumn({ timeConfig })];
-
-  const optionalColumns = useMemo(() => columnDefinitions.filter(columnDefinition => columnDefinition.optional), [
-    columnDefinitions
-  ]);
+  const columnDefinitions = [getLabelColumn({ timeConfig }), ...getMetricColumns({ metrics })];
 
   return (
     <>
-      {showTotals && <CountHeader totalHits={totalHits} hitName="Result" />}
+      {showHeader && (
+        <Header
+          availableMetrics={availableMetrics}
+          setMetrics={setMetrics}
+          totalHits={totalHits}
+          metrics={metrics}
+          hitName="Result"
+        />
+      )}
       <CursorPaginatedTable
         columnDefinitions={columnDefinitions}
-        optionalColumns={optionalColumns}
         numSkeletonRows={numSkeletonRows}
         totalHits={totalHits}
         onChange={setState}
@@ -107,19 +104,20 @@ function getLabelColumn({ timeConfig }) {
   };
 }
 
-function getColumnDefinitions({ timeConfig, backendQueryModel, items }) {
-  const staticColumnDefinitions = [getLabelColumn({ timeConfig })];
-  if (items) {
-    const plugins = new Set(items.map(i => i.plugin));
-    if (plugins.size === 1) {
-      const plugin = plugins.values().next().value;
-      const defaultColumns = staticColumnDefinitions.concat(getKpiColumns(plugin));
-      return getAllMetricColumns({ timeConfig, backendQueryModel, plugin }).map(allMetricColumns =>
-        defaultColumns.concat(allMetricColumns.filter(({ id }) => !defaultColumns.find(def => def.id === id)))
-      );
+function getMetricColumns({ metrics }) {
+  return metrics.map(({ metric, label, formatter, isKpi }) => ({
+    id: metric,
+    label,
+    renderLabel,
+    sortable: false,
+    width: '15rem',
+    widthInAbsoluteUnit: true,
+    optional: true,
+    defaultDisabled: !isKpi,
+    getContent(item) {
+      return <MetricValue snapshotId={item.snapshotId} metric={metric} formatter={formatter} />;
     }
-  }
-  return just(staticColumnDefinitions);
+  }));
 }
 
 function renderLabel({ label }) {
@@ -133,53 +131,4 @@ function renderLabel({ label }) {
   ) : (
     content
   );
-}
-
-function getKpiColumns(plugin) {
-  const kpiDefinitions = getKpiDefinitions(plugin);
-
-  return kpiDefinitions.map(({ label, metric, formatter }) => ({
-    id: metric,
-    label,
-    sortable: false,
-    width: '10rem',
-    widthInAbsoluteUnit: true,
-    optional: true,
-    getContent(item) {
-      return <MetricValue snapshotId={item.snapshotId} metric={metric} formatter={formatter} />;
-    }
-  }));
-}
-
-function getAllMetricColumns({ timeConfig, backendQueryModel, plugin }) {
-  return getAvailableMetrics({
-    filter: {
-      timeConfig,
-      tagFilterExpression: backendQueryModel
-    },
-    type: plugin
-  })
-    .map(availableMetrics => {
-      if (availableMetrics.data) {
-        return availableMetrics.data.metrics.map(({ id, label, format }) => {
-          const formatter = v => valueWithFormatterToReadableString(v, format);
-          return {
-            id,
-            label,
-            renderLabel,
-            sortable: false,
-            width: '15rem',
-            widthInAbsoluteUnit: true,
-            optional: true,
-            defaultDisabled: true,
-            getContent(item) {
-              return <MetricValue snapshotId={item.snapshotId} metric={id} formatter={formatter} />;
-            }
-          };
-        });
-      } else {
-        return [];
-      }
-    })
-    .startWith([]);
 }
