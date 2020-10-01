@@ -38,7 +38,7 @@ function constructCoralogixLink(integration, props) {
       queryParameters.startTime = Date.now() - timeConfig.windowSize;
     }
   }
-  return `https://${integration.team}.coralogix.com/#/query/logs${toParams(queryParameters, '?', '&')}`;
+  return `${integration.url}/#/query/logs${toParams(queryParameters, '?', '&')}`;
 }
 
 export function serializeHosts({ hostName, hostFqdn }) {

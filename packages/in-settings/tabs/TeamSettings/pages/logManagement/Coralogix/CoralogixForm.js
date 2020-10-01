@@ -8,26 +8,26 @@ import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 
 export default function CoralogixForm({ form, onChange, disabled, areFieldsBlank }) {
-  const coralogixUrl = 'https://' + form.get('team').value + '.coralogix.com/#/dashboard';
+  const coralogixUrl = form.get('url').value + '/#/dashboard';
 
   return (
     <fieldset>
-      {form.get('team').map(field => (
+      {form.get('url').map(field => (
         <FormGroup>
-          <Label htmlFor="coralogix-team" hasError={!disabled && !field.valid && field.touched}>
-            Coralogix Team
+          <Label htmlFor="coralogix-url" hasError={!disabled && !field.valid && field.touched}>
+            Coralogix Instance
           </Label>
           <Input
-            id="coralogix-team"
+            id="coralogix-url"
             value={field.value}
-            onChange={e => onChange('team', e.target.value)}
+            onChange={e => onChange('url', e.target.value)}
             hasError={!disabled && !field.valid && field.touched}
             disabled={disabled}
             autoFocus
           />
           {!disabled && <TouchedMessages field={field} />}
           <HelpText className={locals.subTextFormField}>
-            Your team, visible for example in the URL <b>https://team.coralogix.com/</b>.
+            Example: <b>https://team.coralogix.com</b> or <b>http://192.168.1.128:443</b> for an internal instance.
           </HelpText>
         </FormGroup>
       ))}
