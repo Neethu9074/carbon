@@ -98,6 +98,7 @@ export const millis = {
   }
 };
 export const seconds = {
+  detailed: t => formatTime(t, timeSecondUnits, number.detailed),
   fromMillisFixedDetailed: t => number.detailed(t / 1000) + 's',
   fixedDetailed: t => number.detailed(t) + 's',
   fixedCompact: t => number.compact(t) + 's'
