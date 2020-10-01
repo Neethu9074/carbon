@@ -11,9 +11,14 @@ import MetricValue from 'in-components/MetricValue';
 
 export default function GcpPubSubDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
+  const sensorConnectionStatus = snapshot.getIn(['data', 'sensorConnectionStatus'], 'OK');
+
+  if (sensorConnectionStatus !== 'OK') {
+    return <DashboardNotification type="info">{sensorConnectionStatus}</DashboardNotification>;
+  }
+
   return (
     <div>
-      {getSensorConnectionStatus(snapshot)}
       <KpiSection>
         <KpiKeyValue label="Messages Count">
           <MetricValue snapshotId={snapshotId} metric="sent_message_count" formatter={number.compact} />
@@ -59,11 +64,4 @@ export default function GcpPubSubDashboard({ snapshot, timeConfig }) {
       <GcpPubSubSubscriptionsTable snapshot={snapshot} timeConfig={timeConfig} />
     </div>
   );
-}
-
-function getSensorConnectionStatus(snapshot) {
-  const sensorConnectionStatus = snapshot.getIn(['data', 'sensorConnectionStatus'], 'OK');
-  if (sensorConnectionStatus !== 'OK') {
-    return <DashboardNotification type="info">{sensorConnectionStatus}</DashboardNotification>;
-  }
 }
