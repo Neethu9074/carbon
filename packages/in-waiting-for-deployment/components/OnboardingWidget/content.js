@@ -1164,7 +1164,7 @@ function GoogleComputeEngineContent({ agentKey, agentEndpoint, agentEndpointPort
       <Description lines={['Use the following script as "Startup Script" for the GCE instance:']} />
       <Bash
         lines={[
-          `curl -o setup_agent.sh https://setup.instana.io/agent && chmod 700 ./setup_agent.sh && sudo apt-get install apt-transport-https ca-certificates && sudo ./setup_agent.sh -a ${agentKey} -t dynamic -e ${agentEndpoint}:${agentEndpointPort} -s -y && sudo apt-get purge -y apt-transport-https ca-certificates`
+          `curl -o setup_agent.sh https://setup.instana.io/agent && chmod 700 ./setup_agent.sh && sudo apt-get install apt-transport-https ca-certificates && sudo ./setup_agent.sh -a ${agentKey} -t dynamic -e ${agentEndpoint}:${agentEndpointPort} -s -y`
         ]}
       />
       <Spacer />
