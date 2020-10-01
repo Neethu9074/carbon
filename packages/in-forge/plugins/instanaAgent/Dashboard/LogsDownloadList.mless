@@ -1,0 +1,18 @@
+@import '~in-themes/active.less';
+
+:local {
+  .dialog {
+    width: 50rem;
+    max-width: 50rem;
+  }
+
+  .buttonMessageBox {
+    display: flex;
+    align-items: center;
+  }
+
+  .failedTestResult {
+    padding: 0 0.5rem;
+    color: @lib__colors__failure;
+  }
+}

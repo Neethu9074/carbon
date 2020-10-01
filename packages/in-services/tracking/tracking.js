@@ -241,3 +241,5 @@ export const INFRASTRUCTURE_SIDEBAR_RELATED_ENTITIES_EXPANDED = 'infrastructure.
 export const INFRASTRUCTURE_SIDEBAR_RELATED_ENTITIES_CLICKED = 'infrastructure.sidebar.related.entities.clicked';
 
 export const AMP_TENANT_UNIT_CHANGED = 'amp.tenant.unit.metrics.changed';
+
+export const AGENT_LOGS_DOWNLOAD_CLICKED = 'agent.logs.download.clicked';
