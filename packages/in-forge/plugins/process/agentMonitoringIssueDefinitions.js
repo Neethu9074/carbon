@@ -121,11 +121,39 @@ export default {
   },
   python_sensor_not_installed: {
     issueDescription: {
-      Component: function pythonSensorNotInstalled() {
+      Component: function pythonSensorNotInstalled({
+        autoTraceConfigurationEnabled,
+        autoTraceActive,
+        autoTraceSupported
+      }) {
+        let detailedInfo = '';
+        if (
+          autoTraceConfigurationEnabled !== undefined &&
+          autoTraceActive !== undefined &&
+          autoTraceSupported !== undefined
+        ) {
+          if (autoTraceConfigurationEnabled !== 'true') {
+            detailedInfo = (
+              <fragment>
+                <br />
+                <strong>Python AutoTrace is disabled</strong> per configuration. In such cases, request and metric
+                visibility can be achieved using one of the manual install methods.
+              </fragment>
+            );
+          } else if (autoTraceActive !== 'true' && autoTraceSupported === 'true') {
+            detailedInfo = (
+              <fragment>
+                <br />
+                <strong>AutoTrace prerequisites not fulfilled</strong> on the host.
+              </fragment>
+            );
+          }
+        }
+
         return (
           <span>
             The <code>instana</code> package is not installed in this Python application, or the <code>instana</code>{' '}
-            package cannot announce itself to the host agent, for example due to networking issues.
+            package cannot announce itself to the host agent, for example due to networking issues. {detailedInfo}
           </span>
         );
       }
