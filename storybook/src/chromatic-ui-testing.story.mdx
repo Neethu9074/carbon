@@ -1,18 +1,20 @@
+<Meta title="ui-testing" />
+
 # Visual Testing with Storybook and Chromatic
 
 ## It is only CSS, right?
 
-![https://raw.githubusercontent.com/lowsky/blogs/master/visRegressionTesting/VisualRegression-cssglitch-short-input-headed-2.png](https://raw.githubusercontent.com/lowsky/blogs/master/visRegressionTesting/VisualRegression-cssglitch-short-input-headed-2.pngx)
-![https://raw.githubusercontent.com/lowsky/blogs/master/visRegressionTesting/VisualRegression-cssglitch-short-input-headed-1.png](https://raw.githubusercontent.com/lowsky/blogs/master/visRegressionTesting/VisualRegression-cssglitch-short-input-headed-1.pngx)
+![https://raw.githubusercontent.com/lowsky/blogs/master/visRegressionTesting/VisualRegression-cssglitch-short-input-headed-2.png](https://raw.githubusercontent.com/lowsky/blogs/master/visRegressionTesting/VisualRegression-cssglitch-short-input-headed-2.png)
+![https://raw.githubusercontent.com/lowsky/blogs/master/visRegressionTesting/VisualRegression-cssglitch-short-input-headed-1.png](https://raw.githubusercontent.com/lowsky/blogs/master/visRegressionTesting/VisualRegression-cssglitch-short-input-headed-1.png)
 
 Find more background is in the -> [notion doc ...](https://www.notion.so/instana/Visual-Testing-Overview-46a46024b31a4243ae8ffb67c6f012d2)
 
 ## Tool Support: Chromatic
 
-![chromatic-icon](xhttps://user-images.githubusercontent.com/217931/87825964-5cfdf780-c878-11ea-9146-4109fd52cbcd.png) One of the best tools on the market for testing our components.
+![chromatic-icon](https://user-images.githubusercontent.com/217931/87825964-5cfdf780-c878-11ea-9146-4109fd52cbcd.png) One of the best tools on the market for testing our components.
 
 
-![image](xhttps://user-images.githubusercontent.com/217931/85304702-56b07180-b4ac-11ea-9869-e33d96055b59.png)
+![image](https://user-images.githubusercontent.com/217931/85304702-56b07180-b4ac-11ea-9869-e33d96055b59.png)
 
 Compared to Storybook, Chromatic is a cloud tool which records and compares Stories to "known good" baseline and
 allows teams to do reviews on the changes.
@@ -35,7 +37,7 @@ Instead, you decide if your work will change some parts of the UI and you want t
 1. Run **Storybook locally** at least once and verify
 1. Pushing your work triggers usual Jenkins build. This will now automatically **run the UI testing**.
 1. It **builds and uploads Storybook** to Chromatic and runs the comparison with known good
-    <img width="600" alt="chromatic-build-stats" src="https://user-images.githubusercontent.com/217931/87821107-9120ea80-c86f-11ea-934d-148265c1bdd4.png">
+    <img width="600" alt="chromatic-build-stats" src="https://user-images.githubusercontent.com/217931/87821107-9120ea80-c86f-11ea-934d-148265c1bdd4.png"/>
 1. When you **create a PR** Chromatic also added the **extra check** for any UI changes (if exist) and links to
  the review page in chromatic.
     ![chromatic-pr](https://user-images.githubusercontent.com/217931/87825958-5a9b9d80-c878-11ea-808b-32ddd0cf125c.png)

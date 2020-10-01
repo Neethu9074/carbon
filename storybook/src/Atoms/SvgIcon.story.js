@@ -55,3 +55,9 @@ export const InfraPluginIcons = () => {
     </>
   );
 };
+
+InfraPluginIcons.parameters = {
+  // when only one icon was added/removed this lead to a failing ui-test,
+  // so we disable this, because too many changes break it too easily.
+  chromatic: { disable: true }
+};

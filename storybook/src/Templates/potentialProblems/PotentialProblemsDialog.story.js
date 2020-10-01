@@ -67,7 +67,7 @@ export const PotentialProblemsClusterDialog = () => {
   );
 };
 
-export const alertRules = {
+const alertRules = {
   throughput: {
     rule: {
       alertType: 'throughput',

@@ -1,0 +1,105 @@
+import { Meta, Story, Preview, Props } from '@storybook/addon-docs/blocks';
+import { action as storybookAction } from '@storybook/addon-actions';
+
+import { PercentageFormInput } from 'in-custom-dashboards/widgets/Slo/components/PercentageFormInput';
+import FormInputField from 'in-custom-dashboards/widgets/Slo/components/FormInputField';
+import FormDropDown from 'in-custom-dashboards/widgets/Slo/components/FormDropDown';
+
+<Meta title="draft: forms, new generation" />
+
+## Goal 1: Better, dedicated, standard Form UI components
+
+* More to come ... stay tuned!
+
+## Goal 2: Simplify Form generation and usage without all the onChange mangling
+
+Currently we have to be careful to always update the form as the state object,
+so we need use the `onChange`, `updateIn`, `setForm` method.
+
+This should be simplified, e.g. like:
+
+```js
+import React from 'react';
+
+function MyComponent({initialForm}) {
+
+  const { form, setForm } = useState(initialForm); // as usual
+
+  return (
+    <InjectForm form={form} setFrom={setForm}>
+
+      <FormInputField fieldName="name" />
+      <FormInputField fieldName="surName" />
+      <FormInputField fieldName="age" type="number" />
+      <FormDropDown fieldName="haveChildren" items={['yes', 'no',
+              'many' ]} />
+
+      <h2> Address Form </h2>
+
+      <InjectForm fieldName="address" autoHide>
+
+        <FormInputField fieldName="street" />
+        <FormInputField fieldName="city" />
+
+      </InjectForm>
+
+      <AccessingFormSaveButton />
+
+    </InjectForm>
+  );
+}
+```
+
+If there is no address in the form model, we can completely hide the address, right!
+
+
+Accessing the form state inside any component:
+
+```js
+import React from 'react';
+
+function AccessingFormSaveButton() {
+  const { form } = useFormContext();
+
+  return (
+    <SaveButton
+      enabled={form.hierarchyValid}/>
+    );
+}
+```
+
+## Main component: ```<InjectForm> ```
+
+* inject form context,
+* allow composition, handles all sub-form onChange updates ...
+
+
+Form updates  ... will come ...
+
+```js
+import React from 'react';
+
+function FormInputField({ fieldName }) {
+  const { form, setForm } = useFormContext();
+
+  return form
+     .get( fieldName )
+     .map(field =>
+        <Input
+           value={field.value}
+           onChange={(event)=>✨moreMagic✨(event)
+              // magical on Change handler ...doing all automatically
+              // to be continued
+              //
+              // we plan to implement it on one of our community days...
+            )}
+            />
+  );
+}
+```
+
+### Possible add-ons, more ideas:
+
+* `autoHide flag`: make full form hiding if not existing in the underlying form model
+* appropriate styling inclusive ...
+
