@@ -6,7 +6,7 @@ exports.getBaseUrl = (tenant, unit) =>
   Promise.resolve(`https://${unit}-${tenant}.${serverConfig.clientConfig.tenantUnitDomainSuffix}`);
 exports.getButlerDomain = (tenant, unit) => Promise.resolve(getButlerDomain(tenant, unit));
 exports.getConfiguration = () => Promise.resolve(serverConfig.clientConfig.configuration);
-exports.getUiBackendBaseUrl = (tenant, unit) => Promise.resolve(`http://${tenant}-${unit}-ui-backend:8600`);
+exports.getUiBackendBaseUrl = (tenant, unit) => Promise.resolve(`http://tu-${tenant}-${unit}-ui-backend:8600`);
 exports.getGroundskeeperBaseUrl = () => Promise.resolve(serverConfig.groundskeeperBaseUrl);
 exports.getButlerBaseUrl = () => Promise.resolve(serverConfig.butlerBaseUrl);
 
