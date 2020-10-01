@@ -17,6 +17,7 @@ import AnalyzeCallsButton from 'in-applications/components/AnalyzeCallsButton';
 import TimeShiftDropdown from 'in-new-components/TimeShift/TimeShiftDropdown';
 import { applicationTimeShiftSelectTracker } from 'in-applications/tracker';
 import { applicationSmartAlertsEnabled } from 'in-services/featureFlags';
+import getApplication from 'in-subscription/application/getApplication';
 import ContextGuide from 'in-new-components/ContextGuide/ContextGuide';
 import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
@@ -25,9 +26,12 @@ import getService from 'in-subscription/application/getService';
 import DashboardHeader from 'in-new-components/DashboardHeader';
 import { getTimeShiftLabel } from 'in-stores/time/shifting';
 import { entityTypes } from 'in-analyze/applicationFilter';
+import { boundaryScopes } from 'in-applications/constants';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import useObservable from 'in-hooks/useObservable';
 import useUrlState from 'in-hooks/useUrlState';
 import Footer from 'in-new-components/Footer';
+import { empty } from 'reactive-observables';
 import { role } from 'in-stores/user';
 
 export default function ServiceDashboard({ location }) {
@@ -51,6 +55,15 @@ export default function ServiceDashboard({ location }) {
     location,
     onBoundaryStateChange: setUrlState
   };
+
+  const missingBoundaryScope = props.applicationId && !props.boundaryScope;
+  const application = useObservable(missingBoundaryScope ? getApplication({ id: props.applicationId }) : empty, [
+    props.applicationId
+  ]);
+  if (missingBoundaryScope) {
+    // as long as the boundaryScope is not loaded use the default scope
+    props.boundaryScope = application?.data?.boundaryScope || boundaryScopes.default;
+  }
 
   return (
     <>

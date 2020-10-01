@@ -10,15 +10,12 @@ import Tooltip from 'in-components/Tooltip';
 import locals from './InboundAllCallsDropdown.mless';
 
 export default function InboundAllCallsDropdown(props) {
-  const {
-    boundaryScope: urlBoundaryScope,
-    data: application,
-    defaultBoundaryScope,
-    disabled,
-    onBoundaryStateChange
-  } = props;
-  const boundaryScope = disabled ? 'ALL' : urlBoundaryScope || application.boundaryScope;
-
+  const { boundaryScope: urlBoundaryScope, data: application, disabled, onBoundaryStateChange } = props;
+  const defaultBoundaryScope = application?.boundaryScope;
+  const boundaryScope = disabled ? 'ALL' : urlBoundaryScope || defaultBoundaryScope;
+  if (!boundaryScope) {
+    return null;
+  }
   const boundaryScopeLabel = capitalize(boundaryScope);
 
   return (
