@@ -3,15 +3,20 @@
 :local {
   .overlay {
     width: 25rem;
-    max-height: 30rem;
-    overflow: auto;
+  }
+
+  .fullHeight {
+    @height: 30rem;
+    min-height: @height;
+    height: @height;
+    max-height: @height;
   }
 
   .dragHandle {
-    height: 24px;
-    margin: 1.5rem 0.7rem 0 0;
     flex-grow: 0;
     flex-shrink: 0;
+    margin-top: 0.375rem;
+    fill: @lib__colors__N400;
 
     & > svg {
       cursor: inherit;
@@ -25,7 +30,18 @@
   .metric {
     display: flex;
     justify-content: space-between;
+    height: 3rem;
     padding: 0.5rem;
+
+    border-bottom: 1px solid @lib__colors__N400;
+
+    // this is only done so that the row does not look "incomplete" when doing a drag and drop action.
+    border-top: 1px solid @lib__colors__N400;
+    margin-top: -1px;
+
+    &:nth-child(even) {
+      background: @lib__colors__N050;
+    }
 
     & > :nth-child(2) {
       @grid__gutter__px: @grid__gutter / 2px;
@@ -33,14 +49,35 @@
     }
   }
 
+  .label {
+    font-size: 0.875rem;
+    margin-bottom: 0;
+    margin-top: 0.375rem;
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .aggregations {
+    background-color: @lib__colors__white;
+  }
+
   .removeButton {
     fill: @lib__colors__blue800;
     flex-grow: 0;
     flex-shrink: 0;
-    margin: 1.5rem 0 0 0.7rem;
+    margin-top: 0.125remy;
+  }
+
+  .addButtonContainer {
+    display: flex;
+    justify-content: space-between;
+    height: 3rem;
+    padding: 0.5rem;
   }
 
   .addButton {
-    margin-bottom: 1rem;
+    margin: 0 auto;
   }
 }

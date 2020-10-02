@@ -1,5 +1,5 @@
 import { createField, notBlankValidator, createMapForm, createListForm } from 'formalistic';
-import React, { useState, useMemo } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 
 import MetricConfiguratorOverlayPresenter from 'in-new-components/MetricConfigurator/MetricConfiguratorOverlayPresenter';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
@@ -9,7 +9,6 @@ import { buildEnumValidator } from 'in-services/validators/enum';
 
 export default function MetricConfiguratorOverlay({
   onChange: onChangeExternal,
-  close,
   values,
   options,
   maximumNumberOfMetrics = 10
@@ -21,15 +20,19 @@ export default function MetricConfiguratorOverlay({
   ]);
   const [form, setForm] = useState(initialForm);
 
+  useEffect(() => {
+    onChangeExternal(form.toJS());
+  }, [form]);
+
   return (
     <MetricConfiguratorOverlayPresenter
       form={form}
       onChange={onChange}
       options={options}
-      onSubmit={onSubmit}
+      maximumNumberOfMetrics={maximumNumberOfMetrics}
+      getPossibleAggregationsForMetric={metric => getPossibleAggregationsForMetric(metric)}
       onSwap={onSwap}
       onAddItem={onAddItem}
-      onMetricSelect={onMetricSelect}
       onRemoveItem={onRemoveItem}
     />
   );
@@ -38,34 +41,10 @@ export default function MetricConfiguratorOverlay({
     onChange([], form => form.remove(index).setTouched(false));
   }
 
-  function onAddItem() {
-    onChange([], form => form.push(getMetricItem(options)).setTouched(false));
-  }
-
-  function onMetricSelect(index, metric) {
-    const aggregations = options.find(opt => opt.metric === metric)?.aggregations;
-    if (aggregations && aggregations.length === 1) {
-      // set the aggregation field immediately if there is only one possible aggregation
-      setForm(
-        form
-          .updateIn([index, 'metric'], field => field.setValue(metric).setTouched(true))
-          .updateIn([index, 'aggregation'], field => field.setValue(aggregations[0]).setTouched(true))
-      );
-    } else {
-      setForm(form.updateIn([index, 'metric'], field => field.setValue(metric)));
-    }
-  }
-
-  function onSubmit(e) {
-    e.preventDefault();
-
-    if (!form.hierarchyValid) {
-      setForm(form.setTouched(true, { recurse: true }));
-      return;
-    }
-
-    close();
-    onChangeExternal(form.toJS());
+  function onAddItem(metric) {
+    onChange([], form =>
+      form.push(getMetricItem(options, metric, getPossibleAggregationsForMetric(metric)[0])).setTouched(false)
+    );
   }
 
   function onSwap(sourceIndex, destinationIndex) {
@@ -77,6 +56,15 @@ export default function MetricConfiguratorOverlay({
 
   function onChange(path, fn) {
     setForm(form.updateIn(path, fn));
+  }
+
+  function getPossibleAggregationsForMetric(metric) {
+    const aggregations = options.find(opt => opt.metric === metric).aggregations;
+    const alreadySelectedAggregations = form.items
+      .filter(m => m.items.metric.value === metric)
+      .map(m => m.items.aggregation.value);
+
+    return aggregations.filter(a => !alreadySelectedAggregations.includes(a));
   }
 }
 

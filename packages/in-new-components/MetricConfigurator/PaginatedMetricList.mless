@@ -1,0 +1,34 @@
+@import '~in-themes/active.less';
+
+:local {
+  .searchInputWrapper {
+    padding: 0.5rem;
+    background: @lib__colors__N050;
+  }
+
+  .searchInput {
+    background: #fff;
+  }
+
+  .overlay {
+    width: 26rem;
+    @height: 20rem;
+    min-height: @height;
+    height: @height;
+    max-height: @height;
+
+    border-radius: @lib__shapes__radius_medium;
+  }
+
+  .option {
+    justify-content: space-between;
+    font-weight: normal;
+    height: 3rem;
+  }
+
+  .disabled {
+    font-weight: normal;
+    height: 3rem;
+    color: grey;
+  }
+}
