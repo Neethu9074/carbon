@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { ComboChartMetricSelector, TabChartSelector } from 'in-applications/Dashboards/commonComponents/ChartSelectors';
 import LatencyDistributionHistogram from 'in-applications/Dashboards/commonComponents/LatencyDistributionHistogram';
@@ -60,8 +60,26 @@ export default function LatencyAndDistribution({
   percentileGroupBy,
   renderPostChartContent
 }) {
+  const findAggregationByTab = tab => metrics.find(m => m.tab === tab).value;
+  const findTabByAggregation = aggregation => metrics.find(m => m.value === aggregation).tab;
+
   const [activeTab, setActiveTab] = useState(tabs[0]);
-  const [activeAggregation, setActiveAggregation] = useState(metrics[0].value);
+  const [activeAggregation, setActiveAggregation] = useState(findAggregationByTab(activeTab));
+
+  useEffect(() => {
+    // if the active tab changes, the active aggregation must be updated
+    if (findTabByAggregation(activeAggregation) !== activeTab) {
+      setActiveAggregation(findAggregationByTab(activeTab));
+    }
+  }, [activeTab]);
+
+  useEffect(() => {
+    // if the active aggregation changes, the active tab may need to be updated
+    const activeAggregationTab = findTabByAggregation(activeAggregation);
+    if (activeAggregationTab !== activeTab) {
+      setActiveTab(activeAggregationTab);
+    }
+  }, [activeAggregation]);
 
   const timeShiftConfig = useTimeShiftConfig();
 

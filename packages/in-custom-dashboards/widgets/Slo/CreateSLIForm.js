@@ -52,15 +52,7 @@ export default function CreateNewSLIForm({ apName, applicationId, apDefaultBound
     if (form.hierarchyValid) {
       const createSliConfigResult$ = createSliConfiguration(enrichedSliConfiguration);
       createSliConfigResult$.once(
-        result => {
-          if (result.progress.loading) {
-            setState({
-              success: false,
-              saving: true,
-              error: false
-            });
-            return;
-          }
+        () => {
           addMessage(
             {
               type: 'info',

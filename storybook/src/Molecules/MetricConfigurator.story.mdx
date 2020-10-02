@@ -10,7 +10,7 @@ import MetricConfigurator from 'in-new-components/MetricConfigurator/MetricConfi
 export const options = [
   {
     metric: 'beaconCount',
-    label: 'Beacon count',
+    label: 'This is intentionally a very very long name',
     description: 'How many beacons matching a filter were recorded.',
     aggregations: ['SUM']
   },
@@ -18,7 +18,7 @@ export const options = [
     metric: 'beaconDuration',
     label: 'Beacon duration',
     description: 'The recorded duration for a beacon.',
-    aggregations: ['P99', 'MEAN', 'P25', 'MIN', 'MAX', 'P90', 'SUM', 'P50', 'P95', 'P98', 'P75']
+    aggregations: ['P99', 'MEAN', 'P25']
   },
   {
     metric: 'pageLoads',
@@ -29,24 +29,36 @@ export const options = [
   }
 ];
 
+export function generateOptions() {
+  let result = [];
+  for (let index = 0; index < 15000; index++) {
+    result.push({
+      metric: 'beaconDuration' + index,
+      label: 'Beacon duration ' + index,
+      description: 'The recorded duration for a beacon.',
+      aggregations: ['P99', 'MEAN', 'P25', 'MIN', 'MAX', 'P90', 'SUM', 'P50', 'P95', 'P98', 'P75']
+    });
+  }
+  return result;
+}
+
 <Preview>
   <Story name="default">
     <MetricConfigurator
       options={options}
-      values={[
-        {
-          metric: 'pageLoads',
-          aggregation: 'SUM'
-        },
-        {
-          metric: 'beaconDuration',
-          aggregation: 'P90'
-        },
-        {
-          metric: 'beaconDuration',
-          aggregation: 'P95'
-        }
-      ]}
+      values={[]}
+      onChange={storybookAction('onChange')}
+    />
+  </Story>
+</Preview>
+
+export const aLotOfOptions = generateOptions();
+
+<Preview>
+  <Story name="Example with 15k metrics">
+    <MetricConfigurator
+      options={aLotOfOptions}
+      values={[]}
       onChange={storybookAction('onChange')}
     />
   </Story>
