@@ -1,8 +1,8 @@
 import { just } from 'reactive-observables';
 
+import { valueWithFormatterToReadableString, numberFormatterToFormatterType } from 'in-services/formatters/number';
 import { percentageZeroDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import getAvailableMetrics from 'in-infrastructure/subscriptions/getAvailableMetrics';
-import { valueWithFormatterToReadableString } from 'in-services/formatters/number';
 import { hasError, isLoading } from 'in-services/util/result';
 import { getKpiDefinitions } from 'in-sdk/metrics/kpis';
 
@@ -28,7 +28,7 @@ export function toUrlMetrics({ metrics }) {
   return metrics.map(({ metric, aggregation }) => ({ metric, aggregation }));
 }
 
-const DEFAULT_AGGREGATIONS = ['MEAN', 'SUM', 'MAX', 'P50', 'P90', 'P95', 'P99', 'DISTINCT_COUNT'];
+const DEFAULT_AGGREGATIONS = ['MEAN', 'SUM', 'MAX', 'MIN', 'P50', 'P90', 'P95', 'P99', 'DISTINCT_COUNT'];
 
 export function getMetrics({ timeConfig, tagFilterExpression, type }) {
   if (!type) {
@@ -57,7 +57,8 @@ export function getMetrics({ timeConfig, tagFilterExpression, type }) {
           metric: id,
           label,
           formatter,
-          aggregations: DEFAULT_AGGREGATIONS
+          aggregations: DEFAULT_AGGREGATIONS,
+          percentageMetric: format === 'PERCENTAGE'
         };
       });
     })
@@ -80,21 +81,26 @@ export function getKpis(type) {
       {
         label: 'CPU (user)',
         metric: 'cpu.user',
-        formatter: percentageZeroDecimalPlaces,
-        isKpi: true,
-        aggregations: DEFAULT_AGGREGATIONS
+        formatter: percentageZeroDecimalPlaces
       },
       {
         label: 'Memory Free',
         metric: 'memory.free',
-        formatter: bytesTwoDecimalPlaces,
-        isKpi: true,
-        aggregations: DEFAULT_AGGREGATIONS
+        formatter: bytesTwoDecimalPlaces
       }
-    ];
+    ].map(createKpi);
   }
 
-  return getKpiDefinitions(type).map(kpi => ({ isKpi: true, aggregations: DEFAULT_AGGREGATIONS, ...kpi }));
+  return getKpiDefinitions(type).map(createKpi);
+}
+
+function createKpi(kpiDefinition) {
+  return {
+    isKpi: true,
+    aggregations: DEFAULT_AGGREGATIONS,
+    percentageMetric: numberFormatterToFormatterType(kpiDefinition.formatter) === 'PERCENTAGE',
+    ...kpiDefinition
+  };
 }
 
 export function setAggregation(metrics, aggregation) {

@@ -166,18 +166,19 @@ function columns({ groupBy, type, getParamsForGroup, metrics, timeConfig, granul
       }
     ])
     .concat(
-      metrics.map(({ label, metric, formatter = String, aggregation }) => ({
+      metrics.map(({ label, metric, formatter = String, aggregation, percentageMetric }) => ({
         width: '12rem',
         getContent({ group }) {
           const kpi = group.metrics[metric + 'Agg'];
           return (
             <SparkChart
-              rollup={granularity}
-              timeConfig={timeConfig}
-              metrics={group.metrics[metric]}
-              aggregation={aggregation}
-              tooltipFormatter={formatter}
               horizontalMetricValue={kpi ? formatter(kpi[0][1]) : '--'}
+              percentageMetric={percentageMetric}
+              metrics={group.metrics[metric]}
+              tooltipFormatter={formatter}
+              aggregation={aggregation}
+              timeConfig={timeConfig}
+              rollup={granularity}
               label={label}
             />
           );
