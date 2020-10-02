@@ -1,6 +1,7 @@
 import DayPicker from 'react-day-picker';
 import 'react-day-picker/lib/style.css';
 import { assign } from 'lodash';
+import theme from 'in-themes';
 import React from 'react';
 
 import { formatDate, parseDate } from 'in-services/formatters/date';
@@ -53,9 +54,20 @@ function DatePickerInput({ open, onChange, refSetter, inputProps, close, iconTyp
 
 function DatePickerOverlay({ onChange, close, value }) {
   const dateValid = dateValidator(value) == null;
+  const modifiers = {
+    selected: new Date(value),
+    current: new Date()
+  };
+  const modifiersStyles = {
+    selected: { backgroundColor: dateValid ? theme.lib.colors.teal800 : 'transparent' },
+    current: { color: theme.lib.colors.N900Primary }
+  };
   return (
     <div className={locals.overlay}>
       <DayPicker
+        month={dateValid ? modifiers.selected : modifiers.current}
+        modifiersStyles={modifiersStyles}
+        modifiers={modifiers}
         selectedDays={dateValid ? parseDate(value) : undefined}
         onDayClick={d => {
           onChange(formatDate(d));

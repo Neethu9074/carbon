@@ -1,9 +1,9 @@
 import React from 'react';
 
-import formatInputTime from 'in-new-components/time/TimeSelectionDialogPresenter/timeInputFormatter';
+import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import TouchedMessages from 'in-components/form/TouchedMessages';
+import TimeInput from 'in-new-components/TimeInput/TimeInput';
 import DateInput from 'in-components/form/DateInput';
-import Input from 'in-components/form/Input';
 
 import locals from './DateTimeInput.mless';
 
@@ -12,7 +12,7 @@ export default function DateTimeInput({ form, path, setValue }) {
   const timeField = form.get(path).get('time');
 
   return (
-    <div className={locals.wrapper}>
+    <div className={locals.wrapper} onKeyDown={onKeyDown}>
       <div className={locals.inputs}>
         <DateInput
           className={locals.field}
@@ -22,13 +22,10 @@ export default function DateTimeInput({ form, path, setValue }) {
           hasError={!dateField.valid && dateField.touched}
         />
 
-        <Input
-          className={locals.field}
-          type="text"
+        <TimeInput
           id={`${path}-time`}
           value={timeField.value}
-          onChange={e => setValue(form, [path, 'time'], e.target.value)}
-          onBlur={e => setValue(form, [path, 'time'], formatInputTime(e.target.value, 'HH:mm:ss'))}
+          onChange={timeString => setValue(form, [path, 'time'], timeString)} // FIXME: ...
           hasError={!timeField.valid && timeField.touched}
         />
       </div>
@@ -36,4 +33,10 @@ export default function DateTimeInput({ form, path, setValue }) {
       <TouchedMessages field={timeField} />
     </div>
   );
+}
+
+function onKeyDown(e) {
+  if (e.defaultPrevented) return;
+  // Intercept Enter and Escape to prevent accidental closing of a dialog when used inside a dialog
+  if ((e.key === 'Enter', e.key === 'Escape')) return stopPropagationAndPreventDefault(e);
 }

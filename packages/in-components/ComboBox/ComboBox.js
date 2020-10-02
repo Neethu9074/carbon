@@ -1,8 +1,9 @@
+import 'react-select/dist/react-select.css';
 import Select from 'react-select';
 import React from 'react';
-import 'react-select/dist/react-select.css';
 
 import autoMenuDirection from './autoMenuDirection';
+
 import './DropDownDirection.less';
 import './ComboBox.less';
 

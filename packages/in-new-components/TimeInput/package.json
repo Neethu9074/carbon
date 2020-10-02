@@ -1,0 +1,6 @@
+{
+  "name": "TimeInput",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./TimeInput.js"
+}

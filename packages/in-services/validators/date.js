@@ -1,10 +1,9 @@
 import moment from 'moment';
 
-import { timeFormat, dateFormat } from 'in-services/formatters/date';
-
+import { timeFormat as defaultTimeFormat, dateFormat } from 'in-services/formatters/date';
 import { isBlank } from 'in-services/util/string';
 
-export function timeValidator(v) {
+export function timeValidator(v, timeFormat = defaultTimeFormat) {
   if (isBlank(v)) {
     return null;
   }

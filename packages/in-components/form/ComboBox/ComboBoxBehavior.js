@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types';
 import React, { useRef } from 'react';
+import PropTypes from 'prop-types';
 
 import { toInteractiveElement } from 'in-new-components/interactiveCustomElement';
 import ComboBoxOverlay from 'in-components/form/ComboBox/ComboBoxOverlay';
@@ -14,7 +14,8 @@ export default function ComboBoxBehavior({
   disableAutomaticOptionSorting,
   requiresCustomInteractivity,
   ariaLabel,
-  overlayAlignment = 'bottomLeft'
+  overlayAlignment = 'bottomLeft',
+  listItemClassName
 }) {
   const ref = useRef();
 
@@ -28,7 +29,8 @@ export default function ComboBoxBehavior({
           ref.current?.focus();
           onChange(newValue);
         },
-        disableAutomaticOptionSorting
+        disableAutomaticOptionSorting,
+        listItemClassName
       }}
       align={overlayAlignment}
       withoutWrapper
@@ -79,5 +81,6 @@ ComboBoxBehavior.propTypes = {
   requiresCustomInteractivity: PropTypes.bool,
   disableAutomaticOptionSorting: PropTypes.bool,
   ariaLabel: PropTypes.string,
-  overlayAlignment: PropTypes.string
+  overlayAlignment: PropTypes.string,
+  listItemClassName: PropTypes.string
 };

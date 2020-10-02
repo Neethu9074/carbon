@@ -1,0 +1,13 @@
+@import '~in-themes/active.less';
+@import '~in-themes/mixins.less';
+
+:local {
+  .listItem {
+    width: 5rem;
+    justify-content: flex-start;
+  }
+
+  .timeInput {
+    width: 3.4375rem;
+  }
+}
