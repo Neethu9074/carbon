@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { ComboChartMetricSelector, TabChartSelector } from 'in-applications/Dashboards/commonComponents/ChartSelectors';
 import CallsErrorsChart from 'in-applications/Dashboards/commonComponents/CallsErrorsChart';
@@ -60,8 +60,27 @@ export default function CallsAndHttp({
   renderPostChartContent,
   renderPostChartContentHttpStatus
 }) {
+  const findMetricByTab = tab => metrics.find(m => m.tab === tab).value;
+  const findTabByMetric = metric => metrics.find(m => m.value === metric).tab;
+
   const [activeTab, setActiveTab] = useState(tabs[0]);
-  const [activeMetric, setActiveMetric] = useState(metrics[0].value);
+  const [activeMetric, setActiveMetric] = useState(findMetricByTab(activeTab));
+
+  useEffect(() => {
+    // if the active tab changes, the active metric must be updated
+    if (activeTab !== findTabByMetric(activeMetric)) {
+      setActiveMetric(findMetricByTab(activeTab));
+    }
+  }, [activeTab]);
+
+  useEffect(() => {
+    // if the active metric changes, the active tab may need to be updated
+    const activeMetricTab = findTabByMetric(activeMetric);
+    if (activeMetricTab !== activeTab) {
+      setActiveTab(activeMetricTab);
+    }
+  }, [activeMetric]);
+
   const timeShiftConfig = useTimeShiftConfig();
 
   const header = timeShiftConfig.offset ? (
