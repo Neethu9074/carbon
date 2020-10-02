@@ -3,33 +3,21 @@ import moment from 'moment';
 import React from 'react';
 
 import LocalTimeConfigContextModification from 'in-stores/time/LocalTimeConfigContextModification';
-import timePresets from 'in-amp/components/timePresets';
 
-export default function UsageTimeConfigContextModification({ timeConfig, showAggregatedMetrics, children }) {
+export default function UsageTimeConfigContextModification({ windowSize, children }) {
   return (
-    <LocalTimeConfigContextModification
-      modification={globalTimeConfig => modifyTimeConfig(globalTimeConfig, showAggregatedMetrics)}
-      valuesToWatch={[
-        timeConfig.windowSize,
-        timeConfig.to,
-        timeConfig.focusedMoment,
-        timeConfig.autoRefresh,
-        showAggregatedMetrics
-      ]}
-    >
+    <LocalTimeConfigContextModification modification={() => modifyTimeConfig(windowSize)} valuesToWatch={[windowSize]}>
       {children}
     </LocalTimeConfigContextModification>
   );
 }
 
 UsageTimeConfigContextModification.propTypes = {
-  showAggregatedMetrics: PropTypes.bool.isRequired,
-  timeConfig: PropTypes.object.isRequired,
+  windowSize: PropTypes.number.isRequired,
   children: PropTypes.oneOfType([PropTypes.object.isRequired, PropTypes.array.isRequired])
 };
 
-function modifyTimeConfig(timeConfig, showAggregatedMetrics) {
-  const windowSize = findNextPresetTime(timeConfig.windowSize, showAggregatedMetrics);
+function modifyTimeConfig(windowSize) {
   const to = getNearestReasonableTo(windowSize);
   return {
     to,
@@ -37,19 +25,6 @@ function modifyTimeConfig(timeConfig, showAggregatedMetrics) {
     windowSize,
     autoRefresh: false
   };
-}
-
-function findNextPresetTime(windowSize, showAggregatedMetrics) {
-  if (showAggregatedMetrics) {
-    return 1000 * 60 * 60 * 24 * 30;
-  }
-  for (let i = 0; i < timePresets.length; i++) {
-    const preset = timePresets[i];
-    if (windowSize === preset.windowSize) {
-      return windowSize;
-    }
-  }
-  return timePresets[0].windowSize;
 }
 
 function getNearestReasonableTo(windowSize) {

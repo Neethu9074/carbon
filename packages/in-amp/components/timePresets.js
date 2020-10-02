@@ -11,6 +11,11 @@ const presets = [
     windowSize: hour * 24 * 30,
     to: null,
     label: 'Last 30 days'
+  },
+  {
+    windowSize: hour * 24 * 365,
+    to: null,
+    label: 'Last 365 days'
   }
 ];
 

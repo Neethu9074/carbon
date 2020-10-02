@@ -1,58 +1,60 @@
 import React from 'react';
 
+import UsageTimeConfigContextModification from 'in-amp/components/UsageTimeConfigContextModification';
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
 import { formatDate, formatDateTime } from 'in-services/formatters/date';
-import useTimeConfig from 'in-hooks/useTimeConfig';
 
-const oneMonth = 1000 * 60 * 60 * 24 * 30;
-export default function UsageChart({ showAggregatedMetrics, y1, y2 }) {
+export default function UsageChart({ windowSize, showAggregatedMetrics, y1, y2 }) {
+  const thirtyDays = 1000 * 60 * 60 * 24 * 30;
+
   const defaultProps = {
     aggregation: 'MEAN',
     source: 'USAGE',
-    showAggregatedMetrics
+    showAggregatedMetrics,
+    unit: y1.unit,
+    tenant: y1.tenant
   };
 
-  const timeConfig = useTimeConfig();
   let tooltipTimeFormatter = formatDateTime;
-  if (timeConfig.windowSize === oneMonth) {
+  if (windowSize >= thirtyDays) {
     tooltipTimeFormatter = formatDate;
   }
+
   return (
-    <UnifiedMetricsChart
-      shareMaxAxisDomain
-      automaticallySize={false}
-      tooltipTimeFormatter={tooltipTimeFormatter}
-      config={{
-        y1: {
-          ...y1,
-          metrics: y1.metrics.map((metric, i) => ({
-            label: y1.labels[i],
-            metric,
-            unit: y1.unit,
-            tenant: y1.tenant,
-            ...defaultProps
-          })),
-          formatter: 'number.compact'
-        },
-        y2: {
-          ...y2,
-          metrics: y2.metrics.map((metric, i) => ({
-            label: y2.labels[i],
-            metric,
-            unit: y1.unit,
-            tenant: y1.tenant,
-            ...defaultProps
-          })),
-          formatter: 'number.compact'
-        },
-        type: 'TIME_SERIES',
-        granularity: getGranularity(timeConfig.windowSize)
-      }}
-    />
+    <UsageTimeConfigContextModification windowSize={windowSize}>
+      <UnifiedMetricsChart
+        shareMaxAxisDomain
+        automaticallySize={false}
+        tooltipTimeFormatter={tooltipTimeFormatter}
+        config={{
+          y1: {
+            ...y1,
+            metrics: y1.metrics.map((metric, i) => ({
+              label: y1.labels[i],
+              metric,
+              ...defaultProps
+            })),
+            formatter: 'number.compact'
+          },
+          y2: {
+            ...y2,
+            metrics: y2.metrics.map((metric, i) => ({
+              label: y2.labels[i],
+              metric,
+              ...defaultProps
+            })),
+            formatter: 'number.compact'
+          },
+          type: 'TIME_SERIES',
+          granularity: getGranularity(windowSize)
+        }}
+      />
+    </UsageTimeConfigContextModification>
   );
 }
 
 function getGranularity(windowSize) {
   const oneHour = 1000 * 60 * 60;
-  return windowSize > oneHour * 24 * 7 ? oneHour * 24 : oneHour;
+  const oneDay = oneHour * 24;
+  return windowSize > oneDay * 7 ? oneDay : oneHour;
 }

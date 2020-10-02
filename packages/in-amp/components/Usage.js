@@ -1,7 +1,6 @@
 import theme from 'in-themes';
 import React from 'react';
 
-import UsageTimeConfigContextModification from 'in-amp/components/UsageTimeConfigContextModification';
 import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';
 import { buildJsonSerializer, buildJsonParser } from 'in-stores/navigation/matrix';
 import ComboBoxBehavior from 'in-components/form/ComboBox/ComboBoxBehavior';
@@ -15,7 +14,6 @@ import { pendingResult } from 'in-services/fixedObjects';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import UsageChart from 'in-amp/components/UsageChart';
 import { tenantUnitChanged } from 'in-amp/tracker';
-import useTimeConfig from 'in-hooks/useTimeConfig';
 import useObservable from 'in-hooks/useObservable';
 import Licenses from 'in-amp/components/Licenses';
 import Message from 'in-new-components/Message';
@@ -28,19 +26,17 @@ import locals from './Usage.mless';
 const aggregatedState = { label: 'All units (aggregated)' };
 
 export default function UsageWithAccountInfo() {
-  const timeConfig = useTimeConfig();
   const accountResult = useObservable(getAccountAsResultObservable(), []);
-
   if (!accountResult || hasError(accountResult) || isLoading(accountResult)) {
     return <ApiItemView hideFooter result={accountResult ?? pendingResult} />;
   }
 
-  return <Usage timeConfig={timeConfig} environments={accountResult.data.environments} />;
+  return <Usage environments={accountResult.data.environments} />;
 }
 
-function Usage({ timeConfig, environments }) {
+function Usage({ environments }) {
   const unitSelectorOptions = environments.map(({ tenant, unit }) => {
-    const label = `${tenant}-${unit}`;
+    const label = `${unit}-${tenant}`;
     return {
       label,
       value: { tenant, unit, label }
@@ -49,7 +45,7 @@ function Usage({ timeConfig, environments }) {
 
   const canShowAggregatedMetrics = containsPaidLicenses(environments);
   const initialState = canShowAggregatedMetrics ? aggregatedState : unitSelectorOptions[0].value;
-  const [{ tenantUnit }, onChange] = useUrlState({
+  const [{ tenantUnit, windowSize }, onChange] = useUrlState({
     bind: [
       {
         path: '/usage',
@@ -57,6 +53,13 @@ function Usage({ timeConfig, environments }) {
         serializer: buildJsonSerializer(),
         parser: buildJsonParser(),
         initialState
+      },
+      {
+        path: '/usage',
+        name: 'windowSize',
+        serializer: buildJsonSerializer(),
+        parser: buildJsonParser(),
+        initialState: 1000 * 60 * 60 * 24 * 30
       }
     ]
   });
@@ -64,6 +67,7 @@ function Usage({ timeConfig, environments }) {
     tenantUnitChanged(_tenantUnit);
     onChange({ tenantUnit: _tenantUnit });
   };
+  const setWindowSize = _windowSize => onChange({ windowSize: _windowSize });
 
   const showAggregatedMetrics = tenantUnit.label === aggregatedState.label;
   if (canShowAggregatedMetrics) {
@@ -71,7 +75,7 @@ function Usage({ timeConfig, environments }) {
   }
 
   return (
-    <UsageTimeConfigContextModification timeConfig={timeConfig} showAggregatedMetrics={showAggregatedMetrics}>
+    <>
       <Title title="Account Usage" />
 
       <div className={locals.buttonHeader}>
@@ -97,7 +101,7 @@ function Usage({ timeConfig, environments }) {
             />
           )}
         </HorizontalFlexWrapper>
-        {!showAggregatedMetrics && <AmpTimeSelection />}
+        {!showAggregatedMetrics && <AmpTimeSelection windowSize={windowSize} setWindowSize={setWindowSize} />}
       </div>
 
       <form>
@@ -105,6 +109,7 @@ function Usage({ timeConfig, environments }) {
           <Col xs={6}>
             <Card title="APM Usage">
               <UsageChart
+                windowSize={windowSize}
                 showAggregatedMetrics={showAggregatedMetrics}
                 y1={{ ...tenantUnit, metrics: ['apmhost'], labels: ['APM Hosts'] }}
                 y2={{
@@ -119,6 +124,7 @@ function Usage({ timeConfig, environments }) {
           <Col xs={6}>
             <Card title="Infrastructure Usage">
               <UsageChart
+                windowSize={windowSize}
                 showAggregatedMetrics={showAggregatedMetrics}
                 y1={{
                   ...tenantUnit,
@@ -139,6 +145,7 @@ function Usage({ timeConfig, environments }) {
           <Col xs={6}>
             <Card title="Container Usage">
               <UsageChart
+                windowSize={windowSize}
                 showAggregatedMetrics={showAggregatedMetrics}
                 y1={{
                   ...tenantUnit,
@@ -158,6 +165,7 @@ function Usage({ timeConfig, environments }) {
           <Col xs={6}>
             <Card title="Serverless Usage">
               <UsageChart
+                windowSize={windowSize}
                 showAggregatedMetrics={showAggregatedMetrics}
                 y1={{
                   ...tenantUnit,
@@ -189,7 +197,7 @@ function Usage({ timeConfig, environments }) {
           </Col>
         </Row>
       </form>
-    </UsageTimeConfigContextModification>
+    </>
   );
 }
 
