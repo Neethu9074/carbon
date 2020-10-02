@@ -5,6 +5,7 @@ import UrlShortener from 'in-new-components/DashboardHeader/UrlShortener/UrlShor
 import { joinClassNames, evaluateClassNames } from 'in-services/util/classnames';
 import TimeSelection from 'in-new-components/time/TimeSelection/TimeSelection';
 import Skeleton from 'in-new-components/Loading/Skeleton';
+import Tooltip from 'in-components/Tooltip/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
 import Title from 'in-components/Title';
 
@@ -71,7 +72,9 @@ export default function DashboardHeader(props) {
               />
             ))}
           {renderIcon ? renderIcon() : icon ? <SvgIcon className={locals.icon} type={icon} size="l" /> : null}
-          <span className={locals.label}>{label}</span>
+          <Tooltip content={label} delay={500}>
+            <span className={locals.label}>{label}</span>
+          </Tooltip>
           {renderMetaInformation && renderMetaInformation(props)}
         </div>
         <div className={locals.rightContent}>
