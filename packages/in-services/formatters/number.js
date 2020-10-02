@@ -149,6 +149,8 @@ export const megaBytes = {
   detailed: megaBytesTwoDecimalPlaces
 };
 
+export const millisPerSecondZeroDecimalPlaces = d => millis.fixedCompact(d * 1000) + '/s';
+
 const siPrefixZeroDecimalPlacesFormatRule = format(',.3s');
 const siPrefixZeroDecimalPlacesFormatRuleForSmallValues = format(',.0s');
 const withSiPrefixZeroDecimalPlacesRegExp = new RegExp(`^(-|\\+)?(\\d+)(\\${decimalSeparator}(\\d+))?(.*)$`, 'i');
