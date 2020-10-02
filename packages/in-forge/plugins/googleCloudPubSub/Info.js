@@ -8,9 +8,9 @@ export default function Info({ snapshot }) {
   const createdAt = data.get('createTime');
   return (
     <DescriptionList>
-      <DescriptionItem title="Project Name">{data.get('projectName')}</DescriptionItem>
-      <DescriptionItem title="Project ID">{data.get('projectId')}</DescriptionItem>
-      <DescriptionItem title="Project Number">{data.get('projectNumber')}</DescriptionItem>
+      <DescriptionItem title="Name">{data.get('projectName')}</DescriptionItem>
+      <DescriptionItem title="ID">{data.get('projectId')}</DescriptionItem>
+      <DescriptionItem title="Number">{data.get('projectNumber')}</DescriptionItem>
       <DescriptionItem title="Created At">{formatDateTime(createdAt)}</DescriptionItem>
     </DescriptionList>
   );

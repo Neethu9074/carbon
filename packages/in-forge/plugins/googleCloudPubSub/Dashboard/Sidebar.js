@@ -8,7 +8,7 @@ export default function GcpPubSubSidebar({ snapshot }) {
   return (
     <Fragment>
       <Collapsible initiallyOpen>
-        <Collapsible.Header>Google Cloud PubSub</Collapsible.Header>
+        <Collapsible.Header>Project Info</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />
         </Collapsible.Content>
