@@ -29,7 +29,7 @@ function Summary({ beacons, filter, setFilter, pageLoadLabel, pageLoadId }) {
   // Fixing is expensive. Luckily it is easy to avoid this via memoization.
   const fixResult = useMemo(() => fixClockSkewProblems(beacons), [beacons]);
   beacons = fixResult.beacons;
-  beacons = useMemo(beacons => beacons.slice().sort(beaconsComparator), [beacons]);
+  beacons = useMemo(() => beacons.slice().sort(beaconsComparator), [beacons]);
   const pageLoad = find(beacons, b => b.type === 'pageLoad');
   const firstBeacon = pageLoad || beacons[0];
 
