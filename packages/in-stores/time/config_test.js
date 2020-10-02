@@ -3,6 +3,7 @@ import { expect } from 'chai';
 
 import { getTimeConfig, urlQueryKeys } from './config';
 import { config } from 'in-services/config';
+import { hours } from 'in-services/time';
 
 describe('time config', () => {
   let originalFeatureFlags;
@@ -71,7 +72,7 @@ describe('time config', () => {
           getTimeConfig({
             query: {}
           }).windowSize
-        ).to.equal(1000 * 60 * 60);
+        ).to.equal(hours.toMillis(1));
       });
 
       it('should auto refresh in 2.0 if to is null and ar query param is set', () => {

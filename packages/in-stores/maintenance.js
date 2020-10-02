@@ -8,12 +8,13 @@ import { toHtml } from 'in-services/formatters/markdown';
 import { get, trySet } from 'in-services/localStorage';
 import { getSetting$ } from 'in-services/settings';
 import { instanaRegion } from 'in-services/config';
+import { hours, minutes } from 'in-services/time';
 import { createStore } from 'in-stores/store';
 import http from 'in-services/http';
 
 const messageId = 'maintenanceNote';
 const localStorageKey = 'maintenanceNote.lastViewedTimestamp';
-const maxTimeToStoreInLocalStorage = 1000 * 60 * 60 * 2; // 2 hours;
+const maxTimeToStoreInLocalStorage = hours.toMillis(2);
 
 const messageStore = createStore({
   name: 'maintenance/message',
@@ -36,7 +37,7 @@ function markAsRead() {
 export function init() {
   if (maintenanceNotesEnabled) {
     retrieveLatestMessage();
-    setInterval(retrieveLatestMessage, 1000 * 60 * 10);
+    setInterval(retrieveLatestMessage, minutes.toMillis(10));
 
     combineLatest([message$, messageRead$, getSetting$('showMaintenanceNotes')]).subscribe(
       ([message, messageRead, showMaintenanceNotes]) => {

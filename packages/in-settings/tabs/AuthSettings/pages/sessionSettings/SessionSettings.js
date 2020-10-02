@@ -8,17 +8,15 @@ import { formatDurationAccurately } from 'in-services/formatters/date';
 import DistinctSlider from 'in-new-components/Slider/DistinctSlider';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import ApiItemView from 'in-settings/components/ApiItemView';
+import { days, minutes, hours } from 'in-services/time';
 import FormGroup from 'in-components/form/FormGroup';
 import Label from 'in-components/form/Label';
 import Title from 'in-components/Title';
 
 import locals from './SessionSettings.mless';
 
-const oneMinute = 1000 * 60;
-const oneHour = oneMinute * 60;
-
-const minTokenLifeTime = 15 * oneMinute;
-const maxTokenLifeTime = oneHour * 24 * 7;
+const minTokenLifeTime = minutes.toMillis(15);
+const maxTokenLifeTime = days.toMillis(7);
 const tokenLifeTimeDomain = maxTokenLifeTime - minTokenLifeTime;
 
 export default function SessionSettings() {
@@ -60,7 +58,7 @@ function TokenLifeTimeSlider({ form, setForm }) {
       value: 0,
       label: formatDurationAccurately(minTokenLifeTime)
     },
-    ...[oneHour, oneHour * 6, oneHour * 12, oneHour * 24].map(timespan => ({
+    ...[hours.toMillis(1), hours.toMillis(6), hours.toMillis(12), days.toMillis(1)].map(timespan => ({
       value: getNormalizedTokenValue(timespan),
       label: formatDurationAccurately(timespan)
     })),
@@ -89,10 +87,10 @@ function TokenLifeTimeSlider({ form, setForm }) {
 }
 
 function IdleTimeSlider({ form, setForm }) {
-  const min = oneMinute;
-  const max = oneHour * 8;
+  const min = minutes.toMillis(1);
+  const max = hours.toMillis(8);
   const formatTime = formatDurationAccurately;
-  const labeledTicks = [oneMinute, oneHour, oneHour * 8].map(value => ({
+  const labeledTicks = [min, hours.toMillis(1), max].map(value => ({
     value,
     label: formatTime(value)
   }));
@@ -106,7 +104,7 @@ function IdleTimeSlider({ form, setForm }) {
       labeledTicks={labeledTicks}
       min={min}
       max={max}
-      step={oneMinute}
+      step={min}
       valueLabelFormat={value => formatTime(value)}
       onChange={sliderValue =>
         setForm(form.updateIn(['idleTimeInMillis'], f => f.setValue(sliderValue).setTouched(true)))
@@ -179,7 +177,7 @@ function enrichForm(form, { setCanDeleteItem, result: { config } }) {
         value: config ? getNormalizedTokenValue(config.tokenLifeTimeInMillis) : 1
       })
     )
-    .put('idleTimeInMillis', createField({ value: config ? config.idleTimeInMillis : oneHour * 8 }));
+    .put('idleTimeInMillis', createField({ value: config ? config.idleTimeInMillis : hours.toMillis(8) }));
 }
 
 function getNormalizedTokenValue(timespan) {

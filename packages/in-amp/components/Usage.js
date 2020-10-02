@@ -19,6 +19,7 @@ import Licenses from 'in-amp/components/Licenses';
 import Message from 'in-new-components/Message';
 import useUrlState from 'in-hooks/useUrlState';
 import Card from 'in-new-components/Card';
+import { days } from 'in-services/time';
 import Title from 'in-components/Title';
 
 import locals from './Usage.mless';
@@ -59,7 +60,7 @@ function Usage({ environments }) {
         name: 'windowSize',
         serializer: buildJsonSerializer(),
         parser: buildJsonParser(),
-        initialState: 1000 * 60 * 60 * 24 * 30
+        initialState: days.toMillis(30)
       }
     ]
   });

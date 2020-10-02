@@ -2,6 +2,7 @@ import React from 'react';
 
 import EntityVersionListPresenter from 'in-new-components/EntityVersionList/EntityVersionListPresenter';
 import { plugins } from 'in-forge/constants';
+import { minutes } from 'in-services/time';
 
 export default {
   title: 'Organisms|EntityVersionList',
@@ -19,7 +20,7 @@ export function Default() {
 function getItems(numItems) {
   const items = [];
 
-  const oneMinute = 1000 * 60;
+  const oneMinute = minutes.toMillis(1);
   const now = Date.now();
   let gap = 0;
   for (let i = 1; i < numItems + 1; i++) {

@@ -11,6 +11,7 @@ import getTraceGroups from 'in-subscription/application/getTraceGroups';
 import getApplication from 'in-subscription/application/getApplication';
 import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
 import { boundaryScopes } from 'in-applications/constants';
+import { hours } from 'in-services/time';
 import connect from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
 
@@ -112,7 +113,6 @@ function getList({
       aggregation: selectedCompanionMetricAggregation
     };
   }
-
   return getTraceGroups({
     pagination: {
       retrievalSize: 5
@@ -124,7 +124,7 @@ function getList({
     metrics: metrics,
     filter: {
       timeConfig,
-      useLongTermDataOnly: timeConfig.windowSize > 1000 * 60 * 60 // query long term data when window size > 1h
+      useLongTermDataOnly: timeConfig.windowSize > hours.toMillis(1) // query long term data when window size > 1h
     },
     tagFilters,
     group: {

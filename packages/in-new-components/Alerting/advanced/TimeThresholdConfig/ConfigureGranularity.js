@@ -3,13 +3,13 @@ import React from 'react';
 
 import AlertThresholdConfigItemContainer from 'in-new-components/Alerting/advanced/TimeThresholdConfig/AlertThresholdConfigItemContainer';
 import DebouncedRestrictedSlider from 'in-new-components/Slider/DebouncedRestrictedSlider';
-import { minutesToMillis } from 'in-new-components/Alerting/utils/formatUtils';
+import { minutes } from 'in-services/time';
 
 const marks = Object.freeze(
   [5, 10, 15, 20, 30].map(min => ({
     value: min,
     label: `${min} min`,
-    millis: minutesToMillis(min)
+    millis: minutes.toMillis(min)
   }))
 );
 
@@ -24,7 +24,7 @@ export default function ConfigureGranularity({ onChange, granularity }) {
         min={0}
         value={currentValue}
         onChange={value => {
-          onChange(minutesToMillis(value));
+          onChange(minutes.toMillis(value));
         }}
         valueLabelDisplay="off"
       />

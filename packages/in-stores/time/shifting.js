@@ -1,4 +1,5 @@
 import { formatDuration } from 'in-services/formatters/date';
+import { days, hours } from 'in-services/time';
 
 const initialState = 0;
 
@@ -41,7 +42,7 @@ export const defaultTimeShift = {
 };
 
 export const previousHourTimeShift = {
-  offset: -1 * 1000 * 60 * 60,
+  offset: -1 * hours.toMillis(1),
   label: `Previous hour`,
   description: `Compare with data recorded 1 hour before the selected time window`
 };
@@ -55,12 +56,12 @@ export const timeShifts = [
   },
   previousHourTimeShift,
   {
-    offset: -1 * 1000 * 60 * 60 * 24,
+    offset: -1 * days.toMillis(1),
     label: `Yesterday`,
     description: `Compare with data recorded 24 hours before the selected time window`
   },
   {
-    offset: -1 * 1000 * 60 * 60 * 24 * 7,
+    offset: -1 * days.toMillis(7),
     label: `Last week`,
     description: `Compare with from one week before the selected time window`,
     disallowSelection: true

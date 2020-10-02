@@ -3,7 +3,6 @@ import React from 'react';
 
 import PotentialProblemsLanePresenter from 'in-new-components/PotentialProblems/PotentialProblemsLane/PotentialProblemsLanePresenter';
 import getPotentialProblems from 'in-new-components/PotentialProblems/subscription/getPotentialProblems';
-import { hoursToMillis } from 'in-new-components/Alerting/utils/formatUtils';
 import getServiceLabel from 'in-subscription/application/getServiceLabel';
 import getEndpointInfo from 'in-subscription/application/getEndpointInfo';
 import { applicationSmartAlertsEnabled } from 'in-services/featureFlags';
@@ -11,6 +10,7 @@ import getApplication from 'in-subscription/application/getApplication';
 import { pendingResult } from 'in-services/fixedObjects';
 import useObservable from 'in-hooks/useObservable';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import { days } from 'in-services/time';
 
 const emptyPotentialProblems = {
   alerts: [],
@@ -135,7 +135,7 @@ function isOutsideCallsShortTermStorage(globalTimeConfig) {
     adjustedFrom = adjustedFrom + granularity;
   }
 
-  const shortTermCutoff = now - hoursToMillis(7 * 24);
+  const shortTermCutoff = now - days.toMillis(7);
   return adjustedFrom < shortTermCutoff;
 }
 

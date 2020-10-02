@@ -9,11 +9,3 @@ export function getValueRoundedToDecimals(value, percentageMetric) {
 export function getThresholdValueForPercentageMetric(value, percentageMetric) {
   return percentageMetric ? round(value / 100, 3) : value;
 }
-
-export function minutesToMillis(minutes) {
-  return minutes * 60 * 1000;
-}
-
-export function hoursToMillis(hours) {
-  return minutesToMillis(hours * 60);
-}

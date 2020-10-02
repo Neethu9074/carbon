@@ -3,6 +3,7 @@ import moment from 'moment';
 import React from 'react';
 
 import LocalTimeConfigContextModification from 'in-stores/time/LocalTimeConfigContextModification';
+import { days } from 'in-services/time';
 
 export default function UsageTimeConfigContextModification({ windowSize, children }) {
   return (
@@ -28,7 +29,7 @@ function modifyTimeConfig(windowSize) {
 }
 
 function getNearestReasonableTo(windowSize) {
-  const dailyData = windowSize > 1000 * 60 * 60 * 24 * 7;
+  const dailyData = windowSize > days.toMillis(7);
   return moment()
     .startOf(dailyData ? 'day' : 'hour')
     .subtract(1, dailyData ? 'day' : 'hour')

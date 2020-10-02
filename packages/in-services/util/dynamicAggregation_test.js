@@ -2,6 +2,7 @@
 import { expect } from 'chai';
 
 import { getBlockSizeMillis, getPredefinedBlockSizeMillisForBlockSize } from 'in-services/util/dynamicAggregation';
+import { days, seconds } from 'in-services/time';
 
 describe('in-services/util/dynamicAggregation', () => {
   it('should take maxDataPoints over pixelWidth if there are to less datapoints', () => {
@@ -51,8 +52,8 @@ describe('in-services/util/dynamicAggregation', () => {
     expect(getPredefinedBlockSizeMillisForBlockSize(1)).to.equal(1000);
     expect(getPredefinedBlockSizeMillisForBlockSize(999)).to.equal(1000);
     expect(getPredefinedBlockSizeMillisForBlockSize(1000)).to.equal(1000);
-    expect(getPredefinedBlockSizeMillisForBlockSize(1001)).to.equal(1000 * 5);
-    expect(getPredefinedBlockSizeMillisForBlockSize(Number.MAX_VALUE)).to.equal(1000 * 60 * 60 * 24 * 10);
+    expect(getPredefinedBlockSizeMillisForBlockSize(1001)).to.equal(seconds.toMillis(5));
+    expect(getPredefinedBlockSizeMillisForBlockSize(Number.MAX_VALUE)).to.equal(days.toMillis(10));
   });
 
   it('should handle arbitrary windowSize', () => {

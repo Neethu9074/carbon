@@ -2,10 +2,11 @@ import { internalMonitoringUnit } from 'in-services/featureFlags';
 import { trySet, get } from 'in-services/localStorage';
 import { isInstanaEmail } from 'in-stores/user';
 import { createStore } from 'in-stores/store';
+import { minutes } from 'in-services/time';
 
 // Show Internal Feature
 const localStorageKey = 'in-sif';
-const showInternalFeatureForMillis = 1000 * 60 * 30;
+const showInternalFeatureForMillis = minutes.toMillis(30);
 
 const isInternalVisibleStore = createStore({
   name: 'internals',

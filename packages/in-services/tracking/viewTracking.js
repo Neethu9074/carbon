@@ -9,8 +9,7 @@ import { isNotBlank, isBlank } from 'in-services/util/string';
 import { navigationParameters$ } from 'in-stores/navigation';
 import { onLastChance } from 'in-services/util/onLastChance';
 import { getTimeConfig } from 'in-stores/time/config';
-
-const maxTimeToWaitBeforeTransmissionMillis = 1000 * 10;
+import { seconds } from 'in-services/time';
 
 let previousState = null;
 let state = {
@@ -29,7 +28,7 @@ export function init() {
       titles: state.titles,
       meta: state.meta
     };
-    state.pendingTransmissionHandle = setTimeout(transmitViewChange, maxTimeToWaitBeforeTransmissionMillis);
+    state.pendingTransmissionHandle = setTimeout(transmitViewChange, seconds.toMillis(10));
   });
 
   onLastChance(transmitViewChange);

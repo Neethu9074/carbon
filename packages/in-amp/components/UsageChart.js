@@ -3,10 +3,9 @@ import React from 'react';
 import UsageTimeConfigContextModification from 'in-amp/components/UsageTimeConfigContextModification';
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
 import { formatDate, formatDateTime } from 'in-services/formatters/date';
+import { days, hours } from 'in-services/time';
 
 export default function UsageChart({ windowSize, showAggregatedMetrics, y1, y2 }) {
-  const thirtyDays = 1000 * 60 * 60 * 24 * 30;
-
   const defaultProps = {
     aggregation: 'MEAN',
     source: 'USAGE',
@@ -16,7 +15,7 @@ export default function UsageChart({ windowSize, showAggregatedMetrics, y1, y2 }
   };
 
   let tooltipTimeFormatter = formatDateTime;
-  if (windowSize >= thirtyDays) {
+  if (windowSize >= days.toMillis(30)) {
     tooltipTimeFormatter = formatDate;
   }
 
@@ -54,7 +53,5 @@ export default function UsageChart({ windowSize, showAggregatedMetrics, y1, y2 }
 }
 
 function getGranularity(windowSize) {
-  const oneHour = 1000 * 60 * 60;
-  const oneDay = oneHour * 24;
-  return windowSize > oneDay * 7 ? oneDay : oneHour;
+  return windowSize > days.toMillis(7) ? days.toMillis(1) : hours.toMillis(1);
 }

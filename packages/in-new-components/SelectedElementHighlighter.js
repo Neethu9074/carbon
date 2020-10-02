@@ -1,12 +1,14 @@
 import { debounce } from 'lodash';
 import React from 'react';
 
-const maximumTimeHighlightsMayBePending = 1000 * 60 * 2;
+import { minutes, seconds } from 'in-services/time';
+
+const maximumTimeHighlightsMayBePending = minutes.toMillis(2);
 const pendingHighlights = new Map();
 const highlightHandlers = new Map();
 
 export function init() {
-  setInterval(cleanUpPendingHighlights, 1000 * 10);
+  setInterval(cleanUpPendingHighlights, seconds.toMillis(10));
 }
 
 function cleanUpPendingHighlights() {

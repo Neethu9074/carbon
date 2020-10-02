@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import VersionTimeline from 'in-new-components/VersionTimeline';
+import { hours, minutes } from 'in-services/time';
 
 export default {
   title: 'Molecules|VersionTimeline',
@@ -12,12 +13,11 @@ export default {
 };
 
 const now = Date.now();
-
 export function Default() {
   const [selectedVersion, setSelectedVersion] = useState(null);
 
-  const min = 1000 * 60;
-  const from = now - min * 60;
+  const min = minutes.toMillis(1);
+  const from = now - hours.toMillis(1);
 
   return (
     <VersionTimeline

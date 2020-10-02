@@ -8,8 +8,8 @@ import {
 } from 'in-new-components/PotentialProblems/PotentialProblemsLane/proptypes';
 import { createDefaultChartConfig } from 'in-new-components/Alerting/Chart/chartViewConfig';
 import { getBlueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
-import { hoursToMillis } from 'in-new-components/Alerting/utils/formatUtils';
 import AlertingChart from 'in-new-components/Alerting/Chart/AlertingChart';
+import { hours } from 'in-services/time';
 
 export default function PotentialProblemChart({ applicationId, threshold, rule, tagFilters, alert, alertType }) {
   return (
@@ -35,7 +35,7 @@ export default function PotentialProblemChart({ applicationId, threshold, rule, 
    * of the timeConfig for the Chart in "in-events/components/EventContent/ApplicationEventContent" (L43-L46)
    */
   function getTimeConfig() {
-    const duration = Math.max(alert.end - alert.start, hoursToMillis(12));
+    const duration = Math.max(alert.end - alert.start, hours.toMillis(12));
     const to = alert.start + duration / 2;
 
     return {

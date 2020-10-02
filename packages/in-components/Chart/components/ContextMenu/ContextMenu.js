@@ -12,10 +12,11 @@ import Button from 'in-new-components/Button';
 import keyCodes from 'in-components/keyCodes';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
+import { minutes } from 'in-services/time';
 
 import locals from './ContextMenu.mless';
 
-const MAX_ZOOM_LEVEL = 1000 * 60;
+const MAX_ZOOM_LEVEL = minutes.toMillis(1);
 
 export default class extends React.Component {
   static displayName = 'ContextMenu';

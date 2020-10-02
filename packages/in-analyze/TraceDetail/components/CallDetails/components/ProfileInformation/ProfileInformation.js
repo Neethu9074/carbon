@@ -17,11 +17,10 @@ import { percentage } from 'in-services/formatters/number';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import useObservable from 'in-hooks/useObservable';
 import Message from 'in-new-components/Message';
+import { minutes } from 'in-services/time';
 import Link from 'in-components/Link';
 
 import locals from './ProfileInformation.mless';
-
-const twoMinutes = 1000 * 60 * 2;
 
 export default function ProfileInformationSnapshotResolver({ processSnapshotId, ...remainingProps }) {
   const timeConfig = useTimeConfig();
@@ -49,6 +48,7 @@ export default function ProfileInformationSnapshotResolver({ processSnapshotId, 
 }
 
 function ProfileInformation({ processSnapshotId, time, start, end, timeConfig }) {
+  const twoMinutes = minutes.toMillis(2);
   const windowSize = Math.max(twoMinutes, twoMinutes * Math.ceil((end - start) / twoMinutes));
   const from = start;
   const to = from + windowSize;

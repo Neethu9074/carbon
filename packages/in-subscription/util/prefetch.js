@@ -1,6 +1,7 @@
-const fiveMinutes = 1000 * 60 * 10;
+import { minutes } from 'in-services/time';
 
-export function prefetch(observable, time = fiveMinutes) {
+const defaultTime = minutes.toMillis(10);
+export function prefetch(observable, time = defaultTime) {
   const subscription = observable.subscribe(() => {});
   setTimeout(() => subscription.dispose(), time);
 }

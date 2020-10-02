@@ -1,4 +1,6 @@
-export const SERVICE_POSITION_STORAGE_TTL = 1000 * 60 * 60 * 24 * 7; // 1 week
+import { days } from 'in-services/time';
+
+export const SERVICE_POSITION_STORAGE_TTL = days.toMillis(7);
 export const CONNECTED_HIGHLIGHTING_CHECK = 50;
 export const METRIC_PILLAR_REFRESH = 1000;
 export const PHYSICAL_LAYOUTING = 50;

@@ -4,6 +4,7 @@ import React from 'react';
 
 import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
 import LearnMoreCard from 'in-new-components/Card/LearnMoreCard';
+import { minutes } from 'in-services/time';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './LearnMoreUserPointer.mless';
@@ -11,7 +12,7 @@ import locals from './LearnMoreUserPointer.mless';
 const timeConfig = {
   to: null,
   focusedMoment: null,
-  windowSize: 1000 * 60 * 30,
+  windowSize: minutes.toMillis(30),
   autoRefresh: false
 };
 

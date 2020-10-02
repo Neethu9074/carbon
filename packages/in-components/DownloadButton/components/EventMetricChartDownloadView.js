@@ -2,6 +2,7 @@ import React from 'react';
 
 import EventMetricDownloadView from 'in-components/DownloadButton/components/EventMetricDownloadView';
 import { isAppDataEntityType } from 'in-services/entityUtils';
+import { days, hours, minutes } from 'in-services/time';
 import { getMetrics } from 'in-api/metrics';
 import connectTo from 'in-hoc/connectTo';
 
@@ -24,11 +25,11 @@ function getMetricsRequest(props) {
   const { event, entityType, plugin, metric, metricAccessId } = props;
 
   const now = Date.now();
-  const oneHourWindowSize = 1000 * 60 * 60;
-  const oneDay = now - oneHourWindowSize * 24;
-  const tenHoursWindowSize = oneHourWindowSize * 10;
+  const oneHourWindowSize = hours.toMillis(1);
+  const oneDay = now - days.toMillis(1);
+  const tenHoursWindowSize = hours.toMillis(10);
   // Extract metrics from 55 mins before event start to 5 mins after event start
-  const to = event.get('start') + 1000 * 60 * 5;
+  const to = event.get('start') + minutes.toMillis(5);
 
   if (plugin === null) {
     return null;

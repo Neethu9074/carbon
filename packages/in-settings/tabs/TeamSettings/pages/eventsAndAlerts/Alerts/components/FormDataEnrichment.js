@@ -1,3 +1,4 @@
+import { combineLatest, create } from 'reactive-observables';
 import React from 'react';
 
 import {
@@ -12,12 +13,10 @@ import {
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/Step2';
 import getEventsInTimeframeSubscription from 'in-subscription/getEventsInTimeframeBothModes';
 import { combinedValidationResults, valid } from 'in-settings/validation';
-import { combineLatest, create } from 'reactive-observables';
 import { alwaysEmptyArray } from 'in-services/fixedStreams';
 import { isBlank } from 'in-services/util/string';
 import { validate } from 'in-api/search';
-
-const twoWeeks = 1000 * 60 * 60 * 24 * 7 * 2;
+import { days } from 'in-services/time';
 
 export default class FormDataEnrichment extends React.Component {
   static displayName = 'FormDataEnrichment';
@@ -190,7 +189,7 @@ function search(timeOpened, query, additionalQueryPart) {
     timeConfig: {
       focusedMoment: timeOpened,
       to: timeOpened,
-      windowSize: twoWeeks
+      windowSize: days.toMillis(14)
     },
     query
   });

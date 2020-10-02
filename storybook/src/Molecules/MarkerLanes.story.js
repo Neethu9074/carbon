@@ -11,6 +11,7 @@ import DialogWithSlideInView from 'in-new-components/Dialog/DialogWithSlideInVie
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { compare } from 'in-services/util/number';
+import { minutes } from 'in-services/time';
 
 /* there are random data and current date is used */
 export default {
@@ -25,7 +26,7 @@ export default {
 
 const now = 1598609654147;
 
-const oneMinute = 1000 * 60;
+const oneMinute = minutes.toMillis(1);
 const timeConfig = generateTimeframe(oneMinute);
 
 export const MarkerLanesBelowChart = () => {

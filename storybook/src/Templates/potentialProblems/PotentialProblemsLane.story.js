@@ -11,6 +11,7 @@ import Renderer from 'in-components/Chart/renderer/Renderer';
 import { close } from 'in-components/DialogPresenter/store';
 import DialogPresenter from 'in-components/DialogPresenter';
 import { compare } from 'in-services/util/number';
+import { hours } from 'in-services/time';
 
 /* there are random data and current date is used */
 export default {
@@ -25,8 +26,8 @@ export default {
 
 const now = 1600667400000;
 
-const oneDay = 1000 * 60 * 60 * 12;
-const timeConfig = generateTimeframe(oneDay);
+const halfADay = hours.toMillis(12);
+const timeConfig = generateTimeframe(halfADay);
 
 const laneProps = {
   name: 'Payment',
@@ -90,8 +91,7 @@ function BarChart({ renderPostChartContent, renderPreChartContent }) {
           y1: {
             renderer: Renderer.bar,
             labels: ['Calls'],
-            // metrics: [generateMetrics(12, 100, oneDay)],
-            metrics: [generateMetrics(7, 100, oneDay)],
+            metrics: [generateMetrics(7, 100, halfADay)],
             aggregation: 'awesomeAggregation'
           },
           renderPostChartContent,

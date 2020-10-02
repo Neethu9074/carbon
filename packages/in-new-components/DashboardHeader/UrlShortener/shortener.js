@@ -5,6 +5,7 @@ import createObservable from 'in-services/http/observableHttpResult';
 import memoize from 'in-services/util/memoizingObservableGenerator';
 import { emptyObject } from 'in-services/fixedObjects';
 import { identity } from 'in-services/util/function';
+import { hours } from 'in-services/time';
 import http from 'in-services/http';
 
 const getShortUrlInternal = memoize(
@@ -21,7 +22,7 @@ const getShortUrlInternal = memoize(
       })
     ),
   identity,
-  1000 * 60 * 60
+  hours.toMillis(1)
 );
 
 export function getShortUrl({ fixateTime = true } = emptyObject) {

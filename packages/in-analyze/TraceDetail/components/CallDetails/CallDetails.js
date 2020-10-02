@@ -11,6 +11,7 @@ import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPr
 import Header from 'in-analyze/TraceDetail/components/CallDetails/components/Header';
 import getMobileAppBeacons from 'in-mobile-apps/subscriptions/getMobileAppBeacons';
 import { pendingResult } from 'in-services/fixedObjects';
+import { seconds, minutes } from 'in-services/time';
 import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
 import Card from 'in-new-components/Card';
@@ -55,9 +56,9 @@ export default compose(
           getMobileAppBeacons({
             tagFilters: [{ name: 'mobileBeacon.backend.traceId', stringValue: correlationId, operator: 'EQUALS' }],
             timeConfig: {
-              windowSize: 1000 * 60 * 60,
-              to: startTime + 1000 * 60 * 30,
-              focusedMoment: startTime + 1000 * 60 * 30
+              windowSize: minutes.toMillis(1),
+              to: startTime + seconds.toMillis(30),
+              focusedMoment: startTime + seconds.toMillis(30)
             },
             order: {
               by: 'mobileBeacon.timestamp',

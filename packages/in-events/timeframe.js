@@ -1,11 +1,12 @@
 import { getDefaultMetricRollupDuration } from 'in-stores/metric';
+import { minutes } from 'in-services/time';
 
-const chartOffset = 5 * 60 * 1000; // 5 min
-const minEventEntityWindowSize = 3 * 60 * 1000; // 3 min
+const chartOffset = minutes.toMillis(5);
+const minEventEntityWindowSize = minutes.toMillis(3);
 
 export function getChartTimeConfigByEvent({
   event,
-  from = event.getIn(['metadata', 'triggeringTime'], event.get('start') - 1000 * 60),
+  from = event.getIn(['metadata', 'triggeringTime'], event.get('start') - minutes.toMillis(1)),
   to = event.get('state') === 'closed' ? event.get('end') : null
 }) {
   const isOpen = event.get('state') === 'open';

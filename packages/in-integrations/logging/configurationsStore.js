@@ -1,13 +1,14 @@
 import { create } from 'reactive-observables';
 
 import { get } from 'in-integrations/logging/api';
+import { hours } from 'in-services/time';
 
 const refreshSignal$ = create();
 const integrations$ = refreshSignal$
   .startWith(true)
   .flatMap(get)
   // Do not refrequently re-subscribe because this creates excessive requests to our API.
-  .delayedStop(1000 * 60 * 60);
+  .delayedStop(hours.toMillis(1));
 
 export function refresh() {
   refreshSignal$.emit(true);

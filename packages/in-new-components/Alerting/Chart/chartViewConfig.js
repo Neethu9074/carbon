@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 
-import { hoursToMillis } from 'in-new-components/Alerting/utils/formatUtils';
 import { propTypeTimeConfig } from 'in-stores/time/config';
+import { hours } from 'in-services/time';
 
 export const chartViewConfigPropType = PropTypes.shape({
   label: PropTypes.string,
@@ -20,14 +20,14 @@ export const chartViewConfigs = Object.freeze([
   {
     label: 'Last 24 hours',
     timeConfig: {
-      windowSize: hoursToMillis(24)
+      windowSize: hours.toMillis(24)
     },
     minChartMetricGranularity: 0
   },
   {
     label: 'Last 7 days',
     timeConfig: {
-      windowSize: hoursToMillis(7 * 24)
+      windowSize: hours.toMillis(7 * 24)
     },
     minChartMetricGranularity: 0, // at the moment we don't use a higher granularity for the metric, because we don't handle that properly for count metrics (using SUM)
     smoothMetric: true

@@ -1,8 +1,9 @@
-import { hoursToMillis } from 'in-new-components/Alerting/utils/formatUtils';
 import PropTypes from 'prop-types';
 
-export const alertingDialogItemPickerTimeframe = hoursToMillis(7 * 24);
-export const alertingEventDetailsChartTimeframe = hoursToMillis(12);
+import { hours } from 'in-services/time';
+
+export const alertingDialogItemPickerTimeframe = hours.toMillis(7 * 24);
+export const alertingEventDetailsChartTimeframe = hours.toMillis(12);
 
 export const blueprintConfigPropType = PropTypes.shape({
   type: PropTypes.string.isRequired,

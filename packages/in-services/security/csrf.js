@@ -2,6 +2,7 @@ import { create, interval } from 'reactive-observables';
 import { createLogger } from 'instalog';
 import { get, set } from 'lodash';
 
+import { minutes } from 'in-services/time';
 import http from 'in-services/http';
 
 const logger = createLogger('csrf');
@@ -24,7 +25,7 @@ export function getHeader() {
 }
 
 export function init() {
-  interval(1000 * 60)
+  interval(minutes.toMillis(1))
     .nextFrame()
     .flatMap(() => getCsrfToken())
     .merge(getCsrfToken())

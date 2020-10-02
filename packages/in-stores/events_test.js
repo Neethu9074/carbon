@@ -7,8 +7,9 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { getTimeConfigAtMoment } from 'in-stores/time/config';
-import { resetStoreRegistry } from 'in-stores/store';
 import { getColorBySeverity } from 'in-stores/events';
+import { resetStoreRegistry } from 'in-stores/store';
+import { minutes } from 'in-services/time';
 
 describe('in-stores/events', () => {
   let mod;
@@ -29,7 +30,7 @@ describe('in-stores/events', () => {
     subscriber = sinon.stub();
     timeConfig$ = create().emit({
       to: null,
-      windowSize: 1000 * 60 * 10
+      windowSize: minutes.toMillis(10)
     });
     serverTime$ = create();
     getEvents = sinon.stub();

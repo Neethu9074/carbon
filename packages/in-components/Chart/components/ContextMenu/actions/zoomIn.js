@@ -1,8 +1,9 @@
 import { getFixedTimeframeUrl } from 'in-stores/timeline';
 import { alwaysNull } from 'in-services/fixedStreams';
 import { timeConfig$ } from 'in-stores/time/config';
+import { minutes } from 'in-services/time';
 
-const MAX_ZOOM_LEVEL = 1000 * 60;
+const MAX_ZOOM_LEVEL = minutes.toMillis(1);
 const config = {
   name: 'zoomIn',
   icon: 'lib_datetime_time',

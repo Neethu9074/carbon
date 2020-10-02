@@ -1,5 +1,12 @@
 // export for testing
-export const validRollups = [1000, 1000 * 5, 1000 * 60, 1000 * 60 * 5, 1000 * 60 * 60];
+import { hours, minutes, seconds } from 'in-services/time';
+export const validRollups = [
+  seconds.toMillis(1),
+  seconds.toMillis(5),
+  minutes.toMillis(1),
+  minutes.toMillis(5),
+  hours.toMillis(1)
+];
 
 export function getNextValidRollup(granularity) {
   if (granularity < validRollups[0]) {

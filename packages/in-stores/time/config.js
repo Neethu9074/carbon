@@ -2,6 +2,7 @@ import { isEqual } from 'lodash';
 import rpt from 'prop-types';
 
 import { navigationParameters$ } from 'in-stores/navigation/navigation';
+import { days, hours, minutes } from 'in-services/time';
 import { createTrackingStore } from 'in-stores/store';
 import { isBlank } from 'in-services/util/string';
 
@@ -25,10 +26,9 @@ export const propTypeTimeConfig = rpt.shape({
   focusedMoment: rpt.number,
   autoRefresh: rpt.bool
 });
-
-const minimumWindowSize = 1000 * 60;
-export const maximumWindowSize = 1000 * 60 * 60 * 24 * 31;
-export const defaultWindowSize = 1000 * 60 * 60;
+const minimumWindowSize = minutes.toMillis(1);
+export const maximumWindowSize = days.toMillis(31);
+export const defaultWindowSize = hours.toMillis(1);
 
 export const timeConfig$ = createTrackingStore({
   name: 'time/config',
@@ -86,7 +86,7 @@ export function getTimeConfigAtMoment(moment) {
 
 export function getWaitForEntityCreationTimeConfig() {
   return {
-    windowSize: 1000 * 60 * 10,
+    windowSize: minutes.toMillis(10),
     to: null,
     focusedMoment: null,
     autoRefresh: true

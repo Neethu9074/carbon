@@ -21,6 +21,7 @@ import { getSingular } from 'in-sdk/pluginName';
 import getEvent from 'in-subscription/event';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
+import { minutes } from 'in-services/time';
 import connect from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
 
@@ -32,7 +33,7 @@ const onlySlosQuery =
 export default connect({
   timeConfig: timeConfig$,
   events: timeConfig$.flatMap(timeConfig =>
-    interval(1000 * 60)
+    interval(minutes.toMillis(1))
       .startWith(null)
       .flatMap(() =>
         getRawEvents({
@@ -159,23 +160,22 @@ const Event = connect(({ event }) => ({
         <span className={locals.duration}>{formatDurationAccurately(Date.now() - event.start)}</span>
       </Tooltip>
 
-      {metric &&
-        snapshotId && (
-          <Tooltip align="topMiddle" content={`Mean in last minute for metric ${metric}`}>
-            <MetricValue
-              className={locals.metric}
-              formatter={siPrefix.detailed}
-              snapshotId={snapshotId}
-              createMetricValueStream={() =>
-                getTimeWindowBasedMetricAggregation({
-                  snapshotId: snapshotId,
-                  metric: metric,
-                  timeWindowAggregation: 'MEAN'
-                }).filter(v => v != null)
-              }
-            />
-          </Tooltip>
-        )}
+      {metric && snapshotId && (
+        <Tooltip align="topMiddle" content={`Mean in last minute for metric ${metric}`}>
+          <MetricValue
+            className={locals.metric}
+            formatter={siPrefix.detailed}
+            snapshotId={snapshotId}
+            createMetricValueStream={() =>
+              getTimeWindowBasedMetricAggregation({
+                snapshotId: snapshotId,
+                metric: metric,
+                timeWindowAggregation: 'MEAN'
+              }).filter(v => v != null)
+            }
+          />
+        </Tooltip>
+      )}
 
       <Link
         className={locals.title}

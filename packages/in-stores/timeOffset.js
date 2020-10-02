@@ -1,8 +1,9 @@
 import { interval, range } from 'reactive-observables';
+import { connection } from 'in-connection';
 
 import synchronizeTime from 'in-subscription/timestamp';
 import { createStore } from 'in-stores/store';
-import { connection } from 'in-connection';
+import { seconds } from 'in-services/time';
 
 // This is an attempt to "synchronize" the time between client (browser) and
 // server (backend). This needs to be done as we cannot expect that the user
@@ -20,7 +21,7 @@ import { connection } from 'in-connection';
 // http://stackoverflow.com/questions/8478179/synchronize-time-in-javascript-with-a-good-precision-0-5s-ntp-like
 
 // the number of milliseconds between each synchronization
-const syncInterval = 1000 * 10;
+const syncInterval = seconds.toMillis(10);
 
 // number of offsets that should be used to calculate the time offset
 const numberOfValuesForOffetMean = 5;

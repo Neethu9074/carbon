@@ -10,13 +10,14 @@ import DistinctSlider from 'in-new-components/Slider/DebouncedDistinctSlider';
 import { timeValidator, dateValidator } from 'in-services/validators/date';
 import { LARGE_DATA_MESSAGE } from 'in-new-components/time/TimeIcon';
 import TouchedMessages from 'in-components/form/TouchedMessages';
+import { days, hours, minutes } from 'in-services/time';
 import Button from 'in-new-components/Button';
 import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './CustomTime.mless';
 
-const oneHour = 1000 * 60 * 60;
-const maximumWindow = oneHour * 24 * 31;
+const oneHour = hours.toMillis(1);
+const maximumWindow = days.toMillis(32);
 
 export default function CustomTime({ timeConfig, containsHistoricData, onChange }) {
   const [form, setForm] = useState(createForm(timeConfig));
@@ -63,7 +64,7 @@ export default function CustomTime({ timeConfig, containsHistoricData, onChange 
         marks={tickPositions}
         min={tickPositions[0].value}
         max={tickPositions[tickPositions.length - 1].value}
-        debounceMaxWait={1000 * 60}
+        debounceMaxWait={minutes.toMillis(1)}
         step={oneHour}
         value={[from, to]}
         onChange={([_from, _to]) => {

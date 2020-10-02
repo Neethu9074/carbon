@@ -5,6 +5,7 @@ import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import { openEventsAtServerTime$ } from 'in-stores/events';
 import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';
+import { hours } from 'in-services/time';
 
 export default connectTo(
   {
@@ -25,7 +26,7 @@ export default connectTo(
             timeConfig: timeConfig.to
               ? {
                   to: null,
-                  windowSize: 1000 * 60 * 60,
+                  windowSize: hours.toMillis(1),
                   focusedMoment: null
                 }
               : timeConfig

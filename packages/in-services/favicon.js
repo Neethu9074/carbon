@@ -3,6 +3,7 @@ import Favico from 'favico.js';
 
 import { openEventsAtServerTime$ } from 'in-stores/events';
 import { getColorBySeverity } from 'in-stores/events';
+import { seconds } from 'in-services/time';
 
 const logger = createLogger('favicon');
 
@@ -43,7 +44,7 @@ export function init() {
     //
     // 1. Throttle down favicon updates.
     // 2. Protect against these synchronous exceptions
-    .throttle(1000 * 5)
+    .throttle(seconds.toMillis(5))
     .subscribe(config => {
       try {
         favicon.badge(config.count, {

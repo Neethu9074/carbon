@@ -5,6 +5,7 @@ import { formatDateTime } from 'in-services/formatters/date';
 import ServerTable from 'in-components/tables/ServerTable';
 import SearchInput from 'in-new-components/SearchInput';
 import Pagination from 'in-new-components/Pagination';
+import { days } from 'in-services/time';
 
 import locals from './Releases.mless';
 
@@ -24,13 +25,12 @@ const columnDefinitions = [
     }
   }
 ];
-
 export default function Presets({ timeConfig, onChange, closeOverlay }) {
   const releaseTimeConfig = {
     to: null,
     focusedMoment: null,
     autoRefresh: timeConfig.autoRefresh,
-    windowSize: 1000 * 60 * 60 * 24 * 30 // 3 days
+    windowSize: days.toMillis(30)
   };
 
   return (

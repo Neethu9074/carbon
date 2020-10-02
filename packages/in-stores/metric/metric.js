@@ -6,6 +6,7 @@ import createTimeWindowMetricAggregation from 'in-subscription/timeWindowMetricA
 import createLatestMetricsObservable from 'in-subscription/latestMetrics';
 import { showAggregations$ } from 'in-stores/metric/showAggregations';
 import memoize from 'in-services/util/memoizingObservableGenerator';
+import { days, hours, minutes, seconds } from 'in-services/time';
 import createMetricsObservable from 'in-subscription/metrics';
 import { timeConfig$ } from 'in-stores/time/config';
 import { createStore } from 'in-stores/store';
@@ -29,55 +30,51 @@ export const aggregationLabels = {
   SUM: 'sum'
 };
 
-const second = 1000;
-const minute = 60 * second;
-const hour = 60 * minute;
-const day = 24 * hour;
 // Ensure that this is kept in sync with the backend:
 // - https://github.com/instana/backend/blob/1f04be562b1310cbd7dd00ab3208c82042197b00/ui-backend/src/main/java/com/instana/ui/service/EventMetricService.java#L59
 export const sensibleGranularities = [
-  second,
-  5 * second,
-  10 * second,
-  minute,
-  5 * minute,
-  10 * minute,
-  30 * minute,
-  hour,
+  seconds.toMillis(1),
+  seconds.toMillis(5),
+  seconds.toMillis(10),
+  minutes.toMillis(1),
+  minutes.toMillis(5),
+  minutes.toMillis(10),
+  minutes.toMillis(30),
+  hours.toMillis(1),
   // Choosing granularities as divisors of 24 for easier comparison between days
-  4 * hour,
-  6 * hour,
-  8 * hour,
-  12 * hour,
-  day,
-  5 * day,
-  10 * day
+  hours.toMillis(4),
+  hours.toMillis(6),
+  hours.toMillis(8),
+  hours.toMillis(12),
+  days.toMillis(1),
+  days.toMillis(5),
+  days.toMillis(10)
 ];
 
 const rollupDurationThresholds = [
   {
-    availableFor: 1000 * 60 * 60 * 24,
+    availableFor: days.toMillis(1),
     rollup: null, // 1s
     label: '1s'
   },
   {
-    availableFor: 1000 * 60 * 60 * 24, // 1d
-    rollup: 1000 * 5, // 5s
+    availableFor: days.toMillis(1),
+    rollup: seconds.toMillis(5),
     label: '5s'
   },
   {
-    availableFor: 1000 * 60 * 60 * 24 * 31, // 1 month
-    rollup: 1000 * 60, // 1m
+    availableFor: days.toMillis(31),
+    rollup: minutes.toMillis(1),
     label: '1min'
   },
   {
-    availableFor: 1000 * 60 * 60 * 24 * 31 * 3, // 3 months
-    rollup: 1000 * 60 * 5, // 5m
+    availableFor: days.toMillis(31 * 3), // 3 months
+    rollup: minutes.toMillis(5),
     label: '5min'
   },
   {
     availableFor: Number.MAX_VALUE, // forever
-    rollup: 1000 * 60 * 60, // 1h
+    rollup: hours.toMillis(1),
     label: '1h'
   }
 ];

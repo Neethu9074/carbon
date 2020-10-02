@@ -1,5 +1,7 @@
 import { get } from 'lodash';
 
+import { minutes, seconds } from 'in-services/time';
+
 export default function memoizeOnCases({
   noDataMillis = defaultMemoizeConfig.noDataMillis,
   liveMillis = defaultMemoizeConfig.liveMillis,
@@ -20,8 +22,8 @@ export default function memoizeOnCases({
 
 const defaultMemoizeConfig = {
   noDataMillis: 200,
-  liveMillis: 1000 * 5,
-  defaultMillis: 1000 * 60 * 2
+  liveMillis: seconds.toMillis(5),
+  defaultMillis: minutes.toMillis(2)
 };
 
 export const defaultMemoize = memoizeOnCases(defaultMemoizeConfig);

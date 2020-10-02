@@ -23,6 +23,7 @@ import getRawEvents from 'in-subscription/getRawEvents';
 import cursorPaginated from 'in-hoc/cursorPaginated';
 import { query$ } from 'in-stores/search/query';
 import withUrlState from 'in-hoc/withUrlState';
+import { seconds } from 'in-services/time';
 import Sticky from 'in-components/Sticky';
 import connect from 'in-hoc/connectTo';
 
@@ -46,7 +47,6 @@ export default function LegacyEventViewMigration(props) {
 
   return <EventView {...props} eventType={eventType} eventId={eventId} />;
 }
-
 const EventView = compose(
   withState('mouseMoveSignal$', 'setSignal', create()),
   withPropsOnChange(['mouseMoveSignal$'], ({ mouseMoveSignal$ }) => ({
@@ -56,7 +56,7 @@ const EventView = compose(
           ? mouseMoveSignal$
               .startWith(true)
               .throttle(1000)
-              .flatMap(() => interval(1000 * 10))
+              .flatMap(() => interval(seconds.toMillis(10)))
               .map(() => timeConfig)
               .startWith(timeConfig)
           : just(timeConfig)

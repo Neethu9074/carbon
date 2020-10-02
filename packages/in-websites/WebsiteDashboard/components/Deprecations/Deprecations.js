@@ -2,6 +2,7 @@ import DeprecationsPresenter, {
   presenterMapping
 } from 'in-websites/WebsiteDashboard/components/Deprecations/DeprecationsPresenter';
 import getWebsiteDeprecations from 'in-websites/subscriptions/getWebsiteDeprecations';
+import { hours } from 'in-services/time';
 import connect from 'in-hoc/connectTo';
 
 const doAnyDeprecationsCurrentlyExist = Object.keys(presenterMapping).length > 0;
@@ -11,7 +12,7 @@ export default connect(({ tagFilters }) => ({
     doAnyDeprecationsCurrentlyExist &&
     getWebsiteDeprecations({
       timeConfig: {
-        windowSize: 1000 * 60 * 60 * 12,
+        windowSize: hours.toMillis(12),
         to: null,
         focusedMoment: null,
         autoRefresh: false
