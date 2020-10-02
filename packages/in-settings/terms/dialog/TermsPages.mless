@@ -45,6 +45,7 @@
     font-weight: normal;
     font-size: @lib__typography__body-small__font-size;
     margin-left: 0.1875rem;
+    height: 1.25rem;
 
     span {
       margin-left: 0.25rem;
