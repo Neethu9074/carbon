@@ -19,7 +19,7 @@ export default function QuickFilterBar(props) {
   const { tagFilters, onMoreClick, timeConfig, disabledTagFilters, withoutFiltersLabel, withoutLatencyItem } = props;
   const isNotDisabled = tagFilter => !disabledTagFilters.includes(tagFilter);
   return (
-    <Bar showClearFilters={false} withoutFiltersLabel={withoutFiltersLabel}>
+    <Bar showClearFilters={false} withoutLabel={withoutFiltersLabel}>
       {isNotDisabled('service.name') && (
         <AnalyzeSelectBarItem
           {...props}

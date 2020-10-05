@@ -19,7 +19,9 @@ export default function MetricConfigurator({
   formatterFormGroup,
   widgetPreview,
   timeShiftConfiguration,
-  disabledDataSources = emptyArray
+  disabledDataSources = emptyArray,
+  axisForm,
+  axisName
 }) {
   const sourceField = form.get('source');
 
@@ -81,6 +83,8 @@ export default function MetricConfigurator({
         formatterFormGroup={formatterFormGroup}
         widgetPreview={widgetPreview}
         timeShiftConfiguration={timeShiftConfiguration}
+        axisForm={axisForm}
+        axisName={axisName}
       />
     );
   }

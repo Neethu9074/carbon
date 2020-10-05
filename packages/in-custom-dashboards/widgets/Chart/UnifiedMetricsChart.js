@@ -31,6 +31,8 @@ export default function UnifiedMetricsChart({
   if (result && result.data) {
     result = {
       ...result,
+      //The labels object is required when displaying grouped results (each with their own label).
+      labels: result.data.map(d => d.label),
       data: result.data.reduce((agg, { id, values }) => {
         agg[id] = values;
         return agg;

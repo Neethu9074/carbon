@@ -2,6 +2,7 @@ import React from 'react';
 
 import TagFilter from 'in-analyze/AnalyzeView/components/TagFilter';
 
+import localsShared from './TagSharedList.mless';
 import locals from './TagFilterList.mless';
 
 export default function TagFilterList({
@@ -20,13 +21,13 @@ export default function TagFilterList({
 
   return (
     <div className={locals.tagFilterListWrapper}>
-      <ul className={locals.tagFilterList}>
+      <ul className={localsShared.tagList}>
         {tagFiltersToPresent.map((tagFilter, i) => {
           if (hiddenFilterNames?.includes(tagFilter.tag.name)) {
             return null;
           } else {
             return (
-              <li key={i} className={locals.item}>
+              <li key={i} className={localsShared.item}>
                 <TagFilter
                   tagFilter={tagFilter}
                   isFirstOperator={i === 0}

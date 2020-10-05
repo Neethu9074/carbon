@@ -14,7 +14,7 @@ export default function ServicesEndpointsBar(props) {
   const serviceNameTags = tagFilters.filter(tag => tag.name === 'service.name');
 
   return (
-    <Bar withoutFiltersLabel={withoutFiltersLabel} showClearFilters={false}>
+    <Bar withoutLabel={withoutFiltersLabel} showClearFilters={false}>
       <AnalyzeMultiSelectBarItem
         {...props}
         timeConfig={timeConfig}

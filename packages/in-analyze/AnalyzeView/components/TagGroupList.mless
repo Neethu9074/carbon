@@ -1,11 +1,10 @@
 @import '~in-themes/active.less';
 
 :local {
-  .tagFilterListWrapper {
+  .tagGroupListWrapper {
     width: 100%;
     overflow: hidden;
     padding: 0;
-    margin: 0 0.25rem 1rem;
-    margin-left: -0.25rem;
+    margin: 0 0.25rem 0 -0.25rem;
   }
 }

@@ -18,6 +18,10 @@ export default function ResultAwareChart({ result, config, renderLegend = true }
     content = <LoadingIndicator height={height} width={frontBufferWidth} />;
     withoutPadding = true;
   } else {
+    //If there are more results than configured metrics, there must be a grouped result.
+    if (y1 && y1.metrics && Object.keys(result.data).length !== y1.metrics.length) {
+      y1 = mapMultiResult(result, y1);
+    }
     if (!timeConfig || !y1 || !y1.metrics || (showNoDataInfoWhenEmpty && containsOnlyEmptyData(y1.metrics))) {
       content = <NoDataAvailable width={frontBufferWidth} height={height} />;
     } else {
@@ -45,6 +49,27 @@ export default function ResultAwareChart({ result, config, renderLegend = true }
       {content}
     </Card>
   );
+}
+
+/**
+ * Function to map grouped results to the chart.
+ * Applies the incoming metric IDs, their values, as well as their labels and aggregation types.
+ * The label contains both the overarching metric label as well as the returned label (depending on the group).
+ * @param {object} result The result object.
+ * @param {object} y1 Part of the given configuration.
+ */
+function mapMultiResult(result, y1) {
+  const metricIds = y1.metricIds;
+  y1.metricIds = Object.keys(result.data);
+  y1.metrics = Object.values(result.data);
+  y1.labels = result.labels;
+  y1.aggregations = Object.keys(result.data).map(key => {
+    const originalMetricId = key.split(':')[0];
+    const indexOfOriginalMetricID = metricIds.indexOf(originalMetricId);
+    const originalAggregation = y1.aggregations[indexOfOriginalMetricID];
+    return originalAggregation;
+  });
+  return y1;
 }
 
 function containsOnlyEmptyData(metrics) {

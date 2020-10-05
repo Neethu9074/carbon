@@ -36,7 +36,7 @@ export const Default = () => {
 
 export const WithoutFiltersLabel = () => {
   return (
-    <Bar onClearFilters={action('onClearFilters')} withoutFiltersLabel>
+    <Bar onClearFilters={action('onClearFilters')} withoutLabel>
       <BarItem showArrow onCfunctionlick={action('onBarItemClick')}>
         By Duration
       </BarItem>
