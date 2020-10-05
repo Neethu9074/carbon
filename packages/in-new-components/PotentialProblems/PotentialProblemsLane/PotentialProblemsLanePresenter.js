@@ -13,16 +13,20 @@ import { getTitle } from 'in-new-components/PotentialProblems/textUtil';
 
 export default function PotentialProblemsLanePresenter({ potentialProblems, alertRules, ...remainingProps }) {
   const events = useMemo(() => {
+    const { granularity } = remainingProps;
+    const { thresholds } = potentialProblems;
+
     const alerts = potentialProblems.alerts;
     if (alerts.length === 0) return [];
     if (alerts.length === 1) {
       return [
-        {
+        buildPotentialProblemEventObject({
           alerts: [alerts[0]],
-          timestamp: alerts[0].start,
-          duration: alerts[0].end - alerts[0].start,
-          thresholds: potentialProblems.thresholds
-        }
+          lastStart: alerts[0].start,
+          lastEnd: alerts[0].end,
+          granularity,
+          thresholds
+        })
       ];
     }
 
@@ -34,16 +38,19 @@ export default function PotentialProblemsLanePresenter({ potentialProblems, aler
     for (let i = 1; i < alerts.length; i++) {
       const alert = alerts[i];
 
-      if (alert.start <= lastEnd + remainingProps.clusterSizeMillis) {
+      if (alert.start <= lastEnd + granularity) {
         lastEnd = Math.max(lastEnd, alert.end);
         alertClusters.push(alert);
       } else {
-        events.push({
-          alerts: alertClusters,
-          timestamp: lastStart,
-          duration: lastEnd - lastStart,
-          thresholds: potentialProblems.thresholds
-        });
+        events.push(
+          buildPotentialProblemEventObject({
+            alerts: alertClusters,
+            lastEnd,
+            lastStart,
+            granularity,
+            thresholds
+          })
+        );
 
         // start new cluster
         lastStart = alert.start;
@@ -52,12 +59,15 @@ export default function PotentialProblemsLanePresenter({ potentialProblems, aler
       }
     }
 
-    events.push({
-      alerts: alertClusters,
-      timestamp: lastStart,
-      duration: lastEnd - lastStart,
-      thresholds: potentialProblems.thresholds
-    });
+    events.push(
+      buildPotentialProblemEventObject({
+        alerts: alertClusters,
+        lastEnd,
+        lastStart,
+        granularity,
+        thresholds
+      })
+    );
 
     return events;
   }, [...potentialProblems]);
@@ -132,6 +142,21 @@ export default function PotentialProblemsLanePresenter({ potentialProblems, aler
       hideDefaultHoverStyle
     />
   );
+}
+
+function buildPotentialProblemEventObject({ alerts, lastStart, lastEnd, granularity, thresholds }) {
+  const lastStartShifted = adjustTimestampFraction(lastStart, granularity) - granularity / 2;
+  const lastEndShifted = adjustTimestampFraction(lastEnd, granularity) + granularity / 2;
+  return {
+    alerts: alerts,
+    timestamp: lastStartShifted,
+    duration: lastEndShifted - lastStartShifted,
+    thresholds
+  };
+}
+
+function adjustTimestampFraction(lastStartOrEnd, granularity) {
+  return Math.floor(lastStartOrEnd / granularity) * granularity;
 }
 
 PotentialProblemsLanePresenter.propTypes = {

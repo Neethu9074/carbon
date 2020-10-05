@@ -98,7 +98,8 @@ export default function MarkerLanesPresenter({
                 : granularity,
               isClustered,
               chartBucketWidth,
-              chartWidth
+              chartWidth,
+              granularity
             });
           })}
       </div>
