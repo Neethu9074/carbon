@@ -4,17 +4,17 @@ import { createQueryBuilder } from 'in-new-components/QueryBuilder';
 
 const { QueryBuilder, isQueryValid: isQueryValidInternal } = createQueryBuilder({
   getTagCatalog: getApplicationTagCatalog,
-  getSuggestions: args => {
+  getSuggestions: ({ name, key, value, timeConfig, entity, tagFilterExpression, propose }) => {
     return getTagSuggestions({
-      entity: args.entity,
-      propose: args.propose,
-      tagFilterExpression: args.tagFilterExpression,
-      tagName: args.name,
-      value: args.value,
+      entity: entity,
+      propose: propose,
+      tagFilterExpression: tagFilterExpression,
+      tagName: name,
+      value: value,
       filter: {
-        timeConfig: args.timeConfig
+        timeConfig: timeConfig
       },
-      secondLevelKeyTagName: args.key
+      secondLevelKeyTagName: key
     });
   }
 });
