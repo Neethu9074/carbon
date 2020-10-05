@@ -13,7 +13,7 @@ import { light } from 'in-themes/themes';
 
 import locals from './MetricConfigurationFormComponent.mless';
 
-export default function MetricConfigurationFormComponent({ axisName, index, onChange, metricForm }) {
+export default function MetricConfigurationFormComponent({ axisName, index, onChange, metricForm, form }) {
   let title = metricForm.get('label').value || 'Unlabeled Metric';
   title = `Metric ${index + 1}: ${title}`;
 
@@ -58,6 +58,8 @@ export default function MetricConfigurationFormComponent({ axisName, index, onCh
             <TimeShiftingForm axisName={axisName} index={index} onChange={onChange} metricForm={metricForm} />
           }
           disabledDataSources={[source]}
+          axisForm={form}
+          axisName={axisName}
         />
       </ExpandableCard>
     </LocallyChangedTheme>

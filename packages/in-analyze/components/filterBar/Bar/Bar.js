@@ -6,14 +6,17 @@ import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './Bar.mless';
 
-export default function Bar({ children, showClearFilters = true, onClearFilters, withoutFiltersLabel }) {
+export default function Bar({ children, showClearFilters = true, onClearFilters, withoutLabel, isGrouping }) {
+  const iconName = isGrouping ? 'lib_group_by' : 'lib_actions_filter';
+  const label = isGrouping ? 'Group' : 'Filters';
+
   return (
     <div className={locals.bar}>
       <div className={locals.left}>
-        {!withoutFiltersLabel && (
+        {!withoutLabel && (
           <span className={locals.filter}>
-            <SvgIcon className={locals.icon} type="lib_actions_filter" />
-            Filters
+            <SvgIcon className={locals.icon} type={iconName} />
+            {label}
           </span>
         )}
         <div className={locals.options}>{children}</div>
@@ -32,5 +35,6 @@ Bar.propTypes = {
   children: PropTypes.node.isRequired,
   onClearFilters: PropTypes.func,
   showClearFilters: PropTypes.bool,
-  withoutFiltersLabel: PropTypes.bool
+  withoutLabel: PropTypes.bool,
+  isGrouping: PropTypes.bool
 };

@@ -1,9 +1,9 @@
-import { createMapForm, createField, notBlankValidator } from 'formalistic';
+import { createMapForm, createField, notBlankValidator, createListForm } from 'formalistic';
 
+import { numberValidator, stringValidator, objectValidator } from 'in-services/validators/jsonType';
 import sources from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
-import { stringValidator } from 'in-services/validators/jsonType';
 import { buildEnumValidator } from 'in-services/validators/enum';
 
 export function createForm(savedState, { withLabelConfiguration = false } = {}) {
@@ -52,6 +52,10 @@ export function createForm(savedState, { withLabelConfiguration = false } = {}) 
     );
   }
 
+  if (savedState && savedState.grouping && savedState.grouping.length > 0) {
+    form = form.put('grouping', createListForm().push(createSavedGroupingForm(savedState.grouping[0])));
+  }
+
   if (form.get('source').valid) {
     form = sources[form.get('source').value].createForm(form, savedState);
   }
@@ -88,4 +92,43 @@ function timeShiftValidator(v) {
       severity: 'error'
     }
   ];
+}
+
+function createSavedGroupingForm(grouping) {
+  return createMapForm()
+    .put(
+      'by',
+      createField({
+        value: grouping.by,
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, objectValidator)
+      })
+    )
+    .put(
+      'direction',
+      createField({
+        value: grouping.direction,
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
+      })
+    )
+    .put(
+      'maxResults',
+      createField({
+        value: grouping.maxResults,
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, numberValidator)
+      })
+    )
+    .put(
+      'metric',
+      createField({
+        value: grouping.metric,
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
+      })
+    )
+    .put(
+      'aggregation',
+      createField({
+        value: grouping.aggregation,
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
+      })
+    );
 }
