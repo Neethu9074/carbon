@@ -3,29 +3,34 @@
 :local {
   .configurator {
     display: inline-flex;
-    width: 10rem;
     justify-content: space-between;
   }
 
-  .sorting {
+  .select {
     border-top-right-radius: 0px;
     border-bottom-right-radius: 0px;
 
-    &:hover, &:active, &:focus {
+    &:hover,
+    &:active,
+    &:focus {
       outline: none;
     }
+    &:hover {
+      z-index: 2; // this is done in order to display border-right
+    }
+  }
+
+  .sorting {
+    border-radius: 0px;
 
     &:hover {
       z-index: 1; // this is done in order to display border-right
     }
-  }
+    margin-left: -1px; // this is done in order to display border-left
 
-  .select {
-    border-top-left-radius: 0px;
-    border-bottom-left-radius: 0px;
-    margin-left: -1px; // this is done in order to display border-left 
-
-    &:hover, &:active, &:focus {
+    &:hover,
+    &:active,
+    &:focus {
       outline: none;
     }
   }

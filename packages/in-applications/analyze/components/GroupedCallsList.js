@@ -281,10 +281,10 @@ function HeaderRow({ totalGroups, order, onChangeOrderBy, metrics, onChangeMetri
         {totalGroups > 0 && <h3 className={locals.header}>{totalGroups} Groups</h3>}
       </div>
       <div className={locals.configurationWrapper}>
+        <SortingConfigurator options={sortingOptions} orderBy={order} onChange={order => onChangeOrderBy(order)} />
         {metricOptions.length > 0 && (
           <MetricConfigurator values={metrics} options={metricOptions} onChange={onChangeMetrics} />
         )}
-        <SortingConfigurator options={sortingOptions} orderBy={order} onChange={order => onChangeOrderBy(order)} />
       </div>
     </div>
   );

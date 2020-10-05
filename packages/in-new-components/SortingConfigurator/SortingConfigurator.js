@@ -17,6 +17,18 @@ export default function SortingConfigurator({ options, orderBy, onChange }) {
 
   return (
     <div className={locals.configurator}>
+      <Overlay
+        content={Options}
+        props={{ options, onChange, orderBy }}
+        onCloseSideEffect={() => ref.current?.focus()}
+        wrapperClassName={locals.select}
+      >
+        {({ toggle, refSetter }) => (
+          <DropdownButton kind="secondary" refSetter={compositeRef(refSetter, ref)} onClick={toggle}>
+            {valueLabel}
+          </DropdownButton>
+        )}
+      </Overlay>
       <Button
         icon={orderBy.direction === 'ASC' ? 'lib_actions_sort_ascending' : 'lib_actions_sort_descending'}
         kind="secondary"
@@ -30,18 +42,6 @@ export default function SortingConfigurator({ options, orderBy, onChange }) {
       >
         {orderBy.direction === 'ASC' ? 'Ascending' : 'Descending'}
       </Button>
-      <Overlay content={Options} props={{ options, onChange, orderBy }} onCloseSideEffect={() => ref.current?.focus()}>
-        {({ toggle, refSetter }) => (
-          <DropdownButton
-            className={locals.select}
-            kind="secondary"
-            refSetter={compositeRef(refSetter, ref)}
-            onClick={toggle}
-          >
-            {valueLabel}
-          </DropdownButton>
-        )}
-      </Overlay>
     </div>
   );
 }
