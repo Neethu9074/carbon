@@ -180,7 +180,7 @@ function mapMetricsToAdd(filters, renderedMetrics, metrics, timeShiftConfig) {
     });
   } else {
     const activeMetrics = renderedMetrics.map(metricId => metrics[parseMetricId(metricId).index].metric);
-    const filteredArr = metrics.filter(metric => !activeMetrics.includes(metric));
+    const filteredArr = metrics.map(m => m.metric).filter(metric => !activeMetrics.includes(metric));
     filteredArr.map(metric => {
       metricsForLink.push({
         name: 'call.http.status',
