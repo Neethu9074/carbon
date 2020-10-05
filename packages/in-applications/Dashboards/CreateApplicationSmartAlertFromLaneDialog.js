@@ -16,7 +16,8 @@ export default function CreateApplicationSmartAlert({
   boundaryScope
 }) {
   const appLabel = useObservable(
-    applicationId ? getApplication({ id: applicationId }).map(getLabel) : just(applicationLabel)
+    applicationId && !applicationLabel ? getApplication({ id: applicationId }).map(getLabel) : just(applicationLabel),
+    [applicationId]
   );
 
   let serviceLabel;
