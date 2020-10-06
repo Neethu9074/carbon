@@ -10,6 +10,9 @@ registerSnapshotDefinition({
     singular: 'Google Cloud PubSub',
     plural: 'Google Cloud PubSub'
   },
+  technologyDescriptor: {
+    label: 'Google Cloud PubSub'
+  },
   iconSvgPath,
   kpiDefinitions,
   metricDefinitions

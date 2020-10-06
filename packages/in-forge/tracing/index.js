@@ -49,6 +49,7 @@ import './g.rpc';
 import './gcb';
 import './gcd';
 import './gcs';
+import './gcps';
 import './graphql.client';
 import './graphql.server';
 import './graphql';
