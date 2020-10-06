@@ -23,9 +23,14 @@ import {
 } from 'in-waiting-for-deployment/components/OnboardingWidget/contentComponents';
 import instanaAgentOpenShiftYaml from 'in-waiting-for-deployment/components/OnboardingWidget/instana-agent-openshift.yaml';
 import instanaAgentYaml from 'in-waiting-for-deployment/components/OnboardingWidget/instana-agent.yaml';
+import createObservable from 'in-services/http/observableHttpResult';
 import { Col, Row as GridRow } from 'in-new-components/layout/Grid';
+import useObservable from 'in-hooks/useObservable';
+import http from 'in-services/http';
 
 const maxClusterNameRegex = new RegExp(/^[\w-_]{1,20}$/);
+
+const lambdaLayerVersionApiBaseUrl = 'https://lambda-layers.instana.io';
 
 function validateClusterName(clusterName) {
   return maxClusterNameRegex.test(clusterName);
@@ -715,7 +720,15 @@ function AWSLambdaContent({ agentKey, serverlessEndpoint }) {
 
   let steps;
 
+  const nodejsLayerVersionFallback = '40';
+  const nodejsLayerArn = useLambdaLayerVersionObservable('instana-nodejs', nodejsLayerVersionFallback);
+  const pythonLayerVersion = '20';
+  const pythonLayerArn = useLambdaLayerVersionObservable('instana-python', pythonLayerVersion);
+  const javaLayerVersion = '21';
+  const javaLayerArn = useLambdaLayerVersionObservable('instana-java', javaLayerVersion);
+
   if (selectedRuntime === runtimeOptions[0]) {
+    // Golang
     steps = (
       <Fragment>
         <Spacer />
@@ -744,8 +757,7 @@ function AWSLambdaContent({ agentKey, serverlessEndpoint }) {
       </Fragment>
     );
   } else if (selectedRuntime === runtimeOptions[1]) {
-    const javaLayerVersion = '21';
-
+    // Java
     steps = (
       <Fragment>
         <HelpBox title="Configuring Your AWS Lambda Function">
@@ -790,7 +802,7 @@ function AWSLambdaContent({ agentKey, serverlessEndpoint }) {
               <Fragment>
                 Add the Instana Lambda layer with the ARN
                 <Spacer />
-                <Script lines={[`arn:aws:lambda:${awsRegion}:410797082306:layer:instana-java:${javaLayerVersion}`]} />
+                <Script lines={[javaLayerArn]} />
                 (
                 <TextWithLink
                   text="See"
@@ -853,7 +865,7 @@ function AWSLambdaContent({ agentKey, serverlessEndpoint }) {
               '# Instead, use this as a template to define your own aws cli command.',
               `aws --region ${awsRegion} lambda update-function-configuration \\`,
               `   --function-name ${lambdaFunctionName} \\`,
-              `   --layers arn:aws:lambda:${awsRegion}:410797082306:layer:instana-nodejs:${javaLayerVersion} \\`,
+              `   --layers ${javaLayerArn} \\`,
               '   --environment "Variables={JAVA_TOOL_OPTIONS=-javaagent:/opt/instana/standalone-collector.jar, ',
               `INSTANA_ENDPOINT_URL=${serverlessEndpoint}, INSTANA_AGENT_KEY=${agentKey} }"`
             ]}
@@ -862,8 +874,7 @@ function AWSLambdaContent({ agentKey, serverlessEndpoint }) {
       </Fragment>
     );
   } else if (selectedRuntime === runtimeOptions[2]) {
-    const nodejsLayerVersion = '38';
-
+    // Node.js >= 10.x
     steps = (
       <Fragment>
         <HelpBox title="Configuring Your AWS Lambda Function">
@@ -913,9 +924,7 @@ function AWSLambdaContent({ agentKey, serverlessEndpoint }) {
               <Fragment>
                 Add the Instana Lambda layer with the ARN
                 <Spacer />
-                <Script
-                  lines={[`arn:aws:lambda:${awsRegion}:410797082306:layer:instana-nodejs:${nodejsLayerVersion}`]}
-                />
+                <Script lines={[nodejsLayerArn]} />
                 (
                 <TextWithLink
                   text="See"
@@ -1000,7 +1009,7 @@ function AWSLambdaContent({ agentKey, serverlessEndpoint }) {
               '# Instead, use this as a template to define your own aws cli command.',
               `aws --region ${awsRegion} lambda update-function-configuration \\`,
               `   --function-name ${lambdaFunctionName} \\`,
-              `   --layers arn:aws:lambda:${awsRegion}:410797082306:layer:instana-nodejs:${nodejsLayerVersion} \\`,
+              `   --layers ${nodejsLayerArn} \\`,
               '   --handler instana-aws-lambda-auto-wrap.handler',
               `   --environment "Variables={${
                 lambdaHandler === 'index.handler' ? '' : `LAMBDA_HANLDER=${lambdaHandler}, `
@@ -1011,6 +1020,7 @@ function AWSLambdaContent({ agentKey, serverlessEndpoint }) {
       </Fragment>
     );
   } else if (selectedRuntime === runtimeOptions[3]) {
+    // Node.js 8.x
     steps = (
       <TextWithLink
         text="The preferred way to configure AWS Lambda functions based on Node.js 8.x is to use the "
@@ -1019,8 +1029,7 @@ function AWSLambdaContent({ agentKey, serverlessEndpoint }) {
       />
     );
   } else if (selectedRuntime === runtimeOptions[4]) {
-    const pythonLayerVersion = '12';
-
+    // Python
     steps = (
       <Fragment>
         <HelpBox title="Configuring Your AWS Lambda Function">
@@ -1072,9 +1081,7 @@ function AWSLambdaContent({ agentKey, serverlessEndpoint }) {
               <Fragment>
                 Add the Instana Lambda layer with the ARN
                 <Spacer />
-                <Script
-                  lines={[`arn:aws:lambda:${awsRegion}:410797082306:layer:instana-python:${pythonLayerVersion}`]}
-                />
+                <Script lines={[pythonLayerArn]} />
                 (
                 <TextWithLink
                   text="See"
@@ -1156,7 +1163,7 @@ function AWSLambdaContent({ agentKey, serverlessEndpoint }) {
               '# Instead, use this as a template to define your own aws cli command.',
               `aws --region ${awsRegion} lambda update-function-configuration \\`,
               `   --function-name ${lambdaFunctionName} \\`,
-              `   --layers arn:aws:lambda:${awsRegion}:410797082306:layer:instana-python:${pythonLayerVersion} \\`,
+              `   --layers ${pythonLayerArn} \\`,
               '   --handler instana.lambda_handler',
               `   --environment "Variables={${
                 lambdaHandler === 'index.handler' ? '' : `LAMBDA_HANLDER=${lambdaHandler}, `
@@ -1192,6 +1199,22 @@ function AWSLambdaContent({ agentKey, serverlessEndpoint }) {
       {steps}
     </>
   );
+
+  function useLambdaLayerVersionObservable(layerName, fallbackVersion) {
+    return (
+      useObservable(
+        createObservable(
+          http({
+            url: `${lambdaLayerVersionApiBaseUrl}/${layerName}`,
+            method: 'GET',
+            queryParams: { region: awsRegion },
+            maxRetries: 3
+          })
+        ).map(({ data }) => data && data.arn),
+        [awsRegion]
+      ) ?? `arn:aws:lambda:${awsRegion}:410797082306:layer:${layerName}:${fallbackVersion}`
+    );
+  }
 }
 
 function ElasticComputingWindowsContent({ agentKey, agentEndpoint, agentEndpointPort, tenant, tenantUnit }) {
