@@ -2,7 +2,7 @@ import { buildJsonSerializer, buildJsonParser, setOrDeleteMatrixKey } from 'in-s
 import { navigationParameters$ } from 'in-stores/navigation/navigation';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { emptyArray, emptyObject } from 'in-services/fixedObjects';
-import { defaultType } from 'in-infrastructure/Explore/constants';
+import { defaultType, defaultAllInfraGroup } from 'in-infrastructure/Explore/constants';
 
 export const infraExplorePath = '/explore';
 
@@ -18,8 +18,8 @@ export const groupMatrixParameter = {
   path: infraExplorePath,
   name: 'group',
   serializer: buildJsonSerializer(),
-  parser: buildJsonParser(emptyObject),
-  initialState: emptyObject
+  parser: buildJsonParser(defaultAllInfraGroup),
+  initialState: defaultAllInfraGroup
 };
 
 export const chartsMatrixParameter = {
