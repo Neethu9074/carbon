@@ -42,7 +42,7 @@ export default connectTo(
           {infrastructureExploreEnabled && (
             <SecondLevelNavigationItem
               href$={getModifiedUrlStream(p => (p.pathname = infraExplorePath))}
-              label="Explore"
+              label="Entity Explore (Beta)"
               isActive={isInfraExploreActive}
             />
           )}
