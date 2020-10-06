@@ -7,7 +7,7 @@ const basePath = '/api/application-monitoring/catalog';
 
 // observables
 
-export function getApplicationTagCatalog({ timeConfig }) {
+export const getApplicationTagCatalog = ({ dataSource }) => ({ timeConfig }) => {
   const from = timeConfig ? (timeConfig.to || Date.now()) - timeConfig.windowSize : null;
   return createObservable(
     http({
@@ -16,11 +16,12 @@ export function getApplicationTagCatalog({ timeConfig }) {
       url: basePath,
       queryParams: {
         // round down the from timestamp to the beginning of the week to make the caching more efficient
-        from: roundDownToWeek(from)
+        from: roundDownToWeek(from),
+        dataSource: dataSource
       }
     })
   );
-}
+};
 
 function roundDownToWeek(timestamp) {
   return moment(timestamp)
