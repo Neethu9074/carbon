@@ -861,7 +861,7 @@ function AWSLambdaContent({ agentKey, serverlessEndpoint }) {
       />
     );
   } else if (selectedRuntime === runtimeOptions[2]) {
-    const pythonLayerVersion = '9';
+    const pythonLayerVersion = '12';
 
     steps = (
       <Fragment>
