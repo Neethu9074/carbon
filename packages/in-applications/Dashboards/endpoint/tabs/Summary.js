@@ -195,6 +195,7 @@ export default connectTo(
                 timeConfig={timeConfig}
                 callGroupByTag={{ name: 'call.name', entity: entityTypes.NOT_APPLICABLE }}
                 renderPostChartContent={withPotentialProblemsLane}
+                renderPostChartContentHttpStatus={MarkerLanes}
               />
             ) : (
               <CallsErrors
