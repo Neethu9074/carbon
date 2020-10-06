@@ -18,6 +18,7 @@ import './axis.client';
 import './axis.server';
 import './batch-synthetic';
 import './blade';
+import './boto3';
 import './camel';
 import './cassandra';
 import './celery-client';
