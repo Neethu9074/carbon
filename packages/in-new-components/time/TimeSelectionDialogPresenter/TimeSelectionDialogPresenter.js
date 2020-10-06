@@ -44,7 +44,7 @@ export default connectTo(
           <SecondLevelNavigationItem
             className={locals.tab}
             label="Time range"
-            icon="lib_application"
+            icon="lib_datetime_timerange"
             isActive={activeTabIndex === 0}
             onClick={() => setActiveTabIndex(0)}
           />
