@@ -1,3 +1,4 @@
+import agentMonitoringIssueDefinitions from 'in-forge/plugins/kubernetesCluster/agentMonitoringIssueDefinitions';
 import metricDefinitions from 'in-forge/plugins/kubernetesCluster/metricDefinitions';
 import kpiDefinitions from 'in-forge/plugins/kubernetesCluster/kpiDefinitions';
 import iconSvgPath from 'in-forge/plugins/kubernetesCluster/iconPath';
@@ -12,5 +13,6 @@ registerSnapshotDefinition({
   },
   iconSvgPath,
   kpiDefinitions,
-  metricDefinitions
+  metricDefinitions,
+  agentMonitoringIssueDefinitions
 });

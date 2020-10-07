@@ -6,8 +6,9 @@ import {
   daemonSetIdUrlParameter,
   deploymentIdUrlParameter,
   deploymentConfigIdUrlParameter,
-  statefulSetIdUrlParameter,
+  statefulSetIdUrlParameter
 } from 'in-kubernetes/navigation/urlParameters';
+import K8sAgentMonitoringIssueNotifications from 'in-kubernetes/Dashboards/commonComponents/K8sAgentMonitoringIssueNotifications';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator/EntityHealthIndicator';
 import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
@@ -110,7 +111,7 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
     daemonSetIdUrlParameter,
     deploymentIdUrlParameter,
     deploymentConfigIdUrlParameter,
-    statefulSetIdUrlParameter,
+    statefulSetIdUrlParameter
   ],
   columnDefinitions,
   defaultOrderBy: 'name',
@@ -121,9 +122,12 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
 
 export default function ServiceTable(props) {
   return (
-    <Card>
-      <ServerTableWithUrlState get={getTableData} {...props} />
-    </Card>
+    <>
+      <K8sAgentMonitoringIssueNotifications {...props} entityName="services" />
+      <Card>
+        <ServerTableWithUrlState get={getTableData} {...props} />
+      </Card>
+    </>
   );
 }
 

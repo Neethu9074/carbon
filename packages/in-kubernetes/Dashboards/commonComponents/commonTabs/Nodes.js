@@ -1,5 +1,6 @@
 import React from 'react';
 
+import K8sAgentMonitoringIssueNotifications from 'in-kubernetes/Dashboards/commonComponents/K8sAgentMonitoringIssueNotifications';
 import ServerSideSortedMetricValue from 'in-components/tables/sharedComponents/ServerSideSortedMetricValue';
 import { clusterIdUrlParameter, daemonSetIdUrlParameter } from 'in-kubernetes/navigation/urlParameters';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
@@ -151,9 +152,12 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
 
 export default function Nodes(props) {
   return (
-    <Card>
-      <ServerTableWithUrlState get={getTableData} {...props} />
-    </Card>
+    <>
+      <K8sAgentMonitoringIssueNotifications {...props} entityName="nodes" />
+      <Card>
+        <ServerTableWithUrlState get={getTableData} {...props} />
+      </Card>
+    </>
   );
 }
 

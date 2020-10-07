@@ -3,7 +3,7 @@
 // and
 // in-services/featureFlags
 module.exports = {
-  agentMonitoringIssuesEnabled: false,
+  agentMonitoringIssuesEnabled: true,
   applicationSmartAlertsEnabled: true,
   containerInfoEnabled: true,
   contextGuideEnabled: true,

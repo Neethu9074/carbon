@@ -1,6 +1,7 @@
-import { get, find } from 'lodash';
 import React from 'react';
+import { get, find } from 'lodash';
 
+import K8sAgentMonitoringIssueNotifications from 'in-kubernetes/Dashboards/commonComponents/K8sAgentMonitoringIssueNotifications';
 import ServerSideSortedMetricValue from 'in-components/tables/sharedComponents/ServerSideSortedMetricValue';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
@@ -185,24 +186,27 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
 
 export default function Namespaces(props) {
   return (
-    <Card>
-      <ServerTableWithUrlState
-        get={getTableData}
-        filterColumnDefinitions={({ result }) => {
-          const anyOpenshift =
-            result.data &&
-            result.data.items &&
-            Boolean(
-              find(result.data.items, item =>
-                isOpenshift(get(item, ['namespace', 'clusterDistribution'], 'kubernetes'))
-              )
-            );
-          return columnDefinition => anyOpenshift || columnDefinition.id !== 'deploymentConfigs';
-        }}
-        timeConfig={props.timeConfig}
-        clusterId={props.clusterId}
-      />
-    </Card>
+    <>
+      <K8sAgentMonitoringIssueNotifications {...props} entityName="namespaces" />
+      <Card>
+        <ServerTableWithUrlState
+          get={getTableData}
+          filterColumnDefinitions={({ result }) => {
+            const anyOpenshift =
+              result.data &&
+              result.data.items &&
+              Boolean(
+                find(result.data.items, item =>
+                  isOpenshift(get(item, ['namespace', 'clusterDistribution'], 'kubernetes'))
+                )
+              );
+            return columnDefinition => anyOpenshift || columnDefinition.id !== 'deploymentConfigs';
+          }}
+          timeConfig={props.timeConfig}
+          clusterId={props.clusterId}
+        />
+      </Card>
+    </>
   );
 }
 

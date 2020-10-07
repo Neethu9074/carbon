@@ -1,7 +1,7 @@
+import React from 'react';
 import { get, filter } from 'lodash';
 import { compose } from 'recompose';
 import theme from 'in-themes';
-import React from 'react';
 
 import {
   clusterIdUrlParameter,
@@ -13,8 +13,9 @@ import {
   deploymentIdUrlParameter,
   deploymentConfigIdUrlParameter,
   phasePodListUrlParameter,
-  statefulSetIdUrlParameter,
+  statefulSetIdUrlParameter
 } from 'in-kubernetes/navigation/urlParameters';
+import K8sAgentMonitoringIssueNotifications from 'in-kubernetes/Dashboards/commonComponents/K8sAgentMonitoringIssueNotifications';
 import ServerSideSortedMetricValue from 'in-components/tables/sharedComponents/ServerSideSortedMetricValue';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
@@ -203,7 +204,7 @@ function createTable(columnDefinitions) {
       deploymentIdUrlParameter,
       deploymentConfigIdUrlParameter,
       phasePodListUrlParameter,
-      statefulSetIdUrlParameter,
+      statefulSetIdUrlParameter
     ],
     columnDefinitions,
     defaultOrderBy: 'name',
@@ -250,20 +251,23 @@ const Pods = compose(
   );
 
   return (
-    <Card>
-      <Table
-        get={getTableData}
-        timeConfig={timeConfig}
-        namespaceId={namespaceId}
-        workloadControllerId={workloadControllerId}
-        clusterId={clusterId}
-        serviceId={serviceId}
-        nodeId={nodeId}
-        rightHeader={rightHeader}
-        leftHeader={leftHeader}
-        phase={phase}
-      />
-    </Card>
+    <>
+      <K8sAgentMonitoringIssueNotifications {...props} entityName="pods" />
+      <Card>
+        <Table
+          get={getTableData}
+          timeConfig={timeConfig}
+          namespaceId={namespaceId}
+          workloadControllerId={workloadControllerId}
+          clusterId={clusterId}
+          serviceId={serviceId}
+          nodeId={nodeId}
+          rightHeader={rightHeader}
+          leftHeader={leftHeader}
+          phase={phase}
+        />
+      </Card>
+    </>
   );
 });
 

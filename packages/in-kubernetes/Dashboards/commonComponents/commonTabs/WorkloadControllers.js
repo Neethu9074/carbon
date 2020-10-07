@@ -1,11 +1,12 @@
-import { get } from 'lodash';
 import React from 'react';
+import { get } from 'lodash';
 
 import {
   clusterIdUrlParameter,
   serviceIdUrlParameter,
   namespaceIdUrlParameter
 } from 'in-kubernetes/navigation/urlParameters';
+import K8sAgentMonitoringIssueNotifications from 'in-kubernetes/Dashboards/commonComponents/K8sAgentMonitoringIssueNotifications';
 import ServerSideSortedMetricValue from 'in-components/tables/sharedComponents/ServerSideSortedMetricValue';
 import MetricBasedTwoValueBar from 'in-kubernetes/Dashboards/commonComponents/MetricBasedTwoValueBar';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
@@ -118,17 +119,20 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
 
 export default function WorkloadControllersTable(props) {
   return (
-    <Card>
-      <ServerTableWithUrlState
-        get={getTableData}
-        filterColumnDefinitions={() => {
-          const shouldShowDurationColumn =
-            props.workloadControllerType === 'deployment' || props.workloadControllerType === 'deploymentConfig';
-          return columnDefinition => shouldShowDurationColumn || columnDefinition.id !== 'duration';
-        }}
-        {...props}
-      />
-    </Card>
+    <>
+      <K8sAgentMonitoringIssueNotifications {...props} />
+      <Card>
+        <ServerTableWithUrlState
+          get={getTableData}
+          filterColumnDefinitions={() => {
+            const shouldShowDurationColumn =
+              props.workloadControllerType === 'deployment' || props.workloadControllerType === 'deploymentConfig';
+            return columnDefinition => shouldShowDurationColumn || columnDefinition.id !== 'duration';
+          }}
+          {...props}
+        />
+      </Card>
+    </>
   );
 }
 

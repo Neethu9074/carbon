@@ -2,6 +2,7 @@ import { get } from 'lodash';
 import React from 'react';
 
 import getKubernetesClusterByRelation$ from 'in-subscription/kubernetes/getKubernetesClusterByRelation';
+import { agentMonitoringIssuesEnabled } from 'in-services/featureFlags';
 import { warning } from 'in-new-components/Message/types';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import Message from 'in-new-components/Message';
@@ -9,6 +10,10 @@ import connectTo from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
 
 export default function MissingK8sPermissions(props) {
+  if (agentMonitoringIssuesEnabled) {
+    return null;
+  }
+
   if (props.cluster) {
     return <WarningMessage debuggingInfo={get(props.cluster, ['debuggingInfo'])} />;
   } else {

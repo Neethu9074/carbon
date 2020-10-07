@@ -1,11 +1,12 @@
 import React from 'react';
 
-import { clusterIdUrlParameter } from 'in-kubernetes/navigation/urlParameters';
+import K8sAgentMonitoringIssueNotifications from 'in-kubernetes/Dashboards/commonComponents/K8sAgentMonitoringIssueNotifications';
+import getKubernetesPersistentVolumes from 'in-subscription/kubernetes/getKubernetesPersistentVolumes';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
+import { clusterIdUrlParameter } from 'in-kubernetes/navigation/urlParameters';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { MINIMUM_ROLLUP, getRollupForTimeframe } from 'in-stores/metric/metric';
-import getKubernetesPersistentVolumes from 'in-subscription/kubernetes/getKubernetesPersistentVolumes';
 import Card from 'in-new-components/Card';
 
 const pathSegment = '/nodes';
@@ -57,9 +58,12 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
 
 export default function PersistentVolumes(props) {
   return (
-    <Card>
-      <ServerTableWithUrlState get={getTableData} {...props} />
-    </Card>
+    <>
+      <K8sAgentMonitoringIssueNotifications {...props} entityName="persistentvolumes" />
+      <Card>
+        <ServerTableWithUrlState get={getTableData} {...props} />
+      </Card>
+    </>
   );
 }
 
