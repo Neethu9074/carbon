@@ -77,7 +77,7 @@ export default function PotentialProblemsLanePresenter({ potentialProblems, aler
       {...remainingProps}
       events={events}
       isClustered={false}
-      label="PotentialProblems"
+      label="Potential Problems"
       tooltipContent={({ alerts }) => {
         let text = '';
         if (alerts.length > 1) {
