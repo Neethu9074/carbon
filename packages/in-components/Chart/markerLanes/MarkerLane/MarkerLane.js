@@ -1,8 +1,6 @@
-import { create } from 'reactive-observables';
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-import { markerLaneLabelVisibleSignal$ } from 'in-components/Chart/markerLanes/MarkerLanesPresenter';
 import RenderScheduler from 'in-components/Chart/RenderScheduler';
 import getElementDimensions from 'in-hoc/getElementDimensions';
 import evaluateClassNames from 'in-services/util/classnames';
@@ -32,13 +30,6 @@ import locals from './MarkerLane.mless';
   }}
 */
 
-const setHasMarkersToRenderSignalSrc$ = create();
-export const hasMarkersToRenderSignal$ = setHasMarkersToRenderSignalSrc$.emit(false);
-
-export function setHasMarkersToRenderSignal(hasMarkersToRender) {
-  setHasMarkersToRenderSignalSrc$.emit(hasMarkersToRender);
-}
-
 class MarkersLane extends React.Component {
   constructor(props) {
     super(props);
@@ -48,7 +39,7 @@ class MarkersLane extends React.Component {
   componentDidUpdate() {
     // eslint-disable-next-line react/prop-types
     this.renderScheduler.update(this.props.timeConfig, this.props.width);
-    setHasMarkersToRenderSignal(this.props.events?.length > 0);
+    if (this.props.events?.length > 0) this.props?.onLaneHasMarkersToRender(true);
   }
 
   componentWillUnmount() {
@@ -73,9 +64,9 @@ function MarkersLanePresenter({
   renderSecondaryHoverOverlay,
   color,
   selectedEventData,
+  laneLabelsVisible,
   ...remainingProps
 }) {
-  const labelVisible = useObservable(markerLaneLabelVisibleSignal$, [label, labelAlignment]);
   const xScale = useObservable(renderScheduler.xScaleBackBuffer$.nextFrame(), [], { pure: false });
   const [hoveredEventData, setHoveredEventData] = useState(null);
 
@@ -137,7 +128,7 @@ function MarkersLanePresenter({
             </Tooltip>
           );
         })}
-        {labelVisible && (
+        {laneLabelsVisible && (
           <div className={locals.laneLabel} style={{ [labelAlignment]: 0 }}>
             <div
               className={locals.laneLabelText}
@@ -177,7 +168,9 @@ MarkersLane.propTypes = {
   renderLaneItem: PropTypes.func.isRequired,
   renderHoverOverlay: PropTypes.func,
   chartBucketWidth: PropTypes.number,
-  renderSecondaryHoverOverlay: PropTypes.func
+  renderSecondaryHoverOverlay: PropTypes.func,
+  laneLabelsVisible: PropTypes.bool,
+  onLaneHasMarkersToRender: PropTypes.func.isRequired
 };
 
 export default getElementDimensions(MarkersLane);
