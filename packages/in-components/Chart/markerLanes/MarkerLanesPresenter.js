@@ -71,8 +71,7 @@ function MarkerLanesWrapper({
     <div
       ref={markerLanesWrapperRef}
       className={locals.markerLanesWrapper}
-      onMouseEnter={e => {
-        stopPropagationAndPreventDefault(e);
+      onMouseEnter={() => {
         if (hasMarkersToRender) setLaneLabelsVisibility(true);
       }}
     >

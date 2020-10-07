@@ -1,0 +1,7 @@
+:local {
+  .select {
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    margin-left: -1px; // this is done in order to display border-left
+  }
+}

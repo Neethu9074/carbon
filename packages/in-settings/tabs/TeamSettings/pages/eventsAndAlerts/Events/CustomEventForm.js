@@ -375,14 +375,13 @@ function EventForm({
             </FormGroup>
           ))}
 
-          {form.get('systemRule') &&
-            form.get('systemRule').value === entityVerification.id && (
-              <ObserveHostHasMatchingEntitiesRunningFormGroup
-                form={form}
-                entityTypes={getEntityTypeOptions()}
-                onChange={onChange}
-              />
-            )}
+          {form.get('systemRule') && form.get('systemRule').value === entityVerification.id && (
+            <ObserveHostHasMatchingEntitiesRunningFormGroup
+              form={form}
+              entityTypes={getEntityTypeOptions()}
+              onChange={onChange}
+            />
+          )}
         </>
       )}
 
@@ -455,10 +454,9 @@ function EventForm({
 
           <DynamicBuiltInFormGroup form={form} onChange={onChange} />
 
-          {form.get('entityType').value &&
-            form.get('metricName').value && (
-              <ThresholdsFormGroup isPercentileMetric={isPercentileMetric} form={form} onChange={onChange} />
-            )}
+          {form.get('entityType').value && form.get('metricName').value && (
+            <ThresholdsFormGroup isPercentileMetric={isPercentileMetric} form={form} onChange={onChange} />
+          )}
         </>
       )}
 
@@ -1166,7 +1164,7 @@ const aggregationOptions = Object.freeze([
 const conditionOperatorOptions = Object.freeze([
   { value: '<', label: '<' },
   { value: '<=', label: '≤' },
-  { value: '==', label: '==' },
+  { value: '=', label: '=' },
   { value: '>=', label: '≥' },
   { value: '>', label: '>' },
   { value: '!=', label: '≠' }
