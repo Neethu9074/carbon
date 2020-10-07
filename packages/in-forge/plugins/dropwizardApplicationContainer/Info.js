@@ -9,10 +9,10 @@ export default function Info({ snapshot }) {
 
   const counters = countMetrics(snapshot, 'metrics.counters');
   const gauges = countMetrics(snapshot, 'metrics.gauges');
-  const histograms = countMetrics(snapshot, 'metrics.histograms') / 3; // mean, 50th, 99th
+  const histograms = countMetrics(snapshot, 'metrics.histograms', 3); // mean, 50th, 99th
   const meters = countMetrics(snapshot, 'metrics.meters');
   const summaries = countMetrics(snapshot, 'metrics.summaries');
-  const timers = countMetrics(snapshot, 'metrics.timers') / 4; // rate, mean, 50th, 99th
+  const timers = countMetrics(snapshot, 'metrics.timers', 4); // rate, mean, 50th, 99th
 
   return (
     <DescriptionList>
@@ -31,12 +31,13 @@ export default function Info({ snapshot }) {
   );
 }
 
-function countMetrics(snapshot, prefix) {
-  const metricCount = snapshot.get('metricIds', emptyList).filter(m => m.startsWith(prefix)).size;
+function countMetrics(snapshot, prefix, subMetricsCount = 1) {
+  const metricCount = snapshot.get('metricIds', emptyList)?.filter(m => m.startsWith(prefix))?.size;
 
   if (metricCount > 0) {
-    return metricCount;
+    return metricCount / subMetricsCount;
   }
 
+  // Don't divide by 'subMetricsCount' because we receive them in a different format so need actual counts
   return snapshot.getIn(['data', prefix], emptyList).size;
 }
