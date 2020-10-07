@@ -1,9 +1,9 @@
 import React, { Fragment } from 'react';
+import theme from 'in-themes';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { percentage, number, millis } from 'in-services/formatters/number';
-import theme from 'in-themes';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 
 export default function ApplicationDataStatistics({ timeConfig, tenantUnitId }) {
   return (
@@ -47,13 +47,15 @@ export default function ApplicationDataStatistics({ timeConfig, tenantUnitId }) 
               'Processed',
               'Dropped due to throttler',
               'Dropped due to consistent dropping',
-              'Dropped due to backpressure'
+              'Dropped due to backpressure',
+              'Dropped hard due to backpressure (random dropping)'
             ],
             colors: [
               theme.lib.colors.success,
               theme.lib.colors.red800,
               theme.lib.colors.orange800,
-              theme.lib.colors.yellow800
+              theme.lib.colors.yellow800,
+              theme.lib.colors.pink800
             ],
             type: 'stackedArea'
           }}
