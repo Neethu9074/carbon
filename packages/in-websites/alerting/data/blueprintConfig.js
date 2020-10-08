@@ -5,7 +5,7 @@ import getWebsiteMetricAlertsPreview from 'in-websites/alerting/subscriptions/ge
 import getWebsiteRateMetric from 'in-websites/alerting/subscriptions/getWebsiteRateMetric';
 import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
 import { percentage, millis, number } from 'in-services/formatters/number';
-import { availableFilterTags, commonFilterTags } from 'in-websites/tags';
+import { availableFilterTags } from 'in-websites/tags';
 import { isNotBlank } from 'in-services/util/string';
 
 const jsErrorMetricLabelsByName = Object.freeze({
@@ -72,7 +72,7 @@ const jsErrorsBlueprintConfig = Object.freeze({
   name: 'JS Errors',
   headline: 'Automatic Alerts for JS Errors',
   text: 'Receive an alert every time when matching JS Error messages occur more often than usual.',
-  getAllTagFilters: () => commonFilterTags,
+  getAllTagFilters: () => availableFilterTags.error,
   disabledTagFilters: createDisableList(['beacon.error.message']),
   baselineEnabled: false,
   defaultMetric: 'errors',
