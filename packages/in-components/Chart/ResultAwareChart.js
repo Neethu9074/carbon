@@ -61,7 +61,9 @@ export default function ResultAwareChart({ result, config, renderLegend = true }
 function mapMultiResult(result, y1) {
   y1.metricIds = Object.keys(result.data);
   y1.metrics = Object.values(result.data);
-  y1.labels = result.labels;
+  if (result.labels) {
+    y1.labels = result.labels;
+  }
   if (y1.aggregations) {
     y1.aggregations = Object.keys(result.data).map(key => {
       const originalMetricId = key.split(':')[0];

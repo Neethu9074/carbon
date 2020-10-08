@@ -29,15 +29,21 @@ export default function UnifiedMetricsChart({
 
   // Transform result data structure into the structure expected by the chart
   if (result && result.data) {
+    const labels = result.data.map(d => d.label);
     result = {
       ...result,
-      //The labels object is required when displaying grouped results (each with their own label).
-      labels: result.data.map(d => d.label),
       data: result.data.reduce((agg, { id, values }) => {
         agg[id] = values;
         return agg;
       }, {})
     };
+    if (labels.length > 0 && !labels.includes(undefined)) {
+      //The labels object is required when displaying grouped results (each with their own label).
+      result = {
+        ...result,
+        labels: labels
+      };
+    }
   }
 
   return (
