@@ -13,6 +13,10 @@ import locals from './TermsPages.mless';
 export default function TermsPage1({ form, onChange, onNext }) {
   const [messageVisible, setMessageVisible] = useState(false);
 
+  const isRoleMessagePresent = form.get('dynamicRole') && !form.get('dynamicRole').valid;
+  const isCheckboxMessagePresent =
+    !form.get('tosAccepted').valid || !form.get('privacyAgreementAccepted').valid || !form.get('role').valid;
+
   return (
     <div className={locals.container}>
       <div>
@@ -71,7 +75,7 @@ export default function TermsPage1({ form, onChange, onNext }) {
           ))}
         </span>
       </div>
-      {(!form.get('tosAccepted').valid || !form.get('privacyAgreementAccepted').valid || !form.get('role').valid) && (
+      {isCheckboxMessagePresent && (
         <div
           className={evaluateClassNames({
             [locals.warningText]: true,
@@ -84,7 +88,7 @@ export default function TermsPage1({ form, onChange, onNext }) {
           </span>
         </div>
       )}
-      {form.get('dynamicRole') && !form.get('dynamicRole').valid && (
+      {isRoleMessagePresent && (
         <div
           className={evaluateClassNames({
             [locals.warningText]: true,
@@ -94,6 +98,14 @@ export default function TermsPage1({ form, onChange, onNext }) {
           <SvgIcon className={locals.icon} type="lib_help_error_error_circle" size="s" />
           <span>You need to type in a role.</span>
         </div>
+      )}
+      {!isRoleMessagePresent && !isCheckboxMessagePresent && (
+        <div
+          className={evaluateClassNames({
+            [locals.warningText]: true,
+            [locals.hidden]: true
+          })}
+        />
       )}
       <div className={locals.buttons}>
         <Button
