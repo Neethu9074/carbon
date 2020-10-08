@@ -14,7 +14,7 @@ import './Forms.less';
 const block = 'in-alert-channel-config-form';
 
 const name = 'OPS_GENIE';
-const label = 'OpsGenie';
+const label = 'Opsgenie';
 
 const parameters = [
   {
@@ -140,7 +140,7 @@ function Form({ form, onChange }) {
             id="name"
             className={`${block}__input`}
             type="text"
-            placeholder="OpsGenie Alert Channel"
+            placeholder="Opsgenie Alert Channel"
             value={field.value}
             onChange={e => onChange('name', e.target.value)}
             hasError={!field.valid && field.touched}

@@ -13,7 +13,7 @@ import './Forms.less';
 const block = 'in-alert-channel-config-form';
 
 const name = 'PROMETHEUS_WEBHOOK';
-const label = 'Prometheus Webhook';
+const label = 'Prometheus Alertmanager Webhook';
 
 const parameters = [
   {
@@ -45,7 +45,9 @@ export default {
   createDetails(alertChannel) {
     return (
       <DescriptionList>
-        <DescriptionItem title="Webhook URL">{alertChannel.get('webhookUrl')}</DescriptionItem>
+        <DescriptionItem title="Prometheus Alertmanager Webhook Receiver URL">
+          {alertChannel.get('webhookUrl')}
+        </DescriptionItem>
       </DescriptionList>
     );
   },
@@ -98,7 +100,7 @@ function Form({ form, onChange }) {
             id="name"
             className={`${block}__input`}
             type="text"
-            placeholder="Prometheus Alert Channel"
+            placeholder="Prometheus Alertmanager Webhook Alert Channel"
             value={field.value}
             onChange={e => onChange('name', e.target.value)}
             hasError={!field.valid && field.touched}
@@ -111,7 +113,7 @@ function Form({ form, onChange }) {
       {form.get('webhookUrl').map(field => (
         <FormGroup>
           <Label htmlFor="webhookUrl" hasError={!field.valid && field.touched}>
-            Webhook URL to Prometheus Alertmanager
+            Prometheus Alertmanager Webhook Receiver URL
           </Label>
           <Input
             className={`${block}__input`}
