@@ -67,35 +67,35 @@ const columnDefinitions = [
   {
     id: 'pods',
     label: 'Pods',
-    getContent({workloads}) {
+    getContent({ workloads }) {
       return <EntityCounter icon="lib_kubernetes_pod" count={workloads.pods} />;
     }
   },
   {
     id: 'deployments',
     label: 'Deployments',
-    getContent({workloads}) {
+    getContent({ workloads }) {
       return <EntityCounter icon="lib_kubernetes_workload" count={workloads.deployments} />;
     }
   },
   {
     id: 'deploymentConfigs',
     label: 'Deployment Configs',
-    getContent({workloads}) {
+    getContent({ workloads }) {
       return <EntityCounter icon="lib_kubernetes_workload" count={workloads.deploymentConfigs} />;
     }
   },
   {
     id: 'daemonSets',
     label: 'DaemonSets',
-    getContent({workloads}) {
+    getContent({ workloads }) {
       return <EntityCounter icon="lib_kubernetes_workload" count={workloads.daemonSets} />;
     }
   },
   {
     id: 'statefulSets',
     label: 'StatefulSets',
-    getContent({workloads}) {
+    getContent({ workloads }) {
       return <EntityCounter icon="lib_kubernetes_workload" count={workloads.statefulSets} />;
     }
   },
@@ -158,15 +158,13 @@ export default connectTo(
   }
 );
 
-function createColumnFilter({data}) {
-  const items = data && data.items || [];
+function createColumnFilter({ result }) {
+  const items = (result.data && result.data.items) || [];
   const anyOpenshift = Boolean(
-                    find(items, item =>
-                      isOpenshift(get(item, ['namespace', 'clusterDistribution'], 'kubernetes'))
-                    )
-                  );
+    find(items, item => isOpenshift(get(item, ['cluster', 'clusterDistribution'], 'kubernetes')))
+  );
 
-  return ({id}) => {
+  return ({ id }) => {
     if (anyOpenshift) {
       return true;
     }
