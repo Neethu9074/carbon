@@ -17,13 +17,13 @@ import Label from 'in-components/form/Label';
 import SvgIcon from 'in-components/SvgIcon';
 import Button from 'in-components/Button';
 
-import './Forms.less';
 import locals from './webhookChannelConfig.mless';
+import './Forms.less';
 
 const block = 'in-alert-channel-config-form';
 
 const name = 'WEB_HOOK';
-const label = 'WebHook';
+const label = 'Generic Webhook';
 
 const parameters = [
   {
@@ -36,7 +36,7 @@ const parameters = [
   },
   {
     key: 'webhookUrls',
-    label: 'WebHook Urls'
+    label: 'Webhook URLs'
   },
   {
     key: 'headers',
@@ -163,7 +163,7 @@ function Form({ form, onChange }) {
             id="name"
             className={`${block}__input`}
             type="text"
-            placeholder="WebHook Alert Channel"
+            placeholder="Generic Webhook Alert Channel"
             value={field.value}
             onChange={e => onChange('name', e.target.value)}
             hasError={!field.valid && field.touched}
@@ -223,7 +223,7 @@ function Form({ form, onChange }) {
       })}
       <div className={`${block}__add-button-wrapper`}>
         <span className={`${block}__add-link`} onClick={() => addwebHookUrl(form, onChange)}>
-          Add WebHook
+          Add Webhook URL
         </span>
       </div>
 
