@@ -59,16 +59,17 @@ export default function ResultAwareChart({ result, config, renderLegend = true }
  * @param {object} y1 Part of the given configuration.
  */
 function mapMultiResult(result, y1) {
-  const metricIds = y1.metricIds;
   y1.metricIds = Object.keys(result.data);
   y1.metrics = Object.values(result.data);
   y1.labels = result.labels;
-  y1.aggregations = Object.keys(result.data).map(key => {
-    const originalMetricId = key.split(':')[0];
-    const indexOfOriginalMetricID = metricIds.indexOf(originalMetricId);
-    const originalAggregation = y1.aggregations[indexOfOriginalMetricID];
-    return originalAggregation;
-  });
+  if (y1.aggregations) {
+    y1.aggregations = Object.keys(result.data).map(key => {
+      const originalMetricId = key.split(':')[0];
+      const indexOfOriginalMetricID = y1.metricIds.indexOf(originalMetricId);
+      const originalAggregation = y1.aggregations[indexOfOriginalMetricID];
+      return originalAggregation;
+    });
+  }
   return y1;
 }
 
