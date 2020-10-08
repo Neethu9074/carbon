@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 
 import formatInputTime from '../time/TimeSelectionDialogPresenter/timeInputFormatter';
 import ComboBoxBehavior from 'in-components/form/ComboBox/ComboBoxBehavior';
@@ -38,6 +39,7 @@ export default function TimeInput({ onChange, value = Date.now(), hasError = fal
       }}
       disableAutomaticOptionSorting
       listItemClassName={locals.listItem}
+      value={getNearestNextItem(time)}
     >
       {({ elementProps }) => (
         <TimeInputField
@@ -52,14 +54,6 @@ export default function TimeInput({ onChange, value = Date.now(), hasError = fal
     </ComboBoxBehavior>
   );
 }
-
-TimeInput.propTypes = {
-  align: PropTypes.string,
-  hasError: PropTypes.bool,
-  onChange: PropTypes.func.isRequired,
-  value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  id: PropTypes.string
-};
 
 const TimeInputField = React.forwardRef(function TimeInputField(
   { handleTimeChange, commitTimeChange, time, ...remainingProps },
@@ -79,3 +73,20 @@ const TimeInputField = React.forwardRef(function TimeInputField(
     />
   );
 });
+
+function getNearestNextItem(time) {
+  return timeOptions.find(({ value }) => value === moment(getNextNearestTime(time)).format('HH:mm')).value;
+}
+
+function getNextNearestTime(time) {
+  const minutesFactor = moment.duration(15, 'minutes').asMilliseconds();
+  return Math.round(moment(time, 'HH:mm').valueOf() / minutesFactor) * minutesFactor;
+}
+
+TimeInput.propTypes = {
+  align: PropTypes.string,
+  hasError: PropTypes.bool,
+  onChange: PropTypes.func.isRequired,
+  value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  id: PropTypes.string
+};
