@@ -11,11 +11,11 @@ export const dynamicType = 'dynamic';
 export const defaultType = staticStringType;
 
 export const hardCodedDynamicValues = Object.freeze([
-  { value: { tagName: 'entity.kubernetes.cluster.label', key: null }, label: 'Kubernetes Cluster Labels' },
-  { value: { tagName: 'entity.kubernetes.pod.name', key: null }, label: 'Kubernetes Pod Name' },
-  { value: { tagName: 'entity.kubernetes.pod.label', key: 'app' }, label: 'Kubernetes Pod Label under "app"' }, //(this one exists on our demo cluster on k8s-test)
-  { value: { tagName: 'entity.kubernetes.node.name', key: null }, label: 'Kubernetes Node Name' },
-  { value: { tagName: 'entity.ec2.ipv4' }, label: 'AWS EC2 host public IP' }
+  { value: { tagName: 'kubernetes.cluster.label', key: null }, label: 'Kubernetes Cluster Labels' },
+  { value: { tagName: 'kubernetes.pod.name', key: null }, label: 'Kubernetes Pod Name' },
+  { value: { tagName: 'kubernetes.pod.label', key: 'app' }, label: 'Kubernetes Pod Label under "app"' }, //(this one exists on our demo cluster on k8s-test)
+  { value: { tagName: 'kubernetes.node.name', key: null }, label: 'Kubernetes Node Name' },
+  { value: { tagName: 'ec2.ipv4', key: null }, label: 'AWS EC2 host public IP' }
 ]);
 
 const exampleCustomPayload = {
@@ -26,13 +26,13 @@ const exampleCustomPayload = {
     {
       type: dynamicType,
       key: 'dynamicK8sClusterName',
-      value: { tagName: 'entity.kubernetes.cluster.label', key: null }
+      value: { tagName: 'kubernetes.cluster.label', key: null }
     },
     {
       key: 'myDynamicPayload',
       type: dynamicType,
       value: {
-        tagName: 'entity.kubernetes.pod.label',
+        tagName: 'kubernetes.pod.label',
         key: 'app' // key-matching is always EQUALS
       }
     },
@@ -40,7 +40,7 @@ const exampleCustomPayload = {
       key: 'mySecondDynamicPayload',
       type: dynamicType,
       value: {
-        tag: 'entity.kubernetes.cluster.name',
+        tag: 'kubernetes.cluster.name',
         key: null // only non-null for key-value pairs
       }
     }
