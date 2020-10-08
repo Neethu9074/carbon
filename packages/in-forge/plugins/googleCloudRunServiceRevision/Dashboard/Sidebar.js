@@ -1,17 +1,33 @@
 import React from 'react';
 
-import getDockerContainersForGoogleCloudRunServiceRevision from 'in-subscription/getDockerContainersForGoogleCloudRunServiceRevision';
+import getInstancesForGoogleCloudRunServiceRevision from 'in-subscription/getInstancesForGoogleCloudRunServiceRevision';
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
 import SidebarSnapshotItemList from 'in-components/SidebarSnapshotItemList';
+import KeyValueOverlay from 'in-sdk/components/sidebar/KeyValueOverlay';
 import Info from 'in-forge/plugins/googleCloudRunServiceRevision/Info';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import TagList from 'in-sdk/components/sidebar/TagList';
+import { timeConfig$ } from 'in-stores/time/config';
+import useObservable from 'in-hooks/useObservable';
+import { getSnapshot } from 'in-stores/snapshot';
 
 export default function GoogleCloudRunServiceRevisionSidebar({ snapshot }) {
+  const snapshotId = snapshot.get('id');
+
+  // We need a snapshot of one of the instances to get hold of the service for this cloud run service revision.
+  // (Calls are linked to the instances).
+  const arbitraryInstanceSnapshot = useObservable(
+    timeConfig$
+      .flatMap(timeConfig => getInstancesForGoogleCloudRunServiceRevision({ snapshotId, timeConfig }))
+      .map(instanceSnapshots => instanceSnapshots?.[0])
+      .flatMap(getSnapshot),
+    [snapshotId]
+  );
+
   return (
     <>
       <Collapsible initiallyOpen>
-        <Collapsible.Header>Google Cloud Run Service Revision Info</Collapsible.Header>
+        <Collapsible.Header>Cloud Run Service Revision Info</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />
         </Collapsible.Content>
@@ -19,12 +35,15 @@ export default function GoogleCloudRunServiceRevisionSidebar({ snapshot }) {
 
       <TagList snapshot={snapshot} />
 
+      <KeyValueOverlay header="Labels" data={snapshot.getIn(['data', 'labels'])} />
+
       <SidebarSnapshotItemList
-        snapshotId={snapshot.get('id')}
-        subscription={getDockerContainersForGoogleCloudRunServiceRevision}
-        label="Containers"
+        snapshotId={snapshotId}
+        subscription={getInstancesForGoogleCloudRunServiceRevision}
+        label="Instances"
       />
-      <ServiceInstancesList snapshot={snapshot} />
+
+      {arbitraryInstanceSnapshot && <ServiceInstancesList snapshot={arbitraryInstanceSnapshot} />}
     </>
   );
 }

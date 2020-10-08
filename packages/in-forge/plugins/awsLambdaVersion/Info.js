@@ -4,6 +4,7 @@ import { DescriptionItem, DescriptionList } from 'in-sdk/components/sidebar/Desc
 import LambdaFunctionLink from 'in-forge/plugins/awsLambdaVersion/LambdaFunctionLink';
 import { megaBytesZeroDecimalPlaces, seconds } from 'in-services/formatters/number';
 import { formatDateTime } from 'in-services/formatters/date';
+import { getRuntimeByKey } from 'in-sdk/snapshot/runtimes';
 
 export default function Info({ snapshot }) {
   const data = snapshot.get('data');
@@ -25,7 +26,7 @@ export default function Info({ snapshot }) {
       {data.get('npmPackageDescription') && (
         <DescriptionItem title="Node.js Package Description">{data.get('npmPackageDescription')}</DescriptionItem>
       )}
-      <DescriptionItem title="Runtime">{data.get('runtime')}</DescriptionItem>
+      <DescriptionItem title="Runtime">{getRuntimeByKey(data.get('runtime')).label}</DescriptionItem>
       <DescriptionItem title="Handler">{data.get('handler')}</DescriptionItem>
       {data.get('timeout') != null && (
         <DescriptionItem title="Timeout">{seconds.fixedCompact(data.get('timeout'))}</DescriptionItem>

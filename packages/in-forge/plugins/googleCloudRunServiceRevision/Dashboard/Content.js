@@ -4,7 +4,7 @@ import { millis, millisPerSecondZeroDecimalPlaces, number, percentage } from 'in
 import { KpiKeyValue, KpiSection } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
-import DashboardContainerList from './DashboardContainerList';
+import DashboardInstanceList from './DashboardInstanceList';
 import MetricValue from 'in-components/MetricValue';
 
 export default function GoogleCloudRunServiceRevisionDashboard({ snapshot, timeConfig }) {
@@ -78,7 +78,7 @@ export default function GoogleCloudRunServiceRevisionDashboard({ snapshot, timeC
         />
       </DashboardSection>
 
-      <DashboardContainerList snapshotId={snapshotId} />
+      <DashboardInstanceList snapshotId={snapshotId} />
     </>
   );
 }

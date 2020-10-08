@@ -1,6 +1,6 @@
 import React from 'react';
 
-import getDockerContainersForGoogleCloudRunServiceRevision from 'in-subscription/getDockerContainersForGoogleCloudRunServiceRevision';
+import getInstancesForGoogleCloudRunServiceRevision from 'in-subscription/getInstancesForGoogleCloudRunServiceRevision';
 import { compareIgnoreCase } from 'in-services/util/string';
 import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';
@@ -10,22 +10,20 @@ import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
   props => ({
-    containers: timeConfig$
-      .flatMap(timeConfig =>
-        getDockerContainersForGoogleCloudRunServiceRevision({ snapshotId: props.snapshotId, timeConfig })
-      )
+    instances: timeConfig$
+      .flatMap(timeConfig => getInstancesForGoogleCloudRunServiceRevision({ snapshotId: props.snapshotId, timeConfig }))
       .flatMap(getSnapshots)
       .debounce(1000)
       .map(snapshots => snapshots.slice().sort(sorter))
   }),
-  function DashboardContainerList({ containers }) {
-    if (!containers || containers.length === 0) {
+  function DashboardInstanceList({ instances }) {
+    if (!instances || instances.length === 0) {
       return null;
     }
 
     const cols = [
       {
-        title: 'Container',
+        title: 'Instance',
         type: 'snapshotLink',
         typeArgs: {
           getSnapshotId(row) {
@@ -35,9 +33,9 @@ export default connectTo(
       }
     ];
 
-    const rows = containers.map(container => ({ key: container.get('id'), label: container.get('label') }));
+    const rows = instances.map(instance => ({ key: instance.get('id'), label: instance.get('label') }));
 
-    return <Table withoutPadding cardTitle={`Containers (${rows.length})`} cols={cols} rows={rows} />;
+    return <Table withoutPadding cardTitle={`Instances (${rows.length})`} cols={cols} rows={rows} />;
   }
 );
 

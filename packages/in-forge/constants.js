@@ -76,6 +76,7 @@ export const nonServicePlugins = {
   googleCloudPubSubSubscription: 'googleCloudPubSubSubscription',
   googleCloudPubSubTopic: 'googleCloudPubSubTopic',
   googleCloudRunServiceRevision: 'googleCloudRunServiceRevision',
+  googleCloudRunServiceRevisionInstance: 'googleCloudRunServiceRevisionInstance',
   googleCloudSQL: 'googleCloudSQL',
   googleCloudStorage: 'googleCloudStorage',
   hadoopYARN: 'hadoopYARN',
@@ -269,7 +270,9 @@ export const fullyQualifiedPlugins = {
   googleCloudPubSubSubscription:
     'com.instana.forge.hardware.virtual.gcp.pubsub.derivedentity.subscription.GoogleCloudPubSubSubscription',
   googleCloudPubSubTopic: 'com.instana.forge.hardware.virtual.gcp.pubsub.derivedentity.topic.GoogleCloudPubSubTopic',
-  googleCloudRunServiceRevision: 'com.instana.forge.hardware.virtual.gcp.run.GoogleCloudRunServiceRevision',
+  googleCloudRunServiceRevision: 'com.instana.forge.hardware.virtual.gcp.run.revision.GoogleCloudRunServiceRevision',
+  googleCloudRunServiceRevisionInstance:
+    'com.instana.forge.hardware.virtual.gcp.run.instance.GoogleCloudRunServiceRevisionInstance',
   googleCloudSQL: 'com.instana.forge.hardware.virtual.gcp.sql.GoogleCloudSQL',
   googleCloudStorage: 'com.instana.forge.hardware.virtual.gcp.storage.GoogleCloudStorage',
   genericHardware: 'com.instana.forge.hardware.GenericHardware',

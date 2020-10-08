@@ -2,7 +2,7 @@ import React from 'react';
 
 import { DateTimeWithPeriodSinceDescriptionItem } from 'in-sdk/components/sidebar/DateTimeWithPeriodSinceDescriptionItem';
 import { DescriptionItem, DescriptionList } from 'in-sdk/components/sidebar/DescriptionList';
-import { getRuntimeByKey } from 'in-forge/plugins/awsEcsContainer/runtimes';
+import { getRuntimeByKey } from 'in-sdk/snapshot/runtimes';
 
 export default function Info({ snapshot }) {
   const data = snapshot.get('data');

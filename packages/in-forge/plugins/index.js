@@ -73,6 +73,7 @@ import './googleCloudPubSub';
 import './googleCloudPubSubSubscription';
 import './googleCloudPubSubTopic';
 import './googleCloudRunServiceRevision';
+import './googleCloudRunServiceRevisionInstance';
 import './googleCloudSQL';
 import './googleCloudStorage';
 import './hadoopYARN';
