@@ -72,6 +72,9 @@ function mapMultiResult(result, y1) {
       return originalAggregation;
     });
   }
+  if (y1.timeShifts) {
+    y1.timeShifts = Object.keys(result.data).map(() => y1.timeShifts[0]);
+  }
   return y1;
 }
 
