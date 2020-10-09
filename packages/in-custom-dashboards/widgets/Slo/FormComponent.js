@@ -178,7 +178,7 @@ export default function FormComponent({ form, onChange, widgetTitleFormGroup, se
           <Col mdOffset={2} md={10}>
             <OverridingTextTouchedMessage
               field={form.get(sloTarget)}
-              message="Please enter a time in the format HH:mm:ss."
+              message="Please enter a value between 0 and 100."
             />
           </Col>
         </Row>

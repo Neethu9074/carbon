@@ -6,6 +6,7 @@ import LatencyAndDistribution from 'in-applications/Dashboards/commonComponents/
 import DatabaseSections from 'in-applications/Dashboards/commonComponents/database/DatabaseSections';
 import TechnologyBreakdown from 'in-applications/Dashboards/commonComponents/TechnologyBreakdown';
 import { DESTINATION, NOT_APPLICABLE } from 'in-new-components/QueryBuilder/tagFilter/entities';
+import { hasHttpEndpoints, hasHttpAndOtherEndpoints } from 'in-applications/endpointTypes';
 import IssuesAndEvents from 'in-applications/Dashboards/commonComponents/IssuesAndEvents';
 import EndpointTopList from 'in-applications/Dashboards/service/tabs/EndpointTopList';
 import CallsAndHttp from 'in-applications/Dashboards/commonComponents/CallsAndHttp';
@@ -179,7 +180,7 @@ export default connectTo(
 
         <Row>
           <Col lg={4}>
-            {types.includes('HTTP') ? (
+            {hasHttpEndpoints(types) ? (
               <CallsAndHttp
                 cardTitle="Calls"
                 applicationId={applicationId}
@@ -190,6 +191,7 @@ export default connectTo(
                 callGroupByTag={{ name: 'endpoint.name', entity: entityTypes.DESTINATION }}
                 renderPostChartContent={withPotentialProblemsLane}
                 renderPostChartContentHttpStatus={MarkerLanes}
+                showNonHttpCalls={hasHttpAndOtherEndpoints(types)}
               />
             ) : (
               <CallsErrors

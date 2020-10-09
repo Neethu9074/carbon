@@ -34,28 +34,34 @@ export default function CallsErrorsChart({
     timeShift: 0
   };
 
-  const callsMetricConfig = {
-    ...defaultMetricConfig,
-    metric: 'calls',
-    label: 'Calls',
-    color: theme.lib.colors.chart.strokeColors25[0]
-  };
+  const chartMetrics = [
+    {
+      config: defaultMetricConfig,
+      id: 'calls.all',
+      metric: 'calls',
+      label: 'Calls',
+      color: theme.lib.colors.chart.strokeColors25[0]
+    },
+    {
+      config: defaultMetricConfig,
+      id: 'erroneousCalls',
+      metric: 'erroneousCalls',
+      label: 'Erroneous Calls',
+      color: theme.lib.colors.failure
+    }
+  ];
 
-  const erroneousCallsMetricConfig = {
-    ...defaultMetricConfig,
-    metric: 'erroneousCalls',
-    label: 'Erroneous Calls',
-    color: theme.lib.colors.failure
-  };
-
-  let metrics;
+  let metricConfigs;
   let renderer;
   let colors;
   if (timeShiftConfig.offset) {
+    const timeShiftChartMetric = chartMetrics.find(m => m.id === timeShiftMetric) ?? chartMetrics[0];
     const timeShiftMetricConfig = {
-      ...(timeShiftMetric === 'calls' ? callsMetricConfig : erroneousCallsMetricConfig)
+      metric: timeShiftChartMetric.metric,
+      label: timeShiftChartMetric.label,
+      ...timeShiftChartMetric.config
     };
-    metrics = [
+    metricConfigs = [
       {
         ...timeShiftMetricConfig,
         timeShift: timeShiftConfig.offset
@@ -65,11 +71,15 @@ export default function CallsErrorsChart({
         ...timeShiftMetricConfig
       }
     ];
-    colors = [theme.lib.colors.timeShift, timeShiftMetricConfig.color];
+    colors = [theme.lib.colors.timeShift, timeShiftChartMetric.color];
     renderer = line.id;
   } else {
-    metrics = [callsMetricConfig, erroneousCallsMetricConfig];
-    colors = [callsMetricConfig.color, erroneousCallsMetricConfig.color];
+    metricConfigs = chartMetrics.map(m => ({
+      metric: m.metric,
+      label: m.label,
+      ...m.config
+    }));
+    colors = chartMetrics.map(m => m.color);
     renderer = barOverlapping.id;
   }
 
@@ -113,7 +123,7 @@ export default function CallsErrorsChart({
       reverseTooltipOrder={timeShiftConfig.offset}
       config={{
         y1: {
-          metrics: metrics,
+          metrics: metricConfigs,
           reverseOrder: true,
           colors: colors,
           formatter: 'number.compact',

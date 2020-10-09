@@ -22,7 +22,8 @@ export default function UnifiedMetricsChart({
   reverseTooltipOrder,
   tooltipTimeFormatter,
   renderPostChartContent,
-  cardUseMaxAvailableHeight
+  cardUseMaxAvailableHeight,
+  excludedContextMenuActions
 }) {
   const timeConfig = useTimeConfig();
   let result = useResultData(config, timeConfig) ?? pendingResult;
@@ -67,6 +68,7 @@ export default function UnifiedMetricsChart({
       tooltipTimeFormatter={tooltipTimeFormatter}
       renderPostChartContent={renderPostChartContent}
       cardUseMaxAvailableHeight={cardUseMaxAvailableHeight}
+      excludedContextMenuActions={excludedContextMenuActions}
     />
   );
 }

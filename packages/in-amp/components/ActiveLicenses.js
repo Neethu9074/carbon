@@ -3,7 +3,7 @@ import React from 'react';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
-import { getLicensesAsResultObservable } from 'in-amp/api/account';
+import { getActiveLicensesAsResultObservable } from 'in-amp/api/account';
 import { formatDate } from 'in-services/formatters/date';
 
 export const columnDefinitions = [
@@ -73,9 +73,9 @@ const LicenseTable = createServerTableWithUrlState({
   defaultOrderBy: 'start',
   defaultOrderDirection: 'DESC',
   isSearchable: false,
-  matrixPrefix: 'l.'
+  matrixPrefix: 'a.'
 });
 
-export default function Licenses() {
-  return <LicenseTable get={({ page, pageSize }) => getLicensesAsResultObservable(page, pageSize)} />;
+export default function ActiveLicenses() {
+  return <LicenseTable get={({ page, pageSize }) => getActiveLicensesAsResultObservable(page, pageSize)} />;
 }
