@@ -19,13 +19,13 @@ const initialState = {
   focusOnNode: false
 };
 
-export default function SelectorOverlay({ options, onChange, withIcons = true }) {
+export default function SelectorOverlay({ options, onChange, withIcons = true, nonSearchableOptions = [] }) {
   const [{ query, focussedNode, showFocussedNode }, setState] = useState(initialState);
   options = useMemo(() => {
     if (isNotBlank(query)) {
       return search(options, query);
     }
-    return options;
+    return [...nonSearchableOptions, ...options];
   }, [options, query]);
 
   // Used to jump to the first available group when clicking enter in the input field.
@@ -100,7 +100,15 @@ export default function SelectorOverlay({ options, onChange, withIcons = true })
               onKeyDown={onKeyDown}
             >
               {options.map((node, i) => (
-                <Node key={i} node={node} focusNode={focusNode} onChange={onChange} asListGroup withIcons={withIcons} />
+                <Node
+                  key={i}
+                  node={node}
+                  focusNode={focusNode}
+                  onChange={onChange}
+                  asListGroup
+                  withIcons={withIcons}
+                  withBreadcrumbs={isNotBlank(query)}
+                />
               ))}
             </div>
           }
@@ -138,5 +146,6 @@ export default function SelectorOverlay({ options, onChange, withIcons = true })
 SelectorOverlay.propTypes = {
   options: nodeArrayPropType.isRequired,
   onChange: PropTypes.func.isRequired,
-  withIcons: PropTypes.bool
+  withIcons: PropTypes.bool,
+  nonSearchableOptions: nodeArrayPropType
 };

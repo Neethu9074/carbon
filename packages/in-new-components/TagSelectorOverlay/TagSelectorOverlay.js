@@ -13,7 +13,8 @@ export default function TagSelectorOverlay({ tagCatalog, onChange, close }) {
   return (
     <SelectorOverlay
       withIcons
-      options={options}
+      options={options.slice(1)}
+      nonSearchableOptions={options.slice(0, 1)} // commonly used tags are the first category and should not be searchable
       onChange={node => {
         onChange({ name: node.tagName });
         close();
@@ -24,27 +25,42 @@ export default function TagSelectorOverlay({ tagCatalog, onChange, close }) {
 
 function toOptions(tagCatalog, tagTreeNodes, parentLabels = []) {
   const joinedParentLabels = parentLabels.join(' ');
-  return tagTreeNodes.map(tagTreeNode => ({
-    label: <Label path={parentLabels} label={tagTreeNode.label} hasChildren={tagTreeNode.children?.length > 0} />,
-    description: tagTreeNode.description,
-    searchable: `${joinedParentLabels} ${tagTreeNode.label} ${tagTreeNode.description} ${tagTreeNode.tagName}`,
-    tagName: tagTreeNode.tagName,
-    icon: tagTreeNode.icon,
-    children: tagTreeNode.children
-      ? toOptions(tagCatalog, tagTreeNode.children, parentLabels.concat(tagTreeNode.label))
-      : emptyArray
-  }));
+  return tagTreeNodes.map(tagTreeNode => {
+    return {
+      label: tagTreeNode.label,
+      breadcrumbAndLabel: (
+        <BreadcrumbAndLabel
+          path={parentLabels}
+          label={tagTreeNode.label}
+          hasChildren={tagTreeNode.children?.length > 0}
+        />
+      ),
+      description: tagTreeNode.description,
+      keywords: [joinedParentLabels, tagTreeNode.label, tagTreeNode.description, tagTreeNode.tagName]
+        .filter(Boolean)
+        .join(' '),
+      tagName: tagTreeNode.tagName,
+      icon: tagTreeNode.icon,
+      children: tagTreeNode.children
+        ? toOptions(tagCatalog, tagTreeNode.children, parentLabels.concat(tagTreeNode.label))
+        : emptyArray
+    };
+  });
 }
 
-function Label({ path, label, hasChildren }) {
+function BreadcrumbAndLabel({ path, label, hasChildren }) {
   if (hasChildren) {
     return <>{label}</>;
   }
 
   return (
     <>
-      <span className={locals.path}>{path.join(' ')}</span>
-      {path.length > 0 && <SvgIcon className={locals.icon} type="lib_arrow_drop_right" />}
+      {path.map(part => (
+        <span className={locals.path} key={part}>
+          {part}
+          <SvgIcon className={locals.icon} type="lib_arrow_drop_right" />
+        </span>
+      ))}
       {label}
     </>
   );
