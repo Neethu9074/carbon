@@ -26,7 +26,7 @@
     "generateMetricOverview": "GENERATE_METRIC_OVERVIEW=true yarn run test:unit",
     "reformat": "prettier --single-quote --print-width 120 --write \"packages/**/*.{js,less}\"",
     "postinstall": "./build/postInstall",
-    "precommit": "yarn run check:yarn-lock-exists && yarn run test:unit && git add README.md && lint-staged"
+    "precommit": "yarn run check:yarn-lock-exists && lint-staged && yarn run test:unit && git add README.md "
   },
   "lint-staged": {
     "*.js": [
