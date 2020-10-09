@@ -10,6 +10,7 @@ import { Row, Col } from 'in-new-components/layout/Grid';
 import Message from 'in-new-components/Message';
 import Title from 'in-components/Title/Title';
 import SvgIcon from 'in-components/SvgIcon';
+import Link from 'in-components/Link';
 
 import locals from './AccountSettings.mless';
 
@@ -77,7 +78,14 @@ function render({ form }) {
         <Message
           className={locals.message}
           withIcon
-          title="If any of the info on this page needs corrections, please contact salesops@instana.com"
+          title={
+            <>
+              If any of the info on this page needs corrections, please contact{' '}
+              <Link external href="mailto:salesops@instana.com">
+                salesops@instana.com
+              </Link>
+            </>
+          }
         />
       </form>
     </>

@@ -6,16 +6,17 @@ import { buildJsonSerializer, buildJsonParser } from 'in-stores/navigation/matri
 import ComboBoxBehavior from 'in-components/form/ComboBox/ComboBoxBehavior';
 import DropdownButton from 'in-new-components/Button/DropdownButton';
 import { getAccountAsResultObservable } from 'in-amp/api/account';
+import ExpiredLicenses from 'in-amp/components/ExpiredLicenses';
 import AmpTimeSelection from 'in-amp/components/TimeSelection';
 import { hasError, isLoading } from 'in-services/util/result';
 import QueuedLicenses from 'in-amp/components/QueuedLicenses';
+import ActiveLicenses from 'in-amp/components/ActiveLicenses';
 import ApiItemView from 'in-settings/components/ApiItemView';
 import { pendingResult } from 'in-services/fixedObjects';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import UsageChart from 'in-amp/components/UsageChart';
 import { tenantUnitChanged } from 'in-amp/tracker';
 import useObservable from 'in-hooks/useObservable';
-import Licenses from 'in-amp/components/Licenses';
 import Message from 'in-new-components/Message';
 import useUrlState from 'in-hooks/useUrlState';
 import Card from 'in-new-components/Card';
@@ -32,20 +33,14 @@ export default function UsageWithAccountInfo() {
     return <ApiItemView hideFooter result={accountResult ?? pendingResult} />;
   }
 
-  return <Usage environments={accountResult.data.environments} />;
+  return <Usage environments={accountResult.data.environments.filter(containsValidLicense)} />;
 }
 
 function Usage({ environments }) {
-  const unitSelectorOptions = environments.map(({ tenant, unit }) => {
-    const label = `${unit}-${tenant}`;
-    return {
-      label,
-      value: { tenant, unit, label }
-    };
-  });
-
   const canShowAggregatedMetrics = containsPaidLicenses(environments);
-  const initialState = canShowAggregatedMetrics ? aggregatedState : unitSelectorOptions[0].value;
+  const unitSelectorOptions = environments.map(mapEnvironmentToComboBoxItem);
+
+  const initialState = (canShowAggregatedMetrics ? aggregatedState : unitSelectorOptions[0]?.value) ?? aggregatedState;
   const [{ tenantUnit, windowSize }, onChange] = useUrlState({
     bind: [
       {
@@ -186,7 +181,14 @@ function Usage({ environments }) {
         <Row>
           <Col xs={12}>
             <Card title="Active Licenses">
-              <Licenses />
+              <ActiveLicenses />
+            </Card>
+          </Col>
+        </Row>
+        <Row>
+          <Col xs={12}>
+            <Card title="Expired Licenses">
+              <ExpiredLicenses />
             </Card>
           </Col>
         </Row>
@@ -202,15 +204,48 @@ function Usage({ environments }) {
   );
 }
 
-function containsPaidLicenses(environments) {
-  for (let i = 0; i < environments.length; i++) {
-    const licenses = environments[i].licenses ?? [];
-    for (let i2 = 0; i2 < licenses.length; i2++) {
-      const license = licenses[i2];
-      if (license.paid) {
-        return true;
-      }
+function containsValidLicense(environment) {
+  return containsActiveLicense(environment) || containsLicenseWhichIsNotOlderThan30Days(environment);
+}
+
+function containsActiveLicense({ activeLicenses = [] }) {
+  return activeLicenses.length > 0;
+}
+
+function containsLicenseWhichIsNotOlderThan30Days({ expiredLicenses = [] }) {
+  const now = Date.now();
+  const thirtyDays = days.toMillis(30);
+
+  for (const { expire } of expiredLicenses.length) {
+    if (now - expire <= thirtyDays) {
+      return true;
     }
   }
   return false;
+}
+
+function containsPaidLicenses(environments) {
+  for (const { activeLicenses, expiredLicenses } of environments.length) {
+    if (containsPaidLicense(activeLicenses) || containsPaidLicense(expiredLicenses)) {
+      return true;
+    }
+  }
+  return false;
+}
+
+function containsPaidLicense(licenses) {
+  for (const { paid } of licenses.length) {
+    if (paid) {
+      return true;
+    }
+  }
+  return false;
+}
+
+function mapEnvironmentToComboBoxItem({ tenant, unit }) {
+  const label = `${unit}-${tenant}`;
+  return {
+    label,
+    value: { tenant, unit, label }
+  };
 }

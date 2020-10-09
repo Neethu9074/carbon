@@ -24,18 +24,22 @@ function getAccountAsResultObservableInternal() {
   );
 }
 
-export const getLicensesAsResultObservable = memoize(getLicensesAsResultObservableInternal, page => page, 60000);
-function getLicensesAsResultObservableInternal(page, pageSize) {
-  return refreshSignal.flatMap(() =>
-    createObservable(
-      http({
-        method: 'GET',
-        maxRetries: 3,
-        url: `/api/settings/amp/account/licenses`,
-        queryParams: { page, pageSize }
-      })
-    )
-  );
+export const getActiveLicensesAsResultObservable = memoize(
+  getActiveLicensesAsResultObservableInternal,
+  page => page,
+  60000
+);
+function getActiveLicensesAsResultObservableInternal(page, pageSize) {
+  return refreshSignal.flatMap(() => createLicenseObservable(page, pageSize, 'activeLicenses'));
+}
+
+export const getExpiredLicensesAsResultObservable = memoize(
+  getExpiredLicensesAsResultObservableInternal,
+  page => page,
+  60000
+);
+function getExpiredLicensesAsResultObservableInternal(page, pageSize) {
+  return refreshSignal.flatMap(() => createLicenseObservable(page, pageSize, 'expiredLicenses'));
 }
 
 export const getQueuedLicensesAsResultObservable = memoize(
@@ -44,14 +48,16 @@ export const getQueuedLicensesAsResultObservable = memoize(
   60000
 );
 function getQueuedLicensesAsResultObservableInternal(page, pageSize) {
-  return refreshSignal.flatMap(() =>
-    createObservable(
-      http({
-        method: 'GET',
-        maxRetries: 3,
-        url: `/api/settings/amp/account/queuedLicenses`,
-        queryParams: { page, pageSize }
-      })
-    )
+  return refreshSignal.flatMap(() => createLicenseObservable(page, pageSize, 'queuedLicenses'));
+}
+
+function createLicenseObservable(page, pageSize, type) {
+  return createObservable(
+    http({
+      method: 'GET',
+      maxRetries: 3,
+      url: `/api/settings/amp/account/${type}`,
+      queryParams: { page, pageSize }
+    })
   );
 }

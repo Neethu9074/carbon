@@ -1,7 +1,9 @@
 import React from 'react';
 
+import globalHighlightConfig from 'in-components/Chart/components/ContextMenu/actions/globalHighlight';
 import UsageTimeConfigContextModification from 'in-amp/components/UsageTimeConfigContextModification';
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
+import zoomInConfig from 'in-components/Chart/components/ContextMenu/actions/zoomIn';
 import { formatDate, formatDateTime } from 'in-services/formatters/date';
 import { days, hours } from 'in-services/time';
 
@@ -25,6 +27,7 @@ export default function UsageChart({ windowSize, showAggregatedMetrics, y1, y2 }
         shareMaxAxisDomain
         automaticallySize={false}
         tooltipTimeFormatter={tooltipTimeFormatter}
+        excludedContextMenuActions={[zoomInConfig.name, globalHighlightConfig.name]}
         config={{
           y1: {
             ...y1,
