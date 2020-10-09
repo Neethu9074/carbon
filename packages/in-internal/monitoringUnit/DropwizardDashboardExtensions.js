@@ -105,6 +105,8 @@ export default connect(({ snapshot, timeConfig }) => ({
             <option value="">Resilient mapping (select one)</option>
             <option value={`${adminUrl}/admin/appCacheEntries?size=50&minEntities=0`}>Application Mapping</option>
             <option value={`${adminUrl}/admin/serviceCacheEntries?size=50&minEntities=0`}>Service Mapping</option>
+            <option value={`${adminUrl}/admin/pathTemplateEntries`}>Endpoint Mapping (Path template cache)</option>
+            <option value={`${adminUrl}/admin/invalidPathTemplates`}>Endpoint Mapping (Invalid path templates)</option>
           </Select>
         )}
       </DashboardSection>
