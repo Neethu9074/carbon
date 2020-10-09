@@ -539,7 +539,7 @@ function Selection({ height, selectionStart, selectionWidth, selectionAdjustable
           <div
             className={locals.selectionHandle}
             style={{
-              left: selectionStart + selectionWidth - SELECTION_HANDLE_WIDTH_IN_PX / 2 + 1 + 'px',
+              left: selectionStart + selectionWidth - SELECTION_HANDLE_WIDTH_IN_PX / 2 + 'px',
               ...selectionHandleBaseStyle
             }}
           />
