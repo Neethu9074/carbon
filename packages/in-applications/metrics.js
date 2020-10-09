@@ -3,9 +3,9 @@ import { assign, merge } from 'lodash';
 import { WIGGLE_ROOM, ANIMATION_DURATION } from 'in-components/Chart/Configuration';
 import { getBlockSizeMillis } from 'in-services/util/dynamicAggregation';
 import { sensibleGranularities } from 'in-stores/metric/metric';
-import { maximumWindowSize } from 'in-stores/time/config';
 
 const maximumNumberOfUsefulDataPoints = 80;
+const EXTEND_TIME_WINDOW_CUTOFF = 24 * 3600 * 1000;
 
 export function getChartGranularity({ windowSize }) {
   const granularity = sensibleGranularities.find(
@@ -64,9 +64,12 @@ export function extendWindowSizeOnLiveMode(timeConfig) {
   const granularity = getChartGranularity(timeConfig);
   const modifiedTimeConfig = assign({}, timeConfig);
   const animationDuration = timeConfig.autoRefresh ? ANIMATION_DURATION : 0;
-  modifiedTimeConfig.windowSize = Math.min(
-    maximumWindowSize,
-    modifiedTimeConfig.windowSize + WIGGLE_ROOM + 2 * Math.max(animationDuration, granularity)
-  );
+  // No need to extend large time window because the impact of animationDuration and WIGGLE_ROOM will not be visible.
+  // Extending a 7 days time window could also result in querying historic data
+  if (modifiedTimeConfig.windowSize <= EXTEND_TIME_WINDOW_CUTOFF) {
+    modifiedTimeConfig.windowSize =
+      modifiedTimeConfig.windowSize + WIGGLE_ROOM + 2 * Math.max(animationDuration, granularity);
+  }
+
   return modifiedTimeConfig;
 }

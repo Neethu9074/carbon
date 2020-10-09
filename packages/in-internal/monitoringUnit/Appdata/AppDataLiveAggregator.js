@@ -44,7 +44,7 @@ const hostViewCols = [
 
 export default connectTo({
   timeConfig: timeConfig$,
-  rows: getDropwizardWithContext('entity.label:"appdata-live-aggregator"')
+  rows: getDropwizardWithContext('entity.label:"appdata-live-aggregator*"')
 })(function AppDataLiveAggregator({ rows, timeConfig }) {
   if (rows.length === 0) {
     return <LoadingIndicator />;
