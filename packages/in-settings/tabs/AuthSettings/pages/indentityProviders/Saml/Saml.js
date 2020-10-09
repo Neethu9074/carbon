@@ -99,6 +99,29 @@ function render({ file, form, setForm, input, setCanSaveItem }) {
               ))}
             </Col>
           </Row>
+
+          <Row className={indentityProvidersLocals.row}>
+            <Col xs={12}>
+              {form.get('ownerEmail').map(field => (
+                <FormGroup>
+                  <Label htmlFor="ownerEmail" hasError={!field.valid && field.touched}>
+                    This account is automatically assigned an admin role.
+                  </Label>
+
+                  <Input
+                    className={locals.input}
+                    type="text"
+                    id="ownerEmail"
+                    value={field.value}
+                    onChange={e => {
+                      setForm(form.updateIn(['ownerEmail'], f => f.setValue(e.target.value).setTouched(true)));
+                    }}
+                    autoComplete="off"
+                  />
+                </FormGroup>
+              ))}
+            </Col>
+          </Row>
         </Section>
 
         <Section restrictWidth="50rem">
@@ -223,5 +246,6 @@ function enrichForm(form, { setCanDeleteItem, result: { config } }) {
     .put('samlSignInCallbackUrl', createField({ value: config.samlSignInCallbackUrl || '' }))
     .put('samlSignOutCallbackUrl', createField({ value: config.samlSignOutCallbackUrl || '' }))
     .put('spEntityId', createField({ value: config.spEntityId || '' }))
+    .put('ownerEmail', createField({ value: config.spEntityId || '' }))
     .put('nameIdFormat', createField({ value: config.nameIdFormat || '' }));
 }

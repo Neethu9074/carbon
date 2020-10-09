@@ -175,12 +175,11 @@ function render({ form, setForm, testResultMessage, setTestResultMessage }) {
           </Row>
         </Section>
         <Section restrictWidth="50rem">
-          <h3>Test configuration</h3>
+          <h3>LDAP user account</h3>
 
           <Row className={indentityProvidersLocals.row}>
             <Col xs={6}>
               <FormInput
-                placeholder="(optional)"
                 className={locals.formGroupWithoutMargin}
                 form={form}
                 setForm={setForm}
@@ -200,7 +199,7 @@ function render({ form, setForm, testResultMessage, setTestResultMessage }) {
               />
             </Col>
             <Col xs={12}>
-              <DescriptionText>These credentials are not stored and are used once for testing only.</DescriptionText>
+              <DescriptionText>This account is automatically assigned an admin role.</DescriptionText>
             </Col>
             <Col xs={12}>
               <Button

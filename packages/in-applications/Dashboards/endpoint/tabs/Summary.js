@@ -39,10 +39,13 @@ export default connectTo(
     });
 
     const tagFilters = [
-      { stringValue: serviceId, name: 'service.id', entity: DESTINATION, operator: EQUALS },
       { stringValue: endpointId, name: 'endpoint.id', entity: DESTINATION, operator: EQUALS },
       { booleanValue: includeSyntheticCalls, name: 'include_synthetic', entity: NOT_APPLICABLE, operator: EQUALS }
     ];
+
+    if (serviceId != null) {
+      tagFilters.push({ stringValue: serviceId, name: 'service.id', entity: DESTINATION, operator: EQUALS });
+    }
 
     if (applicationId != null) {
       if (boundaryScope === boundaryScopes.all) {
