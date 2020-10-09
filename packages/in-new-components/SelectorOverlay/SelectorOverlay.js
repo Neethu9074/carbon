@@ -19,13 +19,16 @@ const initialState = {
   focusOnNode: false
 };
 
-export default function SelectorOverlay({ options, onChange, withIcons = true, nonSearchableOptions = [] }) {
+export default function SelectorOverlay({ options, onChange, withIcons = true }) {
   const [{ query, focussedNode, showFocussedNode }, setState] = useState(initialState);
   options = useMemo(() => {
     if (isNotBlank(query)) {
-      return search(options, query);
+      return search(
+        options.filter(level => level.searchable),
+        query
+      );
     }
-    return [...nonSearchableOptions, ...options];
+    return options;
   }, [options, query]);
 
   // Used to jump to the first available group when clicking enter in the input field.

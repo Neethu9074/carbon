@@ -13,8 +13,7 @@ export default function TagSelectorOverlay({ tagCatalog, onChange, close }) {
   return (
     <SelectorOverlay
       withIcons
-      options={options.slice(1)}
-      nonSearchableOptions={options.slice(0, 1)} // commonly used tags are the first category and should not be searchable
+      options={options}
       onChange={node => {
         onChange({ name: node.tagName });
         close();
@@ -35,6 +34,7 @@ function toOptions(tagCatalog, tagTreeNodes, parentLabels = []) {
           hasChildren={tagTreeNode.children?.length > 0}
         />
       ),
+      searchable: tagTreeNode.searchable,
       description: tagTreeNode.description,
       keywords: [joinedParentLabels, tagTreeNode.label, tagTreeNode.description, tagTreeNode.tagName]
         .filter(Boolean)
