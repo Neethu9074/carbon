@@ -17,12 +17,13 @@ import ThresholdConditionFormGroup from 'in-new-components/Alerting/advanced/Thr
 import IncompleteChartPlaceholder from 'in-new-components/Alerting/components/IncompleteChartPlaceholder';
 import ChartViewConfigurator from 'in-new-components/Alerting/components/ChartViewConfigurator';
 import { debouncedThresholdValueChangedTracker } from 'in-websites/alerting/trackingHelpers';
-import { isPercentageMetric, getThresholdLabel } from 'in-websites/alerting/form/formUtils';
+import { isPercentageMetric, getMetricUnitPostfix } from 'in-websites/alerting/form/formUtils';
 import { getTrackingObject } from 'in-new-components/Alerting/trackingHelpers';
 import { ruleMetricNameOptions } from 'in-websites/alerting/form/ruleFormData';
 import { blueprintConfigPropType } from 'in-new-components/Alerting/constants';
 import AlertingChart from 'in-new-components/Alerting/Chart/AlertingChart';
 import Dropdown from 'in-new-components/Alerting/Dropdown';
+import { isNotBlank } from 'in-services/util/string';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
 import connectTo from 'in-hoc/connectTo';
@@ -124,7 +125,7 @@ export function ThresholdCondition({
   const operatorOptions = enrichThresholdOperatorOptionsForApiConfigs(operatorValue);
   const operatorLabel = (operatorOptions.find(op => op.value === operatorValue) ?? operatorOptions[0]).label;
 
-  const thresholdValueLabel = getThresholdLabel(form);
+  const metricUnitPostfix = getMetricUnitPostfix(metricName);
 
   return (
     <ThresholdConditionFormGroup>
@@ -183,7 +184,7 @@ export function ThresholdCondition({
           debouncedThresholdValueChangedTracker(getTrackingObject(form, { value }));
         }}
       />
-      {thresholdValueLabel !== 'Count' && <Label htmlFor="thresholdValue">{thresholdValueLabel}</Label>}
+      {isNotBlank(metricUnitPostfix) && <Label htmlFor="thresholdValue">{metricUnitPostfix}</Label>}
     </ThresholdConditionFormGroup>
   );
 }

@@ -20,11 +20,12 @@ import { isDifferentOperatorDirection } from 'in-new-components/Alerting/utils/a
 import { SensitivitySlider } from 'in-new-components/Alerting/advanced/SensitivitySlider';
 import { getTrackingObject } from 'in-new-components/Alerting/trackingHelpers';
 import { blueprintConfigPropType } from 'in-new-components/Alerting/constants';
+import { getMetricUnitPostfix } from 'in-applications/alerting/form/formUtils';
 import { findEntryByValue } from 'in-new-components/Alerting/utils/formUtils';
-import { getThresholdLabel } from 'in-applications/alerting/form/formUtils';
 import AlertingChart from 'in-new-components/Alerting/Chart/AlertingChart';
 import createRuleForm from 'in-applications/alerting/form/ruleForm';
 import Dropdown from 'in-new-components/Alerting/Dropdown';
+import { isNotBlank } from 'in-services/util/string';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
 import connectTo from 'in-hoc/connectTo';
@@ -123,8 +124,10 @@ function ThresholdCondition({
 }) {
   const operatorValue = form.get('threshold').get('operator').value;
   const operatorLabel = thresholdOperatorOptions.find(op => op.value === operatorValue).label;
+
   const thresholdType = form.get('threshold').get('type')?.value;
   const metricName = form.get('rule').get('metricName').value;
+  const metricUnitPostfix = getMetricUnitPostfix(metricName);
 
   return (
     <>
@@ -213,10 +216,7 @@ function ThresholdCondition({
               debouncedThresholdValueChangedTracker(getTrackingObject(form, { value: newThresholdValue }));
             }}
           />
-
-          <Label className={locals.formLabel} htmlFor="thresholdValue">
-            {getThresholdLabel(form)}
-          </Label>
+          {isNotBlank(metricUnitPostfix) && <Label htmlFor="thresholdValue">{metricUnitPostfix}</Label>}
         </ThresholdConditionFormGroup>
       )}
 

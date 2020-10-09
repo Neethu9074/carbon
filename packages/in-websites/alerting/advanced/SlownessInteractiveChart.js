@@ -23,8 +23,8 @@ import {
 } from 'in-new-components/Alerting/advanced/thresholdFormData';
 import ThresholdConditionFormGroup from 'in-new-components/Alerting/advanced/ThresholdConditionFormGroup';
 import createThresholdForm, { defaultDeviationFactor } from 'in-websites/alerting/form/thresholdForm';
+import { getFormValueOrDefault, getMetricUnitPostfix } from 'in-websites/alerting/form/formUtils';
 import ChartViewConfigurator from 'in-new-components/Alerting/components/ChartViewConfigurator';
-import { getFormValueOrDefault, getThresholdLabel } from 'in-websites/alerting/form/formUtils';
 import { SensitivitySlider } from 'in-new-components/Alerting/advanced/SensitivitySlider';
 import { getTrackingObject } from 'in-new-components/Alerting/trackingHelpers';
 import { blueprintConfigPropType } from 'in-new-components/Alerting/constants';
@@ -32,6 +32,7 @@ import { findEntryByValue } from 'in-new-components/Alerting/utils/formUtils';
 import AlertingChart from 'in-new-components/Alerting/Chart/AlertingChart';
 import createRuleForm from 'in-websites/alerting/form/ruleForm';
 import Dropdown from 'in-new-components/Alerting/Dropdown';
+import { isNotBlank } from 'in-services/util/string';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
 import connectTo from 'in-hoc/connectTo';
@@ -61,7 +62,7 @@ function SlownessInteractiveChart({
   const [doDebounceThreshold, setDoDebounceThreshold] = useState(false);
   const [doDebounceDeviationFactor, setDoDebounceDeviationFactor] = useState(false);
 
-  const metricName = form.get('rule').get('metricName');
+  const metricName = form.get('rule').get('metricName').value;
   const alertConfig = {
     ...form.toJS(),
     threshold: {
@@ -138,6 +139,7 @@ export function ThresholdCondition({
   const operatorLabel = operatorOptions.find(op => op.value === operatorValue).label;
 
   const thresholdType = form.get('threshold').get('type')?.value;
+  const metricUnitPostfix = getMetricUnitPostfix(metricName);
 
   return (
     <>
@@ -233,10 +235,7 @@ export function ThresholdCondition({
               debouncedThresholdValueChangedTracker(getTrackingObject(form, { value }));
             }}
           />
-
-          <Label className={locals.formLabel} htmlFor="thresholdValue">
-            {getThresholdLabel(form)}
-          </Label>
+          {isNotBlank(metricUnitPostfix) && <Label htmlFor="thresholdValue">{metricUnitPostfix}</Label>}
         </ThresholdConditionFormGroup>
       )}
       {thresholdType !== 'staticThreshold' && (
