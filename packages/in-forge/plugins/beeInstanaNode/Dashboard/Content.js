@@ -1,7 +1,7 @@
 import React from 'react';
 
+import { number, twoDecimalPlaces, bytes, millis, seconds } from 'in-services/formatters/number';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
-import { number, twoDecimalPlaces, bytes } from 'in-services/formatters/number';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
@@ -19,89 +19,115 @@ export default function BeeInstanaDashboard({ snapshot, timeConfig }) {
           <KpiKeyValue label="Metrics">
             <MetricValue
               snapshotId={snapshotId}
-              metric="Ingestor.Aggregate.NumOfMetrics.max"
+              metric="Ingestor.AggregatorFlushByTimeAndPartition.NumOfMetrics.sum"
               formatter={number.compact}
             />
           </KpiKeyValue>
-          <KpiKeyValue label="Datapoints">
+          <KpiKeyValue label="Messages">
             <MetricValue
               snapshotId={snapshotId}
-              metric="Ingestor.Aggregate.NumOfDatapoints.max"
+              metric="Ingestor.KafkaConsumer.MessageDelay.count"
               formatter={number.compact}
             />
           </KpiKeyValue>
-          <KpiKeyValue label="Observations">
+          <KpiKeyValue label="Errors">
             <MetricValue
               snapshotId={snapshotId}
-              metric="Ingestor.Aggregate.NumOfObservations.max"
+              metric="Ingestor.KafkaConsumer.Error.sum"
               formatter={number.compact}
             />
           </KpiKeyValue>
-          <KpiKeyValue label="Package size">
+          <KpiKeyValue label="SpillOver">
             <MetricValue
               snapshotId={snapshotId}
-              metric="Ingestor.Aggregate.MetricPackageSize.max"
+              metric="Ingestor.KafkaConsumer.SpillOver.sum"
               formatter={bytes.compact}
             />
           </KpiKeyValue>
         </KpiSection>
 
-        <DashboardSection title="Counts">
+        <DashboardSection title="Metrics">
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              metrics: ['Ingestor.AggregatorFlushByTimeAndPartition.NumOfMetrics.sum'],
+              labels: ['Count'],
+              type: 'line',
+              formatter: number.detailed
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+
+        <DashboardSection title="Kafka message consumer">
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               min: 0,
               metrics: [
-                'Ingestor.Aggregate.NumOfMetrics.max',
-                'Ingestor.Aggregate.NumOfObservations.max',
-                'Ingestor.Aggregate.NumOfDatapoints.max'
+                'Ingestor.KafkaConsumer.NumOfMetrics.sum',
+                'Ingestor.KafkaConsumer.NumOfDataPoints.sum',
+                'Ingestor.KafkaConsumer.MessageDelay.count',
+                'Ingestor.KafkaConsumer.Error.sum'
               ],
-              labels: ['Metrics', 'Observations', 'Datapoints'],
+              labels: ['Metric count', 'Datapoint count', 'Message count', 'Message error count'],
               type: 'line',
               formatter: number.compact
             }}
-            renderPostChartContent={PluginDashboardsMarkerLanes}
-          />
-        </DashboardSection>
-
-        <DashboardSection title="Package">
-          <Chart
-            snapshotId={snapshotId}
-            timeConfig={timeConfig}
-            y1={{
+            y2={{
               min: 0,
-              metrics: ['Ingestor.Aggregate.MetricPackageSize.max'],
-              labels: ['Size'],
+              metrics: [
+                'Ingestor.KafkaConsumer.MessageDelay.max'
+              ],
+              labels: ['Message delay'],
               type: 'line',
-              formatter: bytes.detailed
+              formatter: millis.compact
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
 
-        <DashboardSection title="Task queue">
+        <DashboardSection title="Queue and worker statistics">
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               min: 0,
-              metrics: ['Ingestor.Aggregate.TaskQueueSize.max'],
-              labels: ['Size'],
+              metrics: [
+                'Ingestor.Configuration.MaxQueueSize.max',
+                'Ingestor.KafkaConsumer.TaskQueueSize.max',
+                'Ingestor.KafkaConsumer.SpillOver.sum',
+                'Ingestor.Configuration.WorkerPoolSize.max'
+              ],
+              labels: ['MaxQueueSize', 'TaskQueueSize', 'SpillOver', 'WorkerPoolSize'],
               type: 'line',
-              formatter: number.compact
+              formatter: twoDecimalPlaces
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
 
-        <DashboardSection title="Clients">
+        <DashboardSection title="Flush statistics">
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               min: 0,
-              metrics: ['Ingestor.Connection.NumOfClients.max'],
+              metrics: [
+                'Ingestor.AggregatorFlushByTimeAndPartition.Duration.max'
+              ],
+              labels: ['Duration'],
+              type: 'line',
+              formatter: seconds.detailed
+            }}
+            y2={{
+              min: 0,
+              metrics: [
+                'Ingestor.AggregatorFlushByTimeAndPartition.Duration.count'
+              ],
               labels: ['Count'],
               type: 'line',
               formatter: number.compact
@@ -110,29 +136,27 @@ export default function BeeInstanaDashboard({ snapshot, timeConfig }) {
           />
         </DashboardSection>
 
-        <DashboardSection title="Connections">
+        <DashboardSection title="Sender statistics">
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               min: 0,
-              metrics: ['Ingestor.Connection.TotalConnections.max'],
-              labels: ['Count'],
+              metrics: [
+                'Ingestor.HttpSender.SucceededBytes.sum',
+                'Ingestor.HttpSender.FailedBytes.sum'
+              ],
+              labels: ['SucceededBytes', 'FailedBytes'],
               type: 'line',
-              formatter: number.compact
+              formatter: bytes.compact
             }}
-            renderPostChartContent={PluginDashboardsMarkerLanes}
-          />
-        </DashboardSection>
-
-        <DashboardSection title="Authentications failed">
-          <Chart
-            snapshotId={snapshotId}
-            timeConfig={timeConfig}
-            y1={{
+            y2={{
               min: 0,
-              metrics: ['Ingestor.Authentication.Failed.max'],
-              labels: ['Count'],
+              metrics: [
+                'Ingestor.HttpSender.SucceededBytes.count',
+                'Ingestor.HttpSender.FailedBytes.count'
+              ],
+              labels: ['Succeeded count', 'Failed count'],
               type: 'line',
               formatter: number.compact
             }}
@@ -186,7 +210,79 @@ export default function BeeInstanaDashboard({ snapshot, timeConfig }) {
           />
         </DashboardSection>
 
-        <DashboardSection title="Metric pruning durations (seconds)">
+        <DashboardSection title="Queue statistics">
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              metrics: [
+                'Aggregator.AggregateBinary.SpillOver.sum',
+                'Aggregator.AggregatorStats.TaskQueueSize.max'
+              ],
+              labels: ['SpillOver', 'TaskQueueSize'],
+              type: 'line',
+              formatter: twoDecimalPlaces
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+
+        <DashboardSection title="GetMetrics API">
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              metrics: [
+                'Aggregator.GetMetrics.Timing.max',
+                'Aggregator.GetMetrics.Timing.min'
+              ],
+              labels: ['Max latency', 'Min latency'],
+              type: 'line',
+              formatter: millis.compact
+            }}
+            y2={{
+              min: 0,
+              metrics: [
+                'Aggregator.GetMetrics.Timing.count'
+              ],
+              labels: ['Request count'],
+              type: 'line',
+              formatter: number.compact
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+
+        <DashboardSection title="GetMetricData API">
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              metrics: [
+                'Aggregator.GetMetricData.Timing.max',
+                'Aggregator.GetMetricData.Timing.min'
+              ],
+              labels: ['Max latency', 'Min latency'],
+              type: 'line',
+              formatter: millis.compact
+            }}
+            y2={{
+              min: 0,
+              metrics: [
+                'Aggregator.GetMetricData.Timing.count'
+              ],
+              labels: ['Request count'],
+              type: 'line',
+              formatter: number.compact
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+
+        <DashboardSection title="Metric pruning durations">
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
@@ -200,7 +296,7 @@ export default function BeeInstanaDashboard({ snapshot, timeConfig }) {
               ],
               labels: ['10s period', '1m period', '5m period', '1h period'],
               type: 'line',
-              formatter: twoDecimalPlaces
+              formatter: seconds.detailed
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
@@ -221,6 +317,26 @@ export default function BeeInstanaDashboard({ snapshot, timeConfig }) {
               labels: ['10s period', '1m period', '5m period', '1h period'],
               type: 'line',
               formatter: number.compact
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+
+        <DashboardSection title="Move to longterm storage durations">
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              metrics: [
+                'Aggregator.MoveToLongtermStorage.period10.Duration.max',
+                'Aggregator.MoveToLongtermStorage.period60.Duration.max',
+                'Aggregator.MoveToLongtermStorage.period300.Duration.max',
+                'Aggregator.MoveToLongtermStorage.period3600.Duration.max'
+              ],
+              labels: ['10s period', '1m period', '5m period', '1h period'],
+              type: 'line',
+              formatter: seconds.detailed
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
@@ -259,35 +375,6 @@ export default function BeeInstanaDashboard({ snapshot, timeConfig }) {
                 'Aggregator.AggregatorPrune.period3600.NumLiveColumnFamilies.max'
               ],
               labels: ['10s period', '1m period', '5m period', '1h period'],
-              type: 'line',
-              formatter: number.compact
-            }}
-            renderPostChartContent={PluginDashboardsMarkerLanes}
-          />
-        </DashboardSection>
-
-        <DashboardSection title="Connection pool statistics">
-          <Chart
-            snapshotId={snapshotId}
-            timeConfig={timeConfig}
-            y1={{
-              min: 0,
-              metrics: [
-                'Aggregator.QueryConnectionPool.NumRequests.max',
-                'Aggregator.QueryConnectionPool.NumNewSessions.max',
-                'Aggregator.QueryConnectionPool.NumConnectionsReuse.max'
-              ],
-              labels: ['Requests', 'New sessions', 'Connections reused'],
-              type: 'line',
-              formatter: number.compact
-            }}
-            y2={{
-              min: 0,
-              metrics: [
-                'Aggregator.QueryConnectionPool.PoolCapacity.max',
-                'Aggregator.QueryConnectionPool.PoolSize.max'
-              ],
-              labels: ['Pool capacity', 'Pool size'],
               type: 'line',
               formatter: number.compact
             }}
