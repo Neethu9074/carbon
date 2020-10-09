@@ -12,7 +12,7 @@ export function ComboChartMetricSelector({ metrics, selected, onChange }) {
     <ComboBoxBehavior
       value={selected}
       options={metrics.map(o => ({
-        value: o.value,
+        value: o.id || o.value,
         label: <div className={locals.comboOption}>{o.label}</div>
       }))}
       onChange={value => onChange(value)}
@@ -20,13 +20,8 @@ export function ComboChartMetricSelector({ metrics, selected, onChange }) {
       overlayAlignment="bottomRight"
     >
       {({ elementProps, isOpen }) => (
-        <DropdownButton
-          {...elementProps}
-          kind="subtle"
-          size="compact"
-          expanded={isOpen}
-        >
-          {metrics.find(o => o.value === selected).label}
+        <DropdownButton {...elementProps} kind="subtle" size="compact" expanded={isOpen}>
+          {metrics.find(o => (o.id || o.value) === selected).label}
         </DropdownButton>
       )}
     </ComboBoxBehavior>
@@ -34,26 +29,29 @@ export function ComboChartMetricSelector({ metrics, selected, onChange }) {
 }
 
 ComboChartMetricSelector.propTypes = {
-  metrics: PropTypes.arrayOf(PropTypes.shape({
-    value: PropTypes.string.isRequired,
-    label: PropTypes.string.isRequired
-  })).isRequired,
+  metrics: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string, // optional to disambiguate metrics with same metric value
+      value: PropTypes.string.isRequired,
+      label: PropTypes.string.isRequired
+    })
+  ).isRequired,
   selected: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired
 };
 
 export function TabChartSelector({ tabs, selected, onChange }) {
   return (
-      <ButtonGroup
-        activeKey={selected}
-        buttonPropsList={tabs.map(tab => ({
-          text: tab,
-          key: tab,
-          kind: 'primaryv2',
-          onClick: () => {
-            onChange(tab);
-          }
-        }))}
+    <ButtonGroup
+      activeKey={selected}
+      buttonPropsList={tabs.map(tab => ({
+        text: tab,
+        key: tab,
+        kind: 'primaryv2',
+        onClick: () => {
+          onChange(tab);
+        }
+      }))}
     />
   );
 }

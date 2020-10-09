@@ -9,42 +9,55 @@ import Card from 'in-new-components/Card';
 const tabCallCount = 'Call count';
 const tabHttpStatusCodes = 'HTTP status codes';
 
-const tabs = [tabCallCount, tabHttpStatusCodes];
+const tabs = [tabHttpStatusCodes, tabCallCount];
 const metrics = [
   {
-    label: 'Calls',
-    value: 'calls',
-    tab: tabCallCount
-  },
-  {
-    label: 'Erroneous Calls',
-    value: 'erroneousCalls',
-    tab: tabCallCount
-  },
-  {
+    id: 'http.1xx',
     label: '1XX',
     value: 'http.1xx',
     tab: tabHttpStatusCodes
   },
   {
+    id: 'http.2xx',
     label: '2XX',
     value: 'http.2xx',
     tab: tabHttpStatusCodes
   },
   {
+    id: 'http.3xx',
     label: '3XX',
     value: 'http.3xx',
     tab: tabHttpStatusCodes
   },
   {
+    id: 'http.4xx',
     label: '4XX',
     value: 'http.4xx',
     tab: tabHttpStatusCodes
   },
   {
+    id: 'http.5xx',
     label: '5XX',
     value: 'http.5xx',
     tab: tabHttpStatusCodes
+  },
+  {
+    id: 'calls.nonHttp',
+    label: 'Other',
+    value: 'calls',
+    tab: tabHttpStatusCodes
+  },
+  {
+    id: 'calls',
+    label: 'Calls',
+    value: 'calls',
+    tab: tabCallCount
+  },
+  {
+    id: 'erroneousCalls',
+    label: 'Erroneous Calls',
+    value: 'erroneousCalls',
+    tab: tabCallCount
   }
 ];
 
@@ -58,10 +71,11 @@ export default function CallsAndHttp({
   cardTitle,
   callGroupByTag,
   renderPostChartContent,
-  renderPostChartContentHttpStatus
+  renderPostChartContentHttpStatus,
+  showNonHttpCalls
 }) {
-  const findMetricByTab = tab => metrics.find(m => m.tab === tab).value;
-  const findTabByMetric = metric => metrics.find(m => m.value === metric).tab;
+  const findMetricByTab = tab => metrics.find(m => m.tab === tab).id;
+  const findTabByMetric = metric => metrics.find(m => m.id === metric).tab;
 
   const [activeTab, setActiveTab] = useState(tabs[0]);
   const [activeMetric, setActiveMetric] = useState(findMetricByTab(activeTab));
@@ -84,12 +98,16 @@ export default function CallsAndHttp({
   const timeShiftConfig = useTimeShiftConfig();
 
   const header = timeShiftConfig.offset ? (
-    <ComboChartMetricSelector metrics={metrics} selected={activeMetric} onChange={setActiveMetric} />
+    <ComboChartMetricSelector
+      metrics={showNonHttpCalls ? metrics : metrics.filter(metric => metric.id !== 'calls.nonHttp')}
+      selected={activeMetric}
+      onChange={setActiveMetric}
+    />
   ) : (
     <TabChartSelector tabs={tabs} selected={activeTab} onChange={setActiveTab} />
   );
 
-  const selectedTab = timeShiftConfig.offset ? metrics.find(o => o.value === activeMetric).tab : activeTab;
+  const selectedTab = timeShiftConfig.offset ? findTabByMetric(activeMetric) : activeTab;
   return (
     <Card title={cardTitle} header={header}>
       {selectedTab === tabCallCount ? (
@@ -118,6 +136,7 @@ export default function CallsAndHttp({
           groupByTag={{ name: 'call.http.status' }}
           renderPostChartContentHttpStatus={renderPostChartContentHttpStatus}
           showGraph
+          showNonHttpCalls={showNonHttpCalls}
         />
       )}
     </Card>

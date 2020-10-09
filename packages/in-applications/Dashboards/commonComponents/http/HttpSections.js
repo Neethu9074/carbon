@@ -1,173 +1,183 @@
 import theme from 'in-themes';
 import React from 'react';
 
-import { EQUALS, NOT_STARTS_WITH, STARTS_WITH } from 'in-new-components/QueryBuilder/tagFilter/operators';
+import { NOT_EQUAL, NOT_STARTS_WITH, STARTS_WITH } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import UnifiedMetricsChart, { parseMetricId } from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
-import { NOT_APPLICABLE } from 'in-new-components/QueryBuilder/tagFilter/entities';
-import getEndpointTypes from 'in-applications/subscriptions/getEndpointTypes';
 import { getChartGranularity } from 'in-applications/metrics';
 import { stackedBar, line } from 'in-stores/metric/renderer';
 import { number } from 'in-services/formatters/number';
-import connectTo from 'in-hoc/connectTo';
 
-export default connectTo(
-  ({ applicationId, serviceId, endpointId, timeConfig, boundaryScope }) => ({
-    types: getEndpointTypes({
-      filter: {
-        application: applicationId,
-        service: serviceId,
-        endpoint: endpointId,
-        timeConfig: timeConfig,
-        applicationBoundaryScope: boundaryScope
-      }
-    }).map(result => result.data || null)
-  }),
-  function HttpSections({
-    timeConfig,
-    types,
-    applicationId,
-    serviceId,
-    endpointId,
-    tagFilters,
-    boundaryScope,
-    filters,
-    isSynthetic,
-    groupByTag,
-    metrics,
-    renderPostChartContentHttpStatus,
-    timeShiftConfig,
-    timeShiftMetric
-  }) {
-    if (!hasHttpEndpoints(types)) {
-      return null;
+export default function HttpSections({
+  timeConfig,
+  applicationId,
+  serviceId,
+  endpointId,
+  tagFilters,
+  boundaryScope,
+  filters,
+  isSynthetic,
+  groupByTag,
+  metrics,
+  renderPostChartContentHttpStatus,
+  timeShiftConfig,
+  timeShiftMetric,
+  showNonHttpCalls
+}) {
+  const granularity = getChartGranularity(timeConfig);
+
+  const defaultMetricConfig = {
+    granularity,
+    aggregation: 'SUM',
+    source: 'APPLICATION',
+    tagFilters: tagFilters,
+    timeConfig: timeConfig,
+    timeShift: 0
+  };
+
+  const otherCallsMetricConfig = {
+    granularity,
+    aggregation: 'SUM',
+    source: 'APPLICATION',
+    tagFilters: [{ name: 'call.type', value: 'HTTP', operator: NOT_EQUAL }, ...tagFilters],
+    timeConfig: timeConfig,
+    timeShift: 0
+  };
+
+  const chartMetrics = [
+    {
+      config: defaultMetricConfig,
+      id: 'http.1xx',
+      metric: 'http.1xx',
+      label: '1XX',
+      color: theme.lib.colors.chart.strokeColors25[8]
+    },
+    {
+      config: defaultMetricConfig,
+      id: 'http.2xx',
+      metric: 'http.2xx',
+      label: '2XX',
+      color: theme.lib.colors.chart.strokeColors25[1]
+    },
+    {
+      config: defaultMetricConfig,
+      id: 'http.3xx',
+      metric: 'http.3xx',
+      label: '3XX',
+      color: theme.lib.colors.chart.strokeColors25[4]
+    },
+    {
+      config: defaultMetricConfig,
+      id: 'http.4xx',
+      metric: 'http.4xx',
+      label: '4XX',
+      color: theme.lib.colors.warning
+    },
+    {
+      config: defaultMetricConfig,
+      id: 'http.5xx',
+      metric: 'http.5xx',
+      label: '5XX',
+      color: theme.lib.colors.failure
     }
-    const granularity = getChartGranularity(timeConfig);
+  ];
 
-    const defaultMetricConfig = {
-      granularity,
-      aggregation: 'SUM',
-      source: 'APPLICATION',
-      tagFilters: tagFilters,
-      timeConfig: timeConfig,
-      timeShift: 0
+  if (showNonHttpCalls) {
+    chartMetrics.push({
+      config: otherCallsMetricConfig,
+      id: 'calls.nonHttp',
+      metric: 'calls',
+      label: 'Other',
+      color: '#9aa5a9'
+    });
+  }
+
+  let metricConfigs;
+  let renderer;
+  let colors;
+  if (timeShiftConfig.offset) {
+    const timeShiftChartMetric = chartMetrics.find(m => m.id === timeShiftMetric) ?? chartMetrics[0];
+    const timeShiftMetricConfig = {
+      metric: timeShiftChartMetric.metric,
+      label: timeShiftChartMetric.label,
+      ...timeShiftChartMetric.config
     };
-
-    const statusMetrics = [
+    metricConfigs = [
       {
-        ...defaultMetricConfig,
-        metric: 'http.1xx',
-        label: '1XX',
-        color: theme.lib.colors.chart.strokeColors25[8]
+        ...timeShiftMetricConfig,
+        timeShift: timeShiftConfig.offset
       },
+      // make sure the main metric renders over the time shifted metric
       {
-        ...defaultMetricConfig,
-        metric: 'http.2xx',
-        label: '2XX',
-        color: theme.lib.colors.chart.strokeColors25[1]
-      },
-      {
-        ...defaultMetricConfig,
-        metric: 'http.3xx',
-        label: '3XX',
-        color: theme.lib.colors.chart.strokeColors25[4]
-      },
-      {
-        ...defaultMetricConfig,
-        metric: 'http.4xx',
-        label: '4XX',
-        color: theme.lib.colors.warning
-      },
-      {
-        ...defaultMetricConfig,
-        metric: 'http.5xx',
-        label: '5XX',
-        color: theme.lib.colors.failure
+        ...timeShiftMetricConfig
       }
     ];
-
-    let metricsConfig;
-    let renderer;
-    let colors;
-    if (timeShiftConfig.offset) {
-      const timeShiftMetricConfig = statusMetrics.find(m => m.metric === timeShiftMetric) ?? statusMetrics[0];
-      metricsConfig = [
-        {
-          ...timeShiftMetricConfig,
-          timeShift: timeShiftConfig.offset
-        },
-        // make sure the main metric renders over the time shifted metric
-        {
-          ...timeShiftMetricConfig
-        }
-      ];
-      colors = [theme.lib.colors.timeShift, timeShiftMetricConfig.color];
-      renderer = line.id;
-    } else {
-      metricsConfig = statusMetrics;
-      colors = metricsConfig.map(m => m.color);
-      renderer = stackedBar.id;
-    }
-
-    return (
-      <UnifiedMetricsChart
-        renderPostChartContent={renderPostChartContentHttpStatus}
-        timeConfig={timeConfig}
-        automaticallySize={false}
-        reverseLegendOrder={timeShiftConfig.offset}
-        reverseTooltipOrder={timeShiftConfig.offset}
-        config={{
-          y1: {
-            metrics: metricsConfig,
-            colors: colors,
-            formatter: 'number.compact',
-            tooltipFormatter: number.compact,
-            renderer: renderer
-          },
-          y2: {
-            metrics: []
-          },
-          reverseOrder: true,
-          type: 'TIME_SERIES',
-          primaryContextMenuAction: 'analyze',
-          additionalContextMenuButtons: [
-            {
-              name: 'analyze',
-              icon: 'lib_analyze',
-              label: 'View in Analyze',
-              getHref$: (highlightedTime, metricsToAdd) =>
-                getJumpToAnalyzeHref$(
-                  {
-                    applicationId,
-                    serviceId,
-                    endpointId
-                  },
-                  {
-                    boundaryScope,
-                    dataSource: 'calls',
-                    filters: isSynthetic
-                      ? [
-                          { name: 'call.is_synthetic', value: 'true' },
-                          { name: 'include_synthetic', value: 'true' },
-                          { name: 'call.type', value: 'HTTP', operator: EQUALS, entity: NOT_APPLICABLE },
-                          ...mapMetricsToAdd(filters, metricsToAdd.renderedMetrics, metricsConfig, timeShiftConfig)
-                        ]
-                      : [
-                          { name: 'call.type', value: 'HTTP', operator: EQUALS, entity: NOT_APPLICABLE },
-                          ...mapMetricsToAdd(filters, metricsToAdd.renderedMetrics, metricsConfig, timeShiftConfig)
-                        ],
-                    groupByTag: groupByTag ? groupByTag : {},
-                    timeConfig: highlightedTime,
-                    metrics: metrics ? metrics : null
-                  }
-                )
-            }
-          ]
-        }}
-      />
-    );
+    colors = [theme.lib.colors.timeShift, timeShiftChartMetric.color];
+    renderer = line.id;
+  } else {
+    metricConfigs = chartMetrics.map(m => ({
+      metric: m.metric,
+      label: m.label,
+      ...m.config
+    }));
+    colors = chartMetrics.map(m => m.color);
+    renderer = stackedBar.id;
   }
-);
+
+  return (
+    <UnifiedMetricsChart
+      renderPostChartContent={renderPostChartContentHttpStatus}
+      timeConfig={timeConfig}
+      automaticallySize={false}
+      reverseLegendOrder={timeShiftConfig.offset}
+      reverseTooltipOrder={timeShiftConfig.offset}
+      config={{
+        y1: {
+          metrics: metricConfigs,
+          colors: colors,
+          formatter: 'number.compact',
+          tooltipFormatter: number.compact,
+          renderer: renderer
+        },
+        y2: {
+          metrics: []
+        },
+        reverseOrder: true,
+        type: 'TIME_SERIES',
+        primaryContextMenuAction: 'analyze',
+        additionalContextMenuButtons: [
+          {
+            name: 'analyze',
+            icon: 'lib_analyze',
+            label: 'View in Analyze',
+            getHref$: (highlightedTime, metricsToAdd) =>
+              getJumpToAnalyzeHref$(
+                {
+                  applicationId,
+                  serviceId,
+                  endpointId
+                },
+                {
+                  boundaryScope,
+                  dataSource: 'calls',
+                  filters: isSynthetic
+                    ? [
+                        { name: 'call.is_synthetic', value: 'true' },
+                        { name: 'include_synthetic', value: 'true' },
+                        ...mapMetricsToAdd(filters, metricsToAdd.renderedMetrics, metricConfigs, timeShiftConfig)
+                      ]
+                    : [...mapMetricsToAdd(filters, metricsToAdd.renderedMetrics, metricConfigs, timeShiftConfig)],
+                  groupByTag: groupByTag ? groupByTag : {},
+                  timeConfig: highlightedTime,
+                  metrics: metrics ? metrics : null
+                }
+              )
+          }
+        ]
+      }}
+    />
+  );
+}
 
 // Needs to add not rendered metrics to array
 function mapMetricsToAdd(filters, renderedMetrics, metrics, timeShiftConfig) {
@@ -205,15 +215,4 @@ function correctValue(metric) {
     case 'http.5xx':
       return '5';
   }
-}
-
-function hasHttpEndpoints(types) {
-  if (!types) {
-    return false;
-  }
-  return hasType('HTTP', types);
-}
-
-function hasType(type, types) {
-  return types.indexOf(type) >= 0;
 }

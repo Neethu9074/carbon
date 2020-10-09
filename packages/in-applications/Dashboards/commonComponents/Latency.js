@@ -49,38 +49,38 @@ export default function Latency({
 
   const latencyMetrics = [
     {
-      ...defaultMetricConfig,
+      config: defaultMetricConfig,
       aggregation: 'P50',
       label: '50th',
       color: theme.lib.colors.chart.strokeColors25[0]
     },
     {
-      ...defaultMetricConfig,
+      config: defaultMetricConfig,
       aggregation: 'P90',
       label: '90th',
       color: theme.lib.colors.chart.strokeColors25[1]
     },
     {
-      ...defaultMetricConfig,
+      config: defaultMetricConfig,
       aggregation: 'P95',
       label: '95th',
       color: theme.lib.colors.chart.strokeColors25[2]
     },
     {
-      ...defaultMetricConfig,
+      config: defaultMetricConfig,
       aggregation: 'P99',
       label: '99th',
       color: theme.lib.colors.chart.strokeColors25[3]
     },
     {
-      ...defaultMetricConfig,
+      config: defaultMetricConfig,
       aggregation: 'MAX',
       label: 'Max',
       color: theme.lib.colors.chart.strokeColors25[4],
       defaultDisabled: !timeShiftConfig.offset
     },
     {
-      ...defaultMetricConfig,
+      config: defaultMetricConfig,
       aggregation: 'MEAN',
       label: 'Mean',
       color: theme.lib.colors.chart.strokeColors25[5],
@@ -88,12 +88,17 @@ export default function Latency({
     }
   ];
 
-  let metricsConfig;
+  let metricConfigs;
   let renderer;
   let colors;
   if (timeShiftConfig.offset) {
-    const timeShiftMetricConfig = latencyMetrics.find(m => m.aggregation === timeShiftAggregation) ?? latencyMetrics[0];
-    metricsConfig = [
+    const timeShiftChartMetric = latencyMetrics.find(m => m.aggregation === timeShiftAggregation) ?? latencyMetrics[0];
+    const timeShiftMetricConfig = {
+      label: timeShiftChartMetric.label,
+      aggregation: timeShiftChartMetric.aggregation,
+      ...timeShiftChartMetric.config
+    };
+    metricConfigs = [
       {
         ...timeShiftMetricConfig,
         timeShift: timeShiftConfig.offset
@@ -103,11 +108,15 @@ export default function Latency({
         ...timeShiftMetricConfig
       }
     ];
-    colors = [theme.lib.colors.timeShift, timeShiftMetricConfig.color];
+    colors = [theme.lib.colors.timeShift, timeShiftChartMetric.color];
     renderer = line.id;
   } else {
-    metricsConfig = latencyMetrics;
-    colors = metricsConfig.map(m => m.color);
+    metricConfigs = latencyMetrics.map(m => ({
+      label: m.label,
+      aggregation: m.aggregation,
+      ...m.config
+    }));
+    colors = latencyMetrics.map(m => m.color);
     renderer = integral.id;
   }
   return (
@@ -131,7 +140,7 @@ export default function Latency({
           formatter: 'millis.compact',
           tooltipFormatter: latencyFixed.compact,
           calculateStackDifferences: true,
-          metrics: metricsConfig,
+          metrics: metricConfigs,
           colors: colors
         },
         y2: {
@@ -157,8 +166,8 @@ export default function Latency({
                         { name: 'include_synthetic', value: 'true' }
                       ]
                     : [],
-                  metrics: mapMetricsToAdd(metricsToAdd.renderedMetrics, metricsConfig, timeShiftConfig),
-                  focusedMetric: focusBasedOnMetrics(metricsToAdd.renderedMetrics, metricsConfig, timeShiftConfig)
+                  metrics: mapMetricsToAdd(metricsToAdd.renderedMetrics, metricConfigs, timeShiftConfig),
+                  focusedMetric: focusBasedOnMetrics(metricsToAdd.renderedMetrics, metricConfigs, timeShiftConfig)
                 }
               )
           }

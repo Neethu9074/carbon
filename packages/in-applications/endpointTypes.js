@@ -63,3 +63,18 @@ export function getEndpointTypesComboBoxItems(restrict = null) {
       []
     );
 }
+
+export function hasHttpEndpoints(types) {
+  if (!types) {
+    return false;
+  }
+  return hasType('HTTP', types);
+}
+
+export function hasHttpAndOtherEndpoints(types) {
+  return hasHttpEndpoints(types) && types.length > 1;
+}
+
+function hasType(type, types) {
+  return types.indexOf(type) >= 0;
+}
