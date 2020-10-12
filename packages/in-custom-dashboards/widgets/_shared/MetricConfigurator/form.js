@@ -116,19 +116,5 @@ function createSavedGroupingForm(grouping) {
         value: grouping.maxResults,
         validator: composeAndShortCircuitOnError(notUndefinedValidator, numberValidator)
       })
-    )
-    .put(
-      'metric',
-      createField({
-        value: grouping.metric,
-        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
-      })
-    )
-    .put(
-      'aggregation',
-      createField({
-        value: grouping.aggregation,
-        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
-      })
     );
 }
