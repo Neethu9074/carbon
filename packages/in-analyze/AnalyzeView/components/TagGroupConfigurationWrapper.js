@@ -1,13 +1,7 @@
-import { find, groupBy } from 'lodash';
 import React from 'react';
 
-import { availableMetrics } from 'in-applications/analyze/metrics';
 import { evaluateClassNames } from 'in-services/util/classnames';
-import TouchedMessages from 'in-components/form/TouchedMessages';
-import { compareIgnoreCase } from 'in-services/util/string';
-import { aggregationLabels } from 'in-stores/metric/metric';
 import FormGroup from 'in-components/form/FormGroup';
-import { isBlank } from 'in-services/util/string';
 import Select from 'in-components/form/Select';
 import Label from 'in-components/form/Label';
 
@@ -25,8 +19,6 @@ export default function TagGroupConfigurationWrapper({
   isEmpty = false,
   disabled,
   onDirectionChange,
-  onMetricChange,
-  onAggregationChange,
   isMultiMetrics
 }) {
   let emptyMessage = 'No group defined.';
@@ -67,87 +59,10 @@ export default function TagGroupConfigurationWrapper({
                   </Select>
                 </FormGroup>
               </div>
-              <div className={locals.barBottomDrop}>
-                <FormGroup>
-                  <Label
-                    hasError={!grouping.get('metric').valid && grouping.get('metric').touched}
-                    htmlFor="select-metric"
-                  >
-                    Metric
-                  </Label>
-                  <Select
-                    className={locals.select}
-                    id="select-metric"
-                    value={grouping.get('metric').value}
-                    onChange={e => onMetricChange(e.target.value)}
-                  >
-                    {
-                      <>
-                        <option value="">Please select</option>
-                        {Object.entries(groupBy(availableMetrics, ({ category }) => category || ''))
-                          .sort((a, b) => compareIgnoreCase(a.category, b.category))
-                          .map(([category, metrics]) => {
-                            const options = metrics.map(({ metric, label }) => (
-                              <option key={metric} value={metric}>
-                                {label}
-                              </option>
-                            ));
-
-                            if (!category) {
-                              return options;
-                            }
-
-                            return (
-                              <optgroup key={category} label={category}>
-                                {options}
-                              </optgroup>
-                            );
-                          })}
-                      </>
-                    }
-                  </Select>
-                  <TouchedMessages field={grouping.get('metric')} />
-                </FormGroup>
-              </div>
-              <div className={locals.barBottomDrop}>
-                <FormGroup>
-                  <Label
-                    hasError={!grouping.get('aggregation').valid && grouping.get('aggregation').touched}
-                    htmlFor="select-aggregation"
-                  >
-                    Aggregation
-                  </Label>
-                  <Select
-                    className={locals.select}
-                    id="select-aggregation"
-                    value={grouping.get('aggregation').value}
-                    disabled={isBlank(grouping.get('metric').value)}
-                    onChange={e => onAggregationChange(e.target.value)}
-                  >
-                    {isBlank(grouping.get('metric').value) ? (
-                      <option value="">Please select a metric</option>
-                    ) : (
-                      <>
-                        <option value="">Please select</option>
-                        {getAggregations(grouping.get('metric').value).map(aggregation => (
-                          <option key={aggregation} value={aggregation}>
-                            {aggregationLabels[aggregation]}
-                          </option>
-                        ))}
-                      </>
-                    )}
-                  </Select>
-                  <TouchedMessages field={grouping.get('aggregation')} />
-                </FormGroup>
-              </div>
             </div>
           </div>
         </div>
       )}
     </div>
   );
-}
-
-function getAggregations(metric) {
-  return find(availableMetrics, ({ metric: m }) => m === metric)?.supportedAggregations || [];
 }

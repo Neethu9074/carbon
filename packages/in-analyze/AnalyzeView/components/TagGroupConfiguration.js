@@ -20,34 +20,21 @@ export default compose(
   connectTo({
     timeConfig: timeConfig$
   }),
-  withProps(
-    ({
-      tagFilters,
-      grouping,
-      timeConfig,
-      onByChange,
-      onDirectionChange,
-      onMaxResultsChange,
-      onMetricChange,
-      onAggregationChange
-    }) => {
-      const applicationAreaSpecificTagFilters = convertToApplicationAreaSpecificTagFilter(tagFilters);
-      return {
-        tagFilters: applicationAreaSpecificTagFilters,
-        filters: {
-          dataSource: 'calls',
-          timeConfig,
-          tagFilter: applicationAreaSpecificTagFilters
-        },
-        grouping: grouping,
-        onDirectionChange: onDirectionChange,
-        onMaxResultsChange: onMaxResultsChange,
-        onMetricChange: onMetricChange,
-        onAggregationChange: onAggregationChange,
-        setNewGroup: newGroup => onByChange(newGroup)
-      };
-    }
-  ),
+  withProps(({ tagFilters, grouping, timeConfig, onByChange, onDirectionChange, onMaxResultsChange }) => {
+    const applicationAreaSpecificTagFilters = convertToApplicationAreaSpecificTagFilter(tagFilters);
+    return {
+      tagFilters: applicationAreaSpecificTagFilters,
+      filters: {
+        dataSource: 'calls',
+        timeConfig,
+        tagFilter: applicationAreaSpecificTagFilters
+      },
+      grouping: grouping,
+      onDirectionChange: onDirectionChange,
+      onMaxResultsChange: onMaxResultsChange,
+      setNewGroup: newGroup => onByChange(newGroup)
+    };
+  }),
   tagGroupManipulators
 )(QuickGroupForm);
 
@@ -66,8 +53,6 @@ function QuickGroupForm(props) {
     setNewGroup,
     onDirectionChange,
     onMaxResultsChange,
-    onMetricChange,
-    onAggregationChange,
     disabled,
     isMultiMetrics
   } = props;
@@ -76,8 +61,6 @@ function QuickGroupForm(props) {
       grouping={grouping}
       onDirectionChange={onDirectionChange}
       onMaxResultsChange={onMaxResultsChange}
-      onMetricChange={onMetricChange}
-      onAggregationChange={onAggregationChange}
       quickGroupBar={
         <QuickGroupBar {...props} tagFilter={tagFilters} grouping={grouping} excludedTagFilters={excludedTagFilters} />
       }
