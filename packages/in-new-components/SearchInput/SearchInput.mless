@@ -7,15 +7,24 @@
     align-items: center;
     border: 1px solid @lib__colors__N400;
     background: @lib__colors__N050;
+    width: max-content;
+  }
+
+  .wrapperDisabled {
+    cursor: not-allowed;
   }
 
   .icon {
     fill: @lib__colors__N500;
     margin-right: 0.5rem;
+    margin-left: auto;
+  }
+
+  .iconDisabled {
+    fill: @lib__colors__N400;
   }
 
   .searchInput {
-    width: 100%;
     border: none;
     &:focus {
       outline: none;
@@ -24,6 +33,10 @@
 
   .hasError {
     background: #ff40401f;
+  }
+
+  .useTransparency {
+    background: transparent;
   }
 
   .hasFocus {

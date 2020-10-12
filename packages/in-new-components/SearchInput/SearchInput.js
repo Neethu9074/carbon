@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
+import PropTypes from 'prop-types';
 
 import evaluateClassNames from 'in-services/util/classnames';
 import { isNotBlank } from 'in-services/util/string';
@@ -23,21 +24,25 @@ export default function SearchInput({
   onBlur
 }) {
   const [hasFocus, setHasFocus] = useState(false);
+  const inputRef = useRef();
 
   return (
     <div
       className={evaluateClassNames({
         [locals.wrapper]: true,
         [locals.hasFocus]: hasFocus,
-        [className]: className
+        [className]: className,
+        [locals.hasError]: hasError,
+        [locals.wrapperDisabled]: disabled
       })}
     >
       <Input
+        refSetter={inputRef}
         style={{ maxWidth, width }}
         className={evaluateClassNames({
           [locals.searchInput]: true,
           [locals.searchInputHasText]: isNotBlank(query),
-          [locals.hasError]: hasError
+          [locals.useTransparency]: hasError
         })}
         disabled={disabled}
         type="search"
@@ -63,7 +68,29 @@ export default function SearchInput({
           onBlur?.();
         }}
       />
-      <SvgIcon className={locals.icon} type="lib_actions_search" />
+      <SvgIcon
+        className={evaluateClassNames({
+          [locals.icon]: true,
+          [locals.iconDisabled]: disabled
+        })}
+        type="lib_actions_search"
+        onClick={disabled ? undefined : () => inputRef?.current?.focus()}
+      />
     </div>
   );
 }
+
+SearchInput.propTypes = {
+  autoFocus: PropTypes.bool,
+  className: PropTypes.string,
+  disabled: PropTypes.bool,
+  hasError: PropTypes.bool,
+  maxWidth: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  onBlur: PropTypes.func,
+  onChange: PropTypes.func,
+  onFocus: PropTypes.func,
+  onReturn: PropTypes.func,
+  placeholder: PropTypes.string,
+  query: PropTypes.string,
+  width: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+};
