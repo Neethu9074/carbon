@@ -29,7 +29,8 @@ export default function UnifiedMetricsChart({
 
   // Transform result data structure into the structure expected by the chart
   if (result && result.data) {
-    const labels = result.data.map(d => d.label);
+    const y1Labels = result.data.filter(d => d.id.startsWith('y1')).map(d => d.label);
+    const y2Labels = result.data.filter(d => d.id.startsWith('y2')).map(d => d.label);
     result = {
       ...result,
       data: result.data.reduce((agg, { id, values }) => {
@@ -37,11 +38,18 @@ export default function UnifiedMetricsChart({
         return agg;
       }, {})
     };
-    if (labels.length > 0 && !labels.includes(undefined)) {
+    if (y1Labels.length > 0 && !y1Labels.includes(undefined)) {
       //The labels object is required when displaying grouped results (each with their own label).
       result = {
         ...result,
-        labels: labels
+        y1Labels: y1Labels
+      };
+    }
+    if (y2Labels.length > 0 && !y2Labels.includes(undefined)) {
+      //The labels object is required when displaying grouped results (each with their own label).
+      result = {
+        ...result,
+        y2Labels: y2Labels
       };
     }
   }
