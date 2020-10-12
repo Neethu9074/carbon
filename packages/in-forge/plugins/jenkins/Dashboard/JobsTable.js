@@ -27,7 +27,7 @@ const cols = [
     }
   },
   {
-    title: 'Last build #',
+    title: 'Last Build #',
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
