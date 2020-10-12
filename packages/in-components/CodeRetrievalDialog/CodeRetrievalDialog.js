@@ -33,7 +33,15 @@ export default connectTo(
         {!response ? <LoadingIndicator /> : null}
 
         {response && response.error ? (
-          <DashboardNotification type="danger">Error: {response.error}</DashboardNotification>
+          // The Java decompiler that we use does not support some of the features in recent Java version.
+          // Wan't fix it right now so show a explanatory warning message instead of the error.
+          response.error.includes('Invalid BootstrapMethods attribute entry') ? (
+            <DashboardNotification type="warn">
+              Decompilation of class file containing some features in recent Java versions is not fully supported.
+            </DashboardNotification>
+          ) : (
+            <DashboardNotification type="danger">Error: {response.error}</DashboardNotification>
+          )
         ) : null}
 
         {response && response.data ? (
