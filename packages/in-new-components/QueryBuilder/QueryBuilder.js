@@ -123,7 +123,7 @@ function QueryBuilder({ value: formModel, onChange, getTagCatalog, getSuggestion
         tagCatalog={tagCatalog.data}
         onAdd={onAddFormModelElement}
         formModelIndex={formModel.length}
-        renderModelIndex={renderModel.length}
+        renderModelIndex={renderModel.length - 1}
         focus={focus}
         trailingButton
       />
