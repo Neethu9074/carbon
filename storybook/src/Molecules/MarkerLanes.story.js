@@ -38,7 +38,7 @@ export const MarkerLanesBelowChart = () => {
           <MarkerLanesPresenter {...props}>
             <ReleasesLanePresenter releases={getReleases(timeConfig)} />
             <AlertsLanePresenter alerts={getAlertsAndIncidents(timeConfig)} />
-            <PotentialProblemsLanePresenter potentialProblems={getPotentialPoblems(timeConfig)} />
+            <ReleasesLanePresenter releases={getReleases(timeConfig)} />
           </MarkerLanesPresenter>
         )}
       />
@@ -61,6 +61,28 @@ export const MarkerLanesAboveChart = () => {
   );
 };
 
+export const WidthLoadingIndicator = () => {
+  return (
+    <div>
+      <h2>Marker lanes</h2>
+      <BarChart
+        renderPostChartContent={props => (
+          <MarkerLanesPresenter {...props}>
+            <AlertsLanePresenter alerts={[]} isLoading />
+            <PotentialProblemsLanePresenter
+              potentialProblems={{
+                alerts: [],
+                thresholds: {}
+              }}
+              isLoading
+            />
+          </MarkerLanesPresenter>
+        )}
+      />
+    </div>
+  );
+};
+
 function BarChart({ renderPostChartContent, renderPreChartContent }) {
   return (
     <>
@@ -71,7 +93,7 @@ function BarChart({ renderPostChartContent, renderPreChartContent }) {
           y1: {
             renderer: Renderer.bar,
             labels: ['Calls'],
-            metrics: [generateMetrics(12, 100, oneMinute)],
+            metrics: ['calls'],
             aggregation: 'awesomeAggregation'
           },
           renderPostChartContent,
@@ -94,7 +116,8 @@ function constructResult(error, isLoading) {
     errors: error == null ? [] : [error],
     progress: {
       loading: isLoading
-    }
+    },
+    data: { calls: generateMetrics(12, 100, oneMinute) }
   };
 }
 
@@ -242,51 +265,4 @@ function getAlertsAndIncidents(timeConfig) {
   };
 
   return events;
-}
-
-function getPotentialPoblems(timeConfig) {
-  const alertResults = [];
-  const numEvents = 8;
-  const alertConfig = {};
-
-  for (let i = 0; i < numEvents; i++) {
-    alertConfig[`key${i}`] = {
-      rule: {
-        alertType: 'slowness',
-        metricName: `onLoadTime_${i}`,
-        aggregation: 'p90'
-      },
-      threshold: {
-        type: 'staticThreshold',
-        operator: '<=',
-        value: 5,
-        seasonality: 'WEEKLY'
-      }
-    };
-
-    alertResults.push({
-      timestamp: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (i / 10),
-      start: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (i / 7),
-      end: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (i / 5),
-      duration:
-        timeConfig.to -
-        timeConfig.windowSize +
-        timeConfig.windowSize * (i / 7) -
-        timeConfig.to -
-        timeConfig.windowSize +
-        timeConfig.windowSize * (i / 5),
-      alerts: [
-        {
-          key: `key${i}`,
-          start: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (i / 4),
-          end: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (i / 2)
-        }
-      ]
-    });
-  }
-
-  return {
-    alertConfig,
-    alertResults
-  };
 }

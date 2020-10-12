@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
+import HorizontalIndicator from 'in-new-components/Loading/HorizontalIndicator';
 import RenderScheduler from 'in-components/Chart/RenderScheduler';
 import getElementDimensions from 'in-hoc/getElementDimensions';
 import evaluateClassNames from 'in-services/util/classnames';
@@ -65,6 +66,7 @@ function MarkersLanePresenter({
   color,
   selectedEventData,
   laneLabelsVisible,
+  isLoading,
   ...remainingProps
 }) {
   const xScale = useObservable(renderScheduler.xScaleBackBuffer$.nextFrame(), [], { pure: false });
@@ -140,6 +142,9 @@ function MarkersLanePresenter({
             </div>
           </div>
         )}
+        <div className={locals.loadingIndicatorContainer}>
+          <HorizontalIndicator progress={{ loading: isLoading }} />
+        </div>
       </div>
     </>
   );
@@ -170,7 +175,8 @@ MarkersLane.propTypes = {
   chartBucketWidth: PropTypes.number,
   renderSecondaryHoverOverlay: PropTypes.func,
   laneLabelsVisible: PropTypes.bool,
-  onLaneHasMarkersToRender: PropTypes.func.isRequired
+  onLaneHasMarkersToRender: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool
 };
 
 export default getElementDimensions(MarkersLane);

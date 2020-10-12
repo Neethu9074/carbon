@@ -1,5 +1,5 @@
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import React from 'react';
 
 import PotentialProblemsLanePresenter from 'in-new-components/PotentialProblems/PotentialProblemsLane/PotentialProblemsLanePresenter';
 import getPotentialProblems from 'in-new-components/PotentialProblems/subscription/getPotentialProblems';
@@ -25,6 +25,8 @@ export default function PotentialProblemsLane({
   alertRules,
   ...remainingProps
 }) {
+  const [isLoading, setIsLoading] = useState(true);
+
   if (!applicationId || !applicationSmartAlertsEnabled) {
     return null;
   }
@@ -43,6 +45,9 @@ export default function PotentialProblemsLane({
         tagFilters
       })
         .startWith(pendingResult)
+        .tap(({ progress }) => {
+          if (!progress.loading) setIsLoading(false);
+        })
         .map(({ data = emptyPotentialProblems }) => data),
       [globalTimeConfig, clusterSizeMillis, alertRules]
     ) ?? emptyPotentialProblems;
@@ -56,6 +61,7 @@ export default function PotentialProblemsLane({
       boundaryScope={boundaryScope}
       potentialProblems={potentialProblems}
       tagFilters={tagFilters}
+      isLoading={isLoading}
     />
   );
 }
