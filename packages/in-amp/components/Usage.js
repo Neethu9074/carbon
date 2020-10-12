@@ -1,4 +1,3 @@
-import theme from 'in-themes';
 import React from 'react';
 
 import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';
@@ -14,7 +13,7 @@ import ActiveLicenses from 'in-amp/components/ActiveLicenses';
 import ApiItemView from 'in-settings/components/ApiItemView';
 import { pendingResult } from 'in-services/fixedObjects';
 import { Row, Col } from 'in-new-components/layout/Grid';
-import UsageChart from 'in-amp/components/UsageChart';
+import UsageCharts from 'in-amp/components/UsageCharts';
 import { tenantUnitChanged } from 'in-amp/tracker';
 import useObservable from 'in-hooks/useObservable';
 import Message from 'in-new-components/Message';
@@ -100,106 +99,29 @@ function Usage({ environments }) {
         {!showAggregatedMetrics && <AmpTimeSelection windowSize={windowSize} setWindowSize={setWindowSize} />}
       </div>
 
-      <form>
-        <Row>
-          <Col xs={6}>
-            <Card title="APM Usage">
-              <UsageChart
-                windowSize={windowSize}
-                showAggregatedMetrics={showAggregatedMetrics}
-                y1={{ ...tenantUnit, metrics: ['apmhost'], labels: ['APM Hosts'] }}
-                y2={{
-                  ...tenantUnit,
-                  metrics: ['licensed_apm_hosts'],
-                  labels: ['Purchased'],
-                  colors: [theme.lib.colors.failure]
-                }}
-              />
-            </Card>
-          </Col>
-          <Col xs={6}>
-            <Card title="Infrastructure Usage">
-              <UsageChart
-                windowSize={windowSize}
-                showAggregatedMetrics={showAggregatedMetrics}
-                y1={{
-                  ...tenantUnit,
-                  metrics: ['infrahost'],
-                  labels: ['IQM Hosts']
-                }}
-                y2={{
-                  ...tenantUnit,
-                  metrics: ['licensed_infra_hosts'],
-                  labels: ['Purchased'],
-                  colors: [theme.lib.colors.failure]
-                }}
-              />
-            </Card>
-          </Col>
-        </Row>
-        <Row>
-          <Col xs={6}>
-            <Card title="Container Usage">
-              <UsageChart
-                windowSize={windowSize}
-                showAggregatedMetrics={showAggregatedMetrics}
-                y1={{
-                  ...tenantUnit,
-                  metrics: ['docker', 'containerd', 'crio', 'garden', 'lxc'],
-                  labels: ['Docker', 'ContainerD', 'Crio', 'Garden', 'LXC'],
-                  renderer: 'stackedArea'
-                }}
-                y2={{
-                  ...tenantUnit,
-                  metrics: ['licensed_container'],
-                  labels: ['Purchased'],
-                  colors: [theme.lib.colors.failure]
-                }}
-              />
-            </Card>
-          </Col>
-          <Col xs={6}>
-            <Card title="Serverless Usage">
-              <UsageChart
-                windowSize={windowSize}
-                showAggregatedMetrics={showAggregatedMetrics}
-                y1={{
-                  ...tenantUnit,
-                  metrics: ['tracingserverless'],
-                  labels: ['Serverless']
-                }}
-                y2={{
-                  ...tenantUnit,
-                  metrics: ['licensed_tracingserverless'],
-                  labels: ['Purchased'],
-                  colors: [theme.lib.colors.failure]
-                }}
-              />
-            </Card>
-          </Col>
-        </Row>
-        <Row>
-          <Col xs={12}>
-            <Card title="Active Licenses">
-              <ActiveLicenses />
-            </Card>
-          </Col>
-        </Row>
-        <Row>
-          <Col xs={12}>
-            <Card title="Expired Licenses">
-              <ExpiredLicenses />
-            </Card>
-          </Col>
-        </Row>
-        <Row>
-          <Col xs={12}>
-            <Card title="Queued Licenses">
-              <QueuedLicenses />
-            </Card>
-          </Col>
-        </Row>
-      </form>
+      <UsageCharts windowSize={windowSize} tenantUnit={tenantUnit} showAggregatedMetrics={showAggregatedMetrics} />
+
+      <Row>
+        <Col xs={12}>
+          <Card title="Active Licenses">
+            <ActiveLicenses />
+          </Card>
+        </Col>
+      </Row>
+      <Row>
+        <Col xs={12}>
+          <Card title="Expired Licenses">
+            <ExpiredLicenses />
+          </Card>
+        </Col>
+      </Row>
+      <Row>
+        <Col xs={12}>
+          <Card title="Queued Licenses">
+            <QueuedLicenses />
+          </Card>
+        </Col>
+      </Row>
     </>
   );
 }

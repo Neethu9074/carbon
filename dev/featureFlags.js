@@ -27,7 +27,8 @@ module.exports = {
   vsphereEnabled: true,
   websiteUserBreakdownEnabled: true,
   ampEnabled: true,
-  alertCustomPayloadEnabled: true,
+  ampCompanyInfoEnabled: true,
+  alertCustomPayloadEnabled: false,
   newAnalyticsEnabled: true,
   persistentVolumeSupportEnabled: true
 };
