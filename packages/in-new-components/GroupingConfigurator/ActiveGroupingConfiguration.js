@@ -3,6 +3,7 @@ import React from 'react';
 import SimpleValueSelector from 'in-new-components/QueryBuilder/SimpleValueSelector/SimpleValueSelector';
 import { toInteractiveElement } from 'in-new-components/interactiveCustomElement';
 import Entity from 'in-new-components/GroupingConfigurator/Entity';
+import { evaluateClassNames } from 'in-services/util/classnames';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
 import { isNotBlank } from 'in-services/util/string';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -65,35 +66,46 @@ export default React.forwardRef(function ActiveGroupingConfiguration(
       </span>
 
       {tagTreeNode.type === 'KEY_VALUE_PAIR' && (
-        <SimpleValueSelector
-          onChange={result.onChange}
-          value={result.value}
-          close={() => {}}
-          getSuggestions={() =>
-            getSuggestions({
-              tagFilterExpression,
-              name: groupbyTag,
-              entity: groupbyTagEntity,
-              timeConfig,
-              propose: 'KEYS'
-            })
-          }
-          fieldsToWatch={[tagFilterExpression, groupbyTag, groupbyTagEntity, timeConfig]}
-          inputProps={{
-            type: 'text',
-            valid: isNotBlank(result.value),
-            ref: autoFocus ? tagNameRef : undefined,
-            placeholder: 'Key'
-          }}
-        />
+        <>
+          <span className={locals.operator}>=</span>
+
+          <SimpleValueSelector
+            onChange={result.onChange}
+            value={result.value}
+            close={() => {}}
+            getSuggestions={() =>
+              getSuggestions({
+                tagFilterExpression,
+                name: groupbyTag,
+                entity: groupbyTagEntity,
+                timeConfig,
+                propose: 'KEYS'
+              })
+            }
+            fieldsToWatch={[tagFilterExpression, groupbyTag, groupbyTagEntity, timeConfig]}
+            inputProps={{
+              type: 'text',
+              valid: isNotBlank(result.value),
+              ref: autoFocus ? tagNameRef : undefined,
+              placeholder: 'Key'
+            }}
+          />
+        </>
       )}
 
-      <SvgIcon
-        className={locals.removeIcon}
-        type="lib_openclose_cancel"
-        data-test="lib_openclose_cancel"
-        onClick={() => onChange(null)}
-      />
+      <div
+        className={evaluateClassNames({
+          [locals.removeIconContainer]: true,
+          [locals.nextToKey]: tagTreeNode.type === 'KEY_VALUE_PAIR'
+        })}
+      >
+        <SvgIcon
+          className={locals.removeIcon}
+          type="lib_openclose_cancel"
+          data-test="lib_openclose_cancel"
+          onClick={() => onChange(null)}
+        />
+      </div>
     </div>
   );
 });

@@ -4,7 +4,7 @@
   .icon {
     padding-top: 0.0225rem;
     padding-bottom: 0.0225rem;
-    border-left: 1px solid #DFE4E8;
+    border-left: 1px solid @lib__colors__N400;
     border-bottom: none;
     border-top: none;
     line-height: 2;

@@ -2,9 +2,6 @@
 
 :local {
   .groupingConfigurator {
-    // Visually align group by "box" with the first box of the query builder (which has an offset
-    // due to the leading whitespace).
-    margin-left: 0.125rem;
     font-weight: 600;
     font-size: 0.75rem;
     line-height: 1.6;
@@ -27,6 +24,8 @@
 
   .noActiveGroupingButton {
     margin-top: 0.125rem;
+    border: 1px solid @lib__colors__N400;
+    border-radius: @lib__shapes__radius_medium;
   }
 
   .groupName {
@@ -51,9 +50,27 @@
     fill: @lib__colors__N400;
   }
 
+  .operator {
+    padding: 0.3125rem;
+    line-height: 1.3;
+    cursor: default;
+
+    border-left: 1px solid @lib__colors__N400;
+    border-right: 1px solid @lib__colors__N400;
+  }
+
+  .removeIconContainer {
+    border-left: none;
+    line-height: 2.1;
+  }
+
+  .nextToKey {
+    border-left: 1px solid @lib__colors__N400;
+  }
+
   .removeIcon {
     // icons have a built in margin so we need to substract it when it is used in smaller frames
-    margin: -0.5rem -0.25rem -0.5rem 0.25rem;
+    margin: -0.5rem -0.25rem -0.5rem 0rem;
 
     fill: @lib__colors__N400;
     cursor: pointer;

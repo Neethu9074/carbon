@@ -62,7 +62,7 @@ export default function GroupingConfigurator({
               refSetter={refSetter}
               onClick={toggle}
             >
-              Add Group
+              Add group
             </Button>
           )
         }

@@ -22,6 +22,7 @@ import Expression from 'in-new-components/QueryBuilder/components/Expression';
 import Bracket from 'in-new-components/QueryBuilder/components/Bracket';
 import Tag from 'in-new-components/QueryBuilder/components/Tag/Tag';
 import ErrorBoundary from 'in-components/ErrorBoundary';
+import FilterButton from './components/FilterButton';
 import useObservable from 'in-hooks/useObservable';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 
@@ -78,40 +79,55 @@ function QueryBuilder({ value: formModel, onChange, getTagCatalog, getSuggestion
 
   const renderModel = toRenderModel(formModel);
 
-  return (
-    <QueryBuilderDragAndDropBehaviour
-      queryBuilderRef={refContainer}
-      totalItems={formModel.length}
-      switchFormModelIndices={switchFormModelIndices}
-      setDraggedFormModelIndex={index => draggedFormModelIndex$.emit(index)}
-    >
-      {({ dragAndDropProps }) => (
-        <div
-          ref={refContainer}
-          className={locals.queryBuilder}
-          onClick={e => onClickQueryBuilderContent(e, refContainer.current)}
-          onKeyDown={e => onKeyDown(e, refContainer.current)}
-          {...dragAndDropProps}
-        >
-          <Elements
-            draggedFormModelIndex$={draggedFormModelIndex$}
-            switchFormModelIndices={switchFormModelIndices}
-            createTagForm={resolvedCreateTagForm}
-            onChange={onChangeFormModelElement}
-            getSuggestions={getSuggestions}
-            onAdd={onAddFormModelElement}
-            tagCatalog={tagCatalog.data}
-            elements={renderModel}
-            onRemove={onRemove}
-            focus={focus}
-            formModel={formModel}
-          />
-          {formModel.length === 0 && (
-            <span className={locals.emptyQueryHelpText}>Filter using a tag or search through all tags</span>
-          )}
-        </div>
-      )}
-    </QueryBuilderDragAndDropBehaviour>
+  return formModel.length === 0 ? (
+    <FilterButton
+      tagCatalog={tagCatalog.data}
+      onAdd={onAddFormModelElement}
+      formModelIndex={0}
+      renderModelIndex={0}
+      focus={focus}
+    />
+  ) : (
+    <>
+      <QueryBuilderDragAndDropBehaviour
+        queryBuilderRef={refContainer}
+        totalItems={formModel.length}
+        switchFormModelIndices={switchFormModelIndices}
+        setDraggedFormModelIndex={index => draggedFormModelIndex$.emit(index)}
+      >
+        {({ dragAndDropProps }) => (
+          <div
+            ref={refContainer}
+            className={locals.queryBuilder}
+            onClick={e => onClickQueryBuilderContent(e, refContainer.current)}
+            onKeyDown={e => onKeyDown(e, refContainer.current)}
+            {...dragAndDropProps}
+          >
+            <Elements
+              draggedFormModelIndex$={draggedFormModelIndex$}
+              switchFormModelIndices={switchFormModelIndices}
+              createTagForm={resolvedCreateTagForm}
+              onChange={onChangeFormModelElement}
+              getSuggestions={getSuggestions}
+              onAdd={onAddFormModelElement}
+              tagCatalog={tagCatalog.data}
+              elements={renderModel}
+              onRemove={onRemove}
+              focus={focus}
+              formModel={formModel}
+            />
+          </div>
+        )}
+      </QueryBuilderDragAndDropBehaviour>
+      <FilterButton
+        tagCatalog={tagCatalog.data}
+        onAdd={onAddFormModelElement}
+        formModelIndex={formModel.length}
+        renderModelIndex={renderModel.length}
+        focus={focus}
+        trailingButton
+      />
+    </>
   );
 
   function switchFormModelIndices(indexA, indexB) {
