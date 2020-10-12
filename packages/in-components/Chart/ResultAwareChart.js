@@ -18,11 +18,11 @@ export default function ResultAwareChart({ result, config, renderLegend = true }
     content = <LoadingIndicator height={height} width={frontBufferWidth} />;
     withoutPadding = true;
   } else {
-    //If there are more results than configured metrics, there must be a grouped result.
-    if (y1 && y1.metrics && result.data && Object.keys(result.data).length !== y1.metrics.length) {
+    //If there are specifically mapped labels, there must be a grouping result.
+    if (y1 && y1.metrics && result.data && result.y1Labels) {
       y1 = mapMultiResult(result, y1, false);
     }
-    if (y2 && y2.metrics && result.data && Object.keys(result.data).length !== y2.metrics.length) {
+    if (y2 && y2.metrics && result.data && result.y2Labels) {
       y2 = mapMultiResult(result, y2, true);
     }
     if (!timeConfig || !y1 || !y1.metrics || (showNoDataInfoWhenEmpty && containsOnlyEmptyData(y1.metrics))) {
@@ -57,7 +57,6 @@ export default function ResultAwareChart({ result, config, renderLegend = true }
 /**
  * Function to map grouped results to the chart.
  * Applies the incoming metric IDs, their values, as well as their labels and aggregation types.
- * The label contains both the overarching metric label as well as the returned label (depending on the group).
  * @param {object} result The result object.
  * @param {object} y Part of the given configuration.
  * @param {boolean} isY2 Whether the given part of the configuration is for the secondary axis.
@@ -70,7 +69,7 @@ function mapMultiResult(result, y, isY2) {
   if (result.labels) {
     y.labels = result.labels;
   }
-  //Labels may be overwritten if there is both grouping and multiple axis.
+  //Labels may be overwritten if there are grouping results.
   if (result.y1Labels && !isY2) {
     y.labels = result.y1Labels;
   }
