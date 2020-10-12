@@ -14,10 +14,11 @@ import { applicationsAlertingThresholdOperatorChanged } from 'in-applications/al
 import ChartViewConfigurator from 'in-new-components/Alerting/components/ChartViewConfigurator';
 import { getTrackingObject } from 'in-new-components/Alerting/trackingHelpers';
 import { blueprintConfigPropType } from 'in-new-components/Alerting/constants';
+import { getMetricUnitPostfix } from 'in-applications/alerting/form/formUtils';
 import { findEntryByValue } from 'in-new-components/Alerting/utils/formUtils';
-import { getThresholdLabel } from 'in-applications/alerting/form/formUtils';
 import AlertingChart from 'in-new-components/Alerting/Chart/AlertingChart';
 import Dropdown from 'in-new-components/Alerting/Dropdown';
+import { isNotBlank } from 'in-services/util/string';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
 import connectTo from 'in-hoc/connectTo';
@@ -108,8 +109,8 @@ export function ThresholdCondition({
   const operatorLabel =
     findEntryByValue(operatorOptions, operatorValue)?.label ?? thresholdGreaterOperatorOptions[0].label;
 
-  const thresholdValueLabel = getThresholdLabel(form);
   const metricName = form.get('rule').get('metricName').value;
+  const metricUnitPostfix = getMetricUnitPostfix(metricName);
 
   return (
     <ThresholdConditionFormGroup>
@@ -145,7 +146,7 @@ export function ThresholdCondition({
           debouncedThresholdValueChangedTracker(getTrackingObject(form, { value }));
         }}
       />
-      {thresholdValueLabel !== 'Count' && <Label htmlFor="thresholdValue">{thresholdValueLabel}</Label>}
+      {isNotBlank(metricUnitPostfix) && <Label htmlFor="thresholdValue">{metricUnitPostfix}</Label>}
     </ThresholdConditionFormGroup>
   );
 }

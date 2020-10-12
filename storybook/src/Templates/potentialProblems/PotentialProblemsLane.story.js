@@ -91,7 +91,7 @@ function BarChart({ renderPostChartContent, renderPreChartContent }) {
           y1: {
             renderer: Renderer.bar,
             labels: ['Calls'],
-            metrics: [generateMetrics(7, 100, halfADay)],
+            metrics: ['calls'],
             aggregation: 'awesomeAggregation'
           },
           renderPostChartContent,
@@ -114,7 +114,8 @@ function constructResult(error, isLoading) {
     errors: error == null ? [] : [error],
     progress: {
       loading: isLoading
-    }
+    },
+    data: { calls: generateMetrics(12, 100, halfADay) }
   };
 }
 

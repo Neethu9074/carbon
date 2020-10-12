@@ -11,17 +11,14 @@ const operatorDescriptionValues = {
   [operators.ENDS_WITH]: 'end with'
 };
 
-export function getThresholdLabel(form) {
-  const metricName = form.get('rule').get('metricName').value;
+export function getMetricUnitPostfix(metricName) {
   switch (metricName) {
     case 'latency':
-      return 'Milliseconds';
+      return 'ms';
     case 'errors':
-      return 'Percentage';
-    case 'calls':
-      return 'Count';
+      return '%';
     default:
-      return 'Value';
+      return '';
   }
 }
 

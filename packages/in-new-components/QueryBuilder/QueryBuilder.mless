@@ -6,7 +6,7 @@
     // required in order to execute offset calculations via JS (see offsetX, offsetY access)
     position: relative;
 
-    display: block;
+    display: inline-block;
     font-size: 0.75rem;
     line-height: @query-builder-line-height;
     user-select: none;

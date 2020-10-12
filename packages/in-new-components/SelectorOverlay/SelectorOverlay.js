@@ -23,7 +23,10 @@ export default function SelectorOverlay({ options, onChange, withIcons = true })
   const [{ query, focussedNode, showFocussedNode }, setState] = useState(initialState);
   options = useMemo(() => {
     if (isNotBlank(query)) {
-      return search(options, query);
+      return search(
+        options.filter(level => level.searchable),
+        query
+      );
     }
     return options;
   }, [options, query]);
@@ -100,7 +103,15 @@ export default function SelectorOverlay({ options, onChange, withIcons = true })
               onKeyDown={onKeyDown}
             >
               {options.map((node, i) => (
-                <Node key={i} node={node} focusNode={focusNode} onChange={onChange} asListGroup withIcons={withIcons} />
+                <Node
+                  key={i}
+                  node={node}
+                  focusNode={focusNode}
+                  onChange={onChange}
+                  asListGroup
+                  withIcons={withIcons}
+                  withBreadcrumbs={isNotBlank(query)}
+                />
               ))}
             </div>
           }
@@ -138,5 +149,6 @@ export default function SelectorOverlay({ options, onChange, withIcons = true })
 SelectorOverlay.propTypes = {
   options: nodeArrayPropType.isRequired,
   onChange: PropTypes.func.isRequired,
-  withIcons: PropTypes.bool
+  withIcons: PropTypes.bool,
+  nonSearchableOptions: nodeArrayPropType
 };

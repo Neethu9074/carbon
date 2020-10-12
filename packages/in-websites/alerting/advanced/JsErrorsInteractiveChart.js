@@ -16,14 +16,15 @@ import { enrichThresholdOperatorOptionsForApiConfigs } from 'in-new-components/A
 import IncompleteChartPlaceholder from 'in-new-components/Alerting/components/IncompleteChartPlaceholder';
 import ThresholdConditionFormGroup from 'in-new-components/Alerting/advanced/ThresholdConditionFormGroup';
 import ChartViewConfigurator from 'in-new-components/Alerting/components/ChartViewConfigurator';
+import { isPercentageMetric, getMetricUnitPostfix } from 'in-websites/alerting/form/formUtils';
 import { debouncedThresholdValueChangedTracker } from 'in-websites/alerting/trackingHelpers';
-import { isPercentageMetric, getThresholdLabel } from 'in-websites/alerting/form/formUtils';
 import { blueprintConfigPropType } from 'in-new-components/Alerting/constants';
 import { ruleMetricNameOptions } from 'in-websites/alerting/form/ruleFormData';
 import { getTrackingObject } from 'in-new-components/Alerting/trackingHelpers';
 import { findEntryByValue } from 'in-new-components/Alerting/utils/formUtils';
 import AlertingChart from 'in-new-components/Alerting/Chart/AlertingChart';
 import Dropdown from 'in-new-components/Alerting/Dropdown';
+import { isNotBlank } from 'in-services/util/string';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
 import connectTo from 'in-hoc/connectTo';
@@ -125,7 +126,7 @@ export function ThresholdCondition({
   const operatorOptions = enrichThresholdOperatorOptionsForApiConfigs(operatorValue);
   const operatorLabel = (findEntryByValue(operatorOptions, operatorValue) ?? operatorOptions[0]).label;
 
-  const thresholdValueLabel = getThresholdLabel(form);
+  const metricUnitPostfix = getMetricUnitPostfix(metricName);
 
   return (
     <ThresholdConditionFormGroup>
@@ -183,7 +184,7 @@ export function ThresholdCondition({
           debouncedThresholdValueChangedTracker(getTrackingObject(form, { value }));
         }}
       />
-      {thresholdValueLabel !== 'Count' && <Label htmlFor="thresholdValue">{thresholdValueLabel}</Label>}
+      {isNotBlank(metricUnitPostfix) && <Label htmlFor="thresholdValue">{metricUnitPostfix}</Label>}
     </ThresholdConditionFormGroup>
   );
 }

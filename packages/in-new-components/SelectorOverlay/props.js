@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 const nodeShape = {
   label: PropTypes.node.isRequired,
   description: PropTypes.node,
-  searchable: PropTypes.string,
+  keywords: PropTypes.string,
   icon: PropTypes.string
 };
 // recursive data structure

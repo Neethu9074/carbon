@@ -85,17 +85,6 @@ export default function FormComponent({
         onMaxResultsChange={maxResults =>
           onChange(['grouping', 0, 'maxResults'], f => f.setValue(maxResults).setTouched(true))
         }
-        onMetricChange={metric =>
-          //If the metric is set, the aggregation may be invalid, therefore, it is unset.
-          onChange(['grouping', 0], form =>
-            form
-              .updateIn(['metric'], field => field.setValue(metric).setTouched(true))
-              .updateIn(['aggregation'], field => field.setValue(''))
-          )
-        }
-        onAggregationChange={aggregation =>
-          onChange(['grouping', 0, 'aggregation'], f => f.setValue(aggregation).setTouched(true))
-        }
         disabled={groupingDisabled || isMultiMetrics}
         isMultiMetrics={isMultiMetrics}
       />
@@ -222,20 +211,6 @@ function getDefaultGroupingForm(by) {
       createField({
         value: 5,
         validator: composeAndShortCircuitOnError(notUndefinedValidator, numberValidator)
-      })
-    )
-    .put(
-      'metric',
-      createField({
-        value: '',
-        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
-      })
-    )
-    .put(
-      'aggregation',
-      createField({
-        value: '',
-        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
       })
     );
 }

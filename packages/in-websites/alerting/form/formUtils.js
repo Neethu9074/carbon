@@ -1,4 +1,4 @@
-import { onLoadTime, errorRate, statusCodeRate, errorCount, statusCodeCount } from 'in-websites/alerting/constants';
+import { onLoadTime, errorRate, statusCodeRate } from 'in-websites/alerting/constants';
 import { isGreaterOperator } from 'in-new-components/Alerting/utils/alertUtils';
 import { getAggregationText } from 'in-new-components/Alerting/utils/formUtils';
 import { getBlueprintConfig } from 'in-websites/alerting/data/blueprintConfig';
@@ -98,21 +98,15 @@ export function getFormValueOrDefault(form, key, defaultValue = null) {
   return form.containsKey(key) ? form.get(key).value : defaultValue;
 }
 
-export function getThresholdLabel(form) {
-  const metricName = form.get('rule').get('metricName').value;
+export function getMetricUnitPostfix(metricName) {
   switch (metricName) {
     case onLoadTime:
-      return 'Milliseconds';
+      return 'ms';
     case errorRate:
     case statusCodeRate:
-      return 'Percentage';
-    case errorCount:
-    case statusCodeCount:
-    case 'pageLoads':
-    case 'pageTransitions':
-      return 'Count';
+      return '%';
     default:
-      return 'Value';
+      return '';
   }
 }
 

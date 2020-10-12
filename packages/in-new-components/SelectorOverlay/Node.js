@@ -22,6 +22,12 @@ const labelColumnDefinition = {
   }
 };
 
+const breadcrumbAndLabelColumnDefinition = {
+  getContent({ node }) {
+    return <KeyValue inverted accentuated value={node.breadcrumbAndLabel} label={node.description} />;
+  }
+};
+
 const rightArrowColumnDefinition = {
   width: '2rem',
   getContent() {
@@ -29,18 +35,16 @@ const rightArrowColumnDefinition = {
   }
 };
 
-const leafWithoutIconColumnDefinitions = [labelColumnDefinition];
-const leafWithIconColumnDefinitions = [iconColumnDefinition, labelColumnDefinition];
-const nodeWithoutIconColumnDefinitions = [labelColumnDefinition, rightArrowColumnDefinition];
-const nodeWithIconColumnDefinitions = [iconColumnDefinition, labelColumnDefinition, rightArrowColumnDefinition];
-
-export default function Node({ node, focusNode, onChange, withIcons, asListGroup }) {
+export default function Node({ node, focusNode, onChange, withIcons, withBreadcrumbs, asListGroup }) {
   if (node.children == null || node.children.length === 0) {
-    const columnDefinitions = withIcons ? leafWithIconColumnDefinitions : leafWithoutIconColumnDefinitions;
+    let columnDefinitions = [withBreadcrumbs ? breadcrumbAndLabelColumnDefinition : labelColumnDefinition];
+    if (withIcons) {
+      columnDefinitions.unshift(iconColumnDefinition);
+    }
     return <Item node={node} onClick={() => onChange(node)} columnDefinitions={columnDefinitions} />;
   } else if (asListGroup) {
     return (
-      <ListGroup label={node.label}>
+      <ListGroup label={node.label} sticky>
         {node.children.map((node, i) => (
           <Node
             key={i}
@@ -54,7 +58,10 @@ export default function Node({ node, focusNode, onChange, withIcons, asListGroup
       </ListGroup>
     );
   } else {
-    const columnDefinitions = withIcons ? nodeWithIconColumnDefinitions : nodeWithoutIconColumnDefinitions;
+    let columnDefinitions = [labelColumnDefinition, rightArrowColumnDefinition];
+    if (withIcons) {
+      columnDefinitions.unshift(iconColumnDefinition);
+    }
     return <Item node={node} onClick={() => focusNode(node)} columnDefinitions={columnDefinitions} />;
   }
 }

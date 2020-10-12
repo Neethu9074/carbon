@@ -24,7 +24,7 @@ function searchNode(node, query, result) {
 }
 
 function matches(leaf, query) {
-  if (leaf.searchable && leaf.searchable.toLowerCase().indexOf(query) !== -1) {
+  if (leaf.keywords && leaf.keywords.toLowerCase().indexOf(query) !== -1) {
     return true;
   }
 

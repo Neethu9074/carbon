@@ -108,6 +108,19 @@
     display: none;
   }
 
+  .addSuggestionIndicator,
+  .closeBracketSuggestionIndicator {
+    // avoid indicators to be below tag input fields
+    z-index: 1;
+  }
+
+  .addIndicator {
+    // addIndicator always has to be on top of everything. It is set to 2 here because it can happen that e.g. a
+    // addSuggestionIndicator and an addIndicator are next to each other (can be done when adding only an opening bracket
+    // and hovering next to it on its right). In this case, the addIndicator has to be on top of the suggestionIndicator.
+    z-index: 2;
+  }
+
   .addIndicator,
   .addSuggestionIndicator,
   .closeBracketSuggestionIndicator {
@@ -116,8 +129,6 @@
     justify-content: center;
 
     position: absolute;
-    // avoid addIndicator to be below tag input fields
-    z-index: 1;
     top: 1.8125rem;
     height: 1.1875rem;
 

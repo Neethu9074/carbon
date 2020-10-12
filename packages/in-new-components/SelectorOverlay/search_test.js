@@ -27,7 +27,7 @@ const nodes = [
         children: [
           {
             label: 'Second Level Leaf',
-            searchable: 'foobar'
+            keywords: 'foobar'
           },
           {
             label: 'Second Level Node',
@@ -74,7 +74,7 @@ describe('in-new-components/SelectorOverlay/search', () => {
     expect(search(nodes, 'foobar')).to.deep.equal([
       {
         label: 'Second Level Leaf',
-        searchable: 'foobar'
+        keywords: 'foobar'
       }
     ]);
   });
