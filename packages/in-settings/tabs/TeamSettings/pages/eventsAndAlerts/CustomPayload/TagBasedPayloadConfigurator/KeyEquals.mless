@@ -1,0 +1,14 @@
+@import '~in-themes/active.less';
+
+:local {
+  .keyEqualsOperator {
+    padding: 0.0225rem 0.3125rem;
+    margin: -0.25rem 0;
+    border: 1px solid @lib__colors__N300;
+    border-bottom: none;
+    border-top: none;
+    line-height: 2;
+
+    background: @lib__colors__N050;
+  }
+}

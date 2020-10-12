@@ -8,12 +8,16 @@ import {
   staticNumberType,
   staticStringType,
   dynamicType,
-  hardCodedDynamicValues,
   createFormFieldForField,
   mergeResultWithPayloadForm,
   toServerItemModel,
   enrichedWithUniqId
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/form';
+import {
+  toFormModel,
+  toViewModel,
+  createTagBasedPayloadConfigurator
+} from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
 import {
   useSaveToServerHandler,
   initialState
@@ -22,14 +26,15 @@ import {
   getGlobalCustomPayloadAsResultObservable,
   saveGlobalCustomPayload
 } from 'in-settings/tabs/TeamSettings/api/customPayload';
+import getAlertingCustomPayloadTagCatalog from 'in-infrastructure/subscriptions/getAlertingCustomPayloadTagCatalog';
 import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
 import FormInputField from 'in-custom-dashboards/widgets/Slo/components/FormInputField';
+import { isLoading, hasError, successObservableFactory } from 'in-services/util/result';
 import FormDropDown from 'in-custom-dashboards/widgets/Slo/components/FormDropDown';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { evaluateClassNames } from 'in-services/util/classnames';
-import { isLoading, hasError } from 'in-services/util/result';
 import Notification from 'in-components/form/Notification';
 import SaveCancel from 'in-settings/components/SaveCancel';
 import { pendingResult } from 'in-services/fixedObjects';
@@ -44,6 +49,13 @@ import Title from 'in-components/Title';
 import locals from './CustomPayloadForm.mless';
 
 const logger = createLogger('customPayloadConfig');
+
+const { TagBasedPayloadConfigurator } = createTagBasedPayloadConfigurator({
+  getTagCatalog: getAlertingCustomPayloadTagCatalog,
+  getSuggestions: successObservableFactory({
+    suggestions: []
+  })
+});
 
 export default function CustomPayloadPage() {
   const result = useObservable(getGlobalCustomPayloadAsResultObservable(), []) ?? pendingResult;
@@ -82,7 +94,9 @@ export function CustomPayload(props) {
     }
   };
 
-  const enabled = !storing && !hasError(result) && !isLoading(result); // LATER: TODO: add hasRule(xxx) check, needs to be defined
+  // LATER: TODO: add hasRule(xxx) check, needs to be defined
+  // https://instana.kanbanize.com/ctrl_board/37/cards/27299/details/
+  const enabled = !storing && !hasError(result) && !isLoading(result);
 
   return (
     <SettingsDetailPage>
@@ -152,7 +166,7 @@ function getRowProps() {
 const columnDefinitions = [
   {
     id: 'key',
-    width: '20',
+    width: '30',
     sortable: false,
     label: 'Key',
     getContent(item, { getRowIndex, updateIn }) {
@@ -179,7 +193,7 @@ const columnDefinitions = [
         const defaults = {
           [staticBooleanType]: true,
           [staticNumberType]: 42,
-          [dynamicType]: hardCodedDynamicValues[0]
+          [dynamicType]: {}
         };
         const newValue = defaults[newType] ?? '';
         updateIn([getRowIndex(item)], formFields => {
@@ -211,7 +225,7 @@ const columnDefinitions = [
   },
   {
     id: 'value',
-    width: '30',
+    width: '45',
 
     sortable: false,
     label: 'Value',
@@ -266,31 +280,20 @@ const columnDefinitions = [
         );
       }
 
-      // in a next step, this list might already be pre-configured
-      const valuesList = hardCodedDynamicValues.map(v => ({ ...v, value: JSON.stringify(v.value) }));
-      const valueJson = JSON.stringify(value ?? '');
-
-      if (!value || 0 > valuesList.find(v => v.value === valueJson)) {
-        const syntheticUnknownEntry = {
-          value: valueJson,
-          label: `unknown value: ${valueJson}`
-        };
-        valuesList.push(syntheticUnknownEntry);
-      }
-
       if (type === dynamicType) {
         return (
-          <FormGroup withoutBottomMargin>
+          <FormGroup withoutBottomMargin className={locals.colName}>
             {valueField.map(field => {
+              const value = field?.value;
+              const storeIntoFormModel = payloadItem => {
+                const formModel = toFormModel(payloadItem);
+                onChange(['value'], f => f.setValue(formModel).setTouched(true));
+              };
               return (
-                <FormDropDown
-                  className={locals.colName}
-                  value={valueJson}
-                  hasError={!field.valid && field.touched}
-                  onChange={({ target }) => {
-                    onChange(['value'], f => f.setValue(JSON.parse(target.value)).setTouched(true));
-                  }}
-                  options={valuesList}
+                <TagBasedPayloadConfigurator
+                  value={toViewModel(value)}
+                  onChange={storeIntoFormModel}
+                  tagFilterExpression={{}}
                 />
               );
             })}
@@ -304,12 +307,12 @@ const columnDefinitions = [
   },
   {
     id: 'deleteRow',
-    width: '1',
+    width: '5',
     sortable: false,
     getContent(itemForm, { deleteRow, enabled }) {
       return (
         <div className={locals.controls}>
-          <Tooltip content="Delete Row">
+          <Tooltip content="Delete Row" align="mousePosition">
             <SvgIcon
               type="lib_actions_delete"
               className={evaluateClassNames({

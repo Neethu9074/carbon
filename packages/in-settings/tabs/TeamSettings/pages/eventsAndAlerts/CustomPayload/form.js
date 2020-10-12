@@ -10,14 +10,6 @@ export const staticStringType = 'staticString';
 export const dynamicType = 'dynamic';
 export const defaultType = staticStringType;
 
-export const hardCodedDynamicValues = Object.freeze([
-  { value: { tagName: 'kubernetes.cluster.label', key: null }, label: 'Kubernetes Cluster Labels' },
-  { value: { tagName: 'kubernetes.pod.name', key: null }, label: 'Kubernetes Pod Name' },
-  { value: { tagName: 'kubernetes.pod.label', key: 'app' }, label: 'Kubernetes Pod Label under "app"' }, //(this one exists on our demo cluster on k8s-test)
-  { value: { tagName: 'kubernetes.node.name', key: null }, label: 'Kubernetes Node Name' },
-  { value: { tagName: 'ec2.ipv4', key: null }, label: 'AWS EC2 host public IP' }
-]);
-
 const exampleCustomPayload = {
   fields: [
     { type: staticStringType, key: 'testString', value: 'value1' },

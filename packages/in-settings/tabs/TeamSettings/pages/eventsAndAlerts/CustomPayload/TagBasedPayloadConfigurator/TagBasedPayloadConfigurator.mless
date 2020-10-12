@@ -1,0 +1,79 @@
+@import '~in-themes/active.less';
+
+:local {
+  .configurator {
+
+    // Visually align group by "box" with the first box of the query builder (which has an offset
+    // due to the leading whitespace).
+    font-weight: 600;
+    font-size: 0.75rem;
+    line-height: 1.6;
+
+    color: var(--query-builder-element-color);
+
+    padding: 0.1875rem 0.3rem 0.1875rem 0.4375rem;
+    background: @lib__colors__N050;
+    width: 100%;
+
+    border: 1px solid @lib__colors__N400;
+    border-radius: @lib__shapes__radius_medium;
+
+    display: flex;
+    align-items: center;
+
+    cursor: pointer;
+  }
+
+  .selectPayloadButton {
+    margin: 0.125rem auto 0 auto
+  }
+
+  .tagName {
+    margin-right: 0.5rem;
+    background: @lib__colors__transparent;
+    &:focus,
+    &:active,
+    &:hover {
+      outline: none;
+      color: @lib__colors__light-blue800;
+
+      .icon {
+        fill: @lib__colors__light-blue800;
+      }
+    }
+  }
+
+  .icon {
+    // icons have a built in margin so we need to substract it when it is used in smaller frames
+    margin: -0.5rem -0.25rem;
+
+    fill: @lib__colors__N400;
+  }
+
+  .removeIcon {
+    // icons have a built in margin so we need to subtract it when it is used in smaller frames
+    margin: -0.5rem -0.25rem -0.5rem 0.25rem;
+
+    fill: @lib__colors__N400;
+    cursor: pointer;
+
+    &:hover, &:active, &:focus {
+      fill: @lib__colors__light-blue800;
+      outline: none;
+    }
+  }
+
+  .spacer {
+    flex: 1;
+    min-width: 1rem;
+  }
+
+  .type {
+    margin-left: 1rem;
+    padding: 0 0.25rem;
+    border-radius: @lib__shapes__radius_medium;
+    background: @lib__colors__navy800;
+      color: @lib__colors__white;
+  }
+
+}

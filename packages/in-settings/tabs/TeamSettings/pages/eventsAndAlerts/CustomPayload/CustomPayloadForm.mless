@@ -19,7 +19,6 @@
   }
 
   .delete {
-    margin-left: 0.5rem;
     cursor: pointer;
     fill: @lib__colors__primary2;
 
