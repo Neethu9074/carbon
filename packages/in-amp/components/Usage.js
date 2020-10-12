@@ -216,7 +216,7 @@ function containsLicenseWhichIsNotOlderThan30Days({ expiredLicenses = [] }) {
   const now = Date.now();
   const thirtyDays = days.toMillis(30);
 
-  for (const { expire } of expiredLicenses.length) {
+  for (const { expire } of expiredLicenses) {
     if (now - expire <= thirtyDays) {
       return true;
     }
@@ -225,7 +225,7 @@ function containsLicenseWhichIsNotOlderThan30Days({ expiredLicenses = [] }) {
 }
 
 function containsPaidLicenses(environments) {
-  for (const { activeLicenses, expiredLicenses } of environments.length) {
+  for (const { activeLicenses, expiredLicenses } of environments) {
     if (containsPaidLicense(activeLicenses) || containsPaidLicense(expiredLicenses)) {
       return true;
     }
@@ -234,7 +234,7 @@ function containsPaidLicenses(environments) {
 }
 
 function containsPaidLicense(licenses) {
-  for (const { paid } of licenses.length) {
+  for (const { paid } of licenses) {
     if (paid) {
       return true;
     }
