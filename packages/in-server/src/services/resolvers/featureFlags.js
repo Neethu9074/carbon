@@ -136,7 +136,7 @@ module.exports = exports = (tenant, unit) => [
   {
     uiClientKey: 'ampCompanyInfoEnabled',
     instanaCtlKey: 'feature.amp.company.info.enabled',
-    consulKey: `settings/${tenant}-${unit}/AMP_COMPANY_INFO_ENABLED`,
+    consulKey: `settings/AMP_COMPANY_INFO_ENABLED`,
     defaultValue: false
   },
   {
