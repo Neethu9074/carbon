@@ -3,9 +3,9 @@ import React from 'react';
 import { physicalTablePath, physicalPath, containerPath, isTableView } from 'in-stores/navigation/paths/mainPaths';
 import { SecondLevelNavigation, SecondLevelNavigationItem } from 'in-new-components/SecondLevelNavigation';
 import { isInfraExploreView, infraExplorePath } from 'in-infrastructure/navigation/paths';
+import { infraExploreEnabled } from 'in-infrastructure/Explore/services/featureFlags';
 import { themes } from 'in-new-components/DashboardHeader/DashboardHeaderModule';
 import { getModifiedUrlStream, isView } from 'in-stores/navigation/navigation';
-import { infrastructureExploreEnabled } from 'in-services/featureFlags';
 import SearchBar from 'in-components/SearchBar';
 import { any } from 'in-services/fixedStreams';
 import connectTo from 'in-hoc/connectTo';
@@ -39,7 +39,7 @@ export default connectTo(
             label="Comparison Table"
             isActive={isTableActive}
           />
-          {infrastructureExploreEnabled && (
+          {infraExploreEnabled && (
             <SecondLevelNavigationItem
               href$={getModifiedUrlStream(p => (p.pathname = infraExplorePath))}
               label="Entity Explore (Beta)"

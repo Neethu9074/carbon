@@ -8,18 +8,14 @@ import {
   hasAnalyzeAccess,
   hasMobileAppsAccess
 } from 'in-stores/permission';
-import {
-  pcfEnabled,
-  vsphereEnabled,
-  internalMonitoringUnit,
-  infrastructureExploreEnabled
-} from 'in-services/featureFlags';
 import { agentsPath, containerPath, graphPath, physicalPath, tablePath } from 'in-stores/navigation/paths/mainPaths';
 import InfraExploreView from 'promise-loader?global,infrastructure!in-infrastructure/Explore/Explore';
+import { pcfEnabled, vsphereEnabled, internalMonitoringUnit } from 'in-services/featureFlags';
 import GraphView from 'promise-loader?global,graph-view!in-components/graphView/GraphView';
 import AgentView from 'promise-loader?global,infrastructure!in-views/agentView/AgentView';
 import TableView from 'promise-loader?global,infrastructure!in-views/tableView/TableView';
 import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
+import { infraExploreEnabled } from 'in-infrastructure/Explore/services/featureFlags';
 import FragmentSupportingSwitch from 'in-components/FragmentSupportingSwitch';
 import customDashboardsRoutes from 'in-custom-dashboards/navigation/routes';
 import mobileAppMonitoringRoutes from 'in-mobile-apps/navigation/routes';
@@ -47,9 +43,7 @@ export default (
     <Route path={containerPath} component={createAsyncViewComponent(Map)} />
     <Route path={tablePath} component={createAsyncViewComponent(TableView)} />
     <Route path={graphPath} component={createAsyncViewComponent(GraphView)} />
-    {infrastructureExploreEnabled && (
-      <Route path={infraExplorePath} component={createAsyncViewComponent(InfraExploreView)} />
-    )}
+    {infraExploreEnabled && <Route path={infraExplorePath} component={createAsyncViewComponent(InfraExploreView)} />}
 
     {configurationRoutes}
     {role.canConfigureAgents && (
