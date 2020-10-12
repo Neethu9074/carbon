@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { number, twoDecimalPlaces, bytes, millis, seconds } from 'in-services/formatters/number';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import { number, bytes, millis, seconds } from 'in-services/formatters/number';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
@@ -90,7 +90,7 @@ export default function BeeInstanaDashboard({ snapshot, timeConfig }) {
           />
         </DashboardSection>
 
-        <DashboardSection title="Queue and worker statistics">
+        <DashboardSection title="Queue and worker">
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
@@ -104,13 +104,13 @@ export default function BeeInstanaDashboard({ snapshot, timeConfig }) {
               ],
               labels: ['MaxQueueSize', 'TaskQueueSize', 'SpillOver', 'WorkerPoolSize'],
               type: 'line',
-              formatter: twoDecimalPlaces
+              formatter: number.detailed
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
 
-        <DashboardSection title="Flush statistics">
+        <DashboardSection title="Flush">
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
@@ -136,7 +136,7 @@ export default function BeeInstanaDashboard({ snapshot, timeConfig }) {
           />
         </DashboardSection>
 
-        <DashboardSection title="Sender statistics">
+        <DashboardSection title="Sender">
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
@@ -210,7 +210,7 @@ export default function BeeInstanaDashboard({ snapshot, timeConfig }) {
           />
         </DashboardSection>
 
-        <DashboardSection title="Queue statistics">
+        <DashboardSection title="Queue">
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
@@ -222,7 +222,7 @@ export default function BeeInstanaDashboard({ snapshot, timeConfig }) {
               ],
               labels: ['SpillOver', 'TaskQueueSize'],
               type: 'line',
-              formatter: twoDecimalPlaces
+              formatter: number.detailed
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
