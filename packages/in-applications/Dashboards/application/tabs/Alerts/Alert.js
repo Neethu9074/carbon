@@ -1,5 +1,5 @@
 import { compose, withState } from 'recompose';
-import React, { useState } from 'react';
+import React from 'react';
 
 import {
   applicationsAlertingAlertRevisionChanged,
@@ -28,6 +28,7 @@ import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPr
 import DefaultLoadingDashboard from 'in-new-components/Loading/DefaultLoadingDashboard';
 import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import AlertHistoryList from 'in-new-components/Alerting/components/AlertHistoryList';
+import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import AlertHeader from 'in-new-components/Alerting/components/AlertHeader';
 import getApplication from 'in-subscription/application/getApplication';
 import { alertsTab } from 'in-applications/navigation/paths';
@@ -35,8 +36,8 @@ import { mutateUrl } from 'in-stores/navigation/navigation';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import SetBodyColor from 'in-components/SetBodyColor';
 import Footer from 'in-new-components/Footer/Footer';
-import Title from 'in-components/Title';
 import connectTo from 'in-hoc/connectTo';
+import Title from 'in-components/Title';
 
 export default compose(
   withState('reload', 'triggerReload', undefined),
@@ -78,8 +79,6 @@ function Alert({
     return <DefaultLoadingDashboard />;
   }
 
-  const [dialogOpen, setDialogOpen] = useState(false);
-
   function setRevision(created) {
     mutateUrl(location => {
       location.pathname = alertsTabDetailsFullyQualified;
@@ -93,25 +92,24 @@ function Alert({
   return (
     <>
       <Title title="Alert Details" dynamic={alertConfig.name} />
-
-      {dialogOpen && (
-        <SmartAlertConfigDialogWrapper
-          applicationLabel={applicationName}
-          formData={alertConfig}
-          onClose={() => {
-            setDialogOpen(false);
-            setRevision(null);
-          }}
-          editMode
-        />
-      )}
       <div>
         <AlertHeader
           alertConfig={alertConfig}
           alertConfigVersions={alertConfigVersions}
           setRevision={setRevision}
           openDialog={() => {
-            setDialogOpen(true);
+            addActiveDialog(
+              <SmartAlertConfigDialogWrapper
+                applicationLabel={applicationName}
+                formData={alertConfig}
+                onClose={() => {
+                  close();
+                  setRevision(null);
+                }}
+                editMode
+              />
+            );
+
             applicationsAlertingAlertEdit({ alertConfigId: alertConfig.id });
           }}
           fullyQualifiedAlertsList={alertsTabListFullyQualified}

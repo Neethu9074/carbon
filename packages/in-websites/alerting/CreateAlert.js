@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
+import React from 'react';
 
 import FloatingActionButton from 'in-new-components/FloatingActionButton/FloatingActionButton';
+import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { websitesAlertingAddAlert } from 'in-websites/alerting/tracker';
 import getWebsiteError from 'in-websites/subscriptions/getWebsiteError';
 import AlertConfigDialog from 'in-websites/alerting/AlertConfigDialog';
@@ -33,8 +34,6 @@ export default connectTo(props => {
 })(CreateAlert);
 
 function CreateAlert({ websiteErrorResult, websiteResult, location, websiteId, websiteLabel, tagFilters, error }) {
-  const [dialogOpen, setDialogOpen] = useState(false);
-
   if (!error && websiteErrorResult) {
     error = get(websiteErrorResult, ['data']);
   }
@@ -52,25 +51,25 @@ function CreateAlert({ websiteErrorResult, websiteResult, location, websiteId, w
       <FloatingActionButton
         iconType="lib_alerts_create"
         onClick={() => {
-          setDialogOpen(true);
+          addActiveDialog(
+            <AlertConfigDialog
+              onClose={() => {
+                close();
+                if (location.pathname.includes('/websiteMonitoring/website/alerts')) {
+                  reload();
+                }
+              }}
+              formData={generateFormData(websiteId, tagFilters, error)}
+              websiteLabel={websiteLabel}
+            />
+          );
+
           websitesAlertingAddAlert(location.pathname, websiteLabel);
         }}
         withBoxShadow
       >
         Add Alert
       </FloatingActionButton>
-      {dialogOpen && (
-        <AlertConfigDialog
-          onClose={() => {
-            setDialogOpen(false);
-            if (location.pathname.includes('/websiteMonitoring/website/alerts')) {
-              reload();
-            }
-          }}
-          formData={generateFormData(websiteId, tagFilters, error)}
-          websiteLabel={websiteLabel}
-        />
-      )}
     </>
   );
 }

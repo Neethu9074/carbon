@@ -1,10 +1,11 @@
 import { just } from 'reactive-observables';
-import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
 
 import SmartAlertConfigDialogWrapper from 'in-applications/alerting/Dialog/SmartAlertConfigDialogWrapper';
 import FloatingActionButton from 'in-new-components/FloatingActionButton/FloatingActionButton';
 import { applicationsAlertingAddAlert } from 'in-applications/alerting/tracker';
+import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import getEndpointInfo from 'in-subscription/application/getEndpointInfo';
 import getServiceLabel from 'in-subscription/application/getServiceLabel';
 import getApplication from 'in-subscription/application/getApplication';
@@ -29,8 +30,6 @@ export default connectTo(({ applicationLabel, applicationId, serviceId, endpoint
 })(CreateSmartAlert);
 
 function CreateSmartAlert({ applicationId, applicationLabel, boundaryScope, endpointLabel, location, serviceLabel }) {
-  const [dialogOpen, setDialogOpen] = useState(false);
-
   if (location.pathname.includes('/application/configuration')) {
     return null;
   }
@@ -40,30 +39,27 @@ function CreateSmartAlert({ applicationId, applicationLabel, boundaryScope, endp
   }
 
   return (
-    <>
-      <FloatingActionButton
-        iconType="lib_alerts_create"
-        onClick={() => {
-          setDialogOpen(true);
-          applicationsAlertingAddAlert(location.pathname, applicationLabel);
-        }}
-        withBoxShadow
-      >
-        Add Alert
-      </FloatingActionButton>
-      {dialogOpen && (
-        <SmartAlertConfigDialogWrapper
-          applicationLabel={applicationLabel}
-          formData={generateFormData({ applicationId, serviceLabel, endpointLabel, boundaryScope })}
-          onClose={() => {
-            setDialogOpen(false);
-            if (location.pathname.includes('/application/alerts')) {
-              reload();
-            }
-          }}
-        />
-      )}
-    </>
+    <FloatingActionButton
+      iconType="lib_alerts_create"
+      onClick={() => {
+        addActiveDialog(
+          <SmartAlertConfigDialogWrapper
+            applicationLabel={applicationLabel}
+            formData={generateFormData({ applicationId, serviceLabel, endpointLabel, boundaryScope })}
+            onClose={() => {
+              close();
+              if (location.pathname.includes('/application/alerts')) {
+                reload();
+              }
+            }}
+          />
+        );
+        applicationsAlertingAddAlert(location.pathname, applicationLabel);
+      }}
+      withBoxShadow
+    >
+      Add Alert
+    </FloatingActionButton>
   );
 }
 

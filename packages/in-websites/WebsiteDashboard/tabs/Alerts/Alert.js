@@ -1,13 +1,6 @@
 import { compose, withState } from 'recompose';
-import React, { useState } from 'react';
+import React from 'react';
 
-import {
-  websitesAlertingAlertRevisionChanged,
-  websitesAlertingAlertDeleted,
-  websitesAlertingAlertResumed,
-  websitesAlertingAlertPaused,
-  websitesAlertingAlertEdit
-} from 'in-websites/alerting/tracker';
 import {
   getAlertConfigByIdAndTimestamp,
   getAllVersionsOfAlertConfig,
@@ -17,6 +10,13 @@ import {
   deleteAlertConfig,
   updateAlertConfig
 } from 'in-websites/api/websiteAlertConfig';
+import {
+  websitesAlertingAlertRevisionChanged,
+  websitesAlertingAlertDeleted,
+  websitesAlertingAlertResumed,
+  websitesAlertingAlertPaused,
+  websitesAlertingAlertEdit
+} from 'in-websites/alerting/tracker';
 import { alertsTab, alertsTabListFullyQualified, alertsTabDetailsFullyQualified } from 'in-websites/navigation/paths';
 import AlertConfiguration from 'in-websites/WebsiteDashboard/tabs/Alerts/AlertConfiguration';
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
@@ -25,6 +25,7 @@ import { alertCreated as alertCreatedMatrixParam } from 'in-websites/navigation/
 import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import AlertHistoryList from 'in-new-components/Alerting/components/AlertHistoryList';
 import { alertId as alertIdMatrixParam } from 'in-websites/navigation/matrix';
+import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import AlertHeader from 'in-new-components/Alerting/components/AlertHeader';
 import AlertConfigDialog from 'in-websites/alerting/AlertConfigDialog';
 import getWebsite from 'in-subscription/website/getWebsite';
@@ -75,8 +76,6 @@ function Alert({
     return <DefaultLoadingDashboard />;
   }
 
-  const [dialogOpen, setDialogOpen] = useState(false);
-
   function setRevision(created) {
     mutateUrl(location => {
       location.pathname = alertsTabDetailsFullyQualified;
@@ -90,25 +89,23 @@ function Alert({
   return (
     <>
       <Title title="Alert Details" dynamic={alertConfig.name} />
-
-      {dialogOpen && (
-        <AlertConfigDialog
-          onClose={() => {
-            setDialogOpen(false);
-            setRevision(null);
-          }}
-          formData={alertConfig}
-          websiteLabel={websiteLabel}
-          editMode
-        />
-      )}
       <div>
         <AlertHeader
           alertConfig={alertConfig}
           alertConfigVersions={alertConfigVersions}
           setRevision={setRevision}
           openDialog={() => {
-            setDialogOpen(true);
+            addActiveDialog(
+              <AlertConfigDialog
+                onClose={() => {
+                  close();
+                  setRevision(null);
+                }}
+                formData={alertConfig}
+                websiteLabel={websiteLabel}
+                editMode
+              />
+            );
             websitesAlertingAlertEdit({ alertConfigId: alertConfig.id });
           }}
           fullyQualifiedAlertsList={alertsTabListFullyQualified}
