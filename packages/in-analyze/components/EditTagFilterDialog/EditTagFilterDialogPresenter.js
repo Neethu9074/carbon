@@ -140,7 +140,7 @@ export default function EditTagFilterDialogPresenter({
                   resultsToShow={100}
                   value={field.value}
                   placeholder="Type to filter the results…"
-                  onChange={e => onValueChange(e.value)}
+                  onChange={e => onValueChange(e.value.trim())}
                 />
               )}
               {selectedTagType === 'BOOLEAN' && (

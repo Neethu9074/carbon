@@ -2,10 +2,11 @@ import React, { useCallback, useMemo } from 'react';
 
 import {
   tagFilterExpressionMatrixParameter,
-  resetMetricsOnTypeChange,
+  resetMetricsAndOrderOnTypeChange,
   metricsMatrixParameter,
   chartsMatrixParameter,
   groupMatrixParameter,
+  orderMatrixParameter,
   typeMatrixParameter
 } from 'in-infrastructure/navigation/paths';
 import GroupingConfigurator, {
@@ -41,9 +42,10 @@ const urlStateDefinition = {
     groupMatrixParameter,
     chartsMatrixParameter,
     metricsMatrixParameter,
+    orderMatrixParameter,
     typeMatrixParameter
   ],
-  resets: [resetMetricsOnTypeChange]
+  resets: [resetMetricsAndOrderOnTypeChange]
 };
 
 export default function InfraExploreView() {
@@ -56,9 +58,10 @@ export default function InfraExploreView() {
 
 function InfraExploreViewWithFixatedTimeConfig() {
   const timeConfig = useTimeConfig();
-  const [{ tagFilterExpression, group, metrics: urlMetrics, type }, onChange] = useUrlState(urlStateDefinition);
+  const [{ tagFilterExpression, group, metrics: urlMetrics, type, order }, onChange] = useUrlState(urlStateDefinition);
   const typeOrNull = type !== 'all' ? type : null;
   const setMetrics = useCallback(metrics => onChange({ metrics }), [onChange]);
+  const setOrder = useCallback(order => onChange({ order }), [onChange]);
 
   const validTagFilterExpressionResult =
     useObservable(isQueryValid(tagFilterExpression, timeConfig), [tagFilterExpression, timeConfig]) ?? pendingResult;
@@ -128,8 +131,10 @@ function InfraExploreViewWithFixatedTimeConfig() {
               availableMetrics={availableMetrics}
               timeConfig={timeConfig}
               setMetrics={setMetrics}
+              setOrder={setOrder}
               metrics={metrics}
               type={typeOrNull}
+              order={order}
               showHeader
             />
           )}
@@ -141,9 +146,11 @@ function InfraExploreViewWithFixatedTimeConfig() {
               availableMetrics={availableMetrics}
               timeConfig={timeConfig}
               setMetrics={setMetrics}
+              setOrder={setOrder}
               metrics={metrics}
               type={typeOrNull}
               group={group}
+              order={order}
             />
           )}
         </Stack>

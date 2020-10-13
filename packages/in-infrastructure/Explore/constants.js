@@ -4,3 +4,7 @@ export const allInfrastructureType = { plugin: allTypes, name: 'All Infrastructu
 export const pluginTag = 'type';
 export const defaultAllInfraGroup = { groupbyTag: pluginTag };
 export const defaultType = allTypes;
+export const defaultOrder = {
+  by: 'label',
+  direction: 'ASC'
+};

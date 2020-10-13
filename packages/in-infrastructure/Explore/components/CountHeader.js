@@ -17,7 +17,7 @@ export default function CountHeader({ totalHits, totalRepresentedItemCount, hitN
 }
 
 function Placeholder({ itemName }) {
-  return <Presenter topText="&nbsp;" bottomText={itemName && '&nbsp;'} />;
+  return <Presenter topText="&nbsp;" bottomText={itemName && <>&nbsp;</>} />;
 }
 
 function Presenter({ topText, bottomText }) {

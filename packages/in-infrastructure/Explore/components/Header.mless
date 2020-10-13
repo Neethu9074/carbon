@@ -5,4 +5,9 @@
     flex-direction: row;
     justify-content: space-between;
   }
+
+  .metricWrapper {
+    display: flex;
+    align-items: center;
+  }
 }

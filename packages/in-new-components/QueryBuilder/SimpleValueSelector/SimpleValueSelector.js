@@ -1,8 +1,8 @@
 import AutosizeInput from 'react-input-autosize';
 import React from 'react';
 
-import OverlayOption from 'in-new-components/OverlayOption/OverlayOption';
 import LoadingList from 'in-new-components/lists/List/sharedComponents/LoadingList';
+import OverlayOption from 'in-new-components/OverlayOption/OverlayOption';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import { Ul, Li } from 'in-new-components/lists/List/List';
 import useThemedLocals from 'in-hooks/useThemedLocals';
@@ -29,7 +29,7 @@ export default function SimpleValueSelector({
       render={render}
       resultsToShow={42}
       value={value}
-      onChange={e => onChange(e.value)}
+      onChange={e => onChange(e.value.trim())}
       close={close}
       inputProps={{ ...inputProps, locals }}
       getSuggestions={getSuggestions}
