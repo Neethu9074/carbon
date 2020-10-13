@@ -1,8 +1,8 @@
 import { buildJsonSerializer, buildJsonParser, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import { defaultType, defaultAllInfraGroup, defaultOrder } from 'in-infrastructure/Explore/constants';
 import { navigationParameters$ } from 'in-stores/navigation/navigation';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { emptyArray, emptyObject } from 'in-services/fixedObjects';
-import { defaultType, defaultAllInfraGroup } from 'in-infrastructure/Explore/constants';
 
 export const infraExplorePath = '/explore';
 
@@ -44,14 +44,22 @@ export const metricsMatrixParameter = {
   initialState: emptyArray
 };
 
-export const resetMetricsOnTypeChange = {
+export const orderMatrixParameter = {
+  path: infraExplorePath,
+  name: 'order',
+  serializer: buildJsonSerializer(),
+  parser: buildJsonParser(defaultOrder),
+  initialState: defaultOrder
+};
+
+export const resetMetricsAndOrderOnTypeChange = {
   bind: [
     {
       path: infraExplorePath,
       name: 'type'
     }
   ],
-  reset: { metrics: emptyArray }
+  reset: { metrics: emptyArray, order: undefined }
 };
 
 export function isInfraExploreView() {

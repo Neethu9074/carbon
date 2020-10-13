@@ -15,7 +15,8 @@ export default function SortableTh({
   wrapContent,
   rightAligned,
   noWrap,
-  width
+  width,
+  widthInAbsoluteUnit
 }) {
   return (
     <Th
@@ -25,6 +26,7 @@ export default function SortableTh({
       })}
       noWrap={noWrap}
       width={width}
+      widthInAbsoluteUnit={widthInAbsoluteUnit}
       wrapContent={wrapContent}
     >
       <a

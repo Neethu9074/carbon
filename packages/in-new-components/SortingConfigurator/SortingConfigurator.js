@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types';
 import React, { useRef } from 'react';
+import PropTypes from 'prop-types';
 
 import OverlayOption from 'in-new-components/OverlayOption/OverlayOption';
 import { onArrowKeyDownFocusSiblings } from 'in-services/util/domFocus';

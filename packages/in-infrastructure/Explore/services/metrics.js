@@ -3,6 +3,7 @@ import { just } from 'reactive-observables';
 import { valueWithFormatterToReadableString, numberFormatterToFormatterType } from 'in-services/formatters/number';
 import { percentageZeroDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import getAvailableMetrics from 'in-infrastructure/subscriptions/getAvailableMetrics';
+import { rollupForBeeInstantMetrics } from 'in-stores/metric/beeInstant';
 import { hasError, isLoading } from 'in-services/util/result';
 import { getKpiDefinitions } from 'in-sdk/metrics/kpis';
 
@@ -109,4 +110,29 @@ export function setAggregation(metrics, aggregation) {
 
 function findMetric(allMetrics, metricName) {
   return allMetrics.find(m => m.metric === metricName);
+}
+
+export function getGranularity(timeConfig) {
+  const dataPoints = 10;
+
+  return rollupForBeeInstantMetrics(timeConfig.windowSize / dataPoints);
+}
+
+export function average(series) {
+  if (!series) {
+    return undefined;
+  }
+
+  const { count, sum } = series.reduce(
+    ({ count, sum }, metric) => ({
+      count: count + 1,
+      sum: sum + metric[1]
+    }),
+    {
+      count: 0,
+      sum: 0
+    }
+  );
+
+  return sum / count;
 }

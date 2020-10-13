@@ -1,12 +1,12 @@
-import React, { useReducer } from 'react';
+import React from 'react';
 
 import CursorPaginatedTable from 'in-components/tables/ServerTable/CursorPaginatedTable';
+import { average, getGranularity } from 'in-infrastructure/Explore/services/metrics';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import getEntities from 'in-infrastructure/subscriptions/getEntities';
 import Header from 'in-infrastructure/Explore/components/Header';
 import EntityLink from 'in-new-components/EntityLink/EntityLink';
 import useCursorPagination from 'in-hooks/useCursorPagination';
-import MetricValue from 'in-components/MetricValue';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Tooltip from 'in-components/Tooltip';
 import Pill from 'in-new-components/Pill';
@@ -20,22 +20,18 @@ export default function InfrastructureList({
   showHeader = false,
   availableMetrics,
   setMetrics,
+  setOrder,
   metrics,
+  order,
   type
 }) {
   const timeConfig = useTimeConfig();
-  const [state, setState] = useReducer((prev, next) => ({ ...prev, ...next }), {
-    orderBy: 'label',
-    orderDirection: 'ASC'
-  });
-  const { orderBy, orderDirection } = state;
   const { items, totalHits, ...tableProps } = useCursorPagination(
-    ({ cursor }) =>
-      getTableData({ timeConfig, retrievalSize, backendQueryModel, orderBy, type, orderDirection, cursor }),
-    [timeConfig, retrievalSize, backendQueryModel, type, orderBy, orderDirection]
+    ({ cursor }) => getTableData({ timeConfig, retrievalSize, backendQueryModel, order, type, metrics, cursor }),
+    [timeConfig, retrievalSize, backendQueryModel, type, order, metrics]
   );
 
-  const columnDefinitions = [getLabelColumn({ timeConfig }), ...getMetricColumns({ metrics })];
+  const columnDefinitions = [getLabelColumn({ timeConfig }), ...getMetricColumns({ metrics, sortable: showHeader })];
 
   return (
     <>
@@ -52,31 +48,37 @@ export default function InfrastructureList({
         columnDefinitions={columnDefinitions}
         numSkeletonRows={numSkeletonRows}
         totalHits={totalHits}
-        onChange={setState}
+        onChange={({ orderBy, orderDirection }) => setOrder({ by: orderBy, direction: orderDirection })}
         {...tableProps}
         items={items}
         fixedLayout
-        {...state}
+        orderBy={order.by}
+        orderDirection={order.direction}
       />
     </>
   );
 }
 
-function getTableData({ timeConfig, retrievalSize, backendQueryModel, type, orderBy, orderDirection, cursor }) {
+function getTableData({ timeConfig, retrievalSize, backendQueryModel, type, order, metrics, cursor }) {
   return getEntities({
     filter: {
       tagFilterExpression: backendQueryModel,
       timeConfig
     },
-    order: {
-      by: orderBy,
-      direction: orderDirection
-    },
+    order,
     pagination: {
       retrievalSize,
       cursor
     },
-    type
+    type,
+    metrics: Object.fromEntries(
+      metrics.flatMap(({ metric, aggregation }) => [
+        // using a granularity smaller than window size here is a bit of a hack,
+        // because BeeInstant buckets are defined on epoch boundaries. we use a smaller
+        // granularity here to ensure this is synced up with grouped view KPIs
+        [metric, { metric, granularity: getGranularity(timeConfig), aggregation }]
+      ])
+    )
   });
 }
 
@@ -104,18 +106,19 @@ function getLabelColumn({ timeConfig }) {
   };
 }
 
-function getMetricColumns({ metrics }) {
+function getMetricColumns({ metrics, sortable }) {
   return metrics.map(({ metric, label, formatter, isKpi }) => ({
     id: metric,
     label,
     renderLabel,
-    sortable: false,
+    sortable,
     width: '15rem',
     widthInAbsoluteUnit: true,
     optional: true,
     defaultDisabled: !isKpi,
     getContent(item) {
-      return <MetricValue snapshotId={item.snapshotId} metric={metric} formatter={formatter} />;
+      const kpi = average(item.metrics[metric]);
+      return <span>{kpi !== undefined ? formatter(kpi) : '--'}</span>;
     }
   }));
 }
