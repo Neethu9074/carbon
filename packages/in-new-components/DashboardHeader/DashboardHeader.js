@@ -72,9 +72,13 @@ export default function DashboardHeader(props) {
               />
             ))}
           {renderIcon ? renderIcon() : icon ? <SvgIcon className={locals.icon} type={icon} size="l" /> : null}
-          <Tooltip content={label} delay={500}>
+          {typeof label === 'string' ? (
+            <Tooltip content={label} delay={500}>
+              <span className={locals.label}>{label}</span>
+            </Tooltip>
+          ) : (
             <span className={locals.label}>{label}</span>
-          </Tooltip>
+          )}
           {renderMetaInformation && renderMetaInformation(props)}
         </div>
         <div className={locals.rightContent}>
