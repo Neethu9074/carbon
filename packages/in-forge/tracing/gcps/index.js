@@ -12,6 +12,9 @@ registerSpanDefinition({
   detailView: 'GCPSSpanDetailView',
 
   getLabel(span) {
-    return `${span.getIn(['data', 'gcps', 'op'])} ${span.getIn(['data', 'gcps', 'top'])}`;
+    return ['op', 'top', 'sub']
+      .map(key => span.getIn(['data', 'gcps', key]))
+      .filter(tag => tag)
+      .join(' ');
   }
 });
