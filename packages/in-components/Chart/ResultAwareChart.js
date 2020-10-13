@@ -84,6 +84,11 @@ function mapMultiResult(result, y, isY2) {
       const originalAggregation = y.aggregations[indexOfOriginalMetricID];
       return originalAggregation;
     });
+  if (y.timeShifts) {
+    y.timeShifts = Object.keys(result.data)
+      .filter(metricId => metricId.startsWith(prefix))
+      .map(() => y.timeShifts[0]);
+  }
   return y;
 }
 
