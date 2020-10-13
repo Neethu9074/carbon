@@ -1,7 +1,6 @@
 import React from 'react';
 
-import SortingConfigurator from 'in-new-components/SortingConfigurator/SortingConfigurator';
-import MetricConfigurator from 'in-new-components/MetricConfigurator/MetricConfigurator';
+import MetricAndSortingConfigurator from 'in-new-components/MetricAndSortingConfigurator/MetricAndSortingConfigurator';
 import CountHeader from 'in-infrastructure/Explore/components/CountHeader';
 
 import locals from './Header.mless';
@@ -13,7 +12,6 @@ export default function Header({
   setMetrics,
   totalHits,
   itemName,
-  showSort,
   setOrder,
   hitName,
   metrics,
@@ -30,10 +28,14 @@ export default function Header({
         hitName={hitName}
       />
       {hasMetrics && (
-        <div className={locals.metricWrapper}>
-          {showSort && <SortingConfigurator options={sortOptions} orderBy={order} onChange={setOrder} />}
-          <MetricConfigurator options={availableMetrics} values={metrics} onChange={setMetrics} />
-        </div>
+        <MetricAndSortingConfigurator
+          sortOptions={sortOptions}
+          order={order}
+          setOrder={setOrder}
+          metricOptions={availableMetrics}
+          metrics={metrics}
+          setMetrics={setMetrics}
+        />
       )}
     </div>
   );

@@ -7,9 +7,6 @@
   }
 
   .select {
-    border-top-right-radius: 0px;
-    border-bottom-right-radius: 0px;
-
     &:hover,
     &:active,
     &:focus {
@@ -20,8 +17,14 @@
     }
   }
 
+  .selectButton {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
   .sorting {
-    border-radius: 0px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
 
     &:hover {
       z-index: 1; // this is done in order to display border-right

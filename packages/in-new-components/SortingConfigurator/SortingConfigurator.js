@@ -24,7 +24,12 @@ export default function SortingConfigurator({ options, orderBy, onChange }) {
         wrapperClassName={locals.select}
       >
         {({ toggle, refSetter }) => (
-          <DropdownButton kind="secondary" refSetter={compositeRef(refSetter, ref)} onClick={toggle}>
+          <DropdownButton
+            className={locals.selectButton}
+            kind="secondary"
+            refSetter={compositeRef(refSetter, ref)}
+            onClick={toggle}
+          >
             {valueLabel}
           </DropdownButton>
         )}

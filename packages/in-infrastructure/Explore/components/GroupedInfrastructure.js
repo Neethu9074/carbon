@@ -16,12 +16,13 @@ import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import { getLinkToExplore } from 'in-infrastructure/navigation/paths';
 import { error as errorType } from 'in-new-components/Message/types';
 import { indeterminateProgress } from 'in-services/fixedObjects';
-import IconButton from 'in-new-components/IconButton/IconButton';
 import Header from 'in-infrastructure/Explore/components/Header';
+import IconButton from 'in-new-components/IconButton/IconButton';
 import useCursorPagination from 'in-hooks/useCursorPagination';
-import MoreMenu from 'in-new-components/MoreMenu/MoreMenu';
 import KeyValue from 'in-new-components/lists/KeyValue';
 import { emptyObject } from 'in-services/fixedObjects';
+import SvgIcon from 'in-components/SvgIcon/SvgIcon';
+import Tooltip from 'in-components/Tooltip/Tooltip';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import SparkChart from 'in-components/SparkChart';
 import Message from 'in-new-components/Message';
@@ -110,7 +111,6 @@ function Presenter({
         itemName="Result"
         hitName="Group"
         order={order}
-        showSort
       />
       <Ul space="xsmall">
         {items.map((item, rowIndex) => (
@@ -160,7 +160,7 @@ function columns({ groupBy, type, getParamsForGroup, metrics, timeConfig, granul
       width: '3rem',
       getContent({ group }) {
         const icon = getGroupIcon(group);
-        return <IconButton key="someKey1" type={icon} />;
+        return <SvgIcon type={icon} />;
       }
     }
   ]
@@ -206,9 +206,9 @@ function columns({ groupBy, type, getParamsForGroup, metrics, timeConfig, granul
         width: '3rem',
         getContent({ group }) {
           return (
-            <MoreMenu kind="subtle">
-              <MoreMenuContent groupParams={getParamsForGroup(group)} />
-            </MoreMenu>
+            <Tooltip content="Focus on this group">
+              <IconButton type="lib_actions_filter" href$={getLinkToExplore(getParamsForGroup(group))} />
+            </Tooltip>
           );
         }
       }
@@ -247,14 +247,6 @@ function getGroups({ timeConfig, backendQueryModel, group, cursor, type, order, 
     ),
     order
   });
-}
-
-function MoreMenuContent({ groupParams }) {
-  return (
-    <Ul>
-      <Li href$={getLinkToExplore(groupParams)}>Filter down using this group</Li>
-    </Ul>
-  );
 }
 
 function ExpandedGroup({ group, backendQueryModel, timeConfig, type, metrics, availableMetrics, order }) {
