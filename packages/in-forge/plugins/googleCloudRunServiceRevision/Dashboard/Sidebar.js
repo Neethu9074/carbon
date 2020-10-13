@@ -1,6 +1,6 @@
 import React from 'react';
 
-import getInstancesForGoogleCloudRunServiceRevision from 'in-subscription/getInstancesForGoogleCloudRunServiceRevision';
+import getProcessesForGoogleCloudRunServiceRevision from 'in-subscription/getProcessesForGoogleCloudRunServiceRevision';
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
 import SidebarSnapshotItemList from 'in-components/SidebarSnapshotItemList';
 import KeyValueOverlay from 'in-sdk/components/sidebar/KeyValueOverlay';
@@ -18,7 +18,7 @@ export default function GoogleCloudRunServiceRevisionSidebar({ snapshot }) {
   // (Calls are linked to the instances).
   const arbitraryInstanceSnapshot = useObservable(
     timeConfig$
-      .flatMap(timeConfig => getInstancesForGoogleCloudRunServiceRevision({ snapshotId, timeConfig }))
+      .flatMap(timeConfig => getProcessesForGoogleCloudRunServiceRevision({ snapshotId, timeConfig }))
       .map(instanceSnapshots => instanceSnapshots?.[0])
       .flatMap(getSnapshot),
     [snapshotId]
@@ -39,8 +39,8 @@ export default function GoogleCloudRunServiceRevisionSidebar({ snapshot }) {
 
       <SidebarSnapshotItemList
         snapshotId={snapshotId}
-        subscription={getInstancesForGoogleCloudRunServiceRevision}
-        label="Instances"
+        subscription={getProcessesForGoogleCloudRunServiceRevision}
+        label="Processes"
       />
 
       {arbitraryInstanceSnapshot && <ServiceInstancesList snapshot={arbitraryInstanceSnapshot} />}

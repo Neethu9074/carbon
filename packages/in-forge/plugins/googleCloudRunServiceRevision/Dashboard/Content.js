@@ -5,7 +5,7 @@ import { KpiKeyValue, KpiSection } from 'in-sdk/components/dashboard/KpiSection'
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import Columize from 'in-sdk/components/dashboard/Columize';
-import DashboardInstanceList from './DashboardInstanceList';
+import DashboardProcessList from './DashboardProcessList';
 import MetricValue from 'in-components/MetricValue';
 
 export default function GoogleCloudRunServiceRevisionDashboard({ snapshot, timeConfig }) {
@@ -84,7 +84,7 @@ export default function GoogleCloudRunServiceRevisionDashboard({ snapshot, timeC
         </DashboardSection>
       </Columize>
 
-      <DashboardInstanceList snapshotId={snapshotId} />
+      <DashboardProcessList snapshotId={snapshotId} />
     </>
   );
 }
