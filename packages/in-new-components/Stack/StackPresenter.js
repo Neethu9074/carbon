@@ -15,7 +15,16 @@ import locals from './StackPresenter.mless';
 
 const preferredContextGuideTabSettingsKey = 'preferredContextGuideTab';
 
-export default function StackPresenter({ applicationId, stack, isLoading, productArea, selfEntity, plugin }) {
+export default function StackPresenter({
+  applicationId,
+  boundaryScope,
+  serviceId,
+  stack,
+  isLoading,
+  productArea,
+  selfEntity,
+  plugin
+}) {
   useDisabledBodyScroll();
   useEffect(() => trackLoading(isLoading, { dashboard: plugin || productArea }), [isLoading]);
 
@@ -27,7 +36,15 @@ export default function StackPresenter({ applicationId, stack, isLoading, produc
     return <EmptyStackPane productArea={productArea} selfEntity={selfEntity} />;
   }
 
-  return <NavigableStack applicationId={applicationId} stack={stack} selfEntity={selfEntity} />;
+  return (
+    <NavigableStack
+      applicationId={applicationId}
+      boundaryScope={boundaryScope}
+      serviceId={serviceId}
+      stack={stack}
+      selfEntity={selfEntity}
+    />
+  );
 }
 
 const Loader = () => (
@@ -63,7 +80,7 @@ const EmptyStackPane = ({ productArea, selfEntity }) => {
   );
 };
 
-const NavigableStack = ({ applicationId, stack, selfEntity }) => {
+const NavigableStack = ({ applicationId, boundaryScope, serviceId, stack, selfEntity }) => {
   const [activeTabIndex, setActiveTabIndex] = useState(getInitialTabIndexFn(stack));
 
   const { key } = tabList[activeTabIndex];
@@ -78,7 +95,14 @@ const NavigableStack = ({ applicationId, stack, selfEntity }) => {
     <>
       <SelfEntityHeader selfEntity={selfEntity} />
       <InlineTabNavigation tabList={enrichedTabList} activeTabIndex={activeTabIndex} onTabSelect={onTabSelect} />
-      <StackPane applicationId={applicationId} groups={stack[key].groups} tab={key} activeTabIndex={activeTabIndex} />
+      <StackPane
+        applicationId={applicationId}
+        boundaryScope={boundaryScope}
+        serviceId={serviceId}
+        groups={stack[key].groups}
+        tab={key}
+        activeTabIndex={activeTabIndex}
+      />
     </>
   );
 };

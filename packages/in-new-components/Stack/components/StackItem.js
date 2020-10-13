@@ -24,6 +24,8 @@ import locals from './StackItem.mless';
 
 export default function StackItem({
   applicationId,
+  boundaryScope,
+  serviceId,
   item: { id, type, label, shortLabel, healthInfo, metrics, endpointTypes, technologies },
   tab
 }) {
@@ -32,7 +34,7 @@ export default function StackItem({
   const technologiesNoK8s = technologies?.filter(s => !s.startsWith('kubernetes') || !s.startsWith('openshift'));
 
   return (
-    <Li href$={dashboardLink(id, applicationId, type)} noAlternatingBg>
+    <Li href$={dashboardLink(id, applicationId, boundaryScope, serviceId, type)} noAlternatingBg>
       <div className={locals.itemWrapper}>
         <div className={locals.label}>
           {hasHealthInfo ? (
@@ -56,13 +58,17 @@ export default function StackItem({
   );
 }
 
-const dashboardLink = (id, applicationId, type) => {
+const dashboardLink = (id, applicationId, boundaryScope, serviceId, type) => {
   if (type === 'application') {
-    return getApplicationDashboard(id);
+    return getApplicationDashboard(id, { boundaryScope: boundaryScope });
   } else if (type === 'service') {
-    return getServiceDashboard(id, { applicationId });
+    return getServiceDashboard(id, { applicationId: applicationId, boundaryScope: boundaryScope });
   } else if (type === 'endpoint') {
-    return getEndpointDashboard(id, { applicationId });
+    return getEndpointDashboard(id, {
+      applicationId: applicationId,
+      boundaryScope: boundaryScope,
+      serviceId: serviceId
+    });
   }
 
   const link = getDashboardForK8sEntity(id, type);

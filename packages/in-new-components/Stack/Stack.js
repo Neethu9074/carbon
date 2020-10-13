@@ -62,7 +62,7 @@ export default connectTo(
     }
     return observables;
   },
-  function Stack({ applicationId, stackResult, productArea, selfEntity, plugin }) {
+  function Stack({ applicationId, boundaryScope, serviceId, stackResult, productArea, selfEntity, plugin }) {
     if (hasError(stackResult)) {
       return <ErroneousResultPresenter errors={stackResult.errors} />;
     }
@@ -70,6 +70,8 @@ export default connectTo(
     return (
       <StackPresenter
         applicationId={applicationId}
+        boundaryScope={boundaryScope}
+        serviceId={serviceId}
         stack={stackResult.data}
         isLoading={isLoading(stackResult)}
         productArea={productArea}

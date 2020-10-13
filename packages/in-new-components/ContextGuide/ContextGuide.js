@@ -9,6 +9,7 @@ export default function ContextGuide({
   id,
   serviceId,
   applicationId,
+  boundaryScope,
   endpointId,
   timeConfig,
   productArea,
@@ -21,6 +22,8 @@ export default function ContextGuide({
       <StackButton
         id={id}
         applicationId={applicationId}
+        boundaryScope={boundaryScope}
+        serviceId={serviceId}
         timeConfig={timeConfig}
         productArea={productArea}
         className={locals.leftButton}

@@ -142,6 +142,7 @@ function renderButtonLine({ applicationId, serviceId, boundaryScope, timeConfig,
         id={serviceId}
         timeConfig={timeConfig}
         applicationId={applicationId}
+        boundaryScope={boundaryScope}
         serviceId={serviceId}
         productArea="service"
       />

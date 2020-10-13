@@ -17,6 +17,8 @@ export default connectTo(
   function StackButton({
     id,
     applicationId,
+    boundaryScope,
+    serviceId,
     timeConfig,
     isInternalVisible,
     productArea,
@@ -33,6 +35,8 @@ export default connectTo(
             <Stack
               id={id}
               applicationId={applicationId}
+              boundaryScope={boundaryScope}
+              serviceId={serviceId}
               timeConfig={timeConfig}
               productArea={productArea}
               includeSelfEntity={includeSelfEntity}

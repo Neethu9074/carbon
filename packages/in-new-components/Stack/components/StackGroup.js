@@ -5,7 +5,13 @@ import StackItem from 'in-new-components/Stack/components/StackItem';
 import { getSingular, getPlural } from 'in-sdk/pluginName';
 import { ListGroup } from 'in-new-components/lists/List';
 
-export default function StackGroup({ applicationId, group: { relationship, type, items, itemCount }, tab }) {
+export default function StackGroup({
+  applicationId,
+  boundaryScope,
+  serviceId,
+  group: { relationship, type, items, itemCount },
+  tab
+}) {
   const numMoreItems = itemCount - items.length;
 
   return (
@@ -18,7 +24,14 @@ export default function StackGroup({ applicationId, group: { relationship, type,
       numMoreItems={numMoreItems}
     >
       {items.map(item => (
-        <StackItem key={item.id} applicationId={applicationId} item={item} tab={tab} />
+        <StackItem
+          key={item.id}
+          applicationId={applicationId}
+          boundaryScope={boundaryScope}
+          serviceId={serviceId}
+          item={item}
+          tab={tab}
+        />
       ))}
     </ListGroup>
   );

@@ -68,6 +68,18 @@ export default function EndpointDashboard({ location }) {
     props.boundaryScope = application?.data?.boundaryScope || boundaryScopes.default;
   }
 
+  // In context guide stack on application dashboards, serviceIds are missing in links to endpoint
+  // dashboards. Unfortunately, this is not that easy to fix, since the backend API is too generic
+  // to add a "serviceId" to the result items of type "endpoint".
+  // Fetch the missing serviceId, so that the service name can be shown in breadcrumbs navigation.
+  // This should not trigger any additional backend request, because the same endpoint is called
+  // a few lines below anyway and we are reusing the same request config object.
+  const getEndpointParams = { id: props.endpointId, filter: { timeConfig } };
+  const endpoint = useObservable(getEndpoint(getEndpointParams), [props.endpointId]);
+  if (!props.serviceId) {
+    props.serviceId = endpoint?.data?.serviceId;
+  }
+
   const filterTabByResult = result =>
     get(result, ['data', 'syntheticType'], 'NON_SYNTHETIC') === 'SYNTHETIC'
       ? tab => tab.label === 'Summary'
@@ -84,15 +96,7 @@ export default function EndpointDashboard({ location }) {
       />
 
       <TabView
-        result$={getEndpoint({
-          id: props.endpointId,
-          filter: {
-            application: props.applicationId,
-            service: null,
-            endpoint: props.endpointId,
-            timeConfig
-          }
-        })}
+        result$={getEndpoint(getEndpointParams)}
         HeaderComponent={Header}
         location={location}
         tabs={tabs}
@@ -161,6 +165,7 @@ function renderButtonLine({ applicationId, serviceId, endpointId, boundaryScope,
         id={endpointId}
         timeConfig={timeConfig}
         applicationId={applicationId}
+        boundaryScope={boundaryScope}
         serviceId={serviceId}
         endpointId={endpointId}
         productArea="endpoint"
