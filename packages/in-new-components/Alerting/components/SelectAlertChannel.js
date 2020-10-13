@@ -74,6 +74,7 @@ function SelectListDialogContent({ form, onSubmit, reloadKey }) {
       pageSize={5}
       listFormGroupClassOverwrites={locals.alertChannelsList}
       tableScrollWrapperClassOverwrites={locals.alertChannelsList}
+      preventCloseOnSubmit
     />
   );
 }

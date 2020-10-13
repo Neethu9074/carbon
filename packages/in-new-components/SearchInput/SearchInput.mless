@@ -8,6 +8,7 @@
     border: 1px solid @lib__colors__N400;
     background: @lib__colors__N050;
     width: 100%;
+    padding: 2px;
   }
 
   .wrapperDisabled {
@@ -26,6 +27,8 @@
 
   .searchInput {
     width: 100%;
+    min-width: 0; // allow flex-item to shrink below it's "default" width
+
     border: none;
     &:focus {
       outline: none;

@@ -2,7 +2,6 @@ import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import evaluateClassNames from 'in-services/util/classnames';
-import { isNotBlank } from 'in-services/util/string';
 import keyCodes from 'in-components/keyCodes';
 import Input from 'in-components/form/Input';
 import SvgIcon from 'in-components/SvgIcon';
@@ -39,10 +38,8 @@ export default function SearchInput({
     >
       <Input
         refSetter={inputRef}
-        style={{ maxWidth, width }}
         className={evaluateClassNames({
           [locals.searchInput]: true,
-          [locals.searchInputHasText]: isNotBlank(query),
           [locals.useTransparency]: hasError,
           [className]: className
         })}

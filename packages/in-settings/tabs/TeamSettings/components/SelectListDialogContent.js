@@ -32,7 +32,8 @@ function SelectListDialogContent({
   limit = Number.MAX_VALUE, // unlimited by default
   pageSize = 7,
   listFormGroupClassOverwrites,
-  tableScrollWrapperClassOverwrites
+  tableScrollWrapperClassOverwrites,
+  preventCloseOnSubmit
 }) {
   limit = limit - hiddenIds.length; // take the items that are already selected into account
   const ListComponent = listComponent;
@@ -46,7 +47,7 @@ function SelectListDialogContent({
       onSubmit={e => {
         e.preventDefault();
         onSubmit(selectedItems);
-        close();
+        if (!preventCloseOnSubmit) close();
       }}
       autoComplete="off"
     >
