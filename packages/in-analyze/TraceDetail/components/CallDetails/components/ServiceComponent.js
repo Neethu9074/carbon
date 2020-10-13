@@ -192,7 +192,7 @@ export default function ServiceComponent({ call, websiteBeacon, mobileAppBeacon 
                 />
               )}
 
-              {exitSpan && sourceSnapshotId && (
+              {sourceSnapshotId && (
                 <ExpandableGroup
                   expandedTitle="Infrastructure"
                   title={
