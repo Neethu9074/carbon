@@ -2,7 +2,6 @@ import React from 'react';
 
 import { millis, number, percentagePlain } from 'in-services/formatters/number';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { formatDateTime } from 'in-services/formatters/date';
 import { emptyList } from 'in-services/fixedImmutables';
@@ -28,7 +27,7 @@ const cols = [
     }
   },
   {
-    title: 'Last build #',
+    title: 'Last Build #',
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -156,27 +155,25 @@ export default function JobsTable({ snapshot, timeConfig }) {
 
 function getDetails(row) {
   return (
-    <DashboardSection title={`Builds`}>
-      <Chart
-        snapshotId={row.snapshotId}
-        timeConfig={row.timeConfig}
-        y1={{
-          min: 0,
-          metrics: ['jobs.' + row.key + '.lastBuildNumber'],
-          labels: ['Last Build Number'],
-          type: 'line',
-          formatter: number.compact
-        }}
-        y2={{
-          min: 0,
-          metrics: ['jobs.' + row.key + '.lastBuildDuration'],
-          labels: ['Last Build Duration'],
-          type: 'line',
-          formatter: millis.detailed
-        }}
-        renderPostChartContent={PluginDashboardsMarkerLanes}
-      />
-    </DashboardSection>
+    <Chart
+      snapshotId={row.snapshotId}
+      timeConfig={row.timeConfig}
+      y1={{
+        min: 0,
+        metrics: ['jobs.' + row.key + '.lastBuildNumber'],
+        labels: ['Last Build Number'],
+        type: 'line',
+        formatter: number.compact
+      }}
+      y2={{
+        min: 0,
+        metrics: ['jobs.' + row.key + '.lastBuildDuration'],
+        labels: ['Last Build Duration'],
+        type: 'line',
+        formatter: millis.detailed
+      }}
+      renderPostChartContent={PluginDashboardsMarkerLanes}
+    />
   );
 }
 
