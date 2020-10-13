@@ -12,5 +12,8 @@ registerSnapshotDefinition({
   },
   iconSvgPath,
   metricDefinitions,
-  kpiDefinitions
+  kpiDefinitions,
+  technologyDescriptor: {
+    label: 'Google Cloud Run'
+  }
 });
