@@ -35,6 +35,17 @@ function getNavigationTree(props: any): NavigationTree {
   const isAtLeastOneAuthMethogAvailable = props.isGoogleSSOAvailable || props.isSamlAvailable || props.isLdapAvailable;
 
   const navigationTree = [
+    {
+      title: 'Password',
+      pages: [
+        {
+          path: changePassword,
+          label: 'Change',
+          component: ChangePassword
+        }
+      ]
+    },
+
     isAtLeastOneAuthMethogAvailable && {
       title: 'Identity Providers',
       pages: [
@@ -68,17 +79,6 @@ function getNavigationTree(props: any): NavigationTree {
           path: twoFaUsers,
           label: 'Users',
           component: Users
-        }
-      ]
-    },
-
-    {
-      title: 'Password',
-      pages: [
-        {
-          path: changePassword,
-          label: 'Change',
-          component: ChangePassword
         }
       ]
     },
@@ -123,24 +123,11 @@ export default connectTo(
   },
 
   function View(props: any) {
-    let defaultRedirect = twoFaUsers;
-    if (isAtLeastOneAuthMethogAvailable(props)) {
-      if (props.isGoogleSSOAvailable) {
-        defaultRedirect = googleSSO;
-      } else if (props.isSamlAvailable) {
-        defaultRedirect = saml;
-      } else {
-        defaultRedirect = ldap;
-      }
-    }
-    if (role.canConfigureSessionSettings) {
-      defaultRedirect = timeouts;
-    }
     return (
       <SideNavigationAndContent
         stickySidebar
         navigationTree={getNavigationTree(props)}
-        redirectToDefaultPage={defaultRedirect}
+        redirectToDefaultPage={changePassword}
         redirectFrom={authSettings}
         NotFoundPage={NotFoundPage}
         {...props}
@@ -148,7 +135,3 @@ export default connectTo(
     );
   }
 );
-
-function isAtLeastOneAuthMethogAvailable({ isGoogleSSOAvailable, isSamlAvailable, isLdapAvailable }) {
-  return role.canConfigureAuthenticationMethods && (isGoogleSSOAvailable || isSamlAvailable || isLdapAvailable);
-}

@@ -18,6 +18,7 @@ import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import Section from 'in-settings/components/Section';
 import FormGroup from 'in-components/form/FormGroup';
+import { isNotBlank } from 'in-services/util/string';
 import Button from 'in-new-components/Button';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
@@ -152,29 +153,6 @@ function render({ form, setForm, testResultMessage, setTestResultMessage }) {
           </Row>
         </Section>
         <Section restrictWidth="50rem">
-          <h3>Optional settings</h3>
-          <Row className={indentityProvidersLocals.row}>
-            <Col xs={6}>
-              <FormInput
-                placeholder="(optional)"
-                form={form}
-                setForm={setForm}
-                fieldName="userDnMapping"
-                label="User Dn Mapping"
-              />
-            </Col>
-            <Col xs={6}>
-              <FormInput
-                placeholder="(optional)"
-                form={form}
-                setForm={setForm}
-                fieldName="userField"
-                label="User Field"
-              />
-            </Col>
-          </Row>
-        </Section>
-        <Section restrictWidth="50rem">
           <h3>LDAP user account</h3>
 
           <Row className={indentityProvidersLocals.row}>
@@ -204,6 +182,7 @@ function render({ form, setForm, testResultMessage, setTestResultMessage }) {
             <Col xs={12}>
               <Button
                 className={locals.testButton}
+                disabled={!isNotBlank(getConfig(form).testUser) && !isNotBlank(getConfig(form).testPassword)}
                 kind="secondary"
                 onClick={() => {
                   const config = getConfig(form);
@@ -227,6 +206,29 @@ function render({ form, setForm, testResultMessage, setTestResultMessage }) {
               </Col>
             </Row>
           )}
+        </Section>
+        <Section restrictWidth="50rem">
+          <h3>Optional settings</h3>
+          <Row className={indentityProvidersLocals.row}>
+            <Col xs={6}>
+              <FormInput
+                placeholder="(optional)"
+                form={form}
+                setForm={setForm}
+                fieldName="userDnMapping"
+                label="User Dn Mapping"
+              />
+            </Col>
+            <Col xs={6}>
+              <FormInput
+                placeholder="(optional)"
+                form={form}
+                setForm={setForm}
+                fieldName="userField"
+                label="User Field"
+              />
+            </Col>
+          </Row>
         </Section>
       </form>
     </>
