@@ -35,6 +35,7 @@ export default function SearchInput({
         [locals.hasError]: hasError,
         [locals.wrapperDisabled]: disabled
       })}
+      style={{ maxWidth, width }}
     >
       <Input
         refSetter={inputRef}
@@ -42,7 +43,8 @@ export default function SearchInput({
         className={evaluateClassNames({
           [locals.searchInput]: true,
           [locals.searchInputHasText]: isNotBlank(query),
-          [locals.useTransparency]: hasError
+          [locals.useTransparency]: hasError,
+          [className]: className
         })}
         disabled={disabled}
         type="search"

@@ -7,7 +7,7 @@
     align-items: center;
     border: 1px solid @lib__colors__N400;
     background: @lib__colors__N050;
-    width: max-content;
+    width: 100%;
   }
 
   .wrapperDisabled {
@@ -25,6 +25,7 @@
   }
 
   .searchInput {
+    width: 100%;
     border: none;
     &:focus {
       outline: none;
