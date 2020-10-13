@@ -149,6 +149,5 @@ export default function SelectorOverlay({ options, onChange, withIcons = true })
 SelectorOverlay.propTypes = {
   options: nodeArrayPropType.isRequired,
   onChange: PropTypes.func.isRequired,
-  withIcons: PropTypes.bool,
-  nonSearchableOptions: nodeArrayPropType
+  withIcons: PropTypes.bool
 };
