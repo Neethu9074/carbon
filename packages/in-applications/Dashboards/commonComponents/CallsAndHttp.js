@@ -9,8 +9,8 @@ import Card from 'in-new-components/Card';
 const tabCallCount = 'Call count';
 const tabHttpStatusCodes = 'HTTP status codes';
 
-const tabs = [tabHttpStatusCodes, tabCallCount];
-const metrics = [
+const allTabs = [tabHttpStatusCodes, tabCallCount];
+const allMetrics = [
   {
     id: 'http.1xx',
     label: '1XX',
@@ -21,7 +21,8 @@ const metrics = [
     id: 'http.2xx',
     label: '2XX',
     value: 'http.2xx',
-    tab: tabHttpStatusCodes
+    tab: tabHttpStatusCodes,
+    tabDefault: true
   },
   {
     id: 'http.3xx',
@@ -51,7 +52,8 @@ const metrics = [
     id: 'calls',
     label: 'Calls',
     value: 'calls',
-    tab: tabCallCount
+    tab: tabCallCount,
+    tabDefault: true
   },
   {
     id: 'erroneousCalls',
@@ -72,18 +74,22 @@ export default function CallsAndHttp({
   callGroupByTag,
   renderPostChartContent,
   renderPostChartContentHttpStatus,
-  showNonHttpCalls
+  hideHttp,
+  hasHttpAndOtherEndpoints
 }) {
-  const findMetricByTab = tab => metrics.find(m => m.tab === tab).id;
+  const tabs = hideHttp ? allTabs.filter(tab => tab !== tabHttpStatusCodes) : allTabs;
+  const metrics = hideHttp ? allMetrics.filter(m => m.tab !== tabHttpStatusCodes) : allMetrics;
+
+  const findDefaultMetricByTab = tab => metrics.find(m => m.tab === tab && m.tabDefault).id;
   const findTabByMetric = metric => metrics.find(m => m.id === metric).tab;
 
   const [activeTab, setActiveTab] = useState(tabs[0]);
-  const [activeMetric, setActiveMetric] = useState(findMetricByTab(activeTab));
+  const [activeMetric, setActiveMetric] = useState(findDefaultMetricByTab(activeTab));
 
   useEffect(() => {
     // if the active tab changes, the active metric must be updated
     if (activeTab !== findTabByMetric(activeMetric)) {
-      setActiveMetric(findMetricByTab(activeTab));
+      setActiveMetric(findDefaultMetricByTab(activeTab));
     }
   }, [activeTab]);
 
@@ -99,12 +105,12 @@ export default function CallsAndHttp({
 
   const header = timeShiftConfig.offset ? (
     <ComboChartMetricSelector
-      metrics={showNonHttpCalls ? metrics : metrics.filter(metric => metric.id !== 'calls.nonHttp')}
+      metrics={hasHttpAndOtherEndpoints ? metrics : metrics.filter(metric => metric.id !== 'calls.nonHttp')}
       selected={activeMetric}
       onChange={setActiveMetric}
     />
   ) : (
-    <TabChartSelector tabs={tabs} selected={activeTab} onChange={setActiveTab} />
+    tabs.length > 1 && <TabChartSelector tabs={tabs} selected={activeTab} onChange={setActiveTab} />
   );
 
   const selectedTab = timeShiftConfig.offset ? findTabByMetric(activeMetric) : activeTab;
@@ -136,7 +142,7 @@ export default function CallsAndHttp({
           groupByTag={{ name: 'call.http.status' }}
           renderPostChartContentHttpStatus={renderPostChartContentHttpStatus}
           showGraph
-          showNonHttpCalls={showNonHttpCalls}
+          hasHttpAndOtherEndpoints={hasHttpAndOtherEndpoints}
         />
       )}
     </Card>

@@ -9,7 +9,6 @@ import { hasHttpEndpoints, hasHttpAndOtherEndpoints } from 'in-applications/endp
 import IssuesAndEvents from 'in-applications/Dashboards/commonComponents/IssuesAndEvents';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
 import CallsAndHttp from 'in-applications/Dashboards/commonComponents/CallsAndHttp';
-import CallsErrors from 'in-applications/Dashboards/commonComponents/CallsErrors';
 import { number, meanLatency, percentage } from 'in-services/formatters/number';
 import getEndpointTypes from 'in-applications/subscriptions/getEndpointTypes';
 import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
@@ -33,7 +32,7 @@ export default function Summary({ timeConfig, applicationId, data: application, 
         timeConfig: timeConfig,
         applicationBoundaryScope: boundaryScope
       }
-    }).map(result => result.data || []),
+    }).map(result => result?.data),
     [applicationId, timeConfig, urlBoundaryScope]
   );
 
@@ -182,29 +181,21 @@ export default function Summary({ timeConfig, applicationId, data: application, 
       </Row>
       <Row>
         <Col lg={4}>
-          {hasHttpEndpoints(types) ? (
-            <CallsAndHttp
-              cardTitle="Calls"
-              applicationId={applicationId}
-              tagFilters={tagFilters}
-              boundaryScope={boundaryScope}
-              timeConfig={timeConfig}
-              callGroupByTag={{ name: 'service.name', entity: entityTypes.DESTINATION }}
-              renderPostChartContent={withPotentialProblemsLane}
-              renderPostChartContentHttpStatus={MarkerLanes}
-              showNonHttpCalls={hasHttpAndOtherEndpoints(types)}
-            />
-          ) : (
-            <CallsErrors
-              cardTitle="Calls"
-              applicationId={applicationId}
-              timeConfig={timeConfig}
-              boundaryScope={boundaryScope}
-              tagFilters={tagFilters}
-              groupByTag={{ name: 'service.name', entity: entityTypes.DESTINATION }}
-              renderPostChartContent={withPotentialProblemsLane}
-            />
-          )}
+          <CallsAndHttp
+            cardTitle="Calls"
+            applicationId={applicationId}
+            tagFilters={tagFilters}
+            boundaryScope={boundaryScope}
+            timeConfig={timeConfig}
+            callGroupByTag={{ name: 'service.name', entity: entityTypes.DESTINATION }}
+            renderPostChartContent={withPotentialProblemsLane}
+            renderPostChartContentHttpStatus={MarkerLanes}
+            // `types` can be set to `undefined` because `useObservable` returns `undefined` temporarily when `fieldsToWatch` changes
+            // the null check on `types` is necessary to keep `hideHttp=false`,
+            // otherwise `!hasHttpEndpoints(types)` would return true when `types=undefined`
+            hideHttp={types && !hasHttpEndpoints(types)}
+            hasHttpAndOtherEndpoints={hasHttpAndOtherEndpoints(types)}
+          />
         </Col>
         <Col lg={4}>
           <Errors

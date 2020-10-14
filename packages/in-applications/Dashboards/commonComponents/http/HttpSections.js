@@ -22,7 +22,7 @@ export default function HttpSections({
   renderPostChartContentHttpStatus,
   timeShiftConfig,
   timeShiftMetric,
-  showNonHttpCalls
+  hasHttpAndOtherEndpoints
 }) {
   const granularity = getChartGranularity(timeConfig);
 
@@ -82,7 +82,7 @@ export default function HttpSections({
     }
   ];
 
-  if (showNonHttpCalls) {
+  if (hasHttpAndOtherEndpoints) {
     chartMetrics.push({
       config: otherCallsMetricConfig,
       id: 'calls.nonHttp',

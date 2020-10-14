@@ -10,7 +10,6 @@ import { DESTINATION, NOT_APPLICABLE } from 'in-new-components/QueryBuilder/tagF
 import IssuesAndEvents from 'in-applications/Dashboards/commonComponents/IssuesAndEvents';
 import CallsAndHttp from 'in-applications/Dashboards/commonComponents/CallsAndHttp';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
-import CallsErrors from 'in-applications/Dashboards/commonComponents/CallsErrors';
 import { number, meanLatency, percentage } from 'in-services/formatters/number';
 import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import BigNumberKpiCard from 'in-new-components/KpiCard/BigNumberKpiCard';
@@ -187,32 +186,19 @@ export default connectTo(
         </Row>
         <Row>
           <Col lg={4}>
-            {type.includes('HTTP') ? (
-              <CallsAndHttp
-                cardTitle="Calls"
-                applicationId={applicationId}
-                serviceId={serviceId}
-                endpointId={endpointId}
-                tagFilters={tagFilters}
-                boundaryScope={boundaryScope}
-                timeConfig={timeConfig}
-                callGroupByTag={{ name: 'call.name', entity: entityTypes.NOT_APPLICABLE }}
-                renderPostChartContent={withPotentialProblemsLane}
-                renderPostChartContentHttpStatus={MarkerLanes}
-              />
-            ) : (
-              <CallsErrors
-                cardTitle="Calls"
-                applicationId={applicationId}
-                serviceId={serviceId}
-                endpointId={endpointId}
-                boundaryScope={boundaryScope}
-                tagFilters={tagFilters}
-                timeConfig={timeConfig}
-                groupByTag={{ name: 'call.name', entity: entityTypes.NOT_APPLICABLE }}
-                renderPostChartContent={withPotentialProblemsLane}
-              />
-            )}
+            <CallsAndHttp
+              cardTitle="Calls"
+              applicationId={applicationId}
+              serviceId={serviceId}
+              endpointId={endpointId}
+              tagFilters={tagFilters}
+              boundaryScope={boundaryScope}
+              timeConfig={timeConfig}
+              callGroupByTag={{ name: 'call.name', entity: entityTypes.NOT_APPLICABLE }}
+              renderPostChartContent={withPotentialProblemsLane}
+              renderPostChartContentHttpStatus={MarkerLanes}
+              hideHttp={!type.includes('HTTP')}
+            />
           </Col>
           <Col lg={4}>
             <Errors

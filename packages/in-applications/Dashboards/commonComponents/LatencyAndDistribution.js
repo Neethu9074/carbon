@@ -89,7 +89,7 @@ export default function LatencyAndDistribution({
     <TabChartSelector tabs={tabs} selected={activeTab} onChange={setActiveTab} />
   );
 
-  const selectedTab = timeShiftConfig.offset ? metrics.find(o => o.value === activeAggregation).tab : activeTab;
+  const selectedTab = timeShiftConfig.offset ? findTabByAggregation(activeAggregation) : activeTab;
 
   return (
     <Card title={cardTitle} header={header}>
