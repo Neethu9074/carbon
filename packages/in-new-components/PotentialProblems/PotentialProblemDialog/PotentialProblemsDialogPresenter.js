@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import PotentialProblemContent from 'in-new-components/PotentialProblems/PotentialProblemDialog/PotentialProblemContent/PotentialProblemContent';
@@ -7,6 +7,7 @@ import {
   thresholdsPropType
 } from 'in-new-components/PotentialProblems/PotentialProblemsLane/proptypes';
 import PotentialProblemsList from 'in-new-components/PotentialProblems/PotentialProblemDialog/PotentialProblemsList';
+import { trackCurrentlySelected } from 'in-new-components/PotentialProblems/tracker';
 import evaluateClassNames from 'in-services/util/classnames';
 import { close } from 'in-components/DialogPresenter/store';
 import Dialog from 'in-new-components/Dialog/Dialog';
@@ -22,6 +23,8 @@ export default function PotentialProblemsDialogPresenter({ alertRules, threshold
   const [selectedItem, setSelectedItem] = useState(alerts[0]);
   const ruleSelected = alertRules[selectedItem.key].rule;
   const thresholdSelected = thresholds[selectedItem.key];
+
+  useTrackItemSelect(thresholdSelected, alerts, ruleSelected);
 
   return (
     <Dialog title={title} onClose={close} withoutBodyPadding>
@@ -53,6 +56,15 @@ export default function PotentialProblemsDialogPresenter({ alertRules, threshold
       </div>
     </Dialog>
   );
+}
+
+function useTrackItemSelect(threshold, alerts, rule) {
+  useEffect(() => {
+    trackCurrentlySelected({
+      metricName: threshold.metricName,
+      numberOfProblems: alerts.length
+    });
+  }, [alert, rule, threshold]);
 }
 
 PotentialProblemsDialogPresenter.propTypes = {

@@ -1,30 +1,27 @@
-import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
 
 import AlertsLanePresenter from 'in-components/Chart/markerLanes/AlertsLane/AlertsLanePresenter';
 import { pendingResult, emptyArray } from 'in-services/fixedObjects';
+import { isLoading } from 'in-services/util/result';
 import useObservable from 'in-hooks/useObservable';
 
 export default function AlertsLane({ getAlerts, config = {}, ...remainingProps }) {
-  const [isLoading, setIsLoading] = useState(true);
   const { clusterSizeMillis } = remainingProps;
 
-  const alerts =
+  const alertsResult =
     useObservable(
       getAlerts({
         granularity: clusterSizeMillis,
         timeConfig: remainingProps.timeConfig,
         ...config
-      })
-        .startWith(pendingResult)
-        .tap(({ progress }) => {
-          if (!progress.loading) setIsLoading(false);
-        })
-        .map(({ data = [] }) => data),
+      }).startWith(pendingResult),
       [config, clusterSizeMillis, remainingProps.timeConfig]
     ) ?? emptyArray;
 
-  return <AlertsLanePresenter {...remainingProps} alerts={alerts} isLoading={isLoading} />;
+  return (
+    <AlertsLanePresenter {...remainingProps} alerts={alertsResult?.data ?? []} isLoading={isLoading(alertsResult)} />
+  );
 }
 
 AlertsLane.propTypes = {

@@ -7,6 +7,7 @@ import {
   thresholdPropType
 } from 'in-new-components/PotentialProblems/PotentialProblemsLane/proptypes';
 import getConfigByDataSource, { groupByEndpointName, groupByServiceName } from 'in-analyze/AnalyzeView/dataSources';
+import { trackCreateSmartAlert, trackGotoAnalyze } from 'in-new-components/PotentialProblems/tracker';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
 import { close } from 'in-components/DialogPresenter/store';
@@ -30,7 +31,13 @@ export default function PotentialProblemContentControls({
     <>
       <Button
         kind="primary"
-        onClick={close}
+        onClick={e => {
+          e.stopPropagation();
+          trackGotoAnalyze({
+            metricName: rule.metricName
+          });
+          close();
+        }}
         icon="lib_analyze"
         href$={getLinkToAnalyze({
           dataSource: 'calls',
@@ -51,7 +58,7 @@ export default function PotentialProblemContentControls({
       {role.canConfigureCustomAlerts && (
         <Button
           kind="secondaryDarker"
-          onClick={() =>
+          onClick={() => {
             addActiveDialog(
               renderSmartAlertDialogComponent({
                 ...remainingProps,
@@ -61,16 +68,16 @@ export default function PotentialProblemContentControls({
                 tagFilters,
                 boundaryScope
               })
-            )
-          }
+            );
+            trackCreateSmartAlert({
+              metricName: rule.metricName
+            });
+          }}
           icon="lib_alerts_create"
         >
           Add Smart Alert
         </Button>
       )}
-      {/* <Button kind="secondaryDarker" onClick={() => {}} icon="lib_actions_download">
-  Generate Report
-</Button> */}
     </>
   );
 }

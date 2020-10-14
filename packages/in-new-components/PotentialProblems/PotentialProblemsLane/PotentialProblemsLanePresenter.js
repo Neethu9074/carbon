@@ -6,6 +6,7 @@ import PotentialProblemsHoverArea from 'in-new-components/PotentialProblems/Pote
 import { potentialProblemsLaneAlertsPropType } from 'in-new-components/PotentialProblems/PotentialProblemsLane/proptypes';
 import PotentialProblemMarker from 'in-new-components/PotentialProblems/PotentialProblemsLane/PotentialProblemMarker';
 import SmartAlertConfigDialogWrapper from 'in-applications/alerting/Dialog/SmartAlertConfigDialogWrapper';
+import { trackMarkerClicked, trackMarkerHovered } from 'in-new-components/PotentialProblems/tracker';
 import SingleMarkerLaneItem from 'in-components/Chart/markerLanes/MarkerLane/SingleMarkerLaneItem';
 import MarkerLane from 'in-components/Chart/markerLanes/MarkerLane/MarkerLane';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
@@ -136,9 +137,17 @@ export default function PotentialProblemsLanePresenter({ potentialProblems, aler
             }}
           />
         );
+        trackMarkerClicked({ metricNames: getUniqueMetricNames(alertRules) });
       }}
       renderLaneItem={SingleMarkerLaneItem}
       renderMarkerItem={PotentialProblemMarker}
+      trackMarkerHoverEvent={eventData => {
+        trackMarkerHovered({
+          metricNames: getUniqueMetricNames(alertRules),
+          numberOfProblems: eventData.alerts.length,
+          chartName: remainingProps.chartName
+        });
+      }}
       hideDefaultHoverStyle
     />
   );
@@ -157,6 +166,14 @@ function buildPotentialProblemEventObject({ alerts, lastStart, lastEnd, granular
 
 function adjustTimestampFraction(lastStartOrEnd, granularity) {
   return Math.floor(lastStartOrEnd / granularity) * granularity;
+}
+
+function getUniqueMetricNames(alertRules) {
+  const uniqueMetricNames = new Set();
+  for (const { rule } of Object.values(alertRules)) {
+    uniqueMetricNames.add(rule.metricName);
+  }
+  return Array.from(uniqueMetricNames);
 }
 
 PotentialProblemsLanePresenter.propTypes = {

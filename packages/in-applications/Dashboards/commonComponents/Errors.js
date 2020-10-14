@@ -62,6 +62,7 @@ export default function Errors({
         renderPostChartContent({
           ...props,
           boundaryScope,
+          chartName: cardTitle,
           alertRules: {
             errorRate: {
               rule: {

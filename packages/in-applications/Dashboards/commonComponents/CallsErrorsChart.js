@@ -89,6 +89,7 @@ export default function CallsErrorsChart({
         renderPostChartContent({
           ...props,
           boundaryScope,
+          chartName: cardTitle,
           alertRules: {
             throughputHigh: {
               rule: {

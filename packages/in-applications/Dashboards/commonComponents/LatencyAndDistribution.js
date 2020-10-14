@@ -114,7 +114,6 @@ export default function LatencyAndDistribution({
           timeConfig={timeConfig}
           boundaryScope={boundaryScope}
           includeSyntheticCalls={includeSyntheticCalls}
-          renderPostChartContent={renderPostChartContent}
         />
       )}
     </Card>

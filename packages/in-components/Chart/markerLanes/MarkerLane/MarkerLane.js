@@ -67,6 +67,7 @@ function MarkersLanePresenter({
   selectedEventData,
   laneLabelsVisible,
   isLoading,
+  trackMarkerHoverEvent,
   ...remainingProps
 }) {
   const xScale = useObservable(renderScheduler.xScaleBackBuffer$.nextFrame(), [], { pure: false });
@@ -119,7 +120,10 @@ function MarkersLanePresenter({
             >
               {renderLaneItem({
                 xPos,
-                onHover: s => setHoveredEventData(s),
+                onHover: s => {
+                  setHoveredEventData(s);
+                  trackMarkerHoverEvent?.(eventData);
+                },
                 showIconForCluster,
                 chartContentPosition,
                 isClustered,
@@ -176,7 +180,9 @@ MarkersLane.propTypes = {
   renderSecondaryHoverOverlay: PropTypes.func,
   laneLabelsVisible: PropTypes.bool,
   onLaneHasMarkersToRender: PropTypes.func.isRequired,
-  isLoading: PropTypes.bool
+  isLoading: PropTypes.bool,
+  // Tracking
+  trackMarkerHoverEvent: PropTypes.func
 };
 
 export default getElementDimensions(MarkersLane);

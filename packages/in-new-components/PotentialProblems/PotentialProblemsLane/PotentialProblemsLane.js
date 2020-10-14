@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
+import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 
 import PotentialProblemsLanePresenter from 'in-new-components/PotentialProblems/PotentialProblemsLane/PotentialProblemsLanePresenter';
 import getPotentialProblems from 'in-new-components/PotentialProblems/subscription/getPotentialProblems';
+import { trackRequestLoadingTime } from 'in-new-components/PotentialProblems/tracker';
 import getServiceLabel from 'in-subscription/application/getServiceLabel';
 import getEndpointInfo from 'in-subscription/application/getEndpointInfo';
 import { applicationSmartAlertsEnabled } from 'in-services/featureFlags';
 import getApplication from 'in-subscription/application/getApplication';
 import { pendingResult } from 'in-services/fixedObjects';
+import { isLoading } from 'in-services/util/result';
 import useObservable from 'in-hooks/useObservable';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { days } from 'in-services/time';
@@ -25,32 +27,41 @@ export default function PotentialProblemsLane({
   alertRules,
   ...remainingProps
 }) {
-  const [isLoading, setIsLoading] = useState(true);
-
   if (!applicationId || !applicationSmartAlertsEnabled) {
     return null;
   }
 
+  const startTime = useRef(null);
+
   const globalTimeConfig = useTimeConfig();
   if (isOutsideCallsShortTermStorage(globalTimeConfig)) return null;
 
-  const { clusterSizeMillis } = remainingProps;
+  const { clusterSizeMillis, chartName } = remainingProps;
   const tagFilters = getTagfilters({ applicationId, serviceId, endpointId, boundaryScope });
 
-  const potentialProblems =
-    useObservable(
-      getPotentialProblems({
-        timeConfig: globalTimeConfig,
-        alertRules,
-        tagFilters
-      })
-        .startWith(pendingResult)
-        .tap(({ progress }) => {
-          if (!progress.loading) setIsLoading(false);
-        })
-        .map(({ data = emptyPotentialProblems }) => data),
-      [globalTimeConfig, clusterSizeMillis, alertRules]
-    ) ?? emptyPotentialProblems;
+  const potentialProblemsResult = useObservable(
+    getPotentialProblems({
+      timeConfig: globalTimeConfig,
+      alertRules,
+      tagFilters
+    })
+      .startWith(pendingResult)
+      .tap(result => {
+        const start = startTime.current;
+        if (isLoading(result) && !start) {
+          startTime.current = Date.now();
+        } else if (result.data && start) {
+          trackRequestLoadingTime({
+            requestTime: `${Date.now() - start / 1000}s`,
+            numberPotentialProblems: result.data.alerts.length,
+            windowSize: globalTimeConfig.windowSize,
+            chartName
+          });
+          startTime.current = null;
+        }
+      }),
+    [globalTimeConfig, clusterSizeMillis, alertRules]
+  );
 
   return (
     <PotentialProblemsLanePresenter
@@ -59,9 +70,9 @@ export default function PotentialProblemsLane({
       alertRules={alertRules}
       applicationId={applicationId}
       boundaryScope={boundaryScope}
-      potentialProblems={potentialProblems}
+      potentialProblems={potentialProblemsResult?.data ?? emptyPotentialProblems}
       tagFilters={tagFilters}
-      isLoading={isLoading}
+      isLoading={isLoading(potentialProblemsResult)}
     />
   );
 }

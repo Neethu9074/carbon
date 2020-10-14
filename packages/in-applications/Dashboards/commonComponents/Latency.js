@@ -123,6 +123,7 @@ export default function Latency({
     <UnifiedMetricsChart
       renderPostChartContent={props =>
         renderPostChartContent({
+          chartName: cardTitle,
           alertRules,
           boundaryScope,
           ...props

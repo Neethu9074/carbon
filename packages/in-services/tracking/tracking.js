@@ -243,3 +243,12 @@ export const INFRASTRUCTURE_SIDEBAR_RELATED_ENTITIES_CLICKED = 'infrastructure.s
 export const AMP_TENANT_UNIT_CHANGED = 'amp.tenant.unit.metrics.changed';
 
 export const AGENT_LOGS_DOWNLOAD_CLICKED = 'agent.logs.download.clicked';
+
+// Potential Problems Marker Lane
+export const POTENTIAL_PROBLEMS_MARKER_HOVERED = 'potential.problems.marker.hovered';
+export const POTENTIAL_PROBLEMS_MARKER_CLICKED = 'potential.problems.marker.clicked';
+export const POTENTIAL_PROBLEMS_LIST_SELECT = 'potential.problems.list.select';
+export const POTENTIAL_PROBLEMS_SMART_ALERT_CREATE = 'potential.problems.smartalert.create';
+export const POTENTIAL_PROBLEMS_GO_TO_ANALYZE = 'potential.problems.goto.analyze';
+export const POTENTIAL_PROBLEMS_REQUEST_LOADING_TIME = 'potential.problems.request.loading.time';
+export const POTENTIAL_PROBLEMS_SELECTED = 'potential.problems.selected';
