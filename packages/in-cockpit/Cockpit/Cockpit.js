@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import theme from 'in-themes';
 
 import DashboardHeaderShadowModule from 'in-new-components/DashboardHeader/DashboardHeaderShadowModule';
@@ -11,6 +11,7 @@ import DashboardSwitcher from 'in-custom-dashboards/DashboardSwitcher/DashboardS
 import OpenIncidentsButton from 'in-cockpit/Cockpit/components/OpenIncidentsButton';
 import Grid, { getWidgetId } from 'in-custom-dashboards/CustomDashboard/Grid/Grid';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
+import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import DashboardHeader, { themes } from 'in-new-components/DashboardHeader';
 import SetAsLandingPage from 'in-client/js/LandingPage/SetAsLandingPage';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
@@ -212,7 +213,6 @@ const Content = getElementDimensions(function Content({ itemOrder, width, timeCo
   };
 
   const renderNavigation = width > 1200;
-  const [apDialogOpen, setApDialogOpen] = useState(false);
   const entityResult = useObservable(
     applicationId ? getApplicationConfig(applicationId) : successObservable(createNewApplicationConfig()),
     [applicationId]
@@ -228,7 +228,16 @@ const Content = getElementDimensions(function Content({ itemOrder, width, timeCo
                 widgets: itemOrder.map(config => ({
                   ...config,
                   ...configEnrichmentLookUpTable[config.id],
-                  setApDialogOpen
+                  setApDialogOpen: () =>
+                    addActiveDialog(
+                      <CreateApplicationDialog
+                        timeConfig={timeConfig || getTimeConfig({ pathname: '/applications', query: {} })}
+                        formData={entityResult.data}
+                        onClose={close}
+                        getOnSavePath={app => getNewApplicationWaiterViewPath(app)}
+                        editMode
+                      />
+                    )
                 }))
               }}
               isResizable={false}
@@ -249,15 +258,6 @@ const Content = getElementDimensions(function Content({ itemOrder, width, timeCo
               renderPreIcon={renderIcon}
             />
           </div>
-        )}
-        {apDialogOpen && (
-          <CreateApplicationDialog
-            timeConfig={timeConfig || getTimeConfig({ pathname: '/applications', query: {} })}
-            formData={entityResult.data}
-            onClose={() => setApDialogOpen(false)}
-            getOnSavePath={app => getNewApplicationWaiterViewPath(app)}
-            editMode
-          />
         )}
       </>
     </div>

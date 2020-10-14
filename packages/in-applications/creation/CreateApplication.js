@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import CreateApplicationDialog from 'in-applications/creation/Dialog/CreateApplicationDialog';
 import { createNewApplicationConfig, getApplicationConfig } from 'in-api/applicationConfigs';
 import { applicationCreationOpenDialogClick } from 'in-applications/creation/tracker';
+import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { newApplicationWaiterView } from 'in-applications/navigation/paths';
 import { successObservable } from 'in-services/util/result';
 import { getTimeConfig } from 'in-stores/time/config';
@@ -10,35 +11,31 @@ import useObservable from 'in-hooks/useObservable';
 import Button from 'in-new-components/Button';
 
 export default function CreateApplication({ applicationId, timeConfig, className }) {
-  const [dialogOpen, setDialogOpen] = useState(false);
   const entityResult = useObservable(
     applicationId ? getApplicationConfig(applicationId) : successObservable(createNewApplicationConfig()),
     [applicationId]
   );
 
   return (
-    <>
-      <Button
-        kind="action"
-        icon="lib_openclose_add_circle_outline"
-        onClick={() => {
-          setDialogOpen(true);
-          applicationCreationOpenDialogClick({ status: 'Open Creation Dialog' });
-        }}
-        className={className}
-      >
-        New Application Perspective
-      </Button>
-      {dialogOpen && (
-        <CreateApplicationDialog
-          timeConfig={timeConfig || getTimeConfig({ pathname: '/applications', query: {} })}
-          formData={entityResult.data}
-          onClose={() => setDialogOpen(false)}
-          getOnSavePath={app => getNewApplicationWaiterViewPath(app)}
-          editMode
-        />
-      )}
-    </>
+    <Button
+      kind="action"
+      icon="lib_openclose_add_circle_outline"
+      onClick={() => {
+        applicationCreationOpenDialogClick({ status: 'Open Creation Dialog' });
+        addActiveDialog(
+          <CreateApplicationDialog
+            timeConfig={timeConfig || getTimeConfig({ pathname: '/applications', query: {} })}
+            formData={entityResult.data}
+            onClose={close}
+            getOnSavePath={app => getNewApplicationWaiterViewPath(app)}
+            editMode
+          />
+        );
+      }}
+      className={className}
+    >
+      New Application Perspective
+    </Button>
   );
 }
 
