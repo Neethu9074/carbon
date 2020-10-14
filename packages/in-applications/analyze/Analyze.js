@@ -134,32 +134,34 @@ function ApplicationAnalyzeViewWithFixatedTimeConfig() {
             </Message>
           )}
 
-          <div className={locals.facetedSearchWithCallList}>
-            <FacetedSearch tagFilterExpression={backendQueryModel} addFilter={addFilter} />
-            {isValid && !groupBy?.groupbyTag && (
-              <CallsList
-                timeConfig={timeConfig}
-                tagFilterExpression={backendQueryModel}
-                orderBy={orderByCalls}
-                onChangeOrderBy={onChangeOrderByCalls}
-              />
-            )}
+          {isValid && (
+            <div className={locals.facetedSearchWithCallList}>
+              <FacetedSearch tagFilterExpression={backendQueryModel} addFilter={addFilter} />
+              {!groupBy?.groupbyTag && (
+                <CallsList
+                  timeConfig={timeConfig}
+                  tagFilterExpression={backendQueryModel}
+                  orderBy={orderByCalls}
+                  onChangeOrderBy={onChangeOrderByCalls}
+                />
+              )}
 
-            {isValid && groupBy?.groupbyTag && (
-              <GroupedCallsList
-                timeConfig={timeConfig}
-                tagFilterExpression={backendQueryModel}
-                groupBy={groupBy}
-                orderBy={orderByGroups}
-                orderByCalls={orderByCalls}
-                metrics={metrics}
-                onFocusOnGroup={onFocusOnGroup}
-                onChangeOrderBy={onChangeOrderByGroups}
-                onChangeOrderByCalls={onChangeOrderByCalls}
-                onChangeMetrics={onChangeMetrics}
-              />
-            )}
-          </div>
+              {groupBy?.groupbyTag && (
+                <GroupedCallsList
+                  timeConfig={timeConfig}
+                  tagFilterExpression={backendQueryModel}
+                  groupBy={groupBy}
+                  orderBy={orderByGroups}
+                  orderByCalls={orderByCalls}
+                  metrics={metrics}
+                  onFocusOnGroup={onFocusOnGroup}
+                  onChangeOrderBy={onChangeOrderByGroups}
+                  onChangeOrderByCalls={onChangeOrderByCalls}
+                  onChangeMetrics={onChangeMetrics}
+                />
+              )}
+            </div>
+          )}
         </Stack>
       </LeftRightPadding>
 
