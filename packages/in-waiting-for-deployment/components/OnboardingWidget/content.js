@@ -168,14 +168,14 @@ export default function getEntries({ disableAwsSensorDocumentation }) {
       category: 'Platform',
       subTechnologies: [
         {
-          label: 'Operator',
-          keywords: 'kubernetesoperatork8s',
-          Content: OpenShiftOperatorContent
-        },
-        {
           label: 'DaemonSet',
           keyWords: 'kubernetesdeamonsetk8s',
           Content: OpenShiftDaemonSetContent
+        },
+        {
+          label: 'Operator',
+          keywords: 'kubernetesoperatork8s',
+          Content: OpenShiftOperatorContent
         }
       ]
     },
