@@ -28,6 +28,7 @@ export default function Dialog({
   return (
     <div
       className={evaluateClassNames({
+        [locals.wrapper]: true,
         [locals.cursorDefault]: doNotCloseOnOutsideClick,
         [locals.isStacked]: isStacked
       })}
