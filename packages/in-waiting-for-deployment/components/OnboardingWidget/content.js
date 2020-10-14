@@ -21,7 +21,8 @@ import {
   ValidatedInputFields,
   YAMLFile
 } from 'in-waiting-for-deployment/components/OnboardingWidget/contentComponents';
-import instanaAgentTokenizedYaml from 'in-waiting-for-deployment/components/OnboardingWidget/instanaAgentTokenized.yaml';
+import instanaAgentOpenShiftYaml from 'in-waiting-for-deployment/components/OnboardingWidget/instana-agent-openshift.yaml';
+import instanaAgentYaml from 'in-waiting-for-deployment/components/OnboardingWidget/instana-agent.yaml';
 import { Col, Row as GridRow } from 'in-new-components/layout/Grid';
 
 const maxClusterNameRegex = new RegExp(/^[\w-_]{1,20}$/);
@@ -170,6 +171,11 @@ export default function getEntries({ disableAwsSensorDocumentation }) {
           label: 'Operator',
           keywords: 'kubernetesoperatork8s',
           Content: OpenShiftOperatorContent
+        },
+        {
+          label: 'DaemonSet',
+          keyWords: 'kubernetesdeamonsetk8s',
+          Content: OpenShiftDaemonSetContent
         }
       ]
     },
@@ -1287,13 +1293,63 @@ function K8sDaemonSetContent({ agentKey, agentEndpoint, agentEndpointPort }) {
           <YAMLFile
             title="daemonset.yaml"
             disabledErrorMessage={clusterNameValidationMessage}
-            content={getKubernetesYamlConfig(agentKey, agentEndpoint, agentEndpointPort, clusterName, zoneName)}
+            content={getKubernetesYamlConfig(
+              agentKey,
+              agentEndpoint,
+              agentEndpointPort,
+              clusterName,
+              zoneName,
+              instanaAgentYaml
+            )}
           />
           <HelpBox>
             <TextWithLink
               text="For more information visit the"
               href="https://www.instana.com/docs/ecosystem/kubernetes/"
               linkText="Instana Kubernetes documentation."
+            />
+          </HelpBox>
+        </>
+      )}
+    />
+  );
+}
+
+function OpenShiftDaemonSetContent({ agentKey, agentEndpoint, agentEndpointPort }) {
+  const [zoneName, onZoneNameChange] = useState('');
+
+  return (
+    <ValidatedInputFields
+      fields={[
+        {
+          name: 'clusterName',
+          placeholder: "Cluster name, e.g., 'prod'",
+          validate: clusterNameValidator
+        }
+      ]}
+      renderContent={({ clusterName, clusterNameInput, clusterNameValidationMessage }) => (
+        <>
+          <Row>
+            {clusterNameInput}
+            <Input id="zone-name" value={zoneName} onChange={onZoneNameChange} placeholder="Agent zone (Optional)" />
+          </Row>
+          <YAMLFile
+            title="daemonset.yaml"
+            disabledErrorMessage={clusterNameValidationMessage}
+            content={getKubernetesYamlConfig(
+              agentKey,
+              agentEndpoint,
+              agentEndpointPort,
+              clusterName,
+              zoneName,
+              instanaAgentOpenShiftYaml
+            )}
+          />
+          <HelpBox>
+            <TextWithLink
+              text="For more information visit the"
+              href="https://www.instana.com/docs/ecosystem/openshift/"
+              linkText="Instana OpenShift documentation."
             />
           </HelpBox>
         </>
@@ -1862,8 +1918,8 @@ function ManualWindowsContent({ butlerDomain, agentKey, tenant, tenantUnit }) {
   );
 }
 
-function getKubernetesYamlConfig(agentKey, agentEndpoint, agentEndpointPort, clusterName, zoneName) {
-  return instanaAgentTokenizedYaml
+function getKubernetesYamlConfig(agentKey, agentEndpoint, agentEndpointPort, clusterName, zoneName, yamlConfig) {
+  return yamlConfig
     .replace('${agentKey}', btoa(agentKey))
     .replace('${agentEndpoint}', agentEndpoint)
     .replace('${agentEndpointPort}', agentEndpointPort)
