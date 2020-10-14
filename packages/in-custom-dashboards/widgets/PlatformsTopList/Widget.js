@@ -194,7 +194,7 @@ const columnDefinitions = [
         return <KeyValue label="Memory Limit" value={bytesZeroDecimalPlaces(item.memoryLimit)} accentuated />;
       }
       return item.isKubernetes ? (
-        <KeyValue label="Pods" value={item.pods} accentuated />
+        <KeyValue label="Pods" value={item.workloads.pods} accentuated />
       ) : (
         <SparkChartWithMetricValue
           snapshotId={item.id}
@@ -227,8 +227,8 @@ function getSubTitle(item) {
   if (item.isKubernetes) {
     const clusterDistribution = get(item, ['cluster', 'clusterDistribution'], 'kubernetes');
     return `${toTitleCase(clusterDistribution)} Cluster, ${item.nodes} Node${item.nodes > 1 ? 's' : ''}, ${
-      item.pods
-    } Pod${item.pods > 1 ? 's' : ''}`;
+      item.workloads.pods
+    } Pod${item.workloads.pods > 1 ? 's' : ''}`;
   }
   if (item.isPcf) {
     return 'Cloud Foundry Application';
