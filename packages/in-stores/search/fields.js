@@ -8,6 +8,8 @@ export const aliasMap = {};
 
 const helpTexts = {
   entity: 'Infrastructure and application entity',
+  'entity.agent': 'Instana Agent',
+  'entity.agent.gitops': 'Instana Agent GitOps configuration',
   'entity.aws': 'Amazon Web Services',
   'entity.aws.beanstalk': 'Elastic Beanstalk',
   'entity.aws.elb': 'Elastic Load Balancing',
