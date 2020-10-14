@@ -8,6 +8,12 @@
     overflow-y: scroll;
   }
 
+  .searchWrapper {
+    padding: 0.5rem;
+    border-bottom: 1px solid @lib__colors__N300;
+    background: @lib__colors__N050;
+  }
+
   .typeRow {
     display: flex;
     flex-direction: row;

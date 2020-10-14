@@ -107,7 +107,7 @@ function getLabelColumn({ timeConfig }) {
 }
 
 function getMetricColumns({ metrics, sortable }) {
-  return metrics.map(({ metric, label, formatter, isKpi }) => ({
+  return metrics.map(({ metric, label, formatter = String, isKpi }) => ({
     id: metric,
     label,
     renderLabel,

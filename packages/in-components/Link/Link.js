@@ -30,7 +30,9 @@ export default function Link({
   style,
   external,
   ellipsis,
-  id
+  id,
+  onKeyDown,
+  onKeyUp
 }) {
   const resolvedHref = useObservable(href$, [href$], useObservableConfig) || href;
   return (
@@ -43,6 +45,8 @@ export default function Link({
       target={target || (external ? '_blank' : undefined)}
       rel={external ? 'noopener noreferrer' : undefined}
       id={id}
+      onKeyDown={onKeyDown}
+      onKeyUp={onKeyUp}
     >
       {children}
     </a>

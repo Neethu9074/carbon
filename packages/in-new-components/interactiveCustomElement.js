@@ -30,11 +30,12 @@ export function toInteractiveElement(args) {
 export function withInteractivitySideEffects({
   onDefaultInteraction,
   preventDefault = false,
-  stopPropagation = false
+  stopPropagation = false,
+  includePrimaryElements = false
 }) {
   return {
     onClick(e) {
-      if (!isPrimaryInteractiveElement(e.target)) {
+      if (!isPrimaryInteractiveElement(e.target) || includePrimaryElements) {
         if (stopPropagation) {
           e.stopPropagation();
         }
@@ -45,12 +46,12 @@ export function withInteractivitySideEffects({
       }
     },
     onKeyDown(e) {
-      if (isDefaultInteractionTrigger(e)) {
+      if (isDefaultInteractionTrigger(e, includePrimaryElements)) {
         onDefaultInteraction();
       }
     },
     onKeyUp(e) {
-      if (isDefaultInteractionTrigger(e)) {
+      if (isDefaultInteractionTrigger(e, includePrimaryElements)) {
         if (stopPropagation) {
           e.stopPropagation();
         }
@@ -62,12 +63,12 @@ export function withInteractivitySideEffects({
   };
 }
 
-export function isDefaultInteractionTrigger(e) {
+export function isDefaultInteractionTrigger(e, includePrimaryElements = false) {
   if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) {
     return false;
   }
 
-  if (isPrimaryInteractiveElement(e.target)) {
+  if (isPrimaryInteractiveElement(e.target) || !includePrimaryElements) {
     return false;
   }
 

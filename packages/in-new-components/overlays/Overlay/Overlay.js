@@ -1,7 +1,7 @@
 import { create, just, timeout } from 'reactive-observables';
-import React from 'react';
 import PropTypes from 'prop-types';
 import { throttle } from 'lodash';
+import React from 'react';
 
 import OverlayMounter from 'in-new-components/overlays/OverlayMounter';
 import { identifyOverlay } from 'in-new-components/overlays/dom';
@@ -27,15 +27,21 @@ export default class Overlay extends React.Component {
     const newState = !this.state.isOpen;
     this.setOpen(newState);
     if (!newState) {
-      this.props.onCloseSideEffect?.();
+      this.onClose();
     }
   };
   open = () => this.setOpen(true);
   close = e => {
     this.setOpen(false);
-    this.props.onCloseSideEffect?.(e);
+    this.onClose(e);
   };
   delayedAutoOpenStateChange$ = create();
+  onClose = e => {
+    this.props.onCloseSideEffect?.(e);
+    if (this.props.focusOnClose) {
+      this.state.wrapper?.focus();
+    }
+  };
 
   /*
    * Avoid competing changes when toggling the menu. This issue occurs when the overlay
@@ -234,6 +240,7 @@ Overlay.propTypes = {
   kind: PropTypes.string,
   onToggle: PropTypes.func,
   onCloseSideEffect: PropTypes.func,
+  focusOnClose: PropTypes.bool,
   withoutArrow: PropTypes.bool,
   withoutWrapper: PropTypes.bool,
   wrapperClassName: PropTypes.string,

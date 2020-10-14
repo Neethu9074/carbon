@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo, useState, useRef } from 'react';
 import { isEmpty, isEqual } from 'lodash';
 
 import {
@@ -11,13 +11,17 @@ import { groupMatrixParameter, typeMatrixParameter, getLinkToExplore } from 'in-
 import DashboardHeaderButton from 'in-new-components/DashboardHeader/DashboardHeaderButton';
 import getAvailablePlugins from 'in-infrastructure/subscriptions/getAvailablePlugins';
 import { getOptionalSnapshotDefinition } from 'in-sdk/snapshot/registry';
+import { onArrowKeyDownFocusSiblings } from 'in-services/util/domFocus';
 import { pendingResult, emptyObject } from 'in-services/fixedObjects';
 import Overlay from 'in-new-components/overlays/Overlay/Overlay';
+import { getInteractiveElements } from 'in-services/util/dom';
+import { containsIgnoreCase } from 'in-services/util/string';
 import { joinClassNames } from 'in-services/util/classnames';
 import { compareIgnoreCase } from 'in-services/util/string';
-import { Ul, Li } from 'in-new-components/lists/List';
+import SearchInput from 'in-new-components/SearchInput';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import useObservable from 'in-hooks/useObservable';
+import { Li } from 'in-new-components/lists/List';
 import useUrlState from 'in-hooks/useUrlState';
 import SvgIcon from 'in-components/SvgIcon';
 
@@ -47,7 +51,7 @@ export default function TypeSelector() {
   const { icon, name } = getType(type);
 
   return (
-    <Overlay props={{ types, getParamsForType }} withoutWrapper content={Dropdown} align="bottomLeft">
+    <Overlay props={{ types, getParamsForType }} withoutWrapper content={Dropdown} align="bottomLeft" focusOnClose>
       {({ toggle, isOpen, refSetter }) => (
         <DashboardHeaderButton
           size="normal"
@@ -64,19 +68,45 @@ export default function TypeSelector() {
 }
 
 function Dropdown({ getParamsForType, types, close }) {
+  const [query, setQuery] = useState('');
+
+  const filteredTypes = useMemo(() => types.filter(({ name }) => query === '' || containsIgnoreCase(name, query)), [
+    types,
+    query
+  ]);
+
+  const listRef = useRef();
+
   return (
     <div className={locals.dropdown}>
-      <Ul>
-        {types.map(({ plugin, icon, name }) => (
+      <div className={locals.searchWrapper}>
+        <SearchInput
+          placeholder="Search"
+          query={query}
+          onChange={setQuery}
+          autoFocus
+          onReturn={() => {
+            const elems = getInteractiveElements(listRef.current);
+            elems[0]?.focus();
+            if (elems.length === 1) {
+              elems[0].click();
+            }
+          }}
+        />
+      </div>
+      <div ref={listRef} onKeyDown={onArrowKeyDownFocusSiblings}>
+        {filteredTypes.map(({ plugin, icon, name }) => (
           <Li
+            noAlternatingBg
             key={plugin}
             href$={getLinkToExplore(getParamsForType(plugin))}
             onDefaultHrefInteractionSideEffect={close}
+            onDefaultHrefIncludePrimaryElements
           >
             <TypeRow icon={icon} name={name} />
           </Li>
         ))}
-      </Ul>
+      </div>
     </div>
   );
 }
