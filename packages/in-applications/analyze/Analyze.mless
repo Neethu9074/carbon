@@ -1,0 +1,10 @@
+@import '~in-themes/active.less';
+
+:local {
+  .facetedSearchWithCallList {
+    display: flex;
+  }
+  .results {
+    width: 100%;
+  }
+}

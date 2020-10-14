@@ -1,0 +1,10 @@
+@import '~in-themes/active.less';
+
+:local {
+  .wrapper {
+    width: 20rem;
+    flex-grow: 0;
+    flex-shrink: 0;
+    background: @lib__colors__white;
+  }
+}

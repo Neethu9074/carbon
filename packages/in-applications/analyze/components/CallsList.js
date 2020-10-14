@@ -57,19 +57,21 @@ export default function CallsList({
   const optionalColumns = () => columnDefinitions.filter(columnDefinition => columnDefinition.optional);
 
   return (
-    <CursorPaginatedTable
-      columnDefinitions={columnDefinitions}
-      optionalColumns={optionalColumns}
-      numSkeletonRows={numSkeletonRows}
-      onChange={onChangeOrderBy}
-      {...tableProps}
-      items={items}
-      fixedLayout
-      orderBy={order.by}
-      orderDirection={order.direction}
-      loadMoreLabel={`Load ${retrievalSize} more`}
-      filterBy={filterBy}
-    />
+    <div className={locals.wrapper}>
+      <CursorPaginatedTable
+        columnDefinitions={columnDefinitions}
+        optionalColumns={optionalColumns}
+        numSkeletonRows={numSkeletonRows}
+        onChange={onChangeOrderBy}
+        {...tableProps}
+        items={items}
+        fixedLayout
+        orderBy={order.by}
+        orderDirection={order.direction}
+        loadMoreLabel={`Load ${retrievalSize} more`}
+        filterBy={filterBy}
+      />
+    </div>
   );
 }
 

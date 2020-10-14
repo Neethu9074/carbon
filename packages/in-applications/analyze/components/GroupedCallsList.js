@@ -97,7 +97,7 @@ function Presenter({
   const columnDefinitionsForUnspecified = columnsForUnspecified({ metrics });
 
   return (
-    <>
+    <div className={locals.wrapper}>
       <HeaderRow
         totalGroups={totalHits}
         order={order}
@@ -157,7 +157,7 @@ function Presenter({
         {canLoadMore && <LoadMoreLi loadMore={loadMore} />}
       </Ul>
       {!isLoading && items.length === 0 && <NoDataAvailable height={240} />}
-    </>
+    </div>
   );
 }
 
@@ -276,7 +276,7 @@ function HeaderRow({ totalGroups, order, onChangeOrderBy, metrics, onChangeMetri
     };
   });
   return (
-    <div className={locals.wrapper}>
+    <div className={locals.headerWrapper}>
       <div className={locals.resultInformation}>
         {totalGroups > 0 && <h3 className={locals.header}>{totalGroups} Groups</h3>}
       </div>

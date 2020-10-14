@@ -24,11 +24,16 @@
   .title {
     margin-right: 1rem;
 
-    font-size: 1.375rem;
     color: @lib__colors__N900Primary;
     font-weight: 500;
 
     .ellipsis();
+    &.small {
+      font-size: 0.875rem;
+    }
+    &.large {
+      font-size: 1.375rem;
+    }
   }
 
   .header {
@@ -71,6 +76,6 @@
     // not defined on .body, but instead imposed upon .body.
     // This is weird…
     // This ensures that the body's height is defined.
-    height: ~"calc(100% - @{header-height})";
+    height: ~'calc(100% - @{header-height})';
   }
 }

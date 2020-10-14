@@ -2,6 +2,9 @@
 @import '~in-themes/mixins.less';
 
 :local {
+  .wrapper {
+    width: 100%;
+  }
   .erroneous {
     display: flex;
     align-items: center;
