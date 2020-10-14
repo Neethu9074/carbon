@@ -20,6 +20,7 @@ import AppDataProcessorStatistics from 'in-internal/monitoringUnit/Appdata/AppDa
 import FillerInfrastructureMetrics from 'in-internal/monitoringUnit/infrastructureMetrics/Filler';
 import AppDataQueryPerformance from 'in-internal/monitoringUnit/Appdata/AppDataQueryPerformance';
 import ClickhouseTotalTableSizes from 'in-internal/monitoringUnit/sre/ClickhouseTotalTableSizes';
+import AppdataHealthProcessor from 'in-internal/monitoringUnit/Appdata/AppdataHealthProcessor';
 import ServerlessAcceptors from 'in-internal/monitoringUnit/serverless/ServerlessAcceptors';
 import JsStackTraceTranslator from 'in-internal/monitoringUnit/eum/JsStackTraceTranslator';
 import EumHealthProcessor from 'in-internal/monitoringUnit/eum/EumHealthProcessor';
@@ -87,6 +88,11 @@ export default function Internal() {
           <Route
             path="/internal/monitoringUnit/appdataLiveAggregator"
             component={wrapIninternalView(AppDataLiveAggregatorOverview)}
+          />
+          <Route path="/internal/monitoringUnit/appdata" component={wrapIninternalView(Appdata)} />
+          <Route
+            path="/internal/monitoringUnit/appdataHealthProcessor"
+            component={wrapIninternalView(AppdataHealthProcessor)}
           />
           <Route
             path="/internal/monitoringUnit/appdataProcessing"
