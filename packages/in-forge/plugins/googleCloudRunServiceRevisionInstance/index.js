@@ -8,5 +8,6 @@ registerSnapshotDefinition({
     singular: 'Google Cloud Run Service Revision Instance',
     plural: 'Google Cloud Run Service Revision Instances'
   },
+  supportsInfrastructureTabSubscript: true,
   iconSvgPath
 });
