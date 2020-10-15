@@ -3,7 +3,9 @@ window.instana = {
     tenants: [
       {
         tenantKey: 'instana',
-        role: {}
+        role: {
+          canConfigureCustomAlerts: true
+        }
       }
     ]
   },

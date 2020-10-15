@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import PotentialProblemsLanePresenter from 'in-new-components/PotentialProblems/PotentialProblemsLane/PotentialProblemsLanePresenter';
 import getPotentialProblems from 'in-new-components/PotentialProblems/subscription/getPotentialProblems';
 import { trackRequestLoadingTime } from 'in-new-components/PotentialProblems/tracker';
+import { defaultGranularity } from 'in-new-components/PotentialProblems/constants';
 import getServiceLabel from 'in-subscription/application/getServiceLabel';
 import getEndpointInfo from 'in-subscription/application/getEndpointInfo';
 import { applicationSmartAlertsEnabled } from 'in-services/featureFlags';
@@ -139,7 +140,7 @@ function getLabel(result) {
 */
 function isOutsideCallsShortTermStorage(globalTimeConfig) {
   const now = Date.now();
-  const granularity = 600000;
+  const granularity = defaultGranularity;
   const to = globalTimeConfig.to ?? now;
   const windowSize = globalTimeConfig.windowSize;
   const originalFrom = to - windowSize;

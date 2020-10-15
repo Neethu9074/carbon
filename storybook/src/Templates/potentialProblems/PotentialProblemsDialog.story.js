@@ -3,8 +3,8 @@ import React from 'react';
 import PotentialProblemsDialogPresenter from 'in-new-components/PotentialProblems/PotentialProblemDialog/PotentialProblemsDialogPresenter';
 import { potentialProblemsCluster, alertRules as clusterAlertRules } from './potentialProblemsStorySharedData';
 import SmartAlertConfigDialogWrapper from 'in-applications/alerting/Dialog/SmartAlertConfigDialogWrapper';
-import { generateFormData } from 'in-applications/Dashboards/CreateApplicationSmartAlertFromLaneDialog';
 import { close } from 'in-components/DialogPresenter/store';
+import DialogPresenter from 'in-components/DialogPresenter';
 
 export default {
   title: 'Templates|potentialProblems/PotentialProblemsDialogPresenter',
@@ -17,6 +17,7 @@ const props = {
   applicationLabel: 'All Services',
   serviceLabel: 'acceptor',
   endpointLabel: 'POST /metrics',
+  applicationId: '98234iuhsqitrb8xn',
   boundaryScope: 'INBOUND',
   tagFilters: [
     {
@@ -36,34 +37,65 @@ const props = {
     }
   ],
   // eslint-disable-next-line react/display-name
-  dialogComponent: ({ applicationId, serviceLabel, endpointLabel, boundaryScope, applicationLabel }) => (
-    <SmartAlertConfigDialogWrapper
-      applicationLabel={applicationLabel}
-      formData={generateFormData({ applicationId, serviceLabel, endpointLabel, boundaryScope })}
-      onClose={close}
-    />
-  )
+  renderSmartAlertDialogComponent: dialogProps => {
+    const { applicationLabel, serviceLabel, endpointLabel } = props;
+    const tagFilters = [];
+
+    if (serviceLabel) {
+      tagFilters.push({
+        name: 'service.name',
+        operator: 'EQUALS',
+        stringValue: serviceLabel
+      });
+    }
+
+    if (endpointLabel) {
+      tagFilters.push({
+        name: 'endpoint.name',
+        operator: 'EQUALS',
+        stringValue: endpointLabel
+      });
+    }
+
+    return (
+      <SmartAlertConfigDialogWrapper
+        applicationLabel={applicationLabel}
+        formData={{
+          ...props,
+          ...dialogProps,
+          tagFilters
+        }}
+        onClose={close}
+      />
+    );
+  }
 };
 
 export const PotentialProblemsSingleItemDialog = () => {
   return (
-    <PotentialProblemsDialogPresenter
-      {...props}
-      alertRules={alertRules}
-      alerts={potentialProblemsSingle.alerts}
-      thresholds={potentialProblemsSingle.thresholds}
-    />
+    <>
+      <PotentialProblemsDialogPresenter
+        {...props}
+        alertRules={alertRules}
+        alerts={potentialProblemsSingle.alerts}
+        thresholds={potentialProblemsSingle.thresholds}
+      />
+      <DialogPresenter />
+    </>
   );
 };
 
 export const PotentialProblemsClusterDialog = () => {
   return (
-    <PotentialProblemsDialogPresenter
-      {...props}
-      alertRules={clusterAlertRules}
-      alerts={potentialProblemsCluster.alerts}
-      thresholds={potentialProblemsCluster.thresholds}
-    />
+    <>
+      <PotentialProblemsDialogPresenter
+        {...props}
+        alertRules={clusterAlertRules}
+        alerts={potentialProblemsCluster.alerts}
+        thresholds={potentialProblemsCluster.thresholds}
+      />
+      <DialogPresenter />
+    </>
   );
 };
 
