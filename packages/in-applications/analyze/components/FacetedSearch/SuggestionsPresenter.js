@@ -1,0 +1,79 @@
+import React, { useState } from 'react';
+
+import { TAG } from 'in-new-components/QueryBuilder/transformation/formModel';
+import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
+import InfiniteCircle from 'in-new-components/Loading/InfiniteCircle';
+import Message from 'in-new-components/Message';
+import Button from 'in-new-components/Button';
+import Tooltip from 'in-components/Tooltip';
+import Link from 'in-components/Link';
+
+import locals from './SuggestionsPresenter.mless';
+
+const DEFAULT_SUGGESTIONS_SIZE = 5;
+
+export default function SuggestionsPresenter({ loading = false, errors = [], suggestions = [], addFilter, tag }) {
+  if (loading) {
+    return <Loading />;
+  } else if (errors?.length > 0) {
+    return <Errors errors={errors} />;
+  } else if (!suggestions) {
+    return null;
+  } else if (suggestions.length > 0) {
+    return <Results suggestions={suggestions} addFilter={addFilter} tag={tag} />;
+  } else {
+    return <NoResults />;
+  }
+}
+
+function Loading() {
+  return (
+    <div className={locals.loading}>
+      <InfiniteCircle width={72} height={24} className={locals.circle} />
+    </div>
+  );
+}
+
+function Errors({ errors }) {
+  return errors.map(error => (
+    <Message key={error} className={locals.message} type="error" small>
+      {error}
+    </Message>
+  ));
+}
+
+function Results({ suggestions, addFilter, tag }) {
+  const [showMore, setShowMore] = useState(true);
+  return (
+    <>
+      {suggestions.slice(0, showMore ? DEFAULT_SUGGESTIONS_SIZE : undefined).map((suggestion, i) => (
+        <div key={i} className={locals.suggestion}>
+          <Tooltip content={suggestion}>
+            <Link
+              onClick={() =>
+                addFilter({
+                  type: TAG,
+                  name: tag,
+                  operator: EQUALS,
+                  value: suggestion
+                })
+              }
+              className={locals.label}
+            >
+              {suggestion}
+            </Link>
+          </Tooltip>
+        </div>
+      ))}
+      {showMore && suggestions.length > DEFAULT_SUGGESTIONS_SIZE && (
+        <Button className={locals.showMore} kind="action" onClick={() => setShowMore(false)}>
+          show {suggestions.length - DEFAULT_SUGGESTIONS_SIZE} more
+        </Button>
+      )}
+    </>
+  );
+}
+
+function NoResults() {
+  return <div className={locals.noResult}>No results</div>;
+}
