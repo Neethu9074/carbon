@@ -39,7 +39,7 @@ export default function RestrictedUsage() {
         <AmpTimeSelection windowSize={windowSize} setWindowSize={setWindowSize} />
       </div>
 
-      <UsageCharts windowSize={windowSize} tenantUnit={tenantUnit} />
+      <UsageCharts windowSize={windowSize} tenantUnit={tenantUnit} showPurchasedMetric={false} />
     </>
   );
 }

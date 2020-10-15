@@ -5,7 +5,12 @@ import { Row, Col } from 'in-new-components/layout/Grid';
 import UsageChart from 'in-amp/components/UsageChart';
 import Card from 'in-new-components/Card';
 
-export default function UsageCharts({ windowSize, tenantUnit, showAggregatedMetrics = false }) {
+export default function UsageCharts({
+  windowSize,
+  tenantUnit,
+  showPurchasedMetric = true,
+  showAggregatedMetrics = false
+}) {
   return (
     <>
       <Row>
@@ -15,12 +20,16 @@ export default function UsageCharts({ windowSize, tenantUnit, showAggregatedMetr
               windowSize={windowSize}
               showAggregatedMetrics={showAggregatedMetrics}
               y1={{ ...tenantUnit, metrics: ['apmhost'], labels: ['APM Hosts'] }}
-              y2={{
-                ...tenantUnit,
-                metrics: ['licensed_apm_hosts'],
-                labels: ['Purchased'],
-                colors: [theme.lib.colors.failure]
-              }}
+              y2={
+                showPurchasedMetric
+                  ? {
+                      ...tenantUnit,
+                      metrics: ['licensed_apm_hosts'],
+                      labels: ['Purchased'],
+                      colors: [theme.lib.colors.failure]
+                    }
+                  : getEmptyMetricConfig()
+              }
             />
           </Card>
         </Col>
@@ -34,12 +43,16 @@ export default function UsageCharts({ windowSize, tenantUnit, showAggregatedMetr
                 metrics: ['infrahost'],
                 labels: ['IQM Hosts']
               }}
-              y2={{
-                ...tenantUnit,
-                metrics: ['licensed_infra_hosts'],
-                labels: ['Purchased'],
-                colors: [theme.lib.colors.failure]
-              }}
+              y2={
+                showPurchasedMetric
+                  ? {
+                      ...tenantUnit,
+                      metrics: ['licensed_infra_hosts'],
+                      labels: ['Purchased'],
+                      colors: [theme.lib.colors.failure]
+                    }
+                  : getEmptyMetricConfig()
+              }
             />
           </Card>
         </Col>
@@ -56,12 +69,16 @@ export default function UsageCharts({ windowSize, tenantUnit, showAggregatedMetr
                 labels: ['Docker', 'ContainerD', 'Crio', 'Garden', 'LXC'],
                 renderer: 'stackedArea'
               }}
-              y2={{
-                ...tenantUnit,
-                metrics: ['licensed_container'],
-                labels: ['Purchased'],
-                colors: [theme.lib.colors.failure]
-              }}
+              y2={
+                showPurchasedMetric
+                  ? {
+                      ...tenantUnit,
+                      metrics: ['licensed_container'],
+                      labels: ['Purchased'],
+                      colors: [theme.lib.colors.failure]
+                    }
+                  : getEmptyMetricConfig()
+              }
             />
           </Card>
         </Col>
@@ -75,16 +92,28 @@ export default function UsageCharts({ windowSize, tenantUnit, showAggregatedMetr
                 metrics: ['tracingserverless'],
                 labels: ['Serverless']
               }}
-              y2={{
-                ...tenantUnit,
-                metrics: ['licensed_tracingserverless'],
-                labels: ['Purchased'],
-                colors: [theme.lib.colors.failure]
-              }}
+              y2={
+                showPurchasedMetric
+                  ? {
+                      ...tenantUnit,
+                      metrics: ['licensed_tracingserverless'],
+                      labels: ['Purchased'],
+                      colors: [theme.lib.colors.failure]
+                    }
+                  : getEmptyMetricConfig()
+              }
             />
           </Card>
         </Col>
       </Row>
     </>
   );
+}
+
+function getEmptyMetricConfig() {
+  return {
+    metrics: [],
+    labels: [],
+    colors: []
+  };
 }
