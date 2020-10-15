@@ -140,6 +140,12 @@ module.exports = exports = (tenant, unit) => [
     defaultValue: false
   },
   {
+    uiClientKey: 'ampCompanyInfoEnabled',
+    instanaCtlKey: 'feature.amp.company.info.enabled',
+    consulKey: `settings/AMP_COMPANY_INFO_ENABLED`,
+    defaultValue: false
+  },
+  {
     uiClientKey: 'alertCustomPayloadEnabled',
     instanaCtlKey: 'feature.alert.custom.payload.enabled',
     consulKey: `settings/${tenant}-${unit}/ALERT_CUSTOM_PAYLOAD_ENABLED`,

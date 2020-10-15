@@ -26,9 +26,12 @@ export const infraExplorePresentationEnabled = isFeatureFlagEnabled('infraExplor
 export const infraExploreDataEnabled = isFeatureFlagEnabled('infraExploreDataEnabled');
 export const newApCreationEnabled = isFeatureFlagEnabled('newApCreationEnabled');
 export const entityCountWidgetEnabled = isFeatureFlagEnabled('entityCountWidgetEnabled');
-export const ampEnabled = isFeatureFlagEnabled('ampEnabled', false);
 export const persistentVolumeSupportEnabled = isFeatureFlagEnabled('persistentVolumeSupportEnabled', false);
 export const alertCustomPayloadEnabled = isFeatureFlagEnabled('alertCustomPayloadEnabled', false);
+
+// amp
+export const ampEnabled = isFeatureFlagEnabled('ampEnabled', false);
+export const ampCompanyInfoEnabled = isFeatureFlagEnabled('ampCompanyInfoEnabled', false);
 
 //platform feature flags
 export const newAnalyticsEnabled = isFeatureFlagEnabled('newAnalyticsEnabled');
