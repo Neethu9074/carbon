@@ -56,9 +56,7 @@ export default connectTo({
           Agent Configuration
         </ImageButton>
       )}
-      {isInternalVisible && role.canConfigureAgents && (
-        <DownloadButton supportsLogsDownload={supportsLogsDownload} snapshot={snapshot} />
-      )}
+      {role.canConfigureAgents && <DownloadButton supportsLogsDownload={supportsLogsDownload} snapshot={snapshot} />}
     </div>
   );
 });
