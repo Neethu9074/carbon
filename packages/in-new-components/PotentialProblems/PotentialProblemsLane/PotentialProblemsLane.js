@@ -3,6 +3,7 @@ import React from 'react';
 
 import PotentialProblemsLanePresenter from 'in-new-components/PotentialProblems/PotentialProblemsLane/PotentialProblemsLanePresenter';
 import getPotentialProblems from 'in-new-components/PotentialProblems/subscription/getPotentialProblems';
+import { defaultGranularity } from 'in-new-components/PotentialProblems/constants';
 import { hoursToMillis } from 'in-new-components/Alerting/utils/formatUtils';
 import getServiceLabel from 'in-subscription/application/getServiceLabel';
 import getEndpointInfo from 'in-subscription/application/getEndpointInfo';
@@ -122,7 +123,7 @@ function getLabel(result) {
 */
 function isOutsideCallsShortTermStorage(globalTimeConfig) {
   const now = Date.now();
-  const granularity = 600000;
+  const granularity = defaultGranularity;
   const to = globalTimeConfig.to ?? now;
   const windowSize = globalTimeConfig.windowSize;
   const originalFrom = to - windowSize;

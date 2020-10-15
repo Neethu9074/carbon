@@ -99,13 +99,7 @@ export default function PotentialProblemsLanePresenter({ potentialProblems, aler
             thresholds={thresholds}
             renderSmartAlertDialogComponent={dialogProps => {
               const { applicationLabel, serviceLabel, endpointLabel } = remainingProps;
-              const tagFilters = [
-                {
-                  name: 'application.name',
-                  operator: 'EQUALS',
-                  stringValue: applicationLabel
-                }
-              ];
+              const tagFilters = [];
 
               if (serviceLabel) {
                 tagFilters.push({
@@ -125,8 +119,9 @@ export default function PotentialProblemsLanePresenter({ potentialProblems, aler
 
               return (
                 <SmartAlertConfigDialogWrapper
-                  applicationLabel={remainingProps.applicationLabel}
+                  applicationLabel={applicationLabel}
                   formData={{
+                    ...remainingProps,
                     ...dialogProps,
                     tagFilters
                   }}

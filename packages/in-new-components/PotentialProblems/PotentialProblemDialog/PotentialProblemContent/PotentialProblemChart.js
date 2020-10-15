@@ -8,6 +8,7 @@ import {
 } from 'in-new-components/PotentialProblems/PotentialProblemsLane/proptypes';
 import { createDefaultChartConfig } from 'in-new-components/Alerting/Chart/chartViewConfig';
 import { getBlueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
+import { defaultGranularity } from 'in-new-components/PotentialProblems/constants';
 import { hoursToMillis } from 'in-new-components/Alerting/utils/formatUtils';
 import AlertingChart from 'in-new-components/Alerting/Chart/AlertingChart';
 
@@ -19,7 +20,7 @@ export default function PotentialProblemChart({ applicationId, threshold, rule, 
         rule,
         tagFilters: tagFilters.filter(({ name }) => name !== 'application.id'),
         applicationId,
-        granularity: 600000
+        granularity: defaultGranularity
       }}
       viewConfig={{
         ...createDefaultChartConfig(getTimeConfig()),

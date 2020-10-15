@@ -28,7 +28,15 @@ export default connectTo(({ applicationLabel, applicationId, serviceId, endpoint
   return observables;
 })(CreateSmartAlert);
 
-function CreateSmartAlert({ applicationId, applicationLabel, boundaryScope, endpointLabel, location, serviceLabel }) {
+function CreateSmartAlert({
+  applicationId,
+  applicationLabel,
+  boundaryScope: urlBoundaryScope,
+  defaultBoundaryScope,
+  endpointLabel,
+  location,
+  serviceLabel
+}) {
   const [dialogOpen, setDialogOpen] = useState(false);
 
   if (location.pathname.includes('/application/configuration')) {
@@ -54,7 +62,12 @@ function CreateSmartAlert({ applicationId, applicationLabel, boundaryScope, endp
       {dialogOpen && (
         <SmartAlertConfigDialogWrapper
           applicationLabel={applicationLabel}
-          formData={generateFormData({ applicationId, serviceLabel, endpointLabel, boundaryScope })}
+          formData={generateFormData({
+            applicationId,
+            serviceLabel,
+            endpointLabel,
+            boundaryScope: urlBoundaryScope || defaultBoundaryScope
+          })}
           onClose={() => {
             setDialogOpen(false);
             if (location.pathname.includes('/application/alerts')) {
@@ -73,7 +86,8 @@ CreateSmartAlert.propTypes = {
   endpointLabel: PropTypes.string,
   location: propTypeLocation.isRequired,
   serviceLabel: PropTypes.string,
-  boundaryScope: PropTypes.string
+  boundaryScope: PropTypes.string,
+  defaultBoundaryScope: PropTypes.string
 };
 
 function generateFormData({ applicationId, serviceLabel, endpointLabel, boundaryScope }) {

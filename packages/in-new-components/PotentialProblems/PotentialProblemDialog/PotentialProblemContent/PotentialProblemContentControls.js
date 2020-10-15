@@ -7,6 +7,7 @@ import {
   thresholdPropType
 } from 'in-new-components/PotentialProblems/PotentialProblemsLane/proptypes';
 import getConfigByDataSource, { groupByEndpointName, groupByServiceName } from 'in-analyze/AnalyzeView/dataSources';
+import { defaultGranularity } from 'in-new-components/PotentialProblems/constants';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
 import { close } from 'in-components/DialogPresenter/store';
@@ -23,8 +24,7 @@ export default function PotentialProblemContentControls({
   alertType,
   rule,
   threshold,
-  renderSmartAlertDialogComponent,
-  ...remainingProps
+  renderSmartAlertDialogComponent
 }) {
   return (
     <>
@@ -51,18 +51,17 @@ export default function PotentialProblemContentControls({
       {role.canConfigureCustomAlerts && (
         <Button
           kind="secondaryDarker"
-          onClick={() =>
+          onClick={() => {
             addActiveDialog(
               renderSmartAlertDialogComponent({
-                ...remainingProps,
                 rule,
                 threshold,
                 applicationLabel,
-                tagFilters,
-                boundaryScope
+                boundaryScope,
+                granularity: defaultGranularity
               })
-            )
-          }
+            );
+          }}
           icon="lib_alerts_create"
         >
           Add Smart Alert

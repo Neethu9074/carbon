@@ -79,6 +79,7 @@ function Header(props) {
 
 function renderButtonLine(props) {
   const { applicationId, timeConfig, boundaryScope, label, location } = props;
+
   return (
     <>
       <ApplicationEntityHealthIndicatorBehavior
@@ -107,6 +108,7 @@ function renderButtonLine(props) {
             applicationId={applicationId}
             location={location}
             boundaryScope={boundaryScope}
+            defaultBoundaryScope={props.result.data.boundaryScope}
           />
         </FloatingActionButtons>
       )}
