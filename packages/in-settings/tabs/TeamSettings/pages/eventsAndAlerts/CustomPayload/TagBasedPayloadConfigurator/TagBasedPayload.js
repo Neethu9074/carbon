@@ -9,6 +9,7 @@ import { isNotBlank } from 'in-services/util/string';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import useAutoFocus from 'in-hooks/useAutoFocus';
 import SvgIcon from 'in-components/SvgIcon';
+import Tooltip from 'in-components/Tooltip';
 import Pill from 'in-new-components/Pill';
 
 import locals from './TagBasedPayloadConfigurator.mless';
@@ -78,6 +79,7 @@ export default React.forwardRef(function TagBasedPayloadConfiguration(
           }
           fieldsToWatch={[tagFilterExpression, tagName, payloadTagEntity, timeConfig]}
           inputProps={{
+            maxLength: 512,
             type: 'text',
             valid: isNotBlank(secondLevelKeyState.value),
             ref: autoFocus ? tagNameRef : undefined,
@@ -86,7 +88,9 @@ export default React.forwardRef(function TagBasedPayloadConfiguration(
         />
       )}
       <span className={locals.spacer} />
-      <Pill color={theme.lib.colors.navy800}>{tagTreeNode.type}</Pill>
+      <Tooltip content="Returns a list of Strings" align="bottomRight">
+        <Pill color={theme.lib.colors.navy800}>Strings</Pill>
+      </Tooltip>
     </div>
   );
 });

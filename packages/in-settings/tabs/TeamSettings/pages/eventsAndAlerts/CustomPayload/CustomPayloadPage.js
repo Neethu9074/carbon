@@ -1,4 +1,3 @@
-import { createListForm } from 'formalistic';
 import React, { useState } from 'react';
 import { createLogger } from 'instalog';
 
@@ -8,10 +7,11 @@ import {
   staticNumberType,
   staticStringType,
   dynamicType,
-  createFormFieldForField,
   mergeResultWithPayloadForm,
   toServerItemModel,
-  enrichedWithUniqId
+  defaultValueForType,
+  createNewFormEntry,
+  createForm
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/form';
 import {
   toFormModel,
@@ -28,9 +28,7 @@ import {
 } from 'in-settings/tabs/TeamSettings/api/customPayload';
 import getAlertingCustomPayloadTagCatalog from 'in-infrastructure/subscriptions/getAlertingCustomPayloadTagCatalog';
 import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
-import FormInputField from 'in-custom-dashboards/widgets/Slo/components/FormInputField';
 import { isLoading, hasError, successObservableFactory } from 'in-services/util/result';
-import FormDropDown from 'in-custom-dashboards/widgets/Slo/components/FormDropDown';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import TouchedMessages from 'in-components/form/TouchedMessages';
@@ -41,7 +39,9 @@ import { pendingResult } from 'in-services/fixedObjects';
 import Section from 'in-settings/components/Section';
 import FormGroup from 'in-components/form/FormGroup';
 import useObservable from 'in-hooks/useObservable';
+import Select from 'in-components/form/Select';
 import Button from 'in-new-components/Button';
+import Input from 'in-components/form/Input';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
 import Title from 'in-components/Title';
@@ -76,7 +76,7 @@ export function CustomPayload(props) {
   }
 
   function updateIn(paths, changeField) {
-    setForm(form.updateIn(paths, f => changeField(f)).setTouched(true));
+    setForm(form.updateIn(paths, f => changeField(f).setTouched(true)).setTouched(true));
   }
 
   const addRow = () => {
@@ -101,7 +101,7 @@ export function CustomPayload(props) {
   return (
     <SettingsDetailPage>
       <Title title="Configure Global Custom Payload for Alerts" />
-      <SubViewHeader>Configure Custom Payload</SubViewHeader>
+      <SubViewHeader>Configure Global Custom Payload</SubViewHeader>
       <form
         onSubmit={e => {
           e.preventDefault();
@@ -115,7 +115,6 @@ export function CustomPayload(props) {
         }}
       >
         <ServerTablePresenter
-          onRowChange={updateIn}
           getRowIndex={getRowIndex}
           columnDefinitions={columnDefinitions}
           getRowProps={getRowProps}
@@ -136,7 +135,7 @@ export function CustomPayload(props) {
         {message ? (
           <Section>
             <Notification failure={error} loading={storing}>
-              {message}
+              {error ? 'An error occurred, please try again.' : message}
             </Notification>
           </Section>
         ) : null}
@@ -174,9 +173,21 @@ const columnDefinitions = [
         updateIn([getRowIndex(item), ...paths], f);
       }
 
+      const valueField = item.get('key');
+      const value = valueField.value;
+
       return (
         <FormGroup withoutBottomMargin>
-          <FormInputField className={locals.colName} form={item} fieldName="key" onChange={onChange} autoFocus />
+          <Input
+            className={locals.colName}
+            value={value}
+            hasError={!valueField?.valid && valueField?.touched}
+            onChange={({ target }) => {
+              return onChange(['key'], f => f.setValue(target.value).setTouched(true));
+            }}
+            maxLength={128}
+            autoFocus
+          />
           <TouchedMessages field={item.get('key')} />
         </FormGroup>
       );
@@ -190,12 +201,7 @@ const columnDefinitions = [
     label: 'Value type',
     getContent(item, { getRowIndex, updateIn }) {
       const onChangeType = newType => {
-        const defaults = {
-          [staticBooleanType]: true,
-          [staticNumberType]: 42,
-          [dynamicType]: {}
-        };
-        const newValue = defaults[newType] ?? '';
+        const newValue = defaultValueForType(newType);
         updateIn([getRowIndex(item)], formFields => {
           return formFields
             .updateIn(['type'], f => f.setValue(newType).setTouched(true))
@@ -206,18 +212,23 @@ const columnDefinitions = [
       return (
         <FormGroup withoutBottomMargin>
           {item.get('type').map(field => (
-            <FormDropDown
+            <Select
               className={locals.colName}
               value={field.value ?? defaultType}
               hasError={!field?.valid && field?.touched}
               onChange={({ target }) => onChangeType?.(target.value)}
-              options={[
+            >
+              {[
                 { value: staticStringType, label: 'Static (String)' },
                 { value: staticNumberType, label: 'Static (Number)' },
                 { value: staticBooleanType, label: 'Static (Boolean)' },
                 { value: dynamicType, label: 'Dynamic' }
-              ]}
-            />
+              ].map(({ value, label }) => (
+                <option key={value} value={value}>
+                  {label}
+                </option>
+              ))}
+            </Select>
           ))}
         </FormGroup>
       );
@@ -241,7 +252,15 @@ const columnDefinitions = [
       if (type === staticStringType) {
         return (
           <FormGroup withoutBottomMargin>
-            <FormInputField className={locals.colName} form={itemForm} fieldName="value" onChange={onChange} />
+            <Input
+              className={locals.colName}
+              value={value}
+              hasError={!valueField?.valid && valueField?.touched}
+              onChange={({ target }) => {
+                return onChange(['value'], f => f.setValue(target.value).setTouched(true));
+              }}
+              maxLength={512}
+            />
             <TouchedMessages field={valueField} />
           </FormGroup>
         );
@@ -249,12 +268,15 @@ const columnDefinitions = [
       if (type === staticNumberType) {
         return (
           <FormGroup withoutBottomMargin>
-            <FormInputField
+            <Input
               className={locals.colName}
-              form={itemForm}
-              fieldName="value"
-              onChange={onChange}
-              type="number"
+              value={value}
+              hasError={!valueField?.valid && valueField?.touched}
+              onChange={({ target }) => {
+                return onChange(['value'], f => f.setValue(target.value).setTouched(true));
+              }}
+              min={Number.MIN_SAFE_INTEGER}
+              max={Number.MAX_SAFE_INTEGER}
             />
             <TouchedMessages field={valueField} />
           </FormGroup>
@@ -263,18 +285,17 @@ const columnDefinitions = [
       if (type === staticBooleanType) {
         return (
           <FormGroup withoutBottomMargin>
-            <FormDropDown
+            <Select
               className={locals.colName}
-              value={value ?? ''}
+              value={value ?? false}
               hasError={!valueField?.valid && valueField?.touched}
               onChange={({ target }) => {
                 onChange(['value'], f => f.setValue(target.value).setTouched(true));
               }}
-              options={[
-                { value: true, label: 'true', id: 'true' },
-                { value: false, label: 'false', id: 'false' }
-              ]}
-            />
+            >
+              <option value>true</option>
+              <option value={false}>false</option>
+            </Select>
             <TouchedMessages field={valueField} />
           </FormGroup>
         );
@@ -290,14 +311,16 @@ const columnDefinitions = [
                 onChange(['value'], f => f.setValue(formModel).setTouched(true));
               };
               return (
-                <TagBasedPayloadConfigurator
-                  value={toViewModel(value)}
-                  onChange={storeIntoFormModel}
-                  tagFilterExpression={{}}
-                />
+                <>
+                  <TagBasedPayloadConfigurator
+                    value={toViewModel(value)}
+                    onChange={storeIntoFormModel}
+                    tagFilterExpression={{}}
+                  />
+                  <TouchedMessages field={field} />
+                </>
               );
             })}
-            <TouchedMessages field={valueField} />
           </FormGroup>
         );
       }
@@ -327,19 +350,3 @@ const columnDefinitions = [
     }
   }
 ];
-
-function createForm(payloadFields) {
-  let fields = createListForm();
-  payloadFields.forEach(payloadField => {
-    fields = fields.push(createFormFieldForField(payloadField));
-  });
-  if (!payloadFields.length) {
-    // minimal empty entry, when nothing was specified yet
-    fields = fields.push(createNewFormEntry());
-  }
-  return fields;
-}
-
-function createNewFormEntry() {
-  return createFormFieldForField(enrichedWithUniqId({}));
-}

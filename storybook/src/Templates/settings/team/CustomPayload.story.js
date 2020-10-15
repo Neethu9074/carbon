@@ -1,8 +1,15 @@
 import { action } from '@storybook/addon-actions';
 import React from 'react';
 
+import {
+  staticStringType,
+  staticBooleanType,
+  staticNumberType,
+  dynamicType,
+  enrichedWithUniqId
+} from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/form';
 import { CustomPayload } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/CustomPayloadPage';
-import { mockResult } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/form';
+import { finishedProgress, emptyArray } from 'in-services/fixedObjects';
 import SectionLine from 'in-settings/components/SectionLine';
 import Code from 'in-components/Code';
 
@@ -72,6 +79,43 @@ export function Empty() {
 }
 
 export function WithAllTypesOfData() {
+  const exampleCustomPayload = {
+    fields: [
+      { type: staticStringType, key: 'testString', value: 'some value' },
+      { type: staticBooleanType, key: 'testBool', value: true },
+      { type: staticNumberType, key: 'testNumber', value: 42 },
+      {
+        type: dynamicType,
+        key: 'dynamicK8sClusterName',
+        value: { tagName: 'kubernetes.cluster.label', key: null }
+      },
+      {
+        key: 'myDynamicPayload',
+        type: dynamicType,
+        value: {
+          tagName: 'kubernetes.pod.label',
+          key: 'app' // key-matching is always EQUALS
+        }
+      },
+      {
+        key: 'mySecondDynamicPayload',
+        type: dynamicType,
+        value: {
+          tag: 'kubernetes.cluster.name',
+          key: null // only non-null for key-value pairs
+        }
+      }
+    ],
+    lastUpdated: 1600683042893
+  };
+
+  const mockResult = {
+    progress: finishedProgress,
+    data: {
+      fields: exampleCustomPayload.fields.map(enrichedWithUniqId)
+    },
+    errors: emptyArray
+  };
   const [payload, setPayload] = React.useState('');
   const successFulSave = payload => {
     setPayload(payload);
@@ -82,7 +126,7 @@ export function WithAllTypesOfData() {
       <SectionLine />
       <CustomPayload onChange={onChange} result={mockResult} save={successFulSave} />
 
-      <p>Will be filled when saving:</p>
+      <p>For debugging, this will be filled after successful saving:</p>
       <Code lang="json" code={JSON.stringify(payload, null, 4)} softWrap showLineNumbers />
     </>
   );

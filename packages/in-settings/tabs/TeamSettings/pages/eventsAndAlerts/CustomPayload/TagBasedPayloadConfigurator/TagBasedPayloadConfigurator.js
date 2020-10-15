@@ -85,15 +85,7 @@ export function createTagBasedPayloadConfigurator({ getTagCatalog: originalGetTa
   const getEnrichedCatalog = props =>
     originalGetTagCatalog(props).map(result => {
       if (result.data) {
-        const enriched = {
-          ...result.data,
-          tags: result.data.tags.map(t =>
-            t.name === 'kubernetes.pod.label' || t.name === 'kubernetes.node.label'
-              ? { ...t, type: 'KEY_VALUE_PAIR' }
-              : t
-          )
-        };
-        return success(enrichTagCatalog(enriched));
+        return success(enrichTagCatalog(result.data));
       }
       return result;
     });
