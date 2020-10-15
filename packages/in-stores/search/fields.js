@@ -59,6 +59,7 @@ const helpTexts = {
   'entity.nomad': 'HashiCorp Nomad scheduler',
   'entity.gce': 'Google Compute Engine',
   'entity.gcp': 'Google Cloud Platform',
+  'entity.gcp.datastore': 'Google Cloud Datastore',
   'entity.gcp.pubsub': 'Google Cloud Pub/Sub',
   'entity.gcp.sql': 'Google Cloud SQL',
   'entity.gcp.storage': 'Google Cloud Storage',

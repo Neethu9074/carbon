@@ -72,6 +72,7 @@ export const nonServicePlugins = {
   genericZone: 'genericZone',
   glassfishApplicationContainer: 'glassfishApplicationContainer',
   golangRuntimePlatform: 'golangRuntimePlatform',
+  googleCloudDatastore: 'googleCloudDatastore',
   googleCloudPubSub: 'googleCloudPubSub',
   googleCloudPubSubSubscription: 'googleCloudPubSubSubscription',
   googleCloudPubSubTopic: 'googleCloudPubSubTopic',
@@ -266,6 +267,7 @@ export const fullyQualifiedPlugins = {
   f5: 'com.instana.forge.infrastructure.loadbalancer.F5',
   garden: 'com.instana.forge.infrastructure.virtualization.garden.Garden',
   gce: 'com.instana.forge.hardware.virtual.gce.Gce',
+  googleCloudDatastore: 'com.instana.forge.hardware.virtual.gcp.datastore.GoogleCloudDatastore',
   googleCloudPubSub: 'com.instana.forge.hardware.virtual.gcp.pubsub.GoogleCloudPubSub',
   googleCloudPubSubSubscription:
     'com.instana.forge.hardware.virtual.gcp.pubsub.derivedentity.subscription.GoogleCloudPubSubSubscription',
