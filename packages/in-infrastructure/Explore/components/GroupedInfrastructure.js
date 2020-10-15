@@ -256,7 +256,7 @@ function ExpandedGroup({ group, backendQueryModel, timeConfig, type, metrics, av
       numSkeletonRows={Math.min(group.count, 5)}
       availableMetrics={availableMetrics}
       timeConfig={timeConfig}
-      retrievalSize={10}
+      retrievalSize={20}
       metrics={metrics}
       order={order}
       type={type}
