@@ -2,7 +2,7 @@ import React from 'react';
 
 import { physicalTablePath, physicalPath, containerPath, isTableView } from 'in-stores/navigation/paths/mainPaths';
 import { SecondLevelNavigation, SecondLevelNavigationItem } from 'in-new-components/SecondLevelNavigation';
-import { isInfraExploreView, infraExplorePath } from 'in-infrastructure/navigation/paths';
+import { isInfraExploreView, defaultInfraExploreView } from 'in-infrastructure/navigation/paths';
 import { infraExploreEnabled } from 'in-infrastructure/Explore/services/featureFlags';
 import { themes } from 'in-new-components/DashboardHeader/DashboardHeaderModule';
 import { getModifiedUrlStream, isView } from 'in-stores/navigation/navigation';
@@ -41,7 +41,7 @@ export default connectTo(
           />
           {infraExploreEnabled && (
             <SecondLevelNavigationItem
-              href$={getModifiedUrlStream(p => (p.pathname = infraExplorePath))}
+              href$={defaultInfraExploreView}
               label="Entity Explore (Beta)"
               isActive={isInfraExploreActive}
             />

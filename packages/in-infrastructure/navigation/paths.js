@@ -19,7 +19,7 @@ export const groupMatrixParameter = {
   name: 'group',
   serializer: buildJsonSerializer(),
   parser: buildJsonParser(emptyObject),
-  initialState: defaultAllInfraGroup
+  initialState: emptyObject
 };
 
 export const chartsMatrixParameter = {
@@ -87,6 +87,8 @@ export function getLinkToExplore({ tagFilterExpression, group, charts, type }) {
     }
   });
 }
+
+export const defaultInfraExploreView = getLinkToExplore({ group: defaultAllInfraGroup, type: defaultType });
 
 function setMatrixKey(params, matrixParameter, value) {
   const serializer = matrixParameter.serializer || String;
