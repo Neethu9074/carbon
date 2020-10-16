@@ -132,6 +132,14 @@ export default function Permissions({ form, onChange, disabled }) {
           form={form}
           disabled={disabled}
           onChange={onChange}
+          name="canConfigureGlobalAlertPayload"
+          label={permissions['canConfigureGlobalAlertPayload']}
+          helpText="Permits configuration of global custom payloads for alerts."
+        />
+        <Permission
+          form={form}
+          disabled={disabled}
+          onChange={onChange}
           name="canConfigureServiceLevelIndicators"
           label={permissions['canConfigureServiceLevelIndicators']}
           helpText="Permits definition and configuration of SLIs."

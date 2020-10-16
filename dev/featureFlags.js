@@ -29,7 +29,7 @@ module.exports = {
   websiteUserBreakdownEnabled: true,
   ampEnabled: true,
   ampCompanyInfoEnabled: false,
-  alertCustomPayloadEnabled: false,
+  alertCustomPayloadEnabled: true,
   newAnalyticsEnabled: true,
   persistentVolumeSupportEnabled: true
 };
