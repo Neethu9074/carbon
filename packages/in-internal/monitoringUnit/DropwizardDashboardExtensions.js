@@ -109,6 +109,12 @@ export default connect(({ snapshot, timeConfig }) => ({
             <option value={`${adminUrl}/admin/invalidPathTemplates`}>Endpoint Mapping (Invalid path templates)</option>
           </Select>
         )}
+
+        {containerLabelIncludes(container, 'acceptor', ['eum', 'serverless', 'cashier']) && (
+          <Button href={`${adminUrl}/admin/agentTimeSkewEntries`} target="_blank">
+            Agent Clock Skew
+          </Button>
+        )}
       </DashboardSection>
 
       <DashboardSection title="Common Commands">
@@ -118,8 +124,16 @@ export default connect(({ snapshot, timeConfig }) => ({
   );
 });
 
-function containerLabelIncludes(container, includedString) {
-  return container.get('label').indexOf(includedString) !== -1;
+// notIncluding parameter takes a list, for example to include "acceptor" but exclude "eum-acceptor".
+function containerLabelIncludes(container, includedString, notIncludingList) {
+  if (Array.isArray(notIncludingList)) {
+    return (
+      container.get('label').indexOf(includedString) !== -1 &&
+      !notIncludingList.find(key => container.get('label').indexOf(key) !== -1)
+    );
+  } else {
+    return container.get('label').indexOf(includedString) !== -1;
+  }
 }
 
 function extractHost(pod, fqdn) {
