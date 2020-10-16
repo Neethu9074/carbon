@@ -7,9 +7,9 @@ import DashboardButtonLine from 'in-kubernetes/Dashboards/commonComponents/Dashb
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
 import getKubernetesCluster from 'in-subscription/kubernetes/getKubernetesCluster';
 import { isOpenshift, clusterBadgeName } from 'in-kubernetes/clusterDistributions';
-import TechnologyLabelWithIcon from 'in-new-components/TechnologyLabelWithIcon';
 import { clusterId as matrixClusterId } from 'in-kubernetes/navigation/matrix';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
+import EntityWithTypeAndIcon from 'in-new-components/EntityWithTypeAndIcon';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import EntityVersionList from 'in-new-components/EntityVersionList';
@@ -22,7 +22,6 @@ import tabs from 'in-kubernetes/Dashboards/Cluster/tabs/index';
 import BadgeList from 'in-new-components/BadgeList/BadgeList';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import { clusterTabChange } from 'in-kubernetes/tracker';
-import icons from 'in-components/SvgIcon/registry.json';
 import { getTimeConfig } from 'in-stores/time/config';
 import Footer from 'in-new-components/Footer';
 import { plugins } from 'in-forge/constants';
@@ -133,8 +132,12 @@ function renderMetaInformation({ result }) {
 
 function ClusterManagedByWithIcon({ clusterManagement }) {
   if (clusterManagement && clusterManagement.shortName !== 'none') {
-    const iconPath = icons[`lib_${clusterManagement.shortName}`].path;
-    return <TechnologyLabelWithIcon path={iconPath} label={`Managed by ${clusterManagement.fullName}`} />;
+    return (
+      <EntityWithTypeAndIcon
+        iconType={`lib_${clusterManagement.shortName}`}
+        label={`Managed by ${clusterManagement.fullName}`}
+      />
+    );
   }
   return null;
 }

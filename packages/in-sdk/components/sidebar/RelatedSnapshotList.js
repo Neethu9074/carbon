@@ -9,7 +9,6 @@ import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import { compareIgnoreCase } from 'in-services/util/string';
 import PluginIcon from 'in-components/PluginIcon';
 import { getSnapshots } from 'in-stores/snapshot';
-import { getIconSvgPath } from 'in-sdk/snapshot';
 import { getPlural } from 'in-sdk/pluginName';
 import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
@@ -39,7 +38,7 @@ export default connectTo(
               <Collapsible.Header>
                 <div className={locals.snapshotListHeader}>
                   <Fragment>
-                    {getUniqueIconPathSnapshotCollection(groups[plugin]).map((snapshot, i) => (
+                    {getUniqueSnapshotCollection(groups[plugin]).map((snapshot, i) => (
                       <PluginIcon key={i} className={locals.snapshotListPluginIcon} snapshot={snapshot} />
                     ))}
                   </Fragment>
@@ -85,15 +84,14 @@ function getSnapshotsGroupedByPlugin(snapshots) {
   return grouping;
 }
 
-function getUniqueIconPathSnapshotCollection(snapshots) {
+function getUniqueSnapshotCollection(snapshots) {
   if (!snapshots) {
     return [];
   }
 
-  const map = {};
-  for (let i = 0; i < snapshots.length; i++) {
-    map[getIconSvgPath(snapshots[i])] = snapshots[i];
+  const map = new Map();
+  for (const snapshot of snapshots) {
+    map.set(snapshot.get('plugin'), snapshot);
   }
-
-  return Object.keys(map).map(key => map[key]);
+  return Array.from(map.values());
 }

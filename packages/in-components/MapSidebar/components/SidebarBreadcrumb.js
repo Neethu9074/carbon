@@ -45,7 +45,13 @@ const Crumb = connectTo(
               entitySelectedTracker({ origin: 'elevator', type: plugin });
             }}
           >
-            <HealthyPluginIcon className={imgClasses} snapshotId={snapshotId} plugin={plugin} snapshot={snapshot} />
+            <HealthyPluginIcon
+              className={imgClasses}
+              snapshotId={snapshotId}
+              plugin={plugin}
+              snapshot={snapshot}
+              size="s"
+            />
           </Link>
         </li>
       </Tooltip>

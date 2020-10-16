@@ -1,7 +1,6 @@
 import metricDefinitions from 'in-forge/plugins/ceph/metricDefinitions';
 import kpiDefinitions from 'in-forge/plugins/ceph/kpiDefinitions';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
-import iconSvgPath from 'in-forge/plugins/ceph/iconPath';
 import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
@@ -10,7 +9,6 @@ registerSnapshotDefinition({
     singular: 'Ceph instance',
     plural: 'Ceph instances'
   },
-  iconSvgPath,
   kpiDefinitions,
   metricDefinitions
 });

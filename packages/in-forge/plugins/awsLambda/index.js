@@ -1,6 +1,5 @@
 import metricDefinitions from 'in-forge/plugins/awsLambda/metricDefinitions';
 import kpiDefinitions from 'in-forge/plugins/awsLambda/kpiDefinitions';
-import iconSvgPath from 'in-forge/plugins/awsLambda/iconPath';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
 
@@ -18,7 +17,6 @@ registerSnapshotDefinition({
     singular: 'AWS Lambda',
     plural: 'AWS Lambdas'
   },
-  iconSvgPath,
   kpiDefinitions,
   metricDefinitions,
   technologyDescriptor: {

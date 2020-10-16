@@ -16,7 +16,6 @@ export default function Breadcrumb({
   label,
   refSetter,
   icon,
-  iconPath,
   onClick,
   isActive,
   healthInfo,
@@ -29,20 +28,14 @@ export default function Breadcrumb({
     [className]: className
   });
 
-  const iconSize = iconPath ? 's' : 'regular';
-  let iconCompontent = <SvgIcon className={locals.icon} type={icon} iconPath={iconPath} size={iconSize} />;
-
+  let iconCompontent = <SvgIcon className={locals.icon} type={icon} />;
   if (healthInfo) {
-    iconCompontent = (
-      <WithHealthIndication iconSize={iconSize} healthInfo={healthInfo}>
-        {iconCompontent}
-      </WithHealthIndication>
-    );
+    iconCompontent = <WithHealthIndication healthInfo={healthInfo}>{iconCompontent}</WithHealthIndication>;
   }
 
   let crumbContent = (
     <div className={locals.twoRowWrapper} ref={refSetter}>
-      {(icon || iconPath) && iconCompontent}
+      {icon && iconCompontent}
       <div className={locals.breadcrumbContent}>{children ? children : label}</div>
     </div>
   );

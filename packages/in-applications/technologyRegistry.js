@@ -13,11 +13,6 @@ export function addToRegistry({ id, label, icon }) {
   };
 }
 
-export function getIconSvgPath(id) {
-  ensureInfraPluginsAreEvaluated();
-  return get(registry, [id, 'icon']);
-}
-
 export function getLabel(id) {
   ensureInfraPluginsAreEvaluated();
   return get(registry, [id, 'label']);

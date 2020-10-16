@@ -15,7 +15,7 @@ export default function SidebarHeader({ snapshot }) {
   return (
     <div className={locals.sidebarHeader}>
       <div className={locals.entity}>
-        <PluginIcon className={locals.entityIcon} snapshot={snapshot} size="s" />
+        <PluginIcon className={locals.entityIcon} snapshot={snapshot} />
         <div>
           <h1 className={locals.entityLabel}>{shorten(getLabel(snapshot) || '', 128)}</h1>
           <div className={locals.typeIdWrapper}>

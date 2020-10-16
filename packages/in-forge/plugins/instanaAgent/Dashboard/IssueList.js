@@ -3,13 +3,14 @@ import React from 'react';
 import getMonitoringIssuesForAgentSnapshot from 'in-subscription/getMonitoringIssuesForAgentSnapshot';
 import getIssueDefinitionForSnapshotAndCode from 'in-sdk/agentMonitoringIssueDefinition';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
+import { getIconType } from 'in-components/SvgIcon/infrastructureIconType';
 import { formatDateTime } from 'in-services/formatters/date';
 import { compareIgnoreCase } from 'in-services/util/string';
-import { getLabel, getIconSvgPath } from 'in-sdk/snapshot';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
 import BreakAll from 'in-components/typo/BreakAll';
 import SvgIcon from 'in-components/SvgIcon';
+import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
 
@@ -28,7 +29,7 @@ const cols = [
             value: label,
             content: (
               <div className={locals.wrapper}>
-                {row.snapshot && <SvgIcon className={locals.icon} size={'s'} iconPath={getIconSvgPath(row.snapshot)} />}
+                {row.snapshot && <SvgIcon className={locals.icon} type={getIconType(row.snapshot)} />}
                 <Link href={href} className={locals.link}>
                   {label}
                 </Link>

@@ -4,7 +4,6 @@ import metricDefinitions from 'in-forge/plugins/garden/metricDefinitions';
 import tableDefinition from 'in-forge/plugins/garden/tableDefinition';
 import kpiDefinitions from 'in-forge/plugins/garden/kpiDefinitions';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
-import iconSvgPath from 'in-forge/plugins/garden/iconPath';
 import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
@@ -13,7 +12,6 @@ registerSnapshotDefinition({
     singular: 'Garden Container',
     plural: 'Garden Containers'
   },
-  iconSvgPath,
   kpiDefinitions,
   metricDefinitions,
   tableDefinition

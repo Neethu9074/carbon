@@ -1,6 +1,5 @@
 import metricDefinitions from 'in-forge/plugins/jbossDataGrid/metricDefinitions';
 import kpiDefinitions from 'in-forge/plugins/jbossDataGrid/kpiDefinitions';
-import iconSvgPath from 'in-forge/plugins/jbossDataGrid/iconPath';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
 
@@ -10,7 +9,6 @@ registerSnapshotDefinition({
     singular: 'JBoss Data Grid',
     plural: 'JBoss Data Grids'
   },
-  iconSvgPath,
   kpiDefinitions,
   metricDefinitions
 });

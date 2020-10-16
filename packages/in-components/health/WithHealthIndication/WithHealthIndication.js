@@ -10,7 +10,7 @@ export default function WithHealthIndication({ children, healthInfo, iconSize })
     return children;
   }
 
-  const size = getPixelsBySize(iconSize);
+  const size = getPixelsBySize(iconSize ?? 'regular');
   iconSize = 2 + ((size / 8) | 1) * 2;
 
   return (

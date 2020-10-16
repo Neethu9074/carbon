@@ -26,7 +26,7 @@ export default connectTo(
 
     return (
       <div className={block}>
-        <PluginIcon className={block + '__icon'} size="xxs" snapshot={snapshot} />
+        <PluginIcon className={block + '__icon'} size="s" snapshot={snapshot} />
         <span className={block + '__label'}>{getLabel(snapshot)}</span>
       </div>
     );

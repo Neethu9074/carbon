@@ -1,7 +1,6 @@
 import metricDefinitions from 'in-forge/plugins/sapHana/metricDefinitions';
 import kpiDefinitions from 'in-forge/plugins/sapHana/kpiDefinitions';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
-import iconSvgPath from 'in-forge/plugins/sapHana/iconPath';
 import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
@@ -10,7 +9,6 @@ registerSnapshotDefinition({
     singular: 'SAP HANA',
     plural: 'SAP HANA'
   },
-  iconSvgPath,
   kpiDefinitions,
   metricDefinitions
 });

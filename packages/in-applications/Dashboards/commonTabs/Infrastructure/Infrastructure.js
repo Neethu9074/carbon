@@ -554,7 +554,7 @@ function UnmonitoredEntity() {
   return (
     <Tooltip content={'Unmonitored infrastructure due to information outside the purview of running agents'}>
       <div className={locals.cell}>
-        <PluginIcon className={locals.simplePluginIcon} size="s" />
+        <PluginIcon className={locals.simplePluginIcon} />
         Unmonitored
       </div>
     </Tooltip>

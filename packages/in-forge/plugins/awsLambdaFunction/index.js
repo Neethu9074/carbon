@@ -1,5 +1,4 @@
 import kpiDefinitions from 'in-forge/plugins/awsLambdaFunction/kpiDefinitions';
-import iconSvgPath from 'in-forge/plugins/awsLambdaFunction/iconPath';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
 
@@ -13,6 +12,5 @@ registerSnapshotDefinition({
     singular: 'AWS Lambda Function',
     plural: 'AWS Lambda Functions'
   },
-  iconSvgPath,
   kpiDefinitions
 });

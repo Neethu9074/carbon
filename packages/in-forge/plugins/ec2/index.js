@@ -1,7 +1,6 @@
 import metricDefinitions from 'in-forge/plugins/ec2/metricDefinitions';
 import kpiDefinitions from 'in-forge/plugins/ec2/kpiDefinitions';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
-import iconSvgPath from 'in-forge/plugins/ec2/iconPath';
 import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
@@ -10,7 +9,6 @@ registerSnapshotDefinition({
     singular: 'EC2 Instance',
     plural: 'EC2 Instances'
   },
-  iconSvgPath,
   kpiDefinitions,
   metricDefinitions
 });

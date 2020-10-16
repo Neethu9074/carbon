@@ -24,7 +24,7 @@ export default function InfrastructureEntityLink({ entity, snapshot, plugin, phy
   if (!entity || !snapshot) {
     return (
       <div className={locals.noLink}>
-        <PluginIcon className={locals.simplePluginIcon} size="xs" /> Correlation missing
+        <PluginIcon className={locals.simplePluginIcon} /> Correlation missing
       </div>
     );
   }

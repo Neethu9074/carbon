@@ -1,45 +1,30 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import { getIconType } from 'in-components/SvgIcon/infrastructureIconType';
 import EntityWithType from 'in-new-components/EntityWithType';
 import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './EntityWithTypeAndIcon.mless';
 
-export default function EntityWithTypeAndIcon({
-  label,
-  type,
-  renderType,
-  iconType,
-  iconPath,
-  href$,
-  addEllipsis,
-  addTooltip
-}) {
+export default function EntityWithTypeAndIcon({ label, type, iconType, plugin, size, showTechnologyLabel = true }) {
+  if (plugin) {
+    iconType = getIconType(plugin);
+  }
+
   return (
     <div className={locals.wrapper}>
-      {(iconType || iconPath) && (
-        <SvgIcon className={locals.entityIcon} type={iconType} iconPath={iconPath} size="sm" />
-      )}
-      <EntityWithType
-        label={label}
-        type={type}
-        renderType={renderType}
-        href$={href$}
-        addEllipsis={addEllipsis}
-        addTooltip={addTooltip}
-      />
+      <SvgIcon className={locals.entityIcon} type={iconType} size={size} />
+      {showTechnologyLabel && <EntityWithType label={label} type={type} />}
     </div>
   );
 }
 
 EntityWithTypeAndIcon.propTypes = {
-  href$: PropTypes.any,
-  iconPath: PropTypes.string,
+  showTechnologyLabel: PropTypes.bool,
   iconType: PropTypes.string,
+  plugin: PropTypes.string,
   label: PropTypes.string,
-  renderType: PropTypes.string,
-  type: PropTypes.string,
-  addEllipsis: PropTypes.bool,
-  addTooltip: PropTypes.bool
+  size: PropTypes.string,
+  type: PropTypes.string
 };

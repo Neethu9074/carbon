@@ -1,7 +1,7 @@
 import React from 'react';
 
+import { getIconType } from 'in-components/SvgIcon/infrastructureIconType';
 import { evaluateClassNames } from 'in-services/util/classnames';
-import PluginIcon from 'in-components/PluginIcon';
 import { getSingular } from 'in-sdk/pluginName';
 import SvgIcon from 'in-components/SvgIcon';
 
@@ -30,11 +30,7 @@ export default function EntityPageMainNotification(props) {
         [locals.withBackground]: withBackground
       })}
     >
-      {plugin ? (
-        <PluginIcon className={locals.icon} plugin={plugin} size="xxl" />
-      ) : (
-        <SvgIcon className={locals.icon} type={icon} size="xxl" />
-      )}
+      <SvgIcon className={locals.icon} type={plugin ? getIconType(plugin) : icon} size="xxl" />
       <h2 className={locals.title}>{title ? title : `${entitySingular} not found`}</h2>
       {typeof explanation === 'function' ? (
         explanation()

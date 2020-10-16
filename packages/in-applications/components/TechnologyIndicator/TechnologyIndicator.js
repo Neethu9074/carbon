@@ -1,6 +1,6 @@
 import React from 'react';
 
-import TechnologyLabelWithIcon from 'in-new-components/TechnologyLabelWithIcon';
+import EntityWithTypeAndIcon from 'in-new-components/EntityWithTypeAndIcon';
 import { getLabel } from 'in-applications/technologyRegistry';
 import Tooltip from 'in-components/Tooltip';
 import Link from 'in-components/Link';
@@ -14,12 +14,7 @@ export default function TechnologyIndicator({ pluginOrGroupType, getHref$, showT
   }
 
   let content = (
-    <TechnologyLabelWithIcon
-      plugin={pluginOrGroupType}
-      label={label}
-      showTechnologyLabel={showTechnologyLabel}
-      is10Icon
-    />
+    <EntityWithTypeAndIcon plugin={pluginOrGroupType} label={label} showTechnologyLabel={showTechnologyLabel} />
   );
 
   if (getHref$) {

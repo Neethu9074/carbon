@@ -6,10 +6,10 @@ import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './TableLinkWithIcon.mless';
 
-export default function TableLinkWithIcon({ icon, iconPath, href$, href, onClick, children, isPrimary }) {
+export default function TableLinkWithIcon({ icon, href$, href, onClick, children, isPrimary }) {
   return (
     <div className={locals.wrapper}>
-      {(icon || iconPath) && <SvgIcon className={locals.icon} type={icon} iconPath={iconPath} />}
+      {icon && <SvgIcon className={locals.icon} type={icon} />}
       <Link
         className={evaluateClassNames({
           [locals.link]: true,

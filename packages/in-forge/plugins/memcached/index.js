@@ -1,6 +1,5 @@
 import metricDefinitions from 'in-forge/plugins/memcached/metricDefinitions';
 import kpiDefinitions from 'in-forge/plugins/memcached/kpiDefinitions';
-import iconSvgPath from 'in-forge/plugins/memcached/iconPath';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
 
@@ -10,7 +9,6 @@ registerSnapshotDefinition({
     singular: 'Memcached Nodes',
     plural: 'Memcached Nodes'
   },
-  iconSvgPath,
   kpiDefinitions,
   technologyDescriptor: {
     label: 'Memcached'

@@ -4,8 +4,6 @@ import { emptyMap } from 'in-services/fixedImmutables';
 export { registerSnapshotDefinition, getSnapshotDefinition } from 'in-sdk/snapshot/registry';
 export { addLabelFinder, getLabel, sortByLabel } from 'in-sdk/snapshot/legacy';
 
-export { getIconSvgPath } from 'in-sdk/iconRegistry';
-
 export function getChartWiggleRoom(plugin) {
   const snapshotDefinition = getOptionalSnapshotDefinition(plugin);
   const chartWiggleRoom = snapshotDefinition && snapshotDefinition.chartWiggleRoom;

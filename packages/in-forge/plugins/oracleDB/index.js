@@ -1,9 +1,7 @@
 import kpiDefinitions from 'in-forge/plugins/oracleDB/kpiDefinitions';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
-import { plugins } from 'in-forge/constants';
-
 import metricDefinitions from './metricDefinitions';
-import iconSvgPath from './iconPath';
+import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.oracleDB,
@@ -11,7 +9,6 @@ registerSnapshotDefinition({
     singular: 'OracleDB',
     plural: 'OracleDBs'
   },
-  iconSvgPath,
   kpiDefinitions,
   metricDefinitions,
   technologyDescriptor: {

@@ -1,7 +1,6 @@
 import metricDefinitions from 'in-forge/plugins/awsSqs/metricDefinitions';
 import kpiDefinitions from 'in-forge/plugins/awsSqs/kpiDefinitions';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
-import iconSvgPath from 'in-forge/plugins/awsSqs/iconPath';
 import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
@@ -13,7 +12,6 @@ registerSnapshotDefinition({
   technologyDescriptor: {
     label: 'AWS SQS'
   },
-  iconSvgPath,
   kpiDefinitions,
   metricDefinitions
 });

@@ -1,13 +1,14 @@
 import React from 'react';
 
-import { getIconSvgPath, getTechnologyLabel } from 'in-sdk/snapshot';
+import { getIconType } from 'in-components/SvgIcon/infrastructureIconType';
+import { getTechnologyLabel } from 'in-sdk/snapshot';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './MultipleTechnologiesIcon.mless';
 
-export default function MultipleTechnologiesIcon({ type, technologies, iconSize, icon }) {
-  let iconPath = showTechnologyIcon(type, technologies, icon);
+export default function MultipleTechnologiesIcon({ type, technologies, icon, size }) {
+  const iconType = getIconTypeInternal(type, technologies, icon);
 
   let technologyLabels = [];
   technologies
@@ -19,7 +20,7 @@ export default function MultipleTechnologiesIcon({ type, technologies, iconSize,
     return (
       <Tooltip content={tooltipLabels}>
         <div className={locals.wrapper}>
-          <SvgIcon className={locals.entityIconSmall} type={icon} iconPath={iconPath} size="xs" />
+          <SvgIcon className={locals.entityIconSmall} type={icon ?? iconType} size={size ?? 's'} />
           <span className={locals.remainderLabel}>+ {technologies.length - 1}</span>
         </div>
       </Tooltip>
@@ -28,20 +29,20 @@ export default function MultipleTechnologiesIcon({ type, technologies, iconSize,
     return (
       <Tooltip content={tooltipLabels}>
         <div className={locals.wrapper}>
-          <SvgIcon className={locals.entityIcon} type={icon} iconPath={iconPath} size={iconSize} />
+          <SvgIcon className={locals.entityIcon} type={icon ?? iconType} size={size ?? 's'} />
         </div>
       </Tooltip>
     );
   }
 }
 
-const showTechnologyIcon = (type, technologies, icon) => {
+const getIconTypeInternal = (type, technologies, icon) => {
   let remainder = technologies ? technologies.length - 1 : -1;
   if (icon && (!technologies || technologies?.length === 0)) {
     return;
   }
   if (remainder < 0) {
-    return getIconSvgPath(type);
+    return getIconType(type);
   }
-  return getIconSvgPath(technologies[0]);
+  return getIconType(technologies[0]);
 };

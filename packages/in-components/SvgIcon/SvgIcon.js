@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import { toInteractiveElement } from 'in-new-components/interactiveCustomElement';
+import { getIconType } from 'in-components/SvgIcon/infrastructureIconType';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import icons from 'in-components/SvgIcon/registry.json';
 import { emptyObject } from 'in-services/fixedObjects';
-import { getIconSvgPath } from 'in-sdk/iconRegistry';
 import { getFactor } from 'in-services/util/dom';
 import { getSingular } from 'in-sdk/pluginName';
 
@@ -61,7 +61,6 @@ export default function SvgIcon({
   refSetter,
   id,
   iconPath,
-  viewBox = '0 0 128 128',
   size = 'regular',
   onBlur,
   onFocus,
@@ -72,25 +71,14 @@ export default function SvgIcon({
 
   if (type?.startsWith(infrastructurePluginPrefix)) {
     const plugin = type.substring(infrastructurePluginPrefix.length);
-    if (plugin) {
-      iconPath = getIconSvgPath(plugin);
-      // Custom viewBox for infrastructure icons to ensure a visually consistent icon size.
-      viewBox = '-26 -26 180 180';
-      if (!ariaLabel) {
-        ariaLabel = `${getSingular(plugin)} icon`;
-      }
+    type = getIconType(plugin);
+    if (!ariaLabel) {
+      ariaLabel = `${getSingular(plugin)} icon`;
     }
-  } else if (type) {
-    if (type) {
-      iconPath = icons[type]?.path;
-      viewBox = '0 0 24 24';
-      ariaLabel = ariaLabel || type;
-    } else if (!iconPath) {
-      if (__DEV__) {
-        console.error(`SVG icon type '${type}' is unknown.`);
-      }
-      return null;
-    }
+  }
+  if (type) {
+    iconPath = icons[type]?.path;
+    ariaLabel = ariaLabel ?? type;
   }
 
   const sizeInPx = getPixelsBySize(size);
@@ -122,7 +110,7 @@ export default function SvgIcon({
       width={sizeInPx}
       height={sizeInPx}
       style={style}
-      viewBox={viewBox}
+      viewBox="0 0 24 24"
       fill={color}
       aria-label={ariaLabel}
       {...interactivityProps}

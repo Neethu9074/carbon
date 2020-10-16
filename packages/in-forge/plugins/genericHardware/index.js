@@ -1,6 +1,5 @@
 import metricDefinitions from 'in-forge/plugins/genericHardware/metricDefinitions';
 import kpiDefinitions from 'in-forge/plugins/genericHardware/kpiDefinitions';
-import iconSvgPath from 'in-forge/plugins/genericHardware/iconPath';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
 
@@ -10,7 +9,6 @@ registerSnapshotDefinition({
     singular: 'Generic Hardware',
     plural: 'Generic Hardware'
   },
-  iconSvgPath,
   kpiDefinitions,
   metricDefinitions
 });

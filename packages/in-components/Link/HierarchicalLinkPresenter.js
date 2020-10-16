@@ -30,7 +30,7 @@ export default function HierarchicalLinkPresenter({
 
   const link = (
     <Link href={href} onClick={stopPropagation} className={locals.link}>
-      <HealthyPluginIcon className={locals.pluginIcon} size="xxs" snapshot={snapshot} />
+      <HealthyPluginIcon className={locals.pluginIcon} snapshot={snapshot} size="xs" />
       {getLabel ? getLabel(label) : label}
     </Link>
   );

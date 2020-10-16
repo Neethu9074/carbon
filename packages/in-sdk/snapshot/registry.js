@@ -1,6 +1,5 @@
 import { clone } from 'lodash';
 
-import { addIconSvgPathToRegistry, addIconPathCallback } from 'in-sdk/iconRegistry';
 import { ensureInfraPluginsAreEvaluated } from 'in-sdk/asyncEvaluation';
 import { addToRegistry } from 'in-applications/technologyRegistry';
 import { setHumanReadablePluginName } from 'in-sdk/pluginName';
@@ -19,7 +18,6 @@ export function registerSnapshotDefinition(snapshotDefinition) {
   registerLegacySdkHooks(snapshotDefinition);
   registerMetricDefinitions(snapshotDefinition);
   registerKpiDefinitions(snapshotDefinition);
-  registerIconPath(snapshotDefinition);
   registerNewApplicationModelHooks(snapshotDefinition);
 }
 
@@ -87,26 +85,6 @@ function registerKpiDefinitions(snapshotDefinition) {
   registerKpiDefinition(snapshotDefinition.plugin, snapshotDefinition.kpiDefinitions);
 }
 
-function registerIconPath(snapshotDefinition) {
-  if (snapshotDefinition.getIconPath) {
-    addIconPathCallback(snapshotDefinition.plugin, snapshotDefinition.getIconPath);
-  }
-
-  let iconPath;
-  let icons = snapshotDefinition.icons;
-  if (snapshotDefinition.iconSvgPath) {
-    iconPath = snapshotDefinition.iconSvgPath;
-  }
-  if (icons) {
-    Object.keys(icons).forEach(plugin => {
-      addIconSvgPathToRegistry(plugin, icons[plugin]);
-    });
-  }
-  if (iconPath) {
-    addIconSvgPathToRegistry(snapshotDefinition.plugin, iconPath);
-  }
-}
-
 function registerNewApplicationModelHooks(snapshotDefinition) {
   if (!snapshotDefinition.technologyDescriptor) {
     return;
@@ -114,7 +92,6 @@ function registerNewApplicationModelHooks(snapshotDefinition) {
 
   addToRegistry({
     id: snapshotDefinition.plugin,
-    label: snapshotDefinition.technologyDescriptor.label,
-    icon: snapshotDefinition.iconSvgPath || snapshotDefinition.icons[snapshotDefinition.plugin]
+    label: snapshotDefinition.technologyDescriptor.label
   });
 }

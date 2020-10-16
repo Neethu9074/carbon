@@ -2,11 +2,12 @@ import React from 'react';
 
 import WithInfrastructureHealthIndicationBehaviour from 'in-components/health/WithHealthIndication/WithInfrastructureHealthIndicationBehaviour';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
+import { getIconType } from 'in-components/SvgIcon/infrastructureIconType';
 import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
-import { getLabel, getIconSvgPath } from 'in-sdk/snapshot';
 import Skeleton from 'in-new-components/Loading/Skeleton';
 import { getSnapshot } from 'in-stores/snapshot';
 import { getSingular } from 'in-sdk/pluginName';
+import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './PhysicalHierarchyBreadcrumb.mless';
@@ -33,7 +34,7 @@ export default connectTo(
             className={className}
             href$={asLink && getDashboardLink(snapshotId)}
             label={getSingular(plugin)}
-            iconPath={getIconSvgPath(snapshot)}
+            icon={getIconType(snapshot)}
             isActive={isActive}
             healthInfo={healthInfo}
           >

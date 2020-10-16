@@ -1,5 +1,4 @@
 import kpiDefinitions from 'in-forge/plugins/vsphereDatacenter/kpiDefinitions';
-import iconSvgPath from 'in-forge/plugins/vsphereDatacenter/iconPath';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
 
@@ -9,6 +8,5 @@ registerSnapshotDefinition({
     singular: 'vSphere Datacenter',
     plural: 'vSphere Datacenters'
   },
-  iconSvgPath,
   kpiDefinitions
 });

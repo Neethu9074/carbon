@@ -1,6 +1,5 @@
 import metricDefinitions from 'in-forge/plugins/awsBeanstalk/metricDefinitions';
 import kpiDefinitions from 'in-forge/plugins/awsBeanstalk/kpiDefinitions';
-import iconSvgPath from 'in-forge/plugins/awsBeanstalk/iconPath';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
 
@@ -10,7 +9,6 @@ registerSnapshotDefinition({
     singular: 'AWS Beanstalk Environment',
     plural: 'AWS Beanstalk Environments'
   },
-  iconSvgPath,
   kpiDefinitions,
   metricDefinitions
 });

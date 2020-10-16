@@ -1,6 +1,5 @@
 import metricDefinitions from 'in-forge/plugins/activeMQArtemis/metricDefinitions';
 import kpiDefinitions from 'in-forge/plugins/activeMQArtemis/kpiDefinitions';
-import iconSvgPath from 'in-forge/plugins/activeMQArtemis/iconPath';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
 
@@ -10,7 +9,6 @@ registerSnapshotDefinition({
     singular: 'ActiveMQ Artemis',
     plural: 'ActiveMQ Artemis'
   },
-  iconSvgPath,
   kpiDefinitions,
   metricDefinitions,
   technologyDescriptor: {

@@ -9,12 +9,12 @@ import {
 import { getApplicationDashboard, getServiceDashboard, getEndpointDashboard } from 'in-applications/navigation/paths';
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
+import { getIconType } from 'in-components/SvgIcon/infrastructureIconType';
 import getApplication from 'in-subscription/application/getApplication';
 import StackPresenter from 'in-new-components/Stack/StackPresenter';
 import getEndpoint from 'in-subscription/application/getEndpoint';
 import getService from 'in-subscription/application/getService';
 import { hasError, isLoading } from 'in-services/util/result';
-import { getIconSvgPath } from 'in-sdk/snapshot';
 import { getSnapshot } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
 
@@ -120,8 +120,7 @@ function resolveSnapshotResult(result) {
     return undefined;
   }
   return {
-    iconPath: getIconSvgPath(result),
-    size: 'xs',
+    icon: getIconType(result),
     label: result.get('label'),
     href$: getDashboardLink(result.get('id'), { pathname: '/physical/dashboard' })
   };

@@ -1,6 +1,5 @@
 import metricDefinitions from 'in-forge/plugins/rabbitMq/metricDefinitions';
 import kpiDefinitions from 'in-forge/plugins/rabbitMq/kpiDefinitions';
-import iconSvgPath from 'in-forge/plugins/rabbitMq/iconPath';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
 
@@ -10,7 +9,6 @@ registerSnapshotDefinition({
     singular: 'RabbitMQ',
     plural: 'RabbitMQ'
   },
-  iconSvgPath,
   kpiDefinitions,
   metricDefinitions,
   technologyDescriptor: {

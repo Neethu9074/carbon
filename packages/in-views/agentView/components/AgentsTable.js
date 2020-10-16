@@ -44,7 +44,6 @@ const cols = [
                   {hostSnapshot && (
                     <HealthyPluginIcon
                       className={locals.icon}
-                      size="xxs"
                       plugin={plugins.instanaAgent}
                       snapshotId={hostSnapshot.get('id')}
                     />

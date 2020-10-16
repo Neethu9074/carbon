@@ -1,6 +1,5 @@
 import metricDefinitions from 'in-forge/plugins/awsDynamoDb/metricDefinitions';
 import kpiDefinitions from 'in-forge/plugins/awsDynamoDb/kpiDefinitions';
-import iconSvgPath from 'in-forge/plugins/awsDynamoDb/iconPath';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
 
@@ -10,7 +9,6 @@ registerSnapshotDefinition({
     singular: 'AWS DynamoDB Table',
     plural: 'AWS DynamoDB Tables'
   },
-  iconSvgPath,
   kpiDefinitions,
   metricDefinitions,
 

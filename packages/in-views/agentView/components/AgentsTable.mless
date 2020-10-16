@@ -5,6 +5,6 @@
   }
 
   .icon {
-    margin: 0 0.313rem 0 0;
+    margin-right: 0.25rem;
   }
 }

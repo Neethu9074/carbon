@@ -25,7 +25,7 @@ export default function DashboardHeader(props) {
           {...props}
           title={title}
           snapshot={snapshot}
-          renderIcon={() => <PluginIcon className={locals.icon} snapshot={snapshot} size="l" />}
+          renderIcon={() => <PluginIcon className={locals.icon} snapshot={snapshot} />}
           label={snapshot.get('label')}
           renderButtonLine={renderButtonLine}
           renderButtonLineSecondary={renderButtonLineSecondary}

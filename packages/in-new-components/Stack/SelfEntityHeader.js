@@ -10,11 +10,11 @@ export default function SelfEntityHeader({ selfEntity }) {
     return null;
   }
 
-  const { label, icon, iconPath, size, href$ } = selfEntity;
+  const { label, icon, size, href$ } = selfEntity;
   return (
     <Link href$={href$}>
       <div className={locals.entity}>
-        <SvgIcon className={locals.icon} type={icon} iconPath={iconPath} size={size} />
+        <SvgIcon className={locals.icon} type={icon} size={size} />
         <span className={locals.label}>{label}</span>
       </div>
     </Link>

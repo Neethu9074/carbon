@@ -1,4 +1,3 @@
-import iconSvgPath from 'in-forge/plugins/awsEcsContainer/iconPath';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
 
@@ -13,7 +12,6 @@ registerSnapshotDefinition({
     singular: 'AWS ECS',
     plural: 'AWS ECS'
   },
-  iconSvgPath,
   technologyDescriptor: {
     label: 'AWS ECS'
   }

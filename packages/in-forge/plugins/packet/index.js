@@ -1,7 +1,6 @@
 import metricDefinitions from 'in-forge/plugins/packet/metricDefinitions';
 import kpiDefinitions from 'in-forge/plugins/packet/kpiDefinitions';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
-import iconSvgPath from 'in-forge/plugins/packet/iconPath';
 import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
@@ -10,7 +9,6 @@ registerSnapshotDefinition({
     singular: 'Packet Instance',
     plural: 'Packet Instances'
   },
-  iconSvgPath,
   metricDefinitions,
   kpiDefinitions
 });

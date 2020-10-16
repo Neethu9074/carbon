@@ -1,4 +1,3 @@
-import iconSvgPath from 'in-forge/plugins/awsEcsTask/iconPath';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
 
@@ -7,6 +6,5 @@ registerSnapshotDefinition({
   pluginName: {
     singular: 'AWS ECS Task',
     plural: 'AWS ECS Tasks'
-  },
-  iconSvgPath
+  }
 });

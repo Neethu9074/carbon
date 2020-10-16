@@ -1,7 +1,6 @@
 import metricDefinitions from 'in-forge/plugins/awsEc/metricDefinitions';
 import kpiDefinitions from 'in-forge/plugins/awsEc/kpiDefinitions';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
-import iconSvgPath from 'in-forge/plugins/awsEc/iconPath';
 import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
@@ -10,7 +9,6 @@ registerSnapshotDefinition({
     singular: 'AWS EC',
     plural: 'AWS ECs'
   },
-  iconSvgPath,
   kpiDefinitions,
   metricDefinitions,
 

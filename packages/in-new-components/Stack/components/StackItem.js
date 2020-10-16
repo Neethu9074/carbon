@@ -47,7 +47,13 @@ export default function StackItem({
           ) : (
             <div className={locals.dot} />
           )}
-          <EntityWithIcon label={shortLabel || label} type={type} technologies={technologiesNoK8s} length={100} />
+          <EntityWithIcon
+            label={shortLabel || label}
+            type={type}
+            technologies={technologiesNoK8s}
+            length={100}
+            size="regular"
+          />
 
           {!isAp && type === plugins.process && <ProfileIndicator processSnapshotId={id} />}
           {showEndpointTypes(endpointTypes)}

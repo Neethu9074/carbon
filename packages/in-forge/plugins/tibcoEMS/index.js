@@ -1,13 +1,10 @@
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
-import { plugins } from 'in-forge/constants';
-
 import metricDefinitions from './metricDefinitions';
 import kpiDefinitions from './kpiDefinitions';
-import iconSvgPath from './iconPath';
+import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.tibcoEMS,
-  iconSvgPath,
   metricDefinitions,
   kpiDefinitions,
   pluginName: {

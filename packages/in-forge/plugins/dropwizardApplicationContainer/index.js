@@ -1,7 +1,6 @@
 import metricDefinitions from 'in-forge/plugins/dropwizardApplicationContainer/metricDefinitions';
 import tableDefinition from 'in-forge/plugins/dropwizardApplicationContainer/tableDefinition';
 import kpiDefinitions from 'in-forge/plugins/dropwizardApplicationContainer/kpiDefinitions';
-import iconSvgPath from 'in-forge/plugins/dropwizardApplicationContainer/iconPath';
 import { supportsCodeView, getCodeView } from 'in-forge/codeView/java';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
@@ -12,7 +11,6 @@ registerSnapshotDefinition({
     singular: 'Dropwizard App',
     plural: 'Dropwizard Apps'
   },
-  iconSvgPath,
   kpiDefinitions,
   metricDefinitions,
   tableDefinition,

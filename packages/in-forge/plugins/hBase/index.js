@@ -2,7 +2,6 @@ import metricDefinitions from 'in-forge/plugins/hBase/metricDefinitions';
 import { supportsCodeView, getCodeView } from 'in-forge/codeView/java';
 import kpiDefinitions from 'in-forge/plugins/hBase/kpiDefinitions';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
-import iconSvgPath from 'in-forge/plugins/hBase/iconPath';
 import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
@@ -11,7 +10,6 @@ registerSnapshotDefinition({
     singular: 'HBase',
     plural: 'HBase'
   },
-  iconSvgPath,
   kpiDefinitions,
   metricDefinitions,
   getCodeView,

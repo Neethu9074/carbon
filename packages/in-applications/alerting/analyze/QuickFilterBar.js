@@ -3,7 +3,7 @@ import React, { Fragment } from 'react';
 import NumberBarItem from 'in-analyze/components/filterBar/NumberBarItemBehavior/NumberBarItemBehavior';
 import AnalyzeMultiSelectBarItem from 'in-analyze/AnalyzeView/components/AnalyzeMultiSelectBarItem';
 import AnalyzeSelectBarItem from 'in-analyze/AnalyzeView/components/AnalyzeSelectBarItem';
-import TechnologyLabelWithIcon from 'in-new-components/TechnologyLabelWithIcon';
+import EntityWithTypeAndIcon from 'in-new-components/EntityWithTypeAndIcon';
 import BooleanBarItem from 'in-analyze/components/filterBar/BooleanBarItem';
 import MoreBarItem from 'in-analyze/components/filterBar/MoreBarItem';
 import Bar from 'in-analyze/components/filterBar/Bar/Bar';
@@ -68,7 +68,7 @@ export default function QuickFilterBar(props) {
           pluralLabel="Technologies"
           selectedItemRenderer={getTechnologyLabel}
           itemLabelRenderer={itemLabel => (
-            <TechnologyLabelWithIcon plugin={itemLabel} label={getTechnologyLabel(itemLabel)} is10Icon />
+            <EntityWithTypeAndIcon plugin={itemLabel} label={getTechnologyLabel(itemLabel)} />
           )}
         />
       )}

@@ -33,7 +33,7 @@ export default function IntegrationDashboardList({ entities, query }) {
         return (
           <Li key={entity.id}>
             <div className={locals.itemWrapper}>
-              <PluginIcon className={locals.simplePluginIcon} plugin={entity.plugin} size="xs" />
+              <PluginIcon className={locals.simplePluginIcon} plugin={entity.plugin} />
               <SnapshotLink key={entity.id} snapshotPreview={entity}>
                 {entity.label}
               </SnapshotLink>

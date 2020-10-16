@@ -4,7 +4,7 @@ import WithInfrastructureHealthIndicationBehaviour from 'in-components/health/Wi
 import WithHealthIndication from 'in-components/health/WithHealthIndication';
 import PluginIcon from 'in-components/PluginIcon';
 
-export default function HealthyPluginIcon({ className, size = 'xs', snapshotId, plugin, snapshot }) {
+export default function HealthyPluginIcon({ className, size, snapshotId, plugin, snapshot }) {
   return (
     <WithInfrastructureHealthIndicationBehaviour
       snapshotId={snapshotId}

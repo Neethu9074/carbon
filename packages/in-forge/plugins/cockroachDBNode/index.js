@@ -1,7 +1,6 @@
 import metricDefinitions from 'in-forge/plugins/cockroachDBNode/metricDefinitions';
 import kpiDefinitions from 'in-forge/plugins/cockroachDBNode/kpiDefinitions';
 import { supportsCodeView, getCodeView } from 'in-forge/codeView/java';
-import iconSvgPath from 'in-forge/plugins/cockroachDBNode/iconPath';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
 
@@ -11,7 +10,6 @@ registerSnapshotDefinition({
     singular: 'CockroachDB Node',
     plural: 'CockroachDB Nodes'
   },
-  iconSvgPath,
   kpiDefinitions,
   metricDefinitions,
   getCodeView,

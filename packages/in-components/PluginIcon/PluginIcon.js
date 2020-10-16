@@ -1,17 +1,10 @@
+import theme from 'in-themes';
 import React from 'react';
 
-import { getIconSvgPath } from 'in-sdk/snapshot';
+import { getIconType } from 'in-components/SvgIcon/infrastructureIconType';
 import SvgIcon from 'in-components/SvgIcon';
-import theme from 'in-themes';
 
 export default function PluginIcon(props) {
-  const { size = 'xs', color = theme.lib.colors.N700Medium } = props;
-  return (
-    <SvgIcon
-      {...props}
-      size={size}
-      color={color}
-      iconPath={getIconSvgPath(props.snapshot ? props.snapshot : props.plugin)}
-    />
-  );
+  const { size, color = theme.lib.colors.N700Medium } = props;
+  return <SvgIcon {...props} size={size} color={color} type={getIconType(props.snapshot ?? props.plugin)} />;
 }

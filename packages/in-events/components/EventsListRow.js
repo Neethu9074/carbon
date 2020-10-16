@@ -129,7 +129,7 @@ const On = connectTo(
         {app20IconType ? (
           <SvgIcon className={locals.entity20Icon} type={app20IconType} size="xs" />
         ) : (
-          <PluginIcon className={locals.entityIcon} size="xxs" snapshot={entity} />
+          <PluginIcon className={locals.entityIcon} size="s" snapshot={entity} />
         )}
         <div className={locals.title}>{label}</div>
       </div>

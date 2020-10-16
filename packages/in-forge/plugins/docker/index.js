@@ -10,7 +10,6 @@ import kpiDefinitions from 'in-forge/plugins/docker/kpiDefinitions';
 import { isWithinKubernetes } from 'in-forge/plugins/docker/util';
 import { containerInfoEnabled } from 'in-services/featureFlags';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
-import iconSvgPath from 'in-forge/plugins/docker/iconPath';
 import { hasRestrictedAccess } from 'in-stores/permission';
 import { emptyMap } from 'in-services/fixedImmutables';
 import { plugins } from 'in-forge/constants';
@@ -21,7 +20,6 @@ registerSnapshotDefinition({
     singular: 'Docker Container',
     plural: 'Docker Containers'
   },
-  iconSvgPath,
   kpiDefinitions,
   metricDefinitions,
   tableDefinition,

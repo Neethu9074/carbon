@@ -1,5 +1,4 @@
 import kpiDefinitions from 'in-forge/plugins/ibmMqListener/kpiDefinitions';
-import iconSvgPath from 'in-forge/plugins/ibmMqListener/iconPath';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
 
@@ -9,6 +8,5 @@ registerSnapshotDefinition({
     singular: 'IBM MQ Listener',
     plural: 'IBM MQ Listeners'
   },
-  iconSvgPath,
   kpiDefinitions
 });

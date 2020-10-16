@@ -30,7 +30,7 @@ export const SourceLocation = ({ location, service, snapshotId, entity, span }) 
           </Link>
         ) : (
           <span className={locals.unmonitoredText}>
-            <PluginIcon className={locals.simplePluginIcon} size="xs" /> Not monitored by Instana
+            <PluginIcon className={locals.simplePluginIcon} /> Not monitored by Instana
           </span>
         )}
       </div>

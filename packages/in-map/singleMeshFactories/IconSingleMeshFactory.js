@@ -1,8 +1,7 @@
-import fragmentShader from 'in-map/singleMeshFactories/pointFragmentShader.glsl';
-import vertexShader from 'in-map/singleMeshFactories/pointVertexShader.glsl';
-
 import { init as initGlyphTexture, glyphTexture, config } from 'in-map/singleMeshFactories/pluginIconsGlyphTexture';
+import fragmentShader from 'in-map/singleMeshFactories/pointFragmentShader.glsl';
 import ASingleMeshFactory from 'in-map/singleMeshFactories/ASingleMeshFactory';
+import vertexShader from 'in-map/singleMeshFactories/pointVertexShader.glsl';
 import { updateAttribute } from 'in-map/services/geometryAttributes';
 import { Points, RawShaderMaterial } from 'in-map/3DLibProvider';
 

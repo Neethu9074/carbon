@@ -29,7 +29,7 @@ const healthColumn = {
 const iconColumn = {
   width: '3rem',
   getContent({ item }) {
-    return <PluginIcon snapshot={item.snapshot} size="s" />;
+    return <PluginIcon snapshot={item.snapshot} />;
   }
 };
 

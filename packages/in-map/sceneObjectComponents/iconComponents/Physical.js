@@ -1,5 +1,4 @@
 import IconComponent from 'in-map/sceneObjectComponents/iconComponents/IconComponent';
-import { getIconPath } from 'in-sdk/iconRegistry';
 
 export default class PhysicalIconComponent extends IconComponent {
   constructor(sceneObject, iconSize, getIconPosition) {
@@ -14,7 +13,7 @@ export default class PhysicalIconComponent extends IconComponent {
   }
 
   snapshotChanged(snapshot) {
-    this.fragment.additionalParams.type = getIconPath(snapshot);
+    this.fragment.additionalParams.type = snapshot.get('plugin');
     this.factory.needsUpdate();
   }
 }
