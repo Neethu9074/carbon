@@ -8,21 +8,12 @@ import useObservable from 'in-hooks/useObservable';
 export default function AlertsPreviewLane({ alertsPreviewConfiguration, getAlertsPreview, ...remainingProps }) {
   if (!alertsPreviewConfiguration || !getAlertsPreview || !isConfigValid(alertsPreviewConfiguration)) return null;
 
-  const { clusterSizeMillis } = remainingProps;
-
   const alerts =
-    useObservable(
-      getAlertsPreview({ ...alertsPreviewConfiguration, granularity: clusterSizeMillis })
-        .startWith(pendingResult)
-        .map(
-          ({ data }) =>
-            data?.alerts.map(([timestamp, count]) => ({
-              timestamp,
-              count
-            })) ?? []
-        ),
-      [alertsPreviewConfiguration, clusterSizeMillis]
-    ) ?? emptyArray;
+    useObservable(getAlertsPreviewObservable, [
+      getAlertsPreview,
+      alertsPreviewConfiguration,
+      remainingProps.clusterSizeMillis
+    ]) ?? emptyArray;
 
   return <AlertsPreviewLanePresenter {...remainingProps} alerts={alerts} />;
 }
@@ -44,3 +35,15 @@ AlertsPreviewLane.propTypes = {
   alertsPreviewConfiguration: PropTypes.object,
   getAlertsPreview: PropTypes.func
 };
+
+function getAlertsPreviewObservable([getAlertsPreview, alertsPreviewConfiguration, clusterSizeMillis]) {
+  return getAlertsPreview({ ...alertsPreviewConfiguration, granularity: clusterSizeMillis })
+    .startWith(pendingResult)
+    .map(
+      ({ data }) =>
+        data?.alerts.map(([timestamp, count]) => ({
+          timestamp,
+          count
+        })) ?? []
+    );
+}

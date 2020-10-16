@@ -41,27 +41,9 @@ export default function PotentialProblemsLane({
   const tagFilters = getTagfilters({ applicationId, serviceId, endpointId, boundaryScope });
 
   const potentialProblemsResult = useObservable(
-    getPotentialProblems({
-      timeConfig: globalTimeConfig,
-      alertRules,
-      tagFilters
-    })
-      .startWith(pendingResult)
-      .tap(result => {
-        const start = startTime.current;
-        if (isLoading(result) && !start) {
-          startTime.current = Date.now();
-        } else if (result.data && start) {
-          trackRequestLoadingTime({
-            requestTime: `${Date.now() - start / 1000}s`,
-            numberPotentialProblems: result.data.alerts.length,
-            windowSize: globalTimeConfig.windowSize,
-            chartName
-          });
-          startTime.current = null;
-        }
-      }),
-    [globalTimeConfig, clusterSizeMillis, alertRules]
+    ([_globalTimeConfig, _alertRules]) =>
+      getPotentialProblemsObservable([_globalTimeConfig, _alertRules, tagFilters, startTime, chartName]),
+    [globalTimeConfig, alertRules, clusterSizeMillis]
   );
 
   return (
@@ -107,28 +89,12 @@ function getTagfilters({ applicationId, serviceId, endpointId, boundaryScope }) 
 }
 
 function useGetLabels(applicationId, serviceId, endpointId) {
-  let boundaryScope;
-  let applicationLabel;
-  let serviceLabel;
-  let endpointLabel;
-
-  if (applicationId) {
-    boundaryScope = useObservable(
-      getApplication({ id: applicationId }).map(({ data }) => data?.boundaryScope ?? null),
-      [applicationId]
-    );
-    applicationLabel = useObservable(getApplication({ id: applicationId }).map(getLabel), [applicationId]);
-  }
-
-  if (serviceId) {
-    serviceLabel = useObservable(getServiceLabel({ id: serviceId }).map(getLabel), [serviceId]);
-  }
-
-  if (endpointId) {
-    endpointLabel = useObservable(getEndpointInfo({ id: endpointId }).map(getLabel), [endpointId]);
-  }
-
-  return { applicationLabel, serviceLabel, endpointLabel, boundaryScope };
+  return {
+    boundaryScope: useObservable(getBoundaryScopeObservable, [applicationId]),
+    applicationLabel: useObservable(getApplicationLabelObservable, [applicationId]),
+    serviceLabel: useObservable(getServiceLabelObservable, [serviceId]),
+    endpointLabel: useObservable(getEndpointLabelObservable, [endpointId])
+  };
 }
 
 function getLabel(result) {
@@ -164,3 +130,42 @@ PotentialProblemsLane.propTypes = {
   endpointId: PropTypes.string,
   serviceId: PropTypes.string
 };
+
+function getApplicationLabelObservable([id]) {
+  return id && getApplication({ id }).map(getLabel);
+}
+
+function getBoundaryScopeObservable([id]) {
+  return id && getEndpointInfo({ id }).map(({ data }) => data?.boundaryScope ?? null);
+}
+
+function getServiceLabelObservable([id]) {
+  return id && getServiceLabel({ id }).map(getLabel);
+}
+
+function getEndpointLabelObservable([id]) {
+  return id && getEndpointInfo({ id }).map(getLabel);
+}
+
+function getPotentialProblemsObservable([globalTimeConfig, alertRules, tagFilters, startTime, chartName]) {
+  return getPotentialProblems({
+    timeConfig: globalTimeConfig,
+    alertRules,
+    tagFilters
+  })
+    .startWith(pendingResult)
+    .tap(result => {
+      const start = startTime.current;
+      if (isLoading(result) && !start) {
+        startTime.current = Date.now();
+      } else if (result.data && start) {
+        trackRequestLoadingTime({
+          requestTime: `${Date.now() - start / 1000}s`,
+          numberPotentialProblems: result.data.alerts.length,
+          windowSize: globalTimeConfig.windowSize,
+          chartName
+        });
+        startTime.current = null;
+      }
+    });
+}

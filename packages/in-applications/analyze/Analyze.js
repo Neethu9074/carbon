@@ -62,10 +62,10 @@ function ApplicationAnalyzeViewWithFixatedTimeConfig() {
   const timeConfig = useTimeConfig();
 
   const validTagFilterExpressionResult =
-    useObservable(isCallQueryValid(tagFilterExpression, timeConfig), [tagFilterExpression, timeConfig]) ??
-    pendingResult;
-  const validGroupResult =
-    useObservable(isCallGroupingConfigurationValid(groupBy, timeConfig), [groupBy, timeConfig]) ?? pendingResult;
+    useObservable(isCallQueryValid, [tagFilterExpression, timeConfig]) ?? pendingResult;
+
+  const validGroupResult = useObservable(isCallGroupingConfigurationValid, [groupBy, timeConfig]) ?? pendingResult;
+
   // in case of a pending result (validTagFilterExpressionResult.data === null) we do not want to show the user an error message
   const isValid = validTagFilterExpressionResult.data === true && validGroupResult.data === true;
   const isInvalid = validTagFilterExpressionResult.data === false && validGroupResult.data === false;

@@ -10,14 +10,7 @@ export default function AlertsLane({ getAlerts, config = {}, ...remainingProps }
   const { clusterSizeMillis } = remainingProps;
 
   const alertsResult =
-    useObservable(
-      getAlerts({
-        granularity: clusterSizeMillis,
-        timeConfig: remainingProps.timeConfig,
-        ...config
-      }).startWith(pendingResult),
-      [config, clusterSizeMillis, remainingProps.timeConfig]
-    ) ?? emptyArray;
+    useObservable(getAlertsObservable, [getAlerts, config, clusterSizeMillis, remainingProps.timeConfig]) ?? emptyArray;
 
   return (
     <AlertsLanePresenter {...remainingProps} alerts={alertsResult?.data ?? []} isLoading={isLoading(alertsResult)} />
@@ -28,3 +21,11 @@ AlertsLane.propTypes = {
   getAlerts: PropTypes.func.isRequired,
   config: PropTypes.object.isRequired
 };
+
+function getAlertsObservable([getAlerts, config, clusterSizeMillis, timeConfig]) {
+  return getAlerts({
+    granularity: clusterSizeMillis,
+    timeConfig: timeConfig,
+    ...config
+  }).startWith(pendingResult);
+}

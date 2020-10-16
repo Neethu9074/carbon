@@ -212,11 +212,13 @@ function Form({ form, onChange }) {
               </Button>
             </div>
             {field.touched
-              ? field.messages.filter(msg => msg.urlIndex === i).map((message, i) => (
-                  <ValidationBlock hasError key={i}>
-                    {message.message}
-                  </ValidationBlock>
-                ))
+              ? field.messages
+                  .filter(msg => msg.urlIndex === i)
+                  .map((message, i) => (
+                    <ValidationBlock hasError key={i}>
+                      {message.message}
+                    </ValidationBlock>
+                  ))
               : null}
           </FormGroup>
         ));

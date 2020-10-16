@@ -41,13 +41,10 @@ import locals from './FormComponent.mless';
 
 export default function FormComponent({ form, onChange, widgetTitleFormGroup, setSlideInView, widgetPreview }) {
   const [apConfig, setApConfig] = useState();
+  const apConfigs = useObservable(getApplicationConfigObservable, []);
 
   const apConfigIdField = form.get(apConfigId);
   const appConfigIdValue = apConfigIdField?.value;
-  const apConfigs = useObservable(
-    getApplicationConfigsAsResultObservable().map(({ data }) => data),
-    []
-  );
   if (apConfigs && !apConfig) {
     // initial setting
     const newApConfig = apConfigs.find(apConfig => apConfig.id === appConfigIdValue);
@@ -330,4 +327,8 @@ function getMaxTimeWindowDurationValue(unit) {
     default:
       return 12;
   }
+}
+
+function getApplicationConfigObservable() {
+  return getApplicationConfigsAsResultObservable().map(({ data }) => data);
 }

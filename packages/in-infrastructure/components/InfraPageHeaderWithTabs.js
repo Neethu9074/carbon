@@ -20,7 +20,7 @@ export default function InfraPageHeaderWithTabs({
   addShadow,
   addFooter
 }) {
-  const isInfraExploreActive = useObservable(isInfraExploreView(), []);
+  const isInfraExploreActive = useObservable(isInfraExploreView, []);
 
   return (
     <Switch>

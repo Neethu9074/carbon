@@ -98,7 +98,7 @@ export function loadRawAgentConfiguration(snapshot) {
   });
 }
 
-export function loadDownloadableLogs(snapshot) {
+export function loadDownloadableLogs([snapshot]) {
   return createAgentResponseObservable({
     action: 'agent.logs.list',
     target: snapshot.get('volatileId'),

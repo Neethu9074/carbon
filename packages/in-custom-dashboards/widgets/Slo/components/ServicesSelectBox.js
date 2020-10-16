@@ -9,7 +9,28 @@ import useObservable from 'in-hooks/useObservable';
 
 export default function ServicesSelectBox({ applicationId, boundaryScope, value, onChange }) {
   const timeConfig = useTimeConfig();
-  const services$ = getServices({
+
+  const services = useObservable(getServicesObservable, [applicationId, boundaryScope, timeConfig]) ?? pendingResult;
+
+  const { data } = services;
+  const serviceItems = data?.items?.map(({ service }) => ({ value: service.id, label: service.label }));
+
+  if (isLoading(services)) {
+    return <FormDropDown options={[{ value: '', label: '<loading>' }]} disabled />;
+  }
+
+  return (
+    <FormDropDown
+      disabled={hasError(services)}
+      options={[{ value: '', label: 'All Services' }, ...(serviceItems ?? [])]}
+      value={value ?? ''}
+      onChange={({ target }) => onChange?.(target?.value)}
+    />
+  );
+}
+
+function getServicesObservable([applicationId, boundaryScope, timeConfig]) {
+  return getServices({
     pagination: {
       page: 1,
       pageSize: 100
@@ -31,25 +52,4 @@ export default function ServicesSelectBox({ applicationId, boundaryScope, value,
     },
     contextScope: 'NONE'
   });
-
-  const services = useObservable(services$, [applicationId, boundaryScope, timeConfig]) ?? pendingResult;
-  const { data } = services;
-  const serviceItems = data?.items?.map(({ service }) => ({ value: service.id, label: service.label }));
-
-  if (isLoading(services)) {
-    return <FormDropDown options={[{ value: '', label: '<loading>' }]} disabled />;
-  }
-
-  return (
-    <>
-      {
-        <FormDropDown
-          disabled={hasError(services)}
-          options={[{ value: '', label: 'All Services' }, ...(serviceItems ?? [])]}
-          value={value ?? ''}
-          onChange={({ target }) => onChange?.(target?.value)}
-        />
-      }
-    </>
-  );
 }

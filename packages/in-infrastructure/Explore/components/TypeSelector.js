@@ -35,8 +35,7 @@ export default function TypeSelector() {
   const [{ group, type }] = useUrlState(urlStateDefinition);
   const timeConfig = useTimeConfig();
   const tagFilterExpression = emptyTagFilterExpression;
-  const result =
-    useObservable(getAvailablePlugins({ filter: { timeConfig, tagFilterExpression } }), [timeConfig]) || pendingResult;
+  const result = useObservable(getAvailablePluginsObservable, [timeConfig, tagFilterExpression]) || pendingResult;
   const getParamsForType = useCallback(type => ({ type, group: updatedGroup(group, type) }), [group]);
   const types = useMemo(
     () =>
@@ -141,4 +140,8 @@ function updatedGroup(group, type) {
     : isEqual(group, defaultAllInfraGroup) && type !== allTypes
     ? emptyObject
     : group;
+}
+
+function getAvailablePluginsObservable([timeConfig, tagFilterExpression]) {
+  return getAvailablePlugins({ filter: { timeConfig, tagFilterExpression } });
 }

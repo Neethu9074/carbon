@@ -64,9 +64,8 @@ function InfraExploreViewWithFixatedTimeConfig() {
   const setOrder = useCallback(order => onChange({ order }), [onChange]);
 
   const validTagFilterExpressionResult =
-    useObservable(isQueryValid(tagFilterExpression, timeConfig), [tagFilterExpression, timeConfig]) ?? pendingResult;
-  const validGroupResult =
-    useObservable(isGroupingConfigurationValid(group, timeConfig), [group, timeConfig]) ?? pendingResult;
+    useObservable(getIsQueryValidObservable, [tagFilterExpression, timeConfig]) ?? pendingResult;
+  const validGroupResult = useObservable(getIsGroupingValidObservable, [group, timeConfig]) ?? pendingResult;
   // in case of a pending result (validTagFilterExpressionResult.data === null) we do not want to show the user an error message
   const isValid = validTagFilterExpressionResult.data === true && validGroupResult.data === true;
   const isInvalid = validTagFilterExpressionResult.data === false && validGroupResult.data === false;
@@ -76,13 +75,7 @@ function InfraExploreViewWithFixatedTimeConfig() {
     tagFilterExpression
   ]);
 
-  const availableMetrics =
-    useObservable(getMetrics({ timeConfig, tagFilterExpression: backendQueryModel, type }), [
-      timeConfig,
-      backendQueryModel,
-      type
-    ]) || [];
-
+  const availableMetrics = useObservable(getMetricsObservable, [timeConfig, backendQueryModel, type]) || [];
   const metrics = fromUrlMetrics({ urlMetrics, availableMetrics });
 
   const onTagFilterExpressionChange = useCallback(tagFilterExpression => onChange({ tagFilterExpression }), [onChange]);
@@ -157,4 +150,16 @@ function InfraExploreViewWithFixatedTimeConfig() {
       </LeftRightPadding>
     </InfraPageHeaderWithTabs>
   );
+}
+
+function getIsQueryValidObservable([tagFilterExpression, timeConfig]) {
+  return isQueryValid(tagFilterExpression, timeConfig);
+}
+
+function getIsGroupingValidObservable([group, timeConfig]) {
+  return isGroupingConfigurationValid(group, timeConfig);
+}
+
+function getMetricsObservable([timeConfig, backendQueryModel, type]) {
+  return getMetrics({ timeConfig, tagFilterExpression: backendQueryModel, type });
 }

@@ -21,4 +21,4 @@ const {
 
 export default GroupingConfigurator;
 
-export const isCallGroupingConfigurationValid = isGroupingConfigurationValidInternal;
+export const isCallGroupingConfigurationValid = params => isGroupingConfigurationValidInternal(...params);

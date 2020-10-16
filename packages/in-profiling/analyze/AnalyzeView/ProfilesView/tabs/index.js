@@ -106,22 +106,11 @@ function EnrichWithProfilesForHighlightedTimeframe(props) {
 
   const highlightedTimeframe = useObservable(highlightedTimeframe$, []);
 
-  const profilesForHighlightedTimeframeResult = useObservable(
-    highlightedTimeframe
-      ? getProfiles({
-          processSnapshotId: processId,
-          filter: {
-            timeConfig: {
-              ...timeConfig,
-              windowSize: highlightedTimeframe[1] - highlightedTimeframe[0],
-              focusedMoment: highlightedTimeframe[1],
-              to: highlightedTimeframe[1]
-            }
-          }
-        }).distinct()
-      : just(null),
-    [processId, timeConfig, highlightedTimeframe]
-  );
+  const profilesForHighlightedTimeframeResult = useObservable(getProfilesForHighlightedTimeframeResult, [
+    highlightedTimeframe,
+    processId,
+    timeConfig
+  ]);
 
   return children({ ...props, profilesForHighlightedTimeframeResult, highlightedTimeframe });
 }
@@ -136,4 +125,20 @@ function getProfileForHighlightedTimeframeResult(profilesForHighlightedTimeframe
   }
   const profile = profilesForHighlightedTimeframeResult.data[fieldName];
   return success(profile);
+}
+
+function getProfilesForHighlightedTimeframeResult([highlightedTimeframe, processId, timeConfig]) {
+  return highlightedTimeframe
+    ? getProfiles({
+        processSnapshotId: processId,
+        filter: {
+          timeConfig: {
+            ...timeConfig,
+            windowSize: highlightedTimeframe[1] - highlightedTimeframe[0],
+            focusedMoment: highlightedTimeframe[1],
+            to: highlightedTimeframe[1]
+          }
+        }
+      }).distinct()
+    : just(null);
 }

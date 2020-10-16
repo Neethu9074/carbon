@@ -4,7 +4,6 @@ import getRegionForAwsLambdaVersion from 'in-subscription/getRegionForAwsLambdaV
 import getLambdaFunctionForVersion from 'in-subscription/getLambdaFunctionForVersion';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { getTimeConfigAtMoment } from 'in-stores/time/config';
-import { alwaysNull } from 'in-services/fixedStreams';
 import useObservable from 'in-hooks/useObservable';
 import Link from 'in-components/Link';
 
@@ -16,25 +15,8 @@ export default function InfrastructureTabSubscript({ snapshot, time }) {
   }
 
   const snapshotId = snapshot.get('id');
-
-  const awsLambdaFunctionSnapshotId = useObservable(
-    snapshotId
-      ? getLambdaFunctionForVersion({
-          snapshotId: snapshotId,
-          timeConfig: getTimeConfigAtMoment(time)
-        })
-      : alwaysNull,
-    [snapshotId, time]
-  );
-  const regionSnapshotId = useObservable(
-    snapshotId
-      ? getRegionForAwsLambdaVersion({
-          snapshotId: snapshotId,
-          timeConfig: getTimeConfigAtMoment(time)
-        })
-      : alwaysNull,
-    [snapshotId, time]
-  );
+  const awsLambdaFunctionSnapshotId = useObservable(getLambdaFunctionForVersionObservable, [snapshotId, time]);
+  const regionSnapshotId = useObservable(getRegionForAwsLambdaVersionObservable, [snapshotId, time]);
 
   const versionLabel = snapshot.getIn(['data', 'version'], '$LATEST');
   const functionName = snapshot.getIn(['data', 'name'], '?');
@@ -61,4 +43,24 @@ function linkIfPossible(snapshotId, label) {
 
 function subscriptLink(snapshotId) {
   return getDashboardLink(snapshotId, { pathname: '/physical/dashboard' });
+}
+
+function getLambdaFunctionForVersionObservable([snapshotId, time]) {
+  return (
+    snapshotId &&
+    getLambdaFunctionForVersion({
+      snapshotId: snapshotId,
+      timeConfig: getTimeConfigAtMoment(time)
+    })
+  );
+}
+
+function getRegionForAwsLambdaVersionObservable([snapshotId, time]) {
+  return (
+    snapshotId &&
+    getRegionForAwsLambdaVersion({
+      snapshotId: snapshotId,
+      timeConfig: getTimeConfigAtMoment(time)
+    })
+  );
 }

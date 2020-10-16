@@ -21,11 +21,7 @@ export default connectTo(
     timeConfig: timeConfig$
   },
   function MapSidebar({ snapshot, windowHeight, timeConfig }) {
-    const plugin = snapshot?.get('plugin');
-    const SidebarImpl = useObservable(plugin && fromPromise(getForgeComponent(`./${plugin}/Sidebar/Details.js`)), [
-      plugin
-    ]);
-
+    const SidebarImpl = useObservable(getSidebarImpl, [snapshot?.get('plugin')]);
     if (!snapshot || !SidebarImpl) {
       return null;
     }
@@ -52,3 +48,7 @@ export default connectTo(
     );
   }
 );
+
+function getSidebarImpl([plugin]) {
+  return plugin && fromPromise(getForgeComponent(`./${plugin}/Sidebar/Details.js`));
+}

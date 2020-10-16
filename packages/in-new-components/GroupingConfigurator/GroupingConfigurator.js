@@ -20,7 +20,7 @@ export default function GroupingConfigurator({
   getSuggestions
 }) {
   const timeConfig = useTimeConfig();
-  const tagCatalog = useObservable(getTagCatalog({ timeConfig }), [getTagCatalog]);
+  const tagCatalog = useObservable(getTagCatalogObservable, [getTagCatalog, timeConfig]);
   const autoFocus = useRef();
 
   if (!tagCatalog?.data) {
@@ -90,3 +90,7 @@ GroupingConfigurator.propTypes = {
   getSuggestions: rpt.func.isRequired,
   tagFilterExpression: rpt.object.isRequired
 };
+
+function getTagCatalogObservable([getTagCatalog, timeConfig]) {
+  return getTagCatalog({ timeConfig });
+}

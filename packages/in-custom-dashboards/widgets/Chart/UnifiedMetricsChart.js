@@ -109,7 +109,7 @@ function useResultData(config, timeConfig) {
       })
   );
 
-  return useObservable(getUnifiedMetrics({ metrics }), [timeConfig, config]);
+  return useObservable(() => getUnifiedMetrics({ metrics }), [timeConfig, config]);
 }
 
 function toAxisConfiguration(name, axis) {

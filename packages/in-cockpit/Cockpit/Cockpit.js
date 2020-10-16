@@ -1,5 +1,5 @@
-import React from 'react';
 import theme from 'in-themes';
+import React from 'react';
 
 import DashboardHeaderShadowModule from 'in-new-components/DashboardHeader/DashboardHeaderShadowModule';
 import { setLandingPage, isLandingPage } from 'in-client/js/LandingPage/supportedLandingPages/cockpit';
@@ -213,10 +213,7 @@ const Content = getElementDimensions(function Content({ itemOrder, width, timeCo
   };
 
   const renderNavigation = width > 1200;
-  const entityResult = useObservable(
-    applicationId ? getApplicationConfig(applicationId) : successObservable(createNewApplicationConfig()),
-    [applicationId]
-  );
+  const entityResult = useObservable(getConfig, [applicationId]);
 
   return (
     <div className={locals.wrapper}>
@@ -378,4 +375,8 @@ function getWebsiteAndMobileLabel() {
     return 'Mobile Apps';
   }
   return 'Websites & Mobile Apps';
+}
+
+function getConfig([applicationId]) {
+  return applicationId ? getApplicationConfig(applicationId) : successObservable(createNewApplicationConfig());
 }

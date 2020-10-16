@@ -8,7 +8,7 @@ import Card from 'in-new-components/Card';
 import locals from './Widget.mless';
 
 export default function TimeZonesWidget({ title, config: timeZones, actions, isPreview, dragHandle }) {
-  const serverTime = useObservable(serverTime$.nextFrame().throttle(10000), []) ?? Date.now();
+  const serverTime = useObservable(getServerTime, []) ?? Date.now();
 
   return (
     <Card
@@ -58,4 +58,8 @@ function TimeZone({ serverTime, label, timeZone }) {
       <dd className={locals.time}>{formatter.format(new Date(serverTime))}</dd>
     </div>
   );
+}
+
+function getServerTime() {
+  return serverTime$.nextFrame().throttle(10000);
 }

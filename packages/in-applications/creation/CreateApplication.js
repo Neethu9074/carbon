@@ -11,10 +11,7 @@ import useObservable from 'in-hooks/useObservable';
 import Button from 'in-new-components/Button';
 
 export default function CreateApplication({ applicationId, timeConfig, className }) {
-  const entityResult = useObservable(
-    applicationId ? getApplicationConfig(applicationId) : successObservable(createNewApplicationConfig()),
-    [applicationId]
-  );
+  const entityResult = useObservable(getConfig, [applicationId]);
 
   return (
     <Button
@@ -41,4 +38,8 @@ export default function CreateApplication({ applicationId, timeConfig, className
 
 export function getNewApplicationWaiterViewPath(app) {
   return `${newApplicationWaiterView}/${encodeURIComponent(app.id)}/${encodeURIComponent(app.label)}`;
+}
+
+function getConfig([applicationId]) {
+  return applicationId ? getApplicationConfig(applicationId) : successObservable(createNewApplicationConfig());
 }

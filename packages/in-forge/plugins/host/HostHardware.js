@@ -1,9 +1,9 @@
 import { fromPromise } from 'reactive-observables';
 import React from 'react';
 
+import { getForgeComponent } from 'in-services/getForgeComponent';
 import { getSnapshot, getFoundations } from 'in-stores/snapshot';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
-import { getForgeComponent } from 'in-services/getForgeComponent';
 import { alwaysNull } from 'in-services/fixedStreams';
 import useObservable from 'in-hooks/useObservable';
 import { getSingular } from 'in-sdk/pluginName';
@@ -18,12 +18,7 @@ export default connectTo(
     };
   },
   function HostHardware({ foundationSnapshot }) {
-    const foundationSnapshotPlugin = foundationSnapshot?.get('plugin');
-    const Details = useObservable(
-      foundationSnapshotPlugin && fromPromise(getForgeComponent(`./${foundationSnapshotPlugin}/Info.js`)),
-      [foundationSnapshotPlugin]
-    );
-
+    const Details = useObservable(getDetails, [foundationSnapshot?.get('plugin')]);
     if (!foundationSnapshot || !Details) {
       return null;
     }
@@ -40,3 +35,7 @@ export default connectTo(
     );
   }
 );
+
+function getDetails([plugin]) {
+  return plugin && fromPromise(getForgeComponent(`./${plugin}/Info.js`));
+}

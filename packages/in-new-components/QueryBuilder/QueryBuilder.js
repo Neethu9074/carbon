@@ -47,9 +47,10 @@ export default function QueryBuilderErrorBoundry(props) {
 
 function QueryBuilder({ value: formModel, onChange, getTagCatalog, getSuggestions }) {
   const timeConfig = useTimeConfig();
-  const tagCatalog = useObservable(getTagCatalog({ timeConfig }), [getTagCatalog]);
-  const resolvedCreateTagForm = tagCatalog?.data && createTagForm.bind(null, tagCatalog);
   const [draggedFormModelIndex$] = useState(create());
+  const tagCatalog = useObservable(getTagCatalogObservable, [getTagCatalog, timeConfig]);
+
+  const resolvedCreateTagForm = tagCatalog?.data && createTagForm.bind(null, tagCatalog);
 
   const refContainer = useRef();
   // To allow re-rendering when no React state has changed. We use this when we change the
@@ -299,3 +300,7 @@ QueryBuilder.propTypes = {
   getTagCatalog: rpt.func.isRequired,
   getSuggestions: rpt.func.isRequired
 };
+
+function getTagCatalogObservable([getTagCatalog, timeConfig]) {
+  return getTagCatalog({ timeConfig });
+}

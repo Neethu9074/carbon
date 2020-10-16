@@ -29,4 +29,5 @@ const { QueryBuilder, isQueryValid: isQueryValidInternal } = createQueryBuilder(
 
 export default QueryBuilder;
 
-export const isCallQueryValid = isQueryValidInternal;
+export const isCallQueryValid = ([tagFilterExpression, timeConfig]) =>
+  isQueryValidInternal(tagFilterExpression, timeConfig);

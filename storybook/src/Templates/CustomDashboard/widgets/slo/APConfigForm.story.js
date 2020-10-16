@@ -23,11 +23,7 @@ export function Default() {
     action('selected new apConfig')(newApConfigId);
   };
 
-  const apConfigs = useObservable(
-    getApplicationConfigsAsResultObservable().map(({ data }) => data),
-    []
-  );
-
+  const apConfigs = useObservable(getApplicationConfigObservable, []);
   return (
     <APConfigForm
       apConfigIdField={form.get(apConfigId)}
@@ -35,4 +31,8 @@ export function Default() {
       onUpdateApConfigId={onUpdateApConfigId}
     />
   );
+}
+
+function getApplicationConfigObservable() {
+  return getApplicationConfigsAsResultObservable().map(({ data }) => data);
 }

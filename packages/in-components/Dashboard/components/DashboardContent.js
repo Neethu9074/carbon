@@ -51,12 +51,8 @@ export default connectTo(
     versionsForLive
   }) {
     const plugin = snapshot?.get('plugin');
-    const DashboardImpl = useObservable(plugin && fromPromise(getForgeComponent(`./${plugin}/Dashboard/Content.js`)), [
-      plugin
-    ]);
-    const SidebarImpl = useObservable(plugin && fromPromise(getForgeComponent(`./${plugin}/Dashboard/Sidebar.js`)), [
-      plugin
-    ]);
+    const DashboardImpl = useObservable(getDashboardImpl, [plugin]);
+    const SidebarImpl = useObservable(getSidebarImpl, [plugin]);
 
     if (
       (!snapshot && !showVersionSelector) ||
@@ -132,4 +128,12 @@ function getSnapshotVersionsByTime(timeConfig) {
 
     return getSnapshotVersions(snapshotId, timeConfig).startWith(null);
   });
+}
+
+function getDashboardImpl([plugin]) {
+  return plugin && fromPromise(getForgeComponent(`./${plugin}/Dashboard/Content.js`));
+}
+
+function getSidebarImpl([plugin]) {
+  return plugin && fromPromise(getForgeComponent(`./${plugin}/Dashboard/Sidebar.js`));
 }

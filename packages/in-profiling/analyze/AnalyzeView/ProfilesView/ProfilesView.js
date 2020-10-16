@@ -38,7 +38,6 @@ export default function ProfilesViewUrlStateExtractor(props) {
 
 function TimeFixater(props) {
   let { timeConfig, time } = props;
-
   const highlightedTimeframe = useObservable(highlightedTimeframe$, []);
 
   // Fixate time config when a highlight is made.
@@ -76,30 +75,25 @@ function ProfilesView(props) {
   const hierachy$ = getPhysicalHierarchy({ snapshotId: processId, timeConfigForSnapshots }).filter(
     hierarchy => hierarchy && hierarchy.size > 0
   );
-  const hierachySnapshots$ = hierachy$.flatMap(hierachy => getSnapshots(hierachy.toJS(), timeConfigForSnapshots));
-  const deepestTechSnapshot = useObservable(
-    hierachy$.flatMap(hierachy => getSnapshot(hierachy.get(0), timeConfigForSnapshots)),
-    [timeConfigForSnapshots.to, timeConfigForSnapshots.windowSize]
+  const hierachySnapshots$ = hierachy$.flatMap(hierachy =>
+    getSnapshots(hierachy.toJS(), ...spreadTimeConfig(timeConfigForSnapshots))
   );
-  const historicalProcessSnapshot = useObservable(getSnapshot(processId, timeConfigForSnapshots), [
-    processId,
-    timeConfigForSnapshots.to,
-    timeConfigForSnapshots.windowSize
+  const deepestTechSnapshot = useObservable(getDeepestTechSnapshot, [
+    hierachy$,
+    ...spreadTimeConfig(timeConfigForSnapshots)
   ]);
-  const processSnapshot = useObservable(getSnapshot(processId, timeConfig), [
+  const historicalProcessSnapshot = useObservable(getHistoricalProcessSnapshot, [
     processId,
-    timeConfig.to,
-    timeConfig.windowSize
+    ...spreadTimeConfig(timeConfigForSnapshots)
   ]);
+  const processSnapshot = useObservable(getProcessSnapshot, [processId, timeConfig]);
   const jvmSnapshot = useObservable(
-    hierachySnapshots$.map(hierarchySnapshots => getSnapshotWithPlugin(hierarchySnapshots, plugins.jvmRuntimePlatform)),
-    []
+    () => getJvmSnapshot([hierachySnapshots$]),
+    spreadTimeConfig(timeConfigForSnapshots)
   );
   const phpSnapshot = useObservable(
-    hierachySnapshots$.map(hierarchySnapshots =>
-      getSnapshotWithPlugins(hierarchySnapshots, [plugins.phpFpmRuntimePlatform, plugins.phpRuntimePlatform])
-    ),
-    []
+    () => getPhpSnapshot([hierachySnapshots$]),
+    spreadTimeConfig(timeConfigForSnapshots)
   );
 
   // we only allow source code when using a jvm based tech
@@ -197,4 +191,32 @@ function getSnapshotWithPlugin(snapshots, plugin) {
 
 function getSnapshotWithPlugins(snapshots, _plugins) {
   return snapshots.filter(snapshot => _plugins.indexOf(snapshot.get('plugin') !== -1))[0];
+}
+
+function getHistoricalProcessSnapshot([processId, timeConfigForSnapshots]) {
+  return getSnapshot(processId, timeConfigForSnapshots);
+}
+
+function getProcessSnapshot([processId, timeConfig]) {
+  return getSnapshot(processId, timeConfig);
+}
+
+function getJvmSnapshot([hierachySnapshots$]) {
+  return hierachySnapshots$.map(hierarchySnapshots =>
+    getSnapshotWithPlugin(hierarchySnapshots, plugins.jvmRuntimePlatform)
+  );
+}
+
+function getDeepestTechSnapshot([hierachy$, timeConfigForSnapshots]) {
+  return hierachy$.flatMap(hierachy => getSnapshot(hierachy.get(0), timeConfigForSnapshots));
+}
+
+function getPhpSnapshot([hierachySnapshots$]) {
+  return hierachySnapshots$.map(hierarchySnapshots =>
+    getSnapshotWithPlugins(hierarchySnapshots, [plugins.phpFpmRuntimePlatform, plugins.phpRuntimePlatform])
+  );
+}
+
+function spreadTimeConfig(timeConfig) {
+  return [timeConfig.to, timeConfig.focusedMoment, timeConfig.windowSize, timeConfig.autoRefresh];
 }

@@ -58,7 +58,7 @@ const { TagBasedPayloadConfigurator } = createTagBasedPayloadConfigurator({
 });
 
 export default function CustomPayloadPage() {
-  const result = useObservable(getGlobalCustomPayloadAsResultObservable(), []) ?? pendingResult;
+  const result = useObservable(getGlobalCustomPayloadAsResultObservable, []) ?? pendingResult;
   const { savingState, save } = useSaveToServerHandler(saveGlobalCustomPayload, logger);
   if (isLoading(result)) {
     return null;

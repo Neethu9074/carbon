@@ -1,3 +1,4 @@
+import { empty } from 'reactive-observables';
 import React from 'react';
 
 import CursorPaginatedTable from 'in-components/tables/ServerTable/CursorPaginatedTable';
@@ -14,7 +15,6 @@ import HealthDot from 'in-new-components/health/HealthDot';
 import { callClickedTracker } from 'in-analyze/tracker';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import useObservable from 'in-hooks/useObservable';
-import { empty } from 'reactive-observables';
 import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './CallsList.mless';
@@ -48,11 +48,7 @@ export default function CallsList({
   );
 
   const columnDefinitions =
-    useObservable(getColumnDefinitions({ timeConfig, tagFilterExpression, items }), [
-      timeConfig,
-      tagFilterExpression,
-      items
-    ]) || staticColumnDefinitions;
+    useObservable(getColumnDefinitions, [timeConfig, tagFilterExpression, items]) || staticColumnDefinitions;
 
   const optionalColumns = () => columnDefinitions.filter(columnDefinition => columnDefinition.optional);
 
@@ -182,7 +178,7 @@ const staticColumnDefinitions = [
   }
 ];
 
-function getColumnDefinitions() {
+function getColumnDefinitions(/*[timeConfig, tagFilterExpression, items]*/) {
   // Here is where a dynamic list of columns would go
   // Do not forget to concat staticColumnDefinitions
   return empty;

@@ -21,6 +21,11 @@ export default function useObservable(
 ) {
   invariant(fieldsToWatch, 'fieldsToWatch (second parameter) must be defined.');
 
+  // once the refactoring is done, we can assume to always get a function here
+  if (typeof observable === 'function') {
+    observable = observable(fieldsToWatch);
+  }
+
   // We access a field _lastEmittedValue from observables in order to avoid excessive updates.
   // This helps because our observables are often able to synchronously provide the latest state.
   // Therefore the value from the initial subscribe call can often be ignored.

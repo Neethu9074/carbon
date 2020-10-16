@@ -9,7 +9,32 @@ import useObservable from 'in-hooks/useObservable';
 
 export default function EndpointSelectBox({ applicationId, serviceId, boundaryScope, value, onChange }) {
   const timeConfig = useTimeConfig();
-  const endpoints$ = getEndpoints({
+  const endpoints =
+    useObservable(getEndpointsObservable, [applicationId, serviceId, boundaryScope, timeConfig]) ?? pendingResult;
+
+  const { data } = endpoints;
+  const endpointItems = data?.items?.map(({ endpoint }) => ({ value: endpoint.id, label: endpoint.label }));
+
+  if (isLoading(endpoints)) {
+    return <FormDropDown options={[{ value: '', label: '<loading>' }]} disabled />;
+  }
+
+  return (
+    <>
+      {
+        <FormDropDown
+          disabled={hasError(endpoints)}
+          options={[{ value: '', label: 'All Endpoints' }, ...(endpointItems ?? [])]}
+          value={value ?? ''}
+          onChange={({ target }) => onChange?.(target?.value)}
+        />
+      }
+    </>
+  );
+}
+
+function getEndpointsObservable([applicationId, serviceId, boundaryScope, timeConfig]) {
+  return getEndpoints({
     pagination: {
       page: 1,
       pageSize: 100
@@ -32,25 +57,4 @@ export default function EndpointSelectBox({ applicationId, serviceId, boundarySc
     },
     contextScope: 'NONE'
   });
-
-  const endpoints = useObservable(endpoints$, [applicationId, serviceId, boundaryScope, timeConfig]) ?? pendingResult;
-  const { data } = endpoints;
-  const endpointItems = data?.items?.map(({ endpoint }) => ({ value: endpoint.id, label: endpoint.label }));
-
-  if (isLoading(endpoints)) {
-    return <FormDropDown options={[{ value: '', label: '<loading>' }]} disabled />;
-  }
-
-  return (
-    <>
-      {
-        <FormDropDown
-          disabled={hasError(endpoints)}
-          options={[{ value: '', label: 'All Endpoints' }, ...(endpointItems ?? [])]}
-          value={value ?? ''}
-          onChange={({ target }) => onChange?.(target?.value)}
-        />
-      }
-    </>
-  );
 }

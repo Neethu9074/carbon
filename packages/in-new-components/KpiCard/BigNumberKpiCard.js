@@ -59,7 +59,7 @@ export default function BigNumberKpiCard({
   }
 
   const result =
-    useObservable(getUnifiedMetrics({ metrics }), [config, timeConfig, config.metricConfiguration.timeShift]) ??
+    useObservable(() => getUnifiedMetrics({ metrics }), [config, timeConfig, config.metricConfiguration.timeShift]) ??
     pendingResult;
 
   return (

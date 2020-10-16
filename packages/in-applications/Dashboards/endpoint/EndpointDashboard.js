@@ -32,7 +32,6 @@ import useTimeConfig from 'in-hooks/useTimeConfig';
 import useObservable from 'in-hooks/useObservable';
 import useUrlState from 'in-hooks/useUrlState';
 import Footer from 'in-new-components/Footer';
-import { empty } from 'reactive-observables';
 import { role } from 'in-stores/user';
 
 export default function EndpointDashboard({ location }) {
@@ -60,9 +59,11 @@ export default function EndpointDashboard({ location }) {
   };
 
   const missingBoundaryScope = props.applicationId && !props.boundaryScope;
-  const application = useObservable(missingBoundaryScope ? getApplication({ id: props.applicationId }) : empty, [
-    props.applicationId
-  ]);
+  function getBoundaryScope([id, _missingBoundaryScope]) {
+    return _missingBoundaryScope && getApplication({ id });
+  }
+  const application = useObservable(getBoundaryScope, [props.applicationId, missingBoundaryScope]);
+
   if (missingBoundaryScope) {
     // as long as the boundaryScope is not loaded use the default scope
     props.boundaryScope = application?.data?.boundaryScope || boundaryScopes.default;

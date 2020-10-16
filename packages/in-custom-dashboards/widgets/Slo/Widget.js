@@ -140,21 +140,18 @@ export default function Widget({ actions, config, isPreview, title, dragHandle }
     }
   };
 
-  const result = useObservable(getUnifiedMetrics({ metrics }), [timeConfig, config]) ?? pendingResult;
+  const result = useObservable(getUnifiedMetricsObservable, [timeConfig, config, metrics]) ?? pendingResult;
 
   const findResultMetric = id => {
     return (result?.data ?? []).find(dataSeries => dataSeries.id === id)?.values;
   };
 
+  const sliConfig = useObservable(getSliConfigurationObservable, [sliConfigIdValue]);
+
   const sli = findResultMetric('sli')?.[0][1];
   const budget = findResultMetric('budget')?.[0][1];
   const remaining = findResultMetric('remaining')?.[0][1];
   const spent = findResultMetric('spent')?.[0][1];
-
-  const sliConfig = useObservable(
-    getSliConfiguration(sliConfigIdValue).map(({ data }) => data),
-    [sliConfigIdValue]
-  );
 
   const sliColor = slo === null || sli === null ? '' : sli >= slo ? green800 : red800;
   const budgetColor = !remaining ? '' : remaining > 0 ? green800 : red800;
@@ -261,4 +258,12 @@ function getGranularity(timeConfig) {
     return oneMinute;
   }
   return oneHour;
+}
+
+function getUnifiedMetricsObservable([, , metrics]) {
+  return getUnifiedMetrics({ metrics });
+}
+
+function getSliConfigurationObservable([sliConfigIdValue]) {
+  return getSliConfiguration(sliConfigIdValue).map(({ data }) => data);
 }

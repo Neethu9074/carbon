@@ -31,11 +31,7 @@ export default function BeeInstanaDashboard({ snapshot, timeConfig }) {
             />
           </KpiKeyValue>
           <KpiKeyValue label="Errors">
-            <MetricValue
-              snapshotId={snapshotId}
-              metric="Ingestor.KafkaConsumer.Error.sum"
-              formatter={number.compact}
-            />
+            <MetricValue snapshotId={snapshotId} metric="Ingestor.KafkaConsumer.Error.sum" formatter={number.compact} />
           </KpiKeyValue>
           <KpiKeyValue label="SpillOver">
             <MetricValue
@@ -79,9 +75,7 @@ export default function BeeInstanaDashboard({ snapshot, timeConfig }) {
             }}
             y2={{
               min: 0,
-              metrics: [
-                'Ingestor.KafkaConsumer.MessageDelay.max'
-              ],
+              metrics: ['Ingestor.KafkaConsumer.MessageDelay.max'],
               labels: ['Message delay'],
               type: 'line',
               formatter: millis.compact
@@ -116,18 +110,14 @@ export default function BeeInstanaDashboard({ snapshot, timeConfig }) {
             timeConfig={timeConfig}
             y1={{
               min: 0,
-              metrics: [
-                'Ingestor.AggregatorFlushByTimeAndPartition.Duration.max'
-              ],
+              metrics: ['Ingestor.AggregatorFlushByTimeAndPartition.Duration.max'],
               labels: ['Duration'],
               type: 'line',
               formatter: seconds.detailed
             }}
             y2={{
               min: 0,
-              metrics: [
-                'Ingestor.AggregatorFlushByTimeAndPartition.Duration.count'
-              ],
+              metrics: ['Ingestor.AggregatorFlushByTimeAndPartition.Duration.count'],
               labels: ['Count'],
               type: 'line',
               formatter: number.compact
@@ -142,20 +132,14 @@ export default function BeeInstanaDashboard({ snapshot, timeConfig }) {
             timeConfig={timeConfig}
             y1={{
               min: 0,
-              metrics: [
-                'Ingestor.HttpSender.SucceededBytes.sum',
-                'Ingestor.HttpSender.FailedBytes.sum'
-              ],
+              metrics: ['Ingestor.HttpSender.SucceededBytes.sum', 'Ingestor.HttpSender.FailedBytes.sum'],
               labels: ['SucceededBytes', 'FailedBytes'],
               type: 'line',
               formatter: bytes.compact
             }}
             y2={{
               min: 0,
-              metrics: [
-                'Ingestor.HttpSender.SucceededBytes.count',
-                'Ingestor.HttpSender.FailedBytes.count'
-              ],
+              metrics: ['Ingestor.HttpSender.SucceededBytes.count', 'Ingestor.HttpSender.FailedBytes.count'],
               labels: ['Succeeded count', 'Failed count'],
               type: 'line',
               formatter: number.compact
@@ -216,10 +200,7 @@ export default function BeeInstanaDashboard({ snapshot, timeConfig }) {
             timeConfig={timeConfig}
             y1={{
               min: 0,
-              metrics: [
-                'Aggregator.AggregateBinary.SpillOver.sum',
-                'Aggregator.AggregatorStats.TaskQueueSize.max'
-              ],
+              metrics: ['Aggregator.AggregateBinary.SpillOver.sum', 'Aggregator.AggregatorStats.TaskQueueSize.max'],
               labels: ['SpillOver', 'TaskQueueSize'],
               type: 'line',
               formatter: number.detailed
@@ -234,19 +215,14 @@ export default function BeeInstanaDashboard({ snapshot, timeConfig }) {
             timeConfig={timeConfig}
             y1={{
               min: 0,
-              metrics: [
-                'Aggregator.GetMetrics.Timing.max',
-                'Aggregator.GetMetrics.Timing.min'
-              ],
+              metrics: ['Aggregator.GetMetrics.Timing.max', 'Aggregator.GetMetrics.Timing.min'],
               labels: ['Max latency', 'Min latency'],
               type: 'line',
               formatter: millis.compact
             }}
             y2={{
               min: 0,
-              metrics: [
-                'Aggregator.GetMetrics.Timing.count'
-              ],
+              metrics: ['Aggregator.GetMetrics.Timing.count'],
               labels: ['Request count'],
               type: 'line',
               formatter: number.compact
@@ -261,19 +237,14 @@ export default function BeeInstanaDashboard({ snapshot, timeConfig }) {
             timeConfig={timeConfig}
             y1={{
               min: 0,
-              metrics: [
-                'Aggregator.GetMetricData.Timing.max',
-                'Aggregator.GetMetricData.Timing.min'
-              ],
+              metrics: ['Aggregator.GetMetricData.Timing.max', 'Aggregator.GetMetricData.Timing.min'],
               labels: ['Max latency', 'Min latency'],
               type: 'line',
               formatter: millis.compact
             }}
             y2={{
               min: 0,
-              metrics: [
-                'Aggregator.GetMetricData.Timing.count'
-              ],
+              metrics: ['Aggregator.GetMetricData.Timing.count'],
               labels: ['Request count'],
               type: 'line',
               formatter: number.compact

@@ -10,18 +10,10 @@ import useObservable from 'in-hooks/useObservable';
 export default function ReleasesLane(props) {
   if (!props.clusterSizeMillis || !props.timeConfig) return null;
 
+  const { timeConfig, clusterSizeMillis, serviceId, applicationId } = props;
   const releases =
-    useObservable(
-      getReleaseClusters({
-        timeConfig: cleanUpChartTimeConfig(props.timeConfig),
-        granularity: props.clusterSizeMillis,
-        serviceId: props.serviceId,
-        applicationId: props.applicationId
-      })
-        .startWith(pendingResult)
-        .map(({ data }) => data),
-      [props.timeConfig, props.clusterSizeMillis, props.serviceId, props.applicationId]
-    ) ?? emptyArray;
+    useObservable(getReleaseClustersObservable, [timeConfig, clusterSizeMillis, serviceId, applicationId]) ??
+    emptyArray;
 
   return <ReleasesLanePresenter {...props} releases={releases} />;
 }
@@ -44,3 +36,14 @@ ReleasesLane.propTypes = {
   serviceId: PropTypes.string,
   applicationId: PropTypes.string
 };
+
+function getReleaseClustersObservable([timeConfig, clusterSizeMillis, serviceId, applicationId]) {
+  return getReleaseClusters({
+    timeConfig: cleanUpChartTimeConfig(timeConfig),
+    granularity: clusterSizeMillis,
+    serviceId: serviceId,
+    applicationId: applicationId
+  })
+    .startWith(pendingResult)
+    .map(({ data }) => data);
+}

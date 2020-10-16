@@ -562,14 +562,17 @@ function UnmonitoredEntity() {
 }
 
 function SubscriptComponentForSnapshot({ plugin, snapshot, time }) {
-  const snapshotDefinition = getOptionalSnapshotDefinition(plugin);
-  const Subscript = useObservable(
-    snapshotDefinition?.supportsInfrastructureTabSubscript &&
-      fromPromise(getForgeComponent(`./${plugin}/InfrastructureTabSubscript/InfrastructureTabSubscript.js`)),
-    [plugin]
-  );
+  const Subscript = useObservable(getTabSubscript, [plugin]);
   if (Subscript) {
     return <Subscript snapshot={snapshot} time={time} />;
   }
   return null;
+}
+
+function getTabSubscript([plugin]) {
+  const snapshotDefinition = getOptionalSnapshotDefinition(plugin);
+  return (
+    snapshotDefinition?.supportsInfrastructureTabSubscript &&
+    fromPromise(getForgeComponent(`./${plugin}/InfrastructureTabSubscript/InfrastructureTabSubscript.js`))
+  );
 }

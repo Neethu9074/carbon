@@ -25,10 +25,10 @@ import locals from './ProfileInformation.mless';
 export default function ProfileInformationSnapshotResolver({ processSnapshotId, ...remainingProps }) {
   const timeConfig = useTimeConfig();
 
-  const processEntitySnapshotIdResult = useObservable(
-    getProcessSnapshotId({ snapshotId: processSnapshotId, timeConfig }),
-    [processSnapshotId, timeConfig]
-  );
+  const processEntitySnapshotIdResult = useObservable(getProcessSnapshotId$, [processSnapshotId, timeConfig]);
+  function getProcessSnapshotId$([processSnapshotId, timeConfig]) {
+    return getProcessSnapshotId({ snapshotId: processSnapshotId, timeConfig });
+  }
 
   if (
     !processEntitySnapshotIdResult ||

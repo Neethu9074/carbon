@@ -4,7 +4,6 @@ import getEcsTaskForEcsContainer from 'in-subscription/getEcsTaskForEcsContainer
 import getRegionForEcsContainer from 'in-subscription/getRegionForEcsContainer';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { getTimeConfigAtMoment } from 'in-stores/time/config';
-import { alwaysNull } from 'in-services/fixedStreams';
 import useObservable from 'in-hooks/useObservable';
 import { shorten } from 'in-services/util/string';
 import SvgIcon from 'in-components/SvgIcon';
@@ -21,25 +20,8 @@ export default function InfrastructureTabSubscript({ snapshot, time }) {
   }
 
   const snapshotId = snapshot.get('id');
-
-  const taskSnapshotId = useObservable(
-    snapshotId
-      ? getEcsTaskForEcsContainer({
-          snapshotId: snapshotId,
-          timeConfig: getTimeConfigAtMoment(time)
-        })
-      : alwaysNull,
-    [snapshotId, time]
-  );
-  const regionSnapshotId = useObservable(
-    snapshotId
-      ? getRegionForEcsContainer({
-          snapshotId: snapshotId,
-          timeConfig: getTimeConfigAtMoment(time)
-        })
-      : alwaysNull,
-    [snapshotId, time]
-  );
+  const taskSnapshotId = useObservable(getEcsTaskForEcsContainerObservable, [snapshotId, time]);
+  const regionSnapshotId = useObservable(getRegionForEcsContainerObservable, [snapshotId, time]);
 
   const data = snapshot.get('data');
   if (!data) {
@@ -112,4 +94,24 @@ function subscriptLink(snapshotId) {
 
 function Icon({ type }) {
   return <SvgIcon className={locals.entitiyIcon} type={type} size="s" />;
+}
+
+function getEcsTaskForEcsContainerObservable([snapshotId, time]) {
+  return (
+    snapshotId &&
+    getEcsTaskForEcsContainer({
+      snapshotId: snapshotId,
+      timeConfig: getTimeConfigAtMoment(time)
+    })
+  );
+}
+
+function getRegionForEcsContainerObservable([snapshotId, time]) {
+  return (
+    snapshotId &&
+    getRegionForEcsContainer({
+      snapshotId: snapshotId,
+      timeConfig: getTimeConfigAtMoment(time)
+    })
+  );
 }

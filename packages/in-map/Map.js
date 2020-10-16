@@ -19,9 +19,8 @@ import 'in-map/stores/statisticsStore';
 import locals from 'in-map/Map.mless';
 
 export default function Map() {
-  const antialias = useObservable(getSetting$('map_antialias'), []);
+  const antialias = useObservable(getAntiAliasObservable, []);
   const view = useObservable(view$, []);
-
   const ref = useRef();
 
   useDisabledBodyScroll();
@@ -112,4 +111,8 @@ function onRestored(event) {
   // and setup your state (clearColor, blendFunc, depthFunc, etc...)
   // to make it short... reload the page
   window.location.reload();
+}
+
+function getAntiAliasObservable() {
+  return getSetting$('map_antialias');
 }

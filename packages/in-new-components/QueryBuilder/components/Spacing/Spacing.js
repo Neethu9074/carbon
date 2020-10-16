@@ -11,6 +11,7 @@ import ConjunctionTagSelectorOverlay from 'in-new-components/QueryBuilder/Conjun
 import { isPrimaryInteractiveElement, isDefaultInteractionTrigger } from 'in-new-components/interactiveCustomElement';
 import { and, or, not } from 'in-new-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import Suggestions from 'in-new-components/QueryBuilder/components/Spacing/Suggestions';
+import { DESTINATION } from 'in-new-components/QueryBuilder/tagFilter/entities';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import Overlay from 'in-new-components/overlays/Overlay';
@@ -18,7 +19,6 @@ import useObservable from 'in-hooks/useObservable';
 import keyCodes from 'in-components/keyCodes';
 
 import locals from './Spacing.mless';
-import { DESTINATION } from '../../tagFilter/entities';
 
 export default function Spacing({
   element,
@@ -33,13 +33,10 @@ export default function Spacing({
   // as this would place the focus onto the wrong element.
   const lastTimeExternalAddToFormModelWasCalledRef = useRef();
   const { renderModelIndex, leftFormModelIndex, rightFormModelIndex, suggestions, size } = element;
-  const isHighlightedThroughDrag = useObservable(
-    draggedFormModelIndex$
-      .distinct()
-      .map(draggedFormModelIndex => rightFormModelIndex === draggedFormModelIndex)
-      .distinct(),
-    [draggedFormModelIndex$, rightFormModelIndex]
-  );
+  const isHighlightedThroughDrag = useObservable(getIsHighlightedThroughDrag, [
+    draggedFormModelIndex$,
+    rightFormModelIndex
+  ]);
 
   return (
     <Overlay
@@ -139,4 +136,11 @@ export default function Spacing({
       });
     }
   }
+}
+
+function getIsHighlightedThroughDrag([draggedFormModelIndex$, rightFormModelIndex]) {
+  return draggedFormModelIndex$
+    .distinct()
+    .map(draggedFormModelIndex => rightFormModelIndex === draggedFormModelIndex)
+    .distinct();
 }

@@ -80,13 +80,21 @@ const {QueryBuilder, isQueryValid} = createQueryBuilder({
   }>>
 });
 
+function getIsQueryValid([value]) {
+   return isQueryValid(value)
+}
+
+function getToFormModel([tagFiltersArray]) {
+   return toFormModel(tagFiltersArray)
+}
+
 function MyQueryBuilder({value, onChange}) {
   // valid is a Result<Boolean>
-  const valid = useObservable(isQueryValid(value), [value]);
+  const valid = useObservable(isQueryValid, [value]);
   console.log('Provided query is valid?', valid);
 
   // FormModel is a Result<FormModel>
-  const formModel = useObservable(toFormModel(tagFiltersArray), [tagFiltersArray]);
+  const formModel = useObservable(getToFormModel, [tagFiltersArray]);
   console.log('Tag filters array converted to query builder form model:', formModel);
 
   return (

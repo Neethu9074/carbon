@@ -27,7 +27,7 @@ import locals from './Usage.mless';
 const aggregatedState = { label: 'All units (aggregated)' };
 
 export default function UsageWithAccountInfo() {
-  const accountResult = useObservable(getAccountAsResultObservable(), []);
+  const accountResult = useObservable(getAccountAsResultObservable, []);
   if (!accountResult || hasError(accountResult) || isLoading(accountResult)) {
     return <ApiItemView hideFooter result={accountResult ?? pendingResult} />;
   }

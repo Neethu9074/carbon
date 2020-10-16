@@ -36,16 +36,10 @@ export default function SimpleModeContainer({
   const [selectedBlueprint, setSelectedBlueprint] = useState(blueprintConfig[0]);
 
   const jsForm = form.toJS();
-  const matchSpecification = jsForm.matchSpecification;
   const downstreamScope = jsForm.scope;
+  const matchSpecification = jsForm.matchSpecification;
   const matchSpecificationTree = mapMatchSpecificationListToTree(matchSpecification);
-
-  // The live view is based on historic data from last hour
-  const liveViewTimeConfig = { to: null, windowSize: 3600000, focusedMoment: null, autoRefresh: false };
-  const servicesLiveList = useObservable(
-    getStreamData({ timeConfig: liveViewTimeConfig, matchSpecificationTree, downstreamScope }),
-    [form]
-  );
+  const servicesLiveList = useObservable(getStreamData, [downstreamScope, matchSpecificationTree]);
 
   return (
     <SimpleModePageNavigation
@@ -90,14 +84,15 @@ export default function SimpleModeContainer({
   );
 }
 
-function getStreamData({ page = 1, pageSize = 100, timeConfig, matchSpecificationTree, downstreamScope }) {
+function getStreamData([downstreamScope, matchSpecificationTree]) {
   if (!matchSpecificationTree) {
     return successObservable([]);
   }
 
   return getApplicationLiveView({
-    timeConfig,
-    pagination: { page, pageSize },
+    // The live view is based on historic data from last hour
+    timeConfig: { to: null, windowSize: 3600000, focusedMoment: null, autoRefresh: false },
+    pagination: { page: 1, pageSize: 100 },
     matchExpression: matchSpecificationTree,
     downstreamScope
   });

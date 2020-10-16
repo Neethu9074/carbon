@@ -7,24 +7,7 @@ import useObservable from 'in-hooks/useObservable';
 import { getSnapshot } from 'in-stores/snapshot';
 
 export default function PhpSnapshot({ snapshotId, initiallyOpen }) {
-  const companions = useObservable(
-    getProcessCompanions(snapshotId)
-      .flatMap(companionIds => {
-        const companions$ = companionIds.toArray().map(snapshotId => getSnapshot(snapshotId));
-        return combineLatest(companions$, false);
-      })
-      .map(companions =>
-        companions.filter(
-          m =>
-            !!m &&
-            // PHP companions may sometimes exist, but don't have any associated data.
-            // Until this is properly fixed, we add this additional filter
-            m.getIn(['data', 'version'])
-        )
-      ),
-    [snapshotId]
-  );
-
+  const companions = useObservable(getCompanions, [snapshotId]);
   if (!companions || companions.length === 0) {
     return null;
   }
@@ -36,4 +19,21 @@ export default function PhpSnapshot({ snapshotId, initiallyOpen }) {
       ))}
     </>
   );
+}
+
+function getCompanions([snapshotId]) {
+  return getProcessCompanions(snapshotId)
+    .flatMap(companionIds => {
+      const companions$ = companionIds.toArray().map(snapshotId => getSnapshot(snapshotId));
+      return combineLatest(companions$, false);
+    })
+    .map(companions =>
+      companions.filter(
+        snapshot =>
+          !!snapshot &&
+          // PHP companions may sometimes exist, but don't have any associated data.
+          // Until this is properly fixed, we add this additional filter
+          snapshot.getIn(['data', 'version'])
+      )
+    );
 }

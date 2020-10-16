@@ -68,7 +68,7 @@ function SuggestionsList({
   fieldsToWatch,
   locals
 }) {
-  const suggestionsResult = useObservable(getSuggestions(), fieldsToWatch);
+  const suggestionsResult = useObservable(getSuggestions, fieldsToWatch);
 
   if (isLoading(suggestionsResult)) {
     return <LoadingList className={locals.list} skeletonClassName={locals.skeleton} size="compact" />;

@@ -43,14 +43,7 @@ function HostInformation({ hostSnapshotPreview }) {
 
 function RowLabelResolver({ item }) {
   const { processSnapshotId, time } = item;
-  const snapshot = useObservable(
-    getSnapshotVersions(processSnapshotId)
-      .filter(Boolean)
-      .flatMap(versionList =>
-        getSnapshot(processSnapshotId, getTimeConfigForSnapshot(getTimeForSnapshot(versionList.get(0)) || time))
-      ),
-    [processSnapshotId, time]
-  );
+  const snapshot = useObservable(getSnapshotVersionsObservable, [processSnapshotId, time]);
 
   return (
     <Row
@@ -77,4 +70,12 @@ function getTimeConfigForSnapshot(to) {
     windowSize: 1,
     autoRefresh: false
   };
+}
+
+function getSnapshotVersionsObservable([processSnapshotId, time]) {
+  return getSnapshotVersions(processSnapshotId)
+    .filter(Boolean)
+    .flatMap(versionList =>
+      getSnapshot(processSnapshotId, getTimeConfigForSnapshot(getTimeForSnapshot(versionList.get(0)) || time))
+    );
 }

@@ -58,7 +58,7 @@ export function getRows(logs = []) {
 
 export default function LogsDownloadList({ snapshot }) {
   const [selectedItems, setSelectedItems] = useState([]);
-  const logsResponse = useObservable(loadDownloadableLogs(snapshot), [snapshot]);
+  const logsResponse = useObservable(loadDownloadableLogs, [snapshot]);
 
   // Receiving the 'raw' (un-mapped) response so we can differentiate between nothing received, or no files available.
   const rows = getRows(logsResponse?.data?.logs);

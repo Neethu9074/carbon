@@ -23,7 +23,7 @@ export default function Dialog({
   doNotCloseOnOutsideClick
 }) {
   const [scrollshadow, setScrollshadow] = useState(false);
-  const isStacked = (useObservable(activeDialogs$, [children]) ?? []).length > 1;
+  const isStacked = (useObservable(activeDialogs$, []) ?? []).length > 1;
 
   return (
     <div

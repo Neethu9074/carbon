@@ -61,8 +61,8 @@ export default function PlatformsTopList({ config }) {
         return (item.isKubernetes
           ? getClusterDashboard
           : item.isPcf
-            ? getApplicationDashboard
-            : getVsphereDatacenterDashboard)(getId(item));
+          ? getApplicationDashboard
+          : getVsphereDatacenterDashboard)(getId(item));
       }}
     />
   );
