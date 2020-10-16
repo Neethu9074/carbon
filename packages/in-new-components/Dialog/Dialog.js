@@ -3,9 +3,7 @@ import PropTypes from 'prop-types';
 
 import { stopPropagation, stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { evaluateClassNames, joinClassNames } from 'in-services/util/classnames';
-import { activeDialogs$ } from 'in-components/DialogPresenter/store';
 import Header from 'in-new-components/Dialog/Header';
-import useObservable from 'in-hooks/useObservable';
 
 import locals from './Dialog.mless';
 
@@ -23,14 +21,12 @@ export default function Dialog({
   doNotCloseOnOutsideClick
 }) {
   const [scrollshadow, setScrollshadow] = useState(false);
-  const isStacked = (useObservable(activeDialogs$, [children]) ?? []).length > 1;
 
   return (
     <div
       className={evaluateClassNames({
         [locals.wrapper]: true,
-        [locals.cursorDefault]: doNotCloseOnOutsideClick,
-        [locals.isStacked]: isStacked
+        [locals.cursorDefault]: doNotCloseOnOutsideClick
       })}
       onClick={e => (doNotCloseOnOutsideClick ? stopPropagationAndPreventDefault(e) : onClose(e))}
     >

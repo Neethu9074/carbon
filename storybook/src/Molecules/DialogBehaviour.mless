@@ -1,0 +1,22 @@
+@import '~in-themes/active.less';
+
+:local {
+  .first {
+    background: red;
+    width: 55rem;
+    height: 12rem;
+    text-align: center;
+  }
+  .second {
+    background: green;
+    width: 35rem;
+    height: 9rem;
+    text-align: center;
+  }
+  .third {
+    background: blue;
+    width: 20rem;
+    height: 7rem;
+    text-align: center;
+  }
+}
