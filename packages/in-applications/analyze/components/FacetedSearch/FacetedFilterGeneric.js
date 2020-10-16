@@ -10,13 +10,15 @@ import useObservable from 'in-hooks/useObservable';
 
 import locals from './FacetedFilterGeneric.mless';
 
-export default function FacetedFilterGeneric({ title, tag, tagFilterExpression, addFilter }) {
+export default function FacetedFilterGeneric({ title, tag, entity, tagFilterExpression, addFilter, removeFilter }) {
   const [valueFilter, setValueFilter] = useState('');
-  const selectedValues = existingValuesForTag(tag, tagFilterExpression);
+  const selectedValues = existingValuesForTag(tag, entity, tagFilterExpression);
   return (
     <ExpandableCard title={title} useMaxAvailableHeight={false} framed={false} className={locals.facetedCard} size="s">
       {selectedValues.length > 0 ? (
-        selectedValues.map((value, i) => <ExistingValue key={i} value={value} tag={tag} />)
+        selectedValues.map((value, i) => (
+          <ExistingValue key={i} value={value} tag={tag} entity={entity} removeFilter={removeFilter} />
+        ))
       ) : (
         <>
           <SearchInput onChange={setValueFilter} query={valueFilter} />

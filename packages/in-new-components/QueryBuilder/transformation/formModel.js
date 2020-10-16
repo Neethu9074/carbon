@@ -1,6 +1,8 @@
+import { isEqual, findIndex } from 'lodash';
+
 import { type as TAG_FILTER_TYPE, toNewTagFilterFormat } from 'in-new-components/QueryBuilder/transformation/tagFilter';
 import { and } from 'in-new-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
-
+import { DESTINATION } from 'in-new-components/QueryBuilder/tagFilter/entities';
 export const OPEN_BRACKET = 'OPEN_BRACKET';
 export const CLOSE_BRACKET = 'CLOSE_BRACKET';
 export const TAG = TAG_FILTER_TYPE;
@@ -59,4 +61,48 @@ function isEnclosed(expression) {
     expression.every(t => t.type === TAG_FILTER_TYPE || (t.type === CONJUNCTION && t.logicalOperator === and)) ||
     (expression[0].type === OPEN_BRACKET && expression[expression.length - 1].type === CLOSE_BRACKET)
   );
+}
+
+const andConjunction = { type: CONJUNCTION, logicalOperator: and };
+
+export function expressionWithoutFilter(expression, filter) {
+  const index = indexOfFilter(expression, { entity: DESTINATION, ...filter });
+  const operatorIndex = adjascentAndIndex(expression, index);
+  return removeSurroundingParenthesis(
+    expression.filter((_, position) => position !== index && position !== operatorIndex)
+  );
+}
+
+function removeSurroundingParenthesis(expression) {
+  if (
+    expression.length > 2 &&
+    expression[0].type === OPEN_BRACKET &&
+    expression[expression.length - 1].type === CLOSE_BRACKET
+  ) {
+    return expression.slice(1, expression.length - 1);
+  }
+  return expression;
+}
+
+function indexOfFilter(expression, filter) {
+  let level = 0;
+  return findIndex(expression, element => {
+    if (element.type === OPEN_BRACKET) {
+      level++;
+    }
+    if (element.type === CLOSE_BRACKET) {
+      level--;
+    }
+    return level === 0 && isEqual({ entity: DESTINATION, ...element }, filter);
+  });
+}
+
+function adjascentAndIndex(expression, indexOfFilter) {
+  if (isEqual(expression[indexOfFilter - 1], andConjunction)) {
+    return indexOfFilter - 1;
+  }
+  if (isEqual(expression[indexOfFilter + 1], andConjunction)) {
+    return indexOfFilter + 1;
+  }
+  return undefined;
 }

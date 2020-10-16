@@ -11,13 +11,13 @@ import CallGroupingConfigurator, {
   isCallGroupingConfigurationValid
 } from 'in-applications/analyze/components/workspace/CallGroupingConfigurator';
 import CallQueryBuilder, { isCallQueryValid } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
+import { joinExpressions, expressionWithoutFilter } from 'in-new-components/QueryBuilder/transformation/formModel';
 import GroupingConfiguratorSection from 'in-new-components/GroupingConfigurator/GroupingConfiguratorSection';
 import FixatedTimeConfigContextModification from 'in-stores/time/FixatedTimeConfigContextModification';
 import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import ApiQueryAction from 'in-new-components/QueryBuilder/workspace/ApiQueryAction/ApiQueryAction';
 import QueryBuilderSection from 'in-new-components/QueryBuilder/workspace/QueryBuilderSection';
 import FacetedSearch from 'in-applications/analyze/components/FacetedSearch/FacetedSearch';
-import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { ActionSection } from 'in-new-components/workspace/ActionSection/ActionSection';
 import GroupedCallsList from 'in-applications/analyze/components/GroupedCallsList';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
@@ -96,6 +96,8 @@ function ApplicationAnalyzeViewWithFixatedTimeConfig() {
     }
   };
   const addFilter = filter => onChange({ tagFilterExpression: joinExpressions(tagFilterExpression, [filter]) });
+  const removeFilter = filter =>
+    onChange({ tagFilterExpression: expressionWithoutFilter(tagFilterExpression, filter) });
   return (
     <Sticky header={<AnalyzeHeader isGrouped={Boolean(groupBy?.groupbyTag)} />}>
       <LeftRightPadding>
@@ -136,7 +138,11 @@ function ApplicationAnalyzeViewWithFixatedTimeConfig() {
 
           {isValid && (
             <div className={locals.facetedSearchWithCallList}>
-              <FacetedSearch tagFilterExpression={backendQueryModel} addFilter={addFilter} />
+              <FacetedSearch
+                tagFilterExpression={backendQueryModel}
+                addFilter={addFilter}
+                removeFilter={removeFilter}
+              />
               {!groupBy?.groupbyTag && (
                 <CallsList
                   timeConfig={timeConfig}

@@ -5,6 +5,7 @@ import { expect } from 'chai';
 import {
   fromTagFiltersArray,
   joinExpressions,
+  expressionWithoutFilter,
   CONJUNCTION as CONJUNCTION_TYPE,
   OPEN_BRACKET as OPEN_BRACKET_TYPE,
   CLOSE_BRACKET as CLOSE_BRACKET_TYPE
@@ -12,6 +13,7 @@ import {
 import { or, and } from 'in-new-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import { type as TAG_FILTER_TYPE } from 'in-new-components/QueryBuilder/transformation/tagFilter';
 import { KEY_VALUE_PAIR, STRING } from 'in-new-components/QueryBuilder/tagFilter/types';
+import { TAG } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
 
 describe('in-new-components/QueryBuilder/transformation/formModel', () => {
@@ -145,6 +147,54 @@ describe('in-new-components/QueryBuilder/transformation/formModel', () => {
       { type: TAG_FILTER_TYPE, name: 'host.name', operator: EQUALS, value: 'other-host' },
       { type: CONJUNCTION_TYPE, logicalOperator: and },
       { type: TAG_FILTER_TYPE, name: 'jvm.version', operator: EQUALS, value: '11.0.8' }
+    ]);
+  });
+
+  it('must not remove filter from empty expression', () => {
+    expect(expressionWithoutFilter([], { type: TAG, name: 'tag', operator: EQUALS, value: 'value' })).to.deep.equal([]);
+  });
+
+  it('must remove filter from expression with only filter', () => {
+    expect(
+      expressionWithoutFilter([{ type: TAG, name: 'tag', operator: EQUALS, value: 'value' }], {
+        type: TAG,
+        name: 'tag',
+        operator: EQUALS,
+        value: 'value'
+      })
+    ).to.deep.equal([]);
+  });
+
+  it('must remove filter from expression', () => {
+    expect(
+      expressionWithoutFilter(
+        [
+          { type: TAG, name: 'other', operator: EQUALS, value: 'value' },
+          { type: CONJUNCTION_TYPE, logicalOperator: and },
+          { type: TAG, name: 'tag', operator: EQUALS, value: 'value' }
+        ],
+        { type: TAG, name: 'tag', operator: EQUALS, value: 'value' }
+      )
+    ).to.deep.equal([{ type: TAG, name: 'other', operator: EQUALS, value: 'value' }]);
+  });
+  it('must remove filter from expression but not from nested expression', () => {
+    expect(
+      expressionWithoutFilter(
+        [
+          { type: OPEN_BRACKET_TYPE },
+          { type: TAG, name: 'other', operator: EQUALS, value: 'value' },
+          { type: CONJUNCTION_TYPE, logicalOperator: and },
+          { type: TAG, name: 'another', operator: EQUALS, value: 'value' },
+          { type: CLOSE_BRACKET_TYPE },
+          { type: CONJUNCTION_TYPE, logicalOperator: and },
+          { type: TAG, name: 'tag', operator: EQUALS, value: 'value' }
+        ],
+        { type: TAG, name: 'tag', operator: EQUALS, value: 'value' }
+      )
+    ).to.deep.equal([
+      { type: TAG, name: 'other', operator: EQUALS, value: 'value' },
+      { type: CONJUNCTION_TYPE, logicalOperator: and },
+      { type: TAG, name: 'another', operator: EQUALS, value: 'value' }
     ]);
   });
 });
