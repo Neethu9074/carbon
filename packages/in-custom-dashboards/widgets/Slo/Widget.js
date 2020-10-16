@@ -140,7 +140,7 @@ export default function Widget({ actions, config, isPreview, title, dragHandle }
     }
   };
 
-  const result = useObservable(getUnifiedMetricsObservable, [timeConfig, config, metrics]) ?? pendingResult;
+  const result = useObservable(() => getUnifiedMetricsObservable(metrics), [timeConfig, config]) ?? pendingResult;
 
   const findResultMetric = id => {
     return (result?.data ?? []).find(dataSeries => dataSeries.id === id)?.values;
@@ -260,7 +260,7 @@ function getGranularity(timeConfig) {
   return oneHour;
 }
 
-function getUnifiedMetricsObservable([, , metrics]) {
+function getUnifiedMetricsObservable(metrics) {
   return getUnifiedMetrics({ metrics });
 }
 
