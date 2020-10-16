@@ -18,6 +18,7 @@ export default {
   canConfigureAuthenticationMethods: 'Configuration of authentication methods',
   canConfigureLogManagement: 'Configuration of log management',
   canConfigureReleases: 'Configuration of releases',
+  canConfigureGlobalAlertPayload: 'Configuration of global custom payloads for alerts',
   canConfigureServiceLevelIndicators: 'Configuration of service level indicators',
   canCreatePublicCustomDashboards: 'Creation of public custom dashboards',
   restrictedAccess: 'Limit access by group access scopes',

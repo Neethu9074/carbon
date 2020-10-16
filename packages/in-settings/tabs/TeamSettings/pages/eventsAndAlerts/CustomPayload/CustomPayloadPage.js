@@ -39,12 +39,14 @@ import { pendingResult } from 'in-services/fixedObjects';
 import Section from 'in-settings/components/Section';
 import FormGroup from 'in-components/form/FormGroup';
 import useObservable from 'in-hooks/useObservable';
+import Message from 'in-new-components/Message';
 import Select from 'in-components/form/Select';
 import Button from 'in-new-components/Button';
 import Input from 'in-components/form/Input';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
 import Title from 'in-components/Title';
+import { role } from 'in-stores/user';
 
 import locals from './CustomPayloadForm.mless';
 
@@ -94,14 +96,20 @@ export function CustomPayload(props) {
     }
   };
 
-  // LATER: TODO: add hasRule(xxx) check, needs to be defined
-  // https://instana.kanbanize.com/ctrl_board/37/cards/27299/details/
-  const enabled = !storing && !hasError(result) && !isLoading(result);
+  const { canConfigureGlobalAlertPayload } = role;
+  const columnDefinitions = canConfigureGlobalAlertPayload
+    ? [...tableColumnDefinitions, deleteItemColumn]
+    : tableColumnDefinitions;
+
+  const enabled = canConfigureGlobalAlertPayload && !storing && !hasError(result) && !isLoading(result);
 
   return (
     <SettingsDetailPage>
       <Title title="Configure Global Custom Payload for Alerts" />
       <SubViewHeader>Configure Global Custom Payload</SubViewHeader>
+      {!canConfigureGlobalAlertPayload && (
+        <Message withIcon>You are not having the required permission to edit this custom payload.</Message>
+      )}
       <form
         onSubmit={e => {
           e.preventDefault();
@@ -121,9 +129,13 @@ export function CustomPayload(props) {
           isSearchable={false}
           noDataMessage="No custom payload customized"
           rightHeader={
-            <Button kind="action" onClick={addRow} icon="lib_openclose_add_circle_outline" disabled={!enabled}>
-              Add Row
-            </Button>
+            canConfigureGlobalAlertPayload ? (
+              <Button kind="action" onClick={addRow} icon="lib_openclose_add_circle_outline" disabled={!enabled}>
+                Add Row
+              </Button>
+            ) : (
+              <span />
+            )
           }
           size="regular"
           result={mergeResultWithPayloadForm(form, result)}
@@ -162,13 +174,13 @@ function getRowProps() {
   };
 }
 
-const columnDefinitions = [
+const tableColumnDefinitions = [
   {
     id: 'key',
     width: '30',
     sortable: false,
     label: 'Key',
-    getContent(item, { getRowIndex, updateIn }) {
+    getContent(item, { getRowIndex, updateIn, enabled }) {
       function onChange(paths, f) {
         updateIn([getRowIndex(item), ...paths], f);
       }
@@ -179,6 +191,7 @@ const columnDefinitions = [
       return (
         <FormGroup withoutBottomMargin>
           <Input
+            disabled={!enabled}
             className={locals.colName}
             value={value}
             hasError={!valueField?.valid && valueField?.touched}
@@ -199,7 +212,7 @@ const columnDefinitions = [
 
     sortable: false,
     label: 'Value type',
-    getContent(item, { getRowIndex, updateIn }) {
+    getContent(item, { getRowIndex, updateIn, enabled }) {
       const onChangeType = newType => {
         const newValue = defaultValueForType(newType);
         updateIn([getRowIndex(item)], formFields => {
@@ -213,6 +226,7 @@ const columnDefinitions = [
         <FormGroup withoutBottomMargin>
           {item.get('type').map(field => (
             <Select
+              disabled={!enabled}
               className={locals.colName}
               value={field.value ?? defaultType}
               hasError={!field?.valid && field?.touched}
@@ -240,7 +254,7 @@ const columnDefinitions = [
 
     sortable: false,
     label: 'Value',
-    getContent(itemForm, { getRowIndex, updateIn }) {
+    getContent(itemForm, { getRowIndex, updateIn, enabled }) {
       function onChange(paths, f) {
         updateIn([getRowIndex(itemForm), ...paths], f);
       }
@@ -253,6 +267,7 @@ const columnDefinitions = [
         return (
           <FormGroup withoutBottomMargin>
             <Input
+              disabled={!enabled}
               className={locals.colName}
               value={value}
               hasError={!valueField?.valid && valueField?.touched}
@@ -269,6 +284,7 @@ const columnDefinitions = [
         return (
           <FormGroup withoutBottomMargin>
             <Input
+              disabled={!enabled}
               className={locals.colName}
               value={value}
               hasError={!valueField?.valid && valueField?.touched}
@@ -286,6 +302,7 @@ const columnDefinitions = [
         return (
           <FormGroup withoutBottomMargin>
             <Select
+              disabled={!enabled}
               className={locals.colName}
               value={value ?? false}
               hasError={!valueField?.valid && valueField?.touched}
@@ -313,6 +330,7 @@ const columnDefinitions = [
               return (
                 <>
                   <TagBasedPayloadConfigurator
+                    disabled={!enabled}
                     value={toViewModel(value)}
                     onChange={storeIntoFormModel}
                     tagFilterExpression={{}}
@@ -327,26 +345,27 @@ const columnDefinitions = [
 
       return <span>Unknown type: {type} - it can not be edited.</span>;
     }
-  },
-  {
-    id: 'deleteRow',
-    width: '5',
-    sortable: false,
-    getContent(itemForm, { deleteRow, enabled }) {
-      return (
-        <div className={locals.controls}>
-          <Tooltip content="Delete Row" align="mousePosition">
-            <SvgIcon
-              type="lib_actions_delete"
-              className={evaluateClassNames({
-                [locals.delete]: true,
-                [locals.disabled]: !enabled
-              })}
-              onClick={() => enabled && deleteRow(itemForm)}
-            />
-          </Tooltip>
-        </div>
-      );
-    }
   }
 ];
+
+const deleteItemColumn = {
+  id: 'deleteRow',
+  width: '5',
+  sortable: false,
+  getContent(itemForm, { deleteRow, enabled }) {
+    return (
+      <div className={locals.controls}>
+        <Tooltip content="Delete Row" align="mousePosition">
+          <SvgIcon
+            type="lib_actions_delete"
+            className={evaluateClassNames({
+              [locals.delete]: true,
+              [locals.disabled]: !enabled
+            })}
+            onClick={() => enabled && deleteRow(itemForm)}
+          />
+        </Tooltip>
+      </div>
+    );
+  }
+};
