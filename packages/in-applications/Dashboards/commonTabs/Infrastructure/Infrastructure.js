@@ -63,7 +63,8 @@ function getTable(type) {
     defaultOrderDirection: 'DESC',
     defaultPageSize: 10,
     pathSegment: '/infrastructure',
-    matrixPrefix: ''
+    matrixPrefix: '',
+    isSearchable: false
   });
 }
 
@@ -230,9 +231,7 @@ function Infrastructure({
     buttonPropsList.push({ text: 'Host', key: 'HOST', onClick: () => setType('HOST') });
   }
 
-  const rightHeader = (
-    <ButtonGroup buttonPropsList={buttonPropsList} activeKey={selectedType} className={locals.buttonGroup} />
-  );
+  const rightHeader = <ButtonGroup buttonPropsList={buttonPropsList} activeKey={selectedType} />;
   const Table = tablesByType[selectedType];
 
   return (
