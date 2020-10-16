@@ -3,6 +3,7 @@ import { List } from 'immutable';
 import React from 'react';
 
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
+import { track, DFQ_FILTER_REMOVED } from 'in-services/tracking/tracking';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { getAllFilters, removeFilter } from 'in-api/filters';
 import { createStore } from 'in-stores/store';
@@ -35,7 +36,7 @@ export function refresh() {
   });
 }
 
-export function remove(id, name) {
+export function remove(id, name, definition) {
   addActiveDialog(
     <ConfirmationDialog
       header="Confirm Removal"
@@ -50,6 +51,7 @@ export function remove(id, name) {
         const result$ = removeFilter(id);
 
         result$.once(() => {
+          track(DFQ_FILTER_REMOVED, { name, query: definition });
           errorStore.mutateTo(null);
           refresh();
         });

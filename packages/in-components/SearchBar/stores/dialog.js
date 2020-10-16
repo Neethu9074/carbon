@@ -1,3 +1,5 @@
+import { track, DFQ_FILTER_SAVED, DFQ_FILTER_EDITED } from 'in-services/tracking/tracking';
+
 import { createMapForm, createField } from 'formalistic';
 import { createLogger } from 'instalog';
 
@@ -71,6 +73,12 @@ export function save() {
     }
 
     result$.once(() => {
+      const trackingPayload = { name, query: definition };
+      if (id) {
+        track(DFQ_FILTER_EDITED, trackingPayload);
+      } else {
+        track(DFQ_FILTER_SAVED, trackingPayload);
+      }
       errorStore.mutateTo(null);
       clear();
       refresh();

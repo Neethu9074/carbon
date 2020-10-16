@@ -87,6 +87,11 @@ export const APPLICATION_CREATION_BOUNDARY_SCOPE_SELECT = 'application.creation.
 export const APPLICATION_CREATION_SCOPE_SELECT = 'application.creation.scope.select';
 
 export const DYNAMIC_FOCUS_QUERY = 'dynamic.focus.query';
+export const DFQ_FILTER_SAVED = 'dfq.filter.saved';
+export const DFQ_FILTER_EDITED = 'dfq.filter.edited';
+export const DFQ_FILTER_REMOVED = 'dfq.filter.removed';
+export const DFQ_FILTER_SELECTED = 'dfq.filter.selected';
+
 export const KUBERNETES_DASHBOARD_TAB_CHANGE = 'kubernetes.dashboard.tabChange';
 export const IS_MONITORING_HOSTS = 'isMonitoringHosts';
 export const MAP_GROUPING_CHANGED = 'map.grouping.change';
@@ -276,10 +281,6 @@ export const PROFILING_TREEVIEW_EXPANDED = 'profiling.treeView.expanded';
 export const INFRASTRUCTURE_CONTEXT_GUIDE_STACK_LOADED = 'infrastructure.context.guide.stack.loaded';
 export const INFRASTRUCTURE_SIDEBAR_RELATED_ENTITIES_EXPANDED = 'infrastructure.sidebar.related.entities.expanded';
 export const INFRASTRUCTURE_SIDEBAR_RELATED_ENTITIES_CLICKED = 'infrastructure.sidebar.related.entities.clicked';
-export const INFRASTRUCTURE_DFQ_FILTER_ADDED = 'infrastructure.dfq.filter.added';
-export const INFRASTRUCTURE_DFQ_FILTER_CHANGED = 'infrastructure.dfq.filter.changed';
-export const INFRASTRUCTURE_DFQ_FILTER_CLEARED = 'infrastructure.dfq.filter.cleared';
-export const INFRASTRUCTURE_DFQ_FILTER_REMOVED = 'infrastructure.dfq.filter.removed';
 
 export const AMP_TENANT_UNIT_CHANGED = 'amp.tenant.unit.metrics.changed';
 
