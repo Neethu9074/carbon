@@ -13,6 +13,7 @@ export default function Info({ snapshot }) {
       <DescriptionItem title="Configuration">{data.get('configuration')}</DescriptionItem>
       <DescriptionItem title="Region">{data.get('region')}</DescriptionItem>
       <DescriptionItem title="Numeric Project ID">{data.get('numericProjectId')}</DescriptionItem>
+      <DescriptionItem title="Project ID">{data.get('projectId')}</DescriptionItem>
       <DateTimeWithPeriodSinceDescriptionItem title="Created" dateTime={data.get('creationTimestamp')} />
     </DescriptionList>
   );
