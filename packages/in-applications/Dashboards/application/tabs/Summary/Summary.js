@@ -190,11 +190,9 @@ export default function Summary({ timeConfig, applicationId, data: application, 
             callGroupByTag={{ name: 'service.name', entity: entityTypes.DESTINATION }}
             renderPostChartContent={withPotentialProblemsLane}
             renderPostChartContentHttpStatus={MarkerLanes}
-            // `types` can be set to `undefined` because `useObservable` returns `undefined` temporarily when `fieldsToWatch` changes
-            // the null check on `types` is necessary to keep `hideHttp=false`,
-            // otherwise `!hasHttpEndpoints(types)` would return true when `types=undefined`
-            hideHttp={types && !hasHttpEndpoints(types)}
-            hasHttpAndOtherEndpoints={hasHttpAndOtherEndpoints(types)}
+            // if 'types' is not available yet, set to true, so that the initial state can be set based on all metrics
+            showHttp={!types || hasHttpEndpoints(types)}
+            hasHttpAndOtherEndpoints={!types || hasHttpAndOtherEndpoints(types)}
           />
         </Col>
         <Col lg={4}>

@@ -21,7 +21,7 @@ export function ComboChartMetricSelector({ metrics, selected, onChange }) {
     >
       {({ elementProps, isOpen }) => (
         <DropdownButton {...elementProps} kind="subtle" size="compact" expanded={isOpen}>
-          {metrics.find(o => (o.id || o.value) === selected).label}
+          {metrics.find(o => (o.id || o.value) === selected)?.label}
         </DropdownButton>
       )}
     </ComboBoxBehavior>

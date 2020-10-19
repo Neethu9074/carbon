@@ -189,7 +189,7 @@ export default connectTo(
               callGroupByTag={{ name: 'endpoint.name', entity: entityTypes.DESTINATION }}
               renderPostChartContent={withPotentialProblemsLane}
               renderPostChartContentHttpStatus={MarkerLanes}
-              hideHttp={!hasHttpEndpoints(types)}
+              showHttp={hasHttpEndpoints(types)}
               hasHttpAndOtherEndpoints={hasHttpAndOtherEndpoints(types)}
             />
           </Col>

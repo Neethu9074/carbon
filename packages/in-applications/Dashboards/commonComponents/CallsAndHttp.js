@@ -74,14 +74,17 @@ export default function CallsAndHttp({
   callGroupByTag,
   renderPostChartContent,
   renderPostChartContentHttpStatus,
-  hideHttp,
+  showHttp,
   hasHttpAndOtherEndpoints
 }) {
-  const tabs = hideHttp ? allTabs.filter(tab => tab !== tabHttpStatusCodes) : allTabs;
-  const metrics = hideHttp ? allMetrics.filter(m => m.tab !== tabHttpStatusCodes) : allMetrics;
+  const tabs = showHttp ? allTabs : allTabs.filter(tab => tab !== tabHttpStatusCodes);
+  const metrics = showHttp ? allMetrics : allMetrics.filter(m => m.tab !== tabHttpStatusCodes);
+  if (!hasHttpAndOtherEndpoints) {
+    metrics.filter(metric => metric.id !== 'calls.nonHttp');
+  }
 
-  const findDefaultMetricByTab = tab => metrics.find(m => m.tab === tab && m.tabDefault).id;
-  const findTabByMetric = metric => metrics.find(m => m.id === metric).tab;
+  const findDefaultMetricByTab = tab => metrics.find(m => m.tab === tab && m.tabDefault)?.id ?? metrics[0].id;
+  const findTabByMetric = metric => metrics.find(m => m.id === metric)?.tab ?? tabs[0];
 
   const [activeTab, setActiveTab] = useState(tabs[0]);
   const [activeMetric, setActiveMetric] = useState(findDefaultMetricByTab(activeTab));
@@ -91,7 +94,7 @@ export default function CallsAndHttp({
     if (activeTab !== findTabByMetric(activeMetric)) {
       setActiveMetric(findDefaultMetricByTab(activeTab));
     }
-  }, [activeTab]);
+  }, [showHttp, hasHttpAndOtherEndpoints, activeTab]);
 
   useEffect(() => {
     // if the active metric changes, the active tab may need to be updated
@@ -99,13 +102,13 @@ export default function CallsAndHttp({
     if (activeMetricTab !== activeTab) {
       setActiveTab(activeMetricTab);
     }
-  }, [activeMetric]);
+  }, [showHttp, hasHttpAndOtherEndpoints, activeMetric]);
 
   const timeShiftConfig = useTimeShiftConfig();
 
   const header = timeShiftConfig.offset ? (
     <ComboChartMetricSelector
-      metrics={hasHttpAndOtherEndpoints ? metrics : metrics.filter(metric => metric.id !== 'calls.nonHttp')}
+      metrics={metrics}
       selected={activeMetric}
       onChange={setActiveMetric}
     />
