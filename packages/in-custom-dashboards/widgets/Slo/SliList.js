@@ -23,6 +23,8 @@ import connectTo from 'in-hoc/connectTo';
 import { role } from 'in-stores/user';
 
 import locals from 'in-custom-dashboards/widgets/Slo/SliManageList.mless';
+import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
+import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 
 export default compose(
   setPropTypes({
@@ -151,7 +153,28 @@ const columnDefinitions = [
       return (
         <div className={locals.controls}>
           <Tooltip content="Delete SLI Configuration">
-            <SvgIcon type="lib_actions_delete" className={locals.iconButton} onClick={() => deleteSliConfig(item.id)} />
+            <SvgIcon
+              type="lib_actions_delete"
+              className={locals.iconButton}
+              onClick={() => {
+                addActiveDialog(
+                  <ConfirmationDialog
+                    header="Please Confirm"
+                    description={
+                      <span>
+                        Are you sure you want to delete <strong>{item.sliName}</strong>?
+                      </span>
+                    }
+                    bButtonLabel="Delete"
+                    onB={() => {
+                      close();
+                      deleteSliConfig(item.id);
+                    }}
+                    bButtonIcon="lib_actions_delete"
+                  />
+                );
+              }}
+            />
           </Tooltip>
         </div>
       );

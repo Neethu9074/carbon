@@ -252,3 +252,4 @@ export const POTENTIAL_PROBLEMS_SMART_ALERT_CREATE = 'potential.problems.smartal
 export const POTENTIAL_PROBLEMS_GO_TO_ANALYZE = 'potential.problems.goto.analyze';
 export const POTENTIAL_PROBLEMS_REQUEST_LOADING_TIME = 'potential.problems.request.loading.time';
 export const POTENTIAL_PROBLEMS_SELECTED = 'potential.problems.selected';
+export const POTENTIAL_PROBLEMS_DIALOG_CLOSED = 'potential.problems.dialog.closed';
