@@ -1,5 +1,4 @@
 const Handlebars = require('handlebars');
-const sendRequest = require('request');
 const express = require('express');
 const uuid = require('node-uuid');
 const fs = require('fs');
@@ -12,6 +11,7 @@ const configResolver = require('../services/config');
 const checkSumMod = require('../services/checksum');
 const serverConfig = require('../serverConfig.js');
 const { getCsp } = require('../services/csp');
+const fetch = require('../services/fetch');
 const paths = require('../services/paths');
 
 const router = (module.exports = express.Router());
@@ -98,49 +98,35 @@ function sendWaitingIndex(req, res, nonce, butlerDomain, reportingEndpoints, csr
   );
 }
 
-function getLatestTermsAndPrivacyAcceptance(req, butlerBaseUrl) {
-  return new Promise((resolve, reject) => {
-    sendRequest(
-      {
-        url: `${butlerBaseUrl}/tos-privacy-agreement/checkUserAcceptance`,
-        headers: {
-          Cookie: `${serverConfig.cookie.name}=${req.cookies[serverConfig.cookie.name]}`
-        },
-        timeout: 15000
-      },
-      (error, response, termsAndPrivacyAccepted) => {
-        if (error || response.statusCode < 200 || response.statusCode > 299) {
-          reject(new Error('Failed to retrieve latest tos acceptance from butler: ' + String(error)));
-        } else {
-          resolve(termsAndPrivacyAccepted);
-        }
-      }
-    );
+async function getLatestTermsAndPrivacyAcceptance(req, butlerBaseUrl) {
+  const response = await fetch(`${butlerBaseUrl}/tos-privacy-agreement/checkUserAcceptance`, {
+    headers: {
+      Cookie: `${serverConfig.cookie.name}=${req.cookies[serverConfig.cookie.name]}`
+    },
+    timeout: 15000
   });
-}
 
-function getCurrentUserFromButler(req, butlerBaseUrl) {
-  const cookieValue = req.cookies[serverConfig.cookie.name];
-  if (cookieValue == null || typeof cookieValue !== 'string' || cookieValue.trim().length < 5) {
-    return Promise.resolve([401, null]);
+  if (!response.ok) {
+    throw new Error(`Failed to retrieve latest tos acceptance from butler. Got status: ${response.status}`);
   }
 
-  return new Promise((resolve, reject) => {
-    sendRequest(
-      {
-        url: `${butlerBaseUrl}/tos-privacy-agreement/checkUserAccessPermitted`,
-        headers: {
-          Cookie: `${serverConfig.cookie.name}=${cookieValue}`
-        },
-        timeout: 15000
-      },
-      (error, response, userStr) => {
-        if (error) {
-          reject(new Error('Failed to retrieve current user from butler: ' + String(error)));
-        } else {
-          resolve([response.statusCode, userStr]);
-        }
-      }
-    );
+  const body = await response.text();
+  return body;
+}
+
+async function getCurrentUserFromButler(req, butlerBaseUrl) {
+  const cookieValue = req.cookies[serverConfig.cookie.name];
+  if (cookieValue == null || typeof cookieValue !== 'string' || cookieValue.trim().length < 5) {
+    return [401, null];
+  }
+
+  const response = await fetch(`${butlerBaseUrl}/tos-privacy-agreement/checkUserAccessPermitted`, {
+    headers: {
+      Cookie: `${serverConfig.cookie.name}=${cookieValue}`
+    },
+    timeout: 15000
   });
+
+  const body = await response.text();
+  return [response.status, body];
 }

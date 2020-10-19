@@ -1,42 +1,39 @@
-const sendRequest = require('request');
-
 const serverConfig = require('../serverConfig.js');
+const fetch = require('./fetch');
 
-exports.getReportingEndpointsFromButler = (req, butlerUrl, tenant, unit) => {
-  return new Promise(resolve => {
-    sendRequest(
-      {
-        url: `${butlerUrl}/tos-privacy-agreement/acceptors/?tenant=${tenant}&unit=${unit}`,
-        headers: {
-          Cookie: `${serverConfig.cookie.name}=${req.cookies[serverConfig.cookie.name]}`
-        },
-        timeout: 15000
+exports.getReportingEndpointsFromButler = async (req, butlerUrl, tenant, unit) => {
+  try {
+    const response = await fetch(`${butlerUrl}/tos-privacy-agreement/acceptors/?tenant=${tenant}&unit=${unit}`, {
+      headers: {
+        Cookie: `${serverConfig.cookie.name}=${req.cookies[serverConfig.cookie.name]}`
       },
-      (error, response, reportingConfig) => {
-        if (error || response.status < 200 || response.status >= 300) {
-          console.error(
-            `Could not load reporting config from butler. error:${error}, response: ${response}, reportingConfig: ${reportingConfig}`
-          );
-          resolve(getFallbackReportingConfig(tenant, unit));
-        } else {
-          const parsedReportingConfig = getReportingConfigFromString(reportingConfig);
-          if (!parsedReportingConfig) {
-            console.error('Failed parsing reporting config. Fall back to default.');
-            resolve(getFallbackReportingConfig(tenant, unit));
-          } else {
-            resolve({
-              agentEndpoint: parsedReportingConfig.acceptorHost,
-              port: parsedReportingConfig.acceptorPort,
-              websiteScriptSource: parsedReportingConfig.websiteMonitoringScriptSource,
-              websiteEndpoint: parsedReportingConfig.websiteMonitoringReporting,
-              mobileEndpoint: parsedReportingConfig.mobileMonitoringReporting,
-              serverlessEndpoint: parsedReportingConfig.serverlessAcceptor
-            });
-          }
-        }
-      }
-    );
-  });
+      timeout: 15000
+    });
+
+    if (!response.ok) {
+      console.error(`Could not load reporting config from butler. Got status: %s`, response.status);
+      return getFallbackReportingConfig(tenant, unit);
+    }
+
+    const body = await response.text();
+    const reportingConfig = getReportingConfigFromString(body);
+    if (reportingConfig) {
+      return {
+        agentEndpoint: reportingConfig.acceptorHost,
+        port: reportingConfig.acceptorPort,
+        websiteScriptSource: reportingConfig.websiteMonitoringScriptSource,
+        websiteEndpoint: reportingConfig.websiteMonitoringReporting,
+        mobileEndpoint: reportingConfig.mobileMonitoringReporting,
+        serverlessEndpoint: reportingConfig.serverlessAcceptor
+      };
+    }
+
+    console.error('Failed reading reporting config. Fall back to default.');
+    return getFallbackReportingConfig(tenant, unit);
+  } catch (e) {
+    console.error(`Could not load reporting config from butler. Got error`, e);
+    return getFallbackReportingConfig(tenant, unit);
+  }
 };
 
 function resolveAgentEndpoint(tenant, unit) {

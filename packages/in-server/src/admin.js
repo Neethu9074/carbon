@@ -10,7 +10,6 @@ admin.configure({
   plugins: [
     require('admin-plugin-index')(),
     require('admin-plugin-environment')(),
-    require('admin-plugin-terminate')(),
     require('admin-plugin-config')({
       config: serverConfig
     }),
