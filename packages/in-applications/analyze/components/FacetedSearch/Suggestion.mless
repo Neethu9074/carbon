@@ -1,8 +1,18 @@
 @import '~in-themes/active.less';
 
 :local {
+  .facetedCard {
+    border-radius: 0;
+    box-shadow: none;
+  }
+  .facetedCardHeader {
+    padding: 1rem;
+  }
   .suggestion {
     margin-top: 0.75rem;
+    &:first-child {
+      margin-top: 0;
+    }
     cursor: pointer;
     display: flex;
     justify-content: space-between;
@@ -16,5 +26,22 @@
       overflow: hidden;
       white-space: nowrap;
     }
+  }
+  .loading {
+    margin-top: 0.75rem;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    .circle {
+      background-color: @lib__colors__white;
+    }
+  }
+  .noResult {
+    margin-top: 0.75rem;
+  }
+  .showMore {
+    margin-top: 0.75rem;
+    font-size: 0.75rem;
+    padding: 0;
   }
 }

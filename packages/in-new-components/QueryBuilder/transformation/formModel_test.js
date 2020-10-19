@@ -5,7 +5,7 @@ import { expect } from 'chai';
 import {
   fromTagFiltersArray,
   joinExpressions,
-  expressionWithoutFilter,
+  removeTopLevelFilters,
   CONJUNCTION as CONJUNCTION_TYPE,
   OPEN_BRACKET as OPEN_BRACKET_TYPE,
   CLOSE_BRACKET as CLOSE_BRACKET_TYPE
@@ -99,10 +99,12 @@ describe('in-new-components/QueryBuilder/transformation/formModel', () => {
 
   it('must join expressions', () => {
     expect(
-      joinExpressions(
-        [{ type: TAG_FILTER_TYPE, name: 'host.name', operator: EQUALS, value: 'my-host' }],
-        [{ type: TAG_FILTER_TYPE, name: 'jvm.version', operator: EQUALS, value: '11.0.8' }]
-      )
+      joinExpressions({
+        expressions: [
+          { type: TAG_FILTER_TYPE, name: 'host.name', operator: EQUALS, value: 'my-host' },
+          { type: TAG_FILTER_TYPE, name: 'jvm.version', operator: EQUALS, value: '11.0.8' }
+        ]
+      })
     ).to.deep.equal([
       { type: TAG_FILTER_TYPE, name: 'host.name', operator: EQUALS, value: 'my-host' },
       { type: CONJUNCTION_TYPE, logicalOperator: and },
@@ -112,14 +114,16 @@ describe('in-new-components/QueryBuilder/transformation/formModel', () => {
 
   it('must enclose expressions when joining as needed', () => {
     expect(
-      joinExpressions(
-        [
-          { type: TAG_FILTER_TYPE, name: 'host.name', operator: EQUALS, value: 'my-host' },
-          { type: CONJUNCTION_TYPE, logicalOperator: or },
-          { type: TAG_FILTER_TYPE, name: 'host.name', operator: EQUALS, value: 'other-host' }
-        ],
-        [{ type: TAG_FILTER_TYPE, name: 'jvm.version', operator: EQUALS, value: '11.0.8' }]
-      )
+      joinExpressions({
+        expressions: [
+          [
+            { type: TAG_FILTER_TYPE, name: 'host.name', operator: EQUALS, value: 'my-host' },
+            { type: CONJUNCTION_TYPE, logicalOperator: or },
+            { type: TAG_FILTER_TYPE, name: 'host.name', operator: EQUALS, value: 'other-host' }
+          ],
+          [{ type: TAG_FILTER_TYPE, name: 'jvm.version', operator: EQUALS, value: '11.0.8' }]
+        ]
+      })
     ).to.deep.equal([
       { type: OPEN_BRACKET_TYPE },
       { type: TAG_FILTER_TYPE, name: 'host.name', operator: EQUALS, value: 'my-host' },
@@ -133,14 +137,16 @@ describe('in-new-components/QueryBuilder/transformation/formModel', () => {
 
   it('must not enclose when joining if not needed', () => {
     expect(
-      joinExpressions(
-        [
-          { type: TAG_FILTER_TYPE, name: 'host.name', operator: EQUALS, value: 'my-host' },
-          { type: CONJUNCTION_TYPE, logicalOperator: and },
-          { type: TAG_FILTER_TYPE, name: 'host.name', operator: EQUALS, value: 'other-host' }
-        ],
-        [{ type: TAG_FILTER_TYPE, name: 'jvm.version', operator: EQUALS, value: '11.0.8' }]
-      )
+      joinExpressions({
+        expressions: [
+          [
+            { type: TAG_FILTER_TYPE, name: 'host.name', operator: EQUALS, value: 'my-host' },
+            { type: CONJUNCTION_TYPE, logicalOperator: and },
+            { type: TAG_FILTER_TYPE, name: 'host.name', operator: EQUALS, value: 'other-host' }
+          ],
+          [{ type: TAG_FILTER_TYPE, name: 'jvm.version', operator: EQUALS, value: '11.0.8' }]
+        ]
+      })
     ).to.deep.equal([
       { type: TAG_FILTER_TYPE, name: 'host.name', operator: EQUALS, value: 'my-host' },
       { type: CONJUNCTION_TYPE, logicalOperator: and },
@@ -151,12 +157,12 @@ describe('in-new-components/QueryBuilder/transformation/formModel', () => {
   });
 
   it('must not remove filter from empty expression', () => {
-    expect(expressionWithoutFilter([], { type: TAG, name: 'tag', operator: EQUALS, value: 'value' })).to.deep.equal([]);
+    expect(removeTopLevelFilters([], { type: TAG, name: 'tag', operator: EQUALS, value: 'value' })).to.deep.equal([]);
   });
 
   it('must remove filter from expression with only filter', () => {
     expect(
-      expressionWithoutFilter([{ type: TAG, name: 'tag', operator: EQUALS, value: 'value' }], {
+      removeTopLevelFilters([{ type: TAG, name: 'tag', operator: EQUALS, value: 'value' }], {
         type: TAG,
         name: 'tag',
         operator: EQUALS,
@@ -167,7 +173,7 @@ describe('in-new-components/QueryBuilder/transformation/formModel', () => {
 
   it('must remove filter from expression', () => {
     expect(
-      expressionWithoutFilter(
+      removeTopLevelFilters(
         [
           { type: TAG, name: 'other', operator: EQUALS, value: 'value' },
           { type: CONJUNCTION_TYPE, logicalOperator: and },
@@ -179,12 +185,14 @@ describe('in-new-components/QueryBuilder/transformation/formModel', () => {
   });
   it('must remove filter from expression but not from nested expression', () => {
     expect(
-      expressionWithoutFilter(
+      removeTopLevelFilters(
         [
           { type: OPEN_BRACKET_TYPE },
           { type: TAG, name: 'other', operator: EQUALS, value: 'value' },
           { type: CONJUNCTION_TYPE, logicalOperator: and },
           { type: TAG, name: 'another', operator: EQUALS, value: 'value' },
+          { type: CONJUNCTION_TYPE, logicalOperator: and },
+          { type: TAG, name: 'tag', operator: EQUALS, value: 'value' },
           { type: CLOSE_BRACKET_TYPE },
           { type: CONJUNCTION_TYPE, logicalOperator: and },
           { type: TAG, name: 'tag', operator: EQUALS, value: 'value' }
@@ -194,7 +202,9 @@ describe('in-new-components/QueryBuilder/transformation/formModel', () => {
     ).to.deep.equal([
       { type: TAG, name: 'other', operator: EQUALS, value: 'value' },
       { type: CONJUNCTION_TYPE, logicalOperator: and },
-      { type: TAG, name: 'another', operator: EQUALS, value: 'value' }
+      { type: TAG, name: 'another', operator: EQUALS, value: 'value' },
+      { type: CONJUNCTION_TYPE, logicalOperator: and },
+      { type: TAG, name: 'tag', operator: EQUALS, value: 'value' }
     ]);
   });
 });

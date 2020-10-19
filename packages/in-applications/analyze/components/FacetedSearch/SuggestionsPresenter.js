@@ -8,11 +8,11 @@ import Button from 'in-new-components/Button';
 import Tooltip from 'in-components/Tooltip';
 import Link from 'in-components/Link';
 
-import locals from './SuggestionsPresenter.mless';
+import locals from './Suggestion.mless';
 
 const DEFAULT_SUGGESTIONS_SIZE = 5;
 
-export default function SuggestionsPresenter({ loading = false, errors = [], suggestions = [], addFilter, tag }) {
+export default function SuggestionsPresenter({ loading = false, errors = [], suggestions = [], tag, addFilter }) {
   if (loading) {
     return <Loading />;
   } else if (errors?.length > 0) {
@@ -20,7 +20,7 @@ export default function SuggestionsPresenter({ loading = false, errors = [], sug
   } else if (!suggestions) {
     return null;
   } else if (suggestions.length > 0) {
-    return <Results suggestions={suggestions} addFilter={addFilter} tag={tag} />;
+    return <Results suggestions={suggestions} tag={tag} addFilter={addFilter} />;
   } else {
     return <NoResults />;
   }
@@ -42,7 +42,7 @@ function Errors({ errors }) {
   ));
 }
 
-function Results({ suggestions, addFilter, tag }) {
+function Results({ suggestions, tag, addFilter }) {
   const [showMore, setShowMore] = useState(true);
   return (
     <>

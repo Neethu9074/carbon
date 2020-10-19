@@ -1,5 +1,6 @@
 import React from 'react';
 
+import FacetedFilterHttpStatusCodes from 'in-applications/analyze/components/FacetedSearch/FacetedFilterHttpStatusCodes';
 import FacetedFilterGeneric from 'in-applications/analyze/components/FacetedSearch/FacetedFilterGeneric';
 import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import { DESTINATION } from 'in-new-components/QueryBuilder/tagFilter/entities';
@@ -48,9 +49,8 @@ export default function FacetedSearch({ tagFilterExpression = toBackendQueryMode
         addFilter={addFilter}
         removeFilter={removeFilter}
       />
-      <FacetedFilterGeneric
+      <FacetedFilterHttpStatusCodes
         title="HTTP Status Code"
-        tag="call.http.status"
         tagFilterExpression={tagFilterExpression}
         addFilter={addFilter}
         removeFilter={removeFilter}

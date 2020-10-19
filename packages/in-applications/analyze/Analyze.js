@@ -11,7 +11,7 @@ import CallGroupingConfigurator, {
   isCallGroupingConfigurationValid
 } from 'in-applications/analyze/components/workspace/CallGroupingConfigurator';
 import CallQueryBuilder, { isCallQueryValid } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
-import { joinExpressions, expressionWithoutFilter } from 'in-new-components/QueryBuilder/transformation/formModel';
+import { joinExpressions, removeTopLevelFilters } from 'in-new-components/QueryBuilder/transformation/formModel';
 import GroupingConfiguratorSection from 'in-new-components/GroupingConfigurator/GroupingConfiguratorSection';
 import FixatedTimeConfigContextModification from 'in-stores/time/FixatedTimeConfigContextModification';
 import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
@@ -95,9 +95,10 @@ function ApplicationAnalyzeViewWithFixatedTimeConfig() {
       });
     }
   };
-  const addFilter = filter => onChange({ tagFilterExpression: joinExpressions(tagFilterExpression, [filter]) });
-  const removeFilter = filter =>
-    onChange({ tagFilterExpression: expressionWithoutFilter(tagFilterExpression, filter) });
+  const addFilter = (...filters) =>
+    onChange({ tagFilterExpression: joinExpressions({ expressions: [tagFilterExpression, ...filters] }) });
+  const removeFilter = (...filters) =>
+    onChange({ tagFilterExpression: removeTopLevelFilters(tagFilterExpression, ...filters) });
   return (
     <Sticky header={<AnalyzeHeader isGrouped={Boolean(groupBy?.groupbyTag)} />}>
       <LeftRightPadding>

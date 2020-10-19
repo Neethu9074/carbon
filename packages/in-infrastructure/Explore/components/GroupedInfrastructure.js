@@ -76,7 +76,7 @@ function Presenter({
   const getParamsForGroup = useCallback(
     item => ({
       group: emptyObject,
-      tagFilterExpression: joinExpressions(tagFilterExpression, toTagFilters(item.tags))
+      tagFilterExpression: joinExpressions({ expressions: [tagFilterExpression, toTagFilters(item.tags)] })
     }),
     [tagFilterExpression]
   );

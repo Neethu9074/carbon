@@ -33,18 +33,22 @@ export function fromTagFiltersArray(tagFilters, tagCatalog) {
   return formModel;
 }
 
-export function joinExpressions(left, right, logicalOperator = and) {
-  if (left.length === 0) {
-    return right;
+export function joinExpressions({ logicalOperator = and, expressions = [] }) {
+  const nonEmptyExpressions = expressions
+    .map(expression => (Array.isArray(expression) ? expression : [expression]))
+    .filter(expression => expression.length > 0);
+  if (nonEmptyExpressions.length == 0) {
+    return [];
   }
-
-  if (right.length === 0) {
-    return left;
+  if (nonEmptyExpressions.length == 1) {
+    return nonEmptyExpressions[0];
   }
-
   const conjunction = { type: CONJUNCTION, logicalOperator };
-
-  return [...enclose(left), conjunction, ...enclose(right)];
+  const firstExpression = enclose(nonEmptyExpressions[0]);
+  const result = nonEmptyExpressions
+    .slice(1)
+    .reduce((acc, cur) => [...acc, conjunction, ...enclose(cur)], firstExpression);
+  return result;
 }
 
 function enclose(expression) {
@@ -65,12 +69,16 @@ function isEnclosed(expression) {
 
 const andConjunction = { type: CONJUNCTION, logicalOperator: and };
 
-export function expressionWithoutFilter(expression, filter) {
+function removeSingleTopLevelFilter(expression, filter) {
   const index = indexOfFilter(expression, { entity: DESTINATION, ...filter });
-  const operatorIndex = adjascentAndIndex(expression, index);
+  const operatorIndex = adjacentAndIndex(expression, index);
   return removeSurroundingParenthesis(
     expression.filter((_, position) => position !== index && position !== operatorIndex)
   );
+}
+
+export function removeTopLevelFilters(expression, ...filters) {
+  return filters.reduce((acc, filter) => removeSingleTopLevelFilter(acc, filter), expression);
 }
 
 function removeSurroundingParenthesis(expression) {
@@ -97,7 +105,7 @@ function indexOfFilter(expression, filter) {
   });
 }
 
-function adjascentAndIndex(expression, indexOfFilter) {
+function adjacentAndIndex(expression, indexOfFilter) {
   if (isEqual(expression[indexOfFilter - 1], andConjunction)) {
     return indexOfFilter - 1;
   }
