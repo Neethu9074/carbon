@@ -5,6 +5,8 @@ import DialogPresenter from 'in-components/DialogPresenter';
 import Dialog from 'in-new-components/Dialog/Dialog';
 import Button from 'in-new-components/Button';
 
+import locals from './DialogBehaviour.mless';
+
 export default {
   title: 'Molecules|Dialogs/Behaviour',
   component: Dialog
@@ -22,7 +24,9 @@ export function MultipleDialogs() {
 function FirstDialog() {
   return (
     <Dialog title="First Dialog" onClose={close}>
-      <Button onClick={() => addActiveDialog(<SecondDialog />)}>Open second dialog</Button>
+      <div className={locals.first}>
+        <Button onClick={() => addActiveDialog(<SecondDialog />)}>Open second dialog</Button>
+      </div>
     </Dialog>
   );
 }
@@ -30,7 +34,9 @@ function FirstDialog() {
 function SecondDialog() {
   return (
     <Dialog title="Second Dialog" onClose={close}>
-      <Button onClick={() => addActiveDialog(<ThirdDialog />)}>Open third dialog</Button>
+      <div className={locals.second}>
+        <Button onClick={() => addActiveDialog(<ThirdDialog />)}>Open third dialog</Button>
+      </div>
     </Dialog>
   );
 }
@@ -38,7 +44,7 @@ function SecondDialog() {
 function ThirdDialog() {
   return (
     <Dialog title="Third Dialog" onClose={close}>
-      nice to see you
+      <div className={locals.third}>nice to see you</div>
     </Dialog>
   );
 }
