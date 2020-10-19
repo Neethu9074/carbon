@@ -1,9 +1,8 @@
 import { partition } from 'lodash';
 import React from 'react';
 
+import MetricAndSortingConfigurator from 'in-new-components/MetricAndSortingConfigurator/MetricAndSortingConfigurator';
 import { ColumnizedContent, Ul, Li, LoadingSkeletonLi, HorizontalIndicatorLi } from 'in-new-components/lists/List';
-import SortingConfigurator from 'in-new-components/SortingConfigurator/SortingConfigurator';
-import MetricConfigurator from 'in-new-components/MetricConfigurator/MetricConfigurator';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import LoadMoreLi from 'in-new-components/lists/List/LoadMoreLi/LoadMoreLi';
@@ -281,10 +280,14 @@ function HeaderRow({ totalGroups, order, onChangeOrderBy, metrics, onChangeMetri
         {totalGroups > 0 && <h3 className={locals.header}>{totalGroups} Groups</h3>}
       </div>
       <div className={locals.configurationWrapper}>
-        <SortingConfigurator options={sortingOptions} orderBy={order} onChange={order => onChangeOrderBy(order)} />
-        {metricOptions.length > 0 && (
-          <MetricConfigurator values={metrics} options={metricOptions} onChange={onChangeMetrics} />
-        )}
+        <MetricAndSortingConfigurator
+          sortOptions={sortingOptions}
+          order={order}
+          setOrder={order => onChangeOrderBy(order)}
+          metrics={metrics}
+          setMetrics={onChangeMetrics}
+          metricOptions={metricOptions}
+        />
       </div>
     </div>
   );
