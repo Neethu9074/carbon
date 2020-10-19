@@ -26,7 +26,8 @@ import {
   latency,
   latencyFixed,
   meanLatency,
-  meanLatencyFixed
+  meanLatencyFixed,
+  meanLatencyLargeInSeconds
 } from './number';
 import { days, hours, minutes, seconds } from 'in-services/time';
 
@@ -273,6 +274,18 @@ describe('in-services.formatter.number', () => {
       expect(meanLatencyFixed.detailed(1)).to.equal('1ms');
       expect(meanLatencyFixed.detailed(10.5)).to.equal('11ms');
       expect(meanLatencyFixed.detailed(1200.2)).to.equal('1,200ms');
+    });
+
+    it('should format mean latency in seconds for large numbers', () => {
+      expect(meanLatencyLargeInSeconds.compact(0)).to.equal('0ms');
+      expect(meanLatencyLargeInSeconds.compact(0.25)).to.equal('< 1ms');
+      expect(meanLatencyLargeInSeconds.compact(999999)).to.equal('999,999ms');
+      expect(meanLatencyLargeInSeconds.compact(1000000)).to.equal('1,000s');
+      expect(meanLatencyLargeInSeconds.detailed(1)).to.equal('1ms');
+      expect(meanLatencyLargeInSeconds.detailed(10.5)).to.equal('11ms');
+      expect(meanLatencyLargeInSeconds.detailed(1200.2)).to.equal('1,200ms');
+      expect(meanLatencyLargeInSeconds.detailed(999999)).to.equal('999,999ms');
+      expect(meanLatencyLargeInSeconds.detailed(1000000)).to.equal('1,000.00s');
     });
   });
 });

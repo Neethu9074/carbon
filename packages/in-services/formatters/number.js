@@ -95,6 +95,12 @@ export const millis = {
   forcedCompactOnMs: {
     compact: t => formatTime(t, timeMilliUnits, number.compact),
     detailed: t => (t < 1000 ? formatTime(t, timeMilliUnits, number.compact) : timeByMillisTwoDecimalPlaces(t))
+  },
+  // t < 999,999 - in milliseconds, always formatted to compact zero decimal format
+  // t >= 1,000,000 - in seconds, can have both compact and detailed formats
+  largeInSeconds: {
+    compact: t => (t < 1000000 ? number.compact(t) + 'ms' : number.compact(t / 1000) + 's'),
+    detailed: t => (t < 1000000 ? number.compact(t) + 'ms' : number.detailed(t / 1000) + 's')
   }
 };
 export const seconds = {
@@ -131,6 +137,7 @@ export function meanLatencyFormatterWrapper(formatter) {
 
 export const meanLatency = meanLatencyFormatterWrapper(millis.forcedCompactOnMs);
 export const meanLatencyFixed = meanLatencyFormatterWrapper(millis.forcedFixedCompact);
+export const meanLatencyLargeInSeconds = meanLatencyFormatterWrapper(millis.largeInSeconds);
 
 export const bytesPerSecondZeroDecimalPlaces = d => formatBytes(d, zeroDecimalPlaces) + '/s';
 export const bytesPerSecondTwoDecimalPlaces = d => formatBytes(d, twoDecimalPlaces) + '/s';

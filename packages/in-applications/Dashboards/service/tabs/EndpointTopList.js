@@ -1,9 +1,9 @@
 import theme from 'in-themes';
 import React from 'react';
 
+import { meanLatencyLargeInSeconds, number, percentage } from 'in-services/formatters/number';
 import { getEndpointDashboard, getServiceDashboard } from 'in-applications/navigation/paths';
 import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
-import { meanLatencyFixed, number, percentage } from 'in-services/formatters/number';
 import TopList, { trackTopListNavigation } from 'in-new-components/TopList';
 import getEndpoints from 'in-applications/subscriptions/getEndpoints';
 import Link from 'in-components/Link';
@@ -13,7 +13,7 @@ import locals from './EndpointTopList.mless';
 const metrics = ['latency', 'calls', 'erroneousCalls'];
 const labels = ['Latency', 'Calls', 'Erroneous Calls'];
 const aggregations = ['MEAN', 'SUM', 'SUM'];
-const formatters = [meanLatencyFixed.compact, number.compact, number.compact];
+const formatters = [meanLatencyLargeInSeconds.compact, number.compact, number.compact];
 const companionMetrics = [null, null, 'errors'];
 const companionAggregations = [null, null, 'MEAN'];
 const companionFormatters = [null, null, percentage.detailed];
