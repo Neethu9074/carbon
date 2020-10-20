@@ -69,6 +69,7 @@ import './genericHardware';
 import './genericZone';
 import './glassfishApplicationContainer';
 import './golangRuntimePlatform';
+import './googleCloudDatastore';
 import './googleCloudPubSub';
 import './googleCloudPubSubSubscription';
 import './googleCloudPubSubTopic';
