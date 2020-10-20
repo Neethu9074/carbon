@@ -2,12 +2,12 @@ import { number } from 'in-services/formatters/number';
 
 export default [
   {
-    label: 'Requests Count',
+    label: 'Requests',
     metric: 'request_count',
     formatter: number.compact
   },
   {
-    label: 'Index Write Count',
+    label: 'Index Writes',
     metric: 'index_write_count',
     formatter: number.compact
   }

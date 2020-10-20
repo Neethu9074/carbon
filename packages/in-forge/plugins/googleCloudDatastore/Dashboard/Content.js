@@ -19,10 +19,10 @@ export default function GcpDatastoreDashboard({ snapshot, timeConfig }) {
   return (
     <div>
       <KpiSection>
-        <KpiKeyValue label="Requests Count">
+        <KpiKeyValue label="Requests">
           <MetricValue snapshotId={snapshotId} metric="request_count" formatter={number.compact} />
         </KpiKeyValue>
-        <KpiKeyValue label="Index Write Count">
+        <KpiKeyValue label="Index Writes">
           <MetricValue snapshotId={snapshotId} metric="index_write_count" formatter={number.compact} />
         </KpiKeyValue>
       </KpiSection>

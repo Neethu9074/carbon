@@ -8,7 +8,7 @@ registerSnapshotDefinition({
   plugin: plugins.googleCloudDatastore,
   pluginName: {
     singular: 'Google Cloud Datastore',
-    plural: 'Google Cloud Datastore'
+    plural: 'Google Cloud Datastores'
   },
   technologyDescriptor: {
     label: 'Google Cloud Datastore'

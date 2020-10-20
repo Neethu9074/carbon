@@ -2,10 +2,10 @@ import { number, bytes } from 'in-services/formatters/number';
 
 export default [
   {
-    metrics: ['sent_message_count'],
-    labels: ['Sent Message Count'],
+    metrics: ['request_count'],
+    labels: ['Requests'],
     min: 0,
-    category: ['Messages Count'],
+    category: ['Requests'],
     formatter: number.compact
   },
   {
@@ -24,9 +24,9 @@ export default [
   },
   {
     metrics: ['index_write_count'],
-    labels: ['Index Write Count'],
+    labels: ['Index Writes'],
     min: 0,
-    category: ['Index Write'],
+    category: ['Index Writes'],
     formatter: number.compact
   }
 ];
