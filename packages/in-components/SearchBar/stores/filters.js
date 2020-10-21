@@ -3,9 +3,10 @@ import { List } from 'immutable';
 import React from 'react';
 
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
-import { track, DFQ_FILTER_REMOVED } from 'in-services/tracking/tracking';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
+import { DFQ_FILTER_REMOVED } from 'in-services/tracking/eventNames';
 import { getAllFilters, removeFilter } from 'in-api/filters';
+import { track } from 'in-services/tracking/tracking';
 import { createStore } from 'in-stores/store';
 
 const logger = createLogger('SearchBar/stores/filters');

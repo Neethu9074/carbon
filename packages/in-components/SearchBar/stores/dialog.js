@@ -1,12 +1,11 @@
-import { track, DFQ_FILTER_SAVED, DFQ_FILTER_EDITED } from 'in-services/tracking/tracking';
-
-import { createMapForm, createField } from 'formalistic';
-import { createLogger } from 'instalog';
-
-import { saveNewFilter, saveFilter } from 'in-api/filters';
+import { DFQ_FILTER_SAVED, DFQ_FILTER_EDITED } from 'in-services/tracking/eventNames';
 import { refresh } from 'in-components/SearchBar/stores/filters';
 import { close } from 'in-components/DialogPresenter/store';
+import { saveNewFilter, saveFilter } from 'in-api/filters';
+import { createMapForm, createField } from 'formalistic';
+import { track } from 'in-services/tracking/tracking';
 import { createStore } from 'in-stores/store';
+import { createLogger } from 'instalog';
 
 const logger = createLogger('SearchBar/stores/dialog');
 

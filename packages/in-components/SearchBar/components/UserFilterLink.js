@@ -1,7 +1,8 @@
 import React from 'react';
 
-import { track, DFQ_FILTER_SELECTED } from 'in-services/tracking/tracking';
+import { DFQ_FILTER_SELECTED } from 'in-services/tracking/eventNames';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
+import { track } from 'in-services/tracking/tracking';
 import Link from 'in-components/Link';
 
 import './UserFilterLink.less';

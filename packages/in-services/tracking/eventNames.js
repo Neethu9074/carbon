@@ -44,6 +44,11 @@ export const APPLICATION_CREATION_BOUNDARY_SCOPE_SELECT = 'application.creation.
 export const APPLICATION_CREATION_SCOPE_SELECT = 'application.creation.scope.select';
 
 export const DYNAMIC_FOCUS_QUERY = 'dynamic.focus.query';
+export const DFQ_FILTER_SAVED = 'dfq.filter.saved';
+export const DFQ_FILTER_EDITED = 'dfq.filter.edited';
+export const DFQ_FILTER_REMOVED = 'dfq.filter.removed';
+export const DFQ_FILTER_SELECTED = 'dfq.filter.selected';
+
 export const KUBERNETES_DASHBOARD_TAB_CHANGE = 'kubernetes.dashboard.tabChange';
 export const IS_MONITORING_HOSTS = 'isMonitoringHosts';
 export const MAP_GROUPING_CHANGED = 'map.grouping.change';
