@@ -3,7 +3,6 @@ import { createLogger } from 'instalog';
 import ReactDOM from 'react-dom';
 import React from 'react';
 
-import { isDeprecatedUserDefinedRole } from 'in-settings/terms/userSelfDefinedRole';
 import { saveTosPrivacyAgreement } from 'in-settings/api/saveTosPrivacyAgreement';
 import ErrorBoundary from 'in-components/ErrorBoundary/ErrorBoundary';
 import { fullTermsConfigEnabled } from 'in-services/featureFlags';
@@ -13,7 +12,7 @@ import 'in-themes/foundation.less';
 
 export function init() {
   const accepted = window.instana.termsAndPrivacyAccepted;
-  if (accepted && !isDeprecatedUserDefinedRole(window.instana?.termsAndPrivacySettings?.role)) {
+  if (accepted) {
     return just(true);
   }
 

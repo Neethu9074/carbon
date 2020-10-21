@@ -1,7 +1,7 @@
 import theme from 'in-themes';
 import React from 'react';
 
-import { NOT_EQUAL, NOT_STARTS_WITH, STARTS_WITH } from 'in-new-components/QueryBuilder/tagFilter/operators';
+import { IS_EMPTY, NOT_EMPTY, NOT_STARTS_WITH, STARTS_WITH } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import UnifiedMetricsChart, { parseMetricId } from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
 import { getChartGranularity } from 'in-applications/metrics';
@@ -39,7 +39,7 @@ export default function HttpSections({
     granularity,
     aggregation: 'SUM',
     source: 'APPLICATION',
-    tagFilters: [{ name: 'call.type', value: 'HTTP', operator: NOT_EQUAL }, ...tagFilters],
+    tagFilters: [{ name: 'call.http.status', operator: IS_EMPTY }, ...tagFilters],
     timeConfig: timeConfig,
     timeShift: 0
   };
@@ -183,20 +183,34 @@ export default function HttpSections({
 function mapMetricsToAdd(filters, renderedMetrics, metrics, timeShiftConfig) {
   const metricsForLink = filters ? [...filters] : [];
   if (timeShiftConfig.offset) {
-    metricsForLink.push({
-      name: 'call.http.status',
-      operator: STARTS_WITH,
-      value: correctValue(metrics[0].metric)
-    });
+    if (metrics[0].metric === 'calls') {
+      metricsForLink.push({
+        name: 'call.http.status',
+        operator: IS_EMPTY
+      });
+    } else {
+      metricsForLink.push({
+        name: 'call.http.status',
+        operator: STARTS_WITH,
+        value: correctValue(metrics[0].metric)
+      });
+    }
   } else {
     const activeMetrics = renderedMetrics.map(metricId => metrics[parseMetricId(metricId).index].metric);
     const filteredArr = metrics.map(m => m.metric).filter(metric => !activeMetrics.includes(metric));
     filteredArr.map(metric => {
-      metricsForLink.push({
-        name: 'call.http.status',
-        operator: NOT_STARTS_WITH,
-        value: correctValue(metric)
-      });
+      if (metric === 'calls') {
+        metricsForLink.push({
+          name: 'call.http.status',
+          operator: NOT_EMPTY
+        });
+      } else {
+        metricsForLink.push({
+          name: 'call.http.status',
+          operator: NOT_STARTS_WITH,
+          value: correctValue(metric)
+        });
+      }
     });
   }
   return metricsForLink;

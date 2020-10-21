@@ -29,7 +29,7 @@ export default function CreateApplicationDialog({ formData, timeConfig, onClose,
       timeConfig={timeConfig}
       onClose={onClose}
       onCreate={() =>
-        createApplication(form, getOnSavePath, setForm, isSaving, setIsSaving, applicationCreationCreateClick)
+        createApplication(form, getOnSavePath, setForm, isSaving, setIsSaving, applicationCreationCreateClick, onClose)
       }
       simpleMode={simpleMode}
       setSimpleMode={setSimpleMode}
@@ -53,7 +53,15 @@ export default function CreateApplicationDialog({ formData, timeConfig, onClose,
   );
 }
 
-function createApplication(form, getOnSavePath, setForm, isSaving, setIsSaving, applicationCreationCreateClick) {
+function createApplication(
+  form,
+  getOnSavePath,
+  setForm,
+  isSaving,
+  setIsSaving,
+  applicationCreationCreateClick,
+  onClose
+) {
   setIsSaving(true);
 
   if (!form.hierarchyValid) {
@@ -68,6 +76,7 @@ function createApplication(form, getOnSavePath, setForm, isSaving, setIsSaving, 
     result => {
       applicationCreationCreateClick(entityToUpdate);
       goToPath(getOnSavePath(result));
+      onClose();
     },
     error => {
       logger.error(`failed to create AP: ${error.message}`, error);

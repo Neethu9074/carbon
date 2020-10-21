@@ -197,7 +197,7 @@ export default connectTo(
               callGroupByTag={{ name: 'call.name', entity: entityTypes.NOT_APPLICABLE }}
               renderPostChartContent={withPotentialProblemsLane}
               renderPostChartContentHttpStatus={MarkerLanes}
-              hideHttp={!type.includes('HTTP')}
+              showHttp={type.includes('HTTP')}
             />
           </Col>
           <Col lg={4}>
