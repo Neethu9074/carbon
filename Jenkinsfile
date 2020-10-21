@@ -108,9 +108,15 @@ stage (name: 'K8s Deploy') {
           string(name: 'UNIT', value: 'test', trim: true),
       ]
     } else if ( env.BRANCH_NAME == latestReleaseBranch && autoDeployMagenta ) {
+      // retag artifacts, build k8s containers and deploy
       build job: '/retag-artifacts', parameters: [
           string(name: 'BRANCH', value: env.BRANCH_NAME, trim: true),
           string(name: 'ENVIRONMENT', value: 'magenta', trim: true)
+      ]
+    } else if (env.BRANCH_NAME ==~ /release-\d{3,}/ && env.BRANCH_NAME != latestReleaseBranch ) {
+      // retag artifacts and build k8s containers only
+      build job: '/retag-artifacts', parameters: [
+          string(name: 'BRANCH', value: env.BRANCH_NAME, trim: true)
       ]
     }
   }
