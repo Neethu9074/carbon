@@ -1,7 +1,7 @@
 import withSideEffect from 'react-side-effect';
 import { sortedUniq } from 'lodash';
 
-import { setTitles as setTitlesForTracking } from 'in-services/tracking/viewTracking';
+import { setTitles as setTitlesForTracking } from 'in-services/tracking/tracking';
 import { isBlank, isNotBlank } from 'in-services/util/string';
 import config from 'in-services/config';
 

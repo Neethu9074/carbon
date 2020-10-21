@@ -1,6 +1,6 @@
 import withSideEffect from 'react-side-effect';
 
-import { setMeta } from 'in-services/tracking/viewTracking';
+import { setMeta } from 'in-services/tracking/tracking';
 
 function reduceProps(propsList) {
   return propsList.reduce(
