@@ -250,13 +250,14 @@ function getGroups({ timeConfig, backendQueryModel, group, cursor, type, order, 
 }
 
 function ExpandedGroup({ group, backendQueryModel, timeConfig, type, metrics, availableMetrics, order }) {
+  const numberOfEntitiesPerGroup = 20;
   return (
     <InfrastructureList
       backendQueryModel={addTagsToBackendModel(backendQueryModel, group.tags)}
-      numSkeletonRows={Math.min(group.count, 5)}
+      numSkeletonRows={Math.min(group.count, numberOfEntitiesPerGroup)}
       availableMetrics={availableMetrics}
       timeConfig={timeConfig}
-      retrievalSize={20}
+      retrievalSize={numberOfEntitiesPerGroup}
       metrics={metrics}
       order={order}
       type={type}

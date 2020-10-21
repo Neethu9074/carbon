@@ -40,7 +40,6 @@ export default connectTo(
 
     render() {
       const { filters } = this.props;
-
       return (
         <section className={block} ref={menu => (this.menu = menu)}>
           <LifecycleObserver onWillMount={refresh} />
@@ -68,7 +67,7 @@ export default connectTo(
                     href=""
                     onClick={e => {
                       e.preventDefault();
-                      remove(filter.get('id'), filter.get('name'));
+                      remove(filter.get('id'), filter.get('name'), filter.get('definition'));
                     }}
                     className={`${block}__remove`}
                   >
