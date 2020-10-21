@@ -78,9 +78,9 @@ export default function CallsAndHttp({
   hasHttpAndOtherEndpoints
 }) {
   const tabs = showHttp ? allTabs : allTabs.filter(tab => tab !== tabHttpStatusCodes);
-  const metrics = showHttp ? allMetrics : allMetrics.filter(m => m.tab !== tabHttpStatusCodes);
+  let metrics = showHttp ? allMetrics : allMetrics.filter(m => m.tab !== tabHttpStatusCodes);
   if (!hasHttpAndOtherEndpoints) {
-    metrics.filter(metric => metric.id !== 'calls.nonHttp');
+    metrics = metrics.filter(metric => metric.id !== 'calls.nonHttp');
   }
 
   const findDefaultMetricByTab = tab => metrics.find(m => m.tab === tab && m.tabDefault)?.id ?? metrics[0].id;
@@ -107,11 +107,7 @@ export default function CallsAndHttp({
   const timeShiftConfig = useTimeShiftConfig();
 
   const header = timeShiftConfig.offset ? (
-    <ComboChartMetricSelector
-      metrics={metrics}
-      selected={activeMetric}
-      onChange={setActiveMetric}
-    />
+    <ComboChartMetricSelector metrics={metrics} selected={activeMetric} onChange={setActiveMetric} />
   ) : (
     tabs.length > 1 && <TabChartSelector tabs={tabs} selected={activeTab} onChange={setActiveTab} />
   );
