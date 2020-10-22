@@ -76,6 +76,7 @@ function mapMultiResult(result, y, isY2) {
   if (result.y2Labels && isY2) {
     y.labels = result.y2Labels;
   }
+  y.labels = y.labels.map(label => (label === 'other_group' ? 'Other' : label));
   y.aggregations = Object.keys(result.data)
     .filter(metricId => metricId.startsWith(prefix))
     .map(key => {

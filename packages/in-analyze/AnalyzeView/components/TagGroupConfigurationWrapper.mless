@@ -57,6 +57,15 @@
     padding: 0 0.75rem;
   }
 
+  .barBottomToggle {
+    margin-top: 1.5rem;
+  }
+
+  .barBottomLabel {
+    margin-top: 1.8rem;
+    padding: 0 0.75rem 0 0;
+  }
+
   .select {
     width: 10rem;
   }

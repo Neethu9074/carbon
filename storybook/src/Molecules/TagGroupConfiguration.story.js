@@ -13,30 +13,35 @@ export default {
   decorator: { action, text, boolean }
 };
 
-const groupingForm = createMapForm()
-  .put(
-    'by',
-    createField({
-      value: {
-        groupbyTag: 'call.http.status',
-        entity: 'NOT_APPLICABLE'
-      }
-    })
-  )
-  .put(
-    'direction',
-    createField({
-      value: 'DESC'
-    })
-  )
-  .put(
-    'maxResults',
-    createField({
-      value: 5
-    })
-  );
-
 export const Default = () => {
+  const groupingForm = createMapForm()
+    .put(
+      'by',
+      createField({
+        value: {
+          groupbyTag: 'call.http.status',
+          entity: 'NOT_APPLICABLE'
+        }
+      })
+    )
+    .put(
+      'direction',
+      createField({
+        value: 'DESC'
+      })
+    )
+    .put(
+      'maxResults',
+      createField({
+        value: 5
+      })
+    )
+    .put(
+      'includeOthers',
+      createField({
+        value: false
+      })
+    );
   return (
     <TagGroupConfigurationWrapper
       grouping={groupingForm}
@@ -44,7 +49,7 @@ export const Default = () => {
       tagGroupList={
         <TagGroupList
           tagGroupEntry={{
-            tag: groupingForm?.get('by')?.value ?? null,
+            tag: groupingForm.get('by').value,
             onClick: () => {},
             onRemove: () => {}
           }}
@@ -76,6 +81,12 @@ export const GroupingWithDestinationEntity = () => {
       createField({
         value: 5
       })
+    )
+    .put(
+      'includeOthers',
+      createField({
+        value: false
+      })
     );
   return (
     <TagGroupConfigurationWrapper
@@ -84,7 +95,7 @@ export const GroupingWithDestinationEntity = () => {
       tagGroupList={
         <TagGroupList
           tagGroupEntry={{
-            tag: groupingForm?.get('by')?.value ?? null,
+            tag: groupingForm.get('by').value,
             onClick: () => {},
             onRemove: () => {}
           }}
@@ -116,6 +127,12 @@ export const GroupingWithSourceEntity = () => {
       createField({
         value: 5
       })
+    )
+    .put(
+      'includeOthers',
+      createField({
+        value: false
+      })
     );
   return (
     <TagGroupConfigurationWrapper
@@ -124,7 +141,7 @@ export const GroupingWithSourceEntity = () => {
       tagGroupList={
         <TagGroupList
           tagGroupEntry={{
-            tag: groupingForm?.get('by')?.value ?? null,
+            tag: groupingForm.get('by').value,
             onClick: () => {},
             onRemove: () => {}
           }}
@@ -156,6 +173,12 @@ export const GroupingWithBottomResults = () => {
       createField({
         value: 5
       })
+    )
+    .put(
+      'includeOthers',
+      createField({
+        value: false
+      })
     );
   return (
     <TagGroupConfigurationWrapper
@@ -164,7 +187,7 @@ export const GroupingWithBottomResults = () => {
       tagGroupList={
         <TagGroupList
           tagGroupEntry={{
-            tag: groupingForm?.get('by')?.value ?? null,
+            tag: groupingForm.get('by').value,
             onClick: () => {},
             onRemove: () => {}
           }}
@@ -174,16 +197,58 @@ export const GroupingWithBottomResults = () => {
   );
 };
 
-export const Empty = () => {
-  return <TagGroupConfigurationWrapper isEmpty quickGroupBar={<QuickGroupBar filters={{}} />} />;
-};
-
-export const DisabledChartType = () => {
-  return <TagGroupConfigurationWrapper isEmpty disabled quickGroupBar={<QuickGroupBar filters={{}} />} />;
-};
-
-export const DisabledMultipleMetrics = () => {
+export const GroupingWithOtherGroupsIncluded = () => {
+  const groupingForm = createMapForm()
+    .put(
+      'by',
+      createField({
+        value: {
+          groupbyTag: 'call.http.status',
+          entity: 'DESTINATION'
+        }
+      })
+    )
+    .put(
+      'direction',
+      createField({
+        value: 'DESC'
+      })
+    )
+    .put(
+      'maxResults',
+      createField({
+        value: 5
+      })
+    )
+    .put(
+      'includeOthers',
+      createField({
+        value: true
+      })
+    );
   return (
-    <TagGroupConfigurationWrapper isEmpty disabled isMultiMetrics quickGroupBar={<QuickGroupBar filters={{}} />} />
+    <TagGroupConfigurationWrapper
+      grouping={groupingForm}
+      quickGroupBar={<QuickGroupBar filters={{}} />}
+      tagGroupList={
+        <TagGroupList
+          tagGroupEntry={{
+            tag: groupingForm.get('by').value,
+            onClick: () => {},
+            onRemove: () => {}
+          }}
+        />
+      }
+    />
   );
 };
+
+export const Empty = () => <TagGroupConfigurationWrapper isEmpty quickGroupBar={<QuickGroupBar filters={{}} />} />;
+
+export const DisabledChartType = () => (
+  <TagGroupConfigurationWrapper isEmpty disabled quickGroupBar={<QuickGroupBar filters={{}} />} />
+);
+
+export const DisabledMultipleMetrics = () => (
+  <TagGroupConfigurationWrapper isEmpty disabled isMultiMetrics quickGroupBar={<QuickGroupBar filters={{}} />} />
+);

@@ -20,21 +20,32 @@ export default compose(
   connectTo({
     timeConfig: timeConfig$
   }),
-  withProps(({ tagFilters, grouping, timeConfig, onByChange, onDirectionChange, onMaxResultsChange }) => {
-    const applicationAreaSpecificTagFilters = convertToApplicationAreaSpecificTagFilter(tagFilters);
-    return {
-      tagFilters: applicationAreaSpecificTagFilters,
-      filters: {
-        dataSource: 'calls',
-        timeConfig,
-        tagFilter: applicationAreaSpecificTagFilters
-      },
-      grouping: grouping,
-      onDirectionChange: onDirectionChange,
-      onMaxResultsChange: onMaxResultsChange,
-      setNewGroup: newGroup => onByChange(newGroup)
-    };
-  }),
+  withProps(
+    ({
+      tagFilters,
+      grouping,
+      timeConfig,
+      onByChange,
+      onDirectionChange,
+      onIncludeOthersChange,
+      onMaxResultsChange
+    }) => {
+      const applicationAreaSpecificTagFilters = convertToApplicationAreaSpecificTagFilter(tagFilters);
+      return {
+        tagFilters: applicationAreaSpecificTagFilters,
+        filters: {
+          dataSource: 'calls',
+          timeConfig,
+          tagFilter: applicationAreaSpecificTagFilters
+        },
+        grouping: grouping,
+        onDirectionChange: onDirectionChange,
+        onIncludeOthersChange: onIncludeOthersChange,
+        onMaxResultsChange: onMaxResultsChange,
+        setNewGroup: newGroup => onByChange(newGroup)
+      };
+    }
+  ),
   tagGroupManipulators
 )(QuickGroupForm);
 
@@ -52,6 +63,7 @@ function QuickGroupForm(props) {
     excludedTagFilters,
     setNewGroup,
     onDirectionChange,
+    onIncludeOthersChange,
     onMaxResultsChange,
     disabled,
     isMultiMetrics
@@ -60,6 +72,7 @@ function QuickGroupForm(props) {
     <TagGroupConfigurationWrapper
       grouping={grouping}
       onDirectionChange={onDirectionChange}
+      onIncludeOthersChange={onIncludeOthersChange}
       onMaxResultsChange={onMaxResultsChange}
       quickGroupBar={
         <QuickGroupBar {...props} tagFilter={tagFilters} grouping={grouping} excludedTagFilters={excludedTagFilters} />

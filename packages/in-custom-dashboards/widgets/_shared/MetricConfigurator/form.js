@@ -1,6 +1,6 @@
 import { createMapForm, createField, notBlankValidator, createListForm } from 'formalistic';
 
-import { numberValidator, stringValidator, objectValidator } from 'in-services/validators/jsonType';
+import { numberValidator, stringValidator, objectValidator, booleanValidator } from 'in-services/validators/jsonType';
 import sources from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
@@ -108,6 +108,13 @@ function createSavedGroupingForm(grouping) {
       createField({
         value: grouping.direction,
         validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
+      })
+    )
+    .put(
+      'includeOthers',
+      createField({
+        value: grouping.includeOthers,
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, booleanValidator)
       })
     )
     .put(

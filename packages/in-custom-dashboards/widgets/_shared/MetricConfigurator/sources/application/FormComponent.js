@@ -2,7 +2,7 @@ import { createMapForm, createField, notBlankValidator, createListForm } from 'f
 import { find, groupBy } from 'lodash';
 import React from 'react';
 
-import { numberValidator, stringValidator, objectValidator } from 'in-services/validators/jsonType';
+import { numberValidator, stringValidator, objectValidator, booleanValidator } from 'in-services/validators/jsonType';
 import TagFilterConfiguration from 'in-analyze/AnalyzeView/components/TagFilterConfiguration';
 import TagGroupConfiguration from 'in-analyze/AnalyzeView/components/TagGroupConfiguration';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
@@ -81,6 +81,9 @@ export default function FormComponent({
         }}
         onDirectionChange={direction =>
           onChange(['grouping', 0, 'direction'], f => f.setValue(direction).setTouched(true))
+        }
+        onIncludeOthersChange={includeOthers =>
+          onChange(['grouping', 0, 'includeOthers'], f => f.setValue(includeOthers).setTouched(true))
         }
         onMaxResultsChange={maxResults =>
           onChange(['grouping', 0, 'maxResults'], f => f.setValue(maxResults).setTouched(true))
@@ -204,6 +207,13 @@ function getDefaultGroupingForm(by) {
       createField({
         value: 'DESC',
         validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
+      })
+    )
+    .put(
+      'includeOthers',
+      createField({
+        value: true,
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, booleanValidator)
       })
     )
     .put(

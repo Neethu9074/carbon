@@ -3,6 +3,7 @@ import React from 'react';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import FormGroup from 'in-components/form/FormGroup';
 import Select from 'in-components/form/Select';
+import Toggle from 'in-components/form/Toggle';
 import Label from 'in-components/form/Label';
 
 import locals from './TagGroupConfigurationWrapper.mless';
@@ -19,6 +20,7 @@ export default function TagGroupConfigurationWrapper({
   isEmpty = false,
   disabled,
   onDirectionChange,
+  onIncludeOthersChange,
   isMultiMetrics
 }) {
   let emptyMessage = 'No group defined.';
@@ -59,6 +61,14 @@ export default function TagGroupConfigurationWrapper({
                   </Select>
                 </FormGroup>
               </div>
+              <div className={locals.barBottomToggle}>
+                <Toggle
+                  id="display-sum-others"
+                  checked={grouping.get('includeOthers').value}
+                  onChange={() => onIncludeOthersChange(!grouping.get('includeOthers').value)}
+                />
+              </div>
+              <div className={locals.barBottomLabel}>Display aggregation of other groups</div>
             </div>
           </div>
         </div>
