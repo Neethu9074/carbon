@@ -1,3 +1,4 @@
+import { createField } from 'formalistic';
 import React, { useState } from 'react';
 import { createLogger } from 'instalog';
 
@@ -11,6 +12,7 @@ import {
   toServerItemModel,
   defaultValueForType,
   createNewFormEntry,
+  validatorForType,
   createForm
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/form';
 import {
@@ -29,6 +31,7 @@ import {
 import getAlertingCustomPayloadTagCatalog from 'in-infrastructure/subscriptions/getAlertingCustomPayloadTagCatalog';
 import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { isLoading, hasError, successObservableFactory } from 'in-services/util/result';
+import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import TouchedMessages from 'in-components/form/TouchedMessages';
@@ -47,6 +50,7 @@ import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
 import Title from 'in-components/Title';
 import { role } from 'in-stores/user';
+import Link from 'in-components/Link';
 
 import locals from './CustomPayloadForm.mless';
 
@@ -105,11 +109,19 @@ export function CustomPayload(props) {
 
   return (
     <SettingsDetailPage>
-      <Title title="Configure Global Custom Payload for Alerts" />
-      <SubViewHeader>Configure Global Custom Payload</SubViewHeader>
-      {!canConfigureGlobalAlertPayload && (
-        <Message withIcon>You are not having the required permission to edit this custom payload.</Message>
-      )}
+      <Title title="Configure Custom Payload for Alerts" />
+      <SubViewHeader>Configure Custom Payload</SubViewHeader>
+      <Section>
+        <Message withIcon small>
+          These Key/Value pairs will be added as payload to each alert. See{' '}
+          <Link href="https://www.instana.com/docs/" external>
+            our docs (TBD)
+            {/* TODO, see story https://instana.kanbanize.com/ctrl_board/37/cards/28831 */}
+          </Link>{' '}
+          for more details.
+        </Message>
+      </Section>
+      {!canConfigureGlobalAlertPayload && <Message withIcon>You are not permitted to edit custom payloads.</Message>}
       <form
         onSubmit={e => {
           e.preventDefault();
@@ -143,6 +155,9 @@ export function CustomPayload(props) {
           updateIn={updateIn}
           enabled={enabled}
         />
+        <Section>
+          <TouchedMessages field={form} />
+        </Section>
 
         {message ? (
           <Section>
@@ -170,6 +185,7 @@ export function CustomPayload(props) {
 
 function getRowProps() {
   return {
+    className: locals.row,
     size: 'compact'
   };
 }
@@ -190,17 +206,20 @@ const tableColumnDefinitions = [
 
       return (
         <FormGroup withoutBottomMargin>
-          <Input
-            disabled={!enabled}
-            className={locals.colName}
-            value={value}
-            hasError={!valueField?.valid && valueField?.touched}
-            onChange={({ target }) => {
-              return onChange(['key'], f => f.setValue(target.value).setTouched(true));
-            }}
-            maxLength={128}
-            autoFocus
-          />
+          <HorizontalFlexWrapper className={locals.colName}>
+            <span className={locals.prefix}>custom:</span>
+            <Input
+              disabled={!enabled}
+              className={locals.key}
+              value={value}
+              hasError={!valueField?.valid && valueField?.touched}
+              onChange={({ target }) => {
+                return onChange(['key'], f => f.setValue(target.value).setTouched(true));
+              }}
+              maxLength={128}
+              autoFocus
+            />
+          </HorizontalFlexWrapper>
           <TouchedMessages field={item.get('key')} />
         </FormGroup>
       );
@@ -215,10 +234,16 @@ const tableColumnDefinitions = [
     getContent(item, { getRowIndex, updateIn, enabled }) {
       const onChangeType = newType => {
         const newValue = defaultValueForType(newType);
+        const newValidator = validatorForType[newType];
         updateIn([getRowIndex(item)], formFields => {
           return formFields
             .updateIn(['type'], f => f.setValue(newType).setTouched(true))
-            .updateIn(['value'], f => f.setValue(newValue).setTouched(true));
+            .updateIn(['value'], () =>
+              createField({
+                value: newValue,
+                validator: newValidator
+              })
+            );
         });
       };
 
@@ -227,7 +252,7 @@ const tableColumnDefinitions = [
           {item.get('type').map(field => (
             <Select
               disabled={!enabled}
-              className={locals.colName}
+              className={locals.colType}
               value={field.value ?? defaultType}
               hasError={!field?.valid && field?.touched}
               onChange={({ target }) => onChangeType?.(target.value)}
@@ -268,7 +293,7 @@ const tableColumnDefinitions = [
           <FormGroup withoutBottomMargin>
             <Input
               disabled={!enabled}
-              className={locals.colName}
+              className={locals.colValue}
               value={value}
               hasError={!valueField?.valid && valueField?.touched}
               onChange={({ target }) => {
@@ -285,7 +310,7 @@ const tableColumnDefinitions = [
           <FormGroup withoutBottomMargin>
             <Input
               disabled={!enabled}
-              className={locals.colName}
+              className={locals.colValue}
               value={value}
               hasError={!valueField?.valid && valueField?.touched}
               onChange={({ target }) => {
@@ -303,7 +328,7 @@ const tableColumnDefinitions = [
           <FormGroup withoutBottomMargin>
             <Select
               disabled={!enabled}
-              className={locals.colName}
+              className={locals.colValue}
               value={value ?? false}
               hasError={!valueField?.valid && valueField?.touched}
               onChange={({ target }) => {
@@ -320,7 +345,7 @@ const tableColumnDefinitions = [
 
       if (type === dynamicType) {
         return (
-          <FormGroup withoutBottomMargin className={locals.colName}>
+          <FormGroup withoutBottomMargin className={locals.colValue}>
             {valueField.map(field => {
               const value = field?.value;
               const storeIntoFormModel = payloadItem => {
@@ -355,7 +380,7 @@ const deleteItemColumn = {
   getContent(itemForm, { deleteRow, enabled }) {
     return (
       <div className={locals.controls}>
-        <Tooltip content="Delete Row" align="mousePosition">
+        <Tooltip content="Delete Row">
           <SvgIcon
             type="lib_actions_delete"
             className={evaluateClassNames({

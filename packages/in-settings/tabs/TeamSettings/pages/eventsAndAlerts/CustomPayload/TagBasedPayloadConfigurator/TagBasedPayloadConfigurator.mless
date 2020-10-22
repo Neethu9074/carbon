@@ -2,9 +2,9 @@
 
 :local {
   .configurator {
+    // same height as all other input fields on this page
+    height: 2rem;
 
-    // Visually align group by "box" with the first box of the query builder (which has an offset
-    // due to the leading whitespace).
     font-weight: 600;
     font-size: 0.75rem;
     line-height: 1.6;
@@ -25,7 +25,8 @@
   }
 
   .selectPayloadButton {
-    margin: 0.125rem auto 0 auto
+    align-self: flex-start;
+    margin: 0.25rem 0;
   }
 
   .tagName {

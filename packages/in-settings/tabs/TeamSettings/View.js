@@ -28,7 +28,7 @@ import {
   teamSettingsAlertingMaintenanceConfigurationEdit,
   teamSettingsAlertingMaintenanceConfigurationNew,
   teamSettingsAlertingMaintenanceConfigurations,
-  teamSettingsAlertingCustomPayloadConfigurations,
+  teamSettingsAlertingCustomPayloadConfiguration,
   teamSettingsAuditLog,
   teamSettingsLogManagementCoralogix,
   teamSettingsLogManagementElk,
@@ -236,8 +236,8 @@ function navigationTreeForRole(role): NavigationTree {
 
     if (alertCustomPayloadEnabled) {
       eventsAndAlertsPages.push({
-        path: teamSettingsAlertingCustomPayloadConfigurations,
-        label: 'Custom Payloads',
+        path: teamSettingsAlertingCustomPayloadConfiguration,
+        label: 'Custom Payload',
         component: CustomPayloadPage
       });
     }

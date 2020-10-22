@@ -56,7 +56,7 @@ export default function TagBasedPayloadConfigurator({
         ) : (
           <Button
             className={locals.selectPayloadButton}
-            kind="subtle"
+            kind="action"
             size="compact"
             refSetter={refSetter}
             onClick={toggle}

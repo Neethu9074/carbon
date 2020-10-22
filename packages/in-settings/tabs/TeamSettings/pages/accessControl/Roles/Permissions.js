@@ -134,7 +134,7 @@ export default function Permissions({ form, onChange, disabled }) {
           onChange={onChange}
           name="canConfigureGlobalAlertPayload"
           label={permissions['canConfigureGlobalAlertPayload']}
-          helpText="Permits configuration of global custom payloads for alerts."
+          helpText="Permits configuration of global custom payload for alerts."
         />
         <Permission
           form={form}

@@ -77,9 +77,7 @@ function longNumberValidator(num) {
   }
 }
 
-const numberMustBeLong = createValidationError(
-  `Number must be a Long integer value, between ${Number.MIN_SAFE_INTEGER} and ${Number.MAX_SAFE_INTEGER}`
-);
+const numberMustBeLong = createValidationError('Number must be a Long integer value');
 
 function secondKeyMayNotBeMissingValidator(tagObject) {
   if (!tagObject) {
@@ -92,13 +90,13 @@ function secondKeyMayNotBeMissingValidator(tagObject) {
 
 const secondKeyMayNotBeMissingError = createValidationError('A key needs to be specified.');
 
-const validatorForType = {
+export const validatorForType = {
   [staticStringType]: nonBlankValidator,
   [staticNumberType]: longNumberValidator,
   [dynamicType]: secondKeyMayNotBeMissingValidator
 };
 
-export function createFormFieldForField(field) {
+function createFormFieldForField(field) {
   return createMapForm()
     .put(
       'key',
@@ -122,8 +120,8 @@ export function createFormFieldForField(field) {
     .put(
       'value',
       createField({
-        value: field.value ?? defaultValueForType(field.type),
-        validator: validatorForType[field.type] ?? undefined
+        value: field.value ?? defaultValueForType(field.type ?? defaultType),
+        validator: validatorForType[field.type ?? defaultType] ?? undefined
       })
     );
 }
@@ -142,7 +140,9 @@ export function createNewFormEntry() {
 }
 
 export function createForm(payloadFields) {
-  let fields = createListForm();
+  let fields = createListForm({
+    validator: onlyUniqueKeyNames
+  });
   payloadFields.forEach(payloadField => {
     fields = fields.push(createFormFieldForField(payloadField));
   });
@@ -152,3 +152,15 @@ export function createForm(payloadFields) {
   }
   return fields;
 }
+
+function onlyUniqueKeyNames(payloadItems) {
+  if (!payloadItems) return;
+
+  const keys = payloadItems.map(item => item.get('key').value);
+  const keySet = new Set(keys);
+  if (keys.length > keySet.size) {
+    return keyNamesMustBeUnique;
+  }
+}
+
+const keyNamesMustBeUnique = createValidationError('Key names must be unique.');

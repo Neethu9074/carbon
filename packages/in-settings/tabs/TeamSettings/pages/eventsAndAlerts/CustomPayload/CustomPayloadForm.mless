@@ -3,8 +3,20 @@
 
 :local {
 
-  .colName, .colType {
+  .row {
+    vertical-align: top;
+  }
+
+  .colName, .colType, .colValue {
     width: 100%;
+  }
+
+  .prefix {
+    padding-right: 0.25rem;
+  }
+
+  .key {
+    flex: 1;
   }
 
   .delete {
@@ -23,13 +35,8 @@
 
   .controls {
     display: flex;
-    justify-content: flex-end;
-  }
-
-  .colValue {
-    width: 50%;
-    max-width: 50rem;
-    flex: 1;
+    align-items: center;
+    height: 2rem;
   }
 
   .rightAligned {
