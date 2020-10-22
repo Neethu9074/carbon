@@ -132,7 +132,7 @@ export default function SelectorOverlay({ options, onChange, withIcons = true })
   function onKeyDown(event) {
     // keyCode is deprecated and code is not yet supported everywhere
     const code = event.code ?? event.keyCode;
-    if (code === keyCodes.arrows.right) {
+    if (code === keyCodes.arrows.right || code === keyCodes.enter) {
       event.target.click();
     } else if (code === keyCodes.arrows.left) {
       setState({

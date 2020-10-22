@@ -2,9 +2,11 @@
 
 :local {
   .wrapper {
-    width: 20rem;
+    width: 14rem;
     flex-grow: 0;
     flex-shrink: 0;
     background: @lib__colors__white;
+    border: 1px solid @lib__colors__N400;
+    margin-right: -1px;
   }
 }

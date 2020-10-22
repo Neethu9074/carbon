@@ -23,10 +23,10 @@ import GroupedCallsList from 'in-applications/analyze/components/GroupedCallsLis
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import CallsList from 'in-applications/analyze/components/CallsList';
 import { aggregateMetric } from 'in-applications/analyze/metrics';
-import { warning, error } from 'in-new-components/Message/types';
 import AnalyzeHeader from 'in-analyze/components/AnalyzeHeader';
 import Sections from 'in-new-components/workspace/Sections';
 import { pendingResult } from 'in-services/fixedObjects';
+import { error } from 'in-new-components/Message/types';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import useObservable from 'in-hooks/useObservable';
 import Stack from 'in-new-components/layout/Stack';
@@ -103,10 +103,6 @@ function ApplicationAnalyzeViewWithFixatedTimeConfig() {
     <Sticky header={<AnalyzeHeader isGrouped={Boolean(groupBy?.groupbyTag)} />}>
       <LeftRightPadding>
         <Stack>
-          <Message type={warning} withIcon small>
-            This is a work in progress. The final version of UA2 might look nothing like this.
-          </Message>
-
           <Sections>
             <QueryBuilderSection
               value={tagFilterExpression}
@@ -137,38 +133,36 @@ function ApplicationAnalyzeViewWithFixatedTimeConfig() {
             </Message>
           )}
 
-          {isValid && (
-            <div className={locals.facetedSearchWithCallList}>
-              <FacetedSearch
+          <div className={locals.facetedSearchWithCallList}>
+            <FacetedSearch
+              tagFilterExpression={backendQueryModel}
+              addFilter={addFilter}
+              removeFilter={removeFilter}
+            />
+            {isValid && !groupBy?.groupbyTag && (
+              <CallsList
+                timeConfig={timeConfig}
                 tagFilterExpression={backendQueryModel}
-                addFilter={addFilter}
-                removeFilter={removeFilter}
+                orderBy={orderByCalls}
+                onChangeOrderBy={onChangeOrderByCalls}
               />
-              {!groupBy?.groupbyTag && (
-                <CallsList
-                  timeConfig={timeConfig}
-                  tagFilterExpression={backendQueryModel}
-                  orderBy={orderByCalls}
-                  onChangeOrderBy={onChangeOrderByCalls}
-                />
-              )}
+            )}
 
-              {groupBy?.groupbyTag && (
-                <GroupedCallsList
-                  timeConfig={timeConfig}
-                  tagFilterExpression={backendQueryModel}
-                  groupBy={groupBy}
-                  orderBy={orderByGroups}
-                  orderByCalls={orderByCalls}
-                  metrics={metrics}
-                  onFocusOnGroup={onFocusOnGroup}
-                  onChangeOrderBy={onChangeOrderByGroups}
-                  onChangeOrderByCalls={onChangeOrderByCalls}
-                  onChangeMetrics={onChangeMetrics}
-                />
-              )}
-            </div>
-          )}
+            {isValid && groupBy?.groupbyTag && (
+              <GroupedCallsList
+                timeConfig={timeConfig}
+                tagFilterExpression={backendQueryModel}
+                groupBy={groupBy}
+                orderBy={orderByGroups}
+                orderByCalls={orderByCalls}
+                metrics={metrics}
+                onFocusOnGroup={onFocusOnGroup}
+                onChangeOrderBy={onChangeOrderByGroups}
+                onChangeOrderByCalls={onChangeOrderByCalls}
+                onChangeMetrics={onChangeMetrics}
+              />
+            )}
+          </div>
         </Stack>
       </LeftRightPadding>
 

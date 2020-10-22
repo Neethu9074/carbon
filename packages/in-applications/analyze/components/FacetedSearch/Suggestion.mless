@@ -44,4 +44,7 @@
     font-size: 0.75rem;
     padding: 0;
   }
+  div.search {
+    padding: 0;
+  }
 }

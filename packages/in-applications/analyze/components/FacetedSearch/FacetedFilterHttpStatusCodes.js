@@ -20,6 +20,14 @@ const ranges = [
 ];
 
 export default function FacetedFilterHttpStatusCodes({ title, tagFilterExpression, addFilter, removeFilter }) {
+  return (
+    <FacetedExpandableCard title={title}>
+      <Body tagFilterExpression={tagFilterExpression} addFilter={addFilter} removeFilter={removeFilter} />
+    </FacetedExpandableCard>
+  );
+}
+
+function Body({ tagFilterExpression, addFilter, removeFilter }) {
   const currentFilters = existingFiltersForTag(tagFilterExpression);
   const selectedRanges =
     currentFilters &&
@@ -33,14 +41,14 @@ export default function FacetedFilterHttpStatusCodes({ title, tagFilterExpressio
       return hasStart && hasEnd;
     });
   if (selectedRanges?.length > 0) {
-    return <SelectedRanges title={title} selectedRanges={selectedRanges} removeFilter={removeFilter} />;
+    return <SelectedRanges selectedRanges={selectedRanges} removeFilter={removeFilter} />;
   }
   return (
-    <FacetedExpandableCard title={title}>
+    <>
       {ranges.map(range => (
         <Suggestion key={range.start} range={range} addFilter={addFilter} />
       ))}
-    </FacetedExpandableCard>
+    </>
   );
 }
 
@@ -54,9 +62,9 @@ function existingFiltersForTag(tagFilterExpression) {
 
 const rangeLabel = range => `${range.start}-${range.end}`;
 
-function SelectedRanges({ title, selectedRanges, removeFilter }) {
+function SelectedRanges({ selectedRanges, removeFilter }) {
   return (
-    <FacetedExpandableCard title={title} openByDefault>
+    <>
       {selectedRanges.map(range => (
         <ExistingValue
           key={range.start}
@@ -79,7 +87,7 @@ function SelectedRanges({ title, selectedRanges, removeFilter }) {
           }
         />
       ))}
-    </FacetedExpandableCard>
+    </>
   );
 }
 

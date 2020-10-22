@@ -20,7 +20,8 @@ export default function SearchInput({
   hasError,
   onReturn,
   onFocus,
-  onBlur
+  onBlur,
+  withoutIcon = false
 }) {
   const [hasFocus, setHasFocus] = useState(false);
   const inputRef = useRef();
@@ -67,14 +68,16 @@ export default function SearchInput({
           onBlur?.();
         }}
       />
-      <SvgIcon
-        className={evaluateClassNames({
-          [locals.icon]: true,
-          [locals.iconDisabled]: disabled
-        })}
-        type="lib_actions_search"
-        onClick={disabled ? undefined : () => inputRef?.current?.focus()}
-      />
+      {!withoutIcon && (
+        <SvgIcon
+          className={evaluateClassNames({
+            [locals.icon]: true,
+            [locals.withoutIcon]: disabled
+          })}
+          type="lib_actions_search"
+          onClick={disabled ? undefined : () => inputRef?.current?.focus()}
+        />
+      )}
     </div>
   );
 }
@@ -83,6 +86,7 @@ SearchInput.propTypes = {
   autoFocus: PropTypes.bool,
   className: PropTypes.string,
   disabled: PropTypes.bool,
+  withoutIcon: PropTypes.bool,
   hasError: PropTypes.bool,
   maxWidth: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   onBlur: PropTypes.func,

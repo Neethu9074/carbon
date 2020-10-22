@@ -19,7 +19,8 @@ export default function LightCardV2({
   headerClassName,
   bodyClassName,
   useMaxAvailableHeight = true,
-  size = 'l'
+  size = 'l',
+  onHeaderBackgroundClicked
 }) {
   if (header && !rightHeaderContent) {
     rightHeaderContent = header;
@@ -39,6 +40,7 @@ export default function LightCardV2({
           [locals.noHeaderContent]: !title && !icon && !leftHeaderContent && !header && !rightHeaderContent,
           [headerClassName]: headerClassName
         })}
+        onClick={onHeaderBackgroundClicked}
       >
         <div className={locals.left}>
           {icon && <SvgIcon className={locals.icon} size="l" type={icon} />}
@@ -80,5 +82,6 @@ LightCardV2.propTypes = {
   rightHeaderContent: PropTypes.node,
   useMaxAvailableHeight: PropTypes.bool,
   hasMarginBottom: PropTypes.bool,
+  onHeaderBackgroundClicked: PropTypes.func,
   size: PropTypes.oneOf(['s', 'l'])
 };

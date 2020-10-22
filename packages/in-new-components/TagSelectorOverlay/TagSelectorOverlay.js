@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 
 import SelectorOverlay from 'in-new-components/SelectorOverlay/SelectorOverlay';
+import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
 import { emptyArray } from 'in-services/fixedObjects';
 import SvgIcon from 'in-components/SvgIcon';
 
@@ -9,6 +10,8 @@ import locals from './TagSelectorOverlay.mless';
 
 export default function TagSelectorOverlay({ tagCatalog, onChange, close }) {
   const options = useMemo(() => toOptions(tagCatalog, tagCatalog.tagTree), [tagCatalog]);
+
+  useDisabledBodyScroll();
 
   return (
     <SelectorOverlay

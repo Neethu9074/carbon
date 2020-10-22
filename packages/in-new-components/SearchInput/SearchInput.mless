@@ -21,7 +21,7 @@
     margin-left: auto;
   }
 
-  .iconDisabled {
+  .withoutIcon {
     fill: @lib__colors__N400;
   }
 

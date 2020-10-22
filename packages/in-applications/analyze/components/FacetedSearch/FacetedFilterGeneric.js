@@ -13,6 +13,20 @@ import useObservable from 'in-hooks/useObservable';
 import locals from './Suggestion.mless';
 
 export default function FacetedFilterGeneric({ title, tagFilterExpression, tag, entity, addFilter, removeFilter }) {
+  return (
+    <FacetedExpandableCard title={title}>
+      <Body
+        tagFilterExpression={tagFilterExpression}
+        tag={tag}
+        entity={entity}
+        addFilter={addFilter}
+        removeFilter={removeFilter}
+      />
+    </FacetedExpandableCard>
+  );
+}
+
+function Body({ tagFilterExpression, tag, entity, title, addFilter, removeFilter }) {
   const [valueFilter, setValueFilter] = useState('');
   const selectedValues = existingValuesForTag(tagFilterExpression, tag, entity);
   if (selectedValues.length > 0) {
@@ -33,25 +47,37 @@ export default function FacetedFilterGeneric({ title, tagFilterExpression, tag, 
     );
   }
   return (
-    <FacetedExpandableCard title={title}>
-      <SearchInput onChange={setValueFilter} query={valueFilter} className={locals.search} />
+    <SearchAndSuggestions
+      tagFilterExpression={tagFilterExpression}
+      tag={tag}
+      addFilter={addFilter}
+      valueFilter={valueFilter}
+      setValueFilter={setValueFilter}
+    />
+  );
+}
+
+function ExistingFilters({ selectedValues, remove }) {
+  return (
+    <>
+      {selectedValues.map((value, i) => (
+        <ExistingValue key={i} value={value} remove={() => remove(value)} />
+      ))}
+    </>
+  );
+}
+
+function SearchAndSuggestions({ tagFilterExpression, tag, addFilter, valueFilter, setValueFilter }) {
+  return (
+    <>
+      <SearchInput onChange={setValueFilter} query={valueFilter} className={locals.search} withoutIcon />
       <Suggestions
         tag={tag}
         valueFilter={valueFilter}
         tagFilterExpression={tagFilterExpression}
         addFilter={addFilter}
       />
-    </FacetedExpandableCard>
-  );
-}
-
-function ExistingFilters({ title, selectedValues, remove }) {
-  return (
-    <FacetedExpandableCard title={title} openByDefault>
-      {selectedValues.map((value, i) => (
-        <ExistingValue key={i} value={value} remove={() => remove(value)} />
-      ))}
-    </FacetedExpandableCard>
+    </>
   );
 }
 
