@@ -1,0 +1,11 @@
+@import '~in-themes/mixins.less';
+
+:local {
+  .label {
+    width: 100%;
+    display: inline-block;
+    padding-right: 0.5rem;
+    vertical-align: bottom;
+    .ellipsisLeft();
+  }
+}

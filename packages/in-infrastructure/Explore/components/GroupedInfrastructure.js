@@ -11,6 +11,7 @@ import createGetGroupsSubscription from 'in-infrastructure/subscriptions/getGrou
 import { pluginTag, defaultOrder } from 'in-infrastructure/Explore/constants';
 import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import LoadMoreLi from 'in-new-components/lists/List/LoadMoreLi/LoadMoreLi';
+import MetricLabel from 'in-infrastructure/Explore/components/MetricLabel';
 import { getOptionalSnapshotDefinition } from 'in-sdk/snapshot/registry';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import { getLinkToExplore } from 'in-infrastructure/navigation/paths';
@@ -186,6 +187,7 @@ function columns({ groupBy, type, getParamsForGroup, metrics, timeConfig, granul
         width: '12rem',
         getContent({ group }) {
           const kpi = average(group.metrics[metric]);
+          const renderedLabel = <MetricLabel label={label} />;
           return (
             <SparkChart
               horizontalMetricValue={kpi !== undefined ? formatter(kpi) : '--'}
@@ -195,7 +197,7 @@ function columns({ groupBy, type, getParamsForGroup, metrics, timeConfig, granul
               aggregation={aggregation}
               timeConfig={timeConfig}
               rollup={granularity}
-              label={label}
+              label={renderedLabel}
             />
           );
         }

@@ -3,12 +3,12 @@ import React from 'react';
 import CursorPaginatedTable from 'in-components/tables/ServerTable/CursorPaginatedTable';
 import { average, getGranularity } from 'in-infrastructure/Explore/services/metrics';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
+import MetricLabel from 'in-infrastructure/Explore/components/MetricLabel';
 import getEntities from 'in-infrastructure/subscriptions/getEntities';
 import Header from 'in-infrastructure/Explore/components/Header';
 import EntityLink from 'in-new-components/EntityLink/EntityLink';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import Tooltip from 'in-components/Tooltip';
 import Pill from 'in-new-components/Pill';
 
 import locals from './InfrastructureList.mless';
@@ -110,7 +110,7 @@ function getMetricColumns({ metrics, sortable }) {
   return metrics.map(({ metric, label, formatter = String, isKpi }) => ({
     id: metric,
     label,
-    renderLabel,
+    renderLabel: MetricLabel,
     sortable,
     width: '15rem',
     widthInAbsoluteUnit: true,
@@ -121,17 +121,4 @@ function getMetricColumns({ metrics, sortable }) {
       return <span>{kpi !== undefined ? formatter(kpi) : '--'}</span>;
     }
   }));
-}
-
-function renderLabel({ label }) {
-  const content = <span className={locals.metricLabel}>{label}</span>;
-  // take a guess that the content will be truncated, although this is a bit hacky because
-  // the truncation happens in CSS
-  return label.length > 30 ? (
-    <Tooltip content={label} align="bottomMiddle">
-      {content}
-    </Tooltip>
-  ) : (
-    content
-  );
 }

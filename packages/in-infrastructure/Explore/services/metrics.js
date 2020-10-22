@@ -1,7 +1,7 @@
 import { just } from 'reactive-observables';
 
+import { percentageZeroDecimalPlaces, bytesTwoDecimalPlaces, twoDecimalPlaces } from 'in-services/formatters/number';
 import { valueWithFormatterToReadableString, numberFormatterToFormatterType } from 'in-services/formatters/number';
-import { percentageZeroDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import getAvailableMetrics from 'in-infrastructure/subscriptions/getAvailableMetrics';
 import { rollupForBeeInstantMetrics } from 'in-stores/metric/beeInstant';
 import { hasError, isLoading } from 'in-services/util/result';
@@ -53,7 +53,7 @@ export function getMetrics({ timeConfig, tagFilterExpression, type }) {
       }
 
       return result.data.metrics.map(({ id, label, format }) => {
-        const formatter = v => valueWithFormatterToReadableString(v, format);
+        const formatter = stringFormatToFormatter(format);
         return {
           metric: id,
           label,
@@ -69,6 +69,14 @@ export function getMetrics({ timeConfig, tagFilterExpression, type }) {
       const kpiNames = kpis.map(kpi => kpi.metric);
       return kpis.concat(allMetrics.filter(({ metric }) => !kpiNames.includes(metric)));
     });
+}
+
+function stringFormatToFormatter(format) {
+  if (!format || format === 'UNDEFINED' || format === 'NUMBER') {
+    return twoDecimalPlaces;
+  }
+
+  return v => valueWithFormatterToReadableString(v, format);
 }
 
 export function getKpis(type) {
