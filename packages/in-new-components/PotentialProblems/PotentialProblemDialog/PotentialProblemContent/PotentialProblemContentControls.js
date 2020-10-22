@@ -40,10 +40,7 @@ export default function PotentialProblemContentControls({
           boundaryScope: boundaryScope,
           groupByTag: getGrouping(alertType, tagFilters),
           focusedMetric: getFocusedMetric(alertType),
-          timeConfig: {
-            to: alert.start,
-            windowSize: alert.end - alert.start
-          }
+          timeConfig: getTimeConfigForAnalayzeLink(alert)
         })}
       >
         Investigate
@@ -106,6 +103,16 @@ const isEndpointOrServiceFilter = filter =>
     filter.name === 'service.name' ||
     filter.name === 'endpoint.id' ||
     filter.name === 'service.id');
+
+function getTimeConfigForAnalayzeLink({ start, end }) {
+  const eventDuration = end - start;
+  const duration = eventDuration * 2;
+  const to = end + eventDuration * 0.5;
+  return {
+    to,
+    windowSize: duration
+  };
+}
 
 PotentialProblemContentControls.propTypes = {
   alert: alertPropType.isRequired,
