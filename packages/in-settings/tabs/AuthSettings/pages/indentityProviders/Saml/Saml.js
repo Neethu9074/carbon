@@ -9,12 +9,10 @@ import ApiItemView from 'in-settings/components/ApiItemView';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import Section from 'in-settings/components/Section';
 import FormGroup from 'in-components/form/FormGroup';
-import { token$ } from 'in-services/security/csrf';
 import { shorten } from 'in-services/util/string';
 import Button from 'in-new-components/Button';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
-import { config } from 'in-services/config';
 import Title from 'in-components/Title';
 import Link from 'in-components/Link';
 
@@ -130,14 +128,7 @@ function render({ file, form, setForm, input, setCanSaveItem }) {
             <Button
               kind="secondary"
               icon="lib_actions_download"
-              href$={token$.map(
-                csrfToken =>
-                  `https://${config.butlerDomain}/ump/${config.tenant}/${
-                    config.tenantUnit
-                  }/authentication/saml/metadata/sp?csrfToken=${encodeURIComponent(
-                    csrfToken
-                  )}&spEntityId=${encodeURIComponent(field.value)}`
-              )}
+              href={`/api/settings/authentication/saml/metadata?&spEntityId=${encodeURIComponent(field.value)}`}
             >
               Configuration Metadata
             </Button>

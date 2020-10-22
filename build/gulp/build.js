@@ -180,7 +180,6 @@ function startTryBuildProxy(cb) {
       '/': 'http://127.0.0.1:3131',
       '/api/': 'https://test-instana.pink.instana.rocks/api/',
       '/auth/': 'https://test-instana.pink.instana.rocks/auth/',
-      '/ump': 'https://test-instana.pink.instana.rocks/ump',
       '/assets/': 'https://test-instana.pink.instana.rocks/assets/',
       '/notifications/': 'https://instana.github.io/ui-notifications/content/',
       '/integrations/': 'https://test-instana.pink.instana.rocks/integrations/',

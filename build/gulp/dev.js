@@ -92,7 +92,6 @@ function startDevProxy(cb) {
     '/waiting/': 'http://127.0.0.1:3000/waiting/',
     '/api/': `${uiBackendUrl}/api/`,
     '/auth/': butlerUrl + '/auth/',
-    '/ump/': butlerUrl + '/ump/',
     '/assets/': butlerUrl + '/assets/',
     '/secured/': butlerUrl + '/secured/',
     '/tenantSwitcher/': butlerUrl + '/tenantSwitcher/',
