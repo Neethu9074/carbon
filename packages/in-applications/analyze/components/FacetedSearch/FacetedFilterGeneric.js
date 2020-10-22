@@ -91,7 +91,13 @@ function Suggestions({ tagFilterExpression, tag, addFilter, valueFilter }) {
       filter: {
         timeConfig: timeConfig
       },
-      filterOnTagName: true
+      filterOnTagName: true,
+      metrics: {
+        calls_SUM_Agg: {
+          metric: 'calls',
+          aggregation: 'SUM'
+        }
+      }
     }),
     [tagFilterExpression, valueFilter]
   );
@@ -99,7 +105,7 @@ function Suggestions({ tagFilterExpression, tag, addFilter, valueFilter }) {
     <SuggestionsPresenter
       loading={suggestions?.progress.loading}
       errors={suggestions?.errors}
-      suggestions={suggestions?.data?.suggestions}
+      suggestions={suggestions?.data?.results}
       addFilter={addFilter}
       tag={tag}
     />

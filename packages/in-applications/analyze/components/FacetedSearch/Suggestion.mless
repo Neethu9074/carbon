@@ -20,11 +20,19 @@
     &:hover {
       color: @lib__colors__light-blue800;
     }
-    .label {
+    .addSuggestion {
       font-size: 0.75rem;
-      text-overflow: ellipsis;
-      overflow: hidden;
-      white-space: nowrap;
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      .label {
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+      }
+      .count {
+        margin-left: 1rem;
+      }
     }
   }
   .loading {

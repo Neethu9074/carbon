@@ -7,6 +7,7 @@ import Message from 'in-new-components/Message';
 import Button from 'in-new-components/Button';
 import Tooltip from 'in-components/Tooltip';
 import Link from 'in-components/Link';
+import { sortBy } from 'lodash';
 
 import locals from './Suggestion.mless';
 
@@ -46,25 +47,28 @@ function Results({ suggestions, tag, addFilter }) {
   const [showMore, setShowMore] = useState(true);
   return (
     <>
-      {suggestions.slice(0, showMore ? DEFAULT_SUGGESTIONS_SIZE : undefined).map((suggestion, i) => (
-        <div key={i} className={locals.suggestion}>
-          <Tooltip content={suggestion}>
-            <Link
-              onClick={() =>
-                addFilter({
-                  type: TAG,
-                  name: tag,
-                  operator: EQUALS,
-                  value: suggestion
-                })
-              }
-              className={locals.label}
-            >
-              {suggestion}
-            </Link>
-          </Tooltip>
-        </div>
-      ))}
+      {sortBy(suggestions, suggestion => -1 * suggestion.metrics.calls_SUM_Agg[0][1])
+        .slice(0, showMore ? DEFAULT_SUGGESTIONS_SIZE : undefined)
+        .map((suggestion, i) => (
+          <div key={i} className={locals.suggestion}>
+            <Tooltip content={suggestion.label}>
+              <Link
+                onClick={() =>
+                  addFilter({
+                    type: TAG,
+                    name: tag,
+                    operator: EQUALS,
+                    value: suggestion.label
+                  })
+                }
+                className={locals.addSuggestion}
+              >
+                <span className={locals.label}>{suggestion.label}</span>
+                <span className={locals.count}>{suggestion.metrics.calls_SUM_Agg[0][1]}</span>
+              </Link>
+            </Tooltip>
+          </div>
+        ))}
       {showMore && suggestions.length > DEFAULT_SUGGESTIONS_SIZE && (
         <Button className={locals.showMore} kind="action" onClick={() => setShowMore(false)}>
           show {suggestions.length - DEFAULT_SUGGESTIONS_SIZE} more
