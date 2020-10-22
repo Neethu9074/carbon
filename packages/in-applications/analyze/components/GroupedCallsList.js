@@ -23,6 +23,7 @@ import Tooltip from 'in-components/Tooltip/Tooltip';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Message from 'in-new-components/Message';
 import locals from './GroupedCallsList.mless';
+import { empty } from 'reactive-observables';
 import SvgIcon from 'in-components/SvgIcon';
 const defaultOrder = aggregateMetric('calls', 'SUM');
 const defaultDirection = 'DESC';
@@ -36,7 +37,8 @@ export default function GroupedCallsList({
   onFocusOnGroup,
   onChangeOrderBy,
   onChangeOrderByCalls,
-  onChangeMetrics
+  onChangeMetrics,
+  isValid
 }) {
   const timeConfig = useTimeConfig();
   const granularity = getSparkChartGranularity(timeConfig);
@@ -44,15 +46,17 @@ export default function GroupedCallsList({
 
   const props = useCursorPagination(
     ({ cursor }) =>
-      getGroups({
-        timeConfig,
-        tagFilterExpression,
-        groupBy,
-        order,
-        metrics: convertMetricListToMetricObject(metrics, granularity),
-        cursor
-      }),
-    [timeConfig, groupBy, orderBy, metrics]
+      isValid
+        ? getGroups({
+            timeConfig,
+            tagFilterExpression,
+            groupBy,
+            order,
+            metrics: convertMetricListToMetricObject(metrics, granularity),
+            cursor
+          })
+        : empty,
+    [timeConfig, groupBy, orderBy, metrics, isValid]
   );
 
   return (

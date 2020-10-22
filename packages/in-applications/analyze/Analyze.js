@@ -134,21 +134,18 @@ function ApplicationAnalyzeViewWithFixatedTimeConfig() {
           )}
 
           <div className={locals.facetedSearchWithCallList}>
-            <FacetedSearch
-              tagFilterExpression={backendQueryModel}
-              addFilter={addFilter}
-              removeFilter={removeFilter}
-            />
-            {isValid && !groupBy?.groupbyTag && (
+            <FacetedSearch tagFilterExpression={backendQueryModel} addFilter={addFilter} removeFilter={removeFilter} />
+            {!groupBy?.groupbyTag && (
               <CallsList
                 timeConfig={timeConfig}
                 tagFilterExpression={backendQueryModel}
                 orderBy={orderByCalls}
                 onChangeOrderBy={onChangeOrderByCalls}
+                isValid={isValid}
               />
             )}
 
-            {isValid && groupBy?.groupbyTag && (
+            {groupBy?.groupbyTag && (
               <GroupedCallsList
                 timeConfig={timeConfig}
                 tagFilterExpression={backendQueryModel}
@@ -160,6 +157,7 @@ function ApplicationAnalyzeViewWithFixatedTimeConfig() {
                 onChangeOrderBy={onChangeOrderByGroups}
                 onChangeOrderByCalls={onChangeOrderByCalls}
                 onChangeMetrics={onChangeMetrics}
+                isValid={isValid}
               />
             )}
           </div>

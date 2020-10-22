@@ -1,4 +1,3 @@
-import { empty } from 'reactive-observables';
 import React from 'react';
 
 import CursorPaginatedTable from 'in-components/tables/ServerTable/CursorPaginatedTable';
@@ -15,6 +14,7 @@ import HealthDot from 'in-new-components/health/HealthDot';
 import { callClickedTracker } from 'in-analyze/tracker';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import useObservable from 'in-hooks/useObservable';
+import { empty } from 'reactive-observables';
 import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './CallsList.mless';
@@ -28,7 +28,8 @@ export default function CallsList({
   tagFilterExpression,
   filterBy,
   orderBy,
-  onChangeOrderBy
+  onChangeOrderBy,
+  isValid
 }) {
   const timeConfig = useTimeConfig();
   const order = {
@@ -37,14 +38,16 @@ export default function CallsList({
   };
   const { items, ...tableProps } = useCursorPagination(
     ({ cursor }) =>
-      getTableData({
-        timeConfig,
-        retrievalSize,
-        tagFilterExpression,
-        order,
-        cursor
-      }),
-    [timeConfig, retrievalSize, tagFilterExpression, orderBy]
+      isValid
+        ? getTableData({
+            timeConfig,
+            retrievalSize,
+            tagFilterExpression,
+            order,
+            cursor
+          })
+        : empty,
+    [timeConfig, retrievalSize, tagFilterExpression, orderBy, isValid]
   );
 
   const columnDefinitions =
