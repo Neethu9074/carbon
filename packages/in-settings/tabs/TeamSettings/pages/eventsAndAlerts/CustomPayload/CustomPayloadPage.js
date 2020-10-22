@@ -21,14 +21,14 @@ import {
   createTagBasedPayloadConfigurator
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
 import {
+  getGlobalCustomPayloadAsResultObservable,
+  getCustomPayloadTagCatalog,
+  saveGlobalCustomPayload
+} from 'in-settings/tabs/TeamSettings/api/customPayload';
+import {
   useSaveToServerHandler,
   initialState
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/useSaveToServerHandler';
-import {
-  getGlobalCustomPayloadAsResultObservable,
-  saveGlobalCustomPayload
-} from 'in-settings/tabs/TeamSettings/api/customPayload';
-import getAlertingCustomPayloadTagCatalog from 'in-infrastructure/subscriptions/getAlertingCustomPayloadTagCatalog';
 import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { isLoading, hasError, successObservableFactory } from 'in-services/util/result';
 import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';
@@ -57,7 +57,7 @@ import locals from './CustomPayloadForm.mless';
 const logger = createLogger('customPayloadConfig');
 
 const { TagBasedPayloadConfigurator } = createTagBasedPayloadConfigurator({
-  getTagCatalog: getAlertingCustomPayloadTagCatalog,
+  getTagCatalog: getCustomPayloadTagCatalog,
   getSuggestions: successObservableFactory({
     suggestions: []
   })

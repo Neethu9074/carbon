@@ -5,6 +5,8 @@ import createObservable from 'in-services/http/observableHttpResult';
 import memoize from 'in-services/util/memoizingObservableGenerator';
 import http from 'in-services/http';
 
+const basePath = '/api/events/settings/custom-payload-configurations';
+
 const refreshCustomPayload = create().emit(true);
 
 function mapAndRefresh(response) {
@@ -22,7 +24,7 @@ function getGlobalCustomPayloadAsResultObservableInternal() {
     createObservable(
       http({
         method: 'GET',
-        url: `/api/events/settings/custom-payload-configurations`,
+        url: basePath,
         maxRetries: 3,
         headers: getCsrfHeader()
       })
@@ -33,9 +35,19 @@ function getGlobalCustomPayloadAsResultObservableInternal() {
 export function saveGlobalCustomPayload(customPayload) {
   return http({
     method: 'PUT',
-    url: `/api/events/settings/custom-payload-configurations`,
+    url: basePath,
     data: customPayload,
     maxRetries: 3,
     headers: getCsrfHeader()
   }).map(mapAndRefresh);
+}
+
+export function getCustomPayloadTagCatalog() {
+  return createObservable(
+    http({
+      method: 'GET',
+      url: `${basePath}/catalog`,
+      maxRetries: 3
+    })
+  );
 }
