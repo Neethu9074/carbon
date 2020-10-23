@@ -96,7 +96,7 @@ export default connectTo(
                 formatter: bytesZeroDecimalPlaces,
                 tooltipFormatter: bytesTwoDecimalPlaces,
                 metrics: ['memory.used'],
-                labels: ['Used'],
+                labels: ['Heap'],
                 type: 'line'
               }}
               y2={{
@@ -104,8 +104,8 @@ export default connectTo(
                 max: snapshot.getIn(['data', 'memory.nativeTotal']),
                 formatter: bytesZeroDecimalPlaces,
                 tooltipFormatter: bytesTwoDecimalPlaces,
-                metrics: ['memory.nativeUsed'],
-                labels: ['Native Used'],
+                metrics: ['memory.nativeUsed', 'memory.nonHeapUsed'],
+                labels: ['Direct Buffers', 'Off Heap'],
                 type: 'line'
               }}
               renderPostChartContent={PluginDashboardsMarkerLanes}
