@@ -20,7 +20,7 @@ import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { getView } from 'in-stores/navigation/navigation';
 import MapButtonGroup from 'in-components/MapButtonGroup';
 import { view$, types } from 'in-stores/view';
-import Button from 'in-components/Button';
+import Button from 'in-new-components/Button';
 import connectTo from 'in-hoc/connectTo';
 
 import './ViewGrouping.less';
@@ -48,16 +48,16 @@ const ViewGroupingMenu = connectTo(
           <h3 className={`${block}__heading`}>Perspective</h3>
           <MapButtonGroup>
             <Button
-              kind={view === types.physical ? 'primary' : 'secondary'}
-              size="sm"
+              kind={view === types.physical ? 'primaryv2' : 'info'}
+              size="compact"
               href$={getView(physicalPath)}
               className={`${block}__button`}
             >
               Host
             </Button>
             <Button
-              kind={view === types.container ? 'primary' : 'secondary'}
-              size="sm"
+              kind={view === types.container ? 'primaryv2' : 'info'}
+              size="compact"
               href$={getView(containerPath)}
               className={`${block}__button`}
             >
@@ -100,8 +100,8 @@ const MenuContent = connectTo(
         </MapButtonGroup>
         <br />
         <Button
-          kind={activeGrouping.indexOf('custom-') === 0 ? 'primary' : 'secondary'}
-          size="sm"
+          kind={activeGrouping.indexOf('custom-') === 0 ? 'primaryv2' : 'info'}
+          size="compact"
           onClick={() => {
             const dialog = view === 'CONTAINER' ? <CustomContainerGroupingDialog /> : <CustomHostGroupingDialog />;
             addActiveDialog(dialog);
@@ -124,8 +124,8 @@ const GroupingButton = connectTo(
   function GroupingButton({ href, grouping, activeGrouping }) {
     return (
       <Button
-        kind={activeGrouping === grouping ? 'primary' : 'secondary'}
-        size="sm"
+        kind={activeGrouping === grouping ? 'primaryv2' : 'info'}
+        size="compact"
         href={href}
         className={`${block}__button`}
         onClick={() => {

@@ -9,11 +9,6 @@ import {
   initialize as initializeSparkChartColumn
 } from 'in-sdk/components/dashboard/Table/renderers/sparkChart';
 import {
-  type as linkButtonType,
-  validate as validateLinkButtonColumn,
-  initialize as initializeLinkButtonColumn
-} from 'in-sdk/components/dashboard/Table/renderers/linkButton';
-import {
   type as dateTimeType,
   validate as validateDateTimeColumn,
   initialize as initializeDateTimeColumn
@@ -64,6 +59,5 @@ export const renderers = {
   [snapshotLinkType]: { validate: validateSnapshotLinkColumn, initialize: initializeSnapshotLinkColumn },
   [customType]: { validate: validateCustomColumn, initialize: initializeCustomColumn },
   [booleanType]: { validate: validateBooleanColumn, initialize: initializeBooleanColumn },
-  [linkButtonType]: { validate: validateLinkButtonColumn, initialize: initializeLinkButtonColumn },
   [linkType]: { validate: validateLinkColumn, initialize: initializeLinkColumn }
 };

@@ -35,7 +35,7 @@ import DateInput from 'in-components/form/DateInput';
 import HelpText from 'in-components/form/HelpText';
 import useObservable from 'in-hooks/useObservable';
 import Input from 'in-components/form/Input';
-import Button from 'in-components/Button';
+import Button from 'in-new-components/Button';
 
 import locals from './FormComponent.mless';
 

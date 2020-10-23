@@ -1,7 +1,7 @@
 import rpt from 'prop-types';
 import React from 'react';
 
-import Button from 'in-components/Button';
+import Button from 'in-new-components/Button';
 
 import locals from './EventMetricDownloadView.mless';
 

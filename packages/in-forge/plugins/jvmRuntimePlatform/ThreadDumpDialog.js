@@ -2,7 +2,7 @@ import React from 'react';
 
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import createAgentResponseObservable from 'in-subscription/agentResponse';
-import CopyToClipboardButton from 'in-components/CopyToClipboardButton';
+import CopyToClipboardButton from 'in-new-components/CopyToClipboardButton';
 import DashboardNotification from 'in-components/DashboardNotification';
 import { close } from 'in-components/DialogPresenter/store';
 import Dialog from 'in-new-components/Dialog/Dialog';
@@ -23,15 +23,16 @@ export default connectTo(
     const codeTargetId = 'codeThreadDump';
     let header;
     if (response && !response.error) {
-      header = <CopyToClipboardButton targetId={codeTargetId} />;
+      header = <CopyToClipboardButton kind="secondary" size="compact" targetId={codeTargetId} />;
     }
 
     return (
       <Dialog title="Thread dump" onClose={close} renderCustomCloseBehaviour={() => header}>
         {!response && <LoadingIndicator />}
 
-        {response &&
-          response.error && <DashboardNotification type="danger">Error: {response.error}</DashboardNotification>}
+        {response && response.error && (
+          <DashboardNotification type="danger">Error: {response.error}</DashboardNotification>
+        )}
 
         {response && response.data && <Code code={response.data} id={codeTargetId} />}
       </Dialog>

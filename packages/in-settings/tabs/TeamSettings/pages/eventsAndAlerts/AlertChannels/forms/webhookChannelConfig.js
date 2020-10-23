@@ -15,7 +15,7 @@ import { isNotBlank } from 'in-services/util/string';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
 import SvgIcon from 'in-components/SvgIcon';
-import Button from 'in-components/Button';
+import Button from 'in-new-components/Button';
 
 import locals from './webhookChannelConfig.mless';
 import './Forms.less';

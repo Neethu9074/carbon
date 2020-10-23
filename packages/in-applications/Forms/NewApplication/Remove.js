@@ -10,7 +10,7 @@ import { combineDataAndError } from 'in-services/util/ro';
 import SaveError from 'in-components/form/SaveError';
 import { goToPath } from 'in-stores/navigation';
 import Card from 'in-new-components/Card';
-import Button from 'in-components/Button';
+import Button from 'in-new-components/Button';
 
 import locals from './Remove.mless';
 

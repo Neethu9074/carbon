@@ -7,7 +7,7 @@ import Dialog from 'in-new-components/Dialog/Dialog';
 import FormGroup from 'in-components/form/FormGroup';
 import Select from 'in-components/form/Select';
 import Label from 'in-components/form/Label';
-import Button from 'in-components/Button';
+import Button from 'in-new-components/Button';
 
 import locals from './Mode.mless';
 
@@ -51,7 +51,7 @@ export default class extends React.Component {
         </FormGroup>
 
         <div>
-          <Button kind="success" onClick={this.switchMode}>
+          <Button kind="create" onClick={this.switchMode}>
             Change Mode
           </Button>
         </div>

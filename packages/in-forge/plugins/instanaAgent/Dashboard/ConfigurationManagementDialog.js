@@ -8,7 +8,7 @@ import Dialog from 'in-new-components/Dialog/Dialog';
 import FormGroup from 'in-components/form/FormGroup';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
-import Button from 'in-components/Button';
+import Button from 'in-new-components/Button';
 
 export default function ConfigurationManagentDialog(props) {
   const [form, setForm] = useState(
@@ -53,7 +53,7 @@ export default function ConfigurationManagentDialog(props) {
         <FormField fieldName="remoteName" label="Remote Name" form={form} setForm={setForm} />
         <FormField fieldName="remoteBranch" label="Remote Branch" form={form} setForm={setForm} />
         <FormField fieldName="remoteUri" label="Remote URI" form={form} setForm={setForm} />
-        <Button kind="success" type="submit" disabled={!form.hierarchyValid}>
+        <Button kind="create" type="submit" disabled={!form.hierarchyValid}>
           {props.snapshot.getIn(['data', 'git', 'initialized']) ? 'Update' : 'Initialize'} &amp; Restart
         </Button>
       </form>

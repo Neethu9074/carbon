@@ -8,7 +8,7 @@ import Spacer from 'in-applications/Forms/components/Spacer';
 import { combineDataAndError } from 'in-services/util/ro';
 import SaveError from 'in-components/form/SaveError';
 import { goToPath } from 'in-stores/navigation';
-import Button from 'in-components/Button';
+import Button from 'in-new-components/Button';
 
 import locals from './Remove.mless';
 

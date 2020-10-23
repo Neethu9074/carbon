@@ -15,9 +15,11 @@ export default function Boto3SpanDetailView({ span }) {
       <Di title="Region">{span.getIn(['data', 'boto3', 'reg'])}</Di>
       <Di title="Status">{span.getIn(['data', 'http', 'status'])}</Di>
 
-      <Di title="Payload" verticalDisplay>
-        <Code code={JSON.stringify(expandNestedSerializedJson(payload.toJS()), 0, 2)} lang="json" />
-      </Di>
+      {payload && (
+        <Di title="Payload" verticalDisplay>
+          <Code code={JSON.stringify(expandNestedSerializedJson(payload.toJS()), 0, 2)} lang="json" />
+        </Di>
+      )}
 
       <ErrorDescriptionItem error={span.getIn(['data', 'boto3', 'error'])} />
     </Dl>

@@ -13,7 +13,7 @@ import { timeConfig$ } from 'in-stores/time/config';
 import { getPlural } from 'in-sdk/pluginName';
 import SvgIcon from 'in-components/SvgIcon';
 import { getLabel } from 'in-sdk/snapshot';
-import Button from 'in-components/Button';
+import Button from 'in-new-components/Button';
 import connectTo from 'in-hoc/connectTo';
 
 import './ChartsForSelectedEntities.less';
@@ -58,7 +58,7 @@ function SelectedChart({ metric, snapshots, timeConfig, labels }) {
             <MetricChartDownloadView metric={metric} label={definition.label} snapshots={snapshots} />
           </DownloadButton>
 
-          <Button onClick={() => removeMetric(metric)} kind="secondary" size="sm" className={`${block}__button`}>
+          <Button onClick={() => removeMetric(metric)} kind="secondary" size="compact" className={`${block}__button`}>
             Remove
           </Button>
         </div>

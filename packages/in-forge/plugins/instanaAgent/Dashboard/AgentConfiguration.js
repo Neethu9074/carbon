@@ -2,7 +2,7 @@ import React from 'react';
 
 import { loadRawAgentConfiguration } from 'in-forge/plugins/instanaAgent/selfMonitoring';
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
-import CopyToClipboardButton from 'in-components/CopyToClipboardButton';
+import CopyToClipboardButton from 'in-new-components/CopyToClipboardButton';
 import DashboardNotification from 'in-components/DashboardNotification';
 import { close } from 'in-components/DialogPresenter/store';
 import Dialog from 'in-new-components/Dialog/Dialog';
@@ -15,7 +15,7 @@ export default connectTo(
   ({ snapshot }) => ({ response: loadRawAgentConfiguration(snapshot) }),
   function AgentConfiguration({ response }) {
     const codeTargetId = 'agentConfiguration';
-    const header = response && <CopyToClipboardButton targetId={codeTargetId} />;
+    const header = response && <CopyToClipboardButton kind="secondary" size="compact" targetId={codeTargetId} />;
 
     return (
       <Dialog
@@ -26,8 +26,9 @@ export default connectTo(
       >
         {!response && <LoadingIndicator />}
 
-        {response &&
-          response.error && <DashboardNotification type="danger">Error: {response.error}</DashboardNotification>}
+        {response && response.error && (
+          <DashboardNotification type="danger">Error: {response.error}</DashboardNotification>
+        )}
 
         {response && <Code code={response.data} showLineNumbers={false} id={codeTargetId} lang="yaml" />}
       </Dialog>

@@ -7,7 +7,7 @@ import Dialog from 'in-new-components/Dialog/Dialog';
 import FormGroup from 'in-components/form/FormGroup';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
-import Button from 'in-components/Button';
+import Button from 'in-new-components/Button';
 import connectTo from 'in-hoc/connectTo';
 
 import './SaveDialog.less';

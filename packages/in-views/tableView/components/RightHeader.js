@@ -5,7 +5,7 @@ import { showAggregations$, toggle } from 'in-stores/metric/showAggregations';
 import TimeWindowSizeLabel from 'in-components/TimeWindowSizeLabel';
 import { clearMetrics } from 'in-views/tableView/stores/metrics';
 import Tooltip from 'in-components/Tooltip';
-import Button from 'in-components/Button';
+import Button from 'in-new-components/Button';
 import connectTo from 'in-hoc/connectTo';
 
 import './RightHeader.less';
@@ -28,7 +28,7 @@ export default connectTo(
           </Tooltip>
         </label>
 
-        <Button kind="secondary" size="sm" onClick={clearSelection}>
+        <Button kind="secondary" size="compact" onClick={clearSelection}>
           Clear Selections
         </Button>
       </header>

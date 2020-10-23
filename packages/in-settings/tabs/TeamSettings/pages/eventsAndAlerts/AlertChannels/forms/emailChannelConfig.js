@@ -9,7 +9,7 @@ import { generateUniqueShortId } from 'in-services/util/id';
 import FormGroup from 'in-settings/components/FormGroup';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
-import Button from 'in-components/Button';
+import Button from 'in-new-components/Button';
 
 import './Forms.less';
 
@@ -185,11 +185,13 @@ function Form({ form, onChange }) {
               </Button>
             </div>
             {field.touched
-              ? field.messages.filter(msg => msg.mailIndex === i).map((message, i) => (
-                  <ValidationBlock hasError key={i}>
-                    {message.message}
-                  </ValidationBlock>
-                ))
+              ? field.messages
+                  .filter(msg => msg.mailIndex === i)
+                  .map((message, i) => (
+                    <ValidationBlock hasError key={i}>
+                      {message.message}
+                    </ValidationBlock>
+                  ))
               : null}
           </FormGroup>
         ));

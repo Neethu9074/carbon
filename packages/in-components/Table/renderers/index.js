@@ -44,11 +44,6 @@ import {
   initialize as initializeBooleanColumn
 } from 'in-components/Table/renderers/boolean';
 import {
-  type as linkButtonType,
-  validate as validateLinkButtonColumn,
-  initialize as initializeLinkButtonColumn
-} from 'in-components/Table/renderers/linkButton';
-import {
   type as linkType,
   validate as validateLinkColumn,
   initialize as initializeLinkColumn
@@ -64,6 +59,5 @@ export const renderers = {
   [snapshotLinkType]: { validate: validateSnapshotLinkColumn, initialize: initializeSnapshotLinkColumn },
   [customType]: { validate: validateCustomColumn, initialize: initializeCustomColumn },
   [booleanType]: { validate: validateBooleanColumn, initialize: initializeBooleanColumn },
-  [linkButtonType]: { validate: validateLinkButtonColumn, initialize: initializeLinkButtonColumn },
   [linkType]: { validate: validateLinkColumn, initialize: initializeLinkColumn }
 };

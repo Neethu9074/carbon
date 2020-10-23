@@ -4,7 +4,7 @@ import React, { Fragment } from 'react';
 
 import { sanitize, ansiToHtml, replaceHtmlChars } from 'in-services/formatters/html';
 import createAgentResponseObservable from 'in-subscription/agentResponse';
-import CopyToClipboardButton from 'in-components/CopyToClipboardButton';
+import CopyToClipboardButton from 'in-new-components/CopyToClipboardButton';
 import DashboardNotification from 'in-components/DashboardNotification';
 import Toggle from 'in-components/form/Toggle';
 
@@ -128,7 +128,7 @@ export default class extends React.PureComponent {
           <DashboardNotification type="danger">Error: {this.state.error}</DashboardNotification>
         ) : null}
 
-        <CopyToClipboardButton targetId={logStreamTargetId} />
+        <CopyToClipboardButton kind="secondary" size="compact" targetId={logStreamTargetId} />
 
         <label htmlFor="set-auto-scroll" className={locals.autoScroll}>
           Automatically scroll to bottom on log change:

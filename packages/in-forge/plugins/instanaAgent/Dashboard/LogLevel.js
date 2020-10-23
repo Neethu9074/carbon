@@ -7,7 +7,7 @@ import FormGroup from 'in-components/form/FormGroup';
 import { isInstanaEngineer } from 'in-stores/user';
 import Select from 'in-components/form/Select';
 import Label from 'in-components/form/Label';
-import Button from 'in-components/Button';
+import Button from 'in-new-components/Button';
 
 import locals from './LogLevel.mless';
 
@@ -51,7 +51,7 @@ export default class extends React.Component {
         </FormGroup>
 
         <div>
-          <Button kind="success" onClick={this.switchLogLevel}>
+          <Button kind="create" onClick={this.switchLogLevel}>
             Change Log Level
           </Button>
         </div>

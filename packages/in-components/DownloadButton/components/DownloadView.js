@@ -2,7 +2,7 @@ import rpt from 'prop-types';
 import React from 'react';
 
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
-import Button from 'in-components/Button';
+import Button from 'in-new-components/Button';
 
 import './DownloadView.less';
 

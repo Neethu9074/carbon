@@ -38,7 +38,6 @@ import MetaElastic from 'in-internal/monitoringUnit/sre/MetaElastic';
 import WorkerStats from 'in-internal/monitoringUnit/sre/WorkerStats';
 import EumAcceptor from 'in-internal/monitoringUnit/eum/EumAcceptor';
 import Hubforce from 'in-internal/monitoringUnit/hubforce/Hubforce';
-import TuStatistics from 'in-internal/monitoringUnit/TuStatistics';
 import Clickhouse from 'in-internal/monitoringUnit/sre/Clickhouse';
 import Cashiers from 'in-internal/monitoringUnit/cashier/Cashiers';
 import EumOverview from 'in-internal/monitoringUnit/eum/Overview';
@@ -61,7 +60,6 @@ export default function Internal() {
           <Route path="/internal/monitoringUnit/agents" component={AgentsAcrossUnits} />
 
           <Route path="/internal/monitoringUnit/region" component={wrapIninternalView(Region)} />
-          <Route path="/internal/monitoringUnit/tuStatistics" component={wrapIninternalView(TuStatistics)} />
           <Route path="/internal/monitoringUnit/sloViolations" component={wrapIninternalView(SloViolations)} />
           <Route path="/internal/monitoringUnit/eum/eum-acceptor" component={wrapIninternalView(EumAcceptor)} />
           <Route path="/internal/monitoringUnit/eum/eum-processor" component={wrapIninternalView(EumProcessor)} />
