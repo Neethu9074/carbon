@@ -1,9 +1,4 @@
 :local {
-  .searchInput {
-    width: 49rem;
-
-    margin-right: 0.5rem;
-  }
 
   .iconAndType {
     display: flex;
@@ -12,9 +7,5 @@
     & > svg {
       margin-right: .5rem;
     }
-  }
-
-  .moreButton {
-    padding: 0px;
   }
 }

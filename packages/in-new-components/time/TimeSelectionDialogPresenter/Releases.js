@@ -1,12 +1,15 @@
-import React from 'react';
+import React, { Children, useState } from 'react';
 
+import ReleaseScope from 'in-new-components/time/TimeSelectionDialogPresenter/ReleaseScope';
 import { getReleasesWithDefaults } from 'in-events/subscriptions/getReleases';
+import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { formatDateTime } from 'in-services/formatters/date';
 import ServerTable from 'in-components/tables/ServerTable';
 import SearchInput from 'in-new-components/SearchInput';
 import Pagination from 'in-new-components/Pagination';
+import Button from 'in-new-components/Button';
+import SvgIcon from 'in-components/SvgIcon';
 import { days } from 'in-services/time';
-
 import locals from './Releases.mless';
 
 const columnDefinitions = [
@@ -14,7 +17,52 @@ const columnDefinitions = [
     id: 'name',
     label: 'Name',
     getContent({ name }) {
-      return <span>{name}</span>;
+      return (
+        <div className={locals.iconAndType}>
+          <SvgIcon type="lib_release_rocket" size="s" />
+          {name}
+        </div>
+      );
+    }
+  },
+  {
+    id: 'scope',
+    label: 'Scope',
+    sortable: false,
+    getContent(item) {
+      if (!item.serviceIds && !item.applicationIds) {
+        return <span>Global</span>;
+      }
+      let scopes = [];
+      if (item.serviceIds) {
+        scopes.push(Children.toArray(item.serviceIds.map(serviceId => <ReleaseScope serviceId={serviceId} />)));
+      }
+      if (item.applicationIds) {
+        scopes.push(Children.toArray(item.applicationIds.map(appId => <ReleaseScope applicationId={appId} />)));
+      }
+      scopes = scopes.flatMap(item => item);
+      const stepSize = 2;
+      const [showItems, setShowItems] = useState(scopes.length > stepSize ? stepSize : scopes.length);
+      let scopesShown = scopes.slice(0, showItems);
+      return (
+        <>
+          {scopesShown}
+          {showItems < scopes.length && (
+            <span>
+              <Button
+                className={locals.moreButton}
+                kind="action"
+                onClick={e => {
+                  stopPropagationAndPreventDefault(e);
+                  setShowItems(showItems + stepSize);
+                }}
+              >
+                ... show {Math.min(stepSize, scopes.length - showItems)} more
+              </Button>
+            </span>
+          )}
+        </>
+      );
     }
   },
   {
@@ -25,6 +73,7 @@ const columnDefinitions = [
     }
   }
 ];
+
 export default function Presets({ timeConfig, onChange, closeOverlay }) {
   const releaseTimeConfig = {
     to: null,
