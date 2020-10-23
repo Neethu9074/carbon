@@ -35,11 +35,8 @@ export default function SimpleModeContainer({
 }) {
   const [selectedBlueprint, setSelectedBlueprint] = useState(blueprintConfig[0]);
 
-  const jsForm = form.toJS();
-  const downstreamScope = jsForm.scope;
-  const matchSpecification = jsForm.matchSpecification;
-  const matchSpecificationTree = mapMatchSpecificationListToTree(matchSpecification);
-  const servicesLiveList = useObservable(getStreamData, [downstreamScope, matchSpecificationTree]);
+  const matchSpecification = form.toJS().matchSpecification;
+  const servicesLiveList = useObservable(getStreamData, [form]);
 
   return (
     <SimpleModePageNavigation
@@ -84,7 +81,12 @@ export default function SimpleModeContainer({
   );
 }
 
-function getStreamData([downstreamScope, matchSpecificationTree]) {
+function getStreamData([form]) {
+  const jsForm = form.toJS();
+  const downstreamScope = jsForm.scope;
+  const matchSpecification = jsForm.matchSpecification;
+  const matchSpecificationTree = mapMatchSpecificationListToTree(matchSpecification);
+
   if (!matchSpecificationTree) {
     return successObservable([]);
   }
