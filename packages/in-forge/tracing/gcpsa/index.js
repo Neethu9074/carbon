@@ -1,19 +1,19 @@
 import { registerSpanDefinition } from 'in-sdk/tracing';
 
 registerSpanDefinition({
-  type: 'gcps',
-  category: 'messaging',
+  type: 'gcpsa',
+  category: 'generic',
 
   typeName: {
     singular: 'Google Cloud PubSub',
     plural: 'Google Cloud PubSub'
   },
 
-  detailView: 'GCPSSpanDetailView',
+  detailView: 'GCPSASpanDetailView',
 
   getLabel(span) {
-    return ['op', 'sub', 'top']
-      .map(key => span.getIn(['data', 'gcps', key]))
+    return ['op', 'snap', 'sub', 'top']
+      .map(key => span.getIn(['data', 'gcpsa', key]))
       .filter(tag => tag)
       .join(' ');
   }
