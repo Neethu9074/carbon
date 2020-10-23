@@ -104,8 +104,8 @@ export default connectTo(
                 max: snapshot.getIn(['data', 'memory.nativeTotal']),
                 formatter: bytesZeroDecimalPlaces,
                 tooltipFormatter: bytesTwoDecimalPlaces,
-                metrics: ['memory.nativeUsed', 'memory.nonHeapUsed'],
-                labels: ['Direct Buffers', 'Off Heap'],
+                metrics: ['memory.nativeUsed'],
+                labels: ['Direct Buffers'],
                 type: 'line'
               }}
               renderPostChartContent={PluginDashboardsMarkerLanes}
