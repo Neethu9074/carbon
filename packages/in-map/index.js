@@ -4,10 +4,10 @@ import InfraPageHeaderWithTabs from 'in-infrastructure/components/InfraPageHeade
 import WithEmptyStateFallback from 'in-new-components/WithEmptyStateFallback';
 import { getViewStructure } from 'in-map/stores/physical/viewStructureStore';
 import NotMonitoringMap from 'in-map/components/NotMonitoringMap';
-import Controls from 'in-components/MapOverlayControls';
-import MapSidebar from 'in-components/MapSidebar';
+import Controls from 'in-map/components/MapOverlayControls';
+import MapSidebar from 'in-map/components/MapSidebar';
 import LegacyView from 'in-components/LegacyView';
-import MapNotes from 'in-components/MapNotes';
+import MapNotes from 'in-map/components/MapNotes';
 import Map from 'in-map/Map';
 
 export default function MapHandler(props) {

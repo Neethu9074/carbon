@@ -9,7 +9,7 @@ import {
   analyzePathFullyQualified
 } from 'in-websites/navigation/paths';
 import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
-import RedirectWithHash from 'in-components/Navigation/RedirectWithHash';
+import RedirectWithHash from 'in-components/RedirectWithHash';
 
 // all the lazy loaded views. Bundle name: websites
 import WebsiteDashboard from 'promise-loader?global,websites!in-websites/WebsiteDashboard/WebsiteDashboard';

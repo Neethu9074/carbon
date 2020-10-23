@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Collapsible from 'in-components/Collapsible';
+import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import List from 'in-sdk/components/sidebar/List';
 
 export default function LdapConnectors({ snapshot }) {

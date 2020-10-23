@@ -2,7 +2,7 @@ import React from 'react';
 
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import CopyToClipboardButton from 'in-new-components/CopyToClipboardButton';
-import DashboardNotification from 'in-components/DashboardNotification';
+import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import { close } from 'in-components/DialogPresenter/store';
 import Dialog from 'in-new-components/Dialog/Dialog';
 import connectTo from 'in-hoc/connectTo';

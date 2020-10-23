@@ -3,7 +3,7 @@ import rpt from 'prop-types';
 import React from 'react';
 
 import ApplicationEventListItemContent from 'in-events/components/legacy/ApplicationEventListItemContent';
-import EntityWithParentInformation from 'in-components/EntityInformation/EntityWithParentInformation';
+import EntityWithParentInformation from 'in-events/components/EntityInformation/EntityWithParentInformation';
 import WebsiteEventListItemContent from 'in-events/components/legacy/WebsiteEventListItemContent';
 import EventDurationMarker from 'in-events/components/legacy/marker/EventDurationMarker';
 import EventListItemContent from 'in-events/components/legacy/EventListItemContent';

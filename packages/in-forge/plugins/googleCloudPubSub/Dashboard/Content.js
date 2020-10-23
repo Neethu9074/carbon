@@ -5,7 +5,7 @@ import GcpPubSubTopicsTable from 'in-forge/plugins/googleCloudPubSub/Dashboard/G
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
-import DashboardNotification from 'in-components/DashboardNotification';
+import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import { bytes, seconds, number } from 'in-services/formatters/number';
 import MetricValue from 'in-components/MetricValue';
 

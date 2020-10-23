@@ -10,9 +10,9 @@ import { getEventSpecificationByIds } from 'in-api/eventSpecifications';
 import SectionHeading from 'in-settings/components/SectionHeading';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import DescriptionText from 'in-components/form/DescriptionText';
+import { Row, Col } from 'in-new-components/layout/Grid/Grid';
 import { alwaysEmptyArray } from 'in-services/fixedStreams';
 import FormGroup from 'in-settings/components/FormGroup';
-import { Row, Col } from 'in-components/Grid/Grid';
 import ComboBox from 'in-components/ComboBox';
 
 import locals from './Step2.mless';
@@ -38,7 +38,7 @@ export default function Step2({ form, setForm, onChange, onChangeEventSelectionM
       <SectionHeading>2. Events</SectionHeading>
       <DescriptionText>Only send alerts for event types or on selected events.</DescriptionText>
       <Row className={locals.eventSelection}>
-        <Col cols={6}>
+        <Col lg={6}>
           {form.get('eventSelectionMode').map(field => (
             <FormGroup>
               <ComboBox

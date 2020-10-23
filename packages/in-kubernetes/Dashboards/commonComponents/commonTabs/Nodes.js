@@ -6,7 +6,7 @@ import { clusterIdUrlParameter, daemonSetIdUrlParameter } from 'in-kubernetes/na
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator/EntityHealthIndicator';
-import ViewWidthRestrictedColumn from 'in-components/Table/components/ViewWidthRestrictedColumn';
+import ViewWidthRestrictedColumn from 'in-infrastructure/tableView/components/Table/components/ViewWidthRestrictedColumn';
 import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';

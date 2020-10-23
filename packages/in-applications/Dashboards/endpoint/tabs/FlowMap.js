@@ -8,7 +8,7 @@ import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
 import getMetrics from 'in-subscription/application/getMetrics';
 import getService from 'in-subscription/application/getService';
 import { boundaryScopes } from 'in-applications/constants';
-import ServerFlowMap from 'in-components/ServerFlowMap';
+import ServerFlowMap from 'in-applications/ServerFlowMap';
 import withUrlState from 'in-hoc/withUrlState';
 import connectTo from 'in-hoc/connectTo';
 

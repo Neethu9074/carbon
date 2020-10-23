@@ -5,7 +5,7 @@ import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import OperationsTable from 'in-forge/plugins/etcd/Dashboard/OperationsTable';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
-import DashboardNotification from 'in-components/DashboardNotification';
+import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import Columize from 'in-sdk/components/dashboard/Columize';
 
 export default function EtcdDashboard({ snapshot, timeConfig }) {

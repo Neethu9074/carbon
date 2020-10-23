@@ -6,7 +6,7 @@ import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection'
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
-import DashboardNotification from 'in-components/DashboardNotification';
+import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import { agentMonitoringIssuesEnabled } from 'in-services/featureFlags';
 import { number } from 'in-services/formatters/number';
 import MetricValue from 'in-components/MetricValue';

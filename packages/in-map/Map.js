@@ -4,7 +4,7 @@ import StickyNoteHoster from 'in-map/components/stickyNotes/StickyNoteHoster';
 import { showHelp, closeHelpIfOpen } from 'in-stores/navigation/navigation';
 import TooltipHoster from 'in-map/components/tooltips/TooltipHoster';
 import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
-import MapNoContentMessage from 'in-components/MapNoContentMessage';
+import MapNoContentMessage from 'in-map/components/MapNoContentMessage';
 import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
 import { getWebGLCanvasContext } from 'in-map/services/webGL';
 import { setCanvas, clear } from 'in-map/stores/indexStore';

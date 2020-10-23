@@ -60,7 +60,8 @@ import { combinedValidationResults, valid } from 'in-settings/validation';
 import SectionHeading from 'in-settings/components/SectionHeading';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import DescriptionText from 'in-components/form/DescriptionText';
-import EventDescription from 'in-components/EventDescription';
+import EventDescription from 'in-events/components/EventDescription';
+import { Row, Col } from 'in-new-components/layout/Grid/Grid';
 import { isBlank, isNotBlank } from 'in-services/util/string';
 import { compareIgnoreCase } from 'in-services/util/string';
 import HelpText from 'in-components/form/HelpText/HelpText';
@@ -73,7 +74,6 @@ import { getSingular } from 'in-sdk/pluginName';
 import Toggle from 'in-components/form/Toggle';
 import { find } from 'in-services/arrayUtils';
 import ComboBox from 'in-components/ComboBox';
-import { Row, Col } from 'in-components/Grid';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import connectTo from 'in-hoc/connectTo';
@@ -222,7 +222,7 @@ function EventForm({
     <fieldset>
       <SectionHeading>1. Event Details</SectionHeading>
       <Row>
-        <Col cols={8}>
+        <Col lg={8}>
           <Fragment>
             {form.get('name').map(field => (
               <FormGroup>
@@ -265,7 +265,7 @@ function EventForm({
             ))}
             <FormGroup noFlex>
               <Row>
-                <Col cols={4}>
+                <Col lg={4}>
                   {form.get('severity').map(field => (
                     <FormGroup>
                       <Label htmlFor="event-severity" hasError={!field.valid && field.touched}>
@@ -282,7 +282,7 @@ function EventForm({
                     </FormGroup>
                   ))}
                 </Col>
-                <Col cols={4}>
+                <Col lg={4}>
                   {form.get('triggering').map(field => (
                     <FormGroup>
                       <Label htmlFor="event-triggering">Incident</Label>
@@ -295,7 +295,7 @@ function EventForm({
                     </FormGroup>
                   ))}
                 </Col>
-                <Col cols={4}>
+                <Col lg={4}>
                   {form.get('gracePeriod').map(field => (
                     <FormGroup>
                       <Label htmlFor="event-grace-period" hasError={!field.valid && field.touched}>
@@ -319,7 +319,7 @@ function EventForm({
             </FormGroup>
           </Fragment>
         </Col>
-        <Col cols={4}>
+        <Col lg={4}>
           <FormGroup>
             <Label>Issue Preview</Label>
             <EventDescription
@@ -388,14 +388,14 @@ function EventForm({
       {isBuiltInDataSourceSelected(form) && (
         <>
           <Row>
-            <Col cols={3}>
+            <Col lg={3}>
               <EntityTypeFormGroup
                 form={form}
                 pluginsWithMetricDefinitions={pluginsWithMetricDefinitions}
                 onChange={onChange}
               />
             </Col>
-            <Col cols={9}>
+            <Col lg={9}>
               {form.get('entityType').value &&
                 form.get('metricName').map(field => (
                   <FormGroup>
@@ -463,14 +463,14 @@ function EventForm({
       {isCustomDataSourceSelected(form) && (
         <>
           <Row>
-            <Col cols={3}>
+            <Col lg={3}>
               <EntityTypeFormGroup
                 form={form}
                 pluginsWithMetricDefinitions={pluginsWithCustomMetrics}
                 onChange={onChange}
               />
             </Col>
-            <Col cols={9}>
+            <Col lg={9}>
               {customMetricsForPlugin &&
                 form.get('metricName').map(field => (
                   <FormGroup>
@@ -518,7 +518,7 @@ function EventForm({
 
       <SectionHeading>3. Scope</SectionHeading>
       <Row>
-        <Col cols={6}>
+        <Col lg={6}>
           {form.get('applyOn').map(field => (
             <FormGroup>
               <Label htmlFor="event-apply-on" hasError={!field.valid && field.touched}>
@@ -541,7 +541,7 @@ function EventForm({
             </FormGroup>
           ))}
         </Col>
-        <Col cols={6}>
+        <Col lg={6}>
           {form.get('applyOn').value === scopeDfq &&
             form.get('query').map(field => (
               <FormGroup>
@@ -644,7 +644,7 @@ function ThresholdsFormGroup({ isPercentileMetric, form, onChange }) {
     <FormGroup noFlex>
       <Row>
         {!isPercentileMetric && (
-          <Col cols={3}>
+          <Col lg={3}>
             {form.get('window').map(field => (
               <FormGroup>
                 <Label htmlFor="event-window" hasError={!field.valid && field.touched}>
@@ -663,7 +663,7 @@ function ThresholdsFormGroup({ isPercentileMetric, form, onChange }) {
           </Col>
         )}
         {isPercentileMetric && (
-          <Col cols={3}>
+          <Col lg={3}>
             {form.get('rollup').map(field => (
               <FormGroup>
                 <Label htmlFor="event-rollup" hasError={!field.valid && field.touched}>
@@ -682,7 +682,7 @@ function ThresholdsFormGroup({ isPercentileMetric, form, onChange }) {
           </Col>
         )}
         {!isPercentileMetric && (
-          <Col cols={3}>
+          <Col lg={3}>
             {form.get('aggregation').map(field => (
               <FormGroup>
                 <Label htmlFor="event-aggregation" hasError={!field.valid && field.touched}>
@@ -700,7 +700,7 @@ function ThresholdsFormGroup({ isPercentileMetric, form, onChange }) {
             ))}
           </Col>
         )}
-        <Col cols={3}>
+        <Col lg={3}>
           {form.get('conditionOperator').map(field => (
             <FormGroup>
               <Label htmlFor="event-conditionOperator" hasError={!field.valid && field.touched}>
@@ -717,7 +717,7 @@ function ThresholdsFormGroup({ isPercentileMetric, form, onChange }) {
             </FormGroup>
           ))}
         </Col>
-        <Col cols={3}>
+        <Col lg={3}>
           {form.get('conditionValue').map(field => (
             <FormGroup>
               <Label htmlFor="event-conditionValue" hasError={!field.valid && field.touched}>
@@ -753,7 +753,7 @@ function DynamicBuiltInFormGroup({ form, onChange }) {
   return (
     <FormGroup noFlex>
       <Row>
-        <Col cols={3}>
+        <Col lg={3}>
           {metricPatternOperator &&
             metricPatternOperator.map(field => (
               <FormGroup>
@@ -785,7 +785,7 @@ function DynamicBuiltInFormGroup({ form, onChange }) {
               </FormGroup>
             ))}
         </Col>
-        <Col cols={6}>
+        <Col lg={6}>
           {metricPatternPlaceholder && (
             <FormGroup>
               <Label
@@ -823,7 +823,7 @@ function ObserveHostHasMatchingEntitiesRunningFormGroup({ entityTypes, form, onC
   return (
     <FormGroup noFlex>
       <Row>
-        <Col cols={3}>
+        <Col lg={3}>
           <FormGroup>
             <Label htmlFor="-entity-matchingtype" hasError={!matchingEntityType.valid && matchingEntityType.touch}>
               Entity Type
@@ -838,7 +838,7 @@ function ObserveHostHasMatchingEntitiesRunningFormGroup({ entityTypes, form, onC
             <TouchedMessages field={matchingEntityType} />
           </FormGroup>
         </Col>
-        <Col cols={3}>
+        <Col lg={3}>
           <FormGroup>
             <Label htmlFor="matching-operator" hasError={!matchingOperator.valid && matchingOperator.touched}>
               Entity Label Operator
@@ -853,7 +853,7 @@ function ObserveHostHasMatchingEntitiesRunningFormGroup({ entityTypes, form, onC
             <TouchedMessages field={matchingOperator} />
           </FormGroup>
         </Col>
-        <Col cols={3}>
+        <Col lg={3}>
           <FormGroup>
             <Label htmlFor="matching-entity-label" hasError={!matchingEntityLabel.valid && matchingEntityLabel.touched}>
               Entity Label
@@ -870,7 +870,7 @@ function ObserveHostHasMatchingEntitiesRunningFormGroup({ entityTypes, form, onC
             <TouchedMessages field={matchingEntityLabel} />
           </FormGroup>
         </Col>
-        <Col cols={3}>
+        <Col lg={3}>
           <FormGroup>
             <Label htmlFor="offline-duration" hasError={!offlineDuration.valid && offlineDuration.touched}>
               Offline for

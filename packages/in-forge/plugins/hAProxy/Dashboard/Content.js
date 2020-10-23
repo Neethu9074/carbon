@@ -2,7 +2,7 @@ import React from 'react';
 
 import FrontendsTable from 'in-forge/plugins/hAProxy/Dashboard/FrontendsTable';
 import BackendsTable from 'in-forge/plugins/hAProxy/Dashboard/BackendsTable';
-import DashboardNotification from 'in-components/DashboardNotification';
+import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 
 export default function HAProxyDashboard({ snapshot, timeConfig }) {
   const socketPath = snapshot.getIn(['data', 'socketPath']);

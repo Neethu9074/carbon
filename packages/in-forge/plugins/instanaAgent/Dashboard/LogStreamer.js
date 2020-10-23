@@ -5,7 +5,7 @@ import React, { Fragment } from 'react';
 import { sanitize, ansiToHtml, replaceHtmlChars } from 'in-services/formatters/html';
 import createAgentResponseObservable from 'in-subscription/agentResponse';
 import CopyToClipboardButton from 'in-new-components/CopyToClipboardButton';
-import DashboardNotification from 'in-components/DashboardNotification';
+import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import Toggle from 'in-components/form/Toggle';
 
 import locals from './LogStreamer.mless';

@@ -19,7 +19,7 @@ import DefaultLoadingDashboard from 'in-new-components/Loading/DefaultLoadingDas
 import { resourceId as resourceIdMatrixParameter } from 'in-websites/navigation/matrix';
 import PagesTopList from 'in-websites/WebsiteDashboard/tabs/Resources/PagesTopList';
 import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
-import RedirectWithHash from 'in-components/Navigation/RedirectWithHash';
+import RedirectWithHash from 'in-components/RedirectWithHash';
 import AggregationSelector from 'in-new-components/AggregationSelector';
 import { bytes, millis, number } from 'in-services/formatters/number';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';

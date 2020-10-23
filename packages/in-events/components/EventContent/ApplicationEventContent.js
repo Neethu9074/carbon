@@ -14,7 +14,7 @@ import { createDefaultChartConfig } from 'in-new-components/Alerting/Chart/chart
 import { getAlertConfigByIdAndTimestamp } from 'in-applications/api/applicationAlertConfig';
 import { alertingEventDetailsChartTimeframe } from 'in-new-components/Alerting/constants';
 import { getBlueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
-import EntityInformation from 'in-components/EntityInformation/EntityInformation';
+import EntityInformation from 'in-events/components/EntityInformation/EntityInformation';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import AlertingChart from 'in-new-components/Alerting/Chart/AlertingChart';
 import { Col, Row } from 'in-new-components/layout/Grid';

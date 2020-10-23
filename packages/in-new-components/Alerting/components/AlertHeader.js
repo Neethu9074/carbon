@@ -5,7 +5,7 @@ import theme from 'in-themes';
 import RevisionDropdown, { toAlertRevision } from 'in-new-components/Alerting/components/RevisionDropdown';
 import { getModifiedUrlStream, mutateUrl } from 'in-stores/navigation/navigation';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
-import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
+import ConfirmationDialog from 'in-new-components/Dialog/ConfirmationDialog';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import TemporaryMessage from 'in-components/TemporaryMessage';
 import { warning } from 'in-new-components/Message/types';
@@ -155,12 +155,11 @@ export default function AlertHeader({
                           ?
                         </span>
                       }
-                      bButtonLabel="Restore"
-                      onB={() => {
+                      confirmButtonLabel="Restore"
+                      onSubmit={() => {
                         close();
                         doRestore();
                       }}
-                      bButtonIcon="lib_actions_revert"
                     />
                   );
                 }}

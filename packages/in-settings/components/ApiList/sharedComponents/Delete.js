@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
-import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
+import ConfirmationDialog from 'in-new-components/Dialog/ConfirmationDialog';
 import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './Delete.mless';
@@ -32,12 +32,11 @@ export default function Delete({ dialogMessage, itemName, confirmLabel, doDelete
                 </span>
               )
             }
-            bButtonLabel={confirmLabel || 'Remove'}
-            onB={() => {
+            confirmButtonLabel={confirmLabel || 'Remove'}
+            onSubmit={() => {
               close();
               doDelete();
             }}
-            bButtonIcon="lib_actions_delete"
           />
         );
       }}

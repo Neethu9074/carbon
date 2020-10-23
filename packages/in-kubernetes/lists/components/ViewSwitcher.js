@@ -4,7 +4,7 @@ import { SecondLevelNavigation, SecondLevelNavigationItem } from 'in-new-compone
 import DashboardHeaderShadowModule from 'in-new-components/DashboardHeader/DashboardHeaderShadowModule';
 import { clusterListFullyQualified, namespaceListFullyQualified } from 'in-kubernetes/navigation/paths';
 import DashboardHeaderModule, { themes } from 'in-new-components/DashboardHeader/DashboardHeaderModule';
-import UseBeeInstantToggle from 'in-components/Dashboard/components/UseBeeInstantToggle';
+import UseBeeInstantToggle from 'in-infrastructure/Dashboard/components/UseBeeInstantToggle';
 import { getModifiedUrlStream, isView } from 'in-stores/navigation/navigation';
 import DashboardHeader from 'in-new-components/DashboardHeader';
 import connectTo from 'in-hoc/connectTo';

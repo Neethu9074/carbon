@@ -1,7 +1,7 @@
 import React from 'react';
 
 import RunningComponentsList from 'in-sdk/components/sidebar/RunningComponentsList';
-import KubernetesInfo from 'in-components/Dashboard/components/KubernetesInfo';
+import KubernetesInfo from 'in-infrastructure/Dashboard/components/KubernetesInfo';
 import KeyValueOverlay from 'in-sdk/components/sidebar/KeyValueOverlay';
 import MarathonInfo from 'in-forge/plugins/docker/MarathonInfo';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';

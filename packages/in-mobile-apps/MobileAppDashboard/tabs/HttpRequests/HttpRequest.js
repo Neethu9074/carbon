@@ -9,7 +9,7 @@ import { httpRequestId as httpRequestIdMatrixParameter } from 'in-mobile-apps/na
 import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-mobile-apps/tags';
 import ViewsTopList from 'in-mobile-apps/MobileAppDashboard/tabs/HttpRequests/ViewsTopList';
 import { millis, number, percentage } from 'in-services/formatters/number';
-import RedirectWithHash from 'in-components/Navigation/RedirectWithHash';
+import RedirectWithHash from 'in-components/RedirectWithHash';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { getChartGranularity } from 'in-mobile-apps/metrics';

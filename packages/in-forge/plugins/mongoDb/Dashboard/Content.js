@@ -5,7 +5,7 @@ import { bytesZeroDecimalPlaces, number } from 'in-services/formatters/number';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
-import DashboardNotification from 'in-components/DashboardNotification';
+import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import { emptyList } from 'in-services/fixedImmutables';
 import DatabaseSizesTable from './DatabaseSizesTable';
 import MetricValue from 'in-components/MetricValue';

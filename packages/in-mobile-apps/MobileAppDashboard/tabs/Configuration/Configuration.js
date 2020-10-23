@@ -5,7 +5,7 @@ import { configurationOptionsFullyQualified } from 'in-mobile-apps/navigation/pa
 import { SideNavigation, SideNavigationItem } from 'in-new-components/SideNavigation/SideNavigation';
 import { getModifiedUrlStream, navigationParameters$ } from 'in-stores/navigation/navigation';
 import Options from 'in-mobile-apps/MobileAppDashboard/tabs/Configuration/Options/Options';
-import RedirectWithHash from 'in-components/Navigation/RedirectWithHash/RedirectWithHash';
+import RedirectWithHash from 'in-components/RedirectWithHash';
 import StickySidebarContainer from 'in-new-components/layout/StickySidebarContainer';
 import connectTo from 'in-hoc/connectTo';
 

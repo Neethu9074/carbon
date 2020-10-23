@@ -1,6 +1,6 @@
 import React from 'react';
 
-import DashboardNotification from 'in-components/DashboardNotification';
+import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import Code from 'in-components/Code';
 
 const configExample = `<subsystem xmlns="urn:jboss:domain:undertow:2.0" statistics-enabled="true">`;

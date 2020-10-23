@@ -14,7 +14,7 @@ import {
   ErroneousRowTh,
   ErroneousRowTd
 } from 'in-components/tables/sharedComponents';
-import HeightRestrictedView from 'in-components/HeightRestrictedView/HeightRestrictedView';
+import HeightRestrictedView from 'in-components/layout/HeightRestrictedView/HeightRestrictedView';
 import { traceId as traceIdMatrixParameter } from 'in-analyze/navigation/matrix';
 import ListItemPresenter from 'in-analyze/components/RawTraces/ListItemPresenter';
 import { getLinkToTraceDetail, traceDetail } from 'in-analyze/navigation/paths';

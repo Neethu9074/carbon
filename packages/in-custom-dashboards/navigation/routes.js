@@ -3,7 +3,7 @@ import React, { Fragment } from 'react';
 
 import { viewPathFullyQualified, customDashboardsPath } from 'in-custom-dashboards/navigation/url';
 import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
-import RedirectWithHash from 'in-components/Navigation/RedirectWithHash';
+import RedirectWithHash from 'in-components/RedirectWithHash';
 import { cockpit } from 'in-cockpit/navigation/paths';
 
 // all the lazy loaded views. Bundle name: customDashboarding

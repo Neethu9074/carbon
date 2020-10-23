@@ -5,7 +5,7 @@ import type { ComponentType } from 'react';
 import React, { Fragment } from 'react';
 
 import { SideNavigation, SideNavigationItem } from 'in-new-components/SideNavigation/SideNavigation';
-import RedirectWithHash from 'in-components/Navigation/RedirectWithHash/RedirectWithHash';
+import RedirectWithHash from 'in-components/RedirectWithHash';
 import { getModifiedUrlStream, isView, isViewWithRouteParam } from 'in-stores/navigation';
 import StickySidebarContainer from 'in-new-components/layout/StickySidebarContainer';
 import { scrollToTopSmoothly } from 'in-services/util/dom';

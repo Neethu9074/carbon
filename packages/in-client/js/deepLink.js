@@ -1,7 +1,7 @@
 import { Route } from 'react-router-dom';
 import React from 'react';
 
-import RedirectWithHash from 'in-components/Navigation/RedirectWithHash/RedirectWithHash';
+import RedirectWithHash from 'in-components/RedirectWithHash';
 import { getLinkToTraceDetail } from 'in-analyze/navigation/paths';
 import { getLinkToSession } from 'in-mobile-apps/navigation/paths';
 import { getLinkToPageLoad } from 'in-websites/navigation/paths';

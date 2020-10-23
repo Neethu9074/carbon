@@ -4,7 +4,7 @@ import React from 'react';
 
 import { analyzePathFullyQualified, profilingPath, analyzePath } from 'in-new-components/Profiling/navigation/paths';
 import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
-import RedirectWithHash from 'in-components/Navigation/RedirectWithHash';
+import RedirectWithHash from 'in-components/RedirectWithHash';
 
 export default (
   <>

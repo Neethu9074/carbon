@@ -9,7 +9,7 @@ import {
   analyzePathFullyQualified
 } from 'in-mobile-apps/navigation/paths';
 import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
-import RedirectWithHash from 'in-components/Navigation/RedirectWithHash';
+import RedirectWithHash from 'in-components/RedirectWithHash';
 
 // all the lazy loaded views. Bundle name: mobileApps
 import MobileAppDashboard from 'promise-loader?global,mobileApps!in-mobile-apps/MobileAppDashboard/MobileAppDashboard';

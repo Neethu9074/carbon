@@ -10,7 +10,7 @@ import {
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
-import DashboardNotification from 'in-components/DashboardNotification';
+import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import TablespaceUsagesTable from './TablespaceUsagesTable.js';
 
 export default function OracleDBDashboard({ snapshot, timeConfig }) {

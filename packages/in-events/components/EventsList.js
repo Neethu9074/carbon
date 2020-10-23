@@ -12,7 +12,7 @@ import {
   LoadMoreRow
 } from 'in-components/tables/sharedComponents';
 import HighlightedTimeframeMarkerRow from 'in-events/components/HighlightedTimeframeMarkerRow';
-import HeightRestrictedView from 'in-components/HeightRestrictedView/HeightRestrictedView';
+import HeightRestrictedView from 'in-components/layout/HeightRestrictedView/HeightRestrictedView';
 import useTimeConfigUpdatingScale from 'in-services/hooks/useTimeConfigUpdatingScale';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import EmptyEventList from 'in-events/components/EmptyEventsList';

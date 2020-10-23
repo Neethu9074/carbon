@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 
 import AgentMonitoringIssueDescription from 'in-events/components/legacy/AgentMonitoringIssueDescription';
-import EntityWithParentInformation from 'in-components/EntityInformation/EntityWithParentInformation';
+import EntityWithParentInformation from 'in-events/components/EntityInformation/EntityWithParentInformation';
 import ApplicationEventContent from 'in-events/components/EventContent/ApplicationEventContent';
-import HeightRestrictedView from 'in-components/HeightRestrictedView/HeightRestrictedView';
+import HeightRestrictedView from 'in-components/layout/HeightRestrictedView/HeightRestrictedView';
 import OfflineEventDescription from 'in-events/components/legacy/OfflineEventDescription';
 import WebsiteEventContent from 'in-events/components/EventContent/WebsiteEventContent';
 import EventSpecificationLink from 'in-events/components/legacy/EventSpecificationLink';

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { getActiveConfiguration } from 'in-client/js/LandingPage/activeConfigration';
-import RedirectWithHash from 'in-components/Navigation/RedirectWithHash';
+import RedirectWithHash from 'in-components/RedirectWithHash';
 import { getModifiedUrlStream } from 'in-stores/navigation';
 
 export default function LandingPage() {

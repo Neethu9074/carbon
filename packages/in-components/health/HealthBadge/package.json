@@ -1,6 +1,0 @@
-{
-  "name": "HealthBadge",
-  "version": "0.0.0",
-  "private": true,
-  "main": "./HealthBadge.js"
-}

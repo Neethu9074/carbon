@@ -13,7 +13,7 @@ const FUZZINESS = 5;
  * This component checks if a potential scrollable element can be scrolled up or down and passes this information to
  * its child element.
  *
- * It is similar to packages/in-components/HeightRestrictedView, but a more general. For example, HeightRestrictedView
+ * It is similar to packages/in-components/layout/HeightRestrictedView, but a more general. For example, HeightRestrictedView
  * makes assumptions about the timeline footer being present. Also, HeightRestrictedView only considers a scrolling hint
  * at the bottom while this component renders hints at the bottom or top (or both) depending in which direction
  * scrolling is possible.

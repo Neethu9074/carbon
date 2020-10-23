@@ -12,7 +12,7 @@ import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websit
 import AnalyzeWebsiteEventButton from 'in-events/components/AnalyzeWebsiteEventButton';
 import WebsiteAlertConfigButton from 'in-events/components/WebsiteAlertConfigButton';
 import { getAlertConfigByIdAndTimestamp } from 'in-websites/api/websiteAlertConfig';
-import EntityInformation from 'in-components/EntityInformation/EntityInformation';
+import EntityInformation from 'in-events/components/EntityInformation/EntityInformation';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import { getBlueprintConfig } from 'in-websites/alerting/data/blueprintConfig';
 import AlertingChart from 'in-new-components/Alerting/Chart/AlertingChart';

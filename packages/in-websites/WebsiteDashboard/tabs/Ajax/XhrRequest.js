@@ -17,7 +17,7 @@ import { millis, number, bytes, percentage } from 'in-services/formatters/number
 import PagesTopList from 'in-websites/WebsiteDashboard/tabs/Ajax/PagesTopList';
 import { xhrId as xhrIdMatrixParameter } from 'in-websites/navigation/matrix';
 import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
-import RedirectWithHash from 'in-components/Navigation/RedirectWithHash';
+import RedirectWithHash from 'in-components/RedirectWithHash';
 import AggregationSelector from 'in-new-components/AggregationSelector';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import Renderer from 'in-components/Chart/renderer/Renderer';

@@ -2,7 +2,7 @@ import React from 'react';
 import semver from 'semver';
 
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
-import DashboardNotification from 'in-components/DashboardNotification';
+import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import GaugesTable from './GaugesTable';
 
 const runtimeMetrics = [

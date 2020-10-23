@@ -8,7 +8,7 @@ import {
 import StackTraceTranslation from 'in-websites/WebsiteDashboard/tabs/Configuration/StackTraceTranslation/StackTraceTranslation';
 import { SideNavigation, SideNavigationItem } from 'in-new-components/SideNavigation/SideNavigation';
 import { getModifiedUrlStream, navigationParameters$ } from 'in-stores/navigation/navigation';
-import RedirectWithHash from 'in-components/Navigation/RedirectWithHash/RedirectWithHash';
+import RedirectWithHash from 'in-components/RedirectWithHash';
 import Options from 'in-websites/WebsiteDashboard/tabs/Configuration/Options/Options';
 import StickySidebarContainer from 'in-new-components/layout/StickySidebarContainer';
 import Footer from 'in-new-components/Footer';

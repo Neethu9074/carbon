@@ -2,7 +2,7 @@ import { create } from 'reactive-observables';
 import React from 'react';
 
 import createAgentResponseObservable from 'in-subscription/agentResponse';
-import CodeRetrievalDialog from 'in-components/CodeRetrievalDialog';
+import CodeRetrievalDialog from 'in-sdk/components/CodeRetrievalDialog';
 import http from 'in-services/http';
 
 export function getCodeView(snapshot, file, line) {

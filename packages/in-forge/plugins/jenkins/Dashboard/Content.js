@@ -1,6 +1,6 @@
 import React from 'react';
 
-import DashboardNotification from 'in-components/DashboardNotification';
+import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import JobsTable from 'in-forge/plugins/jenkins/Dashboard/JobsTable';
 
 export default function JenkinsDashboard({ snapshot, timeConfig }) {

@@ -8,7 +8,7 @@ import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import QueuesTable from 'in-forge/plugins/rabbitMq/Dashboard/QueuesTable';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import NodesTable from 'in-forge/plugins/rabbitMq/Dashboard/NodesTable';
-import DashboardNotification from 'in-components/DashboardNotification';
+import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { emptyMap } from 'in-services/fixedImmutables';
 import MetricValue from 'in-components/MetricValue';

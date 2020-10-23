@@ -11,7 +11,6 @@ import MainNavigation from 'in-new-components/MainNavigation';
 import DialogPresenter from 'in-components/DialogPresenter';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import MessageFlyout from 'in-components/MessageFlyout';
-import MessageDialog from 'in-components/MessageDialog';
 import routes from 'in-client/js/routes/mainRoutes';
 import GlobalTheme from 'in-themes/GlobalTheme';
 
@@ -36,8 +35,6 @@ export default function App() {
           <ErrorBoundary name="dialogs">
             {/* for release notes */}
             <ReleaseNotesDialog />
-            {/* for backend send messages */}
-            <MessageDialog />
             {/* help articles */}
             <HelpPresenter />
             <TooltipPresenter />

@@ -10,7 +10,7 @@ import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection'
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
-import DashboardNotification from 'in-components/DashboardNotification';
+import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import { healthFormatter } from 'in-forge/plugins/ceph/formatters';
 import PoolTable from 'in-forge/plugins/ceph/Dashboard/PoolTable';
 import MetricValue from 'in-components/MetricValue';

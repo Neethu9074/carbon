@@ -11,7 +11,7 @@ import ServerIcicleChart from 'in-analyze/TraceDetail/components/IcicleChart/Ser
 import ContentWrapper from 'in-new-components/LocationAwareTabView/components/ContentWrapper';
 import WebsiteMonitoringData from 'in-analyze/TraceDetail/tabs/Summary/WebsiteMonitoringData';
 import TraceValidationResult from 'in-analyze/TraceDetail/tabs/Summary/TraceValidationResult';
-import HeightRestrictedView from 'in-components/HeightRestrictedView/HeightRestrictedView';
+import HeightRestrictedView from 'in-components/layout/HeightRestrictedView/HeightRestrictedView';
 import ServiceEndpointList from 'in-analyze/TraceDetail/components/ServiceEndpointList';
 import CallDetails from 'in-analyze/TraceDetail/components/CallDetails/CallDetails';
 import getTraceActivityTree from 'in-subscription/application/getTraceActivityTree';

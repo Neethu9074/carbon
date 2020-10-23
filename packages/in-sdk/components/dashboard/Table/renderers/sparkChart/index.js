@@ -2,7 +2,7 @@ import {
   type as typeInternal,
   validate as validateInternal,
   initialize as initializeInternal
-} from 'in-components/Table/renderers/sparkChart/sparkChart';
+} from 'in-infrastructure/tableView/components/Table/renderers/sparkChart/sparkChart';
 
 export const type = typeInternal;
 export const validate = col => validateInternal(col);

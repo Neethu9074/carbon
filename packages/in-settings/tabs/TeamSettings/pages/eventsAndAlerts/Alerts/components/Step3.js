@@ -20,8 +20,8 @@ import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicat
 import SectionHeading from 'in-settings/components/SectionHeading';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import DescriptionText from 'in-components/form/DescriptionText';
+import { Row, Col } from 'in-new-components/layout/Grid/Grid';
 import FormGroup from 'in-settings/components/FormGroup';
-import { Row, Col } from 'in-components/Grid/Grid';
 import { isBlank } from 'in-services/util/string';
 import ComboBox from 'in-components/ComboBox';
 import Label from 'in-components/form/Label';
@@ -55,7 +55,7 @@ function Step3({ form, setForm, onChange, onChangeApplyOn, existingApplication }
     <Fragment>
       <SectionHeading>3. Scope</SectionHeading>
       <Row>
-        <Col cols={6}>
+        <Col lg={6}>
           {form.get('applyOn').map(field => (
             <FormGroup>
               <Label htmlFor="alert-apply-on" hasError={!field.valid && field.touched}>
@@ -82,7 +82,7 @@ function Step3({ form, setForm, onChange, onChangeApplyOn, existingApplication }
             </FormGroup>
           ))}
         </Col>
-        <Col cols={6}>
+        <Col lg={6}>
           {form.get('applyOn').value === scopeDfq &&
             form.get('query').map(field => (
               <FormGroup>

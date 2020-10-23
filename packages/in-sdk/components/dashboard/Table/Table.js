@@ -3,9 +3,9 @@ import React from 'react';
 import SortIndicator from 'in-sdk/components/dashboard/Table/components/SortIndicator';
 import { createStore } from 'in-sdk/components/dashboard/Table/stores/content';
 import Row from 'in-sdk/components/dashboard/Table/components/Row';
+import Pagination from 'in-new-components/Pagination';
 import ButtonGroup from 'in-new-components/ButtonGroup';
 import SearchInput from 'in-new-components/SearchInput';
-import Pagination from 'in-components/Pagination';
 import shallowEquals from 'fbjs/lib/shallowEqual';
 import Card from 'in-new-components/Card';
 
@@ -136,29 +136,28 @@ export default class Table extends React.Component {
       <div className={locals.headerExtensions}>
         {this.props.rightHeader}
 
-        {this.props.showExpandAll &&
-          this.props.getRowDetails && (
-            <ButtonGroup
-              buttonPropsList={[
-                {
-                  key: 'expand',
-                  kind: 'secondary',
-                  size: 'compact',
-                  onClick: () => this.store.setExpansionStateForAll(true),
-                  className: locals.expansionSwitch,
-                  text: 'Expand All'
-                },
-                {
-                  key: 'collapse',
-                  kind: 'secondary',
-                  size: 'compact',
-                  onClick: () => this.store.setExpansionStateForAll(false),
-                  className: locals.expansionSwitch,
-                  text: 'Collapse All'
-                }
-              ]}
-            />
-          )}
+        {this.props.showExpandAll && this.props.getRowDetails && (
+          <ButtonGroup
+            buttonPropsList={[
+              {
+                key: 'expand',
+                kind: 'secondary',
+                size: 'compact',
+                onClick: () => this.store.setExpansionStateForAll(true),
+                className: locals.expansionSwitch,
+                text: 'Expand All'
+              },
+              {
+                key: 'collapse',
+                kind: 'secondary',
+                size: 'compact',
+                onClick: () => this.store.setExpansionStateForAll(false),
+                className: locals.expansionSwitch,
+                text: 'Collapse All'
+              }
+            ]}
+          />
+        )}
         <SearchInput maxWidth={140} query={this.state.filter} onChange={this.store.setFilter} />
       </div>
     );
@@ -190,11 +189,9 @@ export default class Table extends React.Component {
           {showPagination ? (
             <div className={locals.paginationWrapper}>
               <Pagination
-                onPrevPage={this.store.onPrevPage}
-                onNextPage={this.store.onNextPage}
-                currentPage={data.page || 0}
-                pageCount={data.pageCount}
-                ariaLabel="Pagination"
+                onChange={newPage => this.store.setPage(newPage - 1)}
+                currentPage={(data.page || 0) + 1}
+                numPages={data.pageCount}
               />
             </div>
           ) : null}

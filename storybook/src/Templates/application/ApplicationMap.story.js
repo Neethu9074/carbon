@@ -1,11 +1,11 @@
 import RoEmitter from 'roemitter';
 import React from 'react';
 
-import ServiceInformation from 'in-new-components/ApplicationMap/components/Tooltips/ServiceInformation/ServiceInformation';
-import { ConnectionTooltipContent } from 'in-new-components/ApplicationMap/components/Tooltips/ConnectionTooltip';
-import { ContextMenuContent } from 'in-new-components/ApplicationMap/components/ContextMenu';
-import { NodeComponent } from 'in-new-components/ApplicationMap/components/Node/Node';
-import { ApplicationMapReactComponent } from 'in-new-components/ApplicationMap';
+import ServiceInformation from 'in-applications/ApplicationMap/components/Tooltips/ServiceInformation/ServiceInformation';
+import { ConnectionTooltipContent } from 'in-applications/ApplicationMap/components/Tooltips/ConnectionTooltip';
+import { ContextMenuContent } from 'in-applications/ApplicationMap/components/ContextMenu';
+import { NodeComponent } from 'in-applications/ApplicationMap/components/Node/Node';
+import { ApplicationMapReactComponent } from 'in-applications/ApplicationMap';
 import { deepCopy } from 'in-services/util/object';
 
 export default {

@@ -12,8 +12,8 @@ import { agentsPath, containerPath, graphPath, physicalPath, tablePath } from 'i
 import InfraExploreView from 'promise-loader?global,infrastructure!in-infrastructure/Explore/Explore';
 import { pcfEnabled, vsphereEnabled, internalMonitoringUnit } from 'in-services/featureFlags';
 import GraphView from 'promise-loader?global,graph-view!in-components/graphView/GraphView';
-import AgentView from 'promise-loader?global,infrastructure!in-views/agentView/AgentView';
-import TableView from 'promise-loader?global,infrastructure!in-views/tableView/TableView';
+import AgentView from 'promise-loader?global,infrastructure!in-infrastructure/agentView/AgentView';
+import TableView from 'promise-loader?global,infrastructure!in-infrastructure/tableView/TableView';
 import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
 import { infraExploreEnabled } from 'in-infrastructure/Explore/services/featureFlags';
 import FragmentSupportingSwitch from 'in-components/FragmentSupportingSwitch';

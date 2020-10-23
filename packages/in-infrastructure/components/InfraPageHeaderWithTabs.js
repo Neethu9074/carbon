@@ -1,14 +1,14 @@
 import { Switch, Route } from 'react-router-dom';
 import React from 'react';
 
-import DashboardNavigationRoute from 'in-components/Navigation/DashboardNavigationRoute/DashboardNavigationRoute';
 import DashboardHeaderShadowModule from 'in-new-components/DashboardHeader/DashboardHeaderShadowModule';
 import DashboardHeaderModule from 'in-new-components/DashboardHeader/DashboardHeaderModule';
-import UseBeeInstantToggle from 'in-components/Dashboard/components/UseBeeInstantToggle';
+import UseBeeInstantToggle from 'in-infrastructure/Dashboard/components/UseBeeInstantToggle';
 import TypeSelector from 'in-infrastructure/Explore/components/TypeSelector';
 import DashboardHeader, { themes } from 'in-new-components/DashboardHeader';
 import { isInfraExploreView } from 'in-infrastructure/navigation/paths';
-import ViewSwitcher from 'in-views/tableView/components/ViewSwitcher';
+import ViewSwitcher from 'in-infrastructure/tableView/components/ViewSwitcher';
+import Dashboard from 'in-infrastructure/Dashboard';
 import useObservable from 'in-hooks/useObservable';
 import Footer from 'in-new-components/Footer';
 import Sticky from 'in-components/Sticky';
@@ -24,7 +24,7 @@ export default function InfraPageHeaderWithTabs({
 
   return (
     <Switch>
-      {DashboardNavigationRoute}
+      <Route path={'*/dashboard'} component={Dashboard} />
       <Route
         path="/*"
         render={() => {

@@ -4,7 +4,7 @@ import { zeroDecimalPlaces, bytesTwoDecimalPlaces, percentageZeroDecimalPlaces }
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
-import DashboardNotification from 'in-components/DashboardNotification';
+import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import AlertsTable from './AlertsTable.js';
 
 export default function Dashboard({ snapshot, timeConfig }) {

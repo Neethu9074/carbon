@@ -9,7 +9,7 @@ import DashboardHeaderModule from 'in-new-components/DashboardHeader/DashboardHe
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import { highlightedTimeframe$ } from 'in-stores/timeline/highlightedTimeframe';
 import DashboardHeader, { themes } from 'in-new-components/DashboardHeader';
-import RedirectWithHash from 'in-components/Navigation/RedirectWithHash';
+import RedirectWithHash from 'in-components/RedirectWithHash';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { timeConfig$, getTimeConfig } from 'in-stores/time/config';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';

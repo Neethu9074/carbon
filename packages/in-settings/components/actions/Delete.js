@@ -2,7 +2,7 @@ import theme from 'in-themes';
 import React from 'react';
 
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
-import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
+import ConfirmationDialog from 'in-new-components/Dialog/ConfirmationDialog';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import SvgIcon from 'in-components/SvgIcon';
 
@@ -44,12 +44,11 @@ export default function Delete({
                       </span>
                     )
                   }
-                  bButtonLabel={confirmLabel || 'Remove'}
-                  onB={() => {
+                  confirmButtonLabel={confirmLabel || 'Remove'}
+                  onSubmit={() => {
                     close();
                     doDelete(entity, deleteEntity, setErrorMessage);
                   }}
-                  bButtonIcon="lib_actions_delete"
                 />
               );
             }

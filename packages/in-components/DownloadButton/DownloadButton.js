@@ -8,7 +8,7 @@ import './DownloadButton.less';
 const block = 'in-download-button';
 
 export default class extends React.Component {
-  static displayName = 'DownloadLink';
+  static displayName = 'DownloadButton';
 
   static propTypes = {
     className: rpt.string,

@@ -15,13 +15,13 @@ import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicat
 import FormDataEnrichment from './components/FormDataEnrichment';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import DescriptionText from 'in-components/form/DescriptionText';
+import { Row, Col } from 'in-new-components/layout/Grid/Grid';
 import { getSetting$ } from 'in-services/settings/settings';
 import FormGroup from 'in-settings/components/FormGroup';
 import DateInput from 'in-components/form/DateInput';
 import HelpText from 'in-components/form/HelpText';
 import moment from 'in-services/moment-timezone';
 import Message from 'in-new-components/Message';
-import { Row, Col } from 'in-components/Grid';
 import ComboBox from 'in-components/ComboBox';
 import Button from 'in-new-components/Button';
 import Input from 'in-components/form/Input';
@@ -155,19 +155,19 @@ export default function MaintenanceConfigurationForm(props) {
         <HelpText large>3. Set the start and end of your maintenance window</HelpText>
 
         <Row>
-          <Col cols={12}>
+          <Col lg={12}>
             <DescriptionTextWithCurrentTimeZone />
           </Col>
         </Row>
 
         <Row>
-          <Col cols={5}>
+          <Col lg={5}>
             <DateWithTime label="Start Time" path="start" {...props} />
           </Col>
-          <Col cols={5}>
+          <Col lg={5}>
             <DateWithTime label="End Time" path="end" {...props} />
           </Col>
-          <Col cols={2}>
+          <Col lg={2}>
             <Button
               kind="action"
               className={locals.unscheduleButton}
@@ -272,7 +272,7 @@ const DateWithTime = connectTo(
           {label}
         </Label>
         <Row>
-          <Col cols={5}>
+          <Col lg={5}>
             <DateInput
               id={`maintenance-${path}-date`}
               placeholder="YYYY-MM-DD"
@@ -282,7 +282,7 @@ const DateWithTime = connectTo(
               className={locals.input}
             />
           </Col>
-          <Col cols={5}>
+          <Col lg={5}>
             <Input
               type="text"
               id={`maintenance-${path}-time`}
@@ -295,7 +295,7 @@ const DateWithTime = connectTo(
             />
           </Col>
           {message && (
-            <Col cols={10}>
+            <Col lg={10}>
               <Message className={locals.submessageWrapper} withIcon small>
                 <div>{message}</div>
               </Message>

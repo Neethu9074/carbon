@@ -3,7 +3,7 @@ import { List } from 'immutable';
 import React from 'react';
 
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
-import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
+import ConfirmationDialog from 'in-new-components/Dialog/ConfirmationDialog';
 import { DFQ_FILTER_REMOVED } from 'in-services/tracking/eventNames';
 import { getAllFilters, removeFilter } from 'in-api/filters';
 import { track } from 'in-services/tracking/tracking';
@@ -46,8 +46,8 @@ export function remove(id, name, definition) {
           Are you sure you want to remove the filter <strong>{name}</strong>?
         </span>
       }
-      bButtonLabel="Remove filter"
-      onB={() => {
+      confirmButtonLabel="Remove filter"
+      onSubmit={() => {
         close();
         const result$ = removeFilter(id);
 
@@ -62,7 +62,6 @@ export function remove(id, name, definition) {
           errorStore.mutateTo('Failed to remove filter.');
         });
       }}
-      bButtonIcon="lib_actions_delete"
     />
   );
 }

@@ -82,8 +82,7 @@ export function createStore({
     dispose,
     toggleExpanded,
     setExpansionStateForAll,
-    onPrevPage,
-    onNextPage,
+    setPage,
     onRowChange,
     filter$,
     setFilter
@@ -112,10 +111,10 @@ export function createStore({
     });
   }
 
-  function onPrevPage() {
+  function setPage(newPage) {
     sort$.once(sort => {
       sort$.emit({
-        page: Math.max(sort.page - 1),
+        page: Math.max(newPage),
         column: sort.column,
         direction: sort.direction
       });
@@ -134,16 +133,6 @@ export function createStore({
     data.get(rowKey).expanded = !data.get(rowKey).expanded;
     data.get(rowKey).mutationCount++;
     expandStateChange$.emit(true);
-  }
-
-  function onNextPage() {
-    sort$.once(sort => {
-      sort$.emit({
-        page: Math.max(sort.page + 1),
-        column: sort.column,
-        direction: sort.direction
-      });
-    });
   }
 
   function onRowChange(rows) {

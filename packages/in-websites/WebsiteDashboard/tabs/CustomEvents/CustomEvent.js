@@ -10,7 +10,7 @@ import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websit
 import PageTopList from 'in-websites/WebsiteDashboard/tabs/CustomEvents/PageTopList';
 import OsTopList from 'in-websites/WebsiteDashboard/tabs/CustomEvents/OsTopList';
 import { affectedUsers, affectedUsersChart } from 'in-websites/formatters';
-import RedirectWithHash from 'in-components/Navigation/RedirectWithHash';
+import RedirectWithHash from 'in-components/RedirectWithHash';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { millis, number } from 'in-services/formatters/number';
 import Renderer from 'in-components/Chart/renderer/Renderer';

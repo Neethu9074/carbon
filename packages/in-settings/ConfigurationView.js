@@ -3,7 +3,7 @@ import React from 'react';
 
 import { settingsBasePath, teamSettings, userSettingsGeneral, ampSettings } from 'in-settings/navigation/paths';
 import { isAvailable as isGoogleSSOAvailable } from 'in-settings/tabs/AuthSettings/api/googleSSO';
-import RedirectWithHash from 'in-components/Navigation/RedirectWithHash/RedirectWithHash';
+import RedirectWithHash from 'in-components/RedirectWithHash';
 import { isAvailable as isSamlAvailable } from 'in-settings/tabs/AuthSettings/api/saml';
 import { isAvailable as isLdapAvailable } from 'in-settings/tabs/AuthSettings/api/ldap';
 import { roleHasAnyTeamPermissions } from 'in-settings/tabs/permissions';

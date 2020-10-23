@@ -4,7 +4,7 @@ import { twoDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
-import DashboardNotification from 'in-components/DashboardNotification';
+import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import { emptyList } from 'in-services/fixedImmutables';
 
 export default function PhpFpmDashboard({ snapshot, timeConfig }) {
@@ -15,16 +15,15 @@ export default function PhpFpmDashboard({ snapshot, timeConfig }) {
 
   return (
     <div>
-      {pools.map(
-        pool =>
-          isStatusPathEnabled(snapshot, pool) ? (
-            <WorkerPoolMetrics key={pool} snapshot={snapshot} timeConfig={timeConfig} pool={pool} />
-          ) : (
-            <DashboardNotification key={pool} type="info">
-              In order to monitor the worker pool {pool}, you need to enable <code>pm.status_path</code> in your PHP-FPM
-              config.
-            </DashboardNotification>
-          )
+      {pools.map(pool =>
+        isStatusPathEnabled(snapshot, pool) ? (
+          <WorkerPoolMetrics key={pool} snapshot={snapshot} timeConfig={timeConfig} pool={pool} />
+        ) : (
+          <DashboardNotification key={pool} type="info">
+            In order to monitor the worker pool {pool}, you need to enable <code>pm.status_path</code> in your PHP-FPM
+            config.
+          </DashboardNotification>
+        )
       )}
     </div>
   );

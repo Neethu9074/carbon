@@ -2,7 +2,7 @@ import { get } from 'lodash';
 import React from 'react';
 
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
-import ViewWidthRestrictedColumn from 'in-components/Table/components/ViewWidthRestrictedColumn';
+import ViewWidthRestrictedColumn from 'in-infrastructure/tableView/components/Table/components/ViewWidthRestrictedColumn';
 import { plugins, translateFullyQualifiedPluginToShortPluginName } from 'in-forge/constants';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
@@ -51,13 +51,23 @@ const allColumns = [
   {
     id: 'name',
     label: 'Involved Object',
-    getContent(item, { clusterId, daemonSetId, deploymentId, deploymentConfigId, namespaceId, serviceId, statefulSetId, podId }) {
+    getContent(
+      item,
+      { clusterId, daemonSetId, deploymentId, deploymentConfigId, namespaceId, serviceId, statefulSetId, podId }
+    ) {
       const plugin = translateFullyQualifiedPluginToShortPluginName(item.sourcePlugin);
       const isLinkableEntity =
         plugin &&
-        [clusterId, daemonSetId, deploymentId, deploymentConfigId, namespaceId, serviceId, statefulSetId, podId].indexOf(
-          item.sourceId
-        ) === -1 &&
+        [
+          clusterId,
+          daemonSetId,
+          deploymentId,
+          deploymentConfigId,
+          namespaceId,
+          serviceId,
+          statefulSetId,
+          podId
+        ].indexOf(item.sourceId) === -1 &&
         plugin !== plugins.kubernetesReplicaSet;
 
       if (isLinkableEntity) {

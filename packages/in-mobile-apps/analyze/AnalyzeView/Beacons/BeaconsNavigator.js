@@ -12,7 +12,7 @@ import {
   ErrorRows,
   LoadMoreRow
 } from 'in-components/tables/sharedComponents';
-import HeightRestrictedView from 'in-components/HeightRestrictedView/HeightRestrictedView';
+import HeightRestrictedView from 'in-components/layout/HeightRestrictedView/HeightRestrictedView';
 
 import locals from './BeaconsNavigator.mless';
 

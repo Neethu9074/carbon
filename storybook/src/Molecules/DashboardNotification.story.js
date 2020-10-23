@@ -1,6 +1,6 @@
 import React from 'react';
 
-import DashboardNotification from 'in-components/DashboardNotification';
+import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 
 export default {
   title: 'Molecules|DashboardNotification',

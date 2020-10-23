@@ -1,7 +1,7 @@
 import React from 'react';
 
 import TimeOfLastUpdateCardTitle from 'in-sdk/components/dashboard/TimeOfLastUpdateCardTitle';
-import DashboardNotification from 'in-components/DashboardNotification';
+import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import { getRawPayloadWithTimestamp } from 'in-stores/snapshot';
 import { formatDateTime } from 'in-services/formatters/date';
 import Table from 'in-sdk/components/dashboard/Table';
