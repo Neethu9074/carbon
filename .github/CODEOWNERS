@@ -1,0 +1,64 @@
+# We use CODEOWNERS at the moment to map ui-client packages to delivery teams.
+
+# What does "ownership" mean? This team is the **first contact** when it comes to anything regarding this package. For
+# example, technical, design, behavioral and functional changes and questions.
+
+# What does "ownership" NOT mean?
+# Ownership does NOT mean that the owner-team is the only team that may change code in this package. But you should
+# consult the owner-team if you plan more significant changes. Ownership does NOT mean that the owner-team is the only
+# team responsible for the package's stability and functioning. We are all responsible for a stable and working Instana.
+# But if anything breaks, then the owner-team is the best place to start looking for help. Ownership does NOT mean that
+# the owner-team has ownership over all the code within a package. It might well be that a component serves different
+# purposes (and teams). But if in doubt, the owner-team at least knows whom to ask for advice, i.e., which other team or
+# person.
+
+# Unless defined otherwise, UI engineers are owning the code.
+*                                   @instana/eng-ui
+
+packages/history                    @instana/eng-ui
+packages/in-amp                     @instana/eng-enterprise @instana/eng-hubforce
+packages/in-analyze                 @instana/eng-application @instana/eng-eum
+# Deprecated: We should not make any more changes within this package (aside from code removal)
+packages/in-api                     @instana/eng-ui
+packages/in-applications            @instana/eng-application
+packages/in-client                  @instana/eng-ui
+# No clear ownership: Fallback to eng-ui
+packages/in-cloudfoundry            @instana/eng-ui
+# No clear ownership: Fallback to eng-ui
+packages/in-cockpit                 @instana/eng-ui
+packages/in-components              @instana/eng-ui
+packages/in-connection              @instana/eng-ui
+packages/in-custom-dashboards       @instana/eng-eum
+packages/in-events                  @instana/eng-stan
+# Shared ownership
+# packages/in-forge
+packages/in-hoc                     @instana/eng-ui
+packages/in-hooks                   @instana/eng-ui
+packages/in-infrastructure          @instana/eng-infrastructure
+packages/in-init                    @instana/eng-ui
+packages/in-integrations            @instana/eng-sensors
+# Shared ownership
+# packages/in-internal
+packages/in-kubernetes              @instana/eng-infrastructure
+# No clear ownership: Fallback to eng-ui
+packages/in-map                     @instana/eng-ui
+packages/in-mobile-apps             @instana/eng-eum
+packages/in-new-components          @instana/eng-ui
+# No clear ownership: Fallback to eng-ui
+packages/in-profiling               @instana/eng-ui
+packages/in-sdk                     @instana/eng-ui
+packages/in-server                  @instana/eng-ui
+packages/in-services                @instana/eng-ui
+packages/in-settings                @instana/eng-ui @instana/eng-sensors @instana/eng-stan @instana/eng-enterprise
+packages/in-stores                  @instana/eng-ui
+# Deprecated: We should not make any more changes within this package (aside from code removal)
+packages/in-subscription            @instana/eng-ui
+packages/in-test                    @instana/eng-ui
+packages/in-themes                  @instana/eng-ui
+packages/in-vsphere                 @instana/eng-infrastructure
+# No clear ownership: Fallback to eng-ui
+packages/in-waiting-for-deployment  @instana/eng-ui
+packages/in-websites                @instana/eng-eu
+packages/instalog                   @instana/eng-ui
+packages/reactive-observables       @instana/eng-ui
+packages/roemitter                  @instana/eng-ui
