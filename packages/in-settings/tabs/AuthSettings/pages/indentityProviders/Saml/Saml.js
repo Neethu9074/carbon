@@ -128,7 +128,7 @@ function render({ file, form, setForm, input, setCanSaveItem }) {
             <Button
               kind="secondary"
               icon="lib_actions_download"
-              href={`/api/settings/authentication/saml/metadata?&spEntityId=${encodeURIComponent(field.value)}`}
+              href={`/api/settings/authentication/saml/metadata?spEntityId=${encodeURIComponent(field.value)}`}
             >
               Configuration Metadata
             </Button>
