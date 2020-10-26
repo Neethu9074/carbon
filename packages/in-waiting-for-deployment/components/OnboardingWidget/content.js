@@ -115,6 +115,11 @@ export default function getEntries({ disableAwsSensorDocumentation }) {
           label: 'Google Kubernetes Engine (GKE)',
           keyWords: 'googlekubernetesenginegkek8s',
           Content: K8sGoogleKubernetesEngineContent
+        },
+        {
+          label: 'Google Cloud Run',
+          keyWords: 'googlecloudrun',
+          Content: GoogleCloudRunContent
         }
       ]
     },
@@ -711,7 +716,7 @@ function AWSLambdaContent({ agentKey, serverlessEndpoint }) {
   let steps;
 
   if (selectedRuntime === runtimeOptions[0]) {
-    const nodejsLayerVersion = '31';
+    const nodejsLayerVersion = '36';
 
     steps = (
       <Fragment>
@@ -1222,6 +1227,151 @@ function K8sGoogleKubernetesEngineContent({ agentKey, agentEndpoint, agentEndpoi
           ]}
         />
       </HelpBox>
+    </>
+  );
+}
+
+function GoogleCloudRunContent({ agentKey, serverlessEndpoint }) {
+  const runtimeOptions = ['Go', 'Java', 'Node.js'];
+
+  const [selectedRuntime, setRuntime] = useState(runtimeOptions[0]);
+
+  let steps;
+
+  if (selectedRuntime === runtimeOptions[0]) {
+    steps = (
+      <Fragment>
+        <Spacer />
+
+        <TextWithLink
+          text="The support for Go on Google Cloud Run (fully managed) works the same way as with any Go application. Follow the instructions of the "
+          linkText="Go documentation."
+          href="https://www.instana.com/docs/ecosystem/go"
+        />
+        <Spacer />
+        <Description lines={['Set the following environment variables in the Cloud Run Service Revision:']} />
+        <GridRow>
+          <Col xs={6}>
+            <Description lines={['INSTANA_ENDPOINT_URL']} />
+            <Script lines={[serverlessEndpoint]} />
+          </Col>
+          <Col xs={6}>
+            <Description lines={['INSTANA_AGENT_KEY']} />
+            <Script lines={[agentKey]} />
+          </Col>
+        </GridRow>
+      </Fragment>
+    );
+  } else if (selectedRuntime === runtimeOptions[1]) {
+    steps = (
+      <Fragment>
+        <Spacer />
+
+        <Description
+          lines={['Add the following lines to your Docker file before the ENTRYPOINT or the last CMD command:']}
+        />
+        <Dockerfile
+          lines={[
+            'FROM <base-image> # This is the *last* FROM clause in your Dockerfile',
+            '',
+            'COPY --from=containers.instana.io/instana/release/google/cloud-run/jvm /instana /instana',
+            'ENV JAVA_TOOL_OPTIONS="-javaagent:/instana/instana-standalone-collector.jar"',
+            '',
+            '# Other stuff in your Docker image'
+          ]}
+        />
+
+        <Spacer />
+
+        <Description
+          lines={['The Docker build process needs to log into containers.instana.io using the following credentials:']}
+        />
+        <Bash lines={[`docker login containers.instana.io --username _ --password ${agentKey}`]} />
+
+        <Spacer />
+
+        <Description lines={['Set the following environment variables in the Cloud Run Service Revision:']} />
+        <GridRow>
+          <Col xs={6}>
+            <Description lines={['INSTANA_ENDPOINT_URL']} />
+            <Script lines={[serverlessEndpoint]} />
+          </Col>
+          <Col xs={6}>
+            <Description lines={['INSTANA_AGENT_KEY']} />
+            <Script lines={[agentKey]} />
+          </Col>
+        </GridRow>
+      </Fragment>
+    );
+  } else if (selectedRuntime === runtimeOptions[2]) {
+    steps = (
+      <Fragment>
+        <Spacer />
+
+        <Description
+          lines={['Add the following lines to your Docker file before the ENTRYPOINT or the last CMD command:']}
+        />
+        <Dockerfile
+          lines={[
+            'FROM <base-image> # This is the *last* FROM clause in your Dockerfile',
+            '',
+            'COPY --from=instana/google-cloud-run-nodejs:latest /instana /instana\n',
+            'RUN /instana/setup.sh',
+            'ENV NODE_OPTIONS="--require /instana/node_modules/@instana/google-cloud-run"',
+            '',
+            '# Other stuff in your Docker image'
+          ]}
+        />
+
+        <Spacer />
+
+        <Description lines={['Set the following environment variables in the Cloud Run Service Revision:']} />
+        <GridRow>
+          <Col xs={6}>
+            <Description lines={['INSTANA_ENDPOINT_URL']} />
+            <Script lines={[serverlessEndpoint]} />
+          </Col>
+          <Col xs={6}>
+            <Description lines={['INSTANA_AGENT_KEY']} />
+            <Script lines={[agentKey]} />
+          </Col>
+        </GridRow>
+      </Fragment>
+    );
+  }
+
+  return (
+    <>
+      <HelpBox>
+        <Description
+          lines={[
+            'Support for Google Cloud Run is designed to work with the fully managed Google Cloud Run platform. Cloud Run on Anthos/GKE is currently not supported.'
+          ]}
+        />
+      </HelpBox>
+
+      <Spacer />
+
+      <Row>
+        Select your application runtime:
+        <DropDown value={selectedRuntime} options={runtimeOptions} onChange={setRuntime} />
+      </Row>
+
+      <TextWithLink
+        text="Make sure you have an Instana agent set up to monitor your GCP project. For details on setting up the Instana agent for GCP, refer to the "
+        linkText="Instana GCP support documentation."
+        href="https://www.instana.com/docs/ecosystem/gcp"
+      />
+      <Spacer />
+
+      <TextWithLink
+        text="Next, integrate the Instana in-process collector for Google Cloud Run as described in the steps below. More details are available in the"
+        linkText="documentation for Google Cloud Run."
+        href="https://www.instana.com/docs/ecosystem/google-cloud-run"
+      />
+      <Spacer />
+
+      {steps}
     </>
   );
 }
