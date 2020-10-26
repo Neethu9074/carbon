@@ -100,6 +100,15 @@ export default function Permissions({ form, onChange, disabled }) {
           label={permissions['canConfigureCustomAlerts']}
           helpText="Permits creation and configuration of custom alerts and associated integrations."
         />
+
+        <Permission
+          form={form}
+          disabled={disabled}
+          onChange={onChange}
+          name="canConfigureGlobalAlertPayload"
+          label={permissions['canConfigureGlobalAlertPayload']}
+          helpText="Permits configuration of global custom payload for alerts."
+        />
       </FormGroup>
 
       <SectionHeading>Extensions</SectionHeading>
@@ -127,14 +136,6 @@ export default function Permissions({ form, onChange, disabled }) {
           name="canConfigureReleases"
           label={permissions['canConfigureReleases']}
           helpText="Permits configuration of releases."
-        />
-        <Permission
-          form={form}
-          disabled={disabled}
-          onChange={onChange}
-          name="canConfigureGlobalAlertPayload"
-          label={permissions['canConfigureGlobalAlertPayload']}
-          helpText="Permits configuration of global custom payload for alerts."
         />
         <Permission
           form={form}

@@ -121,7 +121,11 @@ export function CustomPayload(props) {
           for more details.
         </Message>
       </Section>
-      {!canConfigureGlobalAlertPayload && <Message withIcon>You are not permitted to edit custom payloads.</Message>}
+      {!canConfigureGlobalAlertPayload && (
+        <Message withIcon small>
+          You are not permitted to edit custom payloads.
+        </Message>
+      )}
       <form
         onSubmit={e => {
           e.preventDefault();
