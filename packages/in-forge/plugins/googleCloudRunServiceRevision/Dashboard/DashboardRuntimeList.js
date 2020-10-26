@@ -1,6 +1,6 @@
 import React from 'react';
 
-import getProcessesForGoogleCloudRunServiceRevision from 'in-subscription/getProcessesForGoogleCloudRunServiceRevision';
+import getRuntimesForGoogleCloudRunServiceRevision from 'in-subscription/getRuntimesForGoogleCloudRunServiceRevision';
 import { compareIgnoreCase } from 'in-services/util/string';
 import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';
@@ -11,19 +11,19 @@ import connectTo from 'in-hoc/connectTo';
 export default connectTo(
   props => ({
     processes: timeConfig$
-      .flatMap(timeConfig => getProcessesForGoogleCloudRunServiceRevision({ snapshotId: props.snapshotId, timeConfig }))
+      .flatMap(timeConfig => getRuntimesForGoogleCloudRunServiceRevision({ snapshotId: props.snapshotId, timeConfig }))
       .flatMap(getSnapshots)
       .debounce(1000)
       .map(snapshots => snapshots.slice().sort(sorter))
   }),
-  function DashboardProcessList({ processes }) {
+  function DashboardRuntimeList({ processes }) {
     if (!processes || processes.length === 0) {
       return null;
     }
 
     const cols = [
       {
-        title: 'Process',
+        title: 'Runtime/Process',
         type: 'snapshotLink',
         typeArgs: {
           getSnapshotId(row) {
@@ -35,7 +35,7 @@ export default connectTo(
 
     const rows = processes.map(process => ({ key: process.get('id'), label: process.get('label') }));
 
-    return <Table withoutPadding cardTitle={`Processes (${rows.length})`} cols={cols} rows={rows} />;
+    return <Table withoutPadding cardTitle={`Runtime (${rows.length})`} cols={cols} rows={rows} />;
   }
 );
 

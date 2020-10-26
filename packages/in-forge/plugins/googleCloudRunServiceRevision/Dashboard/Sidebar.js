@@ -1,8 +1,8 @@
 import React from 'react';
 
-import getProcessesForGoogleCloudRunServiceRevision from 'in-subscription/getProcessesForGoogleCloudRunServiceRevision';
+import getRuntimesForGoogleCloudRunServiceRevision from 'in-subscription/getRuntimesForGoogleCloudRunServiceRevision';
+import RunningComponentsList from 'in-sdk/components/sidebar/RunningComponentsList';
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
-import SidebarSnapshotItemList from 'in-components/SidebarSnapshotItemList';
 import KeyValueOverlay from 'in-sdk/components/sidebar/KeyValueOverlay';
 import Info from 'in-forge/plugins/googleCloudRunServiceRevision/Info';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
@@ -18,7 +18,7 @@ export default function GoogleCloudRunServiceRevisionSidebar({ snapshot }) {
   // (Calls are linked to the instances).
   const arbitraryInstanceSnapshot = useObservable(
     timeConfig$
-      .flatMap(timeConfig => getProcessesForGoogleCloudRunServiceRevision({ snapshotId, timeConfig }))
+      .flatMap(timeConfig => getRuntimesForGoogleCloudRunServiceRevision({ snapshotId, timeConfig }))
       .map(instanceSnapshots => instanceSnapshots?.[0])
       .flatMap(getSnapshot),
     [snapshotId]
@@ -37,11 +37,7 @@ export default function GoogleCloudRunServiceRevisionSidebar({ snapshot }) {
 
       <KeyValueOverlay header="Labels" data={snapshot.getIn(['data', 'labels'])} />
 
-      <SidebarSnapshotItemList
-        snapshotId={snapshotId}
-        subscription={getProcessesForGoogleCloudRunServiceRevision}
-        label="Processes"
-      />
+      <RunningComponentsList snapshotId={snapshot.get('id')} />
 
       {arbitraryInstanceSnapshot && <ServiceInstancesList snapshot={arbitraryInstanceSnapshot} />}
     </>

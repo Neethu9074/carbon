@@ -1,7 +1,7 @@
 import React from 'react';
 
 import getRevisionForGoogleCloudRunServiceRevisionInstance from 'in-subscription/getRevisionForGoogleCloudRunServiceRevisionInstance';
-import getProcessForGoogleCloudRunServiceRevisionInstance from 'in-subscription/getProcessForGoogleCloudRunServiceRevisionInstance';
+import getRuntimeForGoogleCloudRunServiceRevisionInstance from 'in-subscription/getRuntimeForGoogleCloudRunServiceRevisionInstance';
 import LinkToRelatedEntity from 'in-forge/plugins/googleCloudRunServiceRevisionInstance/Dashboard/LinkToRelatedEntity';
 
 export default function GoogleCloudRunServiceRevisionInstanceDashboard({ snapshot }) {
@@ -10,10 +10,10 @@ export default function GoogleCloudRunServiceRevisionInstanceDashboard({ snapsho
     <>
       <LinkToRelatedEntity
         snapshotId={snapshotId}
-        subscription={getProcessForGoogleCloudRunServiceRevisionInstance}
-        title="Process in Instance Container"
+        subscription={getRuntimeForGoogleCloudRunServiceRevisionInstance}
+        title="Runtime in Instance Container"
         description="More ore details for this Google Cloud Run service revision instance can be found on its
-          corresponding process dashboard:"
+          corresponding runtime dashboard:"
       />
       <LinkToRelatedEntity
         snapshotId={snapshotId}
