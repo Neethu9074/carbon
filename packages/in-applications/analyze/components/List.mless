@@ -1,0 +1,37 @@
+@import '~in-themes/active.less';
+@import '~in-themes/mixins.less';
+
+:local {
+  .wrapper {
+    display: flex;
+  }
+  .hitsAndFacetedSearch {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid @lib__colors__N400;
+    height: 100%;
+  }
+  .table {
+    width: 100%;
+    padding-left: 1rem;
+  }
+  .erroneous {
+    display: flex;
+    align-items: center;
+  }
+  .dot {
+    width: 0.625rem;
+    height: 0.625rem;
+    border-radius: 50%;
+    background-color: @lib__colors__N700Medium;
+  }
+  .header {
+    display: flex;
+    flex-direction: row-reverse;
+    border-bottom: 1px solid @lib__colors__N400;
+    padding: 0.3rem 0 0.5rem;
+  }
+  .unspecified {
+    background: @lib__colors__N200;
+  }
+}

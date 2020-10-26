@@ -9,5 +9,6 @@
     margin: 0;
     padding: 0;
     border-bottom: 1px solid @lib__colors__N300;
+    background-color: @lib__colors__white;
   }
 }

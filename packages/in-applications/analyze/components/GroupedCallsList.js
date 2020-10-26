@@ -3,11 +3,13 @@ import React from 'react';
 
 import MetricAndSortingConfigurator from 'in-new-components/MetricAndSortingConfigurator/MetricAndSortingConfigurator';
 import { ColumnizedContent, Ul, Li, LoadingSkeletonLi, HorizontalIndicatorLi } from 'in-new-components/lists/List';
+import FacetedSearch from 'in-applications/analyze/components/FacetedSearch/FacetedSearch';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import LoadMoreLi from 'in-new-components/lists/List/LoadMoreLi/LoadMoreLi';
 import { number, percentage, millis } from 'in-services/formatters/number';
 import { UNSPECIFIED } from 'in-analyze/components/GroupedTraces/Group';
+import InlineTabNavigation from 'in-new-components/InlineTabNavigation';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import getCallGroups from 'in-subscription/application/getCallGroups';
 import CallsList from 'in-applications/analyze/components/CallsList';
@@ -22,9 +24,11 @@ import KeyValue from 'in-new-components/lists/KeyValue';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Message from 'in-new-components/Message';
-import locals from './GroupedCallsList.mless';
 import { empty } from 'reactive-observables';
 import SvgIcon from 'in-components/SvgIcon';
+
+import locals from './List.mless';
+
 const defaultOrder = aggregateMetric('calls', 'SUM');
 const defaultDirection = 'DESC';
 
@@ -38,7 +42,9 @@ export default function GroupedCallsList({
   onChangeOrderBy,
   onChangeOrderByCalls,
   onChangeMetrics,
-  isValid
+  isValid,
+  addFilter,
+  removeFilter
 }) {
   const timeConfig = useTimeConfig();
   const granularity = getSparkChartGranularity(timeConfig);
@@ -71,6 +77,9 @@ export default function GroupedCallsList({
       onChangeOrderBy={onChangeOrderBy}
       onChangeMetrics={onChangeMetrics}
       onChangeOrderByCalls={onChangeOrderByCalls}
+      tagFilterExpression={tagFilterExpression}
+      addFilter={addFilter}
+      removeFilter={removeFilter}
       {...props}
     />
   );
@@ -92,7 +101,10 @@ function Presenter({
   onFocusOnGroup,
   onChangeOrderBy,
   onChangeMetrics,
-  onChangeOrderByCalls
+  onChangeOrderByCalls,
+  tagFilterExpression,
+  addFilter,
+  removeFilter
 }) {
   const hasErrors = errors?.length > 0;
   const isLoading = progress?.loading;
@@ -101,65 +113,70 @@ function Presenter({
 
   return (
     <div className={locals.wrapper}>
-      <HeaderRow
-        totalGroups={totalHits}
-        order={order}
-        metrics={metrics}
-        onChangeOrderBy={onChangeOrderBy}
-        onChangeMetrics={onChangeMetrics}
-      />
-      <Ul space="xsmall">
-        {partition(items, item => item.name !== UNSPECIFIED).map(partition =>
-          partition.map((item, rowIndex) => {
-            const filterForGroup = groupingFilter({
-              groupBy,
-              group: item.name,
-              operator: item.name !== UNSPECIFIED ? undefined : 'IS_EMPTY'
-            });
-            return (
-              <Li
-                key={rowIndex}
-                noAlternatingBg
-                borderRadius="medium"
-                highlightOpenState={false}
-                toggleContentOnRowClick
-                className={evaluateClassNames({ [locals.unspecified]: item.name === UNSPECIFIED })}
-                renderNestedContent={() => (
-                  <ExpandedGroup
-                    groupBy={groupBy}
+      <div className={locals.hitsAndFacetedSearch}>
+        <InlineTabNavigation tabList={[{ text: totalHits > 0 && `${totalHits} Groups ` }]} />
+        <FacetedSearch tagFilterExpression={tagFilterExpression} addFilter={addFilter} removeFilter={removeFilter} />
+      </div>
+      <div className={locals.table}>
+        <HeaderRow
+          order={order}
+          metrics={metrics}
+          onChangeOrderBy={onChangeOrderBy}
+          onChangeMetrics={onChangeMetrics}
+        />
+        <Ul space="xsmall">
+          {partition(items, item => item.name !== UNSPECIFIED).map(partition =>
+            partition.map((item, rowIndex) => {
+              const filterForGroup = groupingFilter({
+                groupBy,
+                group: item.name,
+                operator: item.name !== UNSPECIFIED ? undefined : 'IS_EMPTY'
+              });
+              return (
+                <Li
+                  key={rowIndex}
+                  noAlternatingBg
+                  borderRadius="medium"
+                  highlightOpenState={false}
+                  toggleContentOnRowClick
+                  className={evaluateClassNames({ [locals.unspecified]: item.name === UNSPECIFIED })}
+                  renderNestedContent={() => (
+                    <ExpandedGroup
+                      groupBy={groupBy}
+                      group={item}
+                      tagFilterExpression={filterForGroup}
+                      timeConfig={timeConfig}
+                      onFocusOnGroup={onFocusOnGroup}
+                      orderByCalls={orderByCalls}
+                      onChangeOrderByCalls={onChangeOrderByCalls}
+                    />
+                  )}
+                >
+                  <ColumnizedContent
+                    columnDefinitions={item.name !== UNSPECIFIED ? columnDefinitions : columnDefinitionsForUnspecified}
                     group={item}
-                    tagFilterExpression={filterForGroup}
                     timeConfig={timeConfig}
-                    onFocusOnGroup={onFocusOnGroup}
-                    orderByCalls={orderByCalls}
-                    onChangeOrderByCalls={onChangeOrderByCalls}
+                    progress={progress}
+                    granularity={granularity}
                   />
-                )}
-              >
-                <ColumnizedContent
-                  columnDefinitions={item.name !== UNSPECIFIED ? columnDefinitions : columnDefinitionsForUnspecified}
-                  group={item}
-                  timeConfig={timeConfig}
-                  progress={progress}
-                  granularity={granularity}
-                />
+                </Li>
+              );
+            })
+          )}
+          {isLoading && <HorizontalIndicatorLi progress={indeterminateProgress} />}
+          {isLoading && <LoadingSkeletonLi />}
+          {hasErrors &&
+            errors.map((error, index) => (
+              <Li key={index}>
+                <Message className={locals.message} type={errorType} small>
+                  {error.message}
+                </Message>
               </Li>
-            );
-          })
-        )}
-        {isLoading && <HorizontalIndicatorLi progress={indeterminateProgress} />}
-        {isLoading && <LoadingSkeletonLi />}
-        {hasErrors &&
-          errors.map((error, index) => (
-            <Li key={index}>
-              <Message className={locals.message} type={errorType} small>
-                {error.message}
-              </Message>
-            </Li>
-          ))}
-        {canLoadMore && <LoadMoreLi loadMore={loadMore} />}
-      </Ul>
-      {!isLoading && items.length === 0 && <NoDataAvailable height={240} />}
+            ))}
+          {canLoadMore && <LoadMoreLi loadMore={loadMore} />}
+        </Ul>
+        {!isLoading && items.length === 0 && <NoDataAvailable height={240} />}
+      </div>
     </div>
   );
 }
@@ -265,7 +282,7 @@ function aggregationLabel(aggregation, type) {
   }
 }
 
-function HeaderRow({ totalGroups, order, onChangeOrderBy, metrics, onChangeMetrics }) {
+function HeaderRow({ order, onChangeOrderBy, metrics, onChangeMetrics }) {
   const metricOptions = Object.entries(metricConfiguration).map(([key, value]) => ({
     metric: key,
     label: value.label,
@@ -279,20 +296,15 @@ function HeaderRow({ totalGroups, order, onChangeOrderBy, metrics, onChangeMetri
     };
   });
   return (
-    <div className={locals.headerWrapper}>
-      <div className={locals.resultInformation}>
-        {totalGroups > 0 && <h3 className={locals.header}>{totalGroups} Groups</h3>}
-      </div>
-      <div className={locals.configurationWrapper}>
-        <MetricAndSortingConfigurator
-          sortOptions={sortingOptions}
-          order={order}
-          setOrder={order => onChangeOrderBy(order)}
-          metrics={metrics}
-          setMetrics={onChangeMetrics}
-          metricOptions={metricOptions}
-        />
-      </div>
+    <div className={locals.header}>
+      <MetricAndSortingConfigurator
+        sortOptions={sortingOptions}
+        order={order}
+        setOrder={order => onChangeOrderBy(order)}
+        metrics={metrics}
+        setMetrics={onChangeMetrics}
+        metricOptions={metricOptions}
+      />
     </div>
   );
 }
@@ -315,6 +327,8 @@ function ExpandedGroup({
       filterBy={() => onFocusOnGroup(groupingFilter({ groupBy, group: group.name }))}
       orderBy={orderByCalls}
       onChangeOrderBy={onChangeOrderByCalls}
+      tableOnly
+      isValid
     />
   );
 }

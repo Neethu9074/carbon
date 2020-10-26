@@ -1,8 +1,10 @@
 import React from 'react';
 
+import FacetedSearch from 'in-applications/analyze/components/FacetedSearch/FacetedSearch';
 import CursorPaginatedTable from 'in-components/tables/ServerTable/CursorPaginatedTable';
 import BatchingIndicator from 'in-analyze/components/BatchingIndicator';
 import TableLinkWithIcon from 'in-analyze/components/TableLinkWithIcon';
+import InlineTabNavigation from 'in-new-components/InlineTabNavigation';
 import { getServiceDashboard } from 'in-applications/navigation/paths';
 import { getLinkToTraceDetail } from 'in-analyze/navigation/paths';
 import useCursorPagination from 'in-hooks/useCursorPagination';
@@ -13,11 +15,10 @@ import getCalls from 'in-subscription/application/getCalls';
 import HealthDot from 'in-new-components/health/HealthDot';
 import { callClickedTracker } from 'in-analyze/tracker';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import useObservable from 'in-hooks/useObservable';
 import { empty } from 'reactive-observables';
 import SvgIcon from 'in-components/SvgIcon';
 
-import locals from './CallsList.mless';
+import locals from './List.mless';
 
 const defaultOrder = 'timestamp';
 const defaultDirection = 'DESC';
@@ -29,7 +30,10 @@ export default function CallsList({
   filterBy,
   orderBy,
   onChangeOrderBy,
-  isValid
+  isValid,
+  addFilter,
+  removeFilter,
+  tableOnly = false
 }) {
   const timeConfig = useTimeConfig();
   const order = {
@@ -50,13 +54,92 @@ export default function CallsList({
     [timeConfig, retrievalSize, tagFilterExpression, orderBy, isValid]
   );
 
-  const columnDefinitions =
-    useObservable(getColumnDefinitions, [timeConfig, tagFilterExpression, items]) || staticColumnDefinitions;
+  const columnDefinitions = staticColumnDefinitions;
 
   const optionalColumns = () => columnDefinitions.filter(columnDefinition => columnDefinition.optional);
 
+  return tableOnly ? (
+    <TableOnlyPresenter
+      items={items}
+      columnDefinitions={columnDefinitions}
+      optionalColumns={optionalColumns}
+      numSkeletonRows={numSkeletonRows}
+      onChangeOrderBy={onChangeOrderBy}
+      tableProps={tableProps}
+      order={order}
+      retrievalSize={retrievalSize}
+      filterBy={filterBy}
+    />
+  ) : (
+    <Presenter
+      items={items}
+      tagFilterExpression={tagFilterExpression}
+      addFilter={addFilter}
+      removeFilter={removeFilter}
+      columnDefinitions={columnDefinitions}
+      optionalColumns={optionalColumns}
+      numSkeletonRows={numSkeletonRows}
+      onChangeOrderBy={onChangeOrderBy}
+      tableProps={tableProps}
+      order={order}
+      retrievalSize={retrievalSize}
+      filterBy={filterBy}
+    />
+  );
+}
+
+function Presenter({
+  items,
+  tagFilterExpression,
+  addFilter,
+  removeFilter,
+  columnDefinitions,
+  optionalColumns,
+  numSkeletonRows,
+  onChangeOrderBy,
+  tableProps,
+  order,
+  retrievalSize,
+  filterBy
+}) {
   return (
     <div className={locals.wrapper}>
+      <div className={locals.hitsAndFacetedSearch}>
+        <InlineTabNavigation tabList={[{ text: items?.length > 0 && `${items.length} Calls` }]} />
+        <FacetedSearch tagFilterExpression={tagFilterExpression} addFilter={addFilter} removeFilter={removeFilter} />
+      </div>
+      <div className={locals.table}>
+        <CursorPaginatedTable
+          columnDefinitions={columnDefinitions}
+          optionalColumns={optionalColumns}
+          numSkeletonRows={numSkeletonRows}
+          onChange={onChangeOrderBy}
+          {...tableProps}
+          items={items}
+          fixedLayout
+          orderBy={order.by}
+          orderDirection={order.direction}
+          loadMoreLabel={`Load ${retrievalSize} more`}
+          filterBy={filterBy}
+        />
+      </div>
+    </div>
+  );
+}
+
+function TableOnlyPresenter({
+  items,
+  columnDefinitions,
+  optionalColumns,
+  numSkeletonRows,
+  onChangeOrderBy,
+  tableProps,
+  order,
+  retrievalSize,
+  filterBy
+}) {
+  return (
+    <div className={locals.table}>
       <CursorPaginatedTable
         columnDefinitions={columnDefinitions}
         optionalColumns={optionalColumns}
@@ -110,7 +193,8 @@ const staticColumnDefinitions = [
         </div>
       );
     },
-    width: '4'
+    widthInAbsoluteUnit: true,
+    width: '3rem'
   },
   {
     id: 'call_icon',
@@ -119,7 +203,8 @@ const staticColumnDefinitions = [
     getContent() {
       return <SvgIcon type="lib_application_call" />;
     },
-    width: '4'
+    widthInAbsoluteUnit: true,
+    width: '3rem'
   },
   {
     id: 'call',
@@ -148,7 +233,7 @@ const staticColumnDefinitions = [
     sortable: false,
     getContent(item) {
       return (
-        <TableLinkWithIcon href$={getServiceDashboard(item.call.service.id)} icon="lib_application_service">
+        <TableLinkWithIcon href$={getServiceDashboard(item.call.service.id)}>
           {item.call.service.label}
         </TableLinkWithIcon>
       );
@@ -161,7 +246,8 @@ const staticColumnDefinitions = [
     getContent(item) {
       return formatDateTime(item.call.started);
     },
-    width: '12'
+    widthInAbsoluteUnit: true,
+    width: '11rem'
   },
   {
     id: 'latency',
@@ -177,12 +263,7 @@ const staticColumnDefinitions = [
         </>
       );
     },
-    width: '8'
+    widthInAbsoluteUnit: true,
+    width: '7rem'
   }
 ];
-
-function getColumnDefinitions(/*[timeConfig, tagFilterExpression, items]*/) {
-  // Here is where a dynamic list of columns would go
-  // Do not forget to concat staticColumnDefinitions
-  return empty;
-}

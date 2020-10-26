@@ -17,7 +17,6 @@ import FixatedTimeConfigContextModification from 'in-stores/time/FixatedTimeConf
 import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import ApiQueryAction from 'in-new-components/QueryBuilder/workspace/ApiQueryAction/ApiQueryAction';
 import QueryBuilderSection from 'in-new-components/QueryBuilder/workspace/QueryBuilderSection';
-import FacetedSearch from 'in-applications/analyze/components/FacetedSearch/FacetedSearch';
 import { ActionSection } from 'in-new-components/workspace/ActionSection/ActionSection';
 import GroupedCallsList from 'in-applications/analyze/components/GroupedCallsList';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
@@ -34,8 +33,6 @@ import Message from 'in-new-components/Message';
 import useUrlState from 'in-hooks/useUrlState';
 import Footer from 'in-new-components/Footer';
 import Sticky from 'in-components/Sticky';
-
-import locals from './Analyze.mless';
 
 const urlStateDefinition = {
   bind: [
@@ -99,6 +96,7 @@ function ApplicationAnalyzeViewWithFixatedTimeConfig() {
     onChange({ tagFilterExpression: joinExpressions({ expressions: [tagFilterExpression, ...filters] }) });
   const removeFilter = (...filters) =>
     onChange({ tagFilterExpression: removeTopLevelFilters(tagFilterExpression, ...filters) });
+
   return (
     <Sticky header={<AnalyzeHeader isGrouped={Boolean(groupBy?.groupbyTag)} />}>
       <LeftRightPadding>
@@ -133,34 +131,35 @@ function ApplicationAnalyzeViewWithFixatedTimeConfig() {
             </Message>
           )}
 
-          <div className={locals.facetedSearchWithCallList}>
-            <FacetedSearch tagFilterExpression={backendQueryModel} addFilter={addFilter} removeFilter={removeFilter} />
-            {!groupBy?.groupbyTag && (
-              <CallsList
-                timeConfig={timeConfig}
-                tagFilterExpression={backendQueryModel}
-                orderBy={orderByCalls}
-                onChangeOrderBy={onChangeOrderByCalls}
-                isValid={isValid}
-              />
-            )}
+          {!groupBy?.groupbyTag && (
+            <CallsList
+              timeConfig={timeConfig}
+              tagFilterExpression={backendQueryModel}
+              orderBy={orderByCalls}
+              onChangeOrderBy={onChangeOrderByCalls}
+              isValid={isValid}
+              addFilter={addFilter}
+              removeFilter={removeFilter}
+            />
+          )}
 
-            {groupBy?.groupbyTag && (
-              <GroupedCallsList
-                timeConfig={timeConfig}
-                tagFilterExpression={backendQueryModel}
-                groupBy={groupBy}
-                orderBy={orderByGroups}
-                orderByCalls={orderByCalls}
-                metrics={metrics}
-                onFocusOnGroup={onFocusOnGroup}
-                onChangeOrderBy={onChangeOrderByGroups}
-                onChangeOrderByCalls={onChangeOrderByCalls}
-                onChangeMetrics={onChangeMetrics}
-                isValid={isValid}
-              />
-            )}
-          </div>
+          {groupBy?.groupbyTag && (
+            <GroupedCallsList
+              timeConfig={timeConfig}
+              tagFilterExpression={backendQueryModel}
+              groupBy={groupBy}
+              orderBy={orderByGroups}
+              orderByCalls={orderByCalls}
+              metrics={metrics}
+              onFocusOnGroup={onFocusOnGroup}
+              onChangeOrderBy={onChangeOrderByGroups}
+              onChangeOrderByCalls={onChangeOrderByCalls}
+              onChangeMetrics={onChangeMetrics}
+              isValid={isValid}
+              addFilter={addFilter}
+              removeFilter={removeFilter}
+            />
+          )}
         </Stack>
       </LeftRightPadding>
 
