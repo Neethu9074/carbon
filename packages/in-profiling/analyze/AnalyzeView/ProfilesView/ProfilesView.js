@@ -99,8 +99,11 @@ function ProfilesView(props) {
   // we only allow source code when using a jvm based tech
   const canFetchSourceCode = useObservable(
     hierachySnapshots$.flatMap(hierachySnapshots =>
-      getSnapshotWithPlugin(hierachySnapshots, plugins.phpFpmRuntimePlatform) ||
-      getSnapshotWithPlugin(hierachySnapshots, plugins.jvmRuntimePlatform)
+      getSnapshotWithPlugins(hierachySnapshots, [
+        plugins.phpFpmRuntimePlatform,
+        plugins.phpRuntimePlatform,
+        plugins.httpd
+      ]) || getSnapshotWithPlugin(hierachySnapshots, plugins.jvmRuntimePlatform)
         ? isEntityOnline(processId)
         : just(false)
     ),
