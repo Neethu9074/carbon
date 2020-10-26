@@ -35,7 +35,7 @@ const rightArrowColumnDefinition = {
   }
 };
 
-export default function Node({ node, focusNode, onChange, withIcons, withBreadcrumbs, asListGroup }) {
+export default function Node({ node, focusNode, onChange, withIcons, withBreadcrumbs, asListGroup, height }) {
   if (node.children == null || node.children.length === 0) {
     let columnDefinitions = [withBreadcrumbs ? breadcrumbAndLabelColumnDefinition : labelColumnDefinition];
     if (withIcons) {
@@ -44,7 +44,7 @@ export default function Node({ node, focusNode, onChange, withIcons, withBreadcr
     return <Item node={node} onClick={() => onChange(node)} columnDefinitions={columnDefinitions} />;
   } else if (asListGroup) {
     return (
-      <ListGroup label={node.label} sticky>
+      <ListGroup label={node.label} height={height} sticky>
         {node.children.map((node, i) => (
           <Node
             key={i}

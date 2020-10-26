@@ -5,7 +5,7 @@ import { Li } from 'in-new-components/lists/List';
 
 import locals from './ListGroup.mless';
 
-export default function ListGroup({ numMoreItems, label, children, sticky = false }) {
+export default function ListGroup({ numMoreItems, label, children, sticky = false, height = '2.5rem' }) {
   return (
     <>
       <div
@@ -13,6 +13,7 @@ export default function ListGroup({ numMoreItems, label, children, sticky = fals
           [locals.groupHead]: true,
           [locals.sticky]: sticky
         })}
+        style={{ height: height }}
       >
         {label}
       </div>

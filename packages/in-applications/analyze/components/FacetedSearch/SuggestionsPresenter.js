@@ -36,11 +36,15 @@ function Loading() {
 }
 
 function Errors({ errors }) {
-  return errors.map(error => (
-    <Message key={error} className={locals.message} type="error" small>
-      {error}
-    </Message>
-  ));
+  return (
+    <>
+      {errors.map(error => (
+        <Message key={error.code} className={locals.message} type="error" small>
+          {error.message}
+        </Message>
+      ))}
+    </>
+  );
 }
 
 function Results({ suggestions, tag, addFilter }) {

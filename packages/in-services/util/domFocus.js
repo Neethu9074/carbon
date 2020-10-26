@@ -40,5 +40,6 @@ export function onArrowKeyDownFocusSiblings(event) {
     stopPropagationAndPreventDefault(event);
     nextFocusIndex = Math.max(0, Math.min(nextFocusIndex, focusableElements.length - 1));
     focusableElements[nextFocusIndex]?.focus();
+    return focusableElements[nextFocusIndex];
   }
 }

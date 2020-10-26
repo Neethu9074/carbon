@@ -19,6 +19,8 @@ const initialState = {
   focusOnNode: false
 };
 
+const categoryHeight = 40;
+
 export default function SelectorOverlay({ options, onChange, withIcons = true }) {
   const [{ query, focussedNode, showFocussedNode }, setState] = useState(initialState);
   options = useMemo(() => {
@@ -37,6 +39,13 @@ export default function SelectorOverlay({ options, onChange, withIcons = true })
   // which received focus. This information is used when sliding out to restore
   // focus to whatever was focused beforehand.
   const lastFocusedElementRef = useRef();
+  // Keep a reference to search input
+  const searchElementRef = useRef();
+
+  const focusOnFirstResult = () => {
+    const groups = getInteractiveElements(staticContentWrapperRef.current);
+    groups[0]?.focus();
+  };
 
   return (
     <>
@@ -53,13 +62,9 @@ export default function SelectorOverlay({ options, onChange, withIcons = true })
           query={query}
           autoFocus
           className={locals.searchInput}
-          onReturn={() => {
-            const groups = getInteractiveElements(staticContentWrapperRef.current);
-            groups[0]?.focus();
-            if (groups.length === 1) {
-              groups[0].click();
-            }
-          }}
+          onReturn={focusOnFirstResult}
+          onArrowDown={focusOnFirstResult}
+          inputRef={searchElementRef}
         />
       </div>
       <div className={locals.overlay}>
@@ -111,6 +116,7 @@ export default function SelectorOverlay({ options, onChange, withIcons = true })
                   asListGroup
                   withIcons={withIcons}
                   withBreadcrumbs={isNotBlank(query)}
+                  height={`${categoryHeight}px`}
                 />
               ))}
             </div>
@@ -140,8 +146,26 @@ export default function SelectorOverlay({ options, onChange, withIcons = true })
         focussedNode,
         showFocussedNode: false
       });
+    } else if (
+      code === keyCodes.arrows.up &&
+      !showFocussedNode &&
+      getInteractiveElements(event.currentTarget).indexOf(event.target) === 0
+    ) {
+      //arrow up from first element in root menu
+      searchElementRef?.current?.focus();
     } else {
-      onArrowKeyDownFocusSiblings(event);
+      const nextElement = onArrowKeyDownFocusSiblings(event);
+      if (nextElement) {
+        const scrollPosition = staticContentWrapperRef?.current?.parentElement.scrollTop;
+        const elementPosition = nextElement.offsetTop;
+        if (elementPosition < scrollPosition + categoryHeight) {
+          // element is at top but behind category, scroll to show element right under category
+          staticContentWrapperRef?.current?.parentElement.scrollTo({
+            top: elementPosition - categoryHeight,
+            behavior: 'smooth'
+          });
+        }
+      }
     }
   }
 }
