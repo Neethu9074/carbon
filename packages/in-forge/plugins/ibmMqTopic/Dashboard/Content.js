@@ -3,7 +3,7 @@ import React from 'react';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
-import { zeroDecimalPlaces } from 'in-services/formatters/number';
+import { number } from 'in-services/formatters/number';
 import MetricValue from 'in-components/MetricValue';
 
 export default function IbmMqTopicDashboard({ snapshot, timeConfig }) {
@@ -12,10 +12,10 @@ export default function IbmMqTopicDashboard({ snapshot, timeConfig }) {
     <div>
       <KpiSection>
         <KpiKeyValue label="Messages Count">
-          <MetricValue snapshotId={snapshotId} metric="messagesCount" />
+          <MetricValue snapshotId={snapshotId} metric="messagesCount" formatter={number.compact} />
         </KpiKeyValue>
         <KpiKeyValue label="Publish Count">
-          <MetricValue snapshotId={snapshotId} metric="publishCount" />
+          <MetricValue snapshotId={snapshotId} metric="publishCount" formatter={number.compact} />
         </KpiKeyValue>
       </KpiSection>
       <DashboardSection title="Messages">
@@ -23,8 +23,8 @@ export default function IbmMqTopicDashboard({ snapshot, timeConfig }) {
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
-            formatter: zeroDecimalPlaces,
-            tooltipFormatter: zeroDecimalPlaces,
+            formatter: number.compact,
+            tooltipFormatter: number.compact,
             metrics: [`messagesCount`],
             labels: ['Count'],
             type: 'line'
@@ -36,8 +36,8 @@ export default function IbmMqTopicDashboard({ snapshot, timeConfig }) {
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
-            formatter: zeroDecimalPlaces,
-            tooltipFormatter: zeroDecimalPlaces,
+            formatter: number.compact,
+            tooltipFormatter: number.compact,
             metrics: [`publishCount`],
             labels: ['Count'],
             type: 'line'
@@ -49,8 +49,8 @@ export default function IbmMqTopicDashboard({ snapshot, timeConfig }) {
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
-            formatter: zeroDecimalPlaces,
-            tooltipFormatter: zeroDecimalPlaces,
+            formatter: number.compact,
+            tooltipFormatter: number.compact,
             metrics: [`subscriptionCount`],
             labels: ['Count'],
             type: 'line'

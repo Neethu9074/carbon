@@ -7,7 +7,7 @@ import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection'
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import DashboardNotification from 'in-components/DashboardNotification';
-import { zeroDecimalPlaces } from 'in-services/formatters/number';
+import { number } from 'in-services/formatters/number';
 import MetricValue from 'in-components/MetricValue';
 
 export default function IbmMqQueueManagerDashboard({ snapshot, timeConfig }) {
@@ -22,10 +22,10 @@ export default function IbmMqQueueManagerDashboard({ snapshot, timeConfig }) {
       {getSensorConnectionStatus(snapshot)}
       <KpiSection>
         <KpiKeyValue label="Connections">
-          <MetricValue snapshotId={snapshotId} metric="connectionCount" />
+          <MetricValue snapshotId={snapshotId} metric="connectionCount" formatter={number.compact} />
         </KpiKeyValue>
         <KpiKeyValue label="Messages In">
-          <MetricValue snapshotId={snapshotId} metric="messagesIn" />
+          <MetricValue snapshotId={snapshotId} metric="messagesIn" formatter={number.compact} />
         </KpiKeyValue>
       </KpiSection>
       <DashboardSection title="Connections">
@@ -36,7 +36,7 @@ export default function IbmMqQueueManagerDashboard({ snapshot, timeConfig }) {
             metrics: ['connectionCount'],
             labels: ['Count'],
             type: 'line',
-            formatter: zeroDecimalPlaces
+            formatter: number.compact
           }}
         />
       </DashboardSection>
@@ -45,8 +45,8 @@ export default function IbmMqQueueManagerDashboard({ snapshot, timeConfig }) {
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
-            formatter: zeroDecimalPlaces,
-            tooltipFormatter: zeroDecimalPlaces,
+            formatter: number.compact,
+            tooltipFormatter: number.compact,
             metrics: [`messagesIn`, `messagesOut`, `uncommittedMessages`],
             labels: ['In', 'Out', 'Uncommitted'],
             type: 'line'
