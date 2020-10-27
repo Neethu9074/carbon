@@ -13,10 +13,6 @@ export function capitalize(string) {
   return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
 }
 
-export function parseLong(string) {
-  return Number(Number(string).toFixed(0));
-}
-
 export function createFormatter(prefixRegexStr = '', suffixRegexStr = '') {
   const regex = new RegExp(`{${prefixRegexStr}(\\d+)${suffixRegexStr}}`, 'g');
   return (formatString, replacements) => {

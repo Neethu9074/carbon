@@ -2,7 +2,7 @@
 
 import { expect } from 'chai';
 
-import { capitalize, parseLong, createFormatter } from 'in-services/formatters/string';
+import { capitalize, createFormatter } from 'in-services/formatters/string';
 
 describe('in-services.string', () => {
   describe('capitalize', () => {
@@ -18,12 +18,6 @@ describe('in-services.string', () => {
       expect(capitalize(null)).to.equal(null);
       expect(capitalize(undefined)).to.equal(undefined);
       expect(capitalize('')).to.equal('');
-    });
-  });
-
-  describe('parseLong', () => {
-    it('must parse large numbers to long like number type', () => {
-      expect(parseLong('2678400000.456')).to.equal(2678400000);
     });
   });
 
