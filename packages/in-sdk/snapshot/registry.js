@@ -5,6 +5,7 @@ import { addToRegistry } from 'in-applications/technologyRegistry';
 import { setHumanReadablePluginName } from 'in-sdk/pluginName';
 import { registerKpiDefinition } from 'in-sdk/metrics/kpis';
 import { registerMetricDefinition } from 'in-sdk/metrics';
+import { registerIconType } from 'in-sdk/iconType';
 import { addLabelFinder } from 'in-sdk/snapshot';
 
 // maps plugin => snapshot definition
@@ -19,6 +20,7 @@ export function registerSnapshotDefinition(snapshotDefinition) {
   registerMetricDefinitions(snapshotDefinition);
   registerKpiDefinitions(snapshotDefinition);
   registerNewApplicationModelHooks(snapshotDefinition);
+  registerIconTypeDef(snapshotDefinition);
 }
 
 export function getOptionalSnapshotDefinition(plugin) {
@@ -94,4 +96,12 @@ function registerNewApplicationModelHooks(snapshotDefinition) {
     id: snapshotDefinition.plugin,
     label: snapshotDefinition.technologyDescriptor.label
   });
+}
+
+function registerIconTypeDef(snapshotDefinition) {
+  if (!snapshotDefinition.getIconType) {
+    return;
+  }
+
+  registerIconType(snapshotDefinition.plugin, snapshotDefinition.getIconType);
 }
