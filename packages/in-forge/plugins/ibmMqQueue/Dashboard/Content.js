@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { zeroDecimalPlaces, seconds, micros, number } from 'in-services/formatters/number';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import { seconds, micros, number } from 'in-services/formatters/number';
 import MetricValue from 'in-components/MetricValue';
 
 export default function IbmMqQueueDashboard({ snapshot, timeConfig }) {
@@ -23,8 +23,8 @@ export default function IbmMqQueueDashboard({ snapshot, timeConfig }) {
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
-            formatter: zeroDecimalPlaces,
-            tooltipFormatter: zeroDecimalPlaces,
+            formatter: number.compact,
+            tooltipFormatter: number.compact,
             metrics: [`maxQueueDepth`, `queueDepth`],
             labels: ['Max', 'Current'],
             type: 'line'
@@ -36,8 +36,8 @@ export default function IbmMqQueueDashboard({ snapshot, timeConfig }) {
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
-            formatter: zeroDecimalPlaces,
-            tooltipFormatter: zeroDecimalPlaces,
+            formatter: number.compact,
+            tooltipFormatter: number.compact,
             metrics: [`messagesIn`, `messagesOut`, `uncommittedMessages`],
             labels: ['In', 'Out', 'Uncommitted'],
             type: 'line'
@@ -82,8 +82,8 @@ export default function IbmMqQueueDashboard({ snapshot, timeConfig }) {
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
-            formatter: zeroDecimalPlaces,
-            tooltipFormatter: zeroDecimalPlaces,
+            formatter: number.compact,
+            tooltipFormatter: number.compact,
             metrics: [`openInputCount`, `openOutputCount`],
             labels: ['Open Input Count', 'Open Output Count'],
             type: 'line'
