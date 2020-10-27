@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { zeroDecimalPlaces, seconds, micros } from 'in-services/formatters/number';
+import { zeroDecimalPlaces, seconds, micros, number } from 'in-services/formatters/number';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
@@ -12,7 +12,7 @@ export default function IbmMqQueueDashboard({ snapshot, timeConfig }) {
     <div>
       <KpiSection>
         <KpiKeyValue label="Queue Depth">
-          <MetricValue snapshotId={snapshotId} metric="queueDepth" />
+          <MetricValue snapshotId={snapshotId} metric="queueDepth" formatter={number.compact} />
         </KpiKeyValue>
         <KpiKeyValue label="Oldest Message">
           <MetricValue snapshotId={snapshotId} metric="oldestMessage" formatter={seconds.fixedCompact} />
