@@ -209,12 +209,11 @@ export default function AlertHeader({
                               ?
                             </span>
                           }
-                          bButtonLabel="Remove"
-                          onB={() => {
+                          confirmButtonLabel="Remove"
+                          onSubmit={() => {
                             close();
                             doDelete();
                           }}
-                          bButtonIcon="lib_actions_delete"
                         />
                       );
                     }

@@ -199,8 +199,8 @@ function resetAllAgents({ agentSnapshots }) {
           {agentSnapshots.get('online', emptyList).count()} minutes.
         </span>
       }
-      bButtonLabel="Reset"
-      onB={() => {
+      confirmButtonLabel="Reset"
+      onSubmit={() => {
         onResetAllAgents({ agentSnapshots });
       }}
     />
