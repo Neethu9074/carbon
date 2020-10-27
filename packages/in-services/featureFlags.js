@@ -30,7 +30,6 @@ export const persistentVolumeSupportEnabled = isFeatureFlagEnabled('persistentVo
 export const alertCustomPayloadEnabled = isFeatureFlagEnabled('alertCustomPayloadEnabled', false);
 
 // amp
-export const ampEnabled = isFeatureFlagEnabled('ampEnabled', false);
 export const ampCompanyInfoEnabled = isFeatureFlagEnabled('ampCompanyInfoEnabled', false);
 
 //platform feature flags
