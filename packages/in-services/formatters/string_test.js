@@ -2,7 +2,7 @@
 
 import { expect } from 'chai';
 
-import { capitalize, parseLong, hashCode, createFormatter } from 'in-services/formatters/string';
+import { capitalize, parseLong, createFormatter } from 'in-services/formatters/string';
 
 describe('in-services.string', () => {
   describe('capitalize', () => {
@@ -24,25 +24,6 @@ describe('in-services.string', () => {
   describe('parseLong', () => {
     it('must parse large numbers to long like number type', () => {
       expect(parseLong('2678400000.456')).to.equal(2678400000);
-    });
-  });
-
-  describe('hashCode', () => {
-    it('must generate a hash code for a string', () => {
-      expect(hashCode('foobar')).to.equal(-1268878963);
-    });
-
-    it('must generate the same hash code multiple times', () => {
-      expect(hashCode('foobar')).to.equal(hashCode('foobar'));
-    });
-
-    it('must generate a hash code for an empty string', () => {
-      expect(hashCode('')).to.equal(0);
-    });
-
-    it('must not fail for undefined and null', () => {
-      expect(hashCode(undefined)).to.equal(0);
-      expect(hashCode(null)).to.equal(0);
     });
   });
 
