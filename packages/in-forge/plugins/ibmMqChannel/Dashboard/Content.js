@@ -3,7 +3,7 @@ import React from 'react';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
-import { zeroDecimalPlaces } from 'in-services/formatters/number';
+import { number } from 'in-services/formatters/number';
 import MetricValue from 'in-components/MetricValue';
 
 export default function IbmMqChannelDashboard({ snapshot, timeConfig }) {
@@ -12,10 +12,10 @@ export default function IbmMqChannelDashboard({ snapshot, timeConfig }) {
     <div>
       <KpiSection>
         <KpiKeyValue label="Messages Sent">
-          <MetricValue snapshotId={snapshotId} metric="messagesSent" />
+          <MetricValue snapshotId={snapshotId} metric="messagesSent" formatter={number.compact} />
         </KpiKeyValue>
         <KpiKeyValue label="Messages Available">
-          <MetricValue snapshotId={snapshotId} metric="messagesAvailable" />
+          <MetricValue snapshotId={snapshotId} metric="messagesAvailable" formatter={number.compact} />
         </KpiKeyValue>
       </KpiSection>
       <DashboardSection title="Messages">
@@ -23,8 +23,8 @@ export default function IbmMqChannelDashboard({ snapshot, timeConfig }) {
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
-            formatter: zeroDecimalPlaces,
-            tooltipFormatter: zeroDecimalPlaces,
+            formatter: number.compact,
+            tooltipFormatter: number.compact,
             metrics: [`messagesSent`, `messagesAvailable`],
             labels: ['Sent/Received', 'Available'],
             type: 'line'
@@ -36,8 +36,8 @@ export default function IbmMqChannelDashboard({ snapshot, timeConfig }) {
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
-            formatter: zeroDecimalPlaces,
-            tooltipFormatter: zeroDecimalPlaces,
+            formatter: number.compact,
+            tooltipFormatter: number.compact,
             metrics: [`sequenceNumberCurrent`, `sequenceNumberLast`],
             labels: ['Current', 'Last'],
             type: 'line'
@@ -49,8 +49,8 @@ export default function IbmMqChannelDashboard({ snapshot, timeConfig }) {
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
-            formatter: zeroDecimalPlaces,
-            tooltipFormatter: zeroDecimalPlaces,
+            formatter: number.compact,
+            tooltipFormatter: number.compact,
             metrics: [`buffersSent`, `buffersReceived`],
             labels: ['Sent', 'Received'],
             type: 'line'
