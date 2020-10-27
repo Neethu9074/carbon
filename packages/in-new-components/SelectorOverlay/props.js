@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 const nodeShape = {
   label: PropTypes.node.isRequired,
   description: PropTypes.node,
+  badge: PropTypes.node,
   keywords: PropTypes.string,
   icon: PropTypes.string
 };

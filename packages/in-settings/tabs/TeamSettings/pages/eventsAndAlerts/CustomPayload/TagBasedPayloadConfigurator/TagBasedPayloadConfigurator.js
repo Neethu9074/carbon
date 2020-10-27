@@ -33,6 +33,7 @@ export default function TagBasedPayloadConfigurator({
       content={TagSelectorOverlay}
       props={{
         tagCatalog: tagCatalog.data,
+        showTypeBadge: true,
         onChange: ({ name }) => {
           autoFocus.current = Date.now();
           onChange({ tagName: name });

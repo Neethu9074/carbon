@@ -1,6 +1,14 @@
 import theme from 'in-themes';
 import React from 'react';
 
+import {
+  STRING,
+  NUMBER,
+  BOOLEAN,
+  STRING_LIST,
+  STRING_SET,
+  KEY_VALUE_PAIR
+} from 'in-new-components/QueryBuilder/tagFilter/types';
 import KeyEquals from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/KeyEquals';
 import SimpleValueSelector from 'in-new-components/QueryBuilder/SimpleValueSelector/SimpleValueSelector';
 import { toInteractiveElement } from 'in-new-components/interactiveCustomElement';
@@ -9,7 +17,6 @@ import { isNotBlank } from 'in-services/util/string';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import useAutoFocus from 'in-hooks/useAutoFocus';
 import SvgIcon from 'in-components/SvgIcon';
-import Tooltip from 'in-components/Tooltip';
 import Pill from 'in-new-components/Pill';
 
 import locals from './TagBasedPayloadConfigurator.mless';
@@ -88,9 +95,16 @@ export default React.forwardRef(function TagBasedPayloadConfiguration(
         />
       )}
       <span className={locals.spacer} />
-      <Tooltip content="Returns a list of Strings" align="bottomRight">
-        <Pill color={theme.lib.colors.navy800}>Strings</Pill>
-      </Tooltip>
+      <Pill color={theme.lib.colors.N600Light}>{tagTypeBadges[tagTreeNode.type]}</Pill>
     </div>
   );
 });
+
+const tagTypeBadges = {
+  [BOOLEAN]: 'boolean []',
+  [NUMBER]: 'number []',
+  [STRING]: 'string []',
+  [STRING_LIST]: 'string []',
+  [STRING_SET]: 'string []',
+  [KEY_VALUE_PAIR]: 'string []'
+};

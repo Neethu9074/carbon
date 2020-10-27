@@ -28,6 +28,13 @@ const breadcrumbAndLabelColumnDefinition = {
   }
 };
 
+const badgeColumnDefinition = {
+  width: 'max-content',
+  getContent({ node }) {
+    return node.badge;
+  }
+};
+
 const rightArrowColumnDefinition = {
   width: '2rem',
   getContent() {
@@ -38,6 +45,7 @@ const rightArrowColumnDefinition = {
 export default function Node({ node, focusNode, onChange, withIcons, withBreadcrumbs, asListGroup, height }) {
   if (node.children == null || node.children.length === 0) {
     let columnDefinitions = [withBreadcrumbs ? breadcrumbAndLabelColumnDefinition : labelColumnDefinition];
+    columnDefinitions.push(badgeColumnDefinition);
     if (withIcons) {
       columnDefinitions.unshift(iconColumnDefinition);
     }
@@ -58,7 +66,7 @@ export default function Node({ node, focusNode, onChange, withIcons, withBreadcr
       </ListGroup>
     );
   } else {
-    let columnDefinitions = [labelColumnDefinition, rightArrowColumnDefinition];
+    let columnDefinitions = [labelColumnDefinition, badgeColumnDefinition, rightArrowColumnDefinition];
     if (withIcons) {
       columnDefinitions.unshift(iconColumnDefinition);
     }
