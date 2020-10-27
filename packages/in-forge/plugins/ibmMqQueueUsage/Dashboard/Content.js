@@ -3,7 +3,7 @@ import React from 'react';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
-import { zeroDecimalPlaces, number } from 'in-services/formatters/number';
+import { number } from 'in-services/formatters/number';
 import MetricValue from 'in-components/MetricValue';
 
 export default function IbmMqQueueUsageDashboard({ snapshot, timeConfig }) {
@@ -23,8 +23,8 @@ export default function IbmMqQueueUsageDashboard({ snapshot, timeConfig }) {
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
-            formatter: zeroDecimalPlaces,
-            tooltipFormatter: zeroDecimalPlaces,
+            formatter: number.compact,
+            tooltipFormatter: number.compact,
             metrics: [`openInputs`, `openOutputs`],
             labels: ['Open Inputs', 'Open Outputs'],
             type: 'line'
