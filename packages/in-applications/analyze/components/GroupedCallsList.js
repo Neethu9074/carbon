@@ -111,10 +111,11 @@ function Presenter({
   const columnDefinitions = columns({ groupBy, onFocusOnGroup, metrics });
   const columnDefinitionsForUnspecified = columnsForUnspecified({ metrics });
 
+  const totalGroups = totalHits != null ? `${number.compact(totalHits)} Groups` : null;
   return (
     <div className={locals.wrapper}>
       <div className={locals.hitsAndFacetedSearch}>
-        <InlineTabNavigation tabList={[{ text: totalHits > 0 && `${totalHits} Groups ` }]} />
+        <InlineTabNavigation tabList={[{ text: totalGroups }]} />
         <FacetedSearch tagFilterExpression={tagFilterExpression} addFilter={addFilter} removeFilter={removeFilter} />
       </div>
       <div className={locals.table}>

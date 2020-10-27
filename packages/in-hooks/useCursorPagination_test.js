@@ -137,6 +137,17 @@ describe('in-hooks/useCursorPagination', () => {
     expect(result.current.totalRepresentedItemCount).to.equal(20);
   });
 
+  it('must return 0 totalHits and 0 totalRepresentedItemCount', async () => {
+    const endpoint = new MockEndpoint();
+
+    const { result } = renderHook(() => useCursorPagination(endpoint.observableCreator()));
+
+    act(() => endpoint.emit(successResult({ totalHits: 0, totalRepresentedItemCount: 0 })));
+
+    expect(result.current.totalHits).to.equal(0);
+    expect(result.current.totalRepresentedItemCount).to.equal(0);
+  });
+
   it('must reload from first page', async () => {
     const endpoint = new MockEndpoint();
 

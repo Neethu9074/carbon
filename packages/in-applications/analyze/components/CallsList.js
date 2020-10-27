@@ -6,10 +6,10 @@ import BatchingIndicator from 'in-analyze/components/BatchingIndicator';
 import TableLinkWithIcon from 'in-analyze/components/TableLinkWithIcon';
 import InlineTabNavigation from 'in-new-components/InlineTabNavigation';
 import { getServiceDashboard } from 'in-applications/navigation/paths';
+import { number, latencyFixed } from 'in-services/formatters/number';
 import { getLinkToTraceDetail } from 'in-analyze/navigation/paths';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import { formatDateTime } from 'in-services/formatters/date';
-import { latencyFixed } from 'in-services/formatters/number';
 import { Link } from 'in-components/tables/sharedComponents';
 import getCalls from 'in-subscription/application/getCalls';
 import HealthDot from 'in-new-components/health/HealthDot';
@@ -102,10 +102,11 @@ function Presenter({
   retrievalSize,
   filterBy
 }) {
+  const totalCalls = tableProps?.totalHits != null ? `${number.compact(tableProps.totalHits)} Calls` : null;
   return (
     <div className={locals.wrapper}>
       <div className={locals.hitsAndFacetedSearch}>
-        <InlineTabNavigation tabList={[{ text: items?.length > 0 && `${items.length} Calls` }]} />
+        <InlineTabNavigation tabList={[{ text: totalCalls }]} />
         <FacetedSearch tagFilterExpression={tagFilterExpression} addFilter={addFilter} removeFilter={removeFilter} />
       </div>
       <div className={locals.table}>
