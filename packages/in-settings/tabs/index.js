@@ -3,7 +3,6 @@ import { roleHasAnyTeamPermissions } from 'in-settings/tabs/permissions';
 import UserSettings from 'in-settings/tabs/UserSettings/View';
 import TeamSettings from 'in-settings/tabs/TeamSettings/View';
 import AuthSettings from 'in-settings/tabs/AuthSettings/View';
-import { ampEnabled } from 'in-services/featureFlags';
 import AmpSettings from 'in-settings/tabs/AMP/View';
 import { isOwner } from 'in-stores/user';
 
@@ -32,6 +31,6 @@ const ampTab = {
 };
 
 export default function getTabs() {
-  const ampTabVisible = ampEnabled && isOwner;
+  const ampTabVisible = isOwner;
   return [roleHasAnyTeamPermissions() && teamTab, userTab, authTab, ampTabVisible && ampTab].filter(Boolean);
 }
