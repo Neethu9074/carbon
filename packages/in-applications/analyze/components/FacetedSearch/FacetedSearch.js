@@ -1,6 +1,7 @@
 import React from 'react';
 
 import FacetedFilterHttpStatusCodes from 'in-applications/analyze/components/FacetedSearch/FacetedFilterHttpStatusCodes';
+import FacetedFilterHiddenCalls from 'in-applications/analyze/components/FacetedSearch/FacetedFilterHiddenCalls';
 import FacetedFilterErroneous from 'in-applications/analyze/components/FacetedSearch/FacetedFilterErroneous';
 import FacetedFilterGeneric from 'in-applications/analyze/components/FacetedSearch/FacetedFilterGeneric';
 import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
@@ -8,7 +9,13 @@ import { DESTINATION } from 'in-new-components/QueryBuilder/tagFilter/entities';
 
 import locals from './FacetedSearch.mless';
 
-export default function FacetedSearch({ tagFilterExpression = toBackendQueryModel([]), addFilter, removeFilter }) {
+export default function FacetedSearch({
+  tagFilterExpression = toBackendQueryModel([]),
+  addFilter,
+  removeFilter,
+  hiddenCalls,
+  onChangeHiddenCalls
+}) {
   return (
     <div className={locals.wrapper}>
       <FacetedFilterErroneous
@@ -62,6 +69,23 @@ export default function FacetedSearch({ tagFilterExpression = toBackendQueryMode
         tagFilterExpression={tagFilterExpression}
         addFilter={addFilter}
         removeFilter={removeFilter}
+      />
+      <FacetedFilterHiddenCalls
+        title="Hidden Calls"
+        includeSynthetic={hiddenCalls?.includeSynthetic}
+        includeInternal={hiddenCalls?.includeInternal}
+        setIncludeSynthetic={includeSynthetic =>
+          onChangeHiddenCalls({
+            includeInternal: hiddenCalls?.includeInternal,
+            includeSynthetic: includeSynthetic
+          })
+        }
+        setIncludeInternal={includeInternal =>
+          onChangeHiddenCalls({
+            includeInternal: includeInternal,
+            includeSynthetic: hiddenCalls?.includeSynthetic
+          })
+        }
       />
     </div>
   );

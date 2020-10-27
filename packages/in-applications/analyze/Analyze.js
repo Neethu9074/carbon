@@ -5,7 +5,8 @@ import {
   groupByMatrixParameter,
   orderByGroupsMatrixParameter,
   orderByCallsMatrixParameter,
-  metricsMatrixParameter
+  metricsMatrixParameter,
+  hiddenCallsMatrixParameter
 } from 'in-applications/navigation/matrix';
 import CallGroupingConfigurator, {
   isCallGroupingConfigurationValid
@@ -40,7 +41,8 @@ const urlStateDefinition = {
     groupByMatrixParameter,
     orderByGroupsMatrixParameter,
     orderByCallsMatrixParameter,
-    metricsMatrixParameter
+    metricsMatrixParameter,
+    hiddenCallsMatrixParameter
   ]
 };
 
@@ -53,7 +55,7 @@ export default function ApplicationAnalyzeView() {
 }
 
 function ApplicationAnalyzeViewWithFixatedTimeConfig() {
-  const [{ tagFilterExpression, groupBy, orderByGroups, orderByCalls, metrics }, onChange] = useUrlState(
+  const [{ tagFilterExpression, groupBy, orderByGroups, orderByCalls, metrics, hiddenCalls }, onChange] = useUrlState(
     urlStateDefinition
   );
   const timeConfig = useTimeConfig();
@@ -91,6 +93,9 @@ function ApplicationAnalyzeViewWithFixatedTimeConfig() {
         }
       });
     }
+  };
+  const onChangeHiddenCalls = hiddenCalls => {
+    onChange({ hiddenCalls });
   };
   const addFilter = (...filters) =>
     onChange({ tagFilterExpression: joinExpressions({ expressions: [tagFilterExpression, ...filters] }) });
@@ -140,6 +145,8 @@ function ApplicationAnalyzeViewWithFixatedTimeConfig() {
               isValid={isValid}
               addFilter={addFilter}
               removeFilter={removeFilter}
+              hiddenCalls={hiddenCalls}
+              onChangeHiddenCalls={onChangeHiddenCalls}
             />
           )}
 
@@ -158,6 +165,8 @@ function ApplicationAnalyzeViewWithFixatedTimeConfig() {
               isValid={isValid}
               addFilter={addFilter}
               removeFilter={removeFilter}
+              hiddenCalls={hiddenCalls}
+              onChangeHiddenCalls={onChangeHiddenCalls}
             />
           )}
         </Stack>

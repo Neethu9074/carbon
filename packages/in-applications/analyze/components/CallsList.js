@@ -33,7 +33,9 @@ export default function CallsList({
   isValid,
   addFilter,
   removeFilter,
-  tableOnly = false
+  tableOnly = false,
+  hiddenCalls,
+  onChangeHiddenCalls
 }) {
   const timeConfig = useTimeConfig();
   const order = {
@@ -48,10 +50,11 @@ export default function CallsList({
             retrievalSize,
             tagFilterExpression,
             order,
-            cursor
+            cursor,
+            hiddenCalls
           })
         : empty,
-    [timeConfig, retrievalSize, tagFilterExpression, orderBy, isValid]
+    [timeConfig, retrievalSize, tagFilterExpression, orderBy, isValid, hiddenCalls]
   );
 
   const columnDefinitions = staticColumnDefinitions;
@@ -84,6 +87,8 @@ export default function CallsList({
       order={order}
       retrievalSize={retrievalSize}
       filterBy={filterBy}
+      hiddenCalls={hiddenCalls}
+      onChangeHiddenCalls={onChangeHiddenCalls}
     />
   );
 }
@@ -100,14 +105,22 @@ function Presenter({
   tableProps,
   order,
   retrievalSize,
-  filterBy
+  filterBy,
+  hiddenCalls,
+  onChangeHiddenCalls
 }) {
   const totalCalls = tableProps?.totalHits != null ? `${number.compact(tableProps.totalHits)} Calls` : null;
   return (
     <div className={locals.wrapper}>
       <div className={locals.hitsAndFacetedSearch}>
         <InlineTabNavigation tabList={[{ text: totalCalls }]} />
-        <FacetedSearch tagFilterExpression={tagFilterExpression} addFilter={addFilter} removeFilter={removeFilter} />
+        <FacetedSearch
+          tagFilterExpression={tagFilterExpression}
+          addFilter={addFilter}
+          removeFilter={removeFilter}
+          hiddenCalls={hiddenCalls}
+          onChangeHiddenCalls={onChangeHiddenCalls}
+        />
       </div>
       <div className={locals.table}>
         <CursorPaginatedTable
@@ -158,7 +171,15 @@ function TableOnlyPresenter({
   );
 }
 
-function getTableData({ timeConfig, retrievalSize, tagFilterExpression, order, previewEnabled = false, cursor }) {
+function getTableData({
+  timeConfig,
+  retrievalSize,
+  tagFilterExpression,
+  order,
+  previewEnabled = false,
+  cursor,
+  hiddenCalls
+}) {
   return getCalls({
     pagination: {
       cursor,
@@ -169,7 +190,9 @@ function getTableData({ timeConfig, retrievalSize, tagFilterExpression, order, p
       timeConfig: timeConfig
     },
     tagFilterExpression,
-    queryPrecision: previewEnabled ? 'APPROXIMATE' : 'FULL'
+    queryPrecision: previewEnabled ? 'APPROXIMATE' : 'FULL',
+    includeSynthetic: hiddenCalls.includeSynthetic,
+    includeInternal: hiddenCalls.includeInternal
   });
 }
 

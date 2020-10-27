@@ -44,7 +44,9 @@ export default function GroupedCallsList({
   onChangeMetrics,
   isValid,
   addFilter,
-  removeFilter
+  removeFilter,
+  hiddenCalls,
+  onChangeHiddenCalls
 }) {
   const timeConfig = useTimeConfig();
   const granularity = getSparkChartGranularity(timeConfig);
@@ -59,10 +61,11 @@ export default function GroupedCallsList({
             groupBy,
             order,
             metrics: convertMetricListToMetricObject(metrics, granularity),
-            cursor
+            cursor,
+            hiddenCalls
           })
         : empty,
-    [timeConfig, groupBy, orderBy, metrics, isValid]
+    [timeConfig, groupBy, orderBy, metrics, isValid, hiddenCalls]
   );
 
   return (
@@ -73,10 +76,12 @@ export default function GroupedCallsList({
       orderByCalls={orderByCalls}
       metrics={metrics}
       granularity={granularity}
+      hiddenCalls={hiddenCalls}
       onFocusOnGroup={onFocusOnGroup}
       onChangeOrderBy={onChangeOrderBy}
       onChangeMetrics={onChangeMetrics}
       onChangeOrderByCalls={onChangeOrderByCalls}
+      onChangeHiddenCalls={onChangeHiddenCalls}
       tagFilterExpression={tagFilterExpression}
       addFilter={addFilter}
       removeFilter={removeFilter}
@@ -104,7 +109,9 @@ function Presenter({
   onChangeOrderByCalls,
   tagFilterExpression,
   addFilter,
-  removeFilter
+  removeFilter,
+  hiddenCalls,
+  onChangeHiddenCalls
 }) {
   const hasErrors = errors?.length > 0;
   const isLoading = progress?.loading;
@@ -116,7 +123,13 @@ function Presenter({
     <div className={locals.wrapper}>
       <div className={locals.hitsAndFacetedSearch}>
         <InlineTabNavigation tabList={[{ text: totalGroups }]} />
-        <FacetedSearch tagFilterExpression={tagFilterExpression} addFilter={addFilter} removeFilter={removeFilter} />
+        <FacetedSearch
+          tagFilterExpression={tagFilterExpression}
+          addFilter={addFilter}
+          removeFilter={removeFilter}
+          hiddenCalls={hiddenCalls}
+          onChangeHiddenCalls={onChangeHiddenCalls}
+        />
       </div>
       <div className={locals.table}>
         <HeaderRow
@@ -159,6 +172,10 @@ function Presenter({
                     timeConfig={timeConfig}
                     progress={progress}
                     granularity={granularity}
+                    onFocusOnGroup={onFocusOnGroup}
+                    orderByCalls={orderByCalls}
+                    onChangeOrderByCalls={onChangeOrderByCalls}
+                    hiddenCalls={hiddenCalls}
                   />
                 </Li>
               );
@@ -253,7 +270,7 @@ function metricToColumn(metric) {
   };
 }
 
-function getGroups({ timeConfig, tagFilterExpression, groupBy, order, metrics, cursor }) {
+function getGroups({ timeConfig, tagFilterExpression, groupBy, order, metrics, cursor, hiddenCalls }) {
   return getCallGroups({
     pagination: {
       cursor,
@@ -265,7 +282,9 @@ function getGroups({ timeConfig, tagFilterExpression, groupBy, order, metrics, c
     },
     tagFilterExpression,
     order,
-    metrics
+    metrics,
+    includeSynthetic: hiddenCalls.includeSynthetic,
+    includeInternal: hiddenCalls.includeInternal
   });
 }
 
@@ -317,7 +336,8 @@ function ExpandedGroup({
   timeConfig,
   onFocusOnGroup,
   orderByCalls,
-  onChangeOrderByCalls
+  onChangeOrderByCalls,
+  hiddenCalls
 }) {
   return (
     <CallsList
@@ -330,6 +350,7 @@ function ExpandedGroup({
       onChangeOrderBy={onChangeOrderByCalls}
       tableOnly
       isValid
+      hiddenCalls={hiddenCalls}
     />
   );
 }

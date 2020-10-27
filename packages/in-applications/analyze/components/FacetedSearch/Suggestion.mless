@@ -25,11 +25,6 @@
       display: flex;
       justify-content: space-between;
       width: 100%;
-      .label {
-        text-overflow: ellipsis;
-        overflow: hidden;
-        white-space: nowrap;
-      }
       .count {
         margin-left: 1rem;
       }
@@ -54,5 +49,11 @@
   }
   div.search {
     padding: 0;
+  }
+  .label {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    font-size: 0.75rem;
   }
 }

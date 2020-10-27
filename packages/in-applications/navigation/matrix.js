@@ -63,3 +63,11 @@ export const metricsMatrixParameter = {
     { metric: 'errors', aggregation: 'MEAN' }
   ]
 };
+
+export const hiddenCallsMatrixParameter = {
+  path: analyze,
+  name: 'hiddenCalls',
+  serializer: buildJsonSerializer(),
+  parser: buildJsonParser(emptyObject),
+  initialState: { includeInternal: false, includeSynthetic: false }
+};
