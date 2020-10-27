@@ -1,6 +1,7 @@
 import React from 'react';
 
 import FacetedFilterHttpStatusCodes from 'in-applications/analyze/components/FacetedSearch/FacetedFilterHttpStatusCodes';
+import FacetedFilterErroneous from 'in-applications/analyze/components/FacetedSearch/FacetedFilterErroneous';
 import FacetedFilterGeneric from 'in-applications/analyze/components/FacetedSearch/FacetedFilterGeneric';
 import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import { DESTINATION } from 'in-new-components/QueryBuilder/tagFilter/entities';
@@ -10,6 +11,12 @@ import locals from './FacetedSearch.mless';
 export default function FacetedSearch({ tagFilterExpression = toBackendQueryModel([]), addFilter, removeFilter }) {
   return (
     <div className={locals.wrapper}>
+      <FacetedFilterErroneous
+        title="Erroneous"
+        tagFilterExpression={tagFilterExpression}
+        addFilter={addFilter}
+        removeFilter={removeFilter}
+      />
       <FacetedFilterGeneric
         title="Applications"
         tag="application.name"
@@ -18,6 +25,7 @@ export default function FacetedSearch({ tagFilterExpression = toBackendQueryMode
         addFilter={addFilter}
         removeFilter={removeFilter}
       />
+
       <FacetedFilterGeneric
         title="Services"
         tag="service.name"
