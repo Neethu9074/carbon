@@ -1397,15 +1397,16 @@ function K8sHelmChartContent({ agentKey, agentEndpoint, agentEndpointPort }) {
           <Bash
             disabledErrorMessage={clusterNameValidationMessage}
             lines={[
-              'kubectl create namespace instana-agent && \\',
               'helm install instana-agent \\',
+              '--repo https://agents.instana.io/helm \\',
               '--namespace instana-agent \\',
+              '--create-namespace \\',
               `--set agent.key=${agentKey} \\`,
               `--set agent.endpointHost=${agentEndpoint} \\`,
               `--set agent.endpointPort=${agentEndpointPort} \\`,
               `--set cluster.name='${clusterName}' \\`,
               `--set zone.name='${zoneName}' \\`,
-              'stable/instana-agent'
+              'instana-agent'
             ]}
           />
           <Spacer />
