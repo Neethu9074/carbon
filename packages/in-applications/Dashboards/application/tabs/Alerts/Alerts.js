@@ -63,14 +63,26 @@ export default function Alerts({ applicationName, applicationId }) {
             role.canConfigureCustomAlerts && {
               delete: {
                 deleteEntity: config =>
-                  deleteAlertConfig(config.id).tap(() => applicationsAlertingListAlertDeleted(config.id))
+                  deleteAlertConfig(config.id).tap(() =>
+                    applicationsAlertingListAlertDeleted({
+                      alertConfigId: config.id
+                    })
+                  )
               },
               toggleEnabled: {
                 get: config => config.enabled,
                 toggle: config =>
                   config.enabled
-                    ? disableAlertConfig(config.id).tap(() => applicationsAlertingListAlertPaused(config.id))
-                    : enableAlertConfig(config.id).tap(() => applicationsAlertingListAlertResumed(config.id))
+                    ? disableAlertConfig(config.id).tap(() =>
+                        applicationsAlertingListAlertPaused({
+                          alertConfigId: config.id
+                        })
+                      )
+                    : enableAlertConfig(config.id).tap(() =>
+                        applicationsAlertingListAlertResumed({
+                          alertConfigId: config.id
+                        })
+                      )
               }
             }
           }
