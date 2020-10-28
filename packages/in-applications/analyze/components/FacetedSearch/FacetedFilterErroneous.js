@@ -115,7 +115,7 @@ function existingErroneousFilter(tagFilterExpression) {
       tagFilterExpression.logicalOperator === OPERATOR_AND &&
       tagFilterExpression.elements.filter(
         element => element.type === TAG_FILTER_TYPE && element.name === 'call.erroneous' && element.value === true
-      )) ||
+      ).length > 0) ||
     (tagFilterExpression.type === TAG_FILTER_TYPE &&
       tagFilterExpression.name === 'call.erroneous' &&
       tagFilterExpression.value === true)
