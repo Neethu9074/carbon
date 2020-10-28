@@ -127,6 +127,7 @@ export function ThresholdCondition({
   const operatorLabel = (findEntryByValue(operatorOptions, operatorValue) ?? operatorOptions[0]).label;
 
   const metricUnitPostfix = getMetricUnitPostfix(metricName);
+  const maxValue = blueprintConfig.getMaxMetricValue(metricName);
 
   return (
     <ThresholdConditionFormGroup>
@@ -158,7 +159,7 @@ export function ThresholdCondition({
         id="thresholdValue"
         type="number"
         min="0"
-        max={blueprintConfig.getMaxMetricValue(metricName)}
+        max={maxValue}
         name="thresholdValue"
         step="1"
         value={
@@ -167,6 +168,8 @@ export function ThresholdCondition({
             : getValueRoundedToDecimals(form.get('threshold').get('value').value, percentageMetric)) ?? 0
         }
         onChange={({ target }) => {
+          if (target.value > maxValue) return;
+
           let value = '';
           if (target.value !== '') {
             value = Math.abs(target.value);

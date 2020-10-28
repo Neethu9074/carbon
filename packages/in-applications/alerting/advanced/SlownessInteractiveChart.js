@@ -14,13 +14,13 @@ import {
   debouncedThresholdDeviationFactorChangedTracker
 } from 'in-applications/alerting/trackingHelpers';
 import {
-  ruleAggregationForWeeklySeasonalityOptions,
-  ruleAggregationOptions
-} from 'in-applications/alerting/form/ruleFormData';
-import {
   thresholdTypeOptions,
   enrichThresholdOperatorOptionsForApiConfigs
 } from 'in-new-components/Alerting/advanced/thresholdFormData';
+import {
+  ruleAggregationForWeeklySeasonalityOptions,
+  ruleAggregationOptions
+} from 'in-applications/alerting/form/ruleFormData';
 import ThresholdConditionFormGroup from 'in-new-components/Alerting/advanced/ThresholdConditionFormGroup';
 import { createSlownessForm, defaultDeviationFactor } from 'in-applications/alerting/form/thresholdForm';
 import ChartViewConfigurator from 'in-new-components/Alerting/components/ChartViewConfigurator';
@@ -138,6 +138,7 @@ function ThresholdCondition({
   const thresholdType = form.get('threshold').get('type')?.value;
   const metricName = form.get('rule').get('metricName').value;
   const metricUnitPostfix = getMetricUnitPostfix(metricName);
+  const maxValue = blueprintConfig.getMaxMetricValue(metricName);
 
   return (
     <>
@@ -211,10 +212,12 @@ function ThresholdCondition({
             id="thresholdValue"
             type="number"
             min="0"
+            max={maxValue}
             name="thresholdValue"
             value={doDebounceThreshold ? tempThreshold : getFormValueOrDefault(form.get('threshold'), 'value')}
             step="1"
             onChange={({ target }) => {
+              if (target.value > maxValue) return;
               const value = target.value == '' ? '' : Math.abs(target.value);
 
               setDoDebounceThreshold(true);

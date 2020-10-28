@@ -105,6 +105,7 @@ export function ThresholdCondition({
 
   const metricName = form.get('rule').get('metricName').value;
   const metricUnitPostfix = getMetricUnitPostfix(metricName);
+  const maxValue = blueprintConfig.getMaxMetricValue(metricName);
 
   return (
     <ThresholdConditionFormGroup>
@@ -125,13 +126,14 @@ export function ThresholdCondition({
         className={locals.narrowControl}
         type="number"
         min="0"
-        max={blueprintConfig.getMaxMetricValue(metricName)}
+        max={maxValue}
         name="thresholdValue"
         step="1"
         value={
           (doDebounce ? tempThreshold : getValueRoundedToDecimals(form.get('threshold').get('value').value, true)) ?? 0
         }
         onChange={({ target }) => {
+          if (target.value > maxValue) return;
           const value = target.value == '' ? '' : round(Math.abs(target.value) / 100, 3);
 
           setTempThreshold(getValueRoundedToDecimals(value, true));

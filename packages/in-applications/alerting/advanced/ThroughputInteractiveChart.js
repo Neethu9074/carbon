@@ -5,16 +5,16 @@ import { withState } from 'recompose';
 import PropTypes from 'prop-types';
 
 import {
-  applicationsAlertingThresholdOperatorChanged,
-  applicationsAlertingThresholdTypeChanged
-} from 'in-applications/alerting/tracker';
-import {
   debouncedThresholdValueChangedTracker,
   debouncedThresholdDeviationFactorChangedTracker
 } from 'in-applications/alerting/trackingHelpers';
+import {
+  applicationsAlertingThresholdOperatorChanged,
+  applicationsAlertingThresholdTypeChanged
+} from 'in-applications/alerting/tracker';
 import { thresholdTypeOptions, thresholdOperatorOptions } from 'in-new-components/Alerting/advanced/thresholdFormData';
-import ThresholdConditionFormGroup from 'in-new-components/Alerting/advanced/ThresholdConditionFormGroup';
 import { createThroughputForm, defaultDeviationFactor } from 'in-applications/alerting/form/thresholdForm';
+import ThresholdConditionFormGroup from 'in-new-components/Alerting/advanced/ThresholdConditionFormGroup';
 import ChartViewConfigurator from 'in-new-components/Alerting/components/ChartViewConfigurator';
 import { isDifferentOperatorDirection } from 'in-new-components/Alerting/utils/alertUtils';
 import { SensitivitySlider } from 'in-new-components/Alerting/advanced/SensitivitySlider';
@@ -128,6 +128,7 @@ function ThresholdCondition({
   const thresholdType = form.get('threshold').get('type')?.value;
   const metricName = form.get('rule').get('metricName').value;
   const metricUnitPostfix = getMetricUnitPostfix(metricName);
+  const maxValue = blueprintConfig.getMaxMetricValue(metricName);
 
   return (
     <>
@@ -198,10 +199,12 @@ function ThresholdCondition({
             id="thresholdValue"
             type="number"
             min="0"
+            max={maxValue}
             name="thresholdValue"
             value={doDebounceThreshold ? tempThreshold : getFormValueOrDefault(form.get('threshold'), 'value')}
             step="1"
             onChange={e => {
+              if (e.target.value > maxValue) return;
               const newThresholdValue = e.target.value !== '' ? Math.abs(e.target.value) : '';
 
               setDoDebounceThreshold(true);

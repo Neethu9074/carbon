@@ -16,8 +16,8 @@ import { enrichThresholdOperatorOptionsForApiConfigs } from 'in-new-components/A
 import ThresholdConditionFormGroup from 'in-new-components/Alerting/advanced/ThresholdConditionFormGroup';
 import IncompleteChartPlaceholder from 'in-new-components/Alerting/components/IncompleteChartPlaceholder';
 import ChartViewConfigurator from 'in-new-components/Alerting/components/ChartViewConfigurator';
-import { debouncedThresholdValueChangedTracker } from 'in-websites/alerting/trackingHelpers';
 import { isPercentageMetric, getMetricUnitPostfix } from 'in-websites/alerting/form/formUtils';
+import { debouncedThresholdValueChangedTracker } from 'in-websites/alerting/trackingHelpers';
 import { getTrackingObject } from 'in-new-components/Alerting/trackingHelpers';
 import { ruleMetricNameOptions } from 'in-websites/alerting/form/ruleFormData';
 import { blueprintConfigPropType } from 'in-new-components/Alerting/constants';
@@ -126,6 +126,7 @@ export function ThresholdCondition({
   const operatorLabel = (operatorOptions.find(op => op.value === operatorValue) ?? operatorOptions[0]).label;
 
   const metricUnitPostfix = getMetricUnitPostfix(metricName);
+  const maxValue = blueprintConfig.getMaxMetricValue(metricName);
 
   return (
     <ThresholdConditionFormGroup>
@@ -158,7 +159,7 @@ export function ThresholdCondition({
         className={locals.narrowControl}
         type="number"
         min="0"
-        max={blueprintConfig.getMaxMetricValue(metricName)}
+        max={maxValue}
         name="thresholdValue"
         step="1"
         value={
@@ -167,6 +168,8 @@ export function ThresholdCondition({
             : getValueRoundedToDecimals(form.get('threshold').get('value').value, percentageMetric)
         }
         onChange={({ target }) => {
+          if (target.value > maxValue) return;
+
           let value = '';
           if (target.value !== '') {
             value = percentageMetric ? round(Math.abs(target.value) / 100, 3) : Math.abs(target.value);

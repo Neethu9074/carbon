@@ -130,6 +130,7 @@ function ThresholdCondition({
   const thresholdType = form.get('threshold').get('type')?.value;
   const metricName = form.get('rule').get('metricName').value;
   const metricUnitPostfix = getMetricUnitPostfix(metricName);
+  const maxValue = blueprintConfig.getMaxMetricValue(metricName);
 
   return (
     <>
@@ -219,10 +220,13 @@ function ThresholdCondition({
             id="thresholdValue"
             type="number"
             min="0"
+            max={maxValue}
             name="thresholdValue"
             value={doDebounceThreshold ? tempThreshold : getFormValueOrDefault(form.get('threshold'), 'value')}
             step="1"
             onChange={e => {
+              if (e.target.value > maxValue) return;
+
               const newThresholdValue = e.target.value !== '' ? Math.abs(e.target.value) : '';
 
               setDoDebounceThreshold(true);
