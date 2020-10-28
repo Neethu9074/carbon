@@ -109,6 +109,7 @@ import './oci8';
 import './okhttp';
 import './oncrpc.client';
 import './oncrpc.server';
+import './otel';
 import './pdo';
 import './php.compile';
 import './php.error';
