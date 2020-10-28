@@ -1,4 +1,5 @@
 import { compose, withProps, withPropsOnChange } from 'recompose';
+import { useRouteMatch } from 'react-router';
 import React from 'react';
 
 import {
@@ -19,6 +20,7 @@ import { focusedMetric as focusedMetricMatrixParameter } from 'in-analyze/naviga
 import EditGroupDialog from 'in-analyze/AnalyzeView/components/AnalyzeEditGroupDialog';
 import { getTagFilterListForBackendSubscription } from 'in-analyze/applicationFilter';
 import EmptyAnalyzeView from 'in-analyze/AnalyzeView/components/EmptyAnalyzeView';
+import { analyze, traceDetailFullyQualified } from 'in-analyze/navigation/paths';
 import WithEmptyStateFallback from 'in-new-components/WithEmptyStateFallback';
 import { groupAddedTracker, groupChangedTracker } from 'in-analyze/tracker';
 import getConfigByDataSource from 'in-analyze/AnalyzeView/dataSources';
@@ -33,7 +35,6 @@ import RawTraces from 'in-analyze/components/RawTraces';
 import Analyze from 'in-applications/analyze/Analyze';
 import RawCalls from 'in-analyze/components/RawCalls';
 import { getTimeConfig } from 'in-stores/time/config';
-import { analyze } from 'in-analyze/navigation/paths';
 import Footer from 'in-new-components/Footer';
 import connectTo from 'in-hoc/connectTo';
 
@@ -155,10 +156,11 @@ function AnalyzeView(props) {
 
   useDisabledBodyScroll(isDialogActive);
 
+  const showTraceDetails = useRouteMatch(traceDetailFullyQualified);
   // Eventually this will only route to the new analyze view and the rest of this
   // component can be removed.
   if (dataSource === 'callsUQB') {
-    if (isRawView) {
+    if (showTraceDetails) {
       // To show trace details, hijack the datasource to use RawCalls
       filters.dataSource = 'calls';
     } else {
