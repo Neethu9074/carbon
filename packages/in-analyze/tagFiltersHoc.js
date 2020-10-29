@@ -11,7 +11,9 @@ import EditTagFilterDialog from 'in-analyze/AnalyzeView/components/AnalyzeEditTa
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { createFilter } from 'in-analyze/filterBuilder';
 
-export const tagFilterManipulators = withProps(props => {
+export const tagFilterManipulators = withProps(getTagFilterManipulators);
+
+export function getTagFilterManipulators(props) {
   const { filters, setTagFilters } = props;
   const tagFilters = filters.tagFilter;
   return {
@@ -61,4 +63,4 @@ export const tagFilterManipulators = withProps(props => {
     trackFilterChanged: filterChangedTracker,
     trackFilterRemoved: filterRemovedTracker
   };
-});
+}

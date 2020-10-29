@@ -1,4 +1,3 @@
-import { compose, withProps, withPropsOnChange } from 'recompose';
 import { useRouteMatch } from 'react-router';
 import React from 'react';
 
@@ -26,17 +25,17 @@ import { groupAddedTracker, groupChangedTracker } from 'in-analyze/tracker';
 import getConfigByDataSource from 'in-analyze/AnalyzeView/dataSources';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { activeDialogs$ } from 'in-components/DialogPresenter/store';
+import { getTagFilterManipulators } from 'in-analyze/tagFiltersHoc';
 import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
-import { tagFilterManipulators } from 'in-analyze/tagFiltersHoc';
-import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import GroupedTraces from 'in-analyze/components/GroupedTraces';
 import getCalls from 'in-subscription/application/getCalls';
 import RawTraces from 'in-analyze/components/RawTraces';
 import Analyze from 'in-applications/analyze/Analyze';
 import RawCalls from 'in-analyze/components/RawCalls';
 import { getTimeConfig } from 'in-stores/time/config';
+import useObservable from 'in-hooks/useObservable';
+import useUrlState from 'in-hooks/useUrlState';
 import Footer from 'in-new-components/Footer';
-import connectTo from 'in-hoc/connectTo';
 
 function initialShowGraph(props) {
   // Support for old URLs with a deprecated matrix parameter 'groups.showGraph'. In the past UA charts were
@@ -68,86 +67,91 @@ function initialFocusedMetric(props) {
   return null;
 }
 
-export default compose(
-  connectTo({
-    isDialogActive: activeDialogs$.map(dialogs => dialogs.length > 0)
-  }),
-  withUrlDependingState({
-    replaceHistory: false,
-    getPathSegment: () => analyze,
-    getMatrixPrefix: () => 'callList.',
-    boundKeys: [
-      dataSourceMatrixParameter,
-      groupByMatrixParameter,
-      tagFilterMatrixParameter,
-      previewEnabledMatrixParameter,
-      showGraphMatrixParameter,
-      focusedMetricMatrixParameter
-    ],
-    getInitialState: props => ({
-      [dataSourceMatrixParameter]: 'traces',
-      ...getInitialGrouping(props),
-      [tagFilterMatrixParameter]: [],
-      [previewEnabledMatrixParameter]: false,
-      [showGraphMatrixParameter]: initialShowGraph(props),
-      [focusedMetricMatrixParameter]: initialFocusedMetric(props)
-    }),
-    reducerName: 'onChangeAnalyzeConfig',
-    getParsedUrlValues: values => ({
-      [dataSourceMatrixParameter]: values[dataSourceMatrixParameter],
-      [groupByMatrixParameter]: getGroupFromUrlString(values[groupByMatrixParameter]),
-      [tagFilterMatrixParameter]: getTagFilterFromUrlString(values[tagFilterMatrixParameter]),
-      [previewEnabledMatrixParameter]: values[previewEnabledMatrixParameter] === 'false' ? false : true,
-      [showGraphMatrixParameter]: values[showGraphMatrixParameter] === 'false' ? false : true,
-      [focusedMetricMatrixParameter]: values.focusedMetric
-    }),
-    getSerializedUrlValues: props => ({
-      [dataSourceMatrixParameter]: props[dataSourceMatrixParameter],
-      [groupByMatrixParameter]: getGroupToUrlString(props[groupByMatrixParameter]),
-      [tagFilterMatrixParameter]: getTagFilterToUrlString(props[tagFilterMatrixParameter]),
-      [previewEnabledMatrixParameter]: Boolean(props[previewEnabledMatrixParameter]),
-      [showGraphMatrixParameter]: Boolean(props[showGraphMatrixParameter]),
-      [focusedMetricMatrixParameter]: props.focusedMetric
-    })
-  }),
-  withPropsOnChange(
-    [
-      'location',
-      tagFilterMatrixParameter,
-      groupByMatrixParameter,
-      dataSourceMatrixParameter,
-      previewEnabledMatrixParameter,
-      showGraphMatrixParameter
-    ],
-    ({
-      location,
-      [tagFilterMatrixParameter]: tagFilter,
-      [groupByMatrixParameter]: group,
-      [dataSourceMatrixParameter]: dataSource
-    }) => ({
-      filters: {
-        tagFilter,
-        group,
-        dataSource,
-        timeConfig: getTimeConfig(location)
-      },
-      tagFiltersForSubscription: getTagFilterListForBackendSubscription(
-        tagFilter,
-        getConfigByDataSource(dataSource).defaultFilters
-      ),
-      isRawView: !group || !group.name
-    })
-  ),
-  withProps(({ onChangeAnalyzeConfig, location }) => ({
-    timeConfig: getTimeConfig(location),
-    setTagFilters(tagFilters) {
-      onChangeAnalyzeConfig({
-        [tagFilterMatrixParameter]: tagFilters
-      });
+function getInitialGrouping(props) {
+  const dataSource = props[dataSourceMatrixParameter];
+  return getConfigByDataSource(dataSource).defaultGrouping || getConfigByDataSource('traces').defaultGrouping;
+}
+
+const urlStateConfig = {
+  replaceHistory: false,
+  bind: [
+    {
+      path: analyze,
+      name: `callList.${dataSourceMatrixParameter}`,
+      as: dataSourceMatrixParameter,
+      initialState: 'traces'
+    },
+    {
+      path: analyze,
+      name: `callList.${focusedMetricMatrixParameter}`,
+      as: focusedMetricMatrixParameter
+    },
+    {
+      path: analyze,
+      name: `callList.${groupByMatrixParameter}`,
+      as: groupByMatrixParameter,
+      parser: getGroupFromUrlString,
+      serializer: getGroupToUrlString
+    },
+    {
+      path: analyze,
+      name: `callList.${tagFilterMatrixParameter}`,
+      as: tagFilterMatrixParameter,
+      initialState: [],
+      parser: getTagFilterFromUrlString,
+      serializer: getTagFilterToUrlString
+    },
+    {
+      path: analyze,
+      name: `callList.${showGraphMatrixParameter}`,
+      as: showGraphMatrixParameter,
+      parser: v => (v === 'false' ? false : true),
+      serializer: Boolean
     }
-  })),
-  tagFilterManipulators
-)(AnalyzeView);
+  ]
+};
+
+export default function AnalyzeViewPropsEnrichment(props) {
+  const isDialogActive = useObservable(
+    activeDialogs$.map(dialogs => dialogs.length > 0),
+    []
+  );
+
+  const [urlState, onChangeAnalyzeConfig] = useUrlState(urlStateConfig);
+  urlState[focusedMetricMatrixParameter] = urlState[focusedMetricMatrixParameter] ?? initialFocusedMetric(props);
+  urlState[groupByMatrixParameter] = urlState[groupByMatrixParameter] ?? getInitialGrouping(props);
+  urlState[showGraphMatrixParameter] = urlState[showGraphMatrixParameter] ?? initialShowGraph(props);
+
+  const timeConfig = getTimeConfig(props.location);
+  const { tagFilter, group, dataSource } = urlState;
+  const filters = {
+    tagFilter,
+    group,
+    dataSource,
+    timeConfig
+  };
+  const tagFiltersForSubscription = getTagFilterListForBackendSubscription(
+    tagFilter,
+    getConfigByDataSource(dataSource).defaultFilters
+  );
+  const isRawView = !group || !group.name;
+
+  const setTagFilters = tagFilters => onChangeAnalyzeConfig({ [tagFilterMatrixParameter]: tagFilters });
+
+  return (
+    <AnalyzeView
+      {...props}
+      {...getTagFilterManipulators({ ...props, filters, setTagFilters })}
+      {...urlState}
+      filters={filters}
+      isRawView={isRawView}
+      timeConfig={timeConfig}
+      isDialogActive={isDialogActive}
+      onChangeAnalyzeConfig={onChangeAnalyzeConfig}
+      tagFiltersForSubscription={tagFiltersForSubscription}
+    />
+  );
+}
 
 function AnalyzeView(props) {
   const { isDialogActive, isRawView, dataSource, filters, setTagFilters } = props;
@@ -235,13 +239,6 @@ function AnalyzeView(props) {
       <Footer />
     </WithEmptyStateFallback>
   );
-}
-
-function getInitialGrouping({ [dataSourceMatrixParameter]: dataSource }) {
-  return {
-    [groupByMatrixParameter]:
-      getConfigByDataSource(dataSource).defaultGrouping || getConfigByDataSource('traces').defaultGrouping
-  };
 }
 
 function getHasDataToRender({ timeConfig }) {
