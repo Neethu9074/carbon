@@ -13,11 +13,11 @@
 # person.
 
 packages/history                    @instana/eng-ui
-packages/in-amp                     @instana/eng-enterprise @instana/eng-hubforce
-packages/in-analyze                 @instana/eng-application @instana/eng-eum
+packages/in-amp                     @instana/eng-enterprise @instana/eng-hubforce @instana/eng-ui
+packages/in-analyze                 @instana/eng-application @instana/eng-eum @instana/eng-ui
 # Deprecated: We should not make any more changes within this package (aside from code removal)
 packages/in-api                     @instana/eng-ui
-packages/in-applications            @instana/eng-application
+packages/in-applications            @instana/eng-application @instana/eng-ui
 packages/in-client                  @instana/eng-ui
 # No clear ownership: Fallback to eng-ui
 packages/in-cloudfoundry            @instana/eng-ui
@@ -25,21 +25,21 @@ packages/in-cloudfoundry            @instana/eng-ui
 packages/in-cockpit                 @instana/eng-ui
 packages/in-components              @instana/eng-ui
 packages/in-connection              @instana/eng-ui
-packages/in-custom-dashboards       @instana/eng-eum
-packages/in-events                  @instana/eng-stan
+packages/in-custom-dashboards       @instana/eng-eum @instana/eng-ui
+packages/in-events                  @instana/eng-stan @instana/eng-ui
 # Shared ownership
 # packages/in-forge
 packages/in-hoc                     @instana/eng-ui
 packages/in-hooks                   @instana/eng-ui
-packages/in-infrastructure          @instana/eng-infrastructure
+packages/in-infrastructure          @instana/eng-infrastructure @instana/eng-ui
 packages/in-init                    @instana/eng-ui
-packages/in-integrations            @instana/eng-sensors
+packages/in-integrations            @instana/eng-sensors @instana/eng-ui
 # Shared ownership
 # packages/in-internal
-packages/in-kubernetes              @instana/eng-infrastructure
+packages/in-kubernetes              @instana/eng-infrastructure @instana/eng-ui
 # No clear ownership: Fallback to eng-ui
 packages/in-map                     @instana/eng-ui
-packages/in-mobile-apps             @instana/eng-eum
+packages/in-mobile-apps             @instana/eng-eum @instana/eng-ui
 packages/in-new-components          @instana/eng-ui
 # No clear ownership: Fallback to eng-ui
 packages/in-profiling               @instana/eng-ui
@@ -55,7 +55,7 @@ packages/in-themes                  @instana/eng-ui
 packages/in-vsphere                 @instana/eng-infrastructure
 # No clear ownership: Fallback to eng-ui
 packages/in-waiting-for-deployment  @instana/eng-ui
-packages/in-websites                @instana/eng-eu
+packages/in-websites                @instana/eng-eum @instana/eng-ui
 packages/instalog                   @instana/eng-ui
 packages/reactive-observables       @instana/eng-ui
 packages/roemitter                  @instana/eng-ui
