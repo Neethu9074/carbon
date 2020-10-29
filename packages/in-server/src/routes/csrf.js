@@ -1,5 +1,6 @@
 const express = require('express');
 
+const UnauthorizedError = require('../errors/UnauthorizedError.js');
 const { getCsrfToken } = require('../services/csrf');
 const errorPages = require('../errorPages');
 
@@ -14,6 +15,10 @@ router.get('/csrf/token', async (req, res) => {
     res.set('x-csrf-token', csrfToken).send();
   } catch (e) {
     console.error('Failed to retrieve CSRF token', e);
-    errorPages.send500(req, res);
+    if (e instanceof UnauthorizedError) {
+      res.status(401).send(undefined);
+    } else {
+      errorPages.send500(req, res);
+    }
   }
 });
