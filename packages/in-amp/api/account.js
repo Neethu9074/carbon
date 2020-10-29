@@ -24,6 +24,34 @@ function getAccountAsResultObservableInternal() {
   );
 }
 
+export const getReportingTechnologiesAsResultObservable = memoize(
+  getReportingTechnologiesAsResultObservableInternal,
+  (tenant, unit, to, windowSize, page, pageSize, orderBy, orderDirection) =>
+    tenant + unit + orderBy + to + windowSize + page + pageSize + orderDirection,
+  60000
+);
+function getReportingTechnologiesAsResultObservableInternal(
+  tenant,
+  unit,
+  to,
+  windowSize,
+  page,
+  pageSize,
+  orderBy,
+  orderDirection
+) {
+  return refreshSignal.flatMap(() =>
+    createObservable(
+      http({
+        method: 'GET',
+        maxRetries: 3,
+        url: `/api/settings/amp/technologies`,
+        queryParams: { tenant, unit, to, windowSize, page, pageSize, orderBy, orderDirection }
+      })
+    )
+  );
+}
+
 export const getActiveLicensesAsResultObservable = memoize(
   getActiveLicensesAsResultObservableInternal,
   page => page,

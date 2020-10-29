@@ -1,5 +1,3 @@
-@import '~in-themes/active.less';
-
 :local {
   .buttonHeader {
     display: flex;
@@ -7,6 +5,10 @@
     justify-content: space-between;
 
     margin-bottom: 1rem;
+  }
+
+  .buttonHeaderReverse {
+    flex-direction: row-reverse;
   }
 
   .message {

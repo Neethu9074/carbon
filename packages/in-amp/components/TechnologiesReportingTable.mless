@@ -1,0 +1,7 @@
+@import '~in-themes/active.less';
+
+:local {
+  .label {
+    text-transform: capitalize;
+  }
+}
