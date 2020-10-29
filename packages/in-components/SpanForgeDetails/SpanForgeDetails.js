@@ -34,10 +34,13 @@ export default class extends React.PureComponent {
   updateForge = props => {
     const type = getType(props.span);
     const detailViewPath = getSpanDetailView(props.span);
+    // Note: Due to the way require(…) is transpiled arrow functions do not properly work here.
+    // We therefore have to explicitly remember the value of 'this' :sadpanda:.
+    const self = this;
     if (detailViewPath) {
       require(['./forgeDetailProvider.js'], loadSpanDetailComponent => {
-        if (this.mounted) {
-          this.setState({
+        if (self.mounted) {
+          self.setState({
             componentType: type,
             Component: loadSpanDetailComponent.default(type, detailViewPath)
           });

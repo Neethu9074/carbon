@@ -15,25 +15,28 @@ export default class HeatMapGlobe {
 
     this.initScene();
 
+    // Note: Due to the way require(…) is transpiled arrow functions do not properly work here.
+    // We therefore have to explicitly remember the value of 'this' :sadpanda:.
+    const self = this;
     require([
       'in-websites/WebsiteDashboard/components/GlobeView/textures/diffuseGrayScale.jpg'
     ], worldDiffuseGrayScaleMapPath => {
       const image = new Image();
       image.onload = () => {
-        var texture = new Texture(this.canvas);
+        var texture = new Texture(self.canvas);
         texture.minFilter = LinearFilter;
         texture.magFilter = LinearFilter;
         texture.generateMipmaps = false;
         texture.needsUpdate = true;
-        this.globe.material.map = texture;
+        self.globe.material.map = texture;
 
-        this.data$ = this.properties$.flatMap(getData$).subscribe(countryBreakdownResult => {
+        self.data$ = self.properties$.flatMap(getData$).subscribe(countryBreakdownResult => {
           const data = countryBreakdownResult.data;
           if (!data) {
             return;
           }
 
-          copyCanvasIntoShort(image, this.ctx, 0, 0, 4096, 2048);
+          copyCanvasIntoShort(image, self.ctx, 0, 0, 4096, 2048);
 
           let min = null;
           let max = null;
@@ -63,17 +66,17 @@ export default class HeatMapGlobe {
 
             const intensity = Math.max(1, value - min) / Math.max(1, max - min);
             const color = getHeatMapColor(intensity, lightGreenToDarkGreenRgb);
-            this.ctx.fillStyle = rgbToHex(color.r * 255, color.g * 255, color.b * 255);
+            self.ctx.fillStyle = rgbToHex(color.r * 255, color.g * 255, color.b * 255);
 
             for (let i = 0; i < countryDefinition.paths.length; i++) {
-              this.ctx.setTransform(2, 0, 0, 2, 0, 0);
+              self.ctx.setTransform(2, 0, 0, 2, 0, 0);
               const p = new Path2D(countryDefinition.paths[i]);
-              this.ctx.fill(p);
+              self.ctx.fill(p);
             }
           }
-          this.ctx.setTransform(1, 0, 0, 1, 0, 0);
+          self.ctx.setTransform(1, 0, 0, 1, 0, 0);
           texture.needsUpdate = true;
-          this.scene.add(this.globe);
+          self.scene.add(self.globe);
         });
       };
       image.src = worldDiffuseGrayScaleMapPath;

@@ -4,13 +4,16 @@ import { loadImage } from 'in-map/services/imageLoader';
 
 export default class Effects {
   constructor(parent) {
+    // Note: Due to the way require(…) is transpiled arrow functions do not properly work here.
+    // We therefore have to explicitly remember the value of 'this' :sadpanda:.
+    const self = this;
     require([
       'in-websites/WebsiteDashboard/components/GlobeView/textures/globeOverlayEffectMap.png',
       'in-websites/WebsiteDashboard/components/GlobeView/textures/globeOuterGlowEffectMap.png'
     ], (overlayMapPath, outerGlowMapPath) => {
-      const planeGeometry = (this.planeGeometry = new PlaneBufferGeometry(1.2929, 1.2929, 1, 1));
+      const planeGeometry = (self.planeGeometry = new PlaneBufferGeometry(1.2929, 1.2929, 1, 1));
 
-      const effectPlaneOuterGlow = (this.effectPlaneOuterGlow = new Mesh(
+      const effectPlaneOuterGlow = (self.effectPlaneOuterGlow = new Mesh(
         planeGeometry,
         new MeshBasicMaterial({
           color: 0xffffff,
@@ -26,7 +29,7 @@ export default class Effects {
       effectPlaneOuterGlow.renderOrder = 10;
       parent.add(effectPlaneOuterGlow);
 
-      const effectPlaneOverlay = (this.effectPlaneOverlay = new Mesh(
+      const effectPlaneOverlay = (self.effectPlaneOverlay = new Mesh(
         planeGeometry,
         new MeshBasicMaterial({
           color: 0xffffff,

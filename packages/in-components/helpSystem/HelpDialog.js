@@ -32,9 +32,11 @@ class HelpDialog extends React.PureComponent {
       return;
     }
 
+    // Note: Due to the way require(…) is transpiled arrow functions do not properly work here.
+    // We therefore have to explicitly remember the value of 'this' :sadpanda:.
     const self = this;
     try {
-      require(['./articles/' + id + '.mmd'], function onModLoad(article) {
+      require(['./articles/' + id + '.mmd'], article => {
         try {
           self.setState({
             article: article,

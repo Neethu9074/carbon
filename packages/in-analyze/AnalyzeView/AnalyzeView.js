@@ -123,9 +123,7 @@ export default compose(
       location,
       [tagFilterMatrixParameter]: tagFilter,
       [groupByMatrixParameter]: group,
-      [dataSourceMatrixParameter]: dataSource,
-      [previewEnabledMatrixParameter]: previewEnabledMatrixParameter,
-      [showGraphMatrixParameter]: showGraphMatrixParameter
+      [dataSourceMatrixParameter]: dataSource
     }) => ({
       filters: {
         tagFilter,

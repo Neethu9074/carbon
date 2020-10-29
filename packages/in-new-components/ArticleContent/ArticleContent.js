@@ -30,7 +30,9 @@ export default class ArticleContent extends React.PureComponent {
 
     const self = this;
     try {
-      require(['./articles/' + id + '.mmd'], function onModLoad(article) {
+      // Note: Due to the way require(…) is transpiled arrow functions do not properly work here.
+      // We therefore have to explicitly remember the value of 'this' :sadpanda:.
+      require(['./articles/' + id + '.mmd'], article => {
         try {
           self.setState({
             article: article,

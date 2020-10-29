@@ -6,6 +6,7 @@ import ChartContextMenu from 'in-new-components/LatencyDistributionBase10Chart/c
 import { setTimeConfig, fixateTimeConfig } from 'in-stores/time/config';
 import { latencySelectionChanged } from 'in-analyze/tracker';
 import evaluateClassNames from 'in-services/util/classnames';
+import { emptyArray } from 'in-services/fixedObjects';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { mutateUrl } from 'in-stores/navigation';
 import cursors from 'in-components/cursors';
@@ -151,9 +152,9 @@ export default function LatencyChartOverlay({
             notifyOnSelectionChangedHandler(null);
           }
         },
-        ...selectionMenuItems
+        ...(selectionMenuItems || emptyArray)
       ]
-    : selectionMenuItems;
+    : selectionMenuItems || emptyArray;
 
   const getMouseX = synthEvent => synthEvent.nativeEvent.offsetX - GLASS_PANE_OFFSET;
 
