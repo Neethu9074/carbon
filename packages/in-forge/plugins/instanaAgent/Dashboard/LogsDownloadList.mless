@@ -2,8 +2,8 @@
 
 :local {
   .dialog {
-    width: 50rem;
-    max-width: 50rem;
+    width: 60rem;
+    max-width: 60rem;
   }
 
   .buttonMessageBox {
