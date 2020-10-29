@@ -35,7 +35,7 @@ export default function ProvideJsError({ form, timeConfig, onSelectJsError, mode
             value={field.value}
             options={ruleJsErrorsOperatorOptions}
             onChange={e => {
-              websitesAlertingJsErrorsOperatorChanged(mode);
+              websitesAlertingJsErrorsOperatorChanged({ mode });
               const previousOperator = field.value;
               const newOperator = (e && e.value) || '';
               let newRuleValueValue = 'Any';
@@ -68,7 +68,7 @@ export default function ProvideJsError({ form, timeConfig, onSelectJsError, mode
                 rows="3"
                 value={field.value}
                 onValueChange={value => {
-                  websitesAlertingJsErrorsMsgChanged(mode);
+                  websitesAlertingJsErrorsMsgChanged({ mode });
                   updateForm(
                     form
                       .updateIn(['rule', 'value'], f => f.setValue(value ?? '').setTouched(true))
@@ -80,7 +80,7 @@ export default function ProvideJsError({ form, timeConfig, onSelectJsError, mode
               />
               <Button
                 onClick={() => {
-                  websitesAlertingJsErrorsOpenErrorSelectView(mode);
+                  websitesAlertingJsErrorsOpenErrorSelectView({ mode });
                   onSelectJsError({
                     slideInConfig: {
                       component: (

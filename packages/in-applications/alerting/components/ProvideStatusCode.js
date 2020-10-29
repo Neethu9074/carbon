@@ -26,7 +26,7 @@ export default function ProvideStatusCode({ form, mode, updateForm }) {
               value={getStatusCodeFieldValue(form)}
               options={ruleStatusCodeValueOptions}
               onChange={e => {
-                applicationsAlertingStatusCodeChanged(mode);
+                applicationsAlertingStatusCodeChanged({ mode });
                 updateForm(
                   form
                     .updateIn(['rule', 'statusCodeStart'], f =>

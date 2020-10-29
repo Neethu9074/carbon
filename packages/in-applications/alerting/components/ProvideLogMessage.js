@@ -32,7 +32,7 @@ export default function ProvideLogMessage({ form, timeConfig, onSelectLogMessage
         <Label>Select log message as template (optional)</Label>
         <Button
           onClick={() => {
-            applicationsAlertingLogOpenMsgSelectView(mode);
+            applicationsAlertingLogOpenMsgSelectView({ mode });
             onSelectLogMessage({
               slideInConfig: {
                 component: (
@@ -73,7 +73,7 @@ export default function ProvideLogMessage({ form, timeConfig, onSelectLogMessage
             value={field.value}
             options={ruleLogLevelOptions}
             onChange={e => {
-              applicationsAlertingLogLevelChanged(mode);
+              applicationsAlertingLogLevelChanged({ mode });
               const newLevel = (e && e.value) || '';
               updateForm(
                 form
@@ -99,7 +99,7 @@ export default function ProvideLogMessage({ form, timeConfig, onSelectLogMessage
             value={field.value}
             options={ruleLogMessageOperatorOptions}
             onChange={e => {
-              applicationsAlertingLogOperatorChanged(mode);
+              applicationsAlertingLogOperatorChanged({ mode });
               const previousOperator = field.value;
               const newOperator = (e && e.value) || '';
               let newRuleValueValue = 'Any';
@@ -132,7 +132,7 @@ export default function ProvideLogMessage({ form, timeConfig, onSelectLogMessage
               rows="3"
               value={field.value}
               onValueChange={value => {
-                applicationsAlertingLogMsgChanged(mode);
+                applicationsAlertingLogMsgChanged({ mode });
                 updateForm(
                   form
                     .updateIn(['rule', 'message'], f => f.setValue(value ?? '').setTouched(true))

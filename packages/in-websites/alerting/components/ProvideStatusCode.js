@@ -27,7 +27,7 @@ export default function ProvideStatusCode({ form, mode, updateForm }) {
               value={field.value}
               options={ruleStatusCodeValueOptions}
               onChange={e => {
-                websitesAlertingStatusCodeChanged(mode);
+                websitesAlertingStatusCodeChanged({ mode });
                 updateForm(
                   form
                     .updateIn(['rule', 'value'], f => f.setValue((e && e.value) || '').setTouched(true))
