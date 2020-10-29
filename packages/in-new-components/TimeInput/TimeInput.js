@@ -75,7 +75,9 @@ const TimeInputField = React.forwardRef(function TimeInputField(
 });
 
 function getNearestNextItem(time) {
-  return timeOptions.find(({ value }) => value === moment(getNextNearestTime(time)).format('HH:mm')).value;
+  const nearestNextItem =
+    timeOptions.find(({ value }) => value === moment(getNextNearestTime(time)).format('HH:mm')) ?? timeOptions[0];
+  return nearestNextItem.value;
 }
 
 function getNextNearestTime(time) {
