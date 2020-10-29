@@ -5,6 +5,7 @@ import { hasError, isLoading } from 'in-services/util/result';
 import ApiItemView from 'in-settings/components/ApiItemView';
 import { pendingResult } from 'in-services/fixedObjects';
 import useObservable from 'in-hooks/useObservable';
+import config from 'in-services/config';
 import { days } from 'in-services/time';
 
 export default function WithAccountInformationResultWrapper({ children }) {
@@ -24,7 +25,18 @@ function WithAccountInformation({ children, environments }) {
   const canShowAggregatedMetrics = containsPaidLicenses(environments);
   const unitSelectorOptions = environments.map(mapEnvironmentToComboBoxItem);
 
-  return children({ unitSelectorOptions, canShowAggregatedMetrics });
+  return children({
+    getCurrentTenantOption,
+    unitSelectorOptions,
+    canShowAggregatedMetrics
+  });
+}
+
+function getCurrentTenantOption(unitSelectorOptions) {
+  return (
+    unitSelectorOptions.find(({ value }) => value.tenant === config.tenant && value.unit === config.tenantUnit) ??
+    unitSelectorOptions[0]
+  );
 }
 
 function containsValidLicense(environment) {

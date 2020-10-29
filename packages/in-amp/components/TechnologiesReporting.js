@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import TechnologiesReportingTable from 'in-amp/components/TechnologiesReportingTable';
 import { getReportingTechnologiesAsResultObservable } from 'in-amp/api/account';
@@ -10,11 +10,12 @@ export default function UsageWithAccountInfo() {
   return <WithAccountInformation>{props => <TechnologiesReporting {...props} />}</WithAccountInformation>;
 }
 
-function TechnologiesReporting({ unitSelectorOptions }) {
+function TechnologiesReporting({ unitSelectorOptions, getCurrentTenantOption }) {
   const { windowSize, setWindowSize, tenantUnit, setTenantUnit } = useAmpUrlInformation(
     '/technologies',
-    unitSelectorOptions[0]?.value
+    getCurrentTenantOption(unitSelectorOptions)?.value
   );
+  const [to] = useState(Date.now());
 
   return (
     <>
@@ -30,7 +31,16 @@ function TechnologiesReporting({ unitSelectorOptions }) {
         tenant={tenantUnit.tenant}
         unit={tenantUnit.unit}
         get={({ tenant, unit, page, pageSize, orderBy, orderDirection }) =>
-          getReportingTechnologiesAsResultObservable(tenant, unit, windowSize, page, pageSize, orderBy, orderDirection)
+          getReportingTechnologiesAsResultObservable(
+            tenant,
+            unit,
+            to,
+            windowSize,
+            page,
+            pageSize,
+            orderBy,
+            orderDirection
+          )
         }
       />
     </>

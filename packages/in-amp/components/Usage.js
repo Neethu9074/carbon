@@ -17,12 +17,15 @@ export default function UsageWithAccountInfo() {
   return <WithAccountInformation>{props => <Usage {...props} />}</WithAccountInformation>;
 }
 
-function Usage({ unitSelectorOptions, canShowAggregatedMetrics }) {
-  const initialState = (canShowAggregatedMetrics ? aggregatedState : unitSelectorOptions[0]?.value) ?? aggregatedState;
+function Usage({ unitSelectorOptions, getCurrentTenantOption, canShowAggregatedMetrics }) {
+  const initialState =
+    (canShowAggregatedMetrics ? aggregatedState : getCurrentTenantOption(unitSelectorOptions)?.value) ??
+    aggregatedState;
   const { windowSize, setWindowSize, tenantUnit, setTenantUnit } = useAmpUrlInformation('/usage', initialState);
 
   const showAggregatedMetrics = tenantUnit.label === aggregatedState.label;
   if (canShowAggregatedMetrics) {
+    unitSelectorOptions = unitSelectorOptions.slice();
     unitSelectorOptions.unshift({ label: aggregatedState.label, value: { label: aggregatedState.label } });
   }
 

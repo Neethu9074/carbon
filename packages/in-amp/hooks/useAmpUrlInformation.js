@@ -3,33 +3,25 @@ import { tenantUnitChanged } from 'in-amp/tracker';
 import useUrlState from 'in-hooks/useUrlState';
 import { days } from 'in-services/time';
 
-let stateDefinition;
-function getStateDefintion(path, initialTUState) {
-  if (!stateDefinition) {
-    stateDefinition = {
-      bind: [
-        {
-          path,
-          name: 'tenantUnit',
-          serializer: buildJsonSerializer(),
-          parser: buildJsonParser(),
-          initialState: initialTUState
-        },
-        {
-          path,
-          name: 'windowSize',
-          serializer: buildJsonSerializer(),
-          parser: buildJsonParser(),
-          initialState: days.toMillis(30)
-        }
-      ]
-    };
-  }
-  return stateDefinition;
-}
-
 export default function useAmpUrlInformation(path, initialTUState) {
-  const [{ tenantUnit, windowSize }, onChange] = useUrlState(getStateDefintion(path, initialTUState));
+  const [{ tenantUnit, windowSize }, onChange] = useUrlState({
+    bind: [
+      {
+        path,
+        name: 'tenantUnit',
+        serializer: buildJsonSerializer(),
+        parser: buildJsonParser(),
+        initialState: initialTUState
+      },
+      {
+        path,
+        name: 'windowSize',
+        serializer: buildJsonSerializer(),
+        parser: buildJsonParser(),
+        initialState: days.toMillis(30)
+      }
+    ]
+  });
   const setTenantUnit = _tenantUnit => {
     tenantUnitChanged(_tenantUnit);
     onChange({ tenantUnit: _tenantUnit });

@@ -27,7 +27,7 @@ module.exports = {
   useInstanaSaasEumTrackingUrlEnabled: true,
   vsphereEnabled: true,
   websiteUserBreakdownEnabled: true,
-  ampCompanyInfoEnabled: false,
+  ampCompanyInfoEnabled: true,
   alertCustomPayloadEnabled: true,
   newAnalyticsEnabled: true,
   persistentVolumeSupportEnabled: true
