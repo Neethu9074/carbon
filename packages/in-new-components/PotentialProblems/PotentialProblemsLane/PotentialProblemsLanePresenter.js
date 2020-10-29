@@ -71,7 +71,7 @@ export default function PotentialProblemsLanePresenter({ potentialProblems, aler
     );
 
     return events;
-  }, [...potentialProblems]);
+  }, [potentialProblems?.alerts, potentialProblems?.thresholds]);
 
   return (
     <MarkerLane
