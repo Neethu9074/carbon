@@ -13,10 +13,13 @@ import LogMessagesList from 'in-applications/alerting/components/LogMessagesList
 import DebouncedTextArea from 'in-components/form/TextArea/DebouncedTextArea';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
+import { modeAdvanced } from 'in-websites/alerting/constants';
+import evaluateClassNames from 'in-services/util/classnames';
 import { propTypeTimeConfig } from 'in-stores/time/config';
 import { operators } from 'in-analyze/applicationFilter';
 import ComboBox from 'in-components/ComboBox/ComboBox';
 import Button from 'in-new-components/Button/Button';
+import HelpText from 'in-components/form/HelpText';
 import Label from 'in-components/form/Label';
 
 import locals from './ProvideLogMessage.mless';
@@ -28,40 +31,47 @@ export default function ProvideLogMessage({ form, timeConfig, onSelectLogMessage
 
   return (
     <div className={locals.container}>
-      <FormGroup className={locals.logMessageSelection}>
-        <Label>Select log message as template (optional)</Label>
-        <Button
-          onClick={() => {
-            applicationsAlertingLogOpenMsgSelectView({ mode });
-            onSelectLogMessage({
-              slideInConfig: {
-                component: (
-                  <LogMessagesList
-                    applicationId={form.get('applicationId').value}
-                    applicationBoundaryScope={form.get('boundaryScope').value}
-                    timeConfig={timeConfig}
-                    onLogMessageSelect={(message, level) => {
-                      applicationsAlertingLogMsgSelected({ message, mode });
-                      updateForm(
-                        form
-                          .updateIn(['rule', 'message'], f => f.setValue(message).setTouched(true))
-                          .updateIn(['rule', 'operator'], field => field.setValue(operators.EQUALS))
-                          .updateIn(['rule', 'level'], f => f.setValue(level).setTouched(true))
-                          .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
-                          .updateIn(['threshold', 'value'], f => f.setValue(null).setTouched(true)) // reset "old" value to ensure that we only call endpoints with the "new" threshold suggestion
-                      );
-                    }}
-                    slideOut={() => onSelectLogMessage({ isVisible: false })}
-                  />
-                ),
-                title: 'Select Log Message'
-              },
-              isVisible: true
-            });
-          }}
+      <FormGroup>
+        <div
+          className={evaluateClassNames({
+            [locals.logMessageSelectWrapper]: true,
+            [locals.logMessageSelectAdvanceMode]: mode === modeAdvanced
+          })}
         >
-          Select Log Message
-        </Button>
+          <HelpText>Select log message as template (optional)</HelpText>
+          <Button
+            onClick={() => {
+              applicationsAlertingLogOpenMsgSelectView({ mode });
+              onSelectLogMessage({
+                slideInConfig: {
+                  component: (
+                    <LogMessagesList
+                      applicationId={form.get('applicationId').value}
+                      applicationBoundaryScope={form.get('boundaryScope').value}
+                      timeConfig={timeConfig}
+                      onLogMessageSelect={(message, level) => {
+                        applicationsAlertingLogMsgSelected({ message, mode });
+                        updateForm(
+                          form
+                            .updateIn(['rule', 'message'], f => f.setValue(message).setTouched(true))
+                            .updateIn(['rule', 'operator'], field => field.setValue(operators.EQUALS))
+                            .updateIn(['rule', 'level'], f => f.setValue(level).setTouched(true))
+                            .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
+                            .updateIn(['threshold', 'value'], f => f.setValue(null).setTouched(true)) // reset "old" value to ensure that we only call endpoints with the "new" threshold suggestion
+                        );
+                      }}
+                      slideOut={() => onSelectLogMessage({ isVisible: false })}
+                    />
+                  ),
+                  title: 'Select Log Message'
+                },
+                isVisible: true
+              });
+            }}
+          >
+            Select Log Message
+          </Button>
+        </div>
       </FormGroup>
       {levelField.map(field => (
         <FormGroup>
