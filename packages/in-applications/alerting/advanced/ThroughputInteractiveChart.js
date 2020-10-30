@@ -167,7 +167,6 @@ function ThresholdCondition({
             let newThresholdForm = createThroughputForm({
               ...form.get('threshold').toJS(),
               type: newThresholdType,
-              operator: null, // reset to default value (happens in createSlownessForm)
               value: null, // reset "old" value to ensure that we only call endpoints with the "new" threshold suggestion
               baseline: null
             });

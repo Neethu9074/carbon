@@ -186,8 +186,7 @@ export function ThresholdCondition({
             let newThresholdForm = createThresholdForm(
               {
                 ...form.get('threshold').toJS(),
-                type: thresholdType,
-                operator: null // reset to default value (happens in createThresholdForm)
+                type: thresholdType
               },
               form.get('rule').get('alertType').value
             );
@@ -197,7 +196,7 @@ export function ThresholdCondition({
               newThresholdForm = newThresholdForm.updateIn(['seasonality'], f => f.setValue(seasonality).setTouched());
             }
 
-            const newRuleForm = createRuleForm({ ...form.get('rule').toJS(), aggregation: null }); // reset to default value (happens in createRuleForm)
+            const newRuleForm = createRuleForm({ ...form.get('rule').toJS() });
 
             updateForm(
               form
