@@ -1,11 +1,11 @@
 import React, { useCallback } from 'react';
 
 import { ColumnizedContent, Ul, Li, LoadingSkeletonLi, HorizontalIndicatorLi } from 'in-new-components/lists/List';
+import { average, getGranularity, getMetricKey } from 'in-infrastructure/Explore/services/metrics';
 import { type as TAG_FILTER_TYPE } from 'in-new-components/QueryBuilder/transformation/tagFilter';
 import { addTagFilters } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
 import InfrastructureList from 'in-infrastructure/Explore/components/InfrastructureList';
-import { average, getGranularity } from 'in-infrastructure/Explore/services/metrics';
 import { getUniqueErrors } from 'in-new-components/Errors/ErroneousResultPresenter';
 import createGetGroupsSubscription from 'in-infrastructure/subscriptions/getGroups';
 import { pluginTag, defaultOrder } from 'in-infrastructure/Explore/constants';
@@ -96,7 +96,12 @@ function Presenter({
         }
       ]
     : [];
-  const sortOptions = groupSortOptions.concat(metrics.map(({ label, metric }) => ({ label, value: metric })));
+  const sortOptions = groupSortOptions.concat(
+    metrics.map(({ fullyQualifiedLabel, metric, aggregation }) => ({
+      label: fullyQualifiedLabel,
+      value: getMetricKey(metric, aggregation)
+    }))
+  );
 
   return (
     <>
@@ -185,12 +190,12 @@ function columns({ groupBy, type, getParamsForGroup, metrics, timeConfig, granul
       metrics.map(({ label, metric, formatter = String, aggregation, percentageMetric }) => ({
         width: '12rem',
         getContent({ group }) {
-          const kpi = average(group.metrics[metric]);
+          const kpi = average(group.metrics[getMetricKey(metric, aggregation)]);
           return (
             <SparkChart
               horizontalMetricValue={kpi !== undefined ? formatter(kpi) : '--'}
               percentageMetric={percentageMetric}
-              metrics={group.metrics[metric]}
+              metrics={group.metrics[getMetricKey(metric, aggregation)]}
               tooltipFormatter={formatter}
               aggregation={aggregation}
               timeConfig={timeConfig}
@@ -236,7 +241,7 @@ function getGroups({ timeConfig, backendQueryModel, group, cursor, type, order, 
     metrics: Object.fromEntries(
       metrics.flatMap(({ metric, aggregation }) => [
         [
-          metric,
+          getMetricKey(metric, aggregation),
           {
             metric,
             granularity,
