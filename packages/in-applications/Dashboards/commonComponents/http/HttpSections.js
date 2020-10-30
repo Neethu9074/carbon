@@ -4,6 +4,7 @@ import React from 'react';
 import { IS_EMPTY, NOT_EMPTY, NOT_STARTS_WITH, STARTS_WITH } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import UnifiedMetricsChart, { parseMetricId } from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
+import { getBlueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
 import { getChartGranularity } from 'in-applications/metrics';
 import { stackedBar, line } from 'in-stores/metric/renderer';
 import { number } from 'in-services/formatters/number';
@@ -25,6 +26,8 @@ export default function HttpSections({
   hasHttpAndOtherEndpoints
 }) {
   const granularity = getChartGranularity(timeConfig);
+  const throughputBlueprintConfig = getBlueprintConfig('throughput');
+  const errorRateBlueprintConfig = getBlueprintConfig('errorRate');
 
   const defaultMetricConfig = {
     granularity,
@@ -126,7 +129,39 @@ export default function HttpSections({
 
   return (
     <UnifiedMetricsChart
-      renderPostChartContent={renderPostChartContentHttpStatus}
+      renderPostChartContent={props =>
+        renderPostChartContentHttpStatus({
+          ...props,
+          boundaryScope,
+          chartName: 'Calls',
+          alertRules: {
+            throughputHigh: {
+              rule: {
+                alertType: throughputBlueprintConfig.type,
+                aggregation: throughputBlueprintConfig.getAggregation(),
+                metricName: throughputBlueprintConfig.getMetricName()
+              },
+              seasonality: 'DAILY'
+            },
+            throughputLow: {
+              rule: {
+                alertType: throughputBlueprintConfig.type,
+                aggregation: throughputBlueprintConfig.getAggregation(),
+                metricName: throughputBlueprintConfig.getMetricName()
+              },
+              seasonality: 'DAILY',
+              operator: '<='
+            },
+            errorRate: {
+              rule: {
+                alertType: errorRateBlueprintConfig.type,
+                aggregation: errorRateBlueprintConfig.getAggregation(),
+                metricName: errorRateBlueprintConfig.getMetricName()
+              }
+            }
+          }
+        })
+      }
       timeConfig={timeConfig}
       automaticallySize={false}
       reverseLegendOrder={timeShiftConfig.offset}

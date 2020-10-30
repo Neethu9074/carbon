@@ -140,8 +140,8 @@ export default function CallsAndHttp({
           timeShiftMetric={timeShiftConfig.offset ? activeMetric : null}
           groupByTag={{ name: 'call.http.status' }}
           renderPostChartContentHttpStatus={renderPostChartContentHttpStatus}
-          showGraph
           hasHttpAndOtherEndpoints={hasHttpAndOtherEndpoints}
+          showGraph
         />
       )}
     </Card>
