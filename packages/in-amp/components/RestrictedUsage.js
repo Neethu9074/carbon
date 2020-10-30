@@ -7,7 +7,7 @@ import config from 'in-services/config';
 import Title from 'in-components/Title';
 
 export default function RestrictedUsage() {
-  const { windowSize, setWindowSize, tenantUnit } = useAmpUrlInformation('/usage', {
+  const { windowSize, setWindowSize, tenantUnit } = useAmpUrlInformation({
     tenant: config.tenant,
     unit: config.tenantUnit
   });

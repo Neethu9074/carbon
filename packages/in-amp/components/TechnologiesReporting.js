@@ -12,7 +12,6 @@ export default function UsageWithAccountInfo() {
 
 function TechnologiesReporting({ unitSelectorOptions, getCurrentTenantOption }) {
   const { windowSize, setWindowSize, tenantUnit, setTenantUnit } = useAmpUrlInformation(
-    '/technologies',
     getCurrentTenantOption(unitSelectorOptions)?.value
   );
   const [to] = useState(Date.now());

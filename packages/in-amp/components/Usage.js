@@ -21,7 +21,7 @@ function Usage({ unitSelectorOptions, getCurrentTenantOption, canShowAggregatedM
   const initialState =
     (canShowAggregatedMetrics ? aggregatedState : getCurrentTenantOption(unitSelectorOptions)?.value) ??
     aggregatedState;
-  const { windowSize, setWindowSize, tenantUnit, setTenantUnit } = useAmpUrlInformation('/usage', initialState);
+  const { windowSize, setWindowSize, tenantUnit, setTenantUnit } = useAmpUrlInformation(initialState);
 
   const showAggregatedMetrics = tenantUnit.label === aggregatedState.label;
   if (canShowAggregatedMetrics) {

@@ -26,12 +26,12 @@ export default function View(props: any) {
                     label: 'Usage',
                     component: Usage
                   },
+                  { path: ampTechnologies, label: 'Technologies Reporting', component: TechnologiesReporting },
                   {
                     path: ampAccountSettings,
                     label: 'Account Settings',
                     component: AccountSettings
-                  },
-                  { path: ampTechnologies, label: 'Technologies Reporting', component: TechnologiesReporting }
+                  }
                 ]
               : [
                   {
