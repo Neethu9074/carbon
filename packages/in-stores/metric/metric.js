@@ -1,6 +1,6 @@
 import { just, combineLatest } from 'reactive-observables';
 
-import { useBeeInstant$, rollupForBeeInstantMetrics, DEFAULT_STAT } from 'in-stores/metric/beeInstant';
+import { useBeeInstant$, granularityForBeeInstantMetrics, DEFAULT_STAT } from 'in-stores/metric/beeInstant';
 import createDynamicAggregatedMetricObservable from 'in-subscription/dynamicAggregatedMetric';
 import createTimeWindowMetricAggregation from 'in-subscription/timeWindowMetricAggregation';
 import createLatestMetricsObservable from 'in-subscription/latestMetrics';
@@ -117,9 +117,9 @@ function resolveRollup(rollup, timeConfig, stat, single) {
   const nonBeeInstantRollup = rollup || getDefaultMetricRollupDuration(timeConfig).rollup;
   if (stat) {
     if (single) {
-      return timeConfig.windowSize;
+      return granularityForBeeInstantMetrics(timeConfig.windowSize, timeConfig);
     } else {
-      return rollupForBeeInstantMetrics(nonBeeInstantRollup);
+      return granularityForBeeInstantMetrics(rollup, timeConfig);
     }
   } else {
     return nonBeeInstantRollup;

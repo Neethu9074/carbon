@@ -1,4 +1,5 @@
 import { navigationParameters$, mutateUrl } from 'in-stores/navigation';
+import { days, hours, minutes, seconds } from 'in-services/time';
 import { createTrackingStore } from 'in-stores/store';
 
 export const useBeeInstant$ = createTrackingStore({
@@ -23,12 +24,45 @@ export function setUseBeeInstant() {
 
 export const DEFAULT_STAT = 'avg';
 
-export const MINIMUM_ROLLUP = 10 * 1000;
+export const MINIMUM_GRANULARITY = 10 * 1000;
 
-export function rollupForBeeInstantMetrics(rollup) {
-  if (rollup >= MINIMUM_ROLLUP) {
-    return rollup;
+const months = { toMillis: _months => _months * days.toMillis(30) };
+
+// see https://github.com/instana/moncore/blob/master/src/Common.h#L16
+export const BEEINSTANT_GRANULARITIES = [
+  {
+    granularity: hours.toMillis(1),
+    availableFor: months.toMillis(13)
+  },
+  {
+    granularity: minutes.toMillis(5),
+    availableFor: months.toMillis(3)
+  },
+  {
+    granularity: minutes.toMillis(1),
+    availableFor: months.toMillis(1)
+  },
+  {
+    granularity: seconds.toMillis(10),
+    availableFor: days.toMillis(1)
   }
+];
 
-  return MINIMUM_ROLLUP;
+export const FALLBACK_GRANULARITY = BEEINSTANT_GRANULARITIES[0].granularity;
+
+export function granularityForBeeInstantMetrics(desiredGranularity, timeConfig) {
+  if (!desiredGranularity || !timeConfig) return FALLBACK_GRANULARITY;
+
+  const from = timeConfig.to - timeConfig.windowSize;
+  const metricAge = Date.now() - from;
+  const availableGranularities = BEEINSTANT_GRANULARITIES.filter(g => g.availableFor > metricAge);
+
+  if (availableGranularities.length == 0) return FALLBACK_GRANULARITY;
+
+  const bestAvailableGranularity = availableGranularities[availableGranularities.length - 1].granularity;
+  const base = availableGranularities.find(g => g.granularity <= desiredGranularity)?.granularity;
+
+  if (!base) return bestAvailableGranularity;
+
+  return Math.floor(desiredGranularity / base) * base;
 }

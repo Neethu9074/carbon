@@ -3,7 +3,7 @@ import { just } from 'reactive-observables';
 import { percentageZeroDecimalPlaces, bytesTwoDecimalPlaces, twoDecimalPlaces } from 'in-services/formatters/number';
 import { valueWithFormatterToReadableString, numberFormatterToFormatterType } from 'in-services/formatters/number';
 import getAvailableMetrics from 'in-infrastructure/subscriptions/getAvailableMetrics';
-import { rollupForBeeInstantMetrics } from 'in-stores/metric/beeInstant';
+import { granularityForBeeInstantMetrics } from 'in-stores/metric/beeInstant';
 import { hasError, isLoading } from 'in-services/util/result';
 import { getKpiDefinitions } from 'in-sdk/metrics/kpis';
 
@@ -123,7 +123,7 @@ function findMetric(allMetrics, metricName) {
 export function getGranularity(timeConfig) {
   const dataPoints = 10;
 
-  return rollupForBeeInstantMetrics(timeConfig.windowSize / dataPoints);
+  return granularityForBeeInstantMetrics(timeConfig.windowSize / dataPoints, timeConfig);
 }
 
 export function average(series) {

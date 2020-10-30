@@ -3,8 +3,8 @@ import { isEqual, omit } from 'lodash';
 import React from 'react';
 
 import { getBlockSizeMillis, getPredefinedBlockSizeMillisForBlockSize } from 'in-services/util/dynamicAggregation';
+import { useBeeInstant$, granularityForBeeInstantMetrics } from 'in-stores/metric/beeInstant';
 import { getMetricsForTimeframe, getDefaultMetricRollupDuration } from 'in-stores/metric';
-import { useBeeInstant$, rollupForBeeInstantMetrics } from 'in-stores/metric/beeInstant';
 import createDataHolder from 'in-components/Chart/data/dataHolder';
 import getElementDimensions from 'in-hoc/getElementDimensions';
 import Renderer from 'in-components/Chart/renderer/Renderer';
@@ -244,7 +244,9 @@ export default getElementDimensions(
       } = this;
       const { y1Metrics = [], y2Metrics = [], useBeeInstant } = this.state;
 
-      const granularity = useBeeInstant ? rollupForBeeInstantMetrics(this.granularity) : this.granularity;
+      const granularity = useBeeInstant
+        ? granularityForBeeInstantMetrics(this.granularity, timeConfig)
+        : this.granularity;
 
       y1.metrics = y1Metrics;
       if (y2) {
