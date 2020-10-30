@@ -130,11 +130,13 @@ function containsValidLicense(environment) {
   return containsActiveLicense(environment) || containsLicenseWhichIsNotOlderThan30Days(environment);
 }
 
-function containsActiveLicense({ activeLicenses = [] }) {
+function containsActiveLicense({ activeLicenses }) {
+  activeLicenses = activeLicenses ?? [];
   return activeLicenses.length > 0;
 }
 
-function containsLicenseWhichIsNotOlderThan30Days({ expiredLicenses = [] }) {
+function containsLicenseWhichIsNotOlderThan30Days({ expiredLicenses }) {
+  expiredLicenses = expiredLicenses ?? [];
   const now = Date.now();
   const thirtyDays = days.toMillis(30);
 
