@@ -189,7 +189,7 @@ export default function Summary({ timeConfig, applicationId, data: application, 
             timeConfig={timeConfig}
             callGroupByTag={{ name: 'service.name', entity: entityTypes.DESTINATION }}
             renderPostChartContent={withPotentialProblemsLane}
-            renderPostChartContentHttpStatus={MarkerLanes}
+            renderPostChartContentHttpStatus={withPotentialProblemsLane}
             // if 'types' is not available yet, set to true, so that the initial state can be set based on all metrics
             showHttp={!types || hasHttpEndpoints(types)}
             hasHttpAndOtherEndpoints={!types || hasHttpAndOtherEndpoints(types)}

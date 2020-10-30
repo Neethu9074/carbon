@@ -5,6 +5,7 @@ import { loadDownloadableLogs } from 'in-forge/plugins/instanaAgent/selfMonitori
 import { track, AGENT_LOGS_DOWNLOAD_CLICKED } from 'in-services/tracking/tracking';
 import { ColumnizedContent, Ul, Li } from 'in-new-components/lists/List';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
+import { formatDateTime } from 'in-services/formatters/date';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { close } from 'in-components/DialogPresenter/store';
@@ -42,6 +43,12 @@ const cols = [
     }
   },
   {
+    width: '12rem',
+    getContent({ lastModified }) {
+      return formatDateTime(lastModified);
+    }
+  },
+  {
     width: '4rem',
     getContent({ size }) {
       return bytes.compact(size);
@@ -50,8 +57,9 @@ const cols = [
 ];
 
 export function getRows(logs = []) {
-  return logs.map(({ name, size }) => ({
+  return logs.map(({ name, lastModified, size }) => ({
     name,
+    lastModified,
     size
   }));
 }
@@ -81,6 +89,7 @@ export default function LogsDownloadList({ snapshot }) {
                     <ColumnizedContent
                       columnDefinitions={cols}
                       name={row.name}
+                      lastModified={row.lastModified}
                       size={row.size}
                       selectedItems={selectedItems}
                       setSelectedItems={setSelectedItems}
