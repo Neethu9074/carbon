@@ -9,6 +9,7 @@ export default function Info({ snapshot }) {
     <DescriptionList>
       <DescriptionItem title="Database">{data.get('db_name')}</DescriptionItem>
       <DescriptionItem title="Endpoint">{data.get('endpoint_address')}</DescriptionItem>
+      <DescriptionItem title="Role">{data.get('role')}</DescriptionItem>
       <DescriptionItem title="Port">{data.get('endpoint_port')}</DescriptionItem>
       <DescriptionItem title="Hosted Zone">{data.get('endpoint_hosted_zone_id')}</DescriptionItem>
       <DescriptionItem title="Master User">{data.get('master_user')}</DescriptionItem>
