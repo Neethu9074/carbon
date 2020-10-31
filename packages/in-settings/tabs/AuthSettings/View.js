@@ -80,7 +80,7 @@ function getNavigationTree(props: any): NavigationTree {
           label: 'Users',
           component: Users
         }
-      ]
+      ].filter(Boolean)
     },
 
     role.canConfigureSessionSettings && {
