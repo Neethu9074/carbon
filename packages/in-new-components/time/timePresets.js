@@ -74,7 +74,6 @@ export function getHistoricPresets() {
 function getYesterdayPreset(months) {
   const date = moment()
     .startOf('day')
-    .subtract(1, 'days')
     .toDate();
   const to = date.getTime();
   return {
@@ -101,15 +100,14 @@ function getDayBeforeYesterdayPreset(months) {
 
 function getThisWeekPreset(months) {
   const startOfWeek = moment()
-    .startOf('week')
-    .add(1, 'days')
+    .startOf('day')
+    .subtract(7, 'days')
     .toDate();
   const endOfWeek = moment()
-    .startOf('week')
-    .add(1, 'week')
+    .startOf('day')
     .toDate();
   return {
-    label: 'This week',
+    label: 'Last 7 days',
     description: `${months[startOfWeek.getMonth()]} ${startOfWeek.getDate()}- ${
       months[endOfWeek.getMonth()]
     } ${endOfWeek.getDate()}`,

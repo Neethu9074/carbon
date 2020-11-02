@@ -1,7 +1,7 @@
 import React from 'react';
 
+import { average, getGranularity, getMetricKey } from 'in-infrastructure/Explore/services/metrics';
 import CursorPaginatedTable from 'in-components/tables/ServerTable/CursorPaginatedTable';
-import { average, getGranularity } from 'in-infrastructure/Explore/services/metrics';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import MetricLabel from 'in-infrastructure/Explore/components/MetricLabel';
 import getEntities from 'in-infrastructure/subscriptions/getEntities';
@@ -76,7 +76,7 @@ function getTableData({ timeConfig, retrievalSize, backendQueryModel, type, orde
         // using a granularity smaller than window size here is a bit of a hack,
         // because BeeInstant buckets are defined on epoch boundaries. we use a smaller
         // granularity here to ensure this is synced up with grouped view KPIs
-        [metric, { metric, granularity: getGranularity(timeConfig), aggregation }]
+        [getMetricKey(metric, aggregation), { metric, granularity: getGranularity(timeConfig), aggregation }]
       ])
     )
   });
@@ -107,9 +107,9 @@ function getLabelColumn({ timeConfig }) {
 }
 
 function getMetricColumns({ metrics, sortable }) {
-  return metrics.map(({ metric, label, formatter = String, isKpi }) => ({
-    id: metric,
-    label,
+  return metrics.map(({ metric, aggregation, label, fullyQualifiedLabel, formatter = String, isKpi }) => ({
+    id: getMetricKey(metric, aggregation),
+    label: fullyQualifiedLabel ?? label,
     renderLabel: MetricLabel,
     sortable,
     width: '15rem',
@@ -117,7 +117,7 @@ function getMetricColumns({ metrics, sortable }) {
     optional: true,
     defaultDisabled: !isKpi,
     getContent(item) {
-      const kpi = average(item.metrics[metric]);
+      const kpi = average(item.metrics[getMetricKey(metric, aggregation)]);
       return <span>{kpi !== undefined ? formatter(kpi) : '--'}</span>;
     }
   }));

@@ -1,3 +1,5 @@
+import { emptyArray } from 'in-services/fixedObjects';
+
 export const types = {
   APPLICATION: 'Application',
   K8S_CLUSTER: 'Kubernetes Cluster',
@@ -54,7 +56,7 @@ export function mapMobileApps(mobileAppIds, getAdditionalProperties) {
 
 export function mapInfraDfq(infraDfqFilter, getAdditionalProperties) {
   if (!infraDfqFilter) {
-    return null;
+    return emptyArray;
   }
   return {
     id: 'infraDfq',

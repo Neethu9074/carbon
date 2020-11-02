@@ -1,5 +1,6 @@
 import { navigationParameters$, mutateUrl } from 'in-stores/navigation';
 import { days, hours, minutes, seconds } from 'in-services/time';
+import { fixateTimeConfig } from 'in-stores/time/config';
 import { createTrackingStore } from 'in-stores/store';
 
 export const useBeeInstant$ = createTrackingStore({
@@ -53,7 +54,8 @@ export const FALLBACK_GRANULARITY = BEEINSTANT_GRANULARITIES[0].granularity;
 export function granularityForBeeInstantMetrics(desiredGranularity, timeConfig) {
   if (!desiredGranularity || !timeConfig) return FALLBACK_GRANULARITY;
 
-  const from = timeConfig.to - timeConfig.windowSize;
+  const { to, windowSize } = fixateTimeConfig(timeConfig);
+  const from = to - windowSize;
   const metricAge = Date.now() - from;
   const availableGranularities = BEEINSTANT_GRANULARITIES.filter(g => g.availableFor > metricAge);
 

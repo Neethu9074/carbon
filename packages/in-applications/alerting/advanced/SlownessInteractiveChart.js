@@ -183,7 +183,6 @@ function ThresholdCondition({
             let newThresholdForm = createSlownessForm({
               ...form.get('threshold').toJS(),
               type: thresholdType,
-              operator: null, // reset to default value (happens in createSlownessForm)
               value: null, // reset "old" value to ensure that we only call endpoints with the "new" threshold suggestion
               baseline: null
             });
@@ -193,7 +192,7 @@ function ThresholdCondition({
               newThresholdForm = newThresholdForm.updateIn(['seasonality'], f => f.setValue(seasonality).setTouched());
             }
 
-            const newRuleForm = createRuleForm({ ...form.get('rule').toJS(), aggregation: null }); // reset to default value (happens in createRuleForm)
+            const newRuleForm = createRuleForm({ ...form.get('rule').toJS() });
 
             updateForm(
               form
