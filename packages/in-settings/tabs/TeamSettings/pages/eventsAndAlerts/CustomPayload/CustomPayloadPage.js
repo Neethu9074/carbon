@@ -1,6 +1,7 @@
 import { createField } from 'formalistic';
 import React, { useState } from 'react';
 import { createLogger } from 'instalog';
+import { uniqBy } from 'lodash';
 
 import {
   defaultType,
@@ -29,6 +30,12 @@ import {
   useSaveToServerHandler,
   initialState
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/useSaveToServerHandler';
+import {
+  addItemAlertCustomPayloadTracker,
+  editAlertCustomPayloadTracker,
+  removeItemAlertCustomPayloadTracker,
+  submitAlertCustomPayloadTracker
+} from 'in-settings/tracker';
 import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { isLoading, hasError, successObservableFactory } from 'in-services/util/result';
 import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';
@@ -87,17 +94,29 @@ export function CustomPayload(props) {
 
   const addRow = () => {
     setForm(form.push(createNewFormEntry()).setTouched(true));
+    addItemAlertCustomPayloadTracker({});
   };
 
   const deleteRow = payloadField => {
-    if (form.toJS().length === 1) {
+    if (form.size === 1) {
+      // one last row will stay
       setForm(form.remove(0).push(createNewFormEntry()));
+      removeItemAlertCustomPayloadTracker({
+        type: payloadField.get('type').value
+      });
       return;
     }
     const entryPosition = getRowIndex(payloadField);
     if (entryPosition >= 0) {
       setForm(form.remove(entryPosition).setTouched(true));
+      removeItemAlertCustomPayloadTracker({
+        type: payloadField.get('type').value
+      });
     }
+  };
+
+  const trackChange = data => {
+    editAlertCustomPayloadTracker(data);
   };
 
   const { canConfigureGlobalAlertPayload } = role;
@@ -135,7 +154,12 @@ export function CustomPayload(props) {
           if (!form.hierarchyValid) {
             return false;
           }
-          save({ fields: form.toJS().map(toServerItemModel) });
+          const fields = form.toJS().map(toServerItemModel);
+          save({ fields });
+
+          submitAlertCustomPayloadTracker({
+            itemTypes: uniqBy(fields.map(f => f.type)).join(', ')
+          });
         }}
       >
         <ServerTablePresenter
@@ -158,6 +182,7 @@ export function CustomPayload(props) {
           deleteRow={deleteRow}
           updateIn={updateIn}
           enabled={enabled}
+          trackChange={trackChange}
         />
         <Section>
           <TouchedMessages field={form} />
@@ -218,7 +243,7 @@ const tableColumnDefinitions = [
               value={value}
               hasError={!valueField?.valid && valueField?.touched}
               onChange={({ target }) => {
-                return onChange(['key'], f => f.setValue(target.value).setTouched(true));
+                onChange(['key'], f => f.setValue(target.value).setTouched(true));
               }}
               maxLength={128}
               autoFocus
@@ -235,7 +260,7 @@ const tableColumnDefinitions = [
 
     sortable: false,
     label: 'Value type',
-    getContent(item, { getRowIndex, updateIn, enabled }) {
+    getContent(item, { getRowIndex, updateIn, enabled, trackChange }) {
       const onChangeType = newType => {
         const newValue = defaultValueForType(newType);
         const newValidator = validatorForType[newType];
@@ -259,7 +284,10 @@ const tableColumnDefinitions = [
               className={locals.colType}
               value={field.value ?? defaultType}
               hasError={!field?.valid && field?.touched}
-              onChange={({ target }) => onChangeType?.(target.value)}
+              onChange={({ target }) => {
+                onChangeType(target.value);
+                trackChange({ type: target.value, oldType: field.value });
+              }}
             >
               {[
                 { value: staticStringType, label: 'Static (String)' },
@@ -283,7 +311,7 @@ const tableColumnDefinitions = [
 
     sortable: false,
     label: 'Value',
-    getContent(itemForm, { getRowIndex, updateIn, enabled }) {
+    getContent(itemForm, { getRowIndex, updateIn, enabled, trackChange }) {
       function onChange(paths, f) {
         updateIn([getRowIndex(itemForm), ...paths], f);
       }
@@ -301,7 +329,7 @@ const tableColumnDefinitions = [
               value={value}
               hasError={!valueField?.valid && valueField?.touched}
               onChange={({ target }) => {
-                return onChange(['value'], f => f.setValue(target.value).setTouched(true));
+                onChange(['value'], f => f.setValue(target.value).setTouched(true));
               }}
               maxLength={512}
             />
@@ -318,7 +346,7 @@ const tableColumnDefinitions = [
               value={value}
               hasError={!valueField?.valid && valueField?.touched}
               onChange={({ target }) => {
-                return onChange(['value'], f => f.setValue(target.value).setTouched(true));
+                onChange(['value'], f => f.setValue(target.value).setTouched(true));
               }}
               min={Number.MIN_SAFE_INTEGER}
               max={Number.MAX_SAFE_INTEGER}
@@ -355,6 +383,7 @@ const tableColumnDefinitions = [
               const storeIntoFormModel = payloadItem => {
                 const formModel = toFormModel(payloadItem);
                 onChange(['value'], f => f.setValue(formModel).setTouched(true));
+                trackChange({ dynamicValue: formModel.tagName });
               };
               return (
                 <>
