@@ -9,7 +9,7 @@
     color: @lib__colors__N600Light;
     font-size: 0.75rem;
     line-height: 1rem;
-    padding: 0.5rem;
+    padding: 0.5rem 0 0.5rem 0.5rem;
     min-height: 15.625rem;
   }
 

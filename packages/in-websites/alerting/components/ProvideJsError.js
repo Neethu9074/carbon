@@ -12,9 +12,12 @@ import DebouncedTextArea from 'in-components/form/TextArea/DebouncedTextArea';
 import JsErrorsList from 'in-websites/alerting/components/JsErrorsList';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
+import { modeAdvanced } from 'in-websites/alerting/constants';
+import evaluateClassNames from 'in-services/util/classnames';
 import { operators } from 'in-analyze/applicationFilter';
 import ComboBox from 'in-components/ComboBox/ComboBox';
 import Button from 'in-new-components/Button/Button';
+import HelpText from 'in-components/form/HelpText';
 import Label from 'in-components/form/Label';
 
 import locals from './ProvideJsError.mless';
@@ -27,6 +30,49 @@ export default function ProvideJsError({ form, timeConfig, onSelectJsError, mode
     <div className={locals.container}>
       {operatorField.map(field => (
         <FormGroup>
+          <div
+            className={evaluateClassNames({
+              [locals.errorMessageSelectWrapper]: true,
+              [locals.jsErrorsSelectAdvanceMode]: mode === modeAdvanced
+            })}
+          >
+            <HelpText className={locals.helpText}>Select JS error message as template (optional)</HelpText>
+            <Button
+              className={evaluateClassNames({
+                [locals.jsErrorsSelectButtonAdvanceMode]: mode === modeAdvanced
+              })}
+              onClick={() => {
+                websitesAlertingJsErrorsOpenErrorSelectView({ mode });
+                onSelectJsError({
+                  slideInConfig: {
+                    component: (
+                      <JsErrorsList
+                        websiteId={form.get('websiteId').value}
+                        tagFilters={form.get('tagFilters').value}
+                        timeConfig={timeConfig}
+                        onJsErrorSelect={message => {
+                          websitesAlertingJsErrorsErrorSelected({ message, mode });
+                          updateForm(
+                            form
+                              .updateIn(['rule', 'value'], f => f.setValue(message).setTouched(true))
+                              .updateIn(['rule', 'operator'], field =>
+                                field.setValue(operators.EQUALS).setTouched(true)
+                              )
+                              .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
+                          );
+                        }}
+                        slideOut={() => onSelectJsError({ isVisible: false })}
+                      />
+                    ),
+                    title: 'Select JS Error'
+                  },
+                  isVisible: true
+                });
+              }}
+            >
+              Select JS Error
+            </Button>
+          </div>
           <Label htmlFor={'ruleOperator'} hasError={!field.valid && field.touched}>
             Error Message
           </Label>
@@ -62,55 +108,22 @@ export default function ProvideJsError({ form, timeConfig, onSelectJsError, mode
       {operatorField.value !== operators.NOT_EMPTY &&
         ruleValueField.map(field => (
           <FormGroup>
-            <div className={locals.jsErrorSelection}>
-              <DebouncedTextArea
-                name={'ruleValue'}
-                rows="3"
-                value={field.value}
-                onValueChange={value => {
-                  websitesAlertingJsErrorsMsgChanged({ mode });
-                  updateForm(
-                    form
-                      .updateIn(['rule', 'value'], f => f.setValue(value ?? '').setTouched(true))
-                      .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
-                  );
-                }}
-                hasError={!field.valid && field.touched}
-                maxLength={65536}
-              />
-              <Button
-                onClick={() => {
-                  websitesAlertingJsErrorsOpenErrorSelectView({ mode });
-                  onSelectJsError({
-                    slideInConfig: {
-                      component: (
-                        <JsErrorsList
-                          websiteId={form.get('websiteId').value}
-                          tagFilters={form.get('tagFilters').value}
-                          timeConfig={timeConfig}
-                          onJsErrorSelect={message => {
-                            websitesAlertingJsErrorsErrorSelected({ message, mode });
-                            updateForm(
-                              form
-                                .updateIn(['rule', 'value'], f => f.setValue(message).setTouched(true))
-                                .updateIn(['rule', 'operator'], field =>
-                                  field.setValue(operators.EQUALS).setTouched(true)
-                                )
-                                .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
-                            );
-                          }}
-                          slideOut={() => onSelectJsError({ isVisible: false })}
-                        />
-                      ),
-                      title: 'Select JS Error'
-                    },
-                    isVisible: true
-                  });
-                }}
-              >
-                Select JS Error
-              </Button>
-            </div>
+            <DebouncedTextArea
+              className={locals.jsErrorTextInput}
+              name={'ruleValue'}
+              rows="3"
+              value={field.value}
+              onValueChange={value => {
+                websitesAlertingJsErrorsMsgChanged({ mode });
+                updateForm(
+                  form
+                    .updateIn(['rule', 'value'], f => f.setValue(value ?? '').setTouched(true))
+                    .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
+                );
+              }}
+              hasError={!field.valid && field.touched}
+              maxLength={65536}
+            />
             <TouchedMessages field={field} />
           </FormGroup>
         ))}

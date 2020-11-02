@@ -5,14 +5,23 @@
     margin: 0.5rem;
   }
 
-  .jsErrorSelection {
-    display: flex;
-    align-items: flex-start;
+  .jsErrorTextInput {
+    background-color: @lib__colors__N100;
+  }
 
-    > textarea {
-      width: 100%;
-      margin-right: 0.5rem;
-      background-color: @lib__colors__N100;
-    }
+  .errorMessageSelectWrapper {
+    margin-bottom: 1.5rem;
+  }
+
+  .helpText {
+    margin-bottom: 0.5rem;
+  }
+
+  .jsErrorsSelectAdvanceMode {
+    align-self: flex-end;
+  }
+
+  .jsErrorsSelectButtonAdvanceMode {
+    float: right;
   }
 }

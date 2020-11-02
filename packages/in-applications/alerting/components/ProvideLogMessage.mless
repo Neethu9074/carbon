@@ -5,12 +5,15 @@
     margin: 0.5rem;
   }
 
-  .logMessageSelection {
-    display: flex;
+  .helpText {
+    margin-bottom: 0.5rem;
+  }
 
-    > button {
-      align-self: flex-start;
-      display: block;
-    }
+  .logMessageSelectAdvanceMode {
+    align-self: flex-end;
+  }
+
+  .logMessageSelectButtonAdvanceMode {
+    float: right;
   }
 }
