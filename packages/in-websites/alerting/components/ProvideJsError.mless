@@ -11,16 +11,17 @@
 
   .errorMessageSelectWrapper {
     margin-bottom: 1.5rem;
-    > p {
-      margin-bottom: 0.5rem;
-    }
+  }
+
+  .helpText {
+    margin-bottom: 0.5rem;
   }
 
   .jsErrorsSelectAdvanceMode {
     align-self: flex-end;
+  }
 
-    > button {
-      float: right;
-    }
+  .jsErrorsSelectButtonAdvanceMode {
+    float: right;
   }
 }

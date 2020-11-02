@@ -34,12 +34,14 @@ export default function ProvideLogMessage({ form, timeConfig, onSelectLogMessage
       <FormGroup>
         <div
           className={evaluateClassNames({
-            [locals.logMessageSelectWrapper]: true,
             [locals.logMessageSelectAdvanceMode]: mode === modeAdvanced
           })}
         >
-          <HelpText>Select log message as template (optional)</HelpText>
+          <HelpText className={locals.helpText}>Select log message as template (optional)</HelpText>
           <Button
+            className={evaluateClassNames({
+              [locals.logMessageSelectButtonAdvanceMode]: mode === modeAdvanced
+            })}
             onClick={() => {
               applicationsAlertingLogOpenMsgSelectView({ mode });
               onSelectLogMessage({

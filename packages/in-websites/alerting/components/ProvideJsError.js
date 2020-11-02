@@ -36,8 +36,11 @@ export default function ProvideJsError({ form, timeConfig, onSelectJsError, mode
               [locals.jsErrorsSelectAdvanceMode]: mode === modeAdvanced
             })}
           >
-            <HelpText>Select JS error message as template (optional)</HelpText>
+            <HelpText className={locals.helpText}>Select JS error message as template (optional)</HelpText>
             <Button
+              className={evaluateClassNames({
+                [locals.jsErrorsSelectButtonAdvanceMode]: mode === modeAdvanced
+              })}
               onClick={() => {
                 websitesAlertingJsErrorsOpenErrorSelectView({ mode });
                 onSelectJsError({
