@@ -191,7 +191,7 @@ function columns({ groupBy, type, getParamsForGroup, metrics, timeConfig, granul
       metrics.map(({ label, metric, formatter = String, aggregation, percentageMetric }) => ({
         width: '12rem',
         getContent({ group }) {
-          const kpi = average(group.metrics[metric]);
+          const kpi = average(group.metrics[getMetricKey(metric, aggregation)]);
           const renderedLabel = <MetricLabel label={label} />;
           return (
             <SparkChart
