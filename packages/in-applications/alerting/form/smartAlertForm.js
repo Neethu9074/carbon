@@ -1,14 +1,14 @@
 import { createMapForm, createField } from 'formalistic';
 
-import createThresholdForm from 'in-applications/alerting/form/thresholdForm';
 import createTimeThresholdForm from 'in-new-components/Alerting/advanced/TimeThresholdConfig/form';
+import createThresholdForm from 'in-applications/alerting/form/thresholdForm';
 import createRuleForm from 'in-applications/alerting/form/ruleForm';
 
 const defaultSeverity = 5;
 const defaultGranularity = 600000;
 
 export function createSmartAlertForm(alertConfig) {
-  const form = createMapForm()
+  let form = createMapForm()
     .put(
       'name',
       createField({
@@ -45,10 +45,18 @@ export function createSmartAlertForm(alertConfig) {
         value: alertConfig.triggering ?? false
       })
     )
+    // QB1
     .put(
       'tagFilters',
       createField({
         value: alertConfig.tagFilters ?? []
+      })
+    )
+    // QB2
+    .put(
+      'tagFilterExpression',
+      createField({
+        value: alertConfig.tagFilterExpression ?? []
       })
     )
     .put(

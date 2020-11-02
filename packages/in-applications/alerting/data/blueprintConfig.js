@@ -1,6 +1,7 @@
 import getApplicationMetricsThresholdSuggestion from 'in-applications/alerting/subscriptions/getApplicationMetricsThresholdSuggestion';
 import getApplicationMetricsAlertPreview from 'in-applications/alerting/subscriptions/getApplicationMetricsAlertsPreview';
 import getApplicationMetrics from 'in-applications/subscriptions/getApplicationMetrics';
+import { AND_CONJUNCTION } from 'in-new-components/Alerting/utils/queryUtils';
 import { percentage, millis, number } from 'in-services/formatters/number';
 import { getAnalyzeFilterTagKeys } from 'in-applications/tags';
 import { isNotBlank } from 'in-services/util/string';
@@ -13,10 +14,18 @@ const baseBlueprint = Object.freeze({
   thresholdDefaults: {
     operator: '>='
   },
-  getEntityTagFilter: getApplicationIdTagFilter,
+
   // Note: had to keep the disabled tagFilters separate from this, because of test-dependencies within
   // in-applications/tags_test.js related to the only once-registered set of tags via getAnalyzeFilterTagKeys()
-  getAllTagFilters: () => getAnalyzeFilterTagKeys()
+  getAllTagFilters: () => getAnalyzeFilterTagKeys(),
+
+  // QB1
+  getEntityTagFilter: getApplicationIdTagFilter,
+  getRuleTagFilters: () => [],
+
+  // QB2
+  getEntityTagFilterExpression: getApplicationIdTagFilterExpression,
+  getRuleTagFilterExpression: () => []
 });
 
 const slownessBlueprintConfig = Object.freeze({
@@ -35,7 +44,8 @@ const slownessBlueprintConfig = Object.freeze({
   getMaxMetricValue: () => Number.MAX_SAFE_INTEGER,
   getAggregation: alertRule => alertRule.aggregation,
   isRuleComplete: () => true,
-  getRuleTagFilters: () => []
+  getRuleTagFilters: () => [], // QB1
+  getRuleTagFilterExpression: () => [] // QB2
 });
 
 const errorRateBlueprintConfig = Object.freeze({
@@ -54,7 +64,8 @@ const errorRateBlueprintConfig = Object.freeze({
   getMaxMetricValue: () => 100,
   getAggregation: () => 'MEAN',
   isRuleComplete: () => true,
-  getRuleTagFilters: () => []
+  getRuleTagFilters: () => [], //QB1
+  getRuleTagFilterExpression: () => [] //QB2
 });
 
 const logsBlueprintConfig = Object.freeze({
@@ -74,7 +85,8 @@ const logsBlueprintConfig = Object.freeze({
   getAggregation: () => 'SUM',
   isRuleComplete: alertRule => isNotBlank(alertRule.message),
   incompleteRuleMessage: 'Please select a Log Message to see when this alert triggers',
-  getRuleTagFilters: getLogLevelTagFilters
+  getRuleTagFilters: getLogLevelTagFilters, //QB1
+  getRuleTagFilterExpression: getLogLevelTagFilterExpression //QB2
 });
 
 const statusCodeBlueprintConfig = Object.freeze({
@@ -93,7 +105,8 @@ const statusCodeBlueprintConfig = Object.freeze({
   getAggregation: () => 'SUM',
   isRuleComplete: alertRule => !!(alertRule.statusCodeStart && alertRule.statusCodeEnd),
   incompleteRuleMessage: 'Please select a Status Code to see when this alert triggers',
-  getRuleTagFilters: getStatusCodeTagFilters
+  getRuleTagFilters: getStatusCodeTagFilters, //QB1
+  getRuleTagFilterExpression: getStatusCodeTagFilterExpression //QB2
 });
 
 const throughputBlueprintConfig = Object.freeze({
@@ -112,7 +125,8 @@ const throughputBlueprintConfig = Object.freeze({
   getMaxMetricValue: () => Number.MAX_SAFE_INTEGER,
   getAggregation: () => 'SUM',
   isRuleComplete: () => true,
-  getRuleTagFilters: () => [],
+  getRuleTagFilters: () => [], //QB1
+  getRuleTagFilterExpression: () => [], //QB2
   impactTimeThresholdDisabled: true
 });
 
@@ -174,6 +188,15 @@ function getApplicationIdTagFilter(alertConfig) {
   };
 }
 
+function getApplicationIdTagFilterExpression(alertConfig) {
+  return {
+    name: alertConfig.boundaryScope === 'INBOUND' ? 'boundary.application.id' : 'application.id',
+    operator: 'EQUALS',
+    type: 'TAG_FILTER',
+    value: alertConfig.applicationId
+  };
+}
+
 function getLogLevelTagFilters(alertRule) {
   const tagFilters = [];
   tagFilters.push({
@@ -189,6 +212,28 @@ function getLogLevelTagFilters(alertRule) {
     });
   }
   return tagFilters;
+}
+
+function getLogLevelTagFilterExpression(alertRule) {
+  const tagFilterExpression = [];
+  tagFilterExpression.push({
+    name: 'log.message',
+    type: 'TAG_FILTER',
+    operator: alertRule.operator,
+    value: alertRule.message
+  });
+
+  if (alertRule.level !== 'ANY') {
+    tagFilterExpression.push(AND_CONJUNCTION);
+    tagFilterExpression.push({
+      name: 'log.level',
+      type: 'TAG_FILTER',
+      operator: 'EQUALS',
+      value: alertRule.level
+    });
+  }
+
+  return tagFilterExpression;
 }
 
 function getStatusCodeTagFilters(alertRule) {
@@ -212,4 +257,33 @@ function getStatusCodeTagFilters(alertRule) {
     });
   }
   return tagFilters;
+}
+
+function getStatusCodeTagFilterExpression(alertRule) {
+  const tagFilterExpression = [];
+
+  if (alertRule.statusCodeStart === alertRule.statusCodeEnd) {
+    tagFilterExpression.push({
+      name: 'call.http.status',
+      operator: 'EQUALS',
+      type: 'TAG_FILTER',
+      value: alertRule.statusCodeStart
+    });
+  } else {
+    tagFilterExpression.push({
+      name: 'call.http.status',
+      operator: 'GREATER_OR_EQUAL_THAN',
+      type: 'TAG_FILTER',
+      value: alertRule.statusCodeStart
+    });
+    tagFilterExpression.push(AND_CONJUNCTION);
+    tagFilterExpression.push({
+      name: 'call.http.status',
+      operator: 'LESS_OR_EQUAL_THAN',
+      type: 'TAG_FILTER',
+      value: alertRule.statusCodeEnd
+    });
+  }
+
+  return tagFilterExpression;
 }

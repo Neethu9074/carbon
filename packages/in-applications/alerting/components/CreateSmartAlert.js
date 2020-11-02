@@ -55,6 +55,7 @@ function CreateSmartAlert({
             applicationLabel={applicationLabel}
             formData={generateFormData({
               applicationId,
+              applicationLabel,
               serviceLabel,
               endpointLabel,
               boundaryScope: urlBoundaryScope || defaultBoundaryScope
@@ -86,7 +87,7 @@ CreateSmartAlert.propTypes = {
   defaultBoundaryScope: PropTypes.string
 };
 
-function generateFormData({ applicationId, serviceLabel, endpointLabel, boundaryScope }) {
+function generateFormData({ applicationId, applicationLabel, serviceLabel, endpointLabel, boundaryScope }) {
   return {
     applicationId,
     boundaryScope,
@@ -100,6 +101,8 @@ function generateFormData({ applicationId, serviceLabel, endpointLabel, boundary
       value: 0.0,
       seasonality: 'DAILY'
     },
+    calculateThresholdOnBackend: true,
+    // QB1
     tagFilters: [
       {
         name: 'service.name',
@@ -112,10 +115,37 @@ function generateFormData({ applicationId, serviceLabel, endpointLabel, boundary
         stringValue: endpointLabel
       }
     ].filter(({ stringValue }) => Boolean(stringValue)),
-    calculateThresholdOnBackend: true
+    // QB2
+    tagFilterExpression: getTagFilterExpression(applicationLabel, serviceLabel, endpointLabel)
   };
 }
 
 function getLabel(result) {
   return result?.data?.label ?? null;
+}
+
+function getTagFilterExpression(applicationLabel, serviceLabel, endpointLabel) {
+  const getFilter = (name, value) => ({
+    type: 'TAG_FILTER',
+    name,
+    operator: 'EQUALS',
+    value,
+    entity: 'DESTINATION'
+  });
+
+  const tagFilterExpression = [];
+
+  if (serviceLabel) {
+    tagFilterExpression.push(getFilter('service.name', serviceLabel));
+  }
+
+  if (endpointLabel) {
+    tagFilterExpression.push({
+      type: 'CONJUNCTION',
+      logicalOperator: 'AND'
+    });
+    tagFilterExpression.push(getFilter('endpoint.name', endpointLabel));
+  }
+
+  return tagFilterExpression;
 }

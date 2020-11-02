@@ -30,5 +30,6 @@ module.exports = {
   ampCompanyInfoEnabled: true,
   alertCustomPayloadEnabled: true,
   newAnalyticsEnabled: true,
-  persistentVolumeSupportEnabled: true
+  persistentVolumeSupportEnabled: true,
+  smartAlertsQB2Enabled: false
 };

@@ -162,5 +162,11 @@ module.exports = exports = (tenant, unit) => [
     instanaCtlKey: 'feature.kubernetes.pvc.enabled',
     consulKey: `settings/${tenant}-${unit}/KUBERNETES_PVC_ENABLED`,
     defaultValue: false
+  },
+  {
+    uiClientKey: 'smartAlertsQB2Enabled',
+    instanaCtlKey: 'feature.smartAlertsQB2Enabled.enabled',
+    consulKey: `settings/${tenant}-${unit}/SMARTALERTS_QB2_ENABLED`,
+    defaultValue: false
   }
 ];

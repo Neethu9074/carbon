@@ -1,7 +1,8 @@
-import { combineLatest, create } from 'reactive-observables';
+import { combineLatest, create, just } from 'reactive-observables';
 import React from 'react';
 
-import { finishedProgress, emptyArray, indeterminateProgress } from 'in-services/fixedObjects';
+import { finishedProgress, emptyArray, indeterminateProgress, pendingResult } from 'in-services/fixedObjects';
+import { switchQB1orQB2Helper } from 'in-new-components/Alerting/components/WithQB1orQB2';
 import { getBaselineValue } from 'in-new-components/Alerting/utils/baselineUtils';
 import { isGreaterOperator } from 'in-new-components/Alerting/utils/alertUtils';
 import ChartWrapper from 'in-components/Chart/ChartWrapper';
@@ -11,7 +12,11 @@ export const thresholdOrBaselineLoadingSignal$ = create().emit(false);
 
 export default connectTo(
   props => {
-    const metrics$ = props.getMetric(props.metricsConfiguration);
+    const { tagFilterExpression } = props.metricsConfiguration;
+    const metrics$ = switchQB1orQB2Helper(
+      () => props.getMetric(props.metricsConfiguration),
+      () => (tagFilterExpression ? props.getMetric(props.metricsConfiguration) : just(pendingResult))
+    );
     const combined$ = combineLatest([metrics$, thresholdOrBaselineLoadingSignal$]);
 
     return {

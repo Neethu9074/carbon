@@ -28,6 +28,7 @@ export const newApCreationEnabled = isFeatureFlagEnabled('newApCreationEnabled')
 export const entityCountWidgetEnabled = isFeatureFlagEnabled('entityCountWidgetEnabled');
 export const persistentVolumeSupportEnabled = isFeatureFlagEnabled('persistentVolumeSupportEnabled', false);
 export const alertCustomPayloadEnabled = isFeatureFlagEnabled('alertCustomPayloadEnabled', false);
+export const smartAlertsQB2Enabled = isFeatureFlagEnabled('smartAlertsQB2Enabled', false);
 
 // amp
 export const ampCompanyInfoEnabled = isFeatureFlagEnabled('ampCompanyInfoEnabled', false);

@@ -11,6 +11,7 @@ import { getTitlePlaceholder, getDescriptionPlaceholder } from 'in-applications/
 import { createAlertConfig, updateAlertConfig } from 'in-applications/api/applicationAlertConfig';
 import { SmartAlertConfigDialog } from 'in-applications/alerting/Dialog/SmartAlertConfigDialog';
 import AdvancedModeContainer from 'in-applications/alerting/advanced/AdvancedModeContainer';
+import { switchQB1orQB2Helper } from 'in-new-components/Alerting/components/WithQB1orQB2';
 import SimpleModeContainer from 'in-applications/alerting/simple/SimpleModeContainer';
 import { chartViewConfigs } from 'in-new-components/Alerting/Chart/chartViewConfig';
 import { createSmartAlertForm } from 'in-applications/alerting/form/smartAlertForm';
@@ -85,7 +86,8 @@ SmartAlertConfigDialogWrapper.propTypes = {
     applicationId: PropTypes.string.isRequired,
     boundaryScope: PropTypes.string,
     calculateThresholdOnBackend: PropTypes.bool,
-    tagFilters: PropTypes.array
+    tagFilters: PropTypes.array, //QB1
+    tagFilterExpression: PropTypes.array //QB2
   }).isRequired,
   onClose: PropTypes.func.isRequired
 };
@@ -121,7 +123,18 @@ function createAlert({ form, setForm, onClose, editMode, setIsSaving }) {
 }
 
 function toAlertConfig(form) {
-  const alertConfig = form.remove('hiddenFields').toJS();
+  const alertConfig = switchQB1orQB2Helper(
+    () =>
+      form
+        .remove('tagFilterExpression')
+        .remove('hiddenFields')
+        .toJS(),
+    () =>
+      form
+        .remove('tagFilters')
+        .remove('hiddenFields')
+        .toJS()
+  );
   alertConfig.name = alertConfig.name || getTitlePlaceholder(form);
   alertConfig.description = alertConfig.description || getDescriptionPlaceholder(form);
   return alertConfig;

@@ -2,14 +2,20 @@ import PropTypes from 'prop-types';
 import theme from 'in-themes';
 import React from 'react';
 
+import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import AlertsPreviewLane from 'in-components/Chart/markerLanes/AlertsPreviewLane/AlertsPreviewLane';
 import { chartViewConfigPropType } from 'in-new-components/Alerting/Chart/chartViewConfig';
+import { switchQB1orQB2Helper } from 'in-new-components/Alerting/components/WithQB1orQB2';
+import { isAlertQueryValid } from 'in-applications/alerting/components/AlertQueryBuilder';
 import AlertingChartWrapper from 'in-new-components/Alerting/Chart/AlertingChartWrapper';
 import MarkerLanesPresenter from 'in-components/Chart/markerLanes/MarkerLanesPresenter';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import { isGreaterOperator } from 'in-new-components/Alerting/utils/alertUtils';
+import { AND_CONJUNCTION } from 'in-new-components/Alerting/utils/queryUtils';
 import { smoothMetrics } from 'in-new-components/Alerting/utils/chartUtil';
 import Renderer from 'in-new-components/Alerting/Chart/renderer/Renderer';
+import { pendingResult } from 'in-services/fixedObjects';
+import useObservable from 'in-hooks/useObservable';
 
 const chartColors = [
   theme.lib.colors.blue800,
@@ -20,37 +26,88 @@ const chartColors = [
 
 const legendColors = [theme.lib.colors.blue800, theme.lib.colors.red800, theme.lib.colors.pink800_40];
 
-export default function AlertingChart({
-  alertConfig,
-  viewConfig,
-  blueprintConfig,
-  alertsPreviewEnabled = false,
-  canReload = false
-}) {
-  const { granularity, threshold, timeThreshold } = alertConfig;
-  const aggregation = blueprintConfig.getAggregation(alertConfig.rule);
+export default function AlertingChart({ alertConfig, viewConfig, blueprintConfig, alertsPreviewEnabled, canReload }) {
   const metricName = blueprintConfig.getMetricName(alertConfig.rule);
-  const metricLabel = blueprintConfig.getMetricLabel(metricName);
-  const isStaticThreshold = threshold.type === 'staticThreshold';
-  const ruleTagFilters = blueprintConfig.getRuleTagFilters(alertConfig.rule);
 
   let numeratorFilter;
   let enrichedTagFilters;
-  if (blueprintConfig.isCustomRateMetric(metricName)) {
-    // at the moment, we only support a single numerator filter. All such blueprints have
-    // a single rule-specific tag-filter only
-    numeratorFilter = ruleTagFilters[0];
-    enrichedTagFilters = [...alertConfig.tagFilters, blueprintConfig.getEntityTagFilter(alertConfig)];
-  } else {
-    enrichedTagFilters = [
-      ...alertConfig.tagFilters,
-      ...ruleTagFilters,
-      blueprintConfig.getEntityTagFilter(alertConfig)
-    ];
-  }
+  let enrichedTagFilterExpression;
 
+  switchQB1orQB2Helper(
+    () => {
+      const ruleTagFilters = blueprintConfig.getRuleTagFilters(alertConfig.rule);
+      if (blueprintConfig.isCustomRateMetric(metricName)) {
+        // at the moment, we only support a single numerator filter. All such blueprints have
+        // a single rule-specific tag-filter only
+        numeratorFilter = ruleTagFilters[0];
+        enrichedTagFilters = [...alertConfig.tagFilters, blueprintConfig.getEntityTagFilter(alertConfig)];
+      } else {
+        enrichedTagFilters = [
+          ...alertConfig.tagFilters,
+          ...ruleTagFilters,
+          blueprintConfig.getEntityTagFilter(alertConfig)
+        ];
+      }
+    },
+    () => {
+      const ruleTagFilterExpression = blueprintConfig.getRuleTagFilterExpression(alertConfig.rule);
+      enrichedTagFilterExpression = [];
+
+      if (alertConfig.tagFilterExpression.length > 0) {
+        enrichedTagFilterExpression.push(...alertConfig.tagFilterExpression, AND_CONJUNCTION);
+      }
+
+      if (blueprintConfig.isCustomRateMetric(metricName)) {
+        // at the moment, we only support a single numerator filter. All such blueprints have
+        // a single rule-specific tag-filter only
+        numeratorFilter = ruleTagFilterExpression[0];
+        enrichedTagFilterExpression.push(blueprintConfig.getEntityTagFilterExpression(alertConfig));
+      } else {
+        enrichedTagFilterExpression.push(blueprintConfig.getEntityTagFilterExpression(alertConfig));
+        if (ruleTagFilterExpression.length > 0) {
+          enrichedTagFilterExpression.push(AND_CONJUNCTION, ...ruleTagFilterExpression);
+        }
+      }
+    }
+  );
+
+  return (
+    <AlertingChartWithQueryValidation
+      alertConfig={alertConfig}
+      viewConfig={viewConfig}
+      blueprintConfig={blueprintConfig}
+      numeratorFilter={numeratorFilter}
+      enrichedTagFilters={enrichedTagFilters}
+      enrichedTagFilterExpression={enrichedTagFilterExpression}
+      metricName={metricName}
+      alertsPreviewEnabled={alertsPreviewEnabled}
+      canReload={canReload}
+    />
+  );
+}
+
+function AlertingChartWithQueryValidation({
+  alertConfig,
+  metricName,
+  enrichedTagFilters,
+  enrichedTagFilterExpression,
+  numeratorFilter,
+  viewConfig,
+  blueprintConfig,
+  alertsPreviewEnabled,
+  canReload
+}) {
+  const isTagfilterExpressionQueryValidResult =
+    useObservable(args => isAlertQueryValid(args), [enrichedTagFilterExpression, viewConfig.timeConfig]) ??
+    pendingResult;
+
+  const { granularity, threshold, timeThreshold } = alertConfig;
   const metricChartGranularity = Math.max(granularity, viewConfig.minChartMetricGranularity);
   const formatter = blueprintConfig.getMetricFormat(metricName);
+
+  const aggregation = blueprintConfig.getAggregation(alertConfig.rule);
+  const metricLabel = blueprintConfig.getMetricLabel(metricName);
+  const isStaticThreshold = threshold.type === 'staticThreshold';
 
   return (
     <AlertingChartWrapper
@@ -63,7 +120,15 @@ export default function AlertingChart({
             getAlertsPreview={blueprintConfig.getAlertsPreviewRequest(metricName)}
             alertsPreviewConfiguration={getAlertsPreviewQuery({
               timeConfig: viewConfig.timeConfig,
-              tagFilters: enrichedTagFilters,
+              ...switchQB1orQB2Helper(
+                () => ({ tagFilters: enrichedTagFilters }),
+                () => ({
+                  tagFilterExpression: getBackendQueryModel(
+                    isTagfilterExpressionQueryValidResult,
+                    enrichedTagFilterExpression
+                  )
+                })
+              ),
               numeratorFilter,
               metricName,
               aggregation,
@@ -87,7 +152,15 @@ export default function AlertingChart({
       getMetric={blueprintConfig.getMetricsRequest(metricName)}
       metricsConfiguration={{
         timeConfig: viewConfig.timeConfig,
-        tagFilters: enrichedTagFilters,
+        ...switchQB1orQB2Helper(
+          () => ({ tagFilters: enrichedTagFilters }),
+          () => ({
+            tagFilterExpression: getBackendQueryModel(
+              isTagfilterExpressionQueryValidResult,
+              enrichedTagFilterExpression
+            )
+          })
+        ),
         metrics: {
           [metricName]: {
             metric: metricName,
@@ -142,6 +215,7 @@ export default function AlertingChart({
 function getAlertsPreviewQuery({
   timeConfig,
   tagFilters,
+  tagFilterExpression,
   metricName,
   numeratorFilter,
   aggregation,
@@ -152,7 +226,10 @@ function getAlertsPreviewQuery({
   if (threshold.baseline || typeof threshold.value === 'number') {
     return {
       timeConfig,
-      tagFilters,
+      ...switchQB1orQB2Helper(
+        () => ({ tagFilters }),
+        () => ({ tagFilterExpression })
+      ),
       timeThreshold,
       threshold,
       granularity, // to request clustered alert preview results
@@ -191,6 +268,10 @@ function getMaxForBaselineChart({ metricsMaxValue, operator, baseline, sensitivi
     .map(v => v[1] + opSign * v[2] * sensitivity)
     .reduce((a, b) => (a > b ? a : b), metricsMaxValue);
   return overallMaxValue * 1.1;
+}
+
+function getBackendQueryModel(isQueryValidResult, tagFilterExpression) {
+  return isQueryValidResult.data ? toBackendQueryModel(tagFilterExpression) : null;
 }
 
 AlertingChart.propTypes = {

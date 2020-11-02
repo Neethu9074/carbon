@@ -1,0 +1,7 @@
+@import '~in-themes/active.less';
+
+:local {
+  .queryBuilderSection {
+    border: 1px solid @lib__colors__N300;
+  }
+}

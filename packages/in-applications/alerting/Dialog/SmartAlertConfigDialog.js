@@ -1,41 +1,76 @@
-import { compose, withState } from 'recompose';
+import React, { useEffect, useState } from 'react';
 import { empty } from 'reactive-observables';
-import React from 'react';
 
 import { thresholdOrBaselineLoadingSignal$ } from 'in-new-components/Alerting/Chart/AlertingChartWrapper';
+import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import AlertConfigDialogPresenter from 'in-new-components/Alerting/AlertConfigDialogPresenter';
+import { switchQB1orQB2Helper } from 'in-new-components/Alerting/components/WithQB1orQB2';
+import { isAlertQueryValid } from 'in-applications/alerting/components/AlertQueryBuilder';
 import { getBlueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
 import createThresholdForm from 'in-applications/alerting/form/thresholdForm';
-import connectTo from 'in-hoc/connectTo';
+import { AND_CONJUNCTION } from 'in-new-components/Alerting/utils/queryUtils';
+import { pendingResult } from 'in-services/fixedObjects';
+import useTimeConfig from 'in-hooks/useTimeConfig';
+import useObservable from 'in-hooks/useObservable';
 
-export const SmartAlertConfigDialog = compose(
-  withState('simpleMode', 'setSimpleMode', props => !props.editMode),
-  connectTo(({ form, updateForm, simpleMode }) => {
-    const calculateThresholdOnBackend = form.get('hiddenFields').get('calculateThresholdOnBackend').value;
-    thresholdOrBaselineLoadingSignal$.emit(calculateThresholdOnBackend);
+export function SmartAlertConfigDialog(props) {
+  useCalculateThresholdOnBackendSignalEmitter(props.form);
+  const alertConfig = props.form.toJS();
+  const blueprintConfig = getBlueprintConfig(alertConfig.rule.alertType);
+  const enrichedTagFilterExpression = getEnhancedTagFilterExpression(alertConfig, blueprintConfig);
 
-    return {
-      thresholdResult: resolveThresholdRequest(form, simpleMode)
+  return (
+    <SmartAlertConfigDialogWithQueryValidation
+      {...props}
+      enrichedTagFilterExpression={enrichedTagFilterExpression}
+      alertConfig={alertConfig}
+      blueprintConfig={blueprintConfig}
+    />
+  );
+}
+
+function SmartAlertConfigDialogWithQueryValidation({
+  alertConfig,
+  blueprintConfig,
+  enrichedTagFilterExpression,
+  ...props
+}) {
+  const { form, updateForm, editMode } = props;
+  const [simpleMode, setSimpleMode] = useState(!editMode);
+  const isTagfilterExpressionQueryValidResult = useIsTagfilterExpressionValid(enrichedTagFilterExpression);
+
+  const isValid = switchQB1orQB2Helper(
+    () => blueprintConfig.isRuleComplete(alertConfig.rule),
+    () => !!isTagfilterExpressionQueryValidResult
+  );
+
+  const thresholdResult = useObservable(
+    ([form, simpleMode, isValid]) =>
+      resolveThresholdRequest(alertConfig, blueprintConfig, enrichedTagFilterExpression, simpleMode, isValid)
         .filter(resp => resp && !resp.progress.loading)
-        .tap(({ data, errors, time }) => updateThresholdInForm(form, updateForm, data, errors, time))
-    };
-  })
-)(function AlertConfigDialogPresenterWrapper(props) {
-  return <AlertConfigDialogPresenter {...props} />;
-});
+        .tap(({ data, errors, time }) => isValid && updateThresholdInForm(form, updateForm, data, errors, time)),
+    [form, simpleMode, isValid]
+  );
 
-function resolveThresholdRequest(form, fallbackOnError) {
-  const alertConfig = form.toJS();
+  return (
+    <AlertConfigDialogPresenter
+      {...props}
+      simpleMode={simpleMode}
+      setSimpleMode={setSimpleMode}
+      thresholdResult={thresholdResult}
+    />
+  );
+}
+
+function resolveThresholdRequest(alertConfig, blueprintConfig, enrichedTagFilterExpression, fallbackOnError, isValid) {
   const {
-    rule: { alertType, metricName },
+    rule: { metricName },
     threshold: { operator, seasonality = null },
     tagFilters,
     granularity
   } = alertConfig;
 
-  const blueprintConfig = getBlueprintConfig(alertType);
-
-  if (!blueprintConfig.isRuleComplete(alertConfig.rule)) {
+  if (!isValid) {
     return empty;
   }
 
@@ -49,11 +84,18 @@ function resolveThresholdRequest(form, fallbackOnError) {
 
   const thresholdSuggestionRequest = blueprintConfig.getThresholdSuggestionRequest(metricName);
   return thresholdSuggestionRequest({
-    tagFilters: [
-      blueprintConfig.getEntityTagFilter(alertConfig),
-      ...tagFilters,
-      ...blueprintConfig.getRuleTagFilters(alertConfig.rule)
-    ],
+    ...switchQB1orQB2Helper(
+      () => ({
+        tagFilters: [
+          blueprintConfig.getEntityTagFilter(alertConfig),
+          ...tagFilters,
+          ...blueprintConfig.getRuleTagFilters(alertConfig.rule)
+        ]
+      }),
+      () => ({
+        tagFilterExpression: toBackendQueryModel(enrichedTagFilterExpression)
+      })
+    ),
     metric: {
       metric: blueprintConfig.getMetricName(alertConfig.rule),
       granularity,
@@ -102,4 +144,33 @@ function updateThresholdInForm(form, updateForm, data, errors, time) {
         .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(false))
     );
   }
+}
+
+function getEnhancedTagFilterExpression(alertConfig, blueprintConfig) {
+  const enrichedTagFilterExpression = [blueprintConfig.getEntityTagFilterExpression(alertConfig)];
+
+  if (alertConfig.tagFilterExpression.length > 0) {
+    enrichedTagFilterExpression.push(AND_CONJUNCTION, ...alertConfig.tagFilterExpression);
+  }
+
+  const ruleTagFilterExpression = blueprintConfig.getRuleTagFilterExpression(alertConfig.rule);
+  if (ruleTagFilterExpression.length > 0) {
+    enrichedTagFilterExpression.push(AND_CONJUNCTION, ...ruleTagFilterExpression);
+  }
+
+  return enrichedTagFilterExpression;
+}
+
+function useIsTagfilterExpressionValid(enrichedTagFilterExpression) {
+  const timeConfig = useTimeConfig();
+  const result =
+    useObservable(args => isAlertQueryValid(args), [enrichedTagFilterExpression, timeConfig]) ?? pendingResult;
+  return !!result?.data;
+}
+
+function useCalculateThresholdOnBackendSignalEmitter(form) {
+  const calculateThresholdOnBackend = form.get('hiddenFields').get('calculateThresholdOnBackend').value;
+  useEffect(() => {
+    thresholdOrBaselineLoadingSignal$.emit(calculateThresholdOnBackend);
+  }, [calculateThresholdOnBackend]);
 }

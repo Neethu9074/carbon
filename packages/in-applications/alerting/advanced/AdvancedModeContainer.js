@@ -14,6 +14,7 @@ import ThroughputInteractiveChart from 'in-applications/alerting/advanced/Throug
 import { blueprintConfigs, getBlueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
 import GlobalAdvancedModeContainer from 'in-new-components/Alerting/advanced/AdvancedModeContainer';
 import ErrorRateInteractiveChart from 'in-applications/alerting/advanced/ErrorRateInteractiveChart';
+import AlertFilterConfigurator from 'in-new-components/Alerting/components/AlertFilterConfigurator';
 import SlownessInteractiveChart from 'in-applications/alerting/advanced/SlownessInteractiveChart';
 import InboundOutboundCallsSwitch from './InboundOutboundCallsSwitch/InboundOutboundCallsSwitch';
 import BaselineErrorMessage from 'in-new-components/Alerting/components/BaselineErrorMessage';
@@ -24,8 +25,9 @@ import { alertingDialogItemPickerTimeframe } from 'in-new-components/Alerting/co
 import BlueprintSelection from 'in-applications/alerting/advanced/BlueprintSelection';
 import ProvideLogMessage from 'in-applications/alerting/components/ProvideLogMessage';
 import ProvideStatusCode from 'in-applications/alerting/components/ProvideStatusCode';
+import AlertQueryBuilder from 'in-applications/alerting/components/AlertQueryBuilder';
 import AlertTypeSwitch from 'in-applications/alerting/components/AlertTypeSwitch';
-
+import WithQB1orQB2 from 'in-new-components/Alerting/components/WithQB1orQB2';
 import LightCard from 'in-new-components/Card/LightCard';
 
 export default function AdvancedModeContainer(props) {
@@ -53,11 +55,25 @@ export default function AdvancedModeContainer(props) {
           title: 'Scope: Where is the condition happening?',
           content: (
             <>
-              <AlertLocationFilters
-                form={form}
-                applicationLabel={applicationLabel}
-                timeConfig={timeConfig}
-                updateForm={updateForm}
+              <WithQB1orQB2
+                onUsesQB1={() => (
+                  <AlertLocationFilters
+                    form={form}
+                    applicationLabel={applicationLabel}
+                    timeConfig={timeConfig}
+                    updateForm={updateForm}
+                  />
+                )}
+                onUsesQB2={() => (
+                  <>
+                    <h2>Filters for AP: {applicationLabel} </h2>
+                    <AlertFilterConfigurator
+                      queryBuilderComponent={AlertQueryBuilder}
+                      form={form}
+                      updateForm={updateForm}
+                    />
+                  </>
+                )}
               />
               <InboundOutboundCallsSwitch form={form} updateForm={updateForm} />
             </>
