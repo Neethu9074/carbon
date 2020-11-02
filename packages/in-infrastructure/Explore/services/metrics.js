@@ -8,12 +8,18 @@ import { hasError, isLoading } from 'in-services/util/result';
 import { getKpiDefinitions } from 'in-sdk/metrics/kpis';
 
 export function fromUrlMetrics({ urlMetrics, availableMetrics }) {
+  const countByName = {};
   const selectedMetrics = urlMetrics
     .map(({ metric, aggregation }) => {
+      countByName[metric] = (countByName[metric] || 0) + 1;
       const metricDescription = findMetric(availableMetrics, metric);
       return metricDescription && { aggregation, ...metricDescription };
     })
-    .filter(Boolean);
+    .filter(Boolean)
+    .map(metric => ({
+      ...metric,
+      fullyQualifiedLabel: countByName[metric.metric] == 1 ? metric.label : `${metric.label} (${metric.aggregation})`
+    }));
 
   if (selectedMetrics.length == 0) {
     return setAggregation(
@@ -143,4 +149,8 @@ export function average(series) {
   );
 
   return sum / count;
+}
+
+export function getMetricKey(metric, aggregation) {
+  return metric + '.' + aggregation;
 }
