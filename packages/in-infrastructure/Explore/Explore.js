@@ -15,12 +15,14 @@ import GroupingConfigurator, {
 import GroupingConfiguratorSection from 'in-new-components/GroupingConfigurator/GroupingConfiguratorSection';
 import FixatedTimeConfigContextModification from 'in-stores/time/FixatedTimeConfigContextModification';
 import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
+import ApiQueryAction from 'in-new-components/QueryBuilder/workspace/ApiQueryAction/ApiQueryAction';
 import QueryBuilder, { isQueryValid } from 'in-infrastructure/Explore/components/QueryBuilder';
 import QueryBuilderSection from 'in-new-components/QueryBuilder/workspace/QueryBuilderSection';
 import GroupedInfrastructure from 'in-infrastructure/Explore/components/GroupedInfrastructure';
 import InfraPageHeaderWithTabs from 'in-infrastructure/components/InfraPageHeaderWithTabs';
 import InfrastructureList from 'in-infrastructure/Explore/components/InfrastructureList';
 import { getMetrics, fromUrlMetrics } from 'in-infrastructure/Explore/services/metrics';
+import { ActionSection } from 'in-new-components/workspace/ActionSection/ActionSection';
 import { themes } from 'in-new-components/DashboardHeader/DashboardHeader';
 import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
@@ -110,6 +112,8 @@ function InfraExploreViewWithFixatedTimeConfig() {
               GroupingConfigurator={GroupingConfigurator}
               tagFilterExpression={backendQueryModel || toBackendQueryModel([])}
             />
+
+            <ActionSection right={<ApiQueryAction backendQueryModel={backendQueryModel} />} />
           </Sections>
 
           {isInvalid && (
