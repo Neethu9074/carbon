@@ -98,14 +98,6 @@ export function CustomPayload(props) {
   };
 
   const deleteRow = payloadField => {
-    if (form.size === 1) {
-      // one last row will stay
-      setForm(form.remove(0).push(createNewFormEntry()));
-      removeItemAlertCustomPayloadTracker({
-        type: payloadField.get('type').value
-      });
-      return;
-    }
     const entryPosition = getRowIndex(payloadField);
     if (entryPosition >= 0) {
       setForm(form.remove(entryPosition).setTouched(true));
