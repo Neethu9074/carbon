@@ -51,10 +51,10 @@ export function TimeShiftAwareChartSelectorWithUrlState({
       {
         bind: [timeShiftUrlParameter],
         reset: ({ timeShiftOffset }) => {
-          if (timeShiftOffset !== 0) {
-            return { [paramMetric]: findDefaultMetricByTab(activeTab), [paramTab]: null };
+          if (timeShiftOffset === 0) {
+            return { [paramTab]: getActiveTab(), [paramMetric]: null };
           } else {
-            return { [paramTab]: findTabByMetric(activeMetric), [paramMetric]: null };
+            return { [paramMetric]: getActiveMetric(), [paramTab]: null };
           }
         }
       }
@@ -66,8 +66,8 @@ export function TimeShiftAwareChartSelectorWithUrlState({
   const setActiveTab = tab => setUrlState({ [paramTab]: tab, [paramMetric]: null });
   const setActiveMetric = metric => setUrlState({ [paramMetric]: metric, [paramTab]: null });
 
-  const getActiveTab = () => activeTab || findTabByMetric(activeMetric);
-  const getActiveMetric = () => activeMetric || findDefaultMetricByTab(activeTab);
+  const getActiveTab = () => activeTab ?? findTabByMetric(activeMetric);
+  const getActiveMetric = () => activeMetric ?? findDefaultMetricByTab(activeTab);
 
   useEffect(() => {
     if (timeShiftEnabled) {

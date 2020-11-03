@@ -128,9 +128,9 @@ function ChartPresenter({
   renderPostChartContent,
   renderPostChartContentHttpStatus,
   hasHttpAndOtherEndpoints,
-  selectedTabId, // passed implicitly by TimeShiftAwareChartSelector
-  selectedMetricValue, // passed implicitly by TimeShiftAwareChartSelector
-  timeShiftConfig // passed implicitly by TimeShiftAwareChartSelector
+  selectedTabId, // passed implicitly by TimeShiftAwareChartSelectorWithUrlState
+  selectedMetricValue, // passed implicitly by TimeShiftAwareChartSelectorWithUrlState
+  timeShiftConfig // passed implicitly by TimeShiftAwareChartSelectorWithUrlState
 }) {
   return selectedTabId === tabCallCount.id ? (
     <CallsErrorsChart
