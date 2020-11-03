@@ -8,6 +8,7 @@ import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { allowDownloadMetricsFromCharts } from 'in-services/featureFlags';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import { containsIgnoreCase } from 'in-services/util/string';
+import { emptyArray } from 'in-services/fixedObjects';
 import Button from 'in-new-components/Button';
 import keyCodes from 'in-components/keyCodes';
 import Tooltip from 'in-components/Tooltip';
@@ -46,7 +47,7 @@ export default class extends React.Component {
 
     const primaryContextMenuAction = chart.config.primaryContextMenuAction || zoomInAction.name;
     const excludedContextMenuActions = chart.config.excludedContextMenuActions || [];
-    const contextMenuButtons = [...chart.config.additionalContextMenuButtons, ...basicButtonConfigs]
+    const contextMenuButtons = [...(chart.config.additionalContextMenuButtons || emptyArray), ...basicButtonConfigs]
       .filter(Boolean)
       .filter(config => !excludedContextMenuActions.includes(config.name))
       .sort((a1, a2) => sortByPrimaryAction(a1, a2, primaryContextMenuAction))
