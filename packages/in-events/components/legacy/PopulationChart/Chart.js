@@ -12,6 +12,12 @@ import 'in-events/components/legacy/PopulationChart/Chart.less';
 
 const block = 'in-event-view-detail-chart';
 
+/**
+ * We show the timeframe of the incident in the chart, plus some buffer time before the incident, to ensure
+ * correlated issues are always visible. The correlation timeframe in the backend is 3 minutes.
+ */
+const correlationTimeBuffer = 3 * 60 * 1000;
+
 export default getElementDimensions(
   class extends React.Component {
     static displayName = 'IncidentPopulationChart';
@@ -52,9 +58,12 @@ export default getElementDimensions(
       if (width) {
         scale.setRangeTo(width);
       }
-      scale.setDomainFrom(this.state.from);
-      scale.setDomainTo(this.state.to);
 
+      const from = this.state.from - correlationTimeBuffer;
+      const now = Date.now();
+      const to = Math.min(this.state.to, now);
+      scale.setDomainFrom(from);
+      scale.setDomainTo(to);
       return (
         <div className={block}>
           <div className={`${block}__chart-wrapper`}>
