@@ -46,7 +46,7 @@ packages/in-profiling               @instana/eng-ui
 packages/in-sdk                     @instana/eng-ui
 packages/in-server                  @instana/eng-ui
 packages/in-services                @instana/eng-ui
-packages/in-settings                @instana/eng-ui @instana/eng-sensors @instana/eng-stan @instana/eng-enterprise
+packages/in-settings                @instana/eng-ui @instana/eng-sensors @instana/eng-stan @instana/eng-enterprise @instana/eng-application
 packages/in-stores                  @instana/eng-ui
 # Deprecated: We should not make any more changes within this package (aside from code removal)
 packages/in-subscription            @instana/eng-ui
