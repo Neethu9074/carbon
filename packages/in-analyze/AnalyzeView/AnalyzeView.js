@@ -117,13 +117,13 @@ export default function AnalyzeViewPropsEnrichment(props) {
     []
   );
 
-  const [urlState, onChangeAnalyzeConfig] = useUrlState(urlStateConfig);
+  const [urlState, onChangeAnalyzeConfig, onChangeAnalyzeConfigAndGetAsUrlObservable] = useUrlState(urlStateConfig);
   urlState[focusedMetricMatrixParameter] = urlState[focusedMetricMatrixParameter] ?? initialFocusedMetric(props);
   urlState[groupByMatrixParameter] = urlState[groupByMatrixParameter] ?? getInitialGrouping(props);
   urlState[showGraphMatrixParameter] = urlState[showGraphMatrixParameter] ?? initialShowGraph(props);
 
   const timeConfig = getTimeConfig(props.location);
-  const { tagFilter, group, dataSource } = urlState;
+  const { tagFilter, groupBy: group, dataSource } = urlState;
   const filters = {
     tagFilter,
     group,
@@ -142,12 +142,14 @@ export default function AnalyzeViewPropsEnrichment(props) {
     <AnalyzeView
       {...props}
       {...getTagFilterManipulators({ ...props, filters, setTagFilters })}
+      setTagFilters={setTagFilters}
       {...urlState}
       filters={filters}
       isRawView={isRawView}
       timeConfig={timeConfig}
       isDialogActive={isDialogActive}
       onChangeAnalyzeConfig={onChangeAnalyzeConfig}
+      onChangeAnalyzeConfigAndGetAsUrlObservable={onChangeAnalyzeConfigAndGetAsUrlObservable}
       tagFiltersForSubscription={tagFiltersForSubscription}
     />
   );
