@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import TechnologiesReportingTable from 'in-amp/components/TechnologiesReportingTable';
+import NoLicenseAvailableMessage from 'in-amp/components/NoLicenseAvailableMessage';
 import { getReportingTechnologiesAsResultObservable } from 'in-amp/api/account';
 import AmpInformationModifier from 'in-amp/components/AmpInformationModifier';
 import WithAccountInformation from 'in-amp/components/WithAccountInformation';
@@ -11,8 +12,11 @@ export default function UsageWithAccountInfo() {
 }
 
 function TechnologiesReporting({ unitSelectorOptions, getCurrentTenantOption }) {
+  if (unitSelectorOptions.length === 0) {
+    return <NoLicenseAvailableMessage />;
+  }
+
   const { windowSize, setWindowSize, tenantUnit, setTenantUnit } = useAmpUrlInformation(
-    '/technologies',
     getCurrentTenantOption(unitSelectorOptions)?.value
   );
   const [to] = useState(Date.now());

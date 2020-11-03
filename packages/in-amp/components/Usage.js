@@ -1,5 +1,6 @@
 import React from 'react';
 
+import NoLicenseAvailableMessage from 'in-amp/components/NoLicenseAvailableMessage';
 import AmpInformationModifier from 'in-amp/components/AmpInformationModifier';
 import WithAccountInformation from 'in-amp/components/WithAccountInformation';
 import useAmpUrlInformation from 'in-amp/hooks/useAmpUrlInformation';
@@ -18,10 +19,14 @@ export default function UsageWithAccountInfo() {
 }
 
 function Usage({ unitSelectorOptions, getCurrentTenantOption, canShowAggregatedMetrics }) {
+  if (unitSelectorOptions.length === 0) {
+    return <NoLicenseAvailableMessage />;
+  }
+
   const initialState =
     (canShowAggregatedMetrics ? aggregatedState : getCurrentTenantOption(unitSelectorOptions)?.value) ??
     aggregatedState;
-  const { windowSize, setWindowSize, tenantUnit, setTenantUnit } = useAmpUrlInformation('/usage', initialState);
+  const { windowSize, setWindowSize, tenantUnit, setTenantUnit } = useAmpUrlInformation(initialState);
 
   const showAggregatedMetrics = tenantUnit.label === aggregatedState.label;
   if (canShowAggregatedMetrics) {

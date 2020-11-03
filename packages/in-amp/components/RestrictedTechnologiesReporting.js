@@ -7,7 +7,7 @@ import useAmpUrlInformation from 'in-amp/hooks/useAmpUrlInformation';
 import config from 'in-services/config';
 
 export default function TechnologiesReporting() {
-  const { windowSize, setWindowSize, tenantUnit } = useAmpUrlInformation('/technologies', {
+  const { windowSize, setWindowSize, tenantUnit } = useAmpUrlInformation({
     tenant: config.tenant,
     unit: config.tenantUnit
   });
