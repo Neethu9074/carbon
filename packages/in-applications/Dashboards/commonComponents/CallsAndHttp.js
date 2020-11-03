@@ -1,67 +1,77 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
-import { ComboChartMetricSelector, TabChartSelector } from 'in-applications/Dashboards/commonComponents/ChartSelectors';
+import { TimeShiftAwareChartSelectorWithUrlState } from 'in-applications/Dashboards/commonComponents/ChartSelectors';
 import CallsErrorsChart from 'in-applications/Dashboards/commonComponents/CallsErrorsChart';
 import HttpSections from 'in-applications/Dashboards/commonComponents/http/HttpSections';
-import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
-import Card from 'in-new-components/Card';
+import { summaryTab } from 'in-applications/navigation/paths';
 
-const tabCallCount = 'Call count';
-const tabHttpStatusCodes = 'HTTP status codes';
+const tabCallCount = {
+  id: 'call',
+  label: 'Call count'
+};
+const tabHttpStatusCodes = {
+  id: 'http',
+  label: 'HTTP status codes'
+};
 
 const allTabs = [tabHttpStatusCodes, tabCallCount];
+const callsOnlyTab = [tabCallCount];
+
 const allMetrics = [
   {
-    id: 'http.1xx',
+    id: '1xx',
     label: '1XX',
     value: 'http.1xx',
-    tab: tabHttpStatusCodes
+    tab: tabHttpStatusCodes.id
   },
   {
-    id: 'http.2xx',
+    id: '2xx',
     label: '2XX',
     value: 'http.2xx',
-    tab: tabHttpStatusCodes,
+    tab: tabHttpStatusCodes.id,
     tabDefault: true
   },
   {
-    id: 'http.3xx',
+    id: '3xx',
     label: '3XX',
     value: 'http.3xx',
-    tab: tabHttpStatusCodes
+    tab: tabHttpStatusCodes.id
   },
   {
-    id: 'http.4xx',
+    id: '4xx',
     label: '4XX',
     value: 'http.4xx',
-    tab: tabHttpStatusCodes
+    tab: tabHttpStatusCodes.id
   },
   {
-    id: 'http.5xx',
+    id: '5xx',
     label: '5XX',
     value: 'http.5xx',
-    tab: tabHttpStatusCodes
+    tab: tabHttpStatusCodes.id
   },
   {
-    id: 'calls.nonHttp',
+    id: 'nonHttp',
     label: 'Other',
     value: 'calls',
-    tab: tabHttpStatusCodes
+    tab: tabHttpStatusCodes.id
   },
   {
     id: 'calls',
     label: 'Calls',
     value: 'calls',
-    tab: tabCallCount,
+    tab: tabCallCount.id,
     tabDefault: true
   },
   {
     id: 'erroneousCalls',
     label: 'Erroneous Calls',
     value: 'erroneousCalls',
-    tab: tabCallCount
+    tab: tabCallCount.id
   }
 ];
+
+const allMetricsWithoutHttpOther = allMetrics.filter(metric => metric.id !== 'nonHttp');
+const allMetricsWithoutHttp = allMetrics.filter(m => m.tab !== tabHttpStatusCodes.id);
 
 export default function CallsAndHttp({
   applicationId,
@@ -77,73 +87,78 @@ export default function CallsAndHttp({
   showHttp,
   hasHttpAndOtherEndpoints
 }) {
-  const tabs = showHttp ? allTabs : allTabs.filter(tab => tab !== tabHttpStatusCodes);
-  let metrics = showHttp ? allMetrics : allMetrics.filter(m => m.tab !== tabHttpStatusCodes);
-  if (!hasHttpAndOtherEndpoints) {
-    metrics = metrics.filter(metric => metric.id !== 'calls.nonHttp');
-  }
+  const tabs = showHttp ? allTabs : callsOnlyTab;
+  const metrics = showHttp
+    ? hasHttpAndOtherEndpoints
+      ? allMetrics
+      : allMetricsWithoutHttpOther
+    : allMetricsWithoutHttp;
 
-  const findDefaultMetricByTab = tab => metrics.find(m => m.tab === tab && m.tabDefault)?.id ?? metrics[0].id;
-  const findTabByMetric = metric => metrics.find(m => m.id === metric)?.tab ?? tabs[0];
-
-  const [activeTab, setActiveTab] = useState(tabs[0]);
-  const [activeMetric, setActiveMetric] = useState(findDefaultMetricByTab(activeTab));
-
-  useEffect(() => {
-    // if the active tab changes, the active metric must be updated
-    if (activeTab !== findTabByMetric(activeMetric)) {
-      setActiveMetric(findDefaultMetricByTab(activeTab));
-    }
-  }, [showHttp, hasHttpAndOtherEndpoints, activeTab]);
-
-  useEffect(() => {
-    // if the active metric changes, the active tab may need to be updated
-    const activeMetricTab = findTabByMetric(activeMetric);
-    if (activeMetricTab !== activeTab) {
-      setActiveTab(activeMetricTab);
-    }
-  }, [showHttp, hasHttpAndOtherEndpoints, activeMetric]);
-
-  const timeShiftConfig = useTimeShiftConfig();
-
-  const header = timeShiftConfig.offset ? (
-    <ComboChartMetricSelector metrics={metrics} selected={activeMetric} onChange={setActiveMetric} />
-  ) : (
-    tabs.length > 1 && <TabChartSelector tabs={tabs} selected={activeTab} onChange={setActiveTab} />
-  );
-
-  const selectedTab = timeShiftConfig.offset ? findTabByMetric(activeMetric) : activeTab;
   return (
-    <Card title={cardTitle} header={header}>
-      {selectedTab === tabCallCount ? (
-        <CallsErrorsChart
-          applicationId={applicationId}
-          serviceId={serviceId}
-          endpointId={endpointId}
-          tagFilters={tagFilters}
-          boundaryScope={boundaryScope}
-          timeConfig={timeConfig}
-          timeShiftConfig={timeShiftConfig}
-          timeShiftMetric={timeShiftConfig.offset ? activeMetric : null}
-          groupByTag={callGroupByTag}
-          renderPostChartContent={renderPostChartContent}
-        />
-      ) : (
-        <HttpSections
-          applicationId={applicationId}
-          serviceId={serviceId}
-          endpointId={endpointId}
-          tagFilters={tagFilters}
-          boundaryScope={boundaryScope}
-          timeConfig={timeConfig}
-          timeShiftConfig={timeShiftConfig}
-          timeShiftMetric={timeShiftConfig.offset ? activeMetric : null}
-          groupByTag={{ name: 'call.http.status' }}
-          renderPostChartContentHttpStatus={renderPostChartContentHttpStatus}
-          hasHttpAndOtherEndpoints={hasHttpAndOtherEndpoints}
-          showGraph
-        />
-      )}
-    </Card>
+    <TimeShiftAwareChartSelectorWithUrlState
+      cardTitle={cardTitle}
+      tabs={tabs}
+      metrics={metrics}
+      urlMatrixParamConfig={{ path: summaryTab, paramTab: 'callsTab', paramMetric: 'callsMetric' }}
+    >
+      <ChartPresenter
+        applicationId={applicationId}
+        serviceId={serviceId}
+        endpointId={endpointId}
+        tagFilters={tagFilters}
+        timeConfig={timeConfig}
+        boundaryScope={boundaryScope}
+        callGroupByTag={callGroupByTag}
+        renderPostChartContent={renderPostChartContent}
+        renderPostChartContentHttpStatus={renderPostChartContentHttpStatus}
+        hasHttpAndOtherEndpoints={hasHttpAndOtherEndpoints}
+      />
+    </TimeShiftAwareChartSelectorWithUrlState>
+  );
+}
+
+function ChartPresenter({
+  applicationId,
+  serviceId,
+  endpointId,
+  tagFilters,
+  timeConfig,
+  boundaryScope,
+  callGroupByTag,
+  renderPostChartContent,
+  renderPostChartContentHttpStatus,
+  hasHttpAndOtherEndpoints,
+  selectedTabId, // passed implicitly by TimeShiftAwareChartSelector
+  selectedMetricValue, // passed implicitly by TimeShiftAwareChartSelector
+  timeShiftConfig // passed implicitly by TimeShiftAwareChartSelector
+}) {
+  return selectedTabId === tabCallCount.id ? (
+    <CallsErrorsChart
+      applicationId={applicationId}
+      serviceId={serviceId}
+      endpointId={endpointId}
+      tagFilters={tagFilters}
+      boundaryScope={boundaryScope}
+      timeConfig={timeConfig}
+      timeShiftConfig={timeShiftConfig}
+      timeShiftMetric={selectedMetricValue}
+      groupByTag={callGroupByTag}
+      renderPostChartContent={renderPostChartContent}
+    />
+  ) : (
+    <HttpSections
+      applicationId={applicationId}
+      serviceId={serviceId}
+      endpointId={endpointId}
+      tagFilters={tagFilters}
+      boundaryScope={boundaryScope}
+      timeConfig={timeConfig}
+      timeShiftConfig={timeShiftConfig}
+      timeShiftMetric={selectedMetricValue}
+      groupByTag={{ name: 'call.http.status' }}
+      renderPostChartContentHttpStatus={renderPostChartContentHttpStatus}
+      hasHttpAndOtherEndpoints={hasHttpAndOtherEndpoints}
+      showGraph
+    />
   );
 }

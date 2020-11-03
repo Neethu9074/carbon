@@ -50,35 +50,30 @@ export default function HttpSections({
   const chartMetrics = [
     {
       config: defaultMetricConfig,
-      id: 'http.1xx',
       metric: 'http.1xx',
       label: '1XX',
       color: theme.lib.colors.chart.strokeColors25[8]
     },
     {
       config: defaultMetricConfig,
-      id: 'http.2xx',
       metric: 'http.2xx',
       label: '2XX',
       color: theme.lib.colors.chart.strokeColors25[1]
     },
     {
       config: defaultMetricConfig,
-      id: 'http.3xx',
       metric: 'http.3xx',
       label: '3XX',
       color: theme.lib.colors.chart.strokeColors25[4]
     },
     {
       config: defaultMetricConfig,
-      id: 'http.4xx',
       metric: 'http.4xx',
       label: '4XX',
       color: theme.lib.colors.warning
     },
     {
       config: defaultMetricConfig,
-      id: 'http.5xx',
       metric: 'http.5xx',
       label: '5XX',
       color: theme.lib.colors.failure
@@ -88,7 +83,6 @@ export default function HttpSections({
   if (hasHttpAndOtherEndpoints) {
     chartMetrics.push({
       config: otherCallsMetricConfig,
-      id: 'calls.nonHttp',
       metric: 'calls',
       label: 'Other',
       color: '#9aa5a9'
@@ -99,7 +93,7 @@ export default function HttpSections({
   let renderer;
   let colors;
   if (timeShiftConfig.offset) {
-    const timeShiftChartMetric = chartMetrics.find(m => m.id === timeShiftMetric) ?? chartMetrics[0];
+    const timeShiftChartMetric = chartMetrics.find(m => m.metric === timeShiftMetric) ?? chartMetrics[0];
     const timeShiftMetricConfig = {
       metric: timeShiftChartMetric.metric,
       label: timeShiftChartMetric.label,
