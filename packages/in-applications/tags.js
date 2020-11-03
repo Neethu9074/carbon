@@ -101,7 +101,8 @@ const disabledLists = {
       'related.infra.entity.pluginId': !isInstanaEngineer,
       'eum.correlation.id': !isInstanaEngineer,
       'eum.correlation.type': !isInstanaEngineer,
-      'trace.service.id': !isInstanaEngineer
+      'trace.service.id': !isInstanaEngineer,
+      'call.id': !isInstanaEngineer
     };
     return tag => disabledList[tag];
   })(),
