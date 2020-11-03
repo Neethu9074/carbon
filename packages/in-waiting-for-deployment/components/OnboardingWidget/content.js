@@ -716,7 +716,7 @@ function AWSLambdaContent({ agentKey, serverlessEndpoint }) {
   let steps;
 
   if (selectedRuntime === runtimeOptions[0]) {
-    const nodejsLayerVersion = '36';
+    const nodejsLayerVersion = '38';
 
     steps = (
       <Fragment>
