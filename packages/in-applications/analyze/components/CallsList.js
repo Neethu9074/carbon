@@ -180,6 +180,7 @@ function getTableData({
   cursor,
   hiddenCalls
 }) {
+  const { includeSynthetic = false, includeInternal = false } = hiddenCalls;
   return getCalls({
     pagination: {
       cursor,
@@ -191,8 +192,8 @@ function getTableData({
     },
     tagFilterExpression,
     queryPrecision: previewEnabled ? 'APPROXIMATE' : 'FULL',
-    includeSynthetic: hiddenCalls.includeSynthetic,
-    includeInternal: hiddenCalls.includeInternal
+    includeSynthetic,
+    includeInternal
   });
 }
 

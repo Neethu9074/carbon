@@ -3,9 +3,11 @@ import React from 'react';
 
 import MetricAndSortingConfigurator from 'in-new-components/MetricAndSortingConfigurator/MetricAndSortingConfigurator';
 import { ColumnizedContent, Ul, Li, LoadingSkeletonLi, HorizontalIndicatorLi } from 'in-new-components/lists/List';
+import { type as TAG_FILTER_TYPE } from 'in-new-components/QueryBuilder/transformation/tagFilter';
+import { addTagFilters } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import FacetedSearch from 'in-applications/analyze/components/FacetedSearch/FacetedSearch';
+import { EQUALS, IS_EMPTY } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
-import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import LoadMoreLi from 'in-new-components/lists/List/LoadMoreLi/LoadMoreLi';
 import { number, percentage, millis } from 'in-services/formatters/number';
 import { UNSPECIFIED } from 'in-analyze/components/GroupedTraces/Group';
@@ -141,11 +143,14 @@ function Presenter({
         <Ul space="xsmall">
           {partition(items, item => item.name !== UNSPECIFIED).map(partition =>
             partition.map((item, rowIndex) => {
-              const filterForGroup = groupingFilter({
-                groupBy,
-                group: item.name,
-                operator: item.name !== UNSPECIFIED ? undefined : 'IS_EMPTY'
-              });
+              const filterForGroup = groupingFilter(
+                {
+                  groupBy,
+                  group: item.name,
+                  operator: item.name !== UNSPECIFIED ? undefined : IS_EMPTY
+                },
+                tagFilterExpression
+              );
               return (
                 <Li
                   key={rowIndex}
@@ -163,6 +168,7 @@ function Presenter({
                       onFocusOnGroup={onFocusOnGroup}
                       orderByCalls={orderByCalls}
                       onChangeOrderByCalls={onChangeOrderByCalls}
+                      hiddenCalls={hiddenCalls}
                     />
                   )}
                 >
@@ -271,6 +277,7 @@ function metricToColumn(metric) {
 }
 
 function getGroups({ timeConfig, tagFilterExpression, groupBy, order, metrics, cursor, hiddenCalls }) {
+  const { includeSynthetic = false, includeInternal = false } = hiddenCalls;
   return getCallGroups({
     pagination: {
       cursor,
@@ -283,8 +290,8 @@ function getGroups({ timeConfig, tagFilterExpression, groupBy, order, metrics, c
     tagFilterExpression,
     order,
     metrics,
-    includeSynthetic: hiddenCalls.includeSynthetic,
-    includeInternal: hiddenCalls.includeInternal
+    includeSynthetic,
+    includeInternal
   });
 }
 
@@ -355,14 +362,15 @@ function ExpandedGroup({
   );
 }
 
-function groupingFilter({ groupBy, group, operator = EQUALS }) {
-  return {
-    type: 'TAG_FILTER',
+function groupingFilter({ groupBy, group, operator = EQUALS }, tagFilterExpression = null) {
+  const groupFilter = {
+    type: TAG_FILTER_TYPE,
     operator: operator,
     name: groupBy.groupbyTag,
     key: groupBy.groupbyTagSecondLevelKey,
     value: operator === EQUALS ? group : undefined
   };
+  return addTagFilters(tagFilterExpression, [groupFilter]);
 }
 
 const metricConfiguration = {
