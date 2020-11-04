@@ -5,8 +5,10 @@ import getTagSuggestions from 'in-subscription/application/getTagSuggestions';
 import { TAG } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import ExistingValue, { existingValuesForTag } from './ExistingValue';
+import memoize from 'in-services/util/memoizingObservableGenerator';
 import SearchInput from 'in-new-components/SearchInput/SearchInput';
 import SuggestionsPresenter from './SuggestionsPresenter';
+import { mapDataHO } from 'in-services/util/result';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import useObservable from 'in-hooks/useObservable';
 
@@ -81,23 +83,34 @@ function SearchAndSuggestions({ tagFilterExpression, tag, updateFilter, valueFil
 
 function Suggestions({ tagFilterExpression, tag, updateFilter, valueFilter }) {
   const timeConfig = useTimeConfig();
-  const suggestions = useObservable(
-    getTagSuggestions({
-      tagFilterExpression,
-      valueFilter,
-      tagName: tag,
-      filter: {
-        timeConfig: timeConfig
-      },
-      filterOnTagName: true,
-      metrics: {
-        calls_SUM_Agg: {
-          metric: 'calls',
-          aggregation: 'SUM'
+  const suggestionsFromServer = memoize(
+    () =>
+      getTagSuggestions({
+        tagFilterExpression,
+        tagName: tag,
+        filter: {
+          timeConfig: timeConfig
+        },
+        filterOnTagName: true,
+        metrics: {
+          calls_SUM_Agg: {
+            metric: 'calls',
+            aggregation: 'SUM'
+          }
         }
-      }
-    }),
-    [tagFilterExpression, valueFilter]
+      }),
+    () => tagFilterExpression,
+    60000
+  );
+  const valueRegex = new RegExp(valueFilter.split('').join('.*'), 'i');
+  const suggestions = useObservable(
+    suggestionsFromServer().map(
+      mapDataHO(data => ({
+        ...data,
+        results: data.results.filter(suggestion => valueRegex.test(suggestion.label))
+      }))
+    ),
+    [valueFilter]
   );
   return (
     <SuggestionsPresenter
