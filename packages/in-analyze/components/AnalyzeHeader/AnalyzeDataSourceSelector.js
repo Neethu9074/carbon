@@ -162,36 +162,21 @@ const productAreas = [
 ];
 
 export default function AnalyzeDataSourceSelector({ activeConfiguration, isGrouped, close }) {
-  const getHref$Opts = {
-    isGrouped
-  };
-
   return (
     <Ul className={locals.wrapper}>
       {productAreas
         .filter(({ hasAccess }) => hasAccess)
         .map(({ productArea, dataSources }, i) => {
-          const dataSourceListEntries = dataSources
-            .filter(({ enabled$ }) => !enabled$ || useObservable(enabled$, []))
-            .map(({ dataSource, getHref$ }) => (
-              <Li
-                key={dataSource}
-                noAlternatingBg
-                href$={getHref$(getHref$Opts)}
-                onDefaultHrefInteractionSideEffect={close}
-              >
-                <div
-                  className={evaluateClassNames({
-                    [locals.iconAndType]: true,
-                    [locals.active]:
-                      productArea === activeConfiguration.productArea && dataSource === activeConfiguration.dataSource
-                  })}
-                >
-                  <SvgIcon type={getIconByType(dataSource, productArea)} />
-                  {getLabelByType(dataSource, productArea)}
-                </div>
-              </Li>
-            ));
+          const dataSourceListEntries = dataSources.map(config => (
+            <ProductAreaEntry
+              key={config.dataSource}
+              {...config}
+              close={close}
+              isGrouped={isGrouped}
+              productArea={productArea}
+              activeConfiguration={activeConfiguration}
+            />
+          ));
 
           if (dataSourceListEntries.length === 1) {
             return dataSourceListEntries[0];
@@ -214,5 +199,27 @@ export default function AnalyzeDataSourceSelector({ activeConfiguration, isGroup
           );
         })}
     </Ul>
+  );
+}
+
+function ProductAreaEntry({ dataSource, getHref$, enabled$, isGrouped, close, productArea, activeConfiguration }) {
+  const isEnabled = useObservable(enabled$, []) ?? !enabled$;
+  if (!isEnabled) {
+    return null;
+  }
+
+  return (
+    <Li key={dataSource} noAlternatingBg href$={getHref$({ isGrouped })} onDefaultHrefInteractionSideEffect={close}>
+      <div
+        className={evaluateClassNames({
+          [locals.iconAndType]: true,
+          [locals.active]:
+            productArea === activeConfiguration.productArea && dataSource === activeConfiguration.dataSource
+        })}
+      >
+        <SvgIcon type={getIconByType(dataSource, productArea)} />
+        {getLabelByType(dataSource, productArea)}
+      </div>
+    </Li>
   );
 }
