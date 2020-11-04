@@ -61,6 +61,8 @@ import Link from 'in-components/Link';
 
 import locals from './CustomPayloadForm.mless';
 
+const maximumNumberOfRows = 20;
+
 const logger = createLogger('customPayloadConfig');
 
 const { TagBasedPayloadConfigurator } = createTagBasedPayloadConfigurator({
@@ -126,7 +128,7 @@ export function CustomPayload(props) {
         <Message withIcon small>
           These Key/Value pairs will be added as payload to each alert. See{' '}
           <Link href="https://www.instana.com/docs/" external>
-            our docs (TBD)
+            our docs
             {/* TODO, see story https://instana.kanbanize.com/ctrl_board/37/cards/28831 */}
           </Link>{' '}
           for more details.
@@ -159,12 +161,19 @@ export function CustomPayload(props) {
           columnDefinitions={columnDefinitions}
           getRowProps={getRowProps}
           isSearchable={false}
-          noDataMessage="No custom payload customized"
           rightHeader={
             canConfigureGlobalAlertPayload ? (
-              <Button kind="action" onClick={addRow} icon="lib_openclose_add_circle_outline" disabled={!enabled}>
-                Add Row
-              </Button>
+              form.size >= maximumNumberOfRows ? (
+                <Tooltip content={`The number of rows is restricted to ${maximumNumberOfRows}.`} align="bottomMiddle">
+                  <Button kind="action" icon="lib_openclose_add_circle_outline" disabled>
+                    Add Row
+                  </Button>
+                </Tooltip>
+              ) : (
+                <Button kind="action" onClick={addRow} icon="lib_openclose_add_circle_outline" disabled={!enabled}>
+                  Add Row
+                </Button>
+              )
             ) : (
               <span />
             )
