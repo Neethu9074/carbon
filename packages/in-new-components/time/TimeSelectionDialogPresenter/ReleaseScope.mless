@@ -8,4 +8,12 @@
       margin-right: .5rem;
     }
   }
+
+  .serviceApplicationSpan {
+    padding: 0 .5rem;
+  }
+
+  .serviceApplicationRow {
+    display: flex;
+  }
 }

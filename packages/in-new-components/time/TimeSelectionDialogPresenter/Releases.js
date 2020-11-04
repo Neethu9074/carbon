@@ -1,4 +1,4 @@
-import React, { Children, useState } from 'react';
+import React, { useState } from 'react';
 
 import ReleaseScope from 'in-new-components/time/TimeSelectionDialogPresenter/ReleaseScope';
 import { getReleasesWithDefaults } from 'in-events/subscriptions/getReleases';
@@ -10,6 +10,7 @@ import Pagination from 'in-new-components/Pagination';
 import Button from 'in-new-components/Button';
 import SvgIcon from 'in-components/SvgIcon';
 import { days } from 'in-services/time';
+
 import locals from './Releases.mless';
 
 const columnDefinitions = [
@@ -30,17 +31,12 @@ const columnDefinitions = [
     label: 'Scope',
     sortable: false,
     getContent(item) {
-      if (!item.serviceIds && !item.applicationIds) {
+      if (!item.scopes) {
         return <span>Global</span>;
       }
-      let scopes = [];
-      if (item.serviceIds) {
-        scopes.push(Children.toArray(item.serviceIds.map(serviceId => <ReleaseScope serviceId={serviceId} />)));
-      }
-      if (item.applicationIds) {
-        scopes.push(Children.toArray(item.applicationIds.map(appId => <ReleaseScope applicationId={appId} />)));
-      }
-      scopes = scopes.flatMap(item => item);
+      const scopes = item.scopes.map((scope, i) => (
+        <ReleaseScope key={i} serviceId={scope.serviceId} applicationId={scope.applicationId} />
+      ));
       const stepSize = 2;
       const [showItems, setShowItems] = useState(scopes.length > stepSize ? stepSize : scopes.length);
       let scopesShown = scopes.slice(0, showItems);
@@ -57,7 +53,7 @@ const columnDefinitions = [
                   setShowItems(showItems + stepSize);
                 }}
               >
-                ... show {Math.min(stepSize, scopes.length - showItems)} more
+                … show {Math.min(stepSize, scopes.length - showItems)} more
               </Button>
             </span>
           )}
