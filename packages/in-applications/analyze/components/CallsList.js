@@ -31,8 +31,7 @@ export default function CallsList({
   orderBy,
   onChangeOrderBy,
   isValid,
-  addFilter,
-  removeFilter,
+  updateFilter,
   tableOnly = false,
   hiddenCalls,
   onChangeHiddenCalls
@@ -77,8 +76,7 @@ export default function CallsList({
     <Presenter
       items={items}
       tagFilterExpression={tagFilterExpression}
-      addFilter={addFilter}
-      removeFilter={removeFilter}
+      updateFilter={updateFilter}
       columnDefinitions={columnDefinitions}
       optionalColumns={optionalColumns}
       numSkeletonRows={numSkeletonRows}
@@ -89,6 +87,7 @@ export default function CallsList({
       filterBy={filterBy}
       hiddenCalls={hiddenCalls}
       onChangeHiddenCalls={onChangeHiddenCalls}
+      isValid={isValid}
     />
   );
 }
@@ -96,8 +95,7 @@ export default function CallsList({
 function Presenter({
   items,
   tagFilterExpression,
-  addFilter,
-  removeFilter,
+  updateFilter,
   columnDefinitions,
   optionalColumns,
   numSkeletonRows,
@@ -107,7 +105,8 @@ function Presenter({
   retrievalSize,
   filterBy,
   hiddenCalls,
-  onChangeHiddenCalls
+  onChangeHiddenCalls,
+  isValid
 }) {
   const totalCalls = tableProps?.totalHits != null ? `${number.compact(tableProps.totalHits)} Calls` : null;
   return (
@@ -116,10 +115,10 @@ function Presenter({
         <InlineTabNavigation tabList={[{ text: totalCalls }]} />
         <FacetedSearch
           tagFilterExpression={tagFilterExpression}
-          addFilter={addFilter}
-          removeFilter={removeFilter}
+          updateFilter={updateFilter}
           hiddenCalls={hiddenCalls}
           onChangeHiddenCalls={onChangeHiddenCalls}
+          isValid={isValid}
         />
       </div>
       <div className={locals.table}>

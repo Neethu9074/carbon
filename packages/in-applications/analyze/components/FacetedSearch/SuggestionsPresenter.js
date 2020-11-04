@@ -13,7 +13,7 @@ import locals from './Suggestion.mless';
 
 const DEFAULT_SUGGESTIONS_SIZE = 5;
 
-export default function SuggestionsPresenter({ loading = false, errors = [], suggestions = [], tag, addFilter }) {
+export default function SuggestionsPresenter({ loading = false, errors = [], suggestions = [], tag, updateFilter }) {
   if (loading) {
     return <Loading />;
   } else if (errors?.length > 0) {
@@ -21,7 +21,7 @@ export default function SuggestionsPresenter({ loading = false, errors = [], sug
   } else if (!suggestions) {
     return null;
   } else if (suggestions.length > 0) {
-    return <Results suggestions={suggestions} tag={tag} addFilter={addFilter} />;
+    return <Results suggestions={suggestions} tag={tag} updateFilter={updateFilter} />;
   } else {
     return <NoResults />;
   }
@@ -47,7 +47,7 @@ function Errors({ errors }) {
   );
 }
 
-function Results({ suggestions, tag, addFilter }) {
+function Results({ suggestions, tag, updateFilter }) {
   const [showMore, setShowMore] = useState(true);
   return (
     <>
@@ -58,11 +58,15 @@ function Results({ suggestions, tag, addFilter }) {
             <Tooltip content={suggestion.label}>
               <Link
                 onClick={() =>
-                  addFilter({
-                    type: TAG,
-                    name: tag,
-                    operator: EQUALS,
-                    value: suggestion.label
+                  updateFilter({
+                    add: [
+                      {
+                        type: TAG,
+                        name: tag,
+                        operator: EQUALS,
+                        value: suggestion.label
+                      }
+                    ]
                   })
                 }
                 className={locals.addSuggestion}

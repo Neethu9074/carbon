@@ -27,6 +27,7 @@ import AnalyzeHeader from 'in-analyze/components/AnalyzeHeader';
 import Sections from 'in-new-components/workspace/Sections';
 import { pendingResult } from 'in-services/fixedObjects';
 import { error } from 'in-new-components/Message/types';
+import { emptyArray } from 'in-services/fixedObjects';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import useObservable from 'in-hooks/useObservable';
 import Stack from 'in-new-components/layout/Stack';
@@ -97,10 +98,12 @@ function ApplicationAnalyzeViewWithFixatedTimeConfig() {
   const onChangeHiddenCalls = hiddenCalls => {
     onChange({ hiddenCalls });
   };
-  const addFilter = (...filters) =>
-    onChange({ tagFilterExpression: joinExpressions({ expressions: [tagFilterExpression, ...filters] }) });
-  const removeFilter = (...filters) =>
-    onChange({ tagFilterExpression: removeTopLevelFilters(tagFilterExpression, ...filters) });
+  const updateFilter = ({ add = emptyArray, remove = emptyArray }) =>
+    onChange({
+      tagFilterExpression: joinExpressions({
+        expressions: [removeTopLevelFilters(tagFilterExpression, ...remove), ...add]
+      })
+    });
 
   return (
     <Sticky header={<AnalyzeHeader isGrouped={Boolean(groupBy?.groupbyTag)} />}>
@@ -143,8 +146,7 @@ function ApplicationAnalyzeViewWithFixatedTimeConfig() {
               orderBy={orderByCalls}
               onChangeOrderBy={onChangeOrderByCalls}
               isValid={isValid}
-              addFilter={addFilter}
-              removeFilter={removeFilter}
+              updateFilter={updateFilter}
               hiddenCalls={hiddenCalls}
               onChangeHiddenCalls={onChangeHiddenCalls}
             />
@@ -163,8 +165,7 @@ function ApplicationAnalyzeViewWithFixatedTimeConfig() {
               onChangeOrderByCalls={onChangeOrderByCalls}
               onChangeMetrics={onChangeMetrics}
               isValid={isValid}
-              addFilter={addFilter}
-              removeFilter={removeFilter}
+              updateFilter={updateFilter}
               hiddenCalls={hiddenCalls}
               onChangeHiddenCalls={onChangeHiddenCalls}
             />

@@ -15,34 +15,38 @@ import Link from 'in-components/Link';
 
 import locals from './Suggestion.mless';
 
-export default function FacetedFilterErroneous({ title, tagFilterExpression, addFilter, removeFilter }) {
+export default function FacetedFilterErroneous({ title, tagFilterExpression, updateFilter }) {
   return (
     <FacetedExpandableCard title={title}>
-      <Body tagFilterExpression={tagFilterExpression} addFilter={addFilter} removeFilter={removeFilter} />
+      <Body tagFilterExpression={tagFilterExpression} updateFilter={updateFilter} />
     </FacetedExpandableCard>
   );
 }
 
-function Body({ tagFilterExpression, addFilter, removeFilter }) {
+function Body({ tagFilterExpression, updateFilter }) {
   if (existingErroneousFilter(tagFilterExpression)) {
     return (
       <ExistingValue
         value={'Erroneous'}
         remove={() =>
-          removeFilter({
-            type: TAG,
-            name: 'call.erroneous',
-            value: true,
-            operator: EQUALS
+          updateFilter({
+            remove: [
+              {
+                type: TAG,
+                name: 'call.erroneous',
+                value: true,
+                operator: EQUALS
+              }
+            ]
           })
         }
       />
     );
   }
-  return <Suggestion addFilter={addFilter} tagFilterExpression={tagFilterExpression} />;
+  return <Suggestion updateFilter={updateFilter} tagFilterExpression={tagFilterExpression} />;
 }
 
-function Suggestion({ addFilter, tagFilterExpression }) {
+function Suggestion({ updateFilter, tagFilterExpression }) {
   const timeConfig = useTimeConfig();
   const suggestions = useObservable(
     getTagSuggestions({
@@ -88,11 +92,15 @@ function Suggestion({ addFilter, tagFilterExpression }) {
       <div className={locals.suggestion}>
         <Link
           onClick={() =>
-            addFilter({
-              type: TAG,
-              name: 'call.erroneous',
-              value: true,
-              operator: EQUALS
+            updateFilter({
+              add: [
+                {
+                  type: TAG,
+                  name: 'call.erroneous',
+                  value: true,
+                  operator: EQUALS
+                }
+              ]
             })
           }
           className={locals.addSuggestion}

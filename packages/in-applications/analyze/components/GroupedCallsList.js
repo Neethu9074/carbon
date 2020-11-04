@@ -45,8 +45,7 @@ export default function GroupedCallsList({
   onChangeOrderByCalls,
   onChangeMetrics,
   isValid,
-  addFilter,
-  removeFilter,
+  updateFilter,
   hiddenCalls,
   onChangeHiddenCalls
 }) {
@@ -85,8 +84,8 @@ export default function GroupedCallsList({
       onChangeOrderByCalls={onChangeOrderByCalls}
       onChangeHiddenCalls={onChangeHiddenCalls}
       tagFilterExpression={tagFilterExpression}
-      addFilter={addFilter}
-      removeFilter={removeFilter}
+      updateFilter={updateFilter}
+      isValid={isValid}
       {...props}
     />
   );
@@ -110,10 +109,10 @@ function Presenter({
   onChangeMetrics,
   onChangeOrderByCalls,
   tagFilterExpression,
-  addFilter,
-  removeFilter,
+  updateFilter,
   hiddenCalls,
-  onChangeHiddenCalls
+  onChangeHiddenCalls,
+  isValid
 }) {
   const hasErrors = errors?.length > 0;
   const isLoading = progress?.loading;
@@ -127,10 +126,10 @@ function Presenter({
         <InlineTabNavigation tabList={[{ text: totalGroups }]} />
         <FacetedSearch
           tagFilterExpression={tagFilterExpression}
-          addFilter={addFilter}
-          removeFilter={removeFilter}
+          updateFilter={updateFilter}
           hiddenCalls={hiddenCalls}
           onChangeHiddenCalls={onChangeHiddenCalls}
+          isValid={isValid}
         />
       </div>
       <div className={locals.table}>

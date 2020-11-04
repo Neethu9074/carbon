@@ -56,4 +56,8 @@
     white-space: nowrap;
     font-size: 0.75rem;
   }
+  .errorMessage {
+    margin-left: 0.75rem;
+    margin-right: 0.75rem;
+  }
 }

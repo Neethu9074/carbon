@@ -19,15 +19,15 @@ const ranges = [
   { start: 500, end: 599 }
 ];
 
-export default function FacetedFilterHttpStatusCodes({ title, tagFilterExpression, addFilter, removeFilter }) {
+export default function FacetedFilterHttpStatusCodes({ title, tagFilterExpression, updateFilter }) {
   return (
     <FacetedExpandableCard title={title}>
-      <Body tagFilterExpression={tagFilterExpression} addFilter={addFilter} removeFilter={removeFilter} />
+      <Body tagFilterExpression={tagFilterExpression} updateFilter={updateFilter} />
     </FacetedExpandableCard>
   );
 }
 
-function Body({ tagFilterExpression, addFilter, removeFilter }) {
+function Body({ tagFilterExpression, updateFilter }) {
   const currentFilters = existingFiltersForTag(tagFilterExpression);
   const selectedRanges =
     currentFilters &&
@@ -41,12 +41,12 @@ function Body({ tagFilterExpression, addFilter, removeFilter }) {
       return hasStart && hasEnd;
     });
   if (selectedRanges?.length > 0) {
-    return <SelectedRanges selectedRanges={selectedRanges} removeFilter={removeFilter} />;
+    return <SelectedRanges selectedRanges={selectedRanges} updateFilter={updateFilter} />;
   }
   return (
     <>
       {ranges.map(range => (
-        <Suggestion key={range.start} range={range} addFilter={addFilter} />
+        <Suggestion key={range.start} range={range} updateFilter={updateFilter} />
       ))}
     </>
   );
@@ -62,7 +62,7 @@ function existingFiltersForTag(tagFilterExpression) {
 
 const rangeLabel = range => `${range.start}-${range.end}`;
 
-function SelectedRanges({ selectedRanges, removeFilter }) {
+function SelectedRanges({ selectedRanges, updateFilter }) {
   return (
     <>
       {selectedRanges.map(range => (
@@ -70,7 +70,36 @@ function SelectedRanges({ selectedRanges, removeFilter }) {
           key={range.start}
           value={rangeLabel(range)}
           remove={() =>
-            removeFilter(
+            updateFilter({
+              remove: [
+                {
+                  type: TAG,
+                  name: tag,
+                  operator: GREATER_OR_EQUAL_THAN,
+                  value: range.start
+                },
+                {
+                  type: TAG,
+                  name: tag,
+                  operator: LESS_OR_EQUAL_THAN,
+                  value: range.end
+                }
+              ]
+            })
+          }
+        />
+      ))}
+    </>
+  );
+}
+
+function Suggestion({ range, updateFilter }) {
+  return (
+    <div className={locals.suggestion}>
+      <Link
+        onClick={() => {
+          updateFilter({
+            add: [
               {
                 type: TAG,
                 name: tag,
@@ -83,33 +112,8 @@ function SelectedRanges({ selectedRanges, removeFilter }) {
                 operator: LESS_OR_EQUAL_THAN,
                 value: range.end
               }
-            )
-          }
-        />
-      ))}
-    </>
-  );
-}
-
-function Suggestion({ range, addFilter }) {
-  return (
-    <div className={locals.suggestion}>
-      <Link
-        onClick={() => {
-          addFilter(
-            {
-              type: TAG,
-              name: tag,
-              operator: GREATER_OR_EQUAL_THAN,
-              value: range.start
-            },
-            {
-              type: TAG,
-              name: tag,
-              operator: LESS_OR_EQUAL_THAN,
-              value: range.end
-            }
-          );
+            ]
+          });
         }}
         className={locals.label}
       >

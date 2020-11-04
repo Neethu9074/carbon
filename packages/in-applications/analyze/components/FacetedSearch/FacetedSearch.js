@@ -4,6 +4,7 @@ import FacetedFilterHttpStatusCodes from 'in-applications/analyze/components/Fac
 import FacetedFilterHiddenCalls from 'in-applications/analyze/components/FacetedSearch/FacetedFilterHiddenCalls';
 import FacetedFilterErroneous from 'in-applications/analyze/components/FacetedSearch/FacetedFilterErroneous';
 import FacetedFilterGeneric from 'in-applications/analyze/components/FacetedSearch/FacetedFilterGeneric';
+import FacetedFilterLatency from 'in-applications/analyze/components/FacetedSearch/FacetedFilterLatency';
 import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import { DESTINATION } from 'in-new-components/QueryBuilder/tagFilter/entities';
 
@@ -11,26 +12,26 @@ import locals from './FacetedSearch.mless';
 
 export default function FacetedSearch({
   tagFilterExpression = toBackendQueryModel([]),
-  addFilter,
-  removeFilter,
+  updateFilter,
   hiddenCalls,
-  onChangeHiddenCalls
+  onChangeHiddenCalls,
+  isValid
 }) {
   return (
     <div className={locals.wrapper}>
-      <FacetedFilterErroneous
-        title="Erroneous"
+      <FacetedFilterLatency
+        title="Latency"
         tagFilterExpression={tagFilterExpression}
-        addFilter={addFilter}
-        removeFilter={removeFilter}
+        updateFilter={updateFilter}
+        isValid={isValid}
       />
+      <FacetedFilterErroneous title="Erroneous" tagFilterExpression={tagFilterExpression} updateFilter={updateFilter} />
       <FacetedFilterGeneric
         title="Applications"
         tag="application.name"
         entity={DESTINATION}
         tagFilterExpression={tagFilterExpression}
-        addFilter={addFilter}
-        removeFilter={removeFilter}
+        updateFilter={updateFilter}
       />
 
       <FacetedFilterGeneric
@@ -38,37 +39,32 @@ export default function FacetedSearch({
         tag="service.name"
         entity={DESTINATION}
         tagFilterExpression={tagFilterExpression}
-        addFilter={addFilter}
-        removeFilter={removeFilter}
+        updateFilter={updateFilter}
       />
       <FacetedFilterGeneric
         title="Endpoints"
         tag="endpoint.name"
         entity={DESTINATION}
         tagFilterExpression={tagFilterExpression}
-        addFilter={addFilter}
-        removeFilter={removeFilter}
+        updateFilter={updateFilter}
       />
       <FacetedFilterGeneric
         title="Types"
         tag="call.type"
         tagFilterExpression={tagFilterExpression}
-        addFilter={addFilter}
-        removeFilter={removeFilter}
+        updateFilter={updateFilter}
       />
       <FacetedFilterGeneric
         title="Technologies"
         tag="technology"
         entity={DESTINATION}
         tagFilterExpression={tagFilterExpression}
-        addFilter={addFilter}
-        removeFilter={removeFilter}
+        updateFilter={updateFilter}
       />
       <FacetedFilterHttpStatusCodes
         title="HTTP Status Code"
         tagFilterExpression={tagFilterExpression}
-        addFilter={addFilter}
-        removeFilter={removeFilter}
+        updateFilter={updateFilter}
       />
       <FacetedFilterHiddenCalls
         title="Hidden Calls"

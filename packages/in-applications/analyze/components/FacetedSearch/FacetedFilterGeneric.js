@@ -12,21 +12,15 @@ import useObservable from 'in-hooks/useObservable';
 
 import locals from './Suggestion.mless';
 
-export default function FacetedFilterGeneric({ title, tagFilterExpression, tag, entity, addFilter, removeFilter }) {
+export default function FacetedFilterGeneric({ title, tagFilterExpression, tag, entity, updateFilter }) {
   return (
     <FacetedExpandableCard title={title}>
-      <Body
-        tagFilterExpression={tagFilterExpression}
-        tag={tag}
-        entity={entity}
-        addFilter={addFilter}
-        removeFilter={removeFilter}
-      />
+      <Body tagFilterExpression={tagFilterExpression} tag={tag} entity={entity} updateFilter={updateFilter} />
     </FacetedExpandableCard>
   );
 }
 
-function Body({ tagFilterExpression, tag, entity, title, addFilter, removeFilter }) {
+function Body({ tagFilterExpression, tag, entity, title, updateFilter }) {
   const [valueFilter, setValueFilter] = useState('');
   const selectedValues = existingValuesForTag(tagFilterExpression, tag, entity);
   if (selectedValues.length > 0) {
@@ -35,12 +29,16 @@ function Body({ tagFilterExpression, tag, entity, title, addFilter, removeFilter
         title={title}
         selectedValues={selectedValues}
         remove={value =>
-          removeFilter({
-            type: TAG,
-            name: tag,
-            operator: EQUALS,
-            value,
-            ...(entity && { entity })
+          updateFilter({
+            remove: [
+              {
+                type: TAG,
+                name: tag,
+                operator: EQUALS,
+                value,
+                ...(entity && { entity })
+              }
+            ]
           })
         }
       />
@@ -50,7 +48,7 @@ function Body({ tagFilterExpression, tag, entity, title, addFilter, removeFilter
     <SearchAndSuggestions
       tagFilterExpression={tagFilterExpression}
       tag={tag}
-      addFilter={addFilter}
+      updateFilter={updateFilter}
       valueFilter={valueFilter}
       setValueFilter={setValueFilter}
     />
@@ -67,7 +65,7 @@ function ExistingFilters({ selectedValues, remove }) {
   );
 }
 
-function SearchAndSuggestions({ tagFilterExpression, tag, addFilter, valueFilter, setValueFilter }) {
+function SearchAndSuggestions({ tagFilterExpression, tag, updateFilter, valueFilter, setValueFilter }) {
   return (
     <>
       <SearchInput onChange={setValueFilter} query={valueFilter} className={locals.search} withoutIcon />
@@ -75,13 +73,13 @@ function SearchAndSuggestions({ tagFilterExpression, tag, addFilter, valueFilter
         tag={tag}
         valueFilter={valueFilter}
         tagFilterExpression={tagFilterExpression}
-        addFilter={addFilter}
+        updateFilter={updateFilter}
       />
     </>
   );
 }
 
-function Suggestions({ tagFilterExpression, tag, addFilter, valueFilter }) {
+function Suggestions({ tagFilterExpression, tag, updateFilter, valueFilter }) {
   const timeConfig = useTimeConfig();
   const suggestions = useObservable(
     getTagSuggestions({
@@ -106,7 +104,7 @@ function Suggestions({ tagFilterExpression, tag, addFilter, valueFilter }) {
       loading={suggestions?.progress.loading}
       errors={suggestions?.errors}
       suggestions={suggestions?.data?.results}
-      addFilter={addFilter}
+      updateFilter={updateFilter}
       tag={tag}
     />
   );
