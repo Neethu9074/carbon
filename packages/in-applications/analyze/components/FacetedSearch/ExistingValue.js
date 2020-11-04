@@ -25,7 +25,7 @@ export function existingValuesForTag(tagFilterExpression, tag, entity) {
     tagFilterExpression.type === TAG_FILTER_TYPE &&
     tagFilterExpression.name === tag &&
     tagFilterExpression.operator === EQUALS &&
-    (tagFilterExpression.entity ?? DESTINATION) === entity &&
+    (!entity || (tagFilterExpression.entity ?? DESTINATION) === entity) &&
     tagFilterExpression.value !== null &&
     tagFilterExpression.value;
   if (singleFilterValue) {
@@ -39,7 +39,7 @@ export function existingValuesForTag(tagFilterExpression, tag, entity) {
         element =>
           element.type === TAG_FILTER_TYPE &&
           element.name === tag &&
-          (element.entity ?? DESTINATION) === entity &&
+          (!entity || (tagFilterExpression.entity ?? DESTINATION) === entity) &&
           element.operator === EQUALS
       )
       .map(element => element.value)
