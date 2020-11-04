@@ -12,7 +12,9 @@ import LoadMoreLi from 'in-new-components/lists/List/LoadMoreLi/LoadMoreLi';
 import { number, percentage, millis } from 'in-services/formatters/number';
 import { UNSPECIFIED } from 'in-analyze/components/GroupedTraces/Group';
 import InlineTabNavigation from 'in-new-components/InlineTabNavigation';
+import { NUMBER } from 'in-new-components/QueryBuilder/tagFilter/types';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
+import { getApplicationTagCatalog } from 'in-applications/api/catalog';
 import getCallGroups from 'in-subscription/application/getCallGroups';
 import CallsList from 'in-applications/analyze/components/CallsList';
 import { error as errorType } from 'in-new-components/Message/types';
@@ -22,9 +24,12 @@ import { indeterminateProgress } from 'in-services/fixedObjects';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import IconButton from 'in-new-components/IconButton/IconButton';
 import useCursorPagination from 'in-hooks/useCursorPagination';
+import { pendingResult } from 'in-services/fixedObjects';
 import KeyValue from 'in-new-components/lists/KeyValue';
 import Tooltip from 'in-components/Tooltip/Tooltip';
+import { mapDataHO } from 'in-services/util/result';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import useObservable from 'in-hooks/useObservable';
 import Message from 'in-new-components/Message';
 import { empty } from 'reactive-observables';
 import SvgIcon from 'in-components/SvgIcon';
@@ -69,6 +74,13 @@ export default function GroupedCallsList({
     [timeConfig, groupBy, orderBy, metrics, isValid, hiddenCalls]
   );
 
+  const groupByTagType = useObservable(
+    getApplicationTagCatalog({ dataSource: 'CALLS' })({ timeConfig }).map(
+      mapDataHO(data => data.tags.find(tag => tag.name === groupBy.groupbyTag)?.type)
+    ) ?? pendingResult,
+    [timeConfig]
+  );
+
   return (
     <Presenter
       timeConfig={timeConfig}
@@ -86,6 +98,7 @@ export default function GroupedCallsList({
       tagFilterExpression={tagFilterExpression}
       updateFilter={updateFilter}
       isValid={isValid}
+      groupByTagType={groupByTagType}
       {...props}
     />
   );
@@ -112,11 +125,12 @@ function Presenter({
   updateFilter,
   hiddenCalls,
   onChangeHiddenCalls,
-  isValid
+  isValid,
+  groupByTagType
 }) {
   const hasErrors = errors?.length > 0;
   const isLoading = progress?.loading;
-  const columnDefinitions = columns({ groupBy, onFocusOnGroup, metrics });
+  const columnDefinitions = columns({ groupBy, onFocusOnGroup, metrics, groupByTagType });
   const columnDefinitionsForUnspecified = columnsForUnspecified({ metrics });
 
   const totalGroups = totalHits != null ? `${number.compact(totalHits)} Groups` : null;
@@ -146,7 +160,8 @@ function Presenter({
                 {
                   groupBy,
                   group: item.name,
-                  operator: item.name !== UNSPECIFIED ? undefined : IS_EMPTY
+                  operator: item.name !== UNSPECIFIED ? undefined : IS_EMPTY,
+                  groupByTagType
                 },
                 tagFilterExpression
               );
@@ -168,6 +183,7 @@ function Presenter({
                       orderByCalls={orderByCalls}
                       onChangeOrderByCalls={onChangeOrderByCalls}
                       hiddenCalls={hiddenCalls}
+                      groupByTagType={groupByTagType}
                     />
                   )}
                 >
@@ -204,7 +220,7 @@ function Presenter({
   );
 }
 
-function columns({ groupBy, onFocusOnGroup, metrics }) {
+function columns({ groupBy, onFocusOnGroup, metrics, groupByTagType }) {
   const { groupbyTag, groupbyTagSecondLevelKey } = groupBy;
   return [
     {
@@ -228,7 +244,7 @@ function columns({ groupBy, onFocusOnGroup, metrics }) {
           <Tooltip content="Focus on this group">
             <IconButton
               type="lib_actions_filter"
-              onClick={() => onFocusOnGroup(groupingFilter({ groupBy, group: group.name }))}
+              onClick={() => onFocusOnGroup(groupingFilter({ groupBy, group: group.name, groupByTagType }))}
             />
           </Tooltip>
         );
@@ -343,7 +359,8 @@ function ExpandedGroup({
   onFocusOnGroup,
   orderByCalls,
   onChangeOrderByCalls,
-  hiddenCalls
+  hiddenCalls,
+  groupByTagType
 }) {
   return (
     <CallsList
@@ -351,7 +368,7 @@ function ExpandedGroup({
       timeConfig={timeConfig}
       retrievalSize={20}
       numSkeletonRows={Math.min(group.metrics[aggregateMetric('calls', 'SUM')][0][1], 20)}
-      filterBy={() => onFocusOnGroup(groupingFilter({ groupBy, group: group.name }))}
+      filterBy={() => onFocusOnGroup(groupingFilter({ groupBy, group: group.name, groupByTagType }))}
       orderBy={orderByCalls}
       onChangeOrderBy={onChangeOrderByCalls}
       tableOnly
@@ -361,13 +378,18 @@ function ExpandedGroup({
   );
 }
 
-function groupingFilter({ groupBy, group, operator = EQUALS }, tagFilterExpression = null) {
+function groupingFilter({ groupBy, group, operator = EQUALS, groupByTagType }, tagFilterExpression = null) {
   const groupFilter = {
     type: TAG_FILTER_TYPE,
     operator: operator,
     name: groupBy.groupbyTag,
     key: groupBy.groupbyTagSecondLevelKey,
-    value: operator === EQUALS ? group : undefined
+    value:
+      operator === EQUALS && groupByTagType.progress.loading === false
+        ? groupByTagType.data === NUMBER
+          ? Number(group)
+          : group
+        : undefined
   };
   return addTagFilters(tagFilterExpression, [groupFilter]);
 }
