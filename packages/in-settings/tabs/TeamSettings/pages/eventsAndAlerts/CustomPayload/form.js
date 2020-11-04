@@ -1,9 +1,9 @@
 import { createMapForm, createField, createListForm } from 'formalistic';
 
+import { isBlank, isNotBlank } from 'in-services/util/string';
 import { generateUniqueShortId } from 'in-services/util/id';
 import { emptyArray } from 'in-services/fixedObjects';
 import { hasError } from 'in-services/util/result';
-import { isBlank } from 'in-services/util/string';
 
 export const staticBooleanType = 'staticBoolean';
 export const staticNumberType = 'staticNumber';
@@ -79,21 +79,22 @@ function longNumberValidator(num) {
 
 const numberMustBeLong = createValidationError('Number must be a Long integer value');
 
-function secondKeyMayNotBeMissingValidator(tagObject) {
-  if (!tagObject) {
-    return;
+function needsTagAndSecondKeyMayNotBeMissingValidator(tagObject) {
+  if (!tagObject || !tagObject.tagName) {
+    return tagNeedsToBeSelectedError;
   }
   if (tagObject.key != null && isBlank(tagObject.key)) {
     return secondKeyMayNotBeMissingError;
   }
 }
 
+const tagNeedsToBeSelectedError = createValidationError('A tag needs to be selected.');
 const secondKeyMayNotBeMissingError = createValidationError('A key needs to be specified.');
 
 export const validatorForType = {
   [staticStringType]: nonBlankValidator,
   [staticNumberType]: longNumberValidator,
-  [dynamicType]: secondKeyMayNotBeMissingValidator
+  [dynamicType]: needsTagAndSecondKeyMayNotBeMissingValidator
 };
 
 function createFormFieldForField(field) {
@@ -156,7 +157,7 @@ export function createForm(payloadFields) {
 function onlyUniqueKeyNames(payloadItems) {
   if (!payloadItems) return;
 
-  const keys = payloadItems.map(item => item.get('key').value);
+  const keys = payloadItems.map(item => item.get('key').value).filter(isNotBlank);
   const keySet = new Set(keys);
   if (keys.length > keySet.size) {
     return keyNamesMustBeUnique;
