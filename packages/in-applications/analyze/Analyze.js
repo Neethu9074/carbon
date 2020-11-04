@@ -74,8 +74,12 @@ function ApplicationAnalyzeViewWithFixatedTimeConfig() {
 
   const onTagFilterExpressionChange = tagFilterExpression => onChange({ tagFilterExpression });
   const onGroupByChange = groupBy => onChange({ groupBy });
-  const onFocusOnGroup = tagFilterToAdd =>
-    onChange({ tagFilterExpression: joinExpressions(tagFilterExpression, [tagFilterToAdd]), groupBy: {} });
+  const onFocusOnGroup = tagFilterToAdd => {
+    onChange({
+      tagFilterExpression: joinExpressions({ expressions: [tagFilterExpression, tagFilterToAdd] }),
+      groupBy: {}
+    });
+  };
   const onChangeOrderByGroups = orderBy => onChange({ orderByGroups: orderBy });
   const onChangeOrderByCalls = orderBy =>
     onChange({ orderByCalls: { by: orderBy.orderBy, direction: orderBy.orderDirection } });
