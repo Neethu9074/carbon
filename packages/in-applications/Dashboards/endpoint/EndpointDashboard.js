@@ -34,22 +34,24 @@ import useUrlState from 'in-hooks/useUrlState';
 import Footer from 'in-new-components/Footer';
 import { role } from 'in-stores/user';
 
+const urlStateDefinition = {
+  bind: [
+    endpointDashboardUrlParameters.applicationId,
+    endpointDashboardUrlParameters.serviceId,
+    endpointDashboardUrlParameters.endpointId,
+    endpointDashboardUrlParameters.boundaryScope
+  ]
+};
+
 export default function EndpointDashboard({ location }) {
-  const [urlState, setUrlState] = useUrlState({
-    bind: [
-      endpointDashboardUrlParameters.applicationId,
-      endpointDashboardUrlParameters.serviceId,
-      endpointDashboardUrlParameters.endpointId,
-      endpointDashboardUrlParameters.boundaryScope
-    ]
-  });
+  const [{ appId, serviceId, endpointId, boundaryScope }, setUrlState] = useUrlState(urlStateDefinition);
   const timeConfig = useTimeConfig();
 
   const props = {
-    applicationId: urlState.appId,
-    serviceId: urlState.serviceId,
-    endpointId: urlState.endpointId,
-    boundaryScope: urlState.boundaryScope,
+    applicationId: appId,
+    serviceId,
+    endpointId,
+    boundaryScope,
     viewPath: endpointDashboard,
     currentTab: location.pathname.substr(location.pathname.lastIndexOf('/')),
     onChange: setUrlState,

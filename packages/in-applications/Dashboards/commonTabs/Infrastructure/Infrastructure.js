@@ -1,6 +1,5 @@
 import { fromPromise } from 'reactive-observables';
 import React, { Fragment } from 'react';
-import { compose } from 'recompose';
 
 import {
   getClusterDashboard,
@@ -29,7 +28,7 @@ import ButtonGroup from 'in-new-components/ButtonGroup';
 import Footer from 'in-new-components/Footer/Footer';
 import useObservable from 'in-hooks/useObservable';
 import PluginIcon from 'in-components/PluginIcon';
-import withUrlState from 'in-hoc/withUrlState';
+import useUrlState from 'in-hooks/useUrlState';
 import { plugins } from 'in-forge/constants';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
@@ -41,7 +40,7 @@ import locals from './Infrastructure.mless';
 const selectedTypeUrlParameter = {
   path: '/infrastructure',
   name: 'selectedType',
-  initialState: null
+  initialState: 'PROCESS'
 };
 
 const tablesByType = {
@@ -174,26 +173,22 @@ function WithVSpherePhysicalContext({ children, datacenter }) {
   );
 }
 
-export default compose(
-  withUrlState({
-    bind: [selectedTypeUrlParameter],
-    reducerName: 'setType',
-    reducer: (_, selectedType) => ({ selectedType }),
-    replaceHistory: true
-  })
-)(Infrastructure);
+const urlStateDefinition = {
+  bind: [selectedTypeUrlParameter],
+  reducer: (_, selectedType) => ({ selectedType })
+};
 
-function Infrastructure({
+export default function Infrastructure({
   data: entity,
   applicationId,
   serviceId,
   endpointId,
   timeConfig,
-  selectedType,
-  setType,
   boundaryScope: urlBoundaryScope,
   data: application
 }) {
+  let [{ selectedType }, setType] = useUrlState(urlStateDefinition);
+
   if (!entity) {
     return null;
   }

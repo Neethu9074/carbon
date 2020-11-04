@@ -1,49 +1,27 @@
-import { compose } from 'recompose';
 import React from 'react';
 
 import ApplicationSwitcher from 'in-applications/components/ApplicationSwitcherContext/ApplicationSwitcher';
 import { getApplicationDashboard } from 'in-applications/navigation/paths';
 import getApplications from 'in-subscription/application/getApplications';
 import getApplication from 'in-subscription/application/getApplication';
+import { pendingResult } from 'in-services/fixedObjects';
 import Overlay from 'in-new-components/overlays/Overlay';
+import useObservable from 'in-hooks/useObservable';
 import SvgIcon from 'in-components/SvgIcon';
-import connect from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
 
 import locals from './ApplicationSwitcherContext.mless';
 
-export default compose(
-  connect(props => ({
-    application: getApplication({
-      id: props.applicationId
-    }),
-    applications: getApplications({
-      pagination: {
-        page: 1,
-        pageSize: 20
-      },
-      order: {
-        by: 'applicationLabel',
-        direction: 'ASC'
-      },
-      metrics: {},
-      filter: {
-        service: props.serviceId,
-        endpoint: props.endpointId,
-        timeConfig: props.timeConfig,
-        includeSyntheticCalls: true
-      }
-    })
-  }))
-)(ApplicationSwitcherContext);
-
-function ApplicationSwitcherContext(props) {
-  const { application, applications, applicationId, boundaryScope } = props;
+export default function ApplicationSwitcherContext(props) {
+  const { applicationId, serviceId, endpointId, timeConfig, boundaryScope } = props;
+  const application = useObservable(getApplicationObservable, [applicationId]) ?? pendingResult;
+  const applications = useObservable(getApplicationsObservable, [serviceId, endpointId, timeConfig]) ?? pendingResult;
 
   if (
     application.progress.loading ||
     application.errors.length > 0 ||
-    (applications.progress.loading || applications.errors.length > 0)
+    applications.progress.loading ||
+    applications.errors.length > 0
   ) {
     return (
       <Link className={locals.link} href$={getApplicationDashboard(applicationId, { boundaryScope })}>
@@ -62,7 +40,7 @@ function ApplicationSwitcherContext(props) {
           <Context context="Application" label={application.data.label} />
         </Link>
       ) : (
-        <Overlay content={ApplicationSwitcher} props={props} autoOpen>
+        <Overlay content={ApplicationSwitcher} props={{ ...props, application, applications }} autoOpen>
           {() => (
             <div className={locals.flexWrapper}>
               <Link className={locals.link} href$={getApplicationDashboard(applicationId, { boundaryScope })}>
@@ -91,4 +69,30 @@ function Context({ label, context }) {
       <span className={locals.label}>{label}</span>
     </div>
   );
+}
+
+function getApplicationsObservable([serviceId, endpointId, timeConfig]) {
+  return getApplications({
+    pagination: {
+      page: 1,
+      pageSize: 20
+    },
+    order: {
+      by: 'applicationLabel',
+      direction: 'ASC'
+    },
+    metrics: {},
+    filter: {
+      service: serviceId,
+      endpoint: endpointId,
+      timeConfig: timeConfig,
+      includeSyntheticCalls: true
+    }
+  });
+}
+
+function getApplicationObservable([id]) {
+  return getApplication({
+    id
+  });
 }

@@ -58,42 +58,40 @@ export default function Step2({ form, setForm, onChange, onChangeEventSelectionM
           ))}
         </Col>
       </Row>
-      {eventSelectionMode === modeEventTypes &&
-        types && (
-          <div className={locals.eventTypeSwitcher}>
-            <EventTypesSwitcher form={form} onChange={onChange} types={types} formGroupStyles={locals.eventTypes} />
-          </div>
-        )}
-      {eventSelectionMode === modeSelectedEvents &&
-        form.get('selectedEvents') && (
-          <Fragment>
-            <Events
-              setTitle={false}
-              loadEntities={() => getSelectedEventsForAlert(selectedEvents)}
-              hasRowNavigation={false}
-              noDataMessage="No Events Selected"
-              tableActions={eventSelectionTableActions(form, setForm)}
-              pageSize={10}
-              rightHeader={
-                <SelectListDialogButton
-                  form={form}
-                  onSubmit={selectedIds => submitEventSelection(form, setForm, selectedIds)}
-                  title="Add Events"
-                  label={'Add Events'}
-                  listComponent={Events}
-                  hiddenIds={selectedEvents}
-                  limit={limitForConnectedEvents}
-                  createSubmitLabel={numberOfItems =>
-                    numberOfItems > 0 ? `Add ${numberOfItems} Event${numberOfItems > 1 ? 's' : ''}` : 'Add Events'
-                  }
-                  requiresAtLeastOneMessage="Please select at least one event."
-                />
-              }
-            />
-            <TouchedMessages field={form.get('selectedEvents')} />
-            <div style={{ marginBottom: '2rem' }} />
-          </Fragment>
-        )}
+      {eventSelectionMode === modeEventTypes && types && (
+        <div className={locals.eventTypeSwitcher}>
+          <EventTypesSwitcher form={form} onChange={onChange} types={types} formGroupStyles={locals.eventTypes} />
+        </div>
+      )}
+      {eventSelectionMode === modeSelectedEvents && form.get('selectedEvents') && (
+        <Fragment>
+          <Events
+            setTitle={false}
+            loadEntities={() => getSelectedEventsForAlert(selectedEvents)}
+            hasRowNavigation={false}
+            noDataMessage="No Events Selected"
+            tableActions={eventSelectionTableActions(form, setForm)}
+            pageSize={10}
+            rightHeader={
+              <SelectListDialogButton
+                form={form}
+                onSubmit={selectedIds => submitEventSelection(form, setForm, selectedIds)}
+                title="Add Events"
+                label={'Add Events'}
+                listComponent={Events}
+                hiddenIds={selectedEvents}
+                limit={limitForConnectedEvents}
+                createSubmitLabel={numberOfItems =>
+                  numberOfItems > 0 ? `Add ${numberOfItems} Event${numberOfItems > 1 ? 's' : ''}` : 'Add Events'
+                }
+                requiresAtLeastOneMessage="Please select at least one event."
+              />
+            }
+          />
+          <TouchedMessages field={form.get('selectedEvents')} />
+          <div style={{ marginBottom: '2rem' }} />
+        </Fragment>
+      )}
     </Fragment>
   );
 }

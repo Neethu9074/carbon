@@ -1,5 +1,4 @@
-import { compose, withState } from 'recompose';
-import React from 'react';
+import React, { useState } from 'react';
 
 import {
   applicationsAlertingAlertRevisionChanged,
@@ -36,43 +35,30 @@ import { mutateUrl } from 'in-stores/navigation/navigation';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import SetBodyColor from 'in-components/SetBodyColor';
 import Footer from 'in-new-components/Footer/Footer';
-import connectTo from 'in-hoc/connectTo';
+import useObservable from 'in-hooks/useObservable';
 import Title from 'in-components/Title';
-
-export default compose(
-  withState('reload', 'triggerReload', undefined),
-  connectTo(({ location }) => {
-    const alertConfigId = getMatrixParameter(location, alertsTab, alertIdMatrixParam);
-    const alertConfigCreated = getMatrixParameter(location, alertsTab, alertCreatedMatrixParam);
-    const alertConfig$ = getAlertConfig(alertConfigId, alertConfigCreated);
-    const alertConfigVersions$ = getAllVersionsOfAlertConfig(alertConfigId).startWith(null);
-    const applicationName$ = alertConfig$.flatMap(({ applicationId }) =>
-      getApplication({ id: applicationId }).map(({ data }) => data && data.label)
-    );
-
-    return {
-      alertConfig: alertConfig$.startWith(null),
-      alertConfigVersions: alertConfigVersions$,
-      alertConfigError: alertConfig$.errors(),
-      alertConfigVersionsError: alertConfigVersions$.errors(),
-      applicationName: applicationName$
-    };
-  })
-)(Alert);
 
 function getAlertConfig(id, created) {
   return created ? getAlertConfigByIdAndTimestamp(id, created) : getLatestAlertConfig(id);
 }
 
-function Alert({
-  alertConfig,
-  alertConfigError,
-  alertConfigVersions,
-  alertConfigVersionsError,
-  triggerReload,
-  timeConfig,
-  applicationName
-}) {
+export default function Alert({ location, timeConfig }) {
+  const alertConfigId = getMatrixParameter(location, alertsTab, alertIdMatrixParam);
+  const alertConfigCreated = getMatrixParameter(location, alertsTab, alertCreatedMatrixParam);
+
+  const alertConfig$ = getAlertConfig(alertConfigId, alertConfigCreated);
+  const alertConfigVersions$ = getAllVersionsOfAlertConfig(alertConfigId).startWith(null);
+  const applicationName$ = alertConfig$.flatMap(({ applicationId }) =>
+    getApplication({ id: applicationId }).map(({ data }) => data && data.label)
+  );
+
+  const alertConfig = useObservable(alertConfig$.startWith(null), [alertConfigId, alertConfigCreated]);
+  const alertConfigError = useObservable(alertConfig$.errors(), [alertConfigId, alertConfigCreated]);
+  const alertConfigVersions = useObservable(alertConfigVersions$, [alertConfigId]);
+  const alertConfigVersionsError = useObservable(alertConfigVersions$.errors(), [alertConfigId]);
+  const applicationName = useObservable(applicationName$, [alertConfigId, alertConfigCreated]);
+  const [triggerReRender] = useState(undefined);
+
   if (alertConfigError || alertConfigVersionsError) {
     return <ErroneousResultPresenter errors={[alertConfigError, alertConfigVersionsError].filter(Boolean)} />;
   } else if (!alertConfig || !alertConfigVersions) {
@@ -85,7 +71,7 @@ function Alert({
       setOrDeleteMatrixKey(location, alertsTab, alertCreatedMatrixParam, created);
     });
     if (!created) {
-      triggerReload(Math.random());
+      triggerReRender(Math.random());
     }
   }
 

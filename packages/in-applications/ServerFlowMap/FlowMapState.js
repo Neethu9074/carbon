@@ -216,14 +216,16 @@ export default class FlowMapState {
   }
 
   mapResult(result, path, direction) {
-    return (result.data.items || []).filter(node => node.service.id).map(n => ({
-      id: this.calculateUniqueIdForNode(n.service.id, path, direction),
-      service: n.service,
-      endpoint: n.endpoint,
-      applications: n.applications,
-      relatedNodesCount: n.relatedNodesCount,
-      metrics: n.metrics
-    }));
+    return (result.data.items || [])
+      .filter(node => node.service.id)
+      .map(n => ({
+        id: this.calculateUniqueIdForNode(n.service.id, path, direction),
+        service: n.service,
+        endpoint: n.endpoint,
+        applications: n.applications,
+        relatedNodesCount: n.relatedNodesCount,
+        metrics: n.metrics
+      }));
   }
 
   clearCurrentNodesFromDummies(nodeId) {

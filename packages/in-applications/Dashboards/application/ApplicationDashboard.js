@@ -24,17 +24,19 @@ import useTimeConfig from 'in-hooks/useTimeConfig';
 import useUrlState from 'in-hooks/useUrlState';
 import { role } from 'in-stores/user';
 
+const urlStateDefinition = {
+  bind: [applicationDashboardUrlParameters.applicationId, applicationDashboardUrlParameters.boundaryScope]
+};
+
 export default function ApplicationDashboard({ location }) {
-  const [urlState, setUrlState] = useUrlState({
-    bind: [applicationDashboardUrlParameters.applicationId, applicationDashboardUrlParameters.boundaryScope]
-  });
+  const [{ appId, boundaryScope }, setUrlState] = useUrlState(urlStateDefinition);
   const timeConfig = useTimeConfig();
 
   const props = {
-    applicationId: urlState.appId,
+    applicationId: appId,
     viewPath: applicationDashboard,
     timeConfig,
-    boundaryScope: urlState.boundaryScope,
+    boundaryScope: boundaryScope,
     onChange: setUrlState,
     location,
     currentTab: location.pathname.substr(location.pathname.lastIndexOf('/')),

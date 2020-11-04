@@ -33,20 +33,22 @@ import useUrlState from 'in-hooks/useUrlState';
 import Footer from 'in-new-components/Footer';
 import { role } from 'in-stores/user';
 
+const urlStateDefinition = {
+  bind: [
+    serviceDashboardUrlParameters.applicationId,
+    serviceDashboardUrlParameters.serviceId,
+    serviceDashboardUrlParameters.boundaryScope
+  ]
+};
+
 export default function ServiceDashboard({ location }) {
-  const [urlState, setUrlState] = useUrlState({
-    bind: [
-      serviceDashboardUrlParameters.applicationId,
-      serviceDashboardUrlParameters.serviceId,
-      serviceDashboardUrlParameters.boundaryScope
-    ]
-  });
+  const [{ appId, serviceId, boundaryScope }, setUrlState] = useUrlState(urlStateDefinition);
   const timeConfig = useTimeConfig();
 
   const props = {
-    applicationId: urlState.appId,
-    serviceId: urlState.serviceId,
-    boundaryScope: urlState.boundaryScope,
+    applicationId: appId,
+    serviceId,
+    boundaryScope,
     viewPath: serviceDashboard,
     currentTab: location.pathname.substr(location.pathname.lastIndexOf('/')),
     onChange: setUrlState,

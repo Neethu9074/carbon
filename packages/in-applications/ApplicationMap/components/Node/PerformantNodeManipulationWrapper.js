@@ -36,9 +36,7 @@ export default function performantNodeManipulationWrapper(ComposedComponent) {
 
           applyTransform(
             nodeDomComponent,
-            `translate3d(${screenPosition.x}px,${screenPosition.y}px,0) scale3d(${
-              worldUnits.targetNodeSizeInRelationToInitSize
-            }, ${worldUnits.targetNodeSizeInRelationToInitSize}, 1)`
+            `translate3d(${screenPosition.x}px,${screenPosition.y}px,0) scale3d(${worldUnits.targetNodeSizeInRelationToInitSize}, ${worldUnits.targetNodeSizeInRelationToInitSize}, 1)`
           );
         }),
 

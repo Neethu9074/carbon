@@ -1,7 +1,6 @@
 import { createField, createMapForm, createListForm } from 'formalistic';
-import { withState } from 'recompose';
 import { just } from 'reactive-observables';
-import React, { Fragment } from 'react';
+import React, { useState } from 'react';
 import { get } from 'lodash';
 
 import EndpointExtractionRuleDialog from 'in-applications/Forms/CustomEndpointMapping/EndpointExtractionRuleDialog/EndpointExtractionRuleDialog';
@@ -15,10 +14,10 @@ import UnspecifiedExtractionRule from 'in-applications/Forms/CustomEndpointMappi
 import DragAndDropRuleList from 'in-applications/Forms/CustomEndpointMapping/DragAndDropRuleList';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { serviceId as serviceIdMatrixParameter } from 'in-applications/navigation/matrix';
-import { routeIdOverPathTplEnabled } from 'in-services/featureFlags';
 import ExtractionRule from 'in-applications/Forms/CustomEndpointMapping/ExtractionRule';
 import RemoveSection from 'in-applications/Forms/CustomEndpointMapping/Remove';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
+import { routeIdOverPathTplEnabled } from 'in-services/featureFlags';
 import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import { serviceDashboard } from 'in-applications/navigation/paths';
 import DescriptionText from 'in-components/form/DescriptionText';
@@ -30,8 +29,6 @@ import Button from 'in-new-components/Button';
 import Tooltip from 'in-components/Tooltip';
 
 import locals from './CustomEndpointMappingDialog.mless';
-
-export default withState('isNewConfig', 'setIsNewConfig', false)(CustomEndpointMappingDialog);
 
 function PathTemplateRule({ form, setValue }) {
   return (
@@ -71,7 +68,9 @@ function RouteIdRule() {
   );
 }
 
-function CustomEndpointMappingDialog({ isNewConfig, setIsNewConfig, location }) {
+export default function CustomEndpointMappingDialog({ location }) {
+  const [isNewConfig, setIsNewConfig] = useState(false);
+
   const serviceId = getMatrixParameter(location, serviceDashboard, serviceIdMatrixParameter);
   return (
     <MaxWidthFullscreenContainer className={locals.maxWidthFullscreenContainer}>
@@ -105,7 +104,7 @@ function CustomEndpointMappingDialog({ isNewConfig, setIsNewConfig, location }) 
         getInitialForm={getInitialForm}
         renderFormContent={(config, form, setValue, updateForm) => {
           return (
-            <Fragment>
+            <>
               <ViewTrackingMeta
                 data={{
                   productArea: 'Applications',
@@ -118,7 +117,7 @@ function CustomEndpointMappingDialog({ isNewConfig, setIsNewConfig, location }) 
                   {
                     stepTitle: 'Configure how endpoints are extracted from the underlying calls to this service.',
                     content: (
-                      <Fragment>
+                      <>
                         <DescriptionText>
                           Endpoint rules are evaluated sequentially, from top to bottom, and a call is assigned to the
                           first rule it matches. Once configured, new calls will be assigned according to updated rules.
@@ -178,13 +177,13 @@ function CustomEndpointMappingDialog({ isNewConfig, setIsNewConfig, location }) 
                         >
                           <UnspecifiedExtractionRule />
                         </Tooltip>
-                      </Fragment>
+                      </>
                     )
                   }
                 ]}
               />
               {!isNewConfig && <RemoveSection config={config} />}
-            </Fragment>
+            </>
           );
         }}
       />

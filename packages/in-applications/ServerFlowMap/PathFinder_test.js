@@ -58,7 +58,10 @@ function getNodesMock() {
       {
         id: 'in1',
         outgoing: [],
-        incoming: [{ id: 'in1.1', incoming: [], outgoing: [] }, { id: 'in1.2', incoming: [], outgoing: [] }]
+        incoming: [
+          { id: 'in1.1', incoming: [], outgoing: [] },
+          { id: 'in1.2', incoming: [], outgoing: [] }
+        ]
       },
       { id: 'in2', incoming: [], outgoing: [] }
     ]

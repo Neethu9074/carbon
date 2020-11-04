@@ -1,4 +1,3 @@
-import { compose } from 'recompose';
 import { get } from 'lodash';
 import React from 'react';
 
@@ -16,24 +15,21 @@ import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPr
 import { getTagFilterListForBackendSubscription } from 'in-analyze/applicationFilter';
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import getCallGroups from 'in-subscription/application/getCallGroups';
+import useCursorPagination from 'in-hooks/useCursorPagination';
 import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
 import { joinClassNames } from 'in-services/util/classnames';
 import { number } from 'in-services/formatters/number';
-import cursorPaginated from 'in-hoc/cursorPaginated';
-import { timeConfig$ } from 'in-stores/time/config';
-import connectTo from 'in-hoc/connectTo';
+import useTimeConfig from 'in-hooks/useTimeConfig';
 import Link from 'in-components/Link';
 
 import locals from './MatchedSyntheticEndpoints.mless';
 
-export default compose(
-  connectTo({
-    timeConfig: timeConfig$
-  }),
-  cursorPaginated({
-    getResettingProps: () => ['timeConfig'],
-    get: ({ tagFilters, cursor, timeConfig }) => {
-      return getCallGroups({
+export default function MatchedSyntheticEndpoints({ tagFilters }) {
+  const timeConfig = useTimeConfig();
+
+  const { canLoadMore, progress, loadMore, errors, items } = useCursorPagination(
+    ({ cursor }) =>
+      getCallGroups({
         pagination: {
           cursor,
           retrievalSize: 20
@@ -56,13 +52,9 @@ export default compose(
           groupbyTag: 'endpoint.name'
         },
         useOrLogic: true
-      });
-    }
-  })
-)(MatchedSyntheticEndpoints);
-
-function MatchedSyntheticEndpoints(props) {
-  const { progress, errors, items, canLoadMore, loadMore } = props;
+      }),
+    [timeConfig, tagFilters]
+  );
 
   const isInitialLoading = progress.loading && items.length === 0;
   const isLoading = progress.loading;

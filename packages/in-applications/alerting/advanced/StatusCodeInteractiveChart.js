@@ -1,7 +1,4 @@
-import { create } from 'reactive-observables';
 import React, { useState } from 'react';
-import compose from 'recompose/compose';
-import { withState } from 'recompose';
 import PropTypes from 'prop-types';
 
 import {
@@ -13,6 +10,7 @@ import ThresholdConditionFormGroup from 'in-new-components/Alerting/advanced/Thr
 import { debouncedThresholdValueChangedTracker } from 'in-applications/alerting/trackingHelpers';
 import { applicationsAlertingThresholdOperatorChanged } from 'in-applications/alerting/tracker';
 import ChartViewConfigurator from 'in-new-components/Alerting/components/ChartViewConfigurator';
+import useDebouncedSignal from 'in-applications/alerting/advanced/useDebouncedSignal';
 import { blueprintConfigPropType } from 'in-new-components/Alerting/constants';
 import { getTrackingObject } from 'in-new-components/Alerting/trackingHelpers';
 import { getMetricUnitPostfix } from 'in-applications/alerting/form/formUtils';
@@ -22,25 +20,17 @@ import Dropdown from 'in-new-components/Alerting/Dropdown';
 import { isNotBlank } from 'in-services/util/string';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
-import connectTo from 'in-hoc/connectTo';
 
 import locals from 'in-new-components/Alerting/shared-styles/InteractiveChart.mless';
 
-export default compose(
-  withState('debounceOnChange$', '', create({ emitLatestOnSubscribe: false })),
-  connectTo(({ debounceOnChange$ }) => ({
-    debounce: debounceOnChange$.debounce(300).tap(callback => callback())
-  }))
-)(StatusCodeInteractiveChart);
-
-function StatusCodeInteractiveChart({
+export default function StatusCodeInteractiveChart({
   blueprintConfig,
   form,
   onChange,
-  debounceOnChange$,
   onChartViewConfigChange,
   selectedChartViewConfigIndex
 }) {
+  const debounceOnChange$ = useDebouncedSignal();
   const [tempThreshold, setTempThreshold] = useState(() => form.get('threshold').get('value').value);
   const [doDebounce, setDoDebounce] = useState(false);
 

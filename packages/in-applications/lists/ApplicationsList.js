@@ -1,4 +1,4 @@
-import { compose } from 'recompose';
+import React from 'react';
 
 import {
   applicationId as applicationIdMatrixParam,
@@ -10,66 +10,66 @@ import {
   plugin as pluginMatrixParam
 } from 'in-applications/navigation/matrix';
 import { serializeTagFilters, deserializeTagFilters } from 'in-mobile-apps/navigation/matrix';
-import ApplicationsListPresenter from 'in-applications/lists/ApplicationsListPresenter';
-import { timeConfig$ } from 'in-stores/time/config';
-import withUrlState from 'in-hoc/withUrlState';
-import connectTo from 'in-hoc/connectTo';
+import ApplicationsLisPresenter from 'in-applications/lists/ApplicationsListPresenter';
+import useTimeConfig from 'in-hooks/useTimeConfig';
+import useUrlState from 'in-hooks/useUrlState';
 
 const pathSegment = '/applications';
 const matrixPrefix = 'app.';
 
-export default compose(
-  connectTo({
-    timeConfig: timeConfig$
-  }),
-  withUrlState({
-    bind: [
-      {
-        path: pathSegment,
-        name: `${matrixPrefix}${applicationIdMatrixParam}`,
-        as: 'applicationId',
-        initialState: ''
-      },
-      {
-        path: pathSegment,
-        name: `${matrixPrefix}${serviceIdMatrixParam}`,
-        as: 'serviceId',
-        initialState: ''
-      },
-      {
-        path: pathSegment,
-        name: `${matrixPrefix}${endpointIdMatrixParam}`,
-        as: 'endpointId',
-        initialState: ''
-      },
-      {
-        path: pathSegment,
-        name: `${matrixPrefix}${contextScopeMatrixParam}`,
-        as: 'contextScope',
-        initialState: ''
-      },
-      {
-        path: pathSegment,
-        name: `${matrixPrefix}${snapshotIdMatrixParam}`,
-        as: 'snapshotId',
-        initialState: ''
-      },
-      {
-        path: pathSegment,
-        name: `${matrixPrefix}${pluginMatrixParam}`,
-        as: 'plugin',
-        initialState: ''
-      },
-      {
-        path: pathSegment,
-        name: `${matrixPrefix}${tagFiltersMatrixParam}`,
-        as: 'tagFilters',
-        initialState: [],
-        parser: deserializeTagFilters,
-        serializer: serializeTagFilters
-      }
-    ],
-    reducerName: 'setFilter',
-    reducer: (prev, next) => ({ ...prev, ...next })
-  })
-)(ApplicationsListPresenter);
+const urlStateDefinition = {
+  bind: [
+    {
+      path: pathSegment,
+      name: `${matrixPrefix}${applicationIdMatrixParam}`,
+      as: 'applicationId',
+      initialState: ''
+    },
+    {
+      path: pathSegment,
+      name: `${matrixPrefix}${serviceIdMatrixParam}`,
+      as: 'serviceId',
+      initialState: ''
+    },
+    {
+      path: pathSegment,
+      name: `${matrixPrefix}${endpointIdMatrixParam}`,
+      as: 'endpointId',
+      initialState: ''
+    },
+    {
+      path: pathSegment,
+      name: `${matrixPrefix}${contextScopeMatrixParam}`,
+      as: 'contextScope',
+      initialState: ''
+    },
+    {
+      path: pathSegment,
+      name: `${matrixPrefix}${snapshotIdMatrixParam}`,
+      as: 'snapshotId',
+      initialState: ''
+    },
+    {
+      path: pathSegment,
+      name: `${matrixPrefix}${pluginMatrixParam}`,
+      as: 'plugin',
+      initialState: ''
+    },
+    {
+      path: pathSegment,
+      name: `${matrixPrefix}${tagFiltersMatrixParam}`,
+      as: 'tagFilters',
+      initialState: [],
+      parser: deserializeTagFilters,
+      serializer: serializeTagFilters
+    }
+  ],
+  reducer: (prev, next) => ({ ...prev, ...next })
+};
+
+export default function ApplicationsList(props) {
+  const timeConfig = useTimeConfig();
+  const [urlState, setFilter] = useUrlState(urlStateDefinition);
+
+  return <ApplicationsLisPresenter {...props} timeConfig={timeConfig} {...urlState} setFilter={setFilter} />;
+}

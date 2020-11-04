@@ -1,6 +1,5 @@
-import React, { Fragment } from 'react';
-import { compose } from 'recompose';
 import { get } from 'lodash';
+import React from 'react';
 
 import {
   applicationDashboardUrlParameters,
@@ -26,10 +25,10 @@ import getEndpoints from 'in-applications/subscriptions/getEndpoints';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import Filters from 'in-applications/components/Filters';
 import { getColor } from 'in-applications/endpointTypes';
-import withUrlState from 'in-hoc/withUrlState';
+import useObservable from 'in-hooks/useObservable';
+import useUrlState from 'in-hooks/useUrlState';
 import Button from 'in-new-components/Button';
 import Card from 'in-new-components/Card';
-import connectTo from 'in-hoc/connectTo';
 import { role } from 'in-stores/user';
 
 import locals from './Endpoints.mless';
@@ -39,24 +38,6 @@ const matrixPrefix = 'endpoint.';
 
 const endpointTypesUrlParameter = createEndpointTypesUrlParameter(pathSegment, matrixPrefix);
 const technologiesUrlParameter = createEndpointTechnologiesUrlParameter(pathSegment, matrixPrefix);
-
-export default compose(
-  connectTo(({ serviceId }) => {
-    const observables = {};
-    if (serviceId) {
-      observables.serviceLabel = getServiceLabel({ id: serviceId }).map(result => result.data?.label);
-    }
-    return observables;
-  }),
-  withUrlState({
-    bind: [endpointTypesUrlParameter, technologiesUrlParameter],
-    reducerName: 'setFilter',
-    reducer: (prevState, { endpointTypes, technologies }) => ({
-      endpointTypes: endpointTypes || prevState.endpointTypes,
-      technologies: technologies || prevState.technologies
-    })
-  })
-)(Endpoints);
 
 const columnDefinitions = [
   {
@@ -202,23 +183,23 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
   matrixPrefix
 });
 
-function Endpoints(props) {
-  const {
-    timeConfig,
-    data,
-    applicationId,
-    serviceId,
-    endpointId,
-    boundaryScope,
-    endpointTypes,
-    technologies,
-    setFilter,
-    serviceLabel
-  } = props;
+const urlStateDefinition = {
+  bind: [endpointTypesUrlParameter, technologiesUrlParameter],
+  reducer: (prevState, { endpointTypes, technologies }) => ({
+    endpointTypes: endpointTypes || prevState.endpointTypes,
+    technologies: technologies || prevState.technologies
+  })
+};
+
+export default function Endpoints(props) {
+  const { timeConfig, data, applicationId, serviceId, endpointId, boundaryScope } = props;
+
+  const serviceLabel = useObservable(getServiceLabelObservable, [serviceId]);
+  const [{ endpointTypes, technologies }, setFilter] = useUrlState(urlStateDefinition);
 
   const hasHttpType = data.types.indexOf('HTTP') >= 0;
   const rightHeader = ({ query }) => (
-    <Fragment>
+    <>
       {hasHttpType && role.canConfigureServiceMapping && (
         <Button
           className={locals.button}
@@ -241,7 +222,7 @@ function Endpoints(props) {
         buttonLabel="Endpoints"
         groupByTag={{ name: 'endpoint.name', entity: entityTypes.DESTINATION }}
       />
-    </Fragment>
+    </>
   );
 
   return (
@@ -342,4 +323,11 @@ function getTableData({
       }
     }
   });
+}
+
+function getServiceLabelObservable([id]) {
+  if (!id) {
+    return null;
+  }
+  return getServiceLabel({ id }).map(result => result.data?.label);
 }

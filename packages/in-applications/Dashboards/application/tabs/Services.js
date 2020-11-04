@@ -1,5 +1,4 @@
 import React, { Fragment } from 'react';
-import { compose } from 'recompose';
 import { get } from 'lodash';
 
 import {
@@ -26,7 +25,7 @@ import { entityTypes } from 'in-analyze/applicationFilter';
 import Filters from 'in-applications/components/Filters';
 import { getColor } from 'in-applications/endpointTypes';
 import Footer from 'in-new-components/Footer/Footer';
-import withUrlState from 'in-hoc/withUrlState';
+import useUrlState from 'in-hooks/useUrlState';
 import Card from 'in-new-components/Card';
 
 const pathSegment = '/services';
@@ -34,17 +33,6 @@ const matrixPrefix = 'service.';
 
 const endpointTypesUrlParameter = createEndpointTypesUrlParameter(pathSegment, matrixPrefix);
 const technologiesUrlParameter = createEndpointTechnologiesUrlParameter(pathSegment, matrixPrefix);
-
-export default compose(
-  withUrlState({
-    bind: [endpointTypesUrlParameter, technologiesUrlParameter],
-    reducerName: 'setFilter',
-    reducer: (prevState, { endpointTypes, technologies }) => ({
-      endpointTypes: endpointTypes || prevState.endpointTypes,
-      technologies: technologies || prevState.technologies
-    })
-  })
-)(ServiceList);
 
 const columnDefinitions = [
   {
@@ -213,19 +201,26 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
   matrixPrefix
 });
 
-function ServiceList(props) {
+const urlStateDefinition = {
+  bind: [endpointTypesUrlParameter, technologiesUrlParameter],
+  reducer: (prevState, { endpointTypes, technologies }) => ({
+    endpointTypes: endpointTypes || prevState.endpointTypes,
+    technologies: technologies || prevState.technologies
+  })
+};
+
+export default function ServiceList(props) {
   const {
     timeConfig,
     applicationId,
     serviceId,
     endpointId,
-    endpointTypes,
-    technologies,
-    setFilter,
     data: application,
     boundaryScope: urlBoundaryScope,
     applicationName
   } = props;
+
+  const [{ endpointTypes, technologies }, setFilter] = useUrlState(urlStateDefinition);
 
   const boundaryScope = urlBoundaryScope || application.boundaryScope;
 
@@ -243,7 +238,7 @@ function ServiceList(props) {
   );
 
   return (
-    <Fragment>
+    <>
       <Card>
         <ServerTableWithUrlState
           get={getTableData}
@@ -258,7 +253,7 @@ function ServiceList(props) {
         />
       </Card>
       <Footer />
-    </Fragment>
+    </>
   );
 }
 

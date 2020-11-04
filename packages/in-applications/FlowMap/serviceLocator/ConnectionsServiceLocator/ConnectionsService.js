@@ -68,7 +68,10 @@ export default function createConnectionsService(serviceLocatorUid) {
   return instance;
 
   function setConnections(nextConnectionConfigs) {
-    const difference = diff(Array.from(connections.keys()), nextConnectionConfigs.map(config => config.id));
+    const difference = diff(
+      Array.from(connections.keys()),
+      nextConnectionConfigs.map(config => config.id)
+    );
 
     remove(difference.uniqueItemsA);
     add(nextConnectionConfigs);

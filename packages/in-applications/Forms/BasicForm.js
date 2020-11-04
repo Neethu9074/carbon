@@ -1,48 +1,31 @@
-import { compose } from 'recompose';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
-import withPropDependingState from 'in-hoc/withPropDependingState';
 import TemporaryMessage from 'in-components/TemporaryMessage';
 import Spacer from 'in-applications/Forms/components/Spacer';
+import { pendingResult } from 'in-services/fixedObjects';
+import useObservable from 'in-hooks/useObservable';
 import { goToPath } from 'in-stores/navigation';
 import Button from 'in-new-components/Button';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
 import Title from 'in-components/Title';
-import connect from 'in-hoc/connectTo';
 
 import locals from './BasicForm.mless';
 
-export default compose(
-  connect(props => ({
-    entityResult: props.getEntity()
-  })),
-  withPropDependingState({
-    getInitialState,
+export default function BasicFormPropsEnrichment(props) {
+  const entityResult = useObservable(props.getEntity(), []) ?? pendingResult;
+  const [form, updateForm] = useState(getInitialState(props.getInitialForm, entityResult));
+  useEffect(() => updateForm(getInitialState(props.getInitialForm, entityResult)), [entityResult]);
 
-    resets: [
-      {
-        getResettingProps: () => ['entityResult'],
-        onReset: getInitialState
-      }
-    ],
+  return <BasicForm {...props} form={form} updateForm={updateForm} entityResult={entityResult} />;
+}
 
-    reducerName: 'updateForm',
-    reducer: (_, newForm) => ({ form: newForm })
-  })
-)(props => <BasicForm {...props} />);
-
-function getInitialState({ getInitialForm, entityResult }) {
-  if (!entityResult.data) {
-    return {
-      form: null
-    };
+function getInitialState(getInitialForm, entityResult) {
+  if (entityResult.data) {
+    return getInitialForm(entityResult.data);
   }
-  return {
-    form: getInitialForm(entityResult.data)
-  };
 }
 
 class BasicForm extends React.Component {
@@ -125,18 +108,17 @@ class BasicForm extends React.Component {
             )}
             {!onCancelHref$ && <div />}
 
-            {form &&
-              form.touched && (
-                <Button
-                  icon={saving ? 'lib_actions_loading' : null}
-                  iconSpinning
-                  kind="create"
-                  type="submit"
-                  disabled={(!form.hierarchyValid && form.touched) || saving}
-                >
-                  {saving ? savingStateName : saveButtonLabel}
-                </Button>
-              )}
+            {form && form.touched && (
+              <Button
+                icon={saving ? 'lib_actions_loading' : null}
+                iconSpinning
+                kind="create"
+                type="submit"
+                disabled={(!form.hierarchyValid && form.touched) || saving}
+              >
+                {saving ? savingStateName : saveButtonLabel}
+              </Button>
+            )}
           </div>
         </form>
       );

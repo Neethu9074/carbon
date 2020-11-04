@@ -1,4 +1,4 @@
-import { compose, withState, withProps } from 'recompose';
+import React, { useState } from 'react';
 import { find } from 'lodash';
 
 import GroupMetricsChartPresenter, {
@@ -6,7 +6,8 @@ import GroupMetricsChartPresenter, {
 } from 'in-analyze/components/MetricsChart/GroupMetricsChartPresenter';
 import getCallGroups from 'in-subscription/application/getCallGroups';
 import { getChartGranularity } from 'in-applications/metrics';
-import connectTo from 'in-hoc/connectTo';
+import { pendingResult } from 'in-services/fixedObjects';
+import useObservable from 'in-hooks/useObservable';
 
 // Sample Usage
 /*
@@ -33,68 +34,88 @@ import connectTo from 'in-hoc/connectTo';
             translateLabel={key => getLabelFor(key)}  <-- Function to translate the metricIds or groups to nice label
             translateColor={key => getColorFor(key)}  <-- Function to translate the metricIds or groups to a fixed color
           />
- */
-export default compose(
-  withState('selectedMetricKey', 'setSelectedMetricKey', null),
-  withProps(({ selectedMetricKey, metrics }) => ({
-    selectedMetricKey: selectedMetricKey || getMetricKey(metrics[0]),
-    selectedMetricDefinition: find(metrics, m => getMetricKey(m) === selectedMetricKey) || metrics[0]
-  })),
-  connectTo(
-    ({
-      tagFilters,
-      timeConfig,
-      group,
-      metrics,
+*/
+
+export default function CallGroupsChartWrapper(props) {
+  const { retrievalSize, group, timeConfig, tagFilters, orderByMetric, metrics } = props;
+
+  const [selectedMetricKeyState, setSelectedMetricKey] = useState(null);
+  const selectedMetricKey = selectedMetricKeyState || getMetricKey(metrics[0]);
+  const selectedMetricDefinition = find(metrics, m => getMetricKey(m) === selectedMetricKey) || metrics[0];
+
+  const result =
+    useObservable(getCallGroupsObservable, [
       retrievalSize,
+      group,
+      timeConfig,
+      tagFilters,
+      orderByMetric,
       selectedMetricKey,
       selectedMetricDefinition,
-      orderByMetric
-    }) => {
-      const metricsForSubscription = metrics.reduce((agg, metric) => {
-        agg[getMetricKey(metric)] = {
-          metric: metric.metric,
-          aggregation: metric.aggregation,
-          granularity: getChartGranularity(timeConfig)
-        };
-        return agg;
-      }, {});
+      metrics
+    ]) ?? pendingResult;
 
-      let order;
-      if (orderByMetric != null) {
-        const aggregatedMetricKey = `${selectedMetricKey}__Agg`;
-        order = {
-          by: aggregatedMetricKey,
-          // not configurable for now
-          direction: 'DESC'
-        };
+  return (
+    <GroupMetricsChartPresenter
+      {...props}
+      result={result}
+      selectedMetricKey={selectedMetricKey}
+      setSelectedMetricKey={setSelectedMetricKey}
+      selectedMetricDefinition={selectedMetricDefinition}
+    />
+  );
+}
 
-        // We need to add an aggregated metric to the list of metrics so that we can order by it
-        metricsForSubscription[aggregatedMetricKey] = {
-          metric: selectedMetricDefinition.metric,
-          aggregation: selectedMetricDefinition.aggregation
-        };
-      } else {
-        order = {
-          by: 'name',
-          direction: 'ASC'
-        };
-      }
+function getCallGroupsObservable([
+  retrievalSize,
+  group,
+  timeConfig,
+  tagFilters,
+  orderByMetric,
+  selectedMetricKey,
+  selectedMetricDefinition,
+  metrics
+]) {
+  const metricsForSubscription = metrics.reduce((agg, metric) => {
+    agg[getMetricKey(metric)] = {
+      metric: metric.metric,
+      aggregation: metric.aggregation,
+      granularity: getChartGranularity(timeConfig)
+    };
+    return agg;
+  }, {});
 
-      return {
-        result: getCallGroups({
-          pagination: {
-            retrievalSize: retrievalSize || 10
-          },
-          group,
-          filter: {
-            timeConfig
-          },
-          tagFilters,
-          order,
-          metrics: metricsForSubscription
-        })
-      };
-    }
-  )
-)(GroupMetricsChartPresenter);
+  let order;
+  if (orderByMetric != null) {
+    const aggregatedMetricKey = `${selectedMetricKey}__Agg`;
+    order = {
+      by: aggregatedMetricKey,
+      // not configurable for now
+      direction: 'DESC'
+    };
+
+    // We need to add an aggregated metric to the list of metrics so that we can order by it
+    metricsForSubscription[aggregatedMetricKey] = {
+      metric: selectedMetricDefinition.metric,
+      aggregation: selectedMetricDefinition.aggregation
+    };
+  } else {
+    order = {
+      by: 'name',
+      direction: 'ASC'
+    };
+  }
+
+  return getCallGroups({
+    pagination: {
+      retrievalSize: retrievalSize || 10
+    },
+    group,
+    filter: {
+      timeConfig
+    },
+    tagFilters,
+    order,
+    metrics: metricsForSubscription
+  });
+}

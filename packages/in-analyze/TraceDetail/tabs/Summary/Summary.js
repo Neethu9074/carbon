@@ -140,11 +140,7 @@ class Summary extends React.Component {
                 <Message
                   type={warning}
                   title="Duplicate Calls"
-                  description={`This trace consists of one or more duplicate calls (spans). Unique Calls: ${
-                    trace.callCountIgnoringBatchSize
-                  } - Records: ${
-                    trace.callRecordCount
-                  }. This leads to incorrect call count (with batches) and error count values, and perhaps other
+                  description={`This trace consists of one or more duplicate calls (spans). Unique Calls: ${trace.callCountIgnoringBatchSize} - Records: ${trace.callRecordCount}. This leads to incorrect call count (with batches) and error count values, and perhaps other
                   irregularities.`}
                 />
               </Col>
@@ -156,9 +152,7 @@ class Summary extends React.Component {
                 <Message
                   type={warning}
                   title="Batched Ingestion"
-                  description={`This trace got processed in ${
-                    trace.ingestionBatchesCount
-                  } batches. That may cause irregularities such
+                  description={`This trace got processed in ${trace.ingestionBatchesCount} batches. That may cause irregularities such
                   as spans not getting merged to a single Call, partial Service mapping or other incomplete data
                   showing.`}
                 />
@@ -253,29 +247,28 @@ class Summary extends React.Component {
             </Col>
           </Row>
 
-          {isLargeTrace &&
-            !showLargeTrace && (
-              <Row withoutSideMargin>
-                <Col lg={12}>
-                  <Card title="Large Trace">
-                    This trace is large and rendering of this trace can result in performance problems within your
-                    browser. You can either{' '}
-                    <Link
-                      target="_blank"
-                      external
-                      href={`/api/application-monitoring/analyze/traces;id=${encodeURIComponent(traceId)}?pretty`}
-                    >
-                      download the trace
-                    </Link>{' '}
-                    for manual inspection or attempt trace rendering within your browser. We will only render a subset
-                    of the components in order to increase performance of this attempt.
-                    <Button onClick={() => setShowLargeTrace(true)} className={locals.attemptRendering}>
-                      Attempt to render trace
-                    </Button>
-                  </Card>
-                </Col>
-              </Row>
-            )}
+          {isLargeTrace && !showLargeTrace && (
+            <Row withoutSideMargin>
+              <Col lg={12}>
+                <Card title="Large Trace">
+                  This trace is large and rendering of this trace can result in performance problems within your
+                  browser. You can either{' '}
+                  <Link
+                    target="_blank"
+                    external
+                    href={`/api/application-monitoring/analyze/traces;id=${encodeURIComponent(traceId)}?pretty`}
+                  >
+                    download the trace
+                  </Link>{' '}
+                  for manual inspection or attempt trace rendering within your browser. We will only render a subset of
+                  the components in order to increase performance of this attempt.
+                  <Button onClick={() => setShowLargeTrace(true)} className={locals.attemptRendering}>
+                    Attempt to render trace
+                  </Button>
+                </Card>
+              </Col>
+            </Row>
+          )}
 
           {(!isLargeTrace || showLargeTrace) && (
             <Row singleRowTopMargin withoutSideMargin>
