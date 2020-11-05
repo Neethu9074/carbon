@@ -4,7 +4,7 @@ import React from 'react';
 import {
   getApiTokens,
   deleteApiToken,
-  saveApiToken
+  createApiToken
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/api';
 import { getEntityHref, getEntityIdView, teamSettingsAccessControlApiTokens } from 'in-settings/navigation/paths';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
@@ -96,7 +96,7 @@ function getEntityName(entity) {
 
 function onCreateNew() {
   const accessGrantingToken = generateUniqueShortId();
-  const saveResult$ = saveApiToken({
+  const saveResult$ = createApiToken({
     // Deprecated: ID can be safely removed after release-195. Also see backend type ApiToken.
     id: accessGrantingToken,
     accessGrantingToken,
