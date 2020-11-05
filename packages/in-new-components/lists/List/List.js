@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import rpt from 'prop-types';
 
 import { toInteractiveElement, withInteractivitySideEffects } from 'in-new-components/interactiveCustomElement';
 import HorizontalIndicatorLiComponent from 'in-new-components/lists/List/HorizontalIndicatorLi';
@@ -72,7 +73,8 @@ export function Li(props) {
     autoFocus,
     component: Component = 'li',
     borderRadius,
-    highlightOpenState = true
+    highlightOpenState = true,
+    tracking
   } = props;
   let { onClick } = props;
 
@@ -88,7 +90,11 @@ export function Li(props) {
     });
   } else if (toggleContentOnRowClick) {
     itemElementInteractivityProps = toInteractiveElement({
-      onDefaultInteraction: () => setOpen(!open),
+      onDefaultInteraction: () => {
+        const nextState = !open;
+        tracking?.onToggleContentRow?.(nextState);
+        setOpen(nextState);
+      },
       ariaLabel: 'Toggle extra content'
     });
   }
@@ -159,3 +165,27 @@ export function Li(props) {
     </Component>
   );
 }
+
+Li.propTypes = {
+  autoFocus: rpt.bool,
+  borderRadius: rpt.oneOf(['medium']),
+  children: rpt.node.isRequired,
+  className: rpt.string,
+  component: rpt.oneOfType([rpt.string, rpt.elementType]),
+  highlightOpenState: rpt.bool,
+  href: rpt.string,
+  href$: rpt.any,
+  initiallyOpen: rpt.bool,
+  noAlternatingBg: rpt.bool,
+  onClick: rpt.func,
+  onDefaultHrefIncludePrimaryElements: rpt.bool,
+  onDefaultHrefInteractionSideEffect: rpt.func,
+  tracking: rpt.shape({
+    onToggleContentRow: rpt.func
+  }),
+  renderNestedContent: rpt.func,
+  size: rpt.oneOf(['compact', 'normal']),
+  style: rpt.object,
+  subList: rpt.node,
+  toggleContentOnRowClick: rpt.bool
+};

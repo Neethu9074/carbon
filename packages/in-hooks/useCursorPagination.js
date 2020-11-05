@@ -40,7 +40,8 @@ export default function useCursorPagination(create, deps = []) {
     errors,
     reload,
     items,
-    time
+    time,
+    cursor
   };
 }
 

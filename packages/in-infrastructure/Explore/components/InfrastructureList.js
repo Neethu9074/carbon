@@ -1,5 +1,7 @@
+import rpt from 'prop-types';
 import React from 'react';
 
+import { trackingProps as metricConfiguratorTrackingProps } from 'in-new-components/MetricConfigurator/MetricConfigurator';
 import { average, getGranularity, getMetricKey } from 'in-infrastructure/Explore/services/metrics';
 import CursorPaginatedTable from 'in-components/tables/ServerTable/CursorPaginatedTable';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
@@ -9,6 +11,7 @@ import Header from 'in-infrastructure/Explore/components/Header';
 import EntityLink from 'in-new-components/EntityLink/EntityLink';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import { noop } from 'in-services/util/function';
 import Pill from 'in-new-components/Pill';
 
 import locals from './InfrastructureList.mless';
@@ -20,18 +23,22 @@ export default function InfrastructureList({
   showHeader = false,
   availableMetrics,
   setMetrics,
-  setOrder,
+  setOrder = noop,
   metrics,
   order,
-  type
+  type,
+  tracking
 }) {
   const timeConfig = useTimeConfig();
-  const { items, totalHits, ...tableProps } = useCursorPagination(
+  const { items, totalHits, loadMore: cursorPaginationDefaultLoadMore, cursor, ...tableProps } = useCursorPagination(
     ({ cursor }) => getTableData({ timeConfig, retrievalSize, backendQueryModel, order, type, metrics, cursor }),
     [timeConfig, retrievalSize, backendQueryModel, type, order, metrics]
   );
 
-  const columnDefinitions = [getLabelColumn({ timeConfig }), ...getMetricColumns({ metrics, sortable: showHeader })];
+  const columnDefinitions = [
+    getLabelColumn({ timeConfig }, tracking?.onNavigateToEntity),
+    ...getMetricColumns({ metrics, sortable: showHeader })
+  ];
 
   return (
     <>
@@ -42,6 +49,7 @@ export default function InfrastructureList({
           totalHits={totalHits}
           metrics={metrics}
           hitName="Result"
+          tracking={tracking}
         />
       )}
       <CursorPaginatedTable
@@ -49,6 +57,10 @@ export default function InfrastructureList({
         numSkeletonRows={numSkeletonRows}
         totalHits={totalHits}
         onChange={({ orderBy, orderDirection }) => setOrder({ by: orderBy, direction: orderDirection })}
+        loadMore={() => {
+          cursorPaginationDefaultLoadMore();
+          tracking?.onLoadMore?.(pagesLoaded(cursor?.offset, retrievalSize));
+        }}
         {...tableProps}
         items={items}
         fixedLayout
@@ -82,7 +94,7 @@ function getTableData({ timeConfig, retrievalSize, backendQueryModel, type, orde
   });
 }
 
-function getLabelColumn({ timeConfig }) {
+function getLabelColumn({ timeConfig }, onNavigateToEntity) {
   return {
     id: 'label',
     label: 'Name',
@@ -94,6 +106,7 @@ function getLabelColumn({ timeConfig }) {
             label={item.label}
             plugin={item.plugin}
             href$={getDashboardLink(item.snapshotId, { to: offlineTime })}
+            onClick={() => onNavigateToEntity?.(item.plugin)}
           />
           {offlineTime && (
             <Pill className={locals.pill} kind="lighter">
@@ -105,6 +118,27 @@ function getLabelColumn({ timeConfig }) {
     }
   };
 }
+
+InfrastructureList.propTypes = {
+  retrievalSize: rpt.number,
+  numSkeletonRows: rpt.number,
+  backendQueryModel: rpt.object,
+  showHeader: rpt.bool,
+  availableMetrics: rpt.array,
+  setMetrics: rpt.func,
+  setOrder: rpt.func,
+  metrics: rpt.array,
+  order: rpt.shape({
+    by: rpt.string.isRequired,
+    direction: rpt.string.isRequired
+  }),
+  type: rpt.string,
+  tracking: rpt.shape({
+    onLoadMore: rpt.func,
+    onNavigateToEntity: rpt.func,
+    ...metricConfiguratorTrackingProps
+  })
+};
 
 function getMetricColumns({ metrics, sortable }) {
   return metrics.map(({ metric, aggregation, label, fullyQualifiedLabel, formatter = String, isKpi }) => ({
@@ -121,4 +155,8 @@ function getMetricColumns({ metrics, sortable }) {
       return <span>{kpi !== undefined ? formatter(kpi) : '--'}</span>;
     }
   }));
+}
+
+export function pagesLoaded(offset, itemsPerPage) {
+  return (offset || 0) / itemsPerPage + 2; // we are on page 1 when offset is 0, so nextPageNumber == 2
 }

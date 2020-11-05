@@ -15,7 +15,8 @@ export default function Header({
   setOrder,
   hitName,
   metrics,
-  order
+  order,
+  tracking
 }) {
   const hasMetrics = availableMetrics?.length > 0;
 
@@ -35,6 +36,7 @@ export default function Header({
           metricOptions={availableMetrics}
           metrics={metrics}
           setMetrics={setMetrics}
+          tracking={tracking}
         />
       )}
     </div>
