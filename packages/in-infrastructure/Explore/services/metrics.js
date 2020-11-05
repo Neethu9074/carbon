@@ -79,7 +79,7 @@ export function getMetrics({ timeConfig, tagFilterExpression, type }) {
 
 function stringFormatToFormatter(format) {
   if (!format || format === 'UNDEFINED' || format === 'NUMBER') {
-    return twoDecimalPlaces;
+    return defaultFormatter;
   }
 
   return v => valueWithFormatterToReadableString(v, format);
@@ -154,3 +154,5 @@ export function average(series) {
 export function getMetricKey(metric, aggregation) {
   return metric + '.' + aggregation;
 }
+
+export const defaultFormatter = twoDecimalPlaces;

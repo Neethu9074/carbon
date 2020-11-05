@@ -2,7 +2,7 @@ import rpt from 'prop-types';
 import React from 'react';
 
 import { trackingProps as metricConfiguratorTrackingProps } from 'in-new-components/MetricConfigurator/MetricConfigurator';
-import { average, getGranularity, getMetricKey } from 'in-infrastructure/Explore/services/metrics';
+import { average, getGranularity, getMetricKey, defaultFormatter } from 'in-infrastructure/Explore/services/metrics';
 import CursorPaginatedTable from 'in-components/tables/ServerTable/CursorPaginatedTable';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import MetricLabel from 'in-infrastructure/Explore/components/MetricLabel';
@@ -141,7 +141,7 @@ InfrastructureList.propTypes = {
 };
 
 function getMetricColumns({ metrics, sortable }) {
-  return metrics.map(({ metric, aggregation, label, fullyQualifiedLabel, formatter = String, isKpi }) => ({
+  return metrics.map(({ metric, aggregation, label, fullyQualifiedLabel, formatter = defaultFormatter, isKpi }) => ({
     id: getMetricKey(metric, aggregation),
     label: fullyQualifiedLabel ?? label,
     renderLabel: MetricLabel,

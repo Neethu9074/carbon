@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 
+import { average, getGranularity, getMetricKey, defaultFormatter } from 'in-infrastructure/Explore/services/metrics';
 import { ColumnizedContent, Ul, Li, LoadingSkeletonLi, HorizontalIndicatorLi } from 'in-new-components/lists/List';
-import { average, getGranularity, getMetricKey } from 'in-infrastructure/Explore/services/metrics';
 import InfrastructureList, { pagesLoaded } from 'in-infrastructure/Explore/components/InfrastructureList';
 import { type as TAG_FILTER_TYPE } from 'in-new-components/QueryBuilder/transformation/tagFilter';
 import { addTagFilters } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
@@ -209,7 +209,7 @@ function columns({ groupBy, type, getParamsForGroup, metrics, timeConfig, granul
       }
     ])
     .concat(
-      metrics.map(({ label, metric, formatter = String, aggregation, percentageMetric }) => ({
+      metrics.map(({ label, metric, formatter = defaultFormatter, aggregation, percentageMetric }) => ({
         width: '12rem',
         getContent({ group }) {
           const kpi = average(group.metrics[getMetricKey(metric, aggregation)]);
