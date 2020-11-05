@@ -8,7 +8,6 @@ def instanaVersion      = null
 def archiveName         = null
 def latestReleaseBranch = null
 
-def autoDeployReleaseFullstack = true
 def autoDeployMagenta = true
 
 void setBuildStatus(String message, String state) {
@@ -68,32 +67,6 @@ stage('Build') {
         throw e
       }
     }
-  }
-}
-
-stage('Deployment') {
-  milestone label: "deployment"
-
-  timeout(time: 10, unit: 'MINUTES') {
-    def deployments = [:]
-
-    deployments['deploy-release'] = {
-      if ( env.BRANCH_NAME == latestReleaseBranch && autoDeployReleaseFullstack ) {
-        node {
-          echo "Deploying develop:${instanaVersion} to release-instana.instana.io ..."
-
-          build job: '/fullstack-deploy/fullstack-deploy-ui-client', parameters: [
-            string(name: 'ENVIRONMENT', value: 'release'),
-            string(name: 'VERSION', value: instanaVersion),
-            string(name: 'BRANCH_NAME', value: env.BRANCH_NAME)
-          ]
-
-          slackNotification('Deploy Release', 'ui-client', gitCommitId, currentBuild.currentResult, env.BRANCH_NAME)
-        }
-      }
-    }
-
-    parallel deployments
   }
 }
 
