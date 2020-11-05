@@ -136,7 +136,7 @@ function getApplicationLabelObservable([id]) {
 }
 
 function getBoundaryScopeObservable([id]) {
-  return id && getEndpointInfo({ id }).map(({ data }) => data?.boundaryScope ?? null);
+  return id && getApplication({ id }).map(({ data }) => data?.boundaryScope ?? null);
 }
 
 function getServiceLabelObservable([id]) {
