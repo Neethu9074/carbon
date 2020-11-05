@@ -21,10 +21,11 @@ export default function TagBasedPayloadConfigurator({
   getSuggestions
 }) {
   const timeConfig = useTimeConfig();
-  const tagCatalog = useObservable(getTagCatalog({ timeConfig }), [getTagCatalog]);
+  const tagCatalogResult = useObservable(getTagCatalog({ timeConfig }), [getTagCatalog]);
   const autoFocus = useRef();
 
-  if (!tagCatalog?.data) {
+  const tagCatalog = tagCatalogResult?.data;
+  if (!tagCatalog || !tagCatalog.tagsByName) {
     return <LoadingIndicator />;
   }
 
@@ -32,11 +33,16 @@ export default function TagBasedPayloadConfigurator({
     <Overlay
       content={TagSelectorOverlay}
       props={{
-        tagCatalog: tagCatalog.data,
+        tagCatalog,
         showTypeBadge: true,
         onChange: ({ name }) => {
           autoFocus.current = Date.now();
-          onChange({ tagName: name });
+          const tagTreeNode = tagCatalog.tagsByName[name];
+          if (doesTagNodeNeedSecondLevelKey(tagTreeNode)) {
+            onChange({ tagName: name, secondLevelKey: '' });
+          } else {
+            onChange({ tagName: name });
+          }
         }
       }}
       align="bottomLeft"
@@ -50,7 +56,8 @@ export default function TagBasedPayloadConfigurator({
             payload={value}
             toggle={toggle}
             ref={refSetter}
-            tagCatalog={tagCatalog.data}
+            tagName={value.tagName}
+            tagTreeNode={tagCatalog.tagsByName[value.tagName]}
             tagFilterExpression={tagFilterExpression}
             autoFocus={autoFocus.current}
           />
@@ -111,3 +118,7 @@ export const toFormModel = viewModel => ({
   tagName: viewModel.tagName,
   key: viewModel.secondLevelKey
 });
+
+export function doesTagNodeNeedSecondLevelKey(tagTreeNode) {
+  return tagTreeNode?.type === 'KEY_VALUE_PAIR';
+}
