@@ -1,11 +1,11 @@
 import React from 'react';
 
-import DashboardHeaaderButtonSection from 'in-infrastructure/Dashboard/components/DashboardHeaaderButtonSection';
+import DashboardHeaderButtonSection from 'in-infrastructure/Dashboard/components/DashboardHeaderButtonSection';
 import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
 import DashboardBreadcrumb from 'in-infrastructure/Dashboard/components/DashboardBreadcrumb';
 import UseBeeInstantToggle from 'in-infrastructure/Dashboard/components/UseBeeInstantToggle';
-import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator';
 import PluginBadge from 'in-infrastructure/Dashboard/components/PluginBadge';
+import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator';
 import DashboardHeaderComponent from 'in-new-components/DashboardHeader';
 import ContextGuide from 'in-new-components/ContextGuide/ContextGuide';
 import ZoneTag from 'in-map/components/MapSidebar/components/ZoneTag';
@@ -62,7 +62,7 @@ function renderButtonLine(props) {
 
 function renderButtonLineSecondary(props) {
   const { snapshot, timeConfig } = props;
-  return <DashboardHeaaderButtonSection snapshot={snapshot} snapshotId={snapshot.get('id')} timeConfig={timeConfig} />;
+  return <DashboardHeaderButtonSection snapshot={snapshot} snapshotId={snapshot.get('id')} timeConfig={timeConfig} />;
 }
 
 function renderMetaInformation({ snapshot, plugin }) {

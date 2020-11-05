@@ -49,7 +49,6 @@ function QueryBuilder({ value: formModel, getTagCatalog, getSuggestions, onChang
   const timeConfig = useTimeConfig();
   const [draggedFormModelIndex$] = useState(create());
   const tagCatalog = useObservable(getTagCatalogObservable, [getTagCatalog, timeConfig]);
-
   const resolvedCreateTagForm = tagCatalog?.data && createTagForm.bind(null, tagCatalog);
 
   const refContainer = useRef();

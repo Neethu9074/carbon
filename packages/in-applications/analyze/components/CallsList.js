@@ -1,3 +1,4 @@
+import { empty } from 'reactive-observables';
 import React from 'react';
 
 import FacetedSearch from 'in-applications/analyze/components/FacetedSearch/FacetedSearch';
@@ -15,7 +16,6 @@ import getCalls from 'in-subscription/application/getCalls';
 import HealthDot from 'in-new-components/health/HealthDot';
 import { callClickedTracker } from 'in-analyze/tracker';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import { empty } from 'reactive-observables';
 import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './List.mless';

@@ -11,6 +11,7 @@ import { getLinkToAnalyze as getLinkToProfilesAnalyze } from 'in-new-components/
 import { hasApplicationsAccess, hasWebsitesAccess, hasMobileAppsAccess } from 'in-stores/permission';
 import { getLinkToAnalyze as getLinkToMobileAppAnalyze } from 'in-mobile-apps/navigation/paths';
 import { getLinkToAnalyze as getLinkToWebsiteAnalyze } from 'in-websites/navigation/paths';
+import { getLinkToAnalyze as getLinkToLogsAnalyze } from 'in-logging/navigation/paths';
 import { defaultGroupings as defaultMobileAppGroupings } from 'in-mobile-apps/tags';
 import { defaultGroupings as defaultWebsiteGroupings } from 'in-websites/tags';
 import { newAnalyticsEnabled } from 'in-services/featureFlags';
@@ -155,17 +156,29 @@ const productAreas = [
     dataSources: [
       {
         dataSource: 'profiles',
-        getHref$: () => getLinkToProfilesAnalyze()
+        getHref$: getLinkToProfilesAnalyze
+      }
+    ]
+  },
+  {
+    productArea: 'logs',
+    hasAccess: isInternalVisible => isInternalVisible,
+    dataSources: [
+      {
+        dataSource: 'logs',
+        getHref$: getLinkToLogsAnalyze
       }
     ]
   }
 ];
 
 export default function AnalyzeDataSourceSelector({ activeConfiguration, isGrouped, close }) {
+  const isInternalVisible = useObservable(isInternalVisible$, []);
+
   return (
     <Ul className={locals.wrapper}>
       {productAreas
-        .filter(({ hasAccess }) => hasAccess)
+        .filter(({ hasAccess }) => (typeof hasAccess === 'function' ? hasAccess(isInternalVisible) : hasAccess))
         .map(({ productArea, dataSources }, i) => {
           const dataSourceListEntries = dataSources.map(config => (
             <ProductAreaEntry

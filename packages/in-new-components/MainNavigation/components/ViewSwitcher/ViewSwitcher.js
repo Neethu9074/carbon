@@ -31,6 +31,7 @@ import { applicationsList, isApplicationsView } from 'in-applications/navigation
 import { getView, isView, getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { datacenterListFullyQualified, vsphere } from 'in-vsphere/navigation/paths';
 import { defaultGroupings as defaultMobileAppGroupings } from 'in-mobile-apps/tags';
+import { isAnalyzeView as isLogsAnalyzeView } from 'in-logging/navigation/paths';
 import View from 'in-new-components/MainNavigation/components/ViewSwitcher/View';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import { agentsPath, settingsPath } from 'in-stores/navigation/paths/mainPaths';
@@ -279,7 +280,13 @@ function Analyze(props) {
       id="main-nav-analyze"
       label="Analytics"
       icon="lib_analyze_inverted"
-      isActive$={any(isView(isAnalyzeView), isWebsiteAnalyzeView, isMobileAppAnalyzeView, isProfileAnalyzeView)}
+      isActive$={any(
+        isView(isAnalyzeView),
+        isWebsiteAnalyzeView,
+        isMobileAppAnalyzeView,
+        isProfileAnalyzeView,
+        isLogsAnalyzeView
+      )}
       href$={
         [
           hasApplicationsAccess &&

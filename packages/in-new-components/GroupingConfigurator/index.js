@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { isValid } from 'in-new-components/GroupingConfigurator/validation';
 import GroupingConfigurator from 'in-new-components/GroupingConfigurator/GroupingConfigurator';
+import { isValid } from 'in-new-components/GroupingConfigurator/validation';
 import { getTagCatalogOnce } from 'in-services/tags/tagCatalog';
 import { success } from 'in-services/util/result';
 

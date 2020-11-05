@@ -15,10 +15,12 @@ import DashboardHeaderShadowModule from 'in-new-components/DashboardHeader/Dashb
 import AnalyzeDataSourceSelector from 'in-analyze/components/AnalyzeHeader/AnalyzeDataSourceSelector';
 import { beaconType as mobileAppBeaconTypeMatrixParameter } from 'in-mobile-apps/navigation/matrix';
 import { analyzePath as profilingAnalyzePath } from 'in-new-components/Profiling/navigation/paths';
+import { dataSource as logsDataSourceTypeMatrixParameter } from 'in-logging/navigation/matrix';
 import { beaconType as websiteBeaconTypeMatrixParameter } from 'in-websites/navigation/matrix';
 import DashboardHeaderModule from 'in-new-components/DashboardHeader/DashboardHeaderModule';
 import DashboardHeaderButton from 'in-new-components/DashboardHeader/DashboardHeaderButton';
 import { dataSource as dataSourceMatrixParameter } from 'in-analyze/navigation/matrix';
+import { analyzePath as logsAnalyzePath } from 'in-logging/navigation/paths';
 import DashboardHeader, { themes } from 'in-new-components/DashboardHeader';
 import { analyze as appAnalyzePath } from 'in-analyze/navigation/paths';
 import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
@@ -116,6 +118,12 @@ const dataSourceSources = [
     matrixPath: profilingAnalyzePath,
     matrixParam: dataSourceTypeMatrixParameter,
     productArea: 'profiles'
+  },
+
+  {
+    matrixPath: logsAnalyzePath,
+    matrixParam: logsDataSourceTypeMatrixParameter,
+    productArea: 'logs'
   }
 ];
 

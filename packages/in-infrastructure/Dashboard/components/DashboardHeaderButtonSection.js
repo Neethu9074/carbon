@@ -28,7 +28,7 @@ export default connectTo(
       )
     };
   },
-  function DashboardHeaaderButtonSection(props) {
+  function DashboardHeaderButtonSection(props) {
     const { isInternalVisible, snapshot, snapshotId, processSnapshotId, timeConfig, profilesAvailable } = props;
 
     return (

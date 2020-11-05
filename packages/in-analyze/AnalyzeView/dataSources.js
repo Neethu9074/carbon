@@ -67,21 +67,24 @@ export const productAreaLabels = Object.freeze({
   application: 'Applications',
   website: 'Websites',
   mobileApp: 'Mobile Apps',
-  profiles: 'Profiles'
+  profiles: 'Profiles',
+  logs: 'Logs'
 });
 
 export const productAreaTrackingNames = Object.freeze({
   application: 'Applications',
   website: 'EUM: Websites',
   mobileApp: 'EUM: Mobile Apps',
-  profiles: 'Profiles'
+  profiles: 'Profiles',
+  logs: 'Logs'
 });
 
 export const productAreaIcons = Object.freeze({
   application: 'lib_application_invert',
   website: 'lib_website',
   mobileApp: 'lib_mobile_app',
-  profiles: 'lib_profiling'
+  profiles: 'lib_profiling',
+  logs: 'lib_navigation_stan'
 });
 
 const icons = deepFreeze({
@@ -106,6 +109,9 @@ const icons = deepFreeze({
   },
   profiles: {
     profiles: 'lib_profiling'
+  },
+  logs: {
+    logs: 'lib_navigation_stan'
   }
 });
 
@@ -128,6 +134,8 @@ export function getEntityNameByType(type) {
     return 'Custom events';
   } else if (type === 'profiles') {
     return 'Profiles';
+  } else if (type === 'logs') {
+    return 'Logs';
   } else if (type === 'sessionStart') {
     return 'Session Start';
   } else if (type === 'viewChange') {
@@ -162,6 +170,8 @@ export function getLabelByType(type) {
     return 'Calls';
   } else if (type === 'callsUQB') {
     return 'Calls (v2 beta)';
+  } else if (type === 'logs') {
+    return 'Logs';
   }
 
   return type;
