@@ -12,10 +12,10 @@ export default function ApiTokenForm({ form, onChange, disabled }) {
     <fieldset disabled={disabled}>
       <SectionHeading>General</SectionHeading>
 
-      {form.get('id').map(field => (
+      {form.get('accessGrantingToken').map(field => (
         <FormGroup>
-          <Label htmlFor="api-token-id">API Token</Label>
-          <Input id="api-token-id" value={field.value} readOnly />
+          <Label htmlFor="api-token-accessGrantingToken">API Token</Label>
+          <Input id="api-token-accessGrantingToken" value={field.value} readOnly />
         </FormGroup>
       ))}
 
