@@ -37,6 +37,7 @@ packages/in-integrations            @instana/eng-sensors @instana/eng-ui
 # Shared ownership
 # packages/in-internal
 packages/in-kubernetes              @instana/eng-infrastructure @instana/eng-ui
+packages/in-logging                 @instana/eng-logs @instana/eng-ui
 # No clear ownership: Fallback to eng-ui
 packages/in-map                     @instana/eng-ui
 packages/in-mobile-apps             @instana/eng-eum @instana/eng-ui
