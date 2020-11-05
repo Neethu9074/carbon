@@ -1,9 +1,12 @@
 import { createLogger } from 'instalog';
-import { Map } from 'immutable';
 import React from 'react';
 
+import {
+  getApiTokens,
+  deleteApiToken,
+  createApiToken
+} from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/api';
 import { getEntityHref, getEntityIdView, teamSettingsAccessControlApiTokens } from 'in-settings/navigation/paths';
-import { getApiTokensMutable, deleteApiToken, saveApiToken } from 'in-api/apiTokens';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import List, { defaultHeaderWithCount } from 'in-settings/components/List';
 import { generateUniqueShortId } from 'in-services/util/id';
@@ -25,12 +28,13 @@ export default function ApiTokens() {
       getEntityName={getEntityName}
       columnDefinitions={columnDefinitions}
       tableActions={tableActions}
-      loadEntities={getApiTokensMutable}
+      loadEntities={getApiTokens}
       initialOrderBy="name"
       onCreateNew={onCreateNew}
       labelNew="Add API Token"
-      searchAttributes={['name', 'id']}
-      getDetailsHref={entity => getEntityHref(teamSettingsAccessControlApiTokens, entity.id)}
+      searchAttributes={['name', 'id', 'internalId', 'accessGrantingToken']}
+      // Deprecated: Fallback can be safely removed after release-195. Also see backend type ApiToken.
+      getDetailsHref={entity => getEntityHref(teamSettingsAccessControlApiTokens, entity.internalId || entity.id)}
     />
   );
 }
@@ -41,8 +45,9 @@ const columnDefinitions = [
     label: 'Name',
     width: 60,
     getContent(entity) {
+      // Deprecated: Fallback can be safely removed after release-195. Also see backend type ApiToken.
       return (
-        <Link href$={getEntityIdView(teamSettingsAccessControlApiTokens, entity.id)} ellipsis>
+        <Link href$={getEntityIdView(teamSettingsAccessControlApiTokens, entity.internalId || entity.id)} ellipsis>
           {entity.name}
         </Link>
       );
@@ -52,12 +57,14 @@ const columnDefinitions = [
     id: 'id',
     label: 'Token',
     ellipsis: true,
-    getContent({ id: apiToken }) {
+    getContent(apiToken) {
+      // Deprecated: Fallback can be safely removed after release-195. Also see backend type ApiToken.
+      const accessGrantingToken = apiToken.accessGrantingToken || apiToken.id;
       return (
         <div className={locals.apiTokenColContainer}>
-          <div>{apiToken}</div>
+          <div>{accessGrantingToken}</div>
           <Tooltip align="topRight" content="Copy API token to clipboard">
-            <CopyToClipboard getText={() => apiToken}>
+            <CopyToClipboard getText={() => accessGrantingToken}>
               {refSetter => (
                 <span ref={refSetter}>
                   <IconButton
@@ -78,7 +85,8 @@ const columnDefinitions = [
 
 const tableActions = {
   delete: {
-    deleteEntity: entity => deleteApiToken(entity.id)
+    // Deprecated: Fallback can be safely removed after release-195. Also see backend type ApiToken.
+    deleteEntity: entity => deleteApiToken(entity.internalId || entity.id)
   }
 };
 
@@ -87,14 +95,18 @@ function getEntityName(entity) {
 }
 
 function onCreateNew() {
-  const newId = generateUniqueShortId();
-  const newApiToken = Map({
-    id: newId,
+  const accessGrantingToken = generateUniqueShortId();
+  const saveResult$ = createApiToken({
+    // Deprecated: ID can be safely removed after release-195. Also see backend type ApiToken.
+    id: accessGrantingToken,
+    accessGrantingToken,
+    internalId: generateUniqueShortId(),
     name: 'New API Token'
   });
-
-  const saveResult$ = saveApiToken(newApiToken);
-  saveResult$.once(() => goToPath(getEntityHref(teamSettingsAccessControlApiTokens, newId)));
+  // Note: The backend will overwrite the end-user provided IDs during creation.
+  saveResult$.once(savedApiToken =>
+    goToPath(getEntityHref(teamSettingsAccessControlApiTokens, savedApiToken.internalId || savedApiToken.id))
+  );
   saveResult$.errors().once(error => {
     logger.error(`Failed to save new API token: ${error.message}`, error);
   });

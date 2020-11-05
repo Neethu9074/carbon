@@ -1,6 +1,7 @@
 import theme from 'in-themes';
 import React from 'react';
 
+import { doesTagNodeNeedSecondLevelKey } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
 import {
   STRING,
   NUMBER,
@@ -25,7 +26,7 @@ export default React.forwardRef(function TagBasedPayloadConfiguration(
   {
     onChange,
     tagFilterExpression,
-    tagCatalog,
+    tagTreeNode,
     getSuggestions,
     toggle,
     payload: { payloadTagEntity, tagName, secondLevelKey },
@@ -43,7 +44,6 @@ export default React.forwardRef(function TagBasedPayloadConfiguration(
     500
   );
 
-  const tagTreeNode = tagCatalog.tagsByName[tagName];
   const path = tagTreeNode?.path;
   if (!path) {
     // should we show an error or a readonly representation instead of "nothing"
@@ -60,7 +60,7 @@ export default React.forwardRef(function TagBasedPayloadConfiguration(
     >
       <span
         className={locals.tagName}
-        ref={autoFocus && tagTreeNode.type !== 'KEY_VALUE_PAIR' ? tagNameRef : undefined}
+        ref={autoFocus && !doesTagNodeNeedSecondLevelKey(tagTreeNode) ? tagNameRef : undefined}
       >
         {path
           .slice(0, path.length - 1)
@@ -69,30 +69,32 @@ export default React.forwardRef(function TagBasedPayloadConfiguration(
         <SvgIcon className={locals.icon} type="lib_arrow_drop_right" />
         {path[path.length - 1].label}
       </span>
-      {tagTreeNode.type === 'KEY_VALUE_PAIR' && <KeyEquals />}
-      {tagTreeNode.type === 'KEY_VALUE_PAIR' && (
-        <SimpleValueSelector
-          onChange={secondLevelKeyState.onChange}
-          value={secondLevelKeyState.value}
-          close={() => {}}
-          getSuggestions={() =>
-            getSuggestions({
-              tagFilterExpression,
-              name: tagName,
-              entity: payloadTagEntity,
-              timeConfig,
-              propose: 'KEYS'
-            })
-          }
-          fieldsToWatch={[tagFilterExpression, tagName, payloadTagEntity, timeConfig]}
-          inputProps={{
-            maxLength: 512,
-            type: 'text',
-            valid: isNotBlank(secondLevelKeyState.value),
-            ref: autoFocus ? tagNameRef : undefined,
-            placeholder: 'Key'
-          }}
-        />
+      {doesTagNodeNeedSecondLevelKey(tagTreeNode) && (
+        <>
+          <KeyEquals />
+          <SimpleValueSelector
+            onChange={secondLevelKeyState.onChange}
+            value={secondLevelKeyState.value}
+            close={() => {}}
+            getSuggestions={() =>
+              getSuggestions({
+                tagFilterExpression,
+                name: tagName,
+                entity: payloadTagEntity,
+                timeConfig,
+                propose: 'KEYS'
+              })
+            }
+            fieldsToWatch={[tagFilterExpression, tagName, payloadTagEntity, timeConfig]}
+            inputProps={{
+              maxLength: 512,
+              type: 'text',
+              valid: isNotBlank(secondLevelKeyState.value),
+              ref: autoFocus ? tagNameRef : undefined,
+              placeholder: 'Key'
+            }}
+          />
+        </>
       )}
       <span className={locals.spacer} />
       <Pill color={theme.lib.colors.N600Light}>{tagTypeBadges[tagTreeNode.type]}</Pill>

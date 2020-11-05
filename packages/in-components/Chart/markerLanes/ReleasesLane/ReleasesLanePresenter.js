@@ -26,7 +26,7 @@ export default function ReleasesLanePresenter(props) {
         color: theme.lib.colors.N700Medium
       }}
       color={theme.lib.colors.N700Medium}
-      tooltipContent={({ clusteredReleases, count }) => (
+      tooltipContent={({ clusteredReleases }) => (
         <div className={locals.tooltipContent}>
           {clusteredReleases.slice(0, maxNumReleasesToShow).map(({ name, start }) => (
             <div key={start}>
@@ -34,7 +34,9 @@ export default function ReleasesLanePresenter(props) {
               <div className={locals.name}>{`${name}`}</div>
             </div>
           ))}
-          {count > maxNumReleasesToShow && <div>{`+${count - maxNumReleasesToShow} more Releases`}</div>}
+          {clusteredReleases.length > maxNumReleasesToShow && (
+            <div>{`+${clusteredReleases.length - maxNumReleasesToShow} more Releases`}</div>
+          )}
         </div>
       )}
       renderLaneItem={SingleMarkerLaneItem}

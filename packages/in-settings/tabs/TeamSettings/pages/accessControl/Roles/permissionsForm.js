@@ -2,29 +2,43 @@ import { createField } from 'formalistic';
 
 export function addPermissionFields(form, role) {
   return form
-    .put('canConfigureServiceMapping', createField({ value: role.get('canConfigureServiceMapping') }))
-    .put('canConfigureEumApplications', createField({ value: role.get('canConfigureEumApplications') }))
-    .put('canConfigureUsers', createField({ value: role.get('canConfigureUsers') }))
-    .put('canInstallNewAgents', createField({ value: role.get('canInstallNewAgents') }))
-    .put('canSeeUsageInformation', createField({ value: role.get('canSeeUsageInformation') }))
-    .put('canConfigureIntegrations', createField({ value: role.get('canConfigureIntegrations') }))
-    .put('canSeeOnPremLicenseInformation', createField({ value: role.get('canSeeOnPremLicenseInformation') }))
-    .put('canConfigureRoles', createField({ value: role.get('canConfigureRoles') }))
-    .put('canConfigureTeams', createField({ value: role.get('canConfigureTeams') }))
-    .put('canConfigureCustomAlerts', createField({ value: role.get('canConfigureCustomAlerts') }))
-    .put('canConfigureApiTokens', createField({ value: role.get('canConfigureApiTokens') }))
-    .put('canConfigureAgentRunMode', createField({ value: role.get('canConfigureAgentRunMode') }))
-    .put('canViewAuditLog', createField({ value: role.get('canViewAuditLog') }))
-    .put('canConfigureAgents', createField({ value: role.get('canConfigureAgents') }))
-    .put('canConfigureAuthenticationMethods', createField({ value: role.get('canConfigureAuthenticationMethods') }))
-    .put('canConfigureLogManagement', createField({ value: role.get('canConfigureLogManagement') }))
-    .put('canConfigureApplications', createField({ value: role.get('canConfigureApplications') }))
-    .put('canConfigureMobileAppMonitoring', createField({ value: role.get('canConfigureMobileAppMonitoring') }))
-    .put('canCreatePublicCustomDashboards', createField({ value: role.get('canCreatePublicCustomDashboards') }))
-    .put('canConfigureReleases', createField({ value: role.get('canConfigureReleases') }))
-    .put('canConfigureGlobalAlertPayload', createField({ value: role.get('canConfigureGlobalAlertPayload') }))
-    .put('canConfigureServiceLevelIndicators', createField({ value: role.get('canConfigureServiceLevelIndicators') }))
-    .put('canViewLogs', createField({ value: role.get('canViewLogs') ?? true }))
-    .put('canViewTraceDetails', createField({ value: role.get('canViewTraceDetails') ?? true }))
-    .put('canConfigureSessionSettings', createField({ value: role.get('canConfigureSessionSettings') }));
+    .put('canConfigureServiceMapping', createField({ value: getInitialValue('canConfigureServiceMapping') }))
+    .put('canConfigureEumApplications', createField({ value: getInitialValue('canConfigureEumApplications') }))
+    .put('canConfigureUsers', createField({ value: getInitialValue('canConfigureUsers') }))
+    .put('canInstallNewAgents', createField({ value: getInitialValue('canInstallNewAgents') }))
+    .put('canSeeUsageInformation', createField({ value: getInitialValue('canSeeUsageInformation') }))
+    .put('canConfigureIntegrations', createField({ value: getInitialValue('canConfigureIntegrations') }))
+    .put('canSeeOnPremLicenseInformation', createField({ value: getInitialValue('canSeeOnPremLicenseInformation') }))
+    .put('canConfigureRoles', createField({ value: getInitialValue('canConfigureRoles') }))
+    .put('canConfigureTeams', createField({ value: getInitialValue('canConfigureTeams') }))
+    .put('canConfigureCustomAlerts', createField({ value: getInitialValue('canConfigureCustomAlerts') }))
+    .put('canConfigureApiTokens', createField({ value: getInitialValue('canConfigureApiTokens') }))
+    .put('canConfigureAgentRunMode', createField({ value: getInitialValue('canConfigureAgentRunMode') }))
+    .put('canViewAuditLog', createField({ value: getInitialValue('canViewAuditLog') }))
+    .put('canConfigureAgents', createField({ value: getInitialValue('canConfigureAgents') }))
+    .put(
+      'canConfigureAuthenticationMethods',
+      createField({ value: getInitialValue('canConfigureAuthenticationMethods') })
+    )
+    .put('canConfigureLogManagement', createField({ value: getInitialValue('canConfigureLogManagement') }))
+    .put('canConfigureApplications', createField({ value: getInitialValue('canConfigureApplications') }))
+    .put('canConfigureMobileAppMonitoring', createField({ value: getInitialValue('canConfigureMobileAppMonitoring') }))
+    .put('canCreatePublicCustomDashboards', createField({ value: getInitialValue('canCreatePublicCustomDashboards') }))
+    .put('canConfigureReleases', createField({ value: getInitialValue('canConfigureReleases') }))
+    .put('canConfigureGlobalAlertPayload', createField({ value: getInitialValue('canConfigureGlobalAlertPayload') }))
+    .put(
+      'canConfigureServiceLevelIndicators',
+      createField({ value: getInitialValue('canConfigureServiceLevelIndicators') })
+    )
+    .put('canViewLogs', createField({ value: getInitialValue('canViewLogs') ?? true }))
+    .put('canViewTraceDetails', createField({ value: getInitialValue('canViewTraceDetails') ?? true }))
+    .put('canConfigureSessionSettings', createField({ value: getInitialValue('canConfigureSessionSettings') }));
+
+  // A small adapter so that this helper works with an immutableJS role or a plain JS object for API tokens.
+  function getInitialValue(fieldName) {
+    if (role.get) {
+      return role.get(fieldName);
+    }
+    return role[fieldName];
+  }
 }

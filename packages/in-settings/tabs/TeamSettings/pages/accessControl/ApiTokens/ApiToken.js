@@ -1,14 +1,13 @@
 import { createMapForm, createField, notBlankValidator } from 'formalistic';
 import { createLogger } from 'instalog';
-import { Map } from 'immutable';
 import React from 'react';
 
 import { addPermissionFields } from 'in-settings/tabs/TeamSettings/pages/accessControl/Roles/permissionsForm';
+import { getApiToken, saveApiToken } from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/api';
 import ApiTokenForm from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiTokenForm';
 import { teamSettingsAccessControlApiTokens } from 'in-settings/navigation/paths';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
-import { getApiToken, saveApiToken } from 'in-api/apiTokens';
 import SectionLine from 'in-settings/components/SectionLine';
 import Notification from 'in-components/form/Notification';
 import SaveCancel from 'in-settings/components/SaveCancel';
@@ -91,7 +90,7 @@ export default class extends React.Component {
       <SettingsDetailPage>
         <Title title="API Token" />
 
-        <SubViewHeader>{apiToken ? `API Token: ${apiToken.get('name')}` : 'API Token'}</SubViewHeader>
+        <SubViewHeader>{apiToken ? `API Token: ${apiToken.name}` : 'API Token'}</SubViewHeader>
         <SectionLine />
 
         {this.state.message ? (
@@ -137,7 +136,7 @@ export default class extends React.Component {
       return;
     }
 
-    const apiToken = Map(this.state.form.toJS());
+    const apiToken = this.state.form.toJS();
     const result$ = saveApiToken(apiToken);
     this.disposeAsyncAction();
     this.setState({
@@ -160,16 +159,23 @@ export default class extends React.Component {
 }
 
 function createForm(apiToken) {
-  return addPermissionFields(
-    createMapForm()
-      .put('id', createField({ value: apiToken.get('id') }))
-      .put(
-        'name',
-        createField({
-          value: apiToken.get('name'),
-          validator: notBlankValidator
-        })
-      ),
-    apiToken
-  );
+  let form = createMapForm()
+    // Deprecated: Fallback can be safely removed after release-195. Also see backend type ApiToken.
+    .put('accessGrantingToken', createField({ value: apiToken.accessGrantingToken || apiToken.id }))
+    .put(
+      'name',
+      createField({
+        value: apiToken.name,
+        validator: notBlankValidator
+      })
+    );
+
+  // Deprecated: Fallback can be safely removed after release-195. Also see backend type ApiToken.
+  if (apiToken.internalId) {
+    form = form.put('internalId', createField({ value: apiToken.internalId }));
+  } else {
+    form = form.put('id', createField({ value: apiToken.id }));
+  }
+
+  return addPermissionFields(form, apiToken);
 }
