@@ -8,7 +8,7 @@ def instanaVersion      = null
 def archiveName         = null
 def latestReleaseBranch = null
 
-def autoDeployReleaseFullstack = false
+def autoDeployReleaseFullstack = true
 def autoDeployMagenta = true
 
 void setBuildStatus(String message, String state) {
