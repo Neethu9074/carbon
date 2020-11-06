@@ -53,9 +53,6 @@ phases:
       - yarn run build
       # Verify that CSS files are compressed in build artifacts
       - 'FAIL_ON_DELIVERY_BRANCH=true ./build/ci-shared-tools/scripts/isDeliveryBranch.js || yarn run test:compression'
-      # Build Docker image
-      - j2 ./deployment/Dockerfile.j2 > Dockerfile
-      - 'FAIL_ON_DELIVERY_BRANCH=true ./build/ci-shared-tools/scripts/isDeliveryBranch.js || ./build/ci-shared-tools/scripts/docker/containerBuild.js ui-client $GIT_BRANCH $INSTANA_CONTAINER_TAG'
       # Upload artifacts to Maven repository
       - 'FAIL_ON_DELIVERY_BRANCH=true ./build/ci-shared-tools/scripts/isDeliveryBranch.js || ./build/ci-shared-tools/scripts/uploadReleaseArtifact.bash "ui-client-$GIT_BRANCH-$INSTANA_CONTAINER_TAG.tar.gz" "target/*" "ui-client" "$GIT_BRANCH" "$INSTANA_CONTAINER_TAG"'
       # Mark as stable in Instana's own versioning system
