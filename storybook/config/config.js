@@ -12,7 +12,7 @@ import './globalTagDefinition';
 import { DocsPage, DocsContainer } from '@storybook/addon-docs/blocks';
 import { configure, addDecorator } from '@storybook/react';
 import { addParameters } from '@storybook/react';
-import { create } from '@storybook/theming';
+import { themes } from '@storybook/theming';
 
 import OverlayPresenter from 'in-new-components/overlays/OverlayPresenter';
 import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
@@ -29,9 +29,10 @@ addDecorator(story => (
 
 addParameters({
   options: {
-    theme: create({
-      brandTitle: 'Instana'
-    })
+    theme: {
+      brandTitle: 'Instana',
+      ...themes.light
+    }
   },
   docs: {
     container: DocsContainer,

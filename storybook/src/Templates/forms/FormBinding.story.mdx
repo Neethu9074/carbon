@@ -1,0 +1,176 @@
+import { createMapForm, createField, notBlankValidator } from 'formalistic';
+import { Meta, Story, Preview, Props } from '@storybook/addon-docs/blocks';
+import { action as storybookAction } from '@storybook/addon-actions';
+import {useState} from 'react';
+
+import SaveButton from 'in-components/form/SaveButton/FormBoundSaveButton';
+import { warning, neutral } from 'in-new-components/Message/types';
+import FormBound from 'in-components/form/binding/FormBound';
+import Input from 'in-components/form/Input/FormBoundInput';
+import SubForm from 'in-components/form/binding/SubForm';
+import Form from 'in-components/form/binding/Form';
+import Message from 'in-new-components/Message';
+
+<Meta title="Templates|forms/Form Binding" />
+
+## Form Binding
+
+<Message type={warning} title="Work In Progress">
+  Form binding support is currently being finalized. As of 2020-10-26, the foundation is working, but
+  the API for <code>FormBoundInput</code> and others is still in flux. Please do not start using the
+  components just yet. The APIs / rendering output of the component may dramatically change!
+</Message>
+
+Our form binding facilities can be used to bind <a href="https://github.com/bripkens/formalistic">Formalistic</a>
+forms (form models) to our presentational components. On top of this, the form binding facilities make it a lot
+easier to implement good and consistent form behaviors.
+
+The basic idea of these binding facilities is that form models are being stored in a React context. Several
+components exist to interact with this context, e.g. to render an input field, to establish relative path paths or
+to provide arbitrary form interaction extensions.
+
+<Preview>
+  <Story name="default">
+    {() => {
+      const initialForm = createMapForm()
+        .put('fullName', createField({ value: '', validator: notBlankValidator }))
+        .put('age', createField({ value: 18 }))
+        .put('address', createMapForm()
+            .put('street', createField({ value: '', validator: notBlankValidator }))
+            .put('city', createField({ value: '', validator: notBlankValidator }))
+        );
+      const [form, setForm] = useState(initialForm);
+      return (
+        <Form form={form} setForm={setForm} onSubmit={storybookAction('onSubmit')}>
+          <Input path="fullName" label="Full Name" />
+          <Input path="age" type="number" label="Age" />
+          <Input path="not-exist" label="This will not be shown thanks to autoHide" autoHide />
+          <Input path={['address', 'street']} label="Street (shown thanks to path[] support)" />
+          <h2>Address</h2>
+          <SubForm path="address">
+            <Input path="street" label="Street" />
+            <Input path="city" label="City" />
+          </SubForm>
+          <SaveButton />
+        </Form>
+      );
+    }}
+  </Story>
+</Preview>
+
+## Form
+
+The `Form` component establishes the form binding context root. In addition to the React context setup, the `Form`
+component also renders a `form` HTML element with an `onSubmit` handler that implements our form best practices.
+
+### Example
+
+```js
+import Form from 'in-components/form/binding/Form';
+
+<Form form={form}
+      setForm={setForm}
+      // Note: onSubmit does not have to validate whether the form is valid. This is already handled by the
+      // Form component.
+      onSubmit={form => save(form)}>
+  …
+</Form>
+```
+
+### Props
+<Props of={Form} />
+
+## FormBoundInput
+
+<Message type={warning} title="Work In Progress">
+  We have not yet discussed whether this component should also render a <code>FormGroup</code>
+  element or not. And if it renders a <code>FormGroup</code>, how to use this component for
+  horizontal form group use cases and use cases without labels.
+</Message>
+
+`FormBoundInput` connects a [formalistic form field](https://github.com/bripkens/formalistic/blob/master/formalistic.d.ts#L7-L30) to
+our `Input` component. It furthermore wraps the `Input` component with a `FormGroup`, takes care of `onChange` handler
+registration, ID generation, validation states and more.
+
+### Example
+
+```js
+import Form from 'in-components/form/binding/Form';
+
+<Form form={form} setForm={setForm} onSubmit={form => save(form)}>
+  <Input path="fullName" label="Full Name" type="text" />
+</Form>
+```
+
+### Props
+
+**Note:** All additional props not listed in this table will be forwarded to `Input`.
+
+<Props of={Input} />
+
+## SubForm
+
+`SubForm` can be used to extend the form item resolve path. `SubForm`s can be nested as necessary
+to replicate the structure/path found within the form model. This can be useful to simplify paths,
+e.g., when leveraging [list forms](https://github.com/bripkens/formalistic/blob/master/formalistic.d.ts#L79-L112).
+
+`SubForm` plays well together with `autoHide` for optional sub-forms that may or may not have been
+added to the form model.
+
+### Example
+
+```js
+import Form from 'in-components/form/binding/Form';
+
+<Form form={form} setForm={setForm} onSubmit={form => save(form)}>
+  <SubForm path="address" autoHide>
+    <Input path="city" label="City" type="text" />
+  </SubForm>
+</Form>
+```
+
+### Props
+<Props of={SubForm} />
+
+## FormBound
+
+`FormBound` can be used to render a piece of data found within the Formalistic form or to manipulate it. All of the
+following components leverage `FormBound` internally. `FormBound` itself does not produce an end-user visible
+artifact.
+
+<Message type={neutral} title="Usage Frequency">
+  <code>FormBound</code> should be a component you leverage a lot less frequently than <code>Form</code> and <code>FormBoundInput</code>. <code>FormBound</code>
+  adds considerable complexity we are trying to hide by components such as <code>FormBoundInput</code>. You will trypically
+  only use <code>FormBound</code> when building component such as <code>FormBoundInput</code> or when making structural modifications to
+  form models in response to user interaction.
+</Message>
+
+### Example
+
+```js
+import FormBound from 'in-components/form/binding/FormBound';
+import Form from 'in-components/form/binding/Form';
+
+<Form form={form} setForm={setForm} onSubmit={form => save(form)}>
+  <FormBound path="fullName">
+    {({form, setForm, disabled, absolutePath, pathId, item}) => (
+      <div>{item.value}</div>
+    )}
+  </FormBound>
+</Form>
+```
+
+### Props
+ - `path` (`string` or `string[]`): The path to a [form item](https://github.com/bripkens/formalistic/blob/master/formalistic.d.ts#L1)
+   within the form model. The form item can be a form field, a map form or a list form.
+ - `children` (`function`): A render function which will be called with an object having the following properties:
+   - `form` (formalistic form item): The form model as provided to `Form`.
+   - `setForm` (`function`): The `setForm` function as provided to `Form`.
+   - `disabled` (`boolean`): Whether or not the form is disabled (as provided to `Form`).
+   - `absolutePath` (`string[]`): The absolute path from form root to the form item referenced via the `path` prop.
+   - `pathId` (`string`): A stringified version of `absolutePath` that can be used within HTML `id` attributes.
+   - `item` (formalistic form item): The form item found by resolving `absolutePath` within `form`.
+ - `autoHide` (`bool`, optional): When truthy, an unavailable form item, e.g. a field does not exist in the Formalistic
+   form, will be ignored silently and nothing will be rendered. It should be noted that this prop should be used sparringly
+   and preferably only for truly optional form segements! By default `autoHide` is disabled. Without `autoHide=true` an
+   error is thrown when `path` does not resolve to a form item.

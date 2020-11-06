@@ -21,6 +21,13 @@ export default function Message({
 }) {
   const [dismiss, setDismiss] = useState(false);
 
+  // We have a small API mistake within this component. In contrast to most other components
+  // this one accepts the title via the children prop. The following code path enables
+  // usage of the component similar to our other card/list/header-like components.
+  if (title && children && !description) {
+    description = children;
+  }
+
   return dismiss ? null : (
     <div
       className={joinClassNames(
