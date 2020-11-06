@@ -10,6 +10,7 @@ import './akka-remote-exit';
 import './akka.http.client';
 import './akka.http.server';
 import './amqp';
+import './asgi';
 import './asp.net';
 import './aspnetmvccontroller';
 import './aws.lambda.entry';
