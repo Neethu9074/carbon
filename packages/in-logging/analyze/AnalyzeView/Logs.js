@@ -65,7 +65,6 @@ function getTableData({ timeConfig, retrievalSize, tagFilterExpression, order, c
     },
     order,
     timeConfig: timeConfig,
-    tagFilterExpression,
-    filter: {}
+    tagFilterExpression
   });
 }

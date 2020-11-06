@@ -1,15 +1,17 @@
-import getTagValueSearchSuggestions from 'in-logging/subscriptions/getTagValueSuggestions';
+import getTagSuggestions from 'in-logging/subscriptions/getTagSuggestions';
 import { createQueryBuilder } from 'in-new-components/QueryBuilder';
 import { getTagCatalog } from 'in-logging/api/catalog';
 
 const { QueryBuilder, isQueryValid: isQueryValidInternal } = createQueryBuilder({
   getTagCatalog,
-  getSuggestions: ({ name, timeConfig, value }) => {
-    return getTagValueSearchSuggestions({
+  getSuggestions: params => {
+    const { tagName, timeConfig, propose, key, value } = params;
+    return getTagSuggestions({
       timeConfig,
-      tagName: name,
-      partialTagValue: value,
-      valueCount: 10
+      tagName,
+      key,
+      value,
+      propose
     });
   }
 });
