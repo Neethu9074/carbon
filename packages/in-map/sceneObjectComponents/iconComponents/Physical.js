@@ -1,4 +1,5 @@
 import IconComponent from 'in-map/sceneObjectComponents/iconComponents/IconComponent';
+import { getIconType } from 'in-components/SvgIcon/infrastructureIconType';
 
 export default class PhysicalIconComponent extends IconComponent {
   constructor(sceneObject, iconSize, getIconPosition) {
@@ -13,7 +14,8 @@ export default class PhysicalIconComponent extends IconComponent {
   }
 
   snapshotChanged(snapshot) {
-    this.fragment.additionalParams.type = snapshot.get('plugin');
+    const type = getIconType(snapshot) ?? '';
+    this.fragment.additionalParams.type = type.substr('lib_infra_'.length);
     this.factory.needsUpdate();
   }
 }
