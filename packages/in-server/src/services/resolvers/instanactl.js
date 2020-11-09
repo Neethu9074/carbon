@@ -38,7 +38,7 @@ exports.getButlerDomain = (tenant, unit) => Promise.resolve(getButlerDomain(tena
 exports.getFeatureFlags = (tenant, unit) =>
   cache(`getFeatureFlags:${tenant}:${unit}`, () => {
     const featureFlags = featureFlagDefinitions.map(definition => {
-      if (definition.consulKey) {
+      if (definition.instanaCtlKey) {
         return getBooleanSetting(tenant, unit, definition.instanaCtlKey, definition.defaultValue).then(value => ({
           key: definition.uiClientKey,
           value
