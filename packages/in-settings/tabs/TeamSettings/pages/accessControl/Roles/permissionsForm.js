@@ -32,7 +32,11 @@ export function addPermissionFields(form, role) {
     )
     .put('canViewLogs', createField({ value: getInitialValue('canViewLogs') ?? true }))
     .put('canViewTraceDetails', createField({ value: getInitialValue('canViewTraceDetails') ?? true }))
-    .put('canConfigureSessionSettings', createField({ value: getInitialValue('canConfigureSessionSettings') }));
+    .put('canConfigureSessionSettings', createField({ value: getInitialValue('canConfigureSessionSettings') }))
+    .put(
+      'canViewAccountAndBillingInformation',
+      createField({ value: role.get('canViewAccountAndBillingInformation') })
+    );
 
   // A small adapter so that this helper works with an immutableJS role or a plain JS object for API tokens.
   function getInitialValue(fieldName) {

@@ -213,7 +213,7 @@ export default function Permissions({ form, onChange, disabled }) {
         />
       </FormGroup>
 
-      <SectionHeading>Usage</SectionHeading>
+      <SectionHeading>Account information</SectionHeading>
       <FormGroup noFlex>
         <Permission
           form={form}
@@ -222,7 +222,6 @@ export default function Permissions({ form, onChange, disabled }) {
           name="canSeeUsageInformation"
           label={permissions['canSeeUsageInformation']}
           helpText="Permits access to license usage information."
-          withoutBottomBorder={!onPremLicenseInformationEnabled}
         />
 
         {onPremLicenseInformationEnabled && (
@@ -233,9 +232,17 @@ export default function Permissions({ form, onChange, disabled }) {
             name="canSeeOnPremLicenseInformation"
             label={permissions['canSeeOnPremLicenseInformation']}
             helpText="Permits access to on prem license usage information."
-            withoutBottomBorder
           />
         )}
+
+        <Permission
+          form={form}
+          disabled={disabled}
+          onChange={onChange}
+          name="canViewAccountAndBillingInformation"
+          label={permissions['canViewAccountAndBillingInformation']}
+          helpText="Permits access to account and billing information."
+        />
       </FormGroup>
     </>
   );

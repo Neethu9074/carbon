@@ -46,6 +46,7 @@
       "permission.canConfigureApplications": "true",
       "config.maxAllowedAlertingConfigurations": "200",
       "permission.canSeeUsageInformation": "true",
+      "permission.canViewAccountAndBillingInformation": "true",
       "region": "test-us-west-2"
     },
     "locationUrl": "http://shop.example.com:6712/?userId=e8a6d74e-6bd2-42f5-9d50-b66f1f21a354",

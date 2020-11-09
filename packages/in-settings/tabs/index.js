@@ -4,7 +4,7 @@ import UserSettings from 'in-settings/tabs/UserSettings/View';
 import TeamSettings from 'in-settings/tabs/TeamSettings/View';
 import AuthSettings from 'in-settings/tabs/AuthSettings/View';
 import AmpSettings from 'in-settings/tabs/AMP/View';
-import { isOwner } from 'in-stores/user';
+import { role } from 'in-stores/user';
 
 const teamTab = {
   label: 'Team Settings',
@@ -31,6 +31,6 @@ const ampTab = {
 };
 
 export default function getTabs() {
-  const ampTabVisible = isOwner;
+  const ampTabVisible = role.canViewAccountAndBillingInformation;
   return [roleHasAnyTeamPermissions() && teamTab, userTab, authTab, ampTabVisible && ampTab].filter(Boolean);
 }
