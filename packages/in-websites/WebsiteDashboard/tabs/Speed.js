@@ -2,13 +2,14 @@ import React, { Fragment } from 'react';
 import theme from 'in-themes';
 
 import WebsiteDashboardsMarkerLanes from 'in-websites/WebsiteDashboard/components/WebsiteDashboardsMarkerLanes';
+import AggregationSelectorWithUrlState from 'in-new-components/AggregationSelectorWithUrlState';
 import WebsiteChartWrapper from 'in-websites/WebsiteDashboard/components/WebsiteChartWrapper';
-import AggregationSelector from 'in-new-components/AggregationSelector';
 import { clsFormatter } from 'in-websites/analyze/AnalyzeView/metrics';
 import { number, millis } from 'in-services/formatters/number';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { getChartGranularity } from 'in-websites/metrics';
 import { Row, Col } from 'in-new-components/layout/Grid';
+import { speedTab } from 'in-websites/navigation/paths';
 import Footer from 'in-new-components/Footer';
 
 export default function Speed({ timeConfig, tagFilters, websiteLabel, websiteId }) {
@@ -141,7 +142,10 @@ export default function Speed({ timeConfig, tagFilters, websiteLabel, websiteId 
 
       <Row>
         <Col xs={12}>
-          <AggregationSelector defaultAggregation="MEAN">
+          <AggregationSelectorWithUrlState
+            defaultAggregation="MEAN"
+            urlMatrixParamConfig={{ path: speedTab, paramName: 'navTimingAgg' }}
+          >
             {({ aggregation, aggregationSelector }) => (
               <WebsiteChartWrapper
                 cardTitle="Navigation Timing"
@@ -266,13 +270,16 @@ export default function Speed({ timeConfig, tagFilters, websiteLabel, websiteId 
                 renderPostChartContent={MarkerLanes}
               />
             )}
-          </AggregationSelector>
+          </AggregationSelectorWithUrlState>
         </Col>
       </Row>
 
       <Row>
         <Col xs={12}>
-          <AggregationSelector defaultAggregation="MEAN">
+          <AggregationSelectorWithUrlState
+            defaultAggregation="MEAN"
+            urlMatrixParamConfig={{ path: speedTab, paramName: 'paintTimingAgg' }}
+          >
             {({ aggregation, aggregationSelector }) => (
               <WebsiteChartWrapper
                 cardTitle="Paint Timing"
@@ -314,13 +321,16 @@ export default function Speed({ timeConfig, tagFilters, websiteLabel, websiteId 
                 renderPostChartContent={MarkerLanes}
               />
             )}
-          </AggregationSelector>
+          </AggregationSelectorWithUrlState>
         </Col>
       </Row>
 
       <Row>
         <Col lg={6}>
-          <AggregationSelector defaultAggregation="MEAN">
+          <AggregationSelectorWithUrlState
+            defaultAggregation="MEAN"
+            urlMatrixParamConfig={{ path: speedTab, paramName: 'firstInputDelayAgg' }}
+          >
             {({ aggregation, aggregationSelector }) => (
               <WebsiteChartWrapper
                 cardTitle="First Input Delay"
@@ -350,11 +360,14 @@ export default function Speed({ timeConfig, tagFilters, websiteLabel, websiteId 
                 renderPostChartContent={MarkerLanes}
               />
             )}
-          </AggregationSelector>
+          </AggregationSelectorWithUrlState>
         </Col>
 
         <Col lg={6}>
-          <AggregationSelector defaultAggregation="MEAN">
+          <AggregationSelectorWithUrlState
+            defaultAggregation="MEAN"
+            urlMatrixParamConfig={{ path: speedTab, paramName: 'cumLayoutShiftAgg' }}
+          >
             {({ aggregation, aggregationSelector }) => (
               <WebsiteChartWrapper
                 cardTitle="Cumulative Layout Shift"
@@ -384,7 +397,7 @@ export default function Speed({ timeConfig, tagFilters, websiteLabel, websiteId 
                 renderPostChartContent={MarkerLanes}
               />
             )}
-          </AggregationSelector>
+          </AggregationSelectorWithUrlState>
         </Col>
       </Row>
 

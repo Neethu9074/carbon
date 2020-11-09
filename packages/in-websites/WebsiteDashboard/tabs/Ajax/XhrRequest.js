@@ -1,11 +1,11 @@
 import { just } from 'reactive-observables';
 import React, { Fragment } from 'react';
-import theme from 'in-themes';
 
 import { getLinkToWebsite, ajaxTabFullyQualified, getLinkToAnalyze, detailsPath } from 'in-websites/navigation/paths';
 import WebsiteBeaconGroupsChartWrapper from 'in-websites/WebsiteDashboard/components/WebsiteBeaconGroupsChartWrapper';
 import WebsiteDashboardsMarkerLanes from 'in-websites/WebsiteDashboard/components/WebsiteDashboardsMarkerLanes';
 import GraphqlOperationsTopList from 'in-websites/WebsiteDashboard/tabs/Ajax/GraphqlOperationsTopList';
+import AggregationSelectorWithUrlState from 'in-new-components/AggregationSelectorWithUrlState';
 import WebsiteChartWrapper from 'in-websites/WebsiteDashboard/components/WebsiteChartWrapper';
 import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
 import ErrorTypesTopList from 'in-websites/WebsiteDashboard/tabs/Ajax/ErrorTypesTopList';
@@ -17,9 +17,8 @@ import { millis, number, bytes, percentage } from 'in-services/formatters/number
 import PagesTopList from 'in-websites/WebsiteDashboard/tabs/Ajax/PagesTopList';
 import { xhrId as xhrIdMatrixParameter } from 'in-websites/navigation/matrix';
 import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
-import RedirectWithHash from 'in-components/RedirectWithHash';
-import AggregationSelector from 'in-new-components/AggregationSelector';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import RedirectWithHash from 'in-components/RedirectWithHash';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { getChartGranularity } from 'in-websites/metrics';
 import { Col, Row } from 'in-new-components/layout/Grid';
@@ -29,6 +28,7 @@ import Footer from 'in-new-components/Footer';
 import Button from 'in-new-components/Button';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
+import theme from 'in-themes';
 
 import locals from './XhrRequest.mless';
 
@@ -238,7 +238,10 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
         {hasDetailedTimings && (
           <Row>
             <Col xs={12}>
-              <AggregationSelector defaultAggregation="MEAN">
+              <AggregationSelectorWithUrlState
+                defaultAggregation="MEAN"
+                urlMatrixParamConfig={{ path: detailsPath, paramName: 'resourceTimingAgg' }}
+              >
                 {({ aggregation, aggregationSelector }) => (
                   <WebsiteChartWrapper
                     cardTitle="Resource Timing"
@@ -325,7 +328,7 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
                     renderPostChartContent={MarkerLanes}
                   />
                 )}
-              </AggregationSelector>
+              </AggregationSelectorWithUrlState>
             </Col>
           </Row>
         )}
@@ -466,7 +469,10 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
             </Col>
 
             <Col lg={6}>
-              <AggregationSelector defaultAggregation="MEAN">
+              <AggregationSelectorWithUrlState
+                defaultAggregation="MEAN"
+                urlMatrixParamConfig={{ path: detailsPath, paramName: 'resourceSizesAgg' }}
+              >
                 {({ aggregation, aggregationSelector }) => (
                   <WebsiteChartWrapper
                     cardTitle="Resource Sizes"
@@ -506,7 +512,7 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
                     renderPostChartContent={MarkerLanes}
                   />
                 )}
-              </AggregationSelector>
+              </AggregationSelectorWithUrlState>
             </Col>
           </Row>
         )}

@@ -17,6 +17,7 @@ import WebsiteBeaconGroupsChartWrapper from 'in-websites/WebsiteDashboard/compon
 import WebsiteDashboardsMarkerLanes from 'in-websites/WebsiteDashboard/components/WebsiteDashboardsMarkerLanes';
 import { learnMoreLabel, learnMoreHref, explanation } from 'in-websites/definitions/missingResourceTimings';
 import ResourceTypesTopList from 'in-websites/WebsiteDashboard/tabs/Resources/ResourceTypesTopList';
+import AggregationSelectorWithUrlState from 'in-new-components/AggregationSelectorWithUrlState';
 import WebsiteChartWrapper from 'in-websites/WebsiteDashboard/components/WebsiteChartWrapper';
 import LocationsTopList from 'in-websites/WebsiteDashboard/tabs/Resources/LocationsTopList';
 import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
@@ -25,11 +26,10 @@ import DefaultLoadingDashboard from 'in-new-components/Loading/DefaultLoadingDas
 import { resourceId as resourceIdMatrixParameter } from 'in-websites/navigation/matrix';
 import PagesTopList from 'in-websites/WebsiteDashboard/tabs/Resources/PagesTopList';
 import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
-import RedirectWithHash from 'in-components/RedirectWithHash';
-import AggregationSelector from 'in-new-components/AggregationSelector';
 import { bytes, millis, number } from 'in-services/formatters/number';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import LearnMoreCard from 'in-new-components/Card/LearnMoreCard';
+import RedirectWithHash from 'in-components/RedirectWithHash';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { getChartGranularity } from 'in-websites/metrics';
 import { Col, Row } from 'in-new-components/layout/Grid';
@@ -227,7 +227,10 @@ function ResourceTab({ resourceId, result, websiteId, websiteLabel, pageId, tagF
         {hasDetailedTimings && (
           <Row>
             <Col xs={12}>
-              <AggregationSelector defaultAggregation="MEAN">
+              <AggregationSelectorWithUrlState
+                defaultAggregation="MEAN"
+                urlMatrixParamConfig={{ path: detailsPath, paramName: 'resourceTimingAgg' }}
+              >
                 {({ aggregation, aggregationSelector }) => (
                   <WebsiteChartWrapper
                     cardTitle="Resource Timing"
@@ -314,7 +317,7 @@ function ResourceTab({ resourceId, result, websiteId, websiteLabel, pageId, tagF
                     renderPostChartContent={MarkerLanes}
                   />
                 )}
-              </AggregationSelector>
+              </AggregationSelectorWithUrlState>
             </Col>
           </Row>
         )}

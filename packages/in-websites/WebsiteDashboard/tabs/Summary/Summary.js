@@ -3,6 +3,7 @@ import theme from 'in-themes';
 
 import WebsiteDashboardsMarkerLanes from 'in-websites/WebsiteDashboard/components/WebsiteDashboardsMarkerLanes';
 import WebsiteMetricsKpiCard from 'in-websites/WebsiteDashboard/components/WebsiteMetricsKpiCard';
+import AggregationSelectorWithUrlState from 'in-new-components/AggregationSelectorWithUrlState';
 import WebsiteChartWrapper from 'in-websites/WebsiteDashboard/components/WebsiteChartWrapper';
 import Deprecations from 'in-websites/WebsiteDashboard/components/Deprecations/Deprecations';
 import WebsiteGeoHeatMap from 'in-websites/WebsiteDashboard/components/WebsiteGeoHeatMap';
@@ -11,7 +12,6 @@ import { number, millis, meanLatency, latency } from 'in-services/formatters/num
 import ErrorTopList from 'in-websites/WebsiteDashboard/tabs/Summary/ErrorTopList';
 import PagesTopList from 'in-websites/WebsiteDashboard/tabs/Summary/PagesTopList';
 import { getLinkToAnalyze, summaryTab } from 'in-websites/navigation/paths';
-import AggregationSelector from 'in-new-components/AggregationSelector';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { getChartGranularity } from 'in-websites/metrics';
 import { Row, Col } from 'in-new-components/layout/Grid';
@@ -304,7 +304,10 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
           />
         </Col>
         <Col lg={4}>
-          <AggregationSelector defaultAggregation="MEAN">
+          <AggregationSelectorWithUrlState
+            defaultAggregation="MEAN"
+            urlMatrixParamConfig={{ path: summaryTab, paramName: 'onLoadAgg' }}
+          >
             {({ aggregation, aggregationSelector }) => (
               <WebsiteChartWrapper
                 cardTitle="onLoad Time"
@@ -335,7 +338,7 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
                 renderPostChartContent={MarkerLanes}
               />
             )}
-          </AggregationSelector>
+          </AggregationSelectorWithUrlState>
         </Col>
       </Row>
 
