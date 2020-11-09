@@ -14,15 +14,21 @@ import useObservable from 'in-hooks/useObservable';
 
 import locals from './Suggestion.mless';
 
-export default function FacetedFilterGeneric({ title, tagFilterExpression, tag, entity, updateFilter }) {
+export default function FacetedFilterGeneric({ title, tagFilterExpression, tag, entity, hiddenCalls, updateFilter }) {
   return (
     <FacetedExpandableCard title={title}>
-      <Body tagFilterExpression={tagFilterExpression} tag={tag} entity={entity} updateFilter={updateFilter} />
+      <Body
+        tagFilterExpression={tagFilterExpression}
+        tag={tag}
+        entity={entity}
+        hiddenCalls={hiddenCalls}
+        updateFilter={updateFilter}
+      />
     </FacetedExpandableCard>
   );
 }
 
-function Body({ tagFilterExpression, tag, entity, title, updateFilter }) {
+function Body({ tagFilterExpression, tag, entity, title, hiddenCalls, updateFilter }) {
   const [valueFilter, setValueFilter] = useState('');
   const selectedValues = existingValuesForTag(tagFilterExpression, tag, entity);
   if (selectedValues.length > 0) {
@@ -49,6 +55,7 @@ function Body({ tagFilterExpression, tag, entity, title, updateFilter }) {
   return (
     <SearchAndSuggestions
       tagFilterExpression={tagFilterExpression}
+      hiddenCalls={hiddenCalls}
       tag={tag}
       updateFilter={updateFilter}
       valueFilter={valueFilter}
@@ -67,7 +74,7 @@ function ExistingFilters({ selectedValues, remove }) {
   );
 }
 
-function SearchAndSuggestions({ tagFilterExpression, tag, updateFilter, valueFilter, setValueFilter }) {
+function SearchAndSuggestions({ tagFilterExpression, hiddenCalls, tag, updateFilter, valueFilter, setValueFilter }) {
   return (
     <>
       <SearchInput onChange={setValueFilter} query={valueFilter} className={locals.search} withoutIcon />
@@ -75,13 +82,14 @@ function SearchAndSuggestions({ tagFilterExpression, tag, updateFilter, valueFil
         tag={tag}
         valueFilter={valueFilter}
         tagFilterExpression={tagFilterExpression}
+        hiddenCalls={hiddenCalls}
         updateFilter={updateFilter}
       />
     </>
   );
 }
 
-function Suggestions({ tagFilterExpression, tag, updateFilter, valueFilter }) {
+function Suggestions({ tagFilterExpression, hiddenCalls, tag, updateFilter, valueFilter }) {
   const timeConfig = useTimeConfig();
   const suggestionsFromServer = memoize(
     () =>
@@ -92,6 +100,8 @@ function Suggestions({ tagFilterExpression, tag, updateFilter, valueFilter }) {
           timeConfig: timeConfig
         },
         filterOnTagName: true,
+        includeInternal: hiddenCalls.includeInternal,
+        includeSynthetic: hiddenCalls.includeSynthetic,
         metrics: {
           calls_SUM_Agg: {
             metric: 'calls',

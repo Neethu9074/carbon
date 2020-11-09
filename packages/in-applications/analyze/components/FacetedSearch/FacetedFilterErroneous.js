@@ -15,15 +15,15 @@ import Link from 'in-components/Link';
 
 import locals from './Suggestion.mless';
 
-export default function FacetedFilterErroneous({ title, tagFilterExpression, updateFilter }) {
+export default function FacetedFilterErroneous({ title, tagFilterExpression, hiddenCalls, updateFilter }) {
   return (
     <FacetedExpandableCard title={title}>
-      <Body tagFilterExpression={tagFilterExpression} updateFilter={updateFilter} />
+      <Body tagFilterExpression={tagFilterExpression} hiddenCalls={hiddenCalls} updateFilter={updateFilter} />
     </FacetedExpandableCard>
   );
 }
 
-function Body({ tagFilterExpression, updateFilter }) {
+function Body({ tagFilterExpression, updateFilter, hiddenCalls }) {
   if (existingErroneousFilter(tagFilterExpression)) {
     return (
       <ExistingValue
@@ -43,10 +43,10 @@ function Body({ tagFilterExpression, updateFilter }) {
       />
     );
   }
-  return <Suggestion updateFilter={updateFilter} tagFilterExpression={tagFilterExpression} />;
+  return <Suggestion updateFilter={updateFilter} tagFilterExpression={tagFilterExpression} hiddenCalls={hiddenCalls} />;
 }
 
-function Suggestion({ updateFilter, tagFilterExpression }) {
+function Suggestion({ updateFilter, tagFilterExpression, hiddenCalls }) {
   const timeConfig = useTimeConfig();
   const suggestions = useObservable(
     getTagSuggestions({
@@ -57,6 +57,8 @@ function Suggestion({ updateFilter, tagFilterExpression }) {
       },
       filterOnTagName: true,
       valueFilter: null,
+      includeInternal: hiddenCalls.includeInternal,
+      includeSynthetic: hiddenCalls.includeSynthetic,
       metrics: {
         calls_SUM_Agg: {
           metric: 'calls',

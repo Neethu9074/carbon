@@ -25,12 +25,18 @@ export default function FacetedSearch({
         updateFilter={updateFilter}
         isValid={isValid}
       />
-      <FacetedFilterErroneous title="Erroneous" tagFilterExpression={tagFilterExpression} updateFilter={updateFilter} />
+      <FacetedFilterErroneous
+        title="Erroneous"
+        tagFilterExpression={tagFilterExpression}
+        hiddenCalls={hiddenCalls}
+        updateFilter={updateFilter}
+      />
       <FacetedFilterGeneric
         title="Applications"
         tag="application.name"
         entity={DESTINATION}
         tagFilterExpression={tagFilterExpression}
+        hiddenCalls={hiddenCalls}
         updateFilter={updateFilter}
       />
 
@@ -39,6 +45,7 @@ export default function FacetedSearch({
         tag="service.name"
         entity={DESTINATION}
         tagFilterExpression={tagFilterExpression}
+        hiddenCalls={hiddenCalls}
         updateFilter={updateFilter}
       />
       <FacetedFilterGeneric
@@ -46,12 +53,14 @@ export default function FacetedSearch({
         tag="endpoint.name"
         entity={DESTINATION}
         tagFilterExpression={tagFilterExpression}
+        hiddenCalls={hiddenCalls}
         updateFilter={updateFilter}
       />
       <FacetedFilterGeneric
         title="Types"
         tag="call.type"
         tagFilterExpression={tagFilterExpression}
+        hiddenCalls={hiddenCalls}
         updateFilter={updateFilter}
       />
       <FacetedFilterGeneric
@@ -59,6 +68,7 @@ export default function FacetedSearch({
         tag="technology"
         entity={DESTINATION}
         tagFilterExpression={tagFilterExpression}
+        hiddenCalls={hiddenCalls}
         updateFilter={updateFilter}
       />
       <FacetedFilterHttpStatusCodes
