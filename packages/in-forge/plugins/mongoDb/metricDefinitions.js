@@ -103,5 +103,12 @@ export default [
     label: 'Last Background Flushing Latency',
     min: 0,
     formatter: millis
+  },
+  {
+    metrics: ['virtual', 'mapped'],
+    labels: ['Virtual', 'Mapped'],
+    min: 0,
+    category: ['Memory'],
+    formatter: bytes
   }
 ];
