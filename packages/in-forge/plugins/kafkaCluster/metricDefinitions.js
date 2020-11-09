@@ -204,6 +204,13 @@ export default [
     formatter: millis
   },
   {
+    metric: getDynamicMetricMatch('kafkaClient.producer', 'produceRequestLatency', 'Producer'),
+    label: 'Latency',
+    category: ['Producers'],
+    min: 0,
+    formatter: millis
+  },
+  {
     metric: getDynamicMetricMatch('kafkaClient.consumer', 'consumedByteRate', 'Consumer'),
     label: 'Byte Rate',
     category: ['Consumers'],
@@ -213,6 +220,13 @@ export default [
   {
     metric: getDynamicMetricMatch('kafkaClient.consumer', 'consumerFetchThrottleTime', 'Consumer'),
     label: 'Throttling',
+    category: ['Consumers'],
+    min: 0,
+    formatter: millis
+  },
+  {
+    metric: getDynamicMetricMatch('kafkaClient.consumer', 'consumerFetchLatency', 'Consumer'),
+    label: 'Latency',
     category: ['Consumers'],
     min: 0,
     formatter: millis
