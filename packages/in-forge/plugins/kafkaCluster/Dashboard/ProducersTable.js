@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { bytesPerSecondTwoDecimalPlaces, ms } from 'in-services/formatters/number';
+import { bytesPerSecondTwoDecimalPlaces, millis } from 'in-services/formatters/number';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import Table from 'in-sdk/components/dashboard/Table';
@@ -50,7 +50,7 @@ const cols = [
       getMetricName(row) {
         return `kafkaClient.producer.${row.producerId}.produceThrottleTime`;
       },
-      getContent: ms.compact,
+      getContent: millis,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -66,7 +66,7 @@ const cols = [
       getMetricName(row) {
         return `kafkaClient.producer.${row.producerId}.produceRequestLatency`;
       },
-      getContent: ms.compact,
+      getContent: millis,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -122,8 +122,8 @@ function getDetails(row) {
         type: 'line'
       }}
       y2={{
-        formatter: ms.compact,
-        tooltipFormatter: ms.compact,
+        formatter: millis,
+        tooltipFormatter: millis,
         metrics: [
           `kafkaClient.producer.${row.producerId}.produceThrottleTime`,
           `kafkaClient.producer.${row.producerId}.produceRequestLatency`
