@@ -35,7 +35,7 @@ export function addPermissionFields(form, role) {
     .put('canConfigureSessionSettings', createField({ value: getInitialValue('canConfigureSessionSettings') }))
     .put(
       'canViewAccountAndBillingInformation',
-      createField({ value: role.get('canViewAccountAndBillingInformation') })
+      createField({ value: getInitialValue('canViewAccountAndBillingInformation') })
     );
 
   // A small adapter so that this helper works with an immutableJS role or a plain JS object for API tokens.
