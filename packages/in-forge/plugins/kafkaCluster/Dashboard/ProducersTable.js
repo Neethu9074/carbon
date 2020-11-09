@@ -55,6 +55,22 @@ const cols = [
         return 'mean';
       }
     }
+  },
+  {
+    title: 'Latency',
+    type: 'sparkChart',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `kafkaClient.producer.${row.producerId}.produceRequestLatency`;
+      },
+      getContent: ms.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
   }
 ];
 
@@ -108,8 +124,11 @@ function getDetails(row) {
       y2={{
         formatter: ms.compact,
         tooltipFormatter: ms.compact,
-        metrics: [`kafkaClient.producer.${row.producerId}.produceThrottleTime`],
-        labels: ['Throttling'],
+        metrics: [
+          `kafkaClient.producer.${row.producerId}.produceThrottleTime`,
+          `kafkaClient.producer.${row.producerId}.produceRequestLatency`
+        ],
+        labels: ['Throttling', 'Latency'],
         type: 'line'
       }}
       renderPostChartContent={PluginDashboardsMarkerLanes}

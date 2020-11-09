@@ -55,6 +55,22 @@ const cols = [
         return 'mean';
       }
     }
+  },
+  {
+    title: 'Latency',
+    type: 'sparkChart',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `kafkaClient.consumer.${row.consumerId}.consumerFetchLatency`;
+      },
+      getContent: ms.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
   }
 ];
 
@@ -108,8 +124,11 @@ function getDetails(row) {
       y2={{
         formatter: ms.compact,
         tooltipFormatter: ms.compact,
-        metrics: [`kafkaClient.consumer.${row.consumerId}.consumerFetchThrottleTime`],
-        labels: ['Throttling'],
+        metrics: [
+          `kafkaClient.consumer.${row.consumerId}.consumerFetchThrottleTime`,
+          `kafkaClient.consumer.${row.consumerId}.consumerFetchLatency`
+        ],
+        labels: ['Throttling', 'Latency'],
         type: 'line'
       }}
       renderPostChartContent={PluginDashboardsMarkerLanes}
