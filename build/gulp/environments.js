@@ -17,16 +17,6 @@ exports = module.exports = {
     // special case: Handled in `devModeQuestions`
     local: true
   },
-  'blue-instanaops (EU)': {
-    tenant: 'instanaops',
-    unit: 'blue',
-    baseDomain: 'instana.io'
-  },
-  'red-instanaops (US)': {
-    tenant: 'instanaops',
-    unit: 'red',
-    baseDomain: 'instana.io'
-  },
   'K8s Nightly (pink)': {
     tenant: 'instana',
     unit: 'nightly',
@@ -47,24 +37,29 @@ exports = module.exports = {
     unit: 'release',
     baseDomain: 'magenta.instana.rocks'
   },
-  'Release Fullstack': {
-    tenant: 'instana',
-    unit: 'release',
-    baseDomain: 'instana.io'
-  },
-  'Old Test Environment (deprecated)': {
-    tenant: 'instana',
-    unit: 'test',
-    baseDomain: 'instana.io'
-  },
-  'eu-instanaops (deprecated)': {
+  'blue-instanaops (EU AWS)': {
     tenant: 'instanaops',
-    unit: 'eu',
+    unit: 'blue',
     baseDomain: 'instana.io'
   },
-  'us-instanaops (deprecated)': {
+  'red-instanaops (US AWS)': {
     tenant: 'instanaops',
-    unit: 'us',
+    unit: 'red',
+    baseDomain: 'instana.io'
+  },
+  'green-instanaops (EU GCP)': {
+    tenant: 'instanaops',
+    unit: 'green',
+    baseDomain: 'instana.io'
+  },
+  'orange-instanaops (US GCP)': {
+    tenant: 'instanaops',
+    unit: 'orange',
+    baseDomain: 'instana.io'
+  },
+  'internal-instanaops': {
+    tenant: 'instanaops',
+    unit: 'internal',
     baseDomain: 'instana.io'
   }
 };

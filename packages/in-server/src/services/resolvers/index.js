@@ -1,8 +1,6 @@
 const serverConfig = require('../../serverConfig.js');
 
-if (serverConfig.consul && serverConfig.consul.baseUrl) {
-  startWith('consul');
-} else if (serverConfig.instanactlCockroachDb && serverConfig.instanactlCockroachDb.host) {
+if (serverConfig.instanactlCockroachDb && serverConfig.instanactlCockroachDb.host) {
   startWith('instanactl');
 } else if (serverConfig.resolver === 'operator') {
   startWith('operator');

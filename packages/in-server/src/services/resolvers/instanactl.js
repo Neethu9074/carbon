@@ -1,7 +1,7 @@
 const { Pool } = require('pg');
 
 const { getReportingEndpointsFromButler } = require('../reportingEndpoints.js');
-const getFeatureFlagDefinitions = require('./featureFlags');
+const featureFlagDefinitions = require('./featureFlags');
 const serverConfig = require('../../serverConfig.js');
 const cache = require('../loadingCache').createLoadingCache({
   ttl: serverConfig.instanactlCockroachDb.cacheExpiry || 60000
@@ -37,7 +37,7 @@ exports.getButlerDomain = (tenant, unit) => Promise.resolve(getButlerDomain(tena
 
 exports.getFeatureFlags = (tenant, unit) =>
   cache(`getFeatureFlags:${tenant}:${unit}`, () => {
-    const featureFlags = getFeatureFlagDefinitions(tenant, unit).map(definition => {
+    const featureFlags = featureFlagDefinitions.map(definition => {
       if (definition.consulKey) {
         return getBooleanSetting(tenant, unit, definition.instanaCtlKey, definition.defaultValue).then(value => ({
           key: definition.uiClientKey,

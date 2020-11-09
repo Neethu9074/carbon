@@ -18,19 +18,13 @@ export default connect(({ snapshot, timeConfig }) => ({
     return null;
   }
 
-  const { host: hostSnapshot, container, jvm, pod } = context;
-  const fqdn = hostSnapshot.getIn(['data', 'fqdn'], '');
-  const jobName = container.getIn(['data', 'Nomad', 'jobName']);
+  const { container, pod } = context;
 
-  const host = extractHost(pod, fqdn);
+  const host = extractHost(pod);
   const adminPort = extractPort(pod, container);
   const adminUrl = `http://${host}:${adminPort}`;
 
-  const logUrl = `https://app.logdna.com/0b5bf8ca43/logs/view?apps=${encodeURIComponent(
-    jobName
-  )}&hosts=${encodeURIComponent(fqdn)}`;
-
-  const getLogsCommand = extractLogsCommand(pod, container, jvm, fqdn);
+  const getLogsCommand = extractLogsCommand(pod);
 
   return (
     <Fragment>
@@ -40,9 +34,6 @@ export default connect(({ snapshot, timeConfig }) => ({
         </Button>
         <Button href={`${adminUrl}/admin/config.yaml`} target="_blank">
           Config
-        </Button>
-        <Button href={logUrl} target="_blank">
-          Logs
         </Button>
         <Button href={`${adminUrl}/admin/build.json`} target="_blank">
           Version
@@ -136,14 +127,13 @@ function containerLabelIncludes(container, includedString, notIncludingList) {
   }
 }
 
-function extractHost(pod, fqdn) {
+function extractHost(pod) {
   if (pod) {
     const podIp = pod.getIn(['data', 'podIp']);
     if (podIp) {
       return podIp;
     }
   }
-  return fqdn.replace('.instana.io', '');
 }
 
 function extractPort(pod, container) {
@@ -159,10 +149,9 @@ function extractPort(pod, container) {
       // ignore
     }
   }
-  return container.getIn(['data', 'Nomad', 'ports', 'check']);
 }
 
-function extractLogsCommand(pod, container, jvm, fqdn) {
+function extractLogsCommand(pod) {
   if (pod) {
     const namespace = pod.getIn(['data', 'namespace']);
     const name = pod.getIn(['data', 'name']);
@@ -170,6 +159,9 @@ function extractLogsCommand(pod, container, jvm, fqdn) {
     return `
 # Kubectl not configured? Check the "kubectl" section in the
 # "K8S: Environments" slide deck in Google docs.
+
+# Remember to switch the Kubernetes context
+kubectx ${namespace}
 
 # Get the configuration file
 kubectl exec --namespace ${namespace} ${name} -- cat '/etc/instana/${app}/config.yaml' | less
@@ -184,10 +176,4 @@ kubectl exec -it --namespace ${namespace} ${name} -- bash
 kubectl port-forward --namespace ${namespace} ${name} 8600 8601
       `.trim();
   }
-  const allocId = container.getIn(['data', 'Nomad', 'allocId']);
-  const componentName = jvm.getIn(['data', 'appInfo', 'title']);
-  return `
-# Get logs directly from machine. Remember to insert your user name
-ssh -t $INSTANA_LDAP_USER@${fqdn} 'less /mnt/data/nomad/alloc/${allocId}/alloc/logs/${componentName}.log'
-    `.trim();
 }
