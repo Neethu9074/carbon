@@ -46,8 +46,10 @@ export const pageLoadViewPath = '/pageLoad';
 export const pageLoadViewPathFullyQualified = `${analyzePathFullyQualified}${pageLoadViewPath}`;
 export const closePageLoadViewLink = getModifiedUrlStream(params => (params.pathname = analyzePathFullyQualified));
 
+export const detailsPath ='/details';
 export const websitePath = '/website';
 export const websitePathFullyQualified = `${websiteMonitoringPath}${websitePath}`;
+export const summaryTab = '/summary';
 export const errorsTab = '/errors';
 export const errorsTabFullyQualified = `${websitePathFullyQualified}${errorsTab}`;
 export const resourcesTab = '/resources';
@@ -78,7 +80,7 @@ export const linkToNewWebsite$ = getModifiedUrlStream(params => {
   params.pathname = newWebsitePathFullyQualified;
 });
 
-export function getLinkToWebsite(websiteId, { tabPath = '/summary', tabParameters, pageId, timeConfig } = emptyObject) {
+export function getLinkToWebsite(websiteId, { tabPath = summaryTab, tabParameters, pageId, timeConfig } = emptyObject) {
   return getModifiedUrlStream(params => {
     params.pathname = `${websitePathFullyQualified}${tabPath}`;
     setOrDeleteMatrixKey(params, websitePath, websiteIdMatrixParameter, websiteId);

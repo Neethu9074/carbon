@@ -1,9 +1,9 @@
 import React from 'react';
 
+import { TopListWithUrlState, trackTopListNavigation } from 'in-new-components/TopListWithUrlState';
 import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
-import getWebsiteErrors from 'in-websites/subscriptions/getWebsiteErrors';
 import { getLinkToWebsite, getLinkToError } from 'in-websites/navigation/paths';
-import TopList, { trackTopListNavigation } from 'in-new-components/TopList';
+import getWebsiteErrors from 'in-websites/subscriptions/getWebsiteErrors';
 import { affectedUsers } from 'in-websites/formatters';
 import { number } from 'in-services/formatters/number';
 import Link from 'in-components/Link';
@@ -13,9 +13,9 @@ const labels = ['Occurrences', 'Affected Users'];
 const aggregations = ['SUM', 'DISTINCT_COUNT'];
 const formatters = [number.compact, affectedUsers.compact];
 
-export default function ErrorsTopList({ websiteId, pageId, timeConfig, tagFilters }) {
+export default function ErrorTopList({ websiteId, pageId, timeConfig, tagFilters, urlMatrixParamConfig }) {
   return (
-    <TopList
+    <TopListWithUrlState
       title="Top JS Errors"
       metrics={metrics}
       labels={labels}
@@ -30,6 +30,7 @@ export default function ErrorsTopList({ websiteId, pageId, timeConfig, tagFilter
       pageId={pageId}
       timeConfig={timeConfig}
       tagFilters={tagFilters}
+      urlMatrixParamConfig={urlMatrixParamConfig}
     />
   );
 }

@@ -1,9 +1,9 @@
 import React from 'react';
 
 import getWebsitePaginatedBeaconGroups from 'in-websites/subscriptions/getWebsitePaginatedBeaconGroups';
+import { TopListWithUrlState, trackTopListNavigation } from 'in-new-components/TopListWithUrlState';
 import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
 import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
-import TopList, { trackTopListNavigation } from 'in-new-components/TopList';
 import { number, percentage, ms } from 'in-services/formatters/number';
 import { getLinkToAnalyze } from 'in-websites/navigation/paths';
 import Link from 'in-components/Link';
@@ -13,9 +13,15 @@ const labels = ['Calls', 'Latency', 'Errors'];
 const aggregations = ['SUM', 'MEAN', 'MEAN'];
 const formatters = [number.compact, ms.compact, percentage.detailed];
 
-export default function GraphqlOperationsTopList({ websiteId, websiteLabel, timeConfig, tagFilters }) {
+export default function GraphqlOperationsTopList({
+  websiteId,
+  websiteLabel,
+  timeConfig,
+  tagFilters,
+  urlMatrixParamConfig
+}) {
   return (
-    <TopList
+    <TopListWithUrlState
       title="GraphQL Operation Names"
       metrics={metrics}
       labels={labels}
@@ -30,6 +36,7 @@ export default function GraphqlOperationsTopList({ websiteId, websiteLabel, time
       websiteLabel={websiteLabel}
       timeConfig={timeConfig}
       tagFilters={tagFilters}
+      urlMatrixParamConfig={urlMatrixParamConfig}
     />
   );
 }

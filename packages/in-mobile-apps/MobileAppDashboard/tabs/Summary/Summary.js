@@ -6,7 +6,7 @@ import MobileAppChartWrapper from 'in-mobile-apps/MobileAppDashboard/components/
 import MobileAppGeoHeatMap from 'in-mobile-apps/MobileAppDashboard/components/MobileAppGeoHeatMap';
 import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-mobile-apps/tags';
 import ViewsTopList from 'in-mobile-apps/MobileAppDashboard/tabs/Summary/ViewsTopList';
-import { getLinkToAnalyze } from 'in-mobile-apps/navigation/paths';
+import { getLinkToAnalyze, summaryTab } from 'in-mobile-apps/navigation/paths';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { getChartGranularity } from 'in-mobile-apps/metrics';
 import { Row, Col } from 'in-new-components/layout/Grid';
@@ -128,7 +128,12 @@ export default function Summary({ tagFilters, timeConfig, mobileAppId, mobileApp
           </Card>
         </Col>
         <Col lg={viewId == null ? 4 : 6}>
-          <HttpRequestOriginTopList tagFilters={tagFilters} timeConfig={timeConfig} mobileAppId={mobileAppId} />
+          <HttpRequestOriginTopList
+            tagFilters={tagFilters}
+            timeConfig={timeConfig}
+            mobileAppId={mobileAppId}
+            urlMatrixParamConfig={{ path: summaryTab, paramTab: 'originsTab' }}
+          />
         </Col>
         {viewId == null && (
           <Col lg={4}>

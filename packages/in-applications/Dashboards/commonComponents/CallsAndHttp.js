@@ -3,7 +3,6 @@ import React from 'react';
 import { TimeShiftAwareChartSelectorWithUrlState } from 'in-applications/Dashboards/commonComponents/ChartSelectors';
 import CallsErrorsChart from 'in-applications/Dashboards/commonComponents/CallsErrorsChart';
 import HttpSections from 'in-applications/Dashboards/commonComponents/http/HttpSections';
-import { summaryTab } from 'in-applications/navigation/paths';
 
 const tabCallCount = {
   id: 'call',
@@ -85,7 +84,8 @@ export default function CallsAndHttp({
   renderPostChartContent,
   renderPostChartContentHttpStatus,
   showHttp,
-  hasHttpAndOtherEndpoints
+  hasHttpAndOtherEndpoints,
+  urlMatrixParamConfig
 }) {
   const tabs = showHttp ? allTabs : callsOnlyTab;
   const metrics = showHttp
@@ -99,7 +99,7 @@ export default function CallsAndHttp({
       cardTitle={cardTitle}
       tabs={tabs}
       metrics={metrics}
-      urlMatrixParamConfig={{ path: summaryTab, paramTab: 'callsTab', paramMetric: 'callsMetric' }}
+      urlMatrixParamConfig={urlMatrixParamConfig}
     >
       <ChartPresenter
         applicationId={applicationId}

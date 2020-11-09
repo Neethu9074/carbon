@@ -1,10 +1,10 @@
 import React from 'react';
 
 import getMobileAppPaginatedBeaconGroups from 'in-mobile-apps/subscriptions/getMobileAppPaginatedBeaconGroups';
+import { TopListWithUrlState, trackTopListNavigation } from 'in-new-components/TopListWithUrlState';
 import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-mobile-apps/tags';
-import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
 import { getLinkToMobileApp, getLinkToAnalyze } from 'in-mobile-apps/navigation/paths';
-import TopList, { trackTopListNavigation } from 'in-new-components/TopList';
+import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
 import { number, percentage } from 'in-services/formatters/number';
 import Link from 'in-components/Link';
 
@@ -13,9 +13,9 @@ const labels = ['Calls', 'Errors'];
 const aggregations = ['SUM', 'MEAN'];
 const formatters = [number.compact, percentage.detailed];
 
-export default function ViewsTopList({ mobileAppId, mobileAppLabel, timeConfig, tagFilters }) {
+export default function ViewsTopList({ mobileAppId, mobileAppLabel, timeConfig, tagFilters, urlMatrixParamConfig }) {
   return (
-    <TopList
+    <TopListWithUrlState
       title="Views"
       metrics={metrics}
       labels={labels}
@@ -30,6 +30,7 @@ export default function ViewsTopList({ mobileAppId, mobileAppLabel, timeConfig, 
       mobileAppLabel={mobileAppLabel}
       timeConfig={timeConfig}
       tagFilters={tagFilters}
+      urlMatrixParamConfig={urlMatrixParamConfig}
     />
   );
 }

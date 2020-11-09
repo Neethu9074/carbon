@@ -2,9 +2,9 @@ import { just } from 'reactive-observables';
 import React, { Fragment } from 'react';
 import theme from 'in-themes';
 
+import { getLinkToWebsite, ajaxTabFullyQualified, getLinkToAnalyze, detailsPath } from 'in-websites/navigation/paths';
 import WebsiteBeaconGroupsChartWrapper from 'in-websites/WebsiteDashboard/components/WebsiteBeaconGroupsChartWrapper';
 import WebsiteDashboardsMarkerLanes from 'in-websites/WebsiteDashboard/components/WebsiteDashboardsMarkerLanes';
-import { getLinkToWebsite, ajaxTabFullyQualified, getLinkToAnalyze } from 'in-websites/navigation/paths';
 import GraphqlOperationsTopList from 'in-websites/WebsiteDashboard/tabs/Ajax/GraphqlOperationsTopList';
 import WebsiteChartWrapper from 'in-websites/WebsiteDashboard/components/WebsiteChartWrapper';
 import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
@@ -542,6 +542,7 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
                 websiteLabel={websiteLabel}
                 tagFilters={tagFiltersForRequests}
                 timeConfig={timeConfig}
+                urlMatrixParamConfig={{ path: detailsPath, paramTab: 'gqlOpsNamesTab' }}
               />
             </Col>
           </Row>
@@ -555,6 +556,7 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
                 websiteLabel={websiteLabel}
                 tagFilters={tagFiltersForRequests}
                 timeConfig={timeConfig}
+                urlMatrixParamConfig={{ path: detailsPath, paramTab: 'pagesTab' }}
               />
             </Col>
           )}
@@ -565,6 +567,7 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
               tagFilters={tagFiltersForRequests}
               timeConfig={timeConfig}
               pageId={pageId}
+              urlMatrixParamConfig={{ path: detailsPath, paramTab: 'pathsTab' }}
             />
           </Col>
           <Col lg={pageId == null ? 4 : 6}>

@@ -2,9 +2,9 @@ import { just } from 'reactive-observables';
 import React, { Fragment } from 'react';
 import theme from 'in-themes';
 
+import { getLinkToWebsite, errorsTabFullyQualified, getLinkToAnalyze, detailsPath } from 'in-websites/navigation/paths';
 import WebsiteDashboardsMarkerLanes from 'in-websites/WebsiteDashboard/components/WebsiteDashboardsMarkerLanes';
 import { isScriptError, learnMoreLabel, learnMoreHref, explanation } from 'in-websites/definitions/scriptError';
-import { getLinkToWebsite, errorsTabFullyQualified, getLinkToAnalyze } from 'in-websites/navigation/paths';
 import WebsiteMetricsKpiCard from 'in-websites/WebsiteDashboard/components/WebsiteMetricsKpiCard';
 import WebsiteChartWrapper from 'in-websites/WebsiteDashboard/components/WebsiteChartWrapper';
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
@@ -307,6 +307,7 @@ function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters
                 websiteLabel={websiteLabel}
                 tagFilters={tagFiltersWithErrorId}
                 timeConfig={timeConfig}
+                urlMatrixParamConfig={{ path: detailsPath, paramTab: 'pagesTab' }}
               />
             </Col>
           )}
@@ -317,6 +318,7 @@ function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters
               tagFilters={tagFiltersWithErrorId}
               timeConfig={timeConfig}
               pageId={pageId}
+              urlMatrixParamConfig={{ path: detailsPath, paramTab: 'browserTab' }}
             />
           </Col>
           <Col lg={pageId == null ? 4 : 6}>
@@ -326,6 +328,7 @@ function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters
               tagFilters={tagFiltersWithErrorId}
               timeConfig={timeConfig}
               pageId={pageId}
+              urlMatrixParamConfig={{ path: detailsPath, paramTab: 'osTab' }}
             />
           </Col>
         </Row>

@@ -14,6 +14,7 @@ import getEndpointTypes from 'in-applications/subscriptions/getEndpointTypes';
 import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import BigNumberKpiCard from 'in-new-components/KpiCard/BigNumberKpiCard';
 import Errors from 'in-applications/Dashboards/commonComponents/Errors';
+import { summaryTab } from 'in-applications/navigation/paths';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import { boundaryScopes } from 'in-applications/constants';
@@ -193,6 +194,7 @@ export default function Summary({ timeConfig, applicationId, data: application, 
             // if 'types' is not available yet, set to true, so that the initial state can be set based on all metrics
             showHttp={!types || hasHttpEndpoints(types)}
             hasHttpAndOtherEndpoints={!types || hasHttpAndOtherEndpoints(types)}
+            urlMatrixParamConfig={{ path: summaryTab, paramTab: 'callsTab', paramMetric: 'callsMetric' }}
           />
         </Col>
         <Col lg={4}>
@@ -215,6 +217,7 @@ export default function Summary({ timeConfig, applicationId, data: application, 
             tagFilters={tagFilters}
             percentileGroupBy={{ name: 'service.name', entity: entityTypes.DESTINATION }}
             renderPostChartContent={withPotentialProblemsLane}
+            urlMatrixParamConfig={{ path: summaryTab, paramTab: 'latencyTab', paramMetric: 'latencyMetric' }}
           />
         </Col>
       </Row>
@@ -223,7 +226,12 @@ export default function Summary({ timeConfig, applicationId, data: application, 
           <IssuesAndEvents applicationId={applicationId} timeConfig={timeConfig} renderPostChartContent={MarkerLanes} />
         </Col>
         <Col lg={4}>
-          <ServiceTopList applicationId={applicationId} boundaryScope={boundaryScope} timeConfig={timeConfig} />
+          <ServiceTopList
+            applicationId={applicationId}
+            boundaryScope={boundaryScope}
+            timeConfig={timeConfig}
+            urlMatrixParamConfig={{ path: summaryTab, paramTab: 'servicesTab' }}
+          />
         </Col>
         <Col lg={4}>
           <TechnologyBreakdown

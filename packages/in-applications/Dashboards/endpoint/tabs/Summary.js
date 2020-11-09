@@ -14,6 +14,7 @@ import { number, meanLatency, percentage } from 'in-services/formatters/number';
 import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import BigNumberKpiCard from 'in-new-components/KpiCard/BigNumberKpiCard';
 import Errors from 'in-applications/Dashboards/commonComponents/Errors';
+import { summaryTab } from 'in-applications/navigation/paths';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import { boundaryScopes } from 'in-applications/constants';
 import { entityTypes } from 'in-analyze/applicationFilter';
@@ -198,6 +199,7 @@ export default connectTo(
               renderPostChartContent={withPotentialProblemsLane}
               renderPostChartContentHttpStatus={MarkerLanes}
               showHttp={type.includes('HTTP')}
+              urlMatrixParamConfig={{ path: summaryTab, paramTab: 'callsTab', paramMetric: 'callsMetric' }}
             />
           </Col>
           <Col lg={4}>
@@ -226,6 +228,7 @@ export default connectTo(
               tagFilters={tagFilters}
               percentileGroupBy={{ name: 'endpoint.name', entity: entityTypes.NOT_APPLICABLE }}
               renderPostChartContent={withPotentialProblemsLane}
+              urlMatrixParamConfig={{ path: summaryTab, paramTab: 'latencyTab', paramMetric: 'latencyMetric' }}
             />
           </Col>
         </Row>
@@ -249,6 +252,7 @@ export default connectTo(
                     serviceId={serviceId}
                     endpointId={endpointId}
                     timeConfig={timeConfig}
+                    urlMatrixParamConfig={{ path: summaryTab, paramTab: 'stmtTab' }}
                   />
                 ) : (
                   <TechnologyBreakdown

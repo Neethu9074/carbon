@@ -10,8 +10,8 @@ import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websit
 import { number, millis, meanLatency, latency } from 'in-services/formatters/number';
 import ErrorTopList from 'in-websites/WebsiteDashboard/tabs/Summary/ErrorTopList';
 import PagesTopList from 'in-websites/WebsiteDashboard/tabs/Summary/PagesTopList';
+import { getLinkToAnalyze, summaryTab } from 'in-websites/navigation/paths';
 import AggregationSelector from 'in-new-components/AggregationSelector';
-import { getLinkToAnalyze } from 'in-websites/navigation/paths';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { getChartGranularity } from 'in-websites/metrics';
 import { Row, Col } from 'in-new-components/layout/Grid';
@@ -346,11 +346,22 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
           </Card>
         </Col>
         <Col lg={pageId == null ? 4 : 6}>
-          <ErrorTopList tagFilters={tagFilters} timeConfig={timeConfig} websiteId={websiteId} pageId={pageId} />
+          <ErrorTopList
+            tagFilters={tagFilters}
+            timeConfig={timeConfig}
+            websiteId={websiteId}
+            pageId={pageId}
+            urlMatrixParamConfig={{ path: summaryTab, paramTab: 'jsErrorsTab' }}
+          />
         </Col>
         {pageId == null && (
           <Col lg={4}>
-            <PagesTopList tagFilters={tagFilters} timeConfig={timeConfig} websiteId={websiteId} />
+            <PagesTopList
+              tagFilters={tagFilters}
+              timeConfig={timeConfig}
+              websiteId={websiteId}
+              urlMatrixParamConfig={{ path: summaryTab, paramTab: 'pagesTab' }}
+            />
           </Col>
         )}
       </Row>

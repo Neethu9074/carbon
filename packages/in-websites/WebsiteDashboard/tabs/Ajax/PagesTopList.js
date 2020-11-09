@@ -1,10 +1,10 @@
 import React from 'react';
 
 import getWebsitePaginatedBeaconGroups from 'in-websites/subscriptions/getWebsitePaginatedBeaconGroups';
+import { TopListWithUrlState, trackTopListNavigation } from 'in-new-components/TopListWithUrlState';
 import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
 import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
 import { getLinkToWebsite, getLinkToAnalyze } from 'in-websites/navigation/paths';
-import TopList, { trackTopListNavigation } from 'in-new-components/TopList';
 import { number, percentage } from 'in-services/formatters/number';
 import Link from 'in-components/Link';
 
@@ -13,9 +13,9 @@ const labels = ['Calls', 'Errors'];
 const aggregations = ['SUM', 'MEAN'];
 const formatters = [number.compact, percentage.detailed];
 
-export default function PagesTopList({ websiteId, websiteLabel, timeConfig, tagFilters }) {
+export default function PagesTopList({ websiteId, websiteLabel, timeConfig, tagFilters, urlMatrixParamConfig }) {
   return (
-    <TopList
+    <TopListWithUrlState
       title="Pages"
       metrics={metrics}
       labels={labels}
@@ -30,6 +30,7 @@ export default function PagesTopList({ websiteId, websiteLabel, timeConfig, tagF
       websiteLabel={websiteLabel}
       timeConfig={timeConfig}
       tagFilters={tagFilters}
+      urlMatrixParamConfig={urlMatrixParamConfig}
     />
   );
 }

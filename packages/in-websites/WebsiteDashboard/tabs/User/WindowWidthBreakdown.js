@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
 import getWindowWidthBreakdown from 'in-websites/subscriptions/getWindowWidthBreakdown';
 import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
+import { TopListWithUrlState } from 'in-new-components/TopListWithUrlState';
 import { getLinkToAnalyze } from 'in-websites/navigation/paths';
 import { number } from 'in-services/formatters/number';
 import Tooltip from 'in-components/Tooltip';
-import connectTo from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
 
 // Sizes and labels taken from the Chrome developer tools
@@ -20,34 +20,38 @@ const sizes = {
   'Mobile (S)': 320
 };
 
-export default connectTo(({ timeConfig, tagFilters }) => ({
-  result: getWindowWidthBreakdown({
-    timeConfig,
-    tagFilters,
-    windowWidths: Object.keys(sizes).map(label => sizes[label])
-  })
-}))(function WindowWidthBreakdown({ result, tagFilters, websiteLabel }) {
-  const [selectedMetric, onChangeMetric] = useState('pageLoads');
+const windowWidths = Object.keys(sizes).map(label => sizes[label]);
 
+export default function WindowWidthBreakdown({ result, timeConfig, tagFilters, websiteLabel, urlMatrixParamConfig }) {
   return (
-    <TopListCardPresenter
+    <TopListWithUrlState
       result={result}
       title="Browser Window Width Breakdown"
       metrics={['pageLoads', 'users']}
       labels={['Page Loads', 'Users']}
-      onChangeMetric={onChangeMetric}
-      selectedMetric={selectedMetric}
+      formatters={[number.compact, number.compact]}
       showMetricSelectorsForSingleMetrics
       getItemsFromResult={r => r.data}
+      getList={getList}
+      render={TopListCardPresenter}
       renderLabel={Label}
-      renderMetric={({ item, selectedMetric }) => number.compact(item[selectedMetric])}
+      renderMetric={Metric}
+      timeConfig={timeConfig}
       tagFilters={tagFilters}
       websiteLabel={websiteLabel}
       getMetricValueFromItem={getMetricValueFromItem}
-      selectedMetricFormatter={number.compact}
+      urlMatrixParamConfig={urlMatrixParamConfig}
     />
   );
-});
+}
+
+function getList({ tagFilters, timeConfig }) {
+  return getWindowWidthBreakdown({
+    timeConfig,
+    tagFilters,
+    windowWidths: windowWidths
+  });
+}
 
 function Label({ item, tagFilters, websiteLabel }) {
   return (
@@ -106,4 +110,8 @@ function getLink(tagFilters, websiteLabel, min, max) {
 
 function getMetricValueFromItem(selectedMetric, item) {
   return item[selectedMetric];
+}
+
+function Metric({ formattedMetricValue }) {
+  return formattedMetricValue;
 }

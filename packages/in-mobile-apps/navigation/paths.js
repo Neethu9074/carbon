@@ -35,6 +35,9 @@ export const isAnalyzeView = navigationParameters$.map(
   location => location.pathname.indexOf(analyzePathFullyQualified) === 0
 );
 
+export const detailsPath = '/details';
+export const summaryTab = '/summary';
+
 export const sessionViewPath = '/session';
 export const sessionViewPathFullyQualified = `${analyzePathFullyQualified}${sessionViewPath}`;
 export const closeSessionViewLink = getModifiedUrlStream(params => (params.pathname = analyzePathFullyQualified));
@@ -61,7 +64,7 @@ export const linkToNewMobileApp$ = getModifiedUrlStream(params => {
 
 export function getLinkToMobileApp(
   mobileAppId,
-  { tabPath = '/summary', tabParameters, viewId, timeConfig } = emptyObject
+  { tabPath = summaryTab, tabParameters, viewId, timeConfig } = emptyObject
 ) {
   return getModifiedUrlStream(params => {
     params.pathname = `${mobileAppPathFullyQualified}${tabPath}`;
@@ -144,7 +147,7 @@ export function getLinkToAnalyze({
 
 export function getLinkToSession({ sessionId, beaconId, beaconTimestamp }) {
   return getModifiedUrlStream(params => {
-    params.pathname = `${sessionViewPathFullyQualified}/summary`;
+    params.pathname = `${sessionViewPathFullyQualified}${summaryTab}`;
     setOrDeleteMatrixKey(params, sessionViewPath, sessionIdMatrixParameter, sessionId);
     setOrDeleteMatrixKey(params, sessionViewPath, beaconIdMatrixParameter, beaconId);
     setOrDeleteMatrixKey(params, sessionViewPath, beaconTimestampMatrixParameter, beaconTimestamp);

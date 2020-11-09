@@ -2,9 +2,9 @@ import React, { Fragment } from 'react';
 import theme from 'in-themes';
 import { get } from 'lodash';
 
+import { TopListWithUrlState, trackTopListNavigation } from 'in-new-components/TopListWithUrlState';
 import getDatabaseStatementTopList from 'in-subscription/application/getDatabaseStatementTopList';
 import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
-import TopList, { trackTopListNavigation } from 'in-new-components/TopList';
 import getEndpointInfo from 'in-subscription/application/getEndpointInfo';
 import getServiceLabel from 'in-subscription/application/getServiceLabel';
 import getApplication from 'in-subscription/application/getApplication';
@@ -41,10 +41,11 @@ export default connect(({ applicationId, serviceId, endpointId }) => {
   endpointId,
   endpointLabel,
   boundaryScope,
-  timeConfig
+  timeConfig,
+  urlMatrixParamConfig
 }) {
   return (
-    <TopList
+    <TopListWithUrlState
       title="Top Statements"
       metrics={metrics}
       labels={labels}
@@ -65,6 +66,7 @@ export default connect(({ applicationId, serviceId, endpointId }) => {
       endpointLabel={endpointLabel}
       boundaryScope={boundaryScope}
       colors={colors}
+      urlMatrixParamConfig={urlMatrixParamConfig}
     />
   );
 });

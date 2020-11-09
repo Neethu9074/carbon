@@ -1,9 +1,9 @@
 import React from 'react';
 
 import getMobileAppPaginatedBeaconGroups from 'in-mobile-apps/subscriptions/getMobileAppPaginatedBeaconGroups';
+import { TopListWithUrlState, trackTopListNavigation } from 'in-new-components/TopListWithUrlState';
 import { getLinkToMobileApp, getLinkToHttpRequest } from 'in-mobile-apps/navigation/paths';
 import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
-import TopList, { trackTopListNavigation } from 'in-new-components/TopList';
 import { number, percentage } from 'in-services/formatters/number';
 import Link from 'in-components/Link';
 
@@ -12,9 +12,9 @@ const labels = ['Calls', 'Errors'];
 const aggregations = ['SUM', 'MEAN'];
 const formatters = [number.compact, percentage.detailed];
 
-export default function ViewsTopList({ mobileAppId, timeConfig, tagFilters }) {
+export default function HttpRequestOriginTopList({ mobileAppId, timeConfig, tagFilters, urlMatrixParamConfig }) {
   return (
-    <TopList
+    <TopListWithUrlState
       title="Top HTTP Request Origins"
       metrics={metrics}
       labels={labels}
@@ -28,6 +28,7 @@ export default function ViewsTopList({ mobileAppId, timeConfig, tagFilters }) {
       mobileAppId={mobileAppId}
       timeConfig={timeConfig}
       tagFilters={tagFilters}
+      urlMatrixParamConfig={urlMatrixParamConfig}
     />
   );
 }

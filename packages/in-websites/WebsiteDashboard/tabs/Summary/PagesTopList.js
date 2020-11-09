@@ -1,9 +1,9 @@
 import React from 'react';
 
 import getWebsitePaginatedBeaconGroups from 'in-websites/subscriptions/getWebsitePaginatedBeaconGroups';
+import { TopListWithUrlState, trackTopListNavigation } from 'in-new-components/TopListWithUrlState';
 import { meanLatency, meanLatencyLargeInSeconds, number } from 'in-services/formatters/number';
 import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
-import TopList, { trackTopListNavigation } from 'in-new-components/TopList';
 import { getLinkToWebsite } from 'in-websites/navigation/paths';
 import Link from 'in-components/Link';
 
@@ -12,9 +12,9 @@ const labels = ['Page Views', 'onLoad Time', 'Errors'];
 const aggregations = ['SUM', 'MEAN', 'SUM'];
 const formatters = [meanLatencyLargeInSeconds.compact, meanLatency.compact, number.compact];
 
-export default function PagesTopList({ websiteId, timeConfig, tagFilters }) {
+export default function PagesTopList({ websiteId, timeConfig, tagFilters, urlMatrixParamConfig }) {
   return (
-    <TopList
+    <TopListWithUrlState
       title="Top Pages"
       metrics={metrics}
       labels={labels}
@@ -28,6 +28,7 @@ export default function PagesTopList({ websiteId, timeConfig, tagFilters }) {
       websiteId={websiteId}
       timeConfig={timeConfig}
       tagFilters={tagFilters}
+      urlMatrixParamConfig={urlMatrixParamConfig}
     />
   );
 }

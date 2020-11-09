@@ -3,7 +3,6 @@ import React from 'react';
 import { TimeShiftAwareChartSelectorWithUrlState } from 'in-applications/Dashboards/commonComponents/ChartSelectors';
 import LatencyDistributionHistogram from 'in-applications/Dashboards/commonComponents/LatencyDistributionHistogram';
 import Latency from 'in-applications/Dashboards/commonComponents/Latency';
-import { summaryTab } from 'in-applications/navigation/paths';
 
 const tabOverTime = {
   id: 'overTime',
@@ -72,14 +71,15 @@ export default function LatencyAndDistribution({
   includeSyntheticCalls,
   cardTitle,
   percentileGroupBy,
-  renderPostChartContent
+  renderPostChartContent,
+  urlMatrixParamConfig
 }) {
   return (
     <TimeShiftAwareChartSelectorWithUrlState
       cardTitle={cardTitle}
       tabs={tabs}
       metrics={metrics}
-      urlMatrixParamConfig={{ path: summaryTab, paramTab: 'latencyTab', paramMetric: 'latencyMetric' }}
+      urlMatrixParamConfig={urlMatrixParamConfig}
     >
       <ChartPresenter
         applicationId={applicationId}

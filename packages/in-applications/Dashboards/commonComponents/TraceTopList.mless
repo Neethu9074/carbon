@@ -1,8 +1,0 @@
-@import '~in-themes/active.less';
-
-:local {
-  .companion {
-    min-width: 4rem;
-    display: inline-block;
-  }
-}

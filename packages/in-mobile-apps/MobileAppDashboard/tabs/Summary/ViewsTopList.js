@@ -1,8 +1,8 @@
 import React from 'react';
 
 import getMobileAppPaginatedBeaconGroups from 'in-mobile-apps/subscriptions/getMobileAppPaginatedBeaconGroups';
+import { TopListWithUrlState, trackTopListNavigation } from 'in-new-components/TopListWithUrlState';
 import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
-import TopList, { trackTopListNavigation } from 'in-new-components/TopList';
 import { getLinkToMobileApp } from 'in-mobile-apps/navigation/paths';
 import { number } from 'in-services/formatters/number';
 import Link from 'in-components/Link';
@@ -14,7 +14,7 @@ const formatters = [number.compact, number.compact];
 
 export default function ViewsTopList({ mobileAppId, timeConfig, tagFilters }) {
   return (
-    <TopList
+    <TopListWithUrlState
       title="Top Views"
       metrics={metrics}
       labels={labels}

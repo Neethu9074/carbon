@@ -57,6 +57,8 @@ export const statefulSetDashboard = `/statefulset`;
 export const statefulSetDashboardFullyQualified = `${kubernetes}${statefulSetDashboard}`;
 export const statefulSetDashboardDetailsFullyQualified = `${statefulSetDashboardFullyQualified}/details`;
 
+export const summaryTab = '/summary';
+
 export function getServiceDashboard(serviceId, { tab, tabMatrix, timeConfig, namespaceId, clusterId } = emptyObject) {
   return getDashboard({
     base: serviceDashboardFullyQualified,
@@ -231,7 +233,7 @@ export function getDashboardForEntity(snapshotId, plugin) {
 
 function getDashboard({
   base,
-  tab = '/summary',
+  tab = summaryTab,
   tabMatrix = {},
   timeConfig,
   matrixSegment,

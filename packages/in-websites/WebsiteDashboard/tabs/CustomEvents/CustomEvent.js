@@ -1,6 +1,11 @@
 import React from 'react';
 
-import { getLinkToWebsite, getLinkToAnalyze, customEventsTabFullyQualified } from 'in-websites/navigation/paths';
+import {
+  getLinkToWebsite,
+  getLinkToAnalyze,
+  customEventsTabFullyQualified,
+  detailsPath
+} from 'in-websites/navigation/paths';
 import WebsiteDashboardsMarkerLanes from 'in-websites/WebsiteDashboard/components/WebsiteDashboardsMarkerLanes';
 import WebsiteMetricsKpiCard from 'in-websites/WebsiteDashboard/components/WebsiteMetricsKpiCard';
 import WebsiteChartWrapper from 'in-websites/WebsiteDashboard/components/WebsiteChartWrapper';
@@ -283,6 +288,7 @@ export default function CustomEvent({ location, tagFilters, timeConfig, websiteI
               websiteLabel={websiteLabel}
               tagFilters={tagFilters}
               timeConfig={timeConfig}
+              urlMatrixParamConfig={{ path: detailsPath, paramTab: 'pagesTab' }}
             />
           </Col>
         )}
@@ -293,6 +299,7 @@ export default function CustomEvent({ location, tagFilters, timeConfig, websiteI
             tagFilters={tagFilters}
             timeConfig={timeConfig}
             pageId={pageId}
+            urlMatrixParamConfig={{ path: detailsPath, paramTab: 'browserTab' }}
           />
         </Col>
         <Col lg={pageId == null ? 4 : 6}>
@@ -302,6 +309,7 @@ export default function CustomEvent({ location, tagFilters, timeConfig, websiteI
             tagFilters={tagFilters}
             timeConfig={timeConfig}
             pageId={pageId}
+            urlMatrixParamConfig={{ path: detailsPath, paramTab: 'osTab' }}
           />
         </Col>
       </Row>

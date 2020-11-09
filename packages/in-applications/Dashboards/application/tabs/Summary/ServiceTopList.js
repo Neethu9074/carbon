@@ -1,9 +1,9 @@
 import React from 'react';
 
 import { getApplicationDashboard, getServiceDashboard } from 'in-applications/navigation/paths';
+import { TopListWithUrlState, trackTopListNavigation } from 'in-new-components/TopListWithUrlState';
 import { meanLatencyLargeInSeconds, number, percentage } from 'in-services/formatters/number';
 import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
-import TopList, { trackTopListNavigation } from 'in-new-components/TopList';
 import getServices from 'in-subscription/application/getServices';
 import Link from 'in-components/Link';
 import theme from 'in-themes';
@@ -19,9 +19,9 @@ const companionAggregations = [null, null, 'MEAN'];
 const companionFormatters = [null, null, percentage.detailed];
 const colors = [null, null, theme.lib.colors.failure];
 
-export default function ServiceTopList({ applicationId, boundaryScope, timeConfig }) {
+export default function ServiceTopList({ applicationId, boundaryScope, timeConfig, urlMatrixParamConfig }) {
   return (
-    <TopList
+    <TopListWithUrlState
       title="Top Services"
       metrics={metrics}
       labels={labels}
@@ -40,6 +40,7 @@ export default function ServiceTopList({ applicationId, boundaryScope, timeConfi
       applicationId={applicationId}
       boundaryScope={boundaryScope}
       colors={colors}
+      urlMatrixParamConfig={urlMatrixParamConfig}
     />
   );
 }

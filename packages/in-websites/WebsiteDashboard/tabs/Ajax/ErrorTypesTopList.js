@@ -3,9 +3,9 @@ import React from 'react';
 import getWebsitePaginatedBeaconGroups from 'in-websites/subscriptions/getWebsitePaginatedBeaconGroups';
 import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
 import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
+import { TopListWithUrlState } from 'in-new-components/TopListWithUrlState';
 import { getLinkToAnalyze } from 'in-websites/navigation/paths';
 import { number } from 'in-services/formatters/number';
-import TopList from 'in-new-components/TopList';
 import Link from 'in-components/Link';
 
 const metrics = ['beaconCount'];
@@ -15,7 +15,7 @@ const formatters = [number.compact];
 
 export default function PagesTopList({ websiteId, websiteLabel, timeConfig, tagFilters }) {
   return (
-    <TopList
+    <TopListWithUrlState
       title="Error Types"
       metrics={metrics}
       labels={labels}

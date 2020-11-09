@@ -3,9 +3,9 @@ import React from 'react';
 import getWebsitePaginatedBeaconGroups from 'in-websites/subscriptions/getWebsitePaginatedBeaconGroups';
 import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
 import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
+import { TopListWithUrlState } from 'in-new-components/TopListWithUrlState';
 import { number, ms, bytes } from 'in-services/formatters/number';
 import { getLinkToAnalyze } from 'in-websites/navigation/paths';
-import TopList from 'in-new-components/TopList';
 import Link from 'in-components/Link';
 
 const metrics = ['beaconCount', 'beaconDuration', 'transferSize'];
@@ -13,9 +13,15 @@ const labels = ['Calls', 'Load Time', 'Size'];
 const aggregations = ['SUM', 'MEAN', 'MEAN'];
 const formatters = [number.compact, ms.compact, bytes.compact];
 
-export default function PagesTopList({ websiteId, websiteLabel, timeConfig, tagFilters }) {
+export default function ResourceTypesTopList({
+  websiteId,
+  websiteLabel,
+  timeConfig,
+  tagFilters,
+  urlMatrixParamConfig
+}) {
   return (
-    <TopList
+    <TopListWithUrlState
       title="Types"
       metrics={metrics}
       labels={labels}
@@ -30,6 +36,7 @@ export default function PagesTopList({ websiteId, websiteLabel, timeConfig, tagF
       websiteLabel={websiteLabel}
       timeConfig={timeConfig}
       tagFilters={tagFilters}
+      urlMatrixParamConfig={urlMatrixParamConfig}
     />
   );
 }

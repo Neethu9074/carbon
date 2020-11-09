@@ -9,6 +9,7 @@ import OsTopList from 'in-websites/WebsiteDashboard/tabs/User/OsTopList';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { getChartGranularity } from 'in-websites/metrics';
 import { Row, Col } from 'in-new-components/layout/Grid';
+import { usersTab } from 'in-websites/navigation/paths';
 import { number } from 'in-services/formatters/number';
 import Footer from 'in-new-components/Footer';
 
@@ -74,6 +75,7 @@ export default function User({ timeConfig, tagFilters, websiteId, websiteLabel }
             tagFilters={tagFilters}
             websiteId={websiteId}
             websiteLabel={websiteLabel}
+            urlMatrixParamConfig={{ path: usersTab, paramTab: 'browserTab' }}
           />
         </Col>
         <Col lg={6}>
@@ -82,6 +84,7 @@ export default function User({ timeConfig, tagFilters, websiteId, websiteLabel }
             timeConfig={timeConfig}
             websiteId={websiteId}
             websiteLabel={websiteLabel}
+            urlMatrixParamConfig={{ path: usersTab, paramTab: 'wwTab' }}
           />
         </Col>
       </Row>
@@ -93,6 +96,7 @@ export default function User({ timeConfig, tagFilters, websiteId, websiteLabel }
             tagFilters={tagFilters}
             websiteId={websiteId}
             websiteLabel={websiteLabel}
+            urlMatrixParamConfig={{ path: usersTab, paramTab: 'osTab' }}
           />
         </Col>
         <Col lg={6}>
@@ -101,6 +105,7 @@ export default function User({ timeConfig, tagFilters, websiteId, websiteLabel }
             tagFilters={tagFilters}
             websiteId={websiteId}
             websiteLabel={websiteLabel}
+            urlMatrixParamConfig={{ path: usersTab, paramTab: 'connTab' }}
           />
         </Col>
       </Row>

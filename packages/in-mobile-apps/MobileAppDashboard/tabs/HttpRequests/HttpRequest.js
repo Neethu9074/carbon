@@ -1,7 +1,12 @@
 import { just } from 'reactive-observables';
 import React, { Fragment } from 'react';
 
-import { getLinkToMobileApp, httpRequestsTabFullyQualified, getLinkToAnalyze } from 'in-mobile-apps/navigation/paths';
+import {
+  getLinkToMobileApp,
+  httpRequestsTabFullyQualified,
+  getLinkToAnalyze,
+  detailsPath
+} from 'in-mobile-apps/navigation/paths';
 import MobileAppChartWrapper from 'in-mobile-apps/MobileAppDashboard/components/MobileAppChartWrapper';
 import ErrorTypesTopList from 'in-mobile-apps/MobileAppDashboard/tabs/HttpRequests/ErrorTypesTopList';
 import LocationsTopList from 'in-mobile-apps/MobileAppDashboard/tabs/HttpRequests/LocationsTopList';
@@ -298,6 +303,7 @@ function HttpRequestTab({ mobileAppId, mobileAppLabel, viewId, tagFilters, timeC
               mobileAppLabel={mobileAppLabel}
               tagFilters={tagFiltersForRequests}
               timeConfig={timeConfig}
+              urlMatrixParamConfig={{ path: detailsPath, paramTab: 'viewsTab' }}
             />
           </Col>
         )}
@@ -308,6 +314,7 @@ function HttpRequestTab({ mobileAppId, mobileAppLabel, viewId, tagFilters, timeC
             tagFilters={tagFiltersForRequests}
             timeConfig={timeConfig}
             viewId={viewId}
+            urlMatrixParamConfig={{ path: detailsPath, paramTab: 'pathsTab' }}
           />
         </Col>
         <Col lg={viewId == null ? 4 : 6}>

@@ -3,9 +3,9 @@ import React from 'react';
 import getMobileAppPaginatedBeaconGroups from 'in-mobile-apps/subscriptions/getMobileAppPaginatedBeaconGroups';
 import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-mobile-apps/tags';
 import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
+import { TopListWithUrlState } from 'in-new-components/TopListWithUrlState';
 import { getLinkToAnalyze } from 'in-mobile-apps/navigation/paths';
 import { number } from 'in-services/formatters/number';
-import TopList from 'in-new-components/TopList';
 import Link from 'in-components/Link';
 
 const metrics = ['beaconCount'];
@@ -15,7 +15,7 @@ const formatters = [number.compact];
 
 export default function ErrorTypesTopList({ mobileAppId, mobileAppLabel, timeConfig, tagFilters }) {
   return (
-    <TopList
+    <TopListWithUrlState
       title="Error Types"
       metrics={metrics}
       labels={labels}

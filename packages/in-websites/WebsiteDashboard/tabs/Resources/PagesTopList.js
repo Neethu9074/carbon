@@ -1,10 +1,10 @@
 import React from 'react';
 
 import getWebsitePaginatedBeaconGroups from 'in-websites/subscriptions/getWebsitePaginatedBeaconGroups';
+import { TopListWithUrlState, trackTopListNavigation } from 'in-new-components/TopListWithUrlState';
 import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
 import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
 import { getLinkToWebsite, getLinkToAnalyze } from 'in-websites/navigation/paths';
-import TopList, { trackTopListNavigation } from 'in-new-components/TopList';
 import { number } from 'in-services/formatters/number';
 import Link from 'in-components/Link';
 
@@ -15,7 +15,7 @@ const formatters = [number.compact];
 
 export default function PagesTopList({ websiteId, websiteLabel, timeConfig, tagFilters }) {
   return (
-    <TopList
+    <TopListWithUrlState
       title="Pages"
       metrics={metrics}
       labels={labels}

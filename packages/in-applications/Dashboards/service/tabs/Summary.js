@@ -15,6 +15,7 @@ import { number, meanLatency, percentage } from 'in-services/formatters/number';
 import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import BigNumberKpiCard from 'in-new-components/KpiCard/BigNumberKpiCard';
 import Errors from 'in-applications/Dashboards/commonComponents/Errors';
+import { summaryTab } from 'in-applications/navigation/paths';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import { boundaryScopes } from 'in-applications/constants';
 import { entityTypes } from 'in-analyze/applicationFilter';
@@ -191,6 +192,7 @@ export default connectTo(
               renderPostChartContentHttpStatus={MarkerLanes}
               showHttp={hasHttpEndpoints(types)}
               hasHttpAndOtherEndpoints={hasHttpAndOtherEndpoints(types)}
+              urlMatrixParamConfig={{ path: summaryTab, paramTab: 'callsTab', paramMetric: 'callsMetric' }}
             />
           </Col>
           <Col lg={4}>
@@ -215,6 +217,7 @@ export default connectTo(
               tagFilters={tagFilters}
               percentileGroupBy={{ name: 'endpoint.name', entity: entityTypes.DESTINATION }}
               renderPostChartContent={withPotentialProblemsLane}
+              urlMatrixParamConfig={{ path: summaryTab, paramTab: 'latencyTab', paramMetric: 'latencyMetric' }}
             />
           </Col>
         </Row>
@@ -233,11 +236,16 @@ export default connectTo(
               serviceId={serviceId}
               boundaryScope={boundaryScope}
               timeConfig={timeConfig}
+              urlMatrixParamConfig={{ path: summaryTab, paramTab: 'endpointsTab' }}
             />
           </Col>
           <Col lg={4}>
             {types.includes('DATABASE') ? (
-              <DatabaseSections boundaryScope={boundaryScope} {...props} />
+              <DatabaseSections
+                boundaryScope={boundaryScope}
+                {...props}
+                urlMatrixParamConfig={{ path: summaryTab, paramTab: 'stmtTab' }}
+              />
             ) : (
               <TechnologyBreakdown
                 applicationId={applicationId}

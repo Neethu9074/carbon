@@ -3,9 +3,9 @@ import React from 'react';
 import getMobileAppPaginatedBeaconGroups from 'in-mobile-apps/subscriptions/getMobileAppPaginatedBeaconGroups';
 import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-mobile-apps/tags';
 import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
+import { TopListWithUrlState } from 'in-new-components/TopListWithUrlState';
 import { getLinkToAnalyze } from 'in-mobile-apps/navigation/paths';
 import { ms, number } from 'in-services/formatters/number';
-import TopList from 'in-new-components/TopList';
 import Link from 'in-components/Link';
 
 const metrics = ['beaconCount', 'beaconDuration', 'beaconErrorCount'];
@@ -13,9 +13,15 @@ const labels = ['Calls', 'Latency', 'Errors'];
 const aggregations = ['SUM', 'MEAN', 'SUM'];
 const formatters = [number.compact, ms.compact, number.compact];
 
-export default function LocationsTopList({ mobileAppId, mobileAppLabel, timeConfig, tagFilters }) {
+export default function LocationsTopList({
+  mobileAppId,
+  mobileAppLabel,
+  timeConfig,
+  tagFilters,
+  urlMatrixParamConfig
+}) {
   return (
-    <TopList
+    <TopListWithUrlState
       title="Paths"
       metrics={metrics}
       labels={labels}
@@ -30,6 +36,7 @@ export default function LocationsTopList({ mobileAppId, mobileAppLabel, timeConf
       mobileAppLabel={mobileAppLabel}
       timeConfig={timeConfig}
       tagFilters={tagFilters}
+      urlMatrixParamConfig={urlMatrixParamConfig}
     />
   );
 }

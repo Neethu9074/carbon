@@ -6,9 +6,15 @@ import {
   getResourceTypes,
   types as resourceTypes
 } from 'in-websites/analyze/PageLoadView/tabs/Summary/filterableTypes';
+import {
+  getLinkToWebsite,
+  resourcesTabFullyQualified,
+  getLinkToAnalyze,
+  resourcesTab,
+  detailsPath
+} from 'in-websites/navigation/paths';
 import WebsiteBeaconGroupsChartWrapper from 'in-websites/WebsiteDashboard/components/WebsiteBeaconGroupsChartWrapper';
 import WebsiteDashboardsMarkerLanes from 'in-websites/WebsiteDashboard/components/WebsiteDashboardsMarkerLanes';
-import { getLinkToWebsite, resourcesTabFullyQualified, getLinkToAnalyze } from 'in-websites/navigation/paths';
 import { learnMoreLabel, learnMoreHref, explanation } from 'in-websites/definitions/missingResourceTimings';
 import ResourceTypesTopList from 'in-websites/WebsiteDashboard/tabs/Resources/ResourceTypesTopList';
 import WebsiteChartWrapper from 'in-websites/WebsiteDashboard/components/WebsiteChartWrapper';
@@ -389,6 +395,7 @@ function ResourceTab({ resourceId, result, websiteId, websiteLabel, pageId, tagF
                 websiteLabel={websiteLabel}
                 tagFilters={tagFiltersForResource}
                 timeConfig={timeConfig}
+                tab={resourcesTab}
               />
             </Col>
           )}
@@ -399,6 +406,7 @@ function ResourceTab({ resourceId, result, websiteId, websiteLabel, pageId, tagF
               tagFilters={tagFiltersForResource}
               timeConfig={timeConfig}
               pageId={pageId}
+              urlMatrixParamConfig={{ path: detailsPath, paramTab: 'pathsTab' }}
             />
           </Col>
           <Col lg={pageId == null ? 4 : 6}>
@@ -408,6 +416,7 @@ function ResourceTab({ resourceId, result, websiteId, websiteLabel, pageId, tagF
               tagFilters={tagFiltersForResource}
               timeConfig={timeConfig}
               pageId={pageId}
+              urlMatrixParamConfig={{ path: detailsPath, paramTab: 'typesTab' }}
             />
           </Col>
         </Row>

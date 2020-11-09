@@ -1,10 +1,10 @@
 import theme from 'in-themes';
 import React from 'react';
 
+import { TopListWithUrlState, trackTopListNavigation } from 'in-new-components/TopListWithUrlState';
 import { meanLatencyLargeInSeconds, number, percentage } from 'in-services/formatters/number';
 import { getEndpointDashboard, getServiceDashboard } from 'in-applications/navigation/paths';
 import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
-import TopList, { trackTopListNavigation } from 'in-new-components/TopList';
 import getEndpoints from 'in-applications/subscriptions/getEndpoints';
 import Link from 'in-components/Link';
 
@@ -19,9 +19,9 @@ const companionAggregations = [null, null, 'MEAN'];
 const companionFormatters = [null, null, percentage.detailed];
 const colors = [null, null, theme.lib.colors.failure];
 
-export default function EndpointTopList({ applicationId, serviceId, boundaryScope: boundaryScope, timeConfig }) {
+export default function EndpointTopList({ applicationId, serviceId, boundaryScope, timeConfig, urlMatrixParamConfig }) {
   return (
-    <TopList
+    <TopListWithUrlState
       title="Top Endpoints"
       metrics={metrics}
       labels={labels}
@@ -41,6 +41,7 @@ export default function EndpointTopList({ applicationId, serviceId, boundaryScop
       serviceId={serviceId}
       boundaryScope={boundaryScope}
       colors={colors}
+      urlMatrixParamConfig={urlMatrixParamConfig}
     />
   );
 }

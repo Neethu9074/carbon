@@ -1,24 +1,37 @@
-import { withState } from 'recompose';
 import { get } from 'lodash';
 import React from 'react';
 
+import { getDeploymentDashboard, getDeploymentConfigDashboard, summaryTab } from 'in-kubernetes/navigation/paths';
 import getOpenShiftDeploymentConfigs from 'in-subscription/kubernetes/getOpenShiftDeploymentConfigs';
 import KubernetesTopList from 'in-kubernetes/Dashboards/commonComponents/KubernetesTopList';
 import getKubernetesDeployments from 'in-subscription/kubernetes/getKubernetesDeployments';
-import { getDeploymentDashboard, getDeploymentConfigDashboard } from 'in-kubernetes/navigation/paths';
 import ButtonGroup from 'in-new-components/ButtonGroup';
+import useUrlState from 'in-hooks/useUrlState';
 
-export default withState('selectedView', 'setSelectedView', 'deployments')(TopDeploymentsList);
+const tabDeployments = 'deployments';
+const tabDeploymentConfigs = 'deploymentConfigs';
 
-function TopDeploymentsList(props) {
+export default function TopDeploymentsList(props) {
+  const urlStateDefinition = {
+    bind: [
+      {
+        path: summaryTab,
+        name: 'deploymentsTab'
+      }
+    ]
+  };
+  const [{ deploymentsTab }, setUrlState] = useUrlState(urlStateDefinition);
+  const selectedTab = deploymentsTab ?? tabDeployments;
+  const setSelectedTab = (tab) => setUrlState({ deploymentsTab: tab });
+
   return (
     <KubernetesTopList
       title="Top Deployments"
-      viewAllEntityName={props.selectedView === 'deployments' ? 'deployment' : 'deployment config'}
+      viewAllEntityName={selectedTab === tabDeployments ? 'deployment' : 'deployment config'}
       {...props}
-      header={header(props)}
+      header={header({ showDeploymentConfigs: props.showDeploymentConfigs, selectedTab: selectedTab, setSelectedTab: setSelectedTab })}
       getItems={_props =>
-        props.selectedView === 'deployments' ? getKubernetesDeployments(_props) : getOpenShiftDeploymentConfigs(_props)
+        selectedTab === tabDeployments ? getKubernetesDeployments(_props) : getOpenShiftDeploymentConfigs(_props)
       }
       getItemHref$={item =>
         get(item, ['deployment'])
@@ -31,29 +44,29 @@ function TopDeploymentsList(props) {
               namespaceId: props.namespaceId
             })
       }
-      allItemsHref$={props.allItemsHrefs$[props.selectedView]}
+      allItemsHref$={props.allItemsHrefs$[selectedTab]}
       getItemLabel={item => get(item, ['deployment'], get(item, ['deploymentConfig'])).name}
     />
   );
 }
 
-function header(props) {
+function header({ showDeploymentConfigs, selectedTab, setSelectedTab }) {
   return (
-    props.showDeploymentConfigs && (
+    showDeploymentConfigs && (
       <ButtonGroup
         buttonPropsList={[
           {
             text: 'Deployments',
-            key: 'deployments',
-            onClick: () => props.setSelectedView('deployments')
+            key: tabDeployments,
+            onClick: () => setSelectedTab(tabDeployments)
           },
           {
             text: 'Deployment Configs',
-            key: 'deploymentConfigs',
-            onClick: () => props.setSelectedView('deploymentConfigs')
+            key: tabDeploymentConfigs,
+            onClick: () => setSelectedTab(tabDeploymentConfigs)
           }
         ]}
-        activeKey={props.selectedView}
+        activeKey={selectedTab}
       />
     )
   );

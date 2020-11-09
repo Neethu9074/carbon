@@ -1,9 +1,9 @@
 import React from 'react';
 
 import getWebsitePaginatedBeaconGroups from 'in-websites/subscriptions/getWebsitePaginatedBeaconGroups';
+import { TopListWithUrlState, trackTopListNavigation } from 'in-new-components/TopListWithUrlState';
 import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
 import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
-import TopList, { trackTopListNavigation } from 'in-new-components/TopList';
 import { getLinkToAnalyze } from 'in-websites/navigation/paths';
 import Link from 'in-components/Link';
 
@@ -16,10 +16,11 @@ export default function EffectiveConnectionTypeTopList({
   labels,
   aggregations,
   formatters,
-  beaconType
+  beaconType,
+  urlMatrixParamConfig
 }) {
   return (
-    <TopList
+    <TopListWithUrlState
       title="Effective Connection Types"
       metrics={metrics}
       labels={labels}
@@ -35,6 +36,7 @@ export default function EffectiveConnectionTypeTopList({
       timeConfig={timeConfig}
       tagFilters={tagFilters}
       beaconType={beaconType}
+      urlMatrixParamConfig={urlMatrixParamConfig}
     />
   );
 }

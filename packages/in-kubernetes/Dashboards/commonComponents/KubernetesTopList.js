@@ -1,8 +1,8 @@
 import { get } from 'lodash';
 import React from 'react';
 
+import { TopListWithUrlState, trackTopListNavigation } from 'in-new-components/TopListWithUrlState';
 import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
-import TopList, { trackTopListNavigation } from 'in-new-components/TopList';
 import { number } from 'in-services/formatters/number';
 import Link from 'in-components/Link';
 
@@ -14,7 +14,7 @@ const formatters = [number.compact];
 export default function KubernetesTopList(props) {
   const { title } = props;
   return (
-    <TopList
+    <TopListWithUrlState
       title={title}
       metrics={props.metrics || metrics}
       labels={props.labels || labels}
