@@ -1,4 +1,4 @@
-import { bytesZeroDecimalPlaces, number } from 'in-services/formatters/number';
+import { bytes, number } from 'in-services/formatters/number';
 
 export default [
   {
@@ -9,6 +9,6 @@ export default [
   {
     label: 'Database Size',
     metric: 'totalDbSize',
-    formatter: bytesZeroDecimalPlaces
+    formatter: bytes.detailed
   }
 ];

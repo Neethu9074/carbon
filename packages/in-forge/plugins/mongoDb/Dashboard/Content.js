@@ -1,19 +1,17 @@
 import React from 'react';
 
+import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
-import { bytesZeroDecimalPlaces, number } from 'in-services/formatters/number';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
-import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
+import { bytes, number } from 'in-services/formatters/number';
 import { emptyList } from 'in-services/fixedImmutables';
 import DatabaseSizesTable from './DatabaseSizesTable';
 import MetricValue from 'in-components/MetricValue';
 
 export default function MongoDBDashboard({ snapshot, timeConfig }) {
-  const snapshotId = snapshot.get('id');
   const sensorConnectionProblems = snapshot.getIn(['data', 'sensorConnectionProblems'], emptyList);
-
   if (sensorConnectionProblems.size > 0) {
     return sensorConnectionProblems.map(problem => (
       <DashboardNotification key={problem} type="info">
@@ -22,6 +20,7 @@ export default function MongoDBDashboard({ snapshot, timeConfig }) {
     ));
   }
 
+  const snapshotId = snapshot.get('id');
   return (
     <div>
       <KpiSection>
@@ -37,7 +36,7 @@ export default function MongoDBDashboard({ snapshot, timeConfig }) {
           <MetricValue
             snapshotId={snapshotId}
             metric="totalDbSize"
-            formatter={bytesZeroDecimalPlaces}
+            formatter={bytes.detailed}
             timeWindowAggregation="mean"
           />
         </KpiKeyValue>
@@ -68,6 +67,21 @@ export default function MongoDBDashboard({ snapshot, timeConfig }) {
             labels: ['Connections'],
             type: 'line',
             formatter: number.compact
+          }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
+        />
+      </DashboardSection>
+
+      <DashboardSection title="Memory">
+        <Chart
+          snapshotId={snapshotId}
+          timeConfig={timeConfig}
+          y1={{
+            min: 0,
+            metrics: ['virtual', 'mapped'],
+            labels: ['Virtual', 'Mapped'],
+            type: 'line',
+            formatter: bytes.detailed
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />

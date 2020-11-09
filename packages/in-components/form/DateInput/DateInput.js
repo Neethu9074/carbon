@@ -8,10 +8,16 @@ import { formatDate, parseDate } from 'in-services/formatters/date';
 import { dateValidator } from 'in-services/validators/date';
 import Overlay from 'in-new-components/overlays/Overlay';
 import { identity } from 'in-services/util/function';
+import { isBlank } from 'in-services/util/string';
 import keyCodes from 'in-components/keyCodes';
 import Input from 'in-components/form/Input';
 
 import locals from './DateInput.mless';
+
+const modifiersStyles = {
+  selected: { backgroundColor: theme.lib.colors.teal800 },
+  current: { color: theme.lib.colors.N900Primary }
+};
 
 export default function DatePicker(props) {
   const { value, onChange = identity, disabled, iconType } = props;
@@ -54,18 +60,16 @@ function DatePickerInput({ open, onChange, refSetter, inputProps, close, iconTyp
 
 function DatePickerOverlay({ onChange, close, value }) {
   const dateValid = dateValidator(value) == null;
+
   const modifiers = {
-    selected: new Date(value),
+    selected: dateValid && !isBlank(value) ? new Date(value) : null,
     current: new Date()
   };
-  const modifiersStyles = {
-    selected: { backgroundColor: dateValid ? theme.lib.colors.teal800 : 'transparent' },
-    current: { color: theme.lib.colors.N900Primary }
-  };
+
   return (
     <div className={locals.overlay}>
       <DayPicker
-        month={dateValid ? modifiers.selected : modifiers.current}
+        month={modifiers.selected ?? modifiers.current}
         modifiersStyles={modifiersStyles}
         modifiers={modifiers}
         selectedDays={dateValid ? parseDate(value) : undefined}

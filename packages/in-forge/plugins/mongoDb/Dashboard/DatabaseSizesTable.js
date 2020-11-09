@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { bytesZeroDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { emptyList } from 'in-services/fixedImmutables';
+import { bytes } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
@@ -26,7 +26,7 @@ const cols = [
       getMetricName(row) {
         return `dbs.${row.key}`;
       },
-      getContent: bytesZeroDecimalPlaces,
+      getContent: bytes.detailed,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -63,8 +63,8 @@ function getDetails(row) {
         snapshotId={row.snapshotId}
         timeConfig={row.timeConfig}
         y1={{
-          formatter: bytesZeroDecimalPlaces,
-          tooltipFormatter: bytesTwoDecimalPlaces,
+          formatter: bytes.detailed,
+          tooltipFormatter: bytes.detailed,
           metrics: ['dbs.' + row.key],
           labels: ['Database Size'],
           type: 'line'
