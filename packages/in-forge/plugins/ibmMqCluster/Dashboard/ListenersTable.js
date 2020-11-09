@@ -21,7 +21,7 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.listenerStatus;
+        return row.listener.getIn(['data', 'listenerStatus']);
       }
     }
   },
@@ -30,7 +30,7 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.listenerPort;
+        return row.listener.getIn(['data', 'listenerPort']);
       }
     }
   },
@@ -39,7 +39,7 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.listenerIpAddress;
+        return row.listener.getIn(['data', 'listenerIpAddress']);
       }
     }
   },
@@ -48,7 +48,7 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.listenerStartedAt;
+        return row.listener.getIn(['data', 'listenerStartedAt']);
       }
     }
   },
@@ -57,7 +57,7 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.qmName;
+        return row.listener.getIn(['data', 'qmName']);
       }
     }
   }
@@ -78,12 +78,6 @@ export default connectTo(
     const rows = listeners.map(listener => {
       return {
         key: listener.get('id'),
-        listenerName: listener.getIn(['data', 'listenerName']),
-        listenerStatus: listener.getIn(['data', 'listenerStatus']),
-        listenerPort: listener.getIn(['data', 'listenerPort']),
-        listenerIpAddress: listener.getIn(['data', 'listenerIpAddress']),
-        listenerStartedAt: listener.getIn(['data', 'listenerStartedAt']),
-        qmName: listener.getIn(['data', 'qmName']),
         listener,
         timeConfig
       };

@@ -12,7 +12,7 @@ export default [
     metrics: ['publishCount'],
     labels: ['Count'],
     min: 0,
-    category: ['Publish'],
+    category: ['Publishers'],
     formatter: number
   },
   {
@@ -26,7 +26,7 @@ export default [
     metrics: ['subscriptionCount'],
     labels: ['Count'],
     min: 0,
-    category: ['Subscription'],
+    category: ['Subscriptions'],
     formatter: number
   }
 ];
