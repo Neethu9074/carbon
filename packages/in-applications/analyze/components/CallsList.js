@@ -234,6 +234,7 @@ const staticColumnDefinitions = [
     id: 'call',
     label: 'Call',
     sortable: false,
+    ellipsis: true,
     getContent(item) {
       return (
         <Link
