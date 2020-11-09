@@ -11,7 +11,7 @@ export function merge(results) {
 
 function isAllFinished(results) {
   for (const result of results) {
-    if (result.progress.loading || !result.errors.length === 0) {
+    if (result.progress.loading || result.errors.length !== 0) {
       return false;
     }
   }
