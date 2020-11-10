@@ -58,8 +58,10 @@ export default function InfraExploreView() {
 
 function InfraExploreViewWithFixatedTimeConfig() {
   const timeConfig = useTimeConfig();
-  const [{ tagFilterExpression, group, metrics: urlMetrics, type, order }, onChange] = useUrlState(urlStateDefinition);
-  const typeOrNull = type !== 'all' ? type : null;
+  const [{ tagFilterExpression, group, metrics: urlMetrics, type: urlType, order }, onChange] = useUrlState(
+    urlStateDefinition
+  );
+  const type = urlType === 'all' ? null : urlType;
   const setMetrics = useCallback(metrics => onChange({ metrics }), [onChange]);
   const setOrder = useCallback(order => onChange({ order }), [onChange]);
 
@@ -126,7 +128,7 @@ function InfraExploreViewWithFixatedTimeConfig() {
               setMetrics={setMetrics}
               setOrder={setOrder}
               metrics={metrics}
-              type={typeOrNull}
+              type={type}
               order={order}
               showHeader
             />
@@ -141,7 +143,7 @@ function InfraExploreViewWithFixatedTimeConfig() {
               setMetrics={setMetrics}
               setOrder={setOrder}
               metrics={metrics}
-              type={typeOrNull}
+              type={type}
               group={group}
               order={order}
             />
