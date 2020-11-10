@@ -7,7 +7,7 @@ const logger = createLogger('in-connection/clientErrorMessages');
 
 export function init() {
   createSubscription({
-    eventId: 'messageSubscription'
+    eventId: 'subscribe-message'
   })().subscribe(onNewMessage);
 }
 
