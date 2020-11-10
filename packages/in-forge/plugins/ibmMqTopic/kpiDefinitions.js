@@ -2,12 +2,12 @@ import { number } from 'in-services/formatters/number';
 
 export default [
   {
-    label: 'Messages Count',
+    label: 'Messages',
     metric: 'messagesCount',
     formatter: number.compact
   },
   {
-    label: 'Publish Count',
+    label: 'Publishers',
     metric: 'publishCount',
     formatters: number.compact
   }

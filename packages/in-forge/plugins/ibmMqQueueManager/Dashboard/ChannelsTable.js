@@ -6,6 +6,8 @@ import { timeConfig$ } from 'in-stores/time/config';
 import { getSnapshots } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
 
+const missingValue = '/';
+
 const cols = [
   {
     title: 'Name',
@@ -57,7 +59,7 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.snapshot.getIn(['data', 'remoteQM']);
+        return row.snapshot.getIn(['data', 'remoteQM'], missingValue);
       }
     }
   },
@@ -66,7 +68,7 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.snapshot.getIn(['data', 'lastMessage']);
+        return row.snapshot.getIn(['data', 'lastMessage'], missingValue);
       }
     }
   },

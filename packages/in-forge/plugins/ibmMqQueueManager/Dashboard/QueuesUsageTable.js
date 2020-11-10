@@ -6,6 +6,8 @@ import { timeConfig$ } from 'in-stores/time/config';
 import { getSnapshots } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
 
+const missingValue = '/';
+
 const cols = [
   {
     title: 'Name',
@@ -21,7 +23,7 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.snapshot.getIn(['data', 'application']);
+        return row.snapshot.getIn(['data', 'application'], missingValue);
       }
     }
   },
@@ -30,7 +32,7 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.snapshot.getIn(['data', 'channel']);
+        return row.snapshot.getIn(['data', 'channel'], missingValue);
       }
     }
   },
@@ -39,7 +41,7 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.snapshot.getIn(['data', 'connection']);
+        return row.snapshot.getIn(['data', 'connection'], missingValue);
       }
     }
   },
@@ -48,7 +50,7 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.snapshot.getIn(['data', 'handleState']);
+        return row.snapshot.getIn(['data', 'handleState'], missingValue);
       }
     }
   },
@@ -57,7 +59,7 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.snapshot.getIn(['data', 'user']);
+        return row.snapshot.getIn(['data', 'user'], missingValue);
       }
     }
   }

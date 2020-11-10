@@ -18,6 +18,7 @@ export default function IbmMqQueueUsageDashboard({ snapshot, timeConfig }) {
           <MetricValue snapshotId={snapshotId} metric="openOutputs" formatter={number.compact} />
         </KpiKeyValue>
       </KpiSection>
+
       <DashboardSection title="Open Inputs/Outputs">
         <Chart
           snapshotId={snapshotId}
@@ -26,7 +27,7 @@ export default function IbmMqQueueUsageDashboard({ snapshot, timeConfig }) {
             formatter: number.compact,
             tooltipFormatter: number.compact,
             metrics: [`openInputs`, `openOutputs`],
-            labels: ['Open Inputs', 'Open Outputs'],
+            labels: ['Inputs', 'Outputs'],
             type: 'line'
           }}
         />

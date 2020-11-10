@@ -1,7 +1,7 @@
 import React from 'react';
 
 import getIbmMqTopicsForCluster from 'in-subscription/ibmMqCluster/getIbmMqTopicsForCluster';
-import { zeroDecimalPlaces } from 'in-services/formatters/number';
+import { number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';
 import { getSnapshots } from 'in-stores/snapshot';
@@ -27,15 +27,6 @@ const cols = [
     }
   },
   {
-    title: 'Cluster',
-    type: 'string',
-    typeArgs: {
-      getValue(row) {
-        return row.topic.getIn(['data', 'clusterName']);
-      }
-    }
-  },
-  {
     title: 'Type',
     type: 'string',
     typeArgs: {
@@ -49,12 +40,12 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.topic.getIn(['data', 'topicAlternatedAt']);
+        return row.topic.getIn(['data', 'topicAlternatedAt'], 'N/A');
       }
     }
   },
   {
-    title: 'Messages Count',
+    title: 'Messages',
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -63,14 +54,14 @@ const cols = [
       getMetricName() {
         return 'messagesCount';
       },
-      getContent: zeroDecimalPlaces,
+      getContent: number.compact,
       getTimeWindowAggregation() {
         return 'mean';
       }
     }
   },
   {
-    title: 'Publish Count',
+    title: 'Publishers',
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -79,14 +70,14 @@ const cols = [
       getMetricName() {
         return 'publishCount';
       },
-      getContent: zeroDecimalPlaces,
+      getContent: number.compact,
       getTimeWindowAggregation() {
         return 'mean';
       }
     }
   },
   {
-    title: 'Subscription Count',
+    title: 'Subscriptions',
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -95,7 +86,7 @@ const cols = [
       getMetricName() {
         return 'subscriptionCount';
       },
-      getContent: zeroDecimalPlaces,
+      getContent: number.compact,
       getTimeWindowAggregation() {
         return 'mean';
       }

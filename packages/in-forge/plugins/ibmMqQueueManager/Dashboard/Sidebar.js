@@ -8,7 +8,7 @@ export default function IbmMqQueueManagerSidebar({ snapshot }) {
   return (
     <Fragment>
       <Collapsible initiallyOpen>
-        <Collapsible.Header>IBM MQ QueueManager</Collapsible.Header>
+        <Collapsible.Header>IBM MQ Queue Manager</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />
         </Collapsible.Content>
