@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
-import { bytes, timeByMicroTwoDecimalPlaces, time, twoDecimalPlaces } from 'in-services/formatters/number';
+import { bytes, timeByMicroTwoDecimalPlaces, time, twoDecimalPlaces, percentage } from 'in-services/formatters/number';
 import PackageRetrievalDialog from 'in-forge/plugins/jvmRuntimePlatform/Dashboard/PackageRetrievalDialog';
 import MicrometerMetrics from 'in-forge/plugins/jvmRuntimePlatform/Dashboard/MicrometerMetrics';
 import ThreadDumpButton from 'in-forge/plugins/jvmRuntimePlatform/Dashboard/ThreadDumpButton';
@@ -91,6 +91,13 @@ export default connectTo({
             metrics: ['memory.used'],
             labels: ['Used'],
             type: 'stackedArea'
+          }}
+          y2={{
+            min: 0,
+            metrics: ['memory.usedPercentage'],
+            labels: ['Used'],
+            formatter: percentage.detailed,
+            type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />

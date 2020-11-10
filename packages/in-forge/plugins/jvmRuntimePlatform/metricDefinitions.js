@@ -1,5 +1,5 @@
 import { getCustomMetricMatch, getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
-import { siPrefix, micros, millis, number, bytes } from 'in-services/formatters/number';
+import { siPrefix, micros, millis, number, bytes, percentage } from 'in-services/formatters/number';
 
 function getLabel(postfix) {
   return (snapshot, match) => (match?.length > 1 ? `${match[1]} ${postfix}` : postfix);
@@ -19,6 +19,14 @@ export default [
     min: 0,
     category: ['Suspension'],
     formatter: micros
+  },
+  {
+    metrics: ['memory.usedPercentage'],
+    labels: ['Used percentage'],
+    min: 0,
+    max: 1,
+    category: ['Memory'],
+    formatter: percentage
   },
   {
     metrics: ['memory.used', 'memory.free'],
