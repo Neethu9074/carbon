@@ -1,30 +1,39 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 
 import { addMessage, removeMessage } from 'in-components/MessageFlyout/stores/messages';
 import { refreshWindowSizeDependingState } from 'in-services/browser';
-import LifecycleObserver from 'in-components/LifecycleObserver';
+import useUrlState from 'in-hooks/useUrlState';
 
 import locals from './WithTvMode.mless';
 
 let disableTvModeInternal;
 const messageId = 'tvmode';
 
-export default function WithTvMode({ children }) {
-  const [enabled, setEnabledInternal] = useState(false);
+export default function WithTvMode({ children, urlParameter: { path, name } }) {
+  const [{ enabled }, onChange] = useUrlState({
+    bind: [
+      {
+        path,
+        name,
+        as: 'enabled',
+        parser: v => v === 'true',
+        initialState: false
+      }
+    ]
+  });
 
-  return (
-    <div className={enabled ? locals.tvMode : null}>
-      <LifecycleObserver
-        onDidMount={setGlobalDisableHandler}
-        onDidUpdate={setGlobalDisableHandler}
-        onWillUnmount={unsetGlobalDisableHandler}
-      />
-      {children({ enabled, setEnabled })}
-    </div>
-  );
+  useEffect(() => {
+    disableTvModeInternal = () => setEnabled(false);
+    return () => {
+      disableTvModeInternal = null;
+    };
+  }, []);
+
+  return <div className={enabled ? locals.tvMode : null}>{children({ enabled, setEnabled })}</div>;
 
   function setEnabled(enabled) {
-    setEnabledInternal(enabled);
+    onChange({ enabled });
     if (enabled) {
       addMessage(
         {
@@ -40,15 +49,15 @@ export default function WithTvMode({ children }) {
     refreshWindowSizeDependingState();
     setTimeout(refreshWindowSizeDependingState, 100);
   }
-
-  function setGlobalDisableHandler() {
-    disableTvModeInternal = () => setEnabled(false);
-  }
-
-  function unsetGlobalDisableHandler() {
-    disableTvModeInternal = null;
-  }
 }
+
+WithTvMode.propTypes = {
+  children: PropTypes.func.isRequired,
+  urlParameter: PropTypes.shape({
+    path: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired
+  }).isRequired
+};
 
 export function disableTvMode() {
   if (disableTvModeInternal) {

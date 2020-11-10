@@ -9,6 +9,7 @@ import DashboardErroneousResultPresenter from 'in-new-components/DashboardErrone
 import DashboardHeaderButton from 'in-new-components/DashboardHeader/DashboardHeaderButton';
 import DashboardSwitcher from 'in-custom-dashboards/DashboardSwitcher/DashboardSwitcher';
 import DefaultLoadingDashboard from 'in-new-components/Loading/DefaultLoadingDashboard';
+import { dashboardTvModeUrlParameter } from 'in-custom-dashboards/navigation/url';
 import HorizontalIndicator from 'in-new-components/Loading/HorizontalIndicator';
 import DashboardHeader, { themes } from 'in-new-components/DashboardHeader';
 import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
@@ -50,22 +51,39 @@ function CustomDashboardPresenter(props) {
     }
   }
 
+  const loadingSection = result?.progress?.loading && <DefaultLoadingDashboard lightMode />;
+
+  const errorSection =
+    result?.errors?.[0]?.code === 'NOT_FOUND' ? (
+      <EntityPageMainNotificationLightCardV2
+        icon="lib_missing_data"
+        title="Dashboard not found"
+        explanation="This dashboard does not exist or you do not have access to it."
+      />
+    ) : (
+      <DashboardErroneousResultPresenter errors={result?.errors} />
+    );
+
   return (
     <LocallyChangedTheme theme={lightV2}>
-      <WithTvMode>
+      <WithTvMode urlParameter={dashboardTvModeUrlParameter}>
         {({ enabled, setEnabled }) => (
           <>
             {enabled && (
-              <Grid
-                tvMode
-                width={width}
-                config={config}
-                isEditing={false}
-                isDeletable={false}
-                isResizable={false}
-                isConfigurable={false}
-                isDraggable={false}
-              />
+              <>
+                {loadingSection}
+                {errorSection}
+                {config && (
+                  <Grid
+                    tvMode
+                    width={width}
+                    config={config}
+                    isResizable={false}
+                    isConfigurable={false}
+                    isDraggable={false}
+                  />
+                )}
+              </>
             )}
 
             {!enabled && (
@@ -98,7 +116,8 @@ function CustomDashboardPresenter(props) {
                   </>
                 }
               >
-                {result && result.progress && result.progress.loading && <DefaultLoadingDashboard lightMode />}
+                {loadingSection}
+                {errorSection}
                 {config && (
                   <div className={locals.wrapper}>
                     <Grid
@@ -108,22 +127,11 @@ function CustomDashboardPresenter(props) {
                       onEditWidget={onEditWidget}
                       onRemoveWidget={onRemoveWidget}
                       onDuplicateWidget={onDuplicateWidget}
-                      isDeletable={editable}
                       isResizable={editable}
                       isConfigurable={editable}
                       isDraggable={editable}
                     />
                   </div>
-                )}
-
-                {result?.errors?.[0]?.code === 'NOT_FOUND' ? (
-                  <EntityPageMainNotificationLightCardV2
-                    icon="lib_missing_data"
-                    title="Dashboard not found"
-                    explanation="This dashboard does not exist or you do not have access to it."
-                  />
-                ) : (
-                  <DashboardErroneousResultPresenter errors={result?.errors} />
                 )}
               </Sticky>
             )}

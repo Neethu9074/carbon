@@ -13,6 +13,10 @@ export const dashboardIdUrlParameter = {
   path: viewPath,
   name: 'dashboardId'
 };
+export const dashboardTvModeUrlParameter = {
+  path: viewPath,
+  name: 'tvMode'
+};
 
 export function goToCustomDashboardList() {
   mutateUrl(params => {
