@@ -11,13 +11,15 @@
     // The icon's size triggers a very weird flexbox behavior for its parent element.
     // Work around this behavior by positioning this one absolutely to its wrapper.
     position: absolute;
-    top: -.45rem;
+    top: -0.45rem;
     left: 0;
 
     fill: @lib__colors__N700Medium;
     cursor: pointer;
 
-    &:hover, &:active, &:focus {
+    &:hover,
+    &:active,
+    &:focus {
       fill: @lib__colors__light-blue800;
       outline: none;
     }

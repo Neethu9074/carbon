@@ -4,12 +4,13 @@ import React from 'react';
 import Button from 'in-new-components/Button';
 
 export function QueryBuilderStateHelper({ children: Component }) {
+  const [readOnly, setReadOnly] = useState(false);
   const [value, setState] = useState([
     {
       type: 'TAG_FILTER',
       name: 'kubernetes.cluster.name',
       operator: 'CONTAINS',
-      value: 'prod-shop',
+      value: 'prod-shop'
     },
     {
       type: 'CONJUNCTION',
@@ -104,7 +105,7 @@ export function QueryBuilderStateHelper({ children: Component }) {
   ]);
   return (
     <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-      <Component value={value} setState={setState} />
+      <Component value={value} setState={setState} readOnly={readOnly} />
 
       <div style={{ borderTop: '1px dashed lightgray', paddingTop: 8, marginTop: '2rem' }}>
         <Button
@@ -145,6 +146,13 @@ export function QueryBuilderStateHelper({ children: Component }) {
         </Button>
         <Button style={{ marginLeft: 16 }} kind="secondary" onClick={() => setState([])}>
           Clear
+        </Button>
+        <Button
+          style={{ marginLeft: 16 }}
+          kind={!readOnly ? 'secondary' : 'info'}
+          onClick={() => setReadOnly(prevState => !prevState)}
+        >
+          Toggle read-only
         </Button>
       </div>
     </div>

@@ -1,0 +1,27 @@
+@import '~in-themes/active.less';
+@import '~in-themes/mixins.less';
+
+:local {
+  .inputValueViewer,
+  .inputValueViewer_dark {
+    width: fit-content;
+    padding: 0.0225rem 0.3125rem;
+
+    line-height: 2;
+
+    &:focus,
+    &:active,
+    &:hover {
+      outline: 0;
+      color: @lib__colors__light-blue800;
+    }
+  }
+
+  .inputValueViewerBackground {
+    background: @lib__colors__white;
+  }
+
+  .inputValueViewerBackground_dark {
+    background: @lib__colors__N800Dark;
+  }
+}

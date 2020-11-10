@@ -15,14 +15,15 @@ import QueryBuilderDragAndDropBehaviour from 'in-new-components/QueryBuilder/Que
 import { onKeyDown, onClickQueryBuilderContent } from 'in-new-components/QueryBuilder/keyboardInteraction';
 import DragAndDropBehaviour from 'in-new-components/QueryBuilder/DragAndDropBehaviour';
 import LoadingIndicator from 'in-new-components/GroupingConfigurator/LoadingIndicator';
+import QueryBuilderReadOnly from 'in-new-components/QueryBuilder/QueryBuilderReadOnly';
 import { createTagForm } from 'in-new-components/QueryBuilder/validation/tagForm';
+import FilterButton from 'in-new-components/QueryBuilder/components/FilterButton';
 import Conjunction from 'in-new-components/QueryBuilder/components/Conjunction';
 import Spacing from 'in-new-components/QueryBuilder/components/Spacing/Spacing';
 import Expression from 'in-new-components/QueryBuilder/components/Expression';
 import Bracket from 'in-new-components/QueryBuilder/components/Bracket';
 import Tag from 'in-new-components/QueryBuilder/components/Tag/Tag';
 import ErrorBoundary from 'in-components/ErrorBoundary';
-import FilterButton from './components/FilterButton';
 import useObservable from 'in-hooks/useObservable';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 
@@ -37,10 +38,10 @@ const componentMapping = {
   [CLOSE_BRACKET]: Bracket
 };
 
-export default function QueryBuilderErrorBoundry(props) {
+export default function QueryBuilderErrorBoundry({ readOnly, ...props }) {
   return (
     <ErrorBoundary name="QueryBuilder">
-      <QueryBuilder {...props} />
+      {readOnly ? <QueryBuilderReadOnly {...props} /> : <QueryBuilder {...props} />}
     </ErrorBoundary>
   );
 }

@@ -24,7 +24,7 @@ export const DefaultExampleQueryBuilder = createQueryBuilder({
 export function DefaultExample() {
   return (
     <QueryBuilderStateHelper>
-      {({value, setState}) => <DefaultExampleQueryBuilder value={value} onChange={setState} />}
+      {({value, setState, readOnly}) => <DefaultExampleQueryBuilder value={value} onChange={setState} readOnly={readOnly} />}
     </QueryBuilderStateHelper>
   )
 }
@@ -33,9 +33,7 @@ export function DarkModeExample() {
   return (
     <LocallyChangedTheme theme={dark}>
       <SetBodyColor color="#47525D" />
-      <QueryBuilderStateHelper>
-        {({value, setState}) => <DefaultExample value={value} onChange={setState} />}
-      </QueryBuilderStateHelper>
+      <DefaultExample />
     </LocallyChangedTheme>
   )
 }
