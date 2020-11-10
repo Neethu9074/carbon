@@ -83,6 +83,7 @@ Each widget needs to define the following exports.
                                of the viewport or close to it. Use this to prevent components
                                outside of the viewport to be mounted and hence to keep them
                                from making (potentially unused) backend requests.
+                               Defaults to `true`.
 
 ## Configuration Lifecycle
 

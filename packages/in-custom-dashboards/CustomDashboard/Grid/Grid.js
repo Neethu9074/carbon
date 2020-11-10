@@ -92,7 +92,7 @@ export default function Grid({
       draggableHandle={`.${draggableHandle || locals.dragHandle}`}
     >
       {config.widgets.map(widget => {
-        const { Widget, onlyRenderInsideViewport } = widgets[widget.type];
+        const { Widget, onlyRenderInsideViewport = true } = widgets[widget.type];
 
         const actions = isConfigurable && (
           <MoreMenu kind="secondaryDarker" size="compact" className={locals.more}>
@@ -120,7 +120,7 @@ export default function Grid({
         let content = widgetComponent;
         if (onlyRenderInsideViewport) {
           content = (
-            <TrackVisibility once offset={300} tag="div">
+            <TrackVisibility once offset={300} tag="div" className={locals.visibilityTrackWrapper}>
               {({ isVisible }) => isVisible && widgetComponent}
             </TrackVisibility>
           );

@@ -8,4 +8,3 @@ export const label = 'Events';
 export const minimumWidth = 3;
 export const minimumHeight = 21;
 export const enabled = false;
-export const onlyRenderInsideViewport = true;
