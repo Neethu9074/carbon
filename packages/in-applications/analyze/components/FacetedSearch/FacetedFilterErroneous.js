@@ -8,6 +8,7 @@ import getTagSuggestions from 'in-subscription/application/getTagSuggestions';
 import { TAG } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import InfiniteCircle from 'in-new-components/Loading/InfiniteCircle';
+import { number } from 'in-services/formatters/number';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import useObservable from 'in-hooks/useObservable';
 import Message from 'in-new-components/Message';
@@ -109,7 +110,9 @@ function Suggestion({ updateFilter, tagFilterExpression, hiddenCalls }) {
         >
           <span className={locals.label}>Erroneous</span>
           <span className={locals.count}>
-            {suggestions?.data?.results.filter(result => result.label === 'true')[0]?.metrics.calls_SUM_Agg[0][1] || 0}
+            {number.compact(
+              suggestions.data.results.filter(result => result.label === 'true')[0]?.metrics.calls_SUM_Agg[0][1] || 0
+            )}
           </span>
         </Link>
       </div>

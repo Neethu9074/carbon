@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { TAG } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import InfiniteCircle from 'in-new-components/Loading/InfiniteCircle';
+import { number } from 'in-services/formatters/number';
 import Message from 'in-new-components/Message';
 import Button from 'in-new-components/Button';
 import Tooltip from 'in-components/Tooltip';
@@ -72,7 +73,7 @@ function Results({ suggestions, tag, updateFilter }) {
                 className={locals.addSuggestion}
               >
                 <span className={locals.label}>{suggestion.label}</span>
-                <span className={locals.count}>{suggestion.metrics.calls_SUM_Agg[0][1]}</span>
+                <span className={locals.count}>{number.compact(suggestion.metrics.calls_SUM_Agg[0][1])}</span>
               </Link>
             </Tooltip>
           </div>
