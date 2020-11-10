@@ -2,10 +2,12 @@
 // so we don't have to load the bundle when it's not neededd.
 import InstanaOnboardingComponent from 'promise-loader?global,onboarding!in-init/steps/InstanaOnboardingComponent';
 import { create, just } from 'reactive-observables';
+import { Router } from 'react-router-dom';
 import ReactDOM from 'react-dom';
 import React from 'react';
 
 import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
+import history from 'in-stores/navigation/history';
 
 export function init() {
   const reportingData = window.instana.reportingData;
@@ -16,7 +18,12 @@ export function init() {
 
   const observable = create();
   const Component = createAsyncViewComponent(InstanaOnboardingComponent);
-  ReactDOM.render(<Component onDialogSkip={() => observable.emit(true)} />, document.getElementById('main'));
+  ReactDOM.render(
+    <Router history={history}>
+      <Component onDialogSkip={() => observable.emit(true)} />
+    </Router>,
+    document.getElementById('main')
+  );
 
   // Force stop the UI init process at this step. The onboarding dialog will
   // force a page reload once completed.
