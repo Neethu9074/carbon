@@ -5,7 +5,6 @@ import FacetedSearch from 'in-applications/analyze/components/FacetedSearch/Face
 import CursorPaginatedTable from 'in-components/tables/ServerTable/CursorPaginatedTable';
 import BatchingIndicator from 'in-analyze/components/BatchingIndicator';
 import TableLinkWithIcon from 'in-analyze/components/TableLinkWithIcon';
-import InlineTabNavigation from 'in-new-components/InlineTabNavigation';
 import { getServiceDashboard } from 'in-applications/navigation/paths';
 import { number, latencyFixed } from 'in-services/formatters/number';
 import { getLinkToTraceDetail } from 'in-analyze/navigation/paths';
@@ -112,7 +111,9 @@ function Presenter({
   return (
     <div className={locals.wrapper}>
       <div className={locals.hitsAndFacetedSearch}>
-        <InlineTabNavigation tabList={[{ text: totalCalls }]} />
+        <div className={locals.hits}>
+          <span>{totalCalls}</span>
+        </div>
         <FacetedSearch
           tagFilterExpression={tagFilterExpression}
           updateFilter={updateFilter}

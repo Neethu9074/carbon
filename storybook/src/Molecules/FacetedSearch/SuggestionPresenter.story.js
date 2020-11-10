@@ -14,14 +14,14 @@ export const Default = () => (
   <div>
     <SuggestionsPresenter
       suggestions={[
-        'suggestion A',
-        'suggestion B',
-        'suggestion C',
-        'suggestion D',
-        'suggestion E',
-        'suggestion F',
-        'suggestion G',
-        'suggestion H'
+        { label: 'suggestion A', metrics: { calls_SUM_Agg: [[0, 8]] } },
+        { label: 'suggestion B', metrics: { calls_SUM_Agg: [[0, 7]] } },
+        { label: 'suggestion C', metrics: { calls_SUM_Agg: [[0, 6]] } },
+        { label: 'suggestion D', metrics: { calls_SUM_Agg: [[0, 5]] } },
+        { label: 'suggestion E', metrics: { calls_SUM_Agg: [[0, 4]] } },
+        { label: 'suggestion F', metrics: { calls_SUM_Agg: [[0, 3]] } },
+        { label: 'suggestion G', metrics: { calls_SUM_Agg: [[0, 2]] } },
+        { label: 'suggestion H', metrics: { calls_SUM_Agg: [[0, 1]] } }
       ]}
       addFilter={() => alert('add filter')}
       tag="tag"
@@ -36,7 +36,13 @@ export const Loading = () => (
 
 export const Errors = () => (
   <div>
-    <SuggestionsPresenter errors={['error 1', 'error 2', 'error 3']} />
+    <SuggestionsPresenter
+      errors={[
+        { code: 1, message: 'error 1' },
+        { code: 2, message: 'error 2' },
+        { code: 3, message: 'error 3' }
+      ]}
+    />
   </div>
 );
 export const NoResult = () => (

@@ -4,9 +4,13 @@
   .facetedCard {
     border-radius: 0;
     box-shadow: none;
+    background: none;
   }
   .facetedCardHeader {
     padding: 1rem;
+  }
+  .facetedCardBody {
+    margin-bottom: 1.5rem;
   }
   .suggestion {
     margin-top: 0.75rem;
@@ -35,9 +39,6 @@
     width: 100%;
     display: flex;
     justify-content: center;
-    .circle {
-      background-color: @lib__colors__white;
-    }
   }
   .noResult {
     margin-top: 0.75rem;
@@ -59,5 +60,8 @@
   .errorMessage {
     margin-left: 0.75rem;
     margin-right: 0.75rem;
+  }
+  .latencyForm {
+    margin-bottom: 0;
   }
 }

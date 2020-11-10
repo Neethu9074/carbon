@@ -11,7 +11,6 @@ import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import LoadMoreLi from 'in-new-components/lists/List/LoadMoreLi/LoadMoreLi';
 import { number, percentage, millis } from 'in-services/formatters/number';
 import { UNSPECIFIED } from 'in-analyze/components/GroupedTraces/Group';
-import InlineTabNavigation from 'in-new-components/InlineTabNavigation';
 import { NUMBER } from 'in-new-components/QueryBuilder/tagFilter/types';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import { getApplicationTagCatalog } from 'in-applications/api/catalog';
@@ -137,7 +136,9 @@ function Presenter({
   return (
     <div className={locals.wrapper}>
       <div className={locals.hitsAndFacetedSearch}>
-        <InlineTabNavigation tabList={[{ text: totalGroups }]} />
+        <div className={locals.hits}>
+          <span>{totalGroups}</span>
+        </div>
         <FacetedSearch
           tagFilterExpression={tagFilterExpression}
           updateFilter={updateFilter}

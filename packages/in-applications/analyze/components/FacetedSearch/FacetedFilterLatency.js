@@ -55,7 +55,7 @@ function Body({ tagFilterExpression, updateFilter, isValid }) {
   return (
     <Row withoutTopMargin>
       <Col md={6}>
-        <FormGroup>
+        <FormGroup className={locals.latencyForm}>
           <Label htmlFor="latency-min" hasError={isError}>
             From (ms)
           </Label>
@@ -79,7 +79,7 @@ function Body({ tagFilterExpression, updateFilter, isValid }) {
       </Col>
 
       <Col md={6}>
-        <FormGroup>
+        <FormGroup className={locals.latencyForm}>
           <Label htmlFor="latency-max" hasError={isError}>
             To (ms)
           </Label>

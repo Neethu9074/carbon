@@ -14,7 +14,7 @@ export default function FacetedExpandableCard(props) {
       size="s"
       {...props}
     >
-      {props.children}
+      <div className={locals.facetedCardBody}>{props.children}</div>
     </ExpandableCard>
   );
 }

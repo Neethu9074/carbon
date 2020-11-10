@@ -30,7 +30,7 @@ export default function SuggestionsPresenter({ loading = false, errors = [], sug
 function Loading() {
   return (
     <div className={locals.loading}>
-      <InfiniteCircle width={72} height={24} className={locals.circle} />
+      <InfiniteCircle width={72} height={24} />
     </div>
   );
 }
