@@ -56,7 +56,7 @@ export function getTimePresets() {
     ...fixedTimePickerPresets,
     getYesterdayPreset(months),
     getDayBeforeYesterdayPreset(months),
-    getThisWeekPreset(months),
+    getLastSevenDaysPreset(months),
     getPreviousWeekPreset(months)
   ];
 }
@@ -66,7 +66,7 @@ export function getHistoricPresets() {
   return [
     getYesterdayPreset(months),
     getDayBeforeYesterdayPreset(months),
-    getThisWeekPreset(months),
+    getLastSevenDaysPreset(months),
     getPreviousWeekPreset(months)
   ];
 }
@@ -74,13 +74,14 @@ export function getHistoricPresets() {
 function getYesterdayPreset(months) {
   const date = moment()
     .startOf('day')
+    .subtract(1, 'days')
     .toDate();
-  const to = date.getTime();
+  const from = date.getTime();
   return {
     label: 'Yesterday',
     description: `${months[date.getMonth()]} ${date.getDate()}`,
     windowSize: twentyFourHours,
-    to
+    to: from + twentyFourHours
   };
 }
 
@@ -94,25 +95,22 @@ function getDayBeforeYesterdayPreset(months) {
     label: '2 days ago',
     description: `${months[date.getMonth()]} ${date.getDate()}`,
     windowSize: twentyFourHours,
-    to
+    to: to + twentyFourHours
   };
 }
 
-function getThisWeekPreset(months) {
+function getLastSevenDaysPreset(months) {
   const startOfWeek = moment()
-    .startOf('day')
     .subtract(7, 'days')
     .toDate();
-  const endOfWeek = moment()
-    .startOf('day')
-    .toDate();
+  const endOfWeek = moment().toDate();
   return {
     label: 'Last 7 days',
     description: `${months[startOfWeek.getMonth()]} ${startOfWeek.getDate()}- ${
       months[endOfWeek.getMonth()]
     } ${endOfWeek.getDate()}`,
     windowSize: sevenDays,
-    to: endOfWeek.getTime()
+    to: null
   };
 }
 

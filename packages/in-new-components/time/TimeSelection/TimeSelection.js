@@ -53,7 +53,6 @@ function TimeSelection({ timeConfig, historicOrLargeDataResult, isHidden, darkTh
   if (isHidden) {
     return null;
   }
-
   return (
     <ErrorBoundary name="time-selection">
       <Overlay

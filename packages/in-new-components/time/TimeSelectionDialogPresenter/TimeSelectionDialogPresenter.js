@@ -43,7 +43,7 @@ export default connectTo(
         <SecondLevelNavigation className={locals.tabs}>
           <SecondLevelNavigationItem
             className={locals.tab}
-            label="Time range"
+            label="Time Range"
             icon="lib_datetime_timerange"
             isActive={activeTabIndex === 0}
             onClick={() => setActiveTabIndex(0)}
@@ -59,7 +59,7 @@ export default connectTo(
         {activeTabIndex == 0 ? (
           <>
             <Presets {...props} containsHistoricData={containsHistoricData} />
-            <CustomTime {...props} containsHistoricData={containsHistoricData} />
+            <CustomTime {...props} />
           </>
         ) : (
           <Releases {...props} />

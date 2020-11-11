@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useLayoutEffect } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 
@@ -24,6 +24,11 @@ for (let hour = 0; hour < 24; hour++) {
 export default function TimeInput({ onChange, value = Date.now(), hasError = false, align = 'bottomMiddle', id }) {
   const [time, handleTimeChange] = useState(() => formatInputTime(value, 'HH:mm'));
   const timeValid = timeValidator(time, 'HH:mm') == null;
+
+  // Is needed to update the time input field each time the user uses the slider to adjust the time.
+  useLayoutEffect(() => {
+    handleTimeChange(() => formatInputTime(value, 'HH:mm'));
+  }, [value]);
 
   const commitTimeChange = newValue => {
     onChange(timeValid ? formatInputTime(newValue, 'HH:mm') : undefined);

@@ -6,7 +6,7 @@ import Tooltip from 'in-components/Tooltip';
 
 import locals from './TimeIcon.mless';
 
-const historicDataMessage = retention =>
+export const historicDataMessage = retention =>
   'You are viewing approximate data due to the data retention settings. Precise data is available within the last ' +
   retention +
   ' days.';

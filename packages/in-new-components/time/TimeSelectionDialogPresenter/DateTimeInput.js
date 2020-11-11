@@ -25,7 +25,7 @@ export default function DateTimeInput({ form, path, setValue }) {
         <TimeInput
           id={`${path}-time`}
           value={timeField.value}
-          onChange={timeString => setValue(form, [path, 'time'], timeString)} // FIXME: ...
+          onChange={timeString => setValue(form, [path, 'time'], timeString)}
           hasError={!timeField.valid && timeField.touched}
         />
       </div>

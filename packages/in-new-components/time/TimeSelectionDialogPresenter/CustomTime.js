@@ -2,32 +2,53 @@ import { createField, createMapForm, notBlankValidator, composeValidators } from
 import React, { useMemo, useState, useEffect } from 'react';
 import moment from 'moment';
 
-import { formatTime, formatDate, formatDateTime, parseDateTime } from 'in-services/formatters/date';
+import {
+  formatTime,
+  formatDate,
+  formatDateShort,
+  parseDateTime,
+  formatTimeWithoutSeconds
+} from 'in-services/formatters/date';
 import DateTimeInput from 'in-new-components/time/TimeSelectionDialogPresenter/DateTimeInput';
 import HorizontalFlexWrapper from '../../layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
-import Secion from 'in-new-components/time/TimeSelectionDialogPresenter/Section';
+import { historicDataMessage, LARGE_DATA_MESSAGE } from 'in-new-components/time/TimeIcon';
+import Section from 'in-new-components/time/TimeSelectionDialogPresenter/Section';
 import DistinctSlider from 'in-new-components/Slider/DebouncedDistinctSlider';
 import { timeValidator, dateValidator } from 'in-services/validators/date';
-import { LARGE_DATA_MESSAGE } from 'in-new-components/time/TimeIcon';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { days, hours, minutes } from 'in-services/time';
+import { emptyObject } from 'in-services/fixedObjects';
+import { withStyles } from '@material-ui/core/styles';
+import Tooltip from '@material-ui/core/Tooltip';
 import Button from 'in-new-components/Button';
 import SvgIcon from 'in-components/SvgIcon';
+import theme from 'in-themes';
 
 import locals from './CustomTime.mless';
 
 const oneHour = hours.toMillis(1);
 const maximumWindow = days.toMillis(32);
 
-export default function CustomTime({ timeConfig, containsHistoricData, onChange }) {
+export default function CustomTime({ timeConfig, onChange, historicOrLargeDataResult }) {
+  const { containsHistoricData, retention, samplingLevel } = historicOrLargeDataResult || emptyObject;
+  const largeData = samplingLevel && samplingLevel.samplingRatio < 1;
   const [form, setForm] = useState(createForm(timeConfig));
   useEffect(() => setForm(createForm(timeConfig)), [timeConfig]);
+
+  const StyledTooltip = withStyles({
+    tooltip: {
+      color: 'white',
+      backgroundColor: theme.lib.colors.N500,
+      fontSize: '0.75rem',
+      textAlign: 'center'
+    }
+  })(Tooltip);
 
   const from = getTime(form.get('from'));
   const to = getTime(form.get('to'));
 
   return (
-    <Secion title="Time Range" light>
+    <Section title="Time Range" light>
       <form onSubmit={onSubmit}>
         <TimeSlider form={form} setForm={setForm} from={from} to={to} />
 
@@ -46,11 +67,15 @@ export default function CustomTime({ timeConfig, containsHistoricData, onChange 
           {form.touched && form.messages.length > 0 ? (
             <TouchedMessages className={locals.error} field={form} />
           ) : (
-            containsHistoricData && <GranularityHint />
+            <HistoricOrLargeDataMessage
+              largeData={largeData}
+              containsHistoricData={containsHistoricData}
+              retention={retention}
+            />
           )}
         </div>
       </form>
-    </Secion>
+    </Section>
   );
 
   function TimeSlider({ form, setForm, from, to }) {
@@ -60,7 +85,7 @@ export default function CustomTime({ timeConfig, containsHistoricData, onChange 
     return (
       <DistinctSlider
         valueLabelDisplay="auto"
-        valueLabelFormat={formatDateTime}
+        ValueLabelComponent={TimeSliderTooltip}
         marks={tickPositions}
         min={tickPositions[0].value}
         max={tickPositions[tickPositions.length - 1].value}
@@ -75,6 +100,24 @@ export default function CustomTime({ timeConfig, containsHistoricData, onChange 
           setForm(updateForm);
         }}
       />
+    );
+  }
+
+  function TimeSliderTooltip({ value, children, open }) {
+    return (
+      <StyledTooltip
+        open={open}
+        placement="top"
+        title={
+          <span>
+            {formatDateShort(value)}
+            <br />
+            {formatTimeWithoutSeconds(value)}
+          </span>
+        }
+      >
+        {children}
+      </StyledTooltip>
     );
   }
 
@@ -216,11 +259,24 @@ function getTime(form) {
   return parseDateTime(`${form.get('date').value} ${form.get('time').value}`).getTime();
 }
 
-function GranularityHint() {
-  return (
-    <HorizontalFlexWrapper>
-      <SvgIcon className={locals.icon} type="lib_help_error_info_circle" size="xs" />
-      <span className={locals.help}>{LARGE_DATA_MESSAGE}</span>
-    </HorizontalFlexWrapper>
-  );
+function HistoricOrLargeDataMessage(props) {
+  if (props.containsHistoricData) {
+    return (
+      <HorizontalFlexWrapper>
+        <SvgIcon className={locals.icon} type="lib_help_error_info_circle" size="xs" />
+        <span className={locals.help}>{historicDataMessage(props.retention)}</span>
+      </HorizontalFlexWrapper>
+    );
+  }
+
+  if (props.largeData) {
+    return (
+      <HorizontalFlexWrapper>
+        <SvgIcon className={locals.icon} type="lib_help_error_info_circle" size="xs" />
+        <span className={locals.help}>{LARGE_DATA_MESSAGE}</span>
+      </HorizontalFlexWrapper>
+    );
+  }
+
+  return null;
 }
