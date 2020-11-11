@@ -119,7 +119,7 @@ export default function Permissions({ form, onChange, disabled }) {
           onChange={onChange}
           name="canCreatePublicCustomDashboards"
           label={permissions['canCreatePublicCustomDashboards']}
-          helpText="Without this permission, users can create custom dashboards visible only to themselves. Granting this permission allows users to make custom dashboards that are visible to all users of this Instana environment. Additionally, they are able to add editors to custom dashboards, which means they are able to see a full list of names and email addresses of all users of this Instana environment."
+          helpText="Without this permission, users and API tokens can create custom dashboards visible only to themselves. Granting this permission allows users and API tokens to create custom dashboards visible to all users and API tokens of this Instana environment. Additionally, they can add editors to custom dashboards, which means they can see a full list of names and email addresses of all users of this Instana environment. Additionally, they can see a complete list of all API tokens' IDs and names."
         />
         <Permission
           form={form}
