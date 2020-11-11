@@ -3,6 +3,10 @@
     max-width: 35rem;
   }
 
+  .message {
+    margin-bottom: 1.5rem;
+  }
+
   .button {
     min-width: 6rem;
   }

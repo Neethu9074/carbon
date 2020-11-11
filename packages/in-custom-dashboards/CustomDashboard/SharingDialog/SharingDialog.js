@@ -1,48 +1,37 @@
-import { compose, withProps } from 'recompose';
+import React, { useState } from 'react';
 
 import SharingDialogPresenter from 'in-custom-dashboards/CustomDashboard/SharingDialog/SharingDialogPresenter';
-import withPropDependingState from 'in-hoc/withPropDependingState';
 import { close } from 'in-components/DialogPresenter/store';
 import { getUsers } from 'in-custom-dashboards/api';
 import { deepCopy } from 'in-services/util/object';
-import connectTo from 'in-hoc/connectTo';
+import useObservable from 'in-hooks/useObservable';
 import { user } from 'in-stores/user';
 
-export default compose(
-  connectTo({
-    usersResult: getUsers()
-  }),
-  withPropDependingState({
-    getInitialState,
-
-    resets: [
-      {
-        getResettingProps: () => ['config'],
-        onReset: getInitialState
-      }
-    ],
-
-    reducerName: 'setState'
-  }),
-  withProps(({ setState, accessRules, onSubmit, selectedUserId }) => ({
-    isPrivate: isPrivate(accessRules),
-    setPrivate: prvt => setPrivate(prvt, accessRules, setState),
-    setSelectedUserId: selectedUserId => setState({ selectedUserId }),
-    addEditor: () => addEditor(accessRules, setState, selectedUserId),
-    removeEditor: userId => removeEditor(accessRules, setState, userId),
-    onSubmit: e => {
-      e.preventDefault();
-      close();
-      onSubmit(accessRules);
-    }
-  }))
-)(SharingDialogPresenter);
-
-function getInitialState({ config }) {
-  return {
+export default function SharingDialog({ config, onSubmit }) {
+  const usersResult = useObservable(getUsers, []);
+  const [{ accessRules, selectedUserId }, setState] = useState(() => ({
     accessRules: config.accessRules,
     selectedUserId: ''
-  };
+  }));
+
+  return (
+    <SharingDialogPresenter
+      accessRules={accessRules}
+      selectedUserId={selectedUserId}
+      usersResult={usersResult}
+      isPrivate={isPrivate(accessRules)}
+      setPrivate={prvt => setPrivate(prvt, accessRules, setState)}
+      setSelectedUserId={selectedUserId => setState({ selectedUserId })}
+      addEditor={() => addEditor(accessRules, setState, selectedUserId)}
+      removeEditor={userId => removeEditor(accessRules, setState, userId)}
+      isUsingAdvancedAccessRules={isUsingAdvancedAccessRules(accessRules)}
+      onSubmit={e => {
+        e.preventDefault();
+        close();
+        onSubmit(accessRules);
+      }}
+    />
+  );
 }
 
 function isPrivate(accessRules) {
@@ -88,4 +77,21 @@ function removeEditor(accessRules, setState, userId) {
   setState({
     accessRules: accessRules.filter(({ relationType, relatedId }) => relationType !== 'USER' || relatedId !== userId)
   });
+}
+
+// This dialog only supports editing of a subset of the access rules possible in the backend.
+// Everything that this dialog cannot support is considered "advanced". This may be revisited
+// in the future with more RBAC investment.
+function isUsingAdvancedAccessRules(accessRules) {
+  for (const accessRule of accessRules) {
+    const isUserAccessRuleAsSupportedByThisDialog =
+      accessRule.relationType === 'USER' && accessRule.accessType === 'READ_WRITE';
+    const isGlobalAccessRuleAsSupportedByThisDialog =
+      accessRule.relationType === 'GLOBAL' && accessRule.accessType === 'READ';
+    if (!isUserAccessRuleAsSupportedByThisDialog && !isGlobalAccessRuleAsSupportedByThisDialog) {
+      return true;
+    }
+  }
+
+  return false;
 }
