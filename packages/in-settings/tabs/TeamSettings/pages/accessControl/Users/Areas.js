@@ -86,7 +86,7 @@ function collectIds(permissionSet, group) {
     ...mapKubernetesNamespaces(permissionSet.kubernetesNamespaceUIDs, () => ({ group })),
     ...mapWebsites(permissionSet.websiteIds, () => ({ group })),
     ...mapMobileApps(permissionSet.mobileAppIds, () => ({ group })),
-    ...mapInfraDfq(permissionSet.infraDfqFilter, () => ({ group }))
+    mapInfraDfq(permissionSet.infraDfqFilter, () => ({ group }))
   ].filter(Boolean);
 }
 
