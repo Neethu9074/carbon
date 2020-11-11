@@ -13,11 +13,14 @@ import ApplicationAlertConfigButton from 'in-events/components/ApplicationAlertC
 import { createDefaultChartConfig } from 'in-new-components/Alerting/Chart/chartViewConfig';
 import { getAlertConfigByIdAndTimestamp } from 'in-applications/api/applicationAlertConfig';
 import { alertingEventDetailsChartTimeframe } from 'in-new-components/Alerting/constants';
-import { getBlueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
 import EntityInformation from 'in-events/components/EntityInformation/EntityInformation';
+import AlertQueryBuilder from 'in-applications/alerting/components/AlertQueryBuilder';
+import { getBlueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
+import WithQB1orQB2 from 'in-new-components/Alerting/components/WithQB1orQB2';
 import AlertingChart from 'in-new-components/Alerting/Chart/AlertingChart';
 import { Col, Row } from 'in-new-components/layout/Grid';
+import { noop } from 'in-services/fixedObjects';
 import Card from 'in-new-components/Card';
 import connectTo from 'in-hoc/connectTo';
 
@@ -85,12 +88,19 @@ export default connectTo(
           <Col xs>
             <Card title="Scope">
               <div className={locals.filterList}>
-                <TagFilterListPresenter
-                  tagFilters={translateDemocratisationTagFiltersToAnalyzeTagFilters({
-                    applicationName,
-                    tagFilters: [blueprintConfig.getEntityTagFilter(alertConfig), ...tagFilters]
-                  })}
-                  disabled
+                <WithQB1orQB2
+                  onUsesQB1={() => (
+                    <TagFilterListPresenter
+                      tagFilters={translateDemocratisationTagFiltersToAnalyzeTagFilters({
+                        applicationName,
+                        tagFilters: [blueprintConfig.getEntityTagFilter(alertConfig), ...tagFilters]
+                      })}
+                      disabled
+                    />
+                  )}
+                  onUsesQB2={() => (
+                    <AlertQueryBuilder onChange={noop} value={alertConfig.tagFilterExpression} readOnly />
+                  )}
                 />
               </div>
             </Card>
