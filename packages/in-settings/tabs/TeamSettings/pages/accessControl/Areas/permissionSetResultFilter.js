@@ -1,12 +1,10 @@
-import { emptyArray } from 'in-services/fixedObjects';
-
 export const types = {
   APPLICATION: 'Application',
   K8S_CLUSTER: 'Kubernetes Cluster',
   K8S_NAMESPACE: 'Kubernetes Namespace',
   WEBSITE: 'Website',
   MOBILE_APP: 'Mobile App',
-  INFRA_DFQ: 'infra DFQ'
+  INFRA_DFQ: 'Infrastructure DFQ'
 };
 
 export function mapApplications(applicationIds, getAdditionalProperties) {
@@ -55,9 +53,6 @@ export function mapMobileApps(mobileAppIds, getAdditionalProperties) {
 }
 
 export function mapInfraDfq(infraDfqFilter, getAdditionalProperties) {
-  if (!infraDfqFilter) {
-    return emptyArray;
-  }
   return {
     id: 'infraDfq',
     label: infraDfqFilter,

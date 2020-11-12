@@ -49,11 +49,12 @@ function Errors({ errors }) {
 }
 
 function Results({ suggestions, tag, updateFilter }) {
-  const [showMore, setShowMore] = useState(true);
+  const [showMore, setShowMore] = useState(DEFAULT_SUGGESTIONS_SIZE);
+  const nextBatch = Math.min(suggestions.length - showMore, 20);
   return (
     <>
       {sortBy(suggestions, suggestion => -1 * suggestion.metrics.calls_SUM_Agg[0][1])
-        .slice(0, showMore ? DEFAULT_SUGGESTIONS_SIZE : undefined)
+        .slice(0, showMore ? showMore : undefined)
         .map((suggestion, i) => (
           <div key={i} className={locals.suggestion}>
             <Tooltip content={suggestion.label}>
@@ -78,9 +79,9 @@ function Results({ suggestions, tag, updateFilter }) {
             </Tooltip>
           </div>
         ))}
-      {showMore && suggestions.length > DEFAULT_SUGGESTIONS_SIZE && (
-        <Button className={locals.showMore} kind="action" onClick={() => setShowMore(false)}>
-          show {suggestions.length - DEFAULT_SUGGESTIONS_SIZE} more
+      {nextBatch > 0 && (
+        <Button className={locals.showMore} kind="action" onClick={() => setShowMore(showMore + nextBatch)}>
+          show {nextBatch} more
         </Button>
       )}
     </>

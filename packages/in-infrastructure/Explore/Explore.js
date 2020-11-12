@@ -79,8 +79,10 @@ export default function InfraExploreView() {
 
 function InfraExploreViewWithFixatedTimeConfig() {
   const timeConfig = useTimeConfig();
-  const [{ tagFilterExpression, group, metrics: urlMetrics, type, order }, setUrl] = useUrlState(urlStateDefinition);
-  const typeOrNull = type !== 'all' ? type : null;
+  const [{ tagFilterExpression, group, metrics: urlMetrics, type: urlType, order }, setUrl] = useUrlState(
+    urlStateDefinition
+  );
+  const type = urlType === 'all' ? null : urlType;
   const setMetrics = useCallback(metrics => setUrl({ metrics }), [setUrl]);
   const setOrder = useCallback(order => setUrl({ order }), [setUrl]);
 
@@ -178,7 +180,7 @@ function InfraExploreViewWithFixatedTimeConfig() {
                 sortingTracker(getInfraExploreState)(order, SORTING_CONTEXT.ENTITIES);
               }}
               metrics={metrics}
-              type={typeOrNull}
+              type={type}
               order={order}
               showHeader
               tracking={{
@@ -200,7 +202,7 @@ function InfraExploreViewWithFixatedTimeConfig() {
                 sortingTracker(getInfraExploreState)(order, SORTING_CONTEXT.GROUPS);
               }}
               metrics={metrics}
-              type={typeOrNull}
+              type={type}
               group={group}
               order={order}
               tracking={{

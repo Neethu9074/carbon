@@ -61,7 +61,6 @@ const commonGroupingTags = [
   'mobileBeacon.geo.countryCode',
   'mobileBeacon.geo.subdivision',
   'mobileBeacon.geo.subdivisionCode',
-  'mobileBeacon.id',
   'mobileBeacon.meta',
   'mobileBeacon.view.name',
   'mobileBeacon.user.email',
@@ -97,7 +96,7 @@ export const availableGroupingTags = {
   custom: [...commonGroupingTags, 'mobileBeacon.customEvent.name', 'mobileBeacon.error.message'].sort()
 };
 
-const commonFilterTags = [];
+const commonFilterTags = ['mobileBeacon.id', 'mobileBeacon.sessionId'];
 
 export const availableFilterTags = {
   sessionStart: [...availableGroupingTags.sessionStart, ...commonFilterTags].sort(),

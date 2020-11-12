@@ -57,7 +57,7 @@ export default function AreasList({ update, permissionSet, removeId, removeDfq }
             ...mapMobileApps(permissionSet.mobileAppIds, id => ({
               delete: () => removeId(id, 'mobileAppIds')
             })),
-            ...mapInfraDfq(permissionSet.infraDfqFilter, () => ({
+            mapInfraDfq(permissionSet.infraDfqFilter, () => ({
               delete: removeDfq
             }))
           ].filter(Boolean)
@@ -121,7 +121,10 @@ const SelectableDialog = withSelectableItems(function Selectable(props) {
     <Dialog className={locals.dialog} title="Add areas to group" onClose={close}>
       <form
         onSubmit={() => {
-          update(Array.from(selectedEntities.keys()).map(id => ({ id, type: selectedEntities.get(id) })), dfq);
+          update(
+            Array.from(selectedEntities.keys()).map(id => ({ id, type: selectedEntities.get(id) })),
+            dfq
+          );
           close();
         }}
       >
