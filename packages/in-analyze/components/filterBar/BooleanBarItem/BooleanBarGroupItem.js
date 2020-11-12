@@ -17,7 +17,7 @@ export default function BooleanBarGroupItem(props) {
     } else {
       setTagGroup({
         groupbyTag: tag,
-        entity: entity
+        groupbyTagEntity: entity
       });
     }
   };

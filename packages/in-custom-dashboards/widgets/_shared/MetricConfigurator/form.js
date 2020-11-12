@@ -1,8 +1,9 @@
 import { createMapForm, createField, notBlankValidator, createListForm } from 'formalistic';
 
-import { numberValidator, stringValidator, objectValidator, booleanValidator } from 'in-services/validators/jsonType';
+import { numberValidator, stringValidator, booleanValidator } from 'in-services/validators/jsonType';
 import sources from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
+import { minValidator, maxValidator } from 'in-services/validators/number';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
 import { buildEnumValidator } from 'in-services/validators/enum';
 
@@ -52,8 +53,8 @@ export function createForm(savedState, { withLabelConfiguration = false } = {}) 
     );
   }
 
-  if (savedState && savedState.grouping && savedState.grouping.length > 0) {
-    form = form.put('grouping', createListForm().push(createSavedGroupingForm(savedState.grouping[0])));
+  if (savedState?.grouping?.length > 0) {
+    form = form.put('grouping', createListForm().push(createGroupingForm(savedState.grouping[0])));
   }
 
   if (form.get('source').valid) {
@@ -94,34 +95,82 @@ function timeShiftValidator(v) {
   ];
 }
 
-function createSavedGroupingForm(grouping) {
+export function createGroupingForm(grouping) {
   return createMapForm()
     .put(
       'by',
-      createField({
-        value: grouping.by,
-        validator: composeAndShortCircuitOnError(notUndefinedValidator, objectValidator)
-      })
+      createMapForm()
+        .put(
+          'groupbyTag',
+          createField({
+            value: grouping?.by?.groupbyTag ?? '',
+            validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
+          })
+        )
+        .put(
+          'groupbyTagSecondLevelKey',
+          createField({
+            value: grouping?.by?.groupbyTagSecondLevelKey ?? '',
+            validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator)
+          })
+        )
+        .put(
+          'groupbyTagEntity',
+          createField({
+            value: grouping?.by?.groupbyTagEntity ?? 'NOT_APPLICABLE',
+            validator: composeAndShortCircuitOnError(
+              notUndefinedValidator,
+              stringValidator,
+              notBlankValidator,
+              buildEnumValidator(['NOT_APPLICABLE', 'DESTINATION', 'SOURCE'])
+            )
+          })
+        )
     )
     .put(
       'direction',
       createField({
-        value: grouping.direction,
-        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
+        value: grouping?.direction ?? 'DESC',
+        validator: composeAndShortCircuitOnError(
+          notUndefinedValidator,
+          stringValidator,
+          notBlankValidator,
+          buildEnumValidator(['ASC', 'DESC'])
+        )
       })
     )
     .put(
       'includeOthers',
       createField({
-        value: grouping.includeOthers,
+        value: grouping?.includeOthers ?? true,
         validator: composeAndShortCircuitOnError(notUndefinedValidator, booleanValidator)
       })
     )
     .put(
       'maxResults',
       createField({
-        value: grouping.maxResults,
-        validator: composeAndShortCircuitOnError(notUndefinedValidator, numberValidator)
+        value: grouping?.maxResults ?? 5,
+        validator: composeAndShortCircuitOnError(
+          notUndefinedValidator,
+          numberValidator,
+          minValidator(1),
+          maxValidator(20)
+        )
       })
     );
+}
+
+export function onChangeGrouping(onChange, newGrouping) {
+  onChange([], form => {
+    if (!newGrouping?.by?.groupbyTag) {
+      return form.remove('grouping');
+    } else {
+      return form.put(
+        'grouping',
+        createListForm()
+          .push(createGroupingForm(newGrouping))
+          .setTouched(true, { recurse: true })
+      );
+    }
+  });
 }

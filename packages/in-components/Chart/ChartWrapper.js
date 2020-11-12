@@ -56,16 +56,14 @@ export default function ChartWrapper({ result, ...props }) {
 }
 
 function wrapProps(result, props) {
-  if (__DEV__) {
-    props.y1.metricIds.forEach(id => {
+  if (__DEV__ && props.metricsConfiguration) {
+    props.y1?.metricIds.forEach(id => {
       invariant(Object.keys(props.metricsConfiguration.metrics).indexOf(id) !== -1, `Metric id ${id} not found.`);
     });
 
-    if (props.y2 != null) {
-      props.y2.metricIds.forEach(id => {
-        invariant(Object.keys(props.metricsConfiguration.metrics).indexOf(id) !== -1, `Metric id ${id} not found.`);
-      });
-    }
+    props.y2?.metricIds.forEach(id => {
+      invariant(Object.keys(props.metricsConfiguration.metrics).indexOf(id) !== -1, `Metric id ${id} not found.`);
+    });
 
     const keys = props.metricsConfiguration.metrics;
     for (let i = 1; i < keys.length; i++) {
@@ -92,9 +90,11 @@ function wrapProps(result, props) {
     cardHeader: undefined
   });
 
-  propsClone.y1.metrics = propsClone.y1.metricIds.map(id => result.data[id] || []);
-  propsClone.y1.aggregations = propsClone.y1.metricIds.map(id => props.metricsConfiguration.metrics[id].aggregation);
-  determineTimeShifts(propsClone.y1, props.metricsConfiguration.metrics, propsClone.timeConfig);
+  if (propsClone.y1 != null) {
+    propsClone.y1.metrics = propsClone.y1.metricIds.map(id => result.data[id] || []);
+    propsClone.y1.aggregations = propsClone.y1.metricIds.map(id => props.metricsConfiguration.metrics[id].aggregation);
+    determineTimeShifts(propsClone.y1, props.metricsConfiguration.metrics, propsClone.timeConfig);
+  }
 
   if (propsClone.y2 != null) {
     propsClone.y2.metrics = propsClone.y2.metricIds.map(id => result.data[id] || []);

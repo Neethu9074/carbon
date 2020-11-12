@@ -1,12 +1,9 @@
-import { createMapForm, createField, notBlankValidator, createListForm } from 'formalistic';
 import { find, groupBy } from 'lodash';
 import React from 'react';
 
-import { numberValidator, stringValidator, objectValidator, booleanValidator } from 'in-services/validators/jsonType';
+import { onChangeGrouping } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/form';
 import TagFilterConfiguration from 'in-analyze/AnalyzeView/components/TagFilterConfiguration';
 import TagGroupConfiguration from 'in-analyze/AnalyzeView/components/TagGroupConfiguration';
-import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
-import { notUndefinedValidator } from 'in-services/validators/undefined';
 import { availableMetrics } from 'in-applications/analyze/metrics';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { compareIgnoreCase } from 'in-services/util/string';
@@ -24,24 +21,10 @@ export default function FormComponent({
   labelFormGroup,
   formatterFormGroup,
   widgetPreview,
-  timeShiftConfiguration,
-  axisForm,
-  axisName
+  timeShiftConfiguration
 }) {
   const metricField = form.get('metric');
   const aggregationField = form.get('aggregation');
-  //Check if it is displaying for a chart
-  const renderer = axisForm?.get(axisName)?.get('renderer');
-  const groupingDisabled = renderer?.value !== 'stackedArea' && renderer?.value !== 'stackedBar';
-  const isMultiMetrics =
-    axisForm
-      ?.get(axisName)
-      ?.get('metrics')
-      ?.toJS().length > 1 ?? false;
-
-  if (form.get('grouping') != null && (groupingDisabled || isMultiMetrics)) {
-    onChange([], form => form.remove('grouping'));
-  }
 
   return (
     <>
@@ -62,34 +45,11 @@ export default function FormComponent({
 
       <TagGroupConfiguration
         tagFilters={form.get('tagFilters').value}
-        grouping={form.get('grouping')?.get(0)}
-        onByChange={by => {
-          //If the group is unset, remove all grouping settings.
-          if (by == null) {
-            onChange([], form => form.remove('grouping'));
-            return;
-          }
-
-          //If there is no grouping yet, set default values, otherwise update the group.
-          if (form.get('grouping') == null) {
-            onChange([], form =>
-              form.put('grouping', createListForm().push(getDefaultGroupingForm(by))).setTouched(true)
-            );
-          } else {
-            onChange(['grouping', 0, 'by'], f => f.setValue(by).setTouched(true));
-          }
-        }}
-        onDirectionChange={direction =>
-          onChange(['grouping', 0, 'direction'], f => f.setValue(direction).setTouched(true))
-        }
-        onIncludeOthersChange={includeOthers =>
-          onChange(['grouping', 0, 'includeOthers'], f => f.setValue(includeOthers).setTouched(true))
-        }
-        onMaxResultsChange={maxResults =>
-          onChange(['grouping', 0, 'maxResults'], f => f.setValue(maxResults).setTouched(true))
-        }
-        disabled={groupingDisabled || isMultiMetrics}
-        isMultiMetrics={isMultiMetrics}
+        grouping={form
+          .get('grouping')
+          ?.get(0)
+          ?.toJS()}
+        onChange={grouping => onChangeGrouping(onChange, grouping)}
       />
 
       <Header>Customize the widget</Header>
@@ -191,36 +151,4 @@ export default function FormComponent({
 
 function getAggregations(metric) {
   return find(availableMetrics, ({ metric: m }) => m === metric).supportedAggregations;
-}
-
-function getDefaultGroupingForm(by) {
-  return createMapForm()
-    .put(
-      'by',
-      createField({
-        value: by,
-        validator: composeAndShortCircuitOnError(notUndefinedValidator, objectValidator)
-      })
-    )
-    .put(
-      'direction',
-      createField({
-        value: 'DESC',
-        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
-      })
-    )
-    .put(
-      'includeOthers',
-      createField({
-        value: true,
-        validator: composeAndShortCircuitOnError(notUndefinedValidator, booleanValidator)
-      })
-    )
-    .put(
-      'maxResults',
-      createField({
-        value: 5,
-        validator: composeAndShortCircuitOnError(notUndefinedValidator, numberValidator)
-      })
-    );
 }

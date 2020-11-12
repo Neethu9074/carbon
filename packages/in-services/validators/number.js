@@ -42,6 +42,32 @@ const positiveNumberFailureMessage = [
   }
 ];
 
+export function minValidator(minInclusive) {
+  return v => {
+    if (typeof v === 'number' && !isNaN(v) && v < minInclusive) {
+      return [
+        {
+          severity: 'error',
+          message: `Value must be larger or equal to ${minInclusive}.`
+        }
+      ];
+    }
+  };
+}
+
+export function maxValidator(maxInclusive) {
+  return v => {
+    if (typeof v === 'number' && !isNaN(v) && v > maxInclusive) {
+      return [
+        {
+          severity: 'error',
+          message: `Value must be smaller or equal to ${maxInclusive}.`
+        }
+      ];
+    }
+  };
+}
+
 export function positiveNumberValidator(v) {
   try {
     const num = Number(v);

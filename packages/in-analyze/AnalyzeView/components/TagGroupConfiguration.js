@@ -20,6 +20,12 @@ export default compose(
   connectTo({
     timeConfig: timeConfig$
   }),
+  withProps(({ grouping, onChange }) => ({
+    onByChange: by => onChange({ ...grouping, by }),
+    onDirectionChange: direction => onChange({ ...grouping, direction }),
+    onIncludeOthersChange: includeOthers => onChange({ ...grouping, includeOthers }),
+    onMaxResultsChange: maxResults => onChange({ ...grouping, maxResults })
+  })),
   withProps(
     ({
       tagFilters,
@@ -64,9 +70,7 @@ function QuickGroupForm(props) {
     setNewGroup,
     onDirectionChange,
     onIncludeOthersChange,
-    onMaxResultsChange,
-    disabled,
-    isMultiMetrics
+    onMaxResultsChange
   } = props;
   return (
     <TagGroupConfigurationWrapper
@@ -77,22 +81,28 @@ function QuickGroupForm(props) {
       quickGroupBar={
         <QuickGroupBar {...props} tagFilter={tagFilters} grouping={grouping} excludedTagFilters={excludedTagFilters} />
       }
-      isEmpty={grouping?.get('by')?.value == null}
-      disabled={disabled}
-      isMultiMetrics={isMultiMetrics}
       tagGroupList={
         <TagGroupList
           {...props}
           tagGroupEntry={{
-            tag: grouping?.get('by')?.value ?? null,
+            tag: grouping?.by ?? null,
             onClick: () =>
               addActiveDialog(
                 <EditGroupDialog
                   {...props}
                   tagFilters={null}
                   timeConfig={props.timeConfig}
-                  group={grouping?.get('by')?.value}
-                  setGroup={newTagGroup => setNewGroup(newTagGroup)}
+                  group={{
+                    ...(grouping?.by ?? {}),
+                    // EditGroupDialog does not understand the groupbyTagEntity field
+                    entity: grouping?.by?.groupbyTagEntity
+                  }}
+                  setGroup={newTagGroup =>
+                    setNewGroup({
+                      ...newTagGroup,
+                      groupbyTagEntity: newTagGroup.entity
+                    })
+                  }
                   forAnalyzeCalls
                 />
               ),

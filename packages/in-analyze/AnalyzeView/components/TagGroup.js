@@ -13,7 +13,7 @@ import locals from './TagGroup.mless';
  * Has a button to remove the entry from the group list (effectively clearing the grouping).
  */
 export default function TagGroup({ tagGroupEntry, readonly }) {
-  let { groupbyTag, groupbyTagSecondLevelKey, entity } = tagGroupEntry.tag;
+  let { groupbyTag, groupbyTagSecondLevelKey, groupbyTagEntity: entity } = tagGroupEntry.tag;
 
   if (groupbyTagSecondLevelKey) {
     groupbyTag = `${groupbyTag}.${groupbyTagSecondLevelKey}`;

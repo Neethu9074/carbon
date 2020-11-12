@@ -11,6 +11,23 @@ import { pendingResult } from 'in-services/fixedObjects';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import useObservable from 'in-hooks/useObservable';
 
+// The unified metrics chart supports advanced data retrieval use cases, e.g., grouped metrics, charting
+// data series from different product areas and more.
+//
+// The main function of this component is to take a configuration option, gather all the required data and
+// to map this data onto the existing charting components. Through this pattern the existing charting
+// components do not need to be aware of the advanced capabilities. Instead, the existing charting components
+// can continue to focus on presentation of data series (no matter the source or complexity of the queries).
+//
+// A note on grouped metrics:
+// A grouped metric is a single configured metric which gets expanded in the backend into multiple data series.
+// For example, one might request the call rate of the top 5 services. In this case, a single configured data
+// series in the UI is expanded in the backend into 0..5 result data series. It is the job of this component,
+// among others, to handle this result expansion and to adapt the metric configurations accordingly.
+// By handling the expansion logic in UnifiedMetricsChart, we can realize even more advanced use cases. For example,
+// one by place a grouped metric and a regular metric on the same axis. Thus creating 1..N data series on a
+// single axis. Handling this expansion is non-trivial. Whereever this happens, you can be sure to find a call to
+// getMetricIdForGroup – at least as long as this comment is up to date :-)
 export default function UnifiedMetricsChart({
   config,
   title,
@@ -29,39 +46,29 @@ export default function UnifiedMetricsChart({
   let result = useResultData(config, timeConfig) ?? pendingResult;
 
   // Transform result data structure into the structure expected by the chart
-  if (result && result.data) {
-    const y1Labels = result.data.filter(d => d.id.startsWith('y1')).map(d => d.label);
-    const y2Labels = result.data.filter(d => d.id.startsWith('y2')).map(d => d.label);
+  let resultDataAsList = result?.data;
+  if (result?.data) {
     result = {
       ...result,
-      data: result.data.reduce((agg, { id, values }) => {
+      // Turn the list of metric results into a map of metric results.
+      data: result.data.reduce((agg, { id, label, values }) => {
+        // The backend can send multiple results for the same ID. In that case we will be talking about grouped metrics.
+        if (label) {
+          id = getMetricIdForGroup(id, label);
+        }
         agg[id] = values;
         return agg;
       }, {})
     };
-    if (y1Labels.length > 0 && !y1Labels.includes(undefined)) {
-      //The labels object is required when displaying grouped results (each with their own label).
-      result = {
-        ...result,
-        y1Labels: y1Labels
-      };
-    }
-    if (y2Labels.length > 0 && !y2Labels.includes(undefined)) {
-      //The labels object is required when displaying grouped results (each with their own label).
-      result = {
-        ...result,
-        y2Labels: y2Labels
-      };
-    }
   }
 
   return (
     <ChartWrapper
       cardTitle={title}
       timeConfig={timeConfig}
-      y1={toAxisConfiguration('y1', config.y1)}
-      y2={toAxisConfiguration('y2', config.y2)}
-      metricsConfiguration={toMetricsConfiguration(config)}
+      y1={toAxisConfiguration('y1', config.y1, resultDataAsList)}
+      y2={toAxisConfiguration('y2', config.y2, resultDataAsList)}
+      metricsConfiguration={toMetricsConfiguration(config, resultDataAsList)}
       primaryContextMenuAction={config.primaryContextMenuAction}
       additionalContextMenuButtons={config.additionalContextMenuButtons}
       result={result}
@@ -112,8 +119,8 @@ function useResultData(config, timeConfig) {
   return useObservable(() => getUnifiedMetrics({ metrics }), [timeConfig, config]);
 }
 
-function toAxisConfiguration(name, axis) {
-  if (axis.metrics.length === 0) {
+function toAxisConfiguration(name, axis, resultDataAsList) {
+  if (axis.metrics.length === 0 || !resultDataAsList) {
     return;
   }
 
@@ -121,9 +128,36 @@ function toAxisConfiguration(name, axis) {
     renderer: (find(availableRenderers, ({ id }) => id === axis.renderer) || defaultRenderer).renderer,
     formatter: (find(formatters, ({ id }) => id === axis.formatter) || defaultFormatter).formatter,
     tooltipFormatter: axis.tooltipFormatter,
-    labels: axis.metrics.map(({ label }) => label),
+    labels: axis.metrics.flatMap(({ label, grouping }, i) => {
+      // For grouped metrics one metric configuration will result in
+      // multiple data series and hence in multiple labels.
+      if (isGroupedMetric(grouping)) {
+        const metricId = getMetricId(name, i);
+        return resultDataAsList
+          .filter(({ id }) => id === metricId)
+          .map(({ label }) => {
+            // 'other_group' is a special marker within the labels that should be replaced with 'Other'.
+            // Eventually we might wanna teach the backend to return the correct string right away.
+            if (label === 'other_group') {
+              return 'Other';
+            }
+            return label;
+          });
+      }
+      return [label];
+    }),
     colors: axis.colors,
-    metricIds: axis.metrics.map((definition, i) => getMetricId(name, i)),
+    metricIds: axis.metrics.flatMap(({ grouping }, i) => {
+      // For grouped metrics one metric configuration will result in
+      // multiple data series and hence in multiple metric IDs.
+      if (isGroupedMetric(grouping)) {
+        const metricId = getMetricId(name, i);
+        return resultDataAsList
+          .filter(({ id }) => id === metricId)
+          .map(({ label }) => getMetricIdForGroup(metricId, label));
+      }
+      return [getMetricId(name, i)];
+    }),
     defaultDisabledMetrics: axis.metrics
       .map((m, i) => (m.defaultDisabled === true ? getMetricId(name, i) : null))
       .filter(Boolean),
@@ -133,8 +167,16 @@ function toAxisConfiguration(name, axis) {
   };
 }
 
+function isGroupedMetric(grouping) {
+  return grouping?.length > 0;
+}
+
 function getMetricId(axis, index) {
   return `${axis}-${index}`;
+}
+
+function getMetricIdForGroup(metricId, groupLabel) {
+  return `${metricId}-${groupLabel}`;
 }
 
 export function parseMetricId(metricId) {
@@ -142,32 +184,45 @@ export function parseMetricId(metricId) {
   return { axis: axis, index: index };
 }
 
-function toMetricsConfiguration(config) {
+function toMetricsConfiguration(config, resultDataAsList) {
+  if (!resultDataAsList) {
+    return null;
+  }
+
   const metricsConfiguration = {
     metrics: {}
   };
 
-  config.y1.metrics.forEach(
-    ({ metric, aggregation, timeShift }, i) =>
-      (metricsConfiguration.metrics[getMetricId('y1', i)] = {
-        metric,
-        aggregation,
-        timeShift
-      })
-  );
-
-  config.y2.metrics.forEach(
-    ({ metric, aggregation, timeShift }, i) =>
-      (metricsConfiguration.metrics[getMetricId('y2', i)] = {
-        metric,
-        aggregation,
-        timeShift
-      })
-  );
+  addForAxis('y1');
+  addForAxis('y2');
 
   if (config.reverseOrder) {
     metricsConfiguration.reverseOrder = config.reverseOrder;
   }
 
   return metricsConfiguration;
+
+  function addForAxis(axisName) {
+    config[axisName].metrics.forEach(({ metric, aggregation, timeShift, grouping }, i) => {
+      const metricId = getMetricId(axisName, i);
+      const config = {
+        metric,
+        aggregation,
+        timeShift
+      };
+
+      // For grouped metrics one metric configuration will result in multiple data series and
+      // each needs to be represented within the metric configuration object so that we stick to
+      // the ChartWrapper and ResultAwareChart contracts.
+      if (isGroupedMetric(grouping)) {
+        resultDataAsList.forEach(({ id, label }) => {
+          if (id === metricId) {
+            metricsConfiguration.metrics[getMetricIdForGroup(metricId, label)] = config;
+          }
+        });
+      } else {
+        metricsConfiguration.metrics[metricId] = config;
+      }
+    });
+  }
 }

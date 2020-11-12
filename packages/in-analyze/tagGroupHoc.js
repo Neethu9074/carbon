@@ -21,7 +21,7 @@ export const tagGroupManipulators = withProps(props => {
     setNewGroup(newTagGroup);
   };
 
-  const existingTagGroup = grouping?.get('by')?.value ?? null;
+  const existingTagGroup = grouping?.by ?? null;
 
   return {
     clearTagGroup() {

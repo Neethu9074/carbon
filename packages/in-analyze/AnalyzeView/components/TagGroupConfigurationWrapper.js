@@ -8,6 +8,8 @@ import Label from 'in-components/form/Label';
 
 import locals from './TagGroupConfigurationWrapper.mless';
 
+const emptyMessage = 'No group defined.';
+
 /**
  * The presentational part of the grouping in the metric configurator.
  * Shows the quick group bar, the "list" of groups, which can only contain one group, and the settings below.
@@ -17,31 +19,22 @@ export default function TagGroupConfigurationWrapper({
   quickGroupBar,
   tagGroupList,
   grouping,
-  isEmpty = false,
-  disabled,
   onDirectionChange,
-  onIncludeOthersChange,
-  isMultiMetrics
+  onIncludeOthersChange
 }) {
-  let emptyMessage = 'No group defined.';
-  if (disabled) {
-    emptyMessage = isMultiMetrics
-      ? 'Grouping is not supported for multiple metrics.'
-      : 'Select a stacked chart type to enable grouping.';
-  }
+  const hasActiveGrouping = grouping?.by?.groupbyTag?.length > 0;
   return (
     <div
       className={evaluateClassNames({
-        [locals.wrapper]: true,
-        [locals.disabled]: disabled
+        [locals.wrapper]: true
       })}
     >
       <div className={locals.bar}>{quickGroupBar}</div>
       <div className={locals.list}>
-        {!isEmpty && tagGroupList}
-        {isEmpty && <div className={locals.empty}>{emptyMessage}</div>}
+        {hasActiveGrouping && tagGroupList}
+        {!hasActiveGrouping && <div className={locals.empty}>{emptyMessage}</div>}
       </div>
-      {!isEmpty && (
+      {hasActiveGrouping && (
         <div className={locals.barBottom}>
           <div className={locals.barBottomContent}>
             <div className={locals.barBottomLeft}>
@@ -51,7 +44,7 @@ export default function TagGroupConfigurationWrapper({
                   <Select
                     className={locals.select}
                     id="select-top-groups"
-                    value={grouping.get('direction').value}
+                    value={grouping.direction}
                     onChange={e => {
                       onDirectionChange(e.target.value);
                     }}
@@ -64,8 +57,8 @@ export default function TagGroupConfigurationWrapper({
               <div className={locals.barBottomToggle}>
                 <Toggle
                   id="display-sum-others"
-                  checked={grouping.get('includeOthers').value}
-                  onChange={() => onIncludeOthersChange(!grouping.get('includeOthers').value)}
+                  checked={grouping.includeOthers}
+                  onChange={() => onIncludeOthersChange(!grouping.includeOthers)}
                 />
               </div>
               <div className={locals.barBottomLabel}>Display aggregation of other groups</div>

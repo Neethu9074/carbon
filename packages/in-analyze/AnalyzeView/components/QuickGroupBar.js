@@ -14,8 +14,7 @@ export default function QuickGroupBar(props) {
 
   const tagFilters = filters.tagFilter;
   const timeConfig = filters.timeConfig;
-
-  const tagGroup = grouping == null ? null : grouping.get('by').value;
+  const tagGroup = grouping?.by ?? null;
 
   const isNotExcluded = tagFilter => !excludedTagFilters.includes(tagFilter);
 
@@ -45,7 +44,7 @@ export default function QuickGroupBar(props) {
           )
         );
       })}
-      {onMoreClick && <MoreBarItem {...props} onClick={onMoreClick} />}
+      {onMoreClick && <MoreBarItem {...props} onClick={onMoreClick} label="All groups" />}
     </Bar>
   );
 }
