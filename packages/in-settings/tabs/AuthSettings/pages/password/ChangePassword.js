@@ -97,12 +97,19 @@ function onSubmit(e, props) {
   saveItem(props);
 }
 
-function saveItem({ form, setMessage }) {
+function saveItem({ form, setMessage, setLoading }) {
   setMessage({ message: 'Saving new password', type: neutral, isSaving: true });
+  setLoading(true);
   const setRoleResult$ = changePassword(form.toJS());
   setRoleResult$.once(
-    () => setMessage({ text: 'Password changed.', type: success }),
-    error => setMessage({ text: `Failed to change password: ${error.message}`, type: errorType })
+    () => {
+      setMessage({ text: 'Password changed.', type: success });
+      setLoading(false);
+    },
+    error => {
+      setMessage({ text: `Failed to change password: ${error.message}`, type: errorType });
+      setLoading(false);
+    }
   );
 }
 

@@ -60,13 +60,18 @@ function render({ form, setForm, setCanSaveItem }) {
   );
 }
 
-function saveItem({ form, setMessage }) {
+function saveItem({ form, setMessage, setLoading }) {
+  setLoading(true);
   setAndSave(
     formUserSettingsObject(form),
     () => {
       setMessage({ text: 'Settings successfully saved.', type: success });
+      setLoading(false);
     },
-    error => setMessage({ text: `Failed to save settings: ${error.message}`, type: errorType })
+    error => {
+      setMessage({ text: `Failed to save settings: ${error.message}`, type: errorType });
+      setLoading(false);
+    }
   );
 }
 

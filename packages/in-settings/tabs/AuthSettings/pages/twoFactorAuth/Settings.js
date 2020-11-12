@@ -122,7 +122,7 @@ function TwoFactorVerified({ twoFactorCredentials }) {
   );
 }
 
-function onSubmit(e, { form, setForm, setMessage }) {
+function onSubmit(e, { form, setForm, setMessage, setLoading }) {
   e.preventDefault();
 
   const twoFactorEnabled = !!form.get('twoFactorCredentials').value;
@@ -140,14 +140,20 @@ function onSubmit(e, { form, setForm, setMessage }) {
     type: neutral,
     isSaving: true
   });
+  setLoading(true);
   const result$ = verifyTwoFactorToken(token);
   result$.once(
-    () => setMessage({ text: 'Two-factor token successfully verified.', type: success }),
-    error =>
+    () => {
+      setMessage({ text: 'Two-factor token successfully verified.', type: success });
+      setLoading(false);
+    },
+    error => {
       setMessage({
         text: 'Failed to save two-factor token: ' + error.message,
         type: errorType
-      })
+      });
+      setLoading(false);
+    }
   );
 }
 

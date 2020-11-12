@@ -9,6 +9,7 @@ export default function Footer({
   canSaveItem,
   saveButtonVisible,
   saveLabel,
+  isSaving,
   onSaveClick,
   canDeleteItem,
   onDeleteClick,
@@ -23,7 +24,7 @@ export default function Footer({
         <CancelButton href$={parentPath ? getView(parentPath) : undefined} onClick={onCancelClick} />
       )}
       {saveButtonVisible && (
-        <SaveButton onClick={onSaveClick} disabled={!canSaveItem} form={form}>
+        <SaveButton onClick={onSaveClick} disabled={!canSaveItem} form={form} isSaving={isSaving}>
           {saveLabel}
         </SaveButton>
       )}

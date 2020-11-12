@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import {
   authSettings,
@@ -28,6 +28,7 @@ import SamlMapping from 'in-settings/tabs/AuthSettings/pages/mappings/Saml/Saml'
 import LdapMapping from 'in-settings/tabs/AuthSettings/pages/mappings/Ldap/Ldap';
 import Users from 'in-settings/tabs/AuthSettings/pages/twoFactorAuth/Users';
 import NotFoundPage from 'in-settings/tabs/pages/NotFound';
+import SetBodyColor from 'in-components/SetBodyColor';
 import { isOwner, role } from 'in-stores/user';
 import connectTo from 'in-hoc/connectTo';
 
@@ -124,14 +125,17 @@ export default connectTo(
 
   function View(props: any) {
     return (
-      <SideNavigationAndContent
-        stickySidebar
-        navigationTree={getNavigationTree(props)}
-        redirectToDefaultPage={changePassword}
-        redirectFrom={authSettings}
-        NotFoundPage={NotFoundPage}
-        {...props}
-      />
+      <Fragment>
+        <SideNavigationAndContent
+          stickySidebar
+          navigationTree={getNavigationTree(props)}
+          redirectToDefaultPage={changePassword}
+          redirectFrom={authSettings}
+          NotFoundPage={NotFoundPage}
+          {...props}
+        />
+        <SetBodyColor color="#fff" />
+      </Fragment>
     );
   }
 );

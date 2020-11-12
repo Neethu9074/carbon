@@ -64,14 +64,19 @@ function render({ form, setForm }) {
   );
 }
 
-function saveItem({ form, setMessage }) {
+function saveItem({ form, setMessage, setLoading }) {
   setMessage({ message: 'Saving config', type: neutral, isSaving: true });
+  setLoading(true);
   const setConfigResult$ = setConfig({ filter: form.get('filter').value });
   setConfigResult$.once(
     () => {
       setMessage({ text: 'Config successfully saved.', type: success });
+      setLoading(false);
     },
-    error => setMessage({ text: `Failed to save config: ${error.message}`, type: errorType })
+    error => {
+      setMessage({ text: `Failed to save config: ${error.message}`, type: errorType });
+      setLoading(false);
+    }
   );
 }
 

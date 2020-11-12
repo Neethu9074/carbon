@@ -220,14 +220,19 @@ function deleteItem({ setMessage }) {
   );
 }
 
-function saveItem({ setMessage, idpMetadata }) {
+function saveItem({ setMessage, setLoading, idpMetadata }) {
   setMessage({ message: 'Saving config', type: neutral, isSaving: true });
+  setLoading(true);
   const setConfigResult$ = setConfig({ idpMetadata });
   setConfigResult$.once(
     () => {
       setMessage({ text: 'Config successfully saved.', type: success });
+      setLoading(false);
     },
-    error => setMessage({ text: `Failed to save config: ${error.message}`, type: errorType })
+    error => {
+      setLoading(false);
+      setMessage({ text: `Failed to save config: ${error.message}`, type: errorType });
+    }
   );
 }
 

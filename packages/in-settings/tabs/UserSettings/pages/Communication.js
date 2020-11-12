@@ -82,17 +82,24 @@ function render({ form, setForm, termsAndPrivacySettings, setCanSaveItem }) {
   );
 }
 
-function saveItem({ form, setForm, setMessage }) {
+function saveItem({ form, setForm, setMessage, setLoading }) {
   if (form.get('dynamicRole') && !form.get('dynamicRole').valid) {
     setForm(form.updateIn(['dynamicRole'], field => field.setTouched(true)));
     return;
   }
+
+  setLoading(true);
+
   setAndSave(
     formUserSettingsObject(form),
     () => {
       setMessage({ text: 'Settings successfully saved.', type: success });
+      setLoading(false);
     },
-    error => setMessage({ text: `Failed to save settings: ${error.message}`, type: errorType })
+    error => {
+      setMessage({ text: `Failed to save settings: ${error.message}`, type: errorType });
+      setLoading(false);
+    }
   );
 }
 
