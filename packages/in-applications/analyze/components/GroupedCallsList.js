@@ -73,12 +73,13 @@ export default function GroupedCallsList({
     [timeConfig, groupBy, orderBy, metrics, isValid, hiddenCalls]
   );
 
-  const groupByTagType = useObservable(
-    getApplicationTagCatalog({ dataSource: 'CALLS' })({ timeConfig }).map(
-      mapDataHO(data => data.tags.find(tag => tag.name === groupBy.groupbyTag)?.type)
-    ) ?? pendingResult,
-    [timeConfig]
-  );
+  const groupByTagType =
+    useObservable(
+      getApplicationTagCatalog({ dataSource: 'CALLS' })({ timeConfig }).map(
+        mapDataHO(data => data.tags.find(tag => tag.name === groupBy.groupbyTag)?.type)
+      ),
+      [timeConfig]
+    ) ?? pendingResult;
 
   return (
     <Presenter
@@ -128,7 +129,7 @@ function Presenter({
   groupByTagType
 }) {
   const hasErrors = errors?.length > 0;
-  const isLoading = progress?.loading;
+  const isLoading = progress.loading || groupByTagType.progress.loading;
   const columnDefinitions = columns({ groupBy, onFocusOnGroup, metrics, groupByTagType });
   const columnDefinitionsForUnspecified = columnsForUnspecified({ metrics });
 
@@ -155,54 +156,57 @@ function Presenter({
           onChangeMetrics={onChangeMetrics}
         />
         <Ul space="xsmall">
-          {partition(items, item => item.name !== UNSPECIFIED).map(partition =>
-            partition.map((item, rowIndex) => {
-              const filterForGroup = groupingFilter(
-                {
-                  groupBy,
-                  group: item.name,
-                  operator: item.name !== UNSPECIFIED ? undefined : IS_EMPTY,
-                  groupByTagType
-                },
-                tagFilterExpression
-              );
-              return (
-                <Li
-                  key={rowIndex}
-                  noAlternatingBg
-                  borderRadius="medium"
-                  highlightOpenState={false}
-                  toggleContentOnRowClick
-                  className={evaluateClassNames({ [locals.unspecified]: item.name === UNSPECIFIED })}
-                  renderNestedContent={() => (
-                    <ExpandedGroup
-                      groupBy={groupBy}
+          {!isLoading &&
+            partition(items, item => item.name !== UNSPECIFIED).map(partition =>
+              partition.map((item, rowIndex) => {
+                const filterForGroup = groupingFilter(
+                  {
+                    groupBy,
+                    group: item.name,
+                    operator: item.name !== UNSPECIFIED ? undefined : IS_EMPTY,
+                    groupByTagType
+                  },
+                  tagFilterExpression
+                );
+                return (
+                  <Li
+                    key={rowIndex}
+                    noAlternatingBg
+                    borderRadius="medium"
+                    highlightOpenState={false}
+                    toggleContentOnRowClick
+                    className={evaluateClassNames({ [locals.unspecified]: item.name === UNSPECIFIED })}
+                    renderNestedContent={() => (
+                      <ExpandedGroup
+                        groupBy={groupBy}
+                        group={item}
+                        tagFilterExpression={filterForGroup}
+                        timeConfig={timeConfig}
+                        onFocusOnGroup={onFocusOnGroup}
+                        orderByCalls={orderByCalls}
+                        onChangeOrderByCalls={onChangeOrderByCalls}
+                        hiddenCalls={hiddenCalls}
+                        groupByTagType={groupByTagType}
+                      />
+                    )}
+                  >
+                    <ColumnizedContent
+                      columnDefinitions={
+                        item.name !== UNSPECIFIED ? columnDefinitions : columnDefinitionsForUnspecified
+                      }
                       group={item}
-                      tagFilterExpression={filterForGroup}
                       timeConfig={timeConfig}
+                      progress={progress}
+                      granularity={granularity}
                       onFocusOnGroup={onFocusOnGroup}
                       orderByCalls={orderByCalls}
                       onChangeOrderByCalls={onChangeOrderByCalls}
                       hiddenCalls={hiddenCalls}
-                      groupByTagType={groupByTagType}
                     />
-                  )}
-                >
-                  <ColumnizedContent
-                    columnDefinitions={item.name !== UNSPECIFIED ? columnDefinitions : columnDefinitionsForUnspecified}
-                    group={item}
-                    timeConfig={timeConfig}
-                    progress={progress}
-                    granularity={granularity}
-                    onFocusOnGroup={onFocusOnGroup}
-                    orderByCalls={orderByCalls}
-                    onChangeOrderByCalls={onChangeOrderByCalls}
-                    hiddenCalls={hiddenCalls}
-                  />
-                </Li>
-              );
-            })
-          )}
+                  </Li>
+                );
+              })
+            )}
           {isLoading && <HorizontalIndicatorLi progress={indeterminateProgress} />}
           {isLoading && <LoadingSkeletonLi />}
           {hasErrors &&
@@ -385,12 +389,7 @@ function groupingFilter({ groupBy, group, operator = EQUALS, groupByTagType }, t
     operator: operator,
     name: groupBy.groupbyTag,
     key: groupBy.groupbyTagSecondLevelKey,
-    value:
-      operator === EQUALS && groupByTagType.progress.loading === false
-        ? groupByTagType.data === NUMBER
-          ? Number(group)
-          : group
-        : undefined
+    value: operator === EQUALS ? (groupByTagType.data === NUMBER ? Number(group) : group) : undefined
   };
   return addTagFilters(tagFilterExpression, [groupFilter]);
 }
