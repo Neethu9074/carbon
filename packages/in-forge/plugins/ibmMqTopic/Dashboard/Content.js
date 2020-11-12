@@ -11,10 +11,10 @@ export default function IbmMqTopicDashboard({ snapshot, timeConfig }) {
   return (
     <div>
       <KpiSection>
-        <KpiKeyValue label="Messages Count">
+        <KpiKeyValue label="Messages">
           <MetricValue snapshotId={snapshotId} metric="messagesCount" formatter={number.compact} />
         </KpiKeyValue>
-        <KpiKeyValue label="Publish Count">
+        <KpiKeyValue label="Publishers">
           <MetricValue snapshotId={snapshotId} metric="publishCount" formatter={number.compact} />
         </KpiKeyValue>
       </KpiSection>
@@ -31,7 +31,7 @@ export default function IbmMqTopicDashboard({ snapshot, timeConfig }) {
           }}
         />
       </DashboardSection>
-      <DashboardSection title="Publish">
+      <DashboardSection title="Publishers">
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
@@ -44,7 +44,7 @@ export default function IbmMqTopicDashboard({ snapshot, timeConfig }) {
           }}
         />
       </DashboardSection>
-      <DashboardSection title="Subscription">
+      <DashboardSection title="Subscriptions">
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}

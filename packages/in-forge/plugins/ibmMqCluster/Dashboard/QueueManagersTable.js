@@ -1,7 +1,7 @@
 import React from 'react';
 
 import getIbmMqQueueManagersForCluster from 'in-subscription/ibmMqCluster/getIbmMqQueueManagersForCluster';
-import { zeroDecimalPlaces } from 'in-services/formatters/number';
+import { number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';
 import { getSnapshots } from 'in-stores/snapshot';
@@ -22,7 +22,7 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.status;
+        return row.qm.getIn(['data', 'status']);
       }
     }
   },
@@ -31,7 +31,7 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.version;
+        return row.qm.getIn(['data', 'version']);
       }
     }
   },
@@ -40,7 +40,7 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.platform;
+        return row.qm.getIn(['data', 'platform']);
       }
     }
   },
@@ -49,7 +49,7 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.startDate;
+        return row.qm.getIn(['data', 'startDate']);
       }
     }
   },
@@ -58,7 +58,7 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.alternatedDate;
+        return row.qm.getIn(['data', 'alternatedDate']);
       }
     }
   },
@@ -67,9 +67,9 @@ const cols = [
     type: 'number',
     typeArgs: {
       getValue(row) {
-        return row.maxHandles;
+        return row.qm.getIn(['data', 'maxHandles']);
       },
-      getContent: zeroDecimalPlaces
+      getContent: number.compact
     }
   },
   {
@@ -82,7 +82,7 @@ const cols = [
       getMetricName() {
         return 'connectionCount';
       },
-      getContent: zeroDecimalPlaces,
+      getContent: number.compact,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -102,17 +102,10 @@ export default connectTo(
       return null;
     }
 
-    const rows = queueManagers.map(queueManager => {
+    const rows = queueManagers.map(qm => {
       return {
-        key: queueManager.get('id'),
-        qmName: queueManager.getIn(['data', 'qmName']),
-        status: queueManager.getIn(['data', 'status']),
-        version: queueManager.getIn(['data', 'version']),
-        platform: queueManager.getIn(['data', 'platform']),
-        startDate: queueManager.getIn(['data', 'startDate']),
-        alternatedDate: queueManager.getIn(['data', 'alternatedDate']),
-        maxHandles: queueManager.getIn(['data', 'maxHandles']),
-        queueManager,
+        key: qm.get('id'),
+        qm,
         timeConfig
       };
     });

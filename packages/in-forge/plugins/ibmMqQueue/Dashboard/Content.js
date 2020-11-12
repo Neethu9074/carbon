@@ -85,7 +85,7 @@ export default function IbmMqQueueDashboard({ snapshot, timeConfig }) {
             formatter: number.compact,
             tooltipFormatter: number.compact,
             metrics: [`openInputCount`, `openOutputCount`],
-            labels: ['Open Input Count', 'Open Output Count'],
+            labels: ['Open Inputs', 'Open Outputs'],
             type: 'line'
           }}
         />

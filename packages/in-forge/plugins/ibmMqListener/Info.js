@@ -8,9 +8,10 @@ export default function Info({ snapshot }) {
     <DescriptionList>
       <DescriptionItem title="Name">{data.get('listenerName')}</DescriptionItem>
       <DescriptionItem title="Status">{data.get('listenerStatus')}</DescriptionItem>
+      <DescriptionItem title="Queue Manager">{data.get('qmName')}</DescriptionItem>
+      <DescriptionItem title="IP Address">{data.get('listenerIpAddress')}</DescriptionItem>
       <DescriptionItem title="Port">{data.get('listenerPort')}</DescriptionItem>
       <DescriptionItem title="Started At">{data.get('listenerStartedAt')}</DescriptionItem>
-      <DescriptionItem title="Listener IP Address">{data.get('listenerIpAddress')}</DescriptionItem>
     </DescriptionList>
   );
 }
