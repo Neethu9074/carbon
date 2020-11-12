@@ -9,7 +9,8 @@ export default class CodeInput extends React.Component {
     const editor = CodeMirror(this.input, {
       mode: this.props.mode,
       value: this.props.value || '',
-      tabSize: 2
+      tabSize: 2,
+      readOnly: this.props.readOnly || false
     });
 
     editor.on('change', editor => this.props.onChange(editor.getValue()));

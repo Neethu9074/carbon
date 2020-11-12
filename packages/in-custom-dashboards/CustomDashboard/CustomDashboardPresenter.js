@@ -173,7 +173,8 @@ function SecondaryButtonLine({
   onRenameDashboard,
   onDuplicateDashboard,
   editable,
-  onEditAsJson
+  onEditAsJson,
+  onViewAsJson
 }) {
   return (
     <>
@@ -196,9 +197,13 @@ function SecondaryButtonLine({
             Edit Name
           </MoreMenuButton>
         )}
-        {editable && (
+        {editable ? (
           <MoreMenuButton icon="lib_views_file" onClick={onEditAsJson}>
             Edit As JSON
+          </MoreMenuButton>
+        ) : (
+          <MoreMenuButton icon="lib_views_file" onClick={onViewAsJson}>
+            View As JSON
           </MoreMenuButton>
         )}
         <MoreMenuButton icon="lib_actions_copy" onClick={onDuplicateDashboard}>

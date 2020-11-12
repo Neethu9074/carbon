@@ -81,6 +81,7 @@ function CustomDashboardLoader(props) {
       onDiscardChanges={onDiscardChanges}
       onShare={onShare}
       onEditAsJson={onEditAsJson}
+      onViewAsJson={onViewAsJson}
       canCreatePublicCustomDashboards={role.canCreatePublicCustomDashboards}
     />
   );
@@ -132,6 +133,10 @@ function CustomDashboardLoader(props) {
 
   function onEditAsJson() {
     addActiveDialog(<EditAsJsonDialog config={config} onSubmit={setConfig} />);
+  }
+
+  function onViewAsJson() {
+    addActiveDialog(<EditAsJsonDialog config={config} onSubmit={setConfig} readOnly />);
   }
 
   function onShare() {
