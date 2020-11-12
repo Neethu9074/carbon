@@ -10,7 +10,7 @@ import connectTo from 'in-hoc/connectTo';
 export default connectTo(
   ({ tenant, unit }) => ({
     appdata_processor_instances: getDropwizardWithContext(
-      'entity.label:"' + tenant + '-' + unit + '-appdata-processor"'
+      'entity.label:"*' + tenant + '-' + unit + '-appdata-processor*"'
     )
   }),
   function ApplicationDataStatistics({ timeConfig, tenantUnitId, appdata_processor_instances }) {
