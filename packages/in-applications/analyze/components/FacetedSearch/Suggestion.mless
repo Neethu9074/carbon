@@ -35,9 +35,6 @@
     width: 100%;
     display: flex;
     justify-content: center;
-    .circle {
-      background-color: @lib__colors__white;
-    }
   }
   .noResult {
     margin-top: 0.75rem;

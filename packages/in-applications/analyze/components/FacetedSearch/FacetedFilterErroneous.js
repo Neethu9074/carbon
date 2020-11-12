@@ -66,7 +66,7 @@ function Suggestion({ addFilter, tagFilterExpression }) {
   if (suggestions?.progress.loading) {
     return (
       <div className={locals.loading}>
-        <InfiniteCircle width={72} height={24} className={locals.circle} />
+        <InfiniteCircle width={72} height={24} />
       </div>
     );
   }
