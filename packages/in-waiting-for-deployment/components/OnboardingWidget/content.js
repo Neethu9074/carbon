@@ -1232,13 +1232,64 @@ function K8sGoogleKubernetesEngineContent({ agentKey, agentEndpoint, agentEndpoi
 }
 
 function GoogleCloudRunContent({ agentKey, serverlessEndpoint }) {
-  const runtimeOptions = ['Go', 'Java', 'Node.js'];
+  const runtimeOptions = ['.Net Core', 'Go', 'Java', 'Node.js'];
+  const baseImageOptions = ['Linux (glibc-based)', 'Alpine Linux (musl-based)'];
+  const [baseImageName, setBaseImageName] = useState(baseImageOptions[0]);
+  const [appDirName, setAppDirName] = useState('/app');
 
   const [selectedRuntime, setRuntime] = useState(runtimeOptions[0]);
 
   let steps;
 
   if (selectedRuntime === runtimeOptions[0]) {
+    steps = (
+      <Fragment>
+        <Spacer />
+        Linux base image: &nbsp;
+        <DropDown value={baseImageName} options={baseImageOptions} onChange={setBaseImageName} />
+        <Spacer />
+        <Bash
+          lines={[
+            `dotnet add <project_name>.csproj package Instana.Tracing.Core.Rewriter.${
+              baseImageName == baseImageOptions[0] ? 'Linux' : 'Alpine'
+            }`
+          ]}
+        />
+        <Spacer />
+        <Description lines={['Set the following environment variables on the Cloud Run Service Definition:']} />
+        <Spacer />
+        Your application directory in the container (you usually set this as the WORKDIR directory in the Dockerfile):
+        <Spacer />
+        <Input id="app-dir" value={appDirName} onChange={setAppDirName} placeholder="Application directory" />
+        <GridRow>
+          <Col xs={4}>
+            <Description lines={['INSTANA_ENDPOINT_URL']} />
+            <Script lines={[serverlessEndpoint]} />
+          </Col>
+          <Col xs={4}>
+            <Description lines={['INSTANA_AGENT_KEY']} />
+            <Script lines={[agentKey]} />
+          </Col>
+          <Col xs={4}>
+            <Description lines={['DOTNET_STARTUP_HOOKS']} />
+            <Script lines={[`${appDirName}/Instana.Tracing.Core.dll`]} />
+          </Col>
+          <Col xs={4}>
+            <Description lines={['CORECLR_ENABLE_PROFILING']} />
+            <Script lines={['1']} />
+          </Col>
+          <Col xs={4}>
+            <Description lines={['CORECLR_PROFILER']} />
+            <Script lines={['{cf0d821e-299b-5307-a3d8-b283c03916dd}']} />
+          </Col>
+          <Col xs={4}>
+            <Description lines={['CORECLR_PROFILER_PATH']} />
+            <Script lines={[`${appDirName}/instana_tracing/CoreProfiler.so`]} />
+          </Col>
+        </GridRow>
+      </Fragment>
+    );
+  } else if (selectedRuntime === runtimeOptions[1]) {
     steps = (
       <Fragment>
         <Spacer />
@@ -1262,7 +1313,7 @@ function GoogleCloudRunContent({ agentKey, serverlessEndpoint }) {
         </GridRow>
       </Fragment>
     );
-  } else if (selectedRuntime === runtimeOptions[1]) {
+  } else if (selectedRuntime === runtimeOptions[2]) {
     steps = (
       <Fragment>
         <Spacer />
@@ -1303,7 +1354,7 @@ function GoogleCloudRunContent({ agentKey, serverlessEndpoint }) {
         </GridRow>
       </Fragment>
     );
-  } else if (selectedRuntime === runtimeOptions[2]) {
+  } else if (selectedRuntime === runtimeOptions[3]) {
     steps = (
       <Fragment>
         <Spacer />
