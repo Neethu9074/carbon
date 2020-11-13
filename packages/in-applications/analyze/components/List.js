@@ -6,14 +6,13 @@ import CursorPaginatedTable from 'in-components/tables/ServerTable/CursorPaginat
 import BatchingIndicator from 'in-analyze/components/BatchingIndicator';
 import TableLinkWithIcon from 'in-analyze/components/TableLinkWithIcon';
 import { getServiceDashboard } from 'in-applications/navigation/paths';
+import { dataSourceConstants } from 'in-applications/analyze/metrics';
 import { number, latencyFixed } from 'in-services/formatters/number';
 import { getLinkToTraceDetail } from 'in-analyze/navigation/paths';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import { formatDateTime } from 'in-services/formatters/date';
 import { Link } from 'in-components/tables/sharedComponents';
-import getCalls from 'in-subscription/application/getCalls';
 import HealthDot from 'in-new-components/health/HealthDot';
-import { callClickedTracker } from 'in-analyze/tracker';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import SvgIcon from 'in-components/SvgIcon';
 
@@ -22,7 +21,7 @@ import locals from './List.mless';
 const defaultOrder = 'timestamp';
 const defaultDirection = 'DESC';
 
-export default function CallsList({
+export default function List({
   retrievalSize = 20,
   numSkeletonRows = 3,
   tagFilterExpression,
@@ -33,7 +32,8 @@ export default function CallsList({
   updateFilter,
   tableOnly = false,
   hiddenCalls,
-  onChangeHiddenCalls
+  onChangeHiddenCalls,
+  dataSource
 }) {
   const timeConfig = useTimeConfig();
   const order = {
@@ -49,13 +49,14 @@ export default function CallsList({
             tagFilterExpression,
             order,
             cursor,
-            hiddenCalls
+            hiddenCalls,
+            dataSource
           })
         : empty,
     [timeConfig, retrievalSize, tagFilterExpression, orderBy, isValid, hiddenCalls]
   );
 
-  const columnDefinitions = staticColumnDefinitions;
+  const columnDefinitions = getColumnDefinitions(dataSource);
 
   const optionalColumns = () => columnDefinitions.filter(columnDefinition => columnDefinition.optional);
 
@@ -87,6 +88,7 @@ export default function CallsList({
       hiddenCalls={hiddenCalls}
       onChangeHiddenCalls={onChangeHiddenCalls}
       isValid={isValid}
+      dataSource={dataSource}
     />
   );
 }
@@ -105,14 +107,16 @@ function Presenter({
   filterBy,
   hiddenCalls,
   onChangeHiddenCalls,
-  isValid
+  isValid,
+  dataSource
 }) {
-  const totalCalls = tableProps?.totalHits != null ? `${number.compact(tableProps.totalHits)} Calls` : null;
+  const totalName = dataSourceConstants[dataSource].metricsLabel;
+  const total = tableProps?.totalHits != null ? `${number.compact(tableProps.totalHits)} ${totalName}` : null;
   return (
     <div className={locals.wrapper}>
       <div className={locals.hitsAndFacetedSearch}>
         <div className={locals.hits}>
-          <span>{totalCalls}</span>
+          <span>{total}</span>
         </div>
         <FacetedSearch
           tagFilterExpression={tagFilterExpression}
@@ -120,6 +124,7 @@ function Presenter({
           hiddenCalls={hiddenCalls}
           onChangeHiddenCalls={onChangeHiddenCalls}
           isValid={isValid}
+          dataSource={dataSource}
         />
       </div>
       <div className={locals.table}>
@@ -178,10 +183,12 @@ function getTableData({
   order,
   previewEnabled = false,
   cursor,
-  hiddenCalls
+  hiddenCalls,
+  dataSource
 }) {
   const { includeSynthetic = false, includeInternal = false } = hiddenCalls;
-  return getCalls({
+  const getData = dataSourceConstants[dataSource].getData;
+  return getData({
     pagination: {
       cursor,
       retrievalSize
@@ -197,99 +204,107 @@ function getTableData({
   });
 }
 
-const staticColumnDefinitions = [
-  {
-    id: 'erroneous',
-    label: (
-      <div
-        style={{
-          width: 10,
-          height: 10
-        }}
-        className={locals.dot}
-      />
-    ),
-    sortable: false,
-    getContent(item) {
-      const severity = item.call.errorCount;
-      return (
-        <div className={locals.erroneous}>
-          <HealthDot severity={severity} iconSize={10} />
-        </div>
-      );
+const getColumnDefinitions = dataSource => {
+  const type = dataSourceConstants[dataSource].type;
+  const name = dataSourceConstants[dataSource].metricLabel;
+  return [
+    {
+      id: 'erroneous',
+      label: (
+        <div
+          style={{
+            width: 10,
+            height: 10
+          }}
+          className={locals.dot}
+        />
+      ),
+      sortable: false,
+      getContent(item) {
+        const severity = item[type].errorCount;
+        return (
+          <div className={locals.erroneous}>
+            <HealthDot severity={severity} iconSize={10} />
+          </div>
+        );
+      },
+      widthInAbsoluteUnit: true,
+      width: '3rem'
     },
-    widthInAbsoluteUnit: true,
-    width: '3rem'
-  },
-  {
-    id: 'call_icon',
-    label: '',
-    sortable: false,
-    getContent() {
-      return <SvgIcon type="lib_application_call" />;
+    {
+      id: `${type}_icon`,
+      label: '',
+      sortable: false,
+      getContent() {
+        return <SvgIcon type={`lib_application_${type}`} />;
+      },
+      widthInAbsoluteUnit: true,
+      width: '3rem'
     },
-    widthInAbsoluteUnit: true,
-    width: '3rem'
-  },
-  {
-    id: 'call',
-    label: 'Call',
-    sortable: false,
-    ellipsis: true,
-    getContent(item) {
-      return (
-        <Link
-          href$={getLinkToTraceDetail(item.call.traceId, {
-            callId: item.call.id
-          })}
-          onClick={() => callClickedTracker()}
-        >
-          {item.call.label}
-          <BatchingIndicator
-            batchCount={item.call.batchCount}
-            tooltipContent={`This call is batched and represents ${item.call.batchCount} individual calls.`}
-          />
-        </Link>
-      );
+    {
+      id: type,
+      label: name,
+      sortable: false,
+      ellipsis: true,
+      getContent(item) {
+        return (
+          <Link
+            href$={getLinkToTraceDetail(dataSource === 'traces' ? item[type].id : item[type].traceId, {
+              [type + 'Id']: item[type].id
+            })}
+            onClick={() => dataSourceConstants[dataSource].clickedTracker()}
+          >
+            {item[type].label}
+            {dataSource !== 'traces' && (
+              <BatchingIndicator
+                batchCount={item[type].batchCount}
+                tooltipContent={`This ${type} is batched and represents ${item[type].batchCount} individual ${type}s.`}
+              />
+            )}
+          </Link>
+        );
+      }
+    },
+    {
+      id: 'service',
+      label: 'Service',
+      sortable: false,
+      getContent(item) {
+        return (
+          <TableLinkWithIcon href$={getServiceDashboard(item[type].service.id)}>
+            {item[type].service.label}
+          </TableLinkWithIcon>
+        );
+      },
+      width: '25'
+    },
+    {
+      id: 'timestamp',
+      label: 'Timestamp',
+      getContent(item) {
+        return formatDateTime(item[type][dataSource === 'traces' ? 'startTime' : 'started']);
+      },
+      widthInAbsoluteUnit: true,
+      width: '11rem'
+    },
+    {
+      id: 'latency',
+      label: 'Latency',
+      getContent(item) {
+        return (
+          <>
+            {latencyFixed.compact(item[type].duration)}
+            {dataSource !== 'traces' && (
+              <BatchingIndicator
+                batchCount={item[type].batchCount}
+                tooltipContent={`Total latency of ${item[type].batchCount} batched ${type}s.`}
+              />
+            )}
+          </>
+        );
+      },
+      widthInAbsoluteUnit: true,
+      width: '7rem'
     }
-  },
-  {
-    id: 'service',
-    label: 'Service',
-    sortable: false,
-    getContent(item) {
-      return (
-        <TableLinkWithIcon href$={getServiceDashboard(item.call.service.id)}>
-          {item.call.service.label}
-        </TableLinkWithIcon>
-      );
-    },
-    width: '25'
-  },
-  {
-    id: 'timestamp',
-    label: 'Timestamp',
-    getContent(item) {
-      return formatDateTime(item.call.started);
-    },
-    widthInAbsoluteUnit: true,
-    width: '11rem'
-  },
-  {
-    id: 'latency',
-    label: 'Latency',
-    getContent(item) {
-      return (
-        <>
-          {latencyFixed.compact(item.call.duration)}
-          <BatchingIndicator
-            batchCount={item.call.batchCount}
-            tooltipContent={`Total latency of ${item.call.batchCount} batched calls.`}
-          />
-        </>
-      );
-    },
-    widthInAbsoluteUnit: true,
-    width: '7rem'
-  }
-];
+  ];
+};

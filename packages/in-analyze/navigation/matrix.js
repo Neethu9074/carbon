@@ -8,6 +8,7 @@ export const expandId = 'expanded';
 export const previewEnabled = 'previewEnabled';
 export const showGraph = 'showGraph';
 export const focusedMetric = 'focusedMetric';
+export const ua2 = 'ua2';
 
 // tags
 export const tagFilter = 'tagFilter';

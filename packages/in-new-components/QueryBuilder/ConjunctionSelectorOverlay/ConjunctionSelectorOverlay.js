@@ -15,7 +15,13 @@ import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './ConjunctionSelectorOverlay.mless';
 
-export default function ConjunctionSelectorOverlay({ value, onChange, close }) {
+export default function ConjunctionSelectorOverlay({
+  value,
+  onChange,
+  close,
+  withoutOrConjunction = false,
+  withoutBrackets = false
+}) {
   return (
     <Ul framed={false} className={locals.list} borderRadius="medium" onKeyDown={onArrowKeyDownFocusSiblings}>
       <OverlayOption className={locals.clear} onChange={onChange} close={close} selectedValue={value} value={clear}>
@@ -30,17 +36,21 @@ export default function ConjunctionSelectorOverlay({ value, onChange, close }) {
       >
         AND
       </OverlayOption>
-      <OverlayOption onChange={onChange} close={close} selectedValue={value} value={or}>
-        OR
-      </OverlayOption>
-      <div className={locals.paranthesis}>
-        <OverlayOption onChange={onChange} close={close} selectedValue={value} value={openBracket}>
-          (
+      {!withoutOrConjunction && (
+        <OverlayOption onChange={onChange} close={close} selectedValue={value} value={or}>
+          OR
         </OverlayOption>
-        <OverlayOption onChange={onChange} close={close} selectedValue={value} value={closeBracket}>
-          )
-        </OverlayOption>
-      </div>
+      )}
+      {!withoutBrackets && (
+        <div className={locals.paranthesis}>
+          <OverlayOption onChange={onChange} close={close} selectedValue={value} value={openBracket}>
+            (
+          </OverlayOption>
+          <OverlayOption onChange={onChange} close={close} selectedValue={value} value={closeBracket}>
+            )
+          </OverlayOption>
+        </div>
+      )}
     </Ul>
   );
 }
@@ -48,5 +58,7 @@ export default function ConjunctionSelectorOverlay({ value, onChange, close }) {
 ConjunctionSelectorOverlay.propTypes = {
   value: PropTypes.string,
   onChange: PropTypes.func.isRequired,
-  close: PropTypes.func.isRequired
+  close: PropTypes.func.isRequired,
+  withoutOrConjunction: PropTypes.bool,
+  withoutBrackets: PropTypes.bool
 };

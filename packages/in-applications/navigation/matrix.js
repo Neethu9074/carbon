@@ -40,8 +40,7 @@ export const orderByGroupsMatrixParameter = {
   path: analyze,
   name: 'orderByGroups',
   serializer: buildJsonSerializer(),
-  parser: buildJsonParser(emptyObject),
-  initialState: { by: 'calls_SUM_Agg', direction: 'DESC' }
+  parser: buildJsonParser(emptyObject)
 };
 
 export const orderByCallsMatrixParameter = {
@@ -56,12 +55,7 @@ export const metricsMatrixParameter = {
   path: analyze,
   name: 'metrics',
   serializer: buildJsonSerializer(),
-  parser: buildJsonParser(emptyArray),
-  initialState: [
-    { metric: 'calls', aggregation: 'SUM' },
-    { metric: 'latency', aggregation: 'MEAN' },
-    { metric: 'errors', aggregation: 'MEAN' }
-  ]
+  parser: buildJsonParser(emptyArray)
 };
 
 export const hiddenCallsMatrixParameter = {

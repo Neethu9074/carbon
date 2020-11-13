@@ -6,13 +6,26 @@ import QueryBuilder from 'in-new-components/QueryBuilder/QueryBuilder';
 import { getTagCatalogOnce } from 'in-services/tags/tagCatalog';
 import { success } from 'in-services/util/result';
 
-export function createQueryBuilder({ getTagCatalog: originalGetTagCatalog, getSuggestions }) {
+export function createQueryBuilder({
+  getTagCatalog: originalGetTagCatalog,
+  getSuggestions,
+  withoutOrConjunction = false,
+  withoutBrackets = false
+}) {
   // Ensure that we only ever receive the tag catalog once (per time config).
   const getTagCatalog = getTagCatalogOnce(originalGetTagCatalog);
 
   return {
     QueryBuilder: function CreatedQueryBuilder(props) {
-      return <QueryBuilder {...props} getTagCatalog={getTagCatalog} getSuggestions={getSuggestions} />;
+      return (
+        <QueryBuilder
+          {...props}
+          getTagCatalog={getTagCatalog}
+          getSuggestions={getSuggestions}
+          withoutOrConjunction={withoutOrConjunction}
+          withoutBrackets={withoutBrackets}
+        />
+      );
     },
 
     // Observable<Result<Boolean>>

@@ -2,6 +2,7 @@ import filteredTree from 'in-applications/analyze/components/workspace/TagCatalo
 import { createGroupingConfigurator } from 'in-new-components/GroupingConfigurator';
 import { getApplicationTagCatalog } from 'in-applications/api/catalog';
 import { successObservableFactory } from 'in-services/util/result';
+import { CALLS } from 'in-applications/analyze/metrics';
 const suggestions = ['k8s-demo-cluster', 'sb-test-cluster', 'kube-node-lease', 'kube-public'];
 
 const {
@@ -9,7 +10,7 @@ const {
   isGroupingConfigurationValid: isGroupingConfigurationValidInternal
 } = createGroupingConfigurator({
   getTagCatalog: props =>
-    getApplicationTagCatalog({ dataSource: 'CALLS' })(props).map(response => ({
+    getApplicationTagCatalog({ dataSource: CALLS })(props).map(response => ({
       ...response,
       data: response.data && {
         ...response.data,

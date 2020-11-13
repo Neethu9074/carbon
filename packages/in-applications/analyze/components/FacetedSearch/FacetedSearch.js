@@ -15,7 +15,8 @@ export default function FacetedSearch({
   updateFilter,
   hiddenCalls,
   onChangeHiddenCalls,
-  isValid
+  isValid,
+  dataSource
 }) {
   return (
     <div className={locals.wrapper}>
@@ -28,16 +29,18 @@ export default function FacetedSearch({
       <FacetedFilterErroneous
         title="Erroneous"
         tagFilterExpression={tagFilterExpression}
-        hiddenCalls={hiddenCalls}
         updateFilter={updateFilter}
+        dataSource={dataSource}
+        hiddenCalls={hiddenCalls}
       />
       <FacetedFilterGeneric
         title="Applications"
         tag="application.name"
         entity={DESTINATION}
         tagFilterExpression={tagFilterExpression}
-        hiddenCalls={hiddenCalls}
         updateFilter={updateFilter}
+        dataSource={dataSource}
+        hiddenCalls={hiddenCalls}
       />
 
       <FacetedFilterGeneric
@@ -45,31 +48,34 @@ export default function FacetedSearch({
         tag="service.name"
         entity={DESTINATION}
         tagFilterExpression={tagFilterExpression}
-        hiddenCalls={hiddenCalls}
         updateFilter={updateFilter}
+        dataSource={dataSource}
+        hiddenCalls={hiddenCalls}
       />
       <FacetedFilterGeneric
         title="Endpoints"
         tag="endpoint.name"
         entity={DESTINATION}
         tagFilterExpression={tagFilterExpression}
-        hiddenCalls={hiddenCalls}
         updateFilter={updateFilter}
+        dataSource={dataSource}
+        hiddenCalls={hiddenCalls}
       />
       <FacetedFilterGeneric
         title="Types"
         tag="call.type"
         tagFilterExpression={tagFilterExpression}
-        hiddenCalls={hiddenCalls}
         updateFilter={updateFilter}
+        dataSource={dataSource}
+        hiddenCalls={hiddenCalls}
       />
       <FacetedFilterGeneric
         title="Technologies"
         tag="technology"
         entity={DESTINATION}
         tagFilterExpression={tagFilterExpression}
-        hiddenCalls={hiddenCalls}
         updateFilter={updateFilter}
+        hiddenCalls={hiddenCalls}
       />
       <FacetedFilterHttpStatusCodes
         title="HTTP Status Code"

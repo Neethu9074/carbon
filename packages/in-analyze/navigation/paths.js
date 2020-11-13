@@ -9,6 +9,7 @@ import {
   groupBy as groupByMatrixParameter,
   metrics as metricsMatrixParameter,
   callId as callIdMatrixParameter,
+  ua2 as ua2MatrixParameter,
   focusedMetric as focusedMetricMatrixParameter,
   serializeMetrics
 } from 'in-analyze/navigation/matrix';
@@ -46,7 +47,8 @@ export function getLinkToAnalyze({
   showGraph = true,
   focusedMetric,
   jumpToSource,
-  previewEnabled
+  previewEnabled,
+  ua2 = false
 } = emptyObject) {
   return getModifiedUrlStream(params => {
     params.pathname = analyze;
@@ -170,6 +172,8 @@ export function getLinkToAnalyze({
     if (focusedMetric) {
       setOrDeleteMatrixKey(params, analyze, `callList.${focusedMetricMatrixParameter}`, focusedMetric);
     }
+
+    setOrDeleteMatrixKey(params, analyze, `${ua2MatrixParameter}`, ua2);
   });
 }
 
@@ -204,5 +208,7 @@ export function getLinkToTraceDetail(traceId, { tab = '/tree', callId } = emptyO
 
     // make sure that there is no grouping as otherwise the trace cannot be loaded.
     setOrDeleteMatrixKey(params, analyze, `callList.${groupByMatrixParameter}`, getGroupToUrlString({}));
+    // make sure to disable UA2 beta.
+    setOrDeleteMatrixKey(params, analyze, `${ua2MatrixParameter}`, null);
   });
 }

@@ -9,7 +9,14 @@ import SvgIcon from 'in-components/SvgIcon';
 import locals from './Name.mless';
 
 export default React.forwardRef(function Name(
-  { tagCatalog, onChange, focus, element: { name, renderModelIndex } },
+  {
+    tagCatalog,
+    onChange,
+    focus,
+    element: { name, renderModelIndex },
+    withoutOrConjunction = false,
+    withoutBrackets = false
+  },
   ref
 ) {
   const tagTreeNode = tagCatalog.tagsByName[name];
@@ -24,7 +31,9 @@ export default React.forwardRef(function Name(
       content={ConjunctionTagSelectorOverlay}
       props={{
         tagCatalog,
-        onChange
+        onChange,
+        withoutOrConjunction,
+        withoutBrackets
       }}
       align="bottomMiddle"
       onCloseSideEffect={e => {

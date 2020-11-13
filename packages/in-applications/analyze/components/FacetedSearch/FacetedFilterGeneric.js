@@ -4,6 +4,7 @@ import FacetedExpandableCard from 'in-applications/analyze/components/FacetedSea
 import getTagSuggestions from 'in-subscription/application/getTagSuggestions';
 import { TAG } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
+import { dataSourceConstants } from 'in-applications/analyze/metrics';
 import ExistingValue, { existingValuesForTag } from './ExistingValue';
 import memoize from 'in-services/util/memoizingObservableGenerator';
 import SearchInput from 'in-new-components/SearchInput/SearchInput';
@@ -14,7 +15,15 @@ import useObservable from 'in-hooks/useObservable';
 
 import locals from './Suggestion.mless';
 
-export default function FacetedFilterGeneric({ title, tagFilterExpression, tag, entity, hiddenCalls, updateFilter }) {
+export default function FacetedFilterGeneric({
+  title,
+  tagFilterExpression,
+  tag,
+  entity,
+  hiddenCalls,
+  updateFilter,
+  dataSource
+}) {
   return (
     <FacetedExpandableCard title={title}>
       <Body
@@ -23,12 +32,13 @@ export default function FacetedFilterGeneric({ title, tagFilterExpression, tag, 
         entity={entity}
         hiddenCalls={hiddenCalls}
         updateFilter={updateFilter}
+        dataSource={dataSource}
       />
     </FacetedExpandableCard>
   );
 }
 
-function Body({ tagFilterExpression, tag, entity, title, hiddenCalls, updateFilter }) {
+function Body({ tagFilterExpression, tag, entity, title, hiddenCalls, updateFilter, dataSource }) {
   const [valueFilter, setValueFilter] = useState('');
   const selectedValues = existingValuesForTag(tagFilterExpression, tag, entity);
   if (selectedValues.length > 0) {
@@ -60,6 +70,7 @@ function Body({ tagFilterExpression, tag, entity, title, hiddenCalls, updateFilt
       updateFilter={updateFilter}
       valueFilter={valueFilter}
       setValueFilter={setValueFilter}
+      dataSource={dataSource}
     />
   );
 }
@@ -74,7 +85,15 @@ function ExistingFilters({ selectedValues, remove }) {
   );
 }
 
-function SearchAndSuggestions({ tagFilterExpression, hiddenCalls, tag, updateFilter, valueFilter, setValueFilter }) {
+function SearchAndSuggestions({
+  tagFilterExpression,
+  hiddenCalls,
+  tag,
+  updateFilter,
+  valueFilter,
+  setValueFilter,
+  dataSource
+}) {
   return (
     <>
       <SearchInput onChange={setValueFilter} query={valueFilter} className={locals.search} withoutIcon />
@@ -84,13 +103,15 @@ function SearchAndSuggestions({ tagFilterExpression, hiddenCalls, tag, updateFil
         tagFilterExpression={tagFilterExpression}
         hiddenCalls={hiddenCalls}
         updateFilter={updateFilter}
+        dataSource={dataSource}
       />
     </>
   );
 }
 
-function Suggestions({ tagFilterExpression, hiddenCalls, tag, updateFilter, valueFilter }) {
+function Suggestions({ tagFilterExpression, hiddenCalls, tag, updateFilter, valueFilter, dataSource }) {
   const timeConfig = useTimeConfig();
+
   const suggestionsFromServer = memoize(
     () =>
       getTagSuggestions({
@@ -102,12 +123,7 @@ function Suggestions({ tagFilterExpression, hiddenCalls, tag, updateFilter, valu
         filterOnTagName: true,
         includeInternal: hiddenCalls.includeInternal,
         includeSynthetic: hiddenCalls.includeSynthetic,
-        metrics: {
-          calls_SUM_Agg: {
-            metric: 'calls',
-            aggregation: 'SUM'
-          }
-        }
+        metrics: dataSourceConstants[dataSource].sumMetric
       }),
     () => tagFilterExpression,
     60000
@@ -129,6 +145,7 @@ function Suggestions({ tagFilterExpression, hiddenCalls, tag, updateFilter, valu
       suggestions={suggestions?.data?.results}
       updateFilter={updateFilter}
       tag={tag}
+      dataSource={dataSource}
     />
   );
 }

@@ -9,13 +9,11 @@ import FacetedSearch from 'in-applications/analyze/components/FacetedSearch/Face
 import { EQUALS, IS_EMPTY } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import LoadMoreLi from 'in-new-components/lists/List/LoadMoreLi/LoadMoreLi';
-import { number, percentage, millis } from 'in-services/formatters/number';
 import { UNSPECIFIED } from 'in-analyze/components/GroupedTraces/Group';
 import { NUMBER } from 'in-new-components/QueryBuilder/tagFilter/types';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import { getApplicationTagCatalog } from 'in-applications/api/catalog';
-import getCallGroups from 'in-subscription/application/getCallGroups';
-import CallsList from 'in-applications/analyze/components/CallsList';
+import { dataSourceConstants } from 'in-applications/analyze/metrics';
 import { error as errorType } from 'in-new-components/Message/types';
 import { getSparkChartGranularity } from 'in-applications/metrics';
 import { aggregateMetric } from 'in-applications/analyze/metrics';
@@ -23,8 +21,10 @@ import { indeterminateProgress } from 'in-services/fixedObjects';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import IconButton from 'in-new-components/IconButton/IconButton';
 import useCursorPagination from 'in-hooks/useCursorPagination';
+import List from 'in-applications/analyze/components/List';
 import { pendingResult } from 'in-services/fixedObjects';
 import KeyValue from 'in-new-components/lists/KeyValue';
+import { number } from 'in-services/formatters/number';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { mapDataHO } from 'in-services/util/result';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -35,24 +35,24 @@ import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './List.mless';
 
-const defaultOrder = aggregateMetric('calls', 'SUM');
-const defaultDirection = 'DESC';
-
-export default function GroupedCallsList({
+export default function GroupedList({
   tagFilterExpression,
   groupBy,
   orderBy,
-  orderByCalls,
+  subOrderBy,
   metrics,
   onFocusOnGroup,
   onChangeOrderBy,
-  onChangeOrderByCalls,
+  onChangeSubOrderBy,
   onChangeMetrics,
   isValid,
   updateFilter,
   hiddenCalls,
-  onChangeHiddenCalls
+  onChangeHiddenCalls,
+  dataSource
 }) {
+  const defaultOrder = dataSourceConstants[dataSource].metricKey;
+  const defaultDirection = 'DESC';
   const timeConfig = useTimeConfig();
   const granularity = getSparkChartGranularity(timeConfig);
   const order = { by: orderBy.by || defaultOrder, direction: orderBy.direction || defaultDirection };
@@ -67,15 +67,18 @@ export default function GroupedCallsList({
             order,
             metrics: convertMetricListToMetricObject(metrics, granularity),
             cursor,
-            hiddenCalls
+            hiddenCalls,
+            dataSource
           })
         : empty,
     [timeConfig, groupBy, orderBy, metrics, isValid, hiddenCalls]
   );
 
+  const dataSourceName = dataSourceConstants[dataSource].backendDataSource;
+
   const groupByTagType =
     useObservable(
-      getApplicationTagCatalog({ dataSource: 'CALLS' })({ timeConfig }).map(
+      getApplicationTagCatalog({ dataSource: dataSourceName })({ timeConfig }).map(
         mapDataHO(data => data.tags.find(tag => tag.name === groupBy.groupbyTag)?.type)
       ),
       [timeConfig]
@@ -86,19 +89,20 @@ export default function GroupedCallsList({
       timeConfig={timeConfig}
       groupBy={groupBy}
       order={order}
-      orderByCalls={orderByCalls}
+      subOrderBy={subOrderBy}
       metrics={metrics}
       granularity={granularity}
       hiddenCalls={hiddenCalls}
       onFocusOnGroup={onFocusOnGroup}
       onChangeOrderBy={onChangeOrderBy}
       onChangeMetrics={onChangeMetrics}
-      onChangeOrderByCalls={onChangeOrderByCalls}
+      onChangeSubOrderBy={onChangeSubOrderBy}
       onChangeHiddenCalls={onChangeHiddenCalls}
       tagFilterExpression={tagFilterExpression}
       updateFilter={updateFilter}
       isValid={isValid}
       groupByTagType={groupByTagType}
+      dataSource={dataSource}
       {...props}
     />
   );
@@ -114,24 +118,25 @@ function Presenter({
   timeConfig,
   groupBy,
   order,
-  orderByCalls,
+  subOrderBy,
   metrics,
   granularity,
   onFocusOnGroup,
   onChangeOrderBy,
   onChangeMetrics,
-  onChangeOrderByCalls,
+  onChangeSubOrderBy,
   tagFilterExpression,
   updateFilter,
   hiddenCalls,
   onChangeHiddenCalls,
   isValid,
-  groupByTagType
+  groupByTagType,
+  dataSource
 }) {
   const hasErrors = errors?.length > 0;
   const isLoading = progress.loading || groupByTagType.progress.loading;
-  const columnDefinitions = columns({ groupBy, onFocusOnGroup, metrics, groupByTagType });
-  const columnDefinitionsForUnspecified = columnsForUnspecified({ metrics });
+  const columnDefinitions = columns({ groupBy, onFocusOnGroup, metrics, groupByTagType }, dataSource);
+  const columnDefinitionsForUnspecified = columnsForUnspecified({ metrics }, dataSource);
 
   const totalGroups = totalHits != null ? `${number.compact(totalHits)} Groups` : null;
   return (
@@ -146,6 +151,7 @@ function Presenter({
           hiddenCalls={hiddenCalls}
           onChangeHiddenCalls={onChangeHiddenCalls}
           isValid={isValid}
+          dataSource={dataSource}
         />
       </div>
       <div className={locals.table}>
@@ -154,6 +160,7 @@ function Presenter({
           metrics={metrics}
           onChangeOrderBy={onChangeOrderBy}
           onChangeMetrics={onChangeMetrics}
+          dataSource={dataSource}
         />
         <Ul space="xsmall">
           {!isLoading &&
@@ -183,10 +190,11 @@ function Presenter({
                         tagFilterExpression={filterForGroup}
                         timeConfig={timeConfig}
                         onFocusOnGroup={onFocusOnGroup}
-                        orderByCalls={orderByCalls}
-                        onChangeOrderByCalls={onChangeOrderByCalls}
+                        subOrderBy={subOrderBy}
+                        onChangeSubOrderBy={onChangeSubOrderBy}
                         hiddenCalls={hiddenCalls}
                         groupByTagType={groupByTagType}
+                        dataSource={dataSource}
                       />
                     )}
                   >
@@ -199,9 +207,11 @@ function Presenter({
                       progress={progress}
                       granularity={granularity}
                       onFocusOnGroup={onFocusOnGroup}
-                      orderByCalls={orderByCalls}
-                      onChangeOrderByCalls={onChangeOrderByCalls}
+                      subOrderBy={subOrderBy}
+                      onChangeSubOrderBy={onChangeSubOrderBy}
                       hiddenCalls={hiddenCalls}
+                      groupByTagType={groupByTagType}
+                      dataSource={dataSource}
                     />
                   </Li>
                 );
@@ -225,7 +235,7 @@ function Presenter({
   );
 }
 
-function columns({ groupBy, onFocusOnGroup, metrics, groupByTagType }) {
+function columns({ groupBy, onFocusOnGroup, metrics, groupByTagType }, dataSource) {
   const { groupbyTag, groupbyTagSecondLevelKey } = groupBy;
   return [
     {
@@ -241,7 +251,7 @@ function columns({ groupBy, onFocusOnGroup, metrics, groupByTagType }) {
         return <KeyValue label={label} value={group.name} accentuated />;
       }
     })
-    .concat(metrics.map(metric => metricToColumn(metric)))
+    .concat(metrics.map(metric => metricToColumn(metric, dataSource)))
     .concat({
       width: '3rem',
       getContent({ group }) {
@@ -257,7 +267,7 @@ function columns({ groupBy, onFocusOnGroup, metrics, groupByTagType }) {
     });
 }
 
-function columnsForUnspecified({ metrics }) {
+function columnsForUnspecified({ metrics }, dataSource) {
   return [
     {
       width: '3rem',
@@ -270,11 +280,11 @@ function columnsForUnspecified({ metrics }) {
         return 'Not grouped/Unspecified';
       }
     }
-  ].concat(metrics.filter(metric => metric.metric === 'calls').map(metric => metricToColumn(metric)));
+  ].concat(metrics.filter(metric => metric.metric === dataSource).map(metric => metricToColumn(metric, dataSource)));
 }
 
-function metricToColumn(metric) {
-  const configuration = metricConfiguration[metric.metric];
+function metricToColumn(metric, dataSource) {
+  const configuration = dataSourceConstants[dataSource].metricConfiguration[metric.metric];
   return {
     width: '13rem',
     getContent({ group, timeConfig, progress, granularity }) {
@@ -286,8 +296,8 @@ function metricToColumn(metric) {
           aggregation={metric.aggregation}
           metrics={group.metrics[`${metric.metric}_${metric.aggregation}`]}
           metric={group.metrics[aggregateMetric(metric.metric, metric.aggregation)]}
-          tooltipFormatter={configuration.formatter}
-          label={configuration.label}
+          tooltipFormatter={configuration?.formatter}
+          label={configuration?.label}
           valueTheme={'blue'}
           percentageMetric={configuration.type === 'rate'}
         />
@@ -296,9 +306,10 @@ function metricToColumn(metric) {
   };
 }
 
-function getGroups({ timeConfig, tagFilterExpression, groupBy, order, metrics, cursor, hiddenCalls }) {
+function getGroups({ timeConfig, tagFilterExpression, groupBy, order, metrics, cursor, hiddenCalls, dataSource }) {
   const { includeSynthetic = false, includeInternal = false } = hiddenCalls;
-  return getCallGroups({
+  const getData = dataSourceConstants[dataSource].getGroupData;
+  return getData({
     pagination: {
       cursor,
       retrievalSize: 20
@@ -329,7 +340,8 @@ function aggregationLabel(aggregation, type) {
   }
 }
 
-function HeaderRow({ order, onChangeOrderBy, metrics, onChangeMetrics }) {
+function HeaderRow({ order, onChangeOrderBy, metrics, onChangeMetrics, dataSource }) {
+  const metricConfiguration = dataSourceConstants[dataSource].metricConfiguration;
   const metricOptions = Object.entries(metricConfiguration).map(([key, value]) => ({
     metric: key,
     label: value.label,
@@ -362,23 +374,29 @@ function ExpandedGroup({
   tagFilterExpression,
   timeConfig,
   onFocusOnGroup,
-  orderByCalls,
-  onChangeOrderByCalls,
+  subOrderBy,
+  onChangeSubOrderBy,
   hiddenCalls,
-  groupByTagType
+  groupByTagType,
+  dataSource
 }) {
+  // Prevents the sublist from being rendered until the view can retrieve the appropriate metrics for Trace or Calls.
+  if (!group.metrics[dataSourceConstants[dataSource].metricKey]) {
+    return null;
+  }
   return (
-    <CallsList
+    <List
       tagFilterExpression={tagFilterExpression}
       timeConfig={timeConfig}
       retrievalSize={20}
-      numSkeletonRows={Math.min(group.metrics[aggregateMetric('calls', 'SUM')][0][1], 20)}
+      numSkeletonRows={Math.min(group.metrics[dataSourceConstants[dataSource].metricKey][0][1] ?? 20, 20)}
       filterBy={() => onFocusOnGroup(groupingFilter({ groupBy, group: group.name, groupByTagType }))}
-      orderBy={orderByCalls}
-      onChangeOrderBy={onChangeOrderByCalls}
+      orderBy={subOrderBy}
+      onChangeOrderBy={onChangeSubOrderBy}
       tableOnly
       isValid
       hiddenCalls={hiddenCalls}
+      dataSource={dataSource}
     />
   );
 }
@@ -393,18 +411,6 @@ function groupingFilter({ groupBy, group, operator = EQUALS, groupByTagType }, t
   };
   return addTagFilters(tagFilterExpression, [groupFilter]);
 }
-
-const metricConfiguration = {
-  calls: { formatter: number.compact, label: 'Calls', type: 'count', aggregations: ['SUM'] },
-  latency: {
-    formatter: millis.forcedCompactOnMs.detailed,
-    label: 'Latency',
-    type: 'time',
-    aggregations: ['MIN', 'P25', 'P50', 'P75', 'P90', 'P95', 'P98', 'P99', 'MAX', 'MEAN']
-  },
-  errors: { formatter: percentage.detailed, label: 'Erroneous Calls Rate', type: 'rate', aggregations: ['MEAN'] },
-  erroneousCalls: { formatter: number.compact, label: 'Erroneous Calls', type: 'count', aggregations: ['SUM'] }
-};
 
 const convertMetricListToMetricObject = (metrics, granularity) =>
   metrics.reduce(

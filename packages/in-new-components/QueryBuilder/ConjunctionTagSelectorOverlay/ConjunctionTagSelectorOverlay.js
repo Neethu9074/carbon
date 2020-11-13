@@ -4,7 +4,13 @@ import PropTypes from 'prop-types';
 import ConjunctionsAndBrackets from 'in-new-components/QueryBuilder/ConjunctionTagSelectorOverlay/ConjunctionsAndBrackets';
 import TagSelectorOverlay from 'in-new-components/TagSelectorOverlay/TagSelectorOverlay';
 
-export default function ConjunctionTagSelectorOverlay({ tagCatalog, onChange, close }) {
+export default function ConjunctionTagSelectorOverlay({
+  tagCatalog,
+  onChange,
+  close,
+  withoutOrConjunction = false,
+  withoutBrackets = false
+}) {
   return (
     <>
       <ConjunctionsAndBrackets
@@ -12,6 +18,8 @@ export default function ConjunctionTagSelectorOverlay({ tagCatalog, onChange, cl
           onChange(v);
           close();
         }}
+        withoutOrConjunction={withoutOrConjunction}
+        withoutBrackets={withoutBrackets}
       />
 
       <TagSelectorOverlay
@@ -42,5 +50,7 @@ function setDefaultValueWhenTagTypeBoolean(tagName, tagCatalog) {
 ConjunctionTagSelectorOverlay.propTypes = {
   tagCatalog: PropTypes.any.isRequired,
   onChange: PropTypes.func.isRequired,
-  close: PropTypes.func.isRequired
+  close: PropTypes.func.isRequired,
+  withoutOrConjunction: PropTypes.bool,
+  withoutBrackets: PropTypes.bool
 };

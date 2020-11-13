@@ -57,7 +57,7 @@ export default function AnalyzeHeader({ renderQuickFilterBar, isGrouped }) {
         }
         title="Analytics"
       />
-      <Title title={getLabelByType(activeConfiguration.dataSource, activeConfiguration.productArea)} />
+      <Title title={getLabelByType(activeConfiguration.dataSource)} />
       <ViewTrackingMeta
         data={{
           productArea: productAreaTrackingNames[activeConfiguration.productArea],
@@ -79,11 +79,11 @@ function Label({ activeConfiguration }) {
     return null;
   }
 
-  const { productArea, dataSource } = activeConfiguration;
+  const { productArea, dataSource, ua2 } = activeConfiguration;
 
   return (
     <div className={locals.label}>
-      {productAreaLabels[productArea] !== getLabelByType(dataSource, productArea) && (
+      {productAreaLabels[productArea] !== getLabelByType(dataSource) && (
         <>
           <SvgIcon className={locals.productAreaIcon} type={productAreaIcons[productArea]} />
           <span className={locals.productAreaLabel}>{productAreaLabels[productArea]}</span>
@@ -91,7 +91,7 @@ function Label({ activeConfiguration }) {
         </>
       )}
       <SvgIcon className={locals.dataSourceIcon} type={getIconByType(dataSource, productArea)} />
-      <span className={locals.dataSourceLabel}>{getLabelByType(dataSource, productArea)}</span>
+      <span className={locals.dataSourceLabel}>{getLabelByType(dataSource, ua2 === 'true')}</span>
     </div>
   );
 }
@@ -134,15 +134,18 @@ function getActiveConfiguration(location) {
     }
 
     const dataSource = getMatrixParameter(location, matrixPath, matrixParam);
+    const ua2 = getMatrixParameter(location, matrixPath, 'ua2');
     if (isNotBlank(dataSource)) {
       return {
         productArea,
-        dataSource
+        dataSource,
+        ua2
       };
     }
   }
   return {
     productArea: 'application',
-    dataSource: 'calls'
+    dataSource: 'calls',
+    ua2: false
   };
 }

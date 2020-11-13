@@ -7,6 +7,7 @@ import ExistingValue from 'in-applications/analyze/components/FacetedSearch/Exis
 import getTagSuggestions from 'in-subscription/application/getTagSuggestions';
 import { TAG } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
+import { dataSourceConstants } from 'in-applications/analyze/metrics';
 import InfiniteCircle from 'in-new-components/Loading/InfiniteCircle';
 import { number } from 'in-services/formatters/number';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -16,15 +17,20 @@ import Link from 'in-components/Link';
 
 import locals from './Suggestion.mless';
 
-export default function FacetedFilterErroneous({ title, tagFilterExpression, hiddenCalls, updateFilter }) {
+export default function FacetedFilterErroneous({ title, tagFilterExpression, hiddenCalls, updateFilter, dataSource }) {
   return (
     <FacetedExpandableCard title={title}>
-      <Body tagFilterExpression={tagFilterExpression} hiddenCalls={hiddenCalls} updateFilter={updateFilter} />
+      <Body
+        tagFilterExpression={tagFilterExpression}
+        hiddenCalls={hiddenCalls}
+        updateFilter={updateFilter}
+        dataSource={dataSource}
+      />
     </FacetedExpandableCard>
   );
 }
 
-function Body({ tagFilterExpression, updateFilter, hiddenCalls }) {
+function Body({ tagFilterExpression, updateFilter, hiddenCalls, dataSource }) {
   if (existingErroneousFilter(tagFilterExpression)) {
     return (
       <ExistingValue
@@ -44,11 +50,19 @@ function Body({ tagFilterExpression, updateFilter, hiddenCalls }) {
       />
     );
   }
-  return <Suggestion updateFilter={updateFilter} tagFilterExpression={tagFilterExpression} hiddenCalls={hiddenCalls} />;
+  return (
+    <Suggestion
+      updateFilter={updateFilter}
+      tagFilterExpression={tagFilterExpression}
+      hiddenCalls={hiddenCalls}
+      dataSource={dataSource}
+    />
+  );
 }
 
-function Suggestion({ updateFilter, tagFilterExpression, hiddenCalls }) {
+function Suggestion({ updateFilter, tagFilterExpression, hiddenCalls, dataSource }) {
   const timeConfig = useTimeConfig();
+
   const suggestions = useObservable(
     getTagSuggestions({
       tagFilterExpression,
@@ -60,12 +74,7 @@ function Suggestion({ updateFilter, tagFilterExpression, hiddenCalls }) {
       valueFilter: null,
       includeInternal: hiddenCalls.includeInternal,
       includeSynthetic: hiddenCalls.includeSynthetic,
-      metrics: {
-        calls_SUM_Agg: {
-          metric: 'calls',
-          aggregation: 'SUM'
-        }
-      }
+      metrics: dataSourceConstants[dataSource].sumMetric
     }),
     [tagFilterExpression]
   );
@@ -111,7 +120,9 @@ function Suggestion({ updateFilter, tagFilterExpression, hiddenCalls }) {
           <span className={locals.label}>Erroneous</span>
           <span className={locals.count}>
             {number.compact(
-              suggestions.data.results.filter(result => result.label === 'true')[0]?.metrics.calls_SUM_Agg[0][1] || 0
+              suggestions?.data?.results.filter(result => result.label === 'true')[0]?.metrics[
+                dataSourceConstants[dataSource].metricKey
+              ][0][1] || 0
             )}
           </span>
         </Link>

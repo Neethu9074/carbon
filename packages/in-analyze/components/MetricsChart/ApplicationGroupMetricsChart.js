@@ -6,6 +6,7 @@ import GroupMetricsChart, { metricsChartDefinitions } from 'in-analyze/component
 import { getLatencySelectionFromFilters } from 'in-new-components/LatencyDistributionBase10Chart/latencyUtils';
 import getLatencyDistributionBase10 from 'in-subscription/application/getLatencyDistributionBase10';
 import { getTagFilterListForBackendSubscription } from 'in-analyze/applicationFilter';
+import { dataSourceConstants } from 'in-applications/analyze/metrics';
 import { number, millis } from 'in-services/formatters/number';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 
@@ -47,7 +48,7 @@ export default withProps(({ filters, metrics, availableMetrics, onFocusedMetricC
               timeConfig: { ...timeConfig, autoRefresh: false }
             },
             tagFilters: getTagFilterListForBackendSubscription(filters.tagFilter.filter(f => f.name !== latencyTag)),
-            dataSource: dataSource === 'traces' ? 'TRACES' : 'CALLS'
+            dataSource: dataSourceConstants[dataSource].backendDataSource
           });
           return (
             <LatencyDistributionBase10Chart

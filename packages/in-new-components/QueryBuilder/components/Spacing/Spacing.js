@@ -27,7 +27,9 @@ export default function Spacing({
   focus,
   onAdd: onExternalAddToFormModel,
   draggedFormModelIndex$,
-  dragAndDropProps
+  dragAndDropProps,
+  withoutOrConjunction = false,
+  withoutBrackets = false
 }) {
   // We must not execute the onCloseSideEffect when we just triggered a form model change
   // as this would place the focus onto the wrong element.
@@ -43,7 +45,9 @@ export default function Spacing({
       content={ConjunctionTagSelectorOverlay}
       props={{
         tagCatalog,
-        onChange: onAddToFormModel
+        onChange: onAddToFormModel,
+        withoutOrConjunction: withoutOrConjunction,
+        withoutBrackets: withoutBrackets
       }}
       align="bottomMiddle"
       onCloseSideEffect={() => {

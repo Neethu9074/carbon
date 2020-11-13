@@ -21,13 +21,15 @@ export default function ConjunctionOrBracketBehavior({
   focus,
   'aria-label': arialLabel,
   value,
-  children
+  children,
+  withoutOrConjunction = false,
+  withoutBrackets = false
 }) {
   return (
     <Overlay
       withoutWrapper
       content={ConjunctionSelectorOverlay}
-      props={{ value, onChange }}
+      props={{ value, onChange, withoutOrConjunction, withoutBrackets }}
       align="bottomMiddle"
       onCloseSideEffect={e => {
         // Ensure the element retains its focus when closing the overlay with the escape key.

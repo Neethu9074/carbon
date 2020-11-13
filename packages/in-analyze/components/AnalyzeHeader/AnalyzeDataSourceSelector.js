@@ -35,15 +35,18 @@ const productAreas = [
         getHref$: ({ isGrouped }) =>
           getLinkToAnalyze({
             dataSource: 'calls',
+            ua2: false,
             groupByTag: isGrouped ? getConfigByDataSource('calls').defaultGrouping : emptyObject
           })
       },
       {
         // The data source will eventually be removed
         dataSource: 'callsUQB',
+        ua2: true,
         getHref$: ({ isGrouped }) =>
           getLinkToAnalyze({
-            dataSource: 'callsUQB',
+            dataSource: 'calls',
+            ua2: true,
             groupByTag: isGrouped ? getConfigByDataSource('calls').defaultGrouping : emptyObject
           }),
         enabled$: newAnalyticsEnabled ? getSetting$('beta_ua2') : isInternalVisible$
@@ -53,8 +56,21 @@ const productAreas = [
         getHref$: ({ isGrouped }) =>
           getLinkToAnalyze({
             dataSource: 'traces',
+            ua2: false,
             groupByTag: isGrouped ? getConfigByDataSource('traces').defaultGrouping : emptyObject
           })
+      },
+      {
+        // The data source will eventually be removed
+        dataSource: 'tracesUQB',
+        ua2: true,
+        getHref$: ({ isGrouped }) =>
+          getLinkToAnalyze({
+            dataSource: 'traces',
+            ua2: true,
+            groupByTag: isGrouped ? getConfigByDataSource('traces').defaultGrouping : emptyObject
+          }),
+        enabled$: newAnalyticsEnabled ? getSetting$('beta_ua2') : isInternalVisible$
       }
     ]
   },
@@ -187,6 +203,7 @@ export default function AnalyzeDataSourceSelector({ activeConfiguration, isGroup
               close={close}
               isGrouped={isGrouped}
               productArea={productArea}
+              ua2={config.ua2}
               activeConfiguration={activeConfiguration}
             />
           ));
@@ -215,7 +232,7 @@ export default function AnalyzeDataSourceSelector({ activeConfiguration, isGroup
   );
 }
 
-function ProductAreaEntry({ dataSource, getHref$, enabled$, isGrouped, close, productArea, activeConfiguration }) {
+function ProductAreaEntry({ dataSource, getHref$, enabled$, isGrouped, close, productArea, ua2, activeConfiguration }) {
   const isEnabled = useObservable(enabled$, []) ?? !enabled$;
   if (!isEnabled) {
     return null;
@@ -227,11 +244,13 @@ function ProductAreaEntry({ dataSource, getHref$, enabled$, isGrouped, close, pr
         className={evaluateClassNames({
           [locals.iconAndType]: true,
           [locals.active]:
-            productArea === activeConfiguration.productArea && dataSource === activeConfiguration.dataSource
+            productArea === activeConfiguration.productArea &&
+            dataSource.replace('UQB', '') === activeConfiguration.dataSource &&
+            (ua2 ? activeConfiguration.ua2 === 'true' : activeConfiguration.ua2 !== 'true')
         })}
       >
         <SvgIcon type={getIconByType(dataSource, productArea)} />
-        {getLabelByType(dataSource, productArea)}
+        {getLabelByType(dataSource.replace('UQB', ''), ua2)}
       </div>
     </Li>
   );

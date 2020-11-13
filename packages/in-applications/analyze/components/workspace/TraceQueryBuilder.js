@@ -2,11 +2,11 @@ import filteredTree from 'in-applications/analyze/components/workspace/TagCatalo
 import getTagSuggestions from 'in-subscription/application/getTagSuggestions';
 import { getApplicationTagCatalog } from 'in-applications/api/catalog';
 import { createQueryBuilder } from 'in-new-components/QueryBuilder';
-import { CALLS } from 'in-applications/analyze/metrics';
+import { TRACES } from 'in-applications/analyze/metrics';
 
 const { QueryBuilder, isQueryValid: isQueryValidInternal } = createQueryBuilder({
   getTagCatalog: props =>
-    getApplicationTagCatalog({ dataSource: CALLS })(props).map(response => ({
+    getApplicationTagCatalog({ dataSource: TRACES })(props).map(response => ({
       ...response,
       data: response.data && {
         ...response.data,
@@ -25,10 +25,12 @@ const { QueryBuilder, isQueryValid: isQueryValidInternal } = createQueryBuilder(
       },
       secondLevelKeyTagName: args.key
     });
-  }
+  },
+  withoutOrConjunction: true,
+  withoutBrackets: true
 });
 
 export default QueryBuilder;
 
-export const isCallQueryValid = ([tagFilterExpression, timeConfig]) =>
+export const isTraceQueryValid = ([tagFilterExpression, timeConfig]) =>
   isQueryValidInternal(tagFilterExpression, timeConfig);

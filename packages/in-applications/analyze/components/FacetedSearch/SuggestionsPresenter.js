@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 import { TAG } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
+import { dataSourceConstants } from 'in-applications/analyze/metrics';
 import InfiniteCircle from 'in-new-components/Loading/InfiniteCircle';
 import { number } from 'in-services/formatters/number';
 import Message from 'in-new-components/Message';
@@ -14,7 +15,14 @@ import locals from './Suggestion.mless';
 
 const DEFAULT_SUGGESTIONS_SIZE = 5;
 
-export default function SuggestionsPresenter({ loading = false, errors = [], suggestions = [], tag, updateFilter }) {
+export default function SuggestionsPresenter({
+  loading = false,
+  errors = [],
+  suggestions = [],
+  tag,
+  updateFilter,
+  dataSource
+}) {
   if (loading) {
     return <Loading />;
   } else if (errors?.length > 0) {
@@ -22,7 +30,7 @@ export default function SuggestionsPresenter({ loading = false, errors = [], sug
   } else if (!suggestions) {
     return null;
   } else if (suggestions.length > 0) {
-    return <Results suggestions={suggestions} tag={tag} updateFilter={updateFilter} />;
+    return <Results suggestions={suggestions} tag={tag} updateFilter={updateFilter} dataSource={dataSource} />;
   } else {
     return <NoResults />;
   }
@@ -48,12 +56,12 @@ function Errors({ errors }) {
   );
 }
 
-function Results({ suggestions, tag, updateFilter }) {
+function Results({ suggestions, tag, updateFilter, dataSource }) {
   const [showMore, setShowMore] = useState(DEFAULT_SUGGESTIONS_SIZE);
   const nextBatch = Math.min(suggestions.length - showMore, 20);
   return (
     <>
-      {sortBy(suggestions, suggestion => -1 * suggestion.metrics.calls_SUM_Agg[0][1])
+      {sortBy(suggestions, suggestion => -1 * suggestion.metrics[dataSourceConstants[dataSource].metricKey][0][1])
         .slice(0, showMore ? showMore : undefined)
         .map((suggestion, i) => (
           <div key={i} className={locals.suggestion}>
@@ -74,7 +82,9 @@ function Results({ suggestions, tag, updateFilter }) {
                 className={locals.addSuggestion}
               >
                 <span className={locals.label}>{suggestion.label}</span>
-                <span className={locals.count}>{number.compact(suggestion.metrics.calls_SUM_Agg[0][1])}</span>
+                <span className={locals.count}>
+                  {number.compact(suggestion.metrics[dataSourceConstants[dataSource].metricKey][0][1])}
+                </span>
               </Link>
             </Tooltip>
           </div>

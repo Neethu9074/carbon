@@ -1,4 +1,3 @@
-import { useRouteMatch } from 'react-router';
 import React from 'react';
 
 import {
@@ -6,7 +5,8 @@ import {
   showGraph as showGraphMatrixParameter,
   dataSource as dataSourceMatrixParameter,
   tagFilter as tagFilterMatrixParameter,
-  groupBy as groupByMatrixParameter
+  groupBy as groupByMatrixParameter,
+  ua2 as ua2MatrixParameter
 } from 'in-analyze/navigation/matrix';
 import {
   getTagFilterFromUrlString,
@@ -19,7 +19,6 @@ import { focusedMetric as focusedMetricMatrixParameter } from 'in-analyze/naviga
 import EditGroupDialog from 'in-analyze/AnalyzeView/components/AnalyzeEditGroupDialog';
 import { getTagFilterListForBackendSubscription } from 'in-analyze/applicationFilter';
 import EmptyAnalyzeView from 'in-analyze/AnalyzeView/components/EmptyAnalyzeView';
-import { analyze, traceDetailFullyQualified } from 'in-analyze/navigation/paths';
 import WithEmptyStateFallback from 'in-new-components/WithEmptyStateFallback';
 import { groupAddedTracker, groupChangedTracker } from 'in-analyze/tracker';
 import getConfigByDataSource from 'in-analyze/AnalyzeView/dataSources';
@@ -33,6 +32,7 @@ import RawTraces from 'in-analyze/components/RawTraces';
 import Analyze from 'in-applications/analyze/Analyze';
 import RawCalls from 'in-analyze/components/RawCalls';
 import { getTimeConfig } from 'in-stores/time/config';
+import { analyze } from 'in-analyze/navigation/paths';
 import useObservable from 'in-hooks/useObservable';
 import useUrlState from 'in-hooks/useUrlState';
 import Footer from 'in-new-components/Footer';
@@ -107,6 +107,13 @@ const urlStateConfig = {
       as: showGraphMatrixParameter,
       parser: v => (v === 'false' ? false : true),
       serializer: Boolean
+    },
+    {
+      path: analyze,
+      name: `${ua2MatrixParameter}`,
+      as: ua2MatrixParameter,
+      parser: v => (v === 'false' ? false : true),
+      serializer: Boolean
     }
   ]
 };
@@ -121,6 +128,7 @@ export default function AnalyzeViewPropsEnrichment(props) {
   urlState[focusedMetricMatrixParameter] = urlState[focusedMetricMatrixParameter] ?? initialFocusedMetric(props);
   urlState[groupByMatrixParameter] = urlState[groupByMatrixParameter] ?? getInitialGrouping(props);
   urlState[showGraphMatrixParameter] = urlState[showGraphMatrixParameter] ?? initialShowGraph(props);
+  urlState[ua2MatrixParameter] = urlState[ua2MatrixParameter] ?? false;
 
   const timeConfig = getTimeConfig(props.location);
   const { tagFilter, groupBy: group, dataSource } = urlState;
@@ -156,20 +164,16 @@ export default function AnalyzeViewPropsEnrichment(props) {
 }
 
 function AnalyzeView(props) {
-  const { isDialogActive, isRawView, dataSource, filters, setTagFilters } = props;
+  const { isDialogActive, isRawView, dataSource, filters, setTagFilters, ua2 } = props;
 
   useDisabledBodyScroll(isDialogActive);
 
-  const showTraceDetails = useRouteMatch(traceDetailFullyQualified);
-  // Eventually this will only route to the new analyze view and the rest of this
-  // component can be removed.
-  if (dataSource === 'callsUQB') {
-    if (showTraceDetails) {
-      // To show trace details, hijack the datasource to use RawCalls
-      filters.dataSource = 'calls';
-    } else {
-      return <Analyze />;
-    }
+  // If the UA2 flag is set, the Analyze View for UA2 is shown, including Query Builder, Faceted Search, etc.
+  // This view links to the trace details that do not have the UA2 flag set.
+  // Therefore, it is not required to override the data source anymore.
+  // Following a link back to the Analyze View from Trace Details does not have the UA2 flag set and therefore routes back to the default UA1 view.
+  if (ua2) {
+    return <Analyze dataSource={dataSource} />;
   }
 
   // Deliberately not part of the dataSources, as this would result in inclusion of the analyze views

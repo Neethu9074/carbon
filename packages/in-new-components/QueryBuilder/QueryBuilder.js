@@ -46,7 +46,15 @@ export default function QueryBuilderErrorBoundry({ readOnly, ...props }) {
   );
 }
 
-function QueryBuilder({ value: formModel, getTagCatalog, getSuggestions, onChange, tracking }) {
+function QueryBuilder({
+  value: formModel,
+  getTagCatalog,
+  getSuggestions,
+  onChange,
+  tracking,
+  withoutOrConjunction = false,
+  withoutBrackets = false
+}) {
   const timeConfig = useTimeConfig();
   const [draggedFormModelIndex$] = useState(create());
   const tagCatalog = useObservable(getTagCatalogObservable, [getTagCatalog, timeConfig]);
@@ -87,6 +95,8 @@ function QueryBuilder({ value: formModel, getTagCatalog, getSuggestions, onChang
       formModelIndex={0}
       renderModelIndex={0}
       focus={focus}
+      withoutOrConjunction={withoutOrConjunction}
+      withoutBrackets={withoutBrackets}
     />
   ) : (
     <>
@@ -116,6 +126,8 @@ function QueryBuilder({ value: formModel, getTagCatalog, getSuggestions, onChang
               onRemove={onRemove}
               focus={focus}
               formModel={formModel}
+              withoutOrConjunction={withoutOrConjunction}
+              withoutBrackets={withoutBrackets}
             />
           </div>
         )}
@@ -127,6 +139,8 @@ function QueryBuilder({ value: formModel, getTagCatalog, getSuggestions, onChang
         renderModelIndex={renderModel.length - 1}
         focus={focus}
         trailingButton
+        withoutOrConjunction={withoutOrConjunction}
+        withoutBrackets={withoutBrackets}
       />
     </>
   );
@@ -236,7 +250,9 @@ function Elements({
   onAdd,
   focus,
   depth = 0,
-  formModel
+  formModel,
+  withoutOrConjunction,
+  withoutBrackets
 }) {
   return (
     <>
@@ -280,6 +296,8 @@ function Elements({
                 dragAndDropProps={dragAndDropProps}
                 draggedFormModelIndex$={draggedFormModelIndex$}
                 formModel={formModel}
+                withoutOrConjunction={withoutOrConjunction}
+                withoutBrackets={withoutBrackets}
               >
                 {element.elements && (
                   <Elements
@@ -295,6 +313,8 @@ function Elements({
                     focus={focus}
                     depth={depth + 1}
                     formModel={formModel}
+                    withoutOrConjunction={withoutOrConjunction}
+                    withoutBrackets={withoutBrackets}
                   />
                 )}
               </Component>
@@ -316,7 +336,9 @@ QueryBuilder.propTypes = {
   getTagCatalog: rpt.func.isRequired,
   getSuggestions: rpt.func.isRequired,
   onChange: rpt.func.isRequired,
-  tracking: rpt.shape(trackingProps)
+  tracking: rpt.shape(trackingProps),
+  withoutOrConjunction: rpt.bool,
+  withoutBrackets: rpt.bool
 };
 
 function getTagCatalogObservable([getTagCatalog, timeConfig]) {

@@ -9,7 +9,7 @@ import Button from 'in-new-components/Button';
 
 import locals from './ConjunctionsAndBrackets.mless';
 
-export default function ConjunctionsAndBrackets({ onChange }) {
+export default function ConjunctionsAndBrackets({ onChange, withoutOrConjunction = false, withoutBrackets = false }) {
   return (
     <HorizontalFlexWrapper className={locals.wrapper}>
       <div>
@@ -26,46 +26,52 @@ export default function ConjunctionsAndBrackets({ onChange }) {
         >
           AND
         </Button>
-        <Button
-          size="compact"
-          kind="secondary"
-          onClick={e => {
-            stopPropagationAndPreventDefault(e);
-            onChange({
-              type: CONJUNCTION,
-              logicalOperator: or
-            });
-          }}
-        >
-          OR
-        </Button>
+        {!withoutOrConjunction && (
+          <Button
+            size="compact"
+            kind="secondary"
+            onClick={e => {
+              stopPropagationAndPreventDefault(e);
+              onChange({
+                type: CONJUNCTION,
+                logicalOperator: or
+              });
+            }}
+          >
+            OR
+          </Button>
+        )}
       </div>
-      <div>
-        <Button
-          size="compact"
-          kind="secondary"
-          onClick={e => {
-            stopPropagationAndPreventDefault(e);
-            onChange({ type: OPEN_BRACKET });
-          }}
-        >
-          (
-        </Button>
-        <Button
-          size="compact"
-          kind="secondary"
-          onClick={e => {
-            stopPropagationAndPreventDefault(e);
-            onChange({ type: CLOSE_BRACKET });
-          }}
-        >
-          )
-        </Button>
-      </div>
+      {!withoutBrackets && (
+        <div>
+          <Button
+            size="compact"
+            kind="secondary"
+            onClick={e => {
+              stopPropagationAndPreventDefault(e);
+              onChange({ type: OPEN_BRACKET });
+            }}
+          >
+            (
+          </Button>
+          <Button
+            size="compact"
+            kind="secondary"
+            onClick={e => {
+              stopPropagationAndPreventDefault(e);
+              onChange({ type: CLOSE_BRACKET });
+            }}
+          >
+            )
+          </Button>
+        </div>
+      )}
     </HorizontalFlexWrapper>
   );
 }
 
 ConjunctionsAndBrackets.propTypes = {
-  onChange: PropTypes.func.isRequired
+  onChange: PropTypes.func.isRequired,
+  withoutOrConjunction: PropTypes.bool,
+  withoutBrackets: PropTypes.bool
 };

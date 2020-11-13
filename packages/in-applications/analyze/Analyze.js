@@ -8,9 +8,13 @@ import {
   metricsMatrixParameter,
   hiddenCallsMatrixParameter
 } from 'in-applications/navigation/matrix';
+import TraceGroupingConfigurator, {
+  isTraceGroupingConfigurationValid
+} from 'in-applications/analyze/components/workspace/TraceGroupingConfigurator';
 import CallGroupingConfigurator, {
   isCallGroupingConfigurationValid
 } from 'in-applications/analyze/components/workspace/CallGroupingConfigurator';
+import TraceQueryBuilder, { isTraceQueryValid } from 'in-applications/analyze/components/workspace/TraceQueryBuilder';
 import CallQueryBuilder, { isCallQueryValid } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import { joinExpressions, removeTopLevelFilters } from 'in-new-components/QueryBuilder/transformation/formModel';
 import GroupingConfiguratorSection from 'in-new-components/GroupingConfigurator/GroupingConfiguratorSection';
@@ -19,12 +23,13 @@ import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformati
 import ApiQueryAction from 'in-new-components/QueryBuilder/workspace/ApiQueryAction/ApiQueryAction';
 import QueryBuilderSection from 'in-new-components/QueryBuilder/workspace/QueryBuilderSection';
 import { ActionSection } from 'in-new-components/workspace/ActionSection/ActionSection';
-import GroupedCallsList from 'in-applications/analyze/components/GroupedCallsList';
+import GroupedList from 'in-applications/analyze/components/GroupedList';
+import { dataSourceConstants } from 'in-applications/analyze/metrics';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
-import CallsList from 'in-applications/analyze/components/CallsList';
 import { aggregateMetric } from 'in-applications/analyze/metrics';
 import AnalyzeHeader from 'in-analyze/components/AnalyzeHeader';
 import Sections from 'in-new-components/workspace/Sections';
+import List from 'in-applications/analyze/components/List';
 import { pendingResult } from 'in-services/fixedObjects';
 import { error } from 'in-new-components/Message/types';
 import { emptyArray } from 'in-services/fixedObjects';
@@ -44,27 +49,84 @@ const urlStateDefinition = {
     orderByCallsMatrixParameter,
     metricsMatrixParameter,
     hiddenCallsMatrixParameter
+  ],
+  resets: [
+    {
+      bind: [
+        // TODO: reuse the 'dataSource' parameter definition from AnalyzeView (maybe move the param definition to some better/reusable location)
+        {
+          path: '/analyze',
+          name: 'callList.dataSource',
+          as: 'dataSource',
+          initialState: 'calls'
+        }
+      ],
+      reset: ({ dataSource }) => {
+        if (dataSource === 'calls' || dataSource === 'traces') {
+          return {
+            [tagFilterExpressionMatrixParameter.name]: emptyArray,
+            [groupByMatrixParameter.name]: null,
+            [metricsMatrixParameter.name]: [
+              { metric: dataSource, aggregation: 'SUM' },
+              { metric: 'latency', aggregation: 'MEAN' },
+              { metric: 'errors', aggregation: 'MEAN' }
+            ],
+            [orderByGroupsMatrixParameter.name]: {
+              by: dataSourceConstants[dataSource].metricKey,
+              direction: 'DESC'
+            }
+          };
+        }
+        return {};
+      }
+    }
   ]
 };
 
-export default function ApplicationAnalyzeView() {
+export default function ApplicationAnalyzeView({ dataSource }) {
   return (
     <FixatedTimeConfigContextModification>
-      {({ refresh }) => <ApplicationAnalyzeViewWithFixatedTimeConfig refreshFixatedTimeConfig={refresh} />}
+      {({ refresh }) => (
+        <ApplicationAnalyzeViewWithFixatedTimeConfig refreshFixatedTimeConfig={refresh} dataSource={dataSource} />
+      )}
     </FixatedTimeConfigContextModification>
   );
 }
 
-function ApplicationAnalyzeViewWithFixatedTimeConfig() {
-  const [{ tagFilterExpression, groupBy, orderByGroups, orderByCalls, metrics, hiddenCalls }, onChange] = useUrlState(
-    urlStateDefinition
-  );
+function ApplicationAnalyzeViewWithFixatedTimeConfig({ dataSource }) {
+  const [
+    {
+      tagFilterExpression,
+      groupBy,
+      orderByGroups = {
+        by: dataSourceConstants[dataSource].metricKey,
+        direction: 'DESC'
+      },
+      orderByCalls,
+      metrics = [
+        { metric: dataSource, aggregation: 'SUM' },
+        { metric: 'latency', aggregation: 'MEAN' },
+        { metric: 'errors', aggregation: 'MEAN' }
+      ],
+      hiddenCalls
+    },
+    onChange
+  ] = useUrlState(urlStateDefinition);
   const timeConfig = useTimeConfig();
 
   const validTagFilterExpressionResult =
-    useObservable(isCallQueryValid, [tagFilterExpression, timeConfig]) ?? pendingResult;
+    useObservable(dataSource === 'traces' ? isTraceQueryValid : isCallQueryValid, [
+      tagFilterExpression,
+      timeConfig,
+      dataSource
+    ]) ?? pendingResult;
 
-  const validGroupResult = useObservable(isCallGroupingConfigurationValid, [groupBy, timeConfig]) ?? pendingResult;
+  const validGroupResult =
+    useObservable(dataSource === 'traces' ? isTraceGroupingConfigurationValid : isCallGroupingConfigurationValid, [
+      groupBy,
+      timeConfig,
+      dataSource
+    ]) ?? pendingResult;
 
   // in case of a pending result (validTagFilterExpressionResult.data === null) we do not want to show the user an error message
   const isValid = validTagFilterExpressionResult.data === true && validGroupResult.data === true;
@@ -117,13 +179,13 @@ function ApplicationAnalyzeViewWithFixatedTimeConfig() {
             <QueryBuilderSection
               value={tagFilterExpression}
               onChange={onTagFilterExpressionChange}
-              QueryBuilder={CallQueryBuilder}
+              QueryBuilder={dataSource === 'traces' ? TraceQueryBuilder : CallQueryBuilder}
             />
 
             <GroupingConfiguratorSection
               value={groupBy}
               onChange={onGroupByChange}
-              GroupingConfigurator={CallGroupingConfigurator}
+              GroupingConfigurator={dataSource === 'traces' ? TraceGroupingConfigurator : CallGroupingConfigurator}
               tagFilterExpression={backendQueryModel || toBackendQueryModel([])}
             />
 
@@ -144,7 +206,7 @@ function ApplicationAnalyzeViewWithFixatedTimeConfig() {
           )}
 
           {!groupBy?.groupbyTag && (
-            <CallsList
+            <List
               timeConfig={timeConfig}
               tagFilterExpression={backendQueryModel}
               orderBy={orderByCalls}
@@ -153,25 +215,27 @@ function ApplicationAnalyzeViewWithFixatedTimeConfig() {
               updateFilter={updateFilter}
               hiddenCalls={hiddenCalls}
               onChangeHiddenCalls={onChangeHiddenCalls}
+              dataSource={dataSource}
             />
           )}
 
           {groupBy?.groupbyTag && (
-            <GroupedCallsList
+            <GroupedList
               timeConfig={timeConfig}
               tagFilterExpression={backendQueryModel}
               groupBy={groupBy}
               orderBy={orderByGroups}
-              orderByCalls={orderByCalls}
+              subOrderBy={orderByCalls}
               metrics={metrics}
               onFocusOnGroup={onFocusOnGroup}
               onChangeOrderBy={onChangeOrderByGroups}
-              onChangeOrderByCalls={onChangeOrderByCalls}
+              onChangeSubOrderBy={onChangeOrderByCalls}
               onChangeMetrics={onChangeMetrics}
               isValid={isValid}
               updateFilter={updateFilter}
               hiddenCalls={hiddenCalls}
               onChangeHiddenCalls={onChangeHiddenCalls}
+              dataSource={dataSource}
             />
           )}
         </Stack>

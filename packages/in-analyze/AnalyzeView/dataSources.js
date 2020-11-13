@@ -91,7 +91,8 @@ const icons = deepFreeze({
   application: {
     traces: 'lib_application_trace',
     calls: 'lib_application_call',
-    callsUQB: 'lib_application_call'
+    callsUQB: 'lib_application_call',
+    tracesUQB: 'lib_application_trace'
   },
   website: {
     pageLoad: 'lib_website_page_load',
@@ -145,7 +146,7 @@ export function getEntityNameByType(type) {
   return type;
 }
 
-export function getLabelByType(type) {
+export function getLabelByType(type, ua2 = false) {
   if (type === 'pageLoad') {
     return `${websiteDataSourceTitles.pageLoad}s`;
   } else if (type === 'pageChange') {
@@ -164,12 +165,14 @@ export function getLabelByType(type) {
     return `${mobileAppDataSourceTitles.viewChange}s`;
   } else if (type === 'profiles') {
     return 'Profiles';
+  } else if (type === 'calls' && ua2) {
+    return 'Calls (v2 beta)';
+  } else if (type === 'traces' && ua2) {
+    return 'Traces (v2 beta)';
   } else if (type === 'traces') {
     return 'Traces';
   } else if (type === 'calls') {
     return 'Calls';
-  } else if (type === 'callsUQB') {
-    return 'Calls (v2 beta)';
   } else if (type === 'logs') {
     return 'Logs';
   }
