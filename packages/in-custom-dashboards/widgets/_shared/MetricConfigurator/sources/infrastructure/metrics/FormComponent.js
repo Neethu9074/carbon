@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 
 import { invalidMarker } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/form';
 import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
-import QueryBuilderSection from 'in-new-components/QueryBuilder/workspace/QueryBuilderSection';
 import QueryBuilder, { isQueryValid } from 'in-infrastructure/Explore/components/QueryBuilder';
 import { fromBackendModel } from 'in-new-components/QueryBuilder/transformation/formModel';
 import TouchedMessages from 'in-components/form/TouchedMessages';
@@ -55,15 +54,22 @@ export default function FormComponent({
         <Col lg={6}>{dataSourceFormGroup}</Col>
       </Row>
 
-      <FormGroup>
-        <QueryBuilderSection
-          QueryBuilder={QueryBuilder}
-          value={formModelExpression}
-          onChange={expression => {
-            setFormModelExpression(expression);
-          }}
-        />
-      </FormGroup>
+      <Row withoutTopMargin>
+        <Col lg={12}>
+          <FormGroup>
+            <Label>Filter</Label>
+            <div>
+              <QueryBuilder
+                value={formModelExpression}
+                onChange={expression => {
+                  setFormModelExpression(expression);
+                }}
+              />
+            </div>
+            <TouchedMessages field={tagFilterExpressionField} />
+          </FormGroup>
+        </Col>
+      </Row>
 
       <Header>Customize the widget</Header>
 
