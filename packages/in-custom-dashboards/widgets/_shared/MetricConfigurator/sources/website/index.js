@@ -4,4 +4,4 @@ export { createForm } from 'in-custom-dashboards/widgets/_shared/MetricConfigura
 export const Form = FormComponent;
 export const source = 'WEBSITE';
 export const label = 'Websites (Beacons)';
-export const enabled = true;
+export const visible = true;

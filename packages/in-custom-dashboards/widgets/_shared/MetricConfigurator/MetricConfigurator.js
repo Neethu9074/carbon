@@ -39,8 +39,8 @@ export default function MetricConfigurator({
         <option value="">Please select</option>
         {Object.values(sources)
           .filter(
-            ({ source, enabled }) =>
-              (enabled && disabledDataSources.indexOf(source) === -1) || sourceField.value === source
+            ({ source, visible }) =>
+              (visible && disabledDataSources.indexOf(source) === -1) || sourceField.value === source
           )
           .sort((a, b) => compareIgnoreCase(a.label, b.label))
           .map(({ source, label, disabled }) => (

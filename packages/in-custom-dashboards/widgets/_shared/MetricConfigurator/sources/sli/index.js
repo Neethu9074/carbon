@@ -4,4 +4,4 @@ export { createForm } from 'in-custom-dashboards/widgets/_shared/MetricConfigura
 export const Form = FormComponent;
 export const source = 'SLI';
 export const label = 'Service-Level Indicators';
-export const enabled = true;
+export const visible = true;

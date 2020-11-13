@@ -1,8 +1,9 @@
 import { isEqual, findIndex } from 'lodash';
 
 import { type as TAG_FILTER_TYPE, toNewTagFilterFormat } from 'in-new-components/QueryBuilder/transformation/tagFilter';
-import { and } from 'in-new-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
+import { and, or } from 'in-new-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import { DESTINATION } from 'in-new-components/QueryBuilder/tagFilter/entities';
+
 export const OPEN_BRACKET = 'OPEN_BRACKET';
 export const CLOSE_BRACKET = 'CLOSE_BRACKET';
 export const TAG = TAG_FILTER_TYPE;
@@ -33,6 +34,29 @@ export function fromTagFiltersArray(tagFilters, tagCatalog) {
   return formModel;
 }
 
+export function fromBackendModel(backendModel) {
+  if (!backendModel) {
+    return [];
+  }
+
+  if (backendModel.type === TAG) {
+    return [backendModel];
+  }
+
+  if (
+    backendModel.elements.length === 1 &&
+    (backendModel.logicalOperator === and || backendModel.logicalOperator === or)
+  ) {
+    return enclose(fromBackendModel(backendModel.elements[0]));
+  }
+
+  const joined = joinExpressions({
+    logicalOperator: backendModel.logicalOperator,
+    expressions: backendModel.elements.map(fromBackendModel)
+  });
+  return backendModel.brackets ? enclose(joined) : joined;
+}
+
 export function joinExpressions({ logicalOperator = and, expressions = [] }) {
   const nonEmptyExpressions = expressions
     .map(expression => (Array.isArray(expression) ? expression : [expression]))
@@ -44,17 +68,21 @@ export function joinExpressions({ logicalOperator = and, expressions = [] }) {
     return nonEmptyExpressions[0];
   }
   const conjunction = { type: CONJUNCTION, logicalOperator };
-  const firstExpression = enclose(nonEmptyExpressions[0]);
+  const firstExpression = encloseIfNotAlready(nonEmptyExpressions[0]);
   const result = nonEmptyExpressions
     .slice(1)
-    .reduce((acc, cur) => [...acc, conjunction, ...enclose(cur)], firstExpression);
+    .reduce((acc, cur) => [...acc, conjunction, ...encloseIfNotAlready(cur)], firstExpression);
   return result;
 }
 
-function enclose(expression) {
+function encloseIfNotAlready(expression) {
   if (isEnclosed(expression)) {
     return expression;
   }
+  return enclose(expression);
+}
+
+function enclose(expression) {
   return [{ type: OPEN_BRACKET }, ...expression, { type: CLOSE_BRACKET }];
 }
 

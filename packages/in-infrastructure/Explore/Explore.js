@@ -1,18 +1,6 @@
 import React, { useCallback, useMemo } from 'react';
 
 import {
-  tagFilterExpressionMatrixParameter,
-  resetMetricsAndOrderOnTypeChange,
-  metricsMatrixParameter,
-  chartsMatrixParameter,
-  groupMatrixParameter,
-  orderMatrixParameter,
-  typeMatrixParameter
-} from 'in-infrastructure/navigation/paths';
-import GroupingConfigurator, {
-  isGroupingConfigurationValid
-} from 'in-infrastructure/Explore/components/GroupingConfigurator';
-import {
   filterAddedTracker,
   filterRemovedTracker,
   filtersClearedTracker,
@@ -31,6 +19,18 @@ import {
   LOAD_MORE_CONTEXT,
   SORTING_CONTEXT
 } from 'in-infrastructure/Explore/services/tracking';
+import {
+  tagFilterExpressionMatrixParameter,
+  resetMetricsAndOrderOnTypeChange,
+  metricsMatrixParameter,
+  chartsMatrixParameter,
+  groupMatrixParameter,
+  orderMatrixParameter,
+  typeMatrixParameter
+} from 'in-infrastructure/navigation/paths';
+import GroupingConfigurator, {
+  isGroupingConfigurationValid
+} from 'in-infrastructure/Explore/components/GroupingConfigurator';
 import GroupingConfiguratorSection from 'in-new-components/GroupingConfigurator/GroupingConfiguratorSection';
 import FixatedTimeConfigContextModification from 'in-stores/time/FixatedTimeConfigContextModification';
 import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
@@ -91,7 +91,7 @@ function InfraExploreViewWithFixatedTimeConfig() {
   const validGroupResult = useObservable(getIsGroupingValidObservable, [group, timeConfig]) ?? pendingResult;
   // in case of a pending result (validTagFilterExpressionResult.data === null) we do not want to show the user an error message
   const isValid = validTagFilterExpressionResult.data === true && validGroupResult.data === true;
-  const isInvalid = validTagFilterExpressionResult.data === false && validGroupResult.data === false;
+  const isInvalid = validTagFilterExpressionResult.data === false || validGroupResult.data === false;
 
   const backendQueryModel = useMemo(() => isValid && toBackendQueryModel(tagFilterExpression), [
     isValid,

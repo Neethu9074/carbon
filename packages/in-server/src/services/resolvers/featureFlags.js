@@ -116,6 +116,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'infraMetricsWidgetEnabled',
+    instanaCtlKey: 'feature.infra.metrics.widget.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'ampCompanyInfoEnabled',
     instanaCtlKey: 'feature.amp.company.info.enabled',
     defaultValue: false

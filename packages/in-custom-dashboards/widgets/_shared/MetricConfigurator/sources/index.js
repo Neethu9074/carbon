@@ -6,7 +6,7 @@ import * as event from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/
 import * as sli from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/sli';
 
 const all = {
-  [infrastructure.placeholder.source]: infrastructure.placeholder,
+  [infrastructure.entityCount.source]: infrastructure.entityCount,
   [infrastructure.metrics.source]: infrastructure.metrics,
   [application.source]: application,
   [mobileApp.source]: mobileApp,

@@ -1,4 +1,4 @@
-import * as placeholder from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/placeholder';
-import * as metrics from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics';
+import * as entityCount from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/entityCount/entityCount';
+import * as metrics from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/metrics';
 
-export { placeholder, metrics };
+export { metrics, entityCount };

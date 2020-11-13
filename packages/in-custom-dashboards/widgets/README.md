@@ -76,7 +76,7 @@ Each widget needs to define the following exports.
  - `minimumHeight`: The minimum number of vertical grid cells necessary in order to
                     render this widget. Users cannot configure the widget to use
                     fewer than these number of vertical cells.
- - `enabled`: `true` or `false` to denote whether the widget is selectable in the widget
+ - `enabled`: `true` or `false` to denote whether the widget is visible in the widget
               editor. Please note that this only hides it in the configurator. A persisted
               widget configuration can still cause the widget to be presented.
  - `onlyRenderInsideViewport`: When `true` that component will only be mounted once inside

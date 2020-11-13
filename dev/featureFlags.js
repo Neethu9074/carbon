@@ -8,6 +8,7 @@ module.exports = {
   containerInfoEnabled: true,
   contextGuideEnabled: true,
   entityCountWidgetEnabled: true,
+  infraMetricsWidgetEnabled: true,
   infraExplorePresentationEnabled: true,
   infraExploreDataEnabled: true,
   internalMonitoringUnit: true,
