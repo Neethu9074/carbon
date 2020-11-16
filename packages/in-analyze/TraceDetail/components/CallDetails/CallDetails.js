@@ -103,8 +103,8 @@ function CallDetails(props) {
     <aside className={locals.callDetails}>
       <Card title={<Header call={call} getColor={getColor} />} header={<CloseButton onClick={onClose} />}>
         <ServiceComponent call={call} websiteBeacon={websiteBeacon} mobileAppBeacon={mobileAppBeacon} />
+        <IsSynthetic call={call} />
       </Card>
-      <IsSynthetic call={call} />
     </aside>
   );
 }
