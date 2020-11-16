@@ -96,6 +96,7 @@ export default function Latency({
     const timeShiftMetricConfig = {
       label: timeShiftChartMetric.label,
       aggregation: timeShiftChartMetric.aggregation,
+      defaultDisabled: timeShiftChartMetric.defaultDisabled,
       ...timeShiftChartMetric.config
     };
     metricConfigs = [
@@ -114,6 +115,7 @@ export default function Latency({
     metricConfigs = latencyMetrics.map(m => ({
       label: m.label,
       aggregation: m.aggregation,
+      defaultDisabled: m.defaultDisabled,
       ...m.config
     }));
     colors = latencyMetrics.map(m => m.color);
