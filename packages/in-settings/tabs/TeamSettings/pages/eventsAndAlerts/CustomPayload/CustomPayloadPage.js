@@ -126,10 +126,10 @@ export function CustomPayload(props) {
       <SubViewHeader>Configure Custom Payload</SubViewHeader>
       <Section>
         <Message withIcon small>
-          These Key/Value pairs will be added as payload to each alert. See{' '}
-          <Link href="https://www.instana.com/docs/" external>
-            our docs
-            {/* TODO, see story https://instana.kanbanize.com/ctrl_board/37/cards/28831 */}
+          Each key/value pair will be included as additional payload to each Issue or Incident alert notification.
+          Please refer to the{' '}
+          <Link href="https://www.instana.com/docs/events_alerts/custom-payload" external>
+            Custom Payload documentation
           </Link>{' '}
           for more details.
         </Message>
