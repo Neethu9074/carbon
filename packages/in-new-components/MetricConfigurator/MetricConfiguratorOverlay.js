@@ -11,7 +11,8 @@ export default function MetricConfiguratorOverlay({
   onChange: onChangeExternal,
   values,
   options,
-  maximumNumberOfMetrics = 10
+  maximumNumberOfMetrics = 10,
+  tracking
 }) {
   const initialForm = useMemo(() => getInitialForm(values, options, maximumNumberOfMetrics), [
     values,
@@ -34,17 +35,20 @@ export default function MetricConfiguratorOverlay({
       onSwap={onSwap}
       onAddItem={onAddItem}
       onRemoveItem={onRemoveItem}
+      onChangeAggregation={tracking?.onMetricAggregationChanged}
     />
   );
 
-  function onRemoveItem(index) {
+  function onRemoveItem(index, metric) {
     onChange([], form => form.remove(index).setTouched(false));
+    tracking?.onMetricRemoved?.(metric);
   }
 
-  function onAddItem(metric) {
+  function onAddItem({ metric, aggregation }) {
     onChange([], form =>
       form.push(getMetricItem(options, metric, getPossibleAggregationsForMetric(metric)[0])).setTouched(false)
     );
+    tracking?.onMetricAdded?.({ metric, aggregation });
   }
 
   function onSwap(sourceIndex, destinationIndex) {

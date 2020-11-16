@@ -10,6 +10,7 @@ import { isInfraExploreView } from 'in-infrastructure/navigation/paths';
 import ViewSwitcher from 'in-infrastructure/tableView/components/ViewSwitcher';
 import Dashboard from 'in-infrastructure/Dashboard';
 import useObservable from 'in-hooks/useObservable';
+import { noop } from 'in-services/util/function';
 import Footer from 'in-new-components/Footer';
 import Sticky from 'in-components/Sticky';
 
@@ -18,7 +19,8 @@ export default function InfraPageHeaderWithTabs({
   showSearchBar,
   theme = themes.dark,
   addShadow,
-  addFooter
+  addFooter,
+  onTypeSelected = noop
 }) {
   const isInfraExploreActive = useObservable(isInfraExploreView, []);
 
@@ -37,7 +39,7 @@ export default function InfraPageHeaderWithTabs({
                     contextConfigurations={[
                       { renderContext: () => 'Infrastructure', contextIcon: 'lib_infrastructure' }
                     ]}
-                    label={isInfraExploreActive ? <TypeSelector /> : undefined}
+                    label={isInfraExploreActive ? <TypeSelector onTypeSelected={onTypeSelected} /> : undefined}
                     renderTopLevelButtonLine={UseBeeInstantToggle}
                   />
                   <DashboardHeaderModule theme={theme} withBottomBorder>

@@ -1,6 +1,25 @@
 import React, { useCallback, useMemo } from 'react';
 
 import {
+  filterAddedTracker,
+  filterRemovedTracker,
+  filtersClearedTracker,
+  groupAddedTracker,
+  groupRemovedTracker,
+  groupFocusedOnTracker,
+  navigateToEntityTracker,
+  typeSelectorChangedTracker,
+  groupExpandedTracker,
+  groupCollapsedTracker,
+  loadMoreTracker,
+  metricAddedTracker,
+  metricRemovedTracker,
+  metricAggregationChangedTracker,
+  sortingTracker,
+  LOAD_MORE_CONTEXT,
+  SORTING_CONTEXT
+} from 'in-infrastructure/Explore/services/tracking';
+import {
   tagFilterExpressionMatrixParameter,
   resetMetricsAndOrderOnTypeChange,
   metricsMatrixParameter,
@@ -58,12 +77,12 @@ export default function InfraExploreView() {
 
 function InfraExploreViewWithFixatedTimeConfig() {
   const timeConfig = useTimeConfig();
-  const [{ tagFilterExpression, group, metrics: urlMetrics, type: urlType, order }, onChange] = useUrlState(
+  const [{ tagFilterExpression, group, metrics: urlMetrics, type: urlType, order }, setUrl] = useUrlState(
     urlStateDefinition
   );
   const type = urlType === 'all' ? null : urlType;
-  const setMetrics = useCallback(metrics => onChange({ metrics }), [onChange]);
-  const setOrder = useCallback(order => onChange({ order }), [onChange]);
+  const setMetrics = useCallback(metrics => setUrl({ metrics }), [setUrl]);
+  const setOrder = useCallback(order => setUrl({ order }), [setUrl]);
 
   const validTagFilterExpressionResult =
     useObservable(getIsQueryValidObservable, [tagFilterExpression, timeConfig]) ?? pendingResult;
@@ -80,11 +99,28 @@ function InfraExploreViewWithFixatedTimeConfig() {
   const availableMetrics = useObservable(getMetricsObservable, [timeConfig, backendQueryModel, type]) || [];
   const metrics = fromUrlMetrics({ urlMetrics, availableMetrics });
 
-  const onTagFilterExpressionChange = useCallback(tagFilterExpression => onChange({ tagFilterExpression }), [onChange]);
-  const onGroupChange = useCallback(group => onChange({ group }), [onChange]);
+  const onTagFilterExpressionChange = useCallback(tagFilterExpression => setUrl({ tagFilterExpression }), [setUrl]);
+  const onGroupChange = useCallback(group => setUrl({ group }), [setUrl]);
+
+  const getInfraExploreState = () => {
+    return { type, tagFilterExpression, group, metrics, order };
+  };
+
+  const infrastructureListTrackingConfig = {
+    onNavigateToEntity: navigateToEntityTracker(getInfraExploreState),
+    onMetricAdded: metricAddedTracker(getInfraExploreState),
+    onMetricRemoved: metricRemovedTracker(getInfraExploreState),
+    onMetricAggregationChanged: metricAggregationChangedTracker(getInfraExploreState)
+  };
 
   return (
-    <InfraPageHeaderWithTabs showSearchBar={false} theme={themes.light} addShadow addFooter>
+    <InfraPageHeaderWithTabs
+      onTypeSelected={typeSelectorChangedTracker(getInfraExploreState)}
+      showSearchBar={false}
+      theme={themes.light}
+      addShadow
+      addFooter
+    >
       <ViewTrackingMeta
         data={{
           productArea: 'Infrastructure',
@@ -102,15 +138,24 @@ function InfraExploreViewWithFixatedTimeConfig() {
           <Sections>
             <QueryBuilderSection
               value={tagFilterExpression}
-              onChange={onTagFilterExpressionChange}
               QueryBuilder={QueryBuilder}
+              onChange={onTagFilterExpressionChange}
+              tracking={{
+                onTagAdded: filterAddedTracker(getInfraExploreState),
+                onTagRemoved: filterRemovedTracker(getInfraExploreState),
+                onQueryCleared: filtersClearedTracker(getInfraExploreState)
+              }}
             />
 
             <GroupingConfiguratorSection
               value={group}
-              onChange={onGroupChange}
               GroupingConfigurator={GroupingConfigurator}
               tagFilterExpression={backendQueryModel || toBackendQueryModel([])}
+              onChange={onGroupChange}
+              tracking={{
+                onGroupAdded: groupAddedTracker(getInfraExploreState),
+                onGroupRemoved: groupRemovedTracker(getInfraExploreState)
+              }}
             />
           </Sections>
 
@@ -126,11 +171,18 @@ function InfraExploreViewWithFixatedTimeConfig() {
               availableMetrics={availableMetrics}
               timeConfig={timeConfig}
               setMetrics={setMetrics}
-              setOrder={setOrder}
+              setOrder={order => {
+                setOrder(order);
+                sortingTracker(getInfraExploreState)(order, SORTING_CONTEXT.ENTITIES);
+              }}
               metrics={metrics}
               type={type}
               order={order}
               showHeader
+              tracking={{
+                onLoadMore: page => loadMoreTracker(getInfraExploreState)(page, LOAD_MORE_CONTEXT.UNGROUPED_ENTITIES),
+                ...infrastructureListTrackingConfig
+              }}
             />
           )}
 
@@ -141,11 +193,21 @@ function InfraExploreViewWithFixatedTimeConfig() {
               availableMetrics={availableMetrics}
               timeConfig={timeConfig}
               setMetrics={setMetrics}
-              setOrder={setOrder}
+              setOrder={order => {
+                setOrder(order);
+                sortingTracker(getInfraExploreState)(order, SORTING_CONTEXT.GROUPS);
+              }}
               metrics={metrics}
               type={type}
               group={group}
               order={order}
+              tracking={{
+                onFocusOnGroup: groupFocusedOnTracker(getInfraExploreState),
+                onGroupExpanded: groupExpandedTracker(getInfraExploreState),
+                onGroupCollapsed: groupCollapsedTracker(getInfraExploreState),
+                onLoadMore: loadMoreTracker(getInfraExploreState),
+                ...infrastructureListTrackingConfig
+              }}
             />
           )}
         </Stack>
