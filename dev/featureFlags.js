@@ -1,6 +1,4 @@
 // the keys (not the values) need to be kept in sync with
-// packages/in-server/services/resolvers/consul.js
-// and
 // in-services/featureFlags
 module.exports = {
   agentMonitoringIssuesEnabled: true,
@@ -29,7 +27,6 @@ module.exports = {
   vsphereEnabled: true,
   websiteUserBreakdownEnabled: true,
   ampCompanyInfoEnabled: true,
-  alertCustomPayloadEnabled: true,
   newAnalyticsEnabled: true,
   persistentVolumeSupportEnabled: true,
   smartAlertsQB2Enabled: false

@@ -126,11 +126,6 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'alertCustomPayloadEnabled',
-    instanaCtlKey: 'feature.alert.custom.payload.enabled',
-    defaultValue: false
-  },
-  {
     uiClientKey: 'sloWidgetEnabled',
     instanaCtlKey: 'feature.slo.widget.enabled',
     defaultValue: true

@@ -67,7 +67,6 @@ import AuditLogPage from 'in-settings/tabs/TeamSettings/pages/audit/AuditLog';
 import { findFirstPermittedTeamPage } from 'in-settings/tabs/permissions';
 import { Page } from 'in-new-components/layout/SideNavigationAndContent';
 import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
-import { alertCustomPayloadEnabled } from 'in-services/featureFlags';
 import NotFoundPage from 'in-settings/tabs/pages/NotFound';
 import SetBodyColor from 'in-components/SetBodyColor';
 import { role } from 'in-stores/user';
@@ -234,13 +233,11 @@ function navigationTreeForRole(role): NavigationTree {
       });
     }
 
-    if (alertCustomPayloadEnabled) {
-      eventsAndAlertsPages.push({
-        path: teamSettingsAlertingCustomPayloadConfiguration,
-        label: 'Custom Payload',
-        component: CustomPayloadPage
-      });
-    }
+    eventsAndAlertsPages.push({
+      path: teamSettingsAlertingCustomPayloadConfiguration,
+      label: 'Custom Payload',
+      component: CustomPayloadPage
+    });
 
     navigationTree.push({
       title: 'Events & Alerts',
