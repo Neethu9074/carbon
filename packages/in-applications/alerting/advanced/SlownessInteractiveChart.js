@@ -1,37 +1,35 @@
-import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
 
 import {
   applicationsAlertingThresholdAggregationChanged,
   applicationsAlertingThresholdOperatorChanged,
-  applicationsAlertingThresholdTypeChanged
+  applicationsAlertingThresholdTypeChanged,
+  applicationsAlertingThresholdValueChanged
 } from 'in-applications/alerting/tracker';
-import {
-  debouncedThresholdValueChangedTracker,
-  debouncedThresholdDeviationFactorChangedTracker
-} from 'in-applications/alerting/trackingHelpers';
-import {
-  thresholdTypeOptions,
-  enrichThresholdOperatorOptionsForApiConfigs
-} from 'in-new-components/Alerting/advanced/thresholdFormData';
 import {
   ruleAggregationForWeeklySeasonalityOptions,
   ruleAggregationOptions
 } from 'in-applications/alerting/form/ruleFormData';
+import {
+  getFormValueOrDefault,
+  getThresholdComboBoxValue
+} from 'in-new-components/Alerting/advanced/thresholdFormHelper';
+import { ThresholdDeviationSliderForm } from 'in-new-components/Alerting/advanced/ThresholdDeviationSliderForm';
+import { findEntryByValue, alertConfigWithDefaultValues } from 'in-new-components/Alerting/utils/formUtils';
 import ThresholdConditionFormGroup from 'in-new-components/Alerting/advanced/ThresholdConditionFormGroup';
+import { ThresholdOperatorDropDown } from 'in-new-components/Alerting/advanced/ThresholdOperatorDropDown';
 import { createSlownessForm, defaultDeviationFactor } from 'in-applications/alerting/form/thresholdForm';
 import ChartViewConfigurator from 'in-new-components/Alerting/components/ChartViewConfigurator';
-import { SensitivitySlider } from 'in-new-components/Alerting/advanced/SensitivitySlider';
-import useDebouncedSignal from 'in-applications/alerting/advanced/useDebouncedSignal';
+import { thresholdTypeOptions } from 'in-new-components/Alerting/advanced/thresholdFormData';
+import ThresholdValueInput from 'in-new-components/Alerting/advanced/ThresholdValueInput';
 import { blueprintConfigPropType } from 'in-new-components/Alerting/constants';
 import { getTrackingObject } from 'in-new-components/Alerting/trackingHelpers';
 import { getMetricUnitPostfix } from 'in-applications/alerting/form/formUtils';
-import { findEntryByValue } from 'in-new-components/Alerting/utils/formUtils';
 import AlertingChart from 'in-new-components/Alerting/Chart/AlertingChart';
 import createRuleForm from 'in-applications/alerting/form/ruleForm';
 import Dropdown from 'in-new-components/Alerting/Dropdown';
 import { isNotBlank } from 'in-services/util/string';
-import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
 
 import locals from 'in-new-components/Alerting/shared-styles/InteractiveChart.mless';
@@ -44,47 +42,11 @@ export default function SlownessInteractiveChart({
   onChartViewConfigChange,
   selectedChartViewConfigIndex
 }) {
-  const debounceOnChange$ = useDebouncedSignal();
-  const [tempThreshold, setTempThreshold] = useState(() => getFormValueOrDefault(form.get('threshold'), 'value'));
-  const [tempThresholdDeviationFactor, setTempThresholdDeviationFactor] = useState(() =>
-    getFormValueOrDefault(form.get('threshold'), 'deviationFactor')
-  );
-  const [doDebounceThreshold, setDoDebounceThreshold] = useState(false);
-  const [doDebounceDeviationFactor, setDoDebounceDeviationFactor] = useState(false);
-
-  const alertConfig = {
-    ...form.toJS(),
-    threshold: {
-      ...form.get('threshold').toJS(),
-      value: (doDebounceThreshold ? tempThreshold : getFormValueOrDefault(form.get('threshold'), 'value')) || 0,
-      baseline: getFormValueOrDefault(form.get('threshold'), 'baseline') || [],
-      deviationFactor: Number(
-        doDebounceDeviationFactor
-          ? tempThresholdDeviationFactor
-          : getFormValueOrDefault(form.get('threshold'), 'deviationFactor', 0)
-      )
-    }
-  };
+  const alertConfig = alertConfigWithDefaultValues(form);
 
   return (
     <div className={locals.container}>
-      <ThresholdCondition
-        {...{
-          form,
-          updateForm,
-          onChange,
-          blueprintConfig,
-          debounceOnChange$,
-          doDebounceThreshold,
-          doDebounceDeviationFactor,
-          setDoDebounceThreshold,
-          setDoDebounceDeviationFactor,
-          tempThreshold,
-          setTempThreshold,
-          tempThresholdDeviationFactor,
-          setTempThresholdDeviationFactor
-        }}
-      />
+      <ThresholdCondition form={form} updateForm={updateForm} onChange={onChange} blueprintConfig={blueprintConfig} />
 
       <ChartViewConfigurator
         onChartViewConfigChange={onChartViewConfigChange}
@@ -106,25 +68,7 @@ export default function SlownessInteractiveChart({
   );
 }
 
-function ThresholdCondition({
-  form,
-  updateForm,
-  onChange,
-  blueprintConfig,
-  debounceOnChange$,
-  doDebounceThreshold,
-  doDebounceDeviationFactor,
-  setDoDebounceThreshold,
-  setDoDebounceDeviationFactor,
-  tempThreshold,
-  setTempThreshold,
-  tempThresholdDeviationFactor,
-  setTempThresholdDeviationFactor
-}) {
-  const operatorValue = form.get('threshold').get('operator').value;
-  const operatorOptions = enrichThresholdOperatorOptionsForApiConfigs(operatorValue);
-  const operatorLabel = operatorOptions.find(op => op.value === operatorValue).label;
-
+function ThresholdCondition({ form, updateForm, onChange, blueprintConfig }) {
   const thresholdType = form.get('threshold').get('type')?.value;
   const metricName = form.get('rule').get('metricName').value;
   const metricUnitPostfix = getMetricUnitPostfix(metricName);
@@ -153,14 +97,10 @@ function ThresholdCondition({
             applicationsAlertingThresholdAggregationChanged(getTrackingObject(form, { value }));
           }}
         />
-        <Dropdown
-          asSimpleDropdown
-          label={operatorLabel}
-          items={operatorOptions}
-          onChange={({ value = '' }) => {
-            onChange(['threshold', 'operator'], f => f.setValue(value).setTouched(true));
-            applicationsAlertingThresholdOperatorChanged(getTrackingObject(form, { value }));
-          }}
+        <ThresholdOperatorDropDown
+          form={form}
+          onChange={onChange}
+          trackingCallback={applicationsAlertingThresholdOperatorChanged}
         />
         <Dropdown
           asSimpleDropdown
@@ -195,69 +135,29 @@ function ThresholdCondition({
           }}
         />
       </ThresholdConditionFormGroup>
+
       {thresholdType === 'staticThreshold' && (
         <ThresholdConditionFormGroup iconType="lib_threshold" label="Threshold Value">
-          <Input
-            id="thresholdValue"
-            type="number"
-            min="0"
+          <ThresholdValueInput
             max={maxValue}
-            name="thresholdValue"
-            value={doDebounceThreshold ? tempThreshold : getFormValueOrDefault(form.get('threshold'), 'value')}
-            step="1"
-            onChange={({ target }) => {
-              if (target.value > maxValue) return;
-              const value = target.value == '' ? '' : Math.abs(target.value);
-
-              setDoDebounceThreshold(true);
-              setTempThreshold(value);
-
-              const onChangCallback = () => {
-                onChange(['threshold', 'value'], f => f.setValue(value).setTouched(true));
-                setDoDebounceThreshold(false);
-              };
-
-              debounceOnChange$.emit(onChangCallback.bind(this));
-              debouncedThresholdValueChangedTracker(getTrackingObject(form, { value }));
-            }}
+            form={form}
+            onChange={onChange}
+            trackChange={applicationsAlertingThresholdValueChanged}
           />
           {isNotBlank(metricUnitPostfix) && <Label htmlFor="thresholdValue">{metricUnitPostfix}</Label>}
         </ThresholdConditionFormGroup>
       )}
+
       {thresholdType !== 'staticThreshold' && (
-        <ThresholdConditionFormGroup iconType="lib_threshold" label="Sensitivity">
-          <SensitivitySlider
-            value={
-              doDebounceDeviationFactor
-                ? tempThresholdDeviationFactor
-                : getFormValueOrDefault(form.get('threshold'), 'deviationFactor', '')
-            }
-            defaultValue={defaultDeviationFactor}
-            onChange={value => {
-              setDoDebounceDeviationFactor(true);
-              setTempThresholdDeviationFactor(value);
-
-              const onChangCallback = () => {
-                onChange(['threshold', 'deviationFactor'], f => f.setValue(value).setTouched(true));
-                setDoDebounceDeviationFactor(false);
-              };
-
-              debounceOnChange$.emit(onChangCallback.bind(this));
-              debouncedThresholdDeviationFactorChangedTracker(getTrackingObject(form, { value }));
-            }}
-          />
-        </ThresholdConditionFormGroup>
+        <ThresholdDeviationSliderForm
+          form={form}
+          onChange={onChange}
+          trackChange={applicationsAlertingThresholdTypeChanged}
+          defaultValue={defaultDeviationFactor}
+        />
       )}
     </>
   );
-}
-
-function getThresholdComboBoxValue(form) {
-  let result = form.get('threshold').get('type').value;
-  if (form.get('threshold').get('seasonality')) {
-    result += '.' + form.get('threshold').get('seasonality').value;
-  }
-  return result;
 }
 
 function getAggregationLabelAndUpdateFormIfNeeded(form, updateForm) {
@@ -283,13 +183,8 @@ function getAggregationOptions(form) {
   return ruleAggregationOptions;
 }
 
-function getFormValueOrDefault(form, key, defaultValue = null) {
-  return form.containsKey(key) ? form.get(key).value : defaultValue;
-}
-
 SlownessInteractiveChart.propTypes = {
-  debounceOnChange$: PropTypes.object,
-  blueprintConfig: blueprintConfigPropType,
+  blueprintConfig: blueprintConfigPropType.isRequired,
   form: PropTypes.object.isRequired,
   onChange: PropTypes.func.isRequired,
   updateForm: PropTypes.func.isRequired,

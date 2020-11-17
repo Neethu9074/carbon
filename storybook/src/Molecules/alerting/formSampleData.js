@@ -40,6 +40,10 @@ export function someLogsFormData() {
       ...someFormData.rule,
       alertType: 'logs',
       message: 'dummy message'
+    },
+    threshold: {
+      operator: '>',
+      value: 150
     }
   };
 }

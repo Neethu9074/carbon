@@ -1,66 +1,37 @@
-import { compose, withState } from 'recompose';
-import { create } from 'reactive-observables';
-import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
 
 import {
-  getThresholdValueForPercentageMetric,
-  getValueRoundedToDecimals,
-  round
-} from 'in-new-components/Alerting/utils/formatUtils';
-import {
   websitesAlertingThresholdMetricChanged,
-  websitesAlertingThresholdOperatorChanged
+  websitesAlertingThresholdOperatorChanged,
+  websitesAlertingThresholdValueChanged
 } from 'in-websites/alerting/tracker';
-import { enrichThresholdOperatorOptionsForApiConfigs } from 'in-new-components/Alerting/advanced/thresholdFormData';
 import ThresholdConditionFormGroup from 'in-new-components/Alerting/advanced/ThresholdConditionFormGroup';
 import IncompleteChartPlaceholder from 'in-new-components/Alerting/components/IncompleteChartPlaceholder';
+import { ThresholdOperatorDropDown } from 'in-new-components/Alerting/advanced/ThresholdOperatorDropDown';
 import ChartViewConfigurator from 'in-new-components/Alerting/components/ChartViewConfigurator';
 import { isPercentageMetric, getMetricUnitPostfix } from 'in-websites/alerting/form/formUtils';
-import { debouncedThresholdValueChangedTracker } from 'in-websites/alerting/trackingHelpers';
+import { alertConfigWithDefaultThreshold } from 'in-new-components/Alerting/utils/formUtils';
+import ThresholdValueInput from 'in-new-components/Alerting/advanced/ThresholdValueInput';
 import { getTrackingObject } from 'in-new-components/Alerting/trackingHelpers';
 import { ruleMetricNameOptions } from 'in-websites/alerting/form/ruleFormData';
 import { blueprintConfigPropType } from 'in-new-components/Alerting/constants';
 import AlertingChart from 'in-new-components/Alerting/Chart/AlertingChart';
 import Dropdown from 'in-new-components/Alerting/Dropdown';
 import { isNotBlank } from 'in-services/util/string';
-import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
-import connectTo from 'in-hoc/connectTo';
 
 import locals from 'in-new-components/Alerting/shared-styles/InteractiveChart.mless';
 
-export default compose(
-  withState('debounceOnChange$', '', create({ emitLatestOnSubscribe: false })),
-  connectTo(({ debounceOnChange$ }) => ({
-    debounce: debounceOnChange$.debounce(300).tap(callback => callback())
-  }))
-)(StatusCodeInteractiveChart);
-
-function StatusCodeInteractiveChart({
+export default function StatusCodeInteractiveChart({
   blueprintConfig,
   form,
   onChange,
-  debounceOnChange$,
   updateForm,
   onChartViewConfigChange,
   selectedChartViewConfigIndex
 }) {
-  const [tempThreshold, setTempThreshold] = useState(() => form.get('threshold').get('value').value);
-  const [doDebounce, setDoDebounce] = useState(false);
-
-  const metricName = form.get('rule').get('metricName').value;
-  const percentageMetric = isPercentageMetric(metricName);
-  const alertConfig = {
-    ...form.toJS(),
-    threshold: {
-      ...form.get('threshold').toJS(),
-      value:
-        (doDebounce
-          ? getThresholdValueForPercentageMetric(tempThreshold, percentageMetric)
-          : form.get('threshold').get('value').value) || 0
-    }
-  };
+  const alertConfig = alertConfigWithDefaultThreshold(form);
 
   if (!blueprintConfig.isRuleComplete(alertConfig.rule)) {
     return (
@@ -72,21 +43,7 @@ function StatusCodeInteractiveChart({
 
   return (
     <div className={locals.container}>
-      <ThresholdCondition
-        {...{
-          form,
-          onChange,
-          blueprintConfig,
-          metricName,
-          percentageMetric,
-          updateForm,
-          doDebounce,
-          tempThreshold,
-          setTempThreshold,
-          setDoDebounce,
-          debounceOnChange$
-        }}
-      />
+      <ThresholdCondition form={form} onChange={onChange} blueprintConfig={blueprintConfig} updateForm={updateForm} />
 
       <ChartViewConfigurator
         onChartViewConfigChange={onChartViewConfigChange}
@@ -108,24 +65,10 @@ function StatusCodeInteractiveChart({
   );
 }
 
-export function ThresholdCondition({
-  form,
-  onChange,
-  blueprintConfig,
-  metricName,
-  percentageMetric,
-  updateForm,
-  doDebounce,
-  tempThreshold,
-  setTempThreshold,
-  setDoDebounce,
-  debounceOnChange$
-}) {
-  const operatorValue = form.get('threshold').get('operator').value;
-  const operatorOptions = enrichThresholdOperatorOptionsForApiConfigs(operatorValue);
-  const operatorLabel = (operatorOptions.find(op => op.value === operatorValue) ?? operatorOptions[0]).label;
-
+export function ThresholdCondition({ form, onChange, blueprintConfig, updateForm }) {
+  const metricName = form.get('rule').get('metricName').value;
   const metricUnitPostfix = getMetricUnitPostfix(metricName);
+  const percentageMetric = isPercentageMetric(metricName);
   const maxValue = blueprintConfig.getMaxMetricValue(metricName);
 
   return (
@@ -145,47 +88,18 @@ export function ThresholdCondition({
           websitesAlertingThresholdMetricChanged(getTrackingObject(form, { value }));
         }}
       />
-      <Dropdown
-        asSimpleDropdown
-        label={operatorLabel}
-        items={operatorOptions}
-        onChange={({ value = '' }) => {
-          onChange(['threshold', 'operator'], f => f.setValue(value).setTouched(true));
-          websitesAlertingThresholdOperatorChanged(getTrackingObject(form, { value }));
-        }}
+      <ThresholdOperatorDropDown
+        form={form}
+        onChange={onChange}
+        trackingCallback={websitesAlertingThresholdOperatorChanged}
       />
-      <Input
-        id="thresholdValue"
+      <ThresholdValueInput
         className={locals.narrowControl}
-        type="number"
-        min="0"
         max={maxValue}
-        name="thresholdValue"
-        step="1"
-        value={
-          doDebounce
-            ? tempThreshold
-            : getValueRoundedToDecimals(form.get('threshold').get('value').value, percentageMetric)
-        }
-        onChange={({ target }) => {
-          if (target.value > maxValue) return;
-
-          let value = '';
-          if (target.value !== '') {
-            value = percentageMetric ? round(Math.abs(target.value) / 100, 3) : Math.abs(target.value);
-          }
-
-          setDoDebounce(true);
-          setTempThreshold(getValueRoundedToDecimals(value, percentageMetric));
-
-          const onChangCallback = () => {
-            onChange(['threshold', 'value'], f => f.setValue(value).setTouched(true));
-            setDoDebounce(false);
-          };
-
-          debounceOnChange$.emit(onChangCallback.bind(this));
-          debouncedThresholdValueChangedTracker(getTrackingObject(form, { value }));
-        }}
+        form={form}
+        onChange={onChange}
+        trackChange={websitesAlertingThresholdValueChanged}
+        percentageMetric={percentageMetric}
       />
       {isNotBlank(metricUnitPostfix) && <Label htmlFor="thresholdValue">{metricUnitPostfix}</Label>}
     </ThresholdConditionFormGroup>
@@ -193,11 +107,10 @@ export function ThresholdCondition({
 }
 
 StatusCodeInteractiveChart.propTypes = {
-  form: PropTypes.object.isRequired,
   blueprintConfig: blueprintConfigPropType,
+  form: PropTypes.object.isRequired,
   onChange: PropTypes.func.isRequired,
   onChartViewConfigChange: PropTypes.func.isRequired,
   selectedChartViewConfigIndex: PropTypes.number.isRequired,
-  debounceOnChange$: PropTypes.object,
   updateForm: PropTypes.func.isRequired
 };

@@ -1,12 +1,9 @@
 import React, { useState } from 'react';
 
-import ErrorRateInteractiveChart, {
-  ThresholdCondition
-} from 'in-applications/alerting/advanced/ErrorRateInteractiveChart';
+import { ThresholdCondition } from 'in-applications/alerting/advanced/ErrorRateInteractiveChart';
 import { getBlueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
 import { createSmartAlertForm } from 'in-applications/alerting/form/smartAlertForm';
 import { someErrorRateFormData } from './formSampleData';
-import { noop } from 'in-services/fixedObjects';
 
 export default {
   title: 'Molecules|alerting/interactiveCharts/ErrorRateInteractiveChart',
@@ -14,26 +11,17 @@ export default {
     // Error: Evaluation failed: TypeError: (void 0) is not a function
     chromatic: { disable: true }
   },
-  component: ErrorRateInteractiveChart
+  component: ThresholdCondition
 };
 
 export const thresholdCondition = () => {
   const [form, setForm] = useState(createSmartAlertForm(someErrorRateFormData()));
 
-  const [tempThreshold, setTempThreshold] = useState(1);
-
   return (
     <ThresholdCondition
-      {...{
-        form,
-        onChange: (path, fn) => setForm(form.updateIn(path, fn)),
-        blueprintConfig: getBlueprintConfig('errorRate'),
-        doDebounce: true,
-        tempThreshold,
-        setDoDebounce: noop,
-        setTempThreshold,
-        debounceOnChange$: noop
-      }}
+      form={form}
+      onChange={(path, fn) => setForm(form.updateIn(path, fn))}
+      blueprintConfig={getBlueprintConfig('errorRate')}
     />
   );
 };

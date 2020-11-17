@@ -1,3 +1,5 @@
+import { getFormValueOrDefault } from 'in-new-components/Alerting/advanced/thresholdFormHelper';
+
 export function getAggregationText(aggregation) {
   switch (aggregation.toUpperCase()) {
     case 'P25':
@@ -22,4 +24,26 @@ export function getAggregationText(aggregation) {
 export function findEntryByValue(valueLabelPairList, value) {
   const items = valueLabelPairList ?? [];
   return items.find(item => item?.value === value);
+}
+
+export function alertConfigWithDefaultThreshold(form) {
+  return {
+    ...form.toJS(),
+    threshold: {
+      ...form.get('threshold').toJS(),
+      value: form.get('threshold').get('value').value || 0
+    }
+  };
+}
+
+export function alertConfigWithDefaultValues(form) {
+  return {
+    ...form.toJS(),
+    threshold: {
+      ...form.get('threshold').toJS(),
+      value: getFormValueOrDefault(form.get('threshold'), 'value', 0),
+      baseline: getFormValueOrDefault(form.get('threshold'), 'baseline', []),
+      deviationFactor: Number(getFormValueOrDefault(form.get('threshold'), 'deviationFactor', 0))
+    }
+  };
 }

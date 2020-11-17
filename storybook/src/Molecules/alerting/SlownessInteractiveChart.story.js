@@ -18,9 +18,6 @@ export function SlownessInteractiveChart_simple() {
     onChange: (path, fn) => setForm(form.updateIn(path, fn)),
     blueprintConfig: getBlueprintConfig('slowness'),
     updateForm: setForm
-    // debounceOnChange$,
-    // onChartViewConfigChange,
-    // selectedChartViewConfigIndex
   };
   return <SlownessInteractiveChart {...props} />;
 }

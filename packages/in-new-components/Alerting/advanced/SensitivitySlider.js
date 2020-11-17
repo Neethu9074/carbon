@@ -2,7 +2,7 @@ import React from 'react';
 
 import DebouncedDistinctSlider from 'in-new-components/Slider/DebouncedDistinctSlider';
 
-export const SensitivitySlider = ({ value, defaultValue, onChange }) => {
+export const DebouncedSensitivitySlider = ({ value, defaultValue, onChange }) => {
   const linearScaleMin = 0;
   const linearScaleMax = 2;
   const defaultValueLog = Math.log(defaultValue);
@@ -17,6 +17,7 @@ export const SensitivitySlider = ({ value, defaultValue, onChange }) => {
 
   return (
     <DebouncedDistinctSlider
+      debounceMaxWait={5000}
       valueLabelDisplay="off"
       marks={labeledTicks}
       min={linearScaleMin}
