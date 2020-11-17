@@ -50,7 +50,7 @@ const cols = [
       getMetricName(row) {
         return `kafkaClient.consumer.${row.consumerId}.consumerFetchThrottleTime`;
       },
-      getContent: millis,
+      getContent: millis.compact,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -66,7 +66,7 @@ const cols = [
       getMetricName(row) {
         return `kafkaClient.consumer.${row.consumerId}.consumerFetchLatency`;
       },
-      getContent: millis,
+      getContent: millis.compact,
       getTimeWindowAggregation() {
         return 'mean';
       }
