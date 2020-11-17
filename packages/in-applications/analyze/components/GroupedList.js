@@ -1,3 +1,4 @@
+import { empty } from 'reactive-observables';
 import { partition } from 'lodash';
 import React from 'react';
 
@@ -30,7 +31,6 @@ import { mapDataHO } from 'in-services/util/result';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import useObservable from 'in-hooks/useObservable';
 import Message from 'in-new-components/Message';
-import { empty } from 'reactive-observables';
 import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './List.mless';
@@ -78,7 +78,7 @@ export default function GroupedList({
 
   const groupByTagType =
     useObservable(
-      getApplicationTagCatalog({ dataSource: dataSourceName })({ timeConfig }).map(
+      getApplicationTagCatalog({ dataSource: dataSourceName, useCase: 'GROUPING' })({ timeConfig }).map(
         mapDataHO(data => data.tags.find(tag => tag.name === groupBy.groupbyTag)?.type)
       ),
       [timeConfig]

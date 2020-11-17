@@ -1,4 +1,3 @@
-import filteredTree from 'in-applications/analyze/components/workspace/TagCatalogFilteredTree';
 import { createGroupingConfigurator } from 'in-new-components/GroupingConfigurator';
 import { getApplicationTagCatalog } from 'in-applications/api/catalog';
 import { successObservableFactory } from 'in-services/util/result';
@@ -10,11 +9,11 @@ const {
   isGroupingConfigurationValid: isGroupingConfigurationValidInternal
 } = createGroupingConfigurator({
   getTagCatalog: props =>
-    getApplicationTagCatalog({ dataSource: CALLS })(props).map(response => ({
+    getApplicationTagCatalog({ dataSource: CALLS, useCase: 'GROUPING' })(props).map(response => ({
       ...response,
       data: response.data && {
         ...response.data,
-        tagTree: filteredTree(response.data.tagTree, response.data.tags, false)
+        tagTree: response.data.tagTree
       }
     })),
   getSuggestions: successObservableFactory({ suggestions, totalHits: suggestions.length + 10 })

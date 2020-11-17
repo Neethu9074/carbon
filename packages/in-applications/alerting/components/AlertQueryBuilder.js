@@ -1,4 +1,3 @@
-import filteredTree from 'in-applications/analyze/components/workspace/TagCatalogFilteredTree';
 import getTagSuggestions from 'in-subscription/application/getTagSuggestions';
 import { getApplicationTagCatalog } from 'in-applications/api/catalog';
 import { createQueryBuilder } from 'in-new-components/QueryBuilder';
@@ -9,11 +8,11 @@ import { CALLS } from 'in-applications/analyze/metrics';
 
 const { QueryBuilder: AlertQueryBuilder, isQueryValid } = createQueryBuilder({
   getTagCatalog: props =>
-    getApplicationTagCatalog({ dataSource: CALLS })(props).map(response => ({
+    getApplicationTagCatalog({ dataSource: CALLS, useCase: 'FILTERING' })(props).map(response => ({
       ...response,
       data: response.data && {
         ...response.data,
-        tagTree: filteredTree(response.data.tagTree, response.data.tags, true)
+        tagTree: response.data.tagTree
       }
     })),
   getSuggestions: args => {
