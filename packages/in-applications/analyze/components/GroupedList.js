@@ -135,8 +135,9 @@ function Presenter({
 }) {
   const hasErrors = errors?.length > 0;
   const isLoading = progress.loading || groupByTagType.progress.loading;
-  const columnDefinitions = columns({ groupBy, onFocusOnGroup, metrics, groupByTagType }, dataSource);
-  const columnDefinitionsForUnspecified = columnsForUnspecified({ metrics }, dataSource);
+  const labelColumnDefinitions = labelColumns({ groupBy });
+  const metricColumnDefinitions = metricColumns({ metrics, dataSource });
+  const actionColumnDefinitions = actionColumns({ groupBy, onFocusOnGroup, groupByTagType });
 
   const totalGroups = totalHits != null ? `${number.compact(totalHits)} Groups` : null;
   return (
@@ -163,7 +164,7 @@ function Presenter({
           dataSource={dataSource}
         />
         <Ul space="xsmall">
-          {!isLoading &&
+          {(!isLoading || totalHits != null) &&
             partition(items, item => item.name !== UNSPECIFIED).map(partition =>
               partition.map((item, rowIndex) => {
                 const filterForGroup = groupingFilter(
@@ -198,21 +199,32 @@ function Presenter({
                       />
                     )}
                   >
-                    <ColumnizedContent
-                      columnDefinitions={
-                        item.name !== UNSPECIFIED ? columnDefinitions : columnDefinitionsForUnspecified
-                      }
-                      group={item}
-                      timeConfig={timeConfig}
-                      progress={progress}
-                      granularity={granularity}
-                      onFocusOnGroup={onFocusOnGroup}
-                      subOrderBy={subOrderBy}
-                      onChangeSubOrderBy={onChangeSubOrderBy}
-                      hiddenCalls={hiddenCalls}
-                      groupByTagType={groupByTagType}
-                      dataSource={dataSource}
-                    />
+                    <div className={locals.list}>
+                      <div className={locals.labelColumn}>
+                        <ColumnizedContent
+                          columnDefinitions={labelColumnDefinitions}
+                          group={item}
+                          dataSource={dataSource}
+                        />
+                      </div>
+                      <div className={locals.metricColumn}>
+                        <ColumnizedContent
+                          columnDefinitions={metricColumnDefinitions}
+                          group={item}
+                          timeConfig={timeConfig}
+                          progress={progress}
+                          granularity={granularity}
+                          dataSource={dataSource}
+                        />
+                      </div>
+                    </div>
+                    <div className={locals.actionColumn}>
+                      <ColumnizedContent
+                        columnDefinitions={actionColumnDefinitions}
+                        group={item}
+                        dataSource={dataSource}
+                      />
+                    </div>
                   </Li>
                 );
               })
@@ -235,25 +247,41 @@ function Presenter({
   );
 }
 
-function columns({ groupBy, onFocusOnGroup, metrics, groupByTagType }, dataSource) {
+function labelColumns({ groupBy }) {
   const { groupbyTag, groupbyTagSecondLevelKey } = groupBy;
   return [
     {
       width: '3rem',
+      shrink: false,
       getContent() {
-        return <SvgIcon type="lib_views_tag" />;
+        return <SvgIcon type={groupbyTag === UNSPECIFIED ? 'lib_missing_data' : 'lib_views_tag'} />;
       }
     }
-  ]
-    .concat({
-      getContent({ group }) {
-        const label = groupbyTagSecondLevelKey ? `${groupbyTag} > ${groupbyTagSecondLevelKey}` : groupbyTag;
-        return <KeyValue label={label} value={group.name} accentuated />;
-      }
-    })
-    .concat(metrics.map(metric => metricToColumn(metric, dataSource)))
-    .concat({
+  ].concat({
+    minWidth: '10rem',
+    shrink: false,
+    getContent({ group }) {
+      const label = groupbyTagSecondLevelKey ? `${groupbyTag} > ${groupbyTagSecondLevelKey}` : groupbyTag;
+      return (
+        <KeyValue
+          label={label}
+          value={group.name === UNSPECIFIED ? 'Not grouped/Unspecified' : group.name}
+          accentuated
+        />
+      );
+    }
+  });
+}
+
+function metricColumns({ metrics, dataSource }) {
+  return metrics.map(metric => metricToColumn(metric, dataSource));
+}
+
+function actionColumns({ groupBy, onFocusOnGroup, groupByTagType }) {
+  return [
+    {
       width: '3rem',
+      shrink: false,
       getContent({ group }) {
         return (
           <Tooltip content="Focus on this group">
@@ -264,43 +292,30 @@ function columns({ groupBy, onFocusOnGroup, metrics, groupByTagType }, dataSourc
           </Tooltip>
         );
       }
-    });
-}
-
-function columnsForUnspecified({ metrics }, dataSource) {
-  return [
-    {
-      width: '3rem',
-      getContent() {
-        return <SvgIcon type="lib_missing_data" />;
-      }
-    },
-    {
-      getContent() {
-        return 'Not grouped/Unspecified';
-      }
     }
-  ].concat(metrics.filter(metric => metric.metric === dataSource).map(metric => metricToColumn(metric, dataSource)));
+  ];
 }
 
 function metricToColumn(metric, dataSource) {
   const configuration = dataSourceConstants[dataSource].metricConfiguration[metric.metric];
   return {
-    width: '13rem',
+    shrink: false,
     getContent({ group, timeConfig, progress, granularity }) {
       return (
-        <SparkChart
-          loading={progress?.loading}
-          rollup={granularity}
-          timeConfig={timeConfig}
-          aggregation={metric.aggregation}
-          metrics={group.metrics[`${metric.metric}_${metric.aggregation}`]}
-          metric={group.metrics[aggregateMetric(metric.metric, metric.aggregation)]}
-          tooltipFormatter={configuration?.formatter}
-          label={configuration?.label}
-          valueTheme={'blue'}
-          percentageMetric={configuration.type === 'rate'}
-        />
+        <div className={locals.metric}>
+          <SparkChart
+            loading={progress?.loading}
+            rollup={granularity}
+            timeConfig={timeConfig}
+            aggregation={metric.aggregation}
+            metrics={group.metrics[`${metric.metric}_${metric.aggregation}`]}
+            metric={group.metrics[aggregateMetric(metric.metric, metric.aggregation)]}
+            tooltipFormatter={configuration.formatter}
+            label={configuration.label}
+            valueTheme={'blue'}
+            percentageMetric={configuration.type === 'rate'}
+          />
+        </div>
       );
     }
   };
@@ -402,13 +417,21 @@ function ExpandedGroup({
 }
 
 function groupingFilter({ groupBy, group, operator = EQUALS, groupByTagType }, tagFilterExpression = null) {
-  const groupFilter = {
-    type: TAG_FILTER_TYPE,
-    operator: operator,
-    name: groupBy.groupbyTag,
-    key: groupBy.groupbyTagSecondLevelKey,
-    value: operator === EQUALS ? (groupByTagType.data === NUMBER ? Number(group) : group) : undefined
-  };
+  const groupFilter =
+    group === UNSPECIFIED
+      ? {
+          type: TAG_FILTER_TYPE,
+          operator: IS_EMPTY,
+          name: groupBy.groupbyTag,
+          key: groupBy.groupbyTagSecondLevelKey
+        }
+      : {
+          type: TAG_FILTER_TYPE,
+          operator: operator,
+          name: groupBy.groupbyTag,
+          key: groupBy.groupbyTagSecondLevelKey,
+          value: operator === EQUALS ? (groupByTagType.data === NUMBER ? Number(group) : group) : undefined
+        };
   return addTagFilters(tagFilterExpression, [groupFilter]);
 }
 

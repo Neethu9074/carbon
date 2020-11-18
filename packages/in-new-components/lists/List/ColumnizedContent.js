@@ -9,10 +9,15 @@ export default function ColumnizedContent(props) {
 
   return (
     <>
-      {columnDefinitions.map(({ width, getContent }, i) => (
+      {columnDefinitions.map(({ width, minWidth = width, getContent, shrink = true }, i) => (
         <div
           key={i}
-          style={{ minWidth: width, maxWidth: width }}
+          style={{
+            minWidth: minWidth,
+            maxWidth: width,
+            flexShrink: shrink ? 1 : 0,
+            overflow: shrink ? 'auto' : 'visible'
+          }}
           className={evaluateClassNames({
             [locals.flexColumn]: !width
           })}
