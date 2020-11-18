@@ -51,7 +51,7 @@ export default function VMDashboard({ location }) {
         renderErrors={errors => (
           <CenterAlignmentColumn>
             <EntityVersionList
-              plugin={plugins.vsphereVm}
+              plugin={plugins.vsphereVM}
               snapshotId={props.vmId}
               timeConfig={props.timeConfig}
               errors={errors}

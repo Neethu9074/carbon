@@ -84,7 +84,7 @@ const columnDefinitions = [
 const ServerTableWithUrlState = createServerTableWithUrlState({
   Renderer: withEmptyTableState({
     columnDefinitions,
-    plugin: plugins.vsphereVm,
+    plugin: plugins.vsphereVM,
     entityName: 'vSphere VMs'
   }),
   paginationResettingUrlParameters: [...timeConfigUrlParameters, datacenterIdUrlParameter],
@@ -95,7 +95,7 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
   matrixPrefix
 });
 
-export default function VsphereHosts(props) {
+export default function VsphereVirtualMachines(props) {
   return (
     <ServerTableWithUrlState
       get={getTableData}

@@ -172,7 +172,7 @@ import './varnish';
 import './vault';
 import './vsphereDatacenter';
 import './vsphereHost';
-import './vsphereVm';
+import './vsphereVM';
 import './webLogicApplicationContainer';
 import './webSphereApplicationContainer';
 import './webSphereLibertyApplicationContainer';

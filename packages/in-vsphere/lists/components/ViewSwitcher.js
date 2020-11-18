@@ -9,8 +9,8 @@ export default function VSphereViewSwitcher() {
     <>
       <DashboardHeader
         icon="lib_vsphere_inverted"
-        label="vSphere Clusters"
-        title="vSphere Clusters"
+        label="vSphere Datacenters"
+        title="vSphere Datacenters"
         renderTopLevelButtonLine={UseBeeInstantToggle}
       />
       <DashboardHeaderShadowModule />

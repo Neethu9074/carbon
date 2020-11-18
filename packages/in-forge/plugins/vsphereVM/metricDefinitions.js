@@ -1,4 +1,4 @@
-import { bytes, bytesTwoDecimalPlaces, msZeroDecimalPlaces, percentage, number } from 'in-services/formatters/number';
+import { bytes, millis, percentage, number } from 'in-services/formatters/number';
 
 export default [
   {
@@ -14,17 +14,17 @@ export default [
   {
     metric: 'cpu.system.summation.milliseconds',
     label: 'CPU System',
-    formatter: msZeroDecimalPlaces
+    formatter: millis.compact
   },
   {
     metric: 'cpu.ready.summation.milliseconds',
     label: 'CPU Ready',
-    formatter: msZeroDecimalPlaces
+    formatter: millis.compact
   },
   {
     metric: 'cpu.wait.summation.milliseconds',
     label: 'CPU Wait',
-    formatter: msZeroDecimalPlaces
+    formatter: millis.compact
   },
   {
     metric: 'cpu.latency.average.percent',
@@ -39,22 +39,22 @@ export default [
   {
     metric: 'mem.active.none.bytes',
     label: 'Memory Active',
-    formatter: bytesTwoDecimalPlaces
+    formatter: bytes.detailed
   },
   {
     metric: 'mem.swapped.none.bytes',
     label: 'Memory Swapped',
-    formatter: bytesTwoDecimalPlaces
+    formatter: bytes.detailed
   },
   {
     metric: 'mem.granted.none.bytes',
     label: 'Memory Granted',
-    formatter: bytesTwoDecimalPlaces
+    formatter: bytes.detailed
   },
   {
     metric: 'mem.vmmemctl.none.bytes',
     label: 'Memory Vmemctl',
-    formatter: bytesTwoDecimalPlaces
+    formatter: bytes.detailed
   },
   {
     metric: 'net.received.average.bytesPerSecond',

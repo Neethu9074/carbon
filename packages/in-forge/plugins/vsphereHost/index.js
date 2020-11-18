@@ -6,8 +6,8 @@ import { plugins } from 'in-forge/constants';
 registerSnapshotDefinition({
   plugin: plugins.vsphereHost,
   pluginName: {
-    singular: 'vSphere Host',
-    plural: 'vSphere Hosts'
+    singular: 'ESXi Host',
+    plural: 'ESXi Hosts'
   },
   kpiDefinitions,
   metricDefinitions

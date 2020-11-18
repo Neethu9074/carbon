@@ -87,7 +87,7 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
   Renderer: withEmptyTableState({
     columnDefinitions,
     plugin: plugins.vsphereHost,
-    entityName: 'vSphere hosts'
+    entityName: 'ESXi Hosts'
   }),
   paginationResettingUrlParameters: [...timeConfigUrlParameters, datacenterIdUrlParameter],
   columnDefinitions,

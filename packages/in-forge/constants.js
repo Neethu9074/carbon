@@ -175,7 +175,7 @@ export const nonServicePlugins = {
   vault: 'vault',
   vsphereDatacenter: 'vsphereDatacenter',
   vsphereHost: 'vsphereHost',
-  vsphereVm: 'vsphereVm',
+  vsphereVM: 'vsphereVM',
   webLogicApplicationContainer: 'webLogicApplicationContainer',
   webSphereApplicationContainer: 'webSphereApplicationContainer',
   webSphereLibertyApplicationContainer: 'webSphereLibertyApplicationContainer',
@@ -384,7 +384,7 @@ export const fullyQualifiedPlugins = {
   vault: 'com.instana.forge.infrastructure.database.vault.Vault',
   vsphereDatacenter: 'com.instana.forge.infrastructure.paas.vsphere.derivedentity.datacenter.VsphereDatacenter',
   vsphereHost: 'com.instana.forge.infrastructure.paas.vsphere.derivedentity.host.VsphereHost',
-  vsphereVm: 'com.instana.forge.infrastructure.paas.vsphere.derivedentity.vm.VsphereVM',
+  vsphereVM: 'com.instana.forge.infrastructure.paas.vsphere.derivedentity.vm.VsphereVM',
   webLogicApplicationContainer: 'com.instana.forge.infrastructure.application.weblogic.WebLogicApplicationContainer',
   webSphereApplicationContainer: 'com.instana.forge.infrastructure.application.websphere.WebSphereApplicationContainer',
   webSphereLibertyApplicationContainer:
