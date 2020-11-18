@@ -689,7 +689,7 @@ function AWSFargateContent({ agentKey, serverlessEndpoint }) {
 }
 
 function AWSLambdaContent({ agentKey, serverlessEndpoint }) {
-  const runtimeOptions = ['Node.js 10.x or newer', 'Node.js 8.x', 'Python 2.7 and 3.x'];
+  const runtimeOptions = ['Go', 'Node.js 10.x or newer', 'Node.js 8.x', 'Python 2.7 and 3.x'];
   const [selectedRuntime, setRuntime] = useState(runtimeOptions[0]);
   const awsRegionOptions = [
     'ap-northeast-1',
@@ -716,6 +716,34 @@ function AWSLambdaContent({ agentKey, serverlessEndpoint }) {
   let steps;
 
   if (selectedRuntime === runtimeOptions[0]) {
+    steps = (
+      <Fragment>
+        <Spacer />
+
+        <TextWithLink
+          text="AWS Lambda functions written in Go need to be manually instrumented in order to collect trace data. Follow the instructions of the "
+          linkText="AWS Lambda Go documentation."
+          href="https://www.instana.com/docs/ecosystem/aws-lambda/go"
+        />
+        <Spacer />
+        <Description
+          lines={[
+            'Set the following environment variables in the "Environment Variables" section at AWS Lambda configuration page:'
+          ]}
+        />
+        <GridRow>
+          <Col xs={6}>
+            <Description lines={['INSTANA_ENDPOINT_URL']} />
+            <Script lines={[serverlessEndpoint]} />
+          </Col>
+          <Col xs={6}>
+            <Description lines={['INSTANA_AGENT_KEY']} />
+            <Script lines={[agentKey]} />
+          </Col>
+        </GridRow>
+      </Fragment>
+    );
+  } else if (selectedRuntime === runtimeOptions[1]) {
     const nodejsLayerVersion = '38';
 
     steps = (
@@ -863,7 +891,7 @@ function AWSLambdaContent({ agentKey, serverlessEndpoint }) {
         />
       </Fragment>
     );
-  } else if (selectedRuntime === runtimeOptions[1]) {
+  } else if (selectedRuntime === runtimeOptions[2]) {
     steps = (
       <TextWithLink
         text="The preferred way to configure AWS Lambda functions based on Node.js 8.x is to use the "
@@ -871,7 +899,7 @@ function AWSLambdaContent({ agentKey, serverlessEndpoint }) {
         href="https://www.instana.com/docs/ecosystem/aws-lambda#manual-wrapping"
       />
     );
-  } else if (selectedRuntime === runtimeOptions[2]) {
+  } else if (selectedRuntime === runtimeOptions[3]) {
     const pythonLayerVersion = '12';
 
     steps = (
