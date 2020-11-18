@@ -1,9 +1,18 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
+import shallowEqual from 'fbjs/lib/shallowEqual';
 
 import { pendingResult, emptyArray, indeterminateProgress } from 'in-services/fixedObjects';
 import useObservable from 'in-hooks/useObservable';
 
 export default function useCursorPagination(create, deps = []) {
+  // If 'deps' change, the 'state' will be reset to the 'initialState' value. However, this 'state' change
+  // won't be visible until the next re-render. In order to make sure that we won't use the stale value
+  // of 'state', we need to track the previous value of 'deps' and perform a shallow comparison with the
+  // current 'deps' value. If we detect a change, we will use 'initialState' instead of the stale 'state'
+  // value.
+  const [prevDeps, setPrevDeps] = useState([]);
+  useEffect(() => setPrevDeps(deps), deps);
+
   const [state, setState] = useState(initialState);
   useEffect(() => setState(initialState), deps);
 
@@ -19,7 +28,8 @@ export default function useCursorPagination(create, deps = []) {
     errors,
     items,
     time
-  } = state;
+  } = shallowEqual(prevDeps, deps) ? state : initialState;
+
   const observable = useMemo(() => create({ cursor }), [cursor, reloadCount, ...deps]);
   useEffect(() => setState(awaitItems), [observable, ...deps]);
 
