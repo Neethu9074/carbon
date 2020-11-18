@@ -1,10 +1,10 @@
-import metricDefinitions from 'in-forge/plugins/vsphereVm/metricDefinitions';
-import kpiDefinitions from 'in-forge/plugins/vsphereVm/kpiDefinitions';
+import metricDefinitions from 'in-forge/plugins/vsphereVM/metricDefinitions';
+import kpiDefinitions from 'in-forge/plugins/vsphereVM/kpiDefinitions';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
-  plugin: plugins.vsphereVm,
+  plugin: plugins.vsphereVM,
   pluginName: {
     singular: 'vSphere VM',
     plural: 'vSphere VMs'

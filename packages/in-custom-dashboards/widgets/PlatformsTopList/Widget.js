@@ -216,7 +216,7 @@ function getIcon(item) {
   if (item.isPcf) {
     return 'lib_cloudfoundry_application';
   }
-  return 'lib_vsphere_cluster';
+  return 'lib_vsphere_datacenter';
 }
 
 function getLabel(item) {
@@ -233,7 +233,7 @@ function getSubTitle(item) {
   if (item.isPcf) {
     return 'Cloud Foundry Application';
   }
-  return 'vSphere Cluster';
+  return 'vSphere Datacenter';
 }
 
 const SparkChartWithMetricValue = connectTo(

@@ -21,8 +21,8 @@ export default connectTo(
         {datacenter && (
           <Breadcrumb
             href$={getVsphereDatacenterDashboard(datacenter.id)}
-            label="vSphere Cluster"
-            icon="lib_vsphere_cluster"
+            label="vSphere Datacenter"
+            icon="lib_vsphere_datacenter"
           >
             {datacenter.label}
           </Breadcrumb>

@@ -30,7 +30,7 @@ export default function DatacenterDashboard({ location }) {
       <ViewTrackingMeta
         data={{
           productArea: 'vSphere',
-          pageRootName: 'vSphere Cluster'
+          pageRootName: 'vSphere Datacenter'
         }}
       />
 
@@ -66,8 +66,8 @@ function Header(props) {
   return (
     <DashboardHeader
       {...props}
-      title="vSphere Cluster"
-      icon="lib_vsphere_cluster"
+      title="vSphere Datacenter"
+      icon="lib_vsphere_datacenter"
       label={get(props.result, ['data', 'label'])}
     />
   );
