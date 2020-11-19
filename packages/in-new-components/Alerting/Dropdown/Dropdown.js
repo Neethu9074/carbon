@@ -1,4 +1,4 @@
-import { string, array, func, bool } from 'prop-types';
+import { string, arrayOf, any, shape, func, bool } from 'prop-types';
 import React from 'react';
 
 import ComboBoxBehavior from 'in-components/form/ComboBox/ComboBoxBehavior';
@@ -20,7 +20,12 @@ export default function Dropdown({
     <ComboBoxBehavior
       align={align}
       options={items.map(i => ({ value: i, label: i.label }))}
-      onChange={onChange}
+      onChange={newValue => {
+        if (newValue.label === label) {
+          return;
+        }
+        onChange(newValue);
+      }}
       disableAutomaticOptionSorting
     >
       {({ elementProps, isOpen }) => (
@@ -45,7 +50,12 @@ Dropdown.propTypes = {
   icon: string,
   align: string,
   label: string.isRequired,
-  items: array.isRequired,
+  items: arrayOf(
+    shape({
+      label: string.isRequired,
+      value: any.isRequired
+    })
+  ).isRequired,
   onChange: func.isRequired,
   asSimpleDropdown: bool,
   className: string

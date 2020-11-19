@@ -1,7 +1,9 @@
 import { Meta, Story, Preview, Props } from '@storybook/addon-docs/blocks';
 import { action as storybookAction } from '@storybook/addon-actions';
+import { useState } from 'react';
 
 import Dropdown from 'in-new-components/Alerting/Dropdown';
+
 
 <Meta title="Molecules|alerting/Dropdown" component={Dropdown} />
 
@@ -24,6 +26,45 @@ Check out `MoreMenu` for a ready-made solution or `Combobox` which allows custom
         <Dropdown icon="lib_actions_settings" label="Dropdown in 'Simple' Style" asSimpleDropdown items={[{ label: 'Foobar' }]} />
       </p>
     </>
+  </Story>
+</Preview>
+
+
+## Triggering onChange and handling duplicates:
+
+* When selecting the **currently selected** item, this component **ignores** to call the onChange callback.
+* When there are duplicated labels, it **will not switch** to a different entry when the **label was equal**.
+
+You can test this by watching the results in Storybook's Action addon tab.
+
+<Preview>
+  <Story name="onChange">
+    {() => {
+      const [current, setCurrent] = useState({ label: 'DuplicateLabel', value: 3 });
+      return (
+        <>
+          <p>
+            <Dropdown
+              label={current.label}
+              onChange={v => {
+                storybookAction('onChange')(v.label, v.value);
+                setCurrent(v);
+              }}
+              items={[
+                { value: 1, label: 'Foobar' },
+                { value: 2, label: 'Baz' },
+                { value: 3, label: 'DuplicateLabel' },
+                { value: 4, label: 'DuplicateLabel' }
+              ]}
+            />
+          </p>
+          <dt>Selected item, abel:</dt>
+          <dd>{current.label}</dd>
+          <dt>Selected item, value:</dt>
+          <dd>{current.value}</dd>
+        </>
+      );
+    }}
   </Story>
 </Preview>
 

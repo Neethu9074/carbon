@@ -21,7 +21,7 @@ export function ThresholdOperatorDropDown({ form, onChange, customOnChange, trac
       items={options}
       onChange={({ value = '' }) => {
         if (customOnChange) {
-          customOnChange(value, operatorValue);
+          customOnChange(value);
         } else {
           onChange(['threshold', 'operator'], f => f.setValue(value).setTouched(true));
         }
@@ -33,7 +33,7 @@ export function ThresholdOperatorDropDown({ form, onChange, customOnChange, trac
 
 ThresholdOperatorDropDown.propTypes = {
   form: PropTypes.object.isRequired,
-  customOnChange: PropTypes.func, // optional, invoked `customOnChange(newValue, oldValue)`
+  customOnChange: PropTypes.func, // optional, invoked `customOnChange(newValue)`
   onChange: PropTypes.func, // used by default, when no customOnChange given
   trackingCallback: PropTypes.func,
   allOptions: PropTypes.bool

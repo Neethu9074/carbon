@@ -15,7 +15,6 @@ import { ThresholdOperatorDropDown } from 'in-new-components/Alerting/advanced/T
 import { getThresholdComboBoxValue } from 'in-new-components/Alerting/advanced/thresholdFormHelper';
 import ChartViewConfigurator from 'in-new-components/Alerting/components/ChartViewConfigurator';
 import { thresholdTypeOptions } from 'in-new-components/Alerting/advanced/thresholdFormData';
-import { isDifferentOperatorDirection } from 'in-new-components/Alerting/utils/alertUtils';
 import ThresholdValueInput from 'in-new-components/Alerting/advanced/ThresholdValueInput';
 import { blueprintConfigPropType } from 'in-new-components/Alerting/constants';
 import { getTrackingObject } from 'in-new-components/Alerting/trackingHelpers';
@@ -74,18 +73,17 @@ function ThresholdCondition({ form, updateForm, onChange, blueprintConfig }) {
         <Label>{blueprintConfig.getMetricLabel(metricName)}</Label>
         <ThresholdOperatorDropDown
           form={form}
-          customOnChange={(newOperator, operatorValue /* TODO find out if still needed after 32917 */) => {
+          customOnChange={newOperator => {
             let updatedForm = form.updateIn(['threshold', 'operator'], f => f.setValue(newOperator).setTouched(true));
-            if (thresholdType === 'staticThreshold' && isDifferentOperatorDirection(newOperator, operatorValue)) {
+            if (thresholdType === 'staticThreshold') {
               // if the operator direction changed in case of static-threshold: request new suggestion
               updatedForm = updatedForm.updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f =>
                 f.setValue(true)
               );
             }
             updateForm(updatedForm);
-
-            applicationsAlertingThresholdOperatorChanged(getTrackingObject(form, { value: newOperator }));
           }}
+          trackingCallback={applicationsAlertingThresholdOperatorChanged}
           allOptions
         />
         <Dropdown
