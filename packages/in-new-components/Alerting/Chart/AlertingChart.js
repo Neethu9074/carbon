@@ -53,7 +53,7 @@ export default function AlertingChart({ alertConfig, viewConfig, blueprintConfig
       const ruleTagFilterExpression = blueprintConfig.getRuleTagFilterExpression(alertConfig.rule);
       enrichedTagFilterExpression = [];
 
-      if (alertConfig.tagFilterExpression.length > 0) {
+      if (alertConfig.tagFilterExpression?.length > 0) {
         enrichedTagFilterExpression.push(...alertConfig.tagFilterExpression, AND_CONJUNCTION);
       }
 

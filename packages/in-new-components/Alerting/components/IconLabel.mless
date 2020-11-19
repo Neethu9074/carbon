@@ -1,0 +1,11 @@
+@import '~in-themes/active.less';
+
+:local {
+  .wrapper {
+    margin: 0 0 0.5rem 0;
+  }
+
+  .icon {
+    margin: 0 0.5rem 0 0;
+  }
+}

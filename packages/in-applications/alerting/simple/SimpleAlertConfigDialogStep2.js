@@ -6,6 +6,7 @@ import AlertFilterConfigurator from 'in-new-components/Alerting/components/Alert
 import AlertLocationFilters from 'in-applications/alerting/components/AlertLocationFilters';
 import AlertQueryBuilder from 'in-applications/alerting/components/AlertQueryBuilder';
 import WithQB1orQB2 from 'in-new-components/Alerting/components/WithQB1orQB2';
+import IconLabel from 'in-new-components/Alerting/components/IconLabel';
 
 import locals from './SimpleAlertConfigDialogStep2.mless';
 
@@ -32,7 +33,7 @@ export default function SimpleAlertConfigDialogStep2({
           )}
           onUsesQB2={() => (
             <div className={locals.alertFiltersWrapper}>
-              <h2>Filters for AP: {applicationLabel} </h2>
+              <IconLabel text={applicationLabel} type="lib_application" />
               <AlertFilterConfigurator queryBuilderComponent={AlertQueryBuilder} form={form} updateForm={updateForm} />
             </div>
           )}

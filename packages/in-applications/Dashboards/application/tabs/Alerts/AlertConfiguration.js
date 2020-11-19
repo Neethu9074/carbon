@@ -10,13 +10,17 @@ import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-applic
 import AlertChannelsViewer from 'in-new-components/Alerting/components/AlertChannelsViewer';
 import { getLogMessageRuleOperatorLabel } from 'in-applications/alerting/form/ruleFormData';
 import AlertPropertyInfos from 'in-new-components/Alerting/components/AlertPropertyInfos';
+import AlertQueryBuilder from 'in-applications/alerting/components/AlertQueryBuilder';
 import AlertDetailsCard from 'in-new-components/Alerting/components/AlertDetailsCard';
 import { getBlueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
+import WithQB1orQB2 from 'in-new-components/Alerting/components/WithQB1orQB2';
 import AlertingChart from 'in-new-components/Alerting/Chart/AlertingChart';
+import IconLabel from 'in-new-components/Alerting/components/IconLabel';
 import LocallyChangedTheme from 'in-themes/LocallyChangedTheme';
 import ExpandableCard from 'in-new-components/ExpandableCard';
 import { operators } from 'in-analyze/applicationFilter';
 import ListTitle from 'in-new-components/lists/Title';
+import { identity } from 'in-services/util/function';
 import { light } from 'in-themes/themes';
 
 import locals from 'in-new-components/Alerting/shared-styles/AlertConfiguration.mless';
@@ -31,7 +35,8 @@ export default function AlertConfiguration({ alertConfig, applicationName }) {
     rule: { operator, alertType, message, level },
     timeThreshold,
     alertChannelIds,
-    tagFilters
+    tagFilters, // QB1
+    tagFilterExpression // QB2
   } = alertConfig;
 
   const blueprintConfig = getBlueprintConfig(alertType);
@@ -58,29 +63,49 @@ export default function AlertConfiguration({ alertConfig, applicationName }) {
                 />
               )}
 
-              <AlertingChart alertConfig={alertConfig} viewConfig={chartViewConfig} blueprintConfig={blueprintConfig} />
+              <AlertingChart
+                alertConfig={{ ...alertConfig }}
+                viewConfig={chartViewConfig}
+                blueprintConfig={blueprintConfig}
+              />
             </>
           )}
         </ChartViewConfigurator>
 
-        <ExpandableCard title="Scope" openByDefault bodyWithoutPadding darkFrame useMaxAvailableHeight={false}>
-          <div className={locals.filterList}>
-            <TagFilterListPresenter
-              tagFilters={translateDemocratisationTagFiltersToAnalyzeTagFilters({
-                tagFilters: [blueprintConfig.getEntityTagFilter(alertConfig), ...tagFilters],
-                applicationName
-              })}
-              disabled
+        <ExpandableCard
+          className={locals.filterListContainer}
+          title="Scope"
+          useMaxAvailableHeight={false}
+          openByDefault
+          darkFrame
+        >
+          <div className={locals.alertFiltersWrapper}>
+            <WithQB1orQB2
+              onUsesQB1={() => (
+                <TagFilterListPresenter
+                  tagFilters={translateDemocratisationTagFiltersToAnalyzeTagFilters({
+                    tagFilters: [blueprintConfig.getEntityTagFilter(alertConfig), ...tagFilters],
+                    applicationName
+                  })}
+                  disabled
+                />
+              )}
+              onUsesQB2={() => (
+                <>
+                  <IconLabel text={applicationName} type="lib_application" />
+                  <AlertQueryBuilder onChange={identity} value={tagFilterExpression} readOnly />
+                </>
+              )}
             />
-            <ReadOnlyInboundOrAllCalls alertConfig={alertConfig} />
           </div>
+          <ReadOnlyInboundOrAllCalls alertConfig={alertConfig} />
         </ExpandableCard>
 
-        <ExpandableCard title="Time Threshold" openByDefault bodyWithoutPadding darkFrame useMaxAvailableHeight={false}>
+        <ExpandableCard title="Time Threshold" useMaxAvailableHeight={false} bodyWithoutPadding openByDefault darkFrame>
           <TimeThresholdDescription timeThreshold={timeThreshold} />
         </ExpandableCard>
 
-        <ExpandableCard title="Alert Channels" darkFrame openByDefault bodyWithoutPadding useMaxAvailableHeight={false}>
+        <ExpandableCard title="Alert Channels" useMaxAvailableHeight={false} bodyWithoutPadding openByDefault darkFrame>
           <div className={locals.alertChannelsWrapper}>
             <AlertChannelsViewer alertChannelIds={alertChannelIds} />
           </div>
@@ -88,10 +113,10 @@ export default function AlertConfiguration({ alertConfig, applicationName }) {
 
         <ExpandableCard
           title="Alert Properties"
-          openByDefault
-          bodyWithoutPadding
-          darkFrame
           useMaxAvailableHeight={false}
+          bodyWithoutPadding
+          openByDefault
+          darkFrame
         >
           <AlertPropertyInfos alertConfig={alertConfig} />
         </ExpandableCard>

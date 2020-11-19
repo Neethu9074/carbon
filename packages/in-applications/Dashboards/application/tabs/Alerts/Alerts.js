@@ -15,9 +15,11 @@ import {
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
 import { alertsTab, alertsTabDetailsFullyQualified } from 'in-applications/navigation/paths';
 import { alertCreated as alertCreatedMatrixParam } from 'in-applications/navigation/matrix';
+import AlertQueryBuilder from 'in-applications/alerting/components/AlertQueryBuilder';
 import { getBlueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
 import { alertId as alertIdMatrixParam } from 'in-applications/navigation/matrix';
 import evaluateClassNames, { joinClassNames } from 'in-services/util/classnames';
+import WithQB1orQB2 from 'in-new-components/Alerting/components/WithQB1orQB2';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { mutateUrl } from 'in-stores/navigation/navigation';
 import Footer from 'in-new-components/Footer/Footer';
@@ -155,19 +157,41 @@ function getFiltersContent(config, applicationName) {
           {applicationName}
         </span>
       )}
-      {config.tagFilters.length >= 1 && (
-        <Tooltip
-          themeStyle="light"
-          content={<TagFilterListPresenter tagFilters={config.tagFilters} readonly />}
-          align="topMiddle"
-          delay={500}
-        >
-          <span className={locals.centered}>
-            <SvgIcon className={locals.filterIcon} type="lib_actions_filter" />
-            {config.tagFilters.length} filter(s)
-          </span>
-        </Tooltip>
-      )}
+
+      <WithQB1orQB2
+        onUsesQB1={() =>
+          config.tagFilters?.length >= 1 ? (
+            <Tooltip
+              themeStyle="light"
+              content={<TagFilterListPresenter tagFilters={config.tagFilters} readonly />}
+              align="topMiddle"
+              delay={500}
+            >
+              <span className={locals.centered}>
+                <SvgIcon className={locals.filterIcon} type="lib_actions_filter" />
+                {config.tagFilters.length} filter(s)
+              </span>
+            </Tooltip>
+          ) : null
+        }
+        onUsesQB2={() => {
+          return (
+            config.tagFilterExpression.length > 0 && (
+              <Tooltip
+                themeStyle="light"
+                content={<AlertQueryBuilder value={config.tagFilterExpression} readOnly />}
+                align="topMiddle"
+                delay={500}
+              >
+                <span className={locals.centered}>
+                  <SvgIcon className={locals.filterIcon} type="lib_actions_filter" />
+                  Filters
+                </span>
+              </Tooltip>
+            )
+          );
+        }}
+      />
     </div>
   );
 }

@@ -8,4 +8,8 @@
   .alertChannelsWrapper {
     margin: -1px;
   }
+
+  .alertFiltersWrapper {
+    margin: 0 0 1rem 0;
+  }
 }
