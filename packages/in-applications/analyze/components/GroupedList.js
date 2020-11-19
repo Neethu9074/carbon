@@ -1,14 +1,17 @@
 import { empty } from 'reactive-observables';
+import React, { useEffect } from 'react';
 import { partition } from 'lodash';
-import React from 'react';
 
 import MetricAndSortingConfigurator from 'in-new-components/MetricAndSortingConfigurator/MetricAndSortingConfigurator';
 import { ColumnizedContent, Ul, Li, LoadingSkeletonLi, HorizontalIndicatorLi } from 'in-new-components/lists/List';
+import { aggregateMetricKey, sparkChartMetricKey, chartMetricKey } from 'in-applications/analyze/metrics';
 import { type as TAG_FILTER_TYPE } from 'in-new-components/QueryBuilder/transformation/tagFilter';
 import { addTagFilters } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import FacetedSearch from 'in-applications/analyze/components/FacetedSearch/FacetedSearch';
+import { getChartGranularity, getSparkChartGranularity } from 'in-applications/metrics';
 import { EQUALS, IS_EMPTY } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
+import { emptyArray, indeterminateProgress } from 'in-services/fixedObjects';
 import LoadMoreLi from 'in-new-components/lists/List/LoadMoreLi/LoadMoreLi';
 import { UNSPECIFIED } from 'in-analyze/components/GroupedTraces/Group';
 import { NUMBER } from 'in-new-components/QueryBuilder/tagFilter/types';
@@ -16,9 +19,6 @@ import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import { getApplicationTagCatalog } from 'in-applications/api/catalog';
 import { dataSourceConstants } from 'in-applications/analyze/metrics';
 import { error as errorType } from 'in-new-components/Message/types';
-import { getSparkChartGranularity } from 'in-applications/metrics';
-import { aggregateMetric } from 'in-applications/analyze/metrics';
-import { indeterminateProgress } from 'in-services/fixedObjects';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import IconButton from 'in-new-components/IconButton/IconButton';
 import useCursorPagination from 'in-hooks/useCursorPagination';
@@ -49,15 +49,19 @@ export default function GroupedList({
   updateFilter,
   hiddenCalls,
   onChangeHiddenCalls,
-  dataSource
+  dataSource,
+  onResult,
+  chartEnabled,
+  groupColors
 }) {
   const defaultOrder = dataSourceConstants[dataSource].metricKey;
   const defaultDirection = 'DESC';
   const timeConfig = useTimeConfig();
-  const granularity = getSparkChartGranularity(timeConfig);
+  const chartGranularity = getChartGranularity(timeConfig);
+  const sparkChartGranularity = getSparkChartGranularity(timeConfig);
   const order = { by: orderBy.by || defaultOrder, direction: orderBy.direction || defaultDirection };
 
-  const props = useCursorPagination(
+  const result = useCursorPagination(
     ({ cursor }) =>
       isValid
         ? getGroups({
@@ -65,14 +69,20 @@ export default function GroupedList({
             tagFilterExpression,
             groupBy,
             order,
-            metrics: convertMetricListToMetricObject(metrics, granularity),
+            metrics: convertMetricListToMetricObject(metrics, sparkChartGranularity, chartGranularity),
             cursor,
             hiddenCalls,
             dataSource
           })
         : empty,
-    [timeConfig, groupBy, orderBy, metrics, isValid, hiddenCalls]
+    [timeConfig, tagFilterExpression, groupBy, orderBy, metrics, isValid, hiddenCalls, dataSource]
   );
+
+  useEffect(() => {
+    if (onResult) {
+      onResult(result);
+    }
+  }, [result?.progress.loading]);
 
   const dataSourceName = dataSourceConstants[dataSource].backendDataSource;
 
@@ -91,7 +101,7 @@ export default function GroupedList({
       order={order}
       subOrderBy={subOrderBy}
       metrics={metrics}
-      granularity={granularity}
+      granularity={sparkChartGranularity}
       hiddenCalls={hiddenCalls}
       onFocusOnGroup={onFocusOnGroup}
       onChangeOrderBy={onChangeOrderBy}
@@ -100,10 +110,12 @@ export default function GroupedList({
       onChangeHiddenCalls={onChangeHiddenCalls}
       tagFilterExpression={tagFilterExpression}
       updateFilter={updateFilter}
+      chartEnabled={chartEnabled}
+      groupColors={groupColors}
       isValid={isValid}
       groupByTagType={groupByTagType}
       dataSource={dataSource}
-      {...props}
+      {...result}
     />
   );
 }
@@ -129,13 +141,15 @@ function Presenter({
   updateFilter,
   hiddenCalls,
   onChangeHiddenCalls,
+  chartEnabled,
+  groupColors,
   isValid,
   groupByTagType,
   dataSource
 }) {
   const hasErrors = errors?.length > 0;
   const isLoading = progress.loading || groupByTagType.progress.loading;
-  const labelColumnDefinitions = labelColumns({ groupBy });
+  const labelColumnDefinitions = labelColumns({ groupBy, chartEnabled, groupColors });
   const metricColumnDefinitions = metricColumns({ metrics, dataSource });
   const actionColumnDefinitions = actionColumns({ groupBy, onFocusOnGroup, groupByTagType });
 
@@ -247,14 +261,35 @@ function Presenter({
   );
 }
 
-function labelColumns({ groupBy }) {
+function labelColumns({ groupBy, chartEnabled, groupColors }) {
   const { groupbyTag, groupbyTagSecondLevelKey } = groupBy;
+  let i = 0;
   return [
+    // conditionally add a column with chart color markers
+    ...(chartEnabled
+      ? [
+          {
+            width: '1.5rem',
+            getContent() {
+              const groupIdx = i++;
+              return groupIdx < groupColors.length ? (
+                <div className={locals.center}>
+                  <div className={locals.rect} style={{ backgroundColor: groupColors[groupIdx] }} />
+                </div>
+              ) : null;
+            }
+          }
+        ]
+      : emptyArray),
     {
       width: '3rem',
       shrink: false,
       getContent() {
-        return <SvgIcon type={groupbyTag === UNSPECIFIED ? 'lib_missing_data' : 'lib_views_tag'} />;
+        return (
+          <div className={locals.center}>
+            <SvgIcon className={locals.tag} type={groupbyTag === UNSPECIFIED ? 'lib_missing_data' : 'lib_views_tag'} />
+          </div>
+        );
       }
     }
   ].concat({
@@ -308,8 +343,8 @@ function metricToColumn(metric, dataSource) {
             rollup={granularity}
             timeConfig={timeConfig}
             aggregation={metric.aggregation}
-            metrics={group.metrics[`${metric.metric}_${metric.aggregation}`]}
-            metric={group.metrics[aggregateMetric(metric.metric, metric.aggregation)]}
+            metrics={group.metrics[sparkChartMetricKey(metric.metric, metric.aggregation)]}
+            metric={group.metrics[aggregateMetricKey(metric.metric, metric.aggregation)]}
             tooltipFormatter={configuration.formatter}
             label={configuration.label}
             valueTheme={'blue'}
@@ -365,7 +400,7 @@ function HeaderRow({ order, onChangeOrderBy, metrics, onChangeMetrics, dataSourc
   const sortingOptions = metrics.map(metric => {
     const aggregation = aggregationLabel(metric.aggregation, metricConfiguration[metric.metric].type);
     return {
-      value: aggregateMetric(metric.metric, metric.aggregation),
+      value: aggregateMetricKey(metric.metric, metric.aggregation),
       label: `${metricConfiguration[metric.metric].label} ${aggregation}`
     };
   });
@@ -435,23 +470,26 @@ function groupingFilter({ groupBy, group, operator = EQUALS, groupByTagType }, t
   return addTagFilters(tagFilterExpression, [groupFilter]);
 }
 
-const convertMetricListToMetricObject = (metrics, granularity) =>
+const convertMetricListToMetricObject = (metrics, sparkChartGranularity, chartGranularity) =>
   metrics.reduce(
     (obj, metric) => ({
       ...obj,
-      ...convertMetricToObject(metric, granularity)
+      // chart metrics
+      [chartMetricKey(metric.metric, metric.aggregation)]: {
+        metric: metric.metric,
+        aggregation: metric.aggregation,
+        granularity: chartGranularity
+      },
+      // spark chart metrics
+      [sparkChartMetricKey(metric.metric, metric.aggregation)]: {
+        metric: metric.metric,
+        aggregation: metric.aggregation,
+        granularity: sparkChartGranularity
+      },
+      [aggregateMetricKey(metric.metric, metric.aggregation)]: {
+        metric: metric.metric,
+        aggregation: metric.aggregation
+      }
     }),
     {}
   );
-
-const convertMetricToObject = (metric, granularity) => ({
-  [`${metric.metric}_${metric.aggregation}`]: {
-    metric: metric.metric,
-    aggregation: metric.aggregation,
-    granularity
-  },
-  [aggregateMetric(metric.metric, metric.aggregation)]: {
-    metric: metric.metric,
-    aggregation: metric.aggregation
-  }
-});

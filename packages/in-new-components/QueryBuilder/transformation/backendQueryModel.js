@@ -1,5 +1,6 @@
 import { CLOSE_BRACKET, OPEN_BRACKET, TAG, CONJUNCTION } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { toTagFilter } from 'in-new-components/QueryBuilder/transformation/tagFilter';
+import { deepFreeze } from 'in-services/util/object';
 
 export const EXPRESSION = 'EXPRESSION';
 
@@ -7,9 +8,11 @@ export const OPERATOR_OR = 'OR';
 export const OPERATOR_AND = 'AND';
 export const OPERATOR_NOT = 'NOT';
 
+export const EMPTY_EXPRESSION = deepFreeze(createTagFilterExpression(OPERATOR_OR, []));
+
 export function toBackendQueryModel(formModel, simplify = true) {
   if (!formModel || formModel.length === 0) {
-    return createTagFilterExpression(OPERATOR_OR, []);
+    return EMPTY_EXPRESSION;
   }
   return parseOrExpression(formModel.slice(), simplify);
 }

@@ -9,11 +9,11 @@ import Button from 'in-new-components/Button';
 
 import locals from './ChartingConfigurator.mless';
 
-export default function ChartingConfigurator({ options, value, onChange }) {
+export default function ChartingConfigurator({ options, value, onChange, hideRenderer }) {
   if (!value) {
     return (
       <Button
-        className={locals.noActiveGroupingButton}
+        className={locals.addChartButton}
         kind="subtle"
         size="compact"
         icon="lib_openclose_add"
@@ -30,7 +30,7 @@ export default function ChartingConfigurator({ options, value, onChange }) {
     );
   }
 
-  return <ChartingConfiguratorForm value={value} options={options} onChange={onChange} />;
+  return <ChartingConfiguratorForm value={value} options={options} onChange={onChange} hideRenderer={hideRenderer} />;
 }
 
 const aggregationShape = PropTypes.shape({
@@ -54,5 +54,6 @@ ChartingConfigurator.propTypes = {
     aggregationId: PropTypes.string,
     rendererId: PropTypes.string
   }),
-  options: PropTypes.arrayOf(optionShape).isRequired
+  options: PropTypes.arrayOf(optionShape).isRequired,
+  hideRenderer: PropTypes.bool
 };

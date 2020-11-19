@@ -53,7 +53,7 @@ export default function List({
             dataSource
           })
         : empty,
-    [timeConfig, retrievalSize, tagFilterExpression, orderBy, isValid, hiddenCalls]
+    [timeConfig, retrievalSize, tagFilterExpression, orderBy, isValid, hiddenCalls, dataSource]
   );
 
   const columnDefinitions = getColumnDefinitions(dataSource);

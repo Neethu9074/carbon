@@ -14,11 +14,11 @@ import {
   getGroupFromUrlString,
   getGroupToUrlString
 } from 'in-analyze/filterBuilder';
-import { updateLatencyFilters } from 'in-new-components/LatencyDistributionBase10Chart/latencyUtils';
 import { focusedMetric as focusedMetricMatrixParameter } from 'in-analyze/navigation/matrix';
 import EditGroupDialog from 'in-analyze/AnalyzeView/components/AnalyzeEditGroupDialog';
 import { getTagFilterListForBackendSubscription } from 'in-analyze/applicationFilter';
 import EmptyAnalyzeView from 'in-analyze/AnalyzeView/components/EmptyAnalyzeView';
+import { updateLatencyFilters } from 'in-applications/analyze/utils/latencyUtils';
 import WithEmptyStateFallback from 'in-new-components/WithEmptyStateFallback';
 import { groupAddedTracker, groupChangedTracker } from 'in-analyze/tracker';
 import getConfigByDataSource from 'in-analyze/AnalyzeView/dataSources';

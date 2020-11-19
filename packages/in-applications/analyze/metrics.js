@@ -40,7 +40,9 @@ const latency = {
 
 export const availableMetrics = [calls, latency, erroneousCalls, errorRate];
 
-export const aggregateMetric = (metric, aggregation) => `${metric}_${aggregation}_Agg`;
+export const chartMetricKey = (metric, aggregation) => `${metric}_${aggregation}`;
+export const sparkChartMetricKey = (metric, aggregation) => `${metric}_${aggregation}_Spark`;
+export const aggregateMetricKey = (metric, aggregation) => `${metric}_${aggregation}_Agg`;
 
 export const dataSourceConstants = {
   calls: {
@@ -55,6 +57,18 @@ export const dataSourceConstants = {
         aggregation: 'SUM'
       }
     },
+    defaultMetrics: [
+      { metric: 'calls', aggregation: 'SUM' },
+      { metric: 'latency', aggregation: 'MEAN' },
+      { metric: 'errors', aggregation: 'MEAN' }
+    ],
+    defaultOrderByGroups: {
+      by: 'calls_SUM_Agg',
+      direction: 'DESC'
+    },
+    defaultCharts: [
+      { metric: 'latency', aggregation: 'DISTRIBUTION' }
+    ],
     metricConfiguration: {
       calls: { formatter: number.compact, label: 'Calls', type: 'count', aggregations: ['SUM'] },
       latency: {
@@ -83,6 +97,18 @@ export const dataSourceConstants = {
         aggregation: 'SUM'
       }
     },
+    defaultMetrics: [
+      { metric: 'traces', aggregation: 'SUM' },
+      { metric: 'latency', aggregation: 'MEAN' },
+      { metric: 'errors', aggregation: 'MEAN' }
+    ],
+    defaultOrderByGroups: {
+      by: 'traces_SUM_Agg',
+      direction: 'DESC'
+    },
+    defaultCharts: [
+      { metric: 'latency', aggregation: 'DISTRIBUTION' }
+    ],
     metricConfiguration: {
       traces: { formatter: number.compact, label: 'Traces', type: 'count', aggregations: ['SUM'] },
       latency: {
@@ -97,7 +123,7 @@ export const dataSourceConstants = {
         type: 'rate',
         aggregations: ['MEAN']
       },
-      erroneousTraces: { formatter: number.compact, label: 'Erroneous Traces', type: 'count', aggregations: ['SUM'] }
+      erroneousCalls: { formatter: number.compact, label: 'Erroneous Traces', type: 'count', aggregations: ['SUM'] }
     },
     latencyTag: 'trace.latency',
     getData: getTraces,

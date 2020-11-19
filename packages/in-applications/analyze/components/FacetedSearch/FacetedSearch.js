@@ -22,6 +22,7 @@ export default function FacetedSearch({
     <div className={locals.wrapper}>
       <FacetedFilterLatency
         title="Latency"
+        dataSource={dataSource}
         tagFilterExpression={tagFilterExpression}
         updateFilter={updateFilter}
         isValid={isValid}

@@ -12,7 +12,7 @@ import {
   ErroneousRowTh,
   ErroneousRowTd
 } from 'in-components/tables/sharedComponents';
-import ApplicationRawMetricsChart from '../MetricsChart/ApplicationRawMetricsChart';
+import ApplicationRawMetricsChart from 'in-analyze/components/MetricsChart/ApplicationRawMetricsChart';
 import GroupingTableHeader from 'in-analyze/components/GroupingTableHeader';
 import LoadingStates from 'in-analyze/AnalyzeView/components/LoadingStates';
 import TableLinkWithIcon from 'in-analyze/components/TableLinkWithIcon';

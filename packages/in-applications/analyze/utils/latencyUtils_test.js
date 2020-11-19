@@ -9,13 +9,10 @@ import {
   NOT_EQUAL,
   EQUALS
 } from 'in-new-components/QueryBuilder/tagFilter/operators';
-import {
-  updateLatencyFilters,
-  getLatencySelectionFromFilters
-} from 'in-new-components/LatencyDistributionBase10Chart/latencyUtils';
+import { updateLatencyFilters, getLatencySelectionFromFilters } from 'in-applications/analyze/utils/latencyUtils';
 import { DESTINATION, NOT_APPLICABLE } from 'in-new-components/QueryBuilder/tagFilter/entities';
 
-describe('in-new-components/LatencyDistributionBase10Chart/latencyUtils', () => {
+describe('in-applications/analyze/utils/latencyUtils', () => {
   describe('#getLatencySelectionFromFilters()', () => {
     it('calls - empty filter', () => {
       expect(getLatencySelectionFromFilters('calls', [])).to.deep.equal({});

@@ -27,7 +27,8 @@ export const aggregationLabels = {
   P99: '99th',
   MAX: 'max',
   DISTINCT_COUNT: 'distinct count',
-  SUM: 'sum'
+  SUM: 'sum',
+  DISTRIBUTION: 'distribution'
 };
 
 // Ensure that this is kept in sync with the backend:

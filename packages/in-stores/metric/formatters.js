@@ -56,3 +56,7 @@ export const formatters = [
 ];
 
 export const allFormatterIds = Object.values(formatters).map(c => c.id);
+
+export function getFormatter(formatterId)  {
+  return (formatters.find(({ id }) => id === formatterId) || defaultFormatter).formatter;
+}

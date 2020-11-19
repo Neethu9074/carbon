@@ -5,12 +5,11 @@ import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './ChartingConfiguratorForm.mless';
 
-export default function ChartingConfiguratorForm({ value, options, onChange }) {
+export default function ChartingConfiguratorForm({ value, options, onChange, hideRenderer }) {
   const activeMetric = options.find(({ metricId }) => metricId === value.metricId) || options[0];
   const activeAggregation =
     activeMetric.aggregations.find(({ id }) => id === value.aggregationId) || activeMetric.aggregations[0];
-  const activeRenderer =
-    activeAggregation.renderers.find(({ id }) => id === value.rendererId) || activeAggregation.renderers[0];
+  const activeRenderer = activeAggregation.renderers.find(({ id }) => id === value.rendererId) || activeAggregation.renderers[0];
 
   return (
     <div className={locals.wrapper}>
@@ -73,24 +72,25 @@ export default function ChartingConfiguratorForm({ value, options, onChange }) {
         )}
       </ComboBoxBehavior>
 
-      <ComboBoxBehavior
-        options={activeAggregation.renderers.map(({ id, label }) => ({ value: id, label }))}
-        value={activeRenderer.id}
-        onChange={rendererId =>
-          onChange({
-            ...value,
-            rendererId
-          })
-        }
-        requiresCustomInteractivity
-        ariaLabel="Change selected renderer"
-      >
-        {({ elementProps }) => (
-          <div {...elementProps} className={locals.renderer}>
-            {activeRenderer.label}
-          </div>
-        )}
-      </ComboBoxBehavior>
+      { !hideRenderer && <ComboBoxBehavior
+          options={activeAggregation.renderers.map(({ id, label }) => ({ value: id, label }))}
+          value={activeRenderer.id}
+          onChange={rendererId =>
+            onChange({
+              ...value,
+              rendererId
+            })
+          }
+          requiresCustomInteractivity
+          ariaLabel="Change selected renderer"
+        >
+          {({ elementProps }) => (
+            <div {...elementProps} className={locals.renderer}>
+              {activeRenderer.label}
+            </div>
+          )}
+        </ComboBoxBehavior>
+      }
 
       <SvgIcon
         className={locals.removeIcon}

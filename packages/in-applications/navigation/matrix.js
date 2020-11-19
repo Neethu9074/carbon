@@ -51,6 +51,7 @@ export const orderByCallsMatrixParameter = {
   initialState: { by: 'latency', direction: 'DESC' }
 };
 
+
 export const metricsMatrixParameter = {
   path: analyze,
   name: 'metrics',
@@ -64,4 +65,12 @@ export const hiddenCallsMatrixParameter = {
   serializer: buildJsonSerializer(),
   parser: buildJsonParser(emptyObject),
   initialState: { includeInternal: false, includeSynthetic: false }
+};
+
+export const chartsMatrixParameter = {
+  path: analyze,
+  name: 'charts',
+  serializer: buildJsonSerializer(),
+  parser: buildJsonParser(emptyObject),
+  initialState: emptyArray
 };

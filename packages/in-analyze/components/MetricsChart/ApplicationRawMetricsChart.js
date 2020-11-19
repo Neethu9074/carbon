@@ -2,8 +2,8 @@ import { withProps } from 'recompose';
 import React from 'react';
 
 import LatencyDistributionBase10Chart from 'in-new-components/LatencyDistributionBase10Chart/LatencyDistributionBase10Chart';
-import { getLatencySelectionFromFilters } from 'in-new-components/LatencyDistributionBase10Chart/latencyUtils';
 import getLatencyDistributionBase10 from 'in-subscription/application/getLatencyDistributionBase10';
+import { getLatencySelectionFromFilters } from 'in-applications/analyze/utils/latencyUtils';
 import { getTagFilterListForBackendSubscription } from 'in-analyze/applicationFilter';
 import RawMetricsChart from 'in-analyze/components/MetricsChart/RawMetricsChart';
 import { millis } from 'in-services/formatters/number';

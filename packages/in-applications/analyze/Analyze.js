@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { range } from 'lodash';
 
 import {
   tagFilterExpressionMatrixParameter,
@@ -6,7 +7,8 @@ import {
   orderByGroupsMatrixParameter,
   orderByCallsMatrixParameter,
   metricsMatrixParameter,
-  hiddenCallsMatrixParameter
+  hiddenCallsMatrixParameter,
+  chartsMatrixParameter
 } from 'in-applications/navigation/matrix';
 import TraceGroupingConfigurator, {
   isTraceGroupingConfigurationValid
@@ -14,19 +16,22 @@ import TraceGroupingConfigurator, {
 import CallGroupingConfigurator, {
   isCallGroupingConfigurationValid
 } from 'in-applications/analyze/components/workspace/CallGroupingConfigurator';
+import { EMPTY_EXPRESSION, toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import TraceQueryBuilder, { isTraceQueryValid } from 'in-applications/analyze/components/workspace/TraceQueryBuilder';
 import CallQueryBuilder, { isCallQueryValid } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import { joinExpressions, removeTopLevelFilters } from 'in-new-components/QueryBuilder/transformation/formModel';
 import GroupingConfiguratorSection from 'in-new-components/GroupingConfigurator/GroupingConfiguratorSection';
+import ChartingConfiguratorSection from 'in-new-components/ChartingConfigurator/ChartingConfiguratorSection';
+import ChartingPresenter from 'in-applications/analyze/components/ChartingPresenter/ChartingPresenter';
+import { chartingOptions } from 'in-applications/analyze/components/ChartingPresenter/chartingOptions';
 import FixatedTimeConfigContextModification from 'in-stores/time/FixatedTimeConfigContextModification';
-import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import ApiQueryAction from 'in-new-components/QueryBuilder/workspace/ApiQueryAction/ApiQueryAction';
 import QueryBuilderSection from 'in-new-components/QueryBuilder/workspace/QueryBuilderSection';
 import { ActionSection } from 'in-new-components/workspace/ActionSection/ActionSection';
 import GroupedList from 'in-applications/analyze/components/GroupedList';
 import { dataSourceConstants } from 'in-applications/analyze/metrics';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
-import { aggregateMetric } from 'in-applications/analyze/metrics';
+import { aggregateMetricKey } from 'in-applications/analyze/metrics';
 import AnalyzeHeader from 'in-analyze/components/AnalyzeHeader';
 import Sections from 'in-new-components/workspace/Sections';
 import List from 'in-applications/analyze/components/List';
@@ -40,6 +45,7 @@ import Message from 'in-new-components/Message';
 import useUrlState from 'in-hooks/useUrlState';
 import Footer from 'in-new-components/Footer';
 import Sticky from 'in-components/Sticky';
+import theme from 'in-themes';
 
 const urlStateDefinition = {
   bind: [
@@ -48,7 +54,8 @@ const urlStateDefinition = {
     orderByGroupsMatrixParameter,
     orderByCallsMatrixParameter,
     metricsMatrixParameter,
-    hiddenCallsMatrixParameter
+    hiddenCallsMatrixParameter,
+    chartsMatrixParameter
   ],
   resets: [
     {
@@ -65,16 +72,10 @@ const urlStateDefinition = {
         if (dataSource === 'calls' || dataSource === 'traces') {
           return {
             [tagFilterExpressionMatrixParameter.name]: emptyArray,
-            [groupByMatrixParameter.name]: null,
-            [metricsMatrixParameter.name]: [
-              { metric: dataSource, aggregation: 'SUM' },
-              { metric: 'latency', aggregation: 'MEAN' },
-              { metric: 'errors', aggregation: 'MEAN' }
-            ],
-            [orderByGroupsMatrixParameter.name]: {
-              by: dataSourceConstants[dataSource].metricKey,
-              direction: 'DESC'
-            }
+            [groupByMatrixParameter.name]: undefined,
+            [orderByGroupsMatrixParameter.name]: dataSourceConstants[dataSource].defaultOrderByGroups,
+            [metricsMatrixParameter.name]: dataSourceConstants[dataSource].defaultMetrics,
+            [chartsMatrixParameter.name]: dataSourceConstants[dataSource].defaultCharts,
           };
         }
         return {};
@@ -92,23 +93,19 @@ export default function ApplicationAnalyzeView({ dataSource }) {
     </FixatedTimeConfigContextModification>
   );
 }
+const maxGroupsOnChart = Math.min(5, theme.lib.colors.chart.strokeColors100.length);
+const groupColors = range(maxGroupsOnChart).map(i => theme.lib.colors.chart.strokeColors100[i]);
 
 function ApplicationAnalyzeViewWithFixatedTimeConfig({ dataSource }) {
   const [
     {
       tagFilterExpression,
       groupBy,
-      orderByGroups = {
-        by: dataSourceConstants[dataSource].metricKey,
-        direction: 'DESC'
-      },
+      orderByGroups = dataSourceConstants[dataSource].defaultOrderByGroups,
       orderByCalls,
-      metrics = [
-        { metric: dataSource, aggregation: 'SUM' },
-        { metric: 'latency', aggregation: 'MEAN' },
-        { metric: 'errors', aggregation: 'MEAN' }
-      ],
-      hiddenCalls
+      metrics = dataSourceConstants[dataSource].defaultMetrics,
+      hiddenCalls,
+      charts
     },
     onChange
   ] = useUrlState(urlStateDefinition);
@@ -129,10 +126,28 @@ function ApplicationAnalyzeViewWithFixatedTimeConfig({ dataSource }) {
     ]) ?? pendingResult;
 
   // in case of a pending result (validTagFilterExpressionResult.data === null) we do not want to show the user an error message
-  const isValid = validTagFilterExpressionResult.data === true && validGroupResult.data === true;
-  const isInvalid = validTagFilterExpressionResult.data === false && validGroupResult.data === false;
+  const isValidExpression = validTagFilterExpressionResult.data === true;
+  const isValid = isValidExpression && validGroupResult.data === true;
+  const isInvalid = !isValidExpression && validGroupResult.data === false;
 
-  const backendQueryModel = isValid && toBackendQueryModel(tagFilterExpression);
+  // The backendQueryModel stores the last valid representation of tagFilterExpression.
+  // Since some hooks depend on it, it must not changes unless the tagFilterExpression changes.
+  const [{ backendQueryModel }, setBackendQueryModel] = useState({
+    backendQueryModel: isValidExpression ? toBackendQueryModel(tagFilterExpression) : EMPTY_EXPRESSION,
+    lastTagFilterExpression: isValidExpression ? tagFilterExpression : null
+  });
+
+  useEffect(() => {
+    setBackendQueryModel(prev => {
+      if (isValidExpression && !Object.is(prev.lastTagFilterExpression, tagFilterExpression)) {
+        return {
+          backendQueryModel: toBackendQueryModel(tagFilterExpression),
+          lastTagFilterExpression: tagFilterExpression
+        };
+      }
+      return prev;
+    });
+  }, [isValidExpression, tagFilterExpression]);
 
   const onTagFilterExpressionChange = tagFilterExpression => onChange({ tagFilterExpression });
   const onGroupByChange = groupBy => onChange({ groupBy });
@@ -147,7 +162,7 @@ function ApplicationAnalyzeViewWithFixatedTimeConfig({ dataSource }) {
     onChange({ orderByCalls: { by: orderBy.orderBy, direction: orderBy.orderDirection } });
   const onChangeMetrics = metrics => {
     const isOrderByInMetricList = metrics
-      .map(metric => aggregateMetric(metric.metric, metric.aggregation))
+      .map(metric => aggregateMetricKey(metric.metric, metric.aggregation))
       .includes(orderByGroups.by);
     if (isOrderByInMetricList) {
       onChange({ metrics });
@@ -155,7 +170,7 @@ function ApplicationAnalyzeViewWithFixatedTimeConfig({ dataSource }) {
       onChange({
         metrics,
         orderByGroups: {
-          by: aggregateMetric(metrics[0].metric, metrics[0].aggregation),
+          by: aggregateMetricKey(metrics[0].metric, metrics[0].aggregation),
           aggregation: metrics[0].aggregation
         }
       });
@@ -164,6 +179,12 @@ function ApplicationAnalyzeViewWithFixatedTimeConfig({ dataSource }) {
   const onChangeHiddenCalls = hiddenCalls => {
     onChange({ hiddenCalls });
   };
+  const onChangeCharts = chart => {
+    onChange({ charts: chart && [{
+      metric: chart.metricId,
+      aggregation: chart.aggregationId
+    }]});
+  };
   const updateFilter = ({ add = emptyArray, remove = emptyArray }) =>
     onChange({
       tagFilterExpression: joinExpressions({
@@ -171,8 +192,16 @@ function ApplicationAnalyzeViewWithFixatedTimeConfig({ dataSource }) {
       })
     });
 
+  const isGrouped = !!groupBy?.groupbyTag;
+  const chartEnabled = charts?.length === 1;
+
+  // Group metric time series data for charts are queried together with the aggregated group
+  // metric data in the GroupedList child component. The result is stored here, so that it
+  // can be passed to the ChartingPresenter component, which then renders the charts.
+  const [result, setResult] = useState();
+
   return (
-    <Sticky header={<AnalyzeHeader isGrouped={Boolean(groupBy?.groupbyTag)} />}>
+    <Sticky header={<AnalyzeHeader isGrouped={isGrouped} />}>
       <LeftRightPadding>
         <Stack>
           <Sections>
@@ -186,17 +215,30 @@ function ApplicationAnalyzeViewWithFixatedTimeConfig({ dataSource }) {
               value={groupBy}
               onChange={onGroupByChange}
               GroupingConfigurator={dataSource === 'traces' ? TraceGroupingConfigurator : CallGroupingConfigurator}
-              tagFilterExpression={backendQueryModel || toBackendQueryModel([])}
+              tagFilterExpression={backendQueryModel}
             />
 
-            <ActionSection
-              /*left={
-                <>
-                  <Action icon="lib_bar_chart">Add chart</Action>
-                </>
-              }*/
-              right={<ApiQueryAction backendQueryModel={backendQueryModel} />}
+            <ChartingConfiguratorSection
+              value={chartEnabled ? { metricId: charts[0].metric, aggregationId: charts[0].aggregation } : null}
+              options={chartingOptions({ dataSource: dataSource, isGrouped: isGrouped, selectedMetrics: metrics })}
+              onChange={onChangeCharts}
+              hideRenderer
             />
+
+            {chartEnabled && (
+              <ChartingPresenter
+                dataSource={dataSource}
+                metric={charts[0].metric}
+                aggregation={charts[0].aggregation}
+                isGrouped={isGrouped}
+                tagFilterExpression={backendQueryModel}
+                updateFilter={updateFilter}
+                result={result}
+                groupColors={groupColors}
+              />
+            )}
+
+            <ActionSection right={<ApiQueryAction backendQueryModel={backendQueryModel} />} />
           </Sections>
 
           {isInvalid && (
@@ -205,23 +247,8 @@ function ApplicationAnalyzeViewWithFixatedTimeConfig({ dataSource }) {
             </Message>
           )}
 
-          {!groupBy?.groupbyTag && (
-            <List
-              timeConfig={timeConfig}
-              tagFilterExpression={backendQueryModel}
-              orderBy={orderByCalls}
-              onChangeOrderBy={onChangeOrderByCalls}
-              isValid={isValid}
-              updateFilter={updateFilter}
-              hiddenCalls={hiddenCalls}
-              onChangeHiddenCalls={onChangeHiddenCalls}
-              dataSource={dataSource}
-            />
-          )}
-
-          {groupBy?.groupbyTag && (
+          {isGrouped ? (
             <GroupedList
-              timeConfig={timeConfig}
               tagFilterExpression={backendQueryModel}
               groupBy={groupBy}
               orderBy={orderByGroups}
@@ -231,6 +258,20 @@ function ApplicationAnalyzeViewWithFixatedTimeConfig({ dataSource }) {
               onChangeOrderBy={onChangeOrderByGroups}
               onChangeSubOrderBy={onChangeOrderByCalls}
               onChangeMetrics={onChangeMetrics}
+              isValid={isValid}
+              updateFilter={updateFilter}
+              hiddenCalls={hiddenCalls}
+              onChangeHiddenCalls={onChangeHiddenCalls}
+              dataSource={dataSource}
+              onResult={setResult}
+              chartEnabled={chartEnabled}
+              groupColors={groupColors}
+            />
+          ) : (
+            <List
+              tagFilterExpression={backendQueryModel}
+              orderBy={orderByCalls}
+              onChangeOrderBy={onChangeOrderByCalls}
               isValid={isValid}
               updateFilter={updateFilter}
               hiddenCalls={hiddenCalls}

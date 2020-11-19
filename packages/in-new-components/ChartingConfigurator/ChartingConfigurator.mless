@@ -1,5 +1,9 @@
+@import '~in-themes/active.less';
+
 :local {
-  .noActiveChartButton {
+  .addChartButton {
     margin-top: 0.125rem;
+    border: 1px solid @lib__colors__N400;
+    border-radius: @lib__shapes__radius_medium;
   }
 }

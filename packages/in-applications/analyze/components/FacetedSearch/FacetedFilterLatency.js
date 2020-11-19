@@ -1,11 +1,7 @@
 import React from 'react';
 
-import { EQUALS, GREATER_OR_EQUAL_THAN, LESS_OR_EQUAL_THAN } from 'in-new-components/QueryBuilder/tagFilter/operators';
-import { getLatencySelectionFromFilters } from 'in-new-components/LatencyDistributionBase10Chart/latencyUtils';
+import { getLatencySelectionFromTagFilterExpression, updateLatencySelection } from 'in-applications/analyze/utils/latencyUtils';
 import FacetedExpandableCard from 'in-applications/analyze/components/FacetedSearch/FacetedExpandableCard';
-import { EXPRESSION, OPERATOR_AND } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
-import { type as TAG_FILTER_TYPE } from 'in-new-components/QueryBuilder/transformation/tagFilter';
-import { TAG } from 'in-new-components/QueryBuilder/transformation/formModel';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import FormGroup from 'in-components/form/FormGroup';
@@ -15,17 +11,15 @@ import Label from 'in-components/form/Label';
 
 import locals from './Suggestion.mless';
 
-const CALL_LATENCY = 'call.latency';
-
-export default function FacetedFilterGeneric({ title, tagFilterExpression, updateFilter, isValid }) {
+export default function FacetedFilterLatency({ title, dataSource, tagFilterExpression, updateFilter, isValid }) {
   return (
     <FacetedExpandableCard title={title}>
-      <Body tagFilterExpression={tagFilterExpression} updateFilter={updateFilter} isValid={isValid} />
+      <Body dataSource={dataSource} tagFilterExpression={tagFilterExpression} updateFilter={updateFilter} isValid={isValid} />
     </FacetedExpandableCard>
   );
 }
 
-function Body({ tagFilterExpression, updateFilter, isValid }) {
+function Body({ dataSource, tagFilterExpression, updateFilter, isValid }) {
   const [minInput, setMinInput] = React.useState('');
   const [maxInput, setMaxInput] = React.useState('');
   const [effectiveLatencies, setEffectiveLatencies] = React.useState({});
@@ -33,7 +27,7 @@ function Body({ tagFilterExpression, updateFilter, isValid }) {
 
   React.useEffect(() => {
     setError(false);
-    const retrievedEffectiveLatencies = getMinMaxLatencyFromExpression(tagFilterExpression);
+    const retrievedEffectiveLatencies = getLatencySelectionFromTagFilterExpression(dataSource, tagFilterExpression);
     if (retrievedEffectiveLatencies) {
       setEffectiveLatencies(retrievedEffectiveLatencies);
       if (retrievedEffectiveLatencies.from) {
@@ -42,7 +36,7 @@ function Body({ tagFilterExpression, updateFilter, isValid }) {
         setMinInput('');
       }
       if (retrievedEffectiveLatencies.to) {
-        setMaxInput(retrievedEffectiveLatencies.to - 1);
+        setMaxInput(retrievedEffectiveLatencies.to);
       } else {
         setMaxInput('');
       }
@@ -67,12 +61,12 @@ function Body({ tagFilterExpression, updateFilter, isValid }) {
             onChange={e => (Number(e.target.value) > 0 ? setMinInput(Number(e.target.value)) : setMinInput(''))}
             onBlur={() =>
               (effectiveLatencies.from !== minInput || isError) &&
-              validateInputAndSetTagFilter(minInput, maxInput, tagFilterExpression, updateFilter, setError)
+              validateInputAndSetTagFilter(dataSource, minInput, maxInput, tagFilterExpression, updateFilter, setError)
             }
             onKeyDown={e =>
               e.keyCode === keyCodes.enter &&
               (effectiveLatencies.from !== minInput || isError) &&
-              validateInputAndSetTagFilter(minInput, maxInput, tagFilterExpression, updateFilter, setError)
+              validateInputAndSetTagFilter(dataSource, minInput, maxInput, tagFilterExpression, updateFilter, setError)
             }
           />
         </FormGroup>
@@ -90,13 +84,13 @@ function Body({ tagFilterExpression, updateFilter, isValid }) {
             hasError={isError}
             onChange={e => (Number(e.target.value) > 0 ? setMaxInput(Number(e.target.value)) : setMaxInput(''))}
             onBlur={() =>
-              (effectiveLatencies.to - 1 !== maxInput || isError) &&
-              validateInputAndSetTagFilter(minInput, maxInput, tagFilterExpression, updateFilter, setError)
+              (effectiveLatencies.to !== maxInput || isError) &&
+              validateInputAndSetTagFilter(dataSource, minInput, maxInput, tagFilterExpression, updateFilter, setError)
             }
             onKeyDown={e =>
               e.keyCode === keyCodes.enter &&
-              (effectiveLatencies.to - 1 !== maxInput || isError) &&
-              validateInputAndSetTagFilter(minInput, maxInput, tagFilterExpression, updateFilter, setError)
+              (effectiveLatencies.to !== maxInput || isError) &&
+              validateInputAndSetTagFilter(dataSource, minInput, maxInput, tagFilterExpression, updateFilter, setError)
             }
           />
         </FormGroup>
@@ -110,85 +104,19 @@ function Body({ tagFilterExpression, updateFilter, isValid }) {
   );
 }
 
-function validateInputAndSetTagFilter(minLatency, maxLatency, tagFilterExpression, updateFilter, setError) {
+function validateInputAndSetTagFilter(dataSource, minLatency, maxLatency, tagFilterExpression, updateFilter, setError) {
   if (minLatency > maxLatency && maxLatency !== '') {
     setError(true);
   } else {
     setError(false);
-    buildAndSetTagFilter(minLatency, maxLatency, tagFilterExpression, updateFilter);
-  }
-}
-
-function buildAndSetTagFilter(minLatency, maxLatency, tagFilterExpression, updateFilter) {
-  const removedFilters = getFiltersToRemove(tagFilterExpression);
-  let minFilter, maxFilter;
-  if (typeof minLatency === 'number') {
-    minFilter = {
-      type: TAG,
-      name: CALL_LATENCY,
-      operator: GREATER_OR_EQUAL_THAN,
-      value: minLatency
-    };
-  }
-  if (typeof maxLatency === 'number') {
-    maxFilter = {
-      type: TAG,
-      name: CALL_LATENCY,
-      operator: LESS_OR_EQUAL_THAN,
-      value: maxLatency
-    };
-  }
-  if (minFilter && maxFilter) {
-    if (minFilter.value === maxFilter.value) {
-      updateFilter({
-        add: [
-          {
-            type: TAG,
-            name: CALL_LATENCY,
-            operator: EQUALS,
-            value: minLatency
-          }
-        ],
-        remove: removedFilters
-      });
-    } else {
-      updateFilter({
-        add: [minFilter, maxFilter],
-        remove: removedFilters
-      });
-    }
-  } else if (minFilter) {
-    updateFilter({
-      add: [minFilter],
-      remove: removedFilters
+    updateLatencySelection({
+      dataSource: dataSource,
+      selection: {
+        from: minLatency,
+        to: maxLatency
+      },
+      tagFilterExpression: tagFilterExpression,
+      updateFilter: updateFilter
     });
-  } else if (maxFilter) {
-    updateFilter({
-      add: [maxFilter],
-      remove: removedFilters
-    });
-  } else {
-    updateFilter({
-      remove: removedFilters
-    });
-  }
-}
-
-function getFiltersToRemove(tagFilterExpression) {
-  if (tagFilterExpression.type === EXPRESSION && tagFilterExpression.logicalOperator === OPERATOR_AND) {
-    return tagFilterExpression.elements.filter(
-      element => element.type === TAG_FILTER_TYPE && element.name === CALL_LATENCY
-    );
-  } else if (tagFilterExpression.type === TAG_FILTER_TYPE && tagFilterExpression.name === CALL_LATENCY) {
-    return [tagFilterExpression];
-  }
-}
-
-function getMinMaxLatencyFromExpression(tagFilterExpression) {
-  if (tagFilterExpression.type === EXPRESSION && tagFilterExpression.logicalOperator === OPERATOR_AND) {
-    return getLatencySelectionFromFilters(CALL_LATENCY, tagFilterExpression.elements);
-  }
-  if (tagFilterExpression.type === TAG_FILTER_TYPE && tagFilterExpression.name === CALL_LATENCY) {
-    return getLatencySelectionFromFilters(CALL_LATENCY, [tagFilterExpression]);
   }
 }

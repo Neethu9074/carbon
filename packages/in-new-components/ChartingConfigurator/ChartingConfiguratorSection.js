@@ -2,7 +2,6 @@ import React from 'react';
 
 import DefaultChartingConfigurator from 'in-new-components/ChartingConfigurator/ChartingConfigurator';
 import Section from 'in-new-components/workspace/Section';
-import Button from 'in-new-components/Button';
 
 const noAdditionalActions = <></>;
 
@@ -10,6 +9,7 @@ export default function ChartingConfiguratorSection({
   value,
   options,
   onChange,
+  hideRenderer,
   ChartingConfigurator = DefaultChartingConfigurator,
   // Option to pass in additional buttons. For example to allow configuration of percentile presentation.
   additionalActions = noAdditionalActions
@@ -22,15 +22,10 @@ export default function ChartingConfiguratorSection({
       actions={
         <>
           {additionalActions}
-          {Boolean(value) && (
-            <Button kind="subtle" icon="lib_openclose_cancel" size="compact" onClick={() => onChange(null)}>
-              Clear
-            </Button>
-          )}
         </>
       }
     >
-      <ChartingConfigurator value={value} options={options} onChange={onChange} />
+      <ChartingConfigurator value={value} options={options} onChange={onChange} hideRenderer={hideRenderer} />
     </Section>
   );
 }

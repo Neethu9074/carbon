@@ -71,4 +71,19 @@
     font-size: 0.875rem;
     font-weight: 400;
   }
+  .center {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+  }
+  .tag {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .rect {
+    width: 0.75rem;
+    height: 0.75rem;
+  }
 }
