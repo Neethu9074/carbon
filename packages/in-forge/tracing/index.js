@@ -138,6 +138,7 @@ import './s3';
 import './scalatra';
 import './sdk.batch';
 import './sdk.database';
+import './sdk.graphql';
 import './sdk.http.entry';
 import './sdk.http.exit';
 import './sdk.messaging';
