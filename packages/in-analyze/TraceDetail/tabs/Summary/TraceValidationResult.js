@@ -18,7 +18,7 @@ export default function TraceValidationResult({ issues }) {
     return (
       <div className={locals.messageWrapper}>
         {issues.map(issueKey => (
-          <Message key={issueKey} withIcon title={issueMessages[issueKey] ? issueMessages[issueKey] : issueKey} />
+          <Message withIcon title={issueMessages[issueKey] ? issueMessages[issueKey] : issueKey} />
         ))}
       </div>
     );

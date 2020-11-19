@@ -31,7 +31,7 @@ const urlStateDefinition = {
   bind: [groupMatrixParameter, typeMatrixParameter]
 };
 
-export default function TypeSelector({ onTypeSelected }) {
+export default function TypeSelector() {
   const [{ group, type }] = useUrlState(urlStateDefinition);
   const timeConfig = useTimeConfig();
   const tagFilterExpression = emptyTagFilterExpression;
@@ -50,13 +50,7 @@ export default function TypeSelector({ onTypeSelected }) {
   const { icon, name } = getType(type);
 
   return (
-    <Overlay
-      props={{ types, getParamsForType, onTypeSelected }}
-      withoutWrapper
-      content={Dropdown}
-      align="bottomLeft"
-      focusOnClose
-    >
+    <Overlay props={{ types, getParamsForType }} withoutWrapper content={Dropdown} align="bottomLeft" focusOnClose>
       {({ toggle, isOpen, refSetter }) => (
         <DashboardHeaderButton
           size="normal"
@@ -72,7 +66,7 @@ export default function TypeSelector({ onTypeSelected }) {
   );
 }
 
-function Dropdown({ getParamsForType, types, close, onTypeSelected }) {
+function Dropdown({ getParamsForType, types, close }) {
   const [query, setQuery] = useState('');
 
   const filteredTypes = useMemo(() => types.filter(({ name }) => query === '' || containsIgnoreCase(name, query)), [
@@ -105,10 +99,7 @@ function Dropdown({ getParamsForType, types, close, onTypeSelected }) {
             noAlternatingBg
             key={plugin}
             href$={getLinkToExplore(getParamsForType(plugin))}
-            onDefaultHrefInteractionSideEffect={() => {
-              onTypeSelected(plugin);
-              close();
-            }}
+            onDefaultHrefInteractionSideEffect={close}
             onDefaultHrefIncludePrimaryElements
           >
             <TypeRow icon={icon} name={name} />

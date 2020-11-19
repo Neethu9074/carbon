@@ -15,10 +15,9 @@ import locals from './GroupingConfigurator.mless';
 export default function GroupingConfigurator({
   value: group,
   tagFilterExpression,
-  getTagCatalog,
-  getSuggestions,
   onChange,
-  tracking
+  getTagCatalog,
+  getSuggestions
 }) {
   const timeConfig = useTimeConfig();
   const tagCatalog = useObservable(getTagCatalogObservable, [getTagCatalog, timeConfig]);
@@ -36,9 +35,7 @@ export default function GroupingConfigurator({
           tagCatalog: tagCatalog.data,
           onChange: ({ name }) => {
             autoFocus.current = Date.now();
-            const selectedGroup = setEntityIfNecessary(name);
-            tracking?.onGroupAdded?.(selectedGroup);
-            onChange(selectedGroup);
+            onChange(setEntityIfNecessary(name));
           }
         }}
         align={'bottomLeft'}
@@ -48,7 +45,6 @@ export default function GroupingConfigurator({
           group?.groupbyTag ? (
             <ActiveGroupingConfiguration
               onChange={onChange}
-              onGroupRemoved={tracking?.onGroupRemoved}
               getSuggestions={getSuggestions}
               group={group}
               toggle={toggle}
@@ -87,18 +83,12 @@ export default function GroupingConfigurator({
   }
 }
 
-export const trackingProps = {
-  onGroupAdded: rpt.func,
-  onGroupRemoved: rpt.func
-};
-
 GroupingConfigurator.propTypes = {
   onChange: rpt.func.isRequired,
   value: rpt.object,
   getTagCatalog: rpt.func.isRequired,
   getSuggestions: rpt.func.isRequired,
-  tagFilterExpression: rpt.object.isRequired,
-  tracking: rpt.shape(trackingProps)
+  tagFilterExpression: rpt.object.isRequired
 };
 
 function getTagCatalogObservable([getTagCatalog, timeConfig]) {

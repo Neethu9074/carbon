@@ -8,13 +8,12 @@ import Overlay from 'in-new-components/overlays/Overlay';
 import { compositeRef } from 'in-services/util/react';
 import locals from './MetricConfigurator.mless';
 
-export default function MetricConfigurator({ values, options, onChange, tracking }) {
+export default function MetricConfigurator({ values, options, onChange }) {
   const ref = useRef();
-
   return (
     <Overlay
       content={MetricConfiguratorOverlay}
-      props={{ options, values, onChange, tracking }}
+      props={{ options, onChange, values }}
       withoutWrapper
       onCloseSideEffect={() => ref.current?.focus()}
     >
@@ -33,12 +32,6 @@ export default function MetricConfigurator({ values, options, onChange, tracking
   );
 }
 
-export const trackingProps = {
-  onMetricAdded: PropTypes.func,
-  onMetricRemoved: PropTypes.func,
-  onMetricAggregationChanged: PropTypes.func
-};
-
 MetricConfigurator.propTypes = {
   onChange: PropTypes.func.isRequired,
   options: PropTypes.arrayOf(
@@ -54,6 +47,5 @@ MetricConfigurator.propTypes = {
       metric: PropTypes.string.isRequired,
       aggregation: PropTypes.oneOf(Object.keys(aggregationLabels)).isRequired
     })
-  ).isRequired,
-  tracking: PropTypes.shape(trackingProps)
+  ).isRequired
 };

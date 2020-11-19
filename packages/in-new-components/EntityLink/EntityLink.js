@@ -2,7 +2,6 @@ import theme from 'in-themes';
 import React from 'react';
 
 import WithIcon from 'in-new-components/WithIcon';
-import { noop } from 'in-services/util/function';
 import Tooltip from 'in-components/Tooltip';
 import Link from 'in-components/Link';
 
@@ -16,24 +15,19 @@ export default function EntityLink({
   tooltip,
   href$,
   specialIndicator,
-  subscriptComponent,
-  onClick = noop
+  subscriptComponent
 }) {
   const iconColor = href$ && theme.lib.colors.blue800;
-
-  const link = (
-    <Link href$={href$} onClick={onClick}>
-      {label}
-    </Link>
-  );
 
   const innerContent = (
     <WithIcon plugin={plugin} snapshot={snapshot} icon={icon} iconColor={iconColor}>
       {tooltip ? (
-        <Tooltip content={tooltip}>{link}</Tooltip>
+        <Tooltip content={tooltip}>
+          <Link href$={href$}>{label}</Link>
+        </Tooltip>
       ) : (
         <>
-          {link}
+          <Link href$={href$}>{label}</Link>
           {subscriptComponent}
         </>
       )}

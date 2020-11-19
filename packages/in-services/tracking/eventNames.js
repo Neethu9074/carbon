@@ -242,21 +242,6 @@ export const PROFILING_TREEVIEW_EXPANDED = 'profiling.treeView.expanded';
 export const INFRASTRUCTURE_CONTEXT_GUIDE_STACK_LOADED = 'infrastructure.context.guide.stack.loaded';
 export const INFRASTRUCTURE_SIDEBAR_RELATED_ENTITIES_EXPANDED = 'infrastructure.sidebar.related.entities.expanded';
 export const INFRASTRUCTURE_SIDEBAR_RELATED_ENTITIES_CLICKED = 'infrastructure.sidebar.related.entities.clicked';
-export const INFRA_EXPLORE_TYPE_SELECTOR_STATE_CHANGED = 'infra.explore.type.selector.state.changed';
-export const INFRA_EXPLORE_FILTER_ADDED = 'infra.explore.filter.added';
-export const INFRA_EXPLORE_FILTER_REMOVED = 'infra.explore.filter.removed';
-export const INFRA_EXPLORE_FILTERS_CLEARED = 'infra.explore.filters.cleared';
-export const INFRA_EXPLORE_GROUP_ADDED = 'infra.explore.group.added';
-export const INFRA_EXPLORE_GROUP_REMOVED = 'infra.explore.group.removed';
-export const INFRA_EXPLORE_GROUP_EXPANDED = 'infra.explore.group.expanded';
-export const INFRA_EXPLORE_GROUP_COLLAPSED = 'infra.explore.group.collapsed';
-export const INFRA_EXPLORE_GROUP_FOCUSED_ON = 'infra.explore.group.focused.on';
-export const INFRA_EXPLORE_NAVIGATE_TO_ENTITY_DASHBOARD = 'infra.explore.navigate.to.entity.dashboard';
-export const INFRA_EXPLORE_LOAD_MORE = 'infra.explore.load.more';
-export const INFRA_EXPLORE_METRIC_ADDED = 'infra.explore.metric.added';
-export const INFRA_EXPLORE_METRIC_REMOVED = 'infra.explore.metric.removed';
-export const INFRA_EXPLORE_METRIC_AGGREGATION_CHANGED = 'infra.explore.metric.aggregation.changed';
-export const INFRA_EXPLORE_SORTED = 'infra.explore.sorted';
 
 export const AMP_TENANT_UNIT_CHANGED = 'amp.tenant.unit.metrics.changed';
 

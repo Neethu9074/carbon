@@ -2,13 +2,12 @@ import React, { useCallback } from 'react';
 
 import { ColumnizedContent, Ul, Li, LoadingSkeletonLi, HorizontalIndicatorLi } from 'in-new-components/lists/List';
 import { average, getGranularity, getMetricKey } from 'in-infrastructure/Explore/services/metrics';
-import InfrastructureList, { pagesLoaded } from 'in-infrastructure/Explore/components/InfrastructureList';
 import { type as TAG_FILTER_TYPE } from 'in-new-components/QueryBuilder/transformation/tagFilter';
 import { addTagFilters } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
+import InfrastructureList from 'in-infrastructure/Explore/components/InfrastructureList';
 import { getUniqueErrors } from 'in-new-components/Errors/ErroneousResultPresenter';
 import createGetGroupsSubscription from 'in-infrastructure/subscriptions/getGroups';
-import { LOAD_MORE_CONTEXT } from 'in-infrastructure/Explore/services/tracking';
 import { pluginTag, defaultOrder } from 'in-infrastructure/Explore/constants';
 import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import LoadMoreLi from 'in-new-components/lists/List/LoadMoreLi/LoadMoreLi';
@@ -34,13 +33,11 @@ import locals from './GroupedInfrastructure.mless';
 export default function GroupedInfrastructure(props) {
   const { backendQueryModel, metrics, group, order, type } = props;
   const timeConfig = useTimeConfig();
-  const retrievalSize = 20;
 
   const granularity = getGranularity(timeConfig);
 
   const cursorPaginatedProps = useCursorPagination(
-    ({ cursor }) =>
-      getGroups({ timeConfig, backendQueryModel, group, order, type, metrics, granularity, cursor, retrievalSize }),
+    ({ cursor }) => getGroups({ timeConfig, backendQueryModel, group, order, type, metrics, granularity, cursor }),
     [timeConfig, backendQueryModel, group, order, type, metrics]
   );
 
@@ -49,7 +46,6 @@ export default function GroupedInfrastructure(props) {
       backendQueryModel={backendQueryModel}
       granularity={granularity}
       timeConfig={timeConfig}
-      retrievalSize={retrievalSize}
       {...cursorPaginatedProps}
       {...props}
     />
@@ -67,17 +63,14 @@ function Presenter({
   setMetrics,
   totalHits,
   setOrder,
-  cursor,
+  loadMore,
   progress,
   metrics,
   errors,
   group,
   order,
   items,
-  type,
-  loadMore: defaultCursorPaginationLoadMore,
-  retrievalSize,
-  tracking
+  type
 }) {
   const hasErrors = errors?.length > 0;
   const isLoading = progress?.loading;
@@ -94,8 +87,7 @@ function Presenter({
     granularity,
     timeConfig,
     metrics,
-    type,
-    onFocusOnGroup: tracking?.onFocusOnGroup
+    type
   });
   const groupSortOptions = group.groupbyTag
     ? [
@@ -125,7 +117,6 @@ function Presenter({
         itemName="Result"
         hitName="Group"
         order={order}
-        tracking={tracking}
       />
       <Ul space="xsmall">
         {items.map((item, rowIndex) => (
@@ -135,10 +126,6 @@ function Presenter({
             borderRadius="medium"
             toggleContentOnRowClick
             highlightOpenState={false}
-            tracking={{
-              onToggleContentRow: isOpen =>
-                isOpen ? tracking?.onGroupExpanded?.(item) : tracking?.onGroupCollapsed?.(item)
-            }}
             renderNestedContent={() => (
               <ExpandedGroup
                 backendQueryModel={backendQueryModel}
@@ -148,7 +135,6 @@ function Presenter({
                 order={order}
                 group={item}
                 type={type}
-                tracking={tracking}
               />
             )}
           >
@@ -165,21 +151,14 @@ function Presenter({
               </Message>
             </Li>
           ))}
-        {canLoadMore && (
-          <LoadMoreLi
-            loadMore={() => {
-              defaultCursorPaginationLoadMore();
-              tracking?.onLoadMore?.(pagesLoaded(cursor?.offset, retrievalSize), LOAD_MORE_CONTEXT.GROUPS);
-            }}
-          />
-        )}
+        {canLoadMore && <LoadMoreLi loadMore={loadMore} />}
       </Ul>
       {!isLoading && items.length === 0 && <NoDataAvailable height={240} />}
     </>
   );
 }
 
-function columns({ groupBy, type, getParamsForGroup, metrics, timeConfig, granularity, onFocusOnGroup }) {
+function columns({ groupBy, type, getParamsForGroup, metrics, timeConfig, granularity }) {
   const snapshotDefinition = getOptionalSnapshotDefinition(type);
   const countLabel = snapshotDefinition ? snapshotDefinition.pluginName.plural : 'Count';
   return [
@@ -235,11 +214,7 @@ function columns({ groupBy, type, getParamsForGroup, metrics, timeConfig, granul
         getContent({ group }) {
           return (
             <Tooltip content="Focus on this group">
-              <IconButton
-                type="lib_actions_filter"
-                href$={getLinkToExplore(getParamsForGroup(group))}
-                onClick={() => onFocusOnGroup?.(group)}
-              />
+              <IconButton type="lib_actions_filter" href$={getLinkToExplore(getParamsForGroup(group))} />
             </Tooltip>
           );
         }
@@ -253,7 +228,7 @@ function getColumnWidth(groupBy, index) {
   }
 }
 
-function getGroups({ timeConfig, backendQueryModel, group, cursor, type, order, metrics, granularity, retrievalSize }) {
+function getGroups({ timeConfig, backendQueryModel, group, cursor, type, order, metrics, granularity }) {
   return createGetGroupsSubscription({
     filter: {
       timeConfig,
@@ -261,7 +236,7 @@ function getGroups({ timeConfig, backendQueryModel, group, cursor, type, order, 
     },
     pagination: {
       cursor,
-      retrievalSize
+      retrievalSize: 20
     },
     groupBy: [group.groupbyTag],
     type,
@@ -281,22 +256,18 @@ function getGroups({ timeConfig, backendQueryModel, group, cursor, type, order, 
   });
 }
 
-function ExpandedGroup({ group, backendQueryModel, timeConfig, type, metrics, availableMetrics, order, tracking }) {
+function ExpandedGroup({ group, backendQueryModel, timeConfig, type, metrics, availableMetrics, order }) {
   const numberOfEntitiesPerGroup = 20;
   return (
     <InfrastructureList
       backendQueryModel={addTagsToBackendModel(backendQueryModel, group.tags)}
       numSkeletonRows={Math.min(group.count, numberOfEntitiesPerGroup)}
-      retrievalSize={numberOfEntitiesPerGroup}
       availableMetrics={availableMetrics}
       timeConfig={timeConfig}
+      retrievalSize={numberOfEntitiesPerGroup}
       metrics={metrics}
       order={order}
       type={type}
-      tracking={{
-        onNavigateToEntity: tracking?.onNavigateToEntity,
-        onLoadMore: page => tracking?.onLoadMore?.(page, LOAD_MORE_CONTEXT.ENTITIES_IN_GROUP)
-      }}
     />
   );
 }

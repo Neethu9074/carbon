@@ -11,12 +11,11 @@ export default function MetricAndSortingConfigurator({
   setOrder,
   metrics,
   setMetrics,
-  metricOptions,
-  tracking
+  metricOptions
 }) {
   return (
     <div className={locals.wrapper}>
-      <MetricConfigurator options={metricOptions} values={metrics} onChange={setMetrics} tracking={tracking} />
+      <MetricConfigurator options={metricOptions} values={metrics} onChange={setMetrics} />
       {sortOptions && <SortingConfigurator options={sortOptions} orderBy={order} onChange={setOrder} />}
     </div>
   );

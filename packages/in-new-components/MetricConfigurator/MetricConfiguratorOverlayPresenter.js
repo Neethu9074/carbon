@@ -23,7 +23,6 @@ export default function MetricConfiguratorOverlayPresenter({
   maximumNumberOfMetrics,
   onAddItem,
   onRemoveItem,
-  onChangeAggregation,
   onSwap,
   getPossibleAggregationsForMetric
 }) {
@@ -77,13 +76,11 @@ export default function MetricConfiguratorOverlayPresenter({
                                     <Select
                                       id={`metric-configuration-aggregation-${i}`}
                                       value={field.value}
-                                      onChange={e => {
-                                        const aggregation = e.target.value;
-                                        onChangeAggregation?.(metricEventPayload(metric), aggregation);
+                                      onChange={e =>
                                         onChange([i, 'aggregation'], field =>
-                                          field.setValue(aggregation).setTouched(true)
-                                        );
-                                      }}
+                                          field.setValue(e.target.value).setTouched(true)
+                                        )
+                                      }
                                       className={locals.aggregations}
                                       hasError={!field.valid && field.touched}
                                     >
@@ -127,7 +124,7 @@ export default function MetricConfiguratorOverlayPresenter({
                           <SvgIcon
                             className={locals.removeButton}
                             type="lib_actions_delete"
-                            onClick={() => onRemoveItem(i, metricEventPayload(metric))}
+                            onClick={() => onRemoveItem(i)}
                           />
                         </div>
                       )}
@@ -161,7 +158,7 @@ export default function MetricConfiguratorOverlayPresenter({
           options={options}
           isMetricDisabled={metric => isMetricDisabled(metric)}
           onChange={node => {
-            onAddItem({ metric: node.metric, aggregation: node.aggregations[0] });
+            onAddItem(node.metric);
             onShowSlideInContentChange(false);
           }}
         />
@@ -184,8 +181,4 @@ export default function MetricConfiguratorOverlayPresenter({
 
     return getPossibleAggregationsForMetric(metric).length === 0;
   }
-}
-
-function metricEventPayload(formMetric) {
-  return { metric: formMetric.get('metric').value, aggregation: formMetric.get('aggregation').value };
 }

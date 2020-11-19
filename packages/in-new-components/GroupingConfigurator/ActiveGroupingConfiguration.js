@@ -14,11 +14,10 @@ import locals from './GroupingConfigurator.mless';
 
 export default React.forwardRef(function ActiveGroupingConfiguration(
   {
+    onChange,
     tagFilterExpression,
     tagCatalog,
     getSuggestions,
-    onChange,
-    onGroupRemoved,
     toggle,
     group: { groupbyTagEntity, groupbyTag, groupbyTagSecondLevelKey },
     autoFocus
@@ -104,10 +103,7 @@ export default React.forwardRef(function ActiveGroupingConfiguration(
           className={locals.removeIcon}
           type="lib_openclose_cancel"
           data-test="lib_openclose_cancel"
-          onClick={() => {
-            onChange(null);
-            onGroupRemoved?.({ groupbyTagEntity, groupbyTag, groupbyTagSecondLevelKey });
-          }}
+          onClick={() => onChange(null)}
         />
       </div>
     </div>

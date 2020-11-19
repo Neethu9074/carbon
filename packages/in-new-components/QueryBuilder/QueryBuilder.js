@@ -45,7 +45,7 @@ export default function QueryBuilderErrorBoundry(props) {
   );
 }
 
-function QueryBuilder({ value: formModel, getTagCatalog, getSuggestions, onChange, tracking }) {
+function QueryBuilder({ value: formModel, onChange, getTagCatalog, getSuggestions }) {
   const timeConfig = useTimeConfig();
   const [draggedFormModelIndex$] = useState(create());
   const tagCatalog = useObservable(getTagCatalogObservable, [getTagCatalog, timeConfig]);
@@ -169,15 +169,8 @@ function QueryBuilder({ value: formModel, getTagCatalog, getSuggestions, onChang
       false,
       childSelector
     );
-    const updatedFormModel = updateFormModel({
-      formModelIndex,
-      renderModelIndex: renderModelIndex + 1,
-      newFormModel,
-      removeTargetItem: false
-    });
-    if (newFormModel.type === TAG) {
-      tracking?.onTagAdded?.(newFormModel, updatedFormModel);
-    }
+
+    updateFormModel({ formModelIndex, renderModelIndex: renderModelIndex + 1, newFormModel, removeTargetItem: false });
   }
 
   function updateFormModel({ formModelIndex, renderModelIndex, newFormModel, removeTargetItem, changeFocus }) {
@@ -192,11 +185,9 @@ function QueryBuilder({ value: formModel, getTagCatalog, getSuggestions, onChang
       );
     }
     onChange(copiedFormModel);
-    return copiedFormModel;
   }
 
   function onRemove(formModelIndex, renderModelIndexToFocus, numberOfElementsToRemove = 1) {
-    const elementToRemove = formModel[formModelIndex];
     const copiedFormModel = formModel.slice();
     copiedFormModel.splice(formModelIndex, numberOfElementsToRemove);
     focus(
@@ -206,9 +197,6 @@ function QueryBuilder({ value: formModel, getTagCatalog, getSuggestions, onChang
       false
     );
     onChange(copiedFormModel);
-    if (elementToRemove.type === TAG) {
-      tracking?.onTagRemoved?.(elementToRemove, copiedFormModel);
-    }
   }
 
   function focus(renderModelIndex, executeForcedRerender = true, childElementSelector) {
@@ -306,17 +294,11 @@ function Elements({
   );
 }
 
-export const trackingProps = {
-  onTagAdded: rpt.func,
-  onTagRemoved: rpt.func
-};
-
 QueryBuilder.propTypes = {
+  onChange: rpt.func.isRequired,
   value: rpt.array.isRequired,
   getTagCatalog: rpt.func.isRequired,
-  getSuggestions: rpt.func.isRequired,
-  onChange: rpt.func.isRequired,
-  tracking: rpt.shape(trackingProps)
+  getSuggestions: rpt.func.isRequired
 };
 
 function getTagCatalogObservable([getTagCatalog, timeConfig]) {
