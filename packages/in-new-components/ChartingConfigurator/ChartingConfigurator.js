@@ -25,7 +25,7 @@ export default function ChartingConfigurator({ options, value, onChange, hideRen
           })
         }
       >
-        Add Chart
+        Add chart
       </Button>
     );
   }
