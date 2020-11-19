@@ -9,6 +9,7 @@ export default connectTo(
   props => ({
     host: getVsphereHost({
       filter: {
+        datacenterId: props.datacenterId,
         hostId: props.hostId,
         timeConfig: props.timeConfig
       }
@@ -20,7 +21,7 @@ export default connectTo(
         {host && (
           <Breadcrumb
             href$={getVsphereHostDashboard(host.id, { datacenterId: host.datacenterId })}
-            label="vSphere Host"
+            label="ESXi Host"
             icon="lib_linux"
           >
             {host.label}

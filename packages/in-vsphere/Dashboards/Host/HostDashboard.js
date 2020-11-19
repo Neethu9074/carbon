@@ -39,6 +39,7 @@ export default function HostDashboard({ location }) {
       <TabView
         result$={getVsphereHost({
           filter: {
+            datacenterId: props.datacenterId,
             hostId: props.hostId,
             timeConfig: props.timeConfig
           }

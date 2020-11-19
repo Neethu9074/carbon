@@ -65,7 +65,7 @@ const helpTexts = {
   'entity.gcp.pubsub': 'Google Cloud Pub/Sub',
   'entity.gcp.sql': 'Google Cloud SQL',
   'entity.gcp.storage': 'Google Cloud Storage',
-  'entity.vsphere.cluster': 'vSphere Cluster',
+  'entity.vsphere.datacenter': 'vSphere Datacenter',
   'entity.vsphere.esxihost': 'vSphere ESXi Host',
   'entity.vsphere.vm': 'vSphere Virtual Machine',
   'entity.websphere': 'IBM WebSphere application server',

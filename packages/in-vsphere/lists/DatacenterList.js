@@ -24,7 +24,7 @@ const columnDefinitions = [
     label: 'Name',
     getContent(item) {
       return (
-        <EntityLink label={item.label} href$={getVsphereDatacenterDashboard(item.id)} icon="lib_vsphere_cluster" />
+        <EntityLink label={item.label} href$={getVsphereDatacenterDashboard(item.id)} icon="lib_vsphere_datacenter" />
       );
     }
   },
@@ -102,11 +102,11 @@ export default connectTo(
   function DatacenterList({ timeConfig }) {
     return (
       <Fragment>
-        <Title title="vSphere Clusters" />
+        <Title title="vSphere Datacenters" />
         <ViewTrackingMeta
           data={{
             productArea: 'vSphere',
-            pageRootName: 'vSphere Clusters'
+            pageRootName: 'vSphere Datacenters'
           }}
         />
 

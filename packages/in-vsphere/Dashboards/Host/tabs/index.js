@@ -1,6 +1,6 @@
 import React from 'react';
 
-import TabLabelWithCounterPresenter from 'in-new-components/LocationAwareTabView/tabs/TabLabelWithCounterPresenter';
+import TabLabelWithCounter from 'in-vsphere/Dashboards/commonComponents/TabLabelWithCounter';
 import { hostDashboardFullyQualified } from 'in-vsphere/navigation/paths';
 import VirtualMachines from 'in-vsphere/commonComponents/VirtualMachines';
 import getVsphereVms from 'in-vsphere/subscriptions/getVsphereVms';
@@ -16,19 +16,27 @@ export default [
     label: 'Virtual Machines',
     path: `${hostDashboardFullyQualified}/vms`,
     component: VirtualMachines,
-    header: props => getCounterComponent(props, 'vms')
+    header: props => getCounterComponent(props, 'totalHits')
   }
 ];
 
 function getCounterComponent(props, resultPropName) {
   return (
-    <TabLabelWithCounterPresenter
+    <TabLabelWithCounter
       label={props.tab.label}
       getCounters={() =>
         getVsphereVms({
           filter: {
             hostId: props.hostId,
             timeConfig: props.timeConfig
+          },
+          pagination: {
+            page: 1,
+            pageSize: 200
+          },
+          order: {
+            by: 'label',
+            direction: 'ASC'
           }
         })
       }
