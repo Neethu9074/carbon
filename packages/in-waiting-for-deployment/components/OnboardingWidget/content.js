@@ -1260,20 +1260,61 @@ function K8sGoogleKubernetesEngineContent({ agentKey, agentEndpoint, agentEndpoi
 }
 
 function GoogleCloudRunContent({ agentKey, serverlessEndpoint }) {
+  const installationMethods = [ 'Docker build', 'Cloud Native Buildpack' ];
   const runtimeOptions = ['.Net Core', 'Go', 'Java', 'Node.js'];
   const baseImageOptions = ['Linux (glibc-based)', 'Alpine Linux (musl-based)'];
   const [baseImageName, setBaseImageName] = useState(baseImageOptions[0]);
   const [appDirName, setAppDirName] = useState('/app');
 
+  const [selectedInstallationMethod, setInstallationMethod] = useState(installationMethods[0]);
   const [selectedRuntime, setRuntime] = useState(runtimeOptions[0]);
 
   let steps;
 
-  if (selectedRuntime === runtimeOptions[0]) {
+  if (selectedInstallationMethod === installationMethods[1]) {
     steps = (
       <Fragment>
         <Spacer />
-        Linux base image: &nbsp;
+        <TextWithLink
+          text="The Instana Google Buildpack is a Cloud Native Buildpack designed to work with the Google Cloud Run Buildpack Builder. For more information on the Google Cloud Run Buildpack Builder, refer to the "
+          linkText="Google Cloud Run Buildpack Builder documentation."
+          href="https://github.com/GoogleCloudPlatform/buildpacks"
+        />
+        <Spacer />
+        <Description lines={['The Instana Google Buildpack adds to the Docker images of your .NET Core, Node.js and Java applications to be run on managed Google Cloud Run:']} />
+        <Spacer />
+        <Bash
+          lines={[
+            `echo '${agentKey}' | docker login --username "${agentKey}" --password-stdin containers.instana.io`,
+            'pack build <image-name> --buildpack from=builder --buildpack containers.instana.io/instana/release/google/buildpack --builder gcr.io/buildpacks/builder'
+          ]}
+        />
+        <Spacer />
+        <TextWithLink
+          text="The pack utility is provided by the "
+          linkText="Cloud Native Buildpacks project."
+          href="https://buildpacks.io/docs/tools/pack/"
+        />
+        <Spacer />
+
+        <Description lines={['Set the following environment variables in the Cloud Run Service Revision:']} />
+        <GridRow>
+          <Col xs={6}>
+            <Description lines={['INSTANA_ENDPOINT_URL']} />
+            <Script lines={[serverlessEndpoint]} />
+          </Col>
+          <Col xs={6}>
+            <Description lines={['INSTANA_AGENT_KEY']} />
+            <Script lines={[agentKey]} />
+          </Col>
+        </GridRow>
+      </Fragment>
+    );
+  } else if (selectedRuntime === runtimeOptions[0]) {
+    steps = (
+      <Fragment>
+        <Spacer />
+        <Description lines={['Linux base image:']} />
         <DropDown value={baseImageName} options={baseImageOptions} onChange={setBaseImageName} />
         <Spacer />
         <Bash
@@ -1286,7 +1327,7 @@ function GoogleCloudRunContent({ agentKey, serverlessEndpoint }) {
         <Spacer />
         <Description lines={['Set the following environment variables on the Cloud Run Service Definition:']} />
         <Spacer />
-        Your application directory in the container (you usually set this as the WORKDIR directory in the Dockerfile):
+        <Description lines={['Your application directory in the container (you usually set this as the WORKDIR directory in the Dockerfile):']} />
         <Spacer />
         <Input id="app-dir" value={appDirName} onChange={setAppDirName} placeholder="Application directory" />
         <GridRow>
@@ -1419,6 +1460,23 @@ function GoogleCloudRunContent({ agentKey, serverlessEndpoint }) {
     );
   }
 
+  let runtimeSelection;
+
+  if (selectedInstallationMethod === installationMethods[0]) {
+    runtimeSelection = (
+      <Fragment>
+        <Row>
+          Select your application runtime:
+          <DropDown value={selectedRuntime} options={runtimeOptions} onChange={setRuntime} />
+        </Row>
+      </Fragment>
+    );
+  } else {
+    runtimeSelection = (
+      <Fragment />
+    );
+  }
+
   return (
     <>
       <HelpBox>
@@ -1429,22 +1487,29 @@ function GoogleCloudRunContent({ agentKey, serverlessEndpoint }) {
         />
       </HelpBox>
 
+      <HelpBox>
+        <TextWithLink
+          text="Make sure you have an Instana agent set up to monitor your GCP project. For details on setting up the Instana agent for GCP, refer to the "
+          linkText="Instana GCP support documentation."
+          href="https://www.instana.com/docs/ecosystem/gcp"
+        />
+      </HelpBox>
+
       <Spacer />
 
       <Row>
-        Select your application runtime:
-        <DropDown value={selectedRuntime} options={runtimeOptions} onChange={setRuntime} />
+        Select the installation method:
+        <DropDown value={selectedInstallationMethod} options={installationMethods} onChange={setInstallationMethod} />
       </Row>
 
-      <TextWithLink
-        text="Make sure you have an Instana agent set up to monitor your GCP project. For details on setting up the Instana agent for GCP, refer to the "
-        linkText="Instana GCP support documentation."
-        href="https://www.instana.com/docs/ecosystem/gcp"
-      />
+      <Spacer />
+
+      {runtimeSelection}
+
       <Spacer />
 
       <TextWithLink
-        text="Next, integrate the Instana in-process collector for Google Cloud Run as described in the steps below. More details are available in the"
+        text="Integrate the Instana in-process collector for Google Cloud Run as described below. More details are available in the"
         linkText="documentation for Google Cloud Run."
         href="https://www.instana.com/docs/ecosystem/google-cloud-run"
       />
