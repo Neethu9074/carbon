@@ -77,6 +77,7 @@ export default function FacetedSearch({
         tagFilterExpression={tagFilterExpression}
         updateFilter={updateFilter}
         hiddenCalls={hiddenCalls}
+        dataSource={dataSource}
       />
       <FacetedFilterHttpStatusCodes
         title="HTTP Status Code"

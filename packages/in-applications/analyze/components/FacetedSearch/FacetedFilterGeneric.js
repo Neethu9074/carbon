@@ -6,9 +6,9 @@ import { TAG } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import { dataSourceConstants } from 'in-applications/analyze/metrics';
 import ExistingValue, { existingValuesForTag } from './ExistingValue';
-import memoize from 'in-services/util/memoizingObservableGenerator';
 import SearchInput from 'in-new-components/SearchInput/SearchInput';
 import SuggestionsPresenter from './SuggestionsPresenter';
+import { pendingResult } from 'in-services/fixedObjects';
 import { mapDataHO } from 'in-services/util/result';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import useObservable from 'in-hooks/useObservable';
@@ -112,32 +112,29 @@ function SearchAndSuggestions({
 function Suggestions({ tagFilterExpression, hiddenCalls, tag, updateFilter, valueFilter, dataSource }) {
   const timeConfig = useTimeConfig();
 
-  const suggestionsFromServer = memoize(
-    () =>
-      getTagSuggestions({
-        tagFilterExpression,
-        tagName: tag,
-        filter: {
-          timeConfig: timeConfig
-        },
-        filterOnTagName: true,
-        includeInternal: hiddenCalls.includeInternal,
-        includeSynthetic: hiddenCalls.includeSynthetic,
-        metrics: dataSourceConstants[dataSource].sumMetric
-      }),
-    () => tagFilterExpression,
-    60000
-  );
+  const suggestionsFromServer = () =>
+    getTagSuggestions({
+      tagFilterExpression,
+      tagName: tag,
+      filter: {
+        timeConfig: timeConfig
+      },
+      filterOnTagName: true,
+      includeInternal: hiddenCalls.includeInternal,
+      includeSynthetic: hiddenCalls.includeSynthetic,
+      metrics: dataSourceConstants[dataSource].sumMetric
+    });
   const valueRegex = new RegExp(valueFilter.split('').join('.*'), 'i');
-  const suggestions = useObservable(
-    suggestionsFromServer().map(
-      mapDataHO(data => ({
-        ...data,
-        results: data.results.filter(suggestion => valueRegex.test(suggestion.label))
-      }))
-    ),
-    [valueFilter]
-  );
+  const suggestions =
+    useObservable(
+      suggestionsFromServer().map(
+        mapDataHO(data => ({
+          ...data,
+          results: data.results.filter(suggestion => valueRegex.test(suggestion.label))
+        }))
+      ),
+      [tagFilterExpression, hiddenCalls, tag, valueFilter, dataSource, timeConfig]
+    ) ?? pendingResult;
   return (
     <SuggestionsPresenter
       loading={suggestions?.progress.loading}

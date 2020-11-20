@@ -9,6 +9,7 @@ import { TAG } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import { dataSourceConstants } from 'in-applications/analyze/metrics';
 import InfiniteCircle from 'in-new-components/Loading/InfiniteCircle';
+import { pendingResult } from 'in-services/fixedObjects';
 import { number } from 'in-services/formatters/number';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import useObservable from 'in-hooks/useObservable';
@@ -63,23 +64,24 @@ function Body({ tagFilterExpression, updateFilter, hiddenCalls, dataSource }) {
 function Suggestion({ updateFilter, tagFilterExpression, hiddenCalls, dataSource }) {
   const timeConfig = useTimeConfig();
 
-  const suggestions = useObservable(
-    getTagSuggestions({
-      tagFilterExpression,
-      tagName: 'call.erroneous',
-      filter: {
-        timeConfig: timeConfig
-      },
-      filterOnTagName: true,
-      valueFilter: null,
-      includeInternal: hiddenCalls.includeInternal,
-      includeSynthetic: hiddenCalls.includeSynthetic,
-      metrics: dataSourceConstants[dataSource].sumMetric
-    }),
-    [tagFilterExpression]
-  );
+  const suggestions =
+    useObservable(
+      getTagSuggestions({
+        tagFilterExpression,
+        tagName: 'call.erroneous',
+        filter: {
+          timeConfig: timeConfig
+        },
+        filterOnTagName: true,
+        valueFilter: null,
+        includeInternal: hiddenCalls.includeInternal,
+        includeSynthetic: hiddenCalls.includeSynthetic,
+        metrics: dataSourceConstants[dataSource].sumMetric
+      }),
+      [tagFilterExpression, hiddenCalls, dataSource, timeConfig]
+    ) ?? pendingResult;
 
-  if (suggestions?.progress.loading) {
+  if (suggestions.progress.loading) {
     return (
       <div className={locals.loading}>
         <InfiniteCircle width={72} height={24} />
@@ -87,7 +89,7 @@ function Suggestion({ updateFilter, tagFilterExpression, hiddenCalls, dataSource
     );
   }
 
-  if (suggestions?.errors?.length > 0) {
+  if (suggestions.errors?.length > 0) {
     return (
       <>
         {suggestions?.errors.map(error => (
@@ -99,7 +101,7 @@ function Suggestion({ updateFilter, tagFilterExpression, hiddenCalls, dataSource
     );
   }
 
-  if (suggestions?.data?.results?.length > 0) {
+  if (suggestions.data?.results?.length > 0) {
     return (
       <div className={locals.suggestion}>
         <Link
