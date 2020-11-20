@@ -1,3 +1,4 @@
+import { useRouteMatch } from 'react-router';
 import React from 'react';
 
 import {
@@ -14,11 +15,13 @@ import {
   getGroupFromUrlString,
   getGroupToUrlString
 } from 'in-analyze/filterBuilder';
+import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import { focusedMetric as focusedMetricMatrixParameter } from 'in-analyze/navigation/matrix';
 import EditGroupDialog from 'in-analyze/AnalyzeView/components/AnalyzeEditGroupDialog';
 import { getTagFilterListForBackendSubscription } from 'in-analyze/applicationFilter';
 import EmptyAnalyzeView from 'in-analyze/AnalyzeView/components/EmptyAnalyzeView';
 import { updateLatencyFilters } from 'in-applications/analyze/utils/latencyUtils';
+import { analyze, traceDetailFullyQualified } from 'in-analyze/navigation/paths';
 import WithEmptyStateFallback from 'in-new-components/WithEmptyStateFallback';
 import { groupAddedTracker, groupChangedTracker } from 'in-analyze/tracker';
 import getConfigByDataSource from 'in-analyze/AnalyzeView/dataSources';
@@ -27,12 +30,12 @@ import { activeDialogs$ } from 'in-components/DialogPresenter/store';
 import { getTagFilterManipulators } from 'in-analyze/tagFiltersHoc';
 import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
 import GroupedTraces from 'in-analyze/components/GroupedTraces';
+import { newAnalyticsEnabled } from 'in-services/featureFlags';
 import getCalls from 'in-subscription/application/getCalls';
 import RawTraces from 'in-analyze/components/RawTraces';
 import Analyze from 'in-applications/analyze/Analyze';
 import RawCalls from 'in-analyze/components/RawCalls';
 import { getTimeConfig } from 'in-stores/time/config';
-import { analyze } from 'in-analyze/navigation/paths';
 import useObservable from 'in-hooks/useObservable';
 import useUrlState from 'in-hooks/useUrlState';
 import Footer from 'in-new-components/Footer';
@@ -168,11 +171,11 @@ function AnalyzeView(props) {
 
   useDisabledBodyScroll(isDialogActive);
 
-  // If the UA2 flag is set, the Analyze View for UA2 is shown, including Query Builder, Faceted Search, etc.
-  // This view links to the trace details that do not have the UA2 flag set.
-  // Therefore, it is not required to override the data source anymore.
-  // Following a link back to the Analyze View from Trace Details does not have the UA2 flag set and therefore routes back to the default UA1 view.
-  if (ua2) {
+  const showTraceDetails = useRouteMatch(traceDetailFullyQualified);
+  const isInternalVisible = useObservable(isInternalVisible$, []);
+
+  // Trace details are still handled by the old view
+  if (!showTraceDetails && (isInternalVisible ? ua2 : newAnalyticsEnabled)) {
     return <Analyze dataSource={dataSource} />;
   }
 

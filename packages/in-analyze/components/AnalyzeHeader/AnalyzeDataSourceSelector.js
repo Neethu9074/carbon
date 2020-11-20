@@ -20,7 +20,6 @@ import evaluateClassNames from 'in-services/util/classnames';
 import { emptyObject } from 'in-services/fixedObjects';
 import { Ul, Li } from 'in-new-components/lists/List';
 import useObservable from 'in-hooks/useObservable';
-import { getSetting$ } from 'in-services/settings';
 import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './AnalyzeDataSourceSelector.mless';
@@ -32,6 +31,7 @@ const productAreas = [
     dataSources: [
       {
         dataSource: 'calls',
+        ua2: false,
         getHref$: ({ isGrouped }) =>
           getLinkToAnalyze({
             dataSource: 'calls',
@@ -49,10 +49,10 @@ const productAreas = [
             ua2: true,
             groupByTag: isGrouped ? getConfigByDataSource('calls').defaultGrouping : emptyObject
           }),
-        enabled$: newAnalyticsEnabled ? getSetting$('beta_ua2') : isInternalVisible$
       },
       {
         dataSource: 'traces',
+        ua2: false,
         getHref$: ({ isGrouped }) =>
           getLinkToAnalyze({
             dataSource: 'traces',
@@ -70,7 +70,6 @@ const productAreas = [
             ua2: true,
             groupByTag: isGrouped ? getConfigByDataSource('traces').defaultGrouping : emptyObject
           }),
-        enabled$: newAnalyticsEnabled ? getSetting$('beta_ua2') : isInternalVisible$
       }
     ]
   },
@@ -196,7 +195,10 @@ export default function AnalyzeDataSourceSelector({ activeConfiguration, isGroup
       {productAreas
         .filter(({ hasAccess }) => (typeof hasAccess === 'function' ? hasAccess(isInternalVisible) : hasAccess))
         .map(({ productArea, dataSources }, i) => {
-          const dataSourceListEntries = dataSources.map(config => (
+          const dataSourceListEntries = dataSources
+          // if ua2 flag is present, show or hide the items based on the FF for normal users
+          .filter(({ ua2 }) => isInternalVisible || ua2 == null || ua2 === newAnalyticsEnabled)
+          .map(config => (
             <ProductAreaEntry
               key={config.dataSource}
               {...config}

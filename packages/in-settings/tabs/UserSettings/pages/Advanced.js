@@ -7,7 +7,6 @@ import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import SectionHeading from 'in-settings/components/SectionHeading';
 import Heading from 'in-settings/tabs/UserSettings/pages/Heading';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
-import { newAnalyticsEnabled } from 'in-services/featureFlags';
 import SectionLine from 'in-settings/components/SectionLine';
 import Toggle from 'in-components/form/Toggle';
 import Footer from 'in-new-components/Footer';
@@ -162,24 +161,6 @@ export default function UiConfigAdvancedPage() {
             onChange={e => saveSetting('map_packingYSpace', Number(e.target.value))}
           />
         </HorizontalFormGroup>
-      </div>
-
-      <div>
-        {newAnalyticsEnabled && (
-          <>
-            <SectionHeading>Beta Features</SectionHeading>
-            <div style={{ marginBottom: '1rem' }}>
-              <HorizontalFormGroup>
-                <Heading text="Analytics – Enhanced query builder for calls" htmlFor="beta_ua2" />
-                <Toggle
-                  id="beta_ua2"
-                  checked={settings['beta_ua2']}
-                  onChange={e => saveSetting('beta_ua2', e.target.checked)}
-                />
-              </HorizontalFormGroup>
-            </div>
-          </>
-        )}
       </div>
       <Footer />
     </SettingsDetailPage>

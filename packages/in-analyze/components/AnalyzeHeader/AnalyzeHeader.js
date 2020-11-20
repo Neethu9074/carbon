@@ -8,6 +8,7 @@ import {
   productAreaIcons,
   productAreaTrackingNames
 } from 'in-analyze/AnalyzeView/dataSources';
+import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import { analyzePath as mobileAppAnalyzePath, mobileAppMonitoringPath } from 'in-mobile-apps/navigation/paths';
 import { dataSource as dataSourceTypeMatrixParameter } from 'in-new-components/Profiling/navigation/matrix';
 import { analyzePath as websiteAnalyzePath, websiteMonitoringPath } from 'in-websites/navigation/paths';
@@ -26,7 +27,9 @@ import { analyze as appAnalyzePath } from 'in-analyze/navigation/paths';
 import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import Overlay from 'in-new-components/overlays/Overlay/Overlay';
+import { newAnalyticsEnabled } from 'in-services/featureFlags';
 import { isNotBlank } from 'in-services/util/string';
+import useObservable from 'in-hooks/useObservable';
 import Title from 'in-components/Title/Title';
 import SvgIcon from 'in-components/SvgIcon';
 
@@ -75,12 +78,16 @@ export default function AnalyzeHeader({ renderQuickFilterBar, isGrouped }) {
 }
 
 function Label({ activeConfiguration }) {
+  const isInternalVisible = useObservable(isInternalVisible$, []);
+
   if (!activeConfiguration) {
     return null;
   }
 
   const { productArea, dataSource, ua2 } = activeConfiguration;
 
+  // for normal user UA version is now chosen based on the 'newAnalyticsEnabled' feature flag
+  const ua2Enabled = isInternalVisible ? ua2 === 'true' : newAnalyticsEnabled;
   return (
     <div className={locals.label}>
       {productAreaLabels[productArea] !== getLabelByType(dataSource) && (
@@ -91,7 +98,7 @@ function Label({ activeConfiguration }) {
         </>
       )}
       <SvgIcon className={locals.dataSourceIcon} type={getIconByType(dataSource, productArea)} />
-      <span className={locals.dataSourceLabel}>{getLabelByType(dataSource, ua2 === 'true')}</span>
+      <span className={locals.dataSourceLabel}>{getLabelByType(dataSource, ua2Enabled)}</span>
     </div>
   );
 }
