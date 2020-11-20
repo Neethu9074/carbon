@@ -18,7 +18,13 @@ export default class RenderScheduler {
     this.serverTimeOffset = 0;
     this.serverTimeOffsetSubscription = offset$.nextFrame().subscribe(serverTimeOffset => {
       this.serverTimeOffset = serverTimeOffset;
-      this.forceRender();
+
+      // The initial signal can be retrieved synchronously. This means that this instance's
+      // update signal has never been retrieved. In those cases we *must* not force a rendering
+      // as this would break this instance's contract.
+      if (this.timeConfig != null) {
+        this.forceRender();
+      }
     });
   }
 
@@ -62,7 +68,7 @@ export default class RenderScheduler {
 
   atomicRender() {
     const timeConfig = this.timeConfig;
-    const to = timeConfig.to ?? toServerTime(Date.now(), this.serverTimeOffset);
+    const to = timeConfig?.to ?? toServerTime(Date.now(), this.serverTimeOffset);
 
     this.xScaleBackBuffer.setDomainFrom(to - timeConfig.windowSize);
     this.xScaleBackBuffer.setDomainTo(to);

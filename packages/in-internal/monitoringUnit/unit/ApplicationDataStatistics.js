@@ -3,6 +3,7 @@ import theme from 'in-themes';
 
 import { getDropwizardWithContext } from 'in-internal/monitoringUnit/dataRetrieval';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import ChartExplanation from 'in-sdk/components/dashboard/ChartExplanation';
 import { percentage, number, millis } from 'in-services/formatters/number';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import connectTo from 'in-hoc/connectTo';
@@ -32,6 +33,36 @@ export default connectTo(
         </DashboardSection>
 
         <DashboardSection title={`Backend Span Dropping (sum across instances)`}>
+          <ChartExplanation>
+            <div>
+              Shows whether spans are being dropped and why:
+              <ul>
+                <li>
+                  <b>Processed:</b> how many spans got successfully processed.
+                </li>
+                <li>
+                  <b>Dropped due to global throttler:</b> dropped due to a global rate limiter (
+                  <i>config.hard.spans.rate.drop.threshold</i>).
+                </li>
+                <li>
+                  <b>Dropped due to consistent dropping:</b> dropped because other spans of the same trace got dropped
+                  in the past , e.g. due to backpressure (ensure we drop all spans of a trace or none).
+                </li>
+                <li>
+                  <b>Dropped due to backpressure:</b> dropped because of resource exhaustion (e.g. high CPU usage or one
+                  step of the pipeline is a bottleneck).
+                </li>
+                <li>
+                  <b>Dropped hard due to backpressure (random dropping):</b> dropped because Kafka record is older than
+                  5 seconds.
+                </li>
+                <li>
+                  <b>Dropped due to trace throttler:</b> dropped due to a rate limiter per trace (
+                  <i>config.hard.spans.per.trace.rate.drop.threshold</i>){' '}
+                </li>
+              </ul>
+            </div>
+          </ChartExplanation>
           <Chart
             snapshotId={tenantUnitId}
             timeConfig={timeConfig}
@@ -77,6 +108,26 @@ export default connectTo(
 
         {appdata_processor_instances.length > 1 && (
           <DashboardSection title={`Backend Span Dropping (per instance)`}>
+            <ChartExplanation>
+              <div>
+                When spans are dropped, it is important to look at individual instances.
+                <ul>
+                  <li>All of the instances are dropping: scale out.</li>
+                  <li>
+                    One or several instances are dropping (but not all): scaling out will not help.
+                    <ul>
+                      <li>
+                        Traces with a high throughput are being processed (sharding key is the trace id): adjust{' '}
+                        <i>config.hard.spans.per.trace.rate.drop.threshold</i>.
+                      </li>
+                      <li>
+                        CPU load is too high on the underlying host(s): assign instance to a less overloaded host.
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+            </ChartExplanation>
             <Chart
               snapshotIds={appdata_processor_instances.map(instance => instance.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -94,6 +145,12 @@ export default connectTo(
         )}
 
         <DashboardSection title={`Span latency (mean across instances)`}>
+          <ChartExplanation>
+            <div>
+              Delay in the agent: delay between the time a span was ended and the time it was sent from the agent to
+              acceptor.
+            </div>
+          </ChartExplanation>
           <Chart
             snapshotId={tenantUnitId}
             timeConfig={timeConfig}
@@ -112,6 +169,12 @@ export default connectTo(
         </DashboardSection>
 
         <DashboardSection title={`Acceptor Rate-Limited Span Messages`}>
+          <ChartExplanation>
+            <div>
+              Number of span messages (a message contains multiple spans) dropped due to a rate per-tenant-unit limiter.
+              See <i>config.span.publish.rate.limit</i> (default: 25,000).
+            </div>
+          </ChartExplanation>
           <Chart
             snapshotId={tenantUnitId}
             timeConfig={timeConfig}
@@ -125,6 +188,12 @@ export default connectTo(
         </DashboardSection>
 
         <DashboardSection title={`Serverless Acceptor Rate-Limited Span Messages`}>
+          <ChartExplanation>
+            <div>
+              Number of span messages (a message contains multiple spans) dropped due to a rate per-tenant-unit limiter.
+              See <i>config.span.publish.rate.limit</i> (default: 25,000).
+            </div>
+          </ChartExplanation>
           <Chart
             snapshotId={tenantUnitId}
             timeConfig={timeConfig}
