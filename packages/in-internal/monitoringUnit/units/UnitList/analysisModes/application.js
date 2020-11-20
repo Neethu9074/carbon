@@ -234,19 +234,24 @@ export default {
                 `appdata-processor.droppedSpansDueToConfiguration`,
                 `appdata-processor.droppedSpansDueToConsistentDropping`,
                 `appdata-processor.droppedSpansDueToBackpressure`,
-                `appdata-processor.droppedSpansDueToHardBackpressure`
+                `appdata-processor.droppedSpansDueToHardBackpressure`,
+                `appdata-processor.droppedSpansDueToPerTraceConfiguration`
               ],
               labels: [
                 'Processed',
-                'Dropped due to throttler',
+                'Dropped due to global throttler',
                 'Dropped due to consistent dropping',
-                'Dropped due to backpressure'
+                'Dropped due to backpressure',
+                'Dropped hard due to backpressure (random dropping)',
+                'Dropped due to trace throttler'
               ],
               colors: [
                 theme.lib.colors.success,
                 theme.lib.colors.red800,
                 theme.lib.colors.orange800,
-                theme.lib.colors.yellow800
+                theme.lib.colors.yellow800,
+                theme.lib.colors.pink800,
+                theme.lib.colors.purple800
               ],
               type: 'stackedArea'
             }}
