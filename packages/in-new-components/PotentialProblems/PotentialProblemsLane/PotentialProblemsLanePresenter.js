@@ -134,7 +134,7 @@ export default function PotentialProblemsLanePresenter({ potentialProblems, aler
         );
         trackMarkerClicked({ metricNames: getUniqueMetricNames(alertRules) });
       }}
-      renderLaneItem={SingleMarkerLaneItem}
+      LaneItem={SingleMarkerLaneItem}
       renderMarkerItem={PotentialProblemMarker}
       trackMarkerHoverEvent={eventData => {
         trackMarkerHovered({

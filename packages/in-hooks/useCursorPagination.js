@@ -58,6 +58,7 @@ export default function useCursorPagination(create, deps = []) {
 const initialState = {
   items: emptyArray,
   progress: indeterminateProgress,
+  errors: emptyArray,
   awaitingData: true,
   canLoadMore: false,
   reloadCount: 0

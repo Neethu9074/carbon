@@ -1,10 +1,11 @@
-import React, { createRef, useEffect, useState } from 'react';
+import React, { createRef, useEffect, useState, forwardRef } from 'react';
 
 import ErrorDescriptionItem from 'in-sdk/components/traceDetails/ErrorDescriptionItem';
 import { expandNestedSerializedJson } from 'in-services/util/json';
 import { Dl } from 'in-new-components/HorizontalDescriptionList';
 import CopyToClipboard from 'in-components/CopyToClipboard';
 import { flatten } from 'in-forge/tracing/sdk/flatten';
+import { compositeRef } from 'in-services/util/react';
 import { Li, Ul } from 'in-new-components/lists/List';
 import Button from 'in-new-components/Button';
 import Tooltip from 'in-components/Tooltip';
@@ -25,17 +26,17 @@ export default function CustomDataDescriptionItem({ span }) {
   const errorMessage = span.getIn(['data', 'sdk', 'custom', 'tags', 'message']);
   custom = custom.filter((value, key) => !speciallyRenderedTags.includes(key));
 
-  function TagLine({ name, value, overflowComponentRef }) {
+  const TagLine = forwardRef(function TagLine({ name, value, valueRef }, ref) {
     return (
       <Li className={locals.root}>
         <div className={locals.key}>{name}</div>
-        <div className={locals.value} ref={overflowComponentRef}>
+        <div className={locals.value} ref={compositeRef(valueRef, ref)}>
           {value}
         </div>
         <div className={locals.clipboard}>
           <CopyToClipboard getText={() => value}>
-            {refSetter => (
-              <span ref={refSetter}>
+            {ref => (
+              <span ref={ref}>
                 <Button kind="fixedInline" icon="lib_actions_copy" iconSize="xs" />
               </span>
             )}
@@ -43,26 +44,26 @@ export default function CustomDataDescriptionItem({ span }) {
         </div>
       </Li>
     );
-  }
+  });
 
   function TagLineWithTooltipOnOverflow({ name, value }) {
-    const overflowComponentRef = createRef();
+    const valueRef = createRef();
     const [overflow, setOverflow] = useState(false);
 
     useEffect(() => {
-      if (overflowComponentRef && overflowComponentRef.current) {
-        setOverflow(overflowComponentRef.current.scrollWidth > overflowComponentRef.current.offsetWidth);
+      if (valueRef && valueRef.current) {
+        setOverflow(valueRef.current.scrollWidth > valueRef.current.offsetWidth);
       }
-    }, [overflowComponentRef]);
+    }, [valueRef]);
 
     if (overflow) {
       return (
         <Tooltip content={value}>
-          <TagLine name={name} value={value} overflowComponentRef={overflowComponentRef} />
+          <TagLine name={name} value={value} valueRef={valueRef} />
         </Tooltip>
       );
     }
-    return <TagLine name={name} value={value} overflowComponentRef={overflowComponentRef} />;
+    return <TagLine name={name} value={value} valueRef={valueRef} />;
   }
 
   const tags = flatten(expandNestedSerializedJson(custom.toJS()));

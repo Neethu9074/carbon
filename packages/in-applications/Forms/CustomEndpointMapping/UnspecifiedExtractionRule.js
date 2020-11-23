@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 
 import locals from './UnspecifiedExtractionRule.mless';
 
-export default function UnspecifiedExtractionRule() {
+const UnspecifiedExtractionRule = forwardRef(function UnspecifiedExtractionRule(props, ref) {
   return (
-    <div className={locals.unspecifiedExtractionRule}>
+    <div className={locals.unspecifiedExtractionRule} ref={ref}>
       <span className={locals.query}>Unspecified</span>
     </div>
   );
-}
+});
+export default UnspecifiedExtractionRule;

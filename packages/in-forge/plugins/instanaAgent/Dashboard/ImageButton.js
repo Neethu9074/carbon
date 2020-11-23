@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 
 import Button from 'in-new-components/Button';
 
-export default function ImageButton({ children, iconType, iconSize, onClick, disabled }) {
+export default forwardRef(function ImageButton({ children, iconType, iconSize, onClick, disabled }, ref) {
   return (
-    <Button icon={iconType} kind="secondary" onClick={onClick} iconSize={iconSize} disabled={disabled}>
+    <Button icon={iconType} kind="secondary" onClick={onClick} iconSize={iconSize} disabled={disabled} ref={ref}>
       {children}
     </Button>
   );
-}
+});

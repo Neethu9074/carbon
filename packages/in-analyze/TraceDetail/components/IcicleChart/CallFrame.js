@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { forwardRef } from 'react';
 import theme from 'in-themes';
 
 import LogTooltipContent from 'in-analyze/TraceDetail/components/LogTooltipContent';
@@ -6,27 +6,12 @@ import ErrorIndicator from 'in-analyze/TraceDetail/components/ErrorIndicator';
 import LogIndicator from 'in-analyze/TraceDetail/components/LogIndicator';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import Tooltip from 'in-components/Tooltip';
-import connect from 'in-hoc/connectTo';
+import connectTo from 'in-hoc/connectTo';
 import { role } from 'in-stores/user';
 
 import locals from './CallFrame.mless';
 
 export const FRAME_HEIGHT = 24;
-
-export default connect(
-  props => ({
-    isUnhighlighted: props.hoveredServiceEndpoint$
-      ? props.hoveredServiceEndpoint$
-          .map(
-            hoveredServiceEndpoint =>
-              hoveredServiceEndpoint && !callIsInServiceEndpoint(props.callFrame, hoveredServiceEndpoint)
-          )
-          .distinct()
-      : false,
-    isOpened: props.openedCall$.map(openedCall => openedCall && props.callFrame.id === openedCall).distinct()
-  }),
-  CallFrame
-);
 
 function callIsInServiceEndpoint(call, serviceEndpoint) {
   if (!call.service || !call.endpoint || !serviceEndpoint.service || !serviceEndpoint.endpoint) {
@@ -36,14 +21,17 @@ function callIsInServiceEndpoint(call, serviceEndpoint) {
   }
 }
 
-function CallFrame({ callFrame, xScale, isUnhighlighted, getColor, onCallClicked, isFakeRoot, isOpened }) {
+const CallFrame = forwardRef(function CallFrame(
+  { callFrame, xScale, isUnhighlighted, getColor, onCallClicked, isFakeRoot, isOpened },
+  ref
+) {
   const { label, errorCount, depth, x, dx, totalDuration, traceStart, children } = callFrame;
   const top = FRAME_HEIGHT * depth;
   const left = xScale.getRange(x);
   const width = xScale.getRange(x + dx) - left;
 
   return (
-    <Fragment>
+    <div ref={ref}>
       <div
         className={evaluateClassNames({
           [locals.frame]: true,
@@ -84,9 +72,9 @@ function CallFrame({ callFrame, xScale, isUnhighlighted, getColor, onCallClicked
               />
             ))}
       </div>
-    </Fragment>
+    </div>
   );
-}
+});
 
 function LogIndicators({ parentCall, log, xScale, x, top, onCallClicked }) {
   const left = xScale.getRange(x);
@@ -101,3 +89,18 @@ function getTooltipContent(log) {
   if (!role.canViewLogs) return null;
   return <LogTooltipContent log={log} />;
 }
+
+export default connectTo(
+  props => ({
+    isUnhighlighted: props.hoveredServiceEndpoint$
+      ? props.hoveredServiceEndpoint$
+          .map(
+            hoveredServiceEndpoint =>
+              hoveredServiceEndpoint && !callIsInServiceEndpoint(props.callFrame, hoveredServiceEndpoint)
+          )
+          .distinct()
+      : false,
+    isOpened: props.openedCall$.map(openedCall => openedCall && props.callFrame.id === openedCall).distinct()
+  }),
+  CallFrame
+);

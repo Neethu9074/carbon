@@ -27,7 +27,7 @@ export default function AlertsPreviewLanePresenter({ alerts, ...remainingProps }
           <div>Alerts: {count}</div>
         </div>
       )}
-      renderLaneItem={SingleMarkerLaneItem}
+      LaneItem={SingleMarkerLaneItem}
       renderHoverOverlay={remainingProps.isClustered ? HoverArea : HoverLine}
       renderMarkerItem={LaneIcon}
     />

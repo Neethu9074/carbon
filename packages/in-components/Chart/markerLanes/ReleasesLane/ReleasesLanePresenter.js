@@ -39,7 +39,7 @@ export default function ReleasesLanePresenter(props) {
           )}
         </div>
       )}
-      renderLaneItem={SingleMarkerLaneItem}
+      LaneItem={SingleMarkerLaneItem}
       renderHoverOverlay={props.isClustered ? HoverArea : HoverLine}
       renderMarkerItem={LaneIcon}
     />

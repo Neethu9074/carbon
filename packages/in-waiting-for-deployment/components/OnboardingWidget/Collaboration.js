@@ -1,7 +1,6 @@
 import { createMapForm, createField, notBlankValidator } from 'formalistic';
 import React, { useState } from 'react';
 
-import WithRestrictedTooltip from 'in-waiting-for-deployment/components/OnboardingWidget/WithRestrictedTooltip';
 import CopyToClipboardButton from 'in-new-components/CopyToClipboardButton';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { evaluateClassNames } from 'in-services/util/classnames';
@@ -12,6 +11,7 @@ import { sendInvitation } from 'in-api/users';
 import Button from 'in-new-components/Button';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
+import Tooltip from 'in-components/Tooltip';
 import { light } from 'in-themes/themes';
 
 import locals from './Collaboration.mless';
@@ -51,7 +51,11 @@ export default function Collaboration({ isRestricted, agentKey }) {
         >
           <div className={locals.flexWrapper}>
             {form.get('email').map(field => (
-              <WithRestrictedTooltip isRestricted={isRestricted}>
+              <Tooltip
+                themeStyle="light"
+                content={isRestricted ? 'This will be available once your instance is ready' : undefined}
+                align="bottomMiddle"
+              >
                 <FormGroup
                   className={evaluateClassNames({
                     [locals.userInvideFormGroup]: true,
@@ -82,7 +86,7 @@ export default function Collaboration({ isRestricted, agentKey }) {
                   </div>
                   <TouchedMessages field={field} />
                 </FormGroup>
-              </WithRestrictedTooltip>
+              </Tooltip>
             ))}
 
             <FormGroup>

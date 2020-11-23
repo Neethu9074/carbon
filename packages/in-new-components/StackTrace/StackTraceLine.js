@@ -34,9 +34,9 @@ export default function StackTraceLine({ file, name, line, column, indicator }) 
             </Fragment>
           )}
         </div>
-
-        {indicator}
       </Tooltip>
+
+      {indicator}
     </li>
   );
 }

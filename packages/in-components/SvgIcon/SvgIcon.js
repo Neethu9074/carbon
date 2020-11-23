@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { forwardRef } from 'react';
 
 import { toInteractiveElement } from 'in-new-components/interactiveCustomElement';
 import { getIconType } from 'in-components/SvgIcon/infrastructureIconType';
@@ -48,25 +48,28 @@ export const sizes = {
 
 export const infrastructurePluginPrefix = 'plugin:';
 
-export default function SvgIcon({
-  className,
-  type,
-  color,
-  onClick,
-  style,
-  spinning,
-  tabIndex = 0,
-  role,
-  'aria-label': ariaLabel,
-  refSetter,
-  id,
-  iconPath,
-  size = 'regular',
-  onBlur,
-  onFocus,
-  onMouseEnter,
-  onMouseLeave
-}) {
+const SvgIcon = forwardRef(function SvgIcon(
+  {
+    className,
+    type,
+    color,
+    onClick,
+    style,
+    spinning,
+    tabIndex = 0,
+    role,
+    'aria-label': ariaLabel,
+    refSetter,
+    id,
+    iconPath,
+    size = 'regular',
+    onBlur,
+    onFocus,
+    onMouseEnter,
+    onMouseLeave
+  },
+  ref
+) {
   role = role || (onClick ? 'button' : undefined);
 
   if (type?.startsWith(infrastructurePluginPrefix)) {
@@ -114,7 +117,7 @@ export default function SvgIcon({
       fill={color}
       aria-label={ariaLabel}
       {...interactivityProps}
-      ref={refSetter}
+      ref={ref || refSetter}
       onBlur={onBlur}
       onFocus={onFocus}
       onMouseEnter={onMouseEnter}
@@ -126,7 +129,9 @@ export default function SvgIcon({
       <path d={iconPath} />
     </svg>
   );
-}
+});
+
+export default SvgIcon;
 
 export function getPixelsBySize(size) {
   if (typeof size === 'number') {

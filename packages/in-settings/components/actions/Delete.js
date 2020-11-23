@@ -1,5 +1,5 @@
+import React, { forwardRef } from 'react';
 import theme from 'in-themes';
-import React from 'react';
 
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-new-components/Dialog/ConfirmationDialog';
@@ -8,18 +8,13 @@ import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './Delete.mless';
 
-export default function Delete({
-  disabled,
-  dialogMessage,
-  entity,
-  getEntityName,
-  confirmLabel,
-  doDelete,
-  deleteEntity,
-  setErrorMessage
-}) {
+export default forwardRef(function Delete(
+  { disabled, dialogMessage, entity, getEntityName, confirmLabel, doDelete, deleteEntity, setErrorMessage },
+  ref
+) {
   return (
     <SvgIcon
+      ref={ref}
       type="lib_actions_delete"
       color={theme.lib.colors.primary2}
       className={evaluateClassNames({
@@ -55,4 +50,4 @@ export default function Delete({
       }
     />
   );
-}
+});

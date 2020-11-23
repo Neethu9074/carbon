@@ -1,5 +1,5 @@
+import React, { forwardRef } from 'react';
 import theme from 'in-themes';
-import React from 'react';
 
 import WithIcon from 'in-new-components/WithIcon';
 import { noop } from 'in-services/util/function';
@@ -8,17 +8,10 @@ import Link from 'in-components/Link';
 
 import locals from './EntityLink.mless';
 
-export default function EntityLink({
-  label,
-  plugin,
-  snapshot,
-  icon,
-  tooltip,
-  href$,
-  specialIndicator,
-  subscriptComponent,
-  onClick = noop
-}) {
+const EntityLink = forwardRef(function EntityLink(
+  { label, plugin, snapshot, icon, tooltip, href$, specialIndicator, subscriptComponent, onClick = noop },
+  ref
+) {
   const iconColor = href$ && theme.lib.colors.blue800;
 
   const link = (
@@ -45,9 +38,10 @@ export default function EntityLink({
   }
 
   return (
-    <div>
+    <div ref={ref}>
       <span className={locals.specialIndicator} />
       {innerContent}
     </div>
   );
-}
+});
+export default EntityLink;

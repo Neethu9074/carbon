@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 
 import evaluateClassNames from 'in-services/util/classnames';
 import useObservable from 'in-hooks/useObservable';
@@ -19,21 +19,10 @@ export const useObservableConfig = {
   resetStateOnObservableChange: false
 };
 
-export default function Link({
-  href,
-  href$,
-  onClick,
-  children,
-  title,
-  target,
-  className,
-  style,
-  external,
-  ellipsis,
-  id,
-  onKeyDown,
-  onKeyUp
-}) {
+export default forwardRef(function Link(
+  { href, href$, onClick, children, title, target, className, style, external, ellipsis, id, onKeyDown, onKeyUp },
+  ref
+) {
   const resolvedHref = useObservable(href$, [href$], useObservableConfig) || href;
   return (
     <a
@@ -47,8 +36,9 @@ export default function Link({
       id={id}
       onKeyDown={onKeyDown}
       onKeyUp={onKeyUp}
+      ref={ref}
     >
       {children}
     </a>
   );
-}
+});

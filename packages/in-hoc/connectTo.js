@@ -1,6 +1,6 @@
 import shallowEquals from 'fbjs/lib/shallowEqual';
+import React, { forwardRef } from 'react';
 import { defaultsDeep } from 'lodash';
-import React from 'react';
 
 import { getDisplayName } from 'in-hoc/internal/getDisplayName';
 import { emptyObject } from 'in-services/fixedObjects';
@@ -20,7 +20,7 @@ function doCreateConnectedComponent(createObservables, ComposedComponent, opts) 
   const needsToCreateObservables = typeof createObservables === 'function';
   opts = defaultsDeep(opts || {}, defaultOptions);
 
-  return class extends React.Component {
+  class ConnectedComponent extends React.Component {
     static displayName = getDisplayName(ComposedComponent, 'connect');
     static propTypes = ComposedComponent.propTypes;
     state = {};
@@ -105,7 +105,11 @@ function doCreateConnectedComponent(createObservables, ComposedComponent, opts) 
     }
 
     render() {
-      return <ComposedComponent {...this.props} {...this.state} />;
+      return <ComposedComponent {...this.props} {...this.state} ref={this.props.refSetter} />;
     }
-  };
+  }
+
+  return forwardRef(function connectedComponentRefWrapper(props, ref) {
+    return <ConnectedComponent {...props} refSetter={ref} />;
+  });
 }

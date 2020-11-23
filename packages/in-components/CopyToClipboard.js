@@ -1,19 +1,25 @@
 /* global require:false */
+import React, { forwardRef } from 'react';
 import invariant from 'invariant';
 import rpt from 'prop-types';
-import React from 'react';
 
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
+import { compositeRef } from 'in-services/util/react';
 
 let Clipboard;
 
-export default class extends React.Component {
+export default forwardRef(function copyToClipboardRefWrapper(props, ref) {
+  return <CopyToClipboard {...props} refSetter={ref} />;
+});
+
+class CopyToClipboard extends React.Component {
   static displayName = 'CopyToClipboard';
 
   static propTypes = {
     getText: rpt.func,
     targetId: rpt.string,
-    children: rpt.func.isRequired
+    children: rpt.func.isRequired,
+    refSetter: rpt.oneOfType([rpt.func, rpt.object])
   };
 
   constructor(props) {
@@ -68,7 +74,7 @@ export default class extends React.Component {
   }
 
   render() {
-    return this.props.children(this.setButton);
+    return this.props.children(compositeRef(this.setButton, this.props.refSetter));
   }
 }
 

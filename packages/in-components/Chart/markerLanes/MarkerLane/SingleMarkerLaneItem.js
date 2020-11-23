@@ -1,39 +1,39 @@
+import React, { forwardRef } from 'react';
 import PropTypes from 'prop-types';
-import React from 'react';
 
-import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import evaluateClassNames from 'in-services/util/classnames';
 
 import locals from './SingleMarkerLaneItem.mless';
 
-export default function SingleMarkerLaneItem({
-  xPos,
-  onHover,
-  eventData,
-  renderMarkerItem,
-  hideDefaultHoverStyle,
-  ...remainingProps
-}) {
+const SingleMarkerLaneItem = forwardRef(function SingleMarkerLaneItem(
+  { xPos, onHover, eventData, renderMarkerItem, hideDefaultHoverStyle, ...remainingProps },
+  ref
+) {
   return (
     <div
+      ref={ref}
       style={{ transform: `translateX(${xPos}px)` }}
       className={evaluateClassNames({
         [locals.laneItem]: true,
         [locals.hideHoverEffect]: hideDefaultHoverStyle
       })}
-      onMouseEnter={e => {
-        stopPropagationAndPreventDefault(e);
+      onMouseEnter={() => {
+        // TODO
+        // stopPropagationAndPreventDefault(e);
         onHover?.(eventData);
       }}
-      onMouseLeave={e => {
-        stopPropagationAndPreventDefault(e);
+      onMouseLeave={() => {
+        // TODO
+        // stopPropagationAndPreventDefault(e);
         onHover?.(null);
       }}
     >
       {renderMarkerItem({ ...remainingProps, eventData })}
     </div>
   );
-}
+});
+
+export default SingleMarkerLaneItem;
 
 SingleMarkerLaneItem.propTypes = {
   eventData: PropTypes.object.isRequired,

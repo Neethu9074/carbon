@@ -1,5 +1,5 @@
+import React, { forwardRef } from 'react';
 import PropTypes from 'prop-types';
-import React from 'react';
 
 import { stopPropagation, stopPropagationAndPreventDefault } from 'in-services/util/function';
 import SvgIcon, { sizes as iconSizes } from 'in-components/SvgIcon/SvgIcon';
@@ -16,7 +16,7 @@ const iconDimensions = {
   compact: 'xs'
 };
 
-const IconButton = React.forwardRef(function IconButton(
+const IconButton = forwardRef(function IconButton(
   {
     type,
     size = 'normal',

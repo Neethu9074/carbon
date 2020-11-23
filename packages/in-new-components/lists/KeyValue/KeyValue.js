@@ -1,5 +1,5 @@
+import React, { forwardRef } from 'react';
 import PropTypes from 'prop-types';
-import React from 'react';
 
 import Value from 'in-new-components/lists/KeyValue/components/Value';
 import Key from 'in-new-components/lists/KeyValue/components/Key';
@@ -12,15 +12,10 @@ export const themes = {
   blue: 'blue'
 };
 
-export default function KeyValue({
-  className,
-  label,
-  value,
-  customValue,
-  theme = themes.default,
-  inverted,
-  accentuated
-}) {
+const KeyValue = forwardRef(function KeyValue(
+  { className, label, value, customValue, theme = themes.default, inverted, accentuated },
+  ref
+) {
   const k = <Key label={label} />;
   const v = <Value value={customValue || value} theme={theme} accentuated={accentuated} />;
 
@@ -30,6 +25,7 @@ export default function KeyValue({
         [locals.wrapper]: true,
         [className]: className
       })}
+      ref={ref}
     >
       {inverted ? (
         <>
@@ -44,7 +40,8 @@ export default function KeyValue({
       )}
     </div>
   );
-}
+});
+export default KeyValue;
 
 KeyValue.propTypes = {
   label: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.object]),

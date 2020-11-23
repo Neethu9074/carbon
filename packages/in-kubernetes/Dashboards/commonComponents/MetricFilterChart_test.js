@@ -16,7 +16,8 @@ describe('in-kubernetes/MetricFilterChart', () => {
     metrics$.emit([1000, -1]);
     wrapper.update();
 
-    expect(getProps(wrapper.dive())).to.deep.equal({
+    expect(getProps(wrapper.dive().dive())).to.deep.equal({
+      refSetter: null,
       snapshotId: 's',
       timeConfig,
       y1: {
@@ -36,7 +37,8 @@ describe('in-kubernetes/MetricFilterChart', () => {
     metrics$.emit([1000, 1]);
     wrapper.update();
 
-    expect(getProps(wrapper.dive())).to.deep.equal({
+    expect(getProps(wrapper.dive().dive())).to.deep.equal({
+      refSetter: null,
       snapshotId: 's',
       timeConfig,
       y1: {

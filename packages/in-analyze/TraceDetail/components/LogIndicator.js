@@ -1,11 +1,15 @@
+import React, { forwardRef } from 'react';
 import theme from 'in-themes';
-import React from 'react';
 
 import locals from './LogIndicator.mless';
 
-export default function LogIndicator({ inTimeline, left, parentCall, top, onCallClicked, log = false }) {
+export default forwardRef(function LogIndicator(
+  { inTimeline, left, parentCall, top, onCallClicked, log = false },
+  ref
+) {
   return (
     <div
+      ref={ref}
       style={{
         left: `calc(${left}% - 10px`,
         top: `calc(${top}px - 7.5px)`,
@@ -15,4 +19,4 @@ export default function LogIndicator({ inTimeline, left, parentCall, top, onCall
       onClick={onCallClicked != null ? () => onCallClicked(parentCall) : null}
     />
   );
-}
+});

@@ -161,20 +161,18 @@ const Event = connect(({ event }) => ({
       </Tooltip>
 
       {metric && snapshotId && (
-        <Tooltip align="topMiddle" content={`Mean in last minute for metric ${metric}`}>
-          <MetricValue
-            className={locals.metric}
-            formatter={siPrefix.detailed}
-            snapshotId={snapshotId}
-            createMetricValueStream={() =>
-              getTimeWindowBasedMetricAggregation({
-                snapshotId: snapshotId,
-                metric: metric,
-                timeWindowAggregation: 'MEAN'
-              }).filter(v => v != null)
-            }
-          />
-        </Tooltip>
+        <MetricValue
+          className={locals.metric}
+          formatter={siPrefix.detailed}
+          snapshotId={snapshotId}
+          createMetricValueStream={() =>
+            getTimeWindowBasedMetricAggregation({
+              snapshotId: snapshotId,
+              metric: metric,
+              timeWindowAggregation: 'MEAN'
+            }).filter(v => v != null)
+          }
+        />
       )}
 
       <Link

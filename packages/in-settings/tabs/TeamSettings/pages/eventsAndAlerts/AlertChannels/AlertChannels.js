@@ -1,5 +1,5 @@
+import React, { forwardRef } from 'react';
 import { get } from 'lodash';
-import React from 'react';
 
 import NewChannelButton from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/components/NewChannelButton';
 import { getEntityHref, getEntityIdView, teamSettingsAlertingAlertChannels } from 'in-settings/navigation/paths';
@@ -92,11 +92,13 @@ function columnDefinitions(hasRowNavigation) {
         }
         return (
           <div className={locals.allProperties}>
-            {parameters.filter(({ key }) => key !== 'name' && key !== 'kind').map(({ key, label }) => (
-              <Tooltip key={key} content={`${label}: ${entity[key]}`} delay={500}>
-                <Property attribute={key} label={label} entity={entity} />
-              </Tooltip>
-            ))}
+            {parameters
+              .filter(({ key }) => key !== 'name' && key !== 'kind')
+              .map(({ key, label }) => (
+                <Tooltip key={key} content={`${label}: ${entity[key]}`} delay={500}>
+                  <Property attribute={key} label={label} entity={entity} />
+                </Tooltip>
+              ))}
           </div>
         );
       }
@@ -147,9 +149,9 @@ function getStringifiedParameters(entity) {
   }, '');
 }
 
-function Property({ attribute, label, entity }) {
-  return <PropertyInTable label={label} value={entity[attribute]} />;
-}
+const Property = forwardRef(function Property({ attribute, label, entity }, ref) {
+  return <PropertyInTable label={label} value={entity[attribute]} ref={ref} />;
+});
 
 export function noRightHeader() {
   // Used to explicitly disable that default right header (create new alert channel button) when this is used in a

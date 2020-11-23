@@ -11,8 +11,8 @@ import locals from './LaneIcon.mless';
 
 export default function LaneIcon({ timeConfig, calloutContent, onClick, eventData, showIconForCluster, iconConfig }) {
   return (
-    <Overlay props={{ iconConfig, eventData, timeConfig }} content={calloutContent}>
-      {({ open, refSetter }) => {
+    <Overlay props={{ iconConfig, eventData, timeConfig }} content={calloutContent} withoutWrapper>
+      {({ open, ref }) => {
         return (
           <SvgIcon
             size="xs"
@@ -29,7 +29,7 @@ export default function LaneIcon({ timeConfig, calloutContent, onClick, eventDat
             }
             type={showIconForCluster ? iconConfig.typeCluster : iconConfig.type}
             color={iconConfig.color}
-            refSetter={refSetter}
+            ref={ref}
           />
         );
       }}

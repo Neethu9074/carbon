@@ -1,113 +1,110 @@
 /* eslint-disable react/no-find-dom-node */
+import { useRef, Children, cloneElement, useCallback } from 'react';
 import { createLogger } from 'instalog';
-import ReactDOM from 'react-dom';
+import invariant from 'invariant';
 import rpt from 'prop-types';
-import React from 'react';
 
 import { setActiveTooltip, clearActiveTooltip } from 'in-services/stores/tooltip';
 
 const logger = createLogger('in-components/Tooltip');
 
-export default class extends React.PureComponent {
-  static displayName = 'Tooltip';
-
-  static propTypes = {
-    content: rpt.node,
-    themeStyle: rpt.string,
-    children: rpt.any.isRequired,
-    align: rpt.oneOf([
-      'leftBottom',
-      'leftMiddle',
-      'leftTop',
-      'topLeft',
-      'topMiddle',
-      'topRight',
-      'rightTop',
-      'rightMiddle',
-      'rightBottom',
-      'bottomLeft',
-      'bottomMiddle',
-      'bottomRight',
-      'auto',
-      'mousePosition'
-    ]),
-    delay: rpt.number
-  };
-
-  static defaultProps = {
-    align: 'auto'
-  };
-
-  componentDidMount() {
-    this.addListeners();
+export default function Tooltip({ align = 'auto', delay = 0, themeStyle, children, content }) {
+  if (__DEV__) {
+    invariant(
+      Children.count(children) === 1 && children.type !== Symbol.for('react.fragment'),
+      `Only one child which is not of type React.Fragment is allowed.`
+    );
   }
 
-  componentDidUpdate() {
-    this.removeListeners();
-    this.addListeners();
-  }
+  const tooltipState = useRef();
+  const ref = useCallback(
+    domNode => {
+      const { isActive, timeoutHandle, domNode: previousDomNode } = tooltipState.current || {};
 
-  removeListeners = () => {
-    if (this.domNode) {
-      this.domNode.removeEventListener('mouseleave', this.onMouseOut, false);
-      this.domNode.removeEventListener('mouseenter', this.onMouseIn, false);
-    }
-    this.domNode = null;
-  };
+      // Dispose old state if any
+      if (previousDomNode) {
+        previousDomNode.removeEventListener('mouseleave', onMouseOut, false);
+        previousDomNode.removeEventListener('mouseenter', onMouseIn, false);
+      }
+      if (timeoutHandle) {
+        clearTimeout(timeoutHandle);
+      }
+      if (isActive) {
+        clearActiveTooltip();
+      }
 
-  addListeners = () => {
-    try {
-      this.domNode = ReactDOM.findDOMNode(this);
-      this.domNode.addEventListener('mouseenter', this.onMouseIn, false);
-      this.domNode.addEventListener('mouseleave', this.onMouseOut, false);
-    } catch (e) {
-      // We are currently seeing errors being thrown at this location. Trying to drill down on the reason for this error…
-      logger.debug(
-        `Failed to add listeners for tooltip. Message: '${e.message}'. Tooltip content: ${String(this.props.content)}`,
-        e
-      );
-    }
-  };
+      // reset state
+      tooltipState.current = {
+        isActive: false,
+        domNode
+      };
 
-  componentWillUnmount() {
-    this.removeListeners();
-    if (this.isActive) {
-      clearActiveTooltip();
-    }
-  }
+      // set up new listeners
+      if (domNode) {
+        try {
+          domNode.addEventListener('mouseenter', onMouseIn, false);
+          domNode.addEventListener('mouseleave', onMouseOut, false);
+        } catch (e) {
+          // We are currently seeing errors being thrown at this location. Trying to drill down on the reason for this error…
+          logger.debug(
+            `Failed to add listeners for tooltip. Message: '${e.message}'. Tooltip content: ${String(content)}`,
+            e
+          );
+        }
+      }
 
-  onMouseIn = () => {
-    if (this.props.delay > 0) {
-      this.delayedTooltip = setTimeout(() => this.showTooltip(), this.props.delay);
-    } else {
-      this.showTooltip();
-    }
-  };
+      function onMouseIn() {
+        if (delay > 0) {
+          tooltipState.current.timeoutHandle = setTimeout(showTooltip, delay);
+        } else {
+          showTooltip();
+        }
+      }
 
-  showTooltip = () => {
-    // For a tooltip with delay it can happen that the component for which we want to show the tooltip has been
-    // unmounted since the mouseenter event. In these cases the dom node will be null.
-    // (componentWillUnmount -> removeListeners)
-    if (this.domNode && this.props.content) {
-      setActiveTooltip({
-        focusedElement: this.domNode,
-        content: this.props.content,
-        themeStyle: this.props.themeStyle,
-        align: this.props.align || 'auto'
-      });
-      this.isActive = true;
-    }
-  };
+      function onMouseOut() {
+        if (tooltipState.current.timeoutHandle) {
+          clearTimeout(tooltipState.current.timeoutHandle);
+          tooltipState.current.timeoutHandle = null;
+        }
+        clearActiveTooltip();
+        tooltipState.current.isActive = false;
+      }
 
-  onMouseOut = () => {
-    if (this.delayedTooltip) {
-      clearTimeout(this.delayedTooltip);
-    }
-    clearActiveTooltip();
-    this.isActive = false;
-  };
+      function showTooltip() {
+        tooltipState.current.isActive = true;
+        setActiveTooltip({
+          focusedElement: domNode,
+          content,
+          themeStyle,
+          align
+        });
+      }
+    },
+    [align, delay, themeStyle, content]
+  );
 
-  render() {
-    return this.props.children;
-  }
+  return Children.map(children, child => cloneElement(child, { ref }));
 }
+
+Tooltip.propTypes = {
+  content: rpt.node,
+  themeStyle: rpt.string,
+  children: rpt.node.isRequired,
+  align: rpt.oneOf([
+    'leftBottom',
+    'leftMiddle',
+    'leftTop',
+    'topLeft',
+    'topMiddle',
+    'topRight',
+    'rightTop',
+    'rightMiddle',
+    'rightBottom',
+    'bottomLeft',
+    'bottomMiddle',
+    'bottomRight',
+    'auto',
+    'mousePosition'
+  ]),
+  delay: rpt.number
+};

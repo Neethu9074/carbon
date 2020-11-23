@@ -1,8 +1,8 @@
 import { find, get, isEqual, reverse, sortBy } from 'lodash';
 import { compose, lifecycle, withState } from 'recompose';
+import React, { Fragment, forwardRef } from 'react';
 import { create } from 'reactive-observables';
 import { createLogger } from 'instalog';
-import React, { Fragment } from 'react';
 import invariant from 'invariant';
 import theme from 'in-themes';
 
@@ -283,7 +283,10 @@ export function createNewEntityButton({ labelNew, pathNew, onCreateNew, disabled
   }
 }
 
-function NewEntityButton({ label = 'Create New', href$, onCreateNew, disabled, trackEvent }) {
+const NewEntityButton = forwardRef(function NewEntityButton(
+  { label = 'Create New', href$, onCreateNew, disabled, trackEvent },
+  ref
+) {
   return (
     <Button
       className={locals.createNewButton}
@@ -292,11 +295,12 @@ function NewEntityButton({ label = 'Create New', href$, onCreateNew, disabled, t
       href$={href$}
       onClick={() => handleClickCreateNewEntity(onCreateNew, trackEvent)}
       icon="lib_openclose_add_circle_outline"
+      ref={ref}
     >
       {label}
     </Button>
   );
-}
+});
 
 function addTableActions({ columnDefinitions, tableActions, perCellLoadingIndicator, getEntityName, setErrorMessage }) {
   let allColumns = columnDefinitions;

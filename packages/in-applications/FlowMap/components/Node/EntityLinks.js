@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 
 import { getServiceDashboard, getEndpointDashboard } from 'in-applications/navigation/paths';
 import Tooltip from 'in-components/Tooltip';
+import connectTo from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
 
 import locals from './EntityLink.mless';
@@ -14,8 +15,6 @@ export function ServiceLink({ serviceId, node, isOutofAppContext, boundaryScope,
   );
   return isOutofAppContext ? <Tooltip content="The service is not in the current application.">{link}</Tooltip> : link;
 }
-
-import connectTo from 'in-hoc/connectTo';
 
 export const EndpointLink = connectTo(
   props => ({
@@ -33,15 +32,15 @@ export const EndpointLink = connectTo(
   }
 );
 
-function EntityLink({ className, getLink, children }) {
+const EntityLink = forwardRef(function EntityLink({ className, getLink, children }, ref) {
   return (
-    <div className={`${locals.entityLinkWrapper} ${className}`}>
+    <div className={`${locals.entityLinkWrapper} ${className}`} ref={ref}>
       <Link className={`${locals.entityLink}`} href$={getLink()}>
         {children}
       </Link>
     </div>
   );
-}
+});
 
 function getLinkToService(applicationId, serviceId, boundaryScope) {
   if (isUnspecified(serviceId)) {

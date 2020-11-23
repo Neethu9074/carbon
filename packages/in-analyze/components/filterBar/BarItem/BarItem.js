@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { evaluateClassNames } from 'in-services/util/classnames';
@@ -6,17 +6,10 @@ import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './BarItem.mless';
 
-export default function BarItem({
-  children,
-  withoutTextTransform,
-  active,
-  isOpen,
-  showArrow,
-  showMore,
-  notAvailable,
-  onClick,
-  refSetter
-}) {
+export default forwardRef(function BarItem(
+  { children, withoutTextTransform, active, isOpen, showArrow, showMore, notAvailable, onClick, refSetter },
+  ref
+) {
   return (
     <a
       className={evaluateClassNames({
@@ -31,7 +24,7 @@ export default function BarItem({
         stopPropagationAndPreventDefault(e);
         onClick();
       }}
-      ref={refSetter}
+      ref={ref || refSetter}
     >
       <span className={locals.text}>{children}</span>
       {showArrow && (
@@ -40,4 +33,4 @@ export default function BarItem({
       {showMore && <SvgIcon className={locals.icon} type="lib_menu_more_horizontal" size="s" />}
     </a>
   );
-}
+});

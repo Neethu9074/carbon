@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 
 import performantNodeManipulationWrapper from 'in-applications/ApplicationMap/components/Node/PerformantNodeManipulationWrapper';
 import ServiceInformation from 'in-applications/ApplicationMap/components/Tooltips/ServiceInformation/ServerServiceInformation';
@@ -73,13 +73,14 @@ export function NodeComponent(props) {
   );
 }
 
-function NodeShape({ node, serviceLocatorUid, toggle, power, isExternalService }) {
+const NodeShape = forwardRef(function NodeShape({ node, serviceLocatorUid, toggle, power, isExternalService }, ref) {
   const maxSeverity = node.data.maxSeverity;
   const iconSize = isExternalService ? 16 + 12 * power : 24 + 24 * power;
   const kind = getButtonKindBySeverity(maxSeverity, 'healthy');
 
   return (
     <div
+      ref={ref}
       className={evaluateClassNames({
         [locals.shape]: true,
         [locals.isExternal]: isExternalService,
@@ -92,7 +93,7 @@ function NodeShape({ node, serviceLocatorUid, toggle, power, isExternalService }
       <SvgIcon className={locals.icon} type={getIconByType(node)} size={getIconSizeByPx(iconSize)} />
     </div>
   );
-}
+});
 
 function getIconByType(node) {
   const type = node.data.types ? node.data.types[0] : null;

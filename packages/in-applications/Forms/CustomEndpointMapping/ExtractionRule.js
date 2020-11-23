@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 
 import Rule from 'in-applications/Forms/components/Rule';
 import { build } from 'in-services/validators/urlPath';
@@ -6,14 +6,10 @@ import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './ExtractionRule.mless';
 
-export default function ExtractionRule({
-  rule,
-  reorderable,
-  onToggleEnable,
-  isInstanaDefaultRule = false,
-  testResult,
-  onClick
-}) {
+const ExtractionRule = forwardRef(function ExtractionRule(
+  { rule, reorderable, onToggleEnable, isInstanaDefaultRule = false, testResult, onClick },
+  ref
+) {
   return (
     <Rule
       name={rule.query || build(rule.pathSegments)}
@@ -23,9 +19,11 @@ export default function ExtractionRule({
       isInstanaDefaultRule={isInstanaDefaultRule}
       onToggleEnable={onToggleEnable}
       onEdit={() => onClick(rule)}
+      ref={ref}
     />
   );
-}
+});
+export default ExtractionRule;
 
 function TestResult({ testResult, rule }) {
   if (!rule.enabled) {

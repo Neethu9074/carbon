@@ -1,7 +1,6 @@
 import React, { useState, Children, cloneElement, useRef } from 'react';
 import PropTypes from 'prop-types';
 
-import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { getBlockSizeMillis } from 'in-services/util/dynamicAggregation';
 import { propTypeTimeConfig } from 'in-stores/time/config';
 import { sizes } from 'in-components/SvgIcon/SvgIcon';
@@ -25,8 +24,9 @@ export default function MarkerLanesPresenter({
   return (
     <div
       className={locals.markerLanesContainer}
-      onMouseLeave={e => {
-        stopPropagationAndPreventDefault(e);
+      onMouseLeave={() => {
+        // TODO is this correct?
+        // stopPropagationAndPreventDefault(e);
         if (hasMarkersToRender) setLaneLabelsVisibility(false);
       }}
     >
@@ -44,8 +44,9 @@ export default function MarkerLanesPresenter({
       />
       <div
         className={locals[labelAlignment]}
-        onMouseEnter={e => {
-          stopPropagationAndPreventDefault(e);
+        onMouseEnter={() => {
+          // TODO is this correct?
+          // stopPropagationAndPreventDefault(e);
           if (hasMarkersToRender) setLabelAligment(labelAlignment === 'left' ? 'right' : 'left');
         }}
       />

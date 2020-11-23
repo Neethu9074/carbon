@@ -1,12 +1,12 @@
+import React, { forwardRef } from 'react';
 import rpt from 'prop-types';
-import React from 'react';
 
 import { joinClassNames } from 'in-services/util/classnames';
 import { lighten } from 'in-services/formatters/color';
 
 import locals from './Pill.mless';
 
-export default function Pill({ className, children, color = '#000000', lightenOpacity = 0.1, kind = 'bold' }) {
+function Pill({ className, children, color = '#000000', lightenOpacity = 0.1, kind = 'bold' }, ref) {
   let style;
   if (kind == 'inverted') {
     style = { color };
@@ -27,11 +27,13 @@ export default function Pill({ className, children, color = '#000000', lightenOp
   }
 
   return (
-    <span className={joinClassNames(locals.pill, `${locals[kind]}`, className)} style={style}>
+    <span className={joinClassNames(locals.pill, `${locals[kind]}`, className)} style={style} ref={ref}>
       {children}
     </span>
   );
 }
+
+export default forwardRef(Pill);
 
 Pill.propTypes = {
   kind: rpt.string,

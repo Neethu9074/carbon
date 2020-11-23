@@ -1,12 +1,19 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 
 import CopyToClipboard from 'in-components/CopyToClipboard';
+import { compositeRef } from 'in-services/util/react';
 import Button from 'in-new-components/Button';
 
-export default function CopyToClipboardButton(props) {
+export default forwardRef(function CopyToClipboardButton(props, ref) {
   if (props.disabled) {
     return (
-      <Button disabled size={props.size || 'normal'} kind={props.kind || 'create'} className={props.className}>
+      <Button
+        disabled
+        size={props.size || 'normal'}
+        kind={props.kind || 'create'}
+        className={props.className}
+        ref={ref}
+      >
         Copy
       </Button>
     );
@@ -14,9 +21,9 @@ export default function CopyToClipboardButton(props) {
 
   return (
     <CopyToClipboard {...props}>
-      {refSetter => (
+      {copyToClipboardRef => (
         <Button
-          refSetter={refSetter}
+          ref={compositeRef(copyToClipboardRef, ref)}
           size={props.size || 'normal'}
           kind={props.kind || 'create'}
           className={props.className}
@@ -26,4 +33,4 @@ export default function CopyToClipboardButton(props) {
       )}
     </CopyToClipboard>
   );
-}
+});

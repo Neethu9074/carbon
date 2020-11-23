@@ -38,7 +38,7 @@ export default function AlertsLanePresenter({ alerts, ...remainingProps }) {
         }}
         color={theme.lib.colors.red800}
         tooltipContent={AlertsLaneTooltipContent}
-        renderLaneItem={TwoIconsLaneItem}
+        LaneItem={TwoIconsLaneItem}
         renderHoverOverlay={remainingProps.isClustered ? HoverArea : HoverLine}
         calloutContent={({ iconConfig, eventData, timeConfig }) => {
           const { incidents, smartAlerts } = eventData;

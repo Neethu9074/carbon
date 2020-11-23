@@ -35,30 +35,28 @@ export default function LogMessagesList({
   slideOut
 }) {
   return (
-    <>
-      <List
-        isSearchable
-        getHeader={() => ''}
-        searchAttributes={[entity => entity.message]}
-        getEntityName={config => config.message}
-        columnDefinitions={columnDefinitions}
-        loadEntities={() =>
-          getTableData({
-            applicationId,
-            applicationBoundaryScope,
-            timeConfig
-          })
-            .filter(tableData => tableData.data)
-            .map(tableData => tableData.data.items)
-        }
-        pageSize={10}
-        noDataMessage="No alert configured."
-        onRowClick={log => {
-          onLogMessageSelect(log.message, log.level);
-          slideOut();
-        }}
-      />
-    </>
+    <List
+      isSearchable
+      getHeader={() => ''}
+      searchAttributes={[entity => entity.message]}
+      getEntityName={config => config.message}
+      columnDefinitions={columnDefinitions}
+      loadEntities={() =>
+        getTableData({
+          applicationId,
+          applicationBoundaryScope,
+          timeConfig
+        })
+          .filter(tableData => tableData.data)
+          .map(tableData => tableData.data.items)
+      }
+      pageSize={10}
+      noDataMessage="No alert configured."
+      onRowClick={log => {
+        onLogMessageSelect(log.message, log.level);
+        slideOut();
+      }}
+    />
   );
 }
 

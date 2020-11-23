@@ -60,7 +60,7 @@ function MarkersLanePresenter({
   label,
   chartContentPosition,
   isClustered,
-  renderLaneItem,
+  LaneItem,
   renderHoverOverlay,
   renderSecondaryHoverOverlay,
   color,
@@ -118,19 +118,19 @@ function MarkersLanePresenter({
               key={(eventData.id ?? eventData.timestamp) + i}
               content={tooltipContent(eventData)}
             >
-              {renderLaneItem({
-                xPos,
-                onHover: s => {
+              <LaneItem
+                xPos={xPos}
+                onHover={s => {
                   setHoveredEventData(s);
                   trackMarkerHoverEvent?.(eventData);
-                },
-                showIconForCluster,
-                chartContentPosition,
-                isClustered,
-                eventData,
-                xScale,
-                ...remainingProps
-              })}
+                }}
+                showIconForCluster={showIconForCluster}
+                chartContentPosition={chartContentPosition}
+                isClustered={isClustered}
+                eventData={eventData}
+                xScale={xScale}
+                {...remainingProps}
+              />
             </Tooltip>
           );
         })}
@@ -174,7 +174,7 @@ MarkersLane.propTypes = {
     })
   ).isRequired,
   chartContentPosition: PropTypes.oneOf(['pre', 'post']).isRequired,
-  renderLaneItem: PropTypes.func.isRequired,
+  LaneItem: PropTypes.elementType.isRequired,
   renderHoverOverlay: PropTypes.func,
   chartBucketWidth: PropTypes.number,
   renderSecondaryHoverOverlay: PropTypes.func,

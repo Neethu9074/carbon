@@ -1,5 +1,5 @@
+import React, { forwardRef } from 'react';
 import PropTypes from 'prop-types';
-import React from 'react';
 
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import BarOverlay from 'in-analyze/components/filterBar/BarOverlay/BarOverlay';
@@ -60,37 +60,35 @@ export default function MultiSelectBarOverlay({
 
       {loading && <LoadingIndicator text="Loading filter options." className={locals.loading} height={100} />}
 
-      {!loading &&
-        items.length === 0 && (
-          <NoDataAvailable className={locals.loading} text="No filter options found." height={100} />
-        )}
+      {!loading && items.length === 0 && (
+        <NoDataAvailable className={locals.loading} text="No filter options found." height={100} />
+      )}
 
-      {!loading &&
-        items.length > 0 && (
-          <ul
-            className={evaluateClassNames({
-              [locals.list]: true,
-              [locals.listWithoutSelected]: !selectedItems
-            })}
-          >
-            {itemList
-              .filter(item => !filterSuggestionsClientSide || containsIgnoreCase(item.key, query))
-              .map((item, i) => (
-                <li key={`${item.key}${i}`}>
-                  <Tooltip content={`Click to filter by ${item.label}`}>
-                    <Item item={item} onClick={onSelectItem} itemLabelRenderer={itemLabelRenderer} />
-                  </Tooltip>
-                </li>
-              ))}
-          </ul>
-        )}
+      {!loading && items.length > 0 && (
+        <ul
+          className={evaluateClassNames({
+            [locals.list]: true,
+            [locals.listWithoutSelected]: !selectedItems
+          })}
+        >
+          {itemList
+            .filter(item => !filterSuggestionsClientSide || containsIgnoreCase(item.key, query))
+            .map((item, i) => (
+              <li key={`${item.key}${i}`}>
+                <Tooltip content={`Click to filter by ${item.label}`}>
+                  <Item item={item} onClick={onSelectItem} itemLabelRenderer={itemLabelRenderer} />
+                </Tooltip>
+              </li>
+            ))}
+        </ul>
+      )}
 
       {!loading && moreDataAvailable && <div className={locals.more}>{moreDataMessage}</div>}
     </BarOverlay>
   );
 }
 
-function Item({ item, selected, onClick, itemLabelRenderer }) {
+const Item = forwardRef(function Item({ item, selected, onClick, itemLabelRenderer }, ref) {
   return (
     <a
       href=""
@@ -102,13 +100,14 @@ function Item({ item, selected, onClick, itemLabelRenderer }) {
         [locals.item]: true,
         [locals.selectedItem]: selected
       })}
+      ref={ref}
     >
       <span className={locals.itemText}>{itemLabelRenderer ? itemLabelRenderer(item.label) : item.label}</span>
 
       {selected && <SvgIcon className={locals.selectedIcon} type="lib_uncheck" size="s" />}
     </a>
   );
-}
+});
 
 function newItemList(items, selectedItems) {
   const filteredItems = items.filter(function(obj) {

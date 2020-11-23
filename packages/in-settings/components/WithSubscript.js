@@ -1,12 +1,12 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 
 import locals from './WithSubscript.mless';
 
-export default function WithSubscript({ subscript, children }) {
+export default forwardRef(function WithSubscript({ subscript, children }, ref) {
   return (
-    <div className={locals.container}>
+    <div className={locals.container} ref={ref}>
       {children}
       {subscript && <span className={locals.smallTextBelow}>{subscript} </span>}
     </div>
   );
-}
+});
