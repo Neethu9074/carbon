@@ -7,7 +7,7 @@ import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
-import { number, millis } from 'in-services/formatters/number';
+import { number, millis, seconds } from 'in-services/formatters/number';
 import { emptyList } from 'in-services/fixedImmutables';
 import MetricValue from 'in-components/MetricValue';
 
@@ -57,6 +57,23 @@ export default function MySqlDashboard({ snapshot, timeConfig }) {
           <MetricValue snapshotId={snapshotId} metric="status.THREADS_CONNECTED" formatter={number.compact} />
         </KpiKeyValue>
       </KpiSection>
+
+      {snapshot.getIn(['data', 'role']) === 'slave' && (
+        <DashboardSection title="Replication">
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              metrics: ['replica.seconds_behind_master'],
+              labels: ['Seconds Behind Source'],
+              type: 'line',
+              formatter: seconds.fixedCompact
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+      )}
 
       <DashboardSection title="Queries">
         <Chart
