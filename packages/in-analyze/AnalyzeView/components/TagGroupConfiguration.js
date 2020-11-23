@@ -29,6 +29,7 @@ export default compose(
   withProps(
     ({
       tagFilters,
+      tagFilterExpression,
       grouping,
       timeConfig,
       onByChange,
@@ -36,13 +37,16 @@ export default compose(
       onIncludeOthersChange,
       onMaxResultsChange
     }) => {
-      const applicationAreaSpecificTagFilters = convertToApplicationAreaSpecificTagFilter(tagFilters);
+      const applicationAreaSpecificTagFilters = tagFilters
+        ? convertToApplicationAreaSpecificTagFilter(tagFilters)
+        : undefined;
       return {
         tagFilters: applicationAreaSpecificTagFilters,
         filters: {
           dataSource: 'calls',
           timeConfig,
-          tagFilter: applicationAreaSpecificTagFilters
+          tagFilter: applicationAreaSpecificTagFilters,
+          tagFilterExpression
         },
         grouping: grouping,
         onDirectionChange: onDirectionChange,
@@ -64,6 +68,7 @@ export default compose(
 function QuickGroupForm(props) {
   const {
     tagFilters,
+    tagFilterExpression,
     grouping,
     clearTagGroup,
     excludedTagFilters,
@@ -79,7 +84,13 @@ function QuickGroupForm(props) {
       onIncludeOthersChange={onIncludeOthersChange}
       onMaxResultsChange={onMaxResultsChange}
       quickGroupBar={
-        <QuickGroupBar {...props} tagFilter={tagFilters} grouping={grouping} excludedTagFilters={excludedTagFilters} />
+        <QuickGroupBar
+          {...props}
+          tagFilter={tagFilters}
+          tagFilterExpression={tagFilterExpression}
+          grouping={grouping}
+          excludedTagFilters={excludedTagFilters}
+        />
       }
       tagGroupList={
         <TagGroupList

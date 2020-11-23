@@ -144,5 +144,10 @@ module.exports = exports = [
     uiClientKey: 'smartAlertsQB2Enabled',
     instanaCtlKey: 'feature.smartAlertsQB2Enabled.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'qb2InCustomDashboardsEnabled',
+    instanaCtlKey: 'feature.qb2.custom.dashboards.enabled',
+    defaultValue: false
   }
 ];

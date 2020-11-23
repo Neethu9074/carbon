@@ -16,6 +16,9 @@ export function createQueryBuilder({
   const getTagCatalog = getTagCatalogOnce(originalGetTagCatalog);
 
   return {
+    // Re-exposed so that users follow the best practice to only ever load the tag catalog once.
+    getTagCatalog,
+
     QueryBuilder: function CreatedQueryBuilder(props) {
       return (
         <QueryBuilder

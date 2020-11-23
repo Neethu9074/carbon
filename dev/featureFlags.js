@@ -29,5 +29,6 @@ module.exports = {
   ampCompanyInfoEnabled: true,
   newAnalyticsEnabled: true,
   persistentVolumeSupportEnabled: true,
-  smartAlertsQB2Enabled: false
+  smartAlertsQB2Enabled: false,
+  qb2InCustomDashboardsEnabled: true
 };

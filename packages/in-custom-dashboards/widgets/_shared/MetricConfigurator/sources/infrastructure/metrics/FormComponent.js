@@ -35,7 +35,7 @@ export default function FormComponent({
   const timeConfig = useTimeConfig();
   const validTagFilterExpressionResult =
     useObservable(getIsQueryValidObservable, [formModelExpression, timeConfig]) ?? pendingResult;
-  const formModelIsValid = validTagFilterExpressionResult?.data === true;
+  const formModelIsValid = validTagFilterExpressionResult.data === true;
   useEffect(() => {
     onChange(['tagFilterExpression'], field =>
       formModelIsValid ? field.setValue(toBackendQueryModel(formModelExpression, false)) : field.setValue(invalidMarker)

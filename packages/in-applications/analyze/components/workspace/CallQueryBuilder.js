@@ -3,7 +3,7 @@ import { getApplicationTagCatalog } from 'in-applications/api/catalog';
 import { createQueryBuilder } from 'in-new-components/QueryBuilder';
 import { CALLS } from 'in-applications/analyze/metrics';
 
-const { QueryBuilder, isQueryValid: isQueryValidInternal } = createQueryBuilder({
+const { QueryBuilder, isQueryValid: isQueryValidInternal, getTagCatalog: getTagCatalogInternal } = createQueryBuilder({
   getTagCatalog: props =>
     getApplicationTagCatalog({ dataSource: CALLS, useCase: 'FILTERING' })(props).map(response => ({
       ...response,
@@ -28,6 +28,8 @@ const { QueryBuilder, isQueryValid: isQueryValidInternal } = createQueryBuilder(
 });
 
 export default QueryBuilder;
+
+export const getTagCatalog = getTagCatalogInternal;
 
 export const isCallQueryValid = ([tagFilterExpression, timeConfig]) =>
   isQueryValidInternal(tagFilterExpression, timeConfig);

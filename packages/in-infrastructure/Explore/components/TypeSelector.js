@@ -1,13 +1,9 @@
 import React, { useCallback, useMemo, useState, useRef } from 'react';
 import { isEmpty, isEqual } from 'lodash';
 
-import {
-  emptyTagFilterExpression,
-  allInfrastructureType,
-  defaultAllInfraGroup,
-  allTypes
-} from 'in-infrastructure/Explore/constants';
+import { allInfrastructureType, defaultAllInfraGroup, allTypes } from 'in-infrastructure/Explore/constants';
 import { groupMatrixParameter, typeMatrixParameter, getLinkToExplore } from 'in-infrastructure/navigation/paths';
+import { EMPTY_EXPRESSION } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import DashboardHeaderButton from 'in-new-components/DashboardHeader/DashboardHeaderButton';
 import getAvailablePlugins from 'in-infrastructure/subscriptions/getAvailablePlugins';
 import { getOptionalSnapshotDefinition } from 'in-sdk/snapshot/registry';
@@ -34,7 +30,7 @@ const urlStateDefinition = {
 export default function TypeSelector({ onTypeSelected }) {
   const [{ group, type }] = useUrlState(urlStateDefinition);
   const timeConfig = useTimeConfig();
-  const tagFilterExpression = emptyTagFilterExpression;
+  const tagFilterExpression = EMPTY_EXPRESSION;
   const result = useObservable(getAvailablePluginsObservable, [timeConfig, tagFilterExpression]) || pendingResult;
   const getParamsForType = useCallback(type => ({ type, group: updatedGroup(group, type) }), [group]);
   const types = useMemo(

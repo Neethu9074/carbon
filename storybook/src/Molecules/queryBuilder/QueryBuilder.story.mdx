@@ -71,7 +71,8 @@ const {QueryBuilder, isQueryValid} = createQueryBuilder({
     key: ?String,
     value: ?String,
     timeConfig: TimeConfig,
-    propose: 'KEYS'|'VALUES'
+    propose: 'KEYS'|'VALUES',
+    tagFilterExpression: TagFilterExpressionElement
   } => Observable<Result<{
     suggestions: String[],
     totalHits: Number

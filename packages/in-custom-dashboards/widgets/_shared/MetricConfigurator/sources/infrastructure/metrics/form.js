@@ -1,6 +1,6 @@
 import { createField, notBlankValidator } from 'formalistic';
 
-import { emptyTagFilterExpression } from 'in-infrastructure/Explore/constants';
+import { EMPTY_EXPRESSION } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
 import { stringValidator } from 'in-services/validators/jsonType';
@@ -13,7 +13,7 @@ export function createForm(form, savedState) {
     .put(
       'tagFilterExpression',
       createField({
-        value: (savedState && savedState.tagFilterExpression) || emptyTagFilterExpression,
+        value: (savedState && savedState.tagFilterExpression) || EMPTY_EXPRESSION,
         validator: composeAndShortCircuitOnError(objectValidator, markerValidator)
       })
     )

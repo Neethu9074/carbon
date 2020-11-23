@@ -1,23 +1,15 @@
-import React, { useState, useEffect, useRef } from 'react';
 import { find, groupBy } from 'lodash';
+import React from 'react';
 
-import { fromBackendModel, fromTagFiltersArray } from 'in-new-components/QueryBuilder/transformation/formModel';
-import IndeterminateLoadingIndicator from 'in-new-components/LoadingIndicators/IndeterminateLoadingIndicator';
-import { invalidMarker } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/mobileApp/form';
-import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
+import TagFilterConfiguration from 'in-mobile-apps/analyze/AnalyzeView/TagFilterConfiguration';
 import { availableMetrics } from 'in-mobile-apps/analyze/AnalyzeView/metrics';
-import * as queryBuildersPerDataSource from 'in-mobile-apps/queryBuilder';
-import { emptyObject, pendingResult } from 'in-services/fixedObjects';
-import { sizes as ICON_SIZES } from 'in-components/SvgIcon/SvgIcon';
+import { isNotBlank, compareIgnoreCase } from 'in-services/util/string';
 import TouchedMessages from 'in-components/form/TouchedMessages';
-import { compareIgnoreCase } from 'in-services/util/string';
 import { aggregationLabels } from 'in-stores/metric/metric';
 import { Row, Col } from 'in-new-components/layout/Grid';
-import { dataSourceTitles } from 'in-mobile-apps/tags';
 import Header from 'in-components/form/Header/Header';
 import FormGroup from 'in-components/form/FormGroup';
-import useTimeConfig from 'in-hooks/useTimeConfig';
-import useObservable from 'in-hooks/useObservable';
+import { dataSourceTitles } from 'in-mobile-apps/tags';
 import Select from 'in-components/form/Select';
 import Label from 'in-components/form/Label';
 
@@ -33,54 +25,7 @@ export default function FormComponent({
   const beaconTypeField = form.get('beaconType');
   const metricField = form.get('metric');
   const aggregationField = form.get('aggregation');
-  const tagFilterExpressionField = form.get('tagFilterExpression');
-  const tagFiltersField = form.get('tagFilters');
-
-  const { QueryBuilder, getTagCatalog } = queryBuildersPerDataSource[beaconTypeField.value] || emptyObject;
-
-  const removeTagFilterArrayRef = useRef();
-
-  // Handle asynchronous validation of the tag filter expression
-  const [formModelExpression, setFormModelExpression] = useState(() =>
-    fromBackendModel(tagFilterExpressionField.value)
-  );
-  const timeConfig = useTimeConfig();
-  const validTagFilterExpressionResult =
-    useObservable(getIsQueryValidObservable, [formModelExpression, timeConfig, beaconTypeField.value]) ?? pendingResult;
-  const formModelIsValid = validTagFilterExpressionResult.data === true;
-  useEffect(() => {
-    onChange([], form => {
-      if (removeTagFilterArrayRef.current) {
-        form = form.remove('tagFilters');
-      }
-
-      return form.updateIn(['tagFilterExpression'], field => {
-        if (formModelIsValid) {
-          return field.setValue(toBackendQueryModel(formModelExpression, false));
-        } else {
-          return field.setValue(invalidMarker);
-        }
-      });
-    });
-  }, [formModelIsValid, formModelExpression]);
-
-  // handle tagFilter[] to tagFilterExpression migration
-  const tagCatalogResult = useObservable(getTagCatalog, []);
-  const needsTagFiltersConversionToTagFilterExpression = Boolean(tagFiltersField?.value);
-  useEffect(() => {
-    if (needsTagFiltersConversionToTagFilterExpression && tagCatalogResult?.data) {
-      const newFormModel = fromTagFiltersArray(
-        // Within the tag filters based variant of this data source configuration, we used to
-        // store the beacon type as part of the tag filters array. This was done to have a
-        // cleaner backend API. This "cleaner" API turned out to create more work than it provided
-        // value in the end and is getting removed with the introduction of tag filter expressions.
-        tagFiltersField.value.filter(({ name }) => name !== 'mobileBeacon.type'),
-        tagCatalogResult.data
-      );
-      removeTagFilterArrayRef.current = true;
-      setFormModelExpression(newFormModel);
-    }
-  }, [needsTagFiltersConversionToTagFilterExpression, tagCatalogResult]);
+  const beaconTypeTagFilter = form.get('tagFilters').value.find(t => t.name === 'mobileBeacon.type');
 
   return (
     <>
@@ -110,6 +55,17 @@ export default function FormComponent({
                     .updateIn(['beaconType'], field => field.setValue(e.target.value).setTouched(true))
                     .updateIn(['metric'], field => field.setValue(''))
                     .updateIn(['aggregation'], field => field.setValue(''))
+                    .updateIn(['tagFilters'], field => {
+                      const tagFilters = [];
+                      if (isNotBlank(e.target.value)) {
+                        tagFilters.push({
+                          name: 'mobileBeacon.type',
+                          operator: 'EQUALS',
+                          stringValue: e.target.value
+                        });
+                      }
+                      return field.setValue(tagFilters);
+                    })
                 )
               }
               hasError={!beaconTypeField.valid && beaconTypeField.touched}
@@ -128,26 +84,14 @@ export default function FormComponent({
         </Col>
       </Row>
 
-      {needsTagFiltersConversionToTagFilterExpression && <IndeterminateLoadingIndicator size={ICON_SIZES.l} />}
-
-      {QueryBuilder && !needsTagFiltersConversionToTagFilterExpression && (
-        <Row withoutTopMargin>
-          <Col lg={12}>
-            <FormGroup>
-              <Label>Filter</Label>
-              <div>
-                <QueryBuilder
-                  value={formModelExpression}
-                  onChange={expression => {
-                    setFormModelExpression(expression);
-                  }}
-                />
-              </div>
-              <TouchedMessages field={tagFilterExpressionField} />
-            </FormGroup>
-          </Col>
-        </Row>
-      )}
+      <TagFilterConfiguration
+        // Do not show the beacon type tag filter in the list
+        tagFilters={form.get('tagFilters').value.filter(t => t !== beaconTypeTagFilter)}
+        onChange={tagFilters =>
+          onChange(['tagFilters'], field => field.setValue(tagFilters.concat(beaconTypeTagFilter)).setTouched(true))
+        }
+        beaconType={beaconTypeField.value}
+      />
 
       <Header>Customize the widget</Header>
 
@@ -253,12 +197,4 @@ export default function FormComponent({
 function getAggregations(beaconType, metric) {
   const metricDefinition = find(availableMetrics[beaconType], ({ metric: m }) => m === metric);
   return metricDefinition.supportedAggregations;
-}
-
-function getIsQueryValidObservable([tagFilterExpression, timeConfig, beaconType]) {
-  const queryBuilder = queryBuildersPerDataSource[beaconType];
-  if (!queryBuilder) {
-    return undefined;
-  }
-  return queryBuilder.isQueryValid(tagFilterExpression, timeConfig);
 }
