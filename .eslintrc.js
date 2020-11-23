@@ -5,7 +5,13 @@ module.exports = {
 
   parser: 'babel-eslint',
 
-  extends: ['eslint:recommended', 'plugin:flowtype/recommended', 'prettier', 'prettier/react'],
+  extends: [
+    'eslint:recommended',
+    'plugin:flowtype/recommended',
+    'prettier',
+    'prettier/react',
+    'plugin:react-hooks/recommended'
+  ],
 
   parserOptions: {
     sourceType: 'module'
@@ -337,6 +343,9 @@ module.exports = {
     ],
 
     // prettier formats this for us
-    'flowtype/generic-spacing': 0
+    'flowtype/generic-spacing': 0,
+
+    // Only warn on hook rule violations. This will be reverted when refactoring is finished.
+    'react-hooks/rules-of-hooks': 'warn'
   }
 };
