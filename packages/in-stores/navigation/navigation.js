@@ -39,15 +39,15 @@ export function mutateUrl(mutator, replace = false) {
   });
 }
 
-export function getModifiedUrlStream(mapParams) {
-  return navigationParameters$
-    .map(currentLocation => {
-      const newLocation = cloneLocation(currentLocation);
-      mapParams(newLocation);
-      applyResets(currentLocation, newLocation);
-      return '/#' + stringify(newLocation);
-    })
-    .distinct();
+export function getModifiedUrl(currentLocation, modifyLocation) {
+  const newLocation = cloneLocation(currentLocation);
+  modifyLocation(newLocation);
+  applyResets(currentLocation, newLocation);
+  return '/#' + stringify(newLocation);
+}
+
+export function getModifiedUrlStream(modifyLocation) {
+  return navigationParameters$.map(currentLocation => getModifiedUrl(currentLocation, modifyLocation)).distinct();
 }
 
 export function toAbsoluteUrl(partialUrl) {

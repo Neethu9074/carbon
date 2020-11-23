@@ -31,7 +31,7 @@ export default connectTo(
     dataSource,
     item,
     filters,
-    onChangeAnalyzeConfigAndGetAsUrlObservable,
+    onChangeAnalyzeConfigAndGetAsUrl,
     dotColor,
     showDot,
     metrics,
@@ -52,7 +52,7 @@ export default connectTo(
               </span>
             )}
             <Link
-              href$={onChangeAnalyzeConfigAndGetAsUrlObservable(getGroupingChange(filters, item.name))}
+              href={onChangeAnalyzeConfigAndGetAsUrl(getGroupingChange(filters, item.name))}
               onClick={() => trackSetGrouping(filters, item.name)}
               className={evaluateClassNames({
                 [locals.name]: true,

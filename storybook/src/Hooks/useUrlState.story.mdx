@@ -4,13 +4,6 @@ import { Meta } from '@storybook/addon-docs/blocks';
 
 ## Storing State in the URL
 
-You can use the `useObservable` hook to subscribe to observables and their updates. Whenever an observables updates
-its value (**by default only on pure changes**) the components' state is changed and the component is re-rendered.
-
-Please note that synchronous availability of bound values cannot be guaranteed by this hook. We attempt to make
-the last emitted value available within the first render, but this is not always possible. **Your component
-must not rely on immediate availability of observables' values!**
-
 ## Import
 
 ```js
@@ -111,11 +104,11 @@ function MyComponent() {
       Order Direction: {orderDirection}
 
       { /* Discouraged: Prefer creation of links over onClick event handlers. */}
-      <Button onClick={() => setState({page: page + 1})}>
+      <Button onClick={() => setState({page: page - 1})}>
         Go to previous page
       </Button>
 
-      <Button href$={getStateChangeAsUrl({page: page + 1})}>
+      <Button href={getStateChangeAsUrl({page: page + 1})}>
         Go to next page
       </Button>
     </div>

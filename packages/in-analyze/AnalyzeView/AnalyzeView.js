@@ -127,7 +127,7 @@ export default function AnalyzeViewPropsEnrichment(props) {
     []
   );
 
-  const [urlState, onChangeAnalyzeConfig, onChangeAnalyzeConfigAndGetAsUrlObservable] = useUrlState(urlStateConfig);
+  const [urlState, onChangeAnalyzeConfig, onChangeAnalyzeConfigAndGetAsUrl] = useUrlState(urlStateConfig);
   urlState[focusedMetricMatrixParameter] = urlState[focusedMetricMatrixParameter] ?? initialFocusedMetric(props);
   urlState[groupByMatrixParameter] = urlState[groupByMatrixParameter] ?? getInitialGrouping(props);
   urlState[showGraphMatrixParameter] = urlState[showGraphMatrixParameter] ?? initialShowGraph(props);
@@ -160,7 +160,7 @@ export default function AnalyzeViewPropsEnrichment(props) {
       timeConfig={timeConfig}
       isDialogActive={isDialogActive}
       onChangeAnalyzeConfig={onChangeAnalyzeConfig}
-      onChangeAnalyzeConfigAndGetAsUrlObservable={onChangeAnalyzeConfigAndGetAsUrlObservable}
+      onChangeAnalyzeConfigAndGetAsUrl={onChangeAnalyzeConfigAndGetAsUrl}
       tagFiltersForSubscription={tagFiltersForSubscription}
     />
   );

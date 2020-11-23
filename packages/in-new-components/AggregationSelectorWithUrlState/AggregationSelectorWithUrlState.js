@@ -49,5 +49,5 @@ AggregationSelectorWithUrlState.propTypes = {
     path: PropTypes.string.isRequired,
     paramName: PropTypes.string.isRequired
   }).isRequired,
-  children: PropTypes.element.isRequired
+  children: PropTypes.func.isRequired
 };

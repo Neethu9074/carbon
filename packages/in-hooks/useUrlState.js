@@ -4,8 +4,8 @@ import { isEqual } from 'lodash';
 
 import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { addReset, removeReset } from 'in-stores/navigation/urlParameterResets';
-import { mutateUrl, getModifiedUrlStream } from 'in-stores/navigation';
 import { emptyObject, emptyArray } from 'in-services/fixedObjects';
+import { mutateUrl, getModifiedUrl } from 'in-stores/navigation';
 import { identity } from 'in-services/util/function';
 
 export default function useUrlState({
@@ -82,7 +82,7 @@ export default function useUrlState({
     });
   }, [location]);
 
-  return [state, exposedSetState, exposedGetStateChangedUrl];
+  return [state, exposedSetState, exposedGetStateChangeUrl];
 
   function exposedSetState(change) {
     // We need to instruct our URL-updating useEffect call that a change in state must result in a location update.
@@ -100,9 +100,11 @@ export default function useUrlState({
     });
   }
 
-  function exposedGetStateChangedUrl(change) {
-    const newState = reducer(state, change);
-    return getModifiedUrlStream(location => modifyLocation(bind, newState, location));
+  function exposedGetStateChangeUrl(change) {
+    return getModifiedUrl(location, location => {
+      const newState = reducer(state, change);
+      modifyLocation(bind, newState, location);
+    });
   }
 }
 
