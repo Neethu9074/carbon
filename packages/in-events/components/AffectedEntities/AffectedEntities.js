@@ -1,15 +1,26 @@
 import { combineLatest } from 'reactive-observables';
-import { compose } from 'recompose';
+import React from 'react';
 
 import AffectedEntitiesPresenter from 'in-events/components/AffectedEntities/AffectedEntitiesPresenter';
 import { entityTypes, getTagFilterListForBackendSubscription } from 'in-analyze/applicationFilter';
 import getCallGroups from 'in-subscription/application/getCallGroups';
-import cursorPaginated from 'in-hoc/cursorPaginated';
+import useCursorPagination from 'in-hooks/useCursorPagination';
 
-const AffectedEntities = compose(
-  cursorPaginated({
-    getResettingProps: () => ['filters'],
-    get: ({ tagFilters, cursor, timeConfig, filterGroup = {}, totalFilters }) => {
+export default function AffectedEntities(props) {
+  const {
+    timeConfig,
+    retrievalSize,
+    filterGroup,
+    tagFilters,
+    tagFilterExpression,
+    orderBy,
+    isValid,
+    hiddenCalls,
+    totalFilters
+  } = props;
+
+  const tableProps = useCursorPagination(
+    ({ cursor }) => {
       const baseQueryParameters = {
         order: {
           by: 'calls_SUM_Agg',
@@ -50,11 +61,12 @@ const AffectedEntities = compose(
       });
 
       return combineLatest([affected, allEntities]).map(enrichMetricResults);
-    }
-  })
-)(AffectedEntitiesPresenter);
+    },
+    [timeConfig, retrievalSize, tagFilterExpression, orderBy, isValid, hiddenCalls]
+  );
 
-export default AffectedEntities;
+  return <AffectedEntitiesPresenter {...props} {...tableProps} />;
+}
 
 function enrichMetricResults([affected, total]) {
   const loading = affected.progress?.loading || total.progress?.loading;

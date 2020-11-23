@@ -1,5 +1,3 @@
-import { compose, setPropTypes } from 'recompose';
-import PropTypes from 'prop-types';
 import { get } from 'lodash';
 import React from 'react';
 
@@ -9,26 +7,16 @@ import { setTimeConfig, urlQueryKeys } from 'in-stores/time/config';
 import { formatDateTime } from 'in-services/formatters/date';
 import TimeCount from 'in-new-components/time/TimeCount';
 import Button from 'in-new-components/Button/Button';
-import connectTo from 'in-hoc/connectTo';
+import useObservable from 'in-hooks/useObservable';
 
 import locals from './ReleaseOccuredMessage.mless';
 
-export default compose(
-  setPropTypes({
-    release: PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      start: PropTypes.number.isRequired
-    }).isRequired
-  }),
-  connectTo({
-    windowSize: navigationParameters$
-      .map(location => get(location, ['query', urlQueryKeys.windowSize], null))
-      .distinct()
-  })
-)(ReleaseOccurredMessage);
+export default function ReleaseOccurredMessage({ release }) {
+  const windowSize = useObservable(
+    navigationParameters$.map(location => get(location, ['query', urlQueryKeys.windowSize], null)).distinct(),
+    []
+  );
 
-function ReleaseOccurredMessage({ release, windowSize }) {
   return (
     <div className={locals.container}>
       <h1 className={locals.title}>A release has occurred recently</h1>

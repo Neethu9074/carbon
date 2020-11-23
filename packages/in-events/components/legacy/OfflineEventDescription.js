@@ -1,34 +1,20 @@
-import { setPropTypes, compose, mapProps } from 'recompose';
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import CustomProblemDescription from 'in-events/components/legacy/CustomProblemDescription';
 import { snapshotIdUrlParameter } from 'in-stores/snapshot/urlParameters';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { getSnapshotVersions } from 'in-stores/snapshot/snapshot';
-import { alwaysNull } from 'in-services/fixedStreams';
 import { setTimeConfig } from 'in-stores/time/config';
+import useObservable from 'in-hooks/useObservable';
 import Link from 'in-components/Link/Link';
-import connectTo from 'in-hoc/connectTo';
 
-export default compose(
-  setPropTypes({ event: PropTypes.object.isRequired }),
+export default function OfflineEventDescription({ event }) {
+  const snapshotId = event.getIn(['metadata', 'entityVerificationSnapshotId'], '');
+  const snapshotVersions = useObservable(getSnapshotVersionsObservable, [snapshotId]);
 
-  mapProps(({ event }) => ({
-    snapshotId: event.getIn(['metadata', 'entityVerificationSnapshotId'], '')
-  })),
+  const problemText = getOfflineEventProblemText(snapshotId);
+  const url = snapshotId && snapshotVersions && getUrl(snapshotId, snapshotVersions.toArray());
 
-  connectTo(({ snapshotId }) => ({
-    snapshotVersions: snapshotId ? getSnapshotVersions(snapshotId) : alwaysNull
-  })),
-
-  mapProps(({ snapshotId, snapshotVersions }) => ({
-    problemText: getOfflineEventProblemText(snapshotId),
-    url: snapshotId && snapshotVersions && getUrl(snapshotId, snapshotVersions.toArray())
-  }))
-)(OfflineEventDescription);
-
-function OfflineEventDescription({ problemText, url }) {
   return (
     <div>
       <CustomProblemDescription title="Last Known Process" text={problemText} className="in-event-view-event-content" />
@@ -62,4 +48,8 @@ function getUrl(snapshotId, snapshotVersions = []) {
 
 function getLatestSnapshot(snapshotVersions) {
   return snapshotVersions.sort((a, b) => a.get('to') - b.get('to')).pop();
+}
+
+function getSnapshotVersionsObservable([snapshotId]) {
+  return snapshotId && getSnapshotVersions(snapshotId);
 }

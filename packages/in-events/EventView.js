@@ -1,7 +1,6 @@
-import { compose, withPropsOnChange, withState } from 'recompose';
 import { create, just, interval } from 'reactive-observables';
+import React, { useState, useMemo } from 'react';
 import { get } from 'lodash';
-import React from 'react';
 
 import { eventIdUrlParameter, orderDirectionParameter, orderByUrlParameter } from 'in-events/navigation/urlParameters';
 import DashboardHeaderShadowModule from 'in-new-components/DashboardHeader/DashboardHeaderShadowModule';
@@ -9,10 +8,11 @@ import DashboardHeaderModule from 'in-new-components/DashboardHeader/DashboardHe
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import { highlightedTimeframe$ } from 'in-stores/timeline/highlightedTimeframe';
 import DashboardHeader, { themes } from 'in-new-components/DashboardHeader';
-import RedirectWithHash from 'in-components/RedirectWithHash';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { timeConfig$, getTimeConfig } from 'in-stores/time/config';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import useCursorPagination from 'in-hooks/useCursorPagination';
+import RedirectWithHash from 'in-components/RedirectWithHash';
 import ViewSwitcher from 'in-events/components/ViewSwitcher';
 import * as eventTypeLabels from 'in-events/eventTypeLabels';
 import EventsChart from 'in-events/components/EventsChart';
@@ -20,12 +20,11 @@ import { Row, Col } from 'in-new-components/layout/Grid';
 import EventTable from 'in-events/components/EventTable';
 import { eventsPath } from 'in-events/navigation/paths';
 import getRawEvents from 'in-subscription/getRawEvents';
-import cursorPaginated from 'in-hoc/cursorPaginated';
+import useObservable from 'in-hooks/useObservable';
 import { query$ } from 'in-stores/search/query';
-import withUrlState from 'in-hoc/withUrlState';
+import useUrlState from 'in-hooks/useUrlState';
 import { seconds } from 'in-services/time';
 import Sticky from 'in-components/Sticky';
-import connect from 'in-hoc/connectTo';
 
 export default function LegacyEventViewMigration(props) {
   const query = get(props, ['location', 'query']);
@@ -47,10 +46,15 @@ export default function LegacyEventViewMigration(props) {
 
   return <EventView {...props} eventType={eventType} eventId={eventId} />;
 }
-const EventView = compose(
-  withState('mouseMoveSignal$', 'setSignal', create()),
-  withPropsOnChange(['mouseMoveSignal$'], ({ mouseMoveSignal$ }) => ({
-    timeConfig$: timeConfig$
+const urlSettingsConfig = {
+  bind: [eventIdUrlParameter, orderDirectionParameter, orderByUrlParameter],
+  replaceHistory: false
+};
+
+function EventView(props) {
+  const [mouseMoveSignal$] = useState(create());
+  const [modifiedTimeConfig$] = useState(
+    timeConfig$
       .flatMap(timeConfig =>
         timeConfig.autoRefresh
           ? mouseMoveSignal$
@@ -72,40 +76,51 @@ const EventView = compose(
           windowSize: timeConfig.windowSize
         };
       })
-  })),
-  connect(({ timeConfig$ }) => ({
-    timeConfig: timeConfig$,
-    highlightedTimeframe: highlightedTimeframe$.debounce(500),
-    query: query$
-  })),
-  withPropsOnChange(['highlightedTimeframe'], ({ highlightedTimeframe }) => {
-    if (highlightedTimeframe) {
-      return {
-        staticTimeConfigToUseForTable: {
-          to: highlightedTimeframe[1],
-          focusedMoment: highlightedTimeframe[1],
-          autoRefresh: false,
-          windowSize: highlightedTimeframe[1] - highlightedTimeframe[0]
-        },
-        isPresentingHighlightedTimeframe: true
-      };
+  );
+
+  const timeConfig = useObservable(modifiedTimeConfig$, []);
+  const highlightedTimeframe = useObservable(highlightedTimeframe$.debounce(500), []);
+  const query = useObservable(query$, []);
+
+  const staticTimeConfigToUseForTable = useMemo(() => {
+    if (!highlightedTimeframe) {
+      return null;
     }
-  }),
-  withUrlState({
-    bind: [eventIdUrlParameter, orderDirectionParameter, orderByUrlParameter],
-    reducerName: 'onChange',
-    replaceHistory: false
-  }),
-  cursorPaginated({
-    getResettingProps: () => [
-      'orderBy',
-      'orderDirection',
-      'eventType',
-      'timeConfig',
-      'staticTimeConfigToUseForTable',
-      'query'
-    ],
-    get: ({ cursor, orderBy, orderDirection, timeConfig, staticTimeConfigToUseForTable, query, eventType }) =>
+    return {
+      to: highlightedTimeframe[1],
+      focusedMoment: highlightedTimeframe[1],
+      windowSize: highlightedTimeframe[1] - highlightedTimeframe[0],
+      autoRefresh: false
+    };
+  }, [highlightedTimeframe]);
+  const isPresentingHighlightedTimeframe = !!highlightedTimeframe;
+
+  const [urlState, onChange] = useUrlState(urlSettingsConfig);
+
+  if (!timeConfig) {
+    return null;
+  }
+
+  return (
+    <EventViewComponent
+      {...props}
+      isPresentingHighlightedTimeframe={isPresentingHighlightedTimeframe}
+      staticTimeConfigToUseForTable={staticTimeConfigToUseForTable}
+      highlightedTimeframe={highlightedTimeframe}
+      mouseMoveSignal$={mouseMoveSignal$}
+      timeConfig={timeConfig}
+      onChange={onChange}
+      query={query}
+      {...urlState}
+    />
+  );
+}
+
+function EventViewComponent(props) {
+  const { eventType, staticTimeConfigToUseForTable, orderBy, orderDirection, query, eventId, timeConfig } = props;
+
+  const tableProps = useCursorPagination(
+    ({ cursor }) =>
       getRawEvents({
         timeConfig: staticTimeConfigToUseForTable || timeConfig,
         query: concatQueries(query, eventType),
@@ -117,12 +132,9 @@ const EventView = compose(
           by: orderBy,
           direction: orderDirection
         }
-      })
-  })
-)(EventViewComponent);
-
-function EventViewComponent(props) {
-  const { eventType, query, eventId, timeConfig } = props;
+      }),
+    [eventType, orderBy, orderDirection, eventType, ...spreadTimeConfig(staticTimeConfigToUseForTable, timeConfig)]
+  );
 
   return (
     <Sticky
@@ -142,7 +154,7 @@ function EventViewComponent(props) {
       }
     >
       {eventId ? (
-        <EventTable {...props} eventType={eventType} selectedEventId={eventId} />
+        <EventTable {...props} {...tableProps} eventType={eventType} selectedEventId={eventId} />
       ) : (
         <LeftRightPadding>
           <Row>
@@ -152,7 +164,7 @@ function EventViewComponent(props) {
           </Row>
           <Row>
             <Col lg={12}>
-              <EventTable {...props} eventType={eventType} />
+              <EventTable {...props} {...tableProps} eventType={eventType} />
             </Col>
           </Row>
         </LeftRightPadding>
@@ -179,4 +191,9 @@ function getExplicitEventFilter(eventFilter) {
   } else {
     return `event.type:${eventFilter}`;
   }
+}
+
+function spreadTimeConfig(staticTimeConfigToUseForTable, timeConfig) {
+  timeConfig = staticTimeConfigToUseForTable ?? timeConfig;
+  return [timeConfig.to, timeConfig.windowSize, timeConfig.autoRefresh, timeConfig.focusedMoment];
 }
