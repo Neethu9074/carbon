@@ -3,8 +3,7 @@ import React, { Fragment } from 'react';
 import {
   timeBySecondsTwoDecimalPlaces,
   bytesPerSecondZeroDecimalPlaces,
-  kiloBytesZeroDecimalPlaces,
-  msZeroDecimalPlaces,
+  millis,
   percentage
 } from 'in-services/formatters/number';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
@@ -90,8 +89,8 @@ export default function Summary({ timeConfig, data: cluster }) {
               snapshotId={snapshotId}
               timeConfig={timeConfig}
               y1={{
-                formatter: kiloBytesZeroDecimalPlaces,
-                metrics: ['mem.vmmemctl.kiloBytes.average.*'],
+                formatter: bytes.compact,
+                metrics: ['mem.vmmemctl.bytes.average'],
                 labels: ['VM balloon memory'],
                 type: 'line'
               }}
@@ -121,8 +120,8 @@ export default function Summary({ timeConfig, data: cluster }) {
               snapshotId={snapshotId}
               timeConfig={timeConfig}
               y1={{
-                formatter: msZeroDecimalPlaces,
-                metrics: ['cpu.wait.millisecond.summation.*', 'cpu.system.millisecond.summation.*'],
+                formatter: millis.compact,
+                metrics: ['cpu.wait.summation.milliseconds', 'cpu.system.summation.milliseconds'],
                 labels: ['Wait', 'System'],
                 type: 'line'
               }}
