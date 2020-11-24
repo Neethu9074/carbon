@@ -29,8 +29,7 @@ import locals from './PageLoadView.mless';
 
 export default withUrlState({
   bind: [pageLoadIdUrlParameter, beaconIdUrlParameter, beaconTimestampUrlParameter],
-  reducerName: 'onChange',
-  reduceAndGetAsUrlName: 'getChangeAsUrl'
+  reducerName: 'onChange'
 })(PageLoadView);
 
 function PageLoadView(props) {

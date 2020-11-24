@@ -31,8 +31,7 @@ import locals from './SessionView.mless';
 
 export default withUrlState({
   bind: [sessionIdUrlParameter, beaconIdUrlParameter, beaconTimestampUrlParameter],
-  reducerName: 'onChange',
-  reduceAndGetAsUrlName: 'getChangeAsUrl'
+  reducerName: 'onChange'
 })(SessionView);
 
 function SessionView(props) {

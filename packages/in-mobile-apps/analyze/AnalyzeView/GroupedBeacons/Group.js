@@ -25,7 +25,7 @@ export default function Group({ item, dotColor, showDot, getGroupAsFilterUrl, me
             </span>
           )}
 
-          <Link className={locals.name} href$={getGroupAsFilterUrl(name)}>
+          <Link className={locals.name} href={getGroupAsFilterUrl(name)}>
             {name}
           </Link>
         </div>
