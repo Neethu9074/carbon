@@ -1281,7 +1281,7 @@ function GoogleCloudRunContent({ agentKey, serverlessEndpoint }) {
           href="https://github.com/GoogleCloudPlatform/buildpacks"
         />
         <Spacer />
-        <Description lines={['The Instana Google Buildpack adds to the Docker images of your .NET Core, Node.js and Java applications to be run on managed Google Cloud Run:']} />
+        <Description lines={['The Instana Google Buildpack adds the Instana in-process collectors for Cloud Run to the Docker images of your .NET Core, Node.js and Java applications:']} />
         <Spacer />
         <Bash
           lines={[
