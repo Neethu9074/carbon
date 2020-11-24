@@ -13,6 +13,7 @@ import {
 } from 'in-new-components/QueryBuilder/transformation/renderModel';
 import QueryBuilderDragAndDropBehaviour from 'in-new-components/QueryBuilder/QueryBuilderDragAndDropBehaviour';
 import { onKeyDown, onClickQueryBuilderContent } from 'in-new-components/QueryBuilder/keyboardInteraction';
+import { and } from 'in-new-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import DragAndDropBehaviour from 'in-new-components/QueryBuilder/DragAndDropBehaviour';
 import LoadingIndicator from 'in-new-components/GroupingConfigurator/LoadingIndicator';
 import QueryBuilderReadOnly from 'in-new-components/QueryBuilder/QueryBuilderReadOnly';
@@ -161,6 +162,16 @@ function QueryBuilder({
   }
 
   function onAddFormModelElement({ formModelIndex, renderModelIndex, newFormModel }) {
+    const updatedFormModel = formModel.slice();
+    const addConjunction = shouldAutomaticallyAddAConjunction(updatedFormModel, newFormModel, formModelIndex);
+    updatedFormModel.splice(formModelIndex, 0, newFormModel);
+    if (addConjunction) {
+      updatedFormModel.splice(formModelIndex, 0, {
+        logicalOperator: and,
+        type: CONJUNCTION
+      });
+    }
+
     let nextFocusIndex = renderModelIndex + 1;
     let childSelector;
     if (newFormModel.type === TAG) {
@@ -176,6 +187,12 @@ function QueryBuilder({
       nextFocusIndex++;
     }
 
+    if (addConjunction) {
+      // Skip the automatically added conjunction + the spacing created by it when adding tag filters
+      // without the required conjunctions.
+      nextFocusIndex += 2;
+    }
+
     focus(
       nextFocusIndex,
       // Forced re-render not necessary because the onChange call down below will also
@@ -183,12 +200,9 @@ function QueryBuilder({
       false,
       childSelector
     );
-    const updatedFormModel = updateFormModel({
-      formModelIndex,
-      renderModelIndex: renderModelIndex + 1,
-      newFormModel,
-      removeTargetItem: false
-    });
+
+    onChange(updatedFormModel);
+
     if (newFormModel.type === TAG) {
       tracking?.onTagAdded?.(newFormModel, updatedFormModel);
     }
@@ -343,4 +357,17 @@ QueryBuilder.propTypes = {
 
 function getTagCatalogObservable([getTagCatalog, timeConfig]) {
   return getTagCatalog({ timeConfig });
+}
+
+function shouldAutomaticallyAddAConjunction(formModel, newElement, newElementIndex) {
+  if (newElement.type !== TAG) {
+    return false;
+  }
+
+  const previousElement = formModel[newElementIndex - 1];
+  if (!previousElement) {
+    return false;
+  }
+
+  return previousElement.type === CLOSE_BRACKET || previousElement.type === TAG;
 }
