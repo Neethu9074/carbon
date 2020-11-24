@@ -193,6 +193,7 @@ export function getOperatorLabel(type, operator) {
 }
 
 export function getTagFilterListForBackendSubscription(tagFilters = [], defaultFilters = []) {
+  if (!tagFilters) tagFilters = [];
   const tagFilterKeys = tagFilters.map(tagFilter => tagFilter.name);
   // user provided tag filters will override default ones
   const defaultFiltersToAdd = defaultFilters.filter(defaultFilter => !tagFilterKeys.includes(defaultFilter.name));

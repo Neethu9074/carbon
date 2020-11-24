@@ -1,0 +1,7 @@
+@import '~in-themes/active.less';
+
+:local {
+  .italic {
+    font-style: italic;
+  }
+}
