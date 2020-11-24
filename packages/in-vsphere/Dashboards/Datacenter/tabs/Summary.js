@@ -4,6 +4,7 @@ import {
   timeBySecondsTwoDecimalPlaces,
   bytesPerSecondZeroDecimalPlaces,
   millis,
+  bytes,
   percentage
 } from 'in-services/formatters/number';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
