@@ -7,10 +7,17 @@ import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './ReleaseScope.mless';
 
-export default function ReleaseScope({ serviceId, applicationId }) {
-  const service = useObservable(([serviceId]) => serviceId && getServiceLabel({ id: serviceId }).map(getLabel), [
-    serviceId
-  ]);
+export default function ReleaseScope({ serviceId, serviceName, applicationId, applicationName }) {
+  const service = useObservable(
+    ([serviceId]) => (serviceName ? serviceName : serviceId && getServiceLabel({ id: serviceId }).map(getLabel)),
+    [serviceId]
+  );
+  const application = useObservable(
+    ([applicationId]) =>
+      applicationName ? applicationName : applicationId && getApplication({ id: applicationId }).map(getLabel),
+    [applicationId]
+  );
+
   const serviceItem = service && (
     <span className={locals.iconAndType}>
       <SvgIcon type="lib_application_service" size="s" />
@@ -18,10 +25,6 @@ export default function ReleaseScope({ serviceId, applicationId }) {
     </span>
   );
 
-  const application = useObservable(
-    ([applicationId]) => applicationId && getApplication({ id: applicationId }).map(getLabel),
-    [applicationId]
-  );
   const applicationItem = application && (
     <span className={locals.iconAndType}>
       <SvgIcon type="lib_application" size="s" />
@@ -31,7 +34,9 @@ export default function ReleaseScope({ serviceId, applicationId }) {
 
   if (!applicationItem && !serviceItem) {
     return null;
-  } else if (applicationItem && serviceItem) {
+  }
+
+  if (applicationItem && serviceItem) {
     return (
       <div className={locals.serviceApplicationRow}>
         {serviceItem}
@@ -40,6 +45,7 @@ export default function ReleaseScope({ serviceId, applicationId }) {
       </div>
     );
   }
+
   return (
     <div>
       {applicationItem} {serviceItem}

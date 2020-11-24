@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 
+import convertToScopes from 'in-new-components/time/TimeSelectionDialogPresenter/convertToScopes';
 import ReleaseScope from 'in-new-components/time/TimeSelectionDialogPresenter/ReleaseScope';
 import { getReleasesWithDefaults } from 'in-events/subscriptions/getReleases';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
@@ -31,11 +32,18 @@ const columnDefinitions = [
     label: 'Scope',
     sortable: false,
     getContent(item) {
-      if (!item.scopes) {
+      if (!item.services && !item.applications) {
         return <span>Global</span>;
       }
-      const scopes = item.scopes.map((scope, i) => (
-        <ReleaseScope key={i} serviceId={scope.serviceId} applicationId={scope.applicationId} />
+      const itemScopes = convertToScopes(item);
+      const scopes = itemScopes.map((scope, i) => (
+        <ReleaseScope
+          key={i}
+          serviceId={scope.serviceId}
+          serviceName={scope.serviceName}
+          applicationId={scope.applicationId}
+          applicationName={scope.applicationName}
+        />
       ));
       const stepSize = 2;
       const [showItems, setShowItems] = useState(scopes.length > stepSize ? stepSize : scopes.length);
