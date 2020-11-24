@@ -35,7 +35,7 @@ function DashboardSwitcherOverlayPresenter({
     <div className={locals.overlay}>
       <Ul>
         <Li className={locals.actions}>
-          <SearchInput placeholder="Search" query={query} onChange={q => setQuery(q)} />
+          <SearchInput placeholder="Search" query={query} onChange={q => setQuery(q)} autoFocus />
 
           <Button
             kind="action"
