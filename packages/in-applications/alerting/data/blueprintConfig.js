@@ -17,7 +17,7 @@ const baseBlueprint = Object.freeze({
 
   // Note: had to keep the disabled tagFilters separate from this, because of test-dependencies within
   // in-applications/tags_test.js related to the only once-registered set of tags via getAnalyzeFilterTagKeys()
-  getAllTagFilters: () => getAnalyzeFilterTagKeys(),
+  getAvailableTags: getIncludedTags,
 
   // QB1
   getEntityTagFilter: getApplicationIdTagFilter,
@@ -165,6 +165,12 @@ export const simpleModeBlueprintConfigs = Object.freeze([
     isSelected: alertThreshold => alertThreshold.operator === '>=' || alertThreshold.operator === '>'
   }
 ]);
+
+const excludedApplicationTags = Object.freeze(['application.id', 'application.name']);
+
+function getIncludedTags() {
+  return getAnalyzeFilterTagKeys().filter(tag => !excludedApplicationTags.includes(tag));
+}
 
 export function getBlueprintConfig(alertType) {
   return blueprintConfigs.find(blueprint => blueprint.type === alertType);

@@ -36,9 +36,7 @@ export default function AlertLocationFilters({
   const metricName = ruleForm.get('metricName').value;
 
   const blueprintConfig = getBlueprintConfig(alertType);
-  const tagSuggestions = blueprintConfig
-    .getAllTagFilters(metricName)
-    .filter(tag => !blueprintConfig.disabledTagFilters.includes(tag));
+  const tagSuggestions = blueprintConfig.getAvailableTags(metricName);
 
   return (
     form && (

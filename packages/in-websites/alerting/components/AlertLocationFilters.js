@@ -25,9 +25,7 @@ export default function AlertLocationFilters({ advancedMode, form, timeConfig, w
   const metricName = ruleForm.get('metricName').value;
 
   const blueprintConfig = getBlueprintConfig(alertType);
-  const tagSuggestions = blueprintConfig
-    .getAllTagFilters(metricName)
-    .filter(tag => !blueprintConfig.disabledTagFilters.includes(tag));
+  const tagSuggestions = blueprintConfig.getAvailableTags(metricName);
 
   if (__DEV__) {
     invariant(tagSuggestions, `Tag suggestions not defined for alert type ${alertType}`);
