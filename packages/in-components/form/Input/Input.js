@@ -4,16 +4,15 @@ import React from 'react';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import SvgIcon from 'in-components/SvgIcon/SvgIcon';
 
-import './Input.less';
-
-const block = 'in-input';
+import locals from './Input.mless';
 
 export default function FormInput(props) {
   const { iconType, onIconClick } = props;
   const inputProps = assign({}, props);
   inputProps.className = evaluateClassNames({
-    [block]: true,
-    [`${block}--has-error`]: props.hasError,
+    [locals.input]: true,
+    [locals.error]: props.hasError,
+    [locals.hideValidityInformationOnFocus]: props.hideValidityInformationOnFocus,
     [props.className]: props.className
   });
   delete inputProps.hasError;
@@ -24,7 +23,7 @@ export default function FormInput(props) {
   const inputElement = <input {...inputProps} ref={props.refSetter} />;
 
   return iconType ? (
-    <div className={`${block}--with-icon`}>
+    <div className={locals.withIcon}>
       {inputElement} <SvgIcon type={iconType} onClick={onIconClick} />
     </div>
   ) : (

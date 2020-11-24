@@ -35,7 +35,8 @@
     }
   }
 
-  .invalid {
+  // Hide invalid marker when already editing the tag filter.
+  .invalid:not(:focus-within):not(:focus) {
     border-color: @lib__colors__failure;
   }
 

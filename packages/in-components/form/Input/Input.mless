@@ -1,0 +1,35 @@
+@import '~in-themes/active.less';
+
+:local {
+  .input {
+    box-sizing: border-box;
+    height: 2rem;
+    padding: 0 0.5rem;
+    color: @lib__colors__N900Primary;
+    background: @lib__colors__N050;
+    background-image: none;
+    border: 1px solid @lib__colors__N400;
+    border-radius: @lib__shapes__radius_small;
+    transition: border-color ease-in-out 0.15s;
+
+    &[disabled] {
+      color: rgba(58, 75, 81, 0.48);
+      cursor: not-allowed;
+    }
+  }
+
+  .error:not(:focus), .error:focus:not(.hideValidityInformationOnFocus) {
+    border-color: @lib__colors__failure;
+  }
+
+  .withIcon {
+    display: flex;
+    align-items: center;
+
+    > svg {
+      margin: 0 0 0 0.5rem;
+      fill: @lib__colors__N800Dark;
+    }
+  }
+
+}

@@ -181,6 +181,7 @@ function KeyInput({ form, onChange, tagType, getSuggestions, formModel, formMode
       onChange={value => onChange('key', value)}
       placeholder="Key"
       valid={field.valid}
+      hideValidityInformationOnFocus
       fieldsToWatch={[tagType, entity, timeConfig]}
       getSuggestions={() =>
         getSuggestions({
@@ -275,7 +276,8 @@ function Input({ value, fieldsToWatch, placeholder, onChange, getSuggestions, va
       inputProps={{
         type: 'text',
         valid,
-        placeholder
+        placeholder,
+        hideValidityInformationOnFocus: true
       }}
     />
   );

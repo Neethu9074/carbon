@@ -40,7 +40,7 @@ export default function SimpleValueSelector({
 }
 
 function render({ inputProps, getInputProps, isOpen, openMenu, ...remainingProps }) {
-  const { locals, valid, ...remainingInputProps } = inputProps;
+  const { locals, valid, hideValidityInformationOnFocus, ...remainingInputProps } = inputProps;
 
   return (
     <>
@@ -48,7 +48,8 @@ function render({ inputProps, getInputProps, isOpen, openMenu, ...remainingProps
         minWidth={32}
         inputClassName={evaluateClassNames({
           [locals.input]: true,
-          [locals.invalid]: !valid
+          [locals.invalid]: !valid,
+          [locals.hideValidityInformationOnFocus]: hideValidityInformationOnFocus
         })}
         {...remainingInputProps}
         {...getInputProps({ onFocus: openMenu })}
