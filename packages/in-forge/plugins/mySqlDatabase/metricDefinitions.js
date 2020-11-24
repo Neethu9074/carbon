@@ -1,5 +1,5 @@
 import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
-import { millis, number } from 'in-services/formatters/number';
+import { millis, number, seconds } from 'in-services/formatters/number';
 
 export default [
   {
@@ -29,6 +29,28 @@ export default [
     min: 0,
     category: ['Clients'],
     formatter: number
+  },
+  {
+    metrics: ['replica.slave_io_running', 'replica.slave_sql_running'],
+    labels: ['Replication I/O thread running', 'Replication SQL thread running'],
+    min: 0,
+    max: 1,
+    category: ['Replication'],
+    formatter: number
+  },
+  {
+    metrics: ['replica.last_io_error_no', 'replica.last_sql_error_no'],
+    labels: ['Replication last I/O error code', 'Replication last SQL error code'],
+    min: 0,
+    category: ['Replication'],
+    formatter: number
+  },
+  {
+    metrics: ['replica.seconds_behind_master'],
+    labels: ['Seconds behind master'],
+    min: 0,
+    category: ['Replication'],
+    formatter: seconds
   },
   {
     metrics: ['status.KEY_READ_REQUESTS', 'status.KEY_WRITE_REQUESTS', 'status.KEY_READS', 'status.KEY_WRITES'],
