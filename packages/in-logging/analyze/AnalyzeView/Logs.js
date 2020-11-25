@@ -1,70 +1,94 @@
 import React from 'react';
 
-import CursorPaginatedTable from 'in-components/tables/ServerTable/CursorPaginatedTable';
+import QueryBuilderWorkspace from 'in-logging/analyze/AnalyzeView/QueryBuilderWorkspace';
+import DateTimeSeparated from 'in-components/tables/sharedComponents/DateTimeSeparated';
+import LoadingList from 'in-new-components/lists/List/sharedComponents/LoadingList';
+import ErrorList from 'in-new-components/lists/List/sharedComponents/ErrorList';
+import LogContentColumn from 'in-logging/analyze/AnalyzeView/LogContentColumn';
+import LoadMoreLi from 'in-new-components/lists/List/LoadMoreLi/LoadMoreLi';
+import { ColumnizedContent, Ul, Li } from 'in-new-components/lists/List';
+import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
+import Header from 'in-new-components/QueryBuilder/components/Header';
 import useCursorPagination from 'in-hooks/useCursorPagination';
-import { formatDateTime } from 'in-services/formatters/date';
 import getLogs from 'in-logging/subscriptions/getLogs';
-
-const defaultOrder = 'timestamp';
-const defaultDirection = 'DESC';
 
 const columnDefinitions = [
   {
     id: 'timestamp',
     label: 'Time',
-    sortable: false,
-    getContent(item) {
-      return formatDateTime(item.log.timestamp);
-    },
+    width: '6rem',
     widthInAbsoluteUnit: true,
-    width: '3rem'
+    getContent(item) {
+      return <DateTimeSeparated>{item.log.timestamp}</DateTimeSeparated>;
+    }
   },
   {
-    id: 'content',
-    label: 'Content',
+    id: 'log',
+    label: 'Log',
     sortable: false,
     getContent(item) {
-      return item.log.rawContent;
-    },
-    widthInAbsoluteUnit: true,
-    width: '3rem'
+      return <LogContentColumn content={item.log.strippedContent} tags={item.log.tags} />;
+    }
   }
 ];
 
-export default function Logs({ orderBy, timeConfig, onChangeOrderBy, retrievalSize = 10, tagFilterExpression }) {
-  const order = {
-    by: orderBy ? orderBy.by : defaultOrder,
-    direction: orderBy ? orderBy.direction : defaultDirection
-  };
+export default function Logs(props) {
+  const { orderBy, timeConfig, getRowHref, onChange, backendQueryModel, withQueryBuilder = true } = props;
 
-  const { items, totalHits, ...tableProps } = useCursorPagination(
-    ({ cursor }) => getTableData({ timeConfig, retrievalSize, tagFilterExpression, order, cursor }),
-    [timeConfig, retrievalSize, order.by, order.direction]
+  const { items, errors, progress, canLoadMore, result, loadMore, totalHits } = useCursorPagination(
+    ({ cursor }) => getTableData({ timeConfig, backendQueryModel, orderBy, cursor }),
+    [timeConfig, orderBy.by, orderBy.direction, backendQueryModel]
   );
 
+  const hasErrors = errors?.length > 0;
+  const isLoading = progress?.loading;
+
+  const list = (
+    <>
+      {hasErrors && <ErrorList errors={result.errors} />}
+      <Ul space="disabled">
+        {items.map(item => (
+          <Li key={item.log.id} size="compact" href={getRowHref(item.log)}>
+            <ColumnizedContent columnDefinitions={columnDefinitions} log={item.log} />
+          </Li>
+        ))}
+        {canLoadMore && <LoadMoreLi loadMore={loadMore} />}
+      </Ul>
+      {isLoading && <LoadingList numSkeletonRows={3} />}
+      {!isLoading && items.length === 0 && <NoDataAvailable height={240} />}
+    </>
+  );
+
+  if (!withQueryBuilder) {
+    return list;
+  }
   return (
-    <CursorPaginatedTable
-      columnDefinitions={columnDefinitions}
-      numSkeletonRows={3}
-      totalHits={totalHits}
-      onChange={({ orderBy, orderDirection }) => onChangeOrderBy({ by: orderBy, direction: orderDirection })}
-      {...tableProps}
-      items={items}
-      fixedLayout
-      orderBy={order.by}
-      orderDirection={order.direction}
-    />
+    <QueryBuilderWorkspace {...props}>
+      <Header
+        sortOptions={[
+          {
+            value: 'timestamp',
+            label: 'Time'
+          }
+        ]}
+        totalHits={totalHits}
+        setOrder={orderBy => onChange({ orderBy })}
+        hitName="Log"
+        order={orderBy}
+      />
+      {list}
+    </QueryBuilderWorkspace>
   );
 }
 
-function getTableData({ timeConfig, retrievalSize, tagFilterExpression, order, cursor }) {
+function getTableData({ timeConfig, backendQueryModel, orderBy, cursor }) {
   return getLogs({
     pagination: {
       cursor,
-      retrievalSize
+      retrievalSize: 10
     },
-    order,
+    order: orderBy,
     timeConfig: timeConfig,
-    tagFilterExpression
+    tagFilterExpression: backendQueryModel
   });
 }

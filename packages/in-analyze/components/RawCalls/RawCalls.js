@@ -23,11 +23,11 @@ export default compose(
     }),
     getParsedUrlValues: urlValues => ({
       orderBy: urlValues.orderBy,
-      orderDirection: urlValues.orderDirection,
+      orderDirection: urlValues.orderDirection
     }),
     getSerializedUrlValues: props => ({
       orderBy: props.orderBy,
-      orderDirection: props.orderDirection,
+      orderDirection: props.orderDirection
     }),
     reducerName: 'onChangeOrder'
   }),

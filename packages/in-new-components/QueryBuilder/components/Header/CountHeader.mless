@@ -1,13 +1,14 @@
 :local {
   .header {
     display: flex;
-    align-items: center;
     flex-direction: column;
+
     width: max-content;
+
     padding-left: 1rem;
 
     .groupCount {
-      padding: 0
+      padding: 0;
     }
 
     .itemCount {

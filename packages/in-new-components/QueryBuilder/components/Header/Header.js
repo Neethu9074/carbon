@@ -1,7 +1,7 @@
 import React from 'react';
 
 import MetricAndSortingConfigurator from 'in-new-components/MetricAndSortingConfigurator/MetricAndSortingConfigurator';
-import CountHeader from 'in-infrastructure/Explore/components/CountHeader';
+import CountHeader from 'in-new-components/QueryBuilder/components/Header/CountHeader';
 
 import locals from './Header.mless';
 
@@ -18,8 +18,6 @@ export default function Header({
   order,
   tracking
 }) {
-  const hasMetrics = availableMetrics?.length > 0;
-
   return (
     <div className={locals.wrapper}>
       <CountHeader
@@ -28,17 +26,15 @@ export default function Header({
         itemName={itemName}
         hitName={hitName}
       />
-      {hasMetrics && (
-        <MetricAndSortingConfigurator
-          sortOptions={sortOptions}
-          order={order}
-          setOrder={setOrder}
-          metricOptions={availableMetrics}
-          metrics={metrics}
-          setMetrics={setMetrics}
-          tracking={tracking}
-        />
-      )}
+      <MetricAndSortingConfigurator
+        sortOptions={sortOptions}
+        order={order}
+        setOrder={setOrder}
+        metricOptions={availableMetrics}
+        metrics={metrics}
+        setMetrics={setMetrics}
+        tracking={tracking}
+      />
     </div>
   );
 }

@@ -112,7 +112,7 @@ const icons = deepFreeze({
     profiles: 'lib_profiling'
   },
   logs: {
-    logs: 'lib_navigation_stan'
+    logs: 'lib_application_logging'
   }
 });
 

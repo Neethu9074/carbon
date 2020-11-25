@@ -1,0 +1,69 @@
+@import '~in-themes/active.less';
+@import '~in-themes/mediaQueries.less';
+
+:local {
+  .navigatorSplitScreen {
+    display: flex;
+
+    border-top: 1px solid @lib__colors__N300;
+  }
+
+  .navigator {
+    width: 20rem;
+    flex-grow: 0;
+    flex-shrink: 0;
+  }
+
+  .traceDetail {
+    width: ~'calc(100% - 20rem)';
+
+    &.useFullWidth {
+      width: ~'calc(100% - 3rem)';
+    }
+  }
+
+  .header {
+    background: @lib__colors__N050;
+    padding: 1.375rem 1.5rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-right: 1px solid #d5dfe4;
+  }
+
+  .toggleBar {
+    width: 3rem;
+    border-right: 1px solid #d5dfe4;
+  }
+
+  .toggleWrapper {
+    background: @lib__colors__N050;
+    border-bottom: 1px solid @lib__colors__N300;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.63rem 0;
+  }
+
+  .toggle,
+  .next,
+  .prev {
+    cursor: pointer;
+    fill: @lib__colors__N500;
+    display: block;
+
+    &:hover {
+      fill: @lib__colors__N700Medium;
+    }
+  }
+
+  .actions .toggle {
+    margin-left: 1rem;
+  }
+
+  .actions {
+    display: flex;
+    align-items: center;
+  }
+}

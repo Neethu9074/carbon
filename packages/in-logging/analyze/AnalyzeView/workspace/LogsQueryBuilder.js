@@ -5,8 +5,9 @@ import { getTagCatalog } from 'in-logging/api/catalog';
 const { QueryBuilder, isQueryValid: isQueryValidInternal } = createQueryBuilder({
   getTagCatalog,
   getSuggestions: params => {
-    const { tagName, timeConfig, propose, key, value } = params;
+    const { tagFilterExpression, tagName, timeConfig, propose, key, value } = params;
     return getTagSuggestions({
+      tagFilterExpression,
       timeConfig,
       tagName,
       key,

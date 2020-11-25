@@ -14,9 +14,16 @@ export default function MetricAndSortingConfigurator({
   metricOptions,
   tracking
 }) {
+  const hasMetrics = metricOptions?.length > 0;
+  if (!sortOptions && !hasMetrics) {
+    return null;
+  }
+
   return (
     <div className={locals.wrapper}>
-      <MetricConfigurator options={metricOptions} values={metrics} onChange={setMetrics} tracking={tracking} />
+      {hasMetrics && (
+        <MetricConfigurator options={metricOptions} values={metrics} onChange={setMetrics} tracking={tracking} />
+      )}
       {sortOptions && <SortingConfigurator options={sortOptions} orderBy={order} onChange={setOrder} />}
     </div>
   );

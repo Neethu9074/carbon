@@ -7,7 +7,7 @@ import CursorPaginatedTable from 'in-components/tables/ServerTable/CursorPaginat
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import MetricLabel from 'in-infrastructure/Explore/components/MetricLabel';
 import getEntities from 'in-infrastructure/subscriptions/getEntities';
-import Header from 'in-infrastructure/Explore/components/Header';
+import Header from 'in-new-components/QueryBuilder/components/Header';
 import EntityLink from 'in-new-components/EntityLink/EntityLink';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import useTimeConfig from 'in-hooks/useTimeConfig';

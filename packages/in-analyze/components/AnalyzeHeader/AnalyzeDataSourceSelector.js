@@ -181,7 +181,7 @@ const productAreas = [
     dataSources: [
       {
         dataSource: 'logs',
-        getHref$: getLinkToLogsAnalyze
+        getHref$: () => getLinkToLogsAnalyze()
       }
     ]
   }

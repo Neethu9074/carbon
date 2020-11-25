@@ -1,0 +1,22 @@
+@import '~in-themes/active.less';
+
+:local {
+  .wrapper {
+    margin: 0.5rem 0;
+  }
+
+  .content {
+    font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;
+    font-size: 0.8125rem;
+
+    white-space: break-spaces;
+  }
+
+  .tagsWrapper {
+    flex-wrap: wrap;
+
+    margin-top: 0.75rem;
+
+    overflow: hidden;
+  }
+}

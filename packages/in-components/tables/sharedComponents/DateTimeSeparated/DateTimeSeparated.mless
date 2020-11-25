@@ -1,0 +1,10 @@
+:local {
+  .wrapper {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .time {
+    margin-bottom: 0.25rem;
+  }
+}

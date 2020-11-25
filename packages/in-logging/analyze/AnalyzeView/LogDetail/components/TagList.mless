@@ -1,0 +1,30 @@
+@import '~in-themes/mixins.less';
+@import '~in-themes/active.less';
+:local {
+  .label,
+  .equals,
+  .value {
+    line-height: 1rem;
+  }
+
+  .label,
+  .equals {
+    color: @lib__colors__N500;
+  }
+
+  .equals {
+    margin: 0 0.125rem;
+  }
+
+  .value {
+    .ellipsis();
+  }
+
+  .spacer {
+    height: 1rem;
+
+    margin: 0 0.5rem;
+
+    border-left: 1px dashed @lib__colors__N300;
+  }
+}
