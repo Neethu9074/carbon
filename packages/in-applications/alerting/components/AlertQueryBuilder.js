@@ -3,12 +3,9 @@ import { getApplicationTagCatalog } from 'in-applications/api/catalog';
 import { createQueryBuilder } from 'in-new-components/QueryBuilder';
 import { CALLS } from 'in-applications/analyze/metrics';
 
-// TODO: this component is copy pasted from the CallQueryBuilder.js component.
-// We need to change/adjust this later when smart alerts tagCatalogues are ready to use.
-
 const { QueryBuilder: AlertQueryBuilder, isQueryValid } = createQueryBuilder({
   getTagCatalog: props =>
-    getApplicationTagCatalog({ dataSource: CALLS, useCase: 'FILTERING' })(props).map(response => ({
+    getApplicationTagCatalog({ dataSource: CALLS, useCase: 'SMART_ALERTS' })(props).map(response => ({
       ...response,
       data: response.data && {
         ...response.data,
