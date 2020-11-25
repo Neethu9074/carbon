@@ -52,12 +52,13 @@ function getInitialState({ screenWidth }) {
   };
 }
 
-function AppNavigatorSplitScreen({ navigator, traceDetail, expanded, setExpanded, dataSource }) {
+function AppNavigatorSplitScreen({ navigator, traceDetail, expanded, setExpanded, dataSource, traceId, callId }) {
   const { totalHits, totalRepresentedItemCount, location, items, canLoadMore, loadMore, progress } = navigator.props;
 
   const dataSourceConfig = getConfigByDataSource(dataSource);
-  const selectedTraceId = getMatrixParameter(location, traceDetailPath, traceIdMatrixParameter);
-  const selectedCallId = getMatrixParameter(location, traceDetailPath, callIdMatrixParameter);
+  const selectedTraceId = traceId ?? getMatrixParameter(location, traceDetailPath, traceIdMatrixParameter);
+  const selectedCallId =
+    callId ?? (location ? getMatrixParameter(location, traceDetailPath, callIdMatrixParameter) : null);
   const itemMatcher = dataSourceConfig.getMatcher(selectedTraceId, selectedCallId);
   const itemIndex = findIndex(items, itemMatcher);
   const hasNext = itemIndex + 1 < items.length;

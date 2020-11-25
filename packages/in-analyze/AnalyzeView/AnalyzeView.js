@@ -1,4 +1,3 @@
-import { useRouteMatch } from 'react-router';
 import React from 'react';
 
 import {
@@ -21,7 +20,6 @@ import EditGroupDialog from 'in-analyze/AnalyzeView/components/AnalyzeEditGroupD
 import { getTagFilterListForBackendSubscription } from 'in-analyze/applicationFilter';
 import EmptyAnalyzeView from 'in-analyze/AnalyzeView/components/EmptyAnalyzeView';
 import { updateLatencyFilters } from 'in-applications/analyze/utils/latencyUtils';
-import { analyze, traceDetailFullyQualified } from 'in-analyze/navigation/paths';
 import WithEmptyStateFallback from 'in-new-components/WithEmptyStateFallback';
 import { groupAddedTracker, groupChangedTracker } from 'in-analyze/tracker';
 import getConfigByDataSource from 'in-analyze/AnalyzeView/dataSources';
@@ -36,6 +34,7 @@ import RawTraces from 'in-analyze/components/RawTraces';
 import Analyze from 'in-applications/analyze/Analyze';
 import RawCalls from 'in-analyze/components/RawCalls';
 import { getTimeConfig } from 'in-stores/time/config';
+import { analyze } from 'in-analyze/navigation/paths';
 import useObservable from 'in-hooks/useObservable';
 import useUrlState from 'in-hooks/useUrlState';
 import Footer from 'in-new-components/Footer';
@@ -171,11 +170,10 @@ function AnalyzeView(props) {
 
   useDisabledBodyScroll(isDialogActive);
 
-  const showTraceDetails = useRouteMatch(traceDetailFullyQualified);
   const isInternalVisible = useObservable(isInternalVisible$, []);
 
   // Trace details are still handled by the old view
-  if (!showTraceDetails && (isInternalVisible ? ua2 : newAnalyticsEnabled)) {
+  if (isInternalVisible ? ua2 : newAnalyticsEnabled) {
     return <Analyze dataSource={dataSource} />;
   }
 

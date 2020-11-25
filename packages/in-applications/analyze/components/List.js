@@ -33,7 +33,8 @@ export default function List({
   tableOnly = false,
   hiddenCalls,
   onChangeHiddenCalls,
-  dataSource
+  dataSource,
+  getNestedUngroupedData
 }) {
   const timeConfig = useTimeConfig();
   const order = {
@@ -43,7 +44,7 @@ export default function List({
   const { items, ...tableProps } = useCursorPagination(
     ({ cursor }) =>
       isValid
-        ? getTableData({
+        ? getNestedUngroupedData({
             timeConfig,
             retrievalSize,
             tagFilterExpression,
@@ -174,34 +175,6 @@ function TableOnlyPresenter({
       />
     </div>
   );
-}
-
-function getTableData({
-  timeConfig,
-  retrievalSize,
-  tagFilterExpression,
-  order,
-  previewEnabled = false,
-  cursor,
-  hiddenCalls,
-  dataSource
-}) {
-  const { includeSynthetic = false, includeInternal = false } = hiddenCalls;
-  const getData = dataSourceConstants[dataSource].getData;
-  return getData({
-    pagination: {
-      cursor,
-      retrievalSize
-    },
-    order,
-    filter: {
-      timeConfig: timeConfig
-    },
-    tagFilterExpression,
-    queryPrecision: previewEnabled ? 'APPROXIMATE' : 'FULL',
-    includeSynthetic,
-    includeInternal
-  });
 }
 
 const getColumnDefinitions = dataSource => {

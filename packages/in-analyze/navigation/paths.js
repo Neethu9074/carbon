@@ -208,7 +208,5 @@ export function getLinkToTraceDetail(traceId, { tab = '/tree', callId } = emptyO
 
     // make sure that there is no grouping as otherwise the trace cannot be loaded.
     setOrDeleteMatrixKey(params, analyze, `callList.${groupByMatrixParameter}`, getGroupToUrlString({}));
-    // make sure to disable UA2 beta.
-    setOrDeleteMatrixKey(params, analyze, `${ua2MatrixParameter}`, null);
   });
 }

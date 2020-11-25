@@ -52,7 +52,8 @@ export default function GroupedList({
   dataSource,
   onResult,
   chartEnabled,
-  groupColors
+  groupColors,
+  getNestedUngroupedData
 }) {
   const defaultOrder = dataSourceConstants[dataSource].metricKey;
   const defaultDirection = 'DESC';
@@ -115,6 +116,7 @@ export default function GroupedList({
       isValid={isValid}
       groupByTagType={groupByTagType}
       dataSource={dataSource}
+      getNestedUngroupedData={getNestedUngroupedData}
       {...result}
     />
   );
@@ -145,7 +147,8 @@ function Presenter({
   groupColors,
   isValid,
   groupByTagType,
-  dataSource
+  dataSource,
+  getNestedUngroupedData
 }) {
   const hasErrors = errors?.length > 0;
   const isLoading = progress.loading || groupByTagType.progress.loading;
@@ -210,6 +213,7 @@ function Presenter({
                         hiddenCalls={hiddenCalls}
                         groupByTagType={groupByTagType}
                         dataSource={dataSource}
+                        getNestedUngroupedData={getNestedUngroupedData}
                       />
                     )}
                   >
@@ -428,7 +432,8 @@ function ExpandedGroup({
   onChangeSubOrderBy,
   hiddenCalls,
   groupByTagType,
-  dataSource
+  dataSource,
+  getNestedUngroupedData
 }) {
   // Prevents the sublist from being rendered until the view can retrieve the appropriate metrics for Trace or Calls.
   if (!group.metrics[dataSourceConstants[dataSource].metricKey]) {
@@ -447,6 +452,7 @@ function ExpandedGroup({
       isValid
       hiddenCalls={hiddenCalls}
       dataSource={dataSource}
+      getNestedUngroupedData={getNestedUngroupedData}
     />
   );
 }

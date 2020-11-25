@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useRouteMatch } from 'react-router';
 import { range } from 'lodash';
 
 import {
@@ -28,7 +29,9 @@ import FixatedTimeConfigContextModification from 'in-stores/time/FixatedTimeConf
 import ApiQueryAction from 'in-new-components/QueryBuilder/workspace/ApiQueryAction/ApiQueryAction';
 import QueryBuilderSection from 'in-new-components/QueryBuilder/workspace/QueryBuilderSection';
 import { ActionSection } from 'in-new-components/workspace/ActionSection/ActionSection';
+import TraceDetails from 'in-applications/analyze/components/TraceDetails';
 import GroupedList from 'in-applications/analyze/components/GroupedList';
+import { traceDetailFullyQualified } from 'in-analyze/navigation/paths';
 import { dataSourceConstants } from 'in-applications/analyze/metrics';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { aggregateMetricKey } from 'in-applications/analyze/metrics';
@@ -75,7 +78,7 @@ const urlStateDefinition = {
             [groupByMatrixParameter.name]: undefined,
             [orderByGroupsMatrixParameter.name]: dataSourceConstants[dataSource].defaultOrderByGroups,
             [metricsMatrixParameter.name]: dataSourceConstants[dataSource].defaultMetrics,
-            [chartsMatrixParameter.name]: dataSourceConstants[dataSource].defaultCharts,
+            [chartsMatrixParameter.name]: dataSourceConstants[dataSource].defaultCharts
           };
         }
         return {};
@@ -97,6 +100,7 @@ const maxGroupsOnChart = Math.min(5, theme.lib.colors.chart.strokeColors100.leng
 const groupColors = range(maxGroupsOnChart).map(i => theme.lib.colors.chart.strokeColors100[i]);
 
 function ApplicationAnalyzeViewWithFixatedTimeConfig({ dataSource }) {
+  const showTraceDetails = useRouteMatch(traceDetailFullyQualified);
   const [
     {
       tagFilterExpression,
@@ -180,10 +184,14 @@ function ApplicationAnalyzeViewWithFixatedTimeConfig({ dataSource }) {
     onChange({ hiddenCalls });
   };
   const onChangeCharts = chart => {
-    onChange({ charts: chart && [{
-      metric: chart.metricId,
-      aggregation: chart.aggregationId
-    }]});
+    onChange({
+      charts: chart && [
+        {
+          metric: chart.metricId,
+          aggregation: chart.aggregationId
+        }
+      ]
+    });
   };
   const updateFilter = ({ add = emptyArray, remove = emptyArray }) =>
     onChange({
@@ -199,6 +207,20 @@ function ApplicationAnalyzeViewWithFixatedTimeConfig({ dataSource }) {
   // metric data in the GroupedList child component. The result is stored here, so that it
   // can be passed to the ChartingPresenter component, which then renders the charts.
   const [result, setResult] = useState();
+
+  if (showTraceDetails) {
+    return (
+      <TraceDetails
+        tagFilterExpression={backendQueryModel}
+        order={orderByCalls}
+        hiddenCalls={hiddenCalls}
+        getUngroupedData={getUngroupedData}
+        isValid={isValid}
+        dataSource={dataSource}
+        onChangeOrder={onChangeOrderByCalls}
+      />
+    );
+  }
 
   return (
     <Sticky header={<AnalyzeHeader isGrouped={isGrouped} />}>
@@ -266,6 +288,7 @@ function ApplicationAnalyzeViewWithFixatedTimeConfig({ dataSource }) {
               onResult={setResult}
               chartEnabled={chartEnabled}
               groupColors={groupColors}
+              getNestedUngroupedData={getUngroupedData}
             />
           ) : (
             <List
@@ -277,6 +300,7 @@ function ApplicationAnalyzeViewWithFixatedTimeConfig({ dataSource }) {
               hiddenCalls={hiddenCalls}
               onChangeHiddenCalls={onChangeHiddenCalls}
               dataSource={dataSource}
+              getNestedUngroupedData={getUngroupedData}
             />
           )}
         </Stack>
@@ -285,4 +309,32 @@ function ApplicationAnalyzeViewWithFixatedTimeConfig({ dataSource }) {
       <Footer />
     </Sticky>
   );
+}
+
+function getUngroupedData({
+  timeConfig,
+  retrievalSize,
+  tagFilterExpression,
+  order,
+  previewEnabled = false,
+  cursor,
+  hiddenCalls,
+  dataSource
+}) {
+  const { includeSynthetic = false, includeInternal = false } = hiddenCalls;
+  const getData = dataSourceConstants[dataSource].getData;
+  return getData({
+    pagination: {
+      cursor,
+      retrievalSize
+    },
+    order,
+    filter: {
+      timeConfig: timeConfig
+    },
+    tagFilterExpression,
+    queryPrecision: previewEnabled ? 'APPROXIMATE' : 'FULL',
+    includeSynthetic,
+    includeInternal
+  });
 }

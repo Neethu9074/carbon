@@ -1,6 +1,6 @@
 import { buildJsonSerializer, buildJsonParser } from 'in-stores/navigation/matrix';
 import { emptyArray, emptyObject } from 'in-services/fixedObjects';
-import { analyze } from 'in-analyze/navigation/paths';
+import { analyze, traceDetail } from 'in-analyze/navigation/paths';
 
 export const applicationId = 'appId';
 export const serviceId = 'serviceId';
@@ -51,7 +51,6 @@ export const orderByCallsMatrixParameter = {
   initialState: { by: 'latency', direction: 'DESC' }
 };
 
-
 export const metricsMatrixParameter = {
   path: analyze,
   name: 'metrics',
@@ -73,4 +72,9 @@ export const chartsMatrixParameter = {
   serializer: buildJsonSerializer(),
   parser: buildJsonParser(emptyObject),
   initialState: emptyArray
+};
+
+export const colorCodeMatrixParameter = {
+  path: traceDetail,
+  name: 'colorCode'
 };
