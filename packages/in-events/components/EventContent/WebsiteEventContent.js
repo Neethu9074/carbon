@@ -9,11 +9,12 @@ import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilte
 import { createDefaultChartConfig } from 'in-new-components/Alerting/Chart/chartViewConfig';
 import { alertingEventDetailsChartTimeframe } from 'in-new-components/Alerting/constants';
 import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
+import EntityInformation from 'in-events/components/EntityInformation/EntityInformation';
 import AnalyzeWebsiteEventButton from 'in-events/components/AnalyzeWebsiteEventButton';
 import WebsiteAlertConfigButton from 'in-events/components/WebsiteAlertConfigButton';
 import { getAlertConfigByIdAndTimestamp } from 'in-websites/api/websiteAlertConfig';
-import EntityInformation from 'in-events/components/EntityInformation/EntityInformation';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
+import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import { getBlueprintConfig } from 'in-websites/alerting/data/blueprintConfig';
 import AlertingChart from 'in-new-components/Alerting/Chart/AlertingChart';
 import { Row, Col } from 'in-new-components/layout/Grid';
@@ -63,10 +64,10 @@ export default connectTo(
               />
 
               <ProblemDescription event={event} className="in-event-view-event-content" />
-              <div className={locals.descriptionButtonGroup}>
+              <DescriptionButtons>
                 <WebsiteAlertConfigButton alertConfig={alertConfig} />
                 <AnalyzeWebsiteEventButton event={event} alertConfig={alertConfig} />
-              </div>
+              </DescriptionButtons>
             </Card>
           </Col>
         </Row>

@@ -9,14 +9,14 @@
 
   .label {
     font-weight: bold;
-    font-size: 0.625rem;
-    line-height: 0.875rem;
+    font-size: 0.75rem;
+    line-height: 1rem;
     margin-right: 0.25rem;
     text-transform: capitalize;
   }
 
   .entityIcon {
-    margin: 0 0.25rem;
+    margin: 0.0625rem 0.25rem 0;
     fill: @lib__colors__primary2;
   }
 
@@ -29,7 +29,5 @@
     white-space: normal;
     text-overflow: ellipsis;
     .breakWord();
-
-    line-height: 0.875rem;
   }
 }

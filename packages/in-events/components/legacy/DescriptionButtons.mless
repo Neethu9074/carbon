@@ -1,0 +1,10 @@
+@import '~in-themes/active.less';
+
+:local {
+  .buttons {
+    display: flex;
+    align-items: flex-end;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+  }
+}

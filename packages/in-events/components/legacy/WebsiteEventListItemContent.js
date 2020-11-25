@@ -7,6 +7,7 @@ import AnalyzeWebsiteEventButton from 'in-events/components/AnalyzeWebsiteEventB
 import WebsiteAlertConfigButton from 'in-events/components/WebsiteAlertConfigButton';
 import { getAlertConfigByIdAndTimestamp } from 'in-websites/api/websiteAlertConfig';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
+import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import { getBlueprintConfig } from 'in-websites/alerting/data/blueprintConfig';
 import AlertingChart from 'in-new-components/Alerting/Chart/AlertingChart';
 import { getChartTimeConfigByEvent } from 'in-events/timeframe';
@@ -43,12 +44,11 @@ export default connectTo(
     return (
       <>
         <ProblemDescription event={event} />
-        <WebsiteAlertConfigButton alertConfig={alertConfig} />
+        <DescriptionButtons>
+          <WebsiteAlertConfigButton alertConfig={alertConfig} />
+          <AnalyzeWebsiteEventButton event={event} alertConfig={alertConfig} />
+        </DescriptionButtons>
         <div className={locals.sectionWrapper}>
-          <div className={locals.analyzeButtonWrapper}>
-            <AnalyzeWebsiteEventButton event={event} alertConfig={alertConfig} />
-          </div>
-
           <AlertingChart alertConfig={alertConfig} viewConfig={chartViewConfig} blueprintConfig={blueprintConfig} />
         </div>
         <div className={locals.sectionWrapper}>

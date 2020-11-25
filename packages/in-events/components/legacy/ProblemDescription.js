@@ -13,7 +13,7 @@ export default function EventProblem({ event }) {
   const fixSuggestion = toHtml(event.getIn(['problem', 'fixSuggestion'], ''));
 
   return (
-    <DescriptionList>
+    <DescriptionList className={block}>
       <DescriptionItem title="Detail">
         <DangerousHtmlPresenter className={`${block}__suggestion`} html={fixSuggestion} />
       </DescriptionItem>

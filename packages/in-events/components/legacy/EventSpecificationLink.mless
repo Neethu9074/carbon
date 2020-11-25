@@ -1,8 +1,0 @@
-@import '~in-themes/active.less';
-
-:local {
-  .link {
-    display: block;
-    margin-top: 1rem;
-  }
-}

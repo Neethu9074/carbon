@@ -1,6 +1,13 @@
 @import '~in-themes/mixins.less';
 
 .in-event-view-event-problem {
+  /*
+   * Overrides the styles of or inside the DescriptionList we use.
+   */
+  .in-detail-pane__description-item {
+    font-size: 0.75rem;
+  }
+
   &__suggestion {
     .breakWord();
 

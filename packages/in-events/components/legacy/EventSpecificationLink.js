@@ -5,9 +5,8 @@ import {
   teamSettingsAlertingEventBuiltIn,
   teamSettingsAlertingEventCustom
 } from 'in-settings/navigation/paths';
-import Link from 'in-components/Link';
 
-import locals from './EventSpecificationLink.mless';
+import Button from 'in-new-components/Button';
 
 export default function EventSpecificationLink({ event }) {
   const eventSpecificationId = event.getIn(['metadata', 'eventSpecificationId']);
@@ -18,12 +17,12 @@ export default function EventSpecificationLink({ event }) {
   const isCustom = isCustomEvent(event);
 
   return (
-    <Link
-      className={locals.link}
+    <Button
+      kind="secondary"
       href$={getEntityIdView(getEventSpecificationSettingsBasePath(isCustom), eventSpecificationId)}
     >
       {`View ${isCustom ? 'Custom' : 'Built-in'} Event`}
-    </Link>
+    </Button>
   );
 }
 

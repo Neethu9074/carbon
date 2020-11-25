@@ -1,9 +1,0 @@
-@import '~in-themes/active.less';
-
-:local {
-  .buttonWrapper {
-    width: 100%;
-    display: flex;
-    justify-content: flex-end;
-  }
-}

@@ -8,8 +8,7 @@
 
   .label {
     font-weight: bold;
-    font-size: 0.625rem;
-    line-height: 0.875rem;
+    font-size: 0.75rem;
     margin-right: 0.25rem;
     text-transform: capitalize;
   }

@@ -1,16 +1,18 @@
 import React, { useState } from 'react';
 
-import AgentMonitoringIssueDescription from 'in-events/components/legacy/AgentMonitoringIssueDescription';
 import EntityWithParentInformation from 'in-events/components/EntityInformation/EntityWithParentInformation';
-import ApplicationEventContent from 'in-events/components/EventContent/ApplicationEventContent';
+import AgentMonitoringIssueDescription from 'in-events/components/legacy/AgentMonitoringIssueDescription';
 import HeightRestrictedView from 'in-components/layout/HeightRestrictedView/HeightRestrictedView';
+import ApplicationEventContent from 'in-events/components/EventContent/ApplicationEventContent';
 import OfflineEventDescription from 'in-events/components/legacy/OfflineEventDescription';
+import AnalyzeIssueCallsButton from 'in-events/components/legacy/AnalyzeIssueCallsButton';
 import WebsiteEventContent from 'in-events/components/EventContent/WebsiteEventContent';
 import EventSpecificationLink from 'in-events/components/legacy/EventSpecificationLink';
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import SubEntityInformation from 'in-events/components/legacy/SubEntityInformation';
 import { getTimeConfigFromEventForSnapshotRetrieval } from 'in-events/timeframe';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
+import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import ProcessTopList from 'in-forge/plugins/host/Dashboard/ProcessTopList';
 import PopulationChart from 'in-events/components/legacy/PopulationChart';
 import EventDetailsKPIs from 'in-events/components/EventDetailsKPIs';
@@ -89,7 +91,10 @@ function EventContent({ event }) {
             ) : (
               <ProblemDescription event={event} className="in-event-view-event-content" />
             )}
-            <EventSpecificationLink event={event} />
+            <DescriptionButtons>
+              <EventSpecificationLink event={event} />
+              <AnalyzeIssueCallsButton event={event} />
+            </DescriptionButtons>
           </Card>
         </Col>
       </Row>

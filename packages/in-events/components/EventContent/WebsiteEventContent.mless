@@ -1,12 +1,6 @@
 @import '~in-themes/active.less';
 
 :local {
-  .descriptionButtonGroup {
-    display: flex;
-    margin-top: 1rem;
-    margin-bottom: 0.5rem;
-  }
-
   .filterList {
     padding: 0 1rem;
   }

@@ -11,13 +11,10 @@ import {
 } from 'in-services/entityUtils';
 import { getTimeConfigFromEvent, getTimeConfigFromEventForSnapshotRetrieval } from 'in-events/timeframe';
 import getConfigByDataSource from 'in-analyze/AnalyzeView/dataSources';
-import { evaluateClassNames } from 'in-services/util/classnames';
 import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
 import { containsIgnoreCase } from 'in-services/util/string';
 import Button from 'in-new-components/Button';
 import connectTo from 'in-hoc/connectTo';
-
-import locals from './AnalyzeIssueCallsButton.mless';
 
 export default connectTo(
   ({ event }) => {
@@ -62,30 +59,24 @@ export default connectTo(
     const order = getAnalyzeOrder(event);
 
     return (
-      <div
-        className={evaluateClassNames({
-          [locals.buttonWrapper]: true,
-          [className]: className
+      <Button
+        className={className}
+        kind="primary"
+        icon="lib_application_call"
+        href$={getLinkToAnalyze({
+          applicationName,
+          serviceName,
+          endpointName,
+          dataSource,
+          filters,
+          groupByTag,
+          orderBy: order.by,
+          orderDirection: order.direction,
+          timeConfig: getTimeConfigFromEvent(event)
         })}
       >
-        <Button
-          kind="primary"
-          icon="lib_application_call"
-          href$={getLinkToAnalyze({
-            applicationName,
-            serviceName,
-            endpointName,
-            dataSource,
-            filters,
-            groupByTag,
-            orderBy: order.by,
-            orderDirection: order.direction,
-            timeConfig: getTimeConfigFromEvent(event)
-          })}
-        >
-          Analyze Calls
-        </Button>
-      </div>
+        Analyze Calls
+      </Button>
     );
   }
 );

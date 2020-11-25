@@ -17,6 +17,7 @@ import EntityInformation from 'in-events/components/EntityInformation/EntityInfo
 import AlertQueryBuilder from 'in-applications/alerting/components/AlertQueryBuilder';
 import { getBlueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
+import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import WithQB1orQB2 from 'in-new-components/Alerting/components/WithQB1orQB2';
 import AlertingChart from 'in-new-components/Alerting/Chart/AlertingChart';
 import { Col, Row } from 'in-new-components/layout/Grid';
@@ -68,10 +69,10 @@ export default connectTo(
               />
 
               <ProblemDescription event={event} className="in-event-view-event-content" />
-              <div className={locals.descriptionButtonGroup}>
+              <DescriptionButtons>
                 <ApplicationAlertConfigButton alertConfig={alertConfig} />
                 <AnalyzeApplicationEventButton event={event} alertConfig={alertConfig} />
-              </div>
+              </DescriptionButtons>
             </Card>
           </Col>
         </Row>

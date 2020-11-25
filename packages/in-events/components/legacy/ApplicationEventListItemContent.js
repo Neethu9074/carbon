@@ -8,6 +8,7 @@ import { getAlertConfigByIdAndTimestamp } from 'in-applications/api/applicationA
 import { alertingEventDetailsChartTimeframe } from 'in-new-components/Alerting/constants';
 import { getBlueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
+import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import AlertingChart from 'in-new-components/Alerting/Chart/AlertingChart';
 import { getChartTimeConfigByEvent } from 'in-events/timeframe';
 import { DescriptionItem } from 'in-components/DescriptionList';
@@ -41,12 +42,11 @@ export default connectTo(
     return (
       <>
         <ProblemDescription event={event} />
-        <ApplicationAlertConfigButton alertConfig={alertConfig} />
+        <DescriptionButtons>
+          <ApplicationAlertConfigButton alertConfig={alertConfig} />
+          <AnalyzeApplicationEventButton event={event} alertConfig={alertConfig} />
+        </DescriptionButtons>
         <div className={locals.sectionWrapper}>
-          <div className={locals.analyzeButtonWrapper}>
-            <AnalyzeApplicationEventButton event={event} alertConfig={alertConfig} />
-          </div>
-
           <AlertingChart alertConfig={alertConfig} viewConfig={chartViewConfig} blueprintConfig={blueprintConfig} />
         </div>
         <div className={locals.sectionWrapper}>
