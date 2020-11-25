@@ -4,12 +4,12 @@ import IndeterminateLoadingIndicator from 'in-new-components/LoadingIndicators/I
 
 import locals from './LoadingIndicator.mless';
 
-export default function LoadingIndicator() {
+export default function LoadingIndicator({ text = 'Loading tag catalog…' }) {
   return (
     <div className={locals.wrapper}>
       {/* Use the same vertical height as the active grouping indication */}
       <IndeterminateLoadingIndicator size={27} />
-      <span className={locals.text}>Loading tag catalog…</span>
+      <span className={locals.text}>{text}</span>
     </div>
   );
 }

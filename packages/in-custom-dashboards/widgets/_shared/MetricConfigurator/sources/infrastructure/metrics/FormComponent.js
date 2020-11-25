@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 
+import TypeAndMetricConfigurator, {
+  typeAndMetricSeparator
+} from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/TypeAndMetricConfigurator';
 import { invalidMarker } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/form';
 import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import QueryBuilder, { isQueryValid } from 'in-infrastructure/Explore/components/QueryBuilder';
@@ -13,7 +16,6 @@ import FormGroup from 'in-components/form/FormGroup';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import useObservable from 'in-hooks/useObservable';
 import Select from 'in-components/form/Select';
-import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
 
 export default function FormComponent({
@@ -25,10 +27,10 @@ export default function FormComponent({
   widgetPreview,
   timeShiftConfiguration
 }) {
+  const typeField = form.get('type');
   const metricField = form.get('metric');
   const aggregationField = form.get('aggregation');
   const tagFilterExpressionField = form.get('tagFilterExpression');
-  const typeField = form.get('type');
   const [formModelExpression, setFormModelExpression] = useState(() =>
     fromBackendModel(tagFilterExpressionField.value)
   );
@@ -74,68 +76,65 @@ export default function FormComponent({
       <Header>Customize the widget</Header>
 
       <Row>
-        <Col lg>
-          <Row>
-            <Col lg>
-              <FormGroup>
-                <Label htmlFor="metric-configurator-infra-type" hasError={!typeField.valid && typeField.touched}>
-                  Type
-                </Label>
-                <Input
-                  id="metric-configurator-infra-type"
-                  type="text"
-                  value={typeField.value}
-                  onChange={e => onChange(['type'], field => field.setValue(e.target.value).setTouched(true))}
-                  hasError={!typeField.valid && typeField.touched}
-                />
-                <TouchedMessages field={typeField} />
-              </FormGroup>
-            </Col>
-
-            <Col lg>
-              <FormGroup>
-                <Label htmlFor="metric-configurator-infra-metric">Metric</Label>
-                <Input
-                  id="metric-configurator-infra-metric"
-                  type="text"
-                  value={metricField.value}
-                  onChange={e => onChange(['metric'], field => field.setValue(e.target.value).setTouched(true))}
-                  hasError={!metricField.valid && metricField.touched}
-                />
-                <TouchedMessages field={metricField} />
-              </FormGroup>
-            </Col>
-
-            <Col lg>
-              <FormGroup>
-                <Label
-                  htmlFor="metric-configurator-infra-aggregation"
-                  hasError={!aggregationField.valid && aggregationField.touched}
-                >
-                  Aggregation
-                </Label>
-                <Select
-                  id="metric-configurator-infra-aggregation"
-                  value={aggregationField.value}
-                  onChange={e => onChange(['aggregation'], field => field.setValue(e.target.value).setTouched(true))}
-                >
-                  {!aggregationField.valid && <option value="">Please select an aggregation</option>}
-                  {aggregationField.valid && (
-                    <>
-                      <option value="">Please select</option>
-                      {Object.keys(aggregationLabels).map(aggregation => (
-                        <option key={aggregation} value={aggregation}>
-                          {aggregationLabels[aggregation]}
-                        </option>
-                      ))}
-                    </>
-                  )}
-                </Select>
-                <TouchedMessages field={aggregationField} />
-              </FormGroup>
-            </Col>
-          </Row>
-
+        <Col lg={8}>
+          <FormGroup>
+            <Label
+              htmlFor="metric-configurator-infra-metric"
+              hasError={(!typeField.valid && typeField.touched) || (!metricField.valid && metricField.touched)}
+            >
+              Metric
+            </Label>
+            <div>
+              <TypeAndMetricConfigurator
+                type={typeField.value}
+                metric={metricField.value}
+                tagFilterExpression={tagFilterExpressionField.value}
+                onChange={tag => {
+                  const [type, metric] = tag.groupByTag.split(typeAndMetricSeparator, 2);
+                  onChange([], form =>
+                    form
+                      .updateIn(['metric'], field => field.setValue(metric).setTouched(true))
+                      .updateIn(['type'], field => field.setValue(type).setTouched(true))
+                  );
+                }}
+                label="Select metric"
+                loadingLabel="Loading metrics"
+              />
+            </div>
+            <TouchedMessages field={metricField} />
+          </FormGroup>
+        </Col>
+        <Col lg={4}>
+          <FormGroup>
+            <Label
+              htmlFor="metric-configurator-infra-aggregation"
+              hasError={!aggregationField.valid && aggregationField.touched}
+            >
+              Aggregation
+            </Label>
+            <Select
+              id="metric-configurator-infra-aggregation"
+              value={aggregationField.value}
+              onChange={e => onChange(['aggregation'], field => field.setValue(e.target.value).setTouched(true))}
+            >
+              {!aggregationField.valid && <option value="">Please select an aggregation</option>}
+              {aggregationField.valid && (
+                <>
+                  <option value="">Please select</option>
+                  {Object.keys(aggregationLabels).map(aggregation => (
+                    <option key={aggregation} value={aggregation}>
+                      {aggregationLabels[aggregation]}
+                    </option>
+                  ))}
+                </>
+              )}
+            </Select>
+            <TouchedMessages field={aggregationField} />
+          </FormGroup>
+        </Col>
+      </Row>
+      <Row>
+        <Col lg={12}>
           {formatterFormGroup}
 
           {timeShiftConfiguration}

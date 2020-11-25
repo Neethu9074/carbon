@@ -18,14 +18,16 @@ export default function GroupingConfigurator({
   getTagCatalog,
   getSuggestions,
   onChange,
-  tracking
+  tracking,
+  label = 'Add group',
+  loadingLabel
 }) {
   const timeConfig = useTimeConfig();
   const tagCatalog = useObservable(getTagCatalogObservable, [getTagCatalog, timeConfig]);
   const autoFocus = useRef();
 
   if (!tagCatalog?.data) {
-    return <LoadingIndicator />;
+    return <LoadingIndicator text={loadingLabel} />;
   }
 
   return (
@@ -66,7 +68,7 @@ export default function GroupingConfigurator({
               refSetter={refSetter}
               onClick={toggle}
             >
-              Add group
+              {label}
             </Button>
           )
         }
@@ -98,7 +100,9 @@ GroupingConfigurator.propTypes = {
   getTagCatalog: rpt.func.isRequired,
   getSuggestions: rpt.func.isRequired,
   tagFilterExpression: rpt.object.isRequired,
-  tracking: rpt.shape(trackingProps)
+  tracking: rpt.shape(trackingProps),
+  label: rpt.string,
+  loadingLabel: rpt.string
 };
 
 function getTagCatalogObservable([getTagCatalog, timeConfig]) {
