@@ -115,7 +115,7 @@ function getTableData({ timeConfig, backendQueryModel, orderBy, cursor }) {
   return getLogs({
     pagination: {
       cursor,
-      retrievalSize: 10
+      retrievalSize: 20
     },
     order: orderBy,
     timeConfig: timeConfig,

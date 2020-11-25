@@ -42,20 +42,23 @@ export default function Logs(props) {
 
   const hasErrors = errors?.length > 0;
   const isLoading = progress?.loading;
+  const hasItems = items.length > 0;
 
   const list = (
     <>
       {hasErrors && <ErrorList errors={result.errors} />}
-      <Ul space="disabled">
-        {items.map(item => (
-          <Li key={item.log.id} size="compact" href={getRowHref(item.log)}>
-            <ColumnizedContent columnDefinitions={columnDefinitions} log={item.log} />
-          </Li>
-        ))}
-        {canLoadMore && <LoadMoreLi loadMore={loadMore} />}
-      </Ul>
+      {hasItems && (
+        <Ul space="disabled">
+          {items.map(item => (
+            <Li key={item.log.id} size="compact" href={getRowHref(item.log)}>
+              <ColumnizedContent columnDefinitions={columnDefinitions} log={item.log} />
+            </Li>
+          ))}
+          {canLoadMore && <LoadMoreLi loadMore={loadMore} />}
+        </Ul>
+      )}
       {isLoading && <LoadingList numSkeletonRows={3} />}
-      {!isLoading && items.length === 0 && <NoDataAvailable height={240} />}
+      {!isLoading && !hasItems && <NoDataAvailable height={240} />}
     </>
   );
 
@@ -85,7 +88,7 @@ function getTableData({ timeConfig, backendQueryModel, orderBy, cursor }) {
   return getLogs({
     pagination: {
       cursor,
-      retrievalSize: 10
+      retrievalSize: 20
     },
     order: orderBy,
     timeConfig: timeConfig,

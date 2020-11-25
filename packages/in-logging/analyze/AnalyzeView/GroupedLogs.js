@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import { type as TAG_FILTER_TYPE } from 'in-new-components/QueryBuilder/transformation/tagFilter';
 import { addTagFilters } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
+import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
 import QueryBuilderWorkspace from 'in-logging/analyze/AnalyzeView/QueryBuilderWorkspace';
 import LoadingList from 'in-new-components/lists/List/sharedComponents/LoadingList';
 import ErrorList from 'in-new-components/lists/List/sharedComponents/ErrorList';
@@ -11,21 +12,57 @@ import { ColumnizedContent, Ul, Li } from 'in-new-components/lists/List';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import Header from 'in-new-components/QueryBuilder/components/Header';
 import getLogGroups from 'in-logging/subscriptions/getLogGroups';
+import IconButton from 'in-new-components/IconButton/IconButton';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import Logs from 'in-logging/analyze/AnalyzeView/Logs';
+import { getTagCatalog } from 'in-logging/api/catalog';
+import Tooltip from 'in-components/Tooltip/Tooltip';
+import useObservable from 'in-hooks/useObservable';
+import SvgIcon from 'in-components/SvgIcon';
 
 const columnDefinitions = [
   {
+    id: 'icon',
+    width: '2rem',
+    getContent({ icon }) {
+      return <SvgIcon type={icon} />;
+    }
+  },
+  {
     id: 'label',
-    label: 'Label',
-    getContent(item) {
-      return item.label;
+    getContent({ label }) {
+      return label;
+    }
+  },
+  {
+    id: 'focus',
+    width: '3rem',
+    shrink: false,
+    getContent({ focusOnGroup }) {
+      return (
+        <Tooltip content="Focus on this group">
+          <IconButton type="lib_actions_filter" href={focusOnGroup()} />
+        </Tooltip>
+      );
     }
   }
 ];
 
 export default function GroupedLogs(props) {
-  const { timeConfig, groupBy, backendQueryModel, onChange, orderBy, getRowHref } = props;
+  const {
+    timeConfig,
+    groupBy,
+    backendQueryModel,
+    onChange,
+    orderBy,
+    getRowHref,
+    tagFilterExpression,
+    onChangeAndGetAsUrl
+  } = props;
+
+  const tagCatalog = useObservable(getTagCatalog(), []);
+  const iconMap = useMemo(() => createIconMap(tagCatalog), [tagCatalog]);
+
   const groupbyTag = groupBy.groupbyTag;
 
   const { items, errors, progress, canLoadMore, result, loadMore, totalHits } = useCursorPagination(
@@ -35,34 +72,50 @@ export default function GroupedLogs(props) {
 
   const hasErrors = errors?.length > 0;
   const isLoading = progress?.loading;
+  const hasItems = items.length > 0;
 
   return (
     <QueryBuilderWorkspace {...props}>
       <Header totalHits={totalHits} setOrder={orderBy => onChange({ orderBy })} hitName="Group" order={orderBy} />
       {hasErrors && <ErrorList errors={result.errors} />}
-      <Ul space="xsmall">
-        {items.map(({ group }) => (
-          <Li
-            key={group.label}
-            size="compact"
-            toggleContentOnRowClick
-            renderNestedContent={() => (
-              <Logs
-                {...props}
-                withQueryBuilder={false}
-                backendQueryModel={addTagsToBackendModel(backendQueryModel, groupbyTag, group.label)}
-                getRowHref={log => getRowHref({ logId: log.id, groupFilter: getGroupTag(groupbyTag, group.label) })}
-              />
-            )}
-          >
-            <ColumnizedContent columnDefinitions={columnDefinitions} label={group.label} />
-          </Li>
-        ))}
-        {canLoadMore && <LoadMoreLi loadMore={loadMore} />}
-      </Ul>
+      {hasItems && (
+        <Ul space="xsmall">
+          {items.map(({ group }) => {
+            const groupAsFilter = getGroupTag(groupbyTag, group.label);
+            return (
+              <Li
+                key={group.label}
+                toggleContentOnRowClick
+                renderNestedContent={() => (
+                  <Logs
+                    {...props}
+                    withQueryBuilder={false}
+                    backendQueryModel={addTagsToBackendModel(backendQueryModel, groupbyTag, group.label)}
+                    getRowHref={log => getRowHref({ logId: log.id, groupFilter: groupAsFilter })}
+                  />
+                )}
+              >
+                <ColumnizedContent
+                  columnDefinitions={columnDefinitions}
+                  label={group.label}
+                  icon={iconMap.get(groupbyTag)}
+                  focusOnGroup={() =>
+                    onChangeAndGetAsUrl({
+                      tagFilterExpression: joinExpressions({
+                        expressions: [tagFilterExpression, groupAsFilter]
+                      }),
+                      groupBy: null
+                    })
+                  }
+                />
+              </Li>
+            );
+          })}
+          {canLoadMore && <LoadMoreLi loadMore={loadMore} />}
+        </Ul>
+      )}
       {isLoading && <LoadingList numSkeletonRows={3} />}
-      {!isLoading && items.length === 0 && <NoDataAvailable height={240} />}
-      {!isLoading && items.length === 0 && <NoDataAvailable height={240} />}
+      {!isLoading && !hasItems && <NoDataAvailable height={240} />}
     </QueryBuilderWorkspace>
   );
 }
@@ -75,7 +128,7 @@ function getTableData({ timeConfig, backendQueryModel, groupbyTag, cursor }) {
   return getLogGroups({
     pagination: {
       cursor,
-      retrievalSize: 10
+      retrievalSize: 20
     },
     timeConfig: timeConfig,
     tagFilterExpression: backendQueryModel,
@@ -90,4 +143,25 @@ function getGroupTag(name, value) {
     name,
     value
   };
+}
+
+function createIconMap(tagCatalog) {
+  const icons = new Map();
+  const tagTree = tagCatalog?.data?.tagTree;
+  if (!tagTree) {
+    return icons;
+  }
+  for (const child of tagTree[0].children) {
+    addToMap(child, icons);
+  }
+  return icons;
+}
+
+function addToMap({ tagName, icon, children }, map) {
+  map.set(tagName, icon);
+  if (children) {
+    for (const child of children) {
+      addToMap(child, map);
+    }
+  }
 }
