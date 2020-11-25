@@ -103,10 +103,10 @@ export default React.forwardRef(function TagBasedPayloadConfiguration(
 });
 
 const tagTypeBadges = {
-  [BOOLEAN]: 'boolean []',
-  [NUMBER]: 'number []',
-  [STRING]: 'string []',
-  [STRING_LIST]: 'string []',
-  [STRING_SET]: 'string []',
-  [KEY_VALUE_PAIR]: 'string []'
+  [BOOLEAN]: 'boolean[]',
+  [NUMBER]: 'number[]',
+  [STRING]: 'string[]',
+  [STRING_LIST]: 'string[]',
+  [STRING_SET]: 'string[]',
+  [KEY_VALUE_PAIR]: 'string[]' // key-value tags require to provide a key, and the collected values are of type string
 };
