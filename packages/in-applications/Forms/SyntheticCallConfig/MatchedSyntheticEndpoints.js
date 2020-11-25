@@ -11,6 +11,7 @@ import {
   LoadMoreRow,
   HorizontalIndicatorRow
 } from 'in-components/tables/sharedComponents';
+import { OPERATOR_OR, createTagFilterExpression } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
 import { getTagFilterListForBackendSubscription } from 'in-analyze/applicationFilter';
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
@@ -47,7 +48,8 @@ export default function MatchedSyntheticEndpoints({ tagFilters }) {
             aggregation: 'DISTINCT_COUNT'
           }
         },
-        tagFilters: getTagFilterListForBackendSubscription(tagFilters),
+        tagFilterExpression: createTagFilterExpression(getTagFilterListForBackendSubscription(tagFilters), OPERATOR_OR),
+        includeSynthetic: true,
         group: {
           groupbyTag: 'endpoint.name'
         },
@@ -56,9 +58,9 @@ export default function MatchedSyntheticEndpoints({ tagFilters }) {
     [timeConfig, tagFilters]
   );
 
-  const isInitialLoading = progress.loading && items.length === 0;
-  const isLoading = progress.loading;
-  const hasErrors = errors.length > 0;
+  const isInitialLoading = progress?.loading && items.length === 0;
+  const isLoading = progress?.loading;
+  const hasErrors = errors?.length > 0;
 
   if (isInitialLoading) {
     return <LoadingIndicator text="Loading data" height={100} />;
