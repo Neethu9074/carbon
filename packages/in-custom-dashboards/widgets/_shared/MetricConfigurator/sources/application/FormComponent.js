@@ -19,7 +19,6 @@ import { compareIgnoreCase } from 'in-services/util/string';
 import { aggregationLabels } from 'in-stores/metric/metric';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import { pendingResult } from 'in-services/fixedObjects';
-import Header from 'in-components/form/Header/Header';
 import FormGroup from 'in-components/form/FormGroup';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import useObservable from 'in-hooks/useObservable';
@@ -121,9 +120,7 @@ export default function FormComponent({
         </>
       )}
 
-      <Header>Customize the widget</Header>
-
-      <Row>
+      <Row withoutTopMargin>
         <Col lg>
           <Row>
             <Col lg>

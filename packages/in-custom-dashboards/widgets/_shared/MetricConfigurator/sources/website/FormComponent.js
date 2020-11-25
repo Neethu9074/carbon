@@ -13,7 +13,6 @@ import TouchedMessages from 'in-components/form/TouchedMessages';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { aggregationLabels } from 'in-stores/metric/metric';
 import { Row, Col } from 'in-new-components/layout/Grid';
-import Header from 'in-components/form/Header/Header';
 import FormGroup from 'in-components/form/FormGroup';
 import { dataSourceTitles } from 'in-websites/tags';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -149,9 +148,7 @@ export default function FormComponent({
         </Row>
       )}
 
-      <Header>Customize the widget</Header>
-
-      <Row>
+      <Row withoutTopMargin>
         <Col lg>
           <Row>
             <Col lg>

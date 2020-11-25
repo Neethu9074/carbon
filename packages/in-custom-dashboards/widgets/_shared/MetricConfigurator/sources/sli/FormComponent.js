@@ -9,7 +9,6 @@ import { Row, Col } from 'in-new-components/layout/Grid';
 import FormGroup from 'in-components/form/FormGroup';
 import HelpText from 'in-components/form/HelpText';
 import Select from 'in-components/form/Select';
-import Header from 'in-components/form/Header';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import connectTo from 'in-hoc/connectTo';
@@ -67,7 +66,6 @@ function FormComponent({
           ))}
         </Col>
       </Row>
-      <Header>Customize the widget</Header>
 
       <Row>
         <Col lg>
@@ -134,7 +132,7 @@ function FormComponent({
         </Col>
       </Row>
 
-      <Row>
+      <Row withoutTopMargin>
         <Col lg>
           {formatterFormGroup}
           {timeShiftConfiguration}

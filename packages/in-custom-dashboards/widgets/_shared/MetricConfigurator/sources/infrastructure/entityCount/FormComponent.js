@@ -3,7 +3,6 @@ import React from 'react';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { aggregationLabels } from 'in-stores/metric/metric';
 import { Row, Col } from 'in-new-components/layout/Grid';
-import Header from 'in-components/form/Header/Header';
 import FormGroup from 'in-components/form/FormGroup';
 import Select from 'in-components/form/Select';
 import Input from 'in-components/form/Input';
@@ -51,9 +50,7 @@ export default function FormComponent({
         <TouchedMessages field={dynamicFocusQueryField} />
       </FormGroup>
 
-      <Header>Customize the widget</Header>
-
-      <Row>
+      <Row withoutTopMargin>
         <Col lg>
           <Row>
             <Col lg>

@@ -1,7 +1,6 @@
 import React from 'react';
 
 import TouchedMessages from 'in-components/form/TouchedMessages';
-import Header from 'in-components/form/Header/Header';
 import { timeShifts } from 'in-stores/time/shifting';
 import FormGroup from 'in-components/form/FormGroup';
 import Select from 'in-components/form/Select';
@@ -12,8 +11,6 @@ export default function TimeShiftingForm({ axisName, index, onChange, metricForm
 
   return (
     <>
-      <Header>Time Shift</Header>
-
       <FormGroup>
         <Label
           htmlFor={`metic-configurator-${index}-time-shift`}

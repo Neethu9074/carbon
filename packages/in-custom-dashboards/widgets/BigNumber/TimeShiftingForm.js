@@ -3,7 +3,6 @@ import React from 'react';
 import ComparisonColorSelect from 'in-custom-dashboards/widgets/BigNumber/ComparisonColorSelect';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { Row, Col } from 'in-new-components/layout/Grid';
-import Header from 'in-components/form/Header/Header';
 import { timeShifts } from 'in-stores/time/shifting';
 import FormGroup from 'in-components/form/FormGroup';
 import Select from 'in-components/form/Select';
@@ -15,9 +14,7 @@ export default function TimeShiftingForm({ form, onChange }) {
 
   return (
     <>
-      <Header>Time Shift</Header>
-
-      <Row>
+      <Row withoutTopMargin>
         <Col lg={6}>
           <FormGroup>
             <Label htmlFor="metic-configurator-time-shift" hasError={!timeShiftField.valid && timeShiftField.touched}>
