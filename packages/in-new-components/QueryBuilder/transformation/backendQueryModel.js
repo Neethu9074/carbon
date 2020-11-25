@@ -9,7 +9,7 @@ export const OPERATOR_NOT = 'NOT';
 
 export function toBackendQueryModel(formModel) {
   if (!formModel || formModel.length === 0) {
-    return createTagFilterExpression(OPERATOR_OR, []);
+    return createTagFilterExpression([], OPERATOR_OR);
   }
 
   // convert all tag filters in the form model to our desired structure
@@ -32,6 +32,14 @@ export function toBackendQueryModel(formModel) {
   result = transformLevelsToLogicalExpressions(result);
 
   return result;
+}
+
+export function createTagFilterExpression(elements = [], logicalOperator = OPERATOR_AND) {
+  return {
+    type: EXPRESSION,
+    logicalOperator,
+    elements
+  };
 }
 
 export function addTagFilters(backendQueryModel, tagFilters, logicalOperator = OPERATOR_AND) {
@@ -170,15 +178,8 @@ function transformLevelsToLogicalExpressions(elements) {
 
   const logicalOperator = elements.find(e => e.type === CONJUNCTION).logicalOperator;
   return createTagFilterExpression(
-    logicalOperator,
-    elements.filter(e => e.type !== CONJUNCTION).map(transformLevelsToLogicalExpressions)
+    elements.filter(e => e.type !== CONJUNCTION).map(transformLevelsToLogicalExpressions),
+    logicalOperator
   );
 }
 
-function createTagFilterExpression(logicalOperator, elements) {
-  return {
-    type: EXPRESSION,
-    logicalOperator,
-    elements
-  };
-}
