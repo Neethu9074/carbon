@@ -54,9 +54,10 @@ packages/in-subscription            @instana/eng-ui
 packages/in-test                    @instana/eng-ui
 packages/in-themes                  @instana/eng-ui
 packages/in-vsphere                 @instana/eng-infrastructure
-# No clear ownership: Fallback to eng-ui
-packages/in-waiting-for-deployment  @instana/eng-ui
+# Shared ownership
+# packages/in-waiting-for-deployment
 packages/in-websites                @instana/eng-eum @instana/eng-ui
+# No clear ownership: Fallback to eng-ui
 packages/instalog                   @instana/eng-ui
 packages/reactive-observables       @instana/eng-ui
 packages/roemitter                  @instana/eng-ui
