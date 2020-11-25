@@ -689,7 +689,7 @@ function AWSFargateContent({ agentKey, serverlessEndpoint }) {
 }
 
 function AWSLambdaContent({ agentKey, serverlessEndpoint }) {
-  const runtimeOptions = ['Go', 'Node.js 10.x or newer', 'Node.js 8.x', 'Python 2.7 and 3.x'];
+  const runtimeOptions = ['Go', 'Java', 'Node.js 10.x or newer', 'Node.js 8.x', 'Python 2.7 and 3.x'];
   const [selectedRuntime, setRuntime] = useState(runtimeOptions[0]);
   const awsRegionOptions = [
     'ap-northeast-1',
@@ -744,6 +744,124 @@ function AWSLambdaContent({ agentKey, serverlessEndpoint }) {
       </Fragment>
     );
   } else if (selectedRuntime === runtimeOptions[1]) {
+    const javaLayerVersion = '1';
+
+    steps = (
+      <Fragment>
+        <HelpBox title="Configuring Your AWS Lambda Function">
+          <Description
+            lines={[
+              'Note that the `java8` runtime is not supported. Currently only supported runtimes are `java8.a12` and `java11`.'
+            ]}
+          />
+          <Description
+            lines={[
+              'The preferred way to configure AWS Lambda functions based on Java for tracing is the Instana Lambda layer with AutoTrace.',
+              'There a number of ways to configure this:'
+            ]}
+          />
+          <Listing
+            items={[
+              'AWS Web Console',
+              'AWS Command Line Interface',
+              'AWS Serverless Application Model (AWS SAM)',
+              'Your preferred tool to manage AWS Lambda functions'
+            ]}
+          />
+        </HelpBox>
+        <Spacer />
+        <HelpBox title="AWS Web Console">
+          <TextWithLink
+            text="A detailed guide (including screenshots) on how to configure your Lambda function for AutoTrace using the AWS Web Console can be found in our "
+            linkText="documentation for Lambda AutoTrace"
+            href="https://www.instana.com/docs/ecosystem/aws-lambda/#autotrace-aws-lambdas"
+          />
+          <Description lines={['In short, the steps are as follows']} />
+          <GridRow>
+            <Col xs={4}>
+              Select your AWS region:
+              <Spacer />
+              <DropDown value={awsRegion} options={awsRegionOptions} onChange={setAwsRegion} />
+            </Col>
+          </GridRow>
+          <Spacer />
+          <Listing
+            items={[
+              <Fragment>
+                Add the Instana Lambda layer with the ARN
+                <Spacer />
+                <Script lines={[`arn:aws:lambda:${awsRegion}:410797082306:layer:instana-java:${javaLayerVersion}`]} />
+                (
+                <TextWithLink
+                  text="See"
+                  linkText="AWS docs"
+                  href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-functions.html"
+                />
+                )<Spacer />
+              </Fragment>,
+              <Fragment>
+                <Spacer />
+                Set the following environment variables in your Lambda function:
+                <Spacer />
+                <GridRow>
+                  <Col xs={4}>
+                    <Description lines={['INSTANA_ENDPOINT_URL']} />
+                    <Script lines={[serverlessEndpoint]} />
+                  </Col>
+                  <Col xs={4}>
+                    <Description lines={['INSTANA_AGENT_KEY']} />
+                    <Script lines={[agentKey]} />
+                  </Col>
+                  <Col xs={4}>
+                    <Description lines={['JAVA_TOOL_OPTIONS']} />
+                    <Script lines={['-javaagent:/opt/instana/standalone-collector.jar']} />
+                  </Col>
+                </GridRow>
+              </Fragment>
+            ]}
+          />
+        </HelpBox>
+
+        <Spacer />
+
+        <HelpBox title="AWS Command Line Interface">
+          <Description
+            lines={[
+              'To use the AWS Command Line Interface, please provide the following values and use a command similar to the one below:'
+            ]}
+          />
+          <GridRow>
+            <Col xs={6}>
+              Select your AWS region:
+              <Spacer />
+              <DropDown value={awsRegion} options={awsRegionOptions} onChange={setAwsRegion} />
+            </Col>
+            <Col xs={6}>
+              Lambda Function Name:
+              <Spacer />
+              <Input
+                id="lambda-function-name"
+                value={lambdaFunctionName}
+                onChange={setLambdaFunctionName}
+                placeholder="The name of your Lambda function"
+              />
+            </Col>
+          </GridRow>
+          <Bash
+            lines={[
+              '# Do not copy and paste this verbatim! It will overwrite any previously defined collection of layers and environment variables.',
+              '# Instead, use this as a template to define your own aws cli command.',
+              `aws --region ${awsRegion} lambda update-function-configuration \\`,
+              `   --function-name ${lambdaFunctionName} \\`,
+              `   --layers arn:aws:lambda:${awsRegion}:410797082306:layer:instana-nodejs:${javaLayerVersion} \\`,
+              '   --environment "Variables={JAVA_TOOL_OPTIONS=-javaagent:/opt/instana/standalone-collector.jar, ',
+              `INSTANA_ENDPOINT_URL=${serverlessEndpoint}, INSTANA_AGENT_KEY=${agentKey} }"`
+            ]}
+          />
+        </HelpBox>
+      </Fragment>
+    );
+  } else if (selectedRuntime === runtimeOptions[2]) {
     const nodejsLayerVersion = '38';
 
     steps = (
@@ -764,6 +882,7 @@ function AWSLambdaContent({ agentKey, serverlessEndpoint }) {
             ]}
           />
         </HelpBox>
+        <Spacer />
         <HelpBox title="AWS Web Console">
           <TextWithLink
             text="A detailed guide (including screenshots) on how to configure your Lambda function for AutoTrace using the AWS Web Console can be found in our "
@@ -803,7 +922,7 @@ function AWSLambdaContent({ agentKey, serverlessEndpoint }) {
                   linkText="AWS docs"
                   href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-functions.html"
                 />
-                )<Spacer />
+                )
               </Fragment>,
               <Fragment>
                 <Spacer />
@@ -848,50 +967,50 @@ function AWSLambdaContent({ agentKey, serverlessEndpoint }) {
               'To use the AWS Command Line Interface, please provide the following values and use a command similar to the one below:'
             ]}
           />
+          <GridRow>
+            <Col xs={3}>
+              Select your AWS region:
+              <Spacer />
+              <DropDown value={awsRegion} options={awsRegionOptions} onChange={setAwsRegion} />
+            </Col>
+            <Col xs={3}>
+              Lambda Function Name:
+              <Spacer />
+              <Input
+                id="lambda-function-name"
+                value={lambdaFunctionName}
+                onChange={setLambdaFunctionName}
+                placeholder="The name of your Lambda function"
+              />
+            </Col>
+            <Col xs={3}>
+              Current Lambda Handler (optional):
+              <Spacer />
+              <Input
+                id="current-lambda-function-handler"
+                value={lambdaHandler}
+                onChange={setHandler}
+                placeholder="Your Current Lambda Handler"
+              />
+            </Col>
+          </GridRow>
+          <Bash
+            lines={[
+              '# Do not copy and paste this verbatim! It will overwrite any previously defined collection of layers and environment variables.',
+              '# Instead, use this as a template to define your own aws cli command.',
+              `aws --region ${awsRegion} lambda update-function-configuration \\`,
+              `   --function-name ${lambdaFunctionName} \\`,
+              `   --layers arn:aws:lambda:${awsRegion}:410797082306:layer:instana-nodejs:${nodejsLayerVersion} \\`,
+              '   --handler instana-aws-lambda-auto-wrap.handler',
+              `   --environment "Variables={${
+                lambdaHandler === 'index.handler' ? '' : `LAMBDA_HANLDER=${lambdaHandler}, `
+              }INSTANA_ENDPOINT_URL=${serverlessEndpoint}, INSTANA_AGENT_KEY=${agentKey} }"`
+            ]}
+          />
         </HelpBox>
-        <GridRow>
-          <Col xs={3}>
-            Select your AWS region:
-            <Spacer />
-            <DropDown value={awsRegion} options={awsRegionOptions} onChange={setAwsRegion} />
-          </Col>
-          <Col xs={3}>
-            Lambda Function Name:
-            <Spacer />
-            <Input
-              id="lambda-function-name"
-              value={lambdaFunctionName}
-              onChange={setLambdaFunctionName}
-              placeholder="The name of your Lambda function"
-            />
-          </Col>
-          <Col xs={3}>
-            Current Lambda Handler (optional):
-            <Spacer />
-            <Input
-              id="current-lambda-function-handler"
-              value={lambdaHandler}
-              onChange={setHandler}
-              placeholder="Your Current Lambda Handler"
-            />
-          </Col>
-        </GridRow>
-        <Bash
-          lines={[
-            '# Do not copy and paste this verbatim! It will overwrite any previously defined collection of layers and environment variables.',
-            '# Instead, use this as a template to define your own aws cli command.',
-            `aws --region ${awsRegion} lambda update-function-configuration \\`,
-            `   --function-name ${lambdaFunctionName} \\`,
-            `   --layers arn:aws:lambda:${awsRegion}:410797082306:layer:instana-nodejs:${nodejsLayerVersion} \\`,
-            '   --handler instana-aws-lambda-auto-wrap.handler',
-            `   --environment "Variables={${
-              lambdaHandler === 'index.handler' ? '' : `LAMBDA_HANLDER=${lambdaHandler}, `
-            }INSTANA_ENDPOINT_URL=${serverlessEndpoint}, INSTANA_AGENT_KEY=${agentKey} }"`
-          ]}
-        />
       </Fragment>
     );
-  } else if (selectedRuntime === runtimeOptions[2]) {
+  } else if (selectedRuntime === runtimeOptions[3]) {
     steps = (
       <TextWithLink
         text="The preferred way to configure AWS Lambda functions based on Node.js 8.x is to use the "
@@ -899,7 +1018,7 @@ function AWSLambdaContent({ agentKey, serverlessEndpoint }) {
         href="https://www.instana.com/docs/ecosystem/aws-lambda#manual-wrapping"
       />
     );
-  } else if (selectedRuntime === runtimeOptions[3]) {
+  } else if (selectedRuntime === runtimeOptions[4]) {
     const pythonLayerVersion = '12';
 
     steps = (
@@ -920,6 +1039,9 @@ function AWSLambdaContent({ agentKey, serverlessEndpoint }) {
             ]}
           />
         </HelpBox>
+
+        <Spacer />
+
         <HelpBox title="AWS Web Console">
           <TextWithLink
             text="A detailed guide (including screenshots) on how to configure your Lambda function for AutoTrace using the AWS Web Console can be found in our "
@@ -930,10 +1052,12 @@ function AWSLambdaContent({ agentKey, serverlessEndpoint }) {
           <GridRow>
             <Col xs={6}>
               Select your AWS region:&nbsp;
+              <Spacer />
               <DropDown value={awsRegion} options={awsRegionOptions} onChange={setAwsRegion} />
             </Col>
             <Col xs={6}>
               Current Lambda Handler:&nbsp;
+              <Spacer />
               <Input
                 id="lambda-handler"
                 value={lambdaHandler}
@@ -942,10 +1066,12 @@ function AWSLambdaContent({ agentKey, serverlessEndpoint }) {
               />
             </Col>
           </GridRow>
+          <Spacer />
           <Listing
             items={[
               <Fragment>
                 Add the Instana Lambda layer with the ARN
+                <Spacer />
                 <Script
                   lines={[`arn:aws:lambda:${awsRegion}:410797082306:layer:instana-python:${pythonLayerVersion}`]}
                 />
@@ -958,7 +1084,9 @@ function AWSLambdaContent({ agentKey, serverlessEndpoint }) {
                 )
               </Fragment>,
               <Fragment>
+                <Spacer />
                 Set Instana auto-wrap handler as the handler for your Lambda function.
+                <Spacer />
                 <Script lines={['instana.lambda_handler']} />(
                 <TextWithLink
                   text="See"
@@ -968,7 +1096,9 @@ function AWSLambdaContent({ agentKey, serverlessEndpoint }) {
                 )
               </Fragment>,
               <Fragment>
+                <Spacer />
                 Set the following environment variables in your Lambda function:
+                <Spacer />
                 <GridRow>
                   <Col xs={4}>
                     <Description lines={['INSTANA_ENDPOINT_URL']} />
@@ -996,44 +1126,44 @@ function AWSLambdaContent({ agentKey, serverlessEndpoint }) {
               'To use the AWS Command Line Interface, please provide the following values and use a command similar to the one below:'
             ]}
           />
+          <GridRow>
+            <Col xs={3}>
+              Select your AWS region:
+              <DropDown value={awsRegion} options={awsRegionOptions} onChange={setAwsRegion} />
+            </Col>
+            <Col xs={3}>
+              Lambda Function Name:
+              <Input
+                id="lambda-function-name"
+                value={lambdaFunctionName}
+                onChange={setLambdaFunctionName}
+                placeholder="The name of your Lambda function"
+              />
+            </Col>
+            <Col xs={3}>
+              Current Lambda Handler (optional):
+              <Input
+                id="current-lambda-function-handler"
+                value={lambdaHandler}
+                onChange={setHandler}
+                placeholder="Your Current Lambda Handler"
+              />
+            </Col>
+          </GridRow>
+          <Bash
+            lines={[
+              '# Do not copy and paste this verbatim! It will overwrite any previously defined collection of layers and environment variables.',
+              '# Instead, use this as a template to define your own aws cli command.',
+              `aws --region ${awsRegion} lambda update-function-configuration \\`,
+              `   --function-name ${lambdaFunctionName} \\`,
+              `   --layers arn:aws:lambda:${awsRegion}:410797082306:layer:instana-python:${pythonLayerVersion} \\`,
+              '   --handler instana.lambda_handler',
+              `   --environment "Variables={${
+                lambdaHandler === 'index.handler' ? '' : `LAMBDA_HANLDER=${lambdaHandler}, `
+              }INSTANA_ENDPOINT_URL=${serverlessEndpoint}, INSTANA_AGENT_KEY=${agentKey} }"`
+            ]}
+          />
         </HelpBox>
-        <GridRow>
-          <Col xs={3}>
-            Select your AWS region:
-            <DropDown value={awsRegion} options={awsRegionOptions} onChange={setAwsRegion} />
-          </Col>
-          <Col xs={3}>
-            Lambda Function Name:
-            <Input
-              id="lambda-function-name"
-              value={lambdaFunctionName}
-              onChange={setLambdaFunctionName}
-              placeholder="The name of your Lambda function"
-            />
-          </Col>
-          <Col xs={3}>
-            Current Lambda Handler (optional):
-            <Input
-              id="current-lambda-function-handler"
-              value={lambdaHandler}
-              onChange={setHandler}
-              placeholder="Your Current Lambda Handler"
-            />
-          </Col>
-        </GridRow>
-        <Bash
-          lines={[
-            '# Do not copy and paste this verbatim! It will overwrite any previously defined collection of layers and environment variables.',
-            '# Instead, use this as a template to define your own aws cli command.',
-            `aws --region ${awsRegion} lambda update-function-configuration \\`,
-            `   --function-name ${lambdaFunctionName} \\`,
-            `   --layers arn:aws:lambda:${awsRegion}:410797082306:layer:instana-python:${pythonLayerVersion} \\`,
-            '   --handler instana.lambda_handler',
-            `   --environment "Variables={${
-              lambdaHandler === 'index.handler' ? '' : `LAMBDA_HANLDER=${lambdaHandler}, `
-            }INSTANA_ENDPOINT_URL=${serverlessEndpoint}, INSTANA_AGENT_KEY=${agentKey} }"`
-          ]}
-        />
       </Fragment>
     );
   }
