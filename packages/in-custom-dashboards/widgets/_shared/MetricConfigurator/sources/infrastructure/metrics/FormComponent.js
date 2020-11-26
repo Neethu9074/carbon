@@ -87,7 +87,7 @@ export default function FormComponent({
                 metric={metricField.value}
                 tagFilterExpression={tagFilterExpressionField.value}
                 onChange={tag => {
-                  const [type, metric] = tag.groupByTag.split(typeAndMetricSeparator, 2);
+                  const [type, metric] = tag.groupbyTag.split(typeAndMetricSeparator, 2);
                   onChange([], form =>
                     form
                       .updateIn(['metric'], field => field.setValue(metric).setTouched(true))
