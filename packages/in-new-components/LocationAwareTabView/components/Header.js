@@ -27,7 +27,9 @@ export default function Header({ tabs, result, HeaderComponent, location, props,
             ))}
           </SecondLevelNavigation>
         )}
-        {result && <HorizontalIndicator progress={result.progress} />}
+      </DashboardHeaderModule>
+      <DashboardHeaderModule className={locals.loadingModule} withTopBorder={false} theme={themes.light}>
+        {result && <HorizontalIndicator className={locals.loadingIndicator} progress={result.progress} />}
       </DashboardHeaderModule>
     </div>
   );

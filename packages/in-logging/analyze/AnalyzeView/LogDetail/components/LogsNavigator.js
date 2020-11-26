@@ -51,7 +51,7 @@ export default function LogsNavigator({
               const isSelected = item.log.id === selectedlogId;
               return (
                 <Tr key={item.log.id} size="compact" active={isSelected}>
-                  <Td active={isSelected} colSpan={3}>
+                  <Td active={isSelected} colSpan={1}>
                     <ListItemPresenter
                       item={item}
                       active={isSelected}
@@ -64,10 +64,10 @@ export default function LogsNavigator({
               );
             })}
 
-            <HorizontalIndicatorRow cols={3} progress={progress} />
-            <ErrorRows cols={3} errors={errors} size="compact" />
-            {items.length === 0 && progress.loading && <LoadingSkeletonRows cols={3} />}
-            {canLoadMore && <LoadMoreRow loadMore={loadMore} size="compact" cols={3} />}
+            <HorizontalIndicatorRow cols={1} progress={progress} />
+            <ErrorRows cols={1} errors={errors} size="compact" />
+            {items.length === 0 && progress.loading && <LoadingSkeletonRows cols={1} />}
+            {canLoadMore && <LoadMoreRow loadMore={loadMore} size="compact" cols={1} />}
           </Tbody>
         </Table>
       )}
