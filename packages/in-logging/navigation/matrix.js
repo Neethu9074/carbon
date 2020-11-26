@@ -2,7 +2,7 @@ import { buildJsonSerializer, buildJsonParser } from 'in-stores/navigation/matri
 import { emptyArray, emptyObject } from 'in-services/fixedObjects';
 import { analyzePath } from 'in-logging/navigation/paths';
 
-export const dataSource = 'logs';
+export const dataSource = 'dataSource';
 
 export const tagFilterExpressionMatrixParameter = {
   path: analyzePath,
