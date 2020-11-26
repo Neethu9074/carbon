@@ -51,7 +51,7 @@ export default function RoleForm({ form, onChange, roleId }) {
           onChange={onChange}
           name="canViewLogs"
           label={permissions['canViewLogs']}
-          helpText="Restrict access to logs once role based access control is enabled."
+          helpText="Enable access to logs."
         />
         <Permission
           form={form}
@@ -59,7 +59,7 @@ export default function RoleForm({ form, onChange, roleId }) {
           onChange={onChange}
           name="canViewTraceDetails"
           label={permissions['canViewTraceDetails']}
-          helpText="Restrict access to trace details once role based access control is enabled."
+          helpText="Enable access to trace details."
         />
       </FormGroup>
 

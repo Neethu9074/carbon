@@ -9,6 +9,7 @@ import Groups from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/Grou
 import Areas from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/Areas';
 import { teamSettingsAccessControlUsers } from 'in-settings/navigation/paths';
 import { getUsersAsResultObservable, setRole } from 'in-api/users';
+import { groupPermissionsEnabled } from 'in-services/featureFlags';
 import { isLoading, hasError } from 'in-services/util/result';
 import ApiItemView from 'in-settings/components/ApiItemView';
 import Skeleton from 'in-new-components/Loading/Skeleton';
@@ -94,10 +95,12 @@ function renderUser(props) {
       <Row>
         <Col lg>
           <h2 className={locals.title}>Permissions</h2>
-          <FormGroup className={locals.roles}>
-            <Label>Role</Label>
-            <RolesDropDown {...props} user={user} />
-          </FormGroup>
+          {!groupPermissionsEnabled && (
+            <FormGroup className={locals.roles}>
+              <Label>Role</Label>
+              <RolesDropDown {...props} user={user} />
+            </FormGroup>
+          )}
           <Permissions roles={roles} roleId={form.get('roleId').value} />
         </Col>
       </Row>

@@ -30,5 +30,6 @@ module.exports = {
   newAnalyticsEnabled: true,
   persistentVolumeSupportEnabled: true,
   smartAlertsQB2Enabled: false,
-  qb2InCustomDashboardsEnabled: true
+  qb2InCustomDashboardsEnabled: true,
+  groupPermissionsEnabled: true
 };

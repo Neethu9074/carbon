@@ -149,5 +149,10 @@ module.exports = exports = [
     uiClientKey: 'qb2InCustomDashboardsEnabled',
     instanaCtlKey: 'feature.qb2.custom.dashboards.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'groupPermissionsEnabled',
+    instanaCtlKey: 'feature.group.permissions.enabled',
+    defaultValue: false
   }
 ];

@@ -19,9 +19,9 @@ function BackToParentPathLink({ parentPath, parentViewName }) {
     return <div />;
   }
   return (
-    <div className={locals.backNavigationWrapper}>
+    <Link className={locals.backNavigationWrapper} href$={getView(parentPath)}>
       <SvgIcon className={locals.icon} type="lib_arrow_left" />
-      <Link href$={getView(parentPath)}>{`Back to ${parentViewName}`}</Link>
-    </div>
+      {`Back to ${parentViewName}`}
+    </Link>
   );
 }

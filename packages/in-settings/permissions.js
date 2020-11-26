@@ -22,8 +22,8 @@ export default {
   canConfigureServiceLevelIndicators: 'Configuration of service level indicators',
   canCreatePublicCustomDashboards: 'Creation of public custom dashboards',
   restrictedAccess: 'Limit access by group access scopes',
-  canViewLogs: 'Restrict access of logs in the trace detail view',
-  canViewTraceDetails: 'Restrict access of trace details in the trace detail view',
+  canViewLogs: 'Access of logs in the trace detail view',
+  canViewTraceDetails: 'Access of trace details in the trace detail view',
   canConfigureSessionSettings: 'Access to token and session timeout settings',
   canViewAccountAndBillingInformation: 'Access to account and billing information'
 };

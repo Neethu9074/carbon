@@ -4,16 +4,19 @@ import React from 'react';
 
 import { getGroupAsResultObservable, saveGroup, createNewGroup } from 'in-settings/tabs/TeamSettings/api/groups';
 import { types } from 'in-settings/tabs/TeamSettings/pages/accessControl/Areas/permissionSetResultFilter';
+import { productAreaPermissions, productPermissions, productRestrictions } from 'in-stores/permission';
 import LoadingGroup from 'in-settings/tabs/TeamSettings/pages/accessControl/Groups/LoadingGroup';
 import Areas from 'in-settings/tabs/TeamSettings/pages/accessControl/Groups/components/Areas';
 import { success, neutral, error as errorType } from 'in-new-components/Message/types';
 import Users from 'in-settings/tabs/TeamSettings/pages/accessControl/Groups/Users';
+import { toInteractiveElement } from 'in-new-components/interactiveCustomElement';
 import { teamSettingsAccessControlGroups } from 'in-settings/navigation/paths';
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
 import { success as successResult } from 'in-services/util/result';
+import { groupPermissionsEnabled } from 'in-services/featureFlags';
 import TouchedMessages from 'in-components/form/TouchedMessages';
-import { productAreaPermissions } from 'in-stores/permission';
 import ApiItemView from 'in-settings/components/ApiItemView';
+import { ownerRoleId, defaultRoleId } from 'in-stores/user';
 import { savePermissionSet } from 'in-api/permissionSets';
 import FormGroup from 'in-settings/components/FormGroup';
 import { Row, Col } from 'in-new-components/layout/Grid';
@@ -22,6 +25,7 @@ import Title from 'in-components/Title/Title';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import SvgIcon from 'in-components/SvgIcon';
+import Pill from 'in-new-components/Pill';
 
 import locals from './Group.mless';
 
@@ -52,7 +56,9 @@ function renderLoadingState() {
 }
 
 function renderGroup(props) {
-  const { setForm, form } = props;
+  const { setForm, form, group } = props;
+  const isOwnerGroup = group.id === ownerRoleId;
+  const isSystemGroup = isOwnerGroup || group.id === defaultRoleId;
 
   return (
     <>
@@ -79,6 +85,7 @@ function renderGroup(props) {
                   setForm(form.updateIn(['name'], f => f.setValue(e.target.value).setTouched(true)));
                 }}
                 hasError={!field.valid && field.touched}
+                disabled={isSystemGroup}
                 autoFocus
               />
               <TouchedMessages field={field} />
@@ -99,6 +106,7 @@ function renderGroup(props) {
               setForm(form.updateIn(['members'], f => f.setValue(members).setTouched(true)));
             }}
             addUsers={users => addUsers(users, form, setForm)}
+            noDelete={isOwnerGroup && form.get('members').value.length <= 2}
           />
         </Col>
         {form.get('permissionSet').map(field => (
@@ -108,10 +116,34 @@ function renderGroup(props) {
               update={(ids, dfq) => update(ids, dfq, form, setForm)}
               removeId={(id, propertyName) => removeId(id, propertyName, form, setForm)}
               removeDfq={() => removeDfq(form, setForm)}
+              readOnly={isOwnerGroup}
             />
           </Col>
         ))}
       </Row>
+
+      {groupPermissionsEnabled && (
+        <Row>
+          <Col lg>
+            {form.get('permissionSet').map(field => (
+              <FormGroup>
+                <Label>Access</Label>
+                {productRestrictions.map(({ value, label, help }) => (
+                  <HorizontalFormGroup key={label} helpText={help}>
+                    <Label htmlFor={`permission-${value}`}>{label}</Label>
+                    <Toggle
+                      id={`permission-${value}`}
+                      checked={field.value.permissions.includes(value)}
+                      onChange={() => tooglePermission(form, setForm, value)}
+                      disabled={isOwnerGroup}
+                    />
+                  </HorizontalFormGroup>
+                ))}
+              </FormGroup>
+            ))}
+          </Col>
+        </Row>
+      )}
 
       <Row>
         <Col lg>
@@ -125,6 +157,7 @@ function renderGroup(props) {
                     id={`permission-${value}`}
                     checked={field.value.permissions.includes(value)}
                     onChange={() => tooglePermission(form, setForm, value)}
+                    disabled={isOwnerGroup}
                   />
                 </HorizontalFormGroup>
               ))}
@@ -132,6 +165,37 @@ function renderGroup(props) {
           ))}
         </Col>
       </Row>
+
+      {groupPermissionsEnabled && (
+        <Row>
+          <Col lg>
+            {form.get('permissionSet').map(field => (
+              <FormGroup>
+                <Label>Permissions</Label>
+                <div className={locals.grid}>
+                  {productPermissions.map(({ value, label }) => {
+                    const pillProps = isOwnerGroup
+                      ? {}
+                      : toInteractiveElement({
+                          onDefaultInteraction: () => tooglePermission(form, setForm, value)
+                        });
+                    return (
+                      <Pill
+                        {...pillProps}
+                        className={isOwnerGroup ? null : locals.pointer}
+                        key={value}
+                        color={field.value.permissions.includes(value) ? '#00B3B3' : '#D4D8DB'}
+                      >
+                        {label}
+                      </Pill>
+                    );
+                  })}
+                </div>
+              </FormGroup>
+            ))}
+          </Col>
+        </Row>
+      )}
     </>
   );
 }

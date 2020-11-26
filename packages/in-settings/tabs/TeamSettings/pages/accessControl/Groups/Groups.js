@@ -8,6 +8,7 @@ import {
 import { getGroupsAsResultObservable, deleteGroup } from 'in-settings/tabs/TeamSettings/api/groups';
 import Delete from 'in-settings/components/ApiList/sharedComponents/Delete';
 import { ColumnizedContent, Ul, Li } from 'in-new-components/lists/List';
+import { ownerRoleId, defaultRoleId } from 'in-stores/user';
 import createApiList from 'in-settings/components/ApiList';
 import { getView } from 'in-stores/navigation/navigation';
 import KeyValue from 'in-new-components/lists/KeyValue';
@@ -44,6 +45,7 @@ function ListRenderer({ items, deleteItem, currentDeletingItemIds }) {
             group={group}
             currentDeletingItemIds={currentDeletingItemIds}
             deleteItem={deleteItem}
+            isDisabled={group.id === ownerRoleId || group.id === defaultRoleId}
           />
         </Li>
       ))}
@@ -73,9 +75,10 @@ const columnDefinitions = [
   },
   {
     width: '2rem',
-    getContent({ group, deleteItem, currentDeletingItemIds }) {
+    getContent({ group, deleteItem, currentDeletingItemIds, isDisabled }) {
       return (
         <Delete
+          disabled={isDisabled}
           itemName={group.name}
           doDelete={() => deleteItem(group.id)}
           isDeleting={currentDeletingItemIds.has(group.id)}

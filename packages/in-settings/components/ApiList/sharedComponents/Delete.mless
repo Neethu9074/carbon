@@ -8,4 +8,9 @@
   .icon {
     fill: @lib__colors__primary2;
   }
+
+  .disabled {
+    opacity: 0.6;
+    cursor: default;
+  }
 }

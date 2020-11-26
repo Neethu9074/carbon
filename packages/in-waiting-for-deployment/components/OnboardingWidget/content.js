@@ -1390,7 +1390,7 @@ function K8sGoogleKubernetesEngineContent({ agentKey, agentEndpoint, agentEndpoi
 }
 
 function GoogleCloudRunContent({ agentKey, serverlessEndpoint }) {
-  const installationMethods = [ 'Docker build', 'Cloud Native Buildpack' ];
+  const installationMethods = ['Docker build', 'Cloud Native Buildpack'];
   const runtimeOptions = ['.Net Core', 'Go', 'Java', 'Node.js'];
   const baseImageOptions = ['Linux (glibc-based)', 'Alpine Linux (musl-based)'];
   const [baseImageName, setBaseImageName] = useState(baseImageOptions[0]);
@@ -1411,7 +1411,11 @@ function GoogleCloudRunContent({ agentKey, serverlessEndpoint }) {
           href="https://github.com/GoogleCloudPlatform/buildpacks"
         />
         <Spacer />
-        <Description lines={['The Instana Google Buildpack adds the Instana in-process collectors for Cloud Run to the Docker images of your .NET Core, Node.js and Java applications:']} />
+        <Description
+          lines={[
+            'The Instana Google Buildpack adds the Instana in-process collectors for Cloud Run to the Docker images of your .NET Core, Node.js and Java applications:'
+          ]}
+        />
         <Spacer />
         <Bash
           lines={[
@@ -1457,7 +1461,11 @@ function GoogleCloudRunContent({ agentKey, serverlessEndpoint }) {
         <Spacer />
         <Description lines={['Set the following environment variables on the Cloud Run Service Definition:']} />
         <Spacer />
-        <Description lines={['Your application directory in the container (you usually set this as the WORKDIR directory in the Dockerfile):']} />
+        <Description
+          lines={[
+            'Your application directory in the container (you usually set this as the WORKDIR directory in the Dockerfile):'
+          ]}
+        />
         <Spacer />
         <Input id="app-dir" value={appDirName} onChange={setAppDirName} placeholder="Application directory" />
         <GridRow>
@@ -1602,9 +1610,7 @@ function GoogleCloudRunContent({ agentKey, serverlessEndpoint }) {
       </Fragment>
     );
   } else {
-    runtimeSelection = (
-      <Fragment />
-    );
+    runtimeSelection = <Fragment />;
   }
 
   return (

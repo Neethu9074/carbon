@@ -10,7 +10,19 @@ import LocallyChangedTheme from 'in-themes/LocallyChangedTheme';
 import { find } from 'in-services/arrayUtils';
 import { light } from 'in-themes/themes';
 
-export default function Users({ members, addUsers, removeUser }) {
+export default function Users({ members, addUsers, removeUser, noDelete = false }) {
+  const columnDefinition = [iconColumn, labelColumn, roleColumn];
+
+  const columnDefinitionWithDelete = [
+    ...columnDefinition,
+    {
+      width: '2rem',
+      getContent({ userId }) {
+        return <Delete skipDialog doDelete={() => removeUser(userId)} />;
+      }
+    }
+  ];
+
   return (
     <LocallyChangedTheme theme={light}>
       <UserList
@@ -18,17 +30,7 @@ export default function Users({ members, addUsers, removeUser }) {
         filterFunction={user => find(members, member => member.userId === user.id)}
         renderAdditionalHeaderContent={renderAdditionalHeaderContent}
         getUserLink={user => getEntityIdView(teamSettingsAccessControlUsers, user.id)}
-        columnDefinitions={[
-          iconColumn,
-          labelColumn,
-          roleColumn,
-          {
-            width: '2rem',
-            getContent({ userId }) {
-              return <Delete skipDialog doDelete={() => removeUser(userId)} />;
-            }
-          }
-        ]}
+        columnDefinitions={noDelete ? columnDefinition : columnDefinitionWithDelete}
         members={members}
         addUsers={addUsers}
         pageSize={10}

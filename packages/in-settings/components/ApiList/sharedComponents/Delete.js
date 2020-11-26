@@ -2,20 +2,23 @@ import React from 'react';
 
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-new-components/Dialog/ConfirmationDialog';
+import { evaluateClassNames } from 'in-services/util/classnames';
 import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './Delete.mless';
 
-export default function Delete({ dialogMessage, itemName, confirmLabel, doDelete, isDeleting, skipDialog = false }) {
+export default function Delete({ dialogMessage, itemName, confirmLabel, doDelete, isDeleting, skipDialog = false, disabled = false }) {
   if (isDeleting) {
     return <SvgIcon className={locals.loadingIcon} type="lib_actions_loading" spinning />;
   }
 
   return (
     <SvgIcon
-      className={locals.icon}
+      className={evaluateClassNames({
+        [locals.icon]: true, [locals.disabled]: disabled
+      })}
       type="lib_actions_delete"
-      onClick={() => {
+      onClick={!disabled && (() => {
         if (skipDialog) {
           return doDelete();
         }
@@ -39,7 +42,7 @@ export default function Delete({ dialogMessage, itemName, confirmLabel, doDelete
             }}
           />
         );
-      }}
+      })}
     />
   );
 }

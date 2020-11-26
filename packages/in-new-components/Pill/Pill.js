@@ -8,7 +8,7 @@ import locals from './Pill.mless';
 
 export const kinds = ['primary'];
 
-function Pill({ className, children, color = '#000000', lightenOpacity = 0.1, kind = 'bold' }, ref) {
+function Pill({ className, children, color = '#000000', lightenOpacity = 0.1, kind = 'bold', ...props }, ref) {
   let style;
   // For users leveraging our pre-defined kinds, we do not support the color and lightenOpacity props.
   // Instead, it works similar to our Button component.
@@ -33,7 +33,7 @@ function Pill({ className, children, color = '#000000', lightenOpacity = 0.1, ki
   }
 
   return (
-    <span className={joinClassNames(locals.pill, `${locals[kind]}`, className)} style={style} ref={ref}>
+    <span className={joinClassNames(locals.pill, `${locals[kind]}`, className)} style={style} ref={ref} {...props}>
       {children}
     </span>
   );

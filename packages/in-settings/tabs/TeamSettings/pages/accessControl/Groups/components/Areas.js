@@ -29,7 +29,7 @@ import { light } from 'in-themes/themes';
 
 import locals from './Areas.mless';
 
-export default function AreasList({ update, permissionSet, removeId, removeDfq }) {
+export default function AreasList({ update, permissionSet, removeId, removeDfq, readOnly }) {
   const [page, setPage] = useState(1);
 
   return (
@@ -39,7 +39,7 @@ export default function AreasList({ update, permissionSet, removeId, removeDfq }
         page={page}
         setPage={setPage}
         update={update}
-        ListRenderer={ListRenderer}
+        ListRenderer={readOnly ? ReadOnlyListRenderer : ListRenderer}
         itemsResult={success(
           [
             ...mapApplications(permissionSet.applicationIds, id => ({
@@ -63,7 +63,7 @@ export default function AreasList({ update, permissionSet, removeId, removeDfq }
           ].filter(Boolean)
         )}
         infraDfqFilter={permissionSet.infraDfqFilter}
-        renderAdditionalHeaderContent={renderAdditionalHeaderContent}
+        renderAdditionalHeaderContent={readOnly ? null : renderAdditionalHeaderContent}
       />
     </LocallyChangedTheme>
   );
@@ -71,6 +71,18 @@ export default function AreasList({ update, permissionSet, removeId, removeDfq }
 
 function renderAdditionalHeaderContent(props) {
   return <AddAreaButton {...props} preSelectedItems={props.pageItems} />;
+}
+
+function ReadOnlyListRenderer({ items }) {
+  return (
+    <Ul>
+      {items.map(item => (
+        <Li key={item.id}>
+          <ColumnizedContent columnDefinitions={[iconColumn, labelColumn]} item={item} />
+        </Li>
+      ))}
+    </Ul>
+  );
 }
 
 function ListRenderer({ items }) {
