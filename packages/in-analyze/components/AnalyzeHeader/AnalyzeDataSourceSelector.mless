@@ -17,4 +17,8 @@
   .active {
     font-weight: bold;
   }
+
+  .betaPill {
+    margin-left: .5rem;
+  }
 }

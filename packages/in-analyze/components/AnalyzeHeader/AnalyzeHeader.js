@@ -32,6 +32,8 @@ import { isNotBlank } from 'in-services/util/string';
 import useObservable from 'in-hooks/useObservable';
 import Title from 'in-components/Title/Title';
 import SvgIcon from 'in-components/SvgIcon';
+import Pill from 'in-new-components/Pill';
+import Link from 'in-components/Link';
 
 import locals from './AnalyzeHeader.mless';
 
@@ -43,13 +45,33 @@ export default function AnalyzeHeader({ renderQuickFilterBar, isGrouped }) {
     <>
       <DashboardHeader
         contextConfigurations={[{ renderContext: () => 'Analytics', contextIcon: 'lib_analyze_inverted' }]}
+        renderMetaInformation={() =>
+          activeConfiguration?.ua2 && (
+            <div className={locals.betaMarker}>
+              <Pill kind="primary" className={locals.betaPill}>
+                BETA
+              </Pill>{' '}
+              This feature is in beta.{' '}
+              <Link
+                className={locals.betaLink}
+                external
+                href={`https://docs.google.com/forms/d/e/1FAIpQLSejuUF8Gc-wQQN58ffivTnGjYe6OWdqVgLuBo59za3LTTMfIg/viewform?usp=pp_url&entry.558784134=${encodeURIComponent(
+                  window.location.href
+                )}`}
+              >
+                You can send us feedback
+              </Link>
+              .
+            </div>
+          )
+        }
         label={
           <Overlay props={{ activeConfiguration, isGrouped }} withoutWrapper content={AnalyzeDataSourceSelector}>
-            {({ toggle, isOpen, refSetter }) => (
+            {({ toggle, isOpen, ref }) => (
               <DashboardHeaderButton
                 size="normal"
                 className={locals.button}
-                refSetter={refSetter}
+                ref={ref}
                 onClick={toggle}
                 expanded={isOpen}
               >
@@ -87,7 +109,7 @@ function Label({ activeConfiguration }) {
   const { productArea, dataSource, ua2 } = activeConfiguration;
 
   // for normal user UA version is now chosen based on the 'newAnalyticsEnabled' feature flag
-  const ua2Enabled = isInternalVisible ? ua2 === 'true' : newAnalyticsEnabled;
+  const ua2Enabled = isInternalVisible ? ua2 : newAnalyticsEnabled;
   return (
     <div className={locals.label}>
       {productAreaLabels[productArea] !== getLabelByType(dataSource) && (
@@ -141,7 +163,8 @@ function getActiveConfiguration(location) {
     }
 
     const dataSource = getMatrixParameter(location, matrixPath, matrixParam);
-    const ua2 = getMatrixParameter(location, matrixPath, 'ua2');
+    const ua2 = getMatrixParameter(location, matrixPath, 'ua2') === 'true';
+
     if (isNotBlank(dataSource)) {
       return {
         productArea,
@@ -150,6 +173,7 @@ function getActiveConfiguration(location) {
       };
     }
   }
+
   return {
     productArea: 'application',
     dataSource: 'calls',

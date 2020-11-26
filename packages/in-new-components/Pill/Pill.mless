@@ -21,4 +21,9 @@
   .inverted {
     background: @lib__colors__white;
   }
+
+  .primary {
+    background: @lib__colors__light-blue800;
+    color: #fff;
+  }
 }

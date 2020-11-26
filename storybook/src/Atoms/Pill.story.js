@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { withKnobs, text, select } from '@storybook/addon-knobs';
-import Pill from 'in-new-components/Pill';
+import Pill, { kinds } from 'in-new-components/Pill';
 
 const options = {
   teal800: '#00B3B3',
@@ -26,6 +26,16 @@ export default {
   title: 'Atoms|Pill',
   component: Pill,
   decorators: [withKnobs]
+};
+
+export const allPredefinedColorStyles = () => {
+  return (
+    <>
+      {kinds.map(kind => (
+        <Pill kind={kind}>{kind}</Pill>
+      ))}
+    </>
+  );
 };
 
 export const bold = () => {

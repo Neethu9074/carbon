@@ -21,6 +21,7 @@ import { emptyObject } from 'in-services/fixedObjects';
 import { Ul, Li } from 'in-new-components/lists/List';
 import useObservable from 'in-hooks/useObservable';
 import SvgIcon from 'in-components/SvgIcon';
+import Pill from 'in-new-components/Pill';
 
 import locals from './AnalyzeDataSourceSelector.mless';
 
@@ -48,7 +49,7 @@ const productAreas = [
             dataSource: 'calls',
             ua2: true,
             groupByTag: isGrouped ? getConfigByDataSource('calls').defaultGrouping : emptyObject
-          }),
+          })
       },
       {
         dataSource: 'traces',
@@ -69,7 +70,7 @@ const productAreas = [
             dataSource: 'traces',
             ua2: true,
             groupByTag: isGrouped ? getConfigByDataSource('traces').defaultGrouping : emptyObject
-          }),
+          })
       }
     ]
   },
@@ -196,19 +197,19 @@ export default function AnalyzeDataSourceSelector({ activeConfiguration, isGroup
         .filter(({ hasAccess }) => (typeof hasAccess === 'function' ? hasAccess(isInternalVisible) : hasAccess))
         .map(({ productArea, dataSources }, i) => {
           const dataSourceListEntries = dataSources
-          // if ua2 flag is present, show or hide the items based on the FF for normal users
-          .filter(({ ua2 }) => isInternalVisible || ua2 == null || ua2 === newAnalyticsEnabled)
-          .map(config => (
-            <ProductAreaEntry
-              key={config.dataSource}
-              {...config}
-              close={close}
-              isGrouped={isGrouped}
-              productArea={productArea}
-              ua2={config.ua2}
-              activeConfiguration={activeConfiguration}
-            />
-          ));
+            // if ua2 flag is present, show or hide the items based on the FF for normal users
+            .filter(({ ua2 }) => isInternalVisible || ua2 == null || ua2 === newAnalyticsEnabled)
+            .map(config => (
+              <ProductAreaEntry
+                key={config.dataSource}
+                {...config}
+                close={close}
+                isGrouped={isGrouped}
+                productArea={productArea}
+                ua2={config.ua2}
+                activeConfiguration={activeConfiguration}
+              />
+            ));
 
           if (dataSourceListEntries.length === 1) {
             return dataSourceListEntries[0];
@@ -253,6 +254,12 @@ function ProductAreaEntry({ dataSource, getHref$, enabled$, isGrouped, close, pr
       >
         <SvgIcon type={getIconByType(dataSource, productArea)} />
         {getLabelByType(dataSource.replace('UQB', ''), ua2)}
+
+        {ua2 && (
+          <Pill kind="primary" className={locals.betaPill}>
+            BETA
+          </Pill>
+        )}
       </div>
     </Li>
   );

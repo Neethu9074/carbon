@@ -166,9 +166,9 @@ export function getLabelByType(type, ua2 = false) {
   } else if (type === 'profiles') {
     return 'Profiles';
   } else if (type === 'calls' && ua2) {
-    return 'Calls (v2 beta)';
+    return 'Calls';
   } else if (type === 'traces' && ua2) {
-    return 'Traces (v2 beta)';
+    return 'Traces';
   } else if (type === 'traces') {
     return 'Traces';
   } else if (type === 'calls') {
