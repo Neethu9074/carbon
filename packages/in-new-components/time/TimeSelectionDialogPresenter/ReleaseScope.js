@@ -4,17 +4,18 @@ import getServiceLabel from 'in-subscription/application/getServiceLabel';
 import getApplication from 'in-subscription/application/getApplication';
 import useObservable from 'in-hooks/useObservable';
 import SvgIcon from 'in-components/SvgIcon';
+import { just } from 'reactive-observables';
 
 import locals from './ReleaseScope.mless';
 
 export default function ReleaseScope({ serviceId, serviceName, applicationId, applicationName }) {
   const service = useObservable(
-    ([serviceId]) => (serviceName ? serviceName : serviceId && getServiceLabel({ id: serviceId }).map(getLabel)),
+    ([serviceId]) => (serviceName ? just(serviceName) : serviceId && getServiceLabel({ id: serviceId }).map(getLabel)),
     [serviceId]
   );
   const application = useObservable(
     ([applicationId]) =>
-      applicationName ? applicationName : applicationId && getApplication({ id: applicationId }).map(getLabel),
+      applicationName ? just(applicationName) : applicationId && getApplication({ id: applicationId }).map(getLabel),
     [applicationId]
   );
 
