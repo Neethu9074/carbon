@@ -7,6 +7,7 @@ import { aggregateMetricKey, sparkChartMetricKey, chartMetricKey } from 'in-appl
 import { type as TAG_FILTER_TYPE } from 'in-new-components/QueryBuilder/transformation/tagFilter';
 import { addTagFilters } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import FacetedSearch from 'in-applications/analyze/components/FacetedSearch/FacetedSearch';
+import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { getChartGranularity, getSparkChartGranularity } from 'in-applications/metrics';
 import { EQUALS, IS_EMPTY } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
@@ -52,7 +53,8 @@ export default function GroupedList({
   onResult,
   chartEnabled,
   groupColors,
-  getNestedUngroupedData
+  getNestedUngroupedData,
+  linkFormModel
 }) {
   const defaultOrder = dataSourceConstants[dataSource].metricKey;
   const defaultDirection = 'DESC';
@@ -116,6 +118,7 @@ export default function GroupedList({
       groupByTagType={groupByTagType}
       dataSource={dataSource}
       getNestedUngroupedData={getNestedUngroupedData}
+      linkFormModel={linkFormModel}
       {...result}
     />
   );
@@ -147,7 +150,8 @@ function Presenter({
   isValid,
   groupByTagType,
   dataSource,
-  getNestedUngroupedData
+  getNestedUngroupedData,
+  linkFormModel
 }) {
   const hasErrors = errors?.length > 0;
   const isLoading = progress.loading || groupByTagType.progress.loading;
@@ -221,6 +225,8 @@ function Presenter({
                         columnDefinitions={labelColumnDefinitions}
                         group={item}
                         dataSource={dataSource}
+                        getNestedUngroupedData={getNestedUngroupedData}
+                        linkFormModel={linkFormModel}
                       />
                     </div>
                     <div className={locals.metricColumn}>
@@ -430,7 +436,8 @@ function ExpandedGroup({
   hiddenCalls,
   groupByTagType,
   dataSource,
-  getNestedUngroupedData
+  getNestedUngroupedData,
+  linkFormModel
 }) {
   // Prevents the sublist from being rendered until the view can retrieve the appropriate metrics for Trace or Calls.
   if (!group.metrics[dataSourceConstants[dataSource].metricKey]) {
@@ -450,6 +457,9 @@ function ExpandedGroup({
       hiddenCalls={hiddenCalls}
       dataSource={dataSource}
       getNestedUngroupedData={getNestedUngroupedData}
+      linkFormModel={joinExpressions({
+        expressions: [linkFormModel, groupingFilter({ groupBy, group: group.name, groupByTagType })]
+      })}
     />
   );
 }

@@ -17,6 +17,7 @@ import { getTagFilterToUrlString, getGroupToUrlString, getTagFilterFromUrlString
 import { APPLICATION, APPLICATION_INBOUND, SERVICE, ENDPOINT } from 'in-analyze/applicationFilter';
 import { callAnalysisDisabledTags, traceAnalysisDisabledTags } from 'in-applications/tags';
 import { setOrDeleteMatrixKey, getMatrixParameter } from 'in-stores/navigation/matrix';
+import { tagFilterExpressionMatrixParameter } from 'in-applications/navigation/matrix';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { entityTypes, operators } from 'in-analyze/applicationFilter';
 import { getRootPathPredicate } from 'in-stores/navigation/paths';
@@ -200,11 +201,15 @@ export function tagFiltersForBoundaryScope(boundaryScope, applicationName) {
   return [];
 }
 
-export function getLinkToTraceDetail(traceId, { tab = '/tree', callId } = emptyObject) {
+export function getLinkToTraceDetail(traceId, { tab = '/tree', callId, tagFilterExpression } = emptyObject) {
   return getModifiedUrlStream(params => {
     params.pathname = `${traceDetailFullyQualified}${tab}`;
     setOrDeleteMatrixKey(params, traceDetail, traceIdMatrixParameter, traceId);
     setOrDeleteMatrixKey(params, traceDetail, callIdMatrixParameter, callId);
+    if (tagFilterExpression) {
+      const serializer = tagFilterExpressionMatrixParameter.serializer;
+      setOrDeleteMatrixKey(params, analyze, tagFilterExpressionMatrixParameter.name, serializer(tagFilterExpression));
+    }
 
     // make sure that there is no grouping as otherwise the trace cannot be loaded.
     setOrDeleteMatrixKey(params, analyze, `callList.${groupByMatrixParameter}`, getGroupToUrlString({}));

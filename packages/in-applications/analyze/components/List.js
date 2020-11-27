@@ -34,7 +34,8 @@ export default function List({
   hiddenCalls,
   onChangeHiddenCalls,
   dataSource,
-  getNestedUngroupedData
+  getNestedUngroupedData,
+  linkFormModel
 }) {
   const timeConfig = useTimeConfig();
   const order = {
@@ -57,7 +58,7 @@ export default function List({
     [timeConfig, retrievalSize, tagFilterExpression, orderBy, isValid, hiddenCalls, dataSource]
   );
 
-  const columnDefinitions = getColumnDefinitions(dataSource);
+  const columnDefinitions = getColumnDefinitions(dataSource, linkFormModel);
 
   const optionalColumns = () => columnDefinitions.filter(columnDefinition => columnDefinition.optional);
 
@@ -177,7 +178,7 @@ function TableOnlyPresenter({
   );
 }
 
-const getColumnDefinitions = dataSource => {
+const getColumnDefinitions = (dataSource, linkFormModel) => {
   const type = dataSourceConstants[dataSource].type;
   const name = dataSourceConstants[dataSource].metricLabel;
   return [
@@ -223,7 +224,8 @@ const getColumnDefinitions = dataSource => {
         return (
           <Link
             href$={getLinkToTraceDetail(dataSource === 'traces' ? item[type].id : item[type].traceId, {
-              [type + 'Id']: item[type].id
+              [type + 'Id']: item[type].id,
+              tagFilterExpression: linkFormModel
             })}
             onClick={() => dataSourceConstants[dataSource].clickedTracker()}
           >
