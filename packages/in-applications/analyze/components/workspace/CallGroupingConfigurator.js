@@ -1,8 +1,7 @@
 import { createGroupingConfigurator } from 'in-new-components/GroupingConfigurator';
+import getTagSuggestions from 'in-subscription/application/getTagSuggestions';
 import { getApplicationTagCatalog } from 'in-applications/api/catalog';
-import { successObservableFactory } from 'in-services/util/result';
 import { CALLS } from 'in-applications/analyze/metrics';
-const suggestions = ['k8s-demo-cluster', 'sb-test-cluster', 'kube-node-lease', 'kube-public'];
 
 const {
   GroupingConfigurator,
@@ -16,7 +15,18 @@ const {
         tagTree: response.data.tagTree
       }
     })),
-  getSuggestions: successObservableFactory({ suggestions, totalHits: suggestions.length + 10 })
+  getSuggestions: args => {
+    return getTagSuggestions({
+      entity: args.entity,
+      propose: args.propose,
+      tagFilterExpression: args.tagFilterExpression,
+      tagName: args.name,
+      value: args.value,
+      filter: {
+        timeConfig: args.timeConfig
+      }
+    });
+  }
 });
 
 export default GroupingConfigurator;
