@@ -289,6 +289,7 @@ function ApplicationAnalyzeViewWithFixatedTimeConfig({ dataSource }) {
               chartEnabled={chartEnabled}
               groupColors={groupColors}
               getNestedUngroupedData={getUngroupedData}
+              linkFormModel={tagFilterExpression}
             />
           ) : (
             <List
