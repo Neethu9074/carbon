@@ -17,6 +17,14 @@ export function toBackendQueryModel(formModel, simplify = true) {
   return parseOrExpression(formModel.slice(), simplify);
 }
 
+export function createTagFilterExpression(logicalOperator, elements) {
+  return {
+    type: EXPRESSION,
+    logicalOperator,
+    elements
+  };
+}
+
 export function addTagFilters(backendQueryModel, tagFilters, logicalOperator = OPERATOR_AND) {
   if (isEmptyExpression(backendQueryModel)) {
     if (tagFilters.length == 1) {
@@ -38,14 +46,6 @@ export function addTagFilters(backendQueryModel, tagFilters, logicalOperator = O
 
 function isEmptyExpression(backendQueryModel) {
   return !backendQueryModel || (backendQueryModel.type === EXPRESSION && backendQueryModel.elements.length === 0);
-}
-
-function createTagFilterExpression(logicalOperator, elements) {
-  return {
-    type: EXPRESSION,
-    logicalOperator,
-    elements
-  };
 }
 
 // grammar

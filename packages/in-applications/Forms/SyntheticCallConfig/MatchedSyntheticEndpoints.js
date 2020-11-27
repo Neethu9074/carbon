@@ -48,7 +48,7 @@ export default function MatchedSyntheticEndpoints({ tagFilters }) {
             aggregation: 'DISTINCT_COUNT'
           }
         },
-        tagFilterExpression: createTagFilterExpression(getTagFilterListForBackendSubscription(tagFilters), OPERATOR_OR),
+        tagFilterExpression: createTagFilterExpression(OPERATOR_OR, getTagFilterListForBackendSubscription(tagFilters)),
         includeSynthetic: true,
         group: {
           groupbyTag: 'endpoint.name'
