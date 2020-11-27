@@ -133,7 +133,14 @@ function EventViewComponent(props) {
           direction: orderDirection
         }
       }),
-    [eventType, orderBy, orderDirection, eventType, ...spreadTimeConfig(staticTimeConfigToUseForTable, timeConfig)]
+    [
+      eventType,
+      query,
+      orderBy,
+      orderDirection,
+      eventType,
+      ...spreadTimeConfig(staticTimeConfigToUseForTable, timeConfig)
+    ]
   );
 
   return (
