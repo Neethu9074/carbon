@@ -13,6 +13,7 @@ export default function Header({
   totalHits,
   itemName,
   setOrder,
+  topText,
   hitName,
   metrics,
   order,
@@ -24,6 +25,7 @@ export default function Header({
         totalRepresentedItemCount={totalRepresentedItemCount}
         totalHits={totalHits}
         itemName={itemName}
+        topText={topText}
         hitName={hitName}
       />
       <MetricAndSortingConfigurator

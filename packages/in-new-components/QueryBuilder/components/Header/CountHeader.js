@@ -2,15 +2,15 @@ import React from 'react';
 
 import locals from './CountHeader.mless';
 
-export default function CountHeader({ totalHits, totalRepresentedItemCount, hitName, itemName }) {
-  if (!totalHits) {
+export default function CountHeader({ topText, totalHits, totalRepresentedItemCount, hitName, itemName }) {
+  if (!totalHits && !topText) {
     return <Placeholder itemName={itemName} />;
   }
   const hitPlural = `${hitName}s`;
   const itemPlural = `${itemName}s`;
   return (
     <Presenter
-      topText={`${totalHits} ${totalHits != 1 ? hitPlural : hitName}`}
+      topText={topText ?? `${totalHits} ${totalHits != 1 ? hitPlural : hitName}`}
       bottomText={itemName && `${totalRepresentedItemCount} ${totalRepresentedItemCount != 1 ? itemPlural : itemName}`}
     />
   );
