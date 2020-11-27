@@ -65,10 +65,20 @@ export default function GroupedLogs(props) {
 
   const groupbyTag = groupBy.groupbyTag;
 
-  const { items, errors, progress, canLoadMore, result, loadMore, totalHits } = useCursorPagination(
-    ({ cursor }) => getTableData({ timeConfig, backendQueryModel, groupbyTag, cursor }),
-    [timeConfig, groupbyTag, backendQueryModel]
-  );
+  const {
+    items,
+    errors,
+    progress,
+    canLoadMore,
+    result,
+    loadMore,
+    totalHits,
+    totalRepresentedItemCount
+  } = useCursorPagination(({ cursor }) => getTableData({ timeConfig, backendQueryModel, groupbyTag, cursor }), [
+    timeConfig,
+    groupbyTag,
+    backendQueryModel
+  ]);
 
   const hasErrors = errors?.length > 0;
   const isLoading = progress?.loading;
@@ -76,7 +86,14 @@ export default function GroupedLogs(props) {
 
   return (
     <QueryBuilderWorkspace {...props}>
-      <Header totalHits={totalHits} setOrder={orderBy => onChange({ orderBy })} hitName="Group" order={orderBy} />
+      <Header
+        hitName="Group"
+        totalHits={totalHits}
+        itemName="Log"
+        totalRepresentedItemCount={totalRepresentedItemCount}
+        order={orderBy}
+        setOrder={orderBy => onChange({ orderBy })}
+      />
       {hasErrors && <ErrorList errors={result.errors} />}
       {hasItems && (
         <Ul space="xsmall">

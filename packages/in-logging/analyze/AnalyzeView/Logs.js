@@ -74,10 +74,11 @@ export default function Logs(props) {
             label: 'Time'
           }
         ]}
-        totalHits={totalHits}
-        setOrder={orderBy => onChange({ orderBy })}
-        hitName="Log"
+        topText="no grouping"
+        itemName="Log"
+        totalRepresentedItemCount={totalHits ?? 0}
         order={orderBy}
+        setOrder={orderBy => onChange({ orderBy })}
       />
       {list}
     </QueryBuilderWorkspace>
