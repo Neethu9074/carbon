@@ -91,7 +91,7 @@ stage (name: 'K8s Deploy') {
       build job: '/retag-artifacts', parameters: [
           string(name: 'BRANCH', value: env.BRANCH_NAME, trim: true)
       ]
-    } else if (env.BRANCH_NAME ==~ /hotfix-\d{3,}/ ) {
+    } else if (env.BRANCH_NAME ==~ /hotfix-\d{3,}(-.+)?/ ) {
       // retag artifacts and build k8s containers only
       build job: '/retag-artifacts', parameters: [
           string(name: 'BRANCH', value: env.BRANCH_NAME, trim: true)
