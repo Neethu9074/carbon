@@ -17,7 +17,7 @@ import Message from 'in-new-components/Message';
 import Footer from 'in-new-components/Footer';
 import Sticky from 'in-components/Sticky';
 
-export default function LoggingAnalyzeView({
+export default function LoggingQueryBuilderWorkspace({
   children,
   isGrouped,
   tagFilterExpression,

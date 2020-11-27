@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { number } from 'in-services/formatters/number';
+
 import locals from './CountHeader.mless';
 
 export default function CountHeader({ topText, totalHits, totalRepresentedItemCount, hitName, itemName }) {
@@ -10,8 +12,11 @@ export default function CountHeader({ topText, totalHits, totalRepresentedItemCo
   const itemPlural = `${itemName}s`;
   return (
     <Presenter
-      topText={topText ?? `${totalHits} ${totalHits != 1 ? hitPlural : hitName}`}
-      bottomText={itemName && `${totalRepresentedItemCount} ${totalRepresentedItemCount != 1 ? itemPlural : itemName}`}
+      topText={topText ?? `${number.compact(totalHits)} ${totalHits != 1 ? hitPlural : hitName}`}
+      bottomText={
+        itemName &&
+        `${number.compact(totalRepresentedItemCount)} ${totalRepresentedItemCount != 1 ? itemPlural : itemName}`
+      }
     />
   );
 }

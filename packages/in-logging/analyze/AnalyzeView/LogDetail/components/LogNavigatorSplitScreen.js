@@ -15,12 +15,12 @@ import Sticky from 'in-components/Sticky';
 
 import locals from './LogNavigatorSplitScreen.mless';
 
-export default function LogNavigatorSplitScreen({ navigator, logDetail, logId, setLogId }) {
+export default function LogNavigatorSplitScreen({ navigator, logDetail, detailId, setDetailId }) {
   const { totalHits, totalRepresentedItemCount, items, canLoadMore, loadMore, progress } = navigator.props;
 
   const [expanded, setExpanded] = useExpanded();
 
-  const itemIndex = findIndex(items, item => item.log.id === logId);
+  const itemIndex = findIndex(items, item => item.log.id === detailId);
   const hasNext = itemIndex + 1 < items.length;
   const hasPrev = itemIndex > 0;
 
@@ -42,7 +42,7 @@ export default function LogNavigatorSplitScreen({ navigator, logDetail, logId, s
                         aria-label="View previous log (shortcut: left arrow key)"
                         size="s"
                         id={leftArrowId}
-                        onClick={e => openItem(e, itemIndex - 1, items, canLoadMore, loadMore, progress, setLogId)}
+                        onClick={e => openItem(e, itemIndex - 1, items, canLoadMore, loadMore, progress, setDetailId)}
                       />
                     </Tooltip>
                   )}
@@ -55,7 +55,7 @@ export default function LogNavigatorSplitScreen({ navigator, logDetail, logId, s
                         aria-label="View next log (shortcut: right arrow key)"
                         size="s"
                         id={rightArrowId}
-                        onClick={e => openItem(e, itemIndex + 1, items, canLoadMore, loadMore, progress, setLogId)}
+                        onClick={e => openItem(e, itemIndex + 1, items, canLoadMore, loadMore, progress, setDetailId)}
                       />
                     </Tooltip>
                   )}
@@ -108,10 +108,7 @@ export default function LogNavigatorSplitScreen({ navigator, logDetail, logId, s
   );
 }
 
-function openItem(e, itemIndex, items, canLoadMore, loadMore, progress, setLogId) {
-  e.preventDefault();
-  e.stopPropagation();
-
+function openItem(e, itemIndex, items, canLoadMore, loadMore, progress, setDetailId) {
   if (itemIndex + 10 >= items.length && canLoadMore && !progress.loading) {
     loadMore();
   }
@@ -127,7 +124,7 @@ function openItem(e, itemIndex, items, canLoadMore, loadMore, progress, setLogId
     prefetch(getLog({ id: logIdForNextPrefetch }));
   }
 
-  setLogId(item.log.id);
+  setDetailId(item.log.id);
 }
 
 function useExpanded() {

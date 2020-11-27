@@ -27,8 +27,8 @@ export default function LogsNavigator({
   loadMore,
   canLoadMore,
   onChangeOrder,
-  onChangeAndGetAsUrl,
-  logId: selectedlogId
+  getHrefToDetailId,
+  detailId: selectedlogId
 }) {
   return (
     <HeightRestrictedView
@@ -57,7 +57,7 @@ export default function LogsNavigator({
                       active={isSelected}
                       label={<>{item.log.strippedContent}</>}
                       time={item.log.timestamp}
-                      href={onChangeAndGetAsUrl({ logId: item.log.id })}
+                      href={getHrefToDetailId(item.log.id)}
                     />
                   </Td>
                 </Tr>

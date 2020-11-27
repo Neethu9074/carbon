@@ -31,8 +31,8 @@ export function enrichTagCatalog(tagCatalog) {
 
 export function getTagCatalogOnce(originalGetTagCatalog) {
   return memoize(
-    ({ timeConfig }) =>
-      originalGetTagCatalog({ timeConfig }).map(result => {
+    args =>
+      originalGetTagCatalog(args).map(result => {
         if (result.data) {
           return success(enrichTagCatalog(result.data));
         }

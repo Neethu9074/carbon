@@ -2,7 +2,6 @@ import React, { useMemo } from 'react';
 
 import { type as TAG_FILTER_TYPE } from 'in-new-components/QueryBuilder/transformation/tagFilter';
 import { addTagFilters } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
-import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
 import QueryBuilderWorkspace from 'in-logging/analyze/AnalyzeView/QueryBuilderWorkspace';
 import LoadingList from 'in-new-components/lists/List/sharedComponents/LoadingList';
 import ErrorList from 'in-new-components/lists/List/sharedComponents/ErrorList';
@@ -15,9 +14,8 @@ import getLogGroups from 'in-logging/subscriptions/getLogGroups';
 import IconButton from 'in-new-components/IconButton/IconButton';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import Logs from 'in-logging/analyze/AnalyzeView/Logs';
-import { getTagCatalog } from 'in-logging/api/catalog';
 import Tooltip from 'in-components/Tooltip/Tooltip';
-import useObservable from 'in-hooks/useObservable';
+import useTimeConfig from 'in-hooks/useTimeConfig';
 import SvgIcon from 'in-components/SvgIcon';
 
 const columnDefinitions = [
@@ -38,10 +36,10 @@ const columnDefinitions = [
     id: 'focus',
     width: '3rem',
     shrink: false,
-    getContent({ focusOnGroup }) {
+    getContent({ href }) {
       return (
         <Tooltip content="Focus on this group">
-          <IconButton type="lib_actions_filter" href={focusOnGroup()} />
+          <IconButton type="lib_actions_filter" href={href} />
         </Tooltip>
       );
     }
@@ -49,19 +47,19 @@ const columnDefinitions = [
 ];
 
 export default function GroupedLogs(props) {
+  const timeConfig = useTimeConfig();
+
   const {
-    timeConfig,
     groupBy,
     backendQueryModel,
     onChange,
     orderBy,
-    getRowHref,
-    tagFilterExpression,
-    onChangeAndGetAsUrl
+    getHrefToDetailId,
+    getHrefToUngroupedView,
+    filteringTagCatalog
   } = props;
 
-  const tagCatalog = useObservable(getTagCatalog(), []);
-  const iconMap = useMemo(() => createIconMap(tagCatalog), [tagCatalog]);
+  const iconMap = useMemo(() => createIconMap(filteringTagCatalog), [filteringTagCatalog]);
 
   const groupbyTag = groupBy.groupbyTag;
 
@@ -81,7 +79,7 @@ export default function GroupedLogs(props) {
   ]);
 
   const hasErrors = errors?.length > 0;
-  const isLoading = progress?.loading;
+  const isLoading = progress?.loading || props.isLoading;
   const hasItems = items.length > 0;
 
   return (
@@ -98,7 +96,6 @@ export default function GroupedLogs(props) {
       {hasItems && (
         <Ul space="xsmall">
           {items.map(({ group }) => {
-            const groupAsFilter = getGroupTag(groupbyTag, group.label);
             return (
               <Li
                 key={group.label}
@@ -108,7 +105,7 @@ export default function GroupedLogs(props) {
                     {...props}
                     withQueryBuilder={false}
                     backendQueryModel={addTagsToBackendModel(backendQueryModel, groupbyTag, group.label)}
-                    getRowHref={log => getRowHref({ logId: log.id, groupFilter: groupAsFilter })}
+                    getHrefToDetailId={detailId => getHrefToDetailId(detailId, group.label)}
                   />
                 )}
               >
@@ -116,14 +113,7 @@ export default function GroupedLogs(props) {
                   columnDefinitions={columnDefinitions}
                   label={group.label}
                   icon={iconMap.get(groupbyTag)}
-                  focusOnGroup={() =>
-                    onChangeAndGetAsUrl({
-                      tagFilterExpression: joinExpressions({
-                        expressions: [tagFilterExpression, groupAsFilter]
-                      }),
-                      groupBy: null
-                    })
-                  }
+                  href={getHrefToUngroupedView(group.label)}
                 />
               </Li>
             );

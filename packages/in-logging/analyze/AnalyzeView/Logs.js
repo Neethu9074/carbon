@@ -11,6 +11,7 @@ import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import Header from 'in-new-components/QueryBuilder/components/Header';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import getLogs from 'in-logging/subscriptions/getLogs';
+import useTimeConfig from 'in-hooks/useTimeConfig';
 
 const columnDefinitions = [
   {
@@ -33,7 +34,9 @@ const columnDefinitions = [
 ];
 
 export default function Logs(props) {
-  const { orderBy, timeConfig, getRowHref, onChange, backendQueryModel, withQueryBuilder = true } = props;
+  const timeConfig = useTimeConfig();
+
+  const { orderBy, getHrefToDetailId, onOrderByChange, backendQueryModel, withQueryBuilder = true } = props;
 
   const { items, errors, progress, canLoadMore, result, loadMore, totalHits } = useCursorPagination(
     ({ cursor }) => getTableData({ timeConfig, backendQueryModel, orderBy, cursor }),
@@ -41,16 +44,16 @@ export default function Logs(props) {
   );
 
   const hasErrors = errors?.length > 0;
-  const isLoading = progress?.loading;
+  const isLoading = progress?.loading || props.isLoading;
   const hasItems = items.length > 0;
 
   const list = (
     <>
-      {hasErrors && <ErrorList errors={result.errors} />}
+      {hasErrors && <ErrorList errors={result?.errors} />}
       {hasItems && (
         <Ul space="disabled">
           {items.map(item => (
-            <Li key={item.log.id} size="compact" href={getRowHref(item.log)}>
+            <Li key={item.log.id} size="compact" href={getHrefToDetailId(item.log.id)}>
               <ColumnizedContent columnDefinitions={columnDefinitions} log={item.log} />
             </Li>
           ))}
@@ -78,7 +81,7 @@ export default function Logs(props) {
         itemName="Log"
         totalRepresentedItemCount={totalHits ?? 0}
         order={orderBy}
-        setOrder={orderBy => onChange({ orderBy })}
+        setOrder={onOrderByChange}
       />
       {list}
     </QueryBuilderWorkspace>

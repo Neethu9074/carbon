@@ -154,5 +154,10 @@ module.exports = exports = [
     uiClientKey: 'groupPermissionsEnabled',
     instanaCtlKey: 'feature.group.permissions.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'webMobileQb2AnalyzeEnabled',
+    instanaCtlKey: 'feature.web.mobile.qb2.analyze.enabled',
+    defaultValue: false
   }
 ];

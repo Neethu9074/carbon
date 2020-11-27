@@ -7,7 +7,6 @@ import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import { getIconByType } from 'in-analyze/AnalyzeView/dataSources';
 import DashboardHeader from 'in-new-components/DashboardHeader';
 import useCursorPagination from 'in-hooks/useCursorPagination';
-import { getLinkToAnalyze } from 'in-logging/navigation/paths';
 import getLogs from 'in-logging/subscriptions/getLogs';
 import getLog from 'in-logging/subscriptions/getLog';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -20,12 +19,12 @@ import Link from 'in-components/Link';
 import locals from './LogDetail.mless';
 
 export default function LogDetail(props) {
-  const { logId, orderBy, backendQueryModel, hash } = props;
+  const { detailId, orderBy, backendQueryModel } = props;
 
   const timeConfig = useTimeConfig();
   const tableProps = useCursorPagination(
     ({ cursor }) => getTableData({ timeConfig, backendQueryModel, orderBy, cursor }),
-    [timeConfig, orderBy.by, orderBy.direction, hash]
+    [timeConfig, orderBy.by, orderBy.direction, backendQueryModel]
   );
 
   return (
@@ -52,7 +51,7 @@ export default function LogDetail(props) {
               HeaderComponent={Header}
               location={location}
               tabs={tabs}
-              result$={getLog({ id: logId })}
+              result$={getLog({ id: detailId })}
               withoutBreadcrumb
               withoutPadding
             />
@@ -93,19 +92,19 @@ function renderButtonLine(props) {
   );
 }
 
-function renderContext() {
+function renderContext({ getHrefToUngroupedView }) {
   return (
-    <Link className={locals.analyticsLink} href$={getLinkToAnalyze()}>
-      Analyse logs
+    <Link className={locals.analyticsLink} href={getHrefToUngroupedView()}>
+      Analytics
     </Link>
   );
 }
 
-function renderTimeSelection() {
+function renderTimeSelection({ getHrefToUngroupedView }) {
   return (
-    <Link href$={getLinkToAnalyze()}>
-      <Tooltip content="Close foobar trace detail">
-        <SvgIcon className={locals.closeIcon} aria-label="Close trace detail" type="lib_openclose_cancel" />
+    <Link href={getHrefToUngroupedView()}>
+      <Tooltip content="Close log details">
+        <SvgIcon className={locals.closeIcon} aria-label="Close log details" type="lib_openclose_cancel" />
       </Tooltip>
     </Link>
   );

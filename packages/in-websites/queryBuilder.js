@@ -17,13 +17,14 @@ function create(beaconType) {
   });
 }
 
-function getSuggestions({ name, key, timeConfig, propose, tagFilterExpression, beaconType }) {
+export function getSuggestions({ name, key, timeConfig, propose, tagFilterExpression, beaconType, dataSource }) {
   // Add beacon type to avoid presenting suggestions for other data sources
   tagFilterExpression = addTagFilters(tagFilterExpression, [
     {
       name: 'beacon.type',
       operator: 'EQUALS',
-      value: beaconType
+      // We support dataSource for compatibility with the analyze wrapper
+      value: beaconType || dataSource
     }
   ]);
 

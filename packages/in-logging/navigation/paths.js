@@ -12,9 +12,10 @@ export function getLinkToAnalyze() {
 
     setOrDeleteMatrixKey(location, analyzePath, 'dataSource', 'logs');
     setOrDeleteMatrixKey(location, analyzePath, 'tagFilterExpression', null);
-    setOrDeleteMatrixKey(location, analyzePath, 'logId', null);
+    setOrDeleteMatrixKey(location, analyzePath, 'detailId', null);
     setOrDeleteMatrixKey(location, analyzePath, 'groupBy', null);
     setOrDeleteMatrixKey(location, analyzePath, 'orderBy', null);
+    setOrDeleteMatrixKey(location, analyzePath, 'metrics', null);
   });
 }
 

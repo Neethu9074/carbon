@@ -30,8 +30,5 @@ export const orderByMatrixParameter = {
 
 export const logIdMatrixParameter = {
   path: analyzePath,
-  name: 'logId',
-  serializer: v => v,
-  parser: v => v,
-  initialState: ''
+  name: 'logId'
 };

@@ -1,7 +1,19 @@
 import createObservable from 'in-services/http/observableHttpResult';
+import memoize from 'in-services/util/memoizingObservableGenerator';
+import { generateStableHash } from 'in-services/util/id';
+import { minutes } from 'in-services/time/time';
 import http from 'in-services/http';
 
-export function getTagCatalog({ useCase, beaconType }) {
+export const getTagCatalog = memoize(
+  getTagCatalogInternal,
+  // Do not take time configuration into consideration for the hash generation.
+  ({useCase, beaconType, dataSource}) => generateStableHash({
+    useCase, beaconType, dataSource
+  }),
+  minutes.toMillis(10)
+);
+
+function getTagCatalogInternal({ useCase, beaconType, dataSource }) {
   return createObservable(
     http({
       method: 'GET',
@@ -9,7 +21,7 @@ export function getTagCatalog({ useCase, beaconType }) {
       url: `/api/website-monitoring/catalog`,
       queryParams: {
         useCase,
-        beaconType
+        beaconType: beaconType || dataSource
       }
     })
   );
