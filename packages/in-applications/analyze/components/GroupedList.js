@@ -1,6 +1,5 @@
 import { empty } from 'reactive-observables';
 import React, { useEffect } from 'react';
-import { partition } from 'lodash';
 
 import MetricAndSortingConfigurator from 'in-new-components/MetricAndSortingConfigurator/MetricAndSortingConfigurator';
 import { ColumnizedContent, Ul, Li, LoadingSkeletonLi, HorizontalIndicatorLi } from 'in-new-components/lists/List';
@@ -182,71 +181,69 @@ function Presenter({
         />
         <Ul space="xsmall">
           {(!isLoading || totalHits != null) &&
-            partition(items, item => item.name !== UNSPECIFIED).map(partition =>
-              partition.map((item, rowIndex) => {
-                const filterForGroup = groupingFilter(
-                  {
-                    groupBy,
-                    group: item.name,
-                    operator: item.name !== UNSPECIFIED ? undefined : IS_EMPTY,
-                    groupByTagType
-                  },
-                  tagFilterExpression
-                );
-                return (
-                  <Li
-                    key={rowIndex}
-                    noAlternatingBg
-                    borderRadius="medium"
-                    highlightOpenState={false}
-                    toggleContentOnRowClick
-                    className={evaluateClassNames({ [locals.unspecified]: item.name === UNSPECIFIED })}
-                    renderNestedContent={() => (
-                      <ExpandedGroup
-                        groupBy={groupBy}
-                        group={item}
-                        tagFilterExpression={filterForGroup}
-                        timeConfig={timeConfig}
-                        onFocusOnGroup={onFocusOnGroup}
-                        subOrderBy={subOrderBy}
-                        onChangeSubOrderBy={onChangeSubOrderBy}
-                        hiddenCalls={hiddenCalls}
-                        groupByTagType={groupByTagType}
-                        dataSource={dataSource}
-                        getNestedUngroupedData={getNestedUngroupedData}
-                      />
-                    )}
-                  >
-                    <div className={locals.list}>
-                      <div className={locals.labelColumn}>
-                        <ColumnizedContent
-                          columnDefinitions={labelColumnDefinitions}
-                          group={item}
-                          dataSource={dataSource}
-                        />
-                      </div>
-                      <div className={locals.metricColumn}>
-                        <ColumnizedContent
-                          columnDefinitions={metricColumnDefinitions}
-                          group={item}
-                          timeConfig={timeConfig}
-                          progress={progress}
-                          granularity={granularity}
-                          dataSource={dataSource}
-                        />
-                      </div>
-                    </div>
-                    <div className={locals.actionColumn}>
+            items.map((item, rowIndex) => {
+              const filterForGroup = groupingFilter(
+                {
+                  groupBy,
+                  group: item.name,
+                  operator: item.name !== UNSPECIFIED ? undefined : IS_EMPTY,
+                  groupByTagType
+                },
+                tagFilterExpression
+              );
+              return (
+                <Li
+                  key={rowIndex}
+                  noAlternatingBg
+                  borderRadius="medium"
+                  highlightOpenState={false}
+                  toggleContentOnRowClick
+                  className={evaluateClassNames({ [locals.unspecified]: item.name === UNSPECIFIED })}
+                  renderNestedContent={() => (
+                    <ExpandedGroup
+                      groupBy={groupBy}
+                      group={item}
+                      tagFilterExpression={filterForGroup}
+                      timeConfig={timeConfig}
+                      onFocusOnGroup={onFocusOnGroup}
+                      subOrderBy={subOrderBy}
+                      onChangeSubOrderBy={onChangeSubOrderBy}
+                      hiddenCalls={hiddenCalls}
+                      groupByTagType={groupByTagType}
+                      dataSource={dataSource}
+                      getNestedUngroupedData={getNestedUngroupedData}
+                    />
+                  )}
+                >
+                  <div className={locals.list}>
+                    <div className={locals.labelColumn}>
                       <ColumnizedContent
-                        columnDefinitions={actionColumnDefinitions}
+                        columnDefinitions={labelColumnDefinitions}
                         group={item}
                         dataSource={dataSource}
                       />
                     </div>
-                  </Li>
-                );
-              })
-            )}
+                    <div className={locals.metricColumn}>
+                      <ColumnizedContent
+                        columnDefinitions={metricColumnDefinitions}
+                        group={item}
+                        timeConfig={timeConfig}
+                        progress={progress}
+                        granularity={granularity}
+                        dataSource={dataSource}
+                      />
+                    </div>
+                  </div>
+                  <div className={locals.actionColumn}>
+                    <ColumnizedContent
+                      columnDefinitions={actionColumnDefinitions}
+                      group={item}
+                      dataSource={dataSource}
+                    />
+                  </div>
+                </Li>
+              );
+            })}
           {isLoading && <HorizontalIndicatorLi progress={indeterminateProgress} />}
           {isLoading && <LoadingSkeletonLi />}
           {hasErrors &&
