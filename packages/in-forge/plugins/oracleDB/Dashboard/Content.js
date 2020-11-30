@@ -7,10 +7,11 @@ import {
   hitRateTwoDecimalPlaces,
   percentageTwoDecimalPlaces
 } from 'in-services/formatters/number';
+import DBmarlinNotification from 'in-integrations/database/dbmarlin/DBmarlinNotification';
+import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
-import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import TablespaceUsagesTable from './TablespaceUsagesTable.js';
 
 export default function OracleDBDashboard({ snapshot, timeConfig }) {
@@ -210,6 +211,13 @@ export default function OracleDBDashboard({ snapshot, timeConfig }) {
         />
       </DashboardSection>
       <TablespaceUsagesTable snapshot={snapshot} timeConfig={timeConfig} />
+
+      <DBmarlinNotification>
+        <span style={{ marginRight: '5rem' }}>Looking for even deeper database insights?</span>
+        <a href="https://www.dbmarlin.com/instana-offer?utm_campaign=Instana&utm_source=Instana&utm_medium=Instana">
+          Check out our integration with DBmarlin!
+        </a>
+      </DBmarlinNotification>
     </div>
   );
 }
