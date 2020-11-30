@@ -5,7 +5,7 @@ import { MINIMUM_ROLLUP, getDefaultMetricRollupDuration } from 'in-stores/metric
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { number } from 'in-services/formatters/number';
 
-export default function SloViolationsChart({ timeConfig, query, cardTitle = 'SLO Violations' }) {
+export default function SloViolationsChart({ timeConfig, cardTitle = 'SLO Violations' }) {
   const granularity = getDefaultMetricRollupDuration(timeConfig).rollup || MINIMUM_ROLLUP;
 
   return (
@@ -15,23 +15,22 @@ export default function SloViolationsChart({ timeConfig, query, cardTitle = 'SLO
       y1={{
         renderer: Renderer.stackedArea,
         formatter: number.forcedCompact,
-        labels: ['SLOs', 'Experimental SLOs', 'Development SLOs'],
+        labels: ['SREInfaSLO/SRESLO/TUSLO', 'Experimental TU SLOs', 'Development TU SLOs'],
         metricIds: ['slo', 'experimentalSlo', 'developmentSlo']
       }}
       metricsConfiguration={{
         timeConfig,
         metrics: {
           slo: {
-            query: `event.text:"[SLO]" NOT event.text:"[Development SLO]" NOT event.text:"[experimental SLO]" ${query ||
-              ''}`.trim(),
+            query: `event.text:"[SREInfaSLO]" OR event.text:"[SRESLO]" OR event.text:"[TUSLO]"`,
             granularity
           },
           experimentalSlo: {
-            query: `event.text:"[experimental SLO]" ${query || ''}`.trim(),
+            query: `event.text:"[ExpTUSLO]"`,
             granularity
           },
           developmentSlo: {
-            query: `event.text:"[Development SLO]" ${query || ''}`.trim(),
+            query: `event.text:"[DevTUSLO]"`,
             granularity
           }
         }
