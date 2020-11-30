@@ -75,6 +75,7 @@ export default connectTo(
 
 function EntityInformation10({
   entity,
+  linkTimeConfig,
   useSnapshotLink = false,
   kind = 'dark',
   getLabelCallback = label => label,
@@ -83,6 +84,7 @@ function EntityInformation10({
   return (
     <EntityInformationPresenter>
       <HierarchicalLink
+        timeConfig={linkTimeConfig}
         snapshot={entity}
         className={locals.link}
         pathname={pathname}

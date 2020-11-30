@@ -10,6 +10,7 @@ import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import { getBlueprintConfig } from 'in-websites/alerting/data/blueprintConfig';
 import AlertingChart from 'in-new-components/Alerting/Chart/AlertingChart';
+import OpenIssueLink from 'in-events/components/legacy/OpenIssueLink';
 import { getChartTimeConfigByEvent } from 'in-events/timeframe';
 import { DescriptionItem } from 'in-components/DescriptionList';
 import connectTo from 'in-hoc/connectTo';
@@ -46,6 +47,7 @@ export default connectTo(
         <ProblemDescription event={event} />
         <DescriptionButtons>
           <WebsiteAlertConfigButton alertConfig={alertConfig} />
+          <OpenIssueLink event={event} />
           <AnalyzeWebsiteEventButton event={event} alertConfig={alertConfig} />
         </DescriptionButtons>
         <div className={locals.sectionWrapper}>

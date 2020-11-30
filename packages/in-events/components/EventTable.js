@@ -10,7 +10,7 @@ import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import DashboardHeader from 'in-new-components/DashboardHeader';
 import { isAppDataEntityType } from 'in-services/entityUtils';
-import { getEventType, EVENT_TYPES } from 'in-stores/events';
+import { getEventType, EVENT_TYPES, getEvent } from 'in-stores/events';
 import EventsList from 'in-events/components/EventsList';
 import { eventsPath } from 'in-events/navigation/paths';
 import EventIcon from 'in-events/components/EventIcon';
@@ -18,7 +18,6 @@ import { eventId } from 'in-events/navigation/matrix';
 import tabs from 'in-events/components/tabs/index';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
-import { getEvent } from 'in-stores/events';
 import Pill from 'in-new-components/Pill';
 import Link from 'in-components/Link';
 
@@ -91,17 +90,12 @@ function EventTable(props) {
   return (
     <NavigatorSplitScreen
       {...props}
-      items={rawEventList.map(rawEvent => {
-        if (rawEvent.type === 'release') {
-          rawEvent.isDisabledForOpen = true;
-        }
-        return rawEvent;
-      })}
+      items={rawEventList}
       navigator={<EventsList {...props} onItemClicked={onItemClicked} />}
       typeLabel="event"
       openItemIndex={findIndex(items, event => event.id === selectedEventId)}
       openItem={e => onChange({ eventId: e.id })}
-      totalRepresentedItemCount={rawEventList.filter(rawEvent => rawEvent.type !== 'release').length}
+      totalRepresentedItemCount={rawEventList.length}
     >
       <TabView
         HeaderComponent={Header}
