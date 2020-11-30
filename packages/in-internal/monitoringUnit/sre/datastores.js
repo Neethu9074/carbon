@@ -178,6 +178,27 @@ export function getDataMountRows(nodes, timeConfig) {
   return rows;
 }
 
+export function getPersistentStorageMountRows(nodes, timeConfig) {
+  var rows = [];
+
+  nodes.forEach(node => {
+    node.host.getIn(['data', 'filesystems'], emptyMap).forEach((v, k) => {
+      if (v.get('mount').includes('kubernetes.io')) {
+        rows.push({
+          key: node.host.get('id') + v.get('mount'),
+          snapshotId: node.host.get('id'),
+          device: k,
+          snapshot: node,
+          timeConfig: timeConfig,
+          fs: v
+        });
+      }
+    });
+  });
+
+  return rows;
+}
+
 export function getHostDetails(row) {
   return (
     <Fragment>

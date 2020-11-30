@@ -5,6 +5,37 @@ import { emptyArray } from 'in-services/fixedObjects';
 import { timeConfig$ } from 'in-stores/time/config';
 import search from 'in-subscription/search';
 
+export function getBeeInstanaAggregatorWithContext(query) {
+  return timeConfig$
+    .flatMap(timeConfig =>
+      search({
+        query: query,
+        view: 'TABLE',
+        timeConfig,
+        restrictResultEntityType: 'beeInstanaNode'
+      })
+        .flatMap(getSnapshots)
+        .flatMap(beeSnapshots =>
+          combineLatest(beeSnapshots.map(beeinstana => getContextForBeeInstanaAggregator(beeinstana, timeConfig)))
+        )
+    )
+    .startWith(emptyArray);
+}
+
+export function getContextForBeeInstanaAggregator(beeinstana, timeConfig) {
+  return getPhysicalHierarchy({ snapshotId: beeinstana.get('id'), includeCluster: false })
+    .flatMap(getSnapshots)
+    .map(snapshots => {
+      return {
+        key: beeinstana.get('id'),
+        host: snapshots.find(s => s.getIn(['plugin']) === 'host'),
+        beeinstana,
+        timeConfig
+      };
+    })
+    .filter(row => row.host != null);
+}
+
 export function getClickhouseWithContext(query) {
   return timeConfig$
     .flatMap(timeConfig =>
