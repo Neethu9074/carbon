@@ -360,5 +360,9 @@ export default connectTo(
 );
 
 function getLabel(row) {
-  return row.host.get('label').replace(/^(appdata-writer-(\d+)).*$/i, '$2');
+  return row.host
+    .get('label')
+    .replace(/^(appdata-writer-(\d+)).*$/i, '$2')
+    .replace('.instana.io', '')
+    .replace('ip-', '');
 }
