@@ -28,7 +28,7 @@ import Link from 'in-components/Link';
 import locals from './SloViolations.mless';
 
 const onlySlosQuery =
-  '((event.text:"[SLO]" OR event.text:"[experimental SLO]") AND event.state:open) AND (event.type:issue)';
+  '((event.text:"[SREInfaSLO]" OR event.text:"[SRESLO]" OR event.text:"[TUSLO]" OR event.text:"[ExpTUSLO]" OR event.text:"[DevTUSLO]") AND event.state:open)';
 
 export default connect({
   timeConfig: timeConfig$,

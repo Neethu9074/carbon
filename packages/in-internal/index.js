@@ -33,9 +33,10 @@ import CallExtraction from 'in-internal/monitoringUnit/Appdata/CallExtraction';
 import AppDataWriterForEum from 'in-internal/monitoringUnit/eum/AppDataWriter';
 import ErrorSimulator from 'in-internal/monitoringUnit/eum/ErrorSimulator';
 import SpansCassandra from 'in-internal/monitoringUnit/sre/SpansCassandra';
+import StateCassandra from 'in-internal/monitoringUnit/sre/StateCassandra';
 import EumProcessor from 'in-internal/monitoringUnit/eum/EumProcessor';
 import MetaElastic from 'in-internal/monitoringUnit/sre/MetaElastic';
-import WorkerStats from 'in-internal/monitoringUnit/sre/WorkerStats';
+import MetaElasticNG from 'in-internal/monitoringUnit/sre/MetaElasticNG';
 import EumAcceptor from 'in-internal/monitoringUnit/eum/EumAcceptor';
 import Hubforce from 'in-internal/monitoringUnit/hubforce/Hubforce';
 import Clickhouse from 'in-internal/monitoringUnit/sre/Clickhouse';
@@ -102,7 +103,6 @@ export default function Internal() {
             component={wrapIninternalView(AppDataQueryPerformance)}
           />
           <Route path="/internal/monitoringUnit/resilientMapping" component={wrapIninternalView(ResilientMapping)} />
-          <Route path="/internal/monitoringUnit/sre/workerStats" component={wrapIninternalView(WorkerStats)} />
           <Route path="/internal/monitoringUnit/sre/acceptors" component={wrapIninternalView(Acceptors)} />
           <Route
             path="/internal/monitoringUnit/sre/metricscassandra"
@@ -113,12 +113,14 @@ export default function Internal() {
             path="/internal/monitoringUnit/sre/profilescassandra"
             component={wrapIninternalView(ProfilesCassandra)}
           />
+          <Route path="/internal/monitoringUnit/sre/statecassandra" component={wrapIninternalView(StateCassandra)} />
           <Route path="/internal/monitoringUnit/sre/clickhouse" component={wrapIninternalView(Clickhouse)} />
           <Route
             path="/internal/monitoringUnit/sre/clickhouseTableSizes"
             component={wrapIninternalView(ClickhouseTotalTableSizes)}
           />
           <Route path="/internal/monitoringUnit/sre/elastic" component={wrapIninternalView(MetaElastic)} />
+          <Route path="/internal/monitoringUnit/sre/elasticng" component={wrapIninternalView(MetaElasticNG)} />
           <Route path="/internal/monitoringUnit/sre/kafka" component={wrapIninternalView(Kafka)} />
           <Route
             path="/internal/monitoringUnit/serverless/serverlessacceptors"

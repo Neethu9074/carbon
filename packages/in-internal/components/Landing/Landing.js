@@ -1,14 +1,17 @@
 import React from 'react';
 
+import OpenEventsCountChartWrapper from 'in-events/components/OpenEventsCountChartWrapper';
 import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import { LinkList, LinkListItem } from 'in-internal/components/LinkList/LinkList';
-import SloViolationsChart from 'in-internal/components/SloViolationsChart';
+import { MINIMUM_ROLLUP, getDefaultMetricRollupDuration } from 'in-stores/metric';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { isInstanaEngineer, isInstanaEmail } from 'in-stores/user';
 import { internalMonitoringUnit } from 'in-services/featureFlags';
 import { getModifiedUrlStream } from 'in-stores/navigation';
+import Renderer from 'in-components/Chart/renderer/Renderer';
 import TimeZones from 'in-internal/components/TimeZones';
 import { Row, Col } from 'in-new-components/layout/Grid';
+import { number } from 'in-services/formatters/number';
 import { timeConfig$ } from 'in-stores/time/config';
 import Footer from 'in-new-components/Footer';
 import { config } from 'in-services/config';
@@ -21,6 +24,8 @@ export default connectTo({ timeConfig: timeConfig$, isInternalVisible: isInterna
   timeConfig,
   isInternalVisible
 }) {
+  const granularity = getDefaultMetricRollupDuration(timeConfig).rollup || MINIMUM_ROLLUP;
+
   return (
     <>
       <div className={locals.header}>
@@ -30,21 +35,57 @@ export default connectTo({ timeConfig: timeConfig$, isInternalVisible: isInterna
       {internalMonitoringUnit && isInstanaEmail && (
         <Row>
           <Col lg={6}>
-            <SloViolationsChart
-              timeConfig={timeConfig}
+            <OpenEventsCountChartWrapper
               cardTitle="Shared Component SLO Violations"
-              query={
-                'NOT (entity.jvm.app.name:"filler*" OR entity.jvm.app.name:"processor*" OR entity.jvm.app.name:"issue-tracker*" OR entity.jvm.app.name:"appdata-processor*" OR entity.jvm.app.name:"appdata-legacy-*" OR entity.jvm.app.name:"ui-backend*")'
-              }
+              timeConfig={timeConfig}
+              y1={{
+                renderer: Renderer.stackedArea,
+                formatter: number.forcedCompact,
+                labels: ['SREInfaSLO', 'SRESLO'],
+                metricIds: ['sreinfraslo', 'sreslo']
+              }}
+              metricsConfiguration={{
+                timeConfig,
+                metrics: {
+                  sreinfraslo: {
+                    query: `event.text:"SREInfaSLO"`,
+                    granularity
+                  },
+                  sreslo: {
+                    query: `event.text:"SRESLO"`,
+                    granularity
+                  }
+                }
+              }}
             />
           </Col>
           <Col lg={6}>
-            <SloViolationsChart
-              timeConfig={timeConfig}
+            <OpenEventsCountChartWrapper
               cardTitle="TU SLO Violations"
-              query={
-                '(entity.jvm.app.name:"filler*" OR entity.jvm.app.name:"processor*" OR entity.jvm.app.name:"issue-tracker*" OR entity.jvm.app.name:"appdata-processor*" OR entity.jvm.app.name:"appdata-legacy-*" OR entity.jvm.app.name:"ui-backend*")'
-              }
+              timeConfig={timeConfig}
+              y1={{
+                renderer: Renderer.stackedArea,
+                formatter: number.forcedCompact,
+                labels: ['TUSLO', 'ExpTUSLO', 'DevTUSLO'],
+                metricIds: ['tuslo', 'exptuslo', 'devtuslo']
+              }}
+              metricsConfiguration={{
+                timeConfig,
+                metrics: {
+                  tuslo: {
+                    query: `event.text:"TUSLO"`,
+                    granularity
+                  },
+                  exptuslo: {
+                    query: `event.text:"ExpTUSLO"`,
+                    granularity
+                  },
+                  devtuslo: {
+                    query: `event.text:"DevTUSLO"`,
+                    granularity
+                  }
+                }
+              }}
             />
           </Col>
         </Row>
@@ -74,7 +115,7 @@ export default connectTo({ timeConfig: timeConfig$, isInternalVisible: isInterna
                             href$={getModifiedUrlStream(params => {
                               params.pathname = '/events';
                               params.query.q =
-                                '(event.text:"[SLO]" OR event.text:"[experimental SLO]") AND event.state:open';
+                                '(event.text:"[SREInfaSLO]" OR event.text:"[SRESLO]" OR event.text:"[TUSLO]" OR event.text:"[ExpTUSLO]" OR event.text:"[DevTUSLO]") AND event.state:open';
                               setOrDeleteMatrixKey(params, '/events', 'view', 'issue');
                             })}
                           />
@@ -292,6 +333,12 @@ export default connectTo({ timeConfig: timeConfig$, isInternalVisible: isInterna
                           params => (params.pathname = '/internal/monitoringUnit/sre/profilescassandra')
                         )}
                       />
+                      <LinkListItem
+                        label="State Cassandra"
+                        href$={getModifiedUrlStream(
+                          params => (params.pathname = '/internal/monitoringUnit/sre/statecassandra')
+                        )}
+                      />
                       <LinkListItem label="Clickhouse">
                         <LinkList>
                           <LinkListItem
@@ -315,21 +362,14 @@ export default connectTo({ timeConfig: timeConfig$, isInternalVisible: isInterna
                         )}
                       />
                       <LinkListItem
+                        label="ElasticsearchNG"
+                        href$={getModifiedUrlStream(
+                          params => (params.pathname = '/internal/monitoringUnit/sre/elasticng')
+                        )}
+                      />
+                      <LinkListItem
                         label="Kafka"
                         href$={getModifiedUrlStream(params => (params.pathname = '/internal/monitoringUnit/sre/kafka'))}
-                      />
-                    </LinkList>
-                  </LinkListItem>
-                )}
-
-                {isInstanaEngineer && (
-                  <LinkListItem label="Workers">
-                    <LinkList>
-                      <LinkListItem
-                        label="Worker Allocation/Load"
-                        href$={getModifiedUrlStream(
-                          params => (params.pathname = '/internal/monitoringUnit/sre/workerStats')
-                        )}
                       />
                     </LinkList>
                   </LinkListItem>
