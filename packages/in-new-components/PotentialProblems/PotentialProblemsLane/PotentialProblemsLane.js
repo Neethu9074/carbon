@@ -225,13 +225,15 @@ function getPotentialProblemsObservable([
       if (isLoading(result) && !start) {
         startTime.current = Date.now();
       } else if (result.data && start) {
-        trackRequestLoadingTime({
-          requestTime: `${Date.now() - start / 1000}s`,
-          numberPotentialProblems: result.data.alerts.length,
-          windowSize: globalTimeConfig.windowSize,
-          chartName
-        });
-        startTime.current = null;
+        if (result.data.alerts.length !== 0) {
+          trackRequestLoadingTime({
+            requestTime: `${Date.now() - start / 1000}s`,
+            numberPotentialProblems: result.data.alerts.length,
+            windowSize: globalTimeConfig.windowSize,
+            chartName
+          });
+          startTime.current = null;
+        }
       }
     });
 }
