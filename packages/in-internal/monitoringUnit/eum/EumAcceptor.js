@@ -22,7 +22,7 @@ export default connectTo(
 
     rows = rows.slice().sort((a, b) => compareIgnoreCase(a.host.get('label'), b.host.get('label')));
 
-    const labels = rows.map(r => r.host.get('label').replace(/^(eum-acceptor-\d+).*$/i, '$1'));
+    const labels = rows.map(getLabel);
 
     return (
       <div>
@@ -265,3 +265,10 @@ export default connectTo(
     );
   }
 );
+
+export function getLabel(row) {
+  return row.host
+    .get('label')
+    .replace('.instana.io', '')
+    .replace('ip-', '');
+}

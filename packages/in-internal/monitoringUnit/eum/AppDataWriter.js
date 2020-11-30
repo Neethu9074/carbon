@@ -21,8 +21,12 @@ export default connectTo(
     }
 
     rows = rows.slice().sort((a, b) => compareIgnoreCase(a.host.get('label'), b.host.get('label')));
-
-    const labels = rows.map(r => r.host.get('label').replace(/^(appdata-writer-\d+).*$/i, '$1'));
+    const labels = rows.map(r =>
+      r.host
+        .get('label')
+        .replace('.instana.io', '')
+        .replace('ip-', '')
+    );
 
     return (
       <div>

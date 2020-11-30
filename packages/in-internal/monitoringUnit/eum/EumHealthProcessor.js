@@ -21,7 +21,6 @@ export default connectTo(
     }
 
     rows = rows.slice().sort((a, b) => compareIgnoreCase(getLabel(a), getLabel(b)));
-
     const labels = rows.map(getLabel);
 
     return (
@@ -161,7 +160,8 @@ export default connectTo(
 );
 
 export function getLabel(row) {
-  return row.container
-    .getIn(['data', 'Nomad', 'allocName'], row.host.get('label'))
-    .replace('eum-health-processor.eum-health-processor', 'allocation');
+  return row.host
+    .get('label')
+    .replace('.instana.io', '')
+    .replace('ip-', '');
 }

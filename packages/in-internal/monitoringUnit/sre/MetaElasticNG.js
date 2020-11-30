@@ -46,9 +46,9 @@ export default connectTo(
     }
 
     metaEsNgNodes = sort(metaEsNgNodes);
-    const metaEsNgNodeLabels = getLabels(metaEsNgNodes, /^(ng-elastic-\d+).*$/i);
+    const metaEsNgNodeLabels = getLabels(metaEsNgNodes, /^(ng-elastic-data-\d+|ng-elastic-master-\d+).*$/i);
 
-    let maxNodesPerBucket = 5;
+    let maxNodesPerBucket = 6;
     let esNodesBuckets = Math.ceil(metaEsNgNodes.length / maxNodesPerBucket);
 
     let indicesQueryCount = [];

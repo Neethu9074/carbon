@@ -123,7 +123,8 @@ export default connectTo(
 );
 
 export function getLabel(row) {
-  return row.container
-    .getIn(['data', 'Nomad', 'allocName'], row.host.get('label'))
-    .replace('js-stack-trace-translator.js-stack-trace-translator', 'allocation');
+  return row.host
+    .get('label')
+    .replace('.instana.io', '')
+    .replace('ip-', '');
 }

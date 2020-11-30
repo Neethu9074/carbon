@@ -65,5 +65,11 @@ export default connectTo({
 });
 
 function getLabels(rows, regexp) {
-  return rows.map(r => r.host.get('label').replace(regexp, '$1'));
+  return rows.map(r =>
+    r.host
+      .get('label')
+      .replace(regexp, '$1')
+      .replace('.instana.io', '')
+      .replace('ip-', '')
+  );
 }
