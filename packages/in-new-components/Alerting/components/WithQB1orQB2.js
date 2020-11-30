@@ -12,23 +12,34 @@ import { newAnalyticsEnabled, smartAlertsQB2Enabled } from 'in-services/featureF
 
   WithQB1orQB2({
     onUsesQB1 = () => { MyQb1Components({...props}),
-    onUsesQB2 = () => { MyQb2Components({...props})
+    onUsesQB2 = () => { MyQb2Components({...props}),
+    shouldFallbackToQB2 => isQB2Config => isQB2Config(convertedTagFilterExpression) // + anything else you need to put into that function
   })
 */
 
-export default function WithQB1orQB2({ onUsesQB1, onUsesQB2 }) {
-  return switchQB1orQB2Helper(onUsesQB1, onUsesQB2);
+export default function WithQB1orQB2({ onUsesQB1, onUsesQB2, shouldFallbackToQB2 = null }) {
+  return switchQB1orQB2Helper(onUsesQB1, onUsesQB2, shouldFallbackToQB2);
 }
 
-export function switchQB1orQB2Helper(onUsesQB1, onUsesQB2) {
+export function switchQB1orQB2Helper(onUsesQB1, onUsesQB2, shouldFallbackToQB2 = null) {
   // Because this function is also used outside of a React file, we can't use "useLocation"
   // TODO: since window.location and the router location (useLocation) can be out of sync, we want
   // to avoid using window.location. In this case we use it because it got deleted when QB2 will be available
   // in Website Smart Alerts.
   const isWebsiteMonitoring = window.location.hash.startsWith('#/websiteMonitoring');
-  if (newAnalyticsEnabled && smartAlertsQB2Enabled && !isWebsiteMonitoring) {
+
+  if (isQB2ModeEnabled && !isWebsiteMonitoring) {
     return onUsesQB2();
   } else {
+    if (shouldFallbackToQB2?.(isQB2Config)) {
+      return onUsesQB2();
+    }
     return onUsesQB1();
   }
+}
+
+export const isQB2ModeEnabled = newAnalyticsEnabled && smartAlertsQB2Enabled;
+
+export function isQB2Config(convertedTagFilterExpression) {
+  return convertedTagFilterExpression === false;
 }

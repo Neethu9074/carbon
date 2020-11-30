@@ -9,6 +9,7 @@ import ChartViewConfigurator from 'in-new-components/Alerting/components/ChartVi
 import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-applications/tags';
 import AlertChannelsViewer from 'in-new-components/Alerting/components/AlertChannelsViewer';
 import { getLogMessageRuleOperatorLabel } from 'in-applications/alerting/form/ruleFormData';
+import { fromBackendModel } from 'in-new-components/QueryBuilder/transformation/formModel';
 import AlertPropertyInfos from 'in-new-components/Alerting/components/AlertPropertyInfos';
 import AlertQueryBuilder from 'in-applications/alerting/components/AlertQueryBuilder';
 import AlertDetailsCard from 'in-new-components/Alerting/components/AlertDetailsCard';
@@ -36,10 +37,12 @@ export default function AlertConfiguration({ alertConfig, applicationName }) {
     timeThreshold,
     alertChannelIds,
     tagFilters, // QB1
-    tagFilterExpression // QB2
+    tagFilterExpression, // QB2
+    convertedTagFilterExpression // QB2
   } = alertConfig;
 
   const blueprintConfig = getBlueprintConfig(alertType);
+  const tagFilterExpressionUiModel = fromBackendModel(tagFilterExpression);
 
   return (
     <AlertDetailsCard>
@@ -64,7 +67,10 @@ export default function AlertConfiguration({ alertConfig, applicationName }) {
               )}
 
               <AlertingChart
-                alertConfig={{ ...alertConfig }}
+                alertConfig={{
+                  ...alertConfig,
+                  tagFilterExpression: tagFilterExpressionUiModel
+                }}
                 viewConfig={chartViewConfig}
                 blueprintConfig={blueprintConfig}
               />
@@ -93,9 +99,10 @@ export default function AlertConfiguration({ alertConfig, applicationName }) {
               onUsesQB2={() => (
                 <>
                   <IconLabel text={applicationName} type="lib_application" />
-                  <AlertQueryBuilder onChange={identity} value={tagFilterExpression} readOnly />
+                  <AlertQueryBuilder onChange={identity} value={tagFilterExpressionUiModel} readOnly />
                 </>
               )}
+              shouldFallbackToQB2={isQB2Config => isQB2Config(convertedTagFilterExpression)}
             />
           </div>
           <ReadOnlyInboundOrAllCalls alertConfig={alertConfig} />

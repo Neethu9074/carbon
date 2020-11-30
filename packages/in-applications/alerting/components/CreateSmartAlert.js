@@ -55,7 +55,6 @@ function CreateSmartAlert({
             applicationLabel={applicationLabel}
             formData={generateFormData({
               applicationId,
-              applicationLabel,
               serviceLabel,
               endpointLabel,
               boundaryScope: urlBoundaryScope || defaultBoundaryScope
@@ -87,7 +86,7 @@ CreateSmartAlert.propTypes = {
   defaultBoundaryScope: PropTypes.string
 };
 
-function generateFormData({ applicationId, applicationLabel, serviceLabel, endpointLabel, boundaryScope }) {
+function generateFormData({ applicationId, serviceLabel, endpointLabel, boundaryScope }) {
   return {
     applicationId,
     boundaryScope,
@@ -116,7 +115,7 @@ function generateFormData({ applicationId, applicationLabel, serviceLabel, endpo
       }
     ].filter(({ stringValue }) => Boolean(stringValue)),
     // QB2
-    tagFilterExpression: getTagFilterExpression(applicationLabel, serviceLabel, endpointLabel)
+    tagFilterExpression: getTagFilterExpression(serviceLabel, endpointLabel)
   };
 }
 
@@ -124,28 +123,32 @@ function getLabel(result) {
   return result?.data?.label ?? null;
 }
 
-function getTagFilterExpression(applicationLabel, serviceLabel, endpointLabel) {
-  const getFilter = (name, value) => ({
-    type: 'TAG_FILTER',
-    name,
-    operator: 'EQUALS',
-    value,
-    entity: 'DESTINATION'
-  });
-
-  const tagFilterExpression = [];
+function getTagFilterExpression(serviceLabel, endpointLabel) {
+  const elements = [];
 
   if (serviceLabel) {
-    tagFilterExpression.push(getFilter('service.name', serviceLabel));
+    elements.push(getFilter('service.name', serviceLabel));
   }
 
   if (endpointLabel) {
-    tagFilterExpression.push({
-      type: 'CONJUNCTION',
-      logicalOperator: 'AND'
-    });
-    tagFilterExpression.push(getFilter('endpoint.name', endpointLabel));
+    elements.push(getFilter('endpoint.name', endpointLabel));
   }
 
-  return tagFilterExpression;
+  if (elements.length === 1) {
+    return elements[0];
+  }
+
+  return {
+    type: 'EXPRESSION',
+    logicalOperator: 'AND',
+    elements
+  };
 }
+
+const getFilter = (name, value) => ({
+  type: 'TAG_FILTER',
+  name,
+  operator: 'EQUALS',
+  value,
+  entity: 'DESTINATION'
+});

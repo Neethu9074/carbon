@@ -7,7 +7,7 @@ import createRuleForm from 'in-applications/alerting/form/ruleForm';
 export default function createBlueprintForm(form, alertType, alertThreshold = {}) {
   const threshold = form.get('threshold').toJS();
   const tagFilters = form.get('tagFilters').value; // QB1
-  const tagFilterExpression = form.get('tagFilterExpression')?.value; // QB2
+  const tagFilterExpression = form.get('tagFilterExpression').value; // QB2
 
   const blueprintConfig = getBlueprintConfig(alertType);
   const newThresholdForm = createThresholdForm(
@@ -37,13 +37,14 @@ export default function createBlueprintForm(form, alertType, alertThreshold = {}
   let updatedForm = switchQB1orQB2Helper(
     () => form.updateIn(['tagFilters'], f => f.setValue(tagFilters.filter(isNotDisabled))),
     () => {
-      const filteredTagFilterExpression = tagFilterExpression.filter(isNotDisabled);
+      const filteredTagFilterExpression = (tagFilterExpression ?? []).filter(isNotDisabled);
       const firstTagFilterItemIndex = filteredTagFilterExpression.findIndex(({ type }) => type === 'TAG_FILTER');
 
       return form.updateIn(['tagFilterExpression'], f =>
         f.setValue(filteredTagFilterExpression.slice(firstTagFilterItemIndex))
       );
-    }
+    },
+    isQB2Config => isQB2Config(form.get('convertedTagFilterExpression')?.value)
   )
     .put('rule', newRuleForm)
     .put('threshold', newThresholdForm);

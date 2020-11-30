@@ -1,6 +1,7 @@
 import { createMapForm, createField } from 'formalistic';
 
 import createTimeThresholdForm from 'in-new-components/Alerting/advanced/TimeThresholdConfig/form';
+import { fromBackendModel } from 'in-new-components/QueryBuilder/transformation/formModel';
 import createThresholdForm from 'in-applications/alerting/form/thresholdForm';
 import createRuleForm from 'in-applications/alerting/form/ruleForm';
 
@@ -56,7 +57,13 @@ export function createSmartAlertForm(alertConfig) {
     .put(
       'tagFilterExpression',
       createField({
-        value: alertConfig.tagFilterExpression ?? []
+        value: fromBackendModel(alertConfig.tagFilterExpression)
+      })
+    )
+    .put(
+      'convertedTagFilterExpression',
+      createField({
+        value: alertConfig.convertedTagFilterExpression
       })
     )
     .put(

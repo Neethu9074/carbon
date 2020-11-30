@@ -744,7 +744,7 @@ function AWSLambdaContent({ agentKey, serverlessEndpoint }) {
       </Fragment>
     );
   } else if (selectedRuntime === runtimeOptions[1]) {
-    const javaLayerVersion = '1';
+    const javaLayerVersion = '21';
 
     steps = (
       <Fragment>

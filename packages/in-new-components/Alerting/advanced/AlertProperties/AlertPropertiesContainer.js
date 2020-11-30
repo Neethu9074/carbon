@@ -3,7 +3,6 @@ import React from 'react';
 
 import AlertProperties from 'in-new-components/Alerting/advanced/AlertProperties/AlertProperties';
 import TwoColumnContainer from 'in-new-components/Alerting/components/TwoColumnContainer';
-import { switchQB1orQB2Helper } from 'in-new-components/Alerting/components/WithQB1orQB2';
 import evaluateClassNames from 'in-services/util/classnames';
 import SvgIcon from 'in-components/SvgIcon/SvgIcon';
 
@@ -27,15 +26,8 @@ AlertPropertiesContainer.propTypes = {
 };
 
 function AlertPreview({ form, label, severity, getTitlePlaceholder, getDescriptionPlaceholder }) {
-  let tagFilters; //QB1
-  let tagFilterExpression; //QB2
-
-  switchQB1orQB2Helper(
-    () => (tagFilters = form.get('tagFilters').value),
-    () => (tagFilterExpression = form.get('tagFilterExpression').value)
-  );
-
-  const pages = (tagFilters ?? tagFilterExpression).filter(filter => filter.name === 'beacon.page.name');
+  const tagFilters = form.get('tagFilters').value;
+  const pages = tagFilters.filter(filter => filter.name === 'beacon.page.name');
   const name = form.get('name').value;
   const description = form.get('description').value;
 

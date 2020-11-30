@@ -10,7 +10,7 @@ export default function ApplicationAlertConfigButton({ alertConfig }) {
     <Button
       kind="secondary"
       onClick={() => {
-        applicationsAlertingEventDetailsViewEditConfig(alertConfig.id);
+        applicationsAlertingEventDetailsViewEditConfig({ id: alertConfig.id });
         goToAlertConfig(alertConfig.id, alertConfig.created, alertConfig.applicationId);
       }}
     >

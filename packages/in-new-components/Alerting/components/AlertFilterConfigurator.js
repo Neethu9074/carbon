@@ -1,49 +1,34 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import Section from 'in-new-components/workspace/Section';
-import Button from 'in-new-components/Button/Button';
-
 import locals from './AlertFilterConfigurator.mless';
 
-export default function AlertFilterConfigurator({ queryBuilderComponent, form, updateForm, ...remainingProps }) {
+export default function AlertFilterConfigurator({ QueryBuilderComponent, form, updateForm, ...remainingProps }) {
   const tagFilterExpression = form.get('tagFilterExpression')?.value;
 
-  const handleChange = tfe => {
-    updateForm(
-      form
-        .updateIn(['tagFilterExpression'], f => f.setValue(tfe).setTouched(true))
-        .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
-    );
-  };
-
   return (
-    <Section
-      className={locals.queryBuilderSection}
-      icon="lib_actions_filter"
-      title="Filter"
-      firstLineAlignmentOffsetPx={3}
-      actions={
-        tagFilterExpression.length > 0 && (
-          <Button kind="subtle" icon="lib_openclose_cancel" size="compact" onClick={() => handleChange([])}>
-            Clear
-          </Button>
-        )
-      }
-    >
-      <>
-        {queryBuilderComponent({
-          ...remainingProps,
-          onChange: tfe => handleChange(tfe),
-          value: tagFilterExpression
-        })}
-      </>
-    </Section>
+    <div className={locals.queryBuilderWrapper}>
+      <span className={locals.queryBuilderPositionCorrection}>
+        <QueryBuilderComponent
+          {...remainingProps}
+          onChange={tfe => handleChangeTagFilterExpressionChange(tfe, form, updateForm)}
+          value={tagFilterExpression}
+        />
+      </span>
+    </div>
   );
 }
 
+export const handleChangeTagFilterExpressionChange = (tagFilterExpression, form, updateForm) => {
+  updateForm(
+    form
+      .updateIn(['tagFilterExpression'], f => f.setValue(tagFilterExpression).setTouched(true))
+      .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
+  );
+};
+
 AlertFilterConfigurator.propTypes = {
-  queryBuilderComponent: PropTypes.func.isRequired,
+  QueryBuilderComponent: PropTypes.func.isRequired,
   updateForm: PropTypes.func.isRequired,
   form: PropTypes.object.isRequired,
   moveClearActionLeft: PropTypes.bool

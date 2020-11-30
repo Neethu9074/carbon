@@ -15,6 +15,7 @@ import {
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
 import { alertsTab, alertsTabDetailsFullyQualified } from 'in-applications/navigation/paths';
 import { alertCreated as alertCreatedMatrixParam } from 'in-applications/navigation/matrix';
+import { fromBackendModel } from 'in-new-components/QueryBuilder/transformation/formModel';
 import AlertQueryBuilder from 'in-applications/alerting/components/AlertQueryBuilder';
 import { getBlueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
 import { alertId as alertIdMatrixParam } from 'in-applications/navigation/matrix';
@@ -175,22 +176,24 @@ function getFiltersContent(config, applicationName) {
           ) : null
         }
         onUsesQB2={() => {
+          const tagFilterExpression = fromBackendModel(config.tagFilterExpression ?? []);
           return (
-            config.tagFilterExpression.length > 0 && (
+            tagFilterExpression.length > 0 && (
               <Tooltip
                 themeStyle="light"
-                content={<AlertQueryBuilder value={config.tagFilterExpression} readOnly />}
+                content={<AlertQueryBuilder value={tagFilterExpression} readOnly />}
                 align="topMiddle"
                 delay={500}
               >
                 <span className={locals.centered}>
                   <SvgIcon className={locals.filterIcon} type="lib_actions_filter" />
-                  Filters
+                  More filters
                 </span>
               </Tooltip>
             )
           );
         }}
+        shouldFallbackToQB2={isQB2Config => isQB2Config(config.convertedTagFilterExpression)}
       />
     </div>
   );

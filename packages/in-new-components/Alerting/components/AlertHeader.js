@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import theme from 'in-themes';
 
 import RevisionDropdown, { toAlertRevision } from 'in-new-components/Alerting/components/RevisionDropdown';
+import { isQB2Config, isQB2ModeEnabled } from 'in-new-components/Alerting/components/WithQB1orQB2';
 import { getModifiedUrlStream, mutateUrl } from 'in-stores/navigation/navigation';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-new-components/Dialog/ConfirmationDialog';
@@ -183,11 +184,10 @@ export default function AlertHeader({
                   }}
                 />
               </Tooltip>
-
-              <Tooltip content={`Edit`}>
-                <SvgIcon className={locals.actionIcon} type="lib_actions_edit" onClick={openDialog} />
-              </Tooltip>
-
+              <EditButton
+                openDialog={openDialog}
+                convertedTagFilterExpression={alertConfig.convertedTagFilterExpression}
+              />
               <Tooltip content={`Delete`}>
                 <SvgIcon
                   className={locals.actionIcon}
@@ -259,6 +259,32 @@ AlertHeader.propTypes = {
   onConfigDeleted: PropTypes.func,
   onConfigRevisionChanged: PropTypes.func
 };
+
+function EditButton({ openDialog, convertedTagFilterExpression }) {
+  const isQB1Mode = !isQB2ModeEnabled;
+  const isDisabled = isQB2Config(convertedTagFilterExpression) && isQB1Mode;
+  return (
+    <Tooltip
+      content={
+        isDisabled && (
+          <div>
+            This config is stored with Query Builder 2 expressions. <br /> You can only start or pause, but not edit
+            those configurations when in Query Builder 1 mode
+          </div>
+        )
+      }
+    >
+      <SvgIcon
+        className={evaluateClassNames({
+          [locals.actionIcon]: true,
+          [locals.actionIconDisabled]: isDisabled
+        })}
+        type="lib_actions_edit"
+        onClick={isDisabled ? undefined : openDialog}
+      />
+    </Tooltip>
+  );
+}
 
 function getLinkToAlerts(fullyQualifiedAlertsList) {
   return getModifiedUrlStream(params => {
