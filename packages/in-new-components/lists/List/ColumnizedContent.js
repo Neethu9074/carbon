@@ -15,8 +15,7 @@ export default function ColumnizedContent(props) {
           style={{
             minWidth: minWidth,
             maxWidth: width,
-            flexShrink: shrink ? 1 : 0,
-            overflow: shrink ? 'auto' : 'visible'
+            flexShrink: shrink ? 1 : 0
           }}
           className={evaluateClassNames({
             [locals.flexColumn]: !width
