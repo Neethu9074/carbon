@@ -68,7 +68,8 @@ export default function AlertingChart({ alertConfig, viewConfig, blueprintConfig
           enrichedTagFilterExpression.push(AND_CONJUNCTION, ...ruleTagFilterExpression);
         }
       }
-    }
+    },
+    isQB2Config => isQB2Config(alertConfig.convertedTagFilterExpression)
   );
 
   return (
@@ -97,11 +98,11 @@ function AlertingChartWithQueryValidation({
   alertsPreviewEnabled,
   canReload
 }) {
-  const isTagfilterExpressionQueryValidResult =
-    useObservable(args => isAlertQueryValid(args), [enrichedTagFilterExpression, viewConfig.timeConfig]) ??
+  const isAlertQueryValidResult =
+    useObservable(args => isAlertQueryValid(args), [alertConfig.tagFilterExpression, viewConfig.timeConfig]) ??
     pendingResult;
 
-  const { granularity, threshold, timeThreshold } = alertConfig;
+  const { granularity, threshold, timeThreshold, convertedTagFilterExpression } = alertConfig;
   const metricChartGranularity = Math.max(granularity, viewConfig.minChartMetricGranularity);
   const formatter = blueprintConfig.getMetricFormat(metricName);
 
@@ -123,18 +124,17 @@ function AlertingChartWithQueryValidation({
               ...switchQB1orQB2Helper(
                 () => ({ tagFilters: enrichedTagFilters }),
                 () => ({
-                  tagFilterExpression: getBackendQueryModel(
-                    isTagfilterExpressionQueryValidResult,
-                    enrichedTagFilterExpression
-                  )
-                })
+                  tagFilterExpression: getBackendQueryModel(isAlertQueryValidResult, enrichedTagFilterExpression)
+                }),
+                isQB2Config => isQB2Config(convertedTagFilterExpression)
               ),
               numeratorFilter,
               metricName,
               aggregation,
               granularity,
               threshold,
-              timeThreshold
+              timeThreshold,
+              convertedTagFilterExpression
             })}
           >
             <AlertsPreviewLane />
@@ -155,11 +155,9 @@ function AlertingChartWithQueryValidation({
         ...switchQB1orQB2Helper(
           () => ({ tagFilters: enrichedTagFilters }),
           () => ({
-            tagFilterExpression: getBackendQueryModel(
-              isTagfilterExpressionQueryValidResult,
-              enrichedTagFilterExpression
-            )
-          })
+            tagFilterExpression: getBackendQueryModel(isAlertQueryValidResult, enrichedTagFilterExpression)
+          }),
+          isQB2Config => isQB2Config(convertedTagFilterExpression)
         ),
         metrics: {
           [metricName]: {
@@ -206,6 +204,7 @@ function AlertingChartWithQueryValidation({
           });
         }
       }}
+      convertedTagFilterExpression={convertedTagFilterExpression}
       canReload={canReload}
       nonInteractive
     />
@@ -221,14 +220,16 @@ function getAlertsPreviewQuery({
   aggregation,
   granularity,
   threshold,
-  timeThreshold
+  timeThreshold,
+  convertedTagFilterExpression //QB2
 }) {
   if (threshold.baseline || typeof threshold.value === 'number') {
     return {
       timeConfig,
       ...switchQB1orQB2Helper(
         () => ({ tagFilters }),
-        () => ({ tagFilterExpression })
+        () => ({ tagFilterExpression }),
+        isQB2Config => isQB2Config(convertedTagFilterExpression)
       ),
       timeThreshold,
       threshold,

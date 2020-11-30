@@ -7,12 +7,21 @@ import {
   thresholdPropType
 } from 'in-new-components/PotentialProblems/PotentialProblemsLane/proptypes';
 import { createDefaultChartConfig } from 'in-new-components/Alerting/Chart/chartViewConfig';
+import { fromBackendModel } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { getBlueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
 import { defaultGranularity } from 'in-new-components/PotentialProblems/constants';
 import AlertingChart from 'in-new-components/Alerting/Chart/AlertingChart';
 import { hours } from 'in-services/time';
 
-export default function PotentialProblemChart({ applicationId, threshold, rule, tagFilters, alert, alertType }) {
+export default function PotentialProblemChart({
+  applicationId,
+  threshold,
+  rule,
+  tagFilters,
+  tagFilterExpression,
+  alert,
+  alertType
+}) {
   return (
     <AlertingChart
       alertConfig={{
@@ -20,7 +29,8 @@ export default function PotentialProblemChart({ applicationId, threshold, rule, 
         rule,
         tagFilters: tagFilters.filter(({ name }) => name !== 'application.id'),
         applicationId,
-        granularity: defaultGranularity
+        granularity: defaultGranularity,
+        tagFilterExpression: fromBackendModel(tagFilterExpression)
       }}
       viewConfig={{
         ...createDefaultChartConfig(getTimeConfig()),
@@ -53,5 +63,6 @@ PotentialProblemChart.propTypes = {
   applicationId: PropTypes.string.isRequired,
   rule: rulePropType.isRequired,
   tagFilters: PropTypes.arrayOf(PropTypes.object).isRequired,
+  tagFilterExpression: PropTypes.object.isRequired,
   threshold: thresholdPropType.isRequired
 };

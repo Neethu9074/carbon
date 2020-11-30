@@ -1,12 +1,11 @@
 import React from 'react';
 
+import AlertTagFilterExpressionConfig from 'in-new-components/Alerting/components/AlertTagFilterExpressionConfig';
 import SimpleModeStepContentWrapper from 'in-new-components/BlueprintFormMultistep/SimpleModeStepContentWrapper';
 import SimpleAlertConfigDialogChart from 'in-applications/alerting/simple/SimpleAlertConfigDialogChart';
-import AlertFilterConfigurator from 'in-new-components/Alerting/components/AlertFilterConfigurator';
 import AlertLocationFilters from 'in-applications/alerting/components/AlertLocationFilters';
 import AlertQueryBuilder from 'in-applications/alerting/components/AlertQueryBuilder';
 import WithQB1orQB2 from 'in-new-components/Alerting/components/WithQB1orQB2';
-import IconLabel from 'in-new-components/Alerting/components/IconLabel';
 
 import locals from './SimpleAlertConfigDialogStep2.mless';
 
@@ -32,11 +31,15 @@ export default function SimpleAlertConfigDialogStep2({
             />
           )}
           onUsesQB2={() => (
-            <div className={locals.alertFiltersWrapper}>
-              <IconLabel text={applicationLabel} type="lib_application" />
-              <AlertFilterConfigurator queryBuilderComponent={AlertQueryBuilder} form={form} updateForm={updateForm} />
-            </div>
+            <AlertTagFilterExpressionConfig
+              form={form}
+              updateForm={updateForm}
+              applicationLabel={applicationLabel}
+              QueryBuilderComponent={AlertQueryBuilder}
+              headerTransparent
+            />
           )}
+          shouldFallbackToQB2={isQB2Config => isQB2Config(form.get('convertedTagFilterExpression').value)}
         />
       </div>
 

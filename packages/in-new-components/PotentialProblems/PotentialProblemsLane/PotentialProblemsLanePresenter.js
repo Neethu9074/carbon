@@ -14,6 +14,21 @@ import { getTitle } from 'in-new-components/PotentialProblems/textUtil';
 
 export default function PotentialProblemsLanePresenter({ potentialProblems, alertRules, ...remainingProps }) {
   const events = useMemo(() => {
+    function buildPotentialProblemEventObject({ alerts, lastStart, lastEnd, granularity, thresholds }) {
+      const lastStartShifted = adjustTimestampFraction(lastStart, granularity) - granularity / 2;
+      const lastEndShifted = adjustTimestampFraction(lastEnd, granularity) + granularity / 2;
+      return {
+        alerts: alerts,
+        timestamp: lastStartShifted,
+        duration: lastEndShifted - lastStartShifted,
+        thresholds
+      };
+    }
+
+    function adjustTimestampFraction(lastStartOrEnd, granularity) {
+      return Math.floor(lastStartOrEnd / granularity) * granularity;
+    }
+
     const { granularity } = remainingProps;
     const { thresholds } = potentialProblems;
 
@@ -71,7 +86,7 @@ export default function PotentialProblemsLanePresenter({ potentialProblems, aler
     );
 
     return events;
-  }, [potentialProblems?.alerts, potentialProblems?.thresholds]);
+  }, [potentialProblems, remainingProps]);
 
   return (
     <MarkerLane
@@ -99,32 +114,13 @@ export default function PotentialProblemsLanePresenter({ potentialProblems, aler
             alerts={alerts}
             thresholds={thresholds}
             renderSmartAlertDialogComponent={dialogProps => {
-              const { applicationLabel, serviceLabel, endpointLabel } = remainingProps;
-              const tagFilters = [];
-
-              if (serviceLabel) {
-                tagFilters.push({
-                  name: 'service.name',
-                  operator: 'EQUALS',
-                  stringValue: serviceLabel
-                });
-              }
-
-              if (endpointLabel) {
-                tagFilters.push({
-                  name: 'endpoint.name',
-                  operator: 'EQUALS',
-                  stringValue: endpointLabel
-                });
-              }
-
+              const { applicationLabel } = remainingProps;
               return (
                 <SmartAlertConfigDialogWrapper
                   applicationLabel={applicationLabel}
                   formData={{
                     ...remainingProps,
-                    ...dialogProps,
-                    tagFilters
+                    ...dialogProps
                   }}
                   onClose={close}
                 />
@@ -146,29 +142,14 @@ export default function PotentialProblemsLanePresenter({ potentialProblems, aler
       hideDefaultHoverStyle
     />
   );
-}
 
-function buildPotentialProblemEventObject({ alerts, lastStart, lastEnd, granularity, thresholds }) {
-  const lastStartShifted = adjustTimestampFraction(lastStart, granularity) - granularity / 2;
-  const lastEndShifted = adjustTimestampFraction(lastEnd, granularity) + granularity / 2;
-  return {
-    alerts: alerts,
-    timestamp: lastStartShifted,
-    duration: lastEndShifted - lastStartShifted,
-    thresholds
-  };
-}
-
-function adjustTimestampFraction(lastStartOrEnd, granularity) {
-  return Math.floor(lastStartOrEnd / granularity) * granularity;
-}
-
-function getUniqueMetricNames(alertRules) {
-  const uniqueMetricNames = new Set();
-  for (const { rule } of Object.values(alertRules)) {
-    uniqueMetricNames.add(rule.metricName);
+  function getUniqueMetricNames(alertRules) {
+    const uniqueMetricNames = new Set();
+    for (const { rule } of Object.values(alertRules)) {
+      uniqueMetricNames.add(rule.metricName);
+    }
+    return Array.from(uniqueMetricNames);
   }
-  return Array.from(uniqueMetricNames);
 }
 
 PotentialProblemsLanePresenter.propTypes = {

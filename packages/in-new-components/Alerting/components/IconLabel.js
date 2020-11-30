@@ -6,9 +6,9 @@ import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './IconLabel.mless';
 
-export default function IconLabel({ text = '', type }) {
+export default function IconLabel({ text = '', type, noBottomMargin }) {
   return (
-    <HorizontalFlexWrapper className={locals.wrapper}>
+    <HorizontalFlexWrapper className={noBottomMargin ? null : locals.withBottomMargin}>
       <SvgIcon className={locals.icon} type={type} /> {text}
     </HorizontalFlexWrapper>
   );
@@ -16,5 +16,6 @@ export default function IconLabel({ text = '', type }) {
 
 IconLabel.propTypes = {
   text: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired
+  type: PropTypes.string.isRequired,
+  noBottomMargin: PropTypes.bool
 };

@@ -8,6 +8,7 @@ import {
   applicationsAlertingAlertCreated
 } from 'in-applications/alerting/tracker';
 import { getTitlePlaceholder, getDescriptionPlaceholder } from 'in-applications/alerting/form/formUtils';
+import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import { createAlertConfig, updateAlertConfig } from 'in-applications/api/applicationAlertConfig';
 import { SmartAlertConfigDialog } from 'in-applications/alerting/Dialog/SmartAlertConfigDialog';
 import AdvancedModeContainer from 'in-applications/alerting/advanced/AdvancedModeContainer';
@@ -87,7 +88,7 @@ SmartAlertConfigDialogWrapper.propTypes = {
     boundaryScope: PropTypes.string,
     calculateThresholdOnBackend: PropTypes.bool,
     tagFilters: PropTypes.array, //QB1
-    tagFilterExpression: PropTypes.array //QB2
+    tagFilterExpression: PropTypes.object //QB2 backend model
   }).isRequired,
   onClose: PropTypes.func.isRequired
 };
@@ -124,15 +125,11 @@ function createAlert({ form, setForm, onClose, editMode, setIsSaving }) {
 
 function toAlertConfig(form) {
   const alertConfig = switchQB1orQB2Helper(
+    () => form.remove('hiddenFields').toJS(),
     () =>
       form
-        .remove('tagFilterExpression')
         .remove('hiddenFields')
-        .toJS(),
-    () =>
-      form
-        .remove('tagFilters')
-        .remove('hiddenFields')
+        .updateIn(['tagFilterExpression'], f => f.setValue(toBackendQueryModel(form.get('tagFilterExpression').value)))
         .toJS()
   );
   alertConfig.name = alertConfig.name || getTitlePlaceholder(form);

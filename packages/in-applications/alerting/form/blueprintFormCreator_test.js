@@ -1,6 +1,6 @@
+import { createMapForm, createField } from 'formalistic';
 /* eslint-env mocha */
 import { expect } from 'chai';
-import { createMapForm, createField } from 'formalistic';
 
 import {
   createErrorRateForm as thresholdCreateErrorRateForm,
@@ -34,13 +34,21 @@ describe('in-applications/alerting/form/blueprintFormCreator', () => {
       value: someTagFilters.map(createDummyTagFilter)
     });
   }
+
+  function createTagFilterExpressionForm() {
+    return createField({
+      value: []
+    });
+  }
+
   const extractFilterName = filter => filter?.name;
 
   context('when alertType is slowness', () => {
     context('when thresholdType is staticThreshold', () => {
       const blueprintForm = createBlueprintForm(
         createMapForm()
-          .put('tagFilters', createTagFiltersForm())
+          .put('tagFilters', createTagFiltersForm()) // QB1
+          .put('tagFilterExpression', createTagFilterExpressionForm()) // QB2
           .put('threshold', thresholdCreateSlownessForm({ type: 'staticThreshold', value: 5 }))
           .put('rule', createRuleForm({ alertType: 'slowness' }))
           .put('timeThreshold', createViolationsInSequenceForm({})),
@@ -57,7 +65,8 @@ describe('in-applications/alerting/form/blueprintFormCreator', () => {
     context('when thresholdType is historicBaseline', () => {
       const blueprintForm = createBlueprintForm(
         createMapForm()
-          .put('tagFilters', createTagFiltersForm())
+          .put('tagFilters', createTagFiltersForm()) // QB1
+          .put('tagFilterExpression', createTagFilterExpressionForm()) // QB2
           .put(
             'threshold',
             thresholdCreateSlownessForm({
@@ -95,7 +104,8 @@ describe('in-applications/alerting/form/blueprintFormCreator', () => {
     it('should have metricName "latency"', () => {
       const blueprintForm = createBlueprintForm(
         createMapForm()
-          .put('tagFilters', createTagFiltersForm())
+          .put('tagFilters', createTagFiltersForm()) // QB1
+          .put('tagFilterExpression', createTagFilterExpressionForm()) // QB2
           .put('threshold', thresholdCreateSlownessForm({ type: 'staticThreshold' }))
           .put('rule', createRuleForm({ alertType: 'slowness', metricName: 'latency' }))
           .put('timeThreshold', createViolationsInSequenceForm({})),
@@ -107,7 +117,8 @@ describe('in-applications/alerting/form/blueprintFormCreator', () => {
     it('should filter out tagFilter "call.latency" but not "call.error.count"', () => {
       const blueprintForm = createBlueprintForm(
         createMapForm()
-          .put('tagFilters', createTagFiltersForm())
+          .put('tagFilters', createTagFiltersForm()) // QB1
+          .put('tagFilterExpression', createTagFilterExpressionForm()) // QB2
           .put('threshold', thresholdCreateSlownessForm({ type: 'staticThreshold' }))
           .put('rule', createRuleForm({ alertType: 'slowness', metricName: 'latency' }))
           .put('timeThreshold', createViolationsInSequenceForm({})),
@@ -122,7 +133,8 @@ describe('in-applications/alerting/form/blueprintFormCreator', () => {
   context('when alertType is errorRate', () => {
     const blueprintForm = createBlueprintForm(
       createMapForm()
-        .put('tagFilters', createTagFiltersForm())
+        .put('tagFilters', createTagFiltersForm()) // QB1
+        .put('tagFilterExpression', createTagFilterExpressionForm()) // QB2
         .put('threshold', thresholdCreateErrorRateForm())
         .put('rule', createRuleForm({ alertType: 'errorRate' }))
         .put('timeThreshold', createViolationsInSequenceForm({})),
@@ -156,7 +168,8 @@ describe('in-applications/alerting/form/blueprintFormCreator', () => {
   context('when alertType is logs', () => {
     const blueprintForm = createBlueprintForm(
       createMapForm()
-        .put('tagFilters', createTagFiltersForm())
+        .put('tagFilters', createTagFiltersForm()) // QB1
+        .put('tagFilterExpression', createTagFilterExpressionForm()) // QB2
         .put('threshold', thresholdCreateLogsForm())
         .put('rule', createRuleForm({ alertType: 'logs' }))
         .put('timeThreshold', createViolationsInSequenceForm({})),

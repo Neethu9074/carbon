@@ -1,0 +1,16 @@
+@import '~in-themes/active.less';
+
+:local {
+  .headerTransparent {
+    background-color: transparent;
+    border-bottom: 1px solid @lib__colors__N300;
+  }
+
+  .clearButton {
+    margin-left: auto;
+  }
+
+  .removeContainerBorderBottom {
+    border-bottom: transparent !important;
+  }
+}

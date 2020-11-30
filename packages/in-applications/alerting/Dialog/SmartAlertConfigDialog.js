@@ -37,7 +37,7 @@ function SmartAlertConfigDialogWithQueryValidation({
 }) {
   const { form, updateForm, editMode } = props;
   const [simpleMode, setSimpleMode] = useState(!editMode);
-  const isTagfilterExpressionQueryValidResult = useIsTagfilterExpressionValid(enrichedTagFilterExpression);
+  const isTagfilterExpressionQueryValidResult = useIsTagfilterExpressionValid(alertConfig.tagFilterExpression);
 
   const isValid = switchQB1orQB2Helper(
     () => blueprintConfig.isRuleComplete(alertConfig.rule),
@@ -94,7 +94,8 @@ function resolveThresholdRequest(alertConfig, blueprintConfig, enrichedTagFilter
       }),
       () => ({
         tagFilterExpression: toBackendQueryModel(enrichedTagFilterExpression)
-      })
+      }),
+      isQB2Config => isQB2Config(alertConfig.convertedTagFilterExpression)
     ),
     metric: {
       metric: blueprintConfig.getMetricName(alertConfig.rule),
@@ -170,6 +171,7 @@ function useIsTagfilterExpressionValid(enrichedTagFilterExpression) {
 
 function useCalculateThresholdOnBackendSignalEmitter(form) {
   const calculateThresholdOnBackend = form.get('hiddenFields').get('calculateThresholdOnBackend').value;
+
   useEffect(() => {
     thresholdOrBaselineLoadingSignal$.emit(calculateThresholdOnBackend);
   }, [calculateThresholdOnBackend]);

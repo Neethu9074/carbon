@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import PotentialProblemsLanePresenter from 'in-new-components/PotentialProblems/PotentialProblemsLane/PotentialProblemsLanePresenter';
 import getPotentialProblems from 'in-new-components/PotentialProblems/subscription/getPotentialProblems';
+import { switchQB1orQB2Helper } from 'in-new-components/Alerting/components/WithQB1orQB2';
 import { trackRequestLoadingTime } from 'in-new-components/PotentialProblems/tracker';
 import { defaultGranularity } from 'in-new-components/PotentialProblems/constants';
 import getServiceLabel from 'in-subscription/application/getServiceLabel';
@@ -20,54 +21,75 @@ const emptyPotentialProblems = {
   thresholds: {}
 };
 
-export default function PotentialProblemsLane({
+export default function PotentialProblemsLane({ clusterSizeMillis, chartName, ...props }) {
+  const globalTimeConfig = useTimeConfig();
+  if (isOutsideCallsShortTermStorage(globalTimeConfig)) return null;
+
+  if (!props.applicationId || !applicationSmartAlertsEnabled) {
+    return null;
+  }
+
+  return (
+    <PotentialProblemsLaneConnected
+      {...props}
+      chartName={chartName}
+      globalTimeConfig={globalTimeConfig}
+      clusterSizeMillis={clusterSizeMillis}
+      tagFilters={getTagfilters(props.serviceId, props.endpointId)}
+    />
+  );
+}
+
+function PotentialProblemsLaneConnected({
   applicationId,
   serviceId,
   endpointId,
   boundaryScope,
   alertRules,
+  chartName,
+  clusterSizeMillis,
+  tagFilters,
+  globalTimeConfig,
   ...remainingProps
 }) {
-  if (!applicationId || !applicationSmartAlertsEnabled) {
-    return null;
-  }
-
   const startTime = useRef(null);
 
-  const globalTimeConfig = useTimeConfig();
-  if (isOutsideCallsShortTermStorage(globalTimeConfig)) return null;
+  const labels = useGetLabels(applicationId, serviceId, endpointId);
 
-  const { clusterSizeMillis, chartName } = remainingProps;
-  const tagFilters = getTagfilters({ applicationId, serviceId, endpointId, boundaryScope });
+  const tagFilterExpression = getTagFilterExpression(labels.serviceLabel, labels.endpointLabel);
 
   const potentialProblemsResult = useObservable(
     ([_globalTimeConfig, _alertRules]) =>
-      getPotentialProblemsObservable([_globalTimeConfig, _alertRules, tagFilters, startTime, chartName]),
+      getPotentialProblemsObservable([
+        _globalTimeConfig,
+        _alertRules,
+        tagFilters,
+        tagFilterExpression,
+        startTime,
+        chartName,
+        boundaryScope,
+        applicationId
+      ]),
     [globalTimeConfig, alertRules, clusterSizeMillis]
   );
 
   return (
     <PotentialProblemsLanePresenter
       {...remainingProps}
-      {...useGetLabels(applicationId, serviceId, endpointId)}
+      {...labels}
       alertRules={alertRules}
       applicationId={applicationId}
       boundaryScope={boundaryScope}
       potentialProblems={potentialProblemsResult?.data ?? emptyPotentialProblems}
-      tagFilters={tagFilters}
+      tagFilters={tagFilters} // QB1
+      tagFilterExpression={tagFilterExpression} // QB2
       isLoading={isLoading(potentialProblemsResult)}
     />
   );
 }
 
-function getTagfilters({ applicationId, serviceId, endpointId, boundaryScope }) {
-  const tagFilters = [
-    {
-      name: boundaryScope === 'INBOUND' ? 'boundary.application.id' : 'application.id',
-      operator: 'EQUALS',
-      stringValue: applicationId
-    }
-  ];
+function getTagfilters(serviceId, endpointId) {
+  const tagFilters = [];
 
   if (serviceId) {
     tagFilters.push({
@@ -87,6 +109,36 @@ function getTagfilters({ applicationId, serviceId, endpointId, boundaryScope }) 
 
   return tagFilters;
 }
+
+function getTagFilterExpression(serviceLabel, endpointLabel) {
+  const elements = [];
+
+  if (serviceLabel) {
+    elements.push(getFilter('service.name', serviceLabel));
+  }
+
+  if (endpointLabel) {
+    elements.push(getFilter('endpoint.name', endpointLabel));
+  }
+
+  if (elements.length === 1) {
+    return elements[0];
+  }
+
+  return {
+    type: 'EXPRESSION',
+    logicalOperator: 'AND',
+    elements
+  };
+}
+
+const getFilter = (name, value) => ({
+  type: 'TAG_FILTER',
+  name,
+  operator: 'EQUALS',
+  value,
+  entity: 'DESTINATION'
+});
 
 function useGetLabels(applicationId, serviceId, endpointId) {
   return {
@@ -128,7 +180,9 @@ PotentialProblemsLane.propTypes = {
   applicationId: PropTypes.string,
   boundaryScope: PropTypes.string,
   endpointId: PropTypes.string,
-  serviceId: PropTypes.string
+  serviceId: PropTypes.string,
+  clusterSizeMillis: PropTypes.number,
+  chartName: PropTypes.string
 };
 
 function getApplicationLabelObservable([id]) {
@@ -147,11 +201,23 @@ function getEndpointLabelObservable([id]) {
   return id && getEndpointInfo({ id }).map(getLabel);
 }
 
-function getPotentialProblemsObservable([globalTimeConfig, alertRules, tagFilters, startTime, chartName]) {
+function getPotentialProblemsObservable([
+  globalTimeConfig,
+  alertRules,
+  tagFilters,
+  tagFilterExpression,
+  startTime,
+  chartName,
+  boundaryScope,
+  applicationId
+]) {
   return getPotentialProblems({
     timeConfig: globalTimeConfig,
     alertRules,
-    tagFilters
+    ...switchQB1orQB2Helper(
+      () => ({ tagFilters: enhanceTagFilters(tagFilters, boundaryScope, applicationId) }),
+      () => ({ tagFilterExpression: enhanceTagfIlterExpression(tagFilterExpression, boundaryScope, applicationId) })
+    )
   })
     .startWith(pendingResult)
     .tap(result => {
@@ -168,4 +234,32 @@ function getPotentialProblemsObservable([globalTimeConfig, alertRules, tagFilter
         startTime.current = null;
       }
     });
+}
+
+function enhanceTagfIlterExpression(tagFilterExpression, boundaryScope, applicationId) {
+  const appIdFilter = {
+    name: boundaryScope === 'INBOUND' ? 'boundary.application.id' : 'application.id',
+    operator: 'EQUALS',
+    stringValue: applicationId
+  };
+
+  let enhancedTagFilterExpression = { ...tagFilterExpression };
+  if (enhancedTagFilterExpression.elements) {
+    if (enhancedTagFilterExpression.elements.length === 0) {
+      enhancedTagFilterExpression = appIdFilter;
+    } else {
+      enhancedTagFilterExpression.elements.push(appIdFilter);
+    }
+  } else {
+    enhancedTagFilterExpression = appIdFilter;
+  }
+
+  return enhancedTagFilterExpression;
+}
+
+function enhanceTagFilters(tagFilters, boundaryScope, applicationId) {
+  return [
+    ...tagFilters,
+    getFilter(boundaryScope === 'INBOUND' ? 'boundary.application.id' : 'application.id', applicationId)
+  ];
 }

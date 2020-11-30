@@ -57,7 +57,7 @@ export default function Alert({ location, timeConfig }) {
   const alertConfigVersions = useObservable(alertConfigVersions$, [alertConfigId]);
   const alertConfigVersionsError = useObservable(alertConfigVersions$.errors(), [alertConfigId]);
   const applicationName = useObservable(applicationName$, [alertConfigId, alertConfigCreated]);
-  const [triggerReRender] = useState(undefined);
+  const [, triggerReRender] = useState(undefined);
 
   if (alertConfigError || alertConfigVersionsError) {
     return <ErroneousResultPresenter errors={[alertConfigError, alertConfigVersionsError].filter(Boolean)} />;

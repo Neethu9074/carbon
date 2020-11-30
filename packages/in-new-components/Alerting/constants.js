@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 
-import { switchQB1orQB2Helper } from 'in-new-components/Alerting/components/WithQB1orQB2';
 import { hours } from 'in-services/time';
 
 export const alertingDialogItemPickerTimeframe = hours.toMillis(7 * 24);
@@ -25,15 +24,11 @@ export const blueprintConfigPropType = PropTypes.shape({
   getAggregation: PropTypes.func.isRequired,
   isRuleComplete: PropTypes.func.isRequired,
 
-  ...switchQB1orQB2Helper(
-    () => ({ getRuleTagFilters: PropTypes.func.isRequired }),
-    () => ({ getRuleTagFilterExpression: PropTypes.func.isRequired })
-  ),
+  getRuleTagFilters: PropTypes.func.isRequired,
+  getRuleTagFilterExpression: PropTypes.func.isRequired,
 
-  ...switchQB1orQB2Helper(
-    () => ({ getEntityTagFilter: PropTypes.func.isRequired }),
-    () => ({ getEntityTagFilterExpression: PropTypes.func.isRequired })
-  ),
+  getEntityTagFilter: PropTypes.func.isRequired,
+  getEntityTagFilterExpression: PropTypes.func.isRequired,
 
   // the following are only needed when the blueprint has sub-types in simple-mode:
   subType: PropTypes.string,

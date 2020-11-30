@@ -8,13 +8,13 @@ import {
 } from 'in-applications/alerting/tracker';
 import TimeThresholdConfigPresenter from 'in-new-components/Alerting/advanced/TimeThresholdConfig/TimeThresholdConfigPresenter';
 import AlertPropertiesContainer from 'in-new-components/Alerting/advanced/AlertProperties/AlertPropertiesContainer';
+import AlertTagFilterExpressionConfig from 'in-new-components/Alerting/components/AlertTagFilterExpressionConfig';
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-applications/alerting/form/formUtils';
 import StatusCodeInteractiveChart from 'in-applications/alerting/advanced/StatusCodeInteractiveChart';
 import ThroughputInteractiveChart from 'in-applications/alerting/advanced/ThroughputInteractiveChart';
 import { blueprintConfigs, getBlueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
 import GlobalAdvancedModeContainer from 'in-new-components/Alerting/advanced/AdvancedModeContainer';
 import ErrorRateInteractiveChart from 'in-applications/alerting/advanced/ErrorRateInteractiveChart';
-import AlertFilterConfigurator from 'in-new-components/Alerting/components/AlertFilterConfigurator';
 import SlownessInteractiveChart from 'in-applications/alerting/advanced/SlownessInteractiveChart';
 import InboundOutboundCallsSwitch from './InboundOutboundCallsSwitch/InboundOutboundCallsSwitch';
 import BaselineErrorMessage from 'in-new-components/Alerting/components/BaselineErrorMessage';
@@ -65,15 +65,15 @@ export default function AdvancedModeContainer(props) {
                   />
                 )}
                 onUsesQB2={() => (
-                  <>
-                    <h2>Filters for AP: {applicationLabel} </h2>
-                    <AlertFilterConfigurator
-                      queryBuilderComponent={AlertQueryBuilder}
-                      form={form}
-                      updateForm={updateForm}
-                    />
-                  </>
+                  <AlertTagFilterExpressionConfig
+                    form={form}
+                    updateForm={updateForm}
+                    applicationLabel={applicationLabel}
+                    QueryBuilderComponent={AlertQueryBuilder}
+                    removeBorderBottom
+                  />
                 )}
+                shouldFallbackToQB2={isQB2Config => isQB2Config(form.get('convertedTagFilterExpression').value)}
               />
               <InboundOutboundCallsSwitch form={form} updateForm={updateForm} />
             </>

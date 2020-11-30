@@ -4,9 +4,8 @@
 :local {
   .inputValueViewer,
   .inputValueViewer_dark {
-    width: fit-content;
+    max-width: 7.5rem;
     padding: 0.0225rem 0.3125rem;
-
     line-height: 2;
 
     &:focus,
@@ -15,6 +14,7 @@
       outline: 0;
       color: @lib__colors__light-blue800;
     }
+    .ellipsis();
   }
 
   .inputValueViewerBackground {

@@ -1,7 +1,15 @@
 @import '~in-themes/active.less';
 
 :local {
-  .queryBuilderSection {
-    border: 1px solid @lib__colors__N300;
+  .queryBuilderWrapper {
+    display: flex;
+  }
+
+  // The query builder add button pushes itself down by 3px.
+  .queryBuilderPositionCorrection {
+    > button {
+      position: relative;
+      top: 0;
+    }
   }
 }

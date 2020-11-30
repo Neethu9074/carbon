@@ -13,9 +13,11 @@ export const thresholdOrBaselineLoadingSignal$ = create().emit(false);
 export default connectTo(
   props => {
     const { tagFilterExpression } = props.metricsConfiguration;
+
     const metrics$ = switchQB1orQB2Helper(
       () => props.getMetric(props.metricsConfiguration),
-      () => (tagFilterExpression ? props.getMetric(props.metricsConfiguration) : just(pendingResult))
+      () => (tagFilterExpression ? props.getMetric(props.metricsConfiguration) : just(pendingResult)),
+      isQB2Config => isQB2Config(props.convertedTagFilterExpression)
     );
     const combined$ = combineLatest([metrics$, thresholdOrBaselineLoadingSignal$]);
 

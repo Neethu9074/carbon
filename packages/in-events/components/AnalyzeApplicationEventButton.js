@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import getConfigByDataSource, { groupByEndpointName, groupByServiceName } from 'in-analyze/AnalyzeView/dataSources';
+import { isQB2Config, isQB2ModeEnabled } from 'in-new-components/Alerting/components/WithQB1orQB2';
 import { applicationsAlertingEventDetailsGoToAnalyze } from 'in-applications/alerting/tracker';
 import { getTimeConfigFromEvent, getWidenedTimeConfigFromEvent } from 'in-events/timeframe';
 import { toTagFilterNumberOperator } from 'in-new-components/Alerting/utils/alertUtils';
@@ -9,6 +10,7 @@ import { getBaselineValue } from 'in-new-components/Alerting/utils/baselineUtils
 import { convertToAnalyzeFilters } from 'in-applications/tags';
 import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
 import Button from 'in-new-components/Button';
+import Tooltip from 'in-components/Tooltip';
 
 const dataSource = 'calls';
 const alertTypeWithDisabledGrouping = ['errorRate', 'slowness'];
@@ -27,6 +29,7 @@ export default function AnalyzeApplicationEventButton({ event, alertConfig }) {
       filters={analyzeFilters}
       timeConfig={timeConfig}
       alertType={alertConfig.rule.alertType}
+      convertedTagFilterExpression={alertConfig.convertedTagFilterExpression}
     />
   );
 }
@@ -36,24 +39,46 @@ AnalyzeApplicationEventButton.propTypes = {
   alertConfig: PropTypes.object.isRequired
 };
 
-function GoToAnalyzeButton({ applicationName, boundaryScope, filters, timeConfig, alertType }) {
+function GoToAnalyzeButton({
+  applicationName,
+  boundaryScope,
+  filters,
+  timeConfig,
+  alertType,
+  convertedTagFilterExpression
+}) {
+  const isQB1Mode = !isQB2ModeEnabled;
+  const disabled = isQB1Mode && isQB2Config(convertedTagFilterExpression);
+
   return (
-    <Button
-      kind="primary"
-      icon="lib_application_call"
-      onClick={() => applicationsAlertingEventDetailsGoToAnalyze()}
-      href$={getLinkToAnalyze({
-        applicationName,
-        dataSource,
-        boundaryScope,
-        filters,
-        groupByTag: getGrouping(alertType, filters),
-        focusedMetric: getFocusedMetric(alertType),
-        timeConfig
-      })}
+    <Tooltip
+      content={
+        disabled && (
+          <div>
+            The config for this is stored with Query Builder 2 expressions. <br /> You can only use this button with
+            configs stored in Query Builder 1
+          </div>
+        )
+      }
     >
-      Analyze Calls
-    </Button>
+      <Button
+        kind="primary"
+        icon="lib_application_call"
+        onClick={() => applicationsAlertingEventDetailsGoToAnalyze()}
+        href$={getLinkToAnalyze({
+          applicationName,
+          dataSource,
+          boundaryScope,
+          filters,
+          groupByTag: getGrouping(alertType, filters),
+          focusedMetric: getFocusedMetric(alertType),
+          timeConfig
+        })}
+        disabled={disabled}
+      >
+        Analyze Calls
+      </Button>
+    </Tooltip>
   );
 }
 
