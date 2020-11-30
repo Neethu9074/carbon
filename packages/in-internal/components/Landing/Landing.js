@@ -371,6 +371,18 @@ export default connectTo({ timeConfig: timeConfig$, isInternalVisible: isInterna
                         label="Kafka"
                         href$={getModifiedUrlStream(params => (params.pathname = '/internal/monitoringUnit/sre/kafka'))}
                       />
+                      <LinkListItem
+                        label="BeeInstana Aggregators"
+                        href$={getModifiedUrlStream(
+                          params => (params.pathname = '/internal/monitoringUnit/sre/beeinstanaaggregators')
+                        )}
+                      />
+                      <LinkListItem
+                        label="BeeInstana Ingestors"
+                        href$={getModifiedUrlStream(
+                          params => (params.pathname = '/internal/monitoringUnit/sre/beeinstanaingestors')
+                        )}
+                      />
                     </LinkList>
                   </LinkListItem>
                 )}

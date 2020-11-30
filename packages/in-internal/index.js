@@ -23,6 +23,8 @@ import ClickhouseTotalTableSizes from 'in-internal/monitoringUnit/sre/Clickhouse
 import AppdataHealthProcessor from 'in-internal/monitoringUnit/Appdata/AppdataHealthProcessor';
 import ServerlessAcceptors from 'in-internal/monitoringUnit/serverless/ServerlessAcceptors';
 import JsStackTraceTranslator from 'in-internal/monitoringUnit/eum/JsStackTraceTranslator';
+import BeeInstanaAggregators from 'in-internal/monitoringUnit/sre/BeeInstanaAggregators';
+import BeeInstanaIngestors from 'in-internal/monitoringUnit/sre/BeeInstanaIngestors';
 import EumHealthProcessor from 'in-internal/monitoringUnit/eum/EumHealthProcessor';
 import SloViolations from 'in-internal/monitoringUnit/SloViolations/SloViolations';
 import ResilientMapping from 'in-internal/monitoringUnit/Appdata/ResilientMapping';
@@ -104,6 +106,14 @@ export default function Internal() {
           />
           <Route path="/internal/monitoringUnit/resilientMapping" component={wrapIninternalView(ResilientMapping)} />
           <Route path="/internal/monitoringUnit/sre/acceptors" component={wrapIninternalView(Acceptors)} />
+          <Route
+            path="/internal/monitoringUnit/sre/beeinstanaaggregators"
+            component={wrapIninternalView(BeeInstanaAggregators)}
+          />
+          <Route
+            path="/internal/monitoringUnit/sre/beeinstanaingestors"
+            component={wrapIninternalView(BeeInstanaIngestors)}
+          />
           <Route
             path="/internal/monitoringUnit/sre/metricscassandra"
             component={wrapIninternalView(MetricsCassandra)}
