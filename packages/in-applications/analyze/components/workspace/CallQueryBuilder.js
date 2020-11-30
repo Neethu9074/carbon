@@ -13,17 +13,19 @@ const { QueryBuilder, isQueryValid: isQueryValidInternal, getTagCatalog: getTagC
       }
     })),
   getSuggestions: args => {
-    return getTagSuggestions({
-      entity: args.entity,
-      propose: args.propose,
-      tagFilterExpression: args.tagFilterExpression,
-      tagName: args.name,
-      value: args.value,
-      filter: {
-        timeConfig: args.timeConfig
-      },
-      secondLevelKeyTagName: args.key
-    });
+    return isIdTag(args.name)
+      ? null
+      : getTagSuggestions({
+          entity: args.entity,
+          propose: args.propose,
+          tagFilterExpression: args.tagFilterExpression,
+          tagName: args.name,
+          value: args.value,
+          filter: {
+            timeConfig: args.timeConfig
+          },
+          secondLevelKeyTagName: args.key
+        });
   }
 });
 
@@ -33,3 +35,5 @@ export const getTagCatalog = getTagCatalogInternal;
 
 export const isCallQueryValid = ([tagFilterExpression, timeConfig]) =>
   isQueryValidInternal(tagFilterExpression, timeConfig);
+
+export const isIdTag = tagName => tagName.endsWith('id') || tagName.endsWith('snapshotId');

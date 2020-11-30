@@ -240,7 +240,7 @@ function validateForm({ from: fromForm, to: toForm }) {
     return [
       {
         severity: 'error',
-        message: 'The from date cannot be greater than the to date.'
+        message: 'The start date cannot be greater than the end date.'
       }
     ];
   } else if (to - from > maximumWindow) {

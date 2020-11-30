@@ -164,6 +164,38 @@ export default connectTo({
           </Columize>
 
           <Columize>
+            <DashboardSection title={`Deserializing Calls`}>
+              <Chart
+                snapshotIds={rows.map(r => r.dropwizard.get('id'))}
+                timeConfig={timeConfig}
+                minRollup={5000}
+                y1={{
+                  min: 0,
+                  formatter: number.perSecond.detailed,
+                  metrics: rows.map(() => `metrics.meters.KPI.deserializing.calls.calls`),
+                  labels: labels,
+                  type: 'stackedArea'
+                }}
+              />
+            </DashboardSection>
+
+            <DashboardSection title={`Deserializing Calls errors`}>
+              <Chart
+                snapshotIds={rows.map(r => r.dropwizard.get('id'))}
+                timeConfig={timeConfig}
+                minRollup={5000}
+                y1={{
+                  min: 0,
+                  formatter: number.perSecond.detailed,
+                  metrics: rows.map(() => `metrics.meters.KPI.deserializing.calls.errors`),
+                  labels: labels,
+                  type: 'stackedArea'
+                }}
+              />
+            </DashboardSection>
+          </Columize>
+
+          <Columize>
             <DashboardSection title={`gRPC calls`}>
               <Chart
                 snapshotIds={rows.map(r => r.dropwizard.get('id'))}
