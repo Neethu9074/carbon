@@ -1,6 +1,7 @@
 import React from 'react';
 
 import GetMetricStatisticsInUse from 'in-forge/plugins/awsDynamoDb/GetMetricStatisticsInUse';
+import DBmarlinNotification from 'in-integrations/database/dbmarlin/DBmarlinNotification';
 import { number, percentage, bytes, millis } from 'in-services/formatters/number';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
@@ -169,6 +170,12 @@ export default function AwsRdsDashboard({ snapshot, timeConfig }) {
           />
         </DashboardSection>
       )}
+      <DBmarlinNotification>
+        <span style={{ marginRight: '5rem' }}>Looking for even deeper database insights?</span>
+        <a href="https://www.dbmarlin.com/instana-offer?utm_campaign=Instana&utm_source=Instana&utm_medium=Instana">
+          Check out our integration with DBmarlin!
+        </a>
+      </DBmarlinNotification>
     </div>
   );
 }

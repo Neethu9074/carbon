@@ -1,10 +1,11 @@
 import React from 'react';
 
+import DBmarlinNotification from 'in-integrations/database/dbmarlin/DBmarlinNotification';
+import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
-import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import { number } from 'in-services/formatters/number';
 import MetricValue from 'in-components/MetricValue';
 
@@ -80,6 +81,12 @@ export default function MariaDbDashboard({ snapshot, timeConfig }) {
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
+      <DBmarlinNotification>
+        <span style={{ marginRight: '5rem' }}>Looking for even deeper database insights?</span>
+        <a href="https://www.dbmarlin.com/instana-offer?utm_campaign=Instana&utm_source=Instana&utm_medium=Instana">
+          Check out our integration with DBmarlin!
+        </a>
+      </DBmarlinNotification>
     </div>
   );
 }
