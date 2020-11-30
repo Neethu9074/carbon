@@ -7,7 +7,7 @@ import {
   bytesZeroDecimalPlaces,
   seconds
 } from 'in-services/formatters/number';
-import DBmarlinNotification from 'in-integrations/database/dbmarlin/DBmarlinNotification';
+import DBmarlinNotificationMessage from 'in-integrations/database/dbmarlin/DBmarlinNotificationMessage';
 import DatabasesTable from 'in-forge/plugins/postgreSqlDatabase/Dashboard/DatabasesTable';
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
@@ -93,12 +93,7 @@ export default function PostgreSqlDashboard({ snapshot, timeConfig }) {
         </DashboardSection>
       )}
       <DatabasesTable snapshot={snapshot} timeConfig={timeConfig} />
-      <DBmarlinNotification>
-        <span style={{ marginRight: '5rem' }}>Looking for even deeper database insights?</span>
-        <a href="https://www.dbmarlin.com/instana-offer?utm_campaign=Instana&utm_source=Instana&utm_medium=Instana">
-          Check out our integration with DBmarlin!
-        </a>
-      </DBmarlinNotification>
+      <DBmarlinNotificationMessage />
     </div>
   );
 }

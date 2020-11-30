@@ -1,6 +1,6 @@
 import React from 'react';
 
-import DBmarlinNotification from 'in-integrations/database/dbmarlin/DBmarlinNotification';
+import DBmarlinNotificationMessage from 'in-integrations/database/dbmarlin/DBmarlinNotificationMessage';
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import DatabasesTable from 'in-forge/plugins/mySqlDatabase/Dashboard/DatabasesTable';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
@@ -182,12 +182,7 @@ export default function MySqlDashboard({ snapshot, timeConfig }) {
         <DatabasesTable snapshot={snapshot} timeConfig={timeConfig} />
       ) : null}
 
-      <DBmarlinNotification>
-        <span style={{ marginRight: '5rem' }}>Looking for even deeper database insights?</span>
-        <a href="https://www.dbmarlin.com/instana-offer?utm_campaign=Instana&utm_source=Instana&utm_medium=Instana">
-          Check out our integration with DBmarlin!
-        </a>
-      </DBmarlinNotification>
+      <DBmarlinNotificationMessage />
     </div>
   );
 }

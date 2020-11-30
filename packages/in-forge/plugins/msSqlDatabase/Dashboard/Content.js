@@ -7,7 +7,7 @@ import {
   msZeroDecimalPlaces,
   msTwoDecimalPlaces
 } from 'in-services/formatters/number';
-import DBmarlinNotification from 'in-integrations/database/dbmarlin/DBmarlinNotification';
+import DBmarlinNotificationMessage from 'in-integrations/database/dbmarlin/DBmarlinNotificationMessage';
 import TopQueriesTable from 'in-forge/plugins/msSqlDatabase/Dashboard/TopQueriesTable';
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import DatabasesTable from 'in-forge/plugins/msSqlDatabase/Dashboard/DatabasesTable';
@@ -131,12 +131,7 @@ export default function MsSqlDashboard({ snapshot, timeConfig }) {
 
       <TopQueriesTable snapshotId={snapshotId} />
 
-      <DBmarlinNotification>
-        <span style={{ marginRight: '5rem' }}>Looking for even deeper database insights?</span>
-        <a href="https://www.dbmarlin.com/instana-offer?utm_campaign=Instana&utm_source=Instana&utm_medium=Instana">
-          Check out our integration with DBmarlin!
-        </a>
-      </DBmarlinNotification>
+      <DBmarlinNotificationMessage />
     </div>
   );
 }
