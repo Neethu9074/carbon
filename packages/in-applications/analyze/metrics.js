@@ -44,6 +44,14 @@ export const chartMetricKey = (metric, aggregation) => `${metric}_${aggregation}
 export const sparkChartMetricKey = (metric, aggregation) => `${metric}_${aggregation}_Spark`;
 export const aggregateMetricKey = (metric, aggregation) => `${metric}_${aggregation}_Agg`;
 
+export const getMetricAndAggregationFromMetricKey = key => {
+  const parts = key.split('_');
+  return {
+    metric: parts[0],
+    aggregation: parts[1]
+  };
+};
+
 export const dataSourceConstants = {
   calls: {
     metricKey: 'calls_SUM_Agg',
@@ -66,9 +74,7 @@ export const dataSourceConstants = {
       by: 'calls_SUM_Agg',
       direction: 'DESC'
     },
-    defaultCharts: [
-      { metric: 'latency', aggregation: 'DISTRIBUTION' }
-    ],
+    defaultCharts: [{ metric: 'latency', aggregation: 'DISTRIBUTION' }],
     metricConfiguration: {
       calls: { formatter: number.compact, label: 'Calls', type: 'count', aggregations: ['SUM'] },
       latency: {
@@ -106,9 +112,7 @@ export const dataSourceConstants = {
       by: 'traces_SUM_Agg',
       direction: 'DESC'
     },
-    defaultCharts: [
-      { metric: 'latency', aggregation: 'DISTRIBUTION' }
-    ],
+    defaultCharts: [{ metric: 'latency', aggregation: 'DISTRIBUTION' }],
     metricConfiguration: {
       traces: { formatter: number.compact, label: 'Traces', type: 'count', aggregations: ['SUM'] },
       latency: {

@@ -26,15 +26,24 @@
   }
 
   .metric, .aggregation, .renderer {
-    border-right: 1px solid #DFE4E8;
     line-height: 2;
     padding: 0.0938rem 0.375rem;
+
+    &:not(:last-child) {
+      border-right: 1px solid #DFE4E8;
+    }
 
     &:first-child {
       padding-left: 0;
       margin-left: 0.1875rem;
     }
+  }
 
+  .aggregation, .renderer {
+    font-weight: 400;
+  }
+
+  .selectable {
     &:focus,
     &:active,
     &:hover {
@@ -45,10 +54,6 @@
         fill: @lib__colors__light-blue800;
       }
     }
-  }
-
-  .aggregation, .renderer {
-    font-weight: 400;
   }
 
   .removeIcon {

@@ -1,78 +1,91 @@
 import React from 'react';
 
 import ComboBoxBehavior from 'in-components/form/ComboBox/ComboBoxBehavior';
+import { joinClassNames } from 'in-services/util/classnames';
 import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './ChartingConfiguratorForm.mless';
 
-export default function ChartingConfiguratorForm({ value, options, onChange, hideRenderer }) {
+export default function ChartingConfiguratorForm({ value, options, onChange, hideRenderer, disableClose }) {
   const activeMetric = options.find(({ metricId }) => metricId === value.metricId) || options[0];
   const activeAggregation =
     activeMetric.aggregations.find(({ id }) => id === value.aggregationId) || activeMetric.aggregations[0];
-  const activeRenderer = activeAggregation.renderers.find(({ id }) => id === value.rendererId) || activeAggregation.renderers[0];
+  const activeRenderer =
+    activeAggregation.renderers.find(({ id }) => id === value.rendererId) || activeAggregation.renderers[0];
+  const multipleMetrics = options.length > 1;
+  const multipleAggregations = activeMetric.aggregations.length > 1;
 
   return (
     <div className={locals.wrapper}>
-      <ComboBoxBehavior
-        options={options.map(({ metricId, label }) => ({ value: metricId, label }))}
-        value={activeMetric.metricId}
-        onChange={metricId => {
-          const change = {
-            ...value,
-            metricId
-          };
-          const metric = options.find(opt => opt.metricId === metricId);
-          let aggregation = metric.aggregations.find(opt => opt.id === change.aggregationId);
-          if (!aggregation) {
-            aggregation = metric.aggregations[0];
-            change.aggregationId = aggregation.id;
-          }
+      {multipleMetrics ? (
+        <ComboBoxBehavior
+          options={options.map(({ metricId, label }) => ({ value: metricId, label }))}
+          value={activeMetric.metricId}
+          onChange={metricId => {
+            const change = {
+              ...value,
+              metricId
+            };
+            const metric = options.find(opt => opt.metricId === metricId);
+            let aggregation = metric.aggregations.find(opt => opt.id === change.aggregationId);
+            if (!aggregation) {
+              aggregation = metric.aggregations[0];
+              change.aggregationId = aggregation.id;
+            }
 
-          const renderer = aggregation.renderers.find(opt => opt.id === change.rendererId);
-          if (!renderer) {
-            change.rendererId = aggregation.renderers[0].id;
-          }
+            const renderer = aggregation.renderers.find(opt => opt.id === change.rendererId);
+            if (!renderer) {
+              change.rendererId = aggregation.renderers[0].id;
+            }
 
-          onChange(change);
-        }}
-        requiresCustomInteractivity
-        ariaLabel="Change selected metric"
-      >
-        {({ elementProps }) => (
-          <div {...elementProps} className={locals.metric}>
-            {activeMetric.label}
-          </div>
-        )}
-      </ComboBoxBehavior>
+            onChange(change);
+          }}
+          requiresCustomInteractivity
+          ariaLabel="Change selected metric"
+        >
+          {({ elementProps }) => (
+            <div {...elementProps} className={joinClassNames(locals.metric, locals.selectable)}>
+              {activeMetric.label}
+            </div>
+          )}
+        </ComboBoxBehavior>
+      ) : (
+        <div className={locals.metric}>{activeMetric.label}</div>
+      )}
 
-      <ComboBoxBehavior
-        options={activeMetric.aggregations.map(({ id, label }) => ({ value: id, label }))}
-        value={activeAggregation.id}
-        disableAutomaticOptionSorting
-        onChange={aggregationId => {
-          const change = {
-            ...value,
-            aggregationId
-          };
-          const aggregation = activeMetric.aggregations.find(opt => opt.id === aggregationId);
-          const renderer = aggregation.renderers.find(opt => opt.id === change.rendererId);
-          if (!renderer) {
-            change.rendererId = aggregation.renderers[0].id;
-          }
+      {multipleAggregations ? (
+        <ComboBoxBehavior
+          options={activeMetric.aggregations.map(({ id, label }) => ({ value: id, label }))}
+          value={activeAggregation.id}
+          disableAutomaticOptionSorting
+          onChange={aggregationId => {
+            const change = {
+              ...value,
+              aggregationId
+            };
+            const aggregation = activeMetric.aggregations.find(opt => opt.id === aggregationId);
+            const renderer = aggregation.renderers.find(opt => opt.id === change.rendererId);
+            if (!renderer) {
+              change.rendererId = aggregation.renderers[0].id;
+            }
 
-          onChange(change);
-        }}
-        requiresCustomInteractivity
-        ariaLabel="Change selected aggregation"
-      >
-        {({ elementProps }) => (
-          <div {...elementProps} className={locals.aggregation}>
-            {activeAggregation.label}
-          </div>
-        )}
-      </ComboBoxBehavior>
+            onChange(change);
+          }}
+          requiresCustomInteractivity
+          ariaLabel="Change selected aggregation"
+        >
+          {({ elementProps }) => (
+            <div {...elementProps} className={joinClassNames(locals.aggregation, locals.selectable)}>
+              {activeAggregation.label}
+            </div>
+          )}
+        </ComboBoxBehavior>
+      ) : (
+        <div className={locals.aggregation}>{activeAggregation.label}</div>
+      )}
 
-      { !hideRenderer && <ComboBoxBehavior
+      {!hideRenderer && (
+        <ComboBoxBehavior
           options={activeAggregation.renderers.map(({ id, label }) => ({ value: id, label }))}
           value={activeRenderer.id}
           onChange={rendererId =>
@@ -90,14 +103,16 @@ export default function ChartingConfiguratorForm({ value, options, onChange, hid
             </div>
           )}
         </ComboBoxBehavior>
-      }
+      )}
 
-      <SvgIcon
-        className={locals.removeIcon}
-        type="lib_openclose_cancel"
-        data-test="lib_openclose_cancel"
-        onClick={() => onChange(null)}
-      />
+      {!disableClose && (
+        <SvgIcon
+          className={locals.removeIcon}
+          type="lib_openclose_cancel"
+          data-test="lib_openclose_cancel"
+          onClick={() => onChange(null)}
+        />
+      )}
     </div>
   );
 }

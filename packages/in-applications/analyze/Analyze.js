@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useRouteMatch } from 'react-router';
 import { range } from 'lodash';
+import theme from 'in-themes';
 
 import {
   tagFilterExpressionMatrixParameter,
@@ -17,6 +18,10 @@ import TraceGroupingConfigurator, {
 import CallGroupingConfigurator, {
   isCallGroupingConfigurationValid
 } from 'in-applications/analyze/components/workspace/CallGroupingConfigurator';
+import {
+  ungroupedChartingOptions,
+  groupedChartingOptions
+} from 'in-applications/analyze/components/ChartingPresenter/chartingOptions';
 import { EMPTY_EXPRESSION, toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import TraceQueryBuilder, { isTraceQueryValid } from 'in-applications/analyze/components/workspace/TraceQueryBuilder';
 import CallQueryBuilder, { isCallQueryValid } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
@@ -24,7 +29,6 @@ import { joinExpressions, removeTopLevelFilters } from 'in-new-components/QueryB
 import GroupingConfiguratorSection from 'in-new-components/GroupingConfigurator/GroupingConfiguratorSection';
 import ChartingConfiguratorSection from 'in-new-components/ChartingConfigurator/ChartingConfiguratorSection';
 import ChartingPresenter from 'in-applications/analyze/components/ChartingPresenter/ChartingPresenter';
-import { chartingOptions } from 'in-applications/analyze/components/ChartingPresenter/chartingOptions';
 import FixatedTimeConfigContextModification from 'in-stores/time/FixatedTimeConfigContextModification';
 import ApiQueryAction from 'in-new-components/QueryBuilder/workspace/ApiQueryAction/ApiQueryAction';
 import QueryBuilderSection from 'in-new-components/QueryBuilder/workspace/QueryBuilderSection';
@@ -48,7 +52,6 @@ import Message from 'in-new-components/Message';
 import useUrlState from 'in-hooks/useUrlState';
 import Footer from 'in-new-components/Footer';
 import Sticky from 'in-components/Sticky';
-import theme from 'in-themes';
 
 const urlStateDefinition = {
   bind: [
@@ -202,6 +205,7 @@ function ApplicationAnalyzeViewWithFixatedTimeConfig({ dataSource }) {
 
   const isGrouped = !!groupBy?.groupbyTag;
   const chartEnabled = charts?.length === 1;
+  const aggregationChartEnabled = chartEnabled && charts[0].aggregation !== 'DISTRIBUTION';
 
   // Group metric time series data for charts are queried together with the aggregated group
   // metric data in the GroupedList child component. The result is stored here, so that it
@@ -242,9 +246,10 @@ function ApplicationAnalyzeViewWithFixatedTimeConfig({ dataSource }) {
 
             <ChartingConfiguratorSection
               value={chartEnabled ? { metricId: charts[0].metric, aggregationId: charts[0].aggregation } : null}
-              options={chartingOptions({ dataSource: dataSource, isGrouped: isGrouped, selectedMetrics: metrics })}
+              options={isGrouped ? groupedChartingOptions[dataSource] : ungroupedChartingOptions}
               onChange={onChangeCharts}
               hideRenderer
+              disableClose
             />
 
             {chartEnabled && (
@@ -252,8 +257,9 @@ function ApplicationAnalyzeViewWithFixatedTimeConfig({ dataSource }) {
                 dataSource={dataSource}
                 metric={charts[0].metric}
                 aggregation={charts[0].aggregation}
-                isGrouped={isGrouped}
+                groupBy={groupBy}
                 tagFilterExpression={backendQueryModel}
+                orderBy={orderByGroups}
                 updateFilter={updateFilter}
                 result={result}
                 groupColors={groupColors}
@@ -286,7 +292,7 @@ function ApplicationAnalyzeViewWithFixatedTimeConfig({ dataSource }) {
               onChangeHiddenCalls={onChangeHiddenCalls}
               dataSource={dataSource}
               onResult={setResult}
-              chartEnabled={chartEnabled}
+              aggregationChartEnabled={aggregationChartEnabled}
               groupColors={groupColors}
               getNestedUngroupedData={getUngroupedData}
               linkFormModel={tagFilterExpression}

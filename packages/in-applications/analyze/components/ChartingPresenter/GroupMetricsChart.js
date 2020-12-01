@@ -1,46 +1,116 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { just } from 'reactive-observables';
 
+import { chartMetricKey, getMetricAndAggregationFromMetricKey } from 'in-applications/analyze/metrics';
 import { NO_VALUE, NO_VALUE_LABEL, UNSPECIFIED } from 'in-analyze/components/GroupedTraces/Group';
 import { getChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
-import { chartMetricKey } from 'in-applications/analyze/metrics';
+import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
 import Chart from 'in-components/Chart/ChartReactComponent';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import useObservable from 'in-hooks/useObservable';
 
 export default function GroupMetricsChart({
   metric,
   aggregation,
-  result,
+  groupsResult,
   dataSource,
+  tagFilterExpression,
+  groupBy,
+  orderBy,
   renderer,
   formatter,
   groupColors
 }) {
   const timeConfig = useTimeConfig();
 
-  const loading = result?.progress.loading ?? true;
+  // keep metrics fetched through getUnifiedMetrics query in the component state
+  const [cachedMetrics, setCachedMetrics] = useState({});
+
+  // reset cached metrics if groups change
+  useEffect(() => setCachedMetrics({}), [groupsResult]);
+
+  const metricKey = chartMetricKey(metric, aggregation);
+  const chartTimeConfig = getResolvedTimeConfig(timeConfig, groupsResult);
+  const granularity = getChartGranularity(timeConfig);
+  const nbGroups = groupColors.length;
+
+  const metrics = useObservable(
+    ([groupsResult, metric, aggregation, tagFilterExpression, groupBy, orderBy]) => {
+      // if the groups result is still loading, wait and do nothing
+      if (groupsResult?.progress.loading ?? true) {
+        return just(groupsResult);
+      }
+
+      // look for values of the selected metric in the groups result and in the cached metrics
+      const resultFromGroups = getMetricsFromGroupsResult(groupsResult, nbGroups, metricKey);
+      const resultFromCachedMetrics = cachedMetrics[metricKey];
+
+      if (resultFromGroups && resultFromGroups.length > 0) {
+        return just(resultFromGroups);
+      } else if (resultFromCachedMetrics) {
+        return just(resultFromCachedMetrics);
+      } else {
+        // if the selected metric does not exist in the groups result and the cached metrics,
+        // fetch the values using getUnifiedMetrics
+        const orderByMetricAndAggregation = getMetricAndAggregationFromMetricKey(orderBy.by);
+        return getUnifiedMetrics({
+          metrics: {
+            [metricKey]: {
+              source: 'APPLICATION',
+              dataSource,
+              metric,
+              timeConfig,
+              granularity,
+              aggregation,
+              tagFilterExpression,
+              grouping: [
+                {
+                  by: groupBy,
+                  // groups can be sorted by a metric different than the metric displayed in the chart
+                  metric: orderByMetricAndAggregation.metric,
+                  aggregation: orderByMetricAndAggregation.aggregation,
+                  maxResults: 5,
+                  direction: orderBy.direction,
+                  includeUnmatched: true
+                }
+              ]
+            }
+          }
+        }).map(getMetricsFromUnifiedMetricResult);
+      }
+    },
+    [groupsResult, metric, aggregation, tagFilterExpression, groupBy, orderBy]
+  );
+
+  const loading = metrics?.progress?.loading;
   if (loading) {
     return <LoadingIndicator height={189} size="xxl" />;
   }
 
-  const metricKey = chartMetricKey(metric, aggregation);
-  const items = result?.items;
-  const groups = items.slice(0, groupColors.length);
-  if (groups.length === 0 || !groups[0]?.metrics || !groups[0]?.metrics[metricKey]) {
+  const noData = !metrics || metrics.length === 0;
+  if (noData) {
     return <NoDataAvailable height={189} icon={'lib_bar_chart'} text={'No data to display'} />;
   }
 
-  const chartTimeConfig = getResolvedTimeConfig(timeConfig, result);
-
-  const granularity = getChartGranularity(timeConfig);
+  const groups = groupsResult?.items.slice(0, nbGroups);
   const groupNames = groups.map(group => groupLabel(group.name, dataSource));
+
+  // update the cache with the metric values
+  if (!cachedMetrics[metricKey]) {
+    setCachedMetrics({
+      [metricKey]: metrics,
+      ...cachedMetrics
+    });
+  }
+
   const y1 = {
     labels: groupNames,
     renderer: renderer,
     formatter: formatter,
     colors: groupColors,
-    metrics: groups.map(group => group.metrics[metricKey]),
+    metrics,
     aggregations: Array(groups.length).fill(aggregation),
     min: 0
   };
@@ -67,4 +137,17 @@ function groupLabel(itemName, dataSource) {
     }
   }
   return itemName;
+}
+
+function getMetricsFromGroupsResult(result, nbGroups, metricKey) {
+  const groups = result?.items.slice(0, nbGroups);
+  return groups?.map(group => group.metrics[metricKey]).filter(Boolean);
+}
+
+function getMetricsFromUnifiedMetricResult(result) {
+  if (result?.progress.loading) {
+    return result;
+  } else {
+    return result?.data?.map(group => group.values);
+  }
 }
