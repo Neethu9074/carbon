@@ -162,7 +162,7 @@ function AnalyzeStateManagement({
     onOrderByChange: orderBy => onChange({ orderBy }),
 
     metrics,
-    onChangeMetrics: metrics => onChange({ metrics }),
+    onMetricsChange: metrics => onChange({ metrics }),
 
     detailId,
     getHrefToDetailId: (detailId, groupValue) => {
@@ -175,27 +175,9 @@ function AnalyzeStateManagement({
   });
 
   function getStateChangeForUngroupedView(groupValue) {
-    const newTagFilter = {
-      type: TAG,
-      name: groupBy.groupbyTag,
-      key: groupBy.groupbyTagSecondLevelKey,
-      value: groupValue,
-      operator: EQUALS,
-      entity: groupBy.groupbyTagEntity ?? NOT_APPLICABLE
-    };
-
-    const changedTagFilterExpression = tagFilterExpression.slice();
-    if (changedTagFilterExpression.length > 0) {
-      changedTagFilterExpression.push({
-        type: CONJUNCTION,
-        logicalOperator: and
-      });
-    }
-    changedTagFilterExpression.push(newTagFilter);
-
     return {
       groupBy: emptyObject,
-      tagFilterExpression: changedTagFilterExpression
+      tagFilterExpression: addGroupingCriteriaToTagFilterExpression(groupBy, groupValue, tagFilterExpression)
     };
   }
 }
@@ -212,7 +194,7 @@ export const childrenArgsAsPropTypes = {
 
   isGrouped: rpt.bool.isRequired,
   groupBy: rpt.shape({
-    groupbyTag: rpt.string.isRequired,
+    groupbyTag: rpt.string,
     groupbyTagSecondLevelKey: rpt.string
   }),
   onGroupByChange: rpt.func.isRequired,
@@ -230,7 +212,7 @@ export const childrenArgsAsPropTypes = {
       aggregation: rpt.oneOf(Object.keys(aggregationLabels)).isRequired
     })
   ).isRequired,
-  setMetrics: rpt.func.isRequired,
+  onMetricsChange: rpt.func.isRequired,
 
   detailId: rpt.any,
   getHrefToDetailId: rpt.func.isRequired,
@@ -239,7 +221,28 @@ export const childrenArgsAsPropTypes = {
   setDetailId: rpt.func.isRequired
 };
 
-function useSameObjectInstanceWhenDeepEquals(obj) {
+export function addGroupingCriteriaToTagFilterExpression(groupBy, groupValue, tagFilterExpression) {
+  const newTagFilter = {
+    type: TAG,
+    name: groupBy.groupbyTag,
+    key: groupBy.groupbyTagSecondLevelKey,
+    value: groupValue,
+    operator: EQUALS,
+    entity: groupBy.groupbyTagEntity ?? NOT_APPLICABLE
+  };
+
+  const changedTagFilterExpression = tagFilterExpression.slice();
+  if (changedTagFilterExpression.length > 0) {
+    changedTagFilterExpression.push({
+      type: CONJUNCTION,
+      logicalOperator: and
+    });
+  }
+  changedTagFilterExpression.push(newTagFilter);
+  return changedTagFilterExpression;
+}
+
+export function useSameObjectInstanceWhenDeepEquals(obj) {
   const hash = generateStableHash(obj);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   return useMemo(() => obj, [hash]);

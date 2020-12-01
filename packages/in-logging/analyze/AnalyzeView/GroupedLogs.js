@@ -1,35 +1,25 @@
 import React, { useMemo } from 'react';
 
-import { type as TAG_FILTER_TYPE } from 'in-new-components/QueryBuilder/transformation/tagFilter';
-import { addTagFilters } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import QueryBuilderWorkspace from 'in-logging/analyze/AnalyzeView/QueryBuilderWorkspace';
-import LoadingList from 'in-new-components/lists/List/sharedComponents/LoadingList';
-import ErrorList from 'in-new-components/lists/List/sharedComponents/ErrorList';
-import LoadMoreLi from 'in-new-components/lists/List/LoadMoreLi/LoadMoreLi';
-import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
-import { ColumnizedContent, Ul, Li } from 'in-new-components/lists/List';
-import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
-import Header from 'in-new-components/QueryBuilder/components/Header';
+import GroupedView from 'in-new-components/AnalyzeView/GroupedView';
 import getLogGroups from 'in-logging/subscriptions/getLogGroups';
 import IconButton from 'in-new-components/IconButton/IconButton';
-import useCursorPagination from 'in-hooks/useCursorPagination';
 import Logs from 'in-logging/analyze/AnalyzeView/Logs';
 import Tooltip from 'in-components/Tooltip/Tooltip';
-import useTimeConfig from 'in-hooks/useTimeConfig';
 import SvgIcon from 'in-components/SvgIcon';
 
 const columnDefinitions = [
   {
     id: 'icon',
     width: '2rem',
-    getContent({ icon }) {
-      return <SvgIcon type={icon} />;
+    getContent({ iconMap, groupBy }) {
+      return <SvgIcon type={iconMap.get(groupBy?.groupbyTag)} />;
     }
   },
   {
     id: 'label',
-    getContent({ label }) {
-      return label;
+    getContent({ group }) {
+      return group.label;
     }
   },
   {
@@ -47,88 +37,25 @@ const columnDefinitions = [
 ];
 
 export default function GroupedLogs(props) {
-  const timeConfig = useTimeConfig();
-
-  const {
-    groupBy,
-    backendQueryModel,
-    onChange,
-    orderBy,
-    getHrefToDetailId,
-    getHrefToUngroupedView,
-    filteringTagCatalog
-  } = props;
+  const { filteringTagCatalog } = props;
 
   const iconMap = useMemo(() => createIconMap(filteringTagCatalog), [filteringTagCatalog]);
 
-  const groupbyTag = groupBy.groupbyTag;
-
-  const {
-    items,
-    errors,
-    progress,
-    canLoadMore,
-    result,
-    loadMore,
-    totalHits,
-    totalRepresentedItemCount
-  } = useCursorPagination(({ cursor }) => getTableData({ timeConfig, backendQueryModel, groupbyTag, cursor }), [
-    timeConfig,
-    groupbyTag,
-    backendQueryModel
-  ]);
-
-  const hasErrors = errors?.length > 0;
-  const isLoading = progress?.loading || props.isLoading;
-  const hasItems = items.length > 0;
-
   return (
     <QueryBuilderWorkspace {...props}>
-      <Header
-        hitName="Group"
-        totalHits={totalHits}
+      <GroupedView
+        {...props}
         itemName="Log"
-        totalRepresentedItemCount={totalRepresentedItemCount}
-        order={orderBy}
-        setOrder={orderBy => onChange({ orderBy })}
+        columnDefinitions={columnDefinitions}
+        getData={({ timeConfig, backendQueryModel, orderBy, groupBy, cursor }) =>
+          getTableData({ timeConfig, backendQueryModel, groupbyTag: groupBy.groupbyTag, cursor, orderBy })
+        }
+        getLabel={item => item.group.label}
+        iconMap={iconMap}
+        UngroupedView={Logs}
       />
-      {hasErrors && <ErrorList errors={result.errors} />}
-      {hasItems && (
-        <Ul space="xsmall">
-          {items.map(({ group }) => {
-            return (
-              <Li
-                key={group.label}
-                toggleContentOnRowClick
-                renderNestedContent={() => (
-                  <Logs
-                    {...props}
-                    withQueryBuilder={false}
-                    backendQueryModel={addTagsToBackendModel(backendQueryModel, groupbyTag, group.label)}
-                    getHrefToDetailId={detailId => getHrefToDetailId(detailId, group.label)}
-                  />
-                )}
-              >
-                <ColumnizedContent
-                  columnDefinitions={columnDefinitions}
-                  label={group.label}
-                  icon={iconMap.get(groupbyTag)}
-                  href={getHrefToUngroupedView(group.label)}
-                />
-              </Li>
-            );
-          })}
-          {canLoadMore && <LoadMoreLi loadMore={loadMore} />}
-        </Ul>
-      )}
-      {isLoading && <LoadingList numSkeletonRows={3} />}
-      {!isLoading && !hasItems && <NoDataAvailable height={240} />}
     </QueryBuilderWorkspace>
   );
-}
-
-function addTagsToBackendModel(backendQueryModel, groupbyTag, groupLabel) {
-  return addTagFilters(backendQueryModel, [getGroupTag(groupbyTag, groupLabel)]);
 }
 
 function getTableData({ timeConfig, backendQueryModel, groupbyTag, cursor }) {
@@ -143,18 +70,9 @@ function getTableData({ timeConfig, backendQueryModel, groupbyTag, cursor }) {
   });
 }
 
-function getGroupTag(name, value) {
-  return {
-    type: TAG_FILTER_TYPE,
-    operator: EQUALS,
-    name,
-    value
-  };
-}
-
 function createIconMap(tagCatalog) {
   const icons = new Map();
-  const tagTree = tagCatalog?.data?.tagTree;
+  const tagTree = tagCatalog?.tagTree;
   if (!tagTree) {
     return icons;
   }

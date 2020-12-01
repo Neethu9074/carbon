@@ -2,16 +2,9 @@ import React from 'react';
 
 import QueryBuilderWorkspace from 'in-logging/analyze/AnalyzeView/QueryBuilderWorkspace';
 import DateTimeSeparated from 'in-components/tables/sharedComponents/DateTimeSeparated';
-import LoadingList from 'in-new-components/lists/List/sharedComponents/LoadingList';
-import ErrorList from 'in-new-components/lists/List/sharedComponents/ErrorList';
 import LogContentColumn from 'in-logging/analyze/AnalyzeView/LogContentColumn';
-import LoadMoreLi from 'in-new-components/lists/List/LoadMoreLi/LoadMoreLi';
-import { ColumnizedContent, Ul, Li } from 'in-new-components/lists/List';
-import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
-import Header from 'in-new-components/QueryBuilder/components/Header';
-import useCursorPagination from 'in-hooks/useCursorPagination';
+import UngroupedView from 'in-new-components/AnalyzeView/UngroupedView';
 import getLogs from 'in-logging/subscriptions/getLogs';
-import useTimeConfig from 'in-hooks/useTimeConfig';
 
 const columnDefinitions = [
   {
@@ -19,73 +12,44 @@ const columnDefinitions = [
     label: 'Time',
     width: '6rem',
     widthInAbsoluteUnit: true,
-    getContent(item) {
-      return <DateTimeSeparated>{item.log.timestamp}</DateTimeSeparated>;
+    getContent({ log }) {
+      return <DateTimeSeparated>{log.timestamp}</DateTimeSeparated>;
     }
   },
   {
     id: 'log',
     label: 'Log',
     sortable: false,
-    getContent(item) {
-      return <LogContentColumn content={item.log.strippedContent} tags={item.log.tags} />;
+    getContent({ log }) {
+      return <LogContentColumn content={log.strippedContent} tags={log.tags} />;
     }
   }
 ];
 
 export default function Logs(props) {
-  const timeConfig = useTimeConfig();
-
-  const { orderBy, getHrefToDetailId, onOrderByChange, backendQueryModel, withQueryBuilder = true } = props;
-
-  const { items, errors, progress, canLoadMore, result, loadMore, totalHits } = useCursorPagination(
-    ({ cursor }) => getTableData({ timeConfig, backendQueryModel, orderBy, cursor }),
-    [timeConfig, orderBy.by, orderBy.direction, backendQueryModel]
+  let content = (
+    <UngroupedView
+      {...props}
+      itemName="Log"
+      sortOptions={[
+        {
+          value: 'timestamp',
+          label: 'Time'
+        }
+      ]}
+      columnDefinitions={columnDefinitions}
+      getData={({ timeConfig, backendQueryModel, orderBy, cursor }) =>
+        getTableData({ timeConfig, backendQueryModel, orderBy, cursor })
+      }
+      getId={item => item.log.id}
+    />
   );
 
-  const hasErrors = errors?.length > 0;
-  const isLoading = progress?.loading || props.isLoading;
-  const hasItems = items.length > 0;
-
-  const list = (
-    <>
-      {hasErrors && <ErrorList errors={result?.errors} />}
-      {hasItems && (
-        <Ul space="disabled">
-          {items.map(item => (
-            <Li key={item.log.id} size="compact" href={getHrefToDetailId(item.log.id)}>
-              <ColumnizedContent columnDefinitions={columnDefinitions} log={item.log} />
-            </Li>
-          ))}
-          {canLoadMore && <LoadMoreLi loadMore={loadMore} />}
-        </Ul>
-      )}
-      {isLoading && <LoadingList numSkeletonRows={3} />}
-      {!isLoading && !hasItems && <NoDataAvailable height={240} />}
-    </>
-  );
-
-  if (!withQueryBuilder) {
-    return list;
+  if (!props.withoutHeader) {
+    content = <QueryBuilderWorkspace {...props}>{content}</QueryBuilderWorkspace>;
   }
-  return (
-    <QueryBuilderWorkspace {...props}>
-      <Header
-        sortOptions={[
-          {
-            value: 'timestamp',
-            label: 'Time'
-          }
-        ]}
-        topText="no grouping"
-        itemName="Log"
-        totalRepresentedItemCount={totalHits ?? 0}
-        order={orderBy}
-        setOrder={onOrderByChange}
-      />
-      {list}
-    </QueryBuilderWorkspace>
-  );
+
+  return content;
 }
 
 function getTableData({ timeConfig, backendQueryModel, orderBy, cursor }) {
