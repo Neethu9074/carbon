@@ -2,13 +2,11 @@ import AnalyzeView from 'promise-loader?global,logging!in-logging/analyze/Analyz
 import { Route } from 'react-router-dom';
 import React from 'react';
 
-import { analyzePathFullyQualified, logsPath, analyzePath } from 'in-logging/navigation/paths';
 import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
-import RedirectWithHash from 'in-components/RedirectWithHash';
+import { logsPath } from 'in-logging/navigation/paths';
 
 export default (
   <>
-    <Route path={analyzePathFullyQualified} component={createAsyncViewComponent(AnalyzeView)} />
-    <RedirectWithHash from={logsPath} to={analyzePath} />
+    <Route path={logsPath} component={createAsyncViewComponent(AnalyzeView)} />
   </>
 );
