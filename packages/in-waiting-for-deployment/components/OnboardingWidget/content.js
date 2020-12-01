@@ -1419,7 +1419,7 @@ function GoogleCloudRunContent({ agentKey, serverlessEndpoint }) {
         <Spacer />
         <Bash
           lines={[
-            `echo '${agentKey}' | docker login --username "_" --password-stdin containers.instana.io`,
+            `echo '${agentKey}' | docker login --username "${agentKey}" --password-stdin containers.instana.io`,
             'pack build <image-name> --buildpack from=builder --buildpack containers.instana.io/instana/release/google/buildpack --builder gcr.io/buildpacks/builder'
           ]}
         />
