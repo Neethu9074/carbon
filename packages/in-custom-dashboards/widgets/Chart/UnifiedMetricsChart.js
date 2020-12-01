@@ -3,6 +3,7 @@ import React from 'react';
 
 import { renderer as availableRenderers, defaultRenderer } from 'in-custom-dashboards/widgets/Chart/renderer';
 import { extendWindowSizeOnLiveMode, getChartGranularity } from 'in-applications/metrics';
+import sources from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources';
 import { translateOffsetToTimeShiftConfig } from 'in-stores/time/shifting';
 import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
 import ChartWrapper from 'in-components/Chart/ChartWrapper';
@@ -43,7 +44,11 @@ export default function UnifiedMetricsChart({
   excludedContextMenuActions
 }) {
   const timeConfig = useTimeConfig();
-  let result = useResultData(config, timeConfig) ?? pendingResult;
+  const timeConfigExtendedForLiveMode = extendWindowSizeOnLiveMode(timeConfig);
+  const configuredGranularity = config.granularity ?? getChartGranularity(timeConfigExtendedForLiveMode);
+  const minimumGranularity = getMaxSeriesGranularity(config);
+  const granularity = Math.max(minimumGranularity, configuredGranularity);
+  let result = useResultData(config, granularity, timeConfigExtendedForLiveMode) ?? pendingResult;
 
   // Transform result data structure into the structure expected by the chart
   let resultDataAsList = result?.data;
@@ -72,7 +77,7 @@ export default function UnifiedMetricsChart({
       primaryContextMenuAction={config.primaryContextMenuAction}
       additionalContextMenuButtons={config.additionalContextMenuButtons}
       result={result}
-      granularity={config.granularity}
+      granularity={granularity}
       // pass through props
       cardHeader={cardHeader}
       customHeight={customHeight}
@@ -88,10 +93,7 @@ export default function UnifiedMetricsChart({
   );
 }
 
-function useResultData(config, timeConfig) {
-  const timeConfigExtendedForLiveMode = extendWindowSizeOnLiveMode(timeConfig);
-  const granularity = config.granularity ?? getChartGranularity(timeConfigExtendedForLiveMode);
-
+function useResultData(config, granularity, timeConfig) {
   const metrics = {};
 
   config.y1.metrics.forEach(
@@ -100,8 +102,8 @@ function useResultData(config, timeConfig) {
         ...metricConfiguration,
         resultType: config.type,
         granularity,
-        timeConfig: timeConfigExtendedForLiveMode,
-        timeShift: translateOffsetToTimeShiftConfig(metricConfiguration.timeShift, timeConfigExtendedForLiveMode)
+        timeConfig: timeConfig,
+        timeShift: translateOffsetToTimeShiftConfig(metricConfiguration.timeShift, timeConfig)
       })
   );
 
@@ -111,8 +113,8 @@ function useResultData(config, timeConfig) {
         ...metricConfiguration,
         resultType: config.type,
         granularity,
-        timeConfig: timeConfigExtendedForLiveMode,
-        timeShift: translateOffsetToTimeShiftConfig(metricConfiguration.timeShift, timeConfigExtendedForLiveMode)
+        timeConfig: timeConfig,
+        timeShift: translateOffsetToTimeShiftConfig(metricConfiguration.timeShift, timeConfig)
       })
   );
 
@@ -225,4 +227,11 @@ function toMetricsConfiguration(config, resultDataAsList) {
       }
     });
   }
+}
+
+function getMaxSeriesGranularity(config) {
+  return config.y1.metrics
+    .concat(config.y2.metrics)
+    .map(c => sources[c.source]?.minGranularity ?? 0)
+    .reduce((a, m) => Math.max(a, m), 0);
 }

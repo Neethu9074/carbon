@@ -11,3 +11,4 @@ export const label =
   (infraMetricsWidgetEnabled ? '' : '(coming soon)');
 export const disabled = !infraMetricsWidgetEnabled;
 export const visible = true;
+export const minGranularity = 10000;
