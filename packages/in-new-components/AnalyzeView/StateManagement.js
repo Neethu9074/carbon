@@ -10,9 +10,9 @@ import { TAG, CONJUNCTION } from 'in-new-components/QueryBuilder/transformation/
 import { NOT_APPLICABLE } from 'in-new-components/QueryBuilder/tagFilter/entities';
 import { createParameters } from 'in-new-components/AnalyzeView/parameters';
 import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
+import { emptyObject, pendingResult } from 'in-services/fixedObjects';
 import { getTagCatalogOnce } from 'in-services/tags/tagCatalog';
 import { aggregationLabels } from 'in-stores/metric/metric';
-import { emptyObject, pendingResult } from 'in-services/fixedObjects';
 import { generateStableHash } from 'in-services/util/id';
 import { isNotBlank } from 'in-services/util/string';
 import useTimeConfig from 'in-hooks/useTimeConfig';

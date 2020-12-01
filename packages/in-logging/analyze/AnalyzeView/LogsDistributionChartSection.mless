@@ -1,0 +1,12 @@
+@import '~in-themes/active.less';
+
+:local {
+  .wrapper,
+  .chartWrapper {
+    border-top: 1px solid @lib__colors__N400;
+  }
+
+  .chartWrapper {
+    background: @lib__colors__white;
+  }
+}

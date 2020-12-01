@@ -2,6 +2,7 @@ import React from 'react';
 
 import GroupingConfiguratorSection from 'in-new-components/GroupingConfigurator/GroupingConfiguratorSection';
 import LogsGroupingConfigurator from 'in-logging/analyze/AnalyzeView/workspace/LogsGroupingConfigurator';
+import LogsDistributionChartSection from 'in-logging/analyze/AnalyzeView/LogsDistributionChartSection';
 import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import ApiQueryAction from 'in-new-components/QueryBuilder/workspace/ApiQueryAction/ApiQueryAction';
 import QueryBuilderSection from 'in-new-components/QueryBuilder/workspace/QueryBuilderSection';
@@ -18,6 +19,8 @@ import Footer from 'in-new-components/Footer';
 import Sticky from 'in-components/Sticky';
 
 export default function LoggingQueryBuilderWorkspace({
+  metrics,
+  onMetricsChange,
   children,
   isGrouped,
   tagFilterExpression,
@@ -47,6 +50,12 @@ export default function LoggingQueryBuilderWorkspace({
               onChange={onGroupByChange}
               GroupingConfigurator={LogsGroupingConfigurator}
               tagFilterExpression={backendQueryModel || toBackendQueryModel([])}
+            />
+
+            <LogsDistributionChartSection
+              metrics={metrics}
+              onMetricsChange={onMetricsChange}
+              backendQueryModel={backendQueryModel}
             />
 
             <ActionSection right={<ApiQueryAction backendQueryModel={backendQueryModel} />} />

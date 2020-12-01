@@ -30,8 +30,9 @@ export default function LoggingAnalyzeView() {
           return <LogDetail {...opts} />;
         } else if (isGrouped) {
           return <GroupedLogs {...opts} />;
+        } else {
+          return <Logs {...opts} />;
         }
-        return <Logs {...opts} />;
       }}
     </StateManagement>
   );

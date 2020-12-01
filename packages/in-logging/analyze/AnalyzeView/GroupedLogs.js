@@ -35,7 +35,6 @@ const columnDefinitions = [
     }
   }
 ];
-
 export default function GroupedLogs(props) {
   const { filteringTagCatalog } = props;
 
