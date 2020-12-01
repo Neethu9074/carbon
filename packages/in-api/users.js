@@ -78,6 +78,16 @@ export function setRole(userId, roleId) {
   });
 }
 
+export function getPermissions(userId) {
+  return createObservable(
+    http({
+      method: 'GET',
+      maxRetries: 3,
+      url: `/api/permissions/${encodeURIComponent(userId)}`
+    })
+  );
+}
+
 export function removeUserFromTenant(userId) {
   return http({
     method: 'DELETE',

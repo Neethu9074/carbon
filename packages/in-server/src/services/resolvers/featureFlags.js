@@ -153,6 +153,6 @@ module.exports = exports = [
   {
     uiClientKey: 'groupPermissionsEnabled',
     instanaCtlKey: 'feature.group.permissions.enabled',
-    defaultValue: false
+    defaultValue: true
   }
 ];

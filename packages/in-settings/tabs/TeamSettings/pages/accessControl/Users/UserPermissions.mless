@@ -1,0 +1,11 @@
+:local {
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 0.5rem 1rem;
+
+    width: 30rem;
+
+    margin-top: 2rem;
+  }
+}

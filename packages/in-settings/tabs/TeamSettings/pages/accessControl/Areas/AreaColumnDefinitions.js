@@ -3,6 +3,7 @@ import React from 'react';
 
 import { types } from 'in-settings/tabs/TeamSettings/pages/accessControl/Areas/permissionSetResultFilter';
 import getKubernetesNamespaces from 'in-subscription/kubernetes/getKubernetesNamespaces';
+import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import getApplication from 'in-subscription/application/getApplication';
 import getMobileApp from 'in-mobile-apps/subscriptions/getMobileApp';
 import { hasError, isLoading } from 'in-services/util/result';
@@ -48,7 +49,7 @@ const LabelResolver = connecTo(
     };
   },
   function LabelResolver({ type, label }) {
-    return <KeyValue label={type} customValue={label || 'Not available'} accentuated />;
+    return <KeyValue label={type} customValue={label || valueMissingPlaceholder} accentuated />;
   }
 );
 
