@@ -3,30 +3,45 @@ import { dataSourceConstants } from 'in-applications/analyze/metrics';
 import { getFormatter } from 'in-stores/metric/formatters';
 import { aggregationLabels } from 'in-stores/metric';
 
-// Converts the available chart metrics into a format required by ChartingConfiguratorSection.
-// At the moment the charting options are dynamic based on the metrics selected for the result
-// table or group list.
-export function chartingOptions({ dataSource, isGrouped, selectedMetrics }) {
-  // latency distribution chart metric is always available
-  const latencyDistribution = { metric: 'latency', aggregation: 'DISTRIBUTION' };
-  const metrics = isGrouped ? [...selectedMetrics, latencyDistribution] : [latencyDistribution];
+const latencyDistributionAggregation = {
+  id: 'DISTRIBUTION',
+  label: aggregationLabels['DISTRIBUTION'],
+  renderers: [defaultRenderer('latency', 'DISTRIBUTION')]
+};
 
-  const aggregationsByMetric = metrics.reduce((result, { metric, aggregation }) => {
-    const aggregations = result[metric] ?? [];
-    result[metric] = [...aggregations, aggregation];
-    return result;
-  }, {});
+export const ungroupedChartingOptions = [
+  {
+    metricId: 'latency',
+    label: 'Latency',
+    formatter: metricFormatter('latency'),
+    aggregations: [latencyDistributionAggregation]
+  }
+];
 
-  return Object.entries(aggregationsByMetric).map(([ metric, aggregations ]) => {
-    return {
-      metricId: metric,
-      label: dataSourceConstants[dataSource].metricConfiguration[metric]?.label,
-      formatter: metricFormatter(metric),
-      aggregations: aggregations.map(aggregation => {
-        return { id: aggregation, label: aggregationLabels[aggregation], renderers: [defaultRenderer(metric, aggregation)] };
-      })
-    };
-  });
+export const groupedChartingOptions = {
+  calls: convertMetricConfigToChartingOptions(dataSourceConstants['calls'].metricConfiguration),
+  traces: convertMetricConfigToChartingOptions(dataSourceConstants['traces'].metricConfiguration)
+};
+
+function convertMetricConfigToChartingOptions(metricConfiguration) {
+  let options = Object.entries(metricConfiguration).map(([metric, value]) => ({
+    metricId: metric,
+    label: value.label,
+    formatter: metricFormatter(metric),
+    aggregations: value.aggregations.map(aggregation => {
+      return {
+        id: aggregation,
+        label: aggregationLabels[aggregation],
+        renderers: [defaultRenderer(metric, aggregation)]
+      };
+    })
+  }));
+
+  // add latency distribution chart
+  const latencyOption = options.find(option => option.metricId === 'latency');
+  latencyOption.aggregations.unshift(latencyDistributionAggregation);
+
+  return options;
 }
 
 function metricFormatter(metric) {

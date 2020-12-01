@@ -21,8 +21,8 @@ import { beaconType as websiteBeaconTypeMatrixParameter } from 'in-websites/navi
 import DashboardHeaderModule from 'in-new-components/DashboardHeader/DashboardHeaderModule';
 import DashboardHeaderButton from 'in-new-components/DashboardHeader/DashboardHeaderButton';
 import { dataSource as dataSourceMatrixParameter } from 'in-analyze/navigation/matrix';
-import { analyzePath as logsAnalyzePath } from 'in-logging/navigation/paths';
 import DashboardHeader, { themes } from 'in-new-components/DashboardHeader';
+import { logsPath as logsAnalyzePath } from 'in-logging/navigation/paths';
 import { analyze as appAnalyzePath } from 'in-analyze/navigation/paths';
 import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';

@@ -1,6 +1,9 @@
 import React from 'react';
 
-import { getGroupChartFormatter, defaultRenderer } from 'in-applications/analyze/components/ChartingPresenter/chartingOptions';
+import {
+  getGroupChartFormatter,
+  defaultRenderer
+} from 'in-applications/analyze/components/ChartingPresenter/chartingOptions';
 import LatencyDistributionChart from 'in-applications/analyze/components/ChartingPresenter/LatencyDistributionChart';
 import GroupMetricsChart from 'in-applications/analyze/components/ChartingPresenter/GroupMetricsChart';
 
@@ -10,12 +13,14 @@ export default function ChartingPresenter({
   dataSource,
   metric,
   aggregation,
-  isGrouped,
+  groupBy,
   tagFilterExpression,
+  orderBy,
   updateFilter,
   result,
   groupColors
 }) {
+  const isGrouped = !!groupBy?.groupbyTag;
   const Presenter = isGrouped ? GroupChartPresenter : SimpleChartPresenter;
   return (
     <div className={locals.main}>
@@ -24,6 +29,8 @@ export default function ChartingPresenter({
         aggregation={aggregation}
         dataSource={dataSource}
         tagFilterExpression={tagFilterExpression}
+        groupBy={groupBy}
+        orderBy={orderBy}
         updateFilter={updateFilter}
         result={result}
         groupColors={groupColors}
@@ -49,6 +56,8 @@ function GroupChartPresenter({
   aggregation,
   dataSource,
   tagFilterExpression,
+  groupBy,
+  orderBy,
   updateFilter,
   result,
   groupColors
@@ -66,8 +75,11 @@ function GroupChartPresenter({
     <GroupMetricsChart
       metric={metric}
       aggregation={aggregation}
-      result={result}
+      groupsResult={result}
       dataSource={dataSource}
+      tagFilterExpression={tagFilterExpression}
+      groupBy={groupBy}
+      orderBy={orderBy}
       formatter={getGroupChartFormatter(metric)}
       // we don't allow to select a chart renderer yet, use the default one
       renderer={defaultRenderer(metric, aggregation).renderer}
