@@ -1,6 +1,7 @@
 import { createField } from 'formalistic';
 import React from 'react';
 
+import UserPermissions from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/UserPermissions';
 import RolesDropDown from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/RolesDropDown';
 import Permissions from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/Permissions';
 import { success as successResult, error as errorResult } from 'in-services/util/result';
@@ -96,12 +97,15 @@ function renderUser(props) {
         <Col lg>
           <h2 className={locals.title}>Permissions</h2>
           {!groupPermissionsEnabled && (
-            <FormGroup className={locals.roles}>
-              <Label>Role</Label>
-              <RolesDropDown {...props} user={user} />
-            </FormGroup>
+            <div>
+              <FormGroup className={locals.roles}>
+                <Label>Role</Label>
+                <RolesDropDown {...props} user={user} />
+              </FormGroup>
+              <Permissions roles={roles} roleId={form.get('roleId').value} />
+            </div>
           )}
-          <Permissions roles={roles} roleId={form.get('roleId').value} />
+          {groupPermissionsEnabled && <UserPermissions userId={user.id} />}
         </Col>
       </Row>
     </>

@@ -93,8 +93,8 @@ function collectIds(permissionSet, group) {
 function ListRenderer({ items }) {
   return (
     <Ul>
-      {items.map(item => (
-        <Li key={item.id}>
+      {items.map((item, i) => (
+        <Li key={i}>
           <ColumnizedContent columnDefinitions={columnDefinitions} item={item} />
         </Li>
       ))}
