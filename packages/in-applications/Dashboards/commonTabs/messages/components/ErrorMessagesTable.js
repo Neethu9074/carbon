@@ -2,12 +2,14 @@ import React from 'react';
 
 import AnalyzeMessagesButton from 'in-applications/Dashboards/commonTabs/messages/components/AnalyzeMessagesButton';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
+import { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import { applicationDashboardUrlParameters } from 'in-applications/navigation/urlParameters';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import getErrorMessages from 'in-applications/subscriptions/getErrorMessages';
+import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
 import { operators } from 'in-analyze/applicationFilter';
 import { number } from 'in-services/formatters/number';
@@ -158,6 +160,7 @@ function getTableData({
 }
 
 function Message({ message, applicationName, serviceName, endpointName, boundaryScope }) {
+  const tagCatalog = useTagCatalog(getTagCatalog);
   let displayedMessage;
   let errorMessageFilter;
   const erroneousFilter = { name: 'call.erroneous', value: 'true' };
@@ -174,15 +177,19 @@ function Message({ message, applicationName, serviceName, endpointName, boundary
 
   return (
     <Link
-      href$={getLinkToAnalyze({
-        applicationName,
-        serviceName,
-        endpointName,
-        dataSource: 'calls',
-        groupByTag: {},
-        filters: [erroneousFilter, errorMessageFilter, includeInternalFilter, includeSyntheticFilter],
-        boundaryScope
-      })}
+      href$={
+        tagCatalog &&
+        getLinkToAnalyze({
+          applicationName,
+          serviceName,
+          endpointName,
+          dataSource: 'calls',
+          groupByTag: {},
+          filters: [erroneousFilter, errorMessageFilter, includeInternalFilter, includeSyntheticFilter],
+          tagCatalog,
+          boundaryScope
+        })
+      }
     >
       {displayedMessage}
     </Link>

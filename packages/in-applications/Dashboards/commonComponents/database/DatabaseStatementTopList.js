@@ -4,10 +4,12 @@ import { get } from 'lodash';
 
 import { TopListWithUrlState, trackTopListNavigation } from 'in-new-components/TopListWithUrlState';
 import getDatabaseStatementTopList from 'in-subscription/application/getDatabaseStatementTopList';
+import { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
 import getEndpointInfo from 'in-subscription/application/getEndpointInfo';
 import getServiceLabel from 'in-subscription/application/getServiceLabel';
 import getApplication from 'in-subscription/application/getApplication';
+import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
 import { millis, number } from 'in-services/formatters/number';
 import { boundaryScopes } from 'in-applications/constants';
@@ -104,19 +106,24 @@ function getList({
 }
 
 function Label({ item, applicationLabel, serviceLabel, endpointLabel }, _item, className) {
+  const tagCatalog = useTagCatalog(getTagCatalog);
   return (
     <Fragment>
       <Link
         className={className}
-        href$={getLinkToAnalyze({
-          applicationName: applicationLabel,
-          serviceName: serviceLabel,
-          endpointName: endpointLabel,
-          boundaryScope: boundaryScopes.all,
-          dataSource: 'calls',
-          filters: [{ name: 'call.database.statement', operator: 'equals', value: item.statement }],
-          groupByTag: {}
-        })}
+        href$={
+          tagCatalog &&
+          getLinkToAnalyze({
+            applicationName: applicationLabel,
+            serviceName: serviceLabel,
+            endpointName: endpointLabel,
+            boundaryScope: boundaryScopes.all,
+            dataSource: 'calls',
+            filters: [{ name: 'call.database.statement', operator: 'equals', value: item.statement }],
+            tagCatalog,
+            groupByTag: {}
+          })
+        }
         onClick={() => trackTopListNavigation()}
       >
         {shorten(item.statement, 64)}

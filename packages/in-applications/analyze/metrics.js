@@ -6,6 +6,7 @@ import getCallGroups from 'in-subscription/application/getCallGroups';
 import getTraces from 'in-subscription/application/getTraces';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import getCalls from 'in-subscription/application/getCalls';
+import { entityTypes } from 'in-analyze/applicationFilter';
 
 export const CALLS = 'CALLS';
 export const TRACES = 'TRACES';
@@ -45,11 +46,11 @@ export const sparkChartMetricKey = (metric, aggregation) => `${metric}_${aggrega
 export const aggregateMetricKey = (metric, aggregation) => `${metric}_${aggregation}_Agg`;
 
 export const getMetricAndAggregationFromMetricKey = key => {
-  const parts = key.split('_');
-  return {
-    metric: parts[0],
-    aggregation: parts[1]
-  };
+  if (key != null) {
+    const [metric, aggregation] = key.split('_');
+    return [{ metric: metric, aggregation: aggregation }];
+  }
+  return null;
 };
 
 export const dataSourceConstants = {
@@ -65,8 +66,8 @@ export const dataSourceConstants = {
         aggregation: 'SUM'
       }
     },
+    fixedMetrics: [{ metric: 'calls', aggregation: 'SUM' }],
     defaultMetrics: [
-      { metric: 'calls', aggregation: 'SUM' },
       { metric: 'latency', aggregation: 'MEAN' },
       { metric: 'errors', aggregation: 'MEAN' }
     ],
@@ -74,11 +75,15 @@ export const dataSourceConstants = {
       by: 'calls_SUM_Agg',
       direction: 'DESC'
     },
-    defaultCharts: [
-      { metric: 'latency', aggregation: 'DISTRIBUTION' }
-    ],
+    defaultGrouping: {
+      groupbyTag: 'endpoint.name',
+      groupbyTagEntity: entityTypes.DESTINATION
+    },
+    defaultCharts: [{ metric: 'latency', aggregation: 'DISTRIBUTION' }],
+    fixedMetricConfiguration: {
+      calls: { formatter: number.compact, label: 'Calls', type: 'count', aggregations: ['SUM'] }
+    },
     metricConfiguration: {
-      calls: { formatter: number.compact, label: 'Calls', type: 'count', aggregations: ['SUM'] },
       latency: {
         formatter: millis.forcedCompactOnMs.detailed,
         label: 'Latency',
@@ -105,8 +110,8 @@ export const dataSourceConstants = {
         aggregation: 'SUM'
       }
     },
+    fixedMetrics: [{ metric: 'traces', aggregation: 'SUM' }],
     defaultMetrics: [
-      { metric: 'traces', aggregation: 'SUM' },
       { metric: 'latency', aggregation: 'MEAN' },
       { metric: 'errors', aggregation: 'MEAN' }
     ],
@@ -114,11 +119,14 @@ export const dataSourceConstants = {
       by: 'traces_SUM_Agg',
       direction: 'DESC'
     },
-    defaultCharts: [
-      { metric: 'latency', aggregation: 'DISTRIBUTION' }
-    ],
+    defaultGrouping: {
+      groupbyTag: 'trace.endpoint.name'
+    },
+    defaultCharts: [{ metric: 'latency', aggregation: 'DISTRIBUTION' }],
+    fixedMetricConfiguration: {
+      traces: { formatter: number.compact, label: 'Traces', type: 'count', aggregations: ['SUM'] }
+    },
     metricConfiguration: {
-      traces: { formatter: number.compact, label: 'Traces', type: 'count', aggregations: ['SUM'] },
       latency: {
         formatter: millis.forcedCompactOnMs.detailed,
         label: 'Latency',

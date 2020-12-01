@@ -2,8 +2,10 @@ import theme from 'in-themes';
 import React from 'react';
 
 import UnifiedMetricsChart, { parseMetricId } from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
+import { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
 import { getBlueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
+import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import { getChartGranularity } from 'in-applications/metrics';
 import { latencyFixed } from 'in-services/formatters/number';
 import { integral, line } from 'in-stores/metric/renderer';
@@ -22,6 +24,7 @@ export default function Latency({
   groupByTag,
   renderPostChartContent
 }) {
+  const tagCatalog = useTagCatalog(getTagCatalog);
   const granularity = getChartGranularity(timeConfig);
   const slownessBlueprintConfig = getBlueprintConfig('slowness');
   const aggregations = ['P90'];
@@ -157,6 +160,7 @@ export default function Latency({
             icon: 'lib_analyze',
             label: 'View in Analyze',
             getHref$: (highlightedTime, metricsToAdd) =>
+              tagCatalog &&
               getJumpToAnalyzeHref$(
                 { applicationId, serviceId, endpointId },
                 {
@@ -169,6 +173,7 @@ export default function Latency({
                         { name: 'include_synthetic', value: 'true' }
                       ]
                     : [],
+                  tagCatalog: tagCatalog,
                   metrics: mapMetricsToAdd(metricsToAdd.renderedMetrics, metricConfigs, timeShiftConfig),
                   focusedMetric: focusBasedOnMetrics(metricsToAdd.renderedMetrics, metricConfigs, timeShiftConfig)
                 }

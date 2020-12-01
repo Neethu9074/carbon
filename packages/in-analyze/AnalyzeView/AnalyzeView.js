@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import {
   previewEnabled as previewEnabledMatrixParameter,
@@ -6,15 +6,29 @@ import {
   dataSource as dataSourceMatrixParameter,
   tagFilter as tagFilterMatrixParameter,
   groupBy as groupByMatrixParameter,
-  ua2 as ua2MatrixParameter
+  metrics as metricsMatrixParameter,
+  deserializeMetrics,
+  serializeMetrics
 } from 'in-analyze/navigation/matrix';
+
 import {
   getTagFilterFromUrlString,
   getTagFilterToUrlString,
   getGroupFromUrlString,
   getGroupToUrlString
 } from 'in-analyze/filterBuilder';
-import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
+
+import {
+  analyze,
+  setTagFilterExpressionAndHiddenCalls,
+  setChartsMatrixParam,
+  setGroupByMatrixParam,
+  setMetricsMatrixParam,
+  setDataSourceMatrixParam,
+  setOrderByMatrixParam
+} from 'in-analyze/navigation/paths';
+import { getTagCatalog as getTracesTagCatalog } from 'in-applications/analyze/components/workspace/TraceQueryBuilder';
+import { getTagCatalog as getCallsTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import { focusedMetric as focusedMetricMatrixParameter } from 'in-analyze/navigation/matrix';
 import EditGroupDialog from 'in-analyze/AnalyzeView/components/AnalyzeEditGroupDialog';
 import { getTagFilterListForBackendSubscription } from 'in-analyze/applicationFilter';
@@ -26,15 +40,17 @@ import getConfigByDataSource from 'in-analyze/AnalyzeView/dataSources';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { activeDialogs$ } from 'in-components/DialogPresenter/store';
 import { getTagFilterManipulators } from 'in-analyze/tagFiltersHoc';
+import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
 import GroupedTraces from 'in-analyze/components/GroupedTraces';
+import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import { newAnalyticsEnabled } from 'in-services/featureFlags';
+import { mutateUrl } from 'in-stores/navigation/navigation';
 import getCalls from 'in-subscription/application/getCalls';
 import RawTraces from 'in-analyze/components/RawTraces';
 import Analyze from 'in-applications/analyze/Analyze';
 import RawCalls from 'in-analyze/components/RawCalls';
-import { getTimeConfig } from 'in-stores/time/config';
-import { analyze } from 'in-analyze/navigation/paths';
+import useTimeConfig from 'in-hooks/useTimeConfig';
 import useObservable from 'in-hooks/useObservable';
 import useUrlState from 'in-hooks/useUrlState';
 import Footer from 'in-new-components/Footer';
@@ -112,10 +128,10 @@ const urlStateConfig = {
     },
     {
       path: analyze,
-      name: `${ua2MatrixParameter}`,
-      as: ua2MatrixParameter,
-      parser: v => (v === 'false' ? false : true),
-      serializer: Boolean
+      name: `groups.metrics`,
+      as: metricsMatrixParameter,
+      serializer: serializeMetrics,
+      parser: deserializeMetrics
     }
   ]
 };
@@ -126,25 +142,64 @@ export default function AnalyzeViewPropsEnrichment(props) {
     []
   );
 
+  const timeConfig = useTimeConfig();
   const [urlState, onChangeAnalyzeConfig, onChangeAnalyzeConfigAndGetAsUrl] = useUrlState(urlStateConfig);
+
   urlState[focusedMetricMatrixParameter] = urlState[focusedMetricMatrixParameter] ?? initialFocusedMetric(props);
   urlState[groupByMatrixParameter] = urlState[groupByMatrixParameter] ?? getInitialGrouping(props);
   urlState[showGraphMatrixParameter] = urlState[showGraphMatrixParameter] ?? initialShowGraph(props);
-  urlState[ua2MatrixParameter] = urlState[ua2MatrixParameter] ?? false;
 
-  const timeConfig = getTimeConfig(props.location);
-  const { tagFilter, groupBy: group, dataSource } = urlState;
+  const { tagFilter, groupBy: group, dataSource, focusedMetric, metrics } = urlState;
   const filters = {
     tagFilter,
     group,
     dataSource,
     timeConfig
   };
+
+  const isRawView = !group || !group.name;
+
+  // Backwards Compatibility for UA1 links
+  const tagCatalog = useTagCatalog(dataSource === 'traces' ? getTracesTagCatalog : getCallsTagCatalog);
+  useEffect(() => {
+    const locationInfo = props.location.matrix[analyze];
+    const ua1Url = Boolean(locationInfo['callList.dataSource']);
+    if (newAnalyticsEnabled && tagCatalog && ua1Url) {
+      mutateUrl(location => {
+        setDataSourceMatrixParam(location, dataSource);
+        setMetricsMatrixParam(location, dataSource, metrics);
+        setChartsMatrixParam(location, dataSource, focusedMetric);
+        setGroupByMatrixParam(location, group);
+        setTagFilterExpressionAndHiddenCalls(location, tagCatalog, tagFilter);
+        // orderBy
+        const prefix = isRawView ? 'rawItems' : 'groups';
+        const orderBy = locationInfo[`${prefix}.orderBy`];
+        const orderDirection = locationInfo[`${prefix}.orderDirection`];
+        setOrderByMatrixParam(location, orderBy, orderDirection, group);
+
+        // Reset all UA1 matrix parameters except of 'callList.dataSource' which will
+        // be needed and eventually reset in the reset callback in the 'Analyze' component.
+        setOrDeleteMatrixKey(location, analyze, 'callList.focusedMetric', null);
+        setOrDeleteMatrixKey(location, analyze, 'callList.showGraph', null);
+        setOrDeleteMatrixKey(location, analyze, 'callList.groupBy', null);
+        setOrDeleteMatrixKey(location, analyze, 'callList.tagFilter', null);
+        setOrDeleteMatrixKey(location, analyze, 'callList.previewEnabled', null);
+        setOrDeleteMatrixKey(location, analyze, 'rawItems.orderBy', null);
+        setOrDeleteMatrixKey(location, analyze, 'rawItems.orderDirection', null);
+        setOrDeleteMatrixKey(location, analyze, 'groups.focusedMetric', null);
+        setOrDeleteMatrixKey(location, analyze, 'groups.metrics', null);
+        setOrDeleteMatrixKey(location, analyze, 'groups.showGraph', null);
+        setOrDeleteMatrixKey(location, analyze, 'groups.orderBy', null);
+        setOrDeleteMatrixKey(location, analyze, 'groups.orderDirection', null);
+        setOrDeleteMatrixKey(location, analyze, 'ua2', null);
+      });
+    }
+  }, [props.location, tagCatalog, dataSource, tagFilter, group, focusedMetric, metrics, isRawView]);
+
   const tagFiltersForSubscription = getTagFilterListForBackendSubscription(
     tagFilter,
     getConfigByDataSource(dataSource).defaultFilters
   );
-  const isRawView = !group || !group.name;
 
   const setTagFilters = tagFilters => onChangeAnalyzeConfig({ [tagFilterMatrixParameter]: tagFilters });
 
@@ -166,15 +221,12 @@ export default function AnalyzeViewPropsEnrichment(props) {
 }
 
 function AnalyzeView(props) {
-  const { isDialogActive, isRawView, dataSource, filters, setTagFilters, ua2 } = props;
+  const { isDialogActive, isRawView, dataSource, filters, setTagFilters } = props;
 
   useDisabledBodyScroll(isDialogActive);
 
-  const isInternalVisible = useObservable(isInternalVisible$, []);
-
-  // Trace details are still handled by the old view
-  if (isInternalVisible ? ua2 : newAnalyticsEnabled) {
-    return <Analyze dataSource={dataSource} />;
+  if (newAnalyticsEnabled) {
+    return <Analyze />;
   }
 
   // Deliberately not part of the dataSources, as this would result in inclusion of the analyze views

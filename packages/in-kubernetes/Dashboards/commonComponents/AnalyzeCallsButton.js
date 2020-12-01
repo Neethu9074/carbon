@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
+import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
 import Button from 'in-new-components/Button';
 
@@ -12,26 +14,31 @@ export default function AnalyzeCallsButton({
   serviceName,
   statefulSetName,
   podName,
-  groupByTag,
+  groupByTag
 }) {
+  const tagCatalog = useTagCatalog(getTagCatalog);
   return (
     <Button
       kind="primary"
       icon="lib_application_call"
-      href$={getLinkToAnalyze({
-        dataSource: 'calls',
-        filters: getFilters({
-          clusterName,
-          namespaceName,
-          daemonSetName,
-          deploymentName,
-          deploymentConfigName,
-          serviceName,
-          statefulSetName,
-          podName
-        }),
-        groupByTag: groupByTag ? groupByTag : {}
-      })}
+      href$={
+        tagCatalog &&
+        getLinkToAnalyze({
+          dataSource: 'calls',
+          filters: getFilters({
+            clusterName,
+            namespaceName,
+            daemonSetName,
+            deploymentName,
+            deploymentConfigName,
+            serviceName,
+            statefulSetName,
+            podName
+          }),
+          tagCatalog,
+          groupByTag: groupByTag ? groupByTag : {}
+        })
+      }
     >
       Analyze Calls
     </Button>

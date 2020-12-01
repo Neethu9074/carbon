@@ -1,10 +1,12 @@
 import theme from 'in-themes';
 import React from 'react';
 
+import { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
 import { getBlueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
 import { barOverlapping, line } from 'in-stores/metric/renderer';
+import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import { getChartGranularity } from 'in-applications/metrics';
 
 export default function CallsErrorsChart({
@@ -24,6 +26,7 @@ export default function CallsErrorsChart({
   const granularity = getChartGranularity(timeConfig);
   const throughputBlueprintConfig = getBlueprintConfig('throughput');
   const errorRateBlueprintConfig = getBlueprintConfig('errorRate');
+  const tagCatalog = useTagCatalog(getTagCatalog);
 
   const defaultMetricConfig = {
     granularity,
@@ -141,6 +144,7 @@ export default function CallsErrorsChart({
             icon: 'lib_analyze',
             label: 'View in Analyze',
             getHref$: (highlightedTime, config) =>
+              tagCatalog &&
               getJumpToAnalyzeHref$(
                 { applicationId, serviceId, endpointId },
                 {
@@ -153,6 +157,7 @@ export default function CallsErrorsChart({
                         { name: 'include_synthetic', value: 'true' }
                       ]
                     : [],
+                  tagCatalog: tagCatalog,
                   metrics: [
                     { metric: 'erroneousCalls', aggregation: 'SUM' },
                     {

@@ -7,6 +7,7 @@ import LatencyAndDistribution from 'in-applications/Dashboards/commonComponents/
 import DatabaseSections from 'in-applications/Dashboards/commonComponents/database/DatabaseSections';
 import TechnologyBreakdown from 'in-applications/Dashboards/commonComponents/TechnologyBreakdown';
 import { DESTINATION, NOT_APPLICABLE } from 'in-new-components/QueryBuilder/tagFilter/entities';
+import { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import IssuesAndEvents from 'in-applications/Dashboards/commonComponents/IssuesAndEvents';
 import CallsAndHttp from 'in-applications/Dashboards/commonComponents/CallsAndHttp';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
@@ -14,6 +15,7 @@ import { number, meanLatency, percentage } from 'in-services/formatters/number';
 import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import BigNumberKpiCard from 'in-new-components/KpiCard/BigNumberKpiCard';
 import Errors from 'in-applications/Dashboards/commonComponents/Errors';
+import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import { summaryTab } from 'in-applications/navigation/paths';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import { boundaryScopes } from 'in-applications/constants';
@@ -26,6 +28,7 @@ export default connectTo(
     isInternalVisible: isInternalVisible$
   },
   function Summary({ timeConfig, applicationId, serviceId, endpointId, boundaryScope, data }) {
+    const tagCatalog = useTagCatalog(getTagCatalog);
     const timeShiftConfig = useTimeShiftConfig();
     const includeSyntheticCalls = get(data, 'synthetic', false);
     const type = data.type;
@@ -82,23 +85,26 @@ export default connectTo(
                 text: 'View in Analyze',
                 kind: 'subtle',
                 icon: 'lib_analyze',
-                href$: getJumpToAnalyzeHref$(
-                  { applicationId, serviceId, endpointId },
-                  {
-                    timeConfig,
-                    boundaryScope,
-                    groupByTag: { name: 'call.name', entity: entityTypes.NOT_APPLICABLE },
-                    filters: [],
-                    metrics: [
-                      { metric: 'erroneousCalls', aggregation: 'SUM' },
-                      {
-                        metric: 'latency',
-                        aggregation: 'MEAN'
-                      }
-                    ],
-                    focusedMetric: 'calls_SUM'
-                  }
-                )
+                href$:
+                  tagCatalog &&
+                  getJumpToAnalyzeHref$(
+                    { applicationId, serviceId, endpointId },
+                    {
+                      timeConfig,
+                      boundaryScope,
+                      groupByTag: { name: 'call.name', entity: entityTypes.NOT_APPLICABLE },
+                      filters: [],
+                      tagCatalog: tagCatalog,
+                      metrics: [
+                        { metric: 'erroneousCalls', aggregation: 'SUM' },
+                        {
+                          metric: 'latency',
+                          aggregation: 'MEAN'
+                        }
+                      ],
+                      focusedMetric: 'calls_SUM'
+                    }
+                  )
               }}
             />
           </Col>
@@ -128,20 +134,23 @@ export default connectTo(
                 text: 'View in Analyze',
                 kind: 'subtle',
                 icon: 'lib_analyze',
-                href$: getJumpToAnalyzeHref$(
-                  { applicationId, serviceId, endpointId },
-                  {
-                    timeConfig,
-                    boundaryScope,
-                    groupByTag: { name: 'call.name', entity: entityTypes.NOT_APPLICABLE },
-                    filters: [{ name: 'call.erroneous', value: 'true' }],
-                    metrics: [
-                      { metric: 'errors', aggregation: 'MEAN' },
-                      { metric: 'latency', aggregation: 'MEAN' }
-                    ],
-                    focusedMetric: 'errors_MEAN'
-                  }
-                )
+                href$:
+                  tagCatalog &&
+                  getJumpToAnalyzeHref$(
+                    { applicationId, serviceId, endpointId },
+                    {
+                      timeConfig,
+                      boundaryScope,
+                      groupByTag: { name: 'call.name', entity: entityTypes.NOT_APPLICABLE },
+                      filters: [{ name: 'call.erroneous', value: 'true' }],
+                      tagCatalog: tagCatalog,
+                      metrics: [
+                        { metric: 'errors', aggregation: 'MEAN' },
+                        { metric: 'latency', aggregation: 'MEAN' }
+                      ],
+                      focusedMetric: 'errors_MEAN'
+                    }
+                  )
               }}
             />
           </Col>
@@ -171,16 +180,19 @@ export default connectTo(
                 text: 'View in Analyze',
                 kind: 'subtle',
                 icon: 'lib_analyze',
-                href$: getJumpToAnalyzeHref$(
-                  { applicationId, serviceId, endpointId },
-                  {
-                    timeConfig,
-                    boundaryScope,
-                    groupByTag: { name: 'call.name', entity: entityTypes.NOT_APPLICABLE },
-                    orderBy: 'latency_MEAN_Agg',
-                    orderDirection: 'DESC'
-                  }
-                )
+                href$:
+                  tagCatalog &&
+                  getJumpToAnalyzeHref$(
+                    { applicationId, serviceId, endpointId },
+                    {
+                      timeConfig,
+                      boundaryScope,
+                      groupByTag: { name: 'call.name', entity: entityTypes.NOT_APPLICABLE },
+                      orderBy: 'latency_MEAN_Agg',
+                      orderDirection: 'DESC',
+                      tagCatalog: tagCatalog
+                    }
+                  )
               }}
             />
           </Col>

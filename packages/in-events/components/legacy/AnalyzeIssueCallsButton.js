@@ -10,7 +10,9 @@ import {
   hasErrors
 } from 'in-services/entityUtils';
 import { getTimeConfigFromEvent, getTimeConfigFromEventForSnapshotRetrieval } from 'in-events/timeframe';
+import { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import getConfigByDataSource from 'in-analyze/AnalyzeView/dataSources';
+import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
 import { containsIgnoreCase } from 'in-services/util/string';
 import Button from 'in-new-components/Button';
@@ -29,6 +31,7 @@ export default connectTo(
     return observables;
   },
   function AnalyzeIssueCalls({ className, event, endpointEntity }) {
+    const tagCatalog = useTagCatalog(getTagCatalog);
     if (!event) {
       return null;
     }
@@ -63,17 +66,21 @@ export default connectTo(
         className={className}
         kind="primary"
         icon="lib_application_call"
-        href$={getLinkToAnalyze({
-          applicationName,
-          serviceName,
-          endpointName,
-          dataSource,
-          filters,
-          groupByTag,
-          orderBy: order.by,
-          orderDirection: order.direction,
-          timeConfig: getTimeConfigFromEvent(event)
-        })}
+        href$={
+          tagCatalog &&
+          getLinkToAnalyze({
+            applicationName,
+            serviceName,
+            endpointName,
+            dataSource,
+            filters,
+            tagCatalog,
+            groupByTag,
+            orderBy: order.by,
+            orderDirection: order.direction,
+            timeConfig: getTimeConfigFromEvent(event)
+          })
+        }
       >
         Analyze Calls
       </Button>

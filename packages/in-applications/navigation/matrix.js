@@ -20,6 +20,12 @@ export const serviceListPrefix = 'service.';
 export const alertId = 'alertId';
 export const alertCreated = 'alertCreated';
 
+export const dataSourceMatrixParameter = {
+  path: analyze,
+  name: 'dataSource',
+  initialState: 'calls'
+};
+
 export const tagFilterExpressionMatrixParameter = {
   path: analyze,
   name: 'tagFilterExpression',
@@ -32,8 +38,7 @@ export const groupByMatrixParameter = {
   path: analyze,
   name: 'groupBy',
   serializer: buildJsonSerializer(),
-  parser: buildJsonParser(emptyArray),
-  initialState: null
+  parser: buildJsonParser(emptyArray)
 };
 
 export const orderByGroupsMatrixParameter = {
@@ -43,9 +48,9 @@ export const orderByGroupsMatrixParameter = {
   parser: buildJsonParser(emptyObject)
 };
 
-export const orderByCallsMatrixParameter = {
+export const orderByMatrixParameter = {
   path: analyze,
-  name: 'orderByCalls',
+  name: 'orderBy',
   serializer: buildJsonSerializer(),
   parser: buildJsonParser(emptyObject),
   initialState: { by: 'latency', direction: 'DESC' }
@@ -70,8 +75,7 @@ export const chartsMatrixParameter = {
   path: analyze,
   name: 'charts',
   serializer: buildJsonSerializer(),
-  parser: buildJsonParser(emptyObject),
-  initialState: emptyArray
+  parser: buildJsonParser(emptyObject)
 };
 
 export const colorCodeMatrixParameter = {

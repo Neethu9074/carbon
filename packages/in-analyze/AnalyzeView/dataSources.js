@@ -146,7 +146,7 @@ export function getEntityNameByType(type) {
   return type;
 }
 
-export function getLabelByType(type, ua2 = false) {
+export function getLabelByType(type) {
   if (type === 'pageLoad') {
     return `${websiteDataSourceTitles.pageLoad}s`;
   } else if (type === 'pageChange') {
@@ -165,14 +165,10 @@ export function getLabelByType(type, ua2 = false) {
     return `${mobileAppDataSourceTitles.viewChange}s`;
   } else if (type === 'profiles') {
     return 'Profiles';
-  } else if (type === 'calls' && ua2) {
-    return 'Calls';
-  } else if (type === 'traces' && ua2) {
-    return 'Traces';
-  } else if (type === 'traces') {
-    return 'Traces';
   } else if (type === 'calls') {
     return 'Calls';
+  } else if (type === 'traces') {
+    return 'Traces';
   } else if (type === 'logs') {
     return 'Logs';
   }

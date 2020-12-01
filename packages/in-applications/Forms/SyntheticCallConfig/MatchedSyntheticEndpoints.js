@@ -11,11 +11,16 @@ import {
   LoadMoreRow,
   HorizontalIndicatorRow
 } from 'in-components/tables/sharedComponents';
-import { OPERATOR_OR, createTagFilterExpression } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
+import {
+  OPERATOR_OR,
+  createTagFilterExpression
+} from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
+import { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
 import { getTagFilterListForBackendSubscription } from 'in-analyze/applicationFilter';
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import getCallGroups from 'in-subscription/application/getCallGroups';
+import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
 import { joinClassNames } from 'in-services/util/classnames';
@@ -100,13 +105,18 @@ export default function MatchedSyntheticEndpoints({ tagFilters }) {
 }
 
 function EndpointName({ item }) {
+  const tagCatalog = useTagCatalog(getTagCatalog);
   return (
     <Link
-      href$={getLinkToAnalyze({
-        dataSource: 'calls',
-        groupByTag: { name: 'endpoint.name' },
-        filters: getDefaultTagFilters(item)
-      })}
+      href$={
+        tagCatalog &&
+        getLinkToAnalyze({
+          dataSource: 'calls',
+          groupByTag: { name: 'endpoint.name' },
+          filters: getDefaultTagFilters(item),
+          tagCatalog
+        })
+      }
     >
       {item.name}
     </Link>
@@ -114,13 +124,18 @@ function EndpointName({ item }) {
 }
 
 function ServicesAffected({ item }) {
+  const tagCatalog = useTagCatalog(getTagCatalog);
   return (
     <Link
-      href$={getLinkToAnalyze({
-        dataSource: 'calls',
-        groupByTag: { name: 'service.name' },
-        filters: getDefaultTagFilters(item)
-      })}
+      href$={
+        tagCatalog &&
+        getLinkToAnalyze({
+          dataSource: 'calls',
+          groupByTag: { name: 'service.name' },
+          filters: getDefaultTagFilters(item),
+          tagCatalog
+        })
+      }
     >
       {number.compact(get(item, ['metrics', 'services', 0, 1]))}
     </Link>

@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
+import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
 import Button from 'in-new-components/Button';
 
@@ -15,6 +17,7 @@ export default function AnalyzeMessagesButton({
   includeSynthetic,
   showErroneous
 }) {
+  const tagCatalog = useTagCatalog(getTagCatalog);
   const groupByTag = { name: groupByTagName };
   const filters = [];
   if (query.length > 0) {
@@ -43,18 +46,22 @@ export default function AnalyzeMessagesButton({
     <Button
       className={className}
       kind="secondary"
-      href$={getLinkToAnalyze({
-        applicationName,
-        serviceName,
-        endpointName,
-        dataSource: 'calls',
-        groupByTag,
-        boundaryScope,
-        filters,
-        orderBy,
-        focusedMetric,
-        metrics
-      })}
+      href$={
+        tagCatalog &&
+        getLinkToAnalyze({
+          applicationName,
+          serviceName,
+          endpointName,
+          dataSource: 'calls',
+          groupByTag,
+          boundaryScope,
+          filters,
+          tagCatalog,
+          orderBy,
+          focusedMetric,
+          metrics
+        })
+      }
     >
       Analyze Messages
     </Button>

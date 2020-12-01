@@ -1,7 +1,9 @@
 import React from 'react';
 
 import { getServiceDashboard, getApplicationDashboard } from 'in-applications/navigation/paths';
+import { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import { relationships } from 'in-new-components/UpstreamDownstream/constants';
+import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import Button from 'in-new-components/Button';
@@ -22,6 +24,7 @@ export default function ContextMenu({
   serviceLabel,
   itemType
 }) {
+  const tagCatalog = useTagCatalog(getTagCatalog);
   filters = filterForAnalyze(area, serviceLabel, itemLabel, itemType, applicationLabel);
 
   return (
@@ -43,16 +46,20 @@ export default function ContextMenu({
         className={locals.button}
         kind="subtle"
         icon="lib_analyze"
-        href$={getLinkToAnalyze({
-          applicationName: applicationLabel,
-          serviceName: area === relationships.UPSTREAM ? serviceLabel : itemLabel,
-          endpointName: endpointLabel,
-          dataSource: 'calls',
-          filters: isSynthetic
-            ? [{ name: 'call.is_synthetic', value: 'true' }, { name: 'include_synthetic', value: 'true' }, ...filters]
-            : filters,
-          groupByTag: groupByTag ? groupByTag : {}
-        })}
+        href$={
+          tagCatalog &&
+          getLinkToAnalyze({
+            applicationName: applicationLabel,
+            serviceName: area === relationships.UPSTREAM ? serviceLabel : itemLabel,
+            endpointName: endpointLabel,
+            dataSource: 'calls',
+            filters: isSynthetic
+              ? [{ name: 'call.is_synthetic', value: 'true' }, { name: 'include_synthetic', value: 'true' }, ...filters]
+              : filters,
+            tagCatalog,
+            groupByTag: groupByTag ? groupByTag : {}
+          })
+        }
       >
         Go to Analytics
       </Button>

@@ -14,8 +14,8 @@ import { getLinkToAnalyze as getLinkToWebsiteAnalyze } from 'in-websites/navigat
 import { getLinkToAnalyze as getLinkToLogsAnalyze } from 'in-logging/navigation/paths';
 import { defaultGroupings as defaultMobileAppGroupings } from 'in-mobile-apps/tags';
 import { defaultGroupings as defaultWebsiteGroupings } from 'in-websites/tags';
-import { newAnalyticsEnabled } from 'in-services/featureFlags';
 import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
+import { newAnalyticsEnabled } from 'in-services/featureFlags';
 import evaluateClassNames from 'in-services/util/classnames';
 import { emptyObject } from 'in-services/fixedObjects';
 import { Ul, Li } from 'in-new-components/lists/List';
@@ -32,46 +32,22 @@ const productAreas = [
     dataSources: [
       {
         dataSource: 'calls',
-        ua2: false,
+        ua2: newAnalyticsEnabled,
         getHref$: ({ isGrouped }) =>
           getLinkToAnalyze({
             dataSource: 'calls',
-            ua2: false,
-            groupByTag: isGrouped ? getConfigByDataSource('calls').defaultGrouping : emptyObject
-          })
-      },
-      {
-        // The data source will eventually be removed
-        dataSource: 'callsUQB',
-        ua2: true,
-        getHref$: ({ isGrouped }) =>
-          getLinkToAnalyze({
-            dataSource: 'calls',
-            ua2: true,
             groupByTag: isGrouped ? getConfigByDataSource('calls').defaultGrouping : emptyObject
           })
       },
       {
         dataSource: 'traces',
-        ua2: false,
+        ua2: newAnalyticsEnabled,
         getHref$: ({ isGrouped }) =>
           getLinkToAnalyze({
             dataSource: 'traces',
-            ua2: false,
             groupByTag: isGrouped ? getConfigByDataSource('traces').defaultGrouping : emptyObject
           })
       },
-      {
-        // The data source will eventually be removed
-        dataSource: 'tracesUQB',
-        ua2: true,
-        getHref$: ({ isGrouped }) =>
-          getLinkToAnalyze({
-            dataSource: 'traces',
-            ua2: true,
-            groupByTag: isGrouped ? getConfigByDataSource('traces').defaultGrouping : emptyObject
-          })
-      }
     ]
   },
   {
@@ -197,19 +173,17 @@ export default function AnalyzeDataSourceSelector({ activeConfiguration, isGroup
         .filter(({ hasAccess }) => (typeof hasAccess === 'function' ? hasAccess(isInternalVisible) : hasAccess))
         .map(({ productArea, dataSources }, i) => {
           const dataSourceListEntries = dataSources
-            // if ua2 flag is present, show or hide the items based on the FF for normal users
-            .filter(({ ua2 }) => isInternalVisible || ua2 == null || ua2 === newAnalyticsEnabled)
-            .map(config => (
-              <ProductAreaEntry
-                key={config.dataSource}
-                {...config}
-                close={close}
-                isGrouped={isGrouped}
-                productArea={productArea}
-                ua2={config.ua2}
-                activeConfiguration={activeConfiguration}
-              />
-            ));
+          .map(config => (
+            <ProductAreaEntry
+              key={config.dataSource}
+              {...config}
+              close={close}
+              isGrouped={isGrouped}
+              productArea={productArea}
+              ua2={config.ua2}
+              activeConfiguration={activeConfiguration}
+            />
+          ));
 
           if (dataSourceListEntries.length === 1) {
             return dataSourceListEntries[0];
@@ -235,7 +209,7 @@ export default function AnalyzeDataSourceSelector({ activeConfiguration, isGroup
   );
 }
 
-function ProductAreaEntry({ dataSource, getHref$, enabled$, isGrouped, close, productArea, ua2, activeConfiguration }) {
+function ProductAreaEntry({ dataSource, getHref$, enabled$, isGrouped, close, productArea, activeConfiguration, ua2 }) {
   const isEnabled = useObservable(enabled$, []) ?? !enabled$;
   if (!isEnabled) {
     return null;
@@ -248,12 +222,11 @@ function ProductAreaEntry({ dataSource, getHref$, enabled$, isGrouped, close, pr
           [locals.iconAndType]: true,
           [locals.active]:
             productArea === activeConfiguration.productArea &&
-            dataSource.replace('UQB', '') === activeConfiguration.dataSource &&
-            (ua2 ? activeConfiguration.ua2 === 'true' : activeConfiguration.ua2 !== 'true')
+            dataSource === activeConfiguration.dataSource
         })}
       >
         <SvgIcon type={getIconByType(dataSource, productArea)} />
-        {getLabelByType(dataSource.replace('UQB', ''), ua2)}
+        {getLabelByType(dataSource)}
 
         {ua2 && (
           <Pill kind="primary" className={locals.betaPill}>
