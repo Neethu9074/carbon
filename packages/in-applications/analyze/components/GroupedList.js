@@ -51,7 +51,7 @@ export default function GroupedList({
   onChangeHiddenCalls,
   dataSource,
   onResult,
-  chartEnabled,
+  aggregationChartEnabled,
   groupColors,
   getNestedUngroupedData,
   linkFormModel
@@ -112,7 +112,7 @@ export default function GroupedList({
       onChangeHiddenCalls={onChangeHiddenCalls}
       tagFilterExpression={tagFilterExpression}
       updateFilter={updateFilter}
-      chartEnabled={chartEnabled}
+      aggregationChartEnabled={aggregationChartEnabled}
       groupColors={groupColors}
       isValid={isValid}
       groupByTagType={groupByTagType}
@@ -145,7 +145,7 @@ function Presenter({
   updateFilter,
   hiddenCalls,
   onChangeHiddenCalls,
-  chartEnabled,
+  aggregationChartEnabled,
   groupColors,
   isValid,
   groupByTagType,
@@ -155,7 +155,7 @@ function Presenter({
 }) {
   const hasErrors = errors?.length > 0;
   const isLoading = progress.loading || groupByTagType.progress.loading;
-  const labelColumnDefinitions = labelColumns({ groupBy, chartEnabled, groupColors });
+  const labelColumnDefinitions = labelColumns({ groupBy, aggregationChartEnabled, groupColors });
   const metricColumnDefinitions = metricColumns({ metrics, dataSource });
   const actionColumnDefinitions = actionColumns({ groupBy, onFocusOnGroup, groupByTagType });
 
@@ -268,12 +268,12 @@ function Presenter({
   );
 }
 
-function labelColumns({ groupBy, chartEnabled, groupColors }) {
+function labelColumns({ groupBy, aggregationChartEnabled, groupColors }) {
   const { groupbyTag, groupbyTagSecondLevelKey } = groupBy;
   let i = 0;
   return [
     // conditionally add a column with chart color markers
-    ...(chartEnabled
+    ...(aggregationChartEnabled
       ? [
           {
             width: '1.5rem',

@@ -10,22 +10,20 @@ export default function ChartingConfiguratorSection({
   options,
   onChange,
   hideRenderer,
+  disableClose,
   ChartingConfigurator = DefaultChartingConfigurator,
   // Option to pass in additional buttons. For example to allow configuration of percentile presentation.
   additionalActions = noAdditionalActions
 }) {
   return (
-    <Section
-      icon="lib_bar_chart"
-      title="Chart"
-      firstLineAlignmentOffsetPx={0}
-      actions={
-        <>
-          {additionalActions}
-        </>
-      }
-    >
-      <ChartingConfigurator value={value} options={options} onChange={onChange} hideRenderer={hideRenderer} />
+    <Section icon="lib_bar_chart" title="Chart" firstLineAlignmentOffsetPx={0} actions={<>{additionalActions}</>}>
+      <ChartingConfigurator
+        value={value}
+        options={options}
+        onChange={onChange}
+        hideRenderer={hideRenderer}
+        disableClose={disableClose}
+      />
     </Section>
   );
 }

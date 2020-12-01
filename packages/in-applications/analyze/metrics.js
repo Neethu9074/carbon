@@ -44,6 +44,14 @@ export const chartMetricKey = (metric, aggregation) => `${metric}_${aggregation}
 export const sparkChartMetricKey = (metric, aggregation) => `${metric}_${aggregation}_Spark`;
 export const aggregateMetricKey = (metric, aggregation) => `${metric}_${aggregation}_Agg`;
 
+export const getMetricAndAggregationFromMetricKey = key => {
+  const parts = key.split('_');
+  return {
+    metric: parts[0],
+    aggregation: parts[1]
+  };
+};
+
 export const dataSourceConstants = {
   calls: {
     metricKey: 'calls_SUM_Agg',
