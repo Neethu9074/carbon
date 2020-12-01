@@ -128,7 +128,7 @@ export function CustomPayload(props) {
         <Message withIcon small>
           Each key/value pair will be included as additional payload to each Issue or Incident alert notification.
           Please refer to the{' '}
-          <Link href="https://www.instana.com/docs/events_alerts/custom-payload" external>
+          <Link href="https://instana.com/docs/events_alerts/custom-payload" external>
             Custom Payload documentation
           </Link>{' '}
           for more details.

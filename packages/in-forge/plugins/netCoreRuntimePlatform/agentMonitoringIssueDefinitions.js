@@ -15,7 +15,7 @@ export default {
       }
     },
     explanationLinkLabel: `Troubleshooting docs`,
-    explanationLinkHref: `https://www.instana.com/docs/ecosystem/dot-net-core/#netcore_sensor_not_connected`
+    explanationLinkHref: `https://instana.com/docs/ecosystem/dot-net-core/#netcore_sensor_not_connected`
   },
   netcore_env_var_not_defined: {
     issueDescription: {
@@ -31,7 +31,7 @@ export default {
       }
     },
     explanationLinkLabel: `Troubleshooting docs`,
-    explanationLinkHref: `https://www.instana.com/docs/ecosystem/dot-net-core/#netcore_env_var_not_defined`
+    explanationLinkHref: `https://instana.com/docs/ecosystem/dot-net-core/#netcore_env_var_not_defined`
   },
   netcore_env_var_invalid_value: {
     issueDescription: {
@@ -57,6 +57,6 @@ export default {
       }
     },
     explanationLinkLabel: `Troubleshooting docs`,
-    explanationLinkHref: `https://www.instana.com/docs/ecosystem/dot-net-core/#netcore_env_var_invalid_value`
+    explanationLinkHref: `https://instana.com/docs/ecosystem/dot-net-core/#netcore_env_var_invalid_value`
   }
 };

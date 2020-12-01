@@ -14,6 +14,6 @@ export default {
       }
     },
     explanationLinkLabel: `Troubleshooting docs`,
-    explanationLinkHref: `https://www.instana.com/docs/ecosystem/kubernetes/#missing-clusterrole-permissions`
+    explanationLinkHref: `https://instana.com/docs/ecosystem/kubernetes/#missing-clusterrole-permissions`
   }
 };

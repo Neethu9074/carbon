@@ -15,7 +15,7 @@ export default {
       }
     },
     explanationLinkLabel: `Troubleshooting docs`,
-    explanationLinkHref: `https://docs.instana.io/ecosystem/kafka/#kafka_ssl_not_configured`
+    explanationLinkHref: `https://instana.com/docs/ecosystem/kafka/#kafka_ssl_not_configured`
   },
   kafka_ssl_client_not_configured: {
     issueDescription: {
@@ -32,6 +32,6 @@ export default {
       }
     },
     explanationLinkLabel: `Troubleshooting docs`,
-    explanationLinkHref: `https://docs.instana.io/ecosystem/kafka/#kafka_ssl_client_not_configured`
+    explanationLinkHref: `https://instana.com/docs/ecosystem/kafka/#kafka_ssl_client_not_configured`
   }
 };

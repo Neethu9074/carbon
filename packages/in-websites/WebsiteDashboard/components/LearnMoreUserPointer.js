@@ -64,7 +64,7 @@ function LearnMoreUserPointer({ totalBeaconsResult, totalBeaconsWithUserResult }
       className={locals.wrapper}
       title="No User Information Defined"
       explanation={explanation}
-      learnMoreHref="https://docs.instana.io/website_monitoring/api/#identifying-users"
+      learnMoreHref="https://instana.com/docs/website_monitoring/api/#identifying-users"
       learnMoreLabel="Learn how to add user data"
     />
   );

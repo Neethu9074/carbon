@@ -13,7 +13,7 @@ export default function HelpAndSupport({ trackingService }) {
           kind="secondary"
           icon="lib_help_error_help_outline"
           target="_blank"
-          href="https://docs.instana.io"
+          href="https://instana.com/docs/"
           onClick={() => trackingService.helpAndSupportClicked()}
         >
           Help & Documentation

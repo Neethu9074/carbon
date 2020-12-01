@@ -232,11 +232,11 @@ function getInitializedTooLateHint(snapshot, isInternalVisible, monitoringIssues
     <DashboardNotification type="danger">
       It seems you have initialized the @instana/collector package too late. Please check our documentation on that, in
       particular the{' '}
-      <a href="https://docs.instana.io/ecosystem/node-js/installation/#installing-the-nodejs-collector-package">
+      <a href="https://instana.com/docs/ecosystem/node-js/installation/#installing-the-nodejs-collector-package">
         installation docs
       </a>{' '}
       for @instana/collector and the{' '}
-      <a href="https://docs.instana.io/ecosystem/node-js/installation/#common-pitfalls">common pitfalls section</a>.
+      <a href="https://instana.com/docs/ecosystem/node-js/installation/#common-pitfalls">common pitfalls section</a>.
       Tracing might only work partially with this setup, that is, some calls will not be captured.
     </DashboardNotification>
   );
@@ -264,7 +264,7 @@ function getNativeExtensionHint(snapshot) {
       Native extensions could not be loaded for detailed <strong>{missingNativeExtensions.join(' and ')}</strong>{' '}
       monitoring. As a result, Instana can only show you a limited set of metrics. Please contact us for installation
       support or refer to the{' '}
-      <a href="https://www.instana.com/docs/ecosystem/node-js/installation/#native-addons">
+      <a href="https://instana.com/docs/ecosystem/node-js/installation/#native-addons">
         Node.js collector installation instructions
       </a>
       .

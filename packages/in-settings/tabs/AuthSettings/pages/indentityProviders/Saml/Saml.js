@@ -63,11 +63,11 @@ function render({ file, form, setForm, input, setCanSaveItem }) {
 
       <p>
         Quick start guides are available in our documentation pages for{' '}
-        <Link external href="https://docs.instana.io/quick_start/authentication/activedirectory/">
+        <Link external href="https://instana.com/docs/admin/active-directory/">
           Active Directory
         </Link>{' '}
         and{' '}
-        <Link external href="https://docs.instana.io/quick_start/authentication/okta/">
+        <Link external href="https://instana.com/docs/admin/okta/">
           Okta
         </Link>
         .

@@ -62,7 +62,7 @@ export default function CustomServiceMappingDialog() {
                           <a
                             target="_blank"
                             rel="noopener noreferrer"
-                            href="https://docs.instana.io/application_monitoring/services/"
+                            href="https://instana.com/docs/application_monitoring/services/"
                           >
                             Docs on Application and Service Management{' '}
                           </a>

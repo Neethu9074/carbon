@@ -4,4 +4,4 @@ collection of resource timings is restricted to resources retrieved from the ori
 HTML document and resources served by origins which explicitly allow this.`.trim();
 
 export const learnMoreLabel = `Learn how to get visibility into cross-origin resources`;
-export const learnMoreHref = `https://docs.instana.io/website_monitoring/faq/#why-are-detailed-resource-retrieval-breakdowns-not-always-available`;
+export const learnMoreHref = `https://instana.com/docs/website_monitoring/faq/#why-are-detailed-resource-retrieval-breakdowns-not-always-available`;

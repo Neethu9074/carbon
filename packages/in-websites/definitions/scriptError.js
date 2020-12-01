@@ -5,7 +5,7 @@ origin different from the origin of the HTML document. JavaScript files retrieve
 content-delivery networks and advertisement services are most commonly responsible for these.`.trim();
 
 export const learnMoreLabel = `Learn how to get visibility into these errors`;
-export const learnMoreHref = `https://docs.instana.io/website_monitoring/api/#insights-into-script-errors`;
+export const learnMoreHref = `https://instana.com/docs/website_monitoring/api/#insights-into-script-errors`;
 
 export function isScriptError(errorMessage) {
   return /^Script Error\.?/i.test(errorMessage);

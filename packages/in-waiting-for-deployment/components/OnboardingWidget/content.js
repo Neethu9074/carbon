@@ -464,7 +464,7 @@ function AwsSensorContent({ agentKey, agentEndpoint, agentEndpointPort }) {
         <TextWithLink
           text="The AWS Agent monitors lots of different AWS technologies in one single package. For the full list, refer to the "
           linkText="supported AWS Services list."
-          href="https://www.instana.com/docs/ecosystem/aws/#monitored-services"
+          href="https://instana.com/docs/ecosystem/aws/#monitored-services"
         />
       </HelpBox>
 
@@ -500,7 +500,7 @@ function AWSFargateContent({ agentKey, serverlessEndpoint }) {
         <TextWithLink
           text="The support for Go on Fargate on ECS works the same way as with any Go application. Follow the instructions of the "
           linkText="Go documentation."
-          href="https://www.instana.com/docs/ecosystem/go"
+          href="https://instana.com/docs/ecosystem/go"
         />
         <Spacer />
         <Description lines={['Set the following environment variables in the ECS Task Definition:']} />
@@ -646,7 +646,7 @@ function AWSFargateContent({ agentKey, serverlessEndpoint }) {
         <TextWithLink
           text="The support for Python on Fargate on ECS works the same way as with any Python application. Follow the instructions of the "
           linkText="Python documentation."
-          href="https://www.instana.com/docs/ecosystem/python"
+          href="https://instana.com/docs/ecosystem/python"
         />
         <Spacer />
         <Description lines={['Set the following environment variables in the ECS Task Definition:']} />
@@ -723,7 +723,7 @@ function AWSLambdaContent({ agentKey, serverlessEndpoint }) {
         <TextWithLink
           text="AWS Lambda functions written in Go need to be manually instrumented in order to collect trace data. Follow the instructions of the "
           linkText="AWS Lambda Go documentation."
-          href="https://www.instana.com/docs/ecosystem/aws-lambda/go"
+          href="https://instana.com/docs/ecosystem/aws-lambda/go"
         />
         <Spacer />
         <Description
@@ -774,7 +774,7 @@ function AWSLambdaContent({ agentKey, serverlessEndpoint }) {
           <TextWithLink
             text="A detailed guide (including screenshots) on how to configure your Lambda function for AutoTrace using the AWS Web Console can be found in our "
             linkText="documentation for Lambda AutoTrace"
-            href="https://www.instana.com/docs/ecosystem/aws-lambda/#autotrace-aws-lambdas"
+            href="https://instana.com/docs/ecosystem/aws-lambda/#autotrace-aws-lambdas"
           />
           <Description lines={['In short, the steps are as follows']} />
           <GridRow>
@@ -887,7 +887,7 @@ function AWSLambdaContent({ agentKey, serverlessEndpoint }) {
           <TextWithLink
             text="A detailed guide (including screenshots) on how to configure your Lambda function for AutoTrace using the AWS Web Console can be found in our "
             linkText="documentation for Lambda AutoTrace"
-            href="https://www.instana.com/docs/ecosystem/aws-lambda/#autotrace-aws-lambdas"
+            href="https://instana.com/docs/ecosystem/aws-lambda/#autotrace-aws-lambdas"
           />
           <Description lines={['In short, the steps are as follows']} />
           <GridRow>
@@ -1015,7 +1015,7 @@ function AWSLambdaContent({ agentKey, serverlessEndpoint }) {
       <TextWithLink
         text="The preferred way to configure AWS Lambda functions based on Node.js 8.x is to use the "
         linkText="Instana Lambda layer with manual wrapping."
-        href="https://www.instana.com/docs/ecosystem/aws-lambda#manual-wrapping"
+        href="https://instana.com/docs/ecosystem/aws-lambda#manual-wrapping"
       />
     );
   } else if (selectedRuntime === runtimeOptions[4]) {
@@ -1046,7 +1046,7 @@ function AWSLambdaContent({ agentKey, serverlessEndpoint }) {
           <TextWithLink
             text="A detailed guide (including screenshots) on how to configure your Lambda function for AutoTrace using the AWS Web Console can be found in our "
             linkText="documentation for Lambda AutoTrace"
-            href="https://www.instana.com/docs/ecosystem/aws-lambda#instana-autotrace"
+            href="https://instana.com/docs/ecosystem/aws-lambda#instana-autotrace"
           />
           <Description lines={['In short, the steps are as follows']} />
           <GridRow>
@@ -1178,14 +1178,14 @@ function AWSLambdaContent({ agentKey, serverlessEndpoint }) {
       <TextWithLink
         text="Make sure you have an Instana AWS Sensor running in your AWS region. For details on setting up the Instana AWS Sensor, refer to the "
         linkText="AWS Service documentation."
-        href="https://www.instana.com/docs/ecosystem/aws"
+        href="https://instana.com/docs/ecosystem/aws"
       />
       <Spacer />
 
       <TextWithLink
         text="Next, configure your AWS Lambda functions for native tracing as described in the steps below. Other options to set up native Lambda tracing and more details about this feature are available in the"
         linkText="documentation."
-        href="https://www.instana.com/docs/ecosystem/aws-lambda"
+        href="https://instana.com/docs/ecosystem/aws-lambda"
       />
       <Spacer />
 
@@ -1504,7 +1504,7 @@ function GoogleCloudRunContent({ agentKey, serverlessEndpoint }) {
         <TextWithLink
           text="The support for Go on Google Cloud Run (fully managed) works the same way as with any Go application. Follow the instructions of the "
           linkText="Go documentation."
-          href="https://www.instana.com/docs/ecosystem/go"
+          href="https://instana.com/docs/ecosystem/go"
         />
         <Spacer />
         <Description lines={['Set the following environment variables in the Cloud Run Service Revision:']} />
@@ -1627,7 +1627,7 @@ function GoogleCloudRunContent({ agentKey, serverlessEndpoint }) {
         <TextWithLink
           text="Make sure you have an Instana agent set up to monitor your GCP project. For details on setting up the Instana agent for GCP, refer to the "
           linkText="Instana GCP support documentation."
-          href="https://www.instana.com/docs/ecosystem/gcp"
+          href="https://instana.com/docs/ecosystem/gcp"
         />
       </HelpBox>
 
@@ -1647,7 +1647,7 @@ function GoogleCloudRunContent({ agentKey, serverlessEndpoint }) {
       <TextWithLink
         text="Integrate the Instana in-process collector for Google Cloud Run as described below. More details are available in the"
         linkText="documentation for Google Cloud Run."
-        href="https://www.instana.com/docs/ecosystem/google-cloud-run"
+        href="https://instana.com/docs/ecosystem/google-cloud-run"
       />
       <Spacer />
 
@@ -1693,7 +1693,7 @@ function K8sHelmChartContent({ agentKey, agentEndpoint, agentEndpointPort }) {
           <HelpBox>
             <TextWithLink
               text="These instructions are for Helm Version 3. For more information visit the"
-              href="https://www.instana.com/docs/ecosystem/kubernetes/"
+              href="https://instana.com/docs/ecosystem/kubernetes/"
               linkText="Instana Kubernetes documentation."
             />
           </HelpBox>
@@ -1736,7 +1736,7 @@ function K8sDaemonSetContent({ agentKey, agentEndpoint, agentEndpointPort }) {
           <HelpBox>
             <TextWithLink
               text="For more information visit the"
-              href="https://www.instana.com/docs/ecosystem/kubernetes/"
+              href="https://instana.com/docs/ecosystem/kubernetes/"
               linkText="Instana Kubernetes documentation."
             />
           </HelpBox>
@@ -1779,7 +1779,7 @@ function OpenShiftDaemonSetContent({ agentKey, agentEndpoint, agentEndpointPort 
           <HelpBox>
             <TextWithLink
               text="For more information visit the"
-              href="https://www.instana.com/docs/ecosystem/openshift/"
+              href="https://instana.com/docs/ecosystem/openshift/"
               linkText="Instana OpenShift documentation."
             />
           </HelpBox>
@@ -1794,7 +1794,7 @@ function K8sOperatorContent({ agentKey, agentEndpoint, agentEndpointPort }) {
     <>
       <TextWithLink
         text="Installing the Instana agent using the Kubernetes operator is described in"
-        href="https://www.instana.com/docs/setup_and_manage/host_agent/on/kubernetes/#install-using-the-operator"
+        href="https://instana.com/docs/setup_and_manage/host_agent/on/kubernetes/#install-using-the-operator"
         linkText="the Instana Kubernetes documentation."
       />
       <Spacer />
@@ -1835,7 +1835,7 @@ function OpenShiftOperatorContent({ agentKey, agentEndpoint, agentEndpointPort }
     <>
       <TextWithLink
         text="Installing the Instana agent using the OpenShift operator is described in"
-        href="https://www.instana.com/docs/setup_and_manage/host_agent/on/openshift/#install-using-the-operator"
+        href="https://instana.com/docs/setup_and_manage/host_agent/on/openshift/#install-using-the-operator"
         linkText="the Instana OpenShift documentation."
       />
       <Spacer />
@@ -2042,7 +2042,7 @@ function CfAndBoshContent({ agentKey, agentEndpoint }) {
               <TextWithLink
                 text="For more information on how to set up BOSH runtime configurations, refer to the "
                 linkText='"Applying the Instana agent runtime configurations" page.'
-                href="https://www.instana.com/docs/setup_and_manage/host_agent/on/cloud-foundry#applying-the-instana-agent-runtime-configurations"
+                href="https://instana.com/docs/setup_and_manage/host_agent/on/cloud-foundry#applying-the-instana-agent-runtime-configurations"
               />
             </HelpBox>
             <Spacer />
@@ -2055,7 +2055,7 @@ function CfAndBoshContent({ agentKey, agentEndpoint }) {
               />
               <TextWithLink
                 text="For more information on host configurations that you can apply over the 'instana-agent' BOSH release, consult the "
-                href="https://www.instana.com/docs/ecosystem/cloudfoundry/"
+                href="https://instana.com/docs/ecosystem/cloudfoundry/"
                 linkText="Instana Cloud Foundry documentation."
               />
             </HelpBox>

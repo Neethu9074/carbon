@@ -87,14 +87,14 @@ export const status = {
     shouldShowExplanation: true,
     linkToConfigurationDialog: false,
     linkToExternalPage:
-      'https://docs.instana.io/website_monitoring/faq/#how-can-i-ensure-that-the-instana-servers-can-establish-a-tcptls-connection'
+      'https://instana.com/docs/website_monitoring/faq/#how-can-i-ensure-that-the-instana-servers-can-establish-a-tcptls-connection'
   },
   18: {
     explanation: 'Could not establish a TCP / TLS connection to the host serving the source map file.',
     shouldShowExplanation: true,
     linkToConfigurationDialog: false,
     linkToExternalPage:
-      'https://docs.instana.io/website_monitoring/faq/#how-can-i-ensure-that-the-instana-servers-can-establish-a-tcptls-connection'
+      'https://instana.com/docs/website_monitoring/faq/#how-can-i-ensure-that-the-instana-servers-can-establish-a-tcptls-connection'
   },
   19: {
     explanation: 'A request timeout occurred when trying to retrieve the JavaScript file.',

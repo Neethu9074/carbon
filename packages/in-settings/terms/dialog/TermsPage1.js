@@ -140,7 +140,7 @@ function TosButton() {
       style={{ padding: 0 }}
       kind="action"
       target="_blank"
-      href="https://docs.instana.io/instana-terms-latest.pdf"
+      href="https://instana.com/docs/instana-terms-latest.pdf"
     >
       Terms of Service
     </Button>
@@ -153,7 +153,7 @@ function PrivacyButton() {
       style={{ padding: 0, margin: 0 }}
       kind="action"
       target="_blank"
-      href="https://docs.instana.io/instana-privacy-policy-latest.pdf"
+      href="https://instana.com/docs/instana-privacy-policy-latest.pdf"
     >
       Privacy Policy
     </Button>

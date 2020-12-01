@@ -573,7 +573,7 @@ function EventForm({
                   A <strong>non-empty</strong> filter query which defines for which entities the rule will be applied.
                   Select <i>&quot;Apply on: All available entities&quot;</i> if you want this rule to be applied on all
                   entities. For more information on syntax, please see our&nbsp;
-                  <Link href="https://docs.instana.io/dynamic_focus/#syntax" external>
+                  <Link href="https://instana.com/docs/dynamic_focus/#syntax" external>
                     documentation
                   </Link>
                   .

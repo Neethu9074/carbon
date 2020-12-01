@@ -18,7 +18,7 @@ export default {
       }
     },
     explanationLinkLabel: `Troubleshooting docs`,
-    explanationLinkHref: `https://www.instana.com/docs/ecosystem/jvm/#jvm-attach-generic`
+    explanationLinkHref: `https://instana.com/docs/ecosystem/jvm/#jvm-attach-generic`
   },
   jvm_attach_container_command: {
     issueDescription: {
@@ -40,7 +40,7 @@ export default {
       }
     },
     explanationLinkLabel: `Troubleshooting docs`,
-    explanationLinkHref: `https://www.instana.com/docs/ecosystem/jvm/#jvm-attach-container-command`
+    explanationLinkHref: `https://instana.com/docs/ecosystem/jvm/#jvm-attach-container-command`
   },
   jvm_attach_tools: {
     issueDescription: {
@@ -58,7 +58,7 @@ export default {
       }
     },
     explanationLinkLabel: `Troubleshooting docs`,
-    explanationLinkHref: `https://www.instana.com/docs/ecosystem/jvm/#jvm-attach-tools`
+    explanationLinkHref: `https://instana.com/docs/ecosystem/jvm/#jvm-attach-tools`
   },
   jvm_attach_socket: {
     issueDescription: {
@@ -75,7 +75,7 @@ export default {
       }
     },
     explanationLinkLabel: `Troubleshooting docs`,
-    explanationLinkHref: `https://www.instana.com/docs/ecosystem/jvm/#jvm-attach-socket`
+    explanationLinkHref: `https://instana.com/docs/ecosystem/jvm/#jvm-attach-socket`
   },
   jvm_attach_network: {
     issueDescription: {
@@ -93,7 +93,7 @@ export default {
       }
     },
     explanationLinkLabel: `Troubleshooting docs`,
-    explanationLinkHref: `https://www.instana.com/docs/ecosystem/jvm/#jvm-attach-network`
+    explanationLinkHref: `https://instana.com/docs/ecosystem/jvm/#jvm-attach-network`
   },
   nodejs_collector_not_installed: {
     issueDescription: {
@@ -108,7 +108,7 @@ export default {
       }
     },
     explanationLinkLabel: `Troubleshooting docs`,
-    explanationLinkHref: `https://www.instana.com/docs/ecosystem/node-js/#nodejs_collector_not_installed`
+    explanationLinkHref: `https://instana.com/docs/ecosystem/node-js/#nodejs_collector_not_installed`
   },
   python_autotrace_failed: {
     issueDescription: {
@@ -117,7 +117,7 @@ export default {
       }
     },
     explanationLinkLabel: `Troubleshooting docs`,
-    explanationLinkHref: `https://www.instana.com/docs/ecosystem/python/troubleshooting#python_autotrace_failed`
+    explanationLinkHref: `https://instana.com/docs/ecosystem/python/troubleshooting#python_autotrace_failed`
   },
   python_sensor_not_installed: {
     issueDescription: {
@@ -159,7 +159,7 @@ export default {
       }
     },
     explanationLinkLabel: `Troubleshooting docs`,
-    explanationLinkHref: `https://www.instana.com/docs/ecosystem/python/troubleshooting#python_sensor_not_installed`
+    explanationLinkHref: `https://instana.com/docs/ecosystem/python/troubleshooting#python_sensor_not_installed`
   },
   ruby_sensor_not_installed: {
     issueDescription: {
@@ -173,6 +173,6 @@ export default {
       }
     },
     explanationLinkLabel: `Troubleshooting docs`,
-    explanationLinkHref: `https://www.instana.com/docs/ecosystem/ruby/#ruby_sensor_not_installed`
+    explanationLinkHref: `https://instana.com/docs/ecosystem/ruby/#ruby_sensor_not_installed`
   }
 };

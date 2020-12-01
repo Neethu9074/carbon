@@ -31,14 +31,14 @@ function WarningMessage(props) {
             update to the latest version of the Instana Agent YAML, Helm chart or Operator to ensure it has the right
             permissions. See our{' '}
             <Link
-              href="https://docs.instana.io/setup_and_manage/host_agent/on/kubernetes/#current-versions-of-installation-methods"
+              href="https://instana.com/docs/setup_and_manage/host_agent/on/kubernetes/#current-versions-of-installation-methods"
               external
             >
               Kubernetes
             </Link>{' '}
             or{' '}
             <Link
-              href="https://docs.instana.io/setup_and_manage/host_agent/on/openshift/#current-versions-of-installation-methods"
+              href="https://instana.com/docs/setup_and_manage/host_agent/on/openshift/#current-versions-of-installation-methods"
               external
             >
               OpenShift

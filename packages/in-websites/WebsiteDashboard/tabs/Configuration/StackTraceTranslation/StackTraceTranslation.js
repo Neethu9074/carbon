@@ -47,7 +47,7 @@ export default compose(withState('message', 'setMessage', null))(function StackT
       <LearnMoreCard
         title="JavaScript Stack Trace Translation"
         explanation={explanation}
-        learnMoreHref="https://docs.instana.io/website_monitoring/faq/#javascript-stack-trace-translation"
+        learnMoreHref="https://instana.com/docs/website_monitoring/faq/#javascript-stack-trace-translation"
         learnMoreLabel="Learn more about JavaScript Stack Trace Translation"
       />
 

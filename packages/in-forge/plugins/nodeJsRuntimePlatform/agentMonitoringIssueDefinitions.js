@@ -13,7 +13,7 @@ export default {
       }
     },
     explanationLinkLabel: `Troubleshooting docs`,
-    explanationLinkHref: `https://www.instana.com/docs/ecosystem/node-js/#nodejs_collector_initialized_too_late`
+    explanationLinkHref: `https://instana.com/docs/ecosystem/node-js/#nodejs_collector_initialized_too_late`
   },
   nodejs_collector_native_addon_autoprofile_missing: {
     issueDescription: {
@@ -30,6 +30,6 @@ export default {
       }
     },
     explanationLinkLabel: `Troubleshooting docs`,
-    explanationLinkHref: `https://www.instana.com/docs/ecosystem/node-js/#nodejs_collector_native_addon_autoprofile_missing`
+    explanationLinkHref: `https://instana.com/docs/ecosystem/node-js/#nodejs_collector_native_addon_autoprofile_missing`
   }
 };

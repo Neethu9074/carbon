@@ -114,7 +114,7 @@ function getActuatorConfiguredHint(snapshot, monitoringIssues) {
           necessary to enable JMX.
         </p>
         More info can be found on the{' '}
-        <Link href="https://docs.instana.io/ecosystem/spring-boot/#configuration" external>
+        <Link href="https://instana.com/docs/ecosystem/spring-boot/#configuration" external>
           Spring Boot configuration page
         </Link>
       </DashboardNotification>

@@ -21,7 +21,7 @@ export default {
       }
     },
     explanationLinkLabel: `Troubleshooting docs`,
-    explanationLinkHref: `https://docs.instana.io/ecosystem/spring-boot/#springboot_actuator_not_configured`
+    explanationLinkHref: `https://instana.com/docs/ecosystem/spring-boot/#springboot_actuator_not_configured`
   },
   springboot_jmx_not_enabled: {
     issueDescription: {
@@ -42,6 +42,6 @@ export default {
       }
     },
     explanationLinkLabel: `Troubleshooting docs`,
-    explanationLinkHref: `https://docs.instana.io/ecosystem/spring-boot/#springboot_jmx_not_enabled`
+    explanationLinkHref: `https://instana.com/docs/ecosystem/spring-boot/#springboot_jmx_not_enabled`
   }
 };

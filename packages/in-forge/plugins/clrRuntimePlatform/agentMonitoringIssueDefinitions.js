@@ -15,7 +15,7 @@ export default {
       }
     },
     explanationLinkLabel: `Troubleshooting docs`,
-    explanationLinkHref: `https://www.instana.com/docs/ecosystem/dot-net/#clr_env_var_not_defined`
+    explanationLinkHref: `https://instana.com/docs/ecosystem/dot-net/#clr_env_var_not_defined`
   },
   clr_env_var_invalid_value: {
     issueDescription: {
@@ -42,6 +42,6 @@ export default {
       }
     },
     explanationLinkLabel: `Troubleshooting docs`,
-    explanationLinkHref: `https://www.instana.com/docs/ecosystem/dot-net/#clr_env_var_invalid_value`
+    explanationLinkHref: `https://instana.com/docs/ecosystem/dot-net/#clr_env_var_invalid_value`
   }
 };

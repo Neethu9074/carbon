@@ -25,7 +25,7 @@ export default function TrackingSnippetPresenter({ websiteId, trackSessions, set
             Track Sessions&nbsp;
             <Tooltip content="Learn more about session tracking and the privacy implications.">
               <Link
-                href="https://docs.instana.io/website_monitoring/api/#session-tracking"
+                href="https://instana.com/docs/website_monitoring/api/#session-tracking"
                 external
                 className={locals.helpWrapper}
               >

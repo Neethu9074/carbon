@@ -112,7 +112,7 @@ export default function MaintenanceConfigurationForm(props) {
               A <strong>non-empty</strong> filter query which defines the matching alerts for incidents, issues, changes
               and online/offline to be muted. Select <i>&quot;Apply on: All available entities&quot;</i> if you want to
               mute all alerts. For more information on syntax, please see our&nbsp;
-              <Link href="https://docs.instana.io/dynamic_focus/#syntax" external>
+              <Link href="https://instana.com/docs/dynamic_focus/#syntax" external>
                 documentation
               </Link>
               .

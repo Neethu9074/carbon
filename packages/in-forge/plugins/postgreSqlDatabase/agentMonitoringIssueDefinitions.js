@@ -14,7 +14,7 @@ export default {
       }
     },
     explanationLinkLabel: `Troubleshooting docs`,
-    explanationLinkHref: `https://www.instana.com/docs/ecosystem/postgresql/#postgresql_stats_not_enabled`
+    explanationLinkHref: `https://instana.com/docs/ecosystem/postgresql/#postgresql_stats_not_enabled`
   },
 
   postgresql_authentication_failed: {
@@ -29,7 +29,7 @@ export default {
       }
     },
     explanationLinkLabel: `Troubleshooting docs`,
-    explanationLinkHref: `https://www.instana.com/docs/ecosystem/postgresql/#postgresql_authentication_failed`
+    explanationLinkHref: `https://instana.com/docs/ecosystem/postgresql/#postgresql_authentication_failed`
   },
 
   postgresql_connection_failed: {
@@ -44,6 +44,6 @@ export default {
       }
     },
     explanationLinkLabel: `Troubleshooting docs`,
-    explanationLinkHref: `https://www.instana.com/docs/ecosystem/postgresql/#postgresql_connection_failed`
+    explanationLinkHref: `https://instana.com/docs/ecosystem/postgresql/#postgresql_connection_failed`
   }
 };

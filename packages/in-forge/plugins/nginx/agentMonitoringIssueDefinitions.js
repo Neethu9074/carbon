@@ -12,7 +12,7 @@ export default {
       }
     },
     explanationLinkLabel: `Troubleshooting docs`,
-    explanationLinkHref: `https://www.instana.com/docs/ecosystem/nginx/#nginx_api_not_accessible`
+    explanationLinkHref: `https://instana.com/docs/ecosystem/nginx/#nginx_api_not_accessible`
   },
   nginx_status_not_accessible: {
     issueDescription: {
@@ -25,7 +25,7 @@ export default {
       }
     },
     explanationLinkLabel: `Troubleshooting docs`,
-    explanationLinkHref: `https://www.instana.com/docs/ecosystem/nginx/#nginx_status_not_accessible`
+    explanationLinkHref: `https://instana.com/docs/ecosystem/nginx/#nginx_status_not_accessible`
   },
 
   nginx_api_not_found: {
@@ -41,7 +41,7 @@ export default {
       }
     },
     explanationLinkLabel: `Troubleshooting docs`,
-    explanationLinkHref: `https://www.instana.com/docs/ecosystem/nginx/#nginx_api_not_found`
+    explanationLinkHref: `https://instana.com/docs/ecosystem/nginx/#nginx_api_not_found`
   },
   nginx_status_not_found: {
     issueDescription: {
@@ -56,7 +56,7 @@ export default {
       }
     },
     explanationLinkLabel: `Troubleshooting docs`,
-    explanationLinkHref: `https://www.instana.com/docs/ecosystem/nginx/#nginx_status_not_found`
+    explanationLinkHref: `https://instana.com/docs/ecosystem/nginx/#nginx_status_not_found`
   },
   nginx_config_location_not_discovered: {
     issueDescription: {
@@ -67,6 +67,6 @@ export default {
       }
     },
     explanationLinkLabel: `Troubleshooting docs`,
-    explanationLinkHref: `https://www.instana.com/docs/ecosystem/nginx/#nginx_config_location_not_discovered`
+    explanationLinkHref: `https://instana.com/docs/ecosystem/nginx/#nginx_config_location_not_discovered`
   }
 };

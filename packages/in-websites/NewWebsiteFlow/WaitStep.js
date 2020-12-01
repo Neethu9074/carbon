@@ -18,7 +18,7 @@ export default function WaitStep({ websiteId, websiteName, trackSessions, setTra
         We are preparing everything to monitor your website <strong>{websiteName}</strong>. While we do this, add the
         following script to the HTML {`document's`} <code>{'<head>'}</code>. Information about website monitoring and
         the full capabilities of the tracking script are located{' '}
-        <Link href="https://docs.instana.io/website_monitoring/" external>
+        <Link href="https://instana.com/docs/website_monitoring/" external>
           within our docs
         </Link>
         .

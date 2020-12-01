@@ -43,11 +43,11 @@ export default function TimeThresholdConfigPresenter({
         get(uniqueUsersOrSessionsResult, ['data', 'count', 0, 1]) === 0 && (
           <>
             No{' '}
-            <Link external href="https://docs.instana.io/website_monitoring/api/#identifying-users">
+            <Link external href="https://instana.com/docs/website_monitoring/api/#identifying-users">
               users
             </Link>{' '}
             or{' '}
-            <Link external href="https://docs.instana.io/website_monitoring/api/#session-tracking">
+            <Link external href="https://instana.com/docs/website_monitoring/api/#session-tracking">
               sessions
             </Link>{' '}
             detected. <br />

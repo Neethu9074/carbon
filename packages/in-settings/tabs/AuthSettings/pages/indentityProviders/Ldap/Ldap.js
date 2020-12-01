@@ -56,7 +56,7 @@ function render({ form, setForm, testResultMessage, setTestResultMessage }) {
         <Link
           target="_blank"
           rel="noopener noreferrer"
-          href="https://docs.instana.io/quick_start/authentication/ldapsearch/"
+          href="https://instana.com/docs/self_hosted_instana/ldap/"
         >
           documentation pages
         </Link>

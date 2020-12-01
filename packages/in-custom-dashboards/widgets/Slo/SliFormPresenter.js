@@ -76,7 +76,7 @@ export function SliForm({ form, onChange, onChangeType, apName }) {
           <Col md={6} className={locals.linkDocs}>
             <SvgIcon type="lib_help_error_help_outline" size="xs" className={locals.helpIcon} />
             Information about SLI customization and SLI types are located{' '}
-            <Link href="https://www.instana.com/docs/service_level_objectives/#sli-configuration/" external>
+            <Link href="https://instana.com/docs/service_level_objectives/#sli-configuration/" external>
               within our docs
             </Link>
             .

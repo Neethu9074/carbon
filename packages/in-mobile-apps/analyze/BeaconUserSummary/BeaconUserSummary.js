@@ -71,7 +71,7 @@ export default function BeaconUserSummary({ beacon, beacons }) {
           {!hasMeta && (
             <NotDefined
               explanation="No meta data defined. Meta data can be used to transport information about the deployment or settings. Meta data is available as filter and grouping within the analyze area."
-              learnMoreHref="https://docs.instana.io/website_monitoring/api/#metadata"
+              learnMoreHref="https://instana.com/docs/website_monitoring/api/#metadata"
               learnMoreLabel="Learn how to add meta data"
             />
           )}

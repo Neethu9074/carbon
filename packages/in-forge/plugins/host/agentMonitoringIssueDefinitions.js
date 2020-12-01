@@ -13,6 +13,6 @@ export default {
       }
     },
     explanationLinkLabel: `Troubleshooting docs`,
-    explanationLinkHref: `https://www.instana.com/docs/ecosystem/host#ebpf_not_supported`
+    explanationLinkHref: `https://instana.com/docs/ecosystem/host#ebpf_not_supported`
   }
 };

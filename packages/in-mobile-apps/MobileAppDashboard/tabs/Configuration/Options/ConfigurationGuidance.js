@@ -13,7 +13,7 @@ export default function ConfigurationGuidance({ mobileAppId }) {
       header={
         <Button
           kind="primaryv2"
-          href="https://docs.instana.io/products/mobile_app_monitoring/#installation"
+          href="https://instana.com/docs/mobile_app_monitoring/#installation"
           target="_blank"
         >
           Installation Instructions

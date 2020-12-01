@@ -27,7 +27,7 @@ export default function User({ beacon, beacons }) {
       <div className={locals.noUserData}>
         No user data defined&nbsp;
         <Button
-          href="https://docs.instana.io/website_monitoring/api/#identifying-users"
+          href="https://instana.com/docs/website_monitoring/api/#identifying-users"
           kind="primaryv2"
           target="_blank"
           size="compact"
@@ -48,7 +48,7 @@ export default function User({ beacon, beacons }) {
             <Tooltip content="Only a subset of the beacons of this page load have associated user data. This can result in surprising statistics and analyze results.">
               <Link
                 external
-                href="https://docs.instana.io/website_monitoring/api/#identifying-users"
+                href="https://instana.com/docs/website_monitoring/api/#identifying-users"
                 className={locals.firstBeaconIsMissingUserDataLink}
               >
                 <SvgIcon type="lib_help_error_warning" className={locals.firstBeaconIsMissingUserData} size="s" />

@@ -15,7 +15,7 @@ export default {
       }
     },
     explanationLinkLabel: `Troubleshooting docs`,
-    explanationLinkHref: `https://www.instana.com/docs/ecosystem/dot-net/#clr_instana_pcp_not_running`
+    explanationLinkHref: `https://instana.com/docs/ecosystem/dot-net/#clr_instana_pcp_not_running`
   },
   clr_instana_pcp_not_connected: {
     issueDescription: {
@@ -29,7 +29,7 @@ export default {
       }
     },
     explanationLinkLabel: `Troubleshooting docs`,
-    explanationLinkHref: `https://www.instana.com/docs/ecosystem/dot-net/#clr_instana_pcp_not_connected`
+    explanationLinkHref: `https://instana.com/docs/ecosystem/dot-net/#clr_instana_pcp_not_connected`
   },
   python_autotrace_prerequisites_failed: {
     issueDescription: {
@@ -43,6 +43,6 @@ export default {
       }
     },
     explanationLinkLabel: `Troubleshooting docs`,
-    explanationLinkHref: `https://www.instana.com/docs/ecosystem/python/troubleshooting#python_autotrace_prerequisites_failed`
+    explanationLinkHref: `https://instana.com/docs/ecosystem/python/troubleshooting/#python_autotrace_prerequisites_failed`
   }
 };

@@ -18,7 +18,7 @@ export default function ReadyStep({ websiteId, websiteName, websiteLink$, trackS
         Everything is ready to monitor your website <strong>{websiteName}</strong>. Copy this script to the HTML{' '}
         {`document's`} <code>{'<head>'}</code>. Information about website monitoring and the full capabilities of the
         tracking script are located{' '}
-        <Link href="https://docs.instana.io/website_monitoring/" external>
+        <Link href="https://instana.com/docs/website_monitoring/" external>
           within our docs
         </Link>
         .

@@ -20,7 +20,7 @@ export default function AwsLambdaVersionDashboard({ snapshot, timeConfig }) {
       <DashboardNotification type="danger">
         It seems you are not monitoring this Lambda with an Instana agent. Setting up an AWS agent for the corresponding
         AWS account is a pre-requisite for native Lambda tracing. Please check our documentation on that, in particular
-        the <a href="https://www.instana.com/docs/ecosystem/aws#installation">AWS agent installation docs</a>.
+        the <a href="https://instana.com/docs/ecosystem/aws#installation">AWS agent installation docs</a>.
       </DashboardNotification>
     );
   }

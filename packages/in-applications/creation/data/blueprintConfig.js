@@ -140,7 +140,7 @@ export const blueprintConfig = Object.freeze([
           Important customers or tenants can have their own dashboard when there is an AP specified for them. There are two common ways that are used to identify the customer:
           <ul>
             <li>An HTTP parameter is the data used to identify a customer or tenant.</li>
-            <li>Manual instrumentation to add meta-data to a span using <a href="https://www.instana.com/docs/tracing/tracing-sdks/#searchable-content-wrapper" target=”_blank” rel=”noopener noreferrer”>the tracing SDK</a>.</li>
+            <li>Manual instrumentation to add meta-data to a span using <a href="https://instana.com/docs/tracing/tracing-sdks/#searchable-content-wrapper" target=”_blank” rel=”noopener noreferrer”>the tracing SDK</a>.</li>
           </ul>
           These tags can then be specified to construct an AP.`
       },
