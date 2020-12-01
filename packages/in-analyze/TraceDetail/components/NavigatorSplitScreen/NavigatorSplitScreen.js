@@ -6,6 +6,7 @@ import { debouncedResize$, refreshWindowSizeDependingState } from 'in-services/b
 import SideEffectOnPropertyChange from 'in-components/SideEffectOnPropertyChange';
 import withPropDependingState from 'in-hoc/withPropDependingState';
 import { evaluateClassNames } from 'in-services/util/classnames';
+import ResultHeader from 'in-analyze/components/ResultHeader';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
 import Sticky from 'in-components/Sticky';
@@ -45,6 +46,8 @@ function getInitialState({ screenWidth }) {
 function NavigatorSplitScreen({
   navigator,
   typeLabel,
+  totalHits,
+  totalRepresentedItemCount,
   items,
   openItemIndex,
   openItem: customOpenItem,
@@ -67,7 +70,13 @@ function NavigatorSplitScreen({
           <Sticky
             header={
               <div className={locals.header}>
-                <div />
+                <ResultHeader
+                  itemType={typeLabel}
+                  nbRows={totalHits}
+                  nbItems={totalRepresentedItemCount}
+                  withoutMargin
+                  withMaxWidth
+                />
 
                 <div className={locals.actions}>
                   {hasPrev && (
