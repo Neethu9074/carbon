@@ -3,21 +3,16 @@ import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 
 export const logsPath = '/logs';
 
-export const analyzePath = '/analyze';
-export const analyzePathFullyQualified = `${logsPath}${analyzePath}`;
-
 export function getLinkToAnalyze() {
   return getModifiedUrlStream(location => {
-    location.pathname = analyzePathFullyQualified;
+    location.pathname = logsPath;
 
-    setOrDeleteMatrixKey(location, analyzePath, 'dataSource', 'logs');
-    setOrDeleteMatrixKey(location, analyzePath, 'tagFilterExpression', null);
-    setOrDeleteMatrixKey(location, analyzePath, 'logId', null);
-    setOrDeleteMatrixKey(location, analyzePath, 'groupBy', null);
-    setOrDeleteMatrixKey(location, analyzePath, 'orderBy', null);
+    setOrDeleteMatrixKey(location, logsPath, 'dataSource', 'logs');
+    setOrDeleteMatrixKey(location, logsPath, 'tagFilterExpression', null);
+    setOrDeleteMatrixKey(location, logsPath, 'logId', null);
+    setOrDeleteMatrixKey(location, logsPath, 'groupBy', null);
+    setOrDeleteMatrixKey(location, logsPath, 'orderBy', null);
   });
 }
 
-export const isAnalyzeView = navigationParameters$.map(
-  location => location.pathname.indexOf(analyzePathFullyQualified) === 0
-);
+export const isAnalyzeView = navigationParameters$.map(location => location.pathname.indexOf(logsPath) === 0);
