@@ -1,11 +1,12 @@
 import React from 'react';
 
 import GetMetricStatisticsInUse from 'in-forge/plugins/awsDynamoDb/GetMetricStatisticsInUse';
-import DBmarlinNotificationMessage from 'in-integrations/database/dbmarlin/DBmarlinNotificationMessage';
+import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import { number, percentage, bytes, millis } from 'in-services/formatters/number';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import Button from 'in-new-components/Button';
 
 export default function AwsRdsDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
@@ -170,7 +171,15 @@ export default function AwsRdsDashboard({ snapshot, timeConfig }) {
           />
         </DashboardSection>
       )}
-      <DBmarlinNotificationMessage />
+      <DashboardNotification>
+        Looking for even deeper database insights? Check out our integration with{' '}
+        <Button
+          href="https://www.dbmarlin.com/instana-offer?utm_campaign=Instana&utm_source=Instana&utm_medium=Instana"
+          target="_blank"
+        >
+          DBmarlin
+        </Button>
+      </DashboardNotification>
     </div>
   );
 }
