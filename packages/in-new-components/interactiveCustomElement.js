@@ -31,11 +31,11 @@ export function withInteractivitySideEffects({
   onDefaultInteraction,
   preventDefault = false,
   stopPropagation = false,
-  includePrimaryElements = false
+  allowSideEffectsOnPrimaryInteractiveElements = false
 }) {
   return {
     onClick(e) {
-      if (!isPrimaryInteractiveElement(e.target) || includePrimaryElements) {
+      if (!isPrimaryInteractiveElement(e.target) || allowSideEffectsOnPrimaryInteractiveElements) {
         if (stopPropagation) {
           e.stopPropagation();
         }
@@ -46,12 +46,12 @@ export function withInteractivitySideEffects({
       }
     },
     onKeyDown(e) {
-      if (isDefaultInteractionTrigger(e, includePrimaryElements)) {
+      if (isDefaultInteractionTrigger(e, allowSideEffectsOnPrimaryInteractiveElements)) {
         onDefaultInteraction();
       }
     },
     onKeyUp(e) {
-      if (isDefaultInteractionTrigger(e, includePrimaryElements)) {
+      if (isDefaultInteractionTrigger(e, allowSideEffectsOnPrimaryInteractiveElements)) {
         if (stopPropagation) {
           e.stopPropagation();
         }
@@ -63,12 +63,12 @@ export function withInteractivitySideEffects({
   };
 }
 
-export function isDefaultInteractionTrigger(e, includePrimaryElements = false) {
+export function isDefaultInteractionTrigger(e, allowSideEffectsOnPrimaryInteractiveElements = false) {
   if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) {
     return false;
   }
 
-  if (isPrimaryInteractiveElement(e.target) || !includePrimaryElements) {
+  if (isPrimaryInteractiveElement(e.target) && !allowSideEffectsOnPrimaryInteractiveElements) {
     return false;
   }
 

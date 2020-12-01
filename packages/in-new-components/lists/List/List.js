@@ -69,7 +69,6 @@ export function Li(props) {
     toggleContentOnRowClick,
     initiallyOpen,
     onDefaultHrefInteractionSideEffect,
-    onDefaultHrefIncludePrimaryElements,
     autoFocus,
     component: Component = 'li',
     borderRadius,
@@ -138,8 +137,12 @@ export function Li(props) {
   let linkInteractivityProps = emptyObject;
   if (onDefaultHrefInteractionSideEffect) {
     linkInteractivityProps = withInteractivitySideEffects({
-      onDefaultInteraction: onDefaultHrefInteractionSideEffect,
-      includePrimaryElements: onDefaultHrefIncludePrimaryElements
+      // Enforce asynchronous execution to truly only support side-effects. With synchronous
+      // execution, it can happen that the side-effect is used to close an overlay and re-focus
+      // the overlay button. In those synchronous side effect cases, the currently executing event
+      // handling mechanism gets into a weird state that is very hard to reason about.
+      onDefaultInteraction: () => setTimeout(onDefaultHrefInteractionSideEffect, 0),
+      allowSideEffectsOnPrimaryInteractiveElements: true
     });
   }
 
@@ -178,7 +181,6 @@ Li.propTypes = {
   initiallyOpen: rpt.bool,
   noAlternatingBg: rpt.bool,
   onClick: rpt.func,
-  onDefaultHrefIncludePrimaryElements: rpt.bool,
   onDefaultHrefInteractionSideEffect: rpt.func,
   tracking: rpt.shape({
     onToggleContentRow: rpt.func

@@ -53,14 +53,8 @@ export default function TypeSelector({ onTypeSelected }) {
       align="bottomLeft"
       focusOnClose
     >
-      {({ toggle, isOpen, refSetter }) => (
-        <DashboardHeaderButton
-          size="normal"
-          refSetter={refSetter}
-          onClick={toggle}
-          expanded={isOpen}
-          className={locals.button}
-        >
+      {({ toggle, isOpen, ref }) => (
+        <DashboardHeaderButton size="normal" ref={ref} onClick={toggle} expanded={isOpen} className={locals.button}>
           <TypeRow icon={icon} name={name} className={locals.header} />
         </DashboardHeaderButton>
       )}
@@ -105,7 +99,6 @@ function Dropdown({ getParamsForType, types, close, onTypeSelected }) {
               onTypeSelected(plugin);
               close();
             }}
-            onDefaultHrefIncludePrimaryElements
           >
             <TypeRow icon={icon} name={name} />
           </Li>

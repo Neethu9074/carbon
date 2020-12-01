@@ -9,8 +9,10 @@ import {
 } from 'in-new-components/QueryBuilder/transformation/renderModel';
 import ConjunctionTagSelectorOverlay from 'in-new-components/QueryBuilder/ConjunctionTagSelectorOverlay/ConjunctionTagSelectorOverlay';
 import { isPrimaryInteractiveElement, isDefaultInteractionTrigger } from 'in-new-components/interactiveCustomElement';
+import Suggestions, {
+  translateSuggestionToNewFormModelElement
+} from 'in-new-components/QueryBuilder/components/Spacing/Suggestions';
 import { and, or, not } from 'in-new-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
-import Suggestions from 'in-new-components/QueryBuilder/components/Spacing/Suggestions';
 import { DESTINATION } from 'in-new-components/QueryBuilder/tagFilter/entities';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { evaluateClassNames } from 'in-services/util/classnames';
@@ -102,7 +104,12 @@ export default function Spacing({
 
     if (isDefaultInteractionTrigger(e)) {
       stopPropagationAndPreventDefault(e);
-      openTagSuggestionOverlay();
+
+      if (suggestions?.length > 0) {
+        onAddToFormModel(translateSuggestionToNewFormModelElement(suggestions[0]));
+      } else {
+        openTagSuggestionOverlay();
+      }
     } else if (onRemove && e.keyCode === keyCodes.backspace) {
       stopPropagationAndPreventDefault(e);
       // Deleting a single element also deletes the whitespace element.

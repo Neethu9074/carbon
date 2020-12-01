@@ -23,12 +23,7 @@ export default function Suggestion({ toggle, suggestions, onAddToFormModel }) {
     return (
       <div
         className={locals.addSuggestionIndicator}
-        onClick={() =>
-          onAddToFormModel({
-            type: CONJUNCTION,
-            logicalOperator: and
-          })
-        }
+        onClick={() => onAddToFormModel(translateSuggestionToNewFormModelElement(suggestion))}
       >
         AND
       </div>
@@ -37,11 +32,27 @@ export default function Suggestion({ toggle, suggestions, onAddToFormModel }) {
 
   if (suggestion.type === ADD_CLOSING_BRACKET) {
     return (
-      <div className={locals.closeBracketSuggestionIndicator} onClick={() => onAddToFormModel({ type: CLOSE_BRACKET })}>
+      <div
+        className={locals.closeBracketSuggestionIndicator}
+        onClick={() => onAddToFormModel(translateSuggestionToNewFormModelElement(suggestion))}
+      >
         {`)`}
       </div>
     );
   }
 
   return null;
+}
+
+export function translateSuggestionToNewFormModelElement(suggestion) {
+  if (suggestion.type === ADD_CONJUNCTION) {
+    return {
+      type: CONJUNCTION,
+      logicalOperator: and
+    };
+  } else if (suggestion.type === ADD_CLOSING_BRACKET) {
+    return { type: CLOSE_BRACKET };
+  } else {
+    throw new Error('Unsupported suggestion: ' + suggestion.type);
+  }
 }

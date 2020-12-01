@@ -279,7 +279,15 @@ describe('in-new-components/QueryBuilder/transformation/renderModel', () => {
         addValidation(rm_conjunction(), REMOVE_CONJUNCTION),
         rm_letter(),
         addValidation(rm_closeBracket(), REMOVE_BRACKET),
-        rm_word(),
+        {
+          ...rm_word(),
+          valid: false,
+          suggestions: [
+            {
+              type: 'ADD_CONJUNCTION'
+            }
+          ]
+        },
         addValidation(
           rm_expression([
             {

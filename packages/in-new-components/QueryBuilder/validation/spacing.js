@@ -1,5 +1,5 @@
+import { TAG, CLOSE_BRACKET, OPEN_BRACKET } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { EXPRESSION } from 'in-new-components/QueryBuilder/transformation/renderModelElementTypes';
-import { TAG, CLOSE_BRACKET } from 'in-new-components/QueryBuilder/transformation/formModel';
 
 export const ADD_CONJUNCTION = 'ADD_CONJUNCTION';
 
@@ -11,7 +11,7 @@ export default function validate({ element, index, elements, addSuggestionToElem
     prevElement &&
     nextElement &&
     (prevElement.type === TAG || prevElement.type === CLOSE_BRACKET || prevElement.type === EXPRESSION) &&
-    nextElement.type === TAG
+    (nextElement.type === TAG || nextElement.type === EXPRESSION || nextElement.type === OPEN_BRACKET)
   ) {
     addSuggestionToElement(element, ADD_CONJUNCTION);
   }
