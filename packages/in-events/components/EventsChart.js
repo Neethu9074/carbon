@@ -4,7 +4,6 @@ import React from 'react';
 import { getBlockSizeMillis, getPredefinedBlockSizeMillisForBlockSize } from 'in-services/util/dynamicAggregation';
 import globalHighlightAction from 'in-components/Chart/components/ContextMenu/actions/globalHighlight';
 import OpenEventsCountChartWrapper from 'in-events/components/OpenEventsCountChartWrapper';
-import EventsViewDashboardsMarkerLanes from './EventsViewDashboardsMarkerLanes';
 import { getNextValidRollup } from 'in-events/components/eventChartRollups';
 import getElementDimensions from 'in-hoc/getElementDimensions';
 import Renderer from 'in-components/Chart/renderer/Renderer';
@@ -63,7 +62,6 @@ function EventsChart({ width, timeConfig, query, eventType }) {
         metrics: metricsConfiguration
       }}
       primaryContextMenuAction={globalHighlightAction.name}
-      renderPostChartContent={EventsViewDashboardsMarkerLanes}
       riginalTimeConfig={timeConfig}
     />
   );

@@ -15,7 +15,6 @@ import {
 import EventMetricChartDownloadView from 'in-components/DownloadButton/components/EventMetricChartDownloadView';
 import { translateFullyQualifiedPluginToShortPluginName } from 'in-forge/constants';
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
-import EventsViewDashboardsMarkerLanes from './EventsViewDashboardsMarkerLanes';
 import { allowDownloadMetricsFromCharts } from 'in-services/featureFlags';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { getMetricDefinition } from 'in-sdk/metrics/metricDefinitions';
@@ -118,7 +117,6 @@ const ChartWrapper = connectTo(
             formatter: chartConfig.formatter.compact,
             tooltipFormatter: chartConfig.formatter.detailed
           }}
-          renderPostChartContent={EventsViewDashboardsMarkerLanes}
         />
       </div>
     );
