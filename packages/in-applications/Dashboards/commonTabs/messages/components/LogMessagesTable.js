@@ -2,12 +2,14 @@ import React from 'react';
 
 import AnalyzeMessagesButton from 'in-applications/Dashboards/commonTabs/messages/components/AnalyzeMessagesButton';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
+import { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import { applicationDashboardUrlParameters } from 'in-applications/navigation/urlParameters';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import getLogMessages from 'in-applications/subscriptions/getLogMessages';
+import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
 import { number } from 'in-services/formatters/number';
 import Pill from 'in-new-components/Pill';
@@ -164,6 +166,8 @@ function getTableData({
 }
 
 function Message({ message, applicationName, serviceName, endpointName, boundaryScope }) {
+  const tagCatalog = useTagCatalog(getTagCatalog);
+
   const logMessageFilter = message
     ? { name: 'log.message', value: message }
     : { name: 'log.message', operator: 'IS_EMPTY' };
@@ -173,15 +177,19 @@ function Message({ message, applicationName, serviceName, endpointName, boundary
 
   return (
     <Link
-      href$={getLinkToAnalyze({
-        applicationName,
-        serviceName,
-        endpointName,
-        dataSource: 'calls',
-        groupByTag: {},
-        filters: [logMessageFilter, includeInternalFilter, includeSyntheticFilter],
-        boundaryScope
-      })}
+      href$={
+        tagCatalog &&
+        getLinkToAnalyze({
+          applicationName,
+          serviceName,
+          endpointName,
+          dataSource: 'calls',
+          groupByTag: {},
+          filters: [logMessageFilter, includeInternalFilter, includeSyntheticFilter],
+          tagCatalog,
+          boundaryScope
+        })
+      }
     >
       {message ? message : <div className={locals.italic}>No log message available</div>}
     </Link>

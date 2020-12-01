@@ -6,6 +6,15 @@ export function getMatrixParameter(location, path, key) {
   return (location.matrix[path] || emptyObject)[key];
 }
 
+export function setOrDeleteMatrixParameter(location, matrixParameter, value) {
+  setOrDeleteMatrixKey(
+    location,
+    matrixParameter.path,
+    matrixParameter.name,
+    value && matrixParameter['serializer'] ? matrixParameter.serializer(value) : value
+  );
+}
+
 export function setOrDeleteMatrixKey(location, path, key, value) {
   if (value != null) {
     location.matrix[path] = location.matrix[path] || {};

@@ -4,7 +4,7 @@ import { getApplicationTagCatalog } from 'in-applications/api/catalog';
 import { createQueryBuilder } from 'in-new-components/QueryBuilder';
 import { TRACES } from 'in-applications/analyze/metrics';
 
-const { QueryBuilder, isQueryValid: isQueryValidInternal } = createQueryBuilder({
+const { QueryBuilder, isQueryValid: isQueryValidInternal, getTagCatalog: getTagCatalogInternal } = createQueryBuilder({
   getTagCatalog: props =>
     getApplicationTagCatalog({ dataSource: TRACES, useCase: 'FILTERING' })(props).map(response => ({
       ...response,
@@ -33,6 +33,8 @@ const { QueryBuilder, isQueryValid: isQueryValidInternal } = createQueryBuilder(
 });
 
 export default QueryBuilder;
+
+export const getTagCatalog = getTagCatalogInternal;
 
 export const isTraceQueryValid = ([tagFilterExpression, timeConfig]) =>
   isQueryValidInternal(tagFilterExpression, timeConfig);

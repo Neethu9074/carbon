@@ -51,7 +51,7 @@ export default function GroupedList({
   onChangeHiddenCalls,
   dataSource,
   onResult,
-  aggregationChartEnabled,
+  showChartGroupMarkers,
   groupColors,
   getNestedUngroupedData,
   linkFormModel
@@ -62,6 +62,7 @@ export default function GroupedList({
   const chartGranularity = getChartGranularity(timeConfig);
   const sparkChartGranularity = getSparkChartGranularity(timeConfig);
   const order = { by: orderBy.by || defaultOrder, direction: orderBy.direction || defaultDirection };
+  const fixedMetrics = dataSourceConstants[dataSource].fixedMetrics;
 
   const result = useCursorPagination(
     ({ cursor }) =>
@@ -71,7 +72,11 @@ export default function GroupedList({
             tagFilterExpression,
             groupBy,
             order,
-            metrics: convertMetricListToMetricObject(metrics, sparkChartGranularity, chartGranularity),
+            metrics: convertMetricListToMetricObject(
+              [...fixedMetrics, ...metrics],
+              sparkChartGranularity,
+              chartGranularity
+            ),
             cursor,
             hiddenCalls,
             dataSource
@@ -102,7 +107,8 @@ export default function GroupedList({
       groupBy={groupBy}
       order={order}
       subOrderBy={subOrderBy}
-      metrics={metrics}
+      fixedMetrics={fixedMetrics}
+      selectableMetrics={metrics}
       granularity={sparkChartGranularity}
       hiddenCalls={hiddenCalls}
       onFocusOnGroup={onFocusOnGroup}
@@ -112,7 +118,7 @@ export default function GroupedList({
       onChangeHiddenCalls={onChangeHiddenCalls}
       tagFilterExpression={tagFilterExpression}
       updateFilter={updateFilter}
-      aggregationChartEnabled={aggregationChartEnabled}
+      showChartGroupMarkers={showChartGroupMarkers}
       groupColors={groupColors}
       isValid={isValid}
       groupByTagType={groupByTagType}
@@ -135,7 +141,8 @@ function Presenter({
   groupBy,
   order,
   subOrderBy,
-  metrics,
+  fixedMetrics,
+  selectableMetrics,
   granularity,
   onFocusOnGroup,
   onChangeOrderBy,
@@ -145,7 +152,7 @@ function Presenter({
   updateFilter,
   hiddenCalls,
   onChangeHiddenCalls,
-  aggregationChartEnabled,
+  showChartGroupMarkers,
   groupColors,
   isValid,
   groupByTagType,
@@ -155,8 +162,8 @@ function Presenter({
 }) {
   const hasErrors = errors?.length > 0;
   const isLoading = progress.loading || groupByTagType.progress.loading;
-  const labelColumnDefinitions = labelColumns({ groupBy, aggregationChartEnabled, groupColors });
-  const metricColumnDefinitions = metricColumns({ metrics, dataSource });
+  const labelColumnDefinitions = labelColumns({ groupBy, showChartGroupMarkers, groupColors });
+  const metricColumnDefinitions = metricColumns({ metrics: [...fixedMetrics, ...selectableMetrics], dataSource });
   const actionColumnDefinitions = actionColumns({ groupBy, onFocusOnGroup, groupByTagType });
 
   const totalGroups = totalHits != null ? `${number.compact(totalHits)} Groups` : null;
@@ -178,7 +185,8 @@ function Presenter({
       <div className={locals.table}>
         <HeaderRow
           order={order}
-          metrics={metrics}
+          fixedMetrics={fixedMetrics}
+          selectableMetrics={selectableMetrics}
           onChangeOrderBy={onChangeOrderBy}
           onChangeMetrics={onChangeMetrics}
           dataSource={dataSource}
@@ -268,12 +276,12 @@ function Presenter({
   );
 }
 
-function labelColumns({ groupBy, aggregationChartEnabled, groupColors }) {
+function labelColumns({ groupBy, showChartGroupMarkers, groupColors }) {
   const { groupbyTag, groupbyTagSecondLevelKey } = groupBy;
   let i = 0;
   return [
     // conditionally add a column with chart color markers
-    ...(aggregationChartEnabled
+    ...(showChartGroupMarkers
       ? [
           {
             width: '1.5rem',
@@ -339,7 +347,9 @@ function actionColumns({ groupBy, onFocusOnGroup, groupByTagType }) {
 }
 
 function metricToColumn(metric, dataSource) {
-  const configuration = dataSourceConstants[dataSource].metricConfiguration[metric.metric];
+  const configuration =
+    dataSourceConstants[dataSource].fixedMetricConfiguration[metric.metric] ??
+    dataSourceConstants[dataSource].metricConfiguration[metric.metric];
   return {
     shrink: false,
     getContent({ group, timeConfig, progress, granularity }) {
@@ -397,18 +407,22 @@ function aggregationLabel(aggregation, type) {
   }
 }
 
-function HeaderRow({ order, onChangeOrderBy, metrics, onChangeMetrics, dataSource }) {
+function HeaderRow({ order, onChangeOrderBy, fixedMetrics, selectableMetrics, onChangeMetrics, dataSource }) {
   const metricConfiguration = dataSourceConstants[dataSource].metricConfiguration;
+  const sortingMetricConfiguration = {
+    ...dataSourceConstants[dataSource].fixedMetricConfiguration,
+    ...metricConfiguration
+  };
   const metricOptions = Object.entries(metricConfiguration).map(([key, value]) => ({
     metric: key,
     label: value.label,
     aggregations: value.aggregations
   }));
-  const sortingOptions = metrics.map(metric => {
-    const aggregation = aggregationLabel(metric.aggregation, metricConfiguration[metric.metric].type);
+  const sortingOptions = [...fixedMetrics, ...selectableMetrics].map(metric => {
+    const aggregation = aggregationLabel(metric.aggregation, sortingMetricConfiguration[metric.metric].type);
     return {
       value: aggregateMetricKey(metric.metric, metric.aggregation),
-      label: `${metricConfiguration[metric.metric].label} ${aggregation}`
+      label: `${sortingMetricConfiguration[metric.metric].label} ${aggregation}`
     };
   });
   return (
@@ -417,7 +431,7 @@ function HeaderRow({ order, onChangeOrderBy, metrics, onChangeMetrics, dataSourc
         sortOptions={sortingOptions}
         order={order}
         setOrder={order => onChangeOrderBy(order)}
-        metrics={metrics}
+        metrics={selectableMetrics}
         setMetrics={onChangeMetrics}
         metricOptions={metricOptions}
       />

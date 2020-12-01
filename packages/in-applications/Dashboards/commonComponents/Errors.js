@@ -1,9 +1,11 @@
 import theme from 'in-themes';
 import React from 'react';
 
+import { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
 import { getBlueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
+import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import { getChartGranularity } from 'in-applications/metrics';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import { bar, line } from 'in-stores/metric/renderer';
@@ -20,6 +22,7 @@ export default function Errors({
   groupByTag,
   renderPostChartContent
 }) {
+  const tagCatalog = useTagCatalog(getTagCatalog);
   const granularity = getChartGranularity(timeConfig);
   const errorRateBlueprintConfig = getBlueprintConfig('errorRate');
   const timeShiftConfig = useTimeShiftConfig();
@@ -96,6 +99,7 @@ export default function Errors({
             icon: 'lib_analyze',
             label: 'View in Analyze',
             getHref$: highlightedTime =>
+              tagCatalog &&
               getJumpToAnalyzeHref$(
                 { applicationId, serviceId, endpointId },
                 {
@@ -109,6 +113,7 @@ export default function Errors({
                         { name: 'call.erroneous', value: 'true' }
                       ]
                     : [{ name: 'call.erroneous', value: 'true' }],
+                  tagCatalog: tagCatalog,
                   metrics: [
                     { metric: 'errors', aggregation: 'MEAN' },
                     { metric: 'latency', aggregation: 'MEAN' }

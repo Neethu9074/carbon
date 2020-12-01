@@ -8,7 +8,6 @@ import {
   productAreaIcons,
   productAreaTrackingNames
 } from 'in-analyze/AnalyzeView/dataSources';
-import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import { analyzePath as mobileAppAnalyzePath, mobileAppMonitoringPath } from 'in-mobile-apps/navigation/paths';
 import { dataSource as dataSourceTypeMatrixParameter } from 'in-new-components/Profiling/navigation/matrix';
 import { analyzePath as websiteAnalyzePath, websiteMonitoringPath } from 'in-websites/navigation/paths';
@@ -20,7 +19,8 @@ import { dataSource as logsDataSourceTypeMatrixParameter } from 'in-logging/navi
 import { beaconType as websiteBeaconTypeMatrixParameter } from 'in-websites/navigation/matrix';
 import DashboardHeaderModule from 'in-new-components/DashboardHeader/DashboardHeaderModule';
 import DashboardHeaderButton from 'in-new-components/DashboardHeader/DashboardHeaderButton';
-import { dataSource as dataSourceMatrixParameter } from 'in-analyze/navigation/matrix';
+import { dataSource as dataSourceMatrixParameterUA1 } from 'in-analyze/navigation/matrix';
+import { dataSourceMatrixParameter } from 'in-applications/navigation/matrix';
 import DashboardHeader, { themes } from 'in-new-components/DashboardHeader';
 import { logsPath as logsAnalyzePath } from 'in-logging/navigation/paths';
 import { analyze as appAnalyzePath } from 'in-analyze/navigation/paths';
@@ -29,7 +29,6 @@ import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import Overlay from 'in-new-components/overlays/Overlay/Overlay';
 import { newAnalyticsEnabled } from 'in-services/featureFlags';
 import { isNotBlank } from 'in-services/util/string';
-import useObservable from 'in-hooks/useObservable';
 import Title from 'in-components/Title/Title';
 import SvgIcon from 'in-components/SvgIcon';
 import Pill from 'in-new-components/Pill';
@@ -100,16 +99,11 @@ export default function AnalyzeHeader({ renderQuickFilterBar, isGrouped }) {
 }
 
 function Label({ activeConfiguration }) {
-  const isInternalVisible = useObservable(isInternalVisible$, []);
-
   if (!activeConfiguration) {
     return null;
   }
 
-  const { productArea, dataSource, ua2 } = activeConfiguration;
-
-  // for normal user UA version is now chosen based on the 'newAnalyticsEnabled' feature flag
-  const ua2Enabled = isInternalVisible ? ua2 : newAnalyticsEnabled;
+  const { productArea, dataSource } = activeConfiguration;
   return (
     <div className={locals.label}>
       {productAreaLabels[productArea] !== getLabelByType(dataSource) && (
@@ -120,17 +114,23 @@ function Label({ activeConfiguration }) {
         </>
       )}
       <SvgIcon className={locals.dataSourceIcon} type={getIconByType(dataSource, productArea)} />
-      <span className={locals.dataSourceLabel}>{getLabelByType(dataSource, ua2Enabled)}</span>
+      <span className={locals.dataSourceLabel}>{getLabelByType(dataSource)}</span>
     </div>
   );
 }
 
 const dataSourceSources = [
-  {
-    matrixPath: appAnalyzePath,
-    matrixParam: `callList.${dataSourceMatrixParameter}`,
-    productArea: 'application'
-  },
+  newAnalyticsEnabled
+    ? {
+        matrixPath: dataSourceMatrixParameter.path,
+        matrixParam: dataSourceMatrixParameter.name,
+        productArea: 'application'
+      }
+    : {
+        matrixPath: appAnalyzePath,
+        matrixParam: `callList.${dataSourceMatrixParameterUA1}`,
+        productArea: 'application'
+      },
   {
     pathPrefix: websiteMonitoringPath,
     matrixPath: websiteAnalyzePath,
@@ -163,8 +163,7 @@ function getActiveConfiguration(location) {
     }
 
     const dataSource = getMatrixParameter(location, matrixPath, matrixParam);
-    const ua2 = getMatrixParameter(location, matrixPath, 'ua2') === 'true';
-
+    const ua2 = productArea === 'application' && newAnalyticsEnabled;
     if (isNotBlank(dataSource)) {
       return {
         productArea,
@@ -177,6 +176,6 @@ function getActiveConfiguration(location) {
   return {
     productArea: 'application',
     dataSource: 'calls',
-    ua2: false
+    ua2: newAnalyticsEnabled
   };
 }

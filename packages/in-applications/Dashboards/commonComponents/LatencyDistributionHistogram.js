@@ -3,9 +3,11 @@ import React, { useState } from 'react';
 import LatencyDistributionBase10Chart from 'in-new-components/LatencyDistributionBase10Chart/LatencyDistributionBase10Chart';
 import { EQUALS, GREATER_OR_EQUAL_THAN, LESS_THAN } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import getLatencyDistributionBase10 from 'in-subscription/application/getLatencyDistributionBase10';
+import { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import { jumpToUnboundedAnalyticsFromLatencyTracker } from 'in-applications/tracker';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
 import { translateOffsetToTimeShiftConfig } from 'in-stores/time/shifting';
+import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 
 import { fixateTimeConfig } from 'in-stores/time/config';
@@ -19,7 +21,7 @@ export default function LatencyDistributionHistogram({
   includeSyntheticCalls
 }) {
   const [selectedLatencyRange, setSelectedLatencyRange] = useState({ from: null, to: null });
-
+  const tagCatalog = useTagCatalog(getTagCatalog);
   const timeShiftConfig = useTimeShiftConfig();
 
   const filterForLink = () => {
@@ -106,6 +108,7 @@ export default function LatencyDistributionHistogram({
           icon: 'lib_analyze',
           label: 'View in Analyze',
           getHref$: () =>
+            tagCatalog &&
             getJumpToAnalyzeHref$(
               { applicationId: applicationId, serviceId: serviceId, endpointId: endpointId },
               {
@@ -113,6 +116,7 @@ export default function LatencyDistributionHistogram({
                 boundaryScope,
                 groupByTag: {},
                 filters: filterForLink(),
+                tagCatalog: tagCatalog,
                 focusedMetric: 'latency_DISTRIBUTION',
                 orderBy: 'latency',
                 orderDirection: 'DESC'

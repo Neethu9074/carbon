@@ -3,8 +3,10 @@ import React from 'react';
 
 import { IS_EMPTY, NOT_EMPTY, NOT_STARTS_WITH, STARTS_WITH } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import UnifiedMetricsChart, { parseMetricId } from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
+import { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
 import { getBlueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
+import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import { getChartGranularity } from 'in-applications/metrics';
 import { stackedBar, line } from 'in-stores/metric/renderer';
 import { number } from 'in-services/formatters/number';
@@ -25,6 +27,7 @@ export default function HttpSections({
   timeShiftMetric,
   hasHttpAndOtherEndpoints
 }) {
+  const tagCatalog = useTagCatalog(getTagCatalog);
   const granularity = getChartGranularity(timeConfig);
   const throughputBlueprintConfig = getBlueprintConfig('throughput');
   const errorRateBlueprintConfig = getBlueprintConfig('errorRate');
@@ -180,6 +183,7 @@ export default function HttpSections({
             icon: 'lib_analyze',
             label: 'View in Analyze',
             getHref$: (highlightedTime, metricsToAdd) =>
+              tagCatalog &&
               getJumpToAnalyzeHref$(
                 {
                   applicationId,
@@ -196,6 +200,7 @@ export default function HttpSections({
                         ...mapMetricsToAdd(filters, metricsToAdd.renderedMetrics, metricConfigs, timeShiftConfig)
                       ]
                     : [...mapMetricsToAdd(filters, metricsToAdd.renderedMetrics, metricConfigs, timeShiftConfig)],
+                  tagCatalog: tagCatalog,
                   groupByTag: groupByTag ? groupByTag : {},
                   timeConfig: highlightedTime,
                   metrics: metrics ? metrics : null

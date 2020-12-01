@@ -3,11 +3,13 @@ import React from 'react';
 
 import stairway, { hourlyBudgetMetricId } from 'in-custom-dashboards/widgets/Slo/renderer/stairway';
 import { applicationType, availabilityType } from 'in-custom-dashboards/widgets/Slo/form/sliForm';
+import { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import { groupByEndpointName, groupByServiceName } from 'in-analyze/AnalyzeView/dataSources';
 import { EQUALS, GREATER_THAN } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
 import { getSliFormatter } from 'in-custom-dashboards/widgets/Slo/sliConfigUtils';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
+import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import { convertToAnalyzeFilters } from 'in-applications/tags';
 
 export default function Chart({
@@ -21,6 +23,7 @@ export default function Chart({
   isPreview,
   disableZooming
 }) {
+  const tagCatalog = useTagCatalog(getTagCatalog);
   const isStaticBudget = hourlyBudget === null || hourlyBudget.length === 0;
   let metrics = [consumed, hourlyBudget];
   if (isStaticBudget) {
@@ -50,13 +53,13 @@ export default function Chart({
           isStaticBudget
         },
         nonInteractive: isPreview,
-        ...getCustomAnalyzeContextMenuProperties(sliConfig, disableZooming)
+        ...getCustomAnalyzeContextMenuProperties(sliConfig, disableZooming, tagCatalog)
       }}
     />
   );
 }
 
-function getCustomAnalyzeContextMenuProperties(sliConfig, disableZooming) {
+function getCustomAnalyzeContextMenuProperties(sliConfig, disableZooming, tagCatalog) {
   if (!sliConfig) {
     return {}; // use defaults
   }
@@ -73,6 +76,7 @@ function getCustomAnalyzeContextMenuProperties(sliConfig, disableZooming) {
         icon: 'lib_analyze',
         label: 'View in Analyze',
         getHref$: highlightedTime =>
+          tagCatalog &&
           getJumpToAnalyzeHref$(
             {
               applicationId: sliEntity.applicationId,
@@ -85,7 +89,8 @@ function getCustomAnalyzeContextMenuProperties(sliConfig, disableZooming) {
               groupByTag:
                 sliEntity.serviceId == null && sliEntity.endpointId == null ? groupByServiceName : groupByEndpointName,
               focusedMetric: getFocusedMetric(sliConfig),
-              filters
+              filters,
+              tagCatalog: tagCatalog
             }
           )
       }

@@ -1,7 +1,9 @@
 import React, { Fragment } from 'react';
 
+import { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import { getTechnologyComboBoxItems } from 'in-applications/technologyRegistry';
 import { getEndpointTypesComboBoxItems } from 'in-applications/endpointTypes';
+import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import Button from 'in-new-components/Button';
@@ -27,6 +29,7 @@ export default function Filters({
   let endpointFilters = [];
   let technologyFilters = [];
 
+  const tagCatalog = useTagCatalog(getTagCatalog);
   if (query) {
     if (applicationName || (!applicationName && !serviceName)) {
       queryFilter = [{ name: 'service.name', value: query, operator: 'CONTAINS', entity: entityTypes.DESTINATION }];
@@ -45,15 +48,19 @@ export default function Filters({
       <Button
         kind="secondary"
         className={locals.button}
-        href$={getLinkToAnalyze({
-          applicationName,
-          serviceName,
-          endpointName,
-          dataSource: 'calls',
-          groupByTag,
-          boundaryScope,
-          filters: [...queryFilter, ...endpointFilters, ...technologyFilters]
-        })}
+        href$={
+          tagCatalog &&
+          getLinkToAnalyze({
+            applicationName,
+            serviceName,
+            endpointName,
+            dataSource: 'calls',
+            groupByTag,
+            boundaryScope,
+            filters: [...queryFilter, ...endpointFilters, ...technologyFilters],
+            tagCatalog
+          })
+        }
       >
         Analyze {buttonLabel}
       </Button>
