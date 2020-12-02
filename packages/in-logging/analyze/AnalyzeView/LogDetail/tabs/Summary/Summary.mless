@@ -10,10 +10,10 @@
   }
 
   .warn {
-    color: @lib__colors__failure;
+    color: @lib__colors__warning;
   }
 
   .error {
-    color: @lib__colors__warning;
+    color: @lib__colors__failure;
   }
 }
