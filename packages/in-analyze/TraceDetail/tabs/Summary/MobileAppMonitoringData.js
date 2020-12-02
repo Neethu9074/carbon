@@ -11,9 +11,9 @@ import { getLinkToMobileApp, getLinkToSession } from 'in-mobile-apps/navigation/
 import getMobileAppBeacons from 'in-mobile-apps/subscriptions/getMobileAppBeacons';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import { get, trySet } from 'in-services/localStorage';
-import { minutes, seconds } from 'in-services/time';
 import Button from 'in-new-components/Button';
 import SvgIcon from 'in-components/SvgIcon';
+import { minutes } from 'in-services/time';
 import Card from 'in-new-components/Card';
 import connect from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
@@ -28,9 +28,9 @@ export default compose(
       result: getMobileAppBeacons({
         tagFilters: [{ name: 'mobileBeacon.backend.traceId', stringValue: traceId, operator: 'EQUALS' }],
         timeConfig: {
-          windowSize: minutes.toMillis(1),
-          to: startTime + seconds.toMillis(30),
-          focusedMoment: startTime + seconds.toMillis(30)
+          windowSize: minutes.toMillis(20),
+          to: startTime + minutes.toMillis(10),
+          focusedMoment: startTime + minutes.toMillis(10)
         },
         order: {
           by: 'mobileBeacon.timestamp',
