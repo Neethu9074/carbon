@@ -48,6 +48,7 @@ function NavigatorSplitScreen({
   typeLabel,
   totalHits,
   totalRepresentedItemCount,
+  hideResultCount,
   items,
   openItemIndex,
   openItem: customOpenItem,
@@ -74,6 +75,7 @@ function NavigatorSplitScreen({
                   itemType={typeLabel}
                   nbRows={totalHits}
                   nbItems={totalRepresentedItemCount}
+                  hideResultCount={hideResultCount}
                   withoutMargin
                   withMaxWidth
                 />

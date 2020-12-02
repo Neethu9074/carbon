@@ -21,6 +21,7 @@ export default connectTo(
     itemType,
     nbRows,
     nbItems,
+    hideResultCount = false,
     historicOrLargeDataResult,
     withoutMargin = false,
     withMaxWidth,
@@ -29,13 +30,15 @@ export default connectTo(
     let counter = '';
     const { containsHistoricData, retention, samplingLevel } = historicOrLargeDataResult ?? emptyObject;
 
-    if (itemType == 'Group') {
-      counter = formatCounter(nbRows, 'Group');
-    } else {
-      if (containsHistoricData || (samplingIndicatorEnabled && samplingLevel && samplingLevel.samplingRatio < 1)) {
-        counter = formatCounter(nbRows, 'Row');
+    if (!hideResultCount) {
+      if (itemType === 'Group') {
+        counter = formatCounter(nbRows, 'Group');
       } else {
-        counter = formatCounter(nbItems, itemType);
+        if (containsHistoricData || (samplingIndicatorEnabled && samplingLevel && samplingLevel.samplingRatio < 1)) {
+          counter = formatCounter(nbRows, 'Row');
+        } else {
+          counter = formatCounter(nbItems, itemType);
+        }
       }
     }
 
@@ -55,8 +58,9 @@ export default connectTo(
         >
           {counter}
         </span>
-        {!samplingIndicatorEnabled &&
-          containsHistoricData && <TimeIcon theme="light" containsHistoricData retention={retention} />}
+        {!samplingIndicatorEnabled && containsHistoricData && (
+          <TimeIcon theme="light" containsHistoricData retention={retention} />
+        )}
         {adjustedWindowSize && (
           <Tooltip
             content="The query time range has been rounded up to nearest full minute to allow this view to load more quickly."

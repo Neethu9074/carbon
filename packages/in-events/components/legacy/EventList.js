@@ -35,7 +35,7 @@ export default connectTo(
     if (!events) {
       return (
         <Card title="Events">
-          <LoadingIndicator />;
+          <LoadingIndicator />
         </Card>
       );
     }
