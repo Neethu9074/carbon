@@ -73,7 +73,7 @@ export default function FormComponent({
       </Row>
 
       <Row withoutTopMargin>
-        <Col lg={8}>
+        <Col lg>
           <FormGroup>
             <Label
               htmlFor="metric-configurator-infra-metric"
@@ -100,7 +100,7 @@ export default function FormComponent({
             <TouchedMessages field={metricField} />
           </FormGroup>
         </Col>
-        <Col lg={4}>
+        <Col lg>
           <FormGroup>
             <Label
               htmlFor="metric-configurator-infra-aggregation"
