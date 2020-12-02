@@ -10,14 +10,6 @@ import {
   deserializeMetrics,
   serializeMetrics
 } from 'in-analyze/navigation/matrix';
-
-import {
-  getTagFilterFromUrlString,
-  getTagFilterToUrlString,
-  getGroupFromUrlString,
-  getGroupToUrlString
-} from 'in-analyze/filterBuilder';
-
 import {
   analyze,
   setTagFilterExpressionAndHiddenCalls,
@@ -27,6 +19,12 @@ import {
   setDataSourceMatrixParam,
   setOrderByMatrixParam
 } from 'in-analyze/navigation/paths';
+import {
+  getTagFilterFromUrlString,
+  getTagFilterToUrlString,
+  getGroupFromUrlString,
+  getGroupToUrlString
+} from 'in-analyze/filterBuilder';
 import { getTagCatalog as getTracesTagCatalog } from 'in-applications/analyze/components/workspace/TraceQueryBuilder';
 import { getTagCatalog as getCallsTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import { focusedMetric as focusedMetricMatrixParameter } from 'in-analyze/navigation/matrix';
