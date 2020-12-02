@@ -7,6 +7,7 @@ import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import { getIconByType } from 'in-analyze/AnalyzeView/dataSources';
 import DashboardHeader from 'in-new-components/DashboardHeader';
 import useCursorPagination from 'in-hooks/useCursorPagination';
+import { formatDateTime } from 'in-services/formatters/date';
 import getLogs from 'in-logging/subscriptions/getLogs';
 import getLog from 'in-logging/subscriptions/getLog';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -63,12 +64,13 @@ export default function LogDetail(props) {
 }
 
 function Header(props) {
+  const time = props.result?.data?.timestamp;
   return (
     <DashboardHeader
       {...props}
       title="Log"
       icon={getIconByType('logs', 'logs')}
-      label="Log details"
+      label={`Log: ${time ? formatDateTime(time) : ''}`}
       renderButtonLine={renderButtonLine}
       renderTimeSelection={renderTimeSelection}
       hideUrlShortener

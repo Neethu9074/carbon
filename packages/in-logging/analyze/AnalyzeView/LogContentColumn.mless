@@ -5,11 +5,16 @@
     margin: 0.5rem 0;
   }
 
+  .header {
+    color: @lib__colors__N500;
+  }
+
   .content {
     font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;
     font-size: 0.8125rem;
 
     white-space: break-spaces;
+    color: black;
   }
 
   .tagsWrapper {

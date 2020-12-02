@@ -24,6 +24,8 @@ export default function UngroupedAnalyzeView(props) {
     onOrderByChange,
     getHrefToDetailId,
     columnDefinitions,
+    classNames,
+    withoutListItemLinkToDetails,
     getId,
     itemName,
     withoutHeader,
@@ -60,7 +62,12 @@ export default function UngroupedAnalyzeView(props) {
           {items.map(item => {
             const id = getId(item);
             return (
-              <Li key={id} size="compact" href={getHrefToDetailId(id, groupLabel)}>
+              <Li
+                key={id}
+                className={classNames?.listItem}
+                size="compact"
+                href={withoutListItemLinkToDetails ? undefined : getHrefToDetailId(id, groupLabel)}
+              >
                 <ColumnizedContent columnDefinitions={columnDefinitions} {...item} {...props} />
               </Li>
             );
@@ -83,6 +90,10 @@ UngroupedAnalyzeView.propTypes = {
   getData: rpt.func.isRequired,
   getId: rpt.func.isRequired,
   columnDefinitions: rpt.array.isRequired,
+  withoutListItemLinkToDetails: rpt.bool,
+  classNames: rpt.shape({
+    listItem: rpt.string
+  }),
 
   // Will be auto-provided by GroupedView in the relevant scenarios.
   groupLabel: rpt.string

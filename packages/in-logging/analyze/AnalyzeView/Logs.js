@@ -6,22 +6,31 @@ import LogContentColumn from 'in-logging/analyze/AnalyzeView/LogContentColumn';
 import UngroupedView from 'in-new-components/AnalyzeView/UngroupedView';
 import getLogs from 'in-logging/subscriptions/getLogs';
 
+import locals from './Logs.mless';
+
 const columnDefinitions = [
   {
     id: 'timestamp',
     label: 'Time',
-    width: '6rem',
+    width: '8rem',
+    useMaxHeight: true,
     widthInAbsoluteUnit: true,
     getContent({ log }) {
-      return <DateTimeSeparated>{log.timestamp}</DateTimeSeparated>;
+      return (
+        <div className={locals.dateTime}>
+          <DateTimeSeparated>{log.timestamp}</DateTimeSeparated>
+        </div>
+      );
     }
   },
   {
     id: 'log',
     label: 'Log',
     sortable: false,
-    getContent({ log }) {
-      return <LogContentColumn content={log.strippedContent} tags={log.tags} />;
+    getContent({ log, groupLabel, getHrefToDetailId }) {
+      return (
+        <LogContentColumn content={log.strippedContent} tags={log.tags} href={getHrefToDetailId(log.id, groupLabel)} />
+      );
     }
   }
 ];
@@ -30,6 +39,9 @@ export default function Logs(props) {
   let content = (
     <UngroupedView
       {...props}
+      classNames={{
+        listItem: locals.listItem
+      }}
       itemName="Log"
       sortOptions={[
         {
@@ -42,6 +54,7 @@ export default function Logs(props) {
         getTableData({ timeConfig, backendQueryModel, orderBy, cursor })
       }
       getId={item => item.log.id}
+      withoutListItemLinkToDetails
     />
   );
 

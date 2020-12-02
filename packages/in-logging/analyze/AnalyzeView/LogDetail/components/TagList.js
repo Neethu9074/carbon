@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import locals from './TagList.mless';
 
@@ -6,10 +6,7 @@ export default function TagList({ tags }) {
   return (
     <>
       {tags.map(({ tag, value }, i) => (
-        <Fragment key={i}>
-          <Tag tag={tag} value={value} />
-          {i < tags.length - 1 && <TagSpacer />}
-        </Fragment>
+        <Tag key={i} tag={tag} value={value} />
       ))}
     </>
   );
@@ -23,8 +20,4 @@ function Tag({ tag, value }) {
       <span className={locals.value}>{value}</span>
     </>
   );
-}
-
-function TagSpacer() {
-  return <div className={locals.spacer} />;
 }

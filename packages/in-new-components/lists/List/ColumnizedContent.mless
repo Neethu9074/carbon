@@ -5,4 +5,8 @@
     flex-grow: 1;
     .ellipsis();
   }
+
+  .maxHeight {
+    align-items: stretch;
+  }
 }

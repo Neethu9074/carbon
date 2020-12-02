@@ -1,0 +1,9 @@
+:local {
+  .listItem {
+    align-items: stretch;
+  }
+
+  .dateTime {
+    padding: 0.5rem 0;
+  }
+}
