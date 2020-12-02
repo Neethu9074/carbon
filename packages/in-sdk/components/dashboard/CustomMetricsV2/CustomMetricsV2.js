@@ -326,17 +326,17 @@ export const AVAILABLE_SPECS = {
       {
         suffix: '.mean',
         label: 'Mean',
-        formatter: timeByMillisTwoDecimalPlaces
+        formatter: withSiMultiplyPrefixThreeDecimalPlaces
       },
       {
         suffix: '.50th',
         label: '50th',
-        formatter: timeByMillisTwoDecimalPlaces
+        formatter: withSiMultiplyPrefixThreeDecimalPlaces
       },
       {
         suffix: '.99th',
         label: '99th',
-        formatter: timeByMillisTwoDecimalPlaces
+        formatter: withSiMultiplyPrefixThreeDecimalPlaces
       }
     ]
   },
