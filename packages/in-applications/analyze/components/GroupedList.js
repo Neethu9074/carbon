@@ -1,5 +1,5 @@
+import React, { useEffect, useState } from 'react';
 import { empty } from 'reactive-observables';
-import React, { useEffect } from 'react';
 
 import MetricAndSortingConfigurator from 'in-new-components/MetricAndSortingConfigurator/MetricAndSortingConfigurator';
 import { ColumnizedContent, Ul, Li, LoadingSkeletonLi, HorizontalIndicatorLi } from 'in-new-components/lists/List';
@@ -8,10 +8,10 @@ import { type as TAG_FILTER_TYPE } from 'in-new-components/QueryBuilder/transfor
 import { addTagFilters } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import FacetedSearch from 'in-applications/analyze/components/FacetedSearch/FacetedSearch';
 import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
+import { emptyArray, emptyObject, indeterminateProgress } from 'in-services/fixedObjects';
 import { getChartGranularity, getSparkChartGranularity } from 'in-applications/metrics';
 import { EQUALS, IS_EMPTY } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
-import { emptyArray, indeterminateProgress } from 'in-services/fixedObjects';
 import LoadMoreLi from 'in-new-components/lists/List/LoadMoreLi/LoadMoreLi';
 import { UNSPECIFIED } from 'in-analyze/components/GroupedTraces/Group';
 import { NUMBER } from 'in-new-components/QueryBuilder/tagFilter/types';
@@ -56,6 +56,8 @@ export default function GroupedList({
   getNestedUngroupedData,
   linkFormModel
 }) {
+  // Store the last valid result so that we can show it, in case the tagFilterExpression won't be valid.
+  const [{ lastDataSource, lastValidResult }, setLastState] = useState(emptyObject);
   const defaultOrder = dataSourceConstants[dataSource].metricKey;
   const defaultDirection = 'DESC';
   const timeConfig = useTimeConfig();
@@ -85,11 +87,19 @@ export default function GroupedList({
     [timeConfig, tagFilterExpression, groupBy, orderBy, metrics, isValid, hiddenCalls, dataSource]
   );
 
+  const resultToDisplay = !isValid && lastValidResult && lastDataSource === dataSource ? lastValidResult : result;
+
   useEffect(() => {
-    if (onResult) {
-      onResult(result);
+    if (isValid) {
+      if (onResult) {
+        onResult(result);
+      }
+      setLastState({ lastDataSource: dataSource, lastValidResult: result });
+    } else if (lastDataSource !== dataSource) {
+      // the last result shouldn't be cached for a different data source
+      setLastState(emptyObject);
     }
-  }, [result?.progress.loading]);
+  }, [result?.progress.loading, isValid, dataSource, onResult, lastDataSource]);
 
   const dataSourceName = dataSourceConstants[dataSource].backendDataSource;
 
@@ -125,7 +135,7 @@ export default function GroupedList({
       dataSource={dataSource}
       getNestedUngroupedData={getNestedUngroupedData}
       linkFormModel={linkFormModel}
-      {...result}
+      {...resultToDisplay}
     />
   );
 }
