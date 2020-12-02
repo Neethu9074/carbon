@@ -1,7 +1,7 @@
 import { just } from 'reactive-observables';
 
 import getWebsiteBeacons from 'in-websites/subscriptions/getWebsiteBeacons';
-import { minutes, seconds } from 'in-services/time';
+import { minutes } from 'in-services/time';
 
 export function getCorrelatedWebsiteBeacons({ traceId, correlationId: beaconId, startTime }) {
   return executeInOrder(
@@ -43,9 +43,9 @@ function getWebsiteBeaconsRequestConfiguration(tagFilters, startTime) {
   return {
     tagFilters,
     timeConfig: {
-      windowSize: minutes.toMillis(1),
-      to: startTime + seconds.toMillis(30),
-      focusedMoment: startTime + seconds.toMillis(30)
+      windowSize: minutes.toMillis(20),
+      to: startTime + minutes.toMillis(10),
+      focusedMoment: startTime + minutes.toMillis(10)
     },
     order: {
       by: 'beacon.timestamp',

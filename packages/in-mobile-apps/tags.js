@@ -101,6 +101,6 @@ const commonFilterTags = ['mobileBeacon.id', 'mobileBeacon.sessionId'];
 export const availableFilterTags = {
   sessionStart: [...availableGroupingTags.sessionStart, ...commonFilterTags].sort(),
   viewChange: [...availableGroupingTags.viewChange, ...commonFilterTags].sort(),
-  httpRequest: [...availableGroupingTags.httpRequest, ...commonFilterTags].sort(),
+  httpRequest: [...availableGroupingTags.httpRequest, 'mobileBeacon.backend.traceId', ...commonFilterTags].sort(),
   custom: [...availableGroupingTags.custom, ...commonFilterTags].sort()
 };
