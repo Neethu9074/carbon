@@ -1,5 +1,6 @@
 import React from 'react';
 
+import DBmarlinNotification from 'in-forge/plugins/awsRds/Dashboard/DBmarlinNotification';
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
@@ -7,7 +8,6 @@ import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { number } from 'in-services/formatters/number';
 import MetricValue from 'in-components/MetricValue';
-import Button from 'in-new-components/Button';
 
 export default function MariaDbDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
@@ -81,15 +81,7 @@ export default function MariaDbDashboard({ snapshot, timeConfig }) {
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardNotification>
-        Looking for even deeper database insights? Check out our integration with{' '}
-        <Button
-          href="https://www.dbmarlin.com/instana-offer?utm_campaign=Instana&utm_source=Instana&utm_medium=Instana"
-          target="_blank"
-        >
-          DBmarlin
-        </Button>
-      </DashboardNotification>
+      <DBmarlinNotification />
     </div>
   );
 }

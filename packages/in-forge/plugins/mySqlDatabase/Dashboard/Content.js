@@ -1,5 +1,6 @@
 import React from 'react';
 
+import DBmarlinNotification from 'in-forge/plugins/awsRds/Dashboard/DBmarlinNotification';
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import DatabasesTable from 'in-forge/plugins/mySqlDatabase/Dashboard/DatabasesTable';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
@@ -10,7 +11,6 @@ import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { number, millis, seconds } from 'in-services/formatters/number';
 import { emptyList } from 'in-services/fixedImmutables';
 import MetricValue from 'in-components/MetricValue';
-import Button from 'in-new-components/Button';
 
 const msFormatter = d => (d < 0 ? 'No activity' : millis.detailed(d));
 
@@ -182,15 +182,7 @@ export default function MySqlDashboard({ snapshot, timeConfig }) {
         <DatabasesTable snapshot={snapshot} timeConfig={timeConfig} />
       ) : null}
 
-      <DashboardNotification>
-        Looking for even deeper database insights? Check out our integration with{' '}
-        <Button
-          href="https://www.dbmarlin.com/instana-offer?utm_campaign=Instana&utm_source=Instana&utm_medium=Instana"
-          target="_blank"
-        >
-          DBmarlin
-        </Button>
-      </DashboardNotification>
+      <DBmarlinNotification />
     </div>
   );
 }

@@ -7,6 +7,7 @@ import {
   bytesZeroDecimalPlaces,
   seconds
 } from 'in-services/formatters/number';
+import DBmarlinNotification from 'in-forge/plugins/awsRds/Dashboard/DBmarlinNotification';
 import DatabasesTable from 'in-forge/plugins/postgreSqlDatabase/Dashboard/DatabasesTable';
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
@@ -15,7 +16,6 @@ import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { agentMonitoringIssuesEnabled } from 'in-services/featureFlags';
 import MetricValue from 'in-components/MetricValue';
-import Button from 'in-new-components/Button';
 
 export default function PostgreSqlDashboard({ snapshot, timeConfig }) {
   const sensorConnectionStatus = snapshot.getIn(['data', 'sensorConnectionStatus'], 'OK');
@@ -93,15 +93,7 @@ export default function PostgreSqlDashboard({ snapshot, timeConfig }) {
         </DashboardSection>
       )}
       <DatabasesTable snapshot={snapshot} timeConfig={timeConfig} />
-      <DashboardNotification>
-        Looking for even deeper database insights? Check out our integration with{' '}
-        <Button
-          href="https://www.dbmarlin.com/instana-offer?utm_campaign=Instana&utm_source=Instana&utm_medium=Instana"
-          target="_blank"
-        >
-          DBmarlin
-        </Button>
-      </DashboardNotification>
+      <DBmarlinNotification />
     </div>
   );
 }
