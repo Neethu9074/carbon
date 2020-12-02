@@ -38,11 +38,11 @@ export default function Saml() {
         setFile(null);
         refresh();
       }}
-      saveItem={({ setMessage }) => {
+      saveItem={({ setMessage, setLoading }) => {
         const reader = new FileReader();
         reader.readAsText(file, 'UTF-8');
         reader.onload = function(evt) {
-          saveItem({ idpMetadata: evt.target.result, setMessage });
+          saveItem({ idpMetadata: evt.target.result, setMessage, setLoading });
         };
       }}
       render={props => render({ ...props, input })}
@@ -222,7 +222,6 @@ function deleteItem({ setMessage }) {
 
 function saveItem({ setMessage, setLoading, idpMetadata }) {
   setMessage({ message: 'Saving config', type: neutral, isSaving: true });
-  setLoading(true);
   const setConfigResult$ = setConfig({ idpMetadata });
   setConfigResult$.once(
     () => {
