@@ -5,6 +5,7 @@ import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicat
 import EventListItem from 'in-events/components/legacy/EventListItem';
 import { emptyList } from 'in-services/fixedImmutables';
 import { getEvent } from 'in-stores/events';
+import Card from 'in-new-components/Card';
 import connectTo from 'in-hoc/connectTo';
 
 import 'in-events/components/legacy/EventList.less';
@@ -32,16 +33,21 @@ export default connectTo(
   }),
   function IncidentEventList({ events, incident }) {
     if (!events) {
-      return <LoadingIndicator />;
+      return (
+        <Card title="Events">
+          <LoadingIndicator />;
+        </Card>
+      );
     }
 
     const triggeringProblemId = incident.getIn(['problem', 'id']);
 
     return (
-      <div className={block}>
-        <div className={`${block}__counter`}>{`Events (${events.length})`}</div>
-        <List events={events} triggeringProblemId={triggeringProblemId} />
-      </div>
+      <Card title={`Events (${events.length})`}>
+        <div className={block}>
+          <List events={events} triggeringProblemId={triggeringProblemId} />
+        </div>
+      </Card>
     );
   }
 );

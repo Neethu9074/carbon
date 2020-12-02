@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 import EntityWithParentInformation from 'in-events/components/EntityInformation/EntityWithParentInformation';
 import AgentMonitoringIssueDescription from 'in-events/components/legacy/AgentMonitoringIssueDescription';
+import { getTimeConfigFromEventForSnapshotRetrieval, getTimeConfigFromEvent } from 'in-events/timeframe';
 import HeightRestrictedView from 'in-components/layout/HeightRestrictedView/HeightRestrictedView';
 import ApplicationEventContent from 'in-events/components/EventContent/ApplicationEventContent';
 import OfflineEventDescription from 'in-events/components/legacy/OfflineEventDescription';
@@ -10,7 +11,6 @@ import WebsiteEventContent from 'in-events/components/EventContent/WebsiteEventC
 import EventSpecificationLink from 'in-events/components/legacy/EventSpecificationLink';
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import SubEntityInformation from 'in-events/components/legacy/SubEntityInformation';
-import { getTimeConfigFromEventForSnapshotRetrieval } from 'in-events/timeframe';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import ProcessTopList from 'in-forge/plugins/host/Dashboard/ProcessTopList';
@@ -80,6 +80,7 @@ function EventContent({ event }) {
               entityType={event.get('entityType')}
               metadata={event.get('metadata')}
               timeConfig={timeConfig}
+              linkTimeConfig={getTimeConfigFromEvent(event)}
             />
             <SubEntityInformation event={event} />
             {isAgentMonitoringIssueEvent(event) ? (
@@ -192,9 +193,7 @@ const IncidentContent = connectTo(
         </Row>
         <Row withoutSideMargin>
           <Col xs>
-            <Card title="Events">
-              <EventList incident={incident} />
-            </Card>
+            <EventList incident={incident} />
           </Col>
         </Row>
       </>

@@ -133,6 +133,7 @@ function DetailsHeader({ event, onClick, iconType, background, timeConfig }) {
             entityId={entityId}
             entityType={entityType}
             metadata={event.get('metadata')}
+            linkTimeConfig={timeConfig}
             timeConfig={timeConfig}
           />
         </div>

@@ -7,7 +7,7 @@ import { isEndpointEntity } from 'in-services/entityUtils';
 import EntityInformation from './EntityInformation';
 
 export default function EntityWithParentInformation(props) {
-  const { entityType, entityId, metadata, timeConfig } = props;
+  const { entityType, entityId, metadata, timeConfig, linkTimeConfig } = props;
   return (
     <div>
       <EntityInformation {...props} pathname={physicalDashboardPath} />
@@ -23,6 +23,7 @@ export default function EntityWithParentInformation(props) {
             app20EndpointId: entityId
           })}
           timeConfig={timeConfig}
+          linkTimeConfig={linkTimeConfig}
         />
       )}
     </div>
