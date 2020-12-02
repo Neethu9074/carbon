@@ -7,6 +7,8 @@
   }
 
   .chartWrapper {
+    padding: 1rem;
+
     background: @lib__colors__white;
   }
 }
