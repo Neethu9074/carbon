@@ -1,31 +1,12 @@
 import React from 'react';
 
+import TypeAndMetricConfiguratorPresenter from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/TypeAndMetricConfiguratorPresenter';
 import getMetricTagCatalog from 'in-infrastructure/subscriptions/getMetricTagCatalog';
-import { createGroupingConfigurator } from 'in-new-components/GroupingConfigurator';
-import { successObservableFactory } from 'in-services/util/result';
+import { getTagCatalogOnce } from 'in-services/tags/tagCatalog';
 
-const suggestions = [];
 export const typeAndMetricSeparator = '/';
 
-const {
-  GroupingConfigurator,
-  isGroupingConfigurationValid: isGroupingConfigurationValidInternal
-} = createGroupingConfigurator({
-  getTagCatalog: getMetricTagCatalog,
-
-  getSuggestions: successObservableFactory({ suggestions, totalHits: 0 })
-});
-
 export default function TypeAndMetricConfigurator(props) {
-  const { type, metric } = props;
-  return (
-    <GroupingConfigurator
-      value={{
-        groupbyTag: type && metric ? type + typeAndMetricSeparator + metric : ''
-      }}
-      {...props}
-    />
-  );
+  const getTagCatalog = getTagCatalogOnce(getMetricTagCatalog);
+  return <TypeAndMetricConfiguratorPresenter getTagCatalog={getTagCatalog} {...props} />;
 }
-
-export const isGroupingConfigurationValid = isGroupingConfigurationValidInternal;

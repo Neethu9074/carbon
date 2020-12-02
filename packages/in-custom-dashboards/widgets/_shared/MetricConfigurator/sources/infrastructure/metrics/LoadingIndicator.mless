@@ -1,0 +1,14 @@
+@import '~in-themes/active.less';
+
+:local {
+  .wrapper {
+    display: flex;
+    align-items: center;
+  }
+
+  .text {
+    margin-left: 0.5rem;
+    font-size: 0.9rem;
+    color: @lib__colors__N600Light;
+  }
+}

@@ -1,0 +1,28 @@
+@import '~in-themes/active.less';
+
+:local {
+  .noActiveGroupingButton {
+    margin-top: 0.125rem;
+    border: 1px solid @lib__colors__N400;
+    border-radius: @lib__shapes__radius_medium;
+  }
+  .configurator {
+    font-size: 0.75rem;
+    height: 2rem;
+
+    padding: 0.1875rem 0.3rem 0.1875rem 0.4375rem;
+    background: @lib__colors__N050;
+    width: fit-content;
+
+    display: flex;
+    align-items: center;
+
+    cursor: pointer;
+  }
+  .icon {
+    // icons have a built in margin so we need to substract it when it is used in smaller frames
+    margin: -0.5rem -0.25rem;
+
+    fill: @lib__colors__N400;
+  }
+}
