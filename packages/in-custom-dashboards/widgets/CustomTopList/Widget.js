@@ -1,9 +1,11 @@
 import theme from 'in-themes';
 import React from 'react';
 
+import { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import { extendWindowSizeOnLiveMode, getChartGranularity } from 'in-applications/metrics';
 import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
 import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
+import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
 import { getFormatter } from 'in-stores/metric/formatters';
 import { operators } from 'in-analyze/applicationFilter';
@@ -17,6 +19,7 @@ import locals from './Widget.mless';
 
 export default function ListWidget({ config, title, actions, dragHandle }) {
   const timeConfig = useTimeConfig();
+  const tagCatalog = useTagCatalog(getTagCatalog);
   let result = useResultData(config, timeConfig) ?? pendingResult;
   const isErroneous =
     config.metricConfiguration.metric === 'erroneousCalls' || config.metricConfiguration.metric === 'errors';
@@ -59,11 +62,15 @@ export default function ListWidget({ config, title, actions, dragHandle }) {
         return (
           config.metricConfiguration.grouping && (
             <Link
-              href$={getLinkToAnalyze({
-                dataSource: 'calls',
-                groupByTag: [],
-                filters
-              })}
+              href$={
+                tagCatalog &&
+                getLinkToAnalyze({
+                  dataSource: 'calls',
+                  groupByTag: [],
+                  filters,
+                  tagCatalog
+                })
+              }
             >
               {item.label === 'other_group' ? (
                 <Tooltip content="Aggregation of other groups" align="rightMiddle">

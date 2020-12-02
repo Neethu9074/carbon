@@ -7,10 +7,11 @@ import {
   tagFilterExpressionMatrixParameter,
   groupByMatrixParameter,
   orderByGroupsMatrixParameter,
-  orderByCallsMatrixParameter,
+  orderByMatrixParameter,
   metricsMatrixParameter,
   hiddenCallsMatrixParameter,
-  chartsMatrixParameter
+  chartsMatrixParameter,
+  dataSourceMatrixParameter
 } from 'in-applications/navigation/matrix';
 import TraceGroupingConfigurator, {
   isTraceGroupingConfigurationValid
@@ -35,7 +36,7 @@ import QueryBuilderSection from 'in-new-components/QueryBuilder/workspace/QueryB
 import { ActionSection } from 'in-new-components/workspace/ActionSection/ActionSection';
 import TraceDetails from 'in-applications/analyze/components/TraceDetails';
 import GroupedList from 'in-applications/analyze/components/GroupedList';
-import { traceDetailFullyQualified } from 'in-analyze/navigation/paths';
+import { analyze, traceDetailFullyQualified } from 'in-analyze/navigation/paths';
 import { dataSourceConstants } from 'in-applications/analyze/metrics';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { aggregateMetricKey } from 'in-applications/analyze/metrics';
@@ -45,6 +46,7 @@ import List from 'in-applications/analyze/components/List';
 import { pendingResult } from 'in-services/fixedObjects';
 import { error } from 'in-new-components/Message/types';
 import { emptyArray } from 'in-services/fixedObjects';
+import { isNotBlank } from 'in-services/util/string';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import useObservable from 'in-hooks/useObservable';
 import Stack from 'in-new-components/layout/Stack';
@@ -53,69 +55,81 @@ import useUrlState from 'in-hooks/useUrlState';
 import Footer from 'in-new-components/Footer';
 import Sticky from 'in-components/Sticky';
 
-const urlStateDefinition = {
-  bind: [
-    tagFilterExpressionMatrixParameter,
-    groupByMatrixParameter,
-    orderByGroupsMatrixParameter,
-    orderByCallsMatrixParameter,
-    metricsMatrixParameter,
-    hiddenCallsMatrixParameter,
-    chartsMatrixParameter
-  ],
-  resets: [
-    {
-      bind: [
-        // TODO: reuse the 'dataSource' parameter definition from AnalyzeView (maybe move the param definition to some better/reusable location)
-        {
-          path: '/analyze',
-          name: 'callList.dataSource',
-          as: 'dataSource',
-          initialState: 'calls'
-        }
-      ],
-      reset: ({ dataSource }) => {
-        if (dataSource === 'calls' || dataSource === 'traces') {
-          return {
-            [tagFilterExpressionMatrixParameter.name]: emptyArray,
-            [groupByMatrixParameter.name]: undefined,
-            [orderByGroupsMatrixParameter.name]: dataSourceConstants[dataSource].defaultOrderByGroups,
-            [metricsMatrixParameter.name]: dataSourceConstants[dataSource].defaultMetrics,
-            [chartsMatrixParameter.name]: dataSourceConstants[dataSource].defaultCharts
-          };
-        }
-        return {};
-      }
-    }
-  ]
-};
-
-export default function ApplicationAnalyzeView({ dataSource }) {
+export default function ApplicationAnalyzeView() {
   return (
     <FixatedTimeConfigContextModification>
-      {({ refresh }) => (
-        <ApplicationAnalyzeViewWithFixatedTimeConfig refreshFixatedTimeConfig={refresh} dataSource={dataSource} />
-      )}
+      {({ refresh }) => <ApplicationAnalyzeViewWithFixatedTimeConfig refreshFixatedTimeConfig={refresh} />}
     </FixatedTimeConfigContextModification>
   );
 }
 const maxGroupsOnChart = Math.min(5, theme.lib.colors.chart.strokeColors100.length);
 const groupColors = range(maxGroupsOnChart).map(i => theme.lib.colors.chart.strokeColors100[i]);
 
-function ApplicationAnalyzeViewWithFixatedTimeConfig({ dataSource }) {
+function ApplicationAnalyzeViewWithFixatedTimeConfig() {
   const showTraceDetails = useRouteMatch(traceDetailFullyQualified);
+
   const [
     {
+      dataSource,
+      dataSourceUA1,
       tagFilterExpression,
       groupBy,
       orderByGroups = dataSourceConstants[dataSource].defaultOrderByGroups,
-      orderByCalls,
+      orderBy,
       metrics = dataSourceConstants[dataSource].defaultMetrics,
       hiddenCalls,
       charts
     },
     onChange
-  ] = useUrlState(urlStateDefinition);
+  ] = useUrlState({
+    bind: [
+      dataSourceMatrixParameter,
+      {
+        path: analyze,
+        name: 'callList.dataSource',
+        as: 'dataSourceUA1'
+      },
+      tagFilterExpressionMatrixParameter,
+      groupByMatrixParameter,
+      orderByGroupsMatrixParameter,
+      orderByMatrixParameter,
+      metricsMatrixParameter,
+      hiddenCallsMatrixParameter,
+      chartsMatrixParameter
+    ],
+    resets: [
+      {
+        bind: [dataSourceMatrixParameter],
+        reset: ({ dataSource }) => {
+          if (dataSource === 'calls' || dataSource === 'traces') {
+            if (dataSourceUA1) {
+              // When opening an old UA1 link, the UA1 matrix parameters are converted to UA2
+              // matrix parameters in the 'AnalyzeView' component. Conversion of the dataSource
+              // matrix parameter triggers this reset callback, which would normally reset
+              // all previously converted matrix parameters. In order to avoid that, the UA1
+              // matrix parameter 'callList.dataSource' is not reset in the 'AnalyzeView' component
+              // so that we can detect this use case here and short-circuit this reset callback.
+              return {
+                // Reset the UA1 matrix parameter 'callList.dataSource' to complete the conversion
+                ['dataSourceUA1']: null
+              };
+            }
+            return {
+              [tagFilterExpressionMatrixParameter.name]: emptyArray,
+              // Keep the grouping turned on or off
+              [groupByMatrixParameter.name]: groupBy != null ? dataSourceConstants[dataSource].defaultGrouping : null,
+              [orderByGroupsMatrixParameter.name]:
+                groupBy != null ? dataSourceConstants[dataSource].defaultOrderByGroups : null,
+              [metricsMatrixParameter.name]: dataSourceConstants[dataSource].defaultMetrics,
+              [chartsMatrixParameter.name]: dataSourceConstants[dataSource].defaultCharts
+            };
+          }
+          return {};
+        }
+      }
+    ]
+  });
+
   const timeConfig = useTimeConfig();
 
   const validTagFilterExpressionResult =
@@ -165,20 +179,20 @@ function ApplicationAnalyzeViewWithFixatedTimeConfig({ dataSource }) {
     });
   };
   const onChangeOrderByGroups = orderBy => onChange({ orderByGroups: orderBy });
-  const onChangeOrderByCalls = orderBy =>
-    onChange({ orderByCalls: { by: orderBy.orderBy, direction: orderBy.orderDirection } });
+  const onChangeOrderBy = orderBy => onChange({ orderBy: { by: orderBy.orderBy, direction: orderBy.orderDirection } });
   const onChangeMetrics = metrics => {
-    const isOrderByInMetricList = metrics
+    const isOrderByInMetricList = [...dataSourceConstants[dataSource].fixedMetrics, ...metrics]
       .map(metric => aggregateMetricKey(metric.metric, metric.aggregation))
       .includes(orderByGroups.by);
     if (isOrderByInMetricList) {
       onChange({ metrics });
     } else {
+      const metric = dataSourceConstants[dataSource].fixedMetrics[0];
       onChange({
         metrics,
         orderByGroups: {
-          by: aggregateMetricKey(metrics[0].metric, metrics[0].aggregation),
-          aggregation: metrics[0].aggregation
+          by: aggregateMetricKey(metric.metric, metric.aggregation),
+          aggregation: metric.aggregation
         }
       });
     }
@@ -203,9 +217,12 @@ function ApplicationAnalyzeViewWithFixatedTimeConfig({ dataSource }) {
       })
     });
 
-  const isGrouped = !!groupBy?.groupbyTag;
-  const chartEnabled = charts?.length === 1;
-  const aggregationChartEnabled = chartEnabled && charts[0].aggregation !== 'DISTRIBUTION';
+  const isGrouped = isNotBlank(groupBy?.groupbyTag);
+
+  // for UA2 closed beta charts will be always enabled
+  const chartEnabled = true;
+  const activeChart = charts?.length > 0 ? charts[0] : dataSourceConstants[dataSource].defaultCharts[0];
+  const showChartGroupMarkers = activeChart.aggregation !== 'DISTRIBUTION';
 
   // Group metric time series data for charts are queried together with the aggregated group
   // metric data in the GroupedList child component. The result is stored here, so that it
@@ -216,12 +233,12 @@ function ApplicationAnalyzeViewWithFixatedTimeConfig({ dataSource }) {
     return (
       <TraceDetails
         tagFilterExpression={backendQueryModel}
-        order={orderByCalls}
+        order={orderBy}
         hiddenCalls={hiddenCalls}
         getUngroupedData={getUngroupedData}
         isValid={isValid}
         dataSource={dataSource}
-        onChangeOrder={onChangeOrderByCalls}
+        onChangeOrder={onChangeOrderBy}
       />
     );
   }
@@ -245,7 +262,7 @@ function ApplicationAnalyzeViewWithFixatedTimeConfig({ dataSource }) {
             />
 
             <ChartingConfiguratorSection
-              value={chartEnabled ? { metricId: charts[0].metric, aggregationId: charts[0].aggregation } : null}
+              value={chartEnabled ? { metricId: activeChart.metric, aggregationId: activeChart.aggregation } : null}
               options={isGrouped ? groupedChartingOptions[dataSource] : ungroupedChartingOptions}
               onChange={onChangeCharts}
               hideRenderer
@@ -255,8 +272,8 @@ function ApplicationAnalyzeViewWithFixatedTimeConfig({ dataSource }) {
             {chartEnabled && (
               <ChartingPresenter
                 dataSource={dataSource}
-                metric={charts[0].metric}
-                aggregation={charts[0].aggregation}
+                metric={activeChart.metric}
+                aggregation={activeChart.aggregation}
                 groupBy={groupBy}
                 tagFilterExpression={backendQueryModel}
                 orderBy={orderByGroups}
@@ -280,11 +297,11 @@ function ApplicationAnalyzeViewWithFixatedTimeConfig({ dataSource }) {
               tagFilterExpression={backendQueryModel}
               groupBy={groupBy}
               orderBy={orderByGroups}
-              subOrderBy={orderByCalls}
+              subOrderBy={orderBy}
               metrics={metrics}
               onFocusOnGroup={onFocusOnGroup}
               onChangeOrderBy={onChangeOrderByGroups}
-              onChangeSubOrderBy={onChangeOrderByCalls}
+              onChangeSubOrderBy={onChangeOrderBy}
               onChangeMetrics={onChangeMetrics}
               isValid={isValid}
               updateFilter={updateFilter}
@@ -292,7 +309,7 @@ function ApplicationAnalyzeViewWithFixatedTimeConfig({ dataSource }) {
               onChangeHiddenCalls={onChangeHiddenCalls}
               dataSource={dataSource}
               onResult={setResult}
-              aggregationChartEnabled={aggregationChartEnabled}
+              showChartGroupMarkers={showChartGroupMarkers}
               groupColors={groupColors}
               getNestedUngroupedData={getUngroupedData}
               linkFormModel={tagFilterExpression}
@@ -300,8 +317,8 @@ function ApplicationAnalyzeViewWithFixatedTimeConfig({ dataSource }) {
           ) : (
             <List
               tagFilterExpression={backendQueryModel}
-              orderBy={orderByCalls}
-              onChangeOrderBy={onChangeOrderByCalls}
+              orderBy={orderBy}
+              onChangeOrderBy={onChangeOrderBy}
               isValid={isValid}
               updateFilter={updateFilter}
               hiddenCalls={hiddenCalls}

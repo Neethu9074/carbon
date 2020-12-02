@@ -1,6 +1,7 @@
 import theme from 'in-themes';
 import React from 'react';
 
+import { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import getTechnologyBreakdown from 'in-applications/subscriptions/getTechnologyBreakdown';
 import { endpointNameTranslations, getColorChart } from 'in-applications/endpointTypes';
 import { getChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
@@ -8,6 +9,7 @@ import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHr
 import { millis, meanLatencyFixed } from 'in-services/formatters/number';
 import { extendWindowSizeOnLiveMode } from 'in-applications/metrics';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
+import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { entityTypes } from 'in-analyze/applicationFilter';
@@ -37,6 +39,7 @@ export default connectTo(
     isSynthetic,
     renderPostChartContent
   }) {
+    const tagCatalog = useTagCatalog(getTagCatalog);
     let config = {
       cardTitle: 'Processing Time'
     };
@@ -78,6 +81,7 @@ export default connectTo(
             icon: 'lib_analyze',
             label: 'View in Analyze',
             getHref$: (highlightedTime, config) =>
+              tagCatalog &&
               getJumpToAnalyzeHref$(
                 { applicationId, serviceId, endpointId },
                 {
@@ -91,6 +95,7 @@ export default connectTo(
                         { name: 'include_synthetic', value: 'true' }
                       ]
                     : filtersBasedOnMetrics(labels, config),
+                  tagCatalog: tagCatalog,
                   groupByTag: { name: 'call.type', entity: entityTypes.NOT_APPLICABLE },
                   focusedMetric: 'latency_MEAN'
                 }

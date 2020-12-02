@@ -5,6 +5,7 @@ import LatencyAndDistribution from 'in-applications/Dashboards/commonComponents/
 import TechnologyBreakdown from 'in-applications/Dashboards/commonComponents/TechnologyBreakdown';
 import ServiceTopList from 'in-applications/Dashboards/application/tabs/Summary/ServiceTopList';
 import { DESTINATION, NOT_APPLICABLE } from 'in-new-components/QueryBuilder/tagFilter/entities';
+import { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import { hasHttpEndpoints, hasHttpAndOtherEndpoints } from 'in-applications/endpointTypes';
 import IssuesAndEvents from 'in-applications/Dashboards/commonComponents/IssuesAndEvents';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
@@ -14,6 +15,7 @@ import getEndpointTypes from 'in-applications/subscriptions/getEndpointTypes';
 import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import BigNumberKpiCard from 'in-new-components/KpiCard/BigNumberKpiCard';
 import Errors from 'in-applications/Dashboards/commonComponents/Errors';
+import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import { summaryTab } from 'in-applications/navigation/paths';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import { entityTypes } from 'in-analyze/applicationFilter';
@@ -24,6 +26,7 @@ import useObservable from 'in-hooks/useObservable';
 
 export default function Summary({ timeConfig, applicationId, data: application, boundaryScope: urlBoundaryScope }) {
   const timeShiftConfig = useTimeShiftConfig();
+  const tagCatalog = useTagCatalog(getTagCatalog);
   const boundaryScope = urlBoundaryScope || application.boundaryScope;
 
   const types = useObservable(
@@ -76,23 +79,26 @@ export default function Summary({ timeConfig, applicationId, data: application, 
               text: 'View in Analyze',
               kind: 'subtle',
               icon: 'lib_analyze',
-              href$: getJumpToAnalyzeHref$(
-                { applicationId },
-                {
-                  timeConfig,
-                  boundaryScope,
-                  groupByTag: { name: 'service.name', entity: entityTypes.DESTINATION },
-                  filters: [],
-                  metrics: [
-                    { metric: 'erroneousCalls', aggregation: 'SUM' },
-                    {
-                      metric: 'latency',
-                      aggregation: 'MEAN'
-                    }
-                  ],
-                  focusedMetric: 'calls_SUM'
-                }
-              )
+              href$:
+                tagCatalog &&
+                getJumpToAnalyzeHref$(
+                  { applicationId },
+                  {
+                    timeConfig,
+                    boundaryScope,
+                    groupByTag: { name: 'service.name', entity: entityTypes.DESTINATION },
+                    filters: [],
+                    tagCatalog: tagCatalog,
+                    metrics: [
+                      { metric: 'erroneousCalls', aggregation: 'SUM' },
+                      {
+                        metric: 'latency',
+                        aggregation: 'MEAN'
+                      }
+                    ],
+                    focusedMetric: 'calls_SUM'
+                  }
+                )
             }}
           />
         </Col>
@@ -123,20 +129,23 @@ export default function Summary({ timeConfig, applicationId, data: application, 
               text: 'View in Analyze',
               kind: 'subtle',
               icon: 'lib_analyze',
-              href$: getJumpToAnalyzeHref$(
-                { applicationId },
-                {
-                  timeConfig,
-                  boundaryScope,
-                  groupByTag: { name: 'service.name', entity: entityTypes.DESTINATION },
-                  filters: [{ name: 'call.erroneous', value: 'true' }],
-                  metrics: [
-                    { metric: 'errors', aggregation: 'MEAN' },
-                    { metric: 'latency', aggregation: 'MEAN' }
-                  ],
-                  focusedMetric: 'errors_MEAN'
-                }
-              )
+              href$:
+                tagCatalog &&
+                getJumpToAnalyzeHref$(
+                  { applicationId },
+                  {
+                    timeConfig,
+                    boundaryScope,
+                    groupByTag: { name: 'service.name', entity: entityTypes.DESTINATION },
+                    filters: [{ name: 'call.erroneous', value: 'true' }],
+                    tagCatalog: tagCatalog,
+                    metrics: [
+                      { metric: 'errors', aggregation: 'MEAN' },
+                      { metric: 'latency', aggregation: 'MEAN' }
+                    ],
+                    focusedMetric: 'errors_MEAN'
+                  }
+                )
             }}
           />
         </Col>
@@ -166,16 +175,19 @@ export default function Summary({ timeConfig, applicationId, data: application, 
               text: 'View in Analyze',
               kind: 'subtle',
               icon: 'lib_analyze',
-              href$: getJumpToAnalyzeHref$(
-                { applicationId },
-                {
-                  timeConfig,
-                  boundaryScope,
-                  groupByTag: { name: 'service.name', entity: entityTypes.DESTINATION },
-                  orderBy: 'latency_MEAN_Agg',
-                  orderDirection: 'DESC'
-                }
-              )
+              href$:
+                tagCatalog &&
+                getJumpToAnalyzeHref$(
+                  { applicationId },
+                  {
+                    timeConfig,
+                    boundaryScope,
+                    groupByTag: { name: 'service.name', entity: entityTypes.DESTINATION },
+                    tagCatalog: tagCatalog,
+                    orderBy: 'latency_MEAN_Agg',
+                    orderDirection: 'DESC'
+                  }
+                )
             }}
           />
         </Col>

@@ -1,7 +1,8 @@
 import { createLogger } from 'instalog';
 import { pick } from 'lodash';
 
-import { KEY_VALUE_PAIR } from 'in-new-components/QueryBuilder/tagFilter/types';
+import { KEY_VALUE_PAIR, BOOLEAN, NUMBER } from 'in-new-components/QueryBuilder/tagFilter/types';
+import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import { enrichTagCatalog } from 'in-services/tags/tagCatalog';
 import { isNotBlank } from 'in-services/util/string';
 
@@ -27,13 +28,12 @@ export function toNewTagFilterFormat(tagFilter, tagCatalog) {
     };
   }
 
-  if (tagFilter.stringValue == null && tagFilter.booleanValue == null && tagFilter.numberValue == null) {
-    // Nothing to do here - probably a tag filter in the new format
-    return tagFilter;
-  }
+  // In some cases the operator is in lower cases, which is no longer supported
+  tagFilter.operator = tagFilter.operator?.toUpperCase();
 
   let key;
-  let value;
+  let value = tagFilter.value;
+  let operator = tagFilter.operator;
 
   if (tagFilter.booleanValue != null) {
     value = tagFilter.booleanValue;
@@ -43,14 +43,41 @@ export function toNewTagFilterFormat(tagFilter, tagCatalog) {
     const transformationResult = transformStringValue(tagCatalog, tagFilter);
     key = transformationResult.key;
     value = transformationResult.value;
+  } else {
+    const transformationResult = transformValue(tagCatalog, tagFilter);
+    value = transformationResult.value;
+    operator = transformationResult.operator;
   }
 
   return {
     ...toTagFilter(tagFilter),
 
     key,
-    value
+    value,
+    operator
   };
+}
+
+function transformValue(tagCatalog, tagFilter) {
+  let value = tagFilter.value;
+  // In some cases the operator is missing
+  const operator = tagFilter.operator || EQUALS;
+
+  const tagDefinition = tagCatalog && enrichTagCatalog(tagCatalog).tagsByName[tagFilter.name];
+  if (tagDefinition) {
+    if (tagDefinition.type === NUMBER) {
+      if (value != null) {
+        // In some cases the numeric value is a string
+        value = Number(value);
+      }
+    } else if (tagDefinition.type === BOOLEAN) {
+      if (value != null) {
+        // In some cases the boolean value is a string
+        value = value === 'true' || value === true;
+      }
+    }
+  }
+  return { value, operator };
 }
 
 function transformStringValue(tagCatalog, tagFilter) {

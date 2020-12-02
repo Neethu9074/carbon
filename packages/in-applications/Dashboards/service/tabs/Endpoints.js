@@ -19,6 +19,7 @@ import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config'
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import getServiceLabel from 'in-subscription/application/getServiceLabel';
 import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
+import getApplication from 'in-subscription/application/getApplication';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import Badge from 'in-components/tables/ServerTable/components/Badge';
 import getEndpoints from 'in-applications/subscriptions/getEndpoints';
@@ -194,6 +195,7 @@ const urlStateDefinition = {
 export default function Endpoints(props) {
   const { timeConfig, data, applicationId, serviceId, endpointId, boundaryScope } = props;
 
+  const applicationLabel = useObservable(getApplicationLabelObservable, [applicationId]);
   const serviceLabel = useObservable(getServiceLabelObservable, [serviceId]);
   const [{ endpointTypes, technologies }, setFilter] = useUrlState(urlStateDefinition);
 
@@ -218,8 +220,10 @@ export default function Endpoints(props) {
         restrictedTechnologies={data.technologies}
         setFilter={setFilter}
         query={query}
+        applicationName={applicationLabel}
         serviceName={serviceLabel}
         buttonLabel="Endpoints"
+        boundaryScope={boundaryScope}
         groupByTag={{ name: 'endpoint.name', entity: entityTypes.DESTINATION }}
       />
     </>
@@ -330,4 +334,11 @@ function getServiceLabelObservable([id]) {
     return null;
   }
   return getServiceLabel({ id }).map(result => result.data?.label);
+}
+
+function getApplicationLabelObservable([id]) {
+  if (!id) {
+    return null;
+  }
+  return getApplication({ id }).map(result => result.data?.label);
 }

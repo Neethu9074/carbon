@@ -26,6 +26,7 @@ import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import SvgIcon from 'in-components/SvgIcon';
 import Pill from 'in-new-components/Pill';
+import theme from 'in-themes';
 
 import locals from './Group.mless';
 
@@ -184,7 +185,9 @@ function renderGroup(props) {
                         {...pillProps}
                         className={isOwnerGroup ? null : locals.pointer}
                         key={value}
-                        color={field.value.permissions.includes(value) ? '#00B3B3' : '#D4D8DB'}
+                        color={
+                          field.value.permissions.includes(value) ? theme.lib.colors.teal800 : theme.lib.colors.N400
+                        }
                       >
                         {label}
                       </Pill>

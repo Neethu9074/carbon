@@ -3,8 +3,8 @@
 import { expect } from 'chai';
 
 import { toNewTagFilterFormat, type, toTagFilter } from 'in-new-components/QueryBuilder/transformation/tagFilter';
-import { KEY_VALUE_PAIR, STRING } from 'in-new-components/QueryBuilder/tagFilter/types';
-import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
+import { KEY_VALUE_PAIR, STRING, BOOLEAN, NUMBER } from 'in-new-components/QueryBuilder/tagFilter/types';
+import { EQUALS, LESS_OR_EQUAL_THAN } from 'in-new-components/QueryBuilder/tagFilter/operators';
 
 describe('in-new-components/QueryBuilder/transformation/tagFilter#toNewTagFilterFormat', () => {
   let tagCatalog;
@@ -19,6 +19,14 @@ describe('in-new-components/QueryBuilder/transformation/tagFilter#toNewTagFilter
         {
           name: 'http.headers',
           type: KEY_VALUE_PAIR
+        },
+        {
+          name: 'call.erroneous',
+          type: BOOLEAN
+        },
+        {
+          name: 'call.latency',
+          type: NUMBER
         }
       ]
     };
@@ -26,13 +34,15 @@ describe('in-new-components/QueryBuilder/transformation/tagFilter#toNewTagFilter
 
   it('must not apply any changes to tag filters in new format', () => {
     const tagFilter = {
+      type,
       name: 'service.name',
       operator: EQUALS,
       value: 'shop'
     };
     expect(toNewTagFilterFormat(tagFilter, tagCatalog)).to.deep.equal({
       ...toTagFilter(tagFilter),
-      type
+      type,
+      key: undefined
     });
   });
 
@@ -131,6 +141,50 @@ describe('in-new-components/QueryBuilder/transformation/tagFilter#toNewTagFilter
       type,
       key: undefined,
       value: true
+    });
+  });
+
+  it('must support boolean string values with a missing operator', () => {
+    const tagFilter = {
+      name: 'call.erroneous',
+      value: 'true'
+    };
+    expect(toNewTagFilterFormat(tagFilter, tagCatalog)).to.deep.equal({
+      ...toTagFilter(tagFilter),
+      type,
+      operator: EQUALS,
+      key: undefined,
+      value: true
+    });
+  });
+
+  it('must support numeric string values', () => {
+    const tagFilter = {
+      name: 'call.latency',
+      value: '15',
+      operator: LESS_OR_EQUAL_THAN
+    };
+    expect(toNewTagFilterFormat(tagFilter, tagCatalog)).to.deep.equal({
+      ...toTagFilter(tagFilter),
+      type,
+      operator: LESS_OR_EQUAL_THAN,
+      key: undefined,
+      value: 15
+    });
+  });
+
+  it('must support lower-case operator', () => {
+    const tagFilter = {
+      name: 'service.name',
+      operator: 'equals',
+      value: 'shop'
+    };
+    expect(toNewTagFilterFormat(tagFilter, tagCatalog)).to.deep.equal({
+      ...toTagFilter(tagFilter),
+      type,
+      operator: EQUALS,
+      key: undefined,
+      value: 'shop'
     });
   });
 });

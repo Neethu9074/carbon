@@ -1,6 +1,8 @@
 import React, { Fragment } from 'react';
 
 import CallGroupsChartWrapper from 'in-applications/analyze/components/CallGroupsChartWrapper';
+import { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
+import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
 import { number, millis } from 'in-services/formatters/number';
 import Renderer from 'in-components/Chart/renderer/Renderer';
@@ -12,6 +14,7 @@ import connectTo from 'in-hoc/connectTo';
 export default connectTo({
   timeConfig: timeConfig$
 })(function AppdataWriterStatistics({ timeConfig }) {
+  const tagCatalog = useTagCatalog(getTagCatalog);
   return (
     <Fragment>
       <h1>appdata-reader</h1>
@@ -23,20 +26,24 @@ export default connectTo({
             cardHeader={
               <Fragment>
                 <Button
-                  href$={getLinkToAnalyze({
-                    dataSource: 'calls',
-                    timeConfig,
-                    filters: [{ name: 'service.name', operator: 'EQUALS', value: 'clickhouse' }],
-                    groupByTag: { name: 'call.tag', value: 'tenantUnit' },
-                    metrics: [
-                      {
-                        metric: 'latency',
-                        aggregation: 'SUM'
-                      }
-                    ],
-                    orderBy: 'latency_SUM_Agg',
-                    orderDirection: 'DESC'
-                  })}
+                  href$={
+                    tagCatalog &&
+                    getLinkToAnalyze({
+                      dataSource: 'calls',
+                      timeConfig,
+                      filters: [{ name: 'service.name', operator: 'EQUALS', value: 'clickhouse' }],
+                      tagCatalog,
+                      groupByTag: { name: 'call.tag', value: 'tenantUnit' },
+                      metrics: [
+                        {
+                          metric: 'latency',
+                          aggregation: 'SUM'
+                        }
+                      ],
+                      orderBy: 'latency_SUM_Agg',
+                      orderDirection: 'DESC'
+                    })
+                  }
                 >
                   Analyze
                 </Button>

@@ -5,7 +5,7 @@ import Pill from 'in-new-components/Pill';
 
 import locals from './Permissions.mless';
 
-export default function Areas({ roles, roleId }) {
+export default function Permissions({ roles, roleId }) {
   const role = roles.filter(({ id }) => id === roleId)[0];
   if (!role) {
     return null;

@@ -8,9 +8,11 @@ import {
 import { getGroupsAsResultObservable, deleteGroup } from 'in-settings/tabs/TeamSettings/api/groups';
 import Delete from 'in-settings/components/ApiList/sharedComponents/Delete';
 import { ColumnizedContent, Ul, Li } from 'in-new-components/lists/List';
+import WithSubscript from 'in-settings/components/WithSubscript';
 import { ownerRoleId, defaultRoleId } from 'in-stores/user';
 import createApiList from 'in-settings/components/ApiList';
 import { getView } from 'in-stores/navigation/navigation';
+import { RESTRICTED_ACCESS } from 'in-stores/permission';
 import KeyValue from 'in-new-components/lists/KeyValue';
 import Button from 'in-new-components/Button';
 import Title from 'in-components/Title/Title';
@@ -64,7 +66,13 @@ function renderAdditionalHeaderContent() {
 const columnDefinitions = [
   {
     getContent({ group }) {
-      return group.name;
+      return (
+        <WithSubscript
+          subscript={group.permissionSet.permissions?.includes(RESTRICTED_ACCESS) ? 'Limited Access' : null}
+        >
+          {group.name}
+        </WithSubscript>
+      );
     }
   },
   {

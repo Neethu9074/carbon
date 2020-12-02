@@ -58,7 +58,6 @@ export function defaultRenderer(metric, aggregation) {
   if (metric === 'latency') {
     return aggregation === 'DISTRIBUTION' ? bar : stackedArea;
   }
-  // return stackedArea;
   return stackedBar;
 }
 

@@ -1,6 +1,7 @@
 import { create, just } from 'reactive-observables';
 import { fromJS } from 'immutable';
 
+import { CAN_VIEW_LOGS, CAN_VIEW_TRACE_DETAILS } from 'in-stores/permission';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createObservable from 'in-services/http/observableHttpResult';
 import memoize from 'in-services/util/memoizingObservableGenerator';
@@ -89,11 +90,10 @@ function getK8sNamespacesBunch(page, pageSize) {
       // the handling component does not support a load more mechanism and refactoring to a server side table is yet
       // too expensive. As a fix, we load all the namespaces from the API by sending one query after the other with
       // an increasing page size until we retrieved less than 200 items.
-      .flatMap(
-        items =>
-          items.length === pageSize
-            ? getK8sNamespacesBunch(page + 1, pageSize).map(_moreItems => [...items, ..._moreItems])
-            : just(items)
+      .flatMap(items =>
+        items.length === pageSize
+          ? getK8sNamespacesBunch(page + 1, pageSize).map(_moreItems => [...items, ..._moreItems])
+          : just(items)
       )
   );
 }
@@ -128,7 +128,7 @@ export function createPermissionSet() {
   return {
     id: null,
     name: 'system_permission_set',
-    permissions: [],
+    permissions: [CAN_VIEW_LOGS, CAN_VIEW_TRACE_DETAILS],
     applicationIds: [],
     kubernetesClusterUUIDs: [],
     kubernetesNamespaceUIDs: [],
