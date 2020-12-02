@@ -1,10 +1,11 @@
 import React from 'react';
 
+import DBmarlinNotification from 'in-forge/plugins/awsRds/Dashboard/DBmarlinNotification';
+import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
-import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import { number } from 'in-services/formatters/number';
 import MetricValue from 'in-components/MetricValue';
 
@@ -80,6 +81,7 @@ export default function MariaDbDashboard({ snapshot, timeConfig }) {
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
+      <DBmarlinNotification />
     </div>
   );
 }

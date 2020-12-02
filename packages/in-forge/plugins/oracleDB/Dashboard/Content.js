@@ -7,10 +7,11 @@ import {
   hitRateTwoDecimalPlaces,
   percentageTwoDecimalPlaces
 } from 'in-services/formatters/number';
+import DBmarlinNotification from 'in-forge/plugins/awsRds/Dashboard/DBmarlinNotification';
+import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
-import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import TablespaceUsagesTable from './TablespaceUsagesTable.js';
 
 export default function OracleDBDashboard({ snapshot, timeConfig }) {
@@ -210,6 +211,8 @@ export default function OracleDBDashboard({ snapshot, timeConfig }) {
         />
       </DashboardSection>
       <TablespaceUsagesTable snapshot={snapshot} timeConfig={timeConfig} />
+
+      <DBmarlinNotification />
     </div>
   );
 }

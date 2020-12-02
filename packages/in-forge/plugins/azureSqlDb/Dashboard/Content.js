@@ -6,6 +6,7 @@ import {
   zeroDecimalPlaces,
   bytesTwoDecimalPlaces
 } from 'in-services/formatters/number';
+import DBmarlinNotification from 'in-forge/plugins/awsRds/Dashboard/DBmarlinNotification';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
@@ -231,6 +232,7 @@ export default function AzureSqlDbDashboard({ snapshot, timeConfig }) {
           />
         </DashboardSection>
       )}
+      <DBmarlinNotification />
     </div>
   );
 }
