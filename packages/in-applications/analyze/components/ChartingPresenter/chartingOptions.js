@@ -19,8 +19,14 @@ export const ungroupedChartingOptions = [
 ];
 
 export const groupedChartingOptions = {
-  calls: convertMetricConfigToChartingOptions(dataSourceConstants['calls'].metricConfiguration),
-  traces: convertMetricConfigToChartingOptions(dataSourceConstants['traces'].metricConfiguration)
+  calls: convertMetricConfigToChartingOptions({
+    ...dataSourceConstants['calls'].fixedMetricConfiguration,
+    ...dataSourceConstants['calls'].metricConfiguration
+  }),
+  traces: convertMetricConfigToChartingOptions({
+    ...dataSourceConstants['traces'].fixedMetricConfiguration,
+    ...dataSourceConstants['traces'].metricConfiguration
+  })
 };
 
 function convertMetricConfigToChartingOptions(metricConfiguration) {
