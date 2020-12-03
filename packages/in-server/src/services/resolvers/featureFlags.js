@@ -154,5 +154,10 @@ module.exports = exports = [
     uiClientKey: 'groupPermissionsEnabled',
     instanaCtlKey: 'feature.group.permissions.enabled',
     defaultValue: true
+  },
+  {
+    uiClientKey: 'loggingEnabled',
+    instanaCtlKey: 'feature.logging.enabled',
+    defaultValue: false
   }
 ];

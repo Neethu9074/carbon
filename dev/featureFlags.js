@@ -31,5 +31,6 @@ module.exports = {
   persistentVolumeSupportEnabled: true,
   smartAlertsQB2Enabled: true,
   qb2InCustomDashboardsEnabled: true,
-  groupPermissionsEnabled: true
+  groupPermissionsEnabled: true,
+  loggingEnabled: true
 };

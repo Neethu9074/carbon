@@ -36,6 +36,7 @@ export const newAnalyticsEnabled = isFeatureFlagEnabled('newAnalyticsEnabled');
 export const pcfEnabled = isFeatureFlagEnabled('pcfEnabled');
 export const vsphereEnabled = isFeatureFlagEnabled('vsphereEnabled');
 export const applicationSmartAlertsEnabled = isFeatureFlagEnabled('applicationSmartAlertsEnabled');
+export const loggingEnabled = isFeatureFlagEnabled('loggingEnabled', false);
 
 // ########################################################################################
 // Dynamic focus keywords
