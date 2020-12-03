@@ -34,6 +34,12 @@ describe('in-new-components/QueryBuilder/transformation/backendQueryModel', () =
       expect(toBackendQueryModel([])).to.deep.equal(emptyTagFilter);
     });
 
+    it('should map a form model with empty brackets to an empty tag filter expression element', () => {
+      expect(toBackendQueryModel([{ type: FM_OPEN_BRACKET }, { type: FM_CLOSE_BRACKET }])).to.deep.equal(
+        emptyTagFilter
+      );
+    });
+
     it('should map a single tag filter into a single tag filter', () => {
       const tagFilter = {
         type: FM_TAG,
