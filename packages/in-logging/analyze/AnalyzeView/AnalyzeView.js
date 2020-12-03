@@ -1,7 +1,6 @@
 import React from 'react';
 
 import StateManagement from 'in-new-components/AnalyzeView/StateManagement';
-import LogDetail from 'in-logging/analyze/AnalyzeView/LogDetail/LogDetail';
 import GroupedLogs from 'in-logging/analyze/AnalyzeView/GroupedLogs';
 import { logIdMatrixParameter } from 'in-logging/navigation/matrix';
 import { logsPath } from 'in-logging/navigation/paths';
@@ -25,10 +24,8 @@ export default function LoggingAnalyzeView() {
       }}
     >
       {opts => {
-        const { detailId, isGrouped } = opts;
-        if (detailId) {
-          return <LogDetail {...opts} />;
-        } else if (isGrouped) {
+        const { isGrouped } = opts;
+        if (isGrouped) {
           return <GroupedLogs {...opts} />;
         } else {
           return <Logs {...opts} />;

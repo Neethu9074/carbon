@@ -3,8 +3,10 @@ import React from 'react';
 import QueryBuilderWorkspace from 'in-logging/analyze/AnalyzeView/QueryBuilderWorkspace';
 import DateTimeSeparated from 'in-components/tables/sharedComponents/DateTimeSeparated';
 import LogContentColumn from 'in-logging/analyze/AnalyzeView/LogContentColumn';
+import LogDetail from 'in-logging/analyze/AnalyzeView/LogDetail/LogDetail';
 import UngroupedView from 'in-new-components/AnalyzeView/UngroupedView';
 import getLogs from 'in-logging/subscriptions/getLogs';
+import getLog from 'in-logging/subscriptions/getLog';
 
 import locals from './Logs.mless';
 
@@ -55,10 +57,12 @@ export default function Logs(props) {
       }
       getId={item => item.log.id}
       withoutListItemLinkToDetails
+      DetailView={LogDetail}
+      getDetailData={detailId => getLog({ id: detailId })}
     />
   );
 
-  if (!props.withoutHeader) {
+  if (!props.withoutHeader && !props.detailId) {
     content = <QueryBuilderWorkspace {...props}>{content}</QueryBuilderWorkspace>;
   }
 

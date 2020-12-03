@@ -57,6 +57,7 @@ export function Ul({
 
 export function Li(props) {
   const {
+    active,
     className,
     children,
     size,
@@ -152,6 +153,7 @@ export function Li(props) {
         [locals.listItem]: true,
         [locals.noAlternatingBg]: noAlternatingBg,
         [locals.expanded]: open && highlightOpenState,
+        [locals.active]: active,
         [locals[`${borderRadius}ListItemBorderRadius`]]: borderRadius
       })}
     >
@@ -170,6 +172,7 @@ export function Li(props) {
 }
 
 Li.propTypes = {
+  active: rpt.bool,
   autoFocus: rpt.bool,
   borderRadius: rpt.oneOf(['medium']),
   children: rpt.node.isRequired,

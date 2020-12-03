@@ -3,7 +3,7 @@ import React from 'react';
 import ContentWrapper from 'in-new-components/LocationAwareTabView/components/ContentWrapper';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';
-import TagList from 'in-logging/analyze/AnalyzeView/LogDetail/components/TagList';
+import TagList from 'in-logging/analyze/AnalyzeView/components/TagList';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import { formatDateTime } from 'in-services/formatters/date';
 import { Row, Col } from 'in-new-components/layout/Grid';

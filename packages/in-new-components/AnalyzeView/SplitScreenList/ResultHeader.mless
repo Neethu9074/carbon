@@ -1,0 +1,36 @@
+@import '~in-themes/active.less';
+@import '~in-themes/mixins.less';
+
+:local {
+  .wrapper {
+    display: flex;
+    align-items: center;
+  }
+
+  .withMargin {
+    margin: 1.5rem 0 0.5rem 0;
+  }
+
+  .result {
+    margin-right: 0.5rem;
+    font-size: 1rem;
+    font-weight: 500;
+    color: @lib__colors__N900Primary;
+  }
+
+  .number {
+    color: @lib__colors__N700Medium;
+    font-size: 1rem;
+    margin-right: .5rem;
+  }
+
+  .withMaxWidth {
+    .ellipsis();
+    display: inline-block;
+    max-width: 7rem;
+  }
+
+  .adjustmentIcon {
+    fill: @lib__colors__N500;
+  }
+}

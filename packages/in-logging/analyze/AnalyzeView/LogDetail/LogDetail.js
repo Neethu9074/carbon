@@ -1,16 +1,13 @@
 import React from 'react';
 
-import LogNavigatorSplitScreen from 'in-logging/analyze/AnalyzeView/LogDetail/components/LogNavigatorSplitScreen';
-import LogsNavigator from 'in-logging/analyze/AnalyzeView/LogDetail/components/LogsNavigator';
+import SplitScreenLogItemContent from 'in-logging/analyze/AnalyzeView/components/SplitScreenLogItemContent';
+import SplitScreenList from 'in-new-components/AnalyzeView/SplitScreenList/SplitScreenList';
 import tabs from 'in-logging/analyze/AnalyzeView/LogDetail/tabs/index';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import { getIconByType } from 'in-analyze/AnalyzeView/dataSources';
 import DashboardHeader from 'in-new-components/DashboardHeader';
-import useCursorPagination from 'in-hooks/useCursorPagination';
 import { formatDateTime } from 'in-services/formatters/date';
-import getLogs from 'in-logging/subscriptions/getLogs';
 import getLog from 'in-logging/subscriptions/getLog';
-import useTimeConfig from 'in-hooks/useTimeConfig';
 import Button from 'in-new-components/Button';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
@@ -20,13 +17,7 @@ import Link from 'in-components/Link';
 import locals from './LogDetail.mless';
 
 export default function LogDetail(props) {
-  const { detailId, orderBy, backendQueryModel } = props;
-
-  const timeConfig = useTimeConfig();
-  const tableProps = useCursorPagination(
-    ({ cursor }) => getTableData({ timeConfig, backendQueryModel, orderBy, cursor }),
-    [timeConfig, orderBy.by, orderBy.direction, backendQueryModel]
-  );
+  const { detailId } = props;
 
   return (
     <>
@@ -34,7 +25,6 @@ export default function LogDetail(props) {
         header={
           <DashboardHeader
             {...props}
-            {...tableProps}
             icon={getIconByType('logs', 'logs')}
             contextConfigurations={[{ renderContext, contextIcon: 'lib_analyze_inverted' }]}
             label="Log"
@@ -42,22 +32,17 @@ export default function LogDetail(props) {
           />
         }
       >
-        <LogNavigatorSplitScreen
-          {...props}
-          {...tableProps}
-          navigator={<LogsNavigator {...props} {...tableProps} />}
-          logDetail={
-            <TabView
-              props={props}
-              HeaderComponent={Header}
-              location={location}
-              tabs={tabs}
-              result$={getLog({ id: detailId })}
-              withoutBreadcrumb
-              withoutPadding
-            />
-          }
-        />
+        <SplitScreenList {...props} ListItemContent={SplitScreenLogItemContent}>
+          <TabView
+            props={props}
+            HeaderComponent={Header}
+            location={location}
+            tabs={tabs}
+            result$={getLog({ id: detailId })}
+            withoutBreadcrumb
+            withoutPadding
+          />
+        </SplitScreenList>
       </Sticky>
     </>
   );
@@ -110,16 +95,4 @@ function renderTimeSelection({ getHrefToUngroupedView }) {
       </Tooltip>
     </Link>
   );
-}
-
-function getTableData({ timeConfig, backendQueryModel, orderBy, cursor }) {
-  return getLogs({
-    pagination: {
-      cursor,
-      retrievalSize: 20
-    },
-    order: orderBy,
-    timeConfig: timeConfig,
-    tagFilterExpression: backendQueryModel
-  });
 }

@@ -1,25 +1,24 @@
 @import '~in-themes/active.less';
-@import '~in-themes/mediaQueries.less';
 
 :local {
-  .navigatorSplitScreen {
+  .wrapper {
     display: flex;
 
     border-top: 1px solid @lib__colors__N300;
   }
 
-  .navigator {
-    width: 20rem;
-    flex-grow: 0;
-    flex-shrink: 0;
-  }
-
-  .traceDetail {
+  .details {
     width: ~'calc(100% - 20rem)';
 
     &.useFullWidth {
       width: ~'calc(100% - 3rem)';
     }
+  }
+
+  .expanded {
+    width: 20rem;
+    flex-grow: 0;
+    flex-shrink: 0;
   }
 
   .header {
@@ -32,12 +31,21 @@
     border-right: 1px solid #d5dfe4;
   }
 
-  .toggleBar {
+  .actions .toggle {
+    margin-left: 1rem;
+  }
+
+  .actions {
+    display: flex;
+    align-items: center;
+  }
+
+  .collapsed {
     width: 3rem;
     border-right: 1px solid #d5dfe4;
   }
 
-  .toggleWrapper {
+  .collapsedToggleWrapper {
     background: @lib__colors__N050;
     border-bottom: 1px solid @lib__colors__N300;
     display: flex;
@@ -56,14 +64,5 @@
     &:hover {
       fill: @lib__colors__N700Medium;
     }
-  }
-
-  .actions .toggle {
-    margin-left: 1rem;
-  }
-
-  .actions {
-    display: flex;
-    align-items: center;
   }
 }

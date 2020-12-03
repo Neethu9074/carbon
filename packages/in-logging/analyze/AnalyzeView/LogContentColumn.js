@@ -1,7 +1,7 @@
 import React from 'react';
 
 import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';
-import TagList from 'in-logging/analyze/AnalyzeView/LogDetail/components/TagList';
+import TagList from 'in-logging/analyze/AnalyzeView/components/TagList';
 import Link from 'in-components/Link';
 
 import locals from './LogContentColumn.mless';

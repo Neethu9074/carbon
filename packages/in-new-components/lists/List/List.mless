@@ -157,7 +157,7 @@
     }
   }
 
-  .expanded {
+  .expanded, .active {
     background: @lib__colors__faded-blue800;
     &:nth-child(even) {
       background: @lib__colors__faded-blue800;

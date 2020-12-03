@@ -1,7 +1,7 @@
 import { compose } from 'recompose';
 import React from 'react';
 
-import { leftArrowId, rightArrowId } from 'in-analyze/TraceDetail/components/NavigatorSplitScreen/elementIds';
+import { leftArrowId, rightArrowId } from 'in-new-components/AnalyzeView/SplitScreenList/elementIds';
 import { debouncedResize$, refreshWindowSizeDependingState } from 'in-services/browser';
 import SideEffectOnPropertyChange from 'in-components/SideEffectOnPropertyChange';
 import withPropDependingState from 'in-hoc/withPropDependingState';
