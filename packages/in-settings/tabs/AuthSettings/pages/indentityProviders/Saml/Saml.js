@@ -38,11 +38,16 @@ export default function Saml() {
         setFile(null);
         refresh();
       }}
-      saveItem={({ setMessage, setLoading }) => {
+      saveItem={({ setMessage, setLoading, form }) => {
         const reader = new FileReader();
         reader.readAsText(file, 'UTF-8');
         reader.onload = function(evt) {
-          saveItem({ idpMetadata: evt.target.result, setMessage, setLoading });
+          saveItem({
+            idpMetadata: evt.target.result,
+            setLoading,
+            setMessage,
+            spEntityId: form.get('spEntityId').value
+          });
         };
       }}
       render={props => render({ ...props, input })}
@@ -220,9 +225,10 @@ function deleteItem({ setMessage }) {
   );
 }
 
-function saveItem({ setMessage, setLoading, idpMetadata }) {
+function saveItem({ setMessage, setLoading, idpMetadata, spEntityId }) {
   setMessage({ message: 'Saving config', type: neutral, isSaving: true });
-  const setConfigResult$ = setConfig({ idpMetadata });
+  setLoading(true);
+  const setConfigResult$ = setConfig({ idpMetadata, spEntityId });
   setConfigResult$.once(
     () => {
       setMessage({ text: 'Config successfully saved.', type: success });
