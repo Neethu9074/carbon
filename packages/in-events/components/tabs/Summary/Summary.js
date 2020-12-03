@@ -15,9 +15,9 @@ import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import ProcessTopList from 'in-forge/plugins/host/Dashboard/ProcessTopList';
 import PopulationChart from 'in-events/components/legacy/PopulationChart';
+import IncidentEventListRows from 'in-events/components/legacy/EventList';
 import EventDetailsKPIs from 'in-events/components/EventDetailsKPIs';
 import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
-import EventList from 'in-events/components/legacy/EventList';
 import { getEventType, EVENT_TYPES } from 'in-stores/events';
 import EventChart from 'in-events/components/EventChart';
 import { Row, Col } from 'in-new-components/layout/Grid';
@@ -181,7 +181,7 @@ const IncidentContent = connectTo(
       <>
         <Row withoutSideMargin>
           <Col xs>
-            <Card title="Population" header={header}>
+            <Card title="Incident Timeline" header={header}>
               <PopulationChart
                 incidentId={incident.get('id')}
                 recentEvents={recentEvents}
@@ -191,11 +191,7 @@ const IncidentContent = connectTo(
             </Card>
           </Col>
         </Row>
-        <Row withoutSideMargin>
-          <Col xs>
-            <EventList incident={incident} />
-          </Col>
-        </Row>
+        <IncidentEventListRows incident={incident} />
       </>
     );
   }
