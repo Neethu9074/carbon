@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { empty } from 'reactive-observables';
 
+import { getGroupingTagCatalog as getTraceGroupingTagCatalog } from 'in-applications/analyze/components/workspace/TraceGroupingConfigurator';
+import { getGroupingTagCatalog as getCallGroupingTagCatalog } from 'in-applications/analyze/components/workspace/CallGroupingConfigurator';
 import MetricAndSortingConfigurator from 'in-new-components/MetricAndSortingConfigurator/MetricAndSortingConfigurator';
 import { ColumnizedContent, Ul, Li, LoadingSkeletonLi, HorizontalIndicatorLi } from 'in-new-components/lists/List';
 import { aggregateMetricKey, sparkChartMetricKey, chartMetricKey } from 'in-applications/analyze/metrics';
@@ -16,20 +18,17 @@ import LoadMoreLi from 'in-new-components/lists/List/LoadMoreLi/LoadMoreLi';
 import { UNSPECIFIED } from 'in-analyze/components/GroupedTraces/Group';
 import { NUMBER } from 'in-new-components/QueryBuilder/tagFilter/types';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
-import { getApplicationTagCatalog } from 'in-applications/api/catalog';
 import { dataSourceConstants } from 'in-applications/analyze/metrics';
 import { error as errorType } from 'in-new-components/Message/types';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import IconButton from 'in-new-components/IconButton/IconButton';
+import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import List from 'in-applications/analyze/components/List';
-import { pendingResult } from 'in-services/fixedObjects';
 import KeyValue from 'in-new-components/lists/KeyValue';
 import { number } from 'in-services/formatters/number';
 import Tooltip from 'in-components/Tooltip/Tooltip';
-import { mapDataHO } from 'in-services/util/result';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import useObservable from 'in-hooks/useObservable';
 import Message from 'in-new-components/Message';
 import SvgIcon from 'in-components/SvgIcon';
 
@@ -101,15 +100,10 @@ export default function GroupedList({
     }
   }, [result?.progress.loading, isValid, dataSource, onResult, lastDataSource]);
 
-  const dataSourceName = dataSourceConstants[dataSource].backendDataSource;
-
-  const groupByTagType =
-    useObservable(
-      getApplicationTagCatalog({ dataSource: dataSourceName, useCase: 'GROUPING' })({ timeConfig }).map(
-        mapDataHO(data => data.tags.find(tag => tag.name === groupBy.groupbyTag)?.type)
-      ),
-      [timeConfig]
-    ) ?? pendingResult;
+  const groupingTagCatalog = useTagCatalog(
+    dataSource === 'traces' ? getTraceGroupingTagCatalog : getCallGroupingTagCatalog
+  );
+  const groupByTagType = groupingTagCatalog?.tags.find(tag => tag.name === groupBy.groupbyTag)?.type;
 
   return (
     <Presenter
@@ -171,7 +165,7 @@ function Presenter({
   linkFormModel
 }) {
   const hasErrors = errors?.length > 0;
-  const isLoading = progress.loading || groupByTagType.progress.loading;
+  const isLoading = progress.loading || !groupByTagType;
   const labelColumnDefinitions = labelColumns({ groupBy, showChartGroupMarkers, groupColors });
   const metricColumnDefinitions = metricColumns({ metrics: [...fixedMetrics, ...selectableMetrics], dataSource });
   const actionColumnDefinitions = actionColumns({ groupBy, onFocusOnGroup, groupByTagType });
@@ -502,7 +496,7 @@ function groupingFilter({ groupBy, group, operator = EQUALS, groupByTagType }, t
           operator: operator,
           name: groupBy.groupbyTag,
           key: groupBy.groupbyTagSecondLevelKey,
-          value: operator === EQUALS ? (groupByTagType.data === NUMBER ? Number(group) : group) : undefined
+          value: operator === EQUALS ? (groupByTagType === NUMBER ? Number(group) : group) : undefined
         };
   return addTagFilters(tagFilterExpression, [groupFilter]);
 }

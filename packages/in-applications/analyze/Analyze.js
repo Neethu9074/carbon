@@ -34,9 +34,9 @@ import FixatedTimeConfigContextModification from 'in-stores/time/FixatedTimeConf
 import ApiQueryAction from 'in-new-components/QueryBuilder/workspace/ApiQueryAction/ApiQueryAction';
 import QueryBuilderSection from 'in-new-components/QueryBuilder/workspace/QueryBuilderSection';
 import { ActionSection } from 'in-new-components/workspace/ActionSection/ActionSection';
+import { analyze, traceDetailFullyQualified } from 'in-analyze/navigation/paths';
 import TraceDetails from 'in-applications/analyze/components/TraceDetails';
 import GroupedList from 'in-applications/analyze/components/GroupedList';
-import { analyze, traceDetailFullyQualified } from 'in-analyze/navigation/paths';
 import { dataSourceConstants } from 'in-applications/analyze/metrics';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { aggregateMetricKey } from 'in-applications/analyze/metrics';

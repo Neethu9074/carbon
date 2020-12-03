@@ -1,5 +1,6 @@
 import memoize from 'in-services/util/memoizingObservableGenerator';
 import { generateStableHash } from 'in-services/util/id';
+import { roundDownToWeek } from 'in-services/util/date';
 import { success } from 'in-services/util/result';
 
 // We frequently need to access the tag catalog in ways that would be unoptimized
@@ -38,9 +39,15 @@ export function getTagCatalogOnce(originalGetTagCatalog) {
         }
         return result;
       }),
-    generateStableHash,
+    generateGetTagCatalogRequestId,
     Number.MAX_VALUE
   );
+}
+
+function generateGetTagCatalogRequestId({ timeConfig }) {
+  const from = (timeConfig.to || Date.now()) - timeConfig.windowSize;
+  const week = roundDownToWeek(from);
+  return generateStableHash(week);
 }
 
 function resolveTagsFromTree(tree) {

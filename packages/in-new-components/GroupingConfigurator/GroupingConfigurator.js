@@ -5,9 +5,8 @@ import ActiveGroupingConfiguration from 'in-new-components/GroupingConfigurator/
 import TagSelectorOverlay from 'in-new-components/TagSelectorOverlay/TagSelectorOverlay';
 import LoadingIndicator from 'in-new-components/GroupingConfigurator/LoadingIndicator';
 import { DESTINATION } from 'in-new-components/QueryBuilder/tagFilter/entities';
+import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import Overlay from 'in-new-components/overlays/Overlay';
-import useObservable from 'in-hooks/useObservable';
-import useTimeConfig from 'in-hooks/useTimeConfig';
 import Button from 'in-new-components/Button';
 
 import locals from './GroupingConfigurator.mless';
@@ -22,11 +21,10 @@ export default function GroupingConfigurator({
   label = 'Add group',
   loadingLabel
 }) {
-  const timeConfig = useTimeConfig();
-  const tagCatalog = useObservable(getTagCatalogObservable, [getTagCatalog, timeConfig]);
+  const tagCatalog = useTagCatalog(getTagCatalog);
   const autoFocus = useRef();
 
-  if (!tagCatalog?.data) {
+  if (!tagCatalog) {
     return <LoadingIndicator text={loadingLabel} />;
   }
 
@@ -35,7 +33,7 @@ export default function GroupingConfigurator({
       <Overlay
         content={TagSelectorOverlay}
         props={{
-          tagCatalog: tagCatalog.data,
+          tagCatalog,
           onChange: ({ name }) => {
             autoFocus.current = Date.now();
             const selectedGroup = setEntityIfNecessary(name);
@@ -55,7 +53,7 @@ export default function GroupingConfigurator({
               group={group}
               toggle={toggle}
               ref={refSetter}
-              tagCatalog={tagCatalog.data}
+              tagCatalog={tagCatalog}
               tagFilterExpression={tagFilterExpression}
               autoFocus={autoFocus.current}
             />
@@ -77,7 +75,7 @@ export default function GroupingConfigurator({
   );
 
   function setEntityIfNecessary(groupbyTag) {
-    const tagTreeNode = tagCatalog.data.tagsByName[groupbyTag];
+    const tagTreeNode = tagCatalog?.tagsByName[groupbyTag];
     if (tagTreeNode.canApplyToSource && tagTreeNode.canApplyToDestination) {
       return {
         groupbyTag,
@@ -104,7 +102,3 @@ GroupingConfigurator.propTypes = {
   label: rpt.string,
   loadingLabel: rpt.string
 };
-
-function getTagCatalogObservable([getTagCatalog, timeConfig]) {
-  return getTagCatalog({ timeConfig });
-}

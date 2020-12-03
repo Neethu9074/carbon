@@ -85,7 +85,7 @@ function initialFocusedMetric(props) {
 
 function getInitialGrouping(props) {
   const dataSource = props[dataSourceMatrixParameter];
-  return getConfigByDataSource(dataSource).defaultGrouping || getConfigByDataSource('traces').defaultGrouping;
+  return getConfigByDataSource(dataSource).defaultGrouping || getConfigByDataSource('calls').defaultGrouping;
 }
 
 const urlStateConfig = {
@@ -95,7 +95,7 @@ const urlStateConfig = {
       path: analyze,
       name: `callList.${dataSourceMatrixParameter}`,
       as: dataSourceMatrixParameter,
-      initialState: 'traces'
+      initialState: 'calls'
     },
     {
       path: analyze,
