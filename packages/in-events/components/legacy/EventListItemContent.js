@@ -6,7 +6,6 @@ import EventSpecificationLink from 'in-events/components/legacy/EventSpecificati
 import SubEntityInformation from 'in-events/components/legacy/SubEntityInformation';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
-import OpenIssueLink from 'in-events/components/legacy/OpenIssueLink';
 import EventChart from 'in-events/components/EventChart';
 import Spacer from 'in-events/components/legacy/Spacer';
 
@@ -19,7 +18,6 @@ export default function EventListItemContent({ event }) {
       <ProblemDescription event={event} />
       <DescriptionButtons>
         <EventSpecificationLink event={event} />
-        <OpenIssueLink event={event} />
         <AnalyzeIssueCallsButton event={event} />
       </DescriptionButtons>
       <Spacer />
