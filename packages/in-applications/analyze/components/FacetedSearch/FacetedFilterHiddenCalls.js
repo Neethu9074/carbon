@@ -10,10 +10,11 @@ export default function FacetedFilterHiddenCalls({
   includeSynthetic = false,
   includeInternal = false,
   setIncludeSynthetic,
-  setIncludeInternal
+  setIncludeInternal,
+  openByDefault
 }) {
   return (
-    <FacetedExpandableCard title={title}>
+    <FacetedExpandableCard title={title} openByDefault={openByDefault}>
       <HiddenCallCheck
         label="Show Synthetic calls"
         checked={includeSynthetic}

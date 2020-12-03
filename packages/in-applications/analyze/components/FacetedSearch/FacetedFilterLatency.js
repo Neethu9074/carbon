@@ -1,6 +1,9 @@
 import React from 'react';
 
-import { getLatencySelectionFromTagFilterExpression, updateLatencySelection } from 'in-applications/analyze/utils/latencyUtils';
+import {
+  getLatencySelectionFromTagFilterExpression,
+  updateLatencySelection
+} from 'in-applications/analyze/utils/latencyUtils';
 import FacetedExpandableCard from 'in-applications/analyze/components/FacetedSearch/FacetedExpandableCard';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import { Row, Col } from 'in-new-components/layout/Grid';
@@ -11,10 +14,22 @@ import Label from 'in-components/form/Label';
 
 import locals from './Suggestion.mless';
 
-export default function FacetedFilterLatency({ title, dataSource, tagFilterExpression, updateFilter, isValid }) {
+export default function FacetedFilterLatency({
+  title,
+  dataSource,
+  tagFilterExpression,
+  updateFilter,
+  isValid,
+  openByDefault
+}) {
   return (
-    <FacetedExpandableCard title={title}>
-      <Body dataSource={dataSource} tagFilterExpression={tagFilterExpression} updateFilter={updateFilter} isValid={isValid} />
+    <FacetedExpandableCard title={title} openByDefault={openByDefault}>
+      <Body
+        dataSource={dataSource}
+        tagFilterExpression={tagFilterExpression}
+        updateFilter={updateFilter}
+        isValid={isValid}
+      />
     </FacetedExpandableCard>
   );
 }

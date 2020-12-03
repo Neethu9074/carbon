@@ -18,9 +18,16 @@ import Link from 'in-components/Link';
 
 import locals from './Suggestion.mless';
 
-export default function FacetedFilterErroneous({ title, tagFilterExpression, hiddenCalls, updateFilter, dataSource }) {
+export default function FacetedFilterErroneous({
+  title,
+  tagFilterExpression,
+  hiddenCalls,
+  updateFilter,
+  dataSource,
+  openByDefault
+}) {
   return (
-    <FacetedExpandableCard title={title}>
+    <FacetedExpandableCard title={title} openByDefault={openByDefault}>
       <Body
         tagFilterExpression={tagFilterExpression}
         hiddenCalls={hiddenCalls}
