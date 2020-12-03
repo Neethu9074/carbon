@@ -49,11 +49,11 @@ function isEmptyExpression(backendQueryModel) {
 }
 
 // grammar
-// expression := or_expression
+// expression := or_expression .
 // or_expression := and_expression { "OR" and_expression } .
 // and_expression := not_expression { "AND" not_expression } .
-// not_expression := ["NOT"] term
-// term := tag | "(" expression ")".
+// not_expression := ["NOT"] term .
+// term := tag | "(" { expression } ")" .
 
 function parseOrExpression(tokens, simplify = true) {
   const elements = [];
@@ -100,6 +100,10 @@ function parseTerm(tokens, simplify = true) {
     return toTagFilter(next);
   }
   if (next.type === OPEN_BRACKET) {
+    const next = peek(tokens);
+    if (next.type === CLOSE_BRACKET) {
+      return EMPTY_EXPRESSION;
+    }
     const term = parseOrExpression(tokens, simplify);
     if (tokens.shift()?.type !== CLOSE_BRACKET) {
       throw new Error('Expected close bracket');
