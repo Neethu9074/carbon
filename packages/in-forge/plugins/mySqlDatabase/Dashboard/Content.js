@@ -1,12 +1,13 @@
 import React from 'react';
 
+import DBmarlinNotification from 'in-forge/plugins/awsRds/Dashboard/DBmarlinNotification';
+import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import DatabasesTable from 'in-forge/plugins/mySqlDatabase/Dashboard/DatabasesTable';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import { isPerformanceDataAvailable } from 'in-forge/plugins/mySqlDatabase/util';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
-import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import { number, millis, seconds } from 'in-services/formatters/number';
 import { emptyList } from 'in-services/fixedImmutables';
 import MetricValue from 'in-components/MetricValue';
@@ -180,6 +181,8 @@ export default function MySqlDashboard({ snapshot, timeConfig }) {
       {performanceDataAvailable && data.get('dbs', emptyList).size > 0 ? (
         <DatabasesTable snapshot={snapshot} timeConfig={timeConfig} />
       ) : null}
+
+      <DBmarlinNotification />
     </div>
   );
 }
