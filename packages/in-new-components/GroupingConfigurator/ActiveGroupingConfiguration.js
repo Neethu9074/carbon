@@ -5,7 +5,6 @@ import { toInteractiveElement } from 'in-new-components/interactiveCustomElement
 import Entity from 'in-new-components/GroupingConfigurator/Entity';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
-import { isNotBlank } from 'in-services/util/string';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import useAutoFocus from 'in-hooks/useAutoFocus';
 import SvgIcon from 'in-components/SvgIcon';
@@ -86,7 +85,8 @@ export default React.forwardRef(function ActiveGroupingConfiguration(
             fieldsToWatch={[tagFilterExpression, groupbyTag, groupbyTagEntity, timeConfig]}
             inputProps={{
               type: 'text',
-              valid: isNotBlank(result.value),
+              // key value pairs can be grouped by without a key
+              valid: true,
               ref: autoFocus ? tagNameRef : undefined,
               placeholder: 'Key'
             }}

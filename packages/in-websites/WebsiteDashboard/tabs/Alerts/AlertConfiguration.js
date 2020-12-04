@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
+import AlertingChartWithErrorMessage from 'in-new-components/Alerting/Chart/AlertingChartWithErrorMessage';
 import TimeThresholdDescription from 'in-new-components/Alerting/components/TimeThresholdDescription';
 import { getStatusCodeLabel, getRuleOperatorLabel } from 'in-websites/alerting/form/ruleFormData';
 import SelectedAlertTypeInfo from 'in-new-components/Alerting/components/SelectedAlertTypeInfo';
@@ -11,7 +12,6 @@ import AlertPropertyInfos from 'in-new-components/Alerting/components/AlertPrope
 import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
 import AlertDetailsCard from 'in-new-components/Alerting/components/AlertDetailsCard';
 import { getBlueprintConfig } from 'in-websites/alerting/data/blueprintConfig';
-import AlertingChart from 'in-new-components/Alerting/Chart/AlertingChart';
 import LocallyChangedTheme from 'in-themes/LocallyChangedTheme';
 import ExpandableCard from 'in-new-components/ExpandableCard';
 import { operators } from 'in-analyze/applicationFilter';
@@ -59,7 +59,11 @@ export default function AlertConfiguration({ alertConfig, websiteLabel }) {
                 <SelectedAlertTypeInfo title="HTTP Status Code" description={getStatusCodeLabel(value)} />
               )}
 
-              <AlertingChart alertConfig={alertConfig} viewConfig={chartViewConfig} blueprintConfig={blueprintConfig} />
+              <AlertingChartWithErrorMessage
+                alertConfig={alertConfig}
+                viewConfig={chartViewConfig}
+                blueprintConfig={blueprintConfig}
+              />
             </>
           )}
         </ChartViewConfigurator>

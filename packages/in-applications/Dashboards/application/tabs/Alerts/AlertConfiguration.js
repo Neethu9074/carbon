@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import ReadOnlyInboundOrAllCalls from 'in-applications/alerting/advanced/InboundOutboundCallsSwitch/ReadOnlyInboundOrAllCalls';
+import AlertingChartWithErrorMessage from 'in-new-components/Alerting/Chart/AlertingChartWithErrorMessage';
 import TimeThresholdDescription from 'in-new-components/Alerting/components/TimeThresholdDescription';
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
 import SelectedAlertTypeInfo from 'in-new-components/Alerting/components/SelectedAlertTypeInfo';
@@ -15,13 +16,14 @@ import AlertQueryBuilder from 'in-applications/alerting/components/AlertQueryBui
 import AlertDetailsCard from 'in-new-components/Alerting/components/AlertDetailsCard';
 import { getBlueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
 import WithQB1orQB2 from 'in-new-components/Alerting/components/WithQB1orQB2';
-import AlertingChart from 'in-new-components/Alerting/Chart/AlertingChart';
 import IconLabel from 'in-new-components/Alerting/components/IconLabel';
 import LocallyChangedTheme from 'in-themes/LocallyChangedTheme';
 import ExpandableCard from 'in-new-components/ExpandableCard';
 import { operators } from 'in-analyze/applicationFilter';
 import ListTitle from 'in-new-components/lists/Title';
 import { identity } from 'in-services/util/function';
+import HelpText from 'in-components/form/HelpText';
+import Stack from 'in-new-components/layout/Stack';
 import { light } from 'in-themes/themes';
 
 import locals from 'in-new-components/Alerting/shared-styles/AlertConfiguration.mless';
@@ -66,7 +68,7 @@ export default function AlertConfiguration({ alertConfig, applicationName }) {
                 />
               )}
 
-              <AlertingChart
+              <AlertingChartWithErrorMessage
                 alertConfig={{
                   ...alertConfig,
                   tagFilterExpression: tagFilterExpressionUiModel
@@ -97,10 +99,12 @@ export default function AlertConfiguration({ alertConfig, applicationName }) {
                 />
               )}
               onUsesQB2={() => (
-                <>
+                <Stack space="xsmall">
+                  <HelpText>Application Perspective</HelpText>
                   <IconLabel text={applicationName} type="lib_application" />
+                  <HelpText>Additional Filters</HelpText>
                   <AlertQueryBuilder onChange={identity} value={tagFilterExpressionUiModel} readOnly />
-                </>
+                </Stack>
               )}
               shouldFallbackToQB2={isQB2Config => isQB2Config(convertedTagFilterExpression)}
             />

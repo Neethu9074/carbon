@@ -3,6 +3,7 @@ import { getApplicationTagCatalog } from 'in-applications/api/catalog';
 import { TRACES } from 'in-applications/analyze/metrics';
 
 const {
+  getTagCatalog: getTagCatalogInternal,
   GroupingConfigurator,
   isGroupingConfigurationValid: isGroupingConfigurationValidInternal
 } = createGroupingConfigurator({
@@ -18,5 +19,7 @@ const {
 });
 
 export default GroupingConfigurator;
+
+export const getGroupingTagCatalog = getTagCatalogInternal;
 
 export const isTraceGroupingConfigurationValid = params => isGroupingConfigurationValidInternal(...params);

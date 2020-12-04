@@ -6,11 +6,11 @@ import {
   rulePropType,
   thresholdPropType
 } from 'in-new-components/PotentialProblems/PotentialProblemsLane/proptypes';
+import AlertingChartWithErrorMessage from 'in-new-components/Alerting/Chart/AlertingChartWithErrorMessage';
 import { createDefaultChartConfig } from 'in-new-components/Alerting/Chart/chartViewConfig';
 import { fromBackendModel } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { getBlueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
 import { defaultGranularity } from 'in-new-components/PotentialProblems/constants';
-import AlertingChart from 'in-new-components/Alerting/Chart/AlertingChart';
 import { hours } from 'in-services/time';
 
 export default function PotentialProblemChart({
@@ -22,21 +22,24 @@ export default function PotentialProblemChart({
   alert,
   alertType
 }) {
+  const blueprintConfig = getBlueprintConfig(alertType);
+  const alertConfig = {
+    threshold,
+    rule,
+    tagFilters: tagFilters.filter(({ name }) => name !== 'application.id'),
+    applicationId,
+    granularity: defaultGranularity,
+    tagFilterExpression: fromBackendModel(tagFilterExpression)
+  };
+
   return (
-    <AlertingChart
-      alertConfig={{
-        threshold,
-        rule,
-        tagFilters: tagFilters.filter(({ name }) => name !== 'application.id'),
-        applicationId,
-        granularity: defaultGranularity,
-        tagFilterExpression: fromBackendModel(tagFilterExpression)
-      }}
+    <AlertingChartWithErrorMessage
+      alertConfig={alertConfig}
       viewConfig={{
         ...createDefaultChartConfig(getTimeConfig()),
         smoothMetric: false
       }}
-      blueprintConfig={getBlueprintConfig(alertType)}
+      blueprintConfig={blueprintConfig}
     />
   );
 

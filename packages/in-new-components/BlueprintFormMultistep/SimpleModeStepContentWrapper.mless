@@ -11,6 +11,8 @@
     height: 29.375rem;
     margin-top: 2rem;
     width: 100%;
+
+    overflow-x: auto;
   }
 
   .headline {

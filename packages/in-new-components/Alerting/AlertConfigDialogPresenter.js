@@ -1,6 +1,5 @@
-import { withProps, compose, withState, setPropTypes } from 'recompose';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import React from 'react';
 
 import DialogWithSlideInView from 'in-new-components/Dialog/DialogWithSlideInView';
 import evaluateClassNames from 'in-services/util/classnames';
@@ -8,68 +7,31 @@ import Button from 'in-new-components/Button/Button';
 
 import locals from './AlertConfigDialogPresenter.mless';
 
-export default compose(
-  setPropTypes({
-    editMode: PropTypes.bool,
-    form: PropTypes.object.isRequired,
-    advancedModeElement: PropTypes.func.isRequired,
-    simpleModeElement: PropTypes.func.isRequired,
-    trackModeSwitch: PropTypes.func.isRequired,
-    withTrackClose: PropTypes.func.isRequired,
-    withTrackCreate: PropTypes.func.isRequired,
-    simpleMode: PropTypes.bool.isRequired,
-    setSimpleMode: PropTypes.func.isRequired
-  }),
-  withState('slideInViewVisible', 'setSlideInViewVisible', false),
-  withState('slideInConfig', 'setSlideInConfig', null),
-  withState('simpleModeStep', 'setSimpleModeStep', 0),
-  withProps(props => {
-    return {
-      setSliderState: ({ slideInConfig, isVisible }) => {
-        if (slideInConfig) {
-          props.setSlideInConfig(slideInConfig);
-        }
-        props.setSlideInViewVisible(isVisible);
-      }
-    };
-  })
-)(AlertConfigDialogPresenter);
-
-function AlertConfigDialogPresenter(props) {
+export default function AlertConfigDialogPresenter(props) {
   const {
     editMode,
     form,
-    advancedModeElement,
-    simpleModeElement,
+    AdvancedModeElement,
+    SimpleModeElement,
     setSimpleMode,
-    setSlideInViewVisible,
     simpleMode,
-    simpleModeStep,
-    slideInConfig,
-    slideInViewVisible,
     trackModeSwitch,
     withTrackClose,
     withTrackCreate,
-    setSliderState,
-    setSimpleModeStep,
     updateForm
   } = props;
 
-  const SimpleMode = simpleModeElement({
-    ...props,
-    onCreate: withTrackCreate,
-    onClose: withTrackClose,
-    setSliderState: setSliderState,
-    setSimpleModeStep: setSimpleModeStep
-  });
+  const [slideInViewVisible, setSlideInViewVisible] = useState(false);
+  const [slideInConfig, setSlideInConfig] = useState(null);
+  const [simpleModeStep, setSimpleModeStep] = useState(0);
 
-  const AdvancedMode = advancedModeElement({
-    ...props,
-    onClose: withTrackClose,
-    onCreate: withTrackCreate,
-    setSliderState: setSliderState,
-    setSimpleModeStep: setSimpleModeStep
-  });
+  const setSliderState = ({ slideInConfig, isVisible }) => {
+    if (slideInConfig) {
+      setSlideInConfig(slideInConfig);
+    }
+    setSlideInViewVisible(isVisible);
+  };
+
   return (
     <DialogWithSlideInView
       title={`${editMode ? 'Edit' : 'Create New'} Alert`}
@@ -104,7 +66,23 @@ function AlertConfigDialogPresenter(props) {
           [locals.advancedMode]: !simpleMode
         })}
       >
-        {simpleMode ? SimpleMode : AdvancedMode}
+        {simpleMode ? (
+          <SimpleModeElement
+            {...props}
+            onCreate={withTrackCreate}
+            onClose={withTrackClose}
+            setSliderState={setSliderState}
+            setSimpleModeStep={setSimpleModeStep}
+          />
+        ) : (
+          <AdvancedModeElement
+            {...props}
+            onCreate={withTrackCreate}
+            onClose={withTrackClose}
+            setSliderState={setSliderState}
+            setSimpleModeStep={setSimpleModeStep}
+          />
+        )}
       </div>
     </DialogWithSlideInView>
   );
@@ -136,3 +114,16 @@ function AlertConfigDialogPresenter(props) {
     }
   }
 }
+
+AlertConfigDialogPresenter.propTypes = {
+  AdvancedModeElement: PropTypes.func.isRequired,
+  form: PropTypes.object.isRequired,
+  SimpleModeElement: PropTypes.func.isRequired,
+  trackModeSwitch: PropTypes.func.isRequired,
+  updateForm: PropTypes.func,
+  withTrackClose: PropTypes.func.isRequired,
+  withTrackCreate: PropTypes.func.isRequired,
+  simpleMode: PropTypes.bool.isRequired,
+  setSimpleMode: PropTypes.func.isRequired,
+  editMode: PropTypes.bool
+};

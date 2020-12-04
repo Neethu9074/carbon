@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import AlertingChartWithErrorMessage from 'in-new-components/Alerting/Chart/AlertingChartWithErrorMessage';
 import IncompleteChartPlaceholder from 'in-new-components/Alerting/components/IncompleteChartPlaceholder';
 import ChartViewConfigurator from 'in-new-components/Alerting/components/ChartViewConfigurator';
 import { getBlueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
-import AlertingChart from 'in-new-components/Alerting/Chart/AlertingChart';
 
 import locals from './SimpleAlertConfigDialogChart.mless';
 
@@ -24,7 +24,7 @@ export default function SimpleAlertConfigDialogChart({ form, onChartViewConfigCh
         <>
           {isRuleComplete ? (
             <div className={locals.placeholder}>
-              <AlertingChart
+              <AlertingChartWithErrorMessage
                 alertConfig={alertConfig}
                 viewConfig={chartViewConfig}
                 blueprintConfig={blueprintConfig}

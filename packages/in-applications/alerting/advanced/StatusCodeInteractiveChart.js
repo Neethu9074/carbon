@@ -5,6 +5,7 @@ import {
   applicationsAlertingThresholdOperatorChanged,
   applicationsAlertingThresholdValueChanged
 } from 'in-applications/alerting/tracker';
+import AlertingChartWithErrorMessage from 'in-new-components/Alerting/Chart/AlertingChartWithErrorMessage';
 import IncompleteChartPlaceholder from 'in-new-components/Alerting/components/IncompleteChartPlaceholder';
 import ThresholdConditionFormGroup from 'in-new-components/Alerting/advanced/ThresholdConditionFormGroup';
 import { ThresholdOperatorDropDown } from 'in-new-components/Alerting/advanced/ThresholdOperatorDropDown';
@@ -13,7 +14,6 @@ import { alertConfigWithDefaultThreshold } from 'in-new-components/Alerting/util
 import ThresholdValueInput from 'in-new-components/Alerting/advanced/ThresholdValueInput';
 import { blueprintConfigPropType } from 'in-new-components/Alerting/constants';
 import { getMetricUnitPostfix } from 'in-applications/alerting/form/formUtils';
-import AlertingChart from 'in-new-components/Alerting/Chart/AlertingChart';
 import { isNotBlank } from 'in-services/util/string';
 import Label from 'in-components/form/Label';
 
@@ -47,7 +47,7 @@ export default function StatusCodeInteractiveChart({
         headerTransparent
       >
         {chartViewConfig => (
-          <AlertingChart
+          <AlertingChartWithErrorMessage
             alertConfig={alertConfig}
             viewConfig={chartViewConfig}
             blueprintConfig={blueprintConfig}

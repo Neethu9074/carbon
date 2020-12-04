@@ -1,9 +1,12 @@
 @import '~in-themes/active.less';
 
 :local {
+  .header {
+    border-bottom: 1px solid @lib__colors__N300;
+  }
+
   .headerTransparent {
     background-color: transparent;
-    border-bottom: 1px solid @lib__colors__N300;
   }
 
   .clearButton {

@@ -15,12 +15,12 @@ import {
 import * as operatorValueRequirement from 'in-new-components/QueryBuilder/tagFilter/operatorValueRequirement';
 import * as operatorKeyRequirement from 'in-new-components/QueryBuilder/tagFilter/operatorKeyRequirement';
 import * as typeToOperatorsMapping from 'in-new-components/QueryBuilder/tagFilter/typeToOperatorsMapping';
+import { EQUALS, NOT_EMPTY, IS_EMPTY } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import { stringMaxLengthValidator, notBlankValidator } from 'in-services/validators/string';
 import { SOURCE, DESTINATION } from 'in-new-components/QueryBuilder/tagFilter/entities';
 import { NUMBER, BOOLEAN } from 'in-new-components/QueryBuilder/tagFilter/types';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { TAG } from 'in-new-components/QueryBuilder/transformation/formModel';
-import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
 import { buildEnumValidator } from 'in-services/validators/enum';
 import { enrichTagCatalog } from 'in-services/tags/tagCatalog';
@@ -81,16 +81,24 @@ export function createTagForm(tagCatalog, tagFormModel) {
     );
 
   if (requiresKey) {
+    // Special case: For IS_EMPTY, NOT_EMPTY the key is actually optional
+    let validator;
+    if (operator === IS_EMPTY || operator === NOT_EMPTY) {
+      validator = composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, stringMaxLengthValidator(512));
+    } else {
+      validator = composeAndShortCircuitOnError(
+        notUndefinedValidator,
+        stringValidator,
+        notBlankValidator,
+        stringMaxLengthValidator(512)
+      );
+    }
+
     form = form.put(
       'key',
       createField({
         value: tagFormModel?.key ?? '',
-        validator: composeAndShortCircuitOnError(
-          notUndefinedValidator,
-          stringValidator,
-          notBlankValidator,
-          stringMaxLengthValidator(512)
-        )
+        validator
       })
     );
   }

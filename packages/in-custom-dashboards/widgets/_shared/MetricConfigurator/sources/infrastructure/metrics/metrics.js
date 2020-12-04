@@ -8,7 +8,7 @@ export const source = 'INFRASTRUCTURE_METRICS';
 export const label =
   'Infrastructure & Platforms ' +
   (entityCountWidgetEnabled ? 'Metrics ' : '') +
-  (infraMetricsWidgetEnabled ? '' : '(coming soon)');
+  (infraMetricsWidgetEnabled ? '(Beta)' : '(coming soon)');
 export const disabled = !infraMetricsWidgetEnabled;
 export const visible = true;
 export const minGranularity = 10000;

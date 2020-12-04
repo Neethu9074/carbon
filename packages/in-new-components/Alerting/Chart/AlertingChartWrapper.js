@@ -14,11 +14,14 @@ export default connectTo(
   props => {
     const { tagFilterExpression } = props.metricsConfiguration;
 
-    const metrics$ = switchQB1orQB2Helper(
-      () => props.getMetric(props.metricsConfiguration),
-      () => (tagFilterExpression ? props.getMetric(props.metricsConfiguration) : just(pendingResult)),
-      isQB2Config => isQB2Config(props.convertedTagFilterExpression)
-    );
+    const metrics$ = props.isQB1only
+      ? props.getMetric(props.metricsConfiguration)
+      : switchQB1orQB2Helper(
+          () => props.getMetric(props.metricsConfiguration),
+          () => (tagFilterExpression ? props.getMetric(props.metricsConfiguration) : just(pendingResult)),
+          isQB2Config => isQB2Config(props.convertedTagFilterExpression)
+        );
+
     const combined$ = combineLatest([metrics$, thresholdOrBaselineLoadingSignal$]);
 
     return {

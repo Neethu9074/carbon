@@ -14,9 +14,16 @@ import Label from 'in-components/form/Label';
 
 import locals from './Suggestion.mless';
 
-export default function FacetedFilterLatency({ title, dataSource, tagFilterExpression, updateFilter, isValid }) {
+export default function FacetedFilterLatency({
+  title,
+  dataSource,
+  tagFilterExpression,
+  updateFilter,
+  isValid,
+  openByDefault
+}) {
   return (
-    <FacetedExpandableCard title={title}>
+    <FacetedExpandableCard title={title} openByDefault={openByDefault}>
       <Body
         dataSource={dataSource}
         tagFilterExpression={tagFilterExpression}

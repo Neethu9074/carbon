@@ -53,12 +53,8 @@ export default compose(
     }),
     reducerName: 'onChange'
   }),
-  withProps(({ dataSource, onChange, metrics, orderBy, orderDirection, showGraph, onShowGraphChange }) => ({
+  withProps(({ dataSource, onChange, metrics, orderBy, orderDirection, showGraph }) => ({
     availableMetrics: availableMetrics,
-    onChange: e => {
-      onChange(e);
-      onShowGraphChange(e['showGraph']);
-    },
     onChangeOrder: onChange,
     showGraph: showGraph,
     openMetricSelector: () => {

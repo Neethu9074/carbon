@@ -14,8 +14,6 @@ export function isValid(groupingConfiguration, tagCatalog) {
     return null;
   }
 
-  const node = path[path.length - 1];
-
   if (tagTreeNode.canApplyToDestination || tagTreeNode.canApplyToSource) {
     if (
       isBlank(groupingConfiguration.groupbyTagEntity) ||
@@ -25,12 +23,6 @@ export function isValid(groupingConfiguration, tagCatalog) {
     }
   } else {
     if (isNotBlank(groupingConfiguration.groupbyTagEntity)) {
-      return false;
-    }
-  }
-
-  if (node.type === 'KEY_VALUE_PAIR') {
-    if (!groupingConfiguration.groupbyTagSecondLevelKey || isBlank(groupingConfiguration.groupbyTagSecondLevelKey)) {
       return false;
     }
   }

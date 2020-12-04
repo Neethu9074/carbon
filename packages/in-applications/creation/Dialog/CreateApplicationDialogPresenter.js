@@ -10,15 +10,15 @@ export default function CreateApplicationDialogPresenter(props) {
 
   const {
     simpleMode,
-    simpleModeElement,
-    advancedModeElement,
+    SimpleModeElement,
+    AdvancedModeElement,
     onCreate,
     setSimpleMode,
     trackModeSwitch,
     withTrackClose
   } = props;
 
-  const SimpleMode = simpleModeElement({
+  const SimpleMode = SimpleModeElement({
     ...props,
     setSimpleModeStep: setSimpleModeStep,
     simpleModeStep: simpleModeStep,
@@ -26,7 +26,7 @@ export default function CreateApplicationDialogPresenter(props) {
     onClose: withTrackClose
   });
 
-  const AdvancedMode = advancedModeElement({
+  const AdvancedMode = AdvancedModeElement({
     ...props,
     onCreate: onCreate,
     onClose: withTrackClose

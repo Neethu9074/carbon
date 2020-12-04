@@ -5,6 +5,7 @@ import {
   websitesAlertingThresholdOperatorChanged,
   websitesAlertingThresholdValueChanged
 } from 'in-websites/alerting/tracker';
+import AlertingChartWithErrorMessage from 'in-new-components/Alerting/Chart/AlertingChartWithErrorMessage';
 import IncompleteChartPlaceholder from 'in-new-components/Alerting/components/IncompleteChartPlaceholder';
 import ThresholdConditionFormGroup from 'in-new-components/Alerting/advanced/ThresholdConditionFormGroup';
 import { ThresholdOperatorDropDown } from 'in-new-components/Alerting/advanced/ThresholdOperatorDropDown';
@@ -16,7 +17,6 @@ import { blueprintConfigPropType } from 'in-new-components/Alerting/constants';
 import { ruleMetricNameOptions } from 'in-websites/alerting/form/ruleFormData';
 import { getTrackingObject } from 'in-new-components/Alerting/trackingHelpers';
 import { getMetricUnitPostfix } from 'in-websites/alerting/form/formUtils';
-import AlertingChart from 'in-new-components/Alerting/Chart/AlertingChart';
 import { isPercentageMetric } from 'in-websites/alerting/form/formUtils';
 import Dropdown from 'in-new-components/Alerting/Dropdown';
 import { isNotBlank } from 'in-services/util/string';
@@ -53,7 +53,7 @@ export default function JsErrorsInteractiveChart({
         headerTransparent
       >
         {chartViewConfig => (
-          <AlertingChart
+          <AlertingChartWithErrorMessage
             alertConfig={alertConfig}
             viewConfig={chartViewConfig}
             blueprintConfig={blueprintConfig}

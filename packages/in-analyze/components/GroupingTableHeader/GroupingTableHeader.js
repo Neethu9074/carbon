@@ -36,18 +36,17 @@ export default connectTo({ isInternalVisible: isInternalVisible$ }, function Gro
       </div>
 
       <div className={locals.labelWrapper}>
-        {props.isInternalVisible &&
-          props.onPreviewEnabledChange && (
-            <>
-              <span className={locals.label}>Preview</span>
-              <Toggle
-                checked={props.previewEnabled}
-                onChange={e => {
-                  props.onPreviewEnabledChange(e.target.checked);
-                }}
-              />
-            </>
-          )}
+        {props.isInternalVisible && props.onPreviewEnabledChange && (
+          <>
+            <span className={locals.label}>Preview</span>
+            <Toggle
+              checked={props.previewEnabled}
+              onChange={e => {
+                props.onPreviewEnabledChange(e.target.checked);
+              }}
+            />
+          </>
+        )}
         <Button
           kind="secondary"
           icon="lib_views_folder"
@@ -63,12 +62,8 @@ export default connectTo({ isInternalVisible: isInternalVisible$ }, function Gro
             Select Metrics
           </Button>
         )}
-        {props.onChange && (
-          <Button
-            kind="secondary"
-            onClick={() => props.onChange({ showGraph: !props.showGraph })}
-            icon="lib_views_stats"
-          >
+        {props.onShowGraphChange && (
+          <Button kind="secondary" onClick={() => props.onShowGraphChange(!props.showGraph)} icon="lib_views_stats">
             {props.showGraph ? 'Hide' : 'Show'} Graph
           </Button>
         )}

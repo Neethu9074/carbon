@@ -95,7 +95,8 @@ function EventTable(props) {
       typeLabel="event"
       openItemIndex={findIndex(items, event => event.id === selectedEventId)}
       openItem={e => onChange({ eventId: e.id })}
-      totalRepresentedItemCount={rawEventList.length}
+      totalRepresentedItemCount={rawEventList.filter(rawEvent => rawEvent.type !== 'release').length}
+      hideResultCount
     >
       <TabView
         HeaderComponent={Header}

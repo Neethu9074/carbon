@@ -5,6 +5,7 @@ import {
   getTimeConfigFromEvent,
   getTimeConfigFromEventForSnapshotRetrieval
 } from 'in-events/timeframe';
+import { getEnhancedTagFilters } from 'in-new-components/Alerting/utils/tagfilterEnrichmentUtil';
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
 import { createDefaultChartConfig } from 'in-new-components/Alerting/Chart/chartViewConfig';
 import { alertingEventDetailsChartTimeframe } from 'in-new-components/Alerting/constants';
@@ -50,6 +51,11 @@ export default connectTo(
     const chartViewConfig = createDefaultChartConfig(timeConfig);
     const blueprintConfig = getBlueprintConfig(alertType);
 
+    const { numeratorFilter, enrichedTagFilters, enrichedTagFilterExpression } = getEnhancedTagFilters(
+      alertConfig,
+      blueprintConfig
+    );
+
     return (
       <>
         <Row withoutSideMargin>
@@ -75,7 +81,15 @@ export default connectTo(
         <Row withoutSideMargin>
           <Col xs>
             <Card title="Metrics">
-              <AlertingChart alertConfig={alertConfig} viewConfig={chartViewConfig} blueprintConfig={blueprintConfig} />
+              <AlertingChart
+                alertConfig={alertConfig}
+                viewConfig={chartViewConfig}
+                blueprintConfig={blueprintConfig}
+                numeratorFilter={numeratorFilter}
+                enrichedTagFilters={enrichedTagFilters}
+                enrichedTagFilterExpression={enrichedTagFilterExpression}
+                isQB1only
+              />
             </Card>
           </Col>
         </Row>

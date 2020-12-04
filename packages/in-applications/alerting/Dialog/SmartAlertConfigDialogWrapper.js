@@ -37,8 +37,8 @@ export default function SmartAlertConfigDialogWrapper({ applicationLabel, onClos
       onChange={(path, fn) => setForm(form.updateIn(path, fn))}
       onChartViewConfigChange={setSelectedChartViewConfigIndex}
       selectedChartViewConfigIndex={selectedChartViewConfigIndex}
-      advancedModeElement={AdvancedModeContainer}
-      simpleModeElement={SimpleModeContainer}
+      AdvancedModeElement={AdvancedModeContainer}
+      SimpleModeElement={SimpleModeContainer}
       setForm={setForm}
       timeConfig={chartViewConfigs[selectedChartViewConfigIndex].timeConfig}
       trackModeSwitch={(simpleMode, step) => {

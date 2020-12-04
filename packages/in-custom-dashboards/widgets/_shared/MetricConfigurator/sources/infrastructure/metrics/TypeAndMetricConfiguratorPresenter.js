@@ -2,7 +2,7 @@ import React from 'react';
 import rpt from 'prop-types';
 
 import LoadingIndicator from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/LoadingIndicator';
-import TagSelectorOverlay from 'in-new-components/TagSelectorOverlay/TagSelectorOverlay';
+import MetricSelectorOverlay from 'in-new-components/MetricSelectorOverlay/MetricSelectorOverlay';
 import DropdownButton from 'in-new-components/Button/DropdownButton';
 import Overlay from 'in-new-components/overlays/Overlay';
 import useObservable from 'in-hooks/useObservable';
@@ -16,12 +16,13 @@ import locals from './TypeAndMetricConfiguratorPresenter.mless';
 export default function TypeAndMetricConfiguratorPresenter({
   tagName,
   getTagCatalog,
+  tagFilterExpression,
   onChange,
   label = 'Select metric',
   loadingLabel
 }) {
   const timeConfig = useTimeConfig();
-  const tagCatalog = useObservable(getTagCatalogObservable, [getTagCatalog, timeConfig]);
+  const tagCatalog = useObservable(getTagCatalogObservable, [getTagCatalog, timeConfig, tagFilterExpression]);
 
   if (tagCatalog?.errors.length > 0) {
     return <Errors errors={tagCatalog?.errors} />;
@@ -36,9 +37,9 @@ export default function TypeAndMetricConfiguratorPresenter({
   return (
     <>
       <Overlay
-        content={TagSelectorOverlay}
+        content={MetricSelectorOverlay}
         props={{
-          tagCatalog: tagCatalog.data,
+          metricCatalog: tagCatalog.data,
           onChange: ({ name }) => onChange(name)
         }}
         align={'bottomLeft'}
@@ -74,15 +75,16 @@ export default function TypeAndMetricConfiguratorPresenter({
 }
 
 TypeAndMetricConfiguratorPresenter.propTypes = {
-  onChange: rpt.func.isRequired,
   tagName: rpt.string,
+  tagFilterExpression: rpt.object.isRequired,
   getTagCatalog: rpt.func.isRequired,
+  onChange: rpt.func.isRequired,
   label: rpt.string,
   loadingLabel: rpt.string
 };
 
-function getTagCatalogObservable([getTagCatalog, timeConfig]) {
-  return getTagCatalog({ timeConfig });
+function getTagCatalogObservable([getTagCatalog, timeConfig, tagFilterExpression]) {
+  return getTagCatalog({ timeConfig, filter: { tagFilterExpression, timeConfig } });
 }
 
 function Errors({ errors }) {

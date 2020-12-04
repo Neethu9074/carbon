@@ -2,6 +2,7 @@ import { createField, notBlankValidator, createMapForm, createListForm } from 'f
 import rpt from 'prop-types';
 import React from 'react';
 
+import { groupPermissionsEnabled } from 'in-services/featureFlags';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { defaultRoleId, fallbackRoleId } from 'in-stores/user';
 import { submitInviteUserTracker } from 'in-settings/tracker';
@@ -98,7 +99,7 @@ export default connectTo(
                     invite.get('roleId').map(field => (
                       <FormGroup>
                         <Label htmlFor={`invitation-role_${i}`} hasError={!field.valid && field.touched}>
-                          Role
+                          {groupPermissionsEnabled ? 'Group' : 'Role'}
                         </Label>
                         <Select
                           id={`invitation-role_${i}`}
