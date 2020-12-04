@@ -7,10 +7,11 @@ import FormGroup from 'in-components/form/FormGroup';
 export default function InboundAllCalls({ form, updateForm, selectedBlueprint }) {
   const boundaryScopeField = form.get('boundaryScope');
   const boundaryScope = selectedBlueprint?.presetFormFields?.boundaryScope;
-  if (boundaryScope)
-    useEffect(() => {
+  useEffect(() => {
+    if (boundaryScope) {
       updateForm(form.updateIn(['boundaryScope'], field => field.setValue(boundaryScope).setTouched(true)));
-    }, []);
+    }
+  }, [boundaryScope]);
 
   return (
     <div>

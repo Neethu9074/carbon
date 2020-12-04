@@ -15,21 +15,7 @@ export default connectTo(
   ({ getObservables }) => (getObservables ? combineResultObservables(getObservables()) : {}),
 
   function ApiItemView(props) {
-    const {
-      parentPath,
-      parentViewName,
-      render,
-      renderLoadingState = renderLoadingStateDefault,
-      enrichForm,
-      saveLabel,
-      deleteLabel,
-      result,
-      saveItem,
-      onCancelClick,
-      onSubmit,
-      hideFooter = false,
-      deleteItem
-    } = props;
+    const { parentPath, parentViewName, renderLoadingState = renderLoadingStateDefault, result } = props;
 
     if (hasError(result)) {
       const error = getUniqueErrors(result.errors)[0];
@@ -51,64 +37,7 @@ export default connectTo(
       );
     }
 
-    const [message, setMessage] = useState(null);
-    const [canSaveItem, setCanSaveItem] = useState(false);
-    const [savelabel, setSaveLabel] = useState(saveLabel);
-    const [isSaving, setLoading] = useState(false);
-    const [canDeleteItem, setCanDeleteItem] = useState(false);
-    const [form, setForm] = useState(() =>
-      createForm(enrichForm, { ...props, setCanSaveItem, setSaveLabel, setCanDeleteItem })
-    );
-
-    const renderProps = {
-      ...props,
-      ...result,
-      message,
-      setMessage,
-      form,
-      setForm: form => {
-        setForm(form.setTouched(true));
-        setCanSaveItem(true);
-      },
-      setSaveLabel,
-      setCanSaveItem,
-      setCanDeleteItem
-    };
-
-    const content = (
-      <div className={locals.wrapper}>
-        <div>
-          <Header parentPath={parentPath} parentViewName={parentViewName} />
-          <MessageWrapper message={message} />
-          {render(renderProps)}
-        </div>
-
-        {!hideFooter && (
-          <Footer
-            canSaveItem={canSaveItem}
-            canDeleteItem={canDeleteItem}
-            saveButtonVisible={saveItem || onSubmit}
-            saveLabel={savelabel}
-            isSaving={isSaving}
-            onSaveClick={
-              saveItem ? () => saveItem({ ...props, setMessage, setLoading, form, setForm, setCanSaveItem }) : undefined
-            }
-            onDeleteClick={
-              deleteItem ? () => deleteItem({ ...props, setMessage, form, setForm, setCanSaveItem }) : undefined
-            }
-            onCancelClick={onCancelClick}
-            deleteLabel={deleteLabel}
-            parentPath={parentPath}
-            form={form}
-          />
-        )}
-      </div>
-    );
-
-    if (onSubmit) {
-      return <form onSubmit={e => onSubmit(e, renderProps)}>{content}</form>;
-    }
-    return content;
+    return <ApiItemViewResultPresenter {...props} />;
   }
 );
 
@@ -122,4 +51,80 @@ function MessageWrapper({ message }) {
 function createForm(enrichForm, props) {
   const form = createMapForm();
   return enrichForm ? enrichForm(form, props) : form;
+}
+
+function ApiItemViewResultPresenter(props) {
+  const {
+    parentPath,
+    parentViewName,
+    render,
+    enrichForm,
+    saveLabel,
+    deleteLabel,
+    result,
+    saveItem,
+    onCancelClick,
+    onSubmit,
+    hideFooter = false,
+    deleteItem
+  } = props;
+
+  const [message, setMessage] = useState(null);
+  const [canSaveItem, setCanSaveItem] = useState(false);
+  const [savelabel, setSaveLabel] = useState(saveLabel);
+  const [isSaving, setLoading] = useState(false);
+  const [canDeleteItem, setCanDeleteItem] = useState(false);
+  const [form, setForm] = useState(() =>
+    createForm(enrichForm, { ...props, setCanSaveItem, setSaveLabel, setCanDeleteItem })
+  );
+
+  const renderProps = {
+    ...props,
+    ...result,
+    message,
+    setMessage,
+    form,
+    setForm: form => {
+      setForm(form.setTouched(true));
+      setCanSaveItem(true);
+    },
+    setSaveLabel,
+    setCanSaveItem,
+    setCanDeleteItem
+  };
+
+  const content = (
+    <div className={locals.wrapper}>
+      <div>
+        <Header parentPath={parentPath} parentViewName={parentViewName} />
+        <MessageWrapper message={message} />
+        {render(renderProps)}
+      </div>
+
+      {!hideFooter && (
+        <Footer
+          canSaveItem={canSaveItem}
+          canDeleteItem={canDeleteItem}
+          saveButtonVisible={saveItem || onSubmit}
+          saveLabel={savelabel}
+          isSaving={isSaving}
+          onSaveClick={
+            saveItem ? () => saveItem({ ...props, setMessage, setLoading, form, setForm, setCanSaveItem }) : undefined
+          }
+          onDeleteClick={
+            deleteItem ? () => deleteItem({ ...props, setMessage, form, setForm, setCanSaveItem }) : undefined
+          }
+          onCancelClick={onCancelClick}
+          deleteLabel={deleteLabel}
+          parentPath={parentPath}
+          form={form}
+        />
+      )}
+    </div>
+  );
+
+  if (onSubmit) {
+    return <form onSubmit={e => onSubmit(e, renderProps)}>{content}</form>;
+  }
+  return content;
 }

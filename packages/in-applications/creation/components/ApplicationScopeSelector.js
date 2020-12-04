@@ -10,10 +10,11 @@ import locals from './ApplicationScopeSelector.mless';
 export default function ApplicationScopeSelector({ form, updateForm, description, selectedBlueprint }) {
   const scopeField = form.get('scope');
   const applicationScope = selectedBlueprint?.presetFormFields?.applicationScope;
-  if (applicationScope)
-    useEffect(() => {
+  useEffect(() => {
+    if (applicationScope) {
       updateForm(form.updateIn(['scope'], field => field.setValue(applicationScope).setTouched(true)));
-    }, []);
+    }
+  }, [applicationScope]);
 
   return (
     <div>

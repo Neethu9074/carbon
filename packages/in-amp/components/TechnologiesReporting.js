@@ -8,14 +8,16 @@ import WithAccountInformation from 'in-amp/components/WithAccountInformation';
 import useAmpUrlInformation from 'in-amp/hooks/useAmpUrlInformation';
 
 export default function UsageWithAccountInfo() {
-  return <WithAccountInformation>{props => <TechnologiesReporting {...props} />}</WithAccountInformation>;
+  return (
+    <WithAccountInformation>
+      {props =>
+        props.unitSelectorOptions?.length === 0 ? <NoLicenseAvailableMessage /> : <TechnologiesReporting {...props} />
+      }
+    </WithAccountInformation>
+  );
 }
 
 function TechnologiesReporting({ unitSelectorOptions, getCurrentTenantOption }) {
-  if (unitSelectorOptions.length === 0) {
-    return <NoLicenseAvailableMessage />;
-  }
-
   const { windowSize, setWindowSize, tenantUnit, setTenantUnit } = useAmpUrlInformation(
     getCurrentTenantOption(unitSelectorOptions)?.value
   );

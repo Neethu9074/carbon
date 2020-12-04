@@ -14,11 +14,14 @@ import locals from './InfrastructureTabSubscript.mless';
 const taskArnRegex = /^arn:aws:ecs:[^:]+:[^:]+:task\/([^:]+)/;
 const clusterArnRegex = /^arn:aws:ecs:[^:]+:[^:]+:cluster\/([^:]+)/;
 
-export default function InfrastructureTabSubscript({ snapshot, time }) {
-  if (!snapshot) {
+export default function InfrastructureTabSubscriptNullChecker(props) {
+  if (!props.snapshot) {
     return null;
   }
+  return <InfrastructureTabSubscript {...props} />;
+}
 
+function InfrastructureTabSubscript({ snapshot, time }) {
   const snapshotId = snapshot.get('id');
   const taskSnapshotId = useObservable(getEcsTaskForEcsContainerObservable, [snapshotId, time]);
   const regionSnapshotId = useObservable(getRegionForEcsContainerObservable, [snapshotId, time]);

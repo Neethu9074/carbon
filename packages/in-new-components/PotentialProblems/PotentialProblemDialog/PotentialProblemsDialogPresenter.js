@@ -14,9 +14,14 @@ import Dialog from 'in-new-components/Dialog/Dialog';
 
 import locals from './PotentialProblemsDialogPresenter.mless';
 
-export default function PotentialProblemsDialogPresenter({ alertRules, thresholds, alerts, ...remainingProps }) {
-  if (!alerts) return null;
+export default function PotentialProblemsDialogPresenterAlertChecker(props) {
+  if (!props.alerts) {
+    return null;
+  }
+  return <PotentialProblemsDialogPresenter {...props} />;
+}
 
+function PotentialProblemsDialogPresenter({ alertRules, thresholds, alerts, ...remainingProps }) {
   const isCluster = alerts.length > 1;
   const title = `Potential Problem${isCluster ? `s (${alerts.length})` : ''}`;
 

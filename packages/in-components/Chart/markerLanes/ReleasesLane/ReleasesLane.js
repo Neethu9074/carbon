@@ -7,9 +7,13 @@ import { pendingResult, emptyArray } from 'in-services/fixedObjects';
 import { propTypeTimeConfig } from 'in-stores/time/config';
 import useObservable from 'in-hooks/useObservable';
 
-export default function ReleasesLane(props) {
-  if (!props.clusterSizeMillis || !props.timeConfig) return null;
-
+export default function ReleasesLanePropsChecker(props) {
+  if (!props.clusterSizeMillis || !props.timeConfig) {
+    return null;
+  }
+  return <ReleasesLane {...props} />;
+}
+function ReleasesLane(props) {
   const { timeConfig, clusterSizeMillis, serviceId, applicationId } = props;
   const releases =
     useObservable(getReleaseClustersObservable, [timeConfig, clusterSizeMillis, serviceId, applicationId]) ??

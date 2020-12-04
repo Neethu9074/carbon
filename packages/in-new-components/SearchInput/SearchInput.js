@@ -24,8 +24,11 @@ export default function SearchInput({
   onBlur,
   withoutIcon = false,
   onArrowDown,
-  inputRef = useRef()
+  inputRef
 }) {
+  const fallbackRef = useRef();
+  inputRef = inputRef ?? fallbackRef;
+
   const [hasFocus, setHasFocus] = useState(false);
 
   return (

@@ -12,7 +12,14 @@ import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './ProfileNode.mless';
 
-export default function ProfileNode({
+export default function ProfileNodeNullChecker(props) {
+  if (!props.profileNode) {
+    return null;
+  }
+  return <ProfileNode {...props} />;
+}
+
+function ProfileNode({
   highlightedProfileConfig,
   profileEntityTechnology,
   setSelectedProfileNode,
@@ -24,14 +31,11 @@ export default function ProfileNode({
   threshold,
   onKeyDown
 }) {
-  if (!profileNode) {
-    return null;
-  }
-
   const highlightedNodeDomRef = useRef(null);
   const [expanded, setExpanded] = useState(
     highlightedProfileConfig && highlightedProfileConfig.expandedIds.has(profileNode.__uid)
   );
+
   const isHighlighted = highlightedProfileConfig && highlightedProfileConfig.highlightedId === profileNode.__uid;
   if (highlightedNodeDomRef && highlightedNodeDomRef.current) {
     scrollIntoView(highlightedNodeDomRef.current, {

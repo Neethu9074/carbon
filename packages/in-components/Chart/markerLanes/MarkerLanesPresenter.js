@@ -8,15 +8,15 @@ import { sizes } from 'in-components/SvgIcon/SvgIcon';
 import locals from './MarkerLanesPresenter.mless';
 
 const minBlockWidth = sizes.xs;
-export default function MarkerLanesPresenter({
-  children,
-  granularity,
-  chartWidth,
-  chartBucketWidth,
-  ...remainingProps
-}) {
-  if (!children || !granularity) return null;
 
+export default function MarkerLanesPresenterPropsChecker(props) {
+  if (!props.children || !props.granularity) {
+    return null;
+  }
+
+  return <MarkerLanesPresenter {...props} />;
+}
+function MarkerLanesPresenter({ children, granularity, chartWidth, chartBucketWidth, ...remainingProps }) {
   const [labelAlignment, setLabelAligment] = useState('left');
   const [hasMarkersToRender, setHasMarkersToRender] = useState(false);
   const [laneLabelsVisible, setLaneLabelsVisibility] = useState(false);

@@ -57,7 +57,8 @@ export default function Widget({ actions, config, isPreview, title, dragHandle }
   const timeWindowStartDate = config?.[timeWindowStart]?.date;
   const timeWindowStartTime = config?.[timeWindowStart]?.time;
 
-  const timeConfig = isPreview ? oneWeekTimeConfig : useTimeConfig();
+  const currentProductTimeConfig = useTimeConfig();
+  const timeConfig = isPreview ? oneWeekTimeConfig : currentProductTimeConfig;
 
   const timeWindowConfig = {
     ...timeConfig

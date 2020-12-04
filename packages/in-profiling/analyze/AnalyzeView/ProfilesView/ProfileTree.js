@@ -8,7 +8,14 @@ import keyCodes from 'in-components/keyCodes';
 import nodeLocals from './ProfileNode.mless';
 import locals from './ProfileTree.mless';
 
-export default function ProfileTree({
+export default function ProfileNullChecker(props) {
+  if (!props.profile) {
+    return null;
+  }
+  return <ProfileTree {...props} />;
+}
+
+function ProfileTree({
   highlightedProfileConfig,
   profileEntityTechnology,
   canFetchSourceCode,
@@ -16,10 +23,6 @@ export default function ProfileTree({
   threshold,
   profile
 }) {
-  if (!profile) {
-    return null;
-  }
-
   const [selectedProfileNode, setSelectedProfileNode] = useState(null);
 
   return (

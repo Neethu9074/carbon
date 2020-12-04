@@ -7,6 +7,7 @@ import {
   createTagForm,
   getFormPresentationInformation
 } from 'in-new-components/QueryBuilder/validation/tagForm';
+import { getSuggestionsTagFilterExpression } from 'in-new-components/QueryBuilder/tagFilter/tagSuggestions';
 import SimpleValueSelector from 'in-new-components/QueryBuilder/SimpleValueSelector/SimpleValueSelector';
 import BooleanSelector from 'in-new-components/QueryBuilder/components/Tag/BooleanSelector';
 import { onElementKeyUp } from 'in-new-components/QueryBuilder/keyboardInteraction';
@@ -16,7 +17,6 @@ import { TAG } from 'in-new-components/QueryBuilder/transformation/formModel';
 import Entity from 'in-new-components/QueryBuilder/components/Tag/Entity';
 import Remove from 'in-new-components/QueryBuilder/components/Tag/Remove';
 import Name from 'in-new-components/QueryBuilder/components/Tag/Name';
-import { getSuggestionsTagFilterExpression } from 'in-new-components/QueryBuilder/tagFilter/tagSuggestions';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
 import useThemedLocals from 'in-hooks/useThemedLocals';
@@ -167,13 +167,13 @@ function RemoveIcon({ form, element, tagType, onRemove }) {
 }
 
 function KeyInput({ form, onChange, tagType, getSuggestions, formModel, formModelIndex }) {
+  const timeConfig = useTimeConfig();
   const field = form.get('key');
   if (!field) {
     return null;
   }
 
   const entity = form.get('entity')?.value;
-  const timeConfig = useTimeConfig();
 
   return (
     <Input
@@ -208,6 +208,7 @@ function ValueInput({
   formModel,
   formModelIndex
 }) {
+  const timeConfig = useTimeConfig();
   const field = form.get('value');
   if (!field) {
     return null;
@@ -240,7 +241,6 @@ function ValueInput({
 
   const entity = form.get('entity')?.value;
   const key = form.get('key')?.value;
-  const timeConfig = useTimeConfig();
 
   const inputProps = {
     placeholder: 'Value',

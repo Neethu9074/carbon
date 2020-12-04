@@ -29,7 +29,25 @@ import Tooltip from 'in-components/Tooltip';
 
 import locals from './Profile.mless';
 
-export default function Profile({
+export default function ProfileErrorHandler(props) {
+  if (!props.profile) {
+    return (
+      <Message type={error} withIcon>
+        There are no profiles in the selected timeframe.
+      </Message>
+    );
+  }
+  if (hasError(props.profileForHighlightedTimeframeResult)) {
+    return (
+      <Message type={error} withIcon>
+        Error while loading profiles for the highlighted time: + profileForHighlightedTimeframeResult.errors[0]
+      </Message>
+    );
+  }
+  return <Profile {...props} />;
+}
+
+function Profile({
   profile,
   viewType,
   threshold,
@@ -47,21 +65,6 @@ export default function Profile({
   highlightedTimeframe,
   profileForHighlightedTimeframeResult
 }) {
-  if (!profile) {
-    return (
-      <Message type={error} withIcon>
-        There are no profiles in the selected timeframe.
-      </Message>
-    );
-  }
-  if (hasError(profileForHighlightedTimeframeResult)) {
-    return (
-      <Message type={error} withIcon>
-        Error while loading profiles for the highlighted time: + profileForHighlightedTimeframeResult.errors[0]
-      </Message>
-    );
-  }
-
   const { runtime } = profile;
   const [showGraph, setShowGraph] = useState(true);
   const [query, setQuery] = useState('');

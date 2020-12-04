@@ -12,11 +12,14 @@ import Button from 'in-new-components/Button';
 
 import locals from './K8sAgentMonitoringIssueNotifications.mless';
 
-export default function K8sAgentMonitoringIssueNotifications({ clusterId, data, timeConfig, entityName }) {
+export default function K8sAgentMonitoringIssueNotificationsNullChecker(props) {
   if (!agentMonitoringIssuesEnabled) {
     return null;
   }
+  return <K8sAgentMonitoringIssueNotifications {...props} />;
+}
 
+function K8sAgentMonitoringIssueNotifications({ clusterId, data, timeConfig, entityName }) {
   const cluster = useObservable(
     getKubernetesClusterByRelation({
       filter: {

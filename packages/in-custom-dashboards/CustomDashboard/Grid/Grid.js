@@ -27,7 +27,14 @@ const disabledTransitionStyle = {
 
 const dragHandle = <SvgIcon className={locals.dragHandle} type="lib_actions_reorder" />;
 
-export default function Grid({
+export default function GridPropsChecker(props) {
+  if (!props.width) {
+    return null;
+  }
+  return <Grid {...props} />;
+}
+
+function Grid({
   config,
   onLayoutChange,
   draggableHandle,
@@ -40,10 +47,6 @@ export default function Grid({
   tvMode,
   width
 }) {
-  if (!width) {
-    return null;
-  }
-
   // react-grid-layout has transitions enabled on each widget element. This means at the time of
   // mounting each widget is temporarily visible at coordinates 0,0. This in turn means that any
   // kind of visibility detection fails, because coordinates 0,0 are always visibile.

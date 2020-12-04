@@ -15,14 +15,14 @@ import Title from 'in-components/Title';
 const aggregatedState = { label: 'All paid units (aggregated)' };
 
 export default function UsageWithAccountInfo() {
-  return <WithAccountInformation>{props => <Usage {...props} />}</WithAccountInformation>;
+  return (
+    <WithAccountInformation>
+      {props => (props.unitSelectorOptions?.length === 0 ? <NoLicenseAvailableMessage /> : <Usage {...props} />)}
+    </WithAccountInformation>
+  );
 }
 
 function Usage({ unitSelectorOptions, getCurrentTenantOption, canShowAggregatedMetrics }) {
-  if (unitSelectorOptions.length === 0) {
-    return <NoLicenseAvailableMessage />;
-  }
-
   const initialState =
     (canShowAggregatedMetrics ? aggregatedState : getCurrentTenantOption(unitSelectorOptions)?.value) ??
     aggregatedState;

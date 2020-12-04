@@ -5,9 +5,16 @@ import AlertsPreviewLanePresenter from 'in-components/Chart/markerLanes/AlertsPr
 import { pendingResult, emptyArray } from 'in-services/fixedObjects';
 import useObservable from 'in-hooks/useObservable';
 
-export default function AlertsPreviewLane({ alertsPreviewConfiguration, getAlertsPreview, ...remainingProps }) {
-  if (!alertsPreviewConfiguration || !getAlertsPreview || !isConfigValid(alertsPreviewConfiguration)) return null;
+export default function AlertsPreviewLanePropsChecker(props) {
+  const { alertsPreviewConfiguration, getAlertsPreview } = props;
+  if (!alertsPreviewConfiguration || !getAlertsPreview || !isConfigValid(alertsPreviewConfiguration)) {
+    return null;
+  }
 
+  return <AlertsPreviewLane {...props} />;
+}
+
+function AlertsPreviewLane({ alertsPreviewConfiguration, getAlertsPreview, ...remainingProps }) {
   const alerts =
     useObservable(getAlertsPreviewObservable, [
       getAlertsPreview,

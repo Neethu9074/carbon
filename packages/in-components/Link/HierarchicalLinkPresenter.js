@@ -10,7 +10,7 @@ import Link from 'in-components/Link';
 import locals from './HierarchicalLinkPresenter.mless';
 
 export default function HierarchicalLinkPresenter({
-  useSnapshotFromHierarchyCallback,
+  useSnapshotFromHierarchyCallback: getSnapshotFromHierarchyCallback,
   getLabel,
   hierarchySnapshots,
   hierarchy,
@@ -23,9 +23,10 @@ export default function HierarchicalLinkPresenter({
   snapshot,
   useSnapshotLink
 }) {
-  if (useSnapshotFromHierarchyCallback) {
-    snapshot = useSnapshotFromHierarchyCallback(snapshot, hierarchySnapshots);
+  if (getSnapshotFromHierarchyCallback) {
+    snapshot = getSnapshotFromHierarchyCallback(snapshot, hierarchySnapshots);
   }
+
   const label = getSnapshotLabel(snapshot);
 
   const link = (

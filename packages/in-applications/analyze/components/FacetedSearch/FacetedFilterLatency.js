@@ -52,7 +52,7 @@ function Body({ dataSource, tagFilterExpression, updateFilter, isValid }) {
       setMinInput('');
       setMaxInput('');
     }
-  }, [tagFilterExpression]);
+  }, [isValid, dataSource, tagFilterExpression]);
 
   return (
     <Row withoutTopMargin>

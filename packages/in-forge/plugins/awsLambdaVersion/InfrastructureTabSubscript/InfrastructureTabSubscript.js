@@ -9,11 +9,14 @@ import Link from 'in-components/Link';
 
 import locals from './InfrastructureTabSubscript.mless';
 
-export default function InfrastructureTabSubscript({ snapshot, time }) {
-  if (!snapshot) {
+export default function InfrastructureTabSubscriptNullChecker(props) {
+  if (!props.snapshot) {
     return null;
   }
+  return <InfrastructureTabSubscript {...props} />;
+}
 
+function InfrastructureTabSubscript({ snapshot, time }) {
   const snapshotId = snapshot.get('id');
   const awsLambdaFunctionSnapshotId = useObservable(getLambdaFunctionForVersionObservable, [snapshotId, time]);
   const regionSnapshotId = useObservable(getRegionForAwsLambdaVersionObservable, [snapshotId, time]);
