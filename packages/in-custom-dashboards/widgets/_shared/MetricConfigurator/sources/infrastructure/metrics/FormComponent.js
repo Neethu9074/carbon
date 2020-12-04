@@ -5,7 +5,9 @@ import TypeAndMetricConfigurator, {
 } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/TypeAndMetricConfigurator';
 import { invalidMarker } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/form';
 import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
+import { onChangeGrouping } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/form';
 import QueryBuilder, { isQueryValid } from 'in-infrastructure/Explore/components/QueryBuilder';
+import GroupingConfigurator from 'in-infrastructure/Explore/components/GroupingConfigurator';
 import { fromBackendModel } from 'in-new-components/QueryBuilder/transformation/formModel';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { aggregationLabels } from 'in-stores/metric/metric';
@@ -74,6 +76,35 @@ export default function FormComponent({
 
       <Row withoutTopMargin>
         <Col lg>
+          <FormGroup>
+            <Label>Group by</Label>
+            <div>
+              <GroupingConfigurator
+                value={getGrouping(form)?.by}
+                tagFilterExpression={tagFilterExpressionField.value}
+                onChange={infraExploreGrouping => onChangeGrouping(onChange, { by: infraExploreGrouping })}
+              />
+            </div>
+          </FormGroup>
+        </Col>
+        <Col lg={4}>
+          <FormGroup>
+            <Label htmlFor="select-top-groups">Select</Label>
+            <Select
+              id="select-top-groups"
+              value={getGrouping(form)?.direction}
+              onChange={e => onChangeGrouping(onChange, { ...getGrouping(form), direction: e.target.value })}
+              disabled={!getGrouping(form)}
+            >
+              <option value="DESC">Top 5</option>
+              <option value="ASC">Bottom 5</option>
+            </Select>
+          </FormGroup>
+        </Col>
+      </Row>
+
+      <Row withoutTopMargin>
+        <Col lg={8}>
           <FormGroup>
             <Label
               htmlFor="metric-configurator-infra-metric"
@@ -144,4 +175,11 @@ export default function FormComponent({
 
 function getIsQueryValidObservable([tagFilterExpression, timeConfig]) {
   return isQueryValid(tagFilterExpression, timeConfig);
+}
+
+function getGrouping(form) {
+  return form
+    .get('grouping')
+    ?.get(0)
+    ?.toJS();
 }
