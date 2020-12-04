@@ -29,6 +29,7 @@ export default function AlertingChart({
   numeratorFilter,
   enrichedTagFilters,
   enrichedTagFilterExpression,
+  isQB1only,
   canReload
 }) {
   const { granularity, threshold, timeThreshold, convertedTagFilterExpression } = alertConfig;
@@ -41,6 +42,16 @@ export default function AlertingChart({
   const metricLabel = blueprintConfig.getMetricLabel(metricName);
   const isStaticThreshold = threshold.type === 'staticThreshold';
 
+  const filterQuery = isQB1only
+    ? { tagFilters: enrichedTagFilters }
+    : switchQB1orQB2Helper(
+        () => ({ tagFilters: enrichedTagFilters }),
+        () => ({
+          tagFilterExpression: enrichedTagFilterExpression
+        }),
+        isQB2Config => isQB2Config(convertedTagFilterExpression)
+      );
+
   return (
     <AlertingChartWrapper
       renderPreChartContent={props => {
@@ -51,21 +62,14 @@ export default function AlertingChart({
             {...props}
             getAlertsPreview={blueprintConfig.getAlertsPreviewRequest(metricName)}
             alertsPreviewConfiguration={getAlertsPreviewQuery({
+              filterQuery,
               timeConfig: viewConfig.timeConfig,
-              ...switchQB1orQB2Helper(
-                () => ({ tagFilters: enrichedTagFilters }),
-                () => ({
-                  tagFilterExpression: enrichedTagFilterExpression
-                }),
-                isQB2Config => isQB2Config(convertedTagFilterExpression)
-              ),
-              numeratorFilter,
               metricName,
+              numeratorFilter,
               aggregation,
               granularity,
               threshold,
-              timeThreshold,
-              convertedTagFilterExpression
+              timeThreshold
             })}
           >
             <AlertsPreviewLane />
@@ -82,14 +86,8 @@ export default function AlertingChart({
       granularity={metricChartGranularity}
       getMetric={blueprintConfig.getMetricsRequest(metricName)}
       metricsConfiguration={{
+        ...filterQuery,
         timeConfig: viewConfig.timeConfig,
-        ...switchQB1orQB2Helper(
-          () => ({ tagFilters: enrichedTagFilters }),
-          () => ({
-            tagFilterExpression: enrichedTagFilterExpression
-          }),
-          isQB2Config => isQB2Config(convertedTagFilterExpression)
-        ),
         metrics: {
           [metricName]: {
             metric: metricName,
@@ -138,30 +136,25 @@ export default function AlertingChart({
       convertedTagFilterExpression={convertedTagFilterExpression}
       canReload={canReload}
       nonInteractive
+      isQB1only={isQB1only}
     />
   );
 }
 
 function getAlertsPreviewQuery({
   timeConfig,
-  tagFilters,
-  tagFilterExpression,
+  filterQuery,
   metricName,
   numeratorFilter,
   aggregation,
   granularity,
   threshold,
-  timeThreshold,
-  convertedTagFilterExpression //QB2
+  timeThreshold
 }) {
   if (threshold.baseline || typeof threshold.value === 'number') {
     return {
+      ...filterQuery,
       timeConfig,
-      ...switchQB1orQB2Helper(
-        () => ({ tagFilters }),
-        () => ({ tagFilterExpression }),
-        isQB2Config => isQB2Config(convertedTagFilterExpression)
-      ),
       timeThreshold,
       threshold,
       granularity, // to request clustered alert preview results
@@ -209,6 +202,7 @@ AlertingChart.propTypes = {
   alertsPreviewEnabled: PropTypes.bool,
   canReload: PropTypes.bool,
   numeratorFilter: PropTypes.object,
+  isQB1only: PropTypes.bool,
   enrichedTagFilters: PropTypes.array,
   enrichedTagFilterExpression: PropTypes.oneOfType([PropTypes.array, PropTypes.object])
 };

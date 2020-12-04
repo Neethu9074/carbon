@@ -5,7 +5,7 @@ import {
   getTimeConfigFromEvent,
   getTimeConfigFromEventForSnapshotRetrieval
 } from 'in-events/timeframe';
-import AlertingChartWithErrorMessage from 'in-new-components/Alerting/Chart/AlertingChartWithErrorMessage';
+import { getEnhancedTagFilters } from 'in-new-components/Alerting/utils/tagfilterEnrichmentUtil';
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
 import { createDefaultChartConfig } from 'in-new-components/Alerting/Chart/chartViewConfig';
 import { alertingEventDetailsChartTimeframe } from 'in-new-components/Alerting/constants';
@@ -17,6 +17,7 @@ import { getAlertConfigByIdAndTimestamp } from 'in-websites/api/websiteAlertConf
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import { getBlueprintConfig } from 'in-websites/alerting/data/blueprintConfig';
+import AlertingChart from 'in-new-components/Alerting/Chart/AlertingChart';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import Card from 'in-new-components/Card';
 import connectTo from 'in-hoc/connectTo';
@@ -50,6 +51,11 @@ export default connectTo(
     const chartViewConfig = createDefaultChartConfig(timeConfig);
     const blueprintConfig = getBlueprintConfig(alertType);
 
+    const { numeratorFilter, enrichedTagFilters, enrichedTagFilterExpression } = getEnhancedTagFilters(
+      alertConfig,
+      blueprintConfig
+    );
+
     return (
       <>
         <Row withoutSideMargin>
@@ -75,10 +81,14 @@ export default connectTo(
         <Row withoutSideMargin>
           <Col xs>
             <Card title="Metrics">
-              <AlertingChartWithErrorMessage
+              <AlertingChart
                 alertConfig={alertConfig}
                 viewConfig={chartViewConfig}
                 blueprintConfig={blueprintConfig}
+                numeratorFilter={numeratorFilter}
+                enrichedTagFilters={enrichedTagFilters}
+                enrichedTagFilterExpression={enrichedTagFilterExpression}
+                isQB1only
               />
             </Card>
           </Col>
