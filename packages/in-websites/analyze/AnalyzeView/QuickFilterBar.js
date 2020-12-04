@@ -25,7 +25,7 @@ export default function QuickFilterBar(props) {
     <Bar
       showClearFilters={hideClearFiltersButton ? false : tagFilters.length - implicitTagFilters.length > 0}
       onClearFilters={clearTagFilters}
-      withoutFiltersLabel={withoutFiltersLabel}
+      withoutLabel={withoutFiltersLabel}
     >
       {showWebsiteSelector && (
         <SelectBarItem
