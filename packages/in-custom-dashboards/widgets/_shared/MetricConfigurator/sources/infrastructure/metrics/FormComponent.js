@@ -3,9 +3,9 @@ import React, { useState, useEffect } from 'react';
 import TypeAndMetricConfigurator, {
   typeAndMetricSeparator
 } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/TypeAndMetricConfigurator';
-import { invalidMarker } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/form';
 import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import { onChangeGrouping } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/form';
+import { EMPTY_EXPRESSION } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import QueryBuilder, { isQueryValid } from 'in-infrastructure/Explore/components/QueryBuilder';
 import GroupingConfigurator from 'in-infrastructure/Explore/components/GroupingConfigurator';
 import { fromBackendModel } from 'in-new-components/QueryBuilder/transformation/formModel';
@@ -41,7 +41,9 @@ export default function FormComponent({
   const formModelIsValid = validTagFilterExpressionResult.data === true;
   useEffect(() => {
     onChange(['tagFilterExpression'], field =>
-      formModelIsValid ? field.setValue(toBackendQueryModel(formModelExpression, false)) : field.setValue(invalidMarker)
+      formModelIsValid
+        ? field.setValue(toBackendQueryModel(formModelExpression, false))
+        : field.setValue(EMPTY_EXPRESSION)
     );
   }, [formModelIsValid, formModelExpression]);
 
@@ -116,6 +118,7 @@ export default function FormComponent({
               <TypeAndMetricConfigurator
                 tagName={typeField.value + typeAndMetricSeparator + metricField.value}
                 tagFilterExpression={tagFilterExpressionField.value}
+                timeConfig={timeConfig}
                 onChange={tagName => {
                   const [type, metric] = tagName.split(typeAndMetricSeparator, 2);
                   onChange([], form =>
