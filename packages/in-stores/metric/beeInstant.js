@@ -68,3 +68,19 @@ export function granularityForBeeInstantMetrics(desiredGranularity, timeConfig) 
 
   return Math.floor(desiredGranularity / base) * base;
 }
+
+export const aggregationLabels = {
+  MEAN: 'mean',
+  MIN: 'min',
+  P25: '25th',
+  P50: '50th',
+  P75: '75th',
+  P90: '90th',
+  P95: '95th',
+  P98: '98th',
+  P99: '99th',
+  P99_9: '99.9th',
+  P99_99: '99.99th',
+  MAX: 'max',
+  SUM: 'sum'
+};
