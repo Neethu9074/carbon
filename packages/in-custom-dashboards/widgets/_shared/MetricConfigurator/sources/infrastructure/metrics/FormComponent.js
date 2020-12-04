@@ -10,7 +10,7 @@ import QueryBuilder, { isQueryValid } from 'in-infrastructure/Explore/components
 import GroupingConfigurator from 'in-infrastructure/Explore/components/GroupingConfigurator';
 import { fromBackendModel } from 'in-new-components/QueryBuilder/transformation/formModel';
 import TouchedMessages from 'in-components/form/TouchedMessages';
-import { aggregationLabels } from 'in-stores/metric/metric';
+import { aggregationLabels } from 'in-stores/metric/beeInstant';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import { pendingResult } from 'in-services/fixedObjects';
 import FormGroup from 'in-components/form/FormGroup';

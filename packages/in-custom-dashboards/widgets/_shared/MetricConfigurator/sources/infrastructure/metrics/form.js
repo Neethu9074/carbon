@@ -5,7 +5,7 @@ import { stringValidator, objectValidator } from 'in-services/validators/jsonTyp
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
 import { buildEnumValidator } from 'in-services/validators/enum';
-import { aggregationLabels } from 'in-stores/metric';
+import { aggregationLabels } from 'in-stores/metric/beeInstant';
 
 export function createForm(form, savedState) {
   return form
