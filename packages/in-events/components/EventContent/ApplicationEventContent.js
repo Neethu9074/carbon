@@ -5,6 +5,7 @@ import {
   getTimeConfigFromEventForSnapshotRetrieval,
   getTimeConfigFromEvent
 } from 'in-events/timeframe';
+import AlertingChartWithErrorMessage from 'in-new-components/Alerting/Chart/AlertingChartWithErrorMessage';
 import { SmartAlertAffectedEntities } from 'in-events/components/EventContent/SmartAlertAffectedEntities';
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
 import AnalyzeApplicationEventButton from 'in-events/components/AnalyzeApplicationEventButton';
@@ -20,11 +21,14 @@ import { getBlueprintConfig } from 'in-applications/alerting/data/blueprintConfi
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import WithQB1orQB2 from 'in-new-components/Alerting/components/WithQB1orQB2';
-import AlertingChart from 'in-new-components/Alerting/Chart/AlertingChart';
 import IconLabel from 'in-new-components/Alerting/components/IconLabel';
 import { Col, Row } from 'in-new-components/layout/Grid';
 import useObservable from 'in-hooks/useObservable';
+import Stack from 'in-new-components/layout/Stack';
+import HelpText from 'in-components/form/HelpText';
 import Card from 'in-new-components/Card';
+
+import locals from './ApplicationEventContent.mless';
 
 export default function ApplicationEventContent({ event }) {
   const alertConfig = useObservable(
@@ -47,7 +51,7 @@ export default function ApplicationEventContent({ event }) {
   const entityType = event.get('entityType');
   const metadata = event.get('metadata');
   const applicationName = metadata.get('entityLabel');
-  const { tagFilters, rule } = alertConfig;
+  const { tagFilters, tagFilterExpression, rule, convertedTagFilterExpression, boundaryScope } = alertConfig;
   const alertType = rule.alertType;
 
   const blueprintConfig = getBlueprintConfig(alertType);
@@ -68,7 +72,7 @@ export default function ApplicationEventContent({ event }) {
               metadata={metadata}
               timeConfig={getTimeConfigFromEventForSnapshotRetrieval(event)}
               linkTimeConfig={getTimeConfigFromEvent(event)}
-              boundaryScope={alertConfig.boundaryScope}
+              boundaryScope={boundaryScope}
             />
 
             <ProblemDescription event={event} className="in-event-view-event-content" />
@@ -83,10 +87,10 @@ export default function ApplicationEventContent({ event }) {
       <Row withoutSideMargin>
         <Col xs>
           <Card title="Metrics">
-            <AlertingChart
+            <AlertingChartWithErrorMessage
               alertConfig={{
                 ...alertConfig,
-                tagFilterExpression: fromBackendModel(alertConfig.tagFilterExpression ?? [])
+                tagFilterExpression: fromBackendModel(tagFilterExpression ?? [])
               }}
               viewConfig={chartViewConfig}
               blueprintConfig={blueprintConfig}
@@ -98,20 +102,24 @@ export default function ApplicationEventContent({ event }) {
       <Row withoutSideMargin>
         <Col xs>
           <Card title="Scope">
-            <IconLabel text={applicationName} type="lib_application" />
-            <WithQB1orQB2
-              onUsesQB1={() => (
-                <TagFilterListPresenter
-                  tagFilters={translateDemocratisationTagFiltersToAnalyzeTagFilters({
-                    applicationName,
-                    tagFilters: [blueprintConfig.getEntityTagFilter(alertConfig), ...tagFilters]
-                  })}
-                  disabled
-                />
-              )}
-              onUsesQB2={() => <AlertQueryBuilder value={fromBackendModel(alertConfig.tagFilterExpression)} readOnly />}
-              shouldFallbackToQB2={isQB2Config => isQB2Config(alertConfig.convertedTagFilterExpression)}
-            />
+            <Stack space="xsmall">
+              <HelpText className={locals.helpTextNoTopSpace}>Application Perspective</HelpText>
+              <IconLabel text={applicationName} type="lib_application" />
+              {(tagFilterExpression.length > 0 || tagFilters.length > 0) && <HelpText>Additional Filters</HelpText>}
+              <WithQB1orQB2
+                onUsesQB1={() => (
+                  <TagFilterListPresenter
+                    tagFilters={translateDemocratisationTagFiltersToAnalyzeTagFilters({
+                      applicationName,
+                      tagFilters: [blueprintConfig.getEntityTagFilter(alertConfig), ...tagFilters]
+                    })}
+                    disabled
+                  />
+                )}
+                onUsesQB2={() => <AlertQueryBuilder value={fromBackendModel(tagFilterExpression)} readOnly />}
+                shouldFallbackToQB2={isQB2Config => isQB2Config(convertedTagFilterExpression)}
+              />
+            </Stack>
           </Card>
         </Col>
       </Row>

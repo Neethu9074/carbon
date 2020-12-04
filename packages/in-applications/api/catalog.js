@@ -1,6 +1,5 @@
-import moment from 'moment';
-
 import createObservable from 'in-services/http/observableHttpResult';
+import { roundDownToWeek } from 'in-services/util/date';
 import http from 'in-services/http';
 
 const basePath = '/api/application-monitoring/catalog';
@@ -23,9 +22,3 @@ export const getApplicationTagCatalog = ({ dataSource, useCase }) => ({ timeConf
     })
   );
 };
-
-function roundDownToWeek(timestamp) {
-  return moment(timestamp)
-    .startOf('week')
-    .valueOf();
-}

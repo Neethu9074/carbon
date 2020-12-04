@@ -3,8 +3,10 @@ import React from 'react';
 
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import EventListItem from 'in-events/components/legacy/EventListItem';
+import { Row, Col } from 'in-new-components/layout/Grid';
 import { emptyList } from 'in-services/fixedImmutables';
 import { getEvent } from 'in-stores/events';
+import Card from 'in-new-components/Card';
 import connectTo from 'in-hoc/connectTo';
 
 import 'in-events/components/legacy/EventList.less';
@@ -32,26 +34,43 @@ export default connectTo(
   }),
   function IncidentEventList({ events, incident }) {
     if (!events) {
-      return <LoadingIndicator />;
+      return <ListRow title="Triggering Event" />;
     }
 
     const triggeringProblemId = incident.getIn(['problem', 'id']);
 
+    const isTriggeringEvent = ev => ev.getIn(['problem', 'id']) === triggeringProblemId;
+
     return (
-      <div className={block}>
-        <div className={`${block}__counter`}>{`Events (${events.length})`}</div>
-        <List events={events} triggeringProblemId={triggeringProblemId} />
-      </div>
+      <>
+        <ListRow
+          title="Triggering Event"
+          events={events.filter(isTriggeringEvent)}
+          triggeringProblemId={triggeringProblemId}
+        />
+        <ListRow
+          title={`Related Events (${events.length - 1})`}
+          events={events.filter(ev => !isTriggeringEvent(ev))}
+          triggeringProblemId={triggeringProblemId}
+        />
+      </>
     );
   }
 );
 
-function List({ events, triggeringProblemId }) {
+function ListRow({ title, events, triggeringProblemId }) {
   return (
-    <div className={`${block}__timeline`}>
-      {events.map(_event => (
-        <EventListItem key={_event.get('id')} triggeringProblemId={triggeringProblemId} event={_event} />
-      ))}
-    </div>
+    <Row withoutSideMargin>
+      <Col xs>
+        <Card title={title}>
+          <div className={`${block}__timeline`}>
+            {!events && <LoadingIndicator />}
+            {events?.map(_event => (
+              <EventListItem key={_event.get('id')} triggeringProblemId={triggeringProblemId} event={_event} />
+            ))}
+          </div>
+        </Card>
+      </Col>
+    </Row>
   );
 }

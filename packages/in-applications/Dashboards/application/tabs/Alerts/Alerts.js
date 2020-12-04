@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import pluralize from 'pluralize';
 
 import {
   applicationsAlertingListAlertResumed,
@@ -177,17 +178,30 @@ function getFiltersContent(config, applicationName) {
         }
         onUsesQB2={() => {
           const tagFilterExpression = fromBackendModel(config.tagFilterExpression ?? []);
+          const filterCount = getFiltersCount(tagFilterExpression);
+
+          const maxFilterToDisplay = 3;
+          const filtersToDisplay = getLimitedNumberOfFilters(tagFilterExpression, maxFilterToDisplay);
+
           return (
             tagFilterExpression.length > 0 && (
               <Tooltip
                 themeStyle="light"
-                content={<AlertQueryBuilder value={tagFilterExpression} readOnly />}
+                content={
+                  <div>
+                    <AlertQueryBuilder value={filtersToDisplay} readOnly />
+                    <span className={locals.moreFilters}>
+                      {filterCount > maxFilterToDisplay &&
+                        `+${filterCount - maxFilterToDisplay} more ${pluralize('filter', filterCount, false)}`}
+                    </span>
+                  </div>
+                }
                 align="topMiddle"
                 delay={500}
               >
                 <span className={locals.centered}>
                   <SvgIcon className={locals.filterIcon} type="lib_actions_filter" />
-                  More filters
+                  {pluralize('filter', filterCount, true)}
                 </span>
               </Tooltip>
             )
@@ -197,4 +211,28 @@ function getFiltersContent(config, applicationName) {
       />
     </div>
   );
+}
+
+function getFiltersCount(tagFilterExpression) {
+  return tagFilterExpression.reduce((count, element) => {
+    return element.type === 'TAG_FILTER' ? count + 1 : count;
+  }, 0);
+}
+
+function getLimitedNumberOfFilters(tagFilterExpression, maxFilterToDisplay) {
+  const filtersToDisplay = [];
+  let tagFilterCount = 0;
+
+  for (const item of tagFilterExpression) {
+    if (tagFilterCount === maxFilterToDisplay) {
+      break;
+    }
+    filtersToDisplay.push(item);
+
+    if (item.type === 'TAG_FILTER') {
+      tagFilterCount++;
+    }
+  }
+
+  return filtersToDisplay;
 }

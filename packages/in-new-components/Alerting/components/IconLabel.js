@@ -15,7 +15,7 @@ export default function IconLabel({ text = '', type, noBottomMargin }) {
 }
 
 IconLabel.propTypes = {
-  text: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired,
+  text: PropTypes.string,
+  type: PropTypes.string,
   noBottomMargin: PropTypes.bool
 };

@@ -54,4 +54,8 @@
     font-size: @lib__typography__body-small__font-size;
     line-height: 1rem;
   }
+
+  .moreFilters {
+    color: @lib__colors__N600Light;
+  }
 }

@@ -32,5 +32,6 @@ module.exports = {
   smartAlertsQB2Enabled: true,
   qb2InCustomDashboardsEnabled: true,
   groupPermissionsEnabled: true,
-  webMobileQb2AnalyzeEnabled: false
+  webMobileQb2AnalyzeEnabled: false,
+  loggingEnabled: true
 };

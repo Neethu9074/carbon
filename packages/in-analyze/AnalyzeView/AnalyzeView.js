@@ -10,14 +10,6 @@ import {
   deserializeMetrics,
   serializeMetrics
 } from 'in-analyze/navigation/matrix';
-
-import {
-  getTagFilterFromUrlString,
-  getTagFilterToUrlString,
-  getGroupFromUrlString,
-  getGroupToUrlString
-} from 'in-analyze/filterBuilder';
-
 import {
   analyze,
   setTagFilterExpressionAndHiddenCalls,
@@ -27,6 +19,12 @@ import {
   setDataSourceMatrixParam,
   setOrderByMatrixParam
 } from 'in-analyze/navigation/paths';
+import {
+  getTagFilterFromUrlString,
+  getTagFilterToUrlString,
+  getGroupFromUrlString,
+  getGroupToUrlString
+} from 'in-analyze/filterBuilder';
 import { getTagCatalog as getTracesTagCatalog } from 'in-applications/analyze/components/workspace/TraceQueryBuilder';
 import { getTagCatalog as getCallsTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import { focusedMetric as focusedMetricMatrixParameter } from 'in-analyze/navigation/matrix';
@@ -87,7 +85,7 @@ function initialFocusedMetric(props) {
 
 function getInitialGrouping(props) {
   const dataSource = props[dataSourceMatrixParameter];
-  return getConfigByDataSource(dataSource).defaultGrouping || getConfigByDataSource('traces').defaultGrouping;
+  return getConfigByDataSource(dataSource).defaultGrouping || getConfigByDataSource('calls').defaultGrouping;
 }
 
 const urlStateConfig = {
@@ -97,7 +95,7 @@ const urlStateConfig = {
       path: analyze,
       name: `callList.${dataSourceMatrixParameter}`,
       as: dataSourceMatrixParameter,
-      initialState: 'traces'
+      initialState: 'calls'
     },
     {
       path: analyze,

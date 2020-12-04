@@ -1,5 +1,5 @@
+import React, { useEffect, useState } from 'react';
 import { find } from 'lodash';
-import React from 'react';
 
 import { renderer as availableRenderers, defaultRenderer } from 'in-custom-dashboards/widgets/Chart/renderer';
 import { extendWindowSizeOnLiveMode, getChartGranularity } from 'in-applications/metrics';
@@ -44,7 +44,12 @@ export default function UnifiedMetricsChart({
   excludedContextMenuActions
 }) {
   const timeConfig = useTimeConfig();
-  const timeConfigExtendedForLiveMode = extendWindowSizeOnLiveMode(timeConfig);
+  // timeConfigExtendedForLiveMode will be used as a hook dependency, therefore the same object must be reused unless some of its fields changes
+  const [timeConfigExtendedForLiveMode, setTimeConfigExtendedForLiveMode] = useState(
+    extendWindowSizeOnLiveMode(timeConfig)
+  );
+  useEffect(() => setTimeConfigExtendedForLiveMode(extendWindowSizeOnLiveMode(timeConfig)), [timeConfig]);
+
   const configuredGranularity = config.granularity ?? getChartGranularity(timeConfigExtendedForLiveMode);
   const minimumGranularity = getMaxSeriesGranularity(config);
   const granularity = Math.max(minimumGranularity, configuredGranularity);

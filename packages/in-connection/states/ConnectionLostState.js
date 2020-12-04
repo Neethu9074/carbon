@@ -5,6 +5,7 @@ import { addMessage, removeMessage } from 'in-components/MessageFlyout/stores/me
 import AbstractState from 'in-connection/states/AbstractState';
 import { combineDataAndError } from 'in-services/util/ro';
 import { ineum } from 'in-services/tracking/ineum';
+import { minutes } from 'in-services/time/time';
 import { isSignedIn } from 'in-api/account';
 
 const logger = createLogger('connection/states/ConnectionLostState');
@@ -21,7 +22,8 @@ export default class ConnectionLostState extends AbstractState {
     } else {
       ineum('reportEvent', 'connection.lost', {
         meta: {
-          transport: this.sharedState.socket?.transport
+          transport: this.sharedState.socket?.transport,
+          socketRto: this.sharedState.socket?._rto
         }
       });
     }
@@ -75,9 +77,7 @@ export default class ConnectionLostState extends AbstractState {
         {
           type: 'warning',
           title: 'Connecting…',
-          content: `Connection attempt ${
-            this.connectionAttempts
-          } failed. Continuing to retry to establish persistent backend connection.`
+          content: `Connection attempt ${this.connectionAttempts} failed. Continuing to retry to establish persistent backend connection.`
         },
         'connectionStatus'
       );
@@ -106,7 +106,16 @@ export default class ConnectionLostState extends AbstractState {
           'connectionStatus'
         );
       } else {
-        this.sharedState.socket = new SockJS('/api/data', null, { transports });
+        this.sharedState.socket = new SockJS('/api/data', null, {
+          transports,
+          // Number of characters used for the randomly generated session IDs
+          sessionId: 16,
+          // Minimum! timeout for connection establishment. Value can be higher when the RTT
+          // measured for the info XHR call is quite large.
+          //
+          // The default value is 5s
+          timeout: minutes.toMillis(1)
+        });
         this.sharedState.socket.onopen = () => this.sharedState.events.emit('open');
         this.sharedState.socket.onclose = e => {
           logger.debug('Persistent connection closed', e);
@@ -122,7 +131,8 @@ export default class ConnectionLostState extends AbstractState {
     this.sendConnectionSettings();
     ineum('reportEvent', 'connection.established', {
       meta: {
-        transport: this.sharedState.socket?.transport
+        transport: this.sharedState.socket?.transport,
+        socketRto: this.sharedState.socket?._rto
       }
     });
     this.transitionTo('connected');

@@ -157,7 +157,11 @@ module.exports = exports = [
   },
   {
     uiClientKey: 'webMobileQb2AnalyzeEnabled',
-    instanaCtlKey: 'feature.web.mobile.qb2.analyze.enabled',
+    instanaCtlKey: 'feature.web.mobile.qb2.analyze.enabled'
+  },
+  {
+    uiClientKey: 'loggingEnabled',
+    instanaCtlKey: 'feature.logging.enabled',
     defaultValue: false
   }
 ];

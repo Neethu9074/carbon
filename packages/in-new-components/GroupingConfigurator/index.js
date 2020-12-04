@@ -9,6 +9,8 @@ export function createGroupingConfigurator({ getTagCatalog: originalGetTagCatalo
   const getTagCatalog = getTagCatalogOnce(originalGetTagCatalog);
 
   return {
+    getTagCatalog,
+
     GroupingConfigurator: function CreatedGroupingConfigurator(props) {
       return <GroupingConfigurator {...props} getTagCatalog={getTagCatalog} getSuggestions={getSuggestions} />;
     },

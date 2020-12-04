@@ -17,6 +17,7 @@
   .filter {
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
     margin-right: 2rem;
     font-size: @lib__typography__body__font-size;
     color: @lib__colors__N600Light;

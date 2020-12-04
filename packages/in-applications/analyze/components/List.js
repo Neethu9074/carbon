@@ -1,5 +1,5 @@
+import React, { useEffect, useState } from 'react';
 import { empty } from 'reactive-observables';
-import React from 'react';
 
 import FacetedSearch from 'in-applications/analyze/components/FacetedSearch/FacetedSearch';
 import CursorPaginatedTable from 'in-components/tables/ServerTable/CursorPaginatedTable';
@@ -13,6 +13,7 @@ import useCursorPagination from 'in-hooks/useCursorPagination';
 import { formatDateTime } from 'in-services/formatters/date';
 import { Link } from 'in-components/tables/sharedComponents';
 import HealthDot from 'in-new-components/health/HealthDot';
+import { emptyObject } from 'in-services/fixedObjects';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import SvgIcon from 'in-components/SvgIcon';
 
@@ -37,12 +38,14 @@ export default function List({
   getNestedUngroupedData,
   linkFormModel
 }) {
+  // Store the last valid result so that we can show it, in case the tagFilterExpression won't be valid.
+  const [{ lastDataSource, lastValidResult }, setLastState] = useState(emptyObject);
   const timeConfig = useTimeConfig();
   const order = {
     by: orderBy.by || defaultOrder,
     direction: orderBy.direction || defaultDirection
   };
-  const { items, ...tableProps } = useCursorPagination(
+  const result = useCursorPagination(
     ({ cursor }) =>
       isValid
         ? getNestedUngroupedData({
@@ -57,6 +60,18 @@ export default function List({
         : empty,
     [timeConfig, retrievalSize, tagFilterExpression, orderBy, isValid, hiddenCalls, dataSource]
   );
+
+  const resultToDisplay = !isValid && lastValidResult && lastDataSource === dataSource ? lastValidResult : result;
+  const { items, ...tableProps } = resultToDisplay;
+
+  useEffect(() => {
+    if (isValid) {
+      setLastState({ lastDataSource: dataSource, lastValidResult: result });
+    } else if (lastDataSource !== dataSource) {
+      // the last result shouldn't be cached for a different data source
+      setLastState(emptyObject);
+    }
+  }, [result?.progress.loading, isValid, dataSource, lastDataSource]);
 
   const columnDefinitions = getColumnDefinitions(dataSource, linkFormModel);
 

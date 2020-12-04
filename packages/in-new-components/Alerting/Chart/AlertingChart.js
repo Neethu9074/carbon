@@ -2,20 +2,15 @@ import PropTypes from 'prop-types';
 import theme from 'in-themes';
 import React from 'react';
 
-import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import AlertsPreviewLane from 'in-components/Chart/markerLanes/AlertsPreviewLane/AlertsPreviewLane';
 import { chartViewConfigPropType } from 'in-new-components/Alerting/Chart/chartViewConfig';
 import { switchQB1orQB2Helper } from 'in-new-components/Alerting/components/WithQB1orQB2';
-import { isAlertQueryValid } from 'in-applications/alerting/components/AlertQueryBuilder';
 import AlertingChartWrapper from 'in-new-components/Alerting/Chart/AlertingChartWrapper';
 import MarkerLanesPresenter from 'in-components/Chart/markerLanes/MarkerLanesPresenter';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import { isGreaterOperator } from 'in-new-components/Alerting/utils/alertUtils';
-import { AND_CONJUNCTION } from 'in-new-components/Alerting/utils/queryUtils';
 import { smoothMetrics } from 'in-new-components/Alerting/utils/chartUtil';
 import Renderer from 'in-new-components/Alerting/Chart/renderer/Renderer';
-import { pendingResult } from 'in-services/fixedObjects';
-import useObservable from 'in-hooks/useObservable';
 
 const chartColors = [
   theme.lib.colors.blue800,
@@ -26,89 +21,36 @@ const chartColors = [
 
 const legendColors = [theme.lib.colors.blue800, theme.lib.colors.red800, theme.lib.colors.pink800_40];
 
-export default function AlertingChart({ alertConfig, viewConfig, blueprintConfig, alertsPreviewEnabled, canReload }) {
-  const metricName = blueprintConfig.getMetricName(alertConfig.rule);
-
-  let numeratorFilter;
-  let enrichedTagFilters;
-  let enrichedTagFilterExpression;
-
-  switchQB1orQB2Helper(
-    () => {
-      const ruleTagFilters = blueprintConfig.getRuleTagFilters(alertConfig.rule);
-      if (blueprintConfig.isCustomRateMetric(metricName)) {
-        // at the moment, we only support a single numerator filter. All such blueprints have
-        // a single rule-specific tag-filter only
-        numeratorFilter = ruleTagFilters[0];
-        enrichedTagFilters = [...alertConfig.tagFilters, blueprintConfig.getEntityTagFilter(alertConfig)];
-      } else {
-        enrichedTagFilters = [
-          ...alertConfig.tagFilters,
-          ...ruleTagFilters,
-          blueprintConfig.getEntityTagFilter(alertConfig)
-        ];
-      }
-    },
-    () => {
-      const ruleTagFilterExpression = blueprintConfig.getRuleTagFilterExpression(alertConfig.rule);
-      enrichedTagFilterExpression = [];
-
-      if (alertConfig.tagFilterExpression?.length > 0) {
-        enrichedTagFilterExpression.push(...alertConfig.tagFilterExpression, AND_CONJUNCTION);
-      }
-
-      if (blueprintConfig.isCustomRateMetric(metricName)) {
-        // at the moment, we only support a single numerator filter. All such blueprints have
-        // a single rule-specific tag-filter only
-        numeratorFilter = ruleTagFilterExpression[0];
-        enrichedTagFilterExpression.push(blueprintConfig.getEntityTagFilterExpression(alertConfig));
-      } else {
-        enrichedTagFilterExpression.push(blueprintConfig.getEntityTagFilterExpression(alertConfig));
-        if (ruleTagFilterExpression.length > 0) {
-          enrichedTagFilterExpression.push(AND_CONJUNCTION, ...ruleTagFilterExpression);
-        }
-      }
-    },
-    isQB2Config => isQB2Config(alertConfig.convertedTagFilterExpression)
-  );
-
-  return (
-    <AlertingChartWithQueryValidation
-      alertConfig={alertConfig}
-      viewConfig={viewConfig}
-      blueprintConfig={blueprintConfig}
-      numeratorFilter={numeratorFilter}
-      enrichedTagFilters={enrichedTagFilters}
-      enrichedTagFilterExpression={enrichedTagFilterExpression}
-      metricName={metricName}
-      alertsPreviewEnabled={alertsPreviewEnabled}
-      canReload={canReload}
-    />
-  );
-}
-
-function AlertingChartWithQueryValidation({
+export default function AlertingChart({
   alertConfig,
-  metricName,
-  enrichedTagFilters,
-  enrichedTagFilterExpression,
-  numeratorFilter,
   viewConfig,
   blueprintConfig,
   alertsPreviewEnabled,
+  numeratorFilter,
+  enrichedTagFilters,
+  enrichedTagFilterExpression,
+  isQB1only,
   canReload
 }) {
-  const isAlertQueryValidResult =
-    useObservable(args => isAlertQueryValid(args), [alertConfig.tagFilterExpression, viewConfig.timeConfig]) ??
-    pendingResult;
-
   const { granularity, threshold, timeThreshold, convertedTagFilterExpression } = alertConfig;
+
+  const metricName = blueprintConfig.getMetricName(alertConfig.rule);
   const metricChartGranularity = Math.max(granularity, viewConfig.minChartMetricGranularity);
   const formatter = blueprintConfig.getMetricFormat(metricName);
 
   const aggregation = blueprintConfig.getAggregation(alertConfig.rule);
   const metricLabel = blueprintConfig.getMetricLabel(metricName);
   const isStaticThreshold = threshold.type === 'staticThreshold';
+
+  const filterQuery = isQB1only
+    ? { tagFilters: enrichedTagFilters }
+    : switchQB1orQB2Helper(
+        () => ({ tagFilters: enrichedTagFilters }),
+        () => ({
+          tagFilterExpression: enrichedTagFilterExpression
+        }),
+        isQB2Config => isQB2Config(convertedTagFilterExpression)
+      );
 
   return (
     <AlertingChartWrapper
@@ -120,21 +62,14 @@ function AlertingChartWithQueryValidation({
             {...props}
             getAlertsPreview={blueprintConfig.getAlertsPreviewRequest(metricName)}
             alertsPreviewConfiguration={getAlertsPreviewQuery({
+              filterQuery,
               timeConfig: viewConfig.timeConfig,
-              ...switchQB1orQB2Helper(
-                () => ({ tagFilters: enrichedTagFilters }),
-                () => ({
-                  tagFilterExpression: getBackendQueryModel(isAlertQueryValidResult, enrichedTagFilterExpression)
-                }),
-                isQB2Config => isQB2Config(convertedTagFilterExpression)
-              ),
-              numeratorFilter,
               metricName,
+              numeratorFilter,
               aggregation,
               granularity,
               threshold,
-              timeThreshold,
-              convertedTagFilterExpression
+              timeThreshold
             })}
           >
             <AlertsPreviewLane />
@@ -151,14 +86,8 @@ function AlertingChartWithQueryValidation({
       granularity={metricChartGranularity}
       getMetric={blueprintConfig.getMetricsRequest(metricName)}
       metricsConfiguration={{
+        ...filterQuery,
         timeConfig: viewConfig.timeConfig,
-        ...switchQB1orQB2Helper(
-          () => ({ tagFilters: enrichedTagFilters }),
-          () => ({
-            tagFilterExpression: getBackendQueryModel(isAlertQueryValidResult, enrichedTagFilterExpression)
-          }),
-          isQB2Config => isQB2Config(convertedTagFilterExpression)
-        ),
         metrics: {
           [metricName]: {
             metric: metricName,
@@ -207,30 +136,25 @@ function AlertingChartWithQueryValidation({
       convertedTagFilterExpression={convertedTagFilterExpression}
       canReload={canReload}
       nonInteractive
+      isQB1only={isQB1only}
     />
   );
 }
 
 function getAlertsPreviewQuery({
   timeConfig,
-  tagFilters,
-  tagFilterExpression,
+  filterQuery,
   metricName,
   numeratorFilter,
   aggregation,
   granularity,
   threshold,
-  timeThreshold,
-  convertedTagFilterExpression //QB2
+  timeThreshold
 }) {
   if (threshold.baseline || typeof threshold.value === 'number') {
     return {
+      ...filterQuery,
       timeConfig,
-      ...switchQB1orQB2Helper(
-        () => ({ tagFilters }),
-        () => ({ tagFilterExpression }),
-        isQB2Config => isQB2Config(convertedTagFilterExpression)
-      ),
       timeThreshold,
       threshold,
       granularity, // to request clustered alert preview results
@@ -271,14 +195,14 @@ function getMaxForBaselineChart({ metricsMaxValue, operator, baseline, sensitivi
   return overallMaxValue * 1.1;
 }
 
-function getBackendQueryModel(isQueryValidResult, tagFilterExpression) {
-  return isQueryValidResult.data ? toBackendQueryModel(tagFilterExpression) : null;
-}
-
 AlertingChart.propTypes = {
   viewConfig: chartViewConfigPropType.isRequired,
   alertConfig: PropTypes.object.isRequired,
   blueprintConfig: PropTypes.object.isRequired,
   alertsPreviewEnabled: PropTypes.bool,
-  canReload: PropTypes.bool
+  canReload: PropTypes.bool,
+  numeratorFilter: PropTypes.object,
+  isQB1only: PropTypes.bool,
+  enrichedTagFilters: PropTypes.array,
+  enrichedTagFilterExpression: PropTypes.oneOfType([PropTypes.array, PropTypes.object])
 };

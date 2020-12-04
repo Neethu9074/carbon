@@ -6,7 +6,6 @@ import getConfigByDataSource, {
   productAreaLabels,
   productAreaIcons
 } from 'in-analyze/AnalyzeView/dataSources';
-import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import { getLinkToAnalyze as getLinkToProfilesAnalyze } from 'in-new-components/Profiling/navigation/paths';
 import { hasApplicationsAccess, hasWebsitesAccess, hasMobileAppsAccess } from 'in-stores/permission';
 import { getLinkToAnalyze as getLinkToMobileAppAnalyze } from 'in-mobile-apps/navigation/paths';
@@ -14,8 +13,8 @@ import { getLinkToAnalyze as getLinkToWebsiteAnalyze } from 'in-websites/navigat
 import { getLinkToAnalyze as getLinkToLogsAnalyze } from 'in-logging/navigation/paths';
 import { defaultGroupings as defaultMobileAppGroupings } from 'in-mobile-apps/tags';
 import { defaultGroupings as defaultWebsiteGroupings } from 'in-websites/tags';
+import { loggingEnabled, newAnalyticsEnabled } from 'in-services/featureFlags';
 import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
-import { newAnalyticsEnabled } from 'in-services/featureFlags';
 import evaluateClassNames from 'in-services/util/classnames';
 import { emptyObject } from 'in-services/fixedObjects';
 import { Ul, Li } from 'in-new-components/lists/List';
@@ -154,7 +153,7 @@ const productAreas = [
   },
   {
     productArea: 'logs',
-    hasAccess: isInternalVisible => isInternalVisible,
+    hasAccess: loggingEnabled,
     dataSources: [
       {
         dataSource: 'logs',
@@ -165,12 +164,10 @@ const productAreas = [
 ];
 
 export default function AnalyzeDataSourceSelector({ activeConfiguration, isGrouped, close }) {
-  const isInternalVisible = useObservable(isInternalVisible$, []);
-
   return (
     <Ul className={locals.wrapper}>
       {productAreas
-        .filter(({ hasAccess }) => (typeof hasAccess === 'function' ? hasAccess(isInternalVisible) : hasAccess))
+        .filter(({ hasAccess }) => hasAccess)
         .map(({ productArea, dataSources }, i) => {
           const dataSourceListEntries = dataSources.map(config => (
             <ProductAreaEntry

@@ -2,8 +2,8 @@ import theme from 'in-themes';
 import React from 'react';
 
 import { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
-import { extendWindowSizeOnLiveMode, getChartGranularity } from 'in-applications/metrics';
 import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
+import { extendWindowSizeOnLiveMode } from 'in-applications/metrics';
 import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
 import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
@@ -96,7 +96,6 @@ export default function ListWidget({ config, title, actions, dragHandle }) {
 
 function useResultData(config, timeConfig) {
   const timeConfigExtendedForLiveMode = extendWindowSizeOnLiveMode(timeConfig);
-  const granularity = config.granularity ?? getChartGranularity(timeConfigExtendedForLiveMode);
 
   const metrics = {
     list: {
@@ -105,8 +104,7 @@ function useResultData(config, timeConfig) {
         offset: 0
       },
       timeConfig: timeConfigExtendedForLiveMode,
-      granularity,
-      resultType: 'TIME_SERIES'
+      resultType: 'SINGLE_NUMBER'
     }
   };
 

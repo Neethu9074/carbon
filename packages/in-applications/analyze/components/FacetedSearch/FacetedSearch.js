@@ -26,6 +26,7 @@ export default function FacetedSearch({
         tagFilterExpression={tagFilterExpression}
         updateFilter={updateFilter}
         isValid={isValid}
+        openByDefault
       />
       <FacetedFilterErroneous
         title="Erroneous"
@@ -33,6 +34,7 @@ export default function FacetedSearch({
         updateFilter={updateFilter}
         dataSource={dataSource}
         hiddenCalls={hiddenCalls}
+        openByDefault
       />
       <FacetedFilterGeneric
         title="Applications"
@@ -100,6 +102,7 @@ export default function FacetedSearch({
             includeSynthetic: hiddenCalls?.includeSynthetic
           })
         }
+        openByDefault
       />
     </div>
   );
