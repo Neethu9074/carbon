@@ -28,6 +28,10 @@ export const nodeTabChange = e => {
   track(KUBERNETES_DASHBOARD_TAB_CHANGE, { ...e, dashboard: 'node' });
 };
 
+export const cronJobTabChange = e => {
+  track(KUBERNETES_DASHBOARD_TAB_CHANGE, { ...e, dashboard: 'cronJob' });
+};
+
 export const podTabChange = e => {
   track(KUBERNETES_DASHBOARD_TAB_CHANGE, { ...e, dashboard: 'pod' });
 };

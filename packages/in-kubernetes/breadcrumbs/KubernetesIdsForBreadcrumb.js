@@ -16,6 +16,7 @@ export default connectTo(
         nodeId: props.nodeId,
         podId: props.podId,
         statefulSetId: props.statefulSetId,
+        cronJobId: props.cronJobId,
         timeConfig: props.timeConfig
       }
     })

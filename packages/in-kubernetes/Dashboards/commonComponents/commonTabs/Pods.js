@@ -9,6 +9,7 @@ import {
   namespaceIdUrlParameter,
   podIdUrlParameter,
   nodeIdUrlParameter,
+  cronJobIdUrlParameter,
   daemonSetIdUrlParameter,
   deploymentIdUrlParameter,
   deploymentConfigIdUrlParameter,
@@ -200,6 +201,7 @@ function createTable(columnDefinitions) {
       namespaceIdUrlParameter,
       podIdUrlParameter,
       nodeIdUrlParameter,
+      cronJobIdUrlParameter,
       daemonSetIdUrlParameter,
       deploymentIdUrlParameter,
       deploymentConfigIdUrlParameter,
@@ -236,6 +238,7 @@ const Pods = compose(
     serviceId,
     leftHeader,
     nodeId,
+    cronJobId,
     Table = ServerTableWithUrlStateWithoutNamespace
   } = props;
 
@@ -262,6 +265,7 @@ const Pods = compose(
           clusterId={clusterId}
           serviceId={serviceId}
           nodeId={nodeId}
+          cronJobId={cronJobId}
           rightHeader={rightHeader}
           leftHeader={leftHeader}
           phase={phase}
@@ -283,6 +287,7 @@ function getTableData({
   serviceId,
   workloadControllerId,
   nodeId,
+  cronJobId,
   phase
 }) {
   return getKubernetesPods({
@@ -301,6 +306,7 @@ function getTableData({
       clusterId,
       serviceId,
       nodeId,
+      cronJobId,
       timeConfig,
       phase
     },

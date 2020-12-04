@@ -4,7 +4,7 @@ import {
   getDaemonSetDashboard,
   getDeploymentDashboard,
   getDeploymentConfigDashboard,
-  getStatefulSetDashboard,
+  getStatefulSetDashboard
 } from 'in-kubernetes/navigation/paths';
 import WorkloadControllers from 'in-kubernetes/Dashboards/commonComponents/commonTabs/WorkloadControllers';
 import getOpenShiftDeploymentConfigs$ from 'in-subscription/kubernetes/getOpenShiftDeploymentConfigs';
@@ -18,6 +18,7 @@ import { namespaceDashboardFullyQualified } from 'in-kubernetes/navigation/paths
 import Summary from 'in-kubernetes/Dashboards/Namespace/tabs/Summary';
 import Details from 'in-kubernetes/Dashboards/Namespace/tabs/Details';
 import Pods from 'in-kubernetes/Dashboards/Namespace/tabs/Pods';
+import CronJobs from 'in-kubernetes/Dashboards/commonComponents/commonTabs/CronJobs';
 
 export default [
   {
@@ -92,6 +93,12 @@ export default [
     header: props => getCounterComponent(props, v => v.workloads.statefulSets)
   },
   {
+    label: 'Cron Jobs',
+    path: `${namespaceDashboardFullyQualified}/cronjobs`,
+    component: CronJobs,
+    header: props => getCounterComponent(props, v => v.cronJobs)
+  },
+  {
     label: 'K8s Services',
     path: `${namespaceDashboardFullyQualified}/services`,
     component: Services,
@@ -106,11 +113,8 @@ export default [
   }
 ].filter(Boolean);
 
-function getCounterComponent({namespaceId, tab, timeConfig}, valueExtractor) {
-  return (<NamespaceTab 
-    namespaceId={namespaceId}
-    label={tab.label}
-    timeConfig={timeConfig}
-    valueExtractor={valueExtractor}
-    />);
+function getCounterComponent({ namespaceId, tab, timeConfig }, valueExtractor) {
+  return (
+    <NamespaceTab namespaceId={namespaceId} label={tab.label} timeConfig={timeConfig} valueExtractor={valueExtractor} />
+  );
 }

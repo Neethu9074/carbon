@@ -106,6 +106,7 @@ import './kafkaConnectCluster';
 import './kafkaConnectConnector';
 import './kafkaConnectWorker';
 import './kubernetesCluster';
+import './kubernetesCronJob';
 import './kubernetesDaemonSet';
 import './kubernetesDeployment';
 import './kubernetesNamespace';

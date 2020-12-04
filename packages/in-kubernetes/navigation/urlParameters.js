@@ -10,6 +10,7 @@ import {
   deploymentDashboard,
   deploymentConfigDashboard,
   statefulSetDashboard,
+  cronJobDashboard
 } from 'in-kubernetes/navigation/paths';
 
 import {
@@ -18,10 +19,11 @@ import {
   namespaceId,
   podId,
   nodeId,
+  cronJobId,
   daemonSetId,
   deploymentId,
   deploymentConfigId,
-  statefulSetId,
+  statefulSetId
 } from 'in-kubernetes/navigation/matrix';
 
 export const clusterIdUrlParameter = {
@@ -47,6 +49,11 @@ export const podIdUrlParameter = {
 export const nodeIdUrlParameter = {
   path: nodeDashboard,
   name: nodeId
+};
+
+export const cronJobIdUrlParameter = {
+  path: cronJobDashboard,
+  name: cronJobId
 };
 
 export const daemonSetIdUrlParameter = {

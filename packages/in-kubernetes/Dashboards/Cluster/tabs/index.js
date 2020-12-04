@@ -7,6 +7,7 @@ import {
   getStatefulSetDashboard
 } from 'in-kubernetes/navigation/paths';
 import WorkloadControllers from 'in-kubernetes/Dashboards/commonComponents/commonTabs/WorkloadControllers';
+import CronJobs from 'in-kubernetes/Dashboards/commonComponents/commonTabs/CronJobs';
 import getOpenShiftDeploymentConfigs from 'in-subscription/kubernetes/getOpenShiftDeploymentConfigs';
 import { ClusterTab } from 'in-kubernetes/Dashboards/commonComponents/Tabs';
 import getKubernetesDeployments from 'in-subscription/kubernetes/getKubernetesDeployments';
@@ -107,6 +108,12 @@ export default [
         entityName: 'statefulsets'
       }),
     header: props => getCounterComponent(props, v => v.workloads.statefulSets)
+  },
+  {
+    label: 'Cron Jobs',
+    path: `${clusterDashboardFullyQualified}/cronjobs`,
+    component: CronJobs,
+    header: props => getCounterComponent(props, v => v.cronJobs)
   },
   {
     label: 'K8s Services',

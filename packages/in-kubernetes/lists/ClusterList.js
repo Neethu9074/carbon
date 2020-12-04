@@ -100,6 +100,13 @@ const columnDefinitions = [
     }
   },
   {
+    id: 'cronJobs',
+    label: 'CronJobs',
+    getContent(item) {
+      return <EntityCounter icon="lib_kubernetes_workload" count={item.cronJobs} />;
+    }
+  },
+  {
     id: 'health',
     label: 'Health',
     getContent(item, { timeConfig }) {

@@ -3,7 +3,7 @@
 
 :local {
   .nav {
-    overflow: hidden;
+    overflow: auto;
   }
 
   .navLight {

@@ -9,6 +9,7 @@ import {
   namespaceId as matrixNamespaceId,
   podId as matrixPodId,
   nodeId as matrixNodeId,
+  cronJobId as matrixCronJobId,
   deploymentId as matrixDeploymentId,
   deploymentConfigId as matrixDeploymentConfigId,
   daemonSetId as matrixDaemonSetId,
@@ -40,6 +41,10 @@ export const podDashboardDetailsFullyQualified = `${podDashboardFullyQualified}/
 export const nodeDashboard = `/node`;
 export const nodeDashboardFullyQualified = `${kubernetes}${nodeDashboard}`;
 export const nodeDashboardDetailsFullyQualified = `${nodeDashboardFullyQualified}/details`;
+
+export const cronJobDashboard = `/cronjob`;
+export const cronJobDashboardFullyQualified = `${kubernetes}${cronJobDashboard}`;
+export const cronJobDashboardDetailsFullyQualified = `${cronJobDashboardFullyQualified}/details`;
 
 export const deploymentDashboard = `/deployment`;
 export const deploymentDashboardFullyQualified = `${kubernetes}${deploymentDashboard}`;
@@ -130,6 +135,19 @@ export function getNodeDashboard(nodeId, { tab, tabMatrix, timeConfig, clusterId
     matrixParam: matrixNodeId,
     id: nodeId,
     paramsCallback: params => setOrDeleteMatrixKey(params, nodeDashboard, matrixClusterId, clusterId)
+  });
+}
+
+export function getCronJobDashboard(cronJobId, { tab, tabMatrix, timeConfig, clusterId } = emptyObject) {
+  return getDashboard({
+    base: cronJobDashboardFullyQualified,
+    tab,
+    tabMatrix,
+    timeConfig,
+    matrixSegment: cronJobDashboard,
+    matrixParam: matrixCronJobId,
+    id: cronJobId,
+    paramsCallback: params => setOrDeleteMatrixKey(params, cronJobDashboard, matrixClusterId, clusterId)
   });
 }
 
