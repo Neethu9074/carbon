@@ -1,44 +1,29 @@
-import { compose } from 'recompose';
 import React from 'react';
 
 import InfrastructureEntityLink from 'in-analyze/TraceDetail/components/CallDetails/components/InfrastructureEntityLink';
 import { shouldStayInCurrentTimeModeForNavigationToSnapshot } from 'in-stores/snapshot';
 import { getPhysicalHierarchy } from 'in-stores/snapshot';
 import Skeleton from 'in-new-components/Loading/Skeleton';
-import { alwaysNull } from 'in-services/fixedStreams';
 import Hierarchy from 'in-components/Link/Hierarchy';
-import connectTo from 'in-hoc/connectTo';
+import useObservable from 'in-hooks/useObservable';
 
 import locals from './InfrastructureHierarchy.mless';
 
-export default compose(
-  connectTo(({ snapshotId, timeConfig }) => ({
-    timeConfig: shouldStayInCurrentTimeModeForNavigationToSnapshot(snapshotId).map(stay =>
-      stay ? undefined : timeConfig
-    )
-  })),
-  connectTo(({ snapshotId, timeConfig, calculateHierarchy }) => {
-    const observables = {
-      hierarchy: calculateHierarchy
-        ? getPhysicalHierarchy({ snapshotId, includeCluster: false, timeConfig })
-        : alwaysNull
-    };
-    return observables;
-  })
-)(HierarchicalLink);
-
-function HierarchicalLink({
+export default function InfrastructureHierarchy({
   hierarchySnapshots,
-  hierarchy,
   kind,
   pathname,
-  timeConfig,
   useSnapshotLink,
+  calculateHierarchy,
   entity,
   plugin,
   snapshotId,
+  timeConfig,
   physicalContext
 }) {
+  const stickyTimeConfig = useObservable(getStickyTimeConfig, [snapshotId, timeConfig]);
+  const hierarchy = useObservable(getHierarchy, [snapshotId, timeConfig, calculateHierarchy]);
+
   if (!hierarchy) {
     return <Skeleton />;
   }
@@ -63,7 +48,17 @@ function HierarchicalLink({
       hierarchySnapshots={hierarchySnapshots}
       useSnapshotLink={useSnapshotLink}
       pathname={pathname}
-      timeConfig={timeConfig}
+      timeConfig={stickyTimeConfig ?? timeConfig}
     />
   );
+}
+
+function getStickyTimeConfig([snapshotId, timeConfig]) {
+  return shouldStayInCurrentTimeModeForNavigationToSnapshot(snapshotId).map(stay => (stay ? undefined : timeConfig), [
+    snapshotId
+  ]);
+}
+
+function getHierarchy([snapshotId, timeConfig, calculateHierarchy]) {
+  return calculateHierarchy && getPhysicalHierarchy({ snapshotId, includeCluster: false, timeConfig });
 }

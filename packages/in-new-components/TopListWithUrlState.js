@@ -23,7 +23,8 @@ export function TopListWithUrlState(props) {
 
   if (__DEV__) {
     invariant(
-      metrics.length == 1 || (metrics.length > 1 && isNotBlank(urlMatrixParamConfig?.path) && isNotBlank(urlMatrixParamConfig?.paramTab)),
+      metrics.length == 1 ||
+        (metrics.length > 1 && isNotBlank(urlMatrixParamConfig?.path) && isNotBlank(urlMatrixParamConfig?.paramTab)),
       'URL matrix param configuration is required, when more than one metric is specified.'
     );
   }

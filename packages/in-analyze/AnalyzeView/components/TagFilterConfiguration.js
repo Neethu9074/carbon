@@ -1,4 +1,3 @@
-import { compose, withProps } from 'recompose';
 import React from 'react';
 
 import {
@@ -10,42 +9,40 @@ import EditTagFilterDialog from 'in-analyze/AnalyzeView/components/AnalyzeEditTa
 import QuickFilterBar from 'in-analyze/AnalyzeView/components/QuickFilterBar';
 import TagFilterList from 'in-analyze/AnalyzeView/components/TagFilterList';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
-import { tagFilterManipulators } from 'in-analyze/tagFiltersHoc';
-import { timeConfig$ } from 'in-stores/time/config';
-import connectTo from 'in-hoc/connectTo';
+import { getTagFilterManipulators } from 'in-analyze/tagFiltersHoc';
+import useTimeConfig from 'in-hooks/useTimeConfig';
 
-export default compose(
-  connectTo({
-    timeConfig: timeConfig$
-  }),
-  withProps(({ tagFilters, onChange, timeConfig }) => {
-    const applicationAreaSpecificTagFilters = convertToApplicationAreaSpecificTagFilter(tagFilters);
-    return {
+export default function QuickFilterForm(props) {
+  const { tagFilters, onChange, removeTagFilter, excludedTagFilters } = props;
+
+  const timeConfig = useTimeConfig();
+
+  const applicationAreaSpecificTagFilters = convertToApplicationAreaSpecificTagFilter(tagFilters);
+  const furtherProps = {
+    tagFilters: applicationAreaSpecificTagFilters,
+    filters: {
+      // The quick filter bar uses this to determine valid filter options
+      dataSource: 'calls',
+      // Also needed nested at this location for the value suggestion presentation
+      // in the dialogs.
+      timeConfig,
+      // The AP tag filter manipulators need the tag filters nested like this…
       tagFilters: applicationAreaSpecificTagFilters,
-      filters: {
-        // The quick filter bar uses this to determine valid filter options
-        dataSource: 'calls',
-        // Also needed nested at this location for the value suggestion presentation
-        // in the dialogs.
-        timeConfig,
-        // The AP tag filter manipulators need the tag filters nested like this…
-        tagFilters: applicationAreaSpecificTagFilters,
-        // Yes, a deliberate copy for a singular tagFilter that is actually the array. The AP analyze area is a mess…
-        tagFilter: applicationAreaSpecificTagFilters
-      },
-      setTagFilters: tagFilters => onChange(getTagFilterListForBackendSubscription(tagFilters))
-    };
-  }),
-  tagFilterManipulators
-)(QuickFilterForm);
+      // Yes, a deliberate copy for a singular tagFilter that is actually the array. The AP analyze area is a mess…
+      tagFilter: applicationAreaSpecificTagFilters
+    },
+    setTagFilters: tagFilters => onChange(getTagFilterListForBackendSubscription(tagFilters))
+  };
+  const tagFilterProps = getTagFilterManipulators({ ...props, ...tagFilterProps });
 
-function QuickFilterForm(props) {
-  const { tagFilters, removeTagFilter, excludedTagFilters } = props;
   return (
     <TagFilterConfigurationWrapper
       quickFilterBar={
         <QuickFilterBar
           {...props}
+          {...furtherProps}
+          {...tagFilterProps}
+          timeConfig={timeConfig}
           showLatencySelector={false}
           showHiddenCallsSelector={false}
           excludedTagFilters={excludedTagFilters}
@@ -57,6 +54,8 @@ function QuickFilterForm(props) {
         // doesn't use the same mechanism as the bar :(.
         <TagFilterList
           {...props}
+          {...furtherProps}
+          {...tagFilterProps}
           tagFilters={tagFilters.map(tagFilter => ({
             tag: tagFilter,
             onClick: () => addActiveDialog(<EditTagFilterDialog {...props} tagFilter={tagFilter} forAnalyzeCalls />),

@@ -20,7 +20,7 @@ export default function User({ beacon, beacons }) {
   );
 
   const firstBeaconIsMissingUserData =
-    first && (isBlank(beacon.userId) && isBlank(beacon.userName) && isBlank(beacon.userEmail));
+    first && isBlank(beacon.userId) && isBlank(beacon.userName) && isBlank(beacon.userEmail);
 
   if (!first) {
     first = (

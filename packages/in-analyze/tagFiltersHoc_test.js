@@ -4,21 +4,21 @@ import proxyquire from 'proxyquire';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
 import sinon from 'sinon';
-
 import React from 'react';
 
 import { NoopComponent } from 'in-test/enzymeTestUtils';
 
 describe('in-analyze/tagFiltersHoc', () => {
-  let tagFilterManipulators;
+  let getTagFilterManipulators;
   let Component;
   let wrapper;
 
   beforeEach(() => {
-    tagFilterManipulators = proxyquire('in-analyze/tagFiltersHoc', {
+    getTagFilterManipulators = proxyquire('in-analyze/tagFiltersHoc', {
       'in-analyze/AnalyzeView/components/AnalyzeEditTagFilterDialog': { '@noCallThru': true }
-    }).tagFilterManipulators;
-    Component = tagFilterManipulators(NoopComponent);
+    }).getTagFilterManipulators;
+    // eslint-disable-next-line react/display-name
+    Component = props => <NoopComponent {...props} {...getTagFilterManipulators(props)} />;
   });
 
   it('renders the NoopComponent as the root element', function() {

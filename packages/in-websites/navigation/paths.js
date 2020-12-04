@@ -46,7 +46,7 @@ export const pageLoadViewPath = '/pageLoad';
 export const pageLoadViewPathFullyQualified = `${analyzePathFullyQualified}${pageLoadViewPath}`;
 export const closePageLoadViewLink = getModifiedUrlStream(params => (params.pathname = analyzePathFullyQualified));
 
-export const detailsPath ='/details';
+export const detailsPath = '/details';
 export const websitePath = '/website';
 export const websitePathFullyQualified = `${websiteMonitoringPath}${websitePath}`;
 export const summaryTab = '/summary';

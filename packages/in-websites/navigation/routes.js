@@ -24,7 +24,10 @@ export default (
     <Route path={websitesPathFullyQualified} component={createAsyncViewComponent(WebsitesList)} />
     <Route path={websitePathFullyQualified} component={createAsyncViewComponent(WebsiteDashboard)} />
     <Route path={newWebsitePathFullyQualified} component={createAsyncViewComponent(NewWebsiteFlow)} />
-    <Route path={analyzePathFullyQualified} component={createAsyncViewComponent(webMobileQb2AnalyzeEnabled ? AnalyzeView2_0 : AnalyzeView)} />
+    <Route
+      path={analyzePathFullyQualified}
+      component={createAsyncViewComponent(webMobileQb2AnalyzeEnabled ? AnalyzeView2_0 : AnalyzeView)}
+    />
     <RedirectWithHash from={websiteMonitoringPath} to={websitesPathFullyQualified} />
   </Fragment>
 );

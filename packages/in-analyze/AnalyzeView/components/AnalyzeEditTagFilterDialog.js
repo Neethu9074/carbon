@@ -1,4 +1,4 @@
-import { withProps } from 'recompose';
+import React from 'react';
 
 import { getTagFilterListForBackendSubscription, entityTypes } from 'in-analyze/applicationFilter';
 import EditTagFilterDialog from 'in-analyze/components/EditTagFilterDialog/EditTagFilterDialog';
@@ -10,7 +10,7 @@ import { TAG_TYPES } from 'in-analyze/applicationFilter';
 
 const mapResultData = mapDataHO(data => data.suggestions);
 
-export default withProps(props => {
+export default function AnalyzeEditTagFilterDialog(props) {
   const { filters, addTagFilter, setTagFilters, trackFilterChanged, trackFilterRemoved, excludedTagFilters } = props;
   const dataSourceConfig = getConfigByDataSource(filters.dataSource);
   const tagFilters = filters.tagFilter;
@@ -19,7 +19,7 @@ export default withProps(props => {
     ? dataSourceConfig.filterTagKeys.filter(tag => !excludedTagFilters.includes(tag))
     : dataSourceConfig.filterTagKeys;
 
-  return {
+  const furtherProps = {
     tagFilters,
     timeConfig,
     filterSuggestionsClientSide: true,
@@ -31,7 +31,9 @@ export default withProps(props => {
     trackFilterChanged,
     trackFilterRemoved
   };
-})(EditTagFilterDialog);
+
+  return <EditTagFilterDialog {...props} {...furtherProps} />;
+}
 
 export function getSecondLevelKeySuggestions({ tagFilters, timeConfig, form }) {
   if (isMissingInForm(form, 'tag')) {

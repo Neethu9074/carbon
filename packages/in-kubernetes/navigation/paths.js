@@ -12,7 +12,7 @@ import {
   deploymentId as matrixDeploymentId,
   deploymentConfigId as matrixDeploymentConfigId,
   daemonSetId as matrixDaemonSetId,
-  statefulSetId as matrixStatefulSetId,
+  statefulSetId as matrixStatefulSetId
 } from 'in-kubernetes/navigation/matrix';
 
 export const kubernetes = '/kubernetes';
@@ -190,9 +190,7 @@ export function getDaemonSetDashboard(
   });
 }
 
-export function getStatefulSetDashboard(
-  id,
-  { tab, tabMatrix, timeConfig, clusterId, namespaceId } = emptyObject) {
+export function getStatefulSetDashboard(id, { tab, tabMatrix, timeConfig, clusterId, namespaceId } = emptyObject) {
   return getDashboard({
     base: statefulSetDashboardFullyQualified,
     tab,

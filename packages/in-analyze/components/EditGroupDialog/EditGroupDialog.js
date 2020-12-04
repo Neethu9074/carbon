@@ -3,9 +3,9 @@ import { compose, withProps } from 'recompose';
 import { empty } from 'reactive-observables';
 
 import EditGroupDialogPresenter from 'in-analyze/components/EditGroupDialog/EditGroupDialogPresenter';
+import { getTagType, getTagEntity, getSourceEntityAvailability } from 'in-applications/tags';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import withPropDependingState from 'in-hoc/withPropDependingState';
-import { getTagType, getTagEntity, getSourceEntityAvailability } from 'in-applications/tags';
 import { close } from 'in-components/DialogPresenter/store';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { entityTypes } from 'in-analyze/applicationFilter';

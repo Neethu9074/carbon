@@ -1,5 +1,4 @@
-import { withState, pure, compose } from 'recompose';
-import React from 'react';
+import React, { useState } from 'react';
 
 import ChildrenDistributionTimeLine from 'in-analyze/TraceDetail/components/CallTree/components/ChildrenDistributionTimeLine';
 import ServiceEndpointInformation from 'in-analyze/TraceDetail/components/CallTree/components/ServiceEndpointInformation';
@@ -7,40 +6,46 @@ import { isFakeRootCall, isUnknownTypeSpan, isInternalCall, isLog } from 'in-ana
 import ErrorIndicator from 'in-analyze/TraceDetail/components/ErrorIndicator';
 import { getColor as getEndpointColor } from 'in-applications/endpointTypes';
 import { evaluateClassNames } from 'in-services/util/classnames';
+import useObservable from 'in-hooks/useObservable';
 import { shorten } from 'in-services/util/string';
 import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
 import Pill from 'in-new-components/Pill';
-import connect from 'in-hoc/connectTo';
 
 import locals from './Row.mless';
 
 const marginPerDepth = 27;
 
-const EnhancedRow = compose(
-  pure,
-  withState('isExpanded', 'setIsExpanded', true),
-  connect(({ selectedCall$, call, openedCall$ }) => ({
-    isSelected: selectedCall$.map(selectedCall => selectedCall && call.id === selectedCall.id).distinct(),
-    isOpened: openedCall$.map(openedCall => openedCall && call.id === openedCall).distinct()
-  }))
-)(Row);
+function EnhancedRow(props) {
+  const { selectedCall$, call, openedCall$ } = props;
+
+  const [isExpanded, setIsExpanded] = useState(true);
+  const isSelected = useObservable(
+    selectedCall$.map(selectedCall => selectedCall && call.id === selectedCall.id).distinct(),
+    []
+  );
+  const isOpened = useObservable(openedCall$.map(openedCall => openedCall && call.id === openedCall).distinct(), []);
+
+  return (
+    <Row {...props} isExpanded={isExpanded} setIsExpanded={setIsExpanded} isSelected={isSelected} isOpened={isOpened} />
+  );
+}
 
 function Row(props) {
   const {
+    isSelected,
+    isOpened,
+    isExpanded,
+    setIsExpanded,
     call,
     nonInternalParentCall,
     getColor,
-    isExpanded,
     scale,
     depth = 0,
     onCallClicked,
     onSubCallClicked,
-    setIsExpanded,
     selectedCall$,
-    isSelected,
     openedCall$,
-    isOpened,
     isLargeTrace
   } = props;
 

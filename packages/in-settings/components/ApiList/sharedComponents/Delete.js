@@ -7,7 +7,15 @@ import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './Delete.mless';
 
-export default function Delete({ dialogMessage, itemName, confirmLabel, doDelete, isDeleting, skipDialog = false, disabled = false }) {
+export default function Delete({
+  dialogMessage,
+  itemName,
+  confirmLabel,
+  doDelete,
+  isDeleting,
+  skipDialog = false,
+  disabled = false
+}) {
   if (isDeleting) {
     return <SvgIcon className={locals.loadingIcon} type="lib_actions_loading" spinning />;
   }
@@ -15,34 +23,38 @@ export default function Delete({ dialogMessage, itemName, confirmLabel, doDelete
   return (
     <SvgIcon
       className={evaluateClassNames({
-        [locals.icon]: true, [locals.disabled]: disabled
+        [locals.icon]: true,
+        [locals.disabled]: disabled
       })}
       type="lib_actions_delete"
-      onClick={!disabled && (() => {
-        if (skipDialog) {
-          return doDelete();
-        }
+      onClick={
+        !disabled &&
+        (() => {
+          if (skipDialog) {
+            return doDelete();
+          }
 
-        addActiveDialog(
-          <ConfirmationDialog
-            header="Please Confirm"
-            description={
-              dialogMessage ? (
-                dialogMessage()
-              ) : (
-                <span>
-                  Are you sure you want to remove <strong>{itemName}</strong>?
-                </span>
-              )
-            }
-            confirmButtonLabel={confirmLabel || 'Remove'}
-            onSubmit={() => {
-              close();
-              doDelete();
-            }}
-          />
-        );
-      })}
+          addActiveDialog(
+            <ConfirmationDialog
+              header="Please Confirm"
+              description={
+                dialogMessage ? (
+                  dialogMessage()
+                ) : (
+                  <span>
+                    Are you sure you want to remove <strong>{itemName}</strong>?
+                  </span>
+                )
+              }
+              confirmButtonLabel={confirmLabel || 'Remove'}
+              onSubmit={() => {
+                close();
+                doDelete();
+              }}
+            />
+          );
+        })
+      }
     />
   );
 }

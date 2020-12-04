@@ -11,11 +11,7 @@ export default function ConfigurationGuidance({ mobileAppId }) {
     <Card
       title="Configuration"
       header={
-        <Button
-          kind="primaryv2"
-          href="https://instana.com/docs/mobile_app_monitoring/#installation"
-          target="_blank"
-        >
+        <Button kind="primaryv2" href="https://instana.com/docs/mobile_app_monitoring/#installation" target="_blank">
           Installation Instructions
         </Button>
       }

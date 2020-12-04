@@ -10,7 +10,7 @@ import EditTagFilterDialog from 'in-analyze/AnalyzeView/components/AnalyzeEditTa
 import QuickFilterBar from 'in-analyze/AnalyzeView/components/QuickFilterBar';
 import TagFilterList from 'in-analyze/AnalyzeView/components/TagFilterList';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
-import { tagFilterManipulators } from 'in-analyze/tagFiltersHoc';
+import { getTagFilterManipulators } from 'in-analyze/tagFiltersHoc';
 import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';
 
@@ -44,7 +44,7 @@ export default compose(
       setTagFilters: tagFilters => onChange(getTagFilterListForBackendSubscription(tagFilters))
     };
   }),
-  tagFilterManipulators
+  withProps(getTagFilterManipulators)
 )(QuickFilterForm);
 
 function QuickFilterForm(props) {

@@ -22,14 +22,18 @@ export default function TopDeploymentsList(props) {
   };
   const [{ deploymentsTab }, setUrlState] = useUrlState(urlStateDefinition);
   const selectedTab = deploymentsTab ?? tabDeployments;
-  const setSelectedTab = (tab) => setUrlState({ deploymentsTab: tab });
+  const setSelectedTab = tab => setUrlState({ deploymentsTab: tab });
 
   return (
     <KubernetesTopList
       title="Top Deployments"
       viewAllEntityName={selectedTab === tabDeployments ? 'deployment' : 'deployment config'}
       {...props}
-      header={header({ showDeploymentConfigs: props.showDeploymentConfigs, selectedTab: selectedTab, setSelectedTab: setSelectedTab })}
+      header={header({
+        showDeploymentConfigs: props.showDeploymentConfigs,
+        selectedTab: selectedTab,
+        setSelectedTab: setSelectedTab
+      })}
       getItems={_props =>
         selectedTab === tabDeployments ? getKubernetesDeployments(_props) : getOpenShiftDeploymentConfigs(_props)
       }

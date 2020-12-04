@@ -1,39 +1,40 @@
 import { Route, Switch } from 'react-router-dom';
-import { compose } from 'recompose';
 import React from 'react';
 
 import RawTracesNavigator from 'in-analyze/components/RawTraces/RawTracesNavigator';
 import RawTracesPresenter from 'in-analyze/components/RawTraces/RawTracesPresenter';
 import { analyze, traceDetailFullyQualified } from 'in-analyze/navigation/paths';
-import withUrlDependingState from 'in-hoc/withUrlDependingState';
+import useCursorPagination from 'in-hooks/useCursorPagination';
 import getTraces from 'in-subscription/application/getTraces';
-import cursorPaginated from 'in-hoc/cursorPaginated';
 import TraceDetail from 'in-analyze/TraceDetail';
+import useUrlState from 'in-hooks/useUrlState';
 
 const defaultOrder = 'timestamp';
 
-export default compose(
-  withUrlDependingState({
-    getPathSegment: () => analyze,
-    getMatrixPrefix: () => 'rawItems.',
-    boundKeys: ['orderBy', 'orderDirection'],
-    getInitialState: () => ({
-      orderBy: defaultOrder,
-      orderDirection: 'DESC'
-    }),
-    getParsedUrlValues: urlValues => ({
-      orderBy: urlValues.orderBy,
-      orderDirection: urlValues.orderDirection
-    }),
-    getSerializedUrlValues: props => ({
-      orderBy: props.orderBy,
-      orderDirection: props.orderDirection
-    }),
-    reducerName: 'onChangeOrder'
-  }),
-  cursorPaginated({
-    getResettingProps: () => ['filters', 'orderBy', 'orderDirection', 'showGraph', 'metrics', 'previewEnabled'],
-    get: ({ tagFiltersForSubscription, filterByGroup, cursor, filters, orderBy, orderDirection, previewEnabled }) =>
+const urlStateConfig = {
+  bind: [
+    {
+      path: analyze,
+      name: `rawItems.orderBy`,
+      as: 'orderBy',
+      initialState: defaultOrder
+    },
+    {
+      path: analyze,
+      name: `rawItems.orderDirection`,
+      as: 'orderDirection',
+      initialState: 'DESC'
+    }
+  ]
+};
+
+export default function RawTracesStateWrapper(props) {
+  const { tagFiltersForSubscription, filterByGroup, filters, previewEnabled } = props;
+
+  const [{ orderBy, orderDirection }, onChangeOrder] = useUrlState(urlStateConfig);
+
+  const tableProps = useCursorPagination(
+    ({ cursor }) =>
       getTraces({
         pagination: {
           cursor,
@@ -57,9 +58,12 @@ export default compose(
             ])
           : tagFiltersForSubscription,
         queryPrecision: previewEnabled ? 'APPROXIMATE' : 'FULL'
-      })
-  })
-)(RawTraces);
+      }),
+    [orderBy, orderDirection, filters.timeConfig, filterByGroup, previewEnabled, tagFiltersForSubscription]
+  );
+
+  return <RawTraces {...props} {...tableProps} onChangeOrder={onChangeOrder} />;
+}
 
 function RawTraces(props) {
   return (

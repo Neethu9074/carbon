@@ -1,4 +1,4 @@
-import { withProps } from 'recompose';
+import React from 'react';
 
 import { getTagFilterListForBackendSubscription } from 'in-analyze/applicationFilter';
 import EditGroupDialog from 'in-analyze/components/EditGroupDialog/EditGroupDialog';
@@ -8,14 +8,17 @@ import getConfigByDataSource from 'in-analyze/AnalyzeView/dataSources';
 
 const mapResultData = mapDataHO(data => data.suggestions);
 
-export default withProps(({ filters, tagFilters, timeConfig }) => {
+export default function AnalyzeEditDialog(props) {
+  const { filters, tagFilters, timeConfig } = props;
+
   const tagSuggestions = getConfigByDataSource(filters.dataSource).groupTagKeys;
-  return {
-    help: 'Select a tag by which calls and traces should be grouped.',
-    getKeySuggestions: getSecondLevelKeySuggestions(tagFilters, timeConfig),
-    tagSuggestions
-  };
-})(EditGroupDialog);
+  const help = 'Select a tag by which calls and traces should be grouped.';
+  const getKeySuggestions = getSecondLevelKeySuggestions(tagFilters, timeConfig);
+
+  return (
+    <EditGroupDialog {...props} tagSuggestions={tagSuggestions} help={help} getKeySuggestions={getKeySuggestions} />
+  );
+}
 
 function getSecondLevelKeySuggestions(tagFilters, timeConfig) {
   return ({ form }) => {

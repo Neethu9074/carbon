@@ -7,9 +7,12 @@ import http from 'in-services/http';
 export const getTagCatalog = memoize(
   getTagCatalogInternal,
   // Do not take time configuration into consideration for the hash generation.
-  ({useCase, beaconType, dataSource}) => generateStableHash({
-    useCase, beaconType, dataSource
-  }),
+  ({ useCase, beaconType, dataSource }) =>
+    generateStableHash({
+      useCase,
+      beaconType,
+      dataSource
+    }),
   minutes.toMillis(10)
 );
 

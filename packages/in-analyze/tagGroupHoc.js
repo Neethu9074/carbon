@@ -1,4 +1,3 @@
-import { withProps } from 'recompose';
 import React from 'react';
 
 import { groupAddedTracker, groupChangedTracker, groupRemovedTracker } from 'in-analyze/tracker';
@@ -9,7 +8,7 @@ import { addActiveDialog } from 'in-components/DialogPresenter/store';
  * Manipulators for tag groups.
  * Can clear the tag group or set a new one, while calling the appropriate trackers.
  */
-export const tagGroupManipulators = withProps(props => {
+export const getTagGroupManipulators = props => {
   const { grouping, setNewGroup } = props;
 
   const setNewTagGroup = (newTagGroup, existingGroup) => {
@@ -44,4 +43,4 @@ export const tagGroupManipulators = withProps(props => {
       );
     }
   };
-});
+};

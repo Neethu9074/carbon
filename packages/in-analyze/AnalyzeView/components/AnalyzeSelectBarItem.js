@@ -1,4 +1,3 @@
-import { withProps } from 'recompose';
 import React from 'react';
 
 import { getTagFilterListForBackendSubscription } from 'in-analyze/applicationFilter';
@@ -19,21 +18,18 @@ export default function AnalyzeSelectBarItem(props) {
     );
   }
 
-  return <AnalyzeSelectBarItemWithData {...props} />;
+  return <SelectBarItem {...props} filterSuggestionsClientSide getSuggestions={getSuggestions} />;
 }
 
-const AnalyzeSelectBarItemWithData = withProps({
-  filterSuggestionsClientSide: true,
-  getSuggestions: ({ timeConfig, tagFilters, tag }) => {
-    return getTagSuggestions({
-      filter: {
-        timeConfig
-      },
-      tagFilters: getTagFilterListForBackendSubscription(tagFilters),
-      tagName: tag
-    }).map(mapData);
-  }
-})(SelectBarItem);
+function getSuggestions({ timeConfig, tagFilters, tag }) {
+  return getTagSuggestions({
+    filter: {
+      timeConfig
+    },
+    tagFilters: getTagFilterListForBackendSubscription(tagFilters),
+    tagName: tag
+  }).map(mapData);
+}
 
 function mapData(result) {
   if (!result.data) {
