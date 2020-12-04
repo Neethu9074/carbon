@@ -5,6 +5,7 @@ import {
   getTimeConfigFromEvent,
   getTimeConfigFromEventForSnapshotRetrieval
 } from 'in-events/timeframe';
+import AlertingChartWithErrorMessage from 'in-new-components/Alerting/Chart/AlertingChartWithErrorMessage';
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
 import { createDefaultChartConfig } from 'in-new-components/Alerting/Chart/chartViewConfig';
 import { alertingEventDetailsChartTimeframe } from 'in-new-components/Alerting/constants';
@@ -16,7 +17,6 @@ import { getAlertConfigByIdAndTimestamp } from 'in-websites/api/websiteAlertConf
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import { getBlueprintConfig } from 'in-websites/alerting/data/blueprintConfig';
-import AlertingChart from 'in-new-components/Alerting/Chart/AlertingChart';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import Card from 'in-new-components/Card';
 import connectTo from 'in-hoc/connectTo';
@@ -75,7 +75,11 @@ export default connectTo(
         <Row withoutSideMargin>
           <Col xs>
             <Card title="Metrics">
-              <AlertingChart alertConfig={alertConfig} viewConfig={chartViewConfig} blueprintConfig={blueprintConfig} />
+              <AlertingChartWithErrorMessage
+                alertConfig={alertConfig}
+                viewConfig={chartViewConfig}
+                blueprintConfig={blueprintConfig}
+              />
             </Card>
           </Col>
         </Row>

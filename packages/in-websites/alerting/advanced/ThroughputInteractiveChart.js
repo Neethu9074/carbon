@@ -10,6 +10,7 @@ import {
 } from 'in-websites/alerting/tracker';
 import { ThresholdDeviationSliderForm } from 'in-new-components/Alerting/advanced/ThresholdDeviationSliderForm';
 import { findEntryByValue, alertConfigWithDefaultValues } from 'in-new-components/Alerting/utils/formUtils';
+import AlertingChartWithErrorMessage from 'in-new-components/Alerting/Chart/AlertingChartWithErrorMessage';
 import ThresholdConditionFormGroup from 'in-new-components/Alerting/advanced/ThresholdConditionFormGroup';
 import { ThresholdOperatorDropDown } from 'in-new-components/Alerting/advanced/ThresholdOperatorDropDown';
 import createThresholdForm, { defaultDeviationFactor } from 'in-websites/alerting/form/thresholdForm';
@@ -20,7 +21,6 @@ import ThresholdValueInput from 'in-new-components/Alerting/advanced/ThresholdVa
 import { getTrackingObject } from 'in-new-components/Alerting/trackingHelpers';
 import { blueprintConfigPropType } from 'in-new-components/Alerting/constants';
 import { ruleMetricNameOptions } from 'in-websites/alerting/form/ruleFormData';
-import AlertingChart from 'in-new-components/Alerting/Chart/AlertingChart';
 import { getMetricUnitPostfix } from 'in-websites/alerting/form/formUtils';
 import createRuleForm from 'in-websites/alerting/form/ruleForm';
 import Dropdown from 'in-new-components/Alerting/Dropdown';
@@ -50,7 +50,7 @@ export default function ThroughputInteractiveChart({
         headerTransparent
       >
         {chartViewConfig => (
-          <AlertingChart
+          <AlertingChartWithErrorMessage
             alertConfig={alertConfig}
             viewConfig={chartViewConfig}
             blueprintConfig={blueprintConfig}

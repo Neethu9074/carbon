@@ -22,8 +22,8 @@ export default function CreateApplicationDialog({ formData, timeConfig, onClose,
 
   return (
     <CreateApplicationDialogPresenter
-      simpleModeElement={SimpleModeContainer}
-      advancedModeElement={AdvancedModeContainer}
+      SimpleModeElement={SimpleModeContainer}
+      AdvancedModeElement={AdvancedModeContainer}
       form={form}
       updateForm={setForm}
       timeConfig={timeConfig}

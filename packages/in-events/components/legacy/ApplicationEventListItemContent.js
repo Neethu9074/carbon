@@ -1,5 +1,6 @@
 import React from 'react';
 
+import AlertingChartWithErrorMessage from 'in-new-components/Alerting/Chart/AlertingChartWithErrorMessage';
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
 import AnalyzeApplicationEventButton from 'in-events/components/AnalyzeApplicationEventButton';
 import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-applications/tags';
@@ -12,7 +13,6 @@ import { getBlueprintConfig } from 'in-applications/alerting/data/blueprintConfi
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import WithQB1orQB2 from 'in-new-components/Alerting/components/WithQB1orQB2';
-import AlertingChart from 'in-new-components/Alerting/Chart/AlertingChart';
 import { getChartTimeConfigByEvent } from 'in-events/timeframe';
 import { DescriptionItem } from 'in-components/DescriptionList';
 import connectTo from 'in-hoc/connectTo';
@@ -50,7 +50,11 @@ export default connectTo(
           <AnalyzeApplicationEventButton event={event} alertConfig={alertConfig} />
         </DescriptionButtons>
         <div className={locals.sectionWrapper}>
-          <AlertingChart alertConfig={alertConfig} viewConfig={chartViewConfig} blueprintConfig={blueprintConfig} />
+          <AlertingChartWithErrorMessage
+            alertConfig={alertConfig}
+            viewConfig={chartViewConfig}
+            blueprintConfig={blueprintConfig}
+          />
         </div>
         <div className={locals.sectionWrapper}>
           <DescriptionItem title="Domain">

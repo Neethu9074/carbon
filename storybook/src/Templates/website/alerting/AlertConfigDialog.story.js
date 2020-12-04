@@ -2,9 +2,9 @@ import { action } from '@storybook/addon-actions';
 import React, { useState } from 'react';
 
 import AlertConfigDialogPresenter from 'in-new-components/Alerting/AlertConfigDialogPresenter';
+import AdvancedModeContainer from 'in-websites/alerting/advanced/AdvancedModeContainer';
 import alertFormDefinition from 'in-websites/alerting/form/alertDialogFormDefinition';
 import SimpleModeContainer from 'in-websites/alerting/simple/SimpleModeContainer';
-import AdvancedModeContainer from 'in-websites/alerting/advanced/AdvancedModeContainer';
 
 export default {
   title: 'Templates|website/alerting/AlertConfigDialog',
@@ -53,8 +53,8 @@ export const AlertConfigDialog = () => {
       onCreate={action('create')}
       timeConfig={timeConfig}
       websiteLabel={'shop'}
-      simpleModeElement={SimpleModeContainer}
-      advancedModeElement={AdvancedModeContainer}
+      SimpleModeElement={SimpleModeContainer}
+      AdvancedModeElement={AdvancedModeContainer}
     />
   );
 };
@@ -71,8 +71,8 @@ export const SimpleDialogEditMode = () => {
       onCreate={action('create')}
       timeConfig={timeConfig}
       websiteLabel={'shop'}
-      simpleModeElement={SimpleModeContainer}
-      advancedModeElement={AdvancedModeContainer}
+      SimpleModeElement={SimpleModeContainer}
+      AdvancedModeElement={AdvancedModeContainer}
       editMode
     />
   );
