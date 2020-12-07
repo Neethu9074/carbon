@@ -24,7 +24,6 @@ export default function FormComponent({
   onChange,
   dataSourceFormGroup,
   labelFormGroup,
-  formatterFormGroup,
   widgetPreview,
   timeShiftConfiguration
 }) {
@@ -164,11 +163,7 @@ export default function FormComponent({
         </Col>
       </Row>
       <Row withoutTopMargin>
-        <Col lg={6}>
-          {formatterFormGroup}
-
-          {timeShiftConfiguration}
-        </Col>
+        <Col lg={6}>{timeShiftConfiguration}</Col>
 
         {widgetPreview && <Col lg>{widgetPreview}</Col>}
       </Row>
