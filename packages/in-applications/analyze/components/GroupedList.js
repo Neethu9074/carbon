@@ -5,18 +5,18 @@ import { getGroupingTagCatalog as getTraceGroupingTagCatalog } from 'in-applicat
 import { getGroupingTagCatalog as getCallGroupingTagCatalog } from 'in-applications/analyze/components/workspace/CallGroupingConfigurator';
 import MetricAndSortingConfigurator from 'in-new-components/MetricAndSortingConfigurator/MetricAndSortingConfigurator';
 import { ColumnizedContent, Ul, Li, LoadingSkeletonLi, HorizontalIndicatorLi } from 'in-new-components/lists/List';
+import { EQUALS, IS_EMPTY, NOT_EMPTY, IS_BLANK } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import { aggregateMetricKey, sparkChartMetricKey, chartMetricKey } from 'in-applications/analyze/metrics';
 import { type as TAG_FILTER_TYPE } from 'in-new-components/QueryBuilder/transformation/tagFilter';
-import { EQUALS, IS_EMPTY, NOT_EMPTY } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import { addTagFilters } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import FacetedSearch from 'in-applications/analyze/components/FacetedSearch/FacetedSearch';
 import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { emptyArray, emptyObject, indeterminateProgress } from 'in-services/fixedObjects';
 import { getChartGranularity, getSparkChartGranularity } from 'in-applications/metrics';
 import { NUMBER, KEY_VALUE_PAIR } from 'in-new-components/QueryBuilder/tagFilter/types';
+import { UNSPECIFIED, NO_VALUE } from 'in-analyze/components/GroupedTraces/Group';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import LoadMoreLi from 'in-new-components/lists/List/LoadMoreLi/LoadMoreLi';
-import { UNSPECIFIED } from 'in-analyze/components/GroupedTraces/Group';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import { dataSourceConstants } from 'in-applications/analyze/metrics';
 import { error as errorType } from 'in-new-components/Message/types';
@@ -493,25 +493,30 @@ function groupingFilter({ groupBy, group, operator = EQUALS, groupByTagType }, t
       name: groupBy.groupbyTag,
       key: groupBy.groupbyTagSecondLevelKey
     };
-  } else {
+  } else if (group === NO_VALUE) {
+    groupFilter = {
+      type: TAG_FILTER_TYPE,
+      operator: IS_BLANK,
+      name: groupBy.groupbyTag,
+      key: groupBy.groupbyTagSecondLevelKey
+    };
+  } else if (groupByTagType === KEY_VALUE_PAIR && !groupBy.groupbyTagSecondLevelKey) {
     // when grouping by key_value_pair tags without second level key (e.g. call.http.header),
     // expanding a group such as "user-agent" should show calls filtered by `call.http.header.user-agent is_present`
-    if (groupByTagType === KEY_VALUE_PAIR && !groupBy.groupbyTagSecondLevelKey) {
-      groupFilter = {
-        type: TAG_FILTER_TYPE,
-        operator: NOT_EMPTY,
-        name: groupBy.groupbyTag,
-        key: group
-      };
-    } else {
-      groupFilter = {
-        type: TAG_FILTER_TYPE,
-        operator: operator,
-        name: groupBy.groupbyTag,
-        key: groupBy.groupbyTagSecondLevelKey,
-        value: operator === EQUALS ? (groupByTagType === NUMBER ? Number(group) : group) : undefined
-      };
-    }
+    groupFilter = {
+      type: TAG_FILTER_TYPE,
+      operator: NOT_EMPTY,
+      name: groupBy.groupbyTag,
+      key: group
+    };
+  } else {
+    groupFilter = {
+      type: TAG_FILTER_TYPE,
+      operator: operator,
+      name: groupBy.groupbyTag,
+      key: groupBy.groupbyTagSecondLevelKey,
+      value: operator === EQUALS ? (groupByTagType === NUMBER ? Number(group) : group) : undefined
+    };
   }
   return addTagFilters(tagFilterExpression, [groupFilter]);
 }
