@@ -7,6 +7,7 @@ import {
   createTagForm,
   getFormPresentationInformation
 } from 'in-new-components/QueryBuilder/validation/tagForm';
+import { getSuggestionsTagFilterExpression } from 'in-new-components/QueryBuilder/tagFilter/tagSuggestions';
 import SimpleValueSelector from 'in-new-components/QueryBuilder/SimpleValueSelector/SimpleValueSelector';
 import BooleanSelector from 'in-new-components/QueryBuilder/components/Tag/BooleanSelector';
 import { onElementKeyUp } from 'in-new-components/QueryBuilder/keyboardInteraction';
@@ -16,7 +17,6 @@ import { TAG } from 'in-new-components/QueryBuilder/transformation/formModel';
 import Entity from 'in-new-components/QueryBuilder/components/Tag/Entity';
 import Remove from 'in-new-components/QueryBuilder/components/Tag/Remove';
 import Name from 'in-new-components/QueryBuilder/components/Tag/Name';
-import { getSuggestionsTagFilterExpression } from 'in-new-components/QueryBuilder/tagFilter/tagSuggestions';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
 import useThemedLocals from 'in-hooks/useThemedLocals';
@@ -127,6 +127,8 @@ export default function Tag(props) {
         getSuggestions={getSuggestions}
         formModel={formModel}
         formModelIndex={formModelIndex}
+        // temporarily restrict the latency min value to 1, should be removed for UA2 GA
+        minNumValue={element.name === 'call.latency' || element.name === 'trace.latency' ? 1 : 0}
       />
 
       <RemoveIcon form={form} element={element} tagType={tagType} onRemove={onRemove} />
@@ -206,7 +208,8 @@ function ValueInput({
   focusField,
   booleanSelectorRef,
   formModel,
-  formModelIndex
+  formModelIndex,
+  minNumValue
 }) {
   const field = form.get('value');
   if (!field) {
@@ -230,10 +233,11 @@ function ValueInput({
   if (valueType === Number) {
     return (
       <NumberInput
-        value={field.value || ''}
+        value={field.value}
         valid={field.valid}
         placeholder="Value"
         onChange={value => onChange('value', value)}
+        minValue={minNumValue}
       />
     );
   }

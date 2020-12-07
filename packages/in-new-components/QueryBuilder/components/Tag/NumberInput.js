@@ -5,7 +5,7 @@ import useThemedLocals from 'in-hooks/useThemedLocals';
 
 import styleDefs from './NumberInput.mless';
 
-export default function NumberInput({ value, placeholder, onChange, valid }) {
+export default function NumberInput({ value, placeholder, onChange, valid, minValue }) {
   const locals = useThemedLocals(styleDefs);
 
   return (
@@ -14,10 +14,14 @@ export default function NumberInput({ value, placeholder, onChange, valid }) {
         [locals.input]: true,
         [locals.invalid]: !valid
       })}
-      value={value || ''}
+      value={value ?? ''}
+      min={minValue}
       type="number"
       placeholder={placeholder}
-      onChange={e => onChange(e.target.valueAsNumber)}
+      onChange={e => {
+        const v = e.target.valueAsNumber;
+        onChange(isNaN(v) || v < minValue ? null : v);
+      }}
     />
   );
 }
