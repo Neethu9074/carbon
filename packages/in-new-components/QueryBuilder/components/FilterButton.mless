@@ -10,7 +10,6 @@
 
   .trailingButton {
     margin-left: 0.125rem;
-    border: none;
     top: 0px;
   }
 }
