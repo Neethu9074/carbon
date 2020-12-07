@@ -1,22 +1,33 @@
 import React from 'react';
 
-import { updateLatencySelection, getLatencySelectionFromTagFilterExpression } from 'in-applications/analyze/utils/latencyUtils';
+import {
+  updateLatencySelection,
+  getLatencySelectionFromTagFilterExpression
+} from 'in-applications/analyze/utils/latencyUtils';
 import LatencyDistributionBase10Chart from 'in-new-components/LatencyDistributionBase10Chart/LatencyDistributionBase10Chart';
-import { EMPTY_EXPRESSION, EXPRESSION, OPERATOR_AND } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
+import {
+  EMPTY_EXPRESSION,
+  EXPRESSION,
+  OPERATOR_AND
+} from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import getLatencyDistributionBase10 from 'in-subscription/application/getLatencyDistributionBase10';
 import { type as TAG_FILTER_TYPE } from 'in-new-components/QueryBuilder/transformation/tagFilter';
 import { dataSourceConstants } from 'in-applications/analyze/metrics';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 
-
-export default function LatencyDistributionChart({ dataSource, tagFilterExpression, updateFilter }) {
+export default function LatencyDistributionChart({ dataSource, tagFilterExpression, hiddenCalls, updateFilter }) {
   const latencyTag = dataSourceConstants[dataSource].latencyTag;
   const timeConfig = useTimeConfig();
   const subscription = getLatencyDistributionBase10({
     maxLatencyBuckets: 80,
     includePercentiles: true,
     filter: { timeConfig },
-    tagFilterExpression: removeTopLevelFiltersFromExpression(tagFilterExpression, (tagFilter) => tagFilter.name === latencyTag),
+    tagFilterExpression: removeTopLevelFiltersFromExpression(
+      tagFilterExpression,
+      tagFilter => tagFilter.name === latencyTag
+    ),
+    includeInternal: hiddenCalls?.includeInternal,
+    includeSynthetic: hiddenCalls?.includeSynthetic,
     dataSource: dataSourceConstants[dataSource].backendDataSource
   });
 
@@ -27,12 +38,14 @@ export default function LatencyDistributionChart({ dataSource, tagFilterExpressi
       showPercentileMenu
       selectionAdjustable
       dataSource={dataSource}
-      onSelectionChanged={selection => updateLatencySelection({
-        dataSource: dataSource,
-        selection,
-        tagFilterExpression: tagFilterExpression,
-        updateFilter: updateFilter
-      })}
+      onSelectionChanged={selection =>
+        updateLatencySelection({
+          dataSource: dataSource,
+          selection,
+          tagFilterExpression: tagFilterExpression,
+          updateFilter: updateFilter
+        })
+      }
     />
   );
 }
@@ -43,7 +56,7 @@ function removeTopLevelFiltersFromExpression(tagFilterExpression, predicate) {
     if (filteredElements.length === 1) {
       return filteredElements[0];
     } else if (filteredElements.length > 1) {
-      return {...tagFilterExpression, elements: filteredElements};
+      return { ...tagFilterExpression, elements: filteredElements };
     } else {
       return EMPTY_EXPRESSION;
     }

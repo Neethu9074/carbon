@@ -276,6 +276,7 @@ function ApplicationAnalyzeViewWithFixatedTimeConfig() {
                 aggregation={activeChart.aggregation}
                 groupBy={groupBy}
                 tagFilterExpression={backendQueryModel}
+                hiddenCalls={hiddenCalls}
                 orderBy={orderByGroups}
                 updateFilter={updateFilter}
                 result={result}

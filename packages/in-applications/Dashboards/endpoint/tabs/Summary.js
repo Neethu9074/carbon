@@ -41,9 +41,11 @@ export default connectTo(
       showPotentialProblemsLane: true
     });
 
+    const includeSyntheticTagFilter = { value: includeSyntheticCalls, name: 'include_synthetic', operator: EQUALS };
+
     const tagFilters = [
-      { stringValue: endpointId, name: 'endpoint.id', entity: DESTINATION, operator: EQUALS },
-      { booleanValue: includeSyntheticCalls, name: 'include_synthetic', entity: NOT_APPLICABLE, operator: EQUALS }
+      includeSyntheticTagFilter,
+      { stringValue: endpointId, name: 'endpoint.id', entity: DESTINATION, operator: EQUALS }
     ];
 
     if (serviceId != null) {
@@ -93,7 +95,7 @@ export default connectTo(
                       timeConfig,
                       boundaryScope,
                       groupByTag: { name: 'call.name', entity: entityTypes.NOT_APPLICABLE },
-                      filters: [],
+                      filters: [includeSyntheticTagFilter],
                       tagCatalog: tagCatalog,
                       metrics: [
                         { metric: 'erroneousCalls', aggregation: 'SUM' },
@@ -142,7 +144,7 @@ export default connectTo(
                       timeConfig,
                       boundaryScope,
                       groupByTag: { name: 'call.name', entity: entityTypes.NOT_APPLICABLE },
-                      filters: [{ name: 'call.erroneous', value: 'true' }],
+                      filters: [includeSyntheticTagFilter, { name: 'call.erroneous', value: 'true' }],
                       tagCatalog: tagCatalog,
                       metrics: [
                         { metric: 'errors', aggregation: 'MEAN' },
@@ -190,6 +192,7 @@ export default connectTo(
                       groupByTag: { name: 'call.name', entity: entityTypes.NOT_APPLICABLE },
                       orderBy: 'latency_MEAN_Agg',
                       orderDirection: 'DESC',
+                      filters: [includeSyntheticTagFilter],
                       tagCatalog: tagCatalog
                     }
                   )
@@ -206,6 +209,7 @@ export default connectTo(
               endpointId={endpointId}
               tagFilters={tagFilters}
               boundaryScope={boundaryScope}
+              isSynthetic={includeSyntheticCalls}
               timeConfig={timeConfig}
               callGroupByTag={{ name: 'call.name', entity: entityTypes.NOT_APPLICABLE }}
               renderPostChartContent={withPotentialProblemsLane}
@@ -221,7 +225,7 @@ export default connectTo(
               serviceId={serviceId}
               endpointId={endpointId}
               boundaryScope={boundaryScope}
-              includeSyntheticCalls={includeSyntheticCalls}
+              isSynthetic={includeSyntheticCalls}
               timeConfig={timeConfig}
               tagFilters={tagFilters}
               groupByTag={{ name: 'call.name', entity: entityTypes.NOT_APPLICABLE }}
