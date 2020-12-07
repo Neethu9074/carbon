@@ -227,8 +227,14 @@ function toNewGroupByFormat(groupByTag = emptyObject) {
   if (isNotBlank(value)) {
     newGroupByFormat['groupbyTagSecondLevelKey'] = value;
   }
-  if (entity != null && entity !== entityTypes.NOT_APPLICABLE) {
-    newGroupByFormat['groupbyTagEntity'] = entity;
+  if (entity != null) {
+    // work-around: for backward compatibility we have to override the incorrectly set entity type,
+    // which was wrongly set when jumping from the Latency chart in endpoint dashboards to UA.
+    if (name === 'endpoint.name' && entity === entityTypes.NOT_APPLICABLE) {
+      newGroupByFormat['groupbyTagEntity'] = entityTypes.DESTINATION;
+    } else if (entity !== entityTypes.NOT_APPLICABLE) {
+      newGroupByFormat['groupbyTagEntity'] = entity;
+    }
   }
   return newGroupByFormat;
 }

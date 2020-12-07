@@ -238,7 +238,7 @@ export default connectTo(
               includeSyntheticCalls={includeSyntheticCalls}
               timeConfig={timeConfig}
               tagFilters={tagFilters}
-              percentileGroupBy={{ name: 'endpoint.name', entity: entityTypes.NOT_APPLICABLE }}
+              percentileGroupBy={{ name: 'call.name', entity: entityTypes.NOT_APPLICABLE }}
               renderPostChartContent={withPotentialProblemsLane}
               urlMatrixParamConfig={{ path: summaryTab, paramTab: 'latencyTab', paramMetric: 'latencyMetric' }}
             />
