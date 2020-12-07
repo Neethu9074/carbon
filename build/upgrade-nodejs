@@ -52,7 +52,7 @@ rm -f .git/hooks/pre-commit
 echo "" > .git/hooks/pre-commit
 
 # install yarn
-npm install -g yarn@1.21.1
+npm install -g yarn@1.22.5
 
 # and install all the dependencies
 yarn
