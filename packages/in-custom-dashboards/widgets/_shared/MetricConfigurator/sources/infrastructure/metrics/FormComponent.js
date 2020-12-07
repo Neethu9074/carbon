@@ -24,7 +24,6 @@ export default function FormComponent({
   onChange,
   dataSourceFormGroup,
   labelFormGroup,
-  formatterFormGroup,
   widgetPreview,
   timeShiftConfiguration
 }) {
@@ -116,18 +115,19 @@ export default function FormComponent({
             </Label>
             <div>
               <TypeAndMetricConfigurator
-                tagName={typeField.value + typeAndMetricSeparator + metricField.value}
+                tagName={
+                  typeField.value && metricField.value && typeField.value + typeAndMetricSeparator + metricField.value
+                }
                 tagFilterExpression={tagFilterExpressionField.value}
                 timeConfig={timeConfig}
                 onChange={tagName => {
-                  const [type, metric] = tagName.split(typeAndMetricSeparator, 2);
+                  const [type, metric] = tagName ? tagName.split(typeAndMetricSeparator, 2) : [undefined, undefined];
                   onChange([], form =>
                     form
                       .updateIn(['metric'], field => field.setValue(metric).setTouched(true))
                       .updateIn(['type'], field => field.setValue(type).setTouched(true))
                   );
                 }}
-                label="Select metric"
                 loadingLabel="Loading metrics"
               />
             </div>
@@ -150,7 +150,6 @@ export default function FormComponent({
               {!aggregationField.valid && <option value="">Please select an aggregation</option>}
               {aggregationField.valid && (
                 <>
-                  <option value="">Please select</option>
                   {Object.keys(aggregationLabels).map(aggregation => (
                     <option key={aggregation} value={aggregation}>
                       {aggregationLabels[aggregation]}
@@ -164,11 +163,7 @@ export default function FormComponent({
         </Col>
       </Row>
       <Row withoutTopMargin>
-        <Col lg={12}>
-          {formatterFormGroup}
-
-          {timeShiftConfiguration}
-        </Col>
+        <Col lg={6}>{timeShiftConfiguration}</Col>
 
         {widgetPreview && <Col lg>{widgetPreview}</Col>}
       </Row>
