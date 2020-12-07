@@ -115,11 +115,13 @@ export default function FormComponent({
             </Label>
             <div>
               <TypeAndMetricConfigurator
-                tagName={typeField.value + typeAndMetricSeparator + metricField.value}
+                tagName={
+                  typeField.value && metricField.value && typeField.value + typeAndMetricSeparator + metricField.value
+                }
                 tagFilterExpression={tagFilterExpressionField.value}
                 timeConfig={timeConfig}
                 onChange={tagName => {
-                  const [type, metric] = tagName.split(typeAndMetricSeparator, 2);
+                  const [type, metric] = tagName ? tagName.split(typeAndMetricSeparator, 2) : [undefined, undefined];
                   onChange([], form =>
                     form
                       .updateIn(['metric'], field => field.setValue(metric).setTouched(true))

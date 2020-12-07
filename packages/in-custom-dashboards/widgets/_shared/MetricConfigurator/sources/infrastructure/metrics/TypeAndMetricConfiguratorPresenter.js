@@ -32,6 +32,9 @@ export default function TypeAndMetricConfiguratorPresenter({
     return <LoadingIndicator text={loadingLabel} />;
   }
 
+  if (tagName && !tagCatalog.data.tagsByName[tagName]) {
+    onChange(undefined);
+  }
   const typeAndMetric = tagCatalog.data.tagsByName[tagName]?.path.slice(1).map(path => path.label);
 
   return (
