@@ -164,7 +164,7 @@ export default function TraceDetails({
 
 function renderContext() {
   return (
-    <Link className={locals.analyticsLink} href$={getLinkBackToUA2FromTraceDetails}>
+    <Link className={locals.analyticsLink} href$={getLinkBackToUA2FromTraceDetails()}>
       Analytics
     </Link>
   );
@@ -215,7 +215,7 @@ function renderMetaInformation({ result }) {
 
 function renderTimeSelection() {
   return (
-    <Link href$={getLinkBackToUA2FromTraceDetails}>
+    <Link href$={getLinkBackToUA2FromTraceDetails()}>
       <Tooltip content="Close trace detail">
         <SvgIcon className={locals.closeIcon} aria-label="Close trace detail" type="lib_openclose_cancel" />
       </Tooltip>
