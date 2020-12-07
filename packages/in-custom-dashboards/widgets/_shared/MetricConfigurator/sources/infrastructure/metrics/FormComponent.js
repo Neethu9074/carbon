@@ -151,7 +151,6 @@ export default function FormComponent({
               {!aggregationField.valid && <option value="">Please select an aggregation</option>}
               {aggregationField.valid && (
                 <>
-                  <option value="">Please select</option>
                   {Object.keys(aggregationLabels).map(aggregation => (
                     <option key={aggregation} value={aggregation}>
                       {aggregationLabels[aggregation]}
