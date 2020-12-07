@@ -228,6 +228,7 @@ function Presenter({
                       groupByTagType={groupByTagType}
                       dataSource={dataSource}
                       getNestedUngroupedData={getNestedUngroupedData}
+                      linkFormModel={linkFormModel}
                     />
                   )}
                 >

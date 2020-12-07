@@ -127,6 +127,8 @@ export default function Tag(props) {
         getSuggestions={getSuggestions}
         formModel={formModel}
         formModelIndex={formModelIndex}
+        // temporarily restrict the latency min value to 1, should be removed for UA2 GA
+        minNumValue={element.name === 'call.latency' || element.name === 'trace.latency' ? 1 : 0}
       />
 
       <RemoveIcon form={form} element={element} tagType={tagType} onRemove={onRemove} />
@@ -206,7 +208,8 @@ function ValueInput({
   focusField,
   booleanSelectorRef,
   formModel,
-  formModelIndex
+  formModelIndex,
+  minNumValue
 }) {
   const timeConfig = useTimeConfig();
   const field = form.get('value');
@@ -231,10 +234,11 @@ function ValueInput({
   if (valueType === Number) {
     return (
       <NumberInput
-        value={field.value || ''}
+        value={field.value}
         valid={field.valid}
         placeholder="Value"
         onChange={value => onChange('value', value)}
+        minValue={minNumValue}
       />
     );
   }
