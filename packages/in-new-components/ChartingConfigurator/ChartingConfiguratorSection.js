@@ -16,7 +16,7 @@ export default function ChartingConfiguratorSection({
   additionalActions = noAdditionalActions
 }) {
   return (
-    <Section icon="lib_bar_chart" title="Chart" firstLineAlignmentOffsetPx={0} actions={<>{additionalActions}</>}>
+    <Section icon="lib_bar_chart" title="Chart" firstLineAlignmentOffsetPx={4} actions={<>{additionalActions}</>}>
       <ChartingConfigurator
         value={value}
         options={options}

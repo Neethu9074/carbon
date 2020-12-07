@@ -20,6 +20,8 @@
     align-items: center;
 
     cursor: pointer;
+
+    margin-left: 2px;
   }
 
   .noActiveGroupingButton {
@@ -75,7 +77,9 @@
     fill: @lib__colors__N400;
     cursor: pointer;
 
-    &:hover, &:active, &:focus {
+    &:hover,
+    &:active,
+    &:focus {
       fill: @lib__colors__light-blue800;
       outline: none;
     }
@@ -91,7 +95,9 @@
     fill: @lib__colors__N700Medium;
     cursor: pointer;
 
-    &:hover, &:active, &:focus {
+    &:hover,
+    &:active,
+    &:focus {
       fill: @lib__colors__light-blue800;
       outline: none;
     }
