@@ -164,7 +164,7 @@ export default function FormComponent({
         </Col>
       </Row>
       <Row withoutTopMargin>
-        <Col lg={12}>
+        <Col lg={6}>
           {formatterFormGroup}
 
           {timeShiftConfiguration}
