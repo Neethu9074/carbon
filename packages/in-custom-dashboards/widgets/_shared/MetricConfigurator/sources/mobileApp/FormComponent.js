@@ -166,7 +166,10 @@ export default function FormComponent({
                     onChange([], form =>
                       form
                         .updateIn(['metric'], field => field.setValue(e.target.value).setTouched(true))
-                        .updateIn(['aggregation'], field => field.setValue(''))
+                        .updateIn(['aggregation'], field => {
+                          const aggregations = getAggregations(beaconTypeField.value, e.target.value);
+                          return field.setValue(aggregations.length > 1 ? '' : aggregations[0]);
+                        })
                     )
                   }
                   hasError={!metricField.valid && metricField.touched}
