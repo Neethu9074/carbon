@@ -30,12 +30,6 @@ import Applications, {
   noRightHeader
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/components/Applications';
 import {
-  applyOnOptions,
-  scopeApplication,
-  scopeEverything,
-  scopeDfq
-} from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/shared';
-import {
   containsMetricInList,
   createMetricListItem,
   getAllBuiltInMetrics,
@@ -43,6 +37,12 @@ import {
   getMetricDefinition,
   isBuiltInDynamicMetric
 } from 'in-sdk/metrics';
+import {
+  applyOnOptions,
+  scopeApplication,
+  scopeEverything,
+  scopeDfq
+} from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/shared';
 import {
   getEntityTypeOptions,
   formatterTypeToDefinition
@@ -57,10 +57,10 @@ import BackendValidationMessages from 'in-components/form/BackendValidationMessa
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import { numberFormatterToFormatterType } from 'in-services/formatters/number';
 import { combinedValidationResults, valid } from 'in-settings/validation';
+import EventDescription from 'in-events/components/EventDescription';
 import SectionHeading from 'in-settings/components/SectionHeading';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import DescriptionText from 'in-components/form/DescriptionText';
-import EventDescription from 'in-events/components/EventDescription';
 import { Row, Col } from 'in-new-components/layout/Grid/Grid';
 import { isBlank, isNotBlank } from 'in-services/util/string';
 import { compareIgnoreCase } from 'in-services/util/string';
@@ -977,7 +977,13 @@ function startQueryValidation(query, form, onChange, setQueryValidationInProgres
   );
 
   // 2. Next we show progress indicator and disable saving the form.
-  setQueryValidationProgressState(true, setQueryValidationInProgress, setSaveEnabled);
+  // but do nothing if old and new query have the same value, this prevents us having an unlimited
+  // loading spinner if same value got pasted again
+  queryInput.once(previousQuery => {
+    if (previousQuery !== query) {
+      setQueryValidationProgressState(true, setQueryValidationInProgress, setSaveEnabled);
+    }
+  });
 
   // 3. Finally we start the actual query validation.
   queryInput.emit(query);
