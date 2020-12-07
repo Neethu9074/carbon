@@ -7,6 +7,7 @@ import AlertConfigDialogPresenter from 'in-new-components/Alerting/AlertConfigDi
 import { switchQB1orQB2Helper } from 'in-new-components/Alerting/components/WithQB1orQB2';
 import { isAlertQueryValid } from 'in-applications/alerting/components/AlertQueryBuilder';
 import { getBlueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
+import FeatureFeedback from 'in-new-components/FeatureFeedback/FeatureFeedback';
 import createThresholdForm from 'in-applications/alerting/form/thresholdForm';
 import { AND_CONJUNCTION } from 'in-new-components/Alerting/utils/queryUtils';
 import { pendingResult } from 'in-services/fixedObjects';
@@ -58,6 +59,14 @@ function SmartAlertConfigDialogWithQueryValidation({
       simpleMode={simpleMode}
       setSimpleMode={setSimpleMode}
       thresholdResult={thresholdResult}
+      featureFeedbackElement={
+        <FeatureFeedback
+          href={`https://docs.google.com/forms/d/e/1FAIpQLSdJfdTTcWhC_X2LaVK503OuyMuZe2ruSFmMEBqb5rjYuWd_VA/viewform`}
+          styles={{
+            marginRight: '2rem'
+          }}
+        />
+      }
     />
   );
 }

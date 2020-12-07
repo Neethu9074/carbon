@@ -73,6 +73,7 @@
   }
 
   .customCloseBehaviour {
+    display: flex;
     font-size: @lib__typography__body__font-size;
     margin-left: auto;
     padding-right: 0.5rem;
@@ -99,5 +100,4 @@
   .scrollShadow {
     box-shadow: @lib__shadows__subtle;
   }
-
 }

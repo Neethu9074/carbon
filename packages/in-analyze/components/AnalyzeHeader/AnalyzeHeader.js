@@ -20,6 +20,7 @@ import { beaconType as websiteBeaconTypeMatrixParameter } from 'in-websites/navi
 import DashboardHeaderModule from 'in-new-components/DashboardHeader/DashboardHeaderModule';
 import DashboardHeaderButton from 'in-new-components/DashboardHeader/DashboardHeaderButton';
 import { dataSource as dataSourceMatrixParameterUA1 } from 'in-analyze/navigation/matrix';
+import FeatureFeedback from 'in-new-components/FeatureFeedback/FeatureFeedback';
 import { dataSourceMatrixParameter } from 'in-applications/navigation/matrix';
 import DashboardHeader, { themes } from 'in-new-components/DashboardHeader';
 import { logsPath as logsAnalyzePath } from 'in-logging/navigation/paths';
@@ -31,8 +32,6 @@ import { newAnalyticsEnabled } from 'in-services/featureFlags';
 import { isNotBlank } from 'in-services/util/string';
 import Title from 'in-components/Title/Title';
 import SvgIcon from 'in-components/SvgIcon';
-import Pill from 'in-new-components/Pill';
-import Link from 'in-components/Link';
 
 import locals from './AnalyzeHeader.mless';
 
@@ -46,22 +45,11 @@ export default function AnalyzeHeader({ renderQuickFilterBar, isGrouped }) {
         contextConfigurations={[{ renderContext: () => 'Analytics', contextIcon: 'lib_analyze_inverted' }]}
         renderMetaInformation={() =>
           activeConfiguration?.ua2 && (
-            <div className={locals.betaMarker}>
-              <Pill kind="primary" className={locals.betaPill}>
-                BETA
-              </Pill>{' '}
-              This feature is in beta.{' '}
-              <Link
-                className={locals.betaLink}
-                external
-                href={`https://docs.google.com/forms/d/e/1FAIpQLSejuUF8Gc-wQQN58ffivTnGjYe6OWdqVgLuBo59za3LTTMfIg/viewform?usp=pp_url&entry.558784134=${encodeURIComponent(
-                  window.location.href
-                )}`}
-              >
-                You can send us feedback
-              </Link>
-              .
-            </div>
+            <FeatureFeedback
+              href={`https://docs.google.com/forms/d/e/1FAIpQLSejuUF8Gc-wQQN58ffivTnGjYe6OWdqVgLuBo59za3LTTMfIg/viewform?usp=pp_url&entry.558784134=${encodeURIComponent(
+                window.location.href
+              )}`}
+            />
           )
         }
         label={
