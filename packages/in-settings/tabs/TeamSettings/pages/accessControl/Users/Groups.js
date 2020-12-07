@@ -19,10 +19,11 @@ const GroupList = createApiList({
   renderAdditionalHeaderContent: renderAdditionalHeaderContent
 });
 
-export default function Groups({ userId }) {
+export default function Groups({ userId, refresh }) {
   return (
     <GroupList
       userId={userId}
+      refresh={refresh}
       filterFunction={({ members }) => {
         for (let i = 0; i < members.length; i++) {
           if (userId === members[i].userId) {
@@ -55,7 +56,7 @@ const columnDefinitions = [
   }
 ];
 
-function ListRenderer({ items, userId, setErrorMessage, currentDeletingItemIds }) {
+function ListRenderer({ items, userId, refresh, setErrorMessage, currentDeletingItemIds }) {
   return (
     <Ul>
       {items.map(group => (
@@ -63,7 +64,7 @@ function ListRenderer({ items, userId, setErrorMessage, currentDeletingItemIds }
           <ColumnizedContent
             columnDefinitions={columnDefinitions}
             group={group}
-            deleteItem={() => removeUserFromGroup(userId, group, setErrorMessage)}
+            deleteItem={() => removeUserFromGroup(userId, refresh, group, setErrorMessage)}
             currentDeletingItemIds={currentDeletingItemIds}
           />
         </Li>
@@ -72,7 +73,7 @@ function ListRenderer({ items, userId, setErrorMessage, currentDeletingItemIds }
   );
 }
 
-function removeUserFromGroup(_userId, group, setErrorMessage) {
+function removeUserFromGroup(_userId, refresh, group, setErrorMessage) {
   const groupWithoutUser = {
     ...group,
     members: group.members.filter(({ userId }) => userId !== _userId),
@@ -80,13 +81,17 @@ function removeUserFromGroup(_userId, group, setErrorMessage) {
   };
   const result$ = saveGroup(groupWithoutUser);
   result$.once(
-    () => {},
+    () => {
+      if (refresh) {
+        refresh();
+      }
+    },
     error => {
       setErrorMessage(`Failed to remove user from group: ${error.message}`);
     }
   );
 }
 
-function renderAdditionalHeaderContent({ userId, setErrorMessage }) {
-  return <AddUserToGroupButton userId={userId} setErrorMessage={setErrorMessage} />;
+function renderAdditionalHeaderContent({ userId, refresh, setErrorMessage }) {
+  return <AddUserToGroupButton userId={userId} refresh={refresh} setErrorMessage={setErrorMessage} />;
 }
