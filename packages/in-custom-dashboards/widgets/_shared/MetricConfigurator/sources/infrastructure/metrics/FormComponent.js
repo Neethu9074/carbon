@@ -128,7 +128,6 @@ export default function FormComponent({
                       .updateIn(['type'], field => field.setValue(type).setTouched(true))
                   );
                 }}
-                label="Select metric"
                 loadingLabel="Loading metrics"
               />
             </div>
