@@ -8,12 +8,12 @@ import { traceId as traceIdMatrixParameter, callId as callIdMatrixParameter } fr
 import { getIconByType, getLabelByType } from 'in-analyze/AnalyzeView/dataSources';
 import TracesNavigator from 'in-applications/analyze/components/TracesNavigator';
 import CallsNavigator from 'in-applications/analyze/components/CallsNavigator';
+import { getLinkBackToUA2FromTraceDetails } from 'in-analyze/navigation/paths';
 import { colorCodeMatrixParameter } from 'in-applications/navigation/matrix';
 import getTraceSummary from 'in-subscription/application/getTraceSummary';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import DashboardHeader from 'in-new-components/DashboardHeader';
-import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import { getColorPool } from 'in-services/util/ColorGenerator';
 import { traceDetail } from 'in-analyze/navigation/paths';
@@ -162,9 +162,9 @@ export default function TraceDetails({
   );
 }
 
-function renderContext({ dataSource }) {
+function renderContext() {
   return (
-    <Link className={locals.analyticsLink} href$={getLinkToAnalyze({ dataSource })}>
+    <Link className={locals.analyticsLink} href$={getLinkBackToUA2FromTraceDetails}>
       Analytics
     </Link>
   );
@@ -213,9 +213,9 @@ function renderMetaInformation({ result }) {
   );
 }
 
-function renderTimeSelection({ dataSource }) {
+function renderTimeSelection() {
   return (
-    <Link href$={getLinkToAnalyze({ dataSource })}>
+    <Link href$={getLinkBackToUA2FromTraceDetails}>
       <Tooltip content="Close trace detail">
         <SvgIcon className={locals.closeIcon} aria-label="Close trace detail" type="lib_openclose_cancel" />
       </Tooltip>
