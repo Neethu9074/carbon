@@ -115,6 +115,9 @@ describe('in-new-components/QueryBuilder/transformation/formModel', () => {
 
   describe('identity tests', () => {
     const cases = [
+      'a = 1',
+      '(a = 1)',
+      '((a = 1))',
       'a = 1 and b = 2',
       'a = 1 and (b = 2)',
       '(a = 1 and b = 2)',
