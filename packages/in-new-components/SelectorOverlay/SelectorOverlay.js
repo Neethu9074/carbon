@@ -20,6 +20,8 @@ const initialState = {
 };
 
 const categoryHeight = 40;
+// for performance reasons limit number of results shown as rendering is slow for high number of results
+const maxResults = 100;
 
 export default function SelectorOverlay({ options, onChange, withIcons = true }) {
   const [{ query, focussedNode, showFocussedNode }, setState] = useState(initialState);
@@ -107,7 +109,7 @@ export default function SelectorOverlay({ options, onChange, withIcons = true })
               ref={staticContentWrapperRef}
               onKeyDown={onKeyDown}
             >
-              {options.map((node, i) => (
+              {options.slice(0, maxResults).map((node, i) => (
                 <Node
                   key={i}
                   node={node}
