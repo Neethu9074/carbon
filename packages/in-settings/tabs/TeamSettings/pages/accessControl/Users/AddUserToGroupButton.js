@@ -5,7 +5,7 @@ import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { saveGroups } from 'in-settings/tabs/TeamSettings/api/groups';
 import Button from 'in-new-components/Button';
 
-export default function AddUserToGroupButton({ userId, setErrorMessage }) {
+export default function AddUserToGroupButton({ userId, refresh, setErrorMessage }) {
   return (
     <Button
       kind="action"
@@ -13,7 +13,7 @@ export default function AddUserToGroupButton({ userId, setErrorMessage }) {
         addActiveDialog(
           <AddUserToGroupDialog
             userId={userId}
-            onSubmit={newGroupsToAdd => addUserToGroup(userId, newGroupsToAdd, setErrorMessage)}
+            onSubmit={newGroupsToAdd => addUserToGroup(userId, refresh, newGroupsToAdd, setErrorMessage)}
           />
         );
       }}
@@ -24,7 +24,7 @@ export default function AddUserToGroupButton({ userId, setErrorMessage }) {
   );
 }
 
-function addUserToGroup(userId, newGroupsToAdd, setErrorMessage) {
+function addUserToGroup(userId, refresh, newGroupsToAdd, setErrorMessage) {
   const groupsWithUser = newGroupsToAdd.slice().map(group => {
     return {
       ...group,
@@ -36,6 +36,9 @@ function addUserToGroup(userId, newGroupsToAdd, setErrorMessage) {
   const result$ = saveGroups(groupsWithUser);
   result$.once(
     () => {
+      if (refresh) {
+        refresh();
+      }
       close();
     },
     error => {

@@ -605,3 +605,9 @@ export function getLinkToTraceDetail(traceId, { tab = '/tree', callId, tagFilter
     }
   });
 }
+
+export function getLinkBackToUA2FromTraceDetails() {
+  return getModifiedUrlStream(location => {
+    location.pathname = analyze;
+  });
+}

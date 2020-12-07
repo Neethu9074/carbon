@@ -1,17 +1,28 @@
+import { create } from 'reactive-observables';
 import { fromJS } from 'immutable';
 
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createObservable from 'in-services/http/observableHttpResult';
+import memoize from 'in-services/util/memoizingObservableGenerator';
 import { generateUniqueShortId } from 'in-services/util/id';
 import http from 'in-services/http';
 
-export function getRolesAsResultObservable() {
-  return createObservable(
-    http({
-      method: 'GET',
-      maxRetries: 3,
-      url: `/api/roles`
-    })
+const refreshSignalTeams = create().emit(true);
+export function refresh() {
+  refreshSignalTeams.emit(true);
+}
+
+export const getRolesAsResultObservable = memoize(getRolesInternal, () => '', 60000);
+
+function getRolesInternal() {
+  return refreshSignalTeams.flatMap(() =>
+    createObservable(
+      http({
+        method: 'GET',
+        maxRetries: 3,
+        url: `/api/roles`
+      })
+    )
   );
 }
 

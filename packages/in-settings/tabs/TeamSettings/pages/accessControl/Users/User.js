@@ -14,7 +14,7 @@ import { groupPermissionsEnabled } from 'in-services/featureFlags';
 import { isLoading, hasError } from 'in-services/util/result';
 import ApiItemView from 'in-settings/components/ApiItemView';
 import Skeleton from 'in-new-components/Loading/Skeleton';
-import { getRolesAsResultObservable } from 'in-api/roles';
+import { getRolesAsResultObservable, refresh } from 'in-api/roles';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import FormGroup from 'in-components/form/FormGroup';
 import Title from 'in-components/Title/Title';
@@ -52,6 +52,7 @@ export default function User({ match }) {
         renderLoadingState={renderLoadingState}
         // additional props which are passed down
         userId={userId}
+        hideFooter
       />
     </>
   );
@@ -86,7 +87,7 @@ function renderUser(props) {
 
       <Row>
         <Col lg={6}>
-          <Groups userId={userId} />
+          <Groups userId={userId} refresh={refresh} />
         </Col>
         <Col lg={6}>
           <Areas userId={userId} />
