@@ -7,6 +7,7 @@ import {
   createApiToken
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/api';
 import { getEntityHref, getEntityIdView, teamSettingsAccessControlApiTokens } from 'in-settings/navigation/paths';
+import { getCorrectIdToUseForTransitionPhase } from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/idChooser';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import List, { defaultHeaderWithCount } from 'in-settings/components/List';
 import { generateUniqueShortId } from 'in-services/util/id';
@@ -34,7 +35,12 @@ export default function ApiTokens() {
       labelNew="Add API Token"
       searchAttributes={['name', 'id', 'internalId', 'accessGrantingToken']}
       // Deprecated: Fallback can be safely removed after release-195. Also see backend type ApiToken.
-      getDetailsHref={entity => getEntityHref(teamSettingsAccessControlApiTokens, entity.internalId || entity.id)}
+      getDetailsHref={entity =>
+        getEntityHref(
+          teamSettingsAccessControlApiTokens,
+          getCorrectIdToUseForTransitionPhase(entity.internalId, entity.id)
+        )
+      }
     />
   );
 }
@@ -47,7 +53,13 @@ const columnDefinitions = [
     getContent(entity) {
       // Deprecated: Fallback can be safely removed after release-195. Also see backend type ApiToken.
       return (
-        <Link href$={getEntityIdView(teamSettingsAccessControlApiTokens, entity.internalId || entity.id)} ellipsis>
+        <Link
+          href$={getEntityIdView(
+            teamSettingsAccessControlApiTokens,
+            getCorrectIdToUseForTransitionPhase(entity.internalId, entity.id)
+          )}
+          ellipsis
+        >
           {entity.name}
         </Link>
       );
@@ -86,7 +98,7 @@ const columnDefinitions = [
 const tableActions = {
   delete: {
     // Deprecated: Fallback can be safely removed after release-195. Also see backend type ApiToken.
-    deleteEntity: entity => deleteApiToken(entity.internalId || entity.id)
+    deleteEntity: entity => deleteApiToken(getCorrectIdToUseForTransitionPhase(entity.internalId, entity.id))
   }
 };
 
@@ -105,7 +117,12 @@ function onCreateNew() {
   });
   // Note: The backend will overwrite the end-user provided IDs during creation.
   saveResult$.once(savedApiToken =>
-    goToPath(getEntityHref(teamSettingsAccessControlApiTokens, savedApiToken.internalId || savedApiToken.id))
+    goToPath(
+      getEntityHref(
+        teamSettingsAccessControlApiTokens,
+        getCorrectIdToUseForTransitionPhase(savedApiToken.internalId, savedApiToken.id)
+      )
+    )
   );
   saveResult$.errors().once(error => {
     logger.error(`Failed to save new API token: ${error.message}`, error);

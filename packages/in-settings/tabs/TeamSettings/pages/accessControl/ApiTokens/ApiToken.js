@@ -173,7 +173,9 @@ function createForm(apiToken) {
   // Deprecated: Fallback can be safely removed after release-195. Also see backend type ApiToken.
   if (apiToken.internalId) {
     form = form.put('internalId', createField({ value: apiToken.internalId }));
-  } else {
+  }
+  // Deprecated: Fallback can be safely removed after release-195. Also see backend type ApiToken.
+  if (apiToken.id) {
     form = form.put('id', createField({ value: apiToken.id }));
   }
 
