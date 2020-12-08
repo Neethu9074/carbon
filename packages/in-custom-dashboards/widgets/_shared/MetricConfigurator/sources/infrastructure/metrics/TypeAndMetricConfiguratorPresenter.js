@@ -8,7 +8,6 @@ import Overlay from 'in-new-components/overlays/Overlay';
 import useObservable from 'in-hooks/useObservable';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Message from 'in-new-components/Message';
-import Button from 'in-new-components/Button';
 import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './TypeAndMetricConfiguratorPresenter.mless';
@@ -18,7 +17,7 @@ export default function TypeAndMetricConfiguratorPresenter({
   getTagCatalog,
   tagFilterExpression,
   onChange,
-  label = 'Select metric',
+  label = 'Please select a metric',
   loadingLabel
 }) {
   const timeConfig = useTimeConfig();
@@ -32,6 +31,9 @@ export default function TypeAndMetricConfiguratorPresenter({
     return <LoadingIndicator text={loadingLabel} />;
   }
 
+  if (tagName && !tagCatalog.data.tagsByName[tagName]) {
+    onChange(undefined);
+  }
   const typeAndMetric = tagCatalog.data.tagsByName[tagName]?.path.slice(1).map(path => path.label);
 
   return (
@@ -45,30 +47,17 @@ export default function TypeAndMetricConfiguratorPresenter({
         align={'bottomLeft'}
         withoutWrapper
       >
-        {({ toggle, refSetter }) =>
-          typeAndMetric ? (
-            <DropdownButton
-              kind="secondary"
-              size="compact"
-              onClick={toggle}
-              refSetter={refSetter}
-              className={locals.configurator}
-            >
-              {typeAndMetric[0]} <SvgIcon className={locals.icon} type="lib_arrow_drop_right" /> {typeAndMetric[1]}
-            </DropdownButton>
-          ) : (
-            <Button
-              className={locals.noActiveGroupingButton}
-              kind={'subtle'}
-              size="compact"
-              icon={'lib_openclose_add'}
-              refSetter={refSetter}
-              onClick={toggle}
-            >
-              {label}
-            </Button>
-          )
-        }
+        {({ toggle, refSetter }) => (
+          <DropdownButton
+            kind="secondary"
+            size="compact"
+            onClick={toggle}
+            refSetter={refSetter}
+            className={locals.configurator}
+          >
+            <TypeAndMetricLabel typeAndMetric={typeAndMetric} label={label} />
+          </DropdownButton>
+        )}
       </Overlay>
     </>
   );
@@ -97,4 +86,15 @@ function Errors({ errors }) {
       ))}
     </>
   );
+}
+
+function TypeAndMetricLabel({ typeAndMetric, label }) {
+  if (typeAndMetric) {
+    return (
+      <>
+        {typeAndMetric[0]} <SvgIcon className={locals.icon} type="lib_arrow_drop_right" /> {typeAndMetric[1]}
+      </>
+    );
+  }
+  return label;
 }

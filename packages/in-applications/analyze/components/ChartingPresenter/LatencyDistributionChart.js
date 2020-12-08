@@ -15,7 +15,7 @@ import { type as TAG_FILTER_TYPE } from 'in-new-components/QueryBuilder/transfor
 import { dataSourceConstants } from 'in-applications/analyze/metrics';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 
-export default function LatencyDistributionChart({ dataSource, tagFilterExpression, updateFilter }) {
+export default function LatencyDistributionChart({ dataSource, tagFilterExpression, hiddenCalls, updateFilter }) {
   const latencyTag = dataSourceConstants[dataSource].latencyTag;
   const timeConfig = useTimeConfig();
   const subscription = getLatencyDistributionBase10({
@@ -26,6 +26,8 @@ export default function LatencyDistributionChart({ dataSource, tagFilterExpressi
       tagFilterExpression,
       tagFilter => tagFilter.name === latencyTag
     ),
+    includeInternal: hiddenCalls?.includeInternal,
+    includeSynthetic: hiddenCalls?.includeSynthetic,
     dataSource: dataSourceConstants[dataSource].backendDataSource
   });
 

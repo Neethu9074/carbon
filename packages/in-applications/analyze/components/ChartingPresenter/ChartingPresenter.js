@@ -15,6 +15,7 @@ export default function ChartingPresenter({
   aggregation,
   groupBy,
   tagFilterExpression,
+  hiddenCalls,
   orderBy,
   updateFilter,
   result,
@@ -29,6 +30,7 @@ export default function ChartingPresenter({
         aggregation={aggregation}
         dataSource={dataSource}
         tagFilterExpression={tagFilterExpression}
+        hiddenCalls={hiddenCalls}
         groupBy={groupBy}
         orderBy={orderBy}
         updateFilter={updateFilter}
@@ -40,11 +42,12 @@ export default function ChartingPresenter({
 }
 
 // displays charts without grouping
-function SimpleChartPresenter({ dataSource, tagFilterExpression, updateFilter }) {
+function SimpleChartPresenter({ dataSource, tagFilterExpression, hiddenCalls, updateFilter }) {
   return (
     <LatencyDistributionChart
       dataSource={dataSource}
       tagFilterExpression={tagFilterExpression}
+      hiddenCalls={hiddenCalls}
       updateFilter={updateFilter}
     />
   );
@@ -56,6 +59,7 @@ function GroupChartPresenter({
   aggregation,
   dataSource,
   tagFilterExpression,
+  hiddenCalls,
   groupBy,
   orderBy,
   updateFilter,
@@ -67,6 +71,7 @@ function GroupChartPresenter({
       <LatencyDistributionChart
         dataSource={dataSource}
         tagFilterExpression={tagFilterExpression}
+        hiddenCalls={hiddenCalls}
         updateFilter={updateFilter}
       />
     );
@@ -78,6 +83,7 @@ function GroupChartPresenter({
       groupsResult={result}
       dataSource={dataSource}
       tagFilterExpression={tagFilterExpression}
+      hiddenCalls={hiddenCalls}
       groupBy={groupBy}
       orderBy={orderBy}
       formatter={getGroupChartFormatter(metric)}

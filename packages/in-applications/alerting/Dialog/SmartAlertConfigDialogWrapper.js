@@ -129,7 +129,9 @@ function toAlertConfig(form) {
     () =>
       form
         .remove('hiddenFields')
-        .updateIn(['tagFilterExpression'], f => f.setValue(toBackendQueryModel(form.get('tagFilterExpression').value)))
+        .updateIn(['tagFilterExpression'], f =>
+          f.setValue(toBackendQueryModel(form.get('tagFilterExpression').value, false))
+        )
         .toJS()
   );
   alertConfig.name = alertConfig.name || getTitlePlaceholder(form);

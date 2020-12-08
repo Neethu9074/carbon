@@ -76,8 +76,8 @@ export default function UnifiedMetricsChart({
     <ChartWrapper
       cardTitle={title}
       timeConfig={timeConfig}
-      y1={toAxisConfiguration('y1', config.y1, resultDataAsList)}
-      y2={toAxisConfiguration('y2', config.y2, resultDataAsList)}
+      y1={toAxisConfiguration('y1', config.y1, resultDataAsList, config)}
+      y2={toAxisConfiguration('y2', config.y2, resultDataAsList, config)}
       metricsConfiguration={toMetricsConfiguration(config, resultDataAsList)}
       primaryContextMenuAction={config.primaryContextMenuAction}
       additionalContextMenuButtons={config.additionalContextMenuButtons}
@@ -126,7 +126,7 @@ function useResultData(config, granularity, timeConfig) {
   return useObservable(() => getUnifiedMetrics({ metrics }), [timeConfig, config]);
 }
 
-function toAxisConfiguration(name, axis, resultDataAsList) {
+function toAxisConfiguration(name, axis, resultDataAsList, chartConfig) {
   if (axis.metrics.length === 0 || !resultDataAsList) {
     return;
   }
@@ -135,23 +135,27 @@ function toAxisConfiguration(name, axis, resultDataAsList) {
     renderer: (find(availableRenderers, ({ id }) => id === axis.renderer) || defaultRenderer).renderer,
     formatter: getFormatter(axis.formatter),
     tooltipFormatter: axis.tooltipFormatter,
-    labels: axis.metrics.flatMap(({ label, grouping }, i) => {
+    labels: axis.metrics.flatMap(({ label: metricLabel, grouping }, i) => {
       // For grouped metrics one metric configuration will result in
       // multiple data series and hence in multiple labels.
       if (isGroupedMetric(grouping)) {
         const metricId = getMetricId(name, i);
+        // console.log('name=', name, 'metricId', metricId, axis);
         return resultDataAsList
           .filter(({ id }) => id === metricId)
-          .map(({ label }) => {
+          .map(({ label: groupLabel }) => {
             // 'other_group' is a special marker within the labels that should be replaced with 'Other'.
             // Eventually we might wanna teach the backend to return the correct string right away.
-            if (label === 'other_group') {
+            if (groupLabel === 'other_group') {
               return 'Other';
             }
-            return label;
+            //disambiguate multi-metric, multi-series charts by prefixing the group label with the metric label
+            const isAMultiSeriesChart =
+              (chartConfig.y1.metrics.length && chartConfig.y2.metrics.length) || axis.metrics.length > 1;
+            return isAMultiSeriesChart ? `${metricLabel} ${groupLabel}` : groupLabel;
           });
       }
-      return [label];
+      return [metricLabel];
     }),
     colors: axis.colors,
     metricIds: axis.metrics.flatMap(({ grouping }, i) => {

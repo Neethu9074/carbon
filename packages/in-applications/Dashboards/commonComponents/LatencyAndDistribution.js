@@ -122,6 +122,7 @@ function ChartPresenter({
       timeShiftAggregation={selectedMetricValue}
       groupByTag={percentileGroupBy}
       renderPostChartContent={renderPostChartContent}
+      isSynthetic={includeSyntheticCalls}
     />
   ) : (
     <LatencyDistributionHistogram

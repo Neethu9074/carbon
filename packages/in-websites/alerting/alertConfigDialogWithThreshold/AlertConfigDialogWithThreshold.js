@@ -11,6 +11,7 @@ import { thresholdOrBaselineLoadingSignal$ } from 'in-new-components/Alerting/Ch
 import AlertConfigDialogPresenter from 'in-new-components/Alerting/AlertConfigDialogPresenter';
 import AdvancedModeContainer from 'in-websites/alerting/advanced/AdvancedModeContainer';
 import SimpleModeContainer from 'in-websites/alerting/simple/SimpleModeContainer';
+import FeatureFeedback from 'in-new-components/FeatureFeedback/FeatureFeedback';
 import { getBlueprintConfig } from 'in-websites/alerting/data/blueprintConfig';
 import { getTrackingObject } from 'in-new-components/Alerting/trackingHelpers';
 import { modeAdvanced, modeSimple } from 'in-websites/alerting/constants';
@@ -58,6 +59,16 @@ export const AlertConfigDialogWithThreshold = compose(
       {...props}
       SimpleModeElement={SimpleModeContainer}
       AdvancedModeElement={AdvancedModeContainer}
+      featureFeedbackElement={
+        <FeatureFeedback
+          href={`https://docs.google.com/forms/d/e/1FAIpQLSdJfdTTcWhC_X2LaVK503OuyMuZe2ruSFmMEBqb5rjYuWd_VA/viewform`}
+          text="This is a new feature."
+          labelText="NEW"
+          styles={{
+            marginRight: '2rem'
+          }}
+        />
+      }
     />
   );
 });

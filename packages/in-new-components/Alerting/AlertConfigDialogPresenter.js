@@ -18,7 +18,8 @@ export default function AlertConfigDialogPresenter(props) {
     trackModeSwitch,
     withTrackClose,
     withTrackCreate,
-    updateForm
+    updateForm,
+    featureFeedbackElement // to be removed after GA
   } = props;
 
   const [slideInViewVisible, setSlideInViewVisible] = useState(false);
@@ -42,23 +43,26 @@ export default function AlertConfigDialogPresenter(props) {
       doNotCloseOnOutsideClick
       slideInViewVisible={slideInViewVisible}
       slideInViewComponent={slideInConfig && <div className={locals.slideInContainer}>{slideInConfig.component}</div>}
-      renderCustomCloseBehaviour={resetScrollShadow =>
-        !editMode && (
-          <Button
-            onClick={() => {
-              resetFormDirtyState();
-              trackModeSwitch(simpleMode, simpleModeStep, form);
-              const newMode = !simpleMode;
-              setSimpleMode(newMode);
-              updateChartForBaselineSupportedBlueprint(newMode);
-              resetScrollShadow();
-            }}
-            kind="action"
-          >
-            {simpleMode ? 'Switch to Advanced Mode' : 'Switch to Simple Mode'}
-          </Button>
-        )
-      }
+      renderCustomCloseBehaviour={resetScrollShadow => (
+        <>
+          {featureFeedbackElement}
+          {!editMode && (
+            <Button
+              onClick={() => {
+                resetFormDirtyState();
+                trackModeSwitch(simpleMode, simpleModeStep, form);
+                const newMode = !simpleMode;
+                setSimpleMode(newMode);
+                updateChartForBaselineSupportedBlueprint(newMode);
+                resetScrollShadow();
+              }}
+              kind="action"
+            >
+              {simpleMode ? 'Switch to Advanced Mode' : 'Switch to Simple Mode'}
+            </Button>
+          )}
+        </>
+      )}
     >
       <div
         className={evaluateClassNames({
@@ -125,5 +129,6 @@ AlertConfigDialogPresenter.propTypes = {
   withTrackCreate: PropTypes.func.isRequired,
   simpleMode: PropTypes.bool.isRequired,
   setSimpleMode: PropTypes.func.isRequired,
-  editMode: PropTypes.bool
+  editMode: PropTypes.bool,
+  featureFeedbackElement: PropTypes.element
 };
