@@ -1,4 +1,3 @@
-import { getCorrectIdToUseForTransitionPhase } from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/idChooser';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import http from 'in-services/http';
 
@@ -34,9 +33,7 @@ export function saveApiToken(apiToken) {
     maxRetries: 3,
     headers: getCsrfHeader(),
     // Deprecated: Fallback can be safely removed after release-195. Also see backend type ApiToken.
-    url: `/api/settings/api-tokens/${encodeURIComponent(
-      getCorrectIdToUseForTransitionPhase(apiToken.internalId, apiToken.id)
-    )}`,
+    url: `/api/settings/api-tokens/${encodeURIComponent(apiToken.internalId || apiToken.id)}`,
     data: apiToken
   }).map(response => response.body);
 }

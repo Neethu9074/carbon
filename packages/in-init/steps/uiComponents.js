@@ -1,6 +1,5 @@
 /* global require:false */
 
-require('in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/idChooser').init();
 require('in-services/browser').init();
 require('in-stores/timeOffset').init();
 require('in-services/shortcuts').init();
