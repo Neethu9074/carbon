@@ -317,13 +317,13 @@ function labelColumns({ groupBy, showChartGroupMarkers, groupColors }) {
     shrink: false,
     getContent({ group }) {
       const label = groupbyTagSecondLevelKey ? `${groupbyTag} > ${groupbyTagSecondLevelKey}` : groupbyTag;
-      return (
-        <KeyValue
-          label={label}
-          value={group.name === UNSPECIFIED ? 'Not grouped/Unspecified' : group.name}
-          accentuated
-        />
+      const groupName = group.name === UNSPECIFIED ? 'Not grouped/Unspecified' : group.name;
+      const groupNameWithTooltip = (
+        <Tooltip content={groupName} align="bottomLeft">
+          <div>{groupName}</div>
+        </Tooltip>
       );
+      return <KeyValue label={label} customValue={groupNameWithTooltip} accentuated />;
     }
   });
 }
