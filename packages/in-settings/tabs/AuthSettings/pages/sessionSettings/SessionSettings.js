@@ -146,7 +146,7 @@ function deleteItem({ setMessage }) {
   );
 }
 
-function saveItem({ form, setMessage, setLoading }) {
+function saveItem({ form, setMessage }) {
   const configToSave = {
     idleTimeInMillis: form.get('idleTimeInMillis').value,
     tokenLifeTimeInMillis:
@@ -158,18 +158,11 @@ function saveItem({ form, setMessage, setLoading }) {
   }
 
   setMessage({ message: 'Saving timeouts', type: neutral, isSaving: true });
-  setLoading(true);
 
   const setConfigResult$ = setSessionSettings(configToSave);
   setConfigResult$.once(
-    () => {
-      setMessage({ text: 'Timeouts successfully saved.', type: success });
-      setLoading(false);
-    },
-    error => {
-      setMessage({ text: `Failed to save timeouts: ${error.message}`, type: errorType });
-      setLoading(false);
-    }
+    () => setMessage({ text: 'Timeouts successfully saved.', type: success }),
+    error => setMessage({ text: `Failed to save timeouts: ${error.message}`, type: errorType })
   );
 }
 

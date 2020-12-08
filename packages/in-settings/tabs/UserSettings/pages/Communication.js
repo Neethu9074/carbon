@@ -3,7 +3,7 @@ import React from 'react';
 
 import termsFormDefinition, { addDynamicRoleField } from 'in-settings/terms/termsFormDefinition';
 import { setAndSave, formUserSettingsObject } from 'in-settings/terms/termsAndPrivaySettings';
-import { success, error as errorType } from 'in-new-components/Message/types';
+import { success, neutral, error as errorType } from 'in-new-components/Message/types';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
@@ -82,24 +82,18 @@ function render({ form, setForm, termsAndPrivacySettings, setCanSaveItem }) {
   );
 }
 
-function saveItem({ form, setForm, setMessage, setLoading }) {
+function saveItem({ form, setForm, setMessage }) {
   if (form.get('dynamicRole') && !form.get('dynamicRole').valid) {
     setForm(form.updateIn(['dynamicRole'], field => field.setTouched(true)));
     return;
   }
 
-  setLoading(true);
+  setMessage({ message: 'Saving privacy settings', type: neutral, isSaving: true });
 
   setAndSave(
     formUserSettingsObject(form),
-    () => {
-      setMessage({ text: 'Settings successfully saved.', type: success });
-      setLoading(false);
-    },
-    error => {
-      setMessage({ text: `Failed to save settings: ${error.message}`, type: errorType });
-      setLoading(false);
-    }
+    () => setMessage({ text: 'Settings successfully saved.', type: success }),
+    error => setMessage({ text: `Failed to save settings: ${error.message}`, type: errorType })
   );
 }
 
