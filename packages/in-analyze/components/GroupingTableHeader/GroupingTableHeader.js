@@ -62,8 +62,12 @@ export default connectTo({ isInternalVisible: isInternalVisible$ }, function Gro
             Select Metrics
           </Button>
         )}
-        {props.onShowGraphChange && (
-          <Button kind="secondary" onClick={() => props.onShowGraphChange(!props.showGraph)} icon="lib_views_stats">
+        {props.onChange && (
+          <Button
+            kind="secondary"
+            onClick={() => props.onChange({ showGraph: !props.showGraph })}
+            icon="lib_views_stats"
+          >
             {props.showGraph ? 'Hide' : 'Show'} Graph
           </Button>
         )}
