@@ -113,21 +113,14 @@ function renderUser(props) {
   );
 }
 
-function saveItem({ form, userId, setMessage, setLoading }) {
+function saveItem({ form, userId, setMessage }) {
   const roleId = form.get('roleId').value;
 
   setMessage({ message: 'Saving user', type: neutral, isSaving: true });
-  setLoading(true);
   const setRoleResult$ = setRole(userId, roleId);
   setRoleResult$.once(
-    () => {
-      setMessage({ text: 'Role change successfully saved.', type: success });
-      setLoading(false);
-    },
-    error => {
-      setMessage({ text: `Failed to set user role: ${error.message}`, type: errorType });
-      setLoading(false);
-    }
+    () => setMessage({ text: 'Role change successfully saved.', type: success }),
+    error => setMessage({ text: `Failed to set user role: ${error.message}`, type: errorType })
   );
 }
 

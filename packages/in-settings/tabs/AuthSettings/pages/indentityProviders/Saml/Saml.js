@@ -38,13 +38,12 @@ export default function Saml() {
         setFile(null);
         refresh();
       }}
-      saveItem={({ setMessage, setLoading, form }) => {
+      saveItem={({ setMessage, form }) => {
         const reader = new FileReader();
         reader.readAsText(file, 'UTF-8');
         reader.onload = function(evt) {
           saveItem({
             idpMetadata: evt.target.result,
-            setLoading,
             setMessage,
             spEntityId: form.get('spEntityId').value
           });
@@ -225,19 +224,12 @@ function deleteItem({ setMessage }) {
   );
 }
 
-function saveItem({ setMessage, setLoading, idpMetadata, spEntityId }) {
+function saveItem({ setMessage, idpMetadata, spEntityId }) {
   setMessage({ message: 'Saving config', type: neutral, isSaving: true });
-  setLoading(true);
   const setConfigResult$ = setConfig({ idpMetadata, spEntityId });
   setConfigResult$.once(
-    () => {
-      setMessage({ text: 'Config successfully saved.', type: success });
-      setLoading(false);
-    },
-    error => {
-      setLoading(false);
-      setMessage({ text: `Failed to save config: ${error.message}`, type: errorType });
-    }
+    () => setMessage({ text: 'Config successfully saved.', type: success }),
+    error => setMessage({ text: `Failed to save config: ${error.message}`, type: errorType })
   );
 }
 

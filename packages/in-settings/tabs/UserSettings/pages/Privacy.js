@@ -2,7 +2,7 @@ import { create } from 'reactive-observables';
 import React from 'react';
 
 import { setAndSave, formUserSettingsObject } from 'in-settings/terms/termsAndPrivaySettings';
-import { success, error as errorType } from 'in-new-components/Message/types';
+import { success, neutral, error as errorType } from 'in-new-components/Message/types';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import termsFormDefinition from 'in-settings/terms/termsFormDefinition';
@@ -60,18 +60,12 @@ function render({ form, setForm, setCanSaveItem }) {
   );
 }
 
-function saveItem({ form, setMessage, setLoading }) {
-  setLoading(true);
+function saveItem({ form, setMessage }) {
+  setMessage({ message: 'Saving privacy settings', type: neutral, isSaving: true });
   setAndSave(
     formUserSettingsObject(form),
-    () => {
-      setMessage({ text: 'Settings successfully saved.', type: success });
-      setLoading(false);
-    },
-    error => {
-      setMessage({ text: `Failed to save settings: ${error.message}`, type: errorType });
-      setLoading(false);
-    }
+    () => setMessage({ text: 'Settings successfully saved.', type: success }),
+    error => setMessage({ text: `Failed to save settings: ${error.message}`, type: errorType })
   );
 }
 

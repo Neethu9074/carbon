@@ -259,19 +259,12 @@ function FormInput({ form, type, setForm, fieldName, label, className, disabled,
   ));
 }
 
-function saveItem({ form, setMessage, setLoading }) {
+function saveItem({ form, setMessage }) {
   setMessage({ message: 'Saving config', type: neutral, isSaving: true });
-  setLoading(true);
   const setConfigResult$ = setConfig(form.toJS());
   setConfigResult$.once(
-    () => {
-      setMessage({ text: 'Config successfully saved.', type: success });
-      setLoading(false);
-    },
-    error => {
-      setMessage({ text: `Failed to save config: ${error.message}`, type: errorType });
-      setLoading(false);
-    }
+    () => setMessage({ text: 'Config successfully saved.', type: success }),
+    error => setMessage({ text: `Failed to save config: ${error.message}`, type: errorType })
   );
 }
 
