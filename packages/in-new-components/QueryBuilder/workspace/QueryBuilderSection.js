@@ -20,7 +20,7 @@ export default function QueryBuilderSection({ value: tagFilterExpression, QueryB
       className={locals.queryBuilderSection}
       icon="lib_actions_filter"
       title="Filter"
-      firstLineAlignmentOffsetPx={3}
+      firstLineAlignmentOffsetPx={4}
       actions={
         tagFilterExpression.length > 0 && (
           <Button kind="subtle" icon="lib_openclose_cancel" size="compact" onClick={() => onClear()}>

@@ -53,9 +53,10 @@ export default compose(
     }),
     reducerName: 'onChange'
   }),
-  withProps(({ dataSource, onChange, metrics, orderBy, orderDirection, showGraph }) => ({
+  withProps(({ dataSource, onChange, metrics, orderBy, orderDirection, showGraph, onShowGraphChange }) => ({
     availableMetrics: availableMetrics,
     onChangeOrder: onChange,
+    onChange: e => onShowGraphChange(e.showGraph),
     showGraph: showGraph,
     openMetricSelector: () => {
       addActiveDialog(

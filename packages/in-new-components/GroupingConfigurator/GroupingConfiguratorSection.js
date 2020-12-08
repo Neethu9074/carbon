@@ -12,7 +12,7 @@ export default function GroupBySection({
   tracking
 }) {
   return (
-    <Section icon={'lib_group_by'} title={'Group'} firstLineAlignmentOffsetPx={2}>
+    <Section icon={'lib_group_by'} title={'Group'} firstLineAlignmentOffsetPx={4}>
       <GroupingConfigurator
         value={group}
         tagFilterExpression={tagFilterExpression}

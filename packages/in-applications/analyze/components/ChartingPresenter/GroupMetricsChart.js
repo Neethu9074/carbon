@@ -17,6 +17,7 @@ export default function GroupMetricsChart({
   groupsResult,
   dataSource,
   tagFilterExpression,
+  hiddenCalls,
   groupBy,
   orderBy,
   renderer,
@@ -37,7 +38,7 @@ export default function GroupMetricsChart({
   const nbGroups = groupColors.length;
 
   const metrics = useObservable(
-    ([groupsResult, metric, aggregation, tagFilterExpression, groupBy, orderBy]) => {
+    ([groupsResult, metric, aggregation, tagFilterExpression, hiddenCalls, groupBy, orderBy]) => {
       // if the groups result is still loading, wait and do nothing
       if (groupsResult?.progress.loading ?? true) {
         return just(groupsResult);
@@ -65,6 +66,8 @@ export default function GroupMetricsChart({
               granularity,
               aggregation,
               tagFilterExpression,
+              includeInternal: hiddenCalls?.includeInternal,
+              includeSynthetic: hiddenCalls?.includeSynthetic,
               grouping: [
                 {
                   by: groupBy,
@@ -81,7 +84,7 @@ export default function GroupMetricsChart({
         }).map(getMetricsFromUnifiedMetricResult);
       }
     },
-    [groupsResult, metric, aggregation, tagFilterExpression, groupBy, orderBy]
+    [groupsResult, metric, aggregation, tagFilterExpression, hiddenCalls, groupBy, orderBy]
   );
 
   const loading = metrics?.progress?.loading;
