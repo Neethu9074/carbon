@@ -9,6 +9,7 @@ import AlertingChartWithErrorMessage from 'in-new-components/Alerting/Chart/Aler
 import { SmartAlertAffectedEntities } from 'in-events/components/EventContent/SmartAlertAffectedEntities';
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
 import AnalyzeApplicationEventButton from 'in-events/components/AnalyzeApplicationEventButton';
+import ScopeConfigPresenter from 'in-new-components/Alerting/components/ScopeConfigPresenter';
 import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-applications/tags';
 import ApplicationAlertConfigButton from 'in-events/components/ApplicationAlertConfigButton';
 import { createDefaultChartConfig } from 'in-new-components/Alerting/Chart/chartViewConfig';
@@ -20,15 +21,9 @@ import AlertQueryBuilder from 'in-applications/alerting/components/AlertQueryBui
 import { getBlueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
-import WithQB1orQB2 from 'in-new-components/Alerting/components/WithQB1orQB2';
-import IconLabel from 'in-new-components/Alerting/components/IconLabel';
 import { Col, Row } from 'in-new-components/layout/Grid';
 import useObservable from 'in-hooks/useObservable';
-import Stack from 'in-new-components/layout/Stack';
-import HelpText from 'in-components/form/HelpText';
 import Card from 'in-new-components/Card';
-
-import locals from './ApplicationEventContent.mless';
 
 export default function ApplicationEventContent({ event }) {
   const alertConfig = useObservable(
@@ -61,6 +56,8 @@ export default function ApplicationEventContent({ event }) {
   };
   const chartViewConfig = createDefaultChartConfig(timeConfig);
 
+  const tagFilterExpressionUiModel = fromBackendModel(tagFilterExpression ?? []);
+
   return (
     <>
       <Row withoutSideMargin>
@@ -90,7 +87,7 @@ export default function ApplicationEventContent({ event }) {
             <AlertingChartWithErrorMessage
               alertConfig={{
                 ...alertConfig,
-                tagFilterExpression: fromBackendModel(tagFilterExpression ?? [])
+                tagFilterExpression: tagFilterExpressionUiModel
               }}
               viewConfig={chartViewConfig}
               blueprintConfig={blueprintConfig}
@@ -102,24 +99,24 @@ export default function ApplicationEventContent({ event }) {
       <Row withoutSideMargin>
         <Col xs>
           <Card title="Scope">
-            <Stack space="xsmall">
-              <HelpText className={locals.helpTextNoTopSpace}>Application Perspective</HelpText>
-              <IconLabel text={applicationName} type="lib_application" />
-              {(tagFilterExpression.length > 0 || tagFilters.length > 0) && <HelpText>Additional Filters</HelpText>}
-              <WithQB1orQB2
-                onUsesQB1={() => (
-                  <TagFilterListPresenter
-                    tagFilters={translateDemocratisationTagFiltersToAnalyzeTagFilters({
-                      applicationName,
-                      tagFilters: [blueprintConfig.getEntityTagFilter(alertConfig), ...tagFilters]
-                    })}
-                    disabled
-                  />
-                )}
-                onUsesQB2={() => <AlertQueryBuilder value={fromBackendModel(tagFilterExpression)} readOnly />}
-                shouldFallbackToQB2={isQB2Config => isQB2Config(convertedTagFilterExpression)}
-              />
-            </Stack>
+            <ScopeConfigPresenter
+              tagFilterList={
+                <TagFilterListPresenter
+                  tagFilters={translateDemocratisationTagFiltersToAnalyzeTagFilters({
+                    applicationName,
+                    tagFilters: [blueprintConfig.getEntityTagFilter(alertConfig), ...tagFilters]
+                  })}
+                  disabled
+                />
+              }
+              tagFilterExpressionUiModel={tagFilterExpressionUiModel}
+              queryBuilder={<AlertQueryBuilder value={tagFilterExpressionUiModel} readOnly />}
+              convertedTagFilterExpression={convertedTagFilterExpression}
+              iconLabelConfig={{
+                text: applicationName,
+                type: 'lib_application'
+              }}
+            />
           </Card>
         </Col>
       </Row>

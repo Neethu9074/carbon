@@ -3,6 +3,7 @@ import React from 'react';
 import AlertingChartWithErrorMessage from 'in-new-components/Alerting/Chart/AlertingChartWithErrorMessage';
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
 import AnalyzeApplicationEventButton from 'in-events/components/AnalyzeApplicationEventButton';
+import ScopeConfigPresenter from 'in-new-components/Alerting/components/ScopeConfigPresenter';
 import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-applications/tags';
 import ApplicationAlertConfigButton from 'in-events/components/ApplicationAlertConfigButton';
 import { getAlertConfigByIdAndTimestamp } from 'in-applications/api/applicationAlertConfig';
@@ -12,7 +13,6 @@ import AlertQueryBuilder from 'in-applications/alerting/components/AlertQueryBui
 import { getBlueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
-import WithQB1orQB2 from 'in-new-components/Alerting/components/WithQB1orQB2';
 import { getChartTimeConfigByEvent } from 'in-events/timeframe';
 import { DescriptionItem } from 'in-components/DescriptionList';
 import connectTo from 'in-hoc/connectTo';
@@ -41,6 +41,8 @@ export default connectTo(
     const timeConfig = getChartTimeConfigByEvent({ event });
     timeConfig.windowSize = alertingEventDetailsChartTimeframe;
 
+    const tagFilterExpressionUiModel = fromBackendModel(alertConfig.tagFilterExpression);
+
     const chartViewConfig = { timeConfig };
     return (
       <>
@@ -59,8 +61,8 @@ export default connectTo(
         <div className={locals.sectionWrapper}>
           <DescriptionItem title="Domain">
             <div className={locals.domainContentWrapper}>
-              <WithQB1orQB2
-                onUsesQB1={() => (
+              <ScopeConfigPresenter
+                tagFilterList={
                   <TagFilterListPresenter
                     tagFilters={translateDemocratisationTagFiltersToAnalyzeTagFilters({
                       applicationName,
@@ -68,11 +70,14 @@ export default connectTo(
                     })}
                     disabled
                   />
-                )}
-                onUsesQB2={() => (
-                  <AlertQueryBuilder value={fromBackendModel(alertConfig.tagFilterExpression)} readOnly />
-                )}
-                shouldFallbackToQB2={isQB2Config => isQB2Config(alertConfig.convertedTagFilterExpression)}
+                }
+                tagFilterExpressionUiModel={tagFilterExpressionUiModel}
+                queryBuilder={<AlertQueryBuilder value={tagFilterExpressionUiModel} readOnly />}
+                convertedTagFilterExpression={alertConfig.convertedTagFilterExpression}
+                iconLabelConfig={{
+                  text: applicationName,
+                  type: 'lib_application'
+                }}
               />
             </div>
           </DescriptionItem>

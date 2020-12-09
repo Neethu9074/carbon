@@ -7,6 +7,7 @@ import TimeThresholdDescription from 'in-new-components/Alerting/components/Time
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
 import SelectedAlertTypeInfo from 'in-new-components/Alerting/components/SelectedAlertTypeInfo';
 import ChartViewConfigurator from 'in-new-components/Alerting/components/ChartViewConfigurator';
+import ScopeConfigPresenter from 'in-new-components/Alerting/components/ScopeConfigPresenter';
 import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-applications/tags';
 import AlertChannelsViewer from 'in-new-components/Alerting/components/AlertChannelsViewer';
 import { getLogMessageRuleOperatorLabel } from 'in-applications/alerting/form/ruleFormData';
@@ -15,15 +16,10 @@ import AlertPropertyInfos from 'in-new-components/Alerting/components/AlertPrope
 import AlertQueryBuilder from 'in-applications/alerting/components/AlertQueryBuilder';
 import AlertDetailsCard from 'in-new-components/Alerting/components/AlertDetailsCard';
 import { getBlueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
-import WithQB1orQB2 from 'in-new-components/Alerting/components/WithQB1orQB2';
-import IconLabel from 'in-new-components/Alerting/components/IconLabel';
 import LocallyChangedTheme from 'in-themes/LocallyChangedTheme';
 import ExpandableCard from 'in-new-components/ExpandableCard';
 import { operators } from 'in-analyze/applicationFilter';
 import ListTitle from 'in-new-components/lists/Title';
-import { identity } from 'in-services/util/function';
-import HelpText from 'in-components/form/HelpText';
-import Stack from 'in-new-components/layout/Stack';
 import { light } from 'in-themes/themes';
 
 import locals from 'in-new-components/Alerting/shared-styles/AlertConfiguration.mless';
@@ -88,25 +84,23 @@ export default function AlertConfiguration({ alertConfig, applicationName }) {
           darkFrame
         >
           <div className={locals.alertFiltersWrapper}>
-            <WithQB1orQB2
-              onUsesQB1={() => (
+            <ScopeConfigPresenter
+              tagFilterList={
                 <TagFilterListPresenter
                   tagFilters={translateDemocratisationTagFiltersToAnalyzeTagFilters({
-                    tagFilters: [blueprintConfig.getEntityTagFilter(alertConfig), ...tagFilters],
-                    applicationName
+                    applicationName,
+                    tagFilters: [blueprintConfig.getEntityTagFilter(alertConfig), ...tagFilters]
                   })}
                   disabled
                 />
-              )}
-              onUsesQB2={() => (
-                <Stack space="xsmall">
-                  <HelpText>Application Perspective</HelpText>
-                  <IconLabel text={applicationName} type="lib_application" />
-                  <HelpText>Additional Filters</HelpText>
-                  <AlertQueryBuilder onChange={identity} value={tagFilterExpressionUiModel} readOnly />
-                </Stack>
-              )}
-              shouldFallbackToQB2={isQB2Config => isQB2Config(convertedTagFilterExpression)}
+              }
+              tagFilterExpressionUiModel={tagFilterExpressionUiModel}
+              queryBuilder={<AlertQueryBuilder value={tagFilterExpressionUiModel} readOnly />}
+              convertedTagFilterExpression={convertedTagFilterExpression}
+              iconLabelConfig={{
+                text: applicationName,
+                type: 'lib_application'
+              }}
             />
           </div>
           <ReadOnlyInboundOrAllCalls alertConfig={alertConfig} />

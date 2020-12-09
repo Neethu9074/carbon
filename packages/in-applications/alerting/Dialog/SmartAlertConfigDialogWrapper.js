@@ -125,15 +125,21 @@ function createAlert({ form, setForm, onClose, editMode, setIsSaving }) {
 
 function toAlertConfig(form) {
   const alertConfig = switchQB1orQB2Helper(
-    () => form.remove('hiddenFields').toJS(),
     () =>
       form
         .remove('hiddenFields')
+        .remove('tagFilterExpression')
+        .toJS(),
+    () =>
+      form
+        .remove('hiddenFields')
+        .remove('tagFilters')
         .updateIn(['tagFilterExpression'], f =>
           f.setValue(toBackendQueryModel(form.get('tagFilterExpression').value, false))
         )
         .toJS()
   );
+
   alertConfig.name = alertConfig.name || getTitlePlaceholder(form);
   alertConfig.description = alertConfig.description || getDescriptionPlaceholder(form);
   return alertConfig;

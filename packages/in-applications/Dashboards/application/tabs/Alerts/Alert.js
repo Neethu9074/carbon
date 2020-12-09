@@ -52,12 +52,13 @@ export default function Alert({ location, timeConfig }) {
     getApplication({ id: applicationId }).map(({ data }) => data && data.label)
   );
 
-  const alertConfig = useObservable(alertConfig$.startWith(null), [alertConfigId, alertConfigCreated]);
+  const [reload, triggerReload] = useState(undefined);
+  const alertConfig = useObservable(alertConfig$.startWith(null), [alertConfigId, alertConfigCreated, reload]);
   const alertConfigError = useObservable(alertConfig$.errors(), [alertConfigId, alertConfigCreated]);
-  const alertConfigVersions = useObservable(alertConfigVersions$, [alertConfigId]);
+  const alertConfigVersions = useObservable(alertConfigVersions$, [alertConfigId, reload]);
+
   const alertConfigVersionsError = useObservable(alertConfigVersions$.errors(), [alertConfigId]);
   const applicationName = useObservable(applicationName$, [alertConfigId, alertConfigCreated]);
-  const [, triggerReRender] = useState(undefined);
 
   if (alertConfigError || alertConfigVersionsError) {
     return <ErroneousResultPresenter errors={[alertConfigError, alertConfigVersionsError].filter(Boolean)} />;
@@ -71,7 +72,7 @@ export default function Alert({ location, timeConfig }) {
       setOrDeleteMatrixKey(location, alertsTab, alertCreatedMatrixParam, created);
     });
     if (!created) {
-      triggerReRender(Math.random());
+      triggerReload(Math.random());
     }
   }
 

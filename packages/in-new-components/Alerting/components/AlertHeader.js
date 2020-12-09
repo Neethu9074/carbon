@@ -35,6 +35,7 @@ export default function AlertHeader({
   onConfigRevisionChanged
 }) {
   const alertRevision = getRevision(alertConfig, alertConfigVersions) || 1;
+
   const isDeletedConfig = alertConfig.readOnly && alertRevision === alertConfigVersions.length;
   const isNotLatestRevision = alertRevision < alertConfigVersions.length;
 
