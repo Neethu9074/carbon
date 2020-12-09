@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import { nodeArray as nodeArrayPropType } from 'in-new-components/SelectorOverlay/props';
 import SlideInView, { ListHeader } from 'in-new-components/SlideInView/SlideInView';
+import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import { onArrowKeyDownFocusSiblings } from 'in-services/util/domFocus';
 import { search } from 'in-new-components/SelectorOverlay/search';
 import { getInteractiveElements } from 'in-services/util/dom';
@@ -23,7 +24,7 @@ const categoryHeight = 40;
 // for performance reasons limit number of results shown as rendering is slow for high number of results
 const maxResults = 100;
 
-export default function SelectorOverlay({ options, onChange, withIcons = true }) {
+export default function SelectorOverlay({ options, loading = false, onChange, withIcons = true }) {
   const [{ query, focussedNode, showFocussedNode }, setState] = useState(initialState);
   options = useMemo(() => {
     if (isNotBlank(query)) {
@@ -70,64 +71,70 @@ export default function SelectorOverlay({ options, onChange, withIcons = true })
         />
       </div>
       <div className={locals.overlay}>
-        <SlideInView
-          showSlideInContent={showFocussedNode}
-          onShowSlideInContentChange={() =>
-            setState({
-              query,
-              focussedNode,
-              showFocussedNode: false
-            })
-          }
-          onAfterSlideOut={() => {
-            lastFocusedElementRef.current?.focus();
-          }}
-          HeaderComponent={ListHeader}
-          slideTransitionDurationMillis={250}
-          slideInContentTitle={focussedNode?.label}
-          slideInContent={
-            focussedNode?.children && (
-              <div onKeyDown={onKeyDown}>
-                {focussedNode?.children.map((node, i) => (
-                  <Node
-                    key={i}
-                    node={node}
-                    focusNode={focusNode}
-                    onChange={onChange}
-                    asListGroup
-                    withIcons={withIcons}
-                  />
-                ))}
-              </div>
-            )
-          }
-          staticContent={
-            <div
-              onFocus={e => {
-                lastFocusedElementRef.current = e.target;
-              }}
-              ref={staticContentWrapperRef}
-              onKeyDown={onKeyDown}
-            >
-              {options.slice(0, maxResults).map((node, i) => (
-                <Node
-                  key={i}
-                  node={node}
-                  focusNode={focusNode}
-                  onChange={onChange}
-                  asListGroup
-                  withIcons={withIcons}
-                  withBreadcrumbs={isNotBlank(query)}
-                  height={`${categoryHeight}px`}
-                />
-              ))}
-            </div>
-          }
-          enforceMaxHeightForStaticContent
-        />
+        <Results />
       </div>
     </>
   );
+
+  function Results() {
+    if (loading) {
+      return (
+        <div className={locals.loading}>
+          <LoadingIndicator text="Loading catalog" className={locals.loading} height={100} />
+        </div>
+      );
+    }
+    return (
+      <SlideInView
+        showSlideInContent={showFocussedNode}
+        onShowSlideInContentChange={() =>
+          setState({
+            query,
+            focussedNode,
+            showFocussedNode: false
+          })
+        }
+        onAfterSlideOut={() => {
+          lastFocusedElementRef.current?.focus();
+        }}
+        HeaderComponent={ListHeader}
+        slideTransitionDurationMillis={250}
+        slideInContentTitle={focussedNode?.label}
+        slideInContent={
+          focussedNode?.children && (
+            <div onKeyDown={onKeyDown}>
+              {focussedNode?.children.map((node, i) => (
+                <Node key={i} node={node} focusNode={focusNode} onChange={onChange} asListGroup withIcons={withIcons} />
+              ))}
+            </div>
+          )
+        }
+        staticContent={
+          <div
+            onFocus={e => {
+              lastFocusedElementRef.current = e.target;
+            }}
+            ref={staticContentWrapperRef}
+            onKeyDown={onKeyDown}
+          >
+            {options.slice(0, maxResults).map((node, i) => (
+              <Node
+                key={i}
+                node={node}
+                focusNode={focusNode}
+                onChange={onChange}
+                asListGroup
+                withIcons={withIcons}
+                withBreadcrumbs={isNotBlank(query)}
+                height={`${categoryHeight}px`}
+              />
+            ))}
+          </div>
+        }
+        enforceMaxHeightForStaticContent
+      />
+    );
+  }
 
   function focusNode(focussedNode) {
     setState({
@@ -174,6 +181,7 @@ export default function SelectorOverlay({ options, onChange, withIcons = true })
 
 SelectorOverlay.propTypes = {
   options: nodeArrayPropType.isRequired,
+  loading: PropTypes.bool,
   onChange: PropTypes.func.isRequired,
   withIcons: PropTypes.bool
 };

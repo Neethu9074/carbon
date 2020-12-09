@@ -37,7 +37,7 @@ export const options = [
             children: [
               {
                 label: 'Third Level Leaf',
-                description: 'Some description',
+                description: 'Some description'
               }
             ]
           }
@@ -55,7 +55,13 @@ export const options = [
       <SelectorOverlay onChange={storybookAction('onChange')} options={options} />
     </PermanentlyVisibleOverlay>
   </Story>
+  <Story name="loading">
+    <PermanentlyVisibleOverlay>
+      <SelectorOverlay onChange={storybookAction('onChange')} options={[]} loading />
+    </PermanentlyVisibleOverlay>
+  </Story>
 </Preview>
 
 ### Props
+
 <Props of={SelectorOverlay} />

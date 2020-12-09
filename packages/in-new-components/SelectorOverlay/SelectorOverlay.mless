@@ -29,4 +29,8 @@
     justify-content: space-between;
     font-weight: normal;
   }
+
+  .loading {
+    margin: 0 auto;
+  }
 }

@@ -8,9 +8,8 @@ import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './MetricSelectorOverlay.mless';
 
-export default function MetricSelectorOverlay({ metricCatalog, onChange, close }) {
-  //TODO need to change structure to rename tagTree into tree
-  const options = useMemo(() => toOptions(metricCatalog.tagTree, []), [metricCatalog]);
+export default function MetricSelectorOverlay({ metricCatalog, loading, onChange, close }) {
+  const options = useMemo(() => (loading ? emptyArray : toOptions(metricCatalog.tree, [])), [metricCatalog, loading]);
 
   useDisabledBodyScroll();
 
@@ -18,8 +17,9 @@ export default function MetricSelectorOverlay({ metricCatalog, onChange, close }
     <SelectorOverlay
       withIcons
       options={options}
+      loading={loading}
       onChange={node => {
-        onChange({ name: node.metricName });
+        onChange({ metric: node.metric, type: node.type });
         close();
       }}
     />
@@ -38,13 +38,20 @@ function toOptions(metricTreeNodes, parentLabels = []) {
           hasChildren={metricTreeNode.children?.length > 0}
         />
       ),
-      searchable: metricTreeNode.searchable,
       description: metricTreeNode.description,
-      keywords: [joinedParentLabels, metricTreeNode.label, metricTreeNode.description, metricTreeNode.tagName]
+      metric: metricTreeNode.name,
+      type: metricTreeNode.type,
+      icon: metricTreeNode.icon,
+      searchable: true,
+      keywords: [
+        joinedParentLabels,
+        metricTreeNode.label,
+        metricTreeNode.description,
+        metricTreeNode.name,
+        metricTreeNode.type
+      ]
         .filter(Boolean)
         .join(' '),
-      metricName: metricTreeNode.tagName,
-      icon: metricTreeNode.icon,
       children: metricTreeNode.children
         ? toOptions(metricTreeNode.children, parentLabels.concat(metricTreeNode.label))
         : emptyArray
@@ -71,7 +78,8 @@ function BreadcrumbAndLabel({ path, label, hasChildren }) {
 }
 
 MetricSelectorOverlay.propTypes = {
-  metricCatalog: PropTypes.any.isRequired,
+  metricCatalog: PropTypes.any,
+  loading: PropTypes.bool.isRequired,
   onChange: PropTypes.func.isRequired,
   close: PropTypes.func.isRequired
 };
