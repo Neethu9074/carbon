@@ -4,10 +4,10 @@ import React from 'react';
 
 import ApplicationEventListItemContent from 'in-events/components/legacy/ApplicationEventListItemContent';
 import EntityWithParentInformation from 'in-events/components/EntityInformation/EntityWithParentInformation';
+import { getTimeConfigFromEvent, getTimeConfigFromEventForSnapshotRetrieval } from 'in-events/timeframe';
 import WebsiteEventListItemContent from 'in-events/components/legacy/WebsiteEventListItemContent';
 import EventDurationMarker from 'in-events/components/legacy/marker/EventDurationMarker';
 import EventListItemContent from 'in-events/components/legacy/EventListItemContent';
-import { getTimeConfigFromEventForSnapshotRetrieval } from 'in-events/timeframe';
 import { getColorForEventAtFocusedMomentAsStream } from 'in-stores/events';
 import { getCurrentViewWithTimelineFocusedAt } from 'in-stores/timeline';
 import EndedMarker from 'in-events/components/legacy/marker/EndedMarker';
@@ -133,8 +133,8 @@ function DetailsHeader({ event, onClick, iconType, background, timeConfig }) {
             entityId={entityId}
             entityType={entityType}
             metadata={event.get('metadata')}
-            linkTimeConfig={timeConfig}
             timeConfig={timeConfig}
+            linkTimeConfig={getTimeConfigFromEvent(event)}
           />
         </div>
       </div>

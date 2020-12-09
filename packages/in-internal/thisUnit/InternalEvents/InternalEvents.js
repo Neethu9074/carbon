@@ -6,6 +6,7 @@ import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicat
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import getInternalEvents from 'in-subscription/getInternalEvents';
 import ExpandableCard from 'in-new-components/ExpandableCard';
+import { getTimeConfigFromEvent } from 'in-events/timeframe';
 import { formatDateTime } from 'in-services/formatters/date';
 import { Col, Row } from 'in-new-components/layout/Grid';
 import cursorPaginated from 'in-hoc/cursorPaginated';
@@ -113,6 +114,7 @@ function Event({ event, timeConfig }) {
             entityType={event.entityType}
             metadata={event.metadata}
             timeConfig={timeConfig}
+            linkTimeConfig={getTimeConfigFromEvent(event)}
           />
         </Col>
       </Row>

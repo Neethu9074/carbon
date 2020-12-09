@@ -150,6 +150,9 @@ function toAxisConfiguration(name, axis, resultDataAsList, chartConfig) {
               return 'Other';
             }
             //disambiguate multi-metric, multi-series charts by prefixing the group label with the metric label
+            if (!groupLabel) {
+              return metricLabel;
+            }
             const isAMultiSeriesChart =
               (chartConfig.y1.metrics.length && chartConfig.y2.metrics.length) || axis.metrics.length > 1;
             return isAMultiSeriesChart ? `${metricLabel} ${groupLabel}` : groupLabel;
