@@ -1,7 +1,7 @@
 import { Meta, Story, Preview, Props } from '@storybook/addon-docs/blocks';
 import { action as storybookAction } from '@storybook/addon-actions';
 
-import MetricSelectorOverlay from 'in-new-components/MetricSelectorOverlay/MetricSelectorOverlay';
+import MetricSelectorOverlay from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/MetricSelectorOverlay';
 import PermanentlyVisibleOverlay from '../util/PermanentlyVisibleOverlay';
 import metricCatalogExampleJson from './metricCatalogExample';
 
@@ -15,11 +15,15 @@ the MetricTree.
 <Preview>
   <Story name="default">
     <PermanentlyVisibleOverlay>
-      <MetricSelectorOverlay onChange={storybookAction('onChange')} close={storybookAction('close')} metricCatalog={metricCatalogExampleJson}/>
+      <MetricSelectorOverlay
+        onChange={storybookAction('onChange')}
+        close={storybookAction('close')}
+        metricCatalog={metricCatalogExampleJson}
+      />
     </PermanentlyVisibleOverlay>
   </Story>
 </Preview>
 
 ### Props
-<Props of={MetricSelectorOverlay} />
 
+<Props of={MetricSelectorOverlay} />
