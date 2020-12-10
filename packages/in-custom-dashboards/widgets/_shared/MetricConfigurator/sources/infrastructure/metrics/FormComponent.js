@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 
-import TypeAndMetricConfigurator, {
-  typeAndMetricSeparator
-} from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/TypeAndMetricConfigurator';
+import TypeAndMetricConfigurator from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/TypeAndMetricConfigurator';
 import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import { onChangeGrouping } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/form';
 import { EMPTY_EXPRESSION } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import QueryBuilder, { isQueryValid } from 'in-infrastructure/Explore/components/QueryBuilder';
 import GroupingConfigurator from 'in-infrastructure/Explore/components/GroupingConfigurator';
 import { fromBackendModel } from 'in-new-components/QueryBuilder/transformation/formModel';
+import getMetricCatalog from 'in-infrastructure/subscriptions/getMetricCatalog';
+import useMetricCatalog from 'in-infrastructure/hooks/useMetricCatalog';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { aggregationLabels } from 'in-stores/metric/beeInstant';
 import { Row, Col } from 'in-new-components/layout/Grid';
@@ -46,6 +46,28 @@ export default function FormComponent({
     );
   }, [formModelIsValid, formModelExpression]);
 
+  const metricCatalog = useMetricCatalog({ getMetricCatalog, tagFilterExpression: tagFilterExpressionField.value });
+  const category = 'Infrastructure';
+
+  useEffect(() => {
+    if (
+      metricCatalog.data &&
+      metricField.value &&
+      !(
+        metricCatalog.data.metrics[category] &&
+        metricCatalog.data.metrics[category][typeField.value] &&
+        metricCatalog.data.metrics[category][typeField.value][metricField.value]
+      )
+    ) {
+      // reset metric field when the selected metric is not in the catalog
+      onChange([], () =>
+        form
+          .updateIn(['metric'], field => field.setValue(undefined).setTouched(true))
+          .updateIn(['type'], field => field.setValue(undefined).setTouched(true))
+      );
+    }
+  }, [metricCatalog]);
+
   return (
     <>
       {labelFormGroup && (
@@ -63,12 +85,7 @@ export default function FormComponent({
           <FormGroup>
             <Label>Filter</Label>
             <div>
-              <QueryBuilder
-                value={formModelExpression}
-                onChange={expression => {
-                  setFormModelExpression(expression);
-                }}
-              />
+              <QueryBuilder value={formModelExpression} onChange={expression => setFormModelExpression(expression)} />
             </div>
             <TouchedMessages field={tagFilterExpressionField} />
           </FormGroup>
@@ -115,20 +132,17 @@ export default function FormComponent({
             </Label>
             <div>
               <TypeAndMetricConfigurator
-                tagName={
-                  typeField.value && metricField.value && typeField.value + typeAndMetricSeparator + metricField.value
-                }
-                tagFilterExpression={tagFilterExpressionField.value}
-                timeConfig={timeConfig}
-                onChange={tagName => {
-                  const [type, metric] = tagName ? tagName.split(typeAndMetricSeparator, 2) : [undefined, undefined];
+                type={typeField.value}
+                metric={metricField.value}
+                metricCatalog={metricCatalog}
+                onChange={({ metric, type }) =>
                   onChange([], form =>
                     form
                       .updateIn(['metric'], field => field.setValue(metric).setTouched(true))
                       .updateIn(['type'], field => field.setValue(type).setTouched(true))
-                  );
-                }}
-                loadingLabel="Loading metrics"
+                  )
+                }
+                label="Select metric"
               />
             </div>
             <TouchedMessages field={metricField} />
