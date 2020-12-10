@@ -21,7 +21,7 @@ export default function SharingDialog({ config, onSubmit }) {
       usersResult={usersResult}
       isPrivate={isPrivate(accessRules)}
       setPrivate={prvt => setPrivate(prvt, accessRules, setState)}
-      setSelectedUserId={selectedUserId => setState({ selectedUserId })}
+      setSelectedUserId={selectedUserId => setState({ selectedUserId, accessRules })}
       addEditor={() => addEditor(accessRules, setState, selectedUserId)}
       removeEditor={userId => removeEditor(accessRules, setState, userId)}
       isUsingAdvancedAccessRules={isUsingAdvancedAccessRules(accessRules)}
