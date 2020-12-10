@@ -1,7 +1,7 @@
 import React from 'react';
 
 import K8sAgentMonitoringIssueNotifications from 'in-kubernetes/Dashboards/commonComponents/K8sAgentMonitoringIssueNotifications';
-import { clusterIdUrlParameter, daemonSetIdUrlParameter } from 'in-kubernetes/navigation/urlParameters';
+import { clusterIdUrlParameter, namespaceIdUrlParameter } from 'in-kubernetes/navigation/urlParameters';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator/EntityHealthIndicator';
@@ -74,7 +74,7 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
     columnDefinitions,
     entityName: 'cronjobs'
   }),
-  paginationResettingUrlParameters: [...timeConfigUrlParameters, clusterIdUrlParameter, daemonSetIdUrlParameter],
+  paginationResettingUrlParameters: [...timeConfigUrlParameters, clusterIdUrlParameter, namespaceIdUrlParameter],
   columnDefinitions,
   defaultOrderBy: 'cronJobName',
   defaultOrderDirection: 'ASC',
@@ -101,6 +101,7 @@ function getTableData({
   orderDirection = 'ASC',
   timeConfig,
   clusterId,
+  namespaceId,
   cronJobId
 }) {
   return getKubernetesCronJobs({
@@ -115,6 +116,7 @@ function getTableData({
     filter: {
       label: query,
       clusterId,
+      namespaceId,
       cronJobId,
       timeConfig
     },
