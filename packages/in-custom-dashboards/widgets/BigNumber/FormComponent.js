@@ -47,6 +47,7 @@ export default function BigNumberWidgetFormComponent({ form, onChange, widgetTit
             <TouchedMessages field={field} />
           </FormGroup>
         ))}
+        withGrouping={false}
         timeShiftConfiguration={<TimeShiftingForm form={form} onChange={onChange} />}
       />
     </>

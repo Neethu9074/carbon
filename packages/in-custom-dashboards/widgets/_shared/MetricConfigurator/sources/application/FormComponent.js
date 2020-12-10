@@ -8,10 +8,10 @@ import QueryBuilder, {
 import { invalidMarker } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/application/form';
 import { fromBackendModel, fromTagFiltersArray } from 'in-new-components/QueryBuilder/transformation/formModel';
 import IndeterminateLoadingIndicator from 'in-new-components/LoadingIndicators/IndeterminateLoadingIndicator';
+import CallGroupingConfigurator from 'in-applications/analyze/components/workspace/CallGroupingConfigurator';
 import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import { EMPTY_EXPRESSION } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import { onChangeGrouping } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/form';
-import TagGroupConfiguration from 'in-analyze/AnalyzeView/components/TagGroupConfiguration';
 import { sizes as ICON_SIZES } from 'in-components/SvgIcon/SvgIcon';
 import { availableMetrics } from 'in-applications/analyze/metrics';
 import TouchedMessages from 'in-components/form/TouchedMessages';
@@ -23,7 +23,10 @@ import FormGroup from 'in-components/form/FormGroup';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import useObservable from 'in-hooks/useObservable';
 import Select from 'in-components/form/Select';
+import Toggle from 'in-components/form/Toggle';
 import Label from 'in-components/form/Label';
+
+import locals from './FormComponent.mless';
 
 export default function FormComponent({
   form,
@@ -32,12 +35,14 @@ export default function FormComponent({
   labelFormGroup,
   formatterFormGroup,
   widgetPreview,
-  timeShiftConfiguration
+  timeShiftConfiguration,
+  withGrouping = true
 }) {
   const metricField = form.get('metric');
   const aggregationField = form.get('aggregation');
   const tagFilterExpressionField = form.get('tagFilterExpression');
   const tagFiltersField = form.get('tagFilters');
+  const groupingField = form.get('grouping');
 
   const removeTagFilterArrayRef = useRef();
 
@@ -76,6 +81,12 @@ export default function FormComponent({
     }
   }, [needsTagFiltersConversionToTagFilterExpression, tagCatalogResult]);
 
+  const grouping = groupingField?.get(0)?.toJS();
+
+  const onByChange = by => onChangeGrouping(onChange, { ...grouping, by });
+  const onDirectionChange = direction => onChangeGrouping(onChange, { ...grouping, direction });
+  const onIncludeOthersChange = includeOthers => onChangeGrouping(onChange, { ...grouping, includeOthers });
+
   return (
     <>
       {labelFormGroup && (
@@ -109,14 +120,56 @@ export default function FormComponent({
             </Col>
           </Row>
 
-          <TagGroupConfiguration
-            tagFilterExpression={tagFilterExpressionField.valid ? tagFilterExpressionField.value : EMPTY_EXPRESSION}
-            grouping={form
-              .get('grouping')
-              ?.get(0)
-              ?.toJS()}
-            onChange={grouping => onChangeGrouping(onChange, grouping)}
-          />
+          {withGrouping && (
+            <Row withoutTopMargin>
+              <Col lg={12}>
+                <FormGroup>
+                  <Label>Group</Label>
+                  <div>
+                    <CallGroupingConfigurator
+                      value={grouping?.by}
+                      tagFilterExpression={
+                        tagFilterExpressionField.valid ? tagFilterExpressionField.value : EMPTY_EXPRESSION
+                      }
+                      onChange={group => onByChange(group)}
+                    />
+                  </div>
+                  <TouchedMessages field={tagFilterExpressionField} />
+                </FormGroup>
+              </Col>
+            </Row>
+          )}
+
+          {grouping && (
+            <div className={locals.groupingConfiguration}>
+              <div className={locals.groupingConfigurationAlignment}>
+                <div className={locals.groupingConfigurationDrop}>
+                  <FormGroup>
+                    <Label htmlFor="select-top-groups">Select</Label>
+                    <Select
+                      className={locals.select}
+                      id="select-top-groups"
+                      value={grouping.direction}
+                      onChange={e => {
+                        onDirectionChange(e.target.value);
+                      }}
+                    >
+                      <option value="DESC">Top 5</option>
+                      <option value="ASC">Bottom 5</option>
+                    </Select>
+                  </FormGroup>
+                </div>
+                <div className={locals.groupingConfigurationToggle}>
+                  <Toggle
+                    id="display-sum-others"
+                    checked={grouping.includeOthers}
+                    onChange={() => onIncludeOthersChange(!grouping.includeOthers)}
+                  />
+                </div>
+                <div className={locals.groupingConfigurationLabel}>Display aggregation of other groups</div>
+              </div>
+            </div>
+          )}
         </>
       )}
 

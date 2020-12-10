@@ -1,17 +1,21 @@
 import theme from 'in-themes';
 import React from 'react';
 
+import { fromBackendModel, joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
+import { type as TAG_FILTER } from 'in-new-components/QueryBuilder/transformation/tagFilter';
 import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
+import { getLinkToAnalyze, getDirectLinkToUA2 } from 'in-analyze/navigation/paths';
 import { extendWindowSizeOnLiveMode } from 'in-applications/metrics';
 import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
 import useTagCatalog from 'in-applications/hooks/useTagCatalog';
-import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
+import { close } from 'in-components/DialogPresenter/store';
 import { getFormatter } from 'in-stores/metric/formatters';
 import { operators } from 'in-analyze/applicationFilter';
 import { pendingResult } from 'in-services/fixedObjects';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import useObservable from 'in-hooks/useObservable';
+import { getTagType } from 'in-applications/tags';
 import Tooltip from 'in-components/Tooltip';
 import Link from 'in-components/Link';
 
@@ -33,45 +37,103 @@ export default function ListWidget({ config, title, actions, dragHandle }) {
       selectedMetricColor={isErroneous ? theme.lib.colors.failure : null}
       renderLabel={({ item }) => {
         let filters = config.metricConfiguration.tagFilters;
-        if (config.metricConfiguration.grouping) {
-          if (item.label !== 'other_group') {
-            filters = filters.concat([
-              {
-                name: config.metricConfiguration.grouping[0].by.groupbyTag,
-                value: item.label,
-                operator: operators.EQUALS,
-                entity: config.metricConfiguration.grouping[0].by.groupbyTagEntity
-              }
-            ]);
-          } else {
-            filters = filters.concat(
-              result.data
-                .filter(item => item.label !== 'other_group')
-                .map(item => {
-                  return {
-                    name: config.metricConfiguration.grouping[0].by.groupbyTag,
-                    value: item.label,
-                    operator: operators.NOT_EQUAL,
-                    entity: config.metricConfiguration.grouping[0].by.groupbyTagEntity
-                  };
-                })
-            );
+        if (filters) {
+          if (config.metricConfiguration.grouping) {
+            if (item.label !== 'other_group') {
+              filters = filters.concat([
+                {
+                  name: config.metricConfiguration.grouping[0].by.groupbyTag,
+                  value: item.label,
+                  operator: operators.EQUALS,
+                  entity: config.metricConfiguration.grouping[0].by.groupbyTagEntity
+                }
+              ]);
+            } else {
+              filters = filters.concat(
+                result.data
+                  .filter(item => item.label !== 'other_group')
+                  .map(item => {
+                    return {
+                      name: config.metricConfiguration.grouping[0].by.groupbyTag,
+                      value: item.label,
+                      operator: operators.NOT_EQUAL,
+                      entity: config.metricConfiguration.grouping[0].by.groupbyTagEntity
+                    };
+                  })
+              );
+            }
           }
         }
 
+        const groupBy = config.metricConfiguration.grouping?.[0].by;
+
+        let tagFilterExpression = fromBackendModel(config.metricConfiguration.tagFilterExpression);
+
+        if (item.label !== 'other_group') {
+          tagFilterExpression = joinExpressions({
+            expressions: [
+              tagFilterExpression,
+              getTagType(groupBy?.groupbyTag) === 'KEY_VALUE_PAIR' && !groupBy?.groupbyTagSecondLevelKey
+                ? {
+                    type: TAG_FILTER,
+                    name: groupBy?.groupbyTag,
+                    key: item.label,
+                    operator: operators.NOT_EMPTY,
+                    entity: groupBy?.groupbyTagEntity
+                  }
+                : {
+                    type: TAG_FILTER,
+                    name: groupBy?.groupbyTag,
+                    key: groupBy?.groupbyTagSecondLevelKey ? groupBy?.groupbyTagSecondLevelKey : undefined,
+                    value: item.label,
+                    operator: operators.EQUALS,
+                    entity: groupBy?.groupbyTagEntity
+                  }
+            ]
+          });
+        } else {
+          const filteredTags = result.data
+            .filter(item => item.label !== 'other_group')
+            .map(item => {
+              return getTagType(groupBy?.groupbyTag) === 'KEY_VALUE_PAIR' && !groupBy?.groupbyTagSecondLevelKey
+                ? {
+                    type: TAG_FILTER,
+                    name: groupBy?.groupbyTag,
+                    key: item.label,
+                    operator: operators.IS_EMPTY,
+                    entity: groupBy?.groupbyTagEntity
+                  }
+                : {
+                    type: TAG_FILTER,
+                    name: groupBy?.groupbyTag,
+                    key: groupBy?.groupbyTagSecondLevelKey ? groupBy?.groupbyTagSecondLevelKey : undefined,
+                    value: item.label,
+                    operator: operators.NOT_EQUAL,
+                    entity: groupBy?.groupbyTagEntity
+                  };
+            });
+          filteredTags.push(tagFilterExpression);
+          tagFilterExpression = joinExpressions({
+            expressions: filteredTags
+          });
+        }
+
+        const link = config.metricConfiguration.tagFilterExpression
+          ? getDirectLinkToUA2({
+              dataSource: 'calls',
+              tagFilterExpression: tagFilterExpression
+            })
+          : tagCatalog &&
+            getLinkToAnalyze({
+              dataSource: 'calls',
+              groupByTag: [],
+              filters,
+              tagCatalog
+            });
+
         return (
           config.metricConfiguration.grouping && (
-            <Link
-              href$={
-                tagCatalog &&
-                getLinkToAnalyze({
-                  dataSource: 'calls',
-                  groupByTag: [],
-                  filters,
-                  tagCatalog
-                })
-              }
-            >
+            <Link href$={link} onClick={close}>
               {item.label === 'other_group' ? (
                 <Tooltip content="Aggregation of other groups" align="rightMiddle">
                   <div className={locals.italic}>Other</div>

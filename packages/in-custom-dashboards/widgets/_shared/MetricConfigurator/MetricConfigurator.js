@@ -21,7 +21,8 @@ export default function MetricConfigurator({
   timeShiftConfiguration,
   disabledDataSources = emptyArray,
   axisForm,
-  axisName
+  axisName,
+  withGrouping = true
 }) {
   const sourceField = form.get('source');
 
@@ -85,6 +86,7 @@ export default function MetricConfigurator({
         timeShiftConfiguration={timeShiftConfiguration}
         axisForm={axisForm}
         axisName={axisName}
+        withGrouping={withGrouping}
       />
     );
   }
