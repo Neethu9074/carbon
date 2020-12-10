@@ -7,6 +7,7 @@ import getKubernetesServiceItemCounters from 'in-subscription/kubernetes/getKube
 import getKubernetesCronJobItemCounters from 'in-subscription/kubernetes/getKubernetesCronJobItemCounters';
 import getKubernetesWorkloadController from 'in-subscription/kubernetes/getKubernetesWorkloadController';
 import getKubernetesNodeItemCounters from 'in-subscription/kubernetes/getKubernetesNodeItemCounters';
+import getKubernetesCronJob from 'in-subscription/kubernetes/getKubernetesCronJob';
 import getKubernetesNode from 'in-subscription/kubernetes/getKubernetesNode';
 import getKubernetesPod from 'in-subscription/kubernetes/getKubernetesPod';
 import { pendingResult } from 'in-services/fixedObjects';
@@ -70,8 +71,8 @@ export function NodeConditionsTab({ nodeId, timeConfig }) {
   return <TabLabelWithCounter counters={result?.data} label="Conditions" valueExtractor={v => v?.conditions.length} />;
 }
 
-export function CronJobConditionsTab({ nodeId, timeConfig }) {
-  const result = observe(getKubernetesNode, { id: nodeId, timeConfig }) ?? pendingResult;
+export function CronJobConditionsTab({ cronJobId, timeConfig }) {
+  const result = observe(getKubernetesCronJob, { id: cronJobId, timeConfig }) ?? pendingResult;
   return <TabLabelWithCounter counters={result?.data} label="Conditions" valueExtractor={v => v?.conditions.length} />;
 }
 
