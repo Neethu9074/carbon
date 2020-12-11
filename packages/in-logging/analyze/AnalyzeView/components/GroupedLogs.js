@@ -1,10 +1,11 @@
 import React, { useMemo } from 'react';
 
-import QueryBuilderWorkspace from 'in-logging/analyze/AnalyzeView/QueryBuilderWorkspace';
+import QueryBuilderWorkspace from 'in-logging/analyze/AnalyzeView/components/QueryBuilderWorkspace';
+import TagSelector from 'in-logging/analyze/AnalyzeView/components/TagSelector';
 import GroupedView from 'in-new-components/AnalyzeView/GroupedView';
+import Logs from 'in-logging/analyze/AnalyzeView/components/Logs';
 import getLogGroups from 'in-logging/subscriptions/getLogGroups';
 import IconButton from 'in-new-components/IconButton/IconButton';
-import Logs from 'in-logging/analyze/AnalyzeView/Logs';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
 
@@ -52,6 +53,7 @@ export default function GroupedLogs(props) {
         getLabel={item => item.group.label}
         iconMap={iconMap}
         UngroupedView={Logs}
+        CustomHeaderActions={TagSelector}
       />
     </QueryBuilderWorkspace>
   );

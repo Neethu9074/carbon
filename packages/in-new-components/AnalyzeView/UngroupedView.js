@@ -28,10 +28,8 @@ export default function UngroupedAnalyzeView(props) {
     classNames,
     withoutListItemLinkToDetails,
     getId,
-    itemName,
     withoutHeader,
     groupLabel,
-    sortOptions,
     detailId,
     SplitScreenListItemContent,
     DetailView
@@ -69,11 +67,10 @@ export default function UngroupedAnalyzeView(props) {
     <>
       {!withoutHeader && (
         <Header
-          sortOptions={sortOptions}
-          topText="no grouping"
-          itemName={itemName}
-          totalRepresentedItemCount={totalHits ?? 0}
+          {...props}
           order={orderBy}
+          topText="no grouping"
+          totalRepresentedItemCount={totalHits ?? 0}
           setOrder={onOrderByChange}
         />
       )}
@@ -118,6 +115,7 @@ UngroupedAnalyzeView.propTypes = {
     listItem: rpt.string
   }),
   DetailView: rpt.elementType.isRequired,
+  CustomHeaderActions: rpt.elementType,
 
   // Will be auto-provided by GroupedView in the relevant scenarios.
   groupLabel: rpt.string

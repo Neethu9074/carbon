@@ -1,5 +1,6 @@
 import { buildJsonSerializer, buildJsonParser } from 'in-stores/navigation/matrix';
 import { emptyArray, emptyObject } from 'in-services/fixedObjects';
+import { allAvailableTags } from 'in-logging/navigation/tags';
 import { logsPath } from 'in-logging/navigation/paths';
 
 export const dataSource = 'dataSource';
@@ -31,4 +32,12 @@ export const orderByMatrixParameter = {
 export const logIdMatrixParameter = {
   path: logsPath,
   name: 'logId'
+};
+
+export const selectedTags = {
+  path: logsPath,
+  name: 'tags',
+  serializer: buildJsonSerializer(),
+  parser: buildJsonParser(emptyArray),
+  initialState: allAvailableTags
 };

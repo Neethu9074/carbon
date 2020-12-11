@@ -1,13 +1,26 @@
 import React from 'react';
 
+import GroupedLogs from 'in-logging/analyze/AnalyzeView/components/GroupedLogs';
 import StateManagement from 'in-new-components/AnalyzeView/StateManagement';
-import GroupedLogs from 'in-logging/analyze/AnalyzeView/GroupedLogs';
 import { logIdMatrixParameter } from 'in-logging/navigation/matrix';
+import Logs from 'in-logging/analyze/AnalyzeView/components/Logs';
+import { selectedTags } from 'in-logging/navigation/matrix';
 import { logsPath } from 'in-logging/navigation/paths';
 import { getTagCatalog } from 'in-logging/api/catalog';
-import Logs from 'in-logging/analyze/AnalyzeView/Logs';
+import useUrlState from 'in-hooks/useUrlState';
+
+const urlStateDefinition = {
+  bind: [selectedTags]
+};
 
 export default function LoggingAnalyzeView() {
+  const [{ tags: selectedTags }, onChange] = useUrlState(urlStateDefinition);
+
+  const furtherProps = {
+    selectedTags,
+    onSelectedTagsChange: tags => onChange({ tags })
+  };
+
   return (
     <StateManagement
       path={logsPath}
@@ -23,14 +36,7 @@ export default function LoggingAnalyzeView() {
         defaultOrderDirection: 'DESC'
       }}
     >
-      {opts => {
-        const { isGrouped } = opts;
-        if (isGrouped) {
-          return <GroupedLogs {...opts} />;
-        } else {
-          return <Logs {...opts} />;
-        }
-      }}
+      {opts => (opts.isGrouped ? <GroupedLogs {...opts} {...furtherProps} /> : <Logs {...opts} {...furtherProps} />)}
     </StateManagement>
   );
 }

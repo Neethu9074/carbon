@@ -6,20 +6,23 @@ import CountHeader from 'in-new-components/QueryBuilder/components/Header/CountH
 
 import locals from './Header.mless';
 
-export default function Header({
-  totalRepresentedItemCount,
-  availableMetrics,
-  sortOptions,
-  setMetrics,
-  totalHits,
-  itemName,
-  setOrder,
-  topText,
-  hitName,
-  metrics,
-  order,
-  tracking
-}) {
+export default function Header(props) {
+  const {
+    totalRepresentedItemCount,
+    CustomHeaderActions,
+    availableMetrics,
+    sortOptions,
+    setMetrics,
+    totalHits,
+    itemName,
+    setOrder,
+    topText,
+    hitName,
+    metrics,
+    order,
+    tracking
+  } = props;
+
   return (
     <div className={locals.wrapper}>
       <CountHeader
@@ -31,6 +34,7 @@ export default function Header({
       />
 
       <HorizontalFlexWrapper>
+        {CustomHeaderActions && <CustomHeaderActions {...props} />}
         <MetricAndSortingConfigurator
           sortOptions={sortOptions}
           order={order}

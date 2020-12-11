@@ -1,0 +1,55 @@
+@import '~in-themes/active.less';
+
+:local {
+  .overlay {
+    width: 25rem;
+  }
+
+  .fullHeight {
+    @height: 30rem;
+    min-height: @height;
+    height: @height;
+    max-height: @height;
+  }
+
+  .dragHandle {
+    flex-grow: 0;
+    flex-shrink: 0;
+    margin-top: 0.375rem;
+    fill: @lib__colors__N400;
+
+    & > svg {
+      cursor: inherit;
+
+      &:hover {
+        cursor: inherit;
+      }
+    }
+  }
+
+  .removeButton {
+    fill: @lib__colors__blue800;
+    flex-grow: 0;
+    flex-shrink: 0;
+    margin-top: 0.125rem;
+  }
+
+  .item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    height: 3rem;
+    padding: 0.5rem;
+
+    background: @lib__colors__white;
+    border-bottom: 1px solid @lib__colors__N400;
+  }
+
+  .addButtonWrapper {
+    display: flex;
+    justify-content: center;
+
+    padding: 0.5rem;
+  }
+}

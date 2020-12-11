@@ -24,7 +24,6 @@ export default function GroupedAnalyzeView(props) {
     tagFilterExpression,
     getHrefToUngroupedView,
     columnDefinitions,
-    itemName,
     UngroupedView,
     getLabel
   } = props;
@@ -53,9 +52,9 @@ export default function GroupedAnalyzeView(props) {
   return (
     <>
       <Header
+        {...props}
         hitName="Group"
         totalHits={totalHits}
-        itemName={itemName}
         totalRepresentedItemCount={totalRepresentedItemCount}
         order={orderBy}
         setOrder={onOrderByChange}
@@ -113,6 +112,7 @@ GroupedAnalyzeView.propTypes = {
   getData: rpt.func.isRequired,
   getLabel: rpt.func.isRequired,
   itemName: rpt.string.isRequired,
+  CustomHeaderActions: rpt.elementType,
   columnDefinitions: rpt.array.isRequired,
   UngroupedView: rpt.elementType.isRequired
 };

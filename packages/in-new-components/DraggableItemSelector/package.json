@@ -1,0 +1,6 @@
+{
+  "name": "DraggableItemSelector",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./DraggableItemSelector.js"
+}

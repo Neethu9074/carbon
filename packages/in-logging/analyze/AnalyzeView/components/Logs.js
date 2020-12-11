@@ -1,8 +1,9 @@
 import React from 'react';
 
-import QueryBuilderWorkspace from 'in-logging/analyze/AnalyzeView/QueryBuilderWorkspace';
+import QueryBuilderWorkspace from 'in-logging/analyze/AnalyzeView/components/QueryBuilderWorkspace';
+import LogContentColumn from 'in-logging/analyze/AnalyzeView/components/LogContentColumn';
 import DateTimeSeparated from 'in-components/tables/sharedComponents/DateTimeSeparated';
-import LogContentColumn from 'in-logging/analyze/AnalyzeView/LogContentColumn';
+import TagSelector from 'in-logging/analyze/AnalyzeView/components/TagSelector';
 import LogDetail from 'in-logging/analyze/AnalyzeView/LogDetail/LogDetail';
 import UngroupedView from 'in-new-components/AnalyzeView/UngroupedView';
 import getLogs from 'in-logging/subscriptions/getLogs';
@@ -29,9 +30,13 @@ const columnDefinitions = [
     id: 'log',
     label: 'Log',
     sortable: false,
-    getContent({ log, groupLabel, getHrefToDetailId }) {
+    getContent({ log, groupLabel, getHrefToDetailId, selectedTags }) {
       return (
-        <LogContentColumn content={log.strippedContent} tags={log.tags} href={getHrefToDetailId(log.id, groupLabel)} />
+        <LogContentColumn
+          content={log.strippedContent}
+          tags={log.tags.filter(({ tag }) => selectedTags.indexOf(tag.label) >= 0)}
+          href={getHrefToDetailId(log.id, groupLabel)}
+        />
       );
     }
   }
@@ -59,6 +64,7 @@ export default function Logs(props) {
       withoutListItemLinkToDetails
       DetailView={LogDetail}
       getDetailData={detailId => getLog({ id: detailId })}
+      CustomHeaderActions={TagSelector}
     />
   );
 
