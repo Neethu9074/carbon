@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import ReadOnlyInboundOrAllCalls from 'in-applications/alerting/advanced/InboundOutboundCallsSwitch/ReadOnlyInboundOrAllCalls';
+import ReadOnlyAlertEvaluation from 'in-applications/alerting/advanced/EvaluationSwitch/ReadOnlyAlertEvaluation';
 import AlertingChartWithErrorMessage from 'in-new-components/Alerting/Chart/AlertingChartWithErrorMessage';
 import TimeThresholdDescription from 'in-new-components/Alerting/components/TimeThresholdDescription';
+import { PER_AP } from 'in-applications/alerting/advanced/EvaluationSwitch/alertEvaluationTypes';
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
 import SelectedAlertTypeInfo from 'in-new-components/Alerting/components/SelectedAlertTypeInfo';
 import ChartViewConfigurator from 'in-new-components/Alerting/components/ChartViewConfigurator';
@@ -32,6 +34,7 @@ export default function AlertConfiguration({ alertConfig, applicationName }) {
 
   const {
     rule: { operator, alertType, message, level },
+    evaluationType,
     timeThreshold,
     alertChannelIds,
     tagFilters, // QB1
@@ -41,69 +44,92 @@ export default function AlertConfiguration({ alertConfig, applicationName }) {
 
   const blueprintConfig = getBlueprintConfig(alertType);
   const tagFilterExpressionUiModel = fromBackendModel(tagFilterExpression);
+  const isPerApAlert = evaluationType === PER_AP;
 
   return (
     <AlertDetailsCard>
       <LocallyChangedTheme theme={light}>
         <ListTitle>Alert Configuration</ListTitle>
 
-        <ChartViewConfigurator
-          onChartViewConfigChange={index => setSelectedChartViewConfigIndex(index)}
-          selectedChartViewConfigIndex={selectedChartViewConfigIndex}
-          className={locals.chartContainer}
-          title="Trigger"
-          framed
-        >
-          {chartViewConfig => (
-            <>
-              {alertType === 'logs' && (
-                <SelectedAlertTypeInfo
-                  title="Log Message"
-                  description={getDescription(operator, message)}
-                  badges={getLogLevelAsList(level)}
-                />
-              )}
+        {!isPerApAlert && (
+          <ChartViewConfigurator
+            onChartViewConfigChange={index => setSelectedChartViewConfigIndex(index)}
+            selectedChartViewConfigIndex={selectedChartViewConfigIndex}
+            className={locals.chartContainer}
+            title="Trigger"
+            framed
+          >
+            {() => (
+              <div style={{ height: 230 }}>
+                <strong>Chart Placeholder</strong>. For this type of config we can not render the alerting chart yet.
+              </div>
+            )}
+          </ChartViewConfigurator>
+        )}
 
-              <AlertingChartWithErrorMessage
-                alertConfig={{
-                  ...alertConfig,
-                  tagFilterExpression: tagFilterExpressionUiModel
-                }}
-                viewConfig={chartViewConfig}
-                blueprintConfig={blueprintConfig}
-              />
-            </>
-          )}
-        </ChartViewConfigurator>
+        {isPerApAlert && (
+          <ChartViewConfigurator
+            onChartViewConfigChange={index => setSelectedChartViewConfigIndex(index)}
+            selectedChartViewConfigIndex={selectedChartViewConfigIndex}
+            className={locals.chartContainer}
+            title="Trigger"
+            framed
+          >
+            {chartViewConfig => (
+              <>
+                {alertType === 'logs' && (
+                  <SelectedAlertTypeInfo
+                    title="Log Message"
+                    description={getDescription(operator, message)}
+                    badges={getLogLevelAsList(level)}
+                  />
+                )}
+
+                <AlertingChartWithErrorMessage
+                  alertConfig={{
+                    ...alertConfig,
+                    tagFilterExpression: tagFilterExpressionUiModel
+                  }}
+                  viewConfig={chartViewConfig}
+                  blueprintConfig={blueprintConfig}
+                />
+              </>
+            )}
+          </ChartViewConfigurator>
+        )}
 
         <ExpandableCard
           className={locals.filterListContainer}
           title="Scope"
           useMaxAvailableHeight={false}
           openByDefault
+          bodyWithoutPadding
           darkFrame
         >
-          <div className={locals.alertFiltersWrapper}>
-            <ScopeConfigPresenter
-              tagFilterList={
-                <TagFilterListPresenter
-                  tagFilters={translateDemocratisationTagFiltersToAnalyzeTagFilters({
-                    applicationName,
-                    tagFilters: [blueprintConfig.getEntityTagFilter(alertConfig), ...tagFilters]
-                  })}
-                  disabled
-                />
-              }
-              tagFilterExpressionUiModel={tagFilterExpressionUiModel}
-              queryBuilder={<AlertQueryBuilder value={tagFilterExpressionUiModel} readOnly />}
-              convertedTagFilterExpression={convertedTagFilterExpression}
-              iconLabelConfig={{
-                text: applicationName,
-                type: 'lib_application'
-              }}
-            />
+          <ReadOnlyAlertEvaluation evaluationType={evaluationType} />
+          <div className={locals.paddingBodyWrapper}>
+            <div className={locals.alertFiltersWrapper}>
+              <ScopeConfigPresenter
+                tagFilterList={
+                  <TagFilterListPresenter
+                    tagFilters={translateDemocratisationTagFiltersToAnalyzeTagFilters({
+                      applicationName,
+                      tagFilters: [blueprintConfig.getEntityTagFilter(alertConfig), ...tagFilters]
+                    })}
+                    disabled
+                  />
+                }
+                tagFilterExpressionUiModel={tagFilterExpressionUiModel}
+                queryBuilder={<AlertQueryBuilder value={tagFilterExpressionUiModel} readOnly />}
+                convertedTagFilterExpression={convertedTagFilterExpression}
+                iconLabelConfig={{
+                  text: applicationName,
+                  type: 'lib_application'
+                }}
+              />
+            </div>
+            <ReadOnlyInboundOrAllCalls alertConfig={alertConfig} />
           </div>
-          <ReadOnlyInboundOrAllCalls alertConfig={alertConfig} />
         </ExpandableCard>
 
         <ExpandableCard title="Time Threshold" useMaxAvailableHeight={false} bodyWithoutPadding openByDefault darkFrame>

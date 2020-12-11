@@ -13,6 +13,7 @@ import {
   enableAlertConfig,
   deleteAlertConfig
 } from 'in-applications/api/applicationAlertConfig';
+import alertEvaluationTypes, { PER_AP } from 'in-applications/alerting/advanced/EvaluationSwitch/alertEvaluationTypes';
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
 import { alertsTab, alertsTabDetailsFullyQualified } from 'in-applications/navigation/paths';
 import { alertCreated as alertCreatedMatrixParam } from 'in-applications/navigation/matrix';
@@ -39,6 +40,20 @@ function getColumnDefinitions(applicationName) {
       id: 'name',
       label: 'Name',
       getContent: getNameContent
+    },
+    {
+      id: 'evaluationType',
+      sortable: false,
+      getContent(config) {
+        const { evaluationType = PER_AP } = config;
+        const evaluationInfo = alertEvaluationTypes[evaluationType];
+        return (
+          <div className={locals.column}>
+            <div className={locals.name}>Application Smart Alert</div>
+            {evaluationInfo && <div className={locals.nameSubtext}>{evaluationInfo.columnText}</div>}
+          </div>
+        );
+      }
     },
     {
       id: 'filters',

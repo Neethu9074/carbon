@@ -5,11 +5,13 @@ import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrappe
 import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './IconLabel.mless';
+import { lib } from 'in-themes/theme';
 
-export default function IconLabel({ text = '', type, noBottomMargin }) {
+export default function IconLabel({ text = '', type, color = lib.colors.N900Primary, noBottomMargin }) {
   return (
     <HorizontalFlexWrapper className={noBottomMargin ? null : locals.withBottomMargin}>
-      <SvgIcon className={locals.icon} type={type} /> {text}
+      <SvgIcon className={locals.icon} color={color} type={type} />
+      <span style={{ color }}>{text}</span>
     </HorizontalFlexWrapper>
   );
 }
@@ -17,5 +19,6 @@ export default function IconLabel({ text = '', type, noBottomMargin }) {
 IconLabel.propTypes = {
   text: PropTypes.string,
   type: PropTypes.string,
+  color: PropTypes.string,
   noBottomMargin: PropTypes.bool
 };
