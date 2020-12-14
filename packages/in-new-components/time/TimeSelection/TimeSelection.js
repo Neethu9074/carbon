@@ -112,7 +112,7 @@ function LiveModeToggle({ isLive, darkTheme }) {
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
       darkTheme={darkTheme}
-      className={isLive ? locals.live : undefined}
+      className={isLive ? locals.live : locals.static}
     >
       Live
     </DashboardHeaderButton>

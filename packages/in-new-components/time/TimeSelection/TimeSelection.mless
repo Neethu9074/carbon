@@ -1,11 +1,17 @@
 @import '~in-themes/active.less';
 
 :local {
-  .live, .live:hover {
+  .live,
+  .live:hover {
     color: @lib__colors__green800;
 
     svg {
       fill: @lib__colors__green800;
     }
+  }
+
+  .static,
+  .live {
+    border-radius: 0 @lib__shapes__radius_small @lib__shapes__radius_small 0;
   }
 }

@@ -6,7 +6,11 @@
     // button group button
     margin-right: -1px;
 
-    &:hover, &:active, &:focus {
+    border-radius: @lib__shapes__radius_small 0 0 @lib__shapes__radius_small;
+
+    &:hover,
+    &:active,
+    &:focus {
       // raise the button visually over the live mode button so that the right
       // border is shown
       z-index: 1;
