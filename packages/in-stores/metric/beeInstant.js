@@ -79,8 +79,6 @@ export const aggregationLabels = {
   P95: '95th',
   P98: '98th',
   P99: '99th',
-  P99_9: '99.9th',
-  P99_99: '99.99th',
   MAX: 'max',
   SUM: 'sum'
 };
