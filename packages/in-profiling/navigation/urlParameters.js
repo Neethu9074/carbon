@@ -15,6 +15,8 @@ export const processIdUrlParameter = {
 
 export const timeUrlParameter = {
   path: profilingPath,
+  parser: Number,
+  serializer: v => Number(v).toString(),
   name: time
 };
 

@@ -1,6 +1,7 @@
 export * from 'in-services/tracking/eventNames';
 
 import { sortedUniq, isEqual } from 'lodash';
+import { createLogger } from 'instalog';
 import invariant from 'invariant';
 
 import { track as trackInternal } from 'in-services/tracking/trackers';
@@ -12,6 +13,8 @@ import { navigationParameters$ } from 'in-stores/navigation';
 import { onLastChance } from 'in-services/util/onLastChance';
 import { getTimeConfig } from 'in-stores/time/config';
 import { seconds } from 'in-services/time';
+
+const logger = createLogger('in-services/tracking');
 
 let pendingViewChangeTransmissionHandle = null;
 let previousState = null;
@@ -27,10 +30,10 @@ export function track(event, payload) {
   }
 
   if (__DEV__) {
-    invariant(
-      Object.getPrototypeOf(payload) === Object.prototype,
-      'The tracking payload must be an object (or undefined).'
-    );
+    invariant(isValidPayload(payload), 'The tracking payload must be an object (or undefined).');
+  } else if (!isValidPayload(payload)) {
+    logger.error('Tracking payload is not an object for event', event);
+    payload = emptyObject;
   }
 
   payload = {
@@ -39,6 +42,10 @@ export function track(event, payload) {
   };
 
   trackInternal(event, payload);
+}
+
+function isValidPayload(payload) {
+  return Object.getPrototypeOf(payload) === Object.prototype;
 }
 
 export function init() {

@@ -297,6 +297,8 @@ class Summary extends React.Component {
         <CallDetails
           callId={callId}
           traceId={traceId}
+          correlationId={trace.eumCorrelationId}
+          correlationType={trace.eumCorrelationType}
           getColor={getColor}
           onClose={this.clearSelectedCall}
           startTime={trace.startTime}

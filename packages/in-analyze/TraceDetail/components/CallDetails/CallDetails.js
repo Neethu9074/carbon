@@ -19,10 +19,8 @@ import connectTo from 'in-hoc/connectTo';
 
 import locals from './CallDetails.mless';
 
-const traceIdCorrelationType = 'traceId';
-
 export default compose(
-  connectTo(({ rootCall, callId, traceId, startTime }) => {
+  connectTo(({ rootCall, callId, traceId, correlationId, correlationType, startTime }) => {
     const callResult$ = getTraceActivityTreeNodeDetails({
       traceId: traceId,
       nodeId: callId
@@ -35,40 +33,28 @@ export default compose(
       };
     }
 
-    const correlationInformation$ = callResult$
-      .map(result => extractCorrelationInformation(traceId, result))
-      .filter(Boolean);
-
     return {
       callResult: callResult$,
-      websiteBeaconResult: correlationInformation$
-        .filter(({ correlationType }) => correlationType === traceIdCorrelationType || correlationType === 'web')
-        .flatMap(({ correlationId }) =>
-          getCorrelatedWebsiteBeacons({
-            traceId,
-            correlationId,
-            startTime
-          })
-        ),
-      mobileAppBeaconResult: correlationInformation$
-        .filter(({ correlationType }) => correlationType === traceIdCorrelationType || correlationType === 'mobile')
-        .flatMap(({ correlationId }) =>
-          getMobileAppBeacons({
-            tagFilters: [{ name: 'mobileBeacon.backend.traceId', stringValue: correlationId, operator: 'EQUALS' }],
-            timeConfig: {
-              windowSize: minutes.toMillis(20),
-              to: startTime + minutes.toMillis(10),
-              focusedMoment: startTime + minutes.toMillis(10)
-            },
-            order: {
-              by: 'mobileBeacon.timestamp',
-              direction: 'DESC'
-            },
-            pagination: {
-              retrievalSize: 1
-            }
-          })
-        )
+      websiteBeaconResult: getCorrelatedWebsiteBeacons({
+        traceId,
+        correlationId: correlationType === 'web' ? correlationId : null,
+        startTime
+      }),
+      mobileAppBeaconResult: getMobileAppBeacons({
+        tagFilters: [{ name: 'mobileBeacon.backend.traceId', stringValue: traceId, operator: 'EQUALS' }],
+        timeConfig: {
+          windowSize: minutes.toMillis(20),
+          to: startTime + minutes.toMillis(10),
+          focusedMoment: startTime + minutes.toMillis(10)
+        },
+        order: {
+          by: 'mobileBeacon.timestamp',
+          direction: 'DESC'
+        },
+        pagination: {
+          retrievalSize: 1
+        }
+      })
     };
   })
 )(CallDetails);
@@ -107,29 +93,6 @@ function CallDetails(props) {
       </Card>
     </aside>
   );
-}
-
-function extractCorrelationInformation(traceId, result) {
-  if (!result.data) {
-    return null;
-  }
-
-  for (const span of result.data.spans) {
-    const correlationId = span?.data?.correlationId;
-    const correlationType = span?.data?.correlationType;
-
-    if (correlationId && correlationType) {
-      return {
-        correlationId,
-        correlationType
-      };
-    }
-  }
-
-  return {
-    correlationId: traceId,
-    correlationType: traceIdCorrelationType
-  };
 }
 
 function CloseButton({ onClick }) {
