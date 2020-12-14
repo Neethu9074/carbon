@@ -9,7 +9,7 @@ import connectTo from 'in-hoc/connectTo';
 export default connectTo(
   ({ tenant, unit, timeConfig }) => ({
     components: getPhysicalStack({
-      searchQuery: `entity.label:"${tenant}-${unit}-*" AND entity.selfType:docker`,
+      searchQuery: `entity.label:"*${tenant}-${unit}-*" AND entity.selfType:docker`,
       timeConfig
     })
   }),
@@ -18,7 +18,12 @@ export default connectTo(
       <Card title="Processing Components">
         <LinkList>
           <DashboardLinkItem tenant={tenant} unit={unit} components={components} componentName="appdata-processor" />
-          <DashboardLinkItem tenant={tenant} unit={unit} components={components} componentName="ap-legacy-converter" />
+          <DashboardLinkItem
+            tenant={tenant}
+            unit={unit}
+            components={components}
+            componentName="appdata-legacy-converter"
+          />
           <DashboardLinkItem tenant={tenant} unit={unit} components={components} componentName="filler" />
           <DashboardLinkItem tenant={tenant} unit={unit} components={components} componentName="issue-tracker" />
           <DashboardLinkItem tenant={tenant} unit={unit} components={components} componentName="processor" />
@@ -29,32 +34,20 @@ export default connectTo(
   }
 );
 
-function DashboardLinkItem({ tenant, unit, componentName, components }) {
-  components =
-    components && components.filter(({ docker }) => docker.get('label') === `${tenant}-${unit}-${componentName}`);
-
-  if (!components || components.length < 1) {
+function DashboardLinkItem({ tenant, unit, componentName, components = [] }) {
+  components = components.filter(({ docker }) => docker.get('label').includes(`${tenant}-${unit}-${componentName}`));
+  if (components.length === 0) {
     return <LinkListItem label={componentName} />;
   }
 
   return (
     <>
       {components
-        .filter(
-          ({ dropwizardApplicationContainer, docker, process }) => dropwizardApplicationContainer && docker && process
-        )
-        .map(({ dropwizardApplicationContainer, docker, process }, i) => (
+        .filter(({ dropwizardApplicationContainer, host }) => dropwizardApplicationContainer && host)
+        .map(({ dropwizardApplicationContainer, host }, i) => (
           <LinkListItem
             key={i}
-            label={
-              components.length === 1
-                ? componentName
-                : `${componentName} (allocation ${process.getIn([
-                    'data',
-                    'env',
-                    'NOMAD_ALLOC_INDEX'
-                  ])}, allocId ${docker.getIn(['data', 'Nomad', 'allocId'])})`
-            }
+            label={components.length === 1 ? componentName : `${componentName} (${host.getIn(['data', 'hostname'])})`}
             href$={getModifiedUrlStream(params => {
               params.pathname = '/physical/dashboard';
               params.query.snapshotId = dropwizardApplicationContainer.get('id');
