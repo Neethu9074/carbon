@@ -7,6 +7,7 @@ import getTraces from 'in-subscription/application/getTraces';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import getCalls from 'in-subscription/application/getCalls';
 import { entityTypes } from 'in-analyze/applicationFilter';
+import { isNotBlank } from 'in-services/util/string';
 
 export const CALLS = 'CALLS';
 export const TRACES = 'TRACES';
@@ -46,7 +47,7 @@ export const sparkChartMetricKey = (metric, aggregation) => `${metric}_${aggrega
 export const aggregateMetricKey = (metric, aggregation) => `${metric}_${aggregation}_Agg`;
 
 export const getMetricAndAggregationFromMetricKey = key => {
-  if (key != null) {
+  if (isNotBlank(key)) {
     const [metric, aggregation] = key.split('_');
     return [{ metric: metric, aggregation: aggregation }];
   }
