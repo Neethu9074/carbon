@@ -12,52 +12,52 @@
 # purposes (and teams). But if in doubt, the owner-team at least knows whom to ask for advice, i.e., which other team or
 # person.
 
-packages/history                    @instana/eng-ui
-packages/in-amp                     @instana/eng-enterprise @instana/eng-hubforce @instana/eng-ui
-packages/in-analyze                 @instana/eng-application @instana/eng-eum @instana/eng-ui
+packages/history                    @pr-approval @instana/eng-ui
+packages/in-amp                     @pr-approval @instana/eng-enterprise @instana/eng-hubforce @instana/eng-ui
+packages/in-analyze                 @pr-approval @instana/eng-application @instana/eng-eum @instana/eng-ui
 # Deprecated: We should not make any more changes within this package (aside from code removal)
-packages/in-api                     @instana/eng-ui
-packages/in-applications            @instana/eng-application @instana/eng-ui
-packages/in-client                  @instana/eng-ui
+packages/in-api                     @pr-approval @instana/eng-ui
+packages/in-applications            @pr-approval @instana/eng-application @instana/eng-ui
+packages/in-client                  @pr-approval @instana/eng-ui
 # No clear ownership: Fallback to eng-ui
-packages/in-cloudfoundry            @instana/eng-ui
+packages/in-cloudfoundry            @pr-approval @instana/eng-ui
 # No clear ownership: Fallback to eng-ui
-packages/in-cockpit                 @instana/eng-ui
-packages/in-components              @instana/eng-ui
-packages/in-connection              @instana/eng-ui
-packages/in-custom-dashboards       @instana/eng-eum @instana/eng-ui
-packages/in-events                  @instana/eng-stan @instana/eng-ui
+packages/in-cockpit                 @pr-approval @instana/eng-ui
+packages/in-components              @pr-approval @instana/eng-ui
+packages/in-connection              @pr-approval @instana/eng-ui
+packages/in-custom-dashboards       @pr-approval @instana/eng-eum @instana/eng-ui
+packages/in-events                  @pr-approval @instana/eng-stan @instana/eng-ui
 # Shared ownership
 # packages/in-forge
-packages/in-hoc                     @instana/eng-ui
-packages/in-hooks                   @instana/eng-ui
-packages/in-infrastructure          @instana/eng-infrastructure @instana/eng-ui
-packages/in-init                    @instana/eng-ui
-packages/in-integrations            @instana/eng-sensors @instana/eng-ui
+packages/in-hoc                     @pr-approval @instana/eng-ui
+packages/in-hooks                   @pr-approval @instana/eng-ui
+packages/in-infrastructure          @pr-approval @instana/eng-infrastructure @instana/eng-ui
+packages/in-init                    @pr-approval @instana/eng-ui
+packages/in-integrations            @pr-approval @instana/eng-sensors @instana/eng-ui
 # Shared ownership
 # packages/in-internal
-packages/in-kubernetes              @instana/eng-infrastructure @instana/eng-ui
-packages/in-logging                 @instana/eng-logs @instana/eng-ui
+packages/in-kubernetes              @pr-approval @instana/eng-infrastructure @instana/eng-ui
+packages/in-logging                 @pr-approval @instana/eng-logs @instana/eng-ui
 # No clear ownership: Fallback to eng-ui
-packages/in-map                     @instana/eng-ui
-packages/in-mobile-apps             @instana/eng-eum @instana/eng-ui
-packages/in-new-components          @instana/eng-ui
+packages/in-map                     @pr-approval @instana/eng-ui
+packages/in-mobile-apps             @pr-approval @instana/eng-eum @instana/eng-ui
+packages/in-new-components          @pr-approval @instana/eng-ui
 # No clear ownership: Fallback to eng-ui
-packages/in-profiling               @instana/eng-ui
-packages/in-sdk                     @instana/eng-ui
-packages/in-server                  @instana/eng-ui
-packages/in-services                @instana/eng-ui
-packages/in-settings                @instana/eng-ui @instana/eng-sensors @instana/eng-stan @instana/eng-enterprise @instana/eng-application
-packages/in-stores                  @instana/eng-ui
+packages/in-profiling               @pr-approval @instana/eng-ui
+packages/in-sdk                     @pr-approval @instana/eng-ui
+packages/in-server                  @pr-approval @instana/eng-ui
+packages/in-services                @pr-approval @instana/eng-ui
+packages/in-settings                @pr-approval @instana/eng-ui @instana/eng-sensors @instana/eng-stan @instana/eng-enterprise @instana/eng-application
+packages/in-stores                  @pr-approval @instana/eng-ui
 # Deprecated: We should not make any more changes within this package (aside from code removal)
-packages/in-subscription            @instana/eng-ui
-packages/in-test                    @instana/eng-ui
-packages/in-themes                  @instana/eng-ui
-packages/in-vsphere                 @instana/eng-infrastructure
+packages/in-subscription            @pr-approval @instana/eng-ui
+packages/in-test                    @pr-approval @instana/eng-ui
+packages/in-themes                  @pr-approval @instana/eng-ui
+packages/in-vsphere                 @pr-approval @instana/eng-infrastructure
 # Shared ownership
 # packages/in-waiting-for-deployment
-packages/in-websites                @instana/eng-eum @instana/eng-ui
+packages/in-websites                @pr-approval @instana/eng-eum @instana/eng-ui
 # No clear ownership: Fallback to eng-ui
-packages/instalog                   @instana/eng-ui
-packages/reactive-observables       @instana/eng-ui
-packages/roemitter                  @instana/eng-ui
+packages/instalog                   @pr-approval @instana/eng-ui
+packages/reactive-observables       @pr-approval @instana/eng-ui
+packages/roemitter                  @pr-approval @instana/eng-ui
