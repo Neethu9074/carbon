@@ -14,7 +14,12 @@ export default function FormSelect(props) {
   });
   delete selectProps.hasError;
   return (
-    <div className={locals.selectWrapper}>
+    <div
+      className={evaluateClassNames({
+        [locals.selectWrapper]: true,
+        [locals.selectWrapperDisabled]: props.disabled
+      })}
+    >
       <select {...selectProps} />
     </div>
   );

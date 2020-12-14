@@ -14,10 +14,8 @@
     width: 100%;
 
     &[disabled] {
-      color: rgba(58, 75, 81, 0.48);
-      cursor: not-allowed;
+      pointer-events: none;
     }
-
     position: relative;
     -webkit-appearance: none;
     appearance: none;
@@ -43,5 +41,10 @@
       pointer-events: none;
       border-color: @lib__colors__N500 transparent transparent transparent;
     }
+  }
+
+  .selectWrapperDisabled {
+    color: rgba(58, 75, 81, 0.48);
+    cursor: not-allowed;
   }
 }
