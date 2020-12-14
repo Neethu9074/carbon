@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { isValidElement } from 'react';
 
 import EntityPageMainNotification from 'in-new-components/EntityPageMainNotification/EntityPageMainNotification';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
@@ -32,15 +32,24 @@ export default connectTo(
       />
     );
 
-    const content = FallbackComponent ? (
-      typeof FallbackComponent === 'function' ? (
-        <FallbackComponent notFoundComponent={notFoundComponent} type={props.type} {...fallbackComponentProps} />
-      ) : (
-        FallbackComponent
-      )
-    ) : (
-      notFoundComponent
-    );
+    let content;
+    if (FallbackComponent) {
+      if (isValidElement(FallbackComponent)) {
+        if (__DEV__) {
+          // eslint-disable-next-line no-console
+          console.error(
+            'Wrong usage of WithEmptyStateFallback. FallbackComponent must be a component and not a React element.'
+          );
+        }
+        content = FallbackComponent;
+      } else {
+        content = (
+          <FallbackComponent notFoundComponent={notFoundComponent} type={props.type} {...fallbackComponentProps} />
+        );
+      }
+    } else {
+      content = notFoundComponent;
+    }
 
     if (center) {
       return <CenterAlignmentColumn>{content}</CenterAlignmentColumn>;
