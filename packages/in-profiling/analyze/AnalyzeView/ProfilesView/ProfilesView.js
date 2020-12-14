@@ -71,30 +71,19 @@ function TimeFixater(props) {
 
 function ProfilesView(props) {
   let { timeConfig, timeConfigForSnapshots, onChangeUrlState, processId, threshold, location } = props;
+  const timeConfigFields = getTimeConfigFields(timeConfigForSnapshots);
 
-  const hierachy$ = getPhysicalHierarchy({ snapshotId: processId, timeConfigForSnapshots }).filter(
+  const hierachy$ = getPhysicalHierarchy({ snapshotId: processId, timeConfig: timeConfigForSnapshots }).filter(
     hierarchy => hierarchy && hierarchy.size > 0
   );
   const hierachySnapshots$ = hierachy$.flatMap(hierachy =>
-    getSnapshots(hierachy.toJS(), ...spreadTimeConfig(timeConfigForSnapshots))
+    getSnapshots(hierachy.toJS(), { timeConfig: timeConfigForSnapshots })
   );
-  const deepestTechSnapshot = useObservable(getDeepestTechSnapshot, [
-    hierachy$,
-    ...spreadTimeConfig(timeConfigForSnapshots)
-  ]);
-  const historicalProcessSnapshot = useObservable(getHistoricalProcessSnapshot, [
-    processId,
-    ...spreadTimeConfig(timeConfigForSnapshots)
-  ]);
+  const deepestTechSnapshot = useObservable(getDeepestTechSnapshot, [hierachy$, timeConfigFields]);
+  const historicalProcessSnapshot = useObservable(getHistoricalProcessSnapshot, [processId, timeConfigFields]);
   const processSnapshot = useObservable(getProcessSnapshot, [processId, timeConfig]);
-  const jvmSnapshot = useObservable(
-    () => getJvmSnapshot([hierachySnapshots$]),
-    spreadTimeConfig(timeConfigForSnapshots)
-  );
-  const phpSnapshot = useObservable(
-    () => getPhpSnapshot([hierachySnapshots$]),
-    spreadTimeConfig(timeConfigForSnapshots)
-  );
+  const jvmSnapshot = useObservable(() => getJvmSnapshot([hierachySnapshots$]), timeConfigFields);
+  const phpSnapshot = useObservable(() => getPhpSnapshot([hierachySnapshots$]), timeConfigFields);
 
   // we only allow source code when using a jvm based tech
   const canFetchSourceCode = useObservable(
@@ -220,6 +209,6 @@ function getPhpSnapshot([hierachySnapshots$]) {
   );
 }
 
-function spreadTimeConfig(timeConfig) {
+function getTimeConfigFields(timeConfig) {
   return [timeConfig.to, timeConfig.focusedMoment, timeConfig.windowSize, timeConfig.autoRefresh];
 }

@@ -114,7 +114,7 @@ export function getSnapshotOrDefaultOnTimeout(snapshotId, defaultValue, t, timeC
     .distinct();
 }
 
-export function getSnapshots(snapshotIds, { waitForCompletion = false } = {}) {
+export function getSnapshots(snapshotIds, { waitForCompletion = false, timeConfig } = {}) {
   // support immutable data structures as well
   if (snapshotIds.toArray) {
     snapshotIds = snapshotIds.toArray();
@@ -125,7 +125,10 @@ export function getSnapshots(snapshotIds, { waitForCompletion = false } = {}) {
   }
 
   return (
-    combineLatest(snapshotIds.map(snapshotId => getSnapshot(snapshotId)), waitForCompletion)
+    combineLatest(
+      snapshotIds.map(snapshotId => getSnapshot(snapshotId, timeConfig)),
+      waitForCompletion
+    )
       .nextFrame()
       // Do not show snapshots that are still loading
       .map(snapshots => snapshots.filter(Boolean))
@@ -182,7 +185,12 @@ export function search({ customQuery = null, view = 'TABLE', restrictResultEntit
 export const getSnapshotFromPhysicalHierarchyByPlugin = memoize(
   function getSnapshotFromPhysicalHierarchyByPlugin(snapshotId, plugin) {
     return getPhysicalHierarchy({ snapshotId })
-      .flatMap(ids => combineLatest(ids.map(id => getSnapshot(id)), false))
+      .flatMap(ids =>
+        combineLatest(
+          ids.map(id => getSnapshot(id)),
+          false
+        )
+      )
       .debounce(300)
       .map(snapshots => {
         for (let i = 0, len = snapshots.length; i < len; i++) {
