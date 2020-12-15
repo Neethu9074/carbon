@@ -7,14 +7,7 @@ const {
   GroupingConfigurator,
   isGroupingConfigurationValid: isGroupingConfigurationValidInternal
 } = createGroupingConfigurator({
-  getTagCatalog: props =>
-    getApplicationTagCatalog({ dataSource: TRACES, useCase: 'GROUPING' })(props).map(response => ({
-      ...response,
-      data: response.data && {
-        ...response.data,
-        tagTree: response.data.tagTree
-      }
-    })),
+  getTagCatalog: props => getApplicationTagCatalog({ dataSource: TRACES, useCase: 'GROUPING' })(props),
   getSuggestions: () => {}
 });
 

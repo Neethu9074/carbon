@@ -4,14 +4,7 @@ import { createQueryBuilder } from 'in-new-components/QueryBuilder';
 import { CALLS } from 'in-applications/analyze/metrics';
 
 const { QueryBuilder, isQueryValid: isQueryValidInternal, getTagCatalog: getTagCatalogInternal } = createQueryBuilder({
-  getTagCatalog: props =>
-    getApplicationTagCatalog({ dataSource: CALLS, useCase: 'FILTERING' })(props).map(response => ({
-      ...response,
-      data: response.data && {
-        ...response.data,
-        tagTree: response.data.tagTree
-      }
-    })),
+  getTagCatalog: props => getApplicationTagCatalog({ dataSource: CALLS, useCase: 'FILTERING' })(props),
   getSuggestions: args => {
     return isIdTag(args.name)
       ? null

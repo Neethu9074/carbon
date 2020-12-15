@@ -4,14 +4,7 @@ import { createQueryBuilder } from 'in-new-components/QueryBuilder';
 import { CALLS } from 'in-applications/analyze/metrics';
 
 const { QueryBuilder: AlertQueryBuilder, isQueryValid } = createQueryBuilder({
-  getTagCatalog: props =>
-    getApplicationTagCatalog({ dataSource: CALLS, useCase: 'SMART_ALERTS' })(props).map(response => ({
-      ...response,
-      data: response.data && {
-        ...response.data,
-        tagTree: response.data.tagTree
-      }
-    })),
+  getTagCatalog: props => getApplicationTagCatalog({ dataSource: CALLS, useCase: 'SMART_ALERTS' })(props),
   getSuggestions: args => {
     return getTagSuggestions({
       entity: args.entity,
