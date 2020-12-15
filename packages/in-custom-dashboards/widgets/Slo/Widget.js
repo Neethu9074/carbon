@@ -17,7 +17,7 @@ import {
   dynamic
 } from 'in-custom-dashboards/widgets/Slo/form';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
-import { getSliFormatter } from 'in-custom-dashboards/widgets/Slo/sliConfigUtils';
+import { getSliFormatter } from 'in-custom-dashboards/widgets/Slo/sliFormatter';
 import SloTimeTile from 'in-custom-dashboards/widgets/Slo/Tiles/SloTimeTile';
 import getApplication from 'in-subscription/application/getApplication';
 import SloTile from 'in-custom-dashboards/widgets/Slo/Tiles/SloTile';
@@ -59,43 +59,15 @@ export default function Widget({ actions, config, isPreview, title, dragHandle }
 
   const currentProductTimeConfig = useTimeConfig();
   const timeConfig = isPreview ? oneWeekTimeConfig : currentProductTimeConfig;
-
-  const timeWindowConfig = {
-    ...timeConfig
-  };
-
-  let fromTimestamp = timeConfig.from ?? (timeConfig.to ?? new Date().getTime()) - timeConfig.windowSize;
-  let toTimestamp = timeConfig.to ?? fromTimestamp + timeConfig.windowSize;
-
-  if (isRolling) {
-    fromTimestamp = moment(toTimestamp)
-      .subtract(timeWindowDurationValue, timeWindowDurationUnitValue)
-      .valueOf();
-    timeWindowConfig.windowSize = toTimestamp - fromTimestamp;
-    timeWindowConfig.from = fromTimestamp;
-  }
-
-  if (isFixed) {
-    let timeWindowStartTimeStamp = parsedTimestamp(timeWindowStartDate + '  ' + timeWindowStartTime);
-    if (timeWindowStartTimeStamp) {
-      let now = moment();
-      let nextStart = moment(timeWindowStartTimeStamp);
-      let latestIntervalStart;
-      do {
-        latestIntervalStart = nextStart;
-        nextStart = latestIntervalStart.clone().add(timeWindowDurationValue, timeWindowDurationUnitValue);
-      } while (nextStart.isBefore(now));
-
-      fromTimestamp = latestIntervalStart.valueOf();
-      toTimestamp = nextStart.valueOf();
-      timeWindowConfig.from = fromTimestamp;
-      timeWindowConfig.windowSize = nextStart.valueOf() - fromTimestamp;
-    }
-  }
-  if (!timeConfig.autoRefresh) {
-    timeWindowConfig.to = toTimestamp;
-    timeWindowConfig.focusedMoment = toTimestamp;
-  }
+  let { timeWindowConfig, fromTimestamp, toTimestamp } = calculateTimeWindowConfig(
+    timeConfig,
+    isRolling,
+    isFixed,
+    timeWindowDurationValue,
+    timeWindowDurationUnitValue,
+    timeWindowStartDate,
+    timeWindowStartTime
+  );
 
   const metricBaseConfig = {
     sliConfigId: sliConfigIdValue,
@@ -216,6 +188,54 @@ export default function Widget({ actions, config, isPreview, title, dragHandle }
       </div>
     </LightCardV2>
   );
+}
+
+function calculateTimeWindowConfig(
+  timeConfig,
+  isRolling,
+  isFixed,
+  timeWindowDurationValue,
+  timeWindowDurationUnitValue,
+  timeWindowStartDate,
+  timeWindowStartTime
+) {
+  const timeWindowConfig = {
+    ...timeConfig
+  };
+
+  let fromTimestamp = timeConfig.from ?? (timeConfig.to ?? new Date().getTime()) - timeConfig.windowSize;
+  let toTimestamp = timeConfig.to ?? fromTimestamp + timeConfig.windowSize;
+
+  if (isRolling) {
+    fromTimestamp = moment(toTimestamp)
+      .subtract(timeWindowDurationValue, timeWindowDurationUnitValue)
+      .valueOf();
+    timeWindowConfig.windowSize = toTimestamp - fromTimestamp;
+    timeWindowConfig.from = fromTimestamp;
+  }
+
+  if (isFixed) {
+    let timeWindowStartTimeStamp = parsedTimestamp(timeWindowStartDate + '  ' + timeWindowStartTime);
+    if (timeWindowStartTimeStamp) {
+      let now = moment();
+      let nextStart = moment(timeWindowStartTimeStamp);
+      let latestIntervalStart;
+      do {
+        latestIntervalStart = nextStart;
+        nextStart = latestIntervalStart.clone().add(timeWindowDurationValue, timeWindowDurationUnitValue);
+      } while (nextStart.isBefore(now));
+
+      fromTimestamp = latestIntervalStart.valueOf();
+      toTimestamp = nextStart.valueOf();
+      timeWindowConfig.from = fromTimestamp;
+      timeWindowConfig.windowSize = nextStart.valueOf() - fromTimestamp;
+    }
+  }
+  if (!timeConfig.autoRefresh) {
+    timeWindowConfig.to = toTimestamp;
+    timeWindowConfig.focusedMoment = toTimestamp;
+  }
+  return { timeWindowConfig, fromTimestamp, toTimestamp };
 }
 
 const LeftHeader = connectTo(

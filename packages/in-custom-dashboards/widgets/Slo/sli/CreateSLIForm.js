@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 
-import { resetFormForSliType, createForm } from 'in-custom-dashboards/widgets/Slo/form/sliForm';
+import { resetFormForSliType, createForm } from 'in-custom-dashboards/widgets/Slo/sli/sliForm';
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
-import { SliForm } from 'in-custom-dashboards/widgets/Slo/SliFormPresenter';
+import { SliForm } from 'in-custom-dashboards/widgets/Slo/sli/SliFormPresenter';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { createSliConfiguration } from 'in-custom-dashboards/api';
 import { generateUniqueShortId } from 'in-services/util/id';
@@ -10,7 +10,7 @@ import Section from 'in-settings/components/Section';
 import Message from 'in-new-components/Message';
 import Button from 'in-new-components/Button';
 
-import locals from './CreateSLIForm.mless';
+import locals from 'in-custom-dashboards/widgets/Slo/sli/CreateSLIForm.mless';
 
 export default function CreateNewSLIForm({ apName, applicationId, apDefaultBoundaryScope, close, sliConfig }) {
   const [form, setForm] = useState(createForm(sliConfig ?? {}, applicationId, apDefaultBoundaryScope));

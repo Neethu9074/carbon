@@ -2,13 +2,13 @@ import React from 'react';
 
 import InboundOrAllCallsOption from 'in-applications/alerting/advanced/InboundOutboundCallsSwitch/InboundOrAllCallsOption';
 import { OverridingTextTouchedMessage } from 'in-custom-dashboards/widgets/Slo/components/OverridingTextTouchedMessage';
-import { availabilityType, sliTypeOptions, applicationType } from 'in-custom-dashboards/widgets/Slo/form/sliForm';
+import { sliTypeOptions, availabilityType, applicationType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import { boundaryScopes } from 'in-applications/alerting/advanced/InboundOutboundCallsSwitch/config';
-import ServicesSelectBox from 'in-custom-dashboards/widgets/Slo/components/ServicesSelectBox';
-import EndpointSelectBox from 'in-custom-dashboards/widgets/Slo/components/EndpointSelectBox';
-import EventBasedForm from 'in-custom-dashboards/widgets/Slo/components/GoodBadEventsForm';
+import ServicesSelectBox from 'in-custom-dashboards/widgets/Slo/sli/ServicesSelectBox';
+import EndpointSelectBox from 'in-custom-dashboards/widgets/Slo/sli/EndpointSelectBox';
+import EventBasedForm from 'in-custom-dashboards/widgets/Slo/sli/GoodBadEventsForm';
 import FormInputField from 'in-custom-dashboards/widgets/Slo/components/FormInputField';
-import { MetricsForm } from 'in-custom-dashboards/widgets/Slo/components/MetricsForm';
+import { MetricsForm } from 'in-custom-dashboards/widgets/Slo/sli/MetricsForm';
 import FormDropDown from 'in-custom-dashboards/widgets/Slo/components/FormDropDown';
 import StackItem from 'in-new-components/layout/Stack/StackItem';
 import { Row, Col } from 'in-new-components/layout/Grid';

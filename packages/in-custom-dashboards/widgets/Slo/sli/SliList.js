@@ -4,7 +4,7 @@ import { get } from 'lodash';
 import rpt from 'prop-types';
 import React from 'react';
 
-import { applicationType, availabilityType } from 'in-custom-dashboards/widgets/Slo/form/sliForm';
+import { availabilityType, applicationType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
@@ -24,7 +24,7 @@ import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
 import { role } from 'in-stores/user';
 
-import locals from 'in-custom-dashboards/widgets/Slo/SliManageList.mless';
+import locals from 'in-custom-dashboards/widgets/Slo/sli/SliManageList.mless';
 
 export default compose(
   setPropTypes({

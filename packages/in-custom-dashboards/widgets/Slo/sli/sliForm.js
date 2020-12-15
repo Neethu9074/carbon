@@ -1,19 +1,12 @@
 import { createMapForm, createField } from 'formalistic';
 
+import { availabilityType, applicationType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
 import { notBlankValidator } from 'in-services/validators/string';
 import { buildEnumValidator } from 'in-services/validators/enum';
 import { numericValidator } from 'in-services/validators/number';
 import { boundaryScopes } from 'in-applications/constants';
-
-export const applicationType = 'application';
-export const availabilityType = 'availability';
-
-export const sliTypeOptions = Object.freeze([
-  { value: applicationType, label: 'Time-based' },
-  { value: availabilityType, label: 'Event-based' }
-]);
 
 export function createForm(sliConfig, applicationId, apDefaultBoundaryScope) {
   const sliEntityWithApplicationId = {

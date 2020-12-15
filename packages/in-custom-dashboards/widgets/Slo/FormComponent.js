@@ -23,7 +23,7 @@ import APConfigSelector from 'in-custom-dashboards/widgets/Slo/components/APConf
 import FormInputField from 'in-custom-dashboards/widgets/Slo/components/FormInputField';
 import FormDropDown from 'in-custom-dashboards/widgets/Slo/components/FormDropDown';
 import { getApplicationConfigsAsResultObservable } from 'in-api/applicationConfigs';
-import SliManageList from 'in-custom-dashboards/widgets/Slo/SliManageList';
+import SliManageList from 'in-custom-dashboards/widgets/Slo/sli/SliManageList';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import StackItem from 'in-new-components/layout/Stack/StackItem';
 import { evaluateClassNames } from 'in-services/util/classnames';
@@ -34,8 +34,8 @@ import FormGroup from 'in-components/form/FormGroup';
 import DateInput from 'in-components/form/DateInput';
 import HelpText from 'in-components/form/HelpText';
 import useObservable from 'in-hooks/useObservable';
-import Input from 'in-components/form/Input';
 import Button from 'in-new-components/Button';
+import Input from 'in-components/form/Input';
 
 import locals from './FormComponent.mless';
 

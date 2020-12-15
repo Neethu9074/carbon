@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { OverridingTextTouchedMessage } from 'in-custom-dashboards/widgets/Slo/components/OverridingTextTouchedMessage';
-import { metricOptions, metricAggregations } from 'in-custom-dashboards/widgets/Slo/components/metricFormData';
+import { metricOptions, metricAggregations } from 'in-custom-dashboards/widgets/Slo/sli/metricFormData';
 import { PercentageFormInput } from 'in-custom-dashboards/widgets/Slo/components/PercentageFormInput';
 import FormInputField from 'in-custom-dashboards/widgets/Slo/components/FormInputField';
 import FormDropDown from 'in-custom-dashboards/widgets/Slo/components/FormDropDown';
@@ -12,7 +12,7 @@ import KeyValue from 'in-new-components/lists/KeyValue';
 import FormGroup from 'in-components/form/FormGroup';
 import Header from 'in-components/form/Header';
 
-import locals from 'in-custom-dashboards/widgets/Slo/SliForm.mless';
+import locals from 'in-custom-dashboards/widgets/Slo/sli/SliForm.mless';
 
 export const MetricsForm = ({ form, onChange }) => {
   const metricConfiguration = form.get('metricConfiguration');

@@ -1,4 +1,4 @@
-import { availabilityType } from 'in-custom-dashboards/widgets/Slo/form/sliForm';
+import { availabilityType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import { number } from 'in-services/formatters/number';
 
 export function getSliFormatter(sliEntity) {

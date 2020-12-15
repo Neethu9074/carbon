@@ -2,12 +2,12 @@ import theme from 'in-themes';
 import React from 'react';
 
 import stairway, { hourlyBudgetMetricId } from 'in-custom-dashboards/widgets/Slo/renderer/stairway';
-import { applicationType, availabilityType } from 'in-custom-dashboards/widgets/Slo/form/sliForm';
+import { availabilityType, applicationType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import { groupByEndpointName, groupByServiceName } from 'in-analyze/AnalyzeView/dataSources';
 import { EQUALS, GREATER_THAN } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
-import { getSliFormatter } from 'in-custom-dashboards/widgets/Slo/sliConfigUtils';
+import { getSliFormatter } from 'in-custom-dashboards/widgets/Slo/sliFormatter';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import { convertToAnalyzeFilters } from 'in-applications/tags';
