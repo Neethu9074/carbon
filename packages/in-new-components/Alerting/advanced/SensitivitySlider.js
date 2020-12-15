@@ -3,18 +3,18 @@ import React from 'react';
 import DebouncedDistinctSlider from 'in-new-components/Slider/DebouncedDistinctSlider';
 
 export const DebouncedSensitivitySlider = ({ value, defaultValue, onChange }) => {
-  const linearScaleMin = 0;
-  const linearScaleMax = 2;
+  const sliderStepCount = 600;
+  const linearScaleValueOne = 2; // slider-scale value that yields a sensitivity-scale of 1
   const defaultValueLog = Math.log(defaultValue);
-  const toSensitivityScale = x => Math.round(Math.exp((linearScaleMax - x) * defaultValueLog) * 200) / 200;
-  const toSliderScale = x =>
-    Math.max(linearScaleMin, Math.min(linearScaleMax - Math.log(x) / defaultValueLog, linearScaleMax));
+  const toSensitivityScale = x => roundToInterval(Math.exp((linearScaleValueOne - x) * defaultValueLog), 0.005);
+  const toSliderScale = x => linearScaleValueOne - Math.log(x) / defaultValueLog;
+  const linearScaleMin = toSliderScale(16);
+  const linearScaleMax = toSliderScale(0.5);
   const labeledTicks = [
     { value: linearScaleMin, label: 'low' },
     { value: toSliderScale(defaultValue) },
     { value: linearScaleMax, label: 'high' }
   ];
-
   return (
     <DebouncedDistinctSlider
       debounceMaxWait={5000}
@@ -22,11 +22,20 @@ export const DebouncedSensitivitySlider = ({ value, defaultValue, onChange }) =>
       marks={labeledTicks}
       min={linearScaleMin}
       max={linearScaleMax}
-      step={2 / 600}
-      value={toSliderScale(value)}
+      step={(linearScaleMax - linearScaleMin) / sliderStepCount}
+      value={clamp(toSliderScale(value), linearScaleMin, linearScaleMax)}
       onChange={sliderValue => {
         onChange(toSensitivityScale(sliderValue));
       }}
     />
   );
+
+  function roundToInterval(value, stepInterval) {
+    const inverseStepInterval = parseInt(1 / stepInterval);
+    return Math.round(value * inverseStepInterval) / inverseStepInterval;
+  }
+
+  function clamp(value, min, max) {
+    return Math.max(min, Math.min(value, max));
+  }
 };
