@@ -12,15 +12,25 @@ const getColorByEndpointType = ({ endpoint }) =>
 
 export default {
   title: 'Templates|analyze/IcicleChart',
-  parameters: {
-    // TODO remove after fixing broken story
-    chromatic: { disable: true }
-  },
   component: IcicleChart
 };
 
 export function Default() {
-  return <TraceExamples render={rootCall => <IcicleChart rootCall={rootCall} getColor={getColorByEndpointType} />} />;
+  return (
+    <TraceExamples
+      render={rootCall => (
+        <IcicleChart
+          rootCall={rootCall}
+          getColor={getColorByEndpointType}
+          openedCall$={always({
+            progress: { loading: false },
+            errors: [],
+            data: {}
+          })}
+        />
+      )}
+    />
+  );
 }
 
 export function LoadingStory() {
