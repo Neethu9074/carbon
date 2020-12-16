@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { millis, millisPerSecondZeroDecimalPlaces, number, percentage } from 'in-services/formatters/number';
+import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import { KpiKeyValue, KpiSection } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
@@ -11,78 +12,98 @@ import MetricValue from 'in-components/MetricValue';
 export default function GoogleCloudRunServiceRevisionDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
 
+  const hasDataFromGcpAgent = !!snapshot.getIn(['data', 'labels']);
+
+  const setUpGcpAgentWarning = !hasDataFromGcpAgent ? (
+    <DashboardNotification type="warning">
+      It seems there is no Instana agent set up to monitor the GCP account of this Google Cloud Run Service Revision.
+      Please refer to{' '}
+      <a href="https://www.instana.com/docs/ecosystem/google-cloud-run/#gcp-agent-setup">
+        our Google Cloud Run documentation
+      </a>{' '}
+      to learn more about the recommened setup. Setting up a GCP agent will improve your user experience. In particular,
+      metrics for the Google Cloud Run Service Revision will only be available from the GCP agent.
+    </DashboardNotification>
+  ) : null;
+
   return (
     <>
-      <KpiSection>
-        <KpiKeyValue label="Request Count">
-          <MetricValue snapshotId={snapshotId} metric="request_count" formatter={number.compact} />
-        </KpiKeyValue>
-        <KpiKeyValue label="Request Latency (P99)">
-          <MetricValue snapshotId={snapshotId} metric="request_latencies_p99" formatter={millis.compact} />
-        </KpiKeyValue>
-      </KpiSection>
+      {setUpGcpAgentWarning}
 
-      <Columize>
-        <DashboardSection title="Request Count">
-          <Chart
-            snapshotId={snapshotId}
-            timeConfig={timeConfig}
-            y1={{
-              formatter: number.compact,
-              tooltipFormatter: number.compact,
-              metrics: [`request_count`],
-              labels: ['Requests'],
-              type: 'line'
-            }}
-          />
-        </DashboardSection>
-        <DashboardSection title="Request Latency">
-          <Chart
-            snapshotId={snapshotId}
-            timeConfig={timeConfig}
-            y1={{
-              formatter: millis.compact,
-              tooltipFormatter: millis.compact,
-              metrics: ['request_latencies_p99', 'request_latencies_p95', 'request_latencies_p50'],
-              labels: ['99th Percentile', '95th Percentile', '50th Percentile'],
-              type: 'line'
-            }}
-          />
-        </DashboardSection>
-      </Columize>
+      {hasDataFromGcpAgent && (
+        <>
+          <KpiSection>
+            <KpiKeyValue label="Request Count">
+              <MetricValue snapshotId={snapshotId} metric="request_count" formatter={number.compact} />
+            </KpiKeyValue>
+            <KpiKeyValue label="Request Latency (P99)">
+              <MetricValue snapshotId={snapshotId} metric="request_latencies_p99" formatter={millis.compact} />
+            </KpiKeyValue>
+          </KpiSection>
 
-      <Columize>
-        <DashboardSection title="Container Memory Utilization">
-          <Chart
-            snapshotId={snapshotId}
-            timeConfig={timeConfig}
-            y1={{
-              formatter: percentage.compact,
-              tooltipFormatter: percentage.compact,
-              metrics: [
-                'container_memory_utilizations_p99',
-                'container_memory_utilizations_p95',
-                'container_memory_utilizations_p50'
-              ],
-              labels: ['99th Percentile', '95th Percentile', '50th Percentile'],
-              type: 'line'
-            }}
-          />
-        </DashboardSection>
-        <DashboardSection title="Billable Instance Time">
-          <Chart
-            snapshotId={snapshotId}
-            timeConfig={timeConfig}
-            y1={{
-              formatter: millisPerSecondZeroDecimalPlaces,
-              tooltipFormatter: millisPerSecondZeroDecimalPlaces,
-              metrics: ['container_billable_instance_time'],
-              labels: ['Instance Time'],
-              type: 'line'
-            }}
-          />
-        </DashboardSection>
-      </Columize>
+          <Columize>
+            <DashboardSection title="Request Count">
+              <Chart
+                snapshotId={snapshotId}
+                timeConfig={timeConfig}
+                y1={{
+                  formatter: number.compact,
+                  tooltipFormatter: number.compact,
+                  metrics: [`request_count`],
+                  labels: ['Requests'],
+                  type: 'line'
+                }}
+              />
+            </DashboardSection>
+            <DashboardSection title="Request Latency">
+              <Chart
+                snapshotId={snapshotId}
+                timeConfig={timeConfig}
+                y1={{
+                  formatter: millis.compact,
+                  tooltipFormatter: millis.compact,
+                  metrics: ['request_latencies_p99', 'request_latencies_p95', 'request_latencies_p50'],
+                  labels: ['99th Percentile', '95th Percentile', '50th Percentile'],
+                  type: 'line'
+                }}
+              />
+            </DashboardSection>
+          </Columize>
+
+          <Columize>
+            <DashboardSection title="Container Memory Utilization">
+              <Chart
+                snapshotId={snapshotId}
+                timeConfig={timeConfig}
+                y1={{
+                  formatter: percentage.compact,
+                  tooltipFormatter: percentage.compact,
+                  metrics: [
+                    'container_memory_utilizations_p99',
+                    'container_memory_utilizations_p95',
+                    'container_memory_utilizations_p50'
+                  ],
+                  labels: ['99th Percentile', '95th Percentile', '50th Percentile'],
+                  type: 'line'
+                }}
+              />
+            </DashboardSection>
+            <DashboardSection title="Billable Instance Time">
+              <Chart
+                snapshotId={snapshotId}
+                timeConfig={timeConfig}
+                y1={{
+                  formatter: millisPerSecondZeroDecimalPlaces,
+                  tooltipFormatter: millisPerSecondZeroDecimalPlaces,
+                  metrics: ['container_billable_instance_time'],
+                  labels: ['Instance Time'],
+                  type: 'line'
+                }}
+              />
+            </DashboardSection>
+          </Columize>
+        </>
+      )}
 
       <DashboardRuntimeList snapshotId={snapshotId} />
     </>
