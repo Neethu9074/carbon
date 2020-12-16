@@ -122,8 +122,8 @@ function getDetails(row) {
         type: 'line'
       }}
       y2={{
-        formatter: millis,
-        tooltipFormatter: millis,
+        formatter: millis.compact,
+        tooltipFormatter: millis.compact,
         metrics: [
           `kafkaClient.consumer.${row.consumerId}.consumerFetchThrottleTime`,
           `kafkaClient.consumer.${row.consumerId}.consumerFetchLatency`

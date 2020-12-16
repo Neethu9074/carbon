@@ -50,7 +50,7 @@ const cols = [
       getMetricName(row) {
         return `kafkaClient.producer.${row.producerId}.produceThrottleTime`;
       },
-      getContent: millis,
+      getContent: millis.compact,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -66,7 +66,7 @@ const cols = [
       getMetricName(row) {
         return `kafkaClient.producer.${row.producerId}.produceRequestLatency`;
       },
-      getContent: millis,
+      getContent: millis.compact,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -122,8 +122,8 @@ function getDetails(row) {
         type: 'line'
       }}
       y2={{
-        formatter: millis,
-        tooltipFormatter: millis,
+        formatter: millis.compact,
+        tooltipFormatter: millis.compact,
         metrics: [
           `kafkaClient.producer.${row.producerId}.produceThrottleTime`,
           `kafkaClient.producer.${row.producerId}.produceRequestLatency`
