@@ -4,7 +4,7 @@ import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndic
 import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator';
 import ContextGuide from 'in-new-components/ContextGuide/ContextGuide';
 
-export default function DashboardButtonLine({ snapshotId, timeConfig, tagFilters, plugin, showContextGuide }) {
+export default function DashboardButtonLine({ snapshotId, timeConfig, tagFilters, plugin }) {
   return (
     <>
       <EntityHealthIndicator
@@ -12,9 +12,7 @@ export default function DashboardButtonLine({ snapshotId, timeConfig, tagFilters
         snapshotId={snapshotId}
         timeConfig={timeConfig}
       />
-      {showContextGuide && (
-        <ContextGuide id={snapshotId} plugin={plugin} timeConfig={timeConfig} tagFilters={tagFilters} />
-      )}
+      <ContextGuide id={snapshotId} plugin={plugin} timeConfig={timeConfig} tagFilters={tagFilters} />
     </>
   );
 }

@@ -102,7 +102,6 @@ function renderButtonLine({ cronJobId, timeConfig, result }) {
       snapshotId={cronJobId}
       timeConfig={timeConfig}
       plugin={plugins.kubernetesNode}
-      showContextGuide={true}
       tagFilters={[
         { name: 'kubernetes.cronJob.name', value: result.data?.name, operator: 'EQUALS' },
         { name: 'kubernetes.cluster.name', value: result.data?.clusterId, operator: 'EQUALS', entity: 'DESTINATION' }
