@@ -1,20 +1,29 @@
+import React, { forwardRef } from 'react';
 import PropTypes from 'prop-types';
-import React from 'react';
 
 import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';
+import evaluateClassNames from 'in-services/util/classnames';
 import SvgIcon from 'in-components/SvgIcon';
-
-import locals from './IconLabel.mless';
 import { lib } from 'in-themes/theme';
 
-export default function IconLabel({ text = '', type, color = lib.colors.N900Primary, noBottomMargin }) {
+import locals from './IconLabel.mless';
+
+const IconLabel = forwardRef(({ text = '', type, noBottomMargin, color = lib.colors.N900Primary }, ref) => {
   return (
-    <HorizontalFlexWrapper className={noBottomMargin ? null : locals.withBottomMargin}>
-      <SvgIcon className={locals.icon} color={color} type={type} />
-      <span style={{ color }}>{text}</span>
+    <HorizontalFlexWrapper
+      ref={ref}
+      className={evaluateClassNames({
+        [locals.container]: true,
+        [locals.noBottomMargin]: noBottomMargin
+      })}
+      color={color}
+    >
+      <SvgIcon className={locals.icon} type={type} /> <span style={{ color }}>{text}</span>
     </HorizontalFlexWrapper>
   );
-}
+});
+
+IconLabel.displayName = 'IconLabel';
 
 IconLabel.propTypes = {
   text: PropTypes.string,
@@ -22,3 +31,5 @@ IconLabel.propTypes = {
   color: PropTypes.string,
   noBottomMargin: PropTypes.bool
 };
+
+export default IconLabel;

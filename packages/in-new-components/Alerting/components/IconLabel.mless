@@ -1,8 +1,13 @@
 @import '~in-themes/active.less';
 
 :local {
-  .withBottomMargin {
+  .container {
+    width: max-content;
     margin: 0 0 0.5rem 0;
+  }
+
+  .noBottomMargin {
+    margin: 0;
   }
 
   .icon {

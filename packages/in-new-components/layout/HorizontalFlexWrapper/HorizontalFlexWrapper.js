@@ -1,9 +1,13 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 
 import { joinClassNames } from 'in-services/util/classnames';
 
 import locals from './HorizontalFlexWrapper.mless';
 
-export default function HorizontalFlexWrapper({ className, children }) {
-  return <div className={joinClassNames(locals.wrapper, className)}>{children}</div>;
-}
+export default forwardRef(function HorizontalFlexWrapper({ className, children }, ref) {
+  return (
+    <div ref={ref} className={joinClassNames(locals.wrapper, className)}>
+      {children}
+    </div>
+  );
+});
