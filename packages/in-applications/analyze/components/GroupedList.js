@@ -473,6 +473,7 @@ function ExpandedGroup({
       onChangeOrderBy={onChangeSubOrderBy}
       tableOnly
       isValid
+      withoutPadding
       hiddenCalls={hiddenCalls}
       dataSource={dataSource}
       getNestedUngroupedData={getNestedUngroupedData}

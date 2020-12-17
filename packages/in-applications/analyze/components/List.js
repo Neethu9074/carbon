@@ -9,6 +9,7 @@ import { getServiceDashboard } from 'in-applications/navigation/paths';
 import { dataSourceConstants } from 'in-applications/analyze/metrics';
 import { number, latencyFixed } from 'in-services/formatters/number';
 import { getLinkToTraceDetail } from 'in-analyze/navigation/paths';
+import { evaluateClassNames } from 'in-services/util/classnames';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import { formatDateTime } from 'in-services/formatters/date';
 import { Link } from 'in-components/tables/sharedComponents';
@@ -29,6 +30,7 @@ export default function List({
   filterBy,
   orderBy,
   onChangeOrderBy,
+  withoutPadding = false,
   isValid,
   updateFilter,
   tableOnly = false,
@@ -81,6 +83,7 @@ export default function List({
     <TableOnlyPresenter
       items={items}
       columnDefinitions={columnDefinitions}
+      withoutPadding={withoutPadding}
       optionalColumns={optionalColumns}
       numSkeletonRows={numSkeletonRows}
       onChangeOrderBy={onChangeOrderBy}
@@ -172,10 +175,16 @@ function TableOnlyPresenter({
   tableProps,
   order,
   retrievalSize,
+  withoutPadding,
   filterBy
 }) {
   return (
-    <div className={locals.table}>
+    <div
+      className={evaluateClassNames({
+        [locals.table]: true,
+        [locals.tableWithoutPadding]: withoutPadding
+      })}
+    >
       <CursorPaginatedTable
         columnDefinitions={columnDefinitions}
         optionalColumns={optionalColumns}
