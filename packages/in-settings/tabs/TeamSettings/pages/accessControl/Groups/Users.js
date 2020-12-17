@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { iconColumn, labelColumn, roleColumn } from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/UserList';
+import { iconColumn, labelColumn } from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/UserList';
 import AddUserButton from 'in-settings/tabs/TeamSettings/pages/accessControl/Groups/AddUserButton';
 import { getEntityIdView, teamSettingsAccessControlUsers } from 'in-settings/navigation/paths';
 import { ListInsideACardRenderer } from 'in-settings/components/ApiList/renderer/renderer';
@@ -11,7 +11,7 @@ import { find } from 'in-services/arrayUtils';
 import { light } from 'in-themes/themes';
 
 export default function Users({ members, addUsers, removeUser, noDelete = false }) {
-  const columnDefinition = [iconColumn, labelColumn, roleColumn];
+  const columnDefinition = [iconColumn, labelColumn];
 
   const columnDefinitionWithDelete = [
     ...columnDefinition,

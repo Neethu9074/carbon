@@ -3,7 +3,6 @@ import React from 'react';
 import { getUsersAsResultObservable, removeUserFromTenant } from 'in-api/users';
 import Delete from 'in-settings/components/ApiList/sharedComponents/Delete';
 import { ColumnizedContent, Ul, Li } from 'in-new-components/lists/List';
-import { groupPermissionsEnabled } from 'in-services/featureFlags';
 import createApiList from 'in-settings/components/ApiList';
 import { getRolesAsResultObservable } from 'in-api/roles';
 import KeyValue from 'in-new-components/lists/KeyValue';
@@ -36,20 +35,6 @@ export const labelColumn = {
   }
 };
 
-export const roleColumn = {
-  width: '20rem',
-  getContent({ user, rolesResult }) {
-    if (groupPermissionsEnabled || !user) {
-      return null;
-    }
-    const userRole = (rolesResult.data || []).filter(role => role.id === user.roleId)[0];
-    if (!userRole) {
-      return null;
-    }
-    return <KeyValue value={userRole.name} label="Role" accentuated />;
-  }
-};
-
 export const deleteColumn = {
   width: '2rem',
   getContent({ user, deleteItem, currentDeletingItemIds }) {
@@ -66,7 +51,7 @@ export const deleteColumn = {
   }
 };
 
-const defaultColumnDefinitions = [iconColumn, labelColumn, roleColumn, deleteColumn];
+const defaultColumnDefinitions = [iconColumn, labelColumn, deleteColumn];
 
 function DefaultListRenderer({
   items,
