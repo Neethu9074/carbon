@@ -19,6 +19,7 @@ import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import LoadMoreLi from 'in-new-components/lists/List/LoadMoreLi/LoadMoreLi';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import { dataSourceConstants } from 'in-applications/analyze/metrics';
+import ResultHeader from 'in-new-components/AnalyzeView/ResultHeader';
 import { error as errorType } from 'in-new-components/Message/types';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import IconButton from 'in-new-components/IconButton/IconButton';
@@ -26,7 +27,6 @@ import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import List from 'in-applications/analyze/components/List';
 import KeyValue from 'in-new-components/lists/KeyValue';
-import { number } from 'in-services/formatters/number';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Message from 'in-new-components/Message';
@@ -141,6 +141,7 @@ function Presenter({
   loadMore,
   totalHits,
   items,
+  adjustedWindowSize,
   timeConfig,
   groupBy,
   order,
@@ -169,14 +170,15 @@ function Presenter({
   const labelColumnDefinitions = labelColumns({ groupBy, showChartGroupMarkers, groupColors });
   const metricColumnDefinitions = metricColumns({ metrics: [...fixedMetrics, ...selectableMetrics], dataSource });
   const actionColumnDefinitions = actionColumns({ groupBy, onFocusOnGroup, groupByTagType });
-
-  const totalGroups = totalHits != null ? `${number.compact(totalHits)} Groups` : null;
   return (
     <div className={locals.wrapper}>
       <div className={locals.hitsAndFacetedSearch}>
-        <div className={locals.hits}>
-          <span>{totalGroups}</span>
-        </div>
+        <ResultHeader
+          itemName="Group"
+          totalRepresentedItemCount={totalHits}
+          adjustedWindowSize={adjustedWindowSize}
+          withSamplingTooltip
+        />
         <FacetedSearch
           tagFilterExpression={tagFilterExpression}
           updateFilter={updateFilter}

@@ -6,12 +6,12 @@ import { leftArrowId, rightArrowId } from 'in-new-components/AnalyzeView/SplitSc
 import HeightRestrictedView from 'in-components/layout/HeightRestrictedView/HeightRestrictedView';
 import { debouncedResize$, refreshWindowSizeDependingState } from 'in-services/browser';
 import { childrenArgsAsPropTypes } from 'in-new-components/AnalyzeView/StateManagement';
-import ResultHeader from 'in-new-components/AnalyzeView/SplitScreenList/ResultHeader';
 import LoadingList from 'in-new-components/lists/List/sharedComponents/LoadingList';
 import ErrorList from 'in-new-components/lists/List/sharedComponents/ErrorList';
 import { detailViewProps } from 'in-new-components/AnalyzeView/UngroupedView';
 import LoadMoreLi from 'in-new-components/lists/List/LoadMoreLi/LoadMoreLi';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
+import ResultHeader from 'in-new-components/AnalyzeView/ResultHeader';
 import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import { prefetch } from 'in-subscription/util/prefetch';
@@ -81,7 +81,7 @@ function ExpandedList(props) {
       <Sticky
         header={
           <div className={locals.header}>
-            <ResultHeader {...props} />
+            <ResultHeader label="Result" {...props} />
 
             <div className={locals.actions}>
               {hasPrev && (

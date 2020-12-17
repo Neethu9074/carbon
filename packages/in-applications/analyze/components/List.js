@@ -7,12 +7,13 @@ import BatchingIndicator from 'in-analyze/components/BatchingIndicator';
 import TableLinkWithIcon from 'in-analyze/components/TableLinkWithIcon';
 import { getServiceDashboard } from 'in-applications/navigation/paths';
 import { dataSourceConstants } from 'in-applications/analyze/metrics';
-import { number, latencyFixed } from 'in-services/formatters/number';
+import ResultHeader from 'in-new-components/AnalyzeView/ResultHeader';
 import { getLinkToTraceDetail } from 'in-analyze/navigation/paths';
 import { evaluateClassNames } from 'in-services/util/classnames';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import { formatDateTime } from 'in-services/formatters/date';
 import { Link } from 'in-components/tables/sharedComponents';
+import { latencyFixed } from 'in-services/formatters/number';
 import HealthDot from 'in-new-components/health/HealthDot';
 import { emptyObject } from 'in-services/fixedObjects';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -130,14 +131,15 @@ function Presenter({
   isValid,
   dataSource
 }) {
-  const totalName = dataSourceConstants[dataSource].metricsLabel;
-  const total = tableProps?.totalHits != null ? `${number.compact(tableProps.totalHits)} ${totalName}` : null;
   return (
     <div className={locals.wrapper}>
       <div className={locals.hitsAndFacetedSearch}>
-        <div className={locals.hits}>
-          <span>{total}</span>
-        </div>
+        <ResultHeader
+          itemName={dataSourceConstants[dataSource].metricLabel}
+          totalRepresentedItemCount={tableProps?.totalHits}
+          adjustedWindowSize={tableProps?.adjustedWindowSize}
+          withSamplingTooltip
+        />
         <FacetedSearch
           tagFilterExpression={tagFilterExpression}
           updateFilter={updateFilter}
