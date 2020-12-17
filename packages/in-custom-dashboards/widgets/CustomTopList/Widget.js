@@ -113,6 +113,13 @@ export default function ListWidget({ config, title, actions, dragHandle }) {
                   };
             });
           filteredTags.push(tagFilterExpression);
+          filteredTags.push({
+            type: TAG_FILTER,
+            name: groupBy?.groupbyTag,
+            key: groupBy?.groupbyTagSecondLevelKey,
+            operator: operators.NOT_EMPTY,
+            entity: groupBy?.groupbyTagEntity
+          });
           tagFilterExpression = joinExpressions({
             expressions: filteredTags
           });

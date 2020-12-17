@@ -22,6 +22,8 @@ import { pendingResult } from 'in-services/fixedObjects';
 import FormGroup from 'in-components/form/FormGroup';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import useObservable from 'in-hooks/useObservable';
+import Stack from 'in-new-components/layout/Stack';
+import Message from 'in-new-components/Message';
 import Select from 'in-components/form/Select';
 import Toggle from 'in-components/form/Toggle';
 import Label from 'in-components/form/Label';
@@ -141,34 +143,41 @@ export default function FormComponent({
           )}
 
           {grouping && (
-            <div className={locals.groupingConfiguration}>
-              <div className={locals.groupingConfigurationAlignment}>
-                <div className={locals.groupingConfigurationDrop}>
-                  <FormGroup>
-                    <Label htmlFor="select-top-groups">Select</Label>
-                    <Select
-                      className={locals.select}
-                      id="select-top-groups"
-                      value={grouping.direction}
-                      onChange={e => {
-                        onDirectionChange(e.target.value);
-                      }}
-                    >
-                      <option value="DESC">Top 5</option>
-                      <option value="ASC">Bottom 5</option>
-                    </Select>
-                  </FormGroup>
+            <Stack space="small">
+              <Row withoutTopMargin>
+                <Col lg={6}>
+                  <Message small title="Grouping limits the results to calls that have a value for the tag." />
+                </Col>
+              </Row>
+              <div className={locals.groupingConfiguration}>
+                <div className={locals.groupingConfigurationAlignment}>
+                  <div className={locals.groupingConfigurationDrop}>
+                    <FormGroup>
+                      <Label htmlFor="select-top-groups">Select</Label>
+                      <Select
+                        className={locals.select}
+                        id="select-top-groups"
+                        value={grouping.direction}
+                        onChange={e => {
+                          onDirectionChange(e.target.value);
+                        }}
+                      >
+                        <option value="DESC">Top 5</option>
+                        <option value="ASC">Bottom 5</option>
+                      </Select>
+                    </FormGroup>
+                  </div>
+                  <div className={locals.groupingConfigurationToggle}>
+                    <Toggle
+                      id="display-sum-others"
+                      checked={grouping.includeOthers}
+                      onChange={() => onIncludeOthersChange(!grouping.includeOthers)}
+                    />
+                  </div>
+                  <div className={locals.groupingConfigurationLabel}>Display aggregation of other groups</div>
                 </div>
-                <div className={locals.groupingConfigurationToggle}>
-                  <Toggle
-                    id="display-sum-others"
-                    checked={grouping.includeOthers}
-                    onChange={() => onIncludeOthersChange(!grouping.includeOthers)}
-                  />
-                </div>
-                <div className={locals.groupingConfigurationLabel}>Display aggregation of other groups</div>
               </div>
-            </div>
+            </Stack>
           )}
         </>
       )}
