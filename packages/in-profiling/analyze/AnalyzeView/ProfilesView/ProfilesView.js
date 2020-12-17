@@ -100,7 +100,7 @@ function ProfilesView(props) {
   );
 
   // will be mounted in the header as soon as they are refactored
-  const [viewType, setViewType] = useState(viewTypes.tree);
+  const [viewType, setViewType] = useState(viewTypes.flameGraph);
 
   return (
     <TabView
