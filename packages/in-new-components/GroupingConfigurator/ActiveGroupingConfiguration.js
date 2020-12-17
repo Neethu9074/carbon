@@ -71,7 +71,7 @@ export default React.forwardRef(function ActiveGroupingConfiguration(
 
           <SimpleValueSelector
             onChange={result.onChange}
-            value={result.value}
+            value={result.value || ''}
             close={() => {}}
             getSuggestions={() =>
               getSuggestions({
