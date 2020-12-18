@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { iconColumn, labelColumn } from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/UserList';
+import { iconColumn, labelColumn, roleColumn } from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/UserList';
 import UserList from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/UserList';
 import withSelectableItems from 'in-settings/components/withSelectableItems';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
@@ -56,7 +56,8 @@ const AddUserDialog = withSelectableItems(function AddUserDialog({
               }
             },
             iconColumn,
-            labelColumn
+            labelColumn,
+            roleColumn
           ]}
         />
         <Button className={locals.button} kind="primary" type="submit" disabled={selectedEntities.size === 0}>
