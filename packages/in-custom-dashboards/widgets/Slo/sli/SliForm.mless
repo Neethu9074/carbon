@@ -5,10 +5,10 @@
     color: @lib__colors__N700Medium;
   }
   .oneLineLabel {
-    margin-top: 0.25rem;
+    margin-top: 0rem;
   }
   .boundaryLabel {
-    margin-top: 2.5rem;
+    margin-top: 2rem;
   }
   .helpIcon {
     fill: @lib__colors__N700Medium;

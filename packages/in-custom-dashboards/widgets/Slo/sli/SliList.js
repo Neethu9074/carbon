@@ -47,6 +47,7 @@ function SliList(props) {
       orderDirection="ASC"
       cardTitle="Service Level Indicators"
       {...props}
+      onRowClick={props.selectSli}
       numSkeletonRows={3}
       isSearchable
       columnDefinitions={columnDefinitions}
@@ -105,6 +106,7 @@ const columnDefinitions = [
     id: 'metric',
     sortable: false,
     label: 'SLI Type',
+    width: 20,
     getContent(item) {
       const metric = metricConfiguration => {
         if (metricConfiguration) {

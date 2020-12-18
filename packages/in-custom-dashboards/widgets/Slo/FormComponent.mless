@@ -25,7 +25,7 @@
     align-items: center;
   }
   .oneLineLabel {
-    margin-top: 0.25rem;
+    margin-top: 0;
   }
   .sloUnit {
     margin-left: 0.5rem;
