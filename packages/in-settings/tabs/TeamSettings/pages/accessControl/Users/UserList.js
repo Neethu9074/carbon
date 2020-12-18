@@ -66,7 +66,9 @@ export const deleteColumn = {
   }
 };
 
-const defaultColumnDefinitions = [iconColumn, labelColumn, roleColumn, deleteColumn];
+const defaultColumnDefinitions = groupPermissionsEnabled
+  ? [iconColumn, labelColumn, deleteColumn]
+  : [iconColumn, labelColumn, roleColumn, deleteColumn];
 
 function DefaultListRenderer({
   items,
