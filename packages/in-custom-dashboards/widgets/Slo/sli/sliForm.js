@@ -1,12 +1,19 @@
 import { createMapForm, createField } from 'formalistic';
 
 import { availabilityType, applicationType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
+import { fromBackendModel } from 'in-new-components/QueryBuilder/transformation/formModel';
+import { isQB2ModeEnabled } from 'in-new-components/Alerting/components/WithQB1orQB2';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
 import { notBlankValidator } from 'in-services/validators/string';
 import { buildEnumValidator } from 'in-services/validators/enum';
 import { numericValidator } from 'in-services/validators/number';
 import { boundaryScopes } from 'in-applications/constants';
+
+export const sliFieldNames = Object.freeze({
+  goodEventFilterExpression: 'goodEventFilterExpression',
+  badEventFilterExpression: 'badEventFilterExpression'
+});
 
 export function createForm(sliConfig, applicationId, apDefaultBoundaryScope) {
   const sliEntityWithApplicationId = {
@@ -87,14 +94,26 @@ function addGoodBadEventsForm(form, sliEntity) {
     .put(
       'goodEventFilters',
       createField({
-        validator: noEmptyFilterListValidator,
+        validator: isQB2ModeEnabled ? undefined : noEmptyFilterListValidator,
         value: sliEntity?.goodEventFilters ?? []
+      })
+    )
+    .put(
+      sliFieldNames.goodEventFilterExpression,
+      createField({
+        value: fromBackendModel(sliEntity?.goodEventFilterExpression)
+      })
+    )
+    .put(
+      sliFieldNames.badEventFilterExpression,
+      createField({
+        value: fromBackendModel(sliEntity?.badEventFilterExpression)
       })
     )
     .put(
       'badEventFilters',
       createField({
-        validator: noEmptyFilterListValidator,
+        validator: isQB2ModeEnabled ? undefined : noEmptyFilterListValidator,
         value: sliEntity?.badEventFilters ?? []
       })
     );
@@ -108,6 +127,8 @@ export function resetFormForSliType(sliType, setForm, form) {
         .put('metricConfiguration', createMetricsForm({}))
         .updateIn(['sliEntity'], f => f.remove('goodEventFilters'))
         .updateIn(['sliEntity'], f => f.remove('badEventFilters'))
+        .updateIn(['sliEntity'], f => f.remove('goodEventFilterExpression'))
+        .updateIn(['sliEntity'], f => f.remove('badEventFilterExpression'))
     );
   } else {
     setForm(
@@ -115,7 +136,7 @@ export function resetFormForSliType(sliType, setForm, form) {
         .updateIn(['sliEntity', 'serviceId'], f => f.setValue(null).setTouched(true))
         .updateIn(['sliEntity', 'endpointId'], f => f.setValue(null).setTouched(true))
         .remove('metricConfiguration')
-        .updateIn(['sliEntity'], f => addGoodBadEventsForm(f))
+        .updateIn(['sliEntity'], sliEntitySubForm => addGoodBadEventsForm(sliEntitySubForm))
     );
   }
 }
@@ -154,6 +175,7 @@ const notNullValidator = v => {
       }
     ];
   }
+  return null;
 };
 
 const noEmptyFilterListValidator = filterArray => {

@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 
-import { resetFormForSliType, createForm } from 'in-custom-dashboards/widgets/Slo/sli/sliForm';
+import { resetFormForSliType, createForm, sliFieldNames } from 'in-custom-dashboards/widgets/Slo/sli/sliForm';
+import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
+import { switchQB1orQB2Helper } from 'in-new-components/Alerting/components/WithQB1orQB2';
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
 import { SliForm } from 'in-custom-dashboards/widgets/Slo/sli/SliFormPresenter';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { createSliConfiguration } from 'in-custom-dashboards/api';
 import { generateUniqueShortId } from 'in-services/util/id';
 import Section from 'in-settings/components/Section';
+import Form from 'in-components/form/binding/Form';
 import Message from 'in-new-components/Message';
 import Button from 'in-new-components/Button';
 
@@ -31,14 +34,28 @@ export default function CreateNewSLIForm({ apName, applicationId, apDefaultBound
     resetFormForSliType(sliType, setForm, form);
   };
 
-  const onSubmit = (e, form, updateForm) => {
-    e.preventDefault();
+  function toBackendFormat(form) {
+    return switchQB1orQB2Helper(
+      () => {
+        const formData = form.toJS();
+        delete formData.sliEntity[sliFieldNames.goodEventFilterExpression];
+        delete formData.sliEntity[sliFieldNames.badEventFilterExpression];
+        return formData;
+      },
+      () => {
+        const formData = form.toJS();
+        const goodEvents = formData.sliEntity[sliFieldNames.goodEventFilterExpression];
+        const badEvents = formData.sliEntity[sliFieldNames.badEventFilterExpression];
+        delete formData.sliEntity.goodEventFilters;
+        delete formData.sliEntity.badEventFilters;
+        formData.sliEntity[sliFieldNames.goodEventFilterExpression] = toBackendQueryModel(goodEvents);
+        formData.sliEntity[sliFieldNames.badEventFilterExpression] = toBackendQueryModel(badEvents);
+        return formData;
+      }
+    );
+  }
 
-    if (!form.hierarchyValid) {
-      updateForm(form.setTouched(true, { recurse: true }));
-      return;
-    }
-
+  const onSubmit = form => {
     setState({
       saving: true,
       success: false,
@@ -46,9 +63,10 @@ export default function CreateNewSLIForm({ apName, applicationId, apDefaultBound
     });
 
     const enrichedSliConfiguration = {
-      ...form.toJS(),
+      ...toBackendFormat(form),
       id: generateUniqueShortId(9)
     };
+
     if (form.hierarchyValid) {
       const createSliConfigResult$ = createSliConfiguration(enrichedSliConfiguration);
       createSliConfigResult$.once(
@@ -64,7 +82,7 @@ export default function CreateNewSLIForm({ apName, applicationId, apDefaultBound
           );
           close();
         },
-        () =>
+        () => {
           addMessage(
             {
               type: 'danger',
@@ -73,7 +91,11 @@ export default function CreateNewSLIForm({ apName, applicationId, apDefaultBound
               content: `There was a problem creating this SLI: "${enrichedSliConfiguration.sliName}"`
             },
             'custom-dashboard-error'
-          )
+          );
+          setState({
+            error: true
+          });
+        }
       );
     }
   };
@@ -82,7 +104,7 @@ export default function CreateNewSLIForm({ apName, applicationId, apDefaultBound
   const saveButtonLabel = sliConfig?.id ? 'Clone' : 'Create';
 
   return (
-    <form onSubmit={e => onSubmit(e, form, setForm)}>
+    <Form form={form} setForm={setForm} onSubmit={onSubmit}>
       <SliForm form={form} onChange={onChange} onChangeType={onChangeType} apName={apName} />
       {sliConfig?.id && (
         <Section>
@@ -110,6 +132,6 @@ export default function CreateNewSLIForm({ apName, applicationId, apDefaultBound
           </Button>
         )}
       </Section>
-    </form>
+    </Form>
   );
 }

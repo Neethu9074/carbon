@@ -2,14 +2,15 @@ import React from 'react';
 
 import InboundOrAllCallsOption from 'in-applications/alerting/advanced/InboundOutboundCallsSwitch/InboundOrAllCallsOption';
 import { OverridingTextTouchedMessage } from 'in-custom-dashboards/widgets/Slo/components/OverridingTextTouchedMessage';
-import { sliTypeOptions, availabilityType, applicationType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import { boundaryScopes } from 'in-applications/alerting/advanced/InboundOutboundCallsSwitch/config';
+import { sliTypeOptions, applicationType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
+import FormInputField from 'in-custom-dashboards/widgets/Slo/components/FormInputField';
 import ServicesSelectBox from 'in-custom-dashboards/widgets/Slo/sli/ServicesSelectBox';
 import EndpointSelectBox from 'in-custom-dashboards/widgets/Slo/sli/EndpointSelectBox';
-import EventBasedForm from 'in-custom-dashboards/widgets/Slo/sli/GoodBadEventsForm';
-import FormInputField from 'in-custom-dashboards/widgets/Slo/components/FormInputField';
-import { MetricsForm } from 'in-custom-dashboards/widgets/Slo/sli/MetricsForm';
+import { isQB2ModeEnabled } from 'in-new-components/Alerting/components/WithQB1orQB2';
 import FormDropDown from 'in-custom-dashboards/widgets/Slo/components/FormDropDown';
+import GoodBadEvents from 'in-custom-dashboards/widgets/Slo/sli/GoodBadEventsForm';
+import { MetricsForm } from 'in-custom-dashboards/widgets/Slo/sli/MetricsForm';
 import StackItem from 'in-new-components/layout/Stack/StackItem';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import KeyValue from 'in-new-components/lists/KeyValue';
@@ -93,18 +94,20 @@ export function SliForm({ form, onChange, onChangeType, apName }) {
         <Header>SLI Entity</Header>
       </StackItem>
       <StackItem>
-        <Row>
-          <Col md={2}>
-            <FormGroup>
-              <KeyValue value="Application Perspective" inverted className={locals.oneLineLabel} />
-            </FormGroup>
-          </Col>
-          <Col md={3}>
-            <FormGroup withoutBottomMargin>
-              <Input disabled value={apName} className={locals.applicationName} />
-            </FormGroup>
-          </Col>
-        </Row>
+        {!isQB2ModeEnabled && (
+          <Row>
+            <Col md={2}>
+              <FormGroup>
+                <KeyValue value="Application Perspective" inverted className={locals.oneLineLabel} />
+              </FormGroup>
+            </Col>
+            <Col md={3}>
+              <FormGroup withoutBottomMargin>
+                <Input disabled value={apName} className={locals.applicationName} />
+              </FormGroup>
+            </Col>
+          </Row>
+        )}
         <Row withoutTopMargin>
           <Col md={2}>
             <FormGroup>
@@ -176,7 +179,7 @@ export function SliForm({ form, onChange, onChangeType, apName }) {
         )}
       </StackItem>
       <MetricsForm form={form} onChange={onChange} />
-      {sliType === availabilityType && <EventBasedForm applicationName={apName} form={form} onChange={onChange} />}
+      <GoodBadEvents applicationName={apName} form={form} onChange={onChange} />
     </Stack>
   );
 }
