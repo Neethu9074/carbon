@@ -1,11 +1,11 @@
 import React from 'react';
 
-import DebouncedInput from 'in-components/form/Input/DebouncedInput';
-import { getTrackingObject } from 'in-new-components/Alerting/trackingHelpers';
 import {
   getValueRoundedToDecimals,
   getThresholdValueForPercentageMetric
 } from 'in-new-components/Alerting/utils/formatUtils';
+import { getTrackingObject } from 'in-new-components/Alerting/trackingHelpers';
+import DebouncedInput from 'in-components/form/Input/DebouncedInput';
 
 /*
  * input field can represent a percentage or normal number field
@@ -20,6 +20,7 @@ export default function ThresholdValueInput({
   name = 'thresholdValue',
   form,
   onChange,
+  updateForm,
   trackChange,
   percentageMetric,
   ...props
@@ -30,7 +31,20 @@ export default function ThresholdValueInput({
     if (value > max) {
       return;
     }
-    onChange?.(['threshold', 'value'], f => f.setValue(value).setTouched(true));
+
+    if (!updateForm) {
+      onChange?.(['threshold', 'value'], f => f.setValue(value).setTouched(true));
+    }
+
+    if (!onChange) {
+      updateForm?.(
+        form
+          .updateIn(['threshold', 'value'], f => f.setValue(value).setTouched(true))
+          .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
+          .updateIn(['hiddenFields', 'thresholdValueManuallyChanged'], f => f.setValue(true))
+      );
+    }
+
     trackChange?.(getTrackingObject(form, { value }));
   };
 

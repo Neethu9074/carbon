@@ -9,6 +9,7 @@ import AlertingChartWithErrorMessage from 'in-new-components/Alerting/Chart/Aler
 import IncompleteChartPlaceholder from 'in-new-components/Alerting/components/IncompleteChartPlaceholder';
 import ThresholdConditionFormGroup from 'in-new-components/Alerting/advanced/ThresholdConditionFormGroup';
 import { ThresholdOperatorDropDown } from 'in-new-components/Alerting/advanced/ThresholdOperatorDropDown';
+import UseSuggestedValueButton from 'in-new-components/Alerting/advanced/UseSuggestedValueButton';
 import ChartViewConfigurator from 'in-new-components/Alerting/components/ChartViewConfigurator';
 import { alertConfigWithDefaultThreshold } from 'in-new-components/Alerting/utils/formUtils';
 import ThresholdValueInput from 'in-new-components/Alerting/advanced/ThresholdValueInput';
@@ -23,6 +24,7 @@ export default function StatusCodeInteractiveChart({
   blueprintConfig,
   form,
   onChange,
+  updateForm,
   onChartViewConfigChange,
   selectedChartViewConfigIndex
 }) {
@@ -38,7 +40,7 @@ export default function StatusCodeInteractiveChart({
 
   return (
     <div className={locals.container}>
-      <ThresholdCondition form={form} onChange={onChange} blueprintConfig={blueprintConfig} />
+      <ThresholdCondition form={form} onChange={onChange} updateForm={updateForm} blueprintConfig={blueprintConfig} />
 
       <ChartViewConfigurator
         onChartViewConfigChange={onChartViewConfigChange}
@@ -60,7 +62,7 @@ export default function StatusCodeInteractiveChart({
   );
 }
 
-export function ThresholdCondition({ form, onChange, blueprintConfig }) {
+export function ThresholdCondition({ form, onChange, updateForm, blueprintConfig }) {
   const metricName = form.get('rule').get('metricName').value;
   const metricUnitPostfix = getMetricUnitPostfix(metricName);
   const maxValue = blueprintConfig.getMaxMetricValue(metricName);
@@ -76,10 +78,11 @@ export function ThresholdCondition({ form, onChange, blueprintConfig }) {
       <ThresholdValueInput
         max={maxValue}
         form={form}
-        onChange={onChange}
+        updateForm={updateForm}
         trackChange={applicationsAlertingThresholdValueChanged}
       />
       {isNotBlank(metricUnitPostfix) && <Label htmlFor="thresholdValue">{metricUnitPostfix}</Label>}
+      <UseSuggestedValueButton form={form} onChange={onChange} metricUnitPostfix={metricUnitPostfix} />
     </ThresholdConditionFormGroup>
   );
 }
@@ -88,6 +91,7 @@ StatusCodeInteractiveChart.propTypes = {
   blueprintConfig: blueprintConfigPropType,
   form: PropTypes.object.isRequired,
   onChange: PropTypes.func.isRequired,
+  updateForm: PropTypes.func.isRequired,
   onChartViewConfigChange: PropTypes.func.isRequired,
   selectedChartViewConfigIndex: PropTypes.number.isRequired
 };

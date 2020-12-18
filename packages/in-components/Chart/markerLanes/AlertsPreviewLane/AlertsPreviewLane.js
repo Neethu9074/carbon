@@ -26,12 +26,12 @@ function AlertsPreviewLane({ alertsPreviewConfiguration, getAlertsPreview, ...re
 }
 
 function isConfigValid({ threshold }) {
-  if (threshold.type === 'historicBaseline' && threshold.baseline?.length === 0) {
+  if (threshold.type === 'historicBaseline' && (threshold.baseline == null || threshold.baseline?.length === 0)) {
     return false;
   }
   if (
     threshold.type === 'staticThreshold' &&
-    (threshold.value === undefined || threshold.value === null || threshold.value < 0)
+    (threshold.value === undefined || threshold.value == null || threshold.value < 0)
   ) {
     return false;
   }

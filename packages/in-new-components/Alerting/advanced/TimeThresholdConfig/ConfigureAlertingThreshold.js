@@ -88,15 +88,11 @@ export default function ConfigureAlertingThreshold({ form, onChange, updateForm 
     const oldGranularity = form.get('granularity').value;
     const oldTimeWindow = form.get('timeThreshold').get('timeWindow').value;
     const violations = parseInt(oldTimeWindow / oldGranularity);
-    const thresholdType = form.get('threshold').get('type')?.value;
 
     updateForm(
       form
         .updateIn(['granularity'], f => f.setValue(newGranularity).setTouched(true))
         .updateIn(['timeThreshold', 'timeWindow'], f => f.setValue(violations * newGranularity).setTouched(true))
-        .updateIn(['threshold', thresholdType === 'historicBaseline' ? 'baseline' : 'value'], f =>
-          f.setValue(null).setTouched(true)
-        )
         .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
     );
   }

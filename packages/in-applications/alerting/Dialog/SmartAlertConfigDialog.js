@@ -49,7 +49,9 @@ function SmartAlertConfigDialogWithQueryValidation({
     ([form, simpleMode, isValid]) =>
       resolveThresholdRequest(alertConfig, blueprintConfig, enrichedTagFilterExpression, simpleMode, isValid)
         .filter(resp => resp && !resp.progress.loading)
-        .tap(({ data, errors, time }) => isValid && updateThresholdInForm(form, updateForm, data, errors, time)),
+        .tap(
+          ({ data, errors, time }) => isValid && updateThresholdInForm(form, updateForm, data, errors, time, simpleMode)
+        ),
     [form, simpleMode, isValid]
   );
 
@@ -117,7 +119,7 @@ function resolveThresholdRequest(alertConfig, blueprintConfig, enrichedTagFilter
   });
 }
 
-function updateThresholdInForm(form, updateForm, data, errors, time) {
+function updateThresholdInForm(form, updateForm, data, errors, time, simpleMode) {
   const calculateThresholdOnBackend = form.get('hiddenFields').get('calculateThresholdOnBackend').value;
 
   if (calculateThresholdOnBackend) {
@@ -140,19 +142,26 @@ function updateThresholdInForm(form, updateForm, data, errors, time) {
       };
     }
 
+    const shouldAddNewThresholdData =
+      simpleMode || currentThreshold.value == null || currentThreshold.value == '' || data.type === 'historicBaseline';
+
     const updatedThresholdForm = createThresholdForm(
       {
         lastUpdated: time,
-        ...thresholdData
+        ...(shouldAddNewThresholdData ? thresholdData : currentThreshold)
       },
       alertType
     );
 
-    updateForm(
-      form
-        .put('threshold', updatedThresholdForm)
-        .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(false))
-    );
+    let newForm = form
+      .put('threshold', updatedThresholdForm)
+      .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(false));
+
+    if (currentThreshold.value !== '') {
+      newForm = newForm.updateIn(['hiddenFields', 'suggestedThresholdValue'], f => f.setValue(data.value));
+    }
+
+    updateForm(newForm);
   }
 }
 

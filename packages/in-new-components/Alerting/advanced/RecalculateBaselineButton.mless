@@ -1,0 +1,5 @@
+:local {
+  .buttonWrapper {
+    margin: 0 0.25rem, 0, auto;
+  }
+}

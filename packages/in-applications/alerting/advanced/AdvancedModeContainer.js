@@ -40,7 +40,8 @@ export default function AdvancedModeContainer(props) {
     applicationLabel,
     onChartViewConfigChange,
     selectedChartViewConfigIndex,
-    thresholdResult
+    thresholdResult,
+    editMode
   } = props;
   const alertType = form.get('rule').get('alertType').value;
   const blueprintConfig = getBlueprintConfig(alertType);
@@ -96,6 +97,7 @@ export default function AdvancedModeContainer(props) {
                     form={form}
                     timeConfig={timeConfig}
                     onChange={onChange}
+                    updateForm={updateForm}
                     onChartViewConfigChange={onChartViewConfigChange}
                     selectedChartViewConfigIndex={selectedChartViewConfigIndex}
                   />
@@ -110,6 +112,7 @@ export default function AdvancedModeContainer(props) {
                       updateForm={updateForm}
                       onChartViewConfigChange={onChartViewConfigChange}
                       selectedChartViewConfigIndex={selectedChartViewConfigIndex}
+                      editMode={editMode}
                     />
                     <BaselineErrorMessage thresholdResult={thresholdResult} />
                   </>
@@ -132,6 +135,7 @@ export default function AdvancedModeContainer(props) {
                       form={form}
                       timeConfig={timeConfig}
                       onChange={onChange}
+                      updateForm={updateForm}
                       onChartViewConfigChange={onChartViewConfigChange}
                       selectedChartViewConfigIndex={selectedChartViewConfigIndex}
                     />
@@ -162,6 +166,7 @@ export default function AdvancedModeContainer(props) {
                       updateForm={updateForm}
                       onChartViewConfigChange={onChartViewConfigChange}
                       selectedChartViewConfigIndex={selectedChartViewConfigIndex}
+                      editMode={editMode}
                     />
                     <BaselineErrorMessage thresholdResult={thresholdResult} />
                   </>

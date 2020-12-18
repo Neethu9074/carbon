@@ -9,7 +9,10 @@ import { applicationsAlertingStepSwitch } from 'in-applications/alerting/tracker
 const stepConfigs = [
   {
     title: 'Step 1: Select Alert',
-    validateIntermediately: [['rule', 'message'], ['rule', 'level']]
+    validateIntermediately: [
+      ['rule', 'message'],
+      ['rule', 'level']
+    ]
   },
   {
     title: 'Step 2: Select Scope'
@@ -21,7 +24,6 @@ const stepConfigs = [
 ];
 
 export default function SimpleModeContainer({
-  editMode,
   form,
   onChange,
   onClose,
@@ -37,7 +39,6 @@ export default function SimpleModeContainer({
   return (
     <SimpleModePageNavigation
       form={form}
-      editMode={editMode}
       onClose={onClose}
       onCreate={onCreate}
       setSimpleModeStep={setSimpleModeStep}

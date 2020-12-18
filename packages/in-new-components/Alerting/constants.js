@@ -10,7 +10,6 @@ export const blueprintConfigPropType = PropTypes.shape({
   name: PropTypes.string.isRequired,
   headline: PropTypes.string.isRequired,
   text: PropTypes.string.isRequired,
-  getAllTagFilters: PropTypes.func.isRequired,
   disabledTagFilters: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
   baselineEnabled: PropTypes.bool.isRequired,
   isCustomRateMetric: PropTypes.func.isRequired,

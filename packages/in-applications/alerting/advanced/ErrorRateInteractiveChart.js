@@ -8,6 +8,7 @@ import {
 import AlertingChartWithErrorMessage from 'in-new-components/Alerting/Chart/AlertingChartWithErrorMessage';
 import ThresholdConditionFormGroup from 'in-new-components/Alerting/advanced/ThresholdConditionFormGroup';
 import { ThresholdOperatorDropDown } from 'in-new-components/Alerting/advanced/ThresholdOperatorDropDown';
+import UseSuggestedValueButton from 'in-new-components/Alerting/advanced/UseSuggestedValueButton';
 import ChartViewConfigurator from 'in-new-components/Alerting/components/ChartViewConfigurator';
 import { alertConfigWithDefaultThreshold } from 'in-new-components/Alerting/utils/formUtils';
 import ThresholdValueInput from 'in-new-components/Alerting/advanced/ThresholdValueInput';
@@ -22,12 +23,13 @@ export default function ErrorRateInteractiveChart({
   blueprintConfig,
   form,
   onChange,
+  updateForm,
   onChartViewConfigChange,
   selectedChartViewConfigIndex
 }) {
   return (
     <div className={locals.container}>
-      <ThresholdCondition form={form} onChange={onChange} blueprintConfig={blueprintConfig} />
+      <ThresholdCondition form={form} onChange={onChange} updateForm={updateForm} blueprintConfig={blueprintConfig} />
 
       <ChartViewConfigurator
         onChartViewConfigChange={onChartViewConfigChange}
@@ -49,7 +51,7 @@ export default function ErrorRateInteractiveChart({
   );
 }
 
-export function ThresholdCondition({ form, onChange, blueprintConfig }) {
+export function ThresholdCondition({ form, onChange, updateForm, blueprintConfig }) {
   const metricName = form.get('rule').get('metricName').value;
   const metricUnitPostfix = getMetricUnitPostfix(metricName);
   const maxValue = blueprintConfig.getMaxMetricValue(metricName);
@@ -68,11 +70,12 @@ export function ThresholdCondition({ form, onChange, blueprintConfig }) {
         className={locals.narrowControl}
         max={maxValue}
         form={form}
-        onChange={onChange}
+        updateForm={updateForm}
         trackChange={applicationsAlertingThresholdValueChanged}
         percentageMetric
       />
       {isNotBlank(metricUnitPostfix) && <Label htmlFor="thresholdValue">{metricUnitPostfix}</Label>}
+      <UseSuggestedValueButton form={form} onChange={onChange} metricUnitPostfix={metricUnitPostfix} percentageMetric />
     </ThresholdConditionFormGroup>
   );
 }
@@ -81,6 +84,7 @@ ErrorRateInteractiveChart.propTypes = {
   form: PropTypes.object.isRequired,
   blueprintConfig: blueprintConfigPropType,
   onChange: PropTypes.func.isRequired,
+  updateForm: PropTypes.func.isRequired,
   onChartViewConfigChange: PropTypes.func.isRequired,
   selectedChartViewConfigIndex: PropTypes.number.isRequired
 };

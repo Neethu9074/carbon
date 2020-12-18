@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
+import { thresholdOrBaselineLoadingSignal$ } from 'in-new-components/Alerting/Chart/AlertingChartWrapper';
 import StepProgressBar from 'in-new-components/StepProgressBar/StepProgressBar';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import SaveButton from 'in-components/form/SaveButton';
 import Button from 'in-new-components/Button/Button';
+import useObservable from 'in-hooks/useObservable';
 
 import locals from './SimpleModePageNavigation.mless';
 
 export default function SimpleModePageNavigation({
-  editMode,
   form,
   onClose,
   onCreate,
@@ -22,6 +23,7 @@ export default function SimpleModePageNavigation({
   isSaving
 }) {
   const [step, setStep] = useState(0);
+  const isCalculatingThreshold = useObservable(thresholdOrBaselineLoadingSignal$, []);
 
   if (simpleModeStep && simpleModeStep > step) {
     setStep(simpleModeStep);
@@ -78,10 +80,10 @@ export default function SimpleModePageNavigation({
             kind="primary"
             className={locals.button}
             form={form}
-            disabled={isDisabled}
+            disabled={isDisabled || isCalculatingThreshold}
             isSaving={isSaving}
           >
-            {step === stepConfigs.length - 1 ? (editMode ? 'Save' : 'Create') : 'Next'}
+            {step === stepConfigs.length - 1 ? 'Create' : 'Next'}
           </SaveButton>
         </div>
       </form>
@@ -90,7 +92,6 @@ export default function SimpleModePageNavigation({
 }
 
 SimpleModePageNavigation.propTypes = {
-  editMode: PropTypes.bool,
   form: PropTypes.object.isRequired,
   onClose: PropTypes.func.isRequired,
   onCreate: PropTypes.func.isRequired,

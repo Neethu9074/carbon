@@ -10,10 +10,10 @@ export default function BlueprintSelection(props) {
       {...props}
       updateFormForSelectedBlueprint={blueprintConfig => {
         props.updateForm(
-          createBlueprintForm(props.form, blueprintConfig.type, blueprintConfig.thresholdDefaults).updateIn(
-            ['hiddenFields', 'calculateThresholdOnBackend'],
-            f => f.setValue(true)
-          )
+          createBlueprintForm(props.form, blueprintConfig.type, blueprintConfig.thresholdDefaults)
+            .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
+            .updateIn(['hiddenFields', 'thresholdValueManuallyChanged'], f => f.setValue(false))
+            .updateIn(['hiddenFields', 'suggestedThresholdValue'], f => f.setValue(null))
         );
       }}
       trackBlueprintChange={newBlueprint => applicationsAlertingBlueprintChanged({ newBlueprint, mode: 'advanced' })}

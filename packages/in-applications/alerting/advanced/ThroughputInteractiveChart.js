@@ -13,7 +13,9 @@ import { createThroughputForm, defaultDeviationFactor } from 'in-applications/al
 import AlertingChartWithErrorMessage from 'in-new-components/Alerting/Chart/AlertingChartWithErrorMessage';
 import ThresholdConditionFormGroup from 'in-new-components/Alerting/advanced/ThresholdConditionFormGroup';
 import { ThresholdOperatorDropDown } from 'in-new-components/Alerting/advanced/ThresholdOperatorDropDown';
+import RecalculateBaselineButton from 'in-new-components/Alerting/advanced/RecalculateBaselineButton';
 import { getThresholdComboBoxValue } from 'in-new-components/Alerting/advanced/thresholdFormHelper';
+import UseSuggestedValueButton from 'in-new-components/Alerting/advanced/UseSuggestedValueButton';
 import ChartViewConfigurator from 'in-new-components/Alerting/components/ChartViewConfigurator';
 import { thresholdTypeOptions } from 'in-new-components/Alerting/advanced/thresholdFormData';
 import ThresholdValueInput from 'in-new-components/Alerting/advanced/ThresholdValueInput';
@@ -33,13 +35,20 @@ export default function ThroughputInteractiveChart({
   onChange,
   updateForm,
   onChartViewConfigChange,
-  selectedChartViewConfigIndex
+  selectedChartViewConfigIndex,
+  editMode
 }) {
   const alertConfig = alertConfigWithDefaultValues(form);
 
   return (
     <div className={locals.container}>
-      <ThresholdCondition form={form} updateForm={updateForm} onChange={onChange} blueprintConfig={blueprintConfig} />
+      <ThresholdCondition
+        form={form}
+        updateForm={updateForm}
+        onChange={onChange}
+        blueprintConfig={blueprintConfig}
+        editMode={editMode}
+      />
 
       <ChartViewConfigurator
         onChartViewConfigChange={onChartViewConfigChange}
@@ -61,7 +70,7 @@ export default function ThroughputInteractiveChart({
   );
 }
 
-function ThresholdCondition({ form, updateForm, onChange, blueprintConfig }) {
+function ThresholdCondition({ form, updateForm, onChange, blueprintConfig, editMode }) {
   const thresholdType = form.get('threshold').get('type')?.value;
   const metricName = form.get('rule').get('metricName').value;
   const metricUnitPostfix = getMetricUnitPostfix(metricName);
@@ -121,6 +130,7 @@ function ThresholdCondition({ form, updateForm, onChange, blueprintConfig }) {
             applicationsAlertingThresholdTypeChanged(getTrackingObject(form, { value: newThresholdType }));
           }}
         />
+        {thresholdType === 'historicBaseline' && <RecalculateBaselineButton onChange={onChange} editMode={editMode} />}
       </ThresholdConditionFormGroup>
 
       {thresholdType === 'staticThreshold' && (
@@ -128,10 +138,11 @@ function ThresholdCondition({ form, updateForm, onChange, blueprintConfig }) {
           <ThresholdValueInput
             max={maxValue}
             form={form}
-            onChange={onChange}
+            updateForm={updateForm}
             trackChange={applicationsAlertingThresholdValueChanged}
           />
           {isNotBlank(metricUnitPostfix) && <Label htmlFor="thresholdValue">{metricUnitPostfix}</Label>}
+          <UseSuggestedValueButton form={form} onChange={onChange} metricUnitPostfix={metricUnitPostfix} />
         </ThresholdConditionFormGroup>
       )}
 
@@ -153,5 +164,6 @@ ThroughputInteractiveChart.propTypes = {
   onChange: PropTypes.func.isRequired,
   updateForm: PropTypes.func.isRequired,
   onChartViewConfigChange: PropTypes.func.isRequired,
-  selectedChartViewConfigIndex: PropTypes.number.isRequired
+  selectedChartViewConfigIndex: PropTypes.number.isRequired,
+  editMode: PropTypes.bool
 };
