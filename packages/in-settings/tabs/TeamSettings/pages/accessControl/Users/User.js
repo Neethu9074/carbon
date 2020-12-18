@@ -8,10 +8,10 @@ import { success as successResult, error as errorResult } from 'in-services/util
 import { success, neutral, error as errorType } from 'in-new-components/Message/types';
 import Groups from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/Groups';
 import Areas from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/Areas';
+import { isLoading, hasError, successObservable } from 'in-services/util/result';
 import { teamSettingsAccessControlUsers } from 'in-settings/navigation/paths';
 import { getUsersAsResultObservable, setRole } from 'in-api/users';
 import { groupPermissionsEnabled } from 'in-services/featureFlags';
-import { isLoading, hasError } from 'in-services/util/result';
 import ApiItemView from 'in-settings/components/ApiItemView';
 import Skeleton from 'in-new-components/Loading/Skeleton';
 import { getRolesAsResultObservable, refresh } from 'in-api/roles';
@@ -44,7 +44,7 @@ export default function User({ match }) {
 
             return successResult(user);
           }),
-          roles: getRolesAsResultObservable()
+          roles: groupPermissionsEnabled ? successObservable([]) : getRolesAsResultObservable()
         })}
         enrichForm={enrichForm}
         saveItem={saveItem}
