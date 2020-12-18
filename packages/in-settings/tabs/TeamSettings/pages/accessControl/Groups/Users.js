@@ -6,13 +6,14 @@ import { getEntityIdView, teamSettingsAccessControlUsers } from 'in-settings/nav
 import { ListInsideACardRenderer } from 'in-settings/components/ApiList/renderer/renderer';
 import UserList from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/UserList';
 import Delete from 'in-settings/components/ApiList/sharedComponents/Delete';
+import { groupPermissionsEnabled } from 'in-services/featureFlags';
 import LocallyChangedTheme from 'in-themes/LocallyChangedTheme';
 import { find } from 'in-services/arrayUtils';
 import { light } from 'in-themes/themes';
 
-export default function Users({ members, addUsers, removeUser, noDelete = false }) {
-  const columnDefinition = [iconColumn, labelColumn, roleColumn];
+const columnDefinition = groupPermissionsEnabled ? [iconColumn, labelColumn] : [iconColumn, labelColumn, roleColumn];
 
+export default function Users({ members, addUsers, removeUser, noDelete = false }) {
   const columnDefinitionWithDelete = [
     ...columnDefinition,
     {

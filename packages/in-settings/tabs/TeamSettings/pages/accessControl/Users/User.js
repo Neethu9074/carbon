@@ -10,11 +10,11 @@ import Groups from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/Grou
 import Areas from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/Areas';
 import { isLoading, hasError, successObservable } from 'in-services/util/result';
 import { teamSettingsAccessControlUsers } from 'in-settings/navigation/paths';
+import { getRolesAsResultObservable, refresh } from 'in-api/roles';
 import { getUsersAsResultObservable, setRole } from 'in-api/users';
 import { groupPermissionsEnabled } from 'in-services/featureFlags';
 import ApiItemView from 'in-settings/components/ApiItemView';
 import Skeleton from 'in-new-components/Loading/Skeleton';
-import { getRolesAsResultObservable, refresh } from 'in-api/roles';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import FormGroup from 'in-components/form/FormGroup';
 import Title from 'in-components/Title/Title';
