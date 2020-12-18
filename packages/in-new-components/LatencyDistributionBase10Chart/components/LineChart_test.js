@@ -1,17 +1,17 @@
 /* eslint-env mocha, node */
 
-import jest from 'jest-mock';
-import expect from 'expect';
+import { expect } from 'chai';
+import sinon from 'sinon';
 
 import { render } from './LineChart';
 
 describe('in-new-components/LatencyDistributionBase10Chart/components/LineChart', () => {
   it('should catch breaking changes in line.render', () => {
     const canvasContextMock = {
-      beginPath: jest.fn(),
-      moveTo: jest.fn(),
-      lineTo: jest.fn(),
-      stroke: jest.fn(),
+      beginPath: sinon.spy(),
+      moveTo: sinon.spy(),
+      lineTo: sinon.spy(),
+      stroke: sinon.spy(),
       strokeStyle: null
     };
 
@@ -29,11 +29,11 @@ describe('in-new-components/LatencyDistributionBase10Chart/components/LineChart'
       bucketWidth
     );
 
-    expect(canvasContextMock.beginPath).toHaveBeenCalled();
-    expect(canvasContextMock.moveTo).toHaveBeenCalledWith(0, 0);
-    expect(canvasContextMock.lineTo).toHaveBeenNthCalledWith(1, 10, 50);
-    expect(canvasContextMock.lineTo).toHaveBeenNthCalledWith(2, 20, 15);
-    expect(canvasContextMock.strokeStyle).toBe(color);
-    expect(canvasContextMock.stroke).toHaveBeenCalled();
+    expect(canvasContextMock.beginPath).to.have.been.calledWith();
+    expect(canvasContextMock.moveTo).to.have.been.calledWith(0, 0);
+    expect(canvasContextMock.lineTo).to.have.been.calledWith(10, 50);
+    expect(canvasContextMock.lineTo).to.have.been.calledWith(20, 15);
+    expect(canvasContextMock.strokeStyle).to.equal(color);
+    expect(canvasContextMock.stroke).to.have.been.calledWith();
   });
 });
