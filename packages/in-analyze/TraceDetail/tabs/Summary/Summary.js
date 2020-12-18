@@ -75,7 +75,7 @@ class Summary extends React.Component {
       }
     });
 
-    this.sendTraceViewedEventAfterDelay(this.props.data);
+    this.sendTraceViewedEventAfterDelay(this.props.traceId);
   }
 
   componentWillUnmount() {
@@ -91,14 +91,14 @@ class Summary extends React.Component {
 
   componentDidUpdate() {
     this.openedCall$.emit(this.props.callId);
-    this.sendTraceViewedEventAfterDelay(this.props.data);
+    this.sendTraceViewedEventAfterDelay(this.props.traceId);
   }
 
-  sendTraceViewedEventAfterDelay(trace) {
+  sendTraceViewedEventAfterDelay(traceId) {
     clearTimeout(this.traceViewedTimeoutHandle);
     this.traceViewedTimeoutHandle = setTimeout(() => {
       connection.send('traceViewed', {
-        traceId: trace.id
+        traceId: traceId
       });
     }, 15000);
   }
