@@ -204,11 +204,25 @@ function renderButtonLine({ traceId }) {
   );
 }
 
-function renderMetaInformation({ result }) {
+function renderMetaInformation({ traceId, result }) {
   return (
     <div>
       <span className={locals.traceIdLabel}>Trace ID: </span>
-      <code className={locals.traceId}>{result.data.id}</code>
+      <code className={locals.traceId}>{traceId}</code>
+      {// When jumping from very recent beacons to the backend traces, calls might not be
+      // available in ClickHouse yet, even though some trace information from Cassandra
+      // may be shown already.
+      result.data && !result.data.id && (
+        <Tooltip
+          content={
+            'Some data related to this trace is delayed so please reload the \
+            page in a little later. An example where this may happen is viewing \
+            a very recent trace with some of its data is still being processed.'
+          }
+        >
+          <SvgIcon className={locals.icon} type="lib_help_error_info_outline" size="xs" />
+        </Tooltip>
+      )}
     </div>
   );
 }
