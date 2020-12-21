@@ -3,14 +3,11 @@
 :local {
   .label {
     color: @lib__colors__N700Medium;
+    margin-bottom: 0.5rem;
 
     &[disabled] {
       color: rgab(63757d,0.48);
     }
-  }
-
-  .withMargin {
-    margin-bottom: 0.5rem;
   }
 
   .hasError {
