@@ -24,7 +24,7 @@ import List, { createNewEntityButton, leftHeaderWithSelectAll } from 'in-setting
 import { getSeverityText } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
 import { openEventSubmitFormTracker, viewEventTracker } from 'in-settings/tracker';
 import WithSubscript from 'in-settings/components/WithSubscript';
-import { joinClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import { intersperse } from 'in-services/arrayUtils';
 import WithIcon from 'in-new-components/WithIcon';
 import { getSingular } from 'in-sdk/pluginName';
@@ -35,7 +35,10 @@ import theme from 'in-themes';
 
 import locals from './Events.mless';
 
-const typeOptions = [{ value: builtInEnumValue, label: 'Built-in' }, { value: customEnumValue, label: 'Custom' }];
+const typeOptions = [
+  { value: builtInEnumValue, label: 'Built-in' },
+  { value: customEnumValue, label: 'Custom' }
+];
 
 const arbitrarySeverityForIncidentsFilter = -13;
 const severityOptions = [
@@ -46,7 +49,10 @@ const severityOptions = [
 
 const entityTypeOptions = getEntityTypeOptions();
 
-const enabledOptions = Object.freeze([{ value: true, label: 'Enabled' }, { value: false, label: 'Disabled' }]);
+const enabledOptions = Object.freeze([
+  { value: true, label: 'Enabled' },
+  { value: false, label: 'Disabled' }
+]);
 
 export default compose(
   withState('type', 'setType', null),
@@ -325,7 +331,7 @@ function inSelectListDialogRightHeader(
         options={severityOptions}
         onChange={e => (e ? setSeverity(e.value) : setSeverity(null))}
         placeholder="Incidents & Severity…"
-        className={joinClassNames(locals.severityDropdown, locals.filterDropdown)}
+        className={classNames(locals.severityDropdown, locals.filterDropdown)}
       />
       <ComboBox
         name="filter-entity-type"
@@ -333,7 +339,7 @@ function inSelectListDialogRightHeader(
         options={entityTypeOptions}
         onChange={e => (e ? setEntityType(e.value) : setEntityType(null))}
         placeholder="Entity Type…"
-        className={joinClassNames(locals.entityTypeDropdown, locals.filterDropdown)}
+        className={classNames(locals.entityTypeDropdown, locals.filterDropdown)}
       />
       <ComboBox
         name="filter-enabled"

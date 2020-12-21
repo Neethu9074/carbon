@@ -3,7 +3,7 @@ import React from 'react';
 import SimpleValueSelector from 'in-new-components/QueryBuilder/SimpleValueSelector/SimpleValueSelector';
 import { toInteractiveElement } from 'in-new-components/interactiveCustomElement';
 import Entity from 'in-new-components/GroupingConfigurator/Entity';
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import useAutoFocus from 'in-hooks/useAutoFocus';
@@ -95,7 +95,7 @@ export default React.forwardRef(function ActiveGroupingConfiguration(
       )}
 
       <div
-        className={evaluateClassNames({
+        className={classNames({
           [locals.removeIconContainer]: true,
           [locals.nextToKey]: tagTreeNode.type === 'KEY_VALUE_PAIR'
         })}

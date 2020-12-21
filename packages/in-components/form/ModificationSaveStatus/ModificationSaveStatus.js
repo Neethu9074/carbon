@@ -1,7 +1,7 @@
 import rpt from 'prop-types';
 import React from 'react';
 
-import { joinClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
 
@@ -63,14 +63,14 @@ export default class extends React.Component {
     if (!status || Date.now() >= status.time + showModificationStatusForMillis) {
       if (this.props.reserveSpace) {
         return (
-          <span className={joinClassNames(this.props.className, `${block}__space-blocker`)} style={{ width: '16px' }} />
+          <span className={classNames(this.props.className, `${block}__space-blocker`)} style={{ width: '16px' }} />
         );
       }
       return null;
     }
 
     let iconType;
-    let className = joinClassNames(this.props.className, block);
+    let className = classNames(this.props.className, block);
     const tooltip = status.message;
     let spinning = false;
 

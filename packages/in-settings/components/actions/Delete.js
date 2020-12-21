@@ -3,7 +3,7 @@ import theme from 'in-themes';
 
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-new-components/Dialog/ConfirmationDialog';
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './Delete.mless';
@@ -17,7 +17,7 @@ export default forwardRef(function Delete(
       ref={ref}
       type="lib_actions_delete"
       color={theme.lib.colors.primary2}
-      className={evaluateClassNames({
+      className={classNames({
         [locals.disabled]: disabled
       })}
       onClick={

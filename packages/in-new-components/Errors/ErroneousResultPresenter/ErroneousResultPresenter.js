@@ -2,7 +2,7 @@ import { uniq } from 'lodash';
 import React from 'react';
 
 import { error as errorType } from 'in-new-components/Message/types';
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import { isTechnicalError } from 'in-services/util/error';
 import { emptyArray } from 'in-services/fixedObjects';
 import Message from 'in-new-components/Message';
@@ -24,7 +24,7 @@ export default function ErrorneousResultPresenter({ errors, className, addBottom
 
   return (
     <ul
-      className={evaluateClassNames({
+      className={classNames({
         [locals.errors]: true,
         [locals.bottomMargin]: addBottomMargin,
         [className]: className

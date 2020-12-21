@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import Tooltip from 'in-components/Tooltip';
 import Link from 'in-components/Link';
 
@@ -24,7 +24,7 @@ export default function Node({ node, nodeProps = {} }) {
         height,
         background: nodeProps.getColor && nodeProps.getColor(node)
       }}
-      className={evaluateClassNames({
+      className={classNames({
         [locals.node]: true,
         [locals.nodeSmallHeight]: isRestrictedHeight,
         [locals.nodeSmallWidth]: isRestrictedWidth
@@ -32,7 +32,7 @@ export default function Node({ node, nodeProps = {} }) {
       onClick={() => nodeProps.onClick && nodeProps.onClick(node)}
     >
       <span
-        className={evaluateClassNames({
+        className={classNames({
           [locals.label]: true,
           [locals.fullLabel]: !isRestrictedHeight
         })}

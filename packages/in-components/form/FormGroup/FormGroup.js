@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react';
 
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 
 import './FormGroup.less';
 
@@ -9,7 +9,7 @@ const block = 'in-form-group';
 export default forwardRef(function FormGroup({ children, className, style, withoutBottomMargin }, ref) {
   return (
     <div
-      className={evaluateClassNames({
+      className={classNames({
         [block]: true,
         [className]: className,
         [`${block}--without-bottom-margin`]: withoutBottomMargin

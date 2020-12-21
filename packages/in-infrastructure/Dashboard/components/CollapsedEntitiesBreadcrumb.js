@@ -2,7 +2,7 @@ import React from 'react';
 
 import PhysicalHierarchyBreadcrumb from 'in-infrastructure/Dashboard/components/PhysicalHierarchyBreadcrumb';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
 import Overlay from 'in-new-components/overlays/Overlay';
 import { Ul, Li } from 'in-new-components/lists/List';
@@ -14,7 +14,7 @@ export default function CollapsedEntitiesBreadcrumb({ ids, light }) {
   if (ids.length === 1) {
     return (
       <PhysicalHierarchyBreadcrumb
-        className={evaluateClassNames({
+        className={classNames({
           [locals.light]: light
         })}
         snapshotId={ids[0]}
@@ -27,7 +27,7 @@ export default function CollapsedEntitiesBreadcrumb({ ids, light }) {
       {({ toggle }) => (
         <Breadcrumb className={locals.collapsedBreadcrumb} onClick={toggle}>
           <div
-            className={evaluateClassNames({
+            className={classNames({
               [locals.flexWrapper]: true,
               [locals.light]: light
             })}

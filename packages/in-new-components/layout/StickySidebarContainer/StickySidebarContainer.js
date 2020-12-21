@@ -1,6 +1,6 @@
 import React from 'react';
 
-import evaluateClassNames from 'in-services/util/classnames';
+import classNames from 'classnames';
 import { Col, Row } from 'in-new-components/layout/Grid';
 import { debouncedResize$ } from 'in-services/browser';
 
@@ -150,7 +150,7 @@ export default class extends React.Component {
         <Col lg={sidebarWidth}>
           <div
             ref={this.sidebarInnerRef}
-            className={evaluateClassNames({
+            className={classNames({
               [locals.static]: flexWrapIsActive || mode === STATIC,
               [locals.fixedToBottom]: !flexWrapIsActive && sidebarTallerThanAvailableSpace && mode === DRAGGING_DOWN,
               [locals.fixedToTop]:
@@ -164,7 +164,7 @@ export default class extends React.Component {
         </Col>
         <Col
           lg={12 - sidebarWidth}
-          className={evaluateClassNames({ [locals.rightColum]: true, [locals.minHeight]: stickySidebar })}
+          className={classNames({ [locals.rightColum]: true, [locals.minHeight]: stickySidebar })}
         >
           {children}
         </Col>

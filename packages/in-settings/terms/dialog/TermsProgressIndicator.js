@@ -1,6 +1,6 @@
 import React from 'react';
 
-import evaluateClassNames from 'in-services/util/classnames';
+import classNames from 'classnames';
 import SvgIcon from 'in-components/SvgIcon/SvgIcon';
 import theme from 'in-themes';
 
@@ -13,7 +13,7 @@ export default function TermsProgressIndicator({ pageNumber = 1 }) {
         <SvgIcon className={locals.icon} type="lib_check" color={theme.lib.colors.white} size={28} />
       ) : (
         <div
-          className={evaluateClassNames({
+          className={classNames({
             [locals.pageIndicator]: true,
             [locals.highlightCurrentPage]: pageNumber === 1
           })}
@@ -25,7 +25,7 @@ export default function TermsProgressIndicator({ pageNumber = 1 }) {
       <div className={locals.line} />
 
       <div
-        className={evaluateClassNames({
+        className={classNames({
           [locals.pageIndicator]: true,
           [locals.highlightCurrentPage]: pageNumber === 2
         })}

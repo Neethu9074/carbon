@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
-import evaluateClassNames from 'in-services/util/classnames';
+import classNames from 'classnames';
 import keyCodes from 'in-components/keyCodes';
 import Input from 'in-components/form/Input';
 import SvgIcon from 'in-components/SvgIcon';
@@ -33,7 +33,7 @@ export default function SearchInput({
 
   return (
     <div
-      className={evaluateClassNames({
+      className={classNames({
         [locals.wrapper]: true,
         [locals.hasFocus]: hasFocus,
         [className]: className,
@@ -44,7 +44,7 @@ export default function SearchInput({
     >
       <Input
         refSetter={inputRef}
-        className={evaluateClassNames({
+        className={classNames({
           [locals.searchInput]: true,
           [locals.useTransparency]: hasError,
           [className]: className
@@ -75,7 +75,7 @@ export default function SearchInput({
       />
       {!withoutIcon && (
         <SvgIcon
-          className={evaluateClassNames({
+          className={classNames({
             [locals.icon]: true,
             [locals.withoutIcon]: disabled
           })}

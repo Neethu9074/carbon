@@ -3,7 +3,7 @@ import React from 'react';
 
 import { toInteractiveElement } from 'in-new-components/interactiveCustomElement';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 
 import locals from './LightCard.mless';
 
@@ -32,7 +32,7 @@ export default function LightCard({
 
   return (
     <div
-      className={evaluateClassNames({
+      className={classNames({
         [locals.card]: true,
         [className]: className,
         [locals.framed]: framed,
@@ -41,7 +41,7 @@ export default function LightCard({
       })}
     >
       <div
-        className={evaluateClassNames({
+        className={classNames({
           [locals.header]: true,
           [locals.clickableHeader]: isInteractiveCard,
           [headerClassName]: headerClassName,
@@ -62,7 +62,7 @@ export default function LightCard({
         )}
 
         <div
-          className={evaluateClassNames({
+          className={classNames({
             [locals.nonClickable]: isInteractiveCard
           })}
           onClick={isInteractiveCard ? onClickPrevented : undefined}
@@ -72,7 +72,7 @@ export default function LightCard({
       </div>
 
       <div
-        className={evaluateClassNames({
+        className={classNames({
           [locals.body]: children,
           [locals.bodyWithoutPadding]: withoutPadding,
           [bodyClassName]: bodyClassName

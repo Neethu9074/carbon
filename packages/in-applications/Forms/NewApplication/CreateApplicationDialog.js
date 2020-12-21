@@ -24,7 +24,7 @@ import { getApplicationCreationTagKeys } from 'in-applications/tags';
 import { applicationSubmitTracker } from 'in-applications/tracker';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import DescriptionText from 'in-components/form/DescriptionText';
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import OptionBox from 'in-applications/components/OptionBox';
 import Steps from 'in-applications/Forms/components/Steps';
 import { entityTypes } from 'in-analyze/applicationFilter';
@@ -237,7 +237,7 @@ export default function CreateApplicationDialog({ timeConfig, applicationId, onC
                       content: form.get('scope').map(field => (
                         <FormGroup>
                           <OptionBox
-                            className={evaluateClassNames({
+                            className={classNames({
                               [locals.optionBox]: true,
                               [locals.optionBoxUnchecked]: field.value !== 'INCLUDE_NO_DOWNSTREAM'
                             })}
@@ -247,7 +247,7 @@ export default function CreateApplicationDialog({ timeConfig, applicationId, onC
                             onChange={() => setValue(['scope'], 'INCLUDE_NO_DOWNSTREAM', form)}
                           />
                           <OptionBox
-                            className={evaluateClassNames({
+                            className={classNames({
                               [locals.optionBox]: true,
                               [locals.optionBoxUnchecked]:
                                 field.value !== 'INCLUDE_IMMEDIATE_DOWNSTREAM_DATABASE_AND_MESSAGING'
@@ -260,7 +260,7 @@ export default function CreateApplicationDialog({ timeConfig, applicationId, onC
                             }
                           />
                           <OptionBox
-                            className={evaluateClassNames({
+                            className={classNames({
                               [locals.optionBox]: true,
                               [locals.optionBoxUnchecked]: field.value !== 'INCLUDE_ALL_DOWNSTREAM'
                             })}

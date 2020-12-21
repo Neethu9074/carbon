@@ -13,7 +13,7 @@ import LoadMoreLi from 'in-new-components/lists/List/LoadMoreLi/LoadMoreLi';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import ResultHeader from 'in-new-components/AnalyzeView/ResultHeader';
 import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import { prefetch } from 'in-subscription/util/prefetch';
 import { generateStableHash } from 'in-services/util/id';
 import { Ul, Li } from 'in-new-components/lists/List';
@@ -35,7 +35,7 @@ export default function SplitScreenList(props) {
       {expanded && <ExpandedList setExpanded={setExpanded} {...props} />}
 
       <div
-        className={evaluateClassNames({
+        className={classNames({
           [locals.details]: true,
           [locals.useFullWidth]: !expanded
         })}

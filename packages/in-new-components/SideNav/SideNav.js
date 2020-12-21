@@ -2,7 +2,7 @@ import { on } from '@instana/observables';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import { scrollIntoView } from 'in-services/util/dom';
 
 import locals from './SideNav.mless';
@@ -32,7 +32,7 @@ export default class SideNav extends React.Component {
 
     return (
       <nav
-        className={evaluateClassNames({
+        className={classNames({
           [locals.container]: true,
           [className]: className,
           [locals.rightSeparator]: addRightSeparator,
@@ -43,7 +43,7 @@ export default class SideNav extends React.Component {
           {navItems.map((navItem, i) => (
             <li
               key={i}
-              className={evaluateClassNames({
+              className={classNames({
                 [locals.item]: true,
                 [locals.selected]: this.state.itemSelected === i
               })}

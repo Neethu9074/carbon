@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import SvgIcon from 'in-components/SvgIcon';
 import Link from 'in-components/Link';
 
@@ -21,7 +21,7 @@ export function SideNavigationItem({ isActive, href$, href, onClick, icon, omitE
   return (
     <Link className={locals.link} href$={href$} href={href} onClick={onClick}>
       <div
-        className={evaluateClassNames({
+        className={classNames({
           [locals.tab]: true,
           [locals.tabSelected]: isActive
         })}

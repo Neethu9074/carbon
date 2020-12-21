@@ -6,6 +6,10 @@
     min-height: 2rem;
   }
 
+  .automaticVerticalAlignment {
+    align-items: center;
+  }
+
   .title {
     flex-shrink: 0;
     display: flex;

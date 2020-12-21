@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import IndeterminateInput from 'in-components/form/CheckboxFancy/IndeterminateInput';
-import { evaluateClassNames, joinClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 
 import locals from './CheckboxFancy.mless';
 
@@ -52,7 +52,7 @@ export default function CheckboxFancy({
   );
   return label ? (
     <label
-      className={evaluateClassNames({
+      className={classNames({
         [locals.labelWrapper]: true,
         [wrapperClassName]: wrapperClassName
       })}
@@ -60,7 +60,7 @@ export default function CheckboxFancy({
       {input}
       {label && (
         <div
-          className={evaluateClassNames({
+          className={classNames({
             [locals.label]: true,
             [locals.verticalLabel]: verticalLabel,
             [labelClassName]: labelClassName
@@ -117,12 +117,12 @@ function Input({
       indeterminate={indeterminate}
       onChange={onChange}
       disabled={disabled}
-      className={joinClassNames(
+      className={classNames(
         locals.control,
         asRadioButton ? locals.radiobutton : locals.checkbox,
         sizes[size].className,
         className,
-        evaluateClassNames({
+        classNames({
           [locals.withControlsGrayscale]: withControlsGrayscale
         })
       )}

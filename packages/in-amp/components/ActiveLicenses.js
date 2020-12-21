@@ -49,7 +49,7 @@ export const columnDefinitions = [
   },
   {
     id: 'amp',
-    label: 'Licensed AMP Hosts',
+    label: 'Licensed APM Hosts',
     sortable: false,
     getContent(item) {
       return <span>{item.license.licenseSpecs?.apmHosts ?? valueMissingPlaceholder}</span>;

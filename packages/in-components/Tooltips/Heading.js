@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 
 import './Heading.less';
 
@@ -9,7 +9,7 @@ const block = 'in-tooltip__heading';
 export default function TooltipHeading({ className, style, children }) {
   return (
     <h2
-      className={evaluateClassNames({
+      className={classNames({
         [block]: true,
         [className]: className
       })}

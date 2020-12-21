@@ -5,7 +5,7 @@ import { tagFilter as tagFilterMatrixParameter, groupBy as groupByMatrixParamete
 import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import SnapshotEntityLink from 'in-analyze/components/GroupedTraces/SnapshotEntityLink';
 import MetricColumnCells from 'in-analyze/components/MetricColumn/MetricColumnCells';
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import { Tr, Td } from 'in-components/tables/sharedComponents';
 import { isBlank, isNotBlank } from 'in-services/util/string';
 import { formatDateTime } from 'in-services/formatters/date';
@@ -54,7 +54,7 @@ export default connectTo(
             <Link
               href={onChangeAnalyzeConfigAndGetAsUrl(getGroupingChange(filters, item.name))}
               onClick={() => trackSetGrouping(filters, item.name)}
-              className={evaluateClassNames({
+              className={classNames({
                 [locals.name]: true,
                 [locals.specialName]: isSpecialItem(item)
               })}

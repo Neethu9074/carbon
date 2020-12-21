@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 
 import CopyToClipboardButton from 'in-new-components/CopyToClipboardButton';
 import TouchedMessages from 'in-components/form/TouchedMessages';
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import LocallyChangedTheme from 'in-themes/LocallyChangedTheme';
 import ExpandableCard from 'in-new-components/ExpandableCard';
 import FormGroup from 'in-components/form/FormGroup';
@@ -57,7 +57,7 @@ export default function Collaboration({ isRestricted, agentKey }) {
                 align="bottomMiddle"
               >
                 <FormGroup
-                  className={evaluateClassNames({
+                  className={classNames({
                     [locals.userInvideFormGroup]: true,
                     [locals.disabledUserInvideFormGroup]: isRestricted
                   })}

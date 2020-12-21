@@ -1,13 +1,13 @@
 import React from 'react';
 
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 
 import locals from './Section.mless';
 
 export default function Section({ title, light, children }) {
   return (
     <div
-      className={evaluateClassNames({
+      className={classNames({
         [locals.wrapper]: true,
         [locals.lightWrapper]: light
       })}

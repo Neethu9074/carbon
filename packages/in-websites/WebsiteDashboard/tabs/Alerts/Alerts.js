@@ -15,7 +15,7 @@ import {
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
 import { alertsTab, alertsTabDetailsFullyQualified } from 'in-websites/navigation/paths';
 import { alertCreated as alertCreatedMatrixParam } from 'in-websites/navigation/matrix';
-import evaluateClassNames, { joinClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import { getBlueprintConfig } from 'in-websites/alerting/data/blueprintConfig';
 import { alertId as alertIdMatrixParam } from 'in-websites/navigation/matrix';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
@@ -103,18 +103,18 @@ function getEntityName(entity) {
 
 function getNameContent(config) {
   return (
-    <div className={joinClassNames(locals.centered, locals.fullWidth)}>
+    <div className={classNames(locals.centered, locals.fullWidth)}>
       <SvgIcon
-        className={evaluateClassNames({
+        className={classNames({
           [locals.alertIcon]: true,
           [locals.alertIconSeverityLow]: config.severity <= 5,
           [locals.alertIconSeverityHigh]: config.severity > 5
         })}
         type="lib_alerts_alert"
       />
-      <div className={joinClassNames(locals.column, locals.fullWidth)}>
+      <div className={classNames(locals.column, locals.fullWidth)}>
         <Tooltip themeStyle="light" content={config.description} align="topMiddle" delay={500}>
-          <div className={joinClassNames(locals.name, locals.fullWidth)}>{config.name}</div>
+          <div className={classNames(locals.name, locals.fullWidth)}>{config.name}</div>
         </Tooltip>
         <div className={locals.nameSubtext}>{getSubtitle(config)}</div>
       </div>
@@ -137,7 +137,7 @@ function getFiltersContent(config, websiteLabel) {
     <div className={locals.filters}>
       {websiteLabel && (
         <span
-          className={evaluateClassNames({
+          className={classNames({
             [locals.centered]: true,
             [locals.space]: pages.length === 0,
             [locals.devider]: pages.length > 0
@@ -149,7 +149,7 @@ function getFiltersContent(config, websiteLabel) {
       )}
       {pages &&
         pages.map((page, i) => (
-          <span className={joinClassNames(locals.centered, locals.space)} key={i}>
+          <span className={classNames(locals.centered, locals.space)} key={i}>
             <SvgIcon className={locals.filterIcon} type="lib_website_page_load" />
             {page.stringValue}
           </span>

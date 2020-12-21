@@ -1,7 +1,7 @@
 import { Motion, spring } from 'react-motion';
 import React from 'react';
 
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './Message.mless';
@@ -17,7 +17,7 @@ export default function Message({ message }) {
         return (
           <div
             style={interpolatedStyle}
-            className={evaluateClassNames({
+            className={classNames({
               [locals.flyoutMessage]: true,
               [locals[message.type]]: message.type,
               [locals.clickable]: message.onClick

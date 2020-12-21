@@ -2,7 +2,7 @@ import React from 'react';
 
 import { toInteractiveElement } from 'in-new-components/interactiveCustomElement';
 import WithHealthDot from 'in-new-components/health/WithHealthDot/WithHealthDot';
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import { emptyObject } from 'in-services/fixedObjects';
 import SvgIcon from 'in-components/SvgIcon/SvgIcon';
 import Tooltip from 'in-components/Tooltip/Tooltip';
@@ -47,7 +47,7 @@ export default function Tab({
 
   const item = (
     <li
-      className={evaluateClassNames({
+      className={classNames({
         [locals.tab]: true,
         [locals.active]: isActive,
         [locals.disabled]: isDisabled,

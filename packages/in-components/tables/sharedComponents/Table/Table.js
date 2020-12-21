@@ -4,7 +4,7 @@ import React from 'react';
 
 import ErrorIndicator from 'in-analyze/TraceDetail/components/ErrorIndicator';
 import { getDesignLibraryColorBySeverity } from 'in-stores/events';
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 
 import locals from './Table.mless';
 
@@ -13,7 +13,7 @@ export function Table(props) {
   delete reducedProps.tableInCard;
   delete reducedProps.fixedLayout;
 
-  const className = evaluateClassNames({
+  const className = classNames({
     [props.className]: true,
     [locals.table]: true,
     [locals.fixedLayout]: props.fixedLayout,
@@ -34,7 +34,7 @@ export function Tr(props) {
   return (
     <tr
       {...omit(props, ['active', 'selected'])}
-      className={evaluateClassNames({
+      className={classNames({
         [props.className]: true,
         [locals.tr]: true,
         [locals[`depth-${props.depth || 1}`]]: true,
@@ -64,7 +64,7 @@ export function Th(props) {
     <th
       {...omit(props, ['noWrap', 'width', 'wrapContent', 'widthInAbsoluteUnit'])}
       {...additionalStyleProps}
-      className={evaluateClassNames({
+      className={classNames({
         [locals.th]: true,
         [locals.noWrap]: props.noWrap,
         [props.className]: true
@@ -84,7 +84,7 @@ export function Td(props) {
     <td
       {...omit(props, ['noWrap', 'ellipsis', 'active'])}
       style={style}
-      className={evaluateClassNames({
+      className={classNames({
         [props.className]: true,
         [locals.td]: true,
         [locals.noWrap]: props.noWrap,

@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 
-import { joinClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import SvgIcon from 'in-components/SvgIcon';
 
@@ -18,7 +18,7 @@ export default function OptionBox({ checked, icon, title, description, onChange,
   );
 
   return (
-    <div className={joinClassNames(className, locals.wrapper)}>
+    <div className={classNames(className, locals.wrapper)}>
       <CheckboxFancy
         label={labelContent}
         asRadioButton={asRadioButton}

@@ -2,7 +2,7 @@ import { compose, withState } from 'recompose';
 import React from 'react';
 
 import ValidationBlock from 'in-components/form/ValidationBlock';
-import { joinClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import { close } from 'in-components/DialogPresenter/store';
 import FormGroup from 'in-components/form/FormGroup';
 import Button from 'in-new-components/Button';
@@ -55,7 +55,7 @@ function SelectListDialogContent({
         <div className={listFormGroupClassOverwrites}>
           <ListComponent
             setTitle={false}
-            scrollWrapperClassName={joinClassNames(locals.tableScrollWrapper, tableScrollWrapperClassOverwrites)}
+            scrollWrapperClassName={classNames(locals.tableScrollWrapper, tableScrollWrapperClassOverwrites)}
             pageSize={pageSize}
             hiddenIds={hiddenIds}
             hasRowNavigation={false}

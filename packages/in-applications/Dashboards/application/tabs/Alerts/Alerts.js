@@ -21,7 +21,7 @@ import { fromBackendModel } from 'in-new-components/QueryBuilder/transformation/
 import AlertQueryBuilder from 'in-applications/alerting/components/AlertQueryBuilder';
 import { getBlueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
 import { alertId as alertIdMatrixParam } from 'in-applications/navigation/matrix';
-import evaluateClassNames, { joinClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import WithQB1orQB2 from 'in-new-components/Alerting/components/WithQB1orQB2';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { mutateUrl } from 'in-stores/navigation/navigation';
@@ -134,18 +134,18 @@ function getEntityName(entity) {
 
 function getNameContent(config) {
   return (
-    <div className={joinClassNames(locals.centered, locals.fullWidth)}>
+    <div className={classNames(locals.centered, locals.fullWidth)}>
       <SvgIcon
-        className={evaluateClassNames({
+        className={classNames({
           [locals.alertIcon]: true,
           [locals.alertIconSeverityLow]: config.severity <= 5,
           [locals.alertIconSeverityHigh]: config.severity > 5
         })}
         type="lib_alerts_alert"
       />
-      <div className={joinClassNames(locals.column, locals.fullWidth)}>
+      <div className={classNames(locals.column, locals.fullWidth)}>
         <Tooltip themeStyle="light" content={config.description} align="topMiddle" delay={500}>
-          <div className={joinClassNames(locals.name, locals.fullWidth)}>{config.name}</div>
+          <div className={classNames(locals.name, locals.fullWidth)}>{config.name}</div>
         </Tooltip>
         <div className={locals.nameSubtext}>{getSubtitle(config)}</div>
       </div>
@@ -165,7 +165,7 @@ function getFiltersContent(config, applicationName) {
     <div className={locals.filters}>
       {applicationName && (
         <span
-          className={evaluateClassNames({
+          className={classNames({
             [locals.centered]: true,
             [locals.space]: true
           })}

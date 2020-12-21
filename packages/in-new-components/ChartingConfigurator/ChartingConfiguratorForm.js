@@ -1,7 +1,7 @@
 import React from 'react';
 
 import ComboBoxBehavior from 'in-components/form/ComboBox/ComboBoxBehavior';
-import { joinClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './ChartingConfiguratorForm.mless';
@@ -44,7 +44,7 @@ export default function ChartingConfiguratorForm({ value, options, onChange, hid
           ariaLabel="Change selected metric"
         >
           {({ elementProps }) => (
-            <div {...elementProps} className={joinClassNames(locals.metric, locals.selectable)}>
+            <div {...elementProps} className={classNames(locals.metric, locals.selectable)}>
               {activeMetric.label}
             </div>
           )}
@@ -75,7 +75,7 @@ export default function ChartingConfiguratorForm({ value, options, onChange, hid
           ariaLabel="Change selected aggregation"
         >
           {({ elementProps }) => (
-            <div {...elementProps} className={joinClassNames(locals.aggregation, locals.selectable)}>
+            <div {...elementProps} className={classNames(locals.aggregation, locals.selectable)}>
               {activeAggregation.label}
             </div>
           )}

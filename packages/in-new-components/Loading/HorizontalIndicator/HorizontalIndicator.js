@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import locals from './HorizontalIndicator.mless';
 
 export default function HorizontalIndicator({ progress, rounded = false, className }) {
@@ -16,14 +16,14 @@ export default function HorizontalIndicator({ progress, rounded = false, classNa
 
   return (
     <div
-      className={evaluateClassNames({
+      className={classNames({
         [locals.outer]: true,
         [locals.rounded]: rounded,
         [className]: className
       })}
     >
       <div
-        className={evaluateClassNames({
+        className={classNames({
           [locals.inner]: true,
           [locals.indeterminate]: progress.percentage == null
         })}

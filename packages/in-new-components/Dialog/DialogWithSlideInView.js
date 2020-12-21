@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { stopPropagation, stopPropagationAndPreventDefault } from 'in-services/util/function';
-import { evaluateClassNames, joinClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import SlideInView from 'in-new-components/SlideInView/SlideInView';
 import Header from 'in-new-components/Dialog/Header';
 
@@ -33,14 +33,14 @@ export default function DialogWithSlideInView({
 
   return (
     <div
-      className={evaluateClassNames({
+      className={classNames({
         [locals.wrapper]: true,
         [locals.cursorDefault]: doNotCloseOnOutsideClick
       })}
       onClick={e => (doNotCloseOnOutsideClick ? stopPropagationAndPreventDefault(e) : onClose(e))}
     >
       <section
-        className={joinClassNames(locals.dialog, className)}
+        className={classNames(locals.dialog, className)}
         onClick={stopPropagation}
         onScroll={e => setScrollshadow(e.target.scrollTop > 0)}
       >
@@ -64,7 +64,7 @@ export default function DialogWithSlideInView({
                 />
               )}
               <div
-                className={evaluateClassNames({
+                className={classNames({
                   [locals.body]: true,
                   [locals.withoutPadding]: withoutBodyPadding,
                   [locals.showOverflow]: showOverflow

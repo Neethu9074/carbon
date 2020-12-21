@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { joinClassNames, evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
 
@@ -17,7 +17,7 @@ export default function HorizontalFormGroupWithBackground({
   const helpTextSpacer = !helpText && !noHelpTextSpacer ? <div className={locals.helpIconSpacer} /> : null;
   return (
     <div
-      className={evaluateClassNames({
+      className={classNames({
         [locals.helpTextWrapper]: true,
         [locals.withoutBottomBorder]: withoutBottomBorder
       })}
@@ -29,7 +29,7 @@ export default function HorizontalFormGroupWithBackground({
       ) : (
         helpTextSpacer
       )}
-      <div className={joinClassNames(className, locals.group)}>{children}</div>
+      <div className={classNames(className, locals.group)}>{children}</div>
     </div>
   );
 }

@@ -46,7 +46,7 @@ function MyComponent() {
 
 ## Consuming the theme and theming a component
 
-To avoid thouching all usages of locals or messing around with evaluateClassNames etc., the only thing which needs to be done on the code side
+To avoid thouching all usages of locals or messing around with classnames etc., the only thing which needs to be done on the code side
 is to import the hook and insert the one line inside the component `const locals = useThemedLocals(styleDefs)`. All the usages of locals.whatEver
 can stay. The hook takes care that the right style definition is used.
 

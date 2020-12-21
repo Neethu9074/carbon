@@ -1,9 +1,9 @@
+import classNames from 'classnames';
 import React from 'react';
 
 import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';
 import ComboBoxBehavior from 'in-components/form/ComboBox/ComboBoxBehavior';
 import DropdownButton from 'in-new-components/Button/DropdownButton';
-import { evaluateClassNames } from 'in-services/util/classnames';
 import AmpTimeSelection from 'in-amp/components/TimeSelection';
 import Message from 'in-new-components/Message';
 
@@ -22,7 +22,7 @@ export default function AmpInformationModifier({
 
   return (
     <div
-      className={evaluateClassNames({
+      className={classNames({
         [locals.buttonHeader]: true,
         [locals.buttonHeaderReverse]: !unitSelectorOptions
       })}

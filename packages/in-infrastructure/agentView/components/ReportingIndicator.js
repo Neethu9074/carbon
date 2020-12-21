@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 
 import * as IssueCategories from 'in-sdk/agentMonitoringIssueDefinition';
 import { reportingStatus as ReportingStatus } from './ReportingStatus';
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import { formatDateTime } from 'in-services/formatters/date';
 import { getSingular, getPlural } from 'in-sdk/pluginName';
 import Tooltip from 'in-components/Tooltip';
@@ -18,7 +18,7 @@ export default function ReportingIndicator({ row }) {
   return (
     <Tooltip content={getTooltipText(row)} align={'rightMiddle'}>
       <div
-        className={evaluateClassNames({
+        className={classNames({
           [`${block}`]: true,
           [`${block}__is-reporting`]: isReporting === ReportingStatus.ONLINE,
           [`${block}__is-degraded`]: isReporting === ReportingStatus.DEGRADED

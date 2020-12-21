@@ -5,7 +5,7 @@ import { getOperatorLabel, entityTypes } from 'in-analyze/applicationFilter';
 import RadioGroup from 'in-analyze/components/RadioButtons/RadioGroup';
 import { isBlank, compareIgnoreCase } from 'in-services/util/string';
 import TouchedMessages from 'in-components/form/TouchedMessages';
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import { emptyArray } from 'in-services/fixedObjects';
 import Dialog from 'in-new-components/Dialog/Dialog';
 import FormGroup from 'in-components/form/FormGroup';
@@ -183,7 +183,7 @@ export default function EditTagFilterDialogPresenter({
               />
             ))}
         <div
-          className={evaluateClassNames({
+          className={classNames({
             [locals.actions]: true,
             [locals.onlyOneAction]: !editMode
           })}

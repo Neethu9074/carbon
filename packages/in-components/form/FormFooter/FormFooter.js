@@ -2,13 +2,13 @@ import React from 'react';
 
 import DeleteButtonComponent from 'in-components/form/DeleteButton';
 import SaveButtonComponent from 'in-components/form/SaveButton';
-import { joinClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import Button from 'in-new-components/Button/Button';
 
 import locals from './FormFooter.mless';
 
 export default function FormFooter({ className, children }) {
-  return <nav className={joinClassNames(locals.controls, className)}>{children}</nav>;
+  return <nav className={classNames(locals.controls, className)}>{children}</nav>;
 }
 
 export function SaveButton(props) {

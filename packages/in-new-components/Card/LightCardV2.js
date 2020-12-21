@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './LightCardV2.mless';
@@ -27,7 +27,7 @@ export default function LightCardV2({
   }
   return (
     <div
-      className={evaluateClassNames({
+      className={classNames({
         [locals.card]: true,
         [className]: className,
         [locals.useMaxAvailableHeight]: useMaxAvailableHeight,
@@ -35,7 +35,7 @@ export default function LightCardV2({
       })}
     >
       <div
-        className={evaluateClassNames({
+        className={classNames({
           [locals.header]: true,
           [locals.noHeaderContent]: !title && !icon && !leftHeaderContent && !header && !rightHeaderContent,
           [headerClassName]: headerClassName
@@ -45,7 +45,7 @@ export default function LightCardV2({
         <div className={locals.left}>
           {icon && <SvgIcon className={locals.icon} size="l" type={icon} />}
           <span
-            className={evaluateClassNames({
+            className={classNames({
               [locals.title]: true,
               [locals.small]: size === 's',
               [locals.large]: size === 'l'
@@ -59,7 +59,7 @@ export default function LightCardV2({
       </div>
 
       <div
-        className={evaluateClassNames({
+        className={classNames({
           [locals.body]: children ? true : false,
           [bodyClassName]: bodyClassName
         })}

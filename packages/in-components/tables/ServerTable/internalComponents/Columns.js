@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Tr, Th, SortableTh, ConfigurableTh } from 'in-components/tables/sharedComponents';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
 
 import locals from './Columns.mless';
@@ -92,7 +92,7 @@ function onClick(e, setOrder, columnDefinition, isSortedByThisColumn, orderDirec
 
 function getHeadCellProps(columnDefinition) {
   const headCellProps = columnDefinition.headCellProps ? columnDefinition.headCellProps : {};
-  headCellProps.className = evaluateClassNames({
+  headCellProps.className = classNames({
     [headCellProps.className]: headCellProps.className,
     [locals.th]: true
   });

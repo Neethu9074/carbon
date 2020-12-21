@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 
 import { getServiceDashboard, getEndpointDashboard } from 'in-applications/navigation/paths';
 import { getLinkToMobileApp } from 'in-mobile-apps/navigation/paths';
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import { getLinkToWebsite } from 'in-websites/navigation/paths';
 import PluginIcon from 'in-components/PluginIcon';
 import { shorten } from 'in-services/util/string';
@@ -15,7 +15,7 @@ import locals from './LocationComponents.mless';
 export const SourceLocation = ({ location, service, snapshotId, entity, span }) => {
   return (
     <div
-      className={evaluateClassNames({
+      className={classNames({
         [locals.serviceLine]: true,
         [locals.unmonitored]: snapshotId === null || service.id === 'ROOT',
         [locals.hasError]: span && span.errorCount > 0
@@ -42,7 +42,7 @@ export const SourceLocation = ({ location, service, snapshotId, entity, span }) 
 export const DestinationLocation = ({ location, endpoint, service, snapshotId, entity, span, inProcessCall }) => {
   return (
     <div
-      className={evaluateClassNames({
+      className={classNames({
         [locals.serviceLine]: true,
         [locals.unmonitored]: snapshotId === null,
         [locals.hasError]: span && span.errorCount > 0
@@ -68,7 +68,7 @@ export const DestinationLocation = ({ location, endpoint, service, snapshotId, e
 export const WebsiteSourceLocation = ({ location, beacon }) => {
   return (
     <div
-      className={evaluateClassNames({
+      className={classNames({
         [locals.serviceLine]: true
       })}
     >
@@ -97,7 +97,7 @@ export const WebsiteSourceLocation = ({ location, beacon }) => {
 export const MobileAppSourceLocation = ({ location, beacon }) => {
   return (
     <div
-      className={evaluateClassNames({
+      className={classNames({
         [locals.serviceLine]: true
       })}
     >

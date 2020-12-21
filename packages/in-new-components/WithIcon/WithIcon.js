@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react';
 
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import PluginIcon from 'in-components/PluginIcon';
 import SvgIcon from 'in-components/SvgIcon';
 
@@ -12,7 +12,7 @@ export default forwardRef(function WithIcon({ plugin, snapshot, icon, iconColor,
       {plugin || snapshot ? (
         <PluginIcon
           style={{ fill: iconColor }}
-          className={evaluateClassNames({
+          className={classNames({
             [locals.pluginIcon]: true,
             [className]: className
           })}
@@ -22,7 +22,7 @@ export default forwardRef(function WithIcon({ plugin, snapshot, icon, iconColor,
       ) : (
         <SvgIcon
           style={{ fill: iconColor }}
-          className={evaluateClassNames({
+          className={classNames({
             [locals.linkEntityIcon]: true,
             [className]: className
           })}

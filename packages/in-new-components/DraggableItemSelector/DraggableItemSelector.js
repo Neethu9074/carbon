@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import rpt from 'prop-types';
 
 import SlideInView, { ListHeader } from 'in-new-components/SlideInView/SlideInView';
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import Button from 'in-new-components/Button';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
@@ -18,7 +18,7 @@ export default function DraggableItemSelector(props) {
     <SlideInView
       staticContent={
         <form
-          className={evaluateClassNames({
+          className={classNames({
             [locals.overlay]: true,
             [locals.fullHeight]: showSlideInContent
           })}

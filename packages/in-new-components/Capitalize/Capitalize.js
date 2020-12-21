@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { joinClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 
 import locals from './Capitalize.mless';
 
 export default function Capitalize({ children, className }) {
-  return <span className={joinClassNames(locals.wrapper, className)}>{children}</span>;
+  return <span className={classNames(locals.wrapper, className)}>{children}</span>;
 }

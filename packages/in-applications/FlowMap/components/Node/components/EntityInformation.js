@@ -4,7 +4,7 @@ import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/E
 import HeatMapIndicator from 'in-applications/FlowMap/components/Node/components/HeatMapIndicator';
 import ExpandButton from 'in-applications/FlowMap/components/Node/components/ExpandButton';
 import Metrics from 'in-applications/FlowMap/components/Node/components/Metrics';
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './EntityInformation.mless';
@@ -21,7 +21,7 @@ export default connectTo(
       <div className={locals.wrapper}>
         <Metrics {...props} />
         <div
-          className={evaluateClassNames({
+          className={classNames({
             [locals.entityInformation]: true,
             [locals.heatMapEnabled]: heatMapColor,
             [locals.rootEntity]: isRootNode

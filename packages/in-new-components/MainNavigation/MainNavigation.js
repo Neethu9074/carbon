@@ -4,7 +4,7 @@ import React, { Fragment } from 'react';
 import NewUiClientVersionAvailable from 'in-new-components/MainNavigation/components/NewUiClientVersionAvailable';
 import { click } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import ViewSwitcher from 'in-new-components/MainNavigation/components/ViewSwitcher';
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import { scrollToTop } from 'in-services/util/dom';
 
 import locals from './MainNavigation.mless';
@@ -86,7 +86,7 @@ export default onClickOutside(
       return (
         <Fragment>
           <div
-            className={evaluateClassNames({
+            className={classNames({
               [locals.navigation]: true,
               [locals.expandedNavigation]: isExpanded
             })}

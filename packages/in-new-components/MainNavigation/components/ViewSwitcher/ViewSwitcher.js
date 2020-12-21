@@ -43,7 +43,7 @@ import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import AboutInstanaDialog from 'in-new-components/AboutInstanaDialog';
 import { cockpit as cockpitPath } from 'in-cockpit/navigation/paths';
 import Stan from 'in-new-components/MainNavigation/components/Stan';
-import { joinClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import { openEventsAtServerTime$ } from 'in-stores/events';
 import { showReleaseNotes } from 'in-stores/releaseNotes';
 import { eventsPath } from 'in-events/navigation/paths';
@@ -230,7 +230,7 @@ function SignOut() {
     <form action="/auth/signOut" method="post">
       <SubViewItem
         renderLabel={className => (
-          <button className={joinClassNames(locals.signOutButton, className)} type="submit">
+          <button className={classNames(locals.signOutButton, className)} type="submit">
             Sign Out
             <span className={locals.userEmail}>{user.email}</span>
           </button>

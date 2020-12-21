@@ -13,7 +13,7 @@ import {
   containerPadding
 } from 'in-custom-dashboards/CustomDashboard/Grid/settings';
 import { MoreMenu, MoreMenuButton } from 'in-new-components/MoreMenu';
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import widgets from 'in-custom-dashboards/widgets';
 import SvgIcon from 'in-components/SvgIcon';
@@ -75,7 +75,7 @@ function Grid({
 
   return (
     <ReactGridLayout
-      className={evaluateClassNames({
+      className={classNames({
         [locals.layout]: true,
         [locals.tvMode]: tvMode
       })}

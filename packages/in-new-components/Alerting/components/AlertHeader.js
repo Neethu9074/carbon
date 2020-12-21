@@ -7,7 +7,7 @@ import { isQB2Config, isQB2ModeEnabled } from 'in-new-components/Alerting/compon
 import { getModifiedUrlStream, mutateUrl } from 'in-stores/navigation/navigation';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-new-components/Dialog/ConfirmationDialog';
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import TemporaryMessage from 'in-components/TemporaryMessage';
 import { warning } from 'in-new-components/Message/types';
 import BackButton from 'in-new-components/BackButton';
@@ -108,7 +108,7 @@ export default function AlertHeader({
       <div className={locals.labelWrapper}>
         <div className={locals.left}>
           <SvgIcon
-            className={evaluateClassNames({
+            className={classNames({
               [locals.alertIcon]: true,
               [locals.alertIconSeverityLow]: alertConfig.severity <= 5,
               [locals.alertIconSeverityHigh]: alertConfig.severity > 5
@@ -276,7 +276,7 @@ function EditButton({ openDialog, convertedTagFilterExpression }) {
       }
     >
       <SvgIcon
-        className={evaluateClassNames({
+        className={classNames({
           [locals.actionIcon]: true,
           [locals.actionIconDisabled]: isDisabled
         })}

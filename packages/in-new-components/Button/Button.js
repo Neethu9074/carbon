@@ -2,7 +2,7 @@ import rpt from 'prop-types';
 import React from 'react';
 
 import { stopPropagation, stopPropagationAndPreventDefault } from 'in-services/util/function';
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import { useObservableConfig } from 'in-components/Link/Link';
 import useThemedLocals from 'in-hooks/useThemedLocals';
 import useObservable from 'in-hooks/useObservable';
@@ -31,29 +31,31 @@ const iconDimensions = {
   compact: 'xs'
 };
 
-
-const Button = React.forwardRef(function Button({
-  icon,
-  iconSpinning,
-  iconSize,
-  id,
-  className,
-  kind = 'primary',
-  size = 'normal',
-  type = 'button',
-  onClick,
-  onMouseEnter,
-  onMouseLeave,
-  style,
-  children,
-  href,
-  href$,
-  disabled,
-  target,
-  refSetter,
-  autoFocus,
-  noAutoMargin
-}, ref) {
+const Button = React.forwardRef(function Button(
+  {
+    icon,
+    iconSpinning,
+    iconSize,
+    id,
+    className,
+    kind = 'primary',
+    size = 'normal',
+    type = 'button',
+    onClick,
+    onMouseEnter,
+    onMouseLeave,
+    style,
+    children,
+    href,
+    href$,
+    disabled,
+    target,
+    refSetter,
+    autoFocus,
+    noAutoMargin
+  },
+  ref
+) {
   const locals = useThemedLocals(styleDefs);
 
   // Avoid changing the element type every time the link goes from unresolved to resolved.
@@ -81,7 +83,7 @@ const Button = React.forwardRef(function Button({
   if (icon) {
     iconElement = (
       <SvgIcon
-        className={evaluateClassNames({
+        className={classNames({
           [locals.icon]: true,
           [locals.noHorizontalMargin]: !children
         })}

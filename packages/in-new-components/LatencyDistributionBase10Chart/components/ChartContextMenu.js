@@ -2,7 +2,7 @@ import { on } from '@instana/observables';
 import React, { useEffect } from 'react';
 import rpt from 'prop-types';
 
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import { containsIgnoreCase } from 'in-services/util/string';
 import Button from 'in-new-components/Button';
 import keyCodes from 'in-components/keyCodes';
@@ -109,7 +109,7 @@ export default function ChartContextMenu({
       {!immediatelyOpenContextMenu && renderButtons(contextMenuButtons)}
       {showContextMenu && (
         <div
-          className={evaluateClassNames({
+          className={classNames({
             [locals.contextMenu]: true,
             [locals.rightAligned]: !leftAligned
           })}

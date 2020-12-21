@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { joinClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import { Li } from 'in-new-components/lists/List/List';
 
 import locals from './OverlayOption.mless';
@@ -19,7 +19,7 @@ export default function OverlayOption({
 }) {
   return (
     <Li
-      className={joinClassNames(locals.option, className)}
+      className={classNames(locals.option, className)}
       noAlternatingBg
       autoFocus={autoFocus ?? selectedValue === value}
       subList={subList}

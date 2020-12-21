@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import connectTo from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
 
@@ -24,7 +24,7 @@ export const SubViewItem = connectTo(
 
     return (
       <Link
-        className={evaluateClassNames({
+        className={classNames({
           [locals.link]: true,
           [locals.activeLink]: isActive
         })}

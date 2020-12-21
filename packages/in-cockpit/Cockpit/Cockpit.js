@@ -18,7 +18,7 @@ import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { pcfEnabled, vsphereEnabled } from 'in-services/featureFlags';
 import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import { settings$, setSingle } from 'in-services/settings/settings';
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import getElementDimensions from 'in-hoc/getElementDimensions';
 import { successObservable } from 'in-services/util/result';
 import { hasKubernetesAccess } from 'in-stores/permission';
@@ -264,7 +264,7 @@ const Content = getElementDimensions(function Content({ itemOrder, width, timeCo
 function renderIcon({ icon }, isSelected) {
   return (
     <SvgIcon
-      className={evaluateClassNames({
+      className={classNames({
         [locals.icon]: true,
         [locals.iconSelected]: isSelected
       })}

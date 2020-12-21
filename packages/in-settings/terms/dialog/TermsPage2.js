@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import TermsProgressIndicator from './TermsProgressIndicator';
-import evaluateClassNames from 'in-services/util/classnames';
+import classNames from 'classnames';
 import Button from 'in-new-components/Button/Button';
 import SvgIcon from 'in-components/SvgIcon/SvgIcon';
 
@@ -289,7 +289,7 @@ export default function TermsPage2({
         ))}
       </div>
       <div
-        className={evaluateClassNames({
+        className={classNames({
           [locals.errorText]: true,
           [locals.hidden]: !hasErrorOnSave
         })}

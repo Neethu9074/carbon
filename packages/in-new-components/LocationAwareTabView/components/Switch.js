@@ -5,7 +5,7 @@ import DashboardErroneousResultPresenter from 'in-new-components/DashboardErrone
 import DefaultLoadingDashboard from 'in-new-components/Loading/DefaultLoadingDashboard';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import Title from 'in-components/Title';
 
@@ -36,7 +36,7 @@ export default function TabSwitch({ tabs, result, hasErrors, location, props, re
 function ViewWrapper({ tab, data, location, props }) {
   let content = (
     <div
-      className={evaluateClassNames({
+      className={classNames({
         [locals.content]: true,
         [locals.stickToHeader]: tab.stickToHeader,
         [locals.stickToBottom]: tab.stickToBottom,

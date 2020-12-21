@@ -5,7 +5,7 @@ import { leftArrowId, rightArrowId } from 'in-new-components/AnalyzeView/SplitSc
 import { debouncedResize$, refreshWindowSizeDependingState } from 'in-services/browser';
 import SideEffectOnPropertyChange from 'in-components/SideEffectOnPropertyChange';
 import withPropDependingState from 'in-hoc/withPropDependingState';
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import ResultHeader from 'in-analyze/components/ResultHeader';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
@@ -152,7 +152,7 @@ function NavigatorSplitScreen({
       <SideEffectOnPropertyChange expanded={expanded} sideEffect={refreshWindowSizeDependingState} />
 
       <div
-        className={evaluateClassNames({
+        className={classNames({
           [locals.detailView]: true,
           [locals.useFullWidth]: !expanded
         })}

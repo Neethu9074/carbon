@@ -3,7 +3,7 @@ import React from 'react';
 import { timeDisplayTopFormat, timeDisplayBottomFormat } from 'in-new-components/time/timeframeFormatter';
 import DashboardHeaderButton from 'in-new-components/DashboardHeader/DashboardHeaderButton';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import TimeIcon from 'in-new-components/time/TimeIcon';
 
 import locals from './TimePresenter.mless';
@@ -40,7 +40,7 @@ export default function TimePresenter({
         />
         <div className={locals.displayTimeWrapper}>
           <div
-            className={evaluateClassNames({
+            className={classNames({
               [locals.timeSettingTop]: true,
               [locals.timeSettingTopExpanded]: expanded
             })}
@@ -48,7 +48,7 @@ export default function TimePresenter({
             {timeDisplayTopFormat(timeConfig)}
           </div>
           <div
-            className={evaluateClassNames({
+            className={classNames({
               [locals.timeSetting]: true,
               [locals.timeSettingExpanded]: expanded
             })}

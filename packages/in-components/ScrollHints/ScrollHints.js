@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import { combineLatest, on } from '@instana/observables';
 import { debouncedResize$ } from 'in-services/browser';
 
@@ -73,7 +73,7 @@ export default class ScrollHints extends React.Component {
     return (
       <Fragment>
         <div
-          className={evaluateClassNames({
+          className={classNames({
             [locals.scrollHintOuter]: true,
             [locals.visible]: this.state.canScrollUp
           })}
@@ -84,7 +84,7 @@ export default class ScrollHints extends React.Component {
           {this.props.children}
         </div>
         <div
-          className={evaluateClassNames({
+          className={classNames({
             [locals.scrollHintOuter]: true,
             [locals.visible]: this.state.canScrollDown
           })}

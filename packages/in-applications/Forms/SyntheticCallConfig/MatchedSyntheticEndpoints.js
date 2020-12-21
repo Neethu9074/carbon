@@ -23,7 +23,7 @@ import getCallGroups from 'in-subscription/application/getCallGroups';
 import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
-import { joinClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import { number } from 'in-services/formatters/number';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Link from 'in-components/Link';
@@ -82,7 +82,7 @@ export default function MatchedSyntheticEndpoints({ tagFilters }) {
       <Thead>
         <Tr size="compact" className={locals.tr}>
           <Th className={locals.th}>Endpoints</Th>
-          <Th className={joinClassNames(locals.th, locals.alignRight)}>Services Affected</Th>
+          <Th className={classNames(locals.th, locals.alignRight)}>Services Affected</Th>
         </Tr>
       </Thead>
 
@@ -92,7 +92,7 @@ export default function MatchedSyntheticEndpoints({ tagFilters }) {
             <Td className={locals.td}>
               <EndpointName item={item} />
             </Td>
-            <Td className={joinClassNames(locals.alignRight, locals.td)}>
+            <Td className={classNames(locals.alignRight, locals.td)}>
               <ServicesAffected item={item} />
             </Td>
           </Tr>

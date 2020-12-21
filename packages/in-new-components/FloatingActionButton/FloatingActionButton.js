@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import SvgIcon from 'in-components/SvgIcon/SvgIcon';
 
 import locals from './FloatingActionButton.mless';
@@ -10,7 +10,7 @@ import locals from './FloatingActionButton.mless';
 export default function FloatingActionButton({ children, iconType, onClick, withBoxShadow }) {
   return (
     <button
-      className={evaluateClassNames({
+      className={classNames({
         [locals.button]: true,
         [locals.withShadow]: withBoxShadow,
         [locals.hasIcon]: !!iconType

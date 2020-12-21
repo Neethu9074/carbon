@@ -1,7 +1,7 @@
 import rpt from 'prop-types';
 import React from 'react';
 
-import { joinClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import Button from 'in-new-components/Button';
 import SvgIcon from 'in-components/SvgIcon';
 
@@ -9,7 +9,7 @@ import locals from './Button.mless';
 
 const DropdownButton = React.forwardRef(function DropdownButton(props, ref) {
   return (
-    <Button {...props} ref={ref} className={joinClassNames(props.className, locals.dropdownButton)}>
+    <Button {...props} ref={ref} className={classNames(props.className, locals.dropdownButton)}>
       {/* Group into one flexbox item */}
       <span>{props.children}</span>
 

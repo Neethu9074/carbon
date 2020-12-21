@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import MultipleTechnologiesIcon from 'in-new-components/MultipleTechnologiesIcon';
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { shorten } from 'in-services/util/string';
 
@@ -16,7 +16,7 @@ export default function EntityWithIcon({ label, type, technologies, rootOrUnknow
       )}
       <Tooltip content={label} delay={500}>
         <span
-          className={evaluateClassNames({
+          className={classNames({
             [locals.label]: true,
             [locals.rootOrUnknown]: rootOrUnknown
           })}

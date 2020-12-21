@@ -25,11 +25,11 @@
   .withIcon {
     display: flex;
     align-items: center;
+  }
 
-    > svg {
-      margin: 0 0 0 0.5rem;
-      fill: @lib__colors__N800Dark;
-    }
+  .icon {
+    margin: 0 0 0 0.5rem;
+    fill: @lib__colors__N800Dark;
   }
 
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import { formatDateTime } from 'in-services/formatters/date';
 import { latencyFixed } from 'in-services/formatters/number';
 import Link from 'in-components/Link';
@@ -10,7 +10,7 @@ import locals from './ListItemPresenter.mless';
 export default function ListItemPresenter({ label, time, duration, href$, onClick, active }) {
   return (
     <Link
-      className={evaluateClassNames({
+      className={classNames({
         [locals.item]: true,
         [locals.active]: active
       })}

@@ -2,7 +2,7 @@ import React from 'react';
 
 import CallTooltipContent from 'in-analyze/TraceDetail/components/CallTooltipContent';
 import LogTooltipContent from 'in-analyze/TraceDetail/components/LogTooltipContent';
-import { evaluateClassNames, joinClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import LogIndicator from 'in-analyze/TraceDetail/components/LogIndicator';
 import { isFakeRootCall } from 'in-analyze/TraceDetail/shared/CallHelper';
 import { latencyFixed } from 'in-services/formatters/number';
@@ -55,7 +55,7 @@ function ParentCallIndicator({ call, scale, getColor, onClick }) {
           left: `${left}%`,
           width: `${width}%`
         }}
-        className={evaluateClassNames({
+        className={classNames({
           [locals.callIndicator]: true,
           [locals.clickable]: onClick != null
         })}
@@ -94,14 +94,14 @@ function CallDurationLabel({ call }) {
 
   return (
     <div
-      className={evaluateClassNames({
+      className={classNames({
         [locals.callDurationWrapper]: true,
         [locals.leftAlignedCallDurationWrapper]: true,
         [locals.rightAlignedCallDurationWrapper]: false
       })}
     >
       <span
-        className={evaluateClassNames({
+        className={classNames({
           [locals.callDuration]: true,
           [locals.leftAlignedCallDuration]: true,
           [locals.rightAlignedCallDuration]: false
@@ -128,7 +128,7 @@ function CallIndicator({ call, scale, getColor, onClick }) {
           width: `${width}%`,
           background: getColor(call)
         }}
-        className={joinClassNames(locals.subCallIndicator, locals.clickable)}
+        className={classNames(locals.subCallIndicator, locals.clickable)}
         onClick={() => onClick(call)}
       />
     </Tooltip>

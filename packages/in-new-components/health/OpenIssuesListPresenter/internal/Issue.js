@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
 import { getDesignLibraryColorBySeverity } from 'in-stores/events';
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import { formatDateTime } from 'in-services/formatters/date';
 import { toHtml } from 'in-services/formatters/markdown';
 import SvgIcon from 'in-components/SvgIcon';
@@ -56,7 +56,7 @@ export default function Issue({ issue, getIssueLink }) {
 
   return (
     <li
-      className={evaluateClassNames({
+      className={classNames({
         [locals.issue]: true,
         [locals.clickable]: getIssueLink != null
       })}

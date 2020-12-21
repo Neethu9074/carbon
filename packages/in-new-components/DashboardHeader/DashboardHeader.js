@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import UrlShortener from 'in-new-components/DashboardHeader/UrlShortener/UrlShortener';
-import { joinClassNames, evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import TimeSelection from 'in-new-components/time/TimeSelection/TimeSelection';
 import Skeleton from 'in-new-components/Loading/Skeleton';
 import Tooltip from 'in-components/Tooltip/Tooltip';
@@ -58,7 +58,7 @@ export default function DashboardHeader(props) {
     }
   }
   return (
-    <header className={joinClassNames(locals.dashboardHeader, locals[theme], className)}>
+    <header className={classNames(locals.dashboardHeader, locals[theme], className)}>
       <Title title={title} dynamic={labelForTitle ?? (typeof label === 'string' ? label : null)} />
       <div className={locals.firstLine}>
         <div className={locals.leftContent}>
@@ -89,7 +89,7 @@ export default function DashboardHeader(props) {
       </div>
       {(renderButtonLine || renderButtonLineSecondary) && (
         <div
-          className={evaluateClassNames({
+          className={classNames({
             [locals.buttonLine]: true,
             [locals.withSecondary]: renderButtonLineSecondary
           })}

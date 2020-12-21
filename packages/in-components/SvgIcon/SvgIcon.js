@@ -4,7 +4,7 @@ import React, { forwardRef } from 'react';
 
 import { toInteractiveElement } from 'in-new-components/interactiveCustomElement';
 import { getIconType } from 'in-components/SvgIcon/infrastructureIconType';
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import icons from 'in-components/SvgIcon/registry.json';
 import { emptyObject } from 'in-services/fixedObjects';
 import { getFactor } from 'in-services/util/dom';
@@ -104,7 +104,7 @@ const SvgIcon = forwardRef(function SvgIcon(
 
   return (
     <svg
-      className={evaluateClassNames({
+      className={classNames({
         [locals.icon]: true,
         [locals.spinningCounterClockwise]: spinning,
         [locals.clickable]: onClick,

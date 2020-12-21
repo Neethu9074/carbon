@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -6,15 +7,23 @@ import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './Section.mless';
 
-export default function Section({ className, title, icon, children, actions, firstLineAlignmentOffsetPx = 0 }) {
-  const verticalPositionCorrection = {
-    position: 'relative',
-    top: `${firstLineAlignmentOffsetPx}px`
-  };
+export default function Section({ className, title, icon, children, actions, firstLineAlignmentOffsetPx }) {
+  let verticalPositionCorrection;
+  const useAutomaticVerticalAlignment = firstLineAlignmentOffsetPx == null;
+  if (!useAutomaticVerticalAlignment) {
+    verticalPositionCorrection = {
+      position: 'relative',
+      top: `${firstLineAlignmentOffsetPx}px`
+    };
+  }
 
   return (
     <Li className={className} component="div" noAlternatingBg>
-      <div className={locals.section}>
+      <div
+        className={classNames(locals.section, {
+          [locals.automaticVerticalAlignment]: useAutomaticVerticalAlignment
+        })}
+      >
         <div className={locals.title} style={verticalPositionCorrection}>
           {icon && <SvgIcon type={icon} />}
           <span className={locals.titleText}>{title}</span>
@@ -33,9 +42,10 @@ export default function Section({ className, title, icon, children, actions, fir
 }
 
 Section.propTypes = {
-  title: PropTypes.string.isRequired,
-  // To correct the vertical alignment of the title to the first line of text found
-  // within children.
+  title: PropTypes.node.isRequired,
+  // To correct the vertical alignment of the title and actions to the first line of text found
+  // within children. Prefer automatical vertical alignment if possible for your use case.
+  // Automatic vertical alignment is the default.
   firstLineAlignmentOffsetPx: PropTypes.number,
   icon: PropTypes.string.isRequired,
   className: PropTypes.string,

@@ -4,7 +4,7 @@ import theme from 'in-themes';
 import LogTooltipContent from 'in-analyze/TraceDetail/components/LogTooltipContent';
 import ErrorIndicator from 'in-analyze/TraceDetail/components/ErrorIndicator';
 import LogIndicator from 'in-analyze/TraceDetail/components/LogIndicator';
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
 import { role } from 'in-stores/user';
@@ -33,7 +33,7 @@ const CallFrame = forwardRef(function CallFrame(
   return (
     <div ref={ref}>
       <div
-        className={evaluateClassNames({
+        className={classNames({
           [locals.frame]: true,
           [locals.isOpened]: isOpened,
           [locals.unhighlightedFrame]: isUnhighlighted,
@@ -52,7 +52,7 @@ const CallFrame = forwardRef(function CallFrame(
         <span className={locals.label}>{label}</span>
       </div>
       <div
-        className={evaluateClassNames({
+        className={classNames({
           [locals.logIndicatorContainer]: true,
           [locals.unhighlightedLogIndicator]: isUnhighlighted
         })}

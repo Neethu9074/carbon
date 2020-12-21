@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import Button from 'in-new-components/Button';
 
 import locals from './ButtonGroup.mless';
@@ -10,7 +10,7 @@ export default function ButtonGroup(props) {
 
   return (
     <div
-      className={evaluateClassNames({
+      className={classNames({
         [locals.buttonGroup]: true,
         [props.className]: props.className
       })}
@@ -20,7 +20,7 @@ export default function ButtonGroup(props) {
           key={buttonProps.key}
           {...props}
           {...buttonProps}
-          className={evaluateClassNames({
+          className={classNames({
             [locals.button]: true,
             [locals.segmented]: segmented,
             [locals.first]: i === 0,

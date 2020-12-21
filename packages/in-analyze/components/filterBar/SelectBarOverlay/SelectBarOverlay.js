@@ -4,7 +4,7 @@ import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicat
 import BarOverlay from 'in-analyze/components/filterBar/BarOverlay/BarOverlay';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import { containsIgnoreCase } from 'in-services/util/string';
 import SearchInput from 'in-new-components/SearchInput';
 import SvgIcon from 'in-components/SvgIcon';
@@ -41,34 +41,32 @@ export default function SelectBarOverlay({
 
       {loading && <LoadingIndicator text="Loading filter options." className={locals.loading} height={100} />}
 
-      {!loading &&
-        items.length === 0 && (
-          <NoDataAvailable className={locals.loading} text="No filter options found." height={100} />
-        )}
+      {!loading && items.length === 0 && (
+        <NoDataAvailable className={locals.loading} text="No filter options found." height={100} />
+      )}
 
-      {!loading &&
-        items.length > 0 && (
-          <ul
-            className={evaluateClassNames({
-              [locals.list]: true,
-              [locals.listWithoutSelected]: !selectedItem
-            })}
-          >
-            {items
-              .filter(
-                item =>
-                  (!filterSuggestionsClientSide || containsIgnoreCase(item.key, query)) &&
-                  (!selectedItem || item.key !== selectedItem.key)
-              )
-              .map((item, i) => (
-                <li key={`${item.key}${i}`}>
-                  <Tooltip content={`Click to filter by ${item.label}`}>
-                    <Item item={item} onClick={onSelectItem} itemLabelRenderer={itemLabelRenderer} />
-                  </Tooltip>
-                </li>
-              ))}
-          </ul>
-        )}
+      {!loading && items.length > 0 && (
+        <ul
+          className={classNames({
+            [locals.list]: true,
+            [locals.listWithoutSelected]: !selectedItem
+          })}
+        >
+          {items
+            .filter(
+              item =>
+                (!filterSuggestionsClientSide || containsIgnoreCase(item.key, query)) &&
+                (!selectedItem || item.key !== selectedItem.key)
+            )
+            .map((item, i) => (
+              <li key={`${item.key}${i}`}>
+                <Tooltip content={`Click to filter by ${item.label}`}>
+                  <Item item={item} onClick={onSelectItem} itemLabelRenderer={itemLabelRenderer} />
+                </Tooltip>
+              </li>
+            ))}
+        </ul>
+      )}
 
       {!loading && moreDataAvailable && <div className={locals.more}>{moreDataMessage}</div>}
     </BarOverlay>
@@ -83,7 +81,7 @@ function Item({ item, selected, onClick, itemLabelRenderer }) {
         stopPropagationAndPreventDefault(e);
         onClick(item);
       }}
-      className={evaluateClassNames({
+      className={classNames({
         [locals.item]: true,
         [locals.selectedItem]: selected
       })}

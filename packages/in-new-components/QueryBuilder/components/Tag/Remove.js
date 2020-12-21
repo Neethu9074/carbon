@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './Remove.mless';
@@ -8,7 +8,7 @@ import locals from './Remove.mless';
 export default function Remove({ element, onRemove, nextToBooleanSelector = false }) {
   return (
     <SvgIcon
-      className={evaluateClassNames({
+      className={classNames({
         [locals.icon]: true,
         [locals.nextToBooleanSelector]: nextToBooleanSelector
       })}

@@ -12,7 +12,7 @@ import { traceDetail as traceDetailPath } from 'in-analyze/navigation/paths';
 import getTraceSummary from 'in-subscription/application/getTraceSummary';
 import getConfigByDataSource from 'in-analyze/AnalyzeView/dataSources';
 import withPropDependingState from 'in-hoc/withPropDependingState';
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import ResultHeader from 'in-analyze/components/ResultHeader';
 import { mutateUrl } from 'in-stores/navigation/navigation';
 import { prefetch } from 'in-subscription/util/prefetch';
@@ -147,7 +147,7 @@ function AppNavigatorSplitScreen({ navigator, traceDetail, expanded, setExpanded
       <SideEffectOnPropertyChange expanded={expanded} sideEffect={refreshWindowSizeDependingState} />
 
       <div
-        className={evaluateClassNames({
+        className={classNames({
           [locals.traceDetail]: true,
           [locals.useFullWidth]: !expanded
         })}

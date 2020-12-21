@@ -1,7 +1,7 @@
 import React from 'react';
 
 import TooltipCalculator from 'in-components/Tooltip/TooltipCalculator';
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import { debouncedResize$ } from 'in-services/browser';
 import toPx from 'in-services/formatters/toPx';
 import connectTo from 'in-hoc/connectTo';
@@ -98,7 +98,7 @@ export default connectTo(
         <div
           data-overlay-id={id}
           ref={r => (this.tooltipElement = r)}
-          className={evaluateClassNames({
+          className={classNames({
             [locals.overlay]: true,
             [locals.inContentArea]: inContentArea,
             [locals.behindSidebar]: behindSidebar

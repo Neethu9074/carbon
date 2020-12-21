@@ -1,7 +1,7 @@
 import React from 'react';
 
 import ConjunctionOrBracketBehavior from 'in-new-components/QueryBuilder/components/ConjunctionOrBracketBehavior';
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import useThemedLocals from 'in-hooks/useThemedLocals';
 
 import styleDefs from './Conjunction.mless';
@@ -21,7 +21,7 @@ export default function Conjunction(props) {
       {({ refSetter, elementProps }) => (
         <div className={locals.draggableWrapper} data-render-model-index={renderModelIndex} {...dragAndDropProps}>
           <div
-            className={evaluateClassNames({
+            className={classNames({
               [locals.conjunction]: true,
               [locals.invalid]: valid === false
             })}

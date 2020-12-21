@@ -7,7 +7,7 @@ import TypeHeader from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/com
 import renderers from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/perTypeRenderers';
 import { toInteractiveElement } from 'in-new-components/interactiveCustomElement';
 import { HighlightedEffect } from 'in-new-components/SelectedElementHighlighter';
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import Tooltip from 'in-components/Tooltip';
 
 import locals from './Beacon.mless';
@@ -25,7 +25,7 @@ export default compose(withState('expanded', 'setExpanded', false))(function Bea
       {({ highlighted, refSetter }) => (
         <div
           ref={refSetter}
-          className={evaluateClassNames({
+          className={classNames({
             [locals.beacon]: true,
             [locals.erroneous]: beacon.errorCount > 0,
             [locals.highlighted]: highlighted

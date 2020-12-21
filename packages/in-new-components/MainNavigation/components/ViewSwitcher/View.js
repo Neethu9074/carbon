@@ -1,7 +1,7 @@
 import React from 'react';
 
 import SubView from 'in-new-components/MainNavigation/components/ViewSwitcher/SubView';
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import { alwaysNull } from 'in-services/fixedStreams';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
@@ -39,7 +39,7 @@ export default connectTo(
 
     return (
       <li
-        className={evaluateClassNames({
+        className={classNames({
           [locals.view]: true,
           [locals.viewWithChildren]: children,
           [locals.collapsed]: !isExpanded && !isActive && !sidebarIsExpanded,
@@ -78,14 +78,13 @@ export default connectTo(
             )}
           </Link>
 
-          {children &&
-            sidebarIsExpanded && (
-              <SvgIcon
-                className={locals.expandIcon}
-                type={isExpanded ? 'lib_arrow_expand_up' : 'lib_arrow_expand_down'}
-                size="s"
-              />
-            )}
+          {children && sidebarIsExpanded && (
+            <SvgIcon
+              className={locals.expandIcon}
+              type={isExpanded ? 'lib_arrow_expand_up' : 'lib_arrow_expand_down'}
+              size="s"
+            />
+          )}
         </div>
 
         {isExpanded && sidebarIsExpanded && children && <SubView>{children}</SubView>}

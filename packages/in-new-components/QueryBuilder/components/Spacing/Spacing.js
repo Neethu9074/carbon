@@ -15,7 +15,7 @@ import Suggestions, {
 import { and, or, not } from 'in-new-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import { DESTINATION } from 'in-new-components/QueryBuilder/tagFilter/entities';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import Overlay from 'in-new-components/overlays/Overlay';
 import useObservable from 'in-hooks/useObservable';
 import keyCodes from 'in-components/keyCodes';
@@ -64,7 +64,7 @@ export default function Spacing({
     >
       {({ toggle, open: openTagSuggestionOverlay, refSetter }) => (
         <div
-          className={evaluateClassNames({
+          className={classNames({
             [locals.visible]: isHighlightedThroughDrag,
             [locals.letter]: size === LETTER.size,
             [locals.word]: size === WORD.size

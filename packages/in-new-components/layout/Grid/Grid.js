@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 
 import locals from './Grid.mless';
 
@@ -16,7 +16,7 @@ export const Row = ({
 }) => {
   return (
     <div
-      className={evaluateClassNames({
+      className={classNames({
         [locals.row]: true,
         [className]: className,
         [locals.withoutTopMargin]: withoutTopMargin,
@@ -35,7 +35,7 @@ export const Row = ({
 export const Col = ({ lg, lgOffset, md, mdOffset, xs, xsOffset, children, className, style }) => {
   return (
     <div
-      className={evaluateClassNames({
+      className={classNames({
         [locals[`lg--${lg}`]]: typeof lg === 'number',
         [locals[`lg-offset--${lgOffset}`]]: typeof lgOffset === 'number',
         [locals['lg--auto']]: lg === true,

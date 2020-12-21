@@ -1,19 +1,19 @@
 import React from 'react';
 
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 
 import locals from './HeatMapLegend.mless';
 
 export default function HeatMapLegend({ className, valueFrom, colorFrom, valueTo, colorTo, light }) {
   return (
     <div
-      className={evaluateClassNames({
+      className={classNames({
         [locals.wrapper]: true,
         [className]: className
       })}
     >
       <div
-        className={evaluateClassNames({
+        className={classNames({
           [locals.values]: true,
           [locals.light]: light
         })}

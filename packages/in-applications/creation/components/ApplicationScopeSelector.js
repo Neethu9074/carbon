@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 
 import { applicationCreationScopeSelect } from 'in-applications/creation/tracker';
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import OptionBox from 'in-applications/components/OptionBox';
 import FormGroup from 'in-components/form/FormGroup';
 
@@ -21,7 +21,7 @@ export default function ApplicationScopeSelector({ form, updateForm, description
       <FormGroup>
         {description && description}
         <OptionBox
-          className={evaluateClassNames({
+          className={classNames({
             [locals.optionBox]: true,
             [locals.optionBoxUnchecked]: scopeField.value !== 'INCLUDE_NO_DOWNSTREAM'
           })}
@@ -34,7 +34,7 @@ export default function ApplicationScopeSelector({ form, updateForm, description
           }}
         />
         <OptionBox
-          className={evaluateClassNames({
+          className={classNames({
             [locals.optionBox]: true,
             [locals.optionBoxUnchecked]: scopeField.value !== 'INCLUDE_IMMEDIATE_DOWNSTREAM_DATABASE_AND_MESSAGING'
           })}
@@ -51,7 +51,7 @@ export default function ApplicationScopeSelector({ form, updateForm, description
           }}
         />
         <OptionBox
-          className={evaluateClassNames({
+          className={classNames({
             [locals.optionBox]: true,
             [locals.optionBoxUnchecked]: scopeField.value !== 'INCLUDE_ALL_DOWNSTREAM'
           })}

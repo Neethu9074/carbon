@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import WithActiveTheme from 'in-themes/WithActiveTheme';
 
 import locals from './TileWrapper.mless';
@@ -11,7 +11,7 @@ export default function TileWrapper({ children, useMaxAvailableHeight, actions }
     <WithActiveTheme>
       {theme => (
         <div
-          className={evaluateClassNames({
+          className={classNames({
             [locals.wrapper]: true,
             [locals[theme]]: true,
             [locals.useMaxAvailableHeight]: useMaxAvailableHeight

@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import { floatingActionButtons$ } from '../FloatingActionButton/stores/floatingActionButtons';
-import evaluateClassNames from 'in-services/util/classnames';
+import classNames from 'classnames';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './HorizontalControlsPresenter.mless';
@@ -14,7 +14,7 @@ export default connectTo(() => ({
 function HorizontalControlsPresenter({ children, position = 'bottomMiddle' }) {
   return (
     <div
-      className={evaluateClassNames({
+      className={classNames({
         [locals[position]]: position
       })}
     >

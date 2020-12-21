@@ -1,7 +1,7 @@
 /* eslint-disable react/no-multi-comp */
 import React, { Fragment } from 'react';
 
-import { evaluateClassNames, joinClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 
 import './DescriptionList.less';
 
@@ -13,7 +13,7 @@ const noDetailClassName = `${block}__description-no-details`;
 export function DescriptionList({ children, className }) {
   return (
     <Fragment>
-      <dl className={joinClassNames(listClassName, className)}>{children}</dl>
+      <dl className={classNames(listClassName, className)}>{children}</dl>
       <div className={noDetailClassName}>No details available.</div>
     </Fragment>
   );
@@ -27,7 +27,7 @@ export function DescriptionItem({ title, children, onClick, className, addSepara
 
   return (
     <div
-      className={evaluateClassNames({
+      className={classNames({
         [itemClassName]: true,
         [`${itemClassName}--with-separator`]: addSeparator,
         [className]: className

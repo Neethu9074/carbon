@@ -6,7 +6,7 @@ import {
 } from 'in-new-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import ConjunctionOrBracketBehavior from 'in-new-components/QueryBuilder/components/ConjunctionOrBracketBehavior';
 import { OPEN_BRACKET } from 'in-new-components/QueryBuilder/transformation/renderModel';
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import useThemedLocals from 'in-hooks/useThemedLocals';
 
 import styleDefs from './Bracket.mless';
@@ -28,7 +28,7 @@ export default function Bracket(props) {
           <div
             ref={refSetter}
             {...elementProps}
-            className={evaluateClassNames({
+            className={classNames({
               [locals.bracket]: true,
               [locals.invalid]: element.valid === false
             })}

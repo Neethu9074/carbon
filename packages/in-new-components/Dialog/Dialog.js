@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { stopPropagation, stopPropagationAndPreventDefault } from 'in-services/util/function';
-import { evaluateClassNames, joinClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import Header from 'in-new-components/Dialog/Header';
 
 import locals from './Dialog.mless';
@@ -24,13 +24,13 @@ export default function Dialog({
 
   return (
     <div
-      className={evaluateClassNames({
+      className={classNames({
         [locals.wrapper]: true,
         [locals.cursorDefault]: doNotCloseOnOutsideClick
       })}
       onClick={e => (doNotCloseOnOutsideClick ? stopPropagationAndPreventDefault(e) : onClose(e))}
     >
-      <section className={joinClassNames(locals.dialog, className)} onClick={stopPropagation}>
+      <section className={classNames(locals.dialog, className)} onClick={stopPropagation}>
         {!headless && (
           <Header
             icon={titleIconType}
@@ -42,7 +42,7 @@ export default function Dialog({
           />
         )}
         <div
-          className={evaluateClassNames({
+          className={classNames({
             [locals.body]: true,
             [locals.withoutPadding]: withoutBodyPadding,
             [locals.showOverflow]: showOverflow

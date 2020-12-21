@@ -3,7 +3,7 @@ import React from 'react';
 
 import { latencyPercentileMenuClickedTracker } from 'in-analyze/tracker';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
-import { joinClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import Overlay from 'in-new-components/overlays/Overlay';
 import Button from 'in-new-components/Button';
 
@@ -44,7 +44,7 @@ function PercentileMenuContent({ percentilesShown, onChange }) {
       </li>
       {ALL_PERCENTILES.map(percentile => {
         return (
-          <li key={percentile} className={joinClassNames(locals.item, locals.child)}>
+          <li key={percentile} className={classNames(locals.item, locals.child)}>
             <CheckboxFancy
               checked={percentilesShown.includes(percentile)}
               onChange={() =>

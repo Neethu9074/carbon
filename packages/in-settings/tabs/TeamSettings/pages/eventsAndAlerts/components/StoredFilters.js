@@ -1,16 +1,16 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { joinClassNames, evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 
 import locals from './StoredFilters.mless';
 
 export default function StoredFiltersList({ filters, above, onSelect }) {
   return (
     <section
-      className={joinClassNames(
+      className={classNames(
         locals.filtersList,
-        evaluateClassNames({
+        classNames({
           [locals.posAbove]: above,
           [locals.posBelow]: !above
         })

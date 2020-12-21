@@ -2,6 +2,7 @@ import { Meta, Story, Preview, Props } from '@storybook/addon-docs/blocks';
 import { action as storybookAction } from '@storybook/addon-actions';
 
 import {ActionSection, Action} from 'in-new-components/workspace/ActionSection/ActionSection';
+import InputInSection from 'in-components/form/Input/InputInSection';
 import Sections from 'in-new-components/workspace/Sections';
 import Section from 'in-new-components/workspace/Section';
 import Button from 'in-new-components/Button';
@@ -26,6 +27,7 @@ sections that are user-configurable.
       )}>
         Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ex corrupti nemo modi optio nulla, numquam cupiditate, laborum unde ullam culpa facere neque alias! Odit voluptate quae nemo facilis. Dolorem, unde! Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ex corrupti nemo modi optio nulla, numquam cupiditate, laborum unde ullam culpa facere neque alias! Odit voluptate quae nemo facilis. Dolorem, unde! Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ex corrupti nemo modi optio nulla, numquam cupiditate, laborum unde ullam culpa facere neque alias! Odit voluptate quae nemo facilis. Dolorem, unde! Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ex corrupti nemo modi optio nulla, numquam cupiditate, laborum unde ullam culpa facere neque alias! Odit voluptate quae nemo facilis. Dolorem, unde!
       </Section>
+      <InputInSection id="name" label="Name" value="foobar" />
       <ActionSection left={
         <>
           <Action icon="lib_help_error_help_outline">Add grouping</Action>

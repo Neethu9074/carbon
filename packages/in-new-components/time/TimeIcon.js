@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
 
@@ -16,14 +16,14 @@ export const LARGE_DATA_MESSAGE =
 export default function TimeIcon({ selected, containsHistoricData, retention, largeData, theme = 'dark', className }) {
   const content = (
     <div
-      className={evaluateClassNames({
+      className={classNames({
         [locals.iconWrapper]: true,
         [locals[theme]]: true,
         [className]: className
       })}
     >
       <SvgIcon
-        className={evaluateClassNames({
+        className={classNames({
           [locals.timeIcon]: true,
           [locals.timeIconExpanded]: selected
         })}

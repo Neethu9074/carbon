@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import Downshift from 'downshift';
 import React from 'react';
 
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import { escapeSpecialChars } from 'in-services/util/regex';
 import SvgIcon from 'in-components/SvgIcon/SvgIcon';
 
@@ -50,7 +50,7 @@ const AutoComplete = ({ options, resultsToShow, placeholder, onChange, item }) =
       return (
         <div className={locals.wrapper}>
           <div
-            className={evaluateClassNames({
+            className={classNames({
               [locals.inputGroup]: true,
               [locals.inputGroupOpen]: isOpen
             })}
@@ -64,7 +64,7 @@ const AutoComplete = ({ options, resultsToShow, placeholder, onChange, item }) =
           </div>
           {filteredOptions.length > 0 && (
             <ul
-              className={evaluateClassNames({
+              className={classNames({
                 [locals.list]: isOpen,
                 [locals.listClosed]: !isOpen
               })}
@@ -108,7 +108,7 @@ function getHighlightedText(text, highlight) {
       {parts.map((part, i) => (
         <span
           key={i}
-          className={evaluateClassNames({
+          className={classNames({
             [locals.higlightedText]: part.toLowerCase() === highlight.toString().toLowerCase()
           })}
         >

@@ -3,7 +3,7 @@ import React from 'react';
 
 import { chartViewConfigs } from 'in-new-components/Alerting/Chart/chartViewConfig';
 import ButtonGroup from 'in-new-components/ButtonGroup/ButtonGroup';
-import evaluateClassNames from 'in-services/util/classnames';
+import classNames from 'classnames';
 import LightCard from 'in-new-components/Card/LightCard';
 
 import locals from './ChartViewConfigurator.mless';
@@ -21,7 +21,7 @@ export default function ChartViewConfigurator({
   return (
     <>
       <LightCard
-        className={evaluateClassNames({
+        className={classNames({
           [locals.container]: true,
           [className]: className
         })}

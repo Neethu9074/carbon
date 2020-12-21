@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { getTickStyle } from 'in-new-components/Axis/components/tickStyle';
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 
 import locals from './Ticks.mless';
 
@@ -21,7 +21,7 @@ export default function Ticks({ tickPositions, isVertical, align, tickLength, ti
           <div
             key={tick.range}
             style={style}
-            className={evaluateClassNames({
+            className={classNames({
               [locals.verticalTick]: isVertical,
               [locals.horizontalTick]: !isVertical
             })}

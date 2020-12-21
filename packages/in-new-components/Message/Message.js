@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import theme from 'in-themes';
 
 import { neutral, success, warning, error } from 'in-new-components/Message/types';
-import evaluateClassNames, { joinClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './Message.mless';
@@ -30,8 +30,8 @@ export default function Message({
 
   return dismiss ? null : (
     <div
-      className={joinClassNames(
-        evaluateClassNames({
+      className={classNames(
+        classNames({
           [locals.message]: true,
           [locals.small]: small,
           [locals.bold]: bold,
@@ -46,7 +46,7 @@ export default function Message({
         )}
 
         <span
-          className={evaluateClassNames({
+          className={classNames({
             [locals.content]: true,
             [locals.smallSize]: small
           })}
@@ -56,7 +56,7 @@ export default function Message({
         {dismissible && (
           <SvgIcon
             type="lib_openclose_cancel"
-            className={evaluateClassNames({
+            className={classNames({
               [locals.dismiss]: true,
               [locals.smallSize]: small
             })}
@@ -67,7 +67,7 @@ export default function Message({
       </div>
       {description && (
         <div
-          className={evaluateClassNames({
+          className={classNames({
             [locals.description]: true,
             [locals.descriptionSmallSize]: small
           })}

@@ -1,7 +1,7 @@
 import React, { forwardRef } from 'react';
 
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './BarItem.mless';
@@ -12,7 +12,7 @@ export default forwardRef(function BarItem(
 ) {
   return (
     <a
-      className={evaluateClassNames({
+      className={classNames({
         [locals.item]: true,
         [locals.active]: active,
         [locals.notAvailable]: notAvailable,

@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react';
 
-import evaluateClassNames from 'in-services/util/classnames';
+import classNames from 'classnames';
 import useObservable from 'in-hooks/useObservable';
 
 import locals from './Link.mless';
@@ -29,7 +29,7 @@ export default forwardRef(function Link(
       href={resolvedHref}
       onClick={onClick}
       title={title}
-      className={evaluateClassNames({ [className]: className, [locals.ellipsis]: ellipsis })}
+      className={classNames({ [className]: className, [locals.ellipsis]: ellipsis })}
       style={style}
       target={target || (external ? '_blank' : undefined)}
       rel={external ? 'noopener noreferrer' : undefined}

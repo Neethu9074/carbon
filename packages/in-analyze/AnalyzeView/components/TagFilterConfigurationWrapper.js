@@ -1,13 +1,13 @@
 import React from 'react';
 
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 
 import locals from './TagFilterConfigurationWrapper.mless';
 
 export default function TagFilterConfigurationWrapper({ quickFilterBar, tagFilterList, isEmpty = false, disabled }) {
   return (
     <div
-      className={evaluateClassNames({
+      className={classNames({
         [locals.wrapper]: true,
         [locals.disabled]: disabled
       })}

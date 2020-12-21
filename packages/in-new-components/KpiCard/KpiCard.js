@@ -3,7 +3,7 @@ import React from 'react';
 
 import { decimalSeparator, thousandsSeparator } from 'in-services/formatters/number';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
-import { evaluateClassNames, joinClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import useResizeObserver from 'in-hooks/useResizeObserver';
 import WithActiveTheme from 'in-themes/WithActiveTheme';
 import Button from 'in-new-components/Button';
@@ -33,7 +33,7 @@ export default function KpiCard({
   let content;
   if (raw || renderValue) {
     content = (
-      <span className={joinClassNames(locals.minor, valuesClassName)}>{renderValue ? renderValue(value) : value}</span>
+      <span className={classNames(locals.minor, valuesClassName)}>{renderValue ? renderValue(value) : value}</span>
     );
   } else {
     let major = valueMissingPlaceholder;
@@ -63,7 +63,7 @@ export default function KpiCard({
     <WithActiveTheme>
       {theme => (
         <div
-          className={evaluateClassNames({
+          className={classNames({
             [locals.wrapper]: true,
             [locals[theme]]: true,
             [locals.borderless]: borderless,
@@ -74,7 +74,7 @@ export default function KpiCard({
             <>{title}</>
             {iconAction && (
               <div
-                className={evaluateClassNames({
+                className={classNames({
                   [locals.actionWrapper]: true,
                   [locals.showLongVariantOnHover]: width > 300
                 })}

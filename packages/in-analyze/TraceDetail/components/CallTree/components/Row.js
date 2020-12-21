@@ -5,7 +5,7 @@ import ServiceEndpointInformation from 'in-analyze/TraceDetail/components/CallTr
 import { isFakeRootCall, isUnknownTypeSpan, isInternalCall, isLog } from 'in-analyze/TraceDetail/shared/CallHelper';
 import ErrorIndicator from 'in-analyze/TraceDetail/components/ErrorIndicator';
 import { getColor as getEndpointColor } from 'in-applications/endpointTypes';
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import useObservable from 'in-hooks/useObservable';
 import { shorten } from 'in-services/util/string';
 import SvgIcon from 'in-components/SvgIcon';
@@ -58,7 +58,7 @@ function Row(props) {
       <VerticalLine {...props} marginLeft={marginLeft} />
       <div
         id={`call-${call.id}`}
-        className={evaluateClassNames({
+        className={classNames({
           [locals.rootRow]: depth === 0,
           [locals.row]: true,
           [locals.selectedRow]: isSelected,
@@ -131,7 +131,7 @@ function CallInformation(props) {
   return (
     <div className={locals.detailGroup}>
       <div
-        className={evaluateClassNames({
+        className={classNames({
           [locals.left]: !isLargeTrace,
           [locals.leftLargeTrace]: isLargeTrace
         })}
@@ -149,7 +149,7 @@ function CallInformation(props) {
         <ErrorIndicator erroneous={call.errorCount} />
         <Tooltip themeStyle="light" content={shorten(call.label)}>
           <span
-            className={evaluateClassNames({
+            className={classNames({
               [locals.label]: true,
               [locals.labelSelected]: isOpened,
               [locals.clickable]: onCallClicked != null
@@ -225,7 +225,7 @@ function VerticalLine({ depth = 0, intermediateRow = true, marginLeft }) {
   return (
     <div
       style={{ left: marginLeft }}
-      className={evaluateClassNames({
+      className={classNames({
         [locals.intermediateLine]: intermediateRow,
         [locals.lineEnd]: !intermediateRow
       })}

@@ -1,13 +1,13 @@
 import { assign } from 'lodash';
 import React from 'react';
 
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 
 import locals from './Select.mless';
 
 export default function FormSelect(props) {
   const selectProps = assign({}, props);
-  selectProps.className = evaluateClassNames({
+  selectProps.className = classNames({
     [locals.select]: true,
     [`${locals.select}--has-error`]: props.hasError,
     [props.className]: props.className
@@ -15,7 +15,7 @@ export default function FormSelect(props) {
   delete selectProps.hasError;
   return (
     <div
-      className={evaluateClassNames({
+      className={classNames({
         [locals.selectWrapper]: true,
         [locals.selectWrapperDisabled]: props.disabled
       })}

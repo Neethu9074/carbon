@@ -5,7 +5,7 @@ import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicat
 import BarOverlay from 'in-analyze/components/filterBar/BarOverlay/BarOverlay';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import { containsIgnoreCase } from 'in-services/util/string';
 import SearchInput from 'in-new-components/SearchInput';
 import SvgIcon from 'in-components/SvgIcon';
@@ -38,7 +38,7 @@ export default function MultiSelectBarOverlay({
 
       {selectedItems.length > 0 && (
         <ul
-          className={evaluateClassNames({
+          className={classNames({
             [locals.listForSelected]: selectedItems
           })}
         >
@@ -66,7 +66,7 @@ export default function MultiSelectBarOverlay({
 
       {!loading && items.length > 0 && (
         <ul
-          className={evaluateClassNames({
+          className={classNames({
             [locals.list]: true,
             [locals.listWithoutSelected]: !selectedItems
           })}
@@ -96,7 +96,7 @@ const Item = forwardRef(function Item({ item, selected, onClick, itemLabelRender
         stopPropagationAndPreventDefault(e);
         onClick(item);
       }}
-      className={evaluateClassNames({
+      className={classNames({
         [locals.item]: true,
         [locals.selectedItem]: selected
       })}

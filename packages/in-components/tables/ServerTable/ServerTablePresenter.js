@@ -7,7 +7,7 @@ import LoadingRows from 'in-components/tables/ServerTable/internalComponents/Loa
 import { ErrorRows, Table, Tbody, Thead } from 'in-components/tables/sharedComponents';
 import Columns from 'in-components/tables/ServerTable/internalComponents/Columns';
 import Row from 'in-components/tables/ServerTable/internalComponents/Row';
-import { joinClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import { pendingResult } from 'in-services/fixedObjects';
 import SearchInput from 'in-new-components/SearchInput';
 import Pagination from 'in-new-components/Pagination';
@@ -187,7 +187,7 @@ export default function ServerTablePresenter(props) {
   return (
     <Fragment>
       {header && (
-        <div className={joinClassNames(locals.header, headerClassName)}>
+        <div className={classNames(locals.header, headerClassName)}>
           {leftHeader || <span>&nbsp;</span>}
           {header}
         </div>

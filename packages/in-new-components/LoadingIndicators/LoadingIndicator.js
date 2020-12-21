@@ -3,7 +3,7 @@ import React from 'react';
 
 import IndeterminateLoadingIndicator from 'in-new-components/LoadingIndicators/IndeterminateLoadingIndicator';
 import { sizes as ICON_SIZES } from 'in-components/SvgIcon/SvgIcon';
-import { joinClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 
 import locals from './LoadingIndicator.mless';
 
@@ -12,7 +12,7 @@ export default function LoadingIndicator({ size = 'xl', title, text, className, 
     size = 'regular';
   }
   return (
-    <div className={joinClassNames(locals.container, className)} style={{ height: height, width: width, ...style }}>
+    <div className={classNames(locals.container, className)} style={{ height: height, width: width, ...style }}>
       <div className={locals.content}>
         <IndeterminateLoadingIndicator size={ICON_SIZES[size]} />
         {title && <h2 className={locals.title}>{title}</h2>}

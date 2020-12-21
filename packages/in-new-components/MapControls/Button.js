@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react';
 
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import SvgIcon from 'in-components/SvgIcon';
 import Link from 'in-components/Link';
 
@@ -24,7 +24,7 @@ export default forwardRef(function Button(
 ) {
   return (
     <Link
-      className={evaluateClassNames({
+      className={classNames({
         [locals.wrapper]: true,
         [locals.dark]: dark,
         [locals.appendTop]: appendTop,
@@ -39,7 +39,7 @@ export default forwardRef(function Button(
     >
       {icon && (
         <SvgIcon
-          className={evaluateClassNames({
+          className={classNames({
             [locals.icon]: true,
             [locals.active]: isActive
           })}

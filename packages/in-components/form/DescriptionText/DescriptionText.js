@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { joinClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 
 import locals from './DescriptionText.mless';
 
 export default function DescriptionText({ className, children }) {
-  return <div className={joinClassNames(className, locals.descriptionText)}>{children}</div>;
+  return <div className={classNames(className, locals.descriptionText)}>{children}</div>;
 }

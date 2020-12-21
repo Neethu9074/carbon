@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import { Tr, Td } from 'in-components/tables/sharedComponents';
 
 import locals from './Row.mless';
@@ -33,7 +33,7 @@ export default function Row({
             key={id}
             noWrap={noWrap}
             ellipsis={ellipsis}
-            className={evaluateClassNames({
+            className={classNames({
               [cellClassName]: cellClassName,
               [locals.tableActionCell]: tableAction,
               [locals.clickable]: onRowClick

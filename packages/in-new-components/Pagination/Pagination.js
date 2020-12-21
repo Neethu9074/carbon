@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './Pagination.mless';
@@ -70,7 +70,7 @@ export function getSteps(currentPage, numPages) {
 function Control({ disabled, isActive, onChange, children }) {
   return (
     <div
-      className={evaluateClassNames({
+      className={classNames({
         [locals.control]: true,
         [locals.active]: isActive,
         [locals.disabled]: disabled || !onChange

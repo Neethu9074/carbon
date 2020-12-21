@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import DialogWithSlideInView from 'in-new-components/Dialog/DialogWithSlideInView';
-import evaluateClassNames from 'in-services/util/classnames';
+import classNames from 'classnames';
 import Button from 'in-new-components/Button/Button';
 
 import locals from './AlertConfigDialogPresenter.mless';
@@ -65,7 +65,7 @@ export default function AlertConfigDialogPresenter(props) {
       )}
     >
       <div
-        className={evaluateClassNames({
+        className={classNames({
           [locals.dialog]: true,
           [locals.advancedMode]: !simpleMode
         })}

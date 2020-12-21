@@ -1,7 +1,7 @@
 import rpt from 'prop-types';
 import React from 'react';
 
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import IconButton from 'in-new-components/IconButton/IconButton';
 import SvgIcon from 'in-components/SvgIcon';
 
@@ -10,7 +10,7 @@ import locals from './Dialog.mless';
 export default function Header({ icon, onIconClick, title, renderCustomCloseBehaviour, onClose, addScrollShadow }) {
   return (
     <div
-      className={evaluateClassNames({
+      className={classNames({
         [locals.header]: true,
         [locals.scrollShadow]: addScrollShadow
       })}

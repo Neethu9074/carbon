@@ -4,7 +4,7 @@ import performantNodeManipulationWrapper from 'in-applications/ApplicationMap/co
 import ServiceInformation from 'in-applications/ApplicationMap/components/Tooltips/ServiceInformation/ServerServiceInformation';
 import { getServiceLocators } from 'in-applications/ApplicationMap/serviceLocator/serviceLocator';
 import ContextMenu from 'in-applications/ApplicationMap/components/ContextMenu';
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import { getButtonKindBySeverity } from 'in-stores/events';
 import Overlay from 'in-new-components/overlays/Overlay';
 import Tooltip from 'in-components/Tooltip';
@@ -21,7 +21,7 @@ export function NodeComponent(props) {
 
   return (
     <div
-      className={evaluateClassNames({
+      className={classNames({
         [locals.wrapper]: true
       })}
       style={{
@@ -81,7 +81,7 @@ const NodeShape = forwardRef(function NodeShape({ node, serviceLocatorUid, toggl
   return (
     <div
       ref={ref}
-      className={evaluateClassNames({
+      className={classNames({
         [locals.shape]: true,
         [locals.isExternal]: isExternalService,
         [locals[`health_${kind}`]]: true

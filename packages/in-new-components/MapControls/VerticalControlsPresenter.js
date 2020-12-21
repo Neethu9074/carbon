@@ -1,14 +1,14 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import evaluateClassNames from 'in-services/util/classnames';
+import classNames from 'classnames';
 
 import locals from './VerticalControlsPresenter.mless';
 
 export default function VerticalControlsPresenter({ children, position = 'rightMiddle' }) {
   return (
     <div
-      className={evaluateClassNames({
+      className={classNames({
         [locals[position]]: position
       })}
     >

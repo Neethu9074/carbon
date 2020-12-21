@@ -3,7 +3,7 @@ import React from 'react';
 
 import AlertProperties from 'in-new-components/Alerting/advanced/AlertProperties/AlertProperties';
 import TwoColumnContainer from 'in-new-components/Alerting/components/TwoColumnContainer';
-import evaluateClassNames from 'in-services/util/classnames';
+import classNames from 'classnames';
 import SvgIcon from 'in-components/SvgIcon/SvgIcon';
 
 import locals from './AlertPropertiesContainer.mless';
@@ -33,14 +33,14 @@ function AlertPreview({ form, label, severity, getTitlePlaceholder, getDescripti
 
   return (
     <div
-      className={evaluateClassNames({
+      className={classNames({
         [locals.alertPreview]: true,
         [locals.severityLow]: severity <= 5,
         [locals.severityHigh]: severity > 5
       })}
     >
       <SvgIcon
-        className={evaluateClassNames({
+        className={classNames({
           [locals.alertLevelIcon]: true,
           [locals.severityLow]: severity <= 5,
           [locals.severityHigh]: severity > 5
@@ -52,7 +52,7 @@ function AlertPreview({ form, label, severity, getTitlePlaceholder, getDescripti
         <p className={locals.siteAndPageNames}>
           {label && (
             <span
-              className={evaluateClassNames({
+              className={classNames({
                 [locals.centred]: true,
                 [locals.space]: pages.length === 0,
                 [locals.divider]: pages.length > 0

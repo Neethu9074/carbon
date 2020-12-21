@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { joinClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import useThemedLocals from 'in-hooks/useThemedLocals';
 import Tooltip from 'in-components/Tooltip';
 
@@ -12,7 +12,7 @@ export default function InputValueViewerReadOnly({ value = '' }) {
 
   return (
     <Tooltip content={<span>{value}</span>}>
-      <div className={joinClassNames(locals.inputValueViewer, locals.inputValueViewerBackground)}>{value}</div>
+      <div className={classNames(locals.inputValueViewer, locals.inputValueViewerBackground)}>{value}</div>
     </Tooltip>
   );
 }

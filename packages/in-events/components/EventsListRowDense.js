@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import { Tr, Td } from 'in-components/tables/sharedComponents';
 import { formatDateTime } from 'in-services/formatters/date';
 import EventIcon from 'in-events/components/EventIcon';
@@ -15,7 +15,7 @@ export default function EventRow({ event, active, onClick }) {
       </Td>
       <Td>
         <div
-          className={evaluateClassNames({
+          className={classNames({
             [locals.item]: true,
             [locals.active]: active
           })}

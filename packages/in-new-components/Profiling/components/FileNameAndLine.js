@@ -2,7 +2,7 @@ import React from 'react';
 
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import { getCodeView } from 'in-sdk/snapshot/snapshot';
 
 import locals from './FileNameAndLine.mless';
@@ -10,7 +10,7 @@ import locals from './FileNameAndLine.mless';
 export default function FileNameAndLine({ canFetchSourceCode, entitySnapshot, profileNode }) {
   return (
     <span
-      className={evaluateClassNames({
+      className={classNames({
         [locals.fileName]: true,
         [locals.fileNameWithSourceCode]: canFetchSourceCode
       })}

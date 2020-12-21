@@ -4,7 +4,7 @@ import React, { useMemo } from 'react';
 import { types } from 'in-mobile-apps/analyze/SessionView/tabs/Summary/filterableTypes';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { compareIgnoreCase, isNotBlank } from 'in-services/util/string';
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import SearchInput from 'in-new-components/SearchInput';
 import Select from 'in-components/form/Select';
 import Tooltip from 'in-components/Tooltip';
@@ -74,7 +74,7 @@ export default function Filter({ filter, setFilter, beacons }) {
             <a
               href=""
               style={{ '--type-color': theme.lib.colors.lightBlue800 }}
-              className={evaluateClassNames({
+              className={classNames({
                 [locals.typeFilterLink]: true,
                 [locals.active]: filter.types.length === 0
               })}
@@ -109,7 +109,7 @@ function FilterItem({ filter, setFilter, type }) {
         <a
           href=""
           style={{ '--type-color': types[type].color }}
-          className={evaluateClassNames({
+          className={classNames({
             [locals.typeFilterLink]: true,
             [locals.active]: isActive
           })}

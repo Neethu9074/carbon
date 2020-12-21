@@ -11,7 +11,7 @@ import {
 } from 'in-stores/search/lexer';
 import { getSubstringTillDotBackwards, getCursorTillNextDot } from 'in-components/SearchBar/misc/stringUtils';
 import { findNode, operatorTree, getValueSuggestions, node as createNode } from 'in-stores/search/fields';
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import { emptyArray } from 'in-services/fixedObjects';
 import keyCodes from 'in-components/keyCodes';
 
@@ -61,7 +61,7 @@ export default class extends React.Component {
         <ul className={`${block}__list`}>
           {availableChildren.map((child, i) => (
             <li
-              className={evaluateClassNames({
+              className={classNames({
                 [`${block}__item`]: true,
                 [`${block}__item--selected`]: i === currentHighlightedRowIndex
               })}

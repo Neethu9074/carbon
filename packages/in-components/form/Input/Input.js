@@ -1,32 +1,49 @@
-import { assign } from 'lodash';
-import React from 'react';
+import React, { forwardRef } from 'react';
+import classNames from 'classnames';
+import PropTypes from 'prop-types';
 
-import { evaluateClassNames } from 'in-services/util/classnames';
 import SvgIcon from 'in-components/SvgIcon/SvgIcon';
 
 import locals from './Input.mless';
 
-export default function FormInput(props) {
-  const { iconType, onIconClick } = props;
-  const inputProps = assign({}, props);
-  inputProps.className = evaluateClassNames({
-    [locals.input]: true,
-    [locals.error]: props.hasError,
-    [locals.hideValidityInformationOnFocus]: props.hideValidityInformationOnFocus,
-    [props.className]: props.className
-  });
-  delete inputProps.hasError;
-  delete inputProps.refSetter;
-  delete inputProps.iconType;
-  delete inputProps.onIconClick;
+export default forwardRef(FormInput);
 
-  const inputElement = <input {...inputProps} ref={props.refSetter} />;
-
-  return iconType ? (
-    <div className={locals.withIcon}>
-      {inputElement} <SvgIcon type={iconType} onClick={onIconClick} />
-    </div>
-  ) : (
-    inputElement
+function FormInput(
+  { iconType, onIconClick, hasError, refSetter, className, hideValidityInformationOnFocus, ...inputProps },
+  ref
+) {
+  let content = (
+    <input
+      {...inputProps}
+      ref={ref || refSetter}
+      className={classNames({
+        [locals.input]: true,
+        [locals.error]: hasError,
+        [locals.hideValidityInformationOnFocus]: hideValidityInformationOnFocus,
+        [className]: className
+      })}
+    />
   );
+
+  if (iconType) {
+    content = (
+      <div className={locals.withIcon}>
+        {content} <SvgIcon type={iconType} onClick={onIconClick} className={locals.icon} />
+      </div>
+    );
+  }
+
+  return content;
 }
+
+FormInput.propTypes = {
+  id: PropTypes.string.isRequired,
+  label: PropTypes.node,
+  className: PropTypes.string,
+  hasError: PropTypes.bool,
+  hideValidityInformationOnFocus: PropTypes.bool,
+  refSetter: PropTypes.any,
+
+  iconType: PropTypes.string,
+  onIconClick: PropTypes.func
+};

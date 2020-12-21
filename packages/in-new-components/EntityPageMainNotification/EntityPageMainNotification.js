@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { getIconType } from 'in-components/SvgIcon/infrastructureIconType';
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import { getSingular } from 'in-sdk/pluginName';
 import SvgIcon from 'in-components/SvgIcon';
 
@@ -23,7 +23,7 @@ export default function EntityPageMainNotification(props) {
   const entitySingular = getSingular(plugin) || 'Entity';
   return (
     <div
-      className={evaluateClassNames({
+      className={classNames({
         [locals.wrapper]: true,
         [locals.framed]: framed,
         [locals.light]: theme === 'light',

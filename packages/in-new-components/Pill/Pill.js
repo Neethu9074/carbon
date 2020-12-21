@@ -1,7 +1,7 @@
 import React, { forwardRef } from 'react';
 import rpt from 'prop-types';
 
-import { joinClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import { lighten } from 'in-services/formatters/color';
 
 import locals from './Pill.mless';
@@ -33,7 +33,7 @@ function Pill({ className, children, color = '#000000', lightenOpacity = 0.1, ki
   }
 
   return (
-    <span className={joinClassNames(locals.pill, `${locals[kind]}`, className)} style={style} ref={ref} {...props}>
+    <span className={classNames(locals.pill, `${locals[kind]}`, className)} style={style} ref={ref} {...props}>
       {children}
     </span>
   );

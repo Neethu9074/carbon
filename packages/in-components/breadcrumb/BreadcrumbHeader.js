@@ -2,7 +2,7 @@ import React from 'react';
 
 import DashboardHeaderModule from 'in-new-components/DashboardHeader/DashboardHeaderModule';
 import { breadcrumbs$ } from 'in-components/breadcrumb/stores/breadcrumbs';
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 
@@ -33,7 +33,7 @@ export default connectTo(
     // up the HTML structure so that crumb elements can check for :last-child to identify the active
     // crumb element.
     crumbs.unshift({
-      className: evaluateClassNames({
+      className: classNames({
         [locals.container]: true,
         [locals.highlightLastChild]: automaticActiveState
       })

@@ -2,7 +2,7 @@ import React from 'react';
 
 import WithHealthIndication from 'in-components/health/WithHealthIndication';
 import { track, NAVIGATION_BREADCRUMB } from 'in-services/tracking/tracking';
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
 import Link from 'in-components/Link';
@@ -21,7 +21,7 @@ export default function Breadcrumb({
   healthInfo,
   children
 }) {
-  const breadcrumbClassName = evaluateClassNames({
+  const breadcrumbClassName = classNames({
     [locals.breadcrumb]: true,
     [locals.clickable]: href || href$,
     [locals.activeBreadcrumb]: isActive,

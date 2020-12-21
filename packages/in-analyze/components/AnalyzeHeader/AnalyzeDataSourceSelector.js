@@ -15,7 +15,7 @@ import { defaultGroupings as defaultMobileAppGroupings } from 'in-mobile-apps/ta
 import { defaultGroupings as defaultWebsiteGroupings } from 'in-websites/tags';
 import { loggingEnabled, newAnalyticsEnabled } from 'in-services/featureFlags';
 import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
-import evaluateClassNames from 'in-services/util/classnames';
+import classNames from 'classnames';
 import { emptyObject } from 'in-services/fixedObjects';
 import { Ul, Li } from 'in-new-components/lists/List';
 import useObservable from 'in-hooks/useObservable';
@@ -214,7 +214,7 @@ function ProductAreaEntry({ dataSource, getHref$, enabled$, isGrouped, close, pr
   return (
     <Li key={dataSource} noAlternatingBg href$={getHref$({ isGrouped })} onDefaultHrefInteractionSideEffect={close}>
       <div
-        className={evaluateClassNames({
+        className={classNames({
           [locals.iconAndType]: true,
           [locals.active]:
             productArea === activeConfiguration.productArea && dataSource === activeConfiguration.dataSource

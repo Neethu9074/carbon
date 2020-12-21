@@ -5,7 +5,7 @@ import theme from 'in-themes';
 import ChartContextMenu from 'in-new-components/LatencyDistributionBase10Chart/components/ChartContextMenu';
 import { setTimeConfig, fixateTimeConfig } from 'in-stores/time/config';
 import { latencySelectionChanged } from 'in-analyze/tracker';
-import evaluateClassNames from 'in-services/util/classnames';
+import classNames from 'classnames';
 import { emptyArray } from 'in-services/fixedObjects';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { mutateUrl } from 'in-stores/navigation';
@@ -517,7 +517,7 @@ function Selection({ height, selectionStart, selectionWidth, selectionAdjustable
   return (
     <>
       <div
-        className={evaluateClassNames({
+        className={classNames({
           [locals.selection]: true,
           [locals.selectionAdjustable]: selectionAdjustable
         })}

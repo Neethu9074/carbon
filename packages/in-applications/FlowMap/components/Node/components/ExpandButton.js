@@ -1,7 +1,7 @@
 import React from 'react';
 
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
@@ -21,7 +21,7 @@ export default connectTo(
     const hasErrors = errors && errors.length > 0;
     const content = (
       <div
-        className={evaluateClassNames({
+        className={classNames({
           [locals.expandButtonRight]: direction === 'outgoing',
           [locals.expandButtonLeft]: direction === 'incoming',
           [locals.errorneousExpandIcon]: errors && errors.length > 0,

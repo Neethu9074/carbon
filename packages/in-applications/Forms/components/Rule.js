@@ -1,6 +1,6 @@
 import React, { forwardRef, useState } from 'react';
 
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import Toggle from 'in-components/form/Toggle';
 import SvgIcon from 'in-components/SvgIcon';
 
@@ -14,7 +14,7 @@ const Rule = forwardRef(function Rule(
 
   return (
     <div
-      className={evaluateClassNames({
+      className={classNames({
         [locals.rule]: true,
         [locals.reorderable]: reorderable,
         [locals.disabled]: !enabled,

@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import invariant from 'invariant';
 import React from 'react';
 
-import evaluateClassNames from 'in-services/util/classnames';
+import classNames from 'classnames';
 
 import locals from './StepProgressBar.mless';
 import theme from 'in-themes';
@@ -27,7 +27,7 @@ export default function StepProgressBar({ stepTitles, step = 0 }) {
         {stepTitles.map((title, i) => (
           <div
             key={i}
-            className={evaluateClassNames({
+            className={classNames({
               [locals.titleSelectedStep]: step === i
             })}
           >

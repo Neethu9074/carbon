@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { joinClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import { isBlank } from 'in-services/util/string';
 
 import locals from './HorizontalDescriptionList.mless';
@@ -15,9 +15,9 @@ export function Di({ title, children, ddClassName, rowClassName, dtClassName, ve
   }
 
   return (
-    <div className={joinClassNames(locals.item, rowClassName, verticalDisplay ? locals.verticalDisplay : '')}>
-      <dt className={joinClassNames(locals.title, dtClassName)}>{title}</dt>
-      <dd className={joinClassNames(locals.description, ddClassName)}>{children}</dd>
+    <div className={classNames(locals.item, rowClassName, verticalDisplay ? locals.verticalDisplay : '')}>
+      <dt className={classNames(locals.title, dtClassName)}>{title}</dt>
+      <dd className={classNames(locals.description, ddClassName)}>{children}</dd>
     </div>
   );
 }

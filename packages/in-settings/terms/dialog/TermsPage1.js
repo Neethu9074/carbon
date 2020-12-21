@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import TermsProgressIndicator from 'in-settings/terms/dialog/TermsProgressIndicator';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
-import evaluateClassNames from 'in-services/util/classnames';
+import classNames from 'classnames';
 import RolesSelector from 'in-settings/terms/RolesSelector';
 import SvgIcon from 'in-components/SvgIcon/SvgIcon';
 import Button from 'in-new-components/Button';
@@ -77,7 +77,7 @@ export default function TermsPage1({ form, onChange, onNext }) {
       </div>
       {isCheckboxMessagePresent && (
         <div
-          className={evaluateClassNames({
+          className={classNames({
             [locals.warningText]: true,
             [locals.hidden]: !messageVisible || form.hierarchyValid
           })}
@@ -90,7 +90,7 @@ export default function TermsPage1({ form, onChange, onNext }) {
       )}
       {isRoleMessagePresent && (
         <div
-          className={evaluateClassNames({
+          className={classNames({
             [locals.warningText]: true,
             [locals.hidden]: !messageVisible || form.hierarchyValid
           })}
@@ -101,7 +101,7 @@ export default function TermsPage1({ form, onChange, onNext }) {
       )}
       {!isRoleMessagePresent && !isCheckboxMessagePresent && (
         <div
-          className={evaluateClassNames({
+          className={classNames({
             [locals.warningText]: true,
             [locals.hidden]: true
           })}
@@ -109,7 +109,7 @@ export default function TermsPage1({ form, onChange, onNext }) {
       )}
       <div className={locals.buttons}>
         <Button
-          className={evaluateClassNames({ [locals.disabled]: !form.hierarchyValid })}
+          className={classNames({ [locals.disabled]: !form.hierarchyValid })}
           onClick={() => handleNextClick(form, onNext, setMessageVisible)}
         >
           Next

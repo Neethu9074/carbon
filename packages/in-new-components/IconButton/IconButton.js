@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { stopPropagation, stopPropagationAndPreventDefault } from 'in-services/util/function';
 import SvgIcon, { sizes as iconSizes } from 'in-components/SvgIcon/SvgIcon';
 import { useObservableConfig } from 'in-components/Link/Link';
-import evaluateClassNames from 'in-services/util/classnames';
+import classNames from 'classnames';
 import useObservable from 'in-hooks/useObservable';
 
 import locals from './IconButton.mless';
@@ -38,7 +38,7 @@ const IconButton = forwardRef(function IconButton(
     <SvgIcon
       type={type}
       size={iconSize || iconDimensions[size]}
-      className={evaluateClassNames({
+      className={classNames({
         [locals.icon]: true,
         [locals[`icon--${kind}`]]: kind,
         [locals.disabled]: disabled
@@ -46,7 +46,7 @@ const IconButton = forwardRef(function IconButton(
       tabIndex={-1}
     />
   );
-  const classes = evaluateClassNames({
+  const classes = classNames({
     [locals.iconButton]: true,
     [locals[`iconButton--${kind}`]]: kind,
     [locals[size]]: size,

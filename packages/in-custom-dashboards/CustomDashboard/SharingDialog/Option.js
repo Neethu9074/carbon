@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
 
 import locals from './Option.mless';
@@ -10,7 +10,7 @@ export default function Option({ label, explanation, checked, onChange }) {
     <CheckboxFancy
       label={
         <span
-          className={evaluateClassNames({
+          className={classNames({
             [locals.label]: true,
             [locals.checked]: checked
           })}

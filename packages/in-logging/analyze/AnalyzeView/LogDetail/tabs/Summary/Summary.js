@@ -4,7 +4,7 @@ import ContentWrapper from 'in-new-components/LocationAwareTabView/components/Co
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';
 import TagList from 'in-logging/analyze/AnalyzeView/components/TagList';
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import { formatDateTime } from 'in-services/formatters/date';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
@@ -23,7 +23,7 @@ export default function Summary({ data: log }) {
         </Col>
         <Col lg={4}>
           <KpiCard
-            valuesClassName={evaluateClassNames({
+            valuesClassName={classNames({
               [locals.type]: true,
               [locals[logLevel.toLowerCase()]]: true
             })}

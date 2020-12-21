@@ -21,7 +21,7 @@ import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import { dataSourceConstants } from 'in-applications/analyze/metrics';
 import ResultHeader from 'in-new-components/AnalyzeView/ResultHeader';
 import { error as errorType } from 'in-new-components/Message/types';
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import IconButton from 'in-new-components/IconButton/IconButton';
 import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import useCursorPagination from 'in-hooks/useCursorPagination';
@@ -216,7 +216,7 @@ function Presenter({
                   borderRadius="medium"
                   highlightOpenState={false}
                   toggleContentOnRowClick
-                  className={evaluateClassNames({ [locals.unspecified]: item.name === UNSPECIFIED })}
+                  className={classNames({ [locals.unspecified]: item.name === UNSPECIFIED })}
                   renderNestedContent={() => (
                     <ExpandedGroup
                       groupBy={groupBy}

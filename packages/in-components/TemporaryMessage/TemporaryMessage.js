@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 
 import TemporaryPresenter from 'in-components/TemporaryPresenter';
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import Spacer from 'in-applications/Forms/components/Spacer';
 import SvgIcon from 'in-components/SvgIcon';
 
@@ -14,14 +14,14 @@ export default function TemporaryMessage({ type = 'success', duration = 5000, id
         <Spacer type="light" />
         <div className={locals.temporyMessageWrapper}>
           <SvgIcon
-            className={evaluateClassNames({
+            className={classNames({
               [locals.notificationIconSuccess]: type === 'success',
               [locals.notificationIconError]: type === 'error'
             })}
             type={type === 'success' ? 'lib_check' : 'lib_help_error_warning'}
           />
           <span
-            className={evaluateClassNames({
+            className={classNames({
               [locals.notificationLabelSuccess]: type === 'success',
               [locals.notificationLabelError]: type === 'error'
             })}

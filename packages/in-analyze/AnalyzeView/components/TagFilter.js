@@ -3,7 +3,7 @@ import React from 'react';
 import FilterOperator from 'in-analyze/AnalyzeView/components/FilterOperator';
 import { findSubTreeByFullyQualifiedName } from 'in-applications/tags';
 import EntityIndicator from 'in-analyze/components/EntityIndicator';
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import { getOperatorLabel } from 'in-analyze/applicationFilter';
 import SvgIcon from 'in-components/SvgIcon';
 
@@ -34,7 +34,7 @@ export default function TagFilter({
   return (
     <div className={locals.tagFilterWrapper}>
       <div
-        className={evaluateClassNames({
+        className={classNames({
           [locals.tagFilter]: true,
           [locals.readonly]: readonly
         })}
@@ -72,7 +72,7 @@ export default function TagFilter({
 
       {!readonly && (
         <SvgIcon
-          className={evaluateClassNames({
+          className={classNames({
             [locals.removeIcon]: true,
             [locals.iconExtraMargin]:
               tagFiltersToPresent.length > 2 && !allSameFilters && (isOrOperator || followsOrOperator)

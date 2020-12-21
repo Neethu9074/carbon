@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import EntityLink from 'in-new-components/EntityLink/EntityLink';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import { getSnapshot } from 'in-stores/snapshot';
@@ -44,29 +44,25 @@ export default function GraphExplorer({ connected, onClick }) {
   );
 }
 
-const Entry = connectTo(props => ({ snapshot: getSnapshot(props.id) }), function Entry({
-  id,
-  isIn,
-  isOut,
-  relation,
-  snapshot,
-  onClick
-}) {
-  return (
-    <Tooltip themeStyle="light" content={snapshot && getSingular(snapshot.get('plugin'))} align="bottomMiddle">
-      <div
-        className={evaluateClassNames({
-          [locals.entry]: true,
-          [locals.outEntry]: isOut
-        })}
-        onClick={() => onClick(id)}
-      >
-        <EntityLink snapshot={snapshot} label={snapshot ? getLabel(snapshot) : id} />
-        {relation && <span className={locals.relation}>{relation.substr(0, 2)}</span>}
+const Entry = connectTo(
+  props => ({ snapshot: getSnapshot(props.id) }),
+  function Entry({ id, isIn, isOut, relation, snapshot, onClick }) {
+    return (
+      <Tooltip themeStyle="light" content={snapshot && getSingular(snapshot.get('plugin'))} align="bottomMiddle">
+        <div
+          className={classNames({
+            [locals.entry]: true,
+            [locals.outEntry]: isOut
+          })}
+          onClick={() => onClick(id)}
+        >
+          <EntityLink snapshot={snapshot} label={snapshot ? getLabel(snapshot) : id} />
+          {relation && <span className={locals.relation}>{relation.substr(0, 2)}</span>}
 
-        {isIn && <SvgIcon className={locals.inIcon} type="lib_arrow_right" size="s" />}
-        {isOut && <SvgIcon className={locals.outIcon} type="lib_arrow_right" size="s" />}
-      </div>
-    </Tooltip>
-  );
-});
+          {isIn && <SvgIcon className={locals.inIcon} type="lib_arrow_right" size="s" />}
+          {isOut && <SvgIcon className={locals.outIcon} type="lib_arrow_right" size="s" />}
+        </div>
+      </Tooltip>
+    );
+  }
+);

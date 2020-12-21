@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { joinClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import { debouncedResize$ } from 'in-services/browser';
 import { scrollToTop } from 'in-services/util/dom';
 import { getCoords } from 'in-services/util/dom';
@@ -94,7 +94,7 @@ export default class HeightRestrictedView extends React.Component {
     const { height } = this.state;
     return (
       <div
-        className={joinClassNames(locals.view, this.props.className)}
+        className={classNames(locals.view, this.props.className)}
         ref={this.setElement}
         style={{ height: `${height}px` }}
       >

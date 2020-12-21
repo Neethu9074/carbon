@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 
 import './FormGroup.less';
 
@@ -9,7 +9,7 @@ const block = 'in-settings-form-group';
 export default function FormGroup({ children, className, style, noFlex = false }) {
   return (
     <div
-      className={evaluateClassNames({
+      className={classNames({
         [block]: true,
         [className]: className,
         [`${block}--flex`]: !noFlex

@@ -9,7 +9,7 @@ import { getServiceDashboard } from 'in-applications/navigation/paths';
 import { dataSourceConstants } from 'in-applications/analyze/metrics';
 import ResultHeader from 'in-new-components/AnalyzeView/ResultHeader';
 import { getLinkToTraceDetail } from 'in-analyze/navigation/paths';
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import { formatDateTime } from 'in-services/formatters/date';
 import { Link } from 'in-components/tables/sharedComponents';
@@ -182,7 +182,7 @@ function TableOnlyPresenter({
 }) {
   return (
     <div
-      className={evaluateClassNames({
+      className={classNames({
         [locals.table]: true,
         [locals.tableWithoutPadding]: withoutPadding
       })}

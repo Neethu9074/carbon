@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import SvgIcon from 'in-components/SvgIcon';
 import Link from 'in-components/Link';
 
@@ -9,7 +9,7 @@ import locals from './SecondLevelNavigation.mless';
 export function SecondLevelNavigation({ className, children, darkTheme = false, hasGroups = false }) {
   let content = (
     <div
-      className={evaluateClassNames({
+      className={classNames({
         [locals.tabList]: true,
         [locals.tabListLight]: darkTheme,
         [locals.tabListWithGroups]: hasGroups,
@@ -21,7 +21,7 @@ export function SecondLevelNavigation({ className, children, darkTheme = false, 
   );
   return (
     <div
-      className={evaluateClassNames({
+      className={classNames({
         [locals.nav]: true,
         [locals.navLight]: darkTheme
       })}
@@ -45,7 +45,7 @@ export function SecondLevelNavigationItem({
 }) {
   return (
     <Link
-      className={evaluateClassNames({
+      className={classNames({
         [locals.link]: true,
         [locals.addSeparator]: addSeparator,
         [locals.addGroupSeparator]: addGroupSeparator,
@@ -56,7 +56,7 @@ export function SecondLevelNavigationItem({
       onClick={onClick}
     >
       <div
-        className={evaluateClassNames({
+        className={classNames({
           [locals.tab]: true,
           [locals.tabSelected]: isActive,
           [locals.tabDisabled]: isDisabled
@@ -79,7 +79,7 @@ export function SecondLevelNavigationGroup({ label, children, withSeparator, isA
   return (
     <div className={locals.group}>
       <div
-        className={evaluateClassNames({
+        className={classNames({
           [locals.groupLabel]: true,
           [locals.groupSelected]: isActive,
           [locals.groupLabelExtraMargin]: withSeparator

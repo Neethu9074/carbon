@@ -4,7 +4,7 @@ import PercentIndicator from 'in-profiling/analyze/AnalyzeView/ProfilesView/Perc
 import FileNameAndLine from 'in-new-components/Profiling/components/FileNameAndLine';
 import { toInteractiveElement } from 'in-new-components/interactiveCustomElement';
 import MethodName from 'in-new-components/Profiling/components/MethodName';
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import At from 'in-new-components/Profiling/components/At';
 import { treeViewExpanded } from 'in-profiling/tracker';
 import { scrollIntoView } from 'in-services/util/dom';
@@ -151,7 +151,7 @@ function Row({ depth, isSelected, isHighlighted, highlightedNodeDomRef, children
   return (
     <div
       ref={isHighlighted ? highlightedNodeDomRef : undefined}
-      className={evaluateClassNames({
+      className={classNames({
         [locals.row]: true,
         [locals.expandedRow]: depth > 0,
         [locals.firstRow]: depth === 0,
@@ -169,7 +169,7 @@ function ExpandIcon({ hasChildren, isFocusedIcon, expanded, setExpanded, select,
   if (hasChildren) {
     return (
       <SvgIcon
-        className={evaluateClassNames({
+        className={classNames({
           [locals.expandIcon]: true,
           [locals.focusedIcon]: isFocusedIcon
         })}
@@ -187,7 +187,7 @@ function ExpandIcon({ hasChildren, isFocusedIcon, expanded, setExpanded, select,
   }
   return (
     <span
-      className={evaluateClassNames({
+      className={classNames({
         [locals.iconPlaceHolder]: true,
         [locals.iconPlaceHolderWithLine]: depth > 0
       })}

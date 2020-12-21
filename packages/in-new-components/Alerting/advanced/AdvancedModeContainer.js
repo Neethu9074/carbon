@@ -3,7 +3,7 @@ import React from 'react';
 
 import FormFooter, { SaveButton, CancelButton } from 'in-components/form/FormFooter/FormFooter';
 import ScrollStep from 'in-new-components/Alerting/advanced/ScrollStep';
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import SideNav from 'in-new-components/SideNav';
 import SvgIcon from 'in-components/SvgIcon';
 
@@ -48,7 +48,7 @@ AdvancedModeContainer.propTypes = {
 function renderIcon({ checked }) {
   return (
     <SvgIcon
-      className={evaluateClassNames({
+      className={classNames({
         [locals.icon]: true,
         [locals.checked]: checked
       })}

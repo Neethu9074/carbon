@@ -1,11 +1,11 @@
 import React from 'react';
 
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 
 import locals from './ButtonGroup.mless';
 
 export default function ButtonGroup({ children, className, horizontal }) {
-  const cssClass = evaluateClassNames({
+  const cssClass = classNames({
     [locals.group]: true,
     [locals.vertical]: !horizontal,
     [locals.horizontal]: horizontal,

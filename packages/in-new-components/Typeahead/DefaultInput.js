@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import SvgIcon from 'in-components/SvgIcon/SvgIcon';
 
 import locals from './DefaultInput.mless';
@@ -15,7 +15,7 @@ export default function DefaultInput({
 }) {
   return (
     <div
-      className={evaluateClassNames({
+      className={classNames({
         [locals.inputGroup]: true,
         [locals.inputGroupOpen]: isOpen
       })}

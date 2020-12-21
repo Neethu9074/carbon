@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import evaluateClassNames from 'in-services/util/classnames';
+import classNames from 'classnames';
 import { warning } from 'in-new-components/Message/types';
 import Message from 'in-new-components/Message';
 
@@ -17,7 +17,7 @@ export default function TwoColumnContainer({
 }) {
   return (
     <div
-      className={evaluateClassNames({
+      className={classNames({
         [locals.container]: true,
         [locals.mainAreaLeft]: moveMainAreaRight
       })}
@@ -28,7 +28,7 @@ export default function TwoColumnContainer({
         <div className={locals.mainAreaContent}>{mainContent}</div>
       </div>
       <div
-        className={evaluateClassNames({
+        className={classNames({
           [locals.secondaryArea]: true,
           [locals.removePadding]: removePaddingSecondaryArea,
           [locals.borderRight]: moveMainAreaRight

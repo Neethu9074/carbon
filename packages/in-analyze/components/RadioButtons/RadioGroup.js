@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import Message from 'in-new-components/Message';
 import SvgIcon from 'in-components/SvgIcon';
@@ -22,7 +22,7 @@ const RadioGroup = ({ disabled, onChange, value, sourceEntityAvailability }) => 
       </span>
       <div className={locals.inputGroup}>
         <label
-          className={evaluateClassNames({
+          className={classNames({
             [locals.radioInput]: true,
             [locals.radioInputChecked]: value === entityTypes.SOURCE,
             [locals.radioInputDisabled]: disabled
@@ -40,7 +40,7 @@ const RadioGroup = ({ disabled, onChange, value, sourceEntityAvailability }) => 
         </label>
 
         <label
-          className={evaluateClassNames({
+          className={classNames({
             [locals.radioInput]: true,
             [locals.radioInputChecked]: value === entityTypes.DESTINATION,
             [locals.radioInputDisabled]: disabled

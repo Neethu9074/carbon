@@ -2,7 +2,7 @@ import { range, rangeRight } from 'lodash';
 import React from 'react';
 
 import { getTimeShiftLabel, defaultTimeShift } from 'in-stores/time/shifting';
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
@@ -58,7 +58,7 @@ function MetricSeries({ chart, axis, config, filteredDataSeries, axisName }) {
         const content = (
           <li
             key={i}
-            className={evaluateClassNames({
+            className={classNames({
               [locals.metric]: true,
               [locals.disabledMetric]: isDisabled,
               [locals.toggleable]: isToggleable
@@ -72,7 +72,7 @@ function MetricSeries({ chart, axis, config, filteredDataSeries, axisName }) {
           >
             {icons ? (
               <SvgIcon
-                className={evaluateClassNames({
+                className={classNames({
                   [locals.disabledIcon]: isDisabled
                 })}
                 size="xs"
@@ -81,7 +81,7 @@ function MetricSeries({ chart, axis, config, filteredDataSeries, axisName }) {
               />
             ) : (
               <div
-                className={evaluateClassNames({
+                className={classNames({
                   [locals.dot]: true,
                   [locals.disabledDot]: isDisabled
                 })}

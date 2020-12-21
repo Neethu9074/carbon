@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import theme from 'in-themes';
 import React from 'react';
 
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import { getColorBySeverity } from 'in-stores/events';
 import Tooltip from 'in-components/Tooltip';
 
@@ -16,7 +16,7 @@ export default function HealthDot({ severity = 0, explanation, iconSize, classNa
         height: iconSize,
         backgroundColor: getColorBySeverity(severity, { defaultColor: theme.lib.colors.success })
       }}
-      className={evaluateClassNames({ [locals.dot]: true, [className]: true })}
+      className={classNames({ [locals.dot]: true, [className]: true })}
     />
   );
   if (!explanation) {

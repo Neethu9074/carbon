@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { clearHighlightedTimeframe } from 'in-stores/timeline/highlightedTimeframe';
-import { joinClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import Button from 'in-new-components/Button';
 import SvgIcon from 'in-components/SvgIcon';
 
@@ -9,7 +9,7 @@ import locals from './ResultForTimeSelectionIndicator.mless';
 
 export default function ResultForTimeSelectionIndicator({ className, entityName, message }) {
   return (
-    <div className={joinClassNames(locals.wrapper, className)}>
+    <div className={classNames(locals.wrapper, className)}>
       <div className={locals.notificationWrapper}>
         <SvgIcon className={locals.icon} type="lib_help_error_info_outline" />
         {message ?? `Showing ${entityName} for selection`}

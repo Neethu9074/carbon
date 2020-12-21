@@ -1,7 +1,7 @@
 import rpt from 'prop-types';
 import React from 'react';
 
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 
 import locals from './Stack.mless';
 
@@ -14,7 +14,7 @@ export default function Stack({ component: Component = 'div', space = 'gutter', 
   return React.createElement(
     Component,
     {
-      className: evaluateClassNames({
+      className: classNames({
         [locals.stack]: true,
         [locals[`spacing-${space}`]]: true,
         [locals[`alignment-${align}`]]: align

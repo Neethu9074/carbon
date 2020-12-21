@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import { Li } from 'in-new-components/lists/List';
 
 import locals from './ListGroup.mless';
@@ -9,7 +9,7 @@ export default function ListGroup({ numMoreItems, label, children, sticky = fals
   return (
     <>
       <div
-        className={evaluateClassNames({
+        className={classNames({
           [locals.groupHead]: true,
           [locals.sticky]: sticky
         })}

@@ -3,7 +3,7 @@ import React from 'react';
 
 import LoadingList from 'in-new-components/lists/List/sharedComponents/LoadingList';
 import OverlayOption from 'in-new-components/OverlayOption/OverlayOption';
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import { Ul, Li } from 'in-new-components/lists/List/List';
 import useThemedLocals from 'in-hooks/useThemedLocals';
 import { number } from 'in-services/formatters/number';
@@ -46,7 +46,7 @@ function render({ inputProps, getInputProps, isOpen, openMenu, ...remainingProps
     <>
       <AutosizeInput
         minWidth={32}
-        inputClassName={evaluateClassNames({
+        inputClassName={classNames({
           [locals.input]: true,
           [locals.invalid]: !valid,
           [locals.hideValidityInformationOnFocus]: hideValidityInformationOnFocus
@@ -102,7 +102,7 @@ function SuggestionsList({
         return (
           <OverlayOption
             key={index}
-            className={evaluateClassNames({
+            className={classNames({
               [locals.option]: true,
               [locals.highlighted]: highlightedIndex === index
             })}

@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { joinClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 
 import locals from './Spacer.mless';
 
 export default function Spacer({ type, margin }) {
-  return <div className={joinClassNames(locals.spacer, locals[type], locals[margin])} />;
+  return <div className={classNames(locals.spacer, locals[type], locals[margin])} />;
 }

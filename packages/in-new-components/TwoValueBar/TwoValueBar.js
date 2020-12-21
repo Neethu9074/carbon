@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 
 import locals from './TwoValueBar.mless';
 
@@ -30,7 +30,7 @@ export default function TwoValueBar({
     <div className={locals.wrapper}>
       <div className={locals.bar} style={{ background: v2Color }}>
         <div
-          className={evaluateClassNames({
+          className={classNames({
             [locals.fill]: true,
             [locals.rightToLeft]: rightToLeft,
             [locals.leftToRight]: !rightToLeft

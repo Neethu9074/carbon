@@ -1,7 +1,7 @@
 import React from 'react';
 
 import EntityIndicator from 'in-analyze/components/EntityIndicator';
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './TagGroup.mless';
@@ -22,7 +22,7 @@ export default function TagGroup({ tagGroupEntry, readonly }) {
   return (
     <div className={locals.tagGroupWrapper}>
       <div
-        className={evaluateClassNames({
+        className={classNames({
           [locals.tagGroup]: true,
           [locals.readonly]: readonly
         })}
@@ -34,7 +34,7 @@ export default function TagGroup({ tagGroupEntry, readonly }) {
 
       {!readonly && (
         <SvgIcon
-          className={evaluateClassNames({
+          className={classNames({
             [locals.removeIcon]: true,
             [locals.iconExtraMargin]: false
           })}

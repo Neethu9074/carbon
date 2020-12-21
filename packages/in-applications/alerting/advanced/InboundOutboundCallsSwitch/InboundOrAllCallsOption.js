@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { boundaryScopes } from 'in-applications/alerting/advanced/InboundOutboundCallsSwitch/config';
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import OptionBox from 'in-applications/components/OptionBox';
 
 import locals from './InboundOrAllCallsSwitch.mless';
@@ -13,7 +13,7 @@ export default function InboundOrAllCallsOption({ boundaryScope, onBoundaryState
       icon={icon}
       title={text}
       asRadioButton
-      className={evaluateClassNames({
+      className={classNames({
         [locals.optionBox]: true,
         [locals.optionBoxUnchecked]: scope !== boundaryScope
       })}

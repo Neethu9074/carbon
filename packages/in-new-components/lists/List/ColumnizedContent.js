@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 
 import locals from './ColumnizedContent.mless';
 
@@ -17,7 +17,7 @@ export default function ColumnizedContent(props) {
             maxWidth: width,
             flexShrink: shrink ? 1 : 0
           }}
-          className={evaluateClassNames({
+          className={classNames({
             [locals.flexColumn]: !width
           })}
         >

@@ -1,7 +1,7 @@
 import React, { forwardRef } from 'react';
 import PropTypes from 'prop-types';
 
-import evaluateClassNames from 'in-services/util/classnames';
+import classNames from 'classnames';
 
 import locals from './SingleMarkerLaneItem.mless';
 
@@ -13,7 +13,7 @@ const SingleMarkerLaneItem = forwardRef(function SingleMarkerLaneItem(
     <div
       ref={ref}
       style={{ transform: `translateX(${xPos}px)` }}
-      className={evaluateClassNames({
+      className={classNames({
         [locals.laneItem]: true,
         [locals.hideHoverEffect]: hideDefaultHoverStyle
       })}

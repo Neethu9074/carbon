@@ -4,7 +4,7 @@ import theme from 'in-themes';
 
 import { formatDuration, formatDateTime } from 'in-services/formatters/date';
 import HorizontalTimeAxis from 'in-new-components/Axis/HorizontalTimeAxis';
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import getElementDimensions from 'in-hoc/getElementDimensions';
 import Tooltip from 'in-components/Tooltip';
 import createScale from 'in-services/scale';
@@ -39,7 +39,7 @@ function VersionTimeline({ onVersionClick, width, getTooltip, from, to, selected
                   align={getTooltipAlign(left)}
                 >
                   <div
-                    className={evaluateClassNames({
+                    className={classNames({
                       [locals.version]: true,
                       [locals.selected]: selectedVersion && selectedVersion.from === version.from,
                       [locals.even]: i % 2 === 0

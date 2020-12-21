@@ -17,12 +17,12 @@
   },
   "classNameJoin": {
     "prefix": "cnj",
-    "body": ["className={joinClassNames(locals.$1, locals.$0)}"],
+    "body": ["className={classNames(locals.$1, locals.$0)}"],
     "description": "Join several classnames."
   },
   "classNameEvaluate": {
     "prefix": "cne",
-    "body": ["className={evaluateClassNames({\n[locals.$1]: $2, \n[locals.$3]: $4})}"],
+    "body": ["className={classNames({\n[locals.$1]: $2, \n[locals.$3]: $4})}"],
     "description": "Evaluate class names by condition."
   }
 }

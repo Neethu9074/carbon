@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import evaluateClassNames from 'in-services/util/classnames';
+import classNames from 'classnames';
 import SvgIcon from 'in-components/SvgIcon/SvgIcon';
 
 import locals from './TimeThresholdConfig.mless';
@@ -9,7 +9,7 @@ import locals from './TimeThresholdConfig.mless';
 export default function AlertThresholdConfigItemContainer({ children, iconType, hasExtraColumnOnRight, noIcon }) {
   return (
     <div
-      className={evaluateClassNames({
+      className={classNames({
         [locals.columns4]: hasExtraColumnOnRight,
         [locals.columns3]: !hasExtraColumnOnRight && !noIcon,
         [locals.itemWithLabelGrid]: !hasExtraColumnOnRight && noIcon,

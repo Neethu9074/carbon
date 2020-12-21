@@ -5,7 +5,7 @@ import DialogHeaderComponent from 'in-new-components/SlideInView/internalCompone
 import ListHeaderComponent from 'in-new-components/SlideInView/internalComponents/ListHeader';
 import { slideInStates, slideOutStates } from 'in-new-components/SlideInView/states';
 import { supportsFocussingWithPreventedScrolling } from 'in-services/util/domFocus';
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import { getInteractiveElements } from 'in-services/util/dom';
 
 import locals from './SlideInView.mless';
@@ -97,7 +97,7 @@ export default function SlideInView({
     <div className={locals.container}>
       <div
         ref={staticContentWrapperRef}
-        className={evaluateClassNames({
+        className={classNames({
           [locals.staticContent]: true,
           [locals.enforceMaxHeightForStaticContent]: enforceMaxHeightForStaticContent
         })}

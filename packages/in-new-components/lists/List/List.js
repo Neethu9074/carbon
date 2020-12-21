@@ -6,7 +6,7 @@ import HorizontalIndicatorLiComponent from 'in-new-components/lists/List/Horizon
 import LoadingSkeletonLiComponent from 'in-new-components/lists/List/LoadingSkeletonLi';
 import LoadMoreLiComponent from 'in-new-components/lists/List/LoadMoreLi';
 import ListGroupComponent from 'in-new-components/lists/List/ListGroup';
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import { emptyObject } from 'in-services/fixedObjects';
 import useAutoFocus from 'in-hooks/useAutoFocus';
 import SvgIcon from 'in-components/SvgIcon';
@@ -36,7 +36,7 @@ export function Ul({
 }) {
   return (
     <Component
-      className={evaluateClassNames({
+      className={classNames({
         [locals.list]: true,
         [locals.framed]: framed === true && space === 'disabled',
         [locals.framedTopBottom]: framed === 'topBottom',
@@ -101,7 +101,7 @@ export function Li(props) {
 
   const itemElement = (
     <div
-      className={evaluateClassNames({
+      className={classNames({
         [locals.itemContent]: true,
         [locals.itemContentWithNestedContent]: expandable,
         [locals.itemContentExpanded]: open,
@@ -149,7 +149,7 @@ export function Li(props) {
 
   return (
     <Component
-      className={evaluateClassNames({
+      className={classNames({
         [locals.listItem]: true,
         [locals.noAlternatingBg]: noAlternatingBg,
         [locals.expanded]: open && highlightOpenState,

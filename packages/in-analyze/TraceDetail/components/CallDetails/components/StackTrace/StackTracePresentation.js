@@ -1,7 +1,7 @@
 import React from 'react';
 
 import ShowCodeButton from 'in-analyze/TraceDetail/components/CallDetails/components/StackTrace/ShowCodeButton';
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 
 import locals from './StackTracePresentation.mless';
 
@@ -25,7 +25,7 @@ export default function StackTracePresentation({ stackTrace, isOnline, snapshot,
     <div className={locals.stackTrace}>
       <p className={locals.title}>StackTrace</p>
       <ol
-        className={evaluateClassNames({
+        className={classNames({
           [locals.list]: true,
           [locals.noPadding]: noPadding
         })}

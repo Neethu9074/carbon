@@ -2,7 +2,7 @@ import React from 'react';
 
 import { historicOrLargeDataResult$ } from 'in-new-components/time/TimeSelection/TimeSelection';
 import { samplingIndicatorEnabled } from 'in-services/featureFlags';
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import TimeIcon from 'in-new-components/time/TimeIcon';
 import { number } from 'in-services/formatters/number';
 import { emptyObject } from 'in-services/fixedObjects';
@@ -44,14 +44,14 @@ export default connectTo(
 
     return (
       <div
-        className={evaluateClassNames({
+        className={classNames({
           [locals.wrapper]: true,
           [locals.withMargin]: !withoutMargin
         })}
       >
         <span className={locals.result}>Result</span>
         <span
-          className={evaluateClassNames({
+          className={classNames({
             [locals.number]: true,
             [locals.withMaxWidth]: withMaxWidth
           })}

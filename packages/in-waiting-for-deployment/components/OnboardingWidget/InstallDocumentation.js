@@ -10,7 +10,7 @@ import HelpAndSupport from 'in-waiting-for-deployment/components/OnboardingWidge
 import Collaboration from 'in-waiting-for-deployment/components/OnboardingWidget/Collaboration';
 import EntryContent from 'in-waiting-for-deployment/components/OnboardingWidget/EntryContent';
 import getEntries from 'in-waiting-for-deployment/components/OnboardingWidget/content';
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import SearchInput from 'in-new-components/SearchInput';
 
 import locals from './InstallDocumentation.mless';
@@ -58,7 +58,7 @@ export default function InstallDocumentation(props) {
         </div>
 
         <div
-          className={evaluateClassNames({
+          className={classNames({
             [locals.content]: true,
             [props.contentClassName]: props.contentClassName
           })}

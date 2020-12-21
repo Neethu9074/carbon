@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import Button from 'in-new-components/Button';
 import SvgIcon from 'in-components/SvgIcon';
 
@@ -29,7 +29,7 @@ export default function ProgressInformation({ getRedirectButtonProperties, isBac
         </div>
         <div className={locals.progressBarWrapper}>
           <div
-            className={evaluateClassNames({
+            className={classNames({
               [locals.progressBar]: true,
               [locals[`progressBar${progress}`]]: true
             })}

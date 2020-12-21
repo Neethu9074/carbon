@@ -2,7 +2,7 @@ import React from 'react';
 
 import configs from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/configs';
 import { goToAlertChannelView } from 'in-settings/navigation/paths';
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import MultiButton from 'in-new-components/MultiButton';
 import Button from 'in-new-components/Button';
 
@@ -37,7 +37,7 @@ export default function NewChannelButton(props) {
 function AlertChannelButton({ type, className }) {
   return (
     <Button
-      className={evaluateClassNames({
+      className={classNames({
         [locals.alertChannelButton]: true,
         [className]: className
       })}

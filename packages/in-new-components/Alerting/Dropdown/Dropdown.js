@@ -3,7 +3,7 @@ import React from 'react';
 
 import ComboBoxBehavior from 'in-components/form/ComboBox/ComboBoxBehavior';
 import DropdownButton from 'in-new-components/Button/DropdownButton';
-import evaluateClassNames from 'in-services/util/classnames';
+import classNames from 'classnames';
 
 import locals from './Dropdown.mless';
 
@@ -31,7 +31,7 @@ export default function Dropdown({
       {({ elementProps, isOpen }) => (
         <DropdownButton
           {...elementProps}
-          className={evaluateClassNames({
+          className={classNames({
             [locals.simpleDropdown]: asSimpleDropdown,
             [className]: className
           })}

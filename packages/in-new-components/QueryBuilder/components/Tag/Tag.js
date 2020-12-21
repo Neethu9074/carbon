@@ -17,7 +17,7 @@ import { TAG } from 'in-new-components/QueryBuilder/transformation/formModel';
 import Entity from 'in-new-components/QueryBuilder/components/Tag/Entity';
 import Remove from 'in-new-components/QueryBuilder/components/Tag/Remove';
 import Name from 'in-new-components/QueryBuilder/components/Tag/Name';
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
 import useThemedLocals from 'in-hooks/useThemedLocals';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -57,7 +57,7 @@ export default function Tag(props) {
 
   return (
     <div
-      className={evaluateClassNames({
+      className={classNames({
         [locals.tag]: true,
         [locals.invalid]: !form.hierarchyValid
       })}

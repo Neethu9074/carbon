@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import { serverTime$ } from 'in-stores/serverTime';
 import connecTo from 'in-hoc/connectTo';
 
@@ -36,7 +36,7 @@ const TimeZone = connecTo(
   function TimeZone({ time, label }) {
     return (
       <div
-        className={evaluateClassNames({
+        className={classNames({
           [locals.zone]: true,
           [locals.sleepy]: isSleepy(time)
         })}

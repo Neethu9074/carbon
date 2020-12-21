@@ -3,7 +3,7 @@ import React from 'react';
 import { CLOSE_BRACKET } from 'in-new-components/QueryBuilder/transformation/renderModel';
 import { isPrimaryInteractiveElement } from 'in-new-components/interactiveCustomElement';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import keyCodes from 'in-components/keyCodes';
 
 import locals from './Expression.mless';
@@ -11,7 +11,7 @@ import locals from './Expression.mless';
 export default function Expression({ onRemove, children, element: { elements }, depth }) {
   return (
     <div
-      className={evaluateClassNames({
+      className={classNames({
         [locals.expression]: true,
         [locals.completeExpression]: elements[elements.length - 1].type === CLOSE_BRACKET,
         [locals[`expressioncolor_${depth % 2}`]]: true

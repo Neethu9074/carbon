@@ -12,7 +12,7 @@ import { pendingResult, emptyObject } from 'in-services/fixedObjects';
 import Overlay from 'in-new-components/overlays/Overlay/Overlay';
 import { getInteractiveElements } from 'in-services/util/dom';
 import { containsIgnoreCase } from 'in-services/util/string';
-import { joinClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import { compareIgnoreCase } from 'in-services/util/string';
 import SearchInput from 'in-new-components/SearchInput';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -110,7 +110,7 @@ function Dropdown({ getParamsForType, types, close, onTypeSelected }) {
 
 function TypeRow({ icon, name, className }) {
   return (
-    <div className={joinClassNames(locals.typeRow, className)}>
+    <div className={classNames(locals.typeRow, className)}>
       <SvgIcon className={locals.icon} type={icon} />
       {name}
     </div>

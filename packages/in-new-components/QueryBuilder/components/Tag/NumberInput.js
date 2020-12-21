@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import useThemedLocals from 'in-hooks/useThemedLocals';
 
 import styleDefs from './NumberInput.mless';
@@ -10,7 +10,7 @@ export default function NumberInput({ value, placeholder, onChange, valid, minVa
 
   return (
     <input
-      className={evaluateClassNames({
+      className={classNames({
         [locals.input]: true,
         [locals.invalid]: !valid
       })}

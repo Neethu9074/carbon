@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import { Link } from 'in-components/tables/sharedComponents';
 import SvgIcon from 'in-components/SvgIcon';
 
@@ -11,7 +11,7 @@ export default function TableLinkWithIcon({ icon, href$, href, onClick, children
     <div className={locals.wrapper}>
       {icon && <SvgIcon className={locals.icon} type={icon} />}
       <Link
-        className={evaluateClassNames({
+        className={classNames({
           [locals.link]: true,
           [locals.nonPrimary]: !isPrimary
         })}

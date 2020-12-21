@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import React from 'react';
 
 import { debouncedResize$, debouncedScroll$ } from 'in-services/browser';
-import { joinClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 
 /**
  * A higher order component to automatically flip the menu direction of a ComboBox (that is, a Select from react-select)
@@ -49,7 +49,7 @@ export default function autoMenuDirection(ComposedComponent, assumedTimeLineFoot
       return (
         <ComposedComponent
           {...this.props}
-          className={joinClassNames(this.props.className, `menu-direction-${this.state.direction}`)}
+          className={classNames(this.props.className, `menu-direction-${this.state.direction}`)}
         />
       );
     }

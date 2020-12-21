@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import Value from 'in-new-components/lists/KeyValue/components/Value';
 import Key from 'in-new-components/lists/KeyValue/components/Key';
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 
 import locals from './KeyValue.mless';
 
@@ -21,7 +21,7 @@ const KeyValue = forwardRef(function KeyValue(
 
   return (
     <div
-      className={evaluateClassNames({
+      className={classNames({
         [locals.wrapper]: true,
         [className]: className
       })}

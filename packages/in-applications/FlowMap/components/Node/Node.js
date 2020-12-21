@@ -3,7 +3,7 @@ import React from 'react';
 import EntityInformation from 'in-applications/FlowMap/components/Node/components/EntityInformation';
 import ScreenPositionWrapper from 'in-applications/FlowMap/components/Node/ScreenPositionWrapper';
 import { ServiceLink, EndpointLink } from 'in-applications/FlowMap/components/Node/EntityLinks';
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 
@@ -50,7 +50,7 @@ function EndpointListNode(props) {
   return (
     <ul className={locals.childList}>
       <div
-        className={evaluateClassNames({
+        className={classNames({
           [locals.serviceLabel]: true,
           [locals.serviceLabelHeatMapEnabled]: isHeatMapEnabled
         })}

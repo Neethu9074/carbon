@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import OptionBox from 'in-applications/components/OptionBox';
 import { boundaryScopes } from 'in-applications/constants';
 
@@ -19,7 +19,7 @@ export default function InboundOrAllCallsOptionBox({
       icon={icon}
       title={text}
       asRadioButton
-      className={evaluateClassNames({
+      className={classNames({
         [locals.optionBox]: true,
         [locals.noPaddingBottom]: noPaddingBottom,
         [locals.optionBoxUnchecked]: scope !== boundaryScope

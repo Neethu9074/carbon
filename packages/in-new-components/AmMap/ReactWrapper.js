@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { joinClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import { emptyObject } from 'in-services/fixedObjects';
 
 import locals from './ReactWrapper.mless';
@@ -32,7 +32,7 @@ export default class AmMapReactWrapper extends React.Component {
       <div
         ref={ele => (this.ele = ele)}
         style={{ height: this.props.height, ...(this.props.style || emptyObject) }}
-        className={joinClassNames(locals.wrapper, this.props.className)}
+        className={classNames(locals.wrapper, this.props.className)}
       />
     );
   }

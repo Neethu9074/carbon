@@ -2,7 +2,7 @@ import React from 'react';
 
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-new-components/Dialog/ConfirmationDialog';
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './Delete.mless';
@@ -22,7 +22,7 @@ export default function Delete({
 
   return (
     <SvgIcon
-      className={evaluateClassNames({
+      className={classNames({
         [locals.icon]: true,
         [locals.disabled]: disabled
       })}

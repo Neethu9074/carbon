@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import FormGroup from 'in-components/form/FormGroup';
 import Select from 'in-components/form/Select';
 import Toggle from 'in-components/form/Toggle';
@@ -25,7 +25,7 @@ export default function TagGroupConfigurationWrapper({
   const hasActiveGrouping = grouping?.by?.groupbyTag?.length > 0;
   return (
     <div
-      className={evaluateClassNames({
+      className={classNames({
         [locals.wrapper]: true
       })}
     >

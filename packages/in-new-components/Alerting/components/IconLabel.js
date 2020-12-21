@@ -2,7 +2,7 @@ import React, { forwardRef } from 'react';
 import PropTypes from 'prop-types';
 
 import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';
-import evaluateClassNames from 'in-services/util/classnames';
+import classNames from 'classnames';
 import SvgIcon from 'in-components/SvgIcon';
 import { lib } from 'in-themes/theme';
 
@@ -12,7 +12,7 @@ const IconLabel = forwardRef(({ text = '', type, noBottomMargin, color = lib.col
   return (
     <HorizontalFlexWrapper
       ref={ref}
-      className={evaluateClassNames({
+      className={classNames({
         [locals.container]: true,
         [locals.noBottomMargin]: noBottomMargin
       })}

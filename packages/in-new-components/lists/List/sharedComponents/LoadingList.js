@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import Skeleton from 'in-new-components/Loading/Skeleton';
 import { Ul, Li } from 'in-new-components/lists/List';
 
@@ -12,7 +12,7 @@ export default function LoadingList({ className, skeletonClassName, size, numSke
     loadingRows[i] = (
       <Li key={i} size={size}>
         <Skeleton
-          className={evaluateClassNames({
+          className={classNames({
             [locals.skeleton]: true,
             [skeletonClassName]: skeletonClassName
           })}

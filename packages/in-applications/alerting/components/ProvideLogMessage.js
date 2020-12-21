@@ -14,7 +14,7 @@ import DebouncedTextArea from 'in-components/form/TextArea/DebouncedTextArea';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import { modeAdvanced } from 'in-websites/alerting/constants';
-import evaluateClassNames from 'in-services/util/classnames';
+import classNames from 'classnames';
 import { propTypeTimeConfig } from 'in-stores/time/config';
 import { operators } from 'in-analyze/applicationFilter';
 import ComboBox from 'in-components/ComboBox/ComboBox';
@@ -33,13 +33,13 @@ export default function ProvideLogMessage({ form, timeConfig, onSelectLogMessage
     <div className={locals.container}>
       <FormGroup>
         <div
-          className={evaluateClassNames({
+          className={classNames({
             [locals.logMessageSelectAdvanceMode]: mode === modeAdvanced
           })}
         >
           <HelpText className={locals.helpText}>Select log message as template (optional)</HelpText>
           <Button
-            className={evaluateClassNames({
+            className={classNames({
               [locals.logMessageSelectButtonAdvanceMode]: mode === modeAdvanced
             })}
             onClick={() => {

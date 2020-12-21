@@ -8,7 +8,7 @@ import {
 } from 'in-new-components/PotentialProblems/PotentialProblemsLane/proptypes';
 import PotentialProblemsList from 'in-new-components/PotentialProblems/PotentialProblemDialog/PotentialProblemsList';
 import { trackCurrentlySelected, trackDialogClosed } from 'in-new-components/PotentialProblems/tracker';
-import evaluateClassNames from 'in-services/util/classnames';
+import classNames from 'classnames';
 import { close } from 'in-components/DialogPresenter/store';
 import Dialog from 'in-new-components/Dialog/Dialog';
 
@@ -44,7 +44,7 @@ function PotentialProblemsDialogPresenter({ alertRules, thresholds, alerts, ...r
       withoutBodyPadding
     >
       <div
-        className={evaluateClassNames({
+        className={classNames({
           [locals.container]: true,
           [locals.twoColums]: isCluster
         })}

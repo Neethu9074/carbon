@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import unknown from 'in-components/Gravatar/unknown.png';
 import getGravatarUrl from 'in-subscription/gravatar';
 import { onImageLoad } from 'in-services/image';
@@ -19,7 +19,7 @@ export default connectTo(
     };
   },
   function Gravatar({ className, avatarUrl, email, size }) {
-    className = evaluateClassNames({
+    className = classNames({
       [locals.regular]: size !== 'l',
       [locals.l]: size === 'l',
       [className]: className

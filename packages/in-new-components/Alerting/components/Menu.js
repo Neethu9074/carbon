@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import invariant from 'invariant';
 
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 
 import locals from './Menu.mless';
 
@@ -15,7 +15,7 @@ export default function Menu({ addRightSeparator = false, items, onItemClick, in
 
   return (
     <nav
-      className={evaluateClassNames({
+      className={classNames({
         [locals.container]: true,
         [locals.rightSeparator]: addRightSeparator
       })}
@@ -24,7 +24,7 @@ export default function Menu({ addRightSeparator = false, items, onItemClick, in
         {items.map((item, i) => (
           <li
             key={i}
-            className={evaluateClassNames({
+            className={classNames({
               [locals.item]: true,
               [locals.selected]: itemSelected.type === item.type && itemSelected.subType === item.subType
             })}

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import { escapeSpecialChars } from 'in-services/util/regex';
 
 import locals from './DefaultRenderer.mless';
@@ -53,7 +53,7 @@ function getHighlightedText(text, highlight) {
       {parts.map((part, i) => (
         <span
           key={i}
-          className={evaluateClassNames({
+          className={classNames({
             [locals.higlightedText]: part.toLowerCase() === highlight.toString().toLowerCase()
           })}
         >

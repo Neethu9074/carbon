@@ -9,7 +9,7 @@ import {
 } from 'in-new-components/Alerting/advanced/TimeThresholdConfig/form';
 import { timeThresholdTypes } from 'in-new-components/Alerting/advanced/TimeThresholdConfig/formData';
 import CheckboxFancy from 'in-new-components/Alerting/components/CheckboxFancy';
-import evaluateClassNames from 'in-services/util/classnames';
+import classNames from 'classnames';
 
 import locals from './TimeThresholdConfig.mless';
 
@@ -51,7 +51,7 @@ export default function SelectTimeThreshold({
       {checkboxes.map(({ label, checked, onChange, disabled }, i) => (
         <div
           key={i}
-          className={evaluateClassNames({
+          className={classNames({
             [locals.thresholdTypeSelection]: true,
             [locals.checked]: checked,
             [locals.disabled]: disabled

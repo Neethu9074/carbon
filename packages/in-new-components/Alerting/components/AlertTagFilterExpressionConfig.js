@@ -5,7 +5,7 @@ import AlertFilterConfigurator, {
   handleChangeTagFilterExpressionChange
 } from 'in-new-components/Alerting/components/AlertFilterConfigurator';
 import IconLabel from 'in-new-components/Alerting/components/IconLabel';
-import evaluateClassNames from 'in-services/util/classnames';
+import classNames from 'classnames';
 import LightCard from 'in-new-components/Card/LightCard';
 import Button from 'in-new-components/Button';
 
@@ -22,7 +22,7 @@ export default function AlertTagFilterExpressionConfig({
   return (
     <LightCard
       title={<IconLabel text={applicationLabel} type="lib_application" noBottomMargin />}
-      headerClassName={evaluateClassNames({
+      headerClassName={classNames({
         [locals.header]: true,
         [locals.headerTransparent]: headerTransparent
       })}

@@ -5,7 +5,7 @@ import React from 'react';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { findSubTreeByFullyQualifiedName } from 'in-applications/tags';
 import { getOperatorLabel } from 'in-analyze/applicationFilter';
-import evaluateClassNames from 'in-services/util/classnames';
+import classNames from 'classnames';
 import { emptyArray } from 'in-services/fixedObjects';
 import { isBlank } from 'in-services/util/string';
 import EntityIndicator from '../EntityIndicator';
@@ -31,18 +31,20 @@ export default function TagFilterListPresenter({
 
   return (
     <ul className={locals.list}>
-      {tagFilters.filter(f => implicitTagFilters.indexOf(f) === -1).map((tagFilter, i) => (
-        <TagFilterPresenter
-          key={i}
-          tagFilter={tagFilter}
-          onTagFilterClick={onTagFilterClick}
-          onRemoveTagFilter={onRemoveTagFilter}
-          readonly={readonly || readonlyFilterNames.includes(tagFilter.name)}
-          disabled={disabled}
-          withPadding={readonlyFilterNames.includes(tagFilter.name) && tagFilters.length > 1}
-          showEntityIndicator={showEntityIndicator}
-        />
-      ))}
+      {tagFilters
+        .filter(f => implicitTagFilters.indexOf(f) === -1)
+        .map((tagFilter, i) => (
+          <TagFilterPresenter
+            key={i}
+            tagFilter={tagFilter}
+            onTagFilterClick={onTagFilterClick}
+            onRemoveTagFilter={onRemoveTagFilter}
+            readonly={readonly || readonlyFilterNames.includes(tagFilter.name)}
+            disabled={disabled}
+            withPadding={readonlyFilterNames.includes(tagFilter.name) && tagFilters.length > 1}
+            showEntityIndicator={showEntityIndicator}
+          />
+        ))}
     </ul>
   );
 }
@@ -72,7 +74,7 @@ function TagFilterPresenter({
 
   return (
     <li
-      className={evaluateClassNames({
+      className={classNames({
         [locals.item]: true,
         [locals.withPadding]: withPadding
       })}
@@ -85,7 +87,7 @@ function TagFilterPresenter({
             onTagFilterClick(tagFilter);
           }
         }}
-        className={evaluateClassNames({
+        className={classNames({
           [locals.itemBlock]: true,
           [locals.readOnly]: readonly,
           [locals.disabled]: disabled
@@ -103,19 +105,18 @@ function TagFilterPresenter({
         </Pill>
       </div>
 
-      {!readonly &&
-        onRemoveTagFilter && (
-          <Tooltip content="Remove filter">
-            <SvgIcon
-              className={locals.removeIcon}
-              type="lib_openclose_cancel"
-              onClick={e => {
-                stopPropagationAndPreventDefault(e);
-                onRemoveTagFilter(tagFilter);
-              }}
-            />
-          </Tooltip>
-        )}
+      {!readonly && onRemoveTagFilter && (
+        <Tooltip content="Remove filter">
+          <SvgIcon
+            className={locals.removeIcon}
+            type="lib_openclose_cancel"
+            onClick={e => {
+              stopPropagationAndPreventDefault(e);
+              onRemoveTagFilter(tagFilter);
+            }}
+          />
+        </Tooltip>
+      )}
     </li>
   );
 }

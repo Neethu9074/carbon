@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { evaluateClassNames, joinClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 
 import locals from './CheckboxFancy.mless';
 
@@ -46,7 +46,7 @@ export default function CheckboxFancy({
   );
   return label ? (
     <label
-      className={evaluateClassNames({
+      className={classNames({
         [locals.label]: true,
         [wrapperClassName]: wrapperClassName
       })}
@@ -88,12 +88,12 @@ function Input({
       checked={checked}
       onChange={onChange}
       disabled={disabled}
-      className={joinClassNames(
+      className={classNames(
         locals.control,
         asRadioButton ? locals.radiobutton : locals.checkbox,
         sizes[size].className,
         className,
-        evaluateClassNames({
+        classNames({
           [locals.withControlsGrayscale]: withControlsGrayscale
         })
       )}

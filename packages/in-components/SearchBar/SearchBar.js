@@ -7,7 +7,7 @@ import FilterPresets from 'in-components/SearchBar/components/FilterPresets';
 import SaveDialog from 'in-components/SearchBar/components/SaveDialog';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { setValues } from 'in-components/SearchBar/stores/dialog';
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import { refresh } from 'in-components/SearchBar/stores/filters';
 import Input from 'in-components/SearchBar/Input';
 import { showHelp } from 'in-stores/navigation';
@@ -32,7 +32,7 @@ export default connectTo(
       const { style, theme = 'dark', showFilters = true, query, presetsVisible } = this.props;
       const hasContent = query.length > 0;
 
-      const buttonClass = evaluateClassNames({
+      const buttonClass = classNames({
         [locals.button]: true,
         [locals[`button${theme}`]]: theme
       });
@@ -40,7 +40,7 @@ export default connectTo(
       return (
         <div
           style={style}
-          className={evaluateClassNames({
+          className={classNames({
             ['in-searchbar']: true,
             [`in-searchbar-${theme}`]: true,
             [locals.wrapper]: true,
@@ -50,7 +50,7 @@ export default connectTo(
           {presetsVisible ? <FilterPresets /> : null}
 
           <SvgIcon
-            className={evaluateClassNames({
+            className={classNames({
               [locals.helpIcon]: true,
               [locals[`helpIcon${theme}`]]: theme
             })}
@@ -60,7 +60,7 @@ export default connectTo(
           />
 
           <div
-            className={evaluateClassNames({
+            className={classNames({
               [locals.inputWrapper]: true,
               [locals[`inputWrapper${theme}`]]: theme
             })}
@@ -86,7 +86,7 @@ export default connectTo(
             <div className={buttonClass} onClick={togglePresets}>
               Filters
               <SvgIcon
-                className={evaluateClassNames({
+                className={classNames({
                   [locals.icon]: true,
                   [locals[`icon${theme}`]]: theme
                 })}

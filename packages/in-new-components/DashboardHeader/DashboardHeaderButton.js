@@ -1,7 +1,7 @@
 import React, { forwardRef } from 'react';
 
 import DropdownButton from 'in-new-components/Button/DropdownButton';
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import Button from 'in-new-components/Button/Button';
 
 import locals from './DashboardHeaderButton.mless';
@@ -15,7 +15,7 @@ export default forwardRef(function DashboardHeaderButton(props, ref) {
       {...props}
       kind={darkTheme ? 'info' : 'secondary'}
       size={size}
-      className={evaluateClassNames({
+      className={classNames({
         [locals.light]: !darkTheme,
         [locals.dark]: darkTheme,
         [className]: className

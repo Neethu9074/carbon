@@ -42,7 +42,7 @@ import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrappe
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import TouchedMessages from 'in-components/form/TouchedMessages';
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import Notification from 'in-components/form/Notification';
 import SaveCancel from 'in-settings/components/SaveCancel';
 import { pendingResult } from 'in-services/fixedObjects';
@@ -417,7 +417,7 @@ const deleteItemColumn = {
         <Tooltip content="Delete Row">
           <SvgIcon
             type="lib_actions_delete"
-            className={evaluateClassNames({
+            className={classNames({
               [locals.delete]: true,
               [locals.disabled]: !enabled
             })}

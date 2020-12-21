@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import theme from 'in-themes';
 
 import locals from './Row.mless';
@@ -39,7 +39,7 @@ export default function TopListRow(props) {
           <div className={locals.hairLine} style={{ marginLeft: positionPercent, background: barColor }}>
             {wrapContributedItem(
               <div
-                className={evaluateClassNames({
+                className={classNames({
                   [locals.contributedContentLeftAligned]: percent <= 0.5,
                   [locals.contributedContentRightAligned]: percent > 0.5
                 })}

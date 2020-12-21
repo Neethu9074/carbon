@@ -1,19 +1,19 @@
 import React from 'react';
 
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import Skeleton from 'in-new-components/Loading/Skeleton';
 import { Row, Col } from 'in-new-components/layout/Grid';
 
 import locals from './DefaultLoadingDashboard.mless';
 
 export default function DefaultLoadingDashboard({ lightMode }) {
-  const kpiClassName = evaluateClassNames({
+  const kpiClassName = classNames({
     [locals.skeletonKpi]: true,
     [locals.lightMode]: lightMode
   });
 
-  const chartClassName = evaluateClassNames({
+  const chartClassName = classNames({
     [locals.skeletonChart]: true,
     [locals.lightMode]: lightMode
   });

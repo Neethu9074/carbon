@@ -2,7 +2,7 @@ import React from 'react';
 
 import ComboBoxBehavior from 'in-components/form/ComboBox/ComboBoxBehavior';
 import DropdownButton from 'in-new-components/Button/DropdownButton';
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import { formatDateTime } from 'in-services/formatters/date';
 
 import locals from './RevisionDropdown.mless';
@@ -39,7 +39,7 @@ function renderItemContent(item, i, alertConfig, alertConfigVersions) {
   return (
     <>
       <span
-        className={evaluateClassNames({
+        className={classNames({
           [locals.selectedItem]: item.created === alertConfig.created
         })}
       >

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { evaluateClassNames } from 'in-services/util/classnames';
+import classNames from 'classnames';
 import { Th } from 'in-components/tables/sharedComponents/Table';
 import SvgIcon from 'in-components/SvgIcon';
 
@@ -20,7 +20,7 @@ export default function SortableTh({
 }) {
   return (
     <Th
-      className={evaluateClassNames({
+      className={classNames({
         [className]: className,
         [locals.rightAligned]: rightAligned
       })}
@@ -31,7 +31,7 @@ export default function SortableTh({
     >
       <a
         href=""
-        className={evaluateClassNames({
+        className={classNames({
           [locals.column]: true,
           [locals.rightAlignedLink]: rightAligned,
           [locals.activeColumn]: isSortedByThisColumn
