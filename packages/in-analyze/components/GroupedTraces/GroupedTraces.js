@@ -3,8 +3,8 @@ import theme from 'in-themes';
 import React from 'react';
 
 import { serializeMetrics, deserializeMetrics, metrics as metricsMatrixParameter } from 'in-websites/navigation/matrix';
+import { NO_VALUE, NO_VALUE_LABEL, UNSPECIFIED, UNSPECIFIED_LABEL } from 'in-analyze/components/GroupedTraces/Group';
 import ApplicationGroupMetricsChart from 'in-analyze/components/MetricsChart/ApplicationGroupMetricsChart';
-import { NO_VALUE, NO_VALUE_LABEL, UNSPECIFIED } from 'in-analyze/components/GroupedTraces/Group';
 import TraceGroupsTable from 'in-analyze/components/GroupedTraces/TraceGroupsTable';
 import { availableMetrics, defaultMetrics } from 'in-applications/analyze/metrics';
 import GroupingTableHeader from 'in-analyze/components/GroupingTableHeader';
@@ -175,7 +175,7 @@ function getGroupNameProcessor(itemName) {
   if (itemName === NO_VALUE) {
     return NO_VALUE_LABEL;
   } else if (itemName === UNSPECIFIED) {
-    return 'No tag present';
+    return UNSPECIFIED_LABEL;
   } else {
     return itemName;
   }

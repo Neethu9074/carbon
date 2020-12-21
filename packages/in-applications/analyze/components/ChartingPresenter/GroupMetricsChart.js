@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { just } from '@instana/observables';
 
 import { chartMetricKey, getMetricAndAggregationFromMetricKey } from 'in-applications/analyze/metrics';
-import { NO_VALUE, NO_VALUE_LABEL, UNSPECIFIED } from 'in-analyze/components/GroupedTraces/Group';
 import { getChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
+import { groupLabel } from 'in-applications/analyze/components/GroupedList';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
 import Chart from 'in-components/Chart/ChartReactComponent';
@@ -98,7 +98,7 @@ export default function GroupMetricsChart({
   }
 
   const groups = groupsResult?.items.slice(0, nbGroups);
-  const groupNames = groups.map(group => groupLabel(group.name, dataSource));
+  const groupNames = groups.map(({ name }) => groupLabel(name));
 
   // update the cache with the metric values
   if (!cachedMetrics[metricKey]) {
@@ -128,18 +128,6 @@ export default function GroupMetricsChart({
       restrictTooltipItemsTo={5}
     />
   );
-}
-
-function groupLabel(itemName, dataSource) {
-  if (dataSource === 'calls') {
-    if (itemName === NO_VALUE) {
-      return NO_VALUE_LABEL;
-    }
-    if (itemName === UNSPECIFIED) {
-      return 'No tag present';
-    }
-  }
-  return itemName;
 }
 
 function getMetricsFromGroupsResult(result, nbGroups, metricKey) {

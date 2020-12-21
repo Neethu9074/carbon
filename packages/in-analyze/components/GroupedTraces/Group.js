@@ -20,8 +20,9 @@ import Link from 'in-components/Link';
 import locals from './Group.mless';
 
 export const NO_VALUE = 'no_value';
-export const NO_VALUE_LABEL = 'Tag has no value';
+export const NO_VALUE_LABEL = 'Tag present with no value';
 export const UNSPECIFIED = 'Unspecified';
+export const UNSPECIFIED_LABEL = 'Tag not present';
 
 export default connectTo(
   {

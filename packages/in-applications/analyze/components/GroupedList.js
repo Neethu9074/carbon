@@ -4,6 +4,7 @@ import { empty } from '@instana/observables';
 import { getGroupingTagCatalog as getTraceGroupingTagCatalog } from 'in-applications/analyze/components/workspace/TraceGroupingConfigurator';
 import { getGroupingTagCatalog as getCallGroupingTagCatalog } from 'in-applications/analyze/components/workspace/CallGroupingConfigurator';
 import MetricAndSortingConfigurator from 'in-new-components/MetricAndSortingConfigurator/MetricAndSortingConfigurator';
+import { UNSPECIFIED, NO_VALUE, UNSPECIFIED_LABEL, NO_VALUE_LABEL } from 'in-analyze/components/GroupedTraces/Group';
 import { ColumnizedContent, Ul, Li, LoadingSkeletonLi, HorizontalIndicatorLi } from 'in-new-components/lists/List';
 import { EQUALS, IS_EMPTY, NOT_EMPTY, IS_BLANK } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import { aggregateMetricKey, sparkChartMetricKey, chartMetricKey } from 'in-applications/analyze/metrics';
@@ -14,7 +15,6 @@ import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/f
 import { emptyArray, emptyObject, indeterminateProgress } from 'in-services/fixedObjects';
 import { getChartGranularity, getSparkChartGranularity } from 'in-applications/metrics';
 import { NUMBER, KEY_VALUE_PAIR } from 'in-new-components/QueryBuilder/tagFilter/types';
-import { UNSPECIFIED, NO_VALUE } from 'in-analyze/components/GroupedTraces/Group';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import LoadMoreLi from 'in-new-components/lists/List/LoadMoreLi/LoadMoreLi';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
@@ -319,12 +319,7 @@ function labelColumns({ groupBy, showChartGroupMarkers, groupColors }) {
     shrink: false,
     getContent({ group }) {
       const label = groupbyTagSecondLevelKey ? `${groupbyTag} > ${groupbyTagSecondLevelKey}` : groupbyTag;
-      const groupName = group.name === UNSPECIFIED ? 'Not grouped/Unspecified' : group.name;
-      const groupNameWithTooltip = (
-        <Tooltip content={groupName} align="bottomLeft">
-          <div>{groupName}</div>
-        </Tooltip>
-      );
+      const groupNameWithTooltip = <GroupLabelTooltip groupName={group.name} />;
       return <KeyValue label={label} customValue={groupNameWithTooltip} accentuated />;
     }
   });
@@ -547,3 +542,28 @@ const convertMetricListToMetricObject = (metrics, sparkChartGranularity, chartGr
     }),
     {}
   );
+
+function GroupLabelTooltip({ groupName }) {
+  const label = groupLabel(groupName);
+  return (
+    <Tooltip content={label} align="bottomLeft">
+      <div
+        className={evaluateClassNames({
+          [locals.italic]: groupName === UNSPECIFIED || groupName === NO_VALUE
+        })}
+      >
+        {label}
+      </div>
+    </Tooltip>
+  );
+}
+
+export function groupLabel(groupName) {
+  if (groupName === UNSPECIFIED) {
+    return UNSPECIFIED_LABEL;
+  }
+  if (groupName === NO_VALUE) {
+    return NO_VALUE_LABEL;
+  }
+  return groupName;
+}

@@ -6,6 +6,7 @@ import { getTagCatalog } from 'in-applications/analyze/components/workspace/Call
 import { type as TAG_FILTER } from 'in-new-components/QueryBuilder/transformation/tagFilter';
 import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
 import { getLinkToAnalyze, getDirectLinkToUA2 } from 'in-analyze/navigation/paths';
+import { NO_VALUE } from 'in-analyze/components/GroupedTraces/Group';
 import { extendWindowSizeOnLiveMode } from 'in-applications/metrics';
 import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
 import useTagCatalog from 'in-applications/hooks/useTagCatalog';
@@ -141,13 +142,7 @@ export default function ListWidget({ config, title, actions, dragHandle }) {
         return (
           config.metricConfiguration.grouping && (
             <Link href$={link} onClick={close}>
-              {item.label === 'other_group' ? (
-                <Tooltip content="Aggregation of other groups" align="rightMiddle">
-                  <div className={locals.italic}>Other</div>
-                </Tooltip>
-              ) : (
-                item.label
-              )}
+              <LinkContent item={item} groupBy={groupBy} />
             </Link>
           )
         );
@@ -178,4 +173,23 @@ function useResultData(config, timeConfig) {
   };
 
   return useObservable(() => getUnifiedMetrics({ metrics }), [timeConfig, config]);
+}
+
+function LinkContent({ item, groupBy }) {
+  if (item.label === 'other_group') {
+    return (
+      <Tooltip content="Aggregation of other groups" align="rightMiddle">
+        <div className={locals.italic}>Other</div>
+      </Tooltip>
+    );
+  }
+
+  if (item.label === NO_VALUE) {
+    const label = groupBy.groupbyTagSecondLevelKey
+      ? `${groupBy.groupbyTag} > ${groupBy.groupbyTagSecondLevelKey}`
+      : groupBy.groupbyTag;
+    return `Tag '${label}' present with no value`;
+  }
+
+  return item.label;
 }
