@@ -5,7 +5,7 @@ import { onChangeSource } from 'in-custom-dashboards/widgets/_shared/MetricConfi
 import TimeShiftingForm from 'in-custom-dashboards/widgets/BigNumber/TimeShiftingForm';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { formatters } from 'in-stores/metric/formatters';
-import Header from 'in-components/form/Header/Header';
+import Header from 'in-new-components/workspace/Header';
 import FormGroup from 'in-components/form/FormGroup';
 import Select from 'in-components/form/Select';
 import Label from 'in-components/form/Label';

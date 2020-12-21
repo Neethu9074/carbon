@@ -7,7 +7,7 @@ import { isNotBlank, compareIgnoreCase } from 'in-services/util/string';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { aggregationLabels } from 'in-stores/metric/metric';
 import { Row, Col } from 'in-new-components/layout/Grid';
-import Header from 'in-components/form/Header/Header';
+import Header from 'in-new-components/workspace/Header';
 import FormGroup from 'in-components/form/FormGroup';
 import { dataSourceTitles } from 'in-mobile-apps/tags';
 import Select from 'in-components/form/Select';

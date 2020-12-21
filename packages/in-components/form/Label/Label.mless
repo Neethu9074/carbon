@@ -1,0 +1,19 @@
+@import '~in-themes/active.less';
+
+:local {
+  .label {
+    color: @lib__colors__N700Medium;
+
+    &[disabled] {
+      color: rgab(63757d,0.48);
+    }
+  }
+
+  .withMargin {
+    margin-bottom: 0.5rem;
+  }
+
+  .hasError {
+    color: @lib__colors__failure;
+  }
+}

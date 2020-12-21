@@ -1,9 +1,12 @@
+import React, { Fragment } from 'react';
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import React from 'react';
 
 import FormFooter, { SaveButton, CancelButton } from 'in-components/form/FormFooter/FormFooter';
 import ScrollStep from 'in-new-components/Alerting/advanced/ScrollStep';
-import classNames from 'classnames';
+import Divider from 'in-new-components/workspace/Divider';
+import Header from 'in-new-components/workspace/Header';
+import Stack from 'in-new-components/layout/Stack';
 import SideNav from 'in-new-components/SideNav';
 import SvgIcon from 'in-components/SvgIcon';
 
@@ -14,13 +17,19 @@ export default function AdvancedModeContainer({ form, onClose, onCreate, editMod
     <nav className={locals.container}>
       <div className={locals.scrollWrapper}>
         <div className={locals.content}>
-          {navItems.map(({ scrollId, label, title, content }) => (
-            <ScrollStep key={label} id={scrollId}>
-              <h2 className={locals.title}>{title}</h2>
-              {content}
-              <div className={locals.divider} />
-            </ScrollStep>
-          ))}
+          <Stack space="large">
+            {navItems.map(({ scrollId, title, content }, i) => (
+              <Fragment key={scrollId}>
+                <ScrollStep id={scrollId}>
+                  <Stack space="normal">
+                    <Header>{title}</Header>
+                    {content}
+                  </Stack>
+                </ScrollStep>
+                {i + 1 < navItems.length && <Divider />}
+              </Fragment>
+            ))}
+          </Stack>
         </div>
       </div>
       <div className={locals.sideNav}>

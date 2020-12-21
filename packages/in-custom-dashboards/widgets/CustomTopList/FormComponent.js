@@ -10,7 +10,7 @@ import { source as sli } from 'in-custom-dashboards/widgets/_shared/MetricConfig
 import { onChangeSource } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/form';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { formatters } from 'in-stores/metric/formatters';
-import Header from 'in-components/form/Header/Header';
+import Header from 'in-new-components/workspace/Header';
 import FormGroup from 'in-components/form/FormGroup';
 import Select from 'in-components/form/Select';
 import Label from 'in-components/form/Label';

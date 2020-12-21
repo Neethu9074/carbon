@@ -1,11 +1,6 @@
 @import '~in-themes/active.less';
 
 :local {
-  section:not(:only-of-type):not(:last-of-type) {
-    margin-bottom: 1rem;
-    padding-bottom: 1rem;
-  }
-
   .sectionTitle {
     font-size: 0.75rem;
     margin-bottom: 1rem;

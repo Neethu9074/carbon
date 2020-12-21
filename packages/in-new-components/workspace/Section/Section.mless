@@ -1,3 +1,5 @@
+@import '~in-themes/active.less';
+
 :local {
   .section {
     display: flex;
@@ -16,6 +18,10 @@
     align-items: center;
     width: 8rem;
     white-space: nowrap;
+  }
+
+  .hasError {
+    color: @lib__colors__failure;
   }
 
   .titleText {

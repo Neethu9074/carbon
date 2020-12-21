@@ -1,0 +1,12 @@
+@import '~in-themes/active.less';
+
+:local {
+  .divider {
+    width: 16.875rem;
+    height: 0.25rem;
+    margin: 0 auto;
+    background-color: @lib__colors__N200;
+    border-radius: @lib__shapes__radius_small;
+    border: 0;
+  }
+}

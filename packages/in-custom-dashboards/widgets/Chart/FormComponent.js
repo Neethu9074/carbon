@@ -8,7 +8,7 @@ import TouchedMessages from 'in-components/form/TouchedMessages';
 import { barOverlapping } from 'in-stores/metric/renderer';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import { formatters } from 'in-stores/metric/formatters';
-import Header from 'in-components/form/Header/Header';
+import Header from 'in-new-components/workspace/Header';
 import FormGroup from 'in-components/form/FormGroup';
 import Stack from 'in-new-components/layout/Stack';
 import Select from 'in-components/form/Select';
@@ -69,13 +69,14 @@ function AxisFormComponent({ axisName, form, onChange }) {
                 }
                 hasError={!field.valid && field.touched}
               >
-                {
-                  // hide the bar overlapping chart type, which is not very intuitive to understand
-                  availableRenderers.filter(r => r.id !== barOverlapping.id).map(({ id, label }) => (
-                  <option key={id} value={id}>
-                    {label}
-                  </option>
-                ))}
+                {// hide the bar overlapping chart type, which is not very intuitive to understand
+                availableRenderers
+                  .filter(r => r.id !== barOverlapping.id)
+                  .map(({ id, label }) => (
+                    <option key={id} value={id}>
+                      {label}
+                    </option>
+                  ))}
               </Select>
               <TouchedMessages field={field} />
             </FormGroup>

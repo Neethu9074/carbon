@@ -10,7 +10,7 @@ import TouchedMessages from 'in-components/form/TouchedMessages';
 import { Col, Row } from 'in-new-components/layout/Grid';
 import KeyValue from 'in-new-components/lists/KeyValue';
 import FormGroup from 'in-components/form/FormGroup';
-import Header from 'in-components/form/Header';
+import Header from 'in-new-components/workspace/Header';
 
 import locals from 'in-custom-dashboards/widgets/Slo/sli/SliForm.mless';
 

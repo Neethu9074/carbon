@@ -132,7 +132,7 @@ function InfraExploreViewWithFixatedTimeConfig() {
 
       <Title title="Explore" />
       <LeftRightPadding className={locals.stack}>
-        <Stack>
+        <Stack space="gutter">
           <Message type={warning} withIcon small>
             This is a beta version of a new product capability. We advise you not to rely on the data presented.
           </Message>

@@ -2,7 +2,7 @@ import React from 'react';
 
 import StackItem from 'in-new-components/layout/Stack/StackItem';
 import TouchedMessages from 'in-components/form/TouchedMessages';
-import Header from 'in-components/form/Header/Header';
+import Header from 'in-new-components/workspace/Header';
 import FormGroup from 'in-components/form/FormGroup';
 import Stack from 'in-new-components/layout/Stack';
 import HelpText from 'in-components/form/HelpText';

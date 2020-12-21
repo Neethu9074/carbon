@@ -33,7 +33,7 @@ export default function LoggingQueryBuilderWorkspace({
   return (
     <Sticky header={<AnalyzeHeader isGrouped={isGrouped} />}>
       <LeftRightPadding>
-        <Stack>
+        <Stack space="gutter">
           <Message type={warning} withIcon small>
             This is an alpha version of a new product capability. We advise you not to rely on the data presented.
           </Message>

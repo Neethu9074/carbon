@@ -6,6 +6,7 @@ import InputInSection from 'in-components/form/Input/InputInSection';
 import Sections from 'in-new-components/workspace/Sections';
 import Section from 'in-new-components/workspace/Section';
 import Button from 'in-new-components/Button';
+import SvgIcon from 'in-components/SvgIcon';
 
 <Meta title="Molecules|workspace/Section" />
 
@@ -27,7 +28,10 @@ sections that are user-configurable.
       )}>
         Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ex corrupti nemo modi optio nulla, numquam cupiditate, laborum unde ullam culpa facere neque alias! Odit voluptate quae nemo facilis. Dolorem, unde! Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ex corrupti nemo modi optio nulla, numquam cupiditate, laborum unde ullam culpa facere neque alias! Odit voluptate quae nemo facilis. Dolorem, unde! Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ex corrupti nemo modi optio nulla, numquam cupiditate, laborum unde ullam culpa facere neque alias! Odit voluptate quae nemo facilis. Dolorem, unde! Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ex corrupti nemo modi optio nulla, numquam cupiditate, laborum unde ullam culpa facere neque alias! Odit voluptate quae nemo facilis. Dolorem, unde!
       </Section>
-      <InputInSection id="name" label="Name" value="foobar" />
+      <InputInSection id="name" label="Name" value="foobar" actions={(
+        <SvgIcon type="lib_help_error_help_outline" />
+      )} />
+      <InputInSection id="broken" label="No Good Field" value="Come on man…" hasError />
       <ActionSection left={
         <>
           <Action icon="lib_help_error_help_outline">Add grouping</Action>

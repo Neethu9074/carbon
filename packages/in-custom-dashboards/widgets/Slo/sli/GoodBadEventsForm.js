@@ -10,7 +10,7 @@ import TouchedMessages from 'in-components/form/TouchedMessages';
 import StackItem from 'in-new-components/layout/Stack/StackItem';
 import FormBound from 'in-components/form/binding/FormBound';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import Header from 'in-components/form/Header';
+import Header from 'in-new-components/workspace/Header';
 
 import locals from 'in-custom-dashboards/widgets/Slo/sli/GoodBadEventsForm.mless';
 

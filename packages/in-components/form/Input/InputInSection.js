@@ -1,19 +1,26 @@
 import React, { forwardRef } from 'react';
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
 import Section from 'in-new-components/workspace/Section';
 import Input from 'in-components/form/Input/Input';
 
+import locals from './InputInSection.mless';
+
 export const kinds = ['section', 'vertical', 'plain'];
 
 export default forwardRef(InputInSection);
 
-function InputInSection({ label, additionalContent, ...inputProps }, ref) {
-  const { id } = inputProps;
+function InputInSection({ label, additionalContent, actions, ...inputProps }, ref) {
+  const { id, hasError } = inputProps;
+
+  if (actions) {
+    actions = <div className={locals.actions}>{actions}</div>;
+  }
 
   return (
-    <Section title={<label htmlFor={id}>{label}</label>}>
-      <Input {...inputProps} ref={ref} />
+    <Section titleHtmlFor={id} title={label} hasError={hasError} actions={actions}>
+      <Input {...inputProps} className={classNames(inputProps.className, locals.input)} ref={ref} />
       {additionalContent}
     </Section>
   );
@@ -22,5 +29,6 @@ function InputInSection({ label, additionalContent, ...inputProps }, ref) {
 InputInSection.propTypes = {
   ...Input.propTypes,
   label: PropTypes.string.isRequired,
-  additionalContent: PropTypes.node
+  additionalContent: PropTypes.node,
+  actions: Section.propTypes.actions
 };

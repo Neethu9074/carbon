@@ -16,7 +16,7 @@ import { Row, Col } from 'in-new-components/layout/Grid';
 import KeyValue from 'in-new-components/lists/KeyValue';
 import FormGroup from 'in-components/form/FormGroup';
 import Stack from 'in-new-components/layout/Stack';
-import Header from 'in-components/form/Header';
+import Header from 'in-new-components/workspace/Header';
 import Input from 'in-components/form/Input';
 import SvgIcon from 'in-components/SvgIcon';
 import Link from 'in-components/Link';

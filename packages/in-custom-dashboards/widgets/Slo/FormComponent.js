@@ -29,7 +29,7 @@ import StackItem from 'in-new-components/layout/Stack/StackItem';
 import classNames from 'classnames';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import KeyValue from 'in-new-components/lists/KeyValue';
-import Header from 'in-components/form/Header/Header';
+import Header from 'in-new-components/workspace/Header';
 import FormGroup from 'in-components/form/FormGroup';
 import DateInput from 'in-components/form/DateInput';
 import HelpText from 'in-components/form/HelpText';

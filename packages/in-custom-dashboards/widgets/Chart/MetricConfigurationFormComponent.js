@@ -6,7 +6,7 @@ import { onChangeSource } from 'in-custom-dashboards/widgets/_shared/MetricConfi
 import TimeShiftingForm from 'in-custom-dashboards/widgets/Chart/TimeShiftingForm';
 import LocallyChangedTheme from 'in-themes/LocallyChangedTheme';
 import ExpandableCard from 'in-new-components/ExpandableCard';
-import Header from 'in-components/form/Header/Header';
+import Header from 'in-new-components/workspace/Header';
 import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
 import { light } from 'in-themes/themes';

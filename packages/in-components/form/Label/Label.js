@@ -1,20 +1,23 @@
-import { assign } from 'lodash';
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import classNames from 'classnames';
 
-import './Label.less';
+import locals from './Label.mless';
 
-const block = 'in-label';
-
-export default function FormLabel(props) {
-  const labelProps = assign({}, props);
-  labelProps.className = classNames({
-    [block]: true,
-    [`${block}--has-error`]: props.hasError,
-    [props.className]: props.className
-  });
-  delete labelProps.hasError;
-
-  return <label {...labelProps} />;
+export default function Label({ hasError, className, ...labelProps }) {
+  return (
+    <label
+      className={classNames(locals.label, className, {
+        [locals.hasError]: hasError
+      })}
+      {...labelProps}
+    />
+  );
 }
+
+Label.propTypes = {
+  className: PropTypes.string,
+  hasError: PropTypes.bool,
+  withoutMargin: PropTypes.bool
+};

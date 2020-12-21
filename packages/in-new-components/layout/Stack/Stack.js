@@ -7,20 +7,31 @@ import locals from './Stack.mless';
 
 const components = ['div', 'ul', 'ol'];
 const alignments = ['left', 'center', 'right'];
-export const spaces = ['disabled', 'xxsmall', 'xsmall', 'small', 'gutter', 'medium', 'large', 'xlarge', 'xxlarge'];
+// See in-new-components/layout/Stack/spacings.less for mappings to PX/REM
+export const spaces = [
+  'disabled',
+  'xxsmall',
+  'xsmall',
+  'small',
+  'normal',
+  'medium',
+  'large',
+  'xlarge',
+  'xxlarge',
+  'gutter'
+];
 
 // An implementation of https://seek-oss.github.io/braid-design-system/components/Stack/
-export default function Stack({ component: Component = 'div', space = 'gutter', align = null, children }) {
-  return React.createElement(
-    Component,
-    {
-      className: classNames({
-        [locals.stack]: true,
+export default function Stack({ component: Component = 'div', space = 'normal', align = null, children }) {
+  return (
+    <Component
+      className={classNames(locals.stack, {
         [locals[`spacing-${space}`]]: true,
         [locals[`alignment-${align}`]]: align
-      })
-    },
-    children
+      })}
+    >
+      {children}
+    </Component>
   );
 }
 

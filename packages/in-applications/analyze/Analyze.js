@@ -246,7 +246,7 @@ function ApplicationAnalyzeViewWithFixatedTimeConfig() {
   return (
     <Sticky header={<AnalyzeHeader isGrouped={isGrouped} />}>
       <LeftRightPadding>
-        <Stack>
+        <Stack space="gutter">
           <Sections>
             <QueryBuilderSection
               value={tagFilterExpression}
