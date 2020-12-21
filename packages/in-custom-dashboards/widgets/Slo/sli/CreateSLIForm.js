@@ -1,5 +1,5 @@
-import { just } from 'reactive-observables';
 import React, { useState } from 'react';
+import { just } from '@instana/observables';
 
 import { resetFormForSliType, createForm, sliFieldNames } from 'in-custom-dashboards/widgets/Slo/sli/sliForm';
 import { switchQB1orQB2Helper, isQB2ModeEnabled } from 'in-new-components/Alerting/components/WithQB1orQB2';
