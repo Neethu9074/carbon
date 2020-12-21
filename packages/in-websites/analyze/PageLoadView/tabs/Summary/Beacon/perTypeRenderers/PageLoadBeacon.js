@@ -124,8 +124,8 @@ export const Body = ({ beacon }) => {
         )}
       </Row>
 
-      {webVitals.length > 0 &&
-        hasNavigationTimings && (
+      {webVitals.length > 0 ||
+        (hasNavigationTimings && (
           <Row>
             {hasNavigationTimings && (
               <Col lg={6}>
@@ -141,7 +141,7 @@ export const Body = ({ beacon }) => {
               </Col>
             )}
           </Row>
-        )}
+        ))}
     </Fragment>
   );
 };
