@@ -47,7 +47,7 @@ function SliList(props) {
       orderDirection="ASC"
       cardTitle="Service Level Indicators"
       {...props}
-      onRowClick={props.selectSli}
+      onRowClick={role.canConfigureServiceLevelIndicators ? props.selectSli : undefined}
       numSkeletonRows={3}
       isSearchable
       columnDefinitions={columnDefinitions}

@@ -101,12 +101,14 @@ function addGoodBadEventsForm(form, sliEntity) {
     .put(
       sliFieldNames.goodEventFilterExpression,
       createField({
+        validator: isQB2ModeEnabled ? noEmptyFilterExpressionValidator : undefined,
         value: fromBackendModel(sliEntity?.goodEventFilterExpression)
       })
     )
     .put(
       sliFieldNames.badEventFilterExpression,
       createField({
+        validator: isQB2ModeEnabled ? noEmptyFilterExpressionValidator : undefined,
         value: fromBackendModel(sliEntity?.badEventFilterExpression)
       })
     )
@@ -184,6 +186,16 @@ const noEmptyFilterListValidator = filterArray => {
     {
       severity: 'error',
       message: 'At least one filter condition must be configured.'
+    }
+  ];
+};
+
+const noEmptyFilterExpressionValidator = model => {
+  if (model?.find(element => element.type === 'TAG_FILTER')) return null;
+  return [
+    {
+      severity: 'error',
+      message: 'At least one filter expression must be configured.'
     }
   ];
 };

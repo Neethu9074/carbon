@@ -1,23 +1,29 @@
+import { just } from 'reactive-observables';
 import React, { useState } from 'react';
 
 import { resetFormForSliType, createForm, sliFieldNames } from 'in-custom-dashboards/widgets/Slo/sli/sliForm';
+import { switchQB1orQB2Helper, isQB2ModeEnabled } from 'in-new-components/Alerting/components/WithQB1orQB2';
 import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
-import { switchQB1orQB2Helper } from 'in-new-components/Alerting/components/WithQB1orQB2';
+import { isSliEventsQueryValid } from 'in-custom-dashboards/widgets/Slo/sli/SliEventsQueryBuilder';
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
 import { SliForm } from 'in-custom-dashboards/widgets/Slo/sli/SliFormPresenter';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { createSliConfiguration } from 'in-custom-dashboards/api';
 import { generateUniqueShortId } from 'in-services/util/id';
+import { pendingResult } from 'in-services/fixedObjects';
 import Section from 'in-settings/components/Section';
 import Form from 'in-components/form/binding/Form';
+import useObservable from 'in-hooks/useObservable';
+import useTimeConfig from 'in-hooks/useTimeConfig';
+import { success } from 'in-services/util/result';
 import Message from 'in-new-components/Message';
 import Button from 'in-new-components/Button';
 
 import locals from 'in-custom-dashboards/widgets/Slo/sli/CreateSLIForm.mless';
 
 export default function CreateNewSLIForm({ apName, applicationId, apDefaultBoundaryScope, close, sliConfig }) {
+  const timeConfig = useTimeConfig();
   const [form, setForm] = useState(createForm(sliConfig ?? {}, applicationId, apDefaultBoundaryScope));
-
   const [state, setState] = useState({
     success: false,
     saving: false,
@@ -103,6 +109,26 @@ export default function CreateNewSLIForm({ apName, applicationId, apDefaultBound
   const savingStateName = sliConfig?.id ? 'Cloning…' : 'Creating…';
   const saveButtonLabel = sliConfig?.id ? 'Clone' : 'Create';
 
+  const goodEventsField = form.get('sliEntity')?.get(sliFieldNames.goodEventFilterExpression);
+  const badEventsField = form.get('sliEntity')?.get(sliFieldNames.badEventFilterExpression);
+  const goodEventsValidationResult =
+    useObservable(
+      args => {
+        if (isQB2ModeEnabled) return isSliEventsQueryValid(args);
+        return just(success(true));
+      },
+      [goodEventsField?.value, timeConfig, isQB2ModeEnabled]
+    ) ?? pendingResult;
+  const badEventsValidationResult =
+    useObservable(
+      args => {
+        if (isQB2ModeEnabled) return isSliEventsQueryValid(args);
+        return just(success(true));
+      },
+      [badEventsField?.value, timeConfig, isQB2ModeEnabled]
+    ) ?? pendingResult; // results in undefined or true/false
+  const isValid = Boolean(goodEventsValidationResult?.data) && Boolean(badEventsValidationResult?.data);
+
   return (
     <Form form={form} setForm={setForm} onSubmit={onSubmit}>
       <SliForm form={form} onChange={onChange} onChangeType={onChangeType} apName={apName} />
@@ -126,7 +152,7 @@ export default function CreateNewSLIForm({ apName, applicationId, apDefaultBound
             className={locals.button}
             kind="create"
             type="submit"
-            disabled={(!form.hierarchyValid && form.touched) || saving}
+            disabled={(!form.hierarchyValid && form.touched) || saving || !isValid}
           >
             {saving ? savingStateName : saveButtonLabel}
           </Button>

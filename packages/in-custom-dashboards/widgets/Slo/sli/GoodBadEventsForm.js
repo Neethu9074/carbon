@@ -93,19 +93,23 @@ export default function GoodBadEvents({ applicationName, onChange, QueryBuilderC
                   )}
                 </>
               )}
-              onUsesQB2={() => (
-                <div className={locals.withBottomGap}>
-                  <TagFilterExpressionConfig
-                    form={sliEntityForm}
-                    updateForm={newForm => {
-                      setForm(form.updateIn(absolutePath, () => newForm));
-                    }}
-                    formFieldName={sliFieldNames.goodEventFilterExpression}
-                    QueryBuilderComponent={QueryBuilderComponent}
-                    applicationLabel={applicationName}
-                  />
-                </div>
-              )}
+              onUsesQB2={() => {
+                const field = sliEntityForm.get(sliFieldNames.goodEventFilterExpression);
+                return (
+                  <div className={locals.withBottomGap}>
+                    <TagFilterExpressionConfig
+                      form={sliEntityForm}
+                      formFieldName={sliFieldNames.goodEventFilterExpression}
+                      updateForm={newForm => {
+                        setForm(form.updateIn(absolutePath, () => newForm));
+                      }}
+                      QueryBuilderComponent={QueryBuilderComponent}
+                      applicationLabel={applicationName}
+                    />
+                    {field && <TouchedMessages field={field} className={locals.validationText} />}
+                  </div>
+                );
+              }}
             />
             <Header>Bad Events</Header>
             <WithQB1orQB2
