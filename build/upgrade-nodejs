@@ -32,11 +32,6 @@ rm -rf ~/.node-gyp
 # we also update the in-server
 rm -rf packages/in-server/node_modules
 
-# Force removal of npmrc. Our nexus is outdated and does not support
-# new Node package formats. Some developers may still have .npmrc files,
-# which is why we force remove it.
-rm -f .npmrc in-server/.npmrc
-
 # we moved the files and it can happen that this files lead to a broken link
 # force delete them therefore
 rm -f in-themes/active.less
@@ -61,7 +56,7 @@ yarn
 
 ACTUAL_NODE_VERSION=$(node --version)
 
-if [[ "v$NEW_NODE_VERSION" != "$ACTUAL_NODE_VERSION" ]]; then
+if [[ "$NEW_NODE_VERSION" != "$ACTUAL_NODE_VERSION" ]]; then
   echo
   echo "I have installed v$NEW_NODE_VERSION but running 'node --version' reports as $ACTUAL_NODE_VERSION. It is"
   echo "likely that you also have Node.js installed via other means"
