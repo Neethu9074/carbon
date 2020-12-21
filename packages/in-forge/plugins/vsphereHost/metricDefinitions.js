@@ -1,4 +1,5 @@
 import { bytes, millis, percentage, number } from 'in-services/formatters/number';
+import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 
 export default [
   {
@@ -84,6 +85,80 @@ export default [
   {
     metric: 'net.packetsTotal.summation.number',
     label: 'Total packets',
+    formatter: number.compact
+  },
+
+  // Datastore metrics
+  {
+    metric: getDynamicMetricMatch('datastore.datastoreReadIops.number.latest', null, 'Filesystem ID'),
+    label: 'IOPS Read',
+    min: 0,
+    category: ['Datastore'],
+    formatter: number.compact
+  },
+  {
+    metric: getDynamicMetricMatch('datastore.datastoreWriteIops.number.latest', null, 'Filesystem ID'),
+    label: 'IOPS Write',
+    min: 0,
+    category: ['Datastore'],
+    formatter: number.compact
+  },
+  {
+    metric: getDynamicMetricMatch('datastore.datastoreTotalIops.number.latest', null, 'Filesystem ID'),
+    label: 'IOPS Total',
+    min: 0,
+    category: ['Datastore'],
+    formatter: number.compact
+  },
+
+  {
+    metric: getDynamicMetricMatch('datastore.numberReadAveraged.number.average', null, 'Filesystem ID'),
+    label: 'Read/s',
+    min: 0,
+    category: ['Datastore'],
+    formatter: number.compact
+  },
+  {
+    metric: getDynamicMetricMatch('datastore.numberWriteAveraged.number.average', null, 'Filesystem ID'),
+    label: 'Write/s',
+    min: 0,
+    category: ['Datastore'],
+    formatter: number.compact
+  },
+  {
+    metric: getDynamicMetricMatch('datastore.datastoreReadBytes.number.latest', null, 'Filesystem ID'),
+    label: 'Byte Read/s',
+    min: 0,
+    category: ['Datastore'],
+    formatter: bytes.compact
+  },
+  {
+    metric: getDynamicMetricMatch('datastore.datastoreWriteBytes.number.latest', null, 'Filesystem ID'),
+    label: 'Byte Write/s',
+    min: 0,
+    category: ['Datastore'],
+    formatter: bytes.compact
+  },
+
+  {
+    metric: getDynamicMetricMatch('datastore.datastoreNormalReadLatency.number.latest', null, 'Filesystem ID'),
+    label: 'Latency Read',
+    min: 0,
+    category: ['Datastore'],
+    formatter: number.compact
+  },
+  {
+    metric: getDynamicMetricMatch('datastore.datastoreNormalWriteLatency.number.latest', null, 'Filesystem ID'),
+    label: 'Latency Write',
+    min: 0,
+    category: ['Datastore'],
+    formatter: number.compact
+  },
+  {
+    metric: getDynamicMetricMatch('datastore.datastoreNormalTotalLatency.number.latest', null, 'Filesystem ID'),
+    label: 'Latency Total',
+    min: 0,
+    category: ['Datastore'],
     formatter: number.compact
   }
 ];
