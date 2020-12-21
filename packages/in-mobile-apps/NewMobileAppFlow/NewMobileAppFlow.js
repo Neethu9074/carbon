@@ -1,5 +1,5 @@
 import { createField, notBlankValidator } from 'formalistic';
-import { interval } from 'reactive-observables';
+import { interval } from '@instana/observables';
 import { get } from 'lodash';
 import React from 'react';
 

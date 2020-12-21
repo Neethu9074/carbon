@@ -1,4 +1,4 @@
-import { just } from 'reactive-observables';
+import { just } from '@instana/observables';
 import React from 'react';
 
 import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';

@@ -2,7 +2,7 @@
 
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { create } from 'reactive-observables';
+import { create } from '@instana/observables';
 
 import { createStore, createTrackingStore, allStates } from './store';
 

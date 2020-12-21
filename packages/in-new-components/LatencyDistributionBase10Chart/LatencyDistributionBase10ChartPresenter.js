@@ -1,4 +1,4 @@
-import { create } from 'reactive-observables';
+import { create } from '@instana/observables';
 import React, { useState } from 'react';
 
 import PercentileMenu, {

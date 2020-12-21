@@ -1,6 +1,6 @@
 import { createField } from 'formalistic';
 import React, { useState } from 'react';
-import { createLogger } from 'instalog';
+import { createLogger } from '@instana/logger';
 import { uniqBy } from 'lodash';
 
 import {

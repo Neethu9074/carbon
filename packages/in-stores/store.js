@@ -1,38 +1,11 @@
-// @flow
-import type { Observable } from 'reactive-observables/Observable';
-import Subject from 'reactive-observables/Subject';
-import { create } from 'reactive-observables';
+import { create } from '@instana/observables';
 import invariant from 'invariant';
-
-declare var __DEV__: any;
 
 // Keeps track of the current state of all created stores. Will
 // be used for debugging purposes in the future.
-export const allStates: { [key: string]: any } = {};
+export const allStates = {};
 
-export interface StoreSpec<T> {
-  name: string;
-  initialValue?: ?T;
-  isGlobal?: boolean;
-  reducers?: ?any;
-}
-
-export interface Store<T> {
-  observable: Observable<T>;
-  applyStateMutation: Function;
-  mutateTo: (?T) => void;
-}
-
-export interface TrackingStoreSpec<T> {
-  name: string;
-  observable: Observable<T>;
-}
-
-export interface TrackingStore<T> {
-  observable: Observable<T>;
-}
-
-export function createStore<T>(spec: StoreSpec<T>): Store<T> {
+export function createStore(spec) {
   spec.isGlobal = spec.isGlobal !== false;
 
   if (spec.initialValue === undefined) {
@@ -47,7 +20,7 @@ export function createStore<T>(spec: StoreSpec<T>): Store<T> {
   if (spec.isGlobal) {
     allStates[spec.name] = currentState;
   }
-  const observable: Subject<T> = create();
+  const observable = create();
   observable.emit(currentState);
 
   return {
@@ -83,14 +56,14 @@ export function createStore<T>(spec: StoreSpec<T>): Store<T> {
   }
 }
 
-export function createTrackingStore<T>(spec: TrackingStoreSpec<T>): TrackingStore<T> {
+export function createTrackingStore(spec) {
   invariant(!(spec.name in allStates), 'Store (' + spec.name + ') already exists');
   invariant(spec.observable != null, 'Observable must be provided');
 
   allStates[spec.name] = undefined;
 
   return {
-    observable: spec.observable.tap((v: ?T) => {
+    observable: spec.observable.tap(v => {
       allStates[spec.name] = v;
     })
   };
@@ -98,6 +71,6 @@ export function createTrackingStore<T>(spec: TrackingStoreSpec<T>): TrackingStor
 
 // only use this for testing purposes to clear the store registry. This
 // is required when using proxyquire with stores.
-export function resetStoreRegistry(): void {
+export function resetStoreRegistry() {
   Object.keys(allStates).forEach(key => delete allStates[key]);
 }

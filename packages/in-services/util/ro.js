@@ -1,4 +1,4 @@
-import { create } from 'reactive-observables';
+import { create } from '@instana/observables';
 
 export function dispose(subscription) {
   if (subscription) {

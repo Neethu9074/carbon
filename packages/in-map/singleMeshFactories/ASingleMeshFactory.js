@@ -1,4 +1,4 @@
-import RoEmitter from 'roemitter';
+import RoEmitter from '@instana/roemitter';
 
 import { addSceneObject, removeSceneObject } from 'in-map/stores/sceneStore';
 import { updateAttribute } from 'in-map/services/geometryAttributes';

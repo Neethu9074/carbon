@@ -1,4 +1,4 @@
-import { interval, range } from 'reactive-observables';
+import { interval, range } from '@instana/observables';
 import { connection } from 'in-connection';
 
 import synchronizeTime from 'in-subscription/timestamp';

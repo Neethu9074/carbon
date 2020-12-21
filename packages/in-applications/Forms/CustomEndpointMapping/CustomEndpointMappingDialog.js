@@ -1,5 +1,5 @@
 import { createField, createMapForm, createListForm } from 'formalistic';
-import { just } from 'reactive-observables';
+import { just } from '@instana/observables';
 import React, { useState } from 'react';
 import { get } from 'lodash';
 

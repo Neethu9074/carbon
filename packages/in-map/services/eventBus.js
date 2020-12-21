@@ -1,4 +1,4 @@
-import RoEmitter from 'roemitter';
+import RoEmitter from '@instana/roemitter';
 
 import { setShowSticky as showGroupLabelSticky } from 'in-map/stores/physical/groupsStore';
 import { setShowSticky as showNodesSticky } from 'in-map/stores/physical/nodesStore';

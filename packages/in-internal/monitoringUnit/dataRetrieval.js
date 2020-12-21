@@ -1,4 +1,4 @@
-import { combineLatest } from 'reactive-observables';
+import { combineLatest } from '@instana/observables';
 
 import { getSnapshots, getPhysicalHierarchy } from 'in-stores/snapshot';
 import { emptyArray } from 'in-services/fixedObjects';

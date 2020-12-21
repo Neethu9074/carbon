@@ -1,4 +1,4 @@
-import { combineLatest } from 'reactive-observables';
+import { combineLatest } from '@instana/observables';
 import React from 'react';
 
 import { zeroDecimalPlaces, ms, bytesZeroDecimalPlaces, bitReadableString } from 'in-services/formatters/number';

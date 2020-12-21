@@ -1,4 +1,4 @@
-import RoEmitter from 'roemitter';
+import RoEmitter from '@instana/roemitter';
 
 import RemainingNodesPlaceholder from 'in-applications/FlowMap/sceneObjects/RemainingNodesPlaceholder';
 import { getServiceLocators } from 'in-applications/FlowMap/serviceLocator/serviceLocator';

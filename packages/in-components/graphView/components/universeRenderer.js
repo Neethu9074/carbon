@@ -1,4 +1,4 @@
-import { create } from 'reactive-observables';
+import { create } from '@instana/observables';
 
 import BackgroundScene from 'in-components/graphView/components/BackgroundScene';
 import GraphScene from 'in-components/graphView/components/GraphScene';

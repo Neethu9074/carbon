@@ -1,4 +1,4 @@
-import { on } from 'reactive-observables';
+import { on } from '@instana/observables';
 import React from 'react';
 
 import { activeTooltip, TooltipShape } from 'in-services/stores/tooltip';

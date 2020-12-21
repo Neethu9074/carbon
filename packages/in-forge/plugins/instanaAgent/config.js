@@ -1,4 +1,4 @@
-import { createLogger } from 'instalog';
+import { createLogger } from '@instana/logger';
 
 import createAgentResponseObservable from 'in-subscription/agentResponse';
 

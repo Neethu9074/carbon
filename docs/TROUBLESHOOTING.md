@@ -20,16 +20,6 @@ Please do not use `--no-verify` or `-n` to commit. In a lot of cases, this will 
     1. Are you using a different Node.js version than the `ui-client` repo? Check the output of `node --version` versus the content of `ui-client/.nvmrc`. You can execute `nvm use` (in the `ui-client` directory) to switch to the correct version.
     1. Execute `yarn` in the `ui-client` directory, without any arguments. This helps when new dependencies have been added that have not been installed to your local `node_modules` folder. It is safe to do this even when your `node_modules` are up to date.
 
-## I am getting flow type checking errors even though everything should be fine?
-
-This can happen when switching between two branches with a lot of changes while the development server is running. To fix this, stop the development server and then execute the following:
-
-```
-yarn run cleanup-flow
-```
-
-If the problem is still not resolved, try running `yarn run test:flow`. Should this command still report type errors, then there probably are type errors. You should fix those 😏.
-
 ## Problem with pngquant on Ubuntu?
 
 In case you are using e.g. Ubuntu and installing `pngquant` is making troubles like `npm ERR! Failed at the pngquant-bin@4.0.0 postinstall script.`, try to do the following:

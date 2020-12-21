@@ -1,4 +1,4 @@
-import RoEmitter from 'roemitter';
+import RoEmitter from '@instana/roemitter';
 
 import { Vector3 } from 'in-map/3DLibProvider';
 

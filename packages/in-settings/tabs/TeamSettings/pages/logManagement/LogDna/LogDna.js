@@ -1,6 +1,6 @@
 import { createMapForm, createField } from 'formalistic';
 import React, { Fragment } from 'react';
-import { createLogger } from 'instalog';
+import { createLogger } from '@instana/logger';
 
 import LogDnaForm from 'in-settings/tabs/TeamSettings/pages/logManagement/LogDna/LogDnaForm';
 import { teamSettingsLogManagementLogDna } from 'in-settings/navigation/paths';

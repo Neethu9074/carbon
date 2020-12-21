@@ -1,10 +1,8 @@
-// @flow
-
-export function stopPropagation(e: Event) {
+export function stopPropagation(e) {
   e.stopPropagation();
 }
 
-export function stopPropagationAndPreventDefault(e: Event) {
+export function stopPropagationAndPreventDefault(e) {
   e.stopPropagation();
   e.preventDefault();
 }
@@ -13,10 +11,10 @@ export function noop() {
   // body...
 }
 
-export function createInverseComparator<T>(comp: Comparator<T>): Comparator<T> {
+export function createInverseComparator(comp) {
   return (a, b) => comp(a, b) * -1;
 }
 
-export function identity<T>(v: T): T {
+export function identity(v) {
   return v;
 }

@@ -1,4 +1,4 @@
-import { interval } from 'reactive-observables';
+import { interval } from '@instana/observables';
 import { groupBy, chunk } from 'lodash';
 import React from 'react';
 

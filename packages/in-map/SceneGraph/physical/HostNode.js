@@ -1,4 +1,4 @@
-import { combineLatest } from 'reactive-observables';
+import { combineLatest } from '@instana/observables';
 
 import LayerPlaceHolder from 'in-map/SceneGraph/physical/LayerPlaceholderNode';
 import HostMetricNode from 'in-map/SceneGraph/physical/HostMetricNode';

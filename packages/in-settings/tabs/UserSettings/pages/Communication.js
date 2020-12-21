@@ -1,4 +1,4 @@
-import { create } from 'reactive-observables';
+import { create } from '@instana/observables';
 import React from 'react';
 
 import termsFormDefinition, { addDynamicRoleField } from 'in-settings/terms/termsFormDefinition';

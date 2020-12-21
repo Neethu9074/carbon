@@ -1,8 +1,8 @@
 import { find, get, isEqual, reverse, sortBy } from 'lodash';
 import { compose, lifecycle, withState } from 'recompose';
 import React, { Fragment, forwardRef } from 'react';
-import { create } from 'reactive-observables';
-import { createLogger } from 'instalog';
+import { create } from '@instana/observables';
+import { createLogger } from '@instana/logger';
 import invariant from 'invariant';
 import theme from 'in-themes';
 

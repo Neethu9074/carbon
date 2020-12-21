@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { create } from 'reactive-observables';
+import { create } from '@instana/observables';
 
 // Just a small alias to debounce value setting, similar to rxjs.debounce but
 // for functional React components

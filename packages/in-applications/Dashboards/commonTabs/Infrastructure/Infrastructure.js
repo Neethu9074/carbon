@@ -1,4 +1,4 @@
-import { fromPromise } from 'reactive-observables';
+import { fromPromise } from '@instana/observables';
 import React, { Fragment } from 'react';
 
 import {

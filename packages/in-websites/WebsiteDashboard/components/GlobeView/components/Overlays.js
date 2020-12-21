@@ -1,5 +1,5 @@
 import { withState, compose } from 'recompose';
-import { create } from 'reactive-observables';
+import { create } from '@instana/observables';
 import React, { Fragment } from 'react';
 import ReactDOM from 'react-dom';
 

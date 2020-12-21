@@ -1,4 +1,4 @@
-import { combineLatest } from 'reactive-observables';
+import { combineLatest } from '@instana/observables';
 import React from 'react';
 
 import getMobileAppBackendTraces from 'in-mobile-apps/subscriptions/getMobileAppBackendTraces';

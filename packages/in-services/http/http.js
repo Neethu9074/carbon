@@ -1,5 +1,5 @@
-import { create } from 'reactive-observables';
-import { createLogger } from 'instalog';
+import { create } from '@instana/observables';
+import { createLogger } from '@instana/logger';
 
 import HttpResponseStatusCodeError from 'in-services/http/HttpResponseStatusCodeError';
 import HttpRequestTimeoutError from 'in-services/http/HttpRequestTimeoutError';

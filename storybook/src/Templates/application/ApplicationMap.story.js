@@ -1,4 +1,4 @@
-import RoEmitter from 'roemitter';
+import RoEmitter from '@instana/roemitter';
 import React from 'react';
 
 import ServiceInformation from 'in-applications/ApplicationMap/components/Tooltips/ServiceInformation/ServiceInformation';

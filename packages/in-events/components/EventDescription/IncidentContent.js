@@ -1,4 +1,4 @@
-import { combineLatest } from 'reactive-observables';
+import { combineLatest } from '@instana/observables';
 import irpt from 'react-immutable-proptypes';
 import rpt from 'prop-types';
 import React from 'react';

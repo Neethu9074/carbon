@@ -1,4 +1,3 @@
-// @flow
 import React from 'react';
 
 import { ampSettings, ampAccountSettings, ampUsage, ampTechnologies } from 'in-settings/navigation/paths';
@@ -11,7 +10,7 @@ import RestrictedUsage from 'in-amp/components/RestrictedUsage';
 import NotFoundPage from 'in-settings/tabs/pages/NotFound';
 import Usage from 'in-amp/components/Usage';
 
-export default function View(props: any) {
+export default function View(props) {
   return (
     <SideNavigationAndContent
       stickySidebar

@@ -1,5 +1,5 @@
 /* eslint-disable react/no-find-dom-node */
-import { combineLatest } from 'reactive-observables';
+import { combineLatest } from '@instana/observables';
 import ReactDOM from 'react-dom';
 import React from 'react';
 

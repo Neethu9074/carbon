@@ -1,5 +1,5 @@
 import { createField, notBlankValidator } from 'formalistic';
-import { just } from 'reactive-observables';
+import { just } from '@instana/observables';
 import React from 'react';
 
 import { getGroupAsResultObservable, saveGroup, createNewGroup } from 'in-settings/tabs/TeamSettings/api/groups';

@@ -1,4 +1,4 @@
-import { createLogger } from 'instalog';
+import { createLogger } from '@instana/logger';
 import Favico from 'favico.js';
 
 import { openEventsAtServerTime$ } from 'in-stores/events';

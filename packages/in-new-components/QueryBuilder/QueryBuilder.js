@@ -1,5 +1,5 @@
 import React, { useRef, useLayoutEffect, useState } from 'react';
-import { create } from 'reactive-observables';
+import { create } from '@instana/observables';
 import rpt from 'prop-types';
 
 import {

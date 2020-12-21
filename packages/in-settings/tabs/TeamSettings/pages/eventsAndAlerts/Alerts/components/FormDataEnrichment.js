@@ -1,4 +1,4 @@
-import { combineLatest, create } from 'reactive-observables';
+import { combineLatest, create } from '@instana/observables';
 import React from 'react';
 
 import {

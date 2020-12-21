@@ -1,5 +1,5 @@
 import TrackVisibility from 'react-on-screen';
-import { empty } from 'reactive-observables';
+import { empty } from '@instana/observables';
 import React from 'react';
 
 import getMobileAppBackendTraces from 'in-mobile-apps/subscriptions/getMobileAppBackendTraces';

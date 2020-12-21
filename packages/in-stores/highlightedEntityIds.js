@@ -1,4 +1,4 @@
-import { combineLatest } from 'reactive-observables';
+import { combineLatest } from '@instana/observables';
 
 import getHighlightedEntityIds from 'in-subscription/highlightedEntityIds';
 import { highlightedEntityId$ } from 'in-services/stores/highlightedEntityId';

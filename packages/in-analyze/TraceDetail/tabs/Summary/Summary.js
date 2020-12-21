@@ -1,4 +1,4 @@
-import { just, create } from 'reactive-observables';
+import { just, create } from '@instana/observables';
 import { compose, withProps } from 'recompose';
 import { connection } from 'in-connection';
 import theme from 'in-themes';

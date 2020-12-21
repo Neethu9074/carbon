@@ -1,4 +1,4 @@
-import { createLogger } from 'instalog';
+import { createLogger } from '@instana/logger';
 import SockJS from 'sockjs-client';
 
 import { addMessage, removeMessage } from 'in-components/MessageFlyout/stores/messages';

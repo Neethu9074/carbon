@@ -1,4 +1,4 @@
-import { combineLatest } from 'reactive-observables';
+import { combineLatest } from '@instana/observables';
 import React from 'react';
 
 import { getEventType, EVENT_TYPES, fireCallbacksForEventAtFocusedMomentAsStream } from 'in-stores/events';
@@ -45,7 +45,13 @@ const IncidentKPIs = connectTo(
       recentEvents: recentEvents$,
       openEvents: recentEvents$.flatMap(_events =>
         combineLatest(
-          _events.map(_event => fireCallbacksForEventAtFocusedMomentAsStream(_event, () => true, () => false))
+          _events.map(_event =>
+            fireCallbacksForEventAtFocusedMomentAsStream(
+              _event,
+              () => true,
+              () => false
+            )
+          )
         )
       )
     };
@@ -87,7 +93,11 @@ const Ended = connectTo(
       return {};
     }
     return {
-      isOpen: fireCallbacksForEventAtFocusedMomentAsStream(event, () => true, () => false)
+      isOpen: fireCallbacksForEventAtFocusedMomentAsStream(
+        event,
+        () => true,
+        () => false
+      )
     };
   },
   function Ended({ event, isOpen }) {

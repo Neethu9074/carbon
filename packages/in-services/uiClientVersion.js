@@ -1,4 +1,4 @@
-import { interval } from 'reactive-observables';
+import { interval } from '@instana/observables';
 
 import { createTrackingStore } from 'in-stores/store';
 import { build } from 'in-services/config';

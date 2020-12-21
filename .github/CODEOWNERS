@@ -12,7 +12,6 @@
 # purposes (and teams). But if in doubt, the owner-team at least knows whom to ask for advice, i.e., which other team or
 # person.
 
-packages/history                    @pr-approval @instana/eng-ui
 packages/in-amp                     @pr-approval @instana/eng-enterprise @instana/eng-hubforce @instana/eng-ui
 packages/in-analyze                 @pr-approval @instana/eng-application @instana/eng-eum @instana/eng-ui
 # Deprecated: We should not make any more changes within this package (aside from code removal)
@@ -57,7 +56,3 @@ packages/in-vsphere                 @pr-approval @instana/eng-infrastructure
 # Shared ownership
 # packages/in-waiting-for-deployment
 packages/in-websites                @pr-approval @instana/eng-eum @instana/eng-ui
-# No clear ownership: Fallback to eng-ui
-packages/instalog                   @pr-approval @instana/eng-ui
-packages/reactive-observables       @pr-approval @instana/eng-ui
-packages/roemitter                  @pr-approval @instana/eng-ui

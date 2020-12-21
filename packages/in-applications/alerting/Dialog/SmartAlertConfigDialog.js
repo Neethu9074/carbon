@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { empty } from 'reactive-observables';
+import { empty } from '@instana/observables';
 
 import { thresholdOrBaselineLoadingSignal$ } from 'in-new-components/Alerting/Chart/AlertingChartWrapper';
 import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';

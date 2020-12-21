@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 
 import { fromNowAccurately } from 'in-services/formatters/date';
-import { interval } from 'reactive-observables';
+import { interval } from '@instana/observables';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(({ start }) => ({

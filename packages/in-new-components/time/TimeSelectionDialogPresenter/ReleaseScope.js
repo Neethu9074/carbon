@@ -4,7 +4,7 @@ import getServiceLabel from 'in-subscription/application/getServiceLabel';
 import getApplication from 'in-subscription/application/getApplication';
 import useObservable from 'in-hooks/useObservable';
 import SvgIcon from 'in-components/SvgIcon';
-import { just } from 'reactive-observables';
+import { just } from '@instana/observables';
 
 import locals from './ReleaseScope.mless';
 

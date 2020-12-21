@@ -1,4 +1,4 @@
-import { create } from 'reactive-observables';
+import { create } from '@instana/observables';
 
 import { get } from 'in-integrations/logging/api';
 import { hours } from 'in-services/time';

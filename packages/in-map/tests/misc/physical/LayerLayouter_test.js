@@ -1,6 +1,6 @@
 /* eslint-env mocha, node */
 import proxyquire from 'proxyquire';
-import RoEmitter from 'roemitter';
+import RoEmitter from '@instana/roemitter';
 import { expect } from 'chai';
 import sinon from 'sinon';
 

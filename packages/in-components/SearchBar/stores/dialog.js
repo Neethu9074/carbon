@@ -5,7 +5,7 @@ import { saveNewFilter, saveFilter } from 'in-api/filters';
 import { createMapForm, createField } from 'formalistic';
 import { track } from 'in-services/tracking/tracking';
 import { createStore } from 'in-stores/store';
-import { createLogger } from 'instalog';
+import { createLogger } from '@instana/logger';
 
 const logger = createLogger('SearchBar/stores/dialog');
 

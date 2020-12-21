@@ -1,4 +1,4 @@
-import { fromPromise } from 'reactive-observables';
+import { fromPromise } from '@instana/observables';
 import React from 'react';
 
 import { getCountries, getStatesByCountryName } from 'in-services/geonames/geonames';

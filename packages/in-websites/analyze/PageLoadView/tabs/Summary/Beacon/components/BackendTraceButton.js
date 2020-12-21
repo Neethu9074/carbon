@@ -1,5 +1,5 @@
 import TrackVisibility from 'react-on-screen';
-import { empty } from 'reactive-observables';
+import { empty } from '@instana/observables';
 import React from 'react';
 
 import getWebsiteBackendTraces from 'in-websites/subscriptions/getWebsiteBackendTraces';

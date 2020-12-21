@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { just } from 'reactive-observables';
+import { just } from '@instana/observables';
 
 import { processIdUrlParameter, timeUrlParameter, thresholdUrlParameter } from 'in-profiling/navigation/urlParameters';
 import { closeProfilesViewLink } from 'in-new-components/Profiling/navigation/paths';

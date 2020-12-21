@@ -1,4 +1,4 @@
-import { combineLatest } from 'reactive-observables';
+import { combineLatest } from '@instana/observables';
 
 import { hasError, isLoading } from 'in-services/util/result';
 

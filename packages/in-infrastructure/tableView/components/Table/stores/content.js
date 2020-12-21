@@ -1,4 +1,4 @@
-import { create, combineLatest } from 'reactive-observables';
+import { create, combineLatest } from '@instana/observables';
 import shallowEquals from 'fbjs/lib/shallowEqual';
 import invariant from 'invariant';
 

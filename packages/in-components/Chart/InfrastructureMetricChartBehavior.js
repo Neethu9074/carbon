@@ -1,4 +1,4 @@
-import { create } from 'reactive-observables';
+import { create } from '@instana/observables';
 import { isEqual, omit } from 'lodash';
 import React from 'react';
 

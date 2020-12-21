@@ -1,4 +1,4 @@
-import { just, combineLatest } from 'reactive-observables';
+import { just, combineLatest } from '@instana/observables';
 import { get } from 'lodash';
 
 import { emptyArray, finishedProgress, pendingResult, listData } from 'in-services/fixedObjects';

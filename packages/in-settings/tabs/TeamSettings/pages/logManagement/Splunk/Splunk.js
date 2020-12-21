@@ -1,6 +1,6 @@
 import { createMapForm, createField } from 'formalistic';
 import React, { Fragment } from 'react';
-import { createLogger } from 'instalog';
+import { createLogger } from '@instana/logger';
 
 import SplunkForm from 'in-settings/tabs/TeamSettings/pages/logManagement/Splunk/SplunkForm';
 import { teamSettingsLogManagementSplunk } from 'in-settings/navigation/paths';

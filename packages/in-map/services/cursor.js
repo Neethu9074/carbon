@@ -1,4 +1,4 @@
-import { combineLatest } from 'reactive-observables';
+import { combineLatest } from '@instana/observables';
 
 import { highlightedEntityId$ } from 'in-services/stores/highlightedEntityId';
 import { canvas$ } from 'in-map/stores/indexStore';
@@ -9,7 +9,7 @@ export function init() {
     return;
   }
 
-  subscription = combineLatest([highlightedEntityId$, canvas$]).subscribe(
-    ([id, canvas]) => (canvas ? (canvas.style.cursor = id ? 'pointer' : 'auto') : null)
+  subscription = combineLatest([highlightedEntityId$, canvas$]).subscribe(([id, canvas]) =>
+    canvas ? (canvas.style.cursor = id ? 'pointer' : 'auto') : null
   );
 }

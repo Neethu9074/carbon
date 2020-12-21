@@ -1,6 +1,6 @@
 import { createMapForm, createField } from 'formalistic';
 import React, { Fragment } from 'react';
-import { createLogger } from 'instalog';
+import { createLogger } from '@instana/logger';
 
 import ElkForm from 'in-settings/tabs/TeamSettings/pages/logManagement/Elk/ElkForm';
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';

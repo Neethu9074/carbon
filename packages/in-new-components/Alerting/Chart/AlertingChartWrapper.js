@@ -1,4 +1,4 @@
-import { combineLatest, create, just } from 'reactive-observables';
+import { combineLatest, create, just } from '@instana/observables';
 import React from 'react';
 
 import { finishedProgress, emptyArray, indeterminateProgress, pendingResult } from 'in-services/fixedObjects';

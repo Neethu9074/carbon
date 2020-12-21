@@ -1,4 +1,4 @@
-import { createLogger } from 'instalog';
+import { createLogger } from '@instana/logger';
 
 import genericLogSpanDefinition from 'in-forge/tracing/log/genericLogSpanDefinition';
 import { ensurTracingPluginsAreEvaluated } from 'in-sdk/asyncEvaluation';

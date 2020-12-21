@@ -1,5 +1,5 @@
-import { createLogger } from 'instalog';
-import RoEmitter from 'roemitter';
+import { createLogger } from '@instana/logger';
+import RoEmitter from '@instana/roemitter';
 
 import TransformationComponent from 'in-map/sceneObjectComponents/TransformationComponent';
 import HighlightingComponent from 'in-map/sceneObjectComponents/HighlightingComponent';

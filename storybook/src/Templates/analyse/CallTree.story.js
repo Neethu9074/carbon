@@ -1,5 +1,5 @@
 import { withKnobs } from '@storybook/addon-knobs/react';
-import { create } from 'reactive-observables';
+import { create } from '@instana/observables';
 import React from 'react';
 
 import CallTree from 'in-analyze/TraceDetail/components/CallTree';

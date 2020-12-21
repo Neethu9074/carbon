@@ -1,4 +1,4 @@
-import { combineLatest } from 'reactive-observables';
+import { combineLatest } from '@instana/observables';
 import React from 'react';
 
 import GraphExplorerMap from 'in-internal/thisUnit/GraphExplorer/GraphExplorerMap';

@@ -1,4 +1,4 @@
-import { create } from 'reactive-observables';
+import { create } from '@instana/observables';
 
 import { success, hasError, isLoading } from 'in-services/util/result';
 import createObservable from 'in-services/http/observableHttpResult';
@@ -24,10 +24,7 @@ function getMobileAppsAsResultObservableInternal() {
         })
       )
     )
-    .map(
-      result =>
-        hasError(result) || isLoading(result)
-          ? result
-          : success(result.data.map(({ id, name }) => ({ id, label: name })))
+    .map(result =>
+      hasError(result) || isLoading(result) ? result : success(result.data.map(({ id, name }) => ({ id, label: name })))
     );
 }

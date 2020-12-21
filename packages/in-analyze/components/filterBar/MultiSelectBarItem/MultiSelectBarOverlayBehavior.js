@@ -1,4 +1,4 @@
-import { timeout } from 'reactive-observables';
+import { timeout } from '@instana/observables';
 import { compose, withState } from 'recompose';
 import React from 'react';
 

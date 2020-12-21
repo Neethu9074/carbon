@@ -1,30 +1,8 @@
-// @flow
-import type { Observable } from 'reactive-observables';
-import { create } from 'reactive-observables';
+import { create } from '@instana/observables';
 
 import memoize from 'in-services/util/memoizingObservableGenerator';
 import { generateStableHash } from 'in-services/util/id';
 import { connection } from 'in-connection';
-
-/**
- * A type for the arguments to createSubscription.
- *
- * Type params:
- * - Param: the type of object this subscription needs for getId and getData
- * - Result: the type of values the new subscription will emit
- */
-export type CreateSubscriptionArgs<PARAM, RESULT> = {
-  eventId: string,
-  getId?: PARAM => string,
-  getData: (subscriptionId: number, param: PARAM) => any,
-  // A value < 1 will indicate that memoization should be disabled.
-  memoizeFor?: number | Function,
-  disposeSubscriptionOnDocumentHidden?: boolean,
-  transform?: (Observable<any>, PARAM) => Observable<RESULT>,
-  onStart?: Function,
-  onStop?: Function,
-  onData?: Function
-};
 
 /**
  * Returns a function (Param => Observable<Result>) that, when called, yields an observable of Result values.
@@ -33,7 +11,7 @@ export type CreateSubscriptionArgs<PARAM, RESULT> = {
  * - PARAM: the type of object this subscription needs for getId and getData
  * - RESULT: the type of values the new subscription will emit
  */
-export default function<PARAM, RESULT>({
+export default function({
   eventId,
   getId = generateStableHash,
   getData = defaultGetData,
@@ -43,7 +21,7 @@ export default function<PARAM, RESULT>({
   onStart,
   onStop,
   onData
-}: CreateSubscriptionArgs<PARAM, RESULT>): PARAM => Observable<RESULT> {
+}) {
   const observableCreator = createObservable.bind(
     null,
     eventId,
@@ -61,16 +39,16 @@ export default function<PARAM, RESULT>({
   return memoize(observableCreator, getId, memoizeFor == null ? 10000 : memoizeFor);
 }
 
-function createObservable<PARAM, RESULT>(
-  event: string,
-  getData: (subscriptionId: number, param: PARAM) => any,
-  disposeSubscriptionOnDocumentHidden?: boolean,
-  transform?: (Observable<any>, PARAM) => Observable<RESULT>,
-  onStart?: Function,
-  onStop?: Function,
-  onDataSideEffect?: Function,
-  opts: PARAM
-): Observable<RESULT> {
+function createObservable(
+  event,
+  getData,
+  disposeSubscriptionOnDocumentHidden,
+  transform,
+  onStart,
+  onStop,
+  onDataSideEffect,
+  opts
+) {
   const subscriptionId = connection.getNewSubscriptionId();
   const subscriptionDescription = {
     subscriptionId,
@@ -101,8 +79,7 @@ function createObservable<PARAM, RESULT>(
     return transform(observable, opts);
   }
 
-  // $FlowFixMe: Just blindly pass the server result to the client. No additional validation is happening
-  return (observable: Observable<RESULT>);
+  return observable;
 
   function onData(data) {
     if (onDataSideEffect) {

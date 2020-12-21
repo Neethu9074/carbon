@@ -1,6 +1,6 @@
 import { createMapForm, createField } from 'formalistic';
 import React, { Fragment } from 'react';
-import { createLogger } from 'instalog';
+import { createLogger } from '@instana/logger';
 
 import HumioForm from 'in-settings/tabs/TeamSettings/pages/logManagement/Humio/HumioForm';
 import { teamSettingsLogManagementHumio } from 'in-settings/navigation/paths';

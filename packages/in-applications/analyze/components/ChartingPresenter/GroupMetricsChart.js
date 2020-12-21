@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { just } from 'reactive-observables';
+import { just } from '@instana/observables';
 
 import { chartMetricKey, getMetricAndAggregationFromMetricKey } from 'in-applications/analyze/metrics';
 import { NO_VALUE, NO_VALUE_LABEL, UNSPECIFIED } from 'in-analyze/components/GroupedTraces/Group';

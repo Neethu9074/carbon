@@ -1,5 +1,5 @@
-import { just, create } from 'reactive-observables';
-import { createLogger } from 'instalog';
+import { just, create } from '@instana/observables';
+import { createLogger } from '@instana/logger';
 import ReactDOM from 'react-dom';
 import React from 'react';
 

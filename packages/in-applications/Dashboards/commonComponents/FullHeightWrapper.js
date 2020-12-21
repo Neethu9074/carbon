@@ -1,4 +1,4 @@
-import { on, create } from 'reactive-observables';
+import { on, create } from '@instana/observables';
 import React from 'react';
 
 import { getCoords } from 'in-services/util/dom';

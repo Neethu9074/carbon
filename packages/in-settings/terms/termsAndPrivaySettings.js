@@ -1,4 +1,4 @@
-import { createLogger } from 'instalog';
+import { createLogger } from '@instana/logger';
 
 import { saveUserSettings } from 'in-settings/api/userSettings';
 

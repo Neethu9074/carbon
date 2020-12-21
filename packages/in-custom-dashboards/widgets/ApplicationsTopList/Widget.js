@@ -1,4 +1,4 @@
-import { combineLatest } from 'reactive-observables';
+import { combineLatest } from '@instana/observables';
 import theme from 'in-themes';
 import { get } from 'lodash';
 import React from 'react';

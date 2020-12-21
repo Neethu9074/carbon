@@ -1,4 +1,4 @@
-import { combineLatest } from 'reactive-observables';
+import { combineLatest } from '@instana/observables';
 
 import { offset, toServerTime } from 'in-stores/timeOffset';
 import { createTrackingStore } from 'in-stores/store';

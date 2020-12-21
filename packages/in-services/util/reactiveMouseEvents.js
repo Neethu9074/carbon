@@ -1,4 +1,4 @@
-import { combineLatest, on } from 'reactive-observables';
+import { combineLatest, on } from '@instana/observables';
 
 import { getSetting$ } from 'in-services/settings';
 

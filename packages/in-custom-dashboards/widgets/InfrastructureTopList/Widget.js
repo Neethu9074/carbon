@@ -1,4 +1,4 @@
-import { combineLatest, just } from 'reactive-observables';
+import { combineLatest, just } from '@instana/observables';
 import React, { useState } from 'react';
 
 import { host as hostType, container as containerType, process as processType } from 'in-stores/starredItems/types';

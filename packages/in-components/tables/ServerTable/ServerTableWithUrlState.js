@@ -1,5 +1,5 @@
 import shallowEquals from 'fbjs/lib/shallowEqual';
-import { timeout } from 'reactive-observables';
+import { timeout } from '@instana/observables';
 import React, { useMemo } from 'react';
 
 import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';

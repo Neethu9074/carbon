@@ -1,4 +1,4 @@
-import RoEmitter from 'roemitter';
+import RoEmitter from '@instana/roemitter';
 import React from 'react';
 
 import { onDown, onMove, onLeave } from 'in-services/util/reactiveMouseEvents';

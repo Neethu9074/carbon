@@ -1,4 +1,4 @@
-import { create } from 'reactive-observables';
+import { create } from '@instana/observables';
 import React from 'react';
 
 import { setAndSave, formUserSettingsObject } from 'in-settings/terms/termsAndPrivaySettings';

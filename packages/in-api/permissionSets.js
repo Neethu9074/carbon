@@ -1,4 +1,4 @@
-import { create, just } from 'reactive-observables';
+import { create, just } from '@instana/observables';
 import { fromJS } from 'immutable';
 
 import { CAN_VIEW_LOGS, CAN_VIEW_TRACE_DETAILS } from 'in-stores/permission';

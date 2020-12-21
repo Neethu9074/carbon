@@ -1,6 +1,6 @@
 import { createField, createMapForm, notBlankValidator } from 'formalistic';
 import { compose, withState, withProps } from 'recompose';
-import { timeout, empty } from 'reactive-observables';
+import { timeout, empty } from '@instana/observables';
 
 import KeyValueBarOverlayPresenter from 'in-analyze/components/filterBar/KeyValueBarItem/KeyValueBarOverlayPresenter';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';

@@ -1,4 +1,3 @@
-// @flow
 import React, { Fragment } from 'react';
 
 import {
@@ -19,7 +18,6 @@ import SessionSettings from 'in-settings/tabs/AuthSettings/pages/sessionSettings
 import TwoFactorSettings from 'in-settings/tabs/AuthSettings/pages/twoFactorAuth/Settings';
 import SideNavigationAndContent from 'in-new-components/layout/SideNavigationAndContent';
 import ChangePassword from 'in-settings/tabs/AuthSettings/pages/password/ChangePassword';
-import type { NavigationTree } from 'in-new-components/layout/SideNavigationAndContent';
 import { isAvailable as isSamlAvailable } from 'in-settings/tabs/AuthSettings/api/saml';
 import { isAvailable as isLdapAvailable } from 'in-settings/tabs/AuthSettings/api/ldap';
 import Saml from 'in-settings/tabs/AuthSettings/pages/indentityProviders/Saml/Saml';
@@ -32,7 +30,7 @@ import SetBodyColor from 'in-components/SetBodyColor';
 import { isOwner, role } from 'in-stores/user';
 import connectTo from 'in-hoc/connectTo';
 
-function getNavigationTree(props: any): NavigationTree {
+function getNavigationTree(props) {
   const isAtLeastOneAuthMethogAvailable = props.isGoogleSSOAvailable || props.isSamlAvailable || props.isLdapAvailable;
 
   const navigationTree = [
@@ -123,7 +121,7 @@ export default connectTo(
     isLdapAvailable: isLdapAvailable()
   },
 
-  function View(props: any) {
+  function View(props) {
     return (
       <Fragment>
         <SideNavigationAndContent

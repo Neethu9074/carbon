@@ -1,5 +1,5 @@
 import { createField, createMapForm, notBlankValidator } from 'formalistic';
-import { timeout, empty } from 'reactive-observables';
+import { timeout, empty } from '@instana/observables';
 import { compose, withProps } from 'recompose';
 import { get } from 'lodash';
 
@@ -71,7 +71,10 @@ export default compose(
         .filter(
           operator =>
             !isIdTag(form.get('tag').value) ||
-            operator == 'EQUALS' || operator == 'NOT_EQUAL' || operator == 'IS_EMPTY' || operator == 'NOT_EMPTY'
+            operator == 'EQUALS' ||
+            operator == 'NOT_EQUAL' ||
+            operator == 'IS_EMPTY' ||
+            operator == 'NOT_EMPTY'
         ),
       onRemoveTagFilter: () => {
         if (removeTagFilter) {

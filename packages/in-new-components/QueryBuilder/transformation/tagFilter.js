@@ -1,4 +1,4 @@
-import { createLogger } from 'instalog';
+import { createLogger } from '@instana/logger';
 import { pick } from 'lodash';
 
 import { KEY_VALUE_PAIR, BOOLEAN, NUMBER } from 'in-new-components/QueryBuilder/tagFilter/types';

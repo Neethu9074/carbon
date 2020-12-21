@@ -1,4 +1,4 @@
-import { createLogger } from 'instalog';
+import { createLogger } from '@instana/logger';
 
 import { getInitializationCallStack, getSubscriptionPayload } from 'in-connection';
 import createSubscription from 'in-subscription/subscription';

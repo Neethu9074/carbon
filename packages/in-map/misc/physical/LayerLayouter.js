@@ -1,4 +1,4 @@
-import { combineLatest } from 'reactive-observables';
+import { combineLatest } from '@instana/observables';
 
 import PCP from 'in-map/singleMeshFactories/ContentProvider/PointContentProvider';
 import createFragment from 'in-map/singleMeshFactories/Fragment';

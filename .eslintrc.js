@@ -5,24 +5,15 @@ module.exports = {
 
   parser: 'babel-eslint',
 
-  extends: [
-    'eslint:recommended',
-    'plugin:flowtype/recommended',
-    'prettier',
-    'prettier/react',
-    'plugin:react-hooks/recommended'
-  ],
+  extends: ['eslint:recommended', 'prettier', 'prettier/react', 'plugin:react-hooks/recommended'],
 
   parserOptions: {
     sourceType: 'module'
   },
 
-  plugins: ['flowtype', 'react', 'mocha', 'babel'],
+  plugins: ['react', 'mocha', 'babel'],
 
   settings: {
-    flowtype: {
-      onlyFilesWithFlowAnnotation: true
-    },
     react: {
       version: '16.4.2'
     }
@@ -63,10 +54,6 @@ module.exports = {
     // prevent from throwing no-unused-expression error when using optional chaining
     'no-unused-expressions': 'off',
     'babel/no-unused-expressions': 'error',
-
-    // editor integration for flow errors, see
-    // https://www.npmjs.com/package/eslint-plugin-flowtype-errors
-    // 'flowtype-errors/show-errors': 2,
 
     // ###########################################################
     // ### Mocha
@@ -341,9 +328,6 @@ module.exports = {
         afterOpening: 'never'
       }
     ],
-
-    // prettier formats this for us
-    'flowtype/generic-spacing': 0,
 
     // Only warn on hook rule violations. This will be reverted when refactoring is finished.
     'react-hooks/rules-of-hooks': 'warn'

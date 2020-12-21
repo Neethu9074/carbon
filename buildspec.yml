@@ -2,17 +2,19 @@ version: 0.2
 
 env:
   variables:
-    CODEBUILD_PROJECT_NAME: "ui-client"
-    VERSIONING_ARTIFACT_NAME: "ui-client"
+    CODEBUILD_PROJECT_NAME: 'ui-client'
+    VERSIONING_ARTIFACT_NAME: 'ui-client'
   parameter-store:
-    EFS_DATA_DIR: "efs.data.dir"
-    EFS_DNS: "efs.data.dns"
-    GITHUB_READ_USER: "github.read.user"
-    GITHUB_READ_PASSWORD: "github.read.password"
-    CONTAINERS_INSTANA_IO_USER: "containers.instana.io.user"
-    CONTAINERS_INSTANA_IO_PASSWORD: "containers.instana.io.password"
-    ARTIFACT_INSTANA_IO_USER: "artifact.instana.io.user"
-    ARTIFACT_INSTANA_IO_PASSWORD: "artifact.instana.io.password"
+    EFS_DATA_DIR: 'efs.data.dir'
+    EFS_DNS: 'efs.data.dns'
+    GITHUB_READ_USER: 'github.read.user'
+    GITHUB_READ_PASSWORD: 'github.read.password'
+    CONTAINERS_INSTANA_IO_USER: 'containers.instana.io.user'
+    CONTAINERS_INSTANA_IO_PASSWORD: 'containers.instana.io.password'
+    ARTIFACT_INSTANA_IO_USER: 'artifact.instana.io.user'
+    ARTIFACT_INSTANA_IO_PASSWORD: 'artifact.instana.io.password'
+    ARTIFACT_RND_INSTANA_IO_USER: 'artifact-rnd.instana.io.user'
+    ARTIFACT_RND_INSTANA_IO_PASSWORD: 'artifact-rnd.instana.io.password'
 
 phases:
   install:
@@ -39,6 +41,15 @@ phases:
       - n `cat .nvmrc`
   pre_build:
     commands:
+      - |
+        REGISTRY="https://artifact-rnd.instana.io" \
+          REPOSITORY_KEY="npm-virtual-internal" \
+          USERNAME="$ARTIFACT_RND_INSTANA_IO_USER" \
+          PASSWORD="$ARTIFACT_RND_INSTANA_IO_PASSWORD" \
+          NON_INTERACTIVE=true \
+          WRITE_TO_CWD=true \
+          NPM_CONFIG_REGISTRY="https://registry.npmjs.org/" \
+          npx create-artifactory-access-config
       # Install project dependencies
       - npm install -g yarn
       - yarn

@@ -1,4 +1,4 @@
-import { create } from 'reactive-observables';
+import { create } from '@instana/observables';
 
 import { OCTREE_LAYER } from 'in-map/misc/serviceLocator/physics/physicsConstants';
 import { OCTREE_UPDATES } from 'in-map/misc/TimingConfig';

@@ -1,4 +1,4 @@
-import { fromPromise } from 'reactive-observables';
+import { fromPromise } from '@instana/observables';
 import React from 'react';
 
 import { getForgeComponent } from 'in-services/getForgeComponent';

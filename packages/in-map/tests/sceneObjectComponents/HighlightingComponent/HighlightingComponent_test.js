@@ -1,5 +1,5 @@
 /* eslint-env mocha, node */
-import { create } from 'reactive-observables';
+import { create } from '@instana/observables';
 import proxyquire from 'proxyquire';
 import { expect } from 'chai';
 import sinon from 'sinon';

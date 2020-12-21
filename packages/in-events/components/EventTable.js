@@ -1,4 +1,4 @@
-import { on } from 'reactive-observables';
+import { on } from '@instana/observables';
 import { findIndex } from 'lodash';
 import theme from 'in-themes';
 import React from 'react';

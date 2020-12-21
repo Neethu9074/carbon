@@ -1,5 +1,5 @@
-import { on } from 'reactive-observables';
-import RoEmitter from 'roemitter';
+import { on } from '@instana/observables';
+import RoEmitter from '@instana/roemitter';
 import { get } from 'lodash';
 
 import {

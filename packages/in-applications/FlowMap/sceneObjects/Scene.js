@@ -1,4 +1,4 @@
-import { combineLatest } from 'reactive-observables';
+import { combineLatest } from '@instana/observables';
 
 import { getServiceLocators } from 'in-applications/FlowMap/serviceLocator/serviceLocator';
 import { DISTANCE_BETWEEN_NODES_X } from 'in-applications/FlowMap/misc/layouting/config';

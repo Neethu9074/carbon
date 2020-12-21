@@ -1,4 +1,4 @@
-import { create, on } from 'reactive-observables';
+import { create, on } from '@instana/observables';
 
 const forcedResize$ = create();
 export const debouncedResize$ = on(window, 'resize')

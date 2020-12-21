@@ -1,8 +1,8 @@
 /* eslint-env mocha, node */
-import { create } from 'reactive-observables';
+import { create } from '@instana/observables';
 import proxyquire from 'proxyquire';
 import { fromJS } from 'immutable';
-import RoEmitter from 'roemitter';
+import RoEmitter from '@instana/roemitter';
 import { expect } from 'chai';
 import sinon from 'sinon';
 

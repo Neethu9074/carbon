@@ -1,4 +1,4 @@
-import { createLogger } from 'instalog';
+import { createLogger } from '@instana/logger';
 import { List } from 'immutable';
 import React from 'react';
 

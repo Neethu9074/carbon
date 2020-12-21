@@ -1,4 +1,4 @@
-import { just } from 'reactive-observables';
+import { just } from '@instana/observables';
 
 import getServiceLabel from 'in-subscription/application/getServiceLabel';
 import getEndpointInfo from 'in-subscription/application/getEndpointInfo';

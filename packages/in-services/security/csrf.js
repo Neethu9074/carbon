@@ -1,5 +1,5 @@
-import { create, interval } from 'reactive-observables';
-import { createLogger } from 'instalog';
+import { create, interval } from '@instana/observables';
+import { createLogger } from '@instana/logger';
 import { get, set } from 'lodash';
 
 import { minutes } from 'in-services/time';

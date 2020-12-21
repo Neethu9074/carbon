@@ -1,4 +1,4 @@
-import { combineLatest } from 'reactive-observables';
+import { combineLatest } from '@instana/observables';
 
 import { getMetricForFocusedMoment, activeMetric$, getTimeWindowBasedMetricAggregation } from 'in-stores/metric';
 import { showAggregations$ } from 'in-stores/metric/showAggregations';

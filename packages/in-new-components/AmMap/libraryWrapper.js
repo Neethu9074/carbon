@@ -1,4 +1,4 @@
-import { fromPromise, just, empty } from 'reactive-observables';
+import { fromPromise, just, empty } from '@instana/observables';
 
 import 'ammap3/ammap/ammap.js';
 import 'ammap3/ammap/themes/light.js';

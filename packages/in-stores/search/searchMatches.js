@@ -1,4 +1,4 @@
-import { combineLatest } from 'reactive-observables';
+import { combineLatest } from '@instana/observables';
 
 import { physicalPath, containerPath } from 'in-stores/navigation/paths/mainPaths';
 import createSearchSubscription from 'in-subscription/search';
@@ -14,7 +14,7 @@ export const searchMatches$ = createTrackingStore({
   observable: combineLatest([debouncedQuery$, isView(physicalPath), isView(containerPath), view$, timeConfig$])
     .flatMap(([query, isPhysicalView, isContainerView, view, timeConfig]) => {
       const isMapView = isPhysicalView || isContainerView;
-      if (!isMapView || (query == null || query.length === 0)) {
+      if (!isMapView || query == null || query.length === 0) {
         return alwaysNull;
       }
 

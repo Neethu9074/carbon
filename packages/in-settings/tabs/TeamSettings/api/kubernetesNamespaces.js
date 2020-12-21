@@ -1,4 +1,4 @@
-import { create } from 'reactive-observables';
+import { create } from '@instana/observables';
 
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import { success, hasError, isLoading } from 'in-services/util/result';
@@ -31,11 +31,10 @@ function getKubernetesNamespacesAsResultObservableInternal() {
         })
       )
     )
-    .map(
-      result =>
-        hasError(result) || isLoading(result)
-          ? result
-          : success(result.data.items.map(({ id, namespace }) => ({ id, label: namespace.label })))
+    .map(result =>
+      hasError(result) || isLoading(result)
+        ? result
+        : success(result.data.items.map(({ id, namespace }) => ({ id, label: namespace.label })))
     );
 }
 

@@ -1,4 +1,4 @@
-import RoEmitter from 'roemitter';
+import RoEmitter from '@instana/roemitter';
 
 export const SIGNALS = {
   UPDATE: 'update',

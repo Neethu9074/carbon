@@ -1,8 +1,8 @@
-import { setSetTimeoutFn, setClearTimeoutFn } from 'reactive-observables/timers';
+import { setSetTimeoutFn, setClearTimeoutFn } from '@instana/observables/esm/timers';
 
 // This is never unused! delete and die
 import { setTimeout, clearTimeout } from 'in-services/chronos';
 
-// configure reactive-observables to use chronos by default
+// configure @instana/observables to use chronos by default
 setSetTimeoutFn(setTimeout);
 setClearTimeoutFn(clearTimeout);

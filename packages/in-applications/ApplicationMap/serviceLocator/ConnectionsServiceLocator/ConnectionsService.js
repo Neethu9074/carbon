@@ -1,5 +1,5 @@
-import { combineLatest, create } from 'reactive-observables';
-import RoEmitter from 'roemitter';
+import { combineLatest, create } from '@instana/observables';
+import RoEmitter from '@instana/roemitter';
 
 import fragmentShader from 'in-applications/ApplicationMap/serviceLocator/ConnectionsServiceLocator/shader/fragmentShader.glsl';
 import vertexShader from 'in-applications/ApplicationMap/serviceLocator/ConnectionsServiceLocator/shader/vertexShader.glsl';

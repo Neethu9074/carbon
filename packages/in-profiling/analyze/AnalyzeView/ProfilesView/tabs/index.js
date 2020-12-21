@@ -1,4 +1,4 @@
-import { just } from 'reactive-observables';
+import { just } from '@instana/observables';
 import React from 'react';
 
 import { CpuProfileChart, MemoryProfileChart } from 'in-profiling/analyze/AnalyzeView/ProfilesView/ProfileChart';

@@ -1,5 +1,5 @@
 import { compose, lifecycle, withState } from 'recompose';
-import { create, just } from 'reactive-observables';
+import { create, just } from '@instana/observables';
 import React, { Fragment } from 'react';
 import { fromJS } from 'immutable';
 import { isEqual } from 'lodash';

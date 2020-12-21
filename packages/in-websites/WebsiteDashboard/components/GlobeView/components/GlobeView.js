@@ -1,4 +1,4 @@
-import { create } from 'reactive-observables';
+import { create } from '@instana/observables';
 
 import BackgroundScene from 'in-websites/WebsiteDashboard/components/GlobeView/components/BackgroundScene';
 import GlobeScene from 'in-websites/WebsiteDashboard/components/GlobeView/components/GlobeScene';

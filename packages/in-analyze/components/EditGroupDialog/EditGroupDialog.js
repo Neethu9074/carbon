@@ -1,6 +1,6 @@
 import { createField, createMapForm, notBlankValidator } from 'formalistic';
 import { compose, withProps } from 'recompose';
-import { empty } from 'reactive-observables';
+import { empty } from '@instana/observables';
 
 import EditGroupDialogPresenter from 'in-analyze/components/EditGroupDialog/EditGroupDialogPresenter';
 import { getTagType, getTagEntity, getSourceEntityAvailability } from 'in-applications/tags';

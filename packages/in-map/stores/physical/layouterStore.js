@@ -1,4 +1,4 @@
-import { create } from 'reactive-observables';
+import { create } from '@instana/observables';
 
 import SimpleLayouter from 'in-map/misc/physical/layoutingStrategies/SimpleLayouter';
 import PackedLayouter from 'in-map/misc/physical/layoutingStrategies/PackedLayouter';

@@ -1,4 +1,4 @@
-import RoEmitter from 'roemitter';
+import RoEmitter from '@instana/roemitter';
 
 import { getSnapshot, setSelectedSnapshotId, clearSelectedSnapshotId } from 'in-stores/snapshot';
 import { clearSelectedEvent } from 'in-stores/navigation/paths/eventPaths';

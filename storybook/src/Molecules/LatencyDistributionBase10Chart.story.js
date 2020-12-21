@@ -1,4 +1,4 @@
-import { just } from 'reactive-observables';
+import { just } from '@instana/observables';
 import React from 'react';
 
 import LatencyDistributionBase10Chart from 'in-new-components/LatencyDistributionBase10Chart/LatencyDistributionBase10Chart';

@@ -1,4 +1,4 @@
-import { on } from 'reactive-observables';
+import { on } from '@instana/observables';
 import React, { useEffect } from 'react';
 import rpt from 'prop-types';
 

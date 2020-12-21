@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 
 import { evaluateClassNames } from 'in-services/util/classnames';
-import { combineLatest, on } from 'reactive-observables';
+import { combineLatest, on } from '@instana/observables';
 import { debouncedResize$ } from 'in-services/browser';
 
 import locals from './ScrollHints.mless';

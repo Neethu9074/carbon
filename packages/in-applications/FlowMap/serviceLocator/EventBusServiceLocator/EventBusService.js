@@ -1,4 +1,4 @@
-import RoEmitter from 'roemitter';
+import RoEmitter from '@instana/roemitter';
 
 export default function createEventBusService(id) {
   let eventEmitter = new RoEmitter(`global_event_bus:${id}`);

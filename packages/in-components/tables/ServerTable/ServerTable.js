@@ -1,6 +1,4 @@
-// @flow
-
-import { timeout } from 'reactive-observables';
+import { timeout } from '@instana/observables';
 import { compose } from 'recompose';
 
 import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';

@@ -1,5 +1,5 @@
 import withSideEffect from 'react-side-effect';
-import { create } from 'reactive-observables';
+import { create } from '@instana/observables';
 import invariant from 'invariant';
 import React from 'react';
 

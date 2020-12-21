@@ -1,4 +1,4 @@
-import { combineLatest } from 'reactive-observables';
+import { combineLatest } from '@instana/observables';
 import Hammer from 'hammerjs';
 
 import Decorator from 'in-map/misc/common/cameraController/decorator/Decorator';

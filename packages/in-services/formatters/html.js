@@ -1,6 +1,6 @@
 /* global require:false */
 
-import { create } from 'reactive-observables';
+import { create } from '@instana/observables';
 
 let cachedPurifier;
 let cachedAnsiConverter;

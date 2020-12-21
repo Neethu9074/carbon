@@ -1,4 +1,4 @@
-import { combineLatest } from 'reactive-observables';
+import { combineLatest } from '@instana/observables';
 
 import { emptyList } from 'in-services/fixedImmutables';
 import { emptyArray } from 'in-services/fixedObjects';

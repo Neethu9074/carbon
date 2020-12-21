@@ -16,6 +16,8 @@ env:
     S3_AWS_ACCESS_KEY_ID: "s3.access.key.id"
     S3_AWS_SECRET_ACCESS_KEY: "s3.secret.access.key"
     CHROMATIC_PROJECT_TOKEN: "ui_client.chromatic.project.token"
+    ARTIFACT_RND_INSTANA_IO_USER: 'artifact-rnd.instana.io.user'
+    ARTIFACT_RND_INSTANA_IO_PASSWORD: 'artifact-rnd.instana.io.password'
 
 phases:
   install:
@@ -35,6 +37,15 @@ phases:
       - export GIT_BRANCH="$(./build/ci-shared-tools/scripts/git/getBranch.js)"
   pre_build:
     commands:
+      - |
+        REGISTRY="https://artifact-rnd.instana.io" \
+          REPOSITORY_KEY="npm-virtual-internal" \
+          USERNAME="$ARTIFACT_RND_INSTANA_IO_USER" \
+          PASSWORD="$ARTIFACT_RND_INSTANA_IO_PASSWORD" \
+          NON_INTERACTIVE=true \
+          WRITE_TO_CWD=true \
+          NPM_CONFIG_REGISTRY="https://registry.npmjs.org/" \
+          npx create-artifactory-access-config
       # Install project dependencies
       - npm install -g yarn
       - yarn

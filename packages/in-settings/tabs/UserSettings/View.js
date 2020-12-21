@@ -1,4 +1,3 @@
-// @flow
 import React, { Fragment } from 'react';
 
 import {
@@ -9,7 +8,6 @@ import {
   userSettingsCommunication
 } from 'in-settings/navigation/paths';
 import SideNavigationAndContent from 'in-new-components/layout/SideNavigationAndContent';
-import type { NavigationTree } from 'in-new-components/layout/SideNavigationAndContent';
 import Communication from 'in-settings/tabs/UserSettings/pages/Communication';
 import AdvancedPage from 'in-settings/tabs/UserSettings/pages/Advanced';
 import GeneralPage from 'in-settings/tabs/UserSettings/pages/General';
@@ -18,7 +16,7 @@ import Privacy from 'in-settings/tabs/UserSettings/pages/Privacy';
 import { fullTermsConfigEnabled } from 'in-services/featureFlags';
 import SetBodyColor from 'in-components/SetBodyColor';
 
-const navigationTree: NavigationTree = [
+const navigationTree = [
   {
     title: 'User Interface',
     pages: [
@@ -40,7 +38,7 @@ const navigationTree: NavigationTree = [
   }
 ];
 
-export default function View(props: any) {
+export default function View(props) {
   return (
     <Fragment>
       <ViewTrackingMeta

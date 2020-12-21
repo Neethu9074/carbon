@@ -1,4 +1,4 @@
-import { combineLatest } from 'reactive-observables';
+import { combineLatest } from '@instana/observables';
 
 import renderLocalHighlightedTimeframe from 'in-components/Chart/renderer/localHighlightedTimeframe';
 import renderHighlightedTimeframe from 'in-components/Chart/renderer/highlightedTimeframe';

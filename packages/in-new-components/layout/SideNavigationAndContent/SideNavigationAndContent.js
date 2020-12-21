@@ -1,7 +1,5 @@
-// @flow
 import { Route, Switch } from 'react-router-dom';
-import { combineLatest } from 'reactive-observables';
-import type { ComponentType } from 'react';
+import { combineLatest } from '@instana/observables';
 import React, { Fragment } from 'react';
 
 import { SideNavigation, SideNavigationItem } from 'in-new-components/SideNavigation/SideNavigation';
@@ -12,41 +10,10 @@ import { scrollToTopSmoothly } from 'in-services/util/dom';
 import Footer from 'in-new-components/Footer';
 import connectTo from 'in-hoc/connectTo';
 
-export type NavigationTree = Array<NavigationTreeItem>;
-
-export interface NavigationTreeItem {
-  title?: string;
-  pages: Array<Page>;
-}
-
-export interface Page {
-  path: string;
-  label?: string;
-  renderLabel?: Function;
-  icon?: string;
-  component: any;
-  subPages?: Array<SubPage>;
-}
-
-export interface SubPage {
-  path: string;
-  component: any;
-}
-
-type Props = {
-  location: any,
-  navigationTree: NavigationTree,
-  sidebarWidth?: number,
-  stickySidebar?: boolean,
-  redirectToDefaultPage: string,
-  redirectFrom: string,
-  NotFoundPage?: ComponentType<*>
-};
-
 /**
  * Takes a single array of pages and converts it into a navigation tree.
  */
-export function singletonNavigationTree(pages: Array<Page>, title?: string): NavigationTree {
+export function singletonNavigationTree(pages, title) {
   if (title) {
     return [
       {
@@ -59,7 +26,7 @@ export function singletonNavigationTree(pages: Array<Page>, title?: string): Nav
   }
 }
 
-export default function SideNavigationAndContent(props: Props) {
+export default function SideNavigationAndContent(props) {
   const { location, navigationTree, sidebarWidth, stickySidebar, redirectToDefaultPage, redirectFrom } = props;
 
   if (redirectToDefaultPage && redirectFrom && location && location.pathname === redirectFrom) {
@@ -92,7 +59,7 @@ export default function SideNavigationAndContent(props: Props) {
   );
 }
 
-function SideNavigationPane({ navigationTree, hasIcons, ...otherProps }: any) {
+function SideNavigationPane({ navigationTree, hasIcons, ...otherProps }) {
   return (
     <Fragment>
       {navigationTree.map((subTree, idx) => (

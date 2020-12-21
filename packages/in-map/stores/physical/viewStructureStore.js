@@ -1,4 +1,4 @@
-import { combineLatest } from 'reactive-observables';
+import { combineLatest } from '@instana/observables';
 
 import createViewStructureObservable from 'in-subscription/reducedView';
 import { searchMatches$ } from 'in-stores/search/searchMatches';

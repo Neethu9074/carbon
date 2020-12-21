@@ -4,9 +4,9 @@ import getUiBackendVersion from 'in-subscription/getUiBackendVersion';
 import { releaseNotesEnabled } from 'in-services/featureFlags';
 import { build as uiClientBuildInfo } from 'in-services/config';
 import { get, trySet } from 'in-services/localStorage';
-import { combineLatest } from 'reactive-observables';
+import { combineLatest } from '@instana/observables';
 import { createStore } from 'in-stores/store';
-import { createLogger } from 'instalog';
+import { createLogger } from '@instana/logger';
 import http from 'in-services/http';
 
 const logger = createLogger('in-stores.releaseNotes');

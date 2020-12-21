@@ -18,7 +18,6 @@ module.exports = {
     process.env.STORYBOOK === 'true' && ['react-docgen']
   ].filter(Boolean),
   presets: [
-    '@babel/preset-flow',
     '@babel/preset-react',
     [
       '@babel/preset-env',

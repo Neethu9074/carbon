@@ -1,5 +1,5 @@
 /* eslint-env mocha, node */
-import { create } from 'reactive-observables';
+import { create } from '@instana/observables';
 import proxyquire from 'proxyquire';
 import { expect } from 'chai';
 import sinon from 'sinon';
@@ -160,7 +160,7 @@ describe('shortcuts/dashboard', () => {
 
     onKeyPressed = create();
     shortcuts = proxyquire('in-services/shortcuts', {
-      'reactive-observables': {
+      '@instana/observables': {
         on: () => onKeyPressed
       },
       'in-services/shortcuts/shortcuts/Esc': mod

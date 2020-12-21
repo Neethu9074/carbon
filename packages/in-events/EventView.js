@@ -1,4 +1,4 @@
-import { create, just, interval } from 'reactive-observables';
+import { create, just, interval } from '@instana/observables';
 import React, { useState, useMemo } from 'react';
 import { get } from 'lodash';
 

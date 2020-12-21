@@ -1,7 +1,7 @@
 /* eslint-env mocha */
 
 import { renderHook, act } from '@testing-library/react-hooks';
-import { create } from 'reactive-observables';
+import { create } from '@instana/observables';
 import { expect } from 'chai';
 
 import useCursorPagination from 'in-hooks/useCursorPagination';

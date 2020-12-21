@@ -1,5 +1,5 @@
 /* global require:false */
-import { create } from 'reactive-observables';
+import { create } from '@instana/observables';
 
 import { LinearFilter, Texture, SphereBufferGeometry, Mesh, MeshBasicMaterial } from 'in-map/3DLibProvider';
 import getHeatMapColor, { lightGreenToDarkGreenRgb } from 'in-services/heatMapColors';

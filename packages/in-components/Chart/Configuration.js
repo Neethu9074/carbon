@@ -1,4 +1,4 @@
-import { create } from 'reactive-observables';
+import { create } from '@instana/observables';
 import { assign } from 'lodash';
 import theme from 'in-themes';
 

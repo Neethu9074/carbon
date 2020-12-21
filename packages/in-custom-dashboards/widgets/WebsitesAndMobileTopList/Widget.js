@@ -1,4 +1,4 @@
-import { combineLatest } from 'reactive-observables';
+import { combineLatest } from '@instana/observables';
 import { get } from 'lodash';
 import React from 'react';
 
@@ -48,17 +48,16 @@ export default function WebsitesAndMobileTopList({ config }) {
           Add Website
         </Button>
       )}
-      {hasMobileAppsAccess &&
-        role.canConfigureMobileAppMonitoring && (
-          <Button
-            kind="action"
-            onClick={() => mobileAppsOpenAddForm()}
-            icon="lib_openclose_add_circle_outline"
-            href$={linkToNewMobileApp$}
-          >
-            Add Mobile App
-          </Button>
-        )}
+      {hasMobileAppsAccess && role.canConfigureMobileAppMonitoring && (
+        <Button
+          kind="action"
+          onClick={() => mobileAppsOpenAddForm()}
+          icon="lib_openclose_add_circle_outline"
+          href$={linkToNewMobileApp$}
+        >
+          Add Mobile App
+        </Button>
+      )}
     </>
   );
 

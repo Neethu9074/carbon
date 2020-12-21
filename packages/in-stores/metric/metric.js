@@ -1,4 +1,4 @@
-import { just, combineLatest } from 'reactive-observables';
+import { just, combineLatest } from '@instana/observables';
 
 import { useBeeInstant$, granularityForBeeInstantMetrics, DEFAULT_STAT } from 'in-stores/metric/beeInstant';
 import createDynamicAggregatedMetricObservable from 'in-subscription/dynamicAggregatedMetric';

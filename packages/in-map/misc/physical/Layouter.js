@@ -1,4 +1,4 @@
-import { combineLatest } from 'reactive-observables';
+import { combineLatest } from '@instana/observables';
 
 import { currentLayoutingStrategy$ } from 'in-map/stores/physical/layouterStore';
 import { PHYSICAL_LAYOUTING } from 'in-map/misc/TimingConfig';

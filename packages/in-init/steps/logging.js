@@ -1,4 +1,4 @@
-import { ConsoleAppender, addAppender } from 'instalog';
+import { ConsoleAppender, addAppender } from '@instana/logger';
 
 import WeaselLogAppender from 'in-client/js/WeaselLogAppender';
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { empty } from 'reactive-observables';
+import { empty } from '@instana/observables';
 
 import FacetedSearch from 'in-applications/analyze/components/FacetedSearch/FacetedSearch';
 import CursorPaginatedTable from 'in-components/tables/ServerTable/CursorPaginatedTable';

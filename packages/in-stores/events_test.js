@@ -1,6 +1,6 @@
 /* eslint-env mocha */
 
-import { create } from 'reactive-observables';
+import { create } from '@instana/observables';
 import { fromJS, List } from 'immutable';
 import proxyquire from 'proxyquire';
 import { expect } from 'chai';

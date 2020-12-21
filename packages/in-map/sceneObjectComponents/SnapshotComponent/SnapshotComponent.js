@@ -1,4 +1,4 @@
-import { just } from 'reactive-observables';
+import { just } from '@instana/observables';
 import { fromJS } from 'immutable';
 import { get } from 'lodash';
 

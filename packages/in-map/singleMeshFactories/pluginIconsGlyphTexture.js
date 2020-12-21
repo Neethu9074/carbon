@@ -1,4 +1,4 @@
-import { createLogger } from 'instalog';
+import { createLogger } from '@instana/logger';
 
 import { Texture, LinearFilter } from 'in-map/3DLibProvider';
 import icons from 'in-components/SvgIcon/registry.json';

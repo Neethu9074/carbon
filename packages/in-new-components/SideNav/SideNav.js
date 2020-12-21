@@ -1,4 +1,4 @@
-import { on } from 'reactive-observables';
+import { on } from '@instana/observables';
 import PropTypes from 'prop-types';
 import React from 'react';
 

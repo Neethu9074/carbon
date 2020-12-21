@@ -1,4 +1,4 @@
-import { create } from 'reactive-observables';
+import { create } from '@instana/observables';
 import React from 'react';
 
 import { combinedValidationResults, valid } from 'in-settings/validation';

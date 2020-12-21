@@ -1,4 +1,4 @@
-import { create } from 'reactive-observables';
+import { create } from '@instana/observables';
 
 import fragmentShader from 'in-applications/FlowMap/serviceLocator/ConnectionsServiceLocator/shader/fragmentShader.glsl';
 import vertexShader from 'in-applications/FlowMap/serviceLocator/ConnectionsServiceLocator/shader/vertexShader.glsl';

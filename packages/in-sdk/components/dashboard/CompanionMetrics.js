@@ -1,4 +1,4 @@
-import { combineLatest } from 'reactive-observables';
+import { combineLatest } from '@instana/observables';
 import React, { Fragment } from 'react';
 
 import CustomMetricsV2 from 'in-sdk/components/dashboard/CustomMetricsV2';

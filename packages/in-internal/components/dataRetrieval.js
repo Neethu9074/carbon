@@ -1,4 +1,4 @@
-import { combineLatest } from 'reactive-observables';
+import { combineLatest } from '@instana/observables';
 
 import getPhysicalHierarchy from 'in-subscription/physicalHierarchy';
 import memoize from 'in-services/util/memoizingObservableGenerator';

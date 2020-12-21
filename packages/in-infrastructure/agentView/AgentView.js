@@ -1,4 +1,4 @@
-import { combineLatest } from 'reactive-observables';
+import { combineLatest } from '@instana/observables';
 import { Switch, Route } from 'react-router-dom';
 import React from 'react';
 

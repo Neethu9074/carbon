@@ -1,4 +1,4 @@
-import { just } from 'reactive-observables';
+import { just } from '@instana/observables';
 import React, { useState } from 'react';
 
 import { getTimeframeNonLiveUrl, getTimeframeLiveUrl, setTimeframe, timeConfig$ } from 'in-stores/timeline';

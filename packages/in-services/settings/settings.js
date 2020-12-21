@@ -1,5 +1,5 @@
-import { create } from 'reactive-observables';
-import { createLogger } from 'instalog';
+import { create } from '@instana/observables';
+import { createLogger } from '@instana/logger';
 import { get } from 'lodash';
 
 import { saveSettings, saveSetting } from 'in-api/settings';

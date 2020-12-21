@@ -1,6 +1,6 @@
 /* eslint-env mocha */
 
-import { create } from 'reactive-observables';
+import { create } from '@instana/observables';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
 import { stub } from 'sinon';

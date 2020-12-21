@@ -1,4 +1,4 @@
-import { empty } from 'reactive-observables';
+import { empty } from '@instana/observables';
 import theme from 'in-themes';
 import { get } from 'lodash';
 import React from 'react';

@@ -1,4 +1,4 @@
-import { create } from 'reactive-observables';
+import { create } from '@instana/observables';
 
 import { getAnimationFramesWithAnAnimationDurationOf } from 'in-services/chartRenderingAnimationFrames';
 import { WIGGLE_ROOM, ANIMATION_DURATION } from 'in-components/Chart/Configuration';

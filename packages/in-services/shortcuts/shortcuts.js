@@ -1,4 +1,4 @@
-import { on } from 'reactive-observables';
+import { on } from '@instana/observables';
 
 import { onLeftArrow, onRightArrow } from 'in-services/shortcuts/shortcuts/navigationViaArrows';
 import onQuestionMarkPressed from 'in-services/shortcuts/shortcuts/QuestionMark';

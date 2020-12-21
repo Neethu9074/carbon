@@ -1,4 +1,4 @@
-import { just } from 'reactive-observables';
+import { just } from '@instana/observables';
 
 import { percentageZeroDecimalPlaces, bytesTwoDecimalPlaces, twoDecimalPlaces } from 'in-services/formatters/number';
 import { valueWithFormatterToReadableString, numberFormatterToFormatterType } from 'in-services/formatters/number';

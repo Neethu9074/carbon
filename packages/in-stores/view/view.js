@@ -1,4 +1,4 @@
-import { combineLatest } from 'reactive-observables';
+import { combineLatest } from '@instana/observables';
 
 import { containerPath } from 'in-stores/navigation/paths/mainPaths';
 import createViewStructureObservable from 'in-subscription/view';

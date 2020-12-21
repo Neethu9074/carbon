@@ -1,5 +1,5 @@
 import { compose, withProps, withState } from 'recompose';
-import { empty } from 'reactive-observables';
+import { empty } from '@instana/observables';
 import React from 'react';
 
 import {

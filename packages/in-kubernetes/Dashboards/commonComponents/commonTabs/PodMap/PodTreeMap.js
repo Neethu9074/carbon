@@ -1,4 +1,4 @@
-import { just, combineLatest } from 'reactive-observables';
+import { just, combineLatest } from '@instana/observables';
 import { compose, withProps } from 'recompose';
 import { get } from 'lodash';
 import React from 'react';

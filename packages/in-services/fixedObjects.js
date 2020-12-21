@@ -1,23 +1,21 @@
-// @flow
-
 import { noop as _noop } from 'in-services/util/function';
 
-export const emptyObject: any = Object.freeze({});
-export const listData: any = Object.freeze({ items: [] });
-export const emptyJsMap: Map<any, any> = new Map();
-export const emptyArray: Array<any> = Object.freeze([]);
-export const javaLongMaxValue: number = 9223372036854775807;
-export const noop: Function = _noop;
+export const emptyObject = Object.freeze({});
+export const listData = Object.freeze({ items: [] });
+export const emptyJsMap = new Map();
+export const emptyArray = Object.freeze([]);
+export const javaLongMaxValue = 9223372036854775807;
+export const noop = _noop;
 
-export const finishedProgress: Progress = Object.freeze({
+export const finishedProgress = Object.freeze({
   loading: false
 });
 
-export const indeterminateProgress: Progress = Object.freeze({
+export const indeterminateProgress = Object.freeze({
   loading: true
 });
 
-export const pendingResult: Result<any> = Object.freeze({
+export const pendingResult = Object.freeze({
   progress: indeterminateProgress,
   errors: emptyArray
 });

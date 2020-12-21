@@ -1,7 +1,7 @@
 export * from 'in-services/tracking/eventNames';
 
 import { sortedUniq, isEqual } from 'lodash';
-import { createLogger } from 'instalog';
+import { createLogger } from '@instana/logger';
 import invariant from 'invariant';
 
 import { track as trackInternal } from 'in-services/tracking/trackers';

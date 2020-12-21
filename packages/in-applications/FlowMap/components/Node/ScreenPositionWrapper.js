@@ -1,4 +1,4 @@
-import { combineLatest } from 'reactive-observables';
+import { combineLatest } from '@instana/observables';
 import React from 'react';
 
 import { getServiceLocators } from 'in-applications/FlowMap/serviceLocator/serviceLocator';

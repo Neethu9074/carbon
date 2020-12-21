@@ -1,4 +1,4 @@
-import { just } from 'reactive-observables';
+import { just } from '@instana/observables';
 
 import getWebsiteBeacons from 'in-websites/subscriptions/getWebsiteBeacons';
 import { minutes } from 'in-services/time';

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { createLogger } from 'instalog';
+import { createLogger } from '@instana/logger';
 import PropTypes from 'prop-types';
 
 import {

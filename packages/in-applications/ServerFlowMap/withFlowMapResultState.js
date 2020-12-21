@@ -1,4 +1,4 @@
-import { create } from 'reactive-observables';
+import { create } from '@instana/observables';
 import React, { Component } from 'react';
 
 import FlowMapState from 'in-applications/ServerFlowMap/FlowMapState';

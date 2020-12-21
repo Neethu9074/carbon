@@ -1,5 +1,5 @@
-import { setUnhandledErrorHandler } from 'reactive-observables';
-import { createLogger } from 'instalog';
+import { setUnhandledErrorHandler } from '@instana/observables';
+import { createLogger } from '@instana/logger';
 import { get } from 'lodash';
 
 import { ineum } from 'in-services/tracking/ineum';

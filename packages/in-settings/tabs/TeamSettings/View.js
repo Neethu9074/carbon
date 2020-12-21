@@ -1,4 +1,3 @@
-// @flow
 import React, { Fragment } from 'react';
 
 import {
@@ -55,7 +54,6 @@ import SideNavigationAndContent from 'in-new-components/layout/SideNavigationAnd
 import SplunkPage from 'in-settings/tabs/TeamSettings/pages/logManagement/Splunk/Splunk';
 import LogDnaPage from 'in-settings/tabs/TeamSettings/pages/logManagement/LogDna/LogDna';
 import GroupsPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Groups/Groups';
-import type { NavigationTree } from 'in-new-components/layout/SideNavigationAndContent';
 import GroupPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Groups/Group';
 import HumioPage from 'in-settings/tabs/TeamSettings/pages/logManagement/Humio/Humio';
 import UsersPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/Users';
@@ -65,18 +63,17 @@ import UserPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/Us
 import ElkPage from 'in-settings/tabs/TeamSettings/pages/logManagement/Elk/Elk';
 import AuditLogPage from 'in-settings/tabs/TeamSettings/pages/audit/AuditLog';
 import { findFirstPermittedTeamPage } from 'in-settings/tabs/permissions';
-import { Page } from 'in-new-components/layout/SideNavigationAndContent';
 import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import { groupPermissionsEnabled } from 'in-services/featureFlags';
 import NotFoundPage from 'in-settings/tabs/pages/NotFound';
 import SetBodyColor from 'in-components/SetBodyColor';
 import { role } from 'in-stores/user';
 
-function navigationTreeForRole(role): NavigationTree {
-  const navigationTree: NavigationTree = [];
+function navigationTreeForRole(role) {
+  const navigationTree = [];
 
   if (role.canConfigureUsers || role.canConfigureRoles || role.canConfigureTeams || role.canConfigureApiTokens) {
-    const accessControlPages: Array<Page> = [];
+    const accessControlPages = [];
 
     if (role.canConfigureUsers) {
       accessControlPages.push({
@@ -295,7 +292,7 @@ function navigationTreeForRole(role): NavigationTree {
   return navigationTree;
 }
 
-export default function View(props: any) {
+export default function View(props) {
   return (
     <Fragment>
       <ViewTrackingMeta

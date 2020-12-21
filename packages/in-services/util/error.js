@@ -1,5 +1,3 @@
-// @flow
-
-export function isTechnicalError(ec: ?ErrorCode) {
+export function isTechnicalError(ec) {
   return ec === 'CLIENT' || ec === 'SERVER' || ec === 'TIMEOUT';
 }

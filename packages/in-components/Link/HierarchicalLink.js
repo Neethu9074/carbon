@@ -1,4 +1,4 @@
-import { combineLatest } from 'reactive-observables';
+import { combineLatest } from '@instana/observables';
 import { compose, withState } from 'recompose';
 
 import { getSnapshot, shouldStayInCurrentTimeModeForNavigationToSnapshot } from 'in-stores/snapshot';
@@ -11,8 +11,8 @@ import connect from 'in-hoc/connectTo';
 
 export default compose(
   connect(({ snapshot, timeConfig }) => ({
-    timeConfig: shouldStayInCurrentTimeModeForNavigationToSnapshot({ snapshotId: snapshot.get('id') }).map(
-      stay => (stay ? undefined : timeConfig)
+    timeConfig: shouldStayInCurrentTimeModeForNavigationToSnapshot({ snapshotId: snapshot.get('id') }).map(stay =>
+      stay ? undefined : timeConfig
     )
   })),
   connect(

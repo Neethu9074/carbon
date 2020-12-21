@@ -1,4 +1,4 @@
-import { just, combineLatest } from 'reactive-observables';
+import { just, combineLatest } from '@instana/observables';
 import React, { Fragment } from 'react';
 
 import MetricChartDownloadView from 'in-components/DownloadButton/components/MetricChartDownloadView';

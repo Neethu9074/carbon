@@ -1,4 +1,4 @@
-import { createLogger } from 'instalog';
+import { createLogger } from '@instana/logger';
 import React from 'react';
 
 import ErrorCounter from 'in-components/ErrorBoundary/ErrorCounter';

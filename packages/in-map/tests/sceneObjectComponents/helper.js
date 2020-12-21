@@ -1,4 +1,4 @@
-import RoEmitter from 'roemitter';
+import RoEmitter from '@instana/roemitter';
 
 export function createSceneObject(id = 'id1') {
   const eventEmitter = new RoEmitter();

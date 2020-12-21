@@ -1,4 +1,4 @@
-import { createLogger } from 'instalog';
+import { createLogger } from '@instana/logger';
 import { get } from 'lodash';
 
 import { add as addApi, remove as removeApi } from 'in-stores/starredItems/api';

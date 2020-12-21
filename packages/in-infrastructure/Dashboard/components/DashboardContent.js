@@ -1,4 +1,4 @@
-import { fromPromise, timeout, combineLatest } from 'reactive-observables';
+import { fromPromise, timeout, combineLatest } from '@instana/observables';
 import React from 'react';
 
 import AgentMonitoringIssueNotifications from 'in-infrastructure/Dashboard/components/AgentMonitoringIssueNotifications';

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { empty } from 'reactive-observables';
+import { empty } from '@instana/observables';
 
 import { getGroupingTagCatalog as getTraceGroupingTagCatalog } from 'in-applications/analyze/components/workspace/TraceGroupingConfigurator';
 import { getGroupingTagCatalog as getCallGroupingTagCatalog } from 'in-applications/analyze/components/workspace/CallGroupingConfigurator';

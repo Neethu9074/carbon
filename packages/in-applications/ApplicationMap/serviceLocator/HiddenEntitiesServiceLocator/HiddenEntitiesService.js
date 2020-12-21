@@ -1,4 +1,4 @@
-import { combineLatest, create } from 'reactive-observables';
+import { combineLatest, create } from '@instana/observables';
 
 import { SIGNALS } from 'in-applications/ApplicationMap/serviceLocator/EventBusServiceLocator/EventBusService';
 import { containsIgnoreCase } from 'in-services/util/string';

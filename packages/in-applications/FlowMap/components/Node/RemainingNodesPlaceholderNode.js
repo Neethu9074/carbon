@@ -1,4 +1,4 @@
-import { combineLatest } from 'reactive-observables';
+import { combineLatest } from '@instana/observables';
 import React from 'react';
 
 import ScreenPositionWrapper from 'in-applications/FlowMap/components/Node/ScreenPositionWrapper';

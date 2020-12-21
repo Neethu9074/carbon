@@ -1,5 +1,5 @@
 import { createField, createMapForm, createListForm, notBlankValidator } from 'formalistic';
-import { just } from 'reactive-observables';
+import { just } from '@instana/observables';
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
 

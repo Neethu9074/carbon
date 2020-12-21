@@ -1,4 +1,4 @@
-import { timeout, combineLatest } from 'reactive-observables';
+import { timeout, combineLatest } from '@instana/observables';
 
 import createSnapshotsInTimeframeObservable from 'in-subscription/snapshotsInTimeframe';
 import createHighlightedMapEntityObservable from 'in-subscription/highlightedMapEntity';

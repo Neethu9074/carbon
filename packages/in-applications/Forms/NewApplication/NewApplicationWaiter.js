@@ -1,4 +1,4 @@
-import { interval, just } from 'reactive-observables';
+import { interval, just } from '@instana/observables';
 import { Redirect } from 'react-router-dom';
 import React from 'react';
 
