@@ -44,5 +44,23 @@ export default {
     },
     explanationLinkLabel: `Troubleshooting docs`,
     explanationLinkHref: `https://instana.com/docs/ecosystem/python/troubleshooting/#python_autotrace_prerequisites_failed`
+  },
+  agent_process_lookup_prerequisites_failed: {
+    issueDescription: {
+      Component: function agentProcessLookupPrerequisitesFailed({ missingUtils }) {
+        const missing = Array.isArray(missingUtils) ? missingUtils.join(', ') : missingUtils;
+        return (
+          <span>
+            The lookup of which process is sending traces to this agent using trace endpoints like OpenTelemetry, Jaeger, Zipkin or Web Trace SDK cannot be performed because the following utilities are missing:{' '}
+            <strong>
+              <code>{missing}</code>
+            </strong>
+            . Please refer to your Linux distribution docs on how to install these utilities.
+          </span>
+        );
+      }
+    },
+    explanationLinkLabel: `Troubleshooting docs`,
+    explanationLinkHref: `https://www.instana.com/docs/setup_and_manage/host_agent`
   }
 };
