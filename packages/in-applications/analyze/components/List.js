@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
 import { empty } from '@instana/observables';
 
@@ -5,11 +6,11 @@ import FacetedSearch from 'in-applications/analyze/components/FacetedSearch/Face
 import CursorPaginatedTable from 'in-components/tables/ServerTable/CursorPaginatedTable';
 import BatchingIndicator from 'in-analyze/components/BatchingIndicator';
 import TableLinkWithIcon from 'in-analyze/components/TableLinkWithIcon';
+import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import { getServiceDashboard } from 'in-applications/navigation/paths';
 import { dataSourceConstants } from 'in-applications/analyze/metrics';
 import ResultHeader from 'in-new-components/AnalyzeView/ResultHeader';
 import { getLinkToTraceDetail } from 'in-analyze/navigation/paths';
-import classNames from 'classnames';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import { formatDateTime } from 'in-services/formatters/date';
 import { Link } from 'in-components/tables/sharedComponents';
@@ -162,6 +163,9 @@ function Presenter({
           orderDirection={order.direction}
           loadMoreLabel={`Load ${retrievalSize} more`}
           filterBy={filterBy}
+          renderNoDataAvailable={noDataMessage => (
+            <NoDataAvailable className={locals.noData} text={noDataMessage} height={80} />
+          )}
         />
       </div>
     </div>

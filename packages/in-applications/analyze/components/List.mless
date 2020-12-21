@@ -81,4 +81,7 @@
   .italic {
     font-style: italic;
   }
+  .noData {
+    background-color: transparent;
+  }
 }

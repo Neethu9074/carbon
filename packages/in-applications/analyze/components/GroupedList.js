@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
 import { empty } from '@instana/observables';
 
@@ -21,7 +22,6 @@ import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import { dataSourceConstants } from 'in-applications/analyze/metrics';
 import ResultHeader from 'in-new-components/AnalyzeView/ResultHeader';
 import { error as errorType } from 'in-new-components/Message/types';
-import classNames from 'classnames';
 import IconButton from 'in-new-components/IconButton/IconButton';
 import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import useCursorPagination from 'in-hooks/useCursorPagination';
@@ -276,8 +276,12 @@ function Presenter({
               </Li>
             ))}
           {canLoadMore && <LoadMoreLi loadMore={loadMore} />}
+          {!isLoading && items.length === 0 && (
+            <Li borderRadius="medium" key="noData">
+              <NoDataAvailable className={locals.noData} height={80} />
+            </Li>
+          )}
         </Ul>
-        {!isLoading && items.length === 0 && <NoDataAvailable height={240} />}
       </div>
     </div>
   );
@@ -548,7 +552,7 @@ function GroupLabelTooltip({ groupName }) {
   return (
     <Tooltip content={label} align="bottomLeft">
       <div
-        className={evaluateClassNames({
+        className={classNames({
           [locals.italic]: groupName === UNSPECIFIED || groupName === NO_VALUE
         })}
       >
