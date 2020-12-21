@@ -15,6 +15,7 @@ import { onChangeGrouping } from 'in-custom-dashboards/widgets/_shared/MetricCon
 import { sizes as ICON_SIZES } from 'in-components/SvgIcon/SvgIcon';
 import { availableMetrics } from 'in-applications/analyze/metrics';
 import TouchedMessages from 'in-components/form/TouchedMessages';
+import HelpText from 'in-components/form/HelpText/HelpText';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { aggregationLabels } from 'in-stores/metric/metric';
 import { Row, Col } from 'in-new-components/layout/Grid';
@@ -23,7 +24,6 @@ import FormGroup from 'in-components/form/FormGroup';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import useObservable from 'in-hooks/useObservable';
 import Stack from 'in-new-components/layout/Stack';
-import Message from 'in-new-components/Message';
 import Select from 'in-components/form/Select';
 import Toggle from 'in-components/form/Toggle';
 import Label from 'in-components/form/Label';
@@ -144,11 +144,9 @@ export default function FormComponent({
 
           {grouping && (
             <Stack space="small">
-              <Row withoutTopMargin>
-                <Col lg={6}>
-                  <Message small title="Grouping limits the results to calls that have a value for the tag." />
-                </Col>
-              </Row>
+              <HelpText className={locals.groupingHelpText}>
+                Grouping limits the results to calls that have a value for the tag above.
+              </HelpText>
               <div className={locals.groupingConfiguration}>
                 <div className={locals.groupingConfigurationAlignment}>
                   <div className={locals.groupingConfigurationDrop}>

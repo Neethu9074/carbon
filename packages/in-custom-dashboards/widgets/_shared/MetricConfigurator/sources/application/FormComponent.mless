@@ -28,4 +28,8 @@
   .select {
     width: 10rem;
   }
+
+  .groupingHelpText {
+    margin-top: 0;
+  }
 }
