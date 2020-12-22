@@ -358,6 +358,8 @@ function metricToColumn(metric, dataSource) {
     dataSourceConstants[dataSource].metricConfiguration[metric.metric];
   return {
     shrink: false,
+    width: '16rem',
+    minWidth: '9rem',
     getContent({ group, timeConfig, progress, granularity }) {
       return (
         <div className={locals.metric}>
