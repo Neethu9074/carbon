@@ -150,11 +150,11 @@ function createColumnFilter({ result }) {
     find(items, item => isOpenshift(get(item, ['namespace', 'clusterDistribution'], 'kubernetes')))
   );
 
-  return ({ id }) => {
+  return ({ label }) => {
     if (anyOpenshift) {
       return true;
     }
-    return id !== 'deploymentConfigs';
+    return label !== 'Deployment Configs';
   };
 }
 

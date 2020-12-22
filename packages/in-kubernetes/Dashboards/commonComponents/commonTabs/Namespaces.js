@@ -200,7 +200,7 @@ export default function Namespaces(props) {
                   isOpenshift(get(item, ['namespace', 'clusterDistribution'], 'kubernetes'))
                 )
               );
-            return columnDefinition => anyOpenshift || columnDefinition.id !== 'deploymentConfigs';
+            return columnDefinition => anyOpenshift || columnDefinition.label !== 'Deployment Configs';
           }}
           timeConfig={props.timeConfig}
           clusterId={props.clusterId}
