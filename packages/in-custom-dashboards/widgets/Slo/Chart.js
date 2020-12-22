@@ -102,7 +102,7 @@ function getAnalyzeFilters(sliConfig) {
   const filters = [];
   const sliEntity = sliConfig.sliEntity;
   if (sliEntity.sliType === availabilityType) {
-    const badAnalyzeFilters = convertToAnalyzeFilters(sliEntity.badEventFilters);
+    const badAnalyzeFilters = convertToAnalyzeFilters(sliEntity.badEventFilters ?? []);
     filters.push(...badAnalyzeFilters);
   } else if (sliEntity.sliType === applicationType) {
     switch (sliConfig.metricConfiguration.metricName) {
