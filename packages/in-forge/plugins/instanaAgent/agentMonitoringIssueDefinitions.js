@@ -51,7 +51,8 @@ export default {
         const missing = Array.isArray(missingUtils) ? missingUtils.join(', ') : missingUtils;
         return (
           <span>
-            The lookup of which process is sending traces to this agent using trace endpoints like OpenTelemetry, Jaeger, Zipkin or Web Trace SDK cannot be performed because the following utilities are missing:{' '}
+            The lookup of which process is sending traces to this agent using trace endpoints like OpenTelemetry,
+            Jaeger, Zipkin or Web Trace SDK cannot be performed because the following utilities are missing:{' '}
             <strong>
               <code>{missing}</code>
             </strong>
