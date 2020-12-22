@@ -2,7 +2,7 @@ import React from 'react';
 
 import SplitScreenLogItemContent from 'in-logging/analyze/AnalyzeView/components/SplitScreenLogItemContent';
 import SplitScreenList from 'in-new-components/AnalyzeView/SplitScreenList/SplitScreenList';
-import tabs from 'in-logging/analyze/AnalyzeView/LogDetail/tabs/index';
+import getTags from 'in-logging/analyze/AnalyzeView/LogDetail/tabs/index';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import { getIconByType } from 'in-analyze/AnalyzeView/dataSources';
 import DashboardHeader from 'in-new-components/DashboardHeader';
@@ -37,7 +37,7 @@ export default function LogDetail(props) {
             props={props}
             HeaderComponent={Header}
             location={location}
-            tabs={tabs}
+            tabs={getTags(props)}
             result$={getLog({ id: detailId })}
             withoutBreadcrumb
             withoutPadding

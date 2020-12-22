@@ -2,13 +2,16 @@ import rpt from 'prop-types';
 import React from 'react';
 
 import { trackingProps as queryBuilderTrackingProps } from 'in-new-components/QueryBuilder/QueryBuilder';
+import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';
 import Section from 'in-new-components/workspace/Section';
 import useThemedLocals from 'in-hooks/useThemedLocals';
 import Button from 'in-new-components/Button';
 
 import styleDefs from './QueryBuilderSection.mless';
 
-export default function QueryBuilderSection({ value: tagFilterExpression, QueryBuilder, onChange, tracking }) {
+export default function QueryBuilderSection(props) {
+  const { value: tagFilterExpression, CustomActions, QueryBuilder, onChange, tracking } = props;
+
   const locals = useThemedLocals(styleDefs);
   const onClear = function() {
     tracking?.onQueryCleared?.();
@@ -22,11 +25,14 @@ export default function QueryBuilderSection({ value: tagFilterExpression, QueryB
       title="Filter"
       firstLineAlignmentOffsetPx={4}
       actions={
-        tagFilterExpression.length > 0 && (
-          <Button kind="subtle" icon="lib_openclose_cancel" size="compact" onClick={() => onClear()}>
-            Clear
-          </Button>
-        )
+        <HorizontalFlexWrapper>
+          {tagFilterExpression.length > 0 && (
+            <Button kind="subtle" icon="lib_openclose_cancel" size="compact" onClick={() => onClear()}>
+              Clear
+            </Button>
+          )}
+          {CustomActions && <CustomActions {...props} />}
+        </HorizontalFlexWrapper>
       }
     >
       <QueryBuilder
@@ -40,6 +46,7 @@ export default function QueryBuilderSection({ value: tagFilterExpression, QueryB
 
 QueryBuilderSection.propTypes = {
   value: rpt.array.isRequired,
+  CustomActions: rpt.elementType,
   QueryBuilder: rpt.func.isRequired,
   onChange: rpt.func.isRequired,
   tracking: rpt.shape({

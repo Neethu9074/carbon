@@ -8,6 +8,7 @@ import {
   productAreaIcons,
   productAreaTrackingNames
 } from 'in-analyze/AnalyzeView/dataSources';
+import { logsPath as logsAnalyzePath, rawLogsPath as rawLogsPathAnalyzePath } from 'in-logging/navigation/paths';
 import { analyzePath as mobileAppAnalyzePath, mobileAppMonitoringPath } from 'in-mobile-apps/navigation/paths';
 import { dataSource as dataSourceTypeMatrixParameter } from 'in-new-components/Profiling/navigation/matrix';
 import { analyzePath as websiteAnalyzePath, websiteMonitoringPath } from 'in-websites/navigation/paths';
@@ -23,7 +24,6 @@ import { dataSource as dataSourceMatrixParameterUA1 } from 'in-analyze/navigatio
 import FeatureFeedback from 'in-new-components/FeatureFeedback/FeatureFeedback';
 import { dataSourceMatrixParameter } from 'in-applications/navigation/matrix';
 import DashboardHeader, { themes } from 'in-new-components/DashboardHeader';
-import { logsPath as logsAnalyzePath } from 'in-logging/navigation/paths';
 import { analyze as appAnalyzePath } from 'in-analyze/navigation/paths';
 import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
@@ -35,7 +35,7 @@ import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './AnalyzeHeader.mless';
 
-export default function AnalyzeHeader({ renderQuickFilterBar, isGrouped }) {
+export default function AnalyzeHeader({ renderQuickFilterBar, isGrouped, withoutShadow }) {
   const location = useLocation();
   const activeConfiguration = getActiveConfiguration(location);
 
@@ -81,7 +81,7 @@ export default function AnalyzeHeader({ renderQuickFilterBar, isGrouped }) {
           {renderQuickFilterBar()}
         </DashboardHeaderModule>
       )}
-      <DashboardHeaderShadowModule />
+      {!withoutShadow && <DashboardHeaderShadowModule />}
     </>
   );
 }
@@ -136,9 +136,13 @@ const dataSourceSources = [
     matrixParam: dataSourceTypeMatrixParameter,
     productArea: 'profiles'
   },
-
   {
     matrixPath: logsAnalyzePath,
+    matrixParam: logsDataSourceTypeMatrixParameter,
+    productArea: 'logs'
+  },
+  {
+    matrixPath: rawLogsPathAnalyzePath,
     matrixParam: logsDataSourceTypeMatrixParameter,
     productArea: 'logs'
   }

@@ -56,6 +56,6 @@ export default function Summary({ data: log }) {
 }
 
 function findLogLevelTag(log) {
-  const match = log.tags.filter(({ tag }) => tag.label === 'level')[0];
+  const match = log.tags.filter(({ tag }) => tag.label === 'log.level')[0];
   return match ? match.value : valueMissingPlaceholder;
 }

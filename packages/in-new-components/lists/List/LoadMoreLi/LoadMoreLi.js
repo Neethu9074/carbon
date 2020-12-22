@@ -5,9 +5,9 @@ import Button from 'in-new-components/Button';
 
 import locals from './LoadMoreLi.mless';
 
-export default function LoadMoreLi({ loadMore, label = 'Load More' }) {
+export default function LoadMoreLi({ className, loadMore, label = 'Load More' }) {
   return (
-    <Li>
+    <Li className={className}>
       <div className={locals.wrapper}>
         <Button
           kind="action"

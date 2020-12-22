@@ -91,7 +91,9 @@ function Content({ i, options, item: metric, onChangeAggregation, getPossibleAgg
                   value={field.value}
                   onChange={e => {
                     const aggregation = e.target.value;
-                    onChangeAggregation?.(metricEventPayload(metric), aggregation);
+                    if (onChangeAggregation) {
+                      onChangeAggregation(metricEventPayload(metric), aggregation);
+                    }
                     onChange([i, 'aggregation'], field => field.setValue(aggregation).setTouched(true));
                   }}
                   className={locals.aggregations}

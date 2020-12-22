@@ -84,7 +84,7 @@ export const productAreaIcons = Object.freeze({
   website: 'lib_website',
   mobileApp: 'lib_mobile_app',
   profiles: 'lib_profiling',
-  logs: 'lib_navigation_stan'
+  logs: 'lib_application_logging'
 });
 
 const icons = deepFreeze({
@@ -112,7 +112,8 @@ const icons = deepFreeze({
     profiles: 'lib_profiling'
   },
   logs: {
-    logs: 'lib_application_logging'
+    logs: 'lib_application_logging',
+    rawlogs: 'lib_website_page_load'
   }
 });
 
@@ -135,7 +136,7 @@ export function getEntityNameByType(type) {
     return 'Custom events';
   } else if (type === 'profiles') {
     return 'Profiles';
-  } else if (type === 'logs') {
+  } else if (type === 'logs' || type === 'rawlogs') {
     return 'Logs';
   } else if (type === 'sessionStart') {
     return 'Session Start';
@@ -171,6 +172,8 @@ export function getLabelByType(type) {
     return 'Traces';
   } else if (type === 'logs') {
     return 'Logs';
+  } else if (type === 'rawlogs') {
+    return 'Console';
   }
 
   return type;

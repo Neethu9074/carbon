@@ -1,0 +1,141 @@
+@import '~in-themes/active.less';
+
+:local {
+  .wrapper {
+    position: fixed;
+    top: 8.625rem;
+    left: 4.5rem;
+    right: 0;
+    bottom: 0;
+
+    padding: 0.25rem 0.5rem 2rem;
+
+    background: #1b1b1b;
+    overflow-y: scroll;
+  }
+
+  .list > li {
+    border: none !important;
+  }
+
+  .listItem {
+    color: white;
+    line-height: 1rem;
+  }
+
+  .listItem,
+  .errorListItem {
+    padding: 0 0.75rem;
+  }
+
+  .listItem,
+  .loadMoreListItem,
+  .loadingListItem,
+  .errorListItem {
+    background: #1b1b1b;
+  }
+
+  .errorListItem {
+    color: @lib__colors__failure;
+  }
+
+  .loadMoreListItem {
+    display: flex;
+    justify-content: center;
+
+    padding: 0;
+  }
+
+  .loadMoreButton {
+    &:hover {
+      background: #2c2c2c !important;
+    }
+  }
+
+  .disabledLoadMoreButton {
+    background: transparent !important;
+  }
+
+  .loadingListItem {
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  .time {
+    color: @lib__colors__N500;
+    font-size: 0.75rem;
+  }
+
+  .logLevel {
+    font-size: 0.75rem;
+    margin-right: 0.25rem;
+    padding: 0 0.25rem;
+  }
+
+  .info {
+    background: @lib__colors__success;
+  }
+
+  .warn {
+    background: @lib__colors__warning;
+    color: @lib__colors__N900Primary;
+  }
+
+  .error {
+    background: @lib__colors__failure;
+  }
+
+  .tag {
+    margin-right: 0.25rem;
+
+    font-size: 0.6875rem;
+    font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;
+  }
+
+  .timeSkeleton,
+  .logLevelSkeleton,
+  .messageSkeleton1,
+  .messageSkeleton2,
+  .messageSkeleton3 {
+    display: block;
+
+    height: 0.75rem;
+  }
+
+  .timeSkeleton {
+    width: 7.5rem;
+    margin-right: 0.5rem;
+  }
+
+  .logLevelSkeleton {
+    width: 2.75rem;
+    margin-right: 0.25rem;
+  }
+
+  .messageSkeleton1 {
+    width: 42%;
+  }
+
+  .messageSkeleton2 {
+    width: 32%;
+  }
+
+  .messageSkeleton3 {
+    width: 62%;
+  }
+
+  .tag_0 {
+    color: @lib__colors__orange800;
+  }
+
+  .tag_1 {
+    color: @lib__colors__light-blue800;
+  }
+
+  .message {
+    color: #d3d0c8;
+
+    font-size: 0.6875rem;
+    font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;
+  }
+}

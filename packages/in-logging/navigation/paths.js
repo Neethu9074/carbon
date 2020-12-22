@@ -2,6 +2,7 @@ import { getModifiedUrlStream, navigationParameters$ } from 'in-stores/navigatio
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 
 export const logsPath = '/logs';
+export const rawLogsPath = '/rawlogs';
 
 export function getLinkToAnalyze() {
   return getModifiedUrlStream(location => {
@@ -16,4 +17,14 @@ export function getLinkToAnalyze() {
   });
 }
 
-export const isAnalyzeView = navigationParameters$.map(location => location.pathname.indexOf(logsPath) === 0);
+export function getLinkToRawLogs() {
+  return getModifiedUrlStream(location => {
+    location.pathname = rawLogsPath;
+
+    setOrDeleteMatrixKey(location, rawLogsPath, 'dataSource', 'rawlogs');
+  });
+}
+
+export const isAnalyzeView = navigationParameters$.map(
+  location => location.pathname.indexOf(logsPath) === 0 || location.pathname.indexOf(rawLogsPath) === 0
+);

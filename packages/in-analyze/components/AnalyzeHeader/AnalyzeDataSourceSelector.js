@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import React from 'react';
 
 import getConfigByDataSource, {
@@ -6,16 +7,16 @@ import getConfigByDataSource, {
   productAreaLabels,
   productAreaIcons
 } from 'in-analyze/AnalyzeView/dataSources';
+import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import { getLinkToAnalyze as getLinkToProfilesAnalyze } from 'in-new-components/Profiling/navigation/paths';
+import { getLinkToAnalyze as getLinkToLogsAnalyze, getLinkToRawLogs } from 'in-logging/navigation/paths';
 import { hasApplicationsAccess, hasWebsitesAccess, hasMobileAppsAccess } from 'in-stores/permission';
 import { getLinkToAnalyze as getLinkToMobileAppAnalyze } from 'in-mobile-apps/navigation/paths';
 import { getLinkToAnalyze as getLinkToWebsiteAnalyze } from 'in-websites/navigation/paths';
-import { getLinkToAnalyze as getLinkToLogsAnalyze } from 'in-logging/navigation/paths';
 import { defaultGroupings as defaultMobileAppGroupings } from 'in-mobile-apps/tags';
 import { defaultGroupings as defaultWebsiteGroupings } from 'in-websites/tags';
 import { loggingEnabled, newAnalyticsEnabled } from 'in-services/featureFlags';
 import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
-import classNames from 'classnames';
 import { emptyObject } from 'in-services/fixedObjects';
 import { Ul, Li } from 'in-new-components/lists/List';
 import useObservable from 'in-hooks/useObservable';
@@ -151,13 +152,19 @@ const productAreas = [
       }
     ]
   },
+
   {
     productArea: 'logs',
     hasAccess: loggingEnabled,
     dataSources: [
       {
         dataSource: 'logs',
-        getHref$: () => getLinkToLogsAnalyze()
+        getHref$: getLinkToLogsAnalyze
+      },
+      {
+        dataSource: 'rawlogs',
+        getHref$: getLinkToRawLogs,
+        enabled$: isInternalVisible$
       }
     ]
   }

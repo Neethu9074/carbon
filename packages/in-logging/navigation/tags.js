@@ -1,1 +1,1 @@
-export const allAvailableTags = ['level', 'service', 'endpoint'];
+export const allAvailableTags = ['log.level', 'service.name', 'endpoint.name'];

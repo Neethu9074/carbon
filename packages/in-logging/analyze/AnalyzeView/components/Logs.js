@@ -33,7 +33,7 @@ const columnDefinitions = [
     getContent({ log, groupLabel, getHrefToDetailId, selectedTags }) {
       return (
         <LogContentColumn
-          content={log.strippedContent}
+          content={log.content}
           tags={log.tags.filter(({ tag }) => selectedTags.indexOf(tag.label) >= 0)}
           href={getHrefToDetailId(log.id, groupLabel)}
         />

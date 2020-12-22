@@ -3,11 +3,11 @@ import React from 'react';
 import { formatDateTime } from 'in-services/formatters/date';
 import KeyValue from 'in-new-components/lists/KeyValue';
 
-export default function SplitScreenLogItemContent({ log: { strippedContent, timestamp } }) {
+export default function SplitScreenLogItemContent({ log: { content, timestamp } }) {
   return (
     <KeyValue
       label={<time dateTime={new Date(timestamp).toISOString()}>{formatDateTime(timestamp)}</time>}
-      value={strippedContent}
+      value={content}
       inverted
       accentuated
     />

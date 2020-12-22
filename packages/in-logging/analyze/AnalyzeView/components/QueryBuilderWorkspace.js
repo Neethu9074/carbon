@@ -19,16 +19,16 @@ import Footer from 'in-new-components/Footer';
 import Sticky from 'in-components/Sticky';
 
 export default function LoggingQueryBuilderWorkspace({
-  metrics,
-  onMetricsChange,
-  children,
-  isGrouped,
-  tagFilterExpression,
   onTagFilterExpressionChange,
-  groupBy,
-  onGroupByChange,
+  tagFilterExpression,
   backendQueryModel,
-  isInvalid
+  onGroupByChange,
+  onMetricsChange,
+  isGrouped,
+  isInvalid,
+  children,
+  groupBy,
+  metrics
 }) {
   return (
     <Sticky header={<AnalyzeHeader isGrouped={isGrouped} />}>
