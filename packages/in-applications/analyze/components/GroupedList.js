@@ -267,20 +267,20 @@ function Presenter({
             })}
           {isLoading && <HorizontalIndicatorLi progress={indeterminateProgress} />}
           {isLoading && <LoadingSkeletonLi />}
-          {hasErrors &&
-            errors.map((error, index) => (
-              <Li key={index}>
-                <Message className={locals.message} type={errorType} small>
-                  {error.message}
-                </Message>
-              </Li>
-            ))}
           {canLoadMore && <LoadMoreLi loadMore={loadMore} />}
           {!isLoading && items.length === 0 && (
             <Li borderRadius="medium" key="noData">
               <NoDataAvailable className={locals.noData} height={80} />
             </Li>
           )}
+          {hasErrors &&
+            errors.map((error, index) => (
+              <Li borderRadius="medium" key={index}>
+                <Message className={locals.message} type={errorType} small>
+                  {error.message}
+                </Message>
+              </Li>
+            ))}
         </Ul>
       </div>
     </div>

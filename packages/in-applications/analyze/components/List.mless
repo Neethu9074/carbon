@@ -84,4 +84,7 @@
   .noData {
     background-color: transparent;
   }
+  .message {
+    width: 100%;
+  }
 }
