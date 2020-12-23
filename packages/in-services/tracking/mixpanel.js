@@ -36,7 +36,7 @@ function initMixpanel() {
   for (let i = 0; i < tenantList.length; i++) {
     const tenant = tenantList[i];
     tenants[i] = tenant.name;
-    roles[i] = tenant.role.name;
+    roles[i] = tenant.role?.name;
   }
 
   window.mixpanel.register({

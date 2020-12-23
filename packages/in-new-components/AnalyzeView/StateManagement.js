@@ -156,6 +156,21 @@ function AnalyzeStateManagement({
         detailId: null
       });
     },
+
+    getHrefWithTagExpression(newTagFilter) {
+      const changedTagFilterExpression = tagFilterExpression.slice();
+      if (changedTagFilterExpression.length > 0) {
+        changedTagFilterExpression.push({
+          type: CONJUNCTION,
+          logicalOperator: and
+        });
+      }
+      changedTagFilterExpression.push(newTagFilter);
+      return getChangeAsUrl({
+        tagFilterExpression: changedTagFilterExpression
+      });
+    },
+
     groupingTagCatalog: groupingTagCatalogResult.data,
 
     orderBy,

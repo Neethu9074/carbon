@@ -4,6 +4,8 @@ import QueryBuilderWorkspace from 'in-logging/analyze/AnalyzeView/components/Que
 import LogContentColumn from 'in-logging/analyze/AnalyzeView/components/LogContentColumn';
 import DateTimeSeparated from 'in-components/tables/sharedComponents/DateTimeSeparated';
 import TagSelector from 'in-logging/analyze/AnalyzeView/components/TagSelector';
+import { TAG } from 'in-new-components/QueryBuilder/transformation/formModel';
+import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import LogDetail from 'in-logging/analyze/AnalyzeView/LogDetail/LogDetail';
 import UngroupedView from 'in-new-components/AnalyzeView/UngroupedView';
 import getLogs from 'in-logging/subscriptions/getLogs';
@@ -14,7 +16,6 @@ import locals from './Logs.mless';
 const columnDefinitions = [
   {
     id: 'timestamp',
-    label: 'Time',
     width: '8rem',
     useMaxHeight: true,
     widthInAbsoluteUnit: true,
@@ -28,14 +29,20 @@ const columnDefinitions = [
   },
   {
     id: 'log',
-    label: 'Log',
     sortable: false,
-    getContent({ log, groupLabel, getHrefToDetailId, selectedTags }) {
+    getContent({ log, groupLabel, getHrefToDetailId, selectedTags, getHrefWithTagExpression }) {
       return (
         <LogContentColumn
           content={log.content}
-          tags={log.tags.filter(({ tag }) => selectedTags.indexOf(tag.label) >= 0)}
           href={getHrefToDetailId(log.id, groupLabel)}
+          onSelectTagHref={tag => {
+            return getHrefWithTagExpression({
+              ...tag,
+              type: TAG,
+              operator: EQUALS
+            });
+          }}
+          tags={log.tags.filter(({ tag }) => selectedTags.indexOf(tag.name) >= 0)}
         />
       );
     }
@@ -46,9 +53,7 @@ export default function Logs(props) {
   let content = (
     <UngroupedView
       {...props}
-      classNames={{
-        listItem: locals.listItem
-      }}
+      classNames={{ listItem: locals.listItem }}
       itemName="Log"
       sortOptions={[
         {

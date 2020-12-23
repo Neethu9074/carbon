@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import { get } from 'lodash';
 import React from 'react';
 
@@ -23,7 +24,6 @@ import getCallGroups from 'in-subscription/application/getCallGroups';
 import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
-import classNames from 'classnames';
 import { number } from 'in-services/formatters/number';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Link from 'in-components/Link';

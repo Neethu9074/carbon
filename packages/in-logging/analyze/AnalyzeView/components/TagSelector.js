@@ -13,13 +13,16 @@ import locals from './TagSelector.mless';
 export default function TagSelector({
   maxSelectableTags = Number.MAX_VALUE,
   onSelectedTagsChange,
+  filteringTagCatalog,
   selectedTags,
   compact
 }) {
+  const tagCatalog = filteringTagCatalog?.tags ?? [];
+
   return (
     <Overlay
       content={TagSelectorOverlay}
-      props={{ selectedTags, maxSelectableTags, onSelectedTagsChange }}
+      props={{ selectedTags, maxSelectableTags, onSelectedTagsChange, tagCatalog }}
       withoutWrapper
     >
       {({ toggle, refSetter }) =>
@@ -35,7 +38,7 @@ export default function TagSelector({
   );
 }
 
-function TagSelectorOverlay({ selectedTags, onSelectedTagsChange, maxSelectableTags }) {
+function TagSelectorOverlay({ selectedTags, onSelectedTagsChange, maxSelectableTags, tagCatalog }) {
   selectedTags = selectedTags.slice();
   selectedTags.sort(compare);
 
@@ -43,10 +46,11 @@ function TagSelectorOverlay({ selectedTags, onSelectedTagsChange, maxSelectableT
 
   return (
     <DraggableItemSelector
-      items={selectedTags.map(label => ({ label }))}
+      items={selectedTags.map(name => ({ name }))}
       Content={Content}
       onSwap={onSwap}
-      onRemove={({ label }) => onSelectedTagsChange(selectedTags.filter(_tag => _tag !== label))}
+      tagCatalog={tagCatalog}
+      onRemove={({ name }) => onSelectedTagsChange(selectedTags.filter(_tag => _tag !== name))}
       SlideInContent={TagList}
       slideInContentTitle="Add a tag"
       disabled={remainingTags.length === 0 || selectedTags.length >= maxSelectableTags}
@@ -59,7 +63,7 @@ function TagSelectorOverlay({ selectedTags, onSelectedTagsChange, maxSelectableT
 
 function onSwap() {}
 
-function TagList({ remainingTags, selectedTags, onSelectedTagsChange, onShowSlideInContentChange }) {
+function TagList({ remainingTags, selectedTags, onSelectedTagsChange, onShowSlideInContentChange, tagCatalog }) {
   return (
     <Ul>
       {remainingTags.map(tag => (
@@ -70,13 +74,23 @@ function TagList({ remainingTags, selectedTags, onSelectedTagsChange, onShowSlid
             onShowSlideInContentChange(false);
           }}
         >
-          {tag}
+          {getLabelFromCatalog(tag, tagCatalog)}
         </Li>
       ))}
     </Ul>
   );
 }
 
-function Content({ item }) {
-  return <span className={locals.label}>{item.label}</span>;
+function Content({ item, tagCatalog }) {
+  return <span className={locals.label}>{getLabelFromCatalog(item.name, tagCatalog)}</span>;
+}
+
+function getLabelFromCatalog(name, tagCatalog) {
+  for (let i = 0; i < tagCatalog.length; i++) {
+    const item = tagCatalog[i];
+    if (item.name === name) {
+      return item.label;
+    }
+  }
+  return name;
 }

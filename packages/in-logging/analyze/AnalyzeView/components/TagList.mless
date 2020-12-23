@@ -1,6 +1,40 @@
 @import '~in-themes/mixins.less';
 @import '~in-themes/active.less';
 :local {
+  .tag {
+    padding: 0.125rem 0.5rem;
+
+    background: @lib__colors__N100;
+    border: 1px solid @lib__colors__N300;
+    border-radius: @lib__shapes__radius_medium;
+    font-size: 0.8125rem;
+
+    & + .tag {
+      margin-left: 0.5rem;
+    }
+  }
+
+  .link {
+    &:hover {
+      text-decoration: none;
+    }
+
+    & + .link {
+      margin-left: 0.5rem;
+    }
+  }
+
+  .clickable {
+    &:hover {
+      background: @lib__colors__N300;
+      cursor: pointer;
+    }
+  }
+
+  .dot {
+    margin-right: 0.5rem;
+  }
+
   .label,
   .equals,
   .value {
@@ -17,8 +51,7 @@
   }
 
   .value {
-    margin-right: 0.5rem;
-
     .ellipsis();
+    color: @lib__colors__N900Primary;
   }
 }
