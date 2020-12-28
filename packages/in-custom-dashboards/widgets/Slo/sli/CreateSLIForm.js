@@ -40,27 +40,6 @@ export default function CreateNewSLIForm({ apName, applicationId, apDefaultBound
     resetFormForSliType(sliType, setForm, form);
   };
 
-  function toBackendFormat(form) {
-    return switchQB1orQB2Helper(
-      () => {
-        const formData = form.toJS();
-        delete formData.sliEntity[sliFieldNames.goodEventFilterExpression];
-        delete formData.sliEntity[sliFieldNames.badEventFilterExpression];
-        return formData;
-      },
-      () => {
-        const formData = form.toJS();
-        const goodEvents = formData.sliEntity[sliFieldNames.goodEventFilterExpression];
-        const badEvents = formData.sliEntity[sliFieldNames.badEventFilterExpression];
-        delete formData.sliEntity.goodEventFilters;
-        delete formData.sliEntity.badEventFilters;
-        formData.sliEntity[sliFieldNames.goodEventFilterExpression] = toBackendQueryModel(goodEvents);
-        formData.sliEntity[sliFieldNames.badEventFilterExpression] = toBackendQueryModel(badEvents);
-        return formData;
-      }
-    );
-  }
-
   const onSubmit = form => {
     setState({
       saving: true,
@@ -108,26 +87,7 @@ export default function CreateNewSLIForm({ apName, applicationId, apDefaultBound
 
   const savingStateName = sliConfig?.id ? 'Cloning…' : 'Creating…';
   const saveButtonLabel = sliConfig?.id ? 'Clone' : 'Create';
-
-  const goodEventsField = form.get('sliEntity')?.get(sliFieldNames.goodEventFilterExpression);
-  const badEventsField = form.get('sliEntity')?.get(sliFieldNames.badEventFilterExpression);
-  const goodEventsValidationResult =
-    useObservable(
-      args => {
-        if (isQB2ModeEnabled) return isSliEventsQueryValid(args);
-        return just(success(true));
-      },
-      [goodEventsField?.value, timeConfig, isQB2ModeEnabled]
-    ) ?? pendingResult;
-  const badEventsValidationResult =
-    useObservable(
-      args => {
-        if (isQB2ModeEnabled) return isSliEventsQueryValid(args);
-        return just(success(true));
-      },
-      [badEventsField?.value, timeConfig, isQB2ModeEnabled]
-    ) ?? pendingResult; // results in undefined or true/false
-  const isValid = Boolean(goodEventsValidationResult?.data) && Boolean(badEventsValidationResult?.data);
+  const isValid = useValidateExpressions(form, timeConfig);
 
   return (
     <Form form={form} setForm={setForm} onSubmit={onSubmit}>
@@ -160,4 +120,50 @@ export default function CreateNewSLIForm({ apName, applicationId, apDefaultBound
       </Section>
     </Form>
   );
+}
+
+function toBackendFormat(form) {
+  return switchQB1orQB2Helper(
+    () => {
+      const formData = form.toJS();
+      delete formData.sliEntity[sliFieldNames.goodEventFilterExpression];
+      delete formData.sliEntity[sliFieldNames.badEventFilterExpression];
+      return formData;
+    },
+    () => {
+      const formData = form.toJS();
+      const goodEvents = formData.sliEntity[sliFieldNames.goodEventFilterExpression];
+      const badEvents = formData.sliEntity[sliFieldNames.badEventFilterExpression];
+      delete formData.sliEntity.goodEventFilters;
+      delete formData.sliEntity.badEventFilters;
+      formData.sliEntity[sliFieldNames.goodEventFilterExpression] = toBackendQueryModel(goodEvents);
+      formData.sliEntity[sliFieldNames.badEventFilterExpression] = toBackendQueryModel(badEvents);
+      return formData;
+    }
+  );
+}
+
+function useValidateExpressions(form, timeConfig) {
+  const sliEntityForm = form.get('sliEntity');
+  const sliType = sliEntityForm?.get('sliType')?.value;
+  const goodEventFilterExpression = sliEntityForm?.get(sliFieldNames.goodEventFilterExpression)?.value;
+  const badEventFilterExpression = sliEntityForm?.get(sliFieldNames.badEventFilterExpression)?.value;
+  const isSliTypeUsingQB2 = sliType === 'availability';
+  const requiresQueryValidation = isQB2ModeEnabled && isSliTypeUsingQB2;
+
+  const goodEventsValidationResult = useValidateExpression(goodEventFilterExpression);
+  const badEventsValidationResult = useValidateExpression(badEventFilterExpression);
+  return Boolean(goodEventsValidationResult?.data) && Boolean(badEventsValidationResult?.data);
+
+  function useValidateExpression(tagFilterExpression) {
+    return (
+      useObservable(
+        args => {
+          if (requiresQueryValidation) return isSliEventsQueryValid(args);
+          return just(success(true));
+        },
+        [tagFilterExpression, timeConfig, requiresQueryValidation]
+      ) ?? pendingResult
+    );
+  }
 }
