@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import classNames from 'classnames';
 import { isEqual } from 'lodash';
 import theme from 'in-themes';
 
 import ChartContextMenu from 'in-new-components/LatencyDistributionBase10Chart/components/ChartContextMenu';
 import { setTimeConfig, fixateTimeConfig } from 'in-stores/time/config';
 import { latencySelectionChanged } from 'in-analyze/tracker';
-import classNames from 'classnames';
 import { emptyArray } from 'in-services/fixedObjects';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { mutateUrl } from 'in-stores/navigation';

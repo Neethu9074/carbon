@@ -1,6 +1,6 @@
+import classNames from 'classnames';
 import React from 'react';
 
-import classNames from 'classnames';
 import OptionBox from 'in-applications/components/OptionBox';
 import { boundaryScopes } from 'in-applications/constants';
 

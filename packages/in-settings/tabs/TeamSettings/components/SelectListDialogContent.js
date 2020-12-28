@@ -1,8 +1,8 @@
 import { compose, withState } from 'recompose';
+import classNames from 'classnames';
 import React from 'react';
 
 import ValidationBlock from 'in-components/form/ValidationBlock';
-import classNames from 'classnames';
 import { close } from 'in-components/DialogPresenter/store';
 import FormGroup from 'in-components/form/FormGroup';
 import Button from 'in-new-components/Button';

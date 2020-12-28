@@ -1,7 +1,7 @@
+import classNames from 'classnames';
 import React from 'react';
 
 import ConjunctionOrBracketBehavior from 'in-new-components/QueryBuilder/components/ConjunctionOrBracketBehavior';
-import classNames from 'classnames';
 import useThemedLocals from 'in-hooks/useThemedLocals';
 
 import styleDefs from './Conjunction.mless';

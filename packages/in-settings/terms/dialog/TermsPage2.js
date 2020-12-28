@@ -1,9 +1,9 @@
 import React, { Fragment } from 'react';
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import TermsProgressIndicator from './TermsProgressIndicator';
-import classNames from 'classnames';
 import Button from 'in-new-components/Button/Button';
 import SvgIcon from 'in-components/SvgIcon/SvgIcon';
 

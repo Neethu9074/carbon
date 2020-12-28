@@ -1,7 +1,7 @@
+import classNames from 'classnames';
 import React from 'react';
 
 import { LETTER, WORD } from 'in-new-components/QueryBuilder/transformation/renderModel';
-import classNames from 'classnames';
 
 import locals from './Spacing.mless';
 

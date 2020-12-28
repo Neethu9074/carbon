@@ -1,7 +1,7 @@
 import { Motion, spring } from 'react-motion';
+import classNames from 'classnames';
 import React from 'react';
 
-import classNames from 'classnames';
 import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './Message.mless';

@@ -1,8 +1,8 @@
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
 import MultipleTechnologiesIcon from 'in-new-components/MultipleTechnologiesIcon';
-import classNames from 'classnames';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { shorten } from 'in-services/util/string';
 

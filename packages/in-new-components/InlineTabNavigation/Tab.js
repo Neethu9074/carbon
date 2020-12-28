@@ -1,8 +1,8 @@
+import classNames from 'classnames';
 import React from 'react';
 
 import { toInteractiveElement } from 'in-new-components/interactiveCustomElement';
 import WithHealthDot from 'in-new-components/health/WithHealthDot/WithHealthDot';
-import classNames from 'classnames';
 import { emptyObject } from 'in-services/fixedObjects';
 import SvgIcon from 'in-components/SvgIcon/SvgIcon';
 import Tooltip from 'in-components/Tooltip/Tooltip';

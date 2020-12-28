@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import { compose } from 'recompose';
 import { findIndex } from 'lodash';
 import React from 'react';
@@ -12,7 +13,6 @@ import { traceDetail as traceDetailPath } from 'in-analyze/navigation/paths';
 import getTraceSummary from 'in-subscription/application/getTraceSummary';
 import getConfigByDataSource from 'in-analyze/AnalyzeView/dataSources';
 import withPropDependingState from 'in-hoc/withPropDependingState';
-import classNames from 'classnames';
 import ResultHeader from 'in-analyze/components/ResultHeader';
 import { mutateUrl } from 'in-stores/navigation/navigation';
 import { prefetch } from 'in-subscription/util/prefetch';

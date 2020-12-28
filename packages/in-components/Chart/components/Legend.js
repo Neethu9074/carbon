@@ -1,8 +1,8 @@
 import { range, rangeRight } from 'lodash';
+import classNames from 'classnames';
 import React from 'react';
 
 import { getTimeShiftLabel, defaultTimeShift } from 'in-stores/time/shifting';
-import classNames from 'classnames';
 import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';

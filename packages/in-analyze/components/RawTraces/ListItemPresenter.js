@@ -1,6 +1,6 @@
+import classNames from 'classnames';
 import React from 'react';
 
-import classNames from 'classnames';
 import { formatDateTime } from 'in-services/formatters/date';
 import { latencyFixed } from 'in-services/formatters/number';
 import Link from 'in-components/Link';

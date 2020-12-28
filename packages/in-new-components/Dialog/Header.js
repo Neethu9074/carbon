@@ -1,7 +1,7 @@
+import classNames from 'classnames';
 import rpt from 'prop-types';
 import React from 'react';
 
-import classNames from 'classnames';
 import IconButton from 'in-new-components/IconButton/IconButton';
 import SvgIcon from 'in-components/SvgIcon';
 

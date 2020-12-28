@@ -1,9 +1,9 @@
 import React, { Fragment, useState } from 'react';
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
 import TermsProgressIndicator from 'in-settings/terms/dialog/TermsProgressIndicator';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
-import classNames from 'classnames';
 import RolesSelector from 'in-settings/terms/RolesSelector';
 import SvgIcon from 'in-components/SvgIcon/SvgIcon';
 import Button from 'in-new-components/Button';

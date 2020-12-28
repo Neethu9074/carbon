@@ -1,10 +1,10 @@
 import React, { Fragment, useRef, useState } from 'react';
+import classNames from 'classnames';
 
 import PercentIndicator from 'in-profiling/analyze/AnalyzeView/ProfilesView/PercentIndicator';
 import FileNameAndLine from 'in-new-components/Profiling/components/FileNameAndLine';
 import { toInteractiveElement } from 'in-new-components/interactiveCustomElement';
 import MethodName from 'in-new-components/Profiling/components/MethodName';
-import classNames from 'classnames';
 import At from 'in-new-components/Profiling/components/At';
 import { treeViewExpanded } from 'in-profiling/tracker';
 import { scrollIntoView } from 'in-services/util/dom';

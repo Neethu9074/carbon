@@ -1,6 +1,6 @@
+import classNames from 'classnames';
 import React from 'react';
 
-import classNames from 'classnames';
 import { serverTime$ } from 'in-stores/serverTime';
 import connecTo from 'in-hoc/connectTo';
 

@@ -1,8 +1,8 @@
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
 import { floatingActionButtons$ } from '../FloatingActionButton/stores/floatingActionButtons';
-import classNames from 'classnames';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './HorizontalControlsPresenter.mless';

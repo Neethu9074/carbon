@@ -2,7 +2,6 @@ import React, { useState, useRef, useLayoutEffect } from 'react';
 import classNames from 'classnames';
 
 // import getLogsForConsole from 'in-logging/subscriptions/getLogsForConsole';
-import getLogs from 'in-logging/subscriptions/getLogs';
 import QueryBuilderWorkspace from 'in-logging/analyze/AnalyzeView/components/raw/QueryBuilderWorkspace';
 import { useSameObjectInstanceWhenDeepEquals } from 'in-new-components/AnalyzeView/StateManagement';
 import { getUniqueErrors } from 'in-new-components/Errors/ErroneousResultPresenter';
@@ -13,6 +12,7 @@ import useCursorPagination from 'in-hooks/useCursorPagination';
 import { formatDateTime } from 'in-services/formatters/date';
 import { mutateUrl } from 'in-stores/navigation/navigation';
 import { rawLogsPath } from 'in-logging/navigation/paths';
+import getLogs from 'in-logging/subscriptions/getLogs';
 import { urlQueryKeys } from 'in-stores/time/config';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Button from 'in-new-components/Button';

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import classNames from 'classnames';
 
 import {
   sloTarget,
@@ -26,7 +27,6 @@ import { getApplicationConfigsAsResultObservable } from 'in-api/applicationConfi
 import SliManageList from 'in-custom-dashboards/widgets/Slo/sli/SliManageList';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import StackItem from 'in-new-components/layout/Stack/StackItem';
-import classNames from 'classnames';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import KeyValue from 'in-new-components/lists/KeyValue';
 import Header from 'in-new-components/workspace/Header';

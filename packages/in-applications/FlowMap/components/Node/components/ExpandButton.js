@@ -1,7 +1,7 @@
+import classNames from 'classnames';
 import React from 'react';
 
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
-import classNames from 'classnames';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';

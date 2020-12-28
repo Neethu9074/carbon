@@ -1,4 +1,5 @@
 import { on } from '@instana/observables';
+import classNames from 'classnames';
 import React from 'react';
 
 import globalHighlightAction from 'in-components/Chart/components/ContextMenu/actions/globalHighlight';
@@ -6,7 +7,6 @@ import downloadAction from 'in-components/Chart/components/ContextMenu/actions/d
 import zoomInAction from 'in-components/Chart/components/ContextMenu/actions/zoomIn';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { allowDownloadMetricsFromCharts } from 'in-services/featureFlags';
-import classNames from 'classnames';
 import { containsIgnoreCase } from 'in-services/util/string';
 import { emptyArray } from 'in-services/fixedObjects';
 import Button from 'in-new-components/Button';

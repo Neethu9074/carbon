@@ -1,7 +1,7 @@
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import classNames from 'classnames';
 import { warning } from 'in-new-components/Message/types';
 import Message from 'in-new-components/Message';
 

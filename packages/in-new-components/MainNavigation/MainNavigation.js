@@ -1,10 +1,10 @@
 import onClickOutside from 'react-onclickoutside';
 import React, { Fragment } from 'react';
+import classNames from 'classnames';
 
 import NewUiClientVersionAvailable from 'in-new-components/MainNavigation/components/NewUiClientVersionAvailable';
 import { click } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import ViewSwitcher from 'in-new-components/MainNavigation/components/ViewSwitcher';
-import classNames from 'classnames';
 import { scrollToTop } from 'in-services/util/dom';
 
 import locals from './MainNavigation.mless';

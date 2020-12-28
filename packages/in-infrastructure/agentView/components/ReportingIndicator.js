@@ -1,8 +1,8 @@
 import React, { Fragment } from 'react';
+import classNames from 'classnames';
 
 import * as IssueCategories from 'in-sdk/agentMonitoringIssueDefinition';
 import { reportingStatus as ReportingStatus } from './ReportingStatus';
-import classNames from 'classnames';
 import { formatDateTime } from 'in-services/formatters/date';
 import { getSingular, getPlural } from 'in-sdk/pluginName';
 import Tooltip from 'in-components/Tooltip';

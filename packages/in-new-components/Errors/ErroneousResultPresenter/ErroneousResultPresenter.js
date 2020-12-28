@@ -1,8 +1,8 @@
+import classNames from 'classnames';
 import { uniq } from 'lodash';
 import React from 'react';
 
 import { error as errorType } from 'in-new-components/Message/types';
-import classNames from 'classnames';
 import { isTechnicalError } from 'in-services/util/error';
 import { emptyArray } from 'in-services/fixedObjects';
 import Message from 'in-new-components/Message';

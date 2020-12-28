@@ -1,6 +1,6 @@
-import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
 import { empty } from '@instana/observables';
+import classNames from 'classnames';
 
 import { getGroupingTagCatalog as getTraceGroupingTagCatalog } from 'in-applications/analyze/components/workspace/TraceGroupingConfigurator';
 import { getGroupingTagCatalog as getCallGroupingTagCatalog } from 'in-applications/analyze/components/workspace/CallGroupingConfigurator';

@@ -1,7 +1,7 @@
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import classNames from 'classnames';
 import SvgIcon from 'in-components/SvgIcon/SvgIcon';
 
 import locals from './TimeThresholdConfig.mless';

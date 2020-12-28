@@ -1,8 +1,8 @@
+import classNames from 'classnames';
 import React from 'react';
 
 import { historicOrLargeDataResult$ } from 'in-new-components/time/TimeSelection/TimeSelection';
 import { samplingIndicatorEnabled } from 'in-services/featureFlags';
-import classNames from 'classnames';
 import TimeIcon from 'in-new-components/time/TimeIcon';
 import { number } from 'in-services/formatters/number';
 import { emptyObject } from 'in-services/fixedObjects';

@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import theme from 'in-themes';
 import React from 'react';
 
@@ -18,7 +19,6 @@ import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { pcfEnabled, vsphereEnabled } from 'in-services/featureFlags';
 import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import { settings$, setSingle } from 'in-services/settings/settings';
-import classNames from 'classnames';
 import getElementDimensions from 'in-hoc/getElementDimensions';
 import { successObservable } from 'in-services/util/result';
 import { hasKubernetesAccess } from 'in-stores/permission';

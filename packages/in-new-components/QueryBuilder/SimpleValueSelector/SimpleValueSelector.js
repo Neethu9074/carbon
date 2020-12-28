@@ -1,9 +1,9 @@
 import AutosizeInput from 'react-input-autosize';
+import classNames from 'classnames';
 import React from 'react';
 
 import LoadingList from 'in-new-components/lists/List/sharedComponents/LoadingList';
 import OverlayOption from 'in-new-components/OverlayOption/OverlayOption';
-import classNames from 'classnames';
 import { Ul, Li } from 'in-new-components/lists/List/List';
 import useThemedLocals from 'in-hooks/useThemedLocals';
 import { number } from 'in-services/formatters/number';

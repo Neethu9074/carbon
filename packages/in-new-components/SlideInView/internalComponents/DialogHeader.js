@@ -1,8 +1,8 @@
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
 import IconButton from 'in-new-components/IconButton/IconButton';
-import classNames from 'classnames';
 
 import locals from './DialogHeader.mless';
 

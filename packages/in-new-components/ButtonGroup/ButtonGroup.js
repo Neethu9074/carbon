@@ -1,6 +1,6 @@
+import classNames from 'classnames';
 import React from 'react';
 
-import classNames from 'classnames';
 import Button from 'in-new-components/Button';
 
 import locals from './ButtonGroup.mless';

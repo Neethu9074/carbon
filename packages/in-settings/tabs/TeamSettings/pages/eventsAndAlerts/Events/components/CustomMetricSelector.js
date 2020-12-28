@@ -1,8 +1,8 @@
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import Downshift from 'downshift';
 import React from 'react';
 
-import classNames from 'classnames';
 import { escapeSpecialChars } from 'in-services/util/regex';
 import SvgIcon from 'in-components/SvgIcon/SvgIcon';
 

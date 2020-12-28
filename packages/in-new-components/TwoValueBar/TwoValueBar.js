@@ -1,7 +1,7 @@
+import classNames from 'classnames';
 import React from 'react';
 
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
-import classNames from 'classnames';
 
 import locals from './TwoValueBar.mless';
 

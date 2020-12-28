@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
-
 import classNames from 'classnames';
+
 import { combineLatest, on } from '@instana/observables';
 import { debouncedResize$ } from 'in-services/browser';
 

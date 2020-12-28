@@ -1,7 +1,7 @@
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import classNames from 'classnames';
 import WithActiveTheme from 'in-themes/WithActiveTheme';
 
 import locals from './TileWrapper.mless';

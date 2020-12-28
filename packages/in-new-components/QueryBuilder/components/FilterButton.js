@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
+import classNames from 'classnames';
 
 import ConjunctionTagSelectorOverlay from 'in-new-components/QueryBuilder/ConjunctionTagSelectorOverlay/ConjunctionTagSelectorOverlay';
-import classNames from 'classnames';
 import Overlay from 'in-new-components/overlays/Overlay';
 import Button from 'in-new-components/Button';
 

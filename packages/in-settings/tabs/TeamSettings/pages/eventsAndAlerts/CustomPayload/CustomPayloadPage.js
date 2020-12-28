@@ -1,6 +1,7 @@
+import { createLogger } from '@instana/logger';
 import { createField } from 'formalistic';
 import React, { useState } from 'react';
-import { createLogger } from '@instana/logger';
+import classNames from 'classnames';
 import { uniqBy } from 'lodash';
 
 import {
@@ -42,7 +43,6 @@ import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrappe
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import TouchedMessages from 'in-components/form/TouchedMessages';
-import classNames from 'classnames';
 import Notification from 'in-components/form/Notification';
 import SaveCancel from 'in-settings/components/SaveCancel';
 import { pendingResult } from 'in-services/fixedObjects';

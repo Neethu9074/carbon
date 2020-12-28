@@ -1,6 +1,6 @@
+import classNames from 'classnames';
 import React from 'react';
 
-import classNames from 'classnames';
 import locals from './HorizontalIndicator.mless';
 
 export default function HorizontalIndicator({ progress, rounded = false, className }) {

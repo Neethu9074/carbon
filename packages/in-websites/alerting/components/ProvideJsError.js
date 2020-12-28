@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -13,7 +14,6 @@ import JsErrorsList from 'in-websites/alerting/components/JsErrorsList';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import { modeAdvanced } from 'in-websites/alerting/constants';
-import classNames from 'classnames';
 import { operators } from 'in-analyze/applicationFilter';
 import ComboBox from 'in-components/ComboBox/ComboBox';
 import Button from 'in-new-components/Button/Button';

@@ -1,6 +1,6 @@
+import classNames from 'classnames';
 import React from 'react';
 
-import classNames from 'classnames';
 import { Li } from 'in-new-components/lists/List';
 
 import locals from './ListGroup.mless';

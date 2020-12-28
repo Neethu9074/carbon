@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import { compose } from 'recompose';
 import React from 'react';
 
@@ -5,7 +6,6 @@ import { leftArrowId, rightArrowId } from 'in-new-components/AnalyzeView/SplitSc
 import { debouncedResize$, refreshWindowSizeDependingState } from 'in-services/browser';
 import SideEffectOnPropertyChange from 'in-components/SideEffectOnPropertyChange';
 import withPropDependingState from 'in-hoc/withPropDependingState';
-import classNames from 'classnames';
 import ResultHeader from 'in-analyze/components/ResultHeader';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';

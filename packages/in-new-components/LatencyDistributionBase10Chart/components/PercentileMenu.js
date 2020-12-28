@@ -1,9 +1,9 @@
+import classNames from 'classnames';
 import { List } from 'immutable';
 import React from 'react';
 
 import { latencyPercentileMenuClickedTracker } from 'in-analyze/tracker';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
-import classNames from 'classnames';
 import Overlay from 'in-new-components/overlays/Overlay';
 import Button from 'in-new-components/Button';
 

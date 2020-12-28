@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -14,7 +15,6 @@ import DebouncedTextArea from 'in-components/form/TextArea/DebouncedTextArea';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import { modeAdvanced } from 'in-websites/alerting/constants';
-import classNames from 'classnames';
 import { propTypeTimeConfig } from 'in-stores/time/config';
 import { operators } from 'in-analyze/applicationFilter';
 import ComboBox from 'in-components/ComboBox/ComboBox';

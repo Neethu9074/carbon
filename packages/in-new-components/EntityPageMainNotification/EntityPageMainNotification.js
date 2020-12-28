@@ -1,7 +1,7 @@
+import classNames from 'classnames';
 import React from 'react';
 
 import { getIconType } from 'in-components/SvgIcon/infrastructureIconType';
-import classNames from 'classnames';
 import { getSingular } from 'in-sdk/pluginName';
 import SvgIcon from 'in-components/SvgIcon';
 

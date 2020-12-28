@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import React from 'react';
 
 import {
@@ -11,7 +12,6 @@ import {
 } from 'in-stores/search/lexer';
 import { getSubstringTillDotBackwards, getCursorTillNextDot } from 'in-components/SearchBar/misc/stringUtils';
 import { findNode, operatorTree, getValueSuggestions, node as createNode } from 'in-stores/search/fields';
-import classNames from 'classnames';
 import { emptyArray } from 'in-services/fixedObjects';
 import keyCodes from 'in-components/keyCodes';
 

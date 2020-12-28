@@ -1,7 +1,7 @@
+import classNames from 'classnames';
 import React from 'react';
 
 import { number, meanLatency, percentage } from 'in-services/formatters/number';
-import classNames from 'classnames';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './Metrics.mless';

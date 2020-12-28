@@ -1,6 +1,6 @@
+import classNames from 'classnames';
 import React from 'react';
 
-import classNames from 'classnames';
 import { emptyObject } from 'in-services/fixedObjects';
 
 import locals from './ReactWrapper.mless';

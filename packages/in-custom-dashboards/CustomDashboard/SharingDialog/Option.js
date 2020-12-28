@@ -1,6 +1,6 @@
+import classNames from 'classnames';
 import React from 'react';
 
-import classNames from 'classnames';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
 
 import locals from './Option.mless';

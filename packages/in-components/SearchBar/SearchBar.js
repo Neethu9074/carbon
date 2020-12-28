@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import React from 'react';
 
 import { togglePresets, presetsVisible$ } from 'in-components/SearchBar/stores/presetsVisibility';
@@ -7,7 +8,6 @@ import FilterPresets from 'in-components/SearchBar/components/FilterPresets';
 import SaveDialog from 'in-components/SearchBar/components/SaveDialog';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { setValues } from 'in-components/SearchBar/stores/dialog';
-import classNames from 'classnames';
 import { refresh } from 'in-components/SearchBar/stores/filters';
 import Input from 'in-components/SearchBar/Input';
 import { showHelp } from 'in-stores/navigation';

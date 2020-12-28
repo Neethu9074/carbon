@@ -1,5 +1,6 @@
 import { withState, compose } from 'recompose';
 import React, { Fragment } from 'react';
+import classNames from 'classnames';
 
 import {
   getEntityHref,
@@ -24,7 +25,6 @@ import List, { createNewEntityButton, leftHeaderWithSelectAll } from 'in-setting
 import { getSeverityText } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
 import { openEventSubmitFormTracker, viewEventTracker } from 'in-settings/tracker';
 import WithSubscript from 'in-settings/components/WithSubscript';
-import classNames from 'classnames';
 import { intersperse } from 'in-services/arrayUtils';
 import WithIcon from 'in-new-components/WithIcon';
 import { getSingular } from 'in-sdk/pluginName';

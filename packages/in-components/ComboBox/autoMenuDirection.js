@@ -1,10 +1,10 @@
 /* eslint-disable react/no-find-dom-node */
 
+import classNames from 'classnames';
 import ReactDOM from 'react-dom';
 import React from 'react';
 
 import { debouncedResize$, debouncedScroll$ } from 'in-services/browser';
-import classNames from 'classnames';
 
 /**
  * A higher order component to automatically flip the menu direction of a ComboBox (that is, a Select from react-select)

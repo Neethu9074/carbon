@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import React from 'react';
 
 import {
@@ -6,7 +7,6 @@ import {
 } from 'in-new-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import ConjunctionOrBracketBehavior from 'in-new-components/QueryBuilder/components/ConjunctionOrBracketBehavior';
 import { OPEN_BRACKET } from 'in-new-components/QueryBuilder/transformation/renderModel';
-import classNames from 'classnames';
 import useThemedLocals from 'in-hooks/useThemedLocals';
 
 import styleDefs from './Bracket.mless';

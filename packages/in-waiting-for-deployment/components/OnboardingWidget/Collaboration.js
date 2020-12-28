@@ -1,9 +1,9 @@
 import { createMapForm, createField, notBlankValidator } from 'formalistic';
 import React, { useState } from 'react';
+import classNames from 'classnames';
 
 import CopyToClipboardButton from 'in-new-components/CopyToClipboardButton';
 import TouchedMessages from 'in-components/form/TouchedMessages';
-import classNames from 'classnames';
 import LocallyChangedTheme from 'in-themes/LocallyChangedTheme';
 import ExpandableCard from 'in-new-components/ExpandableCard';
 import FormGroup from 'in-components/form/FormGroup';

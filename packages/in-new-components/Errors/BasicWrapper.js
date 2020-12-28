@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
-
 import classNames from 'classnames';
+
 import locals from './BasicWrapper.mless';
 
 export default function BasicWrapper({ width, height, title, text, renderIcon, className }) {

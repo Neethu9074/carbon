@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
+import classNames from 'classnames';
 
 import ChildrenDistributionTimeLine from 'in-analyze/TraceDetail/components/CallTree/components/ChildrenDistributionTimeLine';
 import ServiceEndpointInformation from 'in-analyze/TraceDetail/components/CallTree/components/ServiceEndpointInformation';
 import { isFakeRootCall, isUnknownTypeSpan, isInternalCall, isLog } from 'in-analyze/TraceDetail/shared/CallHelper';
 import ErrorIndicator from 'in-analyze/TraceDetail/components/ErrorIndicator';
 import { getColor as getEndpointColor } from 'in-applications/endpointTypes';
-import classNames from 'classnames';
 import useObservable from 'in-hooks/useObservable';
 import { shorten } from 'in-services/util/string';
 import SvgIcon from 'in-components/SvgIcon';

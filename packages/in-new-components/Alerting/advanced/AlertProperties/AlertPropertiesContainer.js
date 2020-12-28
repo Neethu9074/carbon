@@ -1,9 +1,9 @@
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
 import AlertProperties from 'in-new-components/Alerting/advanced/AlertProperties/AlertProperties';
 import TwoColumnContainer from 'in-new-components/Alerting/components/TwoColumnContainer';
-import classNames from 'classnames';
 import SvgIcon from 'in-components/SvgIcon/SvgIcon';
 
 import locals from './AlertPropertiesContainer.mless';

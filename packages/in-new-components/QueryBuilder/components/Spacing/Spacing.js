@@ -1,4 +1,5 @@
 import React, { useRef } from 'react';
+import classNames from 'classnames';
 
 import {
   LETTER,
@@ -15,7 +16,6 @@ import Suggestions, {
 import { and, or, not } from 'in-new-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import { DESTINATION } from 'in-new-components/QueryBuilder/tagFilter/entities';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
-import classNames from 'classnames';
 import Overlay from 'in-new-components/overlays/Overlay';
 import useObservable from 'in-hooks/useObservable';
 import keyCodes from 'in-components/keyCodes';

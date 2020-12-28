@@ -1,7 +1,7 @@
+import classNames from 'classnames';
 import React from 'react';
 
 import { CLOSE_BRACKET } from 'in-new-components/QueryBuilder/transformation/renderModel';
-import classNames from 'classnames';
 
 import locals from './Expression.mless';
 

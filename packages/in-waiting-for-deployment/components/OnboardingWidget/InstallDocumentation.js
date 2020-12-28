@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import classNames from 'classnames';
 
 import {
   SideNavigation,
@@ -10,7 +11,6 @@ import HelpAndSupport from 'in-waiting-for-deployment/components/OnboardingWidge
 import Collaboration from 'in-waiting-for-deployment/components/OnboardingWidget/Collaboration';
 import EntryContent from 'in-waiting-for-deployment/components/OnboardingWidget/EntryContent';
 import getEntries from 'in-waiting-for-deployment/components/OnboardingWidget/content';
-import classNames from 'classnames';
 import SearchInput from 'in-new-components/SearchInput';
 
 import locals from './InstallDocumentation.mless';

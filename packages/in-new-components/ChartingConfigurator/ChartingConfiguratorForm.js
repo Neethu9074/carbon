@@ -1,7 +1,7 @@
+import classNames from 'classnames';
 import React from 'react';
 
 import ComboBoxBehavior from 'in-components/form/ComboBox/ComboBoxBehavior';
-import classNames from 'classnames';
 import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './ChartingConfiguratorForm.mless';

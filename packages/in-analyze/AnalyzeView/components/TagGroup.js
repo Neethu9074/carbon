@@ -1,7 +1,7 @@
+import classNames from 'classnames';
 import React from 'react';
 
 import EntityIndicator from 'in-analyze/components/EntityIndicator';
-import classNames from 'classnames';
 import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './TagGroup.mless';

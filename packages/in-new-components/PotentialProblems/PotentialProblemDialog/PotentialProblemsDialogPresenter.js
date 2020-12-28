@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
 import PotentialProblemContent from 'in-new-components/PotentialProblems/PotentialProblemDialog/PotentialProblemContent/PotentialProblemContent';
@@ -8,7 +9,6 @@ import {
 } from 'in-new-components/PotentialProblems/PotentialProblemsLane/proptypes';
 import PotentialProblemsList from 'in-new-components/PotentialProblems/PotentialProblemDialog/PotentialProblemsList';
 import { trackCurrentlySelected, trackDialogClosed } from 'in-new-components/PotentialProblems/tracker';
-import classNames from 'classnames';
 import { close } from 'in-components/DialogPresenter/store';
 import Dialog from 'in-new-components/Dialog/Dialog';
 

@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
+import classNames from 'classnames';
 
 import { getTickStyle } from 'in-new-components/Axis/components/tickStyle';
-import classNames from 'classnames';
 
 import locals from './Ticks.mless';
 

@@ -1,9 +1,9 @@
+import classNames from 'classnames';
 import React from 'react';
 
 import { timeDisplayTopFormat, timeDisplayBottomFormat } from 'in-new-components/time/timeframeFormatter';
 import DashboardHeaderButton from 'in-new-components/DashboardHeader/DashboardHeaderButton';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
-import classNames from 'classnames';
 import TimeIcon from 'in-new-components/time/TimeIcon';
 
 import locals from './TimePresenter.mless';

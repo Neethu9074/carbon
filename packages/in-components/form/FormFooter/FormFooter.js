@@ -1,8 +1,8 @@
+import classNames from 'classnames';
 import React from 'react';
 
 import DeleteButtonComponent from 'in-components/form/DeleteButton';
 import SaveButtonComponent from 'in-components/form/SaveButton';
-import classNames from 'classnames';
 import Button from 'in-new-components/Button/Button';
 
 import locals from './FormFooter.mless';

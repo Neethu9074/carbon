@@ -1,6 +1,6 @@
+import classNames from 'classnames';
 import React from 'react';
 
-import classNames from 'classnames';
 import EntityLink from 'in-new-components/EntityLink/EntityLink';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import { getSnapshot } from 'in-stores/snapshot';

@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
-
 import classNames from 'classnames';
+
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import SvgIcon from 'in-components/SvgIcon';
 

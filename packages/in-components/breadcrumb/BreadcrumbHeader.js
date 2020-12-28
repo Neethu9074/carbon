@@ -1,8 +1,8 @@
+import classNames from 'classnames';
 import React from 'react';
 
 import DashboardHeaderModule from 'in-new-components/DashboardHeader/DashboardHeaderModule';
 import { breadcrumbs$ } from 'in-components/breadcrumb/stores/breadcrumbs';
-import classNames from 'classnames';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 

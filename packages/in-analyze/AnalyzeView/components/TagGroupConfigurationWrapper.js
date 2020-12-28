@@ -1,6 +1,6 @@
+import classNames from 'classnames';
 import React from 'react';
 
-import classNames from 'classnames';
 import FormGroup from 'in-components/form/FormGroup';
 import Select from 'in-components/form/Select';
 import Toggle from 'in-components/form/Toggle';

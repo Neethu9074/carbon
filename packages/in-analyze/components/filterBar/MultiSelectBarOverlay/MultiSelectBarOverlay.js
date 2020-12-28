@@ -1,11 +1,11 @@
 import React, { forwardRef } from 'react';
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import BarOverlay from 'in-analyze/components/filterBar/BarOverlay/BarOverlay';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
-import classNames from 'classnames';
 import { containsIgnoreCase } from 'in-services/util/string';
 import SearchInput from 'in-new-components/SearchInput';
 import SvgIcon from 'in-components/SvgIcon';

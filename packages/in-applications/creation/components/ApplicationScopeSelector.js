@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
+import classNames from 'classnames';
 
 import { applicationCreationScopeSelect } from 'in-applications/creation/tracker';
-import classNames from 'classnames';
 import OptionBox from 'in-applications/components/OptionBox';
 import FormGroup from 'in-components/form/FormGroup';
 

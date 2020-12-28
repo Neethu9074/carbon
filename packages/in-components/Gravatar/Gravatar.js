@@ -1,6 +1,6 @@
+import classNames from 'classnames';
 import React from 'react';
 
-import classNames from 'classnames';
 import unknown from 'in-components/Gravatar/unknown.png';
 import getGravatarUrl from 'in-subscription/gravatar';
 import { onImageLoad } from 'in-services/image';

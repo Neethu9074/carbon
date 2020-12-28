@@ -1,10 +1,10 @@
 import React, { Fragment } from 'react';
 import { compose } from 'recompose';
+import classNames from 'classnames';
 import theme from 'in-themes';
 
 import { formatDuration, formatDateTime } from 'in-services/formatters/date';
 import HorizontalTimeAxis from 'in-new-components/Axis/HorizontalTimeAxis';
-import classNames from 'classnames';
 import getElementDimensions from 'in-hoc/getElementDimensions';
 import Tooltip from 'in-components/Tooltip';
 import createScale from 'in-services/scale';

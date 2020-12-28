@@ -1,11 +1,11 @@
 import React, { useState, useRef, useLayoutEffect } from 'react';
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
 import DialogHeaderComponent from 'in-new-components/SlideInView/internalComponents/DialogHeader';
 import ListHeaderComponent from 'in-new-components/SlideInView/internalComponents/ListHeader';
 import { slideInStates, slideOutStates } from 'in-new-components/SlideInView/states';
 import { supportsFocussingWithPreventedScrolling } from 'in-services/util/domFocus';
-import classNames from 'classnames';
 import { getInteractiveElements } from 'in-services/util/dom';
 
 import locals from './SlideInView.mless';

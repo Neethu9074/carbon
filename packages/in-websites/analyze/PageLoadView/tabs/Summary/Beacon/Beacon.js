@@ -1,4 +1,5 @@
 import { compose, withState } from 'recompose';
+import classNames from 'classnames';
 import React from 'react';
 
 import BackendTraceButton from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/BackendTraceButton';
@@ -7,7 +8,6 @@ import TypeHeader from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/com
 import renderers from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/perTypeRenderers';
 import { toInteractiveElement } from 'in-new-components/interactiveCustomElement';
 import { HighlightedEffect } from 'in-new-components/SelectedElementHighlighter';
-import classNames from 'classnames';
 import Tooltip from 'in-components/Tooltip';
 
 import locals from './Beacon.mless';

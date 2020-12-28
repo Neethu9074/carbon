@@ -1,8 +1,8 @@
 import { on } from '@instana/observables';
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import classNames from 'classnames';
 import { scrollIntoView } from 'in-services/util/dom';
 
 import locals from './SideNav.mless';

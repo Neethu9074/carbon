@@ -1,8 +1,8 @@
 import React, { Fragment } from 'react';
+import classNames from 'classnames';
 
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
 import { getDesignLibraryColorBySeverity } from 'in-stores/events';
-import classNames from 'classnames';
 import { formatDateTime } from 'in-services/formatters/date';
 import { toHtml } from 'in-services/formatters/markdown';
 import SvgIcon from 'in-components/SvgIcon';

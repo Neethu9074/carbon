@@ -1,9 +1,9 @@
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
 import { chartViewConfigs } from 'in-new-components/Alerting/Chart/chartViewConfig';
 import ButtonGroup from 'in-new-components/ButtonGroup/ButtonGroup';
-import classNames from 'classnames';
 import LightCard from 'in-new-components/Card/LightCard';
 
 import locals from './ChartViewConfigurator.mless';

@@ -1,8 +1,8 @@
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
 import UrlShortener from 'in-new-components/DashboardHeader/UrlShortener/UrlShortener';
-import classNames from 'classnames';
 import TimeSelection from 'in-new-components/time/TimeSelection/TimeSelection';
 import Skeleton from 'in-new-components/Loading/Skeleton';
 import Tooltip from 'in-components/Tooltip/Tooltip';

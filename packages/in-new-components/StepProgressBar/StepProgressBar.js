@@ -1,11 +1,10 @@
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import invariant from 'invariant';
+import theme from 'in-themes';
 import React from 'react';
 
-import classNames from 'classnames';
-
 import locals from './StepProgressBar.mless';
-import theme from 'in-themes';
 
 const colors = [theme.lib.colors.lightBlue800, theme.lib.colors.cyan800, theme.lib.colors.green800];
 

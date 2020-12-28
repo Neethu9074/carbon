@@ -1,11 +1,11 @@
 import React, { Fragment } from 'react';
+import classNames from 'classnames';
 import { get } from 'lodash';
 
 import { tagFilter as tagFilterMatrixParameter, groupBy as groupByMatrixParameter } from 'in-analyze/navigation/matrix';
 import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import SnapshotEntityLink from 'in-analyze/components/GroupedTraces/SnapshotEntityLink';
 import MetricColumnCells from 'in-analyze/components/MetricColumn/MetricColumnCells';
-import classNames from 'classnames';
 import { Tr, Td } from 'in-components/tables/sharedComponents';
 import { isBlank, isNotBlank } from 'in-services/util/string';
 import { formatDateTime } from 'in-services/formatters/date';

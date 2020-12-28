@@ -1,6 +1,6 @@
+import classNames from 'classnames';
 import React from 'react';
 
-import classNames from 'classnames';
 import Skeleton from 'in-new-components/Loading/Skeleton';
 import { Ul, Li } from 'in-new-components/lists/List';
 

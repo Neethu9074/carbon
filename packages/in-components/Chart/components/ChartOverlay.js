@@ -1,4 +1,5 @@
 import { on } from '@instana/observables';
+import classNames from 'classnames';
 import React from 'react';
 
 import HighlightedTimeframeCloseButton from 'in-components/Chart/components/HighlightedTimeframeCloseButton';
@@ -7,7 +8,6 @@ import { getNearestDataPointDomainForTimestamp } from 'in-components/Chart/data/
 import TooltipLineAndContent from 'in-components/Chart/components/TooltipLineAndContent';
 import { ANIMATION_DURATION } from 'in-components/Chart/Configuration';
 import ContextMenu from 'in-components/Chart/components/ContextMenu';
-import classNames from 'classnames';
 import createScale from 'in-services/scale';
 import connectTo from 'in-hoc/connectTo';
 

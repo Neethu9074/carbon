@@ -1,9 +1,9 @@
 import React, { forwardRef } from 'react';
+import classNames from 'classnames';
 import theme from 'in-themes';
 
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-new-components/Dialog/ConfirmationDialog';
-import classNames from 'classnames';
 import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './Delete.mless';

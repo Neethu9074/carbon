@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import invariant from 'invariant';
-
-import classNames from 'classnames';
 
 import locals from './Menu.mless';
 

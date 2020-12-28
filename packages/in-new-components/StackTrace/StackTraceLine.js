@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
+import classNames from 'classnames';
 
 import { serializeLine } from 'in-new-components/StackTrace/serializer';
-import classNames from 'classnames';
 import { isNotBlank } from 'in-services/util/string';
 import Tooltip from 'in-components/Tooltip';
 

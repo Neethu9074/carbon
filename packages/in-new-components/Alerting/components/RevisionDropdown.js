@@ -1,8 +1,8 @@
+import classNames from 'classnames';
 import React from 'react';
 
 import ComboBoxBehavior from 'in-components/form/ComboBox/ComboBoxBehavior';
 import DropdownButton from 'in-new-components/Button/DropdownButton';
-import classNames from 'classnames';
 import { formatDateTime } from 'in-services/formatters/date';
 
 import locals from './RevisionDropdown.mless';

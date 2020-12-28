@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import theme from 'in-themes';
 
@@ -7,7 +8,6 @@ import { isQB2Config, isQB2ModeEnabled } from 'in-new-components/Alerting/compon
 import { getModifiedUrlStream, mutateUrl } from 'in-stores/navigation/navigation';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-new-components/Dialog/ConfirmationDialog';
-import classNames from 'classnames';
 import TemporaryMessage from 'in-components/TemporaryMessage';
 import { warning } from 'in-new-components/Message/types';
 import BackButton from 'in-new-components/BackButton';

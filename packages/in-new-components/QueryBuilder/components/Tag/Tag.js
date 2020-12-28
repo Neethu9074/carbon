@@ -1,5 +1,6 @@
 /* eslint-disable react/display-name */
 import React, { useRef, useLayoutEffect, useState } from 'react';
+import classNames from 'classnames';
 
 import {
   changeOperator,
@@ -17,7 +18,6 @@ import { TAG } from 'in-new-components/QueryBuilder/transformation/formModel';
 import Entity from 'in-new-components/QueryBuilder/components/Tag/Entity';
 import Remove from 'in-new-components/QueryBuilder/components/Tag/Remove';
 import Name from 'in-new-components/QueryBuilder/components/Tag/Name';
-import classNames from 'classnames';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
 import useThemedLocals from 'in-hooks/useThemedLocals';
 import useTimeConfig from 'in-hooks/useTimeConfig';

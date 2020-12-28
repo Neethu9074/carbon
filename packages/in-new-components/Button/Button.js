@@ -1,8 +1,8 @@
+import classNames from 'classnames';
 import rpt from 'prop-types';
 import React from 'react';
 
 import { stopPropagation, stopPropagationAndPreventDefault } from 'in-services/util/function';
-import classNames from 'classnames';
 import { useObservableConfig } from 'in-components/Link/Link';
 import useThemedLocals from 'in-hooks/useThemedLocals';
 import useObservable from 'in-hooks/useObservable';

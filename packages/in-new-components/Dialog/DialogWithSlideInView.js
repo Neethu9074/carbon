@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
 import { stopPropagation, stopPropagationAndPreventDefault } from 'in-services/util/function';
-import classNames from 'classnames';
 import SlideInView from 'in-new-components/SlideInView/SlideInView';
 import Header from 'in-new-components/Dialog/Header';
 

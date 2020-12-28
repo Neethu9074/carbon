@@ -1,7 +1,7 @@
+import classNames from 'classnames';
 import React from 'react';
 
 import SubView from 'in-new-components/MainNavigation/components/ViewSwitcher/SubView';
-import classNames from 'classnames';
 import { alwaysNull } from 'in-services/fixedStreams';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';

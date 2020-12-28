@@ -1,6 +1,6 @@
+import classNames from 'classnames';
 import React from 'react';
 
-import classNames from 'classnames';
 import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './Pagination.mless';

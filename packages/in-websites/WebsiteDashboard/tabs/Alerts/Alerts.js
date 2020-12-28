@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
 import {
@@ -15,7 +16,6 @@ import {
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
 import { alertsTab, alertsTabDetailsFullyQualified } from 'in-websites/navigation/paths';
 import { alertCreated as alertCreatedMatrixParam } from 'in-websites/navigation/matrix';
-import classNames from 'classnames';
 import { getBlueprintConfig } from 'in-websites/alerting/data/blueprintConfig';
 import { alertId as alertIdMatrixParam } from 'in-websites/navigation/matrix';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';

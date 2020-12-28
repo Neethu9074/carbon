@@ -1,10 +1,10 @@
+import classNames from 'classnames';
 import React from 'react';
 
 import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
 import HeatMapIndicator from 'in-applications/FlowMap/components/Node/components/HeatMapIndicator';
 import ExpandButton from 'in-applications/FlowMap/components/Node/components/ExpandButton';
 import Metrics from 'in-applications/FlowMap/components/Node/components/Metrics';
-import classNames from 'classnames';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './EntityInformation.mless';

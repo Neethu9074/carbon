@@ -1,6 +1,5 @@
 /* eslint-disable react/no-multi-comp */
 import React, { Fragment } from 'react';
-
 import classNames from 'classnames';
 
 import './DescriptionList.less';

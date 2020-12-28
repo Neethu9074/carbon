@@ -1,10 +1,10 @@
-import { sortedUniqBy } from 'lodash';
 import React, { useMemo } from 'react';
+import { sortedUniqBy } from 'lodash';
+import classNames from 'classnames';
 
 import { types } from 'in-websites/analyze/PageLoadView/tabs/Summary/filterableTypes';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { compareIgnoreCase, isNotBlank } from 'in-services/util/string';
-import classNames from 'classnames';
 import SearchInput from 'in-new-components/SearchInput';
 import Select from 'in-components/form/Select';
 import Tooltip from 'in-components/Tooltip';

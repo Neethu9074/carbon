@@ -1,8 +1,8 @@
 import React, { forwardRef } from 'react';
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
 import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';
-import classNames from 'classnames';
 import SvgIcon from 'in-components/SvgIcon';
 import { lib } from 'in-themes/theme';
 

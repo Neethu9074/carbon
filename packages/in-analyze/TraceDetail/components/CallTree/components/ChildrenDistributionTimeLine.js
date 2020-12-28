@@ -1,8 +1,8 @@
+import classNames from 'classnames';
 import React from 'react';
 
 import CallTooltipContent from 'in-analyze/TraceDetail/components/CallTooltipContent';
 import LogTooltipContent from 'in-analyze/TraceDetail/components/LogTooltipContent';
-import classNames from 'classnames';
 import LogIndicator from 'in-analyze/TraceDetail/components/LogIndicator';
 import { isFakeRootCall } from 'in-analyze/TraceDetail/shared/CallHelper';
 import { latencyFixed } from 'in-services/formatters/number';

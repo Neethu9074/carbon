@@ -1,8 +1,8 @@
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
-import classNames from 'classnames';
 import SvgIcon from 'in-components/SvgIcon/SvgIcon';
 
 import locals from './FloatingActionButton.mless';

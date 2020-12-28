@@ -1,6 +1,7 @@
 import { createField, createMapForm, createListForm, notBlankValidator } from 'formalistic';
 import { just } from '@instana/observables';
 import React, { Fragment } from 'react';
+import classNames from 'classnames';
 import { get } from 'lodash';
 
 import {
@@ -24,7 +25,6 @@ import { getApplicationCreationTagKeys } from 'in-applications/tags';
 import { applicationSubmitTracker } from 'in-applications/tracker';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import DescriptionText from 'in-components/form/DescriptionText';
-import classNames from 'classnames';
 import OptionBox from 'in-applications/components/OptionBox';
 import Steps from 'in-applications/Forms/components/Steps';
 import { entityTypes } from 'in-analyze/applicationFilter';

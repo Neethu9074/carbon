@@ -1,6 +1,6 @@
+import classNames from 'classnames';
 import React from 'react';
 
-import classNames from 'classnames';
 import { stopPropagation } from 'in-services/util/function';
 import Overlay from 'in-new-components/overlays/Overlay';
 import Button from 'in-new-components/Button';

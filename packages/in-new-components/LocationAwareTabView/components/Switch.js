@@ -1,11 +1,11 @@
 import { Route, Switch } from 'react-router-dom';
 import React, { Fragment } from 'react';
+import classNames from 'classnames';
 
 import DashboardErroneousResultPresenter from 'in-new-components/DashboardErroneousResultPresenter';
 import DefaultLoadingDashboard from 'in-new-components/Loading/DefaultLoadingDashboard';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
-import classNames from 'classnames';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import Title from 'in-components/Title';
 

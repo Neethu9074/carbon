@@ -1,7 +1,7 @@
+import classNames from 'classnames';
 import React from 'react';
 
 import { getTickStyle } from 'in-new-components/Axis/components/tickStyle';
-import classNames from 'classnames';
 
 import locals from './Ticks.mless';
 

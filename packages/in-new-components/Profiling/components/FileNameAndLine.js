@@ -1,8 +1,8 @@
+import classNames from 'classnames';
 import React from 'react';
 
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
-import classNames from 'classnames';
 import { getCodeView } from 'in-sdk/snapshot/snapshot';
 
 import locals from './FileNameAndLine.mless';

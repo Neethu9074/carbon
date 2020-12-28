@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -5,7 +6,6 @@ import AlertFilterConfigurator, {
   handleChangeTagFilterExpressionChange
 } from 'in-new-components/Alerting/components/AlertFilterConfigurator';
 import IconLabel from 'in-new-components/Alerting/components/IconLabel';
-import classNames from 'classnames';
 import LightCard from 'in-new-components/Card/LightCard';
 import Button from 'in-new-components/Button';
 

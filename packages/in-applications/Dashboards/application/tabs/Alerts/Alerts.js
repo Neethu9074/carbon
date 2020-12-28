@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import pluralize from 'pluralize';
 
@@ -21,7 +22,6 @@ import { fromBackendModel } from 'in-new-components/QueryBuilder/transformation/
 import AlertQueryBuilder from 'in-applications/alerting/components/AlertQueryBuilder';
 import { getBlueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
 import { alertId as alertIdMatrixParam } from 'in-applications/navigation/matrix';
-import classNames from 'classnames';
 import WithQB1orQB2 from 'in-new-components/Alerting/components/WithQB1orQB2';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { mutateUrl } from 'in-stores/navigation/navigation';

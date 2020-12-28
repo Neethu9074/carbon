@@ -1,9 +1,9 @@
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
 import { toInteractiveElement } from 'in-new-components/interactiveCustomElement';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
-import classNames from 'classnames';
 
 import locals from './LightCard.mless';
 

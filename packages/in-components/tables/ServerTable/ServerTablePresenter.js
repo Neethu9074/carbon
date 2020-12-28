@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import classNames from 'classnames';
 import invariant from 'invariant';
 
 import { filterColumns } from 'in-components/tables/ServerTable/internalComponents/columnBehavior';
@@ -7,7 +8,6 @@ import LoadingRows from 'in-components/tables/ServerTable/internalComponents/Loa
 import { ErrorRows, Table, Tbody, Thead } from 'in-components/tables/sharedComponents';
 import Columns from 'in-components/tables/ServerTable/internalComponents/Columns';
 import Row from 'in-components/tables/ServerTable/internalComponents/Row';
-import classNames from 'classnames';
 import { pendingResult } from 'in-services/fixedObjects';
 import SearchInput from 'in-new-components/SearchInput';
 import Pagination from 'in-new-components/Pagination';

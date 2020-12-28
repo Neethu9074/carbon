@@ -1,6 +1,6 @@
+import classNames from 'classnames';
 import React from 'react';
 
-import classNames from 'classnames';
 import { escapeSpecialChars } from 'in-services/util/regex';
 
 import locals from './DefaultRenderer.mless';

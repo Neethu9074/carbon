@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
 import DialogWithSlideInView from 'in-new-components/Dialog/DialogWithSlideInView';
-import classNames from 'classnames';
 import Button from 'in-new-components/Button/Button';
 
 import locals from './AlertConfigDialogPresenter.mless';

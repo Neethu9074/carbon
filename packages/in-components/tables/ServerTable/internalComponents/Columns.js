@@ -1,8 +1,8 @@
+import classNames from 'classnames';
 import React from 'react';
 
 import { Tr, Th, SortableTh, ConfigurableTh } from 'in-components/tables/sharedComponents';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
-import classNames from 'classnames';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
 
 import locals from './Columns.mless';

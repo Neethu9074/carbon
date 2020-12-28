@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import React from 'react';
 
 import {
@@ -8,7 +9,6 @@ import {
   EVENT_TYPES
 } from 'in-stores/events';
 import { focusEvent } from 'in-stores/navigation/paths/eventPaths';
-import classNames from 'classnames';
 import { formatDateTime } from 'in-services/formatters/date';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import SvgIcon from 'in-components/SvgIcon';

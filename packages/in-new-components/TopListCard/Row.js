@@ -1,6 +1,6 @@
+import classNames from 'classnames';
 import React from 'react';
 
-import classNames from 'classnames';
 import theme from 'in-themes';
 
 import locals from './Row.mless';

@@ -1,9 +1,9 @@
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
 import IndeterminateLoadingIndicator from 'in-new-components/LoadingIndicators/IndeterminateLoadingIndicator';
 import { sizes as ICON_SIZES } from 'in-components/SvgIcon/SvgIcon';
-import classNames from 'classnames';
 
 import locals from './LoadingIndicator.mless';
 

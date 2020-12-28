@@ -1,9 +1,9 @@
 import { string, arrayOf, any, shape, func, bool } from 'prop-types';
+import classNames from 'classnames';
 import React from 'react';
 
 import ComboBoxBehavior from 'in-components/form/ComboBox/ComboBoxBehavior';
 import DropdownButton from 'in-new-components/Button/DropdownButton';
-import classNames from 'classnames';
 
 import locals from './Dropdown.mless';
 

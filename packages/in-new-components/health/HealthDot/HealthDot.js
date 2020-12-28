@@ -1,8 +1,8 @@
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import theme from 'in-themes';
 import React from 'react';
 
-import classNames from 'classnames';
 import { getColorBySeverity } from 'in-stores/events';
 import Tooltip from 'in-components/Tooltip';
 

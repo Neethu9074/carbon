@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
+import classNames from 'classnames';
 
 import TemporaryPresenter from 'in-components/TemporaryPresenter';
-import classNames from 'classnames';
 import Spacer from 'in-applications/Forms/components/Spacer';
 import SvgIcon from 'in-components/SvgIcon';
 

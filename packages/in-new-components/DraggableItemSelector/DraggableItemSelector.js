@@ -1,9 +1,9 @@
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import React, { useState } from 'react';
+import classNames from 'classnames';
 import rpt from 'prop-types';
 
 import SlideInView, { ListHeader } from 'in-new-components/SlideInView/SlideInView';
-import classNames from 'classnames';
 import Button from 'in-new-components/Button';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';

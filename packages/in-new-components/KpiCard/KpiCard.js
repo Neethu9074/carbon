@@ -1,9 +1,9 @@
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
 import { decimalSeparator, thousandsSeparator } from 'in-services/formatters/number';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
-import classNames from 'classnames';
 import useResizeObserver from 'in-hooks/useResizeObserver';
 import WithActiveTheme from 'in-themes/WithActiveTheme';
 import Button from 'in-new-components/Button';

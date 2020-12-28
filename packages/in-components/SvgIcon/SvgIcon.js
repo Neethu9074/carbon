@@ -1,10 +1,10 @@
 /* eslint-disable no-console */
-import PropTypes from 'prop-types';
 import React, { forwardRef } from 'react';
+import classNames from 'classnames';
+import PropTypes from 'prop-types';
 
 import { toInteractiveElement } from 'in-new-components/interactiveCustomElement';
 import { getIconType } from 'in-components/SvgIcon/infrastructureIconType';
-import classNames from 'classnames';
 import icons from 'in-components/SvgIcon/registry.json';
 import { emptyObject } from 'in-services/fixedObjects';
 import { getFactor } from 'in-services/util/dom';

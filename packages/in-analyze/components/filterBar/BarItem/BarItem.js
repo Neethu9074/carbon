@@ -1,7 +1,7 @@
 import React, { forwardRef } from 'react';
+import classNames from 'classnames';
 
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
-import classNames from 'classnames';
 import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './BarItem.mless';

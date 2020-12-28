@@ -1,7 +1,6 @@
+import classNames from 'classnames';
 import rpt from 'prop-types';
 import React from 'react';
-
-import classNames from 'classnames';
 
 import locals from './Stack.mless';
 

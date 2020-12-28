@@ -1,6 +1,6 @@
+import classNames from 'classnames';
 import React from 'react';
 
-import classNames from 'classnames';
 import useThemedLocals from 'in-hooks/useThemedLocals';
 import Tooltip from 'in-components/Tooltip';
 

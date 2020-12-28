@@ -1,10 +1,10 @@
 import React, { forwardRef } from 'react';
+import classNames from 'classnames';
 import theme from 'in-themes';
 
 import LogTooltipContent from 'in-analyze/TraceDetail/components/LogTooltipContent';
 import ErrorIndicator from 'in-analyze/TraceDetail/components/ErrorIndicator';
 import LogIndicator from 'in-analyze/TraceDetail/components/LogIndicator';
-import classNames from 'classnames';
 import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
 import { role } from 'in-stores/user';

@@ -1,5 +1,6 @@
 import React, { useState, useLayoutEffect } from 'react';
 import { findIndex, isEqual } from 'lodash';
+import classNames from 'classnames';
 import rpt from 'prop-types';
 
 import { leftArrowId, rightArrowId } from 'in-new-components/AnalyzeView/SplitScreenList/elementIds';
@@ -13,7 +14,6 @@ import LoadMoreLi from 'in-new-components/lists/List/LoadMoreLi/LoadMoreLi';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import ResultHeader from 'in-new-components/AnalyzeView/ResultHeader';
 import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
-import classNames from 'classnames';
 import { prefetch } from 'in-subscription/util/prefetch';
 import { generateStableHash } from 'in-services/util/id';
 import { Ul, Li } from 'in-new-components/lists/List';

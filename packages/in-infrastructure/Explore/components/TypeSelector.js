@@ -1,5 +1,6 @@
 import React, { useCallback, useMemo, useState, useRef } from 'react';
 import { isEmpty, isEqual } from 'lodash';
+import classNames from 'classnames';
 
 import { allInfrastructureType, defaultAllInfraGroup, allTypes } from 'in-infrastructure/Explore/constants';
 import { groupMatrixParameter, typeMatrixParameter, getLinkToExplore } from 'in-infrastructure/navigation/paths';
@@ -12,7 +13,6 @@ import { pendingResult, emptyObject } from 'in-services/fixedObjects';
 import Overlay from 'in-new-components/overlays/Overlay/Overlay';
 import { getInteractiveElements } from 'in-services/util/dom';
 import { containsIgnoreCase } from 'in-services/util/string';
-import classNames from 'classnames';
 import { compareIgnoreCase } from 'in-services/util/string';
 import SearchInput from 'in-new-components/SearchInput';
 import useTimeConfig from 'in-hooks/useTimeConfig';

@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -9,7 +10,6 @@ import {
 } from 'in-new-components/Alerting/advanced/TimeThresholdConfig/form';
 import { timeThresholdTypes } from 'in-new-components/Alerting/advanced/TimeThresholdConfig/formData';
 import CheckboxFancy from 'in-new-components/Alerting/components/CheckboxFancy';
-import classNames from 'classnames';
 
 import locals from './TimeThresholdConfig.mless';
 

@@ -1,7 +1,7 @@
+import classNames from 'classnames';
 import React from 'react';
 
 import ShowCodeButton from 'in-analyze/TraceDetail/components/CallDetails/components/StackTrace/ShowCodeButton';
-import classNames from 'classnames';
 
 import locals from './StackTracePresentation.mless';
 

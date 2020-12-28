@@ -1,9 +1,9 @@
+import classNames from 'classnames';
 import React from 'react';
 
 import EntityInformation from 'in-applications/FlowMap/components/Node/components/EntityInformation';
 import ScreenPositionWrapper from 'in-applications/FlowMap/components/Node/ScreenPositionWrapper';
 import { ServiceLink, EndpointLink } from 'in-applications/FlowMap/components/Node/EntityLinks';
-import classNames from 'classnames';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 

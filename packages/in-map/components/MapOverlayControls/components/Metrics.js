@@ -1,4 +1,5 @@
 /* eslint-disable react/no-multi-comp */
+import classNames from 'classnames';
 import { fromJS } from 'immutable';
 import { isEqual } from 'lodash';
 import React from 'react';
@@ -6,7 +7,6 @@ import React from 'react';
 import { setActiveMetric, clearActiveMetric, activeMetric$ } from 'in-stores/metric';
 import Control from 'in-map/components/MapOverlayControls/components/Control';
 import { track, MAP_METRICS_SHOW } from 'in-services/tracking/tracking';
-import classNames from 'classnames';
 import { types, view$ } from 'in-stores/view';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';

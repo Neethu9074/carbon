@@ -1,8 +1,8 @@
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
 import IndeterminateInput from 'in-components/form/CheckboxFancy/IndeterminateInput';
-import classNames from 'classnames';
 
 import locals from './CheckboxFancy.mless';
 

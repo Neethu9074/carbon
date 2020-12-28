@@ -1,6 +1,6 @@
+import classNames from 'classnames';
 import React from 'react';
 
-import classNames from 'classnames';
 import Tooltip from 'in-components/Tooltip';
 import Link from 'in-components/Link';
 

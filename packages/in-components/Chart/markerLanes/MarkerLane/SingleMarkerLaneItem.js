@@ -1,7 +1,6 @@
 import React, { forwardRef } from 'react';
-import PropTypes from 'prop-types';
-
 import classNames from 'classnames';
+import PropTypes from 'prop-types';
 
 import locals from './SingleMarkerLaneItem.mless';
 

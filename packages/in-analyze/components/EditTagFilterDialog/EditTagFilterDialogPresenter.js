@@ -1,11 +1,11 @@
 import CreatableSelect from 'react-select/lib/Creatable';
+import classNames from 'classnames';
 import React from 'react';
 
 import { getOperatorLabel, entityTypes } from 'in-analyze/applicationFilter';
 import RadioGroup from 'in-analyze/components/RadioButtons/RadioGroup';
 import { isBlank, compareIgnoreCase } from 'in-services/util/string';
 import TouchedMessages from 'in-components/form/TouchedMessages';
-import classNames from 'classnames';
 import { emptyArray } from 'in-services/fixedObjects';
 import Dialog from 'in-new-components/Dialog/Dialog';
 import FormGroup from 'in-components/form/FormGroup';

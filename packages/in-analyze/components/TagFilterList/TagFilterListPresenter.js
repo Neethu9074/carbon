@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import theme from 'in-themes';
 import React from 'react';
@@ -5,7 +6,6 @@ import React from 'react';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { findSubTreeByFullyQualifiedName } from 'in-applications/tags';
 import { getOperatorLabel } from 'in-analyze/applicationFilter';
-import classNames from 'classnames';
 import { emptyArray } from 'in-services/fixedObjects';
 import { isBlank } from 'in-services/util/string';
 import EntityIndicator from '../EntityIndicator';

@@ -1,6 +1,6 @@
+import classNames from 'classnames';
 import React from 'react';
 
-import classNames from 'classnames';
 import { Th } from 'in-components/tables/sharedComponents/Table';
 import SvgIcon from 'in-components/SvgIcon';
 

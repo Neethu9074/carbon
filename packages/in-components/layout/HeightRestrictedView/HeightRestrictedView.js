@@ -1,6 +1,6 @@
+import classNames from 'classnames';
 import React from 'react';
 
-import classNames from 'classnames';
 import { debouncedResize$ } from 'in-services/browser';
 import { scrollToTop } from 'in-services/util/dom';
 import { getCoords } from 'in-services/util/dom';

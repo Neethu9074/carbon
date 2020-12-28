@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import classNames from 'classnames';
 import rpt from 'prop-types';
 
 import { toInteractiveElement, withInteractivitySideEffects } from 'in-new-components/interactiveCustomElement';
@@ -6,7 +7,6 @@ import HorizontalIndicatorLiComponent from 'in-new-components/lists/List/Horizon
 import LoadingSkeletonLiComponent from 'in-new-components/lists/List/LoadingSkeletonLi';
 import LoadMoreLiComponent from 'in-new-components/lists/List/LoadMoreLi';
 import ListGroupComponent from 'in-new-components/lists/List/ListGroup';
-import classNames from 'classnames';
 import { emptyObject } from 'in-services/fixedObjects';
 import useAutoFocus from 'in-hooks/useAutoFocus';
 import SvgIcon from 'in-components/SvgIcon';

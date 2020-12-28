@@ -1,9 +1,9 @@
+import classNames from 'classnames';
 import React from 'react';
 
 import { CLOSE_BRACKET } from 'in-new-components/QueryBuilder/transformation/renderModel';
 import { isPrimaryInteractiveElement } from 'in-new-components/interactiveCustomElement';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
-import classNames from 'classnames';
 import keyCodes from 'in-components/keyCodes';
 
 import locals from './Expression.mless';

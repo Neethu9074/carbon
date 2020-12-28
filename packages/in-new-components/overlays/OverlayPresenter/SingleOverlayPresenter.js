@@ -1,7 +1,7 @@
+import classNames from 'classnames';
 import React from 'react';
 
 import TooltipCalculator from 'in-components/Tooltip/TooltipCalculator';
-import classNames from 'classnames';
 import { debouncedResize$ } from 'in-services/browser';
 import toPx from 'in-services/formatters/toPx';
 import connectTo from 'in-hoc/connectTo';

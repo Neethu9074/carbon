@@ -1,10 +1,10 @@
 import React, { PureComponent, createElement } from 'react';
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
 import { IndeterminateLoadingIndicatorLineCoordinates as SVG_LINES } from 'in-new-components/LoadingIndicators/SvgLineCoordinates.json';
 import { IndeterminateLoadingIndicatorPaths as SVG_PATHS } from 'in-new-components/LoadingIndicators/SvgPaths.json';
 import { sizes as ICON_SIZES } from 'in-components/SvgIcon/SvgIcon';
-import classNames from 'classnames';
 import theme from 'in-themes';
 
 import locals from './IndeterminateLoadingIndicator.mless';

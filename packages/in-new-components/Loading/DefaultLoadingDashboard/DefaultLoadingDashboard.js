@@ -1,7 +1,7 @@
+import classNames from 'classnames';
 import React from 'react';
 
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
-import classNames from 'classnames';
 import Skeleton from 'in-new-components/Loading/Skeleton';
 import { Row, Col } from 'in-new-components/layout/Grid';
 

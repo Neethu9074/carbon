@@ -1,8 +1,8 @@
+import classNames from 'classnames';
 import React from 'react';
 
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-new-components/Dialog/ConfirmationDialog';
-import classNames from 'classnames';
 import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './Delete.mless';

@@ -1,6 +1,6 @@
+import classNames from 'classnames';
 import React from 'react';
 
-import classNames from 'classnames';
 import { isBlank } from 'in-services/util/string';
 
 import locals from './HorizontalDescriptionList.mless';

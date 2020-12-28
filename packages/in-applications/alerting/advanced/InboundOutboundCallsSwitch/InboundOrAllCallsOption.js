@@ -1,7 +1,7 @@
+import classNames from 'classnames';
 import React from 'react';
 
 import { boundaryScopes } from 'in-applications/alerting/advanced/InboundOutboundCallsSwitch/config';
-import classNames from 'classnames';
 import OptionBox from 'in-applications/components/OptionBox';
 
 import locals from './InboundOrAllCallsSwitch.mless';

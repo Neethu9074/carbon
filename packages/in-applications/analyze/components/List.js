@@ -1,6 +1,6 @@
-import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
 import { empty } from '@instana/observables';
+import classNames from 'classnames';
 
 import FacetedSearch from 'in-applications/analyze/components/FacetedSearch/FacetedSearch';
 import CursorPaginatedTable from 'in-components/tables/ServerTable/CursorPaginatedTable';

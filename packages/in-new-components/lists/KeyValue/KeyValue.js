@@ -1,9 +1,9 @@
 import React, { forwardRef } from 'react';
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
 import Value from 'in-new-components/lists/KeyValue/components/Value';
 import Key from 'in-new-components/lists/KeyValue/components/Key';
-import classNames from 'classnames';
 
 import locals from './KeyValue.mless';
 

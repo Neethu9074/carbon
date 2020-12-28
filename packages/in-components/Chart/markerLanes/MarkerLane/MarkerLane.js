@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
 import HorizontalIndicator from 'in-new-components/Loading/HorizontalIndicator';
 import RenderScheduler from 'in-components/Chart/RenderScheduler';
 import getElementDimensions from 'in-hoc/getElementDimensions';
-import classNames from 'classnames';
 import { propTypeTimeConfig } from 'in-stores/time/config';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import useObservable from 'in-hooks/useObservable';

@@ -3,6 +3,7 @@ import ReactGridLayout from 'react-grid-layout';
 import TrackVisibility from 'react-on-screen';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
+import classNames from 'classnames';
 import theme from 'in-themes';
 
 import {
@@ -13,7 +14,6 @@ import {
   containerPadding
 } from 'in-custom-dashboards/CustomDashboard/Grid/settings';
 import { MoreMenu, MoreMenuButton } from 'in-new-components/MoreMenu';
-import classNames from 'classnames';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import widgets from 'in-custom-dashboards/widgets';
 import SvgIcon from 'in-components/SvgIcon';

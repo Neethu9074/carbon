@@ -1,7 +1,7 @@
+import classNames from 'classnames';
 import React from 'react';
 
 import { clearHighlightedTimeframe } from 'in-stores/timeline/highlightedTimeframe';
-import classNames from 'classnames';
 import Button from 'in-new-components/Button';
 import SvgIcon from 'in-components/SvgIcon';
 

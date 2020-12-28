@@ -1,9 +1,9 @@
+import classNames from 'classnames';
 import React from 'react';
 
 import SimpleValueSelector from 'in-new-components/QueryBuilder/SimpleValueSelector/SimpleValueSelector';
 import { toInteractiveElement } from 'in-new-components/interactiveCustomElement';
 import Entity from 'in-new-components/GroupingConfigurator/Entity';
-import classNames from 'classnames';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import useAutoFocus from 'in-hooks/useAutoFocus';

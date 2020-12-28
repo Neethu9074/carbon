@@ -1,6 +1,6 @@
+import classNames from 'classnames';
 import React from 'react';
 
-import classNames from 'classnames';
 import { Tr, Td } from 'in-components/tables/sharedComponents';
 
 import locals from './Row.mless';

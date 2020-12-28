@@ -1,8 +1,8 @@
 import React, { Fragment } from 'react';
+import classNames from 'classnames';
 
 import { getServiceDashboard, getEndpointDashboard } from 'in-applications/navigation/paths';
 import { getLinkToMobileApp } from 'in-mobile-apps/navigation/paths';
-import classNames from 'classnames';
 import { getLinkToWebsite } from 'in-websites/navigation/paths';
 import PluginIcon from 'in-components/PluginIcon';
 import { shorten } from 'in-services/util/string';

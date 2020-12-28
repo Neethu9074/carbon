@@ -1,7 +1,7 @@
 import React, { forwardRef } from 'react';
+import classNames from 'classnames';
 import rpt from 'prop-types';
 
-import classNames from 'classnames';
 import { lighten } from 'in-services/formatters/color';
 
 import locals from './Pill.mless';
