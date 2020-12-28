@@ -14,7 +14,8 @@ export default function ComboBoxOverlay({
   onChange,
   asyncClose,
   disableAutomaticOptionSorting,
-  listItemClassName
+  listItemClassName,
+  listItemAlignment
 }) {
   if (!disableAutomaticOptionSorting) {
     options = options.sort(optionLabelComparator);
@@ -32,6 +33,7 @@ export default function ComboBoxOverlay({
           // both the closing and opening of the overlay at the same time thereby resulting in a noop.
           close={asyncClose}
           value={option.value}
+          alignment={listItemAlignment}
         >
           {option.label}
         </OverlayOption>

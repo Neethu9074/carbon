@@ -17,13 +17,15 @@ export default function DialogWithSlideInView({
   className,
   renderCustomCloseBehaviour,
   withoutBodyPadding,
+  removeBottomPaddingWhenFooterIsShown,
   showOverflow,
   headless = false,
   doNotCloseOnOutsideClick,
   onSlideInViewTitleClick,
   slideInViewTitle,
   slideInViewComponent,
-  slideInViewVisible
+  slideInViewVisible,
+  footer
 }) {
   const [scrollshadow, setScrollshadow] = useState(false);
 
@@ -67,11 +69,16 @@ export default function DialogWithSlideInView({
                 className={classNames({
                   [locals.body]: true,
                   [locals.withoutPadding]: withoutBodyPadding,
-                  [locals.showOverflow]: showOverflow
+                  [locals.withoutBottomPadding]:
+                    withoutBodyPadding ?? (removeBottomPaddingWhenFooterIsShown && !slideInViewVisible && footer),
+                  [locals.showOverflow]: showOverflow,
+                  [locals.withRoundedBottomBorder]: slideInViewVisible || !footer
                 })}
               >
                 {children}
               </div>
+
+              {!slideInViewVisible && footer}
             </>
           }
         />
@@ -91,9 +98,11 @@ DialogWithSlideInView.propTypes = {
   title: PropTypes.string,
   titleIconType: PropTypes.string,
   withoutBodyPadding: PropTypes.bool,
+  removeBottomPaddingWhenFooterIsShown: PropTypes.bool,
   doNotCloseOnOutsideClick: PropTypes.bool,
   onSlideInViewTitleClick: PropTypes.func,
   slideInViewTitle: PropTypes.string,
   slideInViewComponent: PropTypes.node,
-  slideInViewVisible: PropTypes.bool
+  slideInViewVisible: PropTypes.bool,
+  footer: PropTypes.node
 };

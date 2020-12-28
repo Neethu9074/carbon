@@ -1,0 +1,14 @@
+:local {
+  .colorSelection {
+    display: flex;
+
+    & > :first-child {
+      margin-right: 4rem;
+    }
+  }
+
+  .timeShiftHelpText {
+    display: flex;
+    align-items: center;
+  }
+}

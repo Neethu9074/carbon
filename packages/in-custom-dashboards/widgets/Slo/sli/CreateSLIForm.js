@@ -1,25 +1,23 @@
-import React, { useState } from 'react';
 import { just } from '@instana/observables';
+import React, { useState } from 'react';
 
+import Stack from 'in-new-components/layout/Stack';
 import { resetFormForSliType, createForm, sliFieldNames } from 'in-custom-dashboards/widgets/Slo/sli/sliForm';
 import { switchQB1orQB2Helper, isQB2ModeEnabled } from 'in-new-components/Alerting/components/WithQB1orQB2';
 import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import { isSliEventsQueryValid } from 'in-custom-dashboards/widgets/Slo/sli/SliEventsQueryBuilder';
+import FormFooter, { SaveButton, CancelButton } from 'in-components/form/FormFooter/FormFooter';
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
 import { SliForm } from 'in-custom-dashboards/widgets/Slo/sli/SliFormPresenter';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { createSliConfiguration } from 'in-custom-dashboards/api';
 import { generateUniqueShortId } from 'in-services/util/id';
 import { pendingResult } from 'in-services/fixedObjects';
-import Section from 'in-settings/components/Section';
 import Form from 'in-components/form/binding/Form';
 import useObservable from 'in-hooks/useObservable';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { success } from 'in-services/util/result';
 import Message from 'in-new-components/Message';
-import Button from 'in-new-components/Button';
-
-import locals from 'in-custom-dashboards/widgets/Slo/sli/CreateSLIForm.mless';
 
 export default function CreateNewSLIForm({ apName, applicationId, apDefaultBoundaryScope, close, sliConfig }) {
   const timeConfig = useTimeConfig();
@@ -91,33 +89,25 @@ export default function CreateNewSLIForm({ apName, applicationId, apDefaultBound
 
   return (
     <Form form={form} setForm={setForm} onSubmit={onSubmit}>
-      <SliForm form={form} onChange={onChange} onChangeType={onChangeType} apName={apName} />
-      {sliConfig?.id && (
-        <Section>
+      <Stack space="large">
+        <SliForm form={form} onChange={onChange} onChangeType={onChangeType} apName={apName} />
+
+        {sliConfig?.id && (
           <Message>
             The parameters of the SLI cannot be modified to prevent invalidation of the calculated spent budgets. This
             is why the SLI needs to be cloned when you change any parameter.
           </Message>
-        </Section>
-      )}
-      <Section>{state?.errors && <ErroneousResultPresenter errors={state.errors} />}</Section>
-      <Section className={locals.saveCancelRow}>
-        <Button kind="subtle" size="compact" className={locals.button} onClick={close}>
-          Cancel
-        </Button>
-        {form && (
-          <Button
-            icon={saving ? 'lib_actions_loading' : null}
-            iconSpinning
-            className={locals.button}
-            kind="create"
-            type="submit"
-            disabled={(!form.hierarchyValid && form.touched) || saving || !isValid}
-          >
-            {saving ? savingStateName : saveButtonLabel}
-          </Button>
         )}
-      </Section>
+
+        {state?.errors && <ErroneousResultPresenter errors={state.errors} />}
+
+        <FormFooter withRoundedBottomBorder>
+          <CancelButton onClick={close} />
+          <SaveButton form={form} isSaving={saving} disabled={!isValid}>
+            {saving ? savingStateName : saveButtonLabel}
+          </SaveButton>
+        </FormFooter>
+      </Stack>
     </Form>
   );
 }

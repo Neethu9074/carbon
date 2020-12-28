@@ -1,4 +1,3 @@
-/* eslint-disable react/no-find-dom-node */
 import { useRef, Children, cloneElement, useCallback } from 'react';
 import { createLogger } from '@instana/logger';
 import invariant from 'invariant';

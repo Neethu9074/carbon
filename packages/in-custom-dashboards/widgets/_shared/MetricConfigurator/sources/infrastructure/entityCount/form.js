@@ -11,7 +11,7 @@ export function createForm(form, savedState) {
       'dynamicFocusQuery',
       createField({
         value: (savedState && savedState.dynamicFocusQuery) || '',
-        validator: composeAndShortCircuitOnError(stringValidator)
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
       })
     )
     .put(

@@ -1,17 +1,20 @@
 import React, { useState } from 'react';
 
+import WidgetTypeSelector from 'in-custom-dashboards/CustomDashboard/WidgetEditorDialog/WidgetTypeSelector/WidgetTypeSelector';
 import WidgetConfiguration from 'in-custom-dashboards/CustomDashboard/WidgetEditorDialog/WidgetConfiguration';
-import WidgetTypeSelector from 'in-custom-dashboards/CustomDashboard/WidgetEditorDialog/WidgetTypeSelector';
-import { SideNavigationWrapper } from 'in-new-components/SideNavigation/SideNavigation';
+import FormFooter, { SaveButton, CancelButton } from 'in-components/form/FormFooter/FormFooter';
 import DialogWithSlideInView from 'in-new-components/Dialog/DialogWithSlideInView';
+import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
 import { close } from 'in-components/DialogPresenter/store';
-import CancelButton from 'in-components/form/CancelButton';
-import Actions from 'in-new-components/Dialog/Actions';
-import SaveButton from 'in-components/form/SaveButton';
+import widgets from 'in-custom-dashboards/widgets';
 
 import locals from './WidgetEditorDialogPresenter.mless';
 
+const formId = 'widget-editor';
+
 export default function WidgetEditorDialogPresenter({
+  showWidgetSelector,
+  setShowWidgetSelector,
   isEditing,
   onSubmit,
   onChange,
@@ -20,11 +23,18 @@ export default function WidgetEditorDialogPresenter({
   slideInView,
   setSlideInView
 }) {
+  useDisabledBodyScroll();
   const subSlideState = useState(null);
+
+  let title = isEditing ? 'Edit Widget' : 'Add Widget';
+  if (!showWidgetSelector) {
+    title += ` – ${widgets[form.get('type').value].label}`;
+  }
+
   return (
     <DialogWithSlideInView
-      titleIconType="lib_views_grid"
-      title={isEditing ? 'Edit Widget' : 'Add a Widget'}
+      titleIconType={isEditing ? 'lib_actions_edit' : 'lib_openclose_add_circle_outline'}
+      title={title}
       onClose={close}
       doNotCloseOnOutsideClick
       className={locals.dialog}
@@ -35,14 +45,31 @@ export default function WidgetEditorDialogPresenter({
         slideOut,
         subSlideState
       })}
+      removeBottomPaddingWhenFooterIsShown
+      footer={
+        <FormFooter className={locals.controls} withRoundedBottomBorder>
+          {isEditing && <CancelButton onClick={close} />}
+          {!isEditing && showWidgetSelector && <CancelButton onClick={close} />}
+          {!isEditing && !showWidgetSelector && (
+            <CancelButton onClick={() => setShowWidgetSelector(true)}>Back</CancelButton>
+          )}
+          <SaveButton formId={formId} form={form}>
+            {showWidgetSelector && 'Next'}
+            {!showWidgetSelector && (isEditing ? 'Confirm' : 'Create')}
+          </SaveButton>
+        </FormFooter>
+      }
     >
       <form
+        id={formId}
         onSubmit={e => {
           e.preventDefault();
           onSubmit();
         }}
       >
-        <SideNavigationWrapper sidebar={<WidgetTypeSelector form={form} onChangeType={onChangeType} />}>
+        {showWidgetSelector && <WidgetTypeSelector form={form} onChangeType={onChangeType} />}
+
+        {!showWidgetSelector && (
           <WidgetConfiguration
             onChange={onChange}
             form={form}
@@ -57,12 +84,7 @@ export default function WidgetEditorDialogPresenter({
               })
             }
           />
-        </SideNavigationWrapper>
-
-        <Actions>
-          <CancelButton onClick={close} />
-          <SaveButton form={form}>{isEditing ? 'Confirm' : 'Create'}</SaveButton>
-        </Actions>
+        )}
       </form>
     </DialogWithSlideInView>
   );

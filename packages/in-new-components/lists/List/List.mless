@@ -77,7 +77,7 @@
     transition: background 0.2s ease-in-out;
     background: @lib__colors__white;
 
-    &:nth-child(even) {
+    &:nth-child(even), &.forceAlternateBg {
       background: @lib__colors__N050;
     }
 
@@ -96,10 +96,8 @@
     .borderRadius(@lib__shapes__radius_medium);
   }
 
-  .noAlternatingBg {
-    &:nth-child(even) {
-      background: @lib__colors__white;
-    }
+  .noAlternatingBg:nth-child(even):not(.forceAlternateBg) {
+    background: @lib__colors__white;
   }
 
   .link {
@@ -166,9 +164,21 @@
 
   .expandIcon {
     margin-left: 0.5rem;
+
+    &:hover {
+      // align to subtle button colors
+      // Implemented via box-shadow to avoid impacting the box model
+      box-shadow: 0.625rem 0.25rem 0 @lib__colors__N300,
+                  -0.625rem 0.25rem 0 @lib__colors__N300,
+                  0.625rem -0.25rem 0 @lib__colors__N300,
+                  -0.625rem -0.25rem 0 @lib__colors__N300;
+      background: @lib__colors__N300;
+      border-radius: @lib__shapes__radius_small;
+    }
   }
 
   .nestedContent {
     padding: 0.75rem 1rem;
+    background: @lib__colors__N050;
   }
 }

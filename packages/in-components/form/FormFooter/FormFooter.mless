@@ -12,6 +12,10 @@
     border-top: 1px solid @lib__colors__N300;
   }
 
+  .withRoundedBottomBorder {
+    border-radius: 0 0 @lib__shapes__radius_small @lib__shapes__radius_small;
+  }
+
   .button {
     min-width: 6.25rem;
   }

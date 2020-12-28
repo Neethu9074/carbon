@@ -5,9 +5,18 @@ import sources from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sou
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { minValidator, maxValidator } from 'in-services/validators/number';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
+import { getMetricLabel } from 'in-custom-dashboards/widgets/Chart/util';
 import { buildEnumValidator } from 'in-services/validators/enum';
 
-export function createForm(savedState, { withLabelConfiguration = false } = {}) {
+export function createForm(
+  savedState,
+  {
+    // Adding new options? Remember to also make getConfigFromExistingForm aware of these
+    withLabelConfiguration = false,
+    withCompareToTimeShifted = false,
+    withColorConfiguration = false
+  } = {}
+) {
   let form = createMapForm()
     .put(
       'source',
@@ -43,12 +52,32 @@ export function createForm(savedState, { withLabelConfiguration = false } = {}) 
       })
     );
 
+  if (withCompareToTimeShifted) {
+    form = form.put(
+      'compareToTimeShifted',
+      createField({
+        value: Boolean(savedState && savedState.compareToTimeShifted),
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, booleanValidator)
+      })
+    );
+  }
+
   if (withLabelConfiguration) {
     form = form.put(
       'label',
       createField({
         value: (savedState && savedState.label) || '',
-        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator)
+      })
+    );
+  }
+
+  if (withColorConfiguration) {
+    form = form.put(
+      'color',
+      createField({
+        value: (savedState && savedState.color) || '',
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator)
       })
     );
   }
@@ -66,11 +95,17 @@ export function createForm(savedState, { withLabelConfiguration = false } = {}) 
 
 export function onChangeSource(form, setForm, newSource) {
   const labelField = form.get('label');
+  const compareToTimeShiftedField = form.get('compareToTimeShifted');
   // We have to discard everything because the source is the first selection
   // option in the configuration dialog.
   let updatedForm = createForm(
-    { source: newSource, label: labelField ? labelField.value : null, timeShift: form.get('timeShift').value },
-    { withLabelConfiguration: !!labelField }
+    {
+      source: newSource,
+      label: labelField?.value,
+      timeShift: form.get('timeShift').value,
+      compareToTimeShifted: compareToTimeShiftedField?.value
+    },
+    getConfigFromExistingForm(form)
   )
     .updateIn(['source'], field => field.setTouched(true))
     .updateIn(['timeShift'], field => field.setTouched(form.get('timeShift').touched));
@@ -80,6 +115,23 @@ export function onChangeSource(form, setForm, newSource) {
   }
 
   setForm(updatedForm);
+}
+
+function getConfigFromExistingForm(form) {
+  const labelField = form.get('label');
+  const compareToTimeShiftedField = form.get('compareToTimeShifted');
+  const colorField = form.get('color');
+  return {
+    withLabelConfiguration: !!labelField,
+    withCompareToTimeShifted: !!compareToTimeShiftedField,
+    withColorConfiguration: !!colorField
+  };
+}
+
+export function duplicate(form) {
+  const state = form.toJS();
+  state.label = `Duplicate of ${getMetricLabel(state)}`;
+  return createForm(state, getConfigFromExistingForm(form));
 }
 
 function timeShiftValidator(v) {

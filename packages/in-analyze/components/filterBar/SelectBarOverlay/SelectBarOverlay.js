@@ -1,5 +1,5 @@
+import React, { forwardRef } from 'react';
 import classNames from 'classnames';
-import React from 'react';
 
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import BarOverlay from 'in-analyze/components/filterBar/BarOverlay/BarOverlay';
@@ -73,7 +73,7 @@ export default function SelectBarOverlay({
   );
 }
 
-function Item({ item, selected, onClick, itemLabelRenderer }) {
+const Item = forwardRef(function Item({ item, selected, onClick, itemLabelRenderer }, ref) {
   return (
     <a
       href=""
@@ -85,10 +85,11 @@ function Item({ item, selected, onClick, itemLabelRenderer }) {
         [locals.item]: true,
         [locals.selectedItem]: selected
       })}
+      ref={ref}
     >
       <span className={locals.itemText}>{itemLabelRenderer ? itemLabelRenderer(item.label) : item.label}</span>
 
       {selected && <SvgIcon className={locals.selectedIcon} type="lib_uncheck" size="s" />}
     </a>
   );
-}
+});

@@ -1,19 +1,25 @@
 import classNames from 'classnames';
 import React from 'react';
 
+import CancelButtonComponent from 'in-components/form/CancelButton';
 import DeleteButtonComponent from 'in-components/form/DeleteButton';
 import SaveButtonComponent from 'in-components/form/SaveButton';
-import Button from 'in-new-components/Button/Button';
 
 import locals from './FormFooter.mless';
 
-export default function FormFooter({ className, children }) {
-  return <nav className={classNames(locals.controls, className)}>{children}</nav>;
+export default function FormFooter({ className, withRoundedBottomBorder, children }) {
+  return (
+    <nav
+      className={classNames(locals.controls, className, { [locals.withRoundedBottomBorder]: withRoundedBottomBorder })}
+    >
+      {children}
+    </nav>
+  );
 }
 
 export function SaveButton(props) {
   return (
-    <SaveButtonComponent className={locals.button} kind="primary" {...props}>
+    <SaveButtonComponent className={locals.button} kind="create" {...props}>
       {props.children || 'Save'}
     </SaveButtonComponent>
   );
@@ -21,9 +27,9 @@ export function SaveButton(props) {
 
 export function CancelButton(props) {
   return (
-    <Button className={locals.button} kind="secondary" {...props}>
-      Cancel
-    </Button>
+    <CancelButtonComponent className={locals.button} {...props}>
+      {props.children || 'Cancel'}
+    </CancelButtonComponent>
   );
 }
 

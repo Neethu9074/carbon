@@ -1,6 +1,6 @@
+import React, { forwardRef } from 'react';
 import classNames from 'classnames';
 import rpt from 'prop-types';
-import React from 'react';
 
 import locals from './Stack.mless';
 
@@ -21,13 +21,16 @@ export const spaces = [
 ];
 
 // An implementation of https://seek-oss.github.io/braid-design-system/components/Stack/
-export default function Stack({ component: Component = 'div', space = 'normal', align = null, children }) {
+export default forwardRef(Stack);
+
+function Stack({ component: Component = 'div', space = 'normal', align = null, children }, ref) {
   return (
     <Component
       className={classNames(locals.stack, {
         [locals[`spacing-${space}`]]: true,
         [locals[`alignment-${align}`]]: align
       })}
+      ref={ref}
     >
       {children}
     </Component>

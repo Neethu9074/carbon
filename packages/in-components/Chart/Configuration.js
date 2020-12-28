@@ -160,39 +160,58 @@ export default class Config {
   }
 
   determineSeriesColors() {
-    if (!this.y1.colors) {
-      this.enrichAxisWithColors(this.y1);
-    }
-    this.y1.colors100 = this.getColors100ForColors(this.y1.colors);
+    this.enrichAxisWithColors(this.y1);
 
-    if (this.y2 && !this.y2.colors) {
-      this.enrichAxisWithColors(this.y2, this.y1.numOfSeries);
-    }
     if (this.y2) {
-      this.y2.colors100 = this.getColors100ForColors(this.y2.colors);
+      this.enrichAxisWithColors(this.y2, this.y1.numOfSeries);
     }
   }
 
   enrichAxisWithColors(axis, offset = 0) {
+    if (axis.colors100) {
+      return;
+    }
+
     const colors = theme.lib.colors.chart.strokeColors25;
 
-    axis.colors = [];
+    axis.colors = axis.colors || [];
+    axis.colors100 = [];
     for (let i = 0; i < axis.numOfSeries; i++) {
-      axis.colors[i] = colors[(i + offset) % colors.length];
+      const color = axis.colors[i] || colors[(i + offset) % colors.length];
+      const { c25, c100 } = this.getColorWithTransparency(color);
+      axis.colors[i] = c25;
+      axis.colors100.push(c100);
     }
   }
 
-  getColors100ForColors(colors) {
-    return colors.map(color => {
-      const colorIndex = theme.lib.colors.chart.strokeColors25.indexOf(color);
-      if (colorIndex !== -1) {
-        return theme.lib.colors.chart.strokeColors100[colorIndex];
-      }
-      if (color === theme.lib.colors.chart.self25) {
-        return theme.lib.colors.chart.self100;
-      }
-      return color;
-    });
+  getColorWithTransparency(color) {
+    const color25Index = theme.lib.colors.chart.strokeColors25.indexOf(color);
+    if (color25Index >= 0) {
+      return {
+        c25: color,
+        c100: theme.lib.colors.chart.strokeColors100[color25Index]
+      };
+    }
+
+    const color100Index = theme.lib.colors.chart.strokeColors100.indexOf(color);
+    if (color100Index >= 0) {
+      return {
+        c25: theme.lib.colors.chart.strokeColors25[color100Index],
+        c100: color
+      };
+    }
+
+    if (color === theme.lib.colors.chart.self25 || color === theme.lib.colors.chart.self100) {
+      return {
+        c25: theme.lib.colors.chart.self25,
+        c100: theme.lib.colors.chart.self100
+      };
+    }
+
+    return {
+      c25: color,
+      c100: color
+    };
   }
 
   clearLocalHighlightedTimeframe() {

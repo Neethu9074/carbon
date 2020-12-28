@@ -1,25 +1,34 @@
+import React, { forwardRef } from 'react';
 import classNames from 'classnames';
-import { assign } from 'lodash';
-import React from 'react';
+import PropTypes from 'prop-types';
 
 import locals from './Select.mless';
 
-export default function FormSelect(props) {
-  const selectProps = assign({}, props);
-  selectProps.className = classNames({
-    [locals.select]: true,
-    [`${locals.select}--has-error`]: props.hasError,
-    [props.className]: props.className
-  });
-  delete selectProps.hasError;
+export default forwardRef(FormSelect);
+
+function FormSelect({ hasError, useFullWidth, ...selectProps }, ref) {
   return (
     <div
       className={classNames({
         [locals.selectWrapper]: true,
-        [locals.selectWrapperDisabled]: props.disabled
+        [locals.selectWrapperDisabled]: selectProps.disabled,
+        [locals.useFullWidth]: useFullWidth
       })}
     >
-      <select {...selectProps} />
+      <select
+        {...selectProps}
+        className={classNames({
+          [locals.select]: true,
+          [`${locals.select}--has-error`]: hasError,
+          [selectProps.className]: selectProps.className
+        })}
+        ref={ref}
+      />
     </div>
   );
 }
+
+FormSelect.propTypes = {
+  hasError: PropTypes.bool,
+  useFullWidth: PropTypes.useFullWidth
+};

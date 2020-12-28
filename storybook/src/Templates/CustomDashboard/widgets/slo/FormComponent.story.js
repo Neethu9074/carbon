@@ -10,8 +10,6 @@ export default {
   component: Form
 };
 export function Default() {
-  const widgetTitleFormGroup = <div>TitleForm placeholder</div>;
-
   const [form, setForm] = useState(
     createForm({
       [timeWindowType]: fixed,
@@ -33,13 +31,7 @@ export function Default() {
       >
         trigger validation
       </Button>
-      <Form
-        form={form}
-        onChange={onChange}
-        widgetTitleFormGroup={widgetTitleFormGroup}
-        setSlideInView={noop}
-        widgetPreview={<i>Widget Preview </i>}
-      />
+      <Form form={form} onChange={onChange} setSlideInView={noop} />
     </>
   );
 }

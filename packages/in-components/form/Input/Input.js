@@ -16,11 +16,9 @@ function FormInput(
     <input
       {...inputProps}
       ref={ref || refSetter}
-      className={classNames({
-        [locals.input]: true,
+      className={classNames(locals.input, className, {
         [locals.error]: hasError,
-        [locals.hideValidityInformationOnFocus]: hideValidityInformationOnFocus,
-        [className]: className
+        [locals.hideValidityInformationOnFocus]: hideValidityInformationOnFocus
       })}
     />
   );
@@ -37,8 +35,6 @@ function FormInput(
 }
 
 FormInput.propTypes = {
-  id: PropTypes.string.isRequired,
-  label: PropTypes.node,
   className: PropTypes.string,
   hasError: PropTypes.bool,
   hideValidityInformationOnFocus: PropTypes.bool,

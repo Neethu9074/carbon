@@ -7,32 +7,12 @@ import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './Section.mless';
 
-export default function Section({
-  className,
-  title,
-  titleHtmlFor,
-  hasError,
-  icon,
-  children,
-  actions,
-  firstLineAlignmentOffsetPx
-}) {
+export default function Section({ title, titleHtmlFor, hasError, icon, children, actions, useAlternateBg }) {
   let verticalPositionCorrection;
-  const useAutomaticVerticalAlignment = firstLineAlignmentOffsetPx == null;
-  if (!useAutomaticVerticalAlignment) {
-    verticalPositionCorrection = {
-      position: 'relative',
-      top: `${firstLineAlignmentOffsetPx}px`
-    };
-  }
 
   return (
-    <Li className={className} component="div" noAlternatingBg>
-      <div
-        className={classNames(locals.section, {
-          [locals.automaticVerticalAlignment]: useAutomaticVerticalAlignment
-        })}
-      >
+    <Li component="div" noAlternatingBg forceAlternateBg={useAlternateBg}>
+      <div className={locals.section}>
         <label
           htmlFor={titleHtmlFor}
           className={classNames(locals.title, {
@@ -57,15 +37,12 @@ export default function Section({
 }
 
 Section.propTypes = {
-  title: PropTypes.node.isRequired,
+  // Title is desired to be optional to implement some common UX patterns.
+  title: PropTypes.node,
   titleHtmlFor: PropTypes.string,
   hasError: PropTypes.bool,
-  // To correct the vertical alignment of the title and actions to the first line of text found
-  // within children. Prefer automatical vertical alignment if possible for your use case.
-  // Automatic vertical alignment is the default.
-  firstLineAlignmentOffsetPx: PropTypes.number,
   icon: PropTypes.string,
-  className: PropTypes.string,
   actions: PropTypes.node,
+  useAlternateBg: PropTypes.bool,
   children: PropTypes.node.isRequired
 };

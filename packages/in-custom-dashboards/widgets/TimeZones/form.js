@@ -1,4 +1,4 @@
-import { createMapForm, createField, createListForm, notBlankValidator } from 'formalistic';
+import { createMapForm, createField, createListForm } from 'formalistic';
 
 import { stringValidator, arrayValidator } from 'in-services/validators/jsonType';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
@@ -16,7 +16,7 @@ export function createForm(savedState) {
   });
 
   if (!savedState) {
-    listForm = listForm.push(createTimeZoneSubForm({ timeZone: 'UTC', label: 'UTC' }));
+    listForm = listForm.push(createTimeZoneSubForm({ timeZone: 'UTC', label: '' }));
   }
 
   return listForm;
@@ -34,8 +34,8 @@ export function createTimeZoneSubForm({ timeZone, label } = {}) {
     .put(
       'label',
       createField({
-        value: label || 'UTC',
-        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
+        value: label || '',
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator)
       })
     );
 }

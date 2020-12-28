@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, forwardRef } from 'react';
 import classNames from 'classnames';
 import rpt from 'prop-types';
 
@@ -22,18 +22,19 @@ export const HorizontalIndicatorLi = HorizontalIndicatorLiComponent;
 export const LoadingSkeletonLi = LoadingSkeletonLiComponent;
 export const supportBorderRadii = ['medium'];
 
-export function Ul({
-  framed = true,
-  className,
-  children,
-  borderRadius,
-  style,
-  refSetter,
-  onKeyUp,
-  onKeyDown,
-  component: Component = 'ul',
-  space = 'disabled'
-}) {
+export const Ul = forwardRef(function Ul(
+  {
+    framed = true,
+    className,
+    children,
+    borderRadius,
+    refSetter,
+    component: Component = 'ul',
+    space = 'disabled',
+    ...otherProps
+  },
+  ref
+) {
   return (
     <Component
       className={classNames({
@@ -45,17 +46,15 @@ export function Ul({
         [locals[`spacing-${space}`]]: space,
         [locals[`${borderRadius}BorderRadius`]]: borderRadius
       })}
-      style={style}
-      ref={refSetter}
-      onKeyUp={onKeyUp}
-      onKeyDown={onKeyDown}
+      ref={ref || refSetter}
+      {...otherProps}
     >
       {children}
     </Component>
   );
-}
+});
 
-export function Li(props) {
+export const Li = forwardRef(function Li(props, ref) {
   const {
     active,
     className,
@@ -67,6 +66,7 @@ export function Li(props) {
     href$,
     style,
     noAlternatingBg,
+    forceAlternateBg,
     toggleContentOnRowClick,
     initiallyOpen,
     onDefaultHrefInteractionSideEffect,
@@ -74,7 +74,8 @@ export function Li(props) {
     component: Component = 'li',
     borderRadius,
     highlightOpenState = true,
-    tracking
+    tracking,
+    ...liProps
   } = props;
   let { onClick } = props;
 
@@ -121,14 +122,7 @@ export function Li(props) {
             className={locals.expandIcon}
             type={open ? 'lib_arrow_expand_up' : 'lib_arrow_expand_down'}
             aria-label="Toggle extra content"
-            onClick={
-              toggleContentOnRowClick
-                ? undefined
-                : e => {
-                    e.stopPropagation();
-                    setOpen(!open);
-                  }
-            }
+            onClick={toggleContentOnRowClick ? undefined : () => setOpen(!open)}
           />
         </div>
       )}
@@ -152,10 +146,13 @@ export function Li(props) {
       className={classNames({
         [locals.listItem]: true,
         [locals.noAlternatingBg]: noAlternatingBg,
+        [locals.forceAlternateBg]: forceAlternateBg,
         [locals.expanded]: open && highlightOpenState,
         [locals.active]: active,
         [locals[`${borderRadius}ListItemBorderRadius`]]: borderRadius
       })}
+      ref={ref}
+      {...liProps}
     >
       {href || href$ ? (
         <Link className={locals.link} href={href} href$={href$} {...linkInteractivityProps}>
@@ -169,7 +166,7 @@ export function Li(props) {
       {open && subList}
     </Component>
   );
-}
+});
 
 Li.propTypes = {
   active: rpt.bool,
@@ -182,7 +179,11 @@ Li.propTypes = {
   href: rpt.string,
   href$: rpt.any,
   initiallyOpen: rpt.bool,
+  // No automatic switching between the two possible background colors
   noAlternatingBg: rpt.bool,
+  // Force the alternate background color. Can be used together with noAlternatingBg
+  // to implement custom coloring rules.
+  forceAlternateBg: rpt.bool,
   onClick: rpt.func,
   onDefaultHrefInteractionSideEffect: rpt.func,
   tracking: rpt.shape({

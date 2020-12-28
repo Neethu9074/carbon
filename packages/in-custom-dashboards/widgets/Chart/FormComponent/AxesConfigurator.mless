@@ -1,0 +1,83 @@
+@import '~in-themes/active.less';
+
+:local {
+  .wrapper {
+    display: flex;
+    align-items: stretch;
+
+    & > * {
+      width: 50%;
+      flex-shrink: 0;
+      flex-grow: 0;
+    }
+  }
+
+  .dualAxis > :first-child {
+    &:first-child {
+      border-right: 0;
+    }
+  }
+
+  .axis {
+    background: @lib__colors__N050;
+  }
+
+  .listItem {
+    display: block;
+  }
+
+  .pill {
+    cursor: pointer;
+  }
+
+  .minMax {
+    display: flex;
+    justify-content: stretch;
+  }
+
+  .minMaxGroup {
+    width: 100%;
+    margin: 0;
+
+    &:first-child {
+      margin-right: 1rem;
+    }
+  }
+
+  .dragHandleWrapper {
+    display: flex;
+  }
+
+  .dragHandle {
+    margin-right: 0.5rem;
+    cursor: grab;
+    fill: @lib__colors__N500;
+
+    &:hover, &:active, &:focus {
+      fill: @lib__colors__N600Light;
+    }
+  }
+
+  .title {
+    margin: 0 .5rem;
+  }
+
+  .timeShifted {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .timeShiftIndicator {
+    fill: @lib__colors__N600Light;
+    margin: 0 0 0 0.2rem;
+  }
+
+  .dragAndDropHelpText {
+    padding: 3rem 0;
+    margin: 0;
+    text-align: center;
+    color: @lib__colors__N600Light;
+    background: @lib__colors__N300;
+    border-radius: @lib__shapes__radius_small;
+  }
+}

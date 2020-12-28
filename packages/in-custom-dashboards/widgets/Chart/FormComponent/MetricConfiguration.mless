@@ -1,0 +1,26 @@
+@import '~in-themes/active.less';
+@import '~in-themes/mixins.less';
+
+:local {
+  .title {
+    margin: 0 1rem;
+  }
+
+  .hasError {
+    color: @lib__colors__failure;
+  }
+
+  .timeShifted {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .timeShiftIndicator {
+    fill: @lib__colors__N600Light;
+    margin: 0 0 0 0.2rem;
+  }
+
+  .highlighted {
+    .highlightingActive();
+  }
+}

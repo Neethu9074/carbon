@@ -56,7 +56,7 @@ export function calculateAxisMinMax(axisName, axis, filteredDataSeries) {
     return;
   }
 
-  axis.minValue = 0;
+  axis.minValue = axis.min ?? 0;
   if (axis.max != null) {
     return (axis.maxValue = axis.max);
   }

@@ -1,0 +1,10 @@
+:local {
+  .timeShiftHelpText, .compareToTimeShifted {
+    display: flex;
+    align-items: center;
+  }
+
+  .compareToTimeShifted {
+    margin-left: 2rem;
+  }
+}

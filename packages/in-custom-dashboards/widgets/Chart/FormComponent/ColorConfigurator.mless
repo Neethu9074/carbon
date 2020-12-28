@@ -1,0 +1,24 @@
+:local {
+  @color-configuration-icon-size: .75rem;
+
+  .wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  }
+
+  .color {
+    border-radius: 50%;
+    width: @color-configuration-icon-size;
+    height: @color-configuration-icon-size;
+  }
+
+  .groupedColorChoice {
+    width: @color-configuration-icon-size;
+    height: @color-configuration-icon-size;
+  }
+
+  .withLabel {
+    margin-right: 0.5rem;
+  }
+}

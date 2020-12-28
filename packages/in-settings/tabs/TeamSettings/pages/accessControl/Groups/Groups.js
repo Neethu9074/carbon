@@ -58,7 +58,7 @@ function ListRenderer({ items, deleteItem, currentDeletingItemIds }) {
 function renderAdditionalHeaderContent() {
   return (
     <Button kind="action" href$={getView(teamSettingsAccessControlGroupNew)} icon="lib_openclose_add_circle_outline">
-      Add Group
+      Add breakdown
     </Button>
   );
 }

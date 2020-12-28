@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { find } from 'lodash';
 
 import { renderer as availableRenderers, defaultRenderer } from 'in-custom-dashboards/widgets/Chart/renderer';
 import { extendWindowSizeOnLiveMode, getChartGranularity } from 'in-applications/metrics';
 import sources from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources';
+import { colors } from 'in-custom-dashboards/widgets/Chart/FormComponent/colors';
 import { translateOffsetToTimeShiftConfig } from 'in-stores/time/shifting';
 import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
 import ChartWrapper from 'in-components/Chart/ChartWrapper';
@@ -43,6 +44,8 @@ export default function UnifiedMetricsChart({
   cardUseMaxAvailableHeight,
   excludedContextMenuActions
 }) {
+  config = useMemo(() => duplicateTimeShiftComparedMetrics(config), [config]);
+
   const timeConfig = useTimeConfig();
   // timeConfigExtendedForLiveMode will be used as a hook dependency, therefore the same object must be reused unless some of its fields changes
   const [timeConfigExtendedForLiveMode, setTimeConfigExtendedForLiveMode] = useState(
@@ -129,6 +132,23 @@ function useResultData(config, granularity, timeConfig) {
 function toAxisConfiguration(name, axis, resultDataAsList, chartConfig) {
   if (axis.metrics.length === 0 || !resultDataAsList) {
     return;
+  }
+
+  // Overwrite colors using configuration in the form of what is supported by custom dashboards.
+  // For plain metrics: Either use the value received from the `color` prop or use `undefined`
+  //                    (which means use a random color)
+  // For grouped metrics: Always use a random color
+  if (!axis.colors) {
+    axis.colors = axis.metrics.flatMap(({ grouping, color }, i) => {
+      if (isGroupedMetric(grouping)) {
+        const metricId = getMetricId(name, i);
+        return resultDataAsList.filter(({ id }) => id === metricId).map(() => null);
+      } else if (!color) {
+        return [null];
+      }
+
+      return [colors.find(c => c.id === color)?.color ?? null];
+    });
   }
 
   return {
@@ -246,4 +266,39 @@ function getMaxSeriesGranularity(config) {
     .concat(config.y2.metrics)
     .map(c => sources[c.source]?.minGranularity ?? 0)
     .reduce((a, m) => Math.max(a, m), 0);
+}
+
+// For charts in custom dashboards we support a feature called "Display Current Values".
+// With this option is selected, the data series must be duplicated. One time with enabled time
+// shifting and one time without.
+function duplicateTimeShiftComparedMetrics(config) {
+  return {
+    ...config,
+    y1: duplicateTimeShiftComparedMetricsForAxis(config.y1),
+    y2: duplicateTimeShiftComparedMetricsForAxis(config.y2)
+  };
+}
+
+function duplicateTimeShiftComparedMetricsForAxis(axis) {
+  if (!axis) {
+    return axis;
+  }
+
+  return {
+    ...axis,
+    metrics: axis.metrics.flatMap(metric => {
+      if (!metric.timeShift || !metric.compareToTimeShifted) {
+        return [metric];
+      }
+
+      return [
+        {
+          ...metric,
+          timeShift: 0,
+          compareToTimeShifted: false
+        },
+        metric
+      ];
+    })
+  };
 }

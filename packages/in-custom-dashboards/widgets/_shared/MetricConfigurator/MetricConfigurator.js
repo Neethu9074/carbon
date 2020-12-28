@@ -1,23 +1,20 @@
 import React from 'react';
 
+import SectionLabelWithSubtext from 'in-new-components/workspace/SectionLabelWithSubtext';
 import sources from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources';
+import SelectInSection from 'in-components/form/Select/SelectInSection';
+import InputInSection from 'in-components/form/Input/InputInSection';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { compareIgnoreCase } from 'in-services/util/string';
-import { Row, Col } from 'in-new-components/layout/Grid';
+import Sections from 'in-new-components/workspace/Sections';
 import { emptyArray } from 'in-services/fixedObjects';
-import FormGroup from 'in-components/form/FormGroup';
-import Select from 'in-components/form/Select';
-import Input from 'in-components/form/Input';
-import Label from 'in-components/form/Label';
 
 export default function MetricConfigurator({
   form,
   onChange,
   onChangeSource,
   withLabelConfiguration,
-  customLabelFormGroup,
-  formatterFormGroup,
-  widgetPreview,
+  formatterSection,
   timeShiftConfiguration,
   disabledDataSources = emptyArray,
   axisForm,
@@ -26,16 +23,15 @@ export default function MetricConfigurator({
 }) {
   const sourceField = form.get('source');
 
-  const dataSourceFormGroupElement = (
-    <FormGroup>
-      <Label htmlFor="metic-configurator-source" hasError={!sourceField.valid && sourceField.touched}>
-        Data Source
-      </Label>
-      <Select
+  const dataSourceSection = (
+    <Sections>
+      <SelectInSection
         id="metic-configurator-source"
+        label="Data Source"
         value={sourceField.value}
         onChange={e => onChangeSource(e.target.value)}
         hasError={!sourceField.valid && sourceField.touched}
+        additionalContent={<TouchedMessages field={sourceField} />}
       >
         <option value="">Please select</option>
         {Object.values(sources)
@@ -49,27 +45,24 @@ export default function MetricConfigurator({
               {label}
             </option>
           ))}
-      </Select>
-      <TouchedMessages field={sourceField} />
-    </FormGroup>
+      </SelectInSection>
+    </Sections>
   );
 
-  let labelFormGroupElement = customLabelFormGroup;
+  let labelSection;
   if (withLabelConfiguration) {
-    labelFormGroupElement = form.get('label').map(field => (
-      <FormGroup>
-        <Label htmlFor="metic-configurator-label" hasError={!field.valid && field.touched}>
-          Label
-        </Label>
-        <Input
+    labelSection = form.get('label').map(field => (
+      <Sections>
+        <InputInSection
+          label={<SectionLabelWithSubtext subtext="Optional">Name</SectionLabelWithSubtext>}
           id="metic-configurator-label"
           type="text"
           value={field.value}
           onChange={e => onChange(['label'], field => field.setValue(e.target.value).setTouched(true))}
           hasError={!field.valid && field.touched}
+          additionalContent={<TouchedMessages field={field} />}
         />
-        <TouchedMessages field={field} />
-      </FormGroup>
+      </Sections>
     ));
   }
 
@@ -79,10 +72,9 @@ export default function MetricConfigurator({
       <FormComponent
         form={form}
         onChange={onChange}
-        dataSourceFormGroup={dataSourceFormGroupElement}
-        labelFormGroup={labelFormGroupElement}
-        formatterFormGroup={formatterFormGroup}
-        widgetPreview={widgetPreview}
+        dataSourceSection={dataSourceSection}
+        labelSection={labelSection}
+        formatterSection={formatterSection}
         timeShiftConfiguration={timeShiftConfiguration}
         axisForm={axisForm}
         axisName={axisName}
@@ -91,14 +83,5 @@ export default function MetricConfigurator({
     );
   }
 
-  return (
-    <>
-      <Row>
-        <Col lg={6}>{labelFormGroupElement}</Col>
-      </Row>
-      <Row withoutTopMargin>
-        <Col lg={6}>{dataSourceFormGroupElement}</Col>
-      </Row>
-    </>
-  );
+  return dataSourceSection;
 }

@@ -81,7 +81,11 @@ function createAxisForm(savedState, requiresAtLeastOneMetric = false) {
 }
 
 export function createMetricForm(savedState) {
-  return createMetricConfigurationForm(savedState, { withLabelConfiguration: true });
+  return createMetricConfigurationForm(savedState, {
+    withLabelConfiguration: true,
+    withCompareToTimeShifted: true,
+    withColorConfiguration: true
+  });
 }
 
 function getOptNumber(v) {
@@ -96,7 +100,7 @@ function atLeastOneMetricValidator(items) {
     return [
       {
         severity: 'error',
-        message: 'At least one configured metric is required.'
+        message: 'At least one dataset is required.'
       }
     ];
   }

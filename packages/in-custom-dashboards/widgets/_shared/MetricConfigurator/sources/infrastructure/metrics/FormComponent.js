@@ -1,31 +1,33 @@
 import React, { useState, useEffect } from 'react';
 
 import TypeAndMetricConfigurator from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/TypeAndMetricConfigurator';
+import GroupingConfiguratorSection from 'in-new-components/GroupingConfigurator/GroupingConfiguratorSection';
 import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
-import { onChangeGrouping } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/form';
 import { EMPTY_EXPRESSION } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
+import { onChangeGrouping } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/form';
+import QueryBuilderSection from 'in-new-components/QueryBuilder/workspace/QueryBuilderSection';
 import QueryBuilder, { isQueryValid } from 'in-infrastructure/Explore/components/QueryBuilder';
 import GroupingConfigurator from 'in-infrastructure/Explore/components/GroupingConfigurator';
 import { fromBackendModel } from 'in-new-components/QueryBuilder/transformation/formModel';
 import getMetricCatalog from 'in-infrastructure/subscriptions/getMetricCatalog';
+import SelectInSection from 'in-components/form/Select/SelectInSection';
 import useMetricCatalog from 'in-infrastructure/hooks/useMetricCatalog';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { aggregationLabels } from 'in-stores/metric/beeInstant';
-import { Row, Col } from 'in-new-components/layout/Grid';
+import Sections from 'in-new-components/workspace/Sections';
+import Section from 'in-new-components/workspace/Section';
 import { pendingResult } from 'in-services/fixedObjects';
-import FormGroup from 'in-components/form/FormGroup';
+import Stack from 'in-new-components/layout/Stack';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import useObservable from 'in-hooks/useObservable';
-import Select from 'in-components/form/Select';
-import Label from 'in-components/form/Label';
 
 export default function FormComponent({
   form,
   onChange,
-  dataSourceFormGroup,
-  labelFormGroup,
-  widgetPreview,
-  timeShiftConfiguration
+  dataSourceSection,
+  labelSection,
+  timeShiftConfiguration,
+  withGrouping = true
 }) {
   const typeField = form.get('type');
   const metricField = form.get('metric');
@@ -69,46 +71,32 @@ export default function FormComponent({
   }, [metricCatalog]);
 
   return (
-    <>
-      {labelFormGroup && (
-        <Row>
-          <Col lg={6}>{labelFormGroup}</Col>
-        </Row>
-      )}
+    <Stack space="xsmall">
+      {dataSourceSection}
 
-      <Row withoutTopMargin>
-        <Col lg={6}>{dataSourceFormGroup}</Col>
-      </Row>
+      <Sections>
+        <QueryBuilderSection
+          value={formModelExpression}
+          onChange={setFormModelExpression}
+          QueryBuilder={QueryBuilder}
+          withoutIcon
+        />
+      </Sections>
 
-      <Row withoutTopMargin>
-        <Col lg={12}>
-          <FormGroup>
-            <Label>Filter</Label>
-            <div>
-              <QueryBuilder value={formModelExpression} onChange={expression => setFormModelExpression(expression)} />
-            </div>
-            <TouchedMessages field={tagFilterExpressionField} />
-          </FormGroup>
-        </Col>
-      </Row>
+      {withGrouping && (
+        <>
+          <Sections>
+            <GroupingConfiguratorSection
+              value={getGrouping(form)?.by}
+              GroupingConfigurator={GroupingConfigurator}
+              tagFilterExpression={tagFilterExpressionField.valid ? tagFilterExpressionField.value : EMPTY_EXPRESSION}
+              onChange={infraExploreGrouping => onChangeGrouping(onChange, { by: infraExploreGrouping })}
+            />
+          </Sections>
 
-      <Row withoutTopMargin>
-        <Col lg>
-          <FormGroup>
-            <Label>Group by</Label>
-            <div>
-              <GroupingConfigurator
-                value={getGrouping(form)?.by}
-                tagFilterExpression={tagFilterExpressionField.value}
-                onChange={infraExploreGrouping => onChangeGrouping(onChange, { by: infraExploreGrouping })}
-              />
-            </div>
-          </FormGroup>
-        </Col>
-        <Col lg={4}>
-          <FormGroup>
-            <Label htmlFor="select-top-groups">Select</Label>
-            <Select
+          <Sections>
+            <SelectInSection
+              label="Select"
               id="select-top-groups"
               value={getGrouping(form)?.direction}
               onChange={e => onChangeGrouping(onChange, { ...getGrouping(form), direction: e.target.value })}
@@ -116,72 +104,55 @@ export default function FormComponent({
             >
               <option value="DESC">Top 5</option>
               <option value="ASC">Bottom 5</option>
-            </Select>
-          </FormGroup>
-        </Col>
-      </Row>
+            </SelectInSection>
+          </Sections>
+        </>
+      )}
 
-      <Row withoutTopMargin>
-        <Col lg={8}>
-          <FormGroup>
-            <Label
-              htmlFor="metric-configurator-infra-metric"
-              hasError={(!typeField.valid && typeField.touched) || (!metricField.valid && metricField.touched)}
-            >
-              Metric
-            </Label>
-            <div>
-              <TypeAndMetricConfigurator
-                type={typeField.value}
-                metric={metricField.value}
-                metricCatalog={metricCatalog}
-                onChange={({ metric, type }) =>
-                  onChange([], form =>
-                    form
-                      .updateIn(['metric'], field => field.setValue(metric).setTouched(true))
-                      .updateIn(['type'], field => field.setValue(type).setTouched(true))
-                  )
-                }
-                label="Select metric"
-              />
-            </div>
-            <TouchedMessages field={metricField} />
-          </FormGroup>
-        </Col>
-        <Col lg>
-          <FormGroup>
-            <Label
-              htmlFor="metric-configurator-infra-aggregation"
-              hasError={!aggregationField.valid && aggregationField.touched}
-            >
-              Aggregation
-            </Label>
-            <Select
-              id="metric-configurator-infra-aggregation"
-              value={aggregationField.value}
-              onChange={e => onChange(['aggregation'], field => field.setValue(e.target.value).setTouched(true))}
-            >
-              {!aggregationField.valid && <option value="">Please select an aggregation</option>}
-              {aggregationField.valid && (
-                <>
-                  {Object.keys(aggregationLabels).map(aggregation => (
-                    <option key={aggregation} value={aggregation}>
-                      {aggregationLabels[aggregation]}
-                    </option>
-                  ))}
-                </>
-              )}
-            </Select>
-            <TouchedMessages field={aggregationField} />
-          </FormGroup>
-        </Col>
-      </Row>
-      <Row withoutTopMargin>
-        <Col lg={6}>{timeShiftConfiguration}</Col>
+      <Sections>
+        <Section title="Metric">
+          <TypeAndMetricConfigurator
+            type={typeField.value}
+            metric={metricField.value}
+            metricCatalog={metricCatalog}
+            onChange={({ metric, type }) =>
+              onChange([], form =>
+                form
+                  .updateIn(['metric'], field => field.setValue(metric).setTouched(true))
+                  .updateIn(['type'], field => field.setValue(type).setTouched(true))
+              )
+            }
+            label="Select metric"
+          />
+          <TouchedMessages field={metricField} />
+        </Section>
+      </Sections>
 
-        {widgetPreview && <Col lg>{widgetPreview}</Col>}
-      </Row>
-    </>
+      <Sections>
+        <SelectInSection
+          label="Aggregation"
+          id="metric-configurator-infra-aggregation"
+          value={aggregationField.value}
+          onChange={e => onChange(['aggregation'], field => field.setValue(e.target.value).setTouched(true))}
+        >
+          {!aggregationField.valid && <option value="">Please select an aggregation</option>}
+          {aggregationField.valid && (
+            <>
+              {Object.keys(aggregationLabels).map(aggregation => (
+                <option key={aggregation} value={aggregation}>
+                  {aggregationLabels[aggregation]}
+                </option>
+              ))}
+            </>
+          )}
+        </SelectInSection>
+        <TouchedMessages field={aggregationField} />
+      </Sections>
+
+      {timeShiftConfiguration}
+
+      {labelSection}
+    </Stack>
   );
 }
 

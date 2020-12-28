@@ -4,24 +4,20 @@ import InboundOrAllCallsOption from 'in-applications/alerting/advanced/InboundOu
 import { OverridingTextTouchedMessage } from 'in-custom-dashboards/widgets/Slo/components/OverridingTextTouchedMessage';
 import { boundaryScopes } from 'in-applications/alerting/advanced/InboundOutboundCallsSwitch/config';
 import { sliTypeOptions, applicationType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
-import FormInputField from 'in-custom-dashboards/widgets/Slo/components/FormInputField';
 import ServicesSelectBox from 'in-custom-dashboards/widgets/Slo/sli/ServicesSelectBox';
 import EndpointSelectBox from 'in-custom-dashboards/widgets/Slo/sli/EndpointSelectBox';
 import { isQB2ModeEnabled } from 'in-new-components/Alerting/components/WithQB1orQB2';
-import FormDropDown from 'in-custom-dashboards/widgets/Slo/components/FormDropDown';
 import GoodBadEvents from 'in-custom-dashboards/widgets/Slo/sli/GoodBadEventsForm';
 import { MetricsForm } from 'in-custom-dashboards/widgets/Slo/sli/MetricsForm';
-import StackItem from 'in-new-components/layout/Stack/StackItem';
+import SelectInSection from 'in-components/form/Select/SelectInSection';
+import InputInSection from 'in-components/form/Input/InputInSection';
+import HelpAction from 'in-new-components/workspace/HelpAction';
+import Sections from 'in-new-components/workspace/Sections';
+import Divider from 'in-new-components/workspace/Divider';
+import Section from 'in-new-components/workspace/Section';
 import { Row, Col } from 'in-new-components/layout/Grid';
-import KeyValue from 'in-new-components/lists/KeyValue';
-import FormGroup from 'in-components/form/FormGroup';
-import Stack from 'in-new-components/layout/Stack';
 import Header from 'in-new-components/workspace/Header';
-import Input from 'in-components/form/Input';
-import SvgIcon from 'in-components/SvgIcon';
-import Link from 'in-components/Link';
-
-import locals from './SliForm.mless';
+import Stack from 'in-new-components/layout/Stack';
 
 export function SliForm({ form, onChange, onChangeType, apName }) {
   const sliEntityForm = form.get('sliEntity');
@@ -38,147 +34,130 @@ export function SliForm({ form, onChange, onChangeType, apName }) {
   const sliType = sliTypeForm.value;
 
   return (
-    <Stack space="medium">
-      <StackItem>
+    <Stack space="large">
+      <Stack space="normal">
         <Header>SLI Customization</Header>
-      </StackItem>
-      <StackItem>
-        <Row>
-          <Col md={2}>
-            <FormGroup withoutBottomMargin>
-              <KeyValue value="Name" inverted className={locals.oneLineLabel} />
-            </FormGroup>
-          </Col>
-          <Col md={3}>
-            <FormGroup withoutBottomMargin>
-              <FormInputField form={form} onChange={onChange} fieldName="sliName" />
-            </FormGroup>
-          </Col>
-          <Col mdOffset={2} md={10}>
-            <OverridingTextTouchedMessage field={form.get('sliName')} message="The SLI name cannot be empty." />
-          </Col>
-        </Row>
-        <Row>
-          <Col md={2}>
-            <FormGroup withoutBottomMargin>
-              <KeyValue value="Type" inverted className={locals.oneLineLabel} />
-            </FormGroup>
-          </Col>
-          <Col md={3}>
-            <FormGroup withoutBottomMargin>
-              <FormDropDown
-                value={sliType ?? ''}
-                hasError={!sliTypeForm?.valid && sliTypeForm?.touched}
-                onChange={({ target }) => onChangeType(target.value)}
-                options={[{ value: '', label: 'Please select' }, ...sliTypeOptions]}
+
+        <Stack space="xsmall">
+          <Sections>
+            {form.get('sliName').map(field => (
+              <InputInSection
+                id="new-sli-name"
+                label="Name"
+                onChange={e => onChange(['sliName'], f => f.setValue(e.target.value).setTouched(true))}
+                value={field?.value}
+                hasError={!field.valid && field.touched}
+                maxLength={256}
+                additionalContent={
+                  <OverridingTextTouchedMessage field={field} message="The SLI name cannot be empty." />
+                }
               />
-            </FormGroup>
-          </Col>
-          <Col md={6} className={locals.linkDocs}>
-            <SvgIcon type="lib_help_error_help_outline" size="xs" className={locals.helpIcon} />
-            Information about SLI customization and SLI types are located{' '}
-            <Link href="https://instana.com/docs/service_level_objectives/#sli-configuration/" external>
-              within our docs
-            </Link>
-            .
-          </Col>
-          <Col mdOffset={2} md={10}>
-            <OverridingTextTouchedMessage
-              field={sliTypeForm}
-              message="The SLI type must be either a time-based or an event-based SLI."
-            />
-          </Col>
-        </Row>
-      </StackItem>
-      <StackItem>
+            ))}
+          </Sections>
+
+          <Sections>
+            {sliEntityForm.get('sliType').map(field => (
+              <SelectInSection
+                id="new-sli-type"
+                label="Type"
+                onChange={e => onChangeType(e.target.value)}
+                value={field?.value ?? ''}
+                hasError={!field.valid && field.touched}
+                actions={
+                  <HelpAction href="https://instana.com/docs/service_level_objectives/#sli-configuration/" external>
+                    Information about SLI customization and SLI types are located within our docs.
+                  </HelpAction>
+                }
+                additionalContent={
+                  <OverridingTextTouchedMessage
+                    field={sliTypeForm}
+                    message="The SLI type must be either a time-based or an event-based SLI."
+                  />
+                }
+              >
+                <option value="">Please select</option>
+                {sliTypeOptions.map(({ value, label }) => (
+                  <option value={value} key={value}>
+                    {label}
+                  </option>
+                ))}
+              </SelectInSection>
+            ))}
+          </Sections>
+        </Stack>
+      </Stack>
+
+      <Divider />
+
+      <Stack space="normal">
         <Header>SLI Entity</Header>
-      </StackItem>
-      <StackItem>
-        {!isQB2ModeEnabled && (
-          <Row>
-            <Col md={2}>
-              <FormGroup>
-                <KeyValue value="Application Perspective" inverted className={locals.oneLineLabel} />
-              </FormGroup>
-            </Col>
-            <Col md={3}>
-              <FormGroup withoutBottomMargin>
-                <Input disabled value={apName} className={locals.applicationName} />
-              </FormGroup>
-            </Col>
-          </Row>
-        )}
-        <Row withoutTopMargin>
-          <Col md={2}>
-            <FormGroup>
-              <KeyValue value="Boundary" inverted className={locals.boundaryLabel} />
-            </FormGroup>
-          </Col>
-          <Col md={4} xs={5}>
-            <InboundOrAllCallsOption
-              boundaryScope={boundaryScope}
-              onBoundaryStateChange={() => onUpdateBoundaryScope(boundaryScopes.inbound)}
-              scope={boundaryScopes.inbound}
-            />
-          </Col>
-          <Col md={4} xs={5}>
-            <InboundOrAllCallsOption
-              boundaryScope={boundaryScope}
-              onBoundaryStateChange={() => onUpdateBoundaryScope(boundaryScopes.all)}
-              scope={boundaryScopes.all}
-            />
-          </Col>
-        </Row>
-        {sliType === applicationType && (
-          <Row>
-            <Col md={2}>
-              <FormGroup withoutBottomMargin>
-                <KeyValue value="Service" inverted className={locals.oneLineLabel} />
-              </FormGroup>
-            </Col>
-            <Col md={3}>
-              <FormGroup withoutBottomMargin>
+
+        <Stack space="xsmall">
+          {!isQB2ModeEnabled && (
+            <Sections>
+              <InputInSection id="sli-form-ap" label="Application Perspective" disabled value={apName} />
+            </Sections>
+          )}
+
+          <Sections>
+            <Section title="Boundary">
+              <Row>
+                <Col md={5} xs={5}>
+                  <InboundOrAllCallsOption
+                    boundaryScope={boundaryScope}
+                    onBoundaryStateChange={() => onUpdateBoundaryScope(boundaryScopes.inbound)}
+                    scope={boundaryScopes.inbound}
+                  />
+                </Col>
+                <Col md={5} xs={5}>
+                  <InboundOrAllCallsOption
+                    boundaryScope={boundaryScope}
+                    onBoundaryStateChange={() => onUpdateBoundaryScope(boundaryScopes.all)}
+                    scope={boundaryScopes.all}
+                  />
+                </Col>
+              </Row>
+            </Section>
+          </Sections>
+
+          {sliType === applicationType && (
+            <>
+              <Sections>
                 <ServicesSelectBox
                   boundaryScope={boundaryScope}
                   applicationId={applicationId}
                   value={serviceId}
+                  field={sliEntityForm.get('serviceId')}
                   onChange={value =>
                     onChange(['sliEntity', 'serviceId'], f =>
                       f.setValue(convertEmptyStringToNull(value)).setTouched(true)
                     )
                   }
                 />
-              </FormGroup>
-            </Col>
-          </Row>
-        )}
-        {sliType === applicationType && (
-          <Row>
-            <Col md={2}>
-              <FormGroup>
-                <KeyValue value="Endpoints" inverted className={locals.oneLineLabel} />
-              </FormGroup>
-            </Col>
-            <Col md={3}>
-              <FormGroup withoutBottomMargin>
+              </Sections>
+
+              <Sections>
                 <EndpointSelectBox
                   apName={apName}
                   boundaryScope={boundaryScope}
                   applicationId={applicationId}
                   serviceId={serviceId}
                   value={endpointId}
+                  field={sliEntityForm.get('endpointId')}
                   onChange={value =>
                     onChange(['sliEntity', 'endpointId'], f =>
                       f.setValue(convertEmptyStringToNull(value)).setTouched(true)
                     )
                   }
                 />
-              </FormGroup>
-            </Col>
-          </Row>
-        )}
-      </StackItem>
+              </Sections>
+            </>
+          )}
+        </Stack>
+      </Stack>
+
       <MetricsForm form={form} onChange={onChange} />
+
       <GoodBadEvents applicationName={apName} form={form} onChange={onChange} />
     </Stack>
   );

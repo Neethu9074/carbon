@@ -6,19 +6,22 @@ import { stringValidator, numberValidator } from 'in-services/validators/jsonTyp
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { type as defaultType } from 'in-custom-dashboards/widgets/BigNumber';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
+import widgets, { enabledWidgets } from 'in-custom-dashboards/widgets';
 import { buildEnumValidator } from 'in-services/validators/enum';
 import { close } from 'in-components/DialogPresenter/store';
 import { generateUniqueShortId } from 'in-services/util/id';
-import widgets, { enabledWidgets } from 'in-custom-dashboards/widgets';
 
 export default function WidgetEditorDialog({ widget, onSubmit }) {
   const [form, setForm] = useState(getInitialFormState(widget));
   const [slideInView, setSlideInView] = useState(null);
+  const [showWidgetSelector, setShowWidgetSelector] = useState(widget == null || !form.get('type').valid);
 
   return (
     <WidgetEditorDialogPresenter
       form={form}
       isEditing={widget != null}
+      showWidgetSelector={showWidgetSelector}
+      setShowWidgetSelector={setShowWidgetSelector}
       onChange={(path, fn) => setForm(form.updateIn(path, fn))}
       onChangeType={type => {
         if (type === form.get('type').value) {
@@ -34,6 +37,13 @@ export default function WidgetEditorDialog({ widget, onSubmit }) {
         );
       }}
       onSubmit={() => {
+        if (showWidgetSelector) {
+          if (form.get('type').valid) {
+            setShowWidgetSelector(false);
+          }
+          return;
+        }
+
         if (!form.hierarchyValid) {
           setForm(form.setTouched(true, { recurse: true }));
           return;
@@ -90,7 +100,7 @@ export function getInitialFormState(widget) {
       'title',
       createField({
         value: widget?.title ?? '',
-        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator)
       })
     )
     .put(

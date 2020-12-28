@@ -1,42 +1,13 @@
-@import '~in-themes/active.less';
-@import '~in-themes/mixins.less';
-
 :local {
-  .main {
-    display: flex;
-    flex-direction: column;
-
-    // Raise the specificity to two class selectors to overwrite
-    // default margins of child elements.
-    &.spacing-medium > * { margin-bottom: 1.25rem; }
-
-    max-width: 1002px;
-  }
-  .previewContainer {
-    height: 450px;
+  .timeInput {
+    margin-left: 2rem;
   }
 
-  .field {
-    width: 6rem;
+  .timeWindowUnit {
+    margin-left: 1rem;
   }
-  .inRow {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-  }
-  .oneLineLabel {
-    margin-top: 0;
-  }
+
   .sloUnit {
     margin-left: 0.5rem;
-  }
-  .windowHelpText {
-    line-height: 1.25rem;
-  }
-  .dateTimeIcons {
-    margin-left: 0.5rem;
-  }
-  .withoutMarginTop {
-    margin-top: 0;
   }
 }

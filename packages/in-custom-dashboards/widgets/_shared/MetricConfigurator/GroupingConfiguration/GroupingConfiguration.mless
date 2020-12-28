@@ -1,0 +1,10 @@
+:local {
+  .wrapper {
+    display: flex;
+    align-items: center;
+  }
+
+  .toggle {
+    margin: 0 0 0 2rem;
+  }
+}

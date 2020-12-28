@@ -1,0 +1,25 @@
+@import '~in-themes/active.less';
+
+:local {
+  .textArea {
+    box-sizing: border-box;
+    padding: .25rem 0.5rem;
+    line-height: 1.42857143;
+    color: @lib__colors__N900Primary;
+    background: @lib__colors__N050;
+    background-image: none;
+    border: 1px solid @lib__colors__N400;
+    border-radius: @lib__shapes__radius_small;
+    transition: border-color ease-in-out 0.15s;
+
+    &[disabled] {
+      color: rgba(58, 75, 81, 0.48);
+      cursor: not-allowed;
+    }
+
+    .error:not(:focus), .error:focus:not(.hideValidityInformationOnFocus) {
+      border-color: @lib__colors__failure;
+    }
+  }
+
+}

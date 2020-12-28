@@ -1,3 +1,4 @@
+export { default as showCase } from 'in-custom-dashboards/widgets/BigNumber/showCase.png';
 export { default as Form } from 'in-custom-dashboards/widgets/BigNumber/FormComponent';
 export { default as Widget } from 'in-custom-dashboards/widgets/BigNumber/Widget';
 export { createForm } from 'in-custom-dashboards/widgets/BigNumber/form';

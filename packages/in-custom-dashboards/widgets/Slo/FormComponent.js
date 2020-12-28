@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import classNames from 'classnames';
 
 import {
   sloTarget,
@@ -17,29 +16,29 @@ import {
   rolling
 } from 'in-custom-dashboards/widgets/Slo/form';
 import { OverridingTextTouchedMessage } from 'in-custom-dashboards/widgets/Slo/components/OverridingTextTouchedMessage';
-import { PercentageFormInput } from 'in-custom-dashboards/widgets/Slo/components/PercentageFormInput';
 import formatInputTime from 'in-new-components/time/TimeSelectionDialogPresenter/timeInputFormatter';
+import PercentageFormInput from 'in-custom-dashboards/widgets/Slo/components/PercentageFormInput';
 import SliSelectionForm from 'in-custom-dashboards/widgets/Slo/components/SliSelectionForm';
 import APConfigSelector from 'in-custom-dashboards/widgets/Slo/components/APConfigForm';
-import FormInputField from 'in-custom-dashboards/widgets/Slo/components/FormInputField';
-import FormDropDown from 'in-custom-dashboards/widgets/Slo/components/FormDropDown';
 import { getApplicationConfigsAsResultObservable } from 'in-api/applicationConfigs';
+import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';
 import SliManageList from 'in-custom-dashboards/widgets/Slo/sli/SliManageList';
+import SelectInSection from 'in-components/form/Select/SelectInSection';
 import TouchedMessages from 'in-components/form/TouchedMessages';
-import StackItem from 'in-new-components/layout/Stack/StackItem';
-import { Row, Col } from 'in-new-components/layout/Grid';
-import KeyValue from 'in-new-components/lists/KeyValue';
+import HelpAction from 'in-new-components/workspace/HelpAction';
+import Sections from 'in-new-components/workspace/Sections';
+import Section from 'in-new-components/workspace/Section';
 import Header from 'in-new-components/workspace/Header';
-import FormGroup from 'in-components/form/FormGroup';
+import Select from 'in-components/form/Select/Select';
 import DateInput from 'in-components/form/DateInput';
-import HelpText from 'in-components/form/HelpText';
+import Input from 'in-components/form/Input/Input';
+import Stack from 'in-new-components/layout/Stack';
 import useObservable from 'in-hooks/useObservable';
 import Button from 'in-new-components/Button';
-import Input from 'in-components/form/Input';
 
 import locals from './FormComponent.mless';
 
-export default function FormComponent({ form, onChange, widgetTitleFormGroup, setSlideInView, widgetPreview }) {
+export default function FormComponent({ form, onChange, setSlideInView }) {
   const [apConfig, setApConfig] = useState();
   const apConfigs = useObservable(getApplicationConfigObservable, []);
 
@@ -51,7 +50,6 @@ export default function FormComponent({ form, onChange, widgetTitleFormGroup, se
     if (newApConfig !== apConfig) setApConfig(newApConfig);
   }
 
-  const sloTargetValue = form.get(sloTarget)?.value;
   const timeWindowTypeValue = form.get(timeWindowType)?.value ?? dynamic;
   const isFixed = timeWindowTypeValue === fixed;
   const isRolling = timeWindowTypeValue === rolling;
@@ -127,163 +125,118 @@ export default function FormComponent({ form, onChange, widgetTitleFormGroup, se
   }
 
   return (
-    <div
-      className={classNames({
-        [locals.main]: true,
-        [locals['spacing-medium']]: true
-      })}
-    >
-      <StackItem>
-        <Header>Customize the Widget</Header>
-        {widgetTitleFormGroup}
-      </StackItem>
+    <Stack space="normal">
       <Header>SLO Configuration</Header>
-      <StackItem>
+
+      <Stack space="xsmall">
         <APConfigSelector
           apConfigIdField={apConfigIdField}
           apConfigs={apConfigs}
           onUpdateApConfigId={onUpdateApConfigId}
         />
-      </StackItem>
-      <StackItem>
+
         <SliSelectionForm
           form={form}
           applicationId={appConfigIdValue}
           onChange={onChange}
-          widgetPreview={false}
-          widgetTitleFormGroup={widgetTitleFormGroup}
           openManageSLIComponent={
             <Button disabled={!apConfig} kind="primary" onClick={() => activateManageSliSlideIn()}>
               Manage SLIs
             </Button>
           }
         />
-      </StackItem>
-      <StackItem>
-        <Row>
-          <Col md={2}>
-            <FormGroup withoutBottomMargin>
-              <KeyValue value="SLO Target" inverted className={locals.oneLineLabel} />
-            </FormGroup>
-          </Col>
-          <Col md={2}>
-            <FormGroup withoutBottomMargin className={locals.inRow}>
-              <PercentageFormInput value={sloTargetValue} onChange={onChange} form={form} fieldName={sloTarget} />
+
+        <Sections>
+          {form.get(sloTarget).map(field => (
+            <Section title="SLO Target" titleHtmlFor={sloTarget} hasError={!field.valid && field.touched}>
+              <PercentageFormInput form={form} id={sloTarget} fieldName={sloTarget} onChange={onChange} />
               <span className={locals.sloUnit}>%</span>
-            </FormGroup>
-          </Col>
-          <Col mdOffset={2} md={10}>
-            <OverridingTextTouchedMessage
-              field={form.get(sloTarget)}
-              message="Please enter a value between 0 and 100."
-            />
-          </Col>
-        </Row>
-      </StackItem>
-      <StackItem>
-        <Row>
-          <Col md={2}>
-            <FormGroup withoutBottomMargin>
-              <KeyValue value="Time Window Type" inverted className={locals.oneLineLabel} />
-            </FormGroup>
-          </Col>
-          <Col md={3}>
-            <FormGroup withoutBottomMargin>
-              <FormDropDown
-                value={timeWindowTypeValue}
-                options={[
-                  { value: fixed, label: 'Fixed time interval' },
-                  { value: rolling, label: 'Rolling time window' },
-                  { value: dynamic, label: 'Dynamic time window' }
-                ]}
-                onChange={({ target }) => onChangeTimeWindowType(target.value)}
+              <OverridingTextTouchedMessage
+                field={form.get(sloTarget)}
+                message="Please enter a value between 0 and 100."
               />
-            </FormGroup>
-          </Col>
-          <Col mdOffset={2} md={10} className={locals.withoutMarginTop}>
-            <HelpText className={locals.windowHelpText}>
-              <strong>Fixed time interval:</strong> A time window with a defined start and duration. Eg. monthly
-              starting 2020-01-01. The last partial time interval for the time selection from the global time picker
-              will be displayed.
-              <br />
-              <br />
-              <strong>Rolling time window:</strong> A time window with a defined duration, where the end is defined by
-              the global time picker’s right hand date/time selection, eg. last 2 weeks.
-              <br />
-              <br />
-              <strong>Dynamic time window:</strong> The SLO is calculated for the time window selected in the global
-              time picker.
-            </HelpText>
-          </Col>
-        </Row>
-        {(isRolling || isFixed) && (
-          <>
-            <Row>
-              <Col md={2}>
-                <FormGroup withoutBottomMargin>
-                  <KeyValue value="Time Window Size" inverted className={locals.oneLineLabel} />
-                </FormGroup>
-              </Col>
-              <Col md={2}>
-                <FormGroup withoutBottomMargin>
-                  {form.get(timeWindowDuration).map(() => (
-                    <FormInputField
-                      form={form}
-                      onChange={(paths, field) => {
-                        onChange([], form => form.setTouched(true).updateIn(paths, field));
-                      }}
-                      fieldName={timeWindowDuration}
-                      type="number"
-                      step="1"
-                      min="1"
-                      max={getMaxTimeWindowDurationValue(timeWindowDurationUnitValue)}
-                    />
-                  ))}
-                </FormGroup>
-              </Col>
-              <Col md={2}>
-                <FormGroup withoutBottomMargin>
-                  <FormDropDown
-                    value={timeWindowDurationUnitValue}
-                    options={[
-                      { value: 'days', label: 'days' },
-                      { value: 'weeks', label: 'weeks' },
-                      { value: 'months', label: 'months' }
-                    ]}
-                    onChange={({ target }) => onChangeTimeDurationUnit(target.value)}
+            </Section>
+          ))}
+        </Sections>
+
+        <Sections>
+          <SelectInSection
+            id="time-window-type"
+            label="Time Window"
+            value={timeWindowTypeValue}
+            onChange={({ target }) => onChangeTimeWindowType(target.value)}
+            actions={
+              <HelpAction>
+                <strong>Fixed time interval:</strong> A time window with a defined start and duration. Eg. monthly
+                starting 2020-01-01. The last partial time interval for the time selection from the global time picker
+                will be displayed.
+                <br />
+                <br />
+                <strong>Rolling time window:</strong> A time window with a defined duration, where the end is defined by
+                the global time picker’s right hand date/time selection, eg. last 2 weeks.
+                <br />
+                <br />
+                <strong>Dynamic time window:</strong> The SLO is calculated for the time window selected in the global
+                time picker.
+              </HelpAction>
+            }
+          >
+            <option value={fixed}>Fixed time interval</option>
+            <option value={rolling}>Rolling time window</option>
+            <option value={dynamic}>Dynamic time window</option>
+          </SelectInSection>
+
+          {(isRolling || isFixed) && (
+            <Section title="Length" titleHtmlFor="time-window-size" useAlternateBg>
+              <HorizontalFlexWrapper>
+                {form.get(timeWindowDuration).map(field => (
+                  <Input
+                    id="time-window-size"
+                    onChange={e =>
+                      onChange([timeWindowDuration], field => field.setValue(e.target.value).setTouched(true))
+                    }
+                    hasError={!field.valid && field.touched}
+                    value={field.value}
+                    type="number"
+                    step="1"
+                    min="1"
+                    max={getMaxTimeWindowDurationValue(timeWindowDurationUnitValue)}
                   />
-                </FormGroup>
-              </Col>
-              <Col mdOffset={2} md={12}>
-                <OverridingTextTouchedMessage
-                  field={form.get(timeWindowDuration)}
-                  message={`Please specify the number of ${timeWindowDurationUnitValue}.`}
-                />
-                <TouchedMessages field={form} />
-              </Col>
-            </Row>
-          </>
-        )}
-        {isFixed && dateField && timeField && (
-          <Row>
-            <Col md={2}>
-              <FormGroup withoutBottomMargin>
-                <KeyValue value="Time Window Start" inverted className={locals.oneLineLabel} />
-              </FormGroup>
-            </Col>
-            <Col md={2}>
-              <FormGroup withoutBottomMargin className={locals.inRow}>
+                ))}
+
+                {form.get(timeWindowDuration).map(field => (
+                  <Select
+                    hasError={!field.valid && field.touched}
+                    value={timeWindowDurationUnitValue}
+                    onChange={e => onChangeTimeDurationUnit(e.target.value)}
+                    className={locals.timeWindowUnit}
+                  >
+                    <option value="days">days</option>
+                    <option value="weeks">weeks</option>
+                    <option value="months">months</option>
+                  </Select>
+                ))}
+              </HorizontalFlexWrapper>
+
+              <TouchedMessages field={form.get(timeWindowDuration)} />
+              <OverridingTextTouchedMessage
+                field={form.get(timeWindowDuration)}
+                message={`Please specify the number of ${timeWindowDurationUnitValue}.`}
+              />
+              <TouchedMessages field={form} />
+            </Section>
+          )}
+
+          {isFixed && dateField && timeField && (
+            <Section title="Start" useAlternateBg>
+              <HorizontalFlexWrapper>
                 <DateInput
                   value={dateField?.value}
                   onChange={v => onChange([timeWindowStart, 'date'], f => f.setValue(v).setTouched(true))}
-                  hasError={!dateField?.valid && dateField?.touched}
-                  className={locals.field}
+                  hasError={!dateField.valid && dateField.touched}
                   iconType="lib_datetime_date"
                 />
-              </FormGroup>
-            </Col>
-            <Col md={8}>
-              <FormGroup withoutBottomMargin className={locals.inRow}>
+
                 {timeField && (
                   <Input
                     type="text"
@@ -297,23 +250,19 @@ export default function FormComponent({ form, onChange, widgetTitleFormGroup, se
                       onChange([timeWindowStart, 'time'], f => f.setValue(target.value).setTouched(true))
                     }
                     hasError={!timeField.valid && timeField.touched}
-                    className={locals.field}
+                    className={locals.timeInput}
                     iconType="lib_datetime_time"
                   />
                 )}
-              </FormGroup>
-            </Col>
-            <Col mdOffset={2} md={2}>
+              </HorizontalFlexWrapper>
+
               <OverridingTextTouchedMessage field={dateField} message="Please enter a date in the format YYYY-MM-DD." />
-            </Col>
-            <Col md={2}>
               <OverridingTextTouchedMessage field={timeField} message="Please enter a time in the format HH:mm:ss." />
-            </Col>
-          </Row>
-        )}
-      </StackItem>
-      <div className={locals.previewContainer}>{widgetPreview}</div>
-    </div>
+            </Section>
+          )}
+        </Sections>
+      </Stack>
+    </Stack>
   );
 }
 

@@ -18,6 +18,15 @@ Each widget needs to define the following exports.
            This value must be unique across all widget types.
  - `label`: A human-readable and understandable label that describes this widget type.
             This label will be used in configurators when presenting widget options.
+ - `showCase`: The path to an image that will be shown within the widget selector. The
+               image must have a width of 1400px (it will be rendered at 700px
+               for good quality at retina screens). Your image viewer should give you
+               the following values:
+               - width: 1400px
+               - height: <= 600px
+               - Resolution: 144
+               The image must furthermore have a light grain background (color
+               @lib__colors__N100 – see out themes).
  - `Widget`: This must be a React component that is used to render the widget within
              a custom dashboard. It gets passed two properties:
    - `title`: This title must be used to render a `Card` as a wrapper around the
@@ -32,8 +41,6 @@ Each widget needs to define the following exports.
    - `isPreview`: Optional bool to indicate whether the widget is rendered in a preview mode.
                   Can be used to disable some behavior, e.g. avoiding `height: 100%` usage
                   of cards.
- - `demo`: This is a demonstation/sample configuration for the widget that shows
-           a common usage scenario.
  - `createForm`: Creates a [formalistic](https://github.com/bripkens/formalistic)
                  form to configure a new or edit a previously saved widget
                  configuration. It receives the saved configuration (if any) as its
@@ -44,11 +51,11 @@ Each widget needs to define the following exports.
              `createForm(…)`.
    - `onChange`: Used to change values within `form`. The signature of `onChange` is
                  `onChange(['path', 'to', 'update'], formElement => …);`
-   - `widgetTitleFormGroup`: A React element to render the form group containing the widget
-                             title input field.
-   - `widgetPreview`: A react element containing the logic to render a widget preview.
    - `setSlideInView`: A function that can be used to trigger a slide-in view across the
                        whole dialog. Usage example:
+ - `badge`: An optional object presented in the widget selector. The object can have the
+            following fields:
+   - `label`: The badge content to show.
 
 ```
 <Button

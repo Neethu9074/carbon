@@ -1,0 +1,20 @@
+
+@import '~in-themes/active.less';
+
+:local {
+  .wrapper {
+    margin: 0 -1.5rem;
+    height: 100%;
+    min-height: 25rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: @lib__colors__N100;
+  }
+
+  .img {
+    max-width: 43.75rem;
+    height: auto;
+    margin: 1rem;
+  }
+}

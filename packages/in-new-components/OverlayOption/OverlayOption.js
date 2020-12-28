@@ -6,6 +6,8 @@ import { Li } from 'in-new-components/lists/List/List';
 
 import locals from './OverlayOption.mless';
 
+export const alignments = ['center', 'left'];
+
 export default function OverlayOption({
   autoFocus,
   className,
@@ -15,11 +17,12 @@ export default function OverlayOption({
   close,
   size,
   children,
+  alignment,
   subList
 }) {
   return (
     <Li
-      className={classNames(locals.option, className)}
+      className={classNames(locals.option, className, locals[`align-${alignment ?? 'center'}`])}
       noAlternatingBg
       autoFocus={autoFocus ?? selectedValue === value}
       subList={subList}
@@ -43,5 +46,6 @@ OverlayOption.propTypes = {
   close: PropTypes.func.isRequired,
   children: PropTypes.any.isRequired,
   subList: PropTypes.array,
-  size: PropTypes.string
+  size: PropTypes.string,
+  alignment: PropTypes.oneOf(alignments)
 };

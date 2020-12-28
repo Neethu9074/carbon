@@ -50,14 +50,22 @@
   .body {
     background: #fff;
     padding: 0 1.5rem 1.5rem;
-    border-radius: 0 0 @lib__shapes__radius_small @lib__shapes__radius_small;
-    // 5rem to account for header height and to leave some space above/below
-    max-height: ~'calc(100vh - 8rem)';
+    // 5rem to account for header, 4rem for typical footers and a little bit more to make it
+    // feel spacious.
+    max-height: ~'calc(100vh - 12rem)';
     overflow: hidden auto;
+  }
+
+  .withRoundedBottomBorder {
+    border-radius: 0 0 @lib__shapes__radius_small @lib__shapes__radius_small;
   }
 
   .withoutPadding {
     padding: 0;
+  }
+
+  .withoutBottomPadding {
+    padding-bottom: 0;
   }
 
   .showOverflow {

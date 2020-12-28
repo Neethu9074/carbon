@@ -44,10 +44,17 @@ export function getTagCatalogOnce(originalGetTagCatalog) {
   );
 }
 
-function generateGetTagCatalogRequestId({ timeConfig }) {
-  const from = (timeConfig.to || Date.now()) - timeConfig.windowSize;
-  const week = roundDownToWeek(from);
-  return generateStableHash(week);
+function generateGetTagCatalogRequestId(args = {}) {
+  let week;
+  if (args.timeConfig) {
+    const from = (args.timeConfig.to || Date.now()) - args.timeConfig.windowSize;
+    week = roundDownToWeek(from);
+  }
+  return generateStableHash({
+    ...args,
+    timeConfig: null,
+    week
+  });
 }
 
 function resolveTagsFromTree(tree) {

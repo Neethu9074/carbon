@@ -22,9 +22,9 @@ export default compose(withState('expanded', 'setExpanded', false))(function Bea
 
   return (
     <HighlightedEffect id={getHighlighterId(beacon.beaconId)}>
-      {({ highlighted, refSetter }) => (
+      {({ highlighted, ref }) => (
         <div
-          ref={refSetter}
+          ref={ref}
           className={classNames({
             [locals.beacon]: true,
             [locals.erroneous]: beacon.errorCount > 0,

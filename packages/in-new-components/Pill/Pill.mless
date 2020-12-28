@@ -24,6 +24,11 @@
 
   .primary {
     background: @lib__colors__light-blue800;
-    color: #fff;
+    color: @lib__colors__white;
+  }
+
+  .info {
+    background: @lib__colors__chart__self100;
+    color: @lib__colors__white;
   }
 }

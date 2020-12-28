@@ -8,14 +8,13 @@ import { source as website } from 'in-custom-dashboards/widgets/_shared/MetricCo
 import { source as event } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/event';
 import { source as sli } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/sli';
 import { onChangeSource } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/form';
+import SelectInSection from 'in-components/form/Select/SelectInSection';
 import TouchedMessages from 'in-components/form/TouchedMessages';
+import Sections from 'in-new-components/workspace/Sections';
 import { formatters } from 'in-stores/metric/formatters';
 import Header from 'in-new-components/workspace/Header';
-import FormGroup from 'in-components/form/FormGroup';
-import Select from 'in-components/form/Select';
-import Label from 'in-components/form/Label';
 
-export default function ListWidgetFormComponent({ form, onChange, widgetTitleFormGroup, widgetPreview }) {
+export default function ListWidgetFormComponent({ form, onChange }) {
   return (
     <>
       <Header>What would you like to show?</Header>
@@ -29,27 +28,23 @@ export default function ListWidgetFormComponent({ form, onChange, widgetTitleFor
             newSource
           )
         }
-        widgetPreview={widgetPreview}
-        customLabelFormGroup={widgetTitleFormGroup}
-        formatterFormGroup={form.get('formatter').map(field => (
-          <FormGroup>
-            <Label htmlFor="big-number-formatter" hasError={!field.valid && field.touched}>
-              Formatter
-            </Label>
-            <Select
+        formatterSection={form.get('formatter').map(field => (
+          <Sections>
+            <SelectInSection
               id="big-number-formatter"
+              label="Formatter"
               value={field.value}
               onChange={e => onChange(['formatter'], field => field.setValue(e.target.value).setTouched(true))}
               hasError={!field.valid && field.touched}
+              additionalContent={<TouchedMessages field={field} />}
             >
               {formatters.map(({ id, label }) => (
                 <option key={id} value={id}>
                   {label}
                 </option>
               ))}
-            </Select>
-            <TouchedMessages field={field} />
-          </FormGroup>
+            </SelectInSection>
+          </Sections>
         ))}
         disabledDataSources={[
           infrastructureMetrics.source,

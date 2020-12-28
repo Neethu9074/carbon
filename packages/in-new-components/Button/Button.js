@@ -37,6 +37,7 @@ const Button = React.forwardRef(function Button(
     iconSpinning,
     iconSize,
     id,
+    formId,
     className,
     kind = 'primary',
     size = 'normal',
@@ -98,6 +99,7 @@ const Button = React.forwardRef(function Button(
     return (
       <button
         id={id}
+        form={formId}
         className={classes}
         onClick={onClick}
         onMouseEnter={onMouseEnter}
@@ -138,6 +140,9 @@ Button.propTypes = {
   iconSpinning: rpt.bool,
   iconSize: rpt.oneOf(['xs', 's', 'm', 'l']),
   id: rpt.string,
+  // Will be turned into form= attribute on the buttons. Can be used
+  // to implement form controls outside of the <form /> HTML sub-tree.
+  formId: rpt.string,
   className: rpt.string,
   style: rpt.object,
   children: rpt.node,

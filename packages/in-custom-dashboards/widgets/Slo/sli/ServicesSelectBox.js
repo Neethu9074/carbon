@@ -1,31 +1,33 @@
 import React from 'react';
 
-import FormDropDown from 'in-custom-dashboards/widgets/Slo/components/FormDropDown';
+import SelectInSection from 'in-components/form/Select/SelectInSection';
 import getServices from 'in-subscription/application/getServices';
 import { hasError, isLoading } from 'in-services/util/result';
 import { pendingResult } from 'in-services/fixedObjects';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import useObservable from 'in-hooks/useObservable';
 
-export default function ServicesSelectBox({ applicationId, boundaryScope, value, onChange }) {
+export default function ServicesSelectBox({ field, applicationId, boundaryScope, value, onChange }) {
   const timeConfig = useTimeConfig();
 
-  const services = useObservable(getServicesObservable, [applicationId, boundaryScope, timeConfig]) ?? pendingResult;
-
-  const { data } = services;
-  const serviceItems = data?.items?.map(({ service }) => ({ value: service.id, label: service.label }));
-
-  if (isLoading(services)) {
-    return <FormDropDown options={[{ value: '', label: '<loading>' }]} disabled />;
-  }
+  const result = useObservable(getServicesObservable, [applicationId, boundaryScope, timeConfig]) ?? pendingResult;
 
   return (
-    <FormDropDown
-      disabled={hasError(services)}
-      options={[{ value: '', label: 'All Services' }, ...(serviceItems ?? [])]}
+    <SelectInSection
+      id="new-sli-service-selection"
+      label="Service"
+      disabled={hasError(result) || isLoading(result)}
       value={value ?? ''}
       onChange={({ target }) => onChange?.(target?.value)}
-    />
+      hasError={!field.valid && field.touched}
+    >
+      {isLoading(result) ? <option value="">{'<loading>'}</option> : <option value="">All Services</option>}
+      {result.data?.items?.map(({ service }) => (
+        <option value={service.id} key={service.id}>
+          {service.label}
+        </option>
+      ))}
+    </SelectInSection>
   );
 }
 

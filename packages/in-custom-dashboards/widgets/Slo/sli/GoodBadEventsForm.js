@@ -7,10 +7,11 @@ import { availabilityType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes'
 import WithQB1orQB2 from 'in-new-components/Alerting/components/WithQB1orQB2';
 import { sliFieldNames } from 'in-custom-dashboards/widgets/Slo/sli/sliForm';
 import TouchedMessages from 'in-components/form/TouchedMessages';
-import StackItem from 'in-new-components/layout/Stack/StackItem';
 import FormBound from 'in-components/form/binding/FormBound';
-import useTimeConfig from 'in-hooks/useTimeConfig';
+import Divider from 'in-new-components/workspace/Divider';
 import Header from 'in-new-components/workspace/Header';
+import Stack from 'in-new-components/layout/Stack';
+import useTimeConfig from 'in-hooks/useTimeConfig';
 
 import locals from 'in-custom-dashboards/widgets/Slo/sli/GoodBadEventsForm.mless';
 
@@ -76,76 +77,85 @@ export default function GoodBadEvents({ applicationName, onChange, QueryBuilderC
         };
 
         return (
-          <StackItem>
-            <Header>Good Events</Header>
-            <WithQB1orQB2
-              onUsesQB1={() => (
-                <>
-                  <TagFilterConfiguration
-                    tagFilters={goodEventFilters}
-                    onChange={onGoodChange}
-                    timeConfig={timeConfig}
-                    excludedTagFilters={excludedTagFilters}
-                    hiddenFilterNames={hiddenFilterNames}
-                  />
-                  {goodEventFiltersForm && (
-                    <TouchedMessages field={goodEventFiltersForm} className={locals.validationText} />
-                  )}
-                </>
-              )}
-              onUsesQB2={() => {
-                const field = sliEntityForm.get(sliFieldNames.goodEventFilterExpression);
-                return (
-                  <div className={locals.withBottomGap}>
-                    <TagFilterExpressionConfig
-                      form={sliEntityForm}
-                      formFieldName={sliFieldNames.goodEventFilterExpression}
-                      updateForm={newForm => {
-                        setForm(form.updateIn(absolutePath, () => newForm));
-                      }}
-                      QueryBuilderComponent={QueryBuilderComponent}
-                      applicationLabel={applicationName}
+          <>
+            <Divider />
+
+            <Stack space="normal">
+              <Header>Good Events</Header>
+              <WithQB1orQB2
+                onUsesQB1={() => (
+                  <>
+                    <TagFilterConfiguration
+                      tagFilters={goodEventFilters}
+                      onChange={onGoodChange}
+                      timeConfig={timeConfig}
+                      excludedTagFilters={excludedTagFilters}
+                      hiddenFilterNames={hiddenFilterNames}
                     />
-                    {field && <TouchedMessages field={field} className={locals.validationText} />}
-                  </div>
-                );
-              }}
-            />
-            <Header>Bad Events</Header>
-            <WithQB1orQB2
-              onUsesQB1={() => (
-                <>
-                  <TagFilterConfiguration
-                    tagFilters={badEventFilters}
-                    onChange={onBadChange}
-                    timeConfig={timeConfig}
-                    excludedTagFilters={excludedTagFilters}
-                    hiddenFilterNames={hiddenFilterNames}
-                  />
-                  {badEventFiltersForm && (
-                    <TouchedMessages field={badEventFiltersForm} className={locals.validationText} />
-                  )}
-                </>
-              )}
-              onUsesQB2={() => {
-                const field = sliEntityForm.get(sliFieldNames.badEventFilterExpression);
-                return (
-                  <div className={locals.withBottomGap}>
-                    <TagFilterExpressionConfig
-                      form={sliEntityForm}
-                      formFieldName={sliFieldNames.badEventFilterExpression}
-                      QueryBuilderComponent={QueryBuilderComponent}
-                      updateForm={newForm => {
-                        setForm(form.updateIn(absolutePath, () => newForm));
-                      }}
-                      applicationLabel={applicationName}
+                    {goodEventFiltersForm && (
+                      <TouchedMessages field={goodEventFiltersForm} className={locals.validationText} />
+                    )}
+                  </>
+                )}
+                onUsesQB2={() => {
+                  const field = sliEntityForm.get(sliFieldNames.goodEventFilterExpression);
+                  return (
+                    <div className={locals.withBottomGap}>
+                      <TagFilterExpressionConfig
+                        form={sliEntityForm}
+                        formFieldName={sliFieldNames.goodEventFilterExpression}
+                        updateForm={newForm => {
+                          setForm(form.updateIn(absolutePath, () => newForm));
+                        }}
+                        QueryBuilderComponent={QueryBuilderComponent}
+                        applicationLabel={applicationName}
+                      />
+                      {field && <TouchedMessages field={field} className={locals.validationText} />}
+                    </div>
+                  );
+                }}
+              />
+            </Stack>
+
+            <Divider />
+
+            <Stack space="normal">
+              <Header>Bad Events</Header>
+              <WithQB1orQB2
+                onUsesQB1={() => (
+                  <>
+                    <TagFilterConfiguration
+                      tagFilters={badEventFilters}
+                      onChange={onBadChange}
+                      timeConfig={timeConfig}
+                      excludedTagFilters={excludedTagFilters}
+                      hiddenFilterNames={hiddenFilterNames}
                     />
-                    {field && <TouchedMessages field={field} className={locals.validationText} />}
-                  </div>
-                );
-              }}
-            />
-          </StackItem>
+                    {badEventFiltersForm && (
+                      <TouchedMessages field={badEventFiltersForm} className={locals.validationText} />
+                    )}
+                  </>
+                )}
+                onUsesQB2={() => {
+                  const field = sliEntityForm.get(sliFieldNames.badEventFilterExpression);
+                  return (
+                    <div className={locals.withBottomGap}>
+                      <TagFilterExpressionConfig
+                        form={sliEntityForm}
+                        formFieldName={sliFieldNames.badEventFilterExpression}
+                        QueryBuilderComponent={QueryBuilderComponent}
+                        updateForm={newForm => {
+                          setForm(form.updateIn(absolutePath, () => newForm));
+                        }}
+                        applicationLabel={applicationName}
+                      />
+                      {field && <TouchedMessages field={field} className={locals.validationText} />}
+                    </div>
+                  );
+                }}
+              />
+            </Stack>
+          </>
         );
       }}
     </FormBound>

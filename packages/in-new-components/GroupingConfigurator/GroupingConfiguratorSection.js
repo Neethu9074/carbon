@@ -9,16 +9,20 @@ export default function GroupBySection({
   tagFilterExpression,
   GroupingConfigurator,
   onChange,
-  tracking
+  tracking,
+  actions,
+  additionalContent,
+  withoutIcon
 }) {
   return (
-    <Section icon={'lib_group_by'} title={'Group'} firstLineAlignmentOffsetPx={4}>
+    <Section icon={withoutIcon ? undefined : 'lib_group_by'} title="Breakdown" actions={actions}>
       <GroupingConfigurator
         value={group}
         tagFilterExpression={tagFilterExpression}
-        onChange={group => onChange(group)}
+        onChange={onChange}
         tracking={tracking}
       />
+      {additionalContent}
     </Section>
   );
 }
@@ -28,5 +32,8 @@ GroupBySection.propTypes = {
   GroupingConfigurator: rpt.func.isRequired,
   tagFilterExpression: rpt.object.isRequired,
   onChange: rpt.func.isRequired,
+  actions: rpt.node,
+  additionalContent: rpt.node,
+  withoutIcon: rpt.bool,
   tracking: rpt.shape(groupingConfiguratorTrackingProps)
 };

@@ -1,19 +1,26 @@
+import React, { forwardRef } from 'react';
 import classNames from 'classnames';
-import { assign } from 'lodash';
-import React from 'react';
+import PropTypes from 'prop-types';
 
-import './TextArea.less';
+import locals from './TextArea.mless';
 
-const block = 'in-text-area';
+export default forwardRef(FormTextArea);
 
-export default function FormTextArea(props) {
-  const textAreaProps = assign({}, props);
-  textAreaProps.className = classNames({
-    [block]: true,
-    [`${block}--has-error`]: props.hasError,
-    [props.className]: props.className
-  });
-  delete textAreaProps.hasError;
-
-  return <textarea {...textAreaProps} />;
+function FormTextArea({ hasError, hideValidityInformationOnFocus, className, ...textAreaProps }, ref) {
+  return (
+    <textarea
+      {...textAreaProps}
+      ref={ref}
+      className={classNames(locals.textArea, className, {
+        [locals.error]: hasError,
+        [locals.hideValidityInformationOnFocus]: hideValidityInformationOnFocus
+      })}
+    />
+  );
 }
+
+FormTextArea.propTypes = {
+  className: PropTypes.className,
+  hasError: PropTypes.bool,
+  hideValidityInformationOnFocus: PropTypes.bool
+};

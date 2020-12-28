@@ -13,7 +13,7 @@ import { getTagFilterManipulators } from 'in-analyze/tagFiltersHoc';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 
 export default function QuickFilterForm(props) {
-  const { tagFilters, onChange, removeTagFilter, excludedTagFilters } = props;
+  const { tagFilters, onChange, excludedTagFilters } = props;
 
   const timeConfig = useTimeConfig();
 
@@ -33,7 +33,7 @@ export default function QuickFilterForm(props) {
     },
     setTagFilters: tagFilters => onChange(getTagFilterListForBackendSubscription(tagFilters))
   };
-  const tagFilterProps = getTagFilterManipulators({ ...props, ...tagFilterProps });
+  const manipulatorProps = getTagFilterManipulators({ ...props, ...furtherProps });
 
   return (
     <TagFilterConfigurationWrapper
@@ -41,7 +41,7 @@ export default function QuickFilterForm(props) {
         <QuickFilterBar
           {...props}
           {...furtherProps}
-          {...tagFilterProps}
+          {...manipulatorProps}
           timeConfig={timeConfig}
           showLatencySelector={false}
           showHiddenCallsSelector={false}
@@ -55,12 +55,27 @@ export default function QuickFilterForm(props) {
         <TagFilterList
           {...props}
           {...furtherProps}
-          {...tagFilterProps}
-          tagFilters={tagFilters.map(tagFilter => ({
+          {...manipulatorProps}
+          tagFilters={furtherProps.tagFilters.map(tagFilter => ({
             tag: tagFilter,
-            onClick: () => addActiveDialog(<EditTagFilterDialog {...props} tagFilter={tagFilter} forAnalyzeCalls />),
+            onClick: () =>
+              addActiveDialog(
+                <EditTagFilterDialog
+                  {...props}
+                  {...furtherProps}
+                  {...manipulatorProps}
+                  tagFilter={tagFilter}
+                  forAnalyzeCalls
+                />
+              ),
             onRemove: () =>
-              removeTagFilter(tagFilter.name, null, tagFilter.secondLevelName, tagFilter.value, tagFilter.entity)
+              manipulatorProps.removeTagFilter(
+                tagFilter.name,
+                null,
+                tagFilter.secondLevelName,
+                tagFilter.value,
+                tagFilter.entity
+              )
           }))}
         />
       }

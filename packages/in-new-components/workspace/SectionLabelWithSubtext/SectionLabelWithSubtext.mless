@@ -1,0 +1,9 @@
+@import '~in-themes/active.less';
+
+:local {
+  .subtext {
+    color: @lib__colors__N600Light;
+    display: block;
+    font-size: 0.75rem;
+  }
+}

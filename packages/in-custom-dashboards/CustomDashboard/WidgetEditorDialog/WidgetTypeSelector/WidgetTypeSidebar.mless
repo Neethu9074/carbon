@@ -1,0 +1,8 @@
+:local {
+  .label {
+    min-width: 9rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+}

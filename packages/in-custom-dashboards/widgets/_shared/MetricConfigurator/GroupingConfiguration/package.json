@@ -1,0 +1,6 @@
+{
+ "name": "GroupingConfiguration",
+ "version": "0.0.0",
+ "private": true,
+ "main": "./GroupingConfiguration.js"
+}

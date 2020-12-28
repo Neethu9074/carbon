@@ -6,6 +6,15 @@
     .ellipsis();
   }
 
+  .verticallyCenter {
+    display: flex;
+    align-items: center;
+  }
+
+  .forceMinimumWidth {
+    flex-grow: 0;
+  }
+
   .maxHeight {
     align-items: stretch;
   }

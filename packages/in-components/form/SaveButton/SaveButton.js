@@ -5,6 +5,7 @@ import Button from 'in-new-components/Button';
 
 export default function SaveButton({
   form,
+  formId,
   isLoading,
   isSaving,
   children = 'Save',
@@ -17,6 +18,7 @@ export default function SaveButton({
 }) {
   return (
     <Button
+      formId={formId}
       kind={kind}
       type={type}
       onClick={onClick}
@@ -34,6 +36,9 @@ SaveButton.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
   form: PropTypes.object,
+  // Will be turned into form= attribute on the buttons. Can be used
+  // to implement form controls outside of the <form /> HTML sub-tree.
+  formId: PropTypes.string,
   icon: PropTypes.string,
   isLoading: PropTypes.bool,
   isSaving: PropTypes.bool,

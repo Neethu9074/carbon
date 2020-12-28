@@ -112,7 +112,7 @@ function Grid({
         );
         const widgetComponent = (
           <Widget
-            title={widget.title}
+            title={widget.title || '–'}
             actions={actions}
             dragHandle={isDraggable && dragHandle}
             config={widget.config}

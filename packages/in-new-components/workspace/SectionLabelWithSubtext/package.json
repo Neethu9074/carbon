@@ -1,0 +1,6 @@
+{
+ "name": "SectionLabelWithSubtext",
+ "version": "0.0.0",
+ "private": true,
+ "main": "./SectionLabelWithSubtext.js"
+}

@@ -6,9 +6,9 @@ import { lighten } from 'in-services/formatters/color';
 
 import locals from './Pill.mless';
 
-export const kinds = ['primary'];
+export const kinds = ['primary', 'info'];
 
-function Pill({ className, children, color = '#000000', lightenOpacity = 0.1, kind = 'bold', ...props }, ref) {
+function Pill({ id, className, children, color = '#000000', lightenOpacity = 0.1, kind = 'bold', ...props }, ref) {
   let style;
   // For users leveraging our pre-defined kinds, we do not support the color and lightenOpacity props.
   // Instead, it works similar to our Button component.
@@ -33,7 +33,7 @@ function Pill({ className, children, color = '#000000', lightenOpacity = 0.1, ki
   }
 
   return (
-    <span className={classNames(locals.pill, `${locals[kind]}`, className)} style={style} ref={ref} {...props}>
+    <span id={id} className={classNames(locals.pill, `${locals[kind]}`, className)} style={style} ref={ref} {...props}>
       {children}
     </span>
   );
@@ -42,6 +42,7 @@ function Pill({ className, children, color = '#000000', lightenOpacity = 0.1, ki
 export default forwardRef(Pill);
 
 Pill.propTypes = {
+  id: rpt.string,
   kind: rpt.string,
   color: rpt.string,
   className: rpt.string,

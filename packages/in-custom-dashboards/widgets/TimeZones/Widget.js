@@ -24,7 +24,7 @@ export default function TimeZonesWidget({ title, config: timeZones, actions, isP
     >
       <dl className={locals.zones}>
         {timeZones.map(({ timeZone, label }, i) => (
-          <TimeZone key={i} serverTime={serverTime} timeZone={timeZone} label={label} />
+          <TimeZone key={i} serverTime={serverTime} timeZone={timeZone} label={label || timeZone} />
         ))}
       </dl>
     </Card>

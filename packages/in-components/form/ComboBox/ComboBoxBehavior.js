@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import { toInteractiveElement } from 'in-new-components/interactiveCustomElement';
 import ComboBoxOverlay from 'in-components/form/ComboBox/ComboBoxOverlay';
+import OverlayOption from 'in-new-components/OverlayOption/OverlayOption';
 import Overlay from 'in-new-components/overlays/Overlay';
 import { compositeRef } from 'in-services/util/react';
 
@@ -15,7 +16,8 @@ export default function ComboBoxBehavior({
   requiresCustomInteractivity,
   ariaLabel,
   overlayAlignment = 'bottomLeft',
-  listItemClassName
+  listItemClassName,
+  listItemAlignment
 }) {
   const ref = useRef();
 
@@ -30,7 +32,8 @@ export default function ComboBoxBehavior({
           onChange(newValue);
         },
         disableAutomaticOptionSorting,
-        listItemClassName
+        listItemClassName,
+        listItemAlignment
       }}
       align={overlayAlignment}
       withoutWrapper
@@ -82,5 +85,6 @@ ComboBoxBehavior.propTypes = {
   disableAutomaticOptionSorting: PropTypes.bool,
   ariaLabel: PropTypes.string,
   overlayAlignment: PropTypes.string,
-  listItemClassName: PropTypes.string
+  listItemClassName: PropTypes.string,
+  listItemAlignment: OverlayOption.propTypes.alignment
 };

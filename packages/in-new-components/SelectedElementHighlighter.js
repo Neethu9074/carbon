@@ -100,7 +100,7 @@ export class HighlightedEffect extends React.Component {
   render() {
     return this.props.children({
       highlighted: this.state.highlighted,
-      refSetter: this.setDomNode
+      ref: this.setDomNode
     });
   }
 }

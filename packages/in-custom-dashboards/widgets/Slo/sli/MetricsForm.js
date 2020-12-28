@@ -2,17 +2,15 @@ import React from 'react';
 
 import { OverridingTextTouchedMessage } from 'in-custom-dashboards/widgets/Slo/components/OverridingTextTouchedMessage';
 import { metricOptions, metricAggregations } from 'in-custom-dashboards/widgets/Slo/sli/metricFormData';
-import { PercentageFormInput } from 'in-custom-dashboards/widgets/Slo/components/PercentageFormInput';
-import FormInputField from 'in-custom-dashboards/widgets/Slo/components/FormInputField';
-import FormDropDown from 'in-custom-dashboards/widgets/Slo/components/FormDropDown';
-import StackItem from 'in-new-components/layout/Stack/StackItem';
+import PercentageFormInput from 'in-custom-dashboards/widgets/Slo/components/PercentageFormInput';
+import SelectInSection from 'in-components/form/Select/SelectInSection';
 import TouchedMessages from 'in-components/form/TouchedMessages';
-import { Col, Row } from 'in-new-components/layout/Grid';
-import KeyValue from 'in-new-components/lists/KeyValue';
-import FormGroup from 'in-components/form/FormGroup';
+import Sections from 'in-new-components/workspace/Sections';
+import Divider from 'in-new-components/workspace/Divider';
+import Section from 'in-new-components/workspace/Section';
 import Header from 'in-new-components/workspace/Header';
-
-import locals from 'in-custom-dashboards/widgets/Slo/sli/SliForm.mless';
+import Input from 'in-components/form/Input/Input';
+import Stack from 'in-new-components/layout/Stack';
 
 export const MetricsForm = ({ form, onChange }) => {
   const metricConfiguration = form.get('metricConfiguration');
@@ -29,22 +27,23 @@ export const MetricsForm = ({ form, onChange }) => {
 
   return (
     <>
-      <StackItem>
+      <Divider />
+
+      <Stack space="normal">
         <Header>Metric & Threshold</Header>
-      </StackItem>
-      <StackItem>
-        <Row>
-          <Col md={2}>
-            <KeyValue value="Metric" inverted className={locals.oneLineLabel} />
-          </Col>
-          <Col md={3}>
-            <FormGroup withoutBottomMargin>
-              <FormDropDown
-                options={metricOptions}
-                value={metricName ?? ''}
-                onChange={({ target }) =>
+
+        <Stack space="xsmall">
+          {metricConfiguration.get('metricName').map(field => (
+            <Sections>
+              <SelectInSection
+                label="Metric"
+                id="new-sli-metric"
+                value={field.value ?? ''}
+                hasError={!field.valid && field.touched}
+                additionalContent={<TouchedMessages field={field} />}
+                onChange={e =>
                   onChange([], form => {
-                    const newMetricName = target.value;
+                    const newMetricName = e.target.value;
                     const aggregationData = metricAggregations[newMetricName];
                     return (
                       form
@@ -60,57 +59,75 @@ export const MetricsForm = ({ form, onChange }) => {
                     );
                   })
                 }
-              />
-              <TouchedMessages field={metricConfiguration.get('metricName')} />
-            </FormGroup>
-          </Col>
-        </Row>
-        <Row>
-          <Col md={2}>
-            <KeyValue value="Aggregation" inverted className={locals.oneLineLabel} />
-          </Col>
-          <Col md={3}>
-            <FormGroup withoutBottomMargin>
-              <FormDropDown
-                options={aggregationData.options}
+              >
+                {metricOptions.map(({ label, value }) => (
+                  <option value={value} key={value}>
+                    {label}
+                  </option>
+                ))}
+              </SelectInSection>
+            </Sections>
+          ))}
+
+          {metricConfiguration.get('metricAggregation').map(field => (
+            <Sections>
+              <SelectInSection
+                label="Aggregation"
+                id="new-sli-aggregation"
                 value={aggregationValue ?? aggregationData.defaultValue}
+                hasError={!field.valid && field.touched}
+                additionalContent={<TouchedMessages field={field} />}
                 onChange={({ target }) =>
                   localOnChange?.(['metricAggregation'], f => f.setValue(target.value).setTouched(true))
                 }
-              />
-              <TouchedMessages field={metricConfiguration.get('metricAggregation')} />
-            </FormGroup>
-          </Col>
-        </Row>
-        <Row>
-          <Col md={2}>
-            <KeyValue
-              value={getThresholdLabelWithUnit(metricName ?? 'latency')}
-              inverted
-              className={locals.oneLineLabel}
-            />
-          </Col>
-          <Col md={3}>
-            <FormGroup withoutBottomMargin>
-              {percentThreshold && (
-                <>
-                  <PercentageFormInput form={metricConfiguration} onChange={localOnChange} fieldName="threshold" />
-                  <TouchedMessages field={metricConfiguration.get('threshold')} />
-                </>
-              )}
-              {!percentThreshold && (
-                <>
-                  <FormInputField form={metricConfiguration} onChange={localOnChange} fieldName="threshold" />
-                  <OverridingTextTouchedMessage
-                    field={metricConfiguration.get('threshold')}
-                    message="The value of threshold must not be invalid or empty."
-                  />
-                </>
-              )}
-            </FormGroup>
-          </Col>
-        </Row>
-      </StackItem>
+              >
+                {aggregationData.options.map(({ label, value }) => (
+                  <option value={value} key={value}>
+                    {label}
+                  </option>
+                ))}
+              </SelectInSection>
+            </Sections>
+          ))}
+
+          {metricConfiguration.get('threshold').map(field => (
+            <Sections>
+              <Section
+                title={getThresholdLabelWithUnit(metricName ?? 'latency')}
+                titleHtmlFor="new-sli-metric-threshold"
+              >
+                {percentThreshold && (
+                  <>
+                    <PercentageFormInput
+                      id="new-sli-metric-threshold"
+                      form={metricConfiguration}
+                      onChange={localOnChange}
+                      fieldName="threshold"
+                    />
+                    <TouchedMessages field={field} />
+                  </>
+                )}
+
+                {!percentThreshold && (
+                  <>
+                    <Input
+                      id="new-sli-metric-threshold"
+                      type="number"
+                      value={field.value}
+                      onChange={e => localOnChange(['threshold'], f => f.setValue(e.target.value).setTouched(true))}
+                      hasError={!field.valid && field.touched}
+                    />
+                    <OverridingTextTouchedMessage
+                      field={field}
+                      message="The value of threshold must not be invalid or empty."
+                    />
+                  </>
+                )}
+              </Section>
+            </Sections>
+          ))}
+        </Stack>
+      </Stack>
     </>
   );
 };

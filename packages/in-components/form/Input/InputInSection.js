@@ -7,8 +7,6 @@ import Input from 'in-components/form/Input/Input';
 
 import locals from './InputInSection.mless';
 
-export const kinds = ['section', 'vertical', 'plain'];
-
 export default forwardRef(InputInSection);
 
 function InputInSection({ label, additionalContent, actions, ...inputProps }, ref) {

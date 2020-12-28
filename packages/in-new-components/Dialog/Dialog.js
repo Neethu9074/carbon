@@ -42,8 +42,7 @@ export default function Dialog({
           />
         )}
         <div
-          className={classNames({
-            [locals.body]: true,
+          className={classNames(locals.body, locals.withRoundedBottomBorder, {
             [locals.withoutPadding]: withoutBodyPadding,
             [locals.showOverflow]: showOverflow
           })}

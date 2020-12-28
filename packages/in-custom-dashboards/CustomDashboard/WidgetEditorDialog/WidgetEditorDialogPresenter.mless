@@ -1,5 +1,6 @@
 :local {
   .dialog {
     min-width: 64rem;
+    max-width: 64rem;
   }
 }

@@ -1,58 +1,72 @@
 import React from 'react';
 
 import ComparisonColorSelect from 'in-custom-dashboards/widgets/BigNumber/ComparisonColorSelect';
+import { timeShifts, defaultTimeShift, previousHourTimeShift } from 'in-stores/time/shifting';
+import SelectInSection from 'in-components/form/Select/SelectInSection';
 import TouchedMessages from 'in-components/form/TouchedMessages';
-import { Row, Col } from 'in-new-components/layout/Grid';
-import { timeShifts } from 'in-stores/time/shifting';
-import FormGroup from 'in-components/form/FormGroup';
-import Select from 'in-components/form/Select';
-import Label from 'in-components/form/Label';
+import Sections from 'in-new-components/workspace/Sections';
+import Section from 'in-new-components/workspace/Section';
+import Toggle from 'in-components/form/Toggle';
+
+import locals from './TimeShiftingForm.mless';
 
 export default function TimeShiftingForm({ form, onChange }) {
   const timeShiftField = form.get('metricConfiguration').get('timeShift');
-  const showComparison = timeShiftField.value !== 0;
+  const isEnabled = timeShiftField.value !== 0;
 
   return (
-    <>
-      <Row withoutTopMargin>
-        <Col lg={6}>
-          <FormGroup>
-            <Label htmlFor="metic-configurator-time-shift" hasError={!timeShiftField.valid && timeShiftField.touched}>
-              Time Shift
-            </Label>
-            <Select
-              id="metic-configurator-time-shift"
-              value={timeShiftField.value}
-              onChange={e => {
-                let value = e.target.value;
-                if (value !== 'auto') {
-                  value = parseInt(value, 10);
-                }
-                onChange(['metricConfiguration', 'timeShift'], field => field.setValue(value).setTouched(true));
-              }}
-              hasError={!timeShiftField.valid && timeShiftField.touched}
-            >
-              {timeShifts
-                .filter(
-                  // Some options may not be selected, but if a configuration is already persisted with this
-                  // option, then we do allow it temporarily.
-                  ({ offset, disallowSelection }) => disallowSelection !== true || offset === timeShiftField.value
-                )
-                .map(({ offset, label }) => (
-                  <option key={offset} value={offset}>
-                    {label}
-                  </option>
-                ))}
-            </Select>
-            <TouchedMessages field={timeShiftField} />
-          </FormGroup>
-        </Col>
-      </Row>
+    <Sections>
+      <Section titleHtmlFor="metric-configurator-time-shift-enabler" title="Time Shift">
+        <div className={locals.timeShiftHelpText}>
+          <Toggle
+            id="metric-configurator-time-shift-enabler"
+            checked={isEnabled}
+            onChange={e => {
+              let newOffset = defaultTimeShift.offset;
+              if (e.target.checked) {
+                newOffset = previousHourTimeShift.offset;
+              }
+              onChange(['metricConfiguration', 'timeShift'], field => field.setValue(newOffset).setTouched(true));
+            }}
+          />
+          Add a time shifted comparison badge
+        </div>
+      </Section>
 
-      {showComparison && (
+      {isEnabled && (
         <>
-          <Row withoutTopMargin>
-            <Col lg={6}>
+          <SelectInSection
+            id="metic-configurator-time-shift"
+            value={timeShiftField.value}
+            onChange={e => {
+              let value = e.target.value;
+              if (value !== 'auto') {
+                value = parseInt(value, 10);
+              }
+              onChange(['metricConfiguration', 'timeShift'], field => field.setValue(value).setTouched(true));
+            }}
+            hasError={!timeShiftField.valid && timeShiftField.touched}
+            additionalContent={<TouchedMessages field={timeShiftField} />}
+            useAlternateBg
+          >
+            {timeShifts
+              .filter(
+                // Some options may not be selectable, but if a configuration is already persisted with this
+                // option, then we do allow it temporarily.
+                //
+                // Also hide the default time shift option (no time shift)
+                ({ offset, disallowSelection }) =>
+                  offset !== defaultTimeShift.offset && (disallowSelection !== true || offset === timeShiftField.value)
+              )
+              .map(({ offset, label }) => (
+                <option key={offset} value={offset}>
+                  {label}
+                </option>
+              ))}
+          </SelectInSection>
+
+          <Section useAlternateBg>
+            <div className={locals.colorSelection}>
               <ComparisonColorSelect
                 label="Increase Color"
                 examplePercentage="+5.24%"
@@ -60,11 +74,7 @@ export default function TimeShiftingForm({ form, onChange }) {
                 onChange={v => onChange(['comparisonIncreaseColor'], f => f.setValue(v).setTouched(true))}
                 idSuffix="increase"
               />
-            </Col>
-          </Row>
 
-          <Row withoutTopMargin>
-            <Col lg={6}>
               <ComparisonColorSelect
                 label="Decrease Color"
                 examplePercentage="-2.14%"
@@ -72,10 +82,10 @@ export default function TimeShiftingForm({ form, onChange }) {
                 onChange={v => onChange(['comparisonDecreaseColor'], f => f.setValue(v).setTouched(true))}
                 idSuffix="decrease"
               />
-            </Col>
-          </Row>
+            </div>
+          </Section>
         </>
       )}
-    </>
+    </Sections>
   );
 }

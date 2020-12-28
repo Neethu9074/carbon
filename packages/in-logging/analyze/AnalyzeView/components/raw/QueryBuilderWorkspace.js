@@ -12,18 +12,20 @@ import Footer from 'in-new-components/Footer';
 import Sticky from 'in-components/Sticky';
 
 export default function LoggingQueryBuilderWorkspace(props) {
-  const { onTagFilterExpressionChange, tagFilterExpression, isGrouped, isInvalid, children } = props;
+  const { onTagFilterExpressionChange, tagFilterExpression, isGrouped, isInvalid, tracking, children } = props;
 
   return (
     <Sticky header={<AnalyzeHeader isGrouped={isGrouped} withoutShadow />}>
       <Stack>
         <Sections>
           <QueryBuilderSection
-            {...props}
             value={tagFilterExpression}
             onChange={onTagFilterExpressionChange}
             QueryBuilder={LogsQueryBuilder}
-            CustomActions={CustomActions}
+            tracking={tracking}
+            actions={(
+              <TagSelector {...props} compact maxSelectableTags={3} />
+            )}
           />
         </Sections>
         {isInvalid && (
@@ -36,8 +38,4 @@ export default function LoggingQueryBuilderWorkspace(props) {
       <Footer />
     </Sticky>
   );
-}
-
-function CustomActions(props) {
-  return <TagSelector {...props} compact maxSelectableTags={3} />;
 }
