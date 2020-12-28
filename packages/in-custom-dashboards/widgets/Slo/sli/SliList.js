@@ -6,6 +6,7 @@ import React from 'react';
 
 import { availabilityType, applicationType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
+import { isQB2ModeEnabled } from 'in-new-components/Alerting/components/WithQB1orQB2';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-new-components/Dialog/ConfirmationDialog';
@@ -132,7 +133,10 @@ const columnDefinitions = [
     sortable: false,
     width: '1',
     getContent(item, { selectSli }) {
-      if (!role.canConfigureServiceLevelIndicators) {
+      if (
+        !role.canConfigureServiceLevelIndicators ||
+        (!isQB2ModeEnabled && item.sliEntity.sliType === 'availability' && !item.convertedTagFilterExpression)
+      ) {
         return null;
       }
       return (
