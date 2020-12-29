@@ -1,5 +1,5 @@
 import { createMapForm, createField, notBlankValidator } from 'formalistic';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import WidgetEditorDialogPresenter from 'in-custom-dashboards/CustomDashboard/WidgetEditorDialog/WidgetEditorDialogPresenter';
 import { stringValidator, numberValidator } from 'in-services/validators/jsonType';
@@ -10,14 +10,33 @@ import widgets, { enabledWidgets } from 'in-custom-dashboards/widgets';
 import { buildEnumValidator } from 'in-services/validators/enum';
 import { close } from 'in-components/DialogPresenter/store';
 import { generateUniqueShortId } from 'in-services/util/id';
+import { pendingResult } from 'in-services/fixedObjects';
+import useObservable from 'in-hooks/useObservable';
 
 export default function WidgetEditorDialog({ widget, onSubmit }) {
-  const [form, setForm] = useState(getInitialFormState(widget));
+  const [isMigrating, setMigrating] = useState(Boolean(widgets[widget?.type]?.migrate));
+  const [form, setForm] = useState(() => (isMigrating ? null : getInitialFormState()));
   const [slideInView, setSlideInView] = useState(null);
-  const [showWidgetSelector, setShowWidgetSelector] = useState(widget == null || !form.get('type').valid);
+  const [showWidgetSelector, setShowWidgetSelector] = useState(true);
+
+  const migrationResult =
+    useObservable(() => isMigrating && widgets[widget.type].migrate(widget.config), [widget]) ?? pendingResult;
+  useEffect(() => {
+    if (migrationResult?.data) {
+      const form = getInitialFormState({
+        ...widget,
+        config: migrationResult.data
+      });
+      setForm(form);
+      setShowWidgetSelector(widget == null || !form.get('type').valid);
+      setMigrating(false);
+    }
+  }, [migrationResult, widget]);
 
   return (
     <WidgetEditorDialogPresenter
+      isMigrating={isMigrating}
+      migrationResult={migrationResult}
       form={form}
       isEditing={widget != null}
       showWidgetSelector={showWidgetSelector}

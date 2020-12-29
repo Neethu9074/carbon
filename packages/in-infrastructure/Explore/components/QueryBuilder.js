@@ -1,9 +1,9 @@
-import getTagCatalog from 'in-infrastructure/subscriptions/getTagCatalog';
+import getTagCatalogSubscription from 'in-infrastructure/subscriptions/getTagCatalog';
 import getTagValueSearchSuggestions from 'in-infrastructure/subscriptions/getTagValueSuggestions';
 import { createQueryBuilder } from 'in-new-components/QueryBuilder';
 
-const { QueryBuilder, isQueryValid: isQueryValidInternal } = createQueryBuilder({
-  getTagCatalog,
+const { QueryBuilder, isQueryValid: isQueryValidInternal, getTagCatalog: getTagCatalogInternal } = createQueryBuilder({
+  getTagCatalog: getTagCatalogSubscription,
   getSuggestions: searchContext => {
     return getTagValueSearchSuggestions({
       tagName: searchContext.name,
@@ -13,6 +13,8 @@ const { QueryBuilder, isQueryValid: isQueryValidInternal } = createQueryBuilder(
     });
   }
 });
+
+export const getTagCatalog = getTagCatalogInternal;
 
 export default QueryBuilder;
 

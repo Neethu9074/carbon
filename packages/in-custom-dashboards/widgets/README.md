@@ -91,6 +91,10 @@ Each widget needs to define the following exports.
                                outside of the viewport to be mounted and hence to keep them
                                from making (potentially unused) backend requests.
                                Defaults to `true`.
+ - `migrate`: An optional function accepting a saved state object which must return an
+   `Observable<Result<MigratedSavedState>>`. You can use this to execute asynchronous
+   widget configuration migrations. Migrations will be executed when the widget editor
+   is opened and before the form object is created.
 
 ## Configuration Lifecycle
 

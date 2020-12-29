@@ -1,6 +1,9 @@
 import { createMapForm, notBlankValidator, createField } from 'formalistic';
 
-import { createForm as createMetricConfigurationForm } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/form';
+import {
+  createForm as createMetricConfigurationForm,
+  migrate as migrateMetricConfiguration
+} from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/form';
 import * as allComparisonColors from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
 import { green, red } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
 import { defaultFormatter, allFormatterIds } from 'in-stores/metric/formatters';
@@ -59,4 +62,20 @@ export function createForm(savedState) {
       })
     )
     .put('metricConfiguration', createMetricConfigurationForm(savedState && savedState.metricConfiguration));
+}
+
+export function migrate(savedState) {
+  return migrateMetricConfiguration(savedState.metricConfiguration).map(result => {
+    if (!result.data) {
+      return result;
+    }
+
+    return {
+      ...result,
+      data: {
+        ...savedState,
+        metricConfiguration: result.data
+      }
+    };
+  });
 }

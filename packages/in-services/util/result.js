@@ -1,4 +1,4 @@
-import { just, combineLatest } from '@instana/observables';
+import { just } from '@instana/observables';
 import { get } from 'lodash';
 
 import { emptyArray, finishedProgress, pendingResult, listData } from 'in-services/fixedObjects';
@@ -88,25 +88,4 @@ export function hasError(result) {
 
 export function isLoading(result) {
   return get(result, ['progress', 'loading']);
-}
-
-export function combineResultObservables(observables) {
-  const observableKeys = Object.keys(observables);
-  return {
-    result: combineLatest(observableKeys.map(key => observables[key])).map(results => {
-      const resultData = {};
-      for (let i = 0; i < results.length; i++) {
-        const result = results[i];
-        if (isLoading(result)) {
-          return pendingResult;
-        }
-        if (hasError(result)) {
-          return error(result.errors);
-        }
-        resultData[observableKeys[i]] = result.data;
-      }
-
-      return resultData;
-    })
-  };
 }

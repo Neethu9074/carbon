@@ -1,23 +1,18 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React from 'react';
 import { find, groupBy } from 'lodash';
 
-import { fromBackendModel, fromTagFiltersArray } from 'in-new-components/QueryBuilder/transformation/formModel';
-import { invalidMarker } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/mobileApp/form';
-import IndeterminateLoadingIndicator from 'in-new-components/LoadingIndicators/IndeterminateLoadingIndicator';
-import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
+import { useTagFilterExpressionState } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/tagFilterUtils/useTagFilterExpressionState';
 import QueryBuilderSection from 'in-new-components/QueryBuilder/workspace/QueryBuilderSection';
 import { availableMetrics } from 'in-mobile-apps/analyze/AnalyzeView/metrics';
 import * as queryBuildersPerDataSource from 'in-mobile-apps/queryBuilder';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import { emptyObject, pendingResult } from 'in-services/fixedObjects';
-import { sizes as ICON_SIZES } from 'in-components/SvgIcon/SvgIcon';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import Sections from 'in-new-components/workspace/Sections';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { aggregationLabels } from 'in-stores/metric/metric';
 import { dataSourceTitles } from 'in-mobile-apps/tags';
 import Stack from 'in-new-components/layout/Stack';
-import useTimeConfig from 'in-hooks/useTimeConfig';
 import useObservable from 'in-hooks/useObservable';
 
 export default function FormComponent({
@@ -31,54 +26,15 @@ export default function FormComponent({
   const beaconTypeField = form.get('beaconType');
   const metricField = form.get('metric');
   const aggregationField = form.get('aggregation');
-  const tagFilterExpressionField = form.get('tagFilterExpression');
-  const tagFiltersField = form.get('tagFilters');
 
   const { QueryBuilder, getTagCatalog } = queryBuildersPerDataSource[beaconTypeField.value] || emptyObject;
 
-  const removeTagFilterArrayRef = useRef();
-
-  // Handle asynchronous validation of the tag filter expression
-  const [formModelExpression, setFormModelExpression] = useState(() =>
-    fromBackendModel(tagFilterExpressionField.value)
-  );
-  const timeConfig = useTimeConfig();
-  const validTagFilterExpressionResult =
-    useObservable(getIsQueryValidObservable, [formModelExpression, timeConfig, beaconTypeField.value]) ?? pendingResult;
-  const formModelIsValid = validTagFilterExpressionResult.data === true;
-  useEffect(() => {
-    onChange([], form => {
-      if (removeTagFilterArrayRef.current) {
-        form = form.remove('tagFilters');
-      }
-
-      return form.updateIn(['tagFilterExpression'], field => {
-        if (formModelIsValid) {
-          return field.setValue(toBackendQueryModel(formModelExpression, false));
-        } else {
-          return field.setValue(invalidMarker);
-        }
-      });
-    });
-  }, [formModelIsValid, formModelExpression]);
-
-  // handle tagFilter[] to tagFilterExpression migration
-  const tagCatalogResult = useObservable(getTagCatalog, []);
-  const needsTagFiltersConversionToTagFilterExpression = Boolean(tagFiltersField?.value);
-  useEffect(() => {
-    if (needsTagFiltersConversionToTagFilterExpression && tagCatalogResult?.data) {
-      const newFormModel = fromTagFiltersArray(
-        // Within the tag filters based variant of this data source configuration, we used to
-        // store the beacon type as part of the tag filters array. This was done to have a
-        // cleaner backend API. This "cleaner" API turned out to create more work than it provided
-        // value in the end and is getting removed with the introduction of tag filter expressions.
-        tagFiltersField.value.filter(({ name }) => name !== 'mobileBeacon.type'),
-        tagCatalogResult.data
-      );
-      removeTagFilterArrayRef.current = true;
-      setFormModelExpression(newFormModel);
-    }
-  }, [needsTagFiltersConversionToTagFilterExpression, tagCatalogResult]);
+  const tagCatalogResult = useObservable(getTagCatalog, []) ?? pendingResult;
+  const [tagFilterExpression, setTagFilterExpression] = useTagFilterExpressionState({
+    tagCatalogResult,
+    form,
+    onChange
+  });
 
   return (
     <Stack space="xsmall">
@@ -111,13 +67,11 @@ export default function FormComponent({
         </SelectInSection>
       </Sections>
 
-      {needsTagFiltersConversionToTagFilterExpression && <IndeterminateLoadingIndicator size={ICON_SIZES.l} />}
-
-      {QueryBuilder && !needsTagFiltersConversionToTagFilterExpression && (
+      {QueryBuilder && (
         <Sections>
           <QueryBuilderSection
-            value={formModelExpression}
-            onChange={setFormModelExpression}
+            value={tagFilterExpression}
+            onChange={setTagFilterExpression}
             QueryBuilder={QueryBuilder}
             withoutIcon
           />
@@ -207,12 +161,4 @@ export default function FormComponent({
 function getAggregations(beaconType, metric) {
   const metricDefinition = find(availableMetrics[beaconType], ({ metric: m }) => m === metric);
   return metricDefinition?.supportedAggregations ?? [];
-}
-
-function getIsQueryValidObservable([tagFilterExpression, timeConfig, beaconType]) {
-  const queryBuilder = queryBuildersPerDataSource[beaconType];
-  if (!queryBuilder) {
-    return undefined;
-  }
-  return queryBuilder.isQueryValid(tagFilterExpression, timeConfig);
 }

@@ -1,7 +1,7 @@
 import { combineLatest } from '@instana/observables';
 
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
-import { merge } from 'in-subscription/getUnifiedMetricsMerger';
+import { merge } from 'in-services/util/resultMerger';
 
 const getUnifiedMetricsInternal = createResultSubscriptionFactory({
   eventId: 'getUnifiedMetrics',
@@ -24,5 +24,17 @@ export default function getUnifiedMetrics({ metrics }) {
     })
   );
 
-  return combineLatest(observables).map(merge);
+  return combineLatest(observables).map(mergeResults);
+}
+
+function mergeResults(results) {
+  return merge(results, mergeResultData);
+}
+
+function mergeResultData(dataSets) {
+  const merged = [];
+  for (const data of dataSets) {
+    merged.push(...data);
+  }
+  return merged;
 }

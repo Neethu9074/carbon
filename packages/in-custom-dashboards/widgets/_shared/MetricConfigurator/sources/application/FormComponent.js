@@ -1,20 +1,13 @@
-import React, { useState, useEffect, useRef } from 'react';
 import { find, groupBy } from 'lodash';
+import React from 'react';
 
-import QueryBuilder, {
-  getTagCatalog,
-  isCallQueryValid
-} from 'in-applications/analyze/components/workspace/CallQueryBuilder';
+import { useTagFilterExpressionState } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/tagFilterUtils/useTagFilterExpressionState';
 import GroupingConfiguration from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/GroupingConfiguration';
-import { invalidMarker } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/application/form';
-import { fromBackendModel, fromTagFiltersArray } from 'in-new-components/QueryBuilder/transformation/formModel';
-import IndeterminateLoadingIndicator from 'in-new-components/LoadingIndicators/IndeterminateLoadingIndicator';
 import CallGroupingConfigurator from 'in-applications/analyze/components/workspace/CallGroupingConfigurator';
-import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
+import QueryBuilder, { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import { onChangeGrouping } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/form';
 import QueryBuilderSection from 'in-new-components/QueryBuilder/workspace/QueryBuilderSection';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
-import { sizes as ICON_SIZES } from 'in-components/SvgIcon/SvgIcon';
 import { availableMetrics } from 'in-applications/analyze/metrics';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import Sections from 'in-new-components/workspace/Sections';
@@ -37,45 +30,15 @@ export default function FormComponent({
   const metricField = form.get('metric');
   const aggregationField = form.get('aggregation');
   const tagFilterExpressionField = form.get('tagFilterExpression');
-  const tagFiltersField = form.get('tagFilters');
   const groupingField = form.get('grouping');
-
-  const removeTagFilterArrayRef = useRef();
-
-  // Handle asynchronous validation of the tag filter expression
-  const [formModelExpression, setFormModelExpression] = useState(() =>
-    fromBackendModel(tagFilterExpressionField.value)
-  );
   const timeConfig = useTimeConfig();
-  const validTagFilterExpressionResult =
-    useObservable(isCallQueryValid, [formModelExpression, timeConfig]) ?? pendingResult;
-  const formModelIsValid = validTagFilterExpressionResult.data === true;
-  useEffect(() => {
-    onChange([], form => {
-      if (removeTagFilterArrayRef.current) {
-        form = form.remove('tagFilters');
-      }
+  const tagCatalogResult = useObservable(getGetTagCatalogObservable, [timeConfig]) ?? pendingResult;
 
-      return form.updateIn(['tagFilterExpression'], field => {
-        if (formModelIsValid) {
-          return field.setValue(toBackendQueryModel(formModelExpression, false));
-        } else {
-          return field.setValue(invalidMarker);
-        }
-      });
-    });
-  }, [formModelIsValid, formModelExpression]);
-
-  // handle tagFilter[] to tagFilterExpression migration
-  const tagCatalogResult = useObservable(getGetTagCatalogObservable, [timeConfig]);
-  const needsTagFiltersConversionToTagFilterExpression = Boolean(tagFiltersField?.value);
-  useEffect(() => {
-    if (needsTagFiltersConversionToTagFilterExpression && tagCatalogResult?.data) {
-      const newFormModel = fromTagFiltersArray(tagFiltersField.value, tagCatalogResult.data);
-      removeTagFilterArrayRef.current = true;
-      setFormModelExpression(newFormModel);
-    }
-  }, [needsTagFiltersConversionToTagFilterExpression, tagCatalogResult]);
+  const [tagFilterExpression, setTagFilterExpression] = useTagFilterExpressionState({
+    tagCatalogResult,
+    form,
+    onChange
+  });
 
   const grouping = groupingField?.get(0)?.toJS();
 
@@ -87,31 +50,27 @@ export default function FormComponent({
     <Stack space="xsmall">
       {dataSourceSection}
 
-      {needsTagFiltersConversionToTagFilterExpression && <IndeterminateLoadingIndicator size={ICON_SIZES.l} />}
-
-      {!needsTagFiltersConversionToTagFilterExpression && (
-        <>
-          <Sections>
-            <QueryBuilderSection
-              value={formModelExpression}
-              onChange={setFormModelExpression}
-              QueryBuilder={QueryBuilder}
-              withoutIcon
-            />
-          </Sections>
-
-          <GroupingConfiguration
-            withGrouping={withGrouping}
-            grouping={grouping}
-            tagFilterExpressionField={tagFilterExpressionField}
-            onByChange={onByChange}
-            onDirectionChange={onDirectionChange}
-            onIncludeOthersChange={onIncludeOthersChange}
-            explanationTagRequired="Grouping limits the results to calls that have a value for this tag."
-            GroupingConfigurator={CallGroupingConfigurator}
+      {QueryBuilder && (
+        <Sections>
+          <QueryBuilderSection
+            value={tagFilterExpression}
+            onChange={setTagFilterExpression}
+            QueryBuilder={QueryBuilder}
+            withoutIcon
           />
-        </>
+        </Sections>
       )}
+
+      <GroupingConfiguration
+        withGrouping={withGrouping}
+        grouping={grouping}
+        tagFilterExpressionField={tagFilterExpressionField}
+        onByChange={onByChange}
+        onDirectionChange={onDirectionChange}
+        onIncludeOthersChange={onIncludeOthersChange}
+        explanationTagRequired="Grouping limits the results to calls that have a value for this tag."
+        GroupingConfigurator={CallGroupingConfigurator}
+      />
 
       <Sections>
         <SelectInSection

@@ -1,12 +1,15 @@
+import { combineLatest } from '@instana/observables';
 import { createMapForm } from 'formalistic';
 import React, { useState } from 'react';
 
 import renderLoadingStateDefault from 'in-settings/components/ApiItemView/FallbackLoadingView';
-import { combineResultObservables, isLoading, hasError } from 'in-services/util/result';
 import { getUniqueErrors } from 'in-new-components/Errors/ErroneousResultPresenter';
 import TemporaryMessage from 'in-new-components/TemporaryMessage';
 import Header from 'in-settings/components/ApiItemView/Header';
 import Footer from 'in-settings/components/ApiItemView/Footer';
+import { isLoading, hasError } from 'in-services/util/result';
+import { pendingResult } from 'in-services/fixedObjects';
+import { error } from 'in-services/util/result';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './ApiItemView.mless';
@@ -124,4 +127,25 @@ function ApiItemViewResultPresenter(props) {
     return <form onSubmit={e => onSubmit(e, renderProps)}>{content}</form>;
   }
   return content;
+}
+
+function combineResultObservables(observables) {
+  const observableKeys = Object.keys(observables);
+  return {
+    result: combineLatest(observableKeys.map(key => observables[key])).map(results => {
+      const resultData = {};
+      for (let i = 0; i < results.length; i++) {
+        const result = results[i];
+        if (isLoading(result)) {
+          return pendingResult;
+        }
+        if (hasError(result)) {
+          return error(result.errors);
+        }
+        resultData[observableKeys[i]] = result.data;
+      }
+
+      return resultData;
+    })
+  };
 }

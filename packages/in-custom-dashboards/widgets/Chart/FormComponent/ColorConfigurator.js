@@ -9,7 +9,7 @@ import Tooltip from 'in-components/Tooltip';
 
 import locals from './ColorConfigurator.mless';
 
-export default function ColorConfigurator({ metricForm, index, onChange, axisName }) {
+export default function ColorConfigurator({ metricForm, index, indexInAxis, onChange, axisName }) {
   const isGrouped = metricForm.get('grouping')?.size > 0;
   if (isGrouped) {
     return (
@@ -45,7 +45,7 @@ export default function ColorConfigurator({ metricForm, index, onChange, axisNam
         }))
       )}
       onChange={color =>
-        onChange([axisName, 'metrics', index, 'color'], field => field.setValue(color).setTouched(true))
+        onChange([axisName, 'metrics', indexInAxis, 'color'], field => field.setValue(color).setTouched(true))
       }
       listItemAlignment="left"
     >

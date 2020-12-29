@@ -1,14 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 
 import TypeAndMetricConfigurator from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/TypeAndMetricConfigurator';
+import { useTagFilterExpressionState } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/tagFilterUtils/useTagFilterExpressionState';
 import GroupingConfiguratorSection from 'in-new-components/GroupingConfigurator/GroupingConfiguratorSection';
-import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import { EMPTY_EXPRESSION } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
+import QueryBuilder, { getTagCatalog } from 'in-infrastructure/Explore/components/QueryBuilder';
 import { onChangeGrouping } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/form';
 import QueryBuilderSection from 'in-new-components/QueryBuilder/workspace/QueryBuilderSection';
-import QueryBuilder, { isQueryValid } from 'in-infrastructure/Explore/components/QueryBuilder';
 import GroupingConfigurator from 'in-infrastructure/Explore/components/GroupingConfigurator';
-import { fromBackendModel } from 'in-new-components/QueryBuilder/transformation/formModel';
 import getMetricCatalog from 'in-infrastructure/subscriptions/getMetricCatalog';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import useMetricCatalog from 'in-infrastructure/hooks/useMetricCatalog';
@@ -18,7 +17,6 @@ import Sections from 'in-new-components/workspace/Sections';
 import Section from 'in-new-components/workspace/Section';
 import { pendingResult } from 'in-services/fixedObjects';
 import Stack from 'in-new-components/layout/Stack';
-import useTimeConfig from 'in-hooks/useTimeConfig';
 import useObservable from 'in-hooks/useObservable';
 
 export default function FormComponent({
@@ -33,22 +31,18 @@ export default function FormComponent({
   const metricField = form.get('metric');
   const aggregationField = form.get('aggregation');
   const tagFilterExpressionField = form.get('tagFilterExpression');
-  const [formModelExpression, setFormModelExpression] = useState(() =>
-    fromBackendModel(tagFilterExpressionField.value)
-  );
-  const timeConfig = useTimeConfig();
-  const validTagFilterExpressionResult =
-    useObservable(getIsQueryValidObservable, [formModelExpression, timeConfig]) ?? pendingResult;
-  const formModelIsValid = validTagFilterExpressionResult.data === true;
-  useEffect(() => {
-    onChange(['tagFilterExpression'], field =>
-      formModelIsValid
-        ? field.setValue(toBackendQueryModel(formModelExpression, false))
-        : field.setValue(EMPTY_EXPRESSION)
-    );
-  }, [formModelIsValid, formModelExpression]);
 
-  const metricCatalog = useMetricCatalog({ getMetricCatalog, tagFilterExpression: tagFilterExpressionField.value });
+  const tagCatalogResult = useObservable(getTagCatalog, []) ?? pendingResult;
+  const [tagFilterExpression, setTagFilterExpression] = useTagFilterExpressionState({
+    tagCatalogResult,
+    form,
+    onChange
+  });
+
+  const metricCatalog = useMetricCatalog({
+    getMetricCatalog,
+    tagFilterExpression: tagFilterExpressionField.valid ? tagFilterExpressionField.value : EMPTY_EXPRESSION
+  });
   const category = 'Infrastructure';
 
   useEffect(() => {
@@ -76,8 +70,8 @@ export default function FormComponent({
 
       <Sections>
         <QueryBuilderSection
-          value={formModelExpression}
-          onChange={setFormModelExpression}
+          value={tagFilterExpression}
+          onChange={setTagFilterExpression}
           QueryBuilder={QueryBuilder}
           withoutIcon
         />
@@ -134,10 +128,12 @@ export default function FormComponent({
           id="metric-configurator-infra-aggregation"
           value={aggregationField.value}
           onChange={e => onChange(['aggregation'], field => field.setValue(e.target.value).setTouched(true))}
+          additionalContent={<TouchedMessages field={aggregationField} />}
         >
-          {!aggregationField.valid && <option value="">Please select an aggregation</option>}
-          {aggregationField.valid && (
+          {!metricField.valid && <option value="">Please select a metric</option>}
+          {metricField.valid && (
             <>
+              <option value="">Please select</option>
               {Object.keys(aggregationLabels).map(aggregation => (
                 <option key={aggregation} value={aggregation}>
                   {aggregationLabels[aggregation]}
@@ -146,7 +142,6 @@ export default function FormComponent({
             </>
           )}
         </SelectInSection>
-        <TouchedMessages field={aggregationField} />
       </Sections>
 
       {timeShiftConfiguration}
@@ -154,10 +149,6 @@ export default function FormComponent({
       {labelSection}
     </Stack>
   );
-}
-
-function getIsQueryValidObservable([tagFilterExpression, timeConfig]) {
-  return isQueryValid(tagFilterExpression, timeConfig);
 }
 
 function getGrouping(form) {

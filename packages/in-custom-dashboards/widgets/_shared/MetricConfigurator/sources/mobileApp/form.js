@@ -1,66 +1,45 @@
 import { createField, notBlankValidator } from 'formalistic';
-import { find } from 'lodash';
 
-import { EMPTY_EXPRESSION } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
-import { stringValidator, objectValidator } from 'in-services/validators/jsonType';
+import { migrate as migrateTagFilterArray } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/tagFilterUtils/form';
+import { addTagFilterExpressionField } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/tagFilterUtils/form';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
-import { alwaysInvalidValidator } from 'in-services/validators/alwaysInvalid';
+import * as queryBuildersPerDataSource from 'in-mobile-apps/queryBuilder';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
+import { stringValidator } from 'in-services/validators/jsonType';
 import { buildEnumValidator } from 'in-services/validators/enum';
+import { emptyObject } from 'in-services/fixedObjects';
 import { dataSourceTitles } from 'in-mobile-apps/tags';
 
 export function createForm(form, savedState) {
-  form = form
-    .put(
-      'tagFilterExpression',
-      createField({
-        value: savedState?.tagFilterExpression || EMPTY_EXPRESSION,
-        validator: composeAndShortCircuitOnError(objectValidator, objectValidator, markerValidator)
-      })
-    )
-    .put(
-      'beaconType',
-      createField({
-        value:
-          savedState?.beaconType || (savedState?.tagFilters && getBeaconType(savedState?.tagFilters)) || 'sessionStart',
-        validator: composeAndShortCircuitOnError(
-          notUndefinedValidator,
-          stringValidator,
-          notBlankValidator,
-          buildEnumValidator(Object.keys(dataSourceTitles))
-        )
-      })
-    );
-
-  // We temporarily place the old tagFilters structure into the form state. Upon the initial rendering,
-  // the FormComponent will pick up this field and translate it to tagFilterExpression. Unfortunately,
-  // the translation to the new format is an asynchronous operation. We therefore need to have this
-  // temporary form field.
-  if (savedState?.tagFilters) {
-    form = form.put(
-      'tagFilters',
-      createField({
-        value: savedState.tagFilters,
-        validator: alwaysInvalidValidator('Please specify tag filters using the new tagFilterExpression format.')
-      })
-    );
-  }
-
-  return form;
+  return addTagFilterExpressionField(form, savedState).put(
+    'beaconType',
+    createField({
+      value: savedState?.beaconType || 'sessionStart',
+      validator: composeAndShortCircuitOnError(
+        notUndefinedValidator,
+        stringValidator,
+        notBlankValidator,
+        buildEnumValidator(Object.keys(dataSourceTitles))
+      )
+    })
+  );
 }
 
-export const invalidMarker = { invalid: true };
+export function migrate(savedState) {
+  const beaconType =
+    savedState.beaconType || savedState.tagFilters?.find(({ name }) => name === 'mobileBeacon.type') || 'sessionStart';
+  const { getTagCatalog } = queryBuildersPerDataSource[beaconType] || emptyObject;
 
-function markerValidator(value) {
-  if (value.invalid) {
-    return [{ severity: 'error' }];
-  }
-}
-
-export function getBeaconType(tagFilterArray) {
-  const tagFilter = find(tagFilterArray, ({ name }) => name === 'mobileBeacon.type');
-  if (tagFilter == null) {
-    return '';
-  }
-  return tagFilter.stringValue;
+  return migrateTagFilterArray({
+    savedState: {
+      ...savedState,
+      beaconType
+    },
+    getTagCatalog,
+    // Within the tag filters based variant of this data source configuration, we used to
+    // store the beacon type as part of the tag filters array. This was done to have a
+    // cleaner backend API. This "cleaner" API turned out to create more work than it provided
+    // value in the end and is getting removed with the introduction of tag filter expressions.
+    modifyTagFilterArrayBeforeConversion: tagFilters => tagFilters.filter(({ name }) => name !== 'mobileBeacon.type')
+  });
 }

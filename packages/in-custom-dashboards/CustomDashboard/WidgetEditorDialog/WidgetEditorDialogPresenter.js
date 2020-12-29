@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 
 import WidgetTypeSelector from 'in-custom-dashboards/CustomDashboard/WidgetEditorDialog/WidgetTypeSelector/WidgetTypeSelector';
+import IndeterminateLoadingIndicator from 'in-new-components/LoadingIndicators/IndeterminateLoadingIndicator';
 import WidgetConfiguration from 'in-custom-dashboards/CustomDashboard/WidgetEditorDialog/WidgetConfiguration';
 import FormFooter, { SaveButton, CancelButton } from 'in-components/form/FormFooter/FormFooter';
 import DialogWithSlideInView from 'in-new-components/Dialog/DialogWithSlideInView';
+import { sizes as ICON_SIZES } from 'in-components/SvgIcon/SvgIcon';
 import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
 import { close } from 'in-components/DialogPresenter/store';
 import widgets from 'in-custom-dashboards/widgets';
@@ -21,13 +23,14 @@ export default function WidgetEditorDialogPresenter({
   form,
   onChangeType,
   slideInView,
-  setSlideInView
+  setSlideInView,
+  isMigrating
 }) {
   useDisabledBodyScroll();
   const subSlideState = useState(null);
 
   let title = isEditing ? 'Edit Widget' : 'Add Widget';
-  if (!showWidgetSelector) {
+  if (!showWidgetSelector && !isMigrating) {
     title += ` – ${widgets[form.get('type').value].label}`;
   }
 
@@ -47,45 +50,55 @@ export default function WidgetEditorDialogPresenter({
       })}
       removeBottomPaddingWhenFooterIsShown
       footer={
-        <FormFooter className={locals.controls} withRoundedBottomBorder>
-          {isEditing && <CancelButton onClick={close} />}
-          {!isEditing && showWidgetSelector && <CancelButton onClick={close} />}
-          {!isEditing && !showWidgetSelector && (
-            <CancelButton onClick={() => setShowWidgetSelector(true)}>Back</CancelButton>
-          )}
-          <SaveButton formId={formId} form={form}>
-            {showWidgetSelector && 'Next'}
-            {!showWidgetSelector && (isEditing ? 'Confirm' : 'Create')}
-          </SaveButton>
-        </FormFooter>
+        !isMigrating && (
+          <FormFooter className={locals.controls} withRoundedBottomBorder>
+            {isEditing && <CancelButton onClick={close} />}
+            {!isEditing && showWidgetSelector && <CancelButton onClick={close} />}
+            {!isEditing && !showWidgetSelector && (
+              <CancelButton onClick={() => setShowWidgetSelector(true)}>Back</CancelButton>
+            )}
+            <SaveButton formId={formId} form={form}>
+              {showWidgetSelector && 'Next'}
+              {!showWidgetSelector && (isEditing ? 'Confirm' : 'Create')}
+            </SaveButton>
+          </FormFooter>
+        )
       }
     >
-      <form
-        id={formId}
-        onSubmit={e => {
-          e.preventDefault();
-          onSubmit();
-        }}
-      >
-        {showWidgetSelector && <WidgetTypeSelector form={form} onChangeType={onChangeType} />}
+      {isMigrating && (
+        <div className={locals.migrationWrapper}>
+          <IndeterminateLoadingIndicator size={ICON_SIZES.xxxl} />
+        </div>
+      )}
 
-        {!showWidgetSelector && (
-          <WidgetConfiguration
-            onChange={onChange}
-            form={form}
-            setSlideInView={newSlideInView =>
-              setSlideInView({
-                ...newSlideInView,
-                // Enforce that setSlideInView cannot be used to hide the slide in view! For this purpose
-                // the slideOut function should be used. This guarantees a good user experience by ensuring
-                // that we retain the slide in view configuration at least until the CSS transitions
-                // complete.
-                visible: true
-              })
-            }
-          />
-        )}
-      </form>
+      {!isMigrating && (
+        <form
+          id={formId}
+          onSubmit={e => {
+            e.preventDefault();
+            onSubmit();
+          }}
+        >
+          {showWidgetSelector && <WidgetTypeSelector form={form} onChangeType={onChangeType} />}
+
+          {!showWidgetSelector && (
+            <WidgetConfiguration
+              onChange={onChange}
+              form={form}
+              setSlideInView={newSlideInView =>
+                setSlideInView({
+                  ...newSlideInView,
+                  // Enforce that setSlideInView cannot be used to hide the slide in view! For this purpose
+                  // the slideOut function should be used. This guarantees a good user experience by ensuring
+                  // that we retain the slide in view configuration at least until the CSS transitions
+                  // complete.
+                  visible: true
+                })
+              }
+            />
+          )}
+        </form>
+      )}
     </DialogWithSlideInView>
   );
 

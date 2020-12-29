@@ -1,12 +1,19 @@
 import { createMapForm, notBlankValidator, createField, createListForm } from 'formalistic';
+import { just, combineLatest } from '@instana/observables';
 
-import { createForm as createMetricConfigurationForm } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/form';
+import {
+  createForm as createMetricConfigurationForm,
+  migrate as migrateMetricConfiguration
+} from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/form';
 import { stringValidator, numberValidator, arrayValidator } from 'in-services/validators/jsonType';
 import { defaultRenderer, allRendererIds } from 'in-custom-dashboards/widgets/Chart/renderer';
 import { defaultFormatter, allFormatterIds } from 'in-stores/metric/formatters';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
+import { emptyArray, finishedProgress } from 'in-services/fixedObjects';
 import { buildEnumValidator } from 'in-services/validators/enum';
+import { merge } from 'in-services/util/resultMerger';
+import { identity } from 'in-services/util/function';
 
 export function createForm(savedState) {
   return createMapForm()
@@ -104,4 +111,52 @@ function atLeastOneMetricValidator(items) {
       }
     ];
   }
+}
+
+export function migrate(savedState) {
+  const y1MigrationResult$ = migrateAxis(savedState.y1);
+  const y2MigrationResult$ = migrateAxis(savedState.y2);
+
+  return combineLatest([y1MigrationResult$, y2MigrationResult$])
+    .map(results => merge(results, ([y1, y2]) => ({ y1, y2 })))
+    .map(result => {
+      if (!result.data) {
+        return result;
+      }
+
+      return {
+        ...result,
+        data: {
+          ...savedState,
+          ...result.data
+        }
+      };
+    });
+}
+
+function migrateAxis(axis) {
+  if (!axis) {
+    return just({
+      progress: finishedProgress,
+      errors: emptyArray,
+      data: null
+    });
+  }
+
+  const observables = axis.metrics.map(migrateMetricConfiguration);
+  return combineLatest(observables)
+    .map(results => merge(results, identity))
+    .map(result => {
+      if (!result.data) {
+        return result;
+      }
+
+      return {
+        ...result,
+        data: {
+          ...axis,
+          metrics: result.data
+        }
+      };
+    });
 }

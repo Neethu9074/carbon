@@ -1,8 +1,8 @@
 import { indeterminateProgress, emptyArray, finishedProgress } from 'in-services/fixedObjects';
 
-export function merge(results) {
+export function merge(results, mergeResultData) {
   if (isAllFinished(results)) {
-    return mergeFinished(results);
+    return mergeFinished(results, mergeResultData);
   } else if (hasErrors(results)) {
     return mergeErrors(results);
   }
@@ -18,15 +18,10 @@ function isAllFinished(results) {
   return true;
 }
 
-function mergeFinished(results) {
-  let maxTime = 0;
-  const merged = [];
-  for (const result of results) {
-    maxTime = Math.max(maxTime, result.time);
-    merged.push(...result.data);
-  }
+function mergeFinished(results, mergeResultData) {
+  const maxTime = results.reduce((agg, result) => Math.max(result.time, agg), 0);
   return {
-    data: merged,
+    data: mergeResultData(results.map(result => result.data)),
     errors: emptyArray,
     time: maxTime,
     progress: finishedProgress

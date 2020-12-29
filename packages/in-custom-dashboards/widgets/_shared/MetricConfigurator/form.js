@@ -1,4 +1,5 @@
 import { createMapForm, createField, notBlankValidator, createListForm } from 'formalistic';
+import { just } from '@instana/observables';
 
 import { numberValidator, stringValidator, booleanValidator } from 'in-services/validators/jsonType';
 import sources from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources';
@@ -6,6 +7,7 @@ import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { minValidator, maxValidator } from 'in-services/validators/number';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
 import { getMetricLabel } from 'in-custom-dashboards/widgets/Chart/util';
+import { finishedProgress, emptyArray } from 'in-services/fixedObjects';
 import { buildEnumValidator } from 'in-services/validators/enum';
 
 export function createForm(
@@ -225,4 +227,15 @@ export function onChangeGrouping(onChange, newGrouping) {
       );
     }
   });
+}
+
+export function migrate(savedState) {
+  return (
+    sources[savedState.source]?.migrate?.(savedState) ||
+    just({
+      data: savedState,
+      progress: finishedProgress,
+      errors: emptyArray
+    })
+  );
 }
