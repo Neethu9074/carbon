@@ -107,7 +107,7 @@ stage('Storybook') {
    || env.BRANCH_NAME.startsWith('chromatic-')
    ) {
     node {
-      timeout(time: 10, unit: 'MINUTES') {
+      timeout(time: 30, unit: 'MINUTES') {
         try {
           def RUN_UI_TEST_ON_DELIVERY = (
              env.BRANCH_NAME.startsWith('storybook-') ||
