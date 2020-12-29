@@ -6,6 +6,7 @@ import { getMetricId, getMetricLabel, getShortMetricKey } from 'in-custom-dashbo
 import { onChangeSource, duplicate } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/form';
 import { source } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/sli/index';
 import TimeShiftingForm from 'in-custom-dashboards/widgets/Chart/FormComponent/TimeShiftingForm';
+import { isInitiallyOpen } from 'in-custom-dashboards/widgets/Chart/FormComponent/autoOpenHelper';
 import { HighlightedEffect } from 'in-new-components/SelectedElementHighlighter';
 import { MoreMenu, MoreMenuButton } from 'in-new-components/MoreMenu';
 import { Li, ColumnizedContent } from 'in-new-components/lists/List';
@@ -91,6 +92,7 @@ export default function MetricConfiguration(props) {
           noAlternatingBg
           toggleContentOnRowClick
           highlightOpenState={false}
+          initiallyOpen={isInitiallyOpen(axisName, indexInAxis)}
           renderNestedContent={() => (
             <MetricConfigurator
               form={metricForm}
