@@ -157,5 +157,5 @@ export default function FormComponent({
 
 function getAggregations(beaconType, metric) {
   const metricDefinition = find(availableMetrics[beaconType], ({ metric: m }) => m === metric);
-  return metricDefinition.supportedAggregations;
+  return metricDefinition?.supportedAggregations ?? [];
 }

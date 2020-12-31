@@ -123,5 +123,5 @@ export default function FormComponent({
 }
 
 function getAggregations(metric) {
-  return find(availableMetrics, ({ metric: m }) => m === metric).supportedAggregations;
+  return find(availableMetrics, ({ metric: m }) => m === metric)?.supportedAggregations ?? [];
 }
