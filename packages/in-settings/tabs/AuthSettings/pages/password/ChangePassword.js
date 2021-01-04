@@ -19,14 +19,10 @@ import Input from 'in-components/form/Input';
 import locals from './ChangePassword.mless';
 
 export default function ChangePassword() {
-  return (
-    <>
-      <ApiItemView render={render} enrichForm={enrichForm} onSubmit={onSubmit} />
-    </>
-  );
+  return <ApiItemView Content={Content} enrichForm={enrichForm} onSubmit={onSubmit} />;
 }
 
-function render({ form, setForm }) {
+function Content({ form, setForm }) {
   const newPassword = form.get('newPassword').value;
   const passwordStrength = useMemo(() => getPasswordStrength(newPassword), [newPassword]);
 

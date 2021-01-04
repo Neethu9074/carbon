@@ -52,13 +52,14 @@ export default function ProfilesLane(props) {
 
 function useClusteredTimestamps(chartWidth, timeConfig, profileTimestamps) {
   const bucketSizeInMillis = getClusterSizeInMillis(chartWidth, timeConfig.windowSize);
-  return useMemo(() => {
-    const bucketResult = bucketize({
-      sortedTimestamps: profileTimestamps,
-      bucketSizeInMillis
-    });
-    return bucketResult;
-  }, [chartWidth, timeConfig.windowSize, timeConfig.to, profileTimestamps]);
+  return useMemo(
+    () =>
+      bucketize({
+        sortedTimestamps: profileTimestamps,
+        bucketSizeInMillis
+      }),
+    [profileTimestamps, bucketSizeInMillis]
+  );
 }
 
 function mapClusterToMarkerLaneEvents(timeConfig, clusteredTimestamps, prevCluster) {

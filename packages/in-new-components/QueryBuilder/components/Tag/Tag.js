@@ -53,6 +53,8 @@ export default function Tag(props) {
   const postUpdateFocus = useRef();
   useLayoutEffect(() => {
     autoFocusTargets[postUpdateFocus.current?.target]?.current?.focus();
+    // We manually control repaints on ref changes.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [postUpdateFocus.current?.id]);
 
   return (

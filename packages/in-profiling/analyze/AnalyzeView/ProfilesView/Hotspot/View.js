@@ -52,6 +52,8 @@ export default function HotspotView({
       overviewOpened(
         profiles?.cpuProfile?.runtime ?? profiles?.memoryProfile?.runtime ?? profiles?.timeProfile?.runtime
       ),
+    // We deliberately only want to report this once when the view is opened
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   );
 

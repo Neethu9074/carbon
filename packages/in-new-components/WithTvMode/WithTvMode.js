@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 
 import { addMessage, removeMessage } from 'in-components/MessageFlyout/stores/messages';
@@ -23,32 +23,35 @@ export default function WithTvMode({ children, urlParameter: { path, name } }) {
     ]
   });
 
+  const setEnabled = useCallback(
+    enabled => {
+      onChange({ enabled });
+      if (enabled) {
+        addMessage(
+          {
+            type: 'info',
+            timeout: 5000,
+            content: 'Press ESC to disable TV mode.'
+          },
+          messageId
+        );
+      } else {
+        removeMessage(messageId);
+      }
+      refreshWindowSizeDependingState();
+      setTimeout(refreshWindowSizeDependingState, 100);
+    },
+    [onChange]
+  );
+
   useEffect(() => {
     disableTvModeInternal = () => setEnabled(false);
     return () => {
       disableTvModeInternal = null;
     };
-  }, []);
+  }, [setEnabled]);
 
   return <div className={enabled ? locals.tvMode : null}>{children({ enabled, setEnabled })}</div>;
-
-  function setEnabled(enabled) {
-    onChange({ enabled });
-    if (enabled) {
-      addMessage(
-        {
-          type: 'info',
-          timeout: 5000,
-          content: 'Press ESC to disable TV mode.'
-        },
-        messageId
-      );
-    } else {
-      removeMessage(messageId);
-    }
-    refreshWindowSizeDependingState();
-    setTimeout(refreshWindowSizeDependingState, 100);
-  }
 }
 
 WithTvMode.propTypes = {

@@ -46,7 +46,7 @@ export default function SlideInView({
   // An optional side effect that should be executed after a React render, but before
   // the browser render cycle ends.
   const afterStateChangeEffect = useRef();
-  useLayoutEffect(() => afterStateChangeEffect.current?.(), [afterStateChangeEffect.current]);
+  useLayoutEffect(() => afterStateChangeEffect.current?.());
 
   const [state, setState] = useState(slideOutStates.after(slideTransitionDurationMillis));
   useLayoutEffect(() => {
@@ -89,6 +89,8 @@ export default function SlideInView({
     }
 
     return () => timeouts.forEach(clearTimeout);
+    // Other props cannot be modified after the fact - this is a limitation right now of the SlideInView
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [showSlideInContent]);
 
   const [showScrollShadow, setShowScrollShadow] = useState(false);

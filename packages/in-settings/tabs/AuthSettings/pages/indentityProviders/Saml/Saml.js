@@ -49,15 +49,13 @@ export default function Saml() {
           });
         };
       }}
-      render={props => render({ ...props, input })}
+      Content={Content}
     />
   );
 }
 
-function render({ file, form, setForm, input, setCanSaveItem }) {
-  useEffect(() => {
-    setCanSaveItem(!!file);
-  }, [file]);
+function Content({ file, form, setForm, input, setCanSaveItem }) {
+  useEffect(() => setCanSaveItem(!!file), [file, setCanSaveItem]);
 
   return (
     <>

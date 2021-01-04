@@ -61,6 +61,7 @@ function ApiItemViewResultPresenter(props) {
     parentPath,
     parentViewName,
     render,
+    Content,
     enrichForm,
     saveLabel,
     deleteLabel,
@@ -100,7 +101,7 @@ function ApiItemViewResultPresenter(props) {
       <div>
         <Header parentPath={parentPath} parentViewName={parentViewName} />
         <MessageWrapper message={message} />
-        {render(renderProps)}
+        {render ? render(renderProps) : <Content {...renderProps} />}
       </div>
 
       {!hideFooter && (

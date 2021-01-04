@@ -1,10 +1,7 @@
 import rpt from 'prop-types';
 import React from 'react';
 
-import {
-  childrenArgsAsPropTypes,
-  useSameObjectInstanceWhenDeepEquals
-} from 'in-new-components/AnalyzeView/StateManagement';
+import { childrenArgsAsPropTypes } from 'in-new-components/AnalyzeView/StateManagement';
 import SortingConfigurator from 'in-new-components/SortingConfigurator/SortingConfigurator';
 import LoadingList from 'in-new-components/lists/List/sharedComponents/LoadingList';
 import ErrorList from 'in-new-components/lists/List/sharedComponents/ErrorList';
@@ -12,12 +9,13 @@ import LoadMoreLi from 'in-new-components/lists/List/LoadMoreLi/LoadMoreLi';
 import { ColumnizedContent, Ul, Li } from 'in-new-components/lists/List';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import Header from 'in-new-components/QueryBuilder/components/Header';
+import useStableObjectIntance from 'in-hooks/useStableObjectIntance';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import { generateStableHash } from 'in-services/util/id';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 
 export default function UngroupedAnalyzeView(props) {
-  const backendQueryModel = useSameObjectInstanceWhenDeepEquals(props.backendQueryModel);
+  const backendQueryModel = useStableObjectIntance(props.backendQueryModel);
 
   const {
     getData,

@@ -2,13 +2,14 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { isEqual } from 'lodash';
 
+import { generateStableHash } from 'in-services/util/id';
 import { TimeConfigContext } from 'in-stores/time/TimeConfigContext';
 import { emptyArray } from 'in-services/fixedObjects';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 
 export default function LocalTimeConfigContextModification({ children, modification, valuesToWatch }) {
   const globalTimeConfig = useTimeConfig();
-  const [state, setState] = useState(modification(globalTimeConfig));
+  const [state, setState] = useState(() => modification(globalTimeConfig));
 
   useEffect(() => {
     const change = modification(globalTimeConfig);
@@ -18,7 +19,8 @@ export default function LocalTimeConfigContextModification({ children, modificat
       }
       return change;
     });
-  }, [...Object.values(globalTimeConfig), modification, ...(valuesToWatch || emptyArray)]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [generateStableHash(globalTimeConfig), modification, ...(valuesToWatch || emptyArray)]);
 
   return <TimeConfigContext.Provider value={state}>{children}</TimeConfigContext.Provider>;
 }

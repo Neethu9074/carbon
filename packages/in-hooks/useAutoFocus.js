@@ -6,6 +6,8 @@ export default function useAutoFocus({ fieldsToWatch = emptyArray } = emptyObjec
   const refContainer = useRef(null);
   useEffect(() => {
     refContainer.current?.focus();
+    // Static analysis is not possible here, because fieldsToWatch is user configurable
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, fieldsToWatch);
   return refContainer;
 }

@@ -26,6 +26,8 @@ export default function StackPresenter({
   plugin
 }) {
   useDisabledBodyScroll();
+  // Mixpanel tracking should deliberately only happen when isLoading changes
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => trackLoading(isLoading, { dashboard: plugin || productArea }), [isLoading]);
 
   if (isLoading) {

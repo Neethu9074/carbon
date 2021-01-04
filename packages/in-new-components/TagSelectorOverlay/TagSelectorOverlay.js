@@ -12,7 +12,10 @@ import Pill from 'in-new-components/Pill';
 import locals from './TagSelectorOverlay.mless';
 
 export default function TagSelectorOverlay({ tagCatalog, onChange, close, showTypeBadge }) {
-  const options = useMemo(() => toOptions(tagCatalog, tagCatalog.tagTree, [], showTypeBadge), [tagCatalog]);
+  const options = useMemo(() => toOptions(tagCatalog, tagCatalog.tagTree, [], showTypeBadge), [
+    showTypeBadge,
+    tagCatalog
+  ]);
 
   useDisabledBodyScroll();
 

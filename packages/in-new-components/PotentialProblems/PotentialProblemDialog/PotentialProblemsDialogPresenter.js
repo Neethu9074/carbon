@@ -79,6 +79,8 @@ function useTrackItemSelect(threshold, alerts, rule) {
       metricName: threshold.metricName,
       numberOfProblems: alerts.length
     });
+    // Deliberately executing Mixpanel tracking on these prop changes
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [alert, rule, threshold]);
 }
 

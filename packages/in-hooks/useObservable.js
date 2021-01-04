@@ -100,6 +100,7 @@ export default function useObservable(
       disposing = true;
       subscription.dispose();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, fieldsToWatch);
 
   // Return the initial state value on observable change immediately to ensure consistent views.

@@ -11,9 +11,9 @@ import { NOT_APPLICABLE } from 'in-new-components/QueryBuilder/tagFilter/entitie
 import { createParameters } from 'in-new-components/AnalyzeView/parameters';
 import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import { emptyObject, pendingResult } from 'in-services/fixedObjects';
+import useStableObjectIntance from 'in-hooks/useStableObjectIntance';
 import { getTagCatalogOnce } from 'in-services/tags/tagCatalog';
 import { aggregationLabels } from 'in-stores/metric/metric';
-import { generateStableHash } from 'in-services/util/id';
 import { isNotBlank } from 'in-services/util/string';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import useObservable from 'in-hooks/useObservable';
@@ -85,10 +85,10 @@ function AnalyzeStateManagement({
   const timeConfig = useTimeConfig();
   const [urlState, onChange, getChangeAsUrl] = useUrlState(urlStateDefinition);
 
-  const tagFilterExpression = useSameObjectInstanceWhenDeepEquals(urlState.tagFilterExpression);
-  const groupBy = useSameObjectInstanceWhenDeepEquals(urlState.groupBy);
-  const detailId = useSameObjectInstanceWhenDeepEquals(urlState.detailId);
-  const metrics = useSameObjectInstanceWhenDeepEquals(urlState.metrics);
+  const tagFilterExpression = useStableObjectIntance(urlState.tagFilterExpression);
+  const groupBy = useStableObjectIntance(urlState.groupBy);
+  const detailId = useStableObjectIntance(urlState.detailId);
+  const metrics = useStableObjectIntance(urlState.metrics);
   const dataSource = urlState.dataSource ?? defaultDataSource;
 
   const filteringTagCatalogResult =
@@ -131,7 +131,7 @@ function AnalyzeStateManagement({
     tagFilterExpression
   ]);
 
-  const orderBy = useSameObjectInstanceWhenDeepEquals({
+  const orderBy = useStableObjectIntance({
     by: urlState.orderBy?.by ?? defaultOrderBy,
     direction: urlState.orderBy?.direction ?? defaultOrderDirection
   });
@@ -255,10 +255,4 @@ export function addGroupingCriteriaToTagFilterExpression(groupBy, groupValue, ta
   }
   changedTagFilterExpression.push(newTagFilter);
   return changedTagFilterExpression;
-}
-
-export function useSameObjectInstanceWhenDeepEquals(obj) {
-  const hash = generateStableHash(obj);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  return useMemo(() => obj, [hash]);
 }
