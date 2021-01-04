@@ -14,24 +14,24 @@ import { pendingResult } from 'in-services/fixedObjects';
 import useObservable from 'in-hooks/useObservable';
 
 export default function WidgetEditorDialog({ widget, onSubmit }) {
-  const [isMigrating, setMigrating] = useState(Boolean(widgets[widget?.type]?.migrate));
-  const [form, setForm] = useState(() => (isMigrating ? null : getInitialFormState()));
-  const [slideInView, setSlideInView] = useState(null);
-  const [showWidgetSelector, setShowWidgetSelector] = useState(true);
+  const [state, setState] = useState(() => getInitialState(widget));
+  const { isMigrating, form, slideInView, showWidgetSelector } = state;
 
   const migrationResult =
     useObservable(() => isMigrating && widgets[widget.type].migrate(widget.config), [widget]) ?? pendingResult;
   useEffect(() => {
-    if (migrationResult?.data) {
+    if (migrationResult?.data && state.isMigrating) {
       const form = getInitialFormState({
         ...widget,
         config: migrationResult.data
       });
-      setForm(form);
-      setShowWidgetSelector(widget == null || !form.get('type').valid);
-      setMigrating(false);
+      setState({
+        ...state,
+        form,
+        isMigrating: false
+      });
     }
-  }, [migrationResult, widget]);
+  }, [state, migrationResult, widget]);
 
   return (
     <WidgetEditorDialogPresenter
@@ -75,6 +75,48 @@ export default function WidgetEditorDialog({ widget, onSubmit }) {
       setSlideInView={setSlideInView}
     />
   );
+
+  function setShowWidgetSelector(showWidgetSelector) {
+    setState({
+      ...state,
+      showWidgetSelector
+    });
+  }
+
+  function setForm(form) {
+    setState({
+      ...state,
+      form
+    });
+  }
+
+  function setSlideInView(slideInView) {
+    setState({
+      ...state,
+      slideInView
+    });
+  }
+}
+
+export function getInitialState(widget) {
+  const state = {
+    isMigrating: false,
+    form: null,
+    slideInView: null,
+    showWidgetSelector: false
+  };
+
+  if (widget) {
+    state.isMigrating = Boolean(widgets[widget?.type]?.migrate);
+    if (!state.isMigrating) {
+      state.form = getInitialFormState(widget);
+    }
+  } else {
+    state.form = getInitialFormState();
+    state.showWidgetSelector = true;
+  }
+
+  return state;
 }
 
 export function getInitialFormState(widget) {
