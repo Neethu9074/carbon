@@ -5,9 +5,6 @@ import {
   teamSettingsAccessControlUsers,
   teamSettingsAccessControlUserEdit,
   teamSettingsAccessControlInvites,
-  teamSettingsAccessControlRoles,
-  teamSettingsAccessControlRoleEdit,
-  teamSettingsAccessControlRoleNew,
   teamSettingsAccessControlGroups,
   teamSettingsAccessControlGroupEdit,
   teamSettingsAccessControlGroupNew,
@@ -57,14 +54,11 @@ import GroupsPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Groups
 import GroupPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Groups/Group';
 import HumioPage from 'in-settings/tabs/TeamSettings/pages/logManagement/Humio/Humio';
 import UsersPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/Users';
-import RolesPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Roles/Roles';
-import RolePage from 'in-settings/tabs/TeamSettings/pages/accessControl/Roles/Role';
 import UserPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/User';
 import ElkPage from 'in-settings/tabs/TeamSettings/pages/logManagement/Elk/Elk';
 import AuditLogPage from 'in-settings/tabs/TeamSettings/pages/audit/AuditLog';
 import { findFirstPermittedTeamPage } from 'in-settings/tabs/permissions';
 import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
-import { groupPermissionsEnabled } from 'in-services/featureFlags';
 import NotFoundPage from 'in-settings/tabs/pages/NotFound';
 import SetBodyColor from 'in-components/SetBodyColor';
 import { role } from 'in-stores/user';
@@ -72,7 +66,7 @@ import { role } from 'in-stores/user';
 function navigationTreeForRole(role) {
   const navigationTree = [];
 
-  if (role.canConfigureUsers || role.canConfigureRoles || role.canConfigureTeams || role.canConfigureApiTokens) {
+  if (role.canConfigureUsers || role.canConfigureTeams || role.canConfigureApiTokens) {
     const accessControlPages = [];
 
     if (role.canConfigureUsers) {
@@ -91,24 +85,6 @@ function navigationTreeForRole(role) {
         path: teamSettingsAccessControlInvites,
         label: 'Pending Invitations',
         component: InvitesPage
-      });
-    }
-
-    if (!groupPermissionsEnabled && role.canConfigureRoles) {
-      accessControlPages.push({
-        path: teamSettingsAccessControlRoles,
-        label: 'Roles',
-        component: RolesPage,
-        subPages: [
-          {
-            path: teamSettingsAccessControlRoleNew,
-            component: RolePage
-          },
-          {
-            path: teamSettingsAccessControlRoleEdit,
-            component: RolePage
-          }
-        ]
       });
     }
 

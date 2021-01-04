@@ -17,7 +17,7 @@ const KeyValue = forwardRef(function KeyValue(
   ref
 ) {
   const k = <Key label={label} />;
-  const v = <Value value={customValue || value} theme={theme} accentuated={accentuated} />;
+  const v = <Value value={customValue ?? value} theme={theme} accentuated={accentuated} />;
 
   return (
     <div

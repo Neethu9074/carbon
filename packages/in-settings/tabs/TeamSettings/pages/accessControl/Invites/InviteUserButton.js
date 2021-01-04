@@ -22,7 +22,7 @@ export default function InviteUserButton({ setMessage, reload }) {
               onDoInviteUser(
                 setMessage,
                 invitations.map(i => i.email),
-                invitations.map(i => i.roleId),
+                invitations.map(i => i.groupId),
                 reload
               )
             }
@@ -36,10 +36,10 @@ export default function InviteUserButton({ setMessage, reload }) {
   );
 }
 
-function onDoInviteUser(setMessage, emails, roleIds, reload) {
+function onDoInviteUser(setMessage, emails, groupId, reload) {
   close();
   setMessage({ text: 'Sending invitation…', type: success });
-  const invitationResult$ = sendInvitation(emails, roleIds);
+  const invitationResult$ = sendInvitation(emails, groupId);
   invitationResult$.once(() => {
     setMessage({ text: 'Invitation successfully sent.', type: success });
     if (reload) {

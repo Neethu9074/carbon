@@ -3,12 +3,9 @@ import React from 'react';
 import { getUsersAsResultObservable, removeUserFromTenant } from 'in-api/users';
 import Delete from 'in-settings/components/ApiList/sharedComponents/Delete';
 import { ColumnizedContent, Ul, Li } from 'in-new-components/lists/List';
-import { groupPermissionsEnabled } from 'in-services/featureFlags';
 import createApiList from 'in-settings/components/ApiList';
-import { getRolesAsResultObservable } from 'in-api/roles';
 import KeyValue from 'in-new-components/lists/KeyValue';
 import Gravatar from 'in-components/Gravatar';
-import connectTo from 'in-hoc/connectTo';
 
 const UsersList = createApiList({
   getItems: getUsersAsResultObservable,
@@ -19,9 +16,9 @@ const UsersList = createApiList({
   boundedPath: '/users'
 });
 
-export default connectTo({ rolesResult: getRolesAsResultObservable() }, function Users(props) {
+export default function Users(props) {
   return <UsersList {...props} ListRenderer={DefaultListRenderer} />;
-});
+}
 
 export const iconColumn = {
   width: '3rem',
@@ -33,20 +30,6 @@ export const iconColumn = {
 export const labelColumn = {
   getContent({ user, email }) {
     return <KeyValue value={user?.fullName || 'User does not exist'} label={email} inverted accentuated />;
-  }
-};
-
-export const roleColumn = {
-  width: '20rem',
-  getContent({ user, rolesResult }) {
-    if (groupPermissionsEnabled || !user) {
-      return null;
-    }
-    const userRole = (rolesResult.data || []).filter(role => role.id === user.roleId)[0];
-    if (!userRole) {
-      return null;
-    }
-    return <KeyValue value={userRole.name} label="Role" accentuated />;
   }
 };
 
@@ -66,13 +49,10 @@ export const deleteColumn = {
   }
 };
 
-const defaultColumnDefinitions = groupPermissionsEnabled
-  ? [iconColumn, labelColumn, deleteColumn]
-  : [iconColumn, labelColumn, roleColumn, deleteColumn];
+const defaultColumnDefinitions = [iconColumn, labelColumn, deleteColumn];
 
 function DefaultListRenderer({
   items,
-  rolesResult,
   deleteItem,
   currentDeletingItemIds,
   columnDefinitions = defaultColumnDefinitions,
@@ -94,7 +74,6 @@ function DefaultListRenderer({
               user={user}
               email={user.email}
               deleteItem={deleteItem}
-              rolesResult={rolesResult}
               currentDeletingItemIds={currentDeletingItemIds}
             />
           </Li>
