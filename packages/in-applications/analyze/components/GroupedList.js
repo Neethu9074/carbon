@@ -491,14 +491,16 @@ function groupingFilter({ groupBy, group, operator = EQUALS, groupByTagType }, t
       type: TAG_FILTER_TYPE,
       operator: IS_EMPTY,
       name: groupBy.groupbyTag,
-      key: groupBy.groupbyTagSecondLevelKey
+      key: groupBy.groupbyTagSecondLevelKey,
+      entity: groupBy.groupbyTagEntity
     };
   } else if (group === NO_VALUE) {
     groupFilter = {
       type: TAG_FILTER_TYPE,
       operator: IS_BLANK,
       name: groupBy.groupbyTag,
-      key: groupBy.groupbyTagSecondLevelKey
+      key: groupBy.groupbyTagSecondLevelKey,
+      entity: groupBy.groupbyTagEntity
     };
   } else if (groupByTagType === KEY_VALUE_PAIR && !groupBy.groupbyTagSecondLevelKey) {
     // when grouping by key_value_pair tags without second level key (e.g. call.http.header),
@@ -507,7 +509,8 @@ function groupingFilter({ groupBy, group, operator = EQUALS, groupByTagType }, t
       type: TAG_FILTER_TYPE,
       operator: NOT_EMPTY,
       name: groupBy.groupbyTag,
-      key: group
+      key: group,
+      entity: groupBy.groupbyTagEntity
     };
   } else {
     groupFilter = {
@@ -515,7 +518,8 @@ function groupingFilter({ groupBy, group, operator = EQUALS, groupByTagType }, t
       operator: operator,
       name: groupBy.groupbyTag,
       key: groupBy.groupbyTagSecondLevelKey,
-      value: operator === EQUALS ? (groupByTagType === NUMBER ? Number(group) : group) : undefined
+      value: operator === EQUALS ? (groupByTagType === NUMBER ? Number(group) : group) : undefined,
+      entity: groupBy.groupbyTagEntity
     };
   }
   return addTagFilters(tagFilterExpression, [groupFilter]);
