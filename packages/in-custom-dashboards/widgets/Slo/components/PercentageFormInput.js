@@ -12,10 +12,10 @@ export default function PercentageFormInput({ id, form, fieldName, onChange }) {
       type="number"
       onChange={e => {
         let newValue = undefined;
-                if (e.target.value !== '' && !isNaN(e.target.valueAsNumber)) {
-                  newValue = parseFloat((e.target.valueAsNumber / 100).toPrecision(6));
-                }
-                onChange([fieldName], field => field.setValue(newValue).setTouched(true));
+        if (e.target.value !== '' && !isNaN(e.target.valueAsNumber)) {
+          newValue = parseFloat((e.target.valueAsNumber / 100).toPrecision(6));
+        }
+        onChange([fieldName], field => field.setValue(newValue).setTouched(true));
       }}
       hasError={!field?.valid && field?.touched}
       min={0}

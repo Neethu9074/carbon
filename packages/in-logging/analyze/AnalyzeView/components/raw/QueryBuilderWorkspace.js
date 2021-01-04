@@ -23,9 +23,7 @@ export default function LoggingQueryBuilderWorkspace(props) {
             onChange={onTagFilterExpressionChange}
             QueryBuilder={LogsQueryBuilder}
             tracking={tracking}
-            actions={(
-              <TagSelector {...props} compact maxSelectableTags={3} />
-            )}
+            actions={<TagSelector {...props} compact maxSelectableTags={3} />}
           />
         </Sections>
         {isInvalid && (

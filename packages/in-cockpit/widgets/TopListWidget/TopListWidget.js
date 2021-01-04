@@ -3,10 +3,10 @@ import rpt from 'prop-types';
 import React from 'react';
 
 import EntityPageMainNotification from 'in-new-components/EntityPageMainNotification/EntityPageMainNotification';
-import DraggableLightCard from 'in-custom-dashboards/widgets/TopListWidget/DraggableLightCard';
-import StarredItemList from 'in-custom-dashboards/widgets/TopListWidget/StarredItemList';
-import ItemList from 'in-custom-dashboards/widgets/TopListWidget/ItemList';
-import Star from 'in-custom-dashboards/widgets/TopListWidget/Star';
+import DraggableLightCard from 'in-cockpit/widgets/TopListWidget/DraggableLightCard';
+import StarredItemList from 'in-cockpit/widgets/TopListWidget/StarredItemList';
+import ItemList from 'in-cockpit/widgets/TopListWidget/ItemList';
+import Star from 'in-cockpit/widgets/TopListWidget/Star';
 import SearchInput from 'in-new-components/SearchInput';
 import { starredItems$ } from 'in-stores/starredItems';
 import { timeConfig$ } from 'in-stores/time/config';
@@ -67,7 +67,8 @@ function TopListWidget(props) {
     resultForEmptyStateCheck,
     getItemLink,
     pinItem,
-    unpinItem
+    unpinItem,
+    dragAndDropConfig
   } = props;
   let { label, result } = props;
 
@@ -100,6 +101,7 @@ function TopListWidget(props) {
       icon={cardIcon}
       fullListViewLinkTitle={hasContent && fullListViewLinkTitle}
       fullListView$={hasContent && fullListView$}
+      dragAndDropConfig={dragAndDropConfig}
       useMaxAvailableHeight
       rightHeaderContent={
         <>

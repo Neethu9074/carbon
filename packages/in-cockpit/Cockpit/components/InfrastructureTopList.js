@@ -2,9 +2,9 @@ import { combineLatest, just } from '@instana/observables';
 import React, { useState } from 'react';
 
 import { host as hostType, container as containerType, process as processType } from 'in-stores/starredItems/types';
-import columnDefinitions from 'in-custom-dashboards/widgets/InfrastructureTopList/columnDefinitions';
-import TopListWidget, { getFlattenedIds } from 'in-custom-dashboards/widgets/TopListWidget';
 import { entityTypeToFullyQualifiedPlugin } from 'in-infrastructure/tableView/stores/snapshotIds';
+import columnDefinitions from 'in-cockpit/widgets/InfrastructureTopList/columnDefinitions';
+import TopListWidget, { getFlattenedIds } from 'in-cockpit/widgets/TopListWidget';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { physicalTablePath } from 'in-stores/navigation/paths/mainPaths';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';

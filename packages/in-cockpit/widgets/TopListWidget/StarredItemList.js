@@ -1,7 +1,7 @@
 import React from 'react';
 
-import WithStarredItems from 'in-custom-dashboards/widgets/TopListWidget/WithStarredItems';
 import { getUniqueErrors } from 'in-new-components/Errors/ErroneousResultPresenter';
+import WithStarredItems from 'in-cockpit/widgets/TopListWidget/WithStarredItems';
 import { ColumnizedContent, Ul, Li } from 'in-new-components/lists/List';
 import { hasError, isLoading } from 'in-services/util/result';
 import Skeleton from 'in-new-components/Loading/Skeleton';

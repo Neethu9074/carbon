@@ -16,13 +16,19 @@ export default function DraggableLightCard(props) {
       className={isHovering ? locals.cardWithStrongShadow : undefined}
       headerClassName={locals.header}
       bodyClassName={locals.content}
+      rightHeaderContent={
+        <>
+          {props.rightHeaderContent}
+          <div className={locals.dragHandleIcon} {...props.dragAndDropConfig}>
+            <SvgIcon
+              type="lib_actions_reorder"
+              onMouseEnter={() => setIsHovering(true)}
+              onMouseLeave={() => setIsHovering(false)}
+            />
+          </div>
+        </>
+      }
     >
-      <SvgIcon
-        className={locals.dragHandleIcon}
-        type="lib_actions_reorder"
-        onMouseEnter={() => setIsHovering(true)}
-        onMouseLeave={() => setIsHovering(false)}
-      />
       {props.children}
 
       {props.fullListViewLinkTitle && props.fullListView$ ? (

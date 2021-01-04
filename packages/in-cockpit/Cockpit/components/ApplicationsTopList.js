@@ -5,35 +5,52 @@ import React from 'react';
 
 import WithApplicationHealthIndicationBehaviour from 'in-components/health/WithHealthIndication/WithApplicationHealthIndicationBehaviour';
 import ApplicationsNoDataNotification from 'in-applications/lists/components/ApplicationsNoDataNotification';
+import CreateApplicationDialog from 'in-applications/creation/Dialog/CreateApplicationDialog';
+import { getNewApplicationWaiterViewPath } from 'in-applications/creation/CreateApplication';
+import { createNewApplicationConfig, getApplicationConfig } from 'in-api/applicationConfigs';
 import { getApplicationsWithDefaults } from 'in-subscription/application/getApplications';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import { applicationCreationOpenDialogClick } from 'in-applications/creation/tracker';
 import { number, meanLatencyFixed, percentage } from 'in-services/formatters/number';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import { application as applicationType } from 'in-stores/starredItems/types';
+import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { getApplicationDashboard } from 'in-applications/navigation/paths';
 import getApplication from 'in-subscription/application/getApplication';
-import TopListWidget from 'in-custom-dashboards/widgets/TopListWidget';
 import HealthDot from 'in-new-components/health/HealthDot/HealthDot';
 import { applicationsList } from 'in-applications/navigation/paths';
 import getMetrics from 'in-subscription/application/getMetrics';
 import { hasError, isLoading } from 'in-services/util/result';
+import TopListWidget from 'in-cockpit/widgets/TopListWidget';
+import { successObservable } from 'in-services/util/result';
 import { boundaryScopes } from 'in-applications/constants';
 import { getView } from 'in-stores/navigation/navigation';
 import KeyValue from 'in-new-components/lists/KeyValue';
+import { getTimeConfig } from 'in-stores/time/config';
 import { add, remove } from 'in-stores/starredItems';
+import useObservable from 'in-hooks/useObservable';
 import Button from 'in-new-components/Button';
 import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
 import { role } from 'in-stores/user';
 
-export default function ApplicationsTopList({ config, setApDialogOpen }) {
+export default function ApplicationsTopList({ applicationId, config }) {
+  const entityResult = useObservable(getConfig, [applicationId]);
+
   const header = role.canConfigureApplications && (
     <Button
       kind="action"
       icon="lib_openclose_add_circle_outline"
       onClick={() => {
-        setApDialogOpen(true);
+        addActiveDialog(
+          <CreateApplicationDialog
+            timeConfig={getTimeConfig({ pathname: '/applications', query: {} })}
+            formData={entityResult.data}
+            onClose={close}
+            getOnSavePath={app => getNewApplicationWaiterViewPath(app)}
+            editMode
+          />
+        );
         applicationCreationOpenDialogClick({ status: 'Open Creation Dialog' });
       }}
     >
@@ -44,6 +61,7 @@ export default function ApplicationsTopList({ config, setApDialogOpen }) {
   return (
     <TopListWidget
       {...config}
+      fullListViewLinkTitle="All Applications"
       header={header}
       getItem={getItem}
       pinnedItemTypes={[applicationType]}
@@ -58,7 +76,6 @@ export default function ApplicationsTopList({ config, setApDialogOpen }) {
       unpinItem={(id, type) => remove({ id, type })}
       columnDefinitions={columnDefinitions}
       getItems={getApplicationsWithDefaults}
-      fullListViewLinkTitle="All Applications"
       fullListView$={getView(applicationsList)}
       EmptyStateComponent={ApplicationsNoDataNotification}
       getItemLink={item => getApplicationDashboard(item.application.id)}
@@ -237,3 +254,7 @@ const columnDefinitions = [
     }
   }
 ];
+
+function getConfig([applicationId]) {
+  return applicationId ? getApplicationConfig(applicationId) : successObservable(createNewApplicationConfig());
+}

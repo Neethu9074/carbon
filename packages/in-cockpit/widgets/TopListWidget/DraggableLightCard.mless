@@ -17,11 +17,8 @@
   }
 
   .dragHandleIcon {
-    position: absolute;
-    top: 0.25rem;
-    left: ~'calc(50% - 0.75rem)';
-
     cursor: grab;
+    margin-left: 0.5rem;
 
     fill: @lib__colors__N300;
     &:hover {
