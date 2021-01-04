@@ -3,11 +3,10 @@ import { create } from '@instana/observables';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createObservable from 'in-services/http/observableHttpResult';
 import memoize from 'in-services/util/memoizingObservableGenerator';
-import { createPermissionSet } from 'in-api/permissionSets';
 import http from 'in-services/http';
 
 const refreshSignalTeams = create().emit(true);
-function refresh() {
+export function refresh() {
   refreshSignalTeams.emit(true);
 }
 
@@ -33,7 +32,54 @@ function getGroupAsResultObservableInternal(groupId) {
       http({
         method: 'GET',
         maxRetries: 3,
-        url: `/api/settings/group/${groupId}`
+        url: `/api/settings/groups/${groupId}`
+      })
+    )
+  );
+}
+
+export const getGroupsOfASingleUser = memoize(getGroupsOfASingleUserInternal, email => email, 60000);
+function getGroupsOfASingleUserInternal(email) {
+  return refreshSignalTeams.flatMap(() =>
+    createObservable(
+      http({
+        method: 'GET',
+        maxRetries: 3,
+        url: `/api/settings/groups/user/${email}`
+      })
+    )
+  );
+}
+
+export const getStrippedGroupsAsResultObservable = memoize(
+  getStrippedGroupsAsResultObservableInternal,
+  () => '',
+  60000
+);
+function getStrippedGroupsAsResultObservableInternal() {
+  return refreshSignalTeams.flatMap(() =>
+    createObservable(
+      http({
+        method: 'GET',
+        maxRetries: 3,
+        url: `/api/settings/groups/stripped`
+      })
+    )
+  );
+}
+
+export const getStrippedGroupAsResultObservable = memoize(
+  getStrippedGroupAsResultObservableInternal,
+  groupId => groupId,
+  60000
+);
+function getStrippedGroupAsResultObservableInternal(groupId) {
+  return refreshSignalTeams.flatMap(() =>
+    createObservable(
+      http({
+        method: 'GET',
+        maxRetries: 3,
+        url: `/api/settings/groups/stripped/${groupId}`
       })
     )
   );
@@ -46,7 +92,7 @@ export function saveGroup(group) {
     method: group.id ? 'PUT' : 'POST',
     maxRetries: 3,
     headers: getCsrfHeader(),
-    url: group.id ? `/api/settings/group/${group.id}` : '/api/settings/group',
+    url: group.id ? `/api/settings/groups/${group.id}` : '/api/settings/groups',
     data: group
   }).map(mapAndRefresh);
 }
@@ -66,7 +112,7 @@ export function deleteGroup(id) {
     method: 'DELETE',
     maxRetries: 3,
     headers: getCsrfHeader(),
-    url: `/api/settings/group/${id}`
+    url: `/api/settings/groups/${id}`
   }).map(mapAndRefresh);
 }
 
@@ -81,5 +127,19 @@ export function createNewGroup() {
     name: 'New Group',
     members: [],
     permissionSet: createPermissionSet()
+  };
+}
+
+function createPermissionSet() {
+  return {
+    id: null,
+    name: 'system_permission_set',
+    permissions: [],
+    applicationIds: [],
+    kubernetesClusterUUIDs: [],
+    kubernetesNamespaceUIDs: [],
+    websiteIds: [],
+    mobileAppIds: [],
+    infraDfqFilter: ''
   };
 }

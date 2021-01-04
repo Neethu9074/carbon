@@ -3,7 +3,6 @@ export default {
   canConfigureEumApplications: 'Website monitoring configuration',
   canConfigureMobileAppMonitoring: 'Mobile app monitoring Configuration',
   canConfigureUsers: 'User management',
-  canConfigureRoles: 'Access role configuration',
   canConfigureTeams: 'Access group configuration',
   canInstallNewAgents: 'Agent download and agent key visibility',
   canSeeUsageInformation: 'Access to license usage',

@@ -63,21 +63,6 @@ export function getInvitations() {
   }).map(response => response.body);
 }
 
-export function setRole(userId, roleId) {
-  return http({
-    method: 'PUT',
-    maxRetries: 3,
-    url: `/api/settings/users/${encodeURIComponent(userId)}/role`,
-    headers: getCsrfHeader(),
-    queryParams: {
-      roleId
-    }
-  }).map(v => {
-    refreshSignalUsers.emit(userId);
-    return v;
-  });
-}
-
 export function getPermissions(userId) {
   return createObservable(
     http({
@@ -100,15 +85,15 @@ export function removeUserFromTenant(userId) {
   });
 }
 
-// it is possible to either pass a string for emails and roleIds or pass an array for each of them
-export function sendInvitation(emails, roleIds) {
+// it is possible to either pass a string for email and groupId or pass an array for each of them
+export function sendInvitation(emails, groupIds) {
   return http({
     method: 'POST',
     url: `/api/settings/users/invitations`,
     headers: getCsrfHeader(),
     queryParams: {
       email: emails,
-      roleId: roleIds
+      roleId: groupIds
     }
   }).map(v => {
     refreshSignalInvitations.emit(emails);

@@ -2,12 +2,11 @@ import { createField, notBlankValidator, createMapForm, createListForm } from 'f
 import rpt from 'prop-types';
 import React from 'react';
 
-import { groupPermissionsEnabled } from 'in-services/featureFlags';
+import { getStrippedGroupsAsResultObservable } from 'in-settings/tabs/TeamSettings/api/groups';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { defaultRoleId, fallbackRoleId } from 'in-stores/user';
 import { submitInviteUserTracker } from 'in-settings/tracker';
 import { close } from 'in-components/DialogPresenter/store';
-import { combineDataAndError } from 'in-services/util/ro';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import FormGroup from 'in-settings/components/FormGroup';
 import Dialog from 'in-new-components/Dialog/Dialog';
@@ -18,20 +17,19 @@ import Input from 'in-components/form/Input';
 import SvgIcon from 'in-components/SvgIcon';
 import { config } from 'in-services/config';
 import connectTo from 'in-hoc/connectTo';
-import { getRoles } from 'in-api/roles';
 
 import locals from './InviteUserDialog.mless';
 
 export default connectTo(
   {
-    roles: combineDataAndError(getRoles())
+    groups: getStrippedGroupsAsResultObservable()
   },
   class InviteUserDialog extends React.Component {
     static displayName = 'UserInvitatonDialog';
 
     static propTypes = {
       onSubmit: rpt.func.isRequired,
-      roles: rpt.object
+      groups: rpt.object
     };
 
     state = {
@@ -53,25 +51,27 @@ export default connectTo(
     };
 
     render() {
-      if (!this.props.roles) {
+      if (!this.props.groups) {
         // skip inital rendering, but render when the data has been loaded
         return null;
       }
 
       const { form } = this.state;
-      let sortedRoles;
-      if (this.props.roles.data) {
-        sortedRoles = this.props.roles.data
-          .toArray()
-          .filter(role => role.get('id') !== fallbackRoleId)
-          .sort((a, b) => a.get('name').localeCompare(b.get('name')));
+      let sortedGroups;
+
+      if (this.props.groups.data) {
+        sortedGroups = this.props.groups.data
+          .filter(group => group.id !== fallbackRoleId)
+          .map(group => {
+            return { id: group.id, name: group.name };
+          });
       }
 
-      const canSelectRole = sortedRoles !== undefined && sortedRoles.length !== 0;
+      const canSelectGroup = sortedGroups !== undefined && sortedGroups.length !== 0;
 
       return (
         <Dialog className={locals.dialog} title={`Invite user to ${config.tenant}`} onClose={close}>
-          <form onSubmit={this.onSubmit(canSelectRole)}>
+          <form onSubmit={this.onSubmit(canSelectGroup)}>
             {form.map((invite, i) => (
               <Row className={locals.row} key={i}>
                 <Col xs={7}>
@@ -95,22 +95,22 @@ export default connectTo(
                   })}
                 </Col>
                 <Col xs={4}>
-                  {canSelectRole &&
-                    invite.get('roleId').map(field => (
+                  {canSelectGroup &&
+                    invite.get('groupId').map(field => (
                       <FormGroup>
                         <Label htmlFor={`invitation-role_${i}`} hasError={!field.valid && field.touched}>
-                          {groupPermissionsEnabled ? 'Group' : 'Role'}
+                          Group
                         </Label>
                         <Select
-                          id={`invitation-role_${i}`}
+                          id={`invitation-group_${i}`}
                           value={field.value}
-                          onChange={e => this.onChange([i, 'roleId'], e.target.value)}
+                          onChange={e => this.onChange([i, 'groupId'], e.target.value)}
                           hasError={!field.valid && field.touched}
                         >
-                          {sortedRoles &&
-                            sortedRoles.map(role => (
-                              <option value={role.get('id')} key={`invitation-role_${role.get('id')}`}>
-                                {role.get('name')}
+                          {sortedGroups &&
+                            sortedGroups.map(group => (
+                              <option value={group.id} key={`invitation-group_${group.id}`}>
+                                {group.name}
                               </option>
                             ))}
                         </Select>
@@ -164,10 +164,8 @@ export default connectTo(
       });
     };
 
-    onSubmit = canSelectRole => {
-      const {
-        roles: { data: userRoles }
-      } = this.props;
+    onSubmit = canSelectGroup => {
+      const { groups } = this.props;
 
       return event => {
         event.preventDefault();
@@ -180,17 +178,17 @@ export default connectTo(
         }
 
         // use default role when user is not allowed to choose a role
-        let roleId;
+        let groupId;
 
         this.state.form.items.forEach(invite => {
-          if (canSelectRole) {
-            roleId = invite.get('roleId').value;
-            const role = userRoles.length ? userRoles.find(role => role.get('id') === roleId) : null;
-            const roleName = role && role.get('name') ? role.get('name') : 'default';
-            submitInviteUserTracker({ role: roleName });
+          if (canSelectGroup) {
+            groupId = invite.get('groupId').value;
+            const group = groups.length ? groups.find(group => group.id === groupId) : null;
+            const groupName = group && group.name ? group.name : 'default';
+            submitInviteUserTracker({ group: groupName });
           } else {
-            roleId = defaultRoleId;
-            submitInviteUserTracker({ role: 'default' });
+            groupId = defaultRoleId;
+            submitInviteUserTracker({ group: 'default' });
           }
         });
 
@@ -203,7 +201,7 @@ export default connectTo(
 function emptyInvite() {
   return createMapForm()
     .put(
-      'roleId',
+      'groupId',
       createField({
         value: defaultRoleId,
         validator: notBlankValidator

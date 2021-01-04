@@ -9,7 +9,6 @@ export function addPermissionFields(form, role) {
     .put('canSeeUsageInformation', createField({ value: getInitialValue('canSeeUsageInformation') }))
     .put('canConfigureIntegrations', createField({ value: getInitialValue('canConfigureIntegrations') }))
     .put('canSeeOnPremLicenseInformation', createField({ value: getInitialValue('canSeeOnPremLicenseInformation') }))
-    .put('canConfigureRoles', createField({ value: getInitialValue('canConfigureRoles') }))
     .put('canConfigureTeams', createField({ value: getInitialValue('canConfigureTeams') }))
     .put('canConfigureCustomAlerts', createField({ value: getInitialValue('canConfigureCustomAlerts') }))
     .put('canConfigureApiTokens', createField({ value: getInitialValue('canConfigureApiTokens') }))

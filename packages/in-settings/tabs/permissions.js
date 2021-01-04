@@ -1,18 +1,18 @@
 import {
   teamSettingsAccessControlUsers,
-  teamSettingsAccessControlRoles,
   teamSettingsAccessControlApiTokens,
   teamSettingsAlertingEvents,
   teamSettingsAlertingAlertChannels,
   teamSettingsAuditLog,
-  teamSettingsLogManagementHumio
+  teamSettingsLogManagementHumio,
+  teamSettingsAccessControlGroups
 } from 'in-settings/navigation/paths';
 import { role } from 'in-stores/user';
 
 export function roleHasAnyTeamPermissions() {
   return (
     role.canConfigureUsers ||
-    role.canConfigureRoles ||
+    role.canConfigureTeams ||
     role.canConfigureApiTokens ||
     role.canConfigureCustomAlerts ||
     role.canConfigureIntegrations ||
@@ -25,8 +25,8 @@ export function findFirstPermittedTeamPage() {
   if (role.canConfigureUsers) {
     return teamSettingsAccessControlUsers;
   }
-  if (role.canConfigureRoles) {
-    return teamSettingsAccessControlRoles;
+  if (role.canConfigureTeams) {
+    return teamSettingsAccessControlGroups;
   }
   if (role.canConfigureApiTokens) {
     return teamSettingsAccessControlApiTokens;

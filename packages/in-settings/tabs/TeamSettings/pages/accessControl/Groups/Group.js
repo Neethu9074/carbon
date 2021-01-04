@@ -13,11 +13,9 @@ import { toInteractiveElement } from 'in-new-components/interactiveCustomElement
 import { teamSettingsAccessControlGroups } from 'in-settings/navigation/paths';
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
 import { success as successResult } from 'in-services/util/result';
-import { groupPermissionsEnabled } from 'in-services/featureFlags';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import ApiItemView from 'in-settings/components/ApiItemView';
 import { ownerRoleId, defaultRoleId } from 'in-stores/user';
-import { savePermissionSet } from 'in-api/permissionSets';
 import FormGroup from 'in-settings/components/FormGroup';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import Toggle from 'in-components/form/Toggle';
@@ -123,28 +121,26 @@ function renderGroup(props) {
         ))}
       </Row>
 
-      {groupPermissionsEnabled && (
-        <Row>
-          <Col lg>
-            {form.get('permissionSet').map(field => (
-              <FormGroup>
-                <Label>Access</Label>
-                {productRestrictions.map(({ value, label, help }) => (
-                  <HorizontalFormGroup key={label} helpText={help}>
-                    <Label htmlFor={`permission-${value}`}>{label}</Label>
-                    <Toggle
-                      id={`permission-${value}`}
-                      checked={field.value.permissions.includes(value)}
-                      onChange={() => tooglePermission(form, setForm, value)}
-                      disabled={isOwnerGroup}
-                    />
-                  </HorizontalFormGroup>
-                ))}
-              </FormGroup>
-            ))}
-          </Col>
-        </Row>
-      )}
+      <Row>
+        <Col lg>
+          {form.get('permissionSet').map(field => (
+            <FormGroup>
+              <Label>Access</Label>
+              {productRestrictions.map(({ value, label, help }) => (
+                <HorizontalFormGroup key={label} helpText={help}>
+                  <Label htmlFor={`permission-${value}`}>{label}</Label>
+                  <Toggle
+                    id={`permission-${value}`}
+                    checked={field.value.permissions.includes(value)}
+                    onChange={() => tooglePermission(form, setForm, value)}
+                    disabled={isOwnerGroup}
+                  />
+                </HorizontalFormGroup>
+              ))}
+            </FormGroup>
+          ))}
+        </Col>
+      </Row>
 
       <Row>
         <Col lg>
@@ -167,38 +163,34 @@ function renderGroup(props) {
         </Col>
       </Row>
 
-      {groupPermissionsEnabled && (
-        <Row>
-          <Col lg>
-            {form.get('permissionSet').map(field => (
-              <FormGroup>
-                <Label>Permissions</Label>
-                <div className={locals.grid}>
-                  {productPermissions.map(({ value, label }) => {
-                    const pillProps = isOwnerGroup
-                      ? {}
-                      : toInteractiveElement({
-                          onDefaultInteraction: () => tooglePermission(form, setForm, value)
-                        });
-                    return (
-                      <Pill
-                        {...pillProps}
-                        className={isOwnerGroup ? null : locals.pointer}
-                        key={value}
-                        color={
-                          field.value.permissions.includes(value) ? theme.lib.colors.teal800 : theme.lib.colors.N400
-                        }
-                      >
-                        {label}
-                      </Pill>
-                    );
-                  })}
-                </div>
-              </FormGroup>
-            ))}
-          </Col>
-        </Row>
-      )}
+      <Row>
+        <Col lg>
+          {form.get('permissionSet').map(field => (
+            <FormGroup>
+              <Label>Permissions</Label>
+              <div className={locals.grid}>
+                {productPermissions.map(({ value, label }) => {
+                  const pillProps = isOwnerGroup
+                    ? {}
+                    : toInteractiveElement({
+                        onDefaultInteraction: () => tooglePermission(form, setForm, value)
+                      });
+                  return (
+                    <Pill
+                      {...pillProps}
+                      className={isOwnerGroup ? null : locals.pointer}
+                      key={value}
+                      color={field.value.permissions.includes(value) ? theme.lib.colors.teal800 : theme.lib.colors.N400}
+                    >
+                      {label}
+                    </Pill>
+                  );
+                })}
+              </div>
+            </FormGroup>
+          ))}
+        </Col>
+      </Row>
     </>
   );
 }
@@ -255,30 +247,24 @@ function copyPermissionSet(form) {
 }
 
 function saveItem({ form, setMessage, setCanSaveItem, setForm }) {
-  const permissionSet = form.get('permissionSet').value;
+  const group = {
+    id: form.get('id').value,
+    name: form.get('name').value,
+    members: form.get('members').value,
+    permissionSet: form.get('permissionSet').value
+  };
 
   setMessage({ text: 'Saving group', type: neutral, isSaving: true });
-  savePermissionSet(permissionSet).once(
-    savedPermissionSet => {
-      const group = {
-        id: form.get('id').value,
-        name: form.get('name').value,
-        members: form.get('members').value,
-        permissions: [{ id: savedPermissionSet.id, scope: 'TU' }]
-      };
-      setForm(form.updateIn(['permissionSet'], f => f.setValue(savedPermissionSet)));
-      saveGroup(group).once(
-        savedGroup => {
-          setMessage({ text: 'Group successfully saved.', type: success });
-          setForm(form.updateIn(['id'], f => f.setValue(savedGroup.id)));
-          setCanSaveItem(false);
-        },
-        error => {
-          setMessage({ text: `Failed to save group: ${error.message}`, type: errorType });
-        }
-      );
+
+  saveGroup(group).once(
+    savedGroup => {
+      setMessage({ text: 'Group successfully saved.', type: success });
+      setForm(form.updateIn(['id'], f => f.setValue(savedGroup.id)));
+      setCanSaveItem(false);
     },
-    error => setMessage({ text: `Failed to save group: ${error.message}`, type: errorType })
+    error => {
+      setMessage({ text: `Failed to save group: ${error.message}`, type: errorType });
+    }
   );
 }
 

@@ -4,7 +4,7 @@ import React from 'react';
 import locals from './Value.mless';
 
 export default function Value({ value, theme, accentuated }) {
-  if (!value) {
+  if (value === undefined) {
     return null;
   }
 

@@ -162,15 +162,6 @@ export default function Permissions({ form, onChange, disabled }) {
           form={form}
           disabled={disabled}
           onChange={onChange}
-          name="canConfigureRoles"
-          label={permissions['canConfigureRoles']}
-          helpText="Permits configuration of access roles and permissions for all users."
-        />
-
-        <Permission
-          form={form}
-          disabled={disabled}
-          onChange={onChange}
           name="canConfigureTeams"
           label={permissions['canConfigureTeams']}
           helpText="Permits configuration of access scopes and permissions for all teams."

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import AddUserToGroupButton from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/AddUserToGroupButton';
-import { getGroupsAsResultObservable, saveGroup } from 'in-settings/tabs/TeamSettings/api/groups';
+import { saveGroup, getStrippedGroupsAsResultObservable } from 'in-settings/tabs/TeamSettings/api/groups';
 import { getEntityIdView, teamSettingsAccessControlGroups } from 'in-settings/navigation/paths';
 import { ListInsideACardRenderer } from 'in-settings/components/ApiList/renderer/renderer';
 import Delete from 'in-settings/components/ApiList/sharedComponents/Delete';
@@ -11,7 +11,7 @@ import KeyValue from 'in-new-components/lists/KeyValue';
 
 const GroupList = createApiList({
   ListRenderer,
-  getItems: getGroupsAsResultObservable,
+  getItems: getStrippedGroupsAsResultObservable,
   itemName: 'Group',
   orderBy: 'name',
   renderer: ListInsideACardRenderer,
@@ -45,7 +45,7 @@ const columnDefinitions = [
   {
     width: '8rem',
     getContent({ group }) {
-      return <KeyValue value={group.members.length} label="Members" accentuated />;
+      return <KeyValue value={group.members.length} label="Users" accentuated />;
     }
   },
   {

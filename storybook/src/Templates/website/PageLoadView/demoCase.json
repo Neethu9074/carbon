@@ -26,7 +26,7 @@
       "featureFlag.twoZeroAppDataPresentationEnabled": "true",
       "build.date": "2018-12-04T14:35:45.324Z",
       "featureFlag.kubernetesV2Enabled": "false",
-      "permission.canConfigureRoles": "true",
+      "permission.canConfigureTeams": "true",
       "featureFlag.onPremLicenseInformationEnabled": "false",
       "permission.canInstallNewAgents": "true",
       "tenant": "instana",
