@@ -18,6 +18,7 @@ import AlertPropertyInfos from 'in-new-components/Alerting/components/AlertPrope
 import AlertQueryBuilder from 'in-applications/alerting/components/AlertQueryBuilder';
 import AlertDetailsCard from 'in-new-components/Alerting/components/AlertDetailsCard';
 import { getBlueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
+import { smartAlertsEntityGroupingEnabled } from 'in-services/featureFlags';
 import LocallyChangedTheme from 'in-themes/LocallyChangedTheme';
 import ExpandableCard from 'in-new-components/ExpandableCard';
 import { operators } from 'in-analyze/applicationFilter';
@@ -106,7 +107,7 @@ export default function AlertConfiguration({ alertConfig, applicationName }) {
           bodyWithoutPadding
           darkFrame
         >
-          <ReadOnlyAlertEvaluation evaluationType={evaluationType} />
+          {smartAlertsEntityGroupingEnabled && <ReadOnlyAlertEvaluation evaluationType={evaluationType} />}
           <div className={locals.paddingBodyWrapper}>
             <div className={locals.alertFiltersWrapper}>
               <ScopeConfigPresenter
