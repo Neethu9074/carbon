@@ -37,6 +37,7 @@ export const vsphereEnabled = isFeatureFlagEnabled('vsphereEnabled');
 export const applicationSmartAlertsEnabled = isFeatureFlagEnabled('applicationSmartAlertsEnabled');
 export const webMobileQb2AnalyzeEnabled = isFeatureFlagEnabled('webMobileQb2AnalyzeEnabled');
 export const loggingEnabled = isFeatureFlagEnabled('loggingEnabled', false);
+export const smartAlertsEntityGroupingEnabled = isFeatureFlagEnabled('smartAlertsEntityGroupingEnabled', false);
 
 // ########################################################################################
 // Dynamic focus keywords

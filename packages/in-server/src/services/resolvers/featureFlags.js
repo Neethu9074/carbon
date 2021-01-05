@@ -142,7 +142,7 @@ module.exports = exports = [
   },
   {
     uiClientKey: 'smartAlertsQB2Enabled',
-    instanaCtlKey: 'feature.smartAlertsQB2Enabled.enabled',
+    instanaCtlKey: 'feature.smart.alerts.qb2.enabled',
     defaultValue: true
   },
   {
@@ -157,6 +157,11 @@ module.exports = exports = [
   {
     uiClientKey: 'loggingEnabled',
     instanaCtlKey: 'feature.logging.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'smartAlertsEntityGroupingEnabled',
+    instanaCtlKey: 'feature.smart.alerts.entity.grouping.enabled',
     defaultValue: false
   }
 ];
