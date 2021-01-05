@@ -38,6 +38,7 @@ describe('in-components/Chart/Configuration', () => {
         formatter: [number],
         numOfSeries: 0,
         colors: [],
+        colors50: [],
         colors100: [],
         minValue: 0,
         maxValue: 1
@@ -59,6 +60,7 @@ describe('in-components/Chart/Configuration', () => {
         renderer: Renderer.stackedArea,
         numOfSeries: 0,
         colors: [],
+        colors50: [],
         colors100: [],
         valuesNeedToBeStacked: true,
         valuesDependOnEachOther: true,
@@ -138,8 +140,20 @@ describe('in-components/Chart/Configuration', () => {
       expect(config.getAllDomainValues()).to.deep.equal([]);
 
       config.update({
-        y1: { labels: ['a'], metrics: [[[0], [1], [-1]], [[42], [1], [-1]]] },
-        y2: { labels: ['a'], metrics: [[[10], [11], [-1]], [[-42], [0], [2]]] },
+        y1: {
+          labels: ['a'],
+          metrics: [
+            [[0], [1], [-1]],
+            [[42], [1], [-1]]
+          ]
+        },
+        y2: {
+          labels: ['a'],
+          metrics: [
+            [[10], [11], [-1]],
+            [[-42], [0], [2]]
+          ]
+        },
         timeConfig: { windowSize: 60000, to: null }
       });
       expect(config.getAllDomainValues()).to.be.an('array');
@@ -152,11 +166,26 @@ describe('in-components/Chart/Configuration', () => {
     it('should extract blocks according to the given rollup', () => {
       const config = new Config(defaultProps);
 
-      let blocks = config.calculateBlocks([[0, 0], [1000, 1], [2000, 5], [3000, 10], [4000, 10], [5000, 9], [6000, 0]]);
+      let blocks = config.calculateBlocks([
+        [0, 0],
+        [1000, 1],
+        [2000, 5],
+        [3000, 10],
+        [4000, 10],
+        [5000, 9],
+        [6000, 0]
+      ]);
       expect(blocks).to.have.length(1);
 
       config.maxDistanceBetweenDatapointsInMillis = 2000;
-      blocks = config.calculateBlocks([[0, 0], [2000, 1], [5000, 10], [6000, 10], [7000, 9], [10000, 0]]);
+      blocks = config.calculateBlocks([
+        [0, 0],
+        [2000, 1],
+        [5000, 10],
+        [6000, 10],
+        [7000, 9],
+        [10000, 0]
+      ]);
       expect(blocks).to.have.length(3);
       expect(blocks[0].map(d => d[0])).to.deep.equal([0, 2000]);
       expect(blocks[1].map(d => d[0])).to.deep.equal([5000, 6000, 7000]);

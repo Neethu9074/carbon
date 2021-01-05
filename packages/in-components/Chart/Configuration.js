@@ -1,6 +1,5 @@
 import { create } from '@instana/observables';
 import { assign } from 'lodash';
-import theme from 'in-themes';
 
 import {
   allowedMultiplesOfRollupSizeMissingInCharts,
@@ -8,11 +7,13 @@ import {
 } from 'in-services/featureFlags';
 import { getBlockSizeMillis, getPredefinedBlockSizeMillisForBlockSize } from 'in-services/util/dynamicAggregation';
 import { collectAllDomainValues } from 'in-components/Chart/data/dataSearchUtils';
+import { getColorWithTransparency } from 'in-components/Chart/strokeColors';
 import { formatDurationAccurately } from 'in-services/formatters/date';
 import { getDefaultMetricRollupDuration } from 'in-stores/metric';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { number } from 'in-services/formatters/number';
 import Scales from 'in-components/Chart/Scales';
+import theme from 'in-themes';
 
 // Hard real time is hard. We are always 2-3 seconds behing the current server time in terms
 // of availability of metrics. We are removing x millis from the right border in order to
@@ -168,50 +169,22 @@ export default class Config {
   }
 
   enrichAxisWithColors(axis, offset = 0) {
-    if (axis.colors100) {
+    if (axis.colors100 && axis.colors50) {
       return;
     }
 
     const colors = theme.lib.colors.chart.strokeColors25;
 
     axis.colors = axis.colors || [];
+    axis.colors50 = [];
     axis.colors100 = [];
     for (let i = 0; i < axis.numOfSeries; i++) {
       const color = axis.colors[i] || colors[(i + offset) % colors.length];
-      const { c25, c100 } = this.getColorWithTransparency(color);
+      const { c25, c50, c100 } = getColorWithTransparency(color);
       axis.colors[i] = c25;
+      axis.colors50.push(c50);
       axis.colors100.push(c100);
     }
-  }
-
-  getColorWithTransparency(color) {
-    const color25Index = theme.lib.colors.chart.strokeColors25.indexOf(color);
-    if (color25Index >= 0) {
-      return {
-        c25: color,
-        c100: theme.lib.colors.chart.strokeColors100[color25Index]
-      };
-    }
-
-    const color100Index = theme.lib.colors.chart.strokeColors100.indexOf(color);
-    if (color100Index >= 0) {
-      return {
-        c25: theme.lib.colors.chart.strokeColors25[color100Index],
-        c100: color
-      };
-    }
-
-    if (color === theme.lib.colors.chart.self25 || color === theme.lib.colors.chart.self100) {
-      return {
-        c25: theme.lib.colors.chart.self25,
-        c100: theme.lib.colors.chart.self100
-      };
-    }
-
-    return {
-      c25: color,
-      c100: color
-    };
   }
 
   clearLocalHighlightedTimeframe() {
