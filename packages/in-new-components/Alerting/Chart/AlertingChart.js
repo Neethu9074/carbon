@@ -9,17 +9,17 @@ import AlertingChartWrapper from 'in-new-components/Alerting/Chart/AlertingChart
 import MarkerLanesPresenter from 'in-components/Chart/markerLanes/MarkerLanesPresenter';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import { isGreaterOperator } from 'in-new-components/Alerting/utils/alertUtils';
+import { getColorWithTransparency } from 'in-components/Chart/strokeColors';
 import { smoothMetrics } from 'in-new-components/Alerting/utils/chartUtil';
 import Renderer from 'in-new-components/Alerting/Chart/renderer/Renderer';
 
-const chartColors = [
-  theme.lib.colors.blue800,
-  theme.lib.colors.red800,
-  theme.lib.colors.lightBlue800,
-  theme.lib.colors.pink800
-];
+const chartColors = [theme.lib.colors.lightBlue800, theme.lib.colors.red800];
 
-const legendColors = [theme.lib.colors.blue800, theme.lib.colors.red800, theme.lib.colors.pink800_40];
+const legendColors = [
+  theme.lib.colors.lightBlue800,
+  theme.lib.colors.red800,
+  getColorWithTransparency(theme.lib.colors.red800).c50
+];
 
 export default function AlertingChart({
   alertConfig,

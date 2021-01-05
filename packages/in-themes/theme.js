@@ -227,7 +227,8 @@ function buildLib() {
     lib.colors.http,
     lib.colors.messaging,
     lib.colors.rpc,
-    lib.colors.event
+    lib.colors.event,
+    lib.colors.red800
   ];
 
   lib.colors.chart.strokeColors25 = lib.colors.chart.strokeColors100.map(hex => addTransparency(hex, 0.05));
@@ -243,14 +244,7 @@ function buildLib() {
   lib.colors.primary240 = addTransparency(lib.colors.blue800, 0.4);
   lib.colors.lightPrimary240 = addTransparency(lib.colors.lightBlue800, 0.4);
   lib.colors.success40 = addTransparency(lib.colors.success, 0.4);
-  lib.colors.failure40 = addTransparency(lib.colors.failure, 0.4);
   lib.colors.failure10 = addTransparency(lib.colors.failure, 0.1);
-  lib.colors.warning40 = addTransparency(lib.colors.warning, 0.4);
-  lib.colors.black72 = addTransparency(lib.colors.black, 0.72);
-
-  lib.colors.lightBlue800_40 = addTransparency(lib.colors.lightBlue800, 0.4);
-  lib.colors.pink800_40 = addTransparency(lib.colors.pink800, 0.4);
-  lib.colors.N050_40 = addTransparency(lib.colors.N050, 0.4);
 
   return lib;
 }

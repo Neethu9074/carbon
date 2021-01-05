@@ -5,7 +5,7 @@ import { smoothMetrics } from 'in-new-components/Alerting/utils/chartUtil';
 import line from 'in-components/Chart/renderer/line';
 
 export default {
-  render: ({ colors, scale, config, metrics }) => {
+  render: ({ colors100, colors50, scale, config, metrics }) => {
     validateProps(config);
     const backBufferCtx = config.backBufferCtx;
     const xScale = config.xScaleBackBuffer;
@@ -14,40 +14,37 @@ export default {
     const chartWidth = xScale.getRangeTo();
     const thresholdLineWidth = config.y1.thresholdLineWidth;
     const threshold = yScale.getRangeFrom() - yScale.getRange(config.y1.threshold);
-    const thresholdColor = colors[1];
-    const alrightColor = colors[2];
-    const violationColor = colors[3];
+    const thresholdColor = colors100[1];
+    const alrightColor = colors50[0];
+    const violationColor = colors50[1];
     const isGreaterOp = config.y1.operator === undefined || isGreaterOperator(config.y1.operator);
     const markerPaneHeight = config.markerPaneHeight;
-
-    // historical data
-    line.render({
-      dataSeries: config.withMetricSmoothing ? smoothMetrics(metrics[0]) : metrics[0],
-      color: colors[0],
-      scale,
-      config
-    });
 
     backBufferCtx.save();
     // Background above line
     backBufferCtx.fillStyle = isGreaterOp ? violationColor : alrightColor;
-    backBufferCtx.globalAlpha = 0.25;
     backBufferCtx.fillRect(0, markerPaneHeight, chartWidth, chartHeight - threshold - markerPaneHeight);
 
     // Background below line
     backBufferCtx.fillStyle = isGreaterOp ? alrightColor : violationColor;
-    backBufferCtx.globalAlpha = 0.25;
     backBufferCtx.fillRect(0, chartHeight - threshold, chartWidth, threshold);
 
     // Movable line
     backBufferCtx.beginPath();
-    backBufferCtx.globalAlpha = 1;
     backBufferCtx.moveTo(0, chartHeight - threshold);
     backBufferCtx.lineWidth = thresholdLineWidth;
     backBufferCtx.strokeStyle = thresholdColor;
     backBufferCtx.lineTo(chartWidth, chartHeight - threshold);
     backBufferCtx.stroke();
     backBufferCtx.restore();
+
+    // historical data
+    line.render({
+      dataSeries: config.withMetricSmoothing ? smoothMetrics(metrics[0]) : metrics[0],
+      color: colors100[0],
+      scale,
+      config
+    });
   },
   enrich: (config, axis) => {
     axis.valuesDependOnEachOther = true;

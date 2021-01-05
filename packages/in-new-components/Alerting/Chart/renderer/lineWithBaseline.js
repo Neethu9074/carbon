@@ -5,14 +5,14 @@ import { isGreaterOperator } from 'in-new-components/Alerting/utils/alertUtils';
 import line from 'in-components/Chart/renderer/line';
 
 export default {
-  render: ({ axis, colors, scale, config, metrics }) => {
+  render: ({ axis, colors50, colors100, scale, config, metrics }) => {
     validateProps(config);
     const metric = metrics[0];
 
-    // historical data
-    line.render({ dataSeries: metric, color: colors[0], scale, config });
+    renderBaseline(axis, config, scale, colors50, colors100);
 
-    renderBaseline(axis, config, scale, colors);
+    // historical data
+    line.render({ dataSeries: metric, color: colors100[0], scale, config });
   },
   enrich: (config, axis) => {
     axis.valuesDependOnEachOther = true;
@@ -28,7 +28,7 @@ function drawLineGraph(len, config, oneSidedThresholdInTimeframe, scale) {
   }
 }
 
-function renderBaseline(axis, config, scale, colors) {
+function renderBaseline(axis, config, scale, colors50, colors100) {
   const baseline = config.y1.baseline;
   if (!baseline || baseline.length === 0) {
     return;
@@ -42,9 +42,9 @@ function renderBaseline(axis, config, scale, colors) {
   const chartTo = chartFrom + baselineWindowSize;
 
   const chartHeight = scale.getRangeFrom();
-  const thresholdColor = colors[1];
-  const alrightColor = colors[2];
-  const violationColor = colors[3];
+  const thresholdColor = colors100[1];
+  const alrightColor = colors50[0];
+  const violationColor = colors50[1];
   const isGreaterOp = config.y1.operator === undefined || isGreaterOperator(config.y1.operator);
   const oneSidedThresholdInTimeframe = [];
 
@@ -64,7 +64,6 @@ function renderBaseline(axis, config, scale, colors) {
 
   // Background below line
   config.backBufferCtx.fillStyle = isGreaterOp ? alrightColor : violationColor;
-  config.backBufferCtx.globalAlpha = 0.25;
   config.backBufferCtx.beginPath();
   config.backBufferCtx.moveTo(xPosStart, yPosStart);
 
