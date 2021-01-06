@@ -3,7 +3,6 @@ import React from 'react';
 
 import GroupingConfiguratorSection from 'in-new-components/GroupingConfigurator/GroupingConfiguratorSection';
 import { EMPTY_EXPRESSION } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
-import HelpAction from 'in-new-components/workspace/HelpAction';
 import Sections from 'in-new-components/workspace/Sections';
 import Section from 'in-new-components/workspace/Section';
 import Select from 'in-components/form/Select';
@@ -18,7 +17,6 @@ export default function GroupingConfiguration({
   onByChange,
   onDirectionChange,
   onIncludeOthersChange,
-  explanationTagRequired,
   GroupingConfigurator
 }) {
   return (
@@ -30,7 +28,6 @@ export default function GroupingConfiguration({
             GroupingConfigurator={GroupingConfigurator}
             tagFilterExpression={tagFilterExpressionField.valid ? tagFilterExpressionField.value : EMPTY_EXPRESSION}
             onChange={group => onByChange(group)}
-            actions={<HelpAction>{explanationTagRequired}</HelpAction>}
             withoutIcon
           />
 
@@ -65,7 +62,6 @@ export default function GroupingConfiguration({
 
 GroupingConfiguration.propTypes = {
   GroupingConfigurator: PropTypes.elementType.isRequired,
-  explanationTagRequired: PropTypes.string.isRequired,
   grouping: PropTypes.shape({
     by: PropTypes.any,
     direction: PropTypes.any,

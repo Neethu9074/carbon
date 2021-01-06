@@ -68,7 +68,6 @@ export default function FormComponent({
         onByChange={onByChange}
         onDirectionChange={onDirectionChange}
         onIncludeOthersChange={onIncludeOthersChange}
-        explanationTagRequired="Breakdown limits the results to calls that have a value for this tag."
         GroupingConfigurator={CallGroupingConfigurator}
       />
 
