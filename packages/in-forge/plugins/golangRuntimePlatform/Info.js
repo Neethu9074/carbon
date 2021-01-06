@@ -15,6 +15,7 @@ export default function GolangInfo({ snapshot }) {
       <DescriptionItem title="Visible CPUs">{data.get('snapshot.cpu')}</DescriptionItem>
       <DescriptionItem title="Process ID">{data.get('pid')}</DescriptionItem>
       <ProcessStartedAtDescriptionItem snapshotId={snapshot.get('id')} />
+      <DescriptionItem title="Instana Sensor Version">{data.get('snapshot.iv')}</DescriptionItem>
     </DescriptionList>
   );
 }
