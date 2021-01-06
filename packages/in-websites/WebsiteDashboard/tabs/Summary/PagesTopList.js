@@ -2,15 +2,15 @@ import React from 'react';
 
 import getWebsitePaginatedBeaconGroups from 'in-websites/subscriptions/getWebsitePaginatedBeaconGroups';
 import { TopListWithUrlState, trackTopListNavigation } from 'in-new-components/TopListWithUrlState';
-import { meanLatency, meanLatencyLargeInSeconds, number } from 'in-services/formatters/number';
 import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
+import { meanLatency, number } from 'in-services/formatters/number';
 import { getLinkToWebsite } from 'in-websites/navigation/paths';
 import Link from 'in-components/Link';
 
 const metrics = ['pageViews', 'onLoadTime', 'errors'];
 const labels = ['Page Views', 'onLoad Time', 'Errors'];
 const aggregations = ['SUM', 'MEAN', 'SUM'];
-const formatters = [meanLatencyLargeInSeconds.compact, meanLatency.compact, number.compact];
+const formatters = [number.compact, meanLatency.compact, number.compact];
 
 export default function PagesTopList({ websiteId, timeConfig, tagFilters, urlMatrixParamConfig }) {
   return (
