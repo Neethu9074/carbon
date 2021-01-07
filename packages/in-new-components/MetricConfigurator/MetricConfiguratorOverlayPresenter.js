@@ -2,8 +2,6 @@ import React from 'react';
 
 import PaginatedMetricList from 'in-new-components/MetricConfigurator/PaginatedMetricList';
 import DraggableItemSelector from 'in-new-components/DraggableItemSelector';
-import TouchedMessages from 'in-components/form/TouchedMessages';
-import FormGroup from 'in-components/form/FormGroup';
 import { Col } from 'in-new-components/layout/Grid';
 import { shorten } from 'in-services/util/string';
 import Select from 'in-components/form/Select';
@@ -28,7 +26,7 @@ export default function MetricConfiguratorOverlayPresenter({
       onChangeAggregation={onChangeAggregation}
       onChange={onChange}
       options={options}
-      items={form}
+      items={form.items}
       Content={Content}
       onSwap={onSwap}
       onRemove={onRemoveItem}
@@ -85,37 +83,34 @@ function Content({ i, options, item: metric, onChangeAggregation, getPossibleAgg
 
           {metric.get('aggregation').map(field => (
             <Col xs={5}>
-              <FormGroup>
-                <Select
-                  id={`metric-configuration-aggregation-${i}`}
-                  value={field.value}
-                  onChange={e => {
-                    const aggregation = e.target.value;
-                    if (onChangeAggregation) {
-                      onChangeAggregation(metricEventPayload(metric), aggregation);
-                    }
-                    onChange([i, 'aggregation'], field => field.setValue(aggregation).setTouched(true));
-                  }}
-                  className={locals.aggregations}
-                  hasError={!field.valid && field.touched}
-                >
-                  <option value="" disabled>
-                    Please Select
-                  </option>
-                  {options
-                    .find(option => option.metric === metric.get('metric').value)
-                    .aggregations.map(aggregation => (
-                      <option
-                        key={aggregation}
-                        value={aggregation}
-                        disabled={!getPossibleAggregationsForMetric(metric.get('metric').value).includes(aggregation)}
-                      >
-                        {aggregation}
-                      </option>
-                    ))}
-                </Select>
-                <TouchedMessages field={field} />
-              </FormGroup>
+              <Select
+                id={`metric-configuration-aggregation-${i}`}
+                value={field.value}
+                onChange={e => {
+                  const aggregation = e.target.value;
+                  if (onChangeAggregation) {
+                    onChangeAggregation(metricEventPayload(metric), aggregation);
+                  }
+                  onChange([i, 'aggregation'], field => field.setValue(aggregation).setTouched(true));
+                }}
+                className={locals.aggregations}
+                hasError={!field.valid && field.touched}
+              >
+                <option value="" disabled>
+                  Please Select
+                </option>
+                {options
+                  .find(option => option.metric === metric.get('metric').value)
+                  .aggregations.map(aggregation => (
+                    <option
+                      key={aggregation}
+                      value={aggregation}
+                      disabled={!getPossibleAggregationsForMetric(metric.get('metric').value).includes(aggregation)}
+                    >
+                      {aggregation}
+                    </option>
+                  ))}
+              </Select>
             </Col>
           ))}
         </>
