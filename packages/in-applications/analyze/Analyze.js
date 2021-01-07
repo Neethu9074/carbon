@@ -127,7 +127,8 @@ function ApplicationAnalyzeViewWithFixatedTimeConfig() {
           return {};
         }
       }
-    ]
+    ],
+    replaceHistory: false
   });
 
   const timeConfig = useTimeConfig();
