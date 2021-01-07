@@ -56,14 +56,18 @@ export function getLatencySelectionFromFilters(dataSource, tagFilter) {
   if (latencyFilters.eq) {
     if (!from && !to) {
       selection.from = parseInt(latencyFilters.eq.value);
+      if (selection.from === 0) {
+        // latency filter is "equals 0", should clear faceted search
+        return {};
+      }
       // the upper bound is specified as strict inequality (<), need to increment it by 1
       selection.to = selection.from + 1;
     }
   } else if (from == null || to == null || from < to) {
-    if (from) {
+    if (from != null) {
       selection.from = from;
     }
-    if (to) {
+    if (to != null) {
       selection.to = to;
     }
   }

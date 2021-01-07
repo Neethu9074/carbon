@@ -45,12 +45,12 @@ function Body({ dataSource, tagFilterExpression, updateFilter, isValid }) {
     const retrievedEffectiveLatencies = getLatencySelectionFromTagFilterExpression(dataSource, tagFilterExpression);
     if (retrievedEffectiveLatencies) {
       setEffectiveLatencies(retrievedEffectiveLatencies);
-      if (retrievedEffectiveLatencies.from) {
+      if (retrievedEffectiveLatencies.from != null) {
         setMinInput(retrievedEffectiveLatencies.from);
       } else {
         setMinInput('');
       }
-      if (retrievedEffectiveLatencies.to) {
+      if (retrievedEffectiveLatencies.to != null) {
         setMaxInput(retrievedEffectiveLatencies.to);
       } else {
         setMaxInput('');

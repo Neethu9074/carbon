@@ -129,8 +129,7 @@ export default function Tag(props) {
         getSuggestions={getSuggestions}
         formModel={formModel}
         formModelIndex={formModelIndex}
-        // temporarily restrict the latency min value to 1, should be removed for UA2 GA
-        minNumValue={element.name === 'call.latency' || element.name === 'trace.latency' ? 1 : 0}
+        minNumValue={0}
       />
 
       <RemoveIcon form={form} element={element} tagType={tagType} onRemove={onRemove} />
