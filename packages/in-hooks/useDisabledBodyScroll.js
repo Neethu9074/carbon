@@ -1,14 +1,16 @@
-import { useLayoutEffect } from 'react';
+import createSideEffectHook from 'in-hooks/createSideEffectHook';
 
 // Disables body scrolling as long as the component is mounted.
-export default function useDisabledBodyScroll(disabled = true) {
-  useLayoutEffect(() => {
+export default createSideEffectHook(
+  args => args.reduce((agg, _disabled) => agg || (_disabled ?? true), false),
+  disabled => {
     if (disabled) {
       disableBodyScroll();
+    } else {
+      enableBodyScroll();
     }
-    return enableBodyScroll;
-  }, [disabled]);
-}
+  }
+);
 
 function disableBodyScroll() {
   // Implement disabled body scrolling without a jumping document body

@@ -6,7 +6,6 @@ import WidgetConfiguration from 'in-custom-dashboards/CustomDashboard/WidgetEdit
 import FormFooter, { SaveButton, CancelButton } from 'in-components/form/FormFooter/FormFooter';
 import DialogWithSlideInView from 'in-new-components/Dialog/DialogWithSlideInView';
 import { sizes as ICON_SIZES } from 'in-components/SvgIcon/SvgIcon';
-import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
 import { close } from 'in-components/DialogPresenter/store';
 import widgets from 'in-custom-dashboards/widgets';
 
@@ -26,7 +25,6 @@ export default function WidgetEditorDialogPresenter({
   setSlideInView,
   isMigrating
 }) {
-  useDisabledBodyScroll();
   const subSlideState = useState(null);
 
   let title = isEditing ? 'Edit Widget' : 'Add Widget';
