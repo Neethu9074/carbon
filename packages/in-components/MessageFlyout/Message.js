@@ -29,7 +29,11 @@ export default function Message({ message }) {
             }}
           >
             <SvgIcon type={message.icon} className={locals.icon} />
-            <div className={locals.msg}>
+            <div
+              className={classNames(locals.msg, {
+                [locals.verticallyCenterMsg]: !message.title && typeof message.content === 'string'
+              })}
+            >
               <Title title={message.title} />
               {typeof message.content === 'string' ? <Content content={message.content} /> : message.content}
             </div>

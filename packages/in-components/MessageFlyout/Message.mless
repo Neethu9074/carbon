@@ -54,6 +54,11 @@
     }
   }
 
+  .verticallyCenterMsg {
+    display: flex;
+    align-items: center;
+  }
+
   .title {
     font-size: @lib__typography__h200__font-size;
     font-weight: 600;
