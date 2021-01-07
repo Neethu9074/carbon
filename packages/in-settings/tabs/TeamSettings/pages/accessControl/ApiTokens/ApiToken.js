@@ -2,15 +2,16 @@ import { createMapForm, createField, notBlankValidator } from 'formalistic';
 import { createLogger } from '@instana/logger';
 import React from 'react';
 
-import { addPermissionFields } from 'in-settings/tabs/TeamSettings/pages/accessControl/Roles/permissionsForm';
+import { addPermissionFields } from 'in-settings/tabs/TeamSettings/pages/accessControl/Permissions/permissionsForm';
 import { getApiToken, saveApiToken } from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/api';
 import ApiTokenForm from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiTokenForm';
 import { teamSettingsAccessControlApiTokens } from 'in-settings/navigation/paths';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import SectionLine from 'in-settings/components/SectionLine';
-import Notification from 'in-components/form/Notification';
 import SaveCancel from 'in-settings/components/SaveCancel';
+import { apiTokenPermissions } from 'in-stores/permission';
+import Notification from 'in-components/form/Notification';
 import Section from 'in-settings/components/Section';
 import { goToPath } from 'in-stores/navigation';
 import Title from 'in-components/Title';
@@ -177,5 +178,5 @@ function createForm(apiToken) {
     form = form.put('id', createField({ value: apiToken.id }));
   }
 
-  return addPermissionFields(form, apiToken);
+  return addPermissionFields(form, apiToken, apiTokenPermissions, permission => permission.keyForApiTokenApi);
 }

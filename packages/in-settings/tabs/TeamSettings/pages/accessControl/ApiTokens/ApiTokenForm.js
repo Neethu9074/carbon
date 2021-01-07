@@ -1,11 +1,14 @@
 import React from 'react';
 
-import Permissions from 'in-settings/tabs/TeamSettings/pages/accessControl/Roles/Permissions';
+import PermissionsList from 'in-settings/tabs/TeamSettings/pages/accessControl/Permissions/PermissionsList.js';
 import SectionHeading from 'in-settings/components/SectionHeading';
 import TouchedMessages from 'in-components/form/TouchedMessages';
+import { apiTokenPermissions } from 'in-stores/permission';
 import FormGroup from 'in-settings/components/FormGroup';
+import Toggle from 'in-components/form/Toggle';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
+import { role } from 'in-stores/user';
 
 export default function ApiTokenForm({ form, onChange, disabled }) {
   return (
@@ -36,7 +39,27 @@ export default function ApiTokenForm({ form, onChange, disabled }) {
         </FormGroup>
       ))}
 
-      <Permissions form={form} onChange={onChange} disabled={disabled} />
+      <PermissionsList
+        permissions={apiTokenPermissions}
+        listActions={[
+          {
+            id: 'toggleEnabledAction',
+            sortable: false,
+            width: '5rem',
+            widthInAbsoluteUnit: true,
+            getContent(entity) {
+              return (
+                <Toggle
+                  id={`permission-${entity.keyForApiTokenApi}`}
+                  checked={form.get(entity.keyForApiTokenApi).map(field => field.value)}
+                  onChange={e => onChange(entity.keyForApiTokenApi, e.target.checked)}
+                  disabled={!role.canConfigureApiTokens}
+                />
+              );
+            }
+          }
+        ]}
+      />
     </fieldset>
   );
 }
