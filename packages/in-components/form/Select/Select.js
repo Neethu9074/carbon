@@ -6,13 +6,14 @@ import locals from './Select.mless';
 
 export default forwardRef(FormSelect);
 
-function FormSelect({ hasError, useFullWidth, ...selectProps }, ref) {
+function FormSelect({ hasError, useFullWidth, wrapperClassName, ...selectProps }, ref) {
   return (
     <div
       className={classNames({
         [locals.selectWrapper]: true,
         [locals.selectWrapperDisabled]: selectProps.disabled,
-        [locals.useFullWidth]: useFullWidth
+        [locals.useFullWidth]: useFullWidth,
+        [wrapperClassName]: wrapperClassName
       })}
     >
       <select
@@ -30,5 +31,6 @@ function FormSelect({ hasError, useFullWidth, ...selectProps }, ref) {
 
 FormSelect.propTypes = {
   hasError: PropTypes.bool,
-  useFullWidth: PropTypes.useFullWidth
+  useFullWidth: PropTypes.useFullWidth,
+  wrapperClassName: PropTypes.any
 };

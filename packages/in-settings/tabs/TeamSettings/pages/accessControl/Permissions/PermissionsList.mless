@@ -1,0 +1,8 @@
+:local {
+
+  .categoryFilter {
+    margin: 0.5rem;
+    width: 13rem;
+  }
+
+}

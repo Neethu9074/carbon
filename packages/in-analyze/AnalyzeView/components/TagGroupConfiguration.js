@@ -21,7 +21,7 @@ import { getTagGroupManipulators } from 'in-analyze/tagGroupHoc';
  * Further functions are introduced through a tag group HOC.
  */
 export default function QuickGroupForm(props) {
-  const { tagFilterExpression, grouping, onChange, clearTagGroup, excludedTagFilters } = props;
+  const { tagFilterExpression, grouping, onChange, excludedTagFilters } = props;
   const timeConfig = useTimeConfig();
   const onByChange = by => onChange({ ...grouping, by });
   const onDirectionChange = direction => onChange({ ...grouping, direction });
@@ -37,9 +37,14 @@ export default function QuickGroupForm(props) {
     tagFilter: applicationAreaSpecificTagFilters,
     tagFilterExpression
   };
-  const setNewGroup = newGroup => onByChange(newGroup);
+  const setNewGroup = newGroup =>
+    onByChange({
+      ...newGroup,
+      groupbyTagEntity: newGroup.entity || newGroup.entityType || newGroup.groupbyTagEntity
+    });
+  const clearTagGroup = () => onByChange(null);
 
-  const allProps = {
+  let allProps = {
     ...props,
     timeConfig,
     onByChange,
@@ -49,8 +54,11 @@ export default function QuickGroupForm(props) {
     applicationAreaSpecificTagFilters,
     tagFilters,
     filters,
-    setNewGroup,
-    ...getTagGroupManipulators({ grouping, setNewGroup })
+    setNewGroup
+  };
+  allProps = {
+    ...allProps,
+    ...getTagGroupManipulators({ ...allProps, grouping, setNewGroup, clearTagGroup })
   };
 
   return (

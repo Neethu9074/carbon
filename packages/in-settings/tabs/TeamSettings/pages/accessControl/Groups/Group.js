@@ -3,13 +3,13 @@ import { just } from '@instana/observables';
 import React from 'react';
 
 import { getGroupAsResultObservable, saveGroup, createNewGroup } from 'in-settings/tabs/TeamSettings/api/groups';
+import PermissionsList from 'in-settings/tabs/TeamSettings/pages/accessControl/Permissions/PermissionsList.js';
 import { types } from 'in-settings/tabs/TeamSettings/pages/accessControl/Areas/permissionSetResultFilter';
 import { productAreaPermissions, productPermissions, productRestrictions } from 'in-stores/permission';
 import LoadingGroup from 'in-settings/tabs/TeamSettings/pages/accessControl/Groups/LoadingGroup';
 import Areas from 'in-settings/tabs/TeamSettings/pages/accessControl/Groups/components/Areas';
 import { success, neutral, error as errorType } from 'in-new-components/Message/types';
 import Users from 'in-settings/tabs/TeamSettings/pages/accessControl/Groups/Users';
-import { toInteractiveElement } from 'in-new-components/interactiveCustomElement';
 import { teamSettingsAccessControlGroups } from 'in-settings/navigation/paths';
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
 import { success as successResult } from 'in-services/util/result';
@@ -23,8 +23,6 @@ import Title from 'in-components/Title/Title';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import SvgIcon from 'in-components/SvgIcon';
-import Pill from 'in-new-components/Pill';
-import theme from 'in-themes';
 
 import locals from './Group.mless';
 
@@ -132,7 +130,7 @@ function renderGroup(props) {
                   <Toggle
                     id={`permission-${value}`}
                     checked={field.value.permissions.includes(value)}
-                    onChange={() => tooglePermission(form, setForm, value)}
+                    onChange={() => togglePermission(form, setForm, value)}
                     disabled={isOwnerGroup}
                   />
                 </HorizontalFormGroup>
@@ -153,7 +151,7 @@ function renderGroup(props) {
                   <Toggle
                     id={`permission-${value}`}
                     checked={field.value.permissions.includes(value)}
-                    onChange={() => tooglePermission(form, setForm, value)}
+                    onChange={() => togglePermission(form, setForm, value)}
                     disabled={isOwnerGroup}
                   />
                 </HorizontalFormGroup>
@@ -166,28 +164,27 @@ function renderGroup(props) {
       <Row>
         <Col lg>
           {form.get('permissionSet').map(field => (
-            <FormGroup>
-              <Label>Permissions</Label>
-              <div className={locals.grid}>
-                {productPermissions.map(({ value, label }) => {
-                  const pillProps = isOwnerGroup
-                    ? {}
-                    : toInteractiveElement({
-                        onDefaultInteraction: () => tooglePermission(form, setForm, value)
-                      });
-                  return (
-                    <Pill
-                      {...pillProps}
-                      className={isOwnerGroup ? null : locals.pointer}
-                      key={value}
-                      color={field.value.permissions.includes(value) ? theme.lib.colors.teal800 : theme.lib.colors.N400}
-                    >
-                      {label}
-                    </Pill>
-                  );
-                })}
-              </div>
-            </FormGroup>
+            <PermissionsList
+              permissions={productPermissions}
+              listActions={[
+                {
+                  id: 'toggleEnabledAction',
+                  sortable: false,
+                  width: '5rem',
+                  widthInAbsoluteUnit: true,
+                  getContent(entity) {
+                    return (
+                      <Toggle
+                        id={`permission-${entity.keyForGroupApi}`}
+                        checked={field.value.permissions.includes(entity.keyForGroupApi)}
+                        onChange={() => togglePermission(form, setForm, entity.keyForGroupApi)}
+                        disabled={isOwnerGroup}
+                      />
+                    );
+                  }
+                }
+              ]}
+            />
           ))}
         </Col>
       </Row>
@@ -195,7 +192,7 @@ function renderGroup(props) {
   );
 }
 
-function tooglePermission(form, setForm, value) {
+function togglePermission(form, setForm, value) {
   const modifiedPermissionSet = copyPermissionSet(form);
   modifiedPermissionSet.permissions = modifiedPermissionSet.permissions.includes(value)
     ? modifiedPermissionSet.permissions.filter(v => v !== value)

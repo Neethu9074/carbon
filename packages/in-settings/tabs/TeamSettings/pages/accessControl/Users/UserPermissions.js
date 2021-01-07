@@ -1,28 +1,38 @@
+import theme from 'in-themes';
 import React from 'react';
 
+import PermissionsList from 'in-settings/tabs/TeamSettings/pages/accessControl/Permissions/PermissionsList.js';
 import { productPermissions } from 'in-stores/permission';
 import { pendingResult } from 'in-services/fixedObjects';
 import useObservable from 'in-hooks/useObservable';
 import { getPermissions } from 'in-api/users';
-import Pill from 'in-new-components/Pill';
-import theme from 'in-themes';
-
-import locals from './UserPermissions.mless';
+import SvgIcon from 'in-components/SvgIcon';
 
 export default function UserPermissions({ userId }) {
   const permissions = useObservable(getPermissions(userId), [userId]) ?? pendingResult;
   return (
-    <div className={locals.grid}>
-      {productPermissions.map(({ value, label }) => {
-        return (
-          <Pill
-            key={value}
-            color={permissions.data?.includes(value) ? theme.lib.colors.teal800 : theme.lib.colors.N400}
-          >
-            {label}
-          </Pill>
-        );
-      })}
-    </div>
+    <PermissionsList
+      permissions={productPermissions}
+      listActions={[
+        {
+          id: 'toggleEnabledAction',
+          sortable: false,
+          width: '5rem',
+          widthInAbsoluteUnit: true,
+          getContent(entity) {
+            return (
+              <SvgIcon
+                type={permissions.data?.includes(entity.keyForGroupApi) ? 'lib_check' : 'lib_openclose_cancel'}
+                color={
+                  permissions.data?.includes(entity.keyForGroupApi)
+                    ? theme.lib.colors.success
+                    : theme.lib.colors.failure
+                }
+              />
+            );
+          }
+        }
+      ]}
+    />
   );
 }
