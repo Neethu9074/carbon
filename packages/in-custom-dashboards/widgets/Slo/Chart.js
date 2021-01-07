@@ -3,14 +3,19 @@ import React from 'react';
 
 import stairway, { hourlyBudgetMetricId } from 'in-custom-dashboards/widgets/Slo/renderer/stairway';
 import { availabilityType, applicationType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
+import getJumpDirectlyToUA2Href$ from 'in-custom-dashboards/widgets/Slo/getJumpDirectlyToUA2Href';
 import { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import { groupByEndpointName, groupByServiceName } from 'in-analyze/AnalyzeView/dataSources';
 import { EQUALS, GREATER_THAN } from 'in-new-components/QueryBuilder/tagFilter/operators';
+import { isQB2ModeEnabled } from 'in-new-components/Alerting/components/WithQB1orQB2';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
 import { getSliFormatter } from 'in-custom-dashboards/widgets/Slo/sliFormatter';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import { convertToAnalyzeFilters } from 'in-applications/tags';
+import { entityTypes } from 'in-analyze/applicationFilter';
+
+const emptyTagFilterExpression = { type: 'EXPRESSION', logicalOperator: 'AND', elements: [] };
 
 export default function Chart({
   result,
@@ -64,9 +69,6 @@ function getCustomAnalyzeContextMenuProperties(sliConfig, disableZooming, tagCat
     return {}; // use defaults
   }
 
-  const sliEntity = sliConfig.sliEntity;
-  const filters = getAnalyzeFilters(sliConfig);
-
   return {
     primaryContextMenuAction: 'analyze',
     excludedContextMenuActions: disableZooming ? ['zoomIn'] : [],
@@ -75,27 +77,56 @@ function getCustomAnalyzeContextMenuProperties(sliConfig, disableZooming, tagCat
         name: 'analyze',
         icon: 'lib_analyze',
         label: 'View in Analyze',
-        getHref$: highlightedTime =>
-          tagCatalog &&
-          getJumpToAnalyzeHref$(
-            {
-              applicationId: sliEntity.applicationId,
-              serviceId: sliEntity.serviceId,
-              endpointId: sliEntity.endpointId
-            },
-            {
-              timeConfig: highlightedTime,
-              boundaryScope: sliEntity.boundaryScope,
-              groupByTag:
-                sliEntity.serviceId == null && sliEntity.endpointId == null ? groupByServiceName : groupByEndpointName,
-              focusedMetric: getFocusedMetric(sliConfig),
-              filters,
-              tagCatalog: tagCatalog
-            }
-          )
+        getHref$: highlightedTime => getLinkToUnboundAnalytics(sliConfig, tagCatalog, highlightedTime)
       }
     ]
   };
+}
+
+function getLinkToUnboundAnalytics(sliConfig, tagCatalog, highlightedTime) {
+  const sliEntity = sliConfig.sliEntity;
+  const boundaryScope = sliEntity.boundaryScope;
+  if (isQB2ModeEnabled) {
+    let tagFilterExpression;
+    if (sliEntity.sliType === 'availability') {
+      tagFilterExpression = sliEntity.badEventFilterExpression;
+    } else {
+      tagFilterExpression = emptyTagFilterExpression;
+    }
+    return getJumpDirectlyToUA2Href$(
+      {
+        applicationId: sliEntity.applicationId,
+        serviceId: sliEntity.serviceId,
+        endpointId: sliEntity.endpointId
+      },
+      tagFilterExpression,
+      boundaryScope,
+      {
+        timeConfig: highlightedTime,
+        groupBy: getGroupByParam(sliEntity),
+        charts: getChartsParam(sliConfig)
+      }
+    );
+  }
+  const filters = getAnalyzeFilters(sliConfig);
+  return (
+    tagCatalog &&
+    getJumpToAnalyzeHref$(
+      {
+        applicationId: sliEntity.applicationId,
+        serviceId: sliEntity.serviceId,
+        endpointId: sliEntity.endpointId
+      },
+      {
+        timeConfig: highlightedTime,
+        boundaryScope: sliEntity.boundaryScope,
+        groupByTag: getGroupByOldFormat(sliEntity),
+        focusedMetric: getFocusedMetricParam(sliConfig),
+        filters,
+        tagCatalog: tagCatalog
+      }
+    )
+  );
 }
 
 function getAnalyzeFilters(sliConfig) {
@@ -128,7 +159,7 @@ function createAnalyzeFilter(name, operator, value) {
   return { name, operator, value };
 }
 
-function getFocusedMetric(sliConfig) {
+function getFocusedMetricParam(sliConfig) {
   if (sliConfig.sliEntity.sliType === 'application') {
     const metricName = sliConfig.metricConfiguration.metricName;
     if (metricName === 'latency') {
@@ -136,4 +167,36 @@ function getFocusedMetric(sliConfig) {
     }
   }
   return 'calls_SUM';
+}
+
+function getChartsParam(sliConfig) {
+  if (sliConfig.sliEntity.sliType === 'application') {
+    const metricName = sliConfig.metricConfiguration.metricName;
+    if (metricName === 'latency') {
+      return [
+        {
+          metric: 'latency_DISTRIBUTION',
+          aggregation: 'DISTRIBUTION'
+        }
+      ];
+    }
+  }
+  return [
+    {
+      metric: 'calls',
+      aggregation: 'SUM'
+    }
+  ];
+}
+
+function getGroupByOldFormat(sliEntity) {
+  return sliEntity.serviceId == null && sliEntity.endpointId == null ? groupByServiceName : groupByEndpointName;
+}
+
+function getGroupByParam(sliEntity) {
+  const groupbyTag = sliEntity.serviceId == null && sliEntity.endpointId == null ? 'service.name' : 'endpoint.name';
+  return {
+    groupbyTagEntity: entityTypes.DESTINATION,
+    groupbyTag
+  };
 }
