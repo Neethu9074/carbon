@@ -2,15 +2,17 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import getConfigByDataSource, { groupByEndpointName, groupByServiceName } from 'in-analyze/AnalyzeView/dataSources';
+import { joinExpressions, fromBackendModel } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { isQB2Config, isQB2ModeEnabled } from 'in-new-components/Alerting/components/WithQB1orQB2';
 import { applicationsAlertingEventDetailsGoToAnalyze } from 'in-applications/alerting/tracker';
 import { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import { getTimeConfigFromEvent, getWidenedTimeConfigFromEvent } from 'in-events/timeframe';
 import { toTagFilterNumberOperator } from 'in-new-components/Alerting/utils/alertUtils';
+import { getLinkToAnalyze, getDirectLinkToUA2 } from 'in-analyze/navigation/paths';
+import { getBlueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
 import { getBaselineValue } from 'in-new-components/Alerting/utils/baselineUtils';
 import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import { convertToAnalyzeFilters } from 'in-applications/tags';
-import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
 import Button from 'in-new-components/Button';
 import Tooltip from 'in-components/Tooltip';
 
@@ -20,20 +22,9 @@ const alertTypeWithDisabledGrouping = ['errorRate', 'slowness'];
 export default function AnalyzeApplicationEventButton({ event, alertConfig }) {
   const metadata = event.get('metadata');
   const applicationName = metadata.get('entityLabel');
-  const boundaryScope = alertConfig.boundaryScope;
   const timeConfig = getRelevantEventTimeframe(event, alertConfig);
-  const analyzeFilters = getEnrichedAnalyzeFilters(alertConfig, timeConfig);
 
-  return (
-    <GoToAnalyzeButton
-      applicationName={applicationName}
-      boundaryScope={boundaryScope}
-      filters={analyzeFilters}
-      timeConfig={timeConfig}
-      alertType={alertConfig.rule.alertType}
-      convertedTagFilterExpression={alertConfig.convertedTagFilterExpression}
-    />
-  );
+  return <GoToAnalyzeButton applicationName={applicationName} timeConfig={timeConfig} alertConfig={alertConfig} />;
 }
 
 AnalyzeApplicationEventButton.propTypes = {
@@ -41,22 +32,15 @@ AnalyzeApplicationEventButton.propTypes = {
   alertConfig: PropTypes.object.isRequired
 };
 
-function GoToAnalyzeButton({
-  applicationName,
-  boundaryScope,
-  filters,
-  timeConfig,
-  alertType,
-  convertedTagFilterExpression
-}) {
+function GoToAnalyzeButton({ applicationName, timeConfig, alertConfig }) {
   const tagCatalog = useTagCatalog(getTagCatalog);
-  const isQB1Mode = !isQB2ModeEnabled;
-  const disabled = isQB1Mode && isQB2Config(convertedTagFilterExpression);
+  const linkToUA = getLinkToUnboundAnalytics(applicationName, alertConfig, timeConfig, tagCatalog);
+  const linkDisabled = !linkToUA;
 
   return (
     <Tooltip
       content={
-        disabled && (
+        linkDisabled && (
           <div>
             The config for this is stored with Query Builder 2 expressions. <br /> You can only use this button with
             configs stored in Query Builder 1
@@ -68,25 +52,63 @@ function GoToAnalyzeButton({
         kind="primary"
         icon="lib_application_call"
         onClick={() => applicationsAlertingEventDetailsGoToAnalyze()}
-        href$={
-          tagCatalog &&
-          getLinkToAnalyze({
-            applicationName,
-            dataSource,
-            boundaryScope,
-            filters,
-            tagCatalog,
-            groupByTag: getGrouping(alertType, filters),
-            focusedMetric: getFocusedMetric(alertType),
-            timeConfig
-          })
-        }
-        disabled={disabled}
+        href$={linkToUA}
+        disabled={linkDisabled}
       >
         Analyze Calls
       </Button>
     </Tooltip>
   );
+}
+
+function getLinkToUnboundAnalytics(applicationName, alertConfig, timeConfig, tagCatalog) {
+  const boundaryScope = alertConfig.boundaryScope;
+  const alertRule = alertConfig.rule;
+  const alertType = alertRule.alertType;
+
+  if (isQB2ModeEnabled) {
+    // link to UA2
+    const blueprintConfig = getBlueprintConfig(alertType);
+    return getDirectLinkToUA2({
+      dataSource,
+      timeConfig,
+      tagFilterExpression: joinExpressions({
+        expressions: [
+          getApplicationNameTagFilter(boundaryScope, applicationName),
+          fromBackendModel(alertConfig.tagFilterExpression),
+          blueprintConfig.getRuleTagFilterExpression(alertRule)
+        ]
+      })
+    });
+  } else if (!isQB2Config(alertConfig.convertedTagFilterExpression)) {
+    // link to UA1
+    const filters = getEnrichedAnalyzeFilters(alertConfig, timeConfig);
+    return (
+      tagCatalog &&
+      getLinkToAnalyze({
+        applicationName,
+        dataSource,
+        boundaryScope,
+        filters,
+        tagCatalog,
+        groupByTag: getGrouping(alertType, filters),
+        focusedMetric: getFocusedMetric(alertType),
+        timeConfig
+      })
+    );
+  }
+
+  // no link possible because there is no backward compatibility from a QB2 config in QB1 mode
+  return null;
+}
+
+function getApplicationNameTagFilter(boundaryScope, applicationName) {
+  return {
+    name: boundaryScope === 'INBOUND' ? 'call.inbound_of_application' : 'application.name',
+    operator: 'EQUALS',
+    type: 'TAG_FILTER',
+    value: applicationName
+  };
 }
 
 function getRelevantEventTimeframe(event, alertConfig) {
