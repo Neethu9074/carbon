@@ -11,7 +11,8 @@ import {
   metricsMatrixParameter,
   hiddenCallsMatrixParameter,
   chartsMatrixParameter,
-  dataSourceMatrixParameter
+  dataSourceMatrixParameter,
+  previewEnabledMatrixParameter
 } from 'in-applications/navigation/matrix';
 import TraceGroupingConfigurator, {
   isTraceGroupingConfigurationValid
@@ -78,7 +79,8 @@ function ApplicationAnalyzeViewWithFixatedTimeConfig() {
       orderBy,
       metrics = dataSourceConstants[dataSource].defaultMetrics,
       hiddenCalls,
-      charts
+      charts,
+      previewEnabled
     },
     onChange
   ] = useUrlState({
@@ -95,7 +97,8 @@ function ApplicationAnalyzeViewWithFixatedTimeConfig() {
       orderByMatrixParameter,
       metricsMatrixParameter,
       hiddenCallsMatrixParameter,
-      chartsMatrixParameter
+      chartsMatrixParameter,
+      previewEnabledMatrixParameter
     ],
     resets: [
       {
@@ -121,7 +124,8 @@ function ApplicationAnalyzeViewWithFixatedTimeConfig() {
               [orderByGroupsMatrixParameter.name]:
                 groupBy != null ? dataSourceConstants[dataSource].defaultOrderByGroups : null,
               [metricsMatrixParameter.name]: dataSourceConstants[dataSource].defaultMetrics,
-              [chartsMatrixParameter.name]: dataSourceConstants[dataSource].defaultCharts
+              [chartsMatrixParameter.name]: dataSourceConstants[dataSource].defaultCharts,
+              [previewEnabledMatrixParameter.name]: previewEnabled
             };
           }
           return {};
@@ -211,6 +215,7 @@ function ApplicationAnalyzeViewWithFixatedTimeConfig() {
       ]
     });
   };
+  const onChangePreviewEnabled = previewEnabled => onChange({ previewEnabled });
   const updateFilter = ({ add = emptyArray, remove = emptyArray }) =>
     onChange({
       tagFilterExpression: joinExpressions({
@@ -305,6 +310,8 @@ function ApplicationAnalyzeViewWithFixatedTimeConfig() {
               onChangeOrderBy={onChangeOrderByGroups}
               onChangeSubOrderBy={onChangeOrderBy}
               onChangeMetrics={onChangeMetrics}
+              onChangePreviewEnabled={onChangePreviewEnabled}
+              previewEnabled={previewEnabled}
               isValid={isValid}
               updateFilter={updateFilter}
               hiddenCalls={hiddenCalls}
@@ -325,6 +332,8 @@ function ApplicationAnalyzeViewWithFixatedTimeConfig() {
               updateFilter={updateFilter}
               hiddenCalls={hiddenCalls}
               onChangeHiddenCalls={onChangeHiddenCalls}
+              onChangePreviewEnabled={onChangePreviewEnabled}
+              previewEnabled={previewEnabled}
               dataSource={dataSource}
               getNestedUngroupedData={getUngroupedData}
             />
@@ -342,10 +351,10 @@ function getUngroupedData({
   retrievalSize,
   tagFilterExpression,
   order,
-  previewEnabled = false,
   cursor,
   hiddenCalls,
-  dataSource
+  dataSource,
+  queryPrecision
 }) {
   const { includeSynthetic = false, includeInternal = false } = hiddenCalls;
   const getData = dataSourceConstants[dataSource].getData;
@@ -359,8 +368,8 @@ function getUngroupedData({
       timeConfig: timeConfig
     },
     tagFilterExpression,
-    queryPrecision: previewEnabled ? 'APPROXIMATE' : 'FULL',
     includeSynthetic,
-    includeInternal
+    includeInternal,
+    queryPrecision
   });
 }

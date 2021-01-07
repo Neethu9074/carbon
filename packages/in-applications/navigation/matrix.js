@@ -78,6 +78,14 @@ export const chartsMatrixParameter = {
   parser: buildJsonParser(emptyObject)
 };
 
+export const previewEnabledMatrixParameter = {
+  path: analyze,
+  name: 'previewEnabled',
+  initialState: false,
+  parser: v => v === 'true',
+  serializer: Boolean
+};
+
 export const colorCodeMatrixParameter = {
   path: traceDetail,
   name: 'colorCode'

@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { empty } from '@instana/observables';
 import classNames from 'classnames';
+import Toggle from 'react-toggle';
 
+import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import FacetedSearch from 'in-applications/analyze/components/FacetedSearch/FacetedSearch';
 import CursorPaginatedTable from 'in-components/tables/ServerTable/CursorPaginatedTable';
 import BatchingIndicator from 'in-analyze/components/BatchingIndicator';
@@ -17,6 +19,7 @@ import { Link } from 'in-components/tables/sharedComponents';
 import { latencyFixed } from 'in-services/formatters/number';
 import HealthDot from 'in-new-components/health/HealthDot';
 import { emptyObject } from 'in-services/fixedObjects';
+import useObservable from 'in-hooks/useObservable';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import SvgIcon from 'in-components/SvgIcon';
 
@@ -38,17 +41,21 @@ export default function List({
   tableOnly = false,
   hiddenCalls,
   onChangeHiddenCalls,
+  onChangePreviewEnabled,
+  previewEnabled,
   dataSource,
   getNestedUngroupedData,
   linkFormModel
 }) {
   // Store the last valid result so that we can show it, in case the tagFilterExpression won't be valid.
   const [{ lastDataSource, lastValidResult }, setLastState] = useState(emptyObject);
+  const internalVisible = useObservable(isInternalVisible$, []) || false;
   const timeConfig = useTimeConfig();
   const order = {
     by: orderBy.by || defaultOrder,
     direction: orderBy.direction || defaultDirection
   };
+  const queryPrecision = internalVisible && previewEnabled ? 'APPROXIMATE' : 'FULL';
   const result = useCursorPagination(
     ({ cursor }) =>
       isValid
@@ -59,10 +66,11 @@ export default function List({
             order,
             cursor,
             hiddenCalls,
-            dataSource
+            dataSource,
+            queryPrecision
           })
         : empty,
-    [timeConfig, retrievalSize, tagFilterExpression, orderBy, isValid, hiddenCalls, dataSource]
+    [timeConfig, retrievalSize, tagFilterExpression, orderBy, isValid, hiddenCalls, dataSource, queryPrecision]
   );
 
   const resultToDisplay = !isValid && lastValidResult && lastDataSource === dataSource ? lastValidResult : result;
@@ -109,6 +117,8 @@ export default function List({
       filterBy={filterBy}
       hiddenCalls={hiddenCalls}
       onChangeHiddenCalls={onChangeHiddenCalls}
+      onChangePreviewEnabled={onChangePreviewEnabled}
+      previewEnabled={previewEnabled}
       isValid={isValid}
       dataSource={dataSource}
     />
@@ -129,9 +139,12 @@ function Presenter({
   filterBy,
   hiddenCalls,
   onChangeHiddenCalls,
+  onChangePreviewEnabled,
+  previewEnabled,
   isValid,
   dataSource
 }) {
+  const internalVisible = useObservable(isInternalVisible$, []) || false;
   return (
     <div className={locals.wrapper}>
       <div className={locals.hitsAndFacetedSearch}>
@@ -151,6 +164,14 @@ function Presenter({
         />
       </div>
       <div className={locals.table}>
+        {internalVisible && (
+          <div className={locals.header}>
+            <div className={locals.preview}>
+              <span>Preview</span>
+              <Toggle checked={previewEnabled} onChange={e => onChangePreviewEnabled(e.target.checked)} />
+            </div>
+          </div>
+        )}
         <CursorPaginatedTable
           columnDefinitions={columnDefinitions}
           optionalColumns={optionalColumns}

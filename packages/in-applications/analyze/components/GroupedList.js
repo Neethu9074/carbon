@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { empty } from '@instana/observables';
 import classNames from 'classnames';
+import Toggle from 'react-toggle';
 
 import { getGroupingTagCatalog as getTraceGroupingTagCatalog } from 'in-applications/analyze/components/workspace/TraceGroupingConfigurator';
 import { getGroupingTagCatalog as getCallGroupingTagCatalog } from 'in-applications/analyze/components/workspace/CallGroupingConfigurator';
 import MetricAndSortingConfigurator from 'in-new-components/MetricAndSortingConfigurator/MetricAndSortingConfigurator';
+import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import { UNSPECIFIED, NO_VALUE, UNSPECIFIED_LABEL, NO_VALUE_LABEL } from 'in-analyze/components/GroupedTraces/Group';
 import { ColumnizedContent, Ul, Li, LoadingSkeletonLi, HorizontalIndicatorLi } from 'in-new-components/lists/List';
 import { EQUALS, IS_EMPTY, NOT_EMPTY, IS_BLANK } from 'in-new-components/QueryBuilder/tagFilter/operators';
@@ -28,6 +30,7 @@ import useCursorPagination from 'in-hooks/useCursorPagination';
 import List from 'in-applications/analyze/components/List';
 import KeyValue from 'in-new-components/lists/KeyValue';
 import Tooltip from 'in-components/Tooltip/Tooltip';
+import useObservable from 'in-hooks/useObservable';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Message from 'in-new-components/Message';
 import SvgIcon from 'in-components/SvgIcon';
@@ -44,6 +47,8 @@ export default function GroupedList({
   onChangeOrderBy,
   onChangeSubOrderBy,
   onChangeMetrics,
+  onChangePreviewEnabled,
+  previewEnabled,
   isValid,
   updateFilter,
   hiddenCalls,
@@ -57,6 +62,7 @@ export default function GroupedList({
 }) {
   // Store the last valid result so that we can show it, in case the tagFilterExpression won't be valid.
   const [{ lastDataSource, lastValidResult }, setLastState] = useState(emptyObject);
+  const internalVisible = useObservable(isInternalVisible$, []) || false;
   const defaultOrder = dataSourceConstants[dataSource].metricKey;
   const defaultDirection = 'DESC';
   const timeConfig = useTimeConfig();
@@ -64,6 +70,7 @@ export default function GroupedList({
   const sparkChartGranularity = getSparkChartGranularity(timeConfig);
   const order = { by: orderBy.by || defaultOrder, direction: orderBy.direction || defaultDirection };
   const fixedMetrics = dataSourceConstants[dataSource].fixedMetrics;
+  const queryPrecision = internalVisible && previewEnabled ? 'APPROXIMATE' : 'FULL';
 
   const result = useCursorPagination(
     ({ cursor }) =>
@@ -80,10 +87,11 @@ export default function GroupedList({
             ),
             cursor,
             hiddenCalls,
-            dataSource
+            dataSource,
+            queryPrecision
           })
         : empty,
-    [timeConfig, tagFilterExpression, groupBy, orderBy, metrics, isValid, hiddenCalls, dataSource]
+    [timeConfig, tagFilterExpression, groupBy, orderBy, metrics, isValid, hiddenCalls, dataSource, queryPrecision]
   );
 
   const resultToDisplay = !isValid && lastValidResult && lastDataSource === dataSource ? lastValidResult : result;
@@ -120,6 +128,8 @@ export default function GroupedList({
       onChangeMetrics={onChangeMetrics}
       onChangeSubOrderBy={onChangeSubOrderBy}
       onChangeHiddenCalls={onChangeHiddenCalls}
+      onChangePreviewEnabled={onChangePreviewEnabled}
+      previewEnabled={previewEnabled}
       tagFilterExpression={tagFilterExpression}
       updateFilter={updateFilter}
       showChartGroupMarkers={showChartGroupMarkers}
@@ -153,6 +163,8 @@ function Presenter({
   onChangeOrderBy,
   onChangeMetrics,
   onChangeSubOrderBy,
+  onChangePreviewEnabled,
+  previewEnabled,
   tagFilterExpression,
   updateFilter,
   hiddenCalls,
@@ -195,6 +207,8 @@ function Presenter({
           selectableMetrics={selectableMetrics}
           onChangeOrderBy={onChangeOrderBy}
           onChangeMetrics={onChangeMetrics}
+          onChangePreviewEnabled={onChangePreviewEnabled}
+          previewEnabled={previewEnabled}
           dataSource={dataSource}
         />
         <Ul space="xsmall">
@@ -227,6 +241,7 @@ function Presenter({
                       subOrderBy={subOrderBy}
                       onChangeSubOrderBy={onChangeSubOrderBy}
                       hiddenCalls={hiddenCalls}
+                      previewEnabled={previewEnabled}
                       groupByTagType={groupByTagType}
                       dataSource={dataSource}
                       getNestedUngroupedData={getNestedUngroupedData}
@@ -236,13 +251,7 @@ function Presenter({
                 >
                   <div className={locals.list}>
                     <div className={locals.labelColumn}>
-                      <ColumnizedContent
-                        columnDefinitions={labelColumnDefinitions}
-                        group={item}
-                        dataSource={dataSource}
-                        getNestedUngroupedData={getNestedUngroupedData}
-                        linkFormModel={linkFormModel}
-                      />
+                      <ColumnizedContent columnDefinitions={labelColumnDefinitions} group={item} />
                     </div>
                     <div className={locals.metricColumn}>
                       <ColumnizedContent
@@ -381,7 +390,17 @@ function metricToColumn(metric, dataSource) {
   };
 }
 
-function getGroups({ timeConfig, tagFilterExpression, groupBy, order, metrics, cursor, hiddenCalls, dataSource }) {
+function getGroups({
+  timeConfig,
+  tagFilterExpression,
+  groupBy,
+  order,
+  metrics,
+  cursor,
+  hiddenCalls,
+  dataSource,
+  queryPrecision
+}) {
   const { includeSynthetic = false, includeInternal = false } = hiddenCalls;
   const getData = dataSourceConstants[dataSource].getGroupData;
   return getData({
@@ -397,7 +416,8 @@ function getGroups({ timeConfig, tagFilterExpression, groupBy, order, metrics, c
     order,
     metrics,
     includeSynthetic,
-    includeInternal
+    includeInternal,
+    queryPrecision
   });
 }
 
@@ -415,7 +435,17 @@ function aggregationLabel(aggregation, type) {
   }
 }
 
-function HeaderRow({ order, onChangeOrderBy, fixedMetrics, selectableMetrics, onChangeMetrics, dataSource }) {
+function HeaderRow({
+  order,
+  onChangeOrderBy,
+  fixedMetrics,
+  selectableMetrics,
+  onChangeMetrics,
+  onChangePreviewEnabled,
+  previewEnabled,
+  dataSource
+}) {
+  const internalVisible = useObservable(isInternalVisible$, []) || false;
   const metricConfiguration = dataSourceConstants[dataSource].metricConfiguration;
   const sortingMetricConfiguration = {
     ...dataSourceConstants[dataSource].fixedMetricConfiguration,
@@ -443,6 +473,12 @@ function HeaderRow({ order, onChangeOrderBy, fixedMetrics, selectableMetrics, on
         setMetrics={onChangeMetrics}
         metricOptions={metricOptions}
       />
+      {internalVisible && (
+        <div className={locals.preview}>
+          <span>Preview</span>
+          <Toggle checked={previewEnabled} onChange={e => onChangePreviewEnabled(e.target.checked)} />
+        </div>
+      )}
     </div>
   );
 }
@@ -456,6 +492,7 @@ function ExpandedGroup({
   subOrderBy,
   onChangeSubOrderBy,
   hiddenCalls,
+  previewEnabled,
   groupByTagType,
   dataSource,
   getNestedUngroupedData,
@@ -478,6 +515,7 @@ function ExpandedGroup({
       isValid
       withoutPadding
       hiddenCalls={hiddenCalls}
+      previewEnabled={previewEnabled}
       dataSource={dataSource}
       getNestedUngroupedData={getNestedUngroupedData}
       linkFormModel={joinExpressions({

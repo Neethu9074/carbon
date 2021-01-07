@@ -17,7 +17,8 @@ import {
   setGroupByMatrixParam,
   setMetricsMatrixParam,
   setDataSourceMatrixParam,
-  setOrderByMatrixParam
+  setOrderByMatrixParam,
+  setPreviewEnabledMatrixParam
 } from 'in-analyze/navigation/paths';
 import {
   getTagFilterFromUrlString,
@@ -126,6 +127,13 @@ const urlStateConfig = {
     },
     {
       path: analyze,
+      name: `callList.${previewEnabledMatrixParameter}`,
+      as: previewEnabledMatrixParameter,
+      parser: v => (v === 'false' ? false : true),
+      serializer: Boolean
+    },
+    {
+      path: analyze,
       name: `groups.metrics`,
       as: metricsMatrixParameter,
       serializer: serializeMetrics,
@@ -147,7 +155,7 @@ export default function AnalyzeViewPropsEnrichment(props) {
   urlState[groupByMatrixParameter] = urlState[groupByMatrixParameter] ?? getInitialGrouping(props);
   urlState[showGraphMatrixParameter] = urlState[showGraphMatrixParameter] ?? initialShowGraph(props);
 
-  const { tagFilter, groupBy: group, dataSource, focusedMetric, metrics } = urlState;
+  const { tagFilter, groupBy: group, dataSource, focusedMetric, metrics, previewEnabled } = urlState;
   const filters = {
     tagFilter,
     group,
@@ -167,6 +175,7 @@ export default function AnalyzeViewPropsEnrichment(props) {
         setDataSourceMatrixParam(location, dataSource);
         setMetricsMatrixParam(location, dataSource, metrics);
         setChartsMatrixParam(location, dataSource, focusedMetric);
+        setPreviewEnabledMatrixParam(location, previewEnabled);
         setGroupByMatrixParam(location, group);
         setTagFilterExpressionAndHiddenCalls(location, tagCatalog, tagFilter);
         // orderBy

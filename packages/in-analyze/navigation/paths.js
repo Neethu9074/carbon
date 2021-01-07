@@ -23,7 +23,8 @@ import {
   tagFilterExpressionMatrixParameter,
   hiddenCallsMatrixParameter,
   metricsMatrixParameter,
-  chartsMatrixParameter
+  chartsMatrixParameter,
+  previewEnabledMatrixParameter
 } from 'in-applications/navigation/matrix';
 import {
   EQUALS,
@@ -86,9 +87,8 @@ function getLinkToUA2({
   // ignore the 'showGraph' flag, in UA2 (closed beta) charts should always be enabled
   // showGraph = true,
   focusedMetric,
-  jumpToSource
-  // execution queries with sampling enabled won't be ready for UA2 (closed beta)
-  // previewEnabled
+  jumpToSource,
+  previewEnabled
 } = emptyObject) {
   if (__DEV__) {
     invariant(
@@ -107,6 +107,7 @@ function getLinkToUA2({
     setOrderByMatrixParam(location, orderBy, orderDirection, groupByTag);
     setMetricsMatrixParam(location, dataSource, metrics);
     setChartsMatrixParam(location, dataSource, focusedMetric);
+    setPreviewEnabledMatrixParam(location, previewEnabled);
     if (timeConfig) {
       setTimeConfig(location, timeConfig);
     }
@@ -270,6 +271,10 @@ function toNewGroupByFormat(groupByTag = emptyObject) {
 export function setChartsMatrixParam(location, dataSource, focusedMetric) {
   const charts = getMetricAndAggregationFromMetricKey(focusedMetric) ?? dataSourceConstants[dataSource].defaultCharts;
   setOrDeleteMatrixParameter(location, chartsMatrixParameter, charts);
+}
+
+export function setPreviewEnabledMatrixParam(location, previewEnabled) {
+  setOrDeleteMatrixParameter(location, previewEnabledMatrixParameter, previewEnabled);
 }
 
 export function setTagFilterExpressionAndHiddenCalls(location, tagCatalog, tagFilters, tagFilterExpression = []) {
