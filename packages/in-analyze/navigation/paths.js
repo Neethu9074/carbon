@@ -184,6 +184,34 @@ function getLinkToUA2({
   });
 }
 
+export function getDirectLinkToUA2({
+  dataSource = 'calls',
+  groupBy,
+  orderBy,
+  timeConfig,
+  metrics,
+  charts,
+  tagFilterExpression
+} = emptyObject) {
+  return getModifiedUrlStream(location => {
+    location.pathname = analyze;
+
+    setOrDeleteMatrixParameter(location, dataSourceMatrixParameter, dataSource);
+    setOrDeleteMatrixParameter(location, groupByMatrixParameter, groupBy);
+    setOrDeleteMatrixParameter(location, groupBy ? orderByGroupsMatrixParameter : orderByMatrixParameter, orderBy);
+    setMetricsMatrixParam(location, dataSource, metrics);
+    setOrDeleteMatrixParameter(
+      location,
+      chartsMatrixParameter,
+      charts ?? dataSourceConstants[dataSource].defaultCharts
+    );
+    if (timeConfig) {
+      setTimeConfig(location, timeConfig);
+    }
+    setOrDeleteMatrixParameter(location, tagFilterExpressionMatrixParameter, tagFilterExpression);
+  });
+}
+
 export function setDataSourceMatrixParam(location, dataSource) {
   setOrDeleteMatrixParameter(location, dataSourceMatrixParameter, dataSource);
 }
