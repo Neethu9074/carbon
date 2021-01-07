@@ -56,7 +56,7 @@ export default function ApplicationEventContent({ event }) {
   };
   const chartViewConfig = createDefaultChartConfig(timeConfig);
 
-  const tagFilterExpressionUiModel = fromBackendModel(tagFilterExpression ?? []);
+  const tagFilterExpressionUiModel = fromBackendModel(tagFilterExpression);
 
   return (
     <>

@@ -53,7 +53,10 @@ export default connectTo(
         </DescriptionButtons>
         <div className={locals.sectionWrapper}>
           <AlertingChartWithErrorMessage
-            alertConfig={alertConfig}
+            alertConfig={{
+              ...alertConfig,
+              tagFilterExpression: tagFilterExpressionUiModel
+            }}
             viewConfig={chartViewConfig}
             blueprintConfig={blueprintConfig}
           />
