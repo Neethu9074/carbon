@@ -145,7 +145,6 @@ function writeTryBuildServerConfigFile(cb) {
       domain: 'pink.instana.rocks/eum/',
       retrievalDomain: 'pink.instana.rocks/eum'
     },
-    zendeskKey: 'cbc6d14e-73ae-48f2-8d8c-b9e27af1c64f',
     clientConfig: buildUtil.getDevModeConfig({
       uiBackendUrl: 'https://test-instana.pink.instana.rocks',
       butlerUrl: 'https://test-instana.pink.instana.rocks',

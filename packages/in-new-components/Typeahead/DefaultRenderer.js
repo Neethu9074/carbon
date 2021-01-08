@@ -1,7 +1,6 @@
+import { escapeRegExp } from 'lodash';
 import classNames from 'classnames';
 import React from 'react';
-
-import { escapeSpecialChars } from 'in-services/util/regex';
 
 import locals from './DefaultRenderer.mless';
 
@@ -47,7 +46,7 @@ function getHighlightedText(text, highlight) {
   if (!highlight) {
     return text;
   }
-  const parts = text.split(new RegExp(`(${escapeSpecialChars(highlight)})`, 'gi'));
+  const parts = text.split(new RegExp(`(${escapeRegExp(highlight)})`, 'gi'));
   return (
     <span>
       {parts.map((part, i) => (
