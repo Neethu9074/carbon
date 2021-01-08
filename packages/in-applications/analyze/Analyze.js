@@ -188,6 +188,8 @@ function ApplicationAnalyzeViewWithFixatedTimeConfig() {
   const onChangeMetrics = metrics => {
     const isOrderByInMetricList = [...dataSourceConstants[dataSource].fixedMetrics, ...metrics]
       .map(metric => aggregateMetricKey(metric.metric, metric.aggregation))
+      // fixed non-metric columns
+      .concat(['group', 'firstTimestamp'])
       .includes(orderByGroups.by);
     if (isOrderByInMetricList) {
       onChange({ metrics });

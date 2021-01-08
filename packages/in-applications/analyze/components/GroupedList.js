@@ -27,6 +27,7 @@ import { error as errorType } from 'in-new-components/Message/types';
 import IconButton from 'in-new-components/IconButton/IconButton';
 import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import useCursorPagination from 'in-hooks/useCursorPagination';
+import { formatDateTime } from 'in-services/formatters/date';
 import List from 'in-applications/analyze/components/List';
 import KeyValue from 'in-new-components/lists/KeyValue';
 import Tooltip from 'in-components/Tooltip/Tooltip';
@@ -339,7 +340,16 @@ function labelColumns({ groupBy, showChartGroupMarkers, groupColors }) {
 }
 
 function metricColumns({ metrics, dataSource }) {
-  return metrics.map(metric => metricToColumn(metric, dataSource));
+  return [
+    {
+      width: '10rem',
+      shrink: false,
+      getContent({ group }) {
+        const earliestTimestamp = formatDateTime(group.timestamp);
+        return <KeyValue label="Earliest Timestamp" customValue={earliestTimestamp} accentuated />;
+      }
+    }
+  ].concat(metrics.map(metric => metricToColumn(metric, dataSource)));
 }
 
 function actionColumns({ groupBy, onFocusOnGroup, groupByTagType }) {
@@ -456,13 +466,17 @@ function HeaderRow({
     label: value.label,
     aggregations: value.aggregations
   }));
-  const sortingOptions = [...fixedMetrics, ...selectableMetrics].map(metric => {
-    const aggregation = aggregationLabel(metric.aggregation, sortingMetricConfiguration[metric.metric].type);
-    return {
-      value: aggregateMetricKey(metric.metric, metric.aggregation),
-      label: `${sortingMetricConfiguration[metric.metric].label} ${aggregation}`
-    };
-  });
+  const sortingOptions = [
+    { label: 'Group Name', value: 'group' },
+    { label: 'Earliest Timestamp', value: 'firstTimestamp' },
+    ...[...fixedMetrics, ...selectableMetrics].map(metric => {
+      const aggregation = aggregationLabel(metric.aggregation, sortingMetricConfiguration[metric.metric].type);
+      return {
+        value: aggregateMetricKey(metric.metric, metric.aggregation),
+        label: `${sortingMetricConfiguration[metric.metric].label} ${aggregation}`
+      };
+    })
+  ];
   return (
     <div className={locals.header}>
       <MetricAndSortingConfigurator
