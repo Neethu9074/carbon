@@ -16,15 +16,6 @@ if (serverConfig.appcuesId) {
   allowedScriptOrigins.push('https://fast.appcues.com');
 }
 
-if (serverConfig.zendeskKey) {
-  allowedScriptOrigins.push(
-    'https://static.zdassets.com',
-    'https://ekr.zdassets.com',
-    'https://instana.zendesk.com',
-    'wss://instana.zendesk.com'
-  );
-}
-
 exports.getCsp = nonce => {
   return `script-src 'self' 'nonce-${nonce}' ${allowedScriptOrigins.join(' ')}`;
 };

@@ -199,7 +199,7 @@ export default function TermsPage2({
             <p>We use third-party services to deliver help and support to Instana customers.</p>
             {form.get('allSupportAndResearchServices').map(({ value }) => (
               <CheckboxFancy
-                label="Allow all Support & Research Services (ZenDesk Chat & Appcues)"
+                label="Allow all Support & Research Services (Appcues)"
                 checked={value}
                 onChange={() => onChange(form, 'allSupportAndResearchServices', !value)}
                 size="large"

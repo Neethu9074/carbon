@@ -20,7 +20,6 @@ exports.getClientConfig = (req, tenant, unit) => {
     tenantUnit: unit,
     featureFlags: featureFlags,
     configuration: configuration,
-    zendeskKey: serverConfig.zendeskKey,
 
     agentEndpoint: reportingEndpoints.agentEndpoint,
     agentEndpointPort: reportingEndpoints.port,

@@ -1,9 +1,9 @@
+import { escapeRegExp } from 'lodash';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import Downshift from 'downshift';
 import React from 'react';
 
-import { escapeSpecialChars } from 'in-services/util/regex';
 import SvgIcon from 'in-components/SvgIcon/SvgIcon';
 
 import locals from './CustomMetricSelector.mless';
@@ -101,7 +101,7 @@ function getHighlightedText(text, highlight) {
     return text;
   }
 
-  const parts = text.split(new RegExp(`(${escapeSpecialChars(highlight)})`, 'gi'));
+  const parts = text.split(new RegExp(`(${escapeRegExp(highlight)})`, 'gi'));
 
   return (
     <span>

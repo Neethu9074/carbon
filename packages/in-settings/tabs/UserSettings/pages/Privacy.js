@@ -49,7 +49,7 @@ function render({ form, setForm, setCanSaveItem }) {
         ))}
         {form.get('allSupportAndResearchServices').map(({ value }) => (
           <CheckboxFancy
-            label="Allow all Support & Research Services (ZenDesk Chat & Appcues)"
+            label="Allow all Support & Research Services (Appcues)"
             checked={value}
             onChange={() => onChange('allSupportAndResearchServices', !value)}
             size="large"

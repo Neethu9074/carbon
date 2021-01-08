@@ -153,7 +153,7 @@ router.get('/', async (req, res) => {
         prefetchItems,
         user: userStr,
         permissions: permissions,
-        config: stringifyClientConfig(clientConfig, termsAndPrivacy.allSupportAndResearchServices),
+        config: JSON.stringify(clientConfig),
         build: stringifiedBuildInformation,
         searchFields: searchFieldsStr,
         settings: userSettings,
@@ -277,13 +277,6 @@ function getStarredItems(req) {
     req,
     path: '/api/starred-item'
   });
-}
-
-function stringifyClientConfig(clientConfig, zendeskAllowedByUser) {
-  if (!zendeskAllowedByUser) {
-    delete clientConfig.zendeskKey;
-  }
-  return JSON.stringify(clientConfig);
 }
 
 function getParsedUser(userStr) {
