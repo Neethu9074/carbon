@@ -13,6 +13,7 @@ Tasks are defined in the `package.json`. They can be executed via `yarn run <tas
  - `yarn run build`: Builds the whole source code. This is not required for most local development workflows. *You probably don't need this.*
  - `yarn run try-build`: Can be executed after a successful `yarn run build` to start up the UI in a way that is similar to production deployments. The UI will expect that backend components are available locally using their default development ports, e.g. the ports opened via our tunnel script. *You probably don't need this.*
  - `yarn run check:licenses`: Generates a `ui-client-license-report.csv` and a `ui-server-license-report.csv` in the repository root which comes in handy when we need to validate licenses of our dependencies, e.g., for a technical due dilligence. *You probably don't need this.*
+ - `npx browserslist`: Gets you a list of browsers that we are supporting.
 
 ## End to End Tests
 
