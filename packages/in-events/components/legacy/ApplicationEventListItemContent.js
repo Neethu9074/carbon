@@ -6,6 +6,7 @@ import AnalyzeApplicationEventButton from 'in-events/components/AnalyzeApplicati
 import ScopeConfigPresenter from 'in-new-components/Alerting/components/ScopeConfigPresenter';
 import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-applications/tags';
 import ApplicationAlertConfigButton from 'in-events/components/ApplicationAlertConfigButton';
+import { createDefaultChartConfig } from 'in-new-components/Alerting/Chart/chartViewConfig';
 import { getAlertConfigByIdAndTimestamp } from 'in-applications/api/applicationAlertConfig';
 import { fromBackendModel } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { alertingEventDetailsChartTimeframe } from 'in-new-components/Alerting/constants';
@@ -38,12 +39,13 @@ export default connectTo(
     const alertType = alertConfig.rule.alertType;
 
     const blueprintConfig = getBlueprintConfig(alertType);
-    const timeConfig = getChartTimeConfigByEvent({ event });
-    timeConfig.windowSize = alertingEventDetailsChartTimeframe;
-
+    const timeConfig = {
+      ...getChartTimeConfigByEvent({ event }),
+      windowSize: alertingEventDetailsChartTimeframe
+    };
+    const chartViewConfig = createDefaultChartConfig(timeConfig);
     const tagFilterExpressionUiModel = fromBackendModel(alertConfig.tagFilterExpression);
 
-    const chartViewConfig = { timeConfig };
     return (
       <>
         <ProblemDescription event={event} />
