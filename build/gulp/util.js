@@ -65,7 +65,6 @@ exports.getDevModeConfig = function getDevModeConfig(envConfig) {
     butlerDomain: envConfig.butlerDomain,
     analyticsTrackingId: 'UA-66215232-4',
     mixpanelToken: 'd77cf014d1859ac6ebf349b214579823',
-    zendeskKey: 'cbc6d14e-73ae-48f2-8d8c-b9e27af1c64f',
     featureFlags: require(paths.featureFlags),
     configuration: {},
 
