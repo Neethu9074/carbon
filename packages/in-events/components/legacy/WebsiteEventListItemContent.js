@@ -2,6 +2,7 @@ import React from 'react';
 
 import { getEnhancedTagFilters } from 'in-new-components/Alerting/utils/tagfilterEnrichmentUtil';
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
+import { createDefaultChartConfig } from 'in-new-components/Alerting/Chart/chartViewConfig';
 import { alertingEventDetailsChartTimeframe } from 'in-new-components/Alerting/constants';
 import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
 import AnalyzeWebsiteEventButton from 'in-events/components/AnalyzeWebsiteEventButton';
@@ -34,13 +35,12 @@ export default connectTo(
     const websiteLabel = metadata.get('entityLabel');
     const tagFilters = alertConfig.tagFilters;
 
-    const timeConfig = getChartTimeConfigByEvent({ event });
-    timeConfig.windowSize = alertingEventDetailsChartTimeframe;
-
-    const chartViewConfig = {
-      timeConfig
-    };
     const blueprintConfig = getBlueprintConfig(alertConfig.rule.alertType);
+    const timeConfig = {
+      ...getChartTimeConfigByEvent({ event }),
+      windowSize: alertingEventDetailsChartTimeframe
+    };
+    const chartViewConfig = createDefaultChartConfig(timeConfig);
 
     const { numeratorFilter, enrichedTagFilters, enrichedTagFilterExpression } = getEnhancedTagFilters(
       alertConfig,
