@@ -8,6 +8,8 @@ import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './PermissionsList.mless';
 
+const SHOW_ALL = 'Show all';
+
 const defaultColumnDefinitions = [
   {
     id: 'description',
@@ -67,7 +69,7 @@ export default function PermissionsList({ permissions, listActions }) {
 function createFilters(category) {
   const filters = [];
 
-  if (category) {
+  if (category && category != SHOW_ALL) {
     filters.push(entity => entity.category === category);
   }
 
@@ -86,9 +88,12 @@ function permissionListRightHeader(category, setCategory, productPermissions) {
     <Select
       id="filter-category"
       value={category ? category : ''}
-      onChange={e => (e ? setCategory(e.value) : setCategory(null))}
+      onChange={e => (e.target ? setCategory(e.target.value) : setCategory(null))}
       wrapperClassName={locals.categoryFilter}
     >
+      <option key={null} value={null}>
+        {SHOW_ALL}
+      </option>
       {options.map(({ value, label }) => (
         <option key={value} value={value}>
           {label}

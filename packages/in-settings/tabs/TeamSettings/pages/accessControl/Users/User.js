@@ -88,7 +88,6 @@ function renderUser(props) {
 
       <Row>
         <Col lg>
-          <h2 className={locals.title}>Permissions</h2>
           <UserPermissions userId={user.id} />
         </Col>
       </Row>
