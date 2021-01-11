@@ -13,7 +13,7 @@ export default function ColorConfigurator({ metricForm, index, indexInAxis, onCh
   const isGrouped = metricForm.get('grouping')?.size > 0;
   if (isGrouped) {
     return (
-      <Tooltip content="Colors for datasets leveraging breakdowns cannot be configured.">
+      <Tooltip content="Colors for datasets leveraging groupings cannot be configured.">
         <DropdownButton disabled kind="secondary">
           <img
             className={locals.groupedColorChoice}
