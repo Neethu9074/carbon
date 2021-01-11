@@ -1,12 +1,15 @@
 import React, { useLayoutEffect, useRef } from 'react';
 
+import * as webglNotInitialized from 'in-services/util/canvas/help-articles/webglNotInitialized.mmd';
+import * as webglNotSupported from 'in-services/util/canvas/help-articles/webglNotSupported.mmd';
 import StickyNoteHoster from 'in-map/components/stickyNotes/StickyNoteHoster';
-import { showHelp, closeHelpIfOpen } from 'in-stores/navigation/navigation';
+import MapNoContentMessage from 'in-map/components/MapNoContentMessage';
+import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import TooltipHoster from 'in-map/components/tooltips/TooltipHoster';
 import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
-import MapNoContentMessage from 'in-map/components/MapNoContentMessage';
 import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
 import { getWebGLCanvasContext } from 'in-map/services/webGL';
+import HelpDialog from 'in-components/helpSystem/HelpDialog';
 import { setCanvas, clear } from 'in-map/stores/indexStore';
 import { isWebGLSupported } from 'in-map/services/webGL';
 import { view$, types as views } from 'in-stores/view';
@@ -32,7 +35,7 @@ export default function Map() {
     }
 
     if (!isWebGLSupported()) {
-      showHelp('webglNotSupported');
+      addActiveDialog(<HelpDialog article={webglNotSupported} />);
       return;
     }
 
@@ -51,15 +54,12 @@ export default function Map() {
     }
 
     if (!webGlContext) {
-      showHelp('webglNotInitialized');
+      addActiveDialog(<HelpDialog article={webglNotInitialized} />);
       return;
     }
 
     setCanvas(canvas);
     const sceneGraph = new SceneGraph(canvas, antialias, webGlContext);
-    closeHelpIfOpen('webglNotInitialized');
-    closeHelpIfOpen('webglcontextlost');
-    closeHelpIfOpen('webglcontextrestored');
 
     return () => {
       clear();
@@ -100,7 +100,7 @@ function getTitle(view) {
 
 function onLost(event) {
   event.preventDefault();
-  showHelp('webglNotSupported');
+  addActiveDialog(<HelpDialog article={webglNotSupported} />);
 }
 
 function onRestored(event) {

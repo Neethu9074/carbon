@@ -5,12 +5,13 @@ import { togglePresets, presetsVisible$ } from 'in-components/SearchBar/stores/p
 import { unvalidatedQuery$, query$, setQueryInput } from 'in-stores/search/query';
 import ErrorIndicator from 'in-components/SearchBar/components/ErrorIndicator';
 import FilterPresets from 'in-components/SearchBar/components/FilterPresets';
+import * as helpArticle from 'in-components/SearchBar/usingTheSearchBar.mmd';
 import SaveDialog from 'in-components/SearchBar/components/SaveDialog';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { setValues } from 'in-components/SearchBar/stores/dialog';
 import { refresh } from 'in-components/SearchBar/stores/filters';
+import HelpDialog from 'in-components/helpSystem/HelpDialog';
 import Input from 'in-components/SearchBar/Input';
-import { showHelp } from 'in-stores/navigation';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 
@@ -107,7 +108,7 @@ export default connectTo(
 
 function onShowKeywordHelp(e) {
   e.preventDefault();
-  showHelp('usingTheSearchBar');
+  addActiveDialog(<HelpDialog article={helpArticle} />);
 }
 
 function save(query) {

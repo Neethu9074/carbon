@@ -1,0 +1,5 @@
+:local {
+  .dialog {
+    max-width: 30vw;
+  }
+}

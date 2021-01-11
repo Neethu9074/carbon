@@ -1,5 +1,5 @@
-import { goToRootOfView, navigationParameters$, closeCurrentHelpIfOpen } from 'in-stores/navigation';
 import { togglePresets, presetsVisible$ } from 'in-components/SearchBar/stores/presetsVisibility';
+import { goToRootOfView, navigationParameters$ } from 'in-stores/navigation';
 import { activeDialogs$, close } from 'in-components/DialogPresenter/store';
 import { disableTvMode } from 'in-new-components/WithTvMode';
 import { clearSelectedSnapshotId } from 'in-stores/snapshot';
@@ -13,9 +13,8 @@ export default function onPressed() {
   if (!navigationParameters) {
     return;
   }
-  if (checkIfHelpTextIsOpen()) {
-    closeCurrentHelpIfOpen();
-  } else if (checkIfDashboardisOpen()) {
+
+  if (checkIfDashboardisOpen()) {
     goToRootOfView();
   } else if (checkIfSidebarInMapisOpen()) {
     clearSelectedSnapshotId();
@@ -40,8 +39,4 @@ function checkIfDashboardisOpen() {
 
 function checkIfSidebarInMapisOpen() {
   return 'snapshotId' in navigationParameters.query && navigationParameters.pathname !== '/dasboard';
-}
-
-function checkIfHelpTextIsOpen() {
-  return 'help' in navigationParameters.query;
 }

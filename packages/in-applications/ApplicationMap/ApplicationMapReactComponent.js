@@ -3,15 +3,18 @@ import { get } from 'lodash';
 import React from 'react';
 
 import ServicesNoDataNotification from 'in-applications/lists/components/ServicesNoDataNotification';
+import * as webglNotInitialized from 'in-services/util/canvas/help-articles/webglNotInitialized.mmd';
+import * as webglNotSupported from 'in-services/util/canvas/help-articles/webglNotSupported.mmd';
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import { buildJsonSerializer, buildJsonParser } from 'in-stores/navigation/matrix';
 import { isWebGLSupported, getWebGLCanvasContext } from 'in-map/services/webGL';
 import WithEmptyStateFallback from 'in-new-components/WithEmptyStateFallback';
 import ApplicationMap from 'in-applications/ApplicationMap/ApplicationMap';
-import { showHelp, closeHelpIfOpen } from 'in-stores/navigation/navigation';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import getServiceMap from 'in-subscription/application/getServiceMap';
+import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import getElementDimensions from 'in-hoc/getElementDimensions';
+import HelpDialog from 'in-components/helpSystem/HelpDialog';
 import { timeConfig$ } from 'in-stores/time/config';
 import withUrlState from 'in-hoc/withUrlState';
 import connect from 'in-hoc/connectTo';
@@ -163,12 +166,9 @@ export const ApplicationMapReactComponent = getElementDimensions(
 
     showHelpIfWebGLCantBeSetup = () => {
       if (!isWebGLSupported()) {
-        showHelp('webglNotSupported');
+        addActiveDialog(<HelpDialog article={webglNotSupported} />);
       } else if (!this.webGlContext) {
-        showHelp('webglNotInitialized');
-      } else {
-        closeHelpIfOpen('webglNotSupported');
-        closeHelpIfOpen('webglNotInitialized');
+        addActiveDialog(<HelpDialog article={webglNotInitialized} />);
       }
     };
   }

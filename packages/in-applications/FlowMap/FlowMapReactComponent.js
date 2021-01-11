@@ -1,8 +1,11 @@
 import React from 'react';
 
+import * as webglNotInitialized from 'in-services/util/canvas/help-articles/webglNotInitialized.mmd';
+import * as webglNotSupported from 'in-services/util/canvas/help-articles/webglNotSupported.mmd';
 import { isWebGLSupported, getWebGLCanvasContext } from 'in-map/services/webGL';
-import { showHelp, closeHelpIfOpen } from 'in-stores/navigation/navigation';
+import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import getElementDimensions from 'in-hoc/getElementDimensions';
+import HelpDialog from 'in-components/helpSystem/HelpDialog';
 import FlowMap from 'in-applications/FlowMap/FlowMap';
 
 import locals from './FlowMap.mless';
@@ -94,12 +97,9 @@ export default getElementDimensions(
 
     showHelpIfWebGLCantBeSetup = () => {
       if (!isWebGLSupported()) {
-        showHelp('webglNotSupported');
+        addActiveDialog(<HelpDialog article={webglNotSupported} />);
       } else if (!this.webGlContext) {
-        showHelp('webglNotInitialized');
-      } else {
-        closeHelpIfOpen('webglNotSupported');
-        closeHelpIfOpen('webglNotInitialized');
+        addActiveDialog(<HelpDialog article={webglNotInitialized} />);
       }
     };
   }

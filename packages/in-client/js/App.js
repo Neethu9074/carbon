@@ -5,7 +5,6 @@ import FloatingActionButtonPresenter from 'in-new-components/FloatingActionButto
 import OverlayPresenter from 'in-new-components/overlays/OverlayPresenter';
 import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
 import { GlobalTimeConfig } from 'in-stores/time/TimeConfigContext';
-import HelpPresenter from 'in-components/helpSystem/HelpPresenter';
 import ReleaseNotesDialog from 'in-components/ReleaseNotesDialog';
 import MainNavigation from 'in-new-components/MainNavigation';
 import DialogPresenter from 'in-components/DialogPresenter';
@@ -35,8 +34,6 @@ export default function App() {
           <ErrorBoundary name="dialogs">
             {/* for release notes */}
             <ReleaseNotesDialog />
-            {/* help articles */}
-            <HelpPresenter />
             <TooltipPresenter />
             <OverlayPresenter />
             {/* the flyouts on the top right corner */}

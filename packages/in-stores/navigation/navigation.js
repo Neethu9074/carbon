@@ -65,31 +65,6 @@ export function goToRootOfView() {
   });
 }
 
-export function showHelp(id) {
-  mutateUrl(navParams => {
-    navParams.query.help = id;
-    return navParams;
-  });
-}
-
-export function closeHelpIfOpen(id) {
-  mutateUrl(navParams => {
-    if (navParams.query.help && navParams.query.help === id) {
-      delete navParams.query.help;
-    }
-    return navParams;
-  });
-}
-
-export function closeCurrentHelpIfOpen() {
-  mutateUrl(navParams => {
-    if (navParams.query.help) {
-      delete navParams.query.help;
-    }
-    return navParams;
-  });
-}
-
 export function goToPath(path) {
   mutateUrl(location => (location.pathname = path));
 }
