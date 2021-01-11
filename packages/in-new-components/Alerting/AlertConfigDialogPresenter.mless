@@ -5,7 +5,7 @@
     width: 66.25rem;
     max-height: 90vh;
     &.advancedMode {
-      height: 80vh;
+      height: 75vh;
     }
   }
 
