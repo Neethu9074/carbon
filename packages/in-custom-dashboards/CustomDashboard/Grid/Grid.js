@@ -123,7 +123,7 @@ function Grid({
         let content = widgetComponent;
         if (onlyRenderInsideViewport) {
           content = (
-            <TrackVisibility once offset={300} tag="div" className={locals.visibilityTrackWrapper}>
+            <TrackVisibility once offset={300} tag="div" className={locals.visibilityTrackWrapper} partialVisibility>
               {({ isVisible }) => isVisible && widgetComponent}
             </TrackVisibility>
           );
