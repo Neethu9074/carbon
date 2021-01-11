@@ -33,5 +33,6 @@ module.exports = {
   qb2InCustomDashboardsEnabled: true,
   webMobileQb2AnalyzeEnabled: false,
   loggingEnabled: true,
-  smartAlertsEntityGroupingEnabled: true
+  smartAlertsEntityGroupingEnabled: true,
+  pieWidgetEnabled: true
 };

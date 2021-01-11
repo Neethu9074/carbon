@@ -42,6 +42,11 @@ export const point = {
   label: 'Point',
   renderer: Renderer.point
 };
+export const pie = {
+  id: 'pie',
+  label: 'Pie',
+  renderer: Renderer.pie
+};
 
 export const allRenderers = [line, area, stackedArea, bar, stackedBar, barOverlapping, integral, point];
 export const allRendererIds = allRenderers.map(({ id }) => id);

@@ -3,9 +3,10 @@ import { withState, compose } from 'recompose';
 import React from 'react';
 
 import ExternallyDefinedWidthAndHeight from 'in-new-components/layout/ExternallyDefinedWidthAndHeight';
-import Legend, { HEIGHT as legendHeight } from 'in-components/Chart/components/Legend';
+import { HEIGHT as legendHeight } from 'in-components/Chart/components/Legend';
 import MetricAwareAxis from 'in-components/Chart/components/MetricAwareAxis';
 import ChartOverlay from 'in-components/Chart/components/ChartOverlay';
+import ChartLegend from 'in-components/Chart/components/ChartLegend';
 import getElementDimensions from 'in-hoc/getElementDimensions';
 import Chart from 'in-components/Chart/Chart';
 
@@ -79,7 +80,7 @@ const ChartReactWrapper = compose(withState('chart', 'setChart', null))(
 
       return (
         <div className={locals.chart} ref={chartWrapper => (this.chartWrapper = chartWrapper)}>
-          {chart && renderLegend && <Legend chart={chart} filteredDataSeries={chart.config.filteredDataSeries} />}
+          {chart && renderLegend && <ChartLegend chart={chart} filteredDataSeries={chart.config.filteredDataSeries} />}
 
           <HighlightOverlayWrapper>
             {renderPreChartContent &&

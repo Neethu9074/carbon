@@ -2,18 +2,17 @@ import { create } from '@instana/observables';
 import { assign } from 'lodash';
 
 import {
-  allowedMultiplesOfRollupSizeMissingInCharts,
-  allowedMillisGapsInOneSecondResolution
+  allowedMillisGapsInOneSecondResolution,
+  allowedMultiplesOfRollupSizeMissingInCharts
 } from 'in-services/featureFlags';
 import { getBlockSizeMillis, getPredefinedBlockSizeMillisForBlockSize } from 'in-services/util/dynamicAggregation';
 import { collectAllDomainValues } from 'in-components/Chart/data/dataSearchUtils';
-import { getColorWithTransparency } from 'in-components/Chart/strokeColors';
+import { enrichAxisWithColors } from 'in-components/Chart/strokeColors';
 import { formatDurationAccurately } from 'in-services/formatters/date';
 import { getDefaultMetricRollupDuration } from 'in-stores/metric';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { number } from 'in-services/formatters/number';
 import Scales from 'in-components/Chart/Scales';
-import theme from 'in-themes';
 
 // Hard real time is hard. We are always 2-3 seconds behing the current server time in terms
 // of availability of metrics. We are removing x millis from the right border in order to
@@ -161,29 +160,10 @@ export default class Config {
   }
 
   determineSeriesColors() {
-    this.enrichAxisWithColors(this.y1);
+    enrichAxisWithColors(this.y1);
 
     if (this.y2) {
-      this.enrichAxisWithColors(this.y2, this.y1.numOfSeries);
-    }
-  }
-
-  enrichAxisWithColors(axis, offset = 0) {
-    if (axis.colors100 && axis.colors50) {
-      return;
-    }
-
-    const colors = theme.lib.colors.chart.strokeColors25;
-
-    axis.colors = axis.colors || [];
-    axis.colors50 = [];
-    axis.colors100 = [];
-    for (let i = 0; i < axis.numOfSeries; i++) {
-      const color = axis.colors[i] || colors[(i + offset) % colors.length];
-      const { c25, c50, c100 } = getColorWithTransparency(color);
-      axis.colors[i] = c25;
-      axis.colors50.push(c50);
-      axis.colors100.push(c100);
+      enrichAxisWithColors(this.y2, this.y1.numOfSeries);
     }
   }
 

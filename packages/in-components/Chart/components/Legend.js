@@ -1,74 +1,53 @@
 import { range, rangeRight } from 'lodash';
 import classNames from 'classnames';
+import rpt from 'prop-types';
 import React from 'react';
 
-import { getTimeShiftLabel, defaultTimeShift } from 'in-stores/time/shifting';
+import { defaultTimeShift, getTimeShiftLabel } from 'in-stores/time/shifting';
 import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
-import connectTo from 'in-hoc/connectTo';
 
 import locals from './Legend.mless';
 
 export const HEIGHT = 32;
 
-export default connectTo(
-  props => ({
-    filteredDataSeries: props.chart.config.filteredDataSeries$
-  }),
-  function Legend({ chart, filteredDataSeries }) {
-    return (
-      <div className={locals.legend}>
-        <MetricSeries
-          chart={chart}
-          axis={chart.config.y1}
-          axisName="y1"
-          filteredDataSeries={filteredDataSeries}
-          config={chart.config}
-        />
-        <MetricSeries
-          chart={chart}
-          axis={chart.config.y2}
-          axisName="y2"
-          filteredDataSeries={filteredDataSeries}
-          config={chart.config}
-        />
-      </div>
-    );
-  }
-);
+export default function Legend(props) {
+  return (
+    <div className={locals.legend}>
+      <MetricSeries axis={props.y1} axisName="y1" labels={props.y1Lables} {...props} />
+      <MetricSeries axis={props.y2} axisName="y2" labels={props.y2Lables} {...props} />
+    </div>
+  );
+}
 
-function MetricSeries({ chart, axis, config, filteredDataSeries, axisName }) {
-  if (!axis) {
+Legend.propTypes = {
+  y1Lables: rpt.array.isRequired,
+  y2Lables: rpt.array.isRequired,
+  y1: rpt.object.isRequired,
+  y2: rpt.object
+};
+
+function MetricSeries({ axis, reverseLegendOrder, labels }) {
+  if (!axis || !labels) {
     return null;
   }
-
   const icons = axis.icons;
 
   return (
     <ul className={locals.metricList}>
-      {(config.reverseLegendOrder ? rangeRight(axis.labels.length) : range(axis.labels.length)).map(i => {
-        const label = axis.labels[i];
-        const dataSeriesName = `${axisName}-${i}`;
-        const isDisabled = filteredDataSeries && filteredDataSeries.has(dataSeriesName);
-        const isToggleable =
-          !axis.nonToggleableSeries ||
-          !(axis.nonToggleableSeries.has(label) || axis.nonToggleableSeries.has(axis.metricIds[i]));
-        const timeShift = (axis.timeShifts && axis.timeShifts[i]) || defaultTimeShift;
+      {(reverseLegendOrder ? rangeRight(labels.length) : range(labels.length)).map(i => {
+        const timeShift = labels[i].timeShift || defaultTimeShift;
+        const { isDisabled, isToggleable, onToggle, dataSeriesName, name, metricId } = labels[i];
 
         const content = (
           <li
-            key={i}
+            key={dataSeriesName}
             className={classNames({
               [locals.metric]: true,
               [locals.disabledMetric]: isDisabled,
               [locals.toggleable]: isToggleable
             })}
-            onClick={() => {
-              if (isToggleable) {
-                config.toggleDataSeries(dataSeriesName);
-                chart.renderScheduler.forceRender();
-              }
-            }}
+            onClick={onToggle}
           >
             {icons ? (
               <SvgIcon
@@ -91,7 +70,7 @@ function MetricSeries({ chart, axis, config, filteredDataSeries, axisName }) {
               />
             )}
 
-            {label}
+            {name}
 
             {timeShift && timeShift.offset !== 0 && (
               <Tooltip content={`Metric is time shifted to: ${getTimeShiftLabel(timeShift)}`}>
@@ -103,7 +82,7 @@ function MetricSeries({ chart, axis, config, filteredDataSeries, axisName }) {
         return isToggleable ? (
           content
         ) : (
-          <Tooltip key={label} content={axis.nonToggleableSeries.get(axis.metricIds[i])}>
+          <Tooltip key={name} content={axis.nonToggleableSeries.get(metricId)}>
             {content}
           </Tooltip>
         );

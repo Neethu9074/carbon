@@ -2,14 +2,15 @@ import React, { useState } from 'react';
 import theme from 'in-themes';
 
 import AlertingRenderer from 'in-new-components/Alerting/Chart/renderer/Renderer';
+import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import { getChartGranularity } from 'in-applications/metrics';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { percentage } from 'in-services/formatters/number';
 import { compare } from 'in-services/util/number';
-import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
+import Input from 'in-components/form/Input';
 
 const oneSecond = 1000;
 const oneMinute = oneSecond * 60;
@@ -368,6 +369,32 @@ export function StackedArea() {
             renderer: Renderer.stackedArea,
             labels: ['1', '2', '3', '4', '5'],
             metrics: generateMultipleMetricsWithGaps(5, 30, 10, oneMinute)
+          }
+        }}
+      />
+    </>
+  );
+}
+
+export function Pie() {
+  return (
+    <>
+      <TooltipPresenter />
+      <ResultAwareChart
+        result={constructResult(null, false)}
+        config={{
+          timeConfig: generateTimeframe(oneMinute),
+          y1: {
+            renderer: Renderer.pie,
+            labels: ['foo', 'bar', 'baz'],
+            metrics: generateMultipleMetrics(3, 30, 10, oneMinute),
+            metricIds: [
+              [_, 30],
+              [_, 45],
+              [_, 50]
+            ],
+            colors: ['#ff0000', '#00ff00', '#0000ff'],
+            formatter: x => x
           }
         }}
       />

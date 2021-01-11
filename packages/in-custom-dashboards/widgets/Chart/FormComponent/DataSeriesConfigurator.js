@@ -1,22 +1,29 @@
 import React from 'react';
 
-import { autoOpen } from 'in-custom-dashboards/widgets/Chart/FormComponent/autoOpenHelper';
 import MetricConfiguration from 'in-custom-dashboards/widgets/Chart/FormComponent/MetricConfiguration';
+import { autoOpen } from 'in-custom-dashboards/widgets/Chart/FormComponent/autoOpenHelper';
 import { createMetricForm } from 'in-custom-dashboards/widgets/Chart/form';
 import { Ul, Li } from 'in-new-components/lists/List';
 import Button from 'in-new-components/Button';
 
-export default function DataSeriesConfigurator({ form, onChange }) {
+export default function DataSeriesConfigurator({ form, onChange, getShortMetricKey }) {
   const hasY2 = form.get('y2').get('metrics').size > 0;
 
   return (
     <Ul>
-      <DataSeriesForAxis form={form} onChange={onChange} axisName="y1" startNumber={0} />
+      <DataSeriesForAxis
+        form={form}
+        onChange={onChange}
+        axisName="y1"
+        startNumber={0}
+        getShortMetricKey={getShortMetricKey}
+      />
       <DataSeriesForAxis
         form={form}
         onChange={onChange}
         axisName="y2"
         startNumber={form.get('y1').get('metrics').size}
+        getShortMetricKey={getShortMetricKey}
       />
       <Li noAlternatingBg>
         <Button
@@ -36,7 +43,7 @@ export default function DataSeriesConfigurator({ form, onChange }) {
   );
 }
 
-function DataSeriesForAxis({ form, axisName, onChange, startNumber }) {
+function DataSeriesForAxis({ form, axisName, onChange, startNumber, getShortMetricKey }) {
   const axisForm = form.get(axisName);
   const metricsForm = axisForm.get('metrics');
 
@@ -51,6 +58,7 @@ function DataSeriesForAxis({ form, axisName, onChange, startNumber }) {
           onChange={onChange}
           axisName={axisName}
           form={form}
+          getShortMetricKey={getShortMetricKey}
         />
       ))}
     </>

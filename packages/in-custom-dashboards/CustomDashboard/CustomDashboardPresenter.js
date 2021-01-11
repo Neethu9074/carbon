@@ -1,5 +1,6 @@
 /* eslint-disable react/display-name */
 import React from 'react';
+import { uniqBy } from 'lodash';
 
 import EntityPageMainNotificationLightCardV2 from 'in-new-components/EntityPageMainNotification/EntityPageMainNotificationLightCardV2';
 import { setLandingPage, isLandingPage } from 'in-client/js/LandingPage/supportedLandingPages/customDashboards';
@@ -23,7 +24,6 @@ import Tooltip from 'in-components/Tooltip';
 import { lightV2 } from 'in-themes/themes';
 import Sticky from 'in-components/Sticky';
 import Title from 'in-components/Title';
-import { uniqBy } from 'lodash';
 
 import locals from './CustomDashboardPresenter.mless';
 

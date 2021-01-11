@@ -1,7 +1,10 @@
-import React, { useEffect, useState, useMemo } from 'react';
-import { find } from 'lodash';
+import React, { useEffect, useMemo, useState } from 'react';
 
-import { renderer as availableRenderers, defaultRenderer } from 'in-custom-dashboards/widgets/Chart/renderer';
+import {
+  renderer as availableRenderers,
+  defaultRenderer,
+  enforceSingleNumberResult
+} from 'in-custom-dashboards/widgets/Chart/renderer';
 import { extendWindowSizeOnLiveMode, getChartGranularity } from 'in-applications/metrics';
 import sources from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources';
 import { colors } from 'in-custom-dashboards/widgets/Chart/FormComponent/colors';
@@ -10,8 +13,8 @@ import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
 import ChartWrapper from 'in-components/Chart/ChartWrapper';
 import { getFormatter } from 'in-stores/metric/formatters';
 import { pendingResult } from 'in-services/fixedObjects';
-import useTimeConfig from 'in-hooks/useTimeConfig';
 import useObservable from 'in-hooks/useObservable';
+import useTimeConfig from 'in-hooks/useTimeConfig';
 
 // The unified metrics chart supports advanced data retrieval use cases, e.g., grouped metrics, charting
 // data series from different product areas and more.
@@ -103,12 +106,18 @@ export default function UnifiedMetricsChart({
 
 function useResultData(config, granularity, timeConfig) {
   const metrics = {};
+  const resultType = enforceSingleNumberResult.find(({ id }) => id === config.y1.renderer)
+    ? 'SINGLE_NUMBER'
+    : config.type;
+  if (resultType === 'SINGLE_NUMBER') {
+    granularity = null;
+  }
 
   config.y1.metrics.forEach(
     (metricConfiguration, i) =>
       (metrics[getMetricId('y1', i)] = {
         ...metricConfiguration,
-        resultType: config.type,
+        resultType,
         granularity,
         timeConfig: timeConfig,
         timeShift: translateOffsetToTimeShiftConfig(metricConfiguration.timeShift, timeConfig)
@@ -119,7 +128,7 @@ function useResultData(config, granularity, timeConfig) {
     (metricConfiguration, i) =>
       (metrics[getMetricId('y2', i)] = {
         ...metricConfiguration,
-        resultType: config.type,
+        resultType,
         granularity,
         timeConfig: timeConfig,
         timeShift: translateOffsetToTimeShiftConfig(metricConfiguration.timeShift, timeConfig)
@@ -152,7 +161,7 @@ function toAxisConfiguration(name, axis, resultDataAsList, chartConfig) {
   }
 
   return {
-    renderer: (find(availableRenderers, ({ id }) => id === axis.renderer) || defaultRenderer).renderer,
+    renderer: (availableRenderers.find(({ id }) => id === axis.renderer) || defaultRenderer).renderer,
     formatter: getFormatter(axis.formatter),
     tooltipFormatter: axis.tooltipFormatter,
     labels: axis.metrics.flatMap(({ label: metricLabel, grouping }, i) => {

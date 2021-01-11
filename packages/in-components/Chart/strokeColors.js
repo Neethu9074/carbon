@@ -1,5 +1,24 @@
 import theme from 'in-themes';
 
+export function enrichAxisWithColors(axis, offset = 0) {
+  if (axis.colors100 && axis.colors50) {
+    return;
+  }
+
+  const colors = theme.lib.colors.chart.strokeColors25;
+
+  axis.colors = axis.colors || [];
+  axis.colors50 = [];
+  axis.colors100 = [];
+  for (let i = 0; i < (axis.labels?.length || 0); i++) {
+    const color = axis.colors[i] || colors[(i + offset) % colors.length];
+    const { c25, c50, c100 } = getColorWithTransparency(color);
+    axis.colors[i] = c25;
+    axis.colors50.push(c50);
+    axis.colors100.push(c100);
+  }
+}
+
 export function getColorWithTransparency(color) {
   const color25Index = theme.lib.colors.chart.strokeColors25.indexOf(color);
   if (color25Index >= 0) {

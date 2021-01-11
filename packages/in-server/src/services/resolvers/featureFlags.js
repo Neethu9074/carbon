@@ -163,5 +163,10 @@ module.exports = exports = [
     uiClientKey: 'smartAlertsEntityGroupingEnabled',
     instanaCtlKey: 'feature.smart.alerts.entity.grouping.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'pieWidgetEnabled',
+    instanaCtlKey: 'feature.pie.widget.enabled',
+    defaultValue: false
   }
 ];

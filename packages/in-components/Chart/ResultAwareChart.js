@@ -2,7 +2,9 @@ import React from 'react';
 
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
+import Renderer from 'in-components/Chart/renderer/Renderer';
 import Chart from 'in-components/Chart/ChartReactComponent';
+import PieChart from 'in-new-components/PieChart';
 import Card from 'in-new-components/Card';
 
 export default function ResultAwareChart({ result, config, renderLegend = true }) {
@@ -21,13 +23,14 @@ export default function ResultAwareChart({ result, config, renderLegend = true }
     if (!timeConfig || !y1 || !y1.metrics || (showNoDataInfoWhenEmpty && containsOnlyEmptyData(y1.metrics))) {
       content = <NoDataAvailable width={frontBufferWidth} height={height} />;
     } else {
-      const CustomChartComponent = config.customChartComponent;
-      config = normalizeTimeShiftedTimestamps(result, config);
-      content = CustomChartComponent ? (
-        <CustomChartComponent renderLegend={renderLegend} {...config} />
-      ) : (
-        <Chart renderLegend={renderLegend} {...config} />
-      );
+      if (config.y1.renderer.id === Renderer.pie.id) {
+        content = <PieChart renderLegend={renderLegend} config={config} />;
+      } else {
+        config = normalizeTimeShiftedTimestamps(result, config);
+        content = (
+          <Chart renderLegend={renderLegend} {...config} />
+        );
+      }
     }
   }
 

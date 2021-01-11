@@ -40,3 +40,17 @@ export function removeBlankLines(s) {
     .filter(isNotBlank)
     .join('\n');
 }
+
+const asciiAlphabetStart = 65;
+export function getAThroughZRepresentation(n) {
+  const character = String.fromCharCode(asciiAlphabetStart + (n % 26));
+
+  const remainder = parseInt(n / 26, 10);
+  const requiresMoreCharacters = remainder > 0;
+
+  if (requiresMoreCharacters) {
+    return getAThroughZRepresentation(remainder - 1) + character;
+  }
+
+  return character;
+}

@@ -2,11 +2,11 @@ import classNames from 'classnames';
 import React from 'react';
 
 import MetricConfigurator from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/MetricConfigurator';
-import { getMetricId, getMetricLabel, getShortMetricKey } from 'in-custom-dashboards/widgets/Chart/util';
 import { onChangeSource, duplicate } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/form';
 import { source } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/sli/index';
 import TimeShiftingForm from 'in-custom-dashboards/widgets/Chart/FormComponent/TimeShiftingForm';
 import { isInitiallyOpen } from 'in-custom-dashboards/widgets/Chart/FormComponent/autoOpenHelper';
+import { getMetricId, getMetricLabel } from 'in-custom-dashboards/widgets/Chart/util';
 import { HighlightedEffect } from 'in-new-components/SelectedElementHighlighter';
 import { MoreMenu, MoreMenuButton } from 'in-new-components/MoreMenu';
 import { Li, ColumnizedContent } from 'in-new-components/lists/List';
@@ -20,7 +20,7 @@ export const columnDefinitions = [
   {
     forceMinimumWidth: true,
     verticallyCenter: true,
-    getContent({ index, axisName, indexInAxis }) {
+    getContent({ index, axisName, indexInAxis, getShortMetricKey }) {
       return (
         <Pill kind="info" id={getMetricId(index)}>
           {getShortMetricKey(axisName, indexInAxis)}

@@ -5,7 +5,7 @@ const reemitSpec = { emitLatestOnSubscribe: true };
 
 export const TooltipShape = rpt.shape({
   content: rpt.node,
-  focusedElement: rpt.oneOfType([rpt.instanceOf(window.HTMLElement), rpt.instanceOf(window.SVGSVGElement)]),
+  focusedElement: rpt.instanceOf(window.Element),
   themeStyle: rpt.string,
   bindToMousePosition: rpt.bool,
   focusedPoint: rpt.shape({

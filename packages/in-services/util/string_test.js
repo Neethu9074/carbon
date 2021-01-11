@@ -2,7 +2,7 @@
 
 import { expect } from 'chai';
 
-import { isBlank } from 'in-services/util/string';
+import { isBlank, getAThroughZRepresentation } from 'in-services/util/string';
 
 describe('in-services/util/string', () => {
   describe('isBlank', () => {
@@ -25,5 +25,20 @@ describe('in-services/util/string', () => {
     it('must declare strings with content as not blank', () => {
       expect(isBlank('a fart')).to.equal(false);
     });
+  });
+
+  describe('getAThroughZRepresentation', () => {
+    check(0, 'A');
+    check(1, 'B');
+    check(25, 'Z');
+    check(26, 'AA');
+    check(27, 'AB');
+    check(52, 'BA');
+
+    function check(given, expected) {
+      it(`must convert ${given} to ${expected}`, () => {
+        expect(getAThroughZRepresentation(given)).to.equal(expected);
+      });
+    }
   });
 });
