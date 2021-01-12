@@ -5,7 +5,7 @@ import ValidationBlock from 'in-components/form/ValidationBlock';
 import locals from './TouchedMessages.mless';
 
 export default function TouchedMessages({ field, className }) {
-  if (!field.touched) {
+  if (!field?.touched) {
     return null;
   }
 

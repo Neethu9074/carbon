@@ -5,7 +5,10 @@ import { useTagFilterExpressionState } from 'in-custom-dashboards/widgets/_share
 import GroupingConfiguration from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/GroupingConfiguration';
 import CallGroupingConfigurator from 'in-applications/analyze/components/workspace/CallGroupingConfigurator';
 import QueryBuilder, { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
-import { onChangeGrouping } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/form';
+import {
+  isRequiringGroupingConfiguration,
+  onChangeGrouping
+} from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/form';
 import QueryBuilderSection from 'in-new-components/QueryBuilder/workspace/QueryBuilderSection';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import { availableMetrics } from 'in-applications/analyze/metrics';
@@ -69,6 +72,9 @@ export default function FormComponent({
         onDirectionChange={onDirectionChange}
         onIncludeOthersChange={onIncludeOthersChange}
         GroupingConfigurator={CallGroupingConfigurator}
+        hasError={groupingField ? groupingField.touched && !groupingField.valid : false}
+        additionalContent={<TouchedMessages field={groupingField} />}
+        withOptionalMarker={!isRequiringGroupingConfiguration(form)}
       />
 
       <Sections>

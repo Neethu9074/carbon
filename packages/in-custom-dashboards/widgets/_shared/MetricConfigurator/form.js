@@ -16,7 +16,8 @@ export function createForm(
     // Adding new options? Remember to also make getConfigFromExistingForm aware of these
     withLabelConfiguration = false,
     withCompareToTimeShifted = false,
-    withColorConfiguration = false
+    withColorConfiguration = false,
+    withMandatoryGrouping = false
   } = {}
 ) {
   let form = createMapForm()
@@ -84,8 +85,17 @@ export function createForm(
     );
   }
 
+  const validator = withMandatoryGrouping ? validateMandatoryGrouping : null;
+
   if (savedState?.grouping?.length > 0) {
-    form = form.put('grouping', createListForm().push(createGroupingForm(savedState.grouping[0])));
+    form = form.put(
+      'grouping',
+      createListForm({ validator: validator }).push(createGroupingForm(savedState.grouping[0]))
+    );
+  } else {
+    if (withMandatoryGrouping) {
+      form = form.put('grouping', createListForm({ validator: validator }));
+    }
   }
 
   if (form.get('source').valid) {
@@ -126,8 +136,13 @@ function getConfigFromExistingForm(form) {
   return {
     withLabelConfiguration: !!labelField,
     withCompareToTimeShifted: !!compareToTimeShiftedField,
-    withColorConfiguration: !!colorField
+    withColorConfiguration: !!colorField,
+    withMandatoryGrouping: isRequiringGroupingConfiguration(form)
   };
+}
+
+export function isRequiringGroupingConfiguration(form) {
+  return Boolean(form.get('grouping')?.validator);
 }
 
 export function duplicate(form) {
@@ -147,6 +162,17 @@ function timeShiftValidator(v) {
       severity: 'error'
     }
   ];
+}
+
+function validateMandatoryGrouping(form) {
+  if (form.length === 0) {
+    return [
+      {
+        severity: 'error',
+        message: 'Please provide a group.'
+      }
+    ];
+  }
 }
 
 export function createGroupingForm(grouping) {
@@ -216,12 +242,20 @@ export function createGroupingForm(grouping) {
 
 export function onChangeGrouping(onChange, newGrouping) {
   onChange([], form => {
+    const validator = form.get('grouping')?.validator ? validateMandatoryGrouping : null;
     if (!newGrouping?.by?.groupbyTag) {
-      return form.remove('grouping');
+      if (validator) {
+        return form.put(
+          'grouping',
+          createListForm({ validator: form.get('grouping').validator }).setTouched(true, { recurse: true })
+        );
+      } else {
+        return form.remove('grouping');
+      }
     } else {
       return form.put(
         'grouping',
-        createListForm()
+        createListForm({ validator: validator })
           .push(createGroupingForm(newGrouping))
           .setTouched(true, { recurse: true })
       );

@@ -2,6 +2,7 @@ import rpt from 'prop-types';
 import React from 'react';
 
 import { trackingProps as groupingConfiguratorTrackingProps } from 'in-new-components/GroupingConfigurator/GroupingConfigurator';
+import SectionLabelWithSubtext from 'in-new-components/workspace/SectionLabelWithSubtext';
 import Section from 'in-new-components/workspace/Section';
 
 export default function GroupBySection({
@@ -12,10 +13,16 @@ export default function GroupBySection({
   tracking,
   actions,
   additionalContent,
-  withoutIcon
+  withoutIcon,
+  withOptionalMarker,
+  hasError
 }) {
+  let title = 'Group';
+  if (withOptionalMarker) {
+    title = <SectionLabelWithSubtext subtext="Optional">{title}</SectionLabelWithSubtext>;
+  }
   return (
-    <Section icon={withoutIcon ? undefined : 'lib_group_by'} title="Group" actions={actions}>
+    <Section icon={withoutIcon ? undefined : 'lib_group_by'} title={title} actions={actions} hasError={hasError}>
       <GroupingConfigurator
         value={group}
         tagFilterExpression={tagFilterExpression}
@@ -35,5 +42,7 @@ GroupBySection.propTypes = {
   actions: rpt.node,
   additionalContent: rpt.node,
   withoutIcon: rpt.bool,
-  tracking: rpt.shape(groupingConfiguratorTrackingProps)
+  withOptionalMarker: rpt.bool,
+  tracking: rpt.shape(groupingConfiguratorTrackingProps),
+  hasError: rpt.bool
 };

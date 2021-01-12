@@ -24,7 +24,10 @@ export function createForm(savedState) {
         )
       })
     )
-    .put('metricConfiguration', createMetricConfigurationForm(savedState && savedState.metricConfiguration));
+    .put(
+      'metricConfiguration',
+      createMetricConfigurationForm(savedState && savedState.metricConfiguration, { withMandatoryGrouping: true })
+    );
 }
 
 export function migrate(savedState) {

@@ -17,7 +17,10 @@ export default function GroupingConfiguration({
   onByChange,
   onDirectionChange,
   onIncludeOthersChange,
-  GroupingConfigurator
+  GroupingConfigurator,
+  hasError,
+  additionalContent,
+  withOptionalMarker
 }) {
   return (
     <>
@@ -29,6 +32,9 @@ export default function GroupingConfiguration({
             tagFilterExpression={tagFilterExpressionField.valid ? tagFilterExpressionField.value : EMPTY_EXPRESSION}
             onChange={group => onByChange(group)}
             withoutIcon
+            hasError={hasError}
+            additionalContent={additionalContent}
+            withOptionalMarker={withOptionalMarker}
           />
 
           {grouping && (
@@ -74,5 +80,8 @@ GroupingConfiguration.propTypes = {
     valid: PropTypes.any,
     value: PropTypes.any
   }).isRequired,
-  withGrouping: PropTypes.bool
+  withGrouping: PropTypes.bool,
+  withOptionalMarker: PropTypes.bool,
+  hasError: PropTypes.bool,
+  additionalContent: PropTypes.node
 };
