@@ -15,7 +15,7 @@ export default function GroupBySection({
   withoutIcon
 }) {
   return (
-    <Section icon={withoutIcon ? undefined : 'lib_group_by'} title="Breakdown" actions={actions}>
+    <Section icon={withoutIcon ? undefined : 'lib_group_by'} title="Group" actions={actions}>
       <GroupingConfigurator
         value={group}
         tagFilterExpression={tagFilterExpression}

@@ -18,7 +18,7 @@ export default function GroupingConfigurator({
   getSuggestions,
   onChange,
   tracking,
-  label = 'Add breakdown',
+  label = 'Add group',
   loadingLabel
 }) {
   const tagCatalog = useTagCatalog(getTagCatalog);
