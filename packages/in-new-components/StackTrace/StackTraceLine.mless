@@ -29,7 +29,7 @@
     display: flex;
     align-items: center;
     overflow: hidden;
-    padding: .5rem .625rem;
+    padding: 0.45rem 0.625rem;
   }
 
   .filler {
@@ -43,6 +43,7 @@
 
   .value {
     color: @lib__colors__N900Primary;
+    line-height: 1.2;
     .ellipsis();
   }
 
