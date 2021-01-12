@@ -70,7 +70,7 @@ export default function AreasList({ update, permissionSet, removeId, removeDfq, 
 }
 
 function renderAdditionalHeaderContent(props) {
-  return <AddAreaButton {...props} preSelectedItems={props.pageItems} />;
+  return <AddAreaButton {...props} preSelectedItems={props.itemsResult.data} />;
 }
 
 function ReadOnlyListRenderer({ items }) {
