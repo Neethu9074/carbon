@@ -1,8 +1,8 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import ViewWidthRestrictedColumn from 'in-infrastructure/tableView/components/Table/components/ViewWidthRestrictedColumn';
+import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import { plugins, translateFullyQualifiedPluginToShortPluginName } from 'in-forge/constants';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
@@ -127,6 +127,7 @@ function eventsTable(columnDefinitions) {
     namespaceId,
     podId,
     serviceId,
+    statefulSetId,
     ...props
   }) {
     return (
@@ -139,6 +140,7 @@ function eventsTable(columnDefinitions) {
           namespaceId={namespaceId}
           podId={podId}
           serviceId={serviceId}
+          statefulSetId={statefulSetId}
           get={getTableData}
           {...props}
         />
@@ -163,6 +165,7 @@ function getTableData({
   deploymentConfigId,
   namespaceId,
   serviceId,
+  statefulSetId,
   podId,
   timeConfig,
   resultTransformer = result => result
@@ -176,6 +179,7 @@ function getTableData({
       namespaceId,
       podId,
       serviceId,
+      statefulSetId,
       timeConfig
     },
     query,
