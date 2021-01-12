@@ -66,9 +66,7 @@ export default React.forwardRef(function ActiveGroupingConfiguration(
       </span>
 
       {tagTreeNode.type === 'KEY_VALUE_PAIR' && (
-        <>
-          <span className={locals.operator}>=</span>
-
+        <div className={locals.key}>
           <SimpleValueSelector
             onChange={result.onChange}
             value={result.value || ''}
@@ -91,7 +89,7 @@ export default React.forwardRef(function ActiveGroupingConfiguration(
               placeholder: 'Key'
             }}
           />
-        </>
+        </div>
       )}
 
       <div

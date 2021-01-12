@@ -52,13 +52,8 @@
     fill: @lib__colors__N400;
   }
 
-  .operator {
-    padding: 0.3125rem;
-    line-height: 1.3;
-    cursor: default;
-
+  .key {
     border-left: 1px solid @lib__colors__N400;
-    border-right: 1px solid @lib__colors__N400;
   }
 
   .removeIconContainer {
