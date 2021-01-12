@@ -1,108 +1,205 @@
-import React, { useReducer } from 'react';
+import React, { useEffect, useReducer, useRef, useMemo } from 'react';
 import PropTypes from 'prop-types';
+import { isEmpty } from 'lodash';
 
 import SharedList, {
   types
 } from 'in-new-components/Alerting/components/scopeConfig/ServicesAndEndpointsListPresenter/SharedList';
 import { listReducer } from 'in-new-components/Alerting/components/scopeConfig/ServicesAndEndpointsListPresenter/listReducer';
-import useObservable from 'in-hooks/useObservable';
+import useCursorPagination from 'in-hooks/useCursorPagination';
+import useTimeConfig from 'in-hooks/useTimeConfig';
+
+const DEFAULT_PAGE_SIZE = 5;
 
 export default function ServicesAndEndpointsListPresenter({
-  applicationId,
   apiSubscriptions,
-  applicationsSelection = {}
+  applicationsSelection = {},
+  onChange,
+  alertApplicationId,
+  isGlobalSmartAlert,
+  ...props
 }) {
   const [state, dispatch] = useReducer(listReducer, applicationsSelection);
+  const initialApplicationSelection = useRef(applicationsSelection);
+
+  useEffect(() => {
+    onChange?.(state);
+    // since onChange func can be re-created when parent rerenders we only want to trigger the effect if  state changes
+    // otherwise it could happen that we get an infinite rendering loop if parent forgets to use useCallback hook.
+    // Since this can happen very likely it is better to disable the linter rule here.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state]);
+
+  const timeConfig = useTimeConfig();
 
   return (
     <ApplicationsList
+      {...props}
       {...apiSubscriptions}
-      applicationId={applicationId}
-      initialApplicationSelection={applicationsSelection}
+      isGlobalSmartAlert={isGlobalSmartAlert}
+      alertApplicationId={alertApplicationId}
+      initialApplicationSelection={initialApplicationSelection.current}
       stateManagement={{ state, dispatch }}
+      timeConfig={timeConfig}
     />
   );
 }
 
-function ApplicationsList({ getApplications, applicationId, getApplication, ...props }) {
-  const applications =
-    useObservable(
-      applicationId
-        ? getApplication({ id: applicationId }).map(({ data }) => [{ application: data }] ?? [])
-        : getApplications().map(({ data }) => data?.items ?? []),
-      []
-    ) ?? [];
+function ApplicationsList({
+  getApplicationsCursorPaginated,
+  getApplication,
+  isGlobalSmartAlert,
+  alertApplicationId,
+  ...props
+}) {
+  const { items, ...tableProps } = useCursorPagination(
+    ({ cursor }) =>
+      isGlobalSmartAlert
+        ? getApplicationsCursorPaginated({
+            pagination: {
+              cursor,
+              retrievalSize: DEFAULT_PAGE_SIZE
+            },
+            order: {
+              by: 'applicationLabel',
+              direction: 'ASC'
+            },
+            metrics: {},
+            filter: {
+              timeConfig: props.timeConfig,
+              includeSyntheticCalls: true
+            }
+          })
+        : getApplication({ id: alertApplicationId }).map(({ data }) => ({
+            items: data ? [{ application: data }] : []
+          })),
+    []
+  );
 
-  const listData = applications.map(_application => {
-    const newApplication = { ..._application, item: _application.application };
-    delete newApplication.application;
-    return newApplication;
-  });
+  const { state, dispatch } = props.stateManagement;
 
-  enrichListWithStaleSelectionData(Object.entries(props.stateManagement.state), listData);
+  const listData = useMemo(() => {
+    const enrichedApplications = items.map(({ application, ...rest }) => ({ ...rest, item: application }));
+    enrichListWithStaleSelectionData(Object.entries(state), enrichedApplications);
+    return enrichedApplications;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [items]);
+
+  useEffect(() => {
+    if (isEmpty(state)) {
+      dispatch({ type: `ADD_${types.APPLICATION}`, applicationId: alertApplicationId });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state]);
 
   return (
     <SharedList
       {...props}
+      {...tableProps}
       listData={listData}
-      renderSubList={({ applicationId }) => () => <ServicesList {...props} parentIds={{ applicationId }} />}
+      renderSubList={({ applicationId }) => () => {
+        return <ServicesList {...props} parentIds={{ applicationId }} />;
+      }}
       type={types.APPLICATION}
+      isLoading={items.length === 0}
     />
   );
 }
 
-function ServicesList({ getServices, parentIds, ...props }) {
-  const services =
-    useObservable(
-      getServices().map?.(({ data }) => data?.items ?? []),
-      []
-    ) ?? [];
-
-  const listData = services.map(_service => {
-    const newService = { ..._service, item: _service.service };
-    delete newService.service;
-    return newService;
-  });
-
-  enrichListWithStaleSelectionData(
-    Object.entries(props.stateManagement.state[parentIds.applicationId]?.services ?? {}),
-    listData
+function ServicesList({ getServicesCursorPaginated, parentIds, ...props }) {
+  const { items, ...tableProps } = useCursorPagination(
+    ({ cursor }) =>
+      getServicesCursorPaginated({
+        pagination: {
+          cursor,
+          retrievalSize: DEFAULT_PAGE_SIZE
+        },
+        order: {
+          by: 'serviceLabel',
+          direction: 'ASC'
+        },
+        metrics: {},
+        filter: {
+          application: parentIds.applicationId,
+          applicationBoundaryScope: props.boundaryScope,
+          timeConfig: props.timeConfig
+        }
+      }),
+    []
   );
+
+  const listData = useMemo(() => {
+    const enrichedServices = items.map(({ service, ...rest }) => ({ ...rest, item: service }));
+    enrichListWithStaleSelectionData(
+      Object.entries(props.stateManagement.state[parentIds.applicationId]?.services ?? {}),
+      enrichedServices
+    );
+    return enrichedServices;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [items]);
 
   return (
     <SharedList
       {...props}
+      {...tableProps}
+      parentIds={parentIds}
       listData={listData}
       renderSubList={({ applicationId, serviceId }) => () => (
         <EndpointsList {...props} parentIds={{ applicationId, serviceId }} />
       )}
       type={types.SERVICE}
-      parentIds={parentIds}
+      isLoading={items.length === 0}
     />
   );
 }
 
-function EndpointsList({ getEndpoints, parentIds, ...props }) {
-  const endpoints =
-    useObservable(
-      getEndpoints().map?.(({ data }) => data?.items ?? []),
-      []
-    ) ?? [];
-
-  const listData = endpoints.map(_endpoint => {
-    const newEndpoint = { ..._endpoint, item: _endpoint.endpoint };
-    delete newEndpoint.endpoint;
-    return newEndpoint;
-  });
-
-  enrichListWithStaleSelectionData(
-    Object.entries(
-      props.stateManagement.state[parentIds.applicationId]?.services[parentIds.serviceId]?.endpoints ?? {}
-    ),
-    listData
+function EndpointsList({ getEndpointsCursorPaginated, parentIds, ...props }) {
+  const { items, ...tableProps } = useCursorPagination(
+    ({ cursor }) =>
+      getEndpointsCursorPaginated({
+        pagination: {
+          cursor,
+          retrievalSize: DEFAULT_PAGE_SIZE
+        },
+        order: {
+          by: 'endpointLabel',
+          direction: 'ASC'
+        },
+        filter: {
+          application: parentIds.applicationId,
+          service: parentIds.serviceId,
+          applicationBoundaryScope: props.boundaryScope,
+          // endpointTypes,
+          timeConfig: props.timeConfig,
+          includeSyntheticCalls: true
+        },
+        metrics: {}
+      }),
+    []
   );
 
-  return <SharedList {...props} listData={listData} type={types.ENDPOINT} parentIds={parentIds} />;
+  const listData = useMemo(() => {
+    const enrichedEndpoints = items.map(({ endpoint, ...rest }) => ({ ...rest, item: endpoint }));
+    enrichListWithStaleSelectionData(
+      Object.entries(
+        props.stateManagement.state[parentIds.applicationId]?.services[parentIds.serviceId]?.endpoints ?? {}
+      ),
+      enrichedEndpoints
+    );
+    return enrichedEndpoints;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [items]);
+
+  return (
+    <SharedList
+      {...props}
+      {...tableProps}
+      listData={listData}
+      type={types.ENDPOINT}
+      parentIds={parentIds}
+      isLoading={items.length === 0}
+    />
+  );
 }
 
 function enrichListWithStaleSelectionData(entries, listData) {
@@ -129,11 +226,13 @@ export const applicationsItemTreePropType = PropTypes.shape({
 
 ServicesAndEndpointsListPresenter.propTypes = {
   apiSubscriptions: PropTypes.shape({
-    getApplications: PropTypes.func.isRequired,
+    getApplicationsCursorPaginated: PropTypes.func.isRequired,
     getApplication: PropTypes.func.isRequired,
-    getServices: PropTypes.func.isRequired,
-    getEndpoints: PropTypes.func.isRequired
+    getServicesCursorPaginated: PropTypes.func.isRequired,
+    getEndpointsCursorPaginated: PropTypes.func.isRequired
   }).isRequired,
-  applicationId: PropTypes.string,
-  applicationsSelection: applicationsItemTreePropType
+  onChange: PropTypes.func.isRequired,
+  applicationsSelection: applicationsItemTreePropType,
+  alertApplicationId: PropTypes.string,
+  isGlobalSmartAlert: PropTypes.bool
 };

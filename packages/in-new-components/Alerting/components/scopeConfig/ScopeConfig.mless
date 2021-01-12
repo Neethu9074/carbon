@@ -1,0 +1,5 @@
+:local {
+  .spacer {
+    margin-bottom: 1rem;
+  }
+}

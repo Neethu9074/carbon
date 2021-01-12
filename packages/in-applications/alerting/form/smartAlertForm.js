@@ -102,6 +102,12 @@ export function createSmartAlertForm(alertConfig) {
         value: alertConfig.enabled ?? true
       })
     )
+    .put(
+      'applications',
+      createField({
+        value: alertConfig.applications ?? {}
+      })
+    )
     .put('rule', createRuleForm(alertConfig.rule ?? {}))
     .put('timeThreshold', createTimeThresholdForm(alertConfig.timeThreshold ?? {}))
     .put('hiddenFields', createHiddenFieldsForm(alertConfig.calculateThresholdOnBackend));

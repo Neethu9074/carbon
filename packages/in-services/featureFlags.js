@@ -38,6 +38,9 @@ export const applicationSmartAlertsEnabled = isFeatureFlagEnabled('applicationSm
 export const webMobileQb2AnalyzeEnabled = isFeatureFlagEnabled('webMobileQb2AnalyzeEnabled');
 export const loggingEnabled = isFeatureFlagEnabled('loggingEnabled');
 export const smartAlertsEntityGroupingEnabled = isFeatureFlagEnabled('smartAlertsEntityGroupingEnabled');
+export const smartAlertsServicesAndEndpointsSelectionEnabled = isFeatureFlagEnabled(
+  'smartAlertsServicesAndEndpointsSelectionEnabled'
+);
 export const pieWidgetEnabled = isFeatureFlagEnabled('pieWidgetEnabled');
 
 // ########################################################################################

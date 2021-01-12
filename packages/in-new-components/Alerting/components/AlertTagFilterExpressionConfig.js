@@ -5,8 +5,10 @@ import React from 'react';
 import AlertFilterConfigurator, {
   handleChangeTagFilterExpressionChange
 } from 'in-new-components/Alerting/components/AlertFilterConfigurator';
+import { smartAlertsServicesAndEndpointsSelectionEnabled } from 'in-services/featureFlags';
 import IconLabel from 'in-new-components/Alerting/components/IconLabel';
 import LightCard from 'in-new-components/Card/LightCard';
+import ScopeConfig from './scopeConfig/ScopeConfig';
 import Button from 'in-new-components/Button';
 
 import locals from './AlertTagFilterExpressionConfig.mless';
@@ -19,7 +21,11 @@ export default function AlertTagFilterExpressionConfig({
   headerTransparent,
   removeBorderBottom
 }) {
-  return (
+  return smartAlertsServicesAndEndpointsSelectionEnabled ? (
+    <div className={locals.scopeConfigContainer}>
+      <ScopeConfig form={form} updateForm={updateForm} QueryBuilderComponent={QueryBuilderComponent} />
+    </div>
+  ) : (
     <LightCard
       title={<IconLabel text={applicationLabel} type="lib_application" noBottomMargin />}
       headerClassName={classNames({

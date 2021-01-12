@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
 import { createLogger } from '@instana/logger';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import {
@@ -12,6 +12,7 @@ import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformati
 import { createAlertConfig, updateAlertConfig } from 'in-applications/api/applicationAlertConfig';
 import { SmartAlertConfigDialog } from 'in-applications/alerting/Dialog/SmartAlertConfigDialog';
 import AdvancedModeContainer from 'in-applications/alerting/advanced/AdvancedModeContainer';
+import { smartAlertsServicesAndEndpointsSelectionEnabled } from 'in-services/featureFlags';
 import { switchQB1orQB2Helper } from 'in-new-components/Alerting/components/WithQB1orQB2';
 import SimpleModeContainer from 'in-applications/alerting/simple/SimpleModeContainer';
 import { chartViewConfigs } from 'in-new-components/Alerting/Chart/chartViewConfig';
@@ -139,6 +140,10 @@ function toAlertConfig(form) {
         )
         .toJS()
   );
+
+  if (!smartAlertsServicesAndEndpointsSelectionEnabled) {
+    delete alertConfig.applications;
+  }
 
   alertConfig.name = alertConfig.name || getTitlePlaceholder(form);
   alertConfig.description = alertConfig.description || getDescriptionPlaceholder(form);

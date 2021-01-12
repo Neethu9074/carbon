@@ -73,8 +73,7 @@ function addEndpointIfNotContained(state, { applicationId, serviceId, endpointId
   if (isEmpty(state[applicationId]?.services[serviceId]?.endpoints?.[endpointId])) {
     const itemTreeCopy = useCopy ? deepCopy(state) : state;
     itemTreeCopy[applicationId].services[serviceId].endpoints[endpointId] = {
-      serviceId,
-      endpoints: {}
+      endpointId
     };
 
     return itemTreeCopy;
