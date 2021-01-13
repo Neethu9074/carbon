@@ -1,4 +1,9 @@
 :local {
+  .loadingWrapper {
+    display: flex;
+    justify-content: center;
+  }
+
   .listItem {
     align-items: stretch;
   }

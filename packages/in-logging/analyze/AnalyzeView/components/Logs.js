@@ -1,15 +1,22 @@
 import React from 'react';
 
+import IndeterminateLoadingIndicator from 'in-new-components/LoadingIndicators/IndeterminateLoadingIndicator';
 import QueryBuilderWorkspace from 'in-logging/analyze/AnalyzeView/components/QueryBuilderWorkspace';
 import LogContentColumn from 'in-logging/analyze/AnalyzeView/components/LogContentColumn';
+import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
 import DateTimeSeparated from 'in-components/tables/sharedComponents/DateTimeSeparated';
+import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';
 import TagSelector from 'in-logging/analyze/AnalyzeView/components/TagSelector';
 import { TAG } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import LogDetail from 'in-logging/analyze/AnalyzeView/LogDetail/LogDetail';
 import UngroupedView from 'in-new-components/AnalyzeView/UngroupedView';
+import TagList from 'in-logging/analyze/AnalyzeView/components/TagList';
+import { hasError, isLoading } from 'in-services/util/result';
+import { pendingResult } from 'in-services/fixedObjects';
 import getLogs from 'in-logging/subscriptions/getLogs';
 import getLog from 'in-logging/subscriptions/getLog';
+import useObservable from 'in-hooks/useObservable';
 
 import locals from './Logs.mless';
 
@@ -35,13 +42,7 @@ const columnDefinitions = [
         <LogContentColumn
           content={log.content}
           href={getHrefToDetailId(log.id, groupLabel)}
-          onSelectTagHref={tag => {
-            return getHrefWithTagExpression({
-              ...tag,
-              type: TAG,
-              operator: EQUALS
-            });
-          }}
+          onSelectTagHref={tag => getHrefWithTagExpression(getTagExpressionWithTag(tag))}
           tags={log.tags.filter(({ tag }) => selectedTags.indexOf(tag.name) >= 0)}
         />
       );
@@ -70,6 +71,12 @@ export default function Logs(props) {
       DetailView={LogDetail}
       getDetailData={detailId => getLog({ id: detailId })}
       CustomHeaderActions={TagSelector}
+      renderNestedContent={logId => (
+        <LogDetails
+          logId={logId}
+          onSelectTagHref={tag => props.getHrefWithTagExpression(getTagExpressionWithTag(tag))}
+        />
+      )}
     />
   );
 
@@ -90,4 +97,32 @@ function getTableData({ timeConfig, backendQueryModel, orderBy, cursor }) {
     timeConfig: timeConfig,
     tagFilterExpression: backendQueryModel
   });
+}
+
+function LogDetails({ logId, onSelectTagHref }) {
+  const logResult = useObservable(getLog({ id: logId }), [logId]) ?? pendingResult;
+  if (isLoading(logResult)) {
+    return (
+      <div className={locals.loadingWrapper}>
+        <IndeterminateLoadingIndicator />
+      </div>
+    );
+  }
+  if (hasError(logResult)) {
+    return <ErroneousResultPresenter errors={logResult.errors} />;
+  }
+
+  return (
+    <HorizontalFlexWrapper className={locals.tagsWrapper}>
+      <TagList tags={logResult.data.tags} onSelectTagHref={onSelectTagHref} />
+    </HorizontalFlexWrapper>
+  );
+}
+
+function getTagExpressionWithTag(tag) {
+  return {
+    ...tag,
+    type: TAG,
+    operator: EQUALS
+  };
 }

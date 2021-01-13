@@ -1,8 +1,8 @@
 import rpt from 'prop-types';
 import React from 'react';
 
-import { childrenArgsAsPropTypes } from 'in-new-components/AnalyzeView/StateManagement';
 import SortingConfigurator from 'in-new-components/SortingConfigurator/SortingConfigurator';
+import { childrenArgsAsPropTypes } from 'in-new-components/AnalyzeView/StateManagement';
 import LoadingList from 'in-new-components/lists/List/sharedComponents/LoadingList';
 import ErrorList from 'in-new-components/lists/List/sharedComponents/ErrorList';
 import LoadMoreLi from 'in-new-components/lists/List/LoadMoreLi/LoadMoreLi';
@@ -25,6 +25,7 @@ export default function UngroupedAnalyzeView(props) {
     columnDefinitions,
     classNames,
     withoutListItemLinkToDetails,
+    renderNestedContent,
     getId,
     withoutHeader,
     groupLabel,
@@ -84,6 +85,7 @@ export default function UngroupedAnalyzeView(props) {
                 className={classNames?.listItem}
                 size="compact"
                 href={withoutListItemLinkToDetails ? undefined : getHrefToDetailId(id, groupLabel)}
+                renderNestedContent={renderNestedContent ? () => renderNestedContent(id) : undefined}
               >
                 <ColumnizedContent columnDefinitions={columnDefinitions} {...item} {...props} />
               </Li>
@@ -114,6 +116,7 @@ UngroupedAnalyzeView.propTypes = {
   }),
   DetailView: rpt.elementType.isRequired,
   CustomHeaderActions: rpt.elementType,
+  renderNestedContent: rpt.func,
 
   // Will be auto-provided by GroupedView in the relevant scenarios.
   groupLabel: rpt.string

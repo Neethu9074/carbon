@@ -92,7 +92,9 @@ const icons = deepFreeze({
     traces: 'lib_application_trace',
     calls: 'lib_application_call',
     callsUQB: 'lib_application_call',
-    tracesUQB: 'lib_application_trace'
+    tracesUQB: 'lib_application_trace',
+    logs: 'lib_application_logging',
+    rawlogs: 'lib_website_page_load'
   },
   website: {
     pageLoad: 'lib_website_page_load',
@@ -110,10 +112,6 @@ const icons = deepFreeze({
   },
   profiles: {
     profiles: 'lib_profiling'
-  },
-  logs: {
-    logs: 'lib_application_logging',
-    rawlogs: 'lib_website_page_load'
   }
 });
 

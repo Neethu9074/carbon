@@ -35,7 +35,8 @@ export default function TimeFixatingAnalyzeStateManagement(props) {
   // change detection triggers in useUrlState.
   const urlStateDefinition = useMemo(
     () => ({
-      bind: Object.values(parameters)
+      bind: Object.values(parameters),
+      replaceHistory: false
     }),
     [parameters]
   );

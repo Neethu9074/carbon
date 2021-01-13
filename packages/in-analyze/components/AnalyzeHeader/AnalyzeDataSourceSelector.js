@@ -28,11 +28,12 @@ import locals from './AnalyzeDataSourceSelector.mless';
 const productAreas = [
   {
     productArea: 'application',
-    hasAccess: hasApplicationsAccess,
+    hasAccess: hasApplicationsAccess || loggingEnabled,
     dataSources: [
       {
         dataSource: 'calls',
         ua2: newAnalyticsEnabled,
+        enabled: hasApplicationsAccess,
         getHref$: ({ isGrouped }) =>
           getLinkToAnalyze({
             dataSource: 'calls',
@@ -42,11 +43,22 @@ const productAreas = [
       {
         dataSource: 'traces',
         ua2: newAnalyticsEnabled,
+        enabled: hasApplicationsAccess,
         getHref$: ({ isGrouped }) =>
           getLinkToAnalyze({
             dataSource: 'traces',
             groupByTag: isGrouped ? getConfigByDataSource('traces').defaultGrouping : emptyObject
           })
+      },
+      {
+        dataSource: 'logs',
+        enabled: loggingEnabled,
+        getHref$: getLinkToLogsAnalyze
+      },
+      {
+        dataSource: 'rawlogs',
+        getHref$: getLinkToRawLogs,
+        enabled$: isInternalVisible$.map(isInternalVisible => isInternalVisible && loggingEnabled)
       }
     ]
   },
@@ -151,22 +163,6 @@ const productAreas = [
         getHref$: getLinkToProfilesAnalyze
       }
     ]
-  },
-
-  {
-    productArea: 'logs',
-    hasAccess: loggingEnabled,
-    dataSources: [
-      {
-        dataSource: 'logs',
-        getHref$: getLinkToLogsAnalyze
-      },
-      {
-        dataSource: 'rawlogs',
-        getHref$: getLinkToRawLogs,
-        enabled$: isInternalVisible$
-      }
-    ]
   }
 ];
 
@@ -176,17 +172,19 @@ export default function AnalyzeDataSourceSelector({ activeConfiguration, isGroup
       {productAreas
         .filter(({ hasAccess }) => hasAccess)
         .map(({ productArea, dataSources }, i) => {
-          const dataSourceListEntries = dataSources.map(config => (
-            <ProductAreaEntry
-              key={config.dataSource}
-              {...config}
-              close={close}
-              isGrouped={isGrouped}
-              productArea={productArea}
-              ua2={config.ua2}
-              activeConfiguration={activeConfiguration}
-            />
-          ));
+          const dataSourceListEntries = dataSources
+            .filter(({ enabled }) => enabled !== false)
+            .map(config => (
+              <ProductAreaEntry
+                key={config.dataSource}
+                {...config}
+                close={close}
+                isGrouped={isGrouped}
+                productArea={productArea}
+                ua2={config.ua2}
+                activeConfiguration={activeConfiguration}
+              />
+            ));
 
           if (dataSourceListEntries.length === 1) {
             return dataSourceListEntries[0];

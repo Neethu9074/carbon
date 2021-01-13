@@ -120,6 +120,17 @@ const dataSourceSources = [
         productArea: 'application'
       },
   {
+    matrixPath: logsAnalyzePath,
+    matrixParam: logsDataSourceTypeMatrixParameter,
+    productArea: 'application'
+  },
+  {
+    matrixPath: rawLogsPathAnalyzePath,
+    matrixParam: logsDataSourceTypeMatrixParameter,
+    productArea: 'application'
+  },
+
+  {
     pathPrefix: websiteMonitoringPath,
     matrixPath: websiteAnalyzePath,
     matrixParam: websiteBeaconTypeMatrixParameter,
@@ -135,16 +146,6 @@ const dataSourceSources = [
     matrixPath: profilingAnalyzePath,
     matrixParam: dataSourceTypeMatrixParameter,
     productArea: 'profiles'
-  },
-  {
-    matrixPath: logsAnalyzePath,
-    matrixParam: logsDataSourceTypeMatrixParameter,
-    productArea: 'logs'
-  },
-  {
-    matrixPath: rawLogsPathAnalyzePath,
-    matrixParam: logsDataSourceTypeMatrixParameter,
-    productArea: 'logs'
   }
 ];
 
