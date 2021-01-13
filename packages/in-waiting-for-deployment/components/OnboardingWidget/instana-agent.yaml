@@ -24,7 +24,6 @@ metadata:
   labels:
     app.kubernetes.io/name: instana-agent
     app.kubernetes.io/version: 1.1.9
-
 type: Opaque
 data:
   key: ${agentKey}
@@ -37,7 +36,6 @@ metadata:
   labels:
     app.kubernetes.io/name: instana-agent
     app.kubernetes.io/version: 1.1.9
-
 data:
   cluster_name: "${clusterName}"
   configuration.yaml: |
@@ -74,6 +72,7 @@ data:
     #  enabled: true # disabled by default
     #  availability-zone: 'zone'
     # Place agent configuration here
+---
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
@@ -238,7 +237,6 @@ metadata:
   labels:
     app.kubernetes.io/name: instana-agent
     app.kubernetes.io/version: 1.1.9
-
 rules:
 - nonResourceURLs:
     - "/version"
@@ -292,7 +290,6 @@ metadata:
   labels:
     app.kubernetes.io/name: instana-agent
     app.kubernetes.io/version: 1.1.9
-
 subjects:
 - kind: ServiceAccount
   name: instana-agent
