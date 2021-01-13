@@ -1,4 +1,4 @@
-import { createMapForm, createField, notBlankValidator, createListForm } from 'formalistic';
+import { createMapForm, createField, notBlankValidator, createListForm, alwaysValidValidator } from 'formalistic';
 import { just } from '@instana/observables';
 
 import { numberValidator, stringValidator, booleanValidator } from 'in-services/validators/jsonType';
@@ -142,7 +142,7 @@ function getConfigFromExistingForm(form) {
 }
 
 export function isRequiringGroupingConfiguration(form) {
-  return Boolean(form.get('grouping')?.validator);
+  return Boolean(form.get('grouping')?.validator && form.get('grouping').validator !== alwaysValidValidator);
 }
 
 export function duplicate(form) {
@@ -242,7 +242,7 @@ export function createGroupingForm(grouping) {
 
 export function onChangeGrouping(onChange, newGrouping) {
   onChange([], form => {
-    const validator = form.get('grouping')?.validator ? validateMandatoryGrouping : null;
+    const validator = isRequiringGroupingConfiguration(form) ? validateMandatoryGrouping : null;
     if (!newGrouping?.by?.groupbyTag) {
       if (validator) {
         return form.put(

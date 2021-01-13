@@ -8578,10 +8578,10 @@ form-data@~2.3.2:
     combined-stream "^1.0.6"
     mime-types "^2.1.12"
 
-formalistic@^1.12.0:
-  version "1.12.0"
-  resolved "https://registry.yarnpkg.com/formalistic/-/formalistic-1.12.0.tgz#e30d030e1bdfbec86786890589f2633bda5b3e6c"
-  integrity sha512-QvmxmInOrS8TTZWdVXrJ3nNb5GxjP5hz/kpwjOgn/+A+4t4gjGqQRImYp5BxBt8ieieAT0UeYRLRlL4tjd2p5Q==
+formalistic@1.13.0:
+  version "1.13.0"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/formalistic/-/formalistic-1.13.0.tgz#5cda3293c9d3cb11c2f25e404286de36dce3ab75"
+  integrity sha1-XNoyk8nTyxHC8l5AQobeNtzjq3U=
 
 format@^0.2.0:
   version "0.2.2"
