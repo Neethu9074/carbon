@@ -15,6 +15,7 @@ import { onElementKeyUp } from 'in-new-components/QueryBuilder/keyboardInteracti
 import NumberInput from 'in-new-components/QueryBuilder/components/Tag/NumberInput';
 import Operator from 'in-new-components/QueryBuilder/components/Tag/Operator';
 import { TAG } from 'in-new-components/QueryBuilder/transformation/formModel';
+import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import Entity from 'in-new-components/QueryBuilder/components/Tag/Entity';
 import Remove from 'in-new-components/QueryBuilder/components/Tag/Remove';
 import Name from 'in-new-components/QueryBuilder/components/Tag/Name';
@@ -94,14 +95,16 @@ export default function Tag(props) {
         }}
       />
 
-      <KeyInput
-        form={form}
-        onChange={onChange}
-        tagType={tagType}
-        getSuggestions={getSuggestions}
-        formModel={formModel}
-        formModelIndex={formModelIndex}
-      />
+      <div draggable="true" onDragStart={stopPropagationAndPreventDefault}>
+        <KeyInput
+          form={form}
+          onChange={onChange}
+          tagType={tagType}
+          getSuggestions={getSuggestions}
+          formModel={formModel}
+          formModelIndex={formModelIndex}
+        />
+      </div>
 
       <Operator
         element={element}
@@ -116,20 +119,22 @@ export default function Tag(props) {
         ref={autoFocusTargets.operator}
       />
 
-      <ValueInput
-        valueType={valueType}
-        form={form}
-        onChange={onChange}
-        tagType={tagType}
-        focusField={focusField}
-        booleanSelectorRef={autoFocusTargets.booleanSelector}
-        renderModelIndex={renderModelIndex}
-        getSuggestions={getSuggestions}
-        formModel={formModel}
-        formModelIndex={formModelIndex}
-        // temporarily restrict the latency min value to 1, should be removed for UA2 GA
-        minNumValue={element.name === 'call.latency' || element.name === 'trace.latency' ? 1 : 0}
-      />
+      <div draggable="true" onDragStart={stopPropagationAndPreventDefault}>
+        <ValueInput
+          valueType={valueType}
+          form={form}
+          onChange={onChange}
+          tagType={tagType}
+          focusField={focusField}
+          booleanSelectorRef={autoFocusTargets.booleanSelector}
+          renderModelIndex={renderModelIndex}
+          getSuggestions={getSuggestions}
+          formModel={formModel}
+          formModelIndex={formModelIndex}
+          // temporarily restrict the latency min value to 1, should be removed for UA2 GA
+          minNumValue={element.name === 'call.latency' || element.name === 'trace.latency' ? 1 : 0}
+        />
+      </div>
 
       <RemoveIcon form={form} element={element} tagType={tagType} onRemove={onRemove} />
     </div>
