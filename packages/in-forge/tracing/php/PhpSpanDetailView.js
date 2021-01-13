@@ -32,6 +32,10 @@ export default function HttpSpanDetailView({ span }) {
           {span.getIn(['data', 'compile', 'time']) &&
             millis.detailed(parseFloat(span.getIn(['data', 'compile', 'time']) / 1000))}
         </Di>
+        <Di title="OPcache Enabled">{span.getIn(['data', 'opcache', 'enabled'])}</Di>
+        <Di title="OPcache Cache Full">{span.getIn(['data', 'opcache', 'cache_full'])}</Di>
+        <Di title="OPcache Hit Rate">{span.getIn(['data', 'opcache', 'hit_rate'])}</Di>
+        <Di title="OPcache Cached Keys">{span.getIn(['data', 'opcache', 'num_cached_keys'])}</Di>
         {getCustomHeaders(span)}
       </Dl>
     </div>
