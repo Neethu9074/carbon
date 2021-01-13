@@ -42,6 +42,7 @@ export const smartAlertsServicesAndEndpointsSelectionEnabled = isFeatureFlagEnab
   'smartAlertsServicesAndEndpointsSelectionEnabled'
 );
 export const pieWidgetEnabled = isFeatureFlagEnabled('pieWidgetEnabled');
+export const showUserSettingInternalTagsInUA = isFeatureFlagEnabled('showUserSettingInternalTagsInUA', false);
 
 // ########################################################################################
 // Dynamic focus keywords

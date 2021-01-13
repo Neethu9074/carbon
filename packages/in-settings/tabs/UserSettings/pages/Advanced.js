@@ -1,13 +1,16 @@
 import { get } from 'lodash';
 import React from 'react';
 
+import { isShowInternalTagsEnabled$, enableShowInternalTags } from 'in-applications/isShowInternalTagsEnabled';
 import useSettingsEditor from 'in-settings/tabs/UserSettings/pages/useSettingsEditor';
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
+import { showUserSettingInternalTagsInUA } from 'in-services/featureFlags';
 import SectionHeading from 'in-settings/components/SectionHeading';
 import Heading from 'in-settings/tabs/UserSettings/pages/Heading';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import SectionLine from 'in-settings/components/SectionLine';
+import useObservable from 'in-hooks/useObservable';
 import Toggle from 'in-components/form/Toggle';
 import Footer from 'in-new-components/Footer';
 import Title from 'in-components/Title';
@@ -16,6 +19,7 @@ import locals from './UiConfig.mless';
 
 export default function UiConfigAdvancedPage() {
   const [settings, saveSetting] = useSettingsEditor();
+  const isShowInternalTagsEnabled = useObservable(isShowInternalTagsEnabled$, []);
 
   if (!settings) {
     return null;
@@ -162,6 +166,24 @@ export default function UiConfigAdvancedPage() {
           />
         </HorizontalFormGroup>
       </div>
+
+      {showUserSettingInternalTagsInUA && (
+        <>
+          <SectionHeading>Troubleshooting</SectionHeading>
+          <p>The following options should never be turned on without being asked to do so by Instana Support.</p>
+          <div style={{ marginBottom: '1rem' }}>
+            <HorizontalFormGroup>
+              <Heading text="Show internal tags in Unbounded Analytics" htmlFor="ua-show-internal-tags" />
+              <Toggle
+                id="ua-show-internal-tags"
+                checked={isShowInternalTagsEnabled}
+                onChange={e => enableShowInternalTags(e.target.checked)}
+              />
+            </HorizontalFormGroup>
+          </div>
+        </>
+      )}
+
       <Footer />
     </SettingsDetailPage>
   );
