@@ -13,7 +13,8 @@ import {
   addFormForTimeDuration,
   dynamic,
   fixed,
-  rolling
+  rolling,
+  sliConfigId
 } from 'in-custom-dashboards/widgets/Slo/form';
 import { OverridingTextTouchedMessage } from 'in-custom-dashboards/widgets/Slo/components/OverridingTextTouchedMessage';
 import formatInputTime from 'in-new-components/time/TimeSelectionDialogPresenter/timeInputFormatter';
@@ -121,7 +122,11 @@ export default function FormComponent({ form, onChange, setSlideInView }) {
   function onUpdateApConfigId(apId) {
     const newApConfig = apConfigs.find(apConfig => apConfig.id === apId);
     setApConfig(newApConfig);
-    onChange([], formField => formField.updateIn([apConfigId], f => f.setValue(apId).setTouched(true)));
+    onChange([], formField =>
+      formField
+        .updateIn([apConfigId], f => f.setValue(apId).setTouched(true))
+        .updateIn([sliConfigId], f => f.setValue('').setTouched(false))
+    );
   }
 
   return (
