@@ -163,5 +163,10 @@ module.exports = exports = [
     uiClientKey: 'smartAlertsEntityGroupingEnabled',
     instanaCtlKey: 'feature.smart.alerts.entity.grouping.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'showUserSettingInternalTagsInUA',
+    instanaCtlKey: 'feature.show.user.setting.internal.tags.in.ua',
+    defaultValue: false
   }
 ];

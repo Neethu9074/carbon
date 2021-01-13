@@ -38,6 +38,7 @@ export const applicationSmartAlertsEnabled = isFeatureFlagEnabled('applicationSm
 export const webMobileQb2AnalyzeEnabled = isFeatureFlagEnabled('webMobileQb2AnalyzeEnabled');
 export const loggingEnabled = isFeatureFlagEnabled('loggingEnabled', false);
 export const smartAlertsEntityGroupingEnabled = isFeatureFlagEnabled('smartAlertsEntityGroupingEnabled', false);
+export const showUserSettingInternalTagsInUA = isFeatureFlagEnabled('showUserSettingInternalTagsInUA', false);
 
 // ########################################################################################
 // Dynamic focus keywords
