@@ -50,5 +50,10 @@ export const colors = [
     id: 'indigo',
     label: 'Indigo',
     color: theme.lib.colors.indigo800
+  },
+  {
+    id: 'red',
+    label: 'Red',
+    color: theme.lib.colors.red800
   }
 ];
