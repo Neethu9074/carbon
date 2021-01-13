@@ -10,6 +10,7 @@ module.exports = {
   infraExplorePresentationEnabled: true,
   infraExploreDataEnabled: true,
   internalMonitoringUnit: true,
+  showUserSettingInternalTagsInUA: true,
   isSelfService: false,
   isUsageInfoPopupEnabled: false,
   latencyDistributionBase10Enabled: true,
