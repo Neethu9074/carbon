@@ -21,6 +21,7 @@ import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import { boundaryScopes } from 'in-applications/constants';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import { Row, Col } from 'in-new-components/layout/Grid';
+import { emptyArray } from 'in-services/fixedObjects';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
@@ -41,10 +42,11 @@ export default connectTo(
       showPotentialProblemsLane: true
     });
 
-    const includeSyntheticTagFilter = { value: includeSyntheticCalls, name: 'include_synthetic', operator: EQUALS };
-
+    const includeSyntheticTagFilters = includeSyntheticCalls
+      ? [{ value: true, name: 'include_synthetic', operator: EQUALS }]
+      : emptyArray;
     const tagFilters = [
-      includeSyntheticTagFilter,
+      ...includeSyntheticTagFilters,
       { stringValue: endpointId, name: 'endpoint.id', entity: DESTINATION, operator: EQUALS }
     ];
 
@@ -95,7 +97,7 @@ export default connectTo(
                       timeConfig,
                       boundaryScope,
                       groupByTag: { name: 'call.name', entity: entityTypes.NOT_APPLICABLE },
-                      filters: [includeSyntheticTagFilter],
+                      filters: includeSyntheticTagFilters,
                       tagCatalog: tagCatalog,
                       metrics: [
                         { metric: 'erroneousCalls', aggregation: 'SUM' },
@@ -144,7 +146,7 @@ export default connectTo(
                       timeConfig,
                       boundaryScope,
                       groupByTag: { name: 'call.name', entity: entityTypes.NOT_APPLICABLE },
-                      filters: [includeSyntheticTagFilter, { name: 'call.erroneous', value: 'true' }],
+                      filters: [...includeSyntheticTagFilters, { name: 'call.erroneous', value: 'true' }],
                       tagCatalog: tagCatalog,
                       metrics: [
                         { metric: 'errors', aggregation: 'MEAN' },
@@ -192,7 +194,7 @@ export default connectTo(
                       groupByTag: { name: 'call.name', entity: entityTypes.NOT_APPLICABLE },
                       orderBy: 'latency_MEAN_Agg',
                       orderDirection: 'DESC',
-                      filters: [includeSyntheticTagFilter],
+                      filters: includeSyntheticTagFilters,
                       tagCatalog: tagCatalog
                     }
                   )
