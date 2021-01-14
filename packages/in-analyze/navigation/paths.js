@@ -290,11 +290,11 @@ export function setTagFilterExpressionAndHiddenCalls(location, tagCatalog, tagFi
       // The include_internal and include_synthetic tag are not longer used as tagFilters, but as
       // dedicated flags instead.
       else if (tagFilter.name === 'include_internal') {
-        if (tagFilter.value === 'true' || tagFilter.booleanValue) {
+        if (tagFilter.value === 'true' || tagFilter.value === true || tagFilter.booleanValue) {
           hiddenCalls.includeInternal = true;
         }
       } else if (tagFilter.name === 'include_synthetic') {
-        if (tagFilter.value === 'true' || tagFilter.booleanValue) {
+        if (tagFilter.value === 'true' || tagFilter.value === true || tagFilter.booleanValue) {
           hiddenCalls.includeSynthetic = true;
         }
       } else {
