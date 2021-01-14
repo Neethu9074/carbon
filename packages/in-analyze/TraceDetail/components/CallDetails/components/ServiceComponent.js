@@ -16,8 +16,10 @@ import ProfileInformation from 'in-analyze/TraceDetail/components/CallDetails/co
 import SpanDetails from 'in-analyze/TraceDetail/components/CallDetails/components/SpanDetails';
 import CallLogs from 'in-analyze/TraceDetail/components/CallDetails/components/CallLogs';
 import { physicalDashboardPath } from 'in-stores/navigation/paths/mainPaths';
+import { getResolvedTimeConfig } from 'in-applications/metrics';
 import ExpandableGroup from 'in-new-components/ExpandableGroup';
 import Skeleton from 'in-new-components/Loading/Skeleton';
+import useTimeConfig from 'in-hooks/useTimeConfig';
 import { find } from 'in-services/arrayUtils';
 import Tooltip from 'in-components/Tooltip';
 import { role } from 'in-stores/user';
@@ -25,6 +27,7 @@ import { role } from 'in-stores/user';
 import locals from './ServiceComponent.mless';
 
 export default function ServiceComponent({ call, websiteBeacon, mobileAppBeacon }) {
+  const timeConfig = useTimeConfig();
   const sourceService = get(call, ['source', 'service']);
   const service = get(call, ['destination', 'service']);
   const endpoint = get(call, ['destination', 'endpoint']);
@@ -111,6 +114,7 @@ export default function ServiceComponent({ call, websiteBeacon, mobileAppBeacon 
                 snapshotId={destinationSnapshotId}
                 calculateHierarchy
                 pathname={physicalDashboardPath}
+                timeConfig={getResolvedTimeConfig(timeConfig, call.start)}
               />
             )}
           </ExpandableGroup>
@@ -216,6 +220,7 @@ export default function ServiceComponent({ call, websiteBeacon, mobileAppBeacon 
                     entity={sourceEntity}
                     plugin={sourceEntity && sourceEntity.plugin}
                     physicalContext={sourcePhysicalContext}
+                    timeConfig={getResolvedTimeConfig(timeConfig, call.start)}
                   />
                 </ExpandableGroup>
               )}
@@ -268,6 +273,7 @@ export default function ServiceComponent({ call, websiteBeacon, mobileAppBeacon 
                 entity={destinationEntity}
                 plugin={destinationEntity && destinationEntity.plugin}
                 physicalContext={destinationPhysicalContext}
+                timeConfig={getResolvedTimeConfig(timeConfig, call.start)}
               />
             )}
           </ExpandableGroup>
