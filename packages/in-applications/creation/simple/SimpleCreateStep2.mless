@@ -3,13 +3,13 @@
 :local {
   .filterWrapper {
     grid-column: 1 / span 2;
-    padding: 0 .5rem;
-    margin-top: .5rem 0 1rem;
-    overflow-y: scroll;
+    padding: 0 0.5rem;
+    margin-top: 0.5rem 0 1rem;
+    overflow-y: auto;
   }
 
   .descriptionText {
-    font-size: .8rem;
+    font-size: 0.8rem;
     line-height: 1.5;
   }
 }

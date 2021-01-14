@@ -2,7 +2,7 @@
 
 :local {
   .listContainer {
-    overflow-y: scroll;
+    overflow-y: auto;
     position: relative;
   }
 
