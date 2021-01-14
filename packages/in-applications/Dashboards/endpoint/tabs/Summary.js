@@ -43,7 +43,7 @@ export default connectTo(
     });
 
     const includeSyntheticTagFilters = includeSyntheticCalls
-      ? [{ booleanValue: true, name: 'include_synthetic', operator: EQUALS }]
+      ? [{ value: true, name: 'include_synthetic', operator: EQUALS }]
       : emptyArray;
     const tagFilters = [
       ...includeSyntheticTagFilters,
