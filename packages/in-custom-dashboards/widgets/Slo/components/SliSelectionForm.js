@@ -1,11 +1,11 @@
 import React from 'react';
 
-import Sections from 'in-new-components/workspace/Sections';
-import SelectInSection from 'in-components/form/Select/SelectInSection';
-
 import { OverridingTextTouchedMessage } from 'in-custom-dashboards/widgets/Slo/components/OverridingTextTouchedMessage';
+import SelectInSection from 'in-components/form/Select/SelectInSection';
 import { sliConfigId } from 'in-custom-dashboards/widgets/Slo/form';
 import { getSliConfigurations } from 'in-custom-dashboards/api';
+import Sections from 'in-new-components/workspace/Sections';
+import { compareIgnoreCase } from 'in-services/util/string';
 import useObservable from 'in-hooks/useObservable';
 
 export default function SliSelectionForm({ form, onChange, applicationId, openManageSLIComponent }) {
@@ -29,11 +29,13 @@ export default function SliSelectionForm({ form, onChange, applicationId, openMa
       >
         {filteredSLIs.length === 0 && <option value="">None available, please create one.</option>}
         {filteredSLIs.length !== 0 && <option value="">Please select</option>}
-        {filteredSLIs.map(({ id, sliName }) => (
-          <option key={id} value={id}>
-            {sliName}
-          </option>
-        ))}
+        {filteredSLIs
+          .sort((a, b) => compareIgnoreCase(a.sliName, b.sliName))
+          .map(({ id, sliName }) => (
+            <option key={id} value={id}>
+              {sliName}
+            </option>
+          ))}
       </SelectInSection>
     </Sections>
   );
