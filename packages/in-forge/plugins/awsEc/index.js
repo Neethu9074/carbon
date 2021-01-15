@@ -11,7 +11,9 @@ registerSnapshotDefinition({
   },
   kpiDefinitions,
   metricDefinitions,
-
+  technologyDescriptor: {
+    label: 'AWS EC'
+  },
   getLabel(snapshot) {
     const clusterId = snapshot.getIn(['data', 'cache_cluster_id'], '');
     const engine = snapshot.getIn(['data', 'cache_engine'], '');
