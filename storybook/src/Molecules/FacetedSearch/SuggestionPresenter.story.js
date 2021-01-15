@@ -25,6 +25,7 @@ export const Default = () => (
       ]}
       addFilter={() => alert('add filter')}
       tag="tag"
+      dataSource="calls"
     />
   </div>
 );
