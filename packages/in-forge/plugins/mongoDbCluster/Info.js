@@ -13,6 +13,8 @@ export default function Info({ snapshot }) {
       <DescriptionItem title="Cloud Provider">{data.get('clusterProvider')}</DescriptionItem>
       <DescriptionItem title="Region">{data.get('clusterRegion')}</DescriptionItem>
       <DescriptionItem title="Instance Size Name">{data.get('clusterInstanceSizeName')}</DescriptionItem>
+      <DescriptionItem title="Project">{data.get('clusterProjectName')}</DescriptionItem>
+      <DescriptionItem title="Organisation">{data.get('clusterOrganisationName')}</DescriptionItem>
     </DescriptionList>
   );
 }

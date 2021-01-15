@@ -3,6 +3,7 @@ import React from 'react';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import ReplicaSetsTable from 'in-forge/plugins/mongoDbCluster/ReplicaSetsTable';
 import { number, bytes } from 'in-services/formatters/number';
 
 export default function MongoDbClusterDashboard({ snapshot, timeConfig }) {
@@ -61,6 +62,8 @@ export default function MongoDbClusterDashboard({ snapshot, timeConfig }) {
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
+
+      <ReplicaSetsTable clusterSnapshotId={snapshot.get('id')} timeConfig={timeConfig} />
     </div>
   );
 }

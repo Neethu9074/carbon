@@ -75,7 +75,7 @@ export default connectTo(
         .throttle(1000)
     };
   },
-  function ClusterNodesTable({ clusterReplicaSets, timeConfig }) {
+  function ReplicaSetsTable({ clusterReplicaSets, timeConfig }) {
     if (clusterReplicaSets == null || clusterReplicaSets.length === 0) {
       return null;
     }
