@@ -116,6 +116,15 @@ export function deleteGroup(id) {
   }).map(mapAndRefresh);
 }
 
+export function removeUserFromGroup(groupId, userId) {
+  return http({
+    method: 'DELETE',
+    maxRetries: 3,
+    headers: getCsrfHeader(),
+    url: `/api/settings/groups/${groupId}/user/${userId}`
+  }).map(mapAndRefresh);
+}
+
 function mapAndRefresh(response) {
   refresh();
   return response.body;

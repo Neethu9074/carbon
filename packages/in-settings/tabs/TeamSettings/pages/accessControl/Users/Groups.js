@@ -1,7 +1,7 @@
 import React from 'react';
 
+import { removeUserFromGroup, getStrippedGroupsAsResultObservable } from 'in-settings/tabs/TeamSettings/api/groups';
 import AddUserToGroupButton from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/AddUserToGroupButton';
-import { saveGroup, getStrippedGroupsAsResultObservable } from 'in-settings/tabs/TeamSettings/api/groups';
 import { getEntityIdView, teamSettingsAccessControlGroups } from 'in-settings/navigation/paths';
 import { ListInsideACardRenderer } from 'in-settings/components/ApiList/renderer/renderer';
 import Delete from 'in-settings/components/ApiList/sharedComponents/Delete';
@@ -64,7 +64,7 @@ function ListRenderer({ items, userId, refresh, setErrorMessage, currentDeleting
           <ColumnizedContent
             columnDefinitions={columnDefinitions}
             group={group}
-            deleteItem={() => removeUserFromGroup(userId, refresh, group, setErrorMessage)}
+            deleteItem={() => removeUserFromGroupInternal(userId, group.id, refresh, setErrorMessage)}
             currentDeletingItemIds={currentDeletingItemIds}
           />
         </Li>
@@ -73,18 +73,11 @@ function ListRenderer({ items, userId, refresh, setErrorMessage, currentDeleting
   );
 }
 
-function removeUserFromGroup(_userId, refresh, group, setErrorMessage) {
-  const groupWithoutUser = {
-    ...group,
-    members: group.members.filter(({ userId }) => userId !== _userId),
-    permissions: [{ id: group.permissionSet.id, scope: 'TU' }]
-  };
-  const result$ = saveGroup(groupWithoutUser);
+function removeUserFromGroupInternal(userId, groupId, refresh, setErrorMessage) {
+  const result$ = removeUserFromGroup(groupId, userId);
   result$.once(
     () => {
-      if (refresh) {
-        refresh();
-      }
+      refresh();
     },
     error => {
       setErrorMessage(`Failed to remove user from group: ${error.message}`);
