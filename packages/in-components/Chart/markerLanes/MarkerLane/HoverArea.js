@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import { commonOverlayStylesPropType } from 'in-components/Chart/markerLanes/MarkerLane/MarkerLane';
+
 import locals from './HoverArea.mless';
 
 export default function HoverArea({
@@ -8,12 +10,12 @@ export default function HoverArea({
   fromXPos,
   toXPos,
   clusterWidth,
-  color,
   chartContentPosition,
   timeAxisHeight,
   markerPaneHeight,
   renderLine = true,
-  chartHeight
+  chartHeight,
+  commonOverlayStyles
 }) {
   return (
     <>
@@ -22,14 +24,14 @@ export default function HoverArea({
         style={{
           transform: `translateX(${fromXPos !== undefined ? fromXPos : xPos - clusterWidth / 2}px)`,
           width: `${toXPos !== undefined && fromXPos !== undefined ? toXPos - fromXPos + 0.5 : clusterWidth}px`,
-          color,
           height: getClusterOverlayHeight(),
+          ...commonOverlayStyles,
           ...getClusterOverlayTopAndBottomOffset()
         }}
       >
         <div
           style={{
-            color
+            color: commonOverlayStyles.color
           }}
           className={locals.highlightClusterOverlay}
         />
@@ -39,7 +41,7 @@ export default function HoverArea({
           className={locals.line}
           style={{
             transform: `translateX(${Math.max(Math.min(xPos, toXPos - 1), fromXPos)}px)`,
-            color,
+            color: commonOverlayStyles.color,
             ...getLineTopAndBottomOffset()
           }}
         />
@@ -67,11 +69,11 @@ HoverArea.propTypes = {
   chartContentPosition: PropTypes.string,
   chartHeight: PropTypes.number,
   clusterWidth: PropTypes.number,
-  color: PropTypes.string,
   markerPaneHeight: PropTypes.number,
   timeAxisHeight: PropTypes.number,
   xPos: PropTypes.number,
   fromXPos: PropTypes.number,
   renderLine: PropTypes.bool,
-  toXPos: PropTypes.number
+  toXPos: PropTypes.number,
+  ...commonOverlayStylesPropType
 };
