@@ -3,16 +3,9 @@
 :local {
   .container {
     display: flex;
-    align-items: flex-start;
 
-    line-height: 1.25rem;
-    border-bottom: 1px solid @lib__colors__N400;
+    border-radius: @lib__shapes__radius_small;
+    border-bottom: 1px solid @lib__colors__N300;
     padding: 1rem;
-  }
-
-  .options {
-    margin-left: 1rem;
-    align-items: center;
-    color: @lib__colors__N900Primary;
   }
 }

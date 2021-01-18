@@ -86,7 +86,7 @@ CreateSmartAlert.propTypes = {
   defaultBoundaryScope: PropTypes.string
 };
 
-function generateFormData({ applicationId, serviceLabel, endpointLabel, boundaryScope }) {
+export function generateFormData({ applicationId, serviceLabel, endpointLabel, boundaryScope }) {
   return {
     applicationId,
     boundaryScope,

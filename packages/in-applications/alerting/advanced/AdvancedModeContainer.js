@@ -9,6 +9,7 @@ import {
 import TimeThresholdConfigPresenter from 'in-new-components/Alerting/advanced/TimeThresholdConfig/TimeThresholdConfigPresenter';
 import AlertPropertiesContainer from 'in-new-components/Alerting/advanced/AlertProperties/AlertPropertiesContainer';
 import AlertTagFilterExpressionConfig from 'in-new-components/Alerting/components/AlertTagFilterExpressionConfig';
+import AlertEvaluationControl from 'in-applications/alerting/advanced/EvaluationSwitch/AlertEvaluationControl';
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-applications/alerting/form/formUtils';
 import StatusCodeInteractiveChart from 'in-applications/alerting/advanced/StatusCodeInteractiveChart';
 import ThroughputInteractiveChart from 'in-applications/alerting/advanced/ThroughputInteractiveChart';
@@ -28,6 +29,7 @@ import ProvideStatusCode from 'in-applications/alerting/components/ProvideStatus
 import AlertQueryBuilder from 'in-applications/alerting/components/AlertQueryBuilder';
 import AlertTypeSwitch from 'in-applications/alerting/components/AlertTypeSwitch';
 import WithQB1orQB2 from 'in-new-components/Alerting/components/WithQB1orQB2';
+import { smartAlertsEntityGroupingEnabled } from 'in-services/featureFlags';
 import LightCard from 'in-new-components/Card/LightCard';
 
 export default function AdvancedModeContainer(props) {
@@ -56,6 +58,7 @@ export default function AdvancedModeContainer(props) {
           title: 'Scope: Where is the condition happening?',
           content: (
             <>
+              {smartAlertsEntityGroupingEnabled && <AlertEvaluationControl form={form} updateForm={updateForm} />}
               <WithQB1orQB2
                 onUsesQB1={() => (
                   <AlertLocationFilters
@@ -71,7 +74,6 @@ export default function AdvancedModeContainer(props) {
                     updateForm={updateForm}
                     applicationLabel={applicationLabel}
                     QueryBuilderComponent={AlertQueryBuilder}
-                    removeBorderBottom
                   />
                 )}
                 shouldFallbackToQB2={isQB2Config => isQB2Config(form.get('convertedTagFilterExpression').value)}

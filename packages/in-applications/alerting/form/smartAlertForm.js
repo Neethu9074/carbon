@@ -1,6 +1,7 @@
 import { createMapForm, createField } from 'formalistic';
 
 import createTimeThresholdForm from 'in-new-components/Alerting/advanced/TimeThresholdConfig/form';
+import { PER_AP } from 'in-applications/alerting/advanced/EvaluationSwitch/alertEvaluationTypes';
 import { fromBackendModel } from 'in-new-components/QueryBuilder/transformation/formModel';
 import createThresholdForm from 'in-applications/alerting/form/thresholdForm';
 import createRuleForm from 'in-applications/alerting/form/ruleForm';
@@ -58,6 +59,12 @@ export function createSmartAlertForm(alertConfig) {
       'tagFilterExpression',
       createField({
         value: fromBackendModel(alertConfig.tagFilterExpression)
+      })
+    )
+    .put(
+      'evaluationType',
+      createField({
+        value: alertConfig.evaluationType ?? PER_AP
       })
     )
     .put(

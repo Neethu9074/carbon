@@ -3,10 +3,6 @@ import IconLabel from 'in-new-components/Alerting/components/IconLabel';
 
 export default {
   title: 'Molecules|alerting/IconLabel',
-  parameters: {
-    // not relevant to test...
-    chromatic: { disable: true }
-  },
   component: IconLabel
 };
 

@@ -3,19 +3,15 @@ export const PER_AP_SERVICE = 'PER_AP_SERVICE';
 
 const alertEvaluationTypes = {
   [PER_AP]: {
+    selectionText: 'on the aggregation of all selected Services and Endpoints',
     columnText: 'aggregated',
-    text: 'the aggregation of all selected Services and Endpoints'
+    description: 'Alert on the aggregation of all selected Services and Endpoints'
   },
   [PER_AP_SERVICE]: {
+    selectionText: 'on the aggregation per Service',
     columnText: 'per Service',
-    text: 'the aggregation per Service'
+    description: 'Alert individually on the aggregation per Service'
   }
-  /* later:
-  [PER_AP]: {
-    columnText: 'per Endpoints'
-    text: 'Alert individually on the aggregation per Endpoints per Service'
-  }
-  */
 };
 
 export default alertEvaluationTypes;

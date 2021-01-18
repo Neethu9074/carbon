@@ -18,7 +18,7 @@ const IconLabel = forwardRef(({ text = '', type, noBottomMargin, color = lib.col
       })}
       color={color}
     >
-      <SvgIcon className={locals.icon} type={type} /> <span style={{ color }}>{text}</span>
+      <SvgIcon className={locals.icon} color={color} type={type} /> <span style={{ color }}>{text}</span>
     </HorizontalFlexWrapper>
   );
 });
