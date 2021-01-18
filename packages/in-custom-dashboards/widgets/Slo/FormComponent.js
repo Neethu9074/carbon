@@ -18,6 +18,7 @@ import {
 } from 'in-custom-dashboards/widgets/Slo/form';
 import { OverridingTextTouchedMessage } from 'in-custom-dashboards/widgets/Slo/components/OverridingTextTouchedMessage';
 import formatInputTime from 'in-new-components/time/TimeSelectionDialogPresenter/timeInputFormatter';
+import { trackOpenSLIManagement, trackAPSelected } from 'in-custom-dashboards/widgets/Slo/tracker';
 import PercentageFormInput from 'in-custom-dashboards/widgets/Slo/components/PercentageFormInput';
 import SliSelectionForm from 'in-custom-dashboards/widgets/Slo/components/SliSelectionForm';
 import APConfigSelector from 'in-custom-dashboards/widgets/Slo/components/APConfigForm';
@@ -100,8 +101,9 @@ export default function FormComponent({ form, onChange, setSlideInView }) {
       slideOutHandler(slideOut, [sliSelected, selectSli]) {
         return () => {
           if (sliSelected == null) {
-            slideOut();
+            slideOut(); // close list
           } else {
+            // "cancel"/close, go back to list
             selectSli(null);
           }
         };
@@ -127,6 +129,7 @@ export default function FormComponent({ form, onChange, setSlideInView }) {
         .updateIn([apConfigId], f => f.setValue(apId).setTouched(true))
         .updateIn([sliConfigId], f => f.setValue('').setTouched(false))
     );
+    trackAPSelected({ applicationId: apId });
   }
 
   return (
@@ -145,7 +148,14 @@ export default function FormComponent({ form, onChange, setSlideInView }) {
           applicationId={appConfigIdValue}
           onChange={onChange}
           openManageSLIComponent={
-            <Button disabled={!apConfig} kind="primary" onClick={() => activateManageSliSlideIn()}>
+            <Button
+              disabled={!apConfig}
+              kind="primary"
+              onClick={() => {
+                activateManageSliSlideIn();
+                trackOpenSLIManagement({ applicationId: appConfigIdValue });
+              }}
+            >
               Manage SLIs
             </Button>
           }

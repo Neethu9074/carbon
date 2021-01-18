@@ -1,7 +1,7 @@
 import { just } from '@instana/observables';
 import React, { useState } from 'react';
 
-import Stack from 'in-new-components/layout/Stack';
+import { trackSliNewCreated, trackSLICloned, trackSLIEditAbort } from 'in-custom-dashboards/widgets/Slo/tracker';
 import { resetFormForSliType, createForm, sliFieldNames } from 'in-custom-dashboards/widgets/Slo/sli/sliForm';
 import { switchQB1orQB2Helper, isQB2ModeEnabled } from 'in-new-components/Alerting/components/WithQB1orQB2';
 import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
@@ -13,6 +13,7 @@ import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { createSliConfiguration } from 'in-custom-dashboards/api';
 import { generateUniqueShortId } from 'in-services/util/id';
 import { pendingResult } from 'in-services/fixedObjects';
+import Stack from 'in-new-components/layout/Stack';
 import Form from 'in-components/form/binding/Form';
 import useObservable from 'in-hooks/useObservable';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -45,8 +46,9 @@ export default function CreateNewSLIForm({ apName, applicationId, apDefaultBound
       error: false
     });
 
+    const pureConfig = toBackendFormat(form);
     const enrichedSliConfiguration = {
-      ...toBackendFormat(form),
+      ...pureConfig,
       id: generateUniqueShortId(9)
     };
 
@@ -63,6 +65,11 @@ export default function CreateNewSLIForm({ apName, applicationId, apDefaultBound
             },
             'custom-dashboard-sli'
           );
+          if (pureConfig.id) {
+            trackSLICloned({ sliType: enrichedSliConfiguration.sliType });
+          } else {
+            trackSliNewCreated({ sliType: enrichedSliConfiguration.sliType });
+          }
           close();
         },
         () => {
@@ -102,7 +109,12 @@ export default function CreateNewSLIForm({ apName, applicationId, apDefaultBound
         {state?.errors && <ErroneousResultPresenter errors={state.errors} />}
 
         <FormFooter withRoundedBottomBorder>
-          <CancelButton onClick={close} />
+          <CancelButton
+            onClick={() => {
+              trackSLIEditAbort();
+              close();
+            }}
+          />
           <SaveButton form={form} isSaving={saving} disabled={!isValid}>
             {saving ? savingStateName : saveButtonLabel}
           </SaveButton>

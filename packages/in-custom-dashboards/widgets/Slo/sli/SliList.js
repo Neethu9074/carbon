@@ -8,6 +8,7 @@ import { isQB2ModeEnabled } from 'in-new-components/Alerting/components/WithQB1o
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-new-components/Dialog/ConfirmationDialog';
+import { trackSliDeleted } from 'in-custom-dashboards/widgets/Slo/tracker';
 import getServiceLabel from 'in-subscription/application/getServiceLabel';
 import getEndpointInfo from 'in-subscription/application/getEndpointInfo';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
@@ -169,6 +170,7 @@ const columnDefinitions = [
                     onSubmit={() => {
                       close();
                       deleteSliConfig(item.id);
+                      trackSliDeleted();
                     }}
                   />
                 );

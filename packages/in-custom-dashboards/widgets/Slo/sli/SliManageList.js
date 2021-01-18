@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 
+import { trackSliCreate, trackSliViewSLI } from 'in-custom-dashboards/widgets/Slo/tracker';
 import SlideInView, { NoHeader } from 'in-new-components/SlideInView/SlideInView';
 import CreateNewSLIForm from 'in-custom-dashboards/widgets/Slo/sli/CreateSLIForm';
 import SliList from 'in-custom-dashboards/widgets/Slo/sli/SliList';
@@ -49,7 +50,10 @@ export default function SliManageList({ applicationId, apName, apDefaultBoundary
           role.canConfigureServiceLevelIndicators && (
             <Button
               kind="action"
-              onClick={() => setSelectedSli({})}
+              onClick={() => {
+                setSelectedSli({});
+                trackSliCreate();
+              }}
               icon="lib_openclose_add_circle_outline"
               className={locals.createButton}
             >
@@ -58,7 +62,10 @@ export default function SliManageList({ applicationId, apName, apDefaultBoundary
           )
         }
         query={queryState[0]}
-        selectSli={setSelectedSli}
+        selectSli={sliConfig => {
+          setSelectedSli(sliConfig);
+          trackSliViewSLI({ sliId: sliConfig.id, sliType: sliConfig.sliType });
+        }}
       />
     </div>
   );
