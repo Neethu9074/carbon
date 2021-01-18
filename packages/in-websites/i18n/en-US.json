@@ -1,0 +1,11 @@
+{
+  "rename": {
+    "help": "Renaming a website is an eventually consistent action within the Instana system. For this reason, a change to a website name may take <strong>up to a few minutes</strong> until it has populated throughout the whole system."
+  },
+  "trackingScript": {
+    "help": "The following tracking script is all you need to get started with website monitoring. Copy this script to the HTML document's <code>{{htmlElementName}}</code>. Information about website monitoring and the full capabilities of the tracking script are located <linkToDocs>within our docs</linkToDocs>."
+  },
+  "delete": {
+    "disclaimer": "If you no longer wish to monitor the website <strong>{{websiteName}}</strong> using Instana, please use this form to remove it. Removing a website is an eventually consistent action. For this reason, removing a website may take <strong>up to a few minutes</strong> until it has been completely removed."
+  }
+}

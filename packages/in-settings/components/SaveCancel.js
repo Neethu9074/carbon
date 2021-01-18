@@ -5,6 +5,7 @@ import SectionLine from 'in-settings/components/SectionLine';
 import Section from 'in-settings/components/Section';
 import { goToPath } from 'in-stores/navigation';
 import Button from 'in-new-components/Button';
+import { t } from 'in-i18n';
 
 import locals from './SaveCancel.mless';
 
@@ -15,14 +16,14 @@ export default function SaveCancel({
   saveEnabled = true,
   isCreate,
   listPath,
-  cancelButtonLabel = 'Cancel',
+  cancelButtonLabel = t('forms.actions.cancel'),
   onClickCancelButton,
   hasSaveButton = true,
   hasCancelButton = true
 }) {
   const saving = loading && message === entityFormSavingMessage;
-  const saveButtonLabel = isCreate ? 'Create' : 'Save';
-  const savingStateName = 'Saving…';
+  const saveButtonLabel = isCreate ? t('forms.actions.create') : t('forms.actions.save');
+  const savingStateName = t('forms.states.saving');
 
   return (
     <Fragment>

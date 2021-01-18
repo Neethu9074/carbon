@@ -17,6 +17,9 @@ initialiseSteps([
   // end-user monitoring for internal purposes
   'ineum',
 
+  // Localization/Globalization
+  'i18n',
+
   // accept terms and privacy settings
   'waitingTermsAndPrivacy',
 

@@ -14,6 +14,7 @@ const path = require('path');
 
 const webpackConfig = require('../../webpack.config.js');
 const { askQuestions } = require('./devModeQuestions');
+const { createI18nFiles } = require('./i18n');
 const commonJobs = require('./common');
 const buildUtil = require('./util');
 const paths = require('./paths');
@@ -24,7 +25,7 @@ const hotReload = !!process.env.HOT_RELOAD;
 let devModeOptions;
 
 gulp.task('prepareTestExecution', cb => {
-  gulp.series(commonJobs.ensureTargetDirStructureExists, commonJobs.translateTheme)(cb);
+  gulp.series(commonJobs.ensureTargetDirStructureExists, commonJobs.translateTheme, createI18nFiles)(cb);
 });
 
 gulp.task('dev', cb => {
@@ -34,6 +35,7 @@ gulp.task('dev', cb => {
     clean,
     ensureTargetDirStructureExists,
     gulp.parallel(
+      createI18nFiles,
       copyFavicon,
       writeBuildInfo,
       translateTheme,
@@ -77,6 +79,7 @@ function enableDevWatches(cb) {
   gulp.watch(paths.faviconSrc, copyFavicon);
   gulp.watch(paths.appleTouchIconSrc, copyAppleTouchIcon);
   gulp.watch(paths.featureFlags, writeDevConfigFile);
+  gulp.watch(paths.i18nInputFiles, createI18nFiles);
   cb();
 }
 

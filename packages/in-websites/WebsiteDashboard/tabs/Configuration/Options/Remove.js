@@ -10,6 +10,7 @@ import { removeWebsite } from 'in-websites/api/websites';
 import SaveError from 'in-components/form/SaveError';
 import Button from 'in-new-components/Button';
 import Card from 'in-new-components/Card';
+import { Trans } from 'in-i18n';
 
 import locals from './Remove.mless';
 
@@ -38,9 +39,7 @@ export default class Remove extends React.PureComponent {
     return (
       <Card title="Remove Website">
         <HelpParagraph>
-          If you no longer wish to monitor the website <strong>{label}</strong> using Instana, please use this form to
-          remove it. Removing a website is an eventually consistent action. For this reason, removing a website may take{' '}
-          <strong>up to a few minutes</strong> until it has been completely removed.
+          <Trans i18nKey="in-websites:delete.disclaimer" values={{ websiteName: label }} />
         </HelpParagraph>
         <HelpParagraph>
           <strong>Please note that neither you nor the Instana support can undo this action!</strong>

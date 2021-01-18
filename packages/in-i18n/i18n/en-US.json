@@ -1,0 +1,12 @@
+{
+  "forms": {
+    "actions": {
+      "save": "Save",
+      "cancel": "Cancel",
+      "create": "Create"
+    },
+    "states": {
+      "saving": "Saving…"
+    }
+  }
+}

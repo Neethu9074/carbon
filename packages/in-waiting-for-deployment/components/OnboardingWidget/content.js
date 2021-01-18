@@ -1,4 +1,5 @@
 import React, { Fragment, useState } from 'react';
+import { t } from 'in-i18n';
 
 import {
   Bash,
@@ -368,12 +369,7 @@ function AwsSensorContent({ agentKey, agentEndpoint, agentEndpointPort }) {
 
     content = (
       <Fragment>
-        <Description
-          lines={[
-            'We advise to run the Instana AWS sensor on a dedicated EC2, "Current Generation General Purpose" Linux Virtual Machine. The m4.large instances, for example, are perfectly suited to the task.',
-            'Use the following as "User Data" when spinning up the dedicated EC2 Virtual Machine.'
-          ]}
-        />
+        <Description lines={[t('in-waiting-for-deployment:aws.description')]} />
         <Bash
           lines={[
             'curl -o setup_agent.sh https://setup.instana.io/agent',
@@ -382,22 +378,18 @@ function AwsSensorContent({ agentKey, agentEndpoint, agentEndpointPort }) {
           ]}
         />
         <Spacer />
-        <HelpBox title="User Data in AWS EC2">
+        <HelpBox title={t('in-waiting-for-deployment:aws.help.title')}>
           <TextWithLink
-            text="For more information on how to use the script above with User Data in AWS EC2, refer to the "
-            linkText='"Running Commands on Your Linux Instance at Launch" page.'
-            href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html"
+            text={t('in-waiting-for-deployment:aws.help.text')}
+            linkText={t('in-waiting-for-deployment:aws.help.linktext')}
+            href={t('in-waiting-for-deployment:aws.help.link')}
           />
         </HelpBox>
         <Spacer />
-        <Description lines={['The AWS Agent needs the following IAM permissions:']} />
+        <Description lines={[t('in-waiting-for-deployment:aws.secText.line1')]} />
         {iamPermissions}
         <Spacer />
-        <Description
-          lines={[
-            'The IAM role containing the permissions above needs to be able to perform the "AssumeRole" action, so, make sure to edit the "Trust Relationship" with something like the following:'
-          ]}
-        />
+        <Description lines={[t('in-waiting-for-deployment:aws.secText.line2')]} />
         <JSONFile title="Trust Relationship" content={JSON.stringify(trustRelationship, 0, 2)} />
       </Fragment>
     );

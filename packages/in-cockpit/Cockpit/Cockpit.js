@@ -1,5 +1,6 @@
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import classNames from 'classnames';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import DashboardHeaderShadowModule from 'in-new-components/DashboardHeader/DashboardHeaderShadowModule';
@@ -109,7 +110,7 @@ function Header() {
                   params.pathname = '/agents/installation';
                 })}
               >
-                Deploy Agent
+                {t('in-cockpit:deployAgent')}
               </Button>
             )}
 

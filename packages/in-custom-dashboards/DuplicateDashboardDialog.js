@@ -10,6 +10,7 @@ import { close } from 'in-components/DialogPresenter/store';
 import Toggle from 'in-components/form/Toggle';
 import Label from 'in-components/form/Label';
 import { user } from 'in-stores/user';
+import { t } from 'in-i18n';
 
 export default compose(
   withState('state', 'setState', ({ config }) => ({
@@ -17,7 +18,7 @@ export default compose(
       .put(
         'title',
         createField({
-          value: `Copy of ${config.title}`,
+          value: t('in-custom-dashboards:editor.copyOf', { title: config.title }),
           validator: notBlankValidator
         })
       )

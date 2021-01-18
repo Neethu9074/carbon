@@ -13,6 +13,7 @@ const path = require('path');
 const fs = require('fs');
 
 const webpackConfig = require('../../webpack.config.js');
+const { createI18nFiles } = require('./i18n');
 const commonJobs = require('./common');
 const buildUtil = require('./util');
 const paths = require('./paths');
@@ -30,7 +31,7 @@ gulp.task('build', cb => {
   gulp.series(
     clean,
     ensureTargetDirStructureExists,
-    gulp.parallel(copyFavicon, copyAppleTouchIcon, writeBuildInfo, copyServerSources, translateTheme),
+    gulp.parallel(createI18nFiles, copyFavicon, copyAppleTouchIcon, writeBuildInfo, copyServerSources, translateTheme),
     webpackBuild,
     minifyCss,
     printFileStatistics

@@ -14,6 +14,7 @@ import Button from 'in-new-components/Button';
 import Input from 'in-components/form/Input';
 import SvgIcon from 'in-components/SvgIcon';
 import Card from 'in-new-components/Card';
+import { Trans } from 'in-i18n';
 
 import locals from './Rename.mless';
 
@@ -118,9 +119,7 @@ export default class Rename extends React.PureComponent {
             {saveError && <SaveError>{saveError}</SaveError>}
 
             <HelpParagraph>
-              Renaming a website is an eventually consistent action within the Instana system. For this reason, a change
-              to a website name may take <strong>up to a few minutes</strong> until it has populated throughout the
-              whole system.
+              <Trans i18nKey="in-websites:rename.help" />
             </HelpParagraph>
 
             <div className={locals.actionWrapper}>

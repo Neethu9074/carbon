@@ -1,0 +1,13 @@
+{
+  "time": {
+    "lastMinute": "Last minute",
+    "lastMinute_plural": "Last {{count}} minutes",
+    "lastHour": "Last hour",
+    "lastHour_plural": "Last {{count}} hours",
+
+    "yesterday": "Yesterday",
+    "twoDaysAgo": "Two days ago",
+    "lastSevenDays": "Last seven days",
+    "previousWeek": "Previous week"
+  }
+}

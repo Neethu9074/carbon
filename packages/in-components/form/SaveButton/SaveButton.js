@@ -2,13 +2,14 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import Button from 'in-new-components/Button';
+import { t } from 'in-i18n';
 
 export default function SaveButton({
   form,
   formId,
   isLoading,
   isSaving,
-  children = 'Save',
+  children = t('forms.actions.save'),
   className,
   kind = 'create',
   icon,

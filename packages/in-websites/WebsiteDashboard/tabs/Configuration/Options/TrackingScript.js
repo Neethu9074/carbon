@@ -4,6 +4,7 @@ import HelpParagraph from 'in-websites/WebsiteDashboard/tabs/Configuration/Optio
 import TrackingSnippetPresenter from 'in-websites/trackingSnippet/TrackingSnippetPresenter';
 import { getTrackingSnippet } from 'in-websites/trackingSnippet';
 import CopyToClipboard from 'in-components/CopyToClipboard';
+import { Trans, markAsSecureString } from 'in-i18n';
 import Button from 'in-new-components/Button';
 import Card from 'in-new-components/Card';
 import Link from 'in-components/Link';
@@ -26,13 +27,13 @@ export default function TrackingScript({ websiteId }) {
       }
     >
       <HelpParagraph>
-        The following tracking script is all you need to get started with website monitoring. Copy this script to the
-        HTML {`document's`} <code>{'<head>'}</code>. Information about website monitoring and the full capabilities of
-        the tracking script are located{' '}
-        <Link href="https://instana.com/docs/website_monitoring/" external>
-          within our docs
-        </Link>
-        .
+        <Trans
+          i18nKey="in-websites:trackingScript.help"
+          values={{ htmlElementName: markAsSecureString('<head />') }}
+          components={{
+            linkToDocs: <Link href="https://instana.com/docs/website_monitoring/" external />
+          }}
+        />
       </HelpParagraph>
 
       <TrackingSnippetPresenter

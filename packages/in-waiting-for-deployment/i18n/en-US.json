@@ -1,0 +1,15 @@
+{
+  "aws": {
+    "description": "We advise to run the Instana AWS sensor on a dedicated EC2, \"Current Generation General Purpose\" Linux Virtual Machine. The m4.large instances, for example, are perfectly suited to the task. Use the following as \"User Data\" when spinning up the dedicated EC2 Virtual Machine.",
+    "help": {
+      "title": "User Data in AWS EC2",
+      "text": "For more information on how to use the script above with User Data in AWS EC2, refer to the ",
+      "linkText": "\"Running Commands on Your Linux Instance at Launch\" page.",
+      "link": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html"
+    },
+    "secText": {
+      "line1": "The AWS Agent needs the following IAM permissions:",
+      "line2": "The IAM role containing the permissions above needs to be able to perform the \"AssumeRole\" action, so, make sure to edit the \"Trust Relationship\" with something like the following:"
+    }
+  }
+}

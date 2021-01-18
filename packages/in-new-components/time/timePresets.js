@@ -1,3 +1,4 @@
+import { t } from 'in-i18n';
 import moment from 'moment';
 
 import { formatDurationAccurately } from 'in-services/formatters/date';
@@ -11,42 +12,42 @@ export const fixedTimePickerPresets = [
   {
     to: null,
     windowSize: minute,
-    label: format(minute)
+    label: t('in-new-components:time.lastMinute', { count: 1 })
   },
   {
     to: null,
     windowSize: minute * 5,
-    label: format(minute * 5)
+    label: t('in-new-components:time.lastMinute', { count: 5 })
   },
   {
     to: null,
     windowSize: minute * 10,
-    label: format(minute * 10)
+    label: t('in-new-components:time.lastMinute', { count: 10 })
   },
   {
     to: null,
     windowSize: minute * 30,
-    label: format(minute * 30)
+    label: t('in-new-components:time.lastMinute', { count: 30 })
   },
   {
     to: null,
     windowSize: hour,
-    label: format(hour)
+    label: t('in-new-components:time.lastHour', { count: 1 })
   },
   {
     to: null,
     windowSize: hour * 6,
-    label: format(hour * 6)
+    label: t('in-new-components:time.lastHour', { count: 6 })
   },
   {
     to: null,
     windowSize: hour * 12,
-    label: format(hour * 12)
+    label: t('in-new-components:time.lastHour', { count: 12 })
   },
   {
     to: null,
     windowSize: hour * 24,
-    label: format(hour * 24)
+    label: t('in-new-components:time.lastHour', { count: 24 })
   }
 ];
 
@@ -78,7 +79,7 @@ function getYesterdayPreset(months) {
     .toDate();
   const from = date.getTime();
   return {
-    label: 'Yesterday',
+    label: t('in-new-components:time.yesterday'),
     description: `${months[date.getMonth()]} ${date.getDate()}`,
     windowSize: twentyFourHours,
     to: from + twentyFourHours
@@ -92,7 +93,7 @@ function getDayBeforeYesterdayPreset(months) {
     .toDate();
   const to = date.getTime();
   return {
-    label: '2 days ago',
+    label: t('in-new-components:time.twoDaysAgo'),
     description: `${months[date.getMonth()]} ${date.getDate()}`,
     windowSize: twentyFourHours,
     to: to + twentyFourHours
@@ -105,7 +106,7 @@ function getLastSevenDaysPreset(months) {
     .toDate();
   const endOfWeek = moment().toDate();
   return {
-    label: 'Last 7 days',
+    label: t('in-new-components:time.lastSevenDays'),
     description: `${months[startOfWeek.getMonth()]} ${startOfWeek.getDate()}- ${
       months[endOfWeek.getMonth()]
     } ${endOfWeek.getDate()}`,
@@ -124,7 +125,7 @@ function getPreviousWeekPreset(months) {
     .startOf('week')
     .toDate();
   return {
-    label: 'Previous week',
+    label: t('in-new-components:time.previousWeek'),
     description: `${months[startOfWeek.getMonth()]} ${startOfWeek.getDate()} - ${
       months[endOfWeek.getMonth()]
     } ${endOfWeek.getDate()}`,

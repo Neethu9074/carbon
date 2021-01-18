@@ -1,4 +1,4 @@
-/* global require:false */
+/* global require:false, process:false */
 
 import { create } from '@instana/observables';
 
@@ -32,10 +32,15 @@ export function getLoadedPurifier() {
   if (cachedPurifier) {
     result.emit(cachedPurifier);
   } else {
-    require(['./html_purifier.js'], function onModLoad(purifier) {
-      cachedPurifier = purifier;
+    if (process.env.IS_TEST) {
+      cachedPurifier = require('./html_purifier.js');
       result.emit(cachedPurifier);
-    });
+    } else {
+      require(['./html_purifier.js'], function onModLoad(purifier) {
+        cachedPurifier = purifier;
+        result.emit(cachedPurifier);
+      });
+    }
   }
 
   return result;
@@ -51,10 +56,15 @@ export function getLoadedAnsiConverter() {
   if (cachedAnsiConverter) {
     result.emit(cachedAnsiConverter);
   } else {
-    require(['./html_ansi_converter.js'], function onModLoad(ansiConverter) {
-      cachedAnsiConverter = ansiConverter;
+    if (process.env.IS_TEST) {
+      cachedAnsiConverter = require('./html_ansi_converter.js');
       result.emit(cachedAnsiConverter);
-    });
+    } else {
+      require(['./html_ansi_converter.js'], function onModLoad(ansiConverter) {
+        cachedAnsiConverter = ansiConverter;
+        result.emit(cachedAnsiConverter);
+      });
+    }
   }
 
   return result;

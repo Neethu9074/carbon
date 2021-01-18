@@ -330,6 +330,9 @@ module.exports = {
     ],
 
     // Only warn on hook rule violations. This will be reverted when refactoring is finished.
-    'react-hooks/rules-of-hooks': 'warn'
+    'react-hooks/rules-of-hooks': 'warn',
+
+    // i18next is wrapped via in-i18n. Please only ever access i18next via our wrappers.
+    'no-restricted-imports': ['error', 'react-i18next', 'i18next']
   }
 };

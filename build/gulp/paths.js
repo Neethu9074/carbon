@@ -11,6 +11,7 @@ paths.rootDir = path.join(__dirname, '..', '..');
 paths.targetDir = path.join(paths.rootDir, 'target');
 paths.assetDir = path.join(paths.targetDir, 'assets');
 paths.bundleDir = path.join(paths.assetDir, 'bundle');
+paths.i18nDir = path.join(paths.assetDir, 'i18n');
 paths.binDir = path.join(paths.rootDir, 'node_modules', '.bin');
 paths.devDir = path.join(paths.rootDir, 'dev');
 
@@ -30,6 +31,7 @@ paths.allServerSourcesIgnoreRules = [
   path.join('**', 'README.md')
 ];
 paths.featureFlags = path.join(paths.devDir, 'featureFlags.js');
+paths.i18nInputFiles = path.join(paths.packageDir, '*', 'i18n', '*');
 
 // ## Target Files:
 paths.devIndexHtmlTarget = path.join(paths.assetDir, 'index.html');
