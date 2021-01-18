@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import { commonOverlayStylesPropType } from 'in-components/Chart/markerLanes/MarkerLane/MarkerLane';
+
 import locals from './PotentialProblemsHoverArea.mless';
 
 export default function PotentialProblemsHoverArea({
@@ -9,7 +11,8 @@ export default function PotentialProblemsHoverArea({
   timeAxisHeight,
   markerPaneHeight,
   xScale,
-  eventData
+  eventData,
+  commonOverlayStyles
 }) {
   const height = 8; // it's the same value as the --item-heigh var in the respective CSS file
   const { duration } = eventData;
@@ -26,6 +29,7 @@ export default function PotentialProblemsHoverArea({
       style={{
         transform: `translateX(${fromXPos !== undefined ? fromXPos : xPos - durationWidth / 2}px)`,
         width: `${toXPos !== undefined && fromXPos !== undefined ? toXPos - fromXPos + 0.5 : durationWidth}px`,
+        zIndex: commonOverlayStyles.zIndex,
         ...getTopAndBottomOffset()
       }}
     />
@@ -46,5 +50,6 @@ PotentialProblemsHoverArea.propTypes = {
   xScale: PropTypes.shape({
     getRangeArea: PropTypes.func,
     getRangeTo: PropTypes.func
-  })
+  }),
+  ...commonOverlayStylesPropType
 };

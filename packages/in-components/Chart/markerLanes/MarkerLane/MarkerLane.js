@@ -63,7 +63,6 @@ function MarkersLanePresenter({
   LaneItem,
   renderHoverOverlay,
   renderSecondaryHoverOverlay,
-  color,
   selectedEventData,
   laneLabelsVisible,
   isLoading,
@@ -88,9 +87,9 @@ function MarkersLanePresenter({
               toXPos: Math.min(xPos + clusterAreaWidth / 2, xScale.getRangeTo()),
               chartContentPosition,
               eventData: hoveredEventData ?? selectedEventData,
-              color,
               xScale,
               clusterWidth: clusterAreaWidth,
+              commonOverlayStyles: getCommonOverlayStyles({ chartContentPosition, ...remainingProps }),
               isClustered,
               ...remainingProps
             };
@@ -184,5 +183,18 @@ MarkersLane.propTypes = {
   // Tracking
   trackMarkerHoverEvent: PropTypes.func
 };
+
+function getCommonOverlayStyles({ chartContentPosition, color }) {
+  return {
+    // setting zIndex to ensure the lanes added before the chart (1st in stacking order) will overlay the chart when hovered
+    zIndex: chartContentPosition === 'pre' ? 1 : 'auto',
+    color
+  };
+}
+
+export const commonOverlayStylesPropType = PropTypes.shape({
+  zIndex: PropTypes.number,
+  color: PropTypes.string
+});
 
 export default getElementDimensions(MarkersLane);

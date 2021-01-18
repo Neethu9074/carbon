@@ -1,15 +1,23 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import { commonOverlayStylesPropType } from 'in-components/Chart/markerLanes/MarkerLane/MarkerLane';
+
 import locals from './HoverLine.mless';
 
-export default function HoverLine({ xPos, color, chartContentPosition, timeAxisHeight, markerPaneHeight }) {
+export default function HoverLine({
+  xPos,
+  chartContentPosition,
+  timeAxisHeight,
+  markerPaneHeight,
+  commonOverlayStyles
+}) {
   return (
     <div
       className={locals.hoverLine}
       style={{
         transform: `translateX(${xPos}px)`,
-        color,
+        ...commonOverlayStyles,
         ...getTopAndBottomOffset()
       }}
     />
@@ -23,8 +31,8 @@ export default function HoverLine({ xPos, color, chartContentPosition, timeAxisH
 
 HoverLine.propTypes = {
   chartContentPosition: PropTypes.string,
-  color: PropTypes.string,
   markerPaneHeight: PropTypes.number,
   timeAxisHeight: PropTypes.number,
-  xPos: PropTypes.number
+  xPos: PropTypes.number,
+  ...commonOverlayStylesPropType
 };
