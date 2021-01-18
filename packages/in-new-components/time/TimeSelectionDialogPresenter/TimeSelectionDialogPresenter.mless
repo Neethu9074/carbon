@@ -8,22 +8,4 @@
 
     background: @lib__colors__white;
   }
-
-  .tabs {
-    height: 3rem;
-
-    border-bottom: 1px solid @lib__colors__N300;
-  }
-
-  .tab > div {
-    display: flex;
-    justify-content: center;
-
-    width: 25rem;
-
-    margin-right: 0;
-
-    cursor: pointer;
-    font-weight: 500;
-  }
 }
