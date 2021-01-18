@@ -25,8 +25,6 @@ function MarkerLanesPresenter({ children, granularity, chartWidth, chartBucketWi
     <div
       className={locals.markerLanesContainer}
       onMouseLeave={() => {
-        // TODO is this correct?
-        // stopPropagationAndPreventDefault(e);
         if (hasMarkersToRender) setLaneLabelsVisibility(false);
       }}
     >
@@ -45,8 +43,6 @@ function MarkerLanesPresenter({ children, granularity, chartWidth, chartBucketWi
       <div
         className={locals[labelAlignment]}
         onMouseEnter={() => {
-          // TODO is this correct?
-          // stopPropagationAndPreventDefault(e);
           if (hasMarkersToRender) setLabelAligment(labelAlignment === 'left' ? 'right' : 'left');
         }}
       />
