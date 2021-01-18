@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import Tab from 'in-new-components/InlineTabNavigation/Tab';
@@ -21,3 +22,10 @@ export default function InlineTabNavigation({ tabList, activeTabIndex, onTabSele
     </ul>
   );
 }
+
+InlineTabNavigation.propTypes = {
+  activeTabIndex: PropTypes.number,
+  isDisabled: PropTypes.bool,
+  onTabSelect: PropTypes.func,
+  tabList: PropTypes.array
+};

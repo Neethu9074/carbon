@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import React from 'react';
 
@@ -73,3 +74,15 @@ export default function Tab({
     return item;
   }
 }
+
+Tab.propTypes = {
+  disabledReason: PropTypes.node,
+  healthSeverity: WithHealthDot.propTypes.severity,
+  icon: PropTypes.string,
+  index: PropTypes.number,
+  isActive: PropTypes.bool,
+  isDisabled: PropTypes.bool,
+  onTabSelect: PropTypes.func,
+  text: PropTypes.string,
+  withoutBottomBorder: PropTypes.bool
+};

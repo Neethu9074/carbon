@@ -10,7 +10,7 @@ import {
   newServiceView,
   endpointDashboard
 } from 'in-applications/navigation/paths';
-import { SecondLevelNavigation, SecondLevelNavigationItem } from 'in-new-components/SecondLevelNavigation';
+import InlineTabNavigation from 'in-new-components/InlineTabNavigation';
 import CustomTime from 'in-new-components/time/TimeSelectionDialogPresenter/CustomTime';
 import Releases from 'in-new-components/time/TimeSelectionDialogPresenter/Releases';
 import Presets from 'in-new-components/time/TimeSelectionDialogPresenter/Presets';
@@ -19,6 +19,17 @@ import { analyze } from 'in-analyze/navigation/paths';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './TimeSelectionDialogPresenter.mless';
+
+const tabList = [
+  {
+    icon: 'lib_datetime_timerange',
+    text: 'Time Range'
+  },
+  {
+    icon: 'lib_release_rocket',
+    text: 'Releases'
+  }
+];
 
 export default connectTo(
   {
@@ -40,22 +51,8 @@ export default connectTo(
 
     return (
       <section className={locals.wrapper}>
-        <SecondLevelNavigation className={locals.tabs}>
-          <SecondLevelNavigationItem
-            className={locals.tab}
-            label="Time Range"
-            icon="lib_datetime_timerange"
-            isActive={activeTabIndex === 0}
-            onClick={() => setActiveTabIndex(0)}
-          />
-          <SecondLevelNavigationItem
-            className={locals.tab}
-            label="Releases"
-            icon="lib_release_rocket"
-            isActive={activeTabIndex === 1}
-            onClick={() => setActiveTabIndex(1)}
-          />
-        </SecondLevelNavigation>
+        <InlineTabNavigation tabList={tabList} activeTabIndex={activeTabIndex} onTabSelect={setActiveTabIndex} />
+
         {activeTabIndex == 0 ? (
           <>
             <Presets {...props} containsHistoricData={containsHistoricData} />
