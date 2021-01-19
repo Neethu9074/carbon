@@ -229,6 +229,12 @@ function QueryBuilder({
 
   function onRemove(formModelIndex, renderModelIndexToFocus, numberOfElementsToRemove = 1) {
     const elementToRemove = formModel[formModelIndex];
+    if (!elementToRemove) {
+      // this can happen, e.g., when someone presses backspace at the very first position, causing
+      // elementToRemove to be undefined.
+      return;
+    }
+
     const copiedFormModel = formModel.slice();
     copiedFormModel.splice(formModelIndex, numberOfElementsToRemove);
     focus(
