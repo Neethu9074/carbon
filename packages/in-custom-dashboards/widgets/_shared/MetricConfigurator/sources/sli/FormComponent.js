@@ -23,7 +23,7 @@ export default function FormComponent({
   const { data: sliConfigurations } = useObservable(() => getSliConfigurations(), []) ?? {};
   return (
     <Stack space="xsmall">
-      {dataSourceSection}
+      <Sections>{dataSourceSection}</Sections>
 
       {form.get('sliConfigId').map(field => (
         <Sections>

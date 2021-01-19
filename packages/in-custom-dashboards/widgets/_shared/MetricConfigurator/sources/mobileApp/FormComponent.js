@@ -1,5 +1,5 @@
-import React from 'react';
 import { find, groupBy } from 'lodash';
+import React from 'react';
 
 import { useTagFilterExpressionState } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/tagFilterUtils/useTagFilterExpressionState';
 import QueryBuilderSection from 'in-new-components/QueryBuilder/workspace/QueryBuilderSection';
@@ -26,6 +26,8 @@ export default function FormComponent({
   const beaconTypeField = form.get('beaconType');
   const metricField = form.get('metric');
   const aggregationField = form.get('aggregation');
+  const aggregators = getAggregations(beaconTypeField.value, metricField.value);
+  const isSingleAggregator = aggregators?.length < 2;
 
   const { QueryBuilder, getTagCatalog } = queryBuildersPerDataSource[beaconTypeField.value] || emptyObject;
 
@@ -38,9 +40,8 @@ export default function FormComponent({
 
   return (
     <Stack space="xsmall">
-      {dataSourceSection}
-
       <Sections>
+        {dataSourceSection}
         <SelectInSection
           label="Beacon Type"
           id="metic-configurator-mobile-app-beacon-type"
@@ -55,6 +56,7 @@ export default function FormComponent({
           }
           hasError={!beaconTypeField.valid && beaconTypeField.touched}
           additionalContent={<TouchedMessages field={beaconTypeField} />}
+          useAlternateBg
         >
           <option value="">Please select</option>
           {Object.keys(dataSourceTitles)
@@ -66,18 +68,6 @@ export default function FormComponent({
             ))}
         </SelectInSection>
       </Sections>
-
-      {QueryBuilder && (
-        <Sections>
-          <QueryBuilderSection
-            value={tagFilterExpression}
-            onChange={setTagFilterExpression}
-            QueryBuilder={QueryBuilder}
-            withoutIcon
-          />
-        </Sections>
-      )}
-
       <Sections>
         <SelectInSection
           label="Metric"
@@ -123,23 +113,22 @@ export default function FormComponent({
             </>
           )}
         </SelectInSection>
-      </Sections>
 
-      <Sections>
         <SelectInSection
           label="Aggregation"
           id="metic-configurator-mobile-app-aggregation"
           value={aggregationField.value}
           onChange={e => onChange(['aggregation'], field => field.setValue(e.target.value).setTouched(true))}
           hasError={!aggregationField.valid && aggregationField.touched}
-          disabled={!metricField.valid}
+          disabled={!metricField.valid || isSingleAggregator}
           additionalContent={<TouchedMessages field={aggregationField} />}
+          useAlternateBg
         >
           {!metricField.valid && <option value="">Please select a metric</option>}
           {metricField.valid && (
             <>
               <option value="">Please select</option>
-              {getAggregations(beaconTypeField.value, metricField.value).map(aggregation => (
+              {aggregators.map(aggregation => (
                 <option key={aggregation} value={aggregation}>
                   {aggregationLabels[aggregation]}
                 </option>
@@ -148,6 +137,17 @@ export default function FormComponent({
           )}
         </SelectInSection>
       </Sections>
+
+      {QueryBuilder && (
+        <Sections>
+          <QueryBuilderSection
+            value={tagFilterExpression}
+            onChange={setTagFilterExpression}
+            QueryBuilder={QueryBuilder}
+            withoutIcon
+          />
+        </Sections>
+      )}
 
       {formatterSection}
 

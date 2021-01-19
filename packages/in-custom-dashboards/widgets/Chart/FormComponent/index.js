@@ -11,14 +11,14 @@ export default function ChartWidgetFormComponent({ form, onChange }) {
   return (
     <Stack space="large">
       <Stack space="normal">
-        <Header>Datasets: What data do you want to visualize?</Header>
+        <Header>Datasets</Header>
         <DataSeriesConfigurator form={form} onChange={onChange} getShortMetricKey={getShortMetricKey} />
       </Stack>
 
       <Divider />
 
       <Stack space="normal">
-        <Header>Axis Configuration: How do you want to configure the chart axis?</Header>
+        <Header>Axis Configuration</Header>
         <AxesConfigurator form={form} onChange={onChange} getShortMetricKey={getShortMetricKey} />
       </Stack>
     </Stack>

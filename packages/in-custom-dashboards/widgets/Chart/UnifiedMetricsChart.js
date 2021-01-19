@@ -9,6 +9,7 @@ import { extendWindowSizeOnLiveMode, getChartGranularity } from 'in-applications
 import sources from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources';
 import { colors } from 'in-custom-dashboards/widgets/Chart/FormComponent/colors';
 import { translateOffsetToTimeShiftConfig } from 'in-stores/time/shifting';
+import { getMetricLabel } from 'in-custom-dashboards/widgets/Chart/util';
 import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
 import ChartWrapper from 'in-components/Chart/ChartWrapper';
 import { getFormatter } from 'in-stores/metric/formatters';
@@ -164,7 +165,11 @@ function toAxisConfiguration(name, axis, resultDataAsList, chartConfig) {
     renderer: (availableRenderers.find(({ id }) => id === axis.renderer) || defaultRenderer).renderer,
     formatter: getFormatter(axis.formatter),
     tooltipFormatter: axis.tooltipFormatter,
-    labels: axis.metrics.flatMap(({ label: metricLabel, grouping }, i) => {
+    labels: axis.metrics.flatMap((metric, i) => {
+      let { label: metricLabel, grouping } = metric;
+      if (!metricLabel) {
+        metricLabel = getMetricLabel(metric);
+      }
       // For grouped metrics one metric configuration will result in
       // multiple data series and hence in multiple labels.
       if (isGroupedMetric(grouping)) {

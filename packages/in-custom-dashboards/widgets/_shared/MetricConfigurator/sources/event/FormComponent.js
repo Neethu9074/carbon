@@ -22,7 +22,7 @@ export default function FormComponent({
 
   return (
     <Stack space="xsmall">
-      {dataSourceSection}
+      <Sections>{dataSourceSection}</Sections>
 
       <Sections>
         <InputInSection
@@ -47,15 +47,13 @@ export default function FormComponent({
         >
           <option value="eventCount">Event Count</option>
         </SelectInSection>
-      </Sections>
-
-      <Sections>
         <SelectInSection
           label="Aggregation"
           id="metic-configurator-event-aggregation"
           value={aggregationField.value}
           disabled
           additionalContent={<TouchedMessages field={aggregationField} />}
+          useAlternateBg
         >
           {!metricField.valid && <option value="">Please select a metric</option>}
           {metricField.valid && (

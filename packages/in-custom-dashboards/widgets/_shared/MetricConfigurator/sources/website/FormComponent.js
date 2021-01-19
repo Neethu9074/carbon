@@ -27,6 +27,8 @@ export default function FormComponent({
   const metricField = form.get('metric');
   const aggregationField = form.get('aggregation');
   const { QueryBuilder, getTagCatalog } = queryBuildersPerDataSource[beaconTypeField.value] || emptyObject;
+  const aggregators = getAggregations(beaconTypeField.value, metricField.value);
+  const isSingleAggregator = aggregators?.length < 2;
 
   const tagCatalogResult = useObservable(getTagCatalog, []) ?? pendingResult;
   const [tagFilterExpression, setTagFilterExpression] = useTagFilterExpressionState({
@@ -37,9 +39,8 @@ export default function FormComponent({
 
   return (
     <Stack space="xsmall">
-      {dataSourceSection}
-
       <Sections>
+        {dataSourceSection}
         <SelectInSection
           label="Beacon Type"
           id="metic-configurator-website-beacon-type"
@@ -54,6 +55,7 @@ export default function FormComponent({
           }
           hasError={!beaconTypeField.valid && beaconTypeField.touched}
           additionalContent={<TouchedMessages field={beaconTypeField} />}
+          useAlternateBg
         >
           <option value="">Please select</option>
           {Object.keys(dataSourceTitles)
@@ -65,18 +67,6 @@ export default function FormComponent({
             ))}
         </SelectInSection>
       </Sections>
-
-      {QueryBuilder && (
-        <Sections>
-          <QueryBuilderSection
-            value={tagFilterExpression}
-            onChange={setTagFilterExpression}
-            QueryBuilder={QueryBuilder}
-            withoutIcon
-          />
-        </Sections>
-      )}
-
       <Sections>
         <SelectInSection
           label="Metric"
@@ -122,23 +112,21 @@ export default function FormComponent({
             </>
           )}
         </SelectInSection>
-      </Sections>
-
-      <Sections>
         <SelectInSection
           label="Aggregation"
           id="metic-configurator-website-aggregation"
           value={aggregationField.value}
           onChange={e => onChange(['aggregation'], field => field.setValue(e.target.value).setTouched(true))}
           hasError={!aggregationField.valid && aggregationField.touched}
-          disabled={!metricField.valid}
+          disabled={!metricField.valid || isSingleAggregator}
           additionalContent={<TouchedMessages field={aggregationField} />}
+          useAlternateBg
         >
           {!metricField.valid && <option value="">Please select a metric</option>}
           {metricField.valid && (
             <>
               <option value="">Please select</option>
-              {getAggregations(beaconTypeField.value, metricField.value).map(aggregation => (
+              {aggregators.map(aggregation => (
                 <option key={aggregation} value={aggregation}>
                   {aggregationLabels[aggregation]}
                 </option>
@@ -147,6 +135,17 @@ export default function FormComponent({
           )}
         </SelectInSection>
       </Sections>
+
+      {QueryBuilder && (
+        <Sections>
+          <QueryBuilderSection
+            value={tagFilterExpression}
+            onChange={setTagFilterExpression}
+            QueryBuilder={QueryBuilder}
+            withoutIcon
+          />
+        </Sections>
+      )}
 
       {formatterSection}
 

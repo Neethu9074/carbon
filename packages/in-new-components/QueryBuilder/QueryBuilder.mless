@@ -6,6 +6,8 @@
     // required in order to execute offset calculations via JS (see offsetX, offsetY access)
     position: relative;
 
+    // Horizontally align the first-line with following lines. This magically changes the indentation of only the first line :)
+    margin-left: -2px;
     display: inline;
     font-size: 0.75rem;
     line-height: @query-builder-line-height;

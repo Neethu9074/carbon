@@ -5,7 +5,7 @@ export { createForm, migrate } from 'in-custom-dashboards/widgets/Chart/form';
 export { demo } from 'in-custom-dashboards/widgets/Chart/demo';
 
 export const type = 'chart';
-export const label = 'Time Series Chart';
+export const label = 'Chart: Time Series';
 export const minimumWidth = 3;
 export const minimumHeight = 13;
 export const enabled = true;

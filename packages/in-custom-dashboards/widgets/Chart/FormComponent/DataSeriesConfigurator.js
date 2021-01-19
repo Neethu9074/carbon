@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import MetricConfiguration from 'in-custom-dashboards/widgets/Chart/FormComponent/MetricConfiguration';
 import { autoOpen } from 'in-custom-dashboards/widgets/Chart/FormComponent/autoOpenHelper';
@@ -8,6 +8,24 @@ import Button from 'in-new-components/Button';
 
 export default function DataSeriesConfigurator({ form, onChange, getShortMetricKey }) {
   const hasY2 = form.get('y2').get('metrics').size > 0;
+
+  /**
+   * Run this only once when the component renders for the first time
+   * If there is no dataset selected, add one and open it by default
+   */
+  useEffect(
+    () => {
+      const axisForm = form.get('y1');
+      const metricsFormSize = axisForm.get('metrics').size;
+      if (!metricsFormSize) {
+        autoOpen('y1', 0);
+        onChange(['y1', 'metrics'], f => f.push(createMetricForm()));
+      }
+    },
+    [
+      /* Only on component did mount */
+    ]
+  );
 
   return (
     <Ul>

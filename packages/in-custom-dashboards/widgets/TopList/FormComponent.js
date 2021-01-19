@@ -10,7 +10,6 @@ import { source as sli } from 'in-custom-dashboards/widgets/_shared/MetricConfig
 import { onChangeSource } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/form';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import TouchedMessages from 'in-components/form/TouchedMessages';
-import Sections from 'in-new-components/workspace/Sections';
 import { formatters } from 'in-stores/metric/formatters';
 import Header from 'in-new-components/workspace/Header';
 
@@ -29,22 +28,21 @@ export default function ListWidgetFormComponent({ form, onChange }) {
           )
         }
         formatterSection={form.get('formatter').map(field => (
-          <Sections>
-            <SelectInSection
-              id="big-number-formatter"
-              label="Formatter"
-              value={field.value}
-              onChange={e => onChange(['formatter'], field => field.setValue(e.target.value).setTouched(true))}
-              hasError={!field.valid && field.touched}
-              additionalContent={<TouchedMessages field={field} />}
-            >
-              {formatters.map(({ id, label }) => (
-                <option key={id} value={id}>
-                  {label}
-                </option>
-              ))}
-            </SelectInSection>
-          </Sections>
+          <SelectInSection
+            id="big-number-formatter"
+            label="Formatter"
+            value={field.value}
+            onChange={e => onChange(['formatter'], field => field.setValue(e.target.value).setTouched(true))}
+            hasError={!field.valid && field.touched}
+            additionalContent={<TouchedMessages field={field} />}
+            useAlternateBg
+          >
+            {formatters.map(({ id, label }) => (
+              <option key={id} value={id}>
+                {label}
+              </option>
+            ))}
+          </SelectInSection>
         ))}
         disabledDataSources={[
           infrastructureMetrics.source,

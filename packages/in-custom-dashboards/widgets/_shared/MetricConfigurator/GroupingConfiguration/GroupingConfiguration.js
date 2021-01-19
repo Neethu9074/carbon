@@ -56,7 +56,7 @@ export default function GroupingConfiguration({
                   checked={grouping.includeOthers}
                   onChange={e => onIncludeOthersChange(e.target.checked)}
                 />
-                Display aggregation of other groups
+                Show remaining groups aggregated as &quot;Other&quot;
               </div>
             </Section>
           )}

@@ -2,6 +2,7 @@ import React from 'react';
 
 import SectionLabelWithSubtext from 'in-new-components/workspace/SectionLabelWithSubtext';
 import sources from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources';
+import { getMetricLabel } from 'in-custom-dashboards/widgets/Chart/util';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import InputInSection from 'in-components/form/Input/InputInSection';
 import TouchedMessages from 'in-components/form/TouchedMessages';
@@ -24,29 +25,27 @@ export default function MetricConfigurator({
   const sourceField = form.get('source');
 
   const dataSourceSection = (
-    <Sections>
-      <SelectInSection
-        id="metic-configurator-source"
-        label="Data Source"
-        value={sourceField.value}
-        onChange={e => onChangeSource(e.target.value)}
-        hasError={!sourceField.valid && sourceField.touched}
-        additionalContent={<TouchedMessages field={sourceField} />}
-      >
-        <option value="">Please select</option>
-        {Object.values(sources)
-          .filter(
-            ({ source, visible }) =>
-              (visible && disabledDataSources.indexOf(source) === -1) || sourceField.value === source
-          )
-          .sort((a, b) => compareIgnoreCase(a.label, b.label))
-          .map(({ source, label, disabled }) => (
-            <option key={source} value={source} disabled={disabled}>
-              {label}
-            </option>
-          ))}
-      </SelectInSection>
-    </Sections>
+    <SelectInSection
+      id="metic-configurator-source"
+      label="Data Source"
+      value={sourceField.value}
+      onChange={e => onChangeSource(e.target.value)}
+      hasError={!sourceField.valid && sourceField.touched}
+      additionalContent={<TouchedMessages field={sourceField} />}
+    >
+      <option value="">Please select</option>
+      {Object.values(sources)
+        .filter(
+          ({ source, visible }) =>
+            (visible && disabledDataSources.indexOf(source) === -1) || sourceField.value === source
+        )
+        .sort((a, b) => compareIgnoreCase(a.label, b.label))
+        .map(({ source, label, disabled }) => (
+          <option key={source} value={source} disabled={disabled}>
+            {label}
+          </option>
+        ))}
+    </SelectInSection>
   );
 
   let labelSection;
@@ -58,6 +57,7 @@ export default function MetricConfigurator({
           id="metic-configurator-label"
           type="text"
           value={field.value}
+          placeholder={getMetricLabel(form.toJS())}
           onChange={e => onChange(['label'], field => field.setValue(e.target.value).setTouched(true))}
           hasError={!field.valid && field.touched}
           additionalContent={<TouchedMessages field={field} />}

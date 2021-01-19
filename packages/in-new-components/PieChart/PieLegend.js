@@ -1,15 +1,23 @@
 import rpt from 'prop-types';
 import React from 'react';
 
+import { getMetricLabel } from 'in-custom-dashboards/widgets/Chart/util';
 import Legend from 'in-components/Chart/components/Legend';
 
-export default function PieLegend({ hiddenMetrics, updateHiddenMetrics, y1, y2, reverseLegendOrder }) {
+export default function PieLegend({
+  hiddenMetrics,
+  updateHiddenMetrics,
+  y1,
+  y2,
+  reverseLegendOrder,
+  metricsConfiguration
+}) {
   return (
     <Legend
       y1={y1}
       y2={y2}
-      y1Lables={getLabelsFromAxis(y1, hiddenMetrics, updateHiddenMetrics)}
-      y2Lables={getLabelsFromAxis(y2, hiddenMetrics, updateHiddenMetrics, 'y2')}
+      y1Lables={getLabelsFromAxis(y1, hiddenMetrics, updateHiddenMetrics, metricsConfiguration)}
+      y2Lables={getLabelsFromAxis(y2, hiddenMetrics, updateHiddenMetrics, metricsConfiguration, 'y2')}
       reverseLegendOrder={reverseLegendOrder}
     />
   );
@@ -20,7 +28,8 @@ PieLegend.propTypes = {
   updateHiddenMetrics: rpt.func.isRequired,
   y1: rpt.object.isRequired,
   y2: rpt.object,
-  reverseLegendOrder: rpt.bool
+  reverseLegendOrder: rpt.bool,
+  metricsConfiguration: rpt.object.isRequired
 };
 
 /**
@@ -29,14 +38,19 @@ PieLegend.propTypes = {
  * Each label entry in the legends will represent each object in the return array
  * @return {Array}
  */
-function getLabelsFromAxis(axis, list = [], updateList, axisName = 'y1') {
+function getLabelsFromAxis(axis, list = [], updateList, metricsConfiguration, axisName = 'y1') {
   return (
     axis?.labels?.map((label, i) => {
+      let defaultName = label;
+      if (!label?.trim()) {
+        // If no label is present use the metric name as default
+        defaultName = getMetricLabel(metricsConfiguration.metrics[`${axisName}-${i}`]);
+      }
       const isToggleable =
         !axis.nonToggleableSeries ||
         !(axis.nonToggleableSeries.has(label) || axis.nonToggleableSeries.has(axis.metricIds[i]));
       return {
-        name: label,
+        name: defaultName,
         dataSeriesName: `${axisName}-${i}`,
         isDisabled: list.includes(i),
         timeShift: axis.timeShifts && axis.timeShifts[i],

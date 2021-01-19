@@ -15,7 +15,7 @@ export default function PieChartWidgetFormComponent({ form, onChange }) {
   return (
     <Stack space="large">
       <Stack space="normal">
-        <Header>Datasets: What data do you want to visualize?</Header>
+        <Header>Datasets</Header>
         <DataSeriesConfigurator form={form} onChange={onChange} getShortMetricKey={getShortMetricKey} />
       </Stack>
 
@@ -37,7 +37,7 @@ export default function PieChartWidgetFormComponent({ form, onChange }) {
       <Divider />
 
       <Stack space="normal">
-        <Header>Data Presentation: How do you want to present the data?</Header>
+        <Header>Data Presentation</Header>
 
         {form.getIn(['y1', 'formatter']).map(field => (
           <Sections>

@@ -26,7 +26,7 @@ export default function FormComponent({
 
   return (
     <Stack space="xsmall">
-      {dataSourceSection}
+      <Sections>{dataSourceSection}</Sections>
 
       <TagFilterConfiguration
         tagFilters={form.get('tagFilters').value}

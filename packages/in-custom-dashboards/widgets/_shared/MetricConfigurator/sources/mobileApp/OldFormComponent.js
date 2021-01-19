@@ -26,7 +26,7 @@ export default function FormComponent({
 
   return (
     <Stack space="xsmall">
-      {dataSourceSection}
+      <Sections>{dataSourceSection}</Sections>
 
       <Sections>
         <SelectInSection

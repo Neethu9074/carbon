@@ -32,7 +32,7 @@ export default function ColorConfigurator({ metricForm, index, indexInAxis, onCh
   return (
     <ComboBoxBehavior
       disableAutomaticOptionSorting
-      value={activeColorId}
+      value={usesAutomaticColor ? '' : activeColorId}
       options={[
         {
           value: '',

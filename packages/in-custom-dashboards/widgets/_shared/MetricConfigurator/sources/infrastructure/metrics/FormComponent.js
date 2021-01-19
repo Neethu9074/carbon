@@ -2,10 +2,13 @@ import React, { useEffect } from 'react';
 
 import TypeAndMetricConfigurator from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/TypeAndMetricConfigurator';
 import { useTagFilterExpressionState } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/tagFilterUtils/useTagFilterExpressionState';
-import GroupingConfiguratorSection from 'in-new-components/GroupingConfigurator/GroupingConfiguratorSection';
+import {
+  onChangeGrouping,
+  isRequiringGroupingConfiguration
+} from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/form';
+import GroupingConfiguration from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/GroupingConfiguration';
 import { EMPTY_EXPRESSION } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import QueryBuilder, { getTagCatalog } from 'in-infrastructure/Explore/components/QueryBuilder';
-import { onChangeGrouping } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/form';
 import QueryBuilderSection from 'in-new-components/QueryBuilder/workspace/QueryBuilderSection';
 import GroupingConfigurator from 'in-infrastructure/Explore/components/GroupingConfigurator';
 import getMetricCatalog from 'in-infrastructure/subscriptions/getMetricCatalog';
@@ -31,6 +34,10 @@ export default function FormComponent({
   const metricField = form.get('metric');
   const aggregationField = form.get('aggregation');
   const tagFilterExpressionField = form.get('tagFilterExpression');
+  const groupingField = form.get('grouping');
+  const grouping = getGrouping(form);
+  const onDirectionChange = direction => onChangeGrouping(onChange, { ...grouping, direction });
+  const onIncludeOthersChange = includeOthers => onChangeGrouping(onChange, { ...grouping, includeOthers });
 
   const tagCatalogResult = useObservable(getTagCatalog, []) ?? pendingResult;
   const [tagFilterExpression, setTagFilterExpression] = useTagFilterExpressionState({
@@ -66,43 +73,7 @@ export default function FormComponent({
 
   return (
     <Stack space="xsmall">
-      {dataSourceSection}
-
-      <Sections>
-        <QueryBuilderSection
-          value={tagFilterExpression}
-          onChange={setTagFilterExpression}
-          QueryBuilder={QueryBuilder}
-          withoutIcon
-        />
-      </Sections>
-
-      {withGrouping && (
-        <>
-          <Sections>
-            <GroupingConfiguratorSection
-              value={getGrouping(form)?.by}
-              GroupingConfigurator={GroupingConfigurator}
-              tagFilterExpression={tagFilterExpressionField.valid ? tagFilterExpressionField.value : EMPTY_EXPRESSION}
-              onChange={infraExploreGrouping => onChangeGrouping(onChange, { by: infraExploreGrouping })}
-            />
-          </Sections>
-
-          <Sections>
-            <SelectInSection
-              label="Select"
-              id="select-top-groups"
-              value={getGrouping(form)?.direction}
-              onChange={e => onChangeGrouping(onChange, { ...getGrouping(form), direction: e.target.value })}
-              disabled={!getGrouping(form)}
-            >
-              <option value="DESC">Top 5</option>
-              <option value="ASC">Bottom 5</option>
-            </SelectInSection>
-          </Sections>
-        </>
-      )}
-
+      <Sections>{dataSourceSection}</Sections>
       <Sections>
         <Section title="Metric">
           <TypeAndMetricConfigurator
@@ -120,15 +91,13 @@ export default function FormComponent({
           />
           <TouchedMessages field={metricField} />
         </Section>
-      </Sections>
-
-      <Sections>
         <SelectInSection
           label="Aggregation"
           id="metric-configurator-infra-aggregation"
           value={aggregationField.value}
           onChange={e => onChange(['aggregation'], field => field.setValue(e.target.value).setTouched(true))}
           additionalContent={<TouchedMessages field={aggregationField} />}
+          useAlternateBg
         >
           {!metricField.valid && <option value="">Please select a metric</option>}
           {metricField.valid && (
@@ -143,6 +112,27 @@ export default function FormComponent({
           )}
         </SelectInSection>
       </Sections>
+
+      <Sections>
+        <QueryBuilderSection
+          value={tagFilterExpression}
+          onChange={setTagFilterExpression}
+          QueryBuilder={QueryBuilder}
+          withoutIcon
+        />
+      </Sections>
+      <GroupingConfiguration
+        withGrouping={withGrouping}
+        grouping={grouping}
+        tagFilterExpressionField={tagFilterExpressionField}
+        onByChange={infraExploreGrouping => onChangeGrouping(onChange, { by: infraExploreGrouping })}
+        onDirectionChange={onDirectionChange}
+        onIncludeOthersChange={onIncludeOthersChange}
+        GroupingConfigurator={GroupingConfigurator}
+        hasError={groupingField ? groupingField.touched && !groupingField.valid : false}
+        additionalContent={<TouchedMessages field={groupingField} />}
+        withOptionalMarker={!isRequiringGroupingConfiguration(form)}
+      />
 
       {timeShiftConfiguration}
 

@@ -28,7 +28,7 @@ export default function WidgetConfiguration({ form, onChange, setSlideInView }) 
       <Divider />
 
       <Stack space="normal">
-        <Header>Widget Name: How do you want to name this widget?</Header>
+        <Header>Widget Name</Header>
         <Sections>
           <WidgetTitleInput form={form} onChange={onChange} />
         </Sections>
@@ -51,7 +51,7 @@ function WidgetTitleInput({ form, onChange }) {
       onChange={e => onChange(['title'], field => field.setValue(e.target.value).setTouched(true))}
       actions={
         <HelpAction>
-          Choose an optional name for this widgets that will be presented above the widget content.
+          Choose an optional name for this widget that will be presented above the widget content.
         </HelpAction>
       }
     />

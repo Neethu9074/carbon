@@ -4,12 +4,6 @@
   .wrapper {
     display: flex;
     align-items: stretch;
-
-    & > * {
-      width: 50%;
-      flex-shrink: 0;
-      flex-grow: 0;
-    }
   }
 
   .dualAxis > :first-child {
@@ -20,6 +14,11 @@
 
   .axis {
     background: @lib__colors__N050;
+    flex: 1;
+  }
+
+  .axisToggler {
+    padding: 0;
   }
 
   .listItem {
@@ -53,13 +52,15 @@
     cursor: grab;
     fill: @lib__colors__N500;
 
-    &:hover, &:active, &:focus {
+    &:hover,
+    &:active,
+    &:focus {
       fill: @lib__colors__N600Light;
     }
   }
 
   .title {
-    margin: 0 .5rem;
+    margin: 0 0.5rem;
   }
 
   .timeShifted {

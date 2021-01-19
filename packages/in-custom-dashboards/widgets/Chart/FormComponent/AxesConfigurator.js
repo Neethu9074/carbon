@@ -18,7 +18,6 @@ import locals from './AxesConfigurator.mless';
 
 export default function AxesConfigurator({ form, onChange, getShortMetricKey }) {
   const [showSecondaryAxis, setShowSecondaryAxis] = useState(form.getIn(['y2', 'metrics']).size > 0);
-
   return (
     <Reorderer onChange={onChange}>
       <div
@@ -39,13 +38,15 @@ export default function AxesConfigurator({ form, onChange, getShortMetricKey }) 
 
         {showSecondaryAxis && (
           <AxisConfigurator
-            showSecondaryAxis={showSecondaryAxis}
             form={form}
             onChange={onChange}
             axisName="y2"
             title="Secondary Y-Axis"
             startIndex={form.getIn(['y1', 'metrics']).size}
             getShortMetricKey={getShortMetricKey}
+            isSecondary
+            setShowSecondaryAxis={setShowSecondaryAxis}
+            showSecondaryAxis={showSecondaryAxis}
           />
         )}
       </div>
@@ -61,16 +62,37 @@ function AxisConfigurator({
   axisName,
   title,
   startIndex,
-  getShortMetricKey
+  getShortMetricKey,
+  isSecondary
 }) {
   const axisForm = form.get(axisName);
+  const isAxisRemovable = isSecondary && axisForm.get('metrics').size === 0;
 
   return (
     <Ul className={locals.axis}>
       <Li>
         {title}
-
         <TouchedMessages field={axisForm} />
+        {!showSecondaryAxis && (
+          <Button
+            kind="action"
+            icon="lib_openclose_add_circle_outline"
+            className={locals.axisToggler}
+            onClick={() => setShowSecondaryAxis(true)}
+          >
+            Add secondary Y-axis
+          </Button>
+        )}
+        {isAxisRemovable && (
+          <Button
+            kind="action"
+            icon="lib_openclose_cancel"
+            className={locals.axisToggler}
+            onClick={() => setShowSecondaryAxis(false)}
+          >
+            Remove
+          </Button>
+        )}
       </Li>
 
       <Li forceAlternateBg className={locals.listItem}>
@@ -172,14 +194,6 @@ function AxisConfigurator({
           />
         </Stack>
       </Li>
-
-      {!showSecondaryAxis && (
-        <Li>
-          <Button kind="action" icon="lib_openclose_add_circle_outline" onClick={() => setShowSecondaryAxis(true)}>
-            Add secondary Y-axis
-          </Button>
-        </Li>
-      )}
     </Ul>
   );
 }

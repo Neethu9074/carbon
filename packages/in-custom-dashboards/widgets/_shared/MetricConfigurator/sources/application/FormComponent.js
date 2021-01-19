@@ -2,13 +2,13 @@ import { find, groupBy } from 'lodash';
 import React from 'react';
 
 import { useTagFilterExpressionState } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/tagFilterUtils/useTagFilterExpressionState';
-import GroupingConfiguration from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/GroupingConfiguration';
-import CallGroupingConfigurator from 'in-applications/analyze/components/workspace/CallGroupingConfigurator';
-import QueryBuilder, { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import {
   isRequiringGroupingConfiguration,
   onChangeGrouping
 } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/form';
+import GroupingConfiguration from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/GroupingConfiguration';
+import CallGroupingConfigurator from 'in-applications/analyze/components/workspace/CallGroupingConfigurator';
+import QueryBuilder, { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import QueryBuilderSection from 'in-new-components/QueryBuilder/workspace/QueryBuilderSection';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import { availableMetrics } from 'in-applications/analyze/metrics';
@@ -48,34 +48,12 @@ export default function FormComponent({
   const onByChange = by => onChangeGrouping(onChange, { ...grouping, by });
   const onDirectionChange = direction => onChangeGrouping(onChange, { ...grouping, direction });
   const onIncludeOthersChange = includeOthers => onChangeGrouping(onChange, { ...grouping, includeOthers });
+  const aggregators = getAggregations(metricField.value);
+  const isSingleAggregator = aggregators?.length < 2;
 
   return (
     <Stack space="xsmall">
-      {dataSourceSection}
-
-      {QueryBuilder && (
-        <Sections>
-          <QueryBuilderSection
-            value={tagFilterExpression}
-            onChange={setTagFilterExpression}
-            QueryBuilder={QueryBuilder}
-            withoutIcon
-          />
-        </Sections>
-      )}
-
-      <GroupingConfiguration
-        withGrouping={withGrouping}
-        grouping={grouping}
-        tagFilterExpressionField={tagFilterExpressionField}
-        onByChange={onByChange}
-        onDirectionChange={onDirectionChange}
-        onIncludeOthersChange={onIncludeOthersChange}
-        GroupingConfigurator={CallGroupingConfigurator}
-        hasError={groupingField ? groupingField.touched && !groupingField.valid : false}
-        additionalContent={<TouchedMessages field={groupingField} />}
-        withOptionalMarker={!isRequiringGroupingConfiguration(form)}
-      />
+      <Sections>{dataSourceSection}</Sections>
 
       <Sections>
         <SelectInSection
@@ -120,23 +98,22 @@ export default function FormComponent({
             </>
           }
         </SelectInSection>
-      </Sections>
 
-      <Sections>
         <SelectInSection
           label="Aggregation"
           id="metic-configurator-application-aggregation"
           value={aggregationField.value}
           onChange={e => onChange(['aggregation'], field => field.setValue(e.target.value).setTouched(true))}
           hasError={!aggregationField.valid && aggregationField.touched}
-          disabled={!metricField.valid}
+          disabled={!metricField.valid || isSingleAggregator}
           additionalContent={<TouchedMessages field={metricField} />}
+          useAlternateBg
         >
           {!metricField.valid && <option value="">Please select a metric</option>}
           {metricField.valid && (
             <>
               <option value="">Please select</option>
-              {getAggregations(metricField.value).map(aggregation => (
+              {aggregators.map(aggregation => (
                 <option key={aggregation} value={aggregation}>
                   {aggregationLabels[aggregation]}
                 </option>
@@ -144,9 +121,33 @@ export default function FormComponent({
             </>
           )}
         </SelectInSection>
+
+        {formatterSection}
       </Sections>
 
-      {formatterSection}
+      {QueryBuilder && (
+        <Sections>
+          <QueryBuilderSection
+            value={tagFilterExpression}
+            onChange={setTagFilterExpression}
+            QueryBuilder={QueryBuilder}
+            withoutIcon
+          />
+        </Sections>
+      )}
+
+      <GroupingConfiguration
+        withGrouping={withGrouping}
+        grouping={grouping}
+        tagFilterExpressionField={tagFilterExpressionField}
+        onByChange={onByChange}
+        onDirectionChange={onDirectionChange}
+        onIncludeOthersChange={onIncludeOthersChange}
+        GroupingConfigurator={CallGroupingConfigurator}
+        hasError={groupingField ? groupingField.touched && !groupingField.valid : false}
+        additionalContent={<TouchedMessages field={groupingField} />}
+        withOptionalMarker={!isRequiringGroupingConfiguration(form)}
+      />
 
       {timeShiftConfiguration}
 

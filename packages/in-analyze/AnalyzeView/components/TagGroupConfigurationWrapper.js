@@ -61,7 +61,7 @@ export default function TagGroupConfigurationWrapper({
                   onChange={() => onIncludeOthersChange(!grouping.includeOthers)}
                 />
               </div>
-              <div className={locals.barBottomLabel}>Display aggregation of other groups</div>
+              <div className={locals.barBottomLabel}>Show remaining groups aggregated as &ldquo;Other&ldquo;.</div>
             </div>
           </div>
         </div>
