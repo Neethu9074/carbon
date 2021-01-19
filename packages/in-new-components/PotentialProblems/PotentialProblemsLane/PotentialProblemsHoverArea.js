@@ -55,5 +55,5 @@ PotentialProblemsHoverArea.propTypes = {
     getRangeArea: PropTypes.func,
     getRangeTo: PropTypes.func
   }),
-  ...commonOverlayStylesPropType
+  commonOverlayStyles: commonOverlayStylesPropType
 };

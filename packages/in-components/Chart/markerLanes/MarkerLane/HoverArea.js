@@ -79,5 +79,5 @@ HoverArea.propTypes = {
   fromXPos: PropTypes.number,
   renderLine: PropTypes.bool,
   toXPos: PropTypes.number,
-  ...commonOverlayStylesPropType
+  commonOverlayStyles: commonOverlayStylesPropType
 };

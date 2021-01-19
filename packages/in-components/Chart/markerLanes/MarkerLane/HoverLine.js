@@ -38,5 +38,5 @@ HoverLine.propTypes = {
   markerPaneHeight: PropTypes.number,
   timeAxisHeight: PropTypes.number,
   xPos: PropTypes.number,
-  ...commonOverlayStylesPropType
+  commonOverlayStyles: commonOverlayStylesPropType
 };
