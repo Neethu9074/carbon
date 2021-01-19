@@ -7,7 +7,7 @@ import { createLogger } from '@instana/logger';
 import invariant from 'invariant';
 import rpt from 'prop-types';
 
-import { setActiveTooltip, clearActiveTooltip } from 'in-services/stores/tooltip';
+import { setActiveTooltip, clearActiveTooltip } from 'in-components/Tooltip/store';
 
 const logger = createLogger('in-components/Tooltip');
 
@@ -56,11 +56,11 @@ export default function Tooltip({ align = 'auto', delay = 0, themeStyle, childre
         }
       }
 
-      function onMouseIn() {
+      function onMouseIn(e) {
         if (delay > 0) {
-          tooltipState.current.timeoutHandle = setTimeout(showTooltip, delay);
+          tooltipState.current.timeoutHandle = setTimeout(showTooltip, delay, e);
         } else {
-          showTooltip();
+          showTooltip(e);
         }
       }
 
@@ -73,13 +73,14 @@ export default function Tooltip({ align = 'auto', delay = 0, themeStyle, childre
         tooltipState.current.isActive = false;
       }
 
-      function showTooltip() {
+      function showTooltip(mouseEvent) {
         tooltipState.current.isActive = true;
         setActiveTooltip({
           focusedElement: domNode,
           content,
           themeStyle,
-          align
+          align,
+          mouseEvent
         });
       }
     },

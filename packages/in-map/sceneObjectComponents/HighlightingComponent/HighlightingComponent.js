@@ -6,8 +6,8 @@ import { combineLatest } from '@instana/observables';
 
 import { selectedSnapshotIdForHighlightingInMap$ } from 'in-map/stores/selectedMapSceneObjectStore';
 import SceneObjectComponent from 'in-map/sceneObjectComponents/SceneObjectComponent';
-import { highlightedEntityId$ } from 'in-services/stores/highlightedEntityId';
-import { highlightedEntityIds$ } from 'in-stores/highlightedEntityIds';
+import { highlightedEntityId$ } from 'in-map/stores/highlightedEntityId';
+import { highlightedEntityIds$ } from 'in-map/stores/highlightedEntityIds';
 
 export default class HighlightingComponent extends SceneObjectComponent {
   constructor(sceneObject) {
