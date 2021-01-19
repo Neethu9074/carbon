@@ -5,7 +5,7 @@
 import { on } from '@instana/observables';
 import React from 'react';
 
-import { activeTooltip, TooltipShape } from 'in-services/stores/tooltip';
+import { activeTooltip, TooltipShape } from 'in-components/Tooltip/store';
 import TooltipCalculator from 'in-components/Tooltip/TooltipCalculator';
 import toPx from 'in-services/formatters/toPx';
 import connectTo from 'in-hoc/connectTo';
@@ -49,6 +49,9 @@ export default connectTo(
         if (this.props._activeTooltip) {
           this.addListeners(this.props._activeTooltip.focusedElement);
           this.setInitialStyleForMouseMove();
+          if (this.props._activeTooltip.mouseEvent) {
+            this.onMouseMove(this.props._activeTooltip.mouseEvent);
+          }
         } else if (prevProps._activeTooltip) {
           this.removeListeners();
         }
@@ -157,11 +160,6 @@ export default connectTo(
             ? `in-tooltip-presenter__light`
             : `in-tooltip-presenter__dark`;
         this.tooltipElement.classList.add(block);
-
-        // because first time rendering already happenend, the tooltip would stick in the top left corner until the first mousemove is fired
-        const initialPosition = 1000000; // Number.MAX_VALUE does not apply
-        this.set(this.tooltipElement, 'left', initialPosition);
-        this.set(this.tooltipElement, 'top', initialPosition);
       }
     };
 

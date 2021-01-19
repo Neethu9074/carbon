@@ -34,13 +34,13 @@ describe('in-map', () => {
       sceneObject2.eventEmitter.on('isHighlighted').subscribe(isHighlighted2);
 
       const Component = proxyquire('in-map/sceneObjectComponents/HighlightingComponent/HighlightingComponent', {
-        'in-services/stores/highlightedEntityId': {
+        'in-map/stores/highlightedEntityId': {
           highlightedEntityId$: highlightedEntityId
         },
         'in-map/stores/selectedMapSceneObjectStore': {
           selectedSnapshotIdForHighlightingInMap$: create().startWith(null)
         },
-        'in-stores/highlightedEntityIds': {
+        'in-map/stores/highlightedEntityIds': {
           highlightedEntityIds$: highlightedEntityIds
         }
       }).default;

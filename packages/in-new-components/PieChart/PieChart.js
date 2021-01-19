@@ -49,7 +49,7 @@ const PieChartWrapper = props => {
           };
         }
       }),
-    [metrics, props.y1.colors100, props.y1.colors50, hiddenMetrics]
+    [metrics, props.y1.colors100, props.y1.colors50, hiddenMetrics, sum]
   );
 
   let renderedPercentage = 0;

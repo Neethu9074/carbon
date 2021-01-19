@@ -6,7 +6,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { setHighlightedEntityId } from 'in-services/stores/highlightedEntityId';
+import { setHighlightedEntityId } from 'in-map/stores/highlightedEntityId';
 import { getDashboardForEntity } from 'in-kubernetes/navigation/paths';
 import { setSelectedSnapshotId } from 'in-stores/snapshot';
 import { plugins } from 'in-forge/constants';

@@ -4,7 +4,7 @@
  */
 import { combineLatest } from '@instana/observables';
 
-import { highlightedEntityId$ } from 'in-services/stores/highlightedEntityId';
+import { highlightedEntityId$ } from 'in-map/stores/highlightedEntityId';
 import { canvas$ } from 'in-map/stores/indexStore';
 
 let subscription;

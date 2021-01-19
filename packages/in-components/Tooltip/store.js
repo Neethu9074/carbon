@@ -10,6 +10,10 @@ const reemitSpec = { emitLatestOnSubscribe: true };
 export const TooltipShape = rpt.shape({
   content: rpt.node,
   focusedElement: rpt.instanceOf(window.Element),
+  // The trigger for the tooltip. Used to identify the initial clientX/clientY coordinates when
+  // align=mousePosition is used. This object helps us to avoid an initially wrongly positioned
+  // tooltip element.
+  mouseEvent: rpt.instanceOf(window.MouseEvent),
   themeStyle: rpt.string,
   bindToMousePosition: rpt.bool,
   focusedPoint: rpt.shape({

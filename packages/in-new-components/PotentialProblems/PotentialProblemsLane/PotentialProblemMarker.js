@@ -5,7 +5,7 @@
 import React from 'react';
 
 import { toInteractiveElement } from 'in-new-components/interactiveCustomElement';
-import { clearActiveTooltip } from 'in-services/stores/tooltip';
+import { clearActiveTooltip } from 'in-components/Tooltip/store';
 
 import locals from './PotentialProblemMarker.mless';
 

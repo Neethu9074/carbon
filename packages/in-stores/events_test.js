@@ -56,7 +56,7 @@ describe('in-stores/events', () => {
       'in-subscription/events': { default: getEvents },
       'in-subscription/healthInfo': { default: () => healthInfo$ },
       'in-stores/serverTime': { serverTime$ },
-      'in-services/stores/highlightedEntityId': {
+      'in-map/stores/highlightedEntityId': {
         setHighlightedEntityId() {},
         clearHighlightedEntityId() {}
       }
