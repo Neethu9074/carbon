@@ -16,13 +16,13 @@ import {
   ldapMapping,
   timeouts
 } from 'in-settings/navigation/paths';
+import { isAvailable as isSamlAvailable, getConfigAsResultObservable } from 'in-settings/tabs/AuthSettings/api/saml';
 import GoogleSSO from 'in-settings/tabs/AuthSettings/pages/indentityProviders/GoogleSSO/GoogleSSO';
 import { isAvailable as isGoogleSSOAvailable } from 'in-settings/tabs/AuthSettings/api/googleSSO';
 import SessionSettings from 'in-settings/tabs/AuthSettings/pages/sessionSettings/SessionSettings';
 import TwoFactorSettings from 'in-settings/tabs/AuthSettings/pages/twoFactorAuth/Settings';
 import SideNavigationAndContent from 'in-new-components/layout/SideNavigationAndContent';
 import ChangePassword from 'in-settings/tabs/AuthSettings/pages/password/ChangePassword';
-import { isAvailable as isSamlAvailable } from 'in-settings/tabs/AuthSettings/api/saml';
 import { isAvailable as isLdapAvailable } from 'in-settings/tabs/AuthSettings/api/ldap';
 import Saml from 'in-settings/tabs/AuthSettings/pages/indentityProviders/Saml/Saml';
 import Ldap from 'in-settings/tabs/AuthSettings/pages/indentityProviders/Ldap/Ldap';
@@ -36,9 +36,10 @@ import connectTo from 'in-hoc/connectTo';
 
 function getNavigationTree(props) {
   const isAtLeastOneAuthMethogAvailable = props.isGoogleSSOAvailable || props.isSamlAvailable || props.isLdapAvailable;
+  const isSamlActivated = props.samlConfig.data?.activated;
 
   const navigationTree = [
-    {
+    !isSamlActivated && {
       title: 'Password',
       pages: [
         {
@@ -122,6 +123,7 @@ export default connectTo(
   {
     isGoogleSSOAvailable: isGoogleSSOAvailable(),
     isSamlAvailable: isSamlAvailable(),
+    samlConfig: getConfigAsResultObservable(),
     isLdapAvailable: isLdapAvailable()
   },
 
