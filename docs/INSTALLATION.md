@@ -102,6 +102,21 @@ newgrp docker
 
 At the time of writing most UI engineers are using [VS Code](https://code.visualstudio.com/). We would recommend that you give this a try. VS Code will bring up a list of suggested extensions when opening the `ui-client` root directory in VS Code. We recommend that you install these as well for a good out of the box development experience.
 
+## Note for WSL2 Users
+
+The installation instructions will work out of the box, assuming that you are using an Ubuntu installation for your WSL2. If you intend to use a Windows based browser, you will also need to add the relevant entries to the Windows hosts file (`c:\Windows\System32\Drivers\etc\hosts`):
+
+```
+127.0.0.1 local-instana.instana.io
+127.0.0.1 local-instana.pink.instana.rocks
+127.0.0.1 local-instana.peach.instana.rocks
+127.0.0.1 local-instana.peach.instana.rocks
+127.0.0.1 local-instana.rose.instana.rocks
+127.0.0.1 local-instana.melon.instana.rocks
+```
+
+Alternatively, you can install an XServer in your Windows environment and run your preferred browser from within WSL2.
+
 ## Next Steps
 
 Head over to the [local development guidelines](./LOCAL_DEVELOPMENT_GUIDELINES.md) to learn how to execute tests and how to execute the development mode.
