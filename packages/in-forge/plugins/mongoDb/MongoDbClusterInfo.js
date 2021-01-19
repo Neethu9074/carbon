@@ -1,35 +1,35 @@
-/*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
- */
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
-import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
-import ClusterMemberList from 'in-sdk/components/sidebar/ClusterMemberList';
+import getMongoDbClusterForNode from 'in-subscription/mongoDb/getClusterForNode';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
+import SnapshotLink from 'in-components/Link/SnapshotLink';
+import { timeConfig$ } from 'in-stores/time/config';
+import { getSnapshot } from 'in-stores/snapshot';
+import connectTo from 'in-hoc/connectTo';
 
-import Info from '../Info';
+export default connectTo(
+  props => {
+    const nodeSnapshotId = props.snapshot.get('id');
+    const data = props.snapshot.get('data');
 
-export default function ReplicaSetSidebar({ snapshot }) {
-  const data = snapshot.get('data');
-  const clusterName = data.get('clusterName');
-  return (
-    <div>
-      <Collapsible initiallyOpen>
-        <Collapsible.Header>MongoDB Replica Set</Collapsible.Header>
-        <Collapsible.Content>
-          <Info snapshot={snapshot} />
-        </Collapsible.Content>
-      </Collapsible>
+    return {
+      clusterSnapshotId: getClusterForNode(nodeSnapshotId).flatMap(getSnapshot),
+      data: data
+    };
+  },
 
-      {clusterName ? (
+  function MongoDbClusterInfo({ clusterSnapshotId, data }) {
+    return (
+      <div>
         <Collapsible initiallyOpen={false}>
           <Collapsible.Header>Atlas Cluster</Collapsible.Header>
           <Collapsible.Content>
             <div>
               <DescriptionList>
-                <DescriptionItem title="Name">{data.get('clusterName')}</DescriptionItem>
+                <DescriptionItem title="Name">
+                  <SnapshotLink snapshotId={clusterSnapshotId}>{data.get('clusterName')}</SnapshotLink>
+                </DescriptionItem>
                 <DescriptionItem title="Type">{data.get('clusterType')}</DescriptionItem>
                 <DescriptionItem title="Cloud Provider">{data.get('clusterProvider')}</DescriptionItem>
                 <DescriptionItem title="Region">{data.get('clusterRegion')}</DescriptionItem>
@@ -39,11 +39,11 @@ export default function ReplicaSetSidebar({ snapshot }) {
             </div>
           </Collapsible.Content>
         </Collapsible>
-      ) : null}
+      </div>
+    );
+  }
+);
 
-      <ServiceInstancesList snapshot={snapshot} />
-
-      <ClusterMemberList snapshotId={snapshot.get('id')} />
-    </div>
-  );
+function getClusterForNode(snapshotId) {
+  return timeConfig$.flatMap(timeConfig => getMongoDbClusterForNode({ snapshotId, timeConfig }));
 }
