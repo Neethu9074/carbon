@@ -19,7 +19,6 @@ import { onElementKeyUp } from 'in-new-components/QueryBuilder/keyboardInteracti
 import NumberInput from 'in-new-components/QueryBuilder/components/Tag/NumberInput';
 import Operator from 'in-new-components/QueryBuilder/components/Tag/Operator';
 import { TAG } from 'in-new-components/QueryBuilder/transformation/formModel';
-import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import Entity from 'in-new-components/QueryBuilder/components/Tag/Entity';
 import Remove from 'in-new-components/QueryBuilder/components/Tag/Remove';
 import Name from 'in-new-components/QueryBuilder/components/Tag/Name';
@@ -62,8 +61,10 @@ export default function Tag(props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [postUpdateFocus.current?.id]);
 
+  const draggableElement = useRef(null);
   return (
     <div
+      ref={draggableElement}
       className={classNames({
         [locals.tag]: true,
         [locals.invalid]: !form.hierarchyValid
@@ -101,7 +102,7 @@ export default function Tag(props) {
         }}
       />
 
-      <div draggable="true" onDragStart={stopPropagationAndPreventDefault}>
+      <SuspendDraggable draggableElement={draggableElement}>
         <KeyInput
           form={form}
           onChange={onChange}
@@ -110,7 +111,7 @@ export default function Tag(props) {
           formModel={formModel}
           formModelIndex={formModelIndex}
         />
-      </div>
+      </SuspendDraggable>
 
       <Operator
         element={element}
@@ -125,7 +126,7 @@ export default function Tag(props) {
         ref={autoFocusTargets.operator}
       />
 
-      <div draggable="true" onDragStart={stopPropagationAndPreventDefault}>
+      <SuspendDraggable draggableElement={draggableElement}>
         <ValueInput
           valueType={valueType}
           form={form}
@@ -139,7 +140,7 @@ export default function Tag(props) {
           formModelIndex={formModelIndex}
           minNumValue={0}
         />
-      </div>
+      </SuspendDraggable>
 
       <RemoveIcon form={form} element={element} tagType={tagType} onRemove={onRemove} />
     </div>
@@ -167,6 +168,17 @@ export default function Tag(props) {
       false
     );
   }
+}
+
+function SuspendDraggable({ draggableElement, children }) {
+  return (
+    <div
+      onMouseEnter={() => draggableElement.current.setAttribute('draggable', 'false')}
+      onMouseLeave={() => draggableElement.current.setAttribute('draggable', 'true')}
+    >
+      {children}
+    </div>
+  );
 }
 
 function RemoveIcon({ form, element, tagType, onRemove }) {
