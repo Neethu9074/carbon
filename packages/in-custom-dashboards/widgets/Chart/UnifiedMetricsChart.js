@@ -129,7 +129,7 @@ function useResultData(config, granularity, timeConfig) {
       })
   );
 
-  config.y2.metrics.forEach(
+  config.y2?.metrics?.forEach(
     (metricConfiguration, i) =>
       (metrics[getMetricId('y2', i)] = {
         ...metricConfiguration,
@@ -144,7 +144,7 @@ function useResultData(config, granularity, timeConfig) {
 }
 
 function toAxisConfiguration(name, axis, resultDataAsList, chartConfig) {
-  if (axis.metrics.length === 0 || !resultDataAsList) {
+  if (!axis || axis.metrics.length === 0 || !resultDataAsList) {
     return;
   }
 
@@ -192,7 +192,7 @@ function toAxisConfiguration(name, axis, resultDataAsList, chartConfig) {
               return metricLabel;
             }
             const isAMultiSeriesChart =
-              (chartConfig.y1.metrics.length && chartConfig.y2.metrics.length) || axis.metrics.length > 1;
+              (chartConfig.y1.metrics.length && chartConfig.y2?.metrics?.length) || axis.metrics.length > 1;
             return isAMultiSeriesChart ? `${metricLabel} ${groupLabel}` : groupLabel;
           });
       }
@@ -255,7 +255,7 @@ function toMetricsConfiguration(config, resultDataAsList) {
   return metricsConfiguration;
 
   function addForAxis(axisName) {
-    config[axisName].metrics.forEach(({ metric, aggregation, timeShift, grouping }, i) => {
+    config[axisName]?.metrics?.forEach(({ metric, aggregation, timeShift, grouping }, i) => {
       const metricId = getMetricId(axisName, i);
       const config = {
         metric,
@@ -281,7 +281,7 @@ function toMetricsConfiguration(config, resultDataAsList) {
 
 function getMaxSeriesGranularity(config) {
   return config.y1.metrics
-    .concat(config.y2.metrics)
+    .concat(config.y2?.metrics ?? [])
     .map(c => sources[c.source]?.minGranularity ?? 0)
     .reduce((a, m) => Math.max(a, m), 0);
 }
