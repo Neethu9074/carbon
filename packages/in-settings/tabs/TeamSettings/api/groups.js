@@ -147,7 +147,7 @@ function createPermissionSet() {
   return {
     id: null,
     name: 'system_permission_set',
-    permissions: [],
+    permissions: ['CAN_VIEW_TRACE_DETAILS', 'CAN_VIEW_LOGS'],
     applicationIds: [],
     kubernetesClusterUUIDs: [],
     kubernetesNamespaceUIDs: [],
