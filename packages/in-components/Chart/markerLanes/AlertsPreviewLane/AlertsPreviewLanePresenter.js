@@ -26,13 +26,13 @@ export default function AlertsPreviewLanePresenter({ alerts, ...remainingProps }
         color: theme.lib.colors.red800
       }}
       color={theme.lib.colors.red800}
-      tooltipContent={({ count }) => (
+      TooltipContent={({ count }) => (
         <div className={locals.tooltipContent}>
           <div>Alerts: {count}</div>
         </div>
       )}
       LaneItem={SingleMarkerLaneItem}
-      renderHoverOverlay={remainingProps.isClustered ? HoverArea : HoverLine}
+      HoverOverlay={remainingProps.isClustered ? HoverArea : HoverLine}
       renderMarkerItem={LaneIcon}
     />
   );

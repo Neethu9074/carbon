@@ -47,8 +47,8 @@ function TooltipItem({ events, moreMessageTypeText }) {
   return (
     <>
       <div className={locals.tooltipContent}>
-        {events.slice(0, visibleItemsCount).map(({ name, start }) => (
-          <div key={start}>
+        {events.slice(0, visibleItemsCount).map(({ name, start }, i) => (
+          <div key={`${start}${i}`}>
             <time dateTime={new Date(start).toISOString()}>{formatDateTime(start)}</time>
             <div className={locals.name}>{`${name}`}</div>
           </div>

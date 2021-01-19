@@ -109,7 +109,7 @@ export default function PotentialProblemsLanePresenter({ potentialProblems, aler
         }
         return <>{text}</>;
       }}
-      renderHoverOverlay={PotentialProblemsHoverArea}
+      HoverOverlay={PotentialProblemsHoverArea}
       onClick={({ alerts, thresholds }) => {
         addActiveDialog(
           <PotentialProblemsDialogPresenter

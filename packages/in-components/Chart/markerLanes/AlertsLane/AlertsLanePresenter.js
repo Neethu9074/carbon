@@ -41,34 +41,46 @@ export default function AlertsLanePresenter({ alerts, ...remainingProps }) {
           }
         }}
         color={theme.lib.colors.red800}
-        tooltipContent={AlertsLaneTooltipContent}
+        TooltipContent={AlertsLaneTooltipContent}
         LaneItem={TwoIconsLaneItem}
-        renderHoverOverlay={remainingProps.isClustered ? HoverArea : HoverLine}
-        calloutContent={({ iconConfig, eventData, timeConfig }) => {
-          const { incidents, smartAlerts } = eventData;
-          const enahncedAndSortedEvents = [
-            ...incidents.map(incident => ({ ...incident, iconType: 'lib_events_incident' })),
-            ...smartAlerts.map(incident => ({ ...incident, iconType: 'lib_events_warning' }))
-          ].sort((a, b) => a.start - b.start);
-
-          return (
-            <Ul className={locals.list}>
-              {enahncedAndSortedEvents.map(({ name, start, eventId, iconType }, index) => {
-                return ListItem({ start, iconConfig, name, iconType, eventId, timeConfig, index });
-              })}
-            </Ul>
-          );
-        }}
-        renderSecondaryHoverOverlay={EventDurationIndicator}
+        HoverOverlay={remainingProps.isClustered ? HoverArea : HoverLine}
+        calloutContent={props => <AlertListCallout {...props} />}
+        SecondaryHoverOverlay={EventDurationIndicator}
         renderMarkerItem={LaneIcon}
       />
     </>
   );
 }
 
-function ListItem({ start, iconConfig, name, iconType, index, ...remainingProps }) {
+function AlertListCallout({ iconConfig, eventData, timeConfig }) {
+  const { incidents, smartAlerts } = eventData;
+  const enahncedAndSortedEvents = [
+    ...incidents.map(incident => ({ ...incident, iconType: 'lib_events_incident' })),
+    ...smartAlerts.map(incident => ({ ...incident, iconType: 'lib_events_warning' }))
+  ].sort((a, b) => a.start - b.start);
+
   return (
-    <Li key={`${index}`} className={locals.listItem} href$={getLinkToEventsList(remainingProps)}>
+    <Ul className={locals.list}>
+      {enahncedAndSortedEvents.map(({ name, start, eventId, iconType }, index) => {
+        return (
+          <ListItem
+            key={`${index}${name}${start}`}
+            start={start}
+            iconConfig={iconConfig}
+            name={name}
+            iconType={iconType}
+            eventId={eventId}
+            timeConfig={timeConfig}
+          />
+        );
+      })}
+    </Ul>
+  );
+}
+
+function ListItem({ start, iconConfig, name, iconType, ...remainingProps }) {
+  return (
+    <Li className={locals.listItem} href$={getLinkToEventsList(remainingProps)}>
       <SvgIcon type={iconType} color={iconConfig.color} />
       <div style={{ marginLeft: '12px' }}>
         <time dateTime={new Date(start).toISOString()}>{formatDateTime(start)}</time>

@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
 import locals from './SingleMarkerLaneItem.mless';
 
 const SingleMarkerLaneItem = forwardRef(function SingleMarkerLaneItem(
-  { xPos, onHover, eventData, renderMarkerItem, hideDefaultHoverStyle, ...remainingProps },
+  { xPos, onHover, eventData, renderMarkerItem: MarkerItem, hideDefaultHoverStyle, ...remainingProps },
   ref
 ) {
   return (
@@ -21,17 +21,13 @@ const SingleMarkerLaneItem = forwardRef(function SingleMarkerLaneItem(
         [locals.hideHoverEffect]: hideDefaultHoverStyle
       })}
       onMouseEnter={() => {
-        // TODO
-        // stopPropagationAndPreventDefault(e);
         onHover?.(eventData);
       }}
       onMouseLeave={() => {
-        // TODO
-        // stopPropagationAndPreventDefault(e);
         onHover?.(null);
       }}
     >
-      {renderMarkerItem({ ...remainingProps, eventData })}
+      <MarkerItem {...remainingProps} eventData={eventData} />
     </div>
   );
 });

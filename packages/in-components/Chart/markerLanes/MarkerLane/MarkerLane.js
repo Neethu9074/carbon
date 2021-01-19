@@ -58,15 +58,15 @@ class MarkersLane extends React.Component {
 
 function MarkersLanePresenter({
   events,
-  tooltipContent,
+  TooltipContent,
   renderScheduler,
   labelAlignment,
   label,
   chartContentPosition,
   isClustered,
   LaneItem,
-  renderHoverOverlay,
-  renderSecondaryHoverOverlay,
+  HoverOverlay,
+  SecondaryHoverOverlay,
   selectedEventData,
   laneLabelsVisible,
   isLoading,
@@ -99,8 +99,8 @@ function MarkersLanePresenter({
             };
             return (
               <>
-                {renderHoverOverlay?.(config)}
-                {renderSecondaryHoverOverlay?.(config)}
+                {HoverOverlay && <HoverOverlay {...config} />}
+                {SecondaryHoverOverlay && <SecondaryHoverOverlay {...config} />}
               </>
             );
           })()}
@@ -111,15 +111,21 @@ function MarkersLanePresenter({
           [locals.lanePostChart]: chartContentPosition === 'post'
         })}
       >
-        {events.map((eventData, i) => {
+        {events.map(eventData => {
           const showIconForCluster = eventData?.count > 1;
           const xPos = isClustered ? getXposCluster(eventData.timestamp) : xScale?.getRange(eventData.timestamp);
 
           return (
             <Tooltip
               align={getTooltipAlignmentForChartContentPosition(chartContentPosition)}
-              key={(eventData.id ?? eventData.timestamp) + i}
-              content={tooltipContent(eventData)}
+              key={`${eventData.id ?? eventData.timestamp}`}
+              content={
+                TooltipContent ? (
+                  <div>
+                    <TooltipContent {...eventData} />
+                  </div>
+                ) : null
+              }
             >
               <LaneItem
                 xPos={xPos}
@@ -169,7 +175,7 @@ function MarkersLanePresenter({
 MarkersLane.propTypes = {
   timeConfig: propTypeTimeConfig.isRequired,
   labelAlignment: PropTypes.oneOf(['left', 'right']).isRequired,
-  tooltipContent: PropTypes.func.isRequired,
+  TooltipContent: PropTypes.elementType,
   label: PropTypes.string.isRequired,
   events: PropTypes.arrayOf(
     PropTypes.shape({
@@ -178,9 +184,9 @@ MarkersLane.propTypes = {
   ).isRequired,
   chartContentPosition: PropTypes.oneOf(['pre', 'post']).isRequired,
   LaneItem: PropTypes.elementType.isRequired,
-  renderHoverOverlay: PropTypes.func,
+  HoverOverlay: PropTypes.elementType,
   chartBucketWidth: PropTypes.number,
-  renderSecondaryHoverOverlay: PropTypes.func,
+  SecondaryHoverOverlay: PropTypes.elementType,
   laneLabelsVisible: PropTypes.bool,
   onLaneHasMarkersToRender: PropTypes.func.isRequired,
   isLoading: PropTypes.bool,

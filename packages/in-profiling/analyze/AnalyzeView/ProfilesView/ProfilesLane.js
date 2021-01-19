@@ -48,7 +48,7 @@ export default function ProfilesLane(props) {
       }
       tooltipContent={TooltipContent}
       LaneItem={SingleMarkerLaneItem}
-      renderHoverOverlay={HoverClusterArea}
+      HoverOverlay={HoverClusterArea}
       renderMarkerItem={ProfileMarker}
     />
   );

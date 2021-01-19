@@ -30,7 +30,7 @@ export default function ReleasesLanePresenter(props) {
         color: theme.lib.colors.N700Medium
       }}
       color={theme.lib.colors.N700Medium}
-      tooltipContent={({ clusteredReleases }) => (
+      TooltipContent={({ clusteredReleases }) => (
         <div className={locals.tooltipContent}>
           {clusteredReleases.slice(0, maxNumReleasesToShow).map(({ name, start }) => (
             <div key={start}>
@@ -44,7 +44,7 @@ export default function ReleasesLanePresenter(props) {
         </div>
       )}
       LaneItem={SingleMarkerLaneItem}
-      renderHoverOverlay={props.isClustered ? HoverArea : HoverLine}
+      HoverOverlay={props.isClustered ? HoverArea : HoverLine}
       renderMarkerItem={LaneIcon}
     />
   );
