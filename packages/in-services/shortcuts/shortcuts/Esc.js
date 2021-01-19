@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { togglePresets, presetsVisible$ } from 'in-components/SearchBar/stores/presetsVisibility';
 import { goToRootOfView, navigationParameters$ } from 'in-stores/navigation';
 import { activeDialogs$, close } from 'in-components/DialogPresenter/store';

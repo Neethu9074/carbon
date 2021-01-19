@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { isEmpty } from 'lodash';
 
 import { deepCopy } from 'in-services/util/object';

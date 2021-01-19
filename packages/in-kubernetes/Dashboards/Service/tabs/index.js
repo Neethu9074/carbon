@@ -1,10 +1,14 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import React from 'react';
 
 import {
   getDaemonSetDashboard,
   getDeploymentDashboard,
   getDeploymentConfigDashboard,
-  getStatefulSetDashboard,
+  getStatefulSetDashboard
 } from 'in-kubernetes/navigation/paths';
 import WorkloadControllers from 'in-kubernetes/Dashboards/commonComponents/commonTabs/WorkloadControllers';
 import getOpenShiftDeploymentConfigs from 'in-subscription/kubernetes/getOpenShiftDeploymentConfigs';
@@ -98,11 +102,6 @@ export default [
   }
 ].filter(Boolean);
 
-function getCounterComponent({serviceId, tab, timeConfig}, valueExtractor) {
-  return (<ServiceTab 
-    serviceId={serviceId}
-    label={tab.label}
-    timeConfig={timeConfig}
-    valueExtractor={valueExtractor} 
-    />);
+function getCounterComponent({ serviceId, tab, timeConfig }, valueExtractor) {
+  return <ServiceTab serviceId={serviceId} label={tab.label} timeConfig={timeConfig} valueExtractor={valueExtractor} />;
 }

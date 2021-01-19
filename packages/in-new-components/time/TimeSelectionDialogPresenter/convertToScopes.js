@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 export default function convertToScopes(releaseMarker) {
   const { services = [], applications = [] } = releaseMarker;
   let scopes = [];

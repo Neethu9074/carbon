@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { isEqual } from 'lodash';
 import rpt from 'prop-types';
 

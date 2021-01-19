@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import React from 'react';
 
 import { bytesTwoDecimalPlaces, percentageZeroDecimalPlaces, number, siPrefix } from 'in-services/formatters/number';
@@ -48,32 +52,31 @@ export default connectTo(
           />
         </DashboardSection>
 
-        {hostSnapshot &&
-          supportsOpenFiles(hostSnapshot) && (
-            <DashboardSection title="Open Files">
-              <Chart
-                snapshotId={snapshotId}
-                timeConfig={timeConfig}
-                y1={{
-                  min: 0,
-                  formatter: siPrefix.compact,
-                  tooltipFormatter: number.compact,
-                  metrics: ['openFiles.current'],
-                  labels: ['Current'],
-                  type: 'line'
-                }}
-                y2={{
-                  min: 0,
-                  max: 1,
-                  metrics: ['openFiles.used'],
-                  labels: ['Used'],
-                  formatter: percentageZeroDecimalPlaces,
-                  type: 'line'
-                }}
-                renderPostChartContent={PluginDashboardsMarkerLanes}
-              />
-            </DashboardSection>
-          )}
+        {hostSnapshot && supportsOpenFiles(hostSnapshot) && (
+          <DashboardSection title="Open Files">
+            <Chart
+              snapshotId={snapshotId}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: siPrefix.compact,
+                tooltipFormatter: number.compact,
+                metrics: ['openFiles.current'],
+                labels: ['Current'],
+                type: 'line'
+              }}
+              y2={{
+                min: 0,
+                max: 1,
+                metrics: ['openFiles.used'],
+                labels: ['Used'],
+                formatter: percentageZeroDecimalPlaces,
+                type: 'line'
+              }}
+              renderPostChartContent={PluginDashboardsMarkerLanes}
+            />
+          </DashboardSection>
+        )}
 
         {data.get('ctx_switches_enabled') ? (
           <DashboardSection title="Number of context switches">

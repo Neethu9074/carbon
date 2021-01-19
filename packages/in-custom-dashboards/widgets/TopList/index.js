@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 export { default as showCase } from 'in-custom-dashboards/widgets/TopList/showCase.png';
 export { default as Form } from 'in-custom-dashboards/widgets/TopList/FormComponent';
 export { default as Widget } from 'in-custom-dashboards/widgets/TopList/Widget';

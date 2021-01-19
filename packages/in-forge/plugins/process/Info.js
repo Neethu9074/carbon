@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import React from 'react';
 
 import ProcessStartedAtDescriptionItem from 'in-sdk/components/sidebar/ProcessStartedAtDescriptionItem';
@@ -29,11 +33,9 @@ export default connectTo(
         <DescriptionItem title="Job">{data.get('job')}</DescriptionItem>
         <ParentProcess snapshotId={snapshotId} />
 
-        {hostSnapshot &&
-          supportsOpenFiles(hostSnapshot) &&
-          openFilesMax != null && (
-            <DescriptionItem title="Max Open Files">{zeroDecimalPlaces(openFilesMax)}</DescriptionItem>
-          )}
+        {hostSnapshot && supportsOpenFiles(hostSnapshot) && openFilesMax != null && (
+          <DescriptionItem title="Max Open Files">{zeroDecimalPlaces(openFilesMax)}</DescriptionItem>
+        )}
       </DescriptionList>
     );
   }

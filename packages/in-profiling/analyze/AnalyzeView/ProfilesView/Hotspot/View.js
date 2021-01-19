@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import React, { useEffect } from 'react';
 
 import { hotspotAutoExpandRowId as hotspotAutoExpandRowIdMatrixParameter } from 'in-new-components/Profiling/navigation/matrix';

@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { defaultProps, compose, renameProps } from 'recompose';
 import { hierarchy, treemap } from 'd3-hierarchy';
 import React from 'react';

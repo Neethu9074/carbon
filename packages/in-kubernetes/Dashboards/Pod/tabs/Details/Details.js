@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import React, { Fragment } from 'react';
 
 import DetailsNavigation, {
@@ -11,22 +15,21 @@ import getAnnotations from 'in-kubernetes/components/getAnnotations';
 import IPs from 'in-kubernetes/Dashboards/Pod/tabs/Details/IPs';
 import connectTo from 'in-hoc/connectTo';
 
-export default connectTo(({ data: pod }) => ({ annotations: getAnnotations(pod.id) }), function Details({
-  data: pod,
-  annotations,
-  timeConfig
-}) {
-  return (
-    <Fragment>
-      <DetailsNavigation
-        navigationTree={navigationTree}
-        resource={pod}
-        annotations={annotations}
-        timeConfig={timeConfig}
-      />
-    </Fragment>
-  );
-});
+export default connectTo(
+  ({ data: pod }) => ({ annotations: getAnnotations(pod.id) }),
+  function Details({ data: pod, annotations, timeConfig }) {
+    return (
+      <Fragment>
+        <DetailsNavigation
+          navigationTree={navigationTree}
+          resource={pod}
+          annotations={annotations}
+          timeConfig={timeConfig}
+        />
+      </Fragment>
+    );
+  }
+);
 
 const navigationItems = [
   labelsNavigationItem(podDashboardDetailsFullyQualified),

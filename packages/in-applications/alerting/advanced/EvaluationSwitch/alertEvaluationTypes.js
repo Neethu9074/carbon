@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 export const PER_AP = 'PER_AP';
 export const PER_AP_SERVICE = 'PER_AP_SERVICE';
 

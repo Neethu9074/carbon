@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import Conditions from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Conditions';
 import Events from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Events';
 import Infrastructure from 'in-kubernetes/Dashboards/Pod/tabs/Infrastructure';

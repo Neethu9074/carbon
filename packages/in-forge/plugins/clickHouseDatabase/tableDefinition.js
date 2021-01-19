@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import getHostSnapshotId from 'in-subscription/getHostSnapshotId';
 import { emptyList } from 'in-services/fixedImmutables';
 import { number } from 'in-services/formatters/number';

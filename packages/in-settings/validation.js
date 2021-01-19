@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 export function combinedValidationResults(validationResult20) {
   if (!validationResult20.valid) {
     return { valid: false, error: 'Dynamic Focus query is not valid: ' + validationResult20.error };

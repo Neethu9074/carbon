@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import React from 'react';
 
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
@@ -27,9 +31,7 @@ export default function ResultAwareChart({ result, config, renderLegend = true }
         content = <PieChart renderLegend={renderLegend} config={config} />;
       } else {
         config = normalizeTimeShiftedTimestamps(result, config);
-        content = (
-          <Chart renderLegend={renderLegend} {...config} />
-        );
+        content = <Chart renderLegend={renderLegend} {...config} />;
       }
     }
   }

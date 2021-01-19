@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { formatTimeWithoutSeconds, formatTime, formatDateTime, formatDate } from 'in-services/formatters/date';
 import { msZeroDecimalPlaces } from 'in-services/formatters/number';
 import { days, hours, minutes, seconds } from 'in-services/time';

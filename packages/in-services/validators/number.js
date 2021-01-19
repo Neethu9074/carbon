@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { isBlank } from 'in-services/util/string';
 
 const failureMessage = [

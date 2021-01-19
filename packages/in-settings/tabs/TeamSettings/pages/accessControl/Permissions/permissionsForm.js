@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { createField } from 'formalistic';
 
 // A small adapter so that this helper works with an immutableJS role or a plain JS object for API tokens.

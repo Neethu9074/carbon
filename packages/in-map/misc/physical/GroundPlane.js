@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { addSceneObject, removeSceneObject } from 'in-map/stores/sceneStore';
 import { RepeatWrapping, MeshBasicMaterial } from 'in-map/3DLibProvider';
 import { hexToRGBNormalized } from 'in-services/formatters/color';

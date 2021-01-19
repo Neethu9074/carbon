@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 export default function memoize(createObservable, idGenerator, tti = 10000) {
   const originalTti = tti;
   const cache = new Map();

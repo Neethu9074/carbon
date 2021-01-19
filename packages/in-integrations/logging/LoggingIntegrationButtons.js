@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import React from 'react';
 
 import CoralogixButton, {
@@ -35,9 +39,9 @@ export function LoggingIntegrationButtonsRenderer(props) {
   const { coralogixIntegration, elkIntegration, humioIntegration, logdnaIntegration, splunkIntegration } = props;
 
   const integrations = [
-    showCoralogixButton(props) &&
-      coralogixIntegration &&
-      coralogixIntegration.enabled && <CoralogixButton {...props} />,
+    showCoralogixButton(props) && coralogixIntegration && coralogixIntegration.enabled && (
+      <CoralogixButton {...props} />
+    ),
     showElkButton(props) && elkIntegration && elkIntegration.enabled && <ElkButton {...props} />,
     showHumioButton(props) && humioIntegration && humioIntegration.enabled && <HumioButton {...props} />,
     showLogDnaButton(props) && logdnaIntegration && logdnaIntegration.enabled && <LogDnaButton {...props} />,

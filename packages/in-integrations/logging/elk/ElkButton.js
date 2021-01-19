@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import React from 'react';
 
 import { isBlank } from 'in-services/util/string';
@@ -30,9 +34,7 @@ function constructElkLink(integration, props) {
   const timeParams = constructTimeParams(timeConfig);
   const query = serializeQuery(props);
 
-  return `${integration.url}${basePath}/app/kibana#/dashboard/${
-    integration.dashboard
-  }?_g=(refreshInterval:(pause:!t,value:0),time:(mode:absolute,${timeParams}))&_a=(query:(language:lucene,query:'${query}'))`;
+  return `${integration.url}${basePath}/app/kibana#/dashboard/${integration.dashboard}?_g=(refreshInterval:(pause:!t,value:0),time:(mode:absolute,${timeParams}))&_a=(query:(language:lucene,query:'${query}'))`;
 }
 
 function serializeQuery({ hostName, kubernetesPodName, dockerContainerId }) {

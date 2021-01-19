@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import React, { Fragment } from 'react';
 
 import { number, bytes, percentage, bytesTwoDecimalPlaces, msZeroDecimalPlaces } from 'in-services/formatters/number';

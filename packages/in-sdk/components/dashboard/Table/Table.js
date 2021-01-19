@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import React from 'react';
 
 import SortIndicator from 'in-sdk/components/dashboard/Table/components/SortIndicator';

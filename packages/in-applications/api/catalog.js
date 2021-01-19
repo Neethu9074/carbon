@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { isShowInternalTagsEnabled$ } from 'in-applications/isShowInternalTagsEnabled';
 import createObservable from 'in-services/http/observableHttpResult';
 import { roundDownToWeek } from 'in-services/util/date';

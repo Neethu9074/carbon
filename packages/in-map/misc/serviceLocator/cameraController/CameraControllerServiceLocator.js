@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import createNullService from 'in-map/misc/serviceLocator/cameraController/CameraControllerNullService';
 
 const CameraControllerServiceLocator = (function create() {

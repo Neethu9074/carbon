@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { role } from 'in-stores/user';
 
 export const RESTRICTED_ACCESS = 'RESTRICTED_ACCESS';

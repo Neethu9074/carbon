@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { UnControlled as CodeMirror } from 'react-codemirror2';
 import { compose, mapProps } from 'recompose';
 import PropTypes from 'prop-types';

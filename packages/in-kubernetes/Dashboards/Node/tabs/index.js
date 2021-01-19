@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { NodeConditionsTab, NodePodTab } from 'in-kubernetes/Dashboards/commonComponents/Tabs';
 import Conditions from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Conditions';
 import Infrastructure from 'in-kubernetes/Dashboards/Node/tabs/Infrastructure';
@@ -27,7 +31,7 @@ export default [
     label: 'Pods',
     path: `${nodeDashboardFullyQualified}/pods`,
     component: Pods,
-    header: NodePodTab,
+    header: NodePodTab
   },
   {
     label: 'Infrastructure',

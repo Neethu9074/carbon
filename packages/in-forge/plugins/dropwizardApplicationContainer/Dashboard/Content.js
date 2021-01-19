@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import React from 'react';
 
 import DropwizardDashboardExtensions from 'promise-loader?global,internal!in-internal/monitoringUnit/DropwizardDashboardExtensions';

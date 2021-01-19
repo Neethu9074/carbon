@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { bar, stackedBar, stackedArea } from 'in-stores/metric/renderer';
 import { dataSourceConstants } from 'in-applications/analyze/metrics';
 import { getFormatter } from 'in-stores/metric/formatters';

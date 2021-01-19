@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import React, { useState } from 'react';
 
 import { getSnapshotVersions } from 'in-internal/thisUnit/SnapshotVersions/SnapshotVersions';

@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { availabilityType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import { number } from 'in-services/formatters/number';
 

@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { getInteractiveElements } from 'in-services/util/dom';
 import { isSafari } from 'in-services/browser';

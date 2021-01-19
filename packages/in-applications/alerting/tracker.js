@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import {
   track,
   APPLICATIONS_ALERTING_ADD_ALERT,

@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import createZoneObservable from 'in-subscription/zone';
 import { timeConfig$ } from 'in-stores/time/config';
 

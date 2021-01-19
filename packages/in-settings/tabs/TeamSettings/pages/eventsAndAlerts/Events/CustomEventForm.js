@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { compose, lifecycle, withState } from 'recompose';
 import { create, just } from '@instana/observables';
 import React, { Fragment } from 'react';

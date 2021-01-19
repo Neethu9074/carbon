@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 export const demo = `
 This is a *little bit* of [Markdown](https://daringfireball.net/projects/markdown/) to show
 how it works. It only has one required input, the Markdown \`string\`.

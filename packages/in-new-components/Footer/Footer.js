@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import React from 'react';
 
 import { floatingActionButtons$ } from 'in-new-components/FloatingActionButton/stores/floatingActionButtons';

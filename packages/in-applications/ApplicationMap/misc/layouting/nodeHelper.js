@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 const DISCONNECTED_NODES_RANK = -1;
 const DEFAULT_NODES_RANK = 0;
 const DISTANCE_BETWEEN_ROWS = 2.5;

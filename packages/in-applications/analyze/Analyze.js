@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import React, { useEffect, useState } from 'react';
 import { useRouteMatch } from 'react-router';
 import { range } from 'lodash';

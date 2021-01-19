@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import React, { Fragment } from 'react';
 
 import { getServiceDashboard, getEndpointDashboard } from 'in-applications/navigation/paths';
@@ -47,17 +51,16 @@ export default function ServiceEndpointInformation({ call, nonInternalParentCall
         </Link>
       </Tooltip>
 
-      {isInternalCall(call) &&
-        nonInternalParentCall && (
-          <Fragment>
-            <span className={locals.text}>Inherited from</span>
-            <Tooltip themeStyle="light" content={nonInternalParentCall.label}>
-              <a className={locals.link} href="" onClick={handleCallLinkClick}>
-                {nonInternalParentCall.label || 'Undefined'}
-              </a>
-            </Tooltip>
-          </Fragment>
-        )}
+      {isInternalCall(call) && nonInternalParentCall && (
+        <Fragment>
+          <span className={locals.text}>Inherited from</span>
+          <Tooltip themeStyle="light" content={nonInternalParentCall.label}>
+            <a className={locals.link} href="" onClick={handleCallLinkClick}>
+              {nonInternalParentCall.label || 'Undefined'}
+            </a>
+          </Tooltip>
+        </Fragment>
+      )}
     </div>
   );
 }

@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 const Handlebars = require('handlebars');
 const express = require('express');
 const fs = require('fs');

@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { TAG, CLOSE_BRACKET, OPEN_BRACKET } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { EXPRESSION } from 'in-new-components/QueryBuilder/transformation/renderModelElementTypes';
 

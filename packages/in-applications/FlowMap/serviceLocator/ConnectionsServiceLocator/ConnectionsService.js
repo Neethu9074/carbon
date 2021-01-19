@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { create } from '@instana/observables';
 
 import fragmentShader from 'in-applications/FlowMap/serviceLocator/ConnectionsServiceLocator/shader/fragmentShader.glsl';

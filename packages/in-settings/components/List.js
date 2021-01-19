@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { find, get, isEqual, reverse, sortBy } from 'lodash';
 import { compose, lifecycle, withState } from 'recompose';
 import React, { Fragment, forwardRef } from 'react';

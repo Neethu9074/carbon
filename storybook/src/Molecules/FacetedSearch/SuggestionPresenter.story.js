@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { text } from '@storybook/addon-knobs/react';
 import { action } from '@storybook/addon-actions';
 import React from 'react';

@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { compose, withState } from 'recompose';
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
@@ -24,7 +28,10 @@ import locals from './Alerts.mless';
 
 const maxNumOfAlertingAlerts = get(config, ['configuration', 'maxAllowedAlertingConfigurations'], 200);
 
-const enabledOptions = Object.freeze([{ value: true, label: 'Enabled' }, { value: false, label: 'Disabled' }]);
+const enabledOptions = Object.freeze([
+  { value: true, label: 'Enabled' },
+  { value: false, label: 'Disabled' }
+]);
 
 export default compose(withState('enabled', 'setEnabled', null))(Alerts);
 

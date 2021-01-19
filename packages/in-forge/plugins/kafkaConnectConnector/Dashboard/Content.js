@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import React from 'react';
 
 import TasksTable from 'in-forge/plugins/kafkaConnectConnector/Dashboard/TasksTable.js';

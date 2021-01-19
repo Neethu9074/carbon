@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { noop } from 'in-services/util/function';
 
 import rpt from 'prop-types';

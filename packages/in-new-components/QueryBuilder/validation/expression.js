@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { CLOSE_BRACKET, ADD_CLOSING_BRACKET } from 'in-new-components/QueryBuilder/validation/bracket';
 export const MISSING_CLOSING_BRACKET = 'MISSING_CLOSING_BRACKET';
 

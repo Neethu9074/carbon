@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import React, { Fragment } from 'react';
 
 import ListItemPresenter from 'in-mobile-apps/analyze/AnalyzeView/Beacons/ListItemPresenter';

@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 export const thresholdGreaterOperatorOptions = Object.freeze([
   { value: '>=', label: '≥' },
   { value: '>', label: '>' }

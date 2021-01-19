@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 // import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 // import useObservable from 'in-hooks/useObservable';
 import { newAnalyticsEnabled, smartAlertsQB2Enabled } from 'in-services/featureFlags';

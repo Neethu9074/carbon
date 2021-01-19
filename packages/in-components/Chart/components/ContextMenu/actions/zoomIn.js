@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { getFixedTimeframeUrl } from 'in-stores/timeline';
 import { alwaysNull } from 'in-services/fixedStreams';
 import { timeConfig$ } from 'in-stores/time/config';

@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import React, { useCallback } from 'react';
 
 import { average, getGranularity, getMetricKey, defaultFormatter } from 'in-infrastructure/Explore/services/metrics';

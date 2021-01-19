@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { newTimeMetric, newNumberMetric, newSizeMetric, withRawDataField } from 'in-analyze/metricDefinitionHelpers';
 import { percentage, number } from 'in-services/formatters/number';
 import Renderer from 'in-components/Chart/renderer/Renderer';

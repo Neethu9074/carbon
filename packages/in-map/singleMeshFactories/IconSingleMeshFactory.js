@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { init as initGlyphTexture, glyphTexture, config } from 'in-map/singleMeshFactories/pluginIconsGlyphTexture';
 import fragmentShader from 'in-map/singleMeshFactories/pointFragmentShader.glsl';
 import ASingleMeshFactory from 'in-map/singleMeshFactories/ASingleMeshFactory';

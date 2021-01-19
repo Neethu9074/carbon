@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { createMapForm } from 'formalistic';
 import { fromJS } from 'immutable';
 import theme from 'in-themes';
@@ -113,21 +117,23 @@ const AlertChannelForm = entityForm(function AlertChannelForm(props) {
             }
           >
             <Dl>
-              {parameters.filter(({ key }) => key !== 'name').map(({ key, label }) => (
-                <Di
-                  key={key}
-                  title={label}
-                  rowClassName={locals.row}
-                  ddClassName={locals.rowInnerPadding}
-                  dtClassName={locals.titleRow}
-                >
-                  {key === 'kind'
-                    ? getConfig(entity).label
-                    : entity.get(key) && entity.get(key).join
+              {parameters
+                .filter(({ key }) => key !== 'name')
+                .map(({ key, label }) => (
+                  <Di
+                    key={key}
+                    title={label}
+                    rowClassName={locals.row}
+                    ddClassName={locals.rowInnerPadding}
+                    dtClassName={locals.titleRow}
+                  >
+                    {key === 'kind'
+                      ? getConfig(entity).label
+                      : entity.get(key) && entity.get(key).join
                       ? entity.get(key).join(', ')
                       : entity.get(key)}
-                </Di>
-              ))}
+                  </Di>
+                ))}
             </Dl>
           </Card>
         </Col>

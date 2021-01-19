@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import AutosizeInput from 'react-input-autosize';
 import classNames from 'classnames';
 import React from 'react';

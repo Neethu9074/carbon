@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import fragmentShader from 'in-map/singleMeshFactories/nodeMetricFragmentShader.glsl';
 import vertexShader from 'in-map/singleMeshFactories/nodeMetricVertexShader.glsl';
 

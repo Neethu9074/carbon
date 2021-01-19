@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { createField, createMapForm, createListForm, notBlankValidator } from 'formalistic';
 import { just } from '@instana/observables';
 import React, { Fragment } from 'react';

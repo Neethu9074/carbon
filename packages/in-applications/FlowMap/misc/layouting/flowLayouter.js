@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { DISTANCE_BETWEEN_NODES_X, DISTANCE_BETWEEN_NODES_Y } from 'in-applications/FlowMap/misc/layouting/config';
 import RemainingNodesPlaceholderClass from 'in-applications/FlowMap/sceneObjects/RemainingNodesPlaceholder';
 

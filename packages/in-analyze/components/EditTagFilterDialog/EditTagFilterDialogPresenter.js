@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import CreatableSelect from 'react-select/lib/Creatable';
 import classNames from 'classnames';
 import React from 'react';

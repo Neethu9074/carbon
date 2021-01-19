@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { getDefaultMetricRollupDuration } from 'in-stores/metric';
 import { minutes } from 'in-services/time';
 

@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { combineLatest, create, just } from '@instana/observables';
 
 import { emptyMap, emptyList } from 'in-services/fixedImmutables';

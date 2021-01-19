@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import prometheusWebhookChannelConfig from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/forms/prometheusWebhookChannelConfig';
 import webexTeamsWebhookChannelConfig from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/forms/webexTeamsWebhookChannelConfig';
 import googleChatChannelConfig from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/forms/googleChatChannelConfig';

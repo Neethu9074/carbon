@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import TouchControlsDecorator from 'in-map/misc/common/cameraController/decorator/TouchControlsDecorator';
 import MouseControlsDecorator from 'in-map/misc/common/cameraController/decorator/MouseControlsDecorator';
 import RayCasterDecorator from 'in-map/misc/common/cameraController/decorator/RayCasterDecorator';

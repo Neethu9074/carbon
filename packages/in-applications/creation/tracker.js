@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import {
   track,
   APPLICATION_CREATION_OPEN_DIALOG_CLICK,

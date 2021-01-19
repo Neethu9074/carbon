@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 export const modes = {
   0: 'Disabled',
   1: 'Infrastructure',

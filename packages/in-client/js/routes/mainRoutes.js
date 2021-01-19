@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import InfraExploreView from 'promise-loader?global,infrastructure!in-infrastructure/Explore/Explore';
 import AgentView from 'promise-loader?global,infrastructure!in-infrastructure/agentView/AgentView';
 import TableView from 'promise-loader?global,infrastructure!in-infrastructure/tableView/TableView';

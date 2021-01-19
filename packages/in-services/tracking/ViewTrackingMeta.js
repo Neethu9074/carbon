@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import withSideEffect from 'react-side-effect';
 
 import { setMeta } from 'in-services/tracking/tracking';

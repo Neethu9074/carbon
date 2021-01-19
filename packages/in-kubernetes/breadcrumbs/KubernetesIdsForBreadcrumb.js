@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { get } from 'lodash';
 
 import getKubernetesIdsForBreadcrumb$ from 'in-subscription/kubernetes/getKubernetesIdsForBreadcrumb';

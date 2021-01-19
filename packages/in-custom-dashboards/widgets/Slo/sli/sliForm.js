@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { createMapForm, createField } from 'formalistic';
 
 import { availabilityType, applicationType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';

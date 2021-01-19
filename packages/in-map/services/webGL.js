@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 // https://www.khronos.org/webgl/wiki/FAQ
 // it is recommended that you check for success or failure to initialize.
 // if WebGL fails to initialize it is recommended you distinguish between failure

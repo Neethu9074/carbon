@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { Animation, CubicEasing } from 'koijs';
 
 import { eventBus } from 'in-map/services/eventBus';

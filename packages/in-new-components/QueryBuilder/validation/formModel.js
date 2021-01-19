@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import {
   TAG as TAG_TYPE,
   OPEN_BRACKET as OPEN_BRACKET_TYPE,

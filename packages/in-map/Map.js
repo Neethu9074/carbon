@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import React, { useLayoutEffect, useRef } from 'react';
 
 import * as webglNotInitialized from 'in-services/util/canvas/help-articles/webglNotInitialized.mmd';

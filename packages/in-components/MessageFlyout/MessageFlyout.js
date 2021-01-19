@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import React, { Fragment } from 'react';
 
 import { messages$ } from 'in-components/MessageFlyout/stores/messages';
@@ -32,14 +36,13 @@ export default connectTo(
           </Fragment>
         )}
 
-        {normalMessages.length > 0 &&
-          !filterRegularMessages && (
-            <Fragment>
-              {normalMessages.map(message => (
-                <Message key={message.id} message={message} />
-              ))}
-            </Fragment>
-          )}
+        {normalMessages.length > 0 && !filterRegularMessages && (
+          <Fragment>
+            {normalMessages.map(message => (
+              <Message key={message.id} message={message} />
+            ))}
+          </Fragment>
+        )}
       </div>
     );
   }

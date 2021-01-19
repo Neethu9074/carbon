@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { format as defaultLocaleFormat, formatLocale as createCustomLocaleFormat } from 'd3-format';
 
 import { getSingle } from 'in-services/settings';

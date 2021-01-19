@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import {
   AmbientLight as ThreeAmbientLight,
   BufferAttribute as ThreeBufferAttribute,

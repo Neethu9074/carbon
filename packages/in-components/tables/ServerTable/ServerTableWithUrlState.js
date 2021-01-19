@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import shallowEquals from 'fbjs/lib/shallowEqual';
 import { timeout } from '@instana/observables';
 import React, { useMemo } from 'react';

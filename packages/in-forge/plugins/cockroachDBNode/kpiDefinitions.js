@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { timeByNanoTwoDecimalPlaces, zeroDecimalPlaces } from 'in-services/formatters/number';
 
 export default [

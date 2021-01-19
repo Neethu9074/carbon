@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import React, { Fragment } from 'react';
 
 import ListItemPresenter from 'in-websites/analyze/AnalyzeView/Beacons/ListItemPresenter';
@@ -48,9 +52,7 @@ export function TableRowColumns({ item }) {
         </TableLinkWithIcon>
         <BatchingIndicator
           batchCount={item.beacon.batchSize}
-          tooltipContent={`This resource retrievals is batched and represents ${
-            item.beacon.batchSize
-          } individual resource retrievals.`}
+          tooltipContent={`This resource retrievals is batched and represents ${item.beacon.batchSize} individual resource retrievals.`}
         />
       </Td>
 

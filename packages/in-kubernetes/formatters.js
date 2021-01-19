@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import { percentage, bytes, number } from 'in-services/formatters/number';
 

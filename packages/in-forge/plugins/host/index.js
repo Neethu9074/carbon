@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { LoggingIntegrationButtonsRenderer, getObservables } from 'in-integrations/logging/LoggingIntegrationButtons';
 import agentMonitoringIssueDefinitions from 'in-forge/plugins/host/agentMonitoringIssueDefinitions';
 import getKubernetesNodeByHost from 'in-subscription/kubernetes/getKubernetesNodeByHost';

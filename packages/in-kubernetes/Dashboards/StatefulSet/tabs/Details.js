@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import React from 'react';
 
 import DetailsNavigation, {
@@ -10,20 +14,19 @@ import { statefulSetDashboardDetailsFullyQualified } from 'in-kubernetes/navigat
 import getAnnotations from 'in-kubernetes/components/getAnnotations';
 import connectTo from 'in-hoc/connectTo';
 
-export default connectTo(({ data: statefulSet }) => ({ annotations: getAnnotations(statefulSet.id) }), function Details({
-  data: statefulSet,
-  annotations,
-  timeConfig
-}) {
-  return (
-    <DetailsNavigation
-      navigationTree={navigationTree}
-      resource={statefulSet}
-      annotations={annotations}
-      timeConfig={timeConfig}
-    />
-  );
-});
+export default connectTo(
+  ({ data: statefulSet }) => ({ annotations: getAnnotations(statefulSet.id) }),
+  function Details({ data: statefulSet, annotations, timeConfig }) {
+    return (
+      <DetailsNavigation
+        navigationTree={navigationTree}
+        resource={statefulSet}
+        annotations={annotations}
+        timeConfig={timeConfig}
+      />
+    );
+  }
+);
 
 const navigationItems = [
   labelsNavigationItem(statefulSetDashboardDetailsFullyQualified),

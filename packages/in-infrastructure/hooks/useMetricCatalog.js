@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { getMetricCatalogOnce } from 'in-services/metrics/metricCatalog';
 import { pendingResult } from 'in-services/fixedObjects';
 import useObservable from 'in-hooks/useObservable';

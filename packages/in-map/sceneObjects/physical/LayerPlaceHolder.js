@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import CCP from 'in-map/singleMeshFactories/ContentProvider/CubeContentProvider';
 import MeshComponent from 'in-map/sceneObjectComponents/MeshComponent';
 

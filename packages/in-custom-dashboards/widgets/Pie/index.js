@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { pieWidgetEnabled } from 'in-services/featureFlags';
 
 export { default as showCase } from 'in-custom-dashboards/widgets/Pie/showCase.png';

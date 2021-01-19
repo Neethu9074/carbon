@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import agentMonitoringIssueDefinitions from 'in-forge/plugins/jvmRuntimePlatform/agentMonitoringIssueDefinitions';
 import metricDefinitions from 'in-forge/plugins/jvmRuntimePlatform/metricDefinitions';
 import tableDefinition from 'in-forge/plugins/jvmRuntimePlatform/tableDefinition';

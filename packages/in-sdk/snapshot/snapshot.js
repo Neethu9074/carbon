@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { getSnapshotDefinition, getOptionalSnapshotDefinition } from 'in-sdk/snapshot/registry';
 import { emptyMap } from 'in-services/fixedImmutables';
 

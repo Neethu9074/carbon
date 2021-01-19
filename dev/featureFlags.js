@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 // the keys (not the values) need to be kept in sync with
 // in-services/featureFlags
 module.exports = {

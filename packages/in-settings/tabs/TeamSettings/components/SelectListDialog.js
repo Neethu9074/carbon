@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { compose, withState } from 'recompose';
 import React from 'react';
 
@@ -11,11 +15,8 @@ const defaultRequiresAtLeastOneMessage = 'Please select at least one item.';
 
 export default compose(
   withState('selectedItems', 'setSelectedItems', []),
-  withState(
-    'errorMessage',
-    'setErrorMessage',
-    ({ requiresAtLeastOneMessage }) =>
-      requiresAtLeastOneMessage ? requiresAtLeastOneMessage : defaultRequiresAtLeastOneMessage
+  withState('errorMessage', 'setErrorMessage', ({ requiresAtLeastOneMessage }) =>
+    requiresAtLeastOneMessage ? requiresAtLeastOneMessage : defaultRequiresAtLeastOneMessage
   )
 )(SelectListDialog);
 

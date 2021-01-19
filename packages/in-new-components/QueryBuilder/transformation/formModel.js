@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { isEqual, findIndex } from 'lodash';
 
 import { type as TAG_FILTER_TYPE, toNewTagFilterFormat } from 'in-new-components/QueryBuilder/transformation/tagFilter';

@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import IconComponent from 'in-map/sceneObjectComponents/iconComponents/IconComponent';
 import { getIconType } from 'in-components/SvgIcon/infrastructureIconType';
 

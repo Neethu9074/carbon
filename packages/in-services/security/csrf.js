@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { create, interval } from '@instana/observables';
 import { createLogger } from '@instana/logger';
 import { get, set } from 'lodash';

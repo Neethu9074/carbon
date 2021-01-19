@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { assign } from 'lodash';
 
 import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';

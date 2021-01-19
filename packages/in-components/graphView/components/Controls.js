@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { onWheel, onMove, onDown, onUp, onLeave } from 'in-services/util/reactiveMouseEvents';
 import { Vector3, Object3D } from 'in-map/3DLibProvider';
 import { getDeltaTime } from 'in-map/misc/time';

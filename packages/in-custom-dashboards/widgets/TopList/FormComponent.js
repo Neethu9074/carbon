@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import React from 'react';
 
 import { entityCount as infrastructureEntityCount } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure';

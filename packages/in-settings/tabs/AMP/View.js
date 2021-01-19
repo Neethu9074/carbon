@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import React from 'react';
 
 import { ampSettings, ampAccountSettings, ampUsage, ampTechnologies } from 'in-settings/navigation/paths';

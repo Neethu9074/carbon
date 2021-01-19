@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import React from 'react';
 
 import globalHighlightAction from 'in-components/Chart/components/ContextMenu/actions/globalHighlight';

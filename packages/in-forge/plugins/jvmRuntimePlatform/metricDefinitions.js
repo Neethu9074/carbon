@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { getCustomMetricMatch, getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 import { siPrefix, micros, millis, number, bytes, percentage } from 'in-services/formatters/number';
 

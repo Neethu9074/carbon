@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import React from 'react';
 
 import { EventsWithoutNamespace } from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Events';
@@ -45,11 +49,13 @@ export default [
   }
 ].filter(Boolean);
 
-function getCounterComponent({workloadControllerId, tab, timeConfig}, valueExtractor) {
-  return (<WorkloadTab 
-    workloadControllerId={workloadControllerId}
-    label={tab.label}
-    timeConfig={timeConfig}
-    valueExtractor={valueExtractor} 
-    />);
+function getCounterComponent({ workloadControllerId, tab, timeConfig }, valueExtractor) {
+  return (
+    <WorkloadTab
+      workloadControllerId={workloadControllerId}
+      label={tab.label}
+      timeConfig={timeConfig}
+      valueExtractor={valueExtractor}
+    />
+  );
 }

@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import React, { Fragment } from 'react';
 
 import { isScriptError, learnMoreLabel, learnMoreHref, explanation } from 'in-websites/definitions/scriptError';
@@ -70,12 +74,11 @@ export const Body = ({ beacon }) => {
       </Row>
 
       <Row>
-        {!isScriptError(beacon.errorMessage) &&
-          isNotBlank(beacon.stackTrace) && (
-            <Col lg={12}>
-              <Stack beacon={beacon} />
-            </Col>
-          )}
+        {!isScriptError(beacon.errorMessage) && isNotBlank(beacon.stackTrace) && (
+          <Col lg={12}>
+            <Stack beacon={beacon} />
+          </Col>
+        )}
       </Row>
       <Row>
         {isNotBlank(beacon.componentStack) && (

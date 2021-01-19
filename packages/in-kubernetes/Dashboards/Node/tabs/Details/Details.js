@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import React from 'react';
 
 import DetailsNavigation, {
@@ -11,20 +15,19 @@ import getAnnotations from 'in-kubernetes/components/getAnnotations';
 import IPs from 'in-kubernetes/Dashboards/Node/tabs/Details/IPs';
 import connectTo from 'in-hoc/connectTo';
 
-export default connectTo(({ data: node }) => ({ annotations: getAnnotations(node.id) }), function Details({
-  data: node,
-  annotations,
-  timeConfig
-}) {
-  return (
-    <DetailsNavigation
-      navigationTree={navigationTree}
-      resource={node}
-      annotations={annotations}
-      timeConfig={timeConfig}
-    />
-  );
-});
+export default connectTo(
+  ({ data: node }) => ({ annotations: getAnnotations(node.id) }),
+  function Details({ data: node, annotations, timeConfig }) {
+    return (
+      <DetailsNavigation
+        navigationTree={navigationTree}
+        resource={node}
+        annotations={annotations}
+        timeConfig={timeConfig}
+      />
+    );
+  }
+);
 
 const navigationItems = [
   labelsNavigationItem(nodeDashboardDetailsFullyQualified),

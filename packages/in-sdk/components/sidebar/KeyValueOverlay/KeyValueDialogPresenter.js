@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { Iterable, Map } from 'immutable';
 import React, { Fragment } from 'react';
 

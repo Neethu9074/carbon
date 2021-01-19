@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { compose, setPropTypes } from 'recompose';
 import rpt from 'prop-types';
 import React from 'react';

@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { find } from 'lodash';
 
 import { deepCopy } from 'in-services/util/object';

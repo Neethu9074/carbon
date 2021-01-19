@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { healthFormatter } from 'in-forge/plugins/ceph/formatters';
 import { bytes } from 'in-services/formatters/number';
 

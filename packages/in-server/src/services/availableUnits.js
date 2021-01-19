@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 const cache = require('./loadingCache').createLoadingCache({ ttl: 1000 * 60 * 5 });
 const { getGroundskeeperBaseUrl } = require('./config');
 const fetch = require('./fetch');

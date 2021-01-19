@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import React, { Fragment } from 'react';
 
 import CallFrame, { FRAME_HEIGHT } from 'in-analyze/TraceDetail/components/IcicleChart/CallFrame';
@@ -35,27 +39,29 @@ export default function IcicleChart({
       <CallTimeAxis showStartLabel call={rootCall} />
 
       <div className={locals.framesWrapper} style={{ height: `${chartHeight}px` }}>
-        {callFrames.filter(callFrame => callFrame.model !== 'LOG').map(callFrame => {
-          return (
-            <Fragment key={callFrame.id}>
-              <Tooltip
-                themeStyle="light"
-                content={<CallTooltipContent call={callFrame} getColor={getColor} />}
-                align={tooltipAlignment}
-              >
-                <CallFrame
-                  callFrame={callFrame}
-                  xScale={xScale}
-                  getColor={getColor}
-                  onCallClicked={onCallClicked}
-                  hoveredServiceEndpoint$={hoveredServiceEndpoint$}
-                  isFakeRoot={isFakeRootCall(callFrame)}
-                  openedCall$={openedCall$}
-                />
-              </Tooltip>
-            </Fragment>
-          );
-        })}
+        {callFrames
+          .filter(callFrame => callFrame.model !== 'LOG')
+          .map(callFrame => {
+            return (
+              <Fragment key={callFrame.id}>
+                <Tooltip
+                  themeStyle="light"
+                  content={<CallTooltipContent call={callFrame} getColor={getColor} />}
+                  align={tooltipAlignment}
+                >
+                  <CallFrame
+                    callFrame={callFrame}
+                    xScale={xScale}
+                    getColor={getColor}
+                    onCallClicked={onCallClicked}
+                    hoveredServiceEndpoint$={hoveredServiceEndpoint$}
+                    isFakeRoot={isFakeRootCall(callFrame)}
+                    openedCall$={openedCall$}
+                  />
+                </Tooltip>
+              </Fragment>
+            );
+          })}
       </div>
       <div />
     </div>

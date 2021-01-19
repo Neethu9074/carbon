@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import moment from 'moment';
 
 import { getSetting$ } from 'in-services/settings';

@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { createMapForm, createField } from 'formalistic';
 
 export const percentageOfUserDefault = 0.2;

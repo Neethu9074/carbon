@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import metricDefinitions from 'in-forge/plugins/redisEnterpriseCluster/metricDefinitions';
 import kpiDefinitions from 'in-forge/plugins/redisEnterpriseCluster/kpiDefinitions';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';

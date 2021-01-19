@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 /* eslint-disable complexity */
 const ITERATIONS = 1000;
 const SPEED = 0.1;

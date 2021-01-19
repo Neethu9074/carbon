@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import invariant from 'invariant';
 
 export { registry, registerSpanDefinition, getSpanDefinition } from 'in-sdk/tracing/registry';
