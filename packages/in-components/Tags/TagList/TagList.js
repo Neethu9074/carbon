@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import React, { useState } from 'react';
 
 import TagFilter from 'in-components/Tags/TagList/components/TagFilter';
@@ -71,12 +75,11 @@ function TagListWithMaxLengthRestriction({ tags }) {
     <>
       {tags}
 
-      {actualNumberOfTags > maxTagsPerCollection &&
-        !showAll && (
-          <Button className={locals.button} size="compact" onClick={() => setShowAll(true)}>
-            Show all tags ({number.compact(actualNumberOfTags - maxTagsPerCollection)} more)
-          </Button>
-        )}
+      {actualNumberOfTags > maxTagsPerCollection && !showAll && (
+        <Button className={locals.button} size="compact" onClick={() => setShowAll(true)}>
+          Show all tags ({number.compact(actualNumberOfTags - maxTagsPerCollection)} more)
+        </Button>
+      )}
     </>
   );
 }

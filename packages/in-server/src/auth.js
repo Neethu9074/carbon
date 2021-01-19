@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 const config = require('./serverConfig.js');
 const fetch = require('./services/fetch');
 

@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import theme from 'in-themes';
 
 import { formatTime, formatDateShort } from 'in-services/formatters/date';

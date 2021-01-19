@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { create, just, interval } from '@instana/observables';
 import React, { useState, useMemo } from 'react';
 import { get } from 'lodash';

@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 export const explanation = `
 Resource timing data collection is subject to same-origin policy restrictions. This means that
 collection of resource timings is restricted to resources retrieved from the origin of the

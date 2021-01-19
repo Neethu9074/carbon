@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import EventEmitter from 'eventemitter3';
 import { get } from 'lodash';
 

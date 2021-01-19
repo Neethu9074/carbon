@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 export function categorise(items) {
   const categories = {};
 
@@ -50,10 +54,12 @@ function getKeyWords(item) {
 }
 
 export function filter(items) {
-  return items.filter(entry => entry.__score > 0).map(item => {
-    if (item.subTechnologies) {
-      item.subTechnologies = filter(item.subTechnologies);
-    }
-    return item;
-  });
+  return items
+    .filter(entry => entry.__score > 0)
+    .map(item => {
+      if (item.subTechnologies) {
+        item.subTechnologies = filter(item.subTechnologies);
+      }
+      return item;
+    });
 }

@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import React, { useState } from 'react';
 
 import DebouncedRestrictedSlider from 'in-new-components/Slider/DebouncedRestrictedSlider';

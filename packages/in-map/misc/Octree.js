@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { Raycaster, Object3D, Vector3 } from 'in-map/3DLibProvider';
 
 export const OCTREE = {};
@@ -857,8 +861,8 @@ export const OCTREE = {};
             indexPotentialBitwise1 !== indexOutsideBitwise1 && indexPotentialBitwise1 !== indexOutsideBitwise2
               ? infoPotential1
               : indexPotentialBitwise2 !== indexOutsideBitwise1 && indexPotentialBitwise2 !== indexOutsideBitwise2
-                ? infoPotential2
-                : infoPotential3;
+              ? infoPotential2
+              : infoPotential3;
 
           // get this octant normal based on outside octant indices
           octantX = infoIndexOutside1.x + infoIndexOutside2.x + infoIndexOutside3.x;

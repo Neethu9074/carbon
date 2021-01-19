@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import PathFinder from 'in-applications/ServerFlowMap/PathFinder';
 import { find } from 'in-services/arrayUtils';
 

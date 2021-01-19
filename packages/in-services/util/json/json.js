@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { parse, stringify } from 'in-services/util/json/jsurl2';
 import { sortKeys } from 'in-services/util/object';
 

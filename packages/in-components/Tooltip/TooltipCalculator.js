@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 const Bits = {
   LeftAlignment: 0b100000,
   RightAlignment: 0b010000,

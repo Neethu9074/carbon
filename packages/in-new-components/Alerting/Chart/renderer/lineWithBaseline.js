@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import invariant from 'invariant';
 
 import { getBaselineValue } from 'in-new-components/Alerting/utils/baselineUtils';

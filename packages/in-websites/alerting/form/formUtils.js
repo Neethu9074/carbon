@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { onLoadTime, errorRate, statusCodeRate } from 'in-websites/alerting/constants';
 import { isGreaterOperator } from 'in-new-components/Alerting/utils/alertUtils';
 import { getAggregationText } from 'in-new-components/Alerting/utils/formUtils';

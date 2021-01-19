@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import forceLayout from 'in-applications/ApplicationMap/misc/layouting/FruchtermannReingold';
 import flowLayout from 'in-applications/ApplicationMap/misc/layouting/Vizceral';
 

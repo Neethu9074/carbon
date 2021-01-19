@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { modes } from 'in-forge/plugins/instanaAgent/modes';
 import { emptyMap } from 'in-services/fixedImmutables';
 

@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { just, combineLatest } from '@instana/observables';
 
 import { useBeeInstant$, granularityForBeeInstantMetrics, DEFAULT_STAT } from 'in-stores/metric/beeInstant';

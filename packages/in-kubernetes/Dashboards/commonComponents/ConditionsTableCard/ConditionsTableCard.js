@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { withState } from 'recompose';
 import React from 'react';
 
@@ -11,12 +15,11 @@ import Link from 'in-components/Link';
 
 import locals from './ConditionsTableCard.mless';
 
-export default withState('selectedStatus', 'setSelectedStatus', null)(function ConditionsTableCard({
-  setSelectedStatus,
-  selectedStatus,
-  viewAllHref$,
-  conditions
-}) {
+export default withState(
+  'selectedStatus',
+  'setSelectedStatus',
+  null
+)(function ConditionsTableCard({ setSelectedStatus, selectedStatus, viewAllHref$, conditions }) {
   if (!conditions || conditions.length === 0) {
     return <NoDataAvailable text="No Conditions found" />;
   }

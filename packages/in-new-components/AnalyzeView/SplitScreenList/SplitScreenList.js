@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import React, { useState, useLayoutEffect } from 'react';
 import { findIndex, isEqual } from 'lodash';
 import classNames from 'classnames';

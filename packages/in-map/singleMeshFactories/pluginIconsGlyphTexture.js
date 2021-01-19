@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { createLogger } from '@instana/logger';
 
 import { Texture, LinearFilter } from 'in-map/3DLibProvider';

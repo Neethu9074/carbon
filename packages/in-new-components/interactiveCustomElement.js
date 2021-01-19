@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import keyCodes from 'in-components/keyCodes';
 
 // This file implement the W3C WAI-ARIA best practices for interactable custom

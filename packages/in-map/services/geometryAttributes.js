@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { BufferAttribute } from 'in-map/3DLibProvider';
 
 export function updateAttribute(geometry, attribute, data, numElements = 3) {

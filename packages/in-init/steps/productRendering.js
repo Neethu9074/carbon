@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 /* global module: false, __HOT_RELOAD__: false */
 
 import { Router } from 'react-router-dom';

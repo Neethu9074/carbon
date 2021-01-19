@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 /* eslint-env mocha */
 import proxyquire from 'proxyquire';
 import { expect } from 'chai';
@@ -28,7 +32,16 @@ describe('in-components/Chart/Scales', () => {
     it('should update axis according to the given config', () => {
       const scales = new Scales({
         y1: { formatter: [number] },
-        y2: { labels: ['a'], metrics: [[[0, 1], [1000, 20]]], formatter: [number] },
+        y2: {
+          labels: ['a'],
+          metrics: [
+            [
+              [0, 1],
+              [1000, 20]
+            ]
+          ],
+          formatter: [number]
+        },
         timeConfig: { windowSize: 20000, to: 60000 },
         backBufferWidth: 100,
         height: 50,
@@ -49,16 +62,28 @@ describe('in-components/Chart/Scales', () => {
         y1: {
           labels: ['a', 'b'],
           metrics: [
-            [[0, 1], [1000, 20]], // series 1
-            [[0, -1], [1000, 0]] // series 2
+            [
+              [0, 1],
+              [1000, 20]
+            ], // series 1
+            [
+              [0, -1],
+              [1000, 0]
+            ] // series 2
           ],
           formatter: [number]
         },
         y2: {
           labels: ['a', 'b'],
           metrics: [
-            [[0, 1], [1000, 20]], // series 1
-            [[0, 4], [1000, 10]] // series 2
+            [
+              [0, 1],
+              [1000, 20]
+            ], // series 1
+            [
+              [0, 4],
+              [1000, 10]
+            ] // series 2
           ],
           formatter: [number]
         },
@@ -82,8 +107,14 @@ describe('in-components/Chart/Scales', () => {
         y1: {
           formatter: [number],
           metrics: [
-            [[0, 1], [1000, 20]], // series 1
-            [[0, 4], [1000, 10]] // series 2
+            [
+              [0, 1],
+              [1000, 20]
+            ], // series 1
+            [
+              [0, 4],
+              [1000, 10]
+            ] // series 2
           ]
         },
         timeConfig: { windowSize: 20000, to: 60000 },
@@ -123,7 +154,12 @@ describe('in-components/Chart/Scales', () => {
   describe('calculateAxisMinMax', () => {
     it('should use the axis max value if defined', () => {
       const axis = {
-        metrics: [[[0, 0], [10, 1000]]],
+        metrics: [
+          [
+            [0, 0],
+            [10, 1000]
+          ]
+        ],
         labels: ['Metric1'],
         max: 42
       };
@@ -153,7 +189,20 @@ describe('in-components/Chart/Scales', () => {
 
     it('should find the max values on all series', () => {
       const axis = {
-        metrics: [[[0, 1], [0, 10], [0, 9], [0, 3]], [[0, -1], [0, 2], [0, 11], [0, 0]]],
+        metrics: [
+          [
+            [0, 1],
+            [0, 10],
+            [0, 9],
+            [0, 3]
+          ],
+          [
+            [0, -1],
+            [0, 2],
+            [0, 11],
+            [0, 0]
+          ]
+        ],
         labels: ['M1', 'M2']
       };
       calculateAxisMinMax('y1', axis, new Map());
@@ -163,7 +212,20 @@ describe('in-components/Chart/Scales', () => {
 
     it('should ignore filtered series', () => {
       const axis = {
-        metrics: [[[0, 1], [0, 10], [0, 9], [0, 3]], [[0, -1], [0, 2], [0, 11], [0, 0]]],
+        metrics: [
+          [
+            [0, 1],
+            [0, 10],
+            [0, 9],
+            [0, 3]
+          ],
+          [
+            [0, -1],
+            [0, 2],
+            [0, 11],
+            [0, 0]
+          ]
+        ],
         labels: ['M1', 'M2']
       };
       calculateAxisMinMax('y1', axis, new Map([['y1-1', true]]));
@@ -173,7 +235,19 @@ describe('in-components/Chart/Scales', () => {
 
     it('should find the local max value', () => {
       const axis = {
-        metrics: [[[0, 1], [10, 9], [20, 10], [30, 3]], [[0, -1], [10, 12], [30, 0]]],
+        metrics: [
+          [
+            [0, 1],
+            [10, 9],
+            [20, 10],
+            [30, 3]
+          ],
+          [
+            [0, -1],
+            [10, 12],
+            [30, 0]
+          ]
+        ],
         labels: ['M1', 'M2'],
         valuesDependOnEachOther: true
       };
@@ -184,7 +258,19 @@ describe('in-components/Chart/Scales', () => {
 
     it('should find the local max value for stacked axis', () => {
       const axis = {
-        metrics: [[[0, 1], [10, 9], [20, 10], [30, 3]], [[0, -1], [10, 12], [30, 0]]],
+        metrics: [
+          [
+            [0, 1],
+            [10, 9],
+            [20, 10],
+            [30, 3]
+          ],
+          [
+            [0, -1],
+            [10, 12],
+            [30, 0]
+          ]
+        ],
         labels: ['M1', 'M2'],
         valuesDependOnEachOther: true,
         valuesNeedToBeStacked: true
@@ -197,7 +283,20 @@ describe('in-components/Chart/Scales', () => {
     describe('calculateStackDifferences', () => {
       it('should calculate stack differences', () => {
         const axis = {
-          metrics: [[[0, -1], [10, 9], [20, 10], [30, 0]], [[0, 1], [10, 17], [20, 11], [30, 2]]],
+          metrics: [
+            [
+              [0, -1],
+              [10, 9],
+              [20, 10],
+              [30, 0]
+            ],
+            [
+              [0, 1],
+              [10, 17],
+              [20, 11],
+              [30, 2]
+            ]
+          ],
           labels: ['M1', 'M2'],
           valuesDependOnEachOther: true,
           calculateStackDifferences: true
@@ -209,7 +308,19 @@ describe('in-components/Chart/Scales', () => {
 
       it('should take gaps into acount', () => {
         const axis = {
-          metrics: [[[0, -1], [10, 9], [20, 101], [30, 0]], [[0, 1], [10, 10], [30, 3]]],
+          metrics: [
+            [
+              [0, -1],
+              [10, 9],
+              [20, 101],
+              [30, 0]
+            ],
+            [
+              [0, 1],
+              [10, 10],
+              [30, 3]
+            ]
+          ],
           labels: ['M1', 'M2'],
           valuesDependOnEachOther: true,
           calculateStackDifferences: true

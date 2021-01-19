@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import * as entityCount from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/entityCount/entityCount';
 import * as metrics from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/metrics';
 

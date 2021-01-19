@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 export const VIEW_CHANGE = 'page.view';
 
 export const URL_SHORTENER_OPEN = 'url.shortener.open';

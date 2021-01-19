@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
@@ -30,8 +34,9 @@ export default function HardwareInfo({ snapshot }) {
 
       {memoryTotal && <DescriptionItem title="Memory">{bytesTwoDecimalPlaces(memoryTotal)}</DescriptionItem>}
 
-      {!(isWindows(snapshot) || isZos(snapshot)) &&
-        openFilesMax && <DescriptionItem title="Max Open Files">{zeroDecimalPlaces(openFilesMax)}</DescriptionItem>}
+      {!(isWindows(snapshot) || isZos(snapshot)) && openFilesMax && (
+        <DescriptionItem title="Max Open Files">{zeroDecimalPlaces(openFilesMax)}</DescriptionItem>
+      )}
 
       <DescriptionItem title="Hostname">{data.get('hostname')}</DescriptionItem>
       <DescriptionItem title="FQDN">{data.get('fqdn')}</DescriptionItem>

@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import React, { useState, useRef, useLayoutEffect } from 'react';
 import classNames from 'classnames';
 

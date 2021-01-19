@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import shallowEquals from 'fbjs/lib/shallowEqual';
 import { createLogger } from '@instana/logger';
 import React from 'react';

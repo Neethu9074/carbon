@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { useState, useEffect, useRef } from 'react';
 import { useLocation } from 'react-router';
 import { isEqual } from 'lodash';

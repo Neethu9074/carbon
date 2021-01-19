@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import EmptyScene from 'in-map/sceneObjects/EmptyScene';
 import Node from 'in-map/SceneGraph/Node';
 

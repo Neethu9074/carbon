@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { compose, withState } from 'recompose';
 import { find, debounce } from 'lodash';
 import React, { useMemo } from 'react';

@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
 
 const getReleases = createResultSubscriptionFactory({

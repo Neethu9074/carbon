@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import React, { Fragment } from 'react';
 
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
@@ -50,21 +54,24 @@ export function getRows(sensors = []) {
   }));
 }
 
-export default connectTo(props => ({ sensors: listSensors(props.snapshot) }), function SensorsInfo({ sensors }) {
-  let rows = getRows(sensors);
-  return (
-    <Dialog title="Sensors Info" onClose={close} className={locals.dialog}>
-      {!sensors && <LoadingIndicator />}
+export default connectTo(
+  props => ({ sensors: listSensors(props.snapshot) }),
+  function SensorsInfo({ sensors }) {
+    let rows = getRows(sensors);
+    return (
+      <Dialog title="Sensors Info" onClose={close} className={locals.dialog}>
+        {!sensors && <LoadingIndicator />}
 
-      {sensors && (
-        <Fragment>
-          <Table withoutPadding cardTitle={`Sensors (${rows.length})`} cols={cols} rows={rows} />
-          <DownloadView data={sensors} fileName={`sensors`} getJsonData={() => getJsonData(sensors)} />
-        </Fragment>
-      )}
-    </Dialog>
-  );
-});
+        {sensors && (
+          <Fragment>
+            <Table withoutPadding cardTitle={`Sensors (${rows.length})`} cols={cols} rows={rows} />
+            <DownloadView data={sensors} fileName={`sensors`} getJsonData={() => getJsonData(sensors)} />
+          </Fragment>
+        )}
+      </Dialog>
+    );
+  }
+);
 
 function getJsonData(data) {
   return JSON.stringify(data, null, 4);

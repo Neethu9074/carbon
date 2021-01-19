@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { createMapForm, createField } from 'formalistic';
 import React, { Fragment } from 'react';
 import { createLogger } from '@instana/logger';

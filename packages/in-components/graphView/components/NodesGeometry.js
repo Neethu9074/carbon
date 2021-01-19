@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import fragmentShader from 'in-components/graphView/components/nodeFragmentShader.glsl';
 import vertexShader from 'in-components/graphView/components/nodeVertexShader.glsl';
 

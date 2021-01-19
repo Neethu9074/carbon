@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import theme from 'in-themes';
 import React from 'react';
 
@@ -33,18 +37,20 @@ export default function FilterOperator({ selectedOperator, operators, onOperator
 function Operators({ selectedOperator, operators, onOperatorChanged, close }) {
   return (
     <ul className={locals.operatorList}>
-      {operators.filter(operator => selectedOperator !== operator).map(operator => (
-        <li
-          key={operator}
-          className={locals.operatorListItem}
-          onClick={() => {
-            onOperatorChanged(operator);
-            close();
-          }}
-        >
-          {operator}
-        </li>
-      ))}
+      {operators
+        .filter(operator => selectedOperator !== operator)
+        .map(operator => (
+          <li
+            key={operator}
+            className={locals.operatorListItem}
+            onClick={() => {
+              onOperatorChanged(operator);
+              close();
+            }}
+          >
+            {operator}
+          </li>
+        ))}
     </ul>
   );
 }

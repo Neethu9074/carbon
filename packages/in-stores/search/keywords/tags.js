@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { Set } from 'immutable';
 
 import { setField, removeField, getFieldTerms } from 'in-stores/search/manipulation';

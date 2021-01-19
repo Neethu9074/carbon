@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { getWebGLCanvasContext } from 'in-map/services/webGL';
 import { WebGLRenderer } from 'in-map/3DLibProvider';
 

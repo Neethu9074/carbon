@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { createMapForm, createField, createListForm } from 'formalistic';
 
 import { isBlank, isNotBlank } from 'in-services/util/string';

@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { createMapForm } from 'formalistic';
 import { fromJS } from 'immutable';
 import theme from 'in-themes';

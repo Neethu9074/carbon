@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { getServiceLocators } from 'in-applications/FlowMap/serviceLocator/serviceLocator';
 import { Matrix4, OrthographicCamera } from 'in-map/3DLibProvider';
 

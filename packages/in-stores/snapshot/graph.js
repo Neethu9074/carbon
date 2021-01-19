@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import getProcessCompanionsInternal from 'in-subscription/getProcessCompanions';
 import getHostCompanionsInternal from 'in-subscription/getHostCompanions';
 import { timeConfig$ } from 'in-stores/time/config';

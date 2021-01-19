@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 /* eslint-env mocha */
 import { expect } from 'chai';
 
@@ -148,7 +152,11 @@ describe('in-api/applicationConfigs', () => {
 
       expect(
         splitBy(
-          [{ key: 'A', conjunction: 'AND' }, { key: 'B', conjunction: 'AND' }, { key: 'C', conjunction: 'AND' }],
+          [
+            { key: 'A', conjunction: 'AND' },
+            { key: 'B', conjunction: 'AND' },
+            { key: 'C', conjunction: 'AND' }
+          ],
           'OR'
         )
       ).to.deep.equal([
@@ -211,7 +219,10 @@ describe('in-api/applicationConfigs', () => {
     });
 
     it('if the conjunction hit is the last element, ignore it', () => {
-      const input = [{ key: 'A', conjunction: 'OR' }, { key: 'B', conjunction: 'AND' }];
+      const input = [
+        { key: 'A', conjunction: 'OR' },
+        { key: 'B', conjunction: 'AND' }
+      ];
       expect(splitBy(input, 'AND')).to.deep.equal(input);
     });
   });

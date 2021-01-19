@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 /* eslint-disable */
 
 /**
@@ -275,8 +279,8 @@ Graph.prototype.merge = function(data) {
     var id = e.directed
       ? (id = e.type + '-' + from.id + '-' + to.id)
       : from.id < to.id // normalise id for non-directed edges
-        ? e.type + '-' + from.id + '-' + to.id
-        : e.type + '-' + to.id + '-' + from.id;
+      ? e.type + '-' + from.id + '-' + to.id
+      : e.type + '-' + to.id + '-' + from.id;
 
     var edge = this.addEdge(new Edge(id, from, to, e.data));
     edge.data.type = e.type;

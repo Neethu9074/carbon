@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import useResizeObserver from 'use-resize-observer/polyfilled';
 import { useState, useMemo } from 'react';
 import { debounce } from 'lodash';

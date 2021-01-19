@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import React from 'react';
 
 import { Table, Thead, Tbody, Tr, LoadMoreRow } from 'in-components/tables/sharedComponents';

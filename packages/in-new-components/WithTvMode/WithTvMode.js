@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import React, { useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 

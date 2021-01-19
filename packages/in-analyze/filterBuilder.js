@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { buildJsonSerializer, buildJsonParser } from 'in-stores/navigation/matrix';
 import { findSubTreeByFullyQualifiedName } from 'in-applications/tags';
 import { entityTypes } from 'in-analyze/applicationFilter';

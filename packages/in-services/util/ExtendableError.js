@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 export default class ExtendableError extends Error {
   constructor(message) {
     super(message);

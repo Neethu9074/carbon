@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { navigationParameters$, mutateUrl } from 'in-stores/navigation';
 import { days, hours, minutes, seconds } from 'in-services/time';
 import { fixateTimeConfig } from 'in-stores/time/config';

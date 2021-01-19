@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { getActiveConfiguration$ } from 'in-client/js/LandingPage/activeConfigration';
 import connectTo from 'in-hoc/connectTo';
 

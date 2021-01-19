@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import React, { useState } from 'react';
 import theme from 'in-themes';
 
@@ -389,9 +393,9 @@ export function Pie() {
             labels: ['foo', 'bar', 'baz'],
             metrics: generateMultipleMetrics(3, 30, 10, oneMinute),
             metricIds: [
-              [_, 30],
-              [_, 45],
-              [_, 50]
+              [0, 30],
+              [0, 45],
+              [0, 50]
             ],
             colors: ['#ff0000', '#00ff00', '#0000ff'],
             formatter: x => x

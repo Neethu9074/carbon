@@ -1,5 +1,9 @@
-import { t } from 'in-i18n';
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import moment from 'moment';
+import { t } from 'in-i18n';
 
 import { formatDurationAccurately } from 'in-services/formatters/date';
 

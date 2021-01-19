@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { getTimeConfig, setTimeConfig, fixateTimeConfig } from 'in-stores/time/config';
 import { getModifiedUrlStream, toAbsoluteUrl } from 'in-stores/navigation/navigation';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';

@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { get } from 'lodash';
 import React from 'react';
 
@@ -71,15 +75,14 @@ export default connectTo(
           <Link className={locals.bold} href$={href}>
             {entityLabel}
           </Link>
-          {applicationLabel &&
-            (serviceLabel || endpointLabel) && (
-              <>
-                <span> in context of </span>
-                <Link className={locals.bold} href$={getApplicationDashboard(applicationId)}>
-                  {applicationLabel}
-                </Link>
-              </>
-            )}
+          {applicationLabel && (serviceLabel || endpointLabel) && (
+            <>
+              <span> in context of </span>
+              <Link className={locals.bold} href$={getApplicationDashboard(applicationId)}>
+                {applicationLabel}
+              </Link>
+            </>
+          )}
         </div>
         <div>
           <Button icon="lib_openclose_circle" size="compact" onClick={onClose}>

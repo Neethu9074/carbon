@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import React, { Fragment } from 'react';
 
 import OverviewChartTooltip from 'in-websites/analyze/PageLoadView/tabs/Summary/OverviewChartTooltip';
@@ -30,20 +34,19 @@ export default getElementDimensions(function OverviewChart({ beacons, earliestTi
 
   return (
     <Fragment>
-      {width &&
-        beacons.length > 0 && (
-          <HorizontalAxis
-            align="top"
-            width={width}
-            formatter={millis.forcedCompactOnMs}
-            detailedFormatting
-            tickLength={8}
-            tickColor={theme.lib.colors.N400}
-            tickLabelColor={theme.lib.colors.N800Dark}
-            scale={{ from: 0, to: endTimestamp - earliestTimestamp }}
-            fixedTickPositions={[0, 0.2, 0.4, 0.6, 0.8, 1]}
-          />
-        )}
+      {width && beacons.length > 0 && (
+        <HorizontalAxis
+          align="top"
+          width={width}
+          formatter={millis.forcedCompactOnMs}
+          detailedFormatting
+          tickLength={8}
+          tickColor={theme.lib.colors.N400}
+          tickLabelColor={theme.lib.colors.N800Dark}
+          scale={{ from: 0, to: endTimestamp - earliestTimestamp }}
+          fixedTickPositions={[0, 0.2, 0.4, 0.6, 0.8, 1]}
+        />
+      )}
 
       <div className={locals.beacons} style={{ height: `${chartHeight}px` }}>
         {beaconsStacked.map(({ beacon, depth }) => {

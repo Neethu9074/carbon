@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { number, percentage, bytes, millis } from 'in-services/formatters/number';
 
 export default [

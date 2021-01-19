@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { notANumberValidator } from 'in-services/validators/number';
 
 // These validators can be used for features such as "Edit as JSON"

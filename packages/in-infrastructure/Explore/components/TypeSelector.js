@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import React, { useCallback, useMemo, useState, useRef } from 'react';
 import { isEmpty, isEqual } from 'lodash';
 import classNames from 'classnames';

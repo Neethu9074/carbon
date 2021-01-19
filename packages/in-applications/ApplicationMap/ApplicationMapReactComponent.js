@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { compose } from 'recompose';
 import { get } from 'lodash';
 import React from 'react';

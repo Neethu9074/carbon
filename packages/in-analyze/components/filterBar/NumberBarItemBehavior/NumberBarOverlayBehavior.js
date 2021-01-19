@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { createField, createMapForm } from 'formalistic';
 import { compose, withProps } from 'recompose';
 import { negate } from 'lodash';

@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import {
   TAG as TAG_TYPE,
   OPEN_BRACKET as OPEN_BRACKET_TYPE,
@@ -9,10 +13,7 @@ import {
   OPERATOR_AND,
   OPERATOR_OR
 } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
-import {
-  EXPRESSION,
-  SPACING
-} from 'in-new-components/QueryBuilder/transformation/renderModelElementTypes';
+import { EXPRESSION, SPACING } from 'in-new-components/QueryBuilder/transformation/renderModelElementTypes';
 
 export function isExpression(element) {
   return element.type === EXPRESSION;

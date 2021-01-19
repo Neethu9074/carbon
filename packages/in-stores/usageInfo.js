@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 /* eslint-disable react/no-danger */
 import { combineLatest } from '@instana/observables';
 import React from 'react';

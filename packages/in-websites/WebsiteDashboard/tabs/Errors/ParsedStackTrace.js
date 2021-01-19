@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import React, { Fragment } from 'react';
 
 import { StackTraceLines, StackTraceLine, InfoIndicator } from 'in-new-components/StackTrace';
@@ -40,13 +44,12 @@ function getIndicator(websiteId, line) {
   return (
     <InfoIndicator href$={href$} href={href} external={external}>
       {translationStatus.explanation}
-      {isNotBlank(line.translationExplanation) &&
-        line.translationExplanation !== 'null' && (
-          <Fragment>
-            <br />
-            <strong>{line.translationExplanation}</strong>
-          </Fragment>
-        )}
+      {isNotBlank(line.translationExplanation) && line.translationExplanation !== 'null' && (
+        <Fragment>
+          <br />
+          <strong>{line.translationExplanation}</strong>
+        </Fragment>
+      )}
       {explanation && (
         <Fragment>
           <br />

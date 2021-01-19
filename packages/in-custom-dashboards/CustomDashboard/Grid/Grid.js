@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import React, { useState, useEffect } from 'react';
 import ReactGridLayout from 'react-grid-layout';
 import TrackVisibility from 'react-on-screen';

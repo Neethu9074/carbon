@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { createGroupingConfigurator } from 'in-new-components/GroupingConfigurator';
 import getTagCatalog from 'in-infrastructure/subscriptions/getTagCatalog';
 import { successObservableFactory } from 'in-services/util/result';

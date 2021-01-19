@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import React, { Fragment } from 'react';
 
 import EffectiveConnectionTypeTopList from 'in-websites/WebsiteDashboard/tabs/User/EffectiveConnectionTypeTopList';

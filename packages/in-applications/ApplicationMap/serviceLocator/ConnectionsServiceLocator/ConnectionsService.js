@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { combineLatest, create } from '@instana/observables';
 import RoEmitter from '@instana/roemitter';
 

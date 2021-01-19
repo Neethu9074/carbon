@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 export function getSumOfAlertsPerCluster({ index, alertEvents, clusterWidthPixels, xBackBuffer }) {
   const clusterFrom = index * clusterWidthPixels;
   const clusterTo = (index + 1) * clusterWidthPixels;

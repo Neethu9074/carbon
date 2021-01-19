@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import Worker from 'worker-loader?name=layoutingWorker.[hash].js!in-applications/ApplicationMap/misc/layouting/layout.worker';
 
 export default (() => {

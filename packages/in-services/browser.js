@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { create, on } from '@instana/observables';
 
 const forcedResize$ = create();

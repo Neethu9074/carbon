@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 /* eslint-env node */
 
 const crypto = require('crypto');
@@ -60,7 +64,8 @@ function getHash(ident) {
     return identToHashMapping[ident].shortHash;
   }
 
-  const fullHash = crypto.createHash('sha1')
+  const fullHash = crypto
+    .createHash('sha1')
     .update(ident)
     .digest('base64')
 
@@ -96,12 +101,14 @@ function onBuildFinish() {
   fs.writeFileSync(
     path.join(__dirname, '..', '..', 'target', 'assets', 'bundle', 'cssIdentifiers.json'),
     getCssIdentifiesFileContent(),
-    {encoding: 'utf8'}
+    { encoding: 'utf8' }
   );
 }
 
 function getCssIdentifiesFileContent() {
   const content = {};
-  Object.keys(identToHashMapping).forEach(ident => content[ident] = hashClassPrefix + identToHashMapping[ident].shortHash);
+  Object.keys(identToHashMapping).forEach(
+    ident => (content[ident] = hashClassPrefix + identToHashMapping[ident].shortHash)
+  );
   return JSON.stringify(content);
 }

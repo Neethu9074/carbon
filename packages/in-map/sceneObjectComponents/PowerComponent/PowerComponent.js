@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import SceneObjectComponent from 'in-map/sceneObjectComponents/SceneObjectComponent';
 import { powers, maxPower$ } from 'in-map/stores/physical/powerStore';
 import { getPower } from 'in-sdk/snapshot';

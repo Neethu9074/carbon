@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { identity as identityFn } from 'in-services/util/function';
 
 export const identity = {

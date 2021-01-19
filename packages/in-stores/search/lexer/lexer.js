@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import lexSecondStage from 'in-stores/search/lexer/secondStage';
 import lexThirdStage from 'in-stores/search/lexer/thirdStage';
 import lexFirstStage from 'in-stores/search/lexer/firstStage';

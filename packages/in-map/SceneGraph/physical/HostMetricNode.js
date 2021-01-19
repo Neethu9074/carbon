@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import NodeMetric from 'in-map/sceneObjects/physical/NodeMetric';
 import Node from 'in-map/SceneGraph/Node';
 

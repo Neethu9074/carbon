@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { emptyObject } from 'in-services/fixedObjects';
 
 export function parseUrl(href) {

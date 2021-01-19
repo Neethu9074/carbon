@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { createStore } from 'in-stores/store';
 
 import { addMessage, removeMessage } from 'in-components/MessageFlyout/stores/messages';

@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { interval } from '@instana/observables';
 import { groupBy, chunk } from 'lodash';
 import React from 'react';

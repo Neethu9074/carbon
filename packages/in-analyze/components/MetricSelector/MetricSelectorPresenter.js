@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { find, groupBy, findIndex, every } from 'lodash';
 import React, { Fragment } from 'react';
@@ -204,16 +208,15 @@ export default function MetricSelectorPresenter({
                               {metric.aggregation &&
                                 definition.supportedAggregations.length > 1 &&
                                 ` (${aggregationLabels[metric.aggregation]})`}
-                              {!isGroupedView &&
-                                !definition.tag && (
-                                  <Tooltip content="Metric only available when analyzing groups.">
-                                    <SvgIcon
-                                      type="lib_help_error_help_outline"
-                                      size="xs"
-                                      className={locals.metricNotAvailable}
-                                    />
-                                  </Tooltip>
-                                )}
+                              {!isGroupedView && !definition.tag && (
+                                <Tooltip content="Metric only available when analyzing groups.">
+                                  <SvgIcon
+                                    type="lib_help_error_help_outline"
+                                    size="xs"
+                                    className={locals.metricNotAvailable}
+                                  />
+                                </Tooltip>
+                              )}
                             </div>
                             <Tooltip content="Remove metric">
                               <SvgIcon

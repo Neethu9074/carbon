@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import React, { useState, Children, cloneElement, useRef } from 'react';
 import PropTypes from 'prop-types';
 

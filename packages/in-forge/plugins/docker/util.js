@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 export function hasNetworkMetrics(snapshot) {
   // See https://docs.docker.com/engine/reference/run/#network-settings for info on possible network modes.
   // In network modes host and container, we never get any network metrics. In network mode bridge we usually get some.

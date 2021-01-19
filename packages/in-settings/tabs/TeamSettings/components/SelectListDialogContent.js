@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { compose, withState } from 'recompose';
 import classNames from 'classnames';
 import React from 'react';

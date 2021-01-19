@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import invariant from 'invariant';
 
 import { track, TOPLIST_ROW_NAVIGATION } from 'in-services/tracking/tracking';

@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 /* eslint-env node */
 
 const fs = require('fs');
@@ -13,14 +17,8 @@ module.exports = function main(themeName, sourceDir, targetDir, targetName) {
   var stylesheet = '';
   walkConstants([], theme);
   stylesheet = stylesheet.trim();
-  fs.writeFileSync(
-    path.join(targetDir, targetName + '.less'),
-    stylesheet
-  );
-  fs.writeFileSync(
-    path.join(targetDir, targetName + '.json'),
-    JSON.stringify(theme, 0, 2)
-  );
+  fs.writeFileSync(path.join(targetDir, targetName + '.less'), stylesheet);
+  fs.writeFileSync(path.join(targetDir, targetName + '.json'), JSON.stringify(theme, 0, 2));
 
   function walkConstants(pathToWalk, obj) {
     Object.keys(obj).forEach(function(key) {

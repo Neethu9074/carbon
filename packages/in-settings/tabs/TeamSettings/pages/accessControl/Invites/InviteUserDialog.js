@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { createField, notBlankValidator, createMapForm, createListForm } from 'formalistic';
 import rpt from 'prop-types';
 import React from 'react';

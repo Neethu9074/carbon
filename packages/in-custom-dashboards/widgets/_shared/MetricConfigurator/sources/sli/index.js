@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import FormComponent from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/sli/FormComponent';
 
 export { createForm } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/sli/form';

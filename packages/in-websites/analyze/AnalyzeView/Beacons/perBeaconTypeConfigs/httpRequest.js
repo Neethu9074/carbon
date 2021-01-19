@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import React, { Fragment } from 'react';
 
 import { Th, Td, ErroneousRowTh, ErroneousRowTd } from 'in-components/tables/sharedComponents';
@@ -53,9 +57,7 @@ export function TableRowColumns({ item }) {
         </TableLinkWithIcon>
         <BatchingIndicator
           batchCount={item.beacon.batchSize}
-          tooltipContent={`This HTTP request is batched and represents ${
-            item.beacon.batchSize
-          } individual HTTP requests.`}
+          tooltipContent={`This HTTP request is batched and represents ${item.beacon.batchSize} individual HTTP requests.`}
         />
       </Td>
 

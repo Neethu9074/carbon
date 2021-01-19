@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc. 2021
+ */
 /* eslint-env mocha, node */
 
 import fs from 'fs/promises';

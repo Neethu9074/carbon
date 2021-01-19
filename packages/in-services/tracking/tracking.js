@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 export * from 'in-services/tracking/eventNames';
 
 import { sortedUniq, isEqual } from 'lodash';

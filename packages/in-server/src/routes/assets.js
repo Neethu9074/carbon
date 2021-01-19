@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 const express = require('express');
 
 const configEnrichment = require('../middleware/configEnrichment');

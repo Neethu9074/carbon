@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import InfrastructureEntityLinkPresenter from 'in-analyze/TraceDetail/components/CallDetails/components/InfrastructureEntityLink/InfrastructureEntityLinkPresenter';
 import { getTimeConfigAtMoment } from 'in-stores/time/config';
 import { pendingResult } from 'in-services/fixedObjects';

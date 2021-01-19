@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import React, { useRef, useLayoutEffect, useState } from 'react';
 import { create } from '@instana/observables';
 import rpt from 'prop-types';

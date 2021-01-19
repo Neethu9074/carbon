@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { bytes, number, millis, megaBytes } from 'in-services/formatters/number';
 
 // See https://github.com/tibbe/ekg-core/blob/master/System/Metrics.hs for an explanation of the individual metrics.

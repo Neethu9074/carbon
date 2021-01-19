@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 export function getTickPositions({ scale, axisConfig }) {
   const { stepSize, expectLabelWidth = 70 } = axisConfig;
 

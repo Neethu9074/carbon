@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import classNames from 'classnames';
 import { uniq } from 'lodash';
 import React from 'react';

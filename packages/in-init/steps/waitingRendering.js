@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { Router } from 'react-router-dom';
 import ReactDOM from 'react-dom';
 import React from 'react';

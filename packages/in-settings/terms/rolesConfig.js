@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 export const roles = Object.freeze([
   { value: 'preferNotToSay', label: 'Prefer not to say' },
   { value: 'frontendDeveloper', label: 'Frontend Developer' },

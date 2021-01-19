@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import Configuration from 'in-websites/WebsiteDashboard/tabs/Configuration/Configuration';
 import Geography from 'in-websites/WebsiteDashboard/tabs/Geography/Geography';
 import CustomEvents from 'in-websites/WebsiteDashboard/tabs/CustomEvents';

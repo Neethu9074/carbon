@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { ImageLoader, Texture } from 'in-map/3DLibProvider';
 
 const IMAGE_LOADER = new ImageLoader();

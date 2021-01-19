@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import React from 'react';
 
 import {
@@ -240,7 +244,10 @@ export default connectTo(
           <DashboardSection title="Data mounts">
             <Table
               cols={volumeTableCols}
-              rows={getDataMountRows(kafkaNodes.map(node => ({ key: node.kafka.get('id'), ...node })), timeConfig)}
+              rows={getDataMountRows(
+                kafkaNodes.map(node => ({ key: node.kafka.get('id'), ...node })),
+                timeConfig
+              )}
               getRowDetails={getFsDetails}
               maxItemsPerPage={15}
             />

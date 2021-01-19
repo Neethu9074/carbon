@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { datacenterId as matrixDatacenterId } from 'in-vsphere/navigation/matrix';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { hostId as matrixHostId } from 'in-vsphere/navigation/matrix';

@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { withStyles } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import theme from 'in-themes';

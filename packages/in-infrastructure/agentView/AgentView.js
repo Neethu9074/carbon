@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { combineLatest } from '@instana/observables';
 import { Switch, Route } from 'react-router-dom';
 import React from 'react';

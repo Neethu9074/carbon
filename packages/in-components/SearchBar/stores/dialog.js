@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { DFQ_FILTER_SAVED, DFQ_FILTER_EDITED } from 'in-services/tracking/eventNames';
 import { refresh } from 'in-components/SearchBar/stores/filters';
 import { close } from 'in-components/DialogPresenter/store';

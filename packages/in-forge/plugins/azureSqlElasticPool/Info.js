@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import React from 'react';
 import { bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';

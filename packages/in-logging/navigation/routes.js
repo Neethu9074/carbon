@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import RawAnalyzeView from 'promise-loader?global,logging!in-logging/analyze/AnalyzeView/RawAnalyzeView';
 import AnalyzeView from 'promise-loader?global,logging!in-logging/analyze/AnalyzeView/AnalyzeView';
 import { Route } from 'react-router-dom';

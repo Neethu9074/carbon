@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { createMapForm, createField, notBlankValidator } from 'formalistic';
 import { List } from 'immutable';
 import React from 'react';

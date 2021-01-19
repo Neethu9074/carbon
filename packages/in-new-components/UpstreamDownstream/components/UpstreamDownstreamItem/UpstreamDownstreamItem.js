@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { get } from 'lodash';
 import React from 'react';
 
@@ -63,12 +67,11 @@ export default connectTo(({ applicationId, serviceId, endpointId }) => {
             rootOrUnknown={itemId === 'ROOT' || itemId === 'UNKNOWN'}
             technologies={technologiesNoK8s}
           />
-          {itemId != 'ROOT' &&
-            itemId != 'UNKNOWN' && (
-              <EndpointTypeBadgeList
-                types={item.service ? item.service.types.filter(type => type !== 'UNDEFINED') : []}
-              />
-            )}
+          {itemId != 'ROOT' && itemId != 'UNKNOWN' && (
+            <EndpointTypeBadgeList
+              types={item.service ? item.service.types.filter(type => type !== 'UNDEFINED') : []}
+            />
+          )}
         </div>
         <div className={locals.chartWrapper}>
           <SparkChart

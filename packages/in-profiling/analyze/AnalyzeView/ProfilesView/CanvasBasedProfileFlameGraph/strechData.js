@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 export default function strechData({ layers }, scale) {
   const totalWidth = scale.getRangeTo();
   const layerIterator = layers.values();

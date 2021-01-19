@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import React from 'react';
 
 import { getEventType, EVENT_TYPES, fireCallbacksForEventAtFocusedMomentAsStream } from 'in-stores/events';
@@ -13,7 +17,11 @@ export default connectTo(
   props => {
     return {
       background: getColorForEventAtFocusedMomentAsStream(props.event, { defaultColor: '#bababa' }),
-      isOpen: fireCallbacksForEventAtFocusedMomentAsStream(props.event, () => true, () => false)
+      isOpen: fireCallbacksForEventAtFocusedMomentAsStream(
+        props.event,
+        () => true,
+        () => false
+      )
     };
   },
   function Event({ event, scale, isOpen, background }) {

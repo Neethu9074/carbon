@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { userSettings, teamSettings, authSettings, ampSettings } from 'in-settings/navigation/paths';
 import { roleHasAnyTeamPermissions } from 'in-settings/tabs/permissions';
 import UserSettings from 'in-settings/tabs/UserSettings/View';

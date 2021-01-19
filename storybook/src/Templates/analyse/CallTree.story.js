@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { withKnobs } from '@storybook/addon-knobs/react';
 import { create } from '@instana/observables';
 import React from 'react';

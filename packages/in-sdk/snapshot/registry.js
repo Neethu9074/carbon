@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { clone } from 'lodash';
 
 import { ensureInfraPluginsAreEvaluated } from 'in-sdk/asyncEvaluation';

@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { isTerm, isFieldSeparator } from 'in-stores/search/lexer';
 
 export default function lexSecondStage(firstStageLexResult) {

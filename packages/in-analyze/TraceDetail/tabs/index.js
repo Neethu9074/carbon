@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { traceDetailFullyQualified } from 'in-analyze/navigation/paths';
 import Summary from 'in-analyze/TraceDetail/tabs/Summary/Summary';
 

@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { useRef, useEffect } from 'react';
 
 import { emptyObject, emptyArray } from 'in-services/fixedObjects';

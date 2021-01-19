@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 /* eslint-env mocha, node */
 import { create } from '@instana/observables';
 import proxyquire from 'proxyquire';

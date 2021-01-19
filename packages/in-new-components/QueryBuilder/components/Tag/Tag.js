@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 /* eslint-disable react/display-name */
 import React, { useRef, useLayoutEffect, useState } from 'react';
 import classNames from 'classnames';

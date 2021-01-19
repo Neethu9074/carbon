@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 export const explanation = `
 Error type, message and stack trace are inaccessible due to browser security mechanisms, i.e. the
 same-origin policy. This typically means that the error was caused by a script that is hosted on an

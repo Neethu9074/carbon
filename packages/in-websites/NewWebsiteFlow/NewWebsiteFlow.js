@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { createField, notBlankValidator } from 'formalistic';
 import { interval } from '@instana/observables';
 import { get } from 'lodash';

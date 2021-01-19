@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import createClusterMembersObservable from 'in-subscription/clusterMembers';
 import { timeConfig$ } from 'in-stores/time/config';
 

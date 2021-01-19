@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { range, rangeRight } from 'lodash';
 import classNames from 'classnames';
 import rpt from 'prop-types';

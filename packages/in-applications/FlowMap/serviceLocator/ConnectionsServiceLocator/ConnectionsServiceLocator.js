@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import createNullService from 'in-applications/FlowMap/serviceLocator/ConnectionsServiceLocator/NullService';
 import BaseServiceLocator from 'in-applications/FlowMap/serviceLocator/BaseServiceLocator';
 

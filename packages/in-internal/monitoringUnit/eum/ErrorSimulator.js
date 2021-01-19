@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 /* eslint-disable no-console */
 
 import React, { Fragment } from 'react';
@@ -5,7 +9,11 @@ import { withState } from 'recompose';
 
 import Button from 'in-new-components/Button';
 
-export default withState('throwError', 'setThrowError', false)(function ErrorSimulator({ throwError, setThrowError }) {
+export default withState(
+  'throwError',
+  'setThrowError',
+  false
+)(function ErrorSimulator({ throwError, setThrowError }) {
   if (throwError) {
     triggerError();
   }

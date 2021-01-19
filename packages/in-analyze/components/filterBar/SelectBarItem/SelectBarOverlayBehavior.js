@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { timeout } from '@instana/observables';
 import { compose, withState } from 'recompose';
 import { find } from 'lodash';

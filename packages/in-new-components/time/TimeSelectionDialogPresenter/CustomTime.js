@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { createField, createMapForm, notBlankValidator, composeValidators } from 'formalistic';
 import React, { useMemo, useState, useEffect } from 'react';
 import moment from 'moment';
