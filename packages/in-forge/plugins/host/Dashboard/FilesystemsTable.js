@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import React, { Fragment } from 'react';
 
 import { percentage, bytes, kiloBytes, withSiMultiplyPrefixThreeDecimalPlaces } from 'in-services/formatters/number';
@@ -191,32 +195,31 @@ function getDetails(row) {
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </Columize>
-      {!row.windows &&
-        row.filesystem.get('icapacity') && (
-          <Chart
-            snapshotId={row.snapshotId}
-            timeConfig={row.timeConfig}
-            y1={{
-              min: 0,
-              max: getMaxValue('fs.' + row.key + '.inodeUsage', row.snapshot),
-              metrics: ['fs.' + row.key + '.inodeUsage'],
-              labels: ['Inode Usage'],
-              type: 'line',
-              formatter: percentage,
-              tooltipFormatter: percentage.compact
-            }}
-            y2={{
-              min: 0,
-              max: getMaxValue('fs.' + row.key + '.ifree', row.snapshot),
-              metrics: ['fs.' + row.key + '.ifree'],
-              labels: ['Inode Free'],
-              type: 'line',
-              formatter: withSiMultiplyPrefixThreeDecimalPlaces,
-              tooltipFormatter: withSiMultiplyPrefixThreeDecimalPlaces
-            }}
-            renderPostChartContent={PluginDashboardsMarkerLanes}
-          />
-        )}
+      {!row.windows && row.filesystem.get('icapacity') && (
+        <Chart
+          snapshotId={row.snapshotId}
+          timeConfig={row.timeConfig}
+          y1={{
+            min: 0,
+            max: getMaxValue('fs.' + row.key + '.inodeUsage', row.snapshot),
+            metrics: ['fs.' + row.key + '.inodeUsage'],
+            labels: ['Inode Usage'],
+            type: 'line',
+            formatter: percentage,
+            tooltipFormatter: percentage.compact
+          }}
+          y2={{
+            min: 0,
+            max: getMaxValue('fs.' + row.key + '.ifree', row.snapshot),
+            metrics: ['fs.' + row.key + '.ifree'],
+            labels: ['Inode Free'],
+            type: 'line',
+            formatter: withSiMultiplyPrefixThreeDecimalPlaces,
+            tooltipFormatter: withSiMultiplyPrefixThreeDecimalPlaces
+          }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
+        />
+      )}
     </Fragment>
   );
 }

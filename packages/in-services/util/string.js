@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 export function isBlank(s) {
   return s == null || s.length === 0 || s.trim().length === 0;
 }

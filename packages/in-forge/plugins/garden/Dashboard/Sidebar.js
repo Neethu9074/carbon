@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import React from 'react';
 
 import RunningComponentsList from 'in-sdk/components/sidebar/RunningComponentsList';
@@ -25,47 +29,44 @@ export default function GardenSidebar({ snapshot }) {
 
       {pcfEnabled && <CloudfoundryInfo snapshot={snapshot} />}
 
-      {ports &&
-        ports.size > 0 && (
-          <Collapsible>
-            <Collapsible.Header>Ports</Collapsible.Header>
-            <Collapsible.Content>
-              <List>
-                {ports.map(port => (
-                  <List.Item key={port}>{port}</List.Item>
-                ))}
-              </List>
-            </Collapsible.Content>
-          </Collapsible>
-        )}
+      {ports && ports.size > 0 && (
+        <Collapsible>
+          <Collapsible.Header>Ports</Collapsible.Header>
+          <Collapsible.Content>
+            <List>
+              {ports.map(port => (
+                <List.Item key={port}>{port}</List.Item>
+              ))}
+            </List>
+          </Collapsible.Content>
+        </Collapsible>
+      )}
 
-      {events &&
-        events.size > 0 && (
-          <Collapsible>
-            <Collapsible.Header>Events</Collapsible.Header>
-            <Collapsible.Content>
-              <List>
-                {events.map(item => (
-                  <List.Item key={item}>{item}</List.Item>
-                ))}
-              </List>
-            </Collapsible.Content>
-          </Collapsible>
-        )}
+      {events && events.size > 0 && (
+        <Collapsible>
+          <Collapsible.Header>Events</Collapsible.Header>
+          <Collapsible.Content>
+            <List>
+              {events.map(item => (
+                <List.Item key={item}>{item}</List.Item>
+              ))}
+            </List>
+          </Collapsible.Content>
+        </Collapsible>
+      )}
 
-      {processIds &&
-        processIds.size > 0 && (
-          <Collapsible>
-            <Collapsible.Header>Process IDs</Collapsible.Header>
-            <Collapsible.Content>
-              <List>
-                {processIds.map(item => (
-                  <List.Item key={item}>{item}</List.Item>
-                ))}
-              </List>
-            </Collapsible.Content>
-          </Collapsible>
-        )}
+      {processIds && processIds.size > 0 && (
+        <Collapsible>
+          <Collapsible.Header>Process IDs</Collapsible.Header>
+          <Collapsible.Content>
+            <List>
+              {processIds.map(item => (
+                <List.Item key={item}>{item}</List.Item>
+              ))}
+            </List>
+          </Collapsible.Content>
+        </Collapsible>
+      )}
 
       <RunningComponentsList snapshotId={snapshot.get('id')} />
     </div>

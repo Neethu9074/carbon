@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import PropTypes from 'prop-types';
 
 import { getRootPathPredicate, getPredicateForPathsWithRouteParamPlaceholders } from 'in-stores/navigation/paths';

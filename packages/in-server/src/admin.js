@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 const admin = require('admin');
 const serverConfig = require('./serverConfig.js');
 

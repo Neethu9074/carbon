@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { track, MAP_METRICS_AGGREGATION } from 'in-services/tracking/tracking';
 import { navigationParameters$, mutateUrl } from 'in-stores/navigation';
 import { createTrackingStore } from 'in-stores/store';

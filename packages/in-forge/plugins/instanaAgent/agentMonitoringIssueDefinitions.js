@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import React from 'react';
 
 // These configured Events might be related to the Agent itself, or generic Sensor issues that cannot be related to

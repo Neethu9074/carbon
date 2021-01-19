@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc. 2021
+ */
 import { combineLatest, fromPromise } from '@instana/observables';
 // eslint-disable-next-line no-restricted-imports
 import { initReactI18next } from 'react-i18next';

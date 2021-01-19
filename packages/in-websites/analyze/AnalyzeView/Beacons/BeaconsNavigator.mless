@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 :local {
   .navigator {
     // ugh, sorry for that, but time pressure doesn't allow me to properly do this for now :( :(

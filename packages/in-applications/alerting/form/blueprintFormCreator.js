@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { createViolationsInSequenceForm } from 'in-new-components/Alerting/advanced/TimeThresholdConfig/form';
 import { switchQB1orQB2Helper } from 'in-new-components/Alerting/components/WithQB1orQB2';
 import { getBlueprintConfig } from 'in-applications/alerting/data/blueprintConfig';

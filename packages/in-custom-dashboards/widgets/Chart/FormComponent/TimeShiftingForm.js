@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import React from 'react';
 
 import { timeShifts, defaultTimeShift, previousHourTimeShift } from 'in-stores/time/shifting';

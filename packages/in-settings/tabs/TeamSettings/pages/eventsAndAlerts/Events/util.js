@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { plugins, customIssuesDisabledForPlugins } from 'in-forge/constants';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { getSingular } from 'in-sdk/pluginName';

@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 /* global require:false */
 import irpt from 'react-immutable-proptypes';
 import React from 'react';

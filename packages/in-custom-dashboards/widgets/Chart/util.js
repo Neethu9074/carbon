@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 export function getShortMetricKey(axisName, indexInAxis) {
   return `${axisName.toUpperCase()}.${indexInAxis + 1}`;
 }

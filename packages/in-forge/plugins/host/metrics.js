@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { percentageZeroDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import { addMaxValueLocator, addMinValueLocator, addFormattedValueLocator } from 'in-sdk/metrics';
 

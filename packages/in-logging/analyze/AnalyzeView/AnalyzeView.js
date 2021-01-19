@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import React from 'react';
 
 import GroupedLogs from 'in-logging/analyze/AnalyzeView/components/GroupedLogs';

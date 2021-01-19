@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import HoveredConncetionsServiceLocator from 'in-applications/ApplicationMap/serviceLocator/HoveredConncetionsServiceLocator/HoveredConncetionsServiceLocator';
 import HiddenEntitiesServiceLocator from 'in-applications/ApplicationMap/serviceLocator/HiddenEntitiesServiceLocator/HiddenEntitiesServiceLocator';
 import ConnectionsServiceLocator from 'in-applications/ApplicationMap/serviceLocator/ConnectionsServiceLocator/ConnectionsServiceLocator';

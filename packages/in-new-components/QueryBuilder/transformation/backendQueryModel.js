@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { CLOSE_BRACKET, OPEN_BRACKET, TAG, CONJUNCTION } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { toTagFilter } from 'in-new-components/QueryBuilder/transformation/tagFilter';
 import { deepFreeze } from 'in-services/util/object';

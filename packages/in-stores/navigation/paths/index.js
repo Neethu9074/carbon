@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 export function getRootPathPattern(...paths) {
   return new RegExp(`^(${paths.join('|')})(/.*)?$`, 'i');
 }

@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import createObservable from 'in-services/http/observableHttpResult';
 import memoize from 'in-services/util/memoizingObservableGenerator';
 import { generateStableHash } from 'in-services/util/id';

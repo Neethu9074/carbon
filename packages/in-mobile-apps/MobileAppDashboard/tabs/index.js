@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import Configuration from 'in-mobile-apps/MobileAppDashboard/tabs/Configuration/Configuration';
 import Geography from 'in-mobile-apps/MobileAppDashboard/tabs/Geography/Geography';
 import HttpRequests from 'in-mobile-apps/MobileAppDashboard/tabs/HttpRequests';

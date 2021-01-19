@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 export function getTickStyle(tick, isVertical, align, offset = 0, labelOffset = 0) {
   const labelHeight = 14;
   if (isVertical) {

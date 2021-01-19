@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import React from 'react';
 
 import { green, red, yellow, orange, blue } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';

@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { bytes, number, millis, zeroDecimalPlaces } from 'in-services/formatters/number';
 
 export default [

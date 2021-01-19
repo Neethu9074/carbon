@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import React from 'react';
 
 import { twoDecimalPlaces, bytesTwoDecimalPlaces, percentageTwoDecimalPlaces } from 'in-services/formatters/number';
@@ -116,15 +120,17 @@ export default connectTo(
     };
   },
   function NodesTable({ clusterNodes = [], timeConfig }) {
-    const rows = clusterNodes.filter(node => node.get('plugin') == 'kubernetesNode').map(node => {
-      const data = node.get('data');
-      return {
-        key: data.get('uid'),
-        snapshotId: node.get('id'),
-        internalIp: data.get('internalIp'),
-        timeConfig
-      };
-    });
+    const rows = clusterNodes
+      .filter(node => node.get('plugin') == 'kubernetesNode')
+      .map(node => {
+        const data = node.get('data');
+        return {
+          key: data.get('uid'),
+          snapshotId: node.get('id'),
+          internalIp: data.get('internalIp'),
+          timeConfig
+        };
+      });
 
     return (
       <Table

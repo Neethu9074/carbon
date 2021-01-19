@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { compose, withState } from 'recompose';
 import React from 'react';
 
@@ -8,7 +12,11 @@ import SvgIcon from 'in-components/SvgIcon';
 import locals from './KeyValueOverlay.mless';
 
 export default compose(
-  withState('query', 'setQuery', '')(function KeyValueOverlay(props) {
+  withState(
+    'query',
+    'setQuery',
+    ''
+  )(function KeyValueOverlay(props) {
     const data = props.data;
     if (data == null || data.size === 0) {
       return null;

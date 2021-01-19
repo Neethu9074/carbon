@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import React from 'react';
 
 import DetailsNavigation, {
@@ -10,20 +14,19 @@ import { daemonSetDashboardDetailsFullyQualified } from 'in-kubernetes/navigatio
 import getAnnotations from 'in-kubernetes/components/getAnnotations';
 import connectTo from 'in-hoc/connectTo';
 
-export default connectTo(({ data: daemonSet }) => ({ annotations: getAnnotations(daemonSet.id) }), function Details({
-  data: daemonSet,
-  annotations,
-  timeConfig
-}) {
-  return (
-    <DetailsNavigation
-      navigationTree={navigationTree}
-      resource={daemonSet}
-      annotations={annotations}
-      timeConfig={timeConfig}
-    />
-  );
-});
+export default connectTo(
+  ({ data: daemonSet }) => ({ annotations: getAnnotations(daemonSet.id) }),
+  function Details({ data: daemonSet, annotations, timeConfig }) {
+    return (
+      <DetailsNavigation
+        navigationTree={navigationTree}
+        resource={daemonSet}
+        annotations={annotations}
+        timeConfig={timeConfig}
+      />
+    );
+  }
+);
 
 const navigationItems = [
   labelsNavigationItem(daemonSetDashboardDetailsFullyQualified),

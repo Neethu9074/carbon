@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import createService from 'in-applications/ApplicationMap/serviceLocator/HiddenEntitiesServiceLocator/HiddenEntitiesService';
 import BaseServiceLocator from 'in-applications/ApplicationMap/serviceLocator/BaseServiceLocator';
 

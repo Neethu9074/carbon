@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { generatePath, matchPath } from 'react-router';
 import React from 'react';
 

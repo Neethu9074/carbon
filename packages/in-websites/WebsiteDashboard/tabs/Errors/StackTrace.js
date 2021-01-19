@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { withState } from 'recompose';
 import React, { Fragment } from 'react';
 
@@ -9,7 +13,11 @@ import ButtonGroup from 'in-new-components/ButtonGroup';
 
 import locals from './StackTrace.mless';
 
-export default withState('forceRawStackTrace', 'setForceRawStackTrace', false)(function StackTrace({
+export default withState(
+  'forceRawStackTrace',
+  'setForceRawStackTrace',
+  false
+)(function StackTrace({
   websiteId,
   stackTrace,
   parsedStackTrace,

@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import CodeMirror from 'codemirror/lib/codemirror.js';
 
 import { lex, getTokenForColumn } from 'in-stores/search/lexer';

@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { create } from '@instana/observables';
 
 import { get } from 'in-integrations/logging/api';

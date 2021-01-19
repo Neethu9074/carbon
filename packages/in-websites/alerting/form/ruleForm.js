@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { createField, notBlankValidator, createMapForm } from 'formalistic';
 
 import { operators } from 'in-analyze/applicationFilter';

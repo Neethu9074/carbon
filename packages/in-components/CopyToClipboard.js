@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 /* global require:false */
 import React, { forwardRef } from 'react';
 import invariant from 'invariant';

@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { getSetting$, setSingle, getSingle } from 'in-services/settings/perUnitSettings';
 
 const settingsKey = 'landingPage';

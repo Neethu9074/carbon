@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import React from 'react';
 
 import WithApplicationHealthIndicationBehaviour from 'in-components/health/WithHealthIndication/WithApplicationHealthIndicationBehaviour';
@@ -22,28 +26,32 @@ export default function ApplicationSwitcher({ applicationId, applications, viewP
       </div>
 
       <div className={locals.content}>
-        {applications.data.items.filter(item => item.application.id === applicationId).map(item => (
-          <SelectedItem key={item.application.id} item={item} />
-        ))}
+        {applications.data.items
+          .filter(item => item.application.id === applicationId)
+          .map(item => (
+            <SelectedItem key={item.application.id} item={item} />
+          ))}
         <p className={locals.subSectionHeading}>Change application perspective:</p>
         <ul className={locals.menu}>
-          {applications.data.items.filter(item => item.application.id !== applicationId).map(item => {
-            return (
-              <li key={item.application.id} className={locals.row}>
-                <Button
-                  className={locals.button}
-                  kind="subtle"
-                  href$={getModifiedUrlStream(params =>
-                    setOrDeleteMatrixKey(params, viewPath, matrixApplicationId, item.application.id)
-                  )}
-                  onClick={() => applicationOpenSubmitFormTracker()}
-                  icon="lib_application"
-                >
-                  {item.application.label}
-                </Button>
-              </li>
-            );
-          })}
+          {applications.data.items
+            .filter(item => item.application.id !== applicationId)
+            .map(item => {
+              return (
+                <li key={item.application.id} className={locals.row}>
+                  <Button
+                    className={locals.button}
+                    kind="subtle"
+                    href$={getModifiedUrlStream(params =>
+                      setOrDeleteMatrixKey(params, viewPath, matrixApplicationId, item.application.id)
+                    )}
+                    onClick={() => applicationOpenSubmitFormTracker()}
+                    icon="lib_application"
+                  >
+                    {item.application.label}
+                  </Button>
+                </li>
+              );
+            })}
         </ul>
       </div>
     </div>

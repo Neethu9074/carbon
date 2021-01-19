@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 /* eslint-disable no-console */
 import React, { forwardRef } from 'react';
 import classNames from 'classnames';

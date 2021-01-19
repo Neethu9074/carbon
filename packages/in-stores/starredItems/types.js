@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 // Infrastructure
 export const host = 'HOST';
 export const container = 'CONTAINER';

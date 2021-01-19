@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { createViolationsInSequenceForm } from 'in-new-components/Alerting/advanced/TimeThresholdConfig/form';
 import { getBlueprintConfig } from 'in-websites/alerting/data/blueprintConfig';
 import createThresholdForm from 'in-websites/alerting/form/thresholdForm';

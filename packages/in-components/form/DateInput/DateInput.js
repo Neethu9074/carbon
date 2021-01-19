@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import DayPicker from 'react-day-picker';
 import 'react-day-picker/lib/style.css';
 import { assign } from 'lodash';

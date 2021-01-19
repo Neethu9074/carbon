@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import getTagSuggestions from 'in-logging/subscriptions/getTagSuggestions';
 import { createQueryBuilder } from 'in-new-components/QueryBuilder';
 import { getTagCatalog } from 'in-logging/api/catalog';

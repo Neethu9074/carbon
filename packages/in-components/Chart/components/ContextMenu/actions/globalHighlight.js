@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { setHighlightedTimeframe } from 'in-stores/timeline/highlightedTimeframe';
 
 const config = {

@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { pageLoadViewPathFullyQualified } from 'in-websites/navigation/paths';
 import Summary from 'in-websites/analyze/PageLoadView/tabs/Summary/Summary';
 

@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { bytesTwoDecimalPlaces, percentageTwoDecimalPlaces } from 'in-services/formatters/number';
 import { addMaxValueLocator, addFormattedValueLocator } from 'in-sdk/metrics';
 import metricDefinitions from 'in-forge/plugins/garden/metricDefinitions';

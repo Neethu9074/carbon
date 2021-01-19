@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { combineLatest } from '@instana/observables';
 
 import PCP from 'in-map/singleMeshFactories/ContentProvider/PointContentProvider';

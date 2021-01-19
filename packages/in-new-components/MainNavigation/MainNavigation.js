@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import onClickOutside from 'react-onclickoutside';
 import React, { Fragment } from 'react';
 import classNames from 'classnames';

@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { number, bytes, seconds, percentage } from 'in-services/formatters/number';
 
 export default [

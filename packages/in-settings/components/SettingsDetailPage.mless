@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 :local {
   .settingsDetailPage {
     padding: 0 1rem;

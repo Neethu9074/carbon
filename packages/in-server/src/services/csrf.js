@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 const UnauthorizedError = require('../errors/UnauthorizedError.js');
 const serverConfig = require('../serverConfig.js');
 const configResolver = require('./config');

@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { withState } from 'recompose';
 import React from 'react';
 
@@ -5,14 +9,16 @@ import { deepFreeze } from 'in-services/util/object';
 import traceExamples from './traceExamples';
 import InputHeader from './InputHeader';
 
-export default withState('selectedValue', 'setSelectedValue', 'custom')(
-  withState('inputValue', 'setInputValue', '')(function TraceExamplesComponent({
-    selectedValue,
-    setSelectedValue,
-    inputValue,
-    setInputValue,
-    render
-  }) {
+export default withState(
+  'selectedValue',
+  'setSelectedValue',
+  'custom'
+)(
+  withState(
+    'inputValue',
+    'setInputValue',
+    ''
+  )(function TraceExamplesComponent({ selectedValue, setSelectedValue, inputValue, setInputValue, render }) {
     const options = ['custom'];
     const exampleKeys = Object.keys(traceExamples);
     for (let i = 0; i < exampleKeys.length; i++) {

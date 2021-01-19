@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import { compareIgnoreCase } from 'in-services/util/string';
 import http from 'in-services/http';

@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { noop as _noop } from 'in-services/util/function';
 
 export const emptyObject = Object.freeze({});

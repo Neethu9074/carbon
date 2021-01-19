@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import linkTarget from 'markdown-it-link-target';
 import MarkdownIt from 'markdown-it';
 

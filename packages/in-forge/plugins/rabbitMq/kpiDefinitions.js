@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { greaterThanZeroFormatter } from 'in-forge/plugins/rabbitMq/formatters';
 
 export default [

@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import React, { Fragment } from 'react';
 
 import { unitColumn } from 'in-internal/monitoringUnit/units/UnitList/analysisModes/common';

@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 const yaml = require('js-yaml');
 const path = require('path');
 const fs = require('fs');

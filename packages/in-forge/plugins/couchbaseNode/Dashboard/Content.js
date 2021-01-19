@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import React from 'react';
 
 import { BUCKET_METRICS_PREFIX } from 'in-forge/plugins/couchbaseNode/constants.js';

@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 /**
  * Fixed minimum bar height so make them visible and distinguishable from missing data.
  */

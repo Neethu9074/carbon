@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { createMapForm, createField } from 'formalistic';
 
 import createTimeThresholdForm from 'in-new-components/Alerting/advanced/TimeThresholdConfig/form';

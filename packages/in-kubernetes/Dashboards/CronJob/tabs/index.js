@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { CronJobConditionsTab, CronJobPodTab } from 'in-kubernetes/Dashboards/commonComponents/Tabs';
 import Conditions from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Conditions';
 import { cronJobDashboardFullyQualified } from 'in-kubernetes/navigation/paths';

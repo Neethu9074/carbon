@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { physicalViewStructure$ } from 'in-stores/view';
 
 const mappedView$ = physicalViewStructure$.map(physicalView => {

@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 /**
  * requireExistenceInAllSeries indicates whether for a time X, data points have
  * to exist in all data series in order for the value to be returned.

@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { millis, number, percentage } from 'in-services/formatters/number';
 import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 

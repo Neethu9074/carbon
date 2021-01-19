@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 /**
  * Applies smoothing to the given metrics time series using a gaussian kernel.
  * @param metrics The metric to smooth.

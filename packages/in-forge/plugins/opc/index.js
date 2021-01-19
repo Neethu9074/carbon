@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import metricDefinitions from 'in-forge/plugins/opc/metricDefinitions';
 import kpiDefinitions from 'in-forge/plugins/opc/kpiDefinitions';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';

@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { formatDurationAccurately, formatTime, formatDateShort } from 'in-services/formatters/date';
 import { isOnSameDay } from 'in-services/util/date';
 

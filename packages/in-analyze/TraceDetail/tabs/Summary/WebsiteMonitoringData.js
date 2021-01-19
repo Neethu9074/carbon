@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { compose, withState, withProps } from 'recompose';
 import React, { Fragment } from 'react';
 

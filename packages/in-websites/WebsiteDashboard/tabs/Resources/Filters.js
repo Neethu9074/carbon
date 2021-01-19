@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import React from 'react';
 
 import { getResourceTypesComboBoxItems } from 'in-websites/analyze/PageLoadView/tabs/Summary/filterableTypes';

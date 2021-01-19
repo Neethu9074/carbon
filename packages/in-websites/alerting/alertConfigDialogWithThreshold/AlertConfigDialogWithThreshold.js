@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { compose, withProps, withState } from 'recompose';
 import { empty } from '@instana/observables';
 import React from 'react';

@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 const CIRCLE_ARC = 2 * Math.PI;
 
 export default {

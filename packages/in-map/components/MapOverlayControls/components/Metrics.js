@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 /* eslint-disable react/no-multi-comp */
 import classNames from 'classnames';
 import { fromJS } from 'immutable';

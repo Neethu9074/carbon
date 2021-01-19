@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { errorCount, statusCodeCount } from 'in-websites/alerting/constants';
 
 export function getThresholdQuery(

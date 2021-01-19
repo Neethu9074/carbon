@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 const whenToUse = 'When to use?';
 const whoShouldUse = 'Who should use?';
 const tipsForUsing = 'Tips for using';

@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 /* eslint-disable no-console */
 import createCollection from 'in-map/stores/ObjectCollectionStream';
 import { groups } from 'in-map/stores/physical/groupsStore';
@@ -67,7 +71,10 @@ if (__DEV__) {
 
     statistics.add(
       'time',
-      new Map([['seconds', getBigBangTime() | 0], ['FPS_possible', getFPS() + ' (' + minFPS + '/' + maxFPS + ')']])
+      new Map([
+        ['seconds', getBigBangTime() | 0],
+        ['FPS_possible', getFPS() + ' (' + minFPS + '/' + maxFPS + ')']
+      ])
     );
 
     if (memoryInfo) {
@@ -87,7 +94,16 @@ if (__DEV__) {
 
     statistics.add(
       'scene objects',
-      new Map([['physical', new Map([['numGroups', numGroups], ['numNodes', numNodes], ['numLayer', numLayer]])]])
+      new Map([
+        [
+          'physical',
+          new Map([
+            ['numGroups', numGroups],
+            ['numNodes', numNodes],
+            ['numLayer', numLayer]
+          ])
+        ]
+      ])
     );
 
     statisticsCollected = true;

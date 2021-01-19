@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { mutateUrl, getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { eventId as eventIdMatricParam } from 'in-events/navigation/matrix';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';

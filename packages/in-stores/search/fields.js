@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { hiddenSearchFieldValues, getHiddenSearchFieldKeywords } from 'in-services/featureFlags';
 import { filters$ } from 'in-components/SearchBar/stores/filters';
 import { requiresQuotes } from 'in-stores/search/manipulation';

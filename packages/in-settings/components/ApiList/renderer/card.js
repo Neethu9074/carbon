@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import React from 'react';
 
 import LoadingList from 'in-new-components/lists/List/sharedComponents/LoadingList';
@@ -70,16 +74,15 @@ function Header(props) {
   return (
     <header className={locals.header}>
       {renderAdditionalHeaderContent && renderAdditionalHeaderContent(props)}
-      {searchFields &&
-        totalItems > 0 && (
-          <SearchInput
-            className={locals.searchInput}
-            maxWidth={200}
-            placeholder={searchPlaceholder || 'Search...'}
-            query={query}
-            onChange={setQuery}
-          />
-        )}
+      {searchFields && totalItems > 0 && (
+        <SearchInput
+          className={locals.searchInput}
+          maxWidth={200}
+          placeholder={searchPlaceholder || 'Search...'}
+          query={query}
+          onChange={setQuery}
+        />
+      )}
     </header>
   );
 }

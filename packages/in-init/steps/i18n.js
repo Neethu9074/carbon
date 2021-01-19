@@ -1,1 +1,5 @@
-export {init} from 'in-i18n';
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc. 2021
+ */
+export { init } from 'in-i18n';

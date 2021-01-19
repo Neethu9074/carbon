@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 export const boundaryScopes = {
   default: 'INBOUND',
   inbound: 'INBOUND',

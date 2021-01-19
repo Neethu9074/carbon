@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import React, { useState } from 'react';
 
 import DebouncedTextArea from 'in-components/form/TextArea/DebouncedTextArea';

@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import React, { Fragment } from 'react';
 
 import { ActionColumn, ErrorRows, Table, Tbody, Thead } from 'in-components/tables/sharedComponents';

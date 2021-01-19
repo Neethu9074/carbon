@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { getFormValueOrDefault } from 'in-new-components/Alerting/advanced/thresholdFormHelper';
 
 export function getAggregationText(aggregation) {

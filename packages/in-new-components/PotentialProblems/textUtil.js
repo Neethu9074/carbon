@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { getValueRoundedToDecimals } from 'in-new-components/Alerting/utils/formatUtils';
 import { getAggregationText } from 'in-new-components/Alerting/utils/formUtils';
 import { isGreaterOperator } from 'in-new-components/Alerting/utils/alertUtils';

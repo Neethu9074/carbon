@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 /* eslint-env mocha */
 import createMemoryHistory from 'history/createMemoryHistory';
 import { expect } from 'chai';

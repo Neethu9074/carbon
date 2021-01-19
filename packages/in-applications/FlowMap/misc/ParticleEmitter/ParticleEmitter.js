@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { remove } from 'lodash';
 
 import fragmentShader from 'in-applications/FlowMap/misc/ParticleEmitter/shader/fragmentShader.glsl';

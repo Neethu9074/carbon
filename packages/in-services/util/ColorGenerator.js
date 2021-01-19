@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { hexToRGBNormalized } from 'in-services/formatters/color';
 import { Color } from 'in-map/3DLibProvider';
 import theme from 'in-themes';

@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 /* eslint-env mocha, node */
 import { expect } from 'chai';
 
@@ -26,8 +30,14 @@ describe('in-waiting-for-deployment/components/OnboardingWidget/contentUtils', (
       expect(cb.items).to.have.length(2);
       expect(cc.items).to.have.length(1);
 
-      expect(ca.items).to.deep.include.members([{ category: 'a', id: 2 }, { category: 'a', id: 4 }]);
-      expect(cb.items).to.deep.include.members([{ category: 'b', id: 3 }, { category: 'b', id: 5 }]);
+      expect(ca.items).to.deep.include.members([
+        { category: 'a', id: 2 },
+        { category: 'a', id: 4 }
+      ]);
+      expect(cb.items).to.deep.include.members([
+        { category: 'b', id: 3 },
+        { category: 'b', id: 5 }
+      ]);
       expect(cc.items).to.deep.include.members([{ category: 'c', id: 1 }]);
     });
   });
@@ -78,12 +88,24 @@ describe('in-waiting-for-deployment/components/OnboardingWidget/contentUtils', (
 
       score(entities, 'a');
       expect(entities).to.deep.include.members([
-        { __score: 0, subTechnologies: [{ keyWords: 'b', __score: 0 }, { keyWords: 'c', __score: 0 }] },
+        {
+          __score: 0,
+          subTechnologies: [
+            { keyWords: 'b', __score: 0 },
+            { keyWords: 'c', __score: 0 }
+          ]
+        },
         { keyWords: 'b', __score: 0 },
         { keyWords: 'c', __score: 0 },
         { keyWords: 'a b', __score: 1 },
         { keyWords: 'b c', __score: 0 },
-        { __score: 1, subTechnologies: [{ keyWords: 'b', __score: 0 }, { keyWords: 'a', __score: 1 }] }
+        {
+          __score: 1,
+          subTechnologies: [
+            { keyWords: 'b', __score: 0 },
+            { keyWords: 'a', __score: 1 }
+          ]
+        }
       ]);
     });
   });

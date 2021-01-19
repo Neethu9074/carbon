@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 
@@ -42,14 +46,13 @@ export default function AffectedEntitiesPresenter(props) {
           {items.map((item, groupIndex) => (
             <AffectedEntity key={`${item.name}${groupIndex}`} item={item} createItemLink$={createItemLink$} />
           ))}
-          {canLoadMore &&
-            renderLinkToAnalyzeAll && (
-              <Tr size="compact">
-                <Td colSpan={4}>
-                  <div className={locals.linkToAnalyseAllCalls}>{renderLinkToAnalyzeAll(totalHits)}</div>
-                </Td>
-              </Tr>
-            )}
+          {canLoadMore && renderLinkToAnalyzeAll && (
+            <Tr size="compact">
+              <Td colSpan={4}>
+                <div className={locals.linkToAnalyseAllCalls}>{renderLinkToAnalyzeAll(totalHits)}</div>
+              </Td>
+            </Tr>
+          )}
           {items.length === 0 && progress.loading && <LoadingSkeletonRows cols={4} />}
         </Tbody>
       </Table>

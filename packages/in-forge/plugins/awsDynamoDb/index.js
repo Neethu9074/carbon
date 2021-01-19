@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import metricDefinitions from 'in-forge/plugins/awsDynamoDb/metricDefinitions';
 import kpiDefinitions from 'in-forge/plugins/awsDynamoDb/kpiDefinitions';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';

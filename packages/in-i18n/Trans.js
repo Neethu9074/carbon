@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc. 2021
+ */
 // eslint-disable-next-line no-restricted-imports
 import { Trans as InternalTrans } from 'react-i18next';
 import { just, combineLatest } from '@instana/observables';

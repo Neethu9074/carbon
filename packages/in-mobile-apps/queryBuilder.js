@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { addTagFilters } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import getMobileAppBeaconGroups from 'in-mobile-apps/subscriptions/getMobileAppBeaconGroups';
 import { createQueryBuilder } from 'in-new-components/QueryBuilder';

@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import { deepCopy, deepFreeze } from 'in-services/util/object';
 import { getKeyValuePairTag } from 'in-applications/tags';

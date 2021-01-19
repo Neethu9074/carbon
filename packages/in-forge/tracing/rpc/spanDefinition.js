@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 export function getLabel(span) {
   const flavor = span.getIn(['data', 'rpc', 'flavor']);
   const host = span.getIn(['data', 'rpc', 'host']);

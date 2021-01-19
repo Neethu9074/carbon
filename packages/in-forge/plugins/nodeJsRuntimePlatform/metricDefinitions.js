@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { health, millis, number, bytes } from 'in-services/formatters/number';
 import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 

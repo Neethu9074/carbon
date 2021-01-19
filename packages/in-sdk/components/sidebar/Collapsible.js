@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 /* eslint-disable react/no-multi-comp, react/prop-types */
 import invariant from 'invariant';
 import rpt from 'prop-types';

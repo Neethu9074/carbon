@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 /* eslint-env mocha */
 
 import tagCatalog from 'in-new-components/GroupingConfigurator/exampleTagCatalog';

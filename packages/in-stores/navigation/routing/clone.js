@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 // We explicitly clone this manually for the best performance we can get.
 // We have a terribly large number of navigation object clone instructions which we
 // need to keep fast.

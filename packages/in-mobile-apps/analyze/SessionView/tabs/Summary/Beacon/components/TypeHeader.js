@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import React from 'react';
 
 import { getType, types } from 'in-mobile-apps/analyze/SessionView/tabs/Summary/filterableTypes';

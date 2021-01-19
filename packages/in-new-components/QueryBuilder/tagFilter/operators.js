@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 export const EQUALS = 'EQUALS';
 export const CONTAINS = 'CONTAINS';
 export const LESS_THAN = 'LESS_THAN';

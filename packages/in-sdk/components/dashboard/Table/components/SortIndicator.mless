@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 :local {
   .tableSortIndicator {
     padding: 0.75rem 0.5rem;

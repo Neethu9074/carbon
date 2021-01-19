@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import React, { Fragment } from 'react';
 
 import { learnMoreLabel, learnMoreHref, explanation } from 'in-websites/definitions/missingResourceTimings';
@@ -149,15 +153,14 @@ export const Body = ({ beacon }) => {
         </Row>
       )}
 
-      {!hasResourceTimings &&
-        !hasNetworkInsights && (
-          <Row>
-            <Col lg={6}>
-              <BodyHeader>Resource Timing</BodyHeader>
-              <LearnMore explanation={explanation} href={learnMoreHref} buttonLabel={learnMoreLabel} />
-            </Col>
-          </Row>
-        )}
+      {!hasResourceTimings && !hasNetworkInsights && (
+        <Row>
+          <Col lg={6}>
+            <BodyHeader>Resource Timing</BodyHeader>
+            <LearnMore explanation={explanation} href={learnMoreHref} buttonLabel={learnMoreLabel} />
+          </Col>
+        </Row>
+      )}
 
       <Row>
         {hasResourceTimings && (

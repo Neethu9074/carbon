@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { viewPathFullyQualified, dashboardIdUrlParameter } from 'in-custom-dashboards/navigation/url';
 import { setLandingPage as setLandingPageInPersistence } from 'in-client/js/LandingPage/persistence';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';

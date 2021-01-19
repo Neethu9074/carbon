@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { createGroupingConfigurator } from 'in-new-components/GroupingConfigurator';
 import { getApplicationTagCatalog } from 'in-applications/api/catalog';
 import { TRACES } from 'in-applications/analyze/metrics';

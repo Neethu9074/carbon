@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { createField, createMapForm, createListForm } from 'formalistic';
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
@@ -152,19 +156,18 @@ function RuleDescription({ description }) {
 }
 
 function ExpandableContent({ matchSpecifications }) {
-  const tagFilters = matchSpecifications.map(
-    matchSpecification =>
-      matchSpecification.key && matchSpecification.key.toLowerCase().startsWith('call.http.header.')
-        ? {
-            key: 'call.http.header',
-            operator: matchSpecification.operator,
-            value: `${matchSpecification.key.substring('call.http.header.'.length)}=${matchSpecification.value}`
-          }
-        : {
-            key: matchSpecification.key,
-            operator: matchSpecification.operator,
-            value: matchSpecification.value
-          }
+  const tagFilters = matchSpecifications.map(matchSpecification =>
+    matchSpecification.key && matchSpecification.key.toLowerCase().startsWith('call.http.header.')
+      ? {
+          key: 'call.http.header',
+          operator: matchSpecification.operator,
+          value: `${matchSpecification.key.substring('call.http.header.'.length)}=${matchSpecification.value}`
+        }
+      : {
+          key: matchSpecification.key,
+          operator: matchSpecification.operator,
+          value: matchSpecification.value
+        }
   );
 
   if (tagFilters.length === 0) {

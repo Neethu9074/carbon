@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 export const demo = [
   { timeZone: 'America/Los_Angeles', label: 'San Francisco' },
   { timeZone: 'America/Chicago', label: 'Austin' },

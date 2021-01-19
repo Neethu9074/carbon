@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { newTimeMetric, newNumberMetric } from 'in-analyze/metricDefinitionHelpers';
 import { callClickedTracker, traceClickedTracker } from 'in-analyze/tracker';
 import { number, percentage, millis } from 'in-services/formatters/number';

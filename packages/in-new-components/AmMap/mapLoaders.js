@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 // This file content is generated.
 // Execute build/buildAmMapMapLoaders.js and copy the result into this file
 

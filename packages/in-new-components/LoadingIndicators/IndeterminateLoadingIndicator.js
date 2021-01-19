@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import React, { PureComponent, createElement } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';

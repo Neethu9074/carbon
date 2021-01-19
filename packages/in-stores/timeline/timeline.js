@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { getModifiedUrlStream, mutateUrl } from 'in-stores/navigation/navigation';
 import { timeConfig$, urlQueryKeys } from 'in-stores/time/config';
 import { createStore } from 'in-stores/store';

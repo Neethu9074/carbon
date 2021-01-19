@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import React from 'react';
 
 import CreateApplicationDialog from 'in-applications/Forms/NewApplication/CreateApplicationDialog';

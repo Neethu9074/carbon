@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 export function build(parsedResult) {
   let result = '';
   if (!parsedResult || parsedResult.length === 0) {

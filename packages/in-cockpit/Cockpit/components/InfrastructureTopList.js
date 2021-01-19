@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { combineLatest, just } from '@instana/observables';
 import React, { useState } from 'react';
 

@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 const { activeResolver } = require('./resolvers/index');
 const serverConfig = require('../serverConfig.js');
 

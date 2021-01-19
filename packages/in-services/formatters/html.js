@@ -1,3 +1,9 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
+
+/* global require:false */
 /* global require:false, process:false */
 
 import { create } from '@instana/observables';

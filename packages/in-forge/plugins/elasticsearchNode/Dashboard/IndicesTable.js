@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import React from 'react';
 
 import { bytes, millis, number, withSiMultiplyPrefixZeroDecimalPlaces } from 'in-services/formatters/number';

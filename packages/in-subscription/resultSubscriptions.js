@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { tracker } from 'in-services/tracking/ineum/resultSubscriptionStatsTracking';
 import { defaultMemoize } from 'in-subscription/subscriptionMemoization';
 import createSubscription from 'in-subscription/subscription';

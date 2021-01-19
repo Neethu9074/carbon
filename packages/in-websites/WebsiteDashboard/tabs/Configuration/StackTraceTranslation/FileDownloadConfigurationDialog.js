@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { createMapForm, createField, createListForm, notBlankValidator, composeValidators } from 'formalistic';
 import { compose, withProps, withState } from 'recompose';
 

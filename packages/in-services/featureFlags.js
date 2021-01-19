@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { isInstanaEmail, isInstanaEngineer } from 'in-stores/user';
 import { isFeatureFlagEnabled } from 'in-services/config';
 

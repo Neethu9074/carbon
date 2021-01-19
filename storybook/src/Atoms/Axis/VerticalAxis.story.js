@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { withKnobs, number } from '@storybook/addon-knobs';
 import React from 'react';
 

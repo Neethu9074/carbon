@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 /* eslint-env mocha */
 import { expect } from 'chai';
 
@@ -18,10 +22,16 @@ describe('in-components/Chart/Chart', () => {
       config.getAllDomainValues = () => collectAllDomainValues(config);
 
       config.y1 = {
-        metrics: [[[0], [1], [2], [3], [4]], [[0], [11], [2], [-13], [4]]]
+        metrics: [
+          [[0], [1], [2], [3], [4]],
+          [[0], [11], [2], [-13], [4]]
+        ]
       };
       config.y2 = {
-        metrics: [[[0], [-1], [-2], [-3], [4]], [[0], [15], [1001], [-2], [-13], [4]]]
+        metrics: [
+          [[0], [-1], [-2], [-3], [4]],
+          [[0], [15], [1001], [-2], [-13], [4]]
+        ]
       };
 
       expect(getNearestDataPointDomainForTimestamp(config, -100000)).to.equal(-13);
@@ -43,10 +53,16 @@ describe('in-components/Chart/Chart', () => {
       config.getAllDomainValues = () => collectAllDomainValues(config);
 
       config.y1 = {
-        metrics: [[[0], [1], [2], [3], [4]], [[0], [11], [2], [-13], [4]]]
+        metrics: [
+          [[0], [1], [2], [3], [4]],
+          [[0], [11], [2], [-13], [4]]
+        ]
       };
       config.y2 = {
-        metrics: [[[0], [-1], [-2], [-3], [4]], [[0], [15], [1001], [-2], [-13], [4]]]
+        metrics: [
+          [[0], [-1], [-2], [-3], [4]],
+          [[0], [15], [1001], [-2], [-13], [4]]
+        ]
       };
 
       expect(getNearestDataPointDomainForTimestamp(config, -1, true)).to.equal(-1);
@@ -81,7 +97,10 @@ describe('in-components/Chart/Chart', () => {
       };
       config.y2 = {
         labels: ['count', 'foobar'],
-        metrics: [[[-1], [2], [4]], [[3], [4], [42]]]
+        metrics: [
+          [[-1], [2], [4]],
+          [[3], [4], [42]]
+        ]
       };
 
       expect(collectAllDataPointsAtTime(config, -100000)).to.deep.equal({});

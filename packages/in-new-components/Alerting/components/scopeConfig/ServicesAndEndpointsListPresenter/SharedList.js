@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import React, { useMemo, useRef } from 'react';
 import { isEmpty } from 'lodash';
 

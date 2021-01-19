@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 import { createField, createMapForm, createListForm } from 'formalistic';
 import React from 'react';
 

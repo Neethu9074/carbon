@@ -1,3 +1,7 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
 /* eslint-env mocha */
 import { expect } from 'chai';
 
@@ -16,7 +20,12 @@ describe('arrayUtils', () => {
     it('should find objects', () => {
       expect(
         find(
-          [{ id: -1, value: 0 }, { id: -1, value: 1 }, { id: 123, value: 3 }, { id: 0, value: 2 }],
+          [
+            { id: -1, value: 0 },
+            { id: -1, value: 1 },
+            { id: 123, value: 3 },
+            { id: 0, value: 2 }
+          ],
           item => item.id === -1
         ).value
       ).to.be.equal(0);
@@ -25,7 +34,12 @@ describe('arrayUtils', () => {
     it('should return undefined if nothing is found', () => {
       expect(
         find(
-          [{ id: -1, value: 0 }, { id: -1, value: 1 }, { id: 123, value: 3 }, { id: 0, value: 2 }],
+          [
+            { id: -1, value: 0 },
+            { id: -1, value: 1 },
+            { id: 123, value: 3 },
+            { id: 0, value: 2 }
+          ],
           item => item.id === 'dontFindThis'
         )
       ).to.be.equal(undefined);
