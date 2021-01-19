@@ -24,7 +24,13 @@ function getLabel(result) {
   return get(result, ['data', 'label'], null);
 }
 
-export default function getJumpDirectlyToUA2Href$(ids, tagFilterExpression, boundaryScope, additionalParams) {
+export default function getJumpDirectlyToUA2Href$(
+  ids,
+  tagFilterExpression,
+  filters = [],
+  boundaryScope,
+  additionalParams
+) {
   return getLabels(ids).flatMap(({ applicationName, serviceName, endpointName }) => {
     const tagFilterExpressionUiModel = fromBackendModel(tagFilterExpression);
     const entityFilters = [];
@@ -47,7 +53,7 @@ export default function getJumpDirectlyToUA2Href$(ids, tagFilterExpression, boun
       dataSource: 'calls',
       ...additionalParams,
       tagFilterExpression: joinExpressions({
-        expressions: [...entityFilters, tagFilterExpressionUiModel]
+        expressions: [...entityFilters, ...filters, tagFilterExpressionUiModel]
       })
     });
   });

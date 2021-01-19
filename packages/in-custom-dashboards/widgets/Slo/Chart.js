@@ -4,6 +4,7 @@ import React from 'react';
 import stairway, { hourlyBudgetMetricId } from 'in-custom-dashboards/widgets/Slo/renderer/stairway';
 import { availabilityType, applicationType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import getJumpDirectlyToUA2Href$ from 'in-custom-dashboards/widgets/Slo/getJumpDirectlyToUA2Href';
+import { toNewTagFilterFormat } from 'in-new-components/QueryBuilder/transformation/tagFilter';
 import { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import { groupByEndpointName, groupByServiceName } from 'in-analyze/AnalyzeView/dataSources';
 import { EQUALS, GREATER_THAN } from 'in-new-components/QueryBuilder/tagFilter/operators';
@@ -88,10 +89,13 @@ function getLinkToUnboundAnalytics(sliConfig, tagCatalog, highlightedTime) {
   const boundaryScope = sliEntity.boundaryScope;
   if (isQB2ModeEnabled) {
     let tagFilterExpression;
-    if (sliEntity.sliType === 'availability') {
+    let filters;
+    if (sliEntity.sliType === availabilityType) {
       tagFilterExpression = sliEntity.badEventFilterExpression;
+      filters = [];
     } else {
       tagFilterExpression = emptyTagFilterExpression;
+      filters = getAnalyzeFilters(sliConfig);
     }
     return getJumpDirectlyToUA2Href$(
       {
@@ -100,6 +104,7 @@ function getLinkToUnboundAnalytics(sliConfig, tagCatalog, highlightedTime) {
         endpointId: sliEntity.endpointId
       },
       tagFilterExpression,
+      filters.map(f => toNewTagFilterFormat(f, tagCatalog)),
       boundaryScope,
       {
         timeConfig: highlightedTime,
