@@ -12,6 +12,7 @@ import { type as defaultType } from 'in-custom-dashboards/widgets/BigNumber';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
 import widgets, { enabledWidgets } from 'in-custom-dashboards/widgets';
 import { buildEnumValidator } from 'in-services/validators/enum';
+import { cancelEditWidget } from 'in-custom-dashboards/tracker';
 import { close } from 'in-components/DialogPresenter/store';
 import { generateUniqueShortId } from 'in-services/util/id';
 import { pendingResult } from 'in-services/fixedObjects';
@@ -74,6 +75,12 @@ export default function WidgetEditorDialog({ widget, onSubmit }) {
 
         onSubmit(form.toJS());
         close();
+      }}
+      onClose={() => {
+        close();
+        if (widget) {
+          cancelEditWidget(form.get('type').value);
+        }
       }}
       slideInView={slideInView}
       setSlideInView={setSlideInView}

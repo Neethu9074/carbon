@@ -10,7 +10,6 @@ import WidgetConfiguration from 'in-custom-dashboards/CustomDashboard/WidgetEdit
 import FormFooter, { SaveButton, CancelButton } from 'in-components/form/FormFooter/FormFooter';
 import DialogWithSlideInView from 'in-new-components/Dialog/DialogWithSlideInView';
 import { sizes as ICON_SIZES } from 'in-components/SvgIcon/SvgIcon';
-import { close } from 'in-components/DialogPresenter/store';
 import widgets from 'in-custom-dashboards/widgets';
 
 import locals from './WidgetEditorDialogPresenter.mless';
@@ -23,6 +22,7 @@ export default function WidgetEditorDialogPresenter({
   isEditing,
   onSubmit,
   onChange,
+  onClose,
   form,
   onChangeType,
   slideInView,
@@ -40,7 +40,7 @@ export default function WidgetEditorDialogPresenter({
     <DialogWithSlideInView
       titleIconType={isEditing ? 'lib_actions_edit' : 'lib_openclose_add_circle_outline'}
       title={title}
-      onClose={close}
+      onClose={onClose}
       doNotCloseOnOutsideClick
       className={locals.dialog}
       slideInViewVisible={slideInView?.visible}
@@ -54,8 +54,8 @@ export default function WidgetEditorDialogPresenter({
       footer={
         !isMigrating && (
           <FormFooter className={locals.controls} withRoundedBottomBorder>
-            {isEditing && <CancelButton onClick={close} />}
-            {!isEditing && showWidgetSelector && <CancelButton onClick={close} />}
+            {isEditing && <CancelButton onClick={onClose} />}
+            {!isEditing && showWidgetSelector && <CancelButton onClick={onClose} />}
             {!isEditing && !showWidgetSelector && (
               <CancelButton onClick={() => setShowWidgetSelector(true)}>Back</CancelButton>
             )}

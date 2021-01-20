@@ -11,6 +11,7 @@ import {
   CUSTOM_DASHBOARD_ADD_WIDGET_START,
   CUSTOM_DASHBOARD_ADD_WIDGET_FINISH,
   CUSTOM_DASHBOARD_EDIT_WIDGET_START,
+  CUSTOM_DASHBOARD_EDIT_WIDGET_CANCEL,
   CUSTOM_DASHBOARD_EDIT_WIDGET_FINISH
 } from 'in-services/tracking/tracking';
 
@@ -23,4 +24,5 @@ export const startAddWidget = () => track(CUSTOM_DASHBOARD_ADD_WIDGET_START);
 export const finishAddWidget = widgetType => track(CUSTOM_DASHBOARD_ADD_WIDGET_FINISH, { widgetType });
 
 export const startEditWidget = widgetType => track(CUSTOM_DASHBOARD_EDIT_WIDGET_START, { widgetType });
+export const cancelEditWidget = widgetType => track(CUSTOM_DASHBOARD_EDIT_WIDGET_CANCEL, { widgetType });
 export const finishEditWidget = widgetType => track(CUSTOM_DASHBOARD_EDIT_WIDGET_FINISH, { widgetType });
