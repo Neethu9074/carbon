@@ -16,6 +16,7 @@ const gulp = require('gulp');
 const path = require('path');
 const fs = require('fs');
 
+const { copyrightHeader } = require('../copyright/copyrightHeader.js');
 const webpackConfig = require('../../webpack.config.js');
 const commonJobs = require('./common');
 const buildUtil = require('./util');
@@ -98,22 +99,13 @@ function webpackBuild(cb) {
       sourceMap: true,
       terserOptions: {
         output: {
+          preamble: copyrightHeader,
           comments: false
         }
       },
       extractComments: false
     })
   ];
-
-  config.plugins = config.plugins.concat(
-    new webpack.DefinePlugin({
-      'process.env': {
-        // This has effect on the react lib size
-        NODE_ENV: JSON.stringify('production')
-      }
-    }),
-    new webpack.BannerPlugin(buildUtil.getBanner())
-  );
 
   webpack(config, (err, stats) => {
     if (err) {
