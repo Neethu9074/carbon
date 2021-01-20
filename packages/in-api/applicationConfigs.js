@@ -4,6 +4,8 @@
  */
 import { create } from '@instana/observables';
 
+import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
+import { fromBackendModel } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createObservable from 'in-services/http/observableHttpResult';
 import memoize from 'in-services/util/memoizingObservableGenerator';
@@ -97,15 +99,20 @@ export function createNewApplicationConfig() {
 }
 
 function mapToServerResponse(config) {
-  for (let i = 0; i < config.matchSpecification.length; i++) {
-    const matchSpecification = config.matchSpecification[i];
-    if (matchSpecification.secondLevelName) {
-      matchSpecification.key = `${matchSpecification.key}.${matchSpecification.secondLevelName}`;
+  if (config.matchSpecification) {
+    for (let i = 0; i < config.matchSpecification.length; i++) {
+      const matchSpecification = config.matchSpecification[i];
+      if (matchSpecification.secondLevelName) {
+        matchSpecification.key = `${matchSpecification.key}.${matchSpecification.secondLevelName}`;
+      }
+      delete matchSpecification.secondLevelName;
     }
-    delete matchSpecification.secondLevelName;
-  }
 
-  config.matchSpecification = mapMatchSpecificationListToTree(config.matchSpecification);
+    config.matchSpecification = mapMatchSpecificationListToTree(config.matchSpecification);
+  } else {
+    config.matchSpecification = null;
+    config.tagFilterExpression = toBackendQueryModel(config.tagFilterExpression, false);
+  }
   return config;
 }
 
@@ -130,6 +137,11 @@ function mapFromServerResponse(config) {
       matchSpecification.key = name;
     }
   }
+
+  if (config.data.tagFilterExpression) {
+    config.data.tagFilterExpression = fromBackendModel(config.data.tagFilterExpression);
+  }
+
   config.data.boundaryScope =
     (config.data.boundaryScope != 'DEFAULT' && config.data.boundaryScope) || boundaryScopes.inbound;
 

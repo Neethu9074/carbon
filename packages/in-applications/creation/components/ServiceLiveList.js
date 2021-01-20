@@ -9,10 +9,10 @@ import { LoadingIndicator } from 'in-new-components/LoadingIndicators';
 
 import locals from './ServiceLiveList.mless';
 
-export default function ServiceLiveList({ servicesLiveList, headerText, matchSpecification }) {
+export default function ServiceLiveList({ servicesLiveList, headerText }) {
   const isLoading = servicesLiveList?.progress && servicesLiveList.progress.loading;
 
-  if (matchSpecification.length === 0) {
+  if (!servicesLiveList?.data?.items) {
     return (
       <div className={locals.listContainer}>
         <div className={locals.listHeader}>

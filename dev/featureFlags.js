@@ -40,5 +40,6 @@ module.exports = {
   loggingEnabled: true,
   smartAlertsEntityGroupingEnabled: true,
   smartAlertsServicesAndEndpointsSelectionEnabled: false,
-  pieWidgetEnabled: true
+  pieWidgetEnabled: true,
+  qb2InAPCreationEnabled: true
 };

@@ -19,14 +19,17 @@ import {
   getSecondLevelKeySuggestions,
   getValueSuggestions
 } from 'in-analyze/AnalyzeView/components/AnalyzeEditTagFilterDialog';
+import CreateApplicationQueryBuilder from 'in-applications/creation/components/CreateApplicationQueryBuilder';
 import EditTagFilterDialog from 'in-analyze/components/EditTagFilterDialog/EditTagFilterDialog';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import BasicForm, { matchSpecificationValidator } from 'in-applications/Forms/BasicForm';
 import { getTagFilterListForBackendSubscription } from 'in-analyze/applicationFilter';
+import { isQB2ModeEnabled } from 'in-new-components/Alerting/components/WithQB1orQB2';
 import TagFilterList from 'in-analyze/AnalyzeView/components/TagFilterList';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { getApplicationCreationTagKeys } from 'in-applications/tags';
 import { applicationSubmitTracker } from 'in-applications/tracker';
+import { qb2InAPCreationEnabled } from 'in-services/featureFlags';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import DescriptionText from 'in-components/form/DescriptionText';
 import OptionBox from 'in-applications/components/OptionBox';
@@ -61,7 +64,7 @@ export default function CreateApplicationDialog({ timeConfig, applicationId, onC
             applicationSubmitTracker({
               name: applicationConfig.label,
               downstreamEnabled: applicationConfig.scope === 'INCLUDE_ALL_DOWNSTREAM',
-              tags: applicationConfig.matchSpecification.map(spec => spec.key)
+              tags: applicationConfig.matchSpecification?.map(spec => spec.key) || []
             });
             const isNewConfig = !applicationConfig.id ? true : false;
             if (isNewConfig) {
@@ -71,9 +74,9 @@ export default function CreateApplicationDialog({ timeConfig, applicationId, onC
           }}
           getInitialForm={getInitialForm}
           renderFormContent={(appConfig, form, setValue, updateForm) => {
-            const tagFiltersForSubscription = getTagFilterListForBackendSubscription(
-              form.get('matchSpecification').toJS()
-            );
+            const tagFiltersForSubscription =
+              (!isQB2ModeEnabled || !qb2InAPCreationEnabled) &&
+              getTagFilterListForBackendSubscription(form.get('matchSpecification').toJS());
             const filters = {
               timeConfig,
               tagFilter: tagFiltersForSubscription
@@ -137,102 +140,116 @@ export default function CreateApplicationDialog({ timeConfig, applicationId, onC
                             service from services matching this definition will automatically be included.
                             <br />
                             <br />
-                            <strong>AND operators take precedence and are evaluated before OR operators</strong>
+                            <strong>{`AND operators take precedence and are evaluated before OR operators${isQB2ModeEnabled &&
+                              qb2InAPCreationEnabled &&
+                              ' if not grouped in brackets'}`}</strong>
                           </DescriptionText>
+                          {isQB2ModeEnabled && qb2InAPCreationEnabled ? (
+                            <div className={locals.queryBuilder}>
+                              <CreateApplicationQueryBuilder
+                                value={form.get('tagFilterExpression')?.value || []}
+                                onChange={tagFilterExpression =>
+                                  setTagFilterExpression(tagFilterExpression, form, updateForm)
+                                }
+                              />
+                            </div>
+                          ) : (
+                            <>
+                              <div className={locals.addRuleButtonWrapper}>
+                                <Button
+                                  kind="action"
+                                  onClick={() =>
+                                    addActiveDialog(
+                                      <EditTagFilterDialog
+                                        tagFilters={filters.tagFilter}
+                                        timeConfig={filters.timeConfig}
+                                        tagSuggestions={getApplicationCreationTagKeys()}
+                                        getKeySuggestions={getSecondLevelKeySuggestions}
+                                        getValueSuggestions={getValueSuggestions}
+                                        addTagFilter={_tag => {
+                                          const additionalSubForm = getEnrichedMatchSpecificationForm({
+                                            key: _tag.name,
+                                            entity: _tag.entity,
+                                            secondLevelName: _tag.secondLevelName || '',
+                                            value: _tag.value || '',
+                                            operator: _tag.operator
+                                          });
+                                          updateForm(
+                                            form.updateIn(['matchSpecification'], list =>
+                                              list.push(additionalSubForm).setTouched(true)
+                                            )
+                                          );
+                                        }}
+                                        forAnalyzeCalls
+                                      />
+                                    )
+                                  }
+                                  icon="lib_openclose_add_circle_outline"
+                                >
+                                  Add Tag
+                                </Button>
+                              </div>
+                              <TagFilterList
+                                filterConnectionOperators={['OR', 'AND']}
+                                onOperatorChanged={(i, operator) => {
+                                  updateForm(
+                                    form.updateIn(['matchSpecification', i, 'conjunction'], field =>
+                                      field.setValue(operator).setTouched(true)
+                                    )
+                                  );
+                                }}
+                                tagFilters={form.get('matchSpecification').map((matchSpecification, i) => ({
+                                  tag: {
+                                    name: matchSpecification.get('key').value,
+                                    entity: matchSpecification.get('entity').value,
+                                    value: matchSpecification.get('value').value,
+                                    operator: matchSpecification.get('operator').value,
+                                    secondLevelName: matchSpecification.get('secondLevelName').value,
+                                    conjunction: matchSpecification.get('conjunction').value
+                                  },
+                                  onClick: () =>
+                                    addActiveDialog(
+                                      <EditTagFilterDialog
+                                        tagFilter={{
+                                          name: matchSpecification.get('key').value,
+                                          entity: matchSpecification.get('entity').value,
+                                          value: matchSpecification.get('value').value,
+                                          operator: matchSpecification.get('operator').value,
+                                          secondLevelName: matchSpecification.get('secondLevelName').value
+                                        }}
+                                        tagFilters={filters.tagFilter}
+                                        timeConfig={filters.timeConfig}
+                                        tagSuggestions={getApplicationCreationTagKeys()}
+                                        getKeySuggestions={getSecondLevelKeySuggestions}
+                                        getValueSuggestions={getValueSuggestions}
+                                        updateTagFilter={_tag => {
+                                          form = form.updateIn(['matchSpecification', i, 'value'], field =>
+                                            field.setValue(_tag.value || '').setTouched(true)
+                                          );
+                                          form = form.updateIn(['matchSpecification', i, 'key'], field =>
+                                            field.setValue(_tag.name).setTouched(true)
+                                          );
+                                          form = form.updateIn(['matchSpecification', i, 'entity'], field =>
+                                            field.setValue(_tag.entity).setTouched(true)
+                                          );
+                                          form = form.updateIn(['matchSpecification', i, 'operator'], field =>
+                                            field.setValue(_tag.operator).setTouched(true)
+                                          );
+                                          form = form.updateIn(['matchSpecification', i, 'secondLevelName'], field =>
+                                            field.setValue(_tag.secondLevelName).setTouched(true)
+                                          );
 
-                          <div className={locals.addRuleButtonWrapper}>
-                            <Button
-                              kind="action"
-                              onClick={() =>
-                                addActiveDialog(
-                                  <EditTagFilterDialog
-                                    tagFilters={filters.tagFilter}
-                                    timeConfig={filters.timeConfig}
-                                    tagSuggestions={getApplicationCreationTagKeys()}
-                                    getKeySuggestions={getSecondLevelKeySuggestions}
-                                    getValueSuggestions={getValueSuggestions}
-                                    addTagFilter={_tag => {
-                                      const additionalSubForm = getEnrichedMatchSpecificationForm({
-                                        key: _tag.name,
-                                        entity: _tag.entity,
-                                        secondLevelName: _tag.secondLevelName || '',
-                                        value: _tag.value || '',
-                                        operator: _tag.operator
-                                      });
-                                      updateForm(
-                                        form.updateIn(['matchSpecification'], list =>
-                                          list.push(additionalSubForm).setTouched(true)
-                                        )
-                                      );
-                                    }}
-                                    forAnalyzeCalls
-                                  />
-                                )
-                              }
-                              icon="lib_openclose_add_circle_outline"
-                            >
-                              Add Tag
-                            </Button>
-                          </div>
-                          <TagFilterList
-                            filterConnectionOperators={['OR', 'AND']}
-                            onOperatorChanged={(i, operator) => {
-                              updateForm(
-                                form.updateIn(['matchSpecification', i, 'conjunction'], field =>
-                                  field.setValue(operator).setTouched(true)
-                                )
-                              );
-                            }}
-                            tagFilters={form.get('matchSpecification').map((matchSpecification, i) => ({
-                              tag: {
-                                name: matchSpecification.get('key').value,
-                                entity: matchSpecification.get('entity').value,
-                                value: matchSpecification.get('value').value,
-                                operator: matchSpecification.get('operator').value,
-                                secondLevelName: matchSpecification.get('secondLevelName').value,
-                                conjunction: matchSpecification.get('conjunction').value
-                              },
-                              onClick: () =>
-                                addActiveDialog(
-                                  <EditTagFilterDialog
-                                    tagFilter={{
-                                      name: matchSpecification.get('key').value,
-                                      entity: matchSpecification.get('entity').value,
-                                      value: matchSpecification.get('value').value,
-                                      operator: matchSpecification.get('operator').value,
-                                      secondLevelName: matchSpecification.get('secondLevelName').value
-                                    }}
-                                    tagFilters={filters.tagFilter}
-                                    timeConfig={filters.timeConfig}
-                                    tagSuggestions={getApplicationCreationTagKeys()}
-                                    getKeySuggestions={getSecondLevelKeySuggestions}
-                                    getValueSuggestions={getValueSuggestions}
-                                    updateTagFilter={_tag => {
-                                      form = form.updateIn(['matchSpecification', i, 'value'], field =>
-                                        field.setValue(_tag.value || '').setTouched(true)
-                                      );
-                                      form = form.updateIn(['matchSpecification', i, 'key'], field =>
-                                        field.setValue(_tag.name).setTouched(true)
-                                      );
-                                      form = form.updateIn(['matchSpecification', i, 'entity'], field =>
-                                        field.setValue(_tag.entity).setTouched(true)
-                                      );
-                                      form = form.updateIn(['matchSpecification', i, 'operator'], field =>
-                                        field.setValue(_tag.operator).setTouched(true)
-                                      );
-                                      form = form.updateIn(['matchSpecification', i, 'secondLevelName'], field =>
-                                        field.setValue(_tag.secondLevelName).setTouched(true)
-                                      );
-
-                                      updateForm(form);
-                                    }}
-                                    removeTagFilter={() => removeMatchSpecification(i, form, updateForm)}
-                                    forAnalyzeCalls
-                                  />
-                                ),
-                              onRemove: () => removeMatchSpecification(i, form, updateForm)
-                            }))}
-                          />
+                                          updateForm(form);
+                                        }}
+                                        removeTagFilter={() => removeMatchSpecification(i, form, updateForm)}
+                                        forAnalyzeCalls
+                                      />
+                                    ),
+                                  onRemove: () => removeMatchSpecification(i, form, updateForm)
+                                }))}
+                              />
+                            </>
+                          )}
                         </Fragment>
                       )
                     },
@@ -305,7 +322,7 @@ function removeMatchSpecification(i, form, updateForm) {
 }
 
 function getInitialForm(application) {
-  return createMapForm()
+  const form = createMapForm()
     .put(
       'id',
       createField({
@@ -320,15 +337,6 @@ function getInitialForm(application) {
       })
     )
     .put(
-      'matchSpecification',
-      get(application, 'matchSpecification', []).reduce(
-        (form, matchSpecification) => form.push(getEnrichedMatchSpecificationForm(matchSpecification)),
-        createListForm({
-          validator: matchSpecificationValidator
-        })
-      )
-    )
-    .put(
       'scope',
       createField({
         value: application.scope
@@ -340,6 +348,26 @@ function getInitialForm(application) {
         value: application.boundaryScope
       })
     );
+
+  if (isQB2ModeEnabled && qb2InAPCreationEnabled) {
+    return form.put(
+      'tagFilterExpression',
+      createField({
+        value: application.tagFilterExpression ?? [],
+        validator: tagFilterExpression => tagFilterExpressionValidator(tagFilterExpression)
+      })
+    );
+  } else {
+    return form.put(
+      'matchSpecification',
+      get(application, 'matchSpecification', []).reduce(
+        (form, matchSpecification) => form.push(getEnrichedMatchSpecificationForm(matchSpecification)),
+        createListForm({
+          validator: matchSpecificationValidator
+        })
+      )
+    );
+  }
 }
 
 function getMatchSpecificationForm(matchSpecification = {}) {
@@ -407,4 +435,19 @@ function applicationLabelValidator(name) {
   }
 
   return null;
+}
+
+function setTagFilterExpression(tagFilterExpression, form, updateForm) {
+  updateForm(form.updateIn(['tagFilterExpression'], field => field.setValue(tagFilterExpression)));
+}
+
+function tagFilterExpressionValidator(tagFilterExpression) {
+  if (tagFilterExpression.length === 0) {
+    return [
+      {
+        severity: 'error',
+        message: 'The query is not valid.'
+      }
+    ];
+  }
 }

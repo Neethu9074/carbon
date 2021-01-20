@@ -4,10 +4,13 @@
  */
 import React from 'react';
 
+import CreateApplicationFilterExpression from 'in-applications/creation/components/CreateApplicationFilterExpression';
 import SimpleModeStepContentWrapper from 'in-new-components/BlueprintFormMultistep/SimpleModeStepContentWrapper';
 import CreateApplicationFilters from 'in-applications/creation/components/CreateApplicationFilters';
 import ApplicationScopeSelector from 'in-applications/creation/components/ApplicationScopeSelector';
+import { isQB2ModeEnabled } from 'in-new-components/Alerting/components/WithQB1orQB2';
 import ServiceLiveList from 'in-applications/creation/components/ServiceLiveList';
+import { qb2InAPCreationEnabled } from 'in-services/featureFlags';
 import Spacer from 'in-applications/Forms/components/Spacer';
 import Label from 'in-components/form/Label';
 
@@ -19,27 +22,35 @@ export default function SimpleCreateStep2({
   form,
   updateForm,
   servicesLiveList,
-  matchSpecification
+  blueprintCatalogResult,
+  isValidTagFilterExpression
 }) {
   return (
     <SimpleModeStepContentWrapper headline="Specify your Application Perspective">
       <div className={locals.filterWrapper}>
-        <CreateApplicationFilters
-          form={form}
-          curatedTagFilters={selectedBlueprint.curatedTagFilters}
-          timeConfig={timeConfig}
-          updateForm={updateForm}
-          selectedBlueprint={selectedBlueprint}
-        />
+        {isQB2ModeEnabled && qb2InAPCreationEnabled ? (
+          <CreateApplicationFilterExpression
+            blueprintCatalogResult={blueprintCatalogResult}
+            form={form}
+            selectedBlueprint={selectedBlueprint}
+            timeConfig={timeConfig}
+            updateForm={updateForm}
+            isValidTagFilterExpression={isValidTagFilterExpression}
+          />
+        ) : (
+          <CreateApplicationFilters
+            form={form}
+            curatedTagFilters={selectedBlueprint.curatedTagFilters}
+            timeConfig={timeConfig}
+            updateForm={updateForm}
+            selectedBlueprint={selectedBlueprint}
+          />
+        )}
         <Spacer type="dark" />
         <Label>Which downstream services would you like to include?</Label>
         <ApplicationScopeSelector form={form} updateForm={updateForm} selectedBlueprint={selectedBlueprint} />
       </div>
-      <ServiceLiveList
-        servicesLiveList={servicesLiveList}
-        headerText="Matched services in the last hour"
-        matchSpecification={matchSpecification}
-      />
+      <ServiceLiveList servicesLiveList={servicesLiveList} headerText="Matched services in the last hour" />
     </SimpleModeStepContentWrapper>
   );
 }

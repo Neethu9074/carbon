@@ -15,13 +15,7 @@ import Input from 'in-components/form/Input';
 
 import locals from './SimpleCreateStep2.mless';
 
-export default function SimpleCreateStep3({
-  form,
-  updateForm,
-  servicesLiveList,
-  matchSpecification,
-  selectedBlueprint
-}) {
+export default function SimpleCreateStep3({ form, updateForm, servicesLiveList, selectedBlueprint }) {
   const labelField = form.get('label');
 
   return (
@@ -48,12 +42,7 @@ export default function SimpleCreateStep3({
         <Label>Are you interested just in the calls to this application, or also the internal calls?</Label>
         <InboundAllCalls form={form} updateForm={updateForm} selectedBlueprint={selectedBlueprint} />
       </div>
-      <ServiceLiveList
-        servicesLiveList={servicesLiveList}
-        headerText="Matched services in the last hour"
-        descriptionText="Not impacted by settings in this step."
-        matchSpecification={matchSpecification}
-      />
+      <ServiceLiveList servicesLiveList={servicesLiveList} headerText="Matched services in the last hour" />
     </SimpleModeStepContentWrapper>
   );
 }

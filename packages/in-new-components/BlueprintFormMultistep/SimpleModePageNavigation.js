@@ -24,7 +24,8 @@ export default function SimpleModePageNavigation({
   renderStep,
   stepConfigs,
   onStepChanged,
-  isSaving
+  isSaving,
+  additionalStepCheck = () => true
 }) {
   const [step, setStep] = useState(0);
   const isCalculatingThreshold = useObservable(thresholdOrBaselineLoadingSignal$, []);
@@ -66,7 +67,10 @@ export default function SimpleModePageNavigation({
     }
   };
 
-  const isDisabled = (step === stepConfigs.length - 1 && !form.hierarchyValid) || isStepValid(step, stepConfigs, form);
+  const isDisabled =
+    (step === stepConfigs.length - 1 && !form.hierarchyValid) ||
+    isStepValid(step, stepConfigs, form) ||
+    !additionalStepCheck(step);
 
   return (
     <>
@@ -84,7 +88,7 @@ export default function SimpleModePageNavigation({
             kind="primary"
             className={locals.button}
             form={form}
-            disabled={isDisabled || isCalculatingThreshold}
+            disabled={(isDisabled || isCalculatingThreshold) && step !== 0}
             isSaving={isSaving}
           >
             {step === stepConfigs.length - 1 ? 'Create' : 'Next'}
@@ -110,7 +114,8 @@ SimpleModePageNavigation.propTypes = {
   ).isRequired,
   onStepChanged: PropTypes.func,
   isSaving: PropTypes.bool,
-  simpleModeStep: PropTypes.number
+  simpleModeStep: PropTypes.number,
+  additionalStepCheck: PropTypes.func
 };
 
 function mapTitles(stepConfigs) {

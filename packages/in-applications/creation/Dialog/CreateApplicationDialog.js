@@ -12,9 +12,12 @@ import {
 } from 'in-applications/creation/tracker';
 import CreateApplicationDialogPresenter from 'in-applications/creation/Dialog/CreateApplicationDialogPresenter';
 import { createApplicationPerspectiveForm } from 'in-applications/creation/form/createApplicationForm';
+import { isQueryValid } from 'in-applications/creation/components/CreateApplicationQueryBuilder';
 import AdvancedModeContainer from 'in-applications/creation/advanced/AdvancedModeContainer';
 import SimpleModeContainer from 'in-applications/creation/simple/SimpleModeContainer';
 import { addApplicationConfig } from 'in-api/applicationConfigs';
+import { pendingResult } from 'in-services/fixedObjects';
+import useObservable from 'in-hooks/useObservable';
 import { goToPath } from 'in-stores/navigation';
 
 const logger = createLogger('in-applications/creation/Dialog/CreateApplicationDialog');
@@ -23,6 +26,10 @@ export default function CreateApplicationDialog({ formData, timeConfig, onClose,
   const [form, setForm] = useState(() => createApplicationPerspectiveForm(formData));
   const [isSaving, setIsSaving] = useState(false);
   const [simpleMode, setSimpleMode] = useState(true);
+
+  const tagFilterExpression = form.get('tagFilterExpression')?.value;
+  const validTagFilterExpressionResult =
+    useObservable(isQueryValid, [tagFilterExpression, timeConfig]) ?? pendingResult;
 
   return (
     <CreateApplicationDialogPresenter
@@ -53,6 +60,7 @@ export default function CreateApplicationDialog({ formData, timeConfig, onClose,
         applicationCreationCloseDialogClick(trackingConfig ? { step: trackingConfig } : { mode: 'Advanced' });
         onClose();
       }}
+      isValidTagFilterExpression={validTagFilterExpressionResult?.data}
     />
   );
 }

@@ -5,7 +5,9 @@
 import { createField, createMapForm, createListForm, notBlankValidator } from 'formalistic';
 import { get } from 'lodash';
 
+import { isQB2ModeEnabled } from 'in-new-components/Alerting/components/WithQB1orQB2';
 import { matchSpecificationValidator } from 'in-applications/Forms/BasicForm';
+import { qb2InAPCreationEnabled } from 'in-services/featureFlags';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import { isBlank } from 'in-services/util/string';
 
@@ -14,7 +16,7 @@ export function removeMatchSpecification(i, form, updateForm) {
 }
 
 export function createApplicationPerspectiveForm(application) {
-  return createMapForm()
+  const form = createMapForm()
     .put(
       'id',
       createField({
@@ -29,15 +31,6 @@ export function createApplicationPerspectiveForm(application) {
       })
     )
     .put(
-      'matchSpecification',
-      get(application, 'matchSpecification', []).reduce(
-        (form, matchSpecification) => form.push(getEnrichedMatchSpecificationForm(matchSpecification)),
-        createListForm({
-          validator: matchSpecificationValidator
-        })
-      )
-    )
-    .put(
       'scope',
       createField({
         value: application.scope
@@ -49,6 +42,26 @@ export function createApplicationPerspectiveForm(application) {
         value: application.boundaryScope
       })
     );
+
+  if (isQB2ModeEnabled && qb2InAPCreationEnabled) {
+    return form.put(
+      'tagFilterExpression',
+      createField({
+        value: application.tagFilterExpression ?? [],
+        validator: tagFilterExpression => tagFilterExpressionValidator(tagFilterExpression)
+      })
+    );
+  } else {
+    return form.put(
+      'matchSpecification',
+      get(application, 'matchSpecification', []).reduce(
+        (form, matchSpecification) => form.push(getEnrichedMatchSpecificationForm(matchSpecification)),
+        createListForm({
+          validator: matchSpecificationValidator
+        })
+      )
+    );
+  }
 }
 
 function getMatchSpecificationForm(matchSpecification = {}) {
@@ -116,4 +129,15 @@ function applicationLabelValidator(name) {
   }
 
   return null;
+}
+
+function tagFilterExpressionValidator(tagFilterExpression) {
+  if (tagFilterExpression.length === 0) {
+    return [
+      {
+        severity: 'error',
+        message: 'The query is not valid.'
+      }
+    ];
+  }
 }

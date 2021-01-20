@@ -182,5 +182,10 @@ module.exports = exports = [
     uiClientKey: 'showUserSettingInternalTagsInUA',
     instanaCtlKey: 'feature.show.user.setting.internal.tags.in.ua',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'qb2InAPCreationEnabled',
+    instanaCtlKey: 'feature.qb2.ap.creation.enabled',
+    defaultValue: false
   }
 ];
