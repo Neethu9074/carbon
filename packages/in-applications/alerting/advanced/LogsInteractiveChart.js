@@ -19,7 +19,6 @@ import { alertConfigWithDefaultThreshold } from 'in-new-components/Alerting/util
 import ThresholdValueInput from 'in-new-components/Alerting/advanced/ThresholdValueInput';
 import { blueprintConfigPropType } from 'in-new-components/Alerting/constants';
 import { getMetricUnitPostfix } from 'in-applications/alerting/form/formUtils';
-import { isNotBlank } from 'in-services/util/string';
 import Label from 'in-components/form/Label';
 
 import locals from 'in-new-components/Alerting/shared-styles/InteractiveChart.mless';
@@ -83,8 +82,8 @@ export function ThresholdCondition({ form, onChange, updateForm, blueprintConfig
         form={form}
         updateForm={updateForm}
         trackChange={applicationsAlertingThresholdValueChanged}
+        metricUnitPostfix={metricUnitPostfix}
       />
-      {isNotBlank(metricUnitPostfix) && <Label htmlFor="thresholdValue">{metricUnitPostfix}</Label>}
       <UseSuggestedValueButton form={form} onChange={onChange} metricUnitPostfix={metricUnitPostfix} />
     </ThresholdConditionFormGroup>
   );

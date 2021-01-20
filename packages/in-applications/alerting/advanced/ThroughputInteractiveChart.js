@@ -28,7 +28,6 @@ import { getTrackingObject } from 'in-new-components/Alerting/trackingHelpers';
 import { getMetricUnitPostfix } from 'in-applications/alerting/form/formUtils';
 import createRuleForm from 'in-applications/alerting/form/ruleForm';
 import Dropdown from 'in-new-components/Alerting/Dropdown';
-import { isNotBlank } from 'in-services/util/string';
 import Label from 'in-components/form/Label';
 
 import locals from 'in-new-components/Alerting/shared-styles/InteractiveChart.mless';
@@ -144,8 +143,8 @@ function ThresholdCondition({ form, updateForm, onChange, blueprintConfig, editM
             form={form}
             updateForm={updateForm}
             trackChange={applicationsAlertingThresholdValueChanged}
+            metricUnitPostfix={metricUnitPostfix}
           />
-          {isNotBlank(metricUnitPostfix) && <Label htmlFor="thresholdValue">{metricUnitPostfix}</Label>}
           <UseSuggestedValueButton form={form} onChange={onChange} metricUnitPostfix={metricUnitPostfix} />
         </ThresholdConditionFormGroup>
       )}
