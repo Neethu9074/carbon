@@ -10,23 +10,11 @@
 const fs = require('fs');
 const os = require('os');
 const opn = require('opn');
-const util = require('util');
 const path = require('path');
 const clearModule = require('clear-module');
 const execSync = require('child_process').execSync;
 
 const paths = require('./paths');
-
-exports.getBanner = function getBanner() {
-  var year = new Date().getFullYear();
-
-  return util.format(
-    'instana ui-client v%s | (c) %s instana Inc. | commit %s',
-    exports.getVersion(),
-    year === 2014 ? 2014 : '2014 - ' + year,
-    exports.getRevision()
-  );
-};
 
 exports.getVersion = function getVersion() {
   return require('../../package.json').version;
