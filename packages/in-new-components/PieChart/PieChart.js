@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import React, { useMemo, useState } from 'react';
+import rpt from 'prop-types';
 
 import { enrichAxisWithColors } from 'in-components/Chart/strokeColors';
 import getElementDimensions from 'in-hoc/getElementDimensions';
@@ -13,11 +14,11 @@ import Tooltip from 'in-components/Tooltip';
 import locals from './PieChart.mless';
 
 const defaultChartHeight = 182;
-export default function PieChart({ config }) {
+export default function PieChart({ config, donutRadius }) {
   if (config.automaticallySize) {
-    return <PieChartWrapper {...config} />;
+    return <PieChartWrapper {...config} donutRadius={donutRadius} />;
   }
-  return <CustomSized {...config} />;
+  return <CustomSized {...config} donutRadius={donutRadius} />;
 }
 
 const CustomSized = getElementDimensions(function CustomSizedChart(props) {
@@ -28,14 +29,18 @@ const CustomSized = getElementDimensions(function CustomSizedChart(props) {
 const PieChartWrapper = props => {
   enrichAxisWithColors(props.y1);
   const {
-    y1: { metrics, formatter }
+    y1: { metrics, formatter },
+    donutRadius
   } = props;
   const [hiddenMetrics, setHiddenMetrics] = useState([]);
+  const sliceGap = donutRadius && metrics.length > 1 ? 0.002 : 0;
 
-  const sum = useMemo(
-    () => metrics.filter((_, i) => !hiddenMetrics.includes(i)).reduce((acc, m2) => acc + m2[0][1], 0),
-    [metrics, hiddenMetrics]
-  );
+  const sum =
+    useMemo(() => metrics.filter((_, i) => !hiddenMetrics.includes(i)).reduce((acc, m2) => acc + m2[0][1], 0), [
+      metrics,
+      hiddenMetrics
+    ]) +
+    metrics.length * sliceGap;
 
   const slices = useMemo(
     () =>
@@ -68,7 +73,7 @@ const PieChartWrapper = props => {
           {slices.map((slice, i) => {
             if (!slice) return null;
             // destructuring assignment sets the two variables at once
-            const [startX, startY] = getCoordinatesForSlice(renderedPercentage);
+            const [startX, startY] = getCoordinatesForSlice(renderedPercentage + sliceGap);
 
             // each slice starts where the last slice ended, so keep a cumulative percent
             renderedPercentage += slice.percentage;
@@ -90,6 +95,8 @@ const PieChartWrapper = props => {
               </Tooltip>
             );
           })}
+
+          {donutRadius && <circle cx="0" cy="0" r={donutRadius} fill="#fff" />}
         </svg>
       </div>
     </div>
@@ -101,3 +108,12 @@ function getCoordinatesForSlice(percentage) {
   const y = Math.sin(2 * Math.PI * percentage);
   return [x, y];
 }
+
+PieChart.propTypes = {
+  config: rpt.object.isRequired,
+  donutRadius: rpt.number
+};
+
+PieChart.defaultProps = {
+  donutRadius: 0.5
+};
