@@ -11,7 +11,7 @@ export function enrichAxisWithColors(axis, offset = 0) {
 
   const colors = theme.lib.colors.chart.strokeColors25;
 
-  axis.colors = axis.colors || [];
+  axis.colors = axis.colors?.slice() || [];
   axis.colors50 = [];
   axis.colors100 = [];
   for (let i = 0; i < (axis.labels?.length || 0); i++) {
