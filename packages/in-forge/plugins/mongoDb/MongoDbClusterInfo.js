@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
-import getMongoDbClusterForNode from 'in-subscription/mongoDb/getClusterForNode';
+import getMongoDbClusterForNode from 'in-subscription/mongoDb/getMongoDbClusterForNode';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import SnapshotLink from 'in-components/Link/SnapshotLink';
 import { timeConfig$ } from 'in-stores/time/config';
@@ -9,17 +9,17 @@ import { getSnapshot } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
-  props => {
-    const nodeSnapshotId = props.snapshot.get('id');
-    const data = props.snapshot.get('data');
+  props => ({
+    clusterSnapshot: timeConfig$
+      .flatMap(timeConfig => getMongoDbClusterForNode({ snapshotId: props.snapshotId, timeConfig }))
+      .flatMap(getSnapshot)
+  }),
 
-    return {
-      clusterSnapshotId: getClusterForNode(nodeSnapshotId).flatMap(getSnapshot),
-      data: data
-    };
-  },
+  function MongoDbClusterInfo({ clusterSnapshot, data }) {
+    if (!clusterSnapshot) {
+      return null;
+    }
 
-  function MongoDbClusterInfo({ clusterSnapshotId, data }) {
     return (
       <div>
         <Collapsible initiallyOpen={false}>
@@ -28,7 +28,7 @@ export default connectTo(
             <div>
               <DescriptionList>
                 <DescriptionItem title="Name">
-                  <SnapshotLink snapshotId={clusterSnapshotId}>{data.get('clusterName')}</SnapshotLink>
+                  <SnapshotLink snapshotId={clusterSnapshot.get('id')}>{data.get('clusterName')}</SnapshotLink>
                 </DescriptionItem>
                 <DescriptionItem title="Type">{data.get('clusterType')}</DescriptionItem>
                 <DescriptionItem title="Cloud Provider">{data.get('clusterProvider')}</DescriptionItem>
@@ -43,7 +43,3 @@ export default connectTo(
     );
   }
 );
-
-function getClusterForNode(snapshotId) {
-  return timeConfig$.flatMap(timeConfig => getMongoDbClusterForNode({ snapshotId, timeConfig }));
-}

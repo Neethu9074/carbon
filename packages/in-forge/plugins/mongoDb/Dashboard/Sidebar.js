@@ -43,7 +43,7 @@ export default function MongoDBSidebar({ snapshot }) {
         </Collapsible>
       ) : null}
 
-      {clusterName ? <MongoDbClusterInfo snapshot={snapshot} /> : null}
+      {clusterName ? <MongoDbClusterInfo snapshotId={snapshot.get('id')} data={data} /> : null}
 
       <ServiceInstancesList snapshot={snapshot} />
     </Fragment>
