@@ -55,7 +55,20 @@ const columnDefinitions = [
   {
     width: '2rem',
     getContent({ group, deleteItem, currentDeletingItemIds }) {
-      return <Delete itemName={group.name} doDelete={deleteItem} isDeleting={currentDeletingItemIds.has(group.id)} />;
+      return (
+        <Delete
+          itemName={group.name}
+          doDelete={deleteItem}
+          isDeleting={currentDeletingItemIds.has(group.id)}
+          dialogMessage={() => {
+            return (
+              <span>
+                Are you sure you want to delete this user from the <strong>{group.name}</strong> group?
+              </span>
+            );
+          }}
+        />
+      );
     }
   }
 ];
