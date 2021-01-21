@@ -175,7 +175,7 @@ export default class Config {
 
     const colors = theme.lib.colors.chart.strokeColors25;
 
-    axis.colors = axis.colors || [];
+    axis.colors = axis.colors?.slice() || [];
     axis.colors50 = [];
     axis.colors100 = [];
     for (let i = 0; i < axis.numOfSeries; i++) {
