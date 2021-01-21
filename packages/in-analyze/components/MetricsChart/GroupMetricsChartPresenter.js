@@ -65,6 +65,7 @@ export default function GroupMetricsChartPresenter({
     if (!metricIds) {
       metricIds = result.data.items.map(item => item.name);
     }
+    chartConfig.y1.metricIds = metricIds;
 
     chartConfig.timeConfig = getResolvedTimeConfig(timeConfig, result);
     chartConfig.y1.labels = metricIds.map(getLabel);
