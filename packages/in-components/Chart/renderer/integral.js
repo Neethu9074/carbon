@@ -8,6 +8,7 @@ let layerBufferCtx;
 import { calculateMetricMap } from 'in-components/Chart/renderer/utils';
 import { updateCanvasDimensions } from 'in-components/Chart/canvas';
 import { createCanvas } from 'in-components/Chart/canvasHelper';
+import { copyCanvasInto } from 'in-components/Chart/canvas';
 
 export default {
   render: ({ metrics, colors, colors100, scale, config, axis }) => {
@@ -34,7 +35,8 @@ export default {
     const heightSrc = Math.round(config.height * dpr);
     const widthDest = Math.round(config.backBufferWidth);
     const heightDest = Math.round(config.height);
-    config.backBufferCtx.drawImage(layerBuffer, 0, 0, widthSrc, heightSrc, 0, 0, widthDest, heightDest);
+
+    copyCanvasInto(layerBuffer, config.backBufferCtx, 0, 0, widthSrc, heightSrc, 0, 0, widthDest, heightDest);
   },
 
   enrich: (config, axis) => {
