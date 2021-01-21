@@ -4,10 +4,13 @@
  */
 import {
   track,
+  SLI_WIDGET_JUMP_TO_UNBOUNDED_ANALYTICS,
   SLI_WIDGET_START_EDITING,
   SLI_WIDGET_AP_CHANGED,
   SLI_WIDGET_SLI_CHANGED,
+  SLI_WIDGET_SLO_CHANGED,
   SLI_WIDGET_OPEN_SLI_MANAGEMENT,
+  SLI_WIDGET_TIME_WINDOW_TYPE_CHANGED,
   SLI_MANAGEMENT_CREATE,
   SLI_MANAGEMENT_VIEW,
   SLI_MANAGEMENT_DELETED,
@@ -16,9 +19,13 @@ import {
   SLI_MANAGEMENT_EDIT_ABORT
 } from 'in-services/tracking/tracking';
 
-export const trackStartEditingForm = e => track(SLI_WIDGET_START_EDITING, e);
+export const trackJumpToUnboundedAnalyticsFromSloWidget = e => track(SLI_WIDGET_JUMP_TO_UNBOUNDED_ANALYTICS, e);
+
+export const trackStartEditingSloWidgetConfig = e => track(SLI_WIDGET_START_EDITING, e);
 export const trackAPSelected = e => track(SLI_WIDGET_AP_CHANGED, e);
 export const trackSliChanged = e => track(SLI_WIDGET_SLI_CHANGED, e);
+export const trackSloChanged = e => track(SLI_WIDGET_SLO_CHANGED, e);
+export const trackTimeWindowTypeChanged = e => track(SLI_WIDGET_TIME_WINDOW_TYPE_CHANGED, e);
 
 export const trackOpenSLIManagement = e => track(SLI_WIDGET_OPEN_SLI_MANAGEMENT, e);
 export const trackSliCreate = e => track(SLI_MANAGEMENT_CREATE, e);

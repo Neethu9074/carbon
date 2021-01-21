@@ -20,9 +20,15 @@ import {
   rolling,
   sliConfigId
 } from 'in-custom-dashboards/widgets/Slo/form';
+import {
+  trackAPSelected,
+  trackOpenSLIManagement,
+  trackSloChanged,
+  trackStartEditingSloWidgetConfig,
+  trackTimeWindowTypeChanged
+} from 'in-custom-dashboards/widgets/Slo/tracker';
 import { OverridingTextTouchedMessage } from 'in-custom-dashboards/widgets/Slo/components/OverridingTextTouchedMessage';
 import formatInputTime from 'in-new-components/time/TimeSelectionDialogPresenter/timeInputFormatter';
-import { trackOpenSLIManagement, trackAPSelected } from 'in-custom-dashboards/widgets/Slo/tracker';
 import PercentageFormInput from 'in-custom-dashboards/widgets/Slo/components/PercentageFormInput';
 import SliSelectionForm from 'in-custom-dashboards/widgets/Slo/components/SliSelectionForm';
 import APConfigSelector from 'in-custom-dashboards/widgets/Slo/components/APConfigForm';
@@ -44,7 +50,15 @@ import Button from 'in-new-components/Button';
 
 import locals from './FormComponent.mless';
 
-export default function FormComponent({ form, onChange, setSlideInView }) {
+export default function FormComponent({ form, onChange: originalOnChange, setSlideInView }) {
+  const [configChanged, setConfigChanged] = useState();
+  const onChange = (path, onField) => {
+    if (!configChanged) {
+      trackStartEditingSloWidgetConfig();
+      setConfigChanged(true);
+    }
+    return originalOnChange(path, onField);
+  };
   const [apConfig, setApConfig] = useState();
   const apConfigs = useObservable(getApplicationConfigObservable, []);
 
@@ -76,6 +90,7 @@ export default function FormComponent({ form, onChange, setSlideInView }) {
       }
       return updatedForm.updateIn([timeWindowType], f => f.setValue(value).setTouched(true));
     });
+    trackTimeWindowTypeChanged({ type: value });
   };
 
   const timeWindowDurationUnitValue = form.get(timeWindowDurationUnit)?.value ?? 'weeks';
@@ -168,7 +183,13 @@ export default function FormComponent({ form, onChange, setSlideInView }) {
         <Sections>
           {form.get(sloTarget).map(field => (
             <Section title="SLO Target" titleHtmlFor={sloTarget} hasError={!field.valid && field.touched}>
-              <PercentageFormInput form={form} id={sloTarget} fieldName={sloTarget} onChange={onChange} />
+              <PercentageFormInput
+                form={form}
+                id={sloTarget}
+                fieldName={sloTarget}
+                onChange={onChange}
+                trackChange={value => trackSloChanged({ value })}
+              />
               <span className={locals.sloUnit}>%</span>
               <OverridingTextTouchedMessage
                 field={form.get(sloTarget)}

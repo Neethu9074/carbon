@@ -5,6 +5,7 @@
 import theme from 'in-themes';
 import React from 'react';
 
+import { trackJumpToUnboundedAnalyticsFromSloWidget } from 'in-custom-dashboards/widgets/Slo/tracker';
 import stairway, { hourlyBudgetMetricId } from 'in-custom-dashboards/widgets/Slo/renderer/stairway';
 import { availabilityType, applicationType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import getJumpDirectlyToUA2Href$ from 'in-custom-dashboards/widgets/Slo/getJumpDirectlyToUA2Href';
@@ -74,6 +75,8 @@ function getCustomAnalyzeContextMenuProperties(sliConfig, disableZooming, tagCat
     return {}; // use defaults
   }
 
+  const { sliEntity } = sliConfig;
+
   return {
     primaryContextMenuAction: 'analyze',
     excludedContextMenuActions: disableZooming ? ['zoomIn'] : [],
@@ -82,6 +85,16 @@ function getCustomAnalyzeContextMenuProperties(sliConfig, disableZooming, tagCat
         name: 'analyze',
         icon: 'lib_analyze',
         label: 'View in Analyze',
+        allowClickPropagationAndDefault: true,
+        onClick() {
+          trackJumpToUnboundedAnalyticsFromSloWidget({
+            sliType: sliEntity.sliType,
+            applicationId: sliEntity.applicationId,
+            serviceId: sliEntity.serviceId,
+            endpointId: sliEntity.endpointId,
+            boundaryScope: sliEntity.boundaryScope
+          });
+        },
         getHref$: highlightedTime => getLinkToUnboundAnalytics(sliConfig, tagCatalog, highlightedTime)
       }
     ]

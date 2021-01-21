@@ -278,9 +278,12 @@ export const POTENTIAL_PROBLEMS_SELECTED = 'potential.problems.selected';
 export const POTENTIAL_PROBLEMS_DIALOG_CLOSED = 'potential.problems.dialog.closed';
 
 // SLI Widget and SLI Management
+export const SLI_WIDGET_JUMP_TO_UNBOUNDED_ANALYTICS = 'sli.widget.chart.jumpToUA';
 export const SLI_WIDGET_START_EDITING = 'sli.widget.editStart';
 export const SLI_WIDGET_AP_CHANGED = 'sli.widget.apChanged';
 export const SLI_WIDGET_SLI_CHANGED = 'sli.widget.sliChanged';
+export const SLI_WIDGET_SLO_CHANGED = 'sli.widget.sloChanged';
+export const SLI_WIDGET_TIME_WINDOW_TYPE_CHANGED = 'sli.widget.timeWindowChanged';
 export const SLI_WIDGET_OPEN_SLI_MANAGEMENT = 'sli.widget.openSliManagement';
 export const SLI_MANAGEMENT_CREATE = 'sli.management.create';
 export const SLI_MANAGEMENT_VIEW = 'sli.management.view';

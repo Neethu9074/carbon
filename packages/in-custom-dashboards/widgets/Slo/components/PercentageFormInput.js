@@ -6,7 +6,7 @@ import React from 'react';
 
 import Input from 'in-components/form/Input';
 
-export default function PercentageFormInput({ id, form, fieldName, onChange }) {
+export default function PercentageFormInput({ id, form, fieldName, onChange, trackChange }) {
   const field = form.get(fieldName);
   const value = field?.value;
   return (
@@ -20,6 +20,7 @@ export default function PercentageFormInput({ id, form, fieldName, onChange }) {
           newValue = parseFloat((e.target.valueAsNumber / 100).toPrecision(6));
         }
         onChange([fieldName], field => field.setValue(newValue).setTouched(true));
+        trackChange?.(newValue);
       }}
       hasError={!field?.valid && field?.touched}
       min={0}

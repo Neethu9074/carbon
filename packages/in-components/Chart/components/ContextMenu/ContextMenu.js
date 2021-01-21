@@ -59,7 +59,9 @@ export default class extends React.Component {
         if (config.onClick) {
           const originalOnClick = config.onClick;
           config.onClick = e => {
-            stopPropagationAndPreventDefault(e);
+            if (!config.allowClickPropagationAndDefault) {
+              stopPropagationAndPreventDefault(e);
+            }
             setShowContextMenu(false);
             if (originalOnClick) {
               originalOnClick(this.getStrippedConfig());
