@@ -95,7 +95,7 @@ function SparkChartReactComponent(props) {
 function AggregationSymbol({ aggregation }) {
   if (aggregation.startsWith('P')) {
     return (
-      <Tooltip content={aggregation}>
+      <Tooltip content={aggregation} align="mousePosition">
         <small className={locals.percentile}>
           {aggregation.substring(1)}
           <sup>th</sup>
@@ -105,13 +105,13 @@ function AggregationSymbol({ aggregation }) {
   }
   if (aggregation === 'MEAN' || aggregation === 'SUM') {
     return (
-      <Tooltip content={aggregation.toLowerCase()}>
+      <Tooltip content={aggregation.toLowerCase()} align="mousePosition">
         <SvgIcon className={locals.aggregationIcon} type={aggregation === 'SUM' ? 'lib_sum' : 'lib_mean'} size="xxs" />
       </Tooltip>
     );
   }
   return (
-    <Tooltip content={aggregation}>
+    <Tooltip content={aggregation} align="mousePosition">
       <small className={locals.percentile}>{aggregation.toLowerCase()}</small>
     </Tooltip>
   );

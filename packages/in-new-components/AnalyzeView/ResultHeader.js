@@ -36,12 +36,19 @@ export default function ResultHeader({
       ) : (
         <>
           <span className={locals.number}>{formatCounter(totalRepresentedItemCount, itemName)}</span>
-          {containsHistoricData && <TimeIcon theme="light" containsHistoricData retention={retention} />}
+          {containsHistoricData && (
+            <TimeIcon
+              theme="light"
+              tooltipTheme="dark"
+              tooltipAlign="rightMiddle"
+              containsHistoricData
+              retention={retention}
+            />
+          )}
           {adjustedWindowSize && (
             <Tooltip
               content="The query time range has been rounded up to nearest full minute to allow this view to load more quickly."
-              align="leftMiddle"
-              themeStyle="light"
+              align="rightMiddle"
             >
               <SvgIcon className={locals.adjustmentIcon} type="lib_approximately_equal" />
             </Tooltip>

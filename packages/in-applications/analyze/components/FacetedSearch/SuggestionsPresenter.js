@@ -69,7 +69,7 @@ function Results({ suggestions, tag, updateFilter, dataSource }) {
         .slice(0, showMore ? showMore : undefined)
         .map((suggestion, i) => (
           <div key={i} className={locals.suggestion}>
-            <Tooltip content={suggestion.label}>
+            <Tooltip content={suggestion.label} align="rightMiddle">
               <Link
                 onClick={() =>
                   updateFilter({

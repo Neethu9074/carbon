@@ -17,7 +17,16 @@ export const historicDataMessage = retention =>
 export const LARGE_DATA_MESSAGE =
   'You are viewing approximate data due to a large data set. Please reduce the time range for precise data.';
 
-export default function TimeIcon({ selected, containsHistoricData, retention, largeData, theme = 'dark', className }) {
+export default function TimeIcon({
+  selected,
+  containsHistoricData,
+  retention,
+  largeData,
+  theme = 'dark',
+  tooltipTheme = 'light',
+  tooltipAlign = 'leftMiddle',
+  className
+}) {
   const content = (
     <div
       className={classNames({
@@ -43,8 +52,8 @@ export default function TimeIcon({ selected, containsHistoricData, retention, la
   if (containsHistoricData) {
     return (
       <Tooltip
-        themeStyle="light"
-        align="leftMiddle"
+        themeStyle={tooltipTheme}
+        align={tooltipAlign}
         content={<TooltipContent message={historicDataMessage(retention)} />}
       >
         {content}
@@ -54,7 +63,7 @@ export default function TimeIcon({ selected, containsHistoricData, retention, la
 
   if (largeData) {
     return (
-      <Tooltip themeStyle="light" align="leftMiddle" content={<TooltipContent message={LARGE_DATA_MESSAGE} />}>
+      <Tooltip themeStyle={tooltipTheme} align={tooltipAlign} content={<TooltipContent message={LARGE_DATA_MESSAGE} />}>
         {content}
       </Tooltip>
     );
