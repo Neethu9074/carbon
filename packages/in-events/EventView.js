@@ -198,7 +198,7 @@ function getExplicitEventFilter(eventFilter) {
     // If no eventFilter is set, this means "All" events selected but should filter Monitoring Events
     return `!event.type:agent_monitoring_issue`;
   } else if (eventFilter === 'change') {
-    return 'event.type:change OR event.type:offline OR (event.type:online)';
+    return 'event.type:changeAndPresence';
   } else {
     return `event.type:${eventFilter}`;
   }
