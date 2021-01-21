@@ -13,7 +13,9 @@ import locals from './ProfileFlameGraph.mless';
 export default function ProfileFlameGraphWrapper(props) {
   const { query, width = 0 } = props;
   const [query$] = useState(create());
-  useEffect(() => query$.emit(query), [query, query$]);
+  useEffect(() => {
+    query$.emit(query);
+  }, [query, query$]);
 
   return <ProfileFlameGraph {...props} query$={query$} width={width} />;
 }
