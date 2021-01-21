@@ -44,7 +44,8 @@ export default function SimpleModeContainer({
   form,
   updateForm,
   onCreate,
-  isValidTagFilterExpression
+  isValidTagFilterExpression,
+  errorMessage
 }) {
   const [selectedBlueprint, setSelectedBlueprint] = useState(blueprintConfig[0]);
   const servicesLiveList = useObservable(getStreamData, [form, isValidTagFilterExpression]);
@@ -101,6 +102,7 @@ export default function SimpleModeContainer({
                 form={form}
                 updateForm={updateForm}
                 servicesLiveList={servicesLiveList}
+                errorMessage={errorMessage}
               />
             );
         }

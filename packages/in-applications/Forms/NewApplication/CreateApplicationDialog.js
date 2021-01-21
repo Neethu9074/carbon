@@ -72,6 +72,13 @@ export default function CreateApplicationDialog({ timeConfig, applicationId, onC
             }
             return updateApplicationConfig(applicationConfig);
           }}
+          updateFormOnSubmit={form => {
+            const labelField = form.get('label');
+            if (labelField && labelField.touched) {
+              return form.updateIn(['label'], field => field.setValue(labelField.value.trim()));
+            }
+            return form;
+          }}
           getInitialForm={getInitialForm}
           renderFormContent={(appConfig, form, setValue, updateForm) => {
             const tagFiltersForSubscription =

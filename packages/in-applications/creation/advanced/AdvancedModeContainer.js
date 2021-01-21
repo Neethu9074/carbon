@@ -27,7 +27,9 @@ import DescriptionText from 'in-components/form/DescriptionText';
 import Spacer from 'in-applications/Forms/components/Spacer';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import { getColor } from 'in-applications/endpointTypes';
+import { error } from 'in-new-components/Message/types';
 import FormGroup from 'in-components/form/FormGroup';
+import Message from 'in-new-components/Message';
 import Button from 'in-new-components/Button';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
@@ -42,7 +44,8 @@ export default function AdvancedModeContainer({
   onClose,
   onCreate,
   isSaving,
-  isValidTagFilterExpression
+  isValidTagFilterExpression,
+  errorMessage
 }) {
   const labelField = form.get('label');
 
@@ -74,10 +77,15 @@ export default function AdvancedModeContainer({
               updateForm(form.updateIn(['label'], field => field.setValue(e.target.value || '').setTouched(true)))
             }
             autoComplete="off"
-            hasError={!labelField.valid && labelField.touched}
+            hasError={(!labelField.valid || errorMessage) && labelField.touched}
             autoFocus
           />
           <TouchedMessages field={labelField} />
+          {errorMessage && (
+            <Message className={locals.errorMessage} type={error} withIcon small>
+              {errorMessage}
+            </Message>
+          )}
 
           <DescriptionText className={locals.descriptionText}>
             {`Application Perspective names should have a well established definition within an organization. For example,

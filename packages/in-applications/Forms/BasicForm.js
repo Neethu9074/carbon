@@ -42,6 +42,10 @@ class BasicForm extends React.Component {
   onSubmit = (e, form) => {
     e.preventDefault();
 
+    if (this.props.updateFormOnSubmit) {
+      form = this.props.updateFormOnSubmit(form);
+    }
+
     if (!form.hierarchyValid) {
       this.props.updateForm(form.setTouched(true, { recurse: true }));
       return;
@@ -87,7 +91,7 @@ class BasicForm extends React.Component {
       savingStateName = 'Saving…',
       saveButtonLabel = 'Save'
     } = this.props;
-    const updateForm = form => this.props.updateForm(form.setTouched(true, { recurse: true }));
+    const updateForm = form => this.props.updateForm(form.setTouched(true, { recurse: false }));
     const { saving, error, success } = this.state;
 
     const isLoading = entityResult.progress.loading;

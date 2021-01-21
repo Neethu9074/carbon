@@ -26,6 +26,7 @@ export default function CreateApplicationDialog({ formData, timeConfig, onClose,
   const [form, setForm] = useState(() => createApplicationPerspectiveForm(formData));
   const [isSaving, setIsSaving] = useState(false);
   const [simpleMode, setSimpleMode] = useState(true);
+  const [errorMessage, setErrorMessage] = useState(null);
 
   const tagFilterExpression = form.get('tagFilterExpression')?.value;
   const validTagFilterExpressionResult =
@@ -40,7 +41,16 @@ export default function CreateApplicationDialog({ formData, timeConfig, onClose,
       timeConfig={timeConfig}
       onClose={onClose}
       onCreate={() =>
-        createApplication(form, getOnSavePath, setForm, isSaving, setIsSaving, applicationCreationCreateClick, onClose)
+        createApplication(
+          form,
+          getOnSavePath,
+          setForm,
+          isSaving,
+          setIsSaving,
+          applicationCreationCreateClick,
+          onClose,
+          setErrorMessage
+        )
       }
       simpleMode={simpleMode}
       setSimpleMode={setSimpleMode}
@@ -61,6 +71,7 @@ export default function CreateApplicationDialog({ formData, timeConfig, onClose,
         onClose();
       }}
       isValidTagFilterExpression={validTagFilterExpressionResult?.data}
+      errorMessage={errorMessage}
     />
   );
 }
@@ -72,9 +83,11 @@ function createApplication(
   isSaving,
   setIsSaving,
   applicationCreationCreateClick,
-  onClose
+  onClose,
+  setErrorMessage
 ) {
   setIsSaving(true);
+  setErrorMessage(null);
 
   if (!form.hierarchyValid) {
     setForm(form.setTouched(true, { recurse: true }));
@@ -93,6 +106,7 @@ function createApplication(
     error => {
       logger.error(`failed to create AP: ${error.message}`, error);
       setIsSaving(false);
+      setErrorMessage(error.message);
     }
   );
 }

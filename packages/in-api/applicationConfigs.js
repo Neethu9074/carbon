@@ -62,6 +62,7 @@ export function getApplicationConfig(id) {
 }
 
 export function addApplicationConfig(config) {
+  config.label = config.label.trim();
   return http({
     method: 'POST',
     url: `${basePath}`,
