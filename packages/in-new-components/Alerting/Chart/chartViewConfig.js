@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import PropTypes from 'prop-types';
+import { t } from 'in-i18n';
 
 import { propTypeTimeConfig } from 'in-stores/time/config';
 import { hours } from 'in-services/time';
@@ -22,14 +23,14 @@ export const chartViewConfigPropType = PropTypes.shape({
  */
 export const chartViewConfigs = Object.freeze([
   {
-    label: 'Last 24 hours',
+    label: t('in-new-components:alerting.chart.chartViewConfigsLast24Hours'),
     timeConfig: {
       windowSize: hours.toMillis(24)
     },
     minChartMetricGranularity: 0
   },
   {
-    label: 'Last 7 days',
+    label: t('in-new-components:alerting.chart.chartViewConfigsLast7Days'),
     timeConfig: {
       windowSize: hours.toMillis(7 * 24)
     },

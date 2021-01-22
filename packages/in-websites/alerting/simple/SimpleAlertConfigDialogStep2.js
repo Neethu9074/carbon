@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import SimpleModeStepContentWrapper from 'in-new-components/BlueprintFormMultistep/SimpleModeStepContentWrapper';
@@ -19,7 +20,7 @@ export default function SimpleAlertConfigDialogStep2({
   selectedChartViewConfigIndex
 }) {
   return (
-    <SimpleModeStepContentWrapper headline="Where do you want the alert to trigger?">
+    <SimpleModeStepContentWrapper headline={t('in-websites:alerting.simple.simpleAlertConfigDialogStep2Headline')}>
       <div className={locals.alertLocationFiltersWrapper}>
         <AlertLocationFilters form={form} websiteLabel={websiteLabel} timeConfig={timeConfig} updateForm={updateForm} />
       </div>

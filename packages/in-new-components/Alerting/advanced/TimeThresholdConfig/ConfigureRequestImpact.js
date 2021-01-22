@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import PropTypes from 'prop-types';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import AlertThresholdConfigItemContainer from 'in-new-components/Alerting/advanced/TimeThresholdConfig/AlertThresholdConfigItemContainer';
@@ -19,12 +20,14 @@ export default function ConfigureRequestImpact({ form, onChange }) {
   return (
     <>
       <AlertThresholdConfigItemContainer iconType="lib_application_boundary_inbound_calls" noIcon>
-        <div>Number of Requests Threshold</div>
+        <div>{t('in-new-components:alerting.advanced.timeThresholdConfigNumberOfRequestsThreshold')}</div>
         <div className={locals.configureImpactControlsWrapper}>
-          <div className={locals.operatorLabel}>At least</div>
+          <div className={locals.operatorLabel}>
+            {t('in-new-components:alerting.advanced.timeThresholdConfigAtLeast')}
+          </div>
           <div>
             <FormGroup className={locals.formGroup} withoutBottomMargin>
-              <Label># of Requests</Label>
+              <Label>{t('in-new-components:alerting.advanced.timeThresholdConfigNumberOfRequests')}</Label>
               {timeThresholdForm.get('requests').map(({ value }) => (
                 <Input
                   className={locals.input}

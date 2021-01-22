@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import BasicWrapper from 'in-new-components/Errors/BasicWrapper';
@@ -11,7 +12,7 @@ import locals from 'in-new-components/Alerting/components/channels/NoChannelSele
 
 export default function NoChannelSelected({
   height = 80, // default height of an empty row with icon
-  text = 'Currently, you have not selected an alert channel and will not receive any alerts.'
+  text = t('in-new-components:alerting.components.noChannelSelectedText')
 }) {
   return (
     <BasicWrapper

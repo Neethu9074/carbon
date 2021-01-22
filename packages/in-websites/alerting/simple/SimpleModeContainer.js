@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import SimpleAlertConfigDialogStep3 from 'in-new-components/Alerting/simple/SimpleAlertConfigDialogStep3';
@@ -12,14 +13,14 @@ import { websitesAlertingStepSwitch } from 'in-websites/alerting/tracker';
 
 const stepConfigs = [
   {
-    title: 'Step 1: Select Alert',
+    title: t('in-websites:alerting.simple.stepConfigsStep1Title'),
     validateIntermediately: [['rule', 'value']]
   },
   {
-    title: 'Step 2: Select Scope'
+    title: t('in-websites:alerting.simple.stepConfigsStep2Title')
   },
   {
-    title: 'Step 3: Select Alerting Channels',
+    title: t('in-websites:alerting.simple.stepConfigsStep3Title'),
     validateIntermediately: [['alertChannelIds']]
   }
 ];

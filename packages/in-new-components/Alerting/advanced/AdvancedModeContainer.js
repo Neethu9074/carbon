@@ -5,6 +5,7 @@
 import React, { Fragment } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
+import { t } from 'in-i18n';
 
 import FormFooter, { SaveButton, CancelButton } from 'in-components/form/FormFooter/FormFooter';
 import ScrollStep from 'in-new-components/Alerting/advanced/ScrollStep';
@@ -42,7 +43,9 @@ export default function AdvancedModeContainer({ form, onClose, onCreate, editMod
       <FormFooter className={locals.controls}>
         <CancelButton onClick={() => onClose()} />
         <SaveButton onClick={() => onCreate()} isSaving={isSaving} form={form}>
-          {editMode ? 'Save' : 'Create'}
+          {editMode
+            ? t('in-new-components:alerting.advanced.buttonSave')
+            : t('in-new-components:alerting.advanced.buttonCreate')}
         </SaveButton>
       </FormFooter>
     </nav>

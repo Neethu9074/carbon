@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import PropTypes from 'prop-types';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import {
@@ -148,7 +149,7 @@ function ThresholdCondition({ form, updateForm, onChange, blueprintConfig }) {
         />
       </ThresholdConditionFormGroup>
       {thresholdType === 'staticThreshold' && (
-        <ThresholdConditionFormGroup iconType="lib_threshold" label="Threshold Value">
+        <ThresholdConditionFormGroup iconType="lib_threshold" label={t('in-websites:alerting.advanced.thresholdValue')}>
           <ThresholdValueInput
             max={maxValue}
             form={form}

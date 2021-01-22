@@ -4,6 +4,7 @@
  */
 import PropTypes from 'prop-types';
 import theme from 'in-themes';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import AlertsPreviewLane from 'in-components/Chart/markerLanes/AlertsPreviewLane/AlertsPreviewLane';
@@ -176,7 +177,11 @@ function getAlertsPreviewQuery({
 }
 
 function enhanceLabels(label, smoothMetric) {
-  return [`${label}${smoothMetric ? '*' : ''}`, 'Threshold', 'Violations'];
+  return [
+    `${label}${smoothMetric ? '*' : ''}`,
+    t('in-new-components:alerting.chart.alertingChartLabelThreshold'),
+    t('in-new-components:alerting.chart.alertingChartLabelViolations')
+  ];
 }
 
 function enhanceNonToggleableSeries(metricName, tooltipContent) {
@@ -188,7 +193,7 @@ function enhanceNonToggleableSeries(metricName, tooltipContent) {
 }
 
 function getSmoothedMetricTooltipContent(isSmoothedMetric) {
-  return isSmoothedMetric ? ['Smoothed metric'] : null;
+  return isSmoothedMetric ? [t('in-new-components:alerting.chart.alertingChartTooltipSmoothedMetric')] : null;
 }
 
 function getMaxForBaselineChart({ metricsMaxValue, operator, baseline, sensitivity }) {

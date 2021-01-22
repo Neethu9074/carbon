@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import PropTypes from 'prop-types';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import ThresholdConditionFormGroup from 'in-new-components/Alerting/advanced/ThresholdConditionFormGroup';
@@ -12,7 +13,10 @@ import { getTrackingObject } from 'in-new-components/Alerting/trackingHelpers';
 
 export function ThresholdDeviationSliderForm({ form, onChange, trackChange, defaultValue }) {
   return (
-    <ThresholdConditionFormGroup iconType="lib_threshold" label="Sensitivity">
+    <ThresholdConditionFormGroup
+      iconType="lib_threshold"
+      label={t('in-new-components:alerting.advanced.labelSensitivity')}
+    >
       <DebouncedSensitivitySlider
         value={getFormValueOrDefault(form.get('threshold'), 'deviationFactor', '')}
         defaultValue={defaultValue}

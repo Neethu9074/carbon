@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import PropTypes from 'prop-types';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import createMemoizedObservableForReferencedEntities from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/memoizeReferencedEntitiesObservable';
@@ -47,14 +48,14 @@ export default function SelectAlertChannel({ form, onChange, setAlertChannelsVis
                       }}
                     />
                   ),
-                  title: 'Select alert channels'
+                  title: t('in-new-components:alerting.components.selectAlertChannelButtonTitle')
                 },
                 isVisible: true
               })
             }
             icon="lib_openclose_add_circle_outline"
           >
-            Select Alert Channels
+            {t('in-new-components:alerting.components.selectAlertChannelButton')}
           </Button>
         }
       />

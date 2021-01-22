@@ -4,6 +4,7 @@
  */
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { t } from 'in-i18n';
 
 import { BlueprintDescription } from 'in-new-components/Alerting/components/BlueprintDescription';
 import LocallyChangedTheme from 'in-themes/LocallyChangedTheme';
@@ -29,7 +30,7 @@ export default function BlueprintSelection({
     <LocallyChangedTheme theme={light}>
       <ExpandableCard
         label={selectedBlueprintConfig.name}
-        title="Selected Blueprint"
+        title={t('in-new-components:alerting.advanced.selectedBlueprint')}
         bodyWithoutPadding
         openByDefault
         darkFrame

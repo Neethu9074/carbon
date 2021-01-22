@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { getSimpleModeBlueprintConfig, simpleModeBlueprintConfigs } from 'in-websites/alerting/data/blueprintConfig';
@@ -32,7 +33,7 @@ export default function SimpleAlertConfigDialogStep1({
   const blueprintConfig = getSimpleModeBlueprintConfig(alertType, alertThreshold);
 
   return (
-    <SimpleModeStepContentWrapper headline="What do you want to be alerted on?">
+    <SimpleModeStepContentWrapper headline={t('in-websites:alerting.simple.simpleAlertConfigDialogStep1Headline')}>
       <Menu
         items={simpleModeBlueprintConfigs}
         onItemClick={item => {

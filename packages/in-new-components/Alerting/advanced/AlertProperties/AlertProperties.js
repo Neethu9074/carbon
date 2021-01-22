@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import PropTypes from 'prop-types';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import PropContainer from 'in-new-components/Alerting/components/PropContainer';
@@ -18,8 +19,8 @@ const severityWarning = 5;
 const severityCritical = 10;
 
 const severitySelectOptions = [
-  { value: severityWarning, label: 'Warning' },
-  { value: severityCritical, label: 'Critical' }
+  { value: severityWarning, label: t('in-new-components:alerting.advanced.alertPropertiesWarning') },
+  { value: severityCritical, label: t('in-new-components:alerting.advanced.alertPropertiesCritical') }
 ];
 
 export default function AlertProperties({
@@ -37,7 +38,7 @@ export default function AlertProperties({
   return (
     <>
       <PropContainer
-        left="Title"
+        left={t('in-new-components:alerting.alertPropertiesTitle')}
         right={
           <Input
             className={locals.textInput}
@@ -57,7 +58,7 @@ export default function AlertProperties({
       />
       <PropContainer
         icon={severity <= 5 ? 'lib_events_warning' : 'lib_events_critical'}
-        left="Alert Level"
+        left={t('in-new-components:alerting.alertPropertiesAlertLevel')}
         right={
           <ComboBox
             name={'severity'}
@@ -76,7 +77,7 @@ export default function AlertProperties({
       />
       <PropContainer
         icon="lib_events_incident"
-        left="Triggers Incident"
+        left={t('in-new-components:alerting.alertPropertiesTriggersIncident')}
         right={
           <Toggle
             checked={Boolean(form.get('triggering').value)}
@@ -92,7 +93,7 @@ export default function AlertProperties({
       />
       <PropContainer
         icon="lib_help_error_error_outline"
-        left="Description"
+        left={t('in-new-components:alerting.alertPropertiesDescription')}
         right={
           <TextArea
             className={locals.textArea}

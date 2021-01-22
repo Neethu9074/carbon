@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import classNames from 'classnames';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import ComboBoxBehavior from 'in-components/form/ComboBox/ComboBoxBehavior';
@@ -28,7 +29,7 @@ export default function RevisionDropdown({ alertConfig, alertConfigVersions, set
     >
       {({ elementProps, isOpen }) => (
         <DropdownButton {...elementProps} kind="primaryv2" icon="lib_datetime_timerange" expanded={isOpen}>
-          Revision {alertRevision}
+          {t('in-new-components:alerting.components.revisionDropdownButtonRevision', { alertRevision: alertRevision })}
         </DropdownButton>
       )}
     </ComboBoxBehavior>
@@ -47,7 +48,9 @@ function renderItemContent(item, i, alertConfig, alertConfigVersions) {
           [locals.selectedItem]: item.created === alertConfig.created
         })}
       >
-        Revision {toAlertRevision(i, alertConfigVersions)}
+        {t('in-new-components:alerting.components.revisionDropdownButtonRevision', {
+          alertRevision: toAlertRevision(i, alertConfigVersions)
+        })}
       </span>
       &nbsp;
       <span className={locals.createdDate}>({formatDateTime(item.created)})</span>

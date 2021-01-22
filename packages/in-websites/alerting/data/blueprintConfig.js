@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import getWebsiteRateMetricThresholdSuggestion from 'in-websites/alerting/subscriptions/getWebsiteRateMetricThresholdSuggestion';
 import getWebsiteMetricsThresholdSuggestion from 'in-websites/alerting/subscriptions/getWebsiteMetricsThresholdSuggestion';
 import getWebsiteRateMetricAlertsPreview from 'in-websites/alerting/subscriptions/getWebsiteRateMetricAlertsPreview';
@@ -13,18 +14,18 @@ import { availableFilterTags } from 'in-websites/tags';
 import { isNotBlank } from 'in-services/util/string';
 
 const jsErrorMetricLabelsByName = Object.freeze({
-  errors: 'Error Count',
-  specificJsErrorRate: 'Error Rate'
+  errors: t('in-websites:alerting.data.errorCount'),
+  specificJsErrorRate: t('in-websites:alerting.data.specificJsErrorRate')
 });
 
 const statusCodeMetricLabelsByName = Object.freeze({
-  httpxxx: 'Status Code Count',
-  specificStatusCodeRate: 'Status Code Rate'
+  httpxxx: t('in-websites:alerting.data.statusCodeCount'),
+  specificStatusCodeRate: t('in-websites:alerting.data.specificStatusCodeRate')
 });
 
 const throughputMetricLabelsByName = Object.freeze({
-  pageLoads: 'Page Loads',
-  pageTransitions: 'Page Transitions'
+  pageLoads: t('in-websites:alerting.data.pageLoads'),
+  pageTransitions: t('in-websites:alerting.data.pageTransitions')
 });
 
 const baseBlueprint = Object.freeze({
@@ -43,25 +44,38 @@ const baseBlueprint = Object.freeze({
 const slownessBlueprintConfig = Object.freeze({
   ...baseBlueprint,
   type: 'slowness',
-  name: 'Slowness',
-  headline: 'Automatic Alerts for onLoad Time',
-  text: `
+  name: t('in-websites:alerting.data.slownessBlueprintConfigName'),
+  headline: t('in-websites:alerting.data.slownessBlueprintConfigHeadline'),
+  text:
+    `
       <p>
-      OnLoad Time measures the time passed in between the user navigating to a website and being able to interact with the website.
+      ` +
+    t('in-websites:alerting.data.slownessBlueprintConfigTextP') +
+    `
       </p>
       <ul>
-        <li>Getting all markup, replaced element content and embeds from server</li>
-        <li>Parsing the markup</li>
-        <li>Applying CSS cascade</li>
-        <li>Rendering the page</li>
-        <li>Running all scripts that need to run on page load</li>
+        <li>` +
+    t('in-websites:alerting.data.slownessBlueprintConfigTextli1') +
+    `</li>
+        <li>` +
+    t('in-websites:alerting.data.slownessBlueprintConfigTextli2') +
+    `</li>
+        <li>` +
+    t('in-websites:alerting.data.slownessBlueprintConfigTextli3') +
+    `</li>
+        <li>` +
+    t('in-websites:alerting.data.slownessBlueprintConfigTextli4') +
+    `</li>
+        <li>` +
+    t('in-websites:alerting.data.slownessBlueprintConfigTextli5') +
+    `</li>
       <ul>
     `,
   getAvailableTags: () => getIncludedTags(availableFilterTags.pageLoad),
   baselineEnabled: true,
   defaultMetric: 'onLoadTime',
   getMetricName: () => 'onLoadTime',
-  getMetricLabel: () => 'onLoad Time',
+  getMetricLabel: () => t('in-websites:alerting.data.slownessBlueprintConfigMetricLabel'),
   getMetricFormat: () => millis.forcedFixedCompact,
   getMaxMetricValue: () => Number.MAX_SAFE_INTEGER,
   getAggregation: alertRule => alertRule.aggregation,
@@ -72,9 +86,9 @@ const slownessBlueprintConfig = Object.freeze({
 const jsErrorsBlueprintConfig = Object.freeze({
   ...baseBlueprint,
   type: 'specificJsError',
-  name: 'JS Errors',
-  headline: 'Automatic Alerts for JS Errors',
-  text: 'Receive an alert every time when matching JS Error messages occur more often than usual.',
+  name: t('in-websites:alerting.data.jsErrorsBlueprintConfigName'),
+  headline: t('in-websites:alerting.data.jsErrorsBlueprintConfigHeadline'),
+  text: t('in-websites:alerting.data.jsErrorsBlueprintConfigText'),
   getAvailableTags: () => getIncludedTags(availableFilterTags.error),
   baselineEnabled: false,
   defaultMetric: 'errors',
@@ -84,16 +98,16 @@ const jsErrorsBlueprintConfig = Object.freeze({
   getMaxMetricValue: metricName => (isCustomRateMetric(metricName) ? 100 : Number.MAX_SAFE_INTEGER),
   getAggregation: alertRule => (isCustomRateMetric(alertRule.metricName) ? 'MEAN' : 'SUM'),
   isRuleComplete: alertRule => isNotBlank(alertRule.value),
-  incompleteRuleMessage: 'Please select a JS Error to see when this alert triggers',
+  incompleteRuleMessage: t('in-websites:alerting.data.jsErrorsBlueprintConfigIncompleteRuleMessage'),
   getRuleTagFilters: alertRule => [getJsErrorsTagFilter(alertRule)]
 });
 
 const statusCodeBlueprintConfig = Object.freeze({
   ...baseBlueprint,
   type: 'statusCode',
-  name: 'HTTP Status Codes',
-  headline: 'Automatic Alerts for HTTP Status Codes',
-  text: 'Receive an alert every time when matching HTTP Status Codes occur more often than usual.',
+  name: t('in-websites:alerting.data.statusCodeBlueprintConfigName'),
+  headline: t('in-websites:alerting.data.statusCodeBlueprintConfigHeadline'),
+  text: t('in-websites:alerting.data.statusCodeBlueprintConfigText'),
   getAvailableTags: () => getIncludedTags(availableFilterTags.httpRequest),
   baselineEnabled: false,
   defaultMetric: 'httpxxx',
@@ -103,17 +117,16 @@ const statusCodeBlueprintConfig = Object.freeze({
   getMaxMetricValue: metricName => (isCustomRateMetric(metricName) ? 100 : Number.MAX_SAFE_INTEGER),
   getAggregation: alertRule => (isCustomRateMetric(alertRule.metricName) ? 'MEAN' : 'SUM'),
   isRuleComplete: alertRule => isNotBlank(alertRule.value),
-  incompleteRuleMessage: 'Please select a Status Code to see when this alert triggers',
+  incompleteRuleMessage: t('in-websites:alerting.data.statusCodeBlueprintConfigIncompleteRuleMessage'),
   getRuleTagFilters: alertRule => [getStatusCodeTagFilter(alertRule)]
 });
 
 const throughputBlueprintConfig = Object.freeze({
   ...baseBlueprint,
   type: 'throughput',
-  name: 'Throughput',
-  headline: 'Automatic Alerts for Page Views',
-  text:
-    'Automatic alerts on anomalously low or high number of Page Loads or Page Transitions for selected pages of this Website.',
+  name: t('in-websites:alerting.data.throughputBlueprintConfigName'),
+  headline: t('in-websites:alerting.data.throughputBlueprintConfigHeadline'),
+  text: t('in-websites:alerting.data.throughputBlueprintConfigText'),
   getAvailableTags: metricName =>
     getIncludedTags(metricName === 'pageLoads' ? availableFilterTags.pageLoad : availableFilterTags.pageChange),
   baselineEnabled: true,
@@ -142,10 +155,9 @@ export const simpleModeBlueprintConfigs = Object.freeze([
   {
     ...throughputBlueprintConfig,
     subType: 'unexpectedDrop',
-    name: 'Unexpectedly Low Number of Page Loads',
-    headline: 'Automatic Alerts on Anomalously Low Number of Page Loads',
-    text:
-      'Receive an alert when the number of Page Loads is significantly lower than expected compared to the available past data.',
+    name: t('in-websites:alerting.data.simpleModeBlueprintConfigsUnexpectedDropName'),
+    headline: t('in-websites:alerting.data.simpleModeBlueprintConfigsUnexpectedDropHeadline'),
+    text: t('in-websites:alerting.data.simpleModeBlueprintConfigsUnexpectedDropText'),
     thresholdDefaults: {
       operator: '<='
     },
@@ -154,10 +166,9 @@ export const simpleModeBlueprintConfigs = Object.freeze([
   {
     ...throughputBlueprintConfig,
     subType: 'unexpectedlyHighNumber',
-    name: 'Unexpectedly High Number of Page Loads',
-    headline: 'Automatic Alerts on Anomalously High Number of Page Loads',
-    text:
-      'Receive an alert when the number of Page Loads is significantly higher than expected compared to the available past data. This might be an indication of an attack or a bot generating too many requests to the website.',
+    name: t('in-websites:alerting.data.simpleModeBlueprintConfigsUnexpectedlyHighNumberName'),
+    headline: t('in-websites:alerting.data.simpleModeBlueprintConfigsUnexpectedlyHighNumberHeadline'),
+    text: t('in-websites:alerting.data.simpleModeBlueprintConfigsUnexpectedlyHighNumberText'),
     isSelected: alertThreshold => alertThreshold.operator === '>=' || alertThreshold.operator === '>'
   }
 ]);

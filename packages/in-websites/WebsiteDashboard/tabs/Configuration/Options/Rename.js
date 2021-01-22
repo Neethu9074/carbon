@@ -18,7 +18,7 @@ import Button from 'in-new-components/Button';
 import Input from 'in-components/form/Input';
 import SvgIcon from 'in-components/SvgIcon';
 import Card from 'in-new-components/Card';
-import { Trans } from 'in-i18n';
+import { t } from 'in-i18n';
 
 import locals from './Rename.mless';
 
@@ -122,9 +122,7 @@ export default class Rename extends React.PureComponent {
           <FormGroup className={locals.group}>
             {saveError && <SaveError>{saveError}</SaveError>}
 
-            <HelpParagraph>
-              <Trans i18nKey="in-websites:rename.help" />
-            </HelpParagraph>
+            <HelpParagraph>{t('in-websites:rename.help')}</HelpParagraph>
 
             <div className={locals.actionWrapper}>
               <Input

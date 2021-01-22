@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import PropTypes from 'prop-types';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import AlertThresholdConfigItemContainer from 'in-new-components/Alerting/advanced/TimeThresholdConfig/AlertThresholdConfigItemContainer';
@@ -21,7 +22,7 @@ export default function ConfigureGranularity({ onChange, granularity }) {
   const currentValue = marks.find((i => i.millis === granularity) ?? marks[1]).value;
   return (
     <AlertThresholdConfigItemContainer noIcon>
-      <label>Evaluation Granularity</label>
+      <label>{t('in-new-components:alerting.advanced.timeThresholdConfigEvaluationGranularity')}</label>
       <DebouncedRestrictedSlider
         marks={marks}
         max={marks[marks.length - 1].value}

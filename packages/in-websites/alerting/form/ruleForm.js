@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { createField, notBlankValidator, createMapForm } from 'formalistic';
+import { t } from 'in-i18n';
 
 import { operators } from 'in-analyze/applicationFilter';
 
@@ -69,7 +70,7 @@ function extendForSpecificJsError(baseForm, rule) {
             return [
               {
                 severity: 'error',
-                message: 'Please provide an error message'
+                message: t('in-websites:alerting.form.errorPleaseProvideAnErrorMessage')
               }
             ];
           } else {

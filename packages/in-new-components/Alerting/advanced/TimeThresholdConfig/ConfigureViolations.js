@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import PropTypes from 'prop-types';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import AlertThresholdConfigItemContainer from 'in-new-components/Alerting/advanced/TimeThresholdConfig/AlertThresholdConfigItemContainer';
@@ -22,7 +23,7 @@ export default function ConfigureViolations({ label, onChange, violations, maxVi
         max={maxViolations}
         disabled={maxViolations <= 1}
         onChange={onChange}
-        valueLabelDisplay="off"
+        valueLabelDisplay={t('in-new-components:alerting.advanced.timeThresholdConfigOff')}
       />
     </AlertThresholdConfigItemContainer>
   );

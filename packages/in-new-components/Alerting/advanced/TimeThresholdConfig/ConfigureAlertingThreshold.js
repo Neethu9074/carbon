@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import PropTypes from 'prop-types';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import ConfigureRequestImpact from 'in-new-components/Alerting/advanced/TimeThresholdConfig/ConfigureRequestImpact';
@@ -36,11 +37,11 @@ export default function ConfigureAlertingThreshold({ form, onChange, updateForm 
   function getConfigureTimeWindow(timeThresholdType) {
     let label;
     if (timeThresholdType === timeThresholdTypes.violationsInSequence) {
-      label = 'Number of Consecutive Violations';
+      label = t('in-new-components:alerting.advanced.timeThresholdConfigNumberOfConsecutiveViolations');
     } else if (timeThresholdType === timeThresholdTypes.violationsInPeriod) {
-      label = 'Number of Consecutive Evaluations';
+      label = t('in-new-components:alerting.advanced.timeThresholdConfigNumberOfConsecutiveEvaluations');
     } else if (timeThresholdType === timeThresholdTypes.userImpactOfViolationsInSequence) {
-      label = 'Number of Evaluation Windows';
+      label = t('in-new-components:alerting.advanced.timeThresholdConfigNumberOfEvaluationWindows');
     } else if (timeThresholdType === timeThresholdTypes.requestImpact) {
       return <ConfigureRequestImpact form={form} onChange={onChange} />;
     }
@@ -58,7 +59,7 @@ export default function ConfigureAlertingThreshold({ form, onChange, updateForm 
     if (timeThresholdType === timeThresholdTypes.violationsInPeriod) {
       return (
         <ConfigureViolations
-          label="Number of Violations"
+          label={t('in-new-components:alerting.advanced.timeThresholdConfigNumberOfViolations')}
           onChange={onChangeViolationsInPeriod}
           violations={timeThresholdViolations}
           maxViolations={Math.round(timeThresholdTimeWindow / granularity)}

@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import Message from 'in-new-components/Message';
@@ -14,9 +15,10 @@ export default function BaselineErrorMessage({ thresholdResult }) {
 
   return (
     <Message type="neutral" iconColor={theme.lib.colors.failure} withIcon>
-      Insufficient data to compute the selected baseline. Please select <i>Static Threshold</i> instead.
+      {t('in-new-components:alerting.components.baselineErrorMessageInsufficientDataToCompute')}
       <br />
-      <b>Reason:</b> {getErrorReason(thresholdResult)}
+      <b>{t('in-new-components:alerting.components.baselineErrorMessageReason')}</b>
+      {getErrorReason(thresholdResult)}
     </Message>
   );
 }

@@ -4,6 +4,7 @@
  */
 import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
+import { t } from 'in-i18n';
 
 import Button from 'in-new-components/Button/Button';
 
@@ -26,7 +27,7 @@ export default function RecalculateBaselineButton({ onChange, editMode }) {
       }}
       disabled={isRecalculated.current}
     >
-      Recalculate Baseline
+      {t('in-new-components:alerting.advanced.buttonRecalculateBaseline')}
     </Button>
   );
 }

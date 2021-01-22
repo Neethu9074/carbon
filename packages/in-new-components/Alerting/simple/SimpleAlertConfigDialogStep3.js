@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import PropTypes from 'prop-types';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import SimpleModeStepContentWrapper from 'in-new-components/BlueprintFormMultistep/SimpleModeStepContentWrapper';
@@ -12,7 +13,9 @@ import locals from './SimpleAlertConfigDialogStep3.mless';
 
 export default function SimpleAlertConfigDialogStep3({ form, onChange, setAlertChannelsVisible }) {
   return (
-    <SimpleModeStepContentWrapper headline="Who should get the alerts?">
+    <SimpleModeStepContentWrapper
+      headline={t('in-new-components:alerting.simple.simpleAlertConfigDialogStep3Headline')}
+    >
       <div className={locals.alertChannelsContainer}>
         <SelectAlertChannel form={form} onChange={onChange} setAlertChannelsVisible={setAlertChannelsVisible} />
       </div>

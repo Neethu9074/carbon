@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import PropTypes from 'prop-types';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import {
@@ -29,12 +30,14 @@ export default function ConfigureUserImpact({ form, onChange, updateForm }) {
   return (
     <>
       <AlertThresholdConfigItemContainer iconType="lib_alerts_user_impacted" noIcon>
-        <div>Number of Requests Threshold</div>
+        <div>{t('in-new-components:alerting.advanced.timeThresholdConfigNumberOfRequestsThreshold')}</div>
         <div className={locals.configureImpactControlsWrapper}>
-          <div className={locals.operatorLabel}>At least</div>
+          <div className={locals.operatorLabel}>
+            {t('in-new-components:alerting.advanced.timeThresholdConfigAtLeast')}
+          </div>
           <div>
             <FormGroup className={locals.formGroup} withoutBottomMargin>
-              <Label># of Users</Label>
+              <Label>{t('in-new-components:alerting.advanced.timeThresholdConfigNumberOfUsers')}</Label>
               <Input
                 className={locals.input}
                 type="number"
@@ -76,12 +79,14 @@ export default function ConfigureUserImpact({ form, onChange, updateForm }) {
         </div>
       </AlertThresholdConfigItemContainer>
       <AlertThresholdConfigItemContainer iconType="lib_alerts_user_impacted" noIcon>
-        <div>Percentage of Requests Threshold</div>
+        <div>{t('in-new-components:alerting.advanced.timeThresholdConfigPercentageOfRequestsThreshold')}</div>
         <div className={locals.configureImpactControlsWrapper}>
-          <div className={locals.operatorLabel}>At least</div>
+          <div className={locals.operatorLabel}>
+            {t('in-new-components:alerting.advanced.timeThresholdConfigAtLeast')}
+          </div>
           <div>
             <FormGroup className={locals.formGroup} withoutBottomMargin>
-              <Label>% of Users</Label>
+              <Label>{t('in-new-components:alerting.advanced.timeThresholdConfigNumberOfUsers')}</Label>
               <Input
                 className={locals.input}
                 type="number"

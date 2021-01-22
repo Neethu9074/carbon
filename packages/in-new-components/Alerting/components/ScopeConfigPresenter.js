@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import PropTypes from 'prop-types';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import WithQB1orQB2 from 'in-new-components/Alerting/components/WithQB1orQB2';
@@ -29,7 +30,9 @@ export default function ScopeConfigPresenter({
             <IconLabel {...iconLabelConfig} />
             {tagFilterExpressionUiModel.length > 0 && (
               <>
-                <HelpText>Additional Filters</HelpText>
+                <HelpText>
+                  {t('in-new-components:alerting.components.scopeConfigPresenterHelpTextAdditionalFilters')}
+                </HelpText>
                 {queryBuilder}
               </>
             )}

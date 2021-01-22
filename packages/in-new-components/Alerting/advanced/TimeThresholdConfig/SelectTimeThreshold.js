@@ -4,6 +4,7 @@
  */
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import {
@@ -18,10 +19,14 @@ import CheckboxFancy from 'in-new-components/Alerting/components/CheckboxFancy';
 import locals from './TimeThresholdConfig.mless';
 
 export const timeThresholdLabels = Object.freeze({
-  violationsInSequence: 'When the condition persists over a specified amount of time',
-  violationsInPeriod: 'Every time the condition triggers a specified amount of times in a defined time frame',
-  userImpactOfViolationsInSequence: 'When a certain amount of my users are impacted',
-  requestImpact: 'When a certain amount of requests are impacted'
+  violationsInSequence: t(
+    'in-new-components:alerting.advanced.timeThresholdConfigTimeThresholdLabelViolationsInSequence'
+  ),
+  violationsInPeriod: t('in-new-components:alerting.advanced.timeThresholdConfigTimeThresholdLabelViolationsInPeriod'),
+  userImpactOfViolationsInSequence: t(
+    'in-new-components:alerting.advanced.timeThresholdConfigTimeThresholdLabelUserImpactOfViolationsInSequence'
+  ),
+  requestImpact: t('in-new-components:alerting.advanced.timeThresholdConfigTimeThresholdLabelRequestImpact')
 });
 
 export default function SelectTimeThreshold({

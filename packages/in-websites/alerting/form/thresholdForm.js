@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { createField, createMapForm } from 'formalistic';
+import { t } from 'in-i18n';
 
 export const defaultDeviationFactor = 3;
 
@@ -70,7 +71,7 @@ function createThresholdFormStaticThreshold(baseForm, threshold) {
           return [
             {
               severity: 'error',
-              message: 'Please provide a number >= 0'
+              message: t('in-websites:alerting.form.errorPleaseProvideANumberGreaterEqualsToZero')
             }
           ];
         }
@@ -95,7 +96,7 @@ function createThresholdFormHistoricBaseline(baseForm, threshold) {
             return [
               {
                 severity: 'error',
-                message: 'baseline is empty'
+                message: t('in-websites:alerting.form.errorBaselineIsEmpty')
               }
             ];
           }

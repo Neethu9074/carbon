@@ -4,6 +4,7 @@
  */
 import { compose, withProps, withState } from 'recompose';
 import { empty } from '@instana/observables';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import {
@@ -66,8 +67,8 @@ export const AlertConfigDialogWithThreshold = compose(
       featureFeedbackElement={
         <FeatureFeedback
           href={`https://docs.google.com/forms/d/e/1FAIpQLSdJfdTTcWhC_X2LaVK503OuyMuZe2ruSFmMEBqb5rjYuWd_VA/viewform`}
-          text="This is a new feature."
-          labelText="NEW"
+          text={t('in-websites:alerting.alertConfigDialogWithThreshold.alertText')}
+          labelText={t('in-websites:alerting.alertConfigDialogWithThreshold.alertLabelText')}
           styles={{
             marginRight: '2rem'
           }}

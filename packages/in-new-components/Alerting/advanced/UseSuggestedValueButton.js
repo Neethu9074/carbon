@@ -4,6 +4,7 @@
  */
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
+import { t } from 'in-i18n';
 
 import { getValueRoundedToDecimals } from 'in-new-components/Alerting/utils/formatUtils';
 import Button from 'in-new-components/Button/Button';
@@ -26,7 +27,8 @@ export default function UseSuggestedValueButton({ form, onChange, percentageMetr
           disabled={suggestedThresholdValue === thresholdValue}
         >
           <span>
-            Use suggested value &nbsp; <b>{getValueRoundedToDecimals(suggestedThresholdValue, !!percentageMetric)}</b>
+            {t('in-new-components:alerting.advanced.useSuggestedvalue')} &nbsp;
+            <b>{getValueRoundedToDecimals(suggestedThresholdValue, !!percentageMetric)}</b>
             &nbsp; {metricUnitPostfix}
           </span>
         </Button>

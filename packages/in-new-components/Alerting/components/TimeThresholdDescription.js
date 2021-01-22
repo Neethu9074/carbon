@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import PropTypes from 'prop-types';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { timeThresholdLabels } from 'in-new-components/Alerting/advanced/TimeThresholdConfig/SelectTimeThreshold';
@@ -48,22 +49,45 @@ function getDescription(timeThreshold) {
     case 'userImpactOfViolationsInSequence': {
       const users = timeThreshold.users;
       const userPercentage = timeThreshold.userPercentage;
-      const userImpactList = [];
-      if (users) {
-        userImpactList.push(`${users} ${users === 1 ? 'user' : 'users'}`);
+
+      if (users && userPercentage) {
+        return t(
+          'in-new-components:alerting.components.timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage',
+          {
+            count: users,
+            userPercentage: percentageZeroDecimalPlaces(userPercentage),
+            formattedTimeWindow: formattedTimeWindow
+          }
+        );
+      } else if (users) {
+        return t('in-new-components:alerting.components.timeThresholdDescriptionUserImpactOfViolationsInSequenceUser', {
+          count: users,
+          formattedTimeWindow: formattedTimeWindow
+        });
+      } else if (userPercentage) {
+        return t(
+          'in-new-components:alerting.components.timeThresholdDescriptionUserImpactOfViolationsInSequenceUserPercentage',
+          { userPercentage: percentageZeroDecimalPlaces(userPercentage), formattedTimeWindow: formattedTimeWindow }
+        );
+      } else {
+        return t('in-new-components:alerting.components.timeThresholdDescriptionUserImpactOfViolationsInSequence', {
+          formattedTimeWindow: formattedTimeWindow
+        });
       }
-      if (userPercentage) {
-        userImpactList.push(`${percentageZeroDecimalPlaces(userPercentage)} of users`);
-      }
-      return `At least ${userImpactList.join(' and ')} impacted within ${formattedTimeWindow}`;
     }
     case 'requestImpact': {
       const requests = timeThreshold.requests;
-      return `At least ${requests} ${requests === 1 ? 'request' : 'requests'} impacted within ${formattedTimeWindow}`;
+      return t('in-new-components:alerting.components.timeThresholdDescriptionRequestImpact', {
+        requests: requests,
+        formattedTimeWindow: formattedTimeWindow
+      });
     }
     case 'violationsInPeriod': {
       const violations = timeThreshold.violations;
-      return `At least ${violations} ${violations === 1 ? 'violation' : 'violations'} within ${formattedTimeWindow}`;
+      return t('in-new-components:alerting.components.timeThresholdDescriptionViolationsInPeriod', {
+        count: violations,
+        formattedTimeWindow: formattedTimeWindow
+      });
     }
     case 'violationsInSequence':
     default:

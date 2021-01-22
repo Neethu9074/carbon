@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import PropTypes from 'prop-types';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
@@ -26,7 +27,7 @@ export function BlueprintDescription({ config, selectButtonDisabled, isSimpleMod
           disabled={selectButtonDisabled}
           onClick={() => onSelectBlueprint(config)}
         >
-          Select
+          {t('in-new-components:alerting.components.blueprintDescriptionButtonSelect')}
         </Button>
       )}
     </div>

@@ -4,6 +4,7 @@
  */
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import AlertProperties from 'in-new-components/Alerting/advanced/AlertProperties/AlertProperties';
@@ -18,7 +19,7 @@ export default function AlertPropertiesContainer(props) {
 
   return (
     <TwoColumnContainer
-      mainContentHeadline="Alert Properties"
+      mainContentHeadline={t('in-new-components:alerting.advanced.alertPropertiesAlertProperties')}
       mainContent={<AlertProperties {...props} />}
       secondaryContent={<AlertPreview {...props} tagFilters={form.get('tagFilters').value} severity={severity} />}
     />

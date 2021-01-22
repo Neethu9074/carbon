@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import PropTypes from 'prop-types';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import AlertThresholdConfigItemContainer from 'in-new-components/Alerting/advanced/TimeThresholdConfig/AlertThresholdConfigItemContainer';
@@ -26,7 +27,9 @@ export default function ConfigureTimeWindow({ label, onChange, granularity, time
         max={12}
         min={1}
         step={1}
-        valueLabelFormat={value => Math.round((value * granularity) / 60000) + ' min'}
+        valueLabelFormat={t('in-new-components:alerting.advanced.timeThresholdConfigMinutes', {
+          min: value => Math.round((value * granularity) / 60000)
+        })}
         valueLabelDisplay="auto"
       />
     </AlertThresholdConfigItemContainer>

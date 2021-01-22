@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import PropTypes from 'prop-types';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import getWebsiteErrors from 'in-websites/subscriptions/getWebsiteErrors';
@@ -14,7 +15,7 @@ import locals from './JsErrorsList.mless';
 const columnDefinitions = [
   {
     id: 'message',
-    label: 'Error Message',
+    label: t('in-websites:alerting.components.errorMessage'),
     getContent: error => ErrorRow(error)
   }
 ];
@@ -44,7 +45,7 @@ export default function JsErrorsList({ websiteId, tagFilters, timeConfig, onJsEr
             .map(tableData => tableData.data.items.map(item => item.error))
         }
         pageSize={10}
-        noDataMessage="No alert configured."
+        noDataMessage={t('in-websites:alerting.components.noDataMessage')}
         onRowClick={error => {
           onJsErrorSelect(error.message);
           slideOut();

@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import React, { useMemo } from 'react';
+import { t } from 'in-i18n';
 
 import {
   getEnhancedTagFilterExpression,
@@ -53,6 +54,6 @@ export default function AlertingChartWithErrorMessage(props) {
       enrichedTagFilterExpression={backendQueryModel}
     />
   ) : (
-    <Message withIcon>Invalid filter query.</Message>
+    <Message withIcon>{t('in-new-components:alerting.chart.alertingChartMessageInvalidFilterQuery')}</Message>
   );
 }

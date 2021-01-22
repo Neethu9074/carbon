@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import {
@@ -56,8 +57,8 @@ export default function AdvancedModeContainer(props) {
       navItems={[
         {
           scrollId: '1',
-          label: 'Scope',
-          title: 'Scope: Where is the condition happening?',
+          label: t('in-websites:alerting.advanced.scopeLabel'),
+          title: t('in-websites:alerting.advanced.scopeTitle'),
           content: (
             <AlertLocationFilters
               form={form}
@@ -70,8 +71,8 @@ export default function AdvancedModeContainer(props) {
         },
         {
           scrollId: '2',
-          label: 'Trigger',
-          title: 'Trigger: What do you want to be alerted on?',
+          label: t('in-websites:alerting.advanced.triggerLabel'),
+          title: t('in-websites:alerting.advanced.triggerTitle'),
           checked: validateTrigger(form),
           content: (
             <>
@@ -80,7 +81,7 @@ export default function AdvancedModeContainer(props) {
                 alertType={alertType}
                 renderJsErrors={() => (
                   <>
-                    <LightCard title="JS Error Message" withoutPadding darkFrame>
+                    <LightCard title={t('in-websites:alerting.advanced.JSErrorMessage')} withoutPadding darkFrame>
                       <ProvideJsError
                         form={form}
                         timeConfig={{
@@ -118,7 +119,7 @@ export default function AdvancedModeContainer(props) {
                 )}
                 renderStatusCode={() => (
                   <>
-                    <LightCard title="HTTP Status Code" withoutPadding darkFrame>
+                    <LightCard title={t('in-websites:alerting.advanced.HTTPStatusCode')} withoutPadding darkFrame>
                       <ProvideStatusCode form={form} updateForm={updateForm} mode={modeAdvanced} />
                     </LightCard>
                     <StatusCodeInteractiveChart
@@ -152,8 +153,8 @@ export default function AdvancedModeContainer(props) {
         },
         {
           scrollId: '3',
-          label: 'Time Threshold',
-          title: 'Time Threshold: When do you want to be alerted?',
+          label: t('in-websites:alerting.advanced.timeThresholdLabel'),
+          title: t('in-websites:alerting.advanced.timeThresholdTitle'),
           checked: true,
           content: (
             <TimeThresholdConfig
@@ -167,15 +168,15 @@ export default function AdvancedModeContainer(props) {
         },
         {
           scrollId: '4',
-          label: 'Alert Channels',
-          title: 'Alert Channels: Who needs to be alerted?',
+          label: t('in-websites:alerting.advanced.alertChannelsLabel'),
+          title: t('in-websites:alerting.advanced.alertChannelsTitle'),
           checked: form.get(fieldNames.alertChannelIds).value.length > 0,
           content: <SelectAlertChannel form={form} onChange={onChange} setAlertChannelsVisible={setSliderState} />
         },
         {
           scrollId: '5',
-          label: 'Properties (optional)',
-          title: 'Additional Alert Properties (optional)',
+          label: t('in-websites:alerting.advanced.propertiesLabel'),
+          title: t('in-websites:alerting.advanced.propertiesTitle'),
           checked: !!(form.get(fieldNames.name).value || form.get(fieldNames.description).value),
           content: (
             <AlertPropertiesContainer

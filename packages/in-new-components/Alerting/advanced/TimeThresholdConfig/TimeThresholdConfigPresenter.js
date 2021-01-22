@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import PropTypes from 'prop-types';
+import { Trans, t } from 'in-i18n';
 import { get } from 'lodash';
 import React from 'react';
 
@@ -13,10 +14,18 @@ import TwoColumnContainer from 'in-new-components/Alerting/components/TwoColumnC
 import Link from 'in-components/Link';
 
 const titleValues = {
-  [timeThresholdTypes.violationsInSequence]: 'Persistence over time',
-  [timeThresholdTypes.violationsInPeriod]: 'Number of violations over time',
-  [timeThresholdTypes.userImpactOfViolationsInSequence]: 'User impact',
-  [timeThresholdTypes.requestImpact]: 'Request impact'
+  [timeThresholdTypes.violationsInSequence]: t(
+    'in-new-components:alerting.advanced.timeThresholdConfigTimeThresholdTitleViolationsInSequence'
+  ),
+  [timeThresholdTypes.violationsInPeriod]: t(
+    'in-new-components:alerting.advanced.timeThresholdConfigTimeThresholdTitleViolationsInPeriod'
+  ),
+  [timeThresholdTypes.userImpactOfViolationsInSequence]: t(
+    'in-new-components:alerting.advanced.timeThresholdConfigTimeThresholdTitleUserImpactOfViolationsInSequence'
+  ),
+  [timeThresholdTypes.requestImpact]: t(
+    'in-new-components:alerting.advanced.timeThresholdConfigTimeThresholdTitleRequestImpact'
+  )
 };
 
 export default function TimeThresholdConfigPresenter({
@@ -46,16 +55,21 @@ export default function TimeThresholdConfigPresenter({
         uniqueUsersOrSessionsResult &&
         get(uniqueUsersOrSessionsResult, ['data', 'count', 0, 1]) === 0 && (
           <>
-            No{' '}
-            <Link external href="https://instana.com/docs/website_monitoring/api/#identifying-users">
-              users
-            </Link>{' '}
-            or{' '}
-            <Link external href="https://instana.com/docs/website_monitoring/api/#session-tracking">
-              sessions
-            </Link>{' '}
-            detected. <br />
-            Please configure website monitoring before using this option.
+            <Trans
+              i18nKey="in-new-components:alerting.advanced.timeThresholdConfigNoUserSessionDetected"
+              components={{
+                linkToIdentifyingUsers: (
+                  <Link external href="https://instana.com/docs/website_monitoring/api/#identifying-users" />
+                ),
+                linkToSessionTracking: (
+                  <Link external href="https://instana.com/docs/website_monitoring/api/#session-tracking" />
+                )
+              }}
+            />
+            <br />
+            {t(
+              'in-new-components:alerting.advanced.timeThresholdConfigPleaseConfigureWebsiteMonitoringBeforeUsingThisOption'
+            )}
           </>
         )
       }

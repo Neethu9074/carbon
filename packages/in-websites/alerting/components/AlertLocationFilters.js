@@ -4,6 +4,7 @@
  */
 import PropTypes from 'prop-types';
 import invariant from 'invariant';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import {
@@ -32,7 +33,7 @@ export default function AlertLocationFilters({ advancedMode, form, timeConfig, w
   const tagSuggestions = blueprintConfig.getAvailableTags(metricName);
 
   if (__DEV__) {
-    invariant(tagSuggestions, `Tag suggestions not defined for alert type ${alertType}`);
+    invariant(tagSuggestions, t('in-websites:alerting.components.tagSuggestions', { alertType: alertType }));
   }
 
   return (

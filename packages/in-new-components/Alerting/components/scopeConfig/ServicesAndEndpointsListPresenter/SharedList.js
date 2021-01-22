@@ -4,6 +4,7 @@
  */
 import React, { useMemo, useRef } from 'react';
 import { isEmpty } from 'lodash';
+import { t } from 'in-i18n';
 
 import LoadingList from 'in-new-components/lists/List/sharedComponents/LoadingList';
 import LoadMoreLi from 'in-new-components/lists/List/LoadMoreLi/LoadMoreLi';
@@ -42,7 +43,11 @@ const columnDefinitions = [
       const { isStaleItem, typeName } = itemState;
 
       return (
-        <Tooltip content={isStaleItem ? `Selected ${typeName} is not available anymore` : null}>
+        <Tooltip
+          content={
+            isStaleItem ? t('in-new-components:alerting.components.sharedListTooltip', { typeName: typeName }) : null
+          }
+        >
           <IconLabel text={label} type={iconType[type]} noBottomMargin />
         </Tooltip>
       );

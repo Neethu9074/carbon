@@ -2,24 +2,25 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import { getFormValueOrDefault } from 'in-new-components/Alerting/advanced/thresholdFormHelper';
 
 export function getAggregationText(aggregation) {
   switch (aggregation.toUpperCase()) {
     case 'P25':
-      return '25th';
+      return t('in-new-components:alerting.utils.aggregationTextP25');
     case 'P50':
-      return '50th';
+      return t('in-new-components:alerting.utils.aggregationTextP50');
     case 'P75':
-      return '75th';
+      return t('in-new-components:alerting.utils.aggregationTextP75');
     case 'P90':
-      return '90th';
+      return t('in-new-components:alerting.utils.aggregationTextP90');
     case 'P95':
-      return '95th';
+      return t('in-new-components:alerting.utils.aggregationTextP95');
     case 'P98':
-      return '98th';
+      return t('in-new-components:alerting.utils.aggregationTextP98');
     case 'P99':
-      return '99th';
+      return t('in-new-components:alerting.utils.aggregationTextP99');
     default:
       return aggregation.toLowerCase();
   }

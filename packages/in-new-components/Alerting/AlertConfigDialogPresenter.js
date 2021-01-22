@@ -5,6 +5,7 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
+import { t } from 'in-i18n';
 
 import DialogWithSlideInView from 'in-new-components/Dialog/DialogWithSlideInView';
 import Button from 'in-new-components/Button/Button';
@@ -39,7 +40,11 @@ export default function AlertConfigDialogPresenter(props) {
 
   return (
     <DialogWithSlideInView
-      title={`${editMode ? 'Edit' : 'Create New'} Alert`}
+      title={
+        editMode
+          ? t('in-new-components:alerting.alertConfigDialogPresenterTitleEditAlert')
+          : t('in-new-components:alerting.alertConfigDialogPresenterTitleCreateNewAlert')
+      }
       slideInViewTitle={slideInConfig && slideInConfig.title}
       onSlideInViewTitleClick={() => setSlideInViewVisible(!slideInViewVisible)}
       titleIconType="lib_alerts_create"
@@ -62,7 +67,9 @@ export default function AlertConfigDialogPresenter(props) {
               }}
               kind="action"
             >
-              {simpleMode ? 'Switch to Advanced Mode' : 'Switch to Simple Mode'}
+              {simpleMode
+                ? t('in-new-components:alerting.alertConfigDialogPresenterButtonSwitchToAdvancedMode')
+                : t('in-new-components:alerting.alertConfigDialogPresenterButtonSwitchToSimpleMode')}
             </Button>
           )}
         </>

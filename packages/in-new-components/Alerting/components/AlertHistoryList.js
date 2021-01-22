@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import PropTypes from 'prop-types';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import AlertDetailsCard from 'in-new-components/Alerting/components/AlertDetailsCard';
@@ -28,7 +29,7 @@ export const AlertHistoryListPresenter = ({ rawEvents, timeConfig }) => {
   if (loading) {
     return (
       <>
-        <ListTitle>Alerts Created</ListTitle>
+        <ListTitle>{t('in-new-components:alerting.components.alertHistoryListTitle')}</ListTitle>
         <LoadingList />
       </>
     );
@@ -36,7 +37,11 @@ export const AlertHistoryListPresenter = ({ rawEvents, timeConfig }) => {
   const { items = [], totalRepresentedItemCount } = data;
   return (
     <>
-      <ListTitle>Alerts Created ({totalRepresentedItemCount})</ListTitle>
+      <ListTitle>
+        {t('in-new-components:alerting.components.alertHistoryListTitleWithTotalRepresentedItemCount', {
+          totalRepresentedItemCount: totalRepresentedItemCount
+        })}
+      </ListTitle>
       {items.length > 0 && (
         <Ul>
           {items.map(e => {

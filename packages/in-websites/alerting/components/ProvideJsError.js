@@ -4,6 +4,7 @@
  */
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import {
@@ -40,7 +41,9 @@ export default function ProvideJsError({ form, timeConfig, onSelectJsError, mode
               [locals.jsErrorsSelectAdvanceMode]: mode === modeAdvanced
             })}
           >
-            <HelpText className={locals.helpText}>Select JS error message as template (optional)</HelpText>
+            <HelpText className={locals.helpText}>
+              {t('in-websites:alerting.components.selectJSErrorHelpText')}
+            </HelpText>
             <Button
               className={classNames({
                 [locals.jsErrorsSelectButtonAdvanceMode]: mode === modeAdvanced
@@ -68,17 +71,17 @@ export default function ProvideJsError({ form, timeConfig, onSelectJsError, mode
                         slideOut={() => onSelectJsError({ isVisible: false })}
                       />
                     ),
-                    title: 'Select JS Error'
+                    title: t('in-websites:alerting.components.selectJSErrorTitle')
                   },
                   isVisible: true
                 });
               }}
             >
-              Select JS Error
+              {t('in-websites:alerting.components.selectJSErrorTitle')}
             </Button>
           </div>
           <Label htmlFor={'ruleOperator'} hasError={!field.valid && field.touched}>
-            Error Message
+            {t('in-websites:alerting.components.errorMessage')}
           </Label>
           <ComboBox
             name={'ruleOperator'}

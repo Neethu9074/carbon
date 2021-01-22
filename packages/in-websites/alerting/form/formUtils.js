@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import { onLoadTime, errorRate, statusCodeRate } from 'in-websites/alerting/constants';
 import { isGreaterOperator } from 'in-new-components/Alerting/utils/alertUtils';
 import { getAggregationText } from 'in-new-components/Alerting/utils/formUtils';
@@ -9,44 +10,33 @@ import { getBlueprintConfig } from 'in-websites/alerting/data/blueprintConfig';
 import { getStatusCodeLabel } from 'in-websites/alerting/form/ruleFormData';
 import { operators } from 'in-analyze/applicationFilter';
 
-const operatorDescriptionValues = {
-  [operators.EQUALS]: 'equal',
-  [operators.CONTAINS]: 'contain',
-  [operators.STARTS_WITH]: 'start with',
-  [operators.ENDS_WITH]: 'end with'
-};
-
 export function getTitlePlaceholder(form) {
   const rule = form.get('rule').toJS();
   const alertType = rule.alertType;
   switch (alertType) {
     case 'specificJsError': {
       if (rule.operator === operators.NOT_EMPTY) {
-        return `Any JS Errors`;
+        return t('in-websites:alerting.form.anyJSErrors');
       }
       const errorMessage = rule.value;
-      return `JS Error(s): "${errorMessage}"`;
+      return t('in-websites:alerting.form.JSErrors', { errorMessage: errorMessage });
     }
     case 'statusCode': {
       const statusCodeString = rule.value;
-      return `HTTP Status Code(s): ${fillStatusCodeValue(statusCodeString)}`;
+      return t('in-websites:alerting.form.HTTPStatusCodes', { statusCode: fillStatusCodeValue(statusCodeString) });
     }
     case 'slowness': {
       const thresholdOperator = form.get('threshold').get('operator').value;
-      return `onLoad Time (${getAggregationText(rule.aggregation)}) is too ${getSimpleHighOrLowOperatorText(
-        thresholdOperator
-      )}`;
+      return getSlownessSimpleHighOrLowOperatorText(getAggregationText(rule.aggregation), thresholdOperator);
     }
     case 'throughput': {
       const blueprintConfig = getBlueprintConfig(alertType);
       const metricName = blueprintConfig.getMetricName(rule);
       const thresholdOperator = form.get('threshold').get('operator').value;
-      return `Number of ${blueprintConfig.getMetricLabel(metricName)} is anomalously ${getSimpleHighOrLowOperatorText(
-        thresholdOperator
-      )}`;
+      return getThroughputSimpleHighOrLowOperatorText(blueprintConfig.getMetricLabel(metricName), thresholdOperator);
     }
     default:
-      throw Error('Unsupported alertType: ' + alertType);
+      throw Error(t('in-websites:alerting.form.unsupportedAlertType', { alertType: alertType }));
   }
 }
 
@@ -59,27 +49,22 @@ export function getDescriptionPlaceholder(form) {
   switch (alertType) {
     case 'specificJsError': {
       if (rule.operator === operators.NOT_EMPTY) {
-        return `JS Errors have been detected.`;
+        return t('in-websites:alerting.form.JSErrorsHaveBeenDetected');
       }
-      return `JS Errors which ${operatorDescriptionValues[rule.operator]} "${rule.value}" have been detected.`;
+      return getJSErrorText(rule.operator, rule.value);
     }
     case 'statusCode': {
       const statusCodeString = rule.value;
-      return `Occurrences of HTTP Status Code ${getStatusCodeLabel(
-        statusCodeString
-      )} is ${getSimpleAboveOrBelowOperatorText(thresholdOperator)} the expectation.`;
+      return getStatusCodeSimpleAboveOrBelowOperatorText(getStatusCodeLabel(statusCodeString), thresholdOperator);
     }
     case 'slowness': {
       const thresholdType = thresholdForm.get('type').value;
+      const aggregationText = getAggregationText(rule.aggregation);
       if (thresholdType === 'staticThreshold') {
         const thresholdValue = thresholdForm.get('value').value;
-        return `The onLoad Time (${getAggregationText(rule.aggregation)}) is ${getGreaterOrLessOperatorText(
-          thresholdOperator
-        )} ${thresholdValue} ms.`;
+        return getSlownessGreaterOrLessOperatorText(aggregationText, thresholdOperator, thresholdValue);
       }
-      return `The onLoad Time (${getAggregationText(rule.aggregation)}) is ${getSimpleAboveOrBelowOperatorText(
-        thresholdOperator
-      )} the expectation.`;
+      return getSlownessSimpleAboveOrBelowOperatorText(aggregationText, thresholdOperator);
     }
     case 'throughput': {
       const blueprintConfig = getBlueprintConfig(alertType);
@@ -89,12 +74,12 @@ export function getDescriptionPlaceholder(form) {
 
       if (thresholdType === 'staticThreshold') {
         const thresholdValue = thresholdForm.get('value').value;
-        return `The number of ${metricLabel} is ${getHigherOrLowerOperatorText(thresholdOperator)} ${thresholdValue}.`;
+        return getStaticThresholdHigherOrLowerOperatorText(metricLabel, thresholdOperator, thresholdValue);
       }
-      return `The number of ${metricLabel} is ${getHigherOrLowerOperatorText(thresholdOperator)} expected.`;
+      return getThresholdHigherOrLowerOperatorText(metricLabel, thresholdOperator);
     }
     default:
-      throw Error('Unsupported alertType: ' + alertType);
+      throw Error(t('in-websites:alerting.form.unsupportedAlertType', { alertType: alertType }));
   }
 }
 
@@ -127,40 +112,110 @@ function fillStatusCodeValue(statusCode) {
   return statusCode;
 }
 
-function getGreaterOrLessOperatorText(operator) {
+function getJSErrorText(operator, ruleValue) {
   switch (operator) {
-    case '>':
-      return 'greater than';
-    case '>=':
-      return 'greater or equal to';
-    case '<':
-      return 'less than';
-    case '<=':
-      return 'less or equal to';
+    case operators.EQUALS:
+      return t('in-websites:alerting.form.JSErrorTextEquals', { ruleValue: ruleValue });
+    case operators.CONTAINS:
+      return t('in-websites:alerting.form.JSErrorTextContains', { ruleValue: ruleValue });
+    case operators.STARTS_WITH:
+      return t('in-websites:alerting.form.JSErrorTextStartsWith', { ruleValue: ruleValue });
+    case operators.ENDS_WITH:
+      return t('in-websites:alerting.form.JSErrorTextEndsWith', { ruleValue: ruleValue });
     default:
-      throw Error('Unsupported operator: ' + operator);
+      throw Error(t('in-websites:alerting.form.unsupportedOperator', { operator: operator }));
   }
 }
 
-function getHigherOrLowerOperatorText(operator) {
+function getSlownessSimpleHighOrLowOperatorText(aggregationText, operator) {
+  return isGreaterOperator(operator)
+    ? t('in-websites:alerting.form.slownessSimpleHighOperatorText', { aggregationText: aggregationText })
+    : t('in-websites:alerting.form.slownessSimpleLowOperatorText', { aggregationText: aggregationText });
+}
+
+function getThroughputSimpleHighOrLowOperatorText(metricLabel, operator) {
+  return isGreaterOperator(operator)
+    ? t('in-websites:alerting.form.throughputSimpleHighOperatorText', { metricLabel: metricLabel })
+    : t('in-websites:alerting.form.throughputSimpleLowOperatorText', { metricLabel: metricLabel });
+}
+
+function getStatusCodeSimpleAboveOrBelowOperatorText(statusCodeLabel, operator) {
+  return isGreaterOperator(operator)
+    ? t('in-websites:alerting.form.statusCodeSimpleAboveOperatorText', { statusCodeLabel: statusCodeLabel })
+    : t('in-websites:alerting.form.statusCodeSimpleBelowOperatorText', { statusCodeLabel: statusCodeLabel });
+}
+
+function getSlownessSimpleAboveOrBelowOperatorText(aggregationText, operator) {
+  return isGreaterOperator(operator)
+    ? t('in-websites:alerting.form.slownessSimpleAboveOperatorText', { aggregationText: aggregationText })
+    : t('in-websites:alerting.form.slownessSimpleBelowOperatorText', { aggregationText: aggregationText });
+}
+
+function getSlownessGreaterOrLessOperatorText(aggregationText, operator, thresholdValue) {
   switch (operator) {
     case '>':
-      return 'higher than';
+      return t('in-websites:alerting.form.slownessGreaterOperatorText', {
+        aggregationText: aggregationText,
+        thresholdValue: thresholdValue
+      });
     case '>=':
-      return 'higher or equal to';
+      return t('in-websites:alerting.form.slownessGreaterEqualsOperatorText', {
+        aggregationText: aggregationText,
+        thresholdValue: thresholdValue
+      });
     case '<':
-      return 'lower than';
+      return t('in-websites:alerting.form.slownessLessOperatorText', {
+        aggregationText: aggregationText,
+        thresholdValue: thresholdValue
+      });
     case '<=':
-      return 'lower or equal to';
+      return t('in-websites:alerting.form.slownessLessEqualsOperatorText', {
+        aggregationText: aggregationText,
+        thresholdValue: thresholdValue
+      });
     default:
-      throw Error('Unsupported operator: ' + operator);
+      throw Error(t('in-websites:alerting.form.unsupportedOperator', { operator: operator }));
   }
 }
 
-function getSimpleAboveOrBelowOperatorText(operator) {
-  return isGreaterOperator(operator) ? 'above' : 'below';
+function getStaticThresholdHigherOrLowerOperatorText(metricLabel, operator, thresholdValue) {
+  switch (operator) {
+    case '>':
+      return t('in-websites:alerting.form.staticThresholdHigherOperatorText', {
+        metricLabel: metricLabel,
+        thresholdValue: thresholdValue
+      });
+    case '>=':
+      return t('in-websites:alerting.form.staticThresholdHigherEqualsOperatorText', {
+        metricLabel: metricLabel,
+        thresholdValue: thresholdValue
+      });
+    case '<':
+      return t('in-websites:alerting.form.staticThresholdLowerOperatorText', {
+        metricLabel: metricLabel,
+        thresholdValue: thresholdValue
+      });
+    case '<=':
+      return t('in-websites:alerting.form.staticThresholdLowerEqualsOperatorText', {
+        metricLabel: metricLabel,
+        thresholdValue: thresholdValue
+      });
+    default:
+      throw Error(t('in-websites:alerting.form.unsupportedOperator', { operator: operator }));
+  }
 }
 
-function getSimpleHighOrLowOperatorText(operator) {
-  return isGreaterOperator(operator) ? 'high' : 'low';
+function getThresholdHigherOrLowerOperatorText(metricLabel, operator) {
+  switch (operator) {
+    case '>':
+      return t('in-websites:alerting.form.thresholdHigherOperatorText', { metricLabel: metricLabel });
+    case '>=':
+      return t('in-websites:alerting.form.thresholdHigherEqualsOperatorText', { metricLabel: metricLabel });
+    case '<':
+      return t('in-websites:alerting.form.thresholdLowerOperatorText', { metricLabel: metricLabel });
+    case '<=':
+      return t('in-websites:alerting.form.thresholdLowerEqualsOperatorText', { metricLabel: metricLabel });
+    default:
+      throw Error(t('in-websites:alerting.form.unsupportedOperator', { operator: operator }));
+  }
 }

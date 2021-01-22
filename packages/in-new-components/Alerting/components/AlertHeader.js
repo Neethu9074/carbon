@@ -5,6 +5,7 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
+import { Trans, t } from 'in-i18n';
 import theme from 'in-themes';
 
 import RevisionDropdown, { toAlertRevision } from 'in-new-components/Alerting/components/RevisionDropdown';
@@ -65,9 +66,15 @@ export default function AlertHeader({
     toggle$.errors().once(error => {
       setIsToggling(false);
 
-      const errorMessage = `Failed to ${alertConfig.enabled ? 'disable' : 'enable'} alert config with ID ${
-        alertConfig.id
-      }: ${error.message}`;
+      const errorMessage = alertConfig.enabled
+        ? t('in-new-components:alerting.components.alertHeaderToggleDisableErrorMessage', {
+            alertConfigID: alertConfig.id,
+            errorMessage: error.message
+          })
+        : t('in-new-components:alerting.components.alertHeaderToggleEnableErrorMessage', {
+            alertConfigID: alertConfig.id,
+            errorMessage: error.message
+          });
       setErrorMessage(errorMessage);
     });
   };
@@ -86,7 +93,10 @@ export default function AlertHeader({
     });
     deletion$.errors().once(error => {
       setIsDeleting(false);
-      const errorMessage = `Failed to remove alert config with ID ${alertConfig.id}: ${error.message}`;
+      const errorMessage = t('in-new-components:alerting.components.alertHeaderDeleteErrorMessage', {
+        alertConfigID: alertConfig.id,
+        errorMessage: error.message
+      });
       setErrorMessage(errorMessage);
     });
   };
@@ -95,7 +105,11 @@ export default function AlertHeader({
     doRestoreConfig$(alertConfig, alertConfig.id).once(
       () => setRevision(null),
       error => {
-        const errorMessage = `Failed to restore alert config revision with ID ${alertConfig.id} and version ${alertConfig.created}: ${error.message}`;
+        const errorMessage = t('in-new-components:alerting.components.alertHeaderRestoreErrorMessage', {
+          alertConfigID: alertConfig.id,
+          alertConfigCreated: alertConfig.created,
+          errorMessage: error.message
+        });
         setErrorMessage(errorMessage);
       }
     );
@@ -103,7 +117,11 @@ export default function AlertHeader({
 
   return (
     <div>
-      <BackButton label="Back to list of alerts" href$={getLinkToAlerts(fullyQualifiedAlertsList)} withoutMargin />
+      <BackButton
+        label={t('in-new-components:alerting.components.alertHeaderLabelBackToListOfAlerts')}
+        href$={getLinkToAlerts(fullyQualifiedAlertsList)}
+        withoutMargin
+      />
 
       {errorMessage && (
         <TemporaryMessage id={errorMessage} message={errorMessage} type="error" onHide={() => setErrorMessage(null)} />
@@ -125,7 +143,7 @@ export default function AlertHeader({
 
         <div className={locals.right}>
           <Pill className={locals.badge} color={theme.lib.colors.purple800} kind="light">
-            Alert
+            {t('in-new-components:alerting.components.alertHeaderAlert')}
           </Pill>
 
           {alertConfigVersions.length > 1 && (
@@ -143,25 +161,31 @@ export default function AlertHeader({
           )}
 
           {alertConfig.readOnly && !isDeletedConfig && (
-            <Tooltip content={`Restore Revision ${alertRevision}`}>
+            <Tooltip
+              content={t('in-new-components:alerting.components.alertHeaderRestoreRevisionTooltip', {
+                alertRevision: alertRevision
+              })}
+            >
               <SvgIcon
                 className={locals.actionIcon}
                 type="lib_actions_revert"
                 onClick={() => {
                   addActiveDialog(
                     <ConfirmationDialog
-                      header="Please Confirm"
+                      header={t(
+                        'in-new-components:alerting.components.alertHeaderRestoreRevisionConfirmationDialogHeader'
+                      )}
                       description={
                         <span>
-                          Are you sure you want to restore{' '}
-                          <strong>
-                            &quot;Revision {alertRevision}
-                            &quot;
-                          </strong>
-                          ?
+                          {t(
+                            'in-new-components:alerting.components.alertHeaderRestoreRevisionConfirmationDialogDescription',
+                            { alertRevision: alertRevision }
+                          )}
                         </span>
                       }
-                      confirmButtonLabel="Restore"
+                      confirmButtonLabel={t(
+                        'in-new-components:alerting.components.alertHeaderRestoreRevisionConfirmationDialogConfirmButton'
+                      )}
                       onSubmit={() => {
                         close();
                         doRestore();
@@ -175,7 +199,13 @@ export default function AlertHeader({
 
           {role.canConfigureCustomAlerts && !alertConfig.readOnly && (
             <>
-              <Tooltip content={` ${alertConfig.enabled ? 'Disable' : 'Enable'}`}>
+              <Tooltip
+                content={
+                  alertConfig.enabled
+                    ? t('in-new-components:alerting.components.alertHeaderDisableTooltip')
+                    : t('in-new-components:alerting.components.alertHeaderEnableTooltip')
+                }
+              >
                 <SvgIcon
                   className={locals.actionIcon}
                   type={
@@ -205,13 +235,10 @@ export default function AlertHeader({
                           header="Please Confirm"
                           description={
                             <span>
-                              Are you sure you want to remove the{' '}
-                              <strong>
-                                alert &quot;
-                                {alertConfig.name}
-                                &quot;
-                              </strong>
-                              ?
+                              {t(
+                                'in-new-components:alerting.components.alertHeaderRestoreRevisionConfirmationDialogDescription',
+                                { alertConfigName: alertConfig.name }
+                              )}
                             </span>
                           }
                           confirmButtonLabel="Remove"
@@ -239,11 +266,15 @@ export default function AlertHeader({
       )}
       {isNotLatestRevision && (
         <Message withIcon className={locals.bottomSpace}>
-          You are looking at revision {alertRevision} of this alert configuration. Please select the
-          <Button className={locals.latestButton} kind="action" onClick={() => setRevision(null)}>
-            latest revision
-          </Button>
-          if you want to make changes.
+          <Trans
+            i18nKey="in-new-components:alerting.components.alertHeaderIsNotLatestRevisionMessage"
+            values={{ alertRevision: alertRevision }}
+            components={{
+              latestRevisionButton: (
+                <Button className={locals.latestButton} kind="action" onClick={() => setRevision(null)} />
+              )
+            }}
+          />
         </Message>
       )}
     </div>
@@ -273,8 +304,9 @@ function EditButton({ openDialog, convertedTagFilterExpression }) {
       content={
         isDisabled && (
           <div>
-            This config is stored with Query Builder 2 expressions. <br /> You can only start or pause, but not edit
-            those configurations when in Query Builder 1 mode
+            {t('in-new-components:alerting.components.alertHeaderThisConfigIsStoredWithQueryBuilder2Expressions')}
+            <br />
+            {t('in-new-components:alerting.components.alertHeaderYouCanOnlyStartOrPause')}
           </div>
         )
       }

@@ -4,6 +4,7 @@
  */
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import AlertFilterConfigurator, {
@@ -46,7 +47,7 @@ export default function AlertTagFilterExpressionConfig({
             size="compact"
             onClick={() => handleChangeTagFilterExpressionChange([], form, updateForm)}
           >
-            Clear
+            {t('in-new-components:alerting.components.alertTagFilterExpressionConfigButtonClear')}
           </Button>
         )
       }
