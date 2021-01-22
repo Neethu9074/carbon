@@ -147,3 +147,13 @@ export function getDashboardHeaderActions(props) {
   const { getDashboardHeaderActions } = getSnapshotDefinition(props.snapshot.get('plugin'));
   return getDashboardHeaderActions ? getDashboardHeaderActions(props) : [];
 }
+
+/**
+ * For metric dashboards we pre-configure certain metric specs. However for some plugins those
+ * metric specs are not correct. E.g. the Prometheus entity has HISTOGRAM metrics but without
+ * the `.mean` / `.50th` metrics. So to display correctly the default EXTENDED_HISTOGRAM metric
+ * spec has to be replaced by the HISTOGRAM metric spec.
+ */
+export function getCustomMetricsSpecs(plugin) {
+  return getSnapshotDefinition(plugin).customMetricsSpecs;
+}

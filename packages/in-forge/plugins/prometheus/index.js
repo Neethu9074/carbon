@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { SPECS } from 'in-forge/plugins/prometheus/Dashboard/PrometheusCustomMetrics';
 import metricDefinitions from 'in-forge/plugins/prometheus/metricDefinitions';
 import kpiDefinitions from 'in-forge/plugins/prometheus/kpiDefinitions';
 import { supportsCodeView, getCodeView } from 'in-forge/codeView/java';
@@ -20,5 +21,6 @@ registerSnapshotDefinition({
   supportsCodeView,
   technologyDescriptor: {
     label: 'Prometheus'
-  }
+  },
+  customMetricsSpecs: SPECS
 });

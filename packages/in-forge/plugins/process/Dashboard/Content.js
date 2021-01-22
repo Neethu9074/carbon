@@ -95,7 +95,7 @@ export default connectTo(
           </DashboardSection>
         ) : null}
 
-        <ProcessCompanionMetrics snapshotId={snapshotId} />
+        <ProcessCompanionMetrics snapshotId={snapshotId} timeConfig={timeConfig} />
         <ProcessesList snapshotId={snapshotId} />
       </div>
     );
