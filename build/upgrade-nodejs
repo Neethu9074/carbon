@@ -66,4 +66,6 @@ if [[ "$NEW_NODE_VERSION" != "$ACTUAL_NODE_VERSION" ]]; then
   exit 1
 fi
 
-echo "Great success, you are now running Node.js $ACTUAL_NODE_VERSION and this has also been set as your default Node.js version via nvm."
+echo "Great success, Node.js $ACTUAL_NODE_VERSION is installed and this has also been set as your default Node.js version via nvm."
+echo
+echo "Please remember to reload your shell so that this new Node.js version is used!"
