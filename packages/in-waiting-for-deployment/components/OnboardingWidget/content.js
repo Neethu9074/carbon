@@ -151,7 +151,7 @@ export default function getEntries({ disableAwsSensorDocumentation }) {
           Content: K8sHelmChartContent
         },
         {
-          label: 'DaemonSet',
+          label: 'YAML',
           keyWords: 'kubernetesdeamonsetk8s',
           Content: K8sDaemonSetContent
         },
@@ -183,9 +183,14 @@ export default function getEntries({ disableAwsSensorDocumentation }) {
       category: 'Platform',
       subTechnologies: [
         {
-          label: 'DaemonSet',
+          label: 'YAML',
           keyWords: 'kubernetesdeamonsetk8s',
           Content: OpenShiftDaemonSetContent
+        },
+        {
+          label: 'Helm chart',
+          keyWords: 'openshifthelmchartk8s',
+          Content: OpenShiftHelmContent
         },
         {
           label: 'Operator',
@@ -1711,7 +1716,7 @@ function K8sHelmChartContent({ agentKey, agentEndpoint, agentEndpointPort }) {
           <Spacer />
           <HelpBox>
             <TextWithLink
-              text="These instructions are for Helm Version 3. For more information visit the"
+              text="Helm version 3 is required. For more information visit the"
               href="https://instana.com/docs/ecosystem/kubernetes/"
               linkText="Instana Kubernetes documentation."
             />
@@ -1741,7 +1746,7 @@ function K8sDaemonSetContent({ agentKey, agentEndpoint, agentEndpointPort }) {
             <Input id="zone-name" value={zoneName} onChange={onZoneNameChange} placeholder="Agent zone (Optional)" />
           </Row>
           <YAMLFile
-            title="daemonset.yaml"
+            title="instana-agent"
             disabledErrorMessage={clusterNameValidationMessage}
             content={getKubernetesYamlConfig(
               agentKey,
@@ -1784,7 +1789,7 @@ function OpenShiftDaemonSetContent({ agentKey, agentEndpoint, agentEndpointPort 
             <Input id="zone-name" value={zoneName} onChange={onZoneNameChange} placeholder="Agent zone (Optional)" />
           </Row>
           <YAMLFile
-            title="daemonset.yaml"
+            title="instana-agent.yaml"
             disabledErrorMessage={clusterNameValidationMessage}
             content={getKubernetesYamlConfig(
               agentKey,
@@ -1798,6 +1803,54 @@ function OpenShiftDaemonSetContent({ agentKey, agentEndpoint, agentEndpointPort 
           <HelpBox>
             <TextWithLink
               text="For more information visit the"
+              href="https://instana.com/docs/ecosystem/openshift/"
+              linkText="Instana OpenShift documentation."
+            />
+          </HelpBox>
+        </>
+      )}
+    />
+  );
+}
+
+function OpenShiftHelmContent({ agentKey, agentEndpoint, agentEndpointPort }) {
+  const [zoneName, onZoneNameChange] = useState('');
+
+  return (
+    <ValidatedInputFields
+      fields={[
+        {
+          name: 'clusterName',
+          placeholder: "Cluster name, e.g., 'prod'",
+          validate: clusterNameValidator
+        }
+      ]}
+      renderContent={({ clusterName, clusterNameInput, clusterNameValidationMessage }) => (
+        <>
+          <Row>
+            {clusterNameInput}
+            <Input id="zone-name" value={zoneName} onChange={onZoneNameChange} placeholder="Agent zone (Optional)" />
+          </Row>
+          <Bash
+            disabledErrorMessage={clusterNameValidationMessage}
+            lines={[
+              'helm install instana-agent \\',
+              '--repo https://agents.instana.io/helm \\',
+              '--namespace instana-agent \\',
+              '--create-namespace \\',
+              '--set openshift=true \\',
+              `--set agent.key=${agentKey} \\`,
+              `--set agent.endpointHost=${agentEndpoint} \\`,
+              `--set agent.endpointPort=${agentEndpointPort} \\`,
+              `--set cluster.name='${clusterName}' \\`,
+              `--set zone.name='${zoneName}' \\`,
+              'instana-agent'
+            ]}
+          />
+          <Spacer />
+          <HelpBox>
+            <TextWithLink
+              text="Helm version 3 is required. For more information visit the"
               href="https://instana.com/docs/ecosystem/openshift/"
               linkText="Instana OpenShift documentation."
             />
