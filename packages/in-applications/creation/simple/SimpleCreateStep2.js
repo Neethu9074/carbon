@@ -22,8 +22,7 @@ export default function SimpleCreateStep2({
   form,
   updateForm,
   servicesLiveList,
-  blueprintCatalogResult,
-  isValidTagFilterExpression
+  blueprintCatalogResult
 }) {
   return (
     <SimpleModeStepContentWrapper headline="Specify your Application Perspective">
@@ -35,7 +34,6 @@ export default function SimpleCreateStep2({
             selectedBlueprint={selectedBlueprint}
             timeConfig={timeConfig}
             updateForm={updateForm}
-            isValidTagFilterExpression={isValidTagFilterExpression}
           />
         ) : (
           <CreateApplicationFilters

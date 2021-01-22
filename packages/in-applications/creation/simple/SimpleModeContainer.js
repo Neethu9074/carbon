@@ -92,7 +92,6 @@ export default function SimpleModeContainer({
                 updateForm={updateForm}
                 servicesLiveList={servicesLiveList}
                 blueprintCatalogResult={blueprintCatalogResult}
-                isValidTagFilterExpression={isValidTagFilterExpression}
               />
             );
           case 2:
