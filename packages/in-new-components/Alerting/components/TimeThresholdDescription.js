@@ -78,7 +78,7 @@ function getDescription(timeThreshold) {
     case 'requestImpact': {
       const requests = timeThreshold.requests;
       return t('in-new-components:alerting.components.timeThresholdDescriptionRequestImpact', {
-        requests: requests,
+        count: requests,
         formattedTimeWindow: formattedTimeWindow
       });
     }
