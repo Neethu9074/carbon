@@ -23,6 +23,7 @@ const helpTexts = {
   'entity.aws.mq': 'Elastic MQ',
   'entity.aws.emr': 'Elastic MapReduce',
   'entity.aws.lambda': 'AWS Lambda',
+  'entity.aws.ecs': 'AWS Elastic Container Service',
   'entity.azure': 'Microsoft Azure',
   'entity.azure.service': 'Microsoft Azure services',
   'entity.azure.service.apim': 'Azure API Management',
