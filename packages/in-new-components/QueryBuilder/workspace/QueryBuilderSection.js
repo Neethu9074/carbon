@@ -8,6 +8,8 @@ import React from 'react';
 import { trackingProps as queryBuilderTrackingProps } from 'in-new-components/QueryBuilder/QueryBuilder';
 import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';
 import Section from 'in-new-components/workspace/Section';
+import Stack from 'in-new-components/layout/Stack';
+import Message from 'in-new-components/Message';
 import Button from 'in-new-components/Button';
 
 export default function QueryBuilderSection({
@@ -16,7 +18,9 @@ export default function QueryBuilderSection({
   onChange,
   tracking,
   withoutIcon,
-  actions
+  actions,
+  hasError,
+  errors
 }) {
   return (
     <Section
@@ -32,12 +36,18 @@ export default function QueryBuilderSection({
           {actions}
         </HorizontalFlexWrapper>
       }
+      hasError={hasError}
     >
-      <QueryBuilder
-        value={tagFilterExpression}
-        onChange={tagFilterExpression => onChange(tagFilterExpression)}
-        tracking={tracking}
-      />
+      <Stack space="xsmall">
+        <div>
+          <QueryBuilder
+            value={tagFilterExpression}
+            onChange={tagFilterExpression => onChange(tagFilterExpression)}
+            tracking={tracking}
+          />
+        </div>
+        {hasError && errors.map(error => <Message key={error} type="error" withIcon small title={error} />)}
+      </Stack>
     </Section>
   );
 
@@ -56,5 +66,7 @@ QueryBuilderSection.propTypes = {
   tracking: rpt.shape({
     ...queryBuilderTrackingProps,
     onQueryCleared: rpt.func
-  })
+  }),
+  hasError: rpt.bool,
+  errors: rpt.array
 };

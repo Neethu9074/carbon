@@ -28,7 +28,8 @@ export default function FacetedFilterErroneous({
   hiddenCalls,
   updateFilter,
   dataSource,
-  openByDefault
+  openByDefault,
+  isValid
 }) {
   return (
     <FacetedExpandableCard title={title} openByDefault={openByDefault}>
@@ -37,12 +38,13 @@ export default function FacetedFilterErroneous({
         hiddenCalls={hiddenCalls}
         updateFilter={updateFilter}
         dataSource={dataSource}
+        isValid={isValid}
       />
     </FacetedExpandableCard>
   );
 }
 
-function Body({ tagFilterExpression, updateFilter, hiddenCalls, dataSource }) {
+function Body({ tagFilterExpression, updateFilter, hiddenCalls, dataSource, isValid }) {
   if (existingErroneousFilter(tagFilterExpression)) {
     return (
       <ExistingValue
@@ -68,11 +70,12 @@ function Body({ tagFilterExpression, updateFilter, hiddenCalls, dataSource }) {
       tagFilterExpression={tagFilterExpression}
       hiddenCalls={hiddenCalls}
       dataSource={dataSource}
+      isValid={isValid}
     />
   );
 }
 
-function Suggestion({ updateFilter, tagFilterExpression, hiddenCalls, dataSource }) {
+function Suggestion({ updateFilter, tagFilterExpression, hiddenCalls, dataSource, isValid }) {
   const timeConfig = useTimeConfig();
 
   const suggestions =
@@ -92,7 +95,11 @@ function Suggestion({ updateFilter, tagFilterExpression, hiddenCalls, dataSource
       [tagFilterExpression, hiddenCalls, dataSource, timeConfig]
     ) ?? pendingResult;
 
-  if (suggestions.progress.loading) {
+  if (!isValid) {
+    return null;
+  }
+
+  if (suggestions.progress?.loading) {
     return (
       <div className={locals.loading}>
         <InfiniteCircle width={72} height={24} />
@@ -103,7 +110,7 @@ function Suggestion({ updateFilter, tagFilterExpression, hiddenCalls, dataSource
   if (suggestions.errors?.length > 0) {
     return (
       <>
-        {suggestions?.errors.map(error => (
+        {suggestions.errors.map(error => (
           <Message key={error.code} className={locals.message} type="error" small>
             {error.message}
           </Message>
@@ -133,7 +140,7 @@ function Suggestion({ updateFilter, tagFilterExpression, hiddenCalls, dataSource
           <span className={locals.label}>Erroneous</span>
           <span className={locals.count}>
             {number.compact(
-              suggestions?.data?.results.filter(result => result.label === 'true')[0]?.metrics[
+              suggestions.data?.results.filter(result => result.label === 'true')[0]?.metrics[
                 dataSourceConstants[dataSource].metricKey
               ][0][1] || 0
             )}

@@ -127,3 +127,17 @@ function peek(arr) {
     return undefined;
   }
 }
+
+export function getMaximumExpressionDepth(expression) {
+  let max = 0;
+  if (expression.type !== EXPRESSION) {
+    return 0;
+  }
+
+  expression.elements
+    .filter(element => element.type === EXPRESSION)
+    .forEach(element => {
+      max = Math.max(max, getMaximumExpressionDepth(element));
+    });
+  return max + 1;
+}

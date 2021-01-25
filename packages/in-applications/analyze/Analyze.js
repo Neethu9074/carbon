@@ -155,8 +155,8 @@ function ApplicationAnalyzeViewWithFixatedTimeConfig() {
       dataSource
     ]) ?? pendingResult;
 
-  // in case of a pending result (validTagFilterExpressionResult.data === null) we do not want to show the user an error message
   const isValidExpression = validTagFilterExpressionResult.data === true;
+  const isInvalidExpression = validTagFilterExpressionResult.data === false;
   const isValid = isValidExpression && validGroupResult.data === true;
   const isInvalid = !isValidExpression && validGroupResult.data === false;
 
@@ -264,6 +264,8 @@ function ApplicationAnalyzeViewWithFixatedTimeConfig() {
               value={tagFilterExpression}
               onChange={onTagFilterExpressionChange}
               QueryBuilder={dataSource === 'traces' ? TraceQueryBuilder : CallQueryBuilder}
+              hasError={isInvalidExpression}
+              errors={validTagFilterExpressionResult.errors}
             />
 
             <GroupingConfiguratorSection

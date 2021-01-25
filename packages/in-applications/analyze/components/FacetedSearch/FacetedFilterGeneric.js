@@ -12,7 +12,6 @@ import { dataSourceConstants } from 'in-applications/analyze/metrics';
 import ExistingValue, { existingValuesForTag } from './ExistingValue';
 import SearchInput from 'in-new-components/SearchInput/SearchInput';
 import SuggestionsPresenter from './SuggestionsPresenter';
-import { pendingResult } from 'in-services/fixedObjects';
 import { mapDataHO } from 'in-services/util/result';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import useObservable from 'in-hooks/useObservable';
@@ -26,7 +25,8 @@ export default function FacetedFilterGeneric({
   entity,
   hiddenCalls,
   updateFilter,
-  dataSource
+  dataSource,
+  isValid
 }) {
   return (
     <FacetedExpandableCard title={title}>
@@ -37,13 +37,15 @@ export default function FacetedFilterGeneric({
         hiddenCalls={hiddenCalls}
         updateFilter={updateFilter}
         dataSource={dataSource}
+        isValid={isValid}
       />
     </FacetedExpandableCard>
   );
 }
 
-function Body({ tagFilterExpression, tag, entity, title, hiddenCalls, updateFilter, dataSource }) {
+function Body({ tagFilterExpression, tag, entity, title, hiddenCalls, updateFilter, dataSource, isValid }) {
   const [valueFilter, setValueFilter] = useState('');
+
   const selectedValues = existingValuesForTag(tagFilterExpression, tag, entity);
   if (selectedValues.length > 0) {
     return (
@@ -75,6 +77,7 @@ function Body({ tagFilterExpression, tag, entity, title, hiddenCalls, updateFilt
       valueFilter={valueFilter}
       setValueFilter={setValueFilter}
       dataSource={dataSource}
+      isValid={isValid}
     />
   );
 }
@@ -96,7 +99,8 @@ function SearchAndSuggestions({
   updateFilter,
   valueFilter,
   setValueFilter,
-  dataSource
+  dataSource,
+  isValid
 }) {
   return (
     <>
@@ -108,12 +112,13 @@ function SearchAndSuggestions({
         hiddenCalls={hiddenCalls}
         updateFilter={updateFilter}
         dataSource={dataSource}
+        isValid={isValid}
       />
     </>
   );
 }
 
-function Suggestions({ tagFilterExpression, hiddenCalls, tag, updateFilter, valueFilter, dataSource }) {
+function Suggestions({ tagFilterExpression, hiddenCalls, tag, updateFilter, valueFilter, dataSource, isValid }) {
   const timeConfig = useTimeConfig();
 
   const suggestionsFromServer = () =>
@@ -129,16 +134,16 @@ function Suggestions({ tagFilterExpression, hiddenCalls, tag, updateFilter, valu
       metrics: dataSourceConstants[dataSource].sumMetric
     });
   const valueRegex = new RegExp(valueFilter.split('').join('.*'), 'i');
-  const suggestions =
-    useObservable(
-      suggestionsFromServer().map(
-        mapDataHO(data => ({
-          ...data,
-          results: data.results.filter(suggestion => valueRegex.test(suggestion.label))
-        }))
-      ),
-      [tagFilterExpression, hiddenCalls, tag, valueFilter, dataSource, timeConfig]
-    ) ?? pendingResult;
+  const suggestions = useObservable(
+    suggestionsFromServer().map(
+      mapDataHO(data => ({
+        ...data,
+        results: data.results.filter(suggestion => valueRegex.test(suggestion.label))
+      }))
+    ),
+    [tagFilterExpression, hiddenCalls, tag, valueFilter, dataSource, timeConfig]
+  );
+
   return (
     <SuggestionsPresenter
       loading={suggestions?.progress.loading}
@@ -147,6 +152,7 @@ function Suggestions({ tagFilterExpression, hiddenCalls, tag, updateFilter, valu
       updateFilter={updateFilter}
       tag={tag}
       dataSource={dataSource}
+      isValid={isValid}
     />
   );
 }

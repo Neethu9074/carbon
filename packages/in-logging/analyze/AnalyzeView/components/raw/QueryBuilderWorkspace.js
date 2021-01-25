@@ -28,6 +28,7 @@ export default function LoggingQueryBuilderWorkspace(props) {
             QueryBuilder={LogsQueryBuilder}
             tracking={tracking}
             actions={<TagSelector {...props} compact maxSelectableTags={3} />}
+            hasError={isInvalid}
           />
         </Sections>
         {isInvalid && (

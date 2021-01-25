@@ -25,7 +25,8 @@ export default function SuggestionsPresenter({
   suggestions = [],
   tag,
   updateFilter,
-  dataSource
+  dataSource,
+  isValid = true
 }) {
   if (loading) {
     return <Loading />;
@@ -34,7 +35,15 @@ export default function SuggestionsPresenter({
   } else if (!suggestions) {
     return null;
   } else if (suggestions.length > 0) {
-    return <Results suggestions={suggestions} tag={tag} updateFilter={updateFilter} dataSource={dataSource} />;
+    return (
+      <Results
+        suggestions={suggestions}
+        tag={tag}
+        updateFilter={updateFilter}
+        dataSource={dataSource}
+        isValid={isValid}
+      />
+    );
   } else {
     return <NoResults />;
   }
@@ -60,9 +69,14 @@ function Errors({ errors }) {
   );
 }
 
-function Results({ suggestions, tag, updateFilter, dataSource }) {
+function Results({ suggestions, tag, updateFilter, dataSource, isValid }) {
   const [showMore, setShowMore] = useState(DEFAULT_SUGGESTIONS_SIZE);
   const nextBatch = Math.min(suggestions.length - showMore, 20);
+
+  if (!isValid) {
+    return null;
+  }
+
   return (
     <>
       {sortBy(suggestions, suggestion => -1 * suggestion.metrics[dataSourceConstants[dataSource].metricKey][0][1])

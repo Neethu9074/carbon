@@ -4,11 +4,15 @@
  */
 import React from 'react';
 
+import {
+  toBackendQueryModel,
+  getMaximumExpressionDepth
+} from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import { fromTagFiltersArray } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { isFormModelValid } from 'in-new-components/QueryBuilder/validation/formModel';
 import QueryBuilder from 'in-new-components/QueryBuilder/QueryBuilder';
+import { success, errorWithData } from 'in-services/util/result';
 import { getTagCatalogOnce } from 'in-services/tags/tagCatalog';
-import { success } from 'in-services/util/result';
 
 export function createQueryBuilder({
   getTagCatalog: originalGetTagCatalog,
@@ -41,7 +45,11 @@ export function createQueryBuilder({
         if (!result.data) {
           return result;
         }
-        return success(isFormModelValid({ tagCatalog: result.data, formModel }));
+        const formModelValid = isFormModelValid({ tagCatalog: result.data, formModel });
+        if (formModelValid && getMaximumExpressionDepth(toBackendQueryModel(formModel)) > 5) {
+          return errorWithData(['Your defined query is too complex, reduce the amount of nesting.'], false);
+        }
+        return success(formModelValid);
       }),
 
     // Observable<Result<FormModel>>

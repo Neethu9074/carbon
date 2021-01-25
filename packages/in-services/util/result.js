@@ -55,6 +55,15 @@ export function error(errors, time = Date.now()) {
   });
 }
 
+export function errorWithData(errors, data, time = Date.now()) {
+  return Object.freeze({
+    data,
+    errors,
+    progress: finishedProgress,
+    time
+  });
+}
+
 export function listSuccess(data, totalHits = data.length, pageSize = data.length, time = Date.now()) {
   return success(
     {

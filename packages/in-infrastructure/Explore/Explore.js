@@ -151,6 +151,7 @@ function InfraExploreViewWithFixatedTimeConfig() {
                 onTagRemoved: filterRemovedTracker(getInfraExploreState),
                 onQueryCleared: filtersClearedTracker(getInfraExploreState)
               }}
+              hasError={isInvalid}
             />
 
             <GroupingConfiguratorSection

@@ -47,6 +47,7 @@ export default function LoggingQueryBuilderWorkspace({
               value={tagFilterExpression}
               onChange={onTagFilterExpressionChange}
               QueryBuilder={LogsQueryBuilder}
+              hasError={isInvalid}
             />
 
             <GroupingConfiguratorSection

@@ -38,6 +38,7 @@ export default function FacetedSearch({
         updateFilter={updateFilter}
         dataSource={dataSource}
         hiddenCalls={hiddenCalls}
+        isValid={isValid}
         openByDefault
       />
       <FacetedFilterGeneric
@@ -48,6 +49,7 @@ export default function FacetedSearch({
         updateFilter={updateFilter}
         dataSource={dataSource}
         hiddenCalls={hiddenCalls}
+        isValid={isValid}
       />
 
       <FacetedFilterGeneric
@@ -58,6 +60,7 @@ export default function FacetedSearch({
         updateFilter={updateFilter}
         dataSource={dataSource}
         hiddenCalls={hiddenCalls}
+        isValid={isValid}
       />
       <FacetedFilterGeneric
         title="Endpoints"
@@ -67,6 +70,7 @@ export default function FacetedSearch({
         updateFilter={updateFilter}
         dataSource={dataSource}
         hiddenCalls={hiddenCalls}
+        isValid={isValid}
       />
       <FacetedFilterGeneric
         title="Types"
@@ -75,6 +79,7 @@ export default function FacetedSearch({
         updateFilter={updateFilter}
         dataSource={dataSource}
         hiddenCalls={hiddenCalls}
+        isValid={isValid}
       />
       <FacetedFilterGeneric
         title="Technologies"
@@ -84,6 +89,7 @@ export default function FacetedSearch({
         updateFilter={updateFilter}
         hiddenCalls={hiddenCalls}
         dataSource={dataSource}
+        isValid={isValid}
       />
       <FacetedFilterHttpStatusCodes
         title="HTTP Status Code"
