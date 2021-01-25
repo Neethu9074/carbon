@@ -56,7 +56,7 @@ export default function JsErrorsInteractiveChart({
       >
         {chartViewConfig => (
           <AlertingChartWithErrorMessage
-            alertConfig={alertConfig}
+            alertConfigWithFormModel={alertConfig}
             viewConfig={chartViewConfig}
             blueprintConfig={blueprintConfig}
             alertsPreviewEnabled

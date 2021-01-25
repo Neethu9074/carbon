@@ -53,7 +53,7 @@ export default function StatusCodeInteractiveChart({
       >
         {chartViewConfig => (
           <AlertingChartWithErrorMessage
-            alertConfig={alertConfig}
+            alertConfigWithFormModel={alertConfig}
             viewConfig={chartViewConfig}
             blueprintConfig={blueprintConfig}
             alertsPreviewEnabled

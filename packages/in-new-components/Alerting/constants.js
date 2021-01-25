@@ -28,10 +28,10 @@ export const blueprintConfigPropType = PropTypes.shape({
   isRuleComplete: PropTypes.func.isRequired,
 
   getRuleTagFilters: PropTypes.func.isRequired,
-  getRuleTagFilterExpression: PropTypes.func.isRequired,
+  getRuleTagFilterFormModel: PropTypes.func.isRequired,
 
-  getEntityTagFilter: PropTypes.func.isRequired,
-  getEntityTagFilterExpression: PropTypes.func.isRequired,
+  getEntityTagFilters: PropTypes.func.isRequired,
+  getEntityTagFilterFormModel: PropTypes.func.isRequired,
 
   // the following are only needed when the blueprint has sub-types in simple-mode:
   subType: PropTypes.string,

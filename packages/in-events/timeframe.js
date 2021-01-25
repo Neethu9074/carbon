@@ -48,13 +48,20 @@ export function getTimeConfigFromEvent(event) {
   };
 }
 
+export function getSmartAlertAnalyzeTimeframe(event, alertConfig) {
+  if (alertConfig.rule.alertType === 'throughput') {
+    return getWidenedTimeConfigFromEvent(event, alertConfig.granularity);
+  }
+  return getTimeConfigFromEvent(event);
+}
+
 /**
  * Get the timeframe from an event and, if possible, widens the timeConfig on both sides, to return a bigger timeframe.
  * This can be useful when it is known that the surrounding area is actually from interest too.
  * @param event                The event to retrieve the timeframe from.
  * @param widenTimeframeMillis The time in millis to extend both sides. If to is NULL, then only the LHS is extended.
  */
-export function getWidenedTimeConfigFromEvent(event, widenTimeframeMillis) {
+function getWidenedTimeConfigFromEvent(event, widenTimeframeMillis) {
   const timeConfig = getTimeConfigFromEvent(event);
   // extend begin by one bucket, and end also by bucket in case the to-timestamp is fixed
   const toIsFixed = !!timeConfig.to;

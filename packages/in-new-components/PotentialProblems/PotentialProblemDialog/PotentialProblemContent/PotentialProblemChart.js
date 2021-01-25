@@ -38,7 +38,7 @@ export default function PotentialProblemChart({
 
   return (
     <AlertingChartWithErrorMessage
-      alertConfig={alertConfig}
+      alertConfigWithFormModel={alertConfig}
       viewConfig={{
         ...createDefaultChartConfig(getTimeConfig()),
         smoothMetric: false

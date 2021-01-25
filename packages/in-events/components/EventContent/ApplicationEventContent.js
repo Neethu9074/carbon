@@ -9,6 +9,7 @@ import {
   getTimeConfigFromEventForSnapshotRetrieval,
   getTimeConfigFromEvent
 } from 'in-events/timeframe';
+import ReadOnlyInboundOrAllCalls from 'in-applications/alerting/advanced/InboundOutboundCallsSwitch/ReadOnlyInboundOrAllCalls';
 import AlertingChartWithErrorMessage from 'in-new-components/Alerting/Chart/AlertingChartWithErrorMessage';
 import { SmartAlertAffectedEntities } from 'in-events/components/EventContent/SmartAlertAffectedEntities';
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
@@ -17,7 +18,6 @@ import ScopeConfigPresenter from 'in-new-components/Alerting/components/ScopeCon
 import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-applications/tags';
 import ApplicationAlertConfigButton from 'in-events/components/ApplicationAlertConfigButton';
 import { createDefaultChartConfig } from 'in-new-components/Alerting/Chart/chartViewConfig';
-import { getAlertConfigByIdAndTimestamp } from 'in-applications/api/applicationAlertConfig';
 import { fromBackendModel } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { alertingEventDetailsChartTimeframe } from 'in-new-components/Alerting/constants';
 import EntityInformation from 'in-events/components/EntityInformation/EntityInformation';
@@ -25,31 +25,26 @@ import AlertQueryBuilder from 'in-applications/alerting/components/AlertQueryBui
 import { getBlueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
+import useAppDataEventEntity from 'in-events/hooks/useAppDataEventEntity';
+import useEventAlertConfig from 'in-events/hooks/useEventAlertConfig';
+import { getSmartAlertAnalyzeTimeframe } from 'in-events/timeframe';
 import { Col, Row } from 'in-new-components/layout/Grid';
-import useObservable from 'in-hooks/useObservable';
 import Card from 'in-new-components/Card';
 
-export default function ApplicationEventContent({ event }) {
-  const alertConfig = useObservable(
-    ([event]) => {
-      if (!event) {
-        return;
-      }
-      const configId = event.getIn(['metadata', 'eventSpecificationId']);
-      const configTimestamp = event.getIn(['metadata', 'alertConfigCreated']);
-      return getAlertConfigByIdAndTimestamp(configId, configTimestamp);
-    },
-    [event]
-  );
+import locals from './ApplicationEventContent.mless';
 
-  if (!alertConfig) {
+export default function ApplicationEventContent({ event }) {
+  const alertConfig = useEventAlertConfig(event);
+  const eventEntity = useAppDataEventEntity(event);
+
+  if (!eventEntity || !alertConfig) {
     return null;
   }
 
   const entityId = event.get('entityId');
   const entityType = event.get('entityType');
   const metadata = event.get('metadata');
-  const applicationName = metadata.get('entityLabel');
+
   const { tagFilters, tagFilterExpression, rule, convertedTagFilterExpression, boundaryScope } = alertConfig;
   const alertType = rule.alertType;
 
@@ -58,9 +53,11 @@ export default function ApplicationEventContent({ event }) {
     ...getChartTimeConfigByEvent({ event }),
     windowSize: alertingEventDetailsChartTimeframe
   };
+  const analyzeTimeConfig = getSmartAlertAnalyzeTimeframe(event, alertConfig);
   const chartViewConfig = createDefaultChartConfig(timeConfig);
 
-  const tagFilterExpressionUiModel = fromBackendModel(tagFilterExpression);
+  const tagFilterFormModel = fromBackendModel(tagFilterExpression);
+  // TODO add service-scope filter to the expression ... this one is then needed for the chart and the affected-entities
 
   return (
     <>
@@ -79,7 +76,11 @@ export default function ApplicationEventContent({ event }) {
             <ProblemDescription event={event} className="in-event-view-event-content" />
             <DescriptionButtons>
               <ApplicationAlertConfigButton alertConfig={alertConfig} />
-              <AnalyzeApplicationEventButton event={event} alertConfig={alertConfig} />
+              <AnalyzeApplicationEventButton
+                alertConfig={alertConfig}
+                applicationName={eventEntity.applicationName}
+                timeConfig={analyzeTimeConfig}
+              />
             </DescriptionButtons>
           </Card>
         </Col>
@@ -89,9 +90,9 @@ export default function ApplicationEventContent({ event }) {
         <Col xs>
           <Card title="Metrics">
             <AlertingChartWithErrorMessage
-              alertConfig={{
+              alertConfigWithFormModel={{
                 ...alertConfig,
-                tagFilterExpression: tagFilterExpressionUiModel
+                tagFilterExpression: tagFilterFormModel
               }}
               viewConfig={chartViewConfig}
               blueprintConfig={blueprintConfig}
@@ -103,24 +104,27 @@ export default function ApplicationEventContent({ event }) {
       <Row withoutSideMargin>
         <Col xs>
           <Card title="Scope">
-            <ScopeConfigPresenter
-              tagFilterList={
-                <TagFilterListPresenter
-                  tagFilters={translateDemocratisationTagFiltersToAnalyzeTagFilters({
-                    applicationName,
-                    tagFilters: [blueprintConfig.getEntityTagFilter(alertConfig), ...tagFilters]
-                  })}
-                  disabled
-                />
-              }
-              tagFilterExpressionUiModel={tagFilterExpressionUiModel}
-              queryBuilder={<AlertQueryBuilder value={tagFilterExpressionUiModel} readOnly />}
-              convertedTagFilterExpression={convertedTagFilterExpression}
-              iconLabelConfig={{
-                text: applicationName,
-                type: 'lib_application'
-              }}
-            />
+            <div className={locals.alertFiltersWrapper}>
+              <ScopeConfigPresenter
+                tagFilterList={
+                  <TagFilterListPresenter
+                    tagFilters={translateDemocratisationTagFiltersToAnalyzeTagFilters({
+                      applicationName: eventEntity.applicationName,
+                      tagFilters: [...blueprintConfig.getEntityTagFilters(alertConfig), ...tagFilters]
+                    })}
+                    disabled
+                  />
+                }
+                tagFilterFormModel={tagFilterFormModel}
+                queryBuilder={<AlertQueryBuilder value={tagFilterFormModel} readOnly />}
+                convertedTagFilterExpression={convertedTagFilterExpression}
+                scopePath={{
+                  applicationName: eventEntity.applicationName,
+                  serviceName: eventEntity.serviceName
+                }}
+              />
+            </div>
+            <ReadOnlyInboundOrAllCalls alertConfig={alertConfig} />
           </Card>
         </Col>
       </Row>

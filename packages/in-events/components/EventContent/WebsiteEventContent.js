@@ -9,6 +9,7 @@ import {
   getTimeConfigFromEvent,
   getTimeConfigFromEventForSnapshotRetrieval
 } from 'in-events/timeframe';
+import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import { getEnhancedTagFilters } from 'in-new-components/Alerting/utils/tagfilterEnrichmentUtil';
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
 import { createDefaultChartConfig } from 'in-new-components/Alerting/Chart/chartViewConfig';
@@ -22,6 +23,7 @@ import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import { getBlueprintConfig } from 'in-websites/alerting/data/blueprintConfig';
 import AlertingChart from 'in-new-components/Alerting/Chart/AlertingChart';
+import { getSmartAlertAnalyzeTimeframe } from 'in-events/timeframe';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import Card from 'in-new-components/Card';
 import connectTo from 'in-hoc/connectTo';
@@ -52,10 +54,13 @@ export default connectTo(
       ...getChartTimeConfigByEvent({ event }),
       windowSize: alertingEventDetailsChartTimeframe
     };
+    const analyzeTimeConfig = getSmartAlertAnalyzeTimeframe(event, alertConfig);
     const chartViewConfig = createDefaultChartConfig(timeConfig);
     const blueprintConfig = getBlueprintConfig(alertType);
 
-    const { numeratorFilter, enrichedTagFilters, enrichedTagFilterExpression } = getEnhancedTagFilters(
+    // TODO enrichedTagFilterFormModel is always undefined here at the moment. In Website SmartAlerts, we don't
+    //      fully support QB2 yet.
+    const { numeratorFilter, enrichedTagFilters, enrichedTagFilterFormModel } = getEnhancedTagFilters(
       alertConfig,
       blueprintConfig
     );
@@ -76,7 +81,11 @@ export default connectTo(
               <ProblemDescription event={event} className="in-event-view-event-content" />
               <DescriptionButtons>
                 <WebsiteAlertConfigButton alertConfig={alertConfig} />
-                <AnalyzeWebsiteEventButton event={event} alertConfig={alertConfig} />
+                <AnalyzeWebsiteEventButton
+                  alertConfig={alertConfig}
+                  websiteName={websiteLabel}
+                  timeConfig={analyzeTimeConfig}
+                />
               </DescriptionButtons>
             </Card>
           </Col>
@@ -86,12 +95,15 @@ export default connectTo(
           <Col xs>
             <Card title="Metrics">
               <AlertingChart
-                alertConfig={alertConfig}
+                alertConfigWithFormModel={{
+                  ...alertConfig,
+                  tagFilterExpression: enrichedTagFilterFormModel
+                }}
                 viewConfig={chartViewConfig}
                 blueprintConfig={blueprintConfig}
                 numeratorFilter={numeratorFilter}
                 enrichedTagFilters={enrichedTagFilters}
-                enrichedTagFilterExpression={enrichedTagFilterExpression}
+                enrichedTagFilterExpression={toBackendQueryModel(enrichedTagFilterFormModel)}
                 isQB1only
               />
             </Card>
@@ -104,7 +116,7 @@ export default connectTo(
               <div className={locals.filterList}>
                 <TagFilterListPresenter
                   tagFilters={translateDemocratisationTagFiltersToAnalyzeTagFilters({
-                    tagFilters: [blueprintConfig.getEntityTagFilter(alertConfig), ...tagFilters],
+                    tagFilters: [...blueprintConfig.getEntityTagFilters(alertConfig), ...tagFilters],
                     websiteLabel
                   })}
                   disabled

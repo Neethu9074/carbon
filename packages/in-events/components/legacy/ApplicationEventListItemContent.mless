@@ -9,7 +9,15 @@
     margin-top: 0.625rem;
   }
 
-  .domainContentWrapper {
+  .scopeContentWrapper {
       margin-top: 0.25rem;
+  }
+
+  .alertFiltersWrapper {
+    margin: 0 0 1rem;
+  }
+
+  .title {
+    font-size: 0.75rem;
   }
 }

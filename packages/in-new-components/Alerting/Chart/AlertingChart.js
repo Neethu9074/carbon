@@ -27,7 +27,7 @@ const legendColors = [
 ];
 
 export default function AlertingChart({
-  alertConfig,
+  alertConfigWithFormModel,
   viewConfig,
   blueprintConfig,
   alertsPreviewEnabled,
@@ -37,13 +37,13 @@ export default function AlertingChart({
   isQB1only,
   canReload
 }) {
-  const { granularity, threshold, timeThreshold, convertedTagFilterExpression } = alertConfig;
+  const { granularity, rule, threshold, timeThreshold, convertedTagFilterExpression } = alertConfigWithFormModel;
 
-  const metricName = blueprintConfig.getMetricName(alertConfig.rule);
+  const metricName = blueprintConfig.getMetricName(rule);
   const metricChartGranularity = Math.max(granularity, viewConfig.minChartMetricGranularity);
   const formatter = blueprintConfig.getMetricFormat(metricName);
 
-  const aggregation = blueprintConfig.getAggregation(alertConfig.rule);
+  const aggregation = blueprintConfig.getAggregation(rule);
   const metricLabel = blueprintConfig.getMetricLabel(metricName);
   const isStaticThreshold = threshold.type === 'staticThreshold';
 
@@ -206,12 +206,12 @@ function getMaxForBaselineChart({ metricsMaxValue, operator, baseline, sensitivi
 
 AlertingChart.propTypes = {
   viewConfig: chartViewConfigPropType.isRequired,
-  alertConfig: PropTypes.object.isRequired,
+  alertConfigWithFormModel: PropTypes.object.isRequired,
   blueprintConfig: PropTypes.object.isRequired,
   alertsPreviewEnabled: PropTypes.bool,
   canReload: PropTypes.bool,
   numeratorFilter: PropTypes.object,
   isQB1only: PropTypes.bool,
   enrichedTagFilters: PropTypes.array,
-  enrichedTagFilterExpression: PropTypes.oneOfType([PropTypes.array, PropTypes.object])
+  enrichedTagFilterExpression: PropTypes.object
 };

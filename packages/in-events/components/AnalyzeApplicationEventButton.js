@@ -10,33 +10,20 @@ import { joinExpressions, fromBackendModel } from 'in-new-components/QueryBuilde
 import { isQB2Config, isQB2ModeEnabled } from 'in-new-components/Alerting/components/WithQB1orQB2';
 import { applicationsAlertingEventDetailsGoToAnalyze } from 'in-applications/alerting/tracker';
 import { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
-import { getTimeConfigFromEvent, getWidenedTimeConfigFromEvent } from 'in-events/timeframe';
 import { toTagFilterNumberOperator } from 'in-new-components/Alerting/utils/alertUtils';
 import { getLinkToAnalyze, getDirectLinkToUA2 } from 'in-analyze/navigation/paths';
 import { getBlueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
 import { getBaselineValue } from 'in-new-components/Alerting/utils/baselineUtils';
 import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import { convertToAnalyzeFilters } from 'in-applications/tags';
+import { propTypeTimeConfig } from 'in-stores/time/config';
 import Button from 'in-new-components/Button';
 import Tooltip from 'in-components/Tooltip';
 
 const dataSource = 'calls';
 const alertTypeWithDisabledGrouping = ['errorRate', 'slowness'];
 
-export default function AnalyzeApplicationEventButton({ event, alertConfig }) {
-  const metadata = event.get('metadata');
-  const applicationName = metadata.get('entityLabel');
-  const timeConfig = getRelevantEventTimeframe(event, alertConfig);
-
-  return <GoToAnalyzeButton applicationName={applicationName} timeConfig={timeConfig} alertConfig={alertConfig} />;
-}
-
-AnalyzeApplicationEventButton.propTypes = {
-  event: PropTypes.object.isRequired,
-  alertConfig: PropTypes.object.isRequired
-};
-
-function GoToAnalyzeButton({ applicationName, timeConfig, alertConfig }) {
+export default function AnalyzeApplicationEventButton({ alertConfig, applicationName, timeConfig }) {
   const tagCatalog = useTagCatalog(getTagCatalog);
   const linkToUA = getLinkToUnboundAnalytics(applicationName, alertConfig, timeConfig, tagCatalog);
   const linkDisabled = !linkToUA;
@@ -65,6 +52,12 @@ function GoToAnalyzeButton({ applicationName, timeConfig, alertConfig }) {
   );
 }
 
+AnalyzeApplicationEventButton.propTypes = {
+  alertConfig: PropTypes.object.isRequired,
+  applicationName: PropTypes.string.isRequired,
+  timeConfig: propTypeTimeConfig.isRequired
+};
+
 function getLinkToUnboundAnalytics(applicationName, alertConfig, timeConfig, tagCatalog) {
   const boundaryScope = alertConfig.boundaryScope;
   const alertRule = alertConfig.rule;
@@ -80,7 +73,7 @@ function getLinkToUnboundAnalytics(applicationName, alertConfig, timeConfig, tag
         expressions: [
           getApplicationNameTagFilter(boundaryScope, applicationName),
           fromBackendModel(alertConfig.tagFilterExpression),
-          blueprintConfig.getRuleTagFilterExpression(alertRule)
+          blueprintConfig.getRuleTagFilterFormModel(alertRule)
         ]
       })
     });
@@ -113,13 +106,6 @@ function getApplicationNameTagFilter(boundaryScope, applicationName) {
     type: 'TAG_FILTER',
     value: applicationName
   };
-}
-
-function getRelevantEventTimeframe(event, alertConfig) {
-  if (alertConfig.rule.alertType === 'throughput') {
-    return getWidenedTimeConfigFromEvent(event, alertConfig.granularity);
-  }
-  return getTimeConfigFromEvent(event);
 }
 
 export function getEnrichedAnalyzeFilters(alertConfig, timeConfig) {

@@ -42,7 +42,7 @@ export default function ErrorRateInteractiveChart({
       >
         {chartViewConfig => (
           <AlertingChartWithErrorMessage
-            alertConfig={alertConfigWithDefaultThreshold(form)}
+            alertConfigWithFormModel={alertConfigWithDefaultThreshold(form)}
             viewConfig={chartViewConfig}
             blueprintConfig={blueprintConfig}
             alertsPreviewEnabled

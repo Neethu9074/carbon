@@ -24,12 +24,36 @@ const baseBlueprint = Object.freeze({
   getAvailableTags: getIncludedTags,
 
   // QB1
-  getEntityTagFilter: getApplicationIdTagFilter,
+  getEntityTagFilters: (alertConfig, serviceId, endpointId) => {
+    const tagFilters = [getApplicationIdTagFilter(alertConfig)];
+    if (serviceId) {
+      tagFilters.push(tagFilter('service.name', 'EQUALS', serviceId));
+    }
+    if (endpointId) {
+      tagFilters.push(tagFilter('endpoint.name', 'EQUALS', endpointId));
+    }
+    return tagFilters;
+  },
   getRuleTagFilters: () => [],
 
   // QB2
-  getEntityTagFilterExpression: getApplicationIdTagFilterExpression,
-  getRuleTagFilterExpression: () => []
+  getEntityTagFilterFormModel: (alertConfig, serviceId, endpointId) => {
+    const formModel = [getApplicationIdTagFilter(alertConfig)];
+    if (!serviceId && !endpointId) {
+      return formModel;
+    }
+
+    if (serviceId) {
+      formModel.push(AND_CONJUNCTION);
+      formModel.push(tagFilter('service.name', 'EQUALS', serviceId));
+    }
+    if (endpointId) {
+      formModel.push(AND_CONJUNCTION);
+      formModel.push(tagFilter('endpoint.name', 'EQUALS', endpointId));
+    }
+    return formModel;
+  },
+  getRuleTagFilterFormModel: () => []
 });
 
 const slownessBlueprintConfig = Object.freeze({
@@ -49,7 +73,7 @@ const slownessBlueprintConfig = Object.freeze({
   getAggregation: alertRule => alertRule.aggregation,
   isRuleComplete: () => true,
   getRuleTagFilters: () => [], // QB1
-  getRuleTagFilterExpression: () => [] // QB2
+  getRuleTagFilterFormModel: () => [] // QB2
 });
 
 const errorRateBlueprintConfig = Object.freeze({
@@ -69,7 +93,7 @@ const errorRateBlueprintConfig = Object.freeze({
   getAggregation: () => 'MEAN',
   isRuleComplete: () => true,
   getRuleTagFilters: () => [], //QB1
-  getRuleTagFilterExpression: () => [] //QB2
+  getRuleTagFilterFormModel: () => [] //QB2
 });
 
 const logsBlueprintConfig = Object.freeze({
@@ -90,7 +114,7 @@ const logsBlueprintConfig = Object.freeze({
   isRuleComplete: alertRule => isNotBlank(alertRule.message),
   incompleteRuleMessage: 'Please select a Log Message to see when this alert triggers',
   getRuleTagFilters: getLogLevelTagFilters, //QB1
-  getRuleTagFilterExpression: getLogLevelTagFilterExpression //QB2
+  getRuleTagFilterFormModel: getLogLevelFormModel //QB2
 });
 
 const statusCodeBlueprintConfig = Object.freeze({
@@ -110,7 +134,7 @@ const statusCodeBlueprintConfig = Object.freeze({
   isRuleComplete: alertRule => !!(alertRule.statusCodeStart && alertRule.statusCodeEnd),
   incompleteRuleMessage: 'Please select a Status Code to see when this alert triggers',
   getRuleTagFilters: getStatusCodeTagFilters, //QB1
-  getRuleTagFilterExpression: getStatusCodeTagFilterExpression //QB2
+  getRuleFormModel: getStatusCodeFormModel //QB2
 });
 
 const throughputBlueprintConfig = Object.freeze({
@@ -130,7 +154,7 @@ const throughputBlueprintConfig = Object.freeze({
   getAggregation: () => 'SUM',
   isRuleComplete: () => true,
   getRuleTagFilters: () => [], //QB1
-  getRuleTagFilterExpression: () => [], //QB2
+  getRuleTagFilterFormModel: () => [], //QB2
   impactTimeThresholdDisabled: true
 });
 
@@ -191,109 +215,56 @@ function createDisableList(disabledTagFilters = []) {
 }
 
 function getApplicationIdTagFilter(alertConfig) {
-  return {
-    name: alertConfig.boundaryScope === 'INBOUND' ? 'boundary.application.id' : 'application.id',
-    operator: 'EQUALS',
-    stringValue: alertConfig.applicationId
-  };
-}
-
-function getApplicationIdTagFilterExpression(alertConfig) {
-  return {
-    name: alertConfig.boundaryScope === 'INBOUND' ? 'boundary.application.id' : 'application.id',
-    operator: 'EQUALS',
-    type: 'TAG_FILTER',
-    value: alertConfig.applicationId
-  };
+  return tagFilter(
+    alertConfig.boundaryScope === 'INBOUND' ? 'boundary.application.id' : 'application.id',
+    'EQUALS',
+    alertConfig.applicationId
+  );
 }
 
 function getLogLevelTagFilters(alertRule) {
-  const tagFilters = [];
-  tagFilters.push({
-    name: 'log.message',
-    operator: alertRule.operator,
-    stringValue: alertRule.message
-  });
+  const tagFilters = [tagFilter('log.message', alertRule.operator, alertRule.message)];
   if (alertRule.level !== 'ANY') {
-    tagFilters.push({
-      name: 'log.level',
-      operator: 'EQUALS',
-      stringValue: alertRule.level
-    });
+    tagFilters.push(tagFilter('log.level', 'EQUALS', alertRule.level));
   }
   return tagFilters;
 }
 
-function getLogLevelTagFilterExpression(alertRule) {
-  const tagFilterExpression = [];
-  tagFilterExpression.push({
-    name: 'log.message',
-    type: 'TAG_FILTER',
-    operator: alertRule.operator,
-    value: alertRule.message
-  });
-
+function getLogLevelFormModel(alertRule) {
+  const formModel = [tagFilter('log.message', alertRule.operator, alertRule.message)];
   if (alertRule.level !== 'ANY') {
-    tagFilterExpression.push(AND_CONJUNCTION);
-    tagFilterExpression.push({
-      name: 'log.level',
-      type: 'TAG_FILTER',
-      operator: 'EQUALS',
-      value: alertRule.level
-    });
+    formModel.push(AND_CONJUNCTION);
+    formModel.push(tagFilter('log.level', 'EQUALS', alertRule.level));
   }
 
-  return tagFilterExpression;
+  return formModel;
 }
 
 function getStatusCodeTagFilters(alertRule) {
   const tagFilters = [];
   if (alertRule.statusCodeStart === alertRule.statusCodeEnd) {
-    tagFilters.push({
-      name: 'call.http.status',
-      operator: 'EQUALS',
-      numberValue: alertRule.statusCodeStart
-    });
+    tagFilters.push(tagFilter('call.http.status', 'EQUALS', alertRule.statusCodeStart));
   } else {
-    tagFilters.push({
-      name: 'call.http.status',
-      operator: 'GREATER_OR_EQUAL_THAN',
-      numberValue: alertRule.statusCodeStart
-    });
-    tagFilters.push({
-      name: 'call.http.status',
-      operator: 'LESS_OR_EQUAL_THAN',
-      numberValue: alertRule.statusCodeEnd
-    });
+    tagFilters.push(tagFilter('call.http.status', 'GREATER_OR_EQUAL_THAN', alertRule.statusCodeStart));
+    tagFilters.push(tagFilter('call.http.status', 'LESS_OR_EQUAL_THAN', alertRule.statusCodeEnd));
   }
   return tagFilters;
 }
 
-function getStatusCodeTagFilterExpression(alertRule) {
-  const tagFilterExpression = [];
+function getStatusCodeFormModel(alertRule) {
+  const formModel = [];
 
   if (alertRule.statusCodeStart === alertRule.statusCodeEnd) {
-    tagFilterExpression.push({
-      name: 'call.http.status',
-      operator: 'EQUALS',
-      type: 'TAG_FILTER',
-      value: alertRule.statusCodeStart
-    });
+    formModel.push(tagFilter('call.http.status', 'EQUALS', alertRule.statusCodeStart));
   } else {
-    tagFilterExpression.push({
-      name: 'call.http.status',
-      operator: 'GREATER_OR_EQUAL_THAN',
-      type: 'TAG_FILTER',
-      value: alertRule.statusCodeStart
-    });
-    tagFilterExpression.push(AND_CONJUNCTION);
-    tagFilterExpression.push({
-      name: 'call.http.status',
-      operator: 'LESS_OR_EQUAL_THAN',
-      type: 'TAG_FILTER',
-      value: alertRule.statusCodeEnd
-    });
+    formModel.push(tagFilter('call.http.status', 'GREATER_OR_EQUAL_THAN', alertRule.statusCodeStart));
+    formModel.push(AND_CONJUNCTION);
+    formModel.push(tagFilter('call.http.status', 'LESS_OR_EQUAL_THAN', alertRule.statusCodeEnd));
   }
 
-  return tagFilterExpression;
+  return formModel;
+}
+
+function tagFilter(name, operator, value) {
+  return { type: 'TAG_FILTER', name, operator, value };
 }

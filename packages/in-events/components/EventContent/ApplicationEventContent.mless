@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 :local {
-  .helpTextNoTopSpace {
-    margin-top: 0;
+  .alertFiltersWrapper {
+    margin: 0 0 1rem 0;
   }
 }

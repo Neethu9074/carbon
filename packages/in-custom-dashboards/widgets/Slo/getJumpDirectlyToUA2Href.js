@@ -36,7 +36,7 @@ export default function getJumpDirectlyToUA2Href$(
   additionalParams
 ) {
   return getLabels(ids).flatMap(({ applicationName, serviceName, endpointName }) => {
-    const tagFilterExpressionUiModel = fromBackendModel(tagFilterExpression);
+    const tagFilterFormModel = fromBackendModel(tagFilterExpression);
     const entityFilters = [];
     if (applicationName) {
       entityFilters.push(
@@ -57,7 +57,7 @@ export default function getJumpDirectlyToUA2Href$(
       dataSource: 'calls',
       ...additionalParams,
       tagFilterExpression: joinExpressions({
-        expressions: [...entityFilters, ...filters, tagFilterExpressionUiModel]
+        expressions: [...entityFilters, ...filters, tagFilterFormModel]
       })
     });
   });

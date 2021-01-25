@@ -108,11 +108,11 @@ function resolveThresholdRequest(form, fallbackOnError) {
     // at the moment, we only support a single numerator filter. All such blueprints have
     // a single rule-specific tag-filter only
     numeratorFilter = ruleTagFilters[0];
-    enrichedTagFilters = [...tagFilters, blueprintConfig.getEntityTagFilter(alertConfig)];
+    enrichedTagFilters = [...tagFilters, ...blueprintConfig.getEntityTagFilters(alertConfig)];
   } else {
     enrichedTagFilters = [
       ...alertConfig.tagFilters,
-      blueprintConfig.getEntityTagFilter(alertConfig),
+      ...blueprintConfig.getEntityTagFilters(alertConfig),
       ...ruleTagFilters
     ];
   }

@@ -48,7 +48,7 @@ export default function AlertConfiguration({ alertConfig, applicationName }) {
   } = alertConfig;
 
   const blueprintConfig = getBlueprintConfig(alertType);
-  const tagFilterExpressionUiModel = fromBackendModel(tagFilterExpression);
+  const tagFilterFormModel = fromBackendModel(tagFilterExpression);
   const isPerApAlert = evaluationType === PER_AP;
 
   return (
@@ -91,9 +91,9 @@ export default function AlertConfiguration({ alertConfig, applicationName }) {
                 )}
 
                 <AlertingChartWithErrorMessage
-                  alertConfig={{
+                  alertConfigWithFormModel={{
                     ...alertConfig,
-                    tagFilterExpression: tagFilterExpressionUiModel
+                    tagFilterExpression: tagFilterFormModel
                   }}
                   viewConfig={chartViewConfig}
                   blueprintConfig={blueprintConfig}
@@ -119,17 +119,16 @@ export default function AlertConfiguration({ alertConfig, applicationName }) {
                   <TagFilterListPresenter
                     tagFilters={translateDemocratisationTagFiltersToAnalyzeTagFilters({
                       applicationName,
-                      tagFilters: [blueprintConfig.getEntityTagFilter(alertConfig), ...tagFilters]
+                      tagFilters: [...blueprintConfig.getEntityTagFilters(alertConfig), ...tagFilters]
                     })}
                     disabled
                   />
                 }
-                tagFilterExpressionUiModel={tagFilterExpressionUiModel}
-                queryBuilder={<AlertQueryBuilder value={tagFilterExpressionUiModel} readOnly />}
+                tagFilterFormModel={tagFilterFormModel}
+                queryBuilder={<AlertQueryBuilder value={tagFilterFormModel} readOnly />}
                 convertedTagFilterExpression={convertedTagFilterExpression}
-                iconLabelConfig={{
-                  text: applicationName,
-                  type: 'lib_application'
+                scopePath={{
+                  applicationName
                 }}
               />
             </div>

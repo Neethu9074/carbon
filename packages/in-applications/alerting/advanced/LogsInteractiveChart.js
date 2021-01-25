@@ -52,7 +52,7 @@ export default function LogsInteractiveChart({
       >
         {chartViewConfig => (
           <AlertingChartWithErrorMessage
-            alertConfig={alertConfig}
+            alertConfigWithFormModel={alertConfig}
             viewConfig={chartViewConfig}
             blueprintConfig={blueprintConfig}
             alertsPreviewEnabled

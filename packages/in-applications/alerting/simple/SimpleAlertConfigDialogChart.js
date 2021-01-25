@@ -29,7 +29,7 @@ export default function SimpleAlertConfigDialogChart({ form, onChartViewConfigCh
           {isRuleComplete ? (
             <div className={locals.placeholder}>
               <AlertingChartWithErrorMessage
-                alertConfig={alertConfig}
+                alertConfigWithFormModel={alertConfig}
                 viewConfig={chartViewConfig}
                 blueprintConfig={blueprintConfig}
                 alertsPreviewEnabled

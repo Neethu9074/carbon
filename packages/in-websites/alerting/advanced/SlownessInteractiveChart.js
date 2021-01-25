@@ -60,7 +60,7 @@ export default function SlownessInteractiveChart({
       >
         {chartViewConfig => (
           <AlertingChartWithErrorMessage
-            alertConfig={alertConfig}
+            alertConfigWithFormModel={alertConfig}
             viewConfig={chartViewConfig}
             blueprintConfig={blueprintConfig}
             alertsPreviewEnabled

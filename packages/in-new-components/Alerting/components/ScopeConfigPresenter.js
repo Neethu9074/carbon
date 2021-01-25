@@ -7,18 +7,16 @@ import { t } from 'in-i18n';
 import React from 'react';
 
 import WithQB1orQB2 from 'in-new-components/Alerting/components/WithQB1orQB2';
-import IconLabel from 'in-new-components/Alerting/components/IconLabel';
+import ScopePath from 'in-new-components/Alerting/components/ScopePath';
 import Stack from 'in-new-components/layout/Stack/Stack';
 import HelpText from 'in-components/form/HelpText';
 
-import locals from './ScopeConfigPresenter.mless';
-
 export default function ScopeConfigPresenter({
   convertedTagFilterExpression,
-  tagFilterExpressionUiModel,
+  tagFilterFormModel,
   queryBuilder,
   tagFilterList,
-  iconLabelConfig
+  scopePath
 }) {
   return (
     <Stack space="xsmall">
@@ -26,9 +24,8 @@ export default function ScopeConfigPresenter({
         onUsesQB1={() => tagFilterList}
         onUsesQB2={() => (
           <>
-            <HelpText className={locals.helpTextNoTopSpace}>Application Perspective</HelpText>
-            <IconLabel {...iconLabelConfig} />
-            {tagFilterExpressionUiModel.length > 0 && (
+            <ScopePath {...scopePath} />
+            {tagFilterFormModel.length > 0 && (
               <>
                 <HelpText>
                   {t('in-new-components:alerting.components.scopeConfigPresenterHelpTextAdditionalFilters')}
@@ -46,11 +43,12 @@ export default function ScopeConfigPresenter({
 
 ScopeConfigPresenter.propTypes = {
   convertedTagFilterExpression: PropTypes.bool,
-  iconLabelConfig: PropTypes.shape({
-    text: PropTypes.string,
-    type: PropTypes.string
+  scopePath: PropTypes.shape({
+    applicationName: PropTypes.string.isRequired,
+    serviceName: PropTypes.string,
+    endpointName: PropTypes.string
   }),
   queryBuilder: PropTypes.element,
-  tagFilterExpressionUiModel: PropTypes.array,
+  tagFilterFormModel: PropTypes.array,
   tagFilterList: PropTypes.element
 };

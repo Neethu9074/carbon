@@ -35,7 +35,7 @@ const baseBlueprint = Object.freeze({
     isCustomRateMetric(metricName) ? getWebsiteRateMetricAlertsPreview : getWebsiteMetricAlertsPreview,
   getThresholdSuggestionRequest: metricName =>
     isCustomRateMetric(metricName) ? getWebsiteRateMetricThresholdSuggestion : getWebsiteMetricsThresholdSuggestion,
-  getEntityTagFilter: getWebsiteIdTagFilter,
+  getEntityTagFilters: alertConfig => [getWebsiteIdTagFilter(alertConfig)],
   thresholdDefaults: {
     operator: '>='
   }

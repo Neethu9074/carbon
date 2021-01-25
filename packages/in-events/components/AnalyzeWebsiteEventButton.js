@@ -7,28 +7,25 @@ import React from 'react';
 
 import { defaultGroupings, translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
 import { toTagFilterNumberOperator, isGreaterOperator } from 'in-new-components/Alerting/utils/alertUtils';
-import { getTimeConfigFromEvent, getWidenedTimeConfigFromEvent } from 'in-events/timeframe';
 import { websitesAlertingEventDetailsGoToAnalyze } from 'in-websites/alerting/tracker';
 import { getBaselineValue } from 'in-new-components/Alerting/utils/baselineUtils';
 import { getLinkToAnalyze } from 'in-websites/navigation/paths';
+import { propTypeTimeConfig } from 'in-stores/time/config';
 import Button from 'in-new-components/Button';
 
 const emptyTagFilter = {};
 
-export default function AnalyzeWebsiteEventButton({ event, alertConfig }) {
-  const metadata = event.get('metadata');
-  const entityId = event.get('entityId');
-  const websiteLabel = metadata.get('entityLabel');
+export default function AnalyzeWebsiteEventButton({ alertConfig, websiteName, timeConfig }) {
   const tagFilters = alertConfig.tagFilters;
-  const tagFiltersWithWebsiteId = [getWebsiteIdTagFilter(entityId), ...tagFilters];
+  const tagFiltersWithWebsiteId = [getWebsiteIdTagFilter(alertConfig.websiteId), ...tagFilters];
   const alertType = alertConfig.rule.alertType;
 
   if (alertType === 'specificJsError') {
     return (
       <GoToAnalyzeButton
-        websiteLabel={websiteLabel}
+        websiteLabel={websiteName}
         tagFilters={[...tagFiltersWithWebsiteId, getErrorMessageTagFilter(alertConfig.rule)]}
-        timeConfig={getTimeConfigFromEvent(event)}
+        timeConfig={timeConfig}
         icon="lib_website_error"
         group={defaultGroupings.error}
         beaconType="error"
@@ -37,7 +34,6 @@ export default function AnalyzeWebsiteEventButton({ event, alertConfig }) {
     );
   }
   if (alertType === 'slowness') {
-    const timeConfig = getTimeConfigFromEvent(event);
     const analyzeTagFilters =
       alertConfig.threshold.type === 'staticThreshold'
         ? [
@@ -47,7 +43,7 @@ export default function AnalyzeWebsiteEventButton({ event, alertConfig }) {
         : [...tagFiltersWithWebsiteId, getBaselineDurationTagFilter(alertConfig, timeConfig)];
     return (
       <GoToAnalyzeButton
-        websiteLabel={websiteLabel}
+        websiteLabel={websiteName}
         tagFilters={analyzeTagFilters}
         timeConfig={timeConfig}
         icon="lib_website_page_load"
@@ -60,9 +56,9 @@ export default function AnalyzeWebsiteEventButton({ event, alertConfig }) {
   if (alertType === 'statusCode') {
     return (
       <GoToAnalyzeButton
-        websiteLabel={websiteLabel}
+        websiteLabel={websiteName}
         tagFilters={[...tagFiltersWithWebsiteId, getStatusCodeTagFilter(alertConfig.rule)]}
-        timeConfig={getTimeConfigFromEvent(event)}
+        timeConfig={timeConfig}
         icon="lib_website_ajax"
         group={defaultGroupings.httpRequest}
         beaconType="httpRequest"
@@ -75,9 +71,9 @@ export default function AnalyzeWebsiteEventButton({ event, alertConfig }) {
     const isPageLoadMetric = metricName === 'pageLoads';
     return (
       <GoToAnalyzeButton
-        websiteLabel={websiteLabel}
+        websiteLabel={websiteName}
         tagFilters={tagFiltersWithWebsiteId}
-        timeConfig={getWidenedTimeConfigFromEvent(event, alertConfig.granularity)}
+        timeConfig={timeConfig}
         icon="lib_website_page_load"
         group={isPageLoadMetric ? defaultGroupings.pageLoad : defaultGroupings.pageChange}
         beaconType={isPageLoadMetric ? 'pageLoad' : 'pageChange'}
@@ -91,8 +87,9 @@ export default function AnalyzeWebsiteEventButton({ event, alertConfig }) {
 }
 
 AnalyzeWebsiteEventButton.propTypes = {
-  event: PropTypes.object.isRequired,
-  alertConfig: PropTypes.object.isRequired
+  alertConfig: PropTypes.object.isRequired,
+  websiteName: PropTypes.string.isRequired,
+  timeConfig: propTypeTimeConfig.isRequired
 };
 
 function GoToAnalyzeButton({ websiteLabel, tagFilters, timeConfig, icon, group, beaconType, title }) {

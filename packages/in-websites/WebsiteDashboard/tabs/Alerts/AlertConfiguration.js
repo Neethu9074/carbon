@@ -64,7 +64,7 @@ export default function AlertConfiguration({ alertConfig, websiteLabel }) {
               )}
 
               <AlertingChartWithErrorMessage
-                alertConfig={alertConfig}
+                alertConfigWithFormModel={alertConfig}
                 viewConfig={chartViewConfig}
                 blueprintConfig={blueprintConfig}
               />
@@ -76,7 +76,7 @@ export default function AlertConfiguration({ alertConfig, websiteLabel }) {
           <div className={locals.filterList}>
             <TagFilterListPresenter
               tagFilters={translateDemocratisationTagFiltersToAnalyzeTagFilters({
-                tagFilters: [blueprintConfig.getEntityTagFilter(alertConfig), ...tagFilters],
+                tagFilters: [...blueprintConfig.getEntityTagFilters(alertConfig), ...tagFilters],
                 websiteLabel
               })}
               disabled
