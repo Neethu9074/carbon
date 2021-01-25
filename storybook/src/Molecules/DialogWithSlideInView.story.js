@@ -3,13 +3,20 @@
  * (c) Copyright Instana Inc.
  */
 import { withKnobs, text } from '@storybook/addon-knobs';
+import { createMapForm, createField } from 'formalistic';
 import { action } from '@storybook/addon-actions';
 import React, { useState } from 'react';
 import theme from 'in-themes';
 
 import DialogWithSlideInView from 'in-new-components/Dialog/DialogWithSlideInView';
 import SlideInView, { NoHeader } from 'in-new-components/SlideInView/SlideInView';
+import FormBoundInput from 'in-components/form/Input/FormBoundInput';
+import StackItem from 'in-new-components/layout/Stack/StackItem';
 import Button from 'in-new-components/Button/Button';
+import Stack from 'in-new-components/layout/Stack';
+import Form from 'in-components/form/binding/Form';
+import FormInput from 'in-components/form/Input';
+import Label from 'in-components/form/Label';
 
 const WithPadding = ({ children }) => <div style={{ padding: '0 1.5rem 1.5rem' }}>{children}</div>;
 
@@ -171,5 +178,46 @@ export const ResetScrollPosition = () => {
         </div>
       </DialogWithSlideInView>
     </div>
+  );
+};
+
+export const FocusingFirstItem = () => {
+  const [slideInVisible, setSlideInVisible] = useState(false);
+  const [form, setForm] = useState(createMapForm().put('value', createField({ value: 0 })));
+  return (
+    <DialogWithSlideInView
+      title={'Some title'}
+      slideInViewTitle={'SlideIn Title'}
+      onSlideInViewTitleClick={() => setSlideInVisible(false)}
+      titleIconType="lib_alerts_create"
+      onClose={action('onClose')}
+      doNotCloseOnOutsideClick
+      slideInViewVisible={slideInVisible}
+      slideInViewComponent={
+        <Stack>
+          <StackItem>
+            <Label>Some field, just for grabbing the focus:</Label>
+          </StackItem>
+          <StackItem>
+            <FormInput />
+          </StackItem>
+        </Stack>
+      }
+    >
+      <Stack space="xxsmall">
+        <StackItem>
+          <Form form={form} setForm={setForm}>
+            <FormBoundInput path="value" type="number" label="Field 1" />
+          </Form>
+        </StackItem>
+        <StackItem>
+          <p>Value: {form.get('value')?.value}</p>
+          <p>Please slide in and out, then change value (which triggers a re-rendering)...</p>
+        </StackItem>
+        <StackItem>
+          <Button onClick={() => setSlideInVisible(true)}>SlideIn</Button>
+        </StackItem>
+      </Stack>
+    </DialogWithSlideInView>
   );
 };

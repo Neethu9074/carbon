@@ -50,7 +50,7 @@ export default function SlideInView({
   // An optional side effect that should be executed after a React render, but before
   // the browser render cycle ends.
   const afterStateChangeEffect = useRef();
-  useLayoutEffect(() => afterStateChangeEffect.current?.());
+  useLayoutEffect(() => afterStateChangeEffect.current?.(), [afterStateChangeEffect.current]);
 
   const [state, setState] = useState(slideOutStates.after(slideTransitionDurationMillis));
   useLayoutEffect(() => {
