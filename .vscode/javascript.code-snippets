@@ -24,5 +24,11 @@
     "prefix": "cne",
     "body": ["className={classNames({\n[locals.$1]: $2, \n[locals.$3]: $4})}"],
     "description": "Evaluate class names by condition."
-  }
+  },
+  "import": {
+    "prefix": "mport",
+    "body": [
+      "import $0 from $1"
+    ]
+  },
 }

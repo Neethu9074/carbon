@@ -187,5 +187,10 @@ module.exports = exports = [
     uiClientKey: 'qb2InAPCreationEnabled',
     instanaCtlKey: 'feature.qb2.ap.creation.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'languageSelectorEnabled',
+    instanaCtlKey: 'feature.language.selector.enabled',
+    defaultValue: false
   }
 ];

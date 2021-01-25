@@ -5,9 +5,7 @@
 @import '~in-themes/active.less';
 
 :local {
-
   .helpTextWrapper {
-
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -40,6 +38,12 @@
 
     & label {
       margin: 0 0.625rem;
+    }
+  }
+
+  .groupWithoutHelp {
+    & label {
+      margin: 0;
     }
   }
 }

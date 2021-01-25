@@ -12,7 +12,6 @@ import locals from './HorizontalFormGroup.mless';
 
 export default function HorizontalFormGroupWithBackground({
   children,
-  className,
   helpText,
   isWarning,
   noHelpTextSpacer,
@@ -33,7 +32,15 @@ export default function HorizontalFormGroupWithBackground({
       ) : (
         helpTextSpacer
       )}
-      <div className={classNames(className, locals.group)}>{children}</div>
+      <div
+        className={classNames({
+          className: true,
+          [locals.group]: true,
+          [locals.groupWithoutHelp]: noHelpTextSpacer
+        })}
+      >
+        {children}
+      </div>
     </div>
   );
 }

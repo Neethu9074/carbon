@@ -3,13 +3,17 @@
  * (c) Copyright Instana Inc.
  */
 import React from 'react';
+import { getLanguage as getCurrentActiveLanguage } from 'in-i18n';
 
 import useSettingsEditor from 'in-settings/tabs/UserSettings/pages/useSettingsEditor';
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
+import { languageSelectorEnabled } from 'in-services/featureFlags';
 import Heading from 'in-settings/tabs/UserSettings/pages/Heading';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import SectionLine from 'in-settings/components/SectionLine';
+import { saveUserSettings } from 'in-services/userSettings';
+import ComboBox from 'in-components/ComboBox/ComboBox';
 import Toggle from 'in-components/form/Toggle';
 import Title from 'in-components/Title';
 
@@ -27,7 +31,6 @@ export default function UiConfigGeneralPage() {
       <Title title="User Interface Settings" />
       <SubViewHeader>User Interface Settings</SubViewHeader>
       <SectionLine />
-
       <HorizontalFormGroup
         helpText="We will inform you about upcoming Instana server maintenance via small flyouts in the top-right
         corner. Sometimes though, these flyouts can disturb your workflow. Untick this checkbox to permanently hide
@@ -101,6 +104,22 @@ export default function UiConfigGeneralPage() {
           onChange={e => saveSetting('formatNumbersAccordingToEnUs', e.target.checked)}
         />
       </HorizontalFormGroup>
+      {languageSelectorEnabled && (
+        <HorizontalFormGroup noHelpTextSpacer>
+          <Heading text="Language" htmlFor="language" />
+          <ComboBox
+            name="language"
+            value={getCurrentActiveLanguage()}
+            options={[
+              { value: 'en-US', label: 'English' }
+              // TODO: Activate once supported { value: 'de-DE', label: 'Deutsch' }
+              // TODO: add more languages here
+            ]}
+            onChange={e => saveUserSettings({ preferredLanguage: e.value }, () => window.location.reload())}
+            clearable={false}
+          />
+        </HorizontalFormGroup>
+      )}
     </SettingsDetailPage>
   );
 }

@@ -2,20 +2,21 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc. 2021
  */
-import { combineLatest, fromPromise } from '@instana/observables';
+
 // eslint-disable-next-line no-restricted-imports
 import { initReactI18next } from 'react-i18next';
 // eslint-disable-next-line no-restricted-imports
 import i18n from 'i18next';
+import { combineLatest, fromPromise } from '@instana/observables';
 
+import { getUserSettings } from 'in-services/userSettings';
 import { build } from 'in-services/config';
 import http from 'in-services/http';
 
 const fallbackLanguage = 'en-US';
 
 export function init() {
-  // TODO get from somewhere / store somewhere
-  const activeLanguage = 'en-US';
+  const activeLanguage = getUserSettings().preferredLanguage ?? fallbackLanguage;
 
   return getLanguageBundles(activeLanguage).flatMap(languageBundles =>
     fromPromise(
