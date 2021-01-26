@@ -1,7 +1,7 @@
 import { combineLatest } from '@instana/observables';
 import React from 'react';
 
-import { zeroDecimalPlaces, bytesZeroDecimalPlaces } from 'in-services/formatters/number';
+import { number, bytes } from 'in-services/formatters/number';
 import { getClusterMembers } from 'in-stores/clusterMembers';
 import Table from 'in-sdk/components/dashboard/Table';
 import { getSnapshot } from 'in-stores/snapshot';
@@ -27,7 +27,7 @@ const cols = [
       getMetricName() {
         return 'connections';
       },
-      getContent: zeroDecimalPlaces,
+      getContent: number,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -43,14 +43,14 @@ const cols = [
       getMetricName() {
         return 'repl.network_ops';
       },
-      getContent: zeroDecimalPlaces,
+      getContent: number,
       getTimeWindowAggregation() {
         return 'mean';
       }
     }
   },
   {
-    title: 'Bytes',
+    title: 'Network Bytes',
     type: 'sparkChart',
     typeArgs: {
       getSnapshotId(row) {
@@ -59,7 +59,7 @@ const cols = [
       getMetricName() {
         return 'repl.network_bytes';
       },
-      getContent: bytesZeroDecimalPlaces,
+      getContent: bytes.detailed,
       getTimeWindowAggregation() {
         return 'mean';
       }

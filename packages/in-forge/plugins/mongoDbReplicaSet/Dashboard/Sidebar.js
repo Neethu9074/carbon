@@ -27,16 +27,14 @@ export default function ReplicaSetSidebar({ snapshot }) {
         <Collapsible initiallyOpen={false}>
           <Collapsible.Header>Atlas Cluster</Collapsible.Header>
           <Collapsible.Content>
-            <div>
-              <DescriptionList>
-                <DescriptionItem title="Name">{data.get('clusterName')}</DescriptionItem>
-                <DescriptionItem title="Type">{data.get('clusterType')}</DescriptionItem>
-                <DescriptionItem title="Cloud Provider">{data.get('clusterProvider')}</DescriptionItem>
-                <DescriptionItem title="Region">{data.get('clusterRegion')}</DescriptionItem>
-                <DescriptionItem title="Project">{data.get('clusterProjectName')}</DescriptionItem>
-                <DescriptionItem title="Organisation">{data.get('clusterOrganisationName')}</DescriptionItem>
-              </DescriptionList>
-            </div>
+            <DescriptionList>
+              <DescriptionItem title="Name">{data.get('clusterName')}</DescriptionItem>
+              <DescriptionItem title="Type">{data.get('clusterType')}</DescriptionItem>
+              <DescriptionItem title="Cloud Provider">{data.get('clusterProvider')}</DescriptionItem>
+              <DescriptionItem title="Region">{data.get('clusterRegion')}</DescriptionItem>
+              <DescriptionItem title="Project">{data.get('clusterProjectName')}</DescriptionItem>
+              <DescriptionItem title="Organisation">{data.get('clusterOrganisationName')}</DescriptionItem>
+            </DescriptionList>
           </Collapsible.Content>
         </Collapsible>
       ) : null}

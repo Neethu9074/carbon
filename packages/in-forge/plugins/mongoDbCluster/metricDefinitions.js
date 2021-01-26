@@ -3,7 +3,7 @@ import { siPrefix, number, bytes } from 'in-services/formatters/number';
 export default [
   {
     metric: 'replicaSetCount',
-    label: 'ReplicaSets',
+    label: 'Replica Sets',
     min: 0,
     formatter: siPrefix
   },
