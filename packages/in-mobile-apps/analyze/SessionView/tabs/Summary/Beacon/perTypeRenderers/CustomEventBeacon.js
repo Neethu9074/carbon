@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import React, { Fragment } from 'react';
+import { t } from 'in-i18n';
 
 import BatchIndicator from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/BatchIndicator';
 import KeyValueHeader from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/KeyValueHeader';
@@ -25,18 +26,21 @@ export const LeftHeader = ({ beacon, earliestTimestamp }) => (
     <KeyValueHeader
       label={
         <Fragment>
-          Custom Event
+          {t('in-mobile-apps:sessionView.tabsSumCustomEventBeacon.customEventLabel')}
           <BatchIndicator batchCount={beacon.batchSize} />
         </Fragment>
       }
       value={getLabel(beacon)}
     />
     <KeyValueHeader
-      label="Start Time"
+      label={t('in-mobile-apps:sessionView.tabsSumCustomEventBeacon.startTimeLabel')}
       value={millisToTwoDecimalSeconds(beacon.timestamp - earliestTimestamp)}
       tooltipContent={formatDateTime(beacon.timestamp)}
     />
-    <KeyValueHeader label="Duration" value={latencyFixed.compact(beacon.duration)} />
+    <KeyValueHeader
+      label={t('in-mobile-apps:sessionView.tabsSumCustomEventBeacon.durationLabel')}
+      value={latencyFixed.compact(beacon.duration)}
+    />
   </Fragment>
 );
 
@@ -45,18 +49,20 @@ export const Body = ({ beacon }) => {
     <Fragment>
       <Row>
         <Col lg={6}>
-          <BodyHeader>Custom Event</BodyHeader>
+          <BodyHeader>{t('in-mobile-apps:sessionView.tabsSumCustomEventBeacon.customEventHeader')}</BodyHeader>
 
           <Dl>
-            <Di title="Event Name">{beacon.customEventName}</Di>
+            <Di title={t('in-mobile-apps:sessionView.tabsSumCustomEventBeacon.eventNameTitle')}>
+              {beacon.customEventName}
+            </Di>
             <BackendDi beacon={beacon} />
-            <Di title="Error Message">{beacon.errorMessage}</Di>
+            <Di title={t('in-mobile-apps:sessionView.tabsSumCustomEventBeacon.errMsgTitle')}>{beacon.errorMessage}</Di>
           </Dl>
         </Col>
 
         {Object.keys(beacon.meta).length > 0 && (
           <Col lg={6}>
-            <BodyHeader>Meta</BodyHeader>
+            <BodyHeader>{t('in-mobile-apps:sessionView.tabsSumCustomEventBeacon.metaHeader')}</BodyHeader>
             <Meta beacon={beacon} />
           </Col>
         )}

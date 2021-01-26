@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { get, findIndex } from 'lodash';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import {
@@ -55,7 +56,7 @@ function SessionView(props) {
           <DashboardHeader
             {...props}
             className={locals.header}
-            title="Analytics"
+            title={t('in-mobile-apps:sessionView.analyticsTitle')}
             icon="lib_mobile_app"
             label={dataSourceTitles[beaconType]}
             contextConfigurations={[{ renderContext, contextIcon: 'lib_analyze_inverted' }]}
@@ -103,13 +104,22 @@ function Header(props) {
     <>
       <Breadcrumbs
         items={[
-          <Breadcrumb label={`${dataSourceTitles[props.beaconType]} Analytics`} href$={closeSessionViewLink} />,
-          props.sessionLabel && <Breadcrumb label="Session">{shorten(props.sessionLabel, 32)}</Breadcrumb>
+          <Breadcrumb
+            label={t('in-mobile-apps:sessionView.analyticsBreadscrumbLabel', {
+              prefix: dataSourceTitles[props.beaconType]
+            })}
+            href$={closeSessionViewLink}
+          />,
+          props.sessionLabel && (
+            <Breadcrumb label={t('in-mobile-apps:sessionView.sessionBreadscrumbLabel')}>
+              {shorten(props.sessionLabel, 32)}
+            </Breadcrumb>
+          )
         ].filter(Boolean)}
       />
       <DashboardHeader
         {...props}
-        title="Session"
+        title={t('in-mobile-apps:sessionView.sessionTitle')}
         icon="lib_mobile_app"
         label={props.sessionLabel}
         renderButtonLine={renderButtonLine}
@@ -123,7 +133,7 @@ function Header(props) {
 function renderContext() {
   return (
     <Link className={locals.analyticsLink} href$={closeSessionViewLink}>
-      Analytics
+      {t('in-mobile-apps:sessionView.analyticsLink')}
     </Link>
   );
 }
@@ -145,7 +155,7 @@ function renderButtonLine({ sessionId, sessionLabel, beaconTimestamp }) {
         beaconTimestamp
       )}?pretty`}
     >
-      Download
+      {t('in-mobile-apps:sessionView.downloadBtn')}
     </Button>
   );
 }
@@ -153,8 +163,12 @@ function renderButtonLine({ sessionId, sessionLabel, beaconTimestamp }) {
 function renderTimeSelection() {
   return (
     <Link href$={closeSessionViewLink}>
-      <Tooltip content="Close session details">
-        <SvgIcon className={locals.closeIcon} aria-label="Close session details" type="lib_openclose_cancel" />
+      <Tooltip content={t('in-mobile-apps:sessionView.closeSessionDetailsTooltip')}>
+        <SvgIcon
+          className={locals.closeIcon}
+          aria-label={t('in-mobile-apps:sessionView.closeSessionDetailsArialabel')}
+          type="lib_openclose_cancel"
+        />
       </Tooltip>
     </Link>
   );

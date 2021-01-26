@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import React, { Fragment } from 'react';
+import { t } from 'in-i18n';
 
 import {
   timestampMetricName,
@@ -29,7 +30,7 @@ export default function GroupedBeaconsTable(props) {
               onChangeOrder={onChangeOrder}
               defaultDirection="ASC"
               technicalName={groupNameMetricName}
-              label="Group"
+              label={t('in-mobile-apps:analyzeView.groupedBeaconsTable.groupLabel')}
               noWrap
             />
             <SortableColumn
@@ -38,7 +39,7 @@ export default function GroupedBeaconsTable(props) {
               onChangeOrder={onChangeOrder}
               defaultDirection="DESC"
               technicalName={groupCountMetricName}
-              label="Count"
+              label={t('in-mobile-apps:analyzeView.groupedBeaconsTable.countLabel')}
               noWrap
             />
             <SortableColumn
@@ -47,7 +48,7 @@ export default function GroupedBeaconsTable(props) {
               onChangeOrder={onChangeOrder}
               defaultDirection="DESC"
               technicalName={timestampMetricName}
-              label="Earliest Timestamp"
+              label={t('in-mobile-apps:analyzeView.groupedBeaconsTable.timestampLabel')}
               noWrap
             />
 

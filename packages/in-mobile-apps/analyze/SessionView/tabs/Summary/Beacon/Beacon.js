@@ -4,6 +4,7 @@
  */
 import { compose, withState } from 'recompose';
 import classNames from 'classnames';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import BackendTraceButton from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/BackendTraceButton';
@@ -35,11 +36,20 @@ export default compose(withState('expanded', 'setExpanded', false))(function Bea
             [locals.highlighted]: highlighted
           })}
         >
-          <Tooltip content={expanded ? 'Show less' : 'Show more'} align="topMiddle">
+          <Tooltip
+            content={
+              expanded
+                ? t('in-mobile-apps:sessionView.tabsSumBeacon.showlessTooltip')
+                : t('in-mobile-apps:sessionView.tabsSumBeacon.showmoreTooltip')
+            }
+            align="topMiddle"
+          >
             <div
               className={locals.header}
               {...toInteractiveElement({
-                ariaLabel: expanded ? 'Show less' : 'Show more',
+                ariaLabel: expanded
+                  ? t('in-mobile-apps:sessionView.tabsSumBeacon.showlessAriaLabel')
+                  : t('in-mobile-apps:sessionView.tabsSumBeacon.showmoreAriaLabel'),
                 onDefaultInteraction: () => setExpanded(!expanded)
               })}
             >

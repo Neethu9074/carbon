@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import React, { Fragment } from 'react';
+import { t } from 'in-i18n';
 
 import BatchIndicator from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/BatchIndicator';
 import KeyValueHeader from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/KeyValueHeader';
@@ -25,27 +26,33 @@ export const getLabel = beacon => {
   return label;
 };
 
-export const getExtraTooltipFields = beacon => ({
-  'Retrieval Time': latencyFixed.compact(beacon.duration)
-});
+export const getExtraTooltipFields = beacon => {
+  let retrievalTimeTooltipKey = t('in-mobile-apps:sessionView.tabsSumHttpRequestBeacon.retrievalTimeTooltip');
+  return {
+    [retrievalTimeTooltipKey]: latencyFixed.compact(beacon.duration)
+  };
+};
 
 export const LeftHeader = ({ beacon, earliestTimestamp }) => (
   <Fragment>
     <KeyValueHeader
       label={
         <Fragment>
-          Request
+          {t('in-mobile-apps:sessionView.tabsSumHttpRequestBeacon.requestLabel')}
           <BatchIndicator batchCount={beacon.batchSize} />
         </Fragment>
       }
       value={getLabel(beacon)}
     />
     <KeyValueHeader
-      label="Start Time"
+      label={t('in-mobile-apps:sessionView.tabsSumHttpRequestBeacon.startTimeLabel')}
       value={millisToTwoDecimalSeconds(beacon.timestamp - earliestTimestamp)}
       tooltipContent={formatDateTime(beacon.timestamp)}
     />
-    <KeyValueHeader label="Retrieval Time" value={latencyFixed.compact(beacon.duration)} />
+    <KeyValueHeader
+      label={t('in-mobile-apps:sessionView.tabsSumHttpRequestBeacon.retrievalTimeLabel')}
+      value={latencyFixed.compact(beacon.duration)}
+    />
   </Fragment>
 );
 
@@ -58,23 +65,31 @@ export const Body = ({ beacon }) => {
     <Fragment>
       <Row>
         <Col lg={6}>
-          <BodyHeader>Call Details</BodyHeader>
+          <BodyHeader>{t('in-mobile-apps:sessionView.tabsSumHttpRequestBeacon.callDetailsHeader')}</BodyHeader>
           <Dl>
-            <Di title="HTTP Call URI">
+            <Di title={t('in-mobile-apps:sessionView.tabsSumHttpRequestBeacon.httpCallURITitle')}>
               <a href={beacon.httpCallUrl} rel="noopener noreferrer" target="_blank">
                 {beacon.httpCallUrl}
               </a>
             </Di>
             <BackendDi beacon={beacon} />
-            <Di title="HTTP Method">{beacon.httpCallMethod}</Di>
-            <Di title="HTTP Status">{beacon.httpCallStatus}</Di>
-            {isNotBlank(beacon.errorMessage) && <Di title="Error Message">{beacon.errorMessage}</Di>}
+            <Di title={t('in-mobile-apps:sessionView.tabsSumHttpRequestBeacon.httpMethodTitle')}>
+              {beacon.httpCallMethod}
+            </Di>
+            <Di title={t('in-mobile-apps:sessionView.tabsSumHttpRequestBeacon.httpStatusTitle')}>
+              {beacon.httpCallStatus}
+            </Di>
+            {isNotBlank(beacon.errorMessage) && (
+              <Di title={t('in-mobile-apps:sessionView.tabsSumHttpRequestBeacon.errMsgTitle')}>
+                {beacon.errorMessage}
+              </Di>
+            )}
           </Dl>
         </Col>
 
         {Object.keys(beacon.meta).length > 0 && (
           <Col lg={6}>
-            <BodyHeader>Meta</BodyHeader>
+            <BodyHeader>{t('in-mobile-apps:sessionView.tabsSumHttpRequestBeacon.metaHeader')}</BodyHeader>
             <Meta beacon={beacon} />
           </Col>
         )}
@@ -85,11 +100,23 @@ export const Body = ({ beacon }) => {
         (hasDencodedBodySize && (
           <Row>
             <Col lg={6}>
-              <BodyHeader>Network Insights</BodyHeader>
+              <BodyHeader>{t('in-mobile-apps:sessionView.tabsSumHttpRequestBeacon.networkInsightsHeader')}</BodyHeader>
               <Dl>
-                {hasTransferSize && <Di title="Transfer Size">{bytes.detailed(beacon.transferSize)}</Di>}
-                {hasEncodedBodySize && <Di title="Encoded Body Size">{bytes.detailed(beacon.encodedBodySize)}</Di>}
-                {hasDencodedBodySize && <Di title="Decoded Body Size">{bytes.detailed(beacon.decodedBodySize)}</Di>}
+                {hasTransferSize && (
+                  <Di title={t('in-mobile-apps:sessionView.tabsSumHttpRequestBeacon.transferSizeTitle')}>
+                    {bytes.detailed(beacon.transferSize)}
+                  </Di>
+                )}
+                {hasEncodedBodySize && (
+                  <Di title={t('in-mobile-apps:sessionView.tabsSumHttpRequestBeacon.encodedBodySizeTitle')}>
+                    {bytes.detailed(beacon.encodedBodySize)}
+                  </Di>
+                )}
+                {hasDencodedBodySize && (
+                  <Di title={t('in-mobile-apps:sessionView.tabsSumHttpRequestBeacon.decodedBodySizeTitle')}>
+                    {bytes.detailed(beacon.decodedBodySize)}
+                  </Di>
+                )}
               </Dl>
             </Col>
           </Row>

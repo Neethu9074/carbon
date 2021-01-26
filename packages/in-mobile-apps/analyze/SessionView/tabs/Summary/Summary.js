@@ -5,6 +5,7 @@
 import { compose, withState } from 'recompose';
 import { find, debounce } from 'lodash';
 import React, { useMemo } from 'react';
+import { t } from 'in-i18n';
 
 import { fixClockSkewProblems } from 'in-mobile-apps/analyze/SessionView/tabs/Summary/fixClockSkewProblems';
 import ContentWrapper from 'in-new-components/LocationAwareTabView/components/ContentWrapper';
@@ -49,14 +50,20 @@ function Summary({ beacons, filter, setFilter, sessionLabel, sessionId }) {
 
       <Row>
         <Col xs>
-          <DateTimeKpiCard title="Start Time" time={firstBeacon.timestamp} />
-        </Col>
-        <Col xs>
-          <KpiCard title="HTTP Requests" value={number.compact(getBeaconCount(beacons, 'httpRequest'))} />
+          <DateTimeKpiCard
+            title={t('in-mobile-apps:sessionView.tabsSummary.startTimeTitle')}
+            time={firstBeacon.timestamp}
+          />
         </Col>
         <Col xs>
           <KpiCard
-            title="Mobile App"
+            title={t('in-mobile-apps:sessionView.tabsSummary.httpRequestTitle')}
+            value={number.compact(getBeaconCount(beacons, 'httpRequest'))}
+          />
+        </Col>
+        <Col xs>
+          <KpiCard
+            title={t('in-mobile-apps:sessionView.tabsSummary.mobileAppTitle')}
             raw
             value={
               <Link href$={getLinkToMobileApp(firstBeacon.mobileAppId)} className={locals.linkToMobileApp}>
@@ -72,10 +79,8 @@ function Summary({ beacons, filter, setFilter, sessionLabel, sessionId }) {
           <Col lg={12}>
             <Message
               type={warning}
-              title="Clock Skew Problems Detected"
-              description="Beacons sent to Instana from the end-user's device arrived with significant delays, most likely due to a
-              poor client network. To prevent inconsistencies, the timestamps shown in this view were adapted to restore
-              a meaningful activity timeline."
+              title={t('in-mobile-apps:sessionView.tabsSummary.clockProblemTitle')}
+              description={t('in-mobile-apps:sessionView.tabsSummary.clockProblemDesc')}
             />
           </Col>
         </Row>

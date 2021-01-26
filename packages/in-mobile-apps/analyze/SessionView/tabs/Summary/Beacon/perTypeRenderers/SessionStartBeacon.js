@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import React, { Fragment } from 'react';
+import { t } from 'in-i18n';
 
 import KeyValueHeader from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/KeyValueHeader';
 import BodyHeader from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/BodyHeader';
@@ -17,7 +18,10 @@ export const getExtraTooltipFields = () => ({});
 
 export const LeftHeader = ({ beacon }) => (
   <Fragment>
-    <KeyValueHeader label="Session Start" value={getLabel(beacon)} />
+    <KeyValueHeader
+      label={t('in-mobile-apps:sessionView.tabsSumSessionStartBeacon.sessionStartLabel')}
+      value={getLabel(beacon)}
+    />
   </Fragment>
 );
 
@@ -27,7 +31,7 @@ export const Body = ({ beacon }) => {
       <Row>
         {Object.keys(beacon.meta).length > 0 && (
           <Col lg={6}>
-            <BodyHeader>Meta</BodyHeader>
+            <BodyHeader>{t('in-mobile-apps:sessionView.tabsSumSessionStartBeacon.metaHeader')}</BodyHeader>
             <Meta beacon={beacon} />
           </Col>
         )}

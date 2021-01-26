@@ -5,6 +5,7 @@
 import { compose, withProps } from 'recompose';
 import React, { Fragment } from 'react';
 import { uniqBy } from 'lodash';
+import { t } from 'in-i18n';
 
 import {
   analyzeMetricsUrlParameter,
@@ -97,8 +98,8 @@ export default compose(
       openMetricSelector: () => {
         addActiveDialog(
           <MetricSelector
-            title="Select Metrics"
-            help="Select which metrics should be available as columns within the table. It also defines which metrics could be viewed as graphs."
+            title={t('in-mobile-apps:analyzeView.MetricSelectorTitle')}
+            help={t('in-mobile-apps:analyzeView.MetricSelectorHelp')}
             availableMetrics={availableMetrics}
             selectedMetrics={configuredMetrics}
             maximumNumberOfMetrics={5}

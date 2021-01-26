@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import React from 'react';
+import { t } from 'in-i18n';
 
 import renderers from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/perTypeRenderers';
 import BeaconViewGroup from 'in-mobile-apps/analyze/SessionView/tabs/Summary/BeaconViewGroup';
@@ -43,7 +44,7 @@ export default function Activity({ beacons, firstBeacon, sessionStart, filter, s
   return (
     <Row>
       <Col lg={12}>
-        <Card title="Activity">
+        <Card title={t('in-mobile-apps:sessionView.tabsSumActivityTitle')}>
           <Filter setFilter={setFilter} filter={filter} beacons={beacons} />
           <div className={locals.overviewChartContainer}>
             <OverviewChart

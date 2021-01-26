@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import React from 'react';
+import { t } from 'in-i18n';
 
 import TypeHeader from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/TypeHeader';
 import renderers from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/perTypeRenderers';
@@ -28,7 +29,7 @@ export default function OverviewChartTooltip({ beacon, earliestTimestamp }) {
       <dl className={locals.timings}>
         {!beaconRenderers.hideStartTimeTooltipField && (
           <div className={locals.timing}>
-            <dt className={locals.key}>Start Time</dt>
+            <dt className={locals.key}>{t('in-mobile-apps:sessionView.tabsSumOverviewChartTooltipStartTime')}</dt>
             <dd className={locals.value}>+{millisToTwoDecimalSeconds(beacon.timestamp - earliestTimestamp)}</dd>
           </div>
         )}

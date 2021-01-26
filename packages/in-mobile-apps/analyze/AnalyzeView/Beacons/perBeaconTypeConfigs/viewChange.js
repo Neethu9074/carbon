@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import React, { Fragment } from 'react';
+import { t } from 'in-i18n';
 
 import ListItemPresenter from 'in-mobile-apps/analyze/AnalyzeView/Beacons/ListItemPresenter';
 import { getHighlighterId } from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon';
@@ -20,15 +21,15 @@ export const perTypeColumnCount = 3;
 export function TableHeaderColumns({ orderBy, orderDirection, onChangeOrder }) {
   return (
     <Fragment>
-      <Th>View Name</Th>
-      <Th>Mobile App</Th>
+      <Th>{t('in-mobile-apps:analyzeView.perBeaconTypeConfigs.viewChangeTH1')}</Th>
+      <Th>{t('in-mobile-apps:analyzeView.perBeaconTypeConfigs.viewChangeTH2')}</Th>
       <SortableColumn
         orderBy={orderBy}
         orderDirection={orderDirection}
         onChangeOrder={onChangeOrder}
         defaultDirection="DESC"
         technicalName={timestampMetricName}
-        label="Timestamp"
+        label={t('in-mobile-apps:analyzeView.perBeaconTypeConfigs.viewChangeTimestampLabel')}
       />
     </Fragment>
   );
@@ -64,7 +65,7 @@ export function TableRowColumns({ item }) {
   );
 }
 
-export const ListItemHeader = 'View Name';
+export const ListItemHeader = t('in-mobile-apps:analyzeView.perBeaconTypeConfigs.viewChangeListItemHeader');
 
 export function ListItem({ item, active }) {
   return (

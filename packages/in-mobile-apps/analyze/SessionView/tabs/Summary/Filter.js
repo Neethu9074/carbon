@@ -5,6 +5,8 @@
 import React, { useMemo } from 'react';
 import { sortedUniqBy } from 'lodash';
 import classNames from 'classnames';
+import theme from 'in-themes';
+import { t } from 'in-i18n';
 
 import { types } from 'in-mobile-apps/analyze/SessionView/tabs/Summary/filterableTypes';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
@@ -12,7 +14,6 @@ import { compareIgnoreCase, isNotBlank } from 'in-services/util/string';
 import SearchInput from 'in-new-components/SearchInput';
 import Select from 'in-components/form/Select';
 import Tooltip from 'in-components/Tooltip';
-import theme from 'in-themes';
 
 import locals from './Filter.mless';
 
@@ -22,7 +23,7 @@ export default function Filter({ filter, setFilter, beacons }) {
   return (
     <div className={locals.wrapper}>
       {views.length > 1 && (
-        <FilterBlock title="Views">
+        <FilterBlock title={t('in-mobile-apps:sessionView.tabsSumFilter.viewsTitle')}>
           <Select
             id="view-filter"
             value={filter.view || ''}
@@ -42,7 +43,7 @@ export default function Filter({ filter, setFilter, beacons }) {
               }
             }}
           >
-            <option value="">All</option>
+            <option value="">{t('in-mobile-apps:sessionView.tabsSumFilter.allOption')}</option>
             {views.map(v => (
               <option key={v} value={v}>
                 {v}
@@ -52,7 +53,7 @@ export default function Filter({ filter, setFilter, beacons }) {
         </FilterBlock>
       )}
 
-      <FilterBlock title="Search">
+      <FilterBlock title={t('in-mobile-apps:sessionView.tabsSumFilter.searchTitle')}>
         <SearchInput
           maxWidth="10rem"
           query={filter.query}
@@ -72,7 +73,7 @@ export default function Filter({ filter, setFilter, beacons }) {
         />
       </FilterBlock>
 
-      <FilterBlock title="Types">
+      <FilterBlock title={t('in-mobile-apps:sessionView.tabsSumFilter.typesTitle')}>
         <ul className={locals.typeFilters}>
           <li className={locals.typeFilter}>
             <a

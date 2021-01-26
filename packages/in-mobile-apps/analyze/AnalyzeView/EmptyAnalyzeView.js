@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import EntityPageMainNotification from 'in-new-components/EntityPageMainNotification/EntityPageMainNotification';
@@ -19,7 +20,7 @@ export default function EmptyAnalyzeView({ type }) {
         <EntityPageMainNotification
           icon={getIconByType(type, 'mobileApp')}
           explanation={() => <ArticleContent id="mobileAppAnalyzeNoData" />}
-          title={`No ${entityName} found`}
+          title={t('in-mobile-apps:analyzeView.EntityPageMainNotificationTitle', { entityName: entityName })}
         />
       </CenterAlignmentColumn>
     </Sticky>

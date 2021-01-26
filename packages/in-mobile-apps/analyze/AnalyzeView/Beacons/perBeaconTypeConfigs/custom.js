@@ -3,12 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 import React, { Fragment } from 'react';
+import { t } from 'in-i18n';
 
 import ListItemPresenter from 'in-mobile-apps/analyze/AnalyzeView/Beacons/ListItemPresenter';
 import { getHighlighterId } from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon';
 import { getLinkToMobileApp, getLinkToSession } from 'in-mobile-apps/navigation/paths';
-import { triggerHighlight } from 'in-new-components/SelectedElementHighlighter';
 import { timestampMetricName } from 'in-mobile-apps/analyze/AnalyzeView/metrics';
+import { triggerHighlight } from 'in-new-components/SelectedElementHighlighter';
 import TableLinkWithIcon from 'in-analyze/components/TableLinkWithIcon';
 import BatchingIndicator from 'in-analyze/components/BatchingIndicator';
 import SortableColumn from 'in-analyze/components/SortableColumn';
@@ -21,15 +22,15 @@ export const perTypeColumnCount = 3;
 export function TableHeaderColumns({ orderBy, orderDirection, onChangeOrder }) {
   return (
     <Fragment>
-      <Th>Event Name</Th>
-      <Th>Mobile App</Th>
+      <Th>{t('in-mobile-apps:analyzeView.perBeaconTypeConfigs.customTH1')}</Th>
+      <Th>{t('in-mobile-apps:analyzeView.perBeaconTypeConfigs.customTH2')}</Th>
       <SortableColumn
         orderBy={orderBy}
         orderDirection={orderDirection}
         onChangeOrder={onChangeOrder}
         defaultDirection="DESC"
         technicalName={timestampMetricName}
-        label="Timestamp"
+        label={t('in-mobile-apps:analyzeView.perBeaconTypeConfigs.customTimestampLabel')}
       />
     </Fragment>
   );
@@ -52,7 +53,9 @@ export function TableRowColumns({ item }) {
         </TableLinkWithIcon>
         <BatchingIndicator
           batchCount={item.beacon.batchSize}
-          tooltipContent={`This event was batched and represents ${item.beacon.batchSize} individual events.`}
+          tooltipContent={t('in-mobile-apps:analyzeView.perBeaconTypeConfigs.customBatchingIndicatorTooltipContent', {
+            size: item.beacon.batchSize
+          })}
         />
       </Td>
 
@@ -69,7 +72,7 @@ export function TableRowColumns({ item }) {
   );
 }
 
-export const ListItemHeader = 'Event Name';
+export const ListItemHeader = t('in-mobile-apps:analyzeView.perBeaconTypeConfigs.customListItemHeader');
 
 export function ListItem({ item, active }) {
   return (

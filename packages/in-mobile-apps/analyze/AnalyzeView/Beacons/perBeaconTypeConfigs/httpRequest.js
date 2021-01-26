@@ -3,13 +3,14 @@
  * (c) Copyright Instana Inc.
  */
 import React, { Fragment } from 'react';
+import { t } from 'in-i18n';
 
 import { Th, Td, ErroneousRowTh, ErroneousRowTd } from 'in-components/tables/sharedComponents';
 import ListItemPresenter from 'in-mobile-apps/analyze/AnalyzeView/Beacons/ListItemPresenter';
 import { getHighlighterId } from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon';
 import { getLinkToMobileApp, getLinkToSession } from 'in-mobile-apps/navigation/paths';
-import { triggerHighlight } from 'in-new-components/SelectedElementHighlighter';
 import { timestampMetricName } from 'in-mobile-apps/analyze/AnalyzeView/metrics';
+import { triggerHighlight } from 'in-new-components/SelectedElementHighlighter';
 import TableLinkWithIcon from 'in-analyze/components/TableLinkWithIcon';
 import BatchingIndicator from 'in-analyze/components/BatchingIndicator';
 import SortableColumn from 'in-analyze/components/SortableColumn';
@@ -22,15 +23,15 @@ export function TableHeaderColumns({ orderBy, orderDirection, onChangeOrder }) {
   return (
     <Fragment>
       <ErroneousRowTh />
-      <Th>Access</Th>
-      <Th>Mobile App</Th>
+      <Th>{t('in-mobile-apps:analyzeView.perBeaconTypeConfigs.httpRequestTH1')}</Th>
+      <Th>{t('in-mobile-apps:analyzeView.perBeaconTypeConfigs.httpRequestTH2')}</Th>
       <SortableColumn
         orderBy={orderBy}
         orderDirection={orderDirection}
         onChangeOrder={onChangeOrder}
         defaultDirection="DESC"
         technicalName={timestampMetricName}
-        label="Timestamp"
+        label={t('in-mobile-apps:analyzeView.perBeaconTypeConfigs.httpRequestTimestampLabel')}
       />
     </Fragment>
   );
@@ -57,7 +58,10 @@ export function TableRowColumns({ item }) {
         </TableLinkWithIcon>
         <BatchingIndicator
           batchCount={item.beacon.batchSize}
-          tooltipContent={`This HTTP request is batched and represents ${item.beacon.batchSize} individual HTTP requests.`}
+          tooltipContent={t(
+            'in-mobile-apps:analyzeView.perBeaconTypeConfigs.httpRequestBatchingIndicatorTooltipContent',
+            { size: item.beacon.batchSize }
+          )}
         />
       </Td>
 
@@ -74,7 +78,7 @@ export function TableRowColumns({ item }) {
   );
 }
 
-export const ListItemHeader = 'Access';
+export const ListItemHeader = t('in-mobile-apps:analyzeView.perBeaconTypeConfigs.httpRequestListItemHeader');
 
 export function ListItem({ item, active }) {
   return (

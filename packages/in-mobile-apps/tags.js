@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { get } from 'lodash';
+import { t } from 'in-i18n';
 
 import { compareIgnoreCase } from 'in-services/util/string';
 
@@ -36,10 +37,10 @@ function getMobileAppLabelTagFilter(mobileAppLabel) {
 }
 
 export const dataSourceTitles = {
-  sessionStart: 'Session Start',
-  viewChange: 'View Transition',
-  httpRequest: 'HTTP Request',
-  custom: 'Custom Event'
+  sessionStart: t('in-mobile-apps:tags.sessionStart'),
+  viewChange: t('in-mobile-apps:tags.viewChange'),
+  httpRequest: t('in-mobile-apps:tags.httpRequest'),
+  custom: t('in-mobile-apps:tags.custom')
 };
 
 export const defaultGroupings = {

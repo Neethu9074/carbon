@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import React from 'react';
+import { t } from 'in-i18n';
 
 import NotDefined from 'in-websites/analyze/BeaconUserSummary/NotDefined';
 import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
@@ -24,32 +25,46 @@ export default function BeaconUserSummary({ beacon, beacons }) {
   return (
     <Row className={locals.summary} verticallyStretchColumns>
       <Col lg={4}>
-        <Card title="User Information" useMaxAvailableHeight>
+        <Card title={t('in-mobile-apps:beaconUserSum.userInfoTitle')} useMaxAvailableHeight>
           <User beacon={beacon} beacons={beacons} />
 
           <Dl>
-            <Di title="Platform">{beacon.platform}</Di>
-            <Di title="Bundle">{beacon.bundleIdentifier}</Di>
-            <Di title="App">{[beacon.appBuild, beacon.appVersion].filter(Boolean).join(', ')}</Di>
-            <Di title="Operating System">{[beacon.osName, beacon.osVersion].filter(Boolean).join(' ')}</Di>
-            <Di title="Device">
+            <Di title={t('in-mobile-apps:beaconUserSum.platformTitle')}>{beacon.platform}</Di>
+            <Di title={t('in-mobile-apps:beaconUserSum.bundleTitle')}>{beacon.bundleIdentifier}</Di>
+            <Di title={t('in-mobile-apps:beaconUserSum.appTitle')}>
+              {[beacon.appBuild, beacon.appVersion].filter(Boolean).join(', ')}
+            </Di>
+            <Di title={t('in-mobile-apps:beaconUserSum.osTitle')}>
+              {[beacon.osName, beacon.osVersion].filter(Boolean).join(' ')}
+            </Di>
+            <Di title={t('in-mobile-apps:beaconUserSum.deviceTitle')}>
               {[beacon.deviceManufacturer, beacon.deviceModel, beacon.deviceHardware].filter(Boolean).join(', ')}
             </Di>
-            <Di title="Viewport Resolution">
+            <Di title={t('in-mobile-apps:beaconUserSum.viewportResolutionTitle')}>
               {[beacon.viewportWidth, beacon.viewportHeight].filter(Boolean).join('x')}
             </Di>
-            <Di title="Preferred Languages">{beacon.userLanguages.filter(Boolean).join(', ')}</Di>
-            <Di title="IP Address">{beacon.userIp}</Di>
-            <Di title="Carrier">{beacon.carrier}</Di>
-            {beacon.connectionType && <Di title="Connection Type">{beacon.connectionType}</Di>}
+            <Di title={t('in-mobile-apps:beaconUserSum.preferredLanguagesTitle')}>
+              {beacon.userLanguages.filter(Boolean).join(', ')}
+            </Di>
+            <Di title={t('in-mobile-apps:beaconUserSum.ipTitle')}>{beacon.userIp}</Di>
+            <Di title={t('in-mobile-apps:beaconUserSum.carrierTitle')}>{beacon.carrier}</Di>
+            {beacon.connectionType && (
+              <Di title={t('in-mobile-apps:beaconUserSum.connectionTypeTitle')}>{beacon.connectionType}</Di>
+            )}
             {beacon.effectiveConnectionType && (
-              <Di title="Effective Connection Type">{beacon.effectiveConnectionType}</Di>
+              <Di title={t('in-mobile-apps:beaconUserSum.effectiveConnectionTypeTitle')}>
+                {beacon.effectiveConnectionType}
+              </Di>
             )}
           </Dl>
         </Card>
       </Col>
       <Col lg={4}>
-        <Card title="User Location" withoutPadding={!noGeoAvailable} useMaxAvailableHeight>
+        <Card
+          title={t('in-mobile-apps:beaconUserSum.userLocationTitle')}
+          withoutPadding={!noGeoAvailable}
+          useMaxAvailableHeight
+        >
           {geoSubsection.length > 0 && (
             <address className={locals.address}>
               <span className={locals.city}>{beacon.city}</span>
@@ -59,11 +74,16 @@ export default function BeaconUserSummary({ beacon, beacons }) {
 
           {isGeoCoordinatesAvailable && <Map beacon={beacon} />}
 
-          {noGeoAvailable && <NotDefined explanation="Geolocation could not be determined from IP address." />}
+          {noGeoAvailable && <NotDefined explanation={t('in-mobile-apps:beaconUserSum.noGeoAvailableExplain')} />}
         </Card>
       </Col>
       <Col lg={4}>
-        <Card title="Meta" withoutPadding={hasMeta} useMaxAvailableHeight bodyClassName={locals.metaCard}>
+        <Card
+          title={t('in-mobile-apps:beaconUserSum.metaTitle')}
+          withoutPadding={hasMeta}
+          useMaxAvailableHeight
+          bodyClassName={locals.metaCard}
+        >
           {hasMeta && (
             <Code
               showLineNumbers={false}
@@ -74,9 +94,9 @@ export default function BeaconUserSummary({ beacon, beacons }) {
           )}
           {!hasMeta && (
             <NotDefined
-              explanation="No meta data defined. Meta data can be used to transport information about the deployment or settings. Meta data is available as filter and grouping within the analyze area."
+              explanation={t('in-mobile-apps:beaconUserSum.notDefinedExplain')}
               learnMoreHref="https://instana.com/docs/website_monitoring/api/#metadata"
-              learnMoreLabel="Learn how to add meta data"
+              learnMoreLabel={t('in-mobile-apps:beaconUserSum.learnMoreLabel')}
             />
           )}
         </Card>

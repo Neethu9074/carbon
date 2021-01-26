@@ -2,29 +2,31 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
+
 export const types = {
   httpRequest: {
-    short: 'HTTP',
-    badgeLabel: 'HTTP',
-    long: 'HTTP Requests',
+    short: t('in-mobile-apps:sessionView.tabsSumFilterableTypes.HTTPShort'),
+    badgeLabel: t('in-mobile-apps:sessionView.tabsSumFilterableTypes.HTTPBadgeLabel'),
+    long: t('in-mobile-apps:sessionView.tabsSumFilterableTypes.HTTPLong'),
     color: '#8900b3'
   },
   sessionStart: {
-    short: 'Ses',
-    badgeLabel: 'Ses',
-    long: 'Session Start',
+    short: t('in-mobile-apps:sessionView.tabsSumFilterableTypes.sesShort'),
+    badgeLabel: t('in-mobile-apps:sessionView.tabsSumFilterableTypes.sesBadgeLabel'),
+    long: t('in-mobile-apps:sessionView.tabsSumFilterableTypes.sesLong'),
     color: '#F16528'
   },
   viewChange: {
-    short: 'Tra',
-    badgeLabel: 'Tra',
-    long: 'View Transitions',
+    short: t('in-mobile-apps:sessionView.tabsSumFilterableTypes.traShort'),
+    badgeLabel: t('in-mobile-apps:sessionView.tabsSumFilterableTypes.traBadgeLabel'),
+    long: t('in-mobile-apps:sessionView.tabsSumFilterableTypes.traLong'),
     color: '#91c200'
   },
   custom: {
-    short: 'Cus',
-    badgeLabel: 'Cus',
-    long: 'Custom Events',
+    short: t('in-mobile-apps:sessionView.tabsSumFilterableTypes.cusShort'),
+    badgeLabel: t('in-mobile-apps:sessionView.tabsSumFilterableTypes.cusBadgeLabel'),
+    long: t('in-mobile-apps:sessionView.tabsSumFilterableTypes.cusLong'),
     color: '#009e89'
   }
 };

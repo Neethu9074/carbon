@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { uniq, find } from 'lodash';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { isBlank, isNotBlank } from 'in-services/util/string';
@@ -29,14 +30,14 @@ export default function User({ beacon, beacons }) {
   if (!first) {
     first = (
       <div className={locals.noUserData}>
-        No user data defined&nbsp;
+        {t('in-mobile-apps:beaconUserSum.noUserData')}&nbsp;
         <Button
           href="https://instana.com/docs/mobile_app_monitoring/ios_api/#identifying-users"
           kind="primaryv2"
           target="_blank"
           size="compact"
         >
-          Learn how to add user data
+          {t('in-mobile-apps:beaconUserSum.noUserDataGuide')}
         </Button>
       </div>
     );
@@ -49,7 +50,7 @@ export default function User({ beacon, beacons }) {
         <div className={locals.first}>
           <span className={locals.firstText}>{first}</span>{' '}
           {firstBeaconIsMissingUserData && (
-            <Tooltip content="Only a subset of the beacons of this session have associated user data. This can result in surprising statistics and analyze results.">
+            <Tooltip content={t('in-mobile-apps:beaconUserSum.userTooltipContent')}>
               <Link
                 external
                 href="https://instana.com/docs/mobile_app_monitoring/ios_api/#identifying-users"

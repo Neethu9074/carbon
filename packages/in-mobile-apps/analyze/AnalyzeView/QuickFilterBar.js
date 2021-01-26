@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import React from 'react';
+import { t } from 'in-i18n';
 
 import KeyValueBarItem from 'in-mobile-apps/analyze/AnalyzeView/MobileAppKeyValueBarItem';
 import SelectBarItem from 'in-mobile-apps/analyze/AnalyzeView/MobileAppSelectBarItem';
@@ -31,8 +32,8 @@ export default function QuickFilterBar(props) {
         <SelectBarItem
           {...props}
           tag="mobileBeacon.mobileApp.name"
-          singularLabel="Mobile App"
-          pluralLabel="Mobile Apps"
+          singularLabel={t('in-mobile-apps:analyzeView.quickFilterBar.mobileAppLabel', { count: 1 })}
+          pluralLabel={t('in-mobile-apps:analyzeView.quickFilterBar.mobileAppLabel', { count: 2 })}
           withoutTextTransform
         />
       )}
@@ -40,25 +41,54 @@ export default function QuickFilterBar(props) {
         <SelectBarItem
           {...props}
           tag="mobileBeacon.view.name"
-          singularLabel="View"
-          pluralLabel="Views"
+          singularLabel={t('in-mobile-apps:analyzeView.quickFilterBar.viewsLabel', { count: 1 })}
+          pluralLabel={t('in-mobile-apps:analyzeView.quickFilterBar.viewsLabel', { count: 2 })}
           withoutTextTransform
         />
       )}
-      <SelectBarItem {...props} tag="mobileBeacon.platform" singularLabel="Platform" pluralLabel="Platforms" />
-      <SelectBarItem {...props} tag="mobileBeacon.os.name" singularLabel="OS" pluralLabel="OS" />
-      <SelectBarItem {...props} tag="mobileBeacon.app.bundleIdentifier" singularLabel="Bundle" pluralLabel="Bundles" />
-      <SelectBarItem {...props} tag="mobileBeacon.app.version" singularLabel="Version" pluralLabel="Versions" />
-      <SelectBarItem {...props} tag="mobileBeacon.geo.country" singularLabel="country" pluralLabel="countries" />
+      <SelectBarItem
+        {...props}
+        tag="mobileBeacon.platform"
+        singularLabel={t('in-mobile-apps:analyzeView.quickFilterBar.platformLabel', { count: 1 })}
+        pluralLabel={t('in-mobile-apps:analyzeView.quickFilterBar.platformLabel', { count: 2 })}
+      />
+      <SelectBarItem
+        {...props}
+        tag="mobileBeacon.os.name"
+        singularLabel={t('in-mobile-apps:analyzeView.quickFilterBar.osLabel', { count: 1 })}
+        pluralLabel={t('in-mobile-apps:analyzeView.quickFilterBar.osLabel', { count: 2 })}
+      />
+      <SelectBarItem
+        {...props}
+        tag="mobileBeacon.app.bundleIdentifier"
+        singularLabel={t('in-mobile-apps:analyzeView.quickFilterBar.bundleLabel', { count: 1 })}
+        pluralLabel={t('in-mobile-apps:analyzeView.quickFilterBar.bundleLabel', { count: 2 })}
+      />
+      <SelectBarItem
+        {...props}
+        tag="mobileBeacon.app.version"
+        singularLabel={t('in-mobile-apps:analyzeView.quickFilterBar.versionLabel', { count: 1 })}
+        pluralLabel={t('in-mobile-apps:analyzeView.quickFilterBar.versionLabel', { count: 2 })}
+      />
+      <SelectBarItem
+        {...props}
+        tag="mobileBeacon.geo.country"
+        singularLabel={t('in-mobile-apps:analyzeView.quickFilterBar.countryLabel', { count: 1 })}
+        pluralLabel={t('in-mobile-apps:analyzeView.quickFilterBar.countryLabel', { count: 2 })}
+      />
       {showSubdivisionSelector && (
         <SelectBarItem
           {...props}
           tag="mobileBeacon.geo.subdivision"
-          singularLabel="subdivision"
-          pluralLabel="subdivisions"
+          singularLabel={t('in-mobile-apps:analyzeView.quickFilterBar.subdivisionLabel', { count: 1 })}
+          pluralLabel={t('in-mobile-apps:analyzeView.quickFilterBar.subdivisionLabel', { count: 2 })}
         />
       )}
-      <KeyValueBarItem {...props} label="Meta" tag="mobileBeacon.meta" />
+      <KeyValueBarItem
+        {...props}
+        label={t('in-mobile-apps:analyzeView.quickFilterBar.metaLabel')}
+        tag="mobileBeacon.meta"
+      />
       {onMoreClick && <MoreBarItem onClick={onMoreClick} />}
     </Bar>
   );

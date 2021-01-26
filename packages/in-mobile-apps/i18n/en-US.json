@@ -1,0 +1,234 @@
+{
+  "tags": {
+    "sessionStart": "Session Start",
+    "viewChange": "View Transition",
+    "httpRequest": "HTTP Request",
+    "custom": "Custom Event"
+  },
+  "analyzeView": {
+    "MetricSelectorTitle": "Select Metrics",
+    "MetricSelectorHelp": "Select which metrics should be available as columns within the table. It also defines which metrics could be viewed as graphs.",
+    "EntityPageMainNotificationTitle": "No {{entityName}} found",
+    "metrics": {
+      "timestampMetricName": "timestamp",
+      "groupNameMetricName": "name",
+      "groupCountMetricName": "count"
+    },
+    "resourceSizeMetrics": {
+      "encodedBodySizeLabel": "Encoded Body Size",
+      "encodedBodySizeCategory": "Resource Sizing",
+      "decodedBodySizeLabel": "Decoded Body Size",
+      "decodedBodySizeCategory": "Resource Sizing",
+      "transferSizeLabel": "Transfer Size",
+      "transferSizeCategory": "Resource Sizing"
+    },
+    "errorRate": {
+      "label": "Error Rate",
+      "rawDataLabel": "Error Count"
+    },
+    "availableMetrics": {
+      "sessionStartBeaconCountLabel": "Session Starts",
+      "viewChangeBeaconCountLabel": "View Transitions",
+      "httpRequestBeaconCountLabel": "Calls",
+      "httpRequestBeaconErrorCountLabel": "Erroneous Calls",
+      "httpRequestBeaconDurationLabel": "Retrieval Time",
+      "httpRequestHttp1xxLabel": "HTTP 1XX Count",
+      "httpRequestHttp1xxRawDataLabel": "HTTP Status",
+      "httpRequestHttp2xxLabel": "HTTP 2XX Count",
+      "httpRequestHttp2xxRawDataLabel": "HTTP Status",
+      "httpRequestHttp3xxLabel": "HTTP 3XX Count",
+      "httpRequestHttp3xxRawDataLabel": "HTTP Status",
+      "httpRequestHttp4xxLabel": "HTTP 4XX Count",
+      "httpRequestHttp4xxRawDataLabel": "HTTP Status",
+      "httpRequestHttp5xxLabel": "HTTP 5XX Count",
+      "httpRequestHttp5xxRawDataLabel": "HTTP Status",
+      "httpRequestHttpGetLabel": "HTTP GET Count",
+      "httpRequestHttpGetRawDataLabel": "HTTP Method",
+      "httpRequestHttpPostLabel": "HTTP POST Count",
+      "httpRequestHttpPostRawDataLabel": "HTTP Method",
+      "httpRequestHttpPutLabel": "HTTP PUT Count",
+      "httpRequestHttpPutRawDataLabel": "HTTP Method",
+      "httpRequestHttpDeleteLabel": "HTTP DELETE Count",
+      "httpRequestHttpDeleteRawDataLabel": "HTTP Method",
+      "customBeaconCountLabel": "Occurrences",
+      "customBeaconDurationLabel": "Duration"
+    },
+    "editGroupDialog": {
+      "help": "Select a tag by which your beacons should be grouped."
+    },
+    "groupMetricsChart": {
+      "countChartDefinitionLabel": "Count"
+    },
+    "quickFilterBar": {
+      "mobileAppLabel": "Mobile App",
+      "mobileAppLabel_plural": "Mobile Apps",
+      "viewsLabel": "View",
+      "viewsLabel_plural": "Views",
+      "platformLabel": "Platform",
+      "platformLabel_plural": "Platforms",
+      "osLabel": "OS",
+      "osLabel_plural": "OS",
+      "bundleLabel": "Bundle",
+      "bundleLabel_plural": "Bundles",
+      "versionLabel": "Version",
+      "versionLabel_plural": "Versions",
+      "countryLabel": "country",
+      "countryLabel_plural": "countries",
+      "subdivisionLabel": "subdivision",
+      "subdivisionLabel_plural": "subdivisions",
+      "metaLabel": "Meta"
+    },
+    "perBeaconTypeConfigs": {
+      "customTH1": "Event Name",
+      "customTH2": "Mobile App",
+      "customTimestampLabel": "Timestamp",
+      "customBatchingIndicatorTooltipContent": "This event was batched and represents {{size}} individual events.",
+      "customListItemHeader": "Event Name",
+      "httpRequestTH1": "Access",
+      "httpRequestTH2": "Mobile App",
+      "httpRequestTimestampLabel": "Timestamp",
+      "httpRequestBatchingIndicatorTooltipContent": "This HTTP request is batched and represents {{size}} individual HTTP requests.",
+      "httpRequestListItemHeader": "Access",
+      "sessionStartTH1": "Session ID",
+      "sessionStartTH2": "Mobile App",
+      "sessionStartTimestampLabel": "Timestamp",
+      "sessionStartListItemHeader": "Session ID",
+      "viewChangeTH1": "View Name",
+      "viewChangeTH2": "Mobile App",
+      "viewChangeTimestampLabel": "Timestamp",
+      "viewChangeListItemHeader": "View Name"
+    },
+    "groupedBeaconsTable": {
+      "groupLabel": "Group",
+      "countLabel": "Count",
+      "timestampLabel": "Earliest Timestamp"
+    }
+  },
+  "beaconUserSum": {
+    "userInfoTitle": "User Information",
+    "platformTitle": "Platform",
+    "bundleTitle": "Bundle",
+    "appTitle": "App",
+    "osTitle": "Operating System",
+    "deviceTitle": "Device",
+    "viewportResolutionTitle": "Viewport Resolution",
+    "preferredLanguagesTitle": "Preferred Languages",
+    "ipTitle": "IP Address",
+    "carrierTitle": "Carrier",
+    "connectionTypeTitle": "Connection Type",
+    "effectiveConnectionTypeTitle": "Effective Connection Type",
+    "userLocationTitle": "User Location",
+    "noGeoAvailableExplain": "Geolocation could not be determined from IP address.",
+    "metaTitle": "Meta",
+    "notDefinedExplain": "No meta data defined. Meta data can be used to transport information about the deployment or settings. Meta data is available as filter and grouping within the analyze area.",
+    "learnMoreLabel": "Learn how to add meta data",
+    "noUserData": "No user data defined",
+    "noUserDataGuide": "Learn how to add user data",
+    "userTooltipContent": "Only a subset of the beacons of this session have associated user data. This can result in surprising statistics and analyze results."
+  },
+  "sessionView": {
+    "analyticsTitle": "Analytics",
+    "analyticsBreadscrumbLabel": "{{prefix}}} Analytics",
+    "sessionBreadscrumbLabel": "Session",
+    "sessionTitle": "Session",
+    "analyticsLink": "Analytics",
+    "downloadBtn": "Download",
+    "closeSessionDetailsTooltip": "Close session details",
+    "closeSessionDetailsArialabel": "Close session details",
+    "tabsDetailLabel": "Detail",
+    "tabsSumActivityTitle": "Activity",
+    "tabsSumBeaconViewGroup": {
+      "showlessAiralabel": "Show less",
+      "showmoreAiralabel": "Show more",
+      "noViewName": "View name not set",
+      "noViewGuide": "Learn how to define views"
+    },
+    "tabsSumFilter": {
+      "viewsTitle": "Views",
+      "allOption": "All",
+      "searchTitle": "Search",
+      "typesTitle": "Types"
+    },
+    "tabsSumFilterableTypes": {
+      "HTTPShort": "HTTP",
+      "HTTPBadgeLabel": "HTTP",
+      "HTTPLong": "HTTP Requests",
+      "sesShort": "Ses",
+      "sesBadgeLabel": "Ses",
+      "sesLong": "Session Start",
+      "traShort": "Tra",
+      "traBadgeLabel": "Tra",
+      "traLong": "View Transitions",
+      "cusShort": "Cus",
+      "cusBadgeLabel": "Cus",
+      "cusLong": "Custom Events"
+    },
+    "tabsSumOverviewChartTooltipStartTime": "Start Time",
+    "tabsSummary": {
+      "startTimeTitle": "Start Time",
+      "httpRequestTitle": "HTTP Requests",
+      "mobileAppTitle": "Mobile App",
+      "clockProblemTitle": "Clock Skew Problems Detected",
+      "clockProblemDesc": "Beacons sent to Instana from the end-user's device arrived with significant delays, most likely due to a poor client network. To prevent inconsistencies, the timestamps shown in this view were adapted to restore a meaningful activity timeline."
+    },
+    "tabsSumBeacon": {
+      "showlessTooltip": "Show less",
+      "showlessAriaLabel": "Show less",
+      "showmoreTooltip": "Show more",
+      "showmoreAriaLabel": "Show more"
+    },
+    "tabsSumBackendDi": {
+      "backendTitle": "Backend",
+      "backendTooltipContent": "Open backend trace",
+      "backendTooltipCall": "call",
+      "backendTooltipCall_plural": "calls",
+      "backendTooltipCall_0": "calls",
+      "backendTooltipCall_1": "calls",
+      "backendTooltipCall_2": "calls",
+      "backendTooltipError": "error",
+      "backendTooltipError_plural": "errors",
+      "backendTooltipError_0": "errors",
+      "backendTooltipError_1": "errors",
+      "backendTooltipError_2": "errors",
+      "backendTooltipLink": "{{duration}} for {{callCount}} {{call}} with {{totalErrorCount}} {{error}}."
+    },
+    "tabsSumBackendTraceButton": {
+      "viewTraceBtn": "View Backend Trace",
+      "showID": "ID: {{id}}"
+    },
+    "tabsSumBatchIndicatorTooltip": "{{number}} occurrences",
+    "tabsSumCustomEventBeacon": {
+      "customEventLabel": "Custom Event",
+      "startTimeLabel": "Start Time",
+      "durationLabel": "Duration",
+      "customEventHeader": "Custom Event",
+      "eventNameTitle": "Event Name",
+      "errMsgTitle": "Error Message",
+      "metaHeader": "Meta"
+    },
+    "tabsSumHttpRequestBeacon": {
+      "retrievalTimeTooltip": "Retrieval Time",
+      "requestLabel": "Request",
+      "startTimeLabel": "Start Time",
+      "retrievalTimeLabel": "Retrieval Time",
+      "callDetailsHeader": "Call Details",
+      "httpCallURITitle": "HTTP Call URI",
+      "httpMethodTitle": "HTTP Method",
+      "httpStatusTitle": "HTTP Status",
+      "errMsgTitle": "Error Message",
+      "metaHeader": "Meta",
+      "networkInsightsHeader": "Network Insights",
+      "transferSizeTitle": "Transfer Size",
+      "encodedBodySizeTitle": "Encoded Body Size",
+      "decodedBodySizeTitle": "Decoded Body Size"
+    },
+    "tabsSumSessionStartBeacon": {
+      "sessionStartLabel": "Session Start",
+      "metaHeader": "Meta"
+    },
+    "tabsSumViewChangeBeacon": {
+      "viewTransitionLabel": "View Transition",
+      "startTimeLabel": "Start Time"
+    }
+  }
+}

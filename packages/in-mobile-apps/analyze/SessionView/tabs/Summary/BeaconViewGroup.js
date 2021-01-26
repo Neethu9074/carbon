@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { withState } from 'recompose';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import HeaderToggleIcon from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/HeaderToggleIcon';
@@ -21,13 +22,17 @@ function BeaconViewGroup({ view, beacons, earliestTimestamp, sessionStart, expan
       <div
         className={locals.header}
         {...toInteractiveElement({
-          ariaLabel: expanded ? 'Show less' : 'Show more',
+          ariaLabel: expanded
+            ? t('in-mobile-apps:sessionView.tabsSumBeaconViewGroup.showlessAiralabel')
+            : t('in-mobile-apps:sessionView.tabsSumBeaconViewGroup.showmoreAiralabel'),
           onDefaultInteraction: () => setExpanded(!expanded)
         })}
       >
         <div className={locals.left}>
           <SvgIcon type="lib_mobile_app_view" size="s" className={locals.viewIcon} />
-          <span className={locals.viewName}>{view || 'View name not set'}</span>
+          <span className={locals.viewName}>
+            {view || t('in-mobile-apps:sessionView.tabsSumBeaconViewGroup.noViewName')}
+          </span>
 
           {!view && (
             <Link
@@ -35,7 +40,7 @@ function BeaconViewGroup({ view, beacons, earliestTimestamp, sessionStart, expan
               href="https://instana.com/docs/mobile_app_monitoring/ios_api/#views"
               className={locals.learnHow}
             >
-              Learn how to define views
+              {t('in-mobile-apps:sessionView.tabsSumBeaconViewGroup.noViewGuide')}
             </Link>
           )}
         </div>

@@ -3,12 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 import { withProps } from 'recompose';
+import { t } from 'in-i18n';
 
 import getMobileAppBeaconGroups from 'in-mobile-apps/subscriptions/getMobileAppBeaconGroups';
 import EditGroupDialog from 'in-analyze/components/EditGroupDialog/EditGroupDialog';
 
 export default withProps({
-  help: 'Select a tag by which your beacons should be grouped.',
+  help: t('in-mobile-apps:analyzeView.editGroupDialog.help'),
   getKeySuggestions: ({ timeConfig, tagFilters, tag, key }) => {
     return getMobileAppBeaconGroups({
       timeConfig: timeConfig,
