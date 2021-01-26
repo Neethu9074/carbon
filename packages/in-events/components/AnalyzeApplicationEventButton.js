@@ -23,9 +23,9 @@ import Tooltip from 'in-components/Tooltip';
 const dataSource = 'calls';
 const alertTypeWithDisabledGrouping = ['errorRate', 'slowness'];
 
-export default function AnalyzeApplicationEventButton({ alertConfig, applicationName, timeConfig }) {
+export default function AnalyzeApplicationEventButton({ alertConfig, timeConfig, applicationName, serviceName }) {
   const tagCatalog = useTagCatalog(getTagCatalog);
-  const linkToUA = getLinkToUnboundAnalytics(applicationName, alertConfig, timeConfig, tagCatalog);
+  const linkToUA = getLinkToUnboundAnalytics(applicationName, serviceName, alertConfig, timeConfig, tagCatalog);
   const linkDisabled = !linkToUA;
 
   return (
@@ -54,11 +54,12 @@ export default function AnalyzeApplicationEventButton({ alertConfig, application
 
 AnalyzeApplicationEventButton.propTypes = {
   alertConfig: PropTypes.object.isRequired,
+  timeConfig: propTypeTimeConfig.isRequired,
   applicationName: PropTypes.string.isRequired,
-  timeConfig: propTypeTimeConfig.isRequired
+  serviceName: PropTypes.string
 };
 
-function getLinkToUnboundAnalytics(applicationName, alertConfig, timeConfig, tagCatalog) {
+function getLinkToUnboundAnalytics(applicationName, serviceName, alertConfig, timeConfig, tagCatalog) {
   const boundaryScope = alertConfig.boundaryScope;
   const alertRule = alertConfig.rule;
   const alertType = alertRule.alertType;
@@ -72,6 +73,7 @@ function getLinkToUnboundAnalytics(applicationName, alertConfig, timeConfig, tag
       tagFilterExpression: joinExpressions({
         expressions: [
           getApplicationNameTagFilter(boundaryScope, applicationName),
+          serviceName ? getServiceNameTagFilter(serviceName) : [],
           fromBackendModel(alertConfig.tagFilterExpression),
           blueprintConfig.getRuleTagFilterFormModel(alertRule)
         ]
@@ -84,6 +86,7 @@ function getLinkToUnboundAnalytics(applicationName, alertConfig, timeConfig, tag
       tagCatalog &&
       getLinkToAnalyze({
         applicationName,
+        serviceName,
         dataSource,
         boundaryScope,
         filters,
@@ -101,10 +104,19 @@ function getLinkToUnboundAnalytics(applicationName, alertConfig, timeConfig, tag
 
 function getApplicationNameTagFilter(boundaryScope, applicationName) {
   return {
+    type: 'TAG_FILTER',
     name: boundaryScope === 'INBOUND' ? 'call.inbound_of_application' : 'application.name',
     operator: 'EQUALS',
-    type: 'TAG_FILTER',
     value: applicationName
+  };
+}
+
+function getServiceNameTagFilter(serviceName) {
+  return {
+    type: 'TAG_FILTER',
+    name: 'service.name',
+    operator: 'EQUALS',
+    value: serviceName
   };
 }
 

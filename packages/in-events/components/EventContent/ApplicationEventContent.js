@@ -79,6 +79,7 @@ export default function ApplicationEventContent({ event }) {
               <AnalyzeApplicationEventButton
                 alertConfig={alertConfig}
                 applicationName={eventEntity.applicationName}
+                serviceName={eventEntity.serviceName}
                 timeConfig={analyzeTimeConfig}
               />
             </DescriptionButtons>
