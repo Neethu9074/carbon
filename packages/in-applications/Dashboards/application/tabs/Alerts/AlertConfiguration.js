@@ -5,9 +5,9 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
+import ApplicationAlertingChartWithErrorMessage from 'in-applications/alerting/chart/ApplicationAlertingChartWithErrorMessage';
 import ReadOnlyInboundOrAllCalls from 'in-applications/alerting/advanced/InboundOutboundCallsSwitch/ReadOnlyInboundOrAllCalls';
 import ReadOnlyAlertEvaluation from 'in-applications/alerting/advanced/EvaluationSwitch/ReadOnlyAlertEvaluation';
-import AlertingChartWithErrorMessage from 'in-new-components/Alerting/Chart/AlertingChartWithErrorMessage';
 import TimeThresholdDescription from 'in-new-components/Alerting/components/TimeThresholdDescription';
 import { PER_AP } from 'in-applications/alerting/advanced/EvaluationSwitch/alertEvaluationTypes';
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
@@ -90,7 +90,7 @@ export default function AlertConfiguration({ alertConfig, applicationName }) {
                   />
                 )}
 
-                <AlertingChartWithErrorMessage
+                <ApplicationAlertingChartWithErrorMessage
                   alertConfigWithFormModel={{
                     ...alertConfig,
                     tagFilterExpression: tagFilterFormModel

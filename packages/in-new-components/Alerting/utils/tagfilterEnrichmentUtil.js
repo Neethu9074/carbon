@@ -4,7 +4,7 @@
  */
 import { AND_CONJUNCTION } from './queryUtils';
 
-export function getEnhancedTagFilters(alertConfigWithFormModel, blueprintConfig) {
+export function getEnhancedTagFilters(alertConfigWithFormModel, blueprintConfig, subEntityId) {
   const { tagFilters, rule } = alertConfigWithFormModel;
   const metricName = blueprintConfig.getMetricName(rule);
   const ruleTagFilters = blueprintConfig.getRuleTagFilters(rule);
@@ -16,19 +16,19 @@ export function getEnhancedTagFilters(alertConfigWithFormModel, blueprintConfig)
     // at the moment, we only support a single numerator filter. All such blueprints have
     // a single rule-specific tag-filter only
     numeratorFilter = ruleTagFilters[0];
-    enrichedTagFilters = [...tagFilters, ...blueprintConfig.getEntityTagFilters(alertConfigWithFormModel)];
+    enrichedTagFilters = [...tagFilters, ...blueprintConfig.getEntityTagFilters(alertConfigWithFormModel, subEntityId)];
   } else {
     enrichedTagFilters = [
       ...tagFilters,
       ...ruleTagFilters,
-      ...blueprintConfig.getEntityTagFilters(alertConfigWithFormModel)
+      ...blueprintConfig.getEntityTagFilters(alertConfigWithFormModel, subEntityId)
     ];
   }
 
   return { numeratorFilter, enrichedTagFilters };
 }
 
-export function getEnhancedTagFilterFormModel(alertConfigWithFormModel, blueprintConfig) {
+export function getEnhancedTagFilterFormModel(alertConfigWithFormModel, blueprintConfig, subEntityId) {
   const { tagFilterExpression: tagFilterFormModel, rule } = alertConfigWithFormModel;
   const metricName = blueprintConfig.getMetricName(rule);
   const ruleTagFilterFormModel = blueprintConfig.getRuleTagFilterFormModel(rule);
@@ -40,9 +40,13 @@ export function getEnhancedTagFilterFormModel(alertConfigWithFormModel, blueprin
     // at the moment, we only support a single numerator filter. All such blueprints have
     // a single rule-specific tag-filter only
     numeratorFilter = ruleTagFilterFormModel[0];
-    enrichedTagFilterFormModel.push(...blueprintConfig.getEntityTagFilterFormModel(alertConfigWithFormModel));
+    enrichedTagFilterFormModel.push(
+      ...blueprintConfig.getEntityTagFilterFormModel(alertConfigWithFormModel, subEntityId)
+    );
   } else {
-    enrichedTagFilterFormModel.push(...blueprintConfig.getEntityTagFilterFormModel(alertConfigWithFormModel));
+    enrichedTagFilterFormModel.push(
+      ...blueprintConfig.getEntityTagFilterFormModel(alertConfigWithFormModel, subEntityId)
+    );
     if (ruleTagFilterFormModel.length > 0) {
       enrichedTagFilterFormModel.push(AND_CONJUNCTION, ...ruleTagFilterFormModel);
     }
@@ -50,6 +54,5 @@ export function getEnhancedTagFilterFormModel(alertConfigWithFormModel, blueprin
   if (tagFilterFormModel?.length > 0) {
     enrichedTagFilterFormModel.push(AND_CONJUNCTION, ...tagFilterFormModel); // FIXME Verify: if the expression is using OR, aren't we missing brackets here!?
   }
-
-  return { numeratorFilter, enrichedTagFilterFormModel: enrichedTagFilterFormModel };
+  return { numeratorFilter, enrichedTagFilterFormModel };
 }

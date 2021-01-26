@@ -9,7 +9,7 @@ import {
   applicationsAlertingThresholdOperatorChanged,
   applicationsAlertingThresholdValueChanged
 } from 'in-applications/alerting/tracker';
-import AlertingChartWithErrorMessage from 'in-new-components/Alerting/Chart/AlertingChartWithErrorMessage';
+import ApplicationAlertingChartWithErrorMessage from 'in-applications/alerting/chart/ApplicationAlertingChartWithErrorMessage';
 import IncompleteChartPlaceholder from 'in-new-components/Alerting/components/IncompleteChartPlaceholder';
 import ThresholdConditionFormGroup from 'in-new-components/Alerting/advanced/ThresholdConditionFormGroup';
 import { ThresholdOperatorDropDown } from 'in-new-components/Alerting/advanced/ThresholdOperatorDropDown';
@@ -52,7 +52,7 @@ export default function StatusCodeInteractiveChart({
         headerTransparent
       >
         {chartViewConfig => (
-          <AlertingChartWithErrorMessage
+          <ApplicationAlertingChartWithErrorMessage
             alertConfigWithFormModel={alertConfig}
             viewConfig={chartViewConfig}
             blueprintConfig={blueprintConfig}

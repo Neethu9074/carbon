@@ -18,11 +18,11 @@ import useObservable from 'in-hooks/useObservable';
 import Message from 'in-new-components/Message';
 
 export default function AlertingChartWithErrorMessage(props) {
-  const { alertConfigWithFormModel, blueprintConfig, viewConfig } = props;
+  const { alertConfigWithFormModel, blueprintConfig, viewConfig, subEntityId } = props;
 
   const { numeratorFilter, enrichedTagFilters, enrichedTagFilterFormModel } = switchQB1orQB2Helper(
-    () => getEnhancedTagFilters(alertConfigWithFormModel, blueprintConfig),
-    () => getEnhancedTagFilterFormModel(alertConfigWithFormModel, blueprintConfig),
+    () => getEnhancedTagFilters(alertConfigWithFormModel, blueprintConfig, subEntityId),
+    () => getEnhancedTagFilterFormModel(alertConfigWithFormModel, blueprintConfig, subEntityId),
     isQB2Config => isQB2Config(alertConfigWithFormModel.convertedTagFilterExpression)
   );
 
@@ -31,7 +31,6 @@ export default function AlertingChartWithErrorMessage(props) {
       alertConfigWithFormModel.tagFilterExpression,
       viewConfig.timeConfig
     ]) ?? pendingResult;
-
   const isValid = Boolean(queryValidationResult?.data);
 
   const isValidDependingOnMode = switchQB1orQB2Helper(

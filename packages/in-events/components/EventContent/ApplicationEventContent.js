@@ -9,8 +9,8 @@ import {
   getTimeConfigFromEventForSnapshotRetrieval,
   getTimeConfigFromEvent
 } from 'in-events/timeframe';
+import ApplicationAlertingChartWithErrorMessage from 'in-applications/alerting/chart/ApplicationAlertingChartWithErrorMessage';
 import ReadOnlyInboundOrAllCalls from 'in-applications/alerting/advanced/InboundOutboundCallsSwitch/ReadOnlyInboundOrAllCalls';
-import AlertingChartWithErrorMessage from 'in-new-components/Alerting/Chart/AlertingChartWithErrorMessage';
 import { SmartAlertAffectedEntities } from 'in-events/components/EventContent/SmartAlertAffectedEntities';
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
 import AnalyzeApplicationEventButton from 'in-events/components/AnalyzeApplicationEventButton';
@@ -89,13 +89,14 @@ export default function ApplicationEventContent({ event }) {
       <Row withoutSideMargin>
         <Col xs>
           <Card title="Metrics">
-            <AlertingChartWithErrorMessage
+            <ApplicationAlertingChartWithErrorMessage
               alertConfigWithFormModel={{
                 ...alertConfig,
                 tagFilterExpression: tagFilterFormModel
               }}
               viewConfig={chartViewConfig}
               blueprintConfig={blueprintConfig}
+              serviceId={eventEntity.serviceId}
             />
           </Card>
         </Col>

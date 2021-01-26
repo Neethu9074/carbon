@@ -11,10 +11,10 @@ import {
   applicationsAlertingThresholdDeviationFactorChanged,
   applicationsAlertingThresholdValueChanged
 } from 'in-applications/alerting/tracker';
+import ApplicationAlertingChartWithErrorMessage from 'in-applications/alerting/chart/ApplicationAlertingChartWithErrorMessage';
 import { ThresholdDeviationSliderForm } from 'in-new-components/Alerting/advanced/ThresholdDeviationSliderForm';
 import { findEntryByValue, alertConfigWithDefaultValues } from 'in-new-components/Alerting/utils/formUtils';
 import { createThroughputForm, defaultDeviationFactor } from 'in-applications/alerting/form/thresholdForm';
-import AlertingChartWithErrorMessage from 'in-new-components/Alerting/Chart/AlertingChartWithErrorMessage';
 import ThresholdConditionFormGroup from 'in-new-components/Alerting/advanced/ThresholdConditionFormGroup';
 import { ThresholdOperatorDropDown } from 'in-new-components/Alerting/advanced/ThresholdOperatorDropDown';
 import RecalculateBaselineButton from 'in-new-components/Alerting/advanced/RecalculateBaselineButton';
@@ -60,7 +60,7 @@ export default function ThroughputInteractiveChart({
         headerTransparent
       >
         {chartViewConfig => (
-          <AlertingChartWithErrorMessage
+          <ApplicationAlertingChartWithErrorMessage
             alertConfigWithFormModel={alertConfig}
             viewConfig={chartViewConfig}
             blueprintConfig={blueprintConfig}

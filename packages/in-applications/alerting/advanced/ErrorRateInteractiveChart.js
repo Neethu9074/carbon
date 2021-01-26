@@ -9,7 +9,7 @@ import {
   applicationsAlertingThresholdOperatorChanged,
   applicationsAlertingThresholdValueChanged
 } from 'in-applications/alerting/tracker';
-import AlertingChartWithErrorMessage from 'in-new-components/Alerting/Chart/AlertingChartWithErrorMessage';
+import ApplicationAlertingChartWithErrorMessage from 'in-applications/alerting/chart/ApplicationAlertingChartWithErrorMessage';
 import ThresholdConditionFormGroup from 'in-new-components/Alerting/advanced/ThresholdConditionFormGroup';
 import { ThresholdOperatorDropDown } from 'in-new-components/Alerting/advanced/ThresholdOperatorDropDown';
 import UseSuggestedValueButton from 'in-new-components/Alerting/advanced/UseSuggestedValueButton';
@@ -41,7 +41,7 @@ export default function ErrorRateInteractiveChart({
         headerTransparent
       >
         {chartViewConfig => (
-          <AlertingChartWithErrorMessage
+          <ApplicationAlertingChartWithErrorMessage
             alertConfigWithFormModel={alertConfigWithDefaultThreshold(form)}
             viewConfig={chartViewConfig}
             blueprintConfig={blueprintConfig}

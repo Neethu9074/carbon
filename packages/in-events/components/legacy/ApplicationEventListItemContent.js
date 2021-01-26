@@ -4,8 +4,8 @@
  */
 import React from 'react';
 
+import ApplicationAlertingChartWithErrorMessage from 'in-applications/alerting/chart/ApplicationAlertingChartWithErrorMessage';
 import ReadOnlyInboundOrAllCalls from 'in-applications/alerting/advanced/InboundOutboundCallsSwitch/ReadOnlyInboundOrAllCalls';
-import AlertingChartWithErrorMessage from 'in-new-components/Alerting/Chart/AlertingChartWithErrorMessage';
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
 import AnalyzeApplicationEventButton from 'in-events/components/AnalyzeApplicationEventButton';
 import { getChartTimeConfigByEvent, getSmartAlertAnalyzeTimeframe } from 'in-events/timeframe';
@@ -57,13 +57,14 @@ export default function ApplicationEventListItemContent({ event }) {
         />
       </DescriptionButtons>
       <div className={locals.sectionWrapper}>
-        <AlertingChartWithErrorMessage
+        <ApplicationAlertingChartWithErrorMessage
           alertConfigWithFormModel={{
             ...alertConfig,
             tagFilterExpression: tagFilterFormModel
           }}
           viewConfig={chartViewConfig}
           blueprintConfig={blueprintConfig}
+          serviceId={eventEntity.serviceId}
         />
       </div>
       <div className={locals.sectionWrapper}>

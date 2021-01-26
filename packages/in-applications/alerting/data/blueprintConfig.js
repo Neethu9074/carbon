@@ -27,10 +27,10 @@ const baseBlueprint = Object.freeze({
   getEntityTagFilters: (alertConfig, serviceId, endpointId) => {
     const tagFilters = [getApplicationIdTagFilter(alertConfig)];
     if (serviceId) {
-      tagFilters.push(tagFilter('service.name', 'EQUALS', serviceId));
+      tagFilters.push(tagFilter('service.id', 'EQUALS', serviceId));
     }
     if (endpointId) {
-      tagFilters.push(tagFilter('endpoint.name', 'EQUALS', endpointId));
+      tagFilters.push(tagFilter('endpoint.id', 'EQUALS', endpointId));
     }
     return tagFilters;
   },
@@ -45,11 +45,11 @@ const baseBlueprint = Object.freeze({
 
     if (serviceId) {
       formModel.push(AND_CONJUNCTION);
-      formModel.push(tagFilter('service.name', 'EQUALS', serviceId));
+      formModel.push(tagFilter('service.id', 'EQUALS', serviceId));
     }
     if (endpointId) {
       formModel.push(AND_CONJUNCTION);
-      formModel.push(tagFilter('endpoint.name', 'EQUALS', endpointId));
+      formModel.push(tagFilter('endpoint.id', 'EQUALS', endpointId));
     }
     return formModel;
   },

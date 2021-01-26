@@ -19,9 +19,9 @@ import {
   getFormValueOrDefault,
   getThresholdComboBoxValue
 } from 'in-new-components/Alerting/advanced/thresholdFormHelper';
+import ApplicationAlertingChartWithErrorMessage from 'in-applications/alerting/chart/ApplicationAlertingChartWithErrorMessage';
 import { ThresholdDeviationSliderForm } from 'in-new-components/Alerting/advanced/ThresholdDeviationSliderForm';
 import { findEntryByValue, alertConfigWithDefaultValues } from 'in-new-components/Alerting/utils/formUtils';
-import AlertingChartWithErrorMessage from 'in-new-components/Alerting/Chart/AlertingChartWithErrorMessage';
 import ThresholdConditionFormGroup from 'in-new-components/Alerting/advanced/ThresholdConditionFormGroup';
 import { ThresholdOperatorDropDown } from 'in-new-components/Alerting/advanced/ThresholdOperatorDropDown';
 import { createSlownessForm, defaultDeviationFactor } from 'in-applications/alerting/form/thresholdForm';
@@ -67,7 +67,7 @@ export default function SlownessInteractiveChart({
         headerTransparent
       >
         {chartViewConfig => (
-          <AlertingChartWithErrorMessage
+          <ApplicationAlertingChartWithErrorMessage
             alertConfigWithFormModel={alertConfig}
             viewConfig={chartViewConfig}
             blueprintConfig={blueprintConfig}
