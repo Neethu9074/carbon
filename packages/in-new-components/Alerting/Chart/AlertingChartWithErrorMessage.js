@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import React, { useMemo } from 'react';
+import PropTypes from 'prop-types';
 import { t } from 'in-i18n';
 
 import {
@@ -10,6 +11,7 @@ import {
   getEnhancedTagFilters
 } from 'in-new-components/Alerting/utils/tagfilterEnrichmentUtil';
 import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
+import { chartViewConfigPropType } from 'in-new-components/Alerting/Chart/chartViewConfig';
 import { isAlertQueryValid } from 'in-applications/alerting/components/AlertQueryBuilder';
 import { switchQB1orQB2Helper } from 'in-new-components/Alerting/components/WithQB1orQB2';
 import AlertingChart from 'in-new-components/Alerting/Chart/AlertingChart';
@@ -58,3 +60,17 @@ export default function AlertingChartWithErrorMessage(props) {
     <Message withIcon>{t('in-new-components:alerting.chart.alertingChartMessageInvalidFilterQuery')}</Message>
   );
 }
+
+AlertingChartWithErrorMessage.propTypes = {
+  viewConfig: chartViewConfigPropType.isRequired,
+  alertConfigWithFormModel: PropTypes.object.isRequired,
+  blueprintConfig: PropTypes.object.isRequired,
+  /**
+   * Optional sub-entity ID, such as serviceId or pageId,
+   * to scope down the metric in the chart to a single entity
+   **/
+  subEntityId: PropTypes.string,
+  alertsPreviewEnabled: PropTypes.bool,
+  canReload: PropTypes.bool,
+  isQB1only: PropTypes.bool
+};
