@@ -3,10 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 import React from 'react';
+
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
-import Info from 'in-forge/plugins/awsEcsCluster/Info';
 import TagList from 'in-sdk/components/sidebar/TagList';
+import Info from 'in-forge/plugins/awsEcsCluster/Info';
 
 export default function AwsEcsClusterSidebar({ snapshot }) {
   return (

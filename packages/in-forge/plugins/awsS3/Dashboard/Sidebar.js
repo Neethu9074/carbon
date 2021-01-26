@@ -4,9 +4,10 @@
  */
 import React from 'react';
 
+import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
-import Info from 'in-forge/plugins/awsS3/Info';
 import TagList from 'in-sdk/components/sidebar/TagList';
+import Info from 'in-forge/plugins/awsS3/Info';
 
 export default function AwsS3Sidebar({ snapshot }) {
   return (
@@ -19,6 +20,8 @@ export default function AwsS3Sidebar({ snapshot }) {
           <TagList snapshot={snapshot} />
         </Collapsible.Content>
       </Collapsible>
+
+      <ServiceInstancesList snapshot={snapshot} />
     </div>
   );
 }

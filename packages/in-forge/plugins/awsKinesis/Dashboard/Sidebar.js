@@ -4,9 +4,10 @@
  */
 import React from 'react';
 
+import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
-import Info from 'in-forge/plugins/awsKinesis/Info';
 import TagList from 'in-sdk/components/sidebar/TagList';
+import Info from 'in-forge/plugins/awsKinesis/Info';
 
 export default function AwsKinesisSidebar({ snapshot }) {
   return (
@@ -18,6 +19,8 @@ export default function AwsKinesisSidebar({ snapshot }) {
         </Collapsible.Content>
       </Collapsible>
       <TagList snapshot={snapshot} />
+
+      <ServiceInstancesList snapshot={snapshot} />
     </div>
   );
 }
