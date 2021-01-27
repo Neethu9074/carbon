@@ -29,18 +29,16 @@ export default connectTo(
         <Collapsible initiallyOpen={false}>
           <Collapsible.Header>Atlas Cluster</Collapsible.Header>
           <Collapsible.Content>
-            <div>
-              <DescriptionList>
-                <DescriptionItem title="Name">
-                  <SnapshotLink snapshotId={clusterSnapshot.get('id')}>{data.get('clusterName')}</SnapshotLink>
-                </DescriptionItem>
-                <DescriptionItem title="Type">{data.get('clusterType')}</DescriptionItem>
-                <DescriptionItem title="Cloud Provider">{data.get('clusterProvider')}</DescriptionItem>
-                <DescriptionItem title="Region">{data.get('clusterRegion')}</DescriptionItem>
-                <DescriptionItem title="Project">{data.get('clusterProjectName')}</DescriptionItem>
-                <DescriptionItem title="Organisation">{data.get('clusterOrganisationName')}</DescriptionItem>
-              </DescriptionList>
-            </div>
+            <DescriptionList>
+              <DescriptionItem title="Name">
+                <SnapshotLink snapshotId={clusterSnapshot.get('id')}>{data.get('clusterName')}</SnapshotLink>
+              </DescriptionItem>
+              <DescriptionItem title="Type">{data.get('clusterType')}</DescriptionItem>
+              <DescriptionItem title="Cloud Provider">{data.get('clusterProvider')}</DescriptionItem>
+              <DescriptionItem title="Region">{data.get('clusterRegion')}</DescriptionItem>
+              <DescriptionItem title="Project">{data.get('clusterProjectName')}</DescriptionItem>
+              <DescriptionItem title="Organisation">{data.get('clusterOrganisationName')}</DescriptionItem>
+            </DescriptionList>
           </Collapsible.Content>
         </Collapsible>
       </div>

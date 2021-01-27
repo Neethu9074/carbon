@@ -19,7 +19,6 @@ export default function MongoDBSidebar({ snapshot }) {
     .sort();
 
   const data = snapshot.get('data');
-  const clusterName = data.get('clusterName');
 
   return (
     <Fragment>
@@ -43,7 +42,7 @@ export default function MongoDBSidebar({ snapshot }) {
         </Collapsible>
       ) : null}
 
-      {clusterName ? <MongoDbClusterInfo snapshotId={snapshot.get('id')} data={data} /> : null}
+      <MongoDbClusterInfo snapshotId={snapshot.get('id')} data={data} />
 
       <ServiceInstancesList snapshot={snapshot} />
     </Fragment>
