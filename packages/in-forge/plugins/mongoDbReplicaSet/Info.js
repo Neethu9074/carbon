@@ -9,12 +9,12 @@ import { emptyList } from 'in-services/fixedImmutables';
 
 export default function Info({ snapshot }) {
   const data = snapshot.get('data');
-  const nodes = snapshot.getIn(['data', 'nodes'], emptyList);
+  const nodeCount = snapshot.getIn(['data', 'nodeCount'], emptyList);
 
   return (
     <DescriptionList>
       <DescriptionItem title="Replica Set Name">{data.get('clusterName')}</DescriptionItem>
-      <DescriptionItem title="Nodes">{nodes.size}</DescriptionItem>
+      <DescriptionItem title="Nodes">{nodeCount}</DescriptionItem>
     </DescriptionList>
   );
 }

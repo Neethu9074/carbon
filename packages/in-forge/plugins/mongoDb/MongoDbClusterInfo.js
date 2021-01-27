@@ -1,34 +1,38 @@
 /*
  * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * (c) Copyright Instana Inc. 2021
  */
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
-import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
-import ClusterMemberList from 'in-sdk/components/sidebar/ClusterMemberList';
+import getMongoDbClusterForNode from 'in-subscription/mongoDb/getMongoDbClusterForNode';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
+import SnapshotLink from 'in-components/Link/SnapshotLink';
+import { timeConfig$ } from 'in-stores/time/config';
+import { getSnapshot } from 'in-stores/snapshot';
+import connectTo from 'in-hoc/connectTo';
 
-import Info from '../Info';
+export default connectTo(
+  props => ({
+    clusterSnapshot: timeConfig$
+      .flatMap(timeConfig => getMongoDbClusterForNode({ snapshotId: props.snapshotId, timeConfig }))
+      .flatMap(getSnapshot)
+  }),
 
-export default function ReplicaSetSidebar({ snapshot }) {
-  const data = snapshot.get('data');
-  const clusterName = data.get('clusterName');
-  return (
-    <div>
-      <Collapsible initiallyOpen>
-        <Collapsible.Header>MongoDB Replica Set</Collapsible.Header>
-        <Collapsible.Content>
-          <Info snapshot={snapshot} />
-        </Collapsible.Content>
-      </Collapsible>
+  function MongoDbClusterInfo({ clusterSnapshot, data }) {
+    if (!clusterSnapshot) {
+      return null;
+    }
 
-      {clusterName ? (
+    return (
+      <div>
         <Collapsible initiallyOpen={false}>
           <Collapsible.Header>Atlas Cluster</Collapsible.Header>
           <Collapsible.Content>
             <DescriptionList>
-              <DescriptionItem title="Name">{data.get('clusterName')}</DescriptionItem>
+              <DescriptionItem title="Name">
+                <SnapshotLink snapshotId={clusterSnapshot.get('id')}>{data.get('clusterName')}</SnapshotLink>
+              </DescriptionItem>
               <DescriptionItem title="Type">{data.get('clusterType')}</DescriptionItem>
               <DescriptionItem title="Cloud Provider">{data.get('clusterProvider')}</DescriptionItem>
               <DescriptionItem title="Region">{data.get('clusterRegion')}</DescriptionItem>
@@ -37,11 +41,7 @@ export default function ReplicaSetSidebar({ snapshot }) {
             </DescriptionList>
           </Collapsible.Content>
         </Collapsible>
-      ) : null}
-
-      <ServiceInstancesList snapshot={snapshot} />
-
-      <ClusterMemberList snapshotId={snapshot.get('id')} />
-    </div>
-  );
-}
+      </div>
+    );
+  }
+);

@@ -124,6 +124,7 @@ import './lxc';
 import './mariaDbDatabase';
 import './memcached';
 import './mongoDb';
+import './mongoDbCluster';
 import './mongoDbReplicaSet';
 import './msiis';
 import './msSqlDatabase';

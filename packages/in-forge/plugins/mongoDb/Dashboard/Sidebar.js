@@ -4,6 +4,7 @@
  */
 import React, { Fragment } from 'react';
 
+import MongoDbClusterInfo from 'in-forge/plugins/mongoDb/MongoDbClusterInfo';
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import { emptyList } from 'in-services/fixedImmutables';
@@ -16,6 +17,8 @@ export default function MongoDBSidebar({ snapshot }) {
     .getIn(['data', 'databases'], emptyList)
     .toArray()
     .sort();
+
+  const data = snapshot.get('data');
 
   return (
     <Fragment>
@@ -38,6 +41,8 @@ export default function MongoDBSidebar({ snapshot }) {
           </Collapsible.Content>
         </Collapsible>
       ) : null}
+
+      <MongoDbClusterInfo snapshotId={snapshot.get('id')} data={data} />
 
       <ServiceInstancesList snapshot={snapshot} />
     </Fragment>

@@ -11,7 +11,7 @@ registerSnapshotDefinition({
   plugin: plugins.mongoDbReplicaSet,
   pluginName: {
     singular: 'MongoDB Replica Set',
-    plural: 'MongoDB Replica Set'
+    plural: 'MongoDB Replica Sets'
   },
   kpiDefinitions,
   metricDefinitions
