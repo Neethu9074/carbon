@@ -7,7 +7,6 @@ import { t } from 'in-i18n';
 import React from 'react';
 
 import WithQB1orQB2 from 'in-new-components/Alerting/components/WithQB1orQB2';
-import ScopePath from 'in-new-components/Alerting/components/ScopePath';
 import Stack from 'in-new-components/layout/Stack/Stack';
 import HelpText from 'in-components/form/HelpText';
 
@@ -24,7 +23,7 @@ export default function ScopeConfigPresenter({
         onUsesQB1={() => tagFilterList}
         onUsesQB2={() => (
           <>
-            <ScopePath {...scopePath} />
+            {scopePath}
             {tagFilterFormModel.length > 0 && (
               <>
                 <HelpText>
@@ -43,11 +42,7 @@ export default function ScopeConfigPresenter({
 
 ScopeConfigPresenter.propTypes = {
   convertedTagFilterExpression: PropTypes.bool,
-  scopePath: PropTypes.shape({
-    applicationName: PropTypes.string.isRequired,
-    serviceName: PropTypes.string,
-    endpointName: PropTypes.string
-  }),
+  scopePath: PropTypes.element,
   queryBuilder: PropTypes.element,
   tagFilterFormModel: PropTypes.array,
   tagFilterList: PropTypes.element

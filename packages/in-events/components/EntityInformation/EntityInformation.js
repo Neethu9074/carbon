@@ -7,7 +7,6 @@ import React from 'react';
 
 import {
   isInfraEntityType,
-  isWebsiteEntityType,
   isAppDataEntityType,
   isEndpointEntity,
   isApplicationEntity,
@@ -18,7 +17,6 @@ import {
 } from 'in-services/entityUtils';
 import { getApplicationDashboard, getServiceDashboard, getEndpointDashboard } from 'in-applications/navigation/paths';
 import HierarchicalLink from 'in-components/Link/HierarchicalLink';
-import { getLinkToWebsite } from 'in-websites/navigation/paths';
 import { getSnapshot } from 'in-stores/snapshot';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
@@ -39,17 +37,6 @@ export default connectTo(
       return {
         entity: getSnapshot(entityId, timeConfig).startWith(null)
       };
-    } else if (isWebsiteEntityType(entityType)) {
-      return {
-        entity: just({
-          data: {
-            id: entityId,
-            label: metadata.get('entityLabel'),
-            configId: metadata.get('eventSpecificationId'),
-            configCreated: metadata.get('alertConfigCreated')
-          }
-        })
-      };
     } else {
       return createAppDataEntityConnectToMapFromEvent(entityType, entityId, metadata);
     }
@@ -67,17 +54,15 @@ export default connectTo(
     }
 
     if (isAppDataEntityType(entityType)) {
-      return <EntityInformation20 {...props} />;
-    } else if (isWebsiteEntityType(entityType)) {
-      return <EntityWebsiteInformation {...props} />;
+      return <LegacyAppDataEntityInformation {...props} />;
     } else {
       // !entityType || entityType === 'Entity10'
-      return <EntityInformation10 {...props} />;
+      return <InfraEntityInformation {...props} />;
     }
   }
 );
 
-function EntityInformation10({
+function InfraEntityInformation({
   entity,
   linkTimeConfig,
   useSnapshotLink = false,
@@ -101,7 +86,7 @@ function EntityInformation10({
   );
 }
 
-function EntityInformation20({ entity, entityType, label, linkTimeConfig, boundaryScope }) {
+function LegacyAppDataEntityInformation({ entity, entityType, label, linkTimeConfig, boundaryScope }) {
   const data = entity.data;
   let href$;
   let iconType;
@@ -131,22 +116,6 @@ function EntityInformation20({ entity, entityType, label, linkTimeConfig, bounda
       <Link href$={href$} className={locals.entity}>
         <SvgIcon className={locals.entityIcon} type={iconType} size="xs" />
         {data.label}
-      </Link>
-    </EntityInformationPresenter>
-  );
-}
-
-function EntityWebsiteInformation({ entity, linkTimeConfig }) {
-  return (
-    <EntityInformationPresenter>
-      <Link
-        className={locals.entity}
-        href$={getLinkToWebsite(entity.data.id, {
-          timeConfig: linkTimeConfig
-        })}
-      >
-        <SvgIcon className={locals.entityIcon} type="lib_website" size="xxs" />
-        {entity.data.label}
       </Link>
     </EntityInformationPresenter>
   );

@@ -5,7 +5,7 @@
 import { getAlertConfigByIdAndTimestamp } from 'in-applications/api/applicationAlertConfig';
 import useObservable from 'in-hooks/useObservable';
 
-export default function useEventAlertConfig(event) {
+export default function useApplicationEventAlertConfig(event) {
   return useObservable(
     ([event]) => {
       if (!event) {

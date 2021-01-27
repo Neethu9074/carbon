@@ -8,7 +8,7 @@ import getServiceLabel from 'in-subscription/application/getServiceLabel';
 import getApplication from 'in-subscription/application/getApplication';
 import useObservable from 'in-hooks/useObservable';
 
-export default function useAppDataEventEntity(event) {
+export default function useApplicationEventEntity(event) {
   return useObservable(
     ([event]) => {
       if (!event) {

@@ -6,13 +6,18 @@ import irpt from 'react-immutable-proptypes';
 import rpt from 'prop-types';
 import React from 'react';
 
-import ApplicationEventListItemContent from 'in-events/components/legacy/ApplicationEventListItemContent';
 import EntityWithParentInformation from 'in-events/components/EntityInformation/EntityWithParentInformation';
+import ApplicationEventListItemContent from 'in-events/components/legacy/ApplicationEventListItemContent';
 import { getTimeConfigFromEvent, getTimeConfigFromEventForSnapshotRetrieval } from 'in-events/timeframe';
 import WebsiteEventListItemContent from 'in-events/components/legacy/WebsiteEventListItemContent';
+import ApplicationScopePath from 'in-applications/alerting/components/ApplicationScopePath';
+import useApplicationEventAlertConfig from 'in-events/hooks/useApplicationEventAlertConfig';
 import EventDurationMarker from 'in-events/components/legacy/marker/EventDurationMarker';
 import EventListItemContent from 'in-events/components/legacy/EventListItemContent';
+import useApplicationEventEntity from 'in-events/hooks/useApplicationEventEntity';
+import WebsiteScopePath from 'in-websites/alerting/components/WebsiteScopePath';
 import { getColorForEventAtFocusedMomentAsStream } from 'in-stores/events';
+import useWebsiteEventEntity from 'in-events/hooks/useWebsiteEventEntity';
 import { getCurrentViewWithTimelineFocusedAt } from 'in-stores/timeline';
 import EndedMarker from 'in-events/components/legacy/marker/EndedMarker';
 import { isAppDataEntityType } from 'in-services/entityUtils';
@@ -118,8 +123,6 @@ function TimeIndicator({ event, isTriggeringEvent }) {
 
 function DetailsHeader({ event, onClick, iconType, background, timeConfig }) {
   const className = `${block}__heading`;
-  const entityId = event.get('entityId');
-  const entityType = event.get('entityType');
   return (
     <div className={className} id={`event-${event.get('id')}`} onClick={onClick}>
       <div className={`${block}__left`}>
@@ -133,13 +136,7 @@ function DetailsHeader({ event, onClick, iconType, background, timeConfig }) {
             <EndedMarker event={event} />
             <EventDurationMarker event={event} />
           </div>
-          <EntityWithParentInformation
-            entityId={entityId}
-            entityType={entityType}
-            metadata={event.get('metadata')}
-            timeConfig={timeConfig}
-            linkTimeConfig={getTimeConfigFromEvent(event)}
-          />
+          <DetailsHeaderEntity event={event} timeConfig={timeConfig} />
         </div>
       </div>
 
@@ -148,14 +145,69 @@ function DetailsHeader({ event, onClick, iconType, background, timeConfig }) {
   );
 }
 
+function DetailsHeaderEntity({ event, timeConfig }) {
+  if (isWebsiteSmartAlertEvent(event)) {
+    return <WebsiteDetailsHeaderEntity event={event} />;
+  } else if (isApplicationSmartAlertEvent(event)) {
+    return <ApplicationDetailsHeaderEntity event={event} />;
+  }
+
+  return (
+    <EntityWithParentInformation
+      entityId={event.get('entityId')}
+      entityType={event.get('entityType')}
+      metadata={event.get('metadata')}
+      timeConfig={timeConfig}
+      linkTimeConfig={getTimeConfigFromEvent(event)}
+    />
+  );
+}
+
+function ApplicationDetailsHeaderEntity({ event }) {
+  const alertConfig = useApplicationEventAlertConfig(event);
+  const eventEntity = useApplicationEventEntity(event);
+
+  if (!eventEntity || !alertConfig) {
+    return null;
+  }
+
+  return (
+    <ApplicationScopePath
+      {...eventEntity}
+      boundaryScope={alertConfig.boundaryScope}
+      timeConfig={getTimeConfigFromEvent(event)}
+      iconSize="xs"
+      showDashboardLinks
+      noBottomMargin
+    />
+  );
+}
+
+function WebsiteDetailsHeaderEntity({ event }) {
+  const eventEntity = useWebsiteEventEntity(event);
+
+  if (!eventEntity) {
+    return null;
+  }
+
+  return (
+    <WebsiteScopePath
+      {...eventEntity}
+      timeConfig={getTimeConfigFromEvent(event)}
+      iconSize="xs"
+      showDashboardLinks
+      noBottomMargin
+    />
+  );
+}
+
 function ListItemContent({ event }) {
   if (isWebsiteSmartAlertEvent(event)) {
     return <WebsiteEventListItemContent event={event} />;
   } else if (isApplicationSmartAlertEvent(event)) {
     return <ApplicationEventListItemContent event={event} />;
-  } else {
-    return <EventListItemContent event={event} />;
   }
+  return <EventListItemContent event={event} />;
 }
 
 function hasServiceImpact(event) {

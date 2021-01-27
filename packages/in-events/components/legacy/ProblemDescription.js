@@ -18,7 +18,7 @@ export default function EventProblem({ event }) {
 
   return (
     <DescriptionList className={block}>
-      <DescriptionItem title="Detail">
+      <DescriptionItem title="Description">
         <DangerousHtmlPresenter className={`${block}__suggestion`} html={fixSuggestion} />
       </DescriptionItem>
     </DescriptionList>

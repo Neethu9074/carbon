@@ -12,10 +12,68 @@ export default {
 
 export const scopePaths = () => (
   <div>
-    <ScopePath applicationName="Application" />
-    <ScopePath applicationName="Application" serviceName="Service" />
-    <ScopePath applicationName="Application" serviceName="Service" endpointName="Endpoint" />
-    <ScopePath applicationName="No" serviceName="Bottom" endpointName="Margin" noBottomMargin />
-    <ScopePath applicationName="With" serviceName="Red" endpointName="Color" color="red" />
+    <ScopePath
+      entries={[
+        {
+          iconType: 'lib_application',
+          label: 'Application'
+        }
+      ]}
+    />
+    <ScopePath
+      entries={[
+        {
+          iconType: 'lib_application',
+          label: 'Application'
+        },
+        {
+          iconType: 'lib_application_service',
+          label: 'Service'
+        }
+      ]}
+    />
+    <ScopePath
+      entries={[
+        {
+          iconType: 'lib_application',
+          label: 'Application'
+        },
+        {
+          iconType: 'lib_application_service',
+          label: 'Service'
+        },
+        {
+          iconType: 'lib_application_endpoint',
+          label: 'Endpoint'
+        }
+      ]}
+    />
+    <ScopePath
+      entries={[
+        {
+          iconType: 'lib_website',
+          label: 'No Bottom Margin'
+        }
+      ]}
+      noBottomMargin
+    />
+    <ScopePath
+      entries={[
+        {
+          iconType: 'lib_website',
+          label: 'Website With XS icons'
+        }
+      ]}
+      iconSize="xs"
+    />
+    <ScopePath
+      entries={[
+        {
+          iconType: 'lib_application',
+          label: 'Linked',
+          href: '#'
+        }
+      ]}
+    />
   </div>
 );

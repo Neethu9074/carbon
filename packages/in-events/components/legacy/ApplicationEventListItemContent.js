@@ -13,21 +13,22 @@ import ScopeConfigPresenter from 'in-new-components/Alerting/components/ScopeCon
 import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-applications/tags';
 import ApplicationAlertConfigButton from 'in-events/components/ApplicationAlertConfigButton';
 import { createDefaultChartConfig } from 'in-new-components/Alerting/Chart/chartViewConfig';
+import ApplicationScopePath from 'in-applications/alerting/components/ApplicationScopePath';
+import useApplicationEventAlertConfig from 'in-events/hooks/useApplicationEventAlertConfig';
 import { fromBackendModel } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { alertingEventDetailsChartTimeframe } from 'in-new-components/Alerting/constants';
 import AlertQueryBuilder from 'in-applications/alerting/components/AlertQueryBuilder';
 import { getBlueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
+import useApplicationEventEntity from 'in-events/hooks/useApplicationEventEntity';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
-import useAppDataEventEntity from 'in-events/hooks/useAppDataEventEntity';
-import useEventAlertConfig from 'in-events/hooks/useEventAlertConfig';
 import { DescriptionItem } from 'in-components/DescriptionList';
 
 import locals from './ApplicationEventListItemContent.mless';
 
 export default function ApplicationEventListItemContent({ event }) {
-  const alertConfig = useEventAlertConfig(event);
-  const eventEntity = useAppDataEventEntity(event);
+  const alertConfig = useApplicationEventAlertConfig(event);
+  const eventEntity = useApplicationEventEntity(event);
 
   if (!eventEntity || !alertConfig) {
     return null;
@@ -85,10 +86,7 @@ export default function ApplicationEventListItemContent({ event }) {
                 tagFilterFormModel={tagFilterFormModel}
                 queryBuilder={<AlertQueryBuilder value={tagFilterFormModel} readOnly />}
                 convertedTagFilterExpression={alertConfig.convertedTagFilterExpression}
-                scopePath={{
-                  applicationName: eventEntity.applicationName,
-                  serviceName: eventEntity.serviceName
-                }}
+                scopePath={<ApplicationScopePath boundaryScope={alertConfig.boundaryScope} {...eventEntity} />}
               />
             </div>
             <ReadOnlyInboundOrAllCalls alertConfig={alertConfig} />
