@@ -46,7 +46,7 @@ export default function QueryBuilderSection({
             tracking={tracking}
           />
         </div>
-        {hasError && errors.map(error => <Message key={error} type="error" withIcon small title={error} />)}
+        {hasError && errors?.map(error => <Message key={error} type="error" withIcon small title={error} />)}
       </Stack>
     </Section>
   );
