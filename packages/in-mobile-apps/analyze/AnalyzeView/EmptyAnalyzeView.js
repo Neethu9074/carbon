@@ -19,7 +19,7 @@ export default function EmptyAnalyzeView({ type }) {
       <CenterAlignmentColumn>
         <EntityPageMainNotification
           icon={getIconByType(type, 'mobileApp')}
-          explanation={() => <ArticleContent id="mobileAppAnalyzeNoData" />}
+          explanation={() => <ArticleContent markdownContent={t('in-mobile-apps:analyzeView.noData')} />}
           title={t('in-mobile-apps:analyzeView.EntityPageMainNotificationTitle', { entityName: entityName })}
         />
       </CenterAlignmentColumn>

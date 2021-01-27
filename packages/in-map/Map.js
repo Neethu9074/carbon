@@ -3,9 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 import React, { useLayoutEffect, useRef } from 'react';
+import { t } from 'in-i18n';
 
-import * as webglNotInitialized from 'in-services/util/canvas/help-articles/webglNotInitialized.mmd';
-import * as webglNotSupported from 'in-services/util/canvas/help-articles/webglNotSupported.mmd';
 import StickyNoteHoster from 'in-map/components/stickyNotes/StickyNoteHoster';
 import MapNoContentMessage from 'in-map/components/MapNoContentMessage';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
@@ -39,7 +38,12 @@ export default function Map() {
     }
 
     if (!isWebGLSupported()) {
-      addActiveDialog(<HelpDialog article={webglNotSupported} />);
+      addActiveDialog(
+        <HelpDialog
+          title={t('in-applications:applicationMap.webglNotSupportedTitle')}
+          markdownContent={t('in-applications:applicationMap.webglNotSupported')}
+        />
+      );
       return;
     }
 
@@ -58,7 +62,12 @@ export default function Map() {
     }
 
     if (!webGlContext) {
-      addActiveDialog(<HelpDialog article={webglNotInitialized} />);
+      addActiveDialog(
+        <HelpDialog
+          title={t('in-applications:applicationMap.webglNotInitializedTitle')}
+          markdownContent={t('in-applications:applicationMap.webglNotInitialized')}
+        />
+      );
       return;
     }
 
@@ -104,7 +113,12 @@ function getTitle(view) {
 
 function onLost(event) {
   event.preventDefault();
-  addActiveDialog(<HelpDialog article={webglNotSupported} />);
+  addActiveDialog(
+    <HelpDialog
+      title={t('in-applications:applicationMap.webglNotSupportedTitle')}
+      markdownContent={t('in-applications:applicationMap.webglNotSupported')}
+    />
+  );
 }
 
 function onRestored(event) {

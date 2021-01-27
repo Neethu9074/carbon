@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import EntityPageMainNotification from 'in-new-components/EntityPageMainNotification/EntityPageMainNotification';
@@ -12,7 +13,7 @@ export default function KubernetesNoDataNotification(props) {
     <EntityPageMainNotification
       icon="lib_kubernetes"
       title="No Monitoring Data Found"
-      explanation={() => <ArticleContent id="kubernetesNoData" />}
+      explanation={() => <ArticleContent markdownContent={t('in-cockpit:websites.noData')} />}
       {...props}
     />
   );

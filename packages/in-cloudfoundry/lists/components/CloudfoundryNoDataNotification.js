@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import EntityPageMainNotification from 'in-new-components/EntityPageMainNotification/EntityPageMainNotification';
@@ -12,7 +13,7 @@ export default function CloudfoundryNoDataNotification(props) {
     <EntityPageMainNotification
       icon="lib_cloudfoundry"
       title="No Monitoring Data Found"
-      explanation={() => <ArticleContent id="cloudfoundryNoData" />}
+      explanation={() => <ArticleContent markdownContent={t('in-cloudfoundry:cloudfoundry.noData')} />}
       {...props}
     />
   );

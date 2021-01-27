@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import EntityPageMainNotification from 'in-new-components/EntityPageMainNotification/EntityPageMainNotification';
@@ -13,7 +14,7 @@ export default function ServicesNoDataNotification() {
     <EntityPageMainNotification
       plugin={applicationPlugins.service}
       title="No Services yet"
-      explanation={() => <ArticleContent id="servicesNoData" />}
+      explanation={() => <ArticleContent markdownContent={t('in-applications:services.noData')} />}
     />
   );
 }

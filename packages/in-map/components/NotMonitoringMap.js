@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import EntityPageMainNotification from 'in-new-components/EntityPageMainNotification/EntityPageMainNotification';
@@ -45,14 +46,20 @@ export default connectTo(
 );
 
 function MapNotMonitoring(props) {
-  return <MapMessage title="Not Monitoring" explanation={() => <ArticleContent id="mapNotMonitoring" />} {...props} />;
+  return (
+    <MapMessage
+      title="Not Monitoring"
+      explanation={() => <ArticleContent markdownContent={t('in-map:notMonitoring')} />}
+      {...props}
+    />
+  );
 }
 
 function MapNoDataForTimerange(props) {
   return (
     <MapMessage
       title="No Monitoring Data Found"
-      explanation={() => <ArticleContent id="mapNoDataForTimerange" />}
+      explanation={() => <ArticleContent markdownContent={t('in-map:noData')} />}
       {...props}
     />
   );

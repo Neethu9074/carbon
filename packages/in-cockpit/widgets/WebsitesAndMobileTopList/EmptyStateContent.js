@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import EntityPageMainNotification from 'in-new-components/EntityPageMainNotification/EntityPageMainNotification';
@@ -18,7 +19,7 @@ export default function EmptyStateContent({ cardIcon, label }) {
       title={`No ${label} yet`}
       explanation={() => (
         <>
-          <ArticleContent id="websitesNoData" />
+          <ArticleContent markdownContent={t('in-cockpit:websites.noData')} />
           <div style={{ display: 'flex' }}>
             <Button kind="create" href$={getModifiedUrlStream(p => (p.pathname = newWebsitePathFullyQualified))}>
               Create Website

@@ -4,11 +4,10 @@
  */
 import { compose } from 'recompose';
 import { get } from 'lodash';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import ServicesNoDataNotification from 'in-applications/lists/components/ServicesNoDataNotification';
-import * as webglNotInitialized from 'in-services/util/canvas/help-articles/webglNotInitialized.mmd';
-import * as webglNotSupported from 'in-services/util/canvas/help-articles/webglNotSupported.mmd';
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import { buildJsonSerializer, buildJsonParser } from 'in-stores/navigation/matrix';
 import { isWebGLSupported, getWebGLCanvasContext } from 'in-map/services/webGL';
@@ -169,10 +168,20 @@ export const ApplicationMapReactComponent = getElementDimensions(
     };
 
     showHelpIfWebGLCantBeSetup = () => {
-      if (!isWebGLSupported()) {
-        addActiveDialog(<HelpDialog article={webglNotSupported} />);
+      if (isWebGLSupported()) {
+        addActiveDialog(
+          <HelpDialog
+            title={t('in-applications:applicationMap.webglNotSupportedTitle')}
+            markdownContent={t('in-applications:applicationMap.webglNotSupported')}
+          />
+        );
       } else if (!this.webGlContext) {
-        addActiveDialog(<HelpDialog article={webglNotInitialized} />);
+        addActiveDialog(
+          <HelpDialog
+            title={t('in-applications:applicationMap.webglNotInitializedTitle')}
+            markdownContent={t('in-applications:applicationMap.webglNotInitialized')}
+          />
+        );
       }
     };
   }

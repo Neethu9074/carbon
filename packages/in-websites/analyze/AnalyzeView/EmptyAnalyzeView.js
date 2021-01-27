@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import EntityPageMainNotification from 'in-new-components/EntityPageMainNotification/EntityPageMainNotification';
@@ -18,7 +19,7 @@ export default function EmptyAnalyzeView({ type }) {
       <CenterAlignmentColumn>
         <EntityPageMainNotification
           icon={getIconByType(type, 'website')}
-          explanation={() => <ArticleContent id="websiteAnalyzeNoData" />}
+          explanation={() => <ArticleContent markdownContent={t('in-websites:analyzeView.noData')} />}
           title={`No ${entityName} found`}
         />
       </CenterAlignmentColumn>

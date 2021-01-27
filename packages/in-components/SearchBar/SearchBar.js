@@ -3,13 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 import classNames from 'classnames';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { togglePresets, presetsVisible$ } from 'in-components/SearchBar/stores/presetsVisibility';
 import { unvalidatedQuery$, query$, setQueryInput } from 'in-stores/search/query';
 import ErrorIndicator from 'in-components/SearchBar/components/ErrorIndicator';
 import FilterPresets from 'in-components/SearchBar/components/FilterPresets';
-import * as helpArticle from 'in-components/SearchBar/usingTheSearchBar.mmd';
 import SaveDialog from 'in-components/SearchBar/components/SaveDialog';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { setValues } from 'in-components/SearchBar/stores/dialog';
@@ -112,7 +112,9 @@ export default connectTo(
 
 function onShowKeywordHelp(e) {
   e.preventDefault();
-  addActiveDialog(<HelpDialog article={helpArticle} />);
+  addActiveDialog(
+    <HelpDialog title="Using the Search Bar" markdownContent={t('in-components:searchbar.usingTheSearchBar')} />
+  );
 }
 
 function save(query) {

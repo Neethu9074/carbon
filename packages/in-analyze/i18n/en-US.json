@@ -1,0 +1,8 @@
+{
+  "analyzeView": {
+    "noData": "No calls are available for the selected time range. For troubleshooting information, see the [documentation][Docs].\n\n[Docs]:https://instana.com/docs/unbounded_analytics/#why-is-there-no-data-displayed-on-the-analytics-page"
+  },
+  "services": {
+    "noData": "No service calls are available for the selected time range. For troubleshooting information, see the [documentation][Docs].\n\n[Docs]:https://instana.com/docs/application_monitoring/services/#why-am-i-not-seeing-any-services-listed"
+  }
+}

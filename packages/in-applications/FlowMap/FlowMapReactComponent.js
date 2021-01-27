@@ -2,10 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
-import * as webglNotInitialized from 'in-services/util/canvas/help-articles/webglNotInitialized.mmd';
-import * as webglNotSupported from 'in-services/util/canvas/help-articles/webglNotSupported.mmd';
 import { isWebGLSupported, getWebGLCanvasContext } from 'in-map/services/webGL';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import getElementDimensions from 'in-hoc/getElementDimensions';
@@ -101,9 +100,19 @@ export default getElementDimensions(
 
     showHelpIfWebGLCantBeSetup = () => {
       if (!isWebGLSupported()) {
-        addActiveDialog(<HelpDialog article={webglNotSupported} />);
+        addActiveDialog(
+          <HelpDialog
+            title={t('in-applications:applicationMap.webglNotSupportedTitle')}
+            markdownContent={t('in-applications:applicationMap.webglNotSupported')}
+          />
+        );
       } else if (!this.webGlContext) {
-        addActiveDialog(<HelpDialog article={webglNotInitialized} />);
+        addActiveDialog(
+          <HelpDialog
+            title={t('in-applications:applicationMap.webglNotInitializedTitle')}
+            markdownContent={t('in-applications:applicationMap.webglNotInitialized')}
+          />
+        );
       }
     };
   }
