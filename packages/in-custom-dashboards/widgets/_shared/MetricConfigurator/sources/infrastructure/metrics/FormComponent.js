@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import TypeAndMetricConfigurator from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/TypeAndMetricConfigurator';
 import { useTagFilterExpressionState } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/tagFilterUtils/useTagFilterExpressionState';
@@ -54,26 +54,6 @@ export default function FormComponent({
     getMetricCatalog,
     tagFilterExpression: tagFilterExpressionField.valid ? tagFilterExpressionField.value : EMPTY_EXPRESSION
   });
-  const category = 'Infrastructure';
-
-  useEffect(() => {
-    if (
-      metricCatalog.data &&
-      metricField.value &&
-      !(
-        metricCatalog.data.metrics[category] &&
-        metricCatalog.data.metrics[category][typeField.value] &&
-        metricCatalog.data.metrics[category][typeField.value][metricField.value]
-      )
-    ) {
-      // reset metric field when the selected metric is not in the catalog
-      onChange([], () =>
-        form
-          .updateIn(['metric'], field => field.setValue(undefined).setTouched(true))
-          .updateIn(['type'], field => field.setValue(undefined).setTouched(true))
-      );
-    }
-  }, [metricCatalog]);
 
   return (
     <Stack space="xsmall">
