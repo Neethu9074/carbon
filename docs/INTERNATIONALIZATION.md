@@ -47,3 +47,18 @@ import { t } from 'in-i18n';
 t('in-cockpit:deployAgent')
 ```
 
+⚠️️ Only in the special case when the translated text contains simple html markup like `<strong>`, then it is necessary to use `<Trans />`
+```json
+{
+  "deployStrongAgent": "Deploying Agent: <strong>Smith</strong>"
+}
+```
+
+```js
+import { Trans } from 'in-i18n';
+
+<Trans
+  i18nKey="in-cockpit:deployStrongAgent"
+/>
+```
+
