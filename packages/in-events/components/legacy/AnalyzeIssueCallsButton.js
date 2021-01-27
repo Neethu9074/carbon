@@ -64,6 +64,7 @@ export default connectTo(
     const dataSource = 'calls';
     const groupByTag = endpointName ? {} : getConfigByDataSource(dataSource).defaultGrouping;
     const order = getAnalyzeOrder(event);
+    const focusedMetric = getAnalyzeFocusedMetricInChart(event);
 
     return (
       <Button
@@ -80,6 +81,7 @@ export default connectTo(
             filters,
             tagCatalog,
             groupByTag,
+            focusedMetric,
             orderBy: order.by,
             orderDirection: order.direction,
             timeConfig: getTimeConfigFromEvent(event)
@@ -132,6 +134,17 @@ function getAnalyzeOrder(event) {
     by: orderBy,
     direction: orderDirection
   };
+}
+
+function getAnalyzeFocusedMetricInChart(event) {
+  if (isLatencyEvent(event)) {
+    return 'latency_DISTRIBUTION';
+  }
+  if (isErrorEvent(event)) {
+    // use count metric also for error-rate, because we already filter for erroneous calls only
+    return 'erroneousCalls_SUM';
+  }
+  return 'calls_SUM';
 }
 
 function isErrorEvent(event) {
