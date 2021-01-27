@@ -17,6 +17,7 @@ import {
   breakpoints,
   containerPadding
 } from 'in-custom-dashboards/CustomDashboard/Grid/settings';
+import ViewTracker from 'in-custom-dashboards/CustomDashboard/Grid/ViewTracker';
 import { MoreMenu, MoreMenuButton } from 'in-new-components/MoreMenu';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import widgets from 'in-custom-dashboards/widgets';
@@ -99,7 +100,7 @@ function Grid({
       draggableHandle={`.${draggableHandle || locals.dragHandle}`}
     >
       {config.widgets.map(widget => {
-        const { Widget, onlyRenderInsideViewport = true } = widgets[widget.type];
+        const { Widget, onlyRenderInsideViewport = true, trackViews } = widgets[widget.type];
 
         const actions = isConfigurable && (
           <MoreMenu kind="secondaryDarker" size="compact" className={locals.more}>
@@ -114,7 +115,8 @@ function Grid({
             </MoreMenuButton>
           </MoreMenu>
         );
-        const widgetComponent = (
+
+        let content = (
           <Widget
             title={widget.title || '–'}
             actions={actions}
@@ -124,11 +126,17 @@ function Grid({
           />
         );
 
-        let content = widgetComponent;
+        if (trackViews) {
+          content = <ViewTracker widget={widget}>{content}</ViewTracker>;
+        }
+
         if (onlyRenderInsideViewport) {
+          // We cannot reference 'content' directly within TrackVisibility as this would create a circular
+          // rendering problem.
+          const trackVisibilityContent = content;
           content = (
             <TrackVisibility once offset={300} tag="div" className={locals.visibilityTrackWrapper} partialVisibility>
-              {({ isVisible }) => isVisible && widgetComponent}
+              {({ isVisible }) => isVisible && trackVisibilityContent}
             </TrackVisibility>
           );
         }

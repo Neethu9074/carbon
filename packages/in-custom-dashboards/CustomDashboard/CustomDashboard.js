@@ -97,7 +97,7 @@ function CustomDashboardLoader(props) {
         onSubmit={widget => {
           const newConfig = deepCopy(config);
           newConfig.widgets.push(widget);
-          finishAddWidget(widget.type);
+          finishAddWidget(widget);
           setConfig(newConfig);
         }}
       />
@@ -106,7 +106,7 @@ function CustomDashboardLoader(props) {
 
   function onEditWidget(id) {
     const widget = find(config.widgets, eachWidget => id === eachWidget.id);
-    startEditWidget(widget.type);
+    startEditWidget(widget);
     addActiveDialog(
       <WidgetEditorDialog
         widget={widget}
@@ -114,7 +114,7 @@ function CustomDashboardLoader(props) {
           const newConfig = deepCopy(config);
           newConfig.widgets = newConfig.widgets.filter(widget => widget.id !== id);
           newConfig.widgets.push(widget);
-          finishEditWidget(widget.type);
+          finishEditWidget(widget);
           setConfig(newConfig);
         }}
       />

@@ -79,7 +79,7 @@ export default function WidgetEditorDialog({ widget, onSubmit }) {
       onClose={() => {
         close();
         if (widget) {
-          cancelEditWidget(form.get('type').value);
+          cancelEditWidget(form.toJS());
         }
       }}
       slideInView={slideInView}

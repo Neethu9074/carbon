@@ -95,6 +95,11 @@ Each widget needs to define the following exports.
    `Observable<Result<MigratedSavedState>>`. You can use this to execute asynchronous
    widget configuration migrations. Migrations will be executed when the widget editor
    is opened and before the form object is created.
+- `getTrackingMeta`: An optional function accepting a saved state object used to
+  capture information relevant for tracking events.
+- `trackViews`: An optional boolean defining whether an event should be raised with
+  our end-user monitoring systems whenever the widget is mounted. This event is not
+  raised for previews or when the widget is outside of the viewport. Defaults to `false`.
 
 ## Configuration Lifecycle
 
