@@ -45,7 +45,6 @@ export const smartAlertsEntityGroupingEnabled = isFeatureFlagEnabled('smartAlert
 export const smartAlertsServicesAndEndpointsSelectionEnabled = isFeatureFlagEnabled(
   'smartAlertsServicesAndEndpointsSelectionEnabled'
 );
-export const pieWidgetEnabled = isFeatureFlagEnabled('pieWidgetEnabled');
 export const showUserSettingInternalTagsInUA = isFeatureFlagEnabled('showUserSettingInternalTagsInUA', false);
 export const qb2InAPCreationEnabled = isFeatureFlagEnabled('qb2InAPCreationEnabled');
 export const languageSelectorEnabled = isFeatureFlagEnabled('languageSelectorEnabled');

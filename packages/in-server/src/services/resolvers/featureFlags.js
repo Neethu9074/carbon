@@ -174,11 +174,6 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'pieWidgetEnabled',
-    instanaCtlKey: 'feature.pie.widget.enabled',
-    defaultValue: false
-  },
-  {
     uiClientKey: 'showUserSettingInternalTagsInUA',
     instanaCtlKey: 'feature.show.user.setting.internal.tags.in.ua',
     defaultValue: false

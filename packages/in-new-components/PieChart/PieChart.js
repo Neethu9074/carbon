@@ -6,9 +6,10 @@ import React, { useMemo, useState } from 'react';
 import rpt from 'prop-types';
 
 import { enrichAxisWithColors } from 'in-components/Chart/strokeColors';
+import TooltipContent from 'in-new-components/PieChart/TooltipContent';
 import getElementDimensions from 'in-hoc/getElementDimensions';
 import PieLegend from 'in-new-components/PieChart/PieLegend';
-import { percentage } from 'in-services/formatters/number';
+import { defaultTimeShift } from 'in-stores/time/shifting';
 import Tooltip from 'in-components/Tooltip';
 
 import locals from './PieChart.mless';
@@ -50,7 +51,10 @@ const PieChartWrapper = props => {
             percentage: eachMetric[0][1] / sum,
             value: eachMetric[0][1],
             color: props.y1.colors100[i],
-            hoverColor: props.y1.colors50[i]
+            hoverColor: props.y1.colors50[i],
+            label: props.y1.labels[i],
+            aggregation: props.y1.aggregations?.[i],
+            timeShift: props.y1.timeShifts?.[i] || defaultTimeShift
           };
         }
       }),
@@ -87,8 +91,9 @@ const PieChartWrapper = props => {
             const pathData = `M ${startX} ${startY} A 1 1 0 ${largeArcFlag} 1 ${endX} ${endY} L 0 0`;
             return (
               <Tooltip
+                themeStyle="light"
                 key={i}
-                content={`${formatter(slice.value)} (${percentage.detailed(slice.percentage)})`}
+                content={<TooltipContent slice={slice} formatter={formatter} />}
                 align="mousePosition"
               >
                 <path d={pathData} fill={slice.color} />
