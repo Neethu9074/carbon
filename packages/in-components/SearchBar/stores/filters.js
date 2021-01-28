@@ -4,6 +4,8 @@
  */
 import { createLogger } from '@instana/logger';
 import { List } from 'immutable';
+import { Trans } from 'in-i18n';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
@@ -44,13 +46,13 @@ export function refresh() {
 export function remove(id, name, definition) {
   addActiveDialog(
     <ConfirmationDialog
-      header="Confirm Removal"
+      header={t('in-components:searchBar.filterConfirmRemovalHeader')}
       description={
         <span>
-          Are you sure you want to remove the filter <strong>{name}</strong>?
+          <Trans i18nKey="in-components:searchBar.filterConfirmRemoveMsg" values={{ filterName: name }} />
         </span>
       }
-      confirmButtonLabel="Remove filter"
+      confirmButtonLabel={t('in-components:searchBar.filterConfirmButtonLabel')}
       onSubmit={() => {
         close();
         const result$ = removeFilter(id);

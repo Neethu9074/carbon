@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import PropTypes from 'prop-types';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import Button from 'in-new-components/Button';
@@ -11,7 +12,7 @@ export default function DeleteButton({
   form,
   isDeleting,
   disabled,
-  children = 'Delete',
+  children = t('forms.actions.cancel'),
   className,
   kind = 'danger',
   icon,

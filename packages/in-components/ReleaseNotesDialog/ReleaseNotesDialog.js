@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { markAsRead, unreadReleaseNotesContentAndVersion$ } from 'in-stores/releaseNotes';
@@ -24,7 +25,10 @@ export default connectTo(
     }
 
     return (
-      <Dialog onClose={() => markAsRead(releaseNotes.version)} title="Release Notes">
+      <Dialog
+        onClose={() => markAsRead(releaseNotes.version)}
+        title={t('in-components:releaseNotesDialog.releaseNotesTitle')}
+      >
         <DangerousHtmlPresenter className={block} html={toHtml(releaseNotes.content)} />
       </Dialog>
     );

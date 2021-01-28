@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import React, { useState } from 'react';
+import { t } from 'in-i18n';
 
 import TagFilter from 'in-components/Tags/TagList/components/TagFilter';
 import getFilterableTags from 'in-subscription/getFilterableTags';
@@ -27,7 +28,7 @@ export default connectTo(
     const [tagsFilter, setTagsFilter] = useState('');
 
     if (!tags || tags.size === 0) {
-      return <div className={locals.noTags}>There are no tags defined</div>;
+      return <div className={locals.noTags}>{t('in-components:tags.tagListNoTagsDefined')}</div>;
     }
 
     tags = tags.toArray();
@@ -77,7 +78,7 @@ function TagListWithMaxLengthRestriction({ tags }) {
 
       {actualNumberOfTags > maxTagsPerCollection && !showAll && (
         <Button className={locals.button} size="compact" onClick={() => setShowAll(true)}>
-          Show all tags ({number.compact(actualNumberOfTags - maxTagsPerCollection)} more)
+          {t('in-components:tags.tagListShowAll', { num: number.compact(actualNumberOfTags - maxTagsPerCollection) })}
         </Button>
       )}
     </>

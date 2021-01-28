@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import rpt from 'prop-types';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import Button from 'in-new-components/Button';
@@ -46,7 +47,12 @@ function stopPropagation(e) {
 }
 
 function DownloadButtonJson({ onClick }) {
-  return <DownloadButton label={'Download (*.json)'} onClick={() => onClick('json')} />;
+  return (
+    <DownloadButton
+      label={t('in-components:downloadBtn.eventMetricDownloadViewDownloadJsonLabel')}
+      onClick={() => onClick('json')}
+    />
+  );
 }
 
 function DownloadButton({ label, onClick }) {

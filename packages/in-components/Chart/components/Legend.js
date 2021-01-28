@@ -5,6 +5,7 @@
 import { range, rangeRight } from 'lodash';
 import classNames from 'classnames';
 import rpt from 'prop-types';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { defaultTimeShift, getTimeShiftLabel } from 'in-stores/time/shifting';
@@ -77,7 +78,11 @@ function MetricSeries({ axis, reverseLegendOrder, labels }) {
             {name}
 
             {timeShift && timeShift.offset !== 0 && (
-              <Tooltip content={`Metric is time shifted to: ${getTimeShiftLabel(timeShift)}`}>
+              <Tooltip
+                content={t('in-components:chart.chartLendMetricTimeShifted', {
+                  timeShiftedLabel: getTimeShiftLabel(timeShift)
+                })}
+              >
                 <SvgIcon className={locals.timeShift} size="xxs" type="lib_datetime_time" />
               </Tooltip>
             )}

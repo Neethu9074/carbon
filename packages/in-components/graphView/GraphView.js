@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import FullHeightWrapper from 'in-applications/Dashboards/commonComponents/FullHeightWrapper';
@@ -26,7 +27,7 @@ export default function GraphView() {
         }
         return (
           <div className={block} style={{ height }}>
-            <Title title="Graph" />
+            <Title title={t('in-components:graphView.graphTitle')} />
             <Universe className={block + '__universe'} />
             <Explanation />
             <GraphLoadingIndicator />

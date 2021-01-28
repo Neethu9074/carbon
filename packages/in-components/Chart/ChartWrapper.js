@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import invariant from 'invariant';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { getChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
@@ -62,17 +63,23 @@ export default function ChartWrapper({ result, ...props }) {
 function wrapProps(result, props) {
   if (__DEV__ && props.metricsConfiguration) {
     props.y1?.metricIds.forEach(id => {
-      invariant(Object.keys(props.metricsConfiguration.metrics).indexOf(id) !== -1, `Metric id ${id} not found.`);
+      invariant(
+        Object.keys(props.metricsConfiguration.metrics).indexOf(id) !== -1,
+        t('in-components:chart.chartWrapperMetricNotfound', { metricId: id })
+      );
     });
 
     props.y2?.metricIds.forEach(id => {
-      invariant(Object.keys(props.metricsConfiguration.metrics).indexOf(id) !== -1, `Metric id ${id} not found.`);
+      invariant(
+        Object.keys(props.metricsConfiguration.metrics).indexOf(id) !== -1,
+        t('in-components:chart.chartWrapperMetricNotfound', { metricId: id })
+      );
     });
 
     const keys = props.metricsConfiguration.metrics;
     for (let i = 1; i < keys.length; i++) {
       if (this[i] !== this[0]) {
-        invariant(false, 'All aggregation types for one axis must have the same value.');
+        invariant(false, t('in-components:chart.chartWrapperSameAxisSameValue'));
         break;
       }
     }

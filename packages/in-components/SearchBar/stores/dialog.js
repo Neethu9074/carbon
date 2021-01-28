@@ -2,14 +2,16 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { createMapForm, createField } from 'formalistic';
+import { createLogger } from '@instana/logger';
+import { t } from 'in-i18n';
+
 import { DFQ_FILTER_SAVED, DFQ_FILTER_EDITED } from 'in-services/tracking/eventNames';
 import { refresh } from 'in-components/SearchBar/stores/filters';
 import { close } from 'in-components/DialogPresenter/store';
 import { saveNewFilter, saveFilter } from 'in-api/filters';
-import { createMapForm, createField } from 'formalistic';
 import { track } from 'in-services/tracking/tracking';
 import { createStore } from 'in-stores/store';
-import { createLogger } from '@instana/logger';
 
 const logger = createLogger('SearchBar/stores/dialog');
 
@@ -100,7 +102,7 @@ function validateName(s) {
     return [
       {
         severity: 'error',
-        message: 'Please specify a name for the filter.'
+        message: t('in-components:searchBar.dialogRequireNameMsg')
       }
     ];
   }
@@ -112,7 +114,7 @@ function validateDefinition(s) {
     return [
       {
         severity: 'error',
-        message: 'Please specify a filter to save.'
+        message: t('in-components:searchBar.dialogRequireFilterMsg')
       }
     ];
   }

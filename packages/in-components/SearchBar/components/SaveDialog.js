@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { form$, setValue, save, error$ } from 'in-components/SearchBar/stores/dialog';
@@ -9,9 +10,9 @@ import ValidationBlock from 'in-components/form/ValidationBlock';
 import { close } from 'in-components/DialogPresenter/store';
 import Dialog from 'in-new-components/Dialog/Dialog';
 import FormGroup from 'in-components/form/FormGroup';
+import Button from 'in-new-components/Button';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
-import Button from 'in-new-components/Button';
 import connectTo from 'in-hoc/connectTo';
 
 import './SaveDialog.less';
@@ -25,11 +26,11 @@ export default connectTo(
   },
   function SaveDialog({ form, error }) {
     return (
-      <Dialog title="Save filter" onClose={close}>
+      <Dialog title={t('in-components:searchBar.saveDialogSaveFilterTitle')} onClose={close}>
         <form onSubmit={onSubmit}>
           {form.get('name').map(field => (
             <FormGroup>
-              <Label htmlFor="filter-name">Name</Label>
+              <Label htmlFor="filter-name">{t('in-components:searchBar.saveDialogNameLabel')}</Label>
               <Input
                 type="text"
                 id="filter-name"
@@ -48,7 +49,7 @@ export default connectTo(
 
           {form.get('definition').map(field => (
             <FormGroup>
-              <Label htmlFor="filter-definition">Definition</Label>
+              <Label htmlFor="filter-definition">{t('in-components:searchBar.saveDialogDefinitionLabel')}</Label>
               <Input
                 type="text"
                 id="filter-definition"
@@ -66,7 +67,7 @@ export default connectTo(
 
           <div className={`${block}__actions`}>
             <Button disabled={!form.valid} type="submit">
-              Save filter
+              {t('in-components:searchBar.saveDialogSaveFilterBtn')}
             </Button>
             {error ? <div className={`${block}__error`}>{error}</div> : null}
           </div>

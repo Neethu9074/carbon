@@ -2,6 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
+
 import { getFixedTimeframeUrl } from 'in-stores/timeline';
 import { alwaysNull } from 'in-services/fixedStreams';
 import { timeConfig$ } from 'in-stores/time/config';
@@ -11,7 +13,7 @@ const MAX_ZOOM_LEVEL = minutes.toMillis(1);
 const config = {
   name: 'zoomIn',
   icon: 'lib_datetime_time',
-  label: 'Zoom to time range',
+  label: t('in-components:chart.chartZoomInLabel'),
   getHref$: getHighlightedTimeframeUrl$
 };
 export default config;

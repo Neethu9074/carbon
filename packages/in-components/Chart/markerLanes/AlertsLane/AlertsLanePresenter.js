@@ -4,6 +4,7 @@
  */
 import PropTypes from 'prop-types';
 import theme from 'in-themes';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { alertsLaneAlertsPropType } from 'in-components/Chart/markerLanes/AlertsLane/constants';
@@ -27,7 +28,7 @@ export default function AlertsLanePresenter({ alerts, ...remainingProps }) {
       <MarkerLane
         {...remainingProps}
         events={alerts}
-        label="Alerts"
+        label={t('in-components:chart.chartAlertsLanePresenterAlertsLabel')}
         iconConfigForMultipleAlertTypes={{
           smartAlerts: {
             type: 'lib_events_warning',

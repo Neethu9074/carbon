@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { filters$, refresh, remove } from 'in-components/SearchBar/stores/filters';
@@ -47,10 +48,14 @@ export default connectTo(
       return (
         <section className={block} ref={menu => (this.menu = menu)}>
           <LifecycleObserver onWillMount={refresh} />
-          <MenuHeading className={`${block}__heading`}>Filters</MenuHeading>
+          <MenuHeading className={`${block}__heading`}>
+            {t('in-components:searchBar.filterPresetsMenuHeading')}
+          </MenuHeading>
           <ul className={`${block}__preset-list`}>
             {filters.size === 0 ? (
-              <span className={`${block}__no-filters-help-text`}>Save filters for easy access here</span>
+              <span className={`${block}__no-filters-help-text`}>
+                {t('in-components:searchBar.filterPresetsSaveFilters')}
+              </span>
             ) : null}
             {filters.toArray().map(filter => (
               <li key={filter.get('id')} className={`${block}__preset-item`}>
@@ -65,7 +70,7 @@ export default connectTo(
                     }}
                     className={`${block}__edit`}
                   >
-                    Edit
+                    {t('in-components:searchBar.filterPresetsEditFilter')}
                   </a>
                   <a
                     href=""
@@ -75,7 +80,7 @@ export default connectTo(
                     }}
                     className={`${block}__remove`}
                   >
-                    Remove
+                    {t('in-components:searchBar.filterPresetsRemoveFilter')}
                   </a>
                 </div>
               </li>

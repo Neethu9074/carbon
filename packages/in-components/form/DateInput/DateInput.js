@@ -6,6 +6,7 @@ import DayPicker from 'react-day-picker';
 import 'react-day-picker/lib/style.css';
 import { assign } from 'lodash';
 import theme from 'in-themes';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { formatDate, parseDate } from 'in-services/formatters/date';
@@ -92,7 +93,7 @@ function DatePickerOverlay({ onChange, close, value }) {
         }}
         className={locals.close}
       >
-        Close
+        {t('forms.actions.close')}
       </a>
     </div>
   );

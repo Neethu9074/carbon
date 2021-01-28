@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import PropTypes from 'prop-types';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { alertsLaneAlertsPropType } from 'in-components/Chart/markerLanes/AlertsLane/constants';
@@ -17,16 +18,24 @@ export default function AlertsLaneTooltipContent({ smartAlerts = [], incidents =
   const hasSmartAlerts = !!smartAlertsCount;
   const hasIcidents = !!incidentsCount;
 
+  const countSmartAlertI18nKey = 'in-components:chart.chartAlertsLaneTooltipContent.countSmartAlert';
+  const countIncidentI18nKey = 'in-components:chart.chartAlertsLaneTooltipContent.countIncident';
+
   return (
     <>
       {hasIcidents && hasSmartAlerts ? (
-        <div>{`${smartAlertsCount} Smart Alert${smartAlertsCount > 1 ? 's' : ''} & ${incidentsCount} Incident${
-          incidentsCount > 1 ? 's' : ''
-        }`}</div>
+        <div>
+          {t('in-components:chart.chartAlertsLaneTooltipContent.msg', {
+            smartAlertsCount: smartAlertsCount,
+            smartAlerts: t(countSmartAlertI18nKey, { count: smartAlertsCount }),
+            incidentsCount: incidentsCount,
+            incidents: t(countIncidentI18nKey, { count: incidentsCount })
+          })}
+        </div>
       ) : (
         <>
-          <TooltipItem events={smartAlerts} moreMessageTypeText="Smart Alert" />
-          <TooltipItem events={incidents} moreMessageTypeText="Incident" />
+          <TooltipItem events={smartAlerts} moreMessageTypeTextI18nKey={countSmartAlertI18nKey} />
+          <TooltipItem events={incidents} moreMessageTypeTextI18nKey={countIncidentI18nKey} />
         </>
       )}
     </>
@@ -38,7 +47,7 @@ AlertsLaneTooltipContent.propTypes = {
   smartAlerts: PropTypes.arrayOf(alertsLaneAlertsPropType).isRequired
 };
 
-function TooltipItem({ events, moreMessageTypeText }) {
+function TooltipItem({ events, moreMessageTypeTextI18nKey }) {
   if (events.length === 0) return null;
 
   const visibleItemsCount = 2;
@@ -55,7 +64,12 @@ function TooltipItem({ events, moreMessageTypeText }) {
         ))}
       </div>
       {eventsCount > visibleItemsCount && (
-        <div>{`+${eventsCount - visibleItemsCount} more ${moreMessageTypeText}${eventsCount > 1 ? 's' : ''}`}</div>
+        <div>
+          {t('in-components:chart.chartAlertsLaneTooltipContent.itemMsg', {
+            leftCount: eventsCount - visibleItemsCount,
+            moreMsg: t(moreMessageTypeTextI18nKey, { count: eventsCount })
+          })}
+        </div>
       )}
     </>
   );

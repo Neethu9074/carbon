@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import React, { Fragment } from 'react';
+import { t } from 'in-i18n';
 
 import { ActionColumn, ErrorRows, Table, Tbody, Thead } from 'in-components/tables/sharedComponents';
 import { filterColumns } from 'in-components/tables/ServerTable/internalComponents/columnBehavior';
@@ -98,7 +99,7 @@ export default function CursorPaginatedTable(props) {
               loadMore={canLoadMore && loadMore}
               label={loadMoreLabel}
               filterBy={filterBy}
-              filterByLabel={'Analyze this group'}
+              filterByLabel={t('in-components:tables.serverTable.cursorPaginatedTableFilterByLabel')}
             />
           }
         </Tbody>
@@ -107,7 +108,16 @@ export default function CursorPaginatedTable(props) {
   );
 }
 
-function LoadMoreRow({ depth, cols, loadMore, label = 'Load More', size, className, filterBy, filterByLabel }) {
+function LoadMoreRow({
+  depth,
+  cols,
+  loadMore,
+  label = t('in-components:tables.serverTable.cursorPaginatedTableLoadMoreRowLabel'),
+  size,
+  className,
+  filterBy,
+  filterByLabel
+}) {
   const filterByCols = loadMore ? cols - 2 : cols;
   const loadMoreCols = filterBy ? cols - filterByCols : cols;
   return (

@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import classNames from 'classnames';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import CancelButtonComponent from 'in-components/form/CancelButton';
@@ -24,7 +25,7 @@ export default function FormFooter({ className, withRoundedBottomBorder, childre
 export function SaveButton(props) {
   return (
     <SaveButtonComponent className={locals.button} kind="create" {...props}>
-      {props.children || 'Save'}
+      {props.children || t('forms.actions.save')}
     </SaveButtonComponent>
   );
 }
@@ -32,7 +33,7 @@ export function SaveButton(props) {
 export function CancelButton(props) {
   return (
     <CancelButtonComponent className={locals.button} {...props}>
-      {props.children || 'Cancel'}
+      {props.children || t('forms.actions.cancel')}
     </CancelButtonComponent>
   );
 }
@@ -40,7 +41,7 @@ export function CancelButton(props) {
 export function DeleteButton(props) {
   return (
     <DeleteButtonComponent className={locals.button} {...props}>
-      {props.label || 'Delete'}
+      {props.label || t('forms.actions.delete')}
     </DeleteButtonComponent>
   );
 }
