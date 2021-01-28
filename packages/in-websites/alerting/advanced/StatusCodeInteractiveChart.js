@@ -22,8 +22,6 @@ import { getTrackingObject } from 'in-new-components/Alerting/trackingHelpers';
 import { ruleMetricNameOptions } from 'in-websites/alerting/form/ruleFormData';
 import { blueprintConfigPropType } from 'in-new-components/Alerting/constants';
 import Dropdown from 'in-new-components/Alerting/Dropdown';
-import { isNotBlank } from 'in-services/util/string';
-import Label from 'in-components/form/Label';
 
 import locals from 'in-new-components/Alerting/shared-styles/InteractiveChart.mless';
 
@@ -104,8 +102,8 @@ export function ThresholdCondition({ form, onChange, blueprintConfig, updateForm
         onChange={onChange}
         trackChange={websitesAlertingThresholdValueChanged}
         percentageMetric={percentageMetric}
+        metricUnitPostfix={metricUnitPostfix}
       />
-      {isNotBlank(metricUnitPostfix) && <Label htmlFor="thresholdValue">{metricUnitPostfix}</Label>}
     </ThresholdConditionFormGroup>
   );
 }

@@ -34,7 +34,6 @@ import { blueprintConfigPropType } from 'in-new-components/Alerting/constants';
 import { getMetricUnitPostfix } from 'in-websites/alerting/form/formUtils';
 import createRuleForm from 'in-websites/alerting/form/ruleForm';
 import Dropdown from 'in-new-components/Alerting/Dropdown';
-import { isNotBlank } from 'in-services/util/string';
 import Label from 'in-components/form/Label';
 
 import locals from 'in-new-components/Alerting/shared-styles/InteractiveChart.mless';
@@ -149,8 +148,8 @@ export function ThresholdCondition({ form, updateForm, onChange, blueprintConfig
             form={form}
             onChange={onChange}
             trackChange={websitesAlertingThresholdValueChanged}
+            metricUnitPostfix={metricUnitPostfix}
           />
-          {isNotBlank(metricUnitPostfix) && <Label htmlFor="thresholdValue">{metricUnitPostfix}</Label>}
         </ThresholdConditionFormGroup>
       )}
 

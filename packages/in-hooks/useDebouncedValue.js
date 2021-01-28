@@ -7,7 +7,7 @@ import { create } from '@instana/observables';
 
 // Just a small alias to debounce value setting, similar to rxjs.debounce but
 // for functional React components
-export default function useDebouncedValue(value, onChange, delay = 1000, opts) {
+export default function useDebouncedValue(value, onChange, delay = 1000, opts, pure = true) {
   const [value$] = useState(create());
   const [stateValue, setStateValue] = useState(value);
   const [subscription, setSubscription] = useState(null);
@@ -19,15 +19,19 @@ export default function useDebouncedValue(value, onChange, delay = 1000, opts) {
     setSubscription(
       value$
         .debounce(delay, opts)
-        .distinct()
+        .distinct((a, b) => {
+          return !pure || a !== b;
+        })
         .subscribe(v => onChangeRef.current(v))
     );
   }
 
   useEffect(() => {
-    if (value !== stateValue) {
+    if (!pure || value !== stateValue) {
       setStateValue(value);
     }
+    // we only want to call the effect when value changes
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
 
   useEffect(() => {
@@ -37,6 +41,8 @@ export default function useDebouncedValue(value, onChange, delay = 1000, opts) {
         setSubscription(null);
       }
     };
+    // only update on first render
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return {

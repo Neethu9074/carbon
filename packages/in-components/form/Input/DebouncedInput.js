@@ -17,17 +17,16 @@ export default function DebouncedInput({
     leading: true,
     trailing: true
   },
+  pure = true,
   ...props
 }) {
-  const debounced = useDebouncedValue(value, onValueChange ?? noop, delay, debounceOpts);
+  const debounced = useDebouncedValue(value, onValueChange ?? noop, delay, debounceOpts, pure);
   return (
     <FormInput
       {...props}
       value={debounced.value}
       onChange={({ target }) => {
-        if (target) {
-          debounced.onChange(target.value);
-        }
+        debounced.onChange(target?.value);
       }}
     />
   );
@@ -36,5 +35,7 @@ DebouncedInput.propTypes = {
   value: PropTypes.any.isRequired,
   onValueChange: PropTypes.func.isRequired,
   debounceOpts: PropTypes.object,
-  delay: PropTypes.number
+  delay: PropTypes.number,
+  /** Whether to only update if new value differs from previous one or to update each time a value changes*/
+  pure: PropTypes.bool
 };

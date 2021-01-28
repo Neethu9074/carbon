@@ -146,8 +146,7 @@ function updateThresholdInForm(form, updateForm, data, errors, time, simpleMode)
       };
     }
 
-    const shouldAddNewThresholdData =
-      simpleMode || currentThreshold.value == null || currentThreshold.value == '' || data.type === 'historicBaseline';
+    const shouldAddNewThresholdData = simpleMode || currentThreshold.value == null || data.type === 'historicBaseline';
 
     const updatedThresholdForm = createThresholdForm(
       {

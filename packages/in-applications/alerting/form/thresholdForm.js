@@ -66,9 +66,9 @@ function createStaticThresholdForm(threshold) {
   return createBaseForm(threshold).put(
     'value',
     createField({
-      value: threshold.value ?? '',
+      value: threshold.value ?? null,
       validator: num => {
-        if (num === '' || num < 0) {
+        if (typeof num !== 'number' || num < 0) {
           return [
             {
               severity: 'error',

@@ -10,6 +10,7 @@ import {
 } from 'in-new-components/Alerting/utils/formatUtils';
 import { getTrackingObject } from 'in-new-components/Alerting/trackingHelpers';
 import DebouncedInput from 'in-components/form/Input/DebouncedInput';
+import { isNotBlank } from 'in-services/util/string';
 
 /*
  * input field can represent a percentage or normal number field
@@ -27,6 +28,7 @@ export default function ThresholdValueInput({
   updateForm,
   trackChange,
   percentageMetric,
+  metricUnitPostfix,
   ...props
 }) {
   const onValueChange = targetValue => {
@@ -52,19 +54,26 @@ export default function ThresholdValueInput({
     trackChange?.(getTrackingObject(form, { value }));
   };
 
-  const value = getValueRoundedToDecimals(form.get('threshold').get('value').value, percentageMetric);
+  const thresholdField = form.get('threshold').get('value');
+  const hasError = !thresholdField.valid && thresholdField.touched;
+  const value = getValueRoundedToDecimals(thresholdField.value, percentageMetric);
 
   return (
-    <DebouncedInput
-      delay={delay}
-      id={id}
-      name={name}
-      type={type}
-      min={min}
-      step={step}
-      {...props}
-      onValueChange={onValueChange}
-      value={value ?? ''}
-    />
+    <>
+      <DebouncedInput
+        delay={delay}
+        id={id}
+        name={name}
+        type={type}
+        min={min}
+        step={step}
+        {...props}
+        onValueChange={onValueChange}
+        value={value ?? ''}
+        hasError={hasError}
+        pure={false}
+      />
+      {isNotBlank(metricUnitPostfix) && <span>{metricUnitPostfix}</span>}
+    </>
   );
 }
