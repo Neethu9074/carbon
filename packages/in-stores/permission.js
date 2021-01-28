@@ -116,15 +116,24 @@ function getProductPermissions() {
       description: 'Permits configuration of global custom payload for alerts.',
       category: 'Events'
     },
-    /* Extensions */
+    /* Custom Dashboards */
     {
       keyForGroupApi: 'CAN_CREATE_PUBLIC_CUSTOM_DASHBOARDS',
       keyForApiTokenApi: 'canCreatePublicCustomDashboards',
       label: 'Creation of public custom dashboards',
       description:
         "Without this permission, users and API tokens can create custom dashboards visible only to themselves. Granting this permission allows users and API tokens to create custom dashboards visible to all users and API tokens of this Instana environment. Additionally, they can add editors to custom dashboards, which means they can see a full list of names and email addresses of all users of this Instana environment. Additionally, they can see a complete list of all API tokens' IDs and names.",
-      category: 'Extensions'
+      category: 'Custom Dashboards'
     },
+    {
+      keyForGroupApi: 'CAN_EDIT_ALL_ACCESSIBLE_CUSTOM_DASHBOARDS',
+      keyForApiTokenApi: 'canEditAllAccessibleCustomDashboards',
+      label: 'Management of all accessible custom dashboards',
+      description:
+        'This permission grants the ability to edit and delete any accessible custom dashboard. You will find this useful to edit/delete custom dashboards created by former colleagues or custom dashboards for which you accidentally lost access due to misconfiguration.',
+      category: 'Custom Dashboards'
+    },
+    /* Extensions */
     {
       keyForGroupApi: 'CAN_CONFIGURE_LOG_MANAGEMENT',
       keyForApiTokenApi: 'canConfigureLogManagement',
