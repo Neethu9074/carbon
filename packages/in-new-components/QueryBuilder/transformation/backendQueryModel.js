@@ -141,3 +141,15 @@ export function getMaximumExpressionDepth(expression) {
     });
   return max + 1;
 }
+
+export function containsTagName(expression, tagName) {
+  if (!expression || !tagName) {
+    return false;
+  }
+
+  if (expression.type !== EXPRESSION) {
+    return expression.name === tagName;
+  }
+
+  return expression.elements.some(element => containsTagName(element, tagName));
+}

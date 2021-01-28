@@ -197,7 +197,7 @@ function getChartsParam(sliConfig) {
     if (metricName === 'latency') {
       return [
         {
-          metric: 'latency_DISTRIBUTION',
+          metric: 'latency',
           aggregation: 'DISTRIBUTION'
         }
       ];
