@@ -54,13 +54,14 @@ export default function ThroughputInteractiveChart({
       />
 
       <ChartViewConfigurator
+        alertConfig={alertConfig}
         onChartViewConfigChange={onChartViewConfigChange}
         selectedChartViewConfigIndex={selectedChartViewConfigIndex}
-        className={locals.chartContainer}
         headerTransparent
       >
-        {chartViewConfig => (
+        {(chartViewConfig, serviceId) => (
           <ApplicationAlertingChartWithErrorMessage
+            serviceId={serviceId}
             alertConfigWithFormModel={alertConfig}
             viewConfig={chartViewConfig}
             blueprintConfig={blueprintConfig}

@@ -47,9 +47,9 @@ export default function ThroughputInteractiveChart({
       <ThresholdCondition form={form} updateForm={updateForm} onChange={onChange} blueprintConfig={blueprintConfig} />
 
       <ChartViewConfigurator
+        alertConfig={alertConfig}
         onChartViewConfigChange={onChartViewConfigChange}
         selectedChartViewConfigIndex={selectedChartViewConfigIndex}
-        className={locals.chartContainer}
         headerTransparent
       >
         {chartViewConfig => (

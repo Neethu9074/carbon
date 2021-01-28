@@ -51,6 +51,7 @@ export default function AlertConfiguration({ alertConfig, websiteLabel }) {
           selectedChartViewConfigIndex={selectedChartViewConfigIndex}
           className={locals.chartContainer}
           title={t('in-websites:websiteDashboard.tabs.alerts.alertConfigurationTitleTrigger')}
+          doNotSetDefaultHeight
           framed
         >
           {chartViewConfig => (

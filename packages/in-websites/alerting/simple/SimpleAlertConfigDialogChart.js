@@ -20,6 +20,7 @@ export default function SimpleAlertConfigDialogChart({ form, onChartViewConfigCh
 
   return (
     <ChartViewConfigurator
+      alertConfig={alertConfig}
       onChartViewConfigChange={onChartViewConfigChange}
       selectedChartViewConfigIndex={selectedChartViewConfigIndex}
       className={locals.offset}

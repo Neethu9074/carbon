@@ -55,9 +55,4 @@
   .chartHeader {
     background-color: transparent;
   }
-
-  .chartContainer {
-    margin-top: 1rem;
-    height: 21rem;
-  }
 }

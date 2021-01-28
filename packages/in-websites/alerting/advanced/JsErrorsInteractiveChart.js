@@ -49,9 +49,9 @@ export default function JsErrorsInteractiveChart({
       <ThresholdCondition form={form} onChange={onChange} blueprintConfig={blueprintConfig} updateForm={updateForm} />
 
       <ChartViewConfigurator
+        alertConfig={alertConfig}
         onChartViewConfigChange={onChartViewConfigChange}
         selectedChartViewConfigIndex={selectedChartViewConfigIndex}
-        className={locals.chartContainer}
         headerTransparent
       >
         {chartViewConfig => (
