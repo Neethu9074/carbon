@@ -16,6 +16,7 @@ import ScopeConfigPresenter from 'in-new-components/Alerting/components/ScopeCon
 import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-applications/tags';
 import AlertChannelsViewer from 'in-new-components/Alerting/components/AlertChannelsViewer';
 import { getLogMessageRuleOperatorLabel } from 'in-applications/alerting/form/ruleFormData';
+import ApplicationScopePath from 'in-applications/alerting/components/ApplicationScopePath';
 import { fromBackendModel } from 'in-new-components/QueryBuilder/transformation/formModel';
 import AlertPropertyInfos from 'in-new-components/Alerting/components/AlertPropertyInfos';
 import AlertQueryBuilder from 'in-applications/alerting/components/AlertQueryBuilder';
@@ -108,9 +109,9 @@ export default function AlertConfiguration({ alertConfig, applicationName }) {
                 tagFilterFormModel={tagFilterFormModel}
                 queryBuilder={<AlertQueryBuilder value={tagFilterFormModel} readOnly />}
                 convertedTagFilterExpression={convertedTagFilterExpression}
-                scopePath={{
-                  applicationName
-                }}
+                scopePath={
+                  <ApplicationScopePath boundaryScope={alertConfig.boundaryScope} applicationName={applicationName} />
+                }
               />
             </div>
             <ReadOnlyInboundOrAllCalls alertConfig={alertConfig} />
