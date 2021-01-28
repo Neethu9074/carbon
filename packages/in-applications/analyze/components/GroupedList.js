@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import React, { useEffect, useState } from 'react';
 import { empty } from '@instana/observables';
+import React, { useEffect } from 'react';
 import classNames from 'classnames';
 import Toggle from 'react-toggle';
 
@@ -19,10 +19,10 @@ import { type as TAG_FILTER_TYPE } from 'in-new-components/QueryBuilder/transfor
 import { addTagFilters } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import FacetedSearch from 'in-applications/analyze/components/FacetedSearch/FacetedSearch';
 import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
-import { emptyArray, emptyObject, indeterminateProgress } from 'in-services/fixedObjects';
 import { getChartGranularity, getSparkChartGranularity } from 'in-applications/metrics';
 import { NUMBER, KEY_VALUE_PAIR } from 'in-new-components/QueryBuilder/tagFilter/types';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
+import { emptyArray, indeterminateProgress } from 'in-services/fixedObjects';
 import LoadMoreLi from 'in-new-components/lists/List/LoadMoreLi/LoadMoreLi';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import { dataSourceConstants } from 'in-applications/analyze/metrics';
@@ -65,8 +65,6 @@ export default function GroupedList({
   getNestedUngroupedData,
   linkFormModel
 }) {
-  // Store the last valid result so that we can show it, in case the tagFilterExpression won't be valid.
-  const [{ lastDataSource, lastValidResult }, setLastState] = useState(emptyObject);
   const internalVisible = useObservable(isInternalVisible$, []) || false;
   const defaultOrder = dataSourceConstants[dataSource].metricKey;
   const defaultDirection = 'DESC';
@@ -99,19 +97,13 @@ export default function GroupedList({
     [timeConfig, tagFilterExpression, groupBy, orderBy, metrics, isValid, hiddenCalls, dataSource, queryPrecision]
   );
 
-  const resultToDisplay = !isValid && lastValidResult && lastDataSource === dataSource ? lastValidResult : result;
-
   useEffect(() => {
     if (isValid) {
       if (onResult) {
         onResult(result);
       }
-      setLastState({ lastDataSource: dataSource, lastValidResult: result });
-    } else if (lastDataSource !== dataSource) {
-      // the last result shouldn't be cached for a different data source
-      setLastState(emptyObject);
     }
-  }, [result?.progress.loading, isValid, dataSource, onResult, lastDataSource]);
+  }, [result?.progress.loading, isValid, onResult]);
 
   const groupingTagCatalog = useTagCatalog(
     dataSource === 'traces' ? getTraceGroupingTagCatalog : getCallGroupingTagCatalog
@@ -144,7 +136,7 @@ export default function GroupedList({
       dataSource={dataSource}
       getNestedUngroupedData={getNestedUngroupedData}
       linkFormModel={linkFormModel}
-      {...resultToDisplay}
+      {...result}
     />
   );
 }

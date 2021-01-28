@@ -16,15 +16,15 @@ import Footer from 'in-new-components/Footer';
 import Sticky from 'in-components/Sticky';
 
 export default function LoggingQueryBuilderWorkspace(props) {
-  const { onTagFilterExpressionChange, tagFilterExpression, isGrouped, isInvalid, tracking, children } = props;
+  const { onFormModelChange, formModel, isGrouped, isInvalid, tracking, children } = props;
 
   return (
     <Sticky header={<AnalyzeHeader isGrouped={isGrouped} withoutShadow />}>
       <Stack>
         <Sections>
           <QueryBuilderSection
-            value={tagFilterExpression}
-            onChange={onTagFilterExpressionChange}
+            value={formModel}
+            onChange={onFormModelChange}
             QueryBuilder={LogsQueryBuilder}
             tracking={tracking}
             actions={<TagSelector {...props} compact maxSelectableTags={3} />}

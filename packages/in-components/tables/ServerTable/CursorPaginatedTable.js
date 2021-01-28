@@ -38,6 +38,7 @@ export default function CursorPaginatedTable(props) {
     setSelectedStateForRows,
     renderNoDataAvailable,
     filterBy,
+    filterByHref,
 
     // events
     onChange,
@@ -100,6 +101,7 @@ export default function CursorPaginatedTable(props) {
               label={loadMoreLabel}
               filterBy={filterBy}
               filterByLabel={t('in-components:tables.serverTable.cursorPaginatedTableFilterByLabel')}
+              filterByHref={filterByHref}
             />
           }
         </Tbody>
@@ -116,13 +118,17 @@ function LoadMoreRow({
   size,
   className,
   filterBy,
-  filterByLabel
+  filterByLabel,
+  filterByHref
 }) {
   const filterByCols = loadMore ? cols - 2 : cols;
-  const loadMoreCols = filterBy ? cols - filterByCols : cols;
+  const supportsFilterBy = Boolean(filterByHref || filterBy);
+  const loadMoreCols = supportsFilterBy ? cols - filterByCols : cols;
   return (
     <Tr depth={depth} size={size} className={className}>
-      {filterBy && <ActionColumn cols={filterByCols} action={filterBy} label={filterByLabel} />}
+      {supportsFilterBy && (
+        <ActionColumn cols={filterByCols} action={filterBy} actionHref={filterByHref} label={filterByLabel} />
+      )}
       {loadMore && <ActionColumn cols={loadMoreCols} action={loadMore} label={label} />}
     </Tr>
   );

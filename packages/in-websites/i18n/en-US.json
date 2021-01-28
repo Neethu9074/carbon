@@ -608,5 +608,19 @@
   },
   "delete": {
     "disclaimer": "If you no longer wish to monitor the website <strong>{{websiteName}}</strong> using Instana, please use this form to remove it. Removing a website is an eventually consistent action. For this reason, removing a website may take <strong>up to a few minutes</strong> until it has been completely removed."
+  },
+  "dataSources": {
+    "pageLoad": "{{formattedCount}} Page Load",
+    "pageLoad_plural": "{{formattedCount}} Page Loads",
+    "pageChange": "{{formattedCount}} Page Transition",
+    "pageChange_plural": "{{formattedCount}} Page Transitions",
+    "resourceLoad": "{{formattedCount}} Resource",
+    "resourceLoad_plural": "{{formattedCount}} Resources",
+    "httpRequest": "{{formattedCount}} HTTP Request",
+    "httpRequest_plural": "{{formattedCount}} HTTP Requests",
+    "error": "{{formattedCount}} JS Error",
+    "error_plural": "{{formattedCount}} JS Errors",
+    "custom": "{{formattedCount}} Custom Event",
+    "custom_plural": "{{formattedCount}} Custom Events"
   }
 }

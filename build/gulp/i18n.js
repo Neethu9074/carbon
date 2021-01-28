@@ -21,7 +21,9 @@ async function combineAllI18nFiles() {
   const combined = {};
   const packageDirNames = await fs.readdir(paths.packageDir);
   for (const packageDirName of packageDirNames) {
-    await addPackageContent(combined, packageDirName);
+    if (!packageDirName.startsWith('.')) {
+      await addPackageContent(combined, packageDirName);
+    }
   }
   return combined;
 }

@@ -2,10 +2,10 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import React, { useEffect, useState } from 'react';
 import { empty } from '@instana/observables';
 import classNames from 'classnames';
 import Toggle from 'react-toggle';
+import React from 'react';
 
 import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import FacetedSearch from 'in-applications/analyze/components/FacetedSearch/FacetedSearch';
@@ -22,7 +22,6 @@ import { formatDateTime } from 'in-services/formatters/date';
 import { Link } from 'in-components/tables/sharedComponents';
 import { latencyFixed } from 'in-services/formatters/number';
 import HealthDot from 'in-new-components/health/HealthDot';
-import { emptyObject } from 'in-services/fixedObjects';
 import useObservable from 'in-hooks/useObservable';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import SvgIcon from 'in-components/SvgIcon';
@@ -51,8 +50,6 @@ export default function List({
   getNestedUngroupedData,
   linkFormModel
 }) {
-  // Store the last valid result so that we can show it, in case the tagFilterExpression won't be valid.
-  const [{ lastDataSource, lastValidResult }, setLastState] = useState(emptyObject);
   const internalVisible = useObservable(isInternalVisible$, []) || false;
   const timeConfig = useTimeConfig();
   const order = {
@@ -77,17 +74,7 @@ export default function List({
     [timeConfig, retrievalSize, tagFilterExpression, orderBy, isValid, hiddenCalls, dataSource, queryPrecision]
   );
 
-  const resultToDisplay = !isValid && lastValidResult && lastDataSource === dataSource ? lastValidResult : result;
-  const { items, ...tableProps } = resultToDisplay;
-
-  useEffect(() => {
-    if (isValid) {
-      setLastState({ lastDataSource: dataSource, lastValidResult: result });
-    } else if (lastDataSource !== dataSource) {
-      // the last result shouldn't be cached for a different data source
-      setLastState(emptyObject);
-    }
-  }, [result?.progress.loading, isValid, dataSource, lastDataSource]);
+  const { items, ...tableProps } = result;
 
   const columnDefinitions = getColumnDefinitions(dataSource, linkFormModel);
 

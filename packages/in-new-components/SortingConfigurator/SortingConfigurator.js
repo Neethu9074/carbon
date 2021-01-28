@@ -55,11 +55,12 @@ export default function SortingConfigurator({ options, orderBy, onChange }) {
   );
 }
 
+export const optionsPropType = PropTypes.arrayOf(
+  PropTypes.shape({ value: PropTypes.string.isRequired, label: PropTypes.node.isRequired }).isRequired
+);
 SortingConfigurator.propTypes = {
   onChange: PropTypes.func.isRequired,
-  options: PropTypes.arrayOf(
-    PropTypes.shape({ value: PropTypes.string.isRequired, label: PropTypes.node.isRequired }).isRequired
-  ).isRequired,
+  options: optionsPropType.isRequired,
   // see com.instana.ui.model.pagination.Order
   orderBy: PropTypes.shape({ by: PropTypes.string.isRequired, direction: PropTypes.oneOf(['ASC', 'DESC']).isRequired })
     .isRequired

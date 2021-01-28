@@ -1,0 +1,16 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc. 2021
+ */
+@import '~in-themes/active.less';
+
+:local {
+  .rangeForm {
+    margin-bottom: 0;
+  }
+
+  .errorMessage {
+    margin-left: 0.75rem;
+    margin-right: 0.75rem;
+  }
+}

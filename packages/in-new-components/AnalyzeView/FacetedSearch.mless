@@ -1,0 +1,14 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc. 2021
+ */
+@import '~in-themes/active.less';
+
+:local {
+  .wrapper {
+    width: 14rem;
+    flex-grow: 0;
+    flex-shrink: 0;
+    margin-right: 1rem;
+  }
+}

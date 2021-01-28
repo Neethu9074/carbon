@@ -8,6 +8,7 @@
 :local {
   .navigatorSplitScreen {
     display: flex;
+    height: 100%;
   }
 
   .navigator {
@@ -19,6 +20,7 @@
 
   .detailView {
     width: ~'calc(100% - 20rem)';
+    overflow: auto;
 
     &.useFullWidth {
       width: ~'calc(100% - 3rem)';

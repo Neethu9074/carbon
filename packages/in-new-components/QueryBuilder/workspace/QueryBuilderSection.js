@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import React, { useState } from 'react';
 import rpt from 'prop-types';
-import React from 'react';
 
 import { trackingProps as queryBuilderTrackingProps } from 'in-new-components/QueryBuilder/QueryBuilder';
 import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';
@@ -19,16 +19,18 @@ export default function QueryBuilderSection({
   tracking,
   withoutIcon,
   actions,
+  useLastValidStateWhenErroneous = false,
   hasError,
   errors
 }) {
+  const [queryHasErrors, setQueryHasErrors] = useState(false);
   return (
     <Section
       icon={withoutIcon ? undefined : 'lib_actions_filter'}
       title="Filter"
       actions={
         <HorizontalFlexWrapper>
-          {tagFilterExpression.length > 0 && (
+          {(tagFilterExpression.length > 0 || queryHasErrors) && (
             <Button kind="subtle" icon="lib_openclose_cancel" size="compact" onClick={onClear}>
               Clear
             </Button>
@@ -36,14 +38,19 @@ export default function QueryBuilderSection({
           {actions}
         </HorizontalFlexWrapper>
       }
-      hasError={hasError}
+      hasError={hasError || queryHasErrors}
     >
       <Stack space="xsmall">
         <div>
           <QueryBuilder
             value={tagFilterExpression}
-            onChange={tagFilterExpression => onChange(tagFilterExpression)}
+            onChange={tagFilterExpression => {
+              setQueryHasErrors(false);
+              onChange(tagFilterExpression);
+            }}
+            onError={setQueryHasErrors}
             tracking={tracking}
+            useLastValidStateWhenErroneous={useLastValidStateWhenErroneous}
           />
         </div>
         {hasError && errors?.map(error => <Message key={error} type="error" withIcon small title={error} />)}
@@ -67,6 +74,7 @@ QueryBuilderSection.propTypes = {
     ...queryBuilderTrackingProps,
     onQueryCleared: rpt.func
   }),
+  useLastValidStateWhenErroneous: rpt.bool,
   hasError: rpt.bool,
   errors: rpt.array
 };

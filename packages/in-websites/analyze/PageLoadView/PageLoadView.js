@@ -11,16 +11,19 @@ import {
   beaconTimestampUrlParameter
 } from 'in-websites/navigation/urlParameters';
 import NavigatorSplitScreen from 'in-analyze/TraceDetail/components/NavigatorSplitScreen/NavigatorSplitScreen';
+import SplitScreenPageLoadContent from 'in-websites/analyze/PageLoadView/SplitScreenPageLoadContent';
 import getWebsiteBeaconsForPageLoad from 'in-websites/subscriptions/getWebsiteBeaconsForPageLoad';
+import SplitScreenList from 'in-new-components/AnalyzeView/SplitScreenList/SplitScreenList';
 import BeaconsNavigator from 'in-websites/analyze/AnalyzeView/Beacons/BeaconsNavigator';
 import { getHighlighterId } from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon';
 import { triggerHighlight } from 'in-new-components/SelectedElementHighlighter';
+import { webMobileQb2AnalyzeEnabled } from 'in-services/featureFlags';
 import { closePageLoadViewLink } from 'in-websites/navigation/paths';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import DashboardHeader from 'in-new-components/DashboardHeader';
 import { shorten, isNotBlank } from 'in-services/util/string';
-import tabs from 'in-websites/analyze/PageLoadView/tabs';
+import getTabs from 'in-websites/analyze/PageLoadView/tabs';
 import { dataSourceTitles } from 'in-websites/tags';
 import withUrlState from 'in-hoc/withUrlState';
 import Button from 'in-new-components/Button';
@@ -37,8 +40,8 @@ export default withUrlState({
 })(PageLoadView);
 
 function PageLoadView(props) {
-  const { pageLoadId, items, beaconType, onChange, beaconTimestamp } = props;
-  const beaconId = props.beaconId || pageLoadId;
+  const content = webMobileQb2AnalyzeEnabled ? renderSplitScreenContent_v2(props) : renderSplitScreenContent(props);
+  const beaconType = webMobileQb2AnalyzeEnabled ? props.dataSource : props.beaconType;
   return (
     <>
       <ViewTrackingMeta
@@ -60,37 +63,7 @@ function PageLoadView(props) {
           />
         }
       >
-        <NavigatorSplitScreen
-          {...props}
-          navigator={<BeaconsNavigator {...props} beaconId={beaconId} />}
-          typeLabel={dataSourceTitles[beaconType]}
-          openItemIndex={findIndex(items, item => item.beacon.beaconId === beaconId)}
-          openItem={e => {
-            if (e.beacon.type !== 'pageLoad') {
-              triggerHighlight(getHighlighterId(e.beacon.beaconId));
-            }
-            onChange({
-              pageLoadId: e.beacon.pageLoadId,
-              beaconId: e.beacon.beaconId
-            });
-          }}
-        >
-          <TabView
-            // Discard all state when the page load ID changes
-            key={pageLoadId}
-            HeaderComponent={Header}
-            location={location}
-            tabs={tabs}
-            result$={getWebsiteBeaconsForPageLoad({ pageLoadId, beaconTimestamp })}
-            withProps={({ result }) => ({
-              beacons: result.data,
-              pageLoadLabel: shorten(calculateLabel(result))
-            })}
-            props={props}
-            withoutBreadcrumb
-            withoutPadding
-          />
-        </NavigatorSplitScreen>
+        {content}
       </Sticky>
     </>
   );
@@ -107,6 +80,74 @@ function Header(props) {
       renderTimeSelection={renderTimeSelection}
       hideUrlShortener
     />
+  );
+}
+
+function renderSplitScreenContent_v2(props) {
+  const {
+    detailId: { pageLoadId, beaconTimestamp },
+    getHrefToDetailId
+  } = props;
+  return (
+    <SplitScreenList
+      {...props}
+      ListItemContent={SplitScreenPageLoadContent}
+      getHrefToDetailId={getHrefToDetailId}
+      isPageLoadView
+    >
+      <TabView
+        key={pageLoadId}
+        props={props}
+        HeaderComponent={Header}
+        location={location}
+        // Todo: use path from props?
+        tabs={getTabs({ path: '/websiteMonitoring/analyzeBeacons' })}
+        result$={getWebsiteBeaconsForPageLoad({ pageLoadId, beaconTimestamp })}
+        withoutBreadcrumb
+        withoutPadding
+        withProps={({ result }) => ({
+          beacons: result.data,
+          pageLoadLabel: shorten(calculateLabel(result))
+        })}
+      />
+    </SplitScreenList>
+  );
+}
+
+function renderSplitScreenContent(props) {
+  const { items, onChange, beaconTimestamp, beaconType, pageLoadId, beaconId } = props;
+  return (
+    <NavigatorSplitScreen
+      {...props}
+      navigator={<BeaconsNavigator {...props} beaconId={beaconId} />}
+      typeLabel={dataSourceTitles[beaconType]}
+      openItemIndex={findIndex(items, item => item.beacon.beaconId === beaconId)}
+      openItem={e => {
+        if (e.beacon.type !== 'pageLoad') {
+          triggerHighlight(getHighlighterId(e.beacon.beaconId));
+        }
+        onChange({
+          pageLoadId: e.beacon.pageLoadId,
+          beaconId: e.beacon.beaconId
+        });
+      }}
+    >
+      <TabView
+        // Discard all state when the page load ID changes
+        key={pageLoadId}
+        HeaderComponent={Header}
+        location={location}
+        tabs={getTabs(props)}
+        result$={getWebsiteBeaconsForPageLoad({ pageLoadId, beaconTimestamp })}
+        withProps={({ result }) => ({
+          beacons: result.data,
+          pageLoadLabel: shorten(calculateLabel(result))
+        })}
+        props={props}
+        withoutBreadcrumb
+        withoutPadding
+      />
+    </NavigatorSplitScreen>
   );
 }
 
@@ -127,7 +168,9 @@ function calculateLabel(result) {
   }
 }
 
-function renderButtonLine({ pageLoadId, beaconTimestamp, pageLoadLabel }) {
+function renderButtonLine(props) {
+  const { pageLoadLabel } = props;
+  const { pageLoadId, beaconTimestamp } = webMobileQb2AnalyzeEnabled ? props.detailId : props;
   if (!pageLoadLabel) {
     return null;
   }
@@ -146,17 +189,33 @@ function renderButtonLine({ pageLoadId, beaconTimestamp, pageLoadLabel }) {
   );
 }
 
-function renderContext() {
+function renderContext({ getHrefToUngroupedView }) {
+  if (!webMobileQb2AnalyzeEnabled) {
+    return (
+      <Link className={locals.analyticsLink} href$={closePageLoadViewLink}>
+        Analytics
+      </Link>
+    );
+  }
   return (
-    <Link className={locals.analyticsLink} href$={closePageLoadViewLink}>
+    <Link className={locals.analyticsLink} href={getHrefToUngroupedView()}>
       Analytics
     </Link>
   );
 }
 
-function renderTimeSelection() {
+function renderTimeSelection({ getHrefToUngroupedView }) {
+  if (!webMobileQb2AnalyzeEnabled) {
+    return (
+      <Link href$={closePageLoadViewLink}>
+        <Tooltip content="Close page load details">
+          <SvgIcon className={locals.closeIcon} aria-label="Close page load details" type="lib_openclose_cancel" />
+        </Tooltip>
+      </Link>
+    );
+  }
   return (
-    <Link href$={closePageLoadViewLink}>
+    <Link href={getHrefToUngroupedView()}>
       <Tooltip content="Close page load details">
         <SvgIcon className={locals.closeIcon} aria-label="Close page load details" type="lib_openclose_cancel" />
       </Tooltip>

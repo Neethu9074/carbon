@@ -1,0 +1,33 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc. 2021
+ */
+@import '~in-themes/active.less';
+
+:local {
+  .facetedSearchResultContainer {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .sparkChartWrapper {
+    margin: 0 0.4rem;
+    min-width: 9rem;
+  }
+
+  .resultContainer {
+    flex: 1;
+  }
+
+  .groupLabel {
+    display: flex;
+    align-items: center;
+  }
+
+  .arrowRight {
+    fill: @lib__colors__N400;
+    // Have the icon use less vertical space.
+    margin-top: -0.3rem;
+    margin-bottom: -0.3rem;
+  }
+}

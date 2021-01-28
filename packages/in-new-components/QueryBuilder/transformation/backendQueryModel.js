@@ -3,6 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 import { CLOSE_BRACKET, OPEN_BRACKET, TAG, CONJUNCTION } from 'in-new-components/QueryBuilder/transformation/formModel';
+import { GREATER_OR_EQUAL_THAN, LESS_THAN, EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
+import { type as TAG_FILTER_TYPE } from 'in-new-components/QueryBuilder/transformation/tagFilter';
+import { getNumberTagFilters } from 'in-analyze/components/filterBar/NumberBarItemBehavior/util';
 import { toTagFilter } from 'in-new-components/QueryBuilder/transformation/tagFilter';
 import { deepFreeze } from 'in-services/util/object';
 
@@ -125,6 +128,131 @@ function peek(arr) {
     return arr[0];
   } else {
     return undefined;
+  }
+}
+
+export function getRangeFromBackendQueryModel(tag, backendQueryModel) {
+  if (backendQueryModel.type === EXPRESSION && backendQueryModel.logicalOperator === OPERATOR_AND) {
+    return getRangeFromFilters(tag, backendQueryModel.elements);
+  }
+  if (backendQueryModel.type === TAG_FILTER_TYPE && backendQueryModel.name === tag) {
+    return getRangeFromFilters(tag, [backendQueryModel]);
+  }
+}
+
+export function getRangeFromFilters(tag, tagFilter) {
+  // find the most significant filters for each operator type, e.g.
+  // call.latency > 2 is more significant than call.latency > 1
+  const filters = getNumberTagFilters({
+    tagFilters: tagFilter,
+    tag,
+    showRange: true,
+    showEquality: true
+  });
+
+  if (filters.neq) {
+    // don't support selection when filter with "!=" is used
+    return {};
+  }
+
+  // values can come as numbers or/and strings
+  let from = null;
+  let to = null;
+  if (filters.lt) {
+    to = parseInt(filters.lt.value);
+  } else if (filters.lte) {
+    to = parseInt(filters.lte.value) + 1;
+  }
+  if (filters.gt) {
+    from = Math.max(0, parseInt(filters.gt.value) + 1);
+  } else if (filters.gte) {
+    from = parseInt(filters.gte.value);
+  }
+
+  const selection = {};
+
+  if (filters.eq) {
+    if (!from && !to) {
+      selection.from = parseInt(filters.eq.value);
+      if (selection.from === 0) {
+        // filter is "equals 0", should clear faceted search
+        return {};
+      }
+      // the upper bound is specified as strict inequality (<), need to increment it by 1
+      selection.to = selection.from + 1;
+    }
+  } else if (from == null || to == null || from < to) {
+    if (from != null) {
+      selection.from = from;
+    }
+    if (to != null) {
+      selection.to = to;
+    }
+  }
+  return selection;
+}
+
+export function updateRange({ tag, selection, backendQueryModel, updateFilter }) {
+  const { from, to } = selection;
+  const removedFilters = getFiltersToRemove(tag, backendQueryModel);
+  let minFilter, maxFilter;
+  if (typeof from === 'number') {
+    minFilter = {
+      type: TAG,
+      name: tag,
+      operator: GREATER_OR_EQUAL_THAN,
+      value: from
+    };
+  }
+  if (typeof to === 'number') {
+    maxFilter = {
+      type: TAG,
+      name: tag,
+      operator: LESS_THAN,
+      value: to
+    };
+  }
+  if (minFilter && maxFilter) {
+    if (minFilter.value === maxFilter.value) {
+      updateFilter({
+        add: [
+          {
+            type: TAG,
+            name: tag,
+            operator: EQUALS,
+            value: from
+          }
+        ],
+        remove: removedFilters
+      });
+    } else {
+      updateFilter({
+        add: [minFilter, maxFilter],
+        remove: removedFilters
+      });
+    }
+  } else if (minFilter) {
+    updateFilter({
+      add: [minFilter],
+      remove: removedFilters
+    });
+  } else if (maxFilter) {
+    updateFilter({
+      add: [maxFilter],
+      remove: removedFilters
+    });
+  } else {
+    updateFilter({
+      remove: removedFilters
+    });
+  }
+}
+
+function getFiltersToRemove(tag, backendQueryModel) {
+  if (backendQueryModel.type === EXPRESSION && backendQueryModel.logicalOperator === OPERATOR_AND) {
+    return backendQueryModel.elements.filter(element => element.type === TAG_FILTER_TYPE && element.name === tag);
+  } else if (backendQueryModel.type === TAG_FILTER_TYPE && backendQueryModel.name === tag) {
+    return [backendQueryModel];
   }
 }
 

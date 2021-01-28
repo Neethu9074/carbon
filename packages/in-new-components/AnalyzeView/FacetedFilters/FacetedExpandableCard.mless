@@ -1,0 +1,23 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc. 2021
+ */
+@import '~in-themes/active.less';
+
+:local {
+  .facetedCard {
+    border-radius: 0;
+    box-shadow: none;
+    background: none;
+  }
+
+  .facetedCardHeader {
+    margin: 0.5rem;
+    padding: 0.5rem;
+    cursor: pointer;
+  }
+
+  .facetedCardBody {
+    margin-bottom: 1.5rem;
+  }
+}

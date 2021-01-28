@@ -37,12 +37,11 @@ export function createParameters(path) {
       parser: buildJsonParser(null)
     },
 
-    metrics: {
+    fields: {
       path,
-      name: 'metrics',
+      name: 'fields',
       serializer: buildJsonSerializer(),
-      parser: buildJsonParser(emptyArray),
-      initialState: emptyArray
+      parser: buildJsonParser(null),
     }
   };
 }

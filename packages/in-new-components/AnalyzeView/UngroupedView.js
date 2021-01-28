@@ -1,23 +1,24 @@
 /*
  * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * (c) Copyright Instana Inc. 2021
  */
+import { empty } from '@instana/observables';
 import rpt from 'prop-types';
 import React from 'react';
 
-import SortingConfigurator from 'in-new-components/SortingConfigurator/SortingConfigurator';
+import { joinExpressions, removeTopLevelFilters } from 'in-new-components/QueryBuilder/transformation/formModel';
+import { optionsPropType } from 'in-new-components/SortingConfigurator/SortingConfigurator';
 import { childrenArgsAsPropTypes } from 'in-new-components/AnalyzeView/StateManagement';
-import LoadingList from 'in-new-components/lists/List/sharedComponents/LoadingList';
-import ErrorList from 'in-new-components/lists/List/sharedComponents/ErrorList';
-import LoadMoreLi from 'in-new-components/lists/List/LoadMoreLi/LoadMoreLi';
-import { ColumnizedContent, Ul, Li } from 'in-new-components/lists/List';
-import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
+import FacetedSearch from 'in-new-components/AnalyzeView/FacetedSearch';
 import Header from 'in-new-components/QueryBuilder/components/Header';
 import useStableObjectIntance from 'in-hooks/useStableObjectIntance';
 import useCursorPagination from 'in-hooks/useCursorPagination';
-import { generateStableHash } from 'in-services/util/id';
+import { emptyArray } from 'in-services/fixedObjects';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 
+import locals from './UngroupedView.mless';
+
+export const retrievalSize = 20;
 export default function UngroupedAnalyzeView(props) {
   const backendQueryModel = useStableObjectIntance(props.backendQueryModel);
 
@@ -25,25 +26,26 @@ export default function UngroupedAnalyzeView(props) {
     getData,
     orderBy,
     onOrderByChange,
-    getHrefToDetailId,
-    columnDefinitions,
-    classNames,
-    withoutListItemLinkToDetails,
-    renderNestedContent,
-    getId,
     withoutHeader,
-    groupLabel,
     detailId,
     SplitScreenListItemContent,
-    DetailView
+    DetailView,
+    isValid,
+    Presenter,
+    formModel,
+    dataSource,
+    facetedSearchItems,
+    getFacetedSearchSuggestions,
+    onTagFilterExpressionChange,
+    getHrefWithTagFilterExpression
   } = props;
 
   const timeConfig = useTimeConfig();
   const cursorPaginationState = useCursorPagination(
-    ({ cursor }) => getData({ timeConfig, orderBy, backendQueryModel, cursor }),
-    [timeConfig, backendQueryModel, orderBy]
+    ({ cursor }) => (isValid ? getData({ timeConfig, orderBy, backendQueryModel, cursor }) : empty),
+    [isValid, timeConfig, backendQueryModel, orderBy]
   );
-  const { items, errors, progress, canLoadMore, result, loadMore, totalHits } = cursorPaginationState;
+  const { items, errors, progress, totalHits } = cursorPaginationState;
 
   const isLoading = props.isLoading || progress?.loading;
   // We deliberately use props.isLoading, because we do not want to remove all loaded entries
@@ -52,6 +54,24 @@ export default function UngroupedAnalyzeView(props) {
   // We deliberately use props.isLoading, because we do not want to remove all loaded entries
   // from the list when clicking "load more".
   const hasItems = !props.isLoading && items.length > 0;
+
+  if (!props.isLoading && !isValid) {
+    return null;
+  }
+
+  const onFacetedSearchChange = ({ add = emptyArray, remove = emptyArray }) =>
+    onTagFilterExpressionChange(
+      joinExpressions({
+        expressions: [removeTopLevelFilters(formModel, ...remove), ...add]
+      })
+    );
+
+  const getUpdatedTagExpressionHref = ({ add = emptyArray, remove = emptyArray }) =>
+    getHrefWithTagFilterExpression(
+      joinExpressions({
+        expressions: [removeTopLevelFilters(formModel, ...remove), ...add]
+      })
+    );
 
   if (detailId) {
     return (
@@ -78,28 +98,38 @@ export default function UngroupedAnalyzeView(props) {
         />
       )}
 
-      {hasErrors && <ErrorList errors={result.errors} />}
-      {hasItems && (
-        <Ul space="disabled">
-          {items.map(item => {
-            const id = getId(item);
-            return (
-              <Li
-                key={generateStableHash(id)}
-                className={classNames?.listItem}
-                size="compact"
-                href={withoutListItemLinkToDetails ? undefined : getHrefToDetailId(id, groupLabel)}
-                renderNestedContent={renderNestedContent ? () => renderNestedContent(id) : undefined}
-              >
-                <ColumnizedContent columnDefinitions={columnDefinitions} {...item} {...props} />
-              </Li>
-            );
-          })}
-          {canLoadMore && <LoadMoreLi loadMore={loadMore} />}
-        </Ul>
-      )}
-      {isLoading && <LoadingList numSkeletonRows={3} />}
-      {!isLoading && !hasItems && <NoDataAvailable height={240} />}
+      <div className={locals.facetedSearchResultContainer}>
+        {facetedSearchItems?.length > 0 && (
+          <FacetedSearch
+            facetedSearchItems={facetedSearchItems}
+            formModel={formModel}
+            onFacetedSearchChange={onFacetedSearchChange}
+            getUpdatedTagExpressionHref={getUpdatedTagExpressionHref}
+            dataSource={dataSource}
+            isValid={isValid}
+            getSuggestions={tag =>
+              getFacetedSearchSuggestions({
+                timeConfig,
+                backendQueryModel,
+                metricKey: 'facetedSearchMetric',
+                group: {
+                  groupbyTag: tag
+                },
+                dataSource
+              })
+            }
+          />
+        )}
+        <div className={locals.resultContainer}>
+          <Presenter
+            {...props}
+            isLoading={isLoading}
+            hasErrors={hasErrors}
+            hasItems={hasItems}
+            {...cursorPaginationState}
+          />
+        </div>
+      </div>
     </>
   );
 }
@@ -109,18 +139,13 @@ UngroupedAnalyzeView.propTypes = {
 
   itemName: rpt.string.isRequired,
   withoutHeader: rpt.bool,
-  sortOptions: SortingConfigurator.propTypes.options,
   getData: rpt.func.isRequired,
   getDetailData: rpt.func.isRequired,
   getId: rpt.func.isRequired,
   columnDefinitions: rpt.array.isRequired,
-  withoutListItemLinkToDetails: rpt.bool,
-  classNames: rpt.shape({
-    listItem: rpt.string
-  }),
   DetailView: rpt.elementType.isRequired,
   CustomHeaderActions: rpt.elementType,
-  renderNestedContent: rpt.func,
+  sortOptions: optionsPropType,
 
   // Will be auto-provided by GroupedView in the relevant scenarios.
   groupLabel: rpt.string
