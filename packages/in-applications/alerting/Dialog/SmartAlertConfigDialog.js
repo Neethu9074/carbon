@@ -6,6 +6,7 @@ import React, { useEffect, useState } from 'react';
 import { empty } from '@instana/observables';
 
 import { thresholdOrBaselineLoadingSignal$ } from 'in-new-components/Alerting/Chart/AlertingChartWrapper';
+import { getEnhancedTagFilterFormModel } from 'in-new-components/Alerting/utils/tagfilterEnrichmentUtil';
 import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import AlertConfigDialogPresenter from 'in-new-components/Alerting/AlertConfigDialogPresenter';
 import { switchQB1orQB2Helper } from 'in-new-components/Alerting/components/WithQB1orQB2';
@@ -13,45 +14,52 @@ import { isAlertQueryValid } from 'in-applications/alerting/components/AlertQuer
 import { getBlueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
 import FeatureFeedback from 'in-new-components/FeatureFeedback/FeatureFeedback';
 import createThresholdForm from 'in-applications/alerting/form/thresholdForm';
-import { AND_CONJUNCTION } from 'in-new-components/Alerting/utils/queryUtils';
 import { pendingResult } from 'in-services/fixedObjects';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import useObservable from 'in-hooks/useObservable';
 
 export function SmartAlertConfigDialog(props) {
   useCalculateThresholdOnBackendSignalEmitter(props.form);
-  const alertConfig = props.form.toJS();
-  const blueprintConfig = getBlueprintConfig(alertConfig.rule.alertType);
-  const enrichedTagFilterFormModel = getEnhancedTagFilterFormModel(alertConfig, blueprintConfig);
+  const alertConfigWithFormModel = props.form.toJS();
+  const blueprintConfig = getBlueprintConfig(alertConfigWithFormModel.rule.alertType);
+  const { enrichedTagFilterFormModel } = getEnhancedTagFilterFormModel(alertConfigWithFormModel, blueprintConfig);
 
   return (
     <SmartAlertConfigDialogWithQueryValidation
       {...props}
       enrichedTagFilterFormModel={enrichedTagFilterFormModel}
-      alertConfig={alertConfig}
+      alertConfigWithFormModel={alertConfigWithFormModel}
       blueprintConfig={blueprintConfig}
     />
   );
 }
 
 function SmartAlertConfigDialogWithQueryValidation({
-  alertConfig,
+  alertConfigWithFormModel,
   blueprintConfig,
   enrichedTagFilterFormModel,
   ...props
 }) {
   const { form, updateForm, editMode } = props;
   const [simpleMode, setSimpleMode] = useState(!editMode);
-  const isTagfilterExpressionQueryValidResult = useIsTagfilterExpressionValid(alertConfig.tagFilterExpression);
+  // we are validating only the user-defined part, not the whole enriched form model here,
+  // because only that part can ever be invalid
+  const isTagFilterFormModelValidResult = useIsTagFilterFormModelValid(alertConfigWithFormModel.tagFilterExpression);
 
   const isValid = switchQB1orQB2Helper(
-    () => blueprintConfig.isRuleComplete(alertConfig.rule),
-    () => !!isTagfilterExpressionQueryValidResult
+    () => blueprintConfig.isRuleComplete(alertConfigWithFormModel.rule),
+    () => !!isTagFilterFormModelValidResult
   );
 
   const thresholdResult = useObservable(
     ([form, simpleMode, isValid]) =>
-      resolveThresholdRequest(alertConfig, blueprintConfig, enrichedTagFilterFormModel, simpleMode, isValid)
+      resolveThresholdRequest(
+        alertConfigWithFormModel,
+        blueprintConfig,
+        enrichedTagFilterFormModel,
+        simpleMode,
+        isValid
+      )
         .filter(resp => resp && !resp.progress.loading)
         .tap(
           ({ data, errors, time }) => isValid && updateThresholdInForm(form, updateForm, data, errors, time, simpleMode)
@@ -77,13 +85,19 @@ function SmartAlertConfigDialogWithQueryValidation({
   );
 }
 
-function resolveThresholdRequest(alertConfig, blueprintConfig, enrichedTagFilterFormModel, fallbackOnError, isValid) {
+function resolveThresholdRequest(
+  alertConfigWithFormModel,
+  blueprintConfig,
+  enrichedTagFilterFormModel,
+  fallbackOnError,
+  isValid
+) {
   const {
     rule: { metricName },
     threshold: { operator, seasonality = null },
     tagFilters,
     granularity
-  } = alertConfig;
+  } = alertConfigWithFormModel;
 
   if (!isValid) {
     return empty;
@@ -102,20 +116,20 @@ function resolveThresholdRequest(alertConfig, blueprintConfig, enrichedTagFilter
     ...switchQB1orQB2Helper(
       () => ({
         tagFilters: [
-          ...blueprintConfig.getEntityTagFilters(alertConfig),
+          ...blueprintConfig.getEntityTagFilters(alertConfigWithFormModel),
           ...tagFilters,
-          ...blueprintConfig.getRuleTagFilters(alertConfig.rule)
+          ...blueprintConfig.getRuleTagFilters(alertConfigWithFormModel.rule)
         ]
       }),
       () => ({
         tagFilterExpression: toBackendQueryModel(enrichedTagFilterFormModel)
       }),
-      isQB2Config => isQB2Config(alertConfig.convertedTagFilterExpression)
+      isQB2Config => isQB2Config(alertConfigWithFormModel.convertedTagFilterExpression)
     ),
     metric: {
-      metric: blueprintConfig.getMetricName(alertConfig.rule),
+      metric: blueprintConfig.getMetricName(alertConfigWithFormModel.rule),
       granularity,
-      aggregation: blueprintConfig.getAggregation(alertConfig.rule)
+      aggregation: blueprintConfig.getAggregation(alertConfigWithFormModel.rule)
     },
     operator,
     seasonality: getSeasonality(),
@@ -168,25 +182,9 @@ function updateThresholdInForm(form, updateForm, data, errors, time, simpleMode)
   }
 }
 
-function getEnhancedTagFilterFormModel(alertConfig, blueprintConfig) {
-  const enrichedTagFilterFormModel = [...blueprintConfig.getEntityTagFilterFormModel(alertConfig)];
-
-  if (alertConfig.tagFilterExpression.length > 0) {
-    enrichedTagFilterFormModel.push(AND_CONJUNCTION, ...alertConfig.tagFilterExpression);
-  }
-
-  const ruleTagFilterFormModel = blueprintConfig.getRuleTagFilterFormModel(alertConfig.rule);
-  if (ruleTagFilterFormModel.length > 0) {
-    enrichedTagFilterFormModel.push(AND_CONJUNCTION, ...ruleTagFilterFormModel);
-  }
-
-  return enrichedTagFilterFormModel;
-}
-
-function useIsTagfilterExpressionValid(enrichedTagFilterFormModel) {
+function useIsTagFilterFormModelValid(tagFilterFormModel) {
   const timeConfig = useTimeConfig();
-  const result =
-    useObservable(args => isAlertQueryValid(args), [enrichedTagFilterFormModel, timeConfig]) ?? pendingResult;
+  const result = useObservable(args => isAlertQueryValid(args), [tagFilterFormModel, timeConfig]) ?? pendingResult;
   return !!result?.data;
 }
 
