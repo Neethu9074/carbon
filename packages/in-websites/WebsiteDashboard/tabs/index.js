@@ -2,6 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
+
 import Configuration from 'in-websites/WebsiteDashboard/tabs/Configuration/Configuration';
 import Geography from 'in-websites/WebsiteDashboard/tabs/Geography/Geography';
 import CustomEvents from 'in-websites/WebsiteDashboard/tabs/CustomEvents';
@@ -19,37 +21,37 @@ import { role } from 'in-stores/user';
 
 export const websiteTabs = [
   {
-    label: 'Summary',
+    label: t('in-websites:websiteDashboard.tabs.indexLabelSummary'),
     path: `${websitePathFullyQualified}/summary`,
     component: Summary
   },
   {
-    label: 'Speed',
+    label: t('in-websites:websiteDashboard.tabs.indexLabelSpeed'),
     path: `${websitePathFullyQualified}/speed`,
     component: Speed
   },
   {
-    label: 'Resources',
+    label: t('in-websites:websiteDashboard.tabs.indexLabelResources'),
     path: `${websitePathFullyQualified}/resources`,
     component: Resources
   },
   {
-    label: 'HTTP Requests',
+    label: t('in-websites:websiteDashboard.tabs.indexLabelHTTPRequests'),
     path: `${websitePathFullyQualified}/ajax`,
     component: Ajax
   },
   {
-    label: 'JS Errors',
+    label: t('in-websites:websiteDashboard.tabs.indexLabelJSErrors'),
     path: `${websitePathFullyQualified}/errors`,
     component: Errors
   },
   websiteUserBreakdownEnabled && {
-    label: 'Users',
+    label: t('in-websites:websiteDashboard.tabs.indexLabelUsers'),
     path: `${websitePathFullyQualified}/users`,
     component: User
   },
   {
-    label: 'Geography',
+    label: t('in-websites:websiteDashboard.tabs.indexLabelGeography'),
     path: `${websitePathFullyQualified}/geography`,
     component: Geography,
     stickToHeader: true,
@@ -58,23 +60,23 @@ export const websiteTabs = [
     websiteOnly: true
   },
   {
-    label: 'Custom Events',
+    label: t('in-websites:websiteDashboard.tabs.indexLabelCustomEvents'),
     path: `${websitePathFullyQualified}/customEvents`,
     component: CustomEvents
   },
   {
-    label: 'Pages',
+    label: t('in-websites:websiteDashboard.tabs.indexLabelPages'),
     path: `${websitePathFullyQualified}/pages`,
     component: Pages,
     websiteOnly: true
   },
   {
-    label: 'Alerts',
+    label: t('in-websites:websiteDashboard.tabs.indexLabelAlerts'),
     path: `${websitePathFullyQualified}/alerts`,
     component: Alerts
   },
   role.canConfigureEumApplications && {
-    label: 'Configuration',
+    label: t('in-websites:websiteDashboard.tabs.indexLabelConfiguration'),
     path: `${websitePathFullyQualified}/configuration`,
     component: Configuration,
     websiteOnly: true

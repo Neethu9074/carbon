@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { Route, Switch } from 'react-router-dom';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import {
@@ -27,9 +28,15 @@ const NavigationItem = connectTo(({ path }) => ({
 
 export default function Configuration(props) {
   const sidebar = (
-    <SideNavigation title="Configuration">
-      <NavigationItem label="Options" path={configurationOptionsFullyQualified} />
-      <NavigationItem label="JS Stack Trace Translation" path={configurationJsStackTraceTranslationFullyQualified} />
+    <SideNavigation title={t('in-websites:websiteDashboard.tabs.configuration.configurationTitle')}>
+      <NavigationItem
+        label={t('in-websites:websiteDashboard.tabs.configuration.configurationLabelOptions')}
+        path={configurationOptionsFullyQualified}
+      />
+      <NavigationItem
+        label={t('in-websites:websiteDashboard.tabs.configuration.configurationLabelJSStackTraceTranslation')}
+        path={configurationJsStackTraceTranslationFullyQualified}
+      />
     </SideNavigation>
   );
   return (

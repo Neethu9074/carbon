@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import getWebsitePaginatedBeaconGroups from 'in-websites/subscriptions/getWebsitePaginatedBeaconGroups';
@@ -12,14 +13,18 @@ import { getLinkToWebsite } from 'in-websites/navigation/paths';
 import Link from 'in-components/Link';
 
 const metrics = ['pageViews', 'onLoadTime', 'errors'];
-const labels = ['Page Views', 'onLoad Time', 'Errors'];
+const labels = [
+  t('in-websites:websiteDashboard.tabs.summary.pagesTopListLabelPageViews'),
+  t('in-websites:websiteDashboard.tabs.summary.pagesTopListLabelOnLoadTime'),
+  t('in-websites:websiteDashboard.tabs.summary.pagesTopListLabelErrors')
+];
 const aggregations = ['SUM', 'MEAN', 'SUM'];
 const formatters = [number.compact, meanLatency.compact, number.compact];
 
 export default function PagesTopList({ websiteId, timeConfig, tagFilters, urlMatrixParamConfig }) {
   return (
     <TopListWithUrlState
-      title="Top Pages"
+      title={t('in-websites:websiteDashboard.tabs.summary.pagesTopListTitleTopPages')}
       metrics={metrics}
       labels={labels}
       aggregations={aggregations}
@@ -72,7 +77,7 @@ function ViewAll({ websiteId, selectedMetric }, className) {
         }
       })}
     >
-      View all pages
+      {t('in-websites:websiteDashboard.tabs.summary.pagesTopListLinkLabel')}
     </Link>
   );
 }

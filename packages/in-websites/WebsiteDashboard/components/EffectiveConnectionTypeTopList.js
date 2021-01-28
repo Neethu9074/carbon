@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import getWebsitePaginatedBeaconGroups from 'in-websites/subscriptions/getWebsitePaginatedBeaconGroups';
@@ -25,7 +26,7 @@ export default function EffectiveConnectionTypeTopList({
 }) {
   return (
     <TopListWithUrlState
-      title="Effective Connection Types"
+      title={t('in-websites:websiteDashboard.components.effectiveConnectionTypeTopListTitle')}
       metrics={metrics}
       labels={labels}
       aggregations={aggregations}

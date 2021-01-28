@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import getWebsitePaginatedBeaconGroups from 'in-websites/subscriptions/getWebsitePaginatedBeaconGroups';
@@ -13,7 +14,11 @@ import { getLinkToAnalyze } from 'in-websites/navigation/paths';
 import Link from 'in-components/Link';
 
 const metrics = ['beaconCount', 'beaconDuration', 'transferSize'];
-const labels = ['Calls', 'Load Time', 'Size'];
+const labels = [
+  t('in-websites:websiteDashboard.tabs.resources.resourceTypesTopListLabelCalls'),
+  t('in-websites:websiteDashboard.tabs.resources.resourceTypesTopListLabelLoadTime'),
+  t('in-websites:websiteDashboard.tabs.resources.resourceTypesTopListLabelSize')
+];
 const aggregations = ['SUM', 'MEAN', 'MEAN'];
 const formatters = [number.compact, ms.compact, bytes.compact];
 
@@ -26,7 +31,7 @@ export default function ResourceTypesTopList({
 }) {
   return (
     <TopListWithUrlState
-      title="Types"
+      title={t('in-websites:websiteDashboard.tabs.resources.resourceTypesTopListTitleTypes')}
       metrics={metrics}
       labels={labels}
       aggregations={aggregations}
@@ -81,7 +86,7 @@ function ViewAll({ tagFilters, websiteLabel }, className) {
         }
       })}
     >
-      View all types
+      {t('in-websites:websiteDashboard.tabs.resources.resourceTypesTopListLinkLabelViewAllTypes')}
     </Link>
   );
 }

@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import {
@@ -27,7 +28,7 @@ import Link from 'in-components/Link';
 const columnDefinitions = [
   {
     id: 'name',
-    label: 'Event Name',
+    label: t('in-websites:websiteDashboard.tabs.customEvents.customEventsLabelEventName'),
     getContent(item, { websiteId, pageId }) {
       let label = item.name;
       try {
@@ -50,7 +51,7 @@ const columnDefinitions = [
   },
   {
     id: 'occurrencesAgg',
-    label: 'Occurrences',
+    label: t('in-websites:websiteDashboard.tabs.customEvents.customEventsLabelOccurrences'),
     defaultOrderDirection: 'DESC',
     getContent(item, { result, timeConfig }) {
       return (
@@ -68,7 +69,7 @@ const columnDefinitions = [
   },
   {
     id: 'usersAgg',
-    label: 'Users',
+    label: t('in-websites:websiteDashboard.tabs.customEvents.customEventsLabelUsers'),
     defaultOrderDirection: 'DESC',
     getContent(item, { result, timeConfig }) {
       return (
@@ -115,7 +116,7 @@ export default function CustomEvents({ timeConfig, tagFilters, websiteId, websit
       })}
       style={{ marginRight: '0.5rem' }}
     >
-      Analyze Custom Events
+      {t('in-websites:websiteDashboard.tabs.customEvents.customEventsButtonAnalyzeCustomEvents')}
     </Button>
   );
 

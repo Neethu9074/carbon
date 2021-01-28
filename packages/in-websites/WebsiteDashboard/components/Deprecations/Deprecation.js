@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import ExpandableCard from 'in-new-components/ExpandableCard';
@@ -16,7 +17,15 @@ export default function Deprecation({ title, preview, children, supportedUntil }
       title={title}
       preview={preview}
       expansionTracker={viewDeprecationDetails}
-      header={supportedUntil && <Pill color="#fa0">Support ends {supportedUntil}</Pill>}
+      header={
+        supportedUntil && (
+          <Pill color="#fa0">
+            {t('in-websites:websiteDashboard.components.deprecationHeaderSupportEnds', {
+              supportedUntil: supportedUntil
+            })}
+          </Pill>
+        )
+      }
       openByDefault={!supportedUntil}
     >
       <div className={locals.content}>{children}</div>

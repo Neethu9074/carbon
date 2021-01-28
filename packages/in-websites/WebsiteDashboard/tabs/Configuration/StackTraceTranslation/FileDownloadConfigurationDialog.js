@@ -4,6 +4,7 @@
  */
 import { createMapForm, createField, createListForm, notBlankValidator, composeValidators } from 'formalistic';
 import { compose, withProps, withState } from 'recompose';
+import { t } from 'in-i18n';
 
 import FileDownloadConfigurationDialogPresenter from 'in-websites/WebsiteDashboard/tabs/Configuration/StackTraceTranslation/FileDownloadConfigurationDialogPresenter';
 import { addSourceMapConfiguration, updateSourceMapConfiguration } from 'in-websites/api/websites';
@@ -57,13 +58,23 @@ export default compose(
 
       let response$;
       let successMessage;
-      setMessage({ message: 'Saving configuration…', type: 'success', isSaving: true });
+      setMessage({
+        message: t(
+          'in-websites:websiteDashboard.tabs.configuration.fileDownloadConfigurationDialogMessageSavingConfiguration'
+        ),
+        type: 'success',
+        isSaving: true
+      });
       if (config.id) {
         response$ = updateSourceMapConfiguration(websiteId, config);
-        successMessage = 'Configuration updated.';
+        successMessage = t(
+          'in-websites:websiteDashboard.tabs.configuration.fileDownloadConfigurationDialogMessageConfigurationUpdated'
+        );
       } else {
         response$ = addSourceMapConfiguration(websiteId, config);
-        successMessage = 'New configuration saved.';
+        successMessage = t(
+          'in-websites:websiteDashboard.tabs.configuration.fileDownloadConfigurationDialogMessageNewConfigurationSaved'
+        );
       }
 
       response$.once(
@@ -72,7 +83,13 @@ export default compose(
           close();
         },
         error => {
-          setMessage({ message: `Failed to save configuration: ${error.message}`, type: 'error' });
+          setMessage({
+            message: t(
+              'in-websites:websiteDashboard.tabs.configuration.fileDownloadConfigurationDialogMessageFailedToSaveConfiguration',
+              { message: error.message }
+            ),
+            type: 'error'
+          });
         }
       );
     }
@@ -213,7 +230,9 @@ function isAtLeastOneMatchingRuleDefinedValidator(items) {
   return [
     {
       severity: 'error',
-      message: 'At least one matching rule is required.'
+      message: t(
+        'in-websites:websiteDashboard.tabs.configuration.fileDownloadConfigurationDialogPathValidatorIsAtLeastOneMatchingRuleDefinedValidatorMessage'
+      )
     }
   ];
 }
@@ -235,7 +254,9 @@ function atMostOneWildcardValidator(value) {
     return [
       {
         severity: 'error',
-        message: 'The segment match condition can only contain at most one wildcard character.'
+        message: t(
+          'in-websites:websiteDashboard.tabs.configuration.fileDownloadConfigurationDialogAtMostOneWildcardValidatorMessage'
+        )
       }
     ];
   }
@@ -256,7 +277,7 @@ function pathValidator(value) {
   return [
     {
       severity: 'error',
-      message: 'Path matching rules must start with a slash character: /'
+      message: t('in-websites:websiteDashboard.tabs.configuration.fileDownloadConfigurationDialogPathValidatorMessage')
     }
   ];
 }

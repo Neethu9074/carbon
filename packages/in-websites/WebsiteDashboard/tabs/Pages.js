@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import {
@@ -26,7 +27,7 @@ import Link from 'in-components/Link';
 const columnDefinitions = [
   {
     id: 'name',
-    label: 'Name',
+    label: t('in-websites:websiteDashboard.tabs.pagesLabelName'),
     getContent(item, { websiteId }) {
       let label = item.name;
       try {
@@ -49,7 +50,7 @@ const columnDefinitions = [
   },
   {
     id: 'pageViewsAgg',
-    label: 'Page Views',
+    label: t('in-websites:websiteDashboard.tabs.pagesLabelPageViews'),
     defaultOrderDirection: 'DESC',
     getContent(item, { result, timeConfig }) {
       return (
@@ -67,7 +68,7 @@ const columnDefinitions = [
   },
   {
     id: 'onLoadTimeAgg',
-    label: 'onLoad Time',
+    label: t('in-websites:websiteDashboard.tabs.pagesLabelOnLoadTime'),
     defaultOrderDirection: 'DESC',
     getContent(item, { result, timeConfig }) {
       return (
@@ -86,7 +87,7 @@ const columnDefinitions = [
   },
   {
     id: 'errorsAgg',
-    label: 'JS Errors',
+    label: t('in-websites:websiteDashboard.tabs.pagesLabelJSErrors'),
     defaultOrderDirection: 'DESC',
     getContent(item, { result, timeConfig }) {
       return (

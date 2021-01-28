@@ -4,6 +4,7 @@
  */
 import React, { Fragment } from 'react';
 import theme from 'in-themes';
+import { t } from 'in-i18n';
 
 import WebsiteDashboardsMarkerLanes from 'in-websites/WebsiteDashboard/components/WebsiteDashboardsMarkerLanes';
 import AggregationSelectorWithUrlState from 'in-new-components/AggregationSelectorWithUrlState';
@@ -26,7 +27,7 @@ export default function Speed({ timeConfig, tagFilters, websiteLabel, websiteId 
       <Row>
         <Col lg={6}>
           <WebsiteChartWrapper
-            cardTitle="Page Loads vs. onLoad Time"
+            cardTitle={t('in-websites:websiteDashboard.tabs.speedCardTitlePageLoadsVSOnLoadTime')}
             timeConfig={timeConfig}
             viewInAnalytics={{
               websiteLabel
@@ -34,13 +35,13 @@ export default function Speed({ timeConfig, tagFilters, websiteLabel, websiteId 
             y1={{
               renderer: Renderer.bar,
               formatter: number.forcedCompact,
-              labels: ['Page Loads'],
+              labels: [t('in-websites:websiteDashboard.tabs.speedLabelPageLoads')],
               metricIds: ['pageLoads']
             }}
             y2={{
               renderer: Renderer.line,
               formatter: millis.forcedFixedCompact,
-              labels: ['onLoad Time'],
+              labels: [t('in-websites:websiteDashboard.tabs.speedLabelOnLoadTime')],
               metricIds: ['onLoadTime'],
               // opposite color on the color wheel for max contrast
               colors: ['#e65c17']
@@ -70,7 +71,7 @@ export default function Speed({ timeConfig, tagFilters, websiteLabel, websiteId 
         </Col>
         <Col lg={6}>
           <WebsiteChartWrapper
-            cardTitle="onLoad Time"
+            cardTitle={t('in-websites:websiteDashboard.tabs.speedCardTitleOnLoadTime')}
             timeConfig={timeConfig}
             shareMaxAxisDomain
             viewInAnalytics={{
@@ -80,14 +81,20 @@ export default function Speed({ timeConfig, tagFilters, websiteLabel, websiteId 
               renderer: Renderer.integral,
               calculateStackDifferences: true,
               formatter: millis.forcedFixedCompact,
-              labels: ['50th', '90th', '95th', '99th', 'Max'],
+              labels: [
+                t('in-websites:websiteDashboard.tabs.speedLabel50th'),
+                t('in-websites:websiteDashboard.tabs.speedLabel90th'),
+                t('in-websites:websiteDashboard.tabs.speedLabel95th'),
+                t('in-websites:websiteDashboard.tabs.speedLabel99th'),
+                t('in-websites:websiteDashboard.tabs.speedLabelMax')
+              ],
               defaultDisabledMetrics: ['onLoadTimeMax'],
               metricIds: ['onLoadTime50th', 'onLoadTime90th', 'onLoadTime95th', 'onLoadTime99th', 'onLoadTimeMax']
             }}
             y2={{
               renderer: Renderer.line,
               formatter: millis.forcedFixedCompact,
-              labels: ['Mean'],
+              labels: [t('in-websites:websiteDashboard.tabs.speedLabelMean')],
               defaultDisabledMetrics: ['onLoadTimeMean'],
               metricIds: ['onLoadTimeMean']
             }}
@@ -152,7 +159,7 @@ export default function Speed({ timeConfig, tagFilters, websiteLabel, websiteId 
           >
             {({ aggregation, aggregationSelector }) => (
               <WebsiteChartWrapper
-                cardTitle="Navigation Timing"
+                cardTitle={t('in-websites:websiteDashboard.tabs.speedCardTitleNavigationTiming')}
                 cardHeader={aggregationSelector}
                 timeConfig={timeConfig}
                 shareMaxAxisDomain
@@ -163,16 +170,16 @@ export default function Speed({ timeConfig, tagFilters, websiteLabel, websiteId 
                   renderer: Renderer.stackedBar,
                   formatter: millis.forcedFixedCompact,
                   labels: [
-                    'Unload',
-                    'Redirect',
-                    'AppCache',
-                    'DNS',
-                    'TCP',
-                    'SSL',
-                    'Request',
-                    'Response',
-                    'DOM',
-                    'Children'
+                    t('in-websites:websiteDashboard.tabs.speedLabelUnload'),
+                    t('in-websites:websiteDashboard.tabs.speedLabelRedirect'),
+                    t('in-websites:websiteDashboard.tabs.speedLabelAppCache'),
+                    t('in-websites:websiteDashboard.tabs.speedLabelDNS'),
+                    t('in-websites:websiteDashboard.tabs.speedLabelTCP'),
+                    t('in-websites:websiteDashboard.tabs.speedLabelSSL'),
+                    t('in-websites:websiteDashboard.tabs.speedLabelRequest'),
+                    t('in-websites:websiteDashboard.tabs.speedLabelResponse'),
+                    t('in-websites:websiteDashboard.tabs.speedLabelDOM'),
+                    t('in-websites:websiteDashboard.tabs.speedLabelChildren')
                   ],
                   metricIds: [
                     'unloadTime',
@@ -190,7 +197,7 @@ export default function Speed({ timeConfig, tagFilters, websiteLabel, websiteId 
                 y2={{
                   renderer: Renderer.line,
                   formatter: millis.forcedFixedCompact,
-                  labels: ['Time to First Byte'],
+                  labels: [t('in-websites:websiteDashboard.tabs.speedLabelTimeToFirstByte')],
                   metricIds: ['ttfb'],
                   // Ensure high readability
                   colors: [theme.lib.colors.N900Primary]
@@ -286,7 +293,7 @@ export default function Speed({ timeConfig, tagFilters, websiteLabel, websiteId 
           >
             {({ aggregation, aggregationSelector }) => (
               <WebsiteChartWrapper
-                cardTitle="Paint Timing"
+                cardTitle={t('in-websites:websiteDashboard.tabs.speedCardTitlePaintTiming')}
                 cardHeader={aggregationSelector}
                 timeConfig={timeConfig}
                 viewInAnalytics={{
@@ -295,7 +302,11 @@ export default function Speed({ timeConfig, tagFilters, websiteLabel, websiteId 
                 y1={{
                   renderer: Renderer.line,
                   formatter: millis.forcedFixedCompact,
-                  labels: ['First Paint', 'First-Contentful Paint', 'Largest-Contentful Paint'],
+                  labels: [
+                    t('in-websites:websiteDashboard.tabs.speedLabelFirstPaint'),
+                    t('in-websites:websiteDashboard.tabs.speedLabelFirstContentfulPaint'),
+                    t('in-websites:websiteDashboard.tabs.speedLabelLargestContentfulPaint')
+                  ],
                   metricIds: ['firstPaintTime', 'firstContentfulPaintTime', 'largestContentfulPaintTime']
                 }}
                 metricsConfiguration={{
@@ -337,7 +348,7 @@ export default function Speed({ timeConfig, tagFilters, websiteLabel, websiteId 
           >
             {({ aggregation, aggregationSelector }) => (
               <WebsiteChartWrapper
-                cardTitle="First Input Delay"
+                cardTitle={t('in-websites:websiteDashboard.tabs.speedCardTitleFirstInputDelay')}
                 cardHeader={aggregationSelector}
                 timeConfig={timeConfig}
                 viewInAnalytics={{
@@ -346,7 +357,7 @@ export default function Speed({ timeConfig, tagFilters, websiteLabel, websiteId 
                 y1={{
                   renderer: Renderer.line,
                   formatter: millis.forcedFixedCompact,
-                  labels: ['First Input Delay'],
+                  labels: [t('in-websites:websiteDashboard.tabs.speedLabelFirstInputDelay')],
                   metricIds: ['firstInputDelay']
                 }}
                 metricsConfiguration={{
@@ -374,7 +385,7 @@ export default function Speed({ timeConfig, tagFilters, websiteLabel, websiteId 
           >
             {({ aggregation, aggregationSelector }) => (
               <WebsiteChartWrapper
-                cardTitle="Cumulative Layout Shift"
+                cardTitle={t('in-websites:websiteDashboard.tabs.speedCardTitleCumulativeLayoutShift')}
                 cardHeader={aggregationSelector}
                 timeConfig={timeConfig}
                 viewInAnalytics={{
@@ -383,7 +394,7 @@ export default function Speed({ timeConfig, tagFilters, websiteLabel, websiteId 
                 y1={{
                   renderer: Renderer.line,
                   formatter: clsFormatter,
-                  labels: ['Cumulative Layout Shift'],
+                  labels: [t('in-websites:websiteDashboard.tabs.speedLabelCumulativeLayoutShift')],
                   metricIds: ['cumulativeLayoutShift']
                 }}
                 metricsConfiguration={{

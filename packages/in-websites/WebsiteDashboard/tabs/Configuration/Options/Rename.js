@@ -4,6 +4,7 @@
  */
 import { createField, notBlankValidator } from 'formalistic';
 import { get, find } from 'lodash';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import HelpParagraph from 'in-websites/WebsiteDashboard/tabs/Configuration/Options/HelpParagraph';
@@ -18,7 +19,6 @@ import Button from 'in-new-components/Button';
 import Input from 'in-components/form/Input';
 import SvgIcon from 'in-components/SvgIcon';
 import Card from 'in-new-components/Card';
-import { t } from 'in-i18n';
 
 import locals from './Rename.mless';
 
@@ -117,7 +117,7 @@ export default class Rename extends React.PureComponent {
     const { field, loading, saveError, savedLabel } = this.state;
 
     return (
-      <Card title="Rename Website">
+      <Card title={t('in-websites:websiteDashboard.tabs.configuration.configurationRenameTitle')}>
         <form onSubmit={this.onSubmit}>
           <FormGroup className={locals.group}>
             {saveError && <SaveError>{saveError}</SaveError>}
@@ -140,7 +140,7 @@ export default class Rename extends React.PureComponent {
                 disabled={loading || (field.touched && !field.valid) || savedLabel === field.value}
                 className={locals.button}
               >
-                Rename
+                {t('in-websites:websiteDashboard.tabs.configuration.configurationRenameButton')}
               </Button>
               {this.state.saveResult != null ? (
                 <TemporaryPresenter duration={5000} id={`${this.state.saveResult}`}>

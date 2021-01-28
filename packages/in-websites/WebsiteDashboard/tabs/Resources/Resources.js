@@ -4,6 +4,7 @@
  */
 import React, { Fragment } from 'react';
 import { compose } from 'recompose';
+import { t } from 'in-i18n';
 
 import {
   websiteIdUrlParameter,
@@ -31,7 +32,7 @@ import Link from 'in-components/Link';
 const columnDefinitions = [
   {
     id: 'name',
-    label: 'Origin',
+    label: t('in-websites:websiteDashboard.tabs.resources.resourcesLabelOrigin'),
     getContent(item, { websiteId, pageId }) {
       let label = item.name;
       try {
@@ -54,7 +55,7 @@ const columnDefinitions = [
   },
   {
     id: 'beaconCountAgg',
-    label: 'Resource Loads',
+    label: t('in-websites:websiteDashboard.tabs.resources.resourcesLabelResourceLoads'),
     defaultOrderDirection: 'DESC',
     getContent(item, { result, timeConfig }) {
       return (
@@ -72,7 +73,7 @@ const columnDefinitions = [
   },
   {
     id: 'beaconDurationAgg',
-    label: 'Retrieval Time',
+    label: t('in-websites:websiteDashboard.tabs.resources.resourcesLabelRetrievalTime'),
     defaultOrderDirection: 'DESC',
     getContent(item, { result, timeConfig }) {
       return (
@@ -134,7 +135,7 @@ function Resources({ timeConfig, tagFilters, websiteId, resourceType, setFilter,
         })}
         style={{ marginRight: '0.5rem' }}
       >
-        Analyze Resources
+        {t('in-websites:websiteDashboard.tabs.resources.resourcesButtonAnalyzeResources')}
       </Button>
 
       <Filters resourceType={resourceType} setFilter={setFilter} />

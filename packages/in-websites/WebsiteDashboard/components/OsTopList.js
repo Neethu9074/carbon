@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import getWebsitePaginatedBeaconGroups from 'in-websites/subscriptions/getWebsitePaginatedBeaconGroups';
@@ -25,7 +26,7 @@ export default function OsTopList({
 }) {
   return (
     <TopListWithUrlState
-      title="Operating Systems"
+      title={t('in-websites:websiteDashboard.components.osTopListTitle')}
       metrics={metrics}
       labels={labels}
       aggregations={aggregations}
@@ -81,7 +82,7 @@ function ViewAll({ tagFilters, websiteLabel, beaconType }, className) {
         }
       })}
     >
-      View all operating systems
+      {t('in-websites:websiteDashboard.components.osTopListLinkLabel')}
     </Link>
   );
 }

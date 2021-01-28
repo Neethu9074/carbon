@@ -5,6 +5,7 @@
 import { just } from '@instana/observables';
 import React, { Fragment } from 'react';
 import theme from 'in-themes';
+import { t } from 'in-i18n';
 
 import { getLinkToWebsite, errorsTabFullyQualified, getLinkToAnalyze, detailsPath } from 'in-websites/navigation/paths';
 import WebsiteDashboardsMarkerLanes from 'in-websites/WebsiteDashboard/components/WebsiteDashboardsMarkerLanes';
@@ -83,7 +84,7 @@ function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters
         <Row>
           <Col lg={3}>
             <WebsiteMetricsKpiCard
-              title="Occurrences"
+              title={t('in-websites:websiteDashboard.tabs.errors.errorTitleOccurrences')}
               formatter={number.compact}
               metricsConfig={{
                 tagFilters: tagFiltersWithErrorId,
@@ -96,7 +97,7 @@ function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters
                 }
               }}
               iconAction={{
-                text: 'View in Analyze',
+                text: t('in-websites:websiteDashboard.tabs.errors.errorLabelViewInAnalyze'),
                 kind: 'subtle',
                 icon: 'lib_analyze',
                 href$: getLinkToAnalyze({
@@ -115,7 +116,7 @@ function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters
           </Col>
           <Col lg={3}>
             <WebsiteMetricsKpiCard
-              title="Affected Users"
+              title={t('in-websites:websiteDashboard.tabs.errors.errorTitleAffectedUsers')}
               formatter={affectedUsers.compact}
               metricsConfig={{
                 tagFilters: tagFiltersWithErrorId,
@@ -128,7 +129,7 @@ function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters
                 }
               }}
               iconAction={{
-                text: 'View in Analyze',
+                text: t('in-websites:websiteDashboard.tabs.errors.errorLabelViewInAnalyze'),
                 kind: 'subtle',
                 icon: 'lib_analyze',
                 href$: getLinkToAnalyze({
@@ -159,10 +160,12 @@ function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters
           <Fragment>
             <Row>
               <Col lg={12}>
-                <Card title="Details">
+                <Card title={t('in-websites:websiteDashboard.tabs.errors.errorTitleOetails')}>
                   <Dl>
-                    <Di title="Type">{result.data.type}</Di>
-                    <Di title="Message">{result.data.message}</Di>
+                    <Di title={t('in-websites:websiteDashboard.tabs.errors.errorTitleType')}>{result.data.type}</Di>
+                    <Di title={t('in-websites:websiteDashboard.tabs.errors.errorTitleMessage')}>
+                      {result.data.message}
+                    </Di>
                   </Dl>
                 </Card>
               </Col>
@@ -178,7 +181,10 @@ function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters
                   buttonSize="normal"
                 >
                   {({ actions, content }) => (
-                    <Card title="Stack Trace" header={<div className={locals.stackTraceActions}>{actions}</div>}>
+                    <Card
+                      title={t('in-websites:websiteDashboard.tabs.errors.errorTitleStackTrace')}
+                      header={<div className={locals.stackTraceActions}>{actions}</div>}
+                    >
                       {content}
                     </Card>
                   )}
@@ -192,7 +198,7 @@ function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters
           <Row>
             <Col lg={12}>
               <LearnMoreCard
-                title="Script Error"
+                title={t('in-websites:websiteDashboard.tabs.errors.errorTitleScriptError')}
                 explanation={explanation}
                 learnMoreHref={learnMoreHref}
                 learnMoreLabel={learnMoreLabel}
@@ -204,7 +210,7 @@ function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters
         {isNotBlank(result.data.componentStack) && (
           <Row>
             <Col lg={12}>
-              <Card title="Component Stack">
+              <Card title={t('in-websites:websiteDashboard.tabs.errors.errorTitleComponentStack')}>
                 <Code showLineNumbers={false} code={removeBlankLines(result.data.componentStack)} lang="plain" />
               </Card>
             </Col>
@@ -214,14 +220,17 @@ function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters
         <Row>
           <Col lg={4}>
             <WebsiteChartWrapper
-              cardTitle="Page Views"
+              cardTitle={t('in-websites:websiteDashboard.tabs.errors.errorCardTitlePageViews')}
               timeConfig={timeConfig}
               renderLegend={false}
               viewInAnalytics={viewInAnalytics}
               y1={{
                 renderer: Renderer.stackedBar,
                 formatter: number.forcedCompact,
-                labels: ['Page Loads', 'Page Transitions'],
+                labels: [
+                  t('in-websites:websiteDashboard.tabs.errors.errorLabelPageLoads'),
+                  t('in-websites:websiteDashboard.tabs.errors.errorLabelPageTransitions')
+                ],
                 metricIds: ['pageLoads', 'pageTransitions']
               }}
               metricsConfiguration={{
@@ -247,14 +256,14 @@ function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters
           </Col>
           <Col lg={4}>
             <WebsiteChartWrapper
-              cardTitle="Occurrences"
+              cardTitle={t('in-websites:websiteDashboard.tabs.errors.errorCardTitleOccurrences')}
               timeConfig={timeConfig}
               renderLegend={false}
               viewInAnalytics={viewInAnalytics}
               y1={{
                 renderer: Renderer.bar,
                 formatter: number.forcedCompact,
-                labels: ['Occurrences'],
+                labels: [t('in-websites:websiteDashboard.tabs.errors.errorLabelOccurrences')],
                 metricIds: ['errors'],
                 colors: [theme.lib.colors.failure]
               }}
@@ -276,14 +285,14 @@ function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters
           </Col>
           <Col lg={4}>
             <WebsiteChartWrapper
-              cardTitle="Affected Users"
+              cardTitle={t('in-websites:websiteDashboard.tabs.errors.errorCardTitleAffectedUsers')}
               timeConfig={timeConfig}
               renderLegend={false}
               viewInAnalytics={viewInAnalytics}
               y1={{
                 renderer: Renderer.bar,
                 formatter: affectedUsersChart,
-                labels: ['Affected Users'],
+                labels: [t('in-websites:websiteDashboard.tabs.errors.errorLabelAffectedUsers')],
                 metricIds: ['uniqueUsersOrSessions']
               }}
               metricsConfiguration={{
@@ -342,11 +351,14 @@ function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters
 
   return (
     <Fragment>
-      <Title title="Website JS Error Details" dynamic={result && result.data && result.data.message} />
+      <Title
+        title={t('in-websites:websiteDashboard.tabs.errors.errorTitleWebsiteJSErrorDetails')}
+        dynamic={result && result.data && result.data.message}
+      />
 
       <div className={locals.actions}>
         <BackButton
-          label="Back to list of JS errors"
+          label={t('in-websites:websiteDashboard.tabs.errors.errorLabelBackToListOfJSErrors')}
           href$={getLinkToWebsite(websiteId, { tabPath: '/errors', pageId })}
           withoutMargin
         />
@@ -364,7 +376,7 @@ function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters
             }
           })}
         >
-          Analyze JS Error
+          {t('in-websites:websiteDashboard.tabs.errors.errorButtonAnalyzeJSError')}
         </Button>
       </div>
 

@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import React, { Fragment } from 'react';
+import { t } from 'in-i18n';
 
 import EffectiveConnectionTypeTopList from 'in-websites/WebsiteDashboard/tabs/User/EffectiveConnectionTypeTopList';
 import WebsiteDashboardsMarkerLanes from 'in-websites/WebsiteDashboard/components/WebsiteDashboardsMarkerLanes';
@@ -27,7 +28,7 @@ export default function User({ timeConfig, tagFilters, websiteId, websiteLabel }
       <Row>
         <Col lg={12}>
           <WebsiteChartWrapper
-            cardTitle="Activity"
+            cardTitle={t('in-websites:websiteDashboard.tabs.user.usersCardTitleActivity')}
             timeConfig={timeConfig}
             viewInAnalytics={{
               websiteLabel
@@ -35,13 +36,16 @@ export default function User({ timeConfig, tagFilters, websiteId, websiteLabel }
             y1={{
               renderer: Renderer.stackedBar,
               formatter: number.forcedCompact,
-              labels: ['Page Loads', 'Page Transitions'],
+              labels: [
+                t('in-websites:websiteDashboard.tabs.user.usersLabelPageLoads'),
+                t('in-websites:websiteDashboard.tabs.user.usersLabelPageTransitions')
+              ],
               metricIds: ['pageLoads', 'pageTransitions']
             }}
             y2={{
               renderer: Renderer.line,
               formatter: number.forcedCompact,
-              labels: ['Users'],
+              labels: [t('in-websites:websiteDashboard.tabs.user.usersLabelUsers')],
               metricIds: ['uniqueUsersOrSessions']
             }}
             metricsConfiguration={{

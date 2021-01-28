@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { TopListWithUrlState, trackTopListNavigation } from 'in-new-components/TopListWithUrlState';
@@ -13,14 +14,17 @@ import { number } from 'in-services/formatters/number';
 import Link from 'in-components/Link';
 
 const metrics = ['errors', 'uniqueUsersOrSessions'];
-const labels = ['Occurrences', 'Affected Users'];
+const labels = [
+  t('in-websites:websiteDashboard.tabs.summary.errorTopListLabelOccurrences'),
+  t('in-websites:websiteDashboard.tabs.summary.errorTopListLabelAffectedUsers')
+];
 const aggregations = ['SUM', 'DISTINCT_COUNT'];
 const formatters = [number.compact, affectedUsers.compact];
 
 export default function ErrorTopList({ websiteId, pageId, timeConfig, tagFilters, urlMatrixParamConfig }) {
   return (
     <TopListWithUrlState
-      title="Top JS Errors"
+      title={t('in-websites:websiteDashboard.tabs.summary.errorTopListTitleTopJSErrors')}
       metrics={metrics}
       labels={labels}
       aggregations={aggregations}
@@ -71,7 +75,7 @@ function ViewAll({ websiteId, selectedMetric }, className) {
         }
       })}
     >
-      View all JS errors
+      {t('in-websites:websiteDashboard.tabs.summary.errorTopListLinkLabelViewAllJSErrors')}
     </Link>
   );
 }

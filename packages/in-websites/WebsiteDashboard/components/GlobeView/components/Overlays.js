@@ -6,6 +6,7 @@ import { withState, compose } from 'recompose';
 import { create } from '@instana/observables';
 import React, { Fragment } from 'react';
 import ReactDOM from 'react-dom';
+import { t } from 'in-i18n';
 
 import countryMap from 'in-websites/WebsiteDashboard/components/GlobeView/components/countryConfig.json';
 import CountryList from 'in-websites/WebsiteDashboard/components/GlobeView/components/CountryList';
@@ -77,7 +78,10 @@ function OverlaysReactComponentFn({
       <div className={locals.buttons}>
         <div className={locals.buttonRow}>
           <div className={locals.buttonColumn}>
-            <Tooltip content="Toogle heat map" align="leftMiddle">
+            <Tooltip
+              content={t('in-websites:websiteDashboard.components.overlaysTooltipToogleHeatMap')}
+              align="leftMiddle"
+            >
               <Button
                 dark={!showHeatMap}
                 icon="lib_flame"
@@ -87,16 +91,19 @@ function OverlaysReactComponentFn({
                 }}
               />
             </Tooltip>
-            <Tooltip content="Pan left" align="leftMiddle">
+            <Tooltip content={t('in-websites:websiteDashboard.components.overlaysTooltipPanLeft')} align="leftMiddle">
               <Button dark icon="lib_arrow_drop_left" onClick={() => globeView.rotateLeft()} />
             </Tooltip>
             <div className={locals.placeholder} />
           </div>
           <div className={locals.buttonColumn}>
-            <Tooltip content="Pan up" align="leftMiddle">
+            <Tooltip content={t('in-websites:websiteDashboard.components.overlaysTooltipPanUp')} align="leftMiddle">
               <Button dark icon="lib_arrow_drop_up" onClick={() => globeView.pinchUp()} />
             </Tooltip>
-            <Tooltip content="Toogle automatic spinning" align="leftMiddle">
+            <Tooltip
+              content={t('in-websites:websiteDashboard.components.overlaysTooltipToogleAutomaticSpinning')}
+              align="leftMiddle"
+            >
               <Button
                 dark={!autoRotate}
                 icon="lib_actions_revert"
@@ -106,23 +113,29 @@ function OverlaysReactComponentFn({
                 }}
               />
             </Tooltip>
-            <Tooltip content="Pan down" align="leftMiddle">
+            <Tooltip content={t('in-websites:websiteDashboard.components.overlaysTooltipPanDown')} align="leftMiddle">
               <Button dark icon="lib_arrow_drop_down" onClick={() => globeView.pinchDown()} />
             </Tooltip>
           </div>
           <div className={locals.buttonColumn}>
-            <Tooltip content="Toggle country names" align="leftMiddle">
+            <Tooltip
+              content={t('in-websites:websiteDashboard.components.overlaysTooltipToggleCountryRegionNames')}
+              align="leftMiddle"
+            >
               <Button dark={!showLabels} icon="lib_views_tag" onClick={() => setShowLabels(!showLabels)} />
             </Tooltip>
-            <Tooltip content="Pan right" align="leftMiddle">
+            <Tooltip content={t('in-websites:websiteDashboard.components.overlaysTooltipPanRight')} align="leftMiddle">
               <Button dark icon="lib_arrow_drop_right" onClick={() => globeView.rotateRight()} />
             </Tooltip>
-            <Tooltip content="Switch to 2D map" align="leftMiddle">
+            <Tooltip
+              content={t('in-websites:websiteDashboard.components.overlaysTooltipSwitchTo2DMap')}
+              align="leftMiddle"
+            >
               <Button
                 dark
                 href$={getModifiedUrlStream(params => (params.pathname = `${websitePathFullyQualified}/geography`))}
                 className={locals.to2D}
-                renderContent={() => <span>2D</span>}
+                renderContent={() => <span>{t('in-websites:websiteDashboard.components.overlaysButton2D')}</span>}
               />
             </Tooltip>
           </div>
@@ -135,7 +148,7 @@ function OverlaysReactComponentFn({
 }
 
 class Country extends React.Component {
-  static displayName = 'Country';
+  static displayName = t('in-websites:websiteDashboard.components.overlaysCountryDisplayName');
 
   updateSubscription = null;
 

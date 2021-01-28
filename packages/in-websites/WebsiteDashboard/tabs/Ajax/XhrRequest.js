@@ -4,6 +4,8 @@
  */
 import { just } from '@instana/observables';
 import React, { Fragment } from 'react';
+import theme from 'in-themes';
+import { t } from 'in-i18n';
 
 import { getLinkToWebsite, ajaxTabFullyQualified, getLinkToAnalyze, detailsPath } from 'in-websites/navigation/paths';
 import WebsiteBeaconGroupsChartWrapper from 'in-websites/WebsiteDashboard/components/WebsiteBeaconGroupsChartWrapper';
@@ -32,7 +34,6 @@ import Footer from 'in-new-components/Footer';
 import Button from 'in-new-components/Button';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
-import theme from 'in-themes';
 
 import locals from './XhrRequest.mless';
 
@@ -104,20 +105,23 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
       <Fragment>
         <Row>
           <Col xs={12}>
-            <KpiCard title="Origin" value={xhrId} />
+            <KpiCard title={t('in-websites:websiteDashboard.tabs.ajax.xhrRequestKpiCardTitleOrigin')} value={xhrId} />
           </Col>
         </Row>
 
         <Row>
           <Col lg={4}>
             <WebsiteChartWrapper
-              cardTitle="Calls"
+              cardTitle={t('in-websites:websiteDashboard.tabs.ajax.xhrRequestCardTitleCalls')}
               timeConfig={timeConfig}
               viewInAnalytics={viewInAnalytics}
               y1={{
                 renderer: Renderer.barOverlapping,
                 formatter: number.compact,
-                labels: ['Calls', 'Erroneous Calls'],
+                labels: [
+                  t('in-websites:websiteDashboard.tabs.ajax.xhrRequestLabelCalls'),
+                  t('in-websites:websiteDashboard.tabs.ajax.xhrRequestLabelErroneousCalls')
+                ],
                 metricIds: ['calls', 'errors'],
                 colors: [theme.lib.colors.lightPrimary240, theme.lib.colors.failure]
               }}
@@ -145,13 +149,13 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
           </Col>
           <Col lg={4}>
             <WebsiteChartWrapper
-              cardTitle="Erroneous Call Rate"
+              cardTitle={t('in-websites:websiteDashboard.tabs.ajax.xhrRequestCardTitleErroneousCallRate')}
               timeConfig={timeConfig}
               viewInAnalytics={viewInAnalytics}
               y1={{
                 renderer: Renderer.bar,
                 formatter: percentage.detailed,
-                labels: ['Erroneous Call Rate'],
+                labels: [t('in-websites:websiteDashboard.tabs.ajax.xhrRequestLabelErroneousCallRate')],
                 metricIds: ['errors'],
                 colors: [theme.lib.colors.failure]
               }}
@@ -172,7 +176,7 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
           </Col>
           <Col lg={4}>
             <WebsiteChartWrapper
-              cardTitle="Latency"
+              cardTitle={t('in-websites:websiteDashboard.tabs.ajax.xhrRequestCardTitleLatency')}
               reverseTooltipOrder
               shareMaxAxisDomain
               timeConfig={timeConfig}
@@ -181,14 +185,20 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
                 renderer: Renderer.integral,
                 calculateStackDifferences: true,
                 formatter: millis.forcedFixedCompact,
-                labels: ['50th', '90th', '95th', '99th', 'Max'],
+                labels: [
+                  t('in-websites:websiteDashboard.tabs.ajax.xhrRequestLabel50th'),
+                  t('in-websites:websiteDashboard.tabs.ajax.xhrRequestLabel90th'),
+                  t('in-websites:websiteDashboard.tabs.ajax.xhrRequestLabel95th'),
+                  t('in-websites:websiteDashboard.tabs.ajax.xhrRequestLabel99th'),
+                  t('in-websites:websiteDashboard.tabs.ajax.xhrRequestLabelMax')
+                ],
                 defaultDisabledMetrics: ['onLoadTimeMax'],
                 metricIds: ['onLoadTime50th', 'onLoadTime90th', 'onLoadTime95th', 'onLoadTime99th', 'onLoadTimeMax']
               }}
               y2={{
                 renderer: Renderer.line,
                 formatter: millis.forcedFixedCompact,
-                labels: ['Mean'],
+                labels: [t('in-websites:websiteDashboard.tabs.ajax.xhrRequestLabelMean')],
                 defaultDisabledMetrics: ['onLoadTimeMean'],
                 metricIds: ['onLoadTimeMean']
               }}
@@ -248,7 +258,7 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
               >
                 {({ aggregation, aggregationSelector }) => (
                   <WebsiteChartWrapper
-                    cardTitle="Resource Timing"
+                    cardTitle={t('in-websites:websiteDashboard.tabs.ajax.xhrRequestCardTitleResourceTiming')}
                     cardHeader={aggregationSelector}
                     timeConfig={timeConfig}
                     shareMaxAxisDomain
@@ -256,7 +266,15 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
                     y1={{
                       renderer: Renderer.stackedBar,
                       formatter: millis.forcedFixedCompact,
-                      labels: ['Redirect', 'AppCache', 'DNS', 'TCP', 'SSL', 'Request', 'Response'],
+                      labels: [
+                        t('in-websites:websiteDashboard.tabs.ajax.xhrRequestLabelRedirect'),
+                        t('in-websites:websiteDashboard.tabs.ajax.xhrRequestLabelAppCache'),
+                        t('in-websites:websiteDashboard.tabs.ajax.xhrRequestLabelDNS'),
+                        t('in-websites:websiteDashboard.tabs.ajax.xhrRequestLabelTCP'),
+                        t('in-websites:websiteDashboard.tabs.ajax.xhrRequestLabelSSL'),
+                        t('in-websites:websiteDashboard.tabs.ajax.xhrRequestLabelRequest'),
+                        t('in-websites:websiteDashboard.tabs.ajax.xhrRequestLabelResponse')
+                      ],
                       metricIds: [
                         'redirectTime',
                         'appCacheTime',
@@ -270,7 +288,7 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
                     y2={{
                       renderer: Renderer.line,
                       formatter: millis.forcedFixedCompact,
-                      labels: ['Time to First Byte'],
+                      labels: [t('in-websites:websiteDashboard.tabs.ajax.xhrRequestLabelTimeToFirstByte')],
                       metricIds: ['ttfb'],
                       // Ensure high readability
                       colors: [theme.lib.colors.N900Primary]
@@ -340,12 +358,18 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
         <Row>
           <Col xs={6}>
             <WebsiteChartWrapper
-              cardTitle="HTTP Status Code Breakdown"
+              cardTitle={t('in-websites:websiteDashboard.tabs.ajax.xhrRequestCardTitleHTTPStatusCodeBreakdown')}
               timeConfig={timeConfig}
               viewInAnalytics={viewInAnalytics}
               y1={{
                 renderer: Renderer.stackedArea,
-                labels: ['1XX', '2XX', '3XX', '4XX', '5XX'],
+                labels: [
+                  t('in-websites:websiteDashboard.tabs.ajax.xhrRequestLabel1XX'),
+                  t('in-websites:websiteDashboard.tabs.ajax.xhrRequestLabel2XX'),
+                  t('in-websites:websiteDashboard.tabs.ajax.xhrRequestLabel3XX'),
+                  t('in-websites:websiteDashboard.tabs.ajax.xhrRequestLabel4XX'),
+                  t('in-websites:websiteDashboard.tabs.ajax.xhrRequestLabel5XX')
+                ],
                 formatter: number,
                 tooltipFormatter: number.compact,
                 fallbackMetricValue: 0,
@@ -400,14 +424,19 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
 
           <Col lg={6}>
             <WebsiteChartWrapper
-              cardTitle="HTTP Method Breakdown"
+              cardTitle={t('in-websites:websiteDashboard.tabs.ajax.xhrRequestCardTitleHTTPMethodBreakdown')}
               timeConfig={timeConfig}
               viewInAnalytics={viewInAnalytics}
               y1={{
                 renderer: Renderer.stackedBar,
                 formatter: number.forcedCompact,
                 fallbackMetricValue: 0,
-                labels: ['GET', 'POST', 'PUT', 'DELETE'],
+                labels: [
+                  t('in-websites:websiteDashboard.tabs.ajax.xhrRequestLabelGET'),
+                  t('in-websites:websiteDashboard.tabs.ajax.xhrRequestLabelPOST'),
+                  t('in-websites:websiteDashboard.tabs.ajax.xhrRequestLabelPUT'),
+                  t('in-websites:websiteDashboard.tabs.ajax.xhrRequestLabelDELETE')
+                ],
                 metricIds: ['httpGet', 'httpPost', 'httpPut', 'httpDelete']
               }}
               metricsConfiguration={{
@@ -449,7 +478,7 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
           <Row>
             <Col lg={6}>
               <WebsiteBeaconGroupsChartWrapper
-                cardTitle="Caching Statistics"
+                cardTitle={t('in-websites:websiteDashboard.tabs.ajax.xhrRequestCardTitleCachingStatistics')}
                 timeConfig={timeConfig}
                 tagFilters={tagFiltersForRequests}
                 viewInAnalytics={viewInAnalytics}
@@ -459,7 +488,7 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
                 metricIds={Object.keys(cacheTypes).sort()}
                 metrics={[
                   {
-                    label: 'Count',
+                    label: t('in-websites:websiteDashboard.tabs.ajax.xhrRequestLabelCount'),
                     metric: 'beaconCount',
                     aggregation: 'SUM',
                     formatter: number.forcedCompact,
@@ -479,14 +508,18 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
               >
                 {({ aggregation, aggregationSelector }) => (
                   <WebsiteChartWrapper
-                    cardTitle="Resource Sizes"
+                    cardTitle={t('in-websites:websiteDashboard.tabs.ajax.xhrRequestCardTitleResourceSizes')}
                     cardHeader={aggregationSelector}
                     timeConfig={timeConfig}
                     viewInAnalytics={viewInAnalytics}
                     y1={{
                       renderer: Renderer.line,
                       formatter: bytes,
-                      labels: ['Transfer Size', 'Encoded Body Size', 'Decoded Body Size'],
+                      labels: [
+                        t('in-websites:websiteDashboard.tabs.ajax.xhrRequestLabelTransferSize'),
+                        t('in-websites:websiteDashboard.tabs.ajax.xhrRequestLabelEncodedBodySize'),
+                        t('in-websites:websiteDashboard.tabs.ajax.xhrRequestLabelDecodedBodySize')
+                      ],
                       metricIds: ['transferSize', 'encodedBodySize', 'decodedBodySize']
                     }}
                     metricsConfiguration={{
@@ -525,7 +558,7 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
           <Row>
             <Col lg={6}>
               <WebsiteBeaconGroupsChartWrapper
-                cardTitle="GraphQL Operation Types"
+                cardTitle={t('in-websites:websiteDashboard.tabs.ajax.xhrRequestCardTitleGraphQLOperationTypes')}
                 timeConfig={timeConfig}
                 tagFilters={tagFiltersForRequests}
                 viewInAnalytics={viewInAnalytics}
@@ -534,7 +567,7 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
                 }}
                 metrics={[
                   {
-                    label: 'Count',
+                    label: t('in-websites:websiteDashboard.tabs.ajax.xhrRequestLabelCount'),
                     metric: 'beaconCount',
                     aggregation: 'SUM',
                     formatter: number.forcedCompact,
@@ -596,11 +629,11 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
 
   return (
     <Fragment>
-      <Title title="Website HTTP Request Details" dynamic={xhrId} />
+      <Title title={t('in-websites:websiteDashboard.tabs.ajax.xhrRequestTitle')} dynamic={xhrId} />
 
       <div className={locals.actions}>
         <BackButton
-          label="Back to list of HTTP request origins"
+          label={t('in-websites:websiteDashboard.tabs.ajax.xhrRequestBackButton')}
           href$={getLinkToWebsite(websiteId, { tabPath: '/ajax', pageId })}
           withoutMargin
         />
@@ -618,7 +651,7 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
             }
           })}
         >
-          Analyze HTTP Request Origin
+          {t('in-websites:websiteDashboard.tabs.ajax.xhrRequestButton')}
         </Button>
       </div>
 

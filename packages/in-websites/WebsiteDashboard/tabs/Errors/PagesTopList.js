@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import getWebsitePaginatedBeaconGroups from 'in-websites/subscriptions/getWebsitePaginatedBeaconGroups';
@@ -14,14 +15,17 @@ import { number } from 'in-services/formatters/number';
 import Link from 'in-components/Link';
 
 const metrics = ['errors', 'uniqueUsersOrSessions'];
-const labels = ['Occurrences', 'Affected Users'];
+const labels = [
+  t('in-websites:websiteDashboard.tabs.errors.pageTopListLabelOccurrences'),
+  t('in-websites:websiteDashboard.tabs.errors.pageTopListLabelAffectedUsers')
+];
 const aggregations = ['SUM', 'DISTINCT_COUNT'];
 const formatters = [number.compact, affectedUsers.compact];
 
 export default function PagesTopList({ websiteId, websiteLabel, timeConfig, tagFilters, urlMatrixParamConfig }) {
   return (
     <TopListWithUrlState
-      title="Pages"
+      title={t('in-websites:websiteDashboard.tabs.errors.pageTopListTitlePages')}
       metrics={metrics}
       labels={labels}
       aggregations={aggregations}
@@ -76,7 +80,7 @@ function ViewAll({ tagFilters, websiteLabel }, className) {
         }
       })}
     >
-      View all pages
+      {t('in-websites:websiteDashboard.tabs.errors.pageTopListLabelViewAllPages')}
     </Link>
   );
 }
