@@ -36,5 +36,6 @@ DebouncedInput.propTypes = {
   onValueChange: PropTypes.func.isRequired,
   debounceOpts: PropTypes.object,
   delay: PropTypes.number,
+  /** Whether to only update if new value differs from previous one or to update each time a value changes*/
   pure: PropTypes.bool
 };
