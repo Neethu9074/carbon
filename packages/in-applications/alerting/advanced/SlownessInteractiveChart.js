@@ -27,6 +27,7 @@ import { ThresholdOperatorDropDown } from 'in-new-components/Alerting/advanced/T
 import { createSlownessForm, defaultDeviationFactor } from 'in-applications/alerting/form/thresholdForm';
 import RecalculateBaselineButton from 'in-new-components/Alerting/advanced/RecalculateBaselineButton';
 import UseSuggestedValueButton from 'in-new-components/Alerting/advanced/UseSuggestedValueButton';
+import { PER_AP } from 'in-applications/alerting/advanced/EvaluationSwitch/alertEvaluationTypes';
 import ChartViewConfigurator from 'in-new-components/Alerting/components/ChartViewConfigurator';
 import { thresholdTypeOptions } from 'in-new-components/Alerting/advanced/thresholdFormData';
 import ThresholdValueInput from 'in-new-components/Alerting/advanced/ThresholdValueInput';
@@ -86,6 +87,7 @@ function ThresholdCondition({ form, updateForm, onChange, blueprintConfig, editM
   const metricName = form.get('rule').get('metricName').value;
   const metricUnitPostfix = getMetricUnitPostfix(metricName);
   const maxValue = blueprintConfig.getMaxMetricValue(metricName);
+  const canSelectBaseline = form.get('evaluationType').value === PER_AP;
 
   return (
     <>
@@ -115,39 +117,47 @@ function ThresholdCondition({ form, updateForm, onChange, blueprintConfig, editM
           onChange={onChange}
           trackingCallback={applicationsAlertingThresholdOperatorChanged}
         />
-        <Dropdown
-          asSimpleDropdown
-          label={findEntryByValue(thresholdTypeOptions, getThresholdComboBoxValue(form))?.label}
-          items={thresholdTypeOptions}
-          onChange={({ value = '' }) => {
-            const valueParts = value.split('.');
-            const thresholdType = valueParts[0];
+        {canSelectBaseline && (
+          <>
+            <Dropdown
+              asSimpleDropdown
+              label={findEntryByValue(thresholdTypeOptions, getThresholdComboBoxValue(form))?.label}
+              items={thresholdTypeOptions}
+              onChange={({ value = '' }) => {
+                const valueParts = value.split('.');
+                const thresholdType = valueParts[0];
 
-            let newThresholdForm = createSlownessForm({
-              ...form.get('threshold').toJS(),
-              type: thresholdType,
-              value: null, // reset "old" value to ensure that we only call endpoints with the "new" threshold suggestion
-              baseline: null
-            });
+                let newThresholdForm = createSlownessForm({
+                  ...form.get('threshold').toJS(),
+                  type: thresholdType,
+                  value: null, // reset "old" value to ensure that we only call endpoints with the "new" threshold suggestion
+                  baseline: null
+                });
 
-            if (valueParts.length > 1) {
-              const seasonality = valueParts[1];
-              newThresholdForm = newThresholdForm.updateIn(['seasonality'], f => f.setValue(seasonality).setTouched());
-            }
+                if (valueParts.length > 1) {
+                  const seasonality = valueParts[1];
+                  newThresholdForm = newThresholdForm.updateIn(['seasonality'], f =>
+                    f.setValue(seasonality).setTouched()
+                  );
+                }
 
-            const newRuleForm = createRuleForm({ ...form.get('rule').toJS() });
+                const newRuleForm = createRuleForm({ ...form.get('rule').toJS() });
 
-            updateForm(
-              form
-                .put('threshold', newThresholdForm)
-                .put('rule', newRuleForm)
-                .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
-            );
+                updateForm(
+                  form
+                    .put('threshold', newThresholdForm)
+                    .put('rule', newRuleForm)
+                    .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
+                );
 
-            applicationsAlertingThresholdTypeChanged(getTrackingObject(form, { value: thresholdType }));
-          }}
-        />
-        {thresholdType === 'historicBaseline' && <RecalculateBaselineButton onChange={onChange} editMode={editMode} />}
+                applicationsAlertingThresholdTypeChanged(getTrackingObject(form, { value: thresholdType }));
+              }}
+            />
+            {thresholdType === 'historicBaseline' && (
+              <RecalculateBaselineButton onChange={onChange} editMode={editMode} />
+            )}
+          </>
+        )}
       </ThresholdConditionFormGroup>
 
       {thresholdType === 'staticThreshold' && (
