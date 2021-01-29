@@ -5,29 +5,102 @@
 @import '~in-themes/mixins.less';
 
 :local {
-  .title {
-    color: @lib__colors__N900Primary;
-    font-size: 1rem;
+  .tile {
+    border-top: @lib__colors__N300 1px solid;
   }
 
-  .value {
-    color: @lib__colors__N900Primary;
-    font-size: @lib__typography__h700__font-size;
-    font-weight: @lib__typography__h700__font-weight;
+  .tile + .tile {
+    border-left: @lib__colors__N300 1px solid;
   }
 
-  .leftSpace {
-    padding-left: 0.25em;
+  .tile {
+    padding: 0.625rem 1rem;
+
+    .title {
+      color: @lib__colors__N900Primary;
+      font-size: 1rem;
+      .ellipsis();
+    }
+
+    .value {
+      color: @lib__colors__N900Primary;
+      font-size: @lib__typography__h700__font-size;
+      font-weight: @lib__typography__h700__font-weight;
+      .ellipsis();
+    }
+
+    .leftSpace {
+      padding-left: 0.25em;
+    }
+
+    .unit {
+      font-size: 1.5rem;
+    }
+
+    .targetInfo {
+      .ellipsis();
+      font-size: @lib__typography__body__font-size;
+      font-weight: 600;
+      line-height: 1.25rem;
+      color: @lib__colors__N600Light;
+    }
+
+    .timeRangeValue {
+      margin: 0.125rem 0;
+      line-height: 1.25rem;
+      display: block;
+      .ellipsis();
+      color: @lib__colors__N600Light;
+      font-size: @lib__typography__body__font-size;
+    }
   }
 
-  .unit {
-    font-size: 1.5rem;
-  }
+  .oneRow {
+    padding: 0.5rem 1rem;
 
-  .targetInfo {
+    width: 100%;
+    display: grid;
+    column-gap: 0;
+    grid-template: "titleValue targetInfo";
+    grid-template-columns: min-content min-content;
+    align-items: baseline;
+
     font-size: @lib__typography__body__font-size;
-    font-weight: 600;
-    line-height: 1.25rem;
-    color: @lib__colors__N600Light;
+    border-top: @lib__colors__N300 1px solid;
+
+    .ellipsis();
+
+    .titleValueBorder {
+      grid-area: titleValue;
+      border-right: @lib__colors__N300 1px solid;
+      padding-right: 1rem;
+
+      color: @lib__colors__N900Primary;
+      font-size: 1rem;
+    }
+
+    .value {
+      padding-left: 1rem;
+      color: @lib__colors__N600Light;
+      .ellipsis();
+    }
+
+    .titleValue {
+      grid-area: titleValue;
+      color: @lib__colors__N900Primary;
+      font-size: 1rem;
+    }
+
+    .targetInfo {
+      grid-area: targetInfo;
+      padding-left: 1rem;
+      .ellipsis();
+      color: @lib__colors__N900Primary;
+
+      .targetInfoValue {
+        padding-left: 1em;
+        color: @lib__colors__N600Light;
+      }
+    }
   }
 }
