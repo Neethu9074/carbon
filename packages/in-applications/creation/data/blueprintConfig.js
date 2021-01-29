@@ -2,34 +2,35 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-const whenToUse = 'When to use?';
-const whoShouldUse = 'Who should use?';
-const tipsForUsing = 'Tips for using';
+import { t } from 'in-i18n';
+
+const whenToUse = t('in-applications:creation.simple.blueprints.whenToUse');
+const whoShouldUse = t('in-applications:creation.simple.blueprints.whoShouldUse');
+const tipsForUsing = t('in-applications:creation.simple.blueprints.tipsForUsing');
 
 export const blueprintConfig = Object.freeze([
   {
     type: 'servicesEndpoints',
-    name: 'Services or Endpoints',
-    headline: 'A collection of services or endpoints',
+    name: t('in-applications:creation.simple.blueprints.servicesEndpoints.name'),
+    headline: t('in-applications:creation.simple.blueprints.servicesEndpoints.headline'),
     description: [
       {
         headline: whenToUse,
-        htmlContent:
-          'If the services or endpoints are well known and the group won’t change soon. This is often an application that a specific team is responsible for, or which provides a single function (eg. Payment Application). This is the simplest approach.'
+        htmlContent: t('in-applications:creation.simple.blueprints.servicesEndpoints.whenToUse')
       },
       {
         headline: whoShouldUse,
-        htmlContent: 'DevOps, Operations, SRE, Developer, QA, Support, Business owner.'
+        htmlContent: t('in-applications:creation.simple.blueprints.servicesEndpoints.whoShouldUse')
       },
       {
         headline: tipsForUsing,
         htmlContent: `
           <ul>
-            <li>Use string operators (e.g., like “contains”, “starts with”) to select several services with one filter.</li>
-            <li>Add setup,  environment, or custom tags to narrow the scope.</li>
-            <li>Use "No downstream services" and "Inbound calls" for the source's perspective.</li>
-            <li>Use "All downstream services" and  "All calls" for the end-to-end view.</li>
-            <li>Use "Immediate downstream services" to include the direct database or messaging services.</li>
+            <li>${t('in-applications:creation.simple.blueprints.tipsForUsingItems.useOperatorsServices')}</li>
+            <li>${t('in-applications:creation.simple.blueprints.tipsForUsingItems.narrowScope')}</li>
+            <li>${t('in-applications:creation.simple.blueprints.tipsForUsingItems.sourcePerspective')}</li>
+            <li>${t('in-applications:creation.simple.blueprints.tipsForUsingItems.endToEndView')}</li>
+            <li>${t('in-applications:creation.simple.blueprints.tipsForUsingItems.directServices')}</li>
           </ul>
         `
       }
@@ -37,30 +38,29 @@ export const blueprintConfig = Object.freeze([
   },
   {
     type: 'userJourney',
-    name: 'A critical user journey',
-    headline: 'A critical user journey',
+    name: t('in-applications:creation.simple.blueprints.userJourney.name'),
+    headline: t('in-applications:creation.simple.blueprints.userJourney.headline'),
     description: [
       {
         headline: whenToUse,
-        htmlContent: `<a href="https://cloud.google.com/blog/products/management-tools/practical-guide-to-setting-slos" target=”_blank” rel=”noopener noreferrer”>A critical user journey describes a set of interactions a user has with a service to achieve some end result.</a>
-        Other terms for a user journey are business use case or business transaction. Identifying user journeys are the first step in using Instana’s SLI/SLO.
-        So select the service or endpoints that form the critical user journey to monitor.
-
-          `
+        htmlContent: `<a href="https://cloud.google.com/blog/products/management-tools/practical-guide-to-setting-slos" target=”_blank” rel=”noopener noreferrer”>${t(
+          'in-applications:creation.simple.blueprints.userJourney.whenToUse.userJourneyDescribes'
+        )}</a>
+        ${t('in-applications:creation.simple.blueprints.userJourney.whenToUse.otherTerms')}`
       },
       {
         headline: whoShouldUse,
-        htmlContent: 'DevOps, Operations, SRE, Business owner.'
+        htmlContent: t('in-applications:creation.simple.blueprints.userJourney.whoShouldUse')
       },
       {
         headline: tipsForUsing,
         htmlContent: `
           <ul>
-            <li>The "Inbound calls" and  "All downstream services" are preselected.</li>
-            <li>Switch to Advanced Mode to create a query with endpoints from multiple services.</li>
-            <li>Use string operators (e.g., like “contains”, “starts with”) to select several endpoints with one filter.</li>
-            <li>Add setup,  environment, or custom tags to narrow the scope.</li>
-            <li>Click on “All Filters”to add additional tags.</li>
+            <li>${t('in-applications:creation.simple.blueprints.tipsForUsingItems.preselected')}</li>
+            <li>${t('in-applications:creation.simple.blueprints.tipsForUsingItems.switchMode')}</li>
+            <li>${t('in-applications:creation.simple.blueprints.tipsForUsingItems.useOperatorsEndpoints')}</li>
+            <li>${t('in-applications:creation.simple.blueprints.tipsForUsingItems.narrowScope')}</li>
+            <li>${t('in-applications:creation.simple.blueprints.tipsForUsingItems.allFilters')}</li>
           </ul>
         `
       }
@@ -72,28 +72,31 @@ export const blueprintConfig = Object.freeze([
   },
   {
     type: 'location',
-    name: 'Environment or Region',
-    headline: 'An environment or region (eg. prod, staging, US East)',
+    name: t('in-applications:creation.simple.blueprints.location.name'),
+    headline: t('in-applications:creation.simple.blueprints.location.headline'),
     description: [
       {
         headline: whenToUse,
         htmlContent: `
-          When you want to model applications using information from the environment, such as:
+          ${t('in-applications:creation.simple.blueprints.location.whenToUse.header')}
           <ul>
-            <li>Cloud information</li>
-            <li>Zone or region</li>
-            <li>Host name or ID</li>
+            <li>${t('in-applications:creation.simple.blueprints.location.whenToUse.cloudInfo')}</li>
+            <li>${t('in-applications:creation.simple.blueprints.location.whenToUse.zoneRegion')}</li>
+            <li>${t('in-applications:creation.simple.blueprints.location.whenToUse.hostId')}</li>
           </ul>
         `
       },
-      { headline: whoShouldUse, htmlContent: `DevOps, Operations, SRE, QA, Business owner` },
+      {
+        headline: whoShouldUse,
+        htmlContent: t('in-applications:creation.simple.blueprints.location.whoShouldUse')
+      },
       {
         headline: tipsForUsing,
         htmlContent: `
           <ul>
-            <li>Use "No downstream services" and "Inbound calls" for the source's perspective.</li>
-            <li>Use "All downstream services" and  "All calls" for the end-to-end view.</li>
-            <li>Use "Immediate downstream services" to include the direct database or messaging services.</li>
+            <li>${t('in-applications:creation.simple.blueprints.tipsForUsingItems.sourcePerspective')}</li>
+            <li>${t('in-applications:creation.simple.blueprints.tipsForUsingItems.endToEndView')}</li>
+            <li>${t('in-applications:creation.simple.blueprints.tipsForUsingItems.directServices')}</li>
           </ul>
         `
       }
@@ -135,27 +138,33 @@ export const blueprintConfig = Object.freeze([
   },
   {
     type: 'customerOrTenant',
-    name: 'An important customer or tenant',
-    headline: 'An important customer or tenant',
+    name: t('in-applications:creation.simple.blueprints.customerOrTenant.name'),
+    headline: t('in-applications:creation.simple.blueprints.customerOrTenant.headline'),
     description: [
       {
         headline: whenToUse,
         htmlContent: `
-          Important customers or tenants can have their own dashboard when there is an AP specified for them. There are two common ways that are used to identify the customer:
+          ${t('in-applications:creation.simple.blueprints.customerOrTenant.whenToUse.header')}
           <ul>
-            <li>An HTTP parameter is the data used to identify a customer or tenant.</li>
-            <li>Manual instrumentation to add meta-data to a span using <a href="https://instana.com/docs/tracing/tracing-sdks/#searchable-content-wrapper" target=”_blank” rel=”noopener noreferrer”>the tracing SDK</a>.</li>
+            <li>${t('in-applications:creation.simple.blueprints.customerOrTenant.whenToUse.httpParam')}</li>
+            <li>${t('in-applications:creation.simple.blueprints.customerOrTenant.whenToUse.manual', {
+              url: 'https://instana.com/docs/tracing/tracing-sdks/#searchable-content-wrapper'
+            })}</li>
           </ul>
-          These tags can then be specified to construct an AP.`
+          ${t('in-applications:creation.simple.blueprints.customerOrTenant.whenToUse.footer')}
+          `
       },
-      { headline: whoShouldUse, htmlContent: `DevOps, Operations, SRE, QA, Business owner` },
+      {
+        headline: whoShouldUse,
+        htmlContent: t('in-applications:creation.simple.blueprints.customerOrTenant.whoShouldUse')
+      },
       {
         headline: tipsForUsing,
         htmlContent: `
           <ul>
-            <li>Use either request parameters or custom tags to specify the AP.</li>
-            <li>Use "No downstream services" and "Inbound calls" for the source's perspective.</li>
-            <li>Use "All downstream services" and  "All calls" for the end-to-end view.</li>
+            <li>${t('in-applications:creation.simple.blueprints.tipsForUsingItems.specifyAp')}</li>
+            <li>${t('in-applications:creation.simple.blueprints.tipsForUsingItems.sourcePerspective')}</li>
+            <li>${t('in-applications:creation.simple.blueprints.tipsForUsingItems.endToEndView')}</li>
           </ul>
         `
       }
@@ -173,32 +182,35 @@ export const blueprintConfig = Object.freeze([
   },
   {
     type: 'container',
-    name: 'Kubernetes or Container',
-    headline: 'An application modeled by Kubernetes or container labels',
+    name: t('in-applications:creation.simple.blueprints.container.name'),
+    headline: t('in-applications:creation.simple.blueprints.container.headline'),
     description: [
       {
         headline: whenToUse,
         htmlContent: `
-          When you want to group services based on:
-            <ul>
-              <li>Namespace (this is frequently used)</li>
-              <li>Container or image name</li>
-              <li>Platform related service names</li>
-              <li>Deployment information</li>
-              <li>Labels</li>
-            </ul>
+          ${t('in-applications:creation.simple.blueprints.container.whenToUse.header')}
+          <ul>
+            <li>${t('in-applications:creation.simple.blueprints.container.whenToUse.namespace')}</li>
+            <li>${t('in-applications:creation.simple.blueprints.container.whenToUse.imageName')}</li>
+            <li>${t('in-applications:creation.simple.blueprints.container.whenToUse.serviceNames')}</li>
+            <li>${t('in-applications:creation.simple.blueprints.container.whenToUse.deployInfo')}</li>
+            <li>${t('in-applications:creation.simple.blueprints.container.whenToUse.labels')}</li>
+          </ul>
 
-          Tags are available for:  Kubernetes, OpenShift, Docker, Cloud Foundry, Marathon, and Nomad.`
+          ${t('in-applications:creation.simple.blueprints.container.whenToUse.footer')}`
       },
-      { headline: whoShouldUse, htmlContent: `DevOps, Operations, SRE, Developer` },
+      {
+        headline: whoShouldUse,
+        htmlContent: t('in-applications:creation.simple.blueprints.container.whoShouldUse')
+      },
       {
         headline: tipsForUsing,
         htmlContent: `
           <ul>
-            <li>Add setup,  environment, or custom tags to narrow the scope.</li>
-            <li>Use "No downstream services" and "Inbound calls" for the source's perspective.</li>
-            <li>Use "All downstream services" and  "All calls" for the end-to-end view.</li>
-            <li>Use "Immediate downstream services" to include the direct database or messaging services.</li>
+            <li>${t('in-applications:creation.simple.blueprints.tipsForUsingItems.narrowScope')}</li>
+            <li>${t('in-applications:creation.simple.blueprints.tipsForUsingItems.sourcePerspective')}</li>
+            <li>${t('in-applications:creation.simple.blueprints.tipsForUsingItems.endToEndView')}</li>
+            <li>${t('in-applications:creation.simple.blueprints.tipsForUsingItems.directServices')}</li>
           </ul>
         `
       }
@@ -244,32 +256,35 @@ export const blueprintConfig = Object.freeze([
   },
   {
     type: 'httpOrRpc',
-    name: 'Request Attributes',
-    headline: 'An application based on request attributes (eg. HTTP headers, query parameters)',
+    name: t('in-applications:creation.simple.blueprints.httpOrRpc.name'),
+    headline: t('in-applications:creation.simple.blueprints.httpOrRpc.headline'),
     description: [
       {
         headline: whenToUse,
-        htmlContent: `It can be added to distinguish between different environments.
+        htmlContent: `${t('in-applications:creation.simple.blueprints.httpOrRpc.whenToUse.header')}
         <ul>
-          <li>HTTP headers, including X-headers</li>
-          <li>HTTP return code status</li>
-          <li>Portions of the URL</li>
-          <li>Request parameters</li>
-          <li>RPC method or object.</li>
+          <li>${t('in-applications:creation.simple.blueprints.httpOrRpc.whenToUse.headers')}</li>
+          <li>${t('in-applications:creation.simple.blueprints.httpOrRpc.whenToUse.statusCodes')}</li>
+          <li>${t('in-applications:creation.simple.blueprints.httpOrRpc.whenToUse.urlPortions')}</li>
+          <li>${t('in-applications:creation.simple.blueprints.httpOrRpc.whenToUse.reqParams')}</li>
+          <li>${t('in-applications:creation.simple.blueprints.httpOrRpc.whenToUse.methodObject')}</li>
         </ul>
-        There are several RPC protocols supported using similar operators.
+        ${t('in-applications:creation.simple.blueprints.httpOrRpc.whenToUse.footer')}
       `
       },
-      { headline: whoShouldUse, htmlContent: `DevOps, Operations, SRE, Developer, QA, Support` },
+      {
+        headline: whoShouldUse,
+        htmlContent: t('in-applications:creation.simple.blueprints.httpOrRpc.whoShouldUse')
+      },
       {
         headline: tipsForUsing,
         htmlContent: `
           <ul>
-            <li>Use string operators (e.g., like “contains”, “starts with”) to simplify the filter.</li>
-            <li>Add setup,  environment, or custom tags to narrow the scope.</li>
-            <li>Use "No downstream services" and "Inbound calls" for the source's perspective.</li>
-            <li>Use "All downstream services" and  "All calls" for the end-to-end view.</li>
-            <li>Use "Immediate downstream services" to include the direct database or messaging services.</li>
+            <li>${t('in-applications:creation.simple.blueprints.tipsForUsingItems.useOperators')}</li>
+            <li>${t('in-applications:creation.simple.blueprints.tipsForUsingItems.narrowScope')}</li>
+            <li>${t('in-applications:creation.simple.blueprints.tipsForUsingItems.sourcePerspective')}</li>
+            <li>${t('in-applications:creation.simple.blueprints.tipsForUsingItems.endToEndView')}</li>
+            <li>${t('in-applications:creation.simple.blueprints.tipsForUsingItems.directServices')}</li>
           </ul>
       `
       }
@@ -295,31 +310,31 @@ export const blueprintConfig = Object.freeze([
   },
   {
     type: 'technologyGrouping',
-    name: 'Technology',
-    headline: 'All services of a specific technology (eg. MySQL, all databases)',
+    name: t('in-applications:creation.simple.blueprints.technologyGrouping.name'),
+    headline: t('in-applications:creation.simple.blueprints.technologyGrouping.headline'),
     description: [
       {
         headline: whenToUse,
         htmlContent: `
-        A coarse grouping by the type of technology or application:
-        <ul>
-          <li>Database details, like the type or schema</li>
-          <li>Java application name</li>
-          <li>A scripting application name</li>
-        </ul>
+          ${t('in-applications:creation.simple.blueprints.technologyGrouping.whenToUse.header')}
+          <ul>
+            <li>${t('in-applications:creation.simple.blueprints.technologyGrouping.whenToUse.databaseDetails')}</li>
+            <li>${t('in-applications:creation.simple.blueprints.technologyGrouping.whenToUse.javaName')}</li>
+            <li>${t('in-applications:creation.simple.blueprints.technologyGrouping.whenToUse.scriptingName')}</li>
+          </ul>
       `
       },
       {
         headline: whoShouldUse,
-        htmlContent: `Operations, SRE, Developer, QA, Support, Business owner`
+        htmlContent: t('in-applications:creation.simple.blueprints.technologyGrouping.whoShouldUse')
       },
       {
         headline: tipsForUsing,
         htmlContent: `
           <ul>
-            <li>Use "No downstream services" and "Inbound calls" for the source's perspective.</li>
-            <li>Use "All downstream services" and  "All calls" for the end-to-end view.</li>
-            <li>Use "Immediate downstream services" to include the direct database or messaging services.</li>
+            <li>${t('in-applications:creation.simple.blueprints.tipsForUsingItems.sourcePerspective')}</li>
+            <li>${t('in-applications:creation.simple.blueprints.tipsForUsingItems.endToEndView')}</li>
+            <li>${t('in-applications:creation.simple.blueprints.tipsForUsingItems.directServices')}</li>
           </ul>
       `
       }
@@ -336,35 +351,35 @@ export const blueprintConfig = Object.freeze([
   },
   {
     type: 'custom',
-    name: 'Custom Tags',
-    headline: 'An application based on custom metadata added by your or your platform',
+    name: t('in-applications:creation.simple.blueprints.custom.name'),
+    headline: t('in-applications:creation.simple.blueprints.custom.headline'),
     description: [
       {
         headline: whenToUse,
         htmlContent: `
-          When you want to add your own data via the SDK, the platform, etc. This custom data can be added from:
+          ${t('in-applications:creation.simple.blueprints.custom.whenToUse.header')}
           <ul>
-            <li>HTTP protocol</li>
-            <li>Instana agent</li>
-            <li>AWS</li>
-            <li>Data that is attached to a call</li>
-            <li>Kubernetes labels</li>
-            <li>Container labels</li>
+            <li>${t('in-applications:creation.simple.blueprints.custom.whenToUse.httpProtocol')}</li>
+            <li>${t('in-applications:creation.simple.blueprints.custom.whenToUse.instanaAgent')}</li>
+            <li>${t('in-applications:creation.simple.blueprints.custom.whenToUse.aws')}</li>
+            <li>${t('in-applications:creation.simple.blueprints.custom.whenToUse.dataCall')}</li>
+            <li>${t('in-applications:creation.simple.blueprints.custom.whenToUse.kubernetesLabels')}</li>
+            <li>${t('in-applications:creation.simple.blueprints.custom.whenToUse.containerLabels')}</li>
           </ul>
-          This blueprint puts them all together so they are easy to find.
+          ${t('in-applications:creation.simple.blueprints.custom.whenToUse.footer')}
       `
       },
       {
         headline: whoShouldUse,
-        htmlContent: `DevOps, Developer, QA`
+        htmlContent: t('in-applications:creation.simple.blueprints.custom.whoShouldUse')
       },
       {
         headline: tipsForUsing,
         htmlContent: `
           <ul>
-            <li>Use "No downstream services" and "Inbound calls" for the source's perspective.</li>
-            <li>Use "All downstream services" and  "All calls" for the end-to-end view.</li>
-            <li>Use "Immediate downstream services" to include the direct database or messaging services.</li>
+          <li>${t('in-applications:creation.simple.blueprints.tipsForUsingItems.sourcePerspective')}</li>
+          <li>${t('in-applications:creation.simple.blueprints.tipsForUsingItems.endToEndView')}</li>
+          <li>${t('in-applications:creation.simple.blueprints.tipsForUsingItems.directServices')}</li>
           </ul>
         `
       }

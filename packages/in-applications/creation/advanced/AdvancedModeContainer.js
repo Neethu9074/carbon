@@ -14,14 +14,13 @@ import CreateApplicationQueryBuilder from 'in-applications/creation/components/C
 import ApplicationScopeSelector from 'in-applications/creation/components/ApplicationScopeSelector';
 import EditTagFilterDialog from 'in-analyze/components/EditTagFilterDialog/EditTagFilterDialog';
 import FormFooter, { SaveButton, CancelButton } from 'in-components/form/FormFooter/FormFooter';
+import { newAnalyticsEnabled, qb2InAPCreationEnabled } from 'in-services/featureFlags';
 import { getTagFilterListForBackendSubscription } from 'in-analyze/applicationFilter';
-import { isQB2ModeEnabled } from 'in-new-components/Alerting/components/WithQB1orQB2';
 import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';
 import InboundAllCalls from 'in-applications/creation/components/InboundAllCalls';
 import TagFilterList from 'in-analyze/AnalyzeView/components/TagFilterList';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { getApplicationCreationTagKeys } from 'in-applications/tags';
-import { qb2InAPCreationEnabled } from 'in-services/featureFlags';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import DescriptionText from 'in-components/form/DescriptionText';
 import Spacer from 'in-applications/Forms/components/Spacer';
@@ -34,6 +33,7 @@ import Button from 'in-new-components/Button';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import Pill from 'in-new-components/Pill';
+import { t, Trans } from 'in-i18n';
 
 import locals from './AdvancedModeContainer.mless';
 
@@ -50,7 +50,7 @@ export default function AdvancedModeContainer({
   const labelField = form.get('label');
 
   const tagFiltersForSubscription =
-    (!isQB2ModeEnabled || !qb2InAPCreationEnabled) &&
+    (!newAnalyticsEnabled || !qb2InAPCreationEnabled) &&
     getTagFilterListForBackendSubscription(form.get('matchSpecification').toJS());
   const filters = {
     timeConfig,
@@ -64,10 +64,10 @@ export default function AdvancedModeContainer({
   return (
     <>
       <div className={locals.container}>
-        <h1 className={locals.heading}>1. Define a name for your Application Perspective.</h1>
+        <h1 className={locals.heading}>1. {t('in-applications:creation.advanced.defineName')}</h1>
         <FormGroup>
           <Label htmlFor="label" hasError={!labelField.valid && labelField.touched}>
-            Application Perspective Name
+            {t('in-applications:creation.advanced.apName')}
           </Label>
           <Input
             type="text"
@@ -88,34 +88,39 @@ export default function AdvancedModeContainer({
           )}
 
           <DescriptionText className={locals.descriptionText}>
-            {`Application Perspective names should have a well established definition within an organization. For example,
-                      to model an environment: "Production Blue", to model a set of services: "Payment", or to model a
-                      tenant: "ACME Customer".`}
+            {t('in-applications:creation.advanced.apNameDescription')}
           </DescriptionText>
         </FormGroup>
         <Spacer type="dark" />
 
         <>
-          <h1 className={locals.heading}>2. Define the Application Perspective using one or more tags.</h1>
+          <h1 className={locals.heading}>2. {t('in-applications:creation.advanced.defineUsingTags')}</h1>
           <DescriptionText className={locals.descriptionText}>
-            {`For example where key is "docker.label" and value is "environment=Production Blue",
-                            or key is "call.http.params" and value is "tenant=ACMECustomer". Note that any calls to a`}
-            <Pill color={getColor('DATABASE')} kind="light">
-              DATABASE
-            </Pill>
-            service or
-            <Pill color={getColor('MESSAGING')} kind="light">
-              MESSAGING
-            </Pill>
-            service from services matching this definition will automatically be included.
+            <Trans
+              i18nKey="in-applications:creation.advanced.defineUsingTagsDescription"
+              components={{
+                'pill-database': (
+                  <Pill color={getColor('DATABASE')} kind="light">
+                    DATABASE
+                  </Pill>
+                ),
+                'pill-messaging': (
+                  <Pill color={getColor('MESSAGING')} kind="light">
+                    MESSAGING
+                  </Pill>
+                )
+              }}
+            />
             <br />
             <br />
-            <strong>{`AND operators take precedence and are evaluated before OR operators${isQB2ModeEnabled &&
-              qb2InAPCreationEnabled &&
-              ' if not grouped in brackets'}`}</strong>
+            <strong>
+              {newAnalyticsEnabled && qb2InAPCreationEnabled
+                ? t('in-applications:creation.advanced.andOperatorsPrecedenceBrackets')
+                : t('in-applications:creation.advanced.andOperatorsPrecedence')}
+            </strong>
           </DescriptionText>
 
-          {isQB2ModeEnabled && qb2InAPCreationEnabled ? (
+          {newAnalyticsEnabled && qb2InAPCreationEnabled ? (
             <div className={locals.queryBuilder}>
               <div className={locals.queryBuilderExpression}>
                 <CreateApplicationQueryBuilder
@@ -132,7 +137,7 @@ export default function AdvancedModeContainer({
                     size="compact"
                     onClick={() => setTagFilterExpression([], form, updateForm)}
                   >
-                    Clear
+                    {t('in-applications:creation.advanced.clear')}
                   </Button>
                 )}
               </HorizontalFlexWrapper>
@@ -169,7 +174,7 @@ export default function AdvancedModeContainer({
                   }
                   icon="lib_openclose_add_circle_outline"
                 >
-                  Add Tag
+                  {t('in-applications:creation.advanced.addTag')}
                 </Button>
               </div>
               <TagFilterList
@@ -236,18 +241,13 @@ export default function AdvancedModeContainer({
           )}
         </>
         <Spacer type="dark" />
-        <h1 className={locals.heading}>3. Store Calls of Downstream Services</h1>
-        <ApplicationScopeSelector
-          form={form}
-          updateForm={updateForm}
-          description={
-            <DescriptionText className={locals.descriptionText}>
-              Choose which downstream services to include in the Application Perspective.
-            </DescriptionText>
-          }
-        />
+        <h1 className={locals.heading}>3. {t('in-applications:creation.advanced.downstreamCalls')}</h1>
+        <DescriptionText className={locals.descriptionText}>
+          {t('in-applications:creation.advanced.downstreamCallsDescription')}
+        </DescriptionText>
+        <ApplicationScopeSelector form={form} updateForm={updateForm} />
         <Spacer type="dark" />
-        <h1 className={locals.heading}>4. Select the Default Dashboard View</h1>
+        <h1 className={locals.heading}>4. {t('in-applications:creation.advanced.defaultDashboardView')}</h1>
         <InboundAllCalls form={form} updateForm={updateForm} apCreation />
       </div>
       <FormFooter className={locals.controls}>
@@ -256,9 +256,11 @@ export default function AdvancedModeContainer({
           onClick={() => onCreate()}
           isSaving={isSaving}
           form={form}
-          disabled={!form.hierarchyValid || (isQB2ModeEnabled && qb2InAPCreationEnabled && !isValidTagFilterExpression)}
+          disabled={
+            !form.hierarchyValid || (newAnalyticsEnabled && qb2InAPCreationEnabled && !isValidTagFilterExpression)
+          }
         >
-          Create
+          {t('in-applications:creation.advanced.create')}
         </SaveButton>
       </FormFooter>
     </>

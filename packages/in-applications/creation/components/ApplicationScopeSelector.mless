@@ -5,12 +5,18 @@
 @import '~in-themes/active.less';
 
 :local {
+  .applicationScopeSwitchContainer {
+    border: 1px solid @lib__colors__N300;
+    border-radius: @lib__shapes__radius_small;
+    padding: 1rem 0rem;
+  }
+
   .optionBox {
     &.optionBox {
       border: none;
       border-radius: 0;
-      padding-top: .2rem;
-      padding-bottom: .2rem;
+      padding-top: 0.2rem;
+      padding-bottom: 0.2rem;
     }
 
     &.optionBoxUnchecked {

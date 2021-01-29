@@ -8,6 +8,8 @@ import InboundOrAllCallsChoiceVertical from 'in-applications/Dashboards/commonCo
 import { applicationCreationBoundaryScopeSelect } from 'in-applications/creation/tracker';
 import FormGroup from 'in-components/form/FormGroup';
 
+import locals from './InboundAllCalls.mless';
+
 export default function InboundAllCalls({ form, updateForm, selectedBlueprint }) {
   const boundaryScopeField = form.get('boundaryScope');
   const boundaryScope = selectedBlueprint?.presetFormFields?.boundaryScope;
@@ -18,7 +20,7 @@ export default function InboundAllCalls({ form, updateForm, selectedBlueprint })
   }, [boundaryScope]);
 
   return (
-    <div>
+    <div className={locals.inboundOrAllCallsSwitchContainer}>
       <FormGroup>
         <InboundOrAllCallsChoiceVertical
           boundaryScope={boundaryScopeField.value}

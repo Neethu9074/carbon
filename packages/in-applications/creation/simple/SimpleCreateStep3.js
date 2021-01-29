@@ -14,18 +14,26 @@ import FormGroup from 'in-components/form/FormGroup';
 import Message from 'in-new-components/Message';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
+import { t } from 'in-i18n';
 
 import locals from './SimpleCreateStep2.mless';
 
-export default function SimpleCreateStep3({ form, updateForm, servicesLiveList, selectedBlueprint, errorMessage }) {
+export default function SimpleCreateStep3({
+  form,
+  updateForm,
+  servicesLiveList,
+  selectedBlueprint,
+  errorMessage,
+  isValidTagFilterExpression
+}) {
   const labelField = form.get('label');
 
   return (
-    <SimpleModeStepContentWrapper headline="What is the name of this Application Perspective?">
+    <SimpleModeStepContentWrapper headline={t('in-applications:creation.simple.step3.headline')}>
       <div className={locals.filterWrapper}>
         <FormGroup>
           <Label htmlFor="label" hasError={!labelField.valid && labelField.touched}>
-            Application Perspective Name
+            {t('in-applications:creation.simple.step3.apName')}
           </Label>
           <Input
             type="text"
@@ -46,10 +54,14 @@ export default function SimpleCreateStep3({ form, updateForm, servicesLiveList, 
           </Message>
         )}
         <Spacer type="dark" />
-        <Label>Are you interested just in the calls to this application, or also the internal calls?</Label>
+        <Label>{t('in-applications:creation.simple.step3.inboundAllCalls')}</Label>
         <InboundAllCalls form={form} updateForm={updateForm} selectedBlueprint={selectedBlueprint} />
       </div>
-      <ServiceLiveList servicesLiveList={servicesLiveList} headerText="Matched services in the last hour" />
+      <ServiceLiveList
+        servicesLiveList={servicesLiveList}
+        headerText={t('in-applications:creation.simple.liveList.matchedServicesLastHour')}
+        isValidTagFilterExpression={isValidTagFilterExpression}
+      />
     </SimpleModeStepContentWrapper>
   );
 }

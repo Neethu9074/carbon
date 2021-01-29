@@ -11,7 +11,7 @@ import FormGroup from 'in-components/form/FormGroup';
 
 import locals from './ApplicationScopeSelector.mless';
 
-export default function ApplicationScopeSelector({ form, updateForm, description, selectedBlueprint }) {
+export default function ApplicationScopeSelector({ form, updateForm, selectedBlueprint }) {
   const scopeField = form.get('scope');
   const applicationScope = selectedBlueprint?.presetFormFields?.applicationScope;
   useEffect(() => {
@@ -21,9 +21,8 @@ export default function ApplicationScopeSelector({ form, updateForm, description
   }, [applicationScope]);
 
   return (
-    <div>
-      <FormGroup>
-        {description && description}
+    <div className={locals.applicationScopeSwitchContainer}>
+      <FormGroup withoutBottomMargin>
         <OptionBox
           className={classNames({
             [locals.optionBox]: true,

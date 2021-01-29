@@ -5,9 +5,8 @@
 import { createField, createMapForm, createListForm, notBlankValidator } from 'formalistic';
 import { get } from 'lodash';
 
-import { isQB2ModeEnabled } from 'in-new-components/Alerting/components/WithQB1orQB2';
+import { newAnalyticsEnabled, qb2InAPCreationEnabled } from 'in-services/featureFlags';
 import { matchSpecificationValidator } from 'in-applications/Forms/BasicForm';
-import { qb2InAPCreationEnabled } from 'in-services/featureFlags';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import { isBlank } from 'in-services/util/string';
 
@@ -43,7 +42,7 @@ export function createApplicationPerspectiveForm(application) {
       })
     );
 
-  if (isQB2ModeEnabled && qb2InAPCreationEnabled) {
+  if (newAnalyticsEnabled && qb2InAPCreationEnabled) {
     return form.put(
       'tagFilterExpression',
       createField({

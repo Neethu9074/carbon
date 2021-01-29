@@ -8,11 +8,11 @@ import CreateApplicationFilterExpression from 'in-applications/creation/componen
 import SimpleModeStepContentWrapper from 'in-new-components/BlueprintFormMultistep/SimpleModeStepContentWrapper';
 import CreateApplicationFilters from 'in-applications/creation/components/CreateApplicationFilters';
 import ApplicationScopeSelector from 'in-applications/creation/components/ApplicationScopeSelector';
-import { isQB2ModeEnabled } from 'in-new-components/Alerting/components/WithQB1orQB2';
+import { newAnalyticsEnabled, qb2InAPCreationEnabled } from 'in-services/featureFlags';
 import ServiceLiveList from 'in-applications/creation/components/ServiceLiveList';
-import { qb2InAPCreationEnabled } from 'in-services/featureFlags';
 import Spacer from 'in-applications/Forms/components/Spacer';
 import Label from 'in-components/form/Label';
+import { t } from 'in-i18n';
 
 import locals from './SimpleCreateStep2.mless';
 
@@ -22,12 +22,13 @@ export default function SimpleCreateStep2({
   form,
   updateForm,
   servicesLiveList,
-  blueprintCatalogResult
+  blueprintCatalogResult,
+  isValidTagFilterExpression
 }) {
   return (
-    <SimpleModeStepContentWrapper headline="Specify your Application Perspective">
+    <SimpleModeStepContentWrapper headline={t('in-applications:creation.simple.step2.headline')}>
       <div className={locals.filterWrapper}>
-        {isQB2ModeEnabled && qb2InAPCreationEnabled ? (
+        {newAnalyticsEnabled && qb2InAPCreationEnabled ? (
           <CreateApplicationFilterExpression
             blueprintCatalogResult={blueprintCatalogResult}
             form={form}
@@ -45,10 +46,14 @@ export default function SimpleCreateStep2({
           />
         )}
         <Spacer type="dark" />
-        <Label>Which downstream services would you like to include?</Label>
+        <Label>{t('in-applications:creation.simple.step2.includeDownstreamServices')}</Label>
         <ApplicationScopeSelector form={form} updateForm={updateForm} selectedBlueprint={selectedBlueprint} />
       </div>
-      <ServiceLiveList servicesLiveList={servicesLiveList} headerText="Matched services in the last hour" />
+      <ServiceLiveList
+        servicesLiveList={servicesLiveList}
+        headerText={t('in-applications:creation.simple.liveList.matchedServicesLastHour')}
+        isValidTagFilterExpression={isValidTagFilterExpression}
+      />
     </SimpleModeStepContentWrapper>
   );
 }

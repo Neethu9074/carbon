@@ -23,13 +23,12 @@ import CreateApplicationQueryBuilder from 'in-applications/creation/components/C
 import EditTagFilterDialog from 'in-analyze/components/EditTagFilterDialog/EditTagFilterDialog';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import BasicForm, { matchSpecificationValidator } from 'in-applications/Forms/BasicForm';
+import { newAnalyticsEnabled, qb2InAPCreationEnabled } from 'in-services/featureFlags';
 import { getTagFilterListForBackendSubscription } from 'in-analyze/applicationFilter';
-import { isQB2ModeEnabled } from 'in-new-components/Alerting/components/WithQB1orQB2';
 import TagFilterList from 'in-analyze/AnalyzeView/components/TagFilterList';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { getApplicationCreationTagKeys } from 'in-applications/tags';
 import { applicationSubmitTracker } from 'in-applications/tracker';
-import { qb2InAPCreationEnabled } from 'in-services/featureFlags';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import DescriptionText from 'in-components/form/DescriptionText';
 import OptionBox from 'in-applications/components/OptionBox';
@@ -82,7 +81,7 @@ export default function CreateApplicationDialog({ timeConfig, applicationId, onC
           getInitialForm={getInitialForm}
           renderFormContent={(appConfig, form, setValue, updateForm) => {
             const tagFiltersForSubscription =
-              (!isQB2ModeEnabled || !qb2InAPCreationEnabled) &&
+              (!newAnalyticsEnabled || !qb2InAPCreationEnabled) &&
               getTagFilterListForBackendSubscription(form.get('matchSpecification').toJS());
             const filters = {
               timeConfig,
@@ -147,11 +146,11 @@ export default function CreateApplicationDialog({ timeConfig, applicationId, onC
                             service from services matching this definition will automatically be included.
                             <br />
                             <br />
-                            <strong>{`AND operators take precedence and are evaluated before OR operators${isQB2ModeEnabled &&
+                            <strong>{`AND operators take precedence and are evaluated before OR operators${newAnalyticsEnabled &&
                               qb2InAPCreationEnabled &&
                               ' if not grouped in brackets'}`}</strong>
                           </DescriptionText>
-                          {isQB2ModeEnabled && qb2InAPCreationEnabled ? (
+                          {newAnalyticsEnabled && qb2InAPCreationEnabled ? (
                             <div className={locals.queryBuilder}>
                               <CreateApplicationQueryBuilder
                                 value={form.get('tagFilterExpression')?.value || []}
@@ -356,7 +355,7 @@ function getInitialForm(application) {
       })
     );
 
-  if (isQB2ModeEnabled && qb2InAPCreationEnabled) {
+  if (newAnalyticsEnabled && qb2InAPCreationEnabled) {
     return form.put(
       'tagFilterExpression',
       createField({
