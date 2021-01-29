@@ -22,7 +22,9 @@ export function SmartAlertConfigDialog(props) {
   useCalculateThresholdOnBackendSignalEmitter(props.form);
   const alertConfigWithFormModel = props.form.toJS();
   const blueprintConfig = getBlueprintConfig(alertConfigWithFormModel.rule.alertType);
-  const { enrichedTagFilterFormModel } = getEnhancedTagFilterFormModel(alertConfigWithFormModel, blueprintConfig);
+
+  // for the threshold, we don't include the sub-entity filters, because we perform a grouping on the entire scope
+  const { enrichedTagFilterFormModel } = getEnhancedTagFilterFormModel(alertConfigWithFormModel, blueprintConfig, null);
 
   return (
     <SmartAlertConfigDialogWithQueryValidation
@@ -133,6 +135,7 @@ function resolveThresholdRequest(
     },
     operator,
     seasonality: getSeasonality(),
+    evaluationType: alertConfigWithFormModel.evaluationType,
     fallbackOnError
   });
 }
