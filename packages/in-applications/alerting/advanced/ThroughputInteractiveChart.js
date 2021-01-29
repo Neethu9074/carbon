@@ -29,6 +29,7 @@ import { getMetricUnitPostfix } from 'in-applications/alerting/form/formUtils';
 import createRuleForm from 'in-applications/alerting/form/ruleForm';
 import Dropdown from 'in-new-components/Alerting/Dropdown';
 import Label from 'in-components/form/Label';
+import { t } from 'in-i18n';
 
 import locals from 'in-new-components/Alerting/shared-styles/InteractiveChart.mless';
 
@@ -138,7 +139,7 @@ function ThresholdCondition({ form, updateForm, onChange, blueprintConfig, editM
       </ThresholdConditionFormGroup>
 
       {thresholdType === 'staticThreshold' && (
-        <ThresholdConditionFormGroup iconType="lib_threshold" label="Threshold Value">
+        <ThresholdConditionFormGroup iconType="lib_threshold" label={t('in-applications:alert.thresholdLabel')}>
           <ThresholdValueInput
             max={maxValue}
             form={form}

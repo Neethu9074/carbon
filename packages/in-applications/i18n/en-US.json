@@ -43,7 +43,8 @@
         "label": "Properties (optional)",
         "title": "Additional Alert Properties (optional)"
       }
-    }
+    },
+    "thresholdLabel": "Threshold Value"
   },
   "inboundOutboundCalls": {
     "config": {
