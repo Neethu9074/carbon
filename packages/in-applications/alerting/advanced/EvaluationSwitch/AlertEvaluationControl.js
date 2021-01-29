@@ -11,6 +11,7 @@ import alertEvaluationTypes, {
 } from 'in-applications/alerting/advanced/EvaluationSwitch/alertEvaluationTypes';
 import IconLabel from 'in-new-components/Alerting/components/IconLabel';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
+import { t } from 'in-i18n';
 
 import locals from 'in-applications/alerting/advanced/EvaluationSwitch/AlertEvaluationControl.mless';
 
@@ -20,7 +21,7 @@ export default function AlertEvaluationControl({ form, updateForm }) {
     <div className={locals.container}>
       <IconLabel
         type="lib_alerts_multiple_alerts"
-        text="Individual Alerts"
+        text={t('in-applications:alert.individual')}
         noBottomMargin
         color={theme.lib.colors.N600Light}
       />

@@ -16,6 +16,7 @@ import { getTagFromList } from 'in-applications/tags';
 import { toTitleCase } from 'in-services/util/string';
 import { getTechnologyLabel } from 'in-sdk/snapshot';
 import SvgIcon from 'in-components/SvgIcon';
+import { t } from 'in-i18n';
 
 import locals from './QuickFilterBar.mless';
 
@@ -31,8 +32,8 @@ export default function QuickFilterBar(props) {
           timeConfig={timeConfig}
           tagFilters={tagFilters}
           tag="service.name"
-          singularLabel="Service"
-          pluralLabel="Services"
+          singularLabel={t('in-applications:analyze.quickFilter.labelService', { count: 1 })}
+          pluralLabel={t('in-applications:analyze.quickFilter.labelService', { count: 2 })}
           itemLabelRenderer={renderApplicationServiceEndpointItem('lib_application_service')}
           withoutTextTransform
         />
@@ -43,11 +44,11 @@ export default function QuickFilterBar(props) {
           timeConfig={timeConfig}
           tagFilters={tagFilters}
           tag="endpoint.name"
-          singularLabel="Endpoint"
-          pluralLabel="Endpoints"
+          singularLabel={t('in-applications:analyze.quickFilter.labelEndpoint', { count: 1 })}
+          pluralLabel={t('in-applications:analyze.quickFilter.labelEndpoint', { count: 2 })}
           itemLabelRenderer={renderApplicationServiceEndpointItem('lib_application_endpoint')}
           precondition={() => !!getTagFromList(tagFilters, { name: 'service.name' })}
-          preconditionFailedTooltip="Please select a service before selecting an endpoint."
+          preconditionFailedTooltip={t('in-applications:analyze.quickFilter.preconditionFailedTooltip')}
           withoutTextTransform
         />
       )}
@@ -57,8 +58,8 @@ export default function QuickFilterBar(props) {
           timeConfig={timeConfig}
           tagFilters={tagFilters}
           tag="call.type"
-          singularLabel="Type"
-          pluralLabel="Types"
+          singularLabel={t('in-applications:analyze.quickFilter.labelType', { count: 1 })}
+          pluralLabel={t('in-applications:analyze.quickFilter.labelType', { count: 2 })}
           selectedItemRenderer={renderType}
           itemLabelRenderer={renderType}
         />
@@ -69,8 +70,8 @@ export default function QuickFilterBar(props) {
           timeConfig={timeConfig}
           tagFilters={tagFilters}
           tag="technology"
-          singularLabel="Technology"
-          pluralLabel="Technologies"
+          singularLabel={t('in-applications:analyze.quickFilter.labelTechnology', { count: 1 })}
+          pluralLabel={t('in-applications:analyze.quickFilter.labelTechnology', { count: 2 })}
           selectedItemRenderer={getTechnologyLabel}
           itemLabelRenderer={itemLabel => (
             <EntityWithTypeAndIcon plugin={itemLabel} label={getTechnologyLabel(itemLabel)} />
@@ -82,7 +83,7 @@ export default function QuickFilterBar(props) {
           {...props}
           tagFilters={tagFilters}
           tag="call.latency"
-          singularLabel="Latency"
+          singularLabel={t('in-applications:analyze.quickFilter.labelLatency')}
           formatter={millis.fixedCompact}
           unit="ms"
           showRange
@@ -95,7 +96,7 @@ export default function QuickFilterBar(props) {
           timeConfig={timeConfig}
           tagFilters={tagFilters}
           tag="call.erroneous"
-          singularLabel="Erroneous"
+          singularLabel={t('in-applications:analyze.quickFilter.labelErroneous')}
         />
       )}
       {onMoreClick && <MoreBarItem {...props} onClick={onMoreClick} />}

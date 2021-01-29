@@ -9,6 +9,7 @@ import { AND_CONJUNCTION } from 'in-new-components/Alerting/utils/queryUtils';
 import { percentage, millis, number } from 'in-services/formatters/number';
 import { getAnalyzeFilterTagKeys } from 'in-applications/tags';
 import { isNotBlank } from 'in-services/util/string';
+import { t } from 'in-i18n';
 
 const baseBlueprint = Object.freeze({
   isCustomRateMetric: () => false,
@@ -59,15 +60,14 @@ const baseBlueprint = Object.freeze({
 const slownessBlueprintConfig = Object.freeze({
   ...baseBlueprint,
   type: 'slowness',
-  name: 'Slow Calls',
-  headline: 'Automatic Alerts for Slow Calls',
-  text:
-    'Receive an alert when calls to selected services and endpoints of this Application Perspective are slower than usual.',
+  name: t('in-applications:blueprintConfig.slowness.name'),
+  headline: t('in-applications:blueprintConfig.slowness.headline'),
+  text: t('in-applications:blueprintConfig.slowness.text'),
   disabledTagFilters: createDisableList(['call.latency']),
   baselineEnabled: true,
   defaultMetric: 'latency',
   getMetricName: () => 'latency',
-  getMetricLabel: () => 'Latency',
+  getMetricLabel: () => t('in-applications:analyze.quickFilter.labelLatency'),
   getMetricFormat: () => millis.forcedFixedCompact,
   getMaxMetricValue: () => Number.MAX_SAFE_INTEGER,
   getAggregation: alertRule => alertRule.aggregation,
@@ -79,15 +79,14 @@ const slownessBlueprintConfig = Object.freeze({
 const errorRateBlueprintConfig = Object.freeze({
   ...baseBlueprint,
   type: 'errorRate',
-  name: 'Erroneous Calls',
-  headline: 'Automatic Alerts for Erroneous Calls',
-  text:
-    'Receive an alert when the rate of erroneous calls for selected services and endpoints of this Application Perspective is higher than normal.',
+  name: t('in-applications:blueprintConfig.errorRate.name'),
+  headline: t('in-applications:blueprintConfig.errorRate.headline'),
+  text: t('in-applications:blueprintConfig.errorRate.text'),
   disabledTagFilters: createDisableList(['call.erroneous', 'call.error.count', 'call.error.message']),
   baselineEnabled: false,
   defaultMetric: 'errors',
   getMetricName: () => 'errors',
-  getMetricLabel: () => 'Error Rate',
+  getMetricLabel: () => t('in-applications:blueprintConfig.errorRate.metricLabel'),
   getMetricFormat: () => percentage,
   getMaxMetricValue: () => 100,
   getAggregation: () => 'MEAN',
@@ -99,20 +98,19 @@ const errorRateBlueprintConfig = Object.freeze({
 const logsBlueprintConfig = Object.freeze({
   ...baseBlueprint,
   type: 'logs',
-  name: 'Error and Warning Logs',
-  headline: 'Automatic Alerts for Error and Warning Logs',
-  text:
-    'Receive an alert when the number of calls logging matching error and warning messages is higher than expected.',
+  name: t('in-applications:blueprintConfig.logs.name'),
+  headline: t('in-applications:blueprintConfig.logs.headline'),
+  text: t('in-applications:blueprintConfig.logs.text'),
   disabledTagFilters: createDisableList(['log.message', 'log.level']),
   baselineEnabled: false,
   defaultMetric: 'calls',
   getMetricName: () => 'calls',
-  getMetricLabel: () => 'Logs Count',
+  getMetricLabel: () => t('in-applications:blueprintConfig.logs.metricLabel'),
   getMetricFormat: () => number.forcedCompact,
   getMaxMetricValue: () => Number.MAX_SAFE_INTEGER,
   getAggregation: () => 'SUM',
   isRuleComplete: alertRule => isNotBlank(alertRule.message),
-  incompleteRuleMessage: 'Please select a Log Message to see when this alert triggers',
+  incompleteRuleMessage: t('in-applications:blueprintConfig.logs.incompleteRuleMessage'),
   getRuleTagFilters: getLogLevelTagFilters, //QB1
   getRuleTagFilterFormModel: getLogLevelFormModel //QB2
 });
@@ -120,19 +118,19 @@ const logsBlueprintConfig = Object.freeze({
 const statusCodeBlueprintConfig = Object.freeze({
   ...baseBlueprint,
   type: 'statusCode',
-  name: 'HTTP Status Codes',
-  headline: 'Automatic Alerts for HTTP Status Codes',
-  text: 'Receive an alert every time when matching HTTP Status Codes occur more often than usual.',
+  name: t('in-applications:blueprintConfig.statusCode.name'),
+  headline: t('in-applications:blueprintConfig.statusCode.headline'),
+  text: t('in-applications:blueprintConfig.statusCode.text'),
   disabledTagFilters: createDisableList(['call.http.status']),
   baselineEnabled: false,
   defaultMetric: 'calls',
   getMetricName: () => 'calls',
-  getMetricLabel: () => 'Status Code',
+  getMetricLabel: () => t('in-applications:blueprintConfig.statusCode.metricLabel'),
   getMetricFormat: () => number.forcedCompact,
   getMaxMetricValue: () => Number.MAX_SAFE_INTEGER,
   getAggregation: () => 'SUM',
   isRuleComplete: alertRule => !!(alertRule.statusCodeStart && alertRule.statusCodeEnd),
-  incompleteRuleMessage: 'Please select a Status Code to see when this alert triggers',
+  incompleteRuleMessage: t('in-applications:blueprintConfig.statusCode.incompleteRuleMessage'),
   getRuleTagFilters: getStatusCodeTagFilters, //QB1
   getRuleFormModel: getStatusCodeFormModel //QB2
 });
@@ -140,15 +138,14 @@ const statusCodeBlueprintConfig = Object.freeze({
 const throughputBlueprintConfig = Object.freeze({
   ...baseBlueprint,
   type: 'throughput',
-  name: 'Throughput',
-  headline: 'Automatic Alerts for Calls Count',
-  text:
-    'Automatic alerts on anomalously low or high number of calls for selected services and endpoints of this Application Perspective.',
+  name: t('in-applications:blueprintConfig.throughput.name'),
+  headline: t('in-applications:blueprintConfig.throughput.headline'),
+  text: t('in-applications:blueprintConfig.throughput.text'),
   disabledTagFilters: createDisableList(),
   baselineEnabled: true,
   defaultMetric: 'calls',
   getMetricName: () => 'calls',
-  getMetricLabel: () => 'Calls',
+  getMetricLabel: () => t('in-applications:blueprintConfig.throughput.metricLabel'),
   getMetricFormat: () => number.forcedCompact,
   getMaxMetricValue: () => Number.MAX_SAFE_INTEGER,
   getAggregation: () => 'SUM',
@@ -174,10 +171,9 @@ export const simpleModeBlueprintConfigs = Object.freeze([
   {
     ...throughputBlueprintConfig,
     subType: 'unexpectedDrop',
-    name: 'Unexpectedly Low Number of Calls',
-    headline: 'Automatic Alerts on Anomalously Low Number of Calls',
-    text:
-      'Receive an alert when the number of calls is significantly lower than expected compared to the available past data. This might be an indication of a problem upstream of this application or a drop in the user traffic to the application.',
+    name: t('in-applications:blueprintConfig.simpleMode.unexpectedDrop.name'),
+    headline: t('in-applications:blueprintConfig.simpleMode.unexpectedDrop.headline'),
+    text: t('in-applications:blueprintConfig.simpleMode.unexpectedDrop.text'),
     thresholdDefaults: {
       operator: '<='
     },
@@ -186,10 +182,9 @@ export const simpleModeBlueprintConfigs = Object.freeze([
   {
     ...throughputBlueprintConfig,
     subType: 'unexpectedlyHighNumber',
-    name: 'Unexpectedly High Number of Calls',
-    headline: 'Automatic Alerts on Anomalously High Number of Calls',
-    text:
-      'Receive an alert when the number of calls is significantly higher than expected compared to the available past data. This might be an indication of an attack or a bot generating too many requests to the application.',
+    name: t('in-applications:blueprintConfig.simpleMode.unexpectedlyHighNumber.name'),
+    headline: t('in-applications:blueprintConfig.simpleMode.unexpectedlyHighNumber.headline'),
+    text: t('in-applications:blueprintConfig.simpleMode.unexpectedlyHighNumber.text'),
     isSelected: alertThreshold => alertThreshold.operator === '>=' || alertThreshold.operator === '>'
   }
 ]);

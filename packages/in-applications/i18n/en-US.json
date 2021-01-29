@@ -7,5 +7,168 @@
   },
   "applications": {
     "noData": "Application perspectives provide a means to model environments, sets of services, tenants, or just about anything."
+  },
+  "alert": {
+    "individual": "Individual Alerts",
+    "evaluationTypePERAP": {
+      "selectionText": "on the aggregation of all selected Services and Endpoints",
+      "columnText": "aggregated",
+      "description": "Alert on the aggregation of all selected Services and Endpoints"
+    },
+    "evaluationTypePERAPSERVICE": {
+      "selectionText": "on the aggregation per Service",
+      "columnText": "per Service",
+      "description": "Alert individually on the aggregation per Service"
+    },
+    "advancedModeContainer": {
+      "scope": {
+        "label": "Scope",
+        "title": "Scope: Where is the condition happening?"
+      },
+      "trigger": {
+        "label": "Trigger",
+        "title": "Trigger: What do you want to be alerted on?",
+        "logMessageCardTitle": "Log Message",
+        "httpStatusCodesCardTitle": "HTTP Status Codes"
+      },
+      "timeThreshold": {
+        "label": "Time Threshold",
+        "title": "Time Threshold: When do you want to be alerted?"
+      },
+      "alertChannel": {
+        "label": "Alert Channels",
+        "title": "Alert Channels: Who needs to be alerted?"
+      },
+      "propertiesOptional": {
+        "label": "Properties (optional)",
+        "title": "Additional Alert Properties (optional)"
+      }
+    }
+  },
+  "inboundOutboundCalls": {
+    "config": {
+      "inbound": {
+        "text": "Inbound Calls",
+        "dashboard": "Only calls that are performed by the consumers of this application.",
+        "overrideDefault": "The default scope for this application is Inbound Calls only. You can change this in Configuration."
+      },
+      "all": {
+        "text": "All Calls",
+        "dashboard": "Calls performed within this application, by both consumers as well as internally.",
+        "overrideDefault": "The default scope for this application is All Calls. You can change this in Configuration."
+      }
+    }
+  },
+  "analyze": {
+    "quickFilter": {
+      "labelService": "Service",
+      "labelService_plural": "Services",
+      "labelEndpoint": "Endpoint",
+      "labelEndpoint_plural": "Endpoints",
+      "labelType": "Type",
+      "labelType_plural": "Types",
+      "labelTechnology": "Technology",
+      "labelTechnology_plural": "Technologies",
+      "labelLatency": "Latency",
+      "labelErroneous": "Erroneous",
+      "preconditionFailedTooltip": "Please select a service before selecting an endpoint."
+    },
+    "logMessages": {
+      "messageColumn": "Log Message",
+      "levelColumn": "Log Level",
+      "noDataMessage": "No alert configured.",
+      "selectLogMessageText": "Select log message as template (optional)",
+      "selectLogMessageTitle": "Select Log Message"
+    }
+  },
+  "blueprintConfig": {
+    "slowness": {
+      "name": "Slow Calls",
+      "headline": "Automatic Alerts for Slow Calls",
+      "text": "Receive an alert when calls to selected services and endpoints of this Application Perspective are slower than usual."
+    },
+    "errorRate": {
+      "name": "Erroneous Calls",
+      "headline": "Automatic Alerts for Erroneous Calls",
+      "text": "Receive an alert when the rate of erroneous calls for selected services and endpoints of this Application Perspective is higher than normal.",
+      "metricLabel": "Error Rate"
+    },
+    "logs": {
+      "name": "Error and Warning Logs",
+      "headline": "Automatic Alerts for Error and Warning Logs",
+      "text": "Receive an alert when the number of calls logging matching error and warning messages is higher than expected.",
+      "metricLabel": "Logs Count",
+      "incompleteRuleMessage": "Please select a Log Message to see when this alert triggers"
+    },
+    "statusCode": {
+      "name": "HTTP Status Codes",
+      "headline": "Automatic Alerts for HTTP Status Codes",
+      "text": "Receive an alert every time when matching HTTP Status Codes occur more often than usual.",
+      "metricLabel": "Status Code",
+      "incompleteRuleMessage": "Please select a Status Code to see when this alert triggers"
+    },
+    "throughput": {
+      "name": "Throughput",
+      "headline": "Automatic Alerts for Calls Count",
+      "text": "Automatic alerts on anomalously low or high number of calls for selected services and endpoints of this Application Perspective.",
+      "metricLabel": "Calls"
+    },
+    "simpleMode": {
+      "unexpectedDrop": {
+        "name": "Unexpectedly Low Number of Calls",
+        "headline": "Automatic Alerts on Anomalously Low Number of Calls",
+        "text": "Receive an alert when the number of calls is significantly lower than expected compared to the available past data. This might be an indication of a problem upstream of this application or a drop in the user traffic to the application."
+      },
+      "unexpectedlyHighNumber": {
+        "name": "Unexpectedly High Number of Calls",
+        "headline": "Automatic Alerts on Anomalously High Number of Calls",
+        "text": "Receive an alert when the number of calls is significantly higher than expected compared to the available past data. This might be an indication of an attack or a bot generating too many requests to the application."
+      }
+    }
+  },
+  "formUtils": {
+    "operators": {
+      "equals": "equal",
+      "contains": "contain",
+      "startsWith": "start with",
+      "endsWith": "end with"
+    },
+    "titlePlaceholder": {
+      "errorRate": "Erroneous call rate is higher than normal",
+      "slowness": "Calls are slower than usual",
+      "logs": {
+        "notEmptyWithANY": "Too many calls logging messages",
+        "notEmptyWithoutANY": "Too many calls logging {{operatorLabel}} messages",
+        "withANY": "Too many calls logging messages: \"{{message}}\"",
+        "default": "Too many calls logging {{operatorLabel}} messages: \"{{message}}}\""
+      },
+      "statusCode": "Too many calls with HTTP Status Code {{statusCodeShortText}}",
+      "throughput": "Number of calls is anomalously {{greaterOpText}}",
+      "high": "high",
+      "low": "low"
+    },
+    "descriptionPlaceholder": {
+      "errorRate": "The erroneous call rate is {{higherOrLowerOperatorText}} {{valueRoundedToDecimals}}%.",
+      "slownessStaticThreshold": "Calls are {{slowerOrBelowOperatorText}} {{thresholdValue}} ms based on latency ({{aggregationText}).",
+      "slownessDefault": "Calls are {{slowerOrBelowOperatorText}} the expectation based on latency ({{aggregationText}).",
+      "logsNotEmpty": "Number of calls logging {{levelText}} messages is {{higherOrLowerOperatorText}} {{thresholdValue}}.",
+      "logsDefault": "Number of calls logging {{levelText}} messages which {{operatorValue}} \"{{message}}\" is {{higherOrLowerOperatorText}} {{thresholdValue}}.",
+      "statusCode": "Occurrences of HTTP Status Code {{statusCodeFullText}} is {{higherOrLowerOperatorText}} {{thresholdValue}}.",
+      "throughputStaticThreshold": "The number of calls is {{higherOrLowerOperatorText}} {{thresholdValue}} calls.",
+      "throughputDefault": "The number of calls is {{higherOrLowerOperatorText}} expected."
+    },
+    "customStatusCodeFullText": "between {{statusCodeStart}} and {{statusCodeEnd}}",
+    "higherOrLowerText": {
+      "higherThan": "higher than",
+      "higherEqual": "higher or equal to",
+      "lowerThan": "lower than",
+      "lowerEqual": "lower or equal to"
+    },
+    "slowerOrBelowText": {
+      "slowerThan": "slower than",
+      "slowerEqual": "slower or equal to",
+      "below": "below",
+      "belowEqual": "below or equal to"
+    }
   }
 }
