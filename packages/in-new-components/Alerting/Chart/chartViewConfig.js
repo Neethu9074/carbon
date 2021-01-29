@@ -15,6 +15,8 @@ export const chartViewConfigPropType = PropTypes.shape({
   smoothMetric: PropTypes.bool
 });
 
+export const maxChartViewTimeframe = hours.toMillis(7 * 24);
+
 /**
  * View configuration for charts supporting to show the data in different time frames.
  * Remarks: Setting minChartMetricGranularity enables to use a coarser granularity when rendering the metric in
@@ -32,7 +34,7 @@ export const chartViewConfigs = Object.freeze([
   {
     label: t('in-new-components:alerting.chart.chartViewConfigsLast7Days'),
     timeConfig: {
-      windowSize: hours.toMillis(7 * 24)
+      windowSize: maxChartViewTimeframe
     },
     minChartMetricGranularity: 0, // at the moment we don't use a higher granularity for the metric, because we don't handle that properly for count metrics (using SUM)
     smoothMetric: true

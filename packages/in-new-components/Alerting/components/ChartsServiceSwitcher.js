@@ -4,25 +4,33 @@
  */
 import React from 'react';
 
+import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import IconLabel from 'in-new-components/Alerting/components/IconLabel';
 import getServices from 'in-subscription/application/getServices';
 import { hasError, isLoading } from 'in-services/util/result';
 import { pendingResult } from 'in-services/fixedObjects';
-import useTimeConfig from 'in-hooks/useTimeConfig';
 import useObservable from 'in-hooks/useObservable';
 import ComboBox from 'in-components/ComboBox';
 
-export default function ChartSubEntitySelection({ className, applicationId, boundaryScope, serviceId, setServiceId }) {
-  const timeConfig = useTimeConfig();
-  const result = useObservable(getServicesObservable, [applicationId, boundaryScope, timeConfig]) ?? pendingResult;
+export default function ChartSubEntitySelection({
+  className,
+  applicationId,
+  boundaryScope,
+  serviceId,
+  setServiceId,
+  tagFilterFormModel,
+  queryWindowSize
+}) {
+  const result =
+    useObservable(getServicesObservable, [applicationId, boundaryScope, tagFilterFormModel, queryWindowSize]) ??
+    pendingResult;
 
   const options = result.data?.items?.map(({ service }) => ({ label: service.label, value: service.id }));
   const onChange = selection => {
     setServiceId(selection?.value);
   };
 
-  // {isLoading(result) ? <option value="">{'<loading>'}</option> : <option value="">All Services</option>}
-  const loadingOptions = [{ label: 'Loading...' }];
+  const loadingOptions = [{ label: 'Loading…' }];
   return (
     <ComboBox
       disabled={hasError(result) || isLoading(result)}
@@ -31,7 +39,7 @@ export default function ChartSubEntitySelection({ className, applicationId, boun
       options={isLoading(result) ? loadingOptions : options}
       optionRenderer={option => <IconLabel text={option.label} type={'lib_application_service'} />}
       onChange={onChange}
-      placeholder={isLoading(result) ? 'Loading services' : 'Select service to see a preview'}
+      placeholder={isLoading(result) ? 'Loading services…' : 'Select service to see a preview'}
       autoComplete
       autoFocus
       clearable
@@ -40,7 +48,7 @@ export default function ChartSubEntitySelection({ className, applicationId, boun
   );
 }
 
-function getServicesObservable([applicationId, boundaryScope, timeConfig]) {
+function getServicesObservable([applicationId, boundaryScope, tagFilterFormModel, queryWindowSize]) {
   return getServices({
     pagination: {
       page: 1,
@@ -59,8 +67,11 @@ function getServicesObservable([applicationId, boundaryScope, timeConfig]) {
     filter: {
       application: applicationId,
       applicationBoundaryScope: boundaryScope,
-      timeConfig
+      timeConfig: {
+        windowSize: queryWindowSize
+      }
     },
+    tagFilterExpression: toBackendQueryModel(tagFilterFormModel),
     contextScope: 'NONE'
   });
 }
