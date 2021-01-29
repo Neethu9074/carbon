@@ -4,6 +4,7 @@
  */
 import { compose, withProps } from 'recompose';
 import { get } from 'lodash';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
@@ -38,13 +39,18 @@ function FallbackComponent(props) {
 
 function NoDataAvailable(props) {
   const { entityName, plugin } = props;
-  const entitiesName = getPlural(plugin) || entityName || 'entities';
+  const entitiesName =
+    getPlural(plugin) || entityName || t('in-components:tables.serverTable.withEmptyTableStateEntitiesName');
   return (
     <CenterAlignmentColumn>
       <EntityPageMainNotification
         {...props}
-        title={`No ${entitiesName} available`}
-        explanation={`There were no ${entitiesName} retrieved for the selected time range`}
+        title={t('in-components:tables.serverTable.withEmptyTableStateEntityPageMainNotificationTitle', {
+          name: entitiesName
+        })}
+        explanation={t('in-components:tables.serverTable.withEmptyTableStateEntityPageMainNotificationExplanation', {
+          name: entitiesName
+        })}
       />
     </CenterAlignmentColumn>
   );

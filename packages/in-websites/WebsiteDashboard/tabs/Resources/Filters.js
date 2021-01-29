@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { getResourceTypesComboBoxItems } from 'in-websites/analyze/PageLoadView/tabs/Summary/filterableTypes';
@@ -14,7 +15,7 @@ export default function Filters({ resourceType, setFilter }) {
     <ComboBox
       value={resourceType}
       onChange={t => setFilter({ resourceType: t ? t.value : null })}
-      placeholder="Type…"
+      placeholder={t('in-websites:websiteDashboard.tabs.resources.filtersPlaceholderType')}
       options={getResourceTypesComboBoxItems()}
       className={locals.filter}
     />

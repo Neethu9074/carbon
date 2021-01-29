@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import getWebsitePaginatedBeaconGroups from 'in-websites/subscriptions/getWebsitePaginatedBeaconGroups';
@@ -13,7 +14,11 @@ import { getLinkToAnalyze } from 'in-websites/navigation/paths';
 import Link from 'in-components/Link';
 
 const metrics = ['beaconCount', 'beaconDuration', 'beaconErrorRate'];
-const labels = ['Calls', 'Latency', 'Errors'];
+const labels = [
+  t('in-websites:websiteDashboard.tabs.ajax.graphqlOperationsTopListLabelCalls'),
+  t('in-websites:websiteDashboard.tabs.ajax.graphqlOperationsTopListLabelLatency'),
+  t('in-websites:websiteDashboard.tabs.ajax.graphqlOperationsTopListLabelErrors')
+];
 const aggregations = ['SUM', 'MEAN', 'MEAN'];
 const formatters = [number.compact, ms.compact, percentage.detailed];
 
@@ -26,7 +31,7 @@ export default function GraphqlOperationsTopList({
 }) {
   return (
     <TopListWithUrlState
-      title="GraphQL Operation Names"
+      title={t('in-websites:websiteDashboard.tabs.ajax.graphqlOperationsTopListTitle')}
       metrics={metrics}
       labels={labels}
       aggregations={aggregations}

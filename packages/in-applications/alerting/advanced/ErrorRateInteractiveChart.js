@@ -30,19 +30,21 @@ export default function ErrorRateInteractiveChart({
   onChartViewConfigChange,
   selectedChartViewConfigIndex
 }) {
+  const alertConfig = alertConfigWithDefaultThreshold(form);
   return (
     <div className={locals.container}>
       <ThresholdCondition form={form} onChange={onChange} updateForm={updateForm} blueprintConfig={blueprintConfig} />
 
       <ChartViewConfigurator
+        alertConfig={alertConfig}
         onChartViewConfigChange={onChartViewConfigChange}
         selectedChartViewConfigIndex={selectedChartViewConfigIndex}
-        className={locals.chartContainer}
         headerTransparent
       >
-        {chartViewConfig => (
+        {(chartViewConfig, serviceId) => (
           <ApplicationAlertingChartWithErrorMessage
-            alertConfigWithFormModel={alertConfigWithDefaultThreshold(form)}
+            serviceId={serviceId}
+            alertConfigWithFormModel={alertConfig}
             viewConfig={chartViewConfig}
             blueprintConfig={blueprintConfig}
             alertsPreviewEnabled

@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import {
@@ -19,9 +20,9 @@ import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websit
 import PageTopList from 'in-websites/WebsiteDashboard/tabs/CustomEvents/PageTopList';
 import OsTopList from 'in-websites/WebsiteDashboard/tabs/CustomEvents/OsTopList';
 import { affectedUsers, affectedUsersChart } from 'in-websites/formatters';
-import RedirectWithHash from 'in-components/RedirectWithHash';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { millis, number } from 'in-services/formatters/number';
+import RedirectWithHash from 'in-components/RedirectWithHash';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { getChartGranularity } from 'in-websites/metrics';
 import { Col, Row } from 'in-new-components/layout/Grid';
@@ -52,11 +53,14 @@ export default function CustomEvent({ location, tagFilters, timeConfig, websiteI
 
   return (
     <>
-      <Title title="Website Custom Event Details" dynamic={customEventId} />
+      <Title
+        title={t('in-websites:websiteDashboard.tabs.customEvents.customEventTitleWebsiteCustomEventDetails')}
+        dynamic={customEventId}
+      />
 
       <div className={locals.actions}>
         <BackButton
-          label="Back to list of custom events"
+          label={t('in-websites:websiteDashboard.tabs.customEvents.customEventLabelBackToListOfCustomEvents')}
           href$={getLinkToWebsite(websiteId, { tabPath: '/customEvents', pageId })}
           withoutMargin
         />
@@ -74,14 +78,14 @@ export default function CustomEvent({ location, tagFilters, timeConfig, websiteI
             }
           })}
         >
-          Analyze Custom Event
+          {t('in-websites:websiteDashboard.tabs.customEvents.customEventButtonAnalyzeCustomEvent')}
         </Button>
       </div>
 
       <Row>
         <Col lg={3}>
           <WebsiteMetricsKpiCard
-            title="Occurrences"
+            title={t('in-websites:websiteDashboard.tabs.customEvents.customEventTitleOccurrences')}
             formatter={number.compact}
             metricsConfig={{
               tagFilters,
@@ -94,7 +98,7 @@ export default function CustomEvent({ location, tagFilters, timeConfig, websiteI
               }
             }}
             iconAction={{
-              text: 'View in Analyze',
+              text: t('in-websites:websiteDashboard.tabs.customEvents.customEventLabelViewInAnalyze'),
               kind: 'subtle',
               icon: 'lib_analyze',
               href$: getLinkToAnalyze({
@@ -113,7 +117,7 @@ export default function CustomEvent({ location, tagFilters, timeConfig, websiteI
         </Col>
         <Col lg={3}>
           <WebsiteMetricsKpiCard
-            title="Users"
+            title={t('in-websites:websiteDashboard.tabs.customEvents.customEventTitleUsers')}
             formatter={affectedUsers.compact}
             metricsConfig={{
               tagFilters,
@@ -126,7 +130,7 @@ export default function CustomEvent({ location, tagFilters, timeConfig, websiteI
               }
             }}
             iconAction={{
-              text: 'View in Analyze',
+              text: t('in-websites:websiteDashboard.tabs.customEvents.customEventLabelViewInAnalyze'),
               kind: 'subtle',
               icon: 'lib_analyze',
               href$: getLinkToAnalyze({
@@ -152,21 +156,24 @@ export default function CustomEvent({ location, tagFilters, timeConfig, websiteI
           />
         </Col>
         <Col xs={6}>
-          <KpiCard title="Custom Event" value={customEventId} />
+          <KpiCard
+            title={t('in-websites:websiteDashboard.tabs.customEvents.customEventTitleCustomEvent')}
+            value={customEventId}
+          />
         </Col>
       </Row>
 
       <Row>
         <Col lg={6}>
           <WebsiteChartWrapper
-            cardTitle="Occurrences"
+            cardTitle={t('in-websites:websiteDashboard.tabs.customEvents.customEventTitleOccurrences')}
             timeConfig={timeConfig}
             renderLegend={false}
             viewInAnalytics={viewInAnalytics}
             y1={{
               renderer: Renderer.bar,
               formatter: number.forcedCompact,
-              labels: ['Occurrences'],
+              labels: [t('in-websites:websiteDashboard.tabs.customEvents.customEventLabelOccurrences')],
               metricIds: ['beaconCount']
             }}
             metricsConfiguration={{
@@ -187,14 +194,14 @@ export default function CustomEvent({ location, tagFilters, timeConfig, websiteI
         </Col>
         <Col lg={6}>
           <WebsiteChartWrapper
-            cardTitle="Users"
+            cardTitle={t('in-websites:websiteDashboard.tabs.customEvents.customEventTitleUsers')}
             timeConfig={timeConfig}
             renderLegend={false}
             viewInAnalytics={viewInAnalytics}
             y1={{
               renderer: Renderer.bar,
               formatter: affectedUsersChart,
-              labels: ['Users'],
+              labels: [t('in-websites:websiteDashboard.tabs.customEvents.customEventLabelUsers')],
               metricIds: ['uniqueUsersOrSessions']
             }}
             metricsConfiguration={{
@@ -217,7 +224,7 @@ export default function CustomEvent({ location, tagFilters, timeConfig, websiteI
       <Row>
         <Col lg={12}>
           <WebsiteChartWrapper
-            cardTitle="Duration"
+            cardTitle={t('in-websites:websiteDashboard.tabs.customEvents.customEventTitleDuration')}
             reverseTooltipOrder
             shareMaxAxisDomain
             timeConfig={timeConfig}
@@ -226,14 +233,20 @@ export default function CustomEvent({ location, tagFilters, timeConfig, websiteI
               renderer: Renderer.integral,
               calculateStackDifferences: true,
               formatter: millis.forcedFixedCompact,
-              labels: ['50th', '90th', '95th', '99th', 'Max'],
+              labels: [
+                t('in-websites:websiteDashboard.tabs.customEvents.customEventLabel50th'),
+                t('in-websites:websiteDashboard.tabs.customEvents.customEventLabel90th'),
+                t('in-websites:websiteDashboard.tabs.customEvents.customEventLabel95th'),
+                t('in-websites:websiteDashboard.tabs.customEvents.customEventLabel99th'),
+                t('in-websites:websiteDashboard.tabs.customEvents.customEventLabelMax')
+              ],
               defaultDisabledMetrics: ['durationMax'],
               metricIds: ['duration50th', 'duration90th', 'duration95th', 'duration99th', 'durationMax']
             }}
             y2={{
               renderer: Renderer.line,
               formatter: millis.forcedFixedCompact,
-              labels: ['Mean'],
+              labels: [t('in-websites:websiteDashboard.tabs.customEvents.customEventLabelMean')],
               defaultDisabledMetrics: ['durationMean'],
               metricIds: ['durationMean']
             }}

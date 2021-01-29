@@ -4,13 +4,17 @@
  */
 import { pageLoadViewPathFullyQualified } from 'in-websites/navigation/paths';
 import Summary from 'in-websites/analyze/PageLoadView/tabs/Summary/Summary';
+import { webMobileQb2AnalyzeEnabled } from 'in-services/featureFlags';
 
-export default [
-  {
-    // called Detail until we have more than one tab
-    label: 'Detail',
-    path: `${pageLoadViewPathFullyQualified}/summary`,
-    component: Summary,
-    hideTabLabelWhenAlone: true
-  }
-];
+export default function getTabs({ path }) {
+  return [
+    {
+      // called Detail until we have more than one tab
+      label: 'Details',
+      path: path ?? `${pageLoadViewPathFullyQualified}/summary`,
+      component: Summary,
+      hideTabLabelWhenAlone: true,
+      noTopPadding: webMobileQb2AnalyzeEnabled
+    }
+  ];
+}

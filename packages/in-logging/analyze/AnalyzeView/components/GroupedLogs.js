@@ -9,8 +9,6 @@ import TagSelector from 'in-logging/analyze/AnalyzeView/components/TagSelector';
 import GroupedView from 'in-new-components/AnalyzeView/GroupedView';
 import Logs from 'in-logging/analyze/AnalyzeView/components/Logs';
 import getLogGroups from 'in-logging/subscriptions/getLogGroups';
-import IconButton from 'in-new-components/IconButton/IconButton';
-import Tooltip from 'in-components/Tooltip/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
 
 const columnDefinitions = [
@@ -19,24 +17,6 @@ const columnDefinitions = [
     width: '2rem',
     getContent({ iconMap, groupBy }) {
       return <SvgIcon type={iconMap.get(groupBy?.groupbyTag)} />;
-    }
-  },
-  {
-    id: 'label',
-    getContent({ group }) {
-      return group.label;
-    }
-  },
-  {
-    id: 'focus',
-    width: '3rem',
-    shrink: false,
-    getContent({ href }) {
-      return (
-        <Tooltip content="Focus on this group">
-          <IconButton type="lib_actions_filter" href={href} />
-        </Tooltip>
-      );
     }
   }
 ];
@@ -50,6 +30,8 @@ export default function GroupedLogs(props) {
       <GroupedView
         {...props}
         itemName="Log"
+        getItemLabel={item => item.group.label}
+        itemlabelColumnId="label"
         columnDefinitions={columnDefinitions}
         getData={({ timeConfig, backendQueryModel, orderBy, groupBy, cursor }) =>
           getTableData({ timeConfig, backendQueryModel, groupbyTag: groupBy.groupbyTag, cursor, orderBy })

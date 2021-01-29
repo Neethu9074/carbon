@@ -4,6 +4,7 @@
  */
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { t } from 'in-i18n';
 
 import AlertingChartWithErrorMessage from 'in-new-components/Alerting/Chart/AlertingChartWithErrorMessage';
 import TimeThresholdDescription from 'in-new-components/Alerting/components/TimeThresholdDescription';
@@ -41,26 +42,32 @@ export default function AlertConfiguration({ alertConfig, websiteLabel }) {
   return (
     <AlertDetailsCard>
       <LocallyChangedTheme theme={light}>
-        <ListTitle>Alert Configuration</ListTitle>
+        <ListTitle>
+          {t('in-websites:websiteDashboard.tabs.alerts.alertConfigurationListTitleAlertConfiguration')}
+        </ListTitle>
 
         <ChartViewConfigurator
           onChartViewConfigChange={index => setSelectedChartViewConfigIndex(index)}
           selectedChartViewConfigIndex={selectedChartViewConfigIndex}
           className={locals.chartContainer}
-          title="Trigger"
+          title={t('in-websites:websiteDashboard.tabs.alerts.alertConfigurationTitleTrigger')}
+          doNotSetDefaultHeight
           framed
         >
           {chartViewConfig => (
             <>
               {alertType === 'specificJsError' && (
                 <SelectedAlertTypeInfo
-                  title="Error Message"
+                  title={t('in-websites:websiteDashboard.tabs.alerts.alertConfigurationTitleErrorMessage')}
                   description={getDescription(operator, value)}
                   svgIconType="lib_help_error_warning"
                 />
               )}
               {alertType === 'specificStatusCode' && (
-                <SelectedAlertTypeInfo title="HTTP Status Code" description={getStatusCodeLabel(value)} />
+                <SelectedAlertTypeInfo
+                  title={t('in-websites:websiteDashboard.tabs.alerts.alertConfigurationTitleHTTPStatusCode')}
+                  description={getStatusCodeLabel(value)}
+                />
               )}
 
               <AlertingChartWithErrorMessage
@@ -72,7 +79,13 @@ export default function AlertConfiguration({ alertConfig, websiteLabel }) {
           )}
         </ChartViewConfigurator>
 
-        <ExpandableCard title="Scope" openByDefault bodyWithoutPadding darkFrame useMaxAvailableHeight={false}>
+        <ExpandableCard
+          title={t('in-websites:websiteDashboard.tabs.alerts.alertConfigurationTitleScope')}
+          openByDefault
+          bodyWithoutPadding
+          darkFrame
+          useMaxAvailableHeight={false}
+        >
           <div className={locals.filterList}>
             <TagFilterListPresenter
               tagFilters={translateDemocratisationTagFiltersToAnalyzeTagFilters({
@@ -84,18 +97,30 @@ export default function AlertConfiguration({ alertConfig, websiteLabel }) {
           </div>
         </ExpandableCard>
 
-        <ExpandableCard title="Time Threshold" openByDefault bodyWithoutPadding darkFrame useMaxAvailableHeight={false}>
+        <ExpandableCard
+          title={t('in-websites:websiteDashboard.tabs.alerts.alertConfigurationTitleTimeThreshold')}
+          openByDefault
+          bodyWithoutPadding
+          darkFrame
+          useMaxAvailableHeight={false}
+        >
           <TimeThresholdDescription timeThreshold={timeThreshold} />
         </ExpandableCard>
 
-        <ExpandableCard title="Alert Channels" darkFrame openByDefault bodyWithoutPadding useMaxAvailableHeight={false}>
+        <ExpandableCard
+          title={t('in-websites:websiteDashboard.tabs.alerts.alertConfigurationTitleAlertChannels')}
+          darkFrame
+          openByDefault
+          bodyWithoutPadding
+          useMaxAvailableHeight={false}
+        >
           <div className={locals.alertChannelsWrapper}>
             <AlertChannelsViewer alertChannelIds={alertChannelIds} />
           </div>
         </ExpandableCard>
 
         <ExpandableCard
-          title="Alert Properties"
+          title={t('in-websites:websiteDashboard.tabs.alerts.alertConfigurationTitleAlertProperties')}
           openByDefault
           bodyWithoutPadding
           darkFrame

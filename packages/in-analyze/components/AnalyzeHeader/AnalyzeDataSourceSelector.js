@@ -2,27 +2,28 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import classNames from 'classnames';
 import React from 'react';
 
 import getConfigByDataSource, {
   getIconByType,
   getLabelByType,
-  productAreaLabels,
-  productAreaIcons
+  productAreaIcons,
+  productAreaLabels
 } from 'in-analyze/AnalyzeView/dataSources';
 import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import { getLinkToAnalyze as getLinkToProfilesAnalyze } from 'in-new-components/Profiling/navigation/paths';
+import { loggingEnabled, newAnalyticsEnabled, webMobileQb2AnalyzeEnabled } from 'in-services/featureFlags';
 import { getLinkToAnalyze as getLinkToLogsAnalyze, getLinkToRawLogs } from 'in-logging/navigation/paths';
-import { hasApplicationsAccess, hasWebsitesAccess, hasMobileAppsAccess } from 'in-stores/permission';
+import { hasApplicationsAccess, hasMobileAppsAccess, hasWebsitesAccess } from 'in-stores/permission';
 import { getLinkToAnalyze as getLinkToMobileAppAnalyze } from 'in-mobile-apps/navigation/paths';
 import { getLinkToAnalyze as getLinkToWebsiteAnalyze } from 'in-websites/navigation/paths';
 import { defaultGroupings as defaultMobileAppGroupings } from 'in-mobile-apps/tags';
 import { defaultGroupings as defaultWebsiteGroupings } from 'in-websites/tags';
-import { loggingEnabled, newAnalyticsEnabled } from 'in-services/featureFlags';
 import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
 import { emptyObject } from 'in-services/fixedObjects';
-import { Ul, Li } from 'in-new-components/lists/List';
+import { Li, Ul } from 'in-new-components/lists/List';
 import useObservable from 'in-hooks/useObservable';
 import SvgIcon from 'in-components/SvgIcon';
 import Pill from 'in-new-components/Pill';
@@ -72,6 +73,7 @@ const productAreas = [
     dataSources: [
       {
         dataSource: 'pageLoad',
+        ua2: webMobileQb2AnalyzeEnabled,
         getHref$: ({ isGrouped }) =>
           getLinkToWebsiteAnalyze({
             group: isGrouped ? defaultWebsiteGroupings.pageLoad : emptyObject,
@@ -80,6 +82,7 @@ const productAreas = [
       },
       {
         dataSource: 'pageChange',
+        ua2: webMobileQb2AnalyzeEnabled,
         getHref$: ({ isGrouped }) =>
           getLinkToWebsiteAnalyze({
             group: isGrouped ? defaultWebsiteGroupings.pageChange : emptyObject,
@@ -88,6 +91,7 @@ const productAreas = [
       },
       {
         dataSource: 'resourceLoad',
+        ua2: webMobileQb2AnalyzeEnabled,
         getHref$: ({ isGrouped }) =>
           getLinkToWebsiteAnalyze({
             group: isGrouped ? defaultWebsiteGroupings.resourceLoad : emptyObject,
@@ -96,6 +100,7 @@ const productAreas = [
       },
       {
         dataSource: 'httpRequest',
+        ua2: webMobileQb2AnalyzeEnabled,
         getHref$: ({ isGrouped }) =>
           getLinkToWebsiteAnalyze({
             group: isGrouped ? defaultWebsiteGroupings.httpRequest : emptyObject,
@@ -104,6 +109,7 @@ const productAreas = [
       },
       {
         dataSource: 'error',
+        ua2: webMobileQb2AnalyzeEnabled,
         getHref$: ({ isGrouped }) =>
           getLinkToWebsiteAnalyze({
             group: isGrouped ? defaultWebsiteGroupings.error : emptyObject,
@@ -112,6 +118,7 @@ const productAreas = [
       },
       {
         dataSource: 'custom',
+        ua2: webMobileQb2AnalyzeEnabled,
         getHref$: ({ isGrouped }) =>
           getLinkToWebsiteAnalyze({
             group: isGrouped ? defaultWebsiteGroupings.custom : emptyObject,

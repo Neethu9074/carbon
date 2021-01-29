@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import React, { useState } from 'react';
+import { t } from 'in-i18n';
 
 import { Th, SortableTh } from 'in-components/tables/sharedComponents';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
@@ -101,7 +102,9 @@ function Content({ availableColumnDefinitions, columnDefinitions, onColumnChecke
       {availableColumnDefinitions.length > pageSize && (
         <SearchBar
           query={query}
-          placeholder={`Search ${availableColumnDefinitions.length} items`}
+          placeholder={t('in-components:tables.sharedComponents.configurableThSearchItemPlaceholder', {
+            len: availableColumnDefinitions.length
+          })}
           onChange={q => {
             setQuery(q);
             setPage(1);
@@ -127,7 +130,12 @@ function Content({ availableColumnDefinitions, columnDefinitions, onColumnChecke
           );
         })}
       </ul>
-      {filteredDefinitions.length == 0 && <NoDataAvailable className={locals.empty} text="No matches" />}
+      {filteredDefinitions.length == 0 && (
+        <NoDataAvailable
+          className={locals.empty}
+          text={t('in-components:tables.sharedComponents.configurableThNoMatchesTxt')}
+        />
+      )}
       {filteredDefinitions.length > pageSize && (
         <Pagination currentPage={page} numPages={numPages} onChange={setPage} />
       )}

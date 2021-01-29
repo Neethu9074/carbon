@@ -5,12 +5,12 @@
 import withSideEffect from 'react-side-effect';
 import { create } from '@instana/observables';
 import invariant from 'invariant';
+import theme from 'in-themes';
 import React from 'react';
 
 import { stickyWrapperClassName } from 'in-components/Sticky/scrolling';
 import { debouncedResize$ } from 'in-services/browser';
 import { getCoords } from 'in-services/util/dom';
-import theme from 'in-themes';
 
 export default class extends React.Component {
   static displayName = 'Sticky';
@@ -40,6 +40,11 @@ export default class extends React.Component {
     this.refresh$.emit(true);
   }
 
+  setContentWrapper(node) {
+    this.contentWrapper = node;
+    this.refresh$.emit(true);
+  }
+
   makeSticky = () => {
     if (!this.wrapper || !this.header) {
       return;
@@ -59,6 +64,8 @@ export default class extends React.Component {
       this.header.style.left = `${this.headerCoords.left}px`;
       this.header.style.width = `${this.headerWidth}px`;
       this.wrapper.style.paddingTop = `${this.headerHeight}px`;
+
+      this.contentWrapper.style.height = `${window.innerHeight - this.headerCoords.top - this.headerHeight}px`;
 
       if (this.order >= 0) {
         this.header.style.zIndex = theme.zIndex.stickyHeader - this.order;
@@ -86,13 +93,12 @@ export default class extends React.Component {
 
   render() {
     return (
-      <div ref={r => this.setWrapper(r)} className={stickyWrapperClassName}>
+      <section ref={r => this.setWrapper(r)} className={stickyWrapperClassName}>
         <Header setHeader={r => this.setHeader(r)} setOrder={o => this.setOrder(o)}>
           {this.props.header}
         </Header>
-
-        {this.props.children}
-      </div>
+        <div ref={r => this.setContentWrapper(r)}>{this.props.children}</div>
+      </section>
     );
   }
 }

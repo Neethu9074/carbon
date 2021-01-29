@@ -17,7 +17,6 @@ import { detailViewProps } from 'in-new-components/AnalyzeView/UngroupedView';
 import LoadMoreLi from 'in-new-components/lists/List/LoadMoreLi/LoadMoreLi';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import ResultHeader from 'in-new-components/AnalyzeView/ResultHeader';
-import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
 import { prefetch } from 'in-subscription/util/prefetch';
 import { generateStableHash } from 'in-services/util/id';
 import { Ul, Li } from 'in-new-components/lists/List';
@@ -30,8 +29,6 @@ import locals from './SplitScreenList.mless';
 
 export default function SplitScreenList(props) {
   const [expanded, setExpanded] = useExpanded();
-
-  useDisabledBodyScroll();
 
   return (
     <div className={locals.wrapper}>
@@ -85,7 +82,7 @@ function ExpandedList(props) {
       <Sticky
         header={
           <div className={locals.header}>
-            <ResultHeader label="Result" {...props} />
+            <ResultHeader label="" {...props} />
 
             <div className={locals.actions}>
               {hasPrev && (
@@ -155,11 +152,11 @@ function ExpandedList(props) {
               {hasErrors && <ErrorList errors={result.errors} />}
               {hasItems && (
                 <Ul space="disabled">
-                  {items.map(item => {
+                  {items.map((item, i) => {
                     const id = getId(item);
                     return (
                       <Li
-                        key={generateStableHash(id)}
+                        key={`${generateStableHash(id)}${i}`}
                         size="normal"
                         active={isEqual(id, detailId)}
                         href={getHrefToDetailId(id)}
@@ -213,7 +210,6 @@ function openItem(itemIndex, items, canLoadMore, loadMore, isLoading, setDetailI
   if (nextItem) {
     prefetch(getDetailData(getId(nextItem)));
   }
-
   setDetailId(getId(item));
 }
 

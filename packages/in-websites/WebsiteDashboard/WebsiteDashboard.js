@@ -4,6 +4,7 @@
  */
 import { compose, withProps } from 'recompose';
 import { get } from 'lodash';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import WebsiteHealthIndicatorBehavior from 'in-websites/WebsiteDashboard/components/WebsiteHealthIndicatorBehavior';
@@ -161,7 +162,11 @@ function Header(props) {
         {...props}
         icon={props.pageId ? 'lib_document' : 'lib_website'}
         label={props.pageId || (props.result.data && props.result.data.label)}
-        title={props.pageId ? 'Website Page' : 'Website'}
+        title={
+          props.pageId
+            ? t('in-websites:websiteDashboard.websiteDashboardTitleWebsitePage')
+            : t('in-websites:websiteDashboard.websiteDashboardTitleWebsite')
+        }
         renderButtonLine={renderButtonLine}
         contextConfigurations={contextConfigurations}
       />
@@ -195,7 +200,7 @@ function renderButtonLine({ tagFilters, websiteLabel, websiteId, timeConfig }) {
           group: defaultGroupings.pageLoad
         })}
       >
-        Analyze Page Loads
+        {t('in-websites:websiteDashboard.websiteDashboardButtonAnalyzePageLoads')}
       </Button>
     </>
   );

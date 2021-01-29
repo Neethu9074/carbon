@@ -9,8 +9,8 @@ import StateManagement from 'in-new-components/AnalyzeView/StateManagement';
 import { logIdMatrixParameter } from 'in-logging/navigation/matrix';
 import Logs from 'in-logging/analyze/AnalyzeView/components/Logs';
 import { selectedTags } from 'in-logging/navigation/matrix';
-import { logsPath } from 'in-logging/navigation/paths';
 import { getTagCatalog } from 'in-logging/api/catalog';
+import { logsPath } from 'in-logging/navigation/paths';
 import useUrlState from 'in-hooks/useUrlState';
 
 const urlStateDefinition = {
@@ -33,12 +33,15 @@ export default function LoggingAnalyzeView() {
       getTagCatalog={getTagCatalog}
       groupedView={{
         defaultOrderBy: 'count',
-        defaultOrderDirection: 'DESC'
+        defaultOrderDirection: 'DESC',
+        customFieldRenderingInstructions: {}
       }}
       ungroupedView={{
         defaultOrderBy: 'timestamp',
-        defaultOrderDirection: 'DESC'
+        defaultOrderDirection: 'DESC',
+        customFieldRenderingInstructions: {}
       }}
+      defaultFields={[]}
     >
       {opts => (opts.isGrouped ? <GroupedLogs {...opts} {...furtherProps} /> : <Logs {...opts} {...furtherProps} />)}
     </StateManagement>

@@ -83,13 +83,13 @@ export default connectTo(
                 save(query);
               }}
             >
-              Save
+              {t('forms.actions.save')}
             </div>
           ) : null}
 
           {showFilters ? (
             <div className={buttonClass} onClick={togglePresets}>
-              Filters
+              {t('in-components:searchBar.filtersBtn')}
               <SvgIcon
                 className={classNames({
                   [locals.icon]: true,
@@ -113,7 +113,7 @@ export default connectTo(
 function onShowKeywordHelp(e) {
   e.preventDefault();
   addActiveDialog(
-    <HelpDialog title="Using the Search Bar" markdownContent={t('in-components:searchbar.usingTheSearchBar')} />
+    <HelpDialog title="Using the Search Bar" markdownContent={t('in-components:searchBar.usingTheSearchBar')} />
   );
 }
 

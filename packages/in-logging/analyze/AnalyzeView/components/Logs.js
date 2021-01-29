@@ -11,10 +11,10 @@ import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPr
 import DateTimeSeparated from 'in-components/tables/sharedComponents/DateTimeSeparated';
 import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';
 import TagSelector from 'in-logging/analyze/AnalyzeView/components/TagSelector';
+import UngroupedViewList from 'in-new-components/AnalyzeView/UngroupedViewList';
 import { TAG } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import LogDetail from 'in-logging/analyze/AnalyzeView/LogDetail/LogDetail';
-import UngroupedView from 'in-new-components/AnalyzeView/UngroupedView';
 import TagList from 'in-logging/analyze/AnalyzeView/components/TagList';
 import { hasError, isLoading } from 'in-services/util/result';
 import { pendingResult } from 'in-services/fixedObjects';
@@ -41,12 +41,12 @@ const columnDefinitions = [
   {
     id: 'log',
     sortable: false,
-    getContent({ log, groupLabel, getHrefToDetailId, selectedTags, getHrefWithTagExpression }) {
+    getContent({ log, groupLabel, getHrefToDetailId, selectedTags, getHrefWithAdditionalTagFilter }) {
       return (
         <LogContentColumn
           content={log.content}
           href={getHrefToDetailId(log.id, groupLabel)}
-          onSelectTagHref={tag => getHrefWithTagExpression(getTagExpressionWithTag(tag))}
+          onSelectTagHref={tag => getHrefWithAdditionalTagFilter(getTagExpressionWithTag(tag))}
           tags={log.tags.filter(({ tag }) => selectedTags.indexOf(tag.name) >= 0)}
         />
       );
@@ -56,7 +56,7 @@ const columnDefinitions = [
 
 export default function Logs(props) {
   let content = (
-    <UngroupedView
+    <UngroupedViewList
       {...props}
       classNames={{ listItem: locals.listItem }}
       itemName="Log"
@@ -78,7 +78,7 @@ export default function Logs(props) {
       renderNestedContent={logId => (
         <LogDetails
           logId={logId}
-          onSelectTagHref={tag => props.getHrefWithTagExpression(getTagExpressionWithTag(tag))}
+          onSelectTagHref={tag => props.getHrefWithAdditionalTagFilter(getTagExpressionWithTag(tag))}
         />
       )}
     />

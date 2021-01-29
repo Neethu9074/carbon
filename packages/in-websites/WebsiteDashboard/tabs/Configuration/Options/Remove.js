@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { get } from 'lodash';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import HelpParagraph from 'in-websites/WebsiteDashboard/tabs/Configuration/Options/HelpParagraph';
@@ -14,7 +15,6 @@ import { removeWebsite } from 'in-websites/api/websites';
 import SaveError from 'in-components/form/SaveError';
 import Button from 'in-new-components/Button';
 import Card from 'in-new-components/Card';
-import { t } from 'in-i18n';
 
 import locals from './Remove.mless';
 
@@ -41,10 +41,10 @@ export default class Remove extends React.PureComponent {
     const { removeError, loading } = this.state;
 
     return (
-      <Card title="Remove Website">
+      <Card title={t('in-websites:websiteDashboard.tabs.configuration.configurationRemoveTitle')}>
         <HelpParagraph>{t('in-websites:delete.disclaimer', { websiteName: label })}</HelpParagraph>
         <HelpParagraph>
-          <strong>Please note that neither you nor the Instana support can undo this action!</strong>
+          <strong>{t('in-websites:websiteDashboard.tabs.configuration.configurationRemoveHelpParagraph')}</strong>
         </HelpParagraph>
 
         <div className={locals.confirmWrapper}>
@@ -55,7 +55,7 @@ export default class Remove extends React.PureComponent {
             disabled={loading}
             className={locals.confirm}
           />{' '}
-          I understand that this action cannot be undone.
+          {t('in-websites:websiteDashboard.tabs.configuration.configurationRemoveInput')}
         </div>
 
         {removeError && <SaveError>{removeError}</SaveError>}
@@ -65,7 +65,7 @@ export default class Remove extends React.PureComponent {
           onClick={this.remove}
           className={locals.button}
         >
-          Remove Website
+          {t('in-websites:websiteDashboard.tabs.configuration.configurationRemoveButton')}
         </Button>
       </Card>
     );

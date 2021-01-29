@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import React, { useRef, useLayoutEffect, useState } from 'react';
+import React, { useRef, useLayoutEffect, useState, useEffect } from 'react';
 import { create } from '@instana/observables';
 import rpt from 'prop-types';
 
@@ -21,6 +21,7 @@ import { and } from 'in-new-components/QueryBuilder/ConjunctionSelectorOverlay/s
 import DragAndDropBehaviour from 'in-new-components/QueryBuilder/DragAndDropBehaviour';
 import LoadingIndicator from 'in-new-components/GroupingConfigurator/LoadingIndicator';
 import QueryBuilderReadOnly from 'in-new-components/QueryBuilder/QueryBuilderReadOnly';
+import { isFormModelValid } from 'in-new-components/QueryBuilder/validation/formModel';
 import { createTagForm } from 'in-new-components/QueryBuilder/validation/tagForm';
 import FilterButton from 'in-new-components/QueryBuilder/components/FilterButton';
 import Conjunction from 'in-new-components/QueryBuilder/components/Conjunction';
@@ -55,15 +56,36 @@ function QueryBuilder({
   value: formModel,
   getTagCatalog,
   getSuggestions,
-  onChange,
+  onChange: onValidChange,
+  onError,
   tracking,
   withoutOrConjunction = false,
-  withoutBrackets = false
+  withoutBrackets = false,
+  useLastValidStateWhenErroneous = false
 }) {
   const timeConfig = useTimeConfig();
   const [draggedFormModelIndex$] = useState(create());
   const tagCatalog = useObservable(getTagCatalogObservable, [getTagCatalog, timeConfig]);
   const resolvedCreateTagForm = tagCatalog?.data && createTagForm.bind(null, tagCatalog);
+
+  // Keep the fromMode state internally and notify the parent only about valid changes
+  const [currentFormModel, setCurrentFormModel] = useState(formModel);
+  const onChange = formModel => {
+    setCurrentFormModel(formModel);
+    if (
+      !useLastValidStateWhenErroneous ||
+      (tagCatalog?.data && isFormModelValid({ tagCatalog: tagCatalog.data, formModel: formModel }))
+    ) {
+      onValidChange(formModel);
+    } else {
+      onError(true);
+    }
+  };
+
+  useEffect(() => {
+    // formModel changes from props should always override the internal state
+    setCurrentFormModel(formModel);
+  }, [formModel]);
 
   const refContainer = useRef();
   // To allow re-rendering when no React state has changed. We use this when we change the
@@ -91,9 +113,9 @@ function QueryBuilder({
     return <LoadingIndicator />;
   }
 
-  const renderModel = toRenderModel(formModel);
+  const renderModel = toRenderModel(currentFormModel);
 
-  return formModel.length === 0 ? (
+  return currentFormModel.length === 0 ? (
     <FilterButton
       tagCatalog={tagCatalog.data}
       onAdd={onAddFormModelElement}
@@ -107,7 +129,7 @@ function QueryBuilder({
     <>
       <QueryBuilderDragAndDropBehaviour
         queryBuilderRef={refContainer}
-        totalItems={formModel.length}
+        totalItems={currentFormModel.length}
         switchFormModelIndices={switchFormModelIndices}
         setDraggedFormModelIndex={index => draggedFormModelIndex$.emit(index)}
       >
@@ -130,7 +152,7 @@ function QueryBuilder({
               elements={renderModel}
               onRemove={onRemove}
               focus={focus}
-              formModel={formModel}
+              formModel={currentFormModel}
               withoutOrConjunction={withoutOrConjunction}
               withoutBrackets={withoutBrackets}
             />
@@ -140,7 +162,7 @@ function QueryBuilder({
       <FilterButton
         tagCatalog={tagCatalog.data}
         onAdd={onAddFormModelElement}
-        formModelIndex={formModel.length}
+        formModelIndex={currentFormModel.length}
         renderModelIndex={renderModel.length - 1}
         focus={focus}
         trailingButton
@@ -155,7 +177,7 @@ function QueryBuilder({
       return;
     }
 
-    const copiedFormModel = formModel.slice();
+    const copiedFormModel = currentFormModel.slice();
     const [tmp] = copiedFormModel.splice(indexA, 1);
     copiedFormModel.splice(indexB, 0, tmp);
     onChange(copiedFormModel);
@@ -166,7 +188,7 @@ function QueryBuilder({
   }
 
   function onAddFormModelElement({ formModelIndex, renderModelIndex, newFormModel }) {
-    const updatedFormModel = formModel.slice();
+    const updatedFormModel = currentFormModel.slice();
     const addConjunction = shouldAutomaticallyAddAConjunction(updatedFormModel, newFormModel, formModelIndex);
     updatedFormModel.splice(formModelIndex, 0, newFormModel);
     if (addConjunction) {
@@ -213,7 +235,7 @@ function QueryBuilder({
   }
 
   function updateFormModel({ formModelIndex, renderModelIndex, newFormModel, removeTargetItem, changeFocus }) {
-    const copiedFormModel = formModel.slice();
+    const copiedFormModel = currentFormModel.slice();
     copiedFormModel.splice(formModelIndex, removeTargetItem ? 1 : 0, newFormModel);
     if (changeFocus) {
       focus(
@@ -228,14 +250,14 @@ function QueryBuilder({
   }
 
   function onRemove(formModelIndex, renderModelIndexToFocus, numberOfElementsToRemove = 1) {
-    const elementToRemove = formModel[formModelIndex];
+    const elementToRemove = currentFormModel[formModelIndex];
     if (!elementToRemove) {
       // this can happen, e.g., when someone presses backspace at the very first position, causing
       // elementToRemove to be undefined.
       return;
     }
 
-    const copiedFormModel = formModel.slice();
+    const copiedFormModel = currentFormModel.slice();
     copiedFormModel.splice(formModelIndex, numberOfElementsToRemove);
     focus(
       renderModelIndexToFocus,
@@ -360,9 +382,11 @@ QueryBuilder.propTypes = {
   getTagCatalog: rpt.func.isRequired,
   getSuggestions: rpt.func.isRequired,
   onChange: rpt.func.isRequired,
+  onError: rpt.func,
   tracking: rpt.shape(trackingProps),
   withoutOrConjunction: rpt.bool,
-  withoutBrackets: rpt.bool
+  withoutBrackets: rpt.bool,
+  useLastValidStateWhenErroneous: rpt.bool
 };
 
 function getTagCatalogObservable([getTagCatalog, timeConfig]) {

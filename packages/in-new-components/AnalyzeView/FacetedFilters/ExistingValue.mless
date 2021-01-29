@@ -1,0 +1,24 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc. 2021
+ */
+@import '~in-themes/active.less';
+@import '~in-themes/mixins.less';
+
+:local {
+  .suggestion {
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+
+  .label {
+    .ellipsis();
+  }
+
+  .icon {
+    fill: @lib__colors__N600Light;
+  }
+}

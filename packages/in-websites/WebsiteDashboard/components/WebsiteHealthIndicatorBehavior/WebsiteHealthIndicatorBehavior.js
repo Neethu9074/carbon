@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import WebsiteOpenIssuesList from 'in-websites/WebsiteDashboard/components/WebsiteHealthIndicatorBehavior/WebsiteOpenIssuesList';
@@ -45,7 +46,11 @@ export default connectTo(
         <props.IndicatorPresenter
           showCheckAsNeutral
           maxSeverity={maxSeverity}
-          openIssues={props.inContentArea ? openIssues : 'No Issues'}
+          openIssues={
+            props.inContentArea
+              ? openIssues
+              : t('in-websites:websiteDashboard.components.websiteHealthIndicatorBehaviorNoIssues')
+          }
         />
       );
     }
@@ -61,7 +66,9 @@ export default connectTo(
 function Indicator({ openIssues, maxSeverity, IndicatorPresenter, refSetter, toggle }) {
   return (
     <IndicatorPresenter
-      openIssues={`${openIssues} Issue${openIssues === 1 ? '' : 's'}`}
+      openIssues={t('in-websites:websiteDashboard.components.websiteHealthIndicatorBehaviorNumbersOfIssues', {
+        count: openIssues
+      })}
       maxSeverity={maxSeverity}
       onClick={toggle}
       refSetter={refSetter}

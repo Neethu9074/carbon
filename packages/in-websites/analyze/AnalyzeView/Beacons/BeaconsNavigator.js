@@ -18,14 +18,11 @@ import {
 } from 'in-components/tables/sharedComponents';
 import HeightRestrictedView from 'in-components/layout/HeightRestrictedView/HeightRestrictedView';
 
-import locals from './BeaconsNavigator.mless';
-
 export default function BeaconsNavigator(props) {
   const { items, errors, progress, loadMore, canLoadMore, ListItemHeader, ListItem, beaconId } = props;
 
   return (
     <HeightRestrictedView
-      className={locals.navigator}
       render={() => (
         <Table tableInCard>
           <Thead>

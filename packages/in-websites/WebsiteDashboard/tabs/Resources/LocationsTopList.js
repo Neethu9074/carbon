@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import getWebsitePaginatedBeaconGroups from 'in-websites/subscriptions/getWebsitePaginatedBeaconGroups';
@@ -13,14 +14,17 @@ import { ms, number } from 'in-services/formatters/number';
 import Link from 'in-components/Link';
 
 const metrics = ['beaconCount', 'beaconDuration'];
-const labels = ['Calls', 'Load Time'];
+const labels = [
+  t('in-websites:websiteDashboard.tabs.resources.locationsTopListLabelCalls'),
+  t('in-websites:websiteDashboard.tabs.resources.locationsTopListLabelLoadTime')
+];
 const aggregations = ['SUM', 'MEAN'];
 const formatters = [number.compact, ms.compact];
 
 export default function LocationsTopList({ websiteId, websiteLabel, timeConfig, tagFilters, urlMatrixParamConfig }) {
   return (
     <TopListWithUrlState
-      title="Paths"
+      title={t('in-websites:websiteDashboard.tabs.resources.locationsTopListTitle')}
       metrics={metrics}
       labels={labels}
       aggregations={aggregations}
@@ -75,7 +79,7 @@ function ViewAll({ tagFilters, websiteLabel }, className) {
         }
       })}
     >
-      View all paths
+      {t('in-websites:websiteDashboard.tabs.resources.locationsTopListLinkLabel')}
     </Link>
   );
 }

@@ -4,6 +4,7 @@
  */
 import PropTypes from 'prop-types';
 import theme from 'in-themes';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import SingleMarkerLaneItem from 'in-components/Chart/markerLanes/MarkerLane/SingleMarkerLaneItem';
@@ -23,7 +24,7 @@ export default function ReleasesLanePresenter(props) {
     <MarkerLane
       {...props}
       events={props.releases}
-      label="Releases"
+      label={t('in-components:chart.chartReleasesLanePresenterReleasesLabel')}
       iconConfig={{
         type: 'lib_release_rocket',
         typeCluster: 'lib_release_rocket',
@@ -39,7 +40,11 @@ export default function ReleasesLanePresenter(props) {
             </div>
           ))}
           {clusteredReleases.length > maxNumReleasesToShow && (
-            <div>{`+${clusteredReleases.length - maxNumReleasesToShow} more Releases`}</div>
+            <div>
+              {t('in-components:chart.chartReleasesLanePresenterTooltip', {
+                len: clusteredReleases.length - maxNumReleasesToShow
+              })}
+            </div>
           )}
         </div>
       )}

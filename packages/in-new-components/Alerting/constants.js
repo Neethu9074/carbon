@@ -27,11 +27,28 @@ export const blueprintConfigPropType = PropTypes.shape({
   getAggregation: PropTypes.func.isRequired,
   isRuleComplete: PropTypes.func.isRequired,
 
+  /**
+   * Smart Alert rule specific filters in QB1 format.
+   */
   getRuleTagFilters: PropTypes.func.isRequired,
+  /**
+   * Smart Alert rule specific filters in QB2 FormModel format.
+   */
   getRuleTagFilterFormModel: PropTypes.func.isRequired,
 
+  /**
+   * Smart Alert entity related filter in QB1 format.
+   */
   getEntityTagFilters: PropTypes.func.isRequired,
+  /**
+   * Smart Alert entity related filters in QB2 FormModel format.
+   */
   getEntityTagFilterFormModel: PropTypes.func.isRequired,
+
+  /**
+   * Additional filters of a Smart Alert that only needs to be applied in Unbound Analytics, using QB2 FormModel format.
+   */
+  getExtraAnalyzeLinkTagFilterFormModel: PropTypes.func.isRequired,
 
   // the following are only needed when the blueprint has sub-types in simple-mode:
   subType: PropTypes.string,

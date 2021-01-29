@@ -5,11 +5,11 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import { isShowInternalTagsEnabled$, enableShowInternalTags } from 'in-applications/isShowInternalTagsEnabled';
+import { enableShowInternalTags, isShowInternalTagsEnabled$ } from 'in-applications/isShowInternalTagsEnabled';
+import { newAnalyticsEnabled, showUserSettingInternalTagsInUA } from 'in-services/featureFlags';
 import useSettingsEditor from 'in-settings/tabs/UserSettings/pages/useSettingsEditor';
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
-import { showUserSettingInternalTagsInUA } from 'in-services/featureFlags';
 import SectionHeading from 'in-settings/components/SectionHeading';
 import Heading from 'in-settings/tabs/UserSettings/pages/Heading';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
@@ -170,6 +170,22 @@ export default function UiConfigAdvancedPage() {
           />
         </HorizontalFormGroup>
       </div>
+
+      {newAnalyticsEnabled && (
+        <>
+          <SectionHeading>Applications</SectionHeading>
+          <div style={{ marginBottom: '1rem' }}>
+            <HorizontalFormGroup>
+              <Heading text="Use queryable tags only" htmlFor="use_queryable_tags" />
+              <Toggle
+                id="use_queryable_tags"
+                checked={get(settings, ['use_queryable_tags_enabled'], true)}
+                onChange={e => saveSetting('use_queryable_tags_enabled', e.target.checked)}
+              />
+            </HorizontalFormGroup>
+          </div>
+        </>
+      )}
 
       {showUserSettingInternalTagsInUA && (
         <>

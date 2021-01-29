@@ -141,7 +141,7 @@ export function getEntityNameByType(type) {
   } else if (type === 'logs' || type === 'rawlogs') {
     return 'Logs';
   } else if (type === 'sessionStart') {
-    return 'Session Start';
+    return 'Session Starts';
   } else if (type === 'viewChange') {
     return 'View transitions';
   }

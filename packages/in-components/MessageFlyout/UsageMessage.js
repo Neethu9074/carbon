@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { Motion, spring } from 'react-motion';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { track, REQUEST_QUOTE_BUTTON_CLICKED } from 'in-services/tracking/tracking';
@@ -20,11 +21,11 @@ function getPageType(pathname = '/') {
 
   switch (pageName) {
     case 'physical':
-      return { pageName: 'Infrastructure' };
+      return { pageName: t('in-components:messageFlyout.infrastructurePageName') };
     case 'websiteMonitoring':
-      return { pageName: 'EUM' };
+      return { pageName: t('in-components:messageFlyout.eumPageName') };
     case 'config':
-      return { pageName: 'Settings' };
+      return { pageName: t('in-components:messageFlyout.settingsPageName') };
     case '':
       return { pageName: '--' };
     default:
@@ -67,7 +68,7 @@ export default function UsageMessage({ message }) {
                     addActiveDialog(<RequestQuoteDialog />);
                   }}
                 >
-                  Request a quote
+                  {t('in-components:messageFlyout.requestQuoteBtn')}
                 </Button>
               )}
             </div>

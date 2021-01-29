@@ -38,7 +38,11 @@ const baseBlueprint = Object.freeze({
   getEntityTagFilters: alertConfig => [getWebsiteIdTagFilter(alertConfig)],
   thresholdDefaults: {
     operator: '>='
-  }
+  },
+  // TODO the QB2 related functions below need to be implemented as soon as we support QB2 for Website SmartAlerts
+  getEntityTagFilterFormModel: () => [],
+  getRuleTagFilterFormModel: () => [],
+  getExtraAnalyzeLinkTagFilterFormModel: () => []
 });
 
 const slownessBlueprintConfig = Object.freeze({

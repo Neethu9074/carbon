@@ -23,8 +23,8 @@ import Footer from 'in-new-components/Footer';
 import Sticky from 'in-components/Sticky';
 
 export default function LoggingQueryBuilderWorkspace({
-  onTagFilterExpressionChange,
-  tagFilterExpression,
+  onFormModelChange,
+  formModel,
   backendQueryModel,
   onGroupByChange,
   onMetricsChange,
@@ -44,10 +44,11 @@ export default function LoggingQueryBuilderWorkspace({
 
           <Sections>
             <QueryBuilderSection
-              value={tagFilterExpression}
-              onChange={onTagFilterExpressionChange}
+              value={formModel}
+              onChange={onFormModelChange}
               QueryBuilder={LogsQueryBuilder}
               hasError={isInvalid}
+              useLastValidStateWhenErroneous
             />
 
             <GroupingConfiguratorSection

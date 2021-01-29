@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import React from 'react';
+import { t } from 'in-i18n';
 
 import { number } from 'in-services/formatters/number';
 
@@ -13,14 +14,14 @@ export default function CountHeader({ topText, totalHits, totalRepresentedItemCo
     return <Placeholder itemName={itemName} />;
   }
   const hitPlural = `${hitName}s`;
-  const itemPlural = `${itemName}s`;
+  const itemPlural = t(itemName, {
+    count: totalRepresentedItemCount,
+    formattedCount: number.compact(totalRepresentedItemCount)
+  });
   return (
     <Presenter
       topText={topText ?? `${number.compact(totalHits)} ${totalHits != 1 ? hitPlural : hitName}`}
-      bottomText={
-        itemName &&
-        `${number.compact(totalRepresentedItemCount)} ${totalRepresentedItemCount != 1 ? itemPlural : itemName}`
-      }
+      bottomText={itemPlural}
     />
   );
 }

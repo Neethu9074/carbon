@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { close } from 'in-components/DialogPresenter/store';
@@ -10,12 +11,9 @@ import Button from 'in-new-components/Button';
 
 export default function ReloadUiDialog({ onClose = close }) {
   return (
-    <Dialog title="New User Interface Version Available" onClose={onClose}>
-      <p>
-        An error has occurred while trying to navigate because the user interface version loaded within the browser is
-        out of date.
-      </p>
-      <p>Please reload the browser window to get the latest version and continue.</p>
+    <Dialog title={t('in-components:reloadUiDialogTitle')} onClose={onClose}>
+      <p>{t('in-components:reloadUiDialogP1')}</p>
+      <p>{t('in-components:reloadUiDialogP2')}</p>
       <Button
         kind="primaryv2"
         onClick={() => {
@@ -23,7 +21,7 @@ export default function ReloadUiDialog({ onClose = close }) {
         }}
         autoFocus
       >
-        Reload
+        {t('in-components:reloadUiDialogReloadBtn')}
       </Button>
     </Dialog>
   );

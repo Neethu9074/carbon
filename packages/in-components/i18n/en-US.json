@@ -1,5 +1,115 @@
 {
-  "searchbar": {
-    "usingTheSearchBar": "The Instana Dynamic Focus search functionality can be used to filter the 3D maps, comparison tables and incident views. The search bar has\nextensive abilities to search using fuzzy and wildcard searches as well as boolean operators. For example, the following\nquery restricts views to production hosts with less than four CPUs:\n\n`entity.host.cpu.count:<4 AND entity.zone:production`.\n## Syntax\nDynamic Focus leverages the [lucene query syntax](https://lucene.apache.org/core/2_9_4/queryparsersyntax.html) with the following differences from the Lucene standard:\n- **Default operator:** `AND`\n- **Syntax constraints:** are listed in the [documentation](https://instana.com/docs/dynamic_focus/#syntax-constraints)\n## Search Bar Interaction\nThe search bar supports autocompletion for search fields and will syntax highlight the lucene query while you type.\nOnce typing, the search bar will propose search fields that match the current input. You can accept proposed fields\nby hitting `RETURN`. Hit `CTRL+SPACE` to open the auto completion popup.\n## Lucene Query Syntax Cheat Sheet\n - **Fielded search:** `entity.host.cpu.count:>4`\n - **Boolean operators:** `entity.host.cpu.count:<4 AND entity.zone:production`\n - **Grouping:** `(entity.host.cpu.count:<4 AND entity.zone:production) OR entity.host.cpu.count:>4`\n - **Wildcard searches:** `entity.type:container*`\n\nPlease refer to the [documentation](https://instana.com/docs/dynamic_focus/) for more information."
-  }
+  "chart": {
+    "chartWrapperMetricNotfound": "Metric id {{metricId}} not found.",
+    "chartWrapperSameAxisSameValue": "All aggregation types for one axis must have the same value.",
+    "viewInAnalyticsBtnLabel": "View in Analyze",
+    "chartLendMetricTimeShifted": "Metric is time shifted to: {{timeShiftedLabel}}",
+    "chartTooltipContentMore": "{{number}} more",
+    "chartDownloadLabel": "Download JSON",
+    "chartGlobalHighlightLabel": "Highlight on all charts",
+    "chartZoomInLabel": "Zoom to time range",
+    "chartAlertsLanePresenterAlertsLabel": "Alerts",
+    "chartAlertsLaneTooltipContent": {
+      "countSmartAlert": "Smart Alert",
+      "countSmartAlert_plural": "Smart Alert",
+      "countSmartAlert_0": "Smart Alerts",
+      "countSmartAlert_1": "Smart Alerts",
+      "countSmartAlert_2": "Smart Alerts",
+      "countIncident": "Incident",
+      "countIncident_plural": "Incidents",
+      "countIncident_0": "Incidents",
+      "countIncident_1": "Incidents",
+      "countIncident_2": "Incidents",
+      "msg": "{{smartAlertsCount}} {{smartAlerts}} & {{incidentsCount}} {{incidents}}",
+      "itemMsg": "+{{leftCount}} more {{moreMsg}}"
+    },
+    "chartAlertsPreviewLanePresenterAlertsLabel": "Alerts",
+    "chartReleasesLanePresenterReleasesLabel": "Releases",
+    "chartReleasesLanePresenterTooltip": "+{{len}} more Releases"
+  },
+  "downloadBtn": {
+    "downloadViewDownloadAsJsonLabel": "Download as JSON",
+    "downloadViewDownloadCSVLabel": "Download (*.csv)",
+    "downloadViewDownloadJsonLabel": "Download (*.json)",
+    "eventMetricDownloadViewDownloadJsonLabel": "Download (*.json)"
+  },
+  "fromsTouchedMsg": "{{msgMsg}} at <codeWithClass>{{msgPath}}</codeWithClass>",
+  "graphView": {
+    "graphTitle": "Graph",
+    "explanationHeader": "Dynamic Graph Showcase",
+    "explanationP1": "The core technology powering Instana is what we call the Dynamic Graph. The Graph is a model of your application that understands all physical and logical dependencies of components. On the right you see the Dynamic Graph of your current environment!",
+    "explanationP2": "The Graph has more than the physical components – it also includes logical components like traces, applications, services, clusters or tablespaces. Components and their dependencies are discovered automatically by the Instana Agent and Sensors such that the Graph is continuously kept up to date. Every node in the Graph is also continuously updated with state information like metrics, configuration data and a calculated health value based on semantical knowledge and a machine learning approach. This knowledge also analyses the dependencies in the graph to find logical groupings like services and applications to understand impact on that level and derive criticality of issues. The whole graph is persistent and you can go back and forth in time to leverage the knowledge of the graph for many operational use cases.",
+    "explanationLink": "<linkToBlog>Visit our blog</linkToBlog> for more information.",
+    "closeBtn": "Close Graph"
+  },
+  "gravatar": {
+    "avatarUrlAlt": "Avatar for {{email}} from gravatar.com.",
+    "avatarNullAlt": "Fallback avatar for {{email}}."
+  },
+  "messageFlyout": {
+    "infrastructurePageName": "Infrastructure",
+    "eumPageName": "EUM",
+    "settingsPageName": "Settings",
+    "requestQuoteBtn": "Request a quote"
+  },
+  "releaseNotesDialog": {
+    "releaseNotesTitle": "Release Notes"
+  },
+  "requestQuoteDialog": {
+    "dialogRequestQuoteTitle": "Request Quote",
+    "dialogRequestLoadingText": "Loading necessary information…",
+    "dialogRequestQuoteSubmittedMsg": "Your quote request has been successfully submitted.",
+    "formAccountInfoSecrHeader": "Account Information",
+    "formCompanyNameLabel": "Company Name",
+    "formNumberofAPMHostsLabel": "Number of APM Hosts",
+    "formNumberofIMHostsLabel": "Number of IM Hosts",
+    "formNumberofYearsLabel": "Number of Years",
+    "formBillingInforSecHeader": "Billing Information",
+    "formStreetLabel": "Street",
+    "formCityLabel": "City",
+    "formZipLabel": "Zip",
+    "formCountryLabel": "Country",
+    "formStateLabel": "State"
+  },
+  "searchBar": {
+    "usingTheSearchBar": "The Instana Dynamic Focus search functionality can be used to filter the 3D maps, comparison tables and incident views. The search bar has\nextensive abilities to search using fuzzy and wildcard searches as well as boolean operators. For example, the following\nquery restricts views to production hosts with less than four CPUs:\n\n`entity.host.cpu.count:<4 AND entity.zone:production`.\n## Syntax\nDynamic Focus leverages the [lucene query syntax](https://lucene.apache.org/core/2_9_4/queryparsersyntax.html) with the following differences from the Lucene standard:\n- **Default operator:** `AND`\n- **Syntax constraints:** are listed in the [documentation](https://instana.com/docs/dynamic_focus/#syntax-constraints)\n## Search Bar Interaction\nThe search bar supports autocompletion for search fields and will syntax highlight the lucene query while you type.\nOnce typing, the search bar will propose search fields that match the current input. You can accept proposed fields\nby hitting `RETURN`. Hit `CTRL+SPACE` to open the auto completion popup.\n## Lucene Query Syntax Cheat Sheet\n - **Fielded search:** `entity.host.cpu.count:>4`\n - **Boolean operators:** `entity.host.cpu.count:<4 AND entity.zone:production`\n - **Grouping:** `(entity.host.cpu.count:<4 AND entity.zone:production) OR entity.host.cpu.count:>4`\n - **Wildcard searches:** `entity.type:container*`\n\nPlease refer to the [documentation](https://instana.com/docs/dynamic_focus/) for more information.",
+    "filtersBtn": "Filters",
+    "filterPresetsMenuHeading": "Filters",
+    "filterPresetsSaveFilters": "Save filters for easy access here",
+    "filterPresetsEditFilter": "Edit",
+    "filterPresetsRemoveFilter": "Remove",
+    "saveDialogSaveFilterTitle": "Save filter",
+    "saveDialogNameLabel": "Name",
+    "saveDialogDefinitionLabel": "Definition",
+    "saveDialogSaveFilterBtn": "Save filter",
+    "dialogRequireNameMsg": "Please specify a name for the filter.",
+    "dialogRequireFilterMsg": "Please specify a filter to save.",
+    "filterConfirmRemovalHeader": "Confirm Removal",
+    "filterConfirmButtonLabel": "Remove filter",
+    "filterConfirmRemoveMsg": "Are you sure you want to remove the filter <strong>{{filterName}}</strong>?"
+  },
+  "tables": {
+    "serverTable": {
+      "cursorPaginatedTableFilterByLabel": "Analyze this group",
+      "cursorPaginatedTableLoadMoreRowLabel": "Load More",
+      "withEmptyTableStateEntitiesName": "entities",
+      "withEmptyTableStateEntityPageMainNotificationTitle": "No {{name}} available",
+      "withEmptyTableStateEntityPageMainNotificationExplanation": "There were no {{name}} retrieved for the selected time range."
+    },
+    "sharedComponents": {
+      "configurableThSearchItemPlaceholder": "Search {{len}} items",
+      "configurableThNoMatchesTxt": "No matches"
+    }
+  },
+  "tags": {
+    "tagFilterSearchPlaceholder": "Search…",
+    "tagListNoTagsDefined": "There are no tags defined",
+    "tagListShowAll": "Show all tags ({{num}} more)"
+  },
+  "copyToClipboardPressToCopy": "Press CTRL+C / CMD+C to copy!",
+  "copyToClipboardCopied": "Copied!",
+  "reloadUiDialogTitle": "New User Interface Version Available",
+  "reloadUiDialogP1": "An error has occurred while trying to navigate because the user interface version loaded within the browser is out of date.",
+  "reloadUiDialogP2": "Please reload the browser window to get the latest version and continue.",
+  "reloadUiDialogReloadBtn": "Reload"
 }

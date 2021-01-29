@@ -266,6 +266,7 @@ function ApplicationAnalyzeViewWithFixatedTimeConfig() {
               QueryBuilder={dataSource === 'traces' ? TraceQueryBuilder : CallQueryBuilder}
               hasError={isInvalidExpression}
               errors={validTagFilterExpressionResult.errors}
+              useLastValidStateWhenErroneous
             />
 
             <GroupingConfiguratorSection

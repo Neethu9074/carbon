@@ -3,10 +3,14 @@
     "actions": {
       "save": "Save",
       "cancel": "Cancel",
-      "create": "Create"
+      "create": "Create",
+      "delete": "Delete",
+      "close": "Close",
+      "submit": "Submit"
     },
     "states": {
-      "saving": "Saving…"
+      "saving": "Saving…",
+      "loading": "Loading…"
     }
   }
 }

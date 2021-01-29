@@ -11,7 +11,7 @@ import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import SparkTooltip from 'in-components/SparkChart/components/Tooltip';
 import SparkChart from 'in-components/SparkChart/SparkChart';
 import KeyValue from 'in-new-components/lists/KeyValue';
-import { number } from 'in-services/formatters/number';
+import { number, isPercentageFormatter } from 'in-services/formatters/number';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
 
@@ -50,7 +50,7 @@ function SparkChartReactComponent(props) {
   } else if (noMetricsAvailable && !showNullValuesChartOnEmptyMetrics && !hideChartOnEmptyMetrics) {
     sparkChart = <NoDataAvailable width={width} height={height} />;
   } else {
-    sparkChart = <SparkChartReactWrapper {...props} timeConfig={timeConfig} metrics={metrics} />;
+    sparkChart = <SparkChartReactWrapper {...props} percentageMetric={props.percentageMetric ?? isPercentageFormatter(props.tooltipFormatter)} timeConfig={timeConfig} metrics={metrics} />;
   }
 
   if (horizontalMetricValue !== undefined) {

@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import React, { useState } from 'react';
+import { t } from 'in-i18n';
 
 import HelpParagraph from 'in-websites/WebsiteDashboard/tabs/Configuration/Options/HelpParagraph';
 import TrackingSnippetPresenter from 'in-websites/trackingSnippet/TrackingSnippetPresenter';
@@ -19,12 +20,12 @@ export default function TrackingScript({ websiteId }) {
 
   return (
     <Card
-      title="Tracking Script"
+      title={t('in-websites:websiteDashboard.tabs.configuration.configurationTrackingScriptTitle')}
       header={
         <CopyToClipboard getText={() => eumSnippet}>
           {refSetter => (
             <Button kind="primaryv2" refSetter={refSetter}>
-              Copy to clipboard
+              {t('in-websites:websiteDashboard.tabs.configuration.configurationrackingScriptButton')}
             </Button>
           )}
         </CopyToClipboard>

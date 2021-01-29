@@ -46,13 +46,14 @@ export default function StatusCodeInteractiveChart({
       <ThresholdCondition form={form} onChange={onChange} updateForm={updateForm} blueprintConfig={blueprintConfig} />
 
       <ChartViewConfigurator
+        alertConfig={alertConfig}
         onChartViewConfigChange={onChartViewConfigChange}
         selectedChartViewConfigIndex={selectedChartViewConfigIndex}
-        className={locals.chartContainer}
         headerTransparent
       >
-        {chartViewConfig => (
+        {(chartViewConfig, serviceId) => (
           <ApplicationAlertingChartWithErrorMessage
+            serviceId={serviceId}
             alertConfigWithFormModel={alertConfig}
             viewConfig={chartViewConfig}
             blueprintConfig={blueprintConfig}

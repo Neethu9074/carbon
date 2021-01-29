@@ -3,10 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 import { fromPromise } from '@instana/observables';
+import geodata from 'promise-loader?global,geonames!in-services/geonames/geodata';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { getCountries, getStatesByCountryName } from 'in-services/geonames/geonames';
-import geodata from 'promise-loader?global,geonames!in-services/geonames/geodata';
 import SectionHeading from 'in-settings/components/SectionHeading';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import Section from 'in-settings/components/Section';
@@ -26,12 +27,12 @@ export default connect(() => ({
   return (
     <fieldset>
       <Section>
-        <SectionHeading>Account Information</SectionHeading>
+        <SectionHeading>{t('in-components:requestQuoteDialog.formAccountInfoSecrHeader')}</SectionHeading>
 
         {form.get('companyName').map(field => (
           <FormGroup>
             <Label hasError={!field.valid && field.touched} htmlFor="companyName">
-              Company Name
+              {t('in-components:requestQuoteDialog.formCompanyNameLabel')}
             </Label>
             <Input
               type="text"
@@ -49,7 +50,7 @@ export default connect(() => ({
           {form.get('numberOfApmHosts').map(field => (
             <FormGroup className={locals.threeFields}>
               <Label hasError={!field.valid && field.touched} htmlFor="numberOfApmHosts">
-                Number of APM Hosts
+                {t('in-components:requestQuoteDialog.formNumberofAPMHostsLabel')}
               </Label>
               <Input
                 id="numberOfApmHosts"
@@ -64,7 +65,7 @@ export default connect(() => ({
           {form.get('numberOfInfrastructureHosts').map(field => (
             <FormGroup className={locals.threeFields}>
               <Label hasError={!field.valid && field.touched} htmlFor="numberOfInfrastructureHosts">
-                Number of IM Hosts
+                {t('in-components:requestQuoteDialog.formNumberofIMHostsLabel')}
               </Label>
               <Input
                 id="numberOfInfrastructureHosts"
@@ -79,7 +80,7 @@ export default connect(() => ({
           {form.get('numberOfYears').map(field => (
             <FormGroup className={locals.threeFields}>
               <Label hasError={!field.valid && field.touched} htmlFor="numberOfYears">
-                Number of Years
+                {t('in-components:requestQuoteDialog.formNumberofYearsLabel')}
               </Label>
               <Input
                 id="numberOfYears"
@@ -95,12 +96,12 @@ export default connect(() => ({
       </Section>
 
       <Section>
-        <SectionHeading>Billing Information</SectionHeading>
+        <SectionHeading>{t('in-components:requestQuoteDialog.formBillingInforSecHeader')}</SectionHeading>
 
         {form.get('billingStreet').map(field => (
           <FormGroup>
             <Label hasError={!field.valid && field.touched} htmlFor="billingStreet">
-              Street
+              {t('in-components:requestQuoteDialog.formStreetLabel')}
             </Label>
             <Input
               type="text"
@@ -117,7 +118,7 @@ export default connect(() => ({
           {form.get('billingCity').map(field => (
             <FormGroup className={locals.twoFields}>
               <Label hasError={!field.valid && field.touched} htmlFor="billingCity">
-                City
+                {t('in-components:requestQuoteDialog.formCityLabel')}
               </Label>
               <Input
                 type="text"
@@ -133,7 +134,7 @@ export default connect(() => ({
           {form.get('billingZip').map(field => (
             <FormGroup className={locals.twoFields}>
               <Label hasError={!field.valid && field.touched} htmlFor="billingZip">
-                Zip
+                {t('in-components:requestQuoteDialog.formZipLabel')}
               </Label>
               <Input
                 type="text"
@@ -151,7 +152,7 @@ export default connect(() => ({
           {form.get('billingCountry').map(field => (
             <FormGroup className={locals.twoFields}>
               <Label hasError={!field.valid && field.touched} htmlFor="billingCountry">
-                Country
+                {t('in-components:requestQuoteDialog.formCountryLabel')}
               </Label>
               <ComboBox
                 id="billingCountry"
@@ -175,7 +176,7 @@ export default connect(() => ({
             return (
               <FormGroup className={locals.twoFields}>
                 <Label hasError={!field.valid && field.touched} htmlFor="billingState">
-                  State
+                  {t('in-components:requestQuoteDialog.formStateLabel')}
                 </Label>
                 <ComboBox
                   id="billingState"

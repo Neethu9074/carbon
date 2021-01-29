@@ -141,5 +141,18 @@
     "twoDaysAgo": "Two days ago",
     "lastSevenDays": "Last seven days",
     "previousWeek": "Previous week"
+  },
+  "analyze": {
+    "loadMore": "Load {{count}} more",
+    "showMore": "Show {{count}} more",
+    "noResults": "No results",
+    "from": "From",
+    "fromUnit": "From ({{unit}})",
+    "to": "To",
+    "toUnit": "To ({{unit}})",
+    "rangeOrder": "The range has to be in ascending order.",
+    "earliestTimestamp": "Earliest Timestamp",
+    "timestamp": "Timestamp",
+    "focusOnGroup": "Focus on this group"
   }
 }

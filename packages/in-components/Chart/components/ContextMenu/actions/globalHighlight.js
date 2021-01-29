@@ -2,12 +2,14 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
+
 import { setHighlightedTimeframe } from 'in-stores/timeline/highlightedTimeframe';
 
 const config = {
   name: 'globalHighlight',
   icon: 'lib_views_tag',
-  label: 'Highlight on all charts',
+  label: t('in-components:chart.chartGlobalHighlightLabel'),
   onClick: onClick
 };
 export default config;

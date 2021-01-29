@@ -4,6 +4,7 @@
  */
 import React, { Fragment } from 'react';
 import theme from 'in-themes';
+import { t } from 'in-i18n';
 
 import WebsiteDashboardsMarkerLanes from 'in-websites/WebsiteDashboard/components/WebsiteDashboardsMarkerLanes';
 import WebsiteMetricsKpiCard from 'in-websites/WebsiteDashboard/components/WebsiteMetricsKpiCard';
@@ -32,7 +33,7 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
       <Row>
         <Col xs>
           <WebsiteMetricsKpiCard
-            title="Page Loads"
+            title={t('in-websites:websiteDashboard.tabs.summary.summaryTitlePageLoads')}
             formatter={number.compact}
             metricsConfig={{
               tagFilters,
@@ -45,7 +46,7 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
               }
             }}
             iconAction={{
-              text: 'View in Analyze',
+              text: t('in-websites:websiteDashboard.tabs.summary.summaryIconTextViewInAnalyze'),
               kind: 'subtle',
               icon: 'lib_analyze',
               href$: getLinkToAnalyze({
@@ -64,7 +65,7 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
         </Col>
         <Col xs>
           <WebsiteMetricsKpiCard
-            title="Page Transitions"
+            title={t('in-websites:websiteDashboard.tabs.summary.summaryTitlePageTransitions')}
             formatter={number.compact}
             metricsConfig={{
               tagFilters,
@@ -77,7 +78,7 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
               }
             }}
             iconAction={{
-              text: 'View in Analyze',
+              text: t('in-websites:websiteDashboard.tabs.summary.summaryIconTextViewInAnalyze'),
               kind: 'subtle',
               icon: 'lib_analyze',
               href$: getLinkToAnalyze({
@@ -96,7 +97,7 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
         </Col>
         <Col xs>
           <WebsiteMetricsKpiCard
-            title="onLoad Time (mean)"
+            title={t('in-websites:websiteDashboard.tabs.summary.summaryTitleOnLoadTimeMean')}
             formatter={meanLatency.detailed}
             metricsConfig={{
               tagFilters,
@@ -109,7 +110,7 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
               }
             }}
             iconAction={{
-              text: 'View in Analyze',
+              text: t('in-websites:websiteDashboard.tabs.summary.summaryIconTextViewInAnalyze'),
               kind: 'subtle',
               icon: 'lib_analyze',
               href$: getLinkToAnalyze({
@@ -144,7 +145,7 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
         </Col>
         <Col xs>
           <WebsiteMetricsKpiCard
-            title="onLoad Time (90th)"
+            title={t('in-websites:websiteDashboard.tabs.summary.summaryTitleOnLoadTime90th')}
             formatter={latency.detailed}
             metricsConfig={{
               tagFilters,
@@ -157,7 +158,7 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
               }
             }}
             iconAction={{
-              text: 'View in Analyze',
+              text: t('in-websites:websiteDashboard.tabs.summary.summaryIconTextViewInAnalyze'),
               kind: 'subtle',
               icon: 'lib_analyze',
               href$: getLinkToAnalyze({
@@ -192,7 +193,7 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
         </Col>
         <Col xs>
           <WebsiteMetricsKpiCard
-            title="onLoad Time (95th)"
+            title={t('in-websites:websiteDashboard.tabs.summary.summaryTitleOnLoadTime95th')}
             formatter={latency.detailed}
             metricsConfig={{
               tagFilters,
@@ -205,7 +206,7 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
               }
             }}
             iconAction={{
-              text: 'View in Analyze',
+              text: t('in-websites:websiteDashboard.tabs.summary.summaryIconTextViewInAnalyze'),
               kind: 'subtle',
               icon: 'lib_analyze',
               href$: getLinkToAnalyze({
@@ -245,7 +246,7 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
       <Row>
         <Col lg={4}>
           <WebsiteChartWrapper
-            cardTitle="Page Views"
+            cardTitle={t('in-websites:websiteDashboard.tabs.summary.summaryCardTitlePageViews')}
             timeConfig={timeConfig}
             viewInAnalytics={{
               websiteLabel
@@ -253,7 +254,10 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
             y1={{
               renderer: Renderer.stackedBar,
               formatter: number.forcedCompact,
-              labels: ['Page Loads', 'Page Transitions'],
+              labels: [
+                t('in-websites:websiteDashboard.tabs.summary.summaryLabelPageLoads'),
+                t('in-websites:websiteDashboard.tabs.summary.summaryLabelPageTransitions')
+              ],
               metricIds: ['pageLoads', 'pageTransitions']
             }}
             metricsConfiguration={{
@@ -279,7 +283,7 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
         </Col>
         <Col lg={4}>
           <WebsiteChartWrapper
-            cardTitle="JS Errors"
+            cardTitle={t('in-websites:websiteDashboard.tabs.summary.summaryCardTitleJSErrors')}
             timeConfig={timeConfig}
             viewInAnalytics={{
               websiteLabel
@@ -287,7 +291,7 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
             y1={{
               renderer: Renderer.bar,
               formatter: number.forcedCompact,
-              labels: ['JS Errors'],
+              labels: [t('in-websites:websiteDashboard.tabs.summary.summaryLabelJSErrors')],
               metricIds: ['errors'],
               colors: [theme.lib.colors.failure]
             }}
@@ -314,7 +318,7 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
           >
             {({ aggregation, aggregationSelector }) => (
               <WebsiteChartWrapper
-                cardTitle="onLoad Time"
+                cardTitle={t('in-websites:websiteDashboard.tabs.summary.summaryCardTitleOnLoadTime')}
                 cardHeader={aggregationSelector}
                 timeConfig={timeConfig}
                 viewInAnalytics={{
@@ -323,7 +327,7 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
                 y1={{
                   renderer: Renderer.line,
                   formatter: millis.forcedFixedCompact,
-                  labels: ['onLoad Time'],
+                  labels: [t('in-websites:websiteDashboard.tabs.summary.summaryLabelOnLoadTime')],
                   metricIds: ['onLoadTime']
                 }}
                 metricsConfiguration={{
@@ -348,7 +352,7 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
 
       <Row>
         <Col lg={pageId == null ? 4 : 6}>
-          <Card title="Geography" withoutPadding>
+          <Card title={t('in-websites:websiteDashboard.tabs.summary.summaryTitleGeography')} withoutPadding>
             <WebsiteGeoHeatMap canDrillDown tagFilters={tagFilters} timeConfig={timeConfig} height={300} />
           </Card>
         </Col>

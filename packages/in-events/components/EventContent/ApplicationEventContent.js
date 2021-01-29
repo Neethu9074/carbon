@@ -119,7 +119,13 @@ export default function ApplicationEventContent({ event }) {
 
       <Row withoutSideMargin>
         <Col xs>
-          <SmartAlertAffectedEntities alertConfig={alertConfig} event={event} />
+          <SmartAlertAffectedEntities
+            alertConfig={alertConfig}
+            event={event}
+            applicationName={eventEntity.applicationName}
+            serviceName={eventEntity.serviceName}
+            endpointName={eventEntity.endpointName}
+          />
         </Col>
       </Row>
     </>

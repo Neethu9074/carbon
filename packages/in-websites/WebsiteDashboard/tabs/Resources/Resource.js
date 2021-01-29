@@ -5,11 +5,8 @@
 import { just } from '@instana/observables';
 import React, { Fragment } from 'react';
 import theme from 'in-themes';
+import { t } from 'in-i18n';
 
-import {
-  getResourceTypes,
-  types as resourceTypes
-} from 'in-websites/analyze/PageLoadView/tabs/Summary/filterableTypes';
 import {
   getLinkToWebsite,
   resourcesTabFullyQualified,
@@ -17,6 +14,10 @@ import {
   resourcesTab,
   detailsPath
 } from 'in-websites/navigation/paths';
+import {
+  getResourceTypes,
+  types as resourceTypes
+} from 'in-websites/analyze/PageLoadView/tabs/Summary/filterableTypes';
 import WebsiteBeaconGroupsChartWrapper from 'in-websites/WebsiteDashboard/components/WebsiteBeaconGroupsChartWrapper';
 import WebsiteDashboardsMarkerLanes from 'in-websites/WebsiteDashboard/components/WebsiteDashboardsMarkerLanes';
 import { learnMoreLabel, learnMoreHref, explanation } from 'in-websites/definitions/missingResourceTimings';
@@ -48,16 +49,16 @@ import locals from './Resource.mless';
 
 export const cacheTypes = {
   fullLoad: {
-    long: 'Full Load'
+    long: t('in-websites:websiteDashboard.tabs.resources.resourceCacheTypesFullLoad')
   },
   validated: {
-    long: 'Validated'
+    long: t('in-websites:websiteDashboard.tabs.resources.resourceCacheTypesValidated')
   },
   cached: {
-    long: 'Cached'
+    long: t('in-websites:websiteDashboard.tabs.resources.resourceCacheTypesCached')
   },
   unknown: {
-    long: 'Unknown'
+    long: t('in-websites:websiteDashboard.tabs.resources.resourceCacheTypesUnknown')
   }
 };
 
@@ -115,14 +116,14 @@ function ResourceTab({ resourceId, result, websiteId, websiteLabel, pageId, tagF
       <Fragment>
         <Row>
           <Col xs={12}>
-            <KpiCard title="Origin" value={resourceId} />
+            <KpiCard title={t('in-websites:websiteDashboard.tabs.resources.resourceTitleOrigin')} value={resourceId} />
           </Col>
         </Row>
 
         <Row>
           <Col xs={6}>
             <WebsiteBeaconGroupsChartWrapper
-              cardTitle="Resource Loads"
+              cardTitle={t('in-websites:websiteDashboard.tabs.resources.resourceCardTitleResourceLoads')}
               timeConfig={timeConfig}
               tagFilters={tagFiltersForResource}
               viewInAnalytics={viewInAnalytics}
@@ -132,7 +133,7 @@ function ResourceTab({ resourceId, result, websiteId, websiteLabel, pageId, tagF
               metricIds={getResourceTypes()}
               metrics={[
                 {
-                  label: 'Resource Loads',
+                  label: t('in-websites:websiteDashboard.tabs.resources.'),
                   metric: 'beaconCount',
                   aggregation: 'SUM',
                   formatter: number.forcedCompact,
@@ -148,7 +149,7 @@ function ResourceTab({ resourceId, result, websiteId, websiteLabel, pageId, tagF
 
           <Col lg={6}>
             <WebsiteChartWrapper
-              cardTitle="Retrieval Time"
+              cardTitle={t('in-websites:websiteDashboard.tabs.resources.resourceCardTitleRetrievalTime')}
               reverseTooltipOrder
               shareMaxAxisDomain
               timeConfig={timeConfig}
@@ -157,14 +158,20 @@ function ResourceTab({ resourceId, result, websiteId, websiteLabel, pageId, tagF
                 renderer: Renderer.integral,
                 calculateStackDifferences: true,
                 formatter: millis.forcedFixedCompact,
-                labels: ['50th', '90th', '95th', '99th', 'Max'],
+                labels: [
+                  t('in-websites:websiteDashboard.tabs.resources.resourceLabel50th'),
+                  t('in-websites:websiteDashboard.tabs.resources.resourceLabel90th'),
+                  t('in-websites:websiteDashboard.tabs.resources.resourceLabel95th'),
+                  t('in-websites:websiteDashboard.tabs.resources.resourceLabel99th'),
+                  t('in-websites:websiteDashboard.tabs.resources.resourceLabelMax')
+                ],
                 defaultDisabledMetrics: ['onLoadTimeMax'],
                 metricIds: ['onLoadTime50th', 'onLoadTime90th', 'onLoadTime95th', 'onLoadTime99th', 'onLoadTimeMax']
               }}
               y2={{
                 renderer: Renderer.line,
                 formatter: millis.forcedFixedCompact,
-                labels: ['Mean'],
+                labels: [t('in-websites:websiteDashboard.tabs.resources.resourceLabelMean')],
                 defaultDisabledMetrics: ['onLoadTimeMean'],
                 metricIds: ['onLoadTimeMean']
               }}
@@ -219,7 +226,7 @@ function ResourceTab({ resourceId, result, websiteId, websiteLabel, pageId, tagF
           <Row>
             <Col xs={12}>
               <LearnMoreCard
-                title="Resource Timings Not Available"
+                title={t('in-websites:websiteDashboard.tabs.resources.resourceTitleResourceTimingsNotAvailable')}
                 explanation={explanation}
                 learnMoreHref={learnMoreHref}
                 learnMoreLabel={learnMoreLabel}
@@ -237,7 +244,7 @@ function ResourceTab({ resourceId, result, websiteId, websiteLabel, pageId, tagF
               >
                 {({ aggregation, aggregationSelector }) => (
                   <WebsiteChartWrapper
-                    cardTitle="Resource Timing"
+                    cardTitle={t('in-websites:websiteDashboard.tabs.resources.resourceCardTitleResourceTiming')}
                     cardHeader={aggregationSelector}
                     timeConfig={timeConfig}
                     shareMaxAxisDomain
@@ -245,7 +252,15 @@ function ResourceTab({ resourceId, result, websiteId, websiteLabel, pageId, tagF
                     y1={{
                       renderer: Renderer.stackedBar,
                       formatter: millis.forcedFixedCompact,
-                      labels: ['Redirect', 'AppCache', 'DNS', 'TCP', 'SSL', 'Request', 'Response'],
+                      labels: [
+                        t('in-websites:websiteDashboard.tabs.resources.resourceLabelRedirect'),
+                        t('in-websites:websiteDashboard.tabs.resources.resourceLabelAppCache'),
+                        t('in-websites:websiteDashboard.tabs.resources.resourceLabelDNS'),
+                        t('in-websites:websiteDashboard.tabs.resources.resourceLabelTCP'),
+                        t('in-websites:websiteDashboard.tabs.resources.resourceLabelSSL'),
+                        t('in-websites:websiteDashboard.tabs.resources.resourceLabelRequest'),
+                        t('in-websites:websiteDashboard.tabs.resources.resourceLabelResponse')
+                      ],
                       metricIds: [
                         'redirectTime',
                         'appCacheTime',
@@ -259,7 +274,7 @@ function ResourceTab({ resourceId, result, websiteId, websiteLabel, pageId, tagF
                     y2={{
                       renderer: Renderer.line,
                       formatter: millis.forcedFixedCompact,
-                      labels: ['Time to First Byte'],
+                      labels: [t('in-websites:websiteDashboard.tabs.resources.resourceLabelTimeToFirstByte')],
                       metricIds: ['ttfb'],
                       // Ensure high readability
                       colors: [theme.lib.colors.N900Primary]
@@ -330,7 +345,7 @@ function ResourceTab({ resourceId, result, websiteId, websiteLabel, pageId, tagF
           <Row>
             <Col lg={6}>
               <WebsiteBeaconGroupsChartWrapper
-                cardTitle="Caching Statistics"
+                cardTitle={t('in-websites:websiteDashboard.tabs.resources.resourceCardTitleCachingStatistics')}
                 timeConfig={timeConfig}
                 tagFilters={tagFiltersForResource}
                 viewInAnalytics={viewInAnalytics}
@@ -340,7 +355,7 @@ function ResourceTab({ resourceId, result, websiteId, websiteLabel, pageId, tagF
                 metricIds={Object.keys(cacheTypes).sort()}
                 metrics={[
                   {
-                    label: 'Count',
+                    label: t('in-websites:websiteDashboard.tabs.resources.resourceLabelCount'),
                     metric: 'beaconCount',
                     aggregation: 'SUM',
                     formatter: number.forcedCompact,
@@ -355,7 +370,7 @@ function ResourceTab({ resourceId, result, websiteId, websiteLabel, pageId, tagF
 
             <Col lg={6}>
               <WebsiteBeaconGroupsChartWrapper
-                cardTitle="Resource Sizes"
+                cardTitle={t('in-websites:websiteDashboard.tabs.resources.resourceCardTitleResourceSizes')}
                 timeConfig={timeConfig}
                 tagFilters={tagFiltersForResource}
                 viewInAnalytics={viewInAnalytics}
@@ -365,21 +380,21 @@ function ResourceTab({ resourceId, result, websiteId, websiteLabel, pageId, tagF
                 metricIds={getResourceTypes()}
                 metrics={[
                   {
-                    label: 'Transfer Size',
+                    label: t('in-websites:websiteDashboard.tabs.resources.resourceLabelTransferSize'),
                     metric: 'transferSize',
                     aggregation: 'MEAN',
                     formatter: bytes,
                     renderer: Renderer.stackedBar
                   },
                   {
-                    label: 'Encoded Body Size',
+                    label: t('in-websites:websiteDashboard.tabs.resources.resourceLabelEncodedBodySize'),
                     metric: 'encodedBodySize',
                     aggregation: 'MEAN',
                     formatter: bytes,
                     renderer: Renderer.stackedBar
                   },
                   {
-                    label: 'Decoded Body Size',
+                    label: t('in-websites:websiteDashboard.tabs.resources.resourceLabelDecodedBodySize'),
                     metric: 'decodedBodySize',
                     aggregation: 'MEAN',
                     formatter: bytes,
@@ -433,11 +448,14 @@ function ResourceTab({ resourceId, result, websiteId, websiteLabel, pageId, tagF
 
   return (
     <Fragment>
-      <Title title="Website Resource Details" dynamic={resourceId} />
+      <Title
+        title={t('in-websites:websiteDashboard.tabs.resources.resourceTitleWebsiteResourceDetails')}
+        dynamic={resourceId}
+      />
 
       <div className={locals.actions}>
         <BackButton
-          label="Back to list of resource origins"
+          label={t('in-websites:websiteDashboard.tabs.resources.resourceLabelBackToListOfResourceOrigins')}
           href$={getLinkToWebsite(websiteId, { tabPath: '/resources', pageId })}
           withoutMargin
         />
@@ -457,7 +475,7 @@ function ResourceTab({ resourceId, result, websiteId, websiteLabel, pageId, tagF
             }
           })}
         >
-          Analyze Resource Origin
+          {t('in-websites:websiteDashboard.tabs.resources.resourceButtonAnalyzeResourceOrigin')}
         </Button>
       </div>
 

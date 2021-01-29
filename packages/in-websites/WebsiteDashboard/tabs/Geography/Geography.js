@@ -3,9 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 import { Route, Switch } from 'react-router-dom';
+import GlobeViewLoader from 'promise-loader?global,globe-view!in-websites/WebsiteDashboard/components/GlobeView';
+import { t } from 'in-i18n';
 import React from 'react';
 
-import GlobeViewLoader from 'promise-loader?global,globe-view!in-websites/WebsiteDashboard/components/GlobeView';
 import getWebsiteCountryBreakdown from 'in-websites/subscriptions/getWebsiteCountryBreakdown';
 import FullHeightWrapper from 'in-applications/Dashboards/commonComponents/FullHeightWrapper';
 import TwoDWebsiteGeoMap from 'in-websites/WebsiteDashboard/tabs/Geography/2DWebsiteGeoMap';
@@ -30,10 +31,14 @@ export default function Geography(props) {
   return (
     <WithEmptyStateFallback
       getHasDataToRender={() => getHasDataToRender(props)}
-      title="No page loads available"
-      explanation={`There were no page loads found in the selected time range${
-        tagFilters && tagFilters.length > 1 ? ` matching your filters` : ''
-      }.`}
+      title={t('in-websites:websiteDashboard.tabs.geography.geographyTitle')}
+      explanation={
+        tagFilters && tagFilters.length > 1
+          ? t('in-websites:websiteDashboard.tabs.geography.geographyExplanationTagFilters', {
+              count: tagFilters.length
+            })
+          : t('in-websites:websiteDashboard.tabs.geography.geographyExplanation')
+      }
     >
       <div className={locals.wrapper}>
         <FullHeightWrapper
@@ -72,13 +77,18 @@ export default function Geography(props) {
                       height={height}
                       controlWrapperClassName={locals.controlWrapperClassName}
                     />
-                    <Tooltip content="Switch to 3D globe" align="leftMiddle">
+                    <Tooltip
+                      content={t('in-websites:websiteDashboard.tabs.geography.geographyTooltip')}
+                      align="leftMiddle"
+                    >
                       <Button
                         href$={getModifiedUrlStream(
                           params => (params.pathname = `${websitePathFullyQualified}/geography/globe`)
                         )}
                         className={locals.to3D}
-                        renderContent={() => <span>3D</span>}
+                        renderContent={() => (
+                          <span>{t('in-websites:websiteDashboard.tabs.geography.geography3D')}</span>
+                        )}
                       />
                     </Tooltip>
                   </div>

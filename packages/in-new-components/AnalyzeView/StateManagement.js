@@ -8,15 +8,18 @@ import rpt from 'prop-types';
 import { isFormModelValid as isFilterValid } from 'in-new-components/QueryBuilder/validation/formModel';
 import FixatedTimeConfigContextModification from 'in-stores/time/FixatedTimeConfigContextModification';
 import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
+import { metric as metricType, custom as customType } from 'in-new-components/AnalyzeView/fieldTypes';
 import { and } from 'in-new-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import { isValid as isValidGrouping } from 'in-new-components/GroupingConfigurator/validation';
 import { TAG, CONJUNCTION } from 'in-new-components/QueryBuilder/transformation/formModel';
+import { columnDefinitionShape } from 'in-new-components/lists/List/ColumnizedContent';
 import { NOT_APPLICABLE } from 'in-new-components/QueryBuilder/tagFilter/entities';
 import { createParameters } from 'in-new-components/AnalyzeView/parameters';
 import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import { emptyObject, pendingResult } from 'in-services/fixedObjects';
 import useStableObjectIntance from 'in-hooks/useStableObjectIntance';
 import { getTagCatalogOnce } from 'in-services/tags/tagCatalog';
+import { noResultObservable } from 'in-services/util/result';
 import { aggregationLabels } from 'in-stores/metric/metric';
 import { isNotBlank } from 'in-services/util/string';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -62,19 +65,47 @@ export default function TimeFixatingAnalyzeStateManagement(props) {
   );
 }
 
+const extendedColumnDefinitionShape = {
+  ...columnDefinitionShape,
+  label: rpt.string.isRequired
+};
+
 TimeFixatingAnalyzeStateManagement.propTypes = {
   path: rpt.string.isRequired,
   dataSourceParameter: rpt.object.isRequired,
   defaultDataSource: rpt.string.isRequired,
   getTagCatalog: rpt.func.isRequired,
+
   groupedView: rpt.shape({
     defaultOrderBy: rpt.string.isRequired,
-    defaultOrderDirection: rpt.oneOf(['ASC', 'DESC']).isRequired
+    defaultOrderDirection: rpt.oneOf(['ASC', 'DESC']).isRequired,
+    customFieldRenderingInstructions: rpt.objectOf(rpt.shape(extendedColumnDefinitionShape).isRequired)
   }).isRequired,
+
   ungroupedView: rpt.shape({
     defaultOrderBy: rpt.string.isRequired,
-    defaultOrderDirection: rpt.oneOf(['ASC', 'DESC']).isRequired
+    defaultOrderDirection: rpt.oneOf(['ASC', 'DESC']).isRequired,
+
+    // TODO: Technically this is not correct. The ungrouped view can be a list or a table.
+    // The prop types are currently not accounting for this difference. However, they are
+    // similar enough that we can live with the difference for now.
+    customFieldRenderingInstructions: rpt.objectOf(rpt.shape(extendedColumnDefinitionShape).isRequired)
   }).isRequired,
+
+  defaultFields: rpt.arrayOf(
+    rpt.shape({
+      type: rpt.oneOf([metricType, customType]),
+
+      // required for type=metric
+      metric: rpt.string,
+      aggregation: rpt.oneOf(Object.keys(aggregationLabels)),
+
+      // required for type=custom. Must match the object keys within
+      // customFieldRenderingInstructions
+      customFieldId: rpt.string
+    })
+  ).isRequired,
+
   children: rpt.func.isRequired
 };
 
@@ -82,18 +113,22 @@ function AnalyzeStateManagement({
   refreshFixatedTimeConfig,
   defaultDataSource,
   getTagCatalog,
+  getMetricCatalog,
   groupedView,
   ungroupedView,
   urlStateDefinition,
+  defaultFields,
   children
 }) {
   const timeConfig = useTimeConfig();
   const [urlState, onChange, getChangeAsUrl] = useUrlState(urlStateDefinition);
 
-  const tagFilterExpression = useStableObjectIntance(urlState.tagFilterExpression);
+  const formModel = useStableObjectIntance(urlState.tagFilterExpression);
+  const onFormModelChange = formModel => onChange({ tagFilterExpression: formModel });
+
   const groupBy = useStableObjectIntance(urlState.groupBy);
   const detailId = useStableObjectIntance(urlState.detailId);
-  const metrics = useStableObjectIntance(urlState.metrics);
+  const fields = useStableObjectIntance(urlState.fields ?? defaultFields);
   const dataSource = urlState.dataSource ?? defaultDataSource;
 
   const filteringTagCatalogResult =
@@ -118,23 +153,25 @@ function AnalyzeStateManagement({
       [getTagCatalog, timeConfig, dataSource]
     ) ?? pendingResult;
 
-  const isLoading = filteringTagCatalogResult.data == null || groupingTagCatalogResult.data == null;
-  const isValid =
+  const metricCatalogResult =
+    useObservable(() => getMetricCatalog?.() || noResultObservable(), [getMetricCatalog]) ?? pendingResult;
+
+  const isLoading =
+    filteringTagCatalogResult.data == null || groupingTagCatalogResult.data == null || metricCatalogResult.data == null;
+  const isValid = Boolean(
     !isLoading &&
-    isFilterValid({
-      tagCatalog: filteringTagCatalogResult.data,
-      formModel: tagFilterExpression
-    }) &&
-    isValidGrouping(groupBy, groupingTagCatalogResult.data);
+      isFilterValid({
+        tagCatalog: filteringTagCatalogResult.data,
+        formModel: formModel
+      }) &&
+      isValidGrouping(groupBy, groupingTagCatalogResult.data)
+  );
 
   const isGrouped = isNotBlank(groupBy?.groupbyTag);
   const activeListViewConfiguration = isGrouped ? groupedView : ungroupedView;
   const { defaultOrderBy, defaultOrderDirection } = activeListViewConfiguration;
 
-  const backendQueryModel = useMemo(() => (isValid ? toBackendQueryModel(tagFilterExpression) : null), [
-    isValid,
-    tagFilterExpression
-  ]);
+  const backendQueryModel = useMemo(() => (isValid ? toBackendQueryModel(formModel) : null), [isValid, formModel]);
 
   const orderBy = useStableObjectIntance({
     by: urlState.orderBy?.by ?? defaultOrderBy,
@@ -146,10 +183,12 @@ function AnalyzeStateManagement({
     isLoading,
     isValid,
     refreshFixatedTimeConfig,
+    ungroupedViewConfiguration: ungroupedView,
+    groupedViewConfiguration: groupedView,
 
     backendQueryModel,
-    tagFilterExpression,
-    onTagFilterExpressionChange: tagFilterExpression => onChange({ tagFilterExpression }),
+    formModel,
+    onFormModelChange,
     filteringTagCatalog: filteringTagCatalogResult.data,
 
     isGrouped,
@@ -161,28 +200,34 @@ function AnalyzeStateManagement({
         detailId: null
       });
     },
+    groupingTagCatalog: groupingTagCatalogResult.data,
 
-    getHrefWithTagExpression(newTagFilter) {
-      const changedTagFilterExpression = tagFilterExpression.slice();
-      if (changedTagFilterExpression.length > 0) {
-        changedTagFilterExpression.push({
+    getHrefWithAdditionalTagFilter(newTagFilter) {
+      const changedFormModel = formModel.slice();
+      if (changedFormModel.length > 0) {
+        changedFormModel.push({
           type: CONJUNCTION,
           logicalOperator: and
         });
       }
-      changedTagFilterExpression.push(newTagFilter);
+      changedFormModel.push(newTagFilter);
       return getChangeAsUrl({
-        tagFilterExpression: changedTagFilterExpression
+        tagFilterExpression: changedFormModel
       });
     },
 
-    groupingTagCatalog: groupingTagCatalogResult.data,
+    getHrefWithTagFilterExpression(newTagExpression) {
+      return getChangeAsUrl({
+        tagFilterExpression: newTagExpression
+      });
+    },
 
     orderBy,
     onOrderByChange: orderBy => onChange({ orderBy }),
 
-    metrics,
-    onMetricsChange: metrics => onChange({ metrics }),
+    fields,
+    onFieldsChange: fields => onChange({ fields }),
+    metricCatalog: metricCatalogResult.data,
 
     detailId,
     getHrefToDetailId: (detailId, groupValue) => {
@@ -197,7 +242,7 @@ function AnalyzeStateManagement({
   function getStateChangeForUngroupedView(groupValue) {
     return {
       groupBy: emptyObject,
-      tagFilterExpression: addGroupingCriteriaToTagFilterExpression(groupBy, groupValue, tagFilterExpression)
+      tagFilterExpression: addGroupingCriteriaToFormModel(groupBy, groupValue, formModel)
     };
   }
 }
@@ -207,10 +252,15 @@ export const childrenArgsAsPropTypes = {
   dataSource: rpt.string.isRequired,
   refreshFixatedTimeConfig: rpt.func.isRequired,
   isValid: rpt.bool.isRequired,
+  ungroupedViewConfiguration: TimeFixatingAnalyzeStateManagement.propTypes.ungroupedView,
+  groupedViewConfiguration: TimeFixatingAnalyzeStateManagement.propTypes.groupedView,
 
   backendQueryModel: rpt.object,
-  tagFilterExpression: rpt.array.isRequired,
-  onTagFilterExpressionChange: rpt.func.isRequired,
+  formModel: rpt.array.isRequired,
+  onFormModelChange: rpt.func.isRequired,
+  filteringTagCatalog: rpt.object,
+  getHrefWithAdditionalTagFilter: rpt.func.isRequired,
+  getHrefWithTagFilterExpression: rpt.func.isRequired,
 
   isGrouped: rpt.bool.isRequired,
   groupBy: rpt.shape({
@@ -219,6 +269,7 @@ export const childrenArgsAsPropTypes = {
   }),
   onGroupByChange: rpt.func.isRequired,
   getHrefToUngroupedView: rpt.func.isRequired,
+  groupingTagCatalog: rpt.object,
 
   orderBy: rpt.shape({
     by: rpt.string.isRequired,
@@ -226,13 +277,17 @@ export const childrenArgsAsPropTypes = {
   }).isRequired,
   onOrderByChange: rpt.func,
 
-  metrics: rpt.arrayOf(
+  fields: TimeFixatingAnalyzeStateManagement.propTypes.defaultFields,
+  onFieldsChange: rpt.func.isRequired,
+  metricCatalog: rpt.arrayOf(
     rpt.shape({
-      metric: rpt.string.isRequired,
-      aggregation: rpt.oneOf(Object.keys(aggregationLabels)).isRequired
+      metricId: rpt.string,
+      label: rpt.string,
+      formatter: rpt.string,
+      description: rpt.string,
+      aggregations: rpt.arrayOf(rpt.string)
     })
-  ).isRequired,
-  onMetricsChange: rpt.func.isRequired,
+  ),
 
   detailId: rpt.any,
   getHrefToDetailId: rpt.func.isRequired,
@@ -241,7 +296,7 @@ export const childrenArgsAsPropTypes = {
   setDetailId: rpt.func.isRequired
 };
 
-export function addGroupingCriteriaToTagFilterExpression(groupBy, groupValue, tagFilterExpression) {
+export function addGroupingCriteriaToFormModel(groupBy, groupValue, formModel) {
   const newTagFilter = {
     type: TAG,
     name: groupBy.groupbyTag,
@@ -251,13 +306,13 @@ export function addGroupingCriteriaToTagFilterExpression(groupBy, groupValue, ta
     entity: groupBy.groupbyTagEntity ?? NOT_APPLICABLE
   };
 
-  const changedTagFilterExpression = tagFilterExpression.slice();
-  if (changedTagFilterExpression.length > 0) {
-    changedTagFilterExpression.push({
+  const changedFormModel = formModel.slice();
+  if (changedFormModel.length > 0) {
+    changedFormModel.push({
       type: CONJUNCTION,
       logicalOperator: and
     });
   }
-  changedTagFilterExpression.push(newTagFilter);
-  return changedTagFilterExpression;
+  changedFormModel.push(newTagFilter);
+  return changedFormModel;
 }

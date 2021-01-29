@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import React, { Fragment } from 'react';
+import { t } from 'in-i18n';
 
 import {
   websiteIdUrlParameter,
@@ -30,7 +31,7 @@ import Link from 'in-components/Link';
 const columnDefinitions = [
   {
     id: 'errorMessage',
-    label: 'Error Message',
+    label: t('in-websites:websiteDashboard.tabs.errors.errorsLabelErrorMessage'),
     getContent(item, { websiteId, pageId }) {
       return (
         <Link
@@ -46,7 +47,7 @@ const columnDefinitions = [
   },
   {
     id: 'errorsAgg',
-    label: 'Occurrences',
+    label: t('in-websites:websiteDashboard.tabs.errors.errorsLabelOccurrences'),
     defaultOrderDirection: 'DESC',
     getContent(item, { result, timeConfig }) {
       return (
@@ -64,7 +65,7 @@ const columnDefinitions = [
   },
   {
     id: 'uniqueUsersOrSessionsAgg',
-    label: 'Affected Users',
+    label: t('in-websites:websiteDashboard.tabs.errors.errorsLabelAffectedUsers'),
     defaultOrderDirection: 'DESC',
     getContent(item, { result, timeConfig }) {
       return (
@@ -85,7 +86,7 @@ const columnDefinitions = [
 const ServerTableWithUrlState = createServerTableWithUrlState({
   Renderer: withEmptyTableState({
     columnDefinitions,
-    entityName: 'JavaScript errors',
+    entityName: t('in-websites:websiteDashboard.tabs.errors.errorsEntityNameJavaScriptErrors'),
     changeExplanation
   }),
   paginationResettingUrlParameters: [
@@ -111,7 +112,7 @@ export default function Errors({ timeConfig, tagFilters, websiteId, websiteLabel
       })}
       style={{ marginRight: '0.5rem' }}
     >
-      Analyze JS Errors
+      {t('in-websites:websiteDashboard.tabs.errors.errorsButtonAnalyzeJSErrors')}
     </Button>
   );
 

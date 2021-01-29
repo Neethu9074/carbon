@@ -9,7 +9,6 @@ import ApplicationAlertingChartWithErrorMessage from 'in-applications/alerting/c
 import ReadOnlyInboundOrAllCalls from 'in-applications/alerting/advanced/InboundOutboundCallsSwitch/ReadOnlyInboundOrAllCalls';
 import ReadOnlyAlertEvaluation from 'in-applications/alerting/advanced/EvaluationSwitch/ReadOnlyAlertEvaluation';
 import TimeThresholdDescription from 'in-new-components/Alerting/components/TimeThresholdDescription';
-import { PER_AP } from 'in-applications/alerting/advanced/EvaluationSwitch/alertEvaluationTypes';
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
 import SelectedAlertTypeInfo from 'in-new-components/Alerting/components/SelectedAlertTypeInfo';
 import ChartViewConfigurator from 'in-new-components/Alerting/components/ChartViewConfigurator';
@@ -17,6 +16,7 @@ import ScopeConfigPresenter from 'in-new-components/Alerting/components/ScopeCon
 import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-applications/tags';
 import AlertChannelsViewer from 'in-new-components/Alerting/components/AlertChannelsViewer';
 import { getLogMessageRuleOperatorLabel } from 'in-applications/alerting/form/ruleFormData';
+import ApplicationScopePath from 'in-applications/alerting/components/ApplicationScopePath';
 import { fromBackendModel } from 'in-new-components/QueryBuilder/transformation/formModel';
 import AlertPropertyInfos from 'in-new-components/Alerting/components/AlertPropertyInfos';
 import AlertQueryBuilder from 'in-applications/alerting/components/AlertQueryBuilder';
@@ -49,59 +49,41 @@ export default function AlertConfiguration({ alertConfig, applicationName }) {
 
   const blueprintConfig = getBlueprintConfig(alertType);
   const tagFilterFormModel = fromBackendModel(tagFilterExpression);
-  const isPerApAlert = evaluationType === PER_AP;
 
   return (
     <AlertDetailsCard>
       <LocallyChangedTheme theme={light}>
         <ListTitle>Alert Configuration</ListTitle>
 
-        {!isPerApAlert && (
-          <ChartViewConfigurator
-            onChartViewConfigChange={index => setSelectedChartViewConfigIndex(index)}
-            selectedChartViewConfigIndex={selectedChartViewConfigIndex}
-            className={locals.chartContainer}
-            title="Trigger"
-            framed
-          >
-            {() => (
-              <div style={{ height: 230 }}>
-                <strong>Chart Placeholder</strong>. For this type of config we can not render the alerting chart yet.
-              </div>
-            )}
-          </ChartViewConfigurator>
-        )}
-
-        {isPerApAlert && (
-          <ChartViewConfigurator
-            onChartViewConfigChange={index => setSelectedChartViewConfigIndex(index)}
-            selectedChartViewConfigIndex={selectedChartViewConfigIndex}
-            className={locals.chartContainer}
-            title="Trigger"
-            framed
-          >
-            {chartViewConfig => (
-              <>
-                {alertType === 'logs' && (
-                  <SelectedAlertTypeInfo
-                    title="Log Message"
-                    description={getDescription(operator, message)}
-                    badges={getLogLevelAsList(level)}
-                  />
-                )}
-
-                <ApplicationAlertingChartWithErrorMessage
-                  alertConfigWithFormModel={{
-                    ...alertConfig,
-                    tagFilterExpression: tagFilterFormModel
-                  }}
-                  viewConfig={chartViewConfig}
-                  blueprintConfig={blueprintConfig}
+        <ChartViewConfigurator
+          alertConfig={alertConfig}
+          onChartViewConfigChange={index => setSelectedChartViewConfigIndex(index)}
+          selectedChartViewConfigIndex={selectedChartViewConfigIndex}
+          title="Trigger"
+          framed
+        >
+          {(chartViewConfig, serviceId) => (
+            <>
+              {alertType === 'logs' && (
+                <SelectedAlertTypeInfo
+                  title="Log Message"
+                  description={getDescription(operator, message)}
+                  badges={getLogLevelAsList(level)}
                 />
-              </>
-            )}
-          </ChartViewConfigurator>
-        )}
+              )}
+
+              <ApplicationAlertingChartWithErrorMessage
+                alertConfigWithFormModel={{
+                  ...alertConfig,
+                  tagFilterExpression: tagFilterFormModel
+                }}
+                viewConfig={chartViewConfig}
+                blueprintConfig={blueprintConfig}
+                serviceId={serviceId}
+              />
+            </>
+          )}
+        </ChartViewConfigurator>
 
         <ExpandableCard
           className={locals.filterListContainer}
@@ -127,9 +109,9 @@ export default function AlertConfiguration({ alertConfig, applicationName }) {
                 tagFilterFormModel={tagFilterFormModel}
                 queryBuilder={<AlertQueryBuilder value={tagFilterFormModel} readOnly />}
                 convertedTagFilterExpression={convertedTagFilterExpression}
-                scopePath={{
-                  applicationName
-                }}
+                scopePath={
+                  <ApplicationScopePath boundaryScope={alertConfig.boundaryScope} applicationName={applicationName} />
+                }
               />
             </div>
             <ReadOnlyInboundOrAllCalls alertConfig={alertConfig} />

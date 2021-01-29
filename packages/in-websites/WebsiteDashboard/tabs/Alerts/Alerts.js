@@ -5,6 +5,7 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
+import { t } from 'in-i18n';
 
 import {
   websitesAlertingListAlertResumed,
@@ -37,12 +38,12 @@ function getColumnDefinitions(websiteLabel) {
   return [
     {
       id: 'name',
-      label: 'Name',
+      label: t('in-websites:websiteDashboard.tabs.alerts.alertsLabelName'),
       getContent: getNameContent
     },
     {
       id: 'filters',
-      label: 'Filters',
+      label: t('in-websites:websiteDashboard.tabs.alerts.alertsLabelFilters'),
       getContent: entity => getFiltersContent(entity, websiteLabel)
     }
   ];
@@ -51,7 +52,7 @@ function getColumnDefinitions(websiteLabel) {
 export default function Alerts({ websiteLabel, websiteId }) {
   const [alertsSize, setAlertsSize] = useState(null);
 
-  let header = 'Configured Alerts';
+  let header = t('in-websites:websiteDashboard.tabs.alerts.alertsHeaderConfiguredAlerts');
   if (alertsSize != null) {
     header = `${header} (${alertsSize})`;
   }
@@ -81,7 +82,7 @@ export default function Alerts({ websiteLabel, websiteId }) {
           loadEntities={() => getAllAlertConfigs(websiteId).tap(alerts => setAlertsSize(alerts.length))}
           pageSize={15}
           searchAttributes={[entity => entity.name]}
-          noDataMessage="No alert configured."
+          noDataMessage={t('in-websites:websiteDashboard.tabs.alerts.alertsNoDataMessage')}
           onRowClick={config =>
             mutateUrl(location => {
               location.pathname = alertsTabDetailsFullyQualified;
@@ -172,7 +173,7 @@ function getFiltersContent(config, websiteLabel) {
         >
           <span className={locals.centered}>
             <SvgIcon className={locals.filterIcon} type="lib_actions_filter" />
-            {otherTagFiltersCount} filter(s)
+            {t('in-websites:websiteDashboard.tabs.alerts.alertsNumberOfFilters', { count: otherTagFiltersCount })}
           </span>
         </Tooltip>
       )}

@@ -4,6 +4,7 @@
  */
 import { compose, pure } from 'recompose';
 import { get } from 'lodash';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
@@ -20,11 +21,7 @@ const timeConfig = {
   autoRefresh: false
 };
 
-const explanation = `
-To gain better insights into errors and the impact of these errors, we recommend to set a user ID within the
-tracking script. This enables Instana to calculate information about the number of affected users.
-It also grants you the ability to search for specific users and their activity.
-`.trim();
+const explanation = t('in-websites:websiteDashboard.components.learnMoreUserPointerExplanation').trim();
 
 export default compose(
   pure,
@@ -66,10 +63,10 @@ function LearnMoreUserPointer({ totalBeaconsResult, totalBeaconsWithUserResult }
   return (
     <LearnMoreCard
       className={locals.wrapper}
-      title="No User Information Defined"
+      title={t('in-websites:websiteDashboard.components.learnMoreUserPointerTitle')}
       explanation={explanation}
       learnMoreHref="https://instana.com/docs/website_monitoring/api/#identifying-users"
-      learnMoreLabel="Learn how to add user data"
+      learnMoreLabel={t('in-websites:websiteDashboard.components.learnMoreUserPointerLearnMoreLabel')}
     />
   );
 }

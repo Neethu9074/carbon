@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import React, { Fragment } from 'react';
+import { t } from 'in-i18n';
 
 import { StackTraceLines, StackTraceLine, InfoIndicator } from 'in-new-components/StackTrace';
 import { status } from 'in-websites/definitions/stackTraceLineTranslationStatus';
@@ -34,11 +35,11 @@ function getIndicator(websiteId, line) {
     href$ = getLinkToWebsite(websiteId, {
       tabPath: '/configuration/jsStackTraceTranslation'
     });
-    explanation = 'Click to configure file download.';
+    explanation = t('in-websites:websiteDashboard.tabs.errors.parsedStackTraceExplanationClickToConfigureFileDownload');
   } else if (translationStatus.linkToExternalPage) {
     href = translationStatus.linkToExternalPage;
     external = true;
-    explanation = 'Click to learn more.';
+    explanation = t('in-websites:websiteDashboard.tabs.errors.parsedStackTraceExplanationClickToLearnMore');
   }
 
   return (

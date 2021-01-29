@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import rpt from 'prop-types';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
@@ -41,7 +42,10 @@ export default class extends React.Component {
             <DownloadButtonJson onClick={fileType => this.downloadFile(this.props.getJsonData, fileType)} />
           ) : null}
           {this.props.jsonLink ? (
-            <DownloadLink label="Download as JSON" href={formatUrl(this.props.jsonLink, this.props.queryParams)} />
+            <DownloadLink
+              label={t('in-components:downloadBtn.downloadViewDownloadAsJsonLabel')}
+              href={formatUrl(this.props.jsonLink, this.props.queryParams)}
+            />
           ) : null}
         </div>
       </div>
@@ -75,11 +79,21 @@ function stopPropagation(e) {
 }
 
 function DownloadButtonCsv({ onClick }) {
-  return <DownloadButton label={'Download (*.csv)'} onClick={() => onClick('csv')} />;
+  return (
+    <DownloadButton
+      label={t('in-components:downloadBtn.downloadViewDownloadCSVLabel')}
+      onClick={() => onClick('csv')}
+    />
+  );
 }
 
 function DownloadButtonJson({ onClick }) {
-  return <DownloadButton label={'Download (*.json)'} onClick={() => onClick('json')} />;
+  return (
+    <DownloadButton
+      label={t('in-components:downloadBtn.downloadViewDownloadJsonLabel')}
+      onClick={() => onClick('json')}
+    />
+  );
 }
 
 function DownloadButton({ label, onClick }) {

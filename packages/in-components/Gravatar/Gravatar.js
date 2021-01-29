@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import classNames from 'classnames';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import unknown from 'in-components/Gravatar/unknown.png';
@@ -30,9 +31,13 @@ export default connectTo(
     });
 
     if (avatarUrl) {
-      return <img className={className} src={avatarUrl} alt={`Avatar for ${email} from gravatar.com.`} />;
+      return (
+        <img className={className} src={avatarUrl} alt={t('in-components:gravatar.avatarUrlAlt', { email: email })} />
+      );
     }
 
-    return <img className={className} src={unknown} alt={`Fallback avatar for ${email}.`} />;
+    return (
+      <img className={className} src={unknown} alt={t('in-components:gravatar.avatarNullAlt', { email: email })} />
+    );
   }
 );

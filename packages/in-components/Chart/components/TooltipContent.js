@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { collectAllDataPointsAtTime } from 'in-components/Chart/data/dataSearchUtils';
@@ -104,7 +105,13 @@ function MetricSeries({ config, axisName, dataPointsAtTime, reverseTooltipOrder,
   return (
     <ul className={locals.tooltipMetricList}>
       {items}
-      {restrictItems && <span>{`${axis.labels.length - config.restrictTooltipItemsTo} more`}</span>}
+      {restrictItems && (
+        <span>
+          {t('in-components:chart.chartTooltipContentMore', {
+            number: axis.labels.length - config.restrictTooltipItemsTo
+          })}
+        </span>
+      )}
     </ul>
   );
 }

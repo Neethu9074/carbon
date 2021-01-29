@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import GlobeView from 'in-websites/WebsiteDashboard/components/GlobeView/components/GlobeView';
@@ -51,7 +52,7 @@ export default class GlobeViewReactComponent extends React.Component {
         ref={container => (this.container = container)}
         style={{ height: this.props.customHeight }}
       >
-        <Title title="Website World Globe" />
+        <Title title={t('in-websites:websiteDashboard.components.globeViewTitle')} />
 
         <canvas ref={canvas => (this.canvas = canvas)} className={locals.canvas} />
 

@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { isLoading$ } from 'in-components/graphView/graphViewStore';
@@ -20,6 +21,6 @@ export default connectTo(
       return null;
     }
 
-    return <div className={block}>Loading…</div>;
+    return <div className={block}>{t('forms.states.loading')}</div>;
   }
 );

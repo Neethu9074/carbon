@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import {
@@ -27,7 +28,7 @@ import Link from 'in-components/Link';
 const columnDefinitions = [
   {
     id: 'name',
-    label: 'Origin',
+    label: t('in-websites:websiteDashboard.tabs.ajax.xhrRequestsLabelOrigin'),
     getContent(item, { websiteId, pageId }) {
       let label = item.name;
       try {
@@ -50,7 +51,7 @@ const columnDefinitions = [
   },
   {
     id: 'beaconCountAgg',
-    label: 'Calls',
+    label: t('in-websites:websiteDashboard.tabs.ajax.xhrRequestsLabelCalls'),
     defaultOrderDirection: 'DESC',
     getContent(item, { result, timeConfig }) {
       return (
@@ -68,7 +69,7 @@ const columnDefinitions = [
   },
   {
     id: 'beaconDurationAgg',
-    label: 'Latency',
+    label: t('in-websites:websiteDashboard.tabs.ajax.xhrRequestsLabelLatency'),
     defaultOrderDirection: 'DESC',
     getContent(item, { result, timeConfig }) {
       return (
@@ -86,7 +87,7 @@ const columnDefinitions = [
   },
   {
     id: 'errorRateAgg',
-    label: 'Errors',
+    label: t('in-websites:websiteDashboard.tabs.ajax.xhrRequestsLabelErrors'),
     defaultOrderDirection: 'DESC',
     getContent(item, { result, timeConfig }) {
       return (
@@ -107,7 +108,7 @@ const columnDefinitions = [
 const ServerTableWithUrlState = createServerTableWithUrlState({
   Renderer: withEmptyTableState({
     columnDefinitions,
-    entityName: 'HTTP requests',
+    entityName: t('in-websites:websiteDashboard.tabs.ajax.xhrRequestsEntityNameHTTPRequests'),
     changeExplanation
   }),
   paginationResettingUrlParameters: [
@@ -133,7 +134,7 @@ export default function XhrRequests({ timeConfig, tagFilters, websiteId, website
       })}
       style={{ marginRight: '0.5rem' }}
     >
-      Analyze HTTP Requests
+      {t('in-websites:websiteDashboard.tabs.ajax.xhrRequestsButtonAnalyzeHTTPRequests')}
     </Button>
   );
 

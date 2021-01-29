@@ -39,7 +39,7 @@ export default function Header(props) {
 
       <HorizontalFlexWrapper>
         {CustomHeaderActions && <CustomHeaderActions {...props} />}
-        <MetricAndSortingConfigurator
+        {sortOptions && <MetricAndSortingConfigurator
           sortOptions={sortOptions}
           order={order}
           setOrder={setOrder}
@@ -47,7 +47,7 @@ export default function Header(props) {
           metrics={metrics}
           setMetrics={setMetrics}
           tracking={tracking}
-        />
+        />}
       </HorizontalFlexWrapper>
     </div>
   );

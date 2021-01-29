@@ -4,6 +4,7 @@
  */
 import { withState } from 'recompose';
 import React, { Fragment } from 'react';
+import { t } from 'in-i18n';
 
 import RawStack from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/RawStack';
 import ParsedStackTrace from 'in-websites/WebsiteDashboard/tabs/Errors/ParsedStackTrace';
@@ -38,13 +39,13 @@ export default withState(
             className={locals.buttonGroup}
             buttonPropsList={[
               {
-                text: 'Parsed Stack Trace',
+                text: t('in-websites:websiteDashboard.tabs.errors.stackTraceButtonParsedStackTrace'),
                 key: 'parsed',
                 size: buttonSize,
                 onClick: () => setForceRawStackTrace(false)
               },
               {
-                text: 'Raw Stack Trace',
+                text: t('in-websites:websiteDashboard.tabs.errors.stackTraceButtonRawStackTrace'),
                 key: 'raw',
                 size: buttonSize,
                 onClick: () => setForceRawStackTrace(true)
@@ -63,7 +64,7 @@ export default withState(
             return stackTrace;
           }}
         >
-          Copy Stack Trace
+          {t('in-websites:websiteDashboard.tabs.errors.stackTraceButtonCopyStackTrace')}
         </CopyToClipboardButton>
       </Fragment>
     ),

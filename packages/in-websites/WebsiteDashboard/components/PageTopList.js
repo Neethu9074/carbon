@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import getWebsitePaginatedBeaconGroups from 'in-websites/subscriptions/getWebsitePaginatedBeaconGroups';
@@ -26,7 +27,7 @@ export default function PageTopList({
 }) {
   return (
     <TopListWithUrlState
-      title="Pages"
+      title={t('in-websites:websiteDashboard.components.pageTopListTitle')}
       metrics={metrics}
       labels={labels}
       aggregations={aggregations}
@@ -83,7 +84,7 @@ function ViewAll({ tagFilters, websiteLabel, beaconType }, className) {
         }
       })}
     >
-      View all pages
+      {t('in-websites:websiteDashboard.components.pageTopListLinkLabelViewAllPages')}
     </Link>
   );
 }

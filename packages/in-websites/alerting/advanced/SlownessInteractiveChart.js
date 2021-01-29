@@ -53,9 +53,9 @@ export default function SlownessInteractiveChart({
       <ThresholdCondition form={form} blueprintConfig={blueprintConfig} updateForm={updateForm} onChange={onChange} />
 
       <ChartViewConfigurator
+        alertConfig={alertConfig}
         onChartViewConfigChange={onChartViewConfigChange}
         selectedChartViewConfigIndex={selectedChartViewConfigIndex}
-        className={locals.chartContainer}
         headerTransparent
       >
         {chartViewConfig => (

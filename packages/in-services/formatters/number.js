@@ -422,11 +422,17 @@ function isSecondsFormatter(numberFormatter) {
   );
 }
 
-function isPercentageFormatter(numberFormatter) {
+export function isPercentageFormatter(numberFormatter) {
   return (
     numberFormatter === percentage ||
     numberFormatter === percentageZeroDecimalPlaces ||
+    // For support of custom compact/detailed objects as found in
+    // in-services/formatters/backendFormatter
+    numberFormatter?.compact === percentageZeroDecimalPlaces ||
     numberFormatter === percentageTwoDecimalPlaces ||
+    // For support of custom compact/detailed objects as found in
+    // in-services/formatters/backendFormatter
+    numberFormatter?.detailed === percentageTwoDecimalPlaces ||
     numberFormatter === percentagePlain ||
     numberFormatter === percentagePlainZeroDecimalPlaces ||
     numberFormatter === percentagePlainTwoDecimalPlaces ||
@@ -478,27 +484,4 @@ export function numberFormatterToFormatterType(numberFormatter) {
   } else {
     return 'UNDEFINED';
   }
-}
-
-export function valueWithFormatterToReadableString(value, valueFormat) {
-  if (valueFormat === 'PERCENTAGE') {
-    return percentage.compact(value);
-  } else if (valueFormat === 'SECONDS') {
-    return seconds.fixedCompact(value);
-  } else if (valueFormat === 'MICROS') {
-    return micros.compact(value);
-  } else if (valueFormat === 'MILLIS') {
-    return millis.compact(value);
-  } else if (valueFormat === 'BYTES') {
-    return bytes.detailed(value);
-  } else if (valueFormat === 'KILO_BYTES') {
-    return kiloBytes.detailed(value);
-  } else if (valueFormat === 'BYTE_RATE') {
-    return bytes.perSecond.detailed(value);
-  } else if (valueFormat === 'KILO_BYTE_RATE') {
-    return kiloBytes.perSecond.detailed(value);
-  } else if (valueFormat === 'RATE') {
-    return number.perSecond.detailed(value);
-  }
-  return value.toString();
 }

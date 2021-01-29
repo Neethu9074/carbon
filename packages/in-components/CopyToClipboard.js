@@ -6,6 +6,7 @@
 import React, { forwardRef } from 'react';
 import invariant from 'invariant';
 import rpt from 'prop-types';
+import { t } from 'in-i18n';
 
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { compositeRef } from 'in-services/util/react';
@@ -64,7 +65,7 @@ class CopyToClipboard extends React.Component {
         {
           type: 'info',
           timeout: 2000,
-          content: 'Press CTRL+C / CMD+C to copy!'
+          content: t('in-components:copyToClipboardPressToCopy')
         },
         'copyToClipboard'
       );
@@ -82,7 +83,7 @@ class CopyToClipboard extends React.Component {
   }
 }
 
-export function addCopiedToClipboardMessage(content = 'Copied!') {
+export function addCopiedToClipboardMessage(content = t('in-components:copyToClipboardCopied')) {
   addMessage(
     {
       type: 'info',

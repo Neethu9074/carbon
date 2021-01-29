@@ -22,12 +22,13 @@ export default function ApplicationScopePath({
 }) {
   const entries = [];
 
-  if (applicationId && applicationName) {
+  if (applicationName) {
     entries.push({
       iconType: 'lib_application',
       label: applicationName,
       href$:
         showDashboardLinks &&
+        applicationId &&
         getApplicationDashboard(applicationId, {
           timeConfig,
           boundaryScope
@@ -35,12 +36,13 @@ export default function ApplicationScopePath({
     });
   }
 
-  if (serviceId && serviceName) {
+  if (serviceName) {
     entries.push({
       iconType: 'lib_application_service',
       label: serviceName,
       href$:
         showDashboardLinks &&
+        serviceId &&
         getServiceDashboard(serviceId, {
           applicationId,
           timeConfig,
@@ -49,12 +51,13 @@ export default function ApplicationScopePath({
     });
   }
 
-  if (endpointId && endpointName) {
+  if (endpointName) {
     entries.push({
       iconType: 'lib_application_endpoint',
       label: endpointName,
       href$:
         showDashboardLinks &&
+        endpointId &&
         getEndpointDashboard(endpointId, {
           applicationId,
           serviceId,

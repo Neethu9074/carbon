@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import rpt from 'prop-types';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { historicOrLargeDataResult$ } from 'in-new-components/time/TimeSelection/TimeSelection';
@@ -35,7 +36,7 @@ export default function ResultHeader({
         <span className={locals.number}>Loading…</span>
       ) : (
         <>
-          <span className={locals.number}>{formatCounter(totalRepresentedItemCount, itemName)}</span>
+          <span className={locals.number}>{formatCounter(totalRepresentedItemCount, t(itemName))}</span>
           {containsHistoricData && (
             <TimeIcon
               theme="light"

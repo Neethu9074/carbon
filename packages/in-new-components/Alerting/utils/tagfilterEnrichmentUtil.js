@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { AND_CONJUNCTION } from './queryUtils';
+import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
 
 export function getEnhancedTagFilters(alertConfigWithFormModel, blueprintConfig, subEntityId) {
   const { tagFilters, rule } = alertConfigWithFormModel;
@@ -35,24 +35,26 @@ export function getEnhancedTagFilterFormModel(alertConfigWithFormModel, blueprin
 
   let numeratorFilter;
 
-  const enrichedTagFilterFormModel = [];
+  const expressionsToCombine = [];
   if (blueprintConfig.isCustomRateMetric(metricName)) {
     // at the moment, we only support a single numerator filter. All such blueprints have
     // a single rule-specific tag-filter only
     numeratorFilter = ruleTagFilterFormModel[0];
-    enrichedTagFilterFormModel.push(
-      ...blueprintConfig.getEntityTagFilterFormModel(alertConfigWithFormModel, subEntityId)
-    );
+    expressionsToCombine.push(blueprintConfig.getEntityTagFilterFormModel(alertConfigWithFormModel, subEntityId));
   } else {
-    enrichedTagFilterFormModel.push(
-      ...blueprintConfig.getEntityTagFilterFormModel(alertConfigWithFormModel, subEntityId)
-    );
+    expressionsToCombine.push(blueprintConfig.getEntityTagFilterFormModel(alertConfigWithFormModel, subEntityId));
     if (ruleTagFilterFormModel.length > 0) {
-      enrichedTagFilterFormModel.push(AND_CONJUNCTION, ...ruleTagFilterFormModel);
+      expressionsToCombine.push(ruleTagFilterFormModel);
     }
   }
   if (tagFilterFormModel?.length > 0) {
-    enrichedTagFilterFormModel.push(AND_CONJUNCTION, ...tagFilterFormModel); // FIXME Verify: if the expression is using OR, aren't we missing brackets here!?
+    expressionsToCombine.push(tagFilterFormModel);
   }
-  return { numeratorFilter, enrichedTagFilterFormModel };
+
+  return {
+    numeratorFilter,
+    enrichedTagFilterFormModel: joinExpressions({
+      expressions: expressionsToCombine
+    })
+  };
 }

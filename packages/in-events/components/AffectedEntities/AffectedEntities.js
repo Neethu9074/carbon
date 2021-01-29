@@ -6,9 +6,9 @@ import { combineLatest } from '@instana/observables';
 import React from 'react';
 
 import AffectedEntitiesPresenter from 'in-events/components/AffectedEntities/AffectedEntitiesPresenter';
-import { entityTypes, getTagFilterListForBackendSubscription } from 'in-analyze/applicationFilter';
 import getCallGroups from 'in-subscription/application/getCallGroups';
 import useCursorPagination from 'in-hooks/useCursorPagination';
+import { entityTypes } from 'in-analyze/applicationFilter';
 
 export default function AffectedEntities(props) {
   const {
@@ -20,7 +20,8 @@ export default function AffectedEntities(props) {
     orderBy,
     isValid,
     hiddenCalls,
-    totalFilters
+    totalTagFilters,
+    totalTagFilterExpression
   } = props;
 
   const tableProps = useCursorPagination(
@@ -49,7 +50,8 @@ export default function AffectedEntities(props) {
 
       const affected = getCallGroups({
         ...baseQueryParameters,
-        tagFilters: getTagFilterListForBackendSubscription(tagFilters),
+        tagFilters: tagFilters,
+        tagFilterExpression: tagFilterExpression,
         pagination: {
           cursor,
           retrievalSize: 20
@@ -57,7 +59,8 @@ export default function AffectedEntities(props) {
       });
       const allEntities = getCallGroups({
         ...baseQueryParameters,
-        tagFilters: getTagFilterListForBackendSubscription(totalFilters),
+        tagFilters: totalTagFilters,
+        tagFilterExpression: totalTagFilterExpression,
         pagination: {
           cursor,
           retrievalSize: 200

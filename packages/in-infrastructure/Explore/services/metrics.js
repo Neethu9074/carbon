@@ -5,7 +5,8 @@
 import { just } from '@instana/observables';
 
 import { percentageZeroDecimalPlaces, bytesTwoDecimalPlaces, twoDecimalPlaces } from 'in-services/formatters/number';
-import { valueWithFormatterToReadableString, numberFormatterToFormatterType } from 'in-services/formatters/number';
+import { getFormatter } from 'in-services/formatters/backendFormatter';
+import { numberFormatterToFormatterType } from 'in-services/formatters/number';
 import getAvailableMetrics from 'in-infrastructure/subscriptions/getAvailableMetrics';
 import { granularityForBeeInstantMetrics } from 'in-stores/metric/beeInstant';
 import { hasError, isLoading } from 'in-services/util/result';
@@ -63,11 +64,10 @@ export function getMetrics({ timeConfig, tagFilterExpression, type }) {
       }
 
       return result.data.metrics.map(({ id, label, format }) => {
-        const formatter = stringFormatToFormatter(format);
         return {
           metric: id,
           label,
-          formatter,
+          formatter: getFormatter(format),
           aggregations: DEFAULT_AGGREGATIONS,
           percentageMetric: format === 'PERCENTAGE'
         };
@@ -79,14 +79,6 @@ export function getMetrics({ timeConfig, tagFilterExpression, type }) {
       const kpiNames = kpis.map(kpi => kpi.metric);
       return kpis.concat(allMetrics.filter(({ metric }) => !kpiNames.includes(metric)));
     });
-}
-
-function stringFormatToFormatter(format) {
-  if (!format || format === 'UNDEFINED' || format === 'NUMBER') {
-    return defaultFormatter;
-  }
-
-  return v => valueWithFormatterToReadableString(v, format);
 }
 
 export function getKpis(type) {

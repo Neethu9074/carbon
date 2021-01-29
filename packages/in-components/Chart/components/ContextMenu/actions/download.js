@@ -2,10 +2,12 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
+
 const config = {
   name: 'download',
   icon: 'lib_actions_download',
-  label: 'Download JSON',
+  label: t('in-components:chart.chartDownloadLabel'),
   onClick: download
 };
 export default config;

@@ -6,10 +6,10 @@ import theme from 'in-themes';
 import React from 'react';
 
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
-import { valueWithFormatterToReadableString } from 'in-services/formatters/number';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { teamSettingsAlertingEvents } from 'in-settings/navigation/paths';
 import { getBuiltInEventSpecification } from 'in-api/eventSpecifications';
+import { getFormatter } from 'in-services/formatters/backendFormatter';
 import DescriptionText from 'in-components/form/DescriptionText';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import SectionLine from 'in-settings/components/SectionLine';
@@ -172,7 +172,7 @@ function formattedColumn(title, attr) {
 
         return {
           value,
-          content: valueWithFormatterToReadableString(value, valueFormat)
+          content: getFormatter(valueFormat)(value)
         };
       }
     }

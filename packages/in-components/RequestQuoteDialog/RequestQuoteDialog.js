@@ -4,6 +4,7 @@
  */
 import { createMapForm, createField, notBlankValidator } from 'formalistic';
 import { compose } from 'recompose';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
@@ -37,10 +38,14 @@ class RequestQuoteDialog extends React.Component {
   render() {
     const { form } = this.props;
     return (
-      <Dialog title="Request Quote" onClose={close}>
+      <Dialog title={t('in-components:requestQuoteDialog.dialogRequestQuoteTitle')} onClose={close}>
         {!form && (
           <div className={locals.loadingState}>
-            <LoadingIndicator className={locals.loadingStateIcon} width={300} text="Loading necessary information…" />
+            <LoadingIndicator
+              className={locals.loadingStateIcon}
+              width={300}
+              text={t('in-components:requestQuoteDialog.dialogRequestLoadingText')}
+            />
           </div>
         )}
 
@@ -61,10 +66,10 @@ class RequestQuoteDialog extends React.Component {
             {form ? (
               <div className={locals.buttonWrapper}>
                 <Button kind="action" onClick={close}>
-                  Cancel
+                  {t('forms.actions.cancel')}
                 </Button>
                 <Button kind="primary" type="submit" disabled={!form.hierarchyValid && form.touched}>
-                  Submit
+                  {t('forms.actions.submit')}
                 </Button>
               </div>
             ) : null}
@@ -113,7 +118,7 @@ class RequestQuoteDialog extends React.Component {
         this.setState({
           loading: false,
           error: false,
-          message: 'Your quote request has been successfully submitted.'
+          message: t('in-components:requestQuoteDialog.dialogRequestQuoteSubmittedMsg')
         });
         setTimeout(close, 3000);
       }

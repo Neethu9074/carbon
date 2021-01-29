@@ -31,7 +31,7 @@ export default function LogsDistributionChartSection({ metrics, onMetricsChange,
     <div className={locals.wrapper}>
       <ChartingConfiguratorSection
         value={
-          metrics.map(metricState => ({
+          metrics?.map(metricState => ({
             metricId: metricState.metric,
             aggregationId: metricState.aggregation
           }))[0]

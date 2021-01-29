@@ -4,6 +4,7 @@
  */
 import { compose, withState } from 'recompose';
 import React, { Fragment } from 'react';
+import { t } from 'in-i18n';
 
 import FileDownloadConfigurationDialog from 'in-websites/WebsiteDashboard/tabs/Configuration/StackTraceTranslation/FileDownloadConfigurationDialog';
 import { getSourceMapConfigurations, removeSourceMapConfiguration } from 'in-websites/api/websites';
@@ -19,7 +20,7 @@ import locals from './StackTraceTranslation.mless';
 const columnDefinitions = [
   {
     id: 'configuration',
-    label: 'Configuration',
+    label: t('in-websites:websiteDashboard.tabs.configuration.stackTraceTranslationLabelConfiguration'),
     width: '4rem',
     widthInAbsoluteUnit: true,
     getValue: toLabel,
@@ -28,11 +29,7 @@ const columnDefinitions = [
 ];
 
 const explanation = (
-  <Fragment>
-    To make JavaScript stack traces more readable, e.g. to show references to non minified files and lines, Instana
-    needs to access JavaScript and source map files. Adding a configuration here allows Instana
-    {`'`}s server to authenticate and download these files in order to provide more insights into JavaScript errors.
-  </Fragment>
+  <Fragment>{t('in-websites:websiteDashboard.tabs.configuration.stackTraceTranslationExplanation')}</Fragment>
 );
 
 export default compose(withState('message', 'setMessage', null))(function StackTraceTranslationConfigurationPresenter({
@@ -49,15 +46,21 @@ export default compose(withState('message', 'setMessage', null))(function StackT
       {message && <TemporaryMessage type={message.type} message={message.message} duration={5000} />}
 
       <LearnMoreCard
-        title="JavaScript Stack Trace Translation"
+        title={t(
+          'in-websites:websiteDashboard.tabs.configuration.stackTraceTranslationTitleJavaScriptStackTraceTranslation'
+        )}
         explanation={explanation}
         learnMoreHref="https://instana.com/docs/website_monitoring/faq/#javascript-stack-trace-translation"
-        learnMoreLabel="Learn more about JavaScript Stack Trace Translation"
+        learnMoreLabel={t('in-websites:websiteDashboard.tabs.configuration.stackTraceTranslationLearnMoreLabel')}
       />
 
       <List
-        title="JS Stack Trace Translation Configurations"
-        getHeader={defaultHeaderWithCount('File Download Configurations')}
+        title={t(
+          'in-websites:websiteDashboard.tabs.configuration.stackTraceTranslationTitleJSStackTraceTranslationConfigurations'
+        )}
+        getHeader={defaultHeaderWithCount(
+          t('in-websites:websiteDashboard.tabs.configuration.stackTraceTranslationHeaderFileDownloadConfigurations')
+        )}
         getEntityName={getEntityName}
         columnDefinitions={columnDefinitions}
         tableActions={{
@@ -71,7 +74,7 @@ export default compose(withState('message', 'setMessage', null))(function StackT
         loadEntities={() => getSourceMapConfigurations(websiteId)}
         pageSize={15}
         searchAttributes={[toLabel]}
-        noDataMessage="No file download configurations available."
+        noDataMessage={t('in-websites:websiteDashboard.tabs.configuration.stackTraceTranslationNoDataMessage')}
         rightHeader={
           <Button
             className={locals.button}
@@ -81,7 +84,7 @@ export default compose(withState('message', 'setMessage', null))(function StackT
             }}
             icon="lib_openclose_add_circle_outline"
           >
-            Add Configuration
+            {t('in-websites:websiteDashboard.tabs.configuration.stackTraceTranslationButtonAddConfiguration')}
           </Button>
         }
         onRowClick={config => {
@@ -95,7 +98,9 @@ export default compose(withState('message', 'setMessage', null))(function StackT
 });
 
 function getEntityName(config) {
-  return `File Download Configuration ${toLabel(config)}`;
+  return t('in-websites:websiteDashboard.tabs.configuration.stackTraceTranslationLabelFileDownloadConfiguration', {
+    config: toLabel(config)
+  });
 }
 
 function toLabel(config) {
@@ -123,5 +128,5 @@ function toLabel(config) {
 
       return label;
     })
-    .join(' or ');
+    .join(t('in-websites:websiteDashboard.tabs.configuration.stackTraceTranslationLabelOr'));
 }

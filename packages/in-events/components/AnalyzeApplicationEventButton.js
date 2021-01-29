@@ -5,27 +5,48 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import getConfigByDataSource, { groupByEndpointName, groupByServiceName } from 'in-analyze/AnalyzeView/dataSources';
+import {
+  getBlueprintConfig,
+  getBaselineThresholdValue,
+  getApplicationNameTagFilter
+} from 'in-applications/alerting/data/blueprintConfig';
 import { joinExpressions, fromBackendModel } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { isQB2Config, isQB2ModeEnabled } from 'in-new-components/Alerting/components/WithQB1orQB2';
+import { containsTagName } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import { applicationsAlertingEventDetailsGoToAnalyze } from 'in-applications/alerting/tracker';
 import { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import { toTagFilterNumberOperator } from 'in-new-components/Alerting/utils/alertUtils';
+import { tagFilter } from 'in-new-components/QueryBuilder/transformation/tagFilter';
 import { getLinkToAnalyze, getDirectLinkToUA2 } from 'in-analyze/navigation/paths';
-import { getBlueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
-import { getBaselineValue } from 'in-new-components/Alerting/utils/baselineUtils';
+import getConfigByDataSource from 'in-analyze/AnalyzeView/dataSources';
+import { dataSourceConstants } from 'in-applications/analyze/metrics';
 import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import { convertToAnalyzeFilters } from 'in-applications/tags';
 import { propTypeTimeConfig } from 'in-stores/time/config';
+import { entityTypes } from 'in-analyze/applicationFilter';
 import Button from 'in-new-components/Button';
 import Tooltip from 'in-components/Tooltip';
 
 const dataSource = 'calls';
 const alertTypeWithDisabledGrouping = ['errorRate', 'slowness'];
+export const tagNamesToUseEndpointGrouping = ['endpoint.id', 'endpoint.name', 'service.id', 'service.name'];
 
-export default function AnalyzeApplicationEventButton({ alertConfig, timeConfig, applicationName, serviceName }) {
+export default function AnalyzeApplicationEventButton({
+  alertConfig,
+  timeConfig,
+  applicationName,
+  serviceName,
+  endpointName
+}) {
   const tagCatalog = useTagCatalog(getTagCatalog);
-  const linkToUA = getLinkToUnboundAnalytics(applicationName, serviceName, alertConfig, timeConfig, tagCatalog);
+  const linkToUA = getLinkToUnboundAnalytics(
+    applicationName,
+    serviceName,
+    endpointName,
+    alertConfig,
+    timeConfig,
+    tagCatalog
+  );
   const linkDisabled = !linkToUA;
 
   return (
@@ -56,42 +77,58 @@ AnalyzeApplicationEventButton.propTypes = {
   alertConfig: PropTypes.object.isRequired,
   timeConfig: propTypeTimeConfig.isRequired,
   applicationName: PropTypes.string.isRequired,
-  serviceName: PropTypes.string
+  serviceName: PropTypes.string,
+  endpointName: PropTypes.string
 };
 
-function getLinkToUnboundAnalytics(applicationName, serviceName, alertConfig, timeConfig, tagCatalog) {
-  const boundaryScope = alertConfig.boundaryScope;
-  const alertRule = alertConfig.rule;
-  const alertType = alertRule.alertType;
+export function getLinkToUnboundAnalytics(
+  applicationName,
+  serviceName,
+  endpointName,
+  alertConfig,
+  timeConfig,
+  tagCatalog,
+  groupingTagName = null
+) {
+  const { rule, boundaryScope, tagFilters, tagFilterExpression, convertedTagFilterExpression } = alertConfig;
+  const alertType = rule.alertType;
 
   if (isQB2ModeEnabled) {
+    const groupByTag = groupingTagName
+      ? groupingTagName
+      : getGroupingTagNameUA2(alertType, tagFilterExpression, serviceName, endpointName);
+
     // link to UA2
-    const blueprintConfig = getBlueprintConfig(alertType);
     return getDirectLinkToUA2({
       dataSource,
       timeConfig,
-      tagFilterExpression: joinExpressions({
-        expressions: [
-          getApplicationNameTagFilter(boundaryScope, applicationName),
-          serviceName ? getServiceNameTagFilter(serviceName) : [],
-          fromBackendModel(alertConfig.tagFilterExpression),
-          blueprintConfig.getRuleTagFilterFormModel(alertRule)
-        ]
-      })
+      groupBy: toUA2GroupByTag(groupByTag),
+      charts: getChartsParam(alertType),
+      tagFilterExpression: getEnrichedAnalyzeTagFilterFormModel(
+        alertConfig,
+        applicationName,
+        serviceName,
+        endpointName,
+        timeConfig
+      )
     });
-  } else if (!isQB2Config(alertConfig.convertedTagFilterExpression)) {
+  } else if (!isQB2Config(convertedTagFilterExpression)) {
+    const groupByTag = groupingTagName
+      ? groupingTagName
+      : getGroupingTagNameUA1(alertType, tagFilters, serviceName, endpointName);
+
     // link to UA1
-    const filters = getEnrichedAnalyzeFilters(alertConfig, timeConfig);
     return (
       tagCatalog &&
       getLinkToAnalyze({
         applicationName,
         serviceName,
+        endpointName,
         dataSource,
         boundaryScope,
-        filters,
+        filters: getEnrichedAnalyzeFilters(alertConfig, timeConfig),
         tagCatalog,
-        groupByTag: getGrouping(alertType, filters),
+        groupByTag: toUA1GroupByTag(groupByTag),
         focusedMetric: getFocusedMetric(alertType),
         timeConfig
       })
@@ -102,29 +139,33 @@ function getLinkToUnboundAnalytics(applicationName, serviceName, alertConfig, ti
   return null;
 }
 
-function getApplicationNameTagFilter(boundaryScope, applicationName) {
-  return {
-    type: 'TAG_FILTER',
-    name: boundaryScope === 'INBOUND' ? 'call.inbound_of_application' : 'application.name',
-    operator: 'EQUALS',
-    value: applicationName
-  };
-}
-
-function getServiceNameTagFilter(serviceName) {
-  return {
-    type: 'TAG_FILTER',
-    name: 'service.name',
-    operator: 'EQUALS',
-    value: serviceName
-  };
+export function getEnrichedAnalyzeTagFilterFormModel(
+  alertConfig,
+  applicationName,
+  serviceName,
+  endpointName,
+  timeConfig
+) {
+  const { rule, boundaryScope, tagFilterExpression } = alertConfig;
+  const alertType = rule.alertType;
+  const blueprintConfig = getBlueprintConfig(alertType);
+  return joinExpressions({
+    expressions: [
+      getApplicationNameTagFilter(boundaryScope, applicationName),
+      serviceName ? tagFilter('service.name', 'EQUALS', serviceName) : [],
+      endpointName ? tagFilter('endpoint.name', 'EQUALS', endpointName) : [],
+      fromBackendModel(tagFilterExpression),
+      blueprintConfig.getRuleTagFilterFormModel(rule),
+      blueprintConfig.getExtraAnalyzeLinkTagFilterFormModel(alertConfig, timeConfig)
+    ]
+  });
 }
 
 export function getEnrichedAnalyzeFilters(alertConfig, timeConfig) {
   const alertType = alertConfig.rule.alertType;
   let analyzeFilters = convertToAnalyzeFilters(alertConfig.tagFilters);
   if (alertType === 'errorRate') {
-    analyzeFilters.push(getErroneousCallsAnalyzeFilter());
+    analyzeFilters.push(tagFilter('call.erroneous', 'EQUALS', true));
   } else if (alertType === 'slowness') {
     analyzeFilters.push(getThresholdLatencyAnalyzeFilter(alertConfig, timeConfig));
   } else if (alertType === 'logs') {
@@ -135,14 +176,6 @@ export function getEnrichedAnalyzeFilters(alertConfig, timeConfig) {
   return analyzeFilters;
 }
 
-function getErroneousCallsAnalyzeFilter() {
-  return {
-    name: 'call.erroneous',
-    operator: 'EQUALS',
-    value: 'true'
-  };
-}
-
 function getThresholdLatencyAnalyzeFilter(alertConfig, timeConfig) {
   let value;
   if (alertConfig.threshold.type === 'staticThreshold') {
@@ -151,61 +184,25 @@ function getThresholdLatencyAnalyzeFilter(alertConfig, timeConfig) {
     value = getBaselineThresholdValue(alertConfig, timeConfig);
   }
 
-  return {
-    name: 'call.latency',
-    operator: toTagFilterNumberOperator(alertConfig.threshold.operator),
-    value: value
-  };
+  return tagFilter('call.latency', toTagFilterNumberOperator(alertConfig.threshold.operator), value);
 }
 
 function getStatusCodeAnalyzeFilter(rule) {
   const analyzeFilters = [];
   if (rule.statusCodeStart === rule.statusCodeEnd) {
-    analyzeFilters.push({
-      name: 'call.http.status',
-      operator: 'EQUALS',
-      value: rule.statusCodeStart
-    });
+    analyzeFilters.push(tagFilter('call.http.status', 'EQUALS', rule.statusCodeStart));
   } else {
-    analyzeFilters.push({
-      name: 'call.http.status',
-      operator: 'GREATER_OR_EQUAL_THAN',
-      value: rule.statusCodeStart
-    });
-    analyzeFilters.push({
-      name: 'call.http.status',
-      operator: 'LESS_OR_EQUAL_THAN',
-      value: rule.statusCodeEnd
-    });
+    analyzeFilters.push(tagFilter('call.http.status', 'GREATER_OR_EQUAL_THAN', rule.statusCodeStart));
+    analyzeFilters.push(tagFilter('call.http.status', 'LESS_OR_EQUAL_THAN', rule.statusCodeEnd));
   }
   return analyzeFilters;
 }
 
-function getBaselineThresholdValue(alertConfig, timeConfig) {
-  const { operator, baseline, deviationFactor } = alertConfig.threshold;
-  const baselineGranularity = alertConfig.granularity;
-  const isGreaterOp = operator === '>=' || operator === '>';
-
-  const baselineValues = [];
-  for (let time = timeConfig.to - timeConfig.windowSize; time <= timeConfig.to; time += baselineGranularity) {
-    baselineValues.push(getBaselineValue(time, baseline, deviationFactor, baselineGranularity, isGreaterOp));
-  }
-  return isGreaterOp ? Math.min(...baselineValues) : Math.max(...baselineValues);
-}
-
 function getLogCallsAnalyzeFilters(rule) {
   const analyzeFilters = [];
-  analyzeFilters.push({
-    name: 'log.message',
-    operator: rule.operator,
-    value: rule.message
-  });
+  analyzeFilters.push(tagFilter('log.message', rule.operator, rule.message));
   if (rule.level !== 'ANY') {
-    analyzeFilters.push({
-      name: 'log.level',
-      operator: 'EQUALS',
-      value: rule.level
-    });
+    analyzeFilters.push(tagFilter('log.level', 'EQUALS', rule.level));
   }
   return analyzeFilters;
 }
@@ -222,22 +219,92 @@ function getFocusedMetric(alertType) {
   return 'calls_SUM';
 }
 
-function getGrouping(alertType, filters) {
-  if (alertTypeWithDisabledGrouping.includes(alertType)) {
-    return {}; // no grouping
+function getChartsParam(alertType) {
+  if (alertType === 'slowness') {
+    return [
+      {
+        metric: 'latency',
+        aggregation: 'DISTRIBUTION'
+      }
+    ];
+  }
+  if (alertType === 'errorRate') {
+    // we don't show errors with MEAN aggregation here, because we already include a call.erroneous filter
+    return [
+      {
+        metric: 'erroneousCalls',
+        aggregation: 'SUM'
+      }
+    ];
+  }
+  // at the moment only 'latency_DISTRIBUTION' is available when no grouping is set. However, the analyze-view handles
+  // this case properly and then shows the latency-distribution chart instead.
+  return [
+    {
+      metric: 'calls',
+      aggregation: 'SUM'
+    }
+  ];
+}
+
+function getGroupingTagNameUA1(alertType, filters, serviceName, endpointName) {
+  if (alertTypeWithDisabledGrouping.includes(alertType) || endpointName) {
+    return null; // no grouping
+  }
+
+  if (serviceName) {
+    return 'endpoint.name';
   }
 
   if (alertType === 'throughput') {
     const needsGroupByEndpoint = filters.find(isEndpointOrServiceFilter);
-    return needsGroupByEndpoint ? groupByEndpointName : groupByServiceName;
+    return needsGroupByEndpoint ? 'endpoint.name' : 'service.name';
   }
 
-  return getConfigByDataSource(dataSource).defaultGrouping;
+  return getConfigByDataSource(dataSource).defaultGrouping.name;
 }
 
-const isEndpointOrServiceFilter = filter =>
-  filter?.name &&
-  (filter.name === 'endpoint.name' ||
-    filter.name === 'service.name' ||
-    filter.name === 'endpoint.id' ||
-    filter.name === 'service.id');
+function getGroupingTagNameUA2(alertType, tagFilterExpression, serviceName, endpointName) {
+  if (alertTypeWithDisabledGrouping.includes(alertType) || endpointName) {
+    return null; // no grouping
+  }
+
+  if (serviceName) {
+    return 'endpoint.name';
+  }
+
+  if (alertType === 'throughput') {
+    const needsGroupByEndpoint = tagNamesToUseEndpointGrouping.some(tagName =>
+      containsTagName(tagFilterExpression, tagName)
+    );
+
+    return needsGroupByEndpoint ? 'endpoint.name' : 'service.name';
+  }
+
+  return dataSourceConstants.calls.defaultGrouping.groupbyTag;
+}
+
+function toUA1GroupByTag(tagName) {
+  if (!tagName) {
+    return {}; // no grouping
+  }
+
+  return {
+    name: tagName,
+    value: '',
+    entity: entityTypes.DESTINATION
+  };
+}
+
+function toUA2GroupByTag(tagName) {
+  if (!tagName) {
+    return {}; // no grouping
+  }
+
+  return {
+    groupbyTag: tagName,
+    groupbyTagEntity: entityTypes.DESTINATION
+  };
+}
+
+export const isEndpointOrServiceFilter = filter => filter?.name && tagNamesToUseEndpointGrouping.includes(filter.name);

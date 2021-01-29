@@ -5,6 +5,9 @@
 import getApplicationMetricsThresholdSuggestion from 'in-applications/alerting/subscriptions/getApplicationMetricsThresholdSuggestion';
 import getApplicationMetricsAlertPreview from 'in-applications/alerting/subscriptions/getApplicationMetricsAlertsPreview';
 import getApplicationMetrics from 'in-applications/subscriptions/getApplicationMetrics';
+import { toTagFilterNumberOperator } from 'in-new-components/Alerting/utils/alertUtils';
+import { tagFilter } from 'in-new-components/QueryBuilder/transformation/tagFilter';
+import { getBaselineValue } from 'in-new-components/Alerting/utils/baselineUtils';
 import { AND_CONJUNCTION } from 'in-new-components/Alerting/utils/queryUtils';
 import { percentage, millis, number } from 'in-services/formatters/number';
 import { getAnalyzeFilterTagKeys } from 'in-applications/tags';
@@ -54,7 +57,8 @@ const baseBlueprint = Object.freeze({
     }
     return formModel;
   },
-  getRuleTagFilterFormModel: () => []
+  getRuleTagFilterFormModel: () => [],
+  getExtraAnalyzeLinkTagFilterFormModel: () => []
 });
 
 const slownessBlueprintConfig = Object.freeze({
@@ -73,7 +77,8 @@ const slownessBlueprintConfig = Object.freeze({
   getAggregation: alertRule => alertRule.aggregation,
   isRuleComplete: () => true,
   getRuleTagFilters: () => [], // QB1
-  getRuleTagFilterFormModel: () => [] // QB2
+  getRuleTagFilterFormModel: () => [], // QB2
+  getExtraAnalyzeLinkTagFilterFormModel: getExtraSlownessAnalyzeLinkTagFilterFormModel
 });
 
 const errorRateBlueprintConfig = Object.freeze({
@@ -92,7 +97,8 @@ const errorRateBlueprintConfig = Object.freeze({
   getAggregation: () => 'MEAN',
   isRuleComplete: () => true,
   getRuleTagFilters: () => [], //QB1
-  getRuleTagFilterFormModel: () => [] //QB2
+  getRuleTagFilterFormModel: () => [], //QB2
+  getExtraAnalyzeLinkTagFilterFormModel: () => [tagFilter('call.erroneous', 'EQUALS', true)]
 });
 
 const logsBlueprintConfig = Object.freeze({
@@ -132,7 +138,7 @@ const statusCodeBlueprintConfig = Object.freeze({
   isRuleComplete: alertRule => !!(alertRule.statusCodeStart && alertRule.statusCodeEnd),
   incompleteRuleMessage: t('in-applications:blueprintConfig.statusCode.incompleteRuleMessage'),
   getRuleTagFilters: getStatusCodeTagFilters, //QB1
-  getRuleFormModel: getStatusCodeFormModel //QB2
+  getRuleTagFilterFormModel: getStatusCodeFormModel //QB2
 });
 
 const throughputBlueprintConfig = Object.freeze({
@@ -217,6 +223,14 @@ function getApplicationIdTagFilter(alertConfig) {
   );
 }
 
+export function getApplicationNameTagFilter(boundaryScope, applicationName) {
+  return tagFilter(
+    boundaryScope === 'INBOUND' ? 'call.inbound_of_application' : 'application.name',
+    'EQUALS',
+    applicationName
+  );
+}
+
 function getLogLevelTagFilters(alertRule) {
   const tagFilters = [tagFilter('log.message', alertRule.operator, alertRule.message)];
   if (alertRule.level !== 'ANY') {
@@ -260,6 +274,25 @@ function getStatusCodeFormModel(alertRule) {
   return formModel;
 }
 
-function tagFilter(name, operator, value) {
-  return { type: 'TAG_FILTER', name, operator, value };
+function getExtraSlownessAnalyzeLinkTagFilterFormModel(alertConfig, timeConfig) {
+  let value;
+  if (alertConfig.threshold.type === 'staticThreshold') {
+    value = alertConfig.threshold.value;
+  } else {
+    value = getBaselineThresholdValue(alertConfig, timeConfig);
+  }
+
+  return [tagFilter('call.latency', toTagFilterNumberOperator(alertConfig.threshold.operator), value)];
+}
+
+export function getBaselineThresholdValue(alertConfig, timeConfig) {
+  const { operator, baseline, deviationFactor } = alertConfig.threshold;
+  const baselineGranularity = alertConfig.granularity;
+  const isGreaterOp = operator === '>=' || operator === '>';
+
+  const baselineValues = [];
+  for (let time = timeConfig.to - timeConfig.windowSize; time <= timeConfig.to; time += baselineGranularity) {
+    baselineValues.push(getBaselineValue(time, baseline, deviationFactor, baselineGranularity, isGreaterOp));
+  }
+  return isGreaterOp ? Math.min(...baselineValues) : Math.max(...baselineValues);
 }

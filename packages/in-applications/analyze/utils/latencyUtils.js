@@ -6,76 +6,22 @@ import {
   GREATER_OR_EQUAL_THAN,
   LESS_OR_EQUAL_THAN,
   LESS_THAN,
-  EQUALS,
   GREATER_THAN
 } from 'in-new-components/QueryBuilder/tagFilter/operators';
-import { EXPRESSION, OPERATOR_AND } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
-import { type as TAG_FILTER_TYPE } from 'in-new-components/QueryBuilder/transformation/tagFilter';
-import { getNumberTagFilters } from 'in-analyze/components/filterBar/NumberBarItemBehavior/util';
+import {
+  getRangeFromBackendQueryModel,
+  getRangeFromFilters,
+  updateRange
+} from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import { NOT_APPLICABLE } from 'in-new-components/QueryBuilder/tagFilter/entities';
-import { TAG } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { dataSourceConstants } from 'in-applications/analyze/metrics';
 
 export function getLatencySelectionFromTagFilterExpression(dataSource, tagFilterExpression) {
-  const latencyTag = dataSourceConstants[dataSource].latencyTag;
-  if (tagFilterExpression.type === EXPRESSION && tagFilterExpression.logicalOperator === OPERATOR_AND) {
-    return getLatencySelectionFromFilters(dataSource, tagFilterExpression.elements);
-  }
-  if (tagFilterExpression.type === TAG_FILTER_TYPE && tagFilterExpression.name === latencyTag) {
-    return getLatencySelectionFromFilters(dataSource, [tagFilterExpression]);
-  }
+  return getRangeFromBackendQueryModel(dataSourceConstants[dataSource].latencyTag, tagFilterExpression);
 }
 
 export function getLatencySelectionFromFilters(dataSource, tagFilter) {
-  // find the most significant latency filters for each operator type, e.g.
-  // call.latency > 2 is more significant than call.latency > 1
-  const latencyFilters = getNumberTagFilters({
-    tagFilters: tagFilter,
-    tag: dataSourceConstants[dataSource].latencyTag,
-    showRange: true,
-    showEquality: true
-  });
-
-  if (latencyFilters.neq) {
-    // don't support selection when filter with "!=" is used
-    return {};
-  }
-
-  // values can come as numbers or/and strings
-  let from = null;
-  let to = null;
-  if (latencyFilters.lt) {
-    to = parseInt(latencyFilters.lt.value);
-  } else if (latencyFilters.lte) {
-    to = parseInt(latencyFilters.lte.value) + 1;
-  }
-  if (latencyFilters.gt) {
-    from = Math.max(0, parseInt(latencyFilters.gt.value) + 1);
-  } else if (latencyFilters.gte) {
-    from = parseInt(latencyFilters.gte.value);
-  }
-
-  const selection = {};
-
-  if (latencyFilters.eq) {
-    if (!from && !to) {
-      selection.from = parseInt(latencyFilters.eq.value);
-      if (selection.from === 0) {
-        // latency filter is "equals 0", should clear faceted search
-        return {};
-      }
-      // the upper bound is specified as strict inequality (<), need to increment it by 1
-      selection.to = selection.from + 1;
-    }
-  } else if (from == null || to == null || from < to) {
-    if (from != null) {
-      selection.from = from;
-    }
-    if (to != null) {
-      selection.to = to;
-    }
-  }
-  return selection;
+  return getRangeFromFilters(dataSourceConstants[dataSource].latencyTag, tagFilter);
 }
 
 // Keep the original position of the latency filters in the filter list.
@@ -131,68 +77,10 @@ export function updateLatencyFilters(dataSource, tagFilter, selection) {
 }
 
 export function updateLatencySelection({ dataSource, selection, tagFilterExpression, updateFilter }) {
-  const { from, to } = selection;
-  const latencyTag = dataSourceConstants[dataSource].latencyTag;
-  const removedFilters = getFiltersToRemove(latencyTag, tagFilterExpression);
-  let minFilter, maxFilter;
-  if (typeof from === 'number') {
-    minFilter = {
-      type: TAG,
-      name: latencyTag,
-      operator: GREATER_OR_EQUAL_THAN,
-      value: from
-    };
-  }
-  if (typeof to === 'number') {
-    maxFilter = {
-      type: TAG,
-      name: latencyTag,
-      operator: LESS_THAN,
-      value: to
-    };
-  }
-  if (minFilter && maxFilter) {
-    if (minFilter.value === maxFilter.value) {
-      updateFilter({
-        add: [
-          {
-            type: TAG,
-            name: latencyTag,
-            operator: EQUALS,
-            value: from
-          }
-        ],
-        remove: removedFilters
-      });
-    } else {
-      updateFilter({
-        add: [minFilter, maxFilter],
-        remove: removedFilters
-      });
-    }
-  } else if (minFilter) {
-    updateFilter({
-      add: [minFilter],
-      remove: removedFilters
-    });
-  } else if (maxFilter) {
-    updateFilter({
-      add: [maxFilter],
-      remove: removedFilters
-    });
-  } else {
-    updateFilter({
-      remove: removedFilters
-    });
-  }
-}
-
-function getFiltersToRemove(latencyTag, tagFilterExpression) {
-  if (tagFilterExpression.type === EXPRESSION && tagFilterExpression.logicalOperator === OPERATOR_AND) {
-    return tagFilterExpression.elements.filter(
-      element => element.type === TAG_FILTER_TYPE && element.name === latencyTag
-    );
-  } else if (tagFilterExpression.type === TAG_FILTER_TYPE && tagFilterExpression.name === latencyTag) {
-    return [tagFilterExpression];
-  }
+  updateRange({
+    tag: dataSourceConstants[dataSource].latencyTag,
+    selection,
+    backendQueryModel: tagFilterExpression,
+    updateFilter
+  });
 }

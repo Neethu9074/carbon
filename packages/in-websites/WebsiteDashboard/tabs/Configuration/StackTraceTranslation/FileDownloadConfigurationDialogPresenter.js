@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { Trans, markAsSecureString, t } from 'in-i18n';
 import React, { Fragment } from 'react';
 
 import SectionHeading from 'in-settings/components/SectionHeading';
@@ -30,7 +31,11 @@ export default function FileDownloadConfigurationDialogPresenter(props) {
 
   return (
     <Dialog
-      title={`${form.get('id').value ? 'Edit' : 'New'} File Download Configuration`}
+      title={
+        form.get('id').value
+          ? t('in-websites:websiteDashboard.tabs.configuration.fileDownloadConfigurationDialogTitleEdit')
+          : t('in-websites:websiteDashboard.tabs.configuration.fileDownloadConfigurationDialogTitleNew')
+      }
       onClose={close}
       className={locals.dialog}
     >
@@ -52,17 +57,16 @@ export default function FileDownloadConfigurationDialogPresenter(props) {
 function MatchingRules({ form, onChange, addMatchingRule, removeMatchingRule, disabled }) {
   return (
     <Fragment>
-      <SectionHeading withoutTopSpacing>Matching Rules</SectionHeading>
+      <SectionHeading withoutTopSpacing>
+        {t('in-websites:websiteDashboard.tabs.configuration.fileDownloadConfigurationDialogHeadingMatchingRules')}
+      </SectionHeading>
       <SectionHelp>
+        <p>{t('in-websites:websiteDashboard.tabs.configuration.fileDownloadConfigurationDialogMatchingRuleHelp1')}</p>
         <p>
-          You can define multiple matching rules to describe when we should include your configuration in HTTP requests.
-          We make use of your configured HTTP basic authentication and custom HTTP headers when at least one matching
-          rule matches the file
-          {`'`}s URL.
-        </p>
-        <p>
-          We recommend only to match files for the <code>https://</code> scheme as your configuration will otherwise be
-          transmitted in plain text!
+          <Trans
+            i18nKey="in-websites:websiteDashboard.tab.fileDownloadConfigurationDialogMatchingRuleHelp2"
+            values={{ http: markAsSecureString('https://') }}
+          />
         </p>
       </SectionHelp>
       <TouchedMessages field={form.get('matchingRules')} />
@@ -80,7 +84,7 @@ function MatchingRules({ form, onChange, addMatchingRule, removeMatchingRule, di
                       htmlFor={`config-${i}-allowTransmissionViaInsecureChannel`}
                       hasError={!field.valid && field.touched}
                     >
-                      Scheme
+                      {t('in-websites:websiteDashboard.tabs.configuration.fileDownloadConfigurationDialogLabelScheme')}
                     </Label>
                     <Select
                       id={`config-${i}-allowTransmissionViaInsecureChannel`}
@@ -91,7 +95,11 @@ function MatchingRules({ form, onChange, addMatchingRule, removeMatchingRule, di
                       hasError={!field.valid && field.touched}
                     >
                       <option value="false">https://</option>
-                      <option value="true">https:// or http://</option>
+                      <option value="true">
+                        {t(
+                          'in-websites:websiteDashboard.tabs.configuration.fileDownloadConfigurationDialogLabelHTTPSOrHTTP'
+                        )}
+                      </option>
                     </Select>
                     <TouchedMessages field={field} />
                   </FormGroup>
@@ -101,7 +109,7 @@ function MatchingRules({ form, onChange, addMatchingRule, removeMatchingRule, di
                 {rule.get('host').map(field => (
                   <FormGroup>
                     <Label htmlFor={`config-${i}-host`} hasError={!field.valid && field.touched}>
-                      Host
+                      {t('in-websites:websiteDashboard.tabs.configuration.fileDownloadConfigurationDialogLabelHost')}
                     </Label>
                     <Input
                       id={`config-${i}-host`}
@@ -111,8 +119,10 @@ function MatchingRules({ form, onChange, addMatchingRule, removeMatchingRule, di
                       hasError={!field.valid && field.touched}
                     />
                     <HelpText>
-                      Describe how to match the host segment of URLs. You can define wildcard matching via{' '}
-                      <code>*</code>
+                      <Trans
+                        i18nKey="in-websites:websiteDashboard.tab.fileDownloadConfigurationDialogLabelHostHelpText"
+                        values={{ asterisks: markAsSecureString('*') }}
+                      />
                     </HelpText>
                     <TouchedMessages field={field} />
                   </FormGroup>
@@ -132,8 +142,10 @@ function MatchingRules({ form, onChange, addMatchingRule, removeMatchingRule, di
                       hasError={!field.valid && field.touched}
                     />
                     <HelpText>
-                      Describe how to match the path segment of URLs. You can define wildcard matching via{' '}
-                      <code>*</code>
+                      <Trans
+                        i18nKey="in-websites:websiteDashboard.tab.fileDownloadConfigurationDialogLabelPathHelpText"
+                        values={{ asterisks: markAsSecureString('*') }}
+                      />
                     </HelpText>
                     <TouchedMessages field={field} />
                   </FormGroup>
@@ -156,7 +168,7 @@ function MatchingRules({ form, onChange, addMatchingRule, removeMatchingRule, di
         onClick={addMatchingRule}
         className={locals.addButton}
       >
-        Add Matching Rule
+        {t('in-websites:websiteDashboard.tabs.configuration.fileDownloadConfigurationDialogButtonAddMatchingRule')}
       </Button>
     </Fragment>
   );
@@ -165,17 +177,24 @@ function MatchingRules({ form, onChange, addMatchingRule, removeMatchingRule, di
 function BasicAuth({ form, onChange }) {
   return (
     <Fragment>
-      <SectionHeading>HTTP Basic Authentication</SectionHeading>
+      <SectionHeading>
+        {t(
+          'in-websites:websiteDashboard.tabs.configuration.fileDownloadConfigurationDialogHeadingHTTPBasicAuthentication'
+        )}
+      </SectionHeading>
       <SectionHelp>
         <p>
-          We recommend authentication via{' '}
-          <Link
-            href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Authentication#Basic_authentication_scheme"
-            external
-          >
-            HTTP basic authentication
-          </Link>
-          . HTTP basic authentication can be easily added to most HTTP servers and proxies, e.g. Apache Httpd and Nginx.
+          <Trans
+            i18nKey="in-websites:websiteDashboard.components.fileDownloadConfigurationDialogHTTPBasicAuthenticationHelp"
+            components={{
+              linkToDocs: (
+                <Link
+                  href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Authentication#Basic_authentication_scheme"
+                  external
+                />
+              )
+            }}
+          />
         </p>
       </SectionHelp>
 
@@ -184,7 +203,7 @@ function BasicAuth({ form, onChange }) {
           {form.get('basicAuthUserName').map(field => (
             <FormGroup>
               <Label htmlFor="config-basicAuthUserName" hasError={!field.valid && field.touched}>
-                User Name
+                {t('in-websites:websiteDashboard.tabs.configuration.fileDownloadConfigurationDialogLabelUserName')}
               </Label>
               <Input
                 id="config-basicAuthUserName"
@@ -201,7 +220,7 @@ function BasicAuth({ form, onChange }) {
           {form.get('basicAuthPassword').map(field => (
             <FormGroup>
               <Label htmlFor="config-basicAuthPassword" hasError={!field.valid && field.touched}>
-                Password
+                {t('in-websites:websiteDashboard.tabs.configuration.fileDownloadConfigurationDialogLabelPassword')}
               </Label>
               <Input
                 id="config-basicAuthPassword"
@@ -223,11 +242,16 @@ function BasicAuth({ form, onChange }) {
 function HttpHeaders({ form, onChange, addHeader, removeHeader, disabled }) {
   return (
     <Fragment>
-      <SectionHeading>Custom HTTP Request Headers</SectionHeading>
+      <SectionHeading>
+        {t(
+          'in-websites:websiteDashboard.tabs.configuration.fileDownloadConfigurationDialogHeadingCustomHTTPRequestHeaders'
+        )}
+      </SectionHeading>
       <SectionHelp>
         <p>
-          Custom HTTP headers are useful to support authentication mechanisms other than HTTP basic authentication or to
-          circumvent security mechanisms commonly available in content-delivery networks, e.g. bot detection.
+          {t(
+            'in-websites:websiteDashboard.tabs.configuration.fileDownloadConfigurationDialogCustomHTTPRequestHeadersHelp'
+          )}
         </p>
       </SectionHelp>
 
@@ -241,7 +265,7 @@ function HttpHeaders({ form, onChange, addHeader, removeHeader, disabled }) {
                 {header.get('key').map(field => (
                   <FormGroup>
                     <Label htmlFor={`config-headers-${i}-key`} hasError={!field.valid && field.touched}>
-                      Key
+                      {t('in-websites:websiteDashboard.tabs.configuration.fileDownloadConfigurationDialogLabelKey')}
                     </Label>
                     <Input
                       id={`config-headers-${i}-key`}
@@ -258,7 +282,7 @@ function HttpHeaders({ form, onChange, addHeader, removeHeader, disabled }) {
                 {header.get('value').map(field => (
                   <FormGroup>
                     <Label htmlFor={`config-headers-${i}-value`} hasError={!field.valid && field.touched}>
-                      Value
+                      {t('in-websites:websiteDashboard.tabs.configuration.fileDownloadConfigurationDialogLabelValue')}
                     </Label>
                     <Input
                       id={`config-headers-${i}-value`}
@@ -283,7 +307,7 @@ function HttpHeaders({ form, onChange, addHeader, removeHeader, disabled }) {
       ))}
 
       <Button kind="secondary" icon="lib_openclose_add" type="button" onClick={addHeader} className={locals.addButton}>
-        Add Header
+        {t('in-websites:websiteDashboard.tabs.configuration.fileDownloadConfigurationDialogButtonAddHeader')}
       </Button>
     </Fragment>
   );
