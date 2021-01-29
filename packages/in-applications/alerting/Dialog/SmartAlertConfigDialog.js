@@ -161,7 +161,7 @@ function updateThresholdInForm(form, updateForm, data, errors, time, simpleMode)
       .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(false));
 
     if (currentThreshold.value !== '') {
-      newForm = newForm.updateIn(['hiddenFields', 'suggestedThresholdValue'], f => f.setValue(data.value));
+      newForm = newForm.updateIn(['hiddenFields', 'suggestedThresholdValue'], f => f.setValue(data?.value));
     }
 
     updateForm(newForm);
