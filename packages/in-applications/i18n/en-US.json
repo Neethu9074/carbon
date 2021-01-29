@@ -44,7 +44,10 @@
         "title": "Additional Alert Properties (optional)"
       }
     },
-    "thresholdLabel": "Threshold Value"
+    "thresholdLabel": "Threshold Value",
+    "chart": {
+      "noDataAvailable": "Please select a service to see the preview"
+    }
   },
   "inboundOutboundCalls": {
     "config": {
@@ -128,12 +131,6 @@
     }
   },
   "formUtils": {
-    "operators": {
-      "equals": "equal",
-      "contains": "contain",
-      "startsWith": "start with",
-      "endsWith": "end with"
-    },
     "titlePlaceholder": {
       "errorRate": "Erroneous call rate is higher than normal",
       "slowness": "Calls are slower than usual",
@@ -141,35 +138,58 @@
         "notEmptyWithANY": "Too many calls logging messages",
         "notEmptyWithoutANY": "Too many calls logging {{operatorLabel}} messages",
         "withANY": "Too many calls logging messages: \"{{message}}\"",
-        "default": "Too many calls logging {{operatorLabel}} messages: \"{{message}}}\""
+        "default": "Too many calls logging {{operatorLabel}} messages: \"{{message}}\""
       },
       "statusCode": "Too many calls with HTTP Status Code {{statusCodeShortText}}",
-      "throughput": "Number of calls is anomalously {{greaterOpText}}",
-      "high": "high",
-      "low": "low"
+      "throughputHigh": "Number of calls is anomalously high",
+      "throughputLow": "Number of calls is anomalously low"
     },
     "descriptionPlaceholder": {
-      "errorRate": "The erroneous call rate is {{higherOrLowerOperatorText}} {{valueRoundedToDecimals}}%.",
-      "slownessStaticThreshold": "Calls are {{slowerOrBelowOperatorText}} {{thresholdValue}} ms based on latency ({{aggregationText}).",
-      "slownessDefault": "Calls are {{slowerOrBelowOperatorText}} the expectation based on latency ({{aggregationText}).",
-      "logsNotEmpty": "Number of calls logging {{levelText}} messages is {{higherOrLowerOperatorText}} {{thresholdValue}}.",
-      "logsDefault": "Number of calls logging {{levelText}} messages which {{operatorValue}} \"{{message}}\" is {{higherOrLowerOperatorText}} {{thresholdValue}}.",
-      "statusCode": "Occurrences of HTTP Status Code {{statusCodeFullText}} is {{higherOrLowerOperatorText}} {{thresholdValue}}.",
-      "throughputStaticThreshold": "The number of calls is {{higherOrLowerOperatorText}} {{thresholdValue}} calls.",
-      "throughputDefault": "The number of calls is {{higherOrLowerOperatorText}} expected."
+      "errorRate_higherThan": "The erroneous call rate is higher than {{valueRoundedToDecimals}}%.",
+      "errorRate_higherEqual": "The erroneous call rate is higher or equal to {{valueRoundedToDecimals}}%.",
+      "errorRate_lowerThan": "The erroneous call rate is lower than {{valueRoundedToDecimals}}%.",
+      "errorRate_lowerEqual": "The erroneous call rate is lower or equal to {{valueRoundedToDecimals}}%.",
+      "slownessStaticThreshold_slowerThan": "Calls are slower than {{thresholdValue}} ms based on latency ({{aggregationText}}).",
+      "slownessStaticThreshold_slowEqual": "Calls are slower or equal to {{thresholdValue}} ms based on latency ({{aggregationText}}).",
+      "slownessStaticThreshold_below": "Calls are below {{thresholdValue}} ms based on latency ({{aggregationText}}).",
+      "slownessStaticThreshold_belowEqual": "Calls are below or equal to {{thresholdValue}} ms based on latency ({{aggregationText}}).",
+      "slownessDefault_slowerThan": "Calls are slower than the expectation based on latency ({{aggregationText}}).",
+      "slownessDefault_slowEqual": "Calls are slower or equal to the expectation based on latency ({{aggregationText}}).",
+      "slownessDefault_below": "Calls are below the expectation based on latency ({{aggregationText}}).",
+      "slownessDefault_belowEqual": "Calls are below or equal to the expectation based on latency ({{aggregationText}}).",
+      "logsNotEmpty_higherThan": "Number of calls logging {{levelText}} messages is higher than {{thresholdValue}}.",
+      "logsNotEmpty_higherEqual": "Number of calls logging {{levelText}} messages is higher or equal to {{thresholdValue}}.",
+      "logsNotEmpty_lowerThan": "Number of calls logging {{levelText}} messages is lower than {{thresholdValue}}.",
+      "logsNotEmpty_lowerEqual": "Number of calls logging {{levelText}} messages is lower or equal to {{thresholdValue}}.",
+      "logsDefault_equalHigherThan": "Number of calls logging {{levelText}} messages which equal \"{{message}}\" is higher than {{thresholdValue}}.",
+      "logsDefault_equalHigherEqual": "Number of calls logging {{levelText}} messages which equal \"{{message}}\" is higher or equal to {{thresholdValue}}.",
+      "logsDefault_equalLowerThan": "Number of calls logging {{levelText}} messages which equal \"{{message}}\" is lower than {{thresholdValue}}.",
+      "logsDefault_equalLowerEqual": "Number of calls logging {{levelText}} messages which equal \"{{message}}\" is lower or equal to {{thresholdValue}}.",
+      "logsDefault_containHigherThan": "Number of calls logging {{levelText}} messages which contain \"{{message}}\" is higher than {{thresholdValue}}.",
+      "logsDefault_containHigherEqual": "Number of calls logging {{levelText}} messages which contain \"{{message}}\" is higher or equal to {{thresholdValue}}.",
+      "logsDefault_containLowerThan": "Number of calls logging {{levelText}} messages which contain \"{{message}}\" is lower than {{thresholdValue}}.",
+      "logsDefault_containLowerEqual": "Number of calls logging {{levelText}} messages which contain \"{{message}}\" is lower or equal to {{thresholdValue}}.",
+      "logsDefault_startHigherThan": "Number of calls logging {{levelText}} messages which start with \"{{message}}\" is higher than {{thresholdValue}}.",
+      "logsDefault_startHigherEqual": "Number of calls logging {{levelText}} messages which start with \"{{message}}\" is higher or equal to {{thresholdValue}}.",
+      "logsDefault_startLowerThan": "Number of calls logging {{levelText}} messages which start with \"{{message}}\" is lower than {{thresholdValue}}.",
+      "logsDefault_startLowerEqual": "Number of calls logging {{levelText}} messages which start with \"{{message}}\" is lower or equal to {{thresholdValue}}.",
+      "logsDefault_endHigherThan": "Number of calls logging {{levelText}} messages which end with \"{{message}}\" is higher than {{thresholdValue}}.",
+      "logsDefault_endHigherEqual": "Number of calls logging {{levelText}} messages which end with \"{{message}}\" is higher or equal to {{thresholdValue}}.",
+      "logsDefault_endLowerThan": "Number of calls logging {{levelText}} messages which end with \"{{message}}\" is lower than {{thresholdValue}}.",
+      "logsDefault_endLowerEqual": "Number of calls logging {{levelText}} messages which end with \"{{message}}\" is lower or equal to {{thresholdValue}}.",
+      "statusCode_higherThan": "Occurrences of HTTP Status Code {{statusCodeFullText}} is higher than {{thresholdValue}}.",
+      "statusCode_higherEqual": "Occurrences of HTTP Status Code {{statusCodeFullText}} is higher or equal to {{thresholdValue}}.",
+      "statusCode_lowerThan": "Occurrences of HTTP Status Code {{statusCodeFullText}} is lower than {{thresholdValue}}.",
+      "statusCode_lowerEqual": "Occurrences of HTTP Status Code {{statusCodeFullText}} is lower or equal to {{thresholdValue}}.",
+      "throughputStaticThreshold_higherThan": "The number of calls is higher than {{thresholdValue}} calls.",
+      "throughputStaticThreshold_higherEqual": "The number of calls is higher or equal to {{thresholdValue}} calls.",
+      "throughputStaticThreshold_lowerThan": "The number of calls is lower than {{thresholdValue}} calls.",
+      "throughputStaticThreshold_lowerEqual": "low == The number of calls is lower or equal to {{thresholdValue}} calls.",
+      "throughputDefault_higherThan": "The number of calls is higher than expected.",
+      "throughputDefault_higherEqual": "The number of calls is higher or equal to expected.",
+      "throughputDefault_lowerThan": "The number of calls is lower than expected.",
+      "throughputDefault_lowerEqual": "The number of calls is lower or equal to expected."
     },
-    "customStatusCodeFullText": "between {{statusCodeStart}} and {{statusCodeEnd}}",
-    "higherOrLowerText": {
-      "higherThan": "higher than",
-      "higherEqual": "higher or equal to",
-      "lowerThan": "lower than",
-      "lowerEqual": "lower or equal to"
-    },
-    "slowerOrBelowText": {
-      "slowerThan": "slower than",
-      "slowerEqual": "slower or equal to",
-      "below": "below",
-      "belowEqual": "below or equal to"
-    }
+    "customStatusCodeFullText": "between {{statusCodeStart}} and {{statusCodeEnd}}"
   }
 }

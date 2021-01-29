@@ -9,11 +9,11 @@ import { isGreaterOperator } from 'in-new-components/Alerting/utils/alertUtils';
 import { operators } from 'in-analyze/applicationFilter';
 import { t } from 'in-i18n';
 
-const operatorDescriptionValues = {
-  [operators.EQUALS]: t('in-applications:formUtils.operators.equals'),
-  [operators.CONTAINS]: t('in-applications:formUtils.operators.contains'),
-  [operators.STARTS_WITH]: t('in-applications:formUtils.operators.startsWith'),
-  [operators.ENDS_WITH]: t('in-applications:formUtils.operators.endsWith')
+const operatorDescriptionContextValues = {
+  [operators.EQUALS]: 'equal',
+  [operators.CONTAINS]: 'contain',
+  [operators.STARTS_WITH]: 'start',
+  [operators.ENDS_WITH]: 'end'
 };
 
 export function getMetricUnitPostfix(metricName) {
@@ -69,12 +69,9 @@ export function getTitlePlaceholder(form) {
     case 'throughput': {
       const thresholdOperator = form.get('threshold').get('operator').value;
       const isGreaterOp = isGreaterOperator(thresholdOperator);
-      const greaterOpText = isGreaterOp
-        ? t('in-applications:formUtils.titlePlaceholder.high')
-        : t('in-applications:formUtils.titlePlaceholder.low');
-      return t('in-applications:formUtils.titlePlaceholder.throughput', {
-        greaterOpText: greaterOpText
-      });
+      return isGreaterOp
+        ? t('in-applications:formUtils.titlePlaceholder.throughputHigh')
+        : t('in-applications:formUtils.titlePlaceholder.throughputLow');
     }
     default:
       throw Error('Unsupported alertType: ' + alertType);
@@ -91,7 +88,7 @@ export function getDescriptionPlaceholder(form) {
     case 'errorRate': {
       const thresholdValue = thresholdForm.get('value').value;
       return t('in-applications:formUtils.descriptionPlaceholder.errorRate', {
-        higherOrLowerOperatorText: getHigherOrLowerOperatorText(thresholdOperator),
+        context: getHigherOrLowerOperatorContext(thresholdOperator),
         valueRoundedToDecimals: getValueRoundedToDecimals(thresholdValue, true)
       });
     }
@@ -101,13 +98,13 @@ export function getDescriptionPlaceholder(form) {
       if (thresholdType === 'staticThreshold') {
         const thresholdValue = thresholdForm.get('value').value;
         return t('in-applications:formUtils.descriptionPlaceholder.slownessStaticThreshold', {
-          slowerOrBelowOperatorText: getSlowerOrBelowOperatorText(thresholdOperator),
+          context: getSlowerOrBelowOperatorContext(thresholdOperator),
           thresholdValue: thresholdValue,
           aggregationText: getAggregationText(aggregation)
         });
       }
       return t('in-applications:formUtils.descriptionPlaceholder.slownessDefault', {
-        slowerOrBelowOperatorText: getSlowerOrBelowOperatorText(thresholdOperator),
+        context: getSlowerOrBelowOperatorContext(thresholdOperator),
         aggregationText: getAggregationText(aggregation)
       });
     }
@@ -120,16 +117,18 @@ export function getDescriptionPlaceholder(form) {
 
       if (thresholdOperator === operators.NOT_EMPTY) {
         return t('in-applications:formUtils.descriptionPlaceholder.logsNotEmpty', {
+          context: getHigherOrLowerOperatorContext(thresholdOperator),
           levelText: levelText,
-          higherOrLowerOperatorText: getHigherOrLowerOperatorText(thresholdOperator),
           thresholdValue: thresholdValue
         });
       }
       return t('in-applications:formUtils.descriptionPlaceholder.logsDefault', {
+        context: getHigherOrLowerOperatorDescriptionContext(
+          operatorDescriptionContextValues[ruleOperator],
+          thresholdOperator
+        ),
         levelText: levelText,
-        operatorValue: operatorDescriptionValues[ruleOperator],
         message: message,
-        higherOrLowerOperatorText: getHigherOrLowerOperatorText(thresholdOperator),
         thresholdValue: thresholdValue
       });
     }
@@ -139,8 +138,8 @@ export function getDescriptionPlaceholder(form) {
       const thresholdForm = form.get('threshold');
       const thresholdValue = thresholdForm.get('value').value;
       return t('in-applications:formUtils.descriptionPlaceholder.statusCode', {
+        context: getHigherOrLowerOperatorContext(thresholdOperator),
         statusCodeFullText: getStatusCodeFullText(statusCodeStart, statusCodeEnd),
-        higherOrLowerOperatorText: getHigherOrLowerOperatorText(thresholdOperator),
         thresholdValue: thresholdValue
       });
     }
@@ -149,12 +148,12 @@ export function getDescriptionPlaceholder(form) {
       if (thresholdType === 'staticThreshold') {
         const thresholdValue = thresholdForm.get('value').value;
         return t('in-applications:formUtils.descriptionPlaceholder.throughputStaticThreshold', {
-          higherOrLowerOperatorText: getHigherOrLowerOperatorText(thresholdOperator),
+          context: getHigherOrLowerOperatorContext(thresholdOperator),
           thresholdValue: thresholdValue
         });
       }
       return t('in-applications:formUtils.descriptionPlaceholder.throughputDefault', {
-        higherOrLowerOperatorText: getHigherOrLowerOperatorText(thresholdOperator)
+        context: getHigherOrLowerOperatorContext(thresholdOperator)
       });
     }
     default:
@@ -189,31 +188,59 @@ function getStatusCodeFullText(statusCodeStart, statusCodeEnd) {
   }
 }
 
-function getHigherOrLowerOperatorText(operator) {
+function getHigherOrLowerOperatorContext(operator) {
   switch (operator) {
     case '>':
-      return t('in-applications:formUtils.higherOrLowerText.higherThan');
+      // "higher than"
+      return 'higherThan';
     case '>=':
-      return t('in-applications:formUtils.higherOrLowerText.higherEqual');
+      // "higher or equal to"
+      return 'higherEqual';
     case '<':
-      return t('in-applications:formUtils.higherOrLowerText.lowerThan');
+      // "lower than"
+      return 'lowerThan';
     case '<=':
-      return t('in-applications:formUtils.higherOrLowerText.lowerEqual');
+      // "lower or equal to"
+      return 'lowerEqual';
     default:
       throw Error('Unsupported operator: ' + operator);
   }
 }
 
-function getSlowerOrBelowOperatorText(operator) {
+function getSlowerOrBelowOperatorContext(operator) {
   switch (operator) {
     case '>':
-      return t('in-applications:formUtils.slowerOrBelowText.slowerThan');
+      // "slower than"
+      return 'slowerThan';
     case '>=':
-      return t('in-applications:formUtils.slowerOrBelowText.slowerEqual');
+      // "slower or equal to"
+      return 'slowEqual';
     case '<':
-      return t('in-applications:formUtils.slowerOrBelowText.below');
+      // "below"
+      return 'below';
     case '<=':
-      return t('in-applications:formUtils.slowerOrBelowText.belowEqual');
+      // "below or equal to"
+      return 'belowEqual';
+    default:
+      throw Error('Unsupported operator: ' + operator);
+  }
+}
+
+function getHigherOrLowerOperatorDescriptionContext(operatorDescription, operator) {
+  let returnContext = operatorDescription;
+  switch (operator) {
+    case '>':
+      // "higher than"
+      return (returnContext += 'HigherThan');
+    case '>=':
+      // "higher or equal to"
+      return (returnContext += 'HigherEqual');
+    case '<':
+      // "lower than"
+      return (returnContext += 'LowerThan');
+    case '<=':
+      // "lower or equal to"
+      return (returnContext += 'LowerEqual');
     default:
       throw Error('Unsupported operator: ' + operator);
   }
