@@ -5,53 +5,90 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import TileWrapper from 'in-custom-dashboards/widgets/Slo/Tiles/TileWrapper';
-import { formatDateTime } from 'in-services/formatters/date';
+import { formatDateTime, formatDateShort, formatTimeWithoutSeconds } from 'in-services/formatters/date';
+import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 
 import locals from './SloTile.mless';
 
-export default function SloTimeTile({
-  title,
-  fromTimestamp,
-  toTimestamp,
-  color,
-  actions,
-  valuesClassName,
-  info,
-  useMaxAvailableHeight = true
-}) {
+export default function SloTimeTile({ smallRowStyle, title, fromTimestamp, toTimestamp, color, info }) {
+  if (smallRowStyle) {
+    return (
+      <div className={locals.oneRow}>
+        <div style={{ color }} className={locals.titleValue}>
+          <span>{info}:</span>
+          <span className={locals.value}>
+            <CompactFromToDates from={fromTimestamp} to={toTimestamp} />
+          </span>
+        </div>
+      </div>
+    );
+  }
   return (
-    <TileWrapper useMaxAvailableHeight={useMaxAvailableHeight} actions={actions}>
+    <div className={locals.tile}>
       <div className={locals.title}>{title}</div>
 
-      <div style={{ color: color }} className={locals.value}>
-        <span className={valuesClassName}>
-          <div>
-            from{' '}
-            {fromTimestamp && (
-              <time dateTime={new Date(fromTimestamp).toISOString()}>{formatDateTime(fromTimestamp)}</time>
-            )}
-            <br />
-            to{' '}
-            {toTimestamp && <time dateTime={new Date(toTimestamp).toISOString()}>{formatDateTime(toTimestamp)}</time>}
-          </div>
-        </span>
+      <div style={{ color }} className={locals.value}>
+        <div className={locals.timeRangeValue}>
+          from <DateTime timeStamp={fromTimestamp} />
+          <br />
+          to <DateTime timeStamp={toTimestamp} />
+        </div>
       </div>
 
-      <div className={locals.targetInfo}>
-        <span>{info}</span>
-      </div>
-    </TileWrapper>
+      <div className={locals.targetInfo}>{info}</div>
+    </div>
   );
 }
 
+function DateTime({ timeStamp }) {
+  return timeStamp && <time dateTime={new Date(timeStamp).toISOString()}>{formatDateTime(timeStamp)}</time>;
+}
+
+export function compactTimeInterval(from, to) {
+  const fromDate = new Date(from);
+  const toDate = new Date(to);
+  const fromYear = fromDate.getFullYear();
+  const toYear = toDate.getFullYear();
+  const sameYear = fromYear === toYear;
+  const fromStr = fmt(from, '');
+  const toStr = fmt(to, !sameYear ? '' : ', ' + toYear);
+  return { fromStr, toStr };
+}
+
+function CompactFromToDates({ from, to }) {
+  if (!from && !to) {
+    return valueMissingPlaceholder;
+  }
+  if (from && to) {
+    const { fromStr, toStr } = compactTimeInterval(from, to);
+    const fromDate = new Date(from);
+    const toDate = new Date(to);
+    return (
+      <>
+        {from && <time dateTime={fromDate.toISOString()}>{fromStr}</time>}
+        {' – '}
+        {to && <time dateTime={toDate.toISOString()}>{toStr}</time>}
+      </>
+    );
+  }
+  return (
+    <>
+      {from && <time dateTime={new Date(from).toISOString()}>{formatDateTime(from)}</time>}
+      {' – '}
+      {to && <time dateTime={new Date(to).toISOString()}>{formatDateTime(to)}</time>}
+    </>
+  );
+}
+
+function fmt(timestamp, appendYear) {
+  return `${formatDateShort(timestamp)}${appendYear} ${formatTimeWithoutSeconds(timestamp)}`;
+}
+
 SloTimeTile.propTypes = {
+  smallRowStyle: PropTypes.bool,
   title: PropTypes.string,
-  fromTimestamp: PropTypes.number.isRequired,
-  toTimestamp: PropTypes.number.isRequired,
-  actions: PropTypes.node,
+  fromTimestamp: PropTypes.number,
+  toTimestamp: PropTypes.number,
   info: PropTypes.string.isRequired,
-  valuesClassName: PropTypes.string,
-  color: PropTypes.string,
-  useMaxAvailableHeight: PropTypes.bool
+  color: PropTypes.string
 };
