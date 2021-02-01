@@ -55,7 +55,7 @@ export default function AlertConfigDialogPresenter(props) {
       renderCustomCloseBehaviour={resetScrollShadow => (
         <>
           {featureFeedbackElement}
-          {!editMode && (
+          {!editMode && simpleMode && (
             <Button
               onClick={() => {
                 resetFormDirtyState();
@@ -67,9 +67,7 @@ export default function AlertConfigDialogPresenter(props) {
               }}
               kind="action"
             >
-              {simpleMode
-                ? t('in-new-components:alerting.alertConfigDialogPresenterButtonSwitchToAdvancedMode')
-                : t('in-new-components:alerting.alertConfigDialogPresenterButtonSwitchToSimpleMode')}
+              {t('in-new-components:alerting.alertConfigDialogPresenterButtonSwitchToAdvancedMode')}
             </Button>
           )}
         </>

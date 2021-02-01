@@ -27,9 +27,11 @@ export default function ConfigureTimeWindow({ label, onChange, granularity, time
         max={12}
         min={1}
         step={1}
-        valueLabelFormat={t('in-new-components:alerting.advanced.timeThresholdConfigMinutes', {
-          min: value => Math.round((value * granularity) / 60000)
-        })}
+        valueLabelFormat={value =>
+          t('in-new-components:alerting.advanced.timeThresholdConfigMinutes', {
+            min: Math.round((value * granularity) / 60000)
+          })
+        }
         valueLabelDisplay="auto"
       />
     </AlertThresholdConfigItemContainer>

@@ -61,10 +61,9 @@ export default function ChartViewConfigurator({
               <ChartSubEntitySelection
                 serviceId={serviceId}
                 setServiceId={setServiceId}
-                applicationId={alertConfig?.applicationId}
-                boundaryScope={alertConfig?.boundaryScope}
-                tagFilterFormModel={alertConfig?.tagFilterExpression}
-                queryWindowSize={maxChartViewTimeframe} // use maximum possible timeframe, to have a stable list when switching between options
+                alertConfigWithFormModel={alertConfig}
+                // use maximum possible timeframe, to have a stable list when switching between options
+                queryWindowSize={maxChartViewTimeframe}
               />
             </StackItem>
           )}
