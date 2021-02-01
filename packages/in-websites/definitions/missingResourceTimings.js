@@ -2,10 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-export const explanation = `
-Resource timing data collection is subject to same-origin policy restrictions. This means that
-collection of resource timings is restricted to resources retrieved from the origin of the
-HTML document and resources served by origins which explicitly allow this.`.trim();
+import { t } from 'in-i18n';
 
-export const learnMoreLabel = `Learn how to get visibility into cross-origin resources`;
+export const explanation = t('in-websites:definitions.missingResourceTimingsExplanation').trim();
+
+export const learnMoreLabel = t('in-websites:definitions.missingResourceTimingsLearnMoreLabel');
 export const learnMoreHref = `https://instana.com/docs/website_monitoring/faq/#why-are-detailed-resource-retrieval-breakdowns-not-always-available`;

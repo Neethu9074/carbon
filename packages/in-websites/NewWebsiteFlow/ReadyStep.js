@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { Trans, t, markAsSecureString } from 'in-i18n';
 import React from 'react';
 
 import TrackingSnippetPresenter from 'in-websites/trackingSnippet/TrackingSnippetPresenter';
@@ -17,15 +18,15 @@ export default function ReadyStep({ websiteId, websiteName, websiteLink$, trackS
   const eumSnippet = getTrackingSnippet({ key: websiteId, trackSessions });
 
   return (
-    <Frame title="Everything's Ready!">
+    <Frame title={t('in-websites:newWebsiteFlow.readyStepTitleEverythingsReady')}>
       <Paragraph>
-        Everything is ready to monitor your website <strong>{websiteName}</strong>. Copy this script to the HTML{' '}
-        {`document's`} <code>{'<head>'}</code>. Information about website monitoring and the full capabilities of the
-        tracking script are located{' '}
-        <Link href="https://instana.com/docs/website_monitoring/" external>
-          within our docs
-        </Link>
-        .
+        <Trans
+          i18nKey="in-websites:newWebsiteFlow.readyStepParagraphEverythingIsReadyToMonitorYourWebsite"
+          values={{ websiteName: websiteName, httpHeadTag: markAsSecureString('<head>') }}
+          components={{
+            linkToDocs: <Link href="https://instana.com/docs/website_monitoring/" external />
+          }}
+        />
       </Paragraph>
 
       <TrackingSnippetPresenter
@@ -38,13 +39,13 @@ export default function ReadyStep({ websiteId, websiteName, websiteLink$, trackS
         <CopyToClipboard getText={() => eumSnippet}>
           {refSetter => (
             <Button kind="secondary" refSetter={refSetter}>
-              Copy to clipboard
+              {t('in-websites:newWebsiteFlow.readyStepButtonGoToWebsiteDashboard')}
             </Button>
           )}
         </CopyToClipboard>
 
         <Button kind="primaryv2" href$={websiteLink$}>
-          Go to website dashboard
+          {t('in-websites:newWebsiteFlow.readyStepButtonCopyToClipboard')}
         </Button>
       </Actions>
     </Frame>

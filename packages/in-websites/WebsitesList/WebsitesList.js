@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { get } from 'lodash';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import WebsiteHealthIndicatorBehavior from 'in-websites/WebsiteDashboard/components/WebsiteHealthIndicatorBehavior';
@@ -38,7 +39,7 @@ import locals from './WebsitesList.mless';
 const columnDefinitions = [
   {
     id: 'websiteLabel',
-    label: 'Name',
+    label: t('in-websites:websitesList.websitesListLabelName'),
     getContent(item) {
       return (
         <SeverityIndicatorCellContentWrapper severity={get(item, ['healthInfo', 'maxSeverity'], 0)}>
@@ -49,7 +50,7 @@ const columnDefinitions = [
   },
   {
     id: 'pageViewsAgg',
-    label: 'Page Views',
+    label: t('in-websites:websitesList.websitesListLabelPageViews'),
     defaultOrderDirection: 'DESC',
     getContent(item, { result, timeConfig }) {
       return (
@@ -67,7 +68,7 @@ const columnDefinitions = [
   },
   {
     id: 'onLoadTimeAgg',
-    label: 'onLoad Time',
+    label: t('in-websites:websitesList.websitesListLabelOnLoadTime'),
     defaultOrderDirection: 'DESC',
     getContent(item, { result, timeConfig }) {
       return (
@@ -86,7 +87,7 @@ const columnDefinitions = [
   },
   {
     id: 'maxSeverity',
-    label: 'Health',
+    label: t('in-websites:websitesList.websitesListLabelHealth'),
     defaultOrderDirection: 'DESC',
     getContent(item, { result, timeConfig }) {
       return (
@@ -119,7 +120,7 @@ const rightHeader = role.canConfigureEumApplications && (
     icon="lib_openclose_add_circle_outline"
     href$={linkToNewWebsite$}
   >
-    Add Website
+    {t('in-websites:websitesList.websitesListButtonAddWebsite')}
   </Button>
 );
 
@@ -131,11 +132,11 @@ export default connectTo(
     return (
       <Sticky header={<ViewSwitcher isWebsites />}>
         <LeftRightPadding>
-          <Title title="Websites" />
+          <Title title={t('in-websites:websitesList.websitesListTitleWebsites')} />
           <ViewTrackingMeta
             data={{
-              productArea: 'EUM: Websites',
-              pageRootName: 'Websites'
+              productArea: t('in-websites:websitesList.websitesListProductAreaEUMWebsites'),
+              pageRootName: t('in-websites:websitesList.websitesListPageRootNameWebsites')
             }}
           />
           <WithEmptyStateFallback

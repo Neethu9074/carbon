@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { Trans, t, markAsSecureString } from 'in-i18n';
 import React from 'react';
 
 import TrackingSnippetPresenter from 'in-websites/trackingSnippet/TrackingSnippetPresenter';
@@ -17,15 +18,15 @@ export default function WaitStep({ websiteId, websiteName, trackSessions, setTra
   const eumSnippet = getTrackingSnippet({ key: websiteId, trackSessions });
 
   return (
-    <Frame title="Working…">
+    <Frame title={t('in-websites:newWebsiteFlow.waitStepTitleWorking')}>
       <Paragraph>
-        We are preparing everything to monitor your website <strong>{websiteName}</strong>. While we do this, add the
-        following script to the HTML {`document's`} <code>{'<head>'}</code>. Information about website monitoring and
-        the full capabilities of the tracking script are located{' '}
-        <Link href="https://instana.com/docs/website_monitoring/" external>
-          within our docs
-        </Link>
-        .
+        <Trans
+          i18nKey="in-websites:newWebsiteFlow.waitStepParagraphWeArePreparingEverythingToMonitorYourWebsite"
+          values={{ websiteName: websiteName, httpHeadTag: markAsSecureString('<head>') }}
+          components={{
+            linkToDocs: <Link href="https://instana.com/docs/website_monitoring/" external />
+          }}
+        />
       </Paragraph>
 
       <TrackingSnippetPresenter
@@ -38,13 +39,13 @@ export default function WaitStep({ websiteId, websiteName, trackSessions, setTra
         <CopyToClipboard getText={() => eumSnippet}>
           {refSetter => (
             <Button kind="primaryv2" refSetter={refSetter}>
-              Copy to clipboard
+              {t('in-websites:newWebsiteFlow.waitStepButtonCopyToClipboard')}
             </Button>
           )}
         </CopyToClipboard>
 
         <Button kind="secondary" disabled icon="lib_actions_loading" iconSpinning>
-          Enabling monitoring…
+          {t('in-websites:newWebsiteFlow.waitStepButtonEnablingMonitoring')}
         </Button>
       </Actions>
     </Frame>
