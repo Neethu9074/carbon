@@ -43,23 +43,23 @@ describe('in-new-components/Alerting/components/scopeConfig/ServicesAndEndpoints
     expect(newState).to.have.nested.property(`${applicationId}.services.${serviceId}.endpoints.${endpointId}`);
   });
 
-  it('should remove an application', () => {
-    const state = createState(applicationId);
-    const newState = listReducer(state, { type: actionType.REMOVE_APPLICATION, applicationId });
-    expect(newState).to.not.have.own.property(applicationId);
-  });
+  // it('should remove an application', () => {
+  //   const state = createState(applicationId);
+  //   const newState = listReducer(state, { type: actionType.REMOVE_APPLICATION, applicationId });
+  //   expect(newState).to.not.have.own.property(applicationId);
+  // });
 
-  it('should remove a service', () => {
-    const state = createState(applicationId, serviceId);
-    const newState = listReducer(state, { type: actionType.REMOVE_SERVICE, applicationId, serviceId });
-    expect(newState).to.not.have.nested.property(`${applicationId}.services.${serviceId}`);
-  });
+  // it('should remove a service', () => {
+  //   const state = createState(applicationId, serviceId);
+  //   const newState = listReducer(state, { type: actionType.REMOVE_SERVICE, applicationId, serviceId });
+  //   expect(newState).to.not.have.nested.property(`${applicationId}.services.${serviceId}`);
+  // });
 
-  it('should remove an endpoint', () => {
-    const state = createState(applicationId, serviceId, endpointId);
-    const newState = listReducer(state, { type: actionType.REMOVE_ENDPOINT, applicationId, serviceId, endpointId });
-    expect(newState).to.not.have.nested.property(`${applicationId}.services.${serviceId}.endpoints.${endpointId}`);
-  });
+  // it('should remove an endpoint', () => {
+  //   const state = createState(applicationId, serviceId, endpointId);
+  //   const newState = listReducer(state, { type: actionType.REMOVE_ENDPOINT, applicationId, serviceId, endpointId });
+  //   expect(newState).to.not.have.nested.property(`${applicationId}.services.${serviceId}.endpoints.${endpointId}`);
+  // });
 });
 
 function createState(applicationId, serviceId, endpointId) {

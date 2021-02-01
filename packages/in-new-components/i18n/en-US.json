@@ -44,7 +44,7 @@
       "thresholdTypeOptionHistoricBaselineDaily": "Baseline (Daily Seasonality)",
       "thresholdTypeOptionHistoricBaselineWeekly": "Baseline (Weekly Seasonality)",
       "useSuggestedvalue": "Use suggested value"
-    }, 
+    },
     "chart": {
       "alertingChartLabelThreshold": "Threshold",
       "alertingChartLabelViolations": "Violations",
@@ -52,7 +52,7 @@
       "alertingChartMessageInvalidFilterQuery": "Invalid filter query.",
       "chartViewConfigsLast24Hours": "Last 24 hours",
       "chartViewConfigsLast7Days": "Last 7 days"
-    }, 
+    },
     "components": {
       "noChannelSelectedText": "Currently, you have not selected an alert channel and will not receive any alerts.",
       "sharedListTooltip": "Selected {{typeName}} is not available anymore",
@@ -113,10 +113,10 @@
       "timeThresholdDescriptionViolationsInPeriod_0": "At least {{count}} violations within {{formattedTimeWindow}}",
       "timeThresholdDescriptionViolationsInPeriod_1": "At least {{count}} violation within {{formattedTimeWindow}}",
       "timeThresholdDescriptionViolationsInPeriod_2": "At least {{count}} violations within {{formattedTimeWindow}}"
-    }, 
+    },
     "simple": {
       "simpleAlertConfigDialogStep3Headline": "Who should get the alerts?"
-    }, 
+    },
     "utils": {
       "aggregationTextP25": "25th",
       "aggregationTextP50": "50th",

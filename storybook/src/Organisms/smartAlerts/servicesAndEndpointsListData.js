@@ -292,18 +292,22 @@ export const getEndpointsResult = {
 export const storedApplicationsSelection = {
   'abc-123': {
     id: 'abc-123',
+    inclusive: true,
     // label: 'All Services',
     services: {
       'def-456': {
         id: 'def-456',
+        inclusive: true,
         // label: 'serverless-acceptor',
         endpoints: {
           'ghi-789': {
-            id: 'ghi-789'
+            id: 'ghi-789',
+            inclusive: true
             // label: 'serverless-acceptor',
           },
           'jkl-101112': {
-            id: 'jkl-101112'
+            id: 'jkl-101112',
+            inclusive: true
             // label: 'serverless-acceptor',
           }
         }

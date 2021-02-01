@@ -5,8 +5,8 @@
 import React from 'react';
 
 import ServicesAndEndpointsListPresenter from './ServicesAndEndpointsListPresenter/ServicesAndEndpointsListPresenter';
-import AlertFilterConfigurator from 'in-new-components/Alerting/components/AlertFilterConfigurator';
 import getApplicationsCursorPaginated from 'in-subscription/application/getApplicationsCursorPaginated';
+import AlertFilterConfigurator from 'in-new-components/Alerting/components/AlertFilterConfigurator';
 import getEndpointsCursorPaginated from 'in-applications/subscriptions/getEndpointsCursorPaginated';
 import getServicesCursorPaginated from 'in-subscription/application/getServicesCursorPaginated';
 import getApplication from 'in-subscription/application/getApplication';
@@ -33,7 +33,6 @@ export default function ScopeConfig({ form, updateForm, QueryBuilderComponent })
         }
         alertApplicationId={alertApplicationId}
         boundaryScope={boundaryScope}
-        isLocalAlert
       />
       <div className={locals.spacer} />
 
