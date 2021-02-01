@@ -8,6 +8,7 @@ import PropTypes from 'prop-types';
 
 import ChartSubEntitySelection from 'in-new-components/Alerting/components/ChartsServiceSwitcher';
 import { PER_AP_SERVICE } from 'in-applications/alerting/advanced/EvaluationSwitch/alertEvaluationTypes';
+import { maxChartViewTimeframe } from 'in-new-components/Alerting/Chart/chartViewConfig';
 import { chartViewConfigs } from 'in-new-components/Alerting/Chart/chartViewConfig';
 import { smartAlertsEntityGroupingEnabled } from 'in-services/featureFlags';
 import ButtonGroup from 'in-new-components/ButtonGroup/ButtonGroup';
@@ -62,6 +63,8 @@ export default function ChartViewConfigurator({
                 setServiceId={setServiceId}
                 applicationId={alertConfig?.applicationId}
                 boundaryScope={alertConfig?.boundaryScope}
+                tagFilterFormModel={alertConfig?.tagFilterExpression}
+                queryWindowSize={maxChartViewTimeframe} // use maximum possible timeframe, to have a stable list when switching between options
               />
             </StackItem>
           )}
