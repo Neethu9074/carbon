@@ -4,6 +4,7 @@
  */
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
+import { t } from 'in-i18n';
 
 import {
   SourceLocation,
@@ -91,7 +92,9 @@ export default function ServiceComponent({ call, websiteBeacon, mobileAppBeacon 
           />
           {canSeeCallDetails && hasNonEmptyData(intermediateSpan) && (
             <ExpandableGroup
-              title={intermediateSpan.stackTrace.length > 0 ? 'Details & Stack Trace' : 'Details'}
+              title={intermediateSpan.stackTrace.length > 0 
+                ? t('in-analyze:traceDetail.callDetails.serviceComponent.detailsAndStackTrace')
+                : t('in-analyze:traceDetail.callDetails.serviceComponent.details')}
               defaultExpanded
             >
               <SpanDetails call={call} span={intermediateSpan} />
@@ -162,18 +165,20 @@ export default function ServiceComponent({ call, websiteBeacon, mobileAppBeacon 
             )}
             <div className={locals.sourceChildren}>
               {websiteBeacon && sourceService.id === 'ROOT' && (
-                <ExpandableGroup title="Details" defaultExpanded>
+                <ExpandableGroup title={t('in-analyze:traceDetail.callDetails.serviceComponent.details')} defaultExpanded>
                   <WebsiteBeaconDetails beacon={websiteBeacon} />
                 </ExpandableGroup>
               )}
               {mobileAppBeacon && sourceService.id === 'ROOT' && (
-                <ExpandableGroup title="Details" defaultExpanded>
+                <ExpandableGroup title={t('in-analyze:traceDetail.callDetails.serviceComponent.details')} defaultExpanded>
                   <MobileAppBeaconDetails beacon={mobileAppBeacon} />
                 </ExpandableGroup>
               )}
               {canSeeCallDetails && hasNonEmptyData(exitSpan) && (
                 <ExpandableGroup
-                  title={exitSpan.stackTrace.length > 0 ? 'Details & Stack Trace' : 'Details'}
+                  title={exitSpan.stackTrace.length > 0 
+                    ? t('in-analyze:traceDetail.callDetails.serviceComponent.detailsAndStackTrace')
+                    : t('in-analyze:traceDetail.callDetails.serviceComponent.details')}
                   defaultExpanded
                 >
                   <SpanDetails call={call} span={exitSpan} />
@@ -183,7 +188,7 @@ export default function ServiceComponent({ call, websiteBeacon, mobileAppBeacon 
                 </ExpandableGroup>
               )}
               {sourceService.id === 'ROOT' && !websiteBeacon && !mobileAppBeacon && (
-                <ExpandableGroup title="Details" defaultExpanded>
+                <ExpandableGroup title={t('in-analyze:traceDetail.callDetails.serviceComponent.details')} defaultExpanded>
                   <p>
                     The source of this call has not been traced and as a result no information can be provided about the
                     source. All information shown about this call is provided by the destination.
@@ -244,7 +249,9 @@ export default function ServiceComponent({ call, websiteBeacon, mobileAppBeacon 
       <div className={locals.destinationChildren}>
         {canSeeCallDetails && (hasNonEmptyData(entrySpan) || isSyntheticBatchSpan) && (
           <ExpandableGroup
-            title={entrySpan.stackTrace.length > 0 ? 'Details & Stack Trace' : 'Details'}
+            title={entrySpan.stackTrace.length > 0 
+              ? t('in-analyze:traceDetail.callDetails.serviceComponent.detailsAndStackTrace')
+              : t('in-analyze:traceDetail.callDetails.serviceComponent.details')}
             defaultExpanded
           >
             <SpanDetails call={call} span={entrySpan} />
@@ -256,10 +263,10 @@ export default function ServiceComponent({ call, websiteBeacon, mobileAppBeacon 
 
         {(entrySpan || (destinationSnapshotId && !destinationPhysicalContext.cluster)) && (
           <ExpandableGroup
-            expandedTitle="Infrastructure"
+            expandedTitle={t('in-analyze:traceDetail.callDetails.serviceComponent.infrastructure')}
             title={
               <div className={locals.infraTitle}>
-                <span>Infrastructure</span>
+                <span>{t('in-analyze:traceDetail.callDetails.serviceComponent.infrastructure')}</span>
                 <InfrastructureEntityLink
                   entity={destinationEntity}
                   plugin={destinationEntity && destinationEntity.plugin}
@@ -294,14 +301,14 @@ export default function ServiceComponent({ call, websiteBeacon, mobileAppBeacon 
 
         {destinationPhysicalContext && destinationPhysicalContext.cluster && (
           <ExpandableGroup
-            expandedTitle="Infrastructure"
+            expandedTitle={t('in-analyze:traceDetail.callDetails.serviceComponent.infrastructure')}
             title={
               <Tooltip
-                content="The destination is a cluster, Instana could not correlate this call to any specific nodes."
+                content={t('in-analyze:traceDetail.callDetails.serviceComponent.desClusterNotCorrelateNode')}
                 align="bottomLeft"
               >
                 <div className={locals.infraTitle}>
-                  <span>Infrastructure</span>
+                  <span>{t('in-analyze:traceDetail.callDetails.serviceComponent.infrastructure')}</span>
                   <InfrastructureEntityLink
                     entity={destinationEntity}
                     plugin={destinationEntity && destinationEntity.plugin}
