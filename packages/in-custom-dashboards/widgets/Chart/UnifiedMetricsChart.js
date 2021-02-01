@@ -50,7 +50,8 @@ export default function UnifiedMetricsChart({
   tooltipTimeFormatter,
   renderPostChartContent,
   cardUseMaxAvailableHeight,
-  excludedContextMenuActions
+  excludedContextMenuActions,
+  renderLegend=true
 }) {
   config = useMemo(() => duplicateTimeShiftComparedMetrics(config), [config]);
 
@@ -100,6 +101,7 @@ export default function UnifiedMetricsChart({
       automaticallySize={automaticallySize}
       shareMaxAxisDomain={shareMaxAxisDomain}
       reverseLegendOrder={reverseLegendOrder}
+      renderLegend={renderLegend}
       reverseTooltipOrder={reverseTooltipOrder}
       tooltipTimeFormatter={tooltipTimeFormatter}
       renderPostChartContent={renderPostChartContent}

@@ -6,7 +6,7 @@
 import React from 'react';
 
 import QueryBuilderWorkspace from 'in-websites/analyze/AnalyzeView2_0/components/QueryBuilderWorkspace';
-import { addTagFilters } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
+import { addDataSourceToBackendQueryModel } from 'in-websites/analyze/AnalyzeView2_0/util';
 import getWebsiteBeaconGroups from 'in-websites/subscriptions/getWebsiteBeaconGroups';
 import Beacons from 'in-websites/analyze/AnalyzeView2_0/components/Beacons';
 import GroupedView from 'in-new-components/AnalyzeView/GroupedView';
@@ -18,7 +18,7 @@ export default function GroupedBeacons(props) {
         {...props}
         // TODO: Item name based on configured data source
         itemName="TODOOOOO"
-        getItemLabel={item => JSON.parse(item.name)}
+        getItemLabel={getItemLabel}
         itemlabelColumnId="name"
         getData={({ timeConfig, backendQueryModel, orderBy, groupBy, cursor, metrics }) =>
           getTableData({
@@ -38,6 +38,10 @@ export default function GroupedBeacons(props) {
   );
 }
 
+function getItemLabel(item) {
+  return JSON.parse(item.name);
+}
+
 function getTableData({ timeConfig, backendQueryModel, groupBy, cursor, orderBy, metrics, dataSource }) {
   return getWebsiteBeaconGroups({
     pagination: {
@@ -45,14 +49,7 @@ function getTableData({ timeConfig, backendQueryModel, groupBy, cursor, orderBy,
       retrievalSize: 20
     },
     timeConfig,
-    tagFilterExpression: addTagFilters(backendQueryModel, [
-      {
-        type: 'TAG_FILTER',
-        name: 'beacon.type',
-        operator: 'EQUALS',
-        value: dataSource
-      }
-    ]),
+    tagFilterExpression: addDataSourceToBackendQueryModel({backendQueryModel, dataSource}),
     group: groupBy,
     order: orderBy,
     metrics

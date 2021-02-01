@@ -10,6 +10,7 @@ export function createParameters(path) {
     tagFilterExpression: {
       path,
       name: 'tagFilterExpression',
+      as: 'formModel',
       serializer: buildJsonSerializer(),
       parser: buildJsonParser(emptyArray),
       initialState: emptyArray
@@ -41,7 +42,14 @@ export function createParameters(path) {
       path,
       name: 'fields',
       serializer: buildJsonSerializer(),
-      parser: buildJsonParser(null),
+      parser: buildJsonParser(null)
+    },
+
+    chartedMetrics: {
+      path,
+      name: 'chartedMetrics',
+      serializer: buildJsonSerializer(),
+      parser: buildJsonParser(null)
     }
   };
 }

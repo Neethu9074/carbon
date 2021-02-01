@@ -10,6 +10,13 @@ export const defaultFormatter = {
   formatter: number.detailed
 };
 
+// BEFORE YOU EXTEND THIS!
+// Consider that adding more formatters will mean additional formatters
+// that end-users can select. In some cases this may cause quite some
+// confusion, especially if users have no idea whether the source data
+// is millis, micros, nanos, seconds, minutes…
+// Consider cleaning this up for users instead of exposing them to our
+// failure to consistently model the data.
 export const formatters = [
   {
     id: 'number.compact',

@@ -7,7 +7,7 @@ import React from 'react';
 import QueryBuilderWorkspace from 'in-websites/analyze/AnalyzeView2_0/components/QueryBuilderWorkspace';
 import UngroupedViewTable, { retrievalSize } from 'in-new-components/AnalyzeView/UngroupedViewTable';
 import getWebsiteBeaconsForPageLoad from 'in-websites/subscriptions/getWebsiteBeaconsForPageLoad';
-import { addTagFilters } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
+import { addDataSourceToBackendQueryModel } from 'in-websites/analyze/AnalyzeView2_0/util';
 import getWebsiteBeacons from 'in-websites/subscriptions/getWebsiteBeacons';
 import PageLoadView from 'in-websites/analyze/PageLoadView/PageLoadView';
 import { getLinkToWebsite } from 'in-websites/navigation/paths';
@@ -76,13 +76,6 @@ function getTableData({ timeConfig, backendQueryModel, orderBy, cursor, dataSour
     },
     order: orderBy,
     timeConfig,
-    tagFilterExpression: addTagFilters(backendQueryModel, [
-      {
-        type: 'TAG_FILTER',
-        name: 'beacon.type',
-        operator: 'EQUALS',
-        value: dataSource
-      }
-    ])
+    tagFilterExpression: addDataSourceToBackendQueryModel({backendQueryModel, dataSource}),
   });
 }
