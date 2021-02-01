@@ -2,9 +2,14 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc. 2021
  */
-import React from 'react';
+import { just } from '@instana/observables';
+import React, { useEffect } from 'react';
 
+import useIsTagFilterFormModelValid from 'in-applications/alerting/hooks/useIsTagFilterFormModelValid';
 import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
+import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
+import { switchQB1orQB2Helper } from 'in-new-components/Alerting/components/WithQB1orQB2';
+import { getBlueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
 import IconLabel from 'in-new-components/Alerting/components/IconLabel';
 import getServices from 'in-subscription/application/getServices';
 import { hasError, isLoading } from 'in-services/util/result';
@@ -14,21 +19,34 @@ import ComboBox from 'in-components/ComboBox';
 
 export default function ChartSubEntitySelection({
   className,
-  applicationId,
-  boundaryScope,
   serviceId,
   setServiceId,
-  tagFilterFormModel,
+  alertConfigWithFormModel,
   queryWindowSize
 }) {
+  const { isQueryValid, enrichedTagFilters, enrichedTagFilterFormModel } = getEnrichedFilters(alertConfigWithFormModel);
   const result =
-    useObservable(getServicesObservable, [applicationId, boundaryScope, tagFilterFormModel, queryWindowSize]) ??
-    pendingResult;
+    useServiceList(
+      queryWindowSize,
+      isQueryValid,
+      alertConfigWithFormModel.tagFilterExpression,
+      enrichedTagFilterFormModel,
+      alertConfigWithFormModel.tagFilters,
+      enrichedTagFilters
+    ) ?? pendingResult;
 
   const options = result.data?.items?.map(({ service }) => ({ label: service.label, value: service.id }));
-  const onChange = selection => {
-    setServiceId(selection?.value);
-  };
+  useEffect(() => {
+    if (options) {
+      if (!serviceId && options.length > 0) {
+        // select first option by default
+        setServiceId(options[0].value);
+      } else if (serviceId && !options.some(option => option.value === serviceId)) {
+        // unset selection if the current one is out of scope
+        setServiceId(null);
+      }
+    }
+  }, [options, serviceId]);
 
   const loadingOptions = [{ label: 'Loading…' }];
   return (
@@ -37,41 +55,84 @@ export default function ChartSubEntitySelection({
       className={className}
       value={serviceId}
       options={isLoading(result) ? loadingOptions : options}
-      optionRenderer={option => <IconLabel text={option.label} type={'lib_application_service'} />}
-      onChange={onChange}
+      optionRenderer={option => <IconLabel text={option.label} type="lib_application_service" />}
+      onChange={selection => setServiceId(selection?.value)}
       placeholder={isLoading(result) ? 'Loading services…' : 'Select service to see a preview'}
+      clearable={false}
       autoComplete
       autoFocus
-      clearable
       searchable
     />
   );
 }
 
-function getServicesObservable([applicationId, boundaryScope, tagFilterFormModel, queryWindowSize]) {
-  return getServices({
-    pagination: {
-      page: 1,
-      pageSize: 100
+function getEnrichedFilters(alertConfigWithFormModel) {
+  const blueprintConfig = getBlueprintConfig(alertConfigWithFormModel.rule.alertType);
+
+  return switchQB1orQB2Helper(
+    () => {
+      return {
+        enrichedTagFilters: [
+          ...blueprintConfig.getEntityTagFilters(alertConfigWithFormModel, null),
+          ...(alertConfigWithFormModel.tagFilters ?? [])
+        ],
+        isQueryValid: true
+      };
     },
-    order: {
-      by: 'serviceLabel',
-      direction: 'ASC'
+    () => {
+      return {
+        enrichedTagFilterFormModel: joinExpressions({
+          expressions: [
+            // don't define the subEntityId to get the results of all services in scope
+            blueprintConfig.getEntityTagFilterFormModel(alertConfigWithFormModel, null),
+            // only use the user-defined filters, but not the rule-specific filters, to not exclude services that might not
+            // match any call at the moment, but could do so in the future. Thus the user should be able to select them.
+            alertConfigWithFormModel.tagFilterExpression
+          ]
+        }),
+        // only pass the user-defined part of the query, because the generated part is valid anyways, and the validation
+        // would reject the entity-filter anyways, because the user is not allowed to use them
+        isQueryValid: useIsTagFilterFormModelValid(alertConfigWithFormModel.tagFilterExpression)
+      };
     },
-    metrics: {
-      applications: {
-        metric: 'applications',
-        aggregation: 'DISTINCT_COUNT'
+    isQB2Config => isQB2Config(alertConfigWithFormModel.convertedTagFilterExpression)
+  );
+}
+
+function useServiceList(
+  queryWindowSize,
+  isQueryValid,
+  tagFilterFormModel,
+  enrichedTagFilterFormModel,
+  tagFilters,
+  enrichedTagFilters
+) {
+  return useObservable(
+    ([queryWindowSize, isQueryValid]) => {
+      if (!isQueryValid) {
+        return just(pendingResult);
       }
+
+      return getServices({
+        pagination: {
+          page: 1,
+          pageSize: 100
+        },
+        order: {
+          by: 'serviceLabel',
+          direction: 'ASC'
+        },
+        metrics: {},
+        filter: {
+          timeConfig: {
+            windowSize: queryWindowSize
+          }
+        },
+        tagFilters: enrichedTagFilters,
+        tagFilterExpression: enrichedTagFilterFormModel && toBackendQueryModel(enrichedTagFilterFormModel),
+        contextScope: 'NONE'
+      });
     },
-    filter: {
-      application: applicationId,
-      applicationBoundaryScope: boundaryScope,
-      timeConfig: {
-        windowSize: queryWindowSize
-      }
-    },
-    tagFilterExpression: toBackendQueryModel(tagFilterFormModel),
-    contextScope: 'NONE'
-  });
+    [queryWindowSize, isQueryValid, tagFilterFormModel, tagFilters]
+  );
 }

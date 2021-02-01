@@ -7,15 +7,13 @@ import { empty } from '@instana/observables';
 
 import { thresholdOrBaselineLoadingSignal$ } from 'in-new-components/Alerting/Chart/AlertingChartWrapper';
 import { getEnhancedTagFilterFormModel } from 'in-new-components/Alerting/utils/tagfilterEnrichmentUtil';
+import useIsTagFilterFormModelValid from 'in-applications/alerting/hooks/useIsTagFilterFormModelValid';
 import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import AlertConfigDialogPresenter from 'in-new-components/Alerting/AlertConfigDialogPresenter';
 import { switchQB1orQB2Helper } from 'in-new-components/Alerting/components/WithQB1orQB2';
-import { isAlertQueryValid } from 'in-applications/alerting/components/AlertQueryBuilder';
 import { getBlueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
 import FeatureFeedback from 'in-new-components/FeatureFeedback/FeatureFeedback';
 import createThresholdForm from 'in-applications/alerting/form/thresholdForm';
-import { pendingResult } from 'in-services/fixedObjects';
-import useTimeConfig from 'in-hooks/useTimeConfig';
 import useObservable from 'in-hooks/useObservable';
 
 export function SmartAlertConfigDialog(props) {
@@ -46,11 +44,11 @@ function SmartAlertConfigDialogWithQueryValidation({
   const [simpleMode, setSimpleMode] = useState(!editMode);
   // we are validating only the user-defined part, not the whole enriched form model here,
   // because only that part can ever be invalid
-  const isTagFilterFormModelValidResult = useIsTagFilterFormModelValid(alertConfigWithFormModel.tagFilterExpression);
+  const isTagFilterFormModelValid = useIsTagFilterFormModelValid(alertConfigWithFormModel.tagFilterExpression);
 
   const isValid = switchQB1orQB2Helper(
     () => blueprintConfig.isRuleComplete(alertConfigWithFormModel.rule),
-    () => !!isTagFilterFormModelValidResult
+    () => isTagFilterFormModelValid
   );
 
   const thresholdResult = useObservable(
@@ -183,12 +181,6 @@ function updateThresholdInForm(form, updateForm, data, errors, time, simpleMode)
 
     updateForm(newForm);
   }
-}
-
-function useIsTagFilterFormModelValid(tagFilterFormModel) {
-  const timeConfig = useTimeConfig();
-  const result = useObservable(args => isAlertQueryValid(args), [tagFilterFormModel, timeConfig]) ?? pendingResult;
-  return !!result?.data;
 }
 
 function useCalculateThresholdOnBackendSignalEmitter(form) {
