@@ -10,7 +10,7 @@ import glob from 'glob';
 import path from 'path';
 
 // i18n contexts are currently not supported. Let's revisit this once we have a context use case.
-const forbiddenCharacters = /^[a-zA-Z0-9]+(_(plural|\d+))?$/;
+const forbiddenCharacters = /^[a-zA-Z0-9_]+$/;
 
 const i18nFiles = glob.sync('*/i18n/*.json', {
   cwd: path.join(__dirname, '..'),

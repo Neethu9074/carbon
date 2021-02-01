@@ -2,19 +2,21 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
+
 export const PER_AP = 'PER_AP';
 export const PER_AP_SERVICE = 'PER_AP_SERVICE';
 
 const alertEvaluationTypes = {
   [PER_AP]: {
-    selectionText: 'on the aggregation of all selected Services and Endpoints',
-    columnText: 'aggregated',
-    description: 'Alert on the aggregation of all selected Services and Endpoints'
+    selectionText: t('in-applications:alert.evaluationTypePERAP.selectionText'),
+    columnText: t('in-applications:alert.evaluationTypePERAP.columnText'),
+    description: t('in-applications:alert.evaluationTypePERAP.description')
   },
   [PER_AP_SERVICE]: {
-    selectionText: 'on the aggregation per Service',
-    columnText: 'per Service',
-    description: 'Alert individually on the aggregation per Service'
+    selectionText: t('in-applications:alert.evaluationTypePERAPSERVICE.description'),
+    columnText: t('in-applications:alert.evaluationTypePERAPSERVICE.columnText'),
+    description: t('in-applications:alert.evaluationTypePERAPSERVICE.description')
   }
 };
 

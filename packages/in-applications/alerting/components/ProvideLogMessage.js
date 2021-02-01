@@ -25,6 +25,7 @@ import ComboBox from 'in-components/ComboBox/ComboBox';
 import Button from 'in-new-components/Button/Button';
 import HelpText from 'in-components/form/HelpText';
 import Label from 'in-components/form/Label';
+import { t } from 'in-i18n';
 
 import locals from './ProvideLogMessage.mless';
 
@@ -41,7 +42,9 @@ export default function ProvideLogMessage({ form, timeConfig, onSelectLogMessage
             [locals.logMessageSelectAdvanceMode]: mode === modeAdvanced
           })}
         >
-          <HelpText className={locals.helpText}>Select log message as template (optional)</HelpText>
+          <HelpText className={locals.helpText}>
+            {t('in-applications:analyze.logMessages.selectLogMessageText')}
+          </HelpText>
           <Button
             className={classNames({
               [locals.logMessageSelectButtonAdvanceMode]: mode === modeAdvanced
@@ -69,7 +72,7 @@ export default function ProvideLogMessage({ form, timeConfig, onSelectLogMessage
                       slideOut={() => onSelectLogMessage({ isVisible: false })}
                     />
                   ),
-                  title: 'Select Log Message'
+                  title: t('in-applications:analyze.logMessages.selectLogMessageTitle')
                 },
                 isVisible: true
               });

@@ -10,13 +10,14 @@ import { propTypeTimeConfig } from 'in-stores/time/config';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import List from 'in-settings/components/List';
 import Pill from 'in-new-components/Pill';
+import { t } from 'in-i18n';
 
 import locals from './LogMessagesList.mless';
 
 const columnDefinitions = [
   {
     id: 'level',
-    label: 'Log Level',
+    label: t('in-applications:analyze.logMessages.levelColumn'),
     width: 10,
     getContent(item) {
       return <Pill kind="lighter">{item.level}</Pill>;
@@ -24,7 +25,7 @@ const columnDefinitions = [
   },
   {
     id: 'message',
-    label: 'Log Message',
+    label: t('in-applications:analyze.logMessages.messageColumn'),
     getContent: item => LogRow(item),
     noWrap: true,
     ellipsis: '50vw'
@@ -55,7 +56,7 @@ export default function LogMessagesList({
           .map(tableData => tableData.data.items)
       }
       pageSize={10}
-      noDataMessage="No alert configured."
+      noDataMessage={t('in-applications:analyze.logMessages.noDataMessage')}
       onRowClick={log => {
         onLogMessageSelect(log.message, log.level);
         slideOut();

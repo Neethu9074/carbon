@@ -7,12 +7,13 @@ import { getValueRoundedToDecimals } from 'in-new-components/Alerting/utils/form
 import { getAggregationText } from 'in-new-components/Alerting/utils/formUtils';
 import { isGreaterOperator } from 'in-new-components/Alerting/utils/alertUtils';
 import { operators } from 'in-analyze/applicationFilter';
+import { t } from 'in-i18n';
 
-const operatorDescriptionValues = {
+const operatorDescriptionContextValues = {
   [operators.EQUALS]: 'equal',
   [operators.CONTAINS]: 'contain',
-  [operators.STARTS_WITH]: 'start with',
-  [operators.ENDS_WITH]: 'end with'
+  [operators.STARTS_WITH]: 'start',
+  [operators.ENDS_WITH]: 'end'
 };
 
 export function getMetricUnitPostfix(metricName) {
@@ -31,9 +32,9 @@ export function getTitlePlaceholder(form) {
   const alertType = ruleForm.get('alertType').value;
   switch (alertType) {
     case 'errorRate':
-      return 'Erroneous call rate is higher than normal';
+      return t('in-applications:formUtils.titlePlaceholder.errorRate');
     case 'slowness':
-      return 'Calls are slower than usual';
+      return t('in-applications:formUtils.titlePlaceholder.slowness');
     case 'logs': {
       const message = ruleForm.get('message').value;
       const ruleOperator = ruleForm.get('operator').value;
@@ -41,25 +42,36 @@ export function getTitlePlaceholder(form) {
 
       if (ruleOperator === operators.NOT_EMPTY) {
         if (level === 'ANY') {
-          return 'Too many calls logging messages';
+          return t('in-applications:formUtils.titlePlaceholder.logs.notEmptyWithANY');
         }
-        return `Too many calls logging ${getLogLevelRuleOperatorLabel(level)} messages`;
+        return t('in-applications:formUtils.titlePlaceholder.logs.notEmptyWithoutANY', {
+          operatorLabel: getLogLevelRuleOperatorLabel(level)
+        });
       }
 
       if (level === 'ANY') {
-        return `Too many calls logging messages: "${message}"`;
+        return t('in-applications:formUtils.titlePlaceholder.logs.withANY', {
+          message: message
+        });
       }
-      return `Too many calls logging ${getLogLevelRuleOperatorLabel(level)} messages: "${message}"`;
+      return t('in-applications:formUtils.titlePlaceholder.logs.default', {
+        operatorLabel: getLogLevelRuleOperatorLabel(level),
+        message: message
+      });
     }
     case 'statusCode': {
       const statusCodeStart = ruleForm.get('statusCodeStart').value;
       const statusCodeEnd = ruleForm.get('statusCodeEnd').value;
-      return `Too many calls with HTTP Status Code ${getStatusCodeShortText(statusCodeStart, statusCodeEnd)}`;
+      return t('in-applications:formUtils.titlePlaceholder.statusCode', {
+        statusCodeShortText: getStatusCodeShortText(statusCodeStart, statusCodeEnd)
+      });
     }
     case 'throughput': {
       const thresholdOperator = form.get('threshold').get('operator').value;
       const isGreaterOp = isGreaterOperator(thresholdOperator);
-      return `Number of calls is anomalously ${isGreaterOp ? 'high' : 'low'}`;
+      return isGreaterOp
+        ? t('in-applications:formUtils.titlePlaceholder.throughputHigh')
+        : t('in-applications:formUtils.titlePlaceholder.throughputLow');
     }
     default:
       throw Error('Unsupported alertType: ' + alertType);
@@ -75,23 +87,26 @@ export function getDescriptionPlaceholder(form) {
   switch (alertType) {
     case 'errorRate': {
       const thresholdValue = thresholdForm.get('value').value;
-      return `The erroneous call rate is ${getHigherOrLowerOperatorText(thresholdOperator)} ${getValueRoundedToDecimals(
-        thresholdValue,
-        true
-      )}%.`;
+      return t('in-applications:formUtils.descriptionPlaceholder.errorRate', {
+        context: getHigherOrLowerOperatorContext(thresholdOperator),
+        valueRoundedToDecimals: getValueRoundedToDecimals(thresholdValue, true)
+      });
     }
     case 'slowness': {
       const aggregation = ruleForm.get('aggregation').value;
       const thresholdType = thresholdForm.get('type').value;
       if (thresholdType === 'staticThreshold') {
         const thresholdValue = thresholdForm.get('value').value;
-        return `Calls are ${getSlowerOrBelowOperatorText(
-          thresholdOperator
-        )} ${thresholdValue} ms based on latency (${getAggregationText(aggregation)}).`;
+        return t('in-applications:formUtils.descriptionPlaceholder.slownessStaticThreshold', {
+          context: getSlowerOrBelowOperatorContext(thresholdOperator),
+          thresholdValue: thresholdValue,
+          aggregationText: getAggregationText(aggregation)
+        });
       }
-      return `Calls are ${getSlowerOrBelowOperatorText(
-        thresholdOperator
-      )} the expectation based on latency (${getAggregationText(aggregation)}).`;
+      return t('in-applications:formUtils.descriptionPlaceholder.slownessDefault', {
+        context: getSlowerOrBelowOperatorContext(thresholdOperator),
+        aggregationText: getAggregationText(aggregation)
+      });
     }
     case 'logs': {
       const message = ruleForm.get('message').value;
@@ -101,31 +116,45 @@ export function getDescriptionPlaceholder(form) {
       const thresholdValue = thresholdForm.get('value').value;
 
       if (thresholdOperator === operators.NOT_EMPTY) {
-        return `Number of calls logging ${levelText} messages is ${getHigherOrLowerOperatorText(
-          thresholdOperator
-        )} ${thresholdValue}.`;
+        return t('in-applications:formUtils.descriptionPlaceholder.logsNotEmpty', {
+          context: getHigherOrLowerOperatorContext(thresholdOperator),
+          levelText: levelText,
+          thresholdValue: thresholdValue
+        });
       }
-      return `Number of calls logging ${levelText} messages which ${
-        operatorDescriptionValues[ruleOperator]
-      } "${message}" is ${getHigherOrLowerOperatorText(thresholdOperator)} ${thresholdValue}.`;
+      return t('in-applications:formUtils.descriptionPlaceholder.logsDefault', {
+        context: getHigherOrLowerOperatorDescriptionContext(
+          operatorDescriptionContextValues[ruleOperator],
+          thresholdOperator
+        ),
+        levelText: levelText,
+        message: message,
+        thresholdValue: thresholdValue
+      });
     }
     case 'statusCode': {
       const statusCodeStart = ruleForm.get('statusCodeStart').value;
       const statusCodeEnd = ruleForm.get('statusCodeEnd').value;
       const thresholdForm = form.get('threshold');
       const thresholdValue = thresholdForm.get('value').value;
-      return `Occurrences of HTTP Status Code ${getStatusCodeFullText(
-        statusCodeStart,
-        statusCodeEnd
-      )} is ${getHigherOrLowerOperatorText(thresholdOperator)} ${thresholdValue}.`;
+      return t('in-applications:formUtils.descriptionPlaceholder.statusCode', {
+        context: getHigherOrLowerOperatorContext(thresholdOperator),
+        statusCodeFullText: getStatusCodeFullText(statusCodeStart, statusCodeEnd),
+        thresholdValue: thresholdValue
+      });
     }
     case 'throughput': {
       const thresholdType = thresholdForm.get('type').value;
       if (thresholdType === 'staticThreshold') {
         const thresholdValue = thresholdForm.get('value').value;
-        return `The number of calls is ${getHigherOrLowerOperatorText(thresholdOperator)} ${thresholdValue} calls.`;
+        return t('in-applications:formUtils.descriptionPlaceholder.throughputStaticThreshold', {
+          context: getHigherOrLowerOperatorContext(thresholdOperator),
+          thresholdValue: thresholdValue
+        });
       }
-      return `The number of calls is ${getHigherOrLowerOperatorText(thresholdOperator)} expected.`;
+      return t('in-applications:formUtils.descriptionPlaceholder.throughputDefault', {
+        context: getHigherOrLowerOperatorContext(thresholdOperator)
+      });
     }
     default:
       throw Error('Unsupported alertType: ' + alertType);
@@ -152,35 +181,66 @@ function getStatusCodeFullText(statusCodeStart, statusCodeEnd) {
     return getStatusCodeLabel(parseInt(statusCodeStart / 100).toString());
   } else {
     // custom ranges
-    return `between ${statusCodeStart} and ${statusCodeEnd}`;
+    return t('in-applications:formUtils.customStatusCodeFullText', {
+      statusCodeStart: statusCodeStart,
+      statusCodeEnd: statusCodeEnd
+    });
   }
 }
 
-function getHigherOrLowerOperatorText(operator) {
+function getHigherOrLowerOperatorContext(operator) {
   switch (operator) {
     case '>':
-      return 'higher than';
+      // "higher than"
+      return 'higherThan';
     case '>=':
-      return 'higher or equal to';
+      // "higher or equal to"
+      return 'higherEqual';
     case '<':
-      return 'lower than';
+      // "lower than"
+      return 'lowerThan';
     case '<=':
-      return 'lower or equal to';
+      // "lower or equal to"
+      return 'lowerEqual';
     default:
       throw Error('Unsupported operator: ' + operator);
   }
 }
 
-function getSlowerOrBelowOperatorText(operator) {
+function getSlowerOrBelowOperatorContext(operator) {
   switch (operator) {
     case '>':
-      return 'slower than';
+      // "slower than"
+      return 'slowerThan';
     case '>=':
-      return 'slower or equal to';
+      // "slower or equal to"
+      return 'slowEqual';
     case '<':
+      // "below"
       return 'below';
     case '<=':
-      return 'below or equal to';
+      // "below or equal to"
+      return 'belowEqual';
+    default:
+      throw Error('Unsupported operator: ' + operator);
+  }
+}
+
+function getHigherOrLowerOperatorDescriptionContext(operatorDescription, operator) {
+  let returnContext = operatorDescription;
+  switch (operator) {
+    case '>':
+      // "higher than"
+      return (returnContext += 'HigherThan');
+    case '>=':
+      // "higher or equal to"
+      return (returnContext += 'HigherEqual');
+    case '<':
+      // "lower than"
+      return (returnContext += 'LowerThan');
+    case '<=':
+      // "lower or equal to"
+      return (returnContext += 'LowerEqual');
     default:
       throw Error('Unsupported operator: ' + operator);
   }

@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import PropTypes from 'prop-types';
+import { t } from 'in-i18n';
 
 export const boundaryScopes = {
   inbound: 'INBOUND',
@@ -10,17 +11,16 @@ export const boundaryScopes = {
 
   info: {
     INBOUND: {
-      text: 'Inbound Calls',
+      text: t('in-applications:inboundOutboundCalls.config.inbound.text'),
       icon: 'lib_application_boundary_inbound_calls',
-      dashboard: 'Only calls that are performed by the consumers of this application.',
-      overrideDefault:
-        'The default scope for this application is Inbound Calls only. You can change this in Configuration.'
+      dashboard: t('in-applications:inboundOutboundCalls.config.inbound.dashboard'),
+      overrideDefault: t('in-applications:inboundOutboundCalls.config.inbound.overrideDefault')
     },
     ALL: {
-      text: 'All Calls',
+      text: t('in-applications:inboundOutboundCalls.config.all.text'),
       icon: 'lib_application_boundary_all_calls',
-      dashboard: 'Calls performed within this application, by both consumers as well as internally.',
-      overrideDefault: 'The default scope for this application is All Calls. You can change this in Configuration.'
+      dashboard: t('in-applications:inboundOutboundCalls.config.all.dashboard'),
+      overrideDefault: t('in-applications:inboundOutboundCalls.config.all.overrideDefault')
     }
   }
 };
