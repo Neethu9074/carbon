@@ -34,9 +34,9 @@ export function WidgetHeader({ slo, budget, isDynamic, isRolling, fromTimestamp,
         />
         <SloTile
           title="Error Budget Spent"
-          value={sliFormatter(spent)}
+          value={spent && sliFormatter(spent)}
           targetInfo="Error Budget:"
-          targetValue={sliFormatter(budget)}
+          targetValue={budget && sliFormatter(budget)}
           color={budgetColor}
         />
         <SloTimeTile
