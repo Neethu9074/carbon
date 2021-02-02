@@ -6,17 +6,9 @@ import { assign, merge } from 'lodash';
 
 import { WIGGLE_ROOM, ANIMATION_DURATION } from 'in-components/Chart/Configuration';
 import { getBlockSizeMillis } from 'in-services/util/dynamicAggregation';
-import { sensibleGranularities } from 'in-stores/metric/metric';
+import { getChartGranularity } from 'in-stores/metric/metric';
 
-const maximumNumberOfUsefulDataPoints = 80;
 const EXTEND_TIME_WINDOW_CUTOFF = 24 * 3600 * 1000;
-
-export function getChartGranularity({ windowSize }) {
-  const granularity = sensibleGranularities.find(
-    granularity => windowSize / granularity <= maximumNumberOfUsefulDataPoints
-  );
-  return granularity || sensibleGranularities[sensibleGranularities.length - 1];
-}
 
 /*
  * Returns a normalized timeConfig where "to" is set to result.time (unless it is already set and equal to result.time,

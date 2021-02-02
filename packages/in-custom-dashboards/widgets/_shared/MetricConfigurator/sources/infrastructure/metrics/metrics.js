@@ -16,3 +16,4 @@ export const label =
 export const disabled = !infraMetricsWidgetEnabled;
 export const visible = true;
 export const minGranularity = 10000;
+export const suggestedNumberOfDataPoints = 400;

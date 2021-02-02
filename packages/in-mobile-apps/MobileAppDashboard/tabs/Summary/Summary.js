@@ -12,8 +12,8 @@ import MobileAppGeoHeatMap from 'in-mobile-apps/MobileAppDashboard/components/Mo
 import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-mobile-apps/tags';
 import ViewsTopList from 'in-mobile-apps/MobileAppDashboard/tabs/Summary/ViewsTopList';
 import { getLinkToAnalyze, summaryTab } from 'in-mobile-apps/navigation/paths';
+import { getChartGranularity } from 'in-stores/metric/metric';
 import Renderer from 'in-components/Chart/renderer/Renderer';
-import { getChartGranularity } from 'in-mobile-apps/metrics';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import { number } from 'in-services/formatters/number';
 import Card from 'in-new-components/Card';

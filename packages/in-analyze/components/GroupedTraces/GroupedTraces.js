@@ -18,7 +18,7 @@ import AnalyzeWorkspace from 'in-analyze/components/AnalyzeWorkspace';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import MetricSelector from 'in-analyze/components/MetricSelector';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
-import { getChartGranularity } from 'in-applications/metrics';
+import { getChartGranularity } from 'in-stores/metric/metric';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import { metricChangedTracker } from 'in-analyze/tracker';
 import { analyze } from 'in-analyze/navigation/paths';

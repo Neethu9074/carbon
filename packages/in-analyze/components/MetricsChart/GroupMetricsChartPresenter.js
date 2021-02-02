@@ -5,8 +5,9 @@
 import { find } from 'lodash';
 import React from 'react';
 
-import { getChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
+import { getResolvedTimeConfig } from 'in-applications/metrics';
+import { getChartGranularity } from 'in-stores/metric/metric';
 import ButtonGroup from 'in-new-components/ButtonGroup';
 import { identity } from 'in-services/util/function';
 

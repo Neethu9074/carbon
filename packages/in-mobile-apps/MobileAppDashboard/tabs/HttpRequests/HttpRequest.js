@@ -22,8 +22,8 @@ import ViewsTopList from 'in-mobile-apps/MobileAppDashboard/tabs/HttpRequests/Vi
 import { millis, number, percentage } from 'in-services/formatters/number';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import RedirectWithHash from 'in-components/RedirectWithHash';
+import { getChartGranularity } from 'in-stores/metric/metric';
 import Renderer from 'in-components/Chart/renderer/Renderer';
-import { getChartGranularity } from 'in-mobile-apps/metrics';
 import { Col, Row } from 'in-new-components/layout/Grid';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
 import BackButton from 'in-new-components/BackButton';

@@ -9,7 +9,7 @@ import AlertingRenderer from 'in-new-components/Alerting/Chart/renderer/Renderer
 import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
-import { getChartGranularity } from 'in-applications/metrics';
+import { getChartGranularity } from 'in-stores/metric/metric';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { percentage } from 'in-services/formatters/number';
 import { compare } from 'in-services/util/number';

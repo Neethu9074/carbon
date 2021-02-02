@@ -4,7 +4,6 @@
  */
 export {
   extendWindowSizeOnLiveMode,
-  getChartGranularity,
   getResolvedTimeConfig,
   getSparkChartGranularity,
   extendMetricConfigurationOnLiveMode

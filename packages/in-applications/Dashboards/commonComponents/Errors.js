@@ -10,7 +10,7 @@ import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetri
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
 import { getBlueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
 import useTagCatalog from 'in-applications/hooks/useTagCatalog';
-import { getChartGranularity } from 'in-applications/metrics';
+import { getChartGranularity } from 'in-stores/metric/metric';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import { bar, line } from 'in-stores/metric/renderer';
 

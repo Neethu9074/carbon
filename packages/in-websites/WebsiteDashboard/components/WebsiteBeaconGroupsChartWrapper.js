@@ -12,7 +12,7 @@ import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websit
 import getWebsiteBeaconGroups from 'in-websites/subscriptions/getWebsiteBeaconGroups';
 import { actionName, getButton } from 'in-components/Chart/actions/viewInAnalytics';
 import { getLinkToAnalyze } from 'in-websites/navigation/paths';
-import { getChartGranularity } from 'in-applications/metrics';
+import { getChartGranularity } from 'in-stores/metric/metric';
 import { emptyObject } from 'in-services/fixedObjects';
 import connectTo from 'in-hoc/connectTo';
 

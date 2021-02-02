@@ -11,8 +11,8 @@ import WindowWidthBreakdown from 'in-websites/WebsiteDashboard/tabs/User/WindowW
 import WebsiteChartWrapper from 'in-websites/WebsiteDashboard/components/WebsiteChartWrapper';
 import BrowserTopList from 'in-websites/WebsiteDashboard/tabs/User/BrowserTopList';
 import OsTopList from 'in-websites/WebsiteDashboard/tabs/User/OsTopList';
+import { getChartGranularity } from 'in-stores/metric/metric';
 import Renderer from 'in-components/Chart/renderer/Renderer';
-import { getChartGranularity } from 'in-websites/metrics';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import { usersTab } from 'in-websites/navigation/paths';
 import { number } from 'in-services/formatters/number';
