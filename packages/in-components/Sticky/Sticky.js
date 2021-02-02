@@ -65,7 +65,12 @@ export default class extends React.Component {
       this.header.style.width = `${this.headerWidth}px`;
       this.wrapper.style.paddingTop = `${this.headerHeight}px`;
 
-      this.contentWrapper.style.height = `${window.innerHeight - this.headerCoords.top - this.headerHeight}px`;
+      this.contentWrapper.style.minHeight = `${window.innerHeight - this.headerCoords.top - this.headerHeight}px`;
+      if (this.props.useFixedLayout) {
+        const { contentWidth } = this.props;
+        this.contentWrapper.style.position = 'fixed';
+        if (contentWidth) this.contentWrapper.style.width = contentWidth;
+      }
 
       if (this.order >= 0) {
         this.header.style.zIndex = theme.zIndex.stickyHeader - this.order;

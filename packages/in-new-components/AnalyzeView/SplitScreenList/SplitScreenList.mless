@@ -8,12 +8,10 @@
   .wrapper {
     display: flex;
     height: 100%;
-    border-top: 1px solid @lib__colors__N300;
   }
 
   .details {
     width: ~'calc(100% - 20rem)';
-    overflow: auto;
 
     &.useFullWidth {
       width: ~'calc(100% - 3rem)';
@@ -57,6 +55,9 @@
     align-items: center;
     justify-content: center;
     padding: 1.63rem 0;
+
+    position: fixed;
+    width: 2.95rem;
   }
 
   .toggle,

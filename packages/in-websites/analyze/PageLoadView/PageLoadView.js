@@ -56,11 +56,11 @@ function PageLoadView(props) {
         header={
           <DashboardHeader
             {...props}
-            className={locals.header}
             title={t('in-websites:analyze.analyzeView.pageLoadView.labelAnalytics')}
             icon="lib_website"
             label={dataSourceTitles[beaconType]}
             contextConfigurations={[{ renderContext, contextIcon: 'lib_analyze_inverted' }]}
+            withBorderBottom
           />
         }
       >

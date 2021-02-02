@@ -20,7 +20,6 @@
 
   .detailView {
     width: ~'calc(100% - 20rem)';
-    overflow: auto;
 
     &.useFullWidth {
       width: ~'calc(100% - 3rem)';

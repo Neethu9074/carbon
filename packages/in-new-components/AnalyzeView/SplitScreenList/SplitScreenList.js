@@ -88,15 +88,15 @@ function ExpandedList(props) {
             <div className={locals.actions}>
               {hasPrev && (
                 <Tooltip
-                  content={t('in-new-components:analyzeView.splitScreenListTooltipViewPrevious', {
-                    itemName: itemName.toLowerCase()
+                  content={t('in-new-components:analyze.splitScreen.sidebarActions.prev', {
+                    itemName: t(itemName).toLowerCase()
                   })}
                 >
                   <SvgIcon
                     className={locals.prev}
                     type="lib_arrow_drop_left"
-                    aria-label={t('in-new-components:analyzeView.splitScreenListTooltipViewPrevious', {
-                      itemName: itemName.toLowerCase()
+                    aria-label={t('in-new-components:analyze.splitScreen.sidebarActions.prev', {
+                      itemName: t(itemName).toLowerCase()
                     })}
                     size="s"
                     id={leftArrowId}
@@ -118,15 +118,15 @@ function ExpandedList(props) {
 
               {hasNext && (
                 <Tooltip
-                  content={t('in-new-components:analyzeView.splitScreenListTooltipViewNext', {
-                    itemName: itemName.toLowerCase()
+                  content={t('in-new-components:analyze.splitScreen.sidebarActions.next', {
+                    itemName: t(itemName).toLowerCase()
                   })}
                 >
                   <SvgIcon
                     className={locals.next}
                     type="lib_arrow_drop_right"
-                    aria-label={t('in-new-components:analyzeView.splitScreenListTooltipViewNext', {
-                      itemName: itemName.toLowerCase()
+                    aria-label={t('in-new-components:analyze.splitScreen.sidebarActions.next', {
+                      itemName: t(itemName).toLowerCase()
                     })}
                     size="s"
                     id={rightArrowId}
@@ -158,6 +158,8 @@ function ExpandedList(props) {
             </div>
           </div>
         }
+        useFixedLayout
+        contentWidth={'20rem'}
       >
         <HeightRestrictedView
           render={() => (

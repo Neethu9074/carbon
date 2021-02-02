@@ -127,6 +127,8 @@ function NavigatorSplitScreen({
                 </div>
               </div>
             }
+            useFixedLayout
+            contentWidth={'20rem'}
           >
             {navigator}
           </Sticky>

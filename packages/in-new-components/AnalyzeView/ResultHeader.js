@@ -47,10 +47,7 @@ export default function ResultHeader({
             />
           )}
           {adjustedWindowSize && (
-            <Tooltip
-              content={t('in-new-components:analyzeView.resultHeaderTooltip')}
-              align="rightMiddle"
-            >
+            <Tooltip content={t('in-new-components:analyzeView.resultHeaderTooltip')} align="rightMiddle">
               <SvgIcon className={locals.adjustmentIcon} type="lib_approximately_equal" />
             </Tooltip>
           )}

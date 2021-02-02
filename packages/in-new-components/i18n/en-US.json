@@ -132,8 +132,6 @@
     "alertConfigDialogPresenterButtonSwitchToSimpleMode": "Switch to Simple Mode"
   },
   "analyzeView": {
-    "splitScreenListTooltipViewPrevious": "View previous {{itemName}} (shortcut: left arrow key)",
-    "splitScreenListTooltipViewNext": "View next {{itemName}} (shortcut: left right key)",
     "splitScreenListTooltipCloseSidebar": "Close sidebar",
     "splitScreenListTooltipOpenSidebar": "Open sidebar",
     "groupedViewHeader": "Group",
@@ -163,6 +161,12 @@
     "rangeOrder": "The range has to be in ascending order.",
     "earliestTimestamp": "Earliest Timestamp",
     "timestamp": "Timestamp",
-    "focusOnGroup": "Focus on this group"
+    "focusOnGroup": "Focus on this group",
+    "splitScreen": {
+      "sidebarActions": {
+        "prev": "View previous {{ itemName }} (shortcut: left arrow key)",
+        "next": "View next {{ itemName }} (shortcut: left right key)"
+      }
+    }
   }
 }

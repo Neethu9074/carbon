@@ -31,7 +31,8 @@ export default function DashboardHeader(props) {
     renderTimeSelection,
     result,
     labelForTitle,
-    hideUrlShortener
+    hideUrlShortener,
+    withBorderBottom
   } = props;
   let {
     label,
@@ -62,7 +63,9 @@ export default function DashboardHeader(props) {
     }
   }
   return (
-    <header className={classNames(locals.dashboardHeader, locals[theme], className)}>
+    <header
+      className={classNames(locals.dashboardHeader, locals[theme], className, withBorderBottom && locals.borderBottom)}
+    >
       <Title title={title} dynamic={labelForTitle ?? (typeof label === 'string' ? label : null)} />
       <div className={locals.firstLine}>
         <div className={locals.leftContent}>
@@ -155,5 +158,6 @@ DashboardHeader.propTypes = {
       contextIcon: PropTypes.string
     })
   ),
-  className: PropTypes.string
+  className: PropTypes.string,
+  withBorderBottom: PropTypes.bool
 };
