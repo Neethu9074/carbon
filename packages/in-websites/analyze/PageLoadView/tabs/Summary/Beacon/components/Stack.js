@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import React, { Fragment } from 'react';
+import { t } from 'in-i18n';
 
 import BodyHeader from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/BodyHeader';
 import StackTrace from 'in-websites/WebsiteDashboard/tabs/Errors/StackTrace';
@@ -21,7 +22,7 @@ export default function Stack({ beacon }) {
       {({ actions, content }) => (
         <Fragment>
           <div className={locals.header}>
-            <BodyHeader>Stack Trace</BodyHeader>
+            <BodyHeader>{t('in-websites:analyze.analyzeView.pageLoadView.stackTrace')}</BodyHeader>
 
             <div className={locals.actions}>{actions}</div>
           </div>

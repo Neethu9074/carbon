@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { uniq, find } from 'lodash';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { isBlank, isNotBlank } from 'in-services/util/string';
@@ -29,14 +30,15 @@ export default function User({ beacon, beacons }) {
   if (!first) {
     first = (
       <div className={locals.noUserData}>
-        No user data defined&nbsp;
+        {t('in-websites:analyze.analyzeView.beaconUserSummary.noUserDataDefined')}
+        &nbsp;
         <Button
           href="https://instana.com/docs/website_monitoring/api/#identifying-users"
           kind="primaryv2"
           target="_blank"
           size="compact"
         >
-          Learn how to add user data
+          {t('in-websites:analyze.analyzeView.beaconUserSummary.learnHowToAddUserData')}
         </Button>
       </div>
     );

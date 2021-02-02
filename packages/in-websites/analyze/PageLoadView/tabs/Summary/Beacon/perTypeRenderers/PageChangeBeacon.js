@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import React, { Fragment } from 'react';
+import { t } from 'in-i18n';
 
 import BatchIndicator from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/BatchIndicator';
 import KeyValueHeader from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/KeyValueHeader';
@@ -22,14 +23,14 @@ export const LeftHeader = ({ beacon, earliestTimestamp }) => (
     <KeyValueHeader
       label={
         <Fragment>
-          Page Transition
+          {t('pageChangeBeaconHeaderPageTransition')}
           <BatchIndicator batchCount={beacon.batchSize} />
         </Fragment>
       }
       value={getLabel(beacon)}
     />
     <KeyValueHeader
-      label="Start Time"
+      label={t('in-websites:analyze.analyzeView.pageLoadView.pageChangeBeaconLabelStartTime')}
       value={millisToTwoDecimalSeconds(beacon.timestamp - earliestTimestamp)}
       tooltipContent={formatDateTime(beacon.timestamp)}
     />
@@ -41,10 +42,10 @@ export const Body = ({ beacon }) => {
     <Fragment>
       <Row>
         <Col lg={6}>
-          <BodyHeader>Page Transition</BodyHeader>
+          <BodyHeader>{t('pageChangeBeaconHeaderPageTransition')}</BodyHeader>
 
           <Dl>
-            <Di title="Window Location">
+            <Di title={t('in-websites:analyze.analyzeView.pageLoadView.pageChangeBeaconTitleWindowLocation')}>
               <a href={beacon.locationUrl} rel="noopener noreferrer" target="_blank">
                 {beacon.locationUrl}
               </a>
@@ -54,7 +55,7 @@ export const Body = ({ beacon }) => {
 
         {Object.keys(beacon.meta).length > 0 && (
           <Col lg={6}>
-            <BodyHeader>Meta</BodyHeader>
+            <BodyHeader>{t('pageChangeBeaconHeaderMeta')}</BodyHeader>
             <Meta beacon={beacon} />
           </Col>
         )}

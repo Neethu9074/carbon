@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import React, { Fragment } from 'react';
+import { t } from 'in-i18n';
 
 import ListItemPresenter from 'in-websites/analyze/AnalyzeView/Beacons/ListItemPresenter';
 import { getHighlighterId } from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon';
@@ -21,15 +22,15 @@ export const perTypeColumnCount = 3;
 export function TableHeaderColumns({ orderBy, orderDirection, onChangeOrder }) {
   return (
     <Fragment>
-      <Th>Event Name</Th>
-      <Th>Website</Th>
+      <Th>{t('in-websites:analyze.analyzeView.beacons.perBeaconTypeConfigEventName')}</Th>
+      <Th>{t('in-websites:analyze.analyzeView.beacons.perBeaconTypeConfigWebsite')}</Th>
       <SortableColumn
         orderBy={orderBy}
         orderDirection={orderDirection}
         onChangeOrder={onChangeOrder}
         defaultDirection="DESC"
         technicalName={timestampMetricName}
-        label="Timestamp"
+        label={t('in-websites:analyze.analyzeView.beacons.perBeaconTypeConfigLabelTimestamp')}
       />
     </Fragment>
   );
@@ -52,7 +53,9 @@ export function TableRowColumns({ item }) {
         </TableLinkWithIcon>
         <BatchingIndicator
           batchCount={item.beacon.batchSize}
-          tooltipContent={`This event was batched and represents ${item.beacon.batchSize} individual events.`}
+          tooltipContent={t('in-websites:analyze.analyzeView.beacons.perBeaconTypeConfigEventTooltip', {
+            batchSize: item.beacon.batchSize
+          })}
         />
       </Td>
 
@@ -69,7 +72,7 @@ export function TableRowColumns({ item }) {
   );
 }
 
-export const ListItemHeader = 'Event Name';
+export const ListItemHeader = t('in-websites:analyze.analyzeView.beacons.perBeaconTypeConfigEventName');
 
 export function ListItem({ item, active }) {
   return (

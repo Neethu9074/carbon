@@ -3,13 +3,14 @@
  * (c) Copyright Instana Inc.
  */
 import { withProps } from 'recompose';
+import { t } from 'in-i18n';
 
 import GroupMetricsChart, { metricsChartDefinitions } from 'in-analyze/components/MetricsChart/GroupMetricsChart';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { number } from 'in-services/formatters/number';
 
 const countChartDefinition = {
-  label: 'Count',
+  label: t('in-websites:analyze.analyzeView.WebsiteGroupMetricsChartLabelCount'),
   key: 'beaconCount_SUM',
   renderer: Renderer.stackedBar,
   aggregation: 'SUM',

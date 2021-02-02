@@ -33,7 +33,7 @@ export default function ResultHeader({
     <div className={locals.wrapper}>
       {label && <span className={locals.result}>{label}</span>}
       {totalRepresentedItemCount == null ? (
-        <span className={locals.number}>Loading…</span>
+        <span className={locals.number}>{t('in-new-components:analyzeView.resultHeaderLoading')}</span>
       ) : (
         <>
           <span className={locals.number}>{formatCounter(totalRepresentedItemCount, t(itemName))}</span>
@@ -48,7 +48,7 @@ export default function ResultHeader({
           )}
           {adjustedWindowSize && (
             <Tooltip
-              content="The query time range has been rounded up to nearest full minute to allow this view to load more quickly."
+              content={t('in-new-components:analyzeView.resultHeaderTooltip')}
               align="rightMiddle"
             >
               <SvgIcon className={locals.adjustmentIcon} type="lib_approximately_equal" />

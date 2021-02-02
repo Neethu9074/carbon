@@ -4,6 +4,7 @@
  */
 import { empty } from '@instana/observables';
 import rpt from 'prop-types';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { joinExpressions, removeTopLevelFilters } from 'in-new-components/QueryBuilder/transformation/formModel';
@@ -92,7 +93,7 @@ export default function UngroupedAnalyzeView(props) {
         <Header
           {...props}
           order={orderBy}
-          topText="no grouping"
+          topText={t('in-new-components:analyzeView.ungroupedViewNoGrouping')}
           totalRepresentedItemCount={totalHits ?? 0}
           setOrder={onOrderByChange}
         />

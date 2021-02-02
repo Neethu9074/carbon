@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { combineLatest } from '@instana/observables';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import getWebsiteBackendTraces from 'in-websites/subscriptions/getWebsiteBackendTraces';
@@ -40,14 +41,26 @@ function BackendDi({ traceSummaries }) {
   }
 
   return (
-    <Di title="Backend">
+    <Di title={t('in-websites:analyze.analyzeView.pageLoadView.backendDiTitleBackend')}>
       {traceSummaries.map((summary, i) => (
-        <Tooltip key={i} content="Open backend trace" align="topMiddle">
+        <Tooltip
+          key={i}
+          content={t('in-websites:analyze.analyzeView.pageLoadView.backendDiOpenBackendTrace')}
+          align="topMiddle"
+        >
           <div>
             <Link href$={getLinkToTraceDetail(summary.id)} onClick={() => navigateToBackendTraceFromPageLoad()}>
-              {latencyFixed.compact(summary.duration)} for {number.compact(summary.callCount)} call
-              {summary.callCount === 1 ? '' : 's'} with {number.compact(summary.totalErrorCount)} error
-              {summary.totalErrorCount === 1 ? '' : 's'}.
+              {t('in-websites:analyze.analyzeView.pageLoadView.backendDiLinkLabel', {
+                duration: latencyFixed.compact(summary.duration),
+                callCount: t('in-websites:analyze.analyzeView.pageLoadView.backendDiSummaryCallCount', {
+                  count: summary.callCount,
+                  callCount: number.compact(summary.callCount)
+                }),
+                errorCount: t('in-websites:analyze.analyzeView.pageLoadView.backendDiSummaryTotalErrorCount', {
+                  count: summary.totalErrorCount,
+                  totalErrorCount: number.compact(summary.totalErrorCount)
+                })
+              })}
             </Link>
           </div>
         </Tooltip>

@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import TypeHeader from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/TypeHeader';
@@ -28,7 +29,9 @@ export default function OverviewChartTooltip({ beacon, earliestTimestamp }) {
       <dl className={locals.timings}>
         {!beaconRenderers.hideStartTimeTooltipField && (
           <div className={locals.timing}>
-            <dt className={locals.key}>Start Time</dt>
+            <dt className={locals.key}>
+              {t('in-websites:analyze.analyzeView.pageLoadView.overviewChartTooltipStartTime')}
+            </dt>
             <dd className={locals.value}>+{millisToTwoDecimalSeconds(beacon.timestamp - earliestTimestamp)}</dd>
           </div>
         )}

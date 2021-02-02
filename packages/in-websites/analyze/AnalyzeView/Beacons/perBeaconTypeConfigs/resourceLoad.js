@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import React, { Fragment } from 'react';
+import { t } from 'in-i18n';
 
 import ListItemPresenter from 'in-websites/analyze/AnalyzeView/Beacons/ListItemPresenter';
 import { getHighlighterId } from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon';
@@ -21,8 +22,8 @@ export const perTypeColumnCount = 3;
 export function TableHeaderColumns({ orderBy, orderDirection, onChangeOrder }) {
   return (
     <Fragment>
-      <Th>URI</Th>
-      <Th>Website</Th>
+      <Th>{t('in-websites:analyze.analyzeView.beacons.perBeaconTypeConfigURI')}</Th>
+      <Th>{t('in-websites:analyze.analyzeView.beacons.perBeaconTypeConfigWebsite')}</Th>
       <SortableColumn
         orderBy={orderBy}
         orderDirection={orderDirection}
@@ -52,7 +53,9 @@ export function TableRowColumns({ item }) {
         </TableLinkWithIcon>
         <BatchingIndicator
           batchCount={item.beacon.batchSize}
-          tooltipContent={`This resource retrievals is batched and represents ${item.beacon.batchSize} individual resource retrievals.`}
+          tooltipContent={t('in-websites:analyze.analyzeView.beacons.perBeaconTypeConfigResourceRetrievalsTooltip', {
+            batchSize: item.beacon.batchSize
+          })}
         />
       </Td>
 
@@ -69,7 +72,7 @@ export function TableRowColumns({ item }) {
   );
 }
 
-export const ListItemHeader = 'URI';
+export const ListItemHeader = t('in-websites:analyze.analyzeView.beacons.perBeaconTypeConfigURI');
 
 export function ListItem({ item, active }) {
   return (

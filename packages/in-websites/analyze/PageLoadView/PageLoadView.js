@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { get, findIndex } from 'lodash';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import {
@@ -46,8 +47,8 @@ function PageLoadView(props) {
     <>
       <ViewTrackingMeta
         data={{
-          productArea: 'EUM: Websites',
-          pageRootName: 'Analytics'
+          productArea: t('in-websites:analyze.analyzeView.pageLoadView.viewTrackingMetaProductArea'),
+          pageRootName: t('in-websites:analyze.analyzeView.pageLoadView.viewTrackingMetaPageRootName')
         }}
       />
 
@@ -56,7 +57,7 @@ function PageLoadView(props) {
           <DashboardHeader
             {...props}
             className={locals.header}
-            title="Analytics"
+            title={t('in-websites:analyze.analyzeView.pageLoadView.labelAnalytics')}
             icon="lib_website"
             label={dataSourceTitles[beaconType]}
             contextConfigurations={[{ renderContext, contextIcon: 'lib_analyze_inverted' }]}
@@ -73,7 +74,7 @@ function Header(props) {
   return (
     <DashboardHeader
       {...props}
-      title="Page Load"
+      title={t('in-websites:analyze.analyzeView.pageLoadView.titlePageLoad')}
       icon="lib_website"
       label={props.pageLoadLabel}
       renderButtonLine={renderButtonLine}
@@ -184,7 +185,7 @@ function renderButtonLine(props) {
         beaconTimestamp
       )}?pretty`}
     >
-      Download
+      {t('in-websites:analyze.analyzeView.pageLoadView.buttonDownload')}
     </Button>
   );
 }
@@ -199,7 +200,7 @@ function renderContext({ getHrefToUngroupedView }) {
   }
   return (
     <Link className={locals.analyticsLink} href={getHrefToUngroupedView()}>
-      Analytics
+      {t('in-websites:analyze.analyzeView.pageLoadView.labelAnalytics')}
     </Link>
   );
 }
@@ -216,8 +217,12 @@ function renderTimeSelection({ getHrefToUngroupedView }) {
   }
   return (
     <Link href={getHrefToUngroupedView()}>
-      <Tooltip content="Close page load details">
-        <SvgIcon className={locals.closeIcon} aria-label="Close page load details" type="lib_openclose_cancel" />
+      <Tooltip content={t('in-websites:analyze.analyzeView.pageLoadView.renderTimeSelectionTooltip')}>
+        <SvgIcon
+          className={locals.closeIcon}
+          aria-label={t('in-websites:analyze.analyzeView.pageLoadView.renderTimeSelectionTooltip')}
+          type="lib_openclose_cancel"
+        />
       </Tooltip>
     </Link>
   );

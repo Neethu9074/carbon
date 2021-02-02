@@ -4,6 +4,7 @@
  */
 import TrackVisibility from 'react-on-screen';
 import { empty } from '@instana/observables';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import getWebsiteBackendTraces from 'in-websites/subscriptions/getWebsiteBackendTraces';
@@ -42,7 +43,7 @@ const InternalBackendTraceButton = connect(({ beacon }) => ({
         }}
         size="compact"
       >
-        View Backend Trace
+        {t('in-websites:analyze.analyzeView.pageLoadView.backendTraceButtonViewBackendTrace')}
       </Button>
     );
   } else {
@@ -56,7 +57,7 @@ const InternalBackendTraceButton = connect(({ beacon }) => ({
               navigateToBackendTraceFromPageLoad();
             }}
           >
-            ID: {traceId}
+            {t('in-websites:analyze.analyzeView.pageLoadView.backendTraceButtonID', { traceId: traceId })}
           </MoreMenuButton>
         ))}
       </MoreMenu>

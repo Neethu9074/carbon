@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import React, { Fragment } from 'react';
+import { t } from 'in-i18n';
 
 import KeyValueHeader from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/KeyValueHeader';
 import BodyHeader from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/BodyHeader';
@@ -23,51 +24,57 @@ export const getExtraTooltipFields = beacon => ({
 
 export const LeftHeader = ({ beacon }) => (
   <Fragment>
-    <KeyValueHeader label="Page Load" value={getLabel(beacon)} />
-    <KeyValueHeader label="onLoad Time" value={latencyFixed.compact(beacon.duration)} />
+    <KeyValueHeader
+      label={t('in-websites:analyze.analyzeView.pageLoadView.pageLoadBeaconLabelPageLoad')}
+      value={getLabel(beacon)}
+    />
+    <KeyValueHeader
+      label={t('in-websites:analyze.analyzeView.pageLoadView.pageLoadBeaconLabelOnLoadTime')}
+      value={latencyFixed.compact(beacon.duration)}
+    />
   </Fragment>
 );
 
 export const Body = ({ beacon }) => {
   const navigationTimings = [
     {
-      label: 'Unload',
+      label: t('in-websites:analyze.analyzeView.pageLoadView.pageLoadBeaconLabelUnload'),
       value: beacon.unloadTime
     },
     {
-      label: 'Redirect',
+      label: t('in-websites:analyze.analyzeView.pageLoadView.pageLoadBeaconLabelRedirect'),
       value: beacon.redirectTime
     },
     {
-      label: 'AppCache',
+      label: t('in-websites:analyze.analyzeView.pageLoadView.pageLoadBeaconLabelAppCache'),
       value: beacon.appCacheTime
     },
     {
-      label: 'DNS',
+      label: t('in-websites:analyze.analyzeView.pageLoadView.pageLoadBeaconLabelDNS'),
       value: beacon.dnsTime
     },
     {
-      label: 'TCP',
+      label: t('in-websites:analyze.analyzeView.pageLoadView.pageLoadBeaconLabelTCP'),
       value: beacon.tcpTime
     },
     {
-      label: 'SSL',
+      label: t('in-websites:analyze.analyzeView.pageLoadView.pageLoadBeaconLabelSSL'),
       value: beacon.sslTime
     },
     {
-      label: 'Request',
+      label: t('in-websites:analyze.analyzeView.pageLoadView.pageLoadBeaconLabelRequest'),
       value: beacon.requestTime
     },
     {
-      label: 'Response',
+      label: t('in-websites:analyze.analyzeView.pageLoadView.pageLoadBeaconLabelResponse'),
       value: beacon.responseTime
     },
     {
-      label: 'DOM',
+      label: t('in-websites:analyze.analyzeView.pageLoadView.pageLoadBeaconLabelDOM'),
       value: beacon.domTime
     },
     {
-      label: 'Children',
+      label: t('in-websites:analyze.analyzeView.pageLoadView.pageLoadBeaconLabelChildren'),
       value: beacon.childrenTime
     }
   ];
@@ -78,27 +85,27 @@ export const Body = ({ beacon }) => {
 
   const webVitals = [
     beacon.firstContentfulPaintTime > -1 && (
-      <Di key={0} title="First-Contentful Paint">
+      <Di key={0} title={t('in-websites:analyze.analyzeView.pageLoadView.pageLoadBeaconTitleFirstContentfulPaint')}>
         {millis.fixedCompact(beacon.firstContentfulPaintTime)}
       </Di>
     ),
     beacon.largestContentfulPaintTime > -1 && (
-      <Di key={1} title="Largest-Contentful Paint">
+      <Di key={1} title={t('in-websites:analyze.analyzeView.pageLoadView.pageLoadBeaconTitleLargestContentfulPaint')}>
         {millis.fixedCompact(beacon.largestContentfulPaintTime)}
       </Di>
     ),
     beacon.firstInputDelayTime > -1 && (
-      <Di key={2} title="First Input Delay">
+      <Di key={2} title={t('in-websites:analyze.analyzeView.pageLoadView.pageLoadBeaconTitleFirstInputDelay')}>
         {millis.fixedCompact(beacon.firstInputDelayTime)}
       </Di>
     ),
     beacon.cumulativeLayoutShift >= 0 && (
-      <Di key={3} title="Cumulative Layout Shift">
+      <Di key={3} title={t('in-websites:analyze.analyzeView.pageLoadView.pageLoadBeaconTitleCumulativeLayoutShift')}>
         {fourDecimalPlaces(beacon.cumulativeLayoutShift)}
       </Di>
     ),
     beacon.backendTime >= 0 && (
-      <Di key={4} title="Time to First Byte">
+      <Di key={4} title={t('in-websites:analyze.analyzeView.pageLoadView.pageLoadBeaconTitleTimeToFirstByte')}>
         {millis.fixedCompact(beacon.backendTime)}
       </Di>
     )
@@ -108,21 +115,25 @@ export const Body = ({ beacon }) => {
     <Fragment>
       <Row>
         <Col lg={6}>
-          <BodyHeader>Document</BodyHeader>
+          <BodyHeader>{t('pageLoadBeaconHeaderDocument')}</BodyHeader>
           <Dl>
-            <Di title="Window Location">
+            <Di title={t('in-websites:analyze.analyzeView.pageLoadView.pageLoadBeaconTitleWindowLocation')}>
               <a href={beacon.locationUrl} rel="noopener noreferrer" target="_blank">
                 {beacon.locationUrl}
               </a>
             </Di>
             <BackendDi beacon={beacon} />
-            {beacon.firstPaintTime > -1 && <Di title="First Paint">{millis.fixedCompact(beacon.firstPaintTime)}</Di>}
+            {beacon.firstPaintTime > -1 && (
+              <Di title={t('in-websites:analyze.analyzeView.pageLoadView.pageLoadBeaconTitleFirstPaint')}>
+                {millis.fixedCompact(beacon.firstPaintTime)}
+              </Di>
+            )}
           </Dl>
         </Col>
 
         {Object.keys(beacon.meta).length > 0 && (
           <Col lg={6}>
-            <BodyHeader>Meta</BodyHeader>
+            <BodyHeader>{t('pageLoadBeaconHeaderMeta')}</BodyHeader>
             <Meta beacon={beacon} />
           </Col>
         )}
@@ -133,14 +144,20 @@ export const Body = ({ beacon }) => {
           <Row>
             {hasNavigationTimings && (
               <Col lg={6}>
-                <BodyHeader>Navigation Timing</BodyHeader>
-                <Timings timings={navigationTimings} totalDuration={beacon.duration} totalDurationName="onLoad time" />
+                <BodyHeader>{t('pageLoadBeaconHeaderNavigationTiming')}</BodyHeader>
+                <Timings
+                  timings={navigationTimings}
+                  totalDuration={beacon.duration}
+                  totalDurationName={t(
+                    'in-websites:analyze.analyzeView.pageLoadView.pageLoadBeaconTotalDurationNameRetrievalTime'
+                  )}
+                />
               </Col>
             )}
 
             {webVitals.length > 0 && (
               <Col lg={6}>
-                <BodyHeader>Web Vitals</BodyHeader>
+                <BodyHeader>{t('pageLoadBeaconHeaderWebVitals')}</BodyHeader>
                 {webVitals}
               </Col>
             )}

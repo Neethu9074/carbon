@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import React, { Fragment } from 'react';
+import { t } from 'in-i18n';
 
 import { learnMoreLabel, learnMoreHref, explanation } from 'in-websites/definitions/missingResourceTimings';
 import BatchIndicator from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/BatchIndicator';
@@ -48,18 +49,21 @@ export const LeftHeader = ({ beacon, earliestTimestamp }) => (
     <KeyValueHeader
       label={
         <Fragment>
-          Request
+          {t('httpRequestBeaconHeaderRequest')}
           <BatchIndicator batchCount={beacon.batchSize} />
         </Fragment>
       }
       value={getLabel(beacon)}
     />
     <KeyValueHeader
-      label="Start Time"
+      label={t('in-websites:analyze.analyzeView.pageLoadView.httpRequestBeaconLabelStartTime')}
       value={millisToTwoDecimalSeconds(beacon.timestamp - earliestTimestamp)}
       tooltipContent={formatDateTime(beacon.timestamp)}
     />
-    <KeyValueHeader label="Retrieval Time" value={latencyFixed.compact(beacon.duration)} />
+    <KeyValueHeader
+      label={t('in-websites:analyze.analyzeView.pageLoadView.httpRequestBeaconLabelRetrievalTime')}
+      value={latencyFixed.compact(beacon.duration)}
+    />
   </Fragment>
 );
 
@@ -72,31 +76,31 @@ export const Body = ({ beacon }) => {
 
   const resourceTimings = [
     {
-      label: 'Redirect',
+      label: t('in-websites:analyze.analyzeView.pageLoadView.httpRequestBeaconLabelRedirect'),
       value: beacon.redirectTime
     },
     {
-      label: 'AppCache',
+      label: t('in-websites:analyze.analyzeView.pageLoadView.httpRequestBeaconLabelAppCache'),
       value: beacon.appCacheTime
     },
     {
-      label: 'DNS',
+      label: t('in-websites:analyze.analyzeView.pageLoadView.httpRequestBeaconLabelDNS'),
       value: beacon.dnsTime
     },
     {
-      label: 'TCP',
+      label: t('in-websites:analyze.analyzeView.pageLoadView.httpRequestBeaconLabelTCP'),
       value: beacon.tcpTime
     },
     {
-      label: 'SSL',
+      label: t('in-websites:analyze.analyzeView.pageLoadView.httpRequestBeaconLabelSSL'),
       value: beacon.sslTime
     },
     {
-      label: 'Request',
+      label: t('in-websites:analyze.analyzeView.pageLoadView.httpRequestBeaconLabelRequest'),
       value: beacon.requestTime
     },
     {
-      label: 'Response',
+      label: t('in-websites:analyze.analyzeView.pageLoadView.httpRequestBeaconLabelResponse'),
       value: beacon.responseTime
     }
   ];
@@ -111,31 +115,49 @@ export const Body = ({ beacon }) => {
     <Fragment>
       <Row>
         <Col lg={6}>
-          <BodyHeader>Call Details</BodyHeader>
+          <BodyHeader>{t('httpRequestBeaconHeaderCallDetails')}</BodyHeader>
           <Dl>
-            <Di title="Window Location">
+            <Di title={t('in-websites:analyze.analyzeView.pageLoadView.httpRequestBeaconTitleWindowLocation')}>
               <a href={beacon.locationUrl} rel="noopener noreferrer" target="_blank">
                 {beacon.locationUrl}
               </a>
             </Di>
-            <Di title="HTTP Method">{beacon.httpCallMethod}</Di>
-            <Di title="HTTP Call URI">
+            <Di title={t('in-websites:analyze.analyzeView.pageLoadView.httpRequestBeaconTitleHTTPMethod')}>
+              {beacon.httpCallMethod}
+            </Di>
+            <Di title={t('in-websites:analyze.analyzeView.pageLoadView.httpRequestBeaconTitleHTTPCallURI')}>
               <a href={beacon.httpCallUrl} rel="noopener noreferrer" target="_blank">
                 {beacon.httpCallUrl}
               </a>
             </Di>
-            {beacon.httpCallStatus > 0 && <Di title="HTTP Status">{beacon.httpCallStatus}</Di>}
+            {beacon.httpCallStatus > 0 && (
+              <Di title={t('in-websites:analyze.analyzeView.pageLoadView.httpRequestBeaconTitleHTTPStatus')}>
+                {beacon.httpCallStatus}
+              </Di>
+            )}
             <BackendDi beacon={beacon} />
-            {beacon.backendTime >= 0 && <Di title="Time to First Byte">{millis.fixedCompact(beacon.backendTime)}</Di>}
-            {isNotBlank(beacon.errorMessage) && <Di title="Error Message">{beacon.errorMessage}</Di>}
-            <Di title="Asynchronous">{yesOrNo(beacon.httpCallAsynchronous)}</Di>
-            <Di title="Correlation Attempted">{yesOrNo(beacon.httpCallCorrelationAttempted)}</Di>
+            {beacon.backendTime >= 0 && (
+              <Di title={t('in-websites:analyze.analyzeView.pageLoadView.httpRequestBeaconTitleTimeToFirstByte')}>
+                {millis.fixedCompact(beacon.backendTime)}
+              </Di>
+            )}
+            {isNotBlank(beacon.errorMessage) && (
+              <Di title={t('in-websites:analyze.analyzeView.pageLoadView.httpRequestBeaconTitleErrorMessage')}>
+                {beacon.errorMessage}
+              </Di>
+            )}
+            <Di title={t('in-websites:analyze.analyzeView.pageLoadView.httpRequestBeaconTitleAsynchronous')}>
+              {yesOrNo(beacon.httpCallAsynchronous)}
+            </Di>
+            <Di title={t('in-websites:analyze.analyzeView.pageLoadView.httpRequestBeaconTitleCorrelationAttempted')}>
+              {yesOrNo(beacon.httpCallCorrelationAttempted)}
+            </Di>
           </Dl>
         </Col>
 
         {Object.keys(beacon.meta).length > 0 && (
           <Col lg={6}>
-            <BodyHeader>Meta</BodyHeader>
+            <BodyHeader>{t('httpRequestBeaconHeaderMeta')}</BodyHeader>
             <Meta beacon={beacon} />
           </Col>
         )}
@@ -144,10 +166,14 @@ export const Body = ({ beacon }) => {
       {hasGraphQl && (
         <Row>
           <Col lg={6}>
-            <BodyHeader>GraphQL</BodyHeader>
+            <BodyHeader>{t('httpRequestBeaconHeaderGraphQL')}</BodyHeader>
             <Dl>
-              <Di title="Operation Name">{beacon.graphqlOperationName}</Di>
-              <Di title="Operation Type">{beacon.graphqlOperationType}</Di>
+              <Di title={t('in-websites:analyze.analyzeView.pageLoadView.httpRequestBeaconTitleOperationName')}>
+                {beacon.graphqlOperationName}
+              </Di>
+              <Di title={t('in-websites:analyze.analyzeView.pageLoadView.httpRequestBeaconTitleOperationType')}>
+                {beacon.graphqlOperationType}
+              </Di>
             </Dl>
           </Col>
         </Row>
@@ -156,7 +182,7 @@ export const Body = ({ beacon }) => {
       {!hasResourceTimings && !hasNetworkInsights && (
         <Row>
           <Col lg={6}>
-            <BodyHeader>Resource Timing</BodyHeader>
+            <BodyHeader>{t('httpRequestBeaconHeaderResourceTiming')}</BodyHeader>
             <LearnMore explanation={explanation} href={learnMoreHref} buttonLabel={learnMoreLabel} />
           </Col>
         </Row>
@@ -165,19 +191,37 @@ export const Body = ({ beacon }) => {
       <Row>
         {hasResourceTimings && (
           <Col lg={6}>
-            <BodyHeader>Resource Timing</BodyHeader>
-            <Timings timings={resourceTimings} totalDuration={beacon.duration} totalDurationName="retrieval time" />
+            <BodyHeader>{t('httpRequestBeaconHeaderResourceTiming')}</BodyHeader>
+            <Timings
+              timings={resourceTimings}
+              totalDuration={beacon.duration}
+              totalDurationName={t(
+                'in-websites:analyze.analyzeView.pageLoadView.httpRequestBeaconTotalDurationNameRetrievalTime'
+              )}
+            />
           </Col>
         )}
 
         {hasNetworkInsights && (
           <Col lg={6}>
-            <BodyHeader>Network Insights</BodyHeader>
+            <BodyHeader>{t('httpRequestBeaconHeaderNetworkInsights')}</BodyHeader>
             <Dl>
               <Di title="Cache Interaction">{explanations[beacon.cacheInteraction]}</Di>
-              {hasTransferSize && <Di title="Transfer Size">{bytes.detailed(beacon.transferSize)}</Di>}
-              {hasEncodedBodySize && <Di title="Encoded Body Size">{bytes.detailed(beacon.encodedBodySize)}</Di>}
-              {hasDencodedBodySize && <Di title="Decoded Body Size">{bytes.detailed(beacon.decodedBodySize)}</Di>}
+              {hasTransferSize && (
+                <Di title={t('in-websites:analyze.analyzeView.pageLoadView.httpRequestBeaconTitleTransferSize')}>
+                  {bytes.detailed(beacon.transferSize)}
+                </Di>
+              )}
+              {hasEncodedBodySize && (
+                <Di title={t('in-websites:analyze.analyzeView.pageLoadView.httpRequestBeaconTitleEncodedBodySize')}>
+                  {bytes.detailed(beacon.encodedBodySize)}
+                </Di>
+              )}
+              {hasDencodedBodySize && (
+                <Di title={t('in-websites:analyze.analyzeView.pageLoadView.httpRequestBeaconTitleDecodedBodySize')}>
+                  {bytes.detailed(beacon.decodedBodySize)}
+                </Di>
+              )}
             </Dl>
           </Col>
         )}

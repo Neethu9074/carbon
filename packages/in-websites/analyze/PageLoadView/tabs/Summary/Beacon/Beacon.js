@@ -4,6 +4,7 @@
  */
 import { compose, withState } from 'recompose';
 import classNames from 'classnames';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import BackendTraceButton from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/BackendTraceButton';
@@ -35,11 +36,20 @@ export default compose(withState('expanded', 'setExpanded', false))(function Bea
             [locals.highlighted]: highlighted
           })}
         >
-          <Tooltip content={expanded ? 'Show less' : 'Show more'} align="topMiddle">
+          <Tooltip
+            content={
+              expanded
+                ? t('in-websites:analyze.analyzeView.pageLoadView.beaconTooltipShowLess')
+                : t('in-websites:analyze.analyzeView.pageLoadView.beaconTooltipShowMore')
+            }
+            align="topMiddle"
+          >
             <div
               className={locals.header}
               {...toInteractiveElement({
-                ariaLabel: expanded ? 'Show less' : 'Show more',
+                ariaLabel: expanded
+                  ? t('in-websites:analyze.analyzeView.pageLoadView.beaconTooltipShowLess')
+                  : t('in-websites:analyze.analyzeView.pageLoadView.beaconTooltipShowMore'),
                 onDefaultInteraction: () => setExpanded(!expanded)
               })}
             >
