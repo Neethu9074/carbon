@@ -11,8 +11,8 @@ import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import InterfaceList from 'in-forge/plugins/host/InterfaceList';
 import HostHardware from 'in-forge/plugins/host/HostHardware';
 import VsphereInfo from 'in-forge/plugins/host/VsphereInfo';
+import { vsphereEnabled } from 'in-services/featureFlags';
 import TagList from 'in-sdk/components/sidebar/TagList';
-
 import Info from '../Info';
 
 export default function HostSidebar({ snapshot }) {
@@ -33,7 +33,7 @@ export default function HostSidebar({ snapshot }) {
 
       <KubernetesInfo snapshotId={snapshot.get('id')} />
 
-      <VsphereInfo snapshotId={snapshot.get('id')} />
+      {vsphereEnabled && <VsphereInfo snapshotId={snapshot.get('id')} />}
 
       <KeyValueOverlay header="Packages" data={snapshot.getIn(['data', 'packages'])} />
 
