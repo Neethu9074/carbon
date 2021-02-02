@@ -28,6 +28,7 @@ import getCallGroups from 'in-subscription/application/getCallGroups';
 import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
+import { entityTypes } from 'in-analyze/applicationFilter';
 import { number } from 'in-services/formatters/number';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Link from 'in-components/Link';
@@ -116,7 +117,7 @@ function EndpointName({ item }) {
         tagCatalog &&
         getLinkToAnalyze({
           dataSource: 'calls',
-          groupByTag: { name: 'endpoint.name' },
+          groupByTag: { name: 'endpoint.name', entity: entityTypes.DESTINATION },
           filters: getDefaultTagFilters(item),
           tagCatalog
         })
@@ -135,7 +136,7 @@ function ServicesAffected({ item }) {
         tagCatalog &&
         getLinkToAnalyze({
           dataSource: 'calls',
-          groupByTag: { name: 'service.name' },
+          groupByTag: { name: 'service.name', entity: entityTypes.DESTINATION },
           filters: getDefaultTagFilters(item),
           tagCatalog
         })
