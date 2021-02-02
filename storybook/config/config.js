@@ -8,6 +8,7 @@ import React from 'react';
 // ################################################
 // Start: Initialize Instana specific globals
 import 'in-themes/foundation.less';
+import './i18n';
 import './globals';
 import './globalTagDefinition';
 // End: Initialize Instana specific globals
