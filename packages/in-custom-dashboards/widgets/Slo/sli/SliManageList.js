@@ -68,7 +68,7 @@ export default function SliManageList({ applicationId, apName, apDefaultBoundary
         query={queryState[0]}
         selectSli={sliConfig => {
           setSelectedSli(sliConfig);
-          trackSliViewSLI({ sliId: sliConfig.id, sliType: sliConfig.sliType });
+          trackSliViewSLI({ sliId: sliConfig.id, sliType: sliConfig.sliEntity?.sliType });
         }}
       />
     </div>

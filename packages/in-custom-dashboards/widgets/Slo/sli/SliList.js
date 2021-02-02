@@ -174,7 +174,7 @@ const columnDefinitions = [
                     onSubmit={() => {
                       close();
                       deleteSliConfig(item.id);
-                      trackSliDeleted();
+                      trackSliDeleted({ sliType: item.sliEntity?.sliType });
                     }}
                   />
                 );
