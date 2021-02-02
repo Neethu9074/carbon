@@ -63,6 +63,17 @@ export const getMetricAndAggregationFromMetricKey = key => {
   return null;
 };
 
+export const getTypeTextByCount = (type, count) => {
+  switch (type) {
+    case 'call':
+      return t('in-applications:analyze.typeCall', { count: count });
+    case 'trace':
+      return t('in-applications:analyze.typeTrace', { count: count });
+    default:
+      return '';
+  }
+};
+
 export const dataSourceConstants = {
   calls: {
     metricKey: 'calls_SUM_Agg',
