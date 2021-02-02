@@ -42,7 +42,7 @@ export default function ThroughputInteractiveChart({
   selectedChartViewConfigIndex,
   editMode
 }) {
-  const alertConfig = alertConfigWithDefaultValues(form);
+  const alertConfigWithFormModel = alertConfigWithDefaultValues(form);
 
   return (
     <div className={locals.container}>
@@ -55,7 +55,7 @@ export default function ThroughputInteractiveChart({
       />
 
       <ChartViewConfigurator
-        alertConfig={alertConfig}
+        alertConfigWithFormModel={alertConfigWithFormModel}
         onChartViewConfigChange={onChartViewConfigChange}
         selectedChartViewConfigIndex={selectedChartViewConfigIndex}
         headerTransparent
@@ -63,7 +63,7 @@ export default function ThroughputInteractiveChart({
         {(chartViewConfig, serviceId) => (
           <ApplicationAlertingChartWithErrorMessage
             serviceId={serviceId}
-            alertConfigWithFormModel={alertConfig}
+            alertConfigWithFormModel={alertConfigWithFormModel}
             viewConfig={chartViewConfig}
             blueprintConfig={blueprintConfig}
             alertsPreviewEnabled

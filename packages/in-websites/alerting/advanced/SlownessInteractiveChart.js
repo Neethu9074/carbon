@@ -46,21 +46,21 @@ export default function SlownessInteractiveChart({
   onChartViewConfigChange,
   selectedChartViewConfigIndex
 }) {
-  const alertConfig = alertConfigWithDefaultValues(form);
+  const alertConfigWithFormModel = alertConfigWithDefaultValues(form);
 
   return (
     <div className={locals.container}>
       <ThresholdCondition form={form} blueprintConfig={blueprintConfig} updateForm={updateForm} onChange={onChange} />
 
       <ChartViewConfigurator
-        alertConfig={alertConfig}
+        alertConfigWithFormModel={alertConfigWithFormModel}
         onChartViewConfigChange={onChartViewConfigChange}
         selectedChartViewConfigIndex={selectedChartViewConfigIndex}
         headerTransparent
       >
         {chartViewConfig => (
           <AlertingChartWithErrorMessage
-            alertConfigWithFormModel={alertConfig}
+            alertConfigWithFormModel={alertConfigWithFormModel}
             viewConfig={chartViewConfig}
             blueprintConfig={blueprintConfig}
             alertsPreviewEnabled
