@@ -10,7 +10,6 @@ import ChartSubEntitySelection from 'in-new-components/Alerting/components/Chart
 import { PER_AP_SERVICE } from 'in-applications/alerting/advanced/EvaluationSwitch/alertEvaluationTypes';
 import { maxChartViewTimeframe } from 'in-new-components/Alerting/Chart/chartViewConfig';
 import { chartViewConfigs } from 'in-new-components/Alerting/Chart/chartViewConfig';
-import { smartAlertsEntityGroupingEnabled } from 'in-services/featureFlags';
 import ButtonGroup from 'in-new-components/ButtonGroup/ButtonGroup';
 import StackItem from 'in-new-components/layout/Stack/StackItem';
 import LightCard from 'in-new-components/Card/LightCard';
@@ -31,7 +30,7 @@ export default function ChartViewConfigurator({
 }) {
   const selectedChartViewConfig = chartViewConfigs[selectedChartViewConfigIndex];
   const [serviceId, setServiceId] = useState();
-  const showEntitySelection = alertConfig?.evaluationType === PER_AP_SERVICE && smartAlertsEntityGroupingEnabled;
+  const showEntitySelection = alertConfig?.evaluationType === PER_AP_SERVICE;
   return (
     <>
       <LightCard
