@@ -26,33 +26,11 @@
     color: @lib__colors__N600Light;
   }
 
-  .grid {
-    display: grid;
-    grid-column-gap: 0;
-    grid-template-columns: 1fr 1fr 1fr;
-  }
-
-  .col + .col {
-    border-left: @lib__colors__N300 1px solid;
-  }
-
-  .col {
-    border-top: @lib__colors__N300 1px solid;
-    border-bottom: @lib__colors__N300 1px solid;
-  }
-
   .chart {
-    padding: 1rem;
+    padding-top: 0.5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
     grid-column-start: 0;
     grid-column-end: 3;
-
-  }
-
-  .timeRangeValue {
-    margin: 0.125rem 0;
-    line-height: 1.25rem;
-    display: block;
-    color: @lib__colors__N600Light;
-    font-size: @lib__typography__body__font-size;
   }
 }

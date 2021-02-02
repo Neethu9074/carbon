@@ -2,14 +2,17 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import React, { useEffect, useReducer, useRef, useMemo } from 'react';
+import React, { useEffect, useReducer, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { isEmpty } from 'lodash';
 
+import {
+  getNewStateWithApplication,
+  listReducer
+} from 'in-new-components/Alerting/components/scopeConfig/ServicesAndEndpointsListPresenter/listReducer';
 import SharedList, {
   types
 } from 'in-new-components/Alerting/components/scopeConfig/ServicesAndEndpointsListPresenter/SharedList';
-import { listReducer } from 'in-new-components/Alerting/components/scopeConfig/ServicesAndEndpointsListPresenter/listReducer';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 
@@ -23,8 +26,23 @@ export default function ServicesAndEndpointsListPresenter({
   isGlobalSmartAlert,
   ...props
 }) {
-  const [state, dispatch] = useReducer(listReducer, applicationsSelection);
-  const initialApplicationSelection = useRef(applicationsSelection);
+  const [state, dispatch] = useReducer(listReducer, {}, () => {
+    if (isEmpty(applicationsSelection) && alertApplicationId && !isGlobalSmartAlert) {
+      return getNewStateWithApplication(applicationsSelection, alertApplicationId, {
+        inclusive: true,
+        services: {}
+      });
+    }
+
+    const newState = {};
+    for (const [applicationId, application] of Object.entries(applicationsSelection)) {
+      newState[applicationId] = {
+        ...application,
+        explicitSelectionOnly: true
+      };
+    }
+    return newState;
+  });
 
   useEffect(() => {
     onChange?.(state);
@@ -42,7 +60,7 @@ export default function ServicesAndEndpointsListPresenter({
       {...apiSubscriptions}
       isGlobalSmartAlert={isGlobalSmartAlert}
       alertApplicationId={alertApplicationId}
-      initialApplicationSelection={initialApplicationSelection.current}
+      initialApplicationSelection={applicationsSelection}
       stateManagement={{ state, dispatch }}
       timeConfig={timeConfig}
     />
@@ -80,7 +98,7 @@ function ApplicationsList({
     []
   );
 
-  const { state, dispatch } = props.stateManagement;
+  const { state } = props.stateManagement;
 
   const listData = useMemo(() => {
     const enrichedApplications = items.map(({ application, ...rest }) => ({ ...rest, item: application }));
@@ -88,13 +106,6 @@ function ApplicationsList({
     return enrichedApplications;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [items]);
-
-  useEffect(() => {
-    if (isEmpty(state)) {
-      dispatch({ type: `ADD_${types.APPLICATION}`, applicationId: alertApplicationId });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state]);
 
   return (
     <SharedList
@@ -173,7 +184,6 @@ function EndpointsList({ getEndpointsCursorPaginated, parentIds, ...props }) {
           application: parentIds.applicationId,
           service: parentIds.serviceId,
           applicationBoundaryScope: props.boundaryScope,
-          // endpointTypes,
           timeConfig: props.timeConfig,
           includeSyntheticCalls: true
         },
@@ -206,10 +216,10 @@ function EndpointsList({ getEndpointsCursorPaginated, parentIds, ...props }) {
   );
 }
 
-function enrichListWithStaleSelectionData(entries, listData) {
-  entries.forEach(([key, value]) => {
+function enrichListWithStaleSelectionData(userSelectedItemsEntries, listData) {
+  userSelectedItemsEntries.forEach(([key, value]) => {
     if (!listData.some(it => it.item.id == key)) {
-      listData.push({ item: { ...value, label: key } });
+      listData.push({ item: { ...value, label: key, isStaleItem: true } });
     }
   });
 }

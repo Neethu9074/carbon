@@ -9,6 +9,7 @@ import alertEvaluationTypes, {
   PER_AP,
   PER_AP_SERVICE
 } from 'in-applications/alerting/advanced/EvaluationSwitch/alertEvaluationTypes';
+import createThresholdForm from 'in-applications/alerting/form/thresholdForm';
 import IconLabel from 'in-new-components/Alerting/components/IconLabel';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import { t } from 'in-i18n';
@@ -17,6 +18,7 @@ import locals from 'in-applications/alerting/advanced/EvaluationSwitch/AlertEval
 
 export default function AlertEvaluationControl({ form, updateForm }) {
   const evaluationType = form.get('evaluationType').value;
+  const alertType = form.get('rule').get('alertType').value;
   return (
     <div className={locals.container}>
       <IconLabel
@@ -31,7 +33,23 @@ export default function AlertEvaluationControl({ form, updateForm }) {
             key={type}
             label={alertEvaluationTypes[type].selectionText}
             checked={type === evaluationType}
-            onChange={() => updateForm(form.updateIn(['evaluationType'], f => f.setValue(type).setTouched(true)))}
+            onChange={() =>
+              updateForm(
+                form
+                  .updateIn(['evaluationType'], f => f.setValue(type).setTouched(true))
+                  // As of now, we only support static-threshold when Per-Entity grouping is used.
+                  .put(
+                    'threshold',
+                    createThresholdForm(
+                      {
+                        type: 'staticThreshold'
+                      },
+                      alertType
+                    )
+                  )
+                  .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
+              )
+            }
             asRadioButton
           />
         ))}

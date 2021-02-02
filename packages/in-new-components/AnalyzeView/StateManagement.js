@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import rpt from 'prop-types';
 
 import { isFormModelValid as isFilterValid } from 'in-new-components/QueryBuilder/validation/formModel';
@@ -14,9 +14,9 @@ import { isValid as isValidGrouping } from 'in-new-components/GroupingConfigurat
 import { TAG, CONJUNCTION } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { columnDefinitionShape } from 'in-new-components/lists/List/ColumnizedContent';
 import { NOT_APPLICABLE } from 'in-new-components/QueryBuilder/tagFilter/entities';
+import { emptyArray, emptyObject, pendingResult } from 'in-services/fixedObjects';
 import { createParameters } from 'in-new-components/AnalyzeView/parameters';
 import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
-import { emptyObject, pendingResult } from 'in-services/fixedObjects';
 import useStableObjectIntance from 'in-hooks/useStableObjectIntance';
 import { getTagCatalogOnce } from 'in-services/tags/tagCatalog';
 import { noResultObservable } from 'in-services/util/result';
@@ -123,12 +123,13 @@ function AnalyzeStateManagement({
   const timeConfig = useTimeConfig();
   const [urlState, onChange, getChangeAsUrl] = useUrlState(urlStateDefinition);
 
-  const formModel = useStableObjectIntance(urlState.tagFilterExpression);
-  const onFormModelChange = formModel => onChange({ tagFilterExpression: formModel });
+  const formModel = useStableObjectIntance(urlState.formModel);
+  const onFormModelChange = formModel => onChange({ formModel });
 
   const groupBy = useStableObjectIntance(urlState.groupBy);
   const detailId = useStableObjectIntance(urlState.detailId);
   const fields = useStableObjectIntance(urlState.fields ?? defaultFields);
+  const chartedMetrics = useStableObjectIntance(urlState.chartedMetrics) || emptyArray;
   const dataSource = urlState.dataSource ?? defaultDataSource;
 
   const filteringTagCatalogResult =
@@ -162,7 +163,7 @@ function AnalyzeStateManagement({
     !isLoading &&
       isFilterValid({
         tagCatalog: filteringTagCatalogResult.data,
-        formModel: formModel
+        formModel
       }) &&
       isValidGrouping(groupBy, groupingTagCatalogResult.data)
   );
@@ -177,6 +178,10 @@ function AnalyzeStateManagement({
     by: urlState.orderBy?.by ?? defaultOrderBy,
     direction: urlState.orderBy?.direction ?? defaultOrderDirection
   });
+
+  // Eventually we might wanna store this within the URL. This might become a lot more interesting when
+  // our users can (de-)select their desired data series.
+  const [chartableDataSeries, onChartableDataSeriesChange] = useState([]);
 
   return children({
     dataSource,
@@ -212,13 +217,13 @@ function AnalyzeStateManagement({
       }
       changedFormModel.push(newTagFilter);
       return getChangeAsUrl({
-        tagFilterExpression: changedFormModel
+        formModel: changedFormModel
       });
     },
 
     getHrefWithTagFilterExpression(newTagExpression) {
       return getChangeAsUrl({
-        tagFilterExpression: newTagExpression
+        formModel: newTagExpression
       });
     },
 
@@ -228,6 +233,10 @@ function AnalyzeStateManagement({
     fields,
     onFieldsChange: fields => onChange({ fields }),
     metricCatalog: metricCatalogResult.data,
+    chartableDataSeries,
+    onChartableDataSeriesChange,
+    chartedMetrics,
+    onChartedMetricsChange: chartedMetrics => onChange({ chartedMetrics }),
 
     detailId,
     getHrefToDetailId: (detailId, groupValue) => {
@@ -275,7 +284,7 @@ export const childrenArgsAsPropTypes = {
     by: rpt.string.isRequired,
     direction: rpt.oneOf(['ASC', 'DESC']).isRequired
   }).isRequired,
-  onOrderByChange: rpt.func,
+  onOrderByChange: rpt.func.isRequired,
 
   fields: TimeFixatingAnalyzeStateManagement.propTypes.defaultFields,
   onFieldsChange: rpt.func.isRequired,
@@ -288,6 +297,22 @@ export const childrenArgsAsPropTypes = {
       aggregations: rpt.arrayOf(rpt.string)
     })
   ),
+
+  chartableDataSeries: rpt.arrayOf(
+    rpt.shape({
+      label: rpt.string.isRequired,
+      formModel: rpt.array.isRequired
+    })
+  ),
+  onChartableDataSeriesChange: rpt.func.isRequired,
+  chartedMetrics: rpt.arrayOf(
+    rpt.shape({
+      metricId: rpt.string.isRequired,
+      aggregationId: rpt.string.isRequired,
+      rendererId: rpt.string.isRequired
+    })
+  ),
+  onChartedMetricsChange: rpt.func.isRequired,
 
   detailId: rpt.any,
   getHrefToDetailId: rpt.func.isRequired,

@@ -6,7 +6,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import ChartingConfiguratorForm from 'in-new-components/ChartingConfigurator/ChartingConfiguratorForm';
-import { allFormatterIds } from 'in-stores/metric/formatters';
 import { aggregationLabels } from 'in-stores/metric/metric';
 import { rendererShape } from 'in-stores/metric/renderer';
 import Button from 'in-new-components/Button';
@@ -55,7 +54,6 @@ const optionShape = PropTypes.shape({
   metricId: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   description: PropTypes.node,
-  formatter: PropTypes.oneOf(allFormatterIds).isRequired,
   aggregations: PropTypes.arrayOf(aggregationShape).isRequired
 });
 

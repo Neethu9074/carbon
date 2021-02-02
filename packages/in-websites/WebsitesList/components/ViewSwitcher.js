@@ -2,10 +2,11 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
-import DashboardHeaderShadowModule from 'in-new-components/DashboardHeader/DashboardHeaderShadowModule';
 import { SecondLevelNavigation, SecondLevelNavigationItem } from 'in-new-components/SecondLevelNavigation';
+import DashboardHeaderShadowModule from 'in-new-components/DashboardHeader/DashboardHeaderShadowModule';
 import DashboardHeaderModule, { themes } from 'in-new-components/DashboardHeader/DashboardHeaderModule';
 import { hasWebsitesAccess, hasMobileAppsAccess } from 'in-stores/permission';
 import { mobileAppMonitoringPath } from 'in-mobile-apps/navigation/paths';
@@ -21,14 +22,26 @@ export default function WebsitesAndMobileAppsViewSwitcher({ isWebsites }) {
     header = (
       <DashboardHeader
         icon="lib_website_mobile_app_inverted"
-        label="Websites & Mobile Apps"
-        title="Websites & Mobile Apps"
+        label={t('in-websites:websitesList.viewSwitcherLabelWebsitesAndMobileApps')}
+        title={t('in-websites:websitesList.viewSwitcherLabelWebsitesAndMobileApps')}
       />
     );
   } else if (isWebsites) {
-    header = <DashboardHeader icon="lib_website_inverted" label="Websites" title="Websites" />;
+    header = (
+      <DashboardHeader
+        icon="lib_website_inverted"
+        label={t('in-websites:websitesList.viewSwitcherLabelWebsites')}
+        title={t('in-websites:websitesList.viewSwitcherLabelWebsites')}
+      />
+    );
   } else {
-    header = <DashboardHeader icon="lib_mobile_app_inverted" label="Mobile Apps" title="Mobile Apps" />;
+    header = (
+      <DashboardHeader
+        icon="lib_mobile_app_inverted"
+        label={t('in-websites:websitesList.viewSwitcherLabelMobileApps')}
+        title={t('in-websites:websitesList.viewSwitcherLabelMobileApps')}
+      />
+    );
   }
 
   return (
@@ -40,13 +53,13 @@ export default function WebsitesAndMobileAppsViewSwitcher({ isWebsites }) {
             <SecondLevelNavigationItem
               href$={getModifiedUrlStream(p => (p.pathname = websiteMonitoringPath))}
               icon="lib_website"
-              label="Websites"
+              label={t('in-websites:websitesList.viewSwitcherLabelWebsites')}
               isActive={isWebsites}
             />
             <SecondLevelNavigationItem
               href$={getModifiedUrlStream(p => (p.pathname = mobileAppMonitoringPath))}
               icon="lib_mobile_app"
-              label="Mobile Apps"
+              label={t('in-websites:websitesList.viewSwitcherLabelMobileApps')}
               isActive={!isWebsites}
             />
           </SecondLevelNavigation>

@@ -7,7 +7,7 @@ import React, { useState } from 'react';
 import SimpleModePageNavigation from 'in-new-components/BlueprintFormMultistep/SimpleModePageNavigation';
 import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import getApplicationLiveView from 'in-subscription/application/getApplicationLiveView';
-import { isQB2ModeEnabled } from 'in-new-components/Alerting/components/WithQB1orQB2';
+import { newAnalyticsEnabled, qb2InAPCreationEnabled } from 'in-services/featureFlags';
 import SimpleCreateStep1 from 'in-applications/creation/simple/SimpleCreateStep1';
 import SimpleCreateStep2 from 'in-applications/creation/simple/SimpleCreateStep2';
 import SimpleCreateStep3 from 'in-applications/creation/simple/SimpleCreateStep3';
@@ -15,24 +15,24 @@ import { applicationCreationStepSwitch } from 'in-applications/creation/tracker'
 import { blueprintConfig } from 'in-applications/creation/data/blueprintConfig';
 import { mapMatchSpecificationListToTree } from 'in-api/applicationConfigs';
 import { getApplicationTagCatalog } from 'in-applications/api/catalog';
-import { qb2InAPCreationEnabled } from 'in-services/featureFlags';
 import { successObservable } from 'in-services/util/result';
 import { pendingResult } from 'in-services/fixedObjects';
 import { CALLS } from 'in-applications/analyze/metrics';
 import useObservable from 'in-hooks/useObservable';
+import { t } from 'in-i18n';
 
 const stepConfigs = [
   {
-    title: 'Step 1: Select Model'
+    title: t('in-applications:creation.simple.step1Title')
   },
   {
-    title: 'Step 2: Specify Application',
+    title: t('in-applications:creation.simple.step2Title'),
     validateIntermediately: [
-      [isQB2ModeEnabled && qb2InAPCreationEnabled ? 'tagFilterExpression' : 'matchSpecification']
+      [newAnalyticsEnabled && qb2InAPCreationEnabled ? 'tagFilterExpression' : 'matchSpecification']
     ]
   },
   {
-    title: 'Step 3: Provide Details'
+    title: t('in-applications:creation.simple.step2Title')
   }
 ];
 
@@ -92,6 +92,7 @@ export default function SimpleModeContainer({
                 updateForm={updateForm}
                 servicesLiveList={servicesLiveList}
                 blueprintCatalogResult={blueprintCatalogResult}
+                isValidTagFilterExpression={isValidTagFilterExpression}
               />
             );
           case 2:
@@ -102,12 +103,13 @@ export default function SimpleModeContainer({
                 updateForm={updateForm}
                 servicesLiveList={servicesLiveList}
                 errorMessage={errorMessage}
+                isValidTagFilterExpression={isValidTagFilterExpression}
               />
             );
         }
       }}
       additionalStepCheck={step => {
-        if (step !== 0 && isQB2ModeEnabled && qb2InAPCreationEnabled) {
+        if (step !== 0 && newAnalyticsEnabled && qb2InAPCreationEnabled) {
           return isValidTagFilterExpression;
         }
         return true;
@@ -124,7 +126,7 @@ function getStreamData([form, isValidTagFilterExpression]) {
   const tagFilterExpression = jsForm.tagFilterExpression;
 
   if (
-    isQB2ModeEnabled && qb2InAPCreationEnabled
+    newAnalyticsEnabled && qb2InAPCreationEnabled
       ? !isValidTagFilterExpression || tagFilterExpression.length === 0
       : !matchSpecificationTree
   ) {
@@ -135,9 +137,9 @@ function getStreamData([form, isValidTagFilterExpression]) {
     // The live view is based on historic data from last hour
     timeConfig: { to: null, windowSize: 3600000, focusedMoment: null, autoRefresh: false },
     pagination: { page: 1, pageSize: 100 },
-    matchExpression: !isQB2ModeEnabled || !qb2InAPCreationEnabled ? matchSpecificationTree : undefined,
+    matchExpression: !newAnalyticsEnabled || !qb2InAPCreationEnabled ? matchSpecificationTree : undefined,
     downstreamScope,
     tagFilterExpression:
-      isQB2ModeEnabled && qb2InAPCreationEnabled ? toBackendQueryModel(tagFilterExpression) : undefined
+      newAnalyticsEnabled && qb2InAPCreationEnabled ? toBackendQueryModel(tagFilterExpression) : undefined
   });
 }

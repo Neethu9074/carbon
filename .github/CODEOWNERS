@@ -17,6 +17,7 @@ packages/in-analyze                 @pr-approval @instana/eng-application @insta
 # Deprecated: We should not make any more changes within this package (aside from code removal)
 packages/in-api                     @pr-approval @instana/eng-ui
 packages/in-applications            @pr-approval @instana/eng-application @instana/eng-ui
+packages/in-applications/alerting   @pr-approval @instana/eng-application @instana/eng-ui @instana/eng-stan
 packages/in-client                  @pr-approval @instana/eng-ui
 # No clear ownership: Fallback to eng-ui
 packages/in-cloudfoundry            @pr-approval @instana/eng-ui
@@ -25,6 +26,7 @@ packages/in-cockpit                 @pr-approval @instana/eng-ui
 packages/in-components              @pr-approval @instana/eng-ui
 packages/in-connection              @pr-approval @instana/eng-ui
 packages/in-custom-dashboards       @pr-approval @instana/eng-eum @instana/eng-ui
+packages/in-custom-dashboards/widgets/Slo @pr-approval @instana/eng-eum @instana/eng-ui @instana/eng-stan
 packages/in-events                  @pr-approval @instana/eng-stan @instana/eng-ui
 # Shared ownership
 # packages/in-forge
@@ -41,6 +43,7 @@ packages/in-logging                 @pr-approval @instana/eng-logs @instana/eng-
 packages/in-map                     @pr-approval @instana/eng-ui
 packages/in-mobile-apps             @pr-approval @instana/eng-eum @instana/eng-ui
 packages/in-new-components          @pr-approval @instana/eng-ui
+packages/in-new-components/alerting @pr-approval @instana/eng-ui @instana/eng-stan
 # No clear ownership: Fallback to eng-ui
 packages/in-profiling               @pr-approval @instana/eng-ui
 packages/in-sdk                     @pr-approval @instana/eng-ui
@@ -56,3 +59,4 @@ packages/in-vsphere                 @pr-approval @instana/eng-infrastructure @in
 # Shared ownership
 # packages/in-waiting-for-deployment
 packages/in-websites                @pr-approval @instana/eng-eum @instana/eng-ui
+packages/in-websites/alerting       @pr-approval @instana/eng-eum @instana/eng-ui @instana/eng-stan

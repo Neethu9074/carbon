@@ -1,0 +1,13 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
+@import '~in-themes/active.less';
+
+:local {
+  .inboundOrAllCallsSwitchContainer {
+    border: 1px solid @lib__colors__N300;
+    border-radius: @lib__shapes__radius_small;
+    margin-bottom: 1rem;
+  }
+}

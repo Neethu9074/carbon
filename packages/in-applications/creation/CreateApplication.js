@@ -13,6 +13,7 @@ import { successObservable } from 'in-services/util/result';
 import { getTimeConfig } from 'in-stores/time/config';
 import useObservable from 'in-hooks/useObservable';
 import Button from 'in-new-components/Button';
+import { t } from 'in-i18n';
 
 export default function CreateApplication({ applicationId, timeConfig, className }) {
   const entityResult = useObservable(getConfig, [applicationId]);
@@ -35,7 +36,7 @@ export default function CreateApplication({ applicationId, timeConfig, className
       }}
       className={className}
     >
-      New Application Perspective
+      {t('in-applications:creation.newAP')}
     </Button>
   );
 }

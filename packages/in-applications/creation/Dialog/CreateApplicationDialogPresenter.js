@@ -6,6 +6,7 @@ import React, { useState } from 'react';
 
 import Dialog from 'in-new-components/Dialog/Dialog';
 import Button from 'in-new-components/Button/Button';
+import { t } from 'in-i18n';
 
 import locals from './CreateApplicationDialogPresenter.mless';
 
@@ -39,7 +40,7 @@ export default function CreateApplicationDialogPresenter(props) {
   return (
     <Dialog
       titleIconType="lib_application"
-      title="New Application Perspective"
+      title={t('in-applications:creation.newAP')}
       onClose={() => withTrackClose(simpleMode && simpleModeStep)}
       renderCustomCloseBehaviour={() => (
         <Button
@@ -50,7 +51,9 @@ export default function CreateApplicationDialogPresenter(props) {
           }}
           kind="action"
         >
-          {simpleMode ? 'Switch to Advanced Mode' : 'Switch to Simple Mode'}
+          {simpleMode
+            ? t('in-applications:creation.switchAdvancedMode')
+            : t('in-applications:creation.switchSimpleMode')}
         </Button>
       )}
       withoutBodyPadding

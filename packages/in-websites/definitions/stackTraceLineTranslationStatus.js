@@ -2,111 +2,110 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
+
 export const status = {
   1: {
-    explanation: 'Successfully translated',
+    explanation: t('in-websites:definitions.stackTraceExplanation01SuccessfullyTranslated'),
     shouldShowExplanation: false,
     linkToConfigurationDialog: false
   },
   2: {
-    explanation: 'Could not download JavaScript source file because of missing authentication (HTTP status code 401).',
+    explanation: t('in-websites:definitions.stackTraceExplanation02CouldNotDownloadJavaScriptMissingAuthentication'),
     shouldShowExplanation: true,
     linkToConfigurationDialog: true
   },
   3: {
-    explanation: 'Could not download JavaScript source file because of failed authorization (HTTP status code 403).',
+    explanation: t('in-websites:definitions.stackTraceExplanation03CouldNotDownloadJavaScriptFailedAuthorization'),
     shouldShowExplanation: true,
     linkToConfigurationDialog: true
   },
   4: {
-    explanation: 'Could not download JavScript source file because the file was not found (HTTP status code 404).',
+    explanation: t('in-websites:definitions.stackTraceExplanation04CouldNotDownloadJavaScriptFileWasNotFound'),
     shouldShowExplanation: true,
     linkToConfigurationDialog: true
   },
   5: {
-    explanation:
-      'Could not download JavaScript source file because the HTTP request failed and was not a 401, 403 or 404.',
+    explanation: t('in-websites:definitions.stackTraceExplanation05CouldNotDownloadJavaScriptHTTPRequestFailed'),
     shouldShowExplanation: true,
     linkToConfigurationDialog: false
   },
   6: {
-    explanation: 'No reference to source map in HTTP header nor as annotation in JavaScript source file.',
+    explanation: t('in-websites:definitions.stackTraceExplanation06NoReferenceToSourceMap'),
     shouldShowExplanation: true,
     linkToConfigurationDialog: false
   },
   7: {
-    explanation: 'An unknown error happened during the identification of the source map file.',
+    explanation: t('in-websites:definitions.stackTraceExplanation07AnUnknownErrorHappened'),
     shouldShowExplanation: true,
     linkToConfigurationDialog: false
   },
   8: {
-    explanation: 'Could not download source map file because of missing authentication (HTTP response code 401).',
+    explanation: t('in-websites:definitions.stackTraceExplanation08CouldNotDownloadSourceMapMissingAuthentication'),
     shouldShowExplanation: true,
     linkToConfigurationDialog: true
   },
   14: {
-    explanation: 'Could not download source map file because of failed authorization (HTTP status code 403).',
+    explanation: t('in-websites:definitions.stackTraceExplanation14CouldNotDownloadSourceMapailedAuthorization'),
     shouldShowExplanation: true,
     linkToConfigurationDialog: true
   },
   9: {
-    explanation: 'Could not download source map file because the file was not found (HTTP status code 404).',
+    explanation: t('in-websites:definitions.stackTraceExplanation09CouldNotDownloadSourceMapFileWasNotFound'),
     shouldShowExplanation: true,
     linkToConfigurationDialog: true
   },
   10: {
-    explanation: 'Could not download source map file because the HTTP request failed and was not a 401, 403 or 404.',
+    explanation: t('in-websites:definitions.stackTraceExplanation10CouldNotDownloadSourceMapHTTPRequestFailed'),
     shouldShowExplanation: true,
     linkToConfigurationDialog: false
   },
   11: {
-    explanation: 'Source map file parsing failed.',
+    explanation: t('in-websites:definitions.stackTraceExplanation11SourceMapFileParsingFailed'),
     shouldShowExplanation: true,
     linkToConfigurationDialog: false
   },
   12: {
-    explanation: 'An unknown error occurred while processing the source map file.',
+    explanation: t('in-websites:definitions.stackTraceExplanation12AnUnknownErrorOccurred'),
     shouldShowExplanation: true,
     linkToConfigurationDialog: false
   },
   13: {
-    explanation:
-      'Could not find original mapping for a combination of line and column number via the source map. This can happen after releases for users that are running outdated versions of your JavaScript files.',
+    explanation: t('in-websites:definitions.stackTraceExplanation13CouldNotFindOriginalMapping'),
     shouldShowExplanation: true,
     linkToConfigurationDialog: false
   },
   15: {
-    explanation: 'Translation is only possible when a reference to a line number is included in the stack trace line.',
+    explanation: t('in-websites:definitions.stackTraceExplanation15TranslationIsOnlyPossible'),
     shouldShowExplanation: true,
     linkToConfigurationDialog: false
   },
   16: {
-    explanation:
-      "This stack trace line's file reference does not point to a JavaScript file. Source map based stack trace line translation only works when the source is a JavaScript file.",
+    explanation: t('in-websites:definitions.stackTraceExplanation16ThisStackTraceLinesFileReferenceDoesNotPoint'),
     shouldShowExplanation: true,
     linkToConfigurationDialog: false
   },
   17: {
-    explanation: 'Could not establish a TCP / TLS connection to the host serving the JavaScript file.',
+    explanation: t('in-websites:definitions.stackTraceExplanation17CouldCotEstablishTCPTLSConnectionJavaScript'),
     shouldShowExplanation: true,
     linkToConfigurationDialog: false,
     linkToExternalPage:
       'https://instana.com/docs/website_monitoring/faq/#how-can-i-ensure-that-the-instana-servers-can-establish-a-tcptls-connection'
   },
   18: {
-    explanation: 'Could not establish a TCP / TLS connection to the host serving the source map file.',
+    explanation: t('in-websites:definitions.stackTraceExplanation18CouldCotEstablishTCPTLSConnectionSourceMap'),
     shouldShowExplanation: true,
     linkToConfigurationDialog: false,
     linkToExternalPage:
       'https://instana.com/docs/website_monitoring/faq/#how-can-i-ensure-that-the-instana-servers-can-establish-a-tcptls-connection'
   },
   19: {
-    explanation: 'A request timeout occurred when trying to retrieve the JavaScript file.',
+    explanation: t('in-websites:definitions.stackTraceExplanation19ARequestTimeoutOccurredJavaScript'),
     shouldShowExplanation: true,
     linkToConfigurationDialog: false
   },
   20: {
-    explanation: 'A request timeout occurred when trying to retrieve the JavaScript file. source map file.',
+    explanation: t('in-websites:definitions.stackTraceExplanation20ARequestTimeoutOccurredJavaScriptSourceMap'),
     shouldShowExplanation: true,
     linkToConfigurationDialog: false
   }

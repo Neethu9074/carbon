@@ -2,7 +2,6 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import theme from 'in-themes';
 import { get } from 'lodash';
 import moment from 'moment';
 import React from 'react';
@@ -21,14 +20,11 @@ import {
   dynamic
 } from 'in-custom-dashboards/widgets/Slo/form';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
-import { getSliFormatter } from 'in-custom-dashboards/widgets/Slo/sliFormatter';
-import SloTimeTile from 'in-custom-dashboards/widgets/Slo/Tiles/SloTimeTile';
+import { WidgetHeader } from 'in-custom-dashboards/widgets/Slo/WidgetHeader';
 import getApplication from 'in-subscription/application/getApplication';
-import SloTile from 'in-custom-dashboards/widgets/Slo/Tiles/SloTile';
 import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
 import { getSliConfiguration } from 'in-custom-dashboards/api';
 import LightCardV2 from 'in-new-components/Card/LightCardV2';
-import { percentage } from 'in-services/formatters/number';
 import Chart from 'in-custom-dashboards/widgets/Slo/Chart';
 import { pendingResult } from 'in-services/fixedObjects';
 import { alwaysNull } from 'in-services/fixedStreams';
@@ -37,8 +33,6 @@ import useTimeConfig from 'in-hooks/useTimeConfig';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './Widget.mless';
-
-const { green800, red800 } = theme.lib.colors;
 
 const oneMinute = 60 * 1000;
 const oneHour = 60 * oneMinute;
@@ -119,21 +113,9 @@ export default function Widget({ actions, config, isPreview, title, dragHandle }
 
   const result = useObservable(() => getUnifiedMetricsObservable(metrics), [timeConfig, config]) ?? pendingResult;
 
-  const findResultMetric = id => {
-    return (result?.data ?? []).find(dataSeries => dataSeries.id === id)?.values;
-  };
-
   const sliConfig = useObservable(getSliConfigurationObservable, [sliConfigIdValue]);
 
-  const sli = findResultMetric('sli')?.[0][1];
-  const budget = findResultMetric('budget')?.[0][1];
-  const remaining = findResultMetric('remaining')?.[0][1];
-  const spent = findResultMetric('spent')?.[0][1];
-
-  const sliColor = slo === null || sli === null ? '' : sli >= slo ? green800 : red800;
-  const budgetColor = !remaining ? '' : remaining > 0 ? green800 : red800;
-
-  const sliFormatter = getSliFormatter(sliConfig?.sliEntity);
+  const budget = findResultMetric(result, 'budget', result)?.[0][1];
 
   return (
     <LightCardV2
@@ -148,42 +130,23 @@ export default function Widget({ actions, config, isPreview, title, dragHandle }
       headerClassName={locals.title}
       leftHeaderContent={<LeftHeader applicationId={applicationId} />}
     >
-      <div className={locals.grid}>
-        <div className={locals.col}>
-          <SloTile
-            title="Status"
-            value={sli ? percentage.detailed(sli) : valueMissingPlaceholder}
-            targetInfo="Target:"
-            targetValue={slo ? percentage.detailed(slo) : valueMissingPlaceholder}
-            color={sliColor}
-          />
-        </div>
-        <div className={locals.col}>
-          <SloTile
-            title="Error Budget Spent"
-            value={spent ? sliFormatter(spent) : valueMissingPlaceholder}
-            targetInfo="Error Budget:"
-            targetValue={budget ? sliFormatter(budget) : valueMissingPlaceholder}
-            color={budgetColor}
-          />
-        </div>
-        <div className={locals.col}>
-          <SloTimeTile
-            title="Time Window"
-            info={isDynamic ? 'Dynamic time window' : isRolling ? 'Rolling time window' : 'Fixed time window'}
-            valuesClassName={locals.timeRangeValue}
-            fromTimestamp={fromTimestamp}
-            toTimestamp={toTimestamp}
-          />
-        </div>
-      </div>
+      <WidgetHeader
+        slo={slo}
+        budget={budget}
+        isDynamic={isDynamic}
+        isRolling={isRolling}
+        fromTimestamp={fromTimestamp}
+        toTimestamp={toTimestamp}
+        result={result}
+        sliEntity={sliConfig?.sliEntity}
+      />
       <div className={locals.chart}>
         <Chart
           result={result}
           timeConfig={timeWindowConfig}
           granularity={granularity}
-          consumed={filterAvailableData(findResultMetric('consumed'))}
-          hourlyBudget={filterAvailableData(findResultMetric('hourlyBudget'))}
+          consumed={filterAvailableData(findResultMetric(result, 'consumed', result))}
+          hourlyBudget={filterAvailableData(findResultMetric(result, 'hourlyBudget', result))}
           budget={budget}
           sliConfig={sliConfig}
           isPreview={isPreview}
@@ -193,6 +156,10 @@ export default function Widget({ actions, config, isPreview, title, dragHandle }
     </LightCardV2>
   );
 }
+
+export const findResultMetric = (result, id) => {
+  return (result?.data ?? []).find(dataSeries => dataSeries.id === id)?.values;
+};
 
 function calculateTimeWindowConfig(
   timeConfig,

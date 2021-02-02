@@ -16,11 +16,11 @@ const mappings = {
 
   MICROS: createFormatterWithDefault(micros, 'compact'),
   MILLIS: createFormatterWithDefault(millis, 'compact'),
-  SECONDS: createFormatterWithDefault(seconds, 'fixedCompact'),
+  SECONDS: createFormatterWithDefault(seconds, 'fixedCompact')
 };
 
 export function getFormatter(backendType) {
- return mappings[backendType] ?? mappings.NUMBER;
+  return mappings[backendType] ?? mappings.NUMBER;
 }
 
 function createFormatterWithDefault(formatters, preferred) {
@@ -28,4 +28,22 @@ function createFormatterWithDefault(formatters, preferred) {
   result.compact = formatters.compact;
   result.detailed = formatters.detailed;
   return result;
+}
+
+// BEFORE YOU EXTEND THIS!
+// Consider that adding more formatters will mean additional formatters
+// that end-users can select. In some cases this may cause quite some
+// confusion, especially if users have no idea whether the source data
+// is millis, micros, nanos, seconds, minutes…
+// Consider cleaning this up for users instead of exposing them to our
+// failure to consistently model the data.
+const mappingsToUiInternalNames = {
+  NUMBER: 'number.compact',
+  PERCENTAGE: 'percentage.detailed',
+  BYTES: 'bytes.detailed',
+  MILLIS: 'millis.compact'
+};
+
+export function getUiInternalFormatterName(backendType) {
+  return mappingsToUiInternalNames[backendType] || 'number.detailed';
 }

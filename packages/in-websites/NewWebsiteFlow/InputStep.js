@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import ValidationBlock from 'in-components/form/ValidationBlock';
@@ -17,15 +18,12 @@ import locals from './InputStep.mless';
 
 export default function InputStep({ onSubmit, saveError, field, onChange, loading }) {
   return (
-    <Frame title="Add Website">
-      <Paragraph>
-        Get started with website monitoring to better understand how your website performance impacts user experience.
-        Configuration is simple!
-      </Paragraph>
+    <Frame title={t('in-websites:newWebsiteFlow.inputStepTitleAddWebsite')}>
+      <Paragraph>{t('in-websites:newWebsiteFlow.inputStepParagraphGetStarted')}</Paragraph>
 
       <form onSubmit={onSubmit}>
         <FormGroup className={locals.group}>
-          <Label htmlFor="website-name">Website Name</Label>
+          <Label htmlFor="website-name">{t('in-websites:newWebsiteFlow.inputStepLabelWebsiteName')}</Label>
 
           {saveError && <SaveError>{saveError}</SaveError>}
 
@@ -46,7 +44,7 @@ export default function InputStep({ onSubmit, saveError, field, onChange, loadin
               disabled={loading || (field.touched && !field.valid)}
               className={locals.button}
             >
-              Add Website
+              {t('in-websites:newWebsiteFlow.inputStepButtonAddWebsite')}
             </Button>
           </div>
 

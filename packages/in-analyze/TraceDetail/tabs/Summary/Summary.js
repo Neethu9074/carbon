@@ -7,6 +7,7 @@ import { compose, withProps } from 'recompose';
 import { connection } from 'in-connection';
 import theme from 'in-themes';
 import React from 'react';
+import { Trans, t } from 'in-i18n';
 
 import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import ColorCodingToggleButtons from 'in-analyze/TraceDetail/components/ColorCodingToggleButtons';
@@ -143,9 +144,11 @@ class Summary extends React.Component {
               <Col lg={12}>
                 <Message
                   type={warning}
-                  title="Duplicate Calls"
-                  description={`This trace consists of one or more duplicate calls (spans). Unique Calls: ${trace.callCountIgnoringBatchSize} - Records: ${trace.callRecordCount}. This leads to incorrect call count (with batches) and error count values, and perhaps other
-                  irregularities.`}
+                  title={t('in-analyze:traceDetail.tabs.summary.duplicateCalls')}
+                  description={t('in-analyze:traceDetail.tabs.summary.duplicateCallsDesc', {
+                    traceCallCountIgnoringBatchSize: trace.callCountIgnoringBatchSize,
+                    traceCallRecordCount: trace.callRecordCount
+                  })}
                 />
               </Col>
             </Row>
@@ -155,10 +158,10 @@ class Summary extends React.Component {
               <Col lg={12}>
                 <Message
                   type={warning}
-                  title="Batched Ingestion"
-                  description={`This trace got processed in ${trace.ingestionBatchesCount} batches. That may cause irregularities such
-                  as spans not getting merged to a single Call, partial Service mapping or other incomplete data
-                  showing.`}
+                  title={t('in-analyze:traceDetail.tabs.summary.batchedIngestion')}
+                  description={t('in-analyze:traceDetail.tabs.summary.traceIngestionBatchCount', {
+                    traceIngestionBatchesCount: trace.ingestionBatchesCount
+                  })}
                 />
               </Col>
             </Row>
@@ -172,32 +175,35 @@ class Summary extends React.Component {
           ) : null}
           <Row withoutSideMargin>
             <Col xs>
-              <KpiCard title="Sub Calls" value={number.compact(trace.callCount)} />
+              <KpiCard
+                title={t('in-analyze:traceDetail.tabs.summary.subCalls')}
+                value={number.compact(trace.callCount)}
+              />
             </Col>
             <Col xs>
               <KpiCard
-                title="Erroneous Calls"
+                title={t('in-analyze:traceDetail.tabs.summary.erroneousCalls')}
                 color={trace.totalErrorCount > 0 ? theme.lib.colors.failure : theme.lib.colors.N900Primary}
                 value={number.compact(trace.totalErrorCount)}
               />
             </Col>
             <Col xs>
               <KpiCard
-                title="Error Logs"
+                title={t('in-analyze:traceDetail.tabs.summary.errorLogs')}
                 color={trace.totalErrorLogCount > 0 ? theme.lib.colors.failure : theme.lib.colors.N900Primary}
                 value={number.compact(trace.totalErrorLogCount)}
               />
             </Col>
             <Col xs>
               <KpiCard
-                title="Warn Logs"
+                title={t('in-analyze:traceDetail.tabs.summary.warnLogs')}
                 color={trace.totalWarnLogCount > 0 ? theme.lib.colors.warning : theme.lib.colors.N900Primary}
                 value={number.compact(trace.totalWarnLogCount)}
               />
             </Col>
             <Col xs>
               <KpiCard
-                title="Latency"
+                title={t('in-analyze:traceDetail.tabs.summary.latency')}
                 value={
                   trace.issues && trace.issues.includes('missing_root_span') ? 'N/A' : latency.detailed(trace.duration)
                 }
@@ -223,7 +229,11 @@ class Summary extends React.Component {
           {!isLargeTrace && (
             <Row singleRowTopMargin withoutSideMargin>
               <Col lg={12}>
-                <Card title="Timeline" withoutPadding header={<ColorCodingToggleButtons {...this.props} />}>
+                <Card
+                  title={t('in-analyze:traceDetail.tabs.summary.timeline')}
+                  withoutPadding
+                  header={<ColorCodingToggleButtons {...this.props} />}
+                >
                   <div className={locals.icicleChartWrapper}>
                     <ServerIcicleChart
                       traceId={traceId}
@@ -240,7 +250,7 @@ class Summary extends React.Component {
 
           <Row singleRowTopMargin withoutSideMargin>
             <Col lg={12}>
-              <Card title="Service Endpoint List">
+              <Card title={t('in-analyze:traceDetail.tabs.summary.serviceEndpointList')}>
                 <ServiceEndpointList
                   traceId={traceId}
                   getColor={getColor}
@@ -254,18 +264,19 @@ class Summary extends React.Component {
           {isLargeTrace && !showLargeTrace && (
             <Row withoutSideMargin>
               <Col lg={12}>
-                <Card title="Large Trace">
-                  This trace is large and rendering of this trace can result in performance problems within your
-                  browser. You can either{' '}
-                  <Link
-                    target="_blank"
-                    external
-                    href={`/api/application-monitoring/analyze/traces;id=${encodeURIComponent(traceId)}?pretty`}
-                  >
-                    download the trace
-                  </Link>{' '}
-                  for manual inspection or attempt trace rendering within your browser. We will only render a subset of
-                  the components in order to increase performance of this attempt.
+                <Card title={t('in-analyze:traceDetail.tabs.summary.largeTrace')}>
+                  <Trans
+                    i18nKey="in-analyze:traceDetail.tabs.summary.largeTraceLink"
+                    components={{
+                      linkToDocs: (
+                        <Link
+                          target="_blank"
+                          external
+                          href={`/api/application-monitoring/analyze/traces;id=${encodeURIComponent(traceId)}?pretty`}
+                        />
+                      )
+                    }}
+                  />
                   <Button onClick={() => setShowLargeTrace(true)} className={locals.attemptRendering}>
                     Attempt to render trace
                   </Button>
@@ -277,7 +288,10 @@ class Summary extends React.Component {
           {(!isLargeTrace || showLargeTrace) && (
             <Row singleRowTopMargin withoutSideMargin>
               <Col lg={12}>
-                <Card title="Calls" header={<ColorCodingToggleButtons {...this.props} />}>
+                <Card
+                  title={t('in-analyze:traceDetail.tabs.summary.calls')}
+                  header={<ColorCodingToggleButtons {...this.props} />}
+                >
                   <CallTree
                     callTreeResult={callTreeResult}
                     traceId={traceId}

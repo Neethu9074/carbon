@@ -10,12 +10,13 @@ import { applicationCreationSelectedBlueprint } from 'in-applications/creation/t
 import { blueprintConfig } from 'in-applications/creation/data/blueprintConfig';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
 import Menu from 'in-new-components/Alerting/components/Menu';
+import { t } from 'in-i18n';
 
 import locals from './SimpleCreateStep1.mless';
 
 export default function SimpleCreateStep1({ selectedBlueprint, setSelectedBlueprint }) {
   return (
-    <SimpleModeStepContentWrapper headline="What kind of application would you like to model?">
+    <SimpleModeStepContentWrapper headline={t('in-applications:creation.simple.step1.headline')}>
       <Menu
         items={blueprintConfig}
         addRightSeparator

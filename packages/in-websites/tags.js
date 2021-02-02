@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { get } from 'lodash';
+import { t } from 'in-i18n';
 
 import { compareIgnoreCase } from 'in-services/util/string';
 
@@ -34,12 +35,12 @@ function getWebsiteLabelTagFilter(websiteLabel) {
 }
 
 export const dataSourceTitles = {
-  pageLoad: 'Page Load',
-  pageChange: 'Page Transition',
-  resourceLoad: 'Resource',
-  httpRequest: 'HTTP Request',
-  error: 'JS Error',
-  custom: 'Custom Event'
+  pageLoad: t('in-websites:tagsDataSourceTitlesPageLoad'),
+  pageChange: t('in-websites:tagsDataSourceTitlesPageChange'),
+  resourceLoad: t('in-websites:tagsDataSourceTitlesResourceLoad'),
+  httpRequest: t('in-websites:tagsDataSourceTitlesHTTPRequest'),
+  error: t('in-websites:tagsDataSourceTitlesError'),
+  custom: t('in-websites:tagsDataSourceTitlesCustom')
 };
 
 export const defaultGroupings = {

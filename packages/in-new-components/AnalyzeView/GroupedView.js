@@ -3,8 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 import { empty } from '@instana/observables';
+import React, { useEffect } from 'react';
 import rpt from 'prop-types';
-import React from 'react';
 
 import { getSingleNumberMetricId, getSparkChartTimeSeriesMetricId } from 'in-new-components/AnalyzeView/metricIds';
 import { joinExpressions, removeTopLevelFilters } from 'in-new-components/QueryBuilder/transformation/formModel';
@@ -22,9 +22,9 @@ import { getFormatter } from 'in-services/formatters/backendFormatter';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import Header from 'in-new-components/QueryBuilder/components/Header';
 import { getSparkChartGranularity } from 'in-applications/metrics';
+import { emptyObject, emptyArray } from 'in-services/fixedObjects';
 import IconButton from 'in-new-components/IconButton/IconButton';
 import useCursorPagination from 'in-hooks/useCursorPagination';
-import { emptyObject, emptyArray } from 'in-services/fixedObjects';
 import KeyValue from 'in-new-components/lists/KeyValue';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -54,7 +54,8 @@ export default function GroupedAnalyzeView(props) {
     getHrefWithTagFilterExpression,
     groupedViewConfiguration,
     getItemLabel,
-    itemlabelColumnId
+    itemlabelColumnId,
+    onChartableDataSeriesChange
   } = props;
   const timeConfig = useTimeConfig();
 
@@ -165,6 +166,19 @@ export default function GroupedAnalyzeView(props) {
     joinExpressions({
       expressions: [removeTopLevelFilters(formModel, ...remove), ...add]
     });
+
+  useEffect(() => {
+    if (isLoading || hasErrors) {
+      return;
+    }
+
+    onChartableDataSeriesChange(
+      items.slice(0, 5).map(item => ({
+        label: getItemLabel(item),
+        formModel: addGroupingCriteriaToFormModel(groupBy, getItemLabel(item), formModel)
+      }))
+    );
+  }, [items, isLoading, hasErrors, onChartableDataSeriesChange, formModel, getItemLabel, groupBy]);
 
   return (
     <>

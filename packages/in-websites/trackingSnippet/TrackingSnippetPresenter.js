@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { getTrackingSnippet } from 'in-websites/trackingSnippet';
@@ -26,8 +27,8 @@ export default function TrackingSnippetPresenter({ websiteId, trackSessions, set
       <div className={locals.options}>
         <div className={locals.option}>
           <Label htmlFor="trackSessions" className={locals.label}>
-            Track Sessions&nbsp;
-            <Tooltip content="Learn more about session tracking and the privacy implications.">
+            {t('in-websites:trackingSnippet.trackingSnippetPresenterLabelTrackSessions')}&nbsp;
+            <Tooltip content={t('in-websites:trackingSnippet.trackingSnippetPresenterTooltip')}>
               <Link
                 href="https://instana.com/docs/website_monitoring/api/#session-tracking"
                 external

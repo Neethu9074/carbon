@@ -5,40 +5,47 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import TileWrapper from 'in-custom-dashboards/widgets/Slo/Tiles/TileWrapper';
+import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 
 import locals from './SloTile.mless';
 
-export default function SloTile({
-  title,
-  value,
-  color,
-  actions,
-  targetInfo,
-  targetValue,
-  useMaxAvailableHeight = true
-}) {
+export default function SloTile({ smallRowStyle, title, value, color, targetInfo, targetValue }) {
+  if (smallRowStyle) {
+    return (
+      <div className={locals.oneRow}>
+        <div className={locals.titleValueBorder}>
+          <span>{title}:</span>
+          <span className={locals.value} style={{ color }}>
+            {value || valueMissingPlaceholder}
+          </span>
+        </div>
+        <div className={locals.targetInfo}>
+          <span>{targetInfo}</span>
+          <span className={locals.targetInfoValue}>{targetValue || valueMissingPlaceholder}</span>
+        </div>
+      </div>
+    );
+  }
   return (
-    <TileWrapper useMaxAvailableHeight={useMaxAvailableHeight} actions={actions}>
+    <div className={locals.tile}>
       <div className={locals.title}>{title}</div>
 
-      <div className={locals.value} style={{ color: color }}>
-        <span>{value}</span>
+      <div className={locals.value} style={{ color }}>
+        <span>{value || valueMissingPlaceholder}</span>
       </div>
 
       <div className={locals.targetInfo}>
-        <span>{targetInfo}</span> <span className={locals.leftSpace}>{targetValue}</span>
+        <span>{targetInfo}</span> <span className={locals.leftSpace}>{targetValue || valueMissingPlaceholder}</span>
       </div>
-    </TileWrapper>
+    </div>
   );
 }
 
 SloTile.propTypes = {
+  smallRowStyle: PropTypes.bool,
   title: PropTypes.string.isRequired,
-  value: PropTypes.string.isRequired,
-  actions: PropTypes.node,
+  value: PropTypes.string,
   targetInfo: PropTypes.string.isRequired,
   targetValue: PropTypes.string.isRequired,
-  color: PropTypes.string,
-  useMaxAvailableHeight: PropTypes.bool
+  color: PropTypes.string
 };

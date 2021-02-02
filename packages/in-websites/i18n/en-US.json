@@ -164,7 +164,7 @@
       "ruleStatusCodeValueOption501": "501 (Not Implemented)",
       "ruleStatusCodeValueOption502": "502 (Bad Gateway)",
       "ruleStatusCodeValueOption503": "503 (Service Unavailable)",
-      "ruleStatusCodeValueOption04": "504 (Gateway Timeout)",
+      "ruleStatusCodeValueOption504": "504 (Gateway Timeout)",
       "ruleStatusCodeValueOption505": "505 (HTTP Version Not Supported)",
       "ruleStatusCodeValueOption506": "506 (Variant Also Negotiates)",
       "ruleStatusCodeValueOption507": "507 (Insufficient Storage)",
@@ -199,6 +199,63 @@
       "stepConfigsStep2Title": "Step 2: Select Scope",
       "stepConfigsStep3Title": "Step 3: Select Alerting Channels"
     }
+  },
+  "definitions": {
+    "missingResourceTimingsLearnMoreLabel": "Learn how to get visibility into cross-origin resources",
+    "missingResourceTimingsExplanation": "Resource timing data collection is subject to same-origin policy restrictions. This means that collection of resource timings is restricted to resources retrieved from the origin of the HTML document and resources served by origins which explicitly allow this.",
+    "scriptErrorLearnMoreLabel": "Learn how to get visibility into these errors",
+    "scriptErrorExplanation": "Error type, message and stack trace are inaccessible due to browser security mechanisms, i.e. the same-origin policy. This typically means that the error was caused by a script that is hosted on an origin different from the origin of the HTML document. JavaScript files retrieved from content-delivery networks and advertisement services are most commonly responsible for these.",
+    "stackTraceExplanation01SuccessfullyTranslated": "Successfully translated",
+    "stackTraceExplanation02CouldNotDownloadJavaScriptMissingAuthentication": "Could not download JavaScript source file because of missing authentication (HTTP status code 401).",
+    "stackTraceExplanation03CouldNotDownloadJavaScriptFailedAuthorization": "Could not download JavaScript source file because of failed authorization (HTTP status code 403).",
+    "stackTraceExplanation04CouldNotDownloadJavaScriptFileWasNotFound": "Could not download JavaScript source file because the file was not found (HTTP status code 404).",
+    "stackTraceExplanation05CouldNotDownloadJavaScriptHTTPRequestFailed": "Could not download JavaScript source file because the HTTP request failed and was not a 401, 403 or 404.",
+    "stackTraceExplanation06NoReferenceToSourceMap": "No reference to source map in HTTP header nor as annotation in JavaScript source file.",
+    "stackTraceExplanation07AnUnknownErrorHappened": "An unknown error happened during the identification of the source map file.",
+    "stackTraceExplanation08CouldNotDownloadSourceMapMissingAuthentication": "Could not download source map file because of missing authentication (HTTP response code 401).",
+    "stackTraceExplanation14CouldNotDownloadSourceMapailedAuthorization": "Could not download source map file because of failed authorization (HTTP status code 403).",
+    "stackTraceExplanation09CouldNotDownloadSourceMapFileWasNotFound": "Could not download source map file because the file was not found (HTTP status code 404).",
+    "stackTraceExplanation10CouldNotDownloadSourceMapHTTPRequestFailed": "Could not download source map file because the HTTP request failed and was not a 401, 403 or 404.",
+    "stackTraceExplanation11SourceMapFileParsingFailed": "Source map file parsing failed.",
+    "stackTraceExplanation12AnUnknownErrorOccurred": "An unknown error occurred while processing the source map file.",
+    "stackTraceExplanation13CouldNotFindOriginalMapping": "Could not find original mapping for a combination of line and column number via the source map. This can happen after releases for users that are running outdated versions of your JavaScript files.",
+    "stackTraceExplanation15TranslationIsOnlyPossible": "Translation is only possible when a reference to a line number is included in the stack trace line.",
+    "stackTraceExplanation16ThisStackTraceLinesFileReferenceDoesNotPoint": "This stack trace line's file reference does not point to a JavaScript file. Source map based stack trace line translation only works when the source is a JavaScript file.",
+    "stackTraceExplanation17CouldCotEstablishTCPTLSConnectionJavaScript": "Could not establish a TCP / TLS connection to the host serving the JavaScript file.",
+    "stackTraceExplanation18CouldCotEstablishTCPTLSConnectionSourceMap": "Could not establish a TCP / TLS connection to the host serving the source map file.",
+    "stackTraceExplanation19ARequestTimeoutOccurredJavaScript": "A request timeout occurred when trying to retrieve the JavaScript file.",
+    "stackTraceExplanation20ARequestTimeoutOccurredJavaScriptSourceMap": "A request timeout occurred when trying to retrieve the JavaScript file. source map file."
+  },
+  "newWebsiteFlow": {
+    "inputStepTitleAddWebsite": "Add Website",
+    "inputStepParagraphGetStarted": "Get started with website monitoring to better understand how your website performance impacts user experience.  Configuration is simple!",
+    "inputStepLabelWebsiteName": "Website Name",
+    "inputStepButtonAddWebsite": "Add Website",
+    "readyStepTitleEverythingsReady": "Everything's Ready!",
+    "readyStepParagraphEverythingIsReadyToMonitorYourWebsite": "Everything is ready to monitor your website <strong>{{websiteName}}</strong>. Copy this script to the HTML document's <code>{{httpHeadTag}}</code>. Information about website monitoring and the full capabilities of the tracking script are located <linkToDocs>within our docs</linkToDocs>.",
+    "readyStepButtonGoToWebsiteDashboard": "Go to website dashboard",
+    "readyStepButtonCopyToClipboard": "Copy to clipboard",
+    "waitStepTitleWorking": "Working…",
+    "waitStepParagraphWeArePreparingEverythingToMonitorYourWebsite": "We are preparing everything to monitor your website <strong>{{websiteName}}</strong>. While we do this, add the following script to the HTML document's <code>{{httpHeadTag}}</code>. Information about website monitoring and the full capabilities of the tracking script are located <linkToDocs>within our docs</linkToDocs>.",
+    "waitStepButtonCopyToClipboard": "Copy to clipboard",
+    "waitStepButtonEnablingMonitoring": "Enabling monitoring…"
+  },
+  "trackingSnippet": {
+    "trackingSnippetPresenterLabelTrackSessions": "Track Sessions",
+    "trackingSnippetPresenterTooltip": "Learn more about session tracking and the privacy implications."
+  },
+  "websitesList": {
+    "viewSwitcherLabelWebsitesAndMobileApps": "Websites & Mobile Apps",
+    "viewSwitcherLabelWebsites": "Websites",
+    "viewSwitcherLabelMobileApps": "Mobile Apps",
+    "websitesListLabelName": "Name",
+    "websitesListLabelPageViews": "Page Views",
+    "websitesListLabelOnLoadTime": "onLoad Time",
+    "websitesListLabelHealth": "Health",
+    "websitesListButtonAddWebsite": "Add Website",
+    "websitesListTitleWebsites": "Websites",
+    "websitesListProductAreaEUMWebsites": "EUM: Websites",
+    "websitesListPageRootNameWebsites": "Websites"
   },
   "websiteDashboard": {
     "components": {
@@ -622,5 +679,18 @@
     "error_plural": "{{formattedCount}} JS Errors",
     "custom": "{{formattedCount}} Custom Event",
     "custom_plural": "{{formattedCount}} Custom Events"
-  }
+  },
+  "cacheInteractionTypesUnknown": "unknown",
+  "cacheInteractionTypesCached": "From browser cache",
+  "cacheInteractionTypesValidated": "From browser cache after cache validation",
+  "cacheInteractionTypesFullLoad": "Full resource retrieval",
+  "emptyListExplanationMatchingYourFilters": "{{explanation}} matching your filters",
+  "emptyListExplanationAndQuery": "{{explanation}} and query",
+  "formattersNA": "N/A",
+  "tagsDataSourceTitlesPageLoad": "Page Load",
+  "tagsDataSourceTitlesPageChange": "Page Transition",
+  "tagsDataSourceTitlesResourceLoad": "Resource",
+  "tagsDataSourceTitlesHTTPRequest": "HTTP Request",
+  "tagsDataSourceTitlesError": "JS Error",
+  "tagsDataSourceTitlesCustom": "Custom Event"
 }

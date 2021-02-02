@@ -9,7 +9,7 @@ import { createTableTimestampColumnDefinition } from 'in-new-components/AnalyzeV
 import { createListTimestampColumnDefinition } from 'in-new-components/AnalyzeView/commonListColumnDefinitions';
 import FacetedFilterRangeInput from 'in-new-components/AnalyzeView/FacetedFilters/FacetedFilterRangeInput';
 import FacetedFilterGeneric from 'in-new-components/AnalyzeView/FacetedFilters/FacetedFilterGeneric';
-import { addTagFilters } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
+import { addDataSourceToBackendQueryModel } from 'in-websites/analyze/AnalyzeView2_0/util';
 import GroupedBeacons from 'in-websites/analyze/AnalyzeView2_0/components/GroupedBeacons';
 import getWebsiteBeaconGroups from 'in-websites/subscriptions/getWebsiteBeaconGroups';
 import StateManagement from 'in-new-components/AnalyzeView/StateManagement';
@@ -134,14 +134,7 @@ function getFacetedSearchSuggestions({ timeConfig, backendQueryModel, group, met
       retrievalSize: 200
     },
     timeConfig,
-    tagFilterExpression: addTagFilters(backendQueryModel, [
-      {
-        type: 'TAG_FILTER',
-        name: 'beacon.type',
-        operator: 'EQUALS',
-        value: dataSource
-      }
-    ]),
+    tagFilterExpression: addDataSourceToBackendQueryModel({ backendQueryModel, dataSource }),
     group,
     order: {
       by: metricKey,

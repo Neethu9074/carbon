@@ -267,5 +267,156 @@
     "step1Title": "Step 1: Select Alert",
     "step2Title": "Step 2: Select Scope",
     "step3Title": "Step 3: Select Alerting Channels"
+  },
+  "creation": {
+    "newAP": "New Application Perspective",
+    "switchSimpleMode": "Switch to Simple Mode",
+    "switchAdvancedMode": "Switch to Advanced Mode",
+    "simple": {
+      "step1Title": "Step 1: Select Model",
+      "step1": {
+        "headline": "What kind of application would you like to model?"
+      },
+      "step2Title": "Step 2: Specify Application",
+      "step2": {
+        "headline": "Specify your Application Perspective",
+        "includeDownstreamServices": "Which downstream services would you like to include?"
+      },
+      "step3Title": "Step 3: Provide Details",
+      "step3": {
+        "headline": "What is the name of this Application Perspective?",
+        "apName": "Application Perspective Name",
+        "inboundAllCalls": "Are you interested just in the calls to this application, or also the internal calls?"
+      },
+      "blueprints": {
+        "whenToUse": "When to use?",
+        "whoShouldUse": "Who should use?",
+        "tipsForUsing": "Tips for using",
+        "servicesEndpoints": {
+          "name": "Services or Endpoints",
+          "headline": "A collection of services or endpoints",
+          "whenToUse": "If the services or endpoints are well known and the group won’t change soon. This is often an application that a specific team is responsible for, or which provides a single function (eg. Payment Application). This is the simplest approach.",
+          "whoShouldUse": "DevOps, Operations, SRE, Developer, QA, Support, Business owner."
+        },
+        "userJourney": {
+          "name": "A critical user journey",
+          "headline": "A critical user journey",
+          "whenToUse": {
+            "userJourneyDescribes": "A critical user journey describes a set of interactions a user has with a service to achieve some end result.",
+            "otherTerms": "Other terms for a user journey are business use case or business transaction. Identifying user journeys are the first step in using Instana’s SLI/SLO. So select the service or endpoints that form the critical user journey to monitor."
+          },
+          "whoShouldUse": "DevOps, Operations, SRE, Business owner."
+        },
+        "location": {
+          "name": "Environment or Region",
+          "headline": "An environment or region (eg. prod, staging, US East)",
+          "whenToUse": {
+            "header": "When you want to model applications using information from the environment, such as:",
+            "cloudInfo": "Cloud information",
+            "zoneRegion": "Zone or region",
+            "hostId": "Host name or ID"
+          },
+          "whoShouldUse": "DevOps, Operations, SRE, QA, Business owner"
+        },
+        "customerOrTenant": {
+          "name": "An important customer or tenant",
+          "headline": "An important customer or tenant",
+          "whenToUse": {
+            "header": "Important customers or tenants can have their own dashboard when there is an AP specified for them. There are two common ways that are used to identify the customer:",
+            "httpParam": "An HTTP parameter is the data used to identify a customer or tenant.",
+            "manual": "Manual instrumentation to add meta-data to a span using <a href=\"{{url}}\" target=”_blank” rel=”noopener noreferrer”>the tracing SDK</a>.",
+            "footer": "These tags can then be specified to construct an AP."
+          },
+          "whoShouldUse": "DevOps, Operations, SRE, QA, Business owner"
+        },
+        "container": {
+          "name": "Kubernetes or Container",
+          "headline": "An application modeled by Kubernetes or container labels",
+          "whenToUse": {
+            "header": "When you want to group services based on:",
+            "namespace": "Namespace (this is frequently used)",
+            "imageName": "Container or image name",
+            "serviceNames": "Platform related service names",
+            "deployInfo": "Deployment information",
+            "labels": "Labels",
+            "footer": "Tags are available for:  Kubernetes, OpenShift, Docker, Cloud Foundry, Marathon, and Nomad."
+          },
+          "whoShouldUse": "DevOps, Operations, SRE, Developer"
+        },
+        "httpOrRpc": {
+          "name": "Request Attributes",
+          "headline": "An application based on request attributes (eg. HTTP headers, query parameters)",
+          "whenToUse": {
+            "header": "It can be added to distinguish between different environments.",
+            "headers": "HTTP headers, including X-headers",
+            "statusCodes": "HTTP return code status",
+            "urlPortions": "Portions of the URL",
+            "reqParams": "Request parameters",
+            "methodObject": "RPC method or object",
+            "footer": "There are several RPC protocols supported using similar operators."
+          },
+          "whoShouldUse": "DevOps, Operations, SRE, Developer, QA, Support"
+        },
+        "technologyGrouping": {
+          "name": "Technology",
+          "headline": "All services of a specific technology (eg. MySQL, all databases)",
+          "whenToUse": {
+            "header": "A coarse grouping by the type of technology or application:",
+            "databaseDetails": "Database details, like the type or schema",
+            "javaName": "Java application name",
+            "scriptingName": "A scripting application name"
+          },
+          "whoShouldUse": "Operations, SRE, Developer, QA, Support, Business owner"
+        },
+        "custom": {
+          "name": "Custom Tags",
+          "headline": "An application based on custom metadata added by your or your platform",
+          "whenToUse": {
+            "header": "When you want to add your own data via the SDK, the platform, etc. This custom data can be added from:",
+            "httpProtocol": "HTTP protocol",
+            "instanaAgent": "Instana agent",
+            "aws": "AWS",
+            "dataCall": "Data that is attached to a call",
+            "kubernetesLabels": "Kubernetes labels",
+            "containerLabels": "Container labels",
+            "footer": "This blueprint puts them all together so they are easy to find."
+          },
+          "whoShouldUse": "DevOps, Developer, QA"
+        },
+        "tipsForUsingItems": {
+          "sourcePerspective": "Use \"No downstream services\" and \"Inbound calls\" for the source's perspective.",
+          "endToEndView": "Use \"All downstream services\" and  \"All calls\" for the end-to-end view.",
+          "directServices": "Use \"Immediate downstream services\" to include the direct database or messaging services.",
+          "useOperatorsServices": "Use string operators (e.g., like \"contains\", \"starts with\") to select several services with one filter.",
+          "useOperatorsEndpoints": "Use string operators (e.g., like \"contains\", \"starts with\") to select several endpoints with one filter.",
+          "useOperators": "Use string operators (e.g., like \"contains\", \"starts with\") to simplify the filter.",
+          "narrowScope": "Add setup, environment, or custom tags to narrow the scope.",
+          "specifyAp": "Use either request parameters or custom tags to specify the AP.",
+          "preselected": "The \"Inbound calls\" and  \"All downstream services\" are preselected.",
+          "switchMode": "Switch to Advanced Mode to create a query with endpoints from multiple services.",
+          "allFilters": "Click on \"All Filters\" to add additional tags."
+        }
+      },
+      "liveList": {
+        "matchedServicesLastHour": "Matched services in the last hour",
+        "addFiltersToBuild": "Add filters to build your Application Perspective",
+        "queryIsInvalid": "Your query is invalid"
+      }
+    },
+    "advanced": {
+      "defineName": "Define a name for your Application Perspective.",
+      "apName": "Application Perspective Name",
+      "apNameDescription": "Application Perspective names should have a well established definition within an organization. For example, to model an environment: \"Production Blue\", to model a set of services: \"Payment\", or to model a tenant: \"ACME Customer\".",
+      "defineUsingTags": "Define the Application Perspective using one or more tags.",
+      "defineUsingTagsDescription": "For example where key is \"docker.label\" and value is \"environment=Production Blue\", or key is \"call.http.params\" and value is \"tenant=ACMECustomer\". Note that any calls to a <pill-database>DATABASE</pill-database> service or <pill-messaging>MESSAGING</pill-messaging> service from services matching this definition will automatically be included.",
+      "andOperatorsPrecedence": "AND operators take precedence and are evaluated before OR operators",
+      "andOperatorsPrecedenceBrackets": "AND operators take precedence and are evaluated before OR operators if not grouped in brackets",
+      "downstreamCalls": "Store Calls of Downstream Services",
+      "downstreamCallsDescription": "Choose which downstream services to include in the Application Perspective.",
+      "defaultDashboardView": "Select the Default Dashboard View",
+      "clear": "Clear",
+      "addTag": "Add Tag",
+      "create": "Create"
+    }
   }
 }
