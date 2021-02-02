@@ -3,10 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 import { t } from 'in-i18n';
+import theme from 'in-themes';
 import React from 'react';
 
 import Message from 'in-new-components/Message';
-import theme from 'in-themes';
+import Trans from 'in-i18n/Trans';
 
 export default function BaselineErrorMessage({ thresholdResult }) {
   if (!hasBaselineError(thresholdResult)) {
@@ -15,7 +16,7 @@ export default function BaselineErrorMessage({ thresholdResult }) {
 
   return (
     <Message type="neutral" iconColor={theme.lib.colors.failure} withIcon>
-      {t('in-new-components:alerting.components.baselineErrorMessageInsufficientDataToCompute')}
+      <Trans i18nKey="in-new-components:alerting.components.baselineErrorMessageInsufficientDataToCompute" />
       <br />
       <b>{t('in-new-components:alerting.components.baselineErrorMessageReason')}</b>
       {getErrorReason(thresholdResult)}
