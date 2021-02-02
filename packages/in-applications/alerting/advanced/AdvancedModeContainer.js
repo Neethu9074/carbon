@@ -33,7 +33,6 @@ import ProvideStatusCode from 'in-applications/alerting/components/ProvideStatus
 import AlertQueryBuilder from 'in-applications/alerting/components/AlertQueryBuilder';
 import AlertTypeSwitch from 'in-applications/alerting/components/AlertTypeSwitch';
 import WithQB1orQB2 from 'in-new-components/Alerting/components/WithQB1orQB2';
-import { smartAlertsEntityGroupingEnabled } from 'in-services/featureFlags';
 import LightCard from 'in-new-components/Card/LightCard';
 
 export default function AdvancedModeContainer(props) {
@@ -62,7 +61,7 @@ export default function AdvancedModeContainer(props) {
           title: 'Scope: Where is the condition happening?',
           content: (
             <>
-              {smartAlertsEntityGroupingEnabled && <AlertEvaluationControl form={form} updateForm={updateForm} />}
+              <AlertEvaluationControl form={form} updateForm={updateForm} />
               <WithQB1orQB2
                 onUsesQB1={() => (
                   <AlertLocationFilters

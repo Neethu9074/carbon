@@ -27,7 +27,6 @@ import AlertQueryBuilder from 'in-applications/alerting/components/AlertQueryBui
 import { getBlueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
 import { alertId as alertIdMatrixParam } from 'in-applications/navigation/matrix';
 import WithQB1orQB2 from 'in-new-components/Alerting/components/WithQB1orQB2';
-import { smartAlertsEntityGroupingEnabled } from 'in-services/featureFlags';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { mutateUrl } from 'in-stores/navigation/navigation';
 import Footer from 'in-new-components/Footer/Footer';
@@ -40,16 +39,13 @@ import { role } from 'in-stores/user';
 import locals from './Alerts.mless';
 
 function getColumnDefinitions(applicationName) {
-  const columns = [
+  return [
     {
       id: 'name',
       label: 'Name',
       getContent: getNameContent
-    }
-  ];
-
-  if (smartAlertsEntityGroupingEnabled) {
-    columns.push({
+    },
+    {
       id: 'evaluationType',
       sortable: false,
       getContent(config) {
@@ -62,15 +58,13 @@ function getColumnDefinitions(applicationName) {
           </div>
         );
       }
-    });
-  }
-
-  columns.push({
-    id: 'filters',
-    label: 'Filters',
-    getContent: entity => getFiltersContent(entity, applicationName)
-  });
-  return columns;
+    },
+    {
+      id: 'filters',
+      label: 'Filters',
+      getContent: entity => getFiltersContent(entity, applicationName)
+    }
+  ];
 }
 
 export default function Alerts({ applicationName, applicationId }) {
