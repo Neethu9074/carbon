@@ -31,6 +31,7 @@ import SvgIcon from 'in-components/SvgIcon';
 import Sticky from 'in-components/Sticky';
 import Link from 'in-components/Link';
 import { role } from 'in-stores/user';
+import { t } from 'in-i18n';
 
 import locals from './TraceDetails.mless';
 
@@ -110,8 +111,8 @@ export default function TraceDetails({
     <>
       <ViewTrackingMeta
         data={{
-          productArea: 'Applications',
-          pageRootName: 'Analytics'
+          productArea: t('in-applications:labelApplications'),
+          pageRootName: t('in-applications:labelAnalytic')
         }}
       />
       <Sticky
@@ -121,7 +122,7 @@ export default function TraceDetails({
             icon={getIconByType(dataSource, 'application')}
             contextConfigurations={[{ renderContext, contextIcon: 'lib_analyze_inverted' }]}
             label={getLabelByType(dataSource)}
-            title="Analytics"
+            title={t('in-applications:labelAnalytic')}
             dataSource={dataSource}
           />
         }
@@ -169,7 +170,7 @@ export default function TraceDetails({
 function renderContext() {
   return (
     <Link className={locals.analyticsLink} href$={getLinkBackToUA2FromTraceDetails()}>
-      Analytics
+      {t('in-applications:labelAnalytic')}
     </Link>
   );
 }
@@ -178,7 +179,7 @@ function Header(props) {
   return (
     <DashboardHeader
       {...props}
-      title="Trace"
+      title={t('in-applications:labelTrace')}
       icon="lib_application_trace"
       label={get(props.result, ['data', 'label'])}
       renderButtonLine={renderButtonLine}
@@ -202,7 +203,7 @@ function renderButtonLine({ traceId }) {
         target="_blank"
         href={`/api/application-monitoring/analyze/traces;id=${encodeURIComponent(traceId)}?pretty`}
       >
-        Download
+        {t('in-applications:linkDownload')}
       </Button>
     </>
   );
@@ -217,13 +218,7 @@ function renderMetaInformation({ traceId, result }) {
       // available in ClickHouse yet, even though some trace information from Cassandra
       // may be shown already.
       result.data && !result.data.id && (
-        <Tooltip
-          content={
-            'Some data related to this trace is delayed so please reload the \
-            page in a little later. An example where this may happen is viewing \
-            a very recent trace with some of its data is still being processed.'
-          }
-        >
+        <Tooltip content={t('in-applications:analyze.traceIdTooltip')}>
           <SvgIcon className={locals.icon} type="lib_help_error_info_outline" size="xs" />
         </Tooltip>
       )}
@@ -234,8 +229,12 @@ function renderMetaInformation({ traceId, result }) {
 function renderTimeSelection() {
   return (
     <Link href$={getLinkBackToUA2FromTraceDetails()}>
-      <Tooltip content="Close trace detail">
-        <SvgIcon className={locals.closeIcon} aria-label="Close trace detail" type="lib_openclose_cancel" />
+      <Tooltip content={t('in-applications:analyze.closeTraceDetail')}>
+        <SvgIcon
+          className={locals.closeIcon}
+          aria-label={t('in-applications:analyze.closeTraceDetail')}
+          type="lib_openclose_cancel"
+        />
       </Tooltip>
     </Link>
   );

@@ -145,7 +145,10 @@ class Summary extends React.Component {
                 <Message
                   type={warning}
                   title={t('in-analyze:traceDetail.tabs.summary.duplicateCalls')}
-                  description={t('in-analyze:traceDetail.tabs.summary.duplicateCallsDesc', {traceCallCountIgnoringBatchSize: trace.callCountIgnoringBatchSize, traceCallRecordCount: trace.callRecordCount})}
+                  description={t('in-analyze:traceDetail.tabs.summary.duplicateCallsDesc', {
+                    traceCallCountIgnoringBatchSize: trace.callCountIgnoringBatchSize,
+                    traceCallRecordCount: trace.callRecordCount
+                  })}
                 />
               </Col>
             </Row>
@@ -156,7 +159,9 @@ class Summary extends React.Component {
                 <Message
                   type={warning}
                   title={t('in-analyze:traceDetail.tabs.summary.batchedIngestion')}
-                  description={t('in-analyze:traceDetail.tabs.summary.traceIngestionBatchCount', {traceIngestionBatchesCount: trace.ingestionBatchesCount})}              
+                  description={t('in-analyze:traceDetail.tabs.summary.traceIngestionBatchCount', {
+                    traceIngestionBatchesCount: trace.ingestionBatchesCount
+                  })}
                 />
               </Col>
             </Row>
@@ -170,7 +175,10 @@ class Summary extends React.Component {
           ) : null}
           <Row withoutSideMargin>
             <Col xs>
-              <KpiCard title={t('in-analyze:traceDetail.tabs.summary.subCalls')} value={number.compact(trace.callCount)} />
+              <KpiCard
+                title={t('in-analyze:traceDetail.tabs.summary.subCalls')}
+                value={number.compact(trace.callCount)}
+              />
             </Col>
             <Col xs>
               <KpiCard
@@ -221,7 +229,11 @@ class Summary extends React.Component {
           {!isLargeTrace && (
             <Row singleRowTopMargin withoutSideMargin>
               <Col lg={12}>
-                <Card title={t('in-analyze:traceDetail.tabs.summary.timeline')} withoutPadding header={<ColorCodingToggleButtons {...this.props} />}>
+                <Card
+                  title={t('in-analyze:traceDetail.tabs.summary.timeline')}
+                  withoutPadding
+                  header={<ColorCodingToggleButtons {...this.props} />}
+                >
                   <div className={locals.icicleChartWrapper}>
                     <ServerIcicleChart
                       traceId={traceId}
@@ -253,18 +265,18 @@ class Summary extends React.Component {
             <Row withoutSideMargin>
               <Col lg={12}>
                 <Card title={t('in-analyze:traceDetail.tabs.summary.largeTrace')}>
-                <Trans
-	                i18nKey="in-analyze:traceDetail.tabs.summary.largeTraceLink"
-	                components={{
-	                  linkToDocs: (
-                      <Link
-                        target="_blank"
-                        external
-                        href={`/api/application-monitoring/analyze/traces;id=${encodeURIComponent(traceId)}?pretty`}
-                      />
-	                  )
-	                }}
-                />  
+                  <Trans
+                    i18nKey="in-analyze:traceDetail.tabs.summary.largeTraceLink"
+                    components={{
+                      linkToDocs: (
+                        <Link
+                          target="_blank"
+                          external
+                          href={`/api/application-monitoring/analyze/traces;id=${encodeURIComponent(traceId)}?pretty`}
+                        />
+                      )
+                    }}
+                  />
                   <Button onClick={() => setShowLargeTrace(true)} className={locals.attemptRendering}>
                     Attempt to render trace
                   </Button>
@@ -276,7 +288,10 @@ class Summary extends React.Component {
           {(!isLargeTrace || showLargeTrace) && (
             <Row singleRowTopMargin withoutSideMargin>
               <Col lg={12}>
-                <Card title={t('in-analyze:traceDetail.tabs.summary.calls')} header={<ColorCodingToggleButtons {...this.props} />}>
+                <Card
+                  title={t('in-analyze:traceDetail.tabs.summary.calls')}
+                  header={<ColorCodingToggleButtons {...this.props} />}
+                >
                   <CallTree
                     callTreeResult={callTreeResult}
                     traceId={traceId}

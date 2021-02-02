@@ -9,12 +9,12 @@ import React from 'react';
 
 import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import FacetedSearch from 'in-applications/analyze/components/FacetedSearch/FacetedSearch';
+import { dataSourceConstants, getTypeTextByCount } from 'in-applications/analyze/metrics';
 import CursorPaginatedTable from 'in-components/tables/ServerTable/CursorPaginatedTable';
 import BatchingIndicator from 'in-analyze/components/BatchingIndicator';
 import TableLinkWithIcon from 'in-analyze/components/TableLinkWithIcon';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import { getServiceDashboard } from 'in-applications/navigation/paths';
-import { dataSourceConstants } from 'in-applications/analyze/metrics';
 import ResultHeader from 'in-new-components/AnalyzeView/ResultHeader';
 import { getLinkToTraceDetail } from 'in-analyze/navigation/paths';
 import useCursorPagination from 'in-hooks/useCursorPagination';
@@ -25,6 +25,7 @@ import HealthDot from 'in-new-components/health/HealthDot';
 import useObservable from 'in-hooks/useObservable';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import SvgIcon from 'in-components/SvgIcon';
+import { t } from 'in-i18n';
 
 import locals from './List.mless';
 
@@ -158,7 +159,7 @@ function Presenter({
         {internalVisible && (
           <div className={locals.header}>
             <div className={locals.preview}>
-              <span>Preview</span>
+              <span>{t('in-applications:analyze.groupedList.preview')}</span>
               <Toggle checked={previewEnabled} onChange={e => onChangePreviewEnabled(e.target.checked)} />
             </div>
           </div>
@@ -173,7 +174,9 @@ function Presenter({
           fixedLayout
           orderBy={order.by}
           orderDirection={order.direction}
-          loadMoreLabel={`Load ${retrievalSize} more`}
+          loadMoreLabel={t('in-applications:analyze.listLoadMore', {
+            retrievalSize: retrievalSize
+          })}
           filterBy={filterBy}
           renderNoDataAvailable={noDataMessage => (
             <NoDataAvailable className={locals.noData} text={noDataMessage} height={80} />
@@ -213,7 +216,9 @@ function TableOnlyPresenter({
         fixedLayout
         orderBy={order.by}
         orderDirection={order.direction}
-        loadMoreLabel={`Load ${retrievalSize} more`}
+        loadMoreLabel={t('in-applications:analyze.listLoadMore', {
+          retrievalSize: retrievalSize
+        })}
         filterBy={filterBy}
       />
     </div>
@@ -275,7 +280,11 @@ const getColumnDefinitions = (dataSource, linkFormModel) => {
             {dataSource !== 'traces' && (
               <BatchingIndicator
                 batchCount={item[type].batchCount}
-                tooltipContent={`This ${type} is batched and represents ${item[type].batchCount} individual ${type}s.`}
+                tooltipContent={t('in-applications:analyze.listBatchTypeTooltip', {
+                  type: getTypeTextByCount(type, 1),
+                  batchCount: item[type].batchCount,
+                  types: getTypeTextByCount(type, item[type].batchCount)
+                })}
               />
             )}
           </Link>
@@ -297,7 +306,7 @@ const getColumnDefinitions = (dataSource, linkFormModel) => {
     },
     {
       id: 'timestamp',
-      label: 'Timestamp',
+      label: t('in-applications:labelTimestamp'),
       getContent(item) {
         return formatDateTime(item[type][dataSource === 'traces' ? 'startTime' : 'started']);
       },
@@ -306,7 +315,7 @@ const getColumnDefinitions = (dataSource, linkFormModel) => {
     },
     {
       id: 'latency',
-      label: 'Latency',
+      label: t('in-applications:labelLatency'),
       getContent(item) {
         return (
           <>
@@ -314,7 +323,10 @@ const getColumnDefinitions = (dataSource, linkFormModel) => {
             {dataSource !== 'traces' && (
               <BatchingIndicator
                 batchCount={item[type].batchCount}
-                tooltipContent={`Total latency of ${item[type].batchCount} batched ${type}s.`}
+                tooltipContent={t('in-applications:analyze.listBatchLatencyTooltip', {
+                  batchCount: item[type].batchCount,
+                  type: getTypeTextByCount(type, item[type].batchCount)
+                })}
               />
             )}
           </>

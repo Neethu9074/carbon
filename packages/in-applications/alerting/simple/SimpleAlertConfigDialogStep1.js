@@ -18,6 +18,7 @@ import ProvideStatusCode from 'in-applications/alerting/components/ProvideStatus
 import createBlueprintForm from 'in-applications/alerting/form/blueprintFormCreator';
 import AlertTypeSwitch from 'in-applications/alerting/components/AlertTypeSwitch';
 import Menu from 'in-new-components/Alerting/components/Menu';
+import { t } from 'in-i18n';
 
 export default function SimpleAlertConfigDialogStep1({
   form,
@@ -32,7 +33,7 @@ export default function SimpleAlertConfigDialogStep1({
   const blueprintConfig = getSimpleModeBlueprintConfig(alertType, alertThreshold);
 
   return (
-    <SimpleModeStepContentWrapper headline="What do you want to be alerted on?">
+    <SimpleModeStepContentWrapper headline={t('in-applications:simple.simpleAlertStep1Headline')}>
       <Menu
         items={simpleModeBlueprintConfigs}
         onItemClick={item => {

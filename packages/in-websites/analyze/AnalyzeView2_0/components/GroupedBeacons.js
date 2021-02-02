@@ -49,7 +49,7 @@ function getTableData({ timeConfig, backendQueryModel, groupBy, cursor, orderBy,
       retrievalSize: 20
     },
     timeConfig,
-    tagFilterExpression: addDataSourceToBackendQueryModel({backendQueryModel, dataSource}),
+    tagFilterExpression: addDataSourceToBackendQueryModel({ backendQueryModel, dataSource }),
     group: groupBy,
     order: orderBy,
     metrics

@@ -1,4 +1,12 @@
 {
+  "labelLatency": "Latency",
+  "labelTimestamp": "Timestamp",
+  "labelApplications": "Applications",
+  "labelAnalytic": "Analytics",
+  "labelTrace": "Trace",
+  "linkDownload": "Download",
+  "labelCalls": "Calls",
+  "labelTraces": "Traces",
   "applicationMap": {
     "webglNotSupportedTitle": "Browser Does Not Support WebGL",
     "webglNotSupported": "The Instana user interface contains 3D components that are rendered using a technology called WebGL. Unfortunately this technology is not yet available on all platforms. Some browsers, especially browsers in older versions, do not support WebGL. We recommend using the newest generation of auto-updating browsers: Chrome, Firefox, Safari 8 or MS Edge.\n\nWe try our best to support all platform and browser combinations. However, it may be that our usage of WebGL contains errors. You can use an [online test](https://get.webgl.org/) to check whether your platform supports WebGL.\n\nShould the online test state that your platform supports WebGL, but the Instana 3D Map still remains inoperable, [please contact us](https://support.instana.com/hc/en-us/requests/new).\n\nFor further troubleshooting information please refer to the [WebGL compatibility table](http://caniuse.com/#feat=webgl) or the [WebGL website](http://webgl.org/).",
@@ -67,12 +75,24 @@
     "quickFilter": {
       "labelService": "Service",
       "labelService_plural": "Services",
+      "labelService_0": "Services",
+      "labelService_1": "Service",
+      "labelService_2": "Services",
       "labelEndpoint": "Endpoint",
       "labelEndpoint_plural": "Endpoints",
+      "labelEndpoint_0": "Endpoints",
+      "labelEndpoint_1": "Endpoint",
+      "labelEndpoint_2": "Endpoints",
       "labelType": "Type",
       "labelType_plural": "Types",
+      "labelType_0": "Types",
+      "labelType_1": "Type",
+      "labelType_2": "Types",
       "labelTechnology": "Technology",
       "labelTechnology_plural": "Technologies",
+      "labelTechnology_0": "Technologies",
+      "labelTechnology_1": "Technology",
+      "labelTechnology_2": "Technologies",
       "labelLatency": "Latency",
       "labelErroneous": "Erroneous",
       "preconditionFailedTooltip": "Please select a service before selecting an endpoint."
@@ -83,7 +103,74 @@
       "noDataMessage": "No alert configured.",
       "selectLogMessageText": "Select log message as template (optional)",
       "selectLogMessageTitle": "Select Log Message"
-    }
+    },
+    "chartingPresenter": {
+      "noData": "No data to display"
+    },
+    "erroneous": "Erroneous",
+    "facetedSearch": {
+      "showSyntheticCalls": "Show Synthetic calls",
+      "showInternalCalls": "Show Internal calls"
+    },
+    "applications": "Applications",
+    "services": "Services",
+    "endpoints": "Endpoints",
+    "types": "Types",
+    "technologies": "Technologies",
+    "httpStatusCode": "HTTP Status Code",
+    "hiddenCalls": "Hidden Calls",
+    "noResults": "No results",
+    "showBatchMore": "show {{nextBatch}} more",
+    "callBatchCountTooltip": "This call is batched and represents {{callBatchCount}} individual call.",
+    "callBatchCountTooltip_plural": "This call is batched and represents {{callBatchCount}} individual calls.",
+    "callBatchCountTooltip_0": "This call is batched and represents {{callBatchCount}} individual calls.",
+    "callBatchCountTooltip_1": "This call is batched and represents {{callBatchCount}} individual call.",
+    "callBatchCountTooltip_2": "This call is batched and represents {{callBatchCount}} individual calls.",
+    "groupedList": {
+      "groupItemName": "Group",
+      "earliestTimestamp": "Earliest Timestamp",
+      "focusGroupTooltip": "Focus on this group",
+      "groupName": "Group Name",
+      "sortingMetricLabelTh": "{{sortingMetricLabel}} ({{num}}th)",
+      "sortingMetricLabelRate": "{{sortingMetricLabel}} (rate)",
+      "sortingMetricLabelCount": "{{sortingMetricLabel}} (count)",
+      "sortingMetricLabelTime": "{{sortingMetricLabel}} ({{time}})",
+      "preview": "Preview"
+    },
+    "listLoadMore": "Load {{retrievalSize}} more",
+    "listBatchTypeTooltip": "This {{type}} is batched and represents {{batchCount}} individual {{types}}.",
+    "listBatchLatencyTooltip": "Total latency of {{batchCount}} batched {{types}}.",
+    "traceId": "Trace ID: ",
+    "traceIdTooltip": "Some data related to this trace is delayed so please reload the page in a little later. An example where this may happen is viewing a very recent trace with some of its data is still being processed.",
+    "closeTraceDetail": "Close trace detail",
+    "invalidQueryConfig": "The query configuration is invalid. Please address the validation failures before continuing.",
+    "errorRateLabel": "Erroneous Calls (rate)",
+    "errorRateCategory": "Erroneous Calls",
+    "errorMetricLabel": "Erroneous Calls Rate",
+    "erroneousCallsLabel": "Erroneous Calls (count)",
+    "erroneousCallsCategory": "Erroneous Calls",
+    "erroneousTraceRate": "Erroneous Traces Rate",
+    "erroneousTrace": "Erroneous Traces",
+    "metricLabel": "Call",
+    "metricLabel_plural": "Calls",
+    "metricLabel_0": "Calls",
+    "metricLabel_1": "Call",
+    "metricLabel_2": "Calls",
+    "traceLabel": "Trace",
+    "traceLabel_plural": "Traces",
+    "traceLabel_0": "Traces",
+    "traceLabel_1": "Trace",
+    "traceLabel_2": "Traces",
+    "typeCall": "call",
+    "typeCall_plural": "calls",
+    "typeCall_0": "calls",
+    "typeCall_1": "call",
+    "typeCall_2": "calls",
+    "typeTrace" : "trace",
+    "typeTrace_plural" : "traces",
+    "typeTrace_0" : "traces",
+    "typeTrace_1" : "trace",
+    "typeTrace_2" : "traces"
   },
   "blueprintConfig": {
     "slowness": {
@@ -191,6 +278,27 @@
       "throughputDefault_lowerEqual": "The number of calls is lower or equal to expected."
     },
     "customStatusCodeFullText": "between {{statusCodeStart}} and {{statusCodeEnd}}"
+  },
+  "ruleForm": {
+    "ruleLogLevelOptions": {
+      "error": "Error",
+      "warning": "Warning",
+      "any": "Error and Warning"
+    },
+    "ruleLogMessageOperationOptions": {
+      "notEmpty": "Any",
+      "equals": "Equals",
+      "contains": "Contains",
+      "startsWith": "Starts with",
+      "endsWith": "Ends with"
+    }
+  },
+  "simple": {
+    "simpleAlertStep1Headline": "What do you want to be alerted on?",
+    "simpleAlertStep2Headline": "Where do you want the alert to trigger?",
+    "step1Title": "Step 1: Select Alert",
+    "step2Title": "Step 2: Select Scope",
+    "step3Title": "Step 3: Select Alerting Channels"
   },
   "creation": {
     "newAP": "New Application Perspective",

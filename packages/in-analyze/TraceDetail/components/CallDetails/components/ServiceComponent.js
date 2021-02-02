@@ -92,9 +92,11 @@ export default function ServiceComponent({ call, websiteBeacon, mobileAppBeacon 
           />
           {canSeeCallDetails && hasNonEmptyData(intermediateSpan) && (
             <ExpandableGroup
-              title={intermediateSpan.stackTrace.length > 0 
-                ? t('in-analyze:traceDetail.callDetails.serviceComponent.detailsAndStackTrace')
-                : t('in-analyze:traceDetail.callDetails.serviceComponent.details')}
+              title={
+                intermediateSpan.stackTrace.length > 0
+                  ? t('in-analyze:traceDetail.callDetails.serviceComponent.detailsAndStackTrace')
+                  : t('in-analyze:traceDetail.callDetails.serviceComponent.details')
+              }
               defaultExpanded
             >
               <SpanDetails call={call} span={intermediateSpan} />
@@ -165,20 +167,28 @@ export default function ServiceComponent({ call, websiteBeacon, mobileAppBeacon 
             )}
             <div className={locals.sourceChildren}>
               {websiteBeacon && sourceService.id === 'ROOT' && (
-                <ExpandableGroup title={t('in-analyze:traceDetail.callDetails.serviceComponent.details')} defaultExpanded>
+                <ExpandableGroup
+                  title={t('in-analyze:traceDetail.callDetails.serviceComponent.details')}
+                  defaultExpanded
+                >
                   <WebsiteBeaconDetails beacon={websiteBeacon} />
                 </ExpandableGroup>
               )}
               {mobileAppBeacon && sourceService.id === 'ROOT' && (
-                <ExpandableGroup title={t('in-analyze:traceDetail.callDetails.serviceComponent.details')} defaultExpanded>
+                <ExpandableGroup
+                  title={t('in-analyze:traceDetail.callDetails.serviceComponent.details')}
+                  defaultExpanded
+                >
                   <MobileAppBeaconDetails beacon={mobileAppBeacon} />
                 </ExpandableGroup>
               )}
               {canSeeCallDetails && hasNonEmptyData(exitSpan) && (
                 <ExpandableGroup
-                  title={exitSpan.stackTrace.length > 0 
-                    ? t('in-analyze:traceDetail.callDetails.serviceComponent.detailsAndStackTrace')
-                    : t('in-analyze:traceDetail.callDetails.serviceComponent.details')}
+                  title={
+                    exitSpan.stackTrace.length > 0
+                      ? t('in-analyze:traceDetail.callDetails.serviceComponent.detailsAndStackTrace')
+                      : t('in-analyze:traceDetail.callDetails.serviceComponent.details')
+                  }
                   defaultExpanded
                 >
                   <SpanDetails call={call} span={exitSpan} />
@@ -188,7 +198,10 @@ export default function ServiceComponent({ call, websiteBeacon, mobileAppBeacon 
                 </ExpandableGroup>
               )}
               {sourceService.id === 'ROOT' && !websiteBeacon && !mobileAppBeacon && (
-                <ExpandableGroup title={t('in-analyze:traceDetail.callDetails.serviceComponent.details')} defaultExpanded>
+                <ExpandableGroup
+                  title={t('in-analyze:traceDetail.callDetails.serviceComponent.details')}
+                  defaultExpanded
+                >
                   <p>
                     The source of this call has not been traced and as a result no information can be provided about the
                     source. All information shown about this call is provided by the destination.
@@ -249,9 +262,11 @@ export default function ServiceComponent({ call, websiteBeacon, mobileAppBeacon 
       <div className={locals.destinationChildren}>
         {canSeeCallDetails && (hasNonEmptyData(entrySpan) || isSyntheticBatchSpan) && (
           <ExpandableGroup
-            title={entrySpan.stackTrace.length > 0 
-              ? t('in-analyze:traceDetail.callDetails.serviceComponent.detailsAndStackTrace')
-              : t('in-analyze:traceDetail.callDetails.serviceComponent.details')}
+            title={
+              entrySpan.stackTrace.length > 0
+                ? t('in-analyze:traceDetail.callDetails.serviceComponent.detailsAndStackTrace')
+                : t('in-analyze:traceDetail.callDetails.serviceComponent.details')
+            }
             defaultExpanded
           >
             <SpanDetails call={call} span={entrySpan} />

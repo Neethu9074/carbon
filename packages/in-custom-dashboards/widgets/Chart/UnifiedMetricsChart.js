@@ -51,7 +51,7 @@ export default function UnifiedMetricsChart({
   renderPostChartContent,
   cardUseMaxAvailableHeight,
   excludedContextMenuActions,
-  renderLegend=true
+  renderLegend = true
 }) {
   config = useMemo(() => duplicateTimeShiftComparedMetrics(config), [config]);
 

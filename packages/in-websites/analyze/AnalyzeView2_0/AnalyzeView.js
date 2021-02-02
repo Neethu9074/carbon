@@ -134,7 +134,7 @@ function getFacetedSearchSuggestions({ timeConfig, backendQueryModel, group, met
       retrievalSize: 200
     },
     timeConfig,
-    tagFilterExpression: addDataSourceToBackendQueryModel({backendQueryModel, dataSource}),
+    tagFilterExpression: addDataSourceToBackendQueryModel({ backendQueryModel, dataSource }),
     group,
     order: {
       by: metricKey,

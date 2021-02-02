@@ -19,6 +19,7 @@ import useTimeConfig from 'in-hooks/useTimeConfig';
 import useObservable from 'in-hooks/useObservable';
 import Message from 'in-new-components/Message';
 import Link from 'in-components/Link';
+import { t } from 'in-i18n';
 
 import locals from './Suggestion.mless';
 
@@ -48,7 +49,7 @@ function Body({ tagFilterExpression, updateFilter, hiddenCalls, dataSource, isVa
   if (existingErroneousFilter(tagFilterExpression)) {
     return (
       <ExistingValue
-        value={'Erroneous'}
+        value={t('in-applications:analyze.erroneous')}
         remove={() =>
           updateFilter({
             remove: [

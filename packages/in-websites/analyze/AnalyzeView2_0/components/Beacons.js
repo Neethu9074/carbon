@@ -76,6 +76,6 @@ function getTableData({ timeConfig, backendQueryModel, orderBy, cursor, dataSour
     },
     order: orderBy,
     timeConfig,
-    tagFilterExpression: addDataSourceToBackendQueryModel({backendQueryModel, dataSource}),
+    tagFilterExpression: addDataSourceToBackendQueryModel({ backendQueryModel, dataSource })
   });
 }

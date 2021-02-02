@@ -4,7 +4,7 @@
  */
 import { addTagFilters } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 
-export function addDataSourceToBackendQueryModel({backendQueryModel, dataSource}) {
+export function addDataSourceToBackendQueryModel({ backendQueryModel, dataSource }) {
   return addTagFilters(backendQueryModel, [
     {
       type: 'TAG_FILTER',

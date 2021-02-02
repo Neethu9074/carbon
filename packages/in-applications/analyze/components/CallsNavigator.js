@@ -24,6 +24,7 @@ import SortableColumn from 'in-analyze/components/SortableColumn';
 import { callClickedTracker } from 'in-analyze/tracker';
 import Tooltip from 'in-components/Tooltip';
 import Pill from 'in-new-components/Pill';
+import { t } from 'in-i18n';
 
 export default function CallsNavigator({
   items,
@@ -51,7 +52,7 @@ export default function CallsNavigator({
                 onChangeOrder={onChangeOrder}
                 defaultDirection="DESC"
                 technicalName="timestamp"
-                label="Timestamp"
+                label={t('in-applications:labelTimestamp')}
               />
 
               <SortableColumn
@@ -61,7 +62,7 @@ export default function CallsNavigator({
                 onChangeOrder={onChangeOrder}
                 defaultDirection="DESC"
                 technicalName="latency"
-                label="Latency"
+                label={t('in-applications:labelLatency')}
               />
             </Tr>
           </Thead>
@@ -85,7 +86,10 @@ export default function CallsNavigator({
                             {' '}
                             <Tooltip
                               themeStyle="light"
-                              content={`This call is batched and represents ${item.call.batchCount} individual calls.`}
+                              content={t('in-applications:analyze.callBatchCountTooltip', {
+                                count: item.call.batchCount,
+                                callBatchCount: item.call.batchCount
+                              })}
                             >
                               <Pill kind="lighter">{item.call.batchCount}</Pill>
                             </Tooltip>
