@@ -49,7 +49,7 @@ export default function SlownessInteractiveChart({
   selectedChartViewConfigIndex,
   editMode
 }) {
-  const alertConfig = alertConfigWithDefaultValues(form);
+  const alertConfigWithFormModel = alertConfigWithDefaultValues(form);
 
   return (
     <div className={locals.container}>
@@ -62,7 +62,7 @@ export default function SlownessInteractiveChart({
       />
 
       <ChartViewConfigurator
-        alertConfig={alertConfig}
+        alertConfigWithFormModel={alertConfigWithFormModel}
         onChartViewConfigChange={onChartViewConfigChange}
         selectedChartViewConfigIndex={selectedChartViewConfigIndex}
         headerTransparent
@@ -70,7 +70,7 @@ export default function SlownessInteractiveChart({
         {(chartViewConfig, serviceId) => (
           <ApplicationAlertingChartWithErrorMessage
             serviceId={serviceId}
-            alertConfigWithFormModel={alertConfig}
+            alertConfigWithFormModel={alertConfigWithFormModel}
             viewConfig={chartViewConfig}
             blueprintConfig={blueprintConfig}
             alertsPreviewEnabled

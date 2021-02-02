@@ -7,7 +7,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { PER_AP_SERVICE } from 'in-applications/alerting/advanced/EvaluationSwitch/alertEvaluationTypes';
-import ChartSubEntitySelection from 'in-new-components/Alerting/components/ChartsServiceSwitcher';
+import ChartSubEntitySelection from 'in-new-components/Alerting/components/ChartSubEntitySelection';
 import { maxChartViewTimeframe } from 'in-new-components/Alerting/Chart/chartViewConfig';
 import { chartViewConfigs } from 'in-new-components/Alerting/Chart/chartViewConfig';
 import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';
@@ -20,7 +20,7 @@ import locals from './ChartViewConfigurator.mless';
 
 export default function ChartViewConfigurator({
   selectedChartViewConfigIndex = 0,
-  alertConfig,
+  alertConfigWithFormModel,
   children,
   className,
   doNotSetDefaultHeight,
@@ -31,7 +31,7 @@ export default function ChartViewConfigurator({
 }) {
   const selectedChartViewConfig = chartViewConfigs[selectedChartViewConfigIndex];
   const [serviceId, setServiceId] = useState();
-  const showEntitySelection = alertConfig?.evaluationType === PER_AP_SERVICE;
+  const showEntitySelection = alertConfigWithFormModel?.evaluationType === PER_AP_SERVICE;
   return (
     <>
       <LightCard
@@ -64,7 +64,7 @@ export default function ChartViewConfigurator({
                   <ChartSubEntitySelection
                     serviceId={serviceId}
                     setServiceId={setServiceId}
-                    alertConfigWithFormModel={alertConfig}
+                    alertConfigWithFormModel={alertConfigWithFormModel}
                     // use maximum possible timeframe, to have a stable list when switching between options
                     queryWindowSize={maxChartViewTimeframe}
                   />
@@ -87,6 +87,6 @@ ChartViewConfigurator.propTypes = {
   title: PropTypes.string,
   headerTransparent: PropTypes.bool,
   framed: PropTypes.bool,
-  alertConfig: PropTypes.shape({ evaluationType: PropTypes.string }),
+  alertConfigWithFormModel: PropTypes.shape({ evaluationType: PropTypes.string }),
   onChartViewConfigChange: PropTypes.func.isRequired
 };

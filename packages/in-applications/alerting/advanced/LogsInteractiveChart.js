@@ -31,8 +31,8 @@ export default function LogsInteractiveChart({
   onChartViewConfigChange,
   selectedChartViewConfigIndex
 }) {
-  const alertConfig = alertConfigWithDefaultThreshold(form);
-  if (!blueprintConfig.isRuleComplete(alertConfig.rule)) {
+  const alertConfigWithFormModel = alertConfigWithDefaultThreshold(form);
+  if (!blueprintConfig.isRuleComplete(alertConfigWithFormModel.rule)) {
     return (
       <div className={locals.container}>
         <IncompleteChartPlaceholder message={blueprintConfig.incompleteRuleMessage} />
@@ -45,7 +45,7 @@ export default function LogsInteractiveChart({
       <ThresholdCondition form={form} onChange={onChange} updateForm={updateForm} blueprintConfig={blueprintConfig} />
 
       <ChartViewConfigurator
-        alertConfig={alertConfig}
+        alertConfigWithFormModel={alertConfigWithFormModel}
         onChartViewConfigChange={onChartViewConfigChange}
         selectedChartViewConfigIndex={selectedChartViewConfigIndex}
         headerTransparent
@@ -53,7 +53,7 @@ export default function LogsInteractiveChart({
         {(chartViewConfig, serviceId) => (
           <ApplicationAlertingChartWithErrorMessage
             serviceId={serviceId}
-            alertConfigWithFormModel={alertConfig}
+            alertConfigWithFormModel={alertConfigWithFormModel}
             viewConfig={chartViewConfig}
             blueprintConfig={blueprintConfig}
             alertsPreviewEnabled

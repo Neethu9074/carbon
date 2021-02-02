@@ -55,7 +55,10 @@ export default function AlertConfiguration({ alertConfig, applicationName }) {
         <ListTitle>Alert Configuration</ListTitle>
 
         <ChartViewConfigurator
-          alertConfig={alertConfig}
+          alertConfigWithFormModel={{
+            ...alertConfig,
+            tagFilterExpression: tagFilterFormModel
+          }}
           onChartViewConfigChange={index => setSelectedChartViewConfigIndex(index)}
           selectedChartViewConfigIndex={selectedChartViewConfigIndex}
           title="Trigger"

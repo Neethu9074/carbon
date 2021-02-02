@@ -56,7 +56,7 @@ export default function ChartSubEntitySelection({
       options={isLoading(result) ? loadingOptions : options}
       optionRenderer={option => option.label}
       onChange={selection => setServiceId(selection?.value)}
-      placeholder={isLoading(result) ? 'Loading services…' : 'Select service to see a preview'}
+      placeholder={isLoading(result) ? 'Loading services…' : 'No service in scope'}
       clearable={false}
       autoComplete
       autoFocus

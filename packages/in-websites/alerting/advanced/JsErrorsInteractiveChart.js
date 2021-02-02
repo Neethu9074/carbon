@@ -34,9 +34,9 @@ export default function JsErrorsInteractiveChart({
   onChartViewConfigChange,
   selectedChartViewConfigIndex
 }) {
-  const alertConfig = alertConfigWithDefaultThreshold(form);
+  const alertConfigWithFormModel = alertConfigWithDefaultThreshold(form);
 
-  if (!blueprintConfig.isRuleComplete(alertConfig.rule)) {
+  if (!blueprintConfig.isRuleComplete(alertConfigWithFormModel.rule)) {
     return (
       <div className={locals.container}>
         <IncompleteChartPlaceholder message={blueprintConfig.incompleteRuleMessage} />
@@ -49,14 +49,14 @@ export default function JsErrorsInteractiveChart({
       <ThresholdCondition form={form} onChange={onChange} blueprintConfig={blueprintConfig} updateForm={updateForm} />
 
       <ChartViewConfigurator
-        alertConfig={alertConfig}
+        alertConfigWithFormModel={alertConfigWithFormModel}
         onChartViewConfigChange={onChartViewConfigChange}
         selectedChartViewConfigIndex={selectedChartViewConfigIndex}
         headerTransparent
       >
         {chartViewConfig => (
           <AlertingChartWithErrorMessage
-            alertConfigWithFormModel={alertConfig}
+            alertConfigWithFormModel={alertConfigWithFormModel}
             viewConfig={chartViewConfig}
             blueprintConfig={blueprintConfig}
             alertsPreviewEnabled
