@@ -2,6 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc. 2021
  */
+import { debounce } from 'lodash';
+
 import {
   track,
   SLI_WIDGET_JUMP_TO_UNBOUNDED_ANALYTICS,
@@ -25,6 +27,7 @@ export const trackStartEditingSloWidgetConfig = e => track(SLI_WIDGET_START_EDIT
 export const trackAPSelected = e => track(SLI_WIDGET_AP_CHANGED, e);
 export const trackSliChanged = e => track(SLI_WIDGET_SLI_CHANGED, e);
 export const trackSloChanged = e => track(SLI_WIDGET_SLO_CHANGED, e);
+export const debouncedTrackSloChanged = debounce(trackSloChanged, 3000);
 export const trackTimeWindowTypeChanged = e => track(SLI_WIDGET_TIME_WINDOW_TYPE_CHANGED, e);
 
 export const trackOpenSLIManagement = e => track(SLI_WIDGET_OPEN_SLI_MANAGEMENT, e);

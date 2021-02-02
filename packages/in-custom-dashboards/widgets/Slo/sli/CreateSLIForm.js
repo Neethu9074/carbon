@@ -70,9 +70,9 @@ export default function CreateNewSLIForm({ apName, applicationId, apDefaultBound
             'custom-dashboard-sli'
           );
           if (pureConfig.id) {
-            trackSLICloned({ sliType: enrichedSliConfiguration.sliType });
+            trackSLICloned({ sliType: enrichedSliConfiguration.sliEntity?.sliType });
           } else {
-            trackSliNewCreated({ sliType: enrichedSliConfiguration.sliType });
+            trackSliNewCreated({ sliType: enrichedSliConfiguration.sliEntity?.sliType });
           }
           close();
         },
@@ -115,7 +115,9 @@ export default function CreateNewSLIForm({ apName, applicationId, apDefaultBound
         <FormFooter withRoundedBottomBorder>
           <CancelButton
             onClick={() => {
-              trackSLIEditAbort();
+              const sliEntityForm = form.get('sliEntity');
+              const sliType = sliEntityForm?.get('sliType')?.value;
+              trackSLIEditAbort({ sliId: sliConfig?.id, sliType });
               close();
             }}
           />

@@ -23,7 +23,7 @@ import {
 import {
   trackAPSelected,
   trackOpenSLIManagement,
-  trackSloChanged,
+  debouncedTrackSloChanged,
   trackStartEditingSloWidgetConfig,
   trackTimeWindowTypeChanged
 } from 'in-custom-dashboards/widgets/Slo/tracker';
@@ -188,7 +188,7 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
                 id={sloTarget}
                 fieldName={sloTarget}
                 onChange={onChange}
-                trackChange={value => trackSloChanged({ value })}
+                trackChange={debouncedTrackSloChanged}
               />
               <span className={locals.sloUnit}>%</span>
               <OverridingTextTouchedMessage
