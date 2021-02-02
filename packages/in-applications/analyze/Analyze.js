@@ -59,6 +59,7 @@ import Message from 'in-new-components/Message';
 import useUrlState from 'in-hooks/useUrlState';
 import Footer from 'in-new-components/Footer';
 import Sticky from 'in-components/Sticky';
+import { t } from 'in-i18n';
 
 export default function ApplicationAnalyzeView() {
   return (
@@ -304,7 +305,7 @@ function ApplicationAnalyzeViewWithFixatedTimeConfig() {
 
           {isInvalid && (
             <Message type={error} withIcon small>
-              The query configuration is invalid. Please address the validation failures before continuing.
+              {t('in-applications:analyze.invalidQueryConfig')}
             </Message>
           )}
 

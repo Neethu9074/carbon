@@ -6,6 +6,7 @@ import React from 'react';
 
 import FacetedExpandableCard from 'in-applications/analyze/components/FacetedSearch/FacetedExpandableCard';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
+import { t } from 'in-i18n';
 
 import locals from './Suggestion.mless';
 
@@ -20,12 +21,12 @@ export default function FacetedFilterHiddenCalls({
   return (
     <FacetedExpandableCard title={title} openByDefault={openByDefault}>
       <HiddenCallCheck
-        label="Show Synthetic calls"
+        label={t('in-applications:analyze.facetedSearch.showSyntheticCalls')}
         checked={includeSynthetic}
         onChange={() => setIncludeSynthetic(!includeSynthetic)}
       />
       <HiddenCallCheck
-        label="Show Internal calls"
+        label={t('in-applications:analyze.facetedSearch.showInternalCalls')}
         checked={includeInternal}
         onChange={() => setIncludeInternal(!includeInternal)}
       />

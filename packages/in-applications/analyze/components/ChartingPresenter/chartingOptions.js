@@ -6,6 +6,7 @@ import { bar, stackedBar, stackedArea } from 'in-stores/metric/renderer';
 import { dataSourceConstants } from 'in-applications/analyze/metrics';
 import { getFormatter } from 'in-stores/metric/formatters';
 import { aggregationLabels } from 'in-stores/metric';
+import { t } from 'in-i18n';
 
 const latencyDistributionAggregation = {
   id: 'DISTRIBUTION',
@@ -16,7 +17,7 @@ const latencyDistributionAggregation = {
 export const ungroupedChartingOptions = [
   {
     metricId: 'latency',
-    label: 'Latency',
+    label: t('in-applications:labelLatency'),
     formatter: metricFormatter('latency'),
     aggregations: [latencyDistributionAggregation]
   }

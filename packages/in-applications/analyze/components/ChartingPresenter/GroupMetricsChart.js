@@ -14,6 +14,7 @@ import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
 import Chart from 'in-components/Chart/ChartReactComponent';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import useObservable from 'in-hooks/useObservable';
+import { t } from 'in-i18n';
 
 export default function GroupMetricsChart({
   metric,
@@ -98,7 +99,13 @@ export default function GroupMetricsChart({
 
   const noData = !metrics || metrics.length === 0;
   if (noData) {
-    return <NoDataAvailable height={189} icon={'lib_bar_chart'} text={'No data to display'} />;
+    return (
+      <NoDataAvailable
+        height={189}
+        icon={'lib_bar_chart'}
+        text={t('in-applications:analyze.chartingPresenter.noData')}
+      />
+    );
   }
 
   const groups = groupsResult?.items.slice(0, nbGroups);

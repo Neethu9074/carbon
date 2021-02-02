@@ -10,6 +10,7 @@ import SimpleAlertConfigDialogChart from 'in-applications/alerting/simple/Simple
 import AlertLocationFilters from 'in-applications/alerting/components/AlertLocationFilters';
 import AlertQueryBuilder from 'in-applications/alerting/components/AlertQueryBuilder';
 import WithQB1orQB2 from 'in-new-components/Alerting/components/WithQB1orQB2';
+import { t } from 'in-i18n';
 
 import locals from './SimpleAlertConfigDialogStep2.mless';
 
@@ -22,7 +23,7 @@ export default function SimpleAlertConfigDialogStep2({
   selectedChartViewConfigIndex
 }) {
   return (
-    <SimpleModeStepContentWrapper headline="Where do you want the alert to trigger?">
+    <SimpleModeStepContentWrapper headline={t('in-applications:simple.simpleAlertStep2Headline')}>
       <div className={locals.alertLocationFiltersWrapper}>
         <WithQB1orQB2
           onUsesQB1={() => (

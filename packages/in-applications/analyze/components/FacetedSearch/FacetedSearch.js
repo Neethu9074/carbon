@@ -11,6 +11,7 @@ import FacetedFilterGeneric from 'in-applications/analyze/components/FacetedSear
 import FacetedFilterLatency from 'in-applications/analyze/components/FacetedSearch/FacetedFilterLatency';
 import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import { DESTINATION } from 'in-new-components/QueryBuilder/tagFilter/entities';
+import { t } from 'in-i18n';
 
 import locals from './FacetedSearch.mless';
 
@@ -25,7 +26,7 @@ export default function FacetedSearch({
   return (
     <div className={locals.wrapper}>
       <FacetedFilterLatency
-        title="Latency"
+        title={t('in-applications:labelLatency')}
         dataSource={dataSource}
         tagFilterExpression={tagFilterExpression}
         updateFilter={updateFilter}
@@ -33,7 +34,7 @@ export default function FacetedSearch({
         openByDefault
       />
       <FacetedFilterErroneous
-        title="Erroneous"
+        title={t('in-applications:analyze.erroneous')}
         tagFilterExpression={tagFilterExpression}
         updateFilter={updateFilter}
         dataSource={dataSource}
@@ -42,7 +43,7 @@ export default function FacetedSearch({
         openByDefault
       />
       <FacetedFilterGeneric
-        title="Applications"
+        title={t('in-applications:analyze.applications')}
         tag="application.name"
         entity={DESTINATION}
         tagFilterExpression={tagFilterExpression}
@@ -53,7 +54,7 @@ export default function FacetedSearch({
       />
 
       <FacetedFilterGeneric
-        title="Services"
+        title={t('in-applications:analyze.services')}
         tag="service.name"
         entity={DESTINATION}
         tagFilterExpression={tagFilterExpression}
@@ -63,7 +64,7 @@ export default function FacetedSearch({
         isValid={isValid}
       />
       <FacetedFilterGeneric
-        title="Endpoints"
+        title={t('in-applications:analyze.endpoints')}
         tag="endpoint.name"
         entity={DESTINATION}
         tagFilterExpression={tagFilterExpression}
@@ -73,7 +74,7 @@ export default function FacetedSearch({
         isValid={isValid}
       />
       <FacetedFilterGeneric
-        title="Types"
+        title={t('in-applications:analyze.types')}
         tag="call.type"
         tagFilterExpression={tagFilterExpression}
         updateFilter={updateFilter}
@@ -82,7 +83,7 @@ export default function FacetedSearch({
         isValid={isValid}
       />
       <FacetedFilterGeneric
-        title="Technologies"
+        title={t('in-applications:analyze.technologies')}
         tag="technology"
         entity={DESTINATION}
         tagFilterExpression={tagFilterExpression}
@@ -92,12 +93,12 @@ export default function FacetedSearch({
         isValid={isValid}
       />
       <FacetedFilterHttpStatusCodes
-        title="HTTP Status Code"
+        title={t('in-applications:analyze.httpStatusCode')}
         tagFilterExpression={tagFilterExpression}
         updateFilter={updateFilter}
       />
       <FacetedFilterHiddenCalls
-        title="Hidden Calls"
+        title={t('in-applications:analyze.hiddenCalls')}
         includeSynthetic={hiddenCalls?.includeSynthetic}
         includeInternal={hiddenCalls?.includeInternal}
         setIncludeSynthetic={includeSynthetic =>

@@ -9,20 +9,21 @@ import SimpleModePageNavigation from 'in-new-components/BlueprintFormMultistep/S
 import SimpleAlertConfigDialogStep2 from 'in-applications/alerting/simple/SimpleAlertConfigDialogStep2';
 import SimpleAlertConfigDialogStep1 from 'in-applications/alerting/simple/SimpleAlertConfigDialogStep1';
 import { applicationsAlertingStepSwitch } from 'in-applications/alerting/tracker';
+import { t } from 'in-i18n';
 
 const stepConfigs = [
   {
-    title: 'Step 1: Select Alert',
+    title: t('in-applications:simple.step1Title'),
     validateIntermediately: [
       ['rule', 'message'],
       ['rule', 'level']
     ]
   },
   {
-    title: 'Step 2: Select Scope'
+    title: t('in-applications:simple.step2Title')
   },
   {
-    title: 'Step 3: Select Alerting Channels',
+    title: t('in-applications:simple.step3Title'),
     validateIntermediately: [['alertChannelIds']]
   }
 ];

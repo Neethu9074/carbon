@@ -12,6 +12,7 @@ import Renderer from 'in-components/Chart/renderer/Renderer';
 import getCalls from 'in-subscription/application/getCalls';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import { isNotBlank } from 'in-services/util/string';
+import { t } from 'in-i18n';
 
 export const CALLS = 'CALLS';
 export const TRACES = 'TRACES';
@@ -25,22 +26,26 @@ const calls = newNumberMetric({ metric: 'calls', label: 'Calls' });
 
 const errorRate = {
   metric: 'errors',
-  label: 'Erroneous Calls (rate)',
+  label: t('in-applications:analyze.errorRateLabel'),
   formatter: percentage,
   supportedAggregations: ['MEAN'],
   preferredRenderer: Renderer.stackedBar,
   min: 0,
-  category: 'Erroneous Calls'
+  category: t('in-applications:analyze.errorRateCategory')
 };
 
 const erroneousCalls = newNumberMetric({
   metric: 'erroneousCalls',
-  label: 'Erroneous Calls (count)',
-  category: 'Erroneous Calls'
+  label: t('in-applications:analyze.erroneousCallsLabel'),
+  category: t('in-applications:analyze.erroneousCallsCategory')
 });
 
 const latency = {
-  ...newTimeMetric({ metric: 'latency', label: 'Latency', category: 'Latency' }),
+  ...newTimeMetric({
+    metric: 'latency',
+    label: t('in-applications:labelLatency'),
+    category: t('in-applications:labelLatency')
+  }),
   unfoldAggregations: true
 };
 
@@ -61,8 +66,8 @@ export const getMetricAndAggregationFromMetricKey = key => {
 export const dataSourceConstants = {
   calls: {
     metricKey: 'calls_SUM_Agg',
-    metricLabel: 'Call',
-    metricsLabel: 'Calls',
+    metricLabel: t('in-applications:analyze.metricLabel', { count: 1 }),
+    metricsLabel: t('in-applications:analyze.metricLabel', { count: 2 }),
     type: 'call',
     backendDataSource: CALLS,
     sumMetric: {
@@ -86,17 +91,27 @@ export const dataSourceConstants = {
     },
     defaultCharts: [{ metric: 'latency', aggregation: 'DISTRIBUTION' }],
     fixedMetricConfiguration: {
-      calls: { formatter: number.compact, label: 'Calls', type: 'count', aggregations: ['SUM'] }
+      calls: { formatter: number.compact, label: t('in-applications:labelCalls'), type: 'count', aggregations: ['SUM'] }
     },
     metricConfiguration: {
       latency: {
         formatter: millis.forcedCompactOnMs.detailed,
-        label: 'Latency',
+        label: t('in-applications:labelLatency'),
         type: 'time',
         aggregations: ['MIN', 'P25', 'P50', 'P75', 'P90', 'P95', 'P98', 'P99', 'MAX', 'MEAN']
       },
-      errors: { formatter: percentage.detailed, label: 'Erroneous Calls Rate', type: 'rate', aggregations: ['MEAN'] },
-      erroneousCalls: { formatter: number.compact, label: 'Erroneous Calls', type: 'count', aggregations: ['SUM'] }
+      errors: {
+        formatter: percentage.detailed,
+        label: t('in-applications:analyze.errorMetricLabel'),
+        type: 'rate',
+        aggregations: ['MEAN']
+      },
+      erroneousCalls: {
+        formatter: number.compact,
+        label: t('in-applications:analyze.erroneousCallsCategory'),
+        type: 'count',
+        aggregations: ['SUM']
+      }
     },
     latencyTag: 'call.latency',
     getData: getCalls,
@@ -105,8 +120,8 @@ export const dataSourceConstants = {
   },
   traces: {
     metricKey: 'traces_SUM_Agg',
-    metricLabel: 'Trace',
-    metricsLabel: 'Traces',
+    metricLabel: t('in-applications:analyze.traceLabel', { count: 1 }),
+    metricsLabel: t('in-applications:analyze.traceLabel', { count: 2 }),
     type: 'trace',
     backendDataSource: TRACES,
     sumMetric: {
@@ -129,22 +144,32 @@ export const dataSourceConstants = {
     },
     defaultCharts: [{ metric: 'latency', aggregation: 'DISTRIBUTION' }],
     fixedMetricConfiguration: {
-      traces: { formatter: number.compact, label: 'Traces', type: 'count', aggregations: ['SUM'] }
+      traces: {
+        formatter: number.compact,
+        label: t('in-applications:labelTraces'),
+        type: 'count',
+        aggregations: ['SUM']
+      }
     },
     metricConfiguration: {
       latency: {
         formatter: millis.forcedCompactOnMs.detailed,
-        label: 'Latency',
+        label: t('in-applications:labelLatency'),
         type: 'time',
         aggregations: ['MIN', 'P25', 'P50', 'P75', 'P90', 'P95', 'P98', 'P99', 'MAX', 'MEAN']
       },
       errors: {
         formatter: percentage.detailed,
-        label: 'Erroneous Traces Rate',
+        label: t('in-applications:analyze.erroneousTraceRate'),
         type: 'rate',
         aggregations: ['MEAN']
       },
-      erroneousCalls: { formatter: number.compact, label: 'Erroneous Traces', type: 'count', aggregations: ['SUM'] }
+      erroneousCalls: {
+        formatter: number.compact,
+        label: t('in-applications:analyze.erroneousTrace'),
+        type: 'count',
+        aggregations: ['SUM']
+      }
     },
     latencyTag: 'trace.latency',
     getData: getTraces,

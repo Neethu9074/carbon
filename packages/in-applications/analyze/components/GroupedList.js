@@ -39,6 +39,7 @@ import useObservable from 'in-hooks/useObservable';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Message from 'in-new-components/Message';
 import SvgIcon from 'in-components/SvgIcon';
+import { t } from 'in-i18n';
 
 import locals from './List.mless';
 
@@ -183,7 +184,7 @@ function Presenter({
     <div className={locals.wrapper}>
       <div className={locals.hitsAndFacetedSearch}>
         <ResultHeader
-          itemName="Group"
+          itemName={t('in-applications:analyze.groupedList.groupItemName')}
           totalRepresentedItemCount={totalHits}
           adjustedWindowSize={adjustedWindowSize}
           withSamplingTooltip
@@ -342,7 +343,13 @@ function metricColumns({ metrics, dataSource }) {
       shrink: false,
       getContent({ group }) {
         const earliestTimestamp = formatDateTime(group.timestamp);
-        return <KeyValue label="Earliest Timestamp" customValue={earliestTimestamp} accentuated />;
+        return (
+          <KeyValue
+            label={t('in-applications:analyze.groupedList.earliestTimestamp')}
+            customValue={earliestTimestamp}
+            accentuated
+          />
+        );
       }
     }
   ].concat(metrics.map(metric => metricToColumn(metric, dataSource)));
@@ -355,7 +362,7 @@ function actionColumns({ groupBy, onFocusOnGroup, groupByTagType }) {
       shrink: false,
       getContent({ group }) {
         return (
-          <Tooltip content="Focus on this group">
+          <Tooltip content={t('in-applications:analyze.groupedList.focusGroupTooltip')}>
             <IconButton
               type="lib_actions_filter"
               onClick={() => onFocusOnGroup(groupingFilter({ groupBy, group: group.name, groupByTagType }))}
@@ -427,17 +434,28 @@ function getGroups({
   });
 }
 
-function aggregationLabel(aggregation, type) {
+function getSortingMetricLabel(sortingMetricLabel, aggregation, type) {
   if (aggregation.startsWith('P')) {
-    return `(${aggregation.substring(1)}th)`;
+    return t('in-applications:analyze.groupedList.sortingMetricLabelTh', {
+      sortingMetricLabel: sortingMetricLabel,
+      num: aggregation.substring(1)
+    });
   } else if (type === 'rate') {
-    return '(rate)';
+    return t('in-applications:analyze.groupedList.sortingMetricLabelRate', {
+      sortingMetricLabel: sortingMetricLabel
+    });
   } else if (type === 'count') {
-    return '(count)';
+    return t('in-applications:analyze.groupedList.sortingMetricLabelCount', {
+      sortingMetricLabel: sortingMetricLabel
+    });
   } else if (type === 'time') {
-    return `(${aggregation.toLowerCase()})`;
+    // return `(${aggregation.toLowerCase()})`;
+    return t('in-applications:analyze.groupedList.sortingMetricLabelCount', {
+      sortingMetricLabel: sortingMetricLabel,
+      time: aggregation.toLowerCase()
+    });
   } else {
-    return '';
+    return sortingMetricLabel;
   }
 }
 
@@ -463,13 +481,16 @@ function HeaderRow({
     aggregations: value.aggregations
   }));
   const sortingOptions = [
-    { label: 'Group Name', value: 'group' },
-    { label: 'Earliest Timestamp', value: 'firstTimestamp' },
+    { label: t('in-applications:analyze.groupedList.groupName'), value: 'group' },
+    { label: t('in-applications:analyze.groupedList.earliestTimestamp'), value: 'firstTimestamp' },
     ...[...fixedMetrics, ...selectableMetrics].map(metric => {
-      const aggregation = aggregationLabel(metric.aggregation, sortingMetricConfiguration[metric.metric].type);
       return {
         value: aggregateMetricKey(metric.metric, metric.aggregation),
-        label: `${sortingMetricConfiguration[metric.metric].label} ${aggregation}`
+        label: getSortingMetricLabel(
+          sortingMetricConfiguration[metric.metric].label,
+          metric.aggregation,
+          sortingMetricConfiguration[metric.metric].type
+        )
       };
     })
   ];
@@ -485,7 +506,7 @@ function HeaderRow({
       />
       {internalVisible && (
         <div className={locals.preview}>
-          <span>Preview</span>
+          <span>{t('in-applications:analyze.groupedList.preview')}</span>
           <Toggle checked={previewEnabled} onChange={e => onChangePreviewEnabled(e.target.checked)} />
         </div>
       )}

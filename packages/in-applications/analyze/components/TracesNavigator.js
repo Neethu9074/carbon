@@ -23,6 +23,7 @@ import ListItemPresenter from 'in-analyze/components/RawTraces/ListItemPresenter
 import { getLinkToTraceDetail } from 'in-analyze/navigation/paths';
 import SortableColumn from 'in-analyze/components/SortableColumn';
 import { traceClickedTracker } from 'in-analyze/tracker';
+import { t } from 'in-i18n';
 
 export default function TracesNavigator({
   items,
@@ -49,7 +50,7 @@ export default function TracesNavigator({
                 onChangeOrder={onChangeOrder}
                 defaultDirection="DESC"
                 technicalName="timestamp"
-                label="Timestamp"
+                label={t('in-applications:labelTimestamp')}
               />
               <SortableColumn
                 orderBy={orderBy}
@@ -57,7 +58,7 @@ export default function TracesNavigator({
                 onChangeOrder={onChangeOrder}
                 defaultDirection="DESC"
                 technicalName="latency"
-                label="Latency"
+                label={t('in-applications:labelLatency')}
               />
             </Tr>
           </Thead>

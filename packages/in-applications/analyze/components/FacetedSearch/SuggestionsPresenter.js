@@ -14,6 +14,7 @@ import Button from 'in-new-components/Button';
 import Tooltip from 'in-components/Tooltip';
 import Link from 'in-components/Link';
 import { sortBy } from 'lodash';
+import { t } from 'in-i18n';
 
 import locals from './Suggestion.mless';
 
@@ -109,7 +110,7 @@ function Results({ suggestions, tag, updateFilter, dataSource, isValid }) {
         ))}
       {nextBatch > 0 && (
         <Button className={locals.showMore} kind="action" onClick={() => setShowMore(showMore + nextBatch)}>
-          show {nextBatch} more
+          {t('in-applications:analyze.showBatchMore', { nextBatch: nextBatch })}
         </Button>
       )}
     </>
@@ -117,5 +118,5 @@ function Results({ suggestions, tag, updateFilter, dataSource, isValid }) {
 }
 
 function NoResults() {
-  return <div className={locals.noResult}>No results</div>;
+  return <div className={locals.noResult}>{t('in-applications:analyze.noResults')}</div>;
 }
