@@ -121,7 +121,11 @@
     "hiddenCalls": "Hidden Calls",
     "noResults": "No results",
     "showBatchMore": "show {{nextBatch}} more",
-    "callBatchCountTooltip": "This call is batched and represents {{callBatchCount}} individual calls.",
+    "callBatchCountTooltip": "This call is batched and represents {{callBatchCount}} individual call.",
+    "callBatchCountTooltip_plural": "This call is batched and represents {{callBatchCount}} individual calls.",
+    "callBatchCountTooltip_0": "This call is batched and represents {{callBatchCount}} individual calls.",
+    "callBatchCountTooltip_1": "This call is batched and represents {{callBatchCount}} individual call.",
+    "callBatchCountTooltip_2": "This call is batched and represents {{callBatchCount}} individual calls.",
     "groupedList": {
       "groupItemName": "Group",
       "earliestTimestamp": "Earliest Timestamp",

@@ -87,6 +87,7 @@ export default function CallsNavigator({
                             <Tooltip
                               themeStyle="light"
                               content={t('in-applications:analyze.callBatchCountTooltip', {
+                                count: item.call.batchCount,
                                 callBatchCount: item.call.batchCount
                               })}
                             >
