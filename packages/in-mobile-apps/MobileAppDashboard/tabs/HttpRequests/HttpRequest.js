@@ -4,6 +4,8 @@
  */
 import { just } from '@instana/observables';
 import React, { Fragment } from 'react';
+import theme from 'in-themes';
+import { t } from 'in-i18n';
 
 import {
   getLinkToMobileApp,
@@ -18,8 +20,8 @@ import { httpRequestId as httpRequestIdMatrixParameter } from 'in-mobile-apps/na
 import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-mobile-apps/tags';
 import ViewsTopList from 'in-mobile-apps/MobileAppDashboard/tabs/HttpRequests/ViewsTopList';
 import { millis, number, percentage } from 'in-services/formatters/number';
-import RedirectWithHash from 'in-components/RedirectWithHash';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import RedirectWithHash from 'in-components/RedirectWithHash';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { getChartGranularity } from 'in-mobile-apps/metrics';
 import { Col, Row } from 'in-new-components/layout/Grid';
@@ -28,7 +30,6 @@ import BackButton from 'in-new-components/BackButton';
 import Button from 'in-new-components/Button';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
-import theme from 'in-themes';
 
 import locals from './HttpRequest.mless';
 
@@ -61,20 +62,23 @@ function HttpRequestTab({ mobileAppId, mobileAppLabel, viewId, tagFilters, timeC
     <Fragment>
       <Row>
         <Col xs={12}>
-          <KpiCard title="Origin" value={httpRequestId} />
+          <KpiCard title={t('in-mobile-apps:dashboard.tabs.originTitle')} value={httpRequestId} />
         </Col>
       </Row>
 
       <Row>
         <Col xs={4}>
           <MobileAppChartWrapper
-            cardTitle="Calls"
+            cardTitle={t('in-mobile-apps:dashboard.tabs.callsCardTitle')}
             timeConfig={timeConfig}
             viewInAnalytics={viewInAnalytics}
             y1={{
               renderer: Renderer.barOverlapping,
               formatter: number.compact,
-              labels: ['Calls', 'Erroneous Calls'],
+              labels: [
+                t('in-mobile-apps:dashboard.tabs.callsLabel'),
+                t('in-mobile-apps:dashboard.tabs.erroneousCallsLabel')
+              ],
               metricIds: ['calls', 'errors'],
               colors: [theme.lib.colors.lightPrimary240, theme.lib.colors.failure]
             }}
@@ -101,13 +105,13 @@ function HttpRequestTab({ mobileAppId, mobileAppLabel, viewId, tagFilters, timeC
         </Col>
         <Col lg={4}>
           <MobileAppChartWrapper
-            cardTitle="Erroneous Call Rate"
+            cardTitle={t('in-mobile-apps:dashboard.tabs.erroneousCallRateTitle')}
             timeConfig={timeConfig}
             viewInAnalytics={viewInAnalytics}
             y1={{
               renderer: Renderer.bar,
               formatter: percentage.detailed,
-              labels: ['Erroneous Call Rate'],
+              labels: [t('in-mobile-apps:dashboard.tabs.erroneousCallRateLabel')],
               metricIds: ['errors'],
               colors: [theme.lib.colors.failure]
             }}
@@ -127,7 +131,7 @@ function HttpRequestTab({ mobileAppId, mobileAppLabel, viewId, tagFilters, timeC
         </Col>
         <Col lg={4}>
           <MobileAppChartWrapper
-            cardTitle="Latency"
+            cardTitle={t('in-mobile-apps:dashboard.tabs.latencyCardTitle')}
             reverseTooltipOrder
             shareMaxAxisDomain
             timeConfig={timeConfig}
@@ -136,14 +140,20 @@ function HttpRequestTab({ mobileAppId, mobileAppLabel, viewId, tagFilters, timeC
               renderer: Renderer.integral,
               calculateStackDifferences: true,
               formatter: millis.forcedFixedCompact,
-              labels: ['50th', '90th', '95th', '99th', 'Max'],
+              labels: [
+                t('in-mobile-apps:dashboard.tabs.50thLabel'),
+                t('in-mobile-apps:dashboard.tabs.90thLabel'),
+                t('in-mobile-apps:dashboard.tabs.95thLabel'),
+                t('in-mobile-apps:dashboard.tabs.99thLabel'),
+                t('in-mobile-apps:dashboard.tabs.maxLabel')
+              ],
               defaultDisabledMetrics: ['onLoadTimeMax'],
               metricIds: ['onLoadTime50th', 'onLoadTime90th', 'onLoadTime95th', 'onLoadTime99th', 'onLoadTimeMax']
             }}
             y2={{
               renderer: Renderer.line,
               formatter: millis.forcedFixedCompact,
-              labels: ['Mean'],
+              labels: [t('in-mobile-apps:dashboard.tabs.meanLabel')],
               defaultDisabledMetrics: ['onLoadTimeMean'],
               metricIds: ['onLoadTimeMean']
             }}
@@ -196,7 +206,7 @@ function HttpRequestTab({ mobileAppId, mobileAppLabel, viewId, tagFilters, timeC
       <Row>
         <Col xs={6}>
           <MobileAppChartWrapper
-            cardTitle="HTTP Status Code Breakdown"
+            cardTitle={t('in-mobile-apps:dashboard.tabs.HTTPStatusCodeBreakdownTitle')}
             timeConfig={timeConfig}
             viewInAnalytics={viewInAnalytics}
             y1={{
@@ -255,7 +265,7 @@ function HttpRequestTab({ mobileAppId, mobileAppLabel, viewId, tagFilters, timeC
 
         <Col lg={6}>
           <MobileAppChartWrapper
-            cardTitle="HTTP Method Breakdown"
+            cardTitle={t('in-mobile-apps:dashboard.tabs.HTTPMethodBreakdownTitle')}
             timeConfig={timeConfig}
             viewInAnalytics={viewInAnalytics}
             y1={{
@@ -336,11 +346,11 @@ function HttpRequestTab({ mobileAppId, mobileAppLabel, viewId, tagFilters, timeC
 
   return (
     <Fragment>
-      <Title title="Mobile App HTTP Request Details" dynamic={httpRequestId} />
+      <Title title={t('in-mobile-apps:dashboard.tabs.MobileAppHTTPRequestDetailsTitle')} dynamic={httpRequestId} />
 
       <div className={locals.actions}>
         <BackButton
-          label="Back to list of HTTP request origins"
+          label={t('in-mobile-apps:dashboard.tabs.BackToListOfHTTPRequestOriginsLabel')}
           href$={getLinkToMobileApp(mobileAppId, { tabPath: '/httpRequests', viewId })}
           withoutMargin
         />
@@ -360,7 +370,7 @@ function HttpRequestTab({ mobileAppId, mobileAppLabel, viewId, tagFilters, timeC
             }
           })}
         >
-          Analyze HTTP Request Origin
+          {t('in-mobile-apps:dashboard.tabs.AnalyzeHTTPRequestOriginBtn')}
         </Button>
       </div>
 

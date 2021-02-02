@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import getMobileAppPaginatedBeaconGroups from 'in-mobile-apps/subscriptions/getMobileAppPaginatedBeaconGroups';
@@ -13,7 +14,11 @@ import { ms, number } from 'in-services/formatters/number';
 import Link from 'in-components/Link';
 
 const metrics = ['beaconCount', 'beaconDuration', 'beaconErrorCount'];
-const labels = ['Calls', 'Latency', 'Errors'];
+const labels = [
+  t('in-mobile-apps:dashboard.tabs.callsLabel'),
+  t('in-mobile-apps:dashboard.tabs.latencyLabel'),
+  t('in-mobile-apps:dashboard.tabs.latencyLabel')
+];
 const aggregations = ['SUM', 'MEAN', 'SUM'];
 const formatters = [number.compact, ms.compact, number.compact];
 
@@ -26,7 +31,7 @@ export default function LocationsTopList({
 }) {
   return (
     <TopListWithUrlState
-      title="Paths"
+      title={t('in-mobile-apps:dashboard.tabs.pathsTitle')}
       metrics={metrics}
       labels={labels}
       aggregations={aggregations}
@@ -81,7 +86,7 @@ function ViewAll({ tagFilters, mobileAppLabel }, className) {
         }
       })}
     >
-      View all paths
+      {t('in-mobile-apps:dashboard.tabs.viewAllPathsLink')}
     </Link>
   );
 }

@@ -3,9 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 import { Route, Switch } from 'react-router-dom';
+import GlobeViewLoader from 'promise-loader?global,globe-view!in-websites/WebsiteDashboard/components/GlobeView';
+import { t } from 'in-i18n';
 import React from 'react';
 
-import GlobeViewLoader from 'promise-loader?global,globe-view!in-websites/WebsiteDashboard/components/GlobeView';
 import getMobileAppCountryBreakdown from 'in-mobile-apps/subscriptions/getMobileAppCountryBreakdown';
 import TwoDMobileAppGeoMap from 'in-mobile-apps/MobileAppDashboard/tabs/Geography/2DMobileAppGeoMap';
 import FullHeightWrapper from 'in-applications/Dashboards/commonComponents/FullHeightWrapper';
@@ -30,10 +31,12 @@ export default function Geography(props) {
   return (
     <WithEmptyStateFallback
       getHasDataToRender={() => getHasDataToRender(props)}
-      title="No sessions available"
-      explanation={`There were no sessions found in the selected time range${
-        tagFilters && tagFilters.length > 1 ? ` matching your filters` : ''
-      }.`}
+      title={t('in-mobile-apps:dashboard.tabs.noSessionTitle')}
+      explanation={
+        tagFilters && tagFilters.length > 1
+          ? t('in-mobile-apps:dashboard.tabs.noSessionExplanationWithFilters')
+          : t('in-mobile-apps:dashboard.tabs.noSessionExplanation')
+      }
     >
       <div className={locals.wrapper}>
         <FullHeightWrapper
@@ -72,13 +75,13 @@ export default function Geography(props) {
                       height={height}
                       controlWrapperClassName={locals.controlWrapperClassName}
                     />
-                    <Tooltip content="Switch to 3D globe" align="leftMiddle">
+                    <Tooltip content={t('in-mobile-apps:dashboard.tabs.switchTo3DTooltip')} align="leftMiddle">
                       <Button
                         href$={getModifiedUrlStream(
                           params => (params.pathname = `${mobileAppPathFullyQualified}/geography/globe`)
                         )}
                         className={locals.to3D}
-                        renderContent={() => <span>3D</span>}
+                        renderContent={() => <span>{t('in-mobile-apps:dashboard.tabs.3DBtn')}</span>}
                       />
                     </Tooltip>
                   </div>

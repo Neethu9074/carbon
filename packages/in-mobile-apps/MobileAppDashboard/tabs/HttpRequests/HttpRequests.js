@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import {
@@ -27,7 +28,7 @@ import Link from 'in-components/Link';
 const columnDefinitions = [
   {
     id: 'name',
-    label: 'Origin',
+    label: t('in-mobile-apps:dashboard.tabs.originLabel'),
     getContent(item, { mobileAppId, viewId }) {
       let label = item.name;
       try {
@@ -50,7 +51,7 @@ const columnDefinitions = [
   },
   {
     id: 'beaconCountAgg',
-    label: 'Calls',
+    label: t('in-mobile-apps:dashboard.tabs.callsLabel'),
     defaultOrderDirection: 'DESC',
     getContent(item, { result, timeConfig }) {
       return (
@@ -68,7 +69,7 @@ const columnDefinitions = [
   },
   {
     id: 'beaconDurationAgg',
-    label: 'Latency',
+    label: t('in-mobile-apps:dashboard.tabs.latencyLabel'),
     defaultOrderDirection: 'DESC',
     getContent(item, { result, timeConfig }) {
       return (
@@ -86,7 +87,7 @@ const columnDefinitions = [
   },
   {
     id: 'beaconErrorRateAgg',
-    label: 'Errors',
+    label: t('in-mobile-apps:dashboard.tabs.errorsLabel'),
     defaultOrderDirection: 'DESC',
     getContent(item, { result, timeConfig }) {
       return (
@@ -133,7 +134,7 @@ export default function HttpRequests({ timeConfig, tagFilters, mobileAppId, mobi
       })}
       style={{ marginRight: '0.5rem' }}
     >
-      Analyze HTTP Requests
+      {t('in-mobile-apps:dashboard.tabs.analyzeHTTPRequestsBtn')}
     </Button>
   );
 

@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t, Trans } from 'in-i18n';
 import { get } from 'lodash';
 import React from 'react';
 
@@ -40,14 +41,12 @@ export default class Remove extends React.PureComponent {
     const { removeError, loading } = this.state;
 
     return (
-      <Card title="Remove Mobile App">
+      <Card title={t('in-mobile-apps:dashboard.tabs.removeAppTitle')}>
         <HelpParagraph>
-          If you no longer wish to monitor the mobile app <strong>{label}</strong> using Instana, please use this form
-          to remove it. Removing a mobile app is an eventually consistent action. For this reason, removing a mobile app
-          may take <strong>up to a few minutes</strong> until it has been completely removed.
+          <Trans i18nKey="in-mobile-apps:dashboard.tabs.removeAppHelp1" values={{ label: label }} />
         </HelpParagraph>
         <HelpParagraph>
-          <strong>Please note that neither you nor the Instana support can undo this action!</strong>
+          <strong>{t('in-mobile-apps:dashboard.tabs.removeAppHelp2')}</strong>
         </HelpParagraph>
 
         <div className={locals.confirmWrapper}>
@@ -58,7 +57,7 @@ export default class Remove extends React.PureComponent {
             disabled={loading}
             className={locals.confirm}
           />{' '}
-          I understand that this action cannot be undone.
+          {t('in-mobile-apps:dashboard.tabs.confirmUndone')}
         </div>
 
         {removeError && <SaveError>{removeError}</SaveError>}
@@ -68,7 +67,7 @@ export default class Remove extends React.PureComponent {
           onClick={this.remove}
           className={locals.button}
         >
-          Remove Mobile App
+          {t('in-mobile-apps:dashboard.tabs.removeAppBtn')}
         </Button>
       </Card>
     );

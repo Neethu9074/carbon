@@ -5,6 +5,7 @@
 import { createField, notBlankValidator } from 'formalistic';
 import { interval } from '@instana/observables';
 import { get } from 'lodash';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { addMobileApp as addMobileAppTracker } from 'in-mobile-apps/tracker';
@@ -118,7 +119,7 @@ export default class NewMobileAppFlow extends React.PureComponent {
 
     return (
       <Sticky header={<ViewSwitcher />}>
-        <Title title="New Mobile App" />
+        <Title title={t('in-mobile-apps:newAppFlow.newMobileAppTitle')} />
         {content}
         <Footer />
       </Sticky>

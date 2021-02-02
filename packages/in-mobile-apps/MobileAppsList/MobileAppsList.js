@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import MobileAppsNoDataNotification from 'in-mobile-apps/MobileAppsList/components/MobileAppsNoDataNotification';
@@ -33,14 +34,14 @@ import locals from './MobileAppsList.mless';
 const columnDefinitions = [
   {
     id: 'mobileAppLabel',
-    label: 'Name',
+    label: t('in-mobile-apps:appsList.nameLabel'),
     getContent(item) {
       return <Link href$={getLinkToMobileApp(item.mobileApp.id)}>{item.mobileApp.label}</Link>;
     }
   },
   {
     id: 'sessionsAgg',
-    label: 'Session Starts',
+    label: t('in-mobile-apps:appsList.sessionStartsLabel'),
     defaultOrderDirection: 'DESC',
     getContent(item, { result, timeConfig }) {
       return (
@@ -58,7 +59,7 @@ const columnDefinitions = [
   },
   {
     id: 'viewsAgg',
-    label: 'View Transitions',
+    label: t('in-mobile-apps:appsList.viewTransitionsLabel'),
     defaultOrderDirection: 'DESC',
     getContent(item, { result, timeConfig }) {
       return (
@@ -92,7 +93,7 @@ const rightHeader = role.canConfigureEumApplications && (
     icon="lib_openclose_add_circle_outline"
     href$={linkToNewMobileApp$}
   >
-    Add Mobile App
+    {t('in-mobile-apps:appsList.addMobileAppBtn')}
   </Button>
 );
 
@@ -104,11 +105,11 @@ export default connectTo(
     return (
       <Sticky header={<ViewSwitcher />}>
         <LeftRightPadding>
-          <Title title="Mobile Apps" />
+          <Title title={t('in-mobile-apps:appsList.mobileAppsTitle')} />
           <ViewTrackingMeta
             data={{
-              productArea: 'EUM: Mobile Apps',
-              pageRootName: 'Mobile Apps'
+              productArea: t('in-mobile-apps:appsList.mobileAppProductArea'),
+              pageRootName: t('in-mobile-apps:appsList.mobileAppPageRootName')
             }}
           />
           <WithEmptyStateFallback

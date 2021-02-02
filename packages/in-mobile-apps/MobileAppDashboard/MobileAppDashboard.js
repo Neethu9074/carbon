@@ -5,6 +5,7 @@
 import { compose, withProps } from 'recompose';
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
+import { t } from 'in-i18n';
 
 import { mobileAppPath, mobileAppPathFullyQualified, getLinkToAnalyze } from 'in-mobile-apps/navigation/paths';
 import { defaultGroupings, translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-mobile-apps/tags';
@@ -108,8 +109,10 @@ function MobileAppDashboard({
     <>
       <ViewTrackingMeta
         data={{
-          productArea: 'EUM: Mobile Apps',
-          pageRootName: props.viewId ? 'Mobile App View' : 'Mobile App'
+          productArea: t('in-mobile-apps:dashboard.mobileAppProductArea'),
+          pageRootName: props.viewId
+            ? t('in-mobile-apps:dashboard.mobileAppViewPageRootName')
+            : t('in-mobile-apps:dashboard.mobileAppPageRootName')
         }}
       />
 
@@ -146,7 +149,9 @@ function Header(props) {
       <DashboardHeader
         {...props}
         icon={props.viewId ? 'lib_mobile_app_view' : 'lib_mobile_app'}
-        title={props.viewId ? 'View' : 'Mobile App'}
+        title={
+          props.viewId ? t('in-mobile-apps:dashboard.mobileAppViewTitle') : t('in-mobile-apps:dashboard.mobileAppTitle')
+        }
         label={props.viewId || get(props.result, ['data', 'label'])}
         renderButtonLine={renderButtonLine}
         contextConfigurations={contextConfigurations}
@@ -179,7 +184,7 @@ function renderButtonLine({ tagFilters, mobileAppLabel }) {
           group: defaultGroupings.sessionStart
         })}
       >
-        Analyze Sessions
+        {t('in-mobile-apps:dashboard.analyzeSessions')}
       </Button>
     </Fragment>
   );

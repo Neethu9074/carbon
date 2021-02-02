@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import getMobileAppPaginatedBeaconGroups from 'in-mobile-apps/subscriptions/getMobileAppPaginatedBeaconGroups';
@@ -19,7 +20,7 @@ const formatters = [number.compact, percentage.detailed];
 export default function HttpRequestOriginTopList({ mobileAppId, timeConfig, tagFilters, urlMatrixParamConfig }) {
   return (
     <TopListWithUrlState
-      title="Top HTTP Request Origins"
+      title={t('in-mobile-apps:dashboard.tabs.topHTTPRequestOriginsTitle')}
       metrics={metrics}
       labels={labels}
       aggregations={aggregations}
@@ -78,7 +79,7 @@ function ViewAll({ mobileAppId, selectedMetric }, className) {
         }
       })}
     >
-      View all origins
+      {t('in-mobile-apps:dashboard.tabs.viewAllOriginsLink')}
     </Link>
   );
 }

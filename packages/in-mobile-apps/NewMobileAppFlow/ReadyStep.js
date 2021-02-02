@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t, Trans } from 'in-i18n';
 import React from 'react';
 
 import Paragraph from 'in-mobile-apps/NewMobileAppFlow/Paragraph';
@@ -15,31 +16,35 @@ import Link from 'in-components/Link';
 
 export default function ReadyStep({ mobileAppName, mobileAppId, mobileAppLink$ }) {
   return (
-    <Frame title="Everything's Ready!">
+    <Frame title={t('in-mobile-apps:newAppFlow.everythingIsReadyTitle')}>
       <Paragraph>
-        Everything is ready to monitor your mobile app <strong>{mobileAppName}</strong>.{' '}
-        <Link href="https://instana.com/docs/mobile_app_monitoring/#installation" target="_blank">
-          Add the agent to your mobile app
-        </Link>{' '}
-        to track real users or go to the dashboard.
+        <Trans
+          i18nKey="in-mobile-apps:newAppFlow.everythingIsReadyMsg"
+          values={{ mobileAppName: mobileAppName }}
+          components={{
+            linkToInstallation: (
+              <Link href="https://instana.com/docs/mobile_app_monitoring/#installation" target="_blank" />
+            )
+          }}
+        />
       </Paragraph>
 
       <Ul>
         <Li>
-          <KeyValue label="Key" value={mobileAppId} accentuated />
+          <KeyValue label={t('in-mobile-apps:newAppFlow.keyLabel')} value={mobileAppId} accentuated />
         </Li>
         <Li>
-          <KeyValue label="Reporting URL" value={getReportingUrl()} accentuated />
+          <KeyValue label={t('in-mobile-apps:newAppFlow.reportingURLLabel')} value={getReportingUrl()} accentuated />
         </Li>
       </Ul>
 
       <Actions>
         <Button kind="secondary" href="https://instana.com/docs/mobile_app_monitoring/#installation" target="_blank">
-          Installation Instructions
+          {t('in-mobile-apps:newAppFlow.installationInstructionsBtn')}
         </Button>
 
         <Button kind="primaryv2" href$={mobileAppLink$}>
-          Go to mobile app dashboard
+          {t('in-mobile-apps:newAppFlow.GoToMobileAppDashboardBtn')}
         </Button>
       </Actions>
     </Frame>

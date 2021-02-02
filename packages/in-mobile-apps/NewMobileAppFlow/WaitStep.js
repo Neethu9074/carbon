@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t, Trans } from 'in-i18n';
 import React from 'react';
 
 import Paragraph from 'in-mobile-apps/NewMobileAppFlow/Paragraph';
@@ -15,31 +16,35 @@ import Link from 'in-components/Link';
 
 export default function WaitStep({ mobileAppName, mobileAppId }) {
   return (
-    <Frame title="Working…">
+    <Frame title={t('in-mobile-apps:newAppFlow.workingTitle')}>
       <Paragraph>
-        We are preparing everything to monitor your mobile app <strong>{mobileAppName}</strong>. While we do this,{' '}
-        <Link href="https://instana.com/docs/mobile_app_monitoring/#installation" target="_blank">
-          add the agent to your mobile app
-        </Link>
-        .
+        <Trans
+          i18nKey="in-mobile-apps:newAppFlow.workingMsg"
+          values={{ mobileAppName: mobileAppName }}
+          components={{
+            linkToInstallation: (
+              <Link href="https://instana.com/docs/mobile_app_monitoring/#installation" target="_blank" />
+            )
+          }}
+        />
       </Paragraph>
 
       <Ul>
         <Li>
-          <KeyValue label="Key" value={mobileAppId} accentuated />
+          <KeyValue label={t('in-mobile-apps:newAppFlow.keyLabel')} value={mobileAppId} accentuated />
         </Li>
         <Li>
-          <KeyValue label="Reporting URL" value={getReportingUrl()} accentuated />
+          <KeyValue label={t('in-mobile-apps:newAppFlow.reportingURLLabel')} value={getReportingUrl()} accentuated />
         </Li>
       </Ul>
 
       <Actions>
         <Button kind="primaryv2" href="https://instana.com/docs/mobile_app_monitoring/#installation" target="_blank">
-          Installation Instructions
+          {t('in-mobile-apps:newAppFlow.installationInstructionsBtn')}
         </Button>
 
         <Button kind="secondary" disabled icon="lib_actions_loading" iconSpinning>
-          Enabling monitoring…
+          {t('in-mobile-apps:newAppFlow.enablingMonitoringBtn')}
         </Button>
       </Actions>
     </Frame>
