@@ -4,6 +4,7 @@
  */
 import React from 'react';
 
+import { TimeConfigContext } from 'in-stores/time/TimeConfigContext';
 import { Widget, demo } from 'in-custom-dashboards/widgets/Slo';
 import Stack from 'in-new-components/layout/Stack';
 
@@ -11,17 +12,19 @@ export default {
   title: 'Templates|CustomDashboard/widgets/SLO',
   component: Widget
 };
+const constTimeConfig = {
+  from: 1,
+  to: 1,
+  windowSize: 60 * 1000
+};
 
 export function States() {
   return (
     <Stack>
-      <Widget />
-      <Widget title="Demo" config={demo} />
-      <Widget title="Loading" config={demo} customHeight={200} />
+      <TimeConfigContext.Provider value={constTimeConfig}>
+        <Widget />
+        <Widget title="Demo" config={demo} />
+      </TimeConfigContext.Provider>
     </Stack>
   );
-}
-
-export function WithFakeData() {
-  return <Widget title="Availability SLO" config={demo} customHeight={120} />;
 }
