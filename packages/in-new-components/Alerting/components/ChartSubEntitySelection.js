@@ -59,7 +59,6 @@ export default function ChartSubEntitySelection({
       placeholder={isLoading(result) ? 'Loading services…' : 'No service in scope'}
       clearable={false}
       autoComplete
-      autoFocus
       searchable
     />
   );
