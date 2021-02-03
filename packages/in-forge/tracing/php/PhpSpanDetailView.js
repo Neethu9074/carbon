@@ -11,7 +11,7 @@ import { isBlank } from 'in-services/util/string';
 
 export default function HttpSpanDetailView({ span }) {
   const params = span.getIn(['data', 'http', 'params']);
-  const opcache = span.getIn(['data', 'opcache']);
+  const opcache = span.getIn(['data', 'php', 'opcache']);
   const error = span.getIn(['data', 'error']);
 
   return (
