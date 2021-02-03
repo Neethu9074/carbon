@@ -29,7 +29,7 @@ const columnDefinitions = [
 const ServerListWithUrlState = createServerTableWithUrlState({
   Renderer: ServerListPresenter,
   defaultOrderBy: 'websiteLabel',
-  defaultPageSize: 1,
+  defaultPageSize: 10,
   pathSegment: '/websites',
   columnDefinitions
 });
