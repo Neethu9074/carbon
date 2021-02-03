@@ -24,17 +24,17 @@ phases:
     runtime-versions:
       docker: 18
     commands:
-      # Set up the correct Node.js version
-      - n `cat .nvmrc`
       # git configuration to check out git submodules
       - echo "https://$GITHUB_READ_USER:$GITHUB_READ_PASSWORD@github.com" > $HOME/.git-credentials
       - git config --global credential.helper store
       # download git submodules so that our shared CI tools are available
       - git submodule update --init --recursive
       # Set up the shared tooling
-      - ./build/ci-shared-tools/scripts/setup.bash
+      - 'USE_N=true ./build/ci-shared-tools/scripts/setup.bash'
       - ./build/ci-shared-tools/scripts/codebuild/setup.bash
       - export GIT_BRANCH="$(./build/ci-shared-tools/scripts/git/getBranch.js)"
+      # Set up the correct Node.js version
+      - n `cat .nvmrc`
   pre_build:
     commands:
       - |
