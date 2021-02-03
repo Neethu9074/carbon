@@ -90,14 +90,14 @@ export default [
     formatter: zeroDecimalPlaces
   },
   {
-    metric: getDynamicMetricMatch('replications_stats', 'replication_delay_bytes', 'Database'),
+    metric: 'replications_stats.replication_delay_bytes',
     label: 'Replication delay in bytes',
     category: ['Databases'],
     min: 0,
     formatter: bytesZeroDecimalPlaces
   },
   {
-    metric: getDynamicMetricMatch('replications_stats', 'replication_delay_seconds', 'Database'),
+    metric: 'replications_stats.replication_delay_seconds',
     label: 'Replication delay in seconds',
     category: ['Databases'],
     min: 0,
