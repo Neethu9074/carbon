@@ -13,11 +13,15 @@ exports = module.exports = {
     unit: 'test',
     baseDomain: 'pink.instana.rocks'
   },
-  Custom: {
+  'Custom SaaS (run local UI against an arbitrary tenant unit in one of our SaaS or internal regions)': {
     // special case: Handled in `devModeQuestions`
-    custom: true
+    custom: 'saas'
   },
-  'Locally Running Backend': {
+  'Custom Self Hosted (run local UI against an arbitrary remote self hosted installation)': {
+    // special case: Handled in `devModeQuestions`
+    custom: 'selfhosted'
+  },
+  'Locally Running Backend (run local UI against fully local backend or against a partially local backend with ssh tunnels)': {
     // special case: Handled in `devModeQuestions`
     local: true
   },
