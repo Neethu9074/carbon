@@ -109,7 +109,7 @@ export const dataSourceConstants = {
         formatter: millis.forcedCompactOnMs.detailed,
         label: t('in-applications:labelLatency'),
         type: 'time',
-        aggregations: ['MIN', 'P25', 'P50', 'P75', 'P90', 'P95', 'P98', 'P99', 'MAX', 'MEAN']
+        aggregations: ['MIN', 'P25', 'P50', 'P75', 'P90', 'P95', 'P98', 'P99', 'MAX', 'MEAN', 'SUM']
       },
       errors: {
         formatter: percentage.detailed,
@@ -167,7 +167,7 @@ export const dataSourceConstants = {
         formatter: millis.forcedCompactOnMs.detailed,
         label: t('in-applications:labelLatency'),
         type: 'time',
-        aggregations: ['MIN', 'P25', 'P50', 'P75', 'P90', 'P95', 'P98', 'P99', 'MAX', 'MEAN']
+        aggregations: ['MIN', 'P25', 'P50', 'P75', 'P90', 'P95', 'P98', 'P99', 'MAX', 'MEAN', 'SUM']
       },
       errors: {
         formatter: percentage.detailed,
