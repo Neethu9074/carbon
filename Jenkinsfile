@@ -121,7 +121,8 @@ stage('Storybook') {
             region: 'us-west-2',
             sourceControlType: 'project',
             envVariables: '[ {RUN_UI_TEST_ON_DELIVERY, ' + RUN_UI_TEST_ON_DELIVERY + '} ]',
-            sourceVersion: gitCommitId
+            sourceVersion: gitCommitId,
+            privilegedModeOverride: 'True'
 
           if ( currentBuild.currentResult == 'SUCCESS' ) {
             slackNotification('Storybook Build&Deploy Successful', 'ui-client', gitCommitId, 'SUCCESS')
