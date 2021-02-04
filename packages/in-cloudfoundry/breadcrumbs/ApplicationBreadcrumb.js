@@ -2,11 +2,11 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import getCloudfoundryApplication from 'in-cloudfoundry/subscriptions/getCloudfoundryApplication';
 import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
-
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
@@ -20,7 +20,7 @@ export default connectTo(
   }),
   function ApplicationBreadcrumb({ application }) {
     return (
-      <Breadcrumb label="Cloud Foundry Application" icon="lib_cloudfoundry_application">
+      <Breadcrumb label={t('in-cloudfoundry:breadcrumbs.cloudFoundryApplication')} icon="lib_cloudfoundry_application">
         {application && application.label}
       </Breadcrumb>
     );

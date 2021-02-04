@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import DashboardHeaderShadowModule from 'in-new-components/DashboardHeader/DashboardHeaderShadowModule';
@@ -13,8 +14,8 @@ export default function CloudfoundryViewSwitcher() {
     <>
       <DashboardHeader
         icon="lib_cloudfoundry_inverted"
-        label="Cloud Foundry Applications"
-        title="Cloud Foundry Applications"
+        label={t('in-cloudfoundry:cloudFoundryApplications')}
+        title={t('in-cloudfoundry:cloudFoundryApplications')}
         renderTopLevelButtonLine={UseBeeInstantToggle}
       />
       <DashboardHeaderShadowModule />

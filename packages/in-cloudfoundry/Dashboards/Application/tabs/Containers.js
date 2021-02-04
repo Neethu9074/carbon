@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
@@ -23,7 +24,7 @@ const matrixPrefix = 'container.';
 const columnDefinitions = [
   {
     id: 'label',
-    label: 'Name',
+    label: t('in-cloudfoundry:dashboards.name'),
     getContent(item, { timeConfig }) {
       return (
         <SeverityAwareEntityLink
@@ -41,7 +42,7 @@ const columnDefinitions = [
   },
   {
     id: 'cfInstanceIndex',
-    label: 'Instance Index',
+    label: t('in-cloudfoundry:dashboards.instanceIndex'),
     sortable: true,
     getContent(item) {
       const cfInstanceIndex =
@@ -51,7 +52,7 @@ const columnDefinitions = [
   },
   {
     id: 'cpuTotal',
-    label: 'CPU Total',
+    label: t('in-cloudfoundry:dashboards.cpuTotal'),
     sortable: false,
     getContent(item, { timeConfig }) {
       return (
@@ -67,7 +68,7 @@ const columnDefinitions = [
   },
   {
     id: 'memoryTotal',
-    label: 'Memory Total',
+    label: t('in-cloudfoundry:dashboards.memoryTotal'),
     sortable: false,
     getContent(item, { timeConfig }) {
       return (
@@ -83,7 +84,7 @@ const columnDefinitions = [
   },
   {
     id: 'health',
-    label: 'Health',
+    label: t('in-cloudfoundry:dashboards.health'),
     getContent(item, { timeConfig }) {
       return (
         <EntityHealthIndicator
@@ -102,7 +103,7 @@ const columnDefinitions = [
 const ServerTableWithUrlState = createServerTableWithUrlState({
   Renderer: withEmptyTableState({
     columnDefinitions,
-    entityName: 'containers'
+    entityName: t('in-cloudfoundry:entityName.containers')
   }),
   paginationResettingUrlParameters: [...timeConfigUrlParameters, applicationIdUrlParameter],
   defaultOrderBy: 'cfInstanceIndex',
@@ -119,7 +120,7 @@ export default function Containers({ applicationId, timeConfig }) {
       timeConfig={timeConfig}
       applicationId={applicationId}
       tableInCard
-      cardTitle="Containers"
+      cardTitle={t('in-cloudfoundry:dashboards.containers')}
     />
   );
 }

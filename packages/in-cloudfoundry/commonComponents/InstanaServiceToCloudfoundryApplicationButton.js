@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { get } from 'lodash';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import getCloudfoundryApplicationForInstanaApplication from 'in-subscription/cloudfoundry/getCloudfoundryApplicationForInstanaApplication';
@@ -61,7 +62,9 @@ export function InstanaServiceToCloudfoundryApplicationButton({ pcfApplications 
           onClick={toggle}
           refSetter={refSetter}
         >
-          CF Applications ({pcfApplications.length})
+          {t('in-cloudfoundry:cfApplicationsWithCount', {
+            count: pcfApplications.length
+          })}
           <SvgIcon className={locals.icon} type={isOpen ? 'lib_arrow_drop_up' : 'lib_arrow_drop_down'} />
         </Button>
       )}

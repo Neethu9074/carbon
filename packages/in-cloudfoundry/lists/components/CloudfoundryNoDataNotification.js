@@ -12,7 +12,7 @@ export default function CloudfoundryNoDataNotification(props) {
   return (
     <EntityPageMainNotification
       icon="lib_cloudfoundry"
-      title="No Monitoring Data Found"
+      title={t('in-cloudfoundry:noMonitoringDataFound')}
       explanation={() => <ArticleContent markdownContent={t('in-cloudfoundry:cloudfoundry.noData')} />}
       {...props}
     />

@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { get } from 'lodash';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import getApplicationServicesForCloudfoundryApplicationService from 'in-subscription/cloudfoundry/getApplicationServicesForCloudfoundryApplicationService';
@@ -43,7 +44,7 @@ export default function ApplicationDashboard({ location }) {
       <ViewTrackingMeta
         data={{
           productArea: 'Cloud Foundry',
-          pageRootName: 'CF Application'
+          pageRootName: t('in-cloudfoundry:dashboards.cfApplication')
         }}
       />
 
@@ -79,7 +80,7 @@ function Header(props) {
   return (
     <DashboardHeader
       {...props}
-      title="Cloud Foundry Application"
+      title={t('in-cloudfoundry:dashboards.cloudFoundryApplication')}
       icon="lib_cloudfoundry_application"
       label={get(props.result, ['data', 'label'])}
       renderButtonLine={renderButtonLine}
