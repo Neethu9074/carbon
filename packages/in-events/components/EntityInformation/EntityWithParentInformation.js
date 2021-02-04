@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { fromJS } from 'immutable';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { physicalDashboardPath } from 'in-stores/navigation/paths/mainPaths';
@@ -20,7 +21,7 @@ export default function EntityWithParentInformation(props) {
         <EntityInformation
           entityId={metadata.get('app20ServiceId')}
           entityType="Service20"
-          label="Of Service:"
+          label={t('in-events:entityInfoLabelOfService')}
           pathname={physicalDashboardPath}
           metadata={fromJS({
             entityLabel: metadata.get('app20EndpointServiceLabel'),

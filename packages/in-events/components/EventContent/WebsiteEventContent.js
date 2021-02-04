@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { getChartTimeConfigByEvent, getTimeConfigFromEvent } from 'in-events/timeframe';
@@ -55,7 +56,7 @@ export default function WebsiteEventContent({ event }) {
     <>
       <Row withoutSideMargin>
         <Col xs>
-          <Card title="Description">
+          <Card title={t('in-events:titleDescription')}>
             <WebsiteScopePath {...eventEntity} timeConfig={getTimeConfigFromEvent(event)} showDashboardLinks />
 
             <ProblemDescription event={event} className="in-event-view-event-content" />
@@ -73,7 +74,7 @@ export default function WebsiteEventContent({ event }) {
 
       <Row withoutSideMargin>
         <Col xs>
-          <Card title="Metrics">
+          <Card title={t('in-events:titleMetrics')}>
             <AlertingChart
               alertConfigWithFormModel={{
                 ...alertConfig,
@@ -92,7 +93,7 @@ export default function WebsiteEventContent({ event }) {
 
       <Row withoutSideMargin>
         <Col xs>
-          <Card title="Scope">
+          <Card title={t('in-events:titleScope')}>
             <div className={locals.filterList}>
               <TagFilterListPresenter
                 tagFilters={translateDemocratisationTagFiltersToAnalyzeTagFilters({

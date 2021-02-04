@@ -4,6 +4,7 @@
  */
 import irpt from 'react-immutable-proptypes';
 import rpt from 'prop-types';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import EntityWithParentInformation from 'in-events/components/EntityInformation/EntityWithParentInformation';
@@ -70,10 +71,12 @@ export default connectTo(
 
       return (
         <div className={className} id={`event-${event.get('id')}`}>
-          {serviceImpact && <Marker className={`${block}__affected-service-marker`} label="service impact" />}
+          {serviceImpact && (
+            <Marker className={`${block}__affected-service-marker`} label={t('in-events:labelServiceImpact')} />
+          )}
 
           {isTriggeringEvent && serviceImpact && (
-            <Marker className={`${block}__triggering-event-marker`} label="triggering event" />
+            <Marker className={`${block}__triggering-event-marker`} label={t('in-events:labelTriggeringEvent')} />
           )}
 
           <TimeIndicator event={event} isTriggeringEvent={isTriggeringEvent} />

@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import {
@@ -89,12 +90,14 @@ export function SmartAlertAffectedEntities({ alertConfig, event, applicationName
         needsGroupByEndpoint ? 'endpoint.name' : 'service.name'
       )}
     >
-      Show all {total} {needsGroupByEndpoint ? 'endpoints' : 'services'}
+      {needsGroupByEndpoint
+        ? t('in-events:showAllEndpoints', { count: total })
+        : t('in-events:showAllServices', { count: total })}
     </Link>
   );
 
   return (
-    <Card title={`Affected ${needsGroupByEndpoint ? 'Endpoints' : 'Services'}`}>
+    <Card title={needsGroupByEndpoint ? t('in-events:affectedEndpoints') : t('in-events:affectedServices')}>
       <AffectedEntities
         tagFilters={tagFilters}
         totalTagFilters={totalTagFilters}

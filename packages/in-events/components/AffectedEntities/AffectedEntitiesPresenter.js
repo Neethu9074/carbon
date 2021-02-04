@@ -4,6 +4,7 @@
  */
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
+import { t } from 'in-i18n';
 
 import {
   HorizontalIndicatorRow,
@@ -35,10 +36,10 @@ export default function AffectedEntitiesPresenter(props) {
       <Table>
         <Thead>
           <Tr size="compact">
-            <Th noWrap>Name</Th>
-            <Th noWrap>Violated Calls</Th>
-            <Th noWrap>Total Calls in Alert Scope</Th>
-            <Th noWrap>Earliest Timestamp</Th>
+            <Th noWrap>{t('in-events:affectedEntities.name')}</Th>
+            <Th noWrap>{t('in-events:affectedEntities.violatedCalls')}</Th>
+            <Th noWrap>{t('in-events:affectedEntities.totalCallsInAlert')}</Th>
+            <Th noWrap>{t('in-events:affectedEntities.earliestTimestamp')}</Th>
           </Tr>
         </Thead>
         <Tbody>

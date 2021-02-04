@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import getIssueDefinitionForSnapshotAndCode, * as IssueCategories from 'in-sdk/agentMonitoringIssueDefinition';
@@ -38,7 +39,7 @@ export default connectTo(
 
     return (
       <DescriptionList>
-        <DescriptionItem title="Detail">
+        <DescriptionItem title={t('in-events:titleDetail')}>
           <div className={`${block}__suggestion`}>
             <p>
               <strong>
@@ -49,7 +50,7 @@ export default connectTo(
               <issueDefinition.issueDescription.Component {...issueArgs} />
             </p>
             <p>
-              For more information on how to resolve this issue, please consult:{' '}
+              {t('in-events:monitoringIssueForMoreInfo')}
               <Link href={href} external>
                 {label}
               </Link>

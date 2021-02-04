@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { getChartTimeConfigByEvent, getTimeConfigFromEvent } from 'in-events/timeframe';
@@ -54,7 +55,7 @@ export default function ApplicationEventContent({ event }) {
     <>
       <Row withoutSideMargin>
         <Col xs>
-          <Card title="Details">
+          <Card title={t('in-events:titleDetails')}>
             <ApplicationScopePath
               {...eventEntity}
               boundaryScope={boundaryScope}
@@ -78,7 +79,7 @@ export default function ApplicationEventContent({ event }) {
 
       <Row withoutSideMargin>
         <Col xs>
-          <Card title="Metrics">
+          <Card title={t('in-events:titleMetrics')}>
             <ApplicationAlertingChartWithErrorMessage
               alertConfigWithFormModel={{
                 ...alertConfig,
@@ -94,7 +95,7 @@ export default function ApplicationEventContent({ event }) {
 
       <Row withoutSideMargin>
         <Col xs>
-          <Card title="Scope">
+          <Card title={t('in-events:titleScope')}>
             <div className={locals.alertFiltersWrapper}>
               <ScopeConfigPresenter
                 tagFilterList={

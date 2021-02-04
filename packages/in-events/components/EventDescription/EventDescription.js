@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import classNames from 'classnames';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import {
@@ -76,14 +77,14 @@ export default connectTo(
             })}
           >
             <Col lg={6}>
-              {eventType === EVENT_TYPES.INCIDENT ? 'Triggered:' : 'Started:'}
+              {eventType === EVENT_TYPES.INCIDENT ? t('in-events:triggered') : t('in-events:started')}
               <br />
               {formatDateTime(event.get('triggeringTime', event.get('start')))}
             </Col>
 
             {!isOpen && start !== end ? (
               <Col lg={6} className={block + '__end'}>
-                Ended:
+                {t('in-events:ended')}
                 <br />
                 {formatDateTime(end)}
               </Col>

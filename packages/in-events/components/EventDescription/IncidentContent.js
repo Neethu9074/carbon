@@ -5,6 +5,7 @@
 import { combineLatest } from '@instana/observables';
 import irpt from 'react-immutable-proptypes';
 import rpt from 'prop-types';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { getEvent, getColorForEventAtFocusedMomentAsStream } from 'in-stores/events';
@@ -37,15 +38,19 @@ function IncidentContent({ incident, events, snapshot }) {
   const firstEvent = events[0];
   const problem = firstEvent.get('problem');
   const label = snapshot ? getLabel(snapshot) : '';
-  const eventCounterLabel = events.length === 1 ? 'event' : 'events';
 
   return (
     <div>
       <div className={block + '__header'}>
-        {`incident: ${incident.getIn(['problem', 'problemText'])} - ${label} (${events.length} ${eventCounterLabel})`}
+        {t('in-events:incidentHeader', {
+          count: events.length,
+          incidentName: incident.getIn(['problem', 'problemText']),
+          label: label,
+          eventsLength: events.length
+        })}
       </div>
 
-      <span className={block + '__incident-started'}>started here:</span>
+      <span className={block + '__incident-started'}>{t('in-events:startHere')}</span>
 
       <Header event={firstEvent} text={problem.get('problemText')} />
 

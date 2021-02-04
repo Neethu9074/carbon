@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { combineLatest } from '@instana/observables';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
@@ -38,7 +39,7 @@ export default connectTo(
   }),
   function IncidentEventList({ events, incident }) {
     if (!events) {
-      return <ListRow title="Triggering Event" />;
+      return <ListRow title={t('in-events:titleTriggerEvent')} />;
     }
 
     const triggeringProblemId = incident.getIn(['problem', 'id']);
@@ -48,12 +49,14 @@ export default connectTo(
     return (
       <>
         <ListRow
-          title="Triggering Event"
+          title={t('in-events:titleTriggerEvent')}
           events={events.filter(isTriggeringEvent)}
           triggeringProblemId={triggeringProblemId}
         />
         <ListRow
-          title={`Related Events (${events.length - 1})`}
+          title={t('in-events:titleRelatedEvents', {
+            eventCount: events.length - 1
+          })}
           events={events.filter(ev => !isTriggeringEvent(ev))}
           triggeringProblemId={triggeringProblemId}
         />
