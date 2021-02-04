@@ -5,11 +5,12 @@
 import { Route, Switch } from 'react-router-dom';
 import { combineLatest } from '@instana/observables';
 import React, { Fragment } from 'react';
+import { t } from 'in-i18n';
 
 import { SideNavigation, SideNavigationItem } from 'in-new-components/SideNavigation/SideNavigation';
-import RedirectWithHash from 'in-components/RedirectWithHash';
 import { getModifiedUrlStream, isView, isViewWithRouteParam } from 'in-stores/navigation';
 import StickySidebarContainer from 'in-new-components/layout/StickySidebarContainer';
+import RedirectWithHash from 'in-components/RedirectWithHash';
 import { scrollToTopSmoothly } from 'in-services/util/dom';
 import Footer from 'in-new-components/Footer';
 import connectTo from 'in-hoc/connectTo';
@@ -122,7 +123,12 @@ function ContentPane({ pages, ...props }) {
             />
           );
         })}
-        <Route path="*" render={() => (NotFoundPage ? <NotFoundPage /> : 'Not Found')} />
+        <Route
+          path="*"
+          render={() =>
+            NotFoundPage ? <NotFoundPage /> : t('in-new-components:layout.sideNavigationAndContentRouteNotFound')
+          }
+        />
       </Switch>
       <Footer />
     </Fragment>

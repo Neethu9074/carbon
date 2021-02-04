@@ -139,6 +139,136 @@
     "resultHeaderTooltip": "The query time range has been rounded up to nearest full minute to allow this view to load more quickly.",
     "ungroupedViewNoGrouping": "no grouping"
   },
+  "aboutInstanaDialog": {
+    "columnizedContentDeployment": "Deployment",
+    "columnizedContentUserInterface": "User Interface",
+    "columnizedContentBackend": "Backend",
+    "labelRegion": "Region",
+    "labelTag": "Tag",
+    "labelCommit": "Commit",
+    "buttonGraphShowcase": "Graph Showcase"
+  },
+  "blueprintFormMultistep": {
+    "buttonCancel": "Cancel",
+    "buttonBack": "Back",
+    "buttonCreate": "Create",
+    "buttonNext": "Next"
+  },
+  "chartingConfigurator": {
+    "buttonAddChart": "Add chart",
+    "labelChangeSelectedMetric": "Change selected metric",
+    "labelChangeSelectedAggregation": "Change selected aggregation",
+    "labelChangeSelectedRenderer": "Change selected renderer",
+    "titleChart": "Chart"
+  },
+  "dashboardHeader": {
+    "urlShortenerTabListTextShortLink": "Short Link",
+    "urlShortenerWaitTextGeneratingShortLink": "Generating short link.",
+    "urlShortenerLabelLockCurrentTimeRange": "Lock current time range",
+    "urlShortenerLabelLive": "{{timeConfig}} (Live)"
+  },
+  "delayed": {
+    "displayNameDelayed": "Delayed"
+  },
+  "dialog": {
+    "confirmationDialogLabelConfirm": "Confirm",
+    "promptPresenterLabelConfirm": "Confirm"
+  },
+  "draggableItemSelector": {
+    "tooltipReorderMetrics": "Reorder metrics"
+  },
+  "entityHealthIndicator": {
+    "indicatorPresenterNoIssues": "No Issues",
+    "indicatorPresenterOpenIssues": "{{count}} Issue",
+    "indicatorPresenterOpenIssues_plural": "{{count}} Issues",
+    "indicatorPresenterOpenIssues_0": "{{count}} Issues",
+    "indicatorPresenterOpenIssues_1": "{{count}} Issue",
+    "indicatorPresenterOpenIssues_2": "{{count}} Issues"
+  },
+  "entityPageMainNotification": {
+    "labelEntity": "Entity",
+    "labelNotFound": "{{entity}} not found"
+  },
+  "entityVersionList": {
+    "headingAvailableTimeRanges": "Available time ranges",
+    "explanation": "We could not find a version of this entity in the selected time range. We found other versions in different time ranges:"
+  },
+  "error": {
+    "erroneousResultPresenterMessage": "An unexpected error occurred. Please refresh the page or try again later.",
+    "noDataAvailable": "No data available:"
+  },
+  "expandableCard": {
+    "tooltipShowLess": "Show less",
+    "tooltipShowMore": "Show more"
+  },
+  "expandableGroup": {
+    "tooltipShowContent": "Show content",
+    "labelExpandButtonForContent": "Expand button for content"
+  },
+  "featureFeedback": {
+    "labelThisFeatureIsInBeta": "This feature is in beta.",
+    "labelBETA": "BETA",
+    "linkLabelYouCanSendUsFeedback": "You can send us feedback"
+  },
+  "geoHeatMap": {
+    "loadingIndicatorLoadingData": "Loading Data",
+    "tooltipResetView": "Reset view",
+    "tooltipZoomIn": "Zoom in",
+    "tooltipZoomOut": "Zoom out"
+  },
+  "groupingConfigurator": {
+    "exampleTagCatalogLabelKubernetes": "Kubernetes",
+    "exampleTagCatalogLabelCluster": "Cluster",
+    "exampleTagCatalogLabelName": "Name",
+    "exampleTagCatalogLabelNamespace": "Namespace",
+    "exampleTagCatalogLabelInternal": "Internal",
+    "exampleTagCatalogLabelType": "Type",
+    "exampleTagCatalogLabelLabel": "Label",
+    "exampleTagCatalogDescriptionStringClustersLabel": "String - Cluster´s label",
+    "exampleTagCatalogDescriptionStringNamespaceName": "String - Namespace Name",
+    "exampleTagCatalogDescriptionTypeOfEntity": "Type of entity",
+    "exampleTagCatalogDescriptionLabelOfEntity": "Label of entity",
+    "addGroup": "Add group",
+    "titleGroup": "Group",
+    "loadingIndicatorLoadingTagCatalog": "Loading tag catalog…"
+  },
+  "health": {
+    "eventTypeIssue" : "Issue",
+    "eventTypeIssue_plural" : "Issues",
+    "eventTypeIssue_0" : "Issues",
+    "eventTypeIssue_1" : "Issue",
+    "eventTypeIssue_2" : "Issues",
+    "eventTypeissue" : "issue",
+    "eventTypeissue_plural" : "issues",
+    "eventTypeissue_0" : "issues",
+    "eventTypeissue_1" : "issue",
+    "eventTypeissue_2" : "issues",
+    "openIssuesListPresenterActionsViewIssues": "View {{eventType}}",
+    "openIssuesListPresenterActionsViewNumbersOfIssue": "View {{openIssueCount}} {{eventType}}",
+    "openIssuesListPresenterHeaderTitleLoadingOpenIssues": "Loading Open {{eventType}}…",
+    "openIssuesListPresenterHeaderTitleFailedToLoadOpenIssues": "Failed To Load Open {{eventType}}",
+    "openIssuesListPresenterHeaderNumbersOfOpenIssues": "{{openIssueCount}} Open {{eventType}}",
+    "openIssuesListPresenterHeaderDisplayingMaxIssuesToShowMostSevere": "(displaying {{maxIssuesToShow}} most severe)",
+    "openIssuesListPresenterIssueDescriptionOmitted": "Issue description omitted. More details are visible within the event's detail view.",
+    "openIssuesListPresenterStarted": "Started"
+  },
+  "inlineTabNavigation": {
+    "labelSelectTab": "Select tab"
+  },
+  "kpiCard": {
+    "tooltipComparedToTimeShift": "Compared to {{timeShift}}: {{comparisonValue}}"
+  },
+  "latencyDistributionBase10Chart": {
+    "latencyChartOverlayLabelRemoveLatencyFilter": "Remove latency filter",
+    "percentileMenuButtonPercentileView": "Percentile view",
+    "percentileMenuLabelAll": "All",
+    "presenterLabelNoDataToDisplay": "No data to display",
+    "presenterLabelTraces": "Traces",
+    "presenterLabelCalls": "Calls"
+  },
+  "layout": {
+    "sideNavigationAndContentRouteNotFound": "Not Found"
+  },
   "time": {
     "lastMinute": "Last minute",
     "lastMinute_plural": "Last {{count}} minutes",
@@ -168,5 +298,6 @@
         "next": "View next {{ itemName }} (shortcut: left right key)"
       }
     }
-  }
+  },
+  "copyToClipboardButtonCopy": "Copy"
 }

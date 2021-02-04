@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import React, { forwardRef } from 'react';
+import { t } from 'in-i18n';
 
 import CopyToClipboard from 'in-components/CopyToClipboard';
 import { compositeRef } from 'in-services/util/react';
@@ -18,7 +19,7 @@ export default forwardRef(function CopyToClipboardButton(props, ref) {
         className={props.className}
         ref={ref}
       >
-        Copy
+        {t('in-new-components:copyToClipboardButtonCopy')}
       </Button>
     );
   }
@@ -32,7 +33,7 @@ export default forwardRef(function CopyToClipboardButton(props, ref) {
           kind={props.kind || 'create'}
           className={props.className}
         >
-          {props.children || 'Copy'}
+          {props.children || t('in-new-components:copyToClipboardButtonCopy')}
         </Button>
       )}
     </CopyToClipboard>

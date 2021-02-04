@@ -4,6 +4,7 @@
  */
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { t } from 'in-i18n';
 
 import { thresholdOrBaselineLoadingSignal$ } from 'in-new-components/Alerting/Chart/AlertingChartWrapper';
 import StepProgressBar from 'in-new-components/StepProgressBar/StepProgressBar';
@@ -81,7 +82,9 @@ export default function SimpleModePageNavigation({
 
         <div className={locals.controls}>
           <Button className={locals.button} kind="secondary" onClick={() => backOrCancel(step)}>
-            {step === 0 ? 'Cancel' : 'Back'}
+            {step === 0
+              ? t('in-new-components:blueprintFormMultistep.buttonCancel')
+              : t('in-new-components:blueprintFormMultistep.buttonBack')}
           </Button>
           <SaveButton
             type="submit"
@@ -91,7 +94,9 @@ export default function SimpleModePageNavigation({
             disabled={(isDisabled || isCalculatingThreshold) && step !== 0}
             isSaving={isSaving}
           >
-            {step === stepConfigs.length - 1 ? 'Create' : 'Next'}
+            {step === stepConfigs.length - 1
+              ? t('in-new-components:blueprintFormMultistep.buttonCreate')
+              : t('in-new-components:blueprintFormMultistep.buttonNext')}
           </SaveButton>
         </div>
       </form>

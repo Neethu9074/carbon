@@ -4,6 +4,7 @@
  */
 import classNames from 'classnames';
 import { List } from 'immutable';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { latencyPercentileMenuClickedTracker } from 'in-analyze/tracker';
@@ -25,7 +26,7 @@ export default function PercentileMenu(props) {
         };
         return (
           <Button refSetter={refSetter} onClick={trackAndToggle} kind="secondary" size="compact">
-            Percentile view
+            {t('in-new-components:latencyDistributionBase10Chart.percentileMenuButtonPercentileView')}
           </Button>
         );
       }}
@@ -43,7 +44,7 @@ function PercentileMenuContent({ percentilesShown, onChange }) {
           onChange={() =>
             percentilesShown.count() === ALL_PERCENTILES.count() ? onChange(List()) : onChange(ALL_PERCENTILES)
           }
-          label="All"
+          label={t('in-new-components:latencyDistributionBase10Chart.')}
         />
       </li>
       {ALL_PERCENTILES.map(percentile => {

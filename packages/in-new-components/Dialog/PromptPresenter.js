@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
@@ -23,7 +24,7 @@ export default function PromptPresenter({
   description,
   additionalFields,
   inputLabel,
-  confirmButtonLabel = 'Confirm',
+  confirmButtonLabel = t('in-new-components:dialog.promptPresenterLabelConfirm'),
   onSubmit,
   field,
   form,

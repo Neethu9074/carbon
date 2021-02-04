@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import React, { useState } from 'react';
+import { t } from 'in-i18n';
 
 import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
@@ -33,7 +34,13 @@ export default function ExpandableCard({
     <div className={locals.rightSide}>
       {header}
 
-      <Tooltip content={expanded ? 'Show less' : 'Show more'}>
+      <Tooltip
+        content={
+          expanded
+            ? t('in-new-components:expandableCard.tooltipShowLess')
+            : t('in-new-components:expandableCard.tooltipShowMore')
+        }
+      >
         <SvgIcon
           className={locals.icon}
           type={expanded ? 'lib_arrow_expand_up' : 'lib_arrow_expand_down'}

@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import rpt from 'prop-types';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { trackingProps as groupingConfiguratorTrackingProps } from 'in-new-components/GroupingConfigurator/GroupingConfigurator';
@@ -21,7 +22,7 @@ export default function GroupBySection({
   withOptionalMarker,
   hasError
 }) {
-  let title = 'Group';
+  let title = t('in-new-components:groupingConfigurator.titleGroup');
   if (withOptionalMarker) {
     title = <SectionLabelWithSubtext subtext="Optional">{title}</SectionLabelWithSubtext>;
   }

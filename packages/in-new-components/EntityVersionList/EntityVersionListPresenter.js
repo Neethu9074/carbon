@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import EntityVersionListing from 'in-new-components/EntityVersionList/EntityVersionListing';
@@ -12,8 +13,7 @@ export default function EntityVersionListPresenter({ plugin, versions }) {
     <EntityPageMainNotification
       framed
       plugin={plugin}
-      explanation="We could not find a version of this entity in the selected time range. We found other versions in different time
-    ranges:"
+      explanation={t('in-new-components:entityVersionList.explanation')}
     >
       <EntityVersionListing versions={versions} />
     </EntityPageMainNotification>

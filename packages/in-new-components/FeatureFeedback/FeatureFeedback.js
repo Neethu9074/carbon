@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import PropTypes from 'prop-types';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import Pill from 'in-new-components/Pill/Pill';
@@ -10,7 +11,12 @@ import Link from 'in-components/Link';
 
 import locals from './FeatureFeedback.mless';
 
-export default function FeatureFeedback({ href, text = 'This feature is in beta.', labelText = 'BETA', styles = {} }) {
+export default function FeatureFeedback({
+  href,
+  text = t('in-new-components:featureFeedback.labelThisFeatureIsInBeta'),
+  labelText = t('in-new-components:featureFeedback.labelBETA'),
+  styles = {}
+}) {
   return (
     <div className={locals.betaMarker} style={styles}>
       <Pill kind="primary" className={locals.betaPill}>
@@ -18,7 +24,7 @@ export default function FeatureFeedback({ href, text = 'This feature is in beta.
       </Pill>
       {text}
       <Link className={locals.betaLink} external href={href}>
-        You can send us feedback
+        {t('in-new-components:featureFeedback.linkLabelYouCanSendUsFeedback')}
       </Link>
       .
     </div>

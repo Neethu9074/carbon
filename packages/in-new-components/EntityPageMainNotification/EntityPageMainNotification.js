@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import classNames from 'classnames';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { getIconType } from 'in-components/SvgIcon/infrastructureIconType';
@@ -24,7 +25,7 @@ export default function EntityPageMainNotification(props) {
     withBackground
   } = props;
 
-  const entitySingular = getSingular(plugin) || 'Entity';
+  const entitySingular = getSingular(plugin) || t('in-new-components:entityPageMainNotification.labelEntity');
   return (
     <div
       className={classNames({
@@ -35,7 +36,9 @@ export default function EntityPageMainNotification(props) {
       })}
     >
       <SvgIcon className={locals.icon} type={plugin ? getIconType(plugin) : icon} size="xxl" />
-      <h2 className={locals.title}>{title ? title : `${entitySingular} not found`}</h2>
+      <h2 className={locals.title}>
+        {title ? title : t('in-new-components:entityPageMainNotification.labelNotFound', { entity: entitySingular })}
+      </h2>
       {typeof explanation === 'function' ? (
         explanation()
       ) : (

@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import React, { Fragment } from 'react';
+import { t } from 'in-i18n';
 
 import { formatDateTime } from 'in-services/formatters/date';
 import { Ul, Li } from 'in-new-components/lists/List/List';
@@ -17,7 +18,7 @@ export default function EntityVersionListing({ versions }) {
 
   return (
     <Fragment>
-      <div className={locals.listHeading}>Available time ranges</div>
+      <div className={locals.listHeading}>{t('in-new-components:entityVersionList.headingAvailableTimeRanges')}</div>
       <Ul className={locals.list}>
         {clusters.map((clusterVersions, iC) => {
           const clusterFrom = clusterVersions[clusterVersions.length - 1].from;

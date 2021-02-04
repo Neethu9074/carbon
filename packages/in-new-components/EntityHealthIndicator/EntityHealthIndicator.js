@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import EntityOpenIssuesList from 'in-new-components/EntityHealthIndicator/EntityOpenIssuesList';
@@ -21,7 +22,9 @@ export default function EntityHealthIndicator(props) {
       <props.IndicatorPresenter
         showCheckAsNeutral
         maxSeverity={maxSeverity}
-        openIssues={props.inContentArea ? openIssues : 'No Issues'}
+        openIssues={
+          props.inContentArea ? openIssues : t('in-new-components:entityHealthIndicator.indicatorPresenterNoIssues')
+        }
       />
     );
   }
@@ -36,7 +39,7 @@ export default function EntityHealthIndicator(props) {
 function Indicator({ openIssues, maxSeverity, IndicatorPresenter, refSetter, toggle }) {
   return (
     <IndicatorPresenter
-      openIssues={`${openIssues} Issue${openIssues === 1 ? '' : 's'}`}
+      openIssues={t('in-new-components:entityHealthIndicator.indicatorPresenterOpenIssues', { count: openIssues })}
       maxSeverity={maxSeverity}
       onClick={toggle}
       refSetter={refSetter}
