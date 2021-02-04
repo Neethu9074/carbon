@@ -191,7 +191,8 @@
   },
   "entityVersionList": {
     "headingAvailableTimeRanges": "Available time ranges",
-    "explanation": "We could not find a version of this entity in the selected time range. We found other versions in different time ranges:"
+    "explanation": "We could not find a version of this entity in the selected time range. We found other versions in different time ranges:",
+    "noDataAvailable": "No data available"
   },
   "error": {
     "erroneousResultPresenterMessage": "An unexpected error occurred. Please refresh the page or try again later.",
@@ -233,16 +234,16 @@
     "loadingIndicatorLoadingTagCatalog": "Loading tag catalog…"
   },
   "health": {
-    "eventTypeIssue" : "Issue",
-    "eventTypeIssue_plural" : "Issues",
-    "eventTypeIssue_0" : "Issues",
-    "eventTypeIssue_1" : "Issue",
-    "eventTypeIssue_2" : "Issues",
-    "eventTypeissue" : "issue",
-    "eventTypeissue_plural" : "issues",
-    "eventTypeissue_0" : "issues",
-    "eventTypeissue_1" : "issue",
-    "eventTypeissue_2" : "issues",
+    "eventTypeIssue": "Issue",
+    "eventTypeIssue_plural": "Issues",
+    "eventTypeIssue_0": "Issues",
+    "eventTypeIssue_1": "Issue",
+    "eventTypeIssue_2": "Issues",
+    "eventTypeissue": "issue",
+    "eventTypeissue_plural": "issues",
+    "eventTypeissue_0": "issues",
+    "eventTypeissue_1": "issue",
+    "eventTypeissue_2": "issues",
     "openIssuesListPresenterActionsViewIssues": "View {{eventType}}",
     "openIssuesListPresenterActionsViewNumbersOfIssue": "View {{openIssueCount}} {{eventType}}",
     "openIssuesListPresenterHeaderTitleLoadingOpenIssues": "Loading Open {{eventType}}…",
