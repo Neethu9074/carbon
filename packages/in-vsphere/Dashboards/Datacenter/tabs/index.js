@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import TabLabelWithCounter from 'in-vsphere/Dashboards/commonComponents/TabLabelWithCounter';
@@ -13,18 +14,18 @@ import Summary from 'in-vsphere/Dashboards/Datacenter/tabs/Summary';
 
 export default [
   {
-    label: 'Summary',
+    label: t('in-vsphere:dashboards.summary'),
     path: `${datacenterDashboardFullyQualified}/summary`,
     component: Summary
   },
   {
-    label: 'ESXi Hosts',
+    label: t('in-vsphere:dashboards.esXiHosts'),
     path: `${datacenterDashboardFullyQualified}/vsphere-hosts`,
     component: VSphereHosts,
     header: props => getCounterComponent(props, 'hosts')
   },
   {
-    label: 'Virtual Machines',
+    label: t('in-vsphere:dashboards.virtualMachines'),
     path: `${datacenterDashboardFullyQualified}/vms`,
     component: VirtualMachines,
     header: props => getCounterComponent(props, 'vms')

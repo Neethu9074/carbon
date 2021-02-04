@@ -4,6 +4,7 @@
  */
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
+import { t } from 'in-i18n';
 
 import { vmId as matrixVmId, hostId as matrixHostId } from 'in-vsphere/navigation/matrix';
 import { datacenterId as matrixDatacenterId } from 'in-vsphere/navigation/matrix';
@@ -37,7 +38,7 @@ export default function VMDashboard({ location }) {
       <ViewTrackingMeta
         data={{
           productArea: 'vSphere',
-          pageRootName: 'vSphere VM'
+          pageRootName: t('in-vsphere:dashboards.vSphereVm')
         }}
       />
 
@@ -73,7 +74,7 @@ function Header(props) {
   return (
     <DashboardHeader
       {...props}
-      title="vSphere VM"
+      title={t('in-vsphere:dashboards.vSphereVm')}
       icon={resolveIcon(props)}
       label={get(props.result, ['data', 'label'])}
     />

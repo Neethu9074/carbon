@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { fromJS } from 'immutable';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
@@ -19,7 +20,7 @@ const matrixPrefix = 'host.';
 const columnDefinitions = [
   {
     id: 'label',
-    label: 'Name',
+    label: t('in-vsphere:dashboards.name'),
     sortable: false,
     getContent(item, { timeConfig }) {
       const snapshot = fromJS(item);

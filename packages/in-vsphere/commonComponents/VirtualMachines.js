@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { get } from 'lodash';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import ServerSideSortedMetricValue from 'in-components/tables/sharedComponents/ServerSideSortedMetricValue';
@@ -25,7 +26,7 @@ const matrixPrefix = 'vm.';
 const columnDefinitions = [
   {
     id: 'label',
-    label: 'Name',
+    label: t('in-vsphere:name'),
     getContent(item) {
       const hostId = item.hostId;
       const datacenterId = item.datacenterId;
@@ -40,7 +41,7 @@ const columnDefinitions = [
   },
   {
     id: 'cpu.usage.maximum.percent',
-    label: 'CPU Usage',
+    label: t('in-vsphere:cpuUsage'),
     sortable: true,
     getContent(item, props, columnId) {
       return (
@@ -55,7 +56,7 @@ const columnDefinitions = [
   },
   {
     id: 'cpuTotal',
-    label: 'CPU Resources',
+    label: t('in-vsphere:cpuResources'),
     sortable: true,
     getContent(item) {
       return <EntityCounter count={item.cpuTotal} />;
@@ -63,7 +64,7 @@ const columnDefinitions = [
   },
   {
     id: 'mem.usage.average.percent',
-    label: 'Memory Usage',
+    label: t('in-vsphere:memoryUsage'),
     getContent(item, props, columnId) {
       return (
         <ServerSideSortedMetricValue
@@ -77,7 +78,7 @@ const columnDefinitions = [
   },
   {
     id: 'memTotal',
-    label: 'Memory Resources',
+    label: t('in-vsphere:memoryResources'),
     sortable: true,
     getContent(item) {
       return <MemoryTotal count={item.memTotal} />;
@@ -89,7 +90,7 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
   Renderer: withEmptyTableState({
     columnDefinitions,
     plugin: plugins.vsphereVM,
-    entityName: 'vSphere VMs'
+    entityName: t('in-vsphere:entityName.vSphereVMs')
   }),
   paginationResettingUrlParameters: [...timeConfigUrlParameters, datacenterIdUrlParameter],
   columnDefinitions,
