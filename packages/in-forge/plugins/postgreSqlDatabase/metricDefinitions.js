@@ -90,14 +90,14 @@ export default [
     formatter: zeroDecimalPlaces
   },
   {
-    metric: 'replications_stats.replication_delay_bytes',
+    metric: 'replication_stats.replication_delay_bytes',
     label: 'Replication delay in bytes',
     category: ['Databases'],
     min: 0,
     formatter: bytesZeroDecimalPlaces
   },
   {
-    metric: 'replications_stats.replication_delay_seconds',
+    metric: 'replication_stats.replication_delay_seconds',
     label: 'Replication delay in seconds',
     category: ['Databases'],
     min: 0,
