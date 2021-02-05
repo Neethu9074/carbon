@@ -87,5 +87,5 @@ export default function MetricConfigurator({
     );
   }
 
-  return dataSourceSection;
+  return <Sections>{dataSourceSection}</Sections>;
 }
