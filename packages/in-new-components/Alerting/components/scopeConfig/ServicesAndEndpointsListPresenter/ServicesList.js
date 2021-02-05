@@ -8,15 +8,15 @@ import PropTypes from 'prop-types';
 import { isEmpty } from 'lodash';
 
 import {
+  createApplicationIdTagFilter,
+  createEndpointNameTagFilter,
+  createServiceNameTagFilter
+} from 'in-new-components/Alerting/components/scopeConfig/ServicesAndEndpointsListPresenter/tagFilterCreators';
+import {
   DEFAULT_PAGE_SIZE,
   enrichListWithStaleSelectionData,
-  createNoMatchingEntityText,
-  createServiceNameTagFilter
+  createNoMatchingEntityText
 } from 'in-new-components/Alerting/components/scopeConfig/ServicesAndEndpointsListPresenter/utils';
-import {
-  createApplicationIdTagFilter,
-  createEndpointNameTagFilter
-} from 'in-new-components/Alerting/components/scopeConfig/ServicesAndEndpointsListPresenter/tagFilterCreators';
 import {
   selectApplication,
   selectService
