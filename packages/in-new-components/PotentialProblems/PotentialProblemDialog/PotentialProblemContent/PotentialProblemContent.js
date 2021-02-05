@@ -63,9 +63,6 @@ export default function PotentialProblemContent({
         <PotentialProblemContentControls
           {...remainingProps}
           applicationLabel={applicationLabel}
-          serviceLabel={serviceLabel}
-          endpointLabel={endpointLabel}
-          alertType={alertType}
           rule={rule}
           threshold={threshold}
           alert={alert}
