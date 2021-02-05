@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import React, { Fragment } from 'react';
+import { t } from 'in-i18n';
 
 import { SIGNALS } from 'in-applications/ApplicationMap/serviceLocator/EventBusServiceLocator/EventBusService';
 import { number, millis, percentage } from 'in-services/formatters/number';
@@ -48,13 +49,15 @@ function getLabel(metric, powerFunctions) {
   const min = powerFunctions ? powerFunctions.getMinMetricValueByName(metric) : null;
   const max = powerFunctions ? powerFunctions.getMaxMetricValueByName(metric) : null;
   if (metric === 'calls') {
-    return <RangeLabel metric="Calls" min={min} max={max} formatter={number.compact} />;
+    return <RangeLabel metric={t('in-applications:labelCalls')} min={min} max={max} formatter={number.compact} />;
   }
   if (metric === 'errorRate') {
-    return <RangeLabel metric="Error Rate" min={min} max={max} formatter={percentage.compact} />;
+    return (
+      <RangeLabel metric={t('in-applications:labelErrorRate')} min={min} max={max} formatter={percentage.compact} />
+    );
   }
   if (metric === 'latency') {
-    return <RangeLabel metric="Latency" min={min} max={max} formatter={millis.detailed} />;
+    return <RangeLabel metric={t('in-applications:labelLatency')} min={min} max={max} formatter={millis.detailed} />;
   }
 }
 
@@ -71,16 +74,16 @@ function RangeLabel({ metric, min, max, formatter }) {
 
 function getLabelShort(metric) {
   if (!metric) {
-    return 'Disable sizing';
+    return t('in-applications:labelDisableSizing');
   }
   if (metric === 'calls') {
-    return 'Incoming calls';
+    return t('in-applications:labelIncomingCalling');
   }
   if (metric === 'errorRate') {
-    return 'Max erroneous call rate';
+    return t('in-applications:labelMaxErroneousCallRate');
   }
   if (metric === 'latency') {
-    return 'Max latency';
+    return t('in-applications:labelMaxLatency');
   }
 }
 

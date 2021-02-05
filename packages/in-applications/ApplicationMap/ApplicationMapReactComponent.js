@@ -139,8 +139,8 @@ export const ApplicationMapReactComponent = getElementDimensions(
       if (isLoading || hasErrors) {
         errorOrLoadingOverlay = (
           <div className={locals.centerWrapper}>
-            {isLoading && <LoadingIndicator text="Loading Data" />}
-            {hasErrors && <NoDataAvailable text="An unexpected error occurred" />}
+            {isLoading && <LoadingIndicator text={t('in-applications:loadingData')} />}
+            {hasErrors && <NoDataAvailable text={t('in-applications:UnexpectedErrorOccurred')} />}
           </div>
         );
       }

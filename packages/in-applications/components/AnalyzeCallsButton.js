@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { get } from 'lodash';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
@@ -59,7 +60,7 @@ function AnalyzeCallsButton({
         })
       }
     >
-      Analyze Calls
+      {t('in-applications:buttonAnalyzeCalls')}
     </Button>
   );
 }

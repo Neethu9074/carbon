@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import getServiceLabel from 'in-subscription/application/getServiceLabel';
@@ -20,9 +21,9 @@ export default connectTo(
   }),
   function ServiceContext({ service, serviceId, applicationId, boundaryScope }) {
     return (
-      <Tooltip content={service.data ? service.data.label : 'Service'} delay={500}>
+      <Tooltip content={service.data ? service.data.label : t('in-applications:labelService')} delay={500}>
         <Link className={locals.link} href$={getServiceDashboard(serviceId, { applicationId, boundaryScope })}>
-          {service.data ? service.data.label : 'Service'}
+          {service.data ? service.data.label : t('in-applications:labelService')}
         </Link>
       </Tooltip>
     );

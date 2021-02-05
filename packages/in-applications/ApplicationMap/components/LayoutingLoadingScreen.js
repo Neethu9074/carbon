@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { SIGNALS } from 'in-applications/ApplicationMap/serviceLocator/EventBusServiceLocator/EventBusService';
@@ -23,7 +24,7 @@ export default connectTo(
     }
     return (
       <div className={locals.wrapper}>
-        <LoadingIndicator text="Rendering" />;
+        <LoadingIndicator text={t('in-applications:Rendering')} />;
       </div>
     );
   }

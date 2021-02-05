@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { get } from 'lodash';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import ApplicationMapTootlip from 'in-applications/ApplicationMap/components/Tooltips/ApplicationMapTootlip';
@@ -72,9 +73,17 @@ function renderContent(data) {
   }
   return (
     <div className={locals.metrics}>
-      <MetricValue title="Total Calls" metric={data.calls} tooltipFormatter={number.compact} />
-      <MetricValue title="Erroneous Calls" metric={data.errorRate} tooltipFormatter={percentage.compact} />
-      <MetricValue title="Avg. Latency" metric={data.latency} tooltipFormatter={meanLatency.detailed} />
+      <MetricValue title={t('in-applications:titleTotalCalls')} metric={data.calls} tooltipFormatter={number.compact} />
+      <MetricValue
+        title={t('in-applications:titleErroneousCalls')}
+        metric={data.errorRate}
+        tooltipFormatter={percentage.compact}
+      />
+      <MetricValue
+        title={t('in-applications:titleAvgLatency')}
+        metric={data.latency}
+        tooltipFormatter={meanLatency.detailed}
+      />
     </div>
   );
 }

@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { get } from 'lodash';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import ErroneousServiceInformation from 'in-applications/ApplicationMap/components/Tooltips/ServiceInformation/ErroneousServiceInformation';
@@ -40,7 +41,7 @@ function DefaultServiceInformation({ service, timeConfig, metricsResult }) {
       renderContent={() => (
         <div className={locals.sparkCharts}>
           <SparkChartWithMetric
-            title="Total Calls"
+            title={t('in-applications:titleTotalCalls')}
             rollup={rollup}
             timeConfig={resolvedTimeConfig}
             aggregation="SUM"
@@ -49,7 +50,7 @@ function DefaultServiceInformation({ service, timeConfig, metricsResult }) {
             tooltipFormatter={number.compact}
           />
           <SparkChartWithMetric
-            title="Erroneous Calls"
+            title={t('in-applications:titleErroneousCalls')}
             rollup={rollup}
             timeConfig={resolvedTimeConfig}
             aggregation="MEAN"
@@ -58,7 +59,7 @@ function DefaultServiceInformation({ service, timeConfig, metricsResult }) {
             tooltipFormatter={percentage.compact}
           />
           <SparkChartWithMetric
-            title="Avg. Latency"
+            title={t('in-applications:titleAvgLatency')}
             rollup={rollup}
             timeConfig={resolvedTimeConfig}
             aggregation="MEAN"

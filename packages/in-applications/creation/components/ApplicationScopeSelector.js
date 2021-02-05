@@ -4,6 +4,7 @@
  */
 import React, { useEffect } from 'react';
 import classNames from 'classnames';
+import { t } from 'in-i18n';
 
 import { applicationCreationScopeSelect } from 'in-applications/creation/tracker';
 import OptionBox from 'in-applications/components/OptionBox';
@@ -28,7 +29,7 @@ export default function ApplicationScopeSelector({ form, updateForm, selectedBlu
             [locals.optionBox]: true,
             [locals.optionBoxUnchecked]: scopeField.value !== 'INCLUDE_NO_DOWNSTREAM'
           })}
-          title="No downstream services"
+          title={t('in-applications:creation.scope.optionNoDownStreamServices')}
           asRadioButton
           checked={scopeField.value == 'INCLUDE_NO_DOWNSTREAM'}
           onChange={() => {
@@ -41,7 +42,7 @@ export default function ApplicationScopeSelector({ form, updateForm, selectedBlu
             [locals.optionBox]: true,
             [locals.optionBoxUnchecked]: scopeField.value !== 'INCLUDE_IMMEDIATE_DOWNSTREAM_DATABASE_AND_MESSAGING'
           })}
-          title="Immediate downstream database and messaging services"
+          title={t('in-applications:creation.scope.optionImmediateDownstreamServices')}
           asRadioButton
           checked={scopeField.value == 'INCLUDE_IMMEDIATE_DOWNSTREAM_DATABASE_AND_MESSAGING'}
           onChange={() => {
@@ -58,7 +59,7 @@ export default function ApplicationScopeSelector({ form, updateForm, selectedBlu
             [locals.optionBox]: true,
             [locals.optionBoxUnchecked]: scopeField.value !== 'INCLUDE_ALL_DOWNSTREAM'
           })}
-          title="All downstream services"
+          title={t('in-applications:creation.scope.optionAllDownstreamServices')}
           asRadioButton
           checked={scopeField.value == 'INCLUDE_ALL_DOWNSTREAM'}
           onChange={() => {

@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import AnalyzeMultiSelectBarItem from 'in-analyze/AnalyzeView/components/AnalyzeMultiSelectBarItem';
@@ -24,8 +25,8 @@ export default function ServicesEndpointsBar(props) {
         timeConfig={timeConfig}
         tagFilters={tagFilters}
         tag="service.name"
-        singularLabel="Service"
-        pluralLabel="Services"
+        singularLabel={t('in-applications:analyze.quickFilter.labelService', { count: 1 })}
+        pluralLabel={t('in-applications:analyze.quickFilter.labelService', { count: 2 })}
         selectedItemRenderer={renderApplicationServiceEndpointItem('lib_application_service')}
         itemLabelRenderer={renderApplicationServiceEndpointItem('lib_application_service')}
         withoutTextTransform
@@ -36,12 +37,12 @@ export default function ServicesEndpointsBar(props) {
         timeConfig={timeConfig}
         tagFilters={tagFilters}
         tag="endpoint.name"
-        singularLabel="Endpoint"
-        pluralLabel="Endpoints"
+        singularLabel={t('in-applications:analyze.quickFilter.labelEndpoint', { count: 1 })}
+        pluralLabel={t('in-applications:analyze.quickFilter.labelEndpoint', { count: 2 })}
         itemLabelRenderer={renderApplicationServiceEndpointItem('lib_application_endpoint')}
         selectedItemRenderer={renderApplicationServiceEndpointItem('lib_application_service')}
         precondition={() => !!getTagFromList(tagFilters, { name: 'service.name' }) && serviceNameTags.length < 2}
-        preconditionFailedTooltip="Please select a single service before selecting endpoints."
+        preconditionFailedTooltip={t('in-applications:creation.tooltipEndpointBar')}
         withoutTextTransform
         addTagFilter={addTagFilter}
       />

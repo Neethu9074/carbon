@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { get } from 'lodash';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { SIGNALS } from 'in-applications/ApplicationMap/serviceLocator/EventBusServiceLocator/EventBusService';
@@ -49,7 +50,7 @@ export function ContextMenuContent({ applicationId, application, node, isTraffic
           boundaryScope: boundaryScopes.all
         })}
       >
-        Go to Dashboard
+        {t('in-applications:buttonGoToDashboard')}
       </Button>
 
       <Button
@@ -58,7 +59,7 @@ export function ContextMenuContent({ applicationId, application, node, isTraffic
         icon="lib_actions_flow_layout"
         href$={getServiceDashboard(node.id, { applicationId, boundaryScope: boundaryScopes.all, tab: '/flowMap' })}
       >
-        Go to Flow
+        {t('in-applications:buttonGoToFlow')}
       </Button>
 
       <Button
@@ -75,7 +76,7 @@ export function ContextMenuContent({ applicationId, application, node, isTraffic
           groupByTag: getConfigByDataSource('calls').defaultGrouping
         })}
       >
-        Go to Analytics
+        {t('in-applications:buttonGoToAnalytics')}
       </Button>
 
       {openIssues > 0 && (
@@ -85,7 +86,9 @@ export function ContextMenuContent({ applicationId, application, node, isTraffic
           icon="lib_help_error_warning"
           href$={getEventsViewFilteredBy({ applicationId, serviceId: node.id, eventTypeFilter: 'issue' })}
         >
-          {`Inspect ${openIssues} Issue${openIssues > 1 ? 's' : ''}`}
+          {t('in-applications:buttonInspectIssue', {
+            count: openIssues
+          })}
         </Button>
       )}
     </div>

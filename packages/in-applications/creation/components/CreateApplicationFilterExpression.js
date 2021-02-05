@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc. 2021
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import TagFilterExpressionConfigurationWrapper from 'in-analyze/AnalyzeView/components/TagFilterExpressionConfigurationWrapper';
@@ -94,7 +95,7 @@ export default function CreateApplicationFilterExpression({
                   size="compact"
                   onClick={() => setTagFilterExpression([], form, updateForm)}
                 >
-                  Clear
+                  {t('in-applications:buttonClear')}
                 </Button>
               )}
             </HorizontalFlexWrapper>
