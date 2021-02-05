@@ -164,8 +164,8 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'smartAlertsServicesAndEndpointsSelectionEnabled ',
-    instanaCtlKey: 'feature.smartAlertsServicesAndEndpointsSelectionEnabled.enabled',
+    uiClientKey: 'smartAlertsAdvancedEntitySelectionEnabled ',
+    instanaCtlKey: 'smart.alerts.advanced.entity.selection.enabled',
     defaultValue: false
   },
   {
