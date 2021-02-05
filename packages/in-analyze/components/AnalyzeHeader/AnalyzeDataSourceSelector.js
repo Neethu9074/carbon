@@ -57,11 +57,13 @@ const productAreas = [
       },
       {
         dataSource: 'logs',
+        ua2: newAnalyticsEnabled,
         enabled: loggingEnabled,
         getHref$: getLinkToLogsAnalyze
       },
       {
         dataSource: 'rawlogs',
+        ua2: newAnalyticsEnabled,
         getHref$: getLinkToRawLogs,
         enabled$: isInternalVisible$.map(isInternalVisible => isInternalVisible && loggingEnabled)
       }
@@ -139,6 +141,7 @@ const productAreas = [
     dataSources: [
       {
         dataSource: 'sessionStart',
+        ua2: webMobileQb2AnalyzeEnabled,
         getHref$: ({ isGrouped }) =>
           getLinkToMobileAppAnalyze({
             group: isGrouped ? defaultMobileAppGroupings.sessionStart : emptyObject,
@@ -147,6 +150,7 @@ const productAreas = [
       },
       {
         dataSource: 'viewChange',
+        ua2: webMobileQb2AnalyzeEnabled,
         getHref$: ({ isGrouped }) =>
           getLinkToMobileAppAnalyze({
             group: isGrouped ? defaultMobileAppGroupings.viewChange : emptyObject,
@@ -155,6 +159,7 @@ const productAreas = [
       },
       {
         dataSource: 'httpRequest',
+        ua2: webMobileQb2AnalyzeEnabled,
         getHref$: ({ isGrouped }) =>
           getLinkToMobileAppAnalyze({
             group: isGrouped ? defaultMobileAppGroupings.httpRequest : emptyObject,
@@ -163,6 +168,7 @@ const productAreas = [
       },
       {
         dataSource: 'custom',
+        ua2: webMobileQb2AnalyzeEnabled,
         getHref$: ({ isGrouped }) =>
           getLinkToMobileAppAnalyze({
             group: isGrouped ? defaultMobileAppGroupings.custom : emptyObject,
