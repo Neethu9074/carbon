@@ -1,0 +1,11 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
+@import '~in-themes/active.less';
+
+:local {
+  .container {
+    padding-bottom: 4rem;
+  }
+}

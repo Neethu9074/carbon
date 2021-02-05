@@ -9,6 +9,7 @@
     border: 1px solid @lib__colors__N300;
     border-radius: @lib__shapes__radius_small;
     padding: 1rem 0rem;
+    margin-bottom: 1rem;
   }
 
   .optionBox {

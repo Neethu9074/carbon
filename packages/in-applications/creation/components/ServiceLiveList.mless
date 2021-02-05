@@ -6,17 +6,12 @@
 
 :local {
   .cardContainer {
-    margin-right: 1rem;
+    margin: 0 1rem 1rem 0;
     height: fit-content;
   }
 
   .header {
     border-bottom: 1px solid @lib__colors__N300;
-  }
-
-  .listContainer {
-    max-height: 22rem;
-    overflow-y: auto;
   }
 
   .filtersPrompt {

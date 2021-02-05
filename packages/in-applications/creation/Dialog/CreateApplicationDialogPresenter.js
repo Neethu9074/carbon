@@ -4,7 +4,7 @@
  */
 import React, { useState } from 'react';
 
-import Dialog from 'in-new-components/Dialog/Dialog';
+import DialogWithSlideInView from 'in-new-components/Dialog/DialogWithSlideInView';
 import Button from 'in-new-components/Button/Button';
 import { t } from 'in-i18n';
 
@@ -12,6 +12,7 @@ import locals from './CreateApplicationDialogPresenter.mless';
 
 export default function CreateApplicationDialogPresenter(props) {
   const [simpleModeStep, setSimpleModeStep] = useState(0);
+  const [slideInViewVisible, setSlideInViewVisible] = useState(false);
 
   const {
     simpleMode,
@@ -38,9 +39,12 @@ export default function CreateApplicationDialogPresenter(props) {
   });
 
   return (
-    <Dialog
+    <DialogWithSlideInView
       titleIconType="lib_application"
       title={t('in-applications:creation.newAP')}
+      slideInViewVisible={slideInViewVisible}
+      doNotCloseOnOutsideClick
+      onSlideInViewTitleClick={() => setSlideInViewVisible(!slideInViewVisible)}
       onClose={() => withTrackClose(simpleMode && simpleModeStep)}
       renderCustomCloseBehaviour={() => (
         <Button
@@ -61,6 +65,6 @@ export default function CreateApplicationDialogPresenter(props) {
       <div className={simpleMode ? locals.simpleDialog : locals.advancedDialog}>
         {simpleMode ? SimpleMode : AdvancedMode}
       </div>
-    </Dialog>
+    </DialogWithSlideInView>
   );
 }
