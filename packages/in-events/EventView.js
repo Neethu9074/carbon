@@ -5,6 +5,7 @@
 import { create, just, interval } from '@instana/observables';
 import React, { useState, useMemo } from 'react';
 import { get } from 'lodash';
+import { t } from 'in-i18n';
 
 import { eventIdUrlParameter, orderDirectionParameter, orderByUrlParameter } from 'in-events/navigation/urlParameters';
 import DashboardHeaderShadowModule from 'in-new-components/DashboardHeader/DashboardHeaderShadowModule';
@@ -153,8 +154,8 @@ function EventViewComponent(props) {
         <>
           <DashboardHeader
             icon="lib_events_inverted"
-            label="Events"
-            title={eventTypeLabels[eventType] ?? 'Events'}
+            label={t('in-events:titleEvent')}
+            title={eventTypeLabels[eventType] ?? t('in-events:titleEvent')}
             labelForTitle=""
           />
           <DashboardHeaderModule theme={themes.light} withBottomBorder={eventId}>

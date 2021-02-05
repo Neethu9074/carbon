@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import {
@@ -69,21 +70,21 @@ function List(props) {
               <Th />
               {isDenseList ? (
                 <SortableColumn {...props} technicalName="start">
-                  Started
+                  {t('in-events:headerStarted')}
                 </SortableColumn>
               ) : (
                 <>
                   <SortableColumn {...props} technicalName="problem.problemText">
-                    Title
+                    {t('in-events:headerTitle')}
                   </SortableColumn>
-                  <Th>On</Th>
+                  <Th>{t('in-events:headerOn')}</Th>
                   <SortableColumn {...props} technicalName="start">
-                    Started
+                    {t('in-events:headerStarted')}
                   </SortableColumn>
                   <SortableColumn {...props} technicalName="end">
-                    End
+                    {t('in-events:headerEnd')}
                   </SortableColumn>
-                  <Th className={locals.timelineColumn}>Timeline</Th>
+                  <Th className={locals.timelineColumn}>{t('in-events:headerTimeline')}</Th>
                 </>
               )}
             </Tr>
@@ -116,21 +117,21 @@ function List(props) {
             <Th />
             {isDenseList ? (
               <SortableColumn {...props} technicalName="start">
-                Started
+                {t('in-events:headerStarted')}
               </SortableColumn>
             ) : (
               <>
                 <SortableColumn {...props} technicalName="problem.problemText">
-                  Title
+                  {t('in-events:headerTitle')}
                 </SortableColumn>
-                <Th>On</Th>
+                <Th>{t('in-events:headerOn')}</Th>
                 <SortableColumn {...props} technicalName="start">
-                  Started
+                  {t('in-events:headerStarted')}
                 </SortableColumn>
                 <SortableColumn {...props} technicalName="end">
-                  End
+                  {t('in-events:headerEnd')}
                 </SortableColumn>
-                <Th className={locals.timelineColumn}>Timeline</Th>
+                <Th className={locals.timelineColumn}>{t('in-events:headerTimeline')}</Th>
               </>
             )}
           </Tr>

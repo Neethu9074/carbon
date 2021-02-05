@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t, Trans } from 'in-i18n';
 import { get } from 'lodash';
 import React from 'react';
 
@@ -23,11 +24,15 @@ export default function ReleaseOccurredMessage({ release }) {
 
   return (
     <div className={locals.container}>
-      <h1 className={locals.title}>A release has occurred recently</h1>
+      <h1 className={locals.title}>{t('in-events:titleReleaseOccurred')}</h1>
       <div className={locals.content}>
-        <p>Release: {release.name}</p>
+        <p>{t('in-events:releaseOccurName', { releaseName: release.name })}</p>
         <p>
-          {formatDateTime(release.start)} (<TimeCount start={release.start} /> ago)
+          <Trans
+            i18nKey="in-events:releaseOccurTime"
+            values={{ releaseStartTime: formatDateTime(release.start) }}
+            components={{ timeCount: <TimeCount start={release.start} /> }}
+          />
         </p>
       </div>
       <nav className={locals.controls}>
@@ -40,7 +45,7 @@ export default function ReleaseOccurredMessage({ release }) {
           kind="action"
           onClick={() => removeMessage(release.id)}
         >
-          Focus time to release
+          {t('in-events:buttonFocusTimeToRelease')}
         </Button>
         <Button
           href$={getModifiedUrlStream(params => {
@@ -49,7 +54,7 @@ export default function ReleaseOccurredMessage({ release }) {
           kind="action"
           onClick={() => removeMessage(release.id)}
         >
-          Follow releases live
+          {t('in-events:buttonFollowReleaseLive')}
         </Button>
       </nav>
     </div>

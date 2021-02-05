@@ -5,6 +5,7 @@
 import { on } from '@instana/observables';
 import { findIndex } from 'lodash';
 import theme from 'in-themes';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import NavigatorSplitScreen from 'in-analyze/TraceDetail/components/NavigatorSplitScreen/NavigatorSplitScreen';
@@ -65,8 +66,8 @@ export default class extends React.Component {
       <div ref={table => (this.table = table)}>
         <ViewTrackingMeta
           data={{
-            productArea: 'Events',
-            pageRootName: 'Events List'
+            productArea: t('in-events:productAreaEvents'),
+            pageRootName: t('in-events:pageRootNameEventsList')
           }}
         />
 
@@ -122,7 +123,7 @@ function Header(props) {
   if (!props.result) {
     return (
       <DashboardHeader
-        title="Event"
+        title={t('in-events:titleEvent')}
         icon=""
         result={{ data: null }}
         renderTimeSelection={renderTimeSelection}
@@ -134,7 +135,7 @@ function Header(props) {
   return (
     <DashboardHeader
       event={props.result.data}
-      title="Event"
+      title={t('in-events:titleEvent')}
       renderIcon={() => renderIcon(props.result.data)}
       label={props.result.data.getIn(['problem', 'problemText'], '')}
       renderMetaInformation={renderMetaInformation}
@@ -151,8 +152,12 @@ function renderMetaInformation({ event }) {
 function renderTimeSelection() {
   return (
     <Link href$={getModifiedUrlStream(location => setOrDeleteMatrixKey(location, eventsPath, eventId, null))}>
-      <Tooltip content="Close event detail">
-        <SvgIcon className={locals.closeIcon} aria-label="Close event detail" type="lib_openclose_cancel" />
+      <Tooltip content={t('in-events:tooltipCloseEventDetail')}>
+        <SvgIcon
+          className={locals.closeIcon}
+          aria-label={t('in-events:tooltipCloseEventDetail')}
+          type="lib_openclose_cancel"
+        />
       </Tooltip>
     </Link>
   );
@@ -160,7 +165,7 @@ function renderTimeSelection() {
 
 function TriggeredMarker({ event }) {
   return getEventType(event) !== EVENT_TYPES.INCIDENT && hasServiceImpact(event) ? (
-    <Pill color={theme.lib.colors.cyan800}>SERVICE IMPACT</Pill>
+    <Pill color={theme.lib.colors.cyan800}>{t('in-events:markerServiceImpact')}</Pill>
   ) : null;
 }
 

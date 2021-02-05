@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import PropTypes from 'prop-types';
+import { t, Trans } from 'in-i18n';
 import React from 'react';
 
 import {
@@ -54,8 +55,7 @@ export default function AnalyzeApplicationEventButton({
       content={
         linkDisabled && (
           <div>
-            The config for this is stored with Query Builder 2 expressions. <br /> You can only use this button with
-            configs stored in Query Builder 1
+            <Trans i18nKey="in-events:tooltipAnalyzeCalls" />
           </div>
         )
       }
@@ -67,7 +67,7 @@ export default function AnalyzeApplicationEventButton({
         href$={linkToUA}
         disabled={linkDisabled}
       >
-        Analyze Calls
+        {t('in-events:analyzeCalls')}
       </Button>
     </Tooltip>
   );

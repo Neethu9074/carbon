@@ -2,7 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-export const incident = 'Incidents';
-export const issue = 'Issues';
-export const change = 'Changes';
-export const agent_monitoring_issue = 'Monitoring issues';
+import { t } from 'in-i18n';
+
+export const incident = t('in-events:labelIncidents');
+export const issue = t('in-events:labelIssues');
+export const change = t('in-events:labelChanges');
+export const agent_monitoring_issue = t('in-events:labelMonitoringIssues');

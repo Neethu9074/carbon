@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { combineLatest } from '@instana/observables';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { getEventType, EVENT_TYPES, fireCallbacksForEventAtFocusedMomentAsStream } from 'in-stores/events';
@@ -25,7 +26,7 @@ export default function EventDetailsKPIs({ event, isIncident }) {
 }
 
 function EventKPIs({ event }) {
-  const started = getEventType(event) === EVENT_TYPES.CHANGE ? 'Time' : 'Started';
+  const started = getEventType(event) === EVENT_TYPES.CHANGE ? t('in-events:titleTime') : t('in-events:headerStarted');
 
   return (
     <Row withoutSideMargin>
@@ -69,7 +70,10 @@ const IncidentKPIs = connectTo(
     return (
       <Row withoutSideMargin>
         <Col xs>
-          <DateTimeKpiCard title="Triggered" time={event.get('triggeringTime', event.get('start'))} />
+          <DateTimeKpiCard
+            title={t('in-events:titleTriggered')}
+            time={event.get('triggeringTime', event.get('start'))}
+          />
         </Col>
         <Col xs>
           <Ended event={event} />
@@ -78,13 +82,13 @@ const IncidentKPIs = connectTo(
           <Duration event={event} />
         </Col>
         <Col xs>
-          <KpiCard title="Active" value={`${numOpenEvents}/${recentEvents.length}`} raw />
+          <KpiCard title={t('in-events:titleActive')} value={`${numOpenEvents}/${recentEvents.length}`} raw />
         </Col>
         <Col xs>
-          <KpiCard title="Changes" value={`${changes.length}`} raw />
+          <KpiCard title={t('in-events:titleChanges')} value={`${changes.length}`} raw />
         </Col>
         <Col xs>
-          <KpiCard title="Affected entities" value={`${Object.keys(affectedEnties).length}`} raw />
+          <KpiCard title={t('in-events:titleAffectedEntities')} value={`${Object.keys(affectedEnties).length}`} raw />
         </Col>
       </Row>
     );
@@ -106,9 +110,12 @@ const Ended = connectTo(
   },
   function Ended({ event, isOpen }) {
     return isOpen ? (
-      <KpiCard title="Ended" value={valueMissingPlaceholder} raw />
+      <KpiCard title={t('in-events:titleEnded')} value={valueMissingPlaceholder} raw />
     ) : (
-      <DateTimeKpiCard title="Ended" time={event.get('start') !== event.get('end') ? event.get('end') : null} />
+      <DateTimeKpiCard
+        title={t('in-events:titleEnded')}
+        time={event.get('start') !== event.get('end') ? event.get('end') : null}
+      />
     );
   }
 );
@@ -151,6 +158,6 @@ const Duration = connectTo(
       value = formatDurationAccurately(config.to - event.get('start'), 1000);
     }
 
-    return <KpiCard title="Duration" value={value} raw />;
+    return <KpiCard title={t('in-events:titleDuration')} value={value} raw />;
   }
 );

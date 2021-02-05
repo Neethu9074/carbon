@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import CustomProblemDescription from 'in-events/components/legacy/CustomProblemDescription';
@@ -22,15 +23,13 @@ export default function OfflineEventDescription({ event }) {
   return (
     <div>
       <CustomProblemDescription title="Last Known Process" text={problemText} className="in-event-view-event-content" />
-      {url && <Link href$={url}>View Last Process</Link>}
+      {url && <Link href$={url}>{t('in-events:linkViewLastProcess')}</Link>}
     </div>
   );
 }
 
 function getOfflineEventProblemText(snapshotId) {
-  return snapshotId
-    ? 'Click the link below to go to the last version of the process monitored by Instana. Doing so will change the start of your time window to a point in time when the process was monitored by Instana'
-    : 'Instana could not find a reference to any previous entity matching the custom event.';
+  return snapshotId ? t('in-events:offLineEventProblemChangeTime') : t('in-events:offLineEventProblemNoMatch');
 }
 
 function getUrl(snapshotId, snapshotVersions = []) {

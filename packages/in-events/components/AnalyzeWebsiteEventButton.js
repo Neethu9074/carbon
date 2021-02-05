@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import PropTypes from 'prop-types';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { defaultGroupings, translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
@@ -62,7 +63,7 @@ export default function AnalyzeWebsiteEventButton({ alertConfig, websiteName, ti
         icon="lib_website_ajax"
         group={defaultGroupings.httpRequest}
         beaconType="httpRequest"
-        title="Analyze HTTP Requests"
+        title={t('in-events:titleAnalyzeHTTPRequests')}
       />
     );
   }
@@ -77,7 +78,7 @@ export default function AnalyzeWebsiteEventButton({ alertConfig, websiteName, ti
         icon="lib_website_page_load"
         group={isPageLoadMetric ? defaultGroupings.pageLoad : defaultGroupings.pageChange}
         beaconType={isPageLoadMetric ? 'pageLoad' : 'pageChange'}
-        title={isPageLoadMetric ? 'Analyze Page Loads' : 'Analyze Page Transitions'}
+        title={isPageLoadMetric ? t('in-events:titleAnalyzePageLoads') : t('in-events:titleAnalyzePageTransitions')}
       />
     );
   }

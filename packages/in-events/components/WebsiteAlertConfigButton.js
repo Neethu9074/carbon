@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import PropTypes from 'prop-types';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { websitesAlertingEventDetailsViewEditConfig } from 'in-websites/alerting/tracker';
@@ -18,7 +19,7 @@ export default function WebsiteAlertConfigButton({ alertConfig }) {
         goToAlertConfig(alertConfig.id, alertConfig.created, alertConfig.websiteId);
       }}
     >
-      View Alerting Configuration
+      {t('in-events:buttonViewAlertConfig')}
     </Button>
   );
 }

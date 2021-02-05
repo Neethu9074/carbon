@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import HighlightedTimeframeMarkerRow from 'in-events/components/HighlightedTimeframeMarkerRow';
@@ -13,14 +14,14 @@ import locals from './EmptyEventsList.mless';
 
 function translateEventType(eventType) {
   if (!eventType) {
-    return 'events';
+    return 'event';
   }
 
   switch (eventType) {
     case 'agent_monitoring_issue':
-      return 'monitoring issues';
+      return 'monitoringIssue';
     default:
-      return eventType + 's';
+      return eventType;
   }
 }
 
@@ -30,7 +31,7 @@ export default function EventsList({ eventType, cols, isDenseList, isPresentingH
       <Table>
         <Thead>
           <Tr size="compact">
-            <Th>Started</Th>
+            <Th>{t('in-events:headerStarted')}</Th>
           </Tr>
         </Thead>
         <Tbody />
@@ -43,10 +44,10 @@ export default function EventsList({ eventType, cols, isDenseList, isPresentingH
     <Table>
       <Thead>
         <Tr size="compact">
-          <Th>Title</Th>
-          <Th>Started</Th>
-          <Th>End</Th>
-          <Th>On</Th>
+          <Th>{t('in-events:headerTitle')}</Th>
+          <Th>{t('in-events:headerStarted')}</Th>
+          <Th>{t('in-events:headerEnd')}</Th>
+          <Th>{t('in-events:headerOn')}</Th>
         </Tr>
       </Thead>
       <Tbody>
@@ -55,9 +56,9 @@ export default function EventsList({ eventType, cols, isDenseList, isPresentingH
           <Td colSpan={cols}>
             <CenterAlignmentColumn>
               <EntityPageMainNotification
-                title={`No ${entityType} available`}
+                title={t('in-events:titleEmptyEvents', { context: entityType })}
                 icon="lib_missing_data"
-                explanation={`There were no ${entityType} retrieved for the selected time range`}
+                explanation={t('in-events:explanationEmptyEvents', { context: entityType })}
               />
             </CenterAlignmentColumn>
           </Td>
