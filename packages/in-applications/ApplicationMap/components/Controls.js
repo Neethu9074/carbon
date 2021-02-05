@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { SIGNALS } from 'in-applications/ApplicationMap/serviceLocator/EventBusServiceLocator/EventBusService';
@@ -91,7 +92,7 @@ const TrafficButton = connectTo(
   }),
   function ParticlesButton({ isActive, onChangeUrlProperties }) {
     return (
-      <Tooltip themeStyle="light" content="Toggle all services outside this application">
+      <Tooltip themeStyle="light" content={t('in-applications:applicationMap.tooltipToggleServiceOutside')}>
         <Button
           icon="lib_actions_traffic"
           onClick={() => onChangeUrlProperties({ traffic: !isActive })}

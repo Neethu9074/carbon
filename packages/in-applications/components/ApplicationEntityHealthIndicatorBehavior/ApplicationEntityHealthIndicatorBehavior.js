@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import ApplicationEntityOpenIssuesList from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior/ApplicationEntityOpenIssuesList';
@@ -42,7 +43,7 @@ export default connectTo(
         <props.IndicatorPresenter
           showCheckAsNeutral
           maxSeverity={maxSeverity}
-          openIssues={props.inContentArea ? openIssues : 'No Issues'}
+          openIssues={props.inContentArea ? openIssues : t('in-applications:noIssues')}
         />
       );
     }
@@ -58,7 +59,10 @@ export default connectTo(
 function Indicator({ openIssues, maxSeverity, IndicatorPresenter, refSetter, toggle }) {
   return (
     <IndicatorPresenter
-      openIssues={`${openIssues} Issue${openIssues === 1 ? '' : 's'}`}
+      openIssues={t('in-applications:openIssues', {
+        count: openIssues,
+        issueCount: openIssues
+      })}
       maxSeverity={maxSeverity}
       onClick={toggle}
       refSetter={refSetter}

@@ -64,7 +64,7 @@ export default function AdvancedModeContainer({
   return (
     <>
       <div className={locals.container}>
-        <h1 className={locals.heading}>1. {t('in-applications:creation.advanced.defineName')}</h1>
+        <h1 className={locals.heading}>{t('in-applications:creation.advanced.defineName')}</h1>
         <FormGroup>
           <Label htmlFor="label" hasError={!labelField.valid && labelField.touched}>
             {t('in-applications:creation.advanced.apName')}
@@ -94,7 +94,7 @@ export default function AdvancedModeContainer({
         <Spacer type="dark" />
 
         <>
-          <h1 className={locals.heading}>2. {t('in-applications:creation.advanced.defineUsingTags')}</h1>
+          <h1 className={locals.heading}>{t('in-applications:creation.advanced.defineUsingTags')}</h1>
           <DescriptionText className={locals.descriptionText}>
             <Trans
               i18nKey="in-applications:creation.advanced.defineUsingTagsDescription"
@@ -241,13 +241,13 @@ export default function AdvancedModeContainer({
           )}
         </>
         <Spacer type="dark" />
-        <h1 className={locals.heading}>3. {t('in-applications:creation.advanced.downstreamCalls')}</h1>
+        <h1 className={locals.heading}>{t('in-applications:creation.advanced.downstreamCalls')}</h1>
         <DescriptionText className={locals.descriptionText}>
           {t('in-applications:creation.advanced.downstreamCallsDescription')}
         </DescriptionText>
         <ApplicationScopeSelector form={form} updateForm={updateForm} />
         <Spacer type="dark" />
-        <h1 className={locals.heading}>4. {t('in-applications:creation.advanced.defaultDashboardView')}</h1>
+        <h1 className={locals.heading}>{t('in-applications:creation.advanced.defaultDashboardView')}</h1>
         <InboundAllCalls form={form} updateForm={updateForm} apCreation />
       </div>
       <FormFooter className={locals.controls}>

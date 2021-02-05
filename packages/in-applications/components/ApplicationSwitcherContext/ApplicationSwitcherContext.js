@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import ApplicationSwitcher from 'in-applications/components/ApplicationSwitcherContext/ApplicationSwitcher';
@@ -29,7 +30,7 @@ export default function ApplicationSwitcherContext(props) {
   ) {
     return (
       <Link className={locals.link} href$={getApplicationDashboard(applicationId, { boundaryScope })}>
-        Application
+        {t('in-applications:labelApplication')}
       </Link>
     );
   }
@@ -41,7 +42,7 @@ export default function ApplicationSwitcherContext(props) {
     <>
       {hasOnlyOneApplication ? (
         <Link className={locals.link} href$={getApplicationDashboard(applicationId, { boundaryScope })}>
-          <Context context="Application" label={application.data.label} />
+          <Context context={t('in-applications:labelApplication')} label={application.data.label} />
         </Link>
       ) : (
         <Overlay content={ApplicationSwitcher} props={{ ...props, application, applications }} autoOpen>
@@ -49,7 +50,9 @@ export default function ApplicationSwitcherContext(props) {
             <div className={locals.flexWrapper}>
               <Link className={locals.link} href$={getApplicationDashboard(applicationId, { boundaryScope })}>
                 <Context
-                  context={`Application (${numApplications})`}
+                  context={t('in-applications:labelApplicationWithNum', {
+                    numApplications: numApplications
+                  })}
                   label={
                     <>
                       {application.data.label}

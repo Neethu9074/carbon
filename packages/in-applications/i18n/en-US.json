@@ -1,17 +1,55 @@
 {
   "labelLatency": "Latency",
   "labelTimestamp": "Timestamp",
+  "labelApplication": "Application",
   "labelApplications": "Applications",
+  "labelApplicationWithNum": "Application ({{numApplications}})",
   "labelAnalytic": "Analytics",
   "labelTrace": "Trace",
   "linkDownload": "Download",
   "labelCalls": "Calls",
   "labelTraces": "Traces",
+  "labelErrorRate": "Error Rate",
+  "labelDisableSizing": "Disable sizing",
+  "labelIncomingCalling": "Incoming calls",
+  "labelMaxErroneousCallRate": "Max erroneous call rate",
+  "labelMaxLatency": "Max latency",
+  "labelService": "Service",
+  "titleTotalCalls": "Total Calls",
+  "titleErroneousCalls": "Erroneous Calls",
+  "titleAvgLatency": "Avg. Latency",
+  "buttonGoToDashboard": "Go to Dashboard",
+  "buttonGoToFlow": "Go to Flow",
+  "buttonGoToAnalytics": "Go to Analytics",
+  "buttonInspectIssue": "Inspect {{issueCount}} Issue",
+  "buttonInspectIssue_plural": "Inspect {{issueCount}} Issues",
+  "buttonInspectIssue_0": "Inspect {{issueCount}} Issues",
+  "buttonInspectIssue_1": "Inspect {{issueCount}} Issue",
+  "buttonInspectIssue_2": "Inspect {{issueCount}} Issues",
+  "buttonAnalyzeCalls": "Analyze Calls",
+  "buttonAnalyzeWithLabel": "Analyze {{buttonLabel}}",
+  "buttonClear": "Clear",
+  "placeholderType": "Type…",
+  "placeholderTechnology":"Technology…",
+  "Rendering": "Rendering",
+  "loadingData": "Loading Data",
+  "UnexpectedErrorOccurred": "An unexpected error occurred",
+  "noIssues": "No Issues",
+  "openIssues": "{{issueCount}} Issue",
+  "openIssues_plural": "{{issueCount}} Issues",
+  "openIssues_0": "{{issueCount}} Issues",
+  "openIssues_1": "{{issueCount}} Issue",
+  "openIssues_2": "{{issueCount}} Issues",
   "applicationMap": {
     "webglNotSupportedTitle": "Browser Does Not Support WebGL",
     "webglNotSupported": "The Instana user interface contains 3D components that are rendered using a technology called WebGL. Unfortunately this technology is not yet available on all platforms. Some browsers, especially browsers in older versions, do not support WebGL. We recommend using the newest generation of auto-updating browsers: Chrome, Firefox, Safari 8 or MS Edge.\n\nWe try our best to support all platform and browser combinations. However, it may be that our usage of WebGL contains errors. You can use an [online test](https://get.webgl.org/) to check whether your platform supports WebGL.\n\nShould the online test state that your platform supports WebGL, but the Instana 3D Map still remains inoperable, [please contact us](https://support.instana.com/hc/en-us/requests/new).\n\nFor further troubleshooting information please refer to the [WebGL compatibility table](http://caniuse.com/#feat=webgl) or the [WebGL website](http://webgl.org/).",
     "webglNotInitializedTitle": "WebGL cannot be initialized",
-    "webglNotInitialized": "You browser supports WebGL, but it can't be initialized. This can happen for some browser and hardware reasons. Some possible reasons are:\n\n  - too many open tabs\n  - lack of a dedicated GPU or a busy GPU\n  - browser / hardware incompatibility\n\nFor further troubleshooting information please refer to the [WebGL test site](https://get.webgl.org/) or the [official WebGL documentation](https://www.khronos.org/webgl/wiki/FAQ)."
+    "webglNotInitialized": "You browser supports WebGL, but it can't be initialized. This can happen for some browser and hardware reasons. Some possible reasons are:\n\n  - too many open tabs\n  - lack of a dedicated GPU or a busy GPU\n  - browser / hardware incompatibility\n\nFor further troubleshooting information please refer to the [WebGL test site](https://get.webgl.org/) or the [official WebGL documentation](https://www.khronos.org/webgl/wiki/FAQ).",
+    "tooltipToggleServiceOutside": "Toggle all services outside this application"
+  },
+  "applicationSwitcher": {
+    "header": "You are viewing this service in the<br />context of an application perspective",
+    "subHeader": "Change application perspective:"
   },
   "applications": {
     "noData": "Application perspectives provide a means to model environments, sets of services, tenants, or just about anything."
@@ -436,19 +474,24 @@
       }
     },
     "advanced": {
-      "defineName": "Define a name for your Application Perspective.",
+      "defineName": "1. Define a name for your Application Perspective.",
       "apName": "Application Perspective Name",
       "apNameDescription": "Application Perspective names should have a well established definition within an organization. For example, to model an environment: \"Production Blue\", to model a set of services: \"Payment\", or to model a tenant: \"ACME Customer\".",
-      "defineUsingTags": "Define the Application Perspective using one or more tags.",
+      "defineUsingTags": "2. Define the Application Perspective using one or more tags.",
       "defineUsingTagsDescription": "For example where key is \"docker.label\" and value is \"environment=Production Blue\", or key is \"call.http.params\" and value is \"tenant=ACMECustomer\". Note that any calls to a <pill-database>DATABASE</pill-database> service or <pill-messaging>MESSAGING</pill-messaging> service from services matching this definition will automatically be included.",
       "andOperatorsPrecedence": "AND operators take precedence and are evaluated before OR operators",
       "andOperatorsPrecedenceBrackets": "AND operators take precedence and are evaluated before OR operators if not grouped in brackets",
-      "downstreamCalls": "Store Calls of Downstream Services",
+      "downstreamCalls": "3. Store Calls of Downstream Services",
       "downstreamCallsDescription": "Choose which downstream services to include in the Application Perspective.",
-      "defaultDashboardView": "Select the Default Dashboard View",
+      "defaultDashboardView": "4. Select the Default Dashboard View",
       "clear": "Clear",
       "addTag": "Add Tag",
       "create": "Create"
+    },
+    "scope": {
+      "optionNoDownStreamServices": "No downstream services",
+      "optionImmediateDownstreamServices": "Immediate downstream database and messaging services",
+      "optionAllDownstreamServices": "All downstream services"
     }
   }
 }

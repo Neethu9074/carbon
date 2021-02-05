@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import React, { Fragment } from 'react';
+import { t } from 'in-i18n';
 
 import { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import { getTechnologyComboBoxItems } from 'in-applications/technologyRegistry';
@@ -66,12 +67,12 @@ export default function Filters({
           })
         }
       >
-        Analyze {buttonLabel}
+        {t('in-applications:buttonAnalyzeWithLabel', { buttonLabel: buttonLabel })}
       </Button>
       <ComboBox
         value={endpointTypes}
         onChange={t => setFilter({ endpointTypes: t.map(a => a.value) })}
-        placeholder="Type…"
+        placeholder={t('in-applications:placeholderType')}
         multi
         options={getEndpointTypesComboBoxItems(restrictedEndpointTypes)}
         className={locals.filter}
@@ -79,7 +80,7 @@ export default function Filters({
       <ComboBox
         value={technologies}
         onChange={t => setFilter({ technologies: t.map(a => a.value) })}
-        placeholder="Technology…"
+        placeholder={t('in-applications:placeholderTechnology')}
         multi
         options={getTechnologyComboBoxItems(restrictedTechnologies)}
         className={locals.filter}
