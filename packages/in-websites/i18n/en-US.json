@@ -19,9 +19,6 @@
       "alertText": "This is a new feature.",
       "alertLabelText": "NEW"
     },
-    "analyzeView": {
-      "noData": "No beacons available for the selected time range. For troubleshooting information, see the [documentation][Docs].\n\n[Docs]:https://instana.com/docs/unbounded_analytics/#why-is-there-no-data-displayed-on-the-analytics-page"
-    },
     "components": {
       "tagSuggestions": "Tag suggestions not defined for alert type {{alertType}} ",
       "errorMessage": "Error Message",
@@ -220,6 +217,7 @@
       },
       "metricsSelectorTitle": "Select Metrics",
       "metricsSelectorHelp": "Select which metrics should be available as columns within the table. It also defines which metrics could be viewed as graphs.",
+      "noData": "No beacons available for the selected time range. For troubleshooting information, see the [documentation][Docs].\n\n[Docs]:https://instana.com/docs/unbounded_analytics/#why-is-there-no-data-displayed-on-the-analytics-page",
       "emptyAnalyzeViewTitle": "No {{entityName}} found",
       "resourceTimingMetricsLabelRedirectTime": "Redirect Time",
       "resourceTimingMetricsLabelAppCacheTime": "AppCache Time",
@@ -351,6 +349,7 @@
         "errorBeaconHeaderMeta": "Meta",
         "errorBeaconHeaderComponentStack": "Component Stack",
         "errorBeaconLabelStartTime": "Start Time",
+        "errorBeaconTitleWindowLocation": "Window Location",
         "errorBeaconTitleErrorMessage": "Error Message",
         "errorBeaconTitleErrorType": "Error Type",
         "httpRequestBeaconHeaderRequest": "Request",

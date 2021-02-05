@@ -23,7 +23,7 @@ export default function Timings({ timings, totalDuration, totalDurationName }) {
             <dd className={locals.value}>{latencyFixed.compact(value)}</dd>
             <Tooltip
               align="topMiddle"
-              content={t('in-websites:analyze.analyzeView.pageLoadView.', {
+              content={t('in-websites:analyze.analyzeView.pageLoadView.timingsPercentageOfTotalDurationName', {
                 percentage: percentageFormatter.detailed(percentage),
                 totalDurationName: totalDurationName
               })}

@@ -1,0 +1,4 @@
+{
+  "notMonitoring": "Please install the Instana agent on the systems you want to monitor. Installation instructions are available in our [online documentation][Docs].\n\nShould you need additional assistance, please contact us via our [support portal][Support].\n\n[Docs]:https://instana.com/docs/setup_and_manage/\n[Support]:https://support.instana.com",
+  "noData": "Instana is currently receiving data from agents but has no data for the selected time range.\nPlease select a different time range: e.g. [the last hour].\n\nShould you need additional assistance, please contact us via our [support portal][Support].\n\n[Docs]:https://instana.com/docs/setup_and_manage/\n[Support]:https://support.instana.com"
+}

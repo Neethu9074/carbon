@@ -115,7 +115,7 @@ export const Body = ({ beacon }) => {
     <Fragment>
       <Row>
         <Col lg={6}>
-          <BodyHeader>{t('pageLoadBeaconHeaderDocument')}</BodyHeader>
+          <BodyHeader>{t('in-websites:analyze.analyzeView.pageLoadView.pageLoadBeaconHeaderDocument')}</BodyHeader>
           <Dl>
             <Di title={t('in-websites:analyze.analyzeView.pageLoadView.pageLoadBeaconTitleWindowLocation')}>
               <a href={beacon.locationUrl} rel="noopener noreferrer" target="_blank">
@@ -133,7 +133,7 @@ export const Body = ({ beacon }) => {
 
         {Object.keys(beacon.meta).length > 0 && (
           <Col lg={6}>
-            <BodyHeader>{t('pageLoadBeaconHeaderMeta')}</BodyHeader>
+            <BodyHeader>{t('in-websites:analyze.analyzeView.pageLoadView.pageLoadBeaconHeaderMeta')}</BodyHeader>
             <Meta beacon={beacon} />
           </Col>
         )}
@@ -144,7 +144,9 @@ export const Body = ({ beacon }) => {
           <Row>
             {hasNavigationTimings && (
               <Col lg={6}>
-                <BodyHeader>{t('pageLoadBeaconHeaderNavigationTiming')}</BodyHeader>
+                <BodyHeader>
+                  {t('in-websites:analyze.analyzeView.pageLoadView.pageLoadBeaconHeaderNavigationTiming')}
+                </BodyHeader>
                 <Timings
                   timings={navigationTimings}
                   totalDuration={beacon.duration}
@@ -157,7 +159,9 @@ export const Body = ({ beacon }) => {
 
             {webVitals.length > 0 && (
               <Col lg={6}>
-                <BodyHeader>{t('pageLoadBeaconHeaderWebVitals')}</BodyHeader>
+                <BodyHeader>
+                  {t('in-websites:analyze.analyzeView.pageLoadView.pageLoadBeaconHeaderWebVitals')}
+                </BodyHeader>
                 {webVitals}
               </Col>
             )}

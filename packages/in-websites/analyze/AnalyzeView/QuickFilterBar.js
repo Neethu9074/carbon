@@ -66,7 +66,7 @@ export default function QuickFilterBar(props) {
         {...props}
         tag="beacon.geo.country"
         singularLabel={t('in-websites:analyze.analyzeView.quickFilterBarLabelCountry', { count: 1 })}
-        pluralLabel={t('in-websites:analyze.analyzeView.quickFilterBarLabelCountrie', { count: 2 })}
+        pluralLabel={t('in-websites:analyze.analyzeView.quickFilterBarLabelCountry', { count: 2 })}
       />
       {showSubdivisionSelector && (
         <SelectBarItem

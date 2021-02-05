@@ -49,7 +49,7 @@ export const LeftHeader = ({ beacon, earliestTimestamp }) => (
     <KeyValueHeader
       label={
         <Fragment>
-          {t('httpRequestBeaconHeaderRequest')}
+          {t('in-websites:analyze.analyzeView.pageLoadView.httpRequestBeaconHeaderRequest')}
           <BatchIndicator batchCount={beacon.batchSize} />
         </Fragment>
       }
@@ -115,7 +115,9 @@ export const Body = ({ beacon }) => {
     <Fragment>
       <Row>
         <Col lg={6}>
-          <BodyHeader>{t('httpRequestBeaconHeaderCallDetails')}</BodyHeader>
+          <BodyHeader>
+            {t('in-websites:analyze.analyzeView.pageLoadView.httpRequestBeaconHeaderCallDetails')}
+          </BodyHeader>
           <Dl>
             <Di title={t('in-websites:analyze.analyzeView.pageLoadView.httpRequestBeaconTitleWindowLocation')}>
               <a href={beacon.locationUrl} rel="noopener noreferrer" target="_blank">
@@ -157,7 +159,7 @@ export const Body = ({ beacon }) => {
 
         {Object.keys(beacon.meta).length > 0 && (
           <Col lg={6}>
-            <BodyHeader>{t('httpRequestBeaconHeaderMeta')}</BodyHeader>
+            <BodyHeader>{t('in-websites:analyze.analyzeView.pageLoadView.httpRequestBeaconHeaderMeta')}</BodyHeader>
             <Meta beacon={beacon} />
           </Col>
         )}
@@ -166,7 +168,7 @@ export const Body = ({ beacon }) => {
       {hasGraphQl && (
         <Row>
           <Col lg={6}>
-            <BodyHeader>{t('httpRequestBeaconHeaderGraphQL')}</BodyHeader>
+            <BodyHeader>{t('in-websites:analyze.analyzeView.pageLoadView.httpRequestBeaconHeaderGraphQL')}</BodyHeader>
             <Dl>
               <Di title={t('in-websites:analyze.analyzeView.pageLoadView.httpRequestBeaconTitleOperationName')}>
                 {beacon.graphqlOperationName}
@@ -182,7 +184,9 @@ export const Body = ({ beacon }) => {
       {!hasResourceTimings && !hasNetworkInsights && (
         <Row>
           <Col lg={6}>
-            <BodyHeader>{t('httpRequestBeaconHeaderResourceTiming')}</BodyHeader>
+            <BodyHeader>
+              {t('in-websites:analyze.analyzeView.pageLoadView.httpRequestBeaconHeaderResourceTiming')}
+            </BodyHeader>
             <LearnMore explanation={explanation} href={learnMoreHref} buttonLabel={learnMoreLabel} />
           </Col>
         </Row>
@@ -191,7 +195,9 @@ export const Body = ({ beacon }) => {
       <Row>
         {hasResourceTimings && (
           <Col lg={6}>
-            <BodyHeader>{t('httpRequestBeaconHeaderResourceTiming')}</BodyHeader>
+            <BodyHeader>
+              {t('in-websites:analyze.analyzeView.pageLoadView.httpRequestBeaconHeaderResourceTiming')}
+            </BodyHeader>
             <Timings
               timings={resourceTimings}
               totalDuration={beacon.duration}
@@ -204,7 +210,9 @@ export const Body = ({ beacon }) => {
 
         {hasNetworkInsights && (
           <Col lg={6}>
-            <BodyHeader>{t('httpRequestBeaconHeaderNetworkInsights')}</BodyHeader>
+            <BodyHeader>
+              {t('in-websites:analyze.analyzeView.pageLoadView.httpRequestBeaconHeaderNetworkInsights')}
+            </BodyHeader>
             <Dl>
               <Di title="Cache Interaction">{explanations[beacon.cacheInteraction]}</Di>
               {hasTransferSize && (

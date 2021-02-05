@@ -390,7 +390,7 @@ function AwsSensorContent({ agentKey, agentEndpoint, agentEndpointPort }) {
         <HelpBox title={t('in-waiting-for-deployment:aws.help.title')}>
           <TextWithLink
             text={t('in-waiting-for-deployment:aws.help.text')}
-            linkText={t('in-waiting-for-deployment:aws.help.linktext')}
+            linkText={t('in-waiting-for-deployment:aws.help.linkText')}
             href={t('in-waiting-for-deployment:aws.help.link')}
           />
         </HelpBox>
