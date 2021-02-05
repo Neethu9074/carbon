@@ -16,7 +16,7 @@ export const Default = props => {
   const [query, setQuery] = useState('');
   return (
     <SearchInput
-      onChange={query => props?.setQuery(query) ?? setQuery(query)}
+      onChange={query => props.setQuery?.(query) ?? setQuery(query)}
       onBlur={action('onBlur')}
       onFocus={action('onFocus')}
       onReturn={action('onReturn')}

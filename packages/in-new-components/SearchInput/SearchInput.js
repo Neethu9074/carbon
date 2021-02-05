@@ -34,6 +34,7 @@ export default function SearchInput({
   inputRef = inputRef ?? fallbackRef;
 
   const [hasFocus, setHasFocus] = useState(false);
+  const isDirty = query?.trim();
 
   return (
     <div
@@ -83,8 +84,15 @@ export default function SearchInput({
             [locals.icon]: true,
             [locals.withoutIcon]: disabled
           })}
-          type="lib_actions_search"
-          onClick={disabled ? undefined : () => inputRef?.current?.focus()}
+          type={isDirty ? 'lib_openclose_cancel' : 'lib_actions_search'}
+          onClick={() => {
+            if (!disabled) {
+              inputRef?.current?.focus();
+              if (isDirty) {
+                onChange?.('');
+              }
+            }
+          }}
         />
       )}
     </div>
