@@ -7,26 +7,33 @@ import React, { useEffect } from 'react';
 import rpt from 'prop-types';
 import { t } from 'in-i18n';
 
-import { getSingleNumberMetricId, getSparkChartTimeSeriesMetricId } from 'in-new-components/AnalyzeView/metricIds';
+import {
+  getAvailableMetrics,
+  getSingleNumberMetricId,
+  getSparkChartTimeSeriesMetricId,
+  groupName
+} from 'in-new-components/AnalyzeView/metrics';
 import { joinExpressions, removeTopLevelFilters } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
+import { custom as customType, metric as metricType } from 'in-new-components/AnalyzeView/fieldTypes';
 import { addGroupingCriteriaToFormModel } from 'in-new-components/AnalyzeView/StateManagement';
 import { childrenArgsAsPropTypes } from 'in-new-components/AnalyzeView/StateManagement';
 import LoadingList from 'in-new-components/lists/List/sharedComponents/LoadingList';
 import ErrorList from 'in-new-components/lists/List/sharedComponents/ErrorList';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
-import { metric as metricType } from 'in-new-components/AnalyzeView/fieldTypes';
 import LoadMoreLi from 'in-new-components/lists/List/LoadMoreLi/LoadMoreLi';
 import { ColumnizedContent, Ul, Li } from 'in-new-components/lists/List';
 import FacetedSearch from 'in-new-components/AnalyzeView/FacetedSearch';
 import { getFormatter } from 'in-services/formatters/backendFormatter';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import Header from 'in-new-components/QueryBuilder/components/Header';
+import useStableObjectIntance from 'in-hooks/useStableObjectIntance';
 import { getSparkChartGranularity } from 'in-applications/metrics';
 import { emptyObject, emptyArray } from 'in-services/fixedObjects';
 import IconButton from 'in-new-components/IconButton/IconButton';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import KeyValue from 'in-new-components/lists/KeyValue';
+import { aggregationLabels } from 'in-stores/metric';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import SvgIcon from 'in-components/SvgIcon';
@@ -37,16 +44,19 @@ export default function GroupedAnalyzeView(props) {
   const {
     getData,
     groupBy,
-    orderBy,
-    onOrderByChange,
+    orderByGroups,
+    onOrderByGroupsChange,
     backendQueryModel,
     formModel,
     getHrefToUngroupedView,
     UngroupedView,
     getLabel,
     isValid,
-    fields,
+    selectableFields,
+    fixedFields,
+    onSelectableFieldsChange,
     metricCatalog,
+    metricCatalogFilter,
     dataSource,
     facetedSearchItems,
     getFacetedSearchSuggestions,
@@ -55,17 +65,18 @@ export default function GroupedAnalyzeView(props) {
     groupedViewConfiguration,
     getItemLabel,
     itemlabelColumnId,
-    onChartableDataSeriesChange
+    onChartableDataSeriesChange,
+    withoutSorting = false
   } = props;
   const timeConfig = useTimeConfig();
+  const fields = [...fixedFields, ...selectableFields];
 
   const sparkChartGranularity = getSparkChartGranularity(timeConfig);
 
-  const columnDefinitions = [
-    ...(props.columnDefinitions || emptyArray),
-
+  const labelColumnDefinitions = [
     {
       id: itemlabelColumnId,
+      width: '30%',
       getContent({ item, groupBy: { groupbyTag }, groupingTagCatalog }) {
         let label = groupbyTag;
         const tagDefinition = groupingTagCatalog.tagsByName[groupbyTag];
@@ -85,11 +96,15 @@ export default function GroupedAnalyzeView(props) {
         }
         return <KeyValue label={label} customValue={getItemLabel(item)} />;
       }
-    },
+    }
+  ];
+
+  const columnDefinitions = [
+    ...(props.columnDefinitions || emptyArray),
 
     ...fields
       .map(field => {
-        if (field.type !== metricType) {
+        if (field.type === customType) {
           return groupedViewConfiguration.customFieldRenderingInstructions[field.customFieldId];
         }
 
@@ -118,7 +133,10 @@ export default function GroupedAnalyzeView(props) {
         };
       })
       // We may not have a representation for all fields in the grouped view
-      .filter(Boolean),
+      .filter(Boolean)
+  ];
+
+  const actionColumnDefinitions = [
     {
       id: 'focus',
       width: '3rem',
@@ -133,16 +151,18 @@ export default function GroupedAnalyzeView(props) {
     }
   ];
 
-  const backendMetrics = fields
-    .filter(({ type }) => type === metricType)
-    .reduce((accumulator, metric) => {
-      accumulator[getSingleNumberMetricId(metric)] = metric;
-      accumulator[getSparkChartTimeSeriesMetricId(metric)] = {
-        ...metric,
-        granularity: sparkChartGranularity
-      };
-      return accumulator;
-    }, {});
+  const backendMetrics = useStableObjectIntance(
+    fields
+      .filter(({ type }) => type === metricType)
+      .reduce((accumulator, metric) => {
+        accumulator[getSingleNumberMetricId(metric)] = metric;
+        accumulator[getSparkChartTimeSeriesMetricId(metric)] = {
+          ...metric,
+          granularity: sparkChartGranularity
+        };
+        return accumulator;
+      }, {})
+  );
 
   const {
     items,
@@ -154,8 +174,10 @@ export default function GroupedAnalyzeView(props) {
     totalRepresentedItemCount
   } = useCursorPagination(
     ({ cursor }) =>
-      isValid ? getData({ timeConfig, orderBy, backendQueryModel, groupBy, cursor, metrics: backendMetrics }) : empty,
-    [isValid, timeConfig, groupBy, backendQueryModel, orderBy]
+      isValid
+        ? getData({ timeConfig, orderByGroups, backendQueryModel, groupBy, cursor, metrics: backendMetrics })
+        : empty,
+    [isValid, timeConfig, groupBy, backendQueryModel, orderByGroups, backendMetrics]
   );
 
   const isLoading = props.isLoading || progress?.loading;
@@ -180,15 +202,48 @@ export default function GroupedAnalyzeView(props) {
     );
   }, [items, isLoading, hasErrors, onChartableDataSeriesChange, formModel, getItemLabel, groupBy]);
 
+  const sortOptions = fields
+    .map(field => {
+      const value = groupedViewConfiguration.getOrderById && groupedViewConfiguration.getOrderById({ field: field });
+      if (value == null) {
+        return;
+      }
+      if (field.type === customType) {
+        const fieldLabel = groupedViewConfiguration.customFieldRenderingInstructions[field.customFieldId]?.label;
+        return { value, label: fieldLabel ?? field.customFieldId };
+      }
+      const metricDefinition = metricCatalog?.find(({ metricId }) => metricId === field.metric);
+      const metricLabel = metricDefinition?.label ?? field.metric;
+      const aggregationLabel = aggregationLabels[field.aggregation] ?? field.aggregation;
+      return { value, label: `${metricLabel} (${aggregationLabel})` };
+    })
+    .filter(Boolean);
+  // Allow to sort by group name
+  sortOptions.unshift({ value: groupName, label: t('in-new-components:analyze.groupName') });
+
+  const availableMetrics = getAvailableMetrics({ metricCatalog, metricCatalogFilter, fixedFields });
+
   return (
     <>
       <Header
         {...props}
         hitName={t('in-new-components:analyzeView.groupedViewHeader')}
+        sortOptions={withoutSorting ? undefined : sortOptions}
+        availableMetrics={availableMetrics}
+        metrics={selectableFields}
         totalHits={totalHits}
         totalRepresentedItemCount={totalRepresentedItemCount}
-        order={orderBy}
-        setOrder={onOrderByChange}
+        order={orderByGroups}
+        setOrder={onOrderByGroupsChange}
+        setMetrics={metrics =>
+          onSelectableFieldsChange(
+            metrics.map(metric => ({
+              // Converting metrics to fields by adding the type
+              ...metric,
+              type: metricType
+            }))
+          )
+        }
       />
       <div className={locals.facetedSearchResultContainer}>
         {facetedSearchItems && facetedSearchItems.length > 0 && (
@@ -243,14 +298,22 @@ export default function GroupedAnalyzeView(props) {
                       );
                     }}
                   >
+                    <div className={locals.list}>
+                      <ColumnizedContent {...props} columnDefinitions={labelColumnDefinitions} item={item} />
+                      <div className={locals.metrics}>
+                        <ColumnizedContent
+                          {...props}
+                          columnDefinitions={columnDefinitions}
+                          item={item}
+                          progress={progress}
+                          timeConfig={timeConfig}
+                          sparkChartGranularity={sparkChartGranularity}
+                        />
+                      </div>
+                    </div>
                     <ColumnizedContent
-                      {...props}
-                      columnDefinitions={columnDefinitions}
+                      columnDefinitions={actionColumnDefinitions}
                       href={getHrefToUngroupedView(label)}
-                      item={item}
-                      progress={progress}
-                      timeConfig={timeConfig}
-                      sparkChartGranularity={sparkChartGranularity}
                     />
                   </Li>
                 );

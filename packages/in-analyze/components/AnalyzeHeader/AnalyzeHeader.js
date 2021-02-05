@@ -33,13 +33,14 @@ import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import Overlay from 'in-new-components/overlays/Overlay/Overlay';
 import { newAnalyticsEnabled } from 'in-services/featureFlags';
+import { emptyArray } from 'in-services/fixedObjects';
 import { isNotBlank } from 'in-services/util/string';
 import Title from 'in-components/Title/Title';
 import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './AnalyzeHeader.mless';
 
-export default function AnalyzeHeader({ renderQuickFilterBar, isGrouped, withoutShadow }) {
+export default function AnalyzeHeader({ renderQuickFilterBar, isGrouped, formModel = emptyArray, withoutShadow }) {
   const location = useLocation();
   const activeConfiguration = getActiveConfiguration(location);
 
@@ -57,7 +58,11 @@ export default function AnalyzeHeader({ renderQuickFilterBar, isGrouped, without
           )
         }
         label={
-          <Overlay props={{ activeConfiguration, isGrouped }} withoutWrapper content={AnalyzeDataSourceSelector}>
+          <Overlay
+            props={{ activeConfiguration, isGrouped, formModel }}
+            withoutWrapper
+            content={AnalyzeDataSourceSelector}
+          >
             {({ toggle, isOpen, ref }) => (
               <DashboardHeaderButton
                 size="normal"

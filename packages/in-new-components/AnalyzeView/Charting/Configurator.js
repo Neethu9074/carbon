@@ -15,7 +15,6 @@ export default function Configurator({
   onChartedMetricsChange,
   chartedMetrics,
   metricCatalog,
-  dataSource,
   metricCatalogFilter
 }) {
   // TODO loading state
@@ -28,13 +27,7 @@ export default function Configurator({
       value={chartedMetrics?.[0]}
       options={
         metricCatalog
-          .filter(
-            metricDescription =>
-              metricCatalogFilter?.({
-                metricDescription,
-                dataSource
-              }) ?? true
-          )
+          .filter(metricDescription => metricCatalogFilter?.(metricDescription) ?? true)
           .map(({ metricId, label, description, aggregations }) => ({
             metricId,
             label,

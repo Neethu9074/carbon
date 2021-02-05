@@ -40,6 +40,7 @@ export default function GroupedLogs(props) {
         iconMap={iconMap}
         UngroupedView={Logs}
         CustomHeaderActions={TagSelector}
+        withoutSorting
       />
     </QueryBuilderWorkspace>
   );

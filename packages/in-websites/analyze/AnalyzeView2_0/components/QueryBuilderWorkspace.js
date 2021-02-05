@@ -33,11 +33,11 @@ export default function WebsiteQueryBuilderWorkspace(props) {
     dataSource,
     groupBy,
     onGroupByChange,
-    useLastValidStateWhenErroneous
+    useLastValidStateWhenErroneous,
+    metricCatalogFilter
   } = props;
-
   return (
-    <Sticky header={<AnalyzeHeader isGrouped={isGrouped} />}>
+    <Sticky header={<AnalyzeHeader formModel={formModel} isGrouped={isGrouped} />}>
       <LeftRightPadding>
         <Stack space="gutter">
           <Sections>
@@ -76,10 +76,6 @@ export default function WebsiteQueryBuilderWorkspace(props) {
       <Footer />
     </Sticky>
   );
-}
-
-function metricCatalogFilter({ metricDescription: { beaconTypes }, dataSource }) {
-  return beaconTypes.includes(dataSource);
 }
 
 function mapMetricConfiguration(metricConfiguration, { dataSource }) {

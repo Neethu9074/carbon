@@ -17,6 +17,7 @@
 
   .resultContainer {
     flex: 1;
+    min-width: 0;
   }
 
   .groupLabel {
@@ -29,5 +30,19 @@
     // Have the icon use less vertical space.
     margin-top: -0.3rem;
     margin-bottom: -0.3rem;
+  }
+
+  .list {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    overflow: hidden;
+  }
+
+  .metrics {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
   }
 }

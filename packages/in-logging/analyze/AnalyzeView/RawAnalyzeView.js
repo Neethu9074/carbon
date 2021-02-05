@@ -30,13 +30,17 @@ export default function LoggingAnalyzeView() {
       defaultDataSource="rawlogs"
       dataSourceParameter={logIdMatrixParameter}
       getTagCatalog={getTagCatalog}
-      groupedView={{
-        defaultOrderBy: 'count',
-        defaultOrderDirection: 'DESC'
-      }}
-      ungroupedView={{
-        defaultOrderBy: 'timestamp',
-        defaultOrderDirection: 'ASC'
+      dataSourceConfigurations={{
+        rawlogs: {
+          groupedView: {
+            defaultOrderBy: 'count',
+            defaultOrderDirection: 'DESC'
+          },
+          ungroupedView: {
+            defaultOrderBy: 'timestamp',
+            defaultOrderDirection: 'ASC'
+          }
+        }
       }}
     >
       {opts => <RawLogs {...opts} {...furtherProps} />}

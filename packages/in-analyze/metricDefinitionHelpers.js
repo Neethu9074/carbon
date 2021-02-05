@@ -68,7 +68,7 @@ export function withRawDataField(metricDefinition, opts = emptyObject) {
   return metricDefinition;
 }
 
-function wrapToDiscardNegativeValues(formatter) {
+export function wrapToDiscardNegativeValues(formatter) {
   return {
     compact: v => (v < 0 || v == null ? 'N/A' : formatter.compact(v)),
     detailed: v => (v < 0 || v == null ? 'N/A' : formatter.detailed(v))

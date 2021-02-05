@@ -982,5 +982,30 @@
   "tagsDataSourceTitlesResourceLoad": "Resource",
   "tagsDataSourceTitlesHTTPRequest": "HTTP Request",
   "tagsDataSourceTitlesError": "JS Error",
-  "tagsDataSourceTitlesCustom": "Custom Event"
+  "tagsDataSourceTitlesCustom": "Custom Event",
+  "facetedSearch": {
+    "website": "Website",
+    "page": "Page",
+    "browser": "Browser",
+    "os": "OS",
+    "country": "Country",
+    "subdivision": "Subdivision",
+    "windowWidth": "Window Width"
+  },
+  "fieldLabels": {
+    "onLoadTime": "onLoad Time",
+    "uniqueUsersOrSessions": "Unique Users / Sessions",
+    "retrievalTime": "Retrieval Time",
+    "errorCount": "Error Count",
+    "affectedUsersOrSessions": "Affected Users / Sessions"
+  },
+  "beacons": {
+    "website": "Website",
+    "path": "Path",
+    "page": "Page",
+    "uri": "URI",
+    "access": "Access",
+    "errorMessage": "Error Message",
+    "eventName": "Event Name"
+  }
 }

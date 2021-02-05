@@ -298,7 +298,8 @@
         "prev": "View previous {{ itemName }} (shortcut: left arrow key)",
         "next": "View next {{ itemName }} (shortcut: left right key)"
       }
-    }
+    },
+    "groupName": "Group Name"
   },
   "copyToClipboardButtonCopy": "Copy"
 }

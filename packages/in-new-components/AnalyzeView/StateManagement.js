@@ -70,41 +70,68 @@ const extendedColumnDefinitionShape = {
   label: rpt.string.isRequired
 };
 
+const fieldsPropTypes = rpt.arrayOf(
+  rpt.shape({
+    type: rpt.oneOf([metricType, customType]),
+
+    // required for type=metric
+    metric: rpt.string,
+    aggregation: rpt.oneOf(Object.keys(aggregationLabels)),
+
+    // required for type=custom. Must match the object keys within
+    // customFieldRenderingInstructions
+    customFieldId: rpt.string
+  })
+);
+
+const groupedViewPropType = rpt.shape({
+  defaultOrderBy: rpt.string.isRequired,
+  defaultOrderDirection: rpt.oneOf(['ASC', 'DESC']).isRequired,
+  getOrderById: rpt.func,
+  customFieldRenderingInstructions: rpt.objectOf(rpt.shape(extendedColumnDefinitionShape).isRequired)
+}).isRequired;
+
+const ungroupedViewPropType = rpt.shape({
+  defaultOrderBy: rpt.string.isRequired,
+  defaultOrderDirection: rpt.oneOf(['ASC', 'DESC']).isRequired,
+  getOrderById: rpt.func,
+
+  // TODO: Technically this is not correct. The ungrouped view can be a list or a table.
+  // The prop types are currently not accounting for this difference. However, they are
+  // similar enough that we can live with the difference for now.
+  customFieldRenderingInstructions: rpt.objectOf(rpt.shape(extendedColumnDefinitionShape).isRequired),
+  metricFieldExtractors: rpt.shape({
+    getColumnId: rpt.func.isRequired,
+    getColumnValue: rpt.func.isRequired
+  })
+}).isRequired;
+
+const facetedSearchItemsPropType = rpt.arrayOf(
+  rpt.shape({
+    renderer: rpt.func,
+    title: rpt.string,
+    tag: rpt.string
+  })
+);
+
+const metricCatalogFilterPropType = rpt.func;
+
 TimeFixatingAnalyzeStateManagement.propTypes = {
   path: rpt.string.isRequired,
   dataSourceParameter: rpt.object.isRequired,
   defaultDataSource: rpt.string.isRequired,
   getTagCatalog: rpt.func.isRequired,
 
-  groupedView: rpt.shape({
-    defaultOrderBy: rpt.string.isRequired,
-    defaultOrderDirection: rpt.oneOf(['ASC', 'DESC']).isRequired,
-    customFieldRenderingInstructions: rpt.objectOf(rpt.shape(extendedColumnDefinitionShape).isRequired)
-  }).isRequired,
-
-  ungroupedView: rpt.shape({
-    defaultOrderBy: rpt.string.isRequired,
-    defaultOrderDirection: rpt.oneOf(['ASC', 'DESC']).isRequired,
-
-    // TODO: Technically this is not correct. The ungrouped view can be a list or a table.
-    // The prop types are currently not accounting for this difference. However, they are
-    // similar enough that we can live with the difference for now.
-    customFieldRenderingInstructions: rpt.objectOf(rpt.shape(extendedColumnDefinitionShape).isRequired)
-  }).isRequired,
-
-  defaultFields: rpt.arrayOf(
+  dataSourceConfigurations: rpt.objectOf(
     rpt.shape({
-      type: rpt.oneOf([metricType, customType]),
-
-      // required for type=metric
-      metric: rpt.string,
-      aggregation: rpt.oneOf(Object.keys(aggregationLabels)),
-
-      // required for type=custom. Must match the object keys within
-      // customFieldRenderingInstructions
-      customFieldId: rpt.string
+      metricCatalogFilter: metricCatalogFilterPropType,
+      facetedSearchItems: facetedSearchItemsPropType,
+      groupedView: groupedViewPropType,
+      ungroupedView: ungroupedViewPropType,
+      fixedFields: fieldsPropTypes,
+      defaultSelectableFields: fieldsPropTypes
     })
-  ).isRequired,
+  ),
 
   children: rpt.func.isRequired
 };
@@ -114,23 +141,29 @@ function AnalyzeStateManagement({
   defaultDataSource,
   getTagCatalog,
   getMetricCatalog,
-  groupedView,
-  ungroupedView,
   urlStateDefinition,
-  defaultFields,
+  dataSourceConfigurations,
   children
 }) {
   const timeConfig = useTimeConfig();
   const [urlState, onChange, getChangeAsUrl] = useUrlState(urlStateDefinition);
+  const dataSource = urlState.dataSource ?? defaultDataSource;
+  const {
+    facetedSearchItems,
+    groupedView,
+    ungroupedView,
+    fixedFields = [],
+    defaultSelectableFields = [],
+    metricCatalogFilter
+  } = dataSourceConfigurations[dataSource];
 
   const formModel = useStableObjectIntance(urlState.formModel);
   const onFormModelChange = formModel => onChange({ formModel });
 
   const groupBy = useStableObjectIntance(urlState.groupBy);
   const detailId = useStableObjectIntance(urlState.detailId);
-  const fields = useStableObjectIntance(urlState.fields ?? defaultFields);
+  const selectableFields = useStableObjectIntance(urlState.fields ?? defaultSelectableFields);
   const chartedMetrics = useStableObjectIntance(urlState.chartedMetrics) || emptyArray;
-  const dataSource = urlState.dataSource ?? defaultDataSource;
 
   const filteringTagCatalogResult =
     useObservable(
@@ -169,8 +202,9 @@ function AnalyzeStateManagement({
   );
 
   const isGrouped = isNotBlank(groupBy?.groupbyTag);
-  const activeListViewConfiguration = isGrouped ? groupedView : ungroupedView;
-  const { defaultOrderBy, defaultOrderDirection } = activeListViewConfiguration;
+  const { defaultOrderBy, defaultOrderDirection } = ungroupedView ?? emptyObject;
+  const { defaultOrderBy: defaultOrderByGroups, defaultOrderDirection: defaultOrderDirectionGroups } =
+    groupedView ?? emptyObject;
 
   const backendQueryModel = useMemo(() => (isValid ? toBackendQueryModel(formModel) : null), [isValid, formModel]);
 
@@ -179,9 +213,43 @@ function AnalyzeStateManagement({
     direction: urlState.orderBy?.direction ?? defaultOrderDirection
   });
 
+  const orderByGroups = useStableObjectIntance({
+    by: urlState.orderByGroups?.by ?? defaultOrderByGroups,
+    direction: urlState.orderByGroups?.direction ?? defaultOrderDirectionGroups
+  });
+
   // Eventually we might wanna store this within the URL. This might become a lot more interesting when
   // our users can (de-)select their desired data series.
   const [chartableDataSeries, onChartableDataSeriesChange] = useState([]);
+
+  const metricCatalog = metricCatalogResult.data;
+  const onSelectableFieldsChange = selectableFields => {
+    const changedParams = { fields: selectableFields };
+    const fields = [...fixedFields, ...selectableFields];
+    // reset "orderBy" if needed
+    const availableOrderByIds = fields
+      .map(field => ungroupedView.getOrderById && ungroupedView.getOrderById({ metricCatalog, field }))
+      .filter(Boolean);
+    if (!orderBy || !availableOrderByIds.includes(orderBy.by)) {
+      changedParams.orderBy = {
+        by: ungroupedView.defaultOrderBy,
+        direction: ungroupedView.defaultOrderDirection
+      };
+    }
+    // reset "orderByGroups" if needed
+    const availableOrderByGroupIds = fields
+      .map(field => groupedView.getOrderById && groupedView.getOrderById({ field }))
+      .filter(Boolean);
+    // Allow to sort by group name
+    availableOrderByGroupIds.push('groupName');
+    if (!orderByGroups || !availableOrderByGroupIds.includes(orderByGroups.by)) {
+      changedParams.orderByGroups = {
+        by: groupedView.defaultOrderBy,
+        direction: groupedView.defaultOrderDirectionGroups
+      };
+    }
+    onChange(changedParams);
+  };
 
   return children({
     dataSource,
@@ -190,6 +258,9 @@ function AnalyzeStateManagement({
     refreshFixatedTimeConfig,
     ungroupedViewConfiguration: ungroupedView,
     groupedViewConfiguration: groupedView,
+    facetedSearchItems,
+    fixedFields,
+    metricCatalogFilter,
 
     backendQueryModel,
     formModel,
@@ -229,9 +300,12 @@ function AnalyzeStateManagement({
 
     orderBy,
     onOrderByChange: orderBy => onChange({ orderBy }),
+    orderByGroups,
+    onOrderByGroupsChange: orderByGroups => onChange({ orderByGroups }),
 
-    fields,
-    onFieldsChange: fields => onChange({ fields }),
+    selectableFields,
+    onSelectableFieldsChange,
+
     metricCatalog: metricCatalogResult.data,
     chartableDataSeries,
     onChartableDataSeriesChange,
@@ -261,8 +335,8 @@ export const childrenArgsAsPropTypes = {
   dataSource: rpt.string.isRequired,
   refreshFixatedTimeConfig: rpt.func.isRequired,
   isValid: rpt.bool.isRequired,
-  ungroupedViewConfiguration: TimeFixatingAnalyzeStateManagement.propTypes.ungroupedView,
-  groupedViewConfiguration: TimeFixatingAnalyzeStateManagement.propTypes.groupedView,
+  groupedViewConfiguration: groupedViewPropType,
+  ungroupedViewConfiguration: ungroupedViewPropType,
 
   backendQueryModel: rpt.object,
   formModel: rpt.array.isRequired,
@@ -286,8 +360,12 @@ export const childrenArgsAsPropTypes = {
   }).isRequired,
   onOrderByChange: rpt.func.isRequired,
 
-  fields: TimeFixatingAnalyzeStateManagement.propTypes.defaultFields,
-  onFieldsChange: rpt.func.isRequired,
+  facetedSearchItems: facetedSearchItemsPropType,
+
+  fixedFields: fieldsPropTypes,
+  selectableFields: fieldsPropTypes,
+  onSelectableFieldsChange: rpt.func.isRequired,
+  metricCatalogFilter: metricCatalogFilterPropType,
   metricCatalog: rpt.arrayOf(
     rpt.shape({
       metricId: rpt.string,

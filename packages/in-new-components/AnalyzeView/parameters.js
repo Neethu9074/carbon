@@ -31,6 +31,13 @@ export function createParameters(path) {
       parser: buildJsonParser(emptyObject)
     },
 
+    orderByGroups: {
+      path,
+      name: 'orderByGroups',
+      serializer: buildJsonSerializer(),
+      parser: buildJsonParser(emptyObject)
+    },
+
     detailId: {
       path,
       name: 'detailId',
