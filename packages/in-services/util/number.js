@@ -17,3 +17,7 @@ export function compare(a, b) {
 
   return 0;
 }
+
+export function isParseableAsNumber(n) {
+  return !isNaN(n) && isFinite(n);
+}

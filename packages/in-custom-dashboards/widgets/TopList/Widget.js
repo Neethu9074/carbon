@@ -14,6 +14,7 @@ import { NO_VALUE } from 'in-analyze/components/GroupedTraces/Group';
 import { extendWindowSizeOnLiveMode } from 'in-applications/metrics';
 import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
 import useTagCatalog from 'in-applications/hooks/useTagCatalog';
+import { isParseableAsNumber } from 'in-services/util/number';
 import { close } from 'in-components/DialogPresenter/store';
 import { getFormatter } from 'in-stores/metric/formatters';
 import { operators } from 'in-analyze/applicationFilter';
@@ -90,7 +91,7 @@ export default function ListWidget({ config, title, actions, dragHandle }) {
                     type: TAG_FILTER,
                     name: groupBy?.groupbyTag,
                     key: groupBy?.groupbyTagSecondLevelKey ? groupBy?.groupbyTagSecondLevelKey : undefined,
-                    value: item.label,
+                    value: getConvertedValue(item.label),
                     operator: operators.EQUALS,
                     entity: groupBy?.groupbyTagEntity
                   }
@@ -112,7 +113,7 @@ export default function ListWidget({ config, title, actions, dragHandle }) {
                     type: TAG_FILTER,
                     name: groupBy?.groupbyTag,
                     key: groupBy?.groupbyTagSecondLevelKey ? groupBy?.groupbyTagSecondLevelKey : undefined,
-                    value: item.label,
+                    value: getConvertedValue(item.label),
                     operator: operators.NOT_EQUAL,
                     entity: groupBy?.groupbyTagEntity
                   };
@@ -196,4 +197,14 @@ function LinkContent({ item, groupBy }) {
   }
 
   return item.label;
+}
+
+function getConvertedValue(value) {
+  if (isParseableAsNumber(value)) {
+    return parseFloat(value);
+  }
+  if (value === 'true' || value === 'false') {
+    return JSON.parse(value);
+  }
+  return value;
 }
