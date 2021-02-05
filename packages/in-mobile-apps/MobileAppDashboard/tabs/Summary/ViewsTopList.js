@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import getMobileAppPaginatedBeaconGroups from 'in-mobile-apps/subscriptions/getMobileAppPaginatedBeaconGroups';
@@ -12,14 +13,14 @@ import { number } from 'in-services/formatters/number';
 import Link from 'in-components/Link';
 
 const metrics = ['views'];
-const labels = ['Occurrences'];
+const labels = [t('in-mobile-apps:dashboard.tabs.occurrencesLabel')];
 const aggregations = ['SUM'];
 const formatters = [number.compact, number.compact];
 
 export default function ViewsTopList({ mobileAppId, timeConfig, tagFilters }) {
   return (
     <TopListWithUrlState
-      title="Top Views"
+      title={t('in-mobile-apps:dashboard.tabs.topViewsTitle')}
       metrics={metrics}
       labels={labels}
       aggregations={aggregations}
@@ -71,7 +72,7 @@ function ViewAll({ mobileAppId, selectedMetric }, className) {
         }
       })}
     >
-      View all views
+      {t('in-mobile-apps:dashboard.tabs.viewAllViewsLink')}
     </Link>
   );
 }

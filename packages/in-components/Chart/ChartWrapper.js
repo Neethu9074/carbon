@@ -6,9 +6,10 @@ import invariant from 'invariant';
 import { t } from 'in-i18n';
 import React from 'react';
 
-import { getChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import { translateOffsetToTimeShiftConfig } from 'in-stores/time/shifting';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
+import { getResolvedTimeConfig } from 'in-applications/metrics';
+import { getChartGranularity } from 'in-stores/metric/metric';
 import { deepCopy } from 'in-services/util/object';
 
 // Sample Usage

@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import {
@@ -25,7 +26,7 @@ export default function EventSpecificationLink({ event }) {
       kind="secondary"
       href$={getEntityIdView(getEventSpecificationSettingsBasePath(isCustom), eventSpecificationId)}
     >
-      {`View ${isCustom ? 'Custom' : 'Built-in'} Event`}
+      {isCustom ? t('in-events:buttonViewCustomEvent') : t('in-events:buttonViewBuiltInEvent')}
     </Button>
   );
 }

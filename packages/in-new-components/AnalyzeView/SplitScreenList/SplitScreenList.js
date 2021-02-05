@@ -6,6 +6,7 @@ import React, { useState, useLayoutEffect } from 'react';
 import { findIndex, isEqual } from 'lodash';
 import classNames from 'classnames';
 import rpt from 'prop-types';
+import { t } from 'in-i18n';
 
 import { leftArrowId, rightArrowId } from 'in-new-components/AnalyzeView/SplitScreenList/elementIds';
 import HeightRestrictedView from 'in-components/layout/HeightRestrictedView/HeightRestrictedView';
@@ -86,11 +87,17 @@ function ExpandedList(props) {
 
             <div className={locals.actions}>
               {hasPrev && (
-                <Tooltip content={`View previous ${itemName.toLowerCase()} (shortcut: left arrow key)`}>
+                <Tooltip
+                  content={t('in-new-components:analyze.splitScreen.sidebarActions.prev', {
+                    itemName: t(itemName).toLowerCase()
+                  })}
+                >
                   <SvgIcon
                     className={locals.prev}
                     type="lib_arrow_drop_left"
-                    aria-label={`View previous ${itemName.toLowerCase()} (shortcut: left arrow key)`}
+                    aria-label={t('in-new-components:analyze.splitScreen.sidebarActions.prev', {
+                      itemName: t(itemName).toLowerCase()
+                    })}
                     size="s"
                     id={leftArrowId}
                     onClick={() =>
@@ -110,11 +117,17 @@ function ExpandedList(props) {
               )}
 
               {hasNext && (
-                <Tooltip content={`View next ${itemName.toLowerCase()} (shortcut: left right key)`}>
+                <Tooltip
+                  content={t('in-new-components:analyze.splitScreen.sidebarActions.next', {
+                    itemName: t(itemName).toLowerCase()
+                  })}
+                >
                   <SvgIcon
                     className={locals.next}
                     type="lib_arrow_drop_right"
-                    aria-label={`View next ${itemName.toLowerCase()} (shortcut: left right key)`}
+                    aria-label={t('in-new-components:analyze.splitScreen.sidebarActions.next', {
+                      itemName: t(itemName).toLowerCase()
+                    })}
                     size="s"
                     id={rightArrowId}
                     onClick={() =>
@@ -133,10 +146,10 @@ function ExpandedList(props) {
                 </Tooltip>
               )}
 
-              <Tooltip content="Close sidebar">
+              <Tooltip content={t('in-new-components:analyzeView.splitScreenListTooltipCloseSidebar')}>
                 <SvgIcon
                   type="lib_sidebar_to_left"
-                  aria-label="Close sidebar"
+                  aria-label={t('in-new-components:analyzeView.splitScreenListTooltipCloseSidebar')}
                   size="s"
                   className={locals.toggle}
                   onClick={() => setExpanded(false)}
@@ -145,6 +158,8 @@ function ExpandedList(props) {
             </div>
           </div>
         }
+        useFixedLayout
+        contentWidth={'20rem'}
       >
         <HeightRestrictedView
           render={() => (
@@ -182,10 +197,10 @@ function CollapsedList({ setExpanded }) {
   return (
     <div className={locals.collapsed}>
       <div className={locals.collapsedToggleWrapper}>
-        <Tooltip content="Open sidebar">
+        <Tooltip content={t('in-new-components:analyzeView.splitScreenListTooltipOpenSidebar')}>
           <SvgIcon
             type="lib_sidebar_to_right"
-            aria-label="Open sidebar"
+            aria-label={t('in-new-components:analyzeView.splitScreenListTooltipOpenSidebar')}
             size="s"
             className={locals.toggle}
             onClick={() => setExpanded(true)}

@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
@@ -16,7 +17,7 @@ export default function EventContent({ showFullTextIfToLong, snapshotId, event, 
   let fixSuggestion = event.getIn(['problem', 'fixSuggestion']) || '';
   fixSuggestion =
     !showFullTextIfToLong && fixSuggestion.length > MAX_PROBLEM_TEXT_LENGTH
-      ? 'further information are available in the notification center'
+      ? t('in-events:furtherFixSuggestion')
       : toHtml(fixSuggestion);
 
   return (

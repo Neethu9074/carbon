@@ -3,14 +3,15 @@
  * (c) Copyright Instana Inc.
  */
 import { Route, Switch } from 'react-router-dom';
+import { t } from 'in-i18n';
 import React from 'react';
 
-import { configurationOptionsFullyQualified } from 'in-mobile-apps/navigation/paths';
 import { SideNavigation, SideNavigationItem } from 'in-new-components/SideNavigation/SideNavigation';
 import { getModifiedUrlStream, navigationParameters$ } from 'in-stores/navigation/navigation';
 import Options from 'in-mobile-apps/MobileAppDashboard/tabs/Configuration/Options/Options';
-import RedirectWithHash from 'in-components/RedirectWithHash';
+import { configurationOptionsFullyQualified } from 'in-mobile-apps/navigation/paths';
 import StickySidebarContainer from 'in-new-components/layout/StickySidebarContainer';
+import RedirectWithHash from 'in-components/RedirectWithHash';
 import connectTo from 'in-hoc/connectTo';
 
 const NavigationItem = connectTo(({ path }) => ({
@@ -22,8 +23,11 @@ const NavigationItem = connectTo(({ path }) => ({
 
 export default function Configuration(props) {
   const sidebar = (
-    <SideNavigation title="Configuration">
-      <NavigationItem label="Options" path={configurationOptionsFullyQualified} />
+    <SideNavigation title={t('in-mobile-apps:dashboard.tabs.configurationTitle')}>
+      <NavigationItem
+        label={t('in-mobile-apps:dashboard.tabs.optionsLabel')}
+        path={configurationOptionsFullyQualified}
+      />
     </SideNavigation>
   );
   return (

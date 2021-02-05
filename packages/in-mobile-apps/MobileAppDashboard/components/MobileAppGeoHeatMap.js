@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { get } from 'lodash';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import getMobileAppCountryBreakdown from 'in-mobile-apps/subscriptions/getMobileAppCountryBreakdown';
@@ -10,7 +11,7 @@ import getMobileAppSubdivisions from 'in-mobile-apps/subscriptions/getMobileAppS
 import { number } from 'in-services/formatters/number';
 import GeoHeatMap from 'in-new-components/GeoHeatMap';
 
-const valueFormatter = v => `${number.compact(v)} session starts`;
+const valueFormatter = v => t('in-mobile-apps:dashboard.numSessionStarts', { num: number.compact(v) });
 
 export default function MobileAppGeoHeatMap({ height, tagFilters, timeConfig, canDrillDown, controlWrapperClassName }) {
   return (

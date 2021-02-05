@@ -5,6 +5,7 @@
 import { empty } from '@instana/observables';
 import React, { useEffect } from 'react';
 import rpt from 'prop-types';
+import { t } from 'in-i18n';
 
 import { getSingleNumberMetricId, getSparkChartTimeSeriesMetricId } from 'in-new-components/AnalyzeView/metricIds';
 import { joinExpressions, removeTopLevelFilters } from 'in-new-components/QueryBuilder/transformation/formModel';
@@ -29,7 +30,6 @@ import KeyValue from 'in-new-components/lists/KeyValue';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import SvgIcon from 'in-components/SvgIcon';
-import { t } from 'in-i18n';
 
 import locals from './GroupedView.mless';
 
@@ -184,7 +184,7 @@ export default function GroupedAnalyzeView(props) {
     <>
       <Header
         {...props}
-        hitName="Group"
+        hitName={t('in-new-components:analyzeView.groupedViewHeader')}
         totalHits={totalHits}
         totalRepresentedItemCount={totalRepresentedItemCount}
         order={orderBy}

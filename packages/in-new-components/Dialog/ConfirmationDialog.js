@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
@@ -17,7 +18,7 @@ export default function ConfirmationDialog({
   header,
   headerIcon,
   description,
-  confirmButtonLabel = 'Confirm',
+  confirmButtonLabel = t('in-new-components:dialog.confirmationDialogLabelConfirm'),
   onSubmit,
   field,
   isSaving,

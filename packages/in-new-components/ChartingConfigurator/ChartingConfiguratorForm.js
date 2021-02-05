@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import classNames from 'classnames';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import ComboBoxBehavior from 'in-components/form/ComboBox/ComboBoxBehavior';
@@ -45,7 +46,7 @@ export default function ChartingConfiguratorForm({ value, options, onChange, hid
             onChange(change);
           }}
           requiresCustomInteractivity
-          ariaLabel="Change selected metric"
+          ariaLabel={t('in-new-components:chartingConfigurator.labelChangeSelectedMetric')}
         >
           {({ elementProps }) => (
             <div {...elementProps} className={classNames(locals.metric, locals.selectable)}>
@@ -76,7 +77,7 @@ export default function ChartingConfiguratorForm({ value, options, onChange, hid
             onChange(change);
           }}
           requiresCustomInteractivity
-          ariaLabel="Change selected aggregation"
+          ariaLabel={t('in-new-components:chartingConfigurator.labelChangeSelectedAggregation')}
         >
           {({ elementProps }) => (
             <div {...elementProps} className={classNames(locals.aggregation, locals.selectable)}>
@@ -99,7 +100,7 @@ export default function ChartingConfiguratorForm({ value, options, onChange, hid
             })
           }
           requiresCustomInteractivity
-          ariaLabel="Change selected renderer"
+          ariaLabel={t('in-new-components:chartingConfigurator.labelChangeSelectedRenderer')}
         >
           {({ elementProps }) => (
             <div {...elementProps} className={locals.renderer}>

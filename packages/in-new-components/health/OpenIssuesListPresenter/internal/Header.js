@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import React, { Fragment } from 'react';
+import { t } from 'in-i18n';
 
 import SvgIcon from 'in-components/SvgIcon';
 
@@ -11,16 +12,27 @@ import locals from './Header.mless';
 export default function Header({ openIssuesResult, maxIssuesToShow, eventType, close }) {
   let title = null;
   if (openIssuesResult.progress.loading) {
-    title = `Loading Open ${eventType}s…`;
+    title = t('in-new-components:health.openIssuesListPresenterHeaderTitleLoadingOpenIssues', {
+      eventType: t('in-new-components:health.eventType' + eventType, { count: 2 })
+    });
   } else if (openIssuesResult.errors.length > 0) {
-    title = `Failed To Load Open ${eventType}s`;
+    title = t('in-new-components:health.openIssuesListPresenterHeaderTitleFailedToLoadOpenIssues', {
+      eventType: t('in-new-components:health.eventType' + eventType, { count: openIssuesResult.errors.length })
+    });
   } else {
     const openIssueCount = openIssuesResult.data.length;
     title = (
       <Fragment>
-        {openIssueCount} Open {openIssueCount === 1 ? eventType : eventType + 's'}
+        {t('in-new-components:health.openIssuesListPresenterHeaderNumbersOfOpenIssues', {
+          openIssueCount: openIssueCount,
+          eventType: t('in-new-components:health.eventType' + eventType, { count: openIssueCount })
+        })}
         {openIssueCount > maxIssuesToShow && (
-          <span className={locals.more}>(displaying {maxIssuesToShow} most severe)</span>
+          <span className={locals.more}>
+            {t('in-new-components:health.openIssuesListPresenterHeaderDisplayingMaxIssuesToShowMostSevere', {
+              maxIssuesToShow: maxIssuesToShow
+            })}
+          </span>
         )}
       </Fragment>
     );

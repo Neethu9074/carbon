@@ -6,11 +6,11 @@
 
 // eslint-disable-next-line no-restricted-imports
 import { Trans as InternalTrans } from 'react-i18next';
+// eslint-disable-next-line no-restricted-imports
+import i18n from 'i18next';
 import { mount } from 'enzyme';
 import { expect } from 'chai';
 import React from 'react';
-// eslint-disable-next-line no-restricted-imports
-import i18n from 'i18next';
 
 import Trans, { markAsSecureString } from 'in-i18n/Trans';
 import { getProps } from 'in-test/enzymeTestUtils';

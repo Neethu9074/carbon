@@ -20,7 +20,8 @@ const GroupList = createApiList({
   orderBy: 'name',
   renderer: ListInsideACardRenderer,
   pageSize: 5,
-  renderAdditionalHeaderContent: renderAdditionalHeaderContent
+  renderAdditionalHeaderContent: renderAdditionalHeaderContent,
+  boundedPath: '/unknown' // providing a bad parameter here avoids binding page as matrix parameter.
 });
 
 export default function Groups({ userId, refresh }) {

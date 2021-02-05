@@ -4,17 +4,18 @@
  */
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
+import { t } from 'in-i18n';
 
 import { datacenterId as matrixDatacenterId } from 'in-vsphere/navigation/matrix';
 import getVsphereDatacenter from 'in-vsphere/subscriptions/getVsphereDatacenter';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
-import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import EntityVersionList from 'in-new-components/EntityVersionList';
 import { datacenterDashboard } from 'in-vsphere/navigation/paths';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import DashboardHeader from 'in-new-components/DashboardHeader';
+import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import tabs from 'in-vsphere/Dashboards/Datacenter/tabs/index';
 import { DatacenterBreadcrumbs } from 'in-vsphere/breadcrumbs';
 import { getTimeConfig } from 'in-stores/time/config';
@@ -34,7 +35,7 @@ export default function DatacenterDashboard({ location }) {
       <ViewTrackingMeta
         data={{
           productArea: 'vSphere',
-          pageRootName: 'vSphere Datacenter'
+          pageRootName: t('in-vsphere:dashboards.vSphereDatacenter')
         }}
       />
 
@@ -70,7 +71,7 @@ function Header(props) {
   return (
     <DashboardHeader
       {...props}
-      title="vSphere Datacenter"
+      title={t('in-vsphere:dashboards.vSphereDatacenter')}
       icon="lib_vsphere_datacenter"
       label={get(props.result, ['data', 'label'])}
     />

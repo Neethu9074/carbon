@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { getCloudfoundryApplicationsWithDefaults } from 'in-cloudfoundry/subscriptions/getCloudfoundryApplications';
@@ -32,7 +33,7 @@ const matrixPrefix = 'cfApplication.';
 const columnDefinitions = [
   {
     id: 'label',
-    label: 'Name',
+    label: t('in-cloudfoundry:name'),
     getContent(item) {
       return (
         <EntityLink label={item.label} href$={getApplicationDashboard(item.id)} icon="lib_cloudfoundry_application" />
@@ -41,21 +42,21 @@ const columnDefinitions = [
   },
   {
     id: 'status',
-    label: 'Requested State',
+    label: t('in-cloudfoundry:requestedState'),
     getContent(item) {
       return <ApplicationState state={item.status} />;
     }
   },
   {
     id: 'instances',
-    label: 'Instances',
+    label: t('in-cloudfoundry:instances'),
     getContent(item) {
       return <InstanceMetric applicationId={item.id} />;
     }
   },
   {
     id: 'memoryLimit',
-    label: 'Memory Limit',
+    label: t('in-cloudfoundry:memoryLimit'),
     sortable: false,
     getContent(item) {
       return <span className={locals.metricLabel}>{bytesZeroDecimalPlaces(item.memoryLimit)}</span>;
@@ -63,21 +64,21 @@ const columnDefinitions = [
   },
   {
     id: 'foundation',
-    label: 'Foundation',
+    label: t('in-cloudfoundry:foundation'),
     getContent(item) {
       return item.foundation != null ? item.foundation : valueMissingPlaceholder;
     }
   },
   {
     id: 'organization',
-    label: 'Organization',
+    label: t('in-cloudfoundry:organization'),
     getContent(item) {
       return item.organization;
     }
   },
   {
     id: 'space',
-    label: 'Space',
+    label: t('in-cloudfoundry:space'),
 
     getContent(item) {
       return (
@@ -89,7 +90,7 @@ const columnDefinitions = [
   },
   {
     id: 'routes',
-    label: 'Routes',
+    label: t('in-cloudfoundry:routes'),
     getContent(item) {
       const joinedRoutes = item.routes.join(', ') || valueMissingPlaceholder;
       return (
@@ -101,7 +102,7 @@ const columnDefinitions = [
   },
   {
     id: 'health',
-    label: 'Health',
+    label: t('in-cloudfoundry:health'),
     getContent(item, { timeConfig }) {
       return (
         <EntityHealthIndicator
@@ -133,11 +134,11 @@ export default connectTo(
   function ApplicationList({ timeConfig }) {
     return (
       <>
-        <Title title="Cloud Foundry Applications" />
+        <Title title={t('in-cloudfoundry:cloudFoundryApplications')} />
         <ViewTrackingMeta
           data={{
             productArea: 'Cloud Foundry',
-            pageRootName: 'CF Applications'
+            pageRootName: t('in-cloudfoundry:cfApplications')
           }}
         />
 

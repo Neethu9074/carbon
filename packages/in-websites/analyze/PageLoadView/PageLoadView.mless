@@ -5,10 +5,6 @@
 @import '~in-themes/active.less';
 
 :local {
-  .header {
-    border-bottom: 1px solid @lib__colors__N300;
-  }
-
   .closeIcon {
     cursor: pointer;
     fill: @lib__colors__N500;

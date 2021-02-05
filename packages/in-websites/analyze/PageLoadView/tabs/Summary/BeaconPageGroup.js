@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { withState } from 'recompose';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import HeaderToggleIcon from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/HeaderToggleIcon';
@@ -21,17 +22,21 @@ function BeaconPageGroup({ page, beacons, earliestTimestamp, pageLoad, expanded,
       <div
         className={locals.header}
         {...toInteractiveElement({
-          ariaLabel: expanded ? 'Show less' : 'Show more',
+          ariaLabel: expanded
+            ? t('in-websites:analyze.analyzeView.pageLoadView.beaconTooltipShowLess')
+            : t('in-websites:analyze.analyzeView.pageLoadView.beaconTooltipShowMore'),
           onDefaultInteraction: () => setExpanded(!expanded)
         })}
       >
         <div className={locals.left}>
           <SvgIcon type="lib_document" size="s" className={locals.pageIcon} />
-          <span className={locals.pageName}>{page || 'Page name not set'}</span>
+          <span className={locals.pageName}>
+            {page || t('in-websites:analyze.analyzeView.pageLoadView.beaconPageGroupPageNameNotSet')}
+          </span>
 
           {!page && (
             <Link external href="https://instana.com/docs/website_monitoring/api/#page" className={locals.learnHow}>
-              Learn how to define pages
+              {t('in-websites:analyze.analyzeView.pageLoadView.beaconPageGroupLinkLearnHowToDefinePages')}
             </Link>
           )}
         </div>

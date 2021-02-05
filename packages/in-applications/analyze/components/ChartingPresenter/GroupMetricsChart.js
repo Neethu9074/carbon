@@ -6,11 +6,12 @@ import React, { useState, useEffect } from 'react';
 import { just } from '@instana/observables';
 
 import { chartMetricKey, getMetricAndAggregationFromMetricKey } from 'in-applications/analyze/metrics';
-import { getChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import { groupLabel } from 'in-applications/analyze/components/GroupedList';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
+import { getResolvedTimeConfig } from 'in-applications/metrics';
+import { getChartGranularity } from 'in-stores/metric/metric';
 import Chart from 'in-components/Chart/ChartReactComponent';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import useObservable from 'in-hooks/useObservable';

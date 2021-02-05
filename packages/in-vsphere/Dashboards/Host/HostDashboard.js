@@ -4,6 +4,7 @@
  */
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
+import { t } from 'in-i18n';
 
 import { datacenterId as matrixDatacenterId } from 'in-vsphere/navigation/matrix';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
@@ -36,7 +37,7 @@ export default function HostDashboard({ location }) {
       <ViewTrackingMeta
         data={{
           productArea: 'vSphere',
-          pageRootName: 'vSphere ESXi Host'
+          pageRootName: t('in-vsphere:dashboards.vSphereEsXiHost')
         }}
       />
 
@@ -70,5 +71,12 @@ export default function HostDashboard({ location }) {
 }
 
 function Header(props) {
-  return <DashboardHeader {...props} title="ESXi Host" icon="lib_linux" label={get(props.result, ['data', 'label'])} />;
+  return (
+    <DashboardHeader
+      {...props}
+      title={t('in-vsphere:dashboards.esXiHost')}
+      icon="lib_linux"
+      label={get(props.result, ['data', 'label'])}
+    />
+  );
 }

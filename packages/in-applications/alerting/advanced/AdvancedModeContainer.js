@@ -33,7 +33,6 @@ import ProvideStatusCode from 'in-applications/alerting/components/ProvideStatus
 import AlertQueryBuilder from 'in-applications/alerting/components/AlertQueryBuilder';
 import AlertTypeSwitch from 'in-applications/alerting/components/AlertTypeSwitch';
 import WithQB1orQB2 from 'in-new-components/Alerting/components/WithQB1orQB2';
-import { smartAlertsEntityGroupingEnabled } from 'in-services/featureFlags';
 import LightCard from 'in-new-components/Card/LightCard';
 import { t } from 'in-i18n';
 
@@ -63,7 +62,7 @@ export default function AdvancedModeContainer(props) {
           title: t('in-applications:alert.advancedModeContainer.scope.title'),
           content: (
             <>
-              {smartAlertsEntityGroupingEnabled && <AlertEvaluationControl form={form} updateForm={updateForm} />}
+              <AlertEvaluationControl form={form} updateForm={updateForm} />
               <WithQB1orQB2
                 onUsesQB1={() => (
                   <AlertLocationFilters

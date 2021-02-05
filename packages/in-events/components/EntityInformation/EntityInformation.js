@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { just } from '@instana/observables';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import {
@@ -121,7 +122,7 @@ function LegacyAppDataEntityInformation({ entity, entityType, label, linkTimeCon
   );
 }
 
-function EntityInformationPresenter({ children, label = 'On:' }) {
+function EntityInformationPresenter({ children, label = t('in-events:entityInfoPresenterDefaultLabel') }) {
   return (
     <div className={locals.container}>
       <span className={locals.label}>{label}</span>

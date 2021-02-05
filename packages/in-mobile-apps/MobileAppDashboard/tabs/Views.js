@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import {
@@ -25,7 +26,7 @@ import Link from 'in-components/Link';
 const columnDefinitions = [
   {
     id: 'name',
-    label: 'Name',
+    label: t('in-mobile-apps:dashboard.tabs.nameLabel'),
     getContent(item, { mobileAppId }) {
       let label = item.name;
       try {
@@ -48,7 +49,7 @@ const columnDefinitions = [
   },
   {
     id: 'viewsAgg',
-    label: 'Occurrences',
+    label: t('in-mobile-apps:dashboard.tabs.occurrencesLabel'),
     defaultOrderDirection: 'DESC',
     getContent(item, { result, timeConfig }) {
       return (

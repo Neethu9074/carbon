@@ -11,8 +11,8 @@ import AggregationSelectorWithUrlState from 'in-new-components/AggregationSelect
 import WebsiteChartWrapper from 'in-websites/WebsiteDashboard/components/WebsiteChartWrapper';
 import { clsFormatter } from 'in-websites/analyze/AnalyzeView/metrics';
 import { number, millis } from 'in-services/formatters/number';
+import { getChartGranularity } from 'in-stores/metric/metric';
 import Renderer from 'in-components/Chart/renderer/Renderer';
-import { getChartGranularity } from 'in-websites/metrics';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import { speedTab } from 'in-websites/navigation/paths';
 import Footer from 'in-new-components/Footer';

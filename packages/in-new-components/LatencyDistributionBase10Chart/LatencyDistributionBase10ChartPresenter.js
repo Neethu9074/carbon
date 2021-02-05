@@ -4,6 +4,8 @@
  */
 import { create } from '@instana/observables';
 import React, { useState } from 'react';
+import theme from 'in-themes';
+import { t } from 'in-i18n';
 
 import PercentileMenu, {
   ALL_PERCENTILES
@@ -19,11 +21,10 @@ import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicat
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import VerticalAxis from 'in-new-components/Axis/VerticalAxis';
 import Legend from 'in-components/Chart/components/Legend.js';
+import { defaultTimeShift } from 'in-stores/time/shifting';
 import useObservable from 'in-hooks/useObservable';
-import theme from 'in-themes';
 
 import locals from './LatencyDistributionBase10ChartPresenter.mless';
-import { defaultTimeShift } from 'in-stores/time/shifting';
 
 const colorLatency = theme.lib.colors.chart.strokeColors100[0];
 const colorLatencyTimeShift = theme.lib.colors.timeShift;
@@ -90,7 +91,12 @@ export default function LatencyDistributionBase10ChartPresenter({
   ) {
     return (
       <div className={locals.container}>
-        <NoDataAvailable width={chartWidth} height={chartHeight} icon={'lib_bar_chart'} text={'No data to display'} />
+        <NoDataAvailable
+          width={chartWidth}
+          height={chartHeight}
+          icon={'lib_bar_chart'}
+          text={t('in-new-components:latencyDistributionBase10Chart.presenterLabelNoDataToDisplay')}
+        />
       </div>
     );
   }
@@ -108,7 +114,10 @@ export default function LatencyDistributionBase10ChartPresenter({
     });
   };
 
-  const metricName = dataSource === 'traces' ? 'Traces' : 'Calls';
+  const metricName =
+    dataSource === 'traces'
+      ? t('in-new-components:latencyDistributionBase10Chart.presenterLabelTraces')
+      : t('in-new-components:latencyDistributionBase10Chart.presenterLabelCalls');
   const chartConfig = {
     config: {
       y1: {

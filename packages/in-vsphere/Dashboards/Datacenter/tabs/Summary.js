@@ -3,6 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 import React, { Fragment } from 'react';
+import theme from 'in-themes';
+import { t } from 'in-i18n';
 
 import {
   timeBySecondsTwoDecimalPlaces,
@@ -19,7 +21,6 @@ import { Row, Col } from 'in-new-components/layout/Grid';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
 import Capitalize from 'in-new-components/Capitalize';
 import Card from 'in-new-components/Card';
-import theme from 'in-themes';
 
 export default function Summary({ timeConfig, data: cluster }) {
   const snapshotId = cluster.id;
@@ -29,25 +30,25 @@ export default function Summary({ timeConfig, data: cluster }) {
     <Fragment>
       <KpiGridRow sizes={[3, 3, 3, 3]}>
         <KpiCard
-          title="Overall Status"
+          title={t('in-vsphere:dashboards.overallStatus')}
           value={<Capitalize>{cluster.overallStatus || valueMissingPlaceholder}</Capitalize>}
           raw
           borderless
         />
         <InfraMetricKpiCard
-          title="Uptime"
+          title={t('in-vsphere:dashboards.uptime')}
           snapshotId={snapshotId}
           metric="uptime.seconds"
           formatter={timeBySecondsTwoDecimalPlaces}
         />
         <InfraMetricKpiCard
-          title="CPU Usage"
+          title={t('in-vsphere:dashboards.cpuUsage')}
           snapshotId={snapshotId}
           metric="cpu.usage.percent.maximum.*"
           formatter={percentage.detailed}
         />
         <InfraMetricKpiCard
-          title="Memory Usage"
+          title={t('in-vsphere:dashboards.memoryUsage')}
           snapshotId={snapshotId}
           metric="mem.usage.average.percent"
           formatter={percentage.detailed}
@@ -56,14 +57,14 @@ export default function Summary({ timeConfig, data: cluster }) {
 
       <Row verticallyStretchColumns>
         <Col lg={6}>
-          <Card title="CPU Resources" useMaxAvailableHeight>
+          <Card title={t('in-vsphere:dashboards.cpuResources')} useMaxAvailableHeight>
             <Chart
               snapshotId={snapshotId}
               timeConfig={timeConfig}
               y1={{
                 formatter: percentage.detailed,
                 metrics: ['cpu.usage.percent.maximum.*'],
-                labels: ['Usage'],
+                labels: [t('in-vsphere:dashboards.usage')],
                 type: 'line',
                 colors: [usage]
               }}
@@ -71,14 +72,14 @@ export default function Summary({ timeConfig, data: cluster }) {
           </Card>
         </Col>
         <Col lg={6}>
-          <Card title="Memory Resources" useMaxAvailableHeight>
+          <Card title={t('in-vsphere:dashboards.memoryResources')} useMaxAvailableHeight>
             <Chart
               snapshotId={snapshotId}
               timeConfig={timeConfig}
               y1={{
                 formatter: percentage.detailed,
                 metrics: ['mem.usage.average.percent'],
-                labels: ['Usage'],
+                labels: [t('in-vsphere:dashboards.usage')],
                 type: 'line',
                 colors: [usage]
               }}
@@ -89,28 +90,28 @@ export default function Summary({ timeConfig, data: cluster }) {
 
       <Row verticallyStretchColumns>
         <Col lg={6}>
-          <Card title="VM balloon memory" useMaxAvailableHeight>
+          <Card title={t('in-vsphere:dashboards.vmBalloonMemory')} useMaxAvailableHeight>
             <Chart
               snapshotId={snapshotId}
               timeConfig={timeConfig}
               y1={{
                 formatter: bytes.compact,
                 metrics: ['mem.vmmemctl.bytes.average'],
-                labels: ['VM balloon memory'],
+                labels: [t('in-vsphere:dashboards.vmBalloonMemory')],
                 type: 'line'
               }}
             />
           </Card>
         </Col>
         <Col lg={6}>
-          <Card title="Network" useMaxAvailableHeight>
+          <Card title={t('in-vsphere:dashboards.network')} useMaxAvailableHeight>
             <Chart
               snapshotId={snapshotId}
               timeConfig={timeConfig}
               y1={{
                 formatter: bytesPerSecondZeroDecimalPlaces,
                 metrics: ['net.usage.average.bytesPerSecond'],
-                labels: ['Net usage'],
+                labels: [t('in-vsphere:dashboards.netUsage')],
                 type: 'line',
                 colors: [usage]
               }}
@@ -120,14 +121,14 @@ export default function Summary({ timeConfig, data: cluster }) {
       </Row>
       <Row verticallyStretchColumns>
         <Col lg={12}>
-          <Card title="CPU" useMaxAvailableHeight>
+          <Card title={t('in-vsphere:dashboards.cpu')} useMaxAvailableHeight>
             <Chart
               snapshotId={snapshotId}
               timeConfig={timeConfig}
               y1={{
                 formatter: millis.compact,
                 metrics: ['cpu.wait.summation.milliseconds', 'cpu.system.summation.milliseconds'],
-                labels: ['Wait', 'System'],
+                labels: [t('in-vsphere:dashboards.wait'), t('in-vsphere:dashboards.system')],
                 type: 'line'
               }}
             />

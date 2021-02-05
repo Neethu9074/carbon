@@ -10,6 +10,14 @@
     height: min-content;
   }
 
+  .labelWithGap {
+    margin-right: 0.5rem;
+  }
+
+  .expanding {
+    flex: 1;
+  }
+
   .defaultSize {
     margin-top: 1rem;
     height: 21rem;
@@ -17,7 +25,7 @@
 
   .withSelection {
     margin-top: 1rem;
-    height: 23rem;
+    min-height: 23rem;
   }
 
   .headerTransparent {

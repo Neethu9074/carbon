@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { find } from 'lodash';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { translateOffsetToTimeShiftConfig, getTimeShiftLabel } from 'in-stores/time/shifting';
@@ -194,7 +195,10 @@ function renderTimeShiftValue(config, result, formatter, value, timeConfig) {
   }
 
   const timeShiftConfig = translateOffsetToTimeShiftConfig(timeShift, timeConfig);
-  const tooltip = `Compared to ${getTimeShiftLabel(timeShiftConfig).toLowerCase()}: ${formatter(comparisonValue)}`;
+  const tooltip = t('in-new-components:kpiCard.tooltipComparedToTimeShift', {
+    timeShift: getTimeShiftLabel(timeShiftConfig).toLowerCase(),
+    comparisonValue: formatter(comparisonValue)
+  });
 
   return (
     <Tooltip content={tooltip}>

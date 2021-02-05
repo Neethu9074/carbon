@@ -56,6 +56,13 @@ export const sensibleGranularities = [
   days.toMillis(10)
 ];
 
+const maximumNumberOfUsefulDataPoints = 80;
+
+export function getChartGranularity({ windowSize }, maxDataPoints = maximumNumberOfUsefulDataPoints) {
+  const granularity = sensibleGranularities.find(granularity => windowSize / granularity <= maxDataPoints);
+  return granularity || sensibleGranularities[sensibleGranularities.length - 1];
+}
+
 const rollupDurationThresholds = [
   {
     availableFor: days.toMillis(1),

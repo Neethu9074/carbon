@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import React, { Fragment } from 'react';
+import { t } from 'in-i18n';
 
 import { isScriptError, learnMoreLabel, learnMoreHref, explanation } from 'in-websites/definitions/scriptError';
 import BatchIndicator from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/BatchIndicator';
@@ -27,14 +28,14 @@ export const LeftHeader = ({ beacon, earliestTimestamp }) => (
     <KeyValueHeader
       label={
         <Fragment>
-          JS Error
+          {t('errorBeaconHeaderJSError')}
           <BatchIndicator batchCount={beacon.batchSize} />
         </Fragment>
       }
       value={getLabel(beacon)}
     />
     <KeyValueHeader
-      label="Start Time"
+      label={t('in-websites:analyze.analyzeView.pageLoadView.errorBeaconLabelStartTime')}
       value={millisToTwoDecimalSeconds(beacon.timestamp - earliestTimestamp)}
       tooltipContent={formatDateTime(beacon.timestamp)}
     />
@@ -46,7 +47,7 @@ export const Body = ({ beacon }) => {
     <Fragment>
       <Row>
         <Col lg={6}>
-          <BodyHeader>Error Details</BodyHeader>
+          <BodyHeader>{t('errorBeaconHeaderErrorDetails')}</BodyHeader>
 
           {!isScriptError(beacon.errorMessage) && (
             <Dl>
@@ -55,8 +56,12 @@ export const Body = ({ beacon }) => {
                   {beacon.locationUrl}
                 </a>
               </Di>
-              <Di title="Error Message">{beacon.errorMessage}</Di>
-              <Di title="Error Type">{beacon.errorType}</Di>
+              <Di title={t('in-websites:analyze.analyzeView.pageLoadView.errorBeaconTitleErrorMessage')}>
+                {beacon.errorMessage}
+              </Di>
+              <Di title={t('in-websites:analyze.analyzeView.pageLoadView.errorBeaconTitleErrorType')}>
+                {beacon.errorType}
+              </Di>
             </Dl>
           )}
 
@@ -67,7 +72,7 @@ export const Body = ({ beacon }) => {
 
         {Object.keys(beacon.meta).length > 0 && (
           <Col lg={6}>
-            <BodyHeader>Meta</BodyHeader>
+            <BodyHeader>{t('errorBeaconHeaderMeta')}</BodyHeader>
             <Meta beacon={beacon} />
           </Col>
         )}
@@ -83,7 +88,7 @@ export const Body = ({ beacon }) => {
       <Row>
         {isNotBlank(beacon.componentStack) && (
           <Col lg={12}>
-            <BodyHeader>Component Stack</BodyHeader>
+            <BodyHeader>{t('errorBeaconHeaderComponentStack')}</BodyHeader>
             <RawStack stack={beacon.componentStack} />
           </Col>
         )}

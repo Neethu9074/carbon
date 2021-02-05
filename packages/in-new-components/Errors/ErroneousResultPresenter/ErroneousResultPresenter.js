@@ -4,6 +4,7 @@
  */
 import classNames from 'classnames';
 import { uniq } from 'lodash';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { error as errorType } from 'in-new-components/Message/types';
@@ -51,7 +52,7 @@ export function getUniqueErrors(errors = emptyArray) {
 
 function getMessage(error) {
   if (isTechnicalError(error.code) && !__DEV__) {
-    return 'An unexpected error occurred. Please refresh the page or try again later.';
+    return t('in-new-components:error.erroneousResultPresenterMessage');
   }
   return error.message;
 }

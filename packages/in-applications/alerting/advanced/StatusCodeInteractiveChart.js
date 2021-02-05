@@ -31,9 +31,9 @@ export default function StatusCodeInteractiveChart({
   onChartViewConfigChange,
   selectedChartViewConfigIndex
 }) {
-  const alertConfig = alertConfigWithDefaultThreshold(form);
+  const alertConfigWithFormModel = alertConfigWithDefaultThreshold(form);
 
-  if (!blueprintConfig.isRuleComplete(alertConfig.rule)) {
+  if (!blueprintConfig.isRuleComplete(alertConfigWithFormModel.rule)) {
     return (
       <div className={locals.container}>
         <IncompleteChartPlaceholder message={blueprintConfig.incompleteRuleMessage} />
@@ -46,7 +46,7 @@ export default function StatusCodeInteractiveChart({
       <ThresholdCondition form={form} onChange={onChange} updateForm={updateForm} blueprintConfig={blueprintConfig} />
 
       <ChartViewConfigurator
-        alertConfig={alertConfig}
+        alertConfigWithFormModel={alertConfigWithFormModel}
         onChartViewConfigChange={onChartViewConfigChange}
         selectedChartViewConfigIndex={selectedChartViewConfigIndex}
         headerTransparent
@@ -54,7 +54,7 @@ export default function StatusCodeInteractiveChart({
         {(chartViewConfig, serviceId) => (
           <ApplicationAlertingChartWithErrorMessage
             serviceId={serviceId}
-            alertConfigWithFormModel={alertConfig}
+            alertConfigWithFormModel={alertConfigWithFormModel}
             viewConfig={chartViewConfig}
             blueprintConfig={blueprintConfig}
             alertsPreviewEnabled

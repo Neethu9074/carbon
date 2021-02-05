@@ -4,6 +4,7 @@
  */
 import React, { useRef } from 'react';
 import rpt from 'prop-types';
+import { t } from 'in-i18n';
 
 import ActiveGroupingConfiguration from 'in-new-components/GroupingConfigurator/ActiveGroupingConfiguration';
 import TagSelectorOverlay from 'in-new-components/TagSelectorOverlay/TagSelectorOverlay';
@@ -22,7 +23,7 @@ export default function GroupingConfigurator({
   getSuggestions,
   onChange,
   tracking,
-  label = 'Add group',
+  label = t('in-new-components:groupingConfigurator.addGroup'),
   loadingLabel
 }) {
   const tagCatalog = useTagCatalog(getTagCatalog);

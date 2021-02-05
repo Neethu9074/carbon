@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import getVsphereVm from 'in-vsphere/subscriptions/getVsphereVm';
@@ -19,7 +20,7 @@ export default connectTo(
   }),
   function VmBreadcrumb({ virtualMachine }) {
     return (
-      <Breadcrumb label="vSphere VM" icon="lib_vsphere_vm">
+      <Breadcrumb label={t('in-vsphere:breadcrumbs.vSphereVm')} icon="lib_vsphere_vm">
         {virtualMachine && virtualMachine.label}
       </Breadcrumb>
     );

@@ -4,6 +4,7 @@
  */
 import React, { Fragment } from 'react';
 import classNames from 'classnames';
+import { t } from 'in-i18n';
 
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
 import { getDesignLibraryColorBySeverity } from 'in-stores/events';
@@ -34,7 +35,7 @@ export default function Issue({ issue, getIssueLink }) {
       <div className={locals.description}>
         {issue.problem.fixSuggestion.length > MAX_PROBLEM_TEXT_LENGTH ? (
           <span className={locals.descriptionTooLong}>
-            Issue description omitted. More details are visible within the {`event's`} detail view.
+            {t('in-new-components:health.openIssuesListPresenterIssueDescriptionOmitted')}
           </span>
         ) : (
           <DangerousHtmlPresenter html={toHtml(issue.problem.fixSuggestion)} />
@@ -42,7 +43,7 @@ export default function Issue({ issue, getIssueLink }) {
       </div>
 
       <div className={locals.timeSection}>
-        <Pill kind="lighter">Started</Pill>
+        <Pill kind="lighter">{t('in-new-components:health.openIssuesListPresenterStarted')}</Pill>
         <time dateTime={new Date(issue.start).toISOString()} className={locals.startTime}>
           {formatDateTime(issue.start)}
         </time>

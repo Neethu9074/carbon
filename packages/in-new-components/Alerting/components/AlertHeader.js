@@ -8,8 +8,12 @@ import PropTypes from 'prop-types';
 import { Trans, t } from 'in-i18n';
 import theme from 'in-themes';
 
+import {
+  isQB2Config,
+  isQB2ModeEnabled,
+  switchQB1orQB2Helper
+} from 'in-new-components/Alerting/components/WithQB1orQB2';
 import RevisionDropdown, { toAlertRevision } from 'in-new-components/Alerting/components/RevisionDropdown';
-import { isQB2Config, isQB2ModeEnabled } from 'in-new-components/Alerting/components/WithQB1orQB2';
 import { getModifiedUrlStream, mutateUrl } from 'in-stores/navigation/navigation';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-new-components/Dialog/ConfirmationDialog';
@@ -102,6 +106,10 @@ export default function AlertHeader({
   };
 
   const doRestore = () => {
+    switchQB1orQB2Helper(
+      () => delete alertConfig['tagFilterExpression'],
+      () => delete alertConfig['tagFilters']
+    );
     doRestoreConfig$(alertConfig, alertConfig.id).once(
       () => setRevision(null),
       error => {

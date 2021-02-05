@@ -7,7 +7,7 @@ import React from 'react';
 
 import OpenEventsCountChartWrapper from 'in-events/components/OpenEventsCountChartWrapper';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
-import { getChartGranularity } from 'in-applications/metrics';
+import { getChartGranularity } from 'in-stores/metric/metric';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { number } from 'in-services/formatters/number';
 

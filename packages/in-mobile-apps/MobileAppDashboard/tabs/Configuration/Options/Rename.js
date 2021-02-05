@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { createField, notBlankValidator } from 'formalistic';
+import { t, Trans } from 'in-i18n';
 import { get, find } from 'lodash';
 import React from 'react';
 
@@ -118,15 +119,13 @@ export default class Rename extends React.PureComponent {
     const { field, loading, saveError, savedLabel } = this.state;
 
     return (
-      <Card title="Rename Mobile App">
+      <Card title={t('in-mobile-apps:dashboard.tabs.renameAppTitle')}>
         <form onSubmit={this.onSubmit}>
           <FormGroup className={locals.group}>
             {saveError && <SaveError>{saveError}</SaveError>}
 
             <HelpParagraph>
-              Renaming a mobile app is an eventually consistent action within the Instana system. For this reason, a
-              change to a mobile app name may take <strong>up to a few minutes</strong> until it has populated
-              throughout the whole system.
+              <Trans i18nKey="in-mobile-apps:dashboard.tabs.renameAppHelp" />
             </HelpParagraph>
 
             <div className={locals.actionWrapper}>
@@ -145,12 +144,12 @@ export default class Rename extends React.PureComponent {
                 disabled={loading || (field.touched && !field.valid) || savedLabel === field.value}
                 className={locals.button}
               >
-                Rename
+                {t('in-mobile-apps:dashboard.tabs.renameAppBtn')}
               </Button>
               {this.state.saveResult != null ? (
                 <TemporaryPresenter duration={5000} id={`${this.state.saveResult}`}>
                   <SvgIcon type="lib_check" size="s" className={locals.successIcon} />{' '}
-                  <span className={locals.sucessLabel}>Saved</span>
+                  <span className={locals.sucessLabel}>{t('in-mobile-apps:dashboard.tabs.renameSaved')}</span>
                 </TemporaryPresenter>
               ) : null}
             </div>

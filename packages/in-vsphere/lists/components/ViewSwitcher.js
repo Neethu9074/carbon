@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import DashboardHeaderShadowModule from 'in-new-components/DashboardHeader/DashboardHeaderShadowModule';
@@ -13,8 +14,8 @@ export default function VSphereViewSwitcher() {
     <>
       <DashboardHeader
         icon="lib_vsphere_inverted"
-        label="vSphere Datacenters"
-        title="vSphere Datacenters"
+        label={t('in-vsphere:vSphereDatacenters')}
+        title={t('in-vsphere:vSphereDatacenters')}
         renderTopLevelButtonLine={UseBeeInstantToggle}
       />
       <DashboardHeaderShadowModule />

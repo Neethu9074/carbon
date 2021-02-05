@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { getVsphereHostDashboard } from 'in-vsphere/navigation/paths';
@@ -25,7 +26,7 @@ export default connectTo(
         {host && (
           <Breadcrumb
             href$={getVsphereHostDashboard(host.id, { datacenterId: host.datacenterId })}
-            label="ESXi Host"
+            label={t('in-vsphere:breadcrumbs.esXiHost')}
             icon="lib_linux"
           >
             {host.label}

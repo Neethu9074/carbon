@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { compose, withState } from 'recompose';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { timeDisplayTopFormat, timeDisplayBottomFormat } from 'in-new-components/time/timeframeFormatter';
@@ -21,7 +22,7 @@ import locals from './UrlShortenerOverlay.mless';
 const tabList = [
   {
     icon: 'lib_actions_interface_link',
-    text: 'Short Link',
+    text: t('in-new-components:dashboardHeader.urlShortenerTabListTextShortLink'),
     key: 'shortlink'
   }
 ];
@@ -54,7 +55,13 @@ function UrlShortenerOverlay({ result, fixateTime, setFixateTime, timeConfig }) 
 }
 
 function Wait() {
-  return <LoadingIndicator width={300} height={100} text="Generating short link." />;
+  return (
+    <LoadingIndicator
+      width={300}
+      height={100}
+      text={t('in-new-components:dashboardHeader.urlShortenerWaitTextGeneratingShortLink')}
+    />
+  );
 }
 
 function Ready({ shortUrl, setFixateTime, fixateTime, timeConfig }) {
@@ -79,7 +86,7 @@ function Ready({ shortUrl, setFixateTime, fixateTime, timeConfig }) {
 
         {timeConfig?.to == null && (
           <CheckboxFancy
-            label="Lock current time range"
+            label={t('in-new-components:dashboardHeader.urlShortenerLabelLockCurrentTimeRange')}
             explanation={<Explanation timeConfig={timeConfig} fixateTime={fixateTime} />}
             size="larger"
             checked={fixateTime}
@@ -101,8 +108,11 @@ function Explanation({ timeConfig, fixateTime }) {
       {timeDisplayTopFormat(timeConfig)}
 
       <span className={locals.bottomTimeRow}>
-        {timeDisplayBottomFormat(timeConfig)}
-        {timeConfig.autoRefresh && ` (Live)`}
+        {timeConfig.autoRefresh
+          ? t('in-new-components:alerting.dashboardHeader.urlShortenerLabelLive', {
+              timeConfig: timeDisplayBottomFormat(timeConfig)
+            })
+          : timeDisplayBottomFormat(timeConfig)}
       </span>
     </div>
   );

@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import React, { Fragment } from 'react';
+import { t } from 'in-i18n';
 
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import InfrastructureMetricSparkChart from 'in-components/SparkChart/InfrastructureMetricSparkChart';
@@ -25,7 +26,7 @@ const matrixPrefix = 'datacenter.';
 const columnDefinitions = [
   {
     id: 'label',
-    label: 'Name',
+    label: t('in-vsphere:name'),
     getContent(item) {
       return (
         <EntityLink label={item.label} href$={getVsphereDatacenterDashboard(item.id)} icon="lib_vsphere_datacenter" />
@@ -34,21 +35,21 @@ const columnDefinitions = [
   },
   {
     id: 'hosts',
-    label: 'ESXi Hosts',
+    label: t('in-vsphere:esXiHosts'),
     getContent(item) {
       return <EntityCounter icon="lib_linux" count={item.hosts} />;
     }
   },
   {
     id: 'vms',
-    label: 'Virtual Machines',
+    label: t('in-vsphere:virtualMachines'),
     getContent(item) {
       return <EntityCounter icon="lib_vsphere_vm" count={item.vms} />;
     }
   },
   {
     id: 'cpuUsage',
-    label: 'CPU Usage',
+    label: t('in-vsphere:cpuUsage'),
     getContent(item, { timeConfig }) {
       return (
         <InfrastructureMetricSparkChart
@@ -62,7 +63,7 @@ const columnDefinitions = [
   },
   {
     id: 'memoryUsage',
-    label: 'Memory Usage',
+    label: t('in-vsphere:memoryUsage'),
     getContent(item, { timeConfig }) {
       return (
         <InfrastructureMetricSparkChart
@@ -76,7 +77,7 @@ const columnDefinitions = [
   },
   {
     id: 'networkUtilization',
-    label: 'Network Utilization',
+    label: t('in-vsphere:networkUtilization'),
     getContent(item, { timeConfig }) {
       return (
         <InfrastructureMetricSparkChart
@@ -106,11 +107,11 @@ export default connectTo(
   function DatacenterList({ timeConfig }) {
     return (
       <Fragment>
-        <Title title="vSphere Datacenters" />
+        <Title title={t('in-vsphere:vSphereDatacenters')} />
         <ViewTrackingMeta
           data={{
             productArea: 'vSphere',
-            pageRootName: 'vSphere Datacenters'
+            pageRootName: t('in-vsphere:vSphereDatacenters')
           }}
         />
 

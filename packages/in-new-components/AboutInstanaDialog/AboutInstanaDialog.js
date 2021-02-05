@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { ColumnizedContent, Ul, Li } from 'in-new-components/lists/List';
@@ -36,13 +37,19 @@ export default connectTo(
                     {
                       width: '10rem',
                       getContent() {
-                        return 'Deployment';
+                        return t('in-new-components:aboutInstanaDialog.columnizedContentDeployment');
                       }
                     },
                     {
                       width: '8rem',
                       getContent() {
-                        return <KeyValue label="Region" value={instanaRegion} accentuated />;
+                        return (
+                          <KeyValue
+                            label={t('in-new-components:aboutInstanaDialog.labelRegion')}
+                            value={instanaRegion}
+                            accentuated
+                          />
+                        );
                       }
                     }
                   ]}
@@ -56,13 +63,21 @@ export default connectTo(
                   {
                     width: '10rem',
                     getContent() {
-                      return 'User Interface';
+                      return t('in-new-components:aboutInstanaDialog.columnizedContentUserInterface');
                     }
                   },
                   {
                     width: '8rem',
                     getContent() {
-                      return build.tag && <KeyValue label="Tag" value={build.tag} accentuated />;
+                      return (
+                        build.tag && (
+                          <KeyValue
+                            label={t('in-new-components:aboutInstanaDialog.labelTag')}
+                            value={build.tag}
+                            accentuated
+                          />
+                        )
+                      );
                     }
                   },
                   {
@@ -70,7 +85,11 @@ export default connectTo(
                     getContent() {
                       return (
                         build.revision && (
-                          <KeyValue label="Commit" value={build.revision.substring(0, 12)} accentuated />
+                          <KeyValue
+                            label={t('in-new-components:aboutInstanaDialog.labelCommit')}
+                            value={build.revision.substring(0, 12)}
+                            accentuated
+                          />
                         )
                       );
                     }
@@ -86,7 +105,7 @@ export default connectTo(
                     {
                       width: '10rem',
                       getContent() {
-                        return 'Backend';
+                        return t('in-new-components:aboutInstanaDialog.columnizedContentBackend');
                       }
                     },
                     {
@@ -94,7 +113,11 @@ export default connectTo(
                       getContent() {
                         return (
                           uiBackendVersion.imageTag && (
-                            <KeyValue label="Tag" value={uiBackendVersion.imageTag} accentuated />
+                            <KeyValue
+                              label={t('in-new-components:aboutInstanaDialog.labelTag')}
+                              value={uiBackendVersion.imageTag}
+                              accentuated
+                            />
                           )
                         );
                       }
@@ -104,7 +127,11 @@ export default connectTo(
                       getContent() {
                         return (
                           uiBackendVersion.commit && (
-                            <KeyValue label="Commit" value={uiBackendVersion.commit.substring(0, 12)} accentuated />
+                            <KeyValue
+                              label={t('in-new-components:aboutInstanaDialog.labelCommit')}
+                              value={uiBackendVersion.commit.substring(0, 12)}
+                              accentuated
+                            />
                           )
                         );
                       }
@@ -122,7 +149,7 @@ export default connectTo(
               close();
             }}
           >
-            Graph Showcase
+            {t('in-new-components:aboutInstanaDialog.buttonGraphShowcase')}
           </Button>
         </Stack>
       </Dialog>

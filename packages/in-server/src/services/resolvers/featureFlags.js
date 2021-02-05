@@ -164,11 +164,6 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'smartAlertsEntityGroupingEnabled',
-    instanaCtlKey: 'feature.smart.alerts.entity.grouping.enabled',
-    defaultValue: false
-  },
-  {
     uiClientKey: 'smartAlertsServicesAndEndpointsSelectionEnabled ',
     instanaCtlKey: 'feature.smartAlertsServicesAndEndpointsSelectionEnabled.enabled',
     defaultValue: false

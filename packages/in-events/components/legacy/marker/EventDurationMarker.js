@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { getEventType, EVENT_TYPES, fireCallbacksForEventAtFocusedMomentAsStream } from 'in-stores/events';
@@ -51,7 +52,7 @@ export default connectTo(
     }
 
     return (
-      <LabeledValue label="duration">{`${formatDurationAccurately(
+      <LabeledValue label={t('in-events:duration')}>{`${formatDurationAccurately(
         config.to - event.get('start'),
         1000
       )}`}</LabeledValue>

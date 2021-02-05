@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import React, { Fragment } from 'react';
+import { t } from 'in-i18n';
 
 import KeyValueHeader from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/KeyValueHeader';
 import { learnMoreLabel, learnMoreHref, explanation } from 'in-websites/definitions/missingResourceTimings';
@@ -31,13 +32,19 @@ export const getExtraTooltipFields = beacon => ({
 
 export const LeftHeader = ({ beacon, earliestTimestamp }) => (
   <Fragment>
-    <KeyValueHeader label="Page Resource" value={getLabel(beacon)} />
     <KeyValueHeader
-      label="Start Time"
+      label={t('in-websites:analyze.analyzeView.pageLoadView.resourceLoadBeaconLabelPageResource')}
+      value={getLabel(beacon)}
+    />
+    <KeyValueHeader
+      label={t('in-websites:analyze.analyzeView.pageLoadView.resourceLoadBeaconLabelStartTime')}
       value={millisToTwoDecimalSeconds(beacon.timestamp - earliestTimestamp)}
       tooltipContent={formatDateTime(beacon.timestamp)}
     />
-    <KeyValueHeader label="Retrieval Time" value={latencyFixed.compact(beacon.duration)} />
+    <KeyValueHeader
+      label={t('in-websites:analyze.analyzeView.pageLoadView.resourceLoadBeaconLabelRetrievalTime')}
+      value={latencyFixed.compact(beacon.duration)}
+    />
   </Fragment>
 );
 
@@ -50,31 +57,31 @@ export const Body = ({ beacon }) => {
 
   const resourceTimings = [
     {
-      label: 'Redirect',
+      label: t('in-websites:analyze.analyzeView.pageLoadView.resourceLoadBeaconLabelRedirect'),
       value: beacon.redirectTime
     },
     {
-      label: 'AppCache',
+      label: t('in-websites:analyze.analyzeView.pageLoadView.resourceLoadBeaconLabelAppCache'),
       value: beacon.appCacheTime
     },
     {
-      label: 'DNS',
+      label: t('in-websites:analyze.analyzeView.pageLoadView.resourceLoadBeaconLabelDNS'),
       value: beacon.dnsTime
     },
     {
-      label: 'TCP',
+      label: t('in-websites:analyze.analyzeView.pageLoadView.resourceLoadBeaconLabelTCP'),
       value: beacon.tcpTime
     },
     {
-      label: 'SSL',
+      label: t('in-websites:analyze.analyzeView.pageLoadView.resourceLoadBeaconLabelSSL'),
       value: beacon.sslTime
     },
     {
-      label: 'Request',
+      label: t('in-websites:analyze.analyzeView.pageLoadView.resourceLoadBeaconLabelRequest'),
       value: beacon.requestTime
     },
     {
-      label: 'Response',
+      label: t('in-websites:analyze.analyzeView.pageLoadView.resourceLoadBeaconLabelResponse'),
       value: beacon.responseTime
     }
   ];
@@ -87,27 +94,33 @@ export const Body = ({ beacon }) => {
     <Fragment>
       <Row>
         <Col lg={6}>
-          <BodyHeader>Asset</BodyHeader>
+          <BodyHeader>{t('resourceLoadBeaconHeaderAsset')}</BodyHeader>
           <Dl>
-            <Di title="Window Location">
+            <Di title={t('in-websites:analyze.analyzeView.pageLoadView.resourceLoadBeaconTitleWindowLocation')}>
               <a href={beacon.locationUrl} rel="noopener noreferrer" target="_blank">
                 {beacon.locationUrl}
               </a>
             </Di>
-            <Di title="Resource URI">
+            <Di title={t('in-websites:analyze.analyzeView.pageLoadView.resourceLoadBeaconTitleResourceURI')}>
               <a href={beacon.httpCallUrl} rel="noopener noreferrer" target="_blank">
                 {beacon.httpCallUrl}
               </a>
             </Di>
-            {beacon.backendTime >= 0 && <Di title="Time to First Byte">{millis.fixedCompact(beacon.backendTime)}</Di>}
+            {beacon.backendTime >= 0 && (
+              <Di title={t('in-websites:analyze.analyzeView.pageLoadView.resourceLoadBeaconTitleTimeToFirstByte')}>
+                {millis.fixedCompact(beacon.backendTime)}
+              </Di>
+            )}
             <BackendDi beacon={beacon} />
-            <Di title="Initiator">{beacon.initiator}</Di>
+            <Di title={t('in-websites:analyze.analyzeView.pageLoadView.resourceLoadBeaconTitleCacheInteraction')}>
+              {beacon.initiator}
+            </Di>
           </Dl>
         </Col>
 
         {Object.keys(beacon.meta).length > 0 && (
           <Col lg={6}>
-            <BodyHeader>Meta</BodyHeader>
+            <BodyHeader>{t('resourceLoadBeaconHeaderMeta')}</BodyHeader>
             <Meta beacon={beacon} />
           </Col>
         )}
@@ -116,7 +129,7 @@ export const Body = ({ beacon }) => {
       {!hasResourceTimings && !hasNetworkInsights && (
         <Row>
           <Col lg={6}>
-            <BodyHeader>Resource Timing</BodyHeader>
+            <BodyHeader>{t('resourceLoadBeaconHeaderResourceTiming')}</BodyHeader>
             <LearnMore explanation={explanation} href={learnMoreHref} buttonLabel={learnMoreLabel} />
           </Col>
         </Row>
@@ -125,19 +138,39 @@ export const Body = ({ beacon }) => {
       <Row>
         {hasResourceTimings && (
           <Col lg={6}>
-            <BodyHeader>Resource Timing</BodyHeader>
-            <Timings timings={resourceTimings} totalDuration={beacon.duration} totalDurationName="retrieval time" />
+            <BodyHeader>{t('resourceLoadBeaconHeaderResourceTiming')}</BodyHeader>
+            <Timings
+              timings={resourceTimings}
+              totalDuration={beacon.duration}
+              totalDurationName={t(
+                'in-websites:analyze.analyzeView.pageLoadView.resourceLoadBeaconTotalDurationNameRetrievalTime'
+              )}
+            />
           </Col>
         )}
 
         {hasNetworkInsights && (
           <Col lg={6}>
-            <BodyHeader>Network Insights</BodyHeader>
+            <BodyHeader>{t('resourceLoadBeaconHeaderNetworkInsights')}</BodyHeader>
             <Dl>
-              <Di title="Cache Interaction">{explanations[beacon.cacheInteraction]}</Di>
-              {hasTransferSize && <Di title="Transfer Size">{bytes.detailed(beacon.transferSize)}</Di>}
-              {hasEncodedBodySize && <Di title="Encoded Body Size">{bytes.detailed(beacon.encodedBodySize)}</Di>}
-              {hasDencodedBodySize && <Di title="Decoded Body Size">{bytes.detailed(beacon.decodedBodySize)}</Di>}
+              <Di title={t('in-websites:analyze.analyzeView.pageLoadView.resourceLoadBeaconTitleCacheInteraction')}>
+                {explanations[beacon.cacheInteraction]}
+              </Di>
+              {hasTransferSize && (
+                <Di title={t('in-websites:analyze.analyzeView.pageLoadView.resourceLoadBeaconTitleTransferSize')}>
+                  {bytes.detailed(beacon.transferSize)}
+                </Di>
+              )}
+              {hasEncodedBodySize && (
+                <Di title={t('in-websites:analyze.analyzeView.pageLoadView.resourceLoadBeaconTitleEncodedBodySize')}>
+                  {bytes.detailed(beacon.encodedBodySize)}
+                </Di>
+              )}
+              {hasDencodedBodySize && (
+                <Di title={t('in-websites:analyze.analyzeView.pageLoadView.resourceLoadBeaconTitleDecodedBodySize')}>
+                  {bytes.detailed(beacon.decodedBodySize)}
+                </Di>
+              )}
             </Dl>
           </Col>
         )}

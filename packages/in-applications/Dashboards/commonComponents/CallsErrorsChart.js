@@ -11,7 +11,7 @@ import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHr
 import { getBlueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
 import { barOverlapping, line } from 'in-stores/metric/renderer';
 import useTagCatalog from 'in-applications/hooks/useTagCatalog';
-import { getChartGranularity } from 'in-applications/metrics';
+import { getChartGranularity } from 'in-stores/metric/metric';
 
 export default function CallsErrorsChart({
   applicationId,

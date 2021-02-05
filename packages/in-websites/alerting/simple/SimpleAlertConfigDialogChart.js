@@ -13,14 +13,14 @@ import { getBlueprintConfig } from 'in-websites/alerting/data/blueprintConfig';
 import locals from './SimpleAlertConfigDialogChart.mless';
 
 export default function SimpleAlertConfigDialogChart({ form, onChartViewConfigChange, selectedChartViewConfigIndex }) {
-  const alertConfig = form.toJS();
-  const alertType = alertConfig.rule.alertType;
+  const alertConfigWithFormModel = form.toJS();
+  const alertType = alertConfigWithFormModel.rule.alertType;
   const blueprintConfig = getBlueprintConfig(alertType);
-  const isRuleComplete = blueprintConfig.isRuleComplete(alertConfig.rule);
+  const isRuleComplete = blueprintConfig.isRuleComplete(alertConfigWithFormModel.rule);
 
   return (
     <ChartViewConfigurator
-      alertConfig={alertConfig}
+      alertConfigWithFormModel={alertConfigWithFormModel}
       onChartViewConfigChange={onChartViewConfigChange}
       selectedChartViewConfigIndex={selectedChartViewConfigIndex}
       className={locals.offset}
@@ -31,7 +31,7 @@ export default function SimpleAlertConfigDialogChart({ form, onChartViewConfigCh
           {isRuleComplete ? (
             <div className={locals.placeholder}>
               <AlertingChartWithErrorMessage
-                alertConfigWithFormModel={alertConfig}
+                alertConfigWithFormModel={alertConfigWithFormModel}
                 viewConfig={chartViewConfig}
                 blueprintConfig={blueprintConfig}
                 alertsPreviewEnabled

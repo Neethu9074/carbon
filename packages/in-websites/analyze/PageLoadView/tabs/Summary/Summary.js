@@ -5,6 +5,7 @@
 import { compose, withState } from 'recompose';
 import { find, debounce } from 'lodash';
 import React, { useMemo } from 'react';
+import { t } from 'in-i18n';
 
 import { fixClockSkewProblems } from 'in-websites/analyze/PageLoadView/tabs/Summary/fixClockSkewProblems';
 import ContentWrapper from 'in-new-components/LocationAwareTabView/components/ContentWrapper';
@@ -50,20 +51,32 @@ function Summary({ beacons, filter, setFilter, pageLoadLabel, pageLoadId }) {
 
       <Row>
         <Col xs>
-          <DateTimeKpiCard title="Start Time" time={firstBeacon.timestamp} />
-        </Col>
-        <Col xs>
-          <KpiCard title="JS Errors" value={number.compact(getBeaconCount(beacons, 'error'))} />
-        </Col>
-        <Col xs>
-          <KpiCard title="Resources" value={number.compact(getBeaconCount(beacons, 'resourceLoad'))} />
-        </Col>
-        <Col xs>
-          <KpiCard title="HTTP Requests" value={number.compact(getBeaconCount(beacons, 'httpRequest'))} />
+          <DateTimeKpiCard
+            title={t('in-websites:analyze.analyzeView.pageLoadView.summaryTitleStartTime')}
+            time={firstBeacon.timestamp}
+          />
         </Col>
         <Col xs>
           <KpiCard
-            title="Website"
+            title={t('in-websites:analyze.analyzeView.pageLoadView.summaryTitleJSErrors')}
+            value={number.compact(getBeaconCount(beacons, 'error'))}
+          />
+        </Col>
+        <Col xs>
+          <KpiCard
+            title={t('in-websites:analyze.analyzeView.pageLoadView.summaryTitleResources')}
+            value={number.compact(getBeaconCount(beacons, 'resourceLoad'))}
+          />
+        </Col>
+        <Col xs>
+          <KpiCard
+            title={t('in-websites:analyze.analyzeView.pageLoadView.summaryTitleHTTPRequests')}
+            value={number.compact(getBeaconCount(beacons, 'httpRequest'))}
+          />
+        </Col>
+        <Col xs>
+          <KpiCard
+            title={t('in-websites:analyze.analyzeView.pageLoadView.summaryTitleWebsite')}
             raw
             value={
               <Link href$={getLinkToWebsite(firstBeacon.websiteId)} className={locals.linkToWebsite}>
@@ -79,10 +92,10 @@ function Summary({ beacons, filter, setFilter, pageLoadLabel, pageLoadId }) {
           <Col lg={12}>
             <Message
               type={warning}
-              title="Clock Skew Problems Detected"
-              description="Beacons sent to Instana from the end-user's device arrived with significant delays, most likely due to a
-              poor client network. To prevent inconsistencies, the timestamps shown in this view were adapted to restore
-              a meaningful activity timeline."
+              title={t('in-websites:analyze.analyzeView.pageLoadView.summaryTitleClockSkewProblemsDetected')}
+              description={t(
+                'in-websites:analyze.analyzeView.pageLoadView.summaryDescriptionClockSkewProblemsDetected'
+              )}
             />
           </Col>
         </Row>

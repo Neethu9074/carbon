@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { latencyFixed, percentage as percentageFormatter } from 'in-services/formatters/number';
@@ -20,7 +21,13 @@ export default function Timings({ timings, totalDuration, totalDurationName }) {
           <div key={i} className={locals.timing}>
             <dt className={locals.label}>{label}</dt>
             <dd className={locals.value}>{latencyFixed.compact(value)}</dd>
-            <Tooltip align="topMiddle" content={`${percentageFormatter.detailed(percentage)} of ${totalDurationName}`}>
+            <Tooltip
+              align="topMiddle"
+              content={t('in-websites:analyze.analyzeView.pageLoadView.', {
+                percentage: percentageFormatter.detailed(percentage),
+                totalDurationName: totalDurationName
+              })}
+            >
               <div className={locals.indicator} style={{ width: `${100 * percentage}%` }} />
             </Tooltip>
           </div>

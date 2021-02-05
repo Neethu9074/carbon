@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import {
   newTimeMetric,
   newNumberMetric,
@@ -39,55 +40,126 @@ export const defaultMetrics = {
 };
 
 const resourceTimingMetrics = [
-  withRawDataField(newTimeMetric({ metric: 'redirectTime', label: 'Redirect Time', category: 'Resource Timing' }), {
-    tag: 'beacon.timing.redirect'
-  }),
-  withRawDataField(newTimeMetric({ metric: 'appCacheTime', label: 'AppCache Time', category: 'Resource Timing' }), {
-    tag: 'beacon.timing.appCache'
-  }),
-  withRawDataField(newTimeMetric({ metric: 'dnsTime', label: 'DNS Time', category: 'Resource Timing' }), {
-    tag: 'beacon.timing.dns'
-  }),
-  withRawDataField(newTimeMetric({ metric: 'tcpTime', label: 'TCP Time', category: 'Resource Timing' }), {
-    tag: 'beacon.timing.tcp'
-  }),
-  withRawDataField(newTimeMetric({ metric: 'sslTime', label: 'SSL Time', category: 'Resource Timing' }), {
-    tag: 'beacon.timing.ssl'
-  }),
-  withRawDataField(newTimeMetric({ metric: 'requestTime', label: 'Request Time', category: 'Resource Timing' }), {
-    tag: 'beacon.timing.request'
-  }),
-  withRawDataField(newTimeMetric({ metric: 'responseTime', label: 'Response Time', category: 'Resource Timing' }), {
-    tag: 'beacon.timing.response'
-  }),
-  withRawDataField(newTimeMetric({ metric: 'ttfb', label: 'Time to First Byte', category: 'Resource Timing' }), {
-    tag: 'beacon.timing.timeToFirstByte',
-    rawDataField: 'backendTime'
-  })
+  withRawDataField(
+    newTimeMetric({
+      metric: 'redirectTime',
+      label: t('in-websites:analyze.analyzeView.resourceTimingMetricsLabelRedirectTime'),
+      category: t('in-websites:analyze.analyzeView.resourceTimingMetricsCategoryResourceTiming')
+    }),
+    {
+      tag: 'beacon.timing.redirect'
+    }
+  ),
+  withRawDataField(
+    newTimeMetric({
+      metric: 'appCacheTime',
+      label: t('in-websites:analyze.analyzeView.resourceTimingMetricsLabelAppCacheTime'),
+      category: t('in-websites:analyze.analyzeView.resourceTimingMetricsCategoryResourceTiming')
+    }),
+    {
+      tag: 'beacon.timing.appCache'
+    }
+  ),
+  withRawDataField(
+    newTimeMetric({
+      metric: 'dnsTime',
+      label: t('in-websites:analyze.analyzeView.resourceTimingMetricsLabelDNSTime'),
+      category: t('in-websites:analyze.analyzeView.resourceTimingMetricsCategoryResourceTiming')
+    }),
+    {
+      tag: 'beacon.timing.dns'
+    }
+  ),
+  withRawDataField(
+    newTimeMetric({
+      metric: 'tcpTime',
+      label: t('in-websites:analyze.analyzeView.resourceTimingMetricsLabelTCPTime'),
+      category: t('in-websites:analyze.analyzeView.resourceTimingMetricsCategoryResourceTiming')
+    }),
+    {
+      tag: 'beacon.timing.tcp'
+    }
+  ),
+  withRawDataField(
+    newTimeMetric({
+      metric: 'sslTime',
+      label: t('in-websites:analyze.analyzeView.resourceTimingMetricsLabelSSLTime'),
+      category: t('in-websites:analyze.analyzeView.resourceTimingMetricsCategoryResourceTiming')
+    }),
+    {
+      tag: 'beacon.timing.ssl'
+    }
+  ),
+  withRawDataField(
+    newTimeMetric({
+      metric: 'requestTime',
+      label: t('in-websites:analyze.analyzeView.resourceTimingMetricsLabelRequestTime'),
+      category: t('in-websites:analyze.analyzeView.resourceTimingMetricsCategoryResourceTiming')
+    }),
+    {
+      tag: 'beacon.timing.request'
+    }
+  ),
+  withRawDataField(
+    newTimeMetric({
+      metric: 'responseTime',
+      label: t('in-websites:analyze.analyzeView.resourceTimingMetricsLabelResponseTime'),
+      category: t('in-websites:analyze.analyzeView.resourceTimingMetricsCategoryResourceTiming')
+    }),
+    {
+      tag: 'beacon.timing.response'
+    }
+  ),
+  withRawDataField(
+    newTimeMetric({
+      metric: 'ttfb',
+      label: t('in-websites:analyze.analyzeView.resourceTimingMetricsLabelTimeToFirstByte'),
+      category: t('in-websites:analyze.analyzeView.resourceTimingMetricsCategoryResourceTiming')
+    }),
+    {
+      tag: 'beacon.timing.timeToFirstByte',
+      rawDataField: 'backendTime'
+    }
+  )
 ];
 
 const resourceSizeMetrics = [
   withRawDataField(
-    newSizeMetric({ metric: 'encodedBodySize', label: 'Encoded Body Size', category: 'Resource Sizing' }),
+    newSizeMetric({
+      metric: 'encodedBodySize',
+      label: t('in-websites:analyze.analyzeView.resourceSizeMetricsLabelEncodedBodySize'),
+      category: t('in-websites:analyze.analyzeView.resourceTimingMetricsCategoryResourceSizing')
+    }),
     {
       tag: 'beacon.http.encodedBodySize'
     }
   ),
   withRawDataField(
-    newSizeMetric({ metric: 'decodedBodySize', label: 'Decoded Body Size', category: 'Resource Sizing' }),
+    newSizeMetric({
+      metric: 'decodedBodySize',
+      label: t('in-websites:analyze.analyzeView.resourceSizeMetricsLabelDecodedBodySize'),
+      category: t('in-websites:analyze.analyzeView.resourceTimingMetricsCategoryResourceSizing')
+    }),
     {
       tag: 'beacon.http.decodedBodySize'
     }
   ),
-  withRawDataField(newSizeMetric({ metric: 'transferSize', label: 'Transfer Size', category: 'Resource Sizing' }), {
-    tag: 'beacon.http.transferSize'
-  })
+  withRawDataField(
+    newSizeMetric({
+      metric: 'transferSize',
+      label: t('in-websites:analyze.analyzeView.resourceSizeMetricsLabelTransferSize'),
+      category: t('in-websites:analyze.analyzeView.resourceTimingMetricsCategoryResourceSizing')
+    }),
+    {
+      tag: 'beacon.http.transferSize'
+    }
+  )
 ];
 
 const uniqueUsers = {
-  category: 'User / Session Tracking',
+  category: t('in-websites:analyze.analyzeView.uniqueUsersCategoryUserSessionTracking'),
   metric: 'uniqueUsers',
-  label: 'Unique Users',
+  label: t('in-websites:analyze.analyzeView.uniqueUsersLabelUniqueUsers'),
   formatter: affectedUsers,
   supportedAggregations: ['DISTINCT_COUNT'],
   preferredRenderer: Renderer.stackedBar,
@@ -95,9 +167,9 @@ const uniqueUsers = {
 };
 
 const uniqueSessions = {
-  category: 'User / Session Tracking',
+  category: t('in-websites:analyze.analyzeView.uniqueSessionsCategoryUserSessionTracking'),
   metric: 'uniqueSessions',
-  label: 'Unique Sessions',
+  label: t('in-websites:analyze.analyzeView.uniqueSessionsLabelUniqueSessions'),
   formatter: affectedUsers,
   supportedAggregations: ['DISTINCT_COUNT'],
   preferredRenderer: Renderer.stackedBar,
@@ -105,9 +177,9 @@ const uniqueSessions = {
 };
 
 const uniqueUsersOrSessions = {
-  category: 'User / Session Tracking',
+  category: t('in-websites:analyze.analyzeView.uniqueUsersOrSessionsCategoryUserSessionTracking'),
   metric: 'uniqueUsersOrSessions',
-  label: 'Unique Users / Sessions',
+  label: t('in-websites:analyze.analyzeView.uniqueUsersOrSessionsLabelUniqueUsersSessions'),
   formatter: affectedUsers,
   supportedAggregations: ['DISTINCT_COUNT'],
   preferredRenderer: Renderer.stackedBar,
@@ -116,70 +188,129 @@ const uniqueUsersOrSessions = {
 
 const errorRate = {
   metric: 'beaconErrorRate',
-  label: 'Error Rate',
+  label: t('in-websites:analyze.analyzeView.errorRateLabelErrorRate'),
   formatter: percentage,
   supportedAggregations: ['MEAN'],
   preferredRenderer: Renderer.stackedBar,
   min: 0,
   rawDataField: 'errorCount',
-  rawDataLabel: 'Error Count',
+  rawDataLabel: t('in-websites:analyze.analyzeView.errorRateLabelErrorCount'),
   rawDataFormatter: number.compact,
   tag: 'beacon.error.count'
 };
 
 export const availableMetrics = {
   pageLoad: [
-    newNumberMetric({ metric: 'pageLoads', label: 'Page Loads' }),
-    withRawDataField(newTimeMetric({ metric: 'beaconDuration', label: 'onLoad Time' }), {
-      rawDataField: 'duration',
-      tag: 'beacon.duration'
+    newNumberMetric({
+      metric: 'pageLoads',
+      label: t('in-websites:analyze.analyzeView.availableMetricsLabelPageLoads')
     }),
+    withRawDataField(
+      newTimeMetric({
+        metric: 'beaconDuration',
+        label: t('in-websites:analyze.analyzeView.availableMetricsLabelOnLoadTime')
+      }),
+      {
+        rawDataField: 'duration',
+        tag: 'beacon.duration'
+      }
+    ),
     uniqueUsers,
     uniqueSessions,
     uniqueUsersOrSessions,
 
-    withRawDataField(newTimeMetric({ metric: 'unloadTime', label: 'Unload Time', category: 'Navigation Timing' }), {
-      tag: 'beacon.timing.unload'
-    }),
+    withRawDataField(
+      newTimeMetric({
+        metric: 'unloadTime',
+        label: t('in-websites:analyze.analyzeView.availableMetricsLabelUnloadTime'),
+        category: t('in-websites:analyze.analyzeView.availableMetricsCategoryNavigationTiming')
+      }),
+      {
+        tag: 'beacon.timing.unload'
+      }
+    ),
     // reassign the category
     ...resourceTimingMetrics.map(metric => ({
       ...metric,
-      category: 'Navigation Timing'
+      category: t('in-websites:analyze.analyzeView.availableMetricsCategoryNavigationTiming')
     })),
     withRawDataField(
-      newTimeMetric({ metric: 'processingTime', label: 'Processing Time', category: 'Navigation Timing' }),
+      newTimeMetric({
+        metric: 'processingTime',
+        label: t('in-websites:analyze.analyzeView.availableMetricsLabelProcessingTime'),
+        category: t('in-websites:analyze.analyzeView.availableMetricsCategoryNavigationTiming')
+      }),
       {
         tag: 'beacon.timing.processing'
       }
     ),
     withRawDataField(
-      newTimeMetric({ metric: 'onLoadEventDuration', label: 'onLoad Event Time', category: 'Navigation Timing' }),
+      newTimeMetric({
+        metric: 'onLoadEventDuration',
+        label: t('in-websites:analyze.analyzeView.availableMetricsLabelOnLoadEventTime'),
+        category: t('in-websites:analyze.analyzeView.availableMetricsCategoryNavigationTiming')
+      }),
       {
         rawDataField: 'onLoadTime',
         tag: 'beacon.timing.onLoad'
       }
     ),
-    withRawDataField(newTimeMetric({ metric: 'domTime', label: 'DOM Time', category: 'Navigation Timing' }), {
-      tag: 'beacon.timing.dom'
-    }),
-    withRawDataField(newTimeMetric({ metric: 'childrenTime', label: 'Children Time', category: 'Navigation Timing' }), {
-      tag: 'beacon.timing.children'
-    }),
-    withRawDataField(newTimeMetric({ metric: 'backendTime', label: 'Backend Time', category: 'Navigation Timing' }), {
-      tag: 'beacon.timing.backend'
-    }),
-    withRawDataField(newTimeMetric({ metric: 'frontendTime', label: 'Frontend Time', category: 'Navigation Timing' }), {
-      tag: 'beacon.timing.frontend'
-    }),
+    withRawDataField(
+      newTimeMetric({
+        metric: 'domTime',
+        label: t('in-websites:analyze.analyzeView.availableMetricsLabelDOMTime'),
+        category: t('in-websites:analyze.analyzeView.availableMetricsCategoryNavigationTiming')
+      }),
+      {
+        tag: 'beacon.timing.dom'
+      }
+    ),
+    withRawDataField(
+      newTimeMetric({
+        metric: 'childrenTime',
+        label: t('in-websites:analyze.analyzeView.availableMetricsLabelChildrenTime'),
+        category: t('in-websites:analyze.analyzeView.availableMetricsCategoryNavigationTiming')
+      }),
+      {
+        tag: 'beacon.timing.children'
+      }
+    ),
+    withRawDataField(
+      newTimeMetric({
+        metric: 'backendTime',
+        label: t('in-websites:analyze.analyzeView.availableMetricsLabelBackendTime'),
+        category: t('in-websites:analyze.analyzeView.availableMetricsCategoryNavigationTiming')
+      }),
+      {
+        tag: 'beacon.timing.backend'
+      }
+    ),
+    withRawDataField(
+      newTimeMetric({
+        metric: 'frontendTime',
+        label: t('in-websites:analyze.analyzeView.availableMetricsLabelFrontendTime'),
+        category: t('in-websites:analyze.analyzeView.availableMetricsCategoryNavigationTiming')
+      }),
+      {
+        tag: 'beacon.timing.frontend'
+      }
+    ),
 
-    withRawDataField(newTimeMetric({ metric: 'firstPaintTime', label: 'First Paint', category: 'Paint Timing' }), {
-      tag: 'beacon.timing.firstPaint'
-    }),
+    withRawDataField(
+      newTimeMetric({
+        metric: 'firstPaintTime',
+        label: t('in-websites:analyze.analyzeView.availableMetricsLabelFirstPaint'),
+        category: t('in-websites:analyze.analyzeView.availableMetricsCategoryPaintTiming')
+      }),
+      {
+        tag: 'beacon.timing.firstPaint'
+      }
+    ),
     withRawDataField(
       newTimeMetric({
         metric: 'firstContentfulPaintTime',
-        label: 'First-Contentful Paint',
-        category: 'Paint Timing'
+        label: t('in-websites:analyze.analyzeView.availableMetricsLabelFirstContentfulPaint'),
+        category: t('in-websites:analyze.analyzeView.availableMetricsCategoryPaintTiming')
       }),
       {
         tag: 'beacon.timing.firstContentfulPaint'
@@ -188,8 +319,8 @@ export const availableMetrics = {
     withRawDataField(
       newTimeMetric({
         metric: 'largestContentfulPaintTime',
-        label: 'Largest-Contentful Paint',
-        category: 'Paint Timing'
+        label: t('in-websites:analyze.analyzeView.availableMetricsLabelLargestContentfulPaint'),
+        category: t('in-websites:analyze.analyzeView.availableMetricsCategoryPaintTiming')
       }),
       {
         tag: 'beacon.timing.largestContentfulPaint'
@@ -198,7 +329,7 @@ export const availableMetrics = {
     withRawDataField(
       newTimeMetric({
         metric: 'firstInputDelay',
-        label: 'First Input Delay'
+        label: t('in-websites:analyze.analyzeView.availableMetricsLabelFirstInputDelay')
       }),
       {
         tag: 'beacon.timing.firstInputDelay',
@@ -208,7 +339,7 @@ export const availableMetrics = {
     withRawDataField(
       newNumberWithDecimalsMetric({
         metric: 'cumulativeLayoutShift',
-        label: 'Cumulative Layout Shift',
+        label: t('in-websites:analyze.analyzeView.availableMetricsLabelCumulativeLayoutShift'),
         formatter: clsFormatter
       }),
       {
@@ -217,17 +348,29 @@ export const availableMetrics = {
     )
   ],
   pageChange: [
-    newNumberMetric({ metric: 'pageTransitions', label: 'Page Transitions' }),
+    newNumberMetric({
+      metric: 'pageTransitions',
+      label: t('in-websites:analyze.analyzeView.availableMetricsLabelPageTransitions')
+    }),
     uniqueUsers,
     uniqueSessions,
     uniqueUsersOrSessions
   ],
   resourceLoad: [
-    newNumberMetric({ metric: 'beaconCount', label: 'Resource Loads' }),
-    withRawDataField(newTimeMetric({ metric: 'beaconDuration', label: 'Retrieval Time' }), {
-      rawDataField: 'duration',
-      tag: 'beacon.duration'
+    newNumberMetric({
+      metric: 'beaconCount',
+      label: t('in-websites:analyze.analyzeView.availableMetricsLabelResourceLoads')
     }),
+    withRawDataField(
+      newTimeMetric({
+        metric: 'beaconDuration',
+        label: t('in-websites:analyze.analyzeView.availableMetricsLabelRetrievalTime')
+      }),
+      {
+        rawDataField: 'duration',
+        tag: 'beacon.duration'
+      }
+    ),
     uniqueUsers,
     uniqueSessions,
     uniqueUsersOrSessions,
@@ -235,12 +378,21 @@ export const availableMetrics = {
     ...resourceSizeMetrics
   ],
   httpRequest: [
-    newNumberMetric({ metric: 'beaconCount', label: 'Calls' }),
-    newNumberMetric({ metric: 'beaconErrorCount', label: 'Erroneous Calls' }),
-    withRawDataField(newTimeMetric({ metric: 'beaconDuration', label: 'Retrieval Time' }), {
-      rawDataField: 'duration',
-      tag: 'beacon.duration'
+    newNumberMetric({ metric: 'beaconCount', label: t('in-websites:analyze.analyzeView.availableMetricsLabelCalls') }),
+    newNumberMetric({
+      metric: 'beaconErrorCount',
+      label: t('in-websites:analyze.analyzeView.availableMetricsLabelErroneousCalls')
     }),
+    withRawDataField(
+      newTimeMetric({
+        metric: 'beaconDuration',
+        label: t('in-websites:analyze.analyzeView.availableMetricsLabelRetrievalTime')
+      }),
+      {
+        rawDataField: 'duration',
+        tag: 'beacon.duration'
+      }
+    ),
     errorRate,
     uniqueUsers,
     uniqueSessions,
@@ -248,77 +400,152 @@ export const availableMetrics = {
     ...resourceTimingMetrics,
     ...resourceSizeMetrics,
 
-    withRawDataField(newNumberMetric({ metric: 'http1xx', label: 'HTTP 1XX Count', category: 'HTTP' }), {
-      rawDataField: 'httpCallStatus',
-      rawDataLabel: 'HTTP Status',
-      tag: 'beacon.http.status'
-    }),
-    withRawDataField(newNumberMetric({ metric: 'http2xx', label: 'HTTP 2XX Count', category: 'HTTP' }), {
-      rawDataField: 'httpCallStatus',
-      rawDataLabel: 'HTTP Status',
-      tag: 'beacon.http.status'
-    }),
-    withRawDataField(newNumberMetric({ metric: 'http3xx', label: 'HTTP 3XX Count', category: 'HTTP' }), {
-      rawDataField: 'httpCallStatus',
-      rawDataLabel: 'HTTP Status',
-      tag: 'beacon.http.status'
-    }),
-    withRawDataField(newNumberMetric({ metric: 'http4xx', label: 'HTTP 4XX Count', category: 'HTTP' }), {
-      rawDataField: 'httpCallStatus',
-      rawDataLabel: 'HTTP Status',
-      tag: 'beacon.http.status'
-    }),
-    withRawDataField(newNumberMetric({ metric: 'http5xx', label: 'HTTP 5XX Count', category: 'HTTP' }), {
-      rawDataField: 'httpCallStatus',
-      rawDataLabel: 'HTTP Status',
-      tag: 'beacon.http.status'
-    }),
+    withRawDataField(
+      newNumberMetric({
+        metric: 'http1xx',
+        label: t('in-websites:analyze.analyzeView.availableMetricsLabelHTTP1XXCount'),
+        category: t('in-websites:analyze.analyzeView.availableMetricsCategoryHTTP')
+      }),
+      {
+        rawDataField: 'httpCallStatus',
+        rawDataLabel: t('in-websites:analyze.analyzeView.availableMetricsLabelHTTPStatus'),
+        tag: 'beacon.http.status'
+      }
+    ),
+    withRawDataField(
+      newNumberMetric({
+        metric: 'http2xx',
+        label: t('in-websites:analyze.analyzeView.availableMetricsLabelHTTP2XXCount'),
+        category: t('in-websites:analyze.analyzeView.availableMetricsCategoryHTTP')
+      }),
+      {
+        rawDataField: 'httpCallStatus',
+        rawDataLabel: t('in-websites:analyze.analyzeView.availableMetricsLabelHTTPStatus'),
+        tag: 'beacon.http.status'
+      }
+    ),
+    withRawDataField(
+      newNumberMetric({
+        metric: 'http3xx',
+        label: t('in-websites:analyze.analyzeView.availableMetricsLabelHTTP3XXCount'),
+        category: t('in-websites:analyze.analyzeView.availableMetricsCategoryHTTP')
+      }),
+      {
+        rawDataField: 'httpCallStatus',
+        rawDataLabel: t('in-websites:analyze.analyzeView.availableMetricsLabelHTTPStatus'),
+        tag: 'beacon.http.status'
+      }
+    ),
+    withRawDataField(
+      newNumberMetric({
+        metric: 'http4xx',
+        label: t('in-websites:analyze.analyzeView.availableMetricsLabelHTTP4XXCount'),
+        category: t('in-websites:analyze.analyzeView.availableMetricsCategoryHTTP')
+      }),
+      {
+        rawDataField: 'httpCallStatus',
+        rawDataLabel: t('in-websites:analyze.analyzeView.availableMetricsLabelHTTPStatus'),
+        tag: 'beacon.http.status'
+      }
+    ),
+    withRawDataField(
+      newNumberMetric({
+        metric: 'http5xx',
+        label: t('in-websites:analyze.analyzeView.availableMetricsLabelHTTP5XXCount'),
+        category: t('in-websites:analyze.analyzeView.availableMetricsCategoryHTTP')
+      }),
+      {
+        rawDataField: 'httpCallStatus',
+        rawDataLabel: t('in-websites:analyze.analyzeView.availableMetricsLabelHTTPStatus'),
+        tag: 'beacon.http.status'
+      }
+    ),
 
-    withRawDataField(newNumberMetric({ metric: 'httpGet', label: 'HTTP GET Count', category: 'HTTP' }), {
-      rawDataField: 'httpCallMethod',
-      rawDataLabel: 'HTTP Method',
-      tag: 'beacon.http.method'
-    }),
-    withRawDataField(newNumberMetric({ metric: 'httpPost', label: 'HTTP POST Count', category: 'HTTP' }), {
-      rawDataField: 'httpCallMethod',
-      rawDataLabel: 'HTTP Method',
-      tag: 'beacon.http.method'
-    }),
-    withRawDataField(newNumberMetric({ metric: 'httpPut', label: 'HTTP PUT Count', category: 'HTTP' }), {
-      rawDataField: 'httpCallMethod',
-      rawDataLabel: 'HTTP Method',
-      tag: 'beacon.http.method'
-    }),
-    withRawDataField(newNumberMetric({ metric: 'httpDelete', label: 'HTTP DELETE Count', category: 'HTTP' }), {
-      rawDataField: 'httpCallMethod',
-      rawDataLabel: 'HTTP Method',
-      tag: 'beacon.http.method'
-    })
+    withRawDataField(
+      newNumberMetric({
+        metric: 'httpGet',
+        label: t('in-websites:analyze.analyzeView.availableMetricsLabelHTTPGETCount'),
+        category: t('in-websites:analyze.analyzeView.availableMetricsCategoryHTTP')
+      }),
+      {
+        rawDataField: 'httpCallMethod',
+        rawDataLabel: t('in-websites:analyze.analyzeView.availableMetricsLabelHTTPMethod'),
+        tag: 'beacon.http.method'
+      }
+    ),
+    withRawDataField(
+      newNumberMetric({
+        metric: 'httpPost',
+        label: t('in-websites:analyze.analyzeView.availableMetricsLabelHTTPPOSTCount'),
+        category: t('in-websites:analyze.analyzeView.availableMetricsCategoryHTTP')
+      }),
+      {
+        rawDataField: 'httpCallMethod',
+        rawDataLabel: t('in-websites:analyze.analyzeView.availableMetricsLabelHTTPMethod'),
+        tag: 'beacon.http.method'
+      }
+    ),
+    withRawDataField(
+      newNumberMetric({
+        metric: 'httpPut',
+        label: t('in-websites:analyze.analyzeView.availableMetricsLabelHTTPPUTCount'),
+        category: t('in-websites:analyze.analyzeView.availableMetricsCategoryHTTP')
+      }),
+      {
+        rawDataField: 'httpCallMethod',
+        rawDataLabel: t('in-websites:analyze.analyzeView.availableMetricsLabelHTTPMethod'),
+        tag: 'beacon.http.method'
+      }
+    ),
+    withRawDataField(
+      newNumberMetric({
+        metric: 'httpDelete',
+        label: t('in-websites:analyze.analyzeView.availableMetricsLabelHTTPDELETECount'),
+        category: t('in-websites:analyze.analyzeView.availableMetricsCategoryHTTP')
+      }),
+      {
+        rawDataField: 'httpCallMethod',
+        rawDataLabel: t('in-websites:analyze.analyzeView.availableMetricsLabelHTTPMethod'),
+        tag: 'beacon.http.method'
+      }
+    )
   ],
   error: [
-    newNumberMetric({ metric: 'beaconCount', label: 'Occurrences' }),
+    newNumberMetric({
+      metric: 'beaconCount',
+      label: t('in-websites:analyze.analyzeView.availableMetricsLabelOccurrences')
+    }),
     {
       ...uniqueUsers,
       // relabel the metric
-      label: 'Affected Users'
+      label: t('in-websites:analyze.analyzeView.availableMetricsLabelAffectedUsers')
     },
     {
       ...uniqueSessions,
       // relabel the metric
-      label: 'Affected Sessions'
+      label: t('in-websites:analyze.analyzeView.availableMetricsLabelAffectedSessions')
     },
     {
       ...uniqueUsersOrSessions,
       // relabel the metric
-      label: 'Affected Users / Sessions'
+      label: t('in-websites:analyze.analyzeView.availableMetricsLabelAffectedUsersSessions')
     }
   ],
   custom: [
-    newNumberMetric({ metric: 'beaconCount', label: 'Occurrences' }),
-    withRawDataField(newTimeMetric({ metric: 'beaconDuration', label: 'Duration' }), {
-      rawDataField: 'duration',
-      tag: 'beacon.duration'
+    newNumberMetric({
+      metric: 'beaconCount',
+      label: t('in-websites:analyze.analyzeView.availableMetricsLabelOccurrences')
     }),
+    withRawDataField(
+      newTimeMetric({
+        metric: 'beaconDuration',
+        label: t('in-websites:analyze.analyzeView.availableMetricsLabelDuration')
+      }),
+      {
+        rawDataField: 'duration',
+        tag: 'beacon.duration'
+      }
+    ),
     uniqueUsers,
     uniqueSessions,
     uniqueUsersOrSessions

@@ -5,9 +5,10 @@
 import { find } from 'lodash';
 import React from 'react';
 
-import { getChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
+import { getResolvedTimeConfig } from 'in-applications/metrics';
+import { getChartGranularity } from 'in-stores/metric/metric';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import Chart from 'in-components/Chart/ChartReactComponent';
 import { aggregationLabels } from 'in-stores/metric/metric';

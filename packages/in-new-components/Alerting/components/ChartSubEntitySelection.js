@@ -10,7 +10,6 @@ import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformati
 import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { switchQB1orQB2Helper } from 'in-new-components/Alerting/components/WithQB1orQB2';
 import { getBlueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
-import IconLabel from 'in-new-components/Alerting/components/IconLabel';
 import getServices from 'in-subscription/application/getServices';
 import { hasError, isLoading } from 'in-services/util/result';
 import { pendingResult } from 'in-services/fixedObjects';
@@ -55,12 +54,11 @@ export default function ChartSubEntitySelection({
       className={className}
       value={serviceId}
       options={isLoading(result) ? loadingOptions : options}
-      optionRenderer={option => <IconLabel text={option.label} type="lib_application_service" />}
+      optionRenderer={option => option.label}
       onChange={selection => setServiceId(selection?.value)}
-      placeholder={isLoading(result) ? 'Loading services…' : 'Select service to see a preview'}
+      placeholder={isLoading(result) ? 'Loading services…' : 'No service in scope'}
       clearable={false}
       autoComplete
-      autoFocus
       searchable
     />
   );

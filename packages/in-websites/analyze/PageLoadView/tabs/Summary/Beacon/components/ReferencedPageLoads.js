@@ -4,6 +4,7 @@
  */
 import { combineLatest } from '@instana/observables';
 import { find } from 'lodash';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import KeyValueHeader from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/KeyValueHeader';
@@ -86,9 +87,18 @@ function ReferencedPageLoad({ beacons }) {
   return (
     <div className={locals.pageLoad}>
       <div className={locals.leftSide}>
-        <KeyValueHeader label="Page Load" value={pageLoad.locationUrl} />
-        <KeyValueHeader label="onLoad Time" value={latencyFixed.compact(pageLoad.duration)} />
-        <KeyValueHeader label="Page" value={pageLoad.page || 'N/A'} />
+        <KeyValueHeader
+          label={t('in-websites:analyze.analyzeView.pageLoadView.referencedPageLoadsLabelPageLoad')}
+          value={pageLoad.locationUrl}
+        />
+        <KeyValueHeader
+          label={t('in-websites:analyze.analyzeView.pageLoadView.referencedPageLoadsLabelOnLoadTime')}
+          value={latencyFixed.compact(pageLoad.duration)}
+        />
+        <KeyValueHeader
+          label={t('in-websites:analyze.analyzeView.pageLoadView.referencedPageLoadsLabelPage')}
+          value={pageLoad.page || t('in-websites:analyze.analyzeView.pageLoadView.referencedPageLoadsValueNA')}
+        />
       </div>
 
       <Button
@@ -99,7 +109,7 @@ function ReferencedPageLoad({ beacons }) {
           beaconTimestamp: pageLoad.timestamp
         })}
       >
-        Inspect
+        {t('in-websites:analyze.analyzeView.pageLoadView.referencedPageLoadsButtonInspect')}
       </Button>
     </div>
   );

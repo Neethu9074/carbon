@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import React, { Fragment } from 'react';
+import { t } from 'in-i18n';
 
 import { number, bytes, percentage, bytesTwoDecimalPlaces, msZeroDecimalPlaces } from 'in-services/formatters/number';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
@@ -21,25 +22,25 @@ export default function Summary({ timeConfig, data: vm }) {
     <Fragment>
       <KpiGridRow sizes={[3, 3, 3, 3]}>
         <InfraMetricKpiCard
-          title="CPU Usage"
+          title={t('in-vsphere:dashboards.cpuUsage')}
           snapshotId={snapshotId}
           metric="cpu.usage.maximum.percent"
           formatter={percentage.detailed}
         />
         <KpiCard
-          title="CPU Total"
+          title={t('in-vsphere:dashboards.cpuTotal')}
           value={<Capitalize>{vm.cpuTotal || valueMissingPlaceholder}</Capitalize>}
           raw
           borderless
         />
         <InfraMetricKpiCard
-          title="Memory Usage"
+          title={t('in-vsphere:dashboards.memoryUsage')}
           snapshotId={snapshotId}
           metric="mem.usage.average.percent"
           formatter={percentage.detailed}
         />
         <KpiCard
-          title="Memory Total"
+          title={t('in-vsphere:dashboards.memoryTotal')}
           value={<Capitalize>{bytesTwoDecimalPlaces(vm.memoryTotal) || valueMissingPlaceholder}</Capitalize>}
           raw
           borderless
@@ -47,13 +48,13 @@ export default function Summary({ timeConfig, data: vm }) {
       </KpiGridRow>
       <KpiGridRow sizes={[6, 6]}>
         <KpiCard
-          title="Guest OS"
+          title={t('in-vsphere:dashboards.guestOs')}
           value={<Capitalize>{vm.guestFullName || valueMissingPlaceholder}</Capitalize>}
           raw
           borderless
         />
         <KpiCard
-          title="State"
+          title={t('in-vsphere:dashboards.state')}
           value={<Capitalize>{vm.guestState || valueMissingPlaceholder}</Capitalize>}
           raw
           borderless
@@ -62,7 +63,7 @@ export default function Summary({ timeConfig, data: vm }) {
 
       <Row verticallyStretchColumns>
         <Col lg={12}>
-          <Card title="CPU" useMaxAvailableHeight>
+          <Card title={t('in-vsphere:dashboards.cpu')} useMaxAvailableHeight>
             <Chart
               snapshotId={snapshotId}
               timeConfig={timeConfig}
@@ -73,13 +74,21 @@ export default function Summary({ timeConfig, data: vm }) {
                   'cpu.ready.summation.milliseconds',
                   'cpu.wait.summation.milliseconds'
                 ],
-                labels: ['System', 'Ready', 'Wait'],
+                labels: [
+                  t('in-vsphere:dashboards.system'),
+                  t('in-vsphere:dashboards.ready'),
+                  t('in-vsphere:dashboards.wait')
+                ],
                 type: 'line'
               }}
               y2={{
                 formatter: percentage.detailed,
                 metrics: ['cpu.usage.maximum.percent', 'cpu.readiness.average.percent', 'cpu.latency.average.percent'],
-                labels: ['Usage', 'Readiness', 'Latency'],
+                labels: [
+                  t('in-vsphere:dashboards.usage'),
+                  t('in-vsphere:dashboards.readiness'),
+                  t('in-vsphere:dashboards.latency')
+                ],
                 type: 'line'
               }}
             />
@@ -88,7 +97,7 @@ export default function Summary({ timeConfig, data: vm }) {
       </Row>
       <Row verticallyStretchColumns>
         <Col lg={12}>
-          <Card title="Memory" useMaxAvailableHeight>
+          <Card title={t('in-vsphere:dashboards.memory')} useMaxAvailableHeight>
             <Chart
               snapshotId={snapshotId}
               timeConfig={timeConfig}
@@ -100,13 +109,18 @@ export default function Summary({ timeConfig, data: vm }) {
                   'mem.granted.none.bytes',
                   'mem.vmmemctl.none.bytes'
                 ],
-                labels: ['Active', 'Swapped', 'Granted', 'Vmemctl'],
+                labels: [
+                  t('in-vsphere:dashboards.active'),
+                  t('in-vsphere:dashboards.swapped'),
+                  t('in-vsphere:dashboards.granted'),
+                  t('in-vsphere:dashboards.vmemctl')
+                ],
                 type: 'line'
               }}
               y2={{
                 formatter: percentage.detailed,
                 metrics: ['mem.usage.average.percent'],
-                labels: ['Usage'],
+                labels: [t('in-vsphere:dashboards.usage')],
                 type: 'line'
               }}
             />
@@ -116,7 +130,7 @@ export default function Summary({ timeConfig, data: vm }) {
 
       <Row verticallyStretchColumns>
         <Col lg={12}>
-          <Card title="Network" useMaxAvailableHeight>
+          <Card title={t('in-vsphere:dashboards.network')} useMaxAvailableHeight>
             <Chart
               snapshotId={snapshotId}
               timeConfig={timeConfig}
@@ -127,7 +141,11 @@ export default function Summary({ timeConfig, data: vm }) {
                   'net.transmitted.average.bytesPerSecond',
                   'net.bytestotal.average.bytesPerSecond'
                 ],
-                labels: ['Bytes received', 'Bytes transmitted', 'Total bytes'],
+                labels: [
+                  t('in-vsphere:dashboards.vm.bytesReceived'),
+                  t('in-vsphere:dashboards.vm.bytesTransmitted'),
+                  t('in-vsphere:dashboards.vm.totalBytes')
+                ],
                 type: 'line'
               }}
               y2={{
@@ -137,7 +155,11 @@ export default function Summary({ timeConfig, data: vm }) {
                   'net.packetsTx.summation.number',
                   'net.packetsTotal.summation.number'
                 ],
-                labels: ['Packets received', 'Packets transmitted', 'Total packets'],
+                labels: [
+                  t('in-vsphere:dashboards.vm.packetsReceived'),
+                  t('in-vsphere:dashboards.vm.packetsTransmitted'),
+                  t('in-vsphere:dashboards.vm.totalPackets')
+                ],
                 type: 'line'
               }}
             />

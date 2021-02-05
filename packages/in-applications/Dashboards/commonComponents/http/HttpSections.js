@@ -11,7 +11,7 @@ import { getTagCatalog } from 'in-applications/analyze/components/workspace/Call
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
 import { getBlueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
 import useTagCatalog from 'in-applications/hooks/useTagCatalog';
-import { getChartGranularity } from 'in-applications/metrics';
+import { getChartGranularity } from 'in-stores/metric/metric';
 import { stackedBar, line } from 'in-stores/metric/renderer';
 import { number } from 'in-services/formatters/number';
 

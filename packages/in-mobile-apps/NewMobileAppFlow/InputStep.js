@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import Paragraph from 'in-mobile-apps/NewMobileAppFlow/Paragraph';
@@ -17,15 +18,12 @@ import locals from './InputStep.mless';
 
 export default function InputStep({ onSubmit, saveError, field, onChange, loading }) {
   return (
-    <Frame title="Add Mobile App">
-      <Paragraph>
-        Get started with mobile app monitoring to better understand how your mobile app performance impacts user
-        experience. Configuration is simple!
-      </Paragraph>
+    <Frame title={t('in-mobile-apps:newAppFlow.addMobileAppTitle')}>
+      <Paragraph>{t('in-mobile-apps:newAppFlow.addMobileAppDesc')}</Paragraph>
 
       <form onSubmit={onSubmit}>
         <FormGroup className={locals.group}>
-          <Label htmlFor="mobile-app-name">Mobile App Name</Label>
+          <Label htmlFor="mobile-app-name">{t('in-mobile-apps:newAppFlow.mobileAppNameLabel')}</Label>
 
           {saveError && <SaveError>{saveError}</SaveError>}
 
@@ -46,7 +44,7 @@ export default function InputStep({ onSubmit, saveError, field, onChange, loadin
               disabled={loading || (field.touched && !field.valid)}
               className={locals.button}
             >
-              Add Mobile App
+              {t('in-mobile-apps:newAppFlow.addMobileAppBtn')}
             </Button>
           </div>
 

@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import ApplicationAlertingChartWithErrorMessage from 'in-applications/alerting/chart/ApplicationAlertingChartWithErrorMessage';
@@ -70,7 +71,7 @@ export default function ApplicationEventListItemContent({ event }) {
         />
       </div>
       <div className={locals.sectionWrapper}>
-        <DescriptionItem className={locals.title} title="Scope">
+        <DescriptionItem className={locals.title} title={t('in-events:titleScope')}>
           <div className={locals.scopeContentWrapper}>
             <div className={locals.alertFiltersWrapper}>
               <ScopeConfigPresenter

@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import ServerSideSortedMetricValue from 'in-components/tables/sharedComponents/ServerSideSortedMetricValue';
@@ -24,7 +25,7 @@ const matrixPrefix = 'vhost.';
 const columnDefinitions = [
   {
     id: 'label',
-    label: 'Name',
+    label: t('in-vsphere:dashboards.name'),
     getContent(item) {
       const datacenterId = item.datacenterId;
       return (
@@ -34,14 +35,14 @@ const columnDefinitions = [
   },
   {
     id: 'vms',
-    label: 'Virtual Machines',
+    label: t('in-vsphere:dashboards.virtualMachines'),
     getContent(item) {
       return <EntityCounter icon="lib_vsphere_vm" count={item.vms} />;
     }
   },
   {
     id: 'cpu.usage.percent.maximum.*',
-    label: 'CPU Usage',
+    label: t('in-vsphere:dashboards.cpuUsage'),
     sortable: true,
     getContent(item, props, columnId) {
       return (
@@ -56,7 +57,7 @@ const columnDefinitions = [
   },
   {
     id: 'cpuTotal',
-    label: 'CPU Resources',
+    label: t('in-vsphere:dashboards.cpuResources'),
     sortable: true,
     getContent(item) {
       return <EntityCounter count={item.cpuTotal} />;
@@ -64,7 +65,7 @@ const columnDefinitions = [
   },
   {
     id: 'mem.usage.average.percent',
-    label: 'Memory Usage',
+    label: t('in-vsphere:dashboards.memoryUsage'),
     sortable: true,
     getContent(item, props, columnId) {
       return (
@@ -79,7 +80,7 @@ const columnDefinitions = [
   },
   {
     id: 'memTotal',
-    label: 'Memory Resources',
+    label: t('in-vsphere:dashboards.memoryResources'),
     sortable: true,
     getContent(item) {
       return <MemoryTotal count={item.memTotal} />;
@@ -91,7 +92,7 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
   Renderer: withEmptyTableState({
     columnDefinitions,
     plugin: plugins.vsphereHost,
-    entityName: 'ESXi Hosts'
+    entityName: t('in-vsphere:entityName.esXiHosts')
   }),
   paginationResettingUrlParameters: [...timeConfigUrlParameters, datacenterIdUrlParameter],
   columnDefinitions,

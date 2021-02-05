@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { compose, pure } from 'recompose';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { amCharts, loadMap, getMapName } from 'in-new-components/AmMap/libraryWrapper';
@@ -37,7 +38,7 @@ function GeoHeatMapPresenter(props) {
   const { result, map, height } = props;
 
   if (!result || result.progress.loading || !map) {
-    return <LoadingIndicator text="Loading Data" height={height} />;
+    return <LoadingIndicator text={t('in-new-components:geoHeatMap.loadingIndicatorLoadingData')} height={height} />;
   } else if (result.errors.length > 0) {
     return <NoDataAvailable height={height} />;
   }
@@ -96,15 +97,15 @@ function Content({
       <Legend data={result.data} valueFormatter={valueFormatter} />
 
       <div className={controlWrapperClassName}>
-        <Tooltip content="Reset view" align="leftMiddle">
+        <Tooltip content={t('in-new-components:geoHeatMap.tooltipResetView')} align="leftMiddle">
           <Button icon="lib_home" className={locals.home} onClick={() => onHome()} />
         </Tooltip>
 
         <ButtonGroup vertical className={locals.zoom}>
-          <Tooltip content="Zoom in" align="leftMiddle">
+          <Tooltip content={t('in-new-components:geoHeatMap.tooltipZoomIn')} align="leftMiddle">
             <Button appendBottom icon="lib_actions_zoom_in" onClick={() => onZoomIn()} />
           </Tooltip>
-          <Tooltip content="Zoom out" align="leftMiddle">
+          <Tooltip content={t('in-new-components:geoHeatMap.tooltipZoomOut')} align="leftMiddle">
             <Button appendTop icon="lib_actions_zoom_out" onClick={() => onZoomOut()} />
           </Tooltip>
         </ButtonGroup>

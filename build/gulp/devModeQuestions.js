@@ -38,6 +38,7 @@ exports.askQuestions = cb => {
   inquirer.prompt(getQuestions(), answers => {
     if (answers.targetConfig.custom) {
       selectTarget(devModeOptions, {
+        custom: answers.targetConfig.custom,
         tenant: answers.tenant,
         unit: answers.unit,
         baseDomain: answers.baseDomain
@@ -79,6 +80,19 @@ function selectTarget(devModeOptions, targetConfig) {
     devModeOptions.target.environment = 'local';
     devModeOptions.target.butlerDomain = 'local-instana.pink.instana.rocks:4000';
     devModeOptions.target.baseDomain = 'pink.instana.rocks';
+  } else if (targetConfig.custom == 'selfhosted') {
+    const localDomain = targetConfig.baseDomain;
+    const localUrl = `https://${localDomain}`;
+    devModeOptions.target.uiBackendUrl = localUrl;
+    devModeOptions.target.websocketEndpoint = localUrl;
+    devModeOptions.target.butlerUrl = localUrl;
+    devModeOptions.target.integrationUrl = localUrl;
+    devModeOptions.target.local = false;
+    devModeOptions.target.tenant = targetConfig.tenant;
+    devModeOptions.target.tenantUnit = targetConfig.unit;
+    devModeOptions.target.environment = 'saas';
+    devModeOptions.target.butlerDomain = localDomain;
+    devModeOptions.target.baseDomain = targetConfig.baseDomain;
   } else {
     const localDomain = `${targetConfig.unit}-${targetConfig.tenant}.${targetConfig.baseDomain}`;
     const localUrl = `https://${localDomain}`;
@@ -108,7 +122,7 @@ function getQuestions() {
     },
     {
       type: 'list',
-      when: noReadyMadeEnvironmentSelected,
+      when: customSaasEnvironmentSelected,
       name: 'baseDomain',
       message: 'Base Domain?',
       choices: [
@@ -140,6 +154,12 @@ function getQuestions() {
     },
     {
       type: 'input',
+      when: customSelfHostedEnvironmentSelected,
+      name: 'baseDomain',
+      message: 'Hostname?'
+    },
+    {
+      type: 'input',
       when: noReadyMadeEnvironmentSelected,
       name: 'tenant',
       message: 'Tenant?'
@@ -154,5 +174,13 @@ function getQuestions() {
 }
 
 function noReadyMadeEnvironmentSelected(answers) {
-  return answers.targetConfig.custom === true;
+  return !!answers.targetConfig.custom;
+}
+
+function customSaasEnvironmentSelected(answers) {
+  return answers.targetConfig.custom == 'saas';
+}
+
+function customSelfHostedEnvironmentSelected(answers) {
+  return answers.targetConfig.custom == 'selfhosted';
 }

@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import React, { Fragment } from 'react';
+import { t } from 'in-i18n';
 
 import { Th, Td, ErroneousRowTh, ErroneousRowTd } from 'in-components/tables/sharedComponents';
 import ListItemPresenter from 'in-websites/analyze/AnalyzeView/Beacons/ListItemPresenter';
@@ -22,15 +23,15 @@ export function TableHeaderColumns({ orderBy, orderDirection, onChangeOrder }) {
   return (
     <Fragment>
       <ErroneousRowTh />
-      <Th>Access</Th>
-      <Th>Website</Th>
+      <Th>{t('in-websites:analyze.analyzeView.beacons.perBeaconTypeConfigAccess')}</Th>
+      <Th>{t('in-websites:analyze.analyzeView.beacons.perBeaconTypeConfigWebsite')}</Th>
       <SortableColumn
         orderBy={orderBy}
         orderDirection={orderDirection}
         onChangeOrder={onChangeOrder}
         defaultDirection="DESC"
         technicalName={timestampMetricName}
-        label="Timestamp"
+        label={t('in-websites:analyze.analyzeView.beacons.perBeaconTypeConfigLabelTimestamp')}
       />
     </Fragment>
   );
@@ -57,7 +58,9 @@ export function TableRowColumns({ item }) {
         </TableLinkWithIcon>
         <BatchingIndicator
           batchCount={item.beacon.batchSize}
-          tooltipContent={`This HTTP request is batched and represents ${item.beacon.batchSize} individual HTTP requests.`}
+          tooltipContent={t('in-websites:analyze.analyzeView.beacons.perBeaconTypeConfigHTTPRequestTooltip', {
+            batchSize: item.beacon.batchSize
+          })}
         />
       </Td>
 
@@ -74,7 +77,7 @@ export function TableRowColumns({ item }) {
   );
 }
 
-export const ListItemHeader = 'Access';
+export const ListItemHeader = t('in-websites:analyze.analyzeView.beacons.perBeaconTypeConfigAccess');
 
 export function ListItem({ item, active }) {
   return (

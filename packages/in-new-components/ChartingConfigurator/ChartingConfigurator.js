@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import PropTypes from 'prop-types';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import ChartingConfiguratorForm from 'in-new-components/ChartingConfigurator/ChartingConfiguratorForm';
@@ -28,7 +29,7 @@ export default function ChartingConfigurator({ options, value, onChange, hideRen
           })
         }
       >
-        Add chart
+        {t('in-new-components:chartingConfigurator.buttonAddChart')}
       </Button>
     );
   }

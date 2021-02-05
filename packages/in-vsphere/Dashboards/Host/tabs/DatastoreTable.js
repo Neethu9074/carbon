@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import React, { Fragment } from 'react';
+import { t } from 'in-i18n';
 
 import { number, bytesTwoDecimalPlaces, bytesZeroDecimalPlaces } from 'in-services/formatters/number';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
@@ -10,7 +11,7 @@ import Columize from 'in-sdk/components/dashboard/Columize';
 import Table from 'in-sdk/components/dashboard/Table';
 
 const deviceColumn = {
-  title: 'Device',
+  title: t('in-vsphere:dashboards.device'),
   type: 'string',
   typeArgs: {
     getValue(row) {
@@ -19,7 +20,7 @@ const deviceColumn = {
   }
 };
 const urlColumn = {
-  title: 'Url',
+  title: t('in-vsphere:dashboards.url'),
   type: 'string',
   typeArgs: {
     getValue(row) {
@@ -28,7 +29,7 @@ const urlColumn = {
   }
 };
 const typeColumn = {
-  title: 'Type',
+  title: t('in-vsphere:dashboards.type'),
   type: 'string',
   typeArgs: {
     getValue(row) {
@@ -37,7 +38,7 @@ const typeColumn = {
   }
 };
 const maxFileSizeColumn = {
-  title: 'Max file size',
+  title: t('in-vsphere:dashboards.maxFileSize'),
   type: 'number',
   typeArgs: {
     getValue(row) {
@@ -47,7 +48,7 @@ const maxFileSizeColumn = {
   }
 };
 const capacityColumn = {
-  title: 'Capacity',
+  title: t('in-vsphere:dashboards.capacity'),
   type: 'number',
   typeArgs: {
     getValue(row) {
@@ -57,7 +58,7 @@ const capacityColumn = {
   }
 };
 const freeSpaceColumn = {
-  title: 'Free space',
+  title: t('in-vsphere:dashboards.freeSpace'),
   type: 'number',
   typeArgs: {
     getValue(row) {
@@ -87,7 +88,7 @@ export default function FilesystemsTable({ data, timeConfig }) {
 
   return (
     <Table
-      cardTitle="Filesystems"
+      cardTitle={t('in-vsphere:dashboards.filesystems')}
       withoutPadding
       cols={cols}
       rows={rows}
@@ -114,7 +115,11 @@ function getDetails(row) {
               'datastore.datastoreWriteIops.number.latest.' + row.filesystem.id,
               'datastore.datastoreTotalIops.number.latest.' + row.filesystem.id
             ],
-            labels: ['IOPS Read', 'IOPS Write', 'IOPS Total'],
+            labels: [
+              t('in-vsphere:dashboards.iopsRead'),
+              t('in-vsphere:dashboards.iopsWrite'),
+              t('in-vsphere:dashboards.iopsTotal')
+            ],
             type: 'line'
           }}
         />
@@ -129,7 +134,7 @@ function getDetails(row) {
               'datastore.numberReadAveraged.number.average.' + row.filesystem.id,
               'datastore.numberWriteAveraged.number.average.' + row.filesystem.id
             ],
-            labels: ['Read/s', 'Write/s'],
+            labels: [t('in-vsphere:dashboards.readPerSec'), t('in-vsphere:dashboards.writePerSec')],
             type: 'line'
           }}
           y2={{
@@ -140,7 +145,7 @@ function getDetails(row) {
               'datastore.datastoreReadBytes.number.latest.' + row.filesystem.id,
               'datastore.datastoreWriteBytes.number.latest.' + row.filesystem.id
             ],
-            labels: ['Byte Read/s', 'Byte Write/s'],
+            labels: [t('in-vsphere:dashboards.byteReadPerSec'), t('in-vsphere:dashboards.byteWritePerSec')],
             type: 'line'
           }}
         />
@@ -158,7 +163,11 @@ function getDetails(row) {
               'datastore.datastoreNormalWriteLatency.number.latest.' + row.filesystem.id,
               'datastore.datastoreNormalTotalLatency.number.latest.' + row.filesystem.id
             ],
-            labels: ['Latency Read', 'Latency Write', 'Latency Total'],
+            labels: [
+              t('in-vsphere:dashboards.latencyRead'),
+              t('in-vsphere:dashboards.latencyWrite'),
+              t('in-vsphere:dashboards.latencyTotal')
+            ],
             type: 'line'
           }}
         />

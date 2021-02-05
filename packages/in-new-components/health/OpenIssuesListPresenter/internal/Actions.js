@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { getButtonKindBySeverity } from 'in-stores/events';
@@ -15,7 +16,9 @@ export default function Actions({ openIssuesResult, analyzeLink$, getIssueLink, 
     return (
       <div className={locals.actions}>
         <Button icon="lib_events_inverted" kind="primary" className={locals.button} asBlock href$={analyzeLink$}>
-          View {eventType + 's'}
+          {t('in-new-components:health.openIssuesListPresenterActionsViewIssues', {
+            eventType: t('in-new-components:health.eventType' + eventType, { count: openIssues.length })
+          })}
         </Button>
       </div>
     );
@@ -37,7 +40,10 @@ export default function Actions({ openIssuesResult, analyzeLink$, getIssueLink, 
         asBlock
         href$={href$}
       >
-        View {openIssues.length} {openIssues.length === 1 ? eventType : eventType + 's'}
+        {t('in-new-components:health.openIssuesListPresenterActionsViewNumbersOfIssue', {
+          openIssueCount: openIssues.length,
+          eventType: t('in-new-components:health.eventType' + eventType, { count: openIssues.length })
+        })}
       </Button>
     </div>
   );

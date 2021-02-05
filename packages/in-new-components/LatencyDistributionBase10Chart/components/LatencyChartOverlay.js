@@ -6,6 +6,7 @@ import React, { useState, useEffect } from 'react';
 import classNames from 'classnames';
 import { isEqual } from 'lodash';
 import theme from 'in-themes';
+import { t } from 'in-i18n';
 
 import ChartContextMenu from 'in-new-components/LatencyDistributionBase10Chart/components/ChartContextMenu';
 import { setTimeConfig, fixateTimeConfig } from 'in-stores/time/config';
@@ -150,7 +151,7 @@ export default function LatencyChartOverlay({
         {
           name: 'clear_selection',
           icon: 'lib_openclose_cancel',
-          label: 'Remove latency filter',
+          label: t('in-new-components:latencyDistributionBase10Chart.latencyChartOverlayLabelRemoveLatencyFilter'),
           onClick: () => {
             resetSelection();
             notifyOnSelectionChangedHandler(null);

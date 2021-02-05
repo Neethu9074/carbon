@@ -20,7 +20,7 @@ export default function EmptyAnalyzeView({ type }) {
         <EntityPageMainNotification
           icon={getIconByType(type, 'website')}
           explanation={() => <ArticleContent markdownContent={t('in-websites:analyzeView.noData')} />}
-          title={`No ${entityName} found`}
+          title={t('in-websites:analyze.analyzeView.emptyAnalyzeViewTitle', { entityName: entityName })}
         />
       </CenterAlignmentColumn>
     </Sticky>

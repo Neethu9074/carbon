@@ -9,7 +9,7 @@ import GroupMetricsChartPresenter, {
   getMetricKey
 } from 'in-analyze/components/MetricsChart/GroupMetricsChartPresenter';
 import getCallGroups from 'in-subscription/application/getCallGroups';
-import { getChartGranularity } from 'in-applications/metrics';
+import { getChartGranularity } from 'in-stores/metric/metric';
 import { pendingResult } from 'in-services/fixedObjects';
 import useObservable from 'in-hooks/useObservable';
 

@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import renderers from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/perTypeRenderers';
@@ -43,7 +44,7 @@ export default function Activity({ beacons, firstBeacon, pageLoad, filter, setFi
   return (
     <Row>
       <Col lg={12}>
-        <Card title="Activity">
+        <Card title={t('in-websites:analyze.analyzeView.pageLoadView.activityTitle')}>
           <Filter setFilter={setFilter} filter={filter} beacons={beacons} />
           <div className={locals.overviewChartContainer}>
             <OverviewChart

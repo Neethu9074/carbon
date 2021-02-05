@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import React, { Fragment } from 'react';
+import { t } from 'in-i18n';
 
 import HttpRequestOriginTopList from 'in-mobile-apps/MobileAppDashboard/tabs/Summary/HttpRequestOriginTopList';
 import MobileAppMetricsKpiCard from 'in-mobile-apps/MobileAppDashboard/components/MobileAppMetricsKpiCard';
@@ -11,8 +12,8 @@ import MobileAppGeoHeatMap from 'in-mobile-apps/MobileAppDashboard/components/Mo
 import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-mobile-apps/tags';
 import ViewsTopList from 'in-mobile-apps/MobileAppDashboard/tabs/Summary/ViewsTopList';
 import { getLinkToAnalyze, summaryTab } from 'in-mobile-apps/navigation/paths';
+import { getChartGranularity } from 'in-stores/metric/metric';
 import Renderer from 'in-components/Chart/renderer/Renderer';
-import { getChartGranularity } from 'in-mobile-apps/metrics';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import { number } from 'in-services/formatters/number';
 import Card from 'in-new-components/Card';
@@ -25,7 +26,7 @@ export default function Summary({ tagFilters, timeConfig, mobileAppId, mobileApp
       <Row>
         <Col xs>
           <MobileAppMetricsKpiCard
-            title={'Session Starts'}
+            title={t('in-mobile-apps:dashboard.tabs.sessionStartsTitle')}
             formatter={number.compact}
             metricsConfig={{
               tagFilters,
@@ -38,7 +39,7 @@ export default function Summary({ tagFilters, timeConfig, mobileAppId, mobileApp
               }
             }}
             iconAction={{
-              text: 'View in Analyze',
+              text: t('in-mobile-apps:dashboard.tabs.viewInAnalyzeIconAction'),
               kind: 'subtle',
               icon: 'lib_analyze',
               href$: getLinkToAnalyze({
@@ -57,7 +58,7 @@ export default function Summary({ tagFilters, timeConfig, mobileAppId, mobileApp
         </Col>
         <Col xs>
           <MobileAppMetricsKpiCard
-            title={'View Transitions'}
+            title={t('in-mobile-apps:dashboard.tabs.viewTransitionsTitle')}
             formatter={number.compact}
             metricsConfig={{
               tagFilters,
@@ -70,7 +71,7 @@ export default function Summary({ tagFilters, timeConfig, mobileAppId, mobileApp
               }
             }}
             iconAction={{
-              text: 'View in Analyze',
+              text: t('in-mobile-apps:dashboard.tabs.viewInAnalyzeIconAction'),
               kind: 'subtle',
               icon: 'lib_analyze',
               href$: getLinkToAnalyze({
@@ -92,7 +93,7 @@ export default function Summary({ tagFilters, timeConfig, mobileAppId, mobileApp
       <Row>
         <Col lg={12}>
           <MobileAppChartWrapper
-            cardTitle="Activity"
+            cardTitle={t('in-mobile-apps:dashboard.tabs.activityCardTitle')}
             timeConfig={timeConfig}
             viewInAnalytics={{
               mobileAppLabel
@@ -100,7 +101,10 @@ export default function Summary({ tagFilters, timeConfig, mobileAppId, mobileApp
             y1={{
               renderer: Renderer.stackedBar,
               formatter: number.forcedCompact,
-              labels: ['Session Starts', 'View Transitions'],
+              labels: [
+                t('in-mobile-apps:dashboard.tabs.sessionStartsLabel'),
+                t('in-mobile-apps:dashboard.tabs.viewTransitionsLabel')
+              ],
               metricIds: ['sessions', 'views']
             }}
             metricsConfiguration={{
@@ -127,7 +131,7 @@ export default function Summary({ tagFilters, timeConfig, mobileAppId, mobileApp
 
       <Row>
         <Col lg={viewId == null ? 4 : 6}>
-          <Card title="Geography" withoutPadding>
+          <Card title={t('in-mobile-apps:dashboard.tabs.geographyTitle')} withoutPadding>
             <MobileAppGeoHeatMap canDrillDown tagFilters={tagFilters} timeConfig={timeConfig} height={300} />
           </Card>
         </Col>

@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import NotDefined from 'in-websites/analyze/BeaconUserSummary/NotDefined';
@@ -26,20 +27,32 @@ export default function BeaconUserSummary({ beacon, beacons, withoutSideMargin }
   return (
     <Row className={locals.summary} verticallyStretchColumns withoutSideMargin={withoutSideMargin}>
       <Col lg={4}>
-        <Card title="User Information" useMaxAvailableHeight>
+        <Card title={t('in-websites:analyze.analyzeView.beaconUserSummary.titleUserInformation')} useMaxAvailableHeight>
           <User beacon={beacon} beacons={beacons} />
 
           <Dl>
-            <Di title="Browser">{[beacon.browserName, beacon.browserVersion].filter(Boolean).join(' ')}</Di>
-            <Di title="Operating System">{[beacon.osName, beacon.osVersion].filter(Boolean).join(' ')}</Di>
-            <Di title="Window Dimensions">{[beacon.windowWidth, beacon.windowHeight].filter(Boolean).join('x')}</Di>
-            <Di title="Preferred Languages">{beacon.userLanguages.filter(Boolean).join(', ')}</Di>
-            <Di title="IP Address">{beacon.userIp}</Di>
-            {beacon.connectionType && <Di title="Effective Connection Type">{beacon.connectionType}</Di>}
+            <Di title={t('in-websites:analyze.analyzeView.beaconUserSummary.titleBrowser')}>
+              {[beacon.browserName, beacon.browserVersion].filter(Boolean).join(' ')}
+            </Di>
+            <Di title={t('in-websites:analyze.analyzeView.beaconUserSummary.titleOperatingSystem')}>
+              {[beacon.osName, beacon.osVersion].filter(Boolean).join(' ')}
+            </Di>
+            <Di title={t('in-websites:analyze.analyzeView.beaconUserSummary.titleWindowDimensions')}>
+              {[beacon.windowWidth, beacon.windowHeight].filter(Boolean).join('x')}
+            </Di>
+            <Di title={t('in-websites:analyze.analyzeView.beaconUserSummary.titlePreferredLanguages')}>
+              {beacon.userLanguages.filter(Boolean).join(', ')}
+            </Di>
+            <Di title={t('in-websites:analyze.analyzeView.beaconUserSummary.titleIPAddress')}>{beacon.userIp}</Di>
+            {beacon.connectionType && (
+              <Di title={t('in-websites:analyze.analyzeView.beaconUserSummary.titleEffectiveConnectionType')}>
+                {beacon.connectionType}
+              </Di>
+            )}
             {beacon.sessionId && (
-              <Di title="Session ID">
+              <Di title={t('in-websites:analyze.analyzeView.beaconUserSummary.titleSessionID')}>
                 <Link
-                  title="See all page loads having this session ID"
+                  title={t('in-websites:analyze.analyzeView.beaconUserSummary.titleSeeAllPageLoadsHavingThisSessionID')}
                   href$={getLinkToAnalyze({
                     group: {},
                     tagFilters: [
@@ -60,7 +73,11 @@ export default function BeaconUserSummary({ beacon, beacons, withoutSideMargin }
         </Card>
       </Col>
       <Col lg={4}>
-        <Card title="User Location" withoutPadding={!noGeoAvailable} useMaxAvailableHeight>
+        <Card
+          title={t('in-websites:analyze.analyzeView.beaconUserSummary.titleUserLocation')}
+          withoutPadding={!noGeoAvailable}
+          useMaxAvailableHeight
+        >
           {geoSubsection.length > 0 && (
             <address className={locals.address}>
               <span className={locals.city}>{beacon.city}</span>
@@ -70,11 +87,22 @@ export default function BeaconUserSummary({ beacon, beacons, withoutSideMargin }
 
           {isGeoCoordinatesAvailable && <Map beacon={beacon} />}
 
-          {noGeoAvailable && <NotDefined explanation="Geolocation could not be determined from IP address." />}
+          {noGeoAvailable && (
+            <NotDefined
+              explanation={t(
+                'in-websites:analyze.analyzeView.beaconUserSummary.explanationGeolocationCouldNotBeDeterminedFromIPAddress'
+              )}
+            />
+          )}
         </Card>
       </Col>
       <Col lg={4}>
-        <Card title="Meta" withoutPadding={hasMeta} useMaxAvailableHeight bodyClassName={locals.metaCard}>
+        <Card
+          title={t('in-websites:analyze.analyzeView.beaconUserSummary.titleMeta')}
+          withoutPadding={hasMeta}
+          useMaxAvailableHeight
+          bodyClassName={locals.metaCard}
+        >
           {hasMeta && (
             <Code
               showLineNumbers={false}
@@ -85,9 +113,9 @@ export default function BeaconUserSummary({ beacon, beacons, withoutSideMargin }
           )}
           {!hasMeta && (
             <NotDefined
-              explanation="No meta data defined. Meta data can be used to transport information about the deployment or settings. Meta data is available as filter and grouping within the analyze area."
+              explanation={t('in-websites:analyze.analyzeView.beaconUserSummary.explanationNoMetaDataDefined')}
               learnMoreHref="https://instana.com/docs/website_monitoring/api/#metadata"
-              learnMoreLabel="Learn how to add meta data"
+              learnMoreLabel={t('in-websites:analyze.analyzeView.beaconUserSummary.labelLearnHowToAddMetaData')}
             />
           )}
         </Card>

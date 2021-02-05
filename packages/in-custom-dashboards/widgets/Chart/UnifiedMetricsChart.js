@@ -9,12 +9,13 @@ import {
   defaultRenderer,
   enforceSingleNumberResult
 } from 'in-custom-dashboards/widgets/Chart/renderer';
-import { extendWindowSizeOnLiveMode, getChartGranularity } from 'in-applications/metrics';
 import sources from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources';
 import { colors } from 'in-custom-dashboards/widgets/Chart/FormComponent/colors';
 import { translateOffsetToTimeShiftConfig } from 'in-stores/time/shifting';
 import { getMetricLabel } from 'in-custom-dashboards/widgets/Chart/util';
+import { extendWindowSizeOnLiveMode } from 'in-applications/metrics';
 import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
+import { getChartGranularity } from 'in-stores/metric/metric';
 import ChartWrapper from 'in-components/Chart/ChartWrapper';
 import { getFormatter } from 'in-stores/metric/formatters';
 import { pendingResult } from 'in-services/fixedObjects';
@@ -62,8 +63,10 @@ export default function UnifiedMetricsChart({
   );
   useEffect(() => setTimeConfigExtendedForLiveMode(extendWindowSizeOnLiveMode(timeConfig)), [timeConfig]);
 
-  const configuredGranularity = config.granularity ?? getChartGranularity(timeConfigExtendedForLiveMode);
-  const minimumGranularity = getMaxSeriesGranularity(config);
+  const suggestedNumberOfDataPoints = getSuggestedNumberOfDataPoints(config);
+  const configuredGranularity =
+    config.granularity ?? getChartGranularity(timeConfigExtendedForLiveMode, suggestedNumberOfDataPoints);
+  const minimumGranularity = getMinGranularity(config);
   const granularity = Math.max(minimumGranularity, configuredGranularity);
   let result = useResultData(config, granularity, timeConfigExtendedForLiveMode) ?? pendingResult;
 
@@ -281,11 +284,23 @@ function toMetricsConfiguration(config, resultDataAsList) {
   }
 }
 
-function getMaxSeriesGranularity(config) {
+function getSuggestedNumberOfDataPoints(config) {
+  return getAllMetricSources(config)
+    .map(source => source.suggestedNumberOfDataPoints ?? 80)
+    .reduce((a, m) => Math.max(a, m), 0);
+}
+
+function getMinGranularity(config) {
+  return getAllMetricSources(config)
+    .map(source => source.minGranularity ?? 0)
+    .reduce((a, m) => Math.max(a, m), 0);
+}
+
+function getAllMetricSources(config) {
   return config.y1.metrics
     .concat(config.y2?.metrics ?? [])
-    .map(c => sources[c.source]?.minGranularity ?? 0)
-    .reduce((a, m) => Math.max(a, m), 0);
+    .map(c => sources[c.source])
+    .filter(Boolean);
 }
 
 // For charts in custom dashboards we support a feature called "Display Current Values".

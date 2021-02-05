@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import React, { Fragment } from 'react';
+import { t } from 'in-i18n';
 
 import ListItemPresenter from 'in-websites/analyze/AnalyzeView/Beacons/ListItemPresenter';
 import { getLinkToWebsite, getLinkToPageLoad } from 'in-websites/navigation/paths';
@@ -19,15 +20,15 @@ export const perTypeColumnCount = 3;
 export function TableHeaderColumns({ orderBy, orderDirection, onChangeOrder }) {
   return (
     <Fragment>
-      <Th>Path</Th>
-      <Th>Website</Th>
+      <Th>{t('in-websites:analyze.analyzeView.beacons.perBeaconTypeConfigPath')}</Th>
+      <Th>{t('in-websites:analyze.analyzeView.beacons.perBeaconTypeConfigWebsite')}</Th>
       <SortableColumn
         orderBy={orderBy}
         orderDirection={orderDirection}
         onChangeOrder={onChangeOrder}
         defaultDirection="DESC"
         technicalName={timestampMetricName}
-        label="Timestamp"
+        label={t('in-websites:analyze.analyzeView.beacons.perBeaconTypeConfigLabelTimestamp')}
       />
     </Fragment>
   );
@@ -49,7 +50,9 @@ export function TableRowColumns({ item }) {
         </TableLinkWithIcon>
         <BatchingIndicator
           batchCount={item.beacon.batchSize}
-          tooltipContent={`This page load is batched and represents ${item.beacon.batchSize} individual page loads.`}
+          tooltipContent={t('in-websites:analyze.analyzeView.beacons.perBeaconTypeConfigPageLoadTooltip', {
+            batchSize: item.beacon.batchSize
+          })}
         />
       </Td>
 
@@ -66,7 +69,7 @@ export function TableRowColumns({ item }) {
   );
 }
 
-export const ListItemHeader = 'Path';
+export const ListItemHeader = t('in-websites:analyze.analyzeView.beacons.perBeaconTypeConfigPath');
 
 export function ListItem({ item, active }) {
   return (

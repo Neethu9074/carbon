@@ -6,11 +6,11 @@ import classNames from 'classnames';
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-import ChartSubEntitySelection from 'in-new-components/Alerting/components/ChartsServiceSwitcher';
 import { PER_AP_SERVICE } from 'in-applications/alerting/advanced/EvaluationSwitch/alertEvaluationTypes';
+import ChartSubEntitySelection from 'in-new-components/Alerting/components/ChartSubEntitySelection';
 import { maxChartViewTimeframe } from 'in-new-components/Alerting/Chart/chartViewConfig';
 import { chartViewConfigs } from 'in-new-components/Alerting/Chart/chartViewConfig';
-import { smartAlertsEntityGroupingEnabled } from 'in-services/featureFlags';
+import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';
 import ButtonGroup from 'in-new-components/ButtonGroup/ButtonGroup';
 import StackItem from 'in-new-components/layout/Stack/StackItem';
 import LightCard from 'in-new-components/Card/LightCard';
@@ -20,7 +20,7 @@ import locals from './ChartViewConfigurator.mless';
 
 export default function ChartViewConfigurator({
   selectedChartViewConfigIndex = 0,
-  alertConfig,
+  alertConfigWithFormModel,
   children,
   className,
   doNotSetDefaultHeight,
@@ -31,7 +31,7 @@ export default function ChartViewConfigurator({
 }) {
   const selectedChartViewConfig = chartViewConfigs[selectedChartViewConfigIndex];
   const [serviceId, setServiceId] = useState();
-  const showEntitySelection = alertConfig?.evaluationType === PER_AP_SERVICE && smartAlertsEntityGroupingEnabled;
+  const showEntitySelection = alertConfigWithFormModel?.evaluationType === PER_AP_SERVICE;
   return (
     <>
       <LightCard
@@ -58,13 +58,18 @@ export default function ChartViewConfigurator({
         <Stack>
           {showEntitySelection && (
             <StackItem>
-              <ChartSubEntitySelection
-                serviceId={serviceId}
-                setServiceId={setServiceId}
-                alertConfigWithFormModel={alertConfig}
-                // use maximum possible timeframe, to have a stable list when switching between options
-                queryWindowSize={maxChartViewTimeframe}
-              />
+              <HorizontalFlexWrapper>
+                <span className={locals.labelWithGap}>Preview for Service:</span>
+                <div className={locals.expanding}>
+                  <ChartSubEntitySelection
+                    serviceId={serviceId}
+                    setServiceId={setServiceId}
+                    alertConfigWithFormModel={alertConfigWithFormModel}
+                    // use maximum possible timeframe, to have a stable list when switching between options
+                    queryWindowSize={maxChartViewTimeframe}
+                  />
+                </div>
+              </HorizontalFlexWrapper>
             </StackItem>
           )}
           <StackItem>{children(selectedChartViewConfig, serviceId)}</StackItem>
@@ -82,6 +87,6 @@ ChartViewConfigurator.propTypes = {
   title: PropTypes.string,
   headerTransparent: PropTypes.bool,
   framed: PropTypes.bool,
-  alertConfig: PropTypes.shape({ evaluationType: PropTypes.string }),
+  alertConfigWithFormModel: PropTypes.shape({ evaluationType: PropTypes.string }),
   onChartViewConfigChange: PropTypes.func.isRequired
 };

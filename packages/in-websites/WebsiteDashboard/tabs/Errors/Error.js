@@ -20,14 +20,14 @@ import PagesTopList from 'in-websites/WebsiteDashboard/tabs/Errors/PagesTopList'
 import StackTrace from 'in-websites/WebsiteDashboard/tabs/Errors/StackTrace';
 import OsTopList from 'in-websites/WebsiteDashboard/tabs/Errors/OsTopList';
 import { affectedUsers, affectedUsersChart } from 'in-websites/formatters';
-import RedirectWithHash from 'in-components/RedirectWithHash';
 import getWebsiteError from 'in-websites/subscriptions/getWebsiteError';
 import { isNotBlank, removeBlankLines } from 'in-services/util/string';
 import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import LearnMoreCard from 'in-new-components/Card/LearnMoreCard';
+import RedirectWithHash from 'in-components/RedirectWithHash';
+import { getChartGranularity } from 'in-stores/metric/metric';
 import Renderer from 'in-components/Chart/renderer/Renderer';
-import { getChartGranularity } from 'in-websites/metrics';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import { number } from 'in-services/formatters/number';
 import BackButton from 'in-new-components/BackButton';

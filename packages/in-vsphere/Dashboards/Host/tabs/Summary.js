@@ -3,6 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 import React, { Fragment } from 'react';
+import theme from 'in-themes';
+import { t } from 'in-i18n';
 
 import { number, bytesZeroDecimalPlaces, percentage, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
@@ -12,9 +14,8 @@ import KpiGridRow from 'in-new-components/KpiGridRow/KpiGridRow';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
 import Capitalize from 'in-new-components/Capitalize';
-import Card from 'in-new-components/Card';
-import theme from 'in-themes';
 import DatastoreTable from './DatastoreTable';
+import Card from 'in-new-components/Card';
 
 export default function Summary({ timeConfig, data: host }) {
   const snapshotId = host.id;
@@ -24,25 +25,25 @@ export default function Summary({ timeConfig, data: host }) {
     <Fragment>
       <KpiGridRow sizes={[3, 3, 3, 3]}>
         <InfraMetricKpiCard
-          title="CPU Usage"
+          title={t('in-vsphere:dashboards.cpuUsage')}
           snapshotId={snapshotId}
           metric="cpu.usage.percent.maximum.*"
           formatter={percentage.detailed}
         />
         <KpiCard
-          title="CPU Total"
+          title={t('in-vsphere:dashboards.cpuTotal')}
           value={<Capitalize>{host.cpuTotal || valueMissingPlaceholder}</Capitalize>}
           raw
           borderless
         />
         <InfraMetricKpiCard
-          title="Memory Usage"
+          title={t('in-vsphere:dashboards.memoryUsage')}
           snapshotId={snapshotId}
           metric="mem.usage.average.percent"
           formatter={percentage.detailed}
         />
         <KpiCard
-          title="Memory Total"
+          title={t('in-vsphere:dashboards.memoryTotal')}
           value={<Capitalize>{bytesTwoDecimalPlaces(host.memoryTotal) || valueMissingPlaceholder}</Capitalize>}
           raw
           borderless
@@ -51,14 +52,14 @@ export default function Summary({ timeConfig, data: host }) {
 
       <Row verticallyStretchColumns>
         <Col lg={6}>
-          <Card title="CPU" useMaxAvailableHeight>
+          <Card title={t('in-vsphere:dashboards.cpu')} useMaxAvailableHeight>
             <Chart
               snapshotId={snapshotId}
               timeConfig={timeConfig}
               y1={{
                 formatter: percentage.detailed,
                 metrics: ['cpu.usage.percent.maximum.*'],
-                labels: ['Usage'],
+                labels: [t('in-vsphere:dashboards.usage')],
                 type: 'line',
                 colors: [usage]
               }}
@@ -66,14 +67,18 @@ export default function Summary({ timeConfig, data: host }) {
           </Card>
         </Col>
         <Col lg={6}>
-          <Card title="Memory" useMaxAvailableHeight>
+          <Card title={t('in-vsphere:dashboards.memory')} useMaxAvailableHeight>
             <Chart
               snapshotId={snapshotId}
               timeConfig={timeConfig}
               y1={{
                 formatter: bytesTwoDecimalPlaces,
                 metrics: ['mem.active.bytes.average', 'mem.shared.bytes.average', 'mem.vmmemctl.bytes.average'],
-                labels: ['Active', 'Shared', 'Vmemctl'],
+                labels: [
+                  t('in-vsphere:dashboards.active'),
+                  t('in-vsphere:dashboards.shared'),
+                  t('in-vsphere:dashboards.vmemctl')
+                ],
                 type: 'line'
               }}
             />
@@ -83,7 +88,7 @@ export default function Summary({ timeConfig, data: host }) {
 
       <Row verticallyStretchColumns>
         <Col lg={12}>
-          <Card title="Network" useMaxAvailableHeight>
+          <Card title={t('in-vsphere:dashboards.network')} useMaxAvailableHeight>
             <Chart
               snapshotId={snapshotId}
               timeConfig={timeConfig}
@@ -94,7 +99,11 @@ export default function Summary({ timeConfig, data: host }) {
                   'net.transmitted.average.bytesPerSecond',
                   'net.total.average.bytesPerSecond'
                 ],
-                labels: ['Bytes Received', 'Bytes Transmitted', 'Bytes Total'],
+                labels: [
+                  t('in-vsphere:dashboards.host.bytesReceived'),
+                  t('in-vsphere:dashboards.host.bytesTransmitted'),
+                  t('in-vsphere:dashboards.host.bytesTotal')
+                ],
                 type: 'line'
               }}
               y2={{
@@ -104,7 +113,11 @@ export default function Summary({ timeConfig, data: host }) {
                   'net.packetsTx.summation.number',
                   'net.packetsTotal.summation.number'
                 ],
-                labels: ['Packets Received', 'Packets Transmitted', 'Packets Total'],
+                labels: [
+                  t('in-vsphere:dashboards.host.packetsReceived'),
+                  t('in-vsphere:dashboards.host.packetsTransmitted'),
+                  t('in-vsphere:dashboards.host.packetsTotal')
+                ],
                 type: 'line'
               }}
             />

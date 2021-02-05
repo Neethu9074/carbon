@@ -33,6 +33,7 @@ export default function LogDetail(props) {
             contextConfigurations={[{ renderContext, contextIcon: 'lib_analyze_inverted' }]}
             label="Log"
             title="Log"
+            withBorderBottom
           />
         }
       >

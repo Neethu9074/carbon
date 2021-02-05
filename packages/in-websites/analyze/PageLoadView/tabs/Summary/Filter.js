@@ -5,6 +5,7 @@
 import React, { useMemo } from 'react';
 import { sortedUniqBy } from 'lodash';
 import classNames from 'classnames';
+import { t } from 'in-i18n';
 
 import { types } from 'in-websites/analyze/PageLoadView/tabs/Summary/filterableTypes';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
@@ -22,7 +23,7 @@ export default function Filter({ filter, setFilter, beacons }) {
   return (
     <div className={locals.wrapper}>
       {pages.length > 1 && (
-        <FilterBlock title="Pages">
+        <FilterBlock title={t('in-websites:analyze.analyzeView.pageLoadView.filterTitlePages')}>
           <Select
             id="page-filter"
             value={filter.page || ''}
@@ -42,7 +43,7 @@ export default function Filter({ filter, setFilter, beacons }) {
               }
             }}
           >
-            <option value="">All</option>
+            <option value="">{t('in-websites:analyze.analyzeView.pageLoadView.filterOptionAll')}</option>
             {pages.map(p => (
               <option key={p} value={p}>
                 {p}
@@ -52,7 +53,7 @@ export default function Filter({ filter, setFilter, beacons }) {
         </FilterBlock>
       )}
 
-      <FilterBlock title="Search">
+      <FilterBlock title={t('in-websites:analyze.analyzeView.pageLoadView.filterTitleSearch')}>
         <SearchInput
           maxWidth="10rem"
           query={filter.query}
@@ -72,7 +73,7 @@ export default function Filter({ filter, setFilter, beacons }) {
         />
       </FilterBlock>
 
-      <FilterBlock title="Types">
+      <FilterBlock title={t('in-websites:analyze.analyzeView.pageLoadView.filterTitleTypes')}>
         <ul className={locals.typeFilters}>
           <li className={locals.typeFilter}>
             <a
@@ -90,7 +91,7 @@ export default function Filter({ filter, setFilter, beacons }) {
                 });
               }}
             >
-              All
+              {t('in-websites:analyze.analyzeView.pageLoadView.filterOptionAll')}
             </a>
           </li>
 

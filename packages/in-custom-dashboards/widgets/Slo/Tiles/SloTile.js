@@ -46,6 +46,6 @@ SloTile.propTypes = {
   title: PropTypes.string.isRequired,
   value: PropTypes.string,
   targetInfo: PropTypes.string.isRequired,
-  targetValue: PropTypes.string.isRequired,
+  targetValue: PropTypes.string,
   color: PropTypes.string
 };

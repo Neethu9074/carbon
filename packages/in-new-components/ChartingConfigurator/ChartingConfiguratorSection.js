@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import DefaultChartingConfigurator from 'in-new-components/ChartingConfigurator/ChartingConfigurator';
@@ -20,7 +21,11 @@ export default function ChartingConfiguratorSection({
   additionalActions = noAdditionalActions
 }) {
   return (
-    <Section icon="lib_bar_chart" title="Chart" actions={<>{additionalActions}</>}>
+    <Section
+      icon="lib_bar_chart"
+      title={t('in-new-components:chartingConfigurator.titleChart')}
+      actions={<>{additionalActions}</>}
+    >
       <ChartingConfigurator
         value={value}
         options={options}

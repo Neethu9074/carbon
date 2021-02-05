@@ -6,6 +6,7 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import React, { useState } from 'react';
 import classNames from 'classnames';
 import rpt from 'prop-types';
+import { t } from 'in-i18n';
 
 import SlideInView, { ListHeader } from 'in-new-components/SlideInView/SlideInView';
 import Button from 'in-new-components/Button';
@@ -41,7 +42,7 @@ export default function DraggableItemSelector(props) {
                     <Draggable key={i} draggableId={i} index={i}>
                       {provided => (
                         <div className={locals.item} ref={provided.innerRef} {...provided.draggableProps}>
-                          <Tooltip content="Reorder metrics">
+                          <Tooltip content={t('in-new-components:draggableItemSelector.tooltipReorderMetrics')}>
                             <div className={locals.dragHandle} {...provided.dragHandleProps}>
                               <SvgIcon type="lib_menu" size="xs" />
                             </div>

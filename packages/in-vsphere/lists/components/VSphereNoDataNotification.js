@@ -12,7 +12,7 @@ export default function VSphereNoDataNotification(props) {
   return (
     <EntityPageMainNotification
       icon="lib_vsphere"
-      title="No Monitoring Data Found"
+      title={t('in-vsphere:noMonitoringDataFound')}
       renderExplanation={() => <ArticleContent markdownContent={t('in-vsphere:noData')} />}
       {...props}
     />

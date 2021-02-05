@@ -1,4 +1,48 @@
 {
+  "breadcrumbs": {
+    "cloudFoundryApplication": "Cloud Foundry Application",
+    "cloudFoundryApplications": "Cloud Foundry Applications"
+  },
+  "cfApplicationsWithCount": "CF Applications ({{count}})",
+  "cfApplicationsWithCount_plural": "CF Applications ({{count}})",
+  "cfApplicationsWithCount_0": "CF Applications ({{count}})",
+  "cfApplicationsWithCount_1": "CF Applications ({{count}})",
+  "cfApplicationsWithCount_2": "CF Applications ({{count}})",
+  "dashboards": {
+    "cfApplication": "CF Application",
+    "cloudFoundryApplication": "Cloud Foundry Application",
+    "name": "Name",
+    "instanceIndex": "Instance Index",
+    "cpuTotal": "CPU Total",
+    "memoryTotal": "Memory Total",
+    "health": "Health",
+    "containers": "Containers",
+    "summary": "Summary",
+    "requestedState": "Requested State",
+    "instances": "Instances",
+    "memoryLimit": "Memory Limit",
+    "lastUpdated": "Last Updated",
+    "buildpack": "Buildpack",
+    "routes": "Routes",
+    "diskLimit": "Disk Limit",
+    "createdAt": "Created at",
+    "analyzeCalls": "Analyze Calls"
+  },
+  "entityName": {
+    "containers": "containers"
+  },
+  "name": "Name",
+  "requestedState": "Requested State",
+  "instances": "Instances",
+  "memoryLimit": "Memory Limit",
+  "foundation": "Foundation",
+  "organization": "Organization",
+  "space": "Space",
+  "routes": "Routes",
+  "health": "Health",
+  "cloudFoundryApplications": "Cloud Foundry Applications",
+  "cfApplications": "CF Applications",
+  "noMonitoringDataFound": "No Monitoring Data Found",
   "cloudfoundry": {
     "noData": "Application perspectives provide a means to model environments, sets of services, tenants, or just about anything."
   }

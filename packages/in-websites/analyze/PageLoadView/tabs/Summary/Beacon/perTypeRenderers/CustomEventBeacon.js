@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import React, { Fragment } from 'react';
+import { t } from 'in-i18n';
 
 import ReferencedPageLoads from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/ReferencedPageLoads';
 import { isScriptError, learnMoreLabel, learnMoreHref, explanation } from 'in-websites/definitions/scriptError';
@@ -31,18 +32,21 @@ export const LeftHeader = ({ beacon, earliestTimestamp }) => (
     <KeyValueHeader
       label={
         <Fragment>
-          Custom Event
+          {t('customEventBeaconHeaderCustomEvent')}
           <BatchIndicator batchCount={beacon.batchSize} />
         </Fragment>
       }
       value={getLabel(beacon)}
     />
     <KeyValueHeader
-      label="Start Time"
+      label={t('in-websites:analyze.analyzeView.pageLoadView.customEventBeaconLabelStartTime')}
       value={millisToTwoDecimalSeconds(beacon.timestamp - earliestTimestamp)}
       tooltipContent={formatDateTime(beacon.timestamp)}
     />
-    <KeyValueHeader label="Duration" value={latencyFixed.compact(beacon.duration)} />
+    <KeyValueHeader
+      label={t('in-websites:analyze.analyzeView.pageLoadView.customEventBeaconLabelDuration')}
+      value={latencyFixed.compact(beacon.duration)}
+    />
   </Fragment>
 );
 
@@ -53,22 +57,24 @@ export const Body = ({ beacon }) => {
     <Fragment>
       <Row>
         <Col lg={6}>
-          <BodyHeader>Custom Event</BodyHeader>
+          <BodyHeader>{t('customEventBeaconHeaderCustomEvent')}</BodyHeader>
 
           <Dl>
-            <Di title="Window Location">
+            <Di title={t('in-websites:analyze.analyzeView.pageLoadView.customEventBeaconTitleWindowLocation')}>
               <a href={beacon.locationUrl} rel="noopener noreferrer" target="_blank">
                 {beacon.locationUrl}
               </a>
             </Di>
-            <Di title="Event Name">{beacon.customEventName}</Di>
+            <Di title={t('in-websites:analyze.analyzeView.pageLoadView.customEventBeaconTitleEventName')}>
+              {beacon.customEventName}
+            </Di>
             <BackendDi beacon={beacon} />
           </Dl>
         </Col>
 
         {Object.keys(beacon.meta).length > 0 && (
           <Col lg={6}>
-            <BodyHeader>Meta</BodyHeader>
+            <BodyHeader>{t('customEventBeaconHeaderMeta')}</BodyHeader>
             <Meta beacon={beacon} />
           </Col>
         )}
@@ -80,12 +86,16 @@ export const Body = ({ beacon }) => {
         <Fragment>
           <Row>
             <Col lg={6}>
-              <BodyHeader>Error Details</BodyHeader>
+              <BodyHeader>{t('customEventBeaconHeaderErrorDetails')}</BodyHeader>
 
               {!isScriptError(beacon.errorMessage) && (
                 <Dl>
-                  <Di title="Error Message">{beacon.errorMessage}</Di>
-                  <Di title="Error Type">{beacon.errorType}</Di>
+                  <Di title={t('in-websites:analyze.analyzeView.pageLoadView.customEventBeaconTitleErrorMessage')}>
+                    {beacon.errorMessage}
+                  </Di>
+                  <Di title={t('in-websites:analyze.analyzeView.pageLoadView.customEventBeaconTitleErrorType')}>
+                    {beacon.errorType}
+                  </Di>
                 </Dl>
               )}
 
@@ -106,7 +116,7 @@ export const Body = ({ beacon }) => {
           <Row>
             {isNotBlank(beacon.componentStack) && (
               <Col lg={12}>
-                <BodyHeader>Component Stack</BodyHeader>
+                <BodyHeader>{t('customEventBeaconHeaderComponentStack')}</BodyHeader>
                 <RawStack stack={beacon.componentStack} />
               </Col>
             )}

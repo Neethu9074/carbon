@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import getMobileAppPaginatedBeaconGroups from 'in-mobile-apps/subscriptions/getMobileAppPaginatedBeaconGroups';
@@ -20,7 +21,7 @@ const formatters = [number.compact];
 export default function ErrorTypesTopList({ mobileAppId, mobileAppLabel, timeConfig, tagFilters }) {
   return (
     <TopListWithUrlState
-      title="Error Types"
+      title={t('in-mobile-apps:dashboard.tabs.errorTypesTitle')}
       metrics={metrics}
       labels={labels}
       aggregations={aggregations}
@@ -74,7 +75,7 @@ function ViewAll({ tagFilters, mobileAppLabel }, className) {
         }
       })}
     >
-      View all error types
+      {t('in-mobile-apps:dashboard.tabs.viewAllErrorTypesLink')}
     </Link>
   );
 }
