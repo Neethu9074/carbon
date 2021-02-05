@@ -4,27 +4,28 @@
  */
 import { combineLatest } from '@instana/observables';
 import { Switch, Route } from 'react-router-dom';
+import { t, Trans } from 'in-i18n';
 import React from 'react';
 
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer/MaxWidthFullscreenContainer';
 import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
-import DashboardHeaderModule from 'in-new-components/DashboardHeader/DashboardHeaderModule';
 import AgentInstallationView from 'in-infrastructure/agentView/components/AgentInstallationView';
+import AgentsPresenceChart from 'in-infrastructure/agentView/components/AgentsPresenceChart';
+import DashboardHeaderModule from 'in-new-components/DashboardHeader/DashboardHeaderModule';
 import getAgentSnapshotsInTimeframe from 'in-subscription/getAgentSnapshotsInTimeframe';
 import { resetAgent, updateAgent } from 'in-forge/plugins/instanaAgent/selfMonitoring';
-import AgentsPresenceChart from 'in-infrastructure/agentView/components/AgentsPresenceChart';
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
-import ConfirmationDialog from 'in-new-components/Dialog/ConfirmationDialog';
 import AgentViewKpis from 'in-infrastructure/agentView/components/AgentViewKpis';
+import ConfirmationDialog from 'in-new-components/Dialog/ConfirmationDialog';
+import AgentsTable from 'in-infrastructure/agentView/components/AgentsTable';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
-import AgentsTable from 'in-infrastructure/agentView/components/AgentsTable';
 import DashboardHeader from 'in-new-components/DashboardHeader';
 import { close } from 'in-components/DialogPresenter/store';
-import { emptyList } from 'in-services/fixedImmutables';
 import { debouncedQuery$ } from 'in-stores/search/query';
+import { emptyList } from 'in-services/fixedImmutables';
 import { timeConfig$ } from 'in-stores/time/config';
 import Dashboard from 'in-infrastructure/Dashboard';
 import SearchBar from 'in-components/SearchBar';
@@ -59,8 +60,8 @@ export default connectTo(
       <>
         <ViewTrackingMeta
           data={{
-            productArea: 'Agents',
-            pageRootName: 'Agents'
+            productArea: t('in-infrastructure:agentView.agents'),
+            pageRootName: t('in-infrastructure:agentView.agents')
           }}
         />
 
@@ -83,7 +84,7 @@ export default connectTo(
                 header={
                   <>
                     <DashboardHeader
-                      title="Agents"
+                      title={t('in-infrastructure:agentView.agents')}
                       contextConfigurations={[{ renderContext: () => 'Agents', contextIcon: 'lib_actions_settings' }]}
                       renderButtonLine={renderButtonLine}
                       agentSnapshots={agentSnapshots}
@@ -126,10 +127,10 @@ const ButtonLine = connectTo({ isInternalVisible: isInternalVisible$ }, function
       {isInternalVisible && (
         <>
           <Button kind="primary" onClick={() => updateAllAgents({ agentSnapshots })}>
-            Update All Agents
+            {t('in-infrastructure:agentView.updateAllAgents')}
           </Button>
           <Button kind="secondary" onClick={() => resetAllAgents({ agentSnapshots })}>
-            Reset All Agents
+            {t('in-infrastructure:agentView.resetAllAgents')}
           </Button>
         </>
       )}
@@ -140,7 +141,7 @@ const ButtonLine = connectTo({ isInternalVisible: isInternalVisible$ }, function
             params.pathname = '/agents/installation';
           })}
         >
-          Installing Instana Agents
+          {t('in-infrastructure:agentView.installingInstanaAgents')}
         </Button>
       )}
     </div>
@@ -164,14 +165,16 @@ function onUpdateAllAgents({ agentSnapshots }) {
 function updateAllAgents({ agentSnapshots }) {
   addActiveDialog(
     <ConfirmationDialog
-      header="Confirm update of all agents"
+      header={t('in-infrastructure:agentView.confirmUpdateOfAllAgents')}
       description={
         <span>
-          Are you sure you want to <strong>update all reporting agents</strong>? This will take{' '}
-          {agentSnapshots.get('online', emptyList).count() / 6} minutes.
+          <Trans
+            i18nKey="in-infrastructure:agentView.confirmUpdateDesc"
+            values={{ count: agentSnapshots.get('online', emptyList).count() / 6 }}
+          />
         </span>
       }
-      confirmButtonLabel="Update"
+      confirmButtonLabel={t('in-infrastructure:agentView.update')}
       onSubmit={() => {
         onUpdateAllAgents({ agentSnapshots });
       }}
@@ -196,14 +199,16 @@ function onResetAllAgents({ agentSnapshots }) {
 function resetAllAgents({ agentSnapshots }) {
   addActiveDialog(
     <ConfirmationDialog
-      header="Confirm reset of all agents"
+      header={t('in-infrastructure:agentView.confirmResetOfAllAgents')}
       description={
         <span>
-          Are you sure you want to <strong>reset all reporting agents</strong>? This will take{' '}
-          {agentSnapshots.get('online', emptyList).count()} minutes.
+          <Trans
+            i18nKey="in-infrastructure:agentView.confirmResetDesc"
+            values={{ count: agentSnapshots.get('online', emptyList).count() }}
+          />
         </span>
       }
-      confirmButtonLabel="Reset"
+      confirmButtonLabel={t('in-infrastructure:agentView.reset')}
       onSubmit={() => {
         onResetAllAgents({ agentSnapshots });
       }}

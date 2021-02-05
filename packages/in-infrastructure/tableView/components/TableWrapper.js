@@ -2,15 +2,16 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { toggleSnapshotId, selectedSnapshotIds$ } from 'in-infrastructure/tableView/stores/selectedSnapshots';
 import ChartsForSelectedEntities from 'in-infrastructure/tableView/components/ChartsForSelectedEntities';
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
-import { supportTableView, getTableDefinition } from 'in-sdk/snapshot';
 import RightHeader from 'in-infrastructure/tableView/components/RightHeader';
 import LeftHeader from 'in-infrastructure/tableView/components/LeftHeader';
 import { plugin$ } from 'in-infrastructure/tableView/stores/snapshotIds';
+import { supportTableView, getTableDefinition } from 'in-sdk/snapshot';
 import { data$ } from 'in-infrastructure/tableView/stores/snapshotIds';
 import Table from 'in-infrastructure/tableView/components/Table';
 import { getPlural } from 'in-sdk/pluginName';
@@ -33,7 +34,9 @@ export default connectTo(
 
     if (!supportTableView(plugin)) {
       return (
-        <div className={`${block}__unsupported`}>Sorry, we do not yet support tables for {getPlural(plugin)}.</div>
+        <div className={`${block}__unsupported`}>
+          {t('in-infrastructure:tableView.weDoNotYetSupportTablesFor', { plugins: getPlural(plugin) })}
+        </div>
       );
     }
 

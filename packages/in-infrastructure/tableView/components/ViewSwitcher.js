@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { physicalTablePath, physicalPath, containerPath, isTableView } from 'in-stores/navigation/paths/mainPaths';
@@ -35,18 +36,18 @@ export default connectTo(
         <SecondLevelNavigation darkTheme={darkTheme}>
           <SecondLevelNavigationItem
             href$={getModifiedUrlStream(p => (p.pathname = physicalPath))}
-            label="Map"
+            label={t('in-infrastructure:tableView.map')}
             isActive={isMapActive}
           />
           <SecondLevelNavigationItem
             href$={getModifiedUrlStream(p => (p.pathname = physicalTablePath))}
-            label="Comparison Table"
+            label={t('in-infrastructure:tableView.comparisonTable')}
             isActive={isTableActive}
           />
           {infraExploreEnabled && (
             <SecondLevelNavigationItem
               href$={defaultInfraExploreView}
-              label="Entity Explore (Beta)"
+              label={t('in-infrastructure:tableView.entityExploreBeta')}
               isActive={isInfraExploreActive}
             />
           )}

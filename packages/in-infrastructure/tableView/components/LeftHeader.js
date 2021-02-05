@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import MetricSelector from 'in-infrastructure/tableView/components/MetricSelector';
@@ -29,7 +30,7 @@ export default connectTo(
           plugin={plugin}
           onChange={addSelectedMetric}
           selectedMetrics={selectedMetrics}
-          label={`Visualize metric for selected ${getPlural(plugin)}`}
+          label={t('in-infrastructure:tableView.visualizeMetricForSelected', { plugins: getPlural(plugin) })}
         />
       </header>
     );

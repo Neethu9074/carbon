@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import React, { useCallback } from 'react';
+import { t } from 'in-i18n';
 
 import { average, getGranularity, getMetricKey, defaultFormatter } from 'in-infrastructure/Explore/services/metrics';
 import { ColumnizedContent, Ul, Li, LoadingSkeletonLi, HorizontalIndicatorLi } from 'in-new-components/lists/List';
@@ -238,7 +239,7 @@ function columns({ groupBy, type, getParamsForGroup, metrics, timeConfig, granul
         width: '3rem',
         getContent({ group }) {
           return (
-            <Tooltip content="Focus on this group">
+            <Tooltip content={t('in-infrastructure:explore.focusOnThisGroup')}>
               <IconButton
                 type="lib_actions_filter"
                 href$={getLinkToExplore(getParamsForGroup(group))}

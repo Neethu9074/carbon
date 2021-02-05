@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import {
@@ -78,7 +79,7 @@ export default connectTo(
           <Collapsible.Content>
             <DescriptionList>
               {namespaceSnapshot ? (
-                <DescriptionItem title="Namespace">
+                <DescriptionItem title={t('in-infrastructure:dashboard.namespace')}>
                   <KubernetesSnapshotLink
                     getKubernetesViewEntityDashboard={getNamespaceDashboard}
                     snapshotId={namespaceSnapshot.get('id')}
@@ -87,11 +88,13 @@ export default connectTo(
                   </KubernetesSnapshotLink>
                 </DescriptionItem>
               ) : (
-                <DescriptionItem title="Namespace">{labels.get('io.kubernetes.pod.namespace')}</DescriptionItem>
+                <DescriptionItem title={t('in-infrastructure:dashboard.namespace')}>
+                  {labels.get('io.kubernetes.pod.namespace')}
+                </DescriptionItem>
               )}
 
               {podSnapshot ? (
-                <DescriptionItem title="Pod">
+                <DescriptionItem title={t('in-infrastructure:dashboard.pod')}>
                   <KubernetesSnapshotLink
                     getKubernetesViewEntityDashboard={getPodDashboard}
                     snapshotId={podSnapshot.get('id')}
@@ -102,7 +105,7 @@ export default connectTo(
               ) : null}
 
               {deploymentSnapshot ? (
-                <DescriptionItem title="Deployment">
+                <DescriptionItem title={t('in-infrastructure:dashboard.deployment')}>
                   <KubernetesSnapshotLink
                     getKubernetesViewEntityDashboard={getDeploymentDashboard}
                     snapshotId={deploymentSnapshot.get('id')}
@@ -113,7 +116,7 @@ export default connectTo(
               ) : null}
 
               {nodeSnapshot ? (
-                <DescriptionItem title="Node">
+                <DescriptionItem title={t('in-infrastructure:dashboard.node')}>
                   <KubernetesSnapshotLink
                     getKubernetesViewEntityDashboard={getNodeDashboard}
                     snapshotId={nodeSnapshot.get('id')}
@@ -124,7 +127,7 @@ export default connectTo(
               ) : null}
 
               {clusterSnapshot ? (
-                <DescriptionItem title="Cluster">
+                <DescriptionItem title={t('in-infrastructure:dashboard.cluster')}>
                   <KubernetesSnapshotLink
                     getKubernetesViewEntityDashboard={getClusterDashboard}
                     snapshotId={clusterSnapshot.get('id')}
@@ -133,13 +136,16 @@ export default connectTo(
                   </KubernetesSnapshotLink>
                 </DescriptionItem>
               ) : null}
-              <DescriptionItem title="Restart Count">
+              <DescriptionItem title={t('in-infrastructure:dashboard.restartCount')}>
                 {labels.get('annotation.io.kubernetes.container.restartCount')}
               </DescriptionItem>
             </DescriptionList>
 
             {labels && labels.size > 0 ? (
-              <KeyValueOverlay header="Kubernetes Labels" data={allKubernetesLabelsWithoutPrefix} />
+              <KeyValueOverlay
+                header={t('in-infrastructure:dashboard.kubernetesLabels')}
+                data={allKubernetesLabelsWithoutPrefix}
+              />
             ) : null}
           </Collapsible.Content>
         </Collapsible>

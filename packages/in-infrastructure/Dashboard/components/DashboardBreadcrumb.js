@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
@@ -69,11 +70,11 @@ export default connectTo(
 
 function getHomeBreadcrumb(closeDashboardLink) {
   if (closeDashboardLink.includes('#/table')) {
-    return 'Comparison Table';
+    return t('in-infrastructure:dashboard.comparisonTable');
   } else if (closeDashboardLink.includes('#/agents')) {
-    return 'Agents';
+    return t('in-infrastructure:dashboard.agents');
   }
-  return 'Map';
+  return t('in-infrastructure:dashboard.map');
 }
 
 function collapseIds(ids, selectedId) {

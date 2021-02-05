@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import InfraPageHeaderWithTabs from 'in-infrastructure/components/InfraPageHeaderWithTabs';
@@ -16,12 +17,12 @@ export default function TableView() {
       <LegacyView />
       <ViewTrackingMeta
         data={{
-          productArea: 'Infrastructure',
-          pageRootName: 'Infra Comparison Table'
+          productArea: t('in-infrastructure:tableView.infrastructure'),
+          pageRootName: t('in-infrastructure:tableView.infraComparisonTable')
         }}
       />
 
-      <Title title="Infrastructure Comparison Table" />
+      <Title title={t('in-infrastructure:tableView.infrastructureComparisonTable')} />
       <TableWrapper />
     </InfraPageHeaderWithTabs>
   );

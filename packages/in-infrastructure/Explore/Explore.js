@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import React, { useCallback, useMemo } from 'react';
+import { t } from 'in-i18n';
 
 import {
   filterAddedTracker,
@@ -129,16 +130,16 @@ function InfraExploreViewWithFixatedTimeConfig() {
     >
       <ViewTrackingMeta
         data={{
-          productArea: 'Infrastructure',
-          pageRootName: 'Infra Explore'
+          productArea: t('in-infrastructure:explore.infrastructure'),
+          pageRootName: t('in-infrastructure:explore.infraExplore')
         }}
       />
 
-      <Title title="Explore" />
+      <Title title={t('in-infrastructure:explore.explore')} />
       <LeftRightPadding className={locals.stack}>
         <Stack space="gutter">
           <Message type={warning} withIcon small>
-            This is a beta version of a new product capability. We advise you not to rely on the data presented.
+            {t('in-infrastructure:explore.thisIsABetaVersionOfANewProductCapability')}
           </Message>
 
           <Sections>
@@ -170,7 +171,7 @@ function InfraExploreViewWithFixatedTimeConfig() {
 
           {isInvalid && (
             <Message type={error} withIcon small>
-              The query configuration is invalid. Please address the validation failures before continuing.
+              {t('in-infrastructure:explore.theQueryConfigurationIsInvalid')}
             </Message>
           )}
 

@@ -4,6 +4,7 @@
  */
 import React, { Fragment } from 'react';
 import classNames from 'classnames';
+import { t } from 'in-i18n';
 
 import * as IssueCategories from 'in-sdk/agentMonitoringIssueDefinition';
 import { reportingStatus as ReportingStatus } from './ReportingStatus';
@@ -36,10 +37,7 @@ export default function ReportingIndicator({ row }) {
 
 function getTooltipText(row) {
   if (row.reportingStatus !== ReportingStatus.DEGRADED) {
-    let text =
-      row.reportingStatus !== ReportingStatus.OFFLINE
-        ? ''
-        : 'The agent reported in the selected time range but has not reported at the selected moment. ';
+    let text = row.reportingStatus !== ReportingStatus.OFFLINE ? '' : t('in-infrastructure:agentView.tooltip1');
 
     // When available, take the time the Agent got started. "from" timestamps might be newer for example when a new
     // Snapshot was created during backend update or for other reasons. As users have no concept of these Snapshots,
@@ -47,9 +45,12 @@ function getTooltipText(row) {
     const startedAt = row.snapshot.get('data')?.get('startedAt');
     const from = startedAt ? startedAt : row.snapshot.get('from');
     if (!row.snapshot.get('to')) {
-      text += `The agent started at ${formatDateTime(from)} and is still reporting.`;
+      text += t('in-infrastructure:agentView.tooltip2', { startTime: formatDateTime(from) });
     } else {
-      text += `The agent reported between: ${formatDateTime(from)} and ${formatDateTime(row.snapshot.get('to'))}.`;
+      text += t('in-infrastructure:agentView.tooltip3', {
+        startTime: formatDateTime(from),
+        toTime: formatDateTime(row.snapshot.get('to'))
+      });
     }
 
     return text;
@@ -74,7 +75,7 @@ function getTooltipText(row) {
 
     return (
       <div>
-        <span>{`${monitoringIssuesTotalCount} Issue${monitoringIssuesTotalCount > 1 ? 's' : ''} reported:`}</span>
+        <span>{t('in-infrastructure:agentView.issueReported', { count: monitoringIssuesTotalCount })}</span>
         {rows}
       </div>
     );

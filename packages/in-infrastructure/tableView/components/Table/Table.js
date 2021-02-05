@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import shallowEquals from 'fbjs/lib/shallowEqual';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import SortIndicator from 'in-infrastructure/tableView/components/Table/components/SortIndicator';
@@ -96,7 +97,7 @@ export default class Table extends React.Component {
       rows.push(
         <tr key="no-data">
           <td colSpan={colCount} className={cellElement}>
-            {this.props.noDataText || 'No data.'}
+            {this.props.noDataText || t('in-infrastructure:tableView.noData')}
           </td>
         </tr>
       );
@@ -153,7 +154,7 @@ export default class Table extends React.Component {
                       size: 'compact',
                       onClick: () => this.store.setExpansionStateForAll(true),
                       className: locals.expansionSwitch,
-                      text: 'Expand All'
+                      text: t('in-infrastructure:tableView.expandAll')
                     },
                     {
                       key: 'collapse',
@@ -161,7 +162,7 @@ export default class Table extends React.Component {
                       size: 'compact',
                       onClick: () => this.store.setExpansionStateForAll(false),
                       className: locals.expansionSwitch,
-                      text: 'Collapse All'
+                      text: t('in-infrastructure:tableView.collapseAll')
                     }
                   ]}
                 />

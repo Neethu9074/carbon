@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { emptyList } from 'in-services/fixedImmutables';
@@ -14,7 +15,7 @@ export default function AgentViewKpis({ agentSnapshots }) {
   return (
     <div className={locals.row}>
       <KpiCard
-        title="Total Agents"
+        title={t('in-infrastructure:agentView.totalAgents')}
         value={
           <div className={locals.value}>
             {`${agentSnapshots.get('online', emptyList).size + agentSnapshots.get('offline', emptyList).size}`}
@@ -23,8 +24,8 @@ export default function AgentViewKpis({ agentSnapshots }) {
                 v1={agentSnapshots.get('online', emptyList).size}
                 v2={agentSnapshots.get('offline', emptyList).size}
                 formatter={v => v}
-                v1Label="Reporting"
-                v2Label="Not reporting"
+                v1Label={t('in-infrastructure:agentView.reporting')}
+                v2Label={t('in-infrastructure:agentView.notReporting')}
               />
             </div>
           </div>

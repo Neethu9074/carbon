@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { selectedType$, setSelectedType, matchedSnapshotCount$ } from 'in-infrastructure/tableView/stores/snapshotIds';
@@ -13,17 +14,17 @@ const block = 'in-table-view-type-selector';
 const id = 'table-view-type-selector';
 
 const physicalDomains = {
-  host: 'Hosts',
-  jvm: 'JVMs',
-  nodejs: 'Node.js Apps',
-  containerd: 'Containerd Containers',
-  crio: 'CRI-O Containers',
-  docker: 'Docker Containers',
-  garden: 'Garden Containers',
-  lxc: 'LXC Containers',
-  process: 'Processes',
-  clickHouseDatabase: 'ClickHouse',
-  ping: 'Ping'
+  host: t('in-infrastructure:tableView.physicalDomains.host'),
+  jvm: t('in-infrastructure:tableView.physicalDomains.jvm'),
+  nodejs: t('in-infrastructure:tableView.physicalDomains.nodejs'),
+  containerd: t('in-infrastructure:tableView.physicalDomains.containerd'),
+  crio: t('in-infrastructure:tableView.physicalDomains.crio'),
+  docker: t('in-infrastructure:tableView.physicalDomains.docker'),
+  garden: t('in-infrastructure:tableView.physicalDomains.garden'),
+  lxc: t('in-infrastructure:tableView.physicalDomains.lxc'),
+  process: t('in-infrastructure:tableView.physicalDomains.process'),
+  clickHouseDatabase: t('in-infrastructure:tableView.physicalDomains.clickHouseDatabase'),
+  ping: t('in-infrastructure:tableView.physicalDomains.ping')
 };
 
 export default connectTo(
@@ -34,7 +35,7 @@ export default connectTo(
   function TypeSelector({ selectedType, matchedSnapshotCount }) {
     return (
       <label className={block} htmlFor={id}>
-        Table content:
+        {t('in-infrastructure:tableView.tableContent')}
         <select id={id} className={`${block}__selection`} value={selectedType} onChange={setType}>
           {Object.keys(physicalDomains)
             .sort()
