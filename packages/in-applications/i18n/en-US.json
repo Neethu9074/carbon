@@ -21,11 +21,11 @@
   "buttonGoToDashboard": "Go to Dashboard",
   "buttonGoToFlow": "Go to Flow",
   "buttonGoToAnalytics": "Go to Analytics",
-  "buttonInspectIssue": "Inspect {{issueCount}} Issue",
-  "buttonInspectIssue_plural": "Inspect {{issueCount}} Issues",
-  "buttonInspectIssue_0": "Inspect {{issueCount}} Issues",
-  "buttonInspectIssue_1": "Inspect {{issueCount}} Issue",
-  "buttonInspectIssue_2": "Inspect {{issueCount}} Issues",
+  "buttonInspectIssue": "Inspect {{count}} Issue",
+  "buttonInspectIssue_plural": "Inspect {{count}} Issues",
+  "buttonInspectIssue_0": "Inspect {{count}} Issues",
+  "buttonInspectIssue_1": "Inspect {{count}} Issue",
+  "buttonInspectIssue_2": "Inspect {{count}} Issues",
   "buttonAnalyzeCalls": "Analyze Calls",
   "buttonAnalyzeWithLabel": "Analyze {{buttonLabel}}",
   "buttonClear": "Clear",
@@ -35,11 +35,11 @@
   "loadingData": "Loading Data",
   "UnexpectedErrorOccurred": "An unexpected error occurred",
   "noIssues": "No Issues",
-  "openIssues": "{{issueCount}} Issue",
-  "openIssues_plural": "{{issueCount}} Issues",
-  "openIssues_0": "{{issueCount}} Issues",
-  "openIssues_1": "{{issueCount}} Issue",
-  "openIssues_2": "{{issueCount}} Issues",
+  "openIssues": "{{count}} Issue",
+  "openIssues_plural": "{{count}} Issues",
+  "openIssues_0": "{{count}} Issues",
+  "openIssues_1": "{{count}} Issue",
+  "openIssues_2": "{{count}} Issues",
   "applicationMap": {
     "webglNotSupportedTitle": "Browser Does Not Support WebGL",
     "webglNotSupported": "The Instana user interface contains 3D components that are rendered using a technology called WebGL. Unfortunately this technology is not yet available on all platforms. Some browsers, especially browsers in older versions, do not support WebGL. We recommend using the newest generation of auto-updating browsers: Chrome, Firefox, Safari 8 or MS Edge.\n\nWe try our best to support all platform and browser combinations. However, it may be that our usage of WebGL contains errors. You can use an [online test](https://get.webgl.org/) to check whether your platform supports WebGL.\n\nShould the online test state that your platform supports WebGL, but the Instana 3D Map still remains inoperable, [please contact us](https://support.instana.com/hc/en-us/requests/new).\n\nFor further troubleshooting information please refer to the [WebGL compatibility table](http://caniuse.com/#feat=webgl) or the [WebGL website](http://webgl.org/).",
@@ -492,6 +492,7 @@
       "optionNoDownStreamServices": "No downstream services",
       "optionImmediateDownstreamServices": "Immediate downstream database and messaging services",
       "optionAllDownstreamServices": "All downstream services"
-    }
+    },
+    "tooltipEndpointBar": "Please select a single service before selecting endpoints."
   }
 }

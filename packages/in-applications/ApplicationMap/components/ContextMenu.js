@@ -87,8 +87,7 @@ export function ContextMenuContent({ applicationId, application, node, isTraffic
           href$={getEventsViewFilteredBy({ applicationId, serviceId: node.id, eventTypeFilter: 'issue' })}
         >
           {t('in-applications:buttonInspectIssue', {
-            count: openIssues,
-            issueCount: openIssues
+            count: openIssues
           })}
         </Button>
       )}

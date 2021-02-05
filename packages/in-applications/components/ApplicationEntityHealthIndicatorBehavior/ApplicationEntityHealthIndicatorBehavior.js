@@ -60,8 +60,7 @@ function Indicator({ openIssues, maxSeverity, IndicatorPresenter, refSetter, tog
   return (
     <IndicatorPresenter
       openIssues={t('in-applications:openIssues', {
-        count: openIssues,
-        issueCount: openIssues
+        count: openIssues
       })}
       maxSeverity={maxSeverity}
       onClick={toggle}
