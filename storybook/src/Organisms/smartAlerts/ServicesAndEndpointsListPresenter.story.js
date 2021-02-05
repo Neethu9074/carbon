@@ -25,12 +25,13 @@ export function servicesAndEnpointsListGlobalAlerts() {
     <ServicesAndEndpointsListPresenter
       apiSubscriptions={{
         getApplicationsCursorPaginated: () => just(getApplicationsResult),
-        getApplication: () => just(getApplicationResult),
         getServicesCursorPaginated: () => just(getServicesResult),
         getEndpointsCursorPaginated: () => just(getEndpointsResult)
       }}
       applicationsSelection={{}}
+      boundaryScope="INBOUND"
       onChange={noop}
+      isGlobalSmartAlert
     />
   );
 }
@@ -44,15 +45,15 @@ export function servicesAndEnpointsListIndividualAlerts() {
         getServicesCursorPaginated: () => just(getServicesResult),
         getEndpointsCursorPaginated: () => just(getEndpointsResult)
       }}
-      applicationsSelection={{}}
-      onChange={noop}
       alertApplicationId="btg-B701Rx6o9QNXUS4TVw"
-      isLocalAlert
+      applicationsSelection={{}}
+      boundaryScope="INBOUND"
+      onChange={noop}
     />
   );
 }
 
-export function servicesAndEnpointsListGlobalAlertsWithStaleConfig() {
+export function servicesAndEnpointsListAlertsWithStaleConfig() {
   return (
     <ServicesAndEndpointsListPresenter
       apiSubscriptions={{
@@ -62,7 +63,9 @@ export function servicesAndEnpointsListGlobalAlertsWithStaleConfig() {
         getEndpointsCursorPaginated: () => just(getEndpointsResult)
       }}
       applicationsSelection={storedApplicationsSelection}
+      boundaryScope="INBOUND"
       onChange={noop}
+      isGlobalSmartAlert
     />
   );
 }

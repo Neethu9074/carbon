@@ -12,11 +12,10 @@
     grid-column-gap: 0.5rem;
     grid-row-gap: 0.5rem;
 
-    height: 29.375rem;
+    height: max-content;
+    min-height: 26.25rem;
     margin-top: 2rem;
     width: 100%;
-
-    overflow-x: auto;
   }
 
   .headline {

@@ -48,11 +48,13 @@ export default function SimpleAlertConfigDialogStep2({
         />
       </div>
 
-      <SimpleAlertConfigDialogChart
-        form={form}
-        onChartViewConfigChange={onChartViewConfigChange}
-        selectedChartViewConfigIndex={selectedChartViewConfigIndex}
-      />
+      <div className={locals.stickyChart}>
+        <SimpleAlertConfigDialogChart
+          form={form}
+          onChartViewConfigChange={onChartViewConfigChange}
+          selectedChartViewConfigIndex={selectedChartViewConfigIndex}
+        />
+      </div>
     </SimpleModeStepContentWrapper>
   );
 }

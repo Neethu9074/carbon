@@ -21,4 +21,16 @@
       background-color: white;
     }
   }
+
+  .iconLabelTouched {
+    font-weight: 600;
+  }
+
+  .listItem {
+    background: @lib__colors__N100;
+  }
+
+  .customListItem {
+    background: @lib__colors__white;
+  }
 }

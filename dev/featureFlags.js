@@ -38,7 +38,7 @@ module.exports = {
   qb2InCustomDashboardsEnabled: true,
   webMobileQb2AnalyzeEnabled: true,
   loggingEnabled: true,
-  smartAlertsServicesAndEndpointsSelectionEnabled: false,
+  smartAlertsServicesAndEndpointsSelectionEnabled: true,
   qb2InAPCreationEnabled: true,
   languageSelectorEnabled: true
 };
