@@ -4,8 +4,8 @@
  */
 import { empty } from '@instana/observables';
 import React, { useEffect } from 'react';
+import { range } from 'lodash';
 import rpt from 'prop-types';
-import { t } from 'in-i18n';
 
 import {
   getAvailableMetrics,
@@ -37,6 +37,8 @@ import { aggregationLabels } from 'in-stores/metric';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import SvgIcon from 'in-components/SvgIcon';
+import theme from 'in-themes';
+import { t } from 'in-i18n';
 
 import locals from './GroupedView.mless';
 
@@ -66,90 +68,31 @@ export default function GroupedAnalyzeView(props) {
     getItemLabel,
     itemlabelColumnId,
     onChartableDataSeriesChange,
-    withoutSorting = false
+    withoutSorting = false,
+    chartedMetrics
   } = props;
   const timeConfig = useTimeConfig();
   const fields = [...fixedFields, ...selectableFields];
 
+  const maxGroupsOnChart = Math.min(5, theme.lib.colors.chart.strokeColors100.length);
+  const groupColors = range(maxGroupsOnChart).map(i => theme.lib.colors.chart.strokeColors100[i]);
+  const showChartGroupMarkers = chartedMetrics?.[0] && chartedMetrics[0].aggregationId !== 'DISTRIBUTION';
+
+  const labelColumnDefinitions = labelColumns({
+    itemlabelColumnId,
+    getItemLabel,
+    showChartGroupMarkers,
+    groupColors
+  });
+  const metricColumnDefinitions = metricColumns({
+    columnDefinitions: props.columnDefinitions,
+    fields,
+    groupedViewConfiguration,
+    metricCatalog
+  });
+  const actionColumnDefinitions = actionColumns();
+
   const sparkChartGranularity = getSparkChartGranularity(timeConfig);
-
-  const labelColumnDefinitions = [
-    {
-      id: itemlabelColumnId,
-      width: '30%',
-      getContent({ item, groupBy: { groupbyTag }, groupingTagCatalog }) {
-        let label = groupbyTag;
-        const tagDefinition = groupingTagCatalog.tagsByName[groupbyTag];
-        if (tagDefinition) {
-          label = tagDefinition.label;
-
-          label = (
-            <span className={locals.groupLabel}>
-              {tagDefinition.path
-                .slice(0, tagDefinition.path.length - 1)
-                .map(node => node.label)
-                .join(' ')}
-              <SvgIcon className={locals.arrowRight} type="lib_arrow_drop_right" />
-              {tagDefinition.path[tagDefinition.path.length - 1].label}
-            </span>
-          );
-        }
-        return <KeyValue label={label} customValue={getItemLabel(item)} />;
-      }
-    }
-  ];
-
-  const columnDefinitions = [
-    ...(props.columnDefinitions || emptyArray),
-
-    ...fields
-      .map(field => {
-        if (field.type === customType) {
-          return groupedViewConfiguration.customFieldRenderingInstructions[field.customFieldId];
-        }
-
-        return {
-          shrink: false,
-          width: '16rem',
-          minWidth: '9rem',
-          getContent({ item: { metrics }, timeConfig, progress, sparkChartGranularity }) {
-            const metricDefinition = metricCatalog.find(({ metricId }) => metricId === field.metric);
-            return (
-              <div className={locals.sparkChartWrapper}>
-                <SparkChart
-                  loading={progress?.loading}
-                  rollup={sparkChartGranularity}
-                  timeConfig={timeConfig}
-                  aggregation={field.aggregation}
-                  metrics={metrics[getSparkChartTimeSeriesMetricId(field)]}
-                  metric={metrics[getSingleNumberMetricId(field)]}
-                  tooltipFormatter={getFormatter(metricDefinition?.formatter)}
-                  label={metricDefinition?.label ?? field.metric}
-                  valueTheme="blue"
-                />
-              </div>
-            );
-          }
-        };
-      })
-      // We may not have a representation for all fields in the grouped view
-      .filter(Boolean)
-  ];
-
-  const actionColumnDefinitions = [
-    {
-      id: 'focus',
-      width: '3rem',
-      shrink: false,
-      getContent({ href }) {
-        return (
-          <Tooltip content={t('in-new-components:analyze.focusOnGroup')}>
-            <IconButton type="lib_actions_filter" href={href} />
-          </Tooltip>
-        );
-      }
-    }
-  ];
 
   const backendMetrics = useStableObjectIntance(
     fields
@@ -299,11 +242,13 @@ export default function GroupedAnalyzeView(props) {
                     }}
                   >
                     <div className={locals.list}>
-                      <ColumnizedContent {...props} columnDefinitions={labelColumnDefinitions} item={item} />
+                      <div className={locals.label}>
+                        <ColumnizedContent {...props} columnDefinitions={labelColumnDefinitions} item={item} />
+                      </div>
                       <div className={locals.metrics}>
                         <ColumnizedContent
                           {...props}
-                          columnDefinitions={columnDefinitions}
+                          columnDefinitions={metricColumnDefinitions}
                           item={item}
                           progress={progress}
                           timeConfig={timeConfig}
@@ -327,6 +272,105 @@ export default function GroupedAnalyzeView(props) {
       </div>
     </>
   );
+}
+
+function labelColumns({ itemlabelColumnId, getItemLabel, showChartGroupMarkers, groupColors }) {
+  let i = 0;
+  return [
+    ...(showChartGroupMarkers
+      ? [
+          {
+            width: '1.5rem',
+            getContent() {
+              const groupIdx = i++;
+              return groupIdx < groupColors.length ? (
+                <div className={locals.center}>
+                  <div className={locals.rect} style={{ backgroundColor: groupColors[groupIdx] }} />
+                </div>
+              ) : null;
+            }
+          }
+        ]
+      : emptyArray),
+    {
+      id: itemlabelColumnId,
+      getContent({ item, groupBy: { groupbyTag }, groupingTagCatalog }) {
+        let label = groupbyTag;
+        const tagDefinition = groupingTagCatalog.tagsByName[groupbyTag];
+        if (tagDefinition) {
+          label = tagDefinition.label;
+
+          label = (
+            <span className={locals.groupLabel}>
+              {tagDefinition.path
+                .slice(0, tagDefinition.path.length - 1)
+                .map(node => node.label)
+                .join(' ')}
+              <SvgIcon className={locals.arrowRight} type="lib_arrow_drop_right" />
+              {tagDefinition.path[tagDefinition.path.length - 1].label}
+            </span>
+          );
+        }
+        return <KeyValue label={label} customValue={getItemLabel(item)} />;
+      }
+    }
+  ];
+}
+
+function metricColumns({ columnDefinitions, fields, groupedViewConfiguration, metricCatalog }) {
+  return [
+    ...(columnDefinitions || emptyArray),
+
+    ...fields
+      .map(field => {
+        if (field.type === customType) {
+          return groupedViewConfiguration.customFieldRenderingInstructions[field.customFieldId];
+        }
+
+        return {
+          shrink: false,
+          width: '16rem',
+          minWidth: '9rem',
+          getContent({ item: { metrics }, timeConfig, progress, sparkChartGranularity }) {
+            const metricDefinition = metricCatalog.find(({ metricId }) => metricId === field.metric);
+            return (
+              <div className={locals.sparkChartWrapper}>
+                <SparkChart
+                  loading={progress?.loading}
+                  rollup={sparkChartGranularity}
+                  timeConfig={timeConfig}
+                  aggregation={field.aggregation}
+                  metrics={metrics[getSparkChartTimeSeriesMetricId(field)]}
+                  metric={metrics[getSingleNumberMetricId(field)]}
+                  tooltipFormatter={getFormatter(metricDefinition?.formatter)}
+                  label={metricDefinition?.label ?? field.metric}
+                  valueTheme="blue"
+                />
+              </div>
+            );
+          }
+        };
+      })
+      // We may not have a representation for all fields in the grouped view
+      .filter(Boolean)
+  ];
+}
+
+function actionColumns() {
+  return [
+    {
+      id: 'focus',
+      width: '3rem',
+      shrink: false,
+      getContent({ href }) {
+        return (
+          <Tooltip content={t('in-new-components:analyze.focusOnGroup')}>
+            <IconButton type="lib_actions_filter" href={href} />
+          </Tooltip>
+        );
+      }
+    }
+  ];
 }
 
 GroupedAnalyzeView.propTypes = {
