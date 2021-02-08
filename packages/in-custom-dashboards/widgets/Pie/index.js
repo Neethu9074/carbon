@@ -15,3 +15,4 @@ export const minimumHeight = 15;
 export const badge = {
   content: 'BETA'
 };
+export const enabled = true;
