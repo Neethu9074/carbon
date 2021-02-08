@@ -14,7 +14,7 @@ Promise.promisifyAll(fs);
 
 describe('CSS modules', () => {
   it('must define :local wrapper inside *.mless files', () => {
-    return glob(path.join(__dirname, '..', '**/*.mless'))
+    return glob(`${__dirname}/../**/*.mless`)
       .then(files => Promise.all(files.map(getContent)))
       .then(files => files.filter(f => !isDefiningLocalWrapper(f)))
       .then(files => {
@@ -26,7 +26,7 @@ describe('CSS modules', () => {
   });
 
   it('must not define :local wrapper inside *.less files', () => {
-    return glob(path.join(__dirname, '..', '**/*.less'))
+    return glob(`${__dirname}/../**/*.less`)
       .then(files => Promise.all(files.map(getContent)))
       .then(files => files.filter(isDefiningLocalWrapper))
       .then(files => {
@@ -50,5 +50,5 @@ function isDefiningLocalWrapper(file) {
 }
 
 function extractPath(file) {
-  return path.relative(path.join(__dirname, '..'), file.path);
+  return path.relative(`${__dirname}/..`, file.path);
 }
