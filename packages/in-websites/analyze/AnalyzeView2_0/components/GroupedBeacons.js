@@ -31,7 +31,7 @@ export default function GroupedBeacons(props) {
             dataSource: props.dataSource
           })
         }
-        getLabel={item => JSON.parse(item.name)}
+        getLabel={getItemLabel}
         UngroupedView={Beacons}
       />
     </QueryBuilderWorkspace>
