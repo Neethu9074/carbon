@@ -5,15 +5,19 @@
 import { create } from '@instana/observables';
 import React from 'react';
 
+import { DataProtectionMailButton, PrivacyButton } from 'in-settings/terms/dialog/DocumentLinkButtons';
 import termsFormDefinition, { addDynamicRoleField } from 'in-settings/terms/termsFormDefinition';
 import { setAndSave, formUserSettingsObject } from 'in-settings/terms/termsAndPrivaySettings';
 import { success, neutral, error as errorType } from 'in-new-components/Message/types';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
+import { fullTermsConfigEnabled } from 'in-services/featureFlags';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import SectionLine from 'in-settings/components/SectionLine';
 import ApiItemView from 'in-settings/components/ApiItemView';
 import RolesSelector from 'in-settings/terms/RolesSelector';
+import Stack from 'in-new-components/layout/Stack/Stack';
+import Message from 'in-new-components/Message';
 import Title from 'in-components/Title';
 
 import locals from './termsAndPrivacyPages.mless';
@@ -44,44 +48,59 @@ function render({ form, setForm, termsAndPrivacySettings, setCanSaveItem }) {
   return (
     <SettingsDetailPage>
       <Title title="Communication Settings" />
-      <SubViewHeader>Control how we contact you, and for what purposes.</SubViewHeader>
+      <SubViewHeader>Control for what purposes we contact you</SubViewHeader>
       <SectionLine />
-      <form className={locals.form}>
-        <div className={locals.flexColumn}>
-          {form.get('productTips').map(({ value }) => (
-            <CheckboxFancy
-              label="Product onboarding & success tips"
-              checked={value}
-              onChange={() => onChange('productTips', !value)}
-              size="large"
-            />
-          ))}
-          {form.get('marketingMessages').map(({ value }) => (
-            <CheckboxFancy
-              label="Marketing messages"
-              checked={value}
-              onChange={() => onChange('marketingMessages', !value)}
-              size="large"
-            />
-          ))}
-        </div>
-        <div className={locals.role}>
-          <RolesSelector form={form} onChange={onChange} />
-        </div>
-        <div className={locals.flexColumn}>
-          <p>
-            Help shape the future of Instana by participating in optional interviews and surveys with our product team.
-          </p>
-          {form.get('testingGroup').map(({ value }) => (
-            <CheckboxFancy
-              label="Join the User Testing Group"
-              checked={value}
-              onChange={() => onChange('testingGroup', !value)}
-              size="large"
-            />
-          ))}
-        </div>
-      </form>
+      <Stack>
+        {form.get('productTips').map(({ value }) => (
+          <CheckboxFancy
+            label="Product onboarding & success tips"
+            explanation="to help you make the most of Instana products"
+            checked={value}
+            onChange={() => onChange(form, 'productTips', !value)}
+            size="large"
+          />
+        ))}
+        {form.get('marketingMessages').map(({ value }) => (
+          <CheckboxFancy
+            label="Marketing messages"
+            explanation="related to Instana products, services and offerings"
+            checked={value}
+            onChange={() => onChange(form, 'marketingMessages', !value)}
+            size="large"
+          />
+        ))}
+        {fullTermsConfigEnabled &&
+          form
+            .get('testingGroup')
+            .map(({ value }) => (
+              <CheckboxFancy
+                label="User Testing Group"
+                explanation="to participate in optional interviews and survey with our product team"
+                checked={value}
+                onChange={() => onChange(form, 'testingGroup', !value)}
+                size="large"
+              />
+            ))}
+      </Stack>
+
+      <Message className={locals.messageBox}>
+        <p>
+          You can withdraw your marketing consent at any time by submitting an opt-out request (email to
+          <DataProtectionMailButton fontSize={12} />
+          ). Also you may unsubscribe from receiving marketing emails by clicking the unsubscribe link in each email.
+        </p>
+        <p>
+          More information on our processing can be found in the Instana <PrivacyButton fontSize={12} />.
+        </p>
+        <p>
+          By submitting this form you acknowledge that you have read and understand the Instana
+          <PrivacyButton fontSize={12} />.
+        </p>
+      </Message>
+
+      <div className={locals.role}>
+        <RolesSelector form={form} onChange={onChange} />
+      </div>
     </SettingsDetailPage>
   );
 }

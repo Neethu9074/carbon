@@ -90,7 +90,7 @@ export function addDynamicRoleField(form, userSettings) {
     return form.put(
       'dynamicRole',
       createField({
-        value: userSettings ? userSettings.dynamicRole || '' : '',
+        value: userSettings?.dynamicRole ?? '',
         validator: notBlankValidator
       })
     );

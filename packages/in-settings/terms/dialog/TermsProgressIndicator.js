@@ -10,32 +10,31 @@ import theme from 'in-themes';
 
 import locals from './TermsProgressIndicator.mless';
 
-export default function TermsProgressIndicator({ pageNumber = 1 }) {
-  return (
-    <div className={locals.container}>
-      {pageNumber === 2 ? (
-        <SvgIcon className={locals.icon} type="lib_check" color={theme.lib.colors.white} size={28} />
-      ) : (
+export default function TermsProgressIndicator({ pageNumber, nrPages }) {
+  const steps = [];
+  for (let i = 1; i <= nrPages; i++) {
+    if (i < pageNumber) {
+      steps.push(
+        <SvgIcon key={`${i}-icon`} className={locals.icon} type="lib_check" color={theme.lib.colors.white} size={28} />
+      );
+    } else {
+      steps.push(
         <div
+          key={`${i}-number`}
           className={classNames({
             [locals.pageIndicator]: true,
-            [locals.highlightCurrentPage]: pageNumber === 1
+            [locals.highlightCurrentPage]: pageNumber === i
           })}
         >
-          1
+          {i}
         </div>
-      )}
+      );
+    }
 
-      <div className={locals.line} />
+    if (i != nrPages) {
+      steps.push(<div key={`${i}-line`} className={locals.line} />);
+    }
+  }
 
-      <div
-        className={classNames({
-          [locals.pageIndicator]: true,
-          [locals.highlightCurrentPage]: pageNumber === 2
-        })}
-      >
-        2
-      </div>
-    </div>
-  );
+  return <div className={locals.container}>{steps}</div>;
 }

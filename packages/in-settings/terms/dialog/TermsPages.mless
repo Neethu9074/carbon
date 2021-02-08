@@ -24,11 +24,25 @@
   }
 
   .container {
+    height: 100%;
+    position: relative;
+  }
+
+  .pageContent {
     .flexColumn();
     justify-content: space-between;
-    height: 100%;
+    height: 90%;
     color: @lib__colors__N700Medium;
     font-size: @lib__typography__body-bold__font-size;
+    padding: 0 1.5rem 1.5rem;
+    overflow-y: auto;
+    line-height: 1.6;
+  }
+
+  .messageBox {
+    font-size: 0.75rem;
+    line-height: 1.4;
+    margin-top: 1.5rem;
   }
 
   .indentedImage {
@@ -69,9 +83,19 @@
     }
   }
 
+  .inputField {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+    width: 21.25rem;
+  }
+
   .buttons {
     display: flex;
     justify-content: center;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
 
     button {
       width: 6.25rem;
