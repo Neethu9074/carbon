@@ -58,6 +58,7 @@ function WidgetTitleInput({ form, onChange }) {
           Choose an optional name for this widget that will be presented above the widget content.
         </HelpAction>
       }
+      maxLength={256}
     />
   );
 }

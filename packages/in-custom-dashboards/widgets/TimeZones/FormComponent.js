@@ -110,6 +110,7 @@ export default function TimeZoneWidgetFormComponent({ form: timeZonesForm, onCha
                               }
                               hasError={!field.valid && field.touched}
                               className={locals.timeZoneLabel}
+                              maxLength={256}
                             />
                           ))}
                         </HorizontalFlexWrapper>
