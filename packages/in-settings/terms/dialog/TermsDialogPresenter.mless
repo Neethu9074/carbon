@@ -6,7 +6,7 @@
 
 :local {
   .dialogContent {
-    height: 32.5rem;
+    height: 33rem;
     width: 40.625rem;
   }
   .customDialogClose {

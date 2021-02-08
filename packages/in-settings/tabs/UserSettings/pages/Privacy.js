@@ -7,15 +7,13 @@ import React from 'react';
 
 import { setAndSave, formUserSettingsObject } from 'in-settings/terms/termsAndPrivaySettings';
 import { success, neutral, error as errorType } from 'in-new-components/Message/types';
-import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
+import ExpandableCookieList from 'in-settings/terms/cookies/ExpandableCookieList';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import termsFormDefinition from 'in-settings/terms/termsFormDefinition';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import SectionLine from 'in-settings/components/SectionLine';
 import ApiItemView from 'in-settings/components/ApiItemView';
 import Title from 'in-components/Title';
-
-import locals from './termsAndPrivacyPages.mless';
 
 export default function Communication() {
   return (
@@ -42,24 +40,8 @@ function render({ form, setForm, setCanSaveItem }) {
       <Title title="Privacy Settings" />
       <SubViewHeader>Set your preferences for third-party services below.</SubViewHeader>
       <SectionLine />
-      <form className={locals.form}>
-        {form.get('allAnalyticsServices').map(({ value }) => (
-          <CheckboxFancy
-            label="Allow Mixpanel Analytics"
-            checked={value}
-            onChange={() => onChange('allAnalyticsServices', !value)}
-            size="large"
-          />
-        ))}
-        {form.get('allSupportAndResearchServices').map(({ value }) => (
-          <CheckboxFancy
-            label="Allow all Support & Research Services (Appcues)"
-            checked={value}
-            onChange={() => onChange('allSupportAndResearchServices', !value)}
-            size="large"
-          />
-        ))}
-      </form>
+
+      <ExpandableCookieList form={form} onChange={(form, key, value) => onChange(key, value)} />
     </SettingsDetailPage>
   );
 }

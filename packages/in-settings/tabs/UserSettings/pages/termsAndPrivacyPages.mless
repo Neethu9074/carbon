@@ -17,7 +17,11 @@
     flex-direction: column;
   }
 
-  .role {
+  .role, .messageBox {
     margin: 2rem 0;
+  }
+
+  .greyText {
+    color: @lib__colors__N600Light;
   }
 }
