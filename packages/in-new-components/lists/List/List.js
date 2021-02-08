@@ -5,6 +5,7 @@
 import React, { useState, forwardRef } from 'react';
 import classNames from 'classnames';
 import rpt from 'prop-types';
+import { t } from 'in-i18n';
 
 import { toInteractiveElement, withInteractivitySideEffects } from 'in-new-components/interactiveCustomElement';
 import HorizontalIndicatorLiComponent from 'in-new-components/lists/List/HorizontalIndicatorLi';
@@ -91,7 +92,7 @@ export const Li = forwardRef(function Li(props, ref) {
   if (onClick) {
     itemElementInteractivityProps = toInteractiveElement({
       onDefaultInteraction: onClick,
-      ariaLabel: 'Initiate default action'
+      ariaLabel: t('in-new-components:list.labelInitiateDefaultAction')
     });
   } else if (toggleContentOnRowClick) {
     itemElementInteractivityProps = toInteractiveElement({
@@ -100,7 +101,7 @@ export const Li = forwardRef(function Li(props, ref) {
         tracking?.onToggleContentRow?.(nextState);
         setOpen(nextState);
       },
-      ariaLabel: 'Toggle extra content'
+      ariaLabel: t('in-new-components:list.labelToggleExtraContent')
     });
   }
 
@@ -125,7 +126,7 @@ export const Li = forwardRef(function Li(props, ref) {
           <SvgIcon
             className={locals.expandIcon}
             type={open ? 'lib_arrow_expand_up' : 'lib_arrow_expand_down'}
-            aria-label="Toggle extra content"
+            aria-label={t('in-new-components:list.labelToggleExtraContent')}
             onClick={toggleContentOnRowClick ? undefined : () => setOpen(!open)}
           />
         </div>

@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { Li } from 'in-new-components/lists/List';
@@ -9,7 +10,7 @@ import Button from 'in-new-components/Button';
 
 import locals from './LoadMoreLi.mless';
 
-export default function LoadMoreLi({ className, loadMore, label = 'Load More' }) {
+export default function LoadMoreLi({ className, loadMore, label = t('in-new-components:list.labelLoadMore') }) {
   return (
     <Li className={className}>
       <div className={locals.wrapper}>

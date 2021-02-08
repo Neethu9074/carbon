@@ -5,6 +5,7 @@
 import React, { useRef, useState } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
+import { t } from 'in-i18n';
 
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import keyCodes from 'in-components/keyCodes';
@@ -56,7 +57,7 @@ export default function SearchInput({
         })}
         disabled={disabled}
         type="search"
-        placeholder={placeholder ?? 'Search…'}
+        placeholder={placeholder ?? t('in-new-components:searchInput.placeholderSearch')}
         value={query}
         onChange={e => onChange(e.target.value)}
         autoFocus={autoFocus}

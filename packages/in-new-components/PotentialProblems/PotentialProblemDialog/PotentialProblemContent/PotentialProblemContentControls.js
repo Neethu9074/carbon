@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import PropTypes from 'prop-types';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import {
@@ -60,7 +61,7 @@ export default function PotentialProblemContentControls({
           tagCatalog
         )}
       >
-        Investigate
+        {t('in-new-components:potentialProblems.buttonInvestigate')}
       </Button>
       {role.canConfigureCustomAlerts && (
         <Button
@@ -81,7 +82,7 @@ export default function PotentialProblemContentControls({
           }}
           icon="lib_alerts_create"
         >
-          Add Smart Alert
+          {t('in-new-components:potentialProblems.buttonAddSmartAlert')}
         </Button>
       )}
     </>

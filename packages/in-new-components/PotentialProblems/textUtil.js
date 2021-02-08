@@ -2,6 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
+
 import { getValueRoundedToDecimals } from 'in-new-components/Alerting/utils/formatUtils';
 import { getAggregationText } from 'in-new-components/Alerting/utils/formUtils';
 import { isGreaterOperator } from 'in-new-components/Alerting/utils/alertUtils';
@@ -12,12 +14,14 @@ export function getTitle({ rule, threshold }) {
 
   switch (alertType) {
     case 'errorRate':
-      return 'Erroneous call rate is higher than normal';
+      return t('in-new-components:potentialProblems.titleErrorRate');
     case 'slowness':
-      return `Calls (Latency ${aggregation}) are slower than usual`;
+      return t('in-new-components:potentialProblems.titleSlowness', { aggregation: aggregation });
     case 'throughput': {
       const isGreaterOp = isGreaterOperator(operator);
-      return `Number of calls is anomalously ${isGreaterOp ? 'high' : 'low'}`;
+      return isGreaterOp
+        ? t('in-new-components:potentialProblems.titlethroughputHigh')
+        : t('in-new-components:potentialProblems.titlethroughputLow');
     }
   }
 }
@@ -28,66 +32,122 @@ export function getDescription({ rule, threshold, alertType }) {
 
   switch (alertType) {
     case 'errorRate': {
-      return `The erroneous call rate is ${getHigherOrLowerOperatorText(operator)} ${getValueRoundedToDecimals(
-        value,
-        true
-      )}%.`;
+      return getErrorRateHigherOrLowerOperatorText(operator, getValueRoundedToDecimals(value, true));
     }
     case 'slowness': {
       if (type === 'staticThreshold') {
-        return `Calls are ${getSlowerOrBelowOperatorText(operator)} ${parseInt(
-          value
-        )} ms based on latency (${getAggregationText(aggregation)}).`;
+        return getSlownessStaticThresholdSlowerOrBelowOperatorText(
+          operator,
+          parseInt(value),
+          getAggregationText(aggregation)
+        );
       }
-      return `Calls are ${getSlowerOrBelowOperatorText(
-        operator
-      )} the expectation based on latency (${getAggregationText(aggregation)}).`;
+      return getSlownessSlowerOrBelowOperatorText(operator, getAggregationText(aggregation));
     }
     case 'throughput': {
       if (type === 'staticThreshold') {
-        return `The number of calls is ${getHigherOrLowerOperatorText(operator)} ${parseInt(value)} calls.`;
+        return getThroughputStaticThresholdHigherOrLowerOperatorText(operator, parseInt(value));
       }
-
-      let message = '';
-      if (operator === '>=') {
-        message = 'higher or equal than';
-      } else if (operator === '<=') {
-        message = 'lower or equal than';
-      } else {
-        message = getHigherOrLowerOperatorText(operator);
-      }
-
-      return `The number of calls is ${message} expected.`;
+      return getThroughputHigherOrLowerOperatorText(operator);
     }
   }
 }
 
-function getHigherOrLowerOperatorText(operator) {
+function getErrorRateHigherOrLowerOperatorText(operator, callRate) {
   switch (operator) {
     case '>':
-      return 'higher than';
+      return t('in-new-components:potentialProblems.descriptionErrorIsHigherThan', { callRate: callRate });
     case '>=':
-      return 'higher or equal to';
+      return t('in-new-components:potentialProblems.descriptionErrorIsHigherOrEqualTo', { callRate: callRate });
     case '<':
-      return 'lower than';
+      return t('in-new-components:potentialProblems.descriptionErrorIsLowerThan', { callRate: callRate });
     case '<=':
-      return 'lower than or equal to';
+      return t('in-new-components:potentialProblems.descriptionErrorIsLowerThanOrEqualTo', { callRate: callRate });
     default:
-      throw Error('Unsupported operator: ' + operator);
+      throw Error(t('in-new-components:potentialProblems.descriptionUnsupportedOperator', { operator: operator }));
   }
 }
 
-function getSlowerOrBelowOperatorText(operator) {
+function getThroughputStaticThresholdHigherOrLowerOperatorText(operator, thresholdValue) {
   switch (operator) {
     case '>':
-      return 'slower than';
+      return t('in-new-components:potentialProblems.descriptionThroughputStaticThresholdIsHigherThan', {
+        thresholdValue: thresholdValue
+      });
     case '>=':
-      return 'slower than or equal to';
+      return t('in-new-components:potentialProblems.descriptionThroughputStaticThresholdIsHigherOrEqualTo', {
+        thresholdValue: thresholdValue
+      });
     case '<':
-      return 'below';
+      return t('in-new-components:potentialProblems.descriptionThroughputStaticThresholdIsLowerThan', {
+        thresholdValue: thresholdValue
+      });
     case '<=':
-      return 'below or equal to';
+      return t('in-new-components:potentialProblems.descriptionThroughputStaticThresholdIsLowerThanOrEqualTo', {
+        thresholdValue: thresholdValue
+      });
     default:
-      throw Error('Unsupported operator: ' + operator);
+      throw Error(t('in-new-components:potentialProblems.descriptionUnsupportedOperator', { operator: operator }));
+  }
+}
+
+function getThroughputHigherOrLowerOperatorText(operator) {
+  switch (operator) {
+    case '>':
+      return t('in-new-components:potentialProblems.descriptionThroughputIsHigherThan');
+    case '>=':
+      return t('in-new-components:potentialProblems.descriptionThroughputIsHigherOrEqualThan');
+    case '<':
+      return t('in-new-components:potentialProblems.descriptionThroughputIsLowerThan');
+    case '<=':
+      return t('in-new-components:potentialProblems.descriptionThroughputIsLowerThanOrEqualTo');
+    default:
+      throw Error(t('in-new-components:potentialProblems.descriptionUnsupportedOperator', { operator: operator }));
+  }
+}
+
+function getSlownessStaticThresholdSlowerOrBelowOperatorText(operator, thresholdValue, aggregation) {
+  switch (operator) {
+    case '>':
+      return t('in-new-components:potentialProblems.descriptionSlownessStaticThresholdAreSlowerThan', {
+        thresholdValue: thresholdValue,
+        aggregation: aggregation
+      });
+    case '>=':
+      return t('in-new-components:potentialProblems.descriptionSlownessStaticThresholdAreSlowerThanOrEqualTo', {
+        thresholdValue: thresholdValue,
+        aggregation: aggregation
+      });
+    case '<':
+      return t('in-new-components:potentialProblems.descriptionSlownessStaticThresholdAreBelow', {
+        thresholdValue: thresholdValue,
+        aggregation: aggregation
+      });
+    case '<=':
+      return t('in-new-components:potentialProblems.descriptionSlownessStaticThresholdAreBelowOrEqualTo', {
+        thresholdValue: thresholdValue,
+        aggregation: aggregation
+      });
+    default:
+      throw Error(t('in-new-components:potentialProblems.descriptionUnsupportedOperator', { operator: operator }));
+  }
+}
+
+function getSlownessSlowerOrBelowOperatorText(operator, aggregation) {
+  switch (operator) {
+    case '>':
+      return t('in-new-components:potentialProblems.descriptionSlownessAreSlowerThan', { aggregation: aggregation });
+    case '>=':
+      return t('in-new-components:potentialProblems.descriptionSlownessAreSlowerThanOrEqualTo', {
+        aggregation: aggregation
+      });
+    case '<':
+      return t('in-new-components:potentialProblems.descriptionSlownessAreBelow', { aggregation: aggregation });
+    case '<=':
+      return t('in-new-components:potentialProblems.descriptionSlownessAreBelowOrEqualTo', {
+        aggregation: aggregation
+      });
+    default:
+      throw Error(t('in-new-components:potentialProblems.descriptionUnsupportedOperator', { operator: operator }));
   }
 }

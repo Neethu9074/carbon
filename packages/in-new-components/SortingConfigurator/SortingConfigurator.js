@@ -4,6 +4,7 @@
  */
 import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
+import { t } from 'in-i18n';
 
 import OverlayOption from 'in-new-components/OverlayOption/OverlayOption';
 import { onArrowKeyDownFocusSiblings } from 'in-services/util/domFocus';
@@ -16,7 +17,8 @@ import Button from 'in-new-components/Button/Button';
 import locals from './SortingConfigurator.mless';
 
 export default function SortingConfigurator({ options, orderBy, onChange }) {
-  const valueLabel = options.find(option => option.value === orderBy.by)?.label ?? 'N/A';
+  const valueLabel =
+    options.find(option => option.value === orderBy.by)?.label ?? t('in-new-components:sortingConfigurator.labelNA');
   const ref = useRef();
 
   return (
@@ -49,7 +51,9 @@ export default function SortingConfigurator({ options, orderBy, onChange }) {
           })
         }
       >
-        {orderBy.direction === 'ASC' ? 'Ascending' : 'Descending'}
+        {orderBy.direction === 'ASC'
+          ? t('in-new-components:sortingConfigurator.buttonAscending')
+          : t('in-new-components:sortingConfigurator.buttonDescending')}
       </Button>
     </div>
   );

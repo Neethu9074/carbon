@@ -4,6 +4,7 @@
  */
 import React, { useState, useRef, useMemo } from 'react';
 import PropTypes from 'prop-types';
+import { t } from 'in-i18n';
 
 import { nodeArray as nodeArrayPropType } from 'in-new-components/SelectorOverlay/props';
 import { search } from 'in-new-components/SelectorOverlay/search';
@@ -63,7 +64,7 @@ export default function PaginatedMetricList({ options, onChange, isMetricDisable
             isMetricDisabled(metric.metric) ? (
               <Li key={metric.metric} className={locals.disabled}>
                 {metric.label} <br />
-                Already selected
+                {t('in-new-components:metricConfigurator.labelAlreadySelected')}
               </Li>
             ) : (
               <Li

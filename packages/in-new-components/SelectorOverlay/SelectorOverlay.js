@@ -4,6 +4,7 @@
  */
 import React, { useState, useRef, useMemo } from 'react';
 import PropTypes from 'prop-types';
+import { t } from 'in-i18n';
 
 import { nodeArray as nodeArrayPropType } from 'in-new-components/SelectorOverlay/props';
 import SlideInView, { ListHeader } from 'in-new-components/SlideInView/SlideInView';
@@ -13,10 +14,10 @@ import { search } from 'in-new-components/SelectorOverlay/search';
 import { getInteractiveElements } from 'in-services/util/dom';
 import Node from 'in-new-components/SelectorOverlay/Node';
 import SearchInput from 'in-new-components/SearchInput';
+import { isNotBlank } from 'in-services/util/string';
 import keyCodes from 'in-components/keyCodes';
 
 import locals from './SelectorOverlay.mless';
-import { isNotBlank } from 'in-services/util/string';
 
 const initialState = {
   query: '',
@@ -58,7 +59,7 @@ export default function SelectorOverlay({ options, loading = false, onChange, wi
     <>
       <div className={locals.searchInputWrapper}>
         <SearchInput
-          placeholder="Search"
+          placeholder={t('in-new-components:selectorOverlay.placeholderSearch')}
           onChange={_query => {
             setState({
               query: _query,
@@ -77,7 +78,11 @@ export default function SelectorOverlay({ options, loading = false, onChange, wi
       <div className={locals.overlay}>
         {loading === true && (
           <div className={locals.loading}>
-            <LoadingIndicator text="Loading catalog" className={locals.loading} height={100} />
+            <LoadingIndicator
+              text={t('in-new-components:selectorOverlay.loadingIndicatorLoadingCatalog')}
+              className={locals.loading}
+              height={100}
+            />
           </div>
         )}
         {loading === false && (

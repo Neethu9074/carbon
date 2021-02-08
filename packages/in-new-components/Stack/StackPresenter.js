@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import React, { useEffect, useState } from 'react';
+import { t } from 'in-i18n';
 
 import { contextGuideStackLoadedDurationTracker } from 'in-infrastructure/tracking/tracking';
 import InlineTabNavigation from 'in-new-components/InlineTabNavigation';
@@ -78,8 +79,8 @@ const EmptyStackPane = ({ productArea, selfEntity }) => {
       <div className={locals.pane}>
         <EmptyPane
           icon="lib_help_error_info_circle"
-          emptyMessage="Instana was not able to find any related items"
-          detailMessage={`We don't have enough information to relate this ${itemText} to any other items`}
+          emptyMessage={t('in-new-components:stack.stackPresenterEmptyMessage')}
+          detailMessage={t('in-new-components:stack.stackPresenterDetailMessage', { itemText: itemText })}
         />
       </div>
     </>

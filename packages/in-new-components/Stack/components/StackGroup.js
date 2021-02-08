@@ -2,9 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
-import RELATIONSHIP_MAP from 'in-new-components/Stack/relationships.json';
 import StackItem from 'in-new-components/Stack/components/StackItem';
 import { getSingular, getPlural } from 'in-sdk/pluginName';
 import { ListGroup } from 'in-new-components/lists/List';
@@ -17,12 +17,18 @@ export default function StackGroup({
   tab
 }) {
   const numMoreItems = itemCount - items.length;
-
+  /* TODO: In order to properly handle the plural form for plug-in name in the ListGroup below,
+   * would need to implement the getResourceKey function in in-sdk/pluginName
+   * and add the pluginName.resourceKey property to all the registerSnapshotDefinition in in-forge/plugins/[plugin]/index.js
+   */
   return (
     <ListGroup
       label={
         <>
-          {RELATIONSHIP_MAP[relationship]} {itemCount} {itemCount > 1 ? getPlural(type) : getSingular(type)}
+          {t('in-new-components:stack.relationship.' + relationship, {
+            itemCount: itemCount,
+            plugin: itemCount > 1 ? getPlural(type) : getSingular(type)
+          })}
         </>
       }
       numMoreItems={numMoreItems}

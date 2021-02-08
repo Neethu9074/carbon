@@ -4,6 +4,7 @@
  */
 import { createField, notBlankValidator, createMapForm, createListForm } from 'formalistic';
 import React, { useEffect, useState, useMemo } from 'react';
+import { t } from 'in-i18n';
 
 import MetricConfiguratorOverlayPresenter from 'in-new-components/MetricConfigurator/MetricConfiguratorOverlayPresenter';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
@@ -83,7 +84,9 @@ function getInitialForm(values, options, maximumNumberOfMetrics) {
         return [
           {
             severity: 'error',
-            message: `Please select at most ${maximumNumberOfMetrics} metrics.`
+            message: t('in-new-components:metricConfigurator.messagePleaseSelectAtMostMetrics', {
+              maximumNumberOfMetrics: maximumNumberOfMetrics
+            })
           }
         ];
       }
