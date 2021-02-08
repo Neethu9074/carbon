@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import KubernetesTopList from 'in-kubernetes/Dashboards/commonComponents/KubernetesTopList';
@@ -11,8 +12,8 @@ import { getNamespaceDashboard } from 'in-kubernetes/navigation/paths';
 export default function TopNamespacesList(props) {
   return (
     <KubernetesTopList
-      title="Top Namespaces"
-      viewAllEntityName="namespace"
+      title={t('in-kubernetes:dashboards.topNamespaces')}
+      entityNameKey="namespace"
       {...props}
       getItems={getKubernetesNamespaces}
       getItemHref$={item => getNamespaceDashboard(item.namespace.id, props)}

@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import DetailsNavigation, {
@@ -42,7 +43,7 @@ const navigationItems = [
   {
     path: `${serviceDashboardDetailsFullyQualified}`,
     icon: 'lib_kubernetes_selector',
-    label: 'Selector',
+    label: t('in-kubernetes:dashboards.selector'),
     component: SelectorsList
   },
   labelsNavigationItem(`${serviceDashboardDetailsFullyQualified}/labels`),
@@ -57,7 +58,7 @@ const navigationItems = [
   {
     path: `${serviceDashboardDetailsFullyQualified}/ips`,
     icon: 'lib_kubernetes_ip',
-    label: 'IPs',
+    label: t('in-kubernetes:dashboards.iPs'),
     component: IPs
   }
 ].filter(Boolean);

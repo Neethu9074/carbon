@@ -4,6 +4,7 @@
  */
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
+import { t } from 'in-i18n';
 
 import {
   bytesTwoDecimalPlaces,
@@ -38,7 +39,7 @@ const matrixPrefix = 'container.';
 const columnDefinitions = [
   {
     id: 'label',
-    label: 'Name',
+    label: t('in-kubernetes:dashboards.name'),
     getContent(item, { timeConfig }) {
       return (
         <SeverityAwareEntityLink
@@ -56,16 +57,20 @@ const columnDefinitions = [
   },
   {
     id: 'ready',
-    label: 'Ready',
+    label: t('in-kubernetes:dashboards.ready'),
     sortable: false,
     getContent(item, { statesMap }) {
       const id = get(item, ['container', 'id']);
-      return statesMap[id] ? (statesMap[id].ready ? 'Yes' : 'No') : valueMissingPlaceholder;
+      return statesMap[id]
+        ? statesMap[id].ready
+          ? t('in-kubernetes:dashboards.yes')
+          : t('in-kubernetes:dashboards.no')
+        : valueMissingPlaceholder;
     }
   },
   {
     id: 'status',
-    label: 'Status',
+    label: t('in-kubernetes:dashboards.status'),
     sortable: false,
     getContent(item, { statesMap }) {
       const id = get(item, ['container', 'id']);
@@ -74,7 +79,7 @@ const columnDefinitions = [
   },
   {
     id: 'message',
-    label: 'Message',
+    label: t('in-kubernetes:dashboards.message'),
     sortable: false,
     getContent(item, { statesMap }) {
       const id = get(item, ['container', 'id']);
@@ -83,7 +88,7 @@ const columnDefinitions = [
   },
   {
     id: 'cpuTotal',
-    label: 'CPU Total %',
+    label: t('in-kubernetes:dashboards.cpuTotal'),
     sortable: false,
     getContent(item, { timeConfig }) {
       return (
@@ -100,7 +105,7 @@ const columnDefinitions = [
   },
   {
     id: 'memoryUsage',
-    label: 'Memory Usage',
+    label: t('in-kubernetes:dashboards.memoryUsage'),
     sortable: false,
     getContent(item, { timeConfig }) {
       return (
@@ -117,7 +122,7 @@ const columnDefinitions = [
   },
   {
     id: 'health',
-    label: 'Health',
+    label: t('in-kubernetes:dashboards.health'),
     getContent(item, { timeConfig }) {
       return (
         <EntityHealthIndicator
@@ -210,14 +215,14 @@ function UnmonitoredContainers({ containerStatuses }) {
   }
 
   return (
-    <Card title="Containers (Unmonitored)">
+    <Card title={t('in-kubernetes:dashboards.containersUnmonitored')}>
       <Table>
         <Thead>
           <Tr size="compact">
-            <Th>Name</Th>
-            <Th>Ready</Th>
-            <Th>Status</Th>
-            <Th>Message</Th>
+            <Th>{t('in-kubernetes:dashboards.name')}</Th>
+            <Th>{t('in-kubernetes:dashboards.ready')}</Th>
+            <Th>{t('in-kubernetes:dashboards.status')}</Th>
+            <Th>{t('in-kubernetes:dashboards.message')}</Th>
           </Tr>
         </Thead>
         <Tbody>
@@ -228,7 +233,7 @@ function UnmonitoredContainers({ containerStatuses }) {
                   <span>{status.name}</span>
                 </Tooltip>
               </Td>
-              <Td>{status.ready ? 'Yes' : 'No'}</Td>
+              <Td>{status.ready ? t('in-kubernetes:dashboards.yes') : t('in-kubernetes:dashboards.no')}</Td>
               <Td>
                 <Capitalize>{status.state.status}</Capitalize>
               </Td>

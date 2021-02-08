@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 import _ from 'lodash';
 
@@ -30,7 +31,13 @@ export default connectTo(
         value: formatAnnotation(value)
       }));
 
-    return <KeyValueList title="Annotations" items={formattedAnnotations} onEmptyText={onEmptyText} />;
+    return (
+      <KeyValueList
+        title={t('in-kubernetes:dashboards.annotations')}
+        items={formattedAnnotations}
+        onEmptyText={onEmptyText}
+      />
+    );
   }
 );
 

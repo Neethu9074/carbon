@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import getKubernetesWorkloadControllerItemCounters from 'in-subscription/kubernetes/getKubernetesWorkloadControllerItemCounters';
@@ -67,25 +68,55 @@ export function CronJobPodTab({ cronJobId, tab, timeConfig }) {
 
 export function PodConditionsTab({ podId, timeConfig }) {
   const result = observe(getKubernetesPod, { id: podId, timeConfig }) ?? pendingResult;
-  return <TabLabelWithCounter counters={result?.data} label="Conditions" valueExtractor={v => v?.conditions.length} />;
+  return (
+    <TabLabelWithCounter
+      counters={result?.data}
+      label={t('in-kubernetes:dashboards.conditions')}
+      valueExtractor={v => v?.conditions.length}
+    />
+  );
 }
 
 export function NodeConditionsTab({ nodeId, timeConfig }) {
   const result = observe(getKubernetesNode, { id: nodeId, timeConfig }) ?? pendingResult;
-  return <TabLabelWithCounter counters={result?.data} label="Conditions" valueExtractor={v => v?.conditions.length} />;
+  return (
+    <TabLabelWithCounter
+      counters={result?.data}
+      label={t('in-kubernetes:dashboards.conditions')}
+      valueExtractor={v => v?.conditions.length}
+    />
+  );
 }
 
 export function CronJobConditionsTab({ cronJobId, timeConfig }) {
   const result = observe(getKubernetesCronJob, { id: cronJobId, timeConfig }) ?? pendingResult;
-  return <TabLabelWithCounter counters={result?.data} label="Conditions" valueExtractor={v => v?.conditions.length} />;
+  return (
+    <TabLabelWithCounter
+      counters={result?.data}
+      label={t('in-kubernetes:dashboards.conditions')}
+      valueExtractor={v => v?.conditions.length}
+    />
+  );
 }
 
 export function DeploymentConfigConditionsTab({ deploymentConfigId, timeConfig }) {
   const result = observe(getKubernetesWorkloadController, { id: deploymentConfigId, timeConfig }) ?? pendingResult;
-  return <TabLabelWithCounter counters={result?.data} label="Conditions" valueExtractor={v => v?.conditions.length} />;
+  return (
+    <TabLabelWithCounter
+      counters={result?.data}
+      label={t('in-kubernetes:dashboards.conditions')}
+      valueExtractor={v => v?.conditions.length}
+    />
+  );
 }
 
 export function DeploymentConditionsTab({ deploymentId, timeConfig }) {
   const result = observe(getKubernetesWorkloadController, { id: deploymentId, timeConfig }) ?? pendingResult;
-  return <TabLabelWithCounter counters={result?.data} label="Conditions" valueExtractor={v => v?.conditions.length} />;
+  return (
+    <TabLabelWithCounter
+      counters={result?.data}
+      label={t('in-kubernetes:dashboards.conditions')}
+      valueExtractor={v => v?.conditions.length}
+    />
+  );
 }

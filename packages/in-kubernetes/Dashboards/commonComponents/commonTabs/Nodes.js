@@ -2,15 +2,16 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import K8sAgentMonitoringIssueNotifications from 'in-kubernetes/Dashboards/commonComponents/K8sAgentMonitoringIssueNotifications';
+import ViewWidthRestrictedColumn from 'in-infrastructure/tableView/components/Table/components/ViewWidthRestrictedColumn';
 import ServerSideSortedMetricValue from 'in-components/tables/sharedComponents/ServerSideSortedMetricValue';
 import { clusterIdUrlParameter, daemonSetIdUrlParameter } from 'in-kubernetes/navigation/urlParameters';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator/EntityHealthIndicator';
-import ViewWidthRestrictedColumn from 'in-infrastructure/tableView/components/Table/components/ViewWidthRestrictedColumn';
 import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
@@ -28,7 +29,7 @@ const matrixPrefix = 'node.';
 const columnDefinitions = [
   {
     id: 'name',
-    label: 'Name',
+    label: t('in-kubernetes:dashboards.name'),
     getContent(item) {
       return (
         <SeverityAwareEntityLink
@@ -42,14 +43,14 @@ const columnDefinitions = [
   },
   {
     id: 'status',
-    label: 'Status',
+    label: t('in-kubernetes:dashboards.status'),
     getContent(item) {
       return item.node.status;
     }
   },
   {
     id: 'roles',
-    label: 'Roles',
+    label: t('in-kubernetes:dashboards.roles'),
     getContent(item) {
       return (
         <ViewWidthRestrictedColumn width={15}>{item.node.roles || valueMissingPlaceholder}</ViewWidthRestrictedColumn>
@@ -58,14 +59,14 @@ const columnDefinitions = [
   },
   {
     id: 'age',
-    label: 'Age',
+    label: t('in-kubernetes:dashboards.age'),
     getContent(item) {
       return item.node.age && formatDuration(item.node.age);
     }
   },
   {
     id: 'required_cpu_percentage',
-    label: 'CPU Requests',
+    label: t('in-kubernetes:dashboards.cpuRequests'),
     sortable: true,
     getContent(item, props, columnId) {
       return (
@@ -80,7 +81,7 @@ const columnDefinitions = [
   },
   {
     id: 'limit_cpu_percentage',
-    label: 'CPU Limits',
+    label: t('in-kubernetes:dashboards.cpuLimits'),
     sortable: true,
     getContent(item, props, columnId) {
       return (
@@ -95,7 +96,7 @@ const columnDefinitions = [
   },
   {
     id: 'required_mem_percentage',
-    label: 'Memory Requests',
+    label: t('in-kubernetes:dashboards.memoryRequests'),
     sortable: true,
     getContent(item, props, columnId) {
       return (
@@ -110,7 +111,7 @@ const columnDefinitions = [
   },
   {
     id: 'limit_mem_percentage',
-    label: 'Memory Limits',
+    label: t('in-kubernetes:dashboards.memoryLimits'),
     sortable: true,
     getContent(item, props, columnId) {
       return (
@@ -125,7 +126,7 @@ const columnDefinitions = [
   },
   {
     id: 'health',
-    label: 'Health',
+    label: t('in-kubernetes:dashboards.health'),
     getContent(item, { timeConfig }) {
       return (
         <EntityHealthIndicator

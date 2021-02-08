@@ -4,6 +4,7 @@
  */
 import theme from 'in-themes';
 import { get } from 'lodash';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import DashboardButtonLine from 'in-kubernetes/Dashboards/commonComponents/DashboardButtonLine';
@@ -40,7 +41,9 @@ export default function NodeDashboard({ location }) {
       <ViewTrackingMeta
         data={{
           productArea: 'Kubernetes',
-          pageRootName: 'Kubernetes Node'
+          pageRootName: t('in-kubernetes:kubernetesPageRootName', {
+            objectType: t('in-kubernetes:dashboards.node')
+          })
         }}
       />
 
@@ -88,7 +91,7 @@ function Header(props) {
   return (
     <DashboardHeader
       {...props}
-      title="Kubernetes Node"
+      title={t('in-kubernetes:dashboards.kubernetesNode')}
       icon="lib_kubernetes_node"
       label={get(props.result, ['data', 'name'])}
       renderButtonLine={renderButtonLine}
@@ -117,7 +120,7 @@ function renderMetaInformation({ result }) {
   return (
     <>
       {version && <BadgeList type={version} getColor={() => theme.lib.colors.N700Medium} />}
-      <TypesBadgeList type="K8s Node" />
+      <TypesBadgeList type={t('in-kubernetes:dashboards.k8SNode')} />
       <KubernetesIndicator result={result} />
     </>
   );

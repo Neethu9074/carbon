@@ -3,13 +3,14 @@
  * (c) Copyright Instana Inc.
  */
 import { compose } from 'recompose';
+import { t, Trans } from 'in-i18n';
 import { find } from 'lodash';
 import React from 'react';
 
 import { zeroDecimalPlaces, twoDecimalPlaces, bytesZeroDecimalPlaces } from 'in-services/formatters/number';
 import HighlightSwitch from 'in-kubernetes/Dashboards/commonComponents/commonTabs/PodMap/HighlightSwitch';
-import { SideNavigation, SideNavigationItem } from 'in-new-components/SideNavigation/SideNavigation';
 import getKubernetesWorkloadController from 'in-subscription/kubernetes/getKubernetesWorkloadController';
+import { SideNavigation, SideNavigationItem } from 'in-new-components/SideNavigation/SideNavigation';
 import MapListToggle from 'in-kubernetes/Dashboards/commonComponents/commonTabs/MapListToggle';
 import getKubernetesNamespace from 'in-subscription/kubernetes/getKubernetesNamespace';
 import StickySidebarContainer from 'in-new-components/layout/StickySidebarContainer';
@@ -25,44 +26,44 @@ const sizeByConfigs = [
   {
     value: 'cpuLimits',
     format: twoDecimalPlaces,
-    label: 'CPU Limits'
+    label: t('in-kubernetes:dashboards.cpuLimits')
   },
   {
     value: 'cpuRequests',
     format: twoDecimalPlaces,
-    label: 'CPU Requests'
+    label: t('in-kubernetes:dashboards.cpuRequests')
   },
   {
     value: 'memoryLimits',
     format: bytesZeroDecimalPlaces,
-    label: 'Memory Limits'
+    label: t('in-kubernetes:dashboards.memoryLimits')
   },
   {
     value: 'memoryRequests',
     format: bytesZeroDecimalPlaces,
-    label: 'Memory Requests'
+    label: t('in-kubernetes:dashboards.memoryRequests')
   },
   {
     value: 'containers',
     format: zeroDecimalPlaces,
-    label: 'Containers'
+    label: t('in-kubernetes:dashboards.containers')
   }
 ];
 
 export const namespaceGroupings = [
   {
     value: 'DEPLOYMENT',
-    label: 'Deployment',
+    label: t('in-kubernetes:dashboards.deployment'),
     getEntity: getKubernetesWorkloadController
   },
   {
     value: 'SERVICE',
-    label: 'Service',
+    label: t('in-kubernetes:dashboards.service'),
     getEntity: getKubernetesService
   },
   {
     value: 'NODE',
-    label: 'Node',
+    label: t('in-kubernetes:dashboards.node'),
     getEntity: getKubernetesNode
   }
 ];
@@ -71,7 +72,7 @@ export const clusterGroupings = [
   ...namespaceGroupings,
   {
     value: 'NAMESPACE',
-    label: 'Namespace',
+    label: t('in-kubernetes:dashboards.namespace'),
     getEntity: getKubernetesNamespace
   }
 ];
@@ -96,16 +97,23 @@ function ControlFrame(props) {
       <div className={locals.header}>
         <MapListToggle view={view} setView={setView} />
         <div className={locals.right}>
-          <span className={locals.label}>Group by</span>
-          <ComboBox
-            className={locals.input}
-            id="size-by"
-            value={grouping}
-            options={groupingOptions}
-            onChange={_grouping => setConfig({ grouping: _grouping })}
-            clearable={false}
-            openOnFocus
-            searchable={false}
+          <Trans
+            i18nKey="in-kubernetes:dashboards.groupBy"
+            components={{
+              labelSpan: <span className={locals.label}>Group by</span>,
+              sizeBy: (
+                <ComboBox
+                  className={locals.input}
+                  id="size-by"
+                  value={grouping}
+                  options={groupingOptions}
+                  onChange={_grouping => setConfig({ grouping: _grouping })}
+                  clearable={false}
+                  openOnFocus
+                  searchable={false}
+                />
+              )
+            }}
           />
           <HighlightSwitch showHealth={showHealth} setShowHealth={_b => setConfig({ showHealth: _b })} />
         </div>

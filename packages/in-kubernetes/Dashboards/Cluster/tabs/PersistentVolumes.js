@@ -2,15 +2,16 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import K8sAgentMonitoringIssueNotifications from 'in-kubernetes/Dashboards/commonComponents/K8sAgentMonitoringIssueNotifications';
 import getKubernetesPersistentVolumes from 'in-subscription/kubernetes/getKubernetesPersistentVolumes';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
-import { clusterIdUrlParameter } from 'in-kubernetes/navigation/urlParameters';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { MINIMUM_ROLLUP, getRollupForTimeframe } from 'in-stores/metric/metric';
+import { clusterIdUrlParameter } from 'in-kubernetes/navigation/urlParameters';
 import Card from 'in-new-components/Card';
 
 const pathSegment = '/nodes';
@@ -19,28 +20,28 @@ const matrixPrefix = 'node.';
 const columnDefinitions = [
   {
     id: 'name',
-    label: 'Name',
+    label: t('in-kubernetes:dashboards.name'),
     getContent(item) {
       return item.name;
     }
   },
   {
     id: 'phase',
-    label: 'Phase',
+    label: t('in-kubernetes:dashboards.phase'),
     getContent(item) {
       return item.phase;
     }
   },
   {
     id: 'reclaimPolicy',
-    label: 'Reclaim Policy',
+    label: t('in-kubernetes:dashboards.reclaimPolicy'),
     getContent(item) {
       return item.persistentVolume.reclaimPolicy;
     }
   },
   {
     id: 'storageClassName',
-    label: 'Storage Class Name',
+    label: t('in-kubernetes:dashboards.storageClassName'),
     getContent(item) {
       return item.persistentVolume.storageClassName;
     }
@@ -50,7 +51,7 @@ const columnDefinitions = [
 const ServerTableWithUrlState = createServerTableWithUrlState({
   Renderer: withEmptyTableState({
     columnDefinitions,
-    entityName: 'PersistentVolumes'
+    entityName: 'persistentVolumes'
   }),
   paginationResettingUrlParameters: [...timeConfigUrlParameters, clusterIdUrlParameter],
   columnDefinitions,

@@ -4,6 +4,7 @@
  */
 import React, { Fragment } from 'react';
 import { get, find } from 'lodash';
+import { t } from 'in-i18n';
 
 import KubernetesNoDataNotification from 'in-kubernetes/lists/components/KubernetesNoDataNotification';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
@@ -31,7 +32,7 @@ const matrixPrefix = 'k8Cluster.';
 const columnDefinitions = [
   {
     id: 'name',
-    label: 'Name',
+    label: t('in-kubernetes:name'),
     getContent(item) {
       const clusterDistribution = get(item, ['cluster', 'clusterDistribution'], 'kubernetes');
       const clusterIcon = `lib_${clusterDistribution}`;
@@ -49,70 +50,70 @@ const columnDefinitions = [
   },
   {
     id: 'namespaces',
-    label: 'Namespaces',
+    label: t('in-kubernetes:namespaces'),
     getContent(item) {
       return <EntityCounter icon="lib_kubernetes_namespace" count={item.namespaces} />;
     }
   },
   {
     id: 'nodes',
-    label: 'Nodes',
+    label: t('in-kubernetes:nodes'),
     getContent(item) {
       return <EntityCounter icon="lib_kubernetes_node" count={item.nodes} />;
     }
   },
   {
     id: 'services',
-    label: 'Services',
+    label: t('in-kubernetes:services'),
     getContent(item) {
       return <EntityCounter icon="lib_kubernetes_service" count={item.services} />;
     }
   },
   {
     id: 'workloads.pods',
-    label: 'Pods',
+    label: t('in-kubernetes:pods'),
     getContent({ workloads }) {
       return <EntityCounter icon="lib_kubernetes_pod" count={workloads.pods} />;
     }
   },
   {
     id: 'workloads.deployments',
-    label: 'Deployments',
+    label: t('in-kubernetes:deployments'),
     getContent({ workloads }) {
       return <EntityCounter icon="lib_kubernetes_workload" count={workloads.deployments} />;
     }
   },
   {
     id: 'workloads.deploymentConfigs',
-    label: 'Deployment Configs',
+    label: t('in-kubernetes:deploymentConfigs'),
     getContent({ workloads }) {
       return <EntityCounter icon="lib_kubernetes_workload" count={workloads.deploymentConfigs} />;
     }
   },
   {
     id: 'workloads.daemonSets',
-    label: 'DaemonSets',
+    label: t('in-kubernetes:daemonSets'),
     getContent({ workloads }) {
       return <EntityCounter icon="lib_kubernetes_workload" count={workloads.daemonSets} />;
     }
   },
   {
     id: 'workloads.statefulSets',
-    label: 'StatefulSets',
+    label: t('in-kubernetes:statefulSets'),
     getContent({ workloads }) {
       return <EntityCounter icon="lib_kubernetes_workload" count={workloads.statefulSets} />;
     }
   },
   {
     id: 'cronJobs',
-    label: 'CronJobs',
+    label: t('in-kubernetes:cronJobs'),
     getContent(item) {
       return <EntityCounter icon="lib_kubernetes_workload" count={item.cronJobs} />;
     }
   },
   {
     id: 'health',
-    label: 'Health',
+    label: t('in-kubernetes:health'),
     getContent(item, { timeConfig }) {
       return (
         <EntityHealthIndicator
@@ -144,11 +145,13 @@ export default connectTo(
   function ClusterList({ timeConfig }) {
     return (
       <Fragment>
-        <Title title="Clusters" />
+        <Title title={t('in-kubernetes:clusters')} />
         <ViewTrackingMeta
           data={{
             productArea: 'Kubernetes',
-            pageRootName: 'Kubernetes Clusters'
+            pageRootName: t('in-kubernetes:kubernetesPageRootName', {
+              objectType: t('in-kubernetes:clusters')
+            })
           }}
         />
 
@@ -175,11 +178,11 @@ function createColumnFilter({ result }) {
     find(items, item => isOpenshift(get(item, ['cluster', 'clusterDistribution'], 'kubernetes')))
   );
 
-  return ({ label }) => {
+  return ({ id }) => {
     if (anyOpenshift) {
       return true;
     }
-    return label !== 'Deployment Configs';
+    return id !== 'workloads.deploymentConfigs';
   };
 }
 

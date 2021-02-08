@@ -4,7 +4,9 @@
  */
 import { just, combineLatest } from '@instana/observables';
 import { compose, withProps } from 'recompose';
+import theme from 'in-themes';
 import { get } from 'lodash';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import {
@@ -25,7 +27,6 @@ import { siPrefix } from 'in-services/formatters/number';
 import { lighten } from 'in-services/formatters/color';
 import TreeMap from 'in-new-components/TreeMap';
 import connect from 'in-hoc/connectTo';
-import theme from 'in-themes';
 
 export default compose(
   withProps(() => ({
@@ -170,10 +171,10 @@ function mapTreeMapData({ data, sizeMetricConfig, metricValues, entitiesHealthIn
             label,
             children: children.map(pod => {
               const value = get(metricValues, [pod.id, 'value'], 1);
-              let label = 'Loading';
+              let label = t('in-kubernetes:dashboards.loading');
               let valueLabel = null;
               if (metricValues && metricValues.metricName !== sizeMetricConfig.value) {
-                label = 'Loading';
+                label = t('in-kubernetes:dashboards.loading');
               } else if (metricValues && metricValues[pod.id]) {
                 const metricValue = metricValues[pod.id];
                 valueLabel = metricValue.format(value);

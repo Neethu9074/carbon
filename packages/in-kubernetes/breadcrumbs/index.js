@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import {
@@ -76,7 +77,7 @@ export function PodBreadcrumbs(props) {
     workloadControllerId && workloadControllerType === fullyQualifiedPlugins.kubernetesDaemonSet && (
       <WorkloadControllerBreadcrumb
         {...props}
-        headerTitle="DaemonSet"
+        headerTitle={t('in-kubernetes:breadcrumbs.daemonSet')}
         href$={getDaemonSetDashboard(workloadControllerId)}
         workloadControllerId={workloadControllerId}
         workloadControllerSubscriptionName={getKubernetesWorkloadController}
@@ -85,7 +86,7 @@ export function PodBreadcrumbs(props) {
     workloadControllerId && workloadControllerType === fullyQualifiedPlugins.kubernetesStatefulSet && (
       <WorkloadControllerBreadcrumb
         {...props}
-        headerTitle="StatefulSet"
+        headerTitle={t('in-kubernetes:breadcrumbs.statefulSet')}
         href$={getStatefulSetDashboard(workloadControllerId)}
         workloadControllerId={workloadControllerId}
         workloadControllerSubscriptionName={getKubernetesWorkloadController}
@@ -94,7 +95,7 @@ export function PodBreadcrumbs(props) {
     workloadControllerId && workloadControllerType === fullyQualifiedPlugins.kubernetesDeployment && (
       <WorkloadControllerBreadcrumb
         {...props}
-        headerTitle="Deployment"
+        headerTitle={t('in-kubernetes:breadcrumbs.deployment')}
         href$={getDeploymentDashboard(workloadControllerId)}
         workloadControllerId={workloadControllerId}
         workloadControllerSubscriptionName={getKubernetesWorkloadController}
@@ -103,7 +104,7 @@ export function PodBreadcrumbs(props) {
     workloadControllerId && workloadControllerType === fullyQualifiedPlugins.openshiftDeploymentConfig && (
       <WorkloadControllerBreadcrumb
         {...props}
-        headerTitle="Deployment Config"
+        headerTitle={t('in-kubernetes:breadcrumbs.deploymentConfig')}
         href$={getDeploymentConfigDashboard(workloadControllerId)}
         workloadControllerId={workloadControllerId}
         workloadControllerSubscriptionName={getKubernetesWorkloadController}

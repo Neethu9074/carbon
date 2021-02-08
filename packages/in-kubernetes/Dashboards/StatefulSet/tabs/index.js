@@ -2,47 +2,48 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { EventsWithoutNamespace } from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Events';
-import { WorkloadTab } from 'in-kubernetes/Dashboards/commonComponents/Tabs';
 import Services from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Services';
 import { statefulSetDashboardFullyQualified } from 'in-kubernetes/navigation/paths';
 import Nodes from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Nodes';
+import { WorkloadTab } from 'in-kubernetes/Dashboards/commonComponents/Tabs';
 import Pods from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Pods';
 import Summary from 'in-kubernetes/Dashboards/StatefulSet/tabs/Summary';
 import Details from 'in-kubernetes/Dashboards/StatefulSet/tabs/Details';
 
 export default [
   {
-    label: 'Summary',
+    label: t('in-kubernetes:dashboards.summary'),
     path: `${statefulSetDashboardFullyQualified}/summary`,
     component: Summary
   },
   {
-    label: 'Details',
+    label: t('in-kubernetes:dashboards.details'),
     path: `${statefulSetDashboardFullyQualified}/details`,
     component: Details
   },
   {
-    label: 'Events',
+    label: t('in-kubernetes:dashboards.events'),
     path: `${statefulSetDashboardFullyQualified}/events`,
     component: EventsWithoutNamespace
   },
   {
-    label: 'Nodes',
+    label: t('in-kubernetes:dashboards.nodes'),
     path: `${statefulSetDashboardFullyQualified}/nodes`,
     component: Nodes,
     header: props => getCounterComponent(props, v => v.nodes)
   },
   {
-    label: 'K8s Services',
+    label: t('in-kubernetes:dashboards.k8SServices'),
     path: `${statefulSetDashboardFullyQualified}/services`,
     component: Services,
     header: props => getCounterComponent(props, v => v.services)
   },
   {
-    label: 'Pods',
+    label: t('in-kubernetes:dashboards.pods'),
     path: `${statefulSetDashboardFullyQualified}/pods`,
     component: Pods,
     header: props => getCounterComponent(props, v => v.pods)

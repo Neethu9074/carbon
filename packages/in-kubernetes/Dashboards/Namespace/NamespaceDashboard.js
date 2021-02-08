@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { get } from 'lodash';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import AnalyzeCallsButton, { getFilters } from 'in-kubernetes/Dashboards/commonComponents/AnalyzeCallsButton';
@@ -41,7 +42,9 @@ export default function NamespaceDashboard({ location }) {
       <ViewTrackingMeta
         data={{
           productArea: 'Kubernetes',
-          pageRootName: 'Kubernetes Namespace'
+          pageRootName: t('in-kubernetes:kubernetesPageRootName', {
+            objectType: t('in-kubernetes:dashboards.namespace')
+          })
         }}
       />
 
@@ -70,7 +73,7 @@ export default function NamespaceDashboard({ location }) {
         filterTabByResult={result => {
           return tab => {
             if (isOpenshift(get(result, ['data', 'clusterDistribution'], 'kubernetes'))) return true;
-            else return tab.label !== 'Deployment Configs';
+            else return !tab.path.endsWith('/deploymentconfigs');
           };
         }}
         tabChangeTracker={namespaceTabChange}
@@ -96,7 +99,7 @@ function Header(props) {
   return (
     <DashboardHeader
       {...props}
-      title="Kubernetes Namespace"
+      title={t('in-kubernetes:dashboards.kubernetesNamespace')}
       icon="lib_kubernetes_namespace"
       label={get(props.result, ['data', 'label'])}
       renderButtonLine={renderButtonLine}
@@ -129,7 +132,7 @@ function renderButtonLine({ namespaceId, timeConfig, result }) {
 function renderMetaInformation({ result }) {
   return (
     <>
-      <TypesBadgeList type="K8s Namespace" />
+      <TypesBadgeList type={t('in-kubernetes:dashboards.k8SNamespace')} />
       <KubernetesIndicator result={result} />
     </>
   );

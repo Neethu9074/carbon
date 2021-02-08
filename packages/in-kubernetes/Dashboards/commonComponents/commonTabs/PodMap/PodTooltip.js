@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { get } from 'lodash';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import getKubernetesPod from 'in-subscription/kubernetes/getKubernetesPod';
@@ -52,27 +53,27 @@ export function PodTooltipComponent({ grouping, pod, node, groupEntity }) {
         </li>
 
         <li className={locals.item}>
-          <span className={locals.key}>CPU Requests</span>
+          <span className={locals.key}>{t('in-kubernetes:dashboards.cpuRequests')}</span>
           {getMetricValue(node, 'cpuRequests')}
         </li>
 
         <li className={locals.item}>
-          <span className={locals.key}>CPU Limits</span>
+          <span className={locals.key}>{t('in-kubernetes:dashboards.cpuLimitss')}</span>
           {getMetricValue(node, 'cpuLimits')}
         </li>
 
         <li className={locals.item}>
-          <span className={locals.key}>Memory Requests</span>
+          <span className={locals.key}>{t('in-kubernetes:dashboards.memoryRequests')}</span>
           {getMetricValue(node, 'memoryRequests')}
         </li>
 
         <li className={locals.item}>
-          <span className={locals.key}>Memory Limits</span>
+          <span className={locals.key}>{t('in-kubernetes:dashboards.memoryLimits')}</span>
           {getMetricValue(node, 'memoryLimits')}
         </li>
 
         <li className={locals.item}>
-          <span className={locals.key}>Container</span>
+          <span className={locals.key}>{t('in-kubernetes:dashboards.container')}</span>
           {node.data.numberOfContainer}
         </li>
       </ul>

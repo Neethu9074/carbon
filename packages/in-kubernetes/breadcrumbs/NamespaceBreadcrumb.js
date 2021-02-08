@@ -2,12 +2,12 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import WithInfrastructureHealthIndicationBehaviour from 'in-components/health/WithHealthIndication/WithInfrastructureHealthIndicationBehaviour';
 import getKubernetesNamespace from 'in-subscription/kubernetes/getKubernetesNamespace';
 import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
-
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
@@ -22,7 +22,12 @@ export default connectTo(
       <WithInfrastructureHealthIndicationBehaviour
         snapshotId={namespaceId}
         render={healthInfo => (
-          <Breadcrumb label="Namespace" icon="lib_kubernetes_namespace" href$={href$} healthInfo={healthInfo}>
+          <Breadcrumb
+            label={t('in-kubernetes:breadcrumbs.namespace')}
+            icon="lib_kubernetes_namespace"
+            href$={href$}
+            healthInfo={healthInfo}
+          >
             {namespace && namespace.label}
           </Breadcrumb>
         )}

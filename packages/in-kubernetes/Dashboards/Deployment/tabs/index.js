@@ -2,10 +2,11 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
-import { EventsWithoutNamespace } from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Events';
 import { DeploymentConditionsTab, WorkloadTab } from 'in-kubernetes/Dashboards/commonComponents/Tabs';
+import { EventsWithoutNamespace } from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Events';
 import Conditions from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Conditions';
 import Services from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Services';
 import { deploymentDashboardFullyQualified } from 'in-kubernetes/navigation/paths';
@@ -15,34 +16,34 @@ import Details from 'in-kubernetes/Dashboards/Deployment/tabs/Details';
 
 export default [
   {
-    label: 'Summary',
+    label: t('in-kubernetes:dashboards.summary'),
     path: `${deploymentDashboardFullyQualified}/summary`,
     component: Summary
   },
   {
-    label: 'Details',
+    label: t('in-kubernetes:dashboards.details'),
     path: `${deploymentDashboardFullyQualified}/details`,
     component: Details
   },
   {
-    label: 'Events',
+    label: t('in-kubernetes:dashboards.events'),
     path: `${deploymentDashboardFullyQualified}/events`,
     component: EventsWithoutNamespace
   },
   {
-    label: 'Conditions',
+    label: t('in-kubernetes:dashboards.conditions'),
     path: `${deploymentDashboardFullyQualified}/conditions`,
     component: Conditions,
     header: DeploymentConditionsTab
   },
   {
-    label: 'K8s Services',
+    label: t('in-kubernetes:dashboards.k8SServices'),
     path: `${deploymentDashboardFullyQualified}/services`,
     component: Services,
     header: props => getCounterComponent(props, v => v.services)
   },
   {
-    label: 'Pods',
+    label: t('in-kubernetes:dashboards.pods'),
     path: `${deploymentDashboardFullyQualified}/pods`,
     component: Pods,
     header: props => getCounterComponent(props, v => v.pods)

@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import KubernetesTopList from 'in-kubernetes/Dashboards/commonComponents/KubernetesTopList';
@@ -11,8 +12,8 @@ import { getNodeDashboard } from 'in-kubernetes/navigation/paths';
 export default function TopNodesList(props) {
   return (
     <KubernetesTopList
-      title="Top Nodes"
-      viewAllEntityName="node"
+      title={t('in-kubernetes:dashboards.topNodes')}
+      entityNameKey="node"
       {...props}
       getItems={getKubernetesNodes}
       getItemHref$={item => getNodeDashboard(item.node.id, props)}

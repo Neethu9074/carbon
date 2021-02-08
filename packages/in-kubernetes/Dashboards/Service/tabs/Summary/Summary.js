@@ -4,6 +4,7 @@
  */
 import React, { Fragment } from 'react';
 import theme from 'in-themes';
+import { t } from 'in-i18n';
 
 import MissingK8sPermissions from 'in-kubernetes/Dashboards/commonComponents/MissingK8sPermissions';
 import { twoDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
@@ -27,15 +28,15 @@ export default function Summary({ timeConfig, data: service }) {
       <MissingK8sPermissions resourceSnapshotId={service.id} timeConfig={timeConfig} />
 
       <KpiGridRow sizes={[4, 4, 4]}>
-        <KpiCard title="Type" value={service.type} raw borderless />
-        <KpiCard title="Location" value={service.location} raw borderless />
-        <KpiCard title="Age" value={formatDuration(service.age)} raw borderless />
+        <KpiCard title={t('in-kubernetes:dashboards.type')} value={service.type} raw borderless />
+        <KpiCard title={t('in-kubernetes:dashboards.location')} value={service.location} raw borderless />
+        <KpiCard title={t('in-kubernetes:dashboards.age')} value={formatDuration(service.age)} raw borderless />
       </KpiGridRow>
 
       <Row>
         <Col lg={2}>
           <InfraMetricKpiCard
-            title="CPU Usage"
+            title={t('in-kubernetes:dashboards.cpuUsage')}
             snapshotId={snapshotId}
             metric="cpu.total_usage"
             formatter={twoDecimalPlaces}
@@ -43,7 +44,7 @@ export default function Summary({ timeConfig, data: service }) {
         </Col>
         <Col lg={2}>
           <InfraMetricKpiCard
-            title="CPU Requests"
+            title={t('in-kubernetes:dashboards.cpuRequests')}
             snapshotId={snapshotId}
             metric="cpuRequests"
             formatter={resourceQuotaNumber}
@@ -51,7 +52,7 @@ export default function Summary({ timeConfig, data: service }) {
         </Col>
         <Col lg={2}>
           <InfraMetricKpiCard
-            title="CPU Limits"
+            title={t('in-kubernetes:dashboards.cpuLimits')}
             snapshotId={snapshotId}
             metric="cpuLimits"
             formatter={resourceQuotaNumber}
@@ -59,7 +60,7 @@ export default function Summary({ timeConfig, data: service }) {
         </Col>
         <Col lg={2}>
           <InfraMetricKpiCard
-            title="Memory Usage"
+            title={t('in-kubernetes:dashboards.memoryUsage')}
             snapshotId={snapshotId}
             metric="memory.usage"
             formatter={bytesTwoDecimalPlaces}
@@ -67,7 +68,7 @@ export default function Summary({ timeConfig, data: service }) {
         </Col>
         <Col lg={2}>
           <InfraMetricKpiCard
-            title="Memory Requests"
+            title={t('in-kubernetes:dashboards.memoryRequests')}
             snapshotId={snapshotId}
             metric="memoryRequests"
             formatter={resourceQuotaBytes}
@@ -75,7 +76,7 @@ export default function Summary({ timeConfig, data: service }) {
         </Col>
         <Col lg={2}>
           <InfraMetricKpiCard
-            title="Memory Limits"
+            title={t('in-kubernetes:dashboards.memoryLimits')}
             snapshotId={snapshotId}
             metric="memoryLimits"
             formatter={resourceQuotaBytes}
@@ -85,14 +86,18 @@ export default function Summary({ timeConfig, data: service }) {
 
       <Row verticallyStretchColumns>
         <Col lg={6}>
-          <Card title="CPU Resources" useMaxAvailableHeight>
+          <Card title={t('in-kubernetes:dashboards.cpuResources')} useMaxAvailableHeight>
             <Chart
               snapshotId={snapshotId}
               timeConfig={timeConfig}
               y1={{
                 formatter: resourceQuotaNumber,
                 metrics: ['cpu.total_usage', 'cpuRequests', 'cpuLimits'],
-                labels: ['Usage', 'Requests', 'Limits'],
+                labels: [
+                  t('in-kubernetes:dashboards.usage'),
+                  t('in-kubernetes:dashboards.requests'),
+                  t('in-kubernetes:dashboards.limits')
+                ],
                 type: 'line',
                 colors: [usage, requests, limits]
               }}
@@ -101,14 +106,18 @@ export default function Summary({ timeConfig, data: service }) {
           </Card>
         </Col>
         <Col lg={6}>
-          <Card title="Memory Resources" useMaxAvailableHeight>
+          <Card title={t('in-kubernetes:dashboards.memoryResources')} useMaxAvailableHeight>
             <Chart
               snapshotId={snapshotId}
               timeConfig={timeConfig}
               y1={{
                 formatter: resourceQuotaBytes,
                 metrics: ['memory.usage', 'memoryRequests', 'memoryLimits'],
-                labels: ['Usage', 'Requests', 'Limits'],
+                labels: [
+                  t('in-kubernetes:dashboards.usage'),
+                  t('in-kubernetes:dashboards.requests'),
+                  t('in-kubernetes:dashboards.limits')
+                ],
                 type: 'line',
                 colors: [usage, requests, limits]
               }}

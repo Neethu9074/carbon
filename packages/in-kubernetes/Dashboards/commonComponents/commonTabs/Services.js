@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import {
@@ -31,63 +32,63 @@ const matrixPrefix = 'service.';
 const columnDefinitions = [
   {
     id: 'name',
-    label: 'Name',
+    label: t('in-kubernetes:dashboards.name'),
     getContent(item) {
       return <EntityLink icon="lib_kubernetes_service" label={item.name} href$={getServiceDashboard(item.id)} />;
     }
   },
   {
     id: 'namespace',
-    label: 'Namespace',
+    label: t('in-kubernetes:dashboards.namespace'),
     getContent(item) {
       return item.namespace;
     }
   },
   {
     id: 'type',
-    label: 'Type',
+    label: t('in-kubernetes:dashboards.type'),
     getContent(item) {
       return item.type;
     }
   },
   {
     id: 'location',
-    label: 'Service location',
+    label: t('in-kubernetes:dashboards.serviceLocation'),
     getContent(item) {
       return item.location;
     }
   },
   {
     id: 'internalEndpoints',
-    label: 'Int. endpoints',
+    label: t('in-kubernetes:dashboards.intEndpoints'),
     getContent(item) {
       return item.internalEndpoints;
     }
   },
   {
     id: 'externalEndpoints',
-    label: 'Ext. endpoints',
+    label: t('in-kubernetes:dashboards.extEndpoints'),
     getContent(item) {
       return item.externalEndpoints;
     }
   },
   {
     id: 'pods',
-    label: 'Pods',
+    label: t('in-kubernetes:dashboards.pods'),
     getContent(item) {
       return <EntityCounter icon="lib_kubernetes_pod" count={item.pods} />;
     }
   },
   {
     id: 'age',
-    label: 'Age',
+    label: t('in-kubernetes:dashboards.age'),
     getContent(item) {
       return formatDuration(item.age);
     }
   },
   {
     id: 'health',
-    label: 'Health',
+    label: t('in-kubernetes:dashboards.health'),
     getContent(item, { timeConfig }) {
       return (
         <EntityHealthIndicator

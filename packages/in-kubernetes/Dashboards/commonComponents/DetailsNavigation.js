@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import SideNavigationAndContent from 'in-new-components/layout/SideNavigationAndContent';
@@ -19,7 +20,13 @@ export function labelsNavigationItem(path) {
     icon: 'lib_kubernetes_label',
     renderLabel: ({ resource }) => `Labels (${resource.labels.length})`,
     component: function LabelsNavigationItem({ resource }) {
-      return <KeyValueList title="Labels" items={resource.labels} onEmptyText="No Labels" />;
+      return (
+        <KeyValueList
+          title={t('in-kubernetes:dashboards.labels')}
+          items={resource.labels}
+          onEmptyText={t('in-kubernetes:dashboards.noLabels')}
+        />
+      );
     }
   };
 }
@@ -30,7 +37,7 @@ export function annotationsNavigationItem(path) {
     icon: 'lib_kubernetes_annotation',
     renderLabel: ({ annotations }) => `Annotations (${annotations ? annotations.length : 0})`,
     component: function AnnotationsNavigationItem({ annotations }) {
-      return <Annotations annotations={annotations} onEmptyText="No Annotations" />;
+      return <Annotations annotations={annotations} onEmptyText={t('in-kubernetes:dashboards.noAnnotations')} />;
     }
   };
 }
@@ -39,7 +46,7 @@ export function specNavigationItem(path) {
   return {
     path,
     icon: 'lib_kubernetes_spec',
-    label: 'Spec',
+    label: t('in-kubernetes:dashboards.spec'),
     component: function SpecNavigationItem({ resource }) {
       return <Spec snapshotId={resource.id} />;
     }

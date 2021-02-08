@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { get } from 'lodash';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { getDeploymentDashboard, getDeploymentConfigDashboard, summaryTab } from 'in-kubernetes/navigation/paths';
@@ -30,8 +31,8 @@ export default function TopDeploymentsList(props) {
 
   return (
     <KubernetesTopList
-      title="Top Deployments"
-      viewAllEntityName={selectedTab === tabDeployments ? 'deployment' : 'deployment config'}
+      title={t('in-kubernetes:dashboards.topDeployments')}
+      entityNameKey={selectedTab === tabDeployments ? 'deployment' : 'deploymentConfig'}
       {...props}
       header={header({
         showDeploymentConfigs: props.showDeploymentConfigs,
@@ -64,12 +65,12 @@ function header({ showDeploymentConfigs, selectedTab, setSelectedTab }) {
       <ButtonGroup
         buttonPropsList={[
           {
-            text: 'Deployments',
+            text: t('in-kubernetes:dashboards.deployments'),
             key: tabDeployments,
             onClick: () => setSelectedTab(tabDeployments)
           },
           {
-            text: 'Deployment Configs',
+            text: t('in-kubernetes:dashboards.deploymentConfigs'),
             key: tabDeploymentConfigs,
             onClick: () => setSelectedTab(tabDeploymentConfigs)
           }

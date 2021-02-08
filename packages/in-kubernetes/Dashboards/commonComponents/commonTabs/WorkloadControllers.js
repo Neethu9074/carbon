@@ -2,8 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import React from 'react';
+import { t } from 'in-i18n';
 import { get } from 'lodash';
+import React from 'react';
 
 import {
   clusterIdUrlParameter,
@@ -24,13 +25,13 @@ import { MINIMUM_ROLLUP, getRollupForTimeframe } from 'in-stores/metric/metric';
 import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
 import Card from 'in-new-components/Card/LightCardV2';
 
-const msFormatter = d => (d < 0 ? 'No activity' : timeByMillisTwoDecimalPlaces(d));
+const msFormatter = d => (d < 0 ? t('in-kubernetes:dashboards.noActivity') : timeByMillisTwoDecimalPlaces(d));
 const matrixPrefix = 'deployment.';
 
 const columnDefinitions = [
   {
     id: 'name',
-    label: 'Name',
+    label: t('in-kubernetes:dashboards.name'),
     getContent(item, { clusterId, getWorkloadControllerDashboard }) {
       return (
         <SeverityAwareEntityLink
@@ -44,28 +45,28 @@ const columnDefinitions = [
   },
   {
     id: 'namespace',
-    label: 'Namespace',
+    label: t('in-kubernetes:dashboards.namespace'),
     getContent(item) {
       return get(item, ['workloadController', 'namespace']);
     }
   },
   {
     id: 'pods',
-    label: 'Pods',
+    label: t('in-kubernetes:dashboards.pods'),
     getContent(item) {
       return <EntityCounter icon="lib_kubernetes_pod" count={item.pods} />;
     }
   },
   {
     id: 'replicas',
-    label: 'Replicas',
+    label: t('in-kubernetes:dashboards.replicas'),
     sortable: false,
     getContent(item) {
       return (
         <MetricBasedTwoValueBar
           snapshotId={get(item, ['workloadController', 'id'])}
           metrics={['availableReplicas', 'desiredReplicas']}
-          labels={['Available', 'Desired']}
+          labels={[t('in-kubernetes:dashboards.available'), t('in-kubernetes:dashboards.desired')]}
           timeWindowAggregation={null}
           formatter={number.compact}
           transformer={number.compact}
@@ -75,7 +76,7 @@ const columnDefinitions = [
   },
   {
     id: 'duration',
-    label: 'Last Pending Phase Duration',
+    label: t('in-kubernetes:dashboards.lastPendingPhaseDuration'),
     getContent(item, props, columnId) {
       return (
         <ServerSideSortedMetricValue
@@ -89,7 +90,7 @@ const columnDefinitions = [
   },
   {
     id: 'health',
-    label: 'Health',
+    label: t('in-kubernetes:dashboards.health'),
     getContent(item, { timeConfig }) {
       return (
         <EntityHealthIndicator

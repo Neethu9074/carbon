@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { withState } from 'recompose';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import ToggleStatusButtonGroup from 'in-kubernetes/Dashboards/commonComponents/ConditionsTableCard/ToggleStatusButtonGroup';
@@ -21,7 +22,7 @@ export default withState(
   null
 )(function ConditionsTableCard({ setSelectedStatus, selectedStatus, viewAllHref$, conditions }) {
   if (!conditions || conditions.length === 0) {
-    return <NoDataAvailable text="No Conditions found" />;
+    return <NoDataAvailable text={t('in-kubernetes:dashboards.noConditionsFound')} />;
   }
 
   if (selectedStatus) {
@@ -31,7 +32,7 @@ export default withState(
   const presentedConditions = conditions.slice(0, maxPresentedConditions);
   return (
     <Card
-      title="Conditions"
+      title={t('in-kubernetes:dashboards.conditions')}
       header={<ToggleStatusButtonGroup selectedStatus={selectedStatus} setSelectedStatus={setSelectedStatus} />}
     >
       <ConditionsPresenter conditions={presentedConditions} />
@@ -46,7 +47,7 @@ export default withState(
 function ViewAll({ viewAllHref$ }, className) {
   return (
     <Link className={className} href$={viewAllHref$}>
-      View all conditions
+      {t('in-kubernetes:dashboards.viewAllConditions')}
     </Link>
   );
 }

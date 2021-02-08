@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { fromJS } from 'immutable';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { percentageZeroDecimalPlaces, percentageTwoDecimalPlaces } from 'in-services/formatters/number';
@@ -24,7 +25,7 @@ const matrixPrefix = 'host.';
 const columnDefinitions = [
   {
     id: 'label',
-    label: 'Name',
+    label: t('in-kubernetes:dashboards.name'),
     sortable: false,
     getContent(item, { timeConfig }) {
       const snapshot = fromJS(item);
@@ -43,7 +44,7 @@ const columnDefinitions = [
   },
   {
     id: 'cpuUsage',
-    label: 'CPU Usage',
+    label: t('in-kubernetes:dashboards.cpuUsage'),
     sortable: false,
     getContent(item, { timeConfig }) {
       return (
@@ -60,7 +61,7 @@ const columnDefinitions = [
   },
   {
     id: 'memUsage',
-    label: 'Memory Usage',
+    label: t('in-kubernetes:dashboards.memoryUsage'),
     sortable: false,
     getContent(item, { timeConfig }) {
       return (

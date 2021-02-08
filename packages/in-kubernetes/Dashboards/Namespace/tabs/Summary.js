@@ -5,6 +5,7 @@
 import React, { Fragment } from 'react';
 import theme from 'in-themes';
 import { get } from 'lodash';
+import { t } from 'in-i18n';
 
 import {
   resourceQuotaPercentage,
@@ -46,9 +47,9 @@ export default function Summary({ timeConfig, data: namespace }) {
       <MissingK8sPermissions resourceSnapshotId={namespace.id} timeConfig={timeConfig} />
 
       <KpiGridRow sizes={[6, 6]}>
-        <KpiCard title="Status" value={namespace.status} raw borderless />
+        <KpiCard title={t('in-kubernetes:dashboards.status')} value={namespace.status} raw borderless />
         <KpiCard
-          title="Age"
+          title={t('in-kubernetes:dashboards.age')}
           value={namespace.age ? formatDuration(namespace.age) : valueMissingPlaceholder}
           raw
           borderless
@@ -58,7 +59,7 @@ export default function Summary({ timeConfig, data: namespace }) {
       <Row>
         <Col lg={2}>
           <InfraMetricKpiCard
-            title="CPU Requests"
+            title={t('in-kubernetes:dashboards.cpuRequests')}
             snapshotId={snapshotId}
             metric="required_cpu_percentage"
             formatter={resourceQuotaPercentage}
@@ -66,7 +67,7 @@ export default function Summary({ timeConfig, data: namespace }) {
         </Col>
         <Col lg={2}>
           <InfraMetricKpiCard
-            title="CPU Limits Alloc."
+            title={t('in-kubernetes:dashboards.cpuLimitsAlloc')}
             snapshotId={snapshotId}
             metric="limit_cpu_percentage"
             formatter={resourceQuotaPercentage}
@@ -74,7 +75,7 @@ export default function Summary({ timeConfig, data: namespace }) {
         </Col>
         <Col lg={2}>
           <InfraMetricKpiCard
-            title="Memory Requests"
+            title={t('in-kubernetes:dashboards.memoryRequests')}
             snapshotId={snapshotId}
             metric="required_mem_percentage"
             formatter={resourceQuotaPercentage}
@@ -82,7 +83,7 @@ export default function Summary({ timeConfig, data: namespace }) {
         </Col>
         <Col lg={2}>
           <InfraMetricKpiCard
-            title="Memory Limits Alloc."
+            title={t('in-kubernetes:dashboards.memoryLimitsAlloc')}
             snapshotId={snapshotId}
             metric="limit_mem_percentage"
             formatter={resourceQuotaPercentage}
@@ -90,7 +91,7 @@ export default function Summary({ timeConfig, data: namespace }) {
         </Col>
         <Col lg={2}>
           <InfraMetricKpiCard
-            title="Pods Alloc."
+            title={t('in-kubernetes:dashboards.podsAlloc')}
             snapshotId={snapshotId}
             metric="used_pods_percentage"
             formatter={resourceQuotaPercentage}
@@ -100,20 +101,29 @@ export default function Summary({ timeConfig, data: namespace }) {
 
       <Row verticallyStretchColumns>
         <Col lg={4}>
-          <Card title="CPU Resources" useMaxAvailableHeight>
+          <Card title={t('in-kubernetes:dashboards.cpuResources')} useMaxAvailableHeight>
             <MetricFilterChart
               snapshotId={snapshotId}
               timeConfig={timeConfig}
               filterMetrics={['cap_requests_cpu', 'cap_limits_cpu']}
               filter={resourceQuotaSet}
-              filterReasons={['CPU request', 'CPU limit'].map(r => `There are no ${r} quotas in this namespace`)}
+              filterReasons={[
+                t('in-kubernetes:dashboards.noCpuRequestQuotaMessage'),
+                t('in-kubernetes:dashboards.noCpuLimitQuotaMessage')
+              ]}
               chartComponent={Chart}
               y1={{
                 formatter: resourceQuotaNumber,
                 metrics: [`cap_requests_cpu`, `cpuRequests`, `cap_limits_cpu`, `cpuLimits`, 'cpu.total_usage'].filter(
                   Boolean
                 ),
-                labels: ['Hard Requests', 'Used Requests', 'Hard Limits', 'Used Limits', 'Usage'].filter(Boolean),
+                labels: [
+                  t('in-kubernetes:dashboards.hardRequests'),
+                  t('in-kubernetes:dashboards.usedRequests'),
+                  t('in-kubernetes:dashboards.hardLimits'),
+                  t('in-kubernetes:dashboards.usedLimits'),
+                  t('in-kubernetes:dashboards.usage')
+                ].filter(Boolean),
                 type: 'line',
                 min: 0,
                 colors: [hardRequests, requests, hardLimits, limits, usage]
@@ -123,13 +133,16 @@ export default function Summary({ timeConfig, data: namespace }) {
           </Card>
         </Col>
         <Col lg={4}>
-          <Card title="Memory Resources" useMaxAvailableHeight>
+          <Card title={t('in-kubernetes:dashboards.memoryResources')} useMaxAvailableHeight>
             <MetricFilterChart
               snapshotId={snapshotId}
               timeConfig={timeConfig}
               filterMetrics={['cap_requests_memory', 'cap_limits_memory']}
               filter={resourceQuotaSet}
-              filterReasons={['memory request', 'memory limit'].map(r => `There are no ${r} quotas in this namespace`)}
+              filterReasons={[
+                t('in-kubernetes:dashboards.noMemoryRequestQuotaMessage'),
+                t('in-kubernetes:dashboards.noMemoryLimitQuotaMessage')
+              ]}
               chartComponent={Chart}
               y1={{
                 formatter: resourceQuotaBytes,
@@ -140,7 +153,13 @@ export default function Summary({ timeConfig, data: namespace }) {
                   'memoryLimits',
                   'memory.usage'
                 ].filter(Boolean),
-                labels: ['Hard Requests', 'Used Requests', 'Hard Limits ', 'Used Limits', 'Usage'].filter(Boolean),
+                labels: [
+                  t('in-kubernetes:dashboards.hardRequests'),
+                  t('in-kubernetes:dashboards.usedRequests'),
+                  t('in-kubernetes:dashboards.hardLimits'),
+                  t('in-kubernetes:dashboards.usedLimits'),
+                  t('in-kubernetes:dashboards.usage')
+                ].filter(Boolean),
                 type: 'line',
                 min: 0,
                 colors: [hardRequests, requests, hardLimits, limits, usage]
@@ -150,14 +169,14 @@ export default function Summary({ timeConfig, data: namespace }) {
           </Card>
         </Col>
         <Col lg={4}>
-          <Card title="Pods" useMaxAvailableHeight>
+          <Card title={t('in-kubernetes:dashboards.pods')} useMaxAvailableHeight>
             <Chart
               snapshotId={snapshotId}
               timeConfig={timeConfig}
               y1={{
                 formatter: resourceQuotaZeroDecimalPlaces,
                 metrics: ['pods.count', 'cap_pods'],
-                labels: ['Used', 'Hard'],
+                labels: [t('in-kubernetes:dashboards.used'), t('in-kubernetes:dashboards.hard')],
                 type: 'line',
                 min: 0,
                 colors: [pods, hardLimits]

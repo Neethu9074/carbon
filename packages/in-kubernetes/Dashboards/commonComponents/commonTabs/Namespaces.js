@@ -2,8 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import React from 'react';
+import { t } from 'in-i18n';
 import { get, find } from 'lodash';
+import React from 'react';
 
 import K8sAgentMonitoringIssueNotifications from 'in-kubernetes/Dashboards/commonComponents/K8sAgentMonitoringIssueNotifications';
 import ServerSideSortedMetricValue from 'in-components/tables/sharedComponents/ServerSideSortedMetricValue';
@@ -28,7 +29,7 @@ const matrixPrefix = 'namespace.';
 const columnDefinitions = [
   {
     id: 'label',
-    label: 'Name',
+    label: t('in-kubernetes:dashboards.name'),
     getContent(item) {
       return (
         <SeverityAwareEntityLink
@@ -42,49 +43,49 @@ const columnDefinitions = [
   },
   {
     id: 'workloads.deployments',
-    label: 'Deployments',
+    label: t('in-kubernetes:dashboards.deployments'),
     getContent({ workloads }) {
       return <EntityCounter icon="lib_kubernetes_workload" count={workloads.deployments} />;
     }
   },
   {
     id: 'workloads.deploymentConfigs',
-    label: 'Deployment Configs',
+    label: t('in-kubernetes:dashboards.deploymentConfigs'),
     getContent({ workloads }) {
       return <EntityCounter icon="lib_kubernetes_workload" count={workloads.deploymentConfigs} />;
     }
   },
   {
     id: 'workloads.daemonSets',
-    label: 'DaemonSets',
+    label: t('in-kubernetes:dashboards.daemonSets'),
     getContent({ workloads }) {
       return <EntityCounter icon="lib_kubernetes_workload" count={workloads.daemonSets} />;
     }
   },
   {
     id: 'workloads.statefulSets',
-    label: 'StatefulSets',
+    label: t('in-kubernetes:dashboards.statefulSets'),
     getContent({ workloads }) {
       return <EntityCounter icon="lib_kubernetes_workload" count={workloads.statefulSets} />;
     }
   },
   {
     id: 'services',
-    label: 'Services',
+    label: t('in-kubernetes:dashboards.services'),
     getContent(item) {
       return <EntityCounter icon="lib_kubernetes_service" count={item.services} />;
     }
   },
   {
     id: 'workloads.pods',
-    label: 'Pods',
+    label: t('in-kubernetes:dashboards.pods'),
     getContent({ workloads }) {
       return <EntityCounter icon="lib_kubernetes_pod" count={workloads.pods} />;
     }
   },
   {
     id: 'required_cpu_percentage',
-    label: 'CPU Requests Alloc.',
+    label: t('in-kubernetes:dashboards.cpuRequestsAlloc'),
     sortable: true,
     getContent(item, props, columnId) {
       return (
@@ -99,7 +100,7 @@ const columnDefinitions = [
   },
   {
     id: 'limit_cpu_percentage',
-    label: 'CPU Limits Alloc.',
+    label: t('in-kubernetes:dashboards.cpuLimitsAlloc'),
     sortable: true,
     getContent(item, props, columnId) {
       return (
@@ -114,7 +115,7 @@ const columnDefinitions = [
   },
   {
     id: 'required_mem_percentage',
-    label: 'Memory Requests Alloc.',
+    label: t('in-kubernetes:dashboards.memoryRequestsAlloc'),
     sortable: true,
     getContent(item, props, columnId) {
       return (
@@ -129,7 +130,7 @@ const columnDefinitions = [
   },
   {
     id: 'limit_mem_percentage',
-    label: 'Memory Limits Alloc.',
+    label: t('in-kubernetes:dashboards.memoryLimitsAlloc'),
     sortable: true,
     getContent(item, props, columnId) {
       return (
@@ -144,7 +145,7 @@ const columnDefinitions = [
   },
   {
     id: 'used_pods_percentage',
-    label: 'Pods Alloc.',
+    label: t('in-kubernetes:dashboards.podsAlloc'),
     sortable: true,
     getContent(item, props, columnId) {
       return (
@@ -159,7 +160,7 @@ const columnDefinitions = [
   },
   {
     id: 'health',
-    label: 'Health',
+    label: t('in-kubernetes:dashboards.health'),
     getContent(item, { timeConfig }) {
       return (
         <EntityHealthIndicator
@@ -204,7 +205,7 @@ export default function Namespaces(props) {
                   isOpenshift(get(item, ['namespace', 'clusterDistribution'], 'kubernetes'))
                 )
               );
-            return columnDefinition => anyOpenshift || columnDefinition.label !== 'Deployment Configs';
+            return columnDefinition => anyOpenshift || columnDefinition.id !== 'workloads.deploymentConfigs';
           }}
           timeConfig={props.timeConfig}
           clusterId={props.clusterId}

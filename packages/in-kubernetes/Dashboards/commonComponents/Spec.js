@@ -2,8 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import React from 'react';
+import { t } from 'in-i18n';
 import yaml from 'js-yaml';
+import React from 'react';
 
 import { getRawPayload } from 'in-stores/snapshot';
 import Card from 'in-new-components/Card';
@@ -22,7 +23,7 @@ export default connectTo(
     }
 
     return (
-      <Card title="Spec">
+      <Card title={t('in-kubernetes:dashboards.spec')}>
         <Code showLineNumbers={false} code={yaml.safeDump(spec.toJS())} lang="yaml" />
       </Card>
     );
