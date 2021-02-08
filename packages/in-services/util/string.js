@@ -2,6 +2,15 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
+import invariant from 'invariant';
+
+import { activeLanguage } from 'in-i18n';
+
+if (__DEV__) {
+  invariant(activeLanguage, 'activeLanguage not defined. Did we establish a circular import problem?');
+}
+
 export function isBlank(s) {
   return s == null || s.length === 0 || s.trim().length === 0;
 }
@@ -10,8 +19,8 @@ export function isNotBlank(s) {
   return !isBlank(s);
 }
 
-export const compare = new Intl.Collator('en-US').compare;
-export const compareIgnoreCase = new Intl.Collator('en-US', { sensitivity: 'base' }).compare;
+export const compare = new Intl.Collator(activeLanguage).compare;
+export const compareIgnoreCase = new Intl.Collator(activeLanguage, { sensitivity: 'base' }).compare;
 
 export function containsIgnoreCase(s, search) {
   return s.toLowerCase().indexOf(search.toLowerCase()) !== -1;

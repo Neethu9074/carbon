@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 import React from 'react';
-import { getLanguage as getCurrentActiveLanguage } from 'in-i18n';
 
 import useSettingsEditor from 'in-settings/tabs/UserSettings/pages/useSettingsEditor';
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
@@ -15,6 +14,7 @@ import SectionLine from 'in-settings/components/SectionLine';
 import { saveUserSettings } from 'in-services/userSettings';
 import ComboBox from 'in-components/ComboBox/ComboBox';
 import Toggle from 'in-components/form/Toggle';
+import { activeLanguage } from 'in-i18n';
 import Title from 'in-components/Title';
 
 import locals from './UiConfig.mless';
@@ -109,7 +109,7 @@ export default function UiConfigGeneralPage() {
           <Heading text="Language" htmlFor="language" />
           <ComboBox
             name="language"
-            value={getCurrentActiveLanguage()}
+            value={activeLanguage}
             options={[
               { value: 'en-US', label: 'English' }
               // TODO: Activate once supported { value: 'de-DE', label: 'Deutsch' }
