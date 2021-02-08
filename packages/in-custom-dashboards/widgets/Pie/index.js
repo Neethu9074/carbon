@@ -12,7 +12,4 @@ export const type = 'pie';
 export const label = 'Chart: Pie';
 export const minimumWidth = 3;
 export const minimumHeight = 15;
-export const badge = {
-  content: 'BETA'
-};
 export const enabled = true;
