@@ -24,18 +24,23 @@ const EntityLink = forwardRef(function EntityLink(
     </Link>
   );
 
-  const innerContent = (
-    <WithIcon plugin={plugin} snapshot={snapshot} icon={icon} iconColor={iconColor}>
-      {tooltip ? (
-        <Tooltip content={tooltip}>{link}</Tooltip>
-      ) : (
-        <>
-          {link}
-          {subscriptComponent}
-        </>
-      )}
-    </WithIcon>
+  const tooltipContent = tooltip ? (
+    <Tooltip content={tooltip}>{link}</Tooltip>
+  ) : (
+    <>
+      {link}
+      {subscriptComponent}
+    </>
   );
+
+  const innerContent =
+    plugin || snapshot || icon ? (
+      <WithIcon plugin={plugin} snapshot={snapshot} icon={icon} iconColor={iconColor}>
+        {tooltipContent}
+      </WithIcon>
+    ) : (
+      tooltipContent
+    );
 
   if (!specialIndicator) {
     return innerContent;

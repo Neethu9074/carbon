@@ -133,7 +133,6 @@
     "kubernetesCronJob": "Kubernetes CronJob",
     "k8SCronJob": "K8s CronJob",
     "lastJobDuration": "Last Job Duration",
-    "activeJobs": "Active Jobs",
     "kubernetesDaemonSet": "Kubernetes DaemonSet",
     "k8SDaemonSet": "K8s DaemonSet",
     "unscheduled": "Unscheduled",
@@ -196,7 +195,8 @@
     "noCpuRequestQuotaMessage": "There are no CPU request quotas in this namespace",
     "noCpuLimitQuotaMessage": "There are no CPU limit quotas in this namespace",
     "noMemoryRequestQuotaMessage": "There are no memory request quotas in this namespace",
-    "noMemoryLimitQuotaMessage": "There are no memory limit quotas in this namespace"
+    "noMemoryLimitQuotaMessage": "There are no memory limit quotas in this namespace",
+    "completion": "Completion"
   },
   "viewEntityName": {
     "all": {
@@ -249,6 +249,7 @@
   "running": "Running",
   "pending": "Pending",
   "succeeded": "Succeeded",
+  "active": "Active",
   "failed": "Failed",
   "unknown": "Unknown",
   "kubernetesPageRootName": "Kubernetes {{objectType}}",
