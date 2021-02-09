@@ -24,7 +24,8 @@ export default function Header(props) {
     hitName,
     metrics,
     order,
-    tracking
+    tracking,
+    withSamplingTooltip
   } = props;
 
   return (
@@ -35,6 +36,7 @@ export default function Header(props) {
         itemName={itemName}
         topText={topText}
         hitName={hitName}
+        withSamplingTooltip={withSamplingTooltip}
       />
 
       <HorizontalFlexWrapper>

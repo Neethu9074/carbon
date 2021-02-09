@@ -144,6 +144,7 @@ export default function Beacons(props) {
       // TODO detail view
       DetailView={PageLoadView}
       getDetailData={getWebsiteBeaconsForPageLoad}
+      withSamplingTooltip
     />
   );
 

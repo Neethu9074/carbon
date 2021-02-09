@@ -68,6 +68,7 @@ export default function GroupedAnalyzeView(props) {
     getItemLabel,
     itemlabelColumnId,
     onChartableDataSeriesChange,
+    withSamplingTooltip,
     withoutSorting = false,
     chartedMetrics
   } = props;
@@ -187,6 +188,7 @@ export default function GroupedAnalyzeView(props) {
             }))
           )
         }
+        withSamplingTooltip={withSamplingTooltip}
       />
       <div className={locals.facetedSearchResultContainer}>
         {facetedSearchItems && facetedSearchItems.length > 0 && (

@@ -45,7 +45,8 @@ export default function UngroupedAnalyzeView(props) {
     facetedSearchItems,
     getFacetedSearchSuggestions,
     onTagFilterExpressionChange,
-    getHrefWithTagFilterExpression
+    getHrefWithTagFilterExpression,
+    withSamplingTooltip
   } = props;
 
   const timeConfig = useTimeConfig();
@@ -116,6 +117,7 @@ export default function UngroupedAnalyzeView(props) {
               }))
             )
           }
+          withSamplingTooltip={withSamplingTooltip}
         />
       )}
 

@@ -3,6 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 :local {
+  .headerWithTooltip {
+    display: flex;
+    flex-direction: row;
+  }
   .header {
     display: flex;
     flex-direction: column;
@@ -10,6 +14,7 @@
     width: max-content;
 
     padding-left: 1rem;
+    padding-right: 1rem;
 
     .groupCount {
       padding: 0;
