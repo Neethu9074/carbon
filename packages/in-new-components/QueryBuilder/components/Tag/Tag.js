@@ -36,7 +36,8 @@ export default function Tag(props) {
     tagCatalog,
     element,
     getSuggestions,
-    formModel
+    formModel,
+    autoFocusInput = false
   } = props;
   const { renderModelIndex, formModelIndex } = element;
   const form = createTagForm(tagCatalog, element);
@@ -110,6 +111,7 @@ export default function Tag(props) {
           getSuggestions={getSuggestions}
           formModel={formModel}
           formModelIndex={formModelIndex}
+          autoFocus={autoFocusInput}
         />
       </SuspendDraggable>
 
@@ -139,6 +141,7 @@ export default function Tag(props) {
           formModel={formModel}
           formModelIndex={formModelIndex}
           minNumValue={0}
+          autoFocus={autoFocusInput && !form.get('key')}
         />
       </SuspendDraggable>
 
@@ -190,7 +193,7 @@ function RemoveIcon({ form, element, tagType, onRemove }) {
   return <Remove element={element} onRemove={onRemove} nextToBooleanSelector />;
 }
 
-function KeyInput({ form, onChange, tagType, getSuggestions, formModel, formModelIndex }) {
+function KeyInput({ form, onChange, tagType, getSuggestions, formModel, formModelIndex, autoFocus }) {
   const timeConfig = useTimeConfig();
   const field = form.get('key');
   if (!field) {
@@ -218,6 +221,7 @@ function KeyInput({ form, onChange, tagType, getSuggestions, formModel, formMode
           propose: 'KEYS'
         })
       }
+      autoFocus={autoFocus}
     />
   );
 }
@@ -231,7 +235,8 @@ function ValueInput({
   booleanSelectorRef,
   formModel,
   formModelIndex,
-  minNumValue
+  minNumValue,
+  autoFocus
 }) {
   const timeConfig = useTimeConfig();
   const field = form.get('value');
@@ -286,10 +291,10 @@ function ValueInput({
       })
   };
 
-  return <Input type="text" value={field.value || ''} {...inputProps} />;
+  return <Input type="text" value={field.value || ''} {...inputProps} autoFocus={autoFocus} />;
 }
 
-function Input({ value, fieldsToWatch, placeholder, onChange, getSuggestions, valid }) {
+function Input({ value, fieldsToWatch, placeholder, onChange, getSuggestions, valid, autoFocus }) {
   const result = useDebouncedValue(value, onChange, 500);
 
   return (
@@ -305,6 +310,7 @@ function Input({ value, fieldsToWatch, placeholder, onChange, getSuggestions, va
         placeholder,
         hideValidityInformationOnFocus: true
       }}
+      autoFocus={autoFocus}
     />
   );
 }

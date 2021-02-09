@@ -61,7 +61,8 @@ function QueryBuilder({
   tracking,
   withoutOrConjunction = false,
   withoutBrackets = false,
-  useLastValidStateWhenErroneous = false
+  useLastValidStateWhenErroneous = false,
+  autoFocusInput = false
 }) {
   const timeConfig = useTimeConfig();
   const [draggedFormModelIndex$] = useState(create());
@@ -155,6 +156,7 @@ function QueryBuilder({
               formModel={currentFormModel}
               withoutOrConjunction={withoutOrConjunction}
               withoutBrackets={withoutBrackets}
+              autoFocusInput={autoFocusInput}
             />
           </div>
         )}
@@ -298,7 +300,8 @@ function Elements({
   depth = 0,
   formModel,
   withoutOrConjunction,
-  withoutBrackets
+  withoutBrackets,
+  autoFocusInput
 }) {
   return (
     <>
@@ -344,6 +347,7 @@ function Elements({
                 formModel={formModel}
                 withoutOrConjunction={withoutOrConjunction}
                 withoutBrackets={withoutBrackets}
+                autoFocusInput={autoFocusInput}
               >
                 {element.elements && (
                   <Elements
@@ -361,6 +365,7 @@ function Elements({
                     formModel={formModel}
                     withoutOrConjunction={withoutOrConjunction}
                     withoutBrackets={withoutBrackets}
+                    autoFocusInput={autoFocusInput}
                   />
                 )}
               </Component>
@@ -386,7 +391,8 @@ QueryBuilder.propTypes = {
   tracking: rpt.shape(trackingProps),
   withoutOrConjunction: rpt.bool,
   withoutBrackets: rpt.bool,
-  useLastValidStateWhenErroneous: rpt.bool
+  useLastValidStateWhenErroneous: rpt.bool,
+  autoFocusInput: rpt.bool
 };
 
 function getTagCatalogObservable([getTagCatalog, timeConfig]) {

@@ -24,7 +24,8 @@ export default function SimpleValueSelector({
   close,
   getSuggestions,
   fieldsToWatch,
-  inputProps = {}
+  inputProps = {},
+  autoFocus = false
 }) {
   const locals = useThemedLocals(styleDefs);
 
@@ -35,7 +36,7 @@ export default function SimpleValueSelector({
       value={value}
       onChange={e => onChange(e.value.trim())}
       close={close}
-      inputProps={{ ...inputProps, locals }}
+      inputProps={{ ...inputProps, autoFocus, locals }}
       getSuggestions={getSuggestions}
       fieldsToWatch={fieldsToWatch}
       locals={locals}
@@ -44,7 +45,7 @@ export default function SimpleValueSelector({
 }
 
 function render({ inputProps, getInputProps, isOpen, openMenu, ...remainingProps }) {
-  const { locals, valid, hideValidityInformationOnFocus, ...remainingInputProps } = inputProps;
+  const { locals, valid, hideValidityInformationOnFocus, autoFocus, ...remainingInputProps } = inputProps;
 
   return (
     <>
@@ -57,6 +58,7 @@ function render({ inputProps, getInputProps, isOpen, openMenu, ...remainingProps
         })}
         {...remainingInputProps}
         {...getInputProps({ onFocus: openMenu })}
+        autoFocus={autoFocus}
       />
       {isOpen && <SuggestionsList {...remainingProps} />}
     </>
