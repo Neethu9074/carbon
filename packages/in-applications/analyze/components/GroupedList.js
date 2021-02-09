@@ -12,21 +12,19 @@ import { getGroupingTagCatalog as getCallGroupingTagCatalog } from 'in-applicati
 import MetricAndSortingConfigurator from 'in-new-components/MetricAndSortingConfigurator/MetricAndSortingConfigurator';
 import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import { UNSPECIFIED, NO_VALUE, UNSPECIFIED_LABEL, NO_VALUE_LABEL } from 'in-analyze/components/GroupedTraces/Group';
-import { ColumnizedContent, Ul, Li, LoadingSkeletonLi, HorizontalIndicatorLi } from 'in-new-components/lists/List';
 import { EQUALS, IS_EMPTY, NOT_EMPTY, IS_BLANK } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import { aggregateMetricKey, sparkChartMetricKey, chartMetricKey } from 'in-applications/analyze/metrics';
 import { type as TAG_FILTER_TYPE } from 'in-new-components/QueryBuilder/transformation/tagFilter';
 import { addTagFilters } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import FacetedSearch from 'in-applications/analyze/components/FacetedSearch/FacetedSearch';
 import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
+import QueryProgressIndicator from 'in-new-components/AnalyzeView/QueryProgressIndicator';
 import { NUMBER, KEY_VALUE_PAIR } from 'in-new-components/QueryBuilder/tagFilter/types';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
-import { emptyArray, indeterminateProgress } from 'in-services/fixedObjects';
 import LoadMoreLi from 'in-new-components/lists/List/LoadMoreLi/LoadMoreLi';
-import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
+import { ColumnizedContent, Ul, Li } from 'in-new-components/lists/List';
 import { dataSourceConstants } from 'in-applications/analyze/metrics';
 import ResultHeader from 'in-new-components/AnalyzeView/ResultHeader';
-import { error as errorType } from 'in-new-components/Message/types';
 import { getSparkChartGranularity } from 'in-applications/metrics';
 import IconButton from 'in-new-components/IconButton/IconButton';
 import useTagCatalog from 'in-applications/hooks/useTagCatalog';
@@ -35,10 +33,10 @@ import { getChartGranularity } from 'in-stores/metric/metric';
 import { formatDateTime } from 'in-services/formatters/date';
 import List from 'in-applications/analyze/components/List';
 import KeyValue from 'in-new-components/lists/KeyValue';
+import { emptyArray } from 'in-services/fixedObjects';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import useObservable from 'in-hooks/useObservable';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import Message from 'in-new-components/Message';
 import SvgIcon from 'in-components/SvgIcon';
 import { t } from 'in-i18n';
 
@@ -176,7 +174,6 @@ function Presenter({
   getNestedUngroupedData,
   linkFormModel
 }) {
-  const hasErrors = errors?.length > 0;
   const isLoading = progress.loading || !groupByTagType;
   const labelColumnDefinitions = labelColumns({ groupBy, showChartGroupMarkers, groupColors });
   const metricColumnDefinitions = metricColumns({ metrics: [...fixedMetrics, ...selectableMetrics], dataSource });
@@ -273,22 +270,10 @@ function Presenter({
                 </Li>
               );
             })}
-          {isLoading && <HorizontalIndicatorLi progress={indeterminateProgress} />}
-          {isLoading && <LoadingSkeletonLi />}
           {canLoadMore && <LoadMoreLi loadMore={loadMore} />}
-          {!isLoading && items.length === 0 && (
-            <Li borderRadius="medium" key="noData">
-              <NoDataAvailable className={locals.noData} height={80} />
-            </Li>
+          {isValid && (
+            <QueryProgressIndicator progress={{ ...progress, loading: isLoading }} errors={errors} items={items} />
           )}
-          {hasErrors &&
-            errors.map((error, index) => (
-              <Li borderRadius="medium" key={index}>
-                <Message className={locals.message} type={errorType} small>
-                  {error.message}
-                </Message>
-              </Li>
-            ))}
         </Ul>
       </div>
     </div>

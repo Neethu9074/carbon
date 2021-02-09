@@ -137,7 +137,20 @@
     "groupedViewHeader": "Group",
     "resultHeaderLoading": "Loading…",
     "resultHeaderTooltip": "The query time range has been rounded up to nearest full minute to allow this view to load more quickly.",
-    "ungroupedViewNoGrouping": "no grouping"
+    "ungroupedViewNoGrouping": "no grouping",
+    "queryProgress": {
+      "preparing": "Preparing…",
+      "preparingInfo": "Please don't reload - this page will update automatically.",
+      "runningQuery": "Running query…",
+      "timeout": "This query has timed out.",
+      "timeoutEstimated": "The query would take too long to run.",
+      "timeoutInfo": "Select a shorter timeframe or issue a more specific query by applying more filters.",
+      "inputError": "There was an input error.",
+      "tooManyRequests": "Too many requests",
+      "tooManyRequestsInfo": "Our system is currently busy. Please try again later.",
+      "serverError": "Server Error",
+      "serverErrorInfo": "An unexpected error occurred. Please try again later or contact support to report the error."
+    }
   },
   "aboutInstanaDialog": {
     "columnizedContentDeployment": "Deployment",
