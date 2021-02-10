@@ -451,6 +451,7 @@
   "analyze": {
     "loadMore": "Load {{count}} more",
     "showMore": "Show {{count}} more",
+    "useAsGroup": "Use as Group",
     "noResults": "No results",
     "from": "From",
     "fromUnit": "From ({{unit}})",

@@ -56,6 +56,7 @@ export default function GroupedList({
   previewEnabled,
   isValid,
   updateFilter,
+  updateGroup,
   hiddenCalls,
   onChangeHiddenCalls,
   dataSource,
@@ -129,6 +130,7 @@ export default function GroupedList({
       previewEnabled={previewEnabled}
       tagFilterExpression={tagFilterExpression}
       updateFilter={updateFilter}
+      updateGroup={updateGroup}
       showChartGroupMarkers={showChartGroupMarkers}
       groupColors={groupColors}
       isValid={isValid}
@@ -164,6 +166,7 @@ function Presenter({
   previewEnabled,
   tagFilterExpression,
   updateFilter,
+  updateGroup,
   hiddenCalls,
   onChangeHiddenCalls,
   showChartGroupMarkers,
@@ -190,6 +193,7 @@ function Presenter({
         <FacetedSearch
           tagFilterExpression={tagFilterExpression}
           updateFilter={updateFilter}
+          updateGroup={updateGroup}
           hiddenCalls={hiddenCalls}
           onChangeHiddenCalls={onChangeHiddenCalls}
           isValid={isValid}

@@ -51,6 +51,7 @@ export default function GroupedAnalyzeView(props) {
     backendQueryModel,
     formModel,
     getHrefToUngroupedView,
+    getHrefToGroupedView,
     UngroupedView,
     getLabel,
     isValid,
@@ -201,6 +202,7 @@ export default function GroupedAnalyzeView(props) {
             getUpdatedTagExpressionHref={updateAddAndRemove =>
               getHrefWithTagFilterExpression(getNewTagFilterExpression(updateAddAndRemove))
             }
+            getHrefToGroupedView={getHrefToGroupedView}
             dataSource={dataSource}
             isValid={isValid}
             getSuggestions={tag =>

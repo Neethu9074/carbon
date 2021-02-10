@@ -18,6 +18,7 @@ import locals from './FacetedSearch.mless';
 export default function FacetedSearch({
   tagFilterExpression = toBackendQueryModel([]),
   updateFilter,
+  updateGroup,
   hiddenCalls,
   onChangeHiddenCalls,
   isValid,
@@ -48,6 +49,7 @@ export default function FacetedSearch({
         entity={DESTINATION}
         tagFilterExpression={tagFilterExpression}
         updateFilter={updateFilter}
+        updateGroup={updateGroup}
         dataSource={dataSource}
         hiddenCalls={hiddenCalls}
         isValid={isValid}
@@ -59,6 +61,7 @@ export default function FacetedSearch({
         entity={DESTINATION}
         tagFilterExpression={tagFilterExpression}
         updateFilter={updateFilter}
+        updateGroup={updateGroup}
         dataSource={dataSource}
         hiddenCalls={hiddenCalls}
         isValid={isValid}
@@ -69,6 +72,7 @@ export default function FacetedSearch({
         entity={DESTINATION}
         tagFilterExpression={tagFilterExpression}
         updateFilter={updateFilter}
+        updateGroup={updateGroup}
         dataSource={dataSource}
         hiddenCalls={hiddenCalls}
         isValid={isValid}
@@ -78,6 +82,7 @@ export default function FacetedSearch({
         tag="call.type"
         tagFilterExpression={tagFilterExpression}
         updateFilter={updateFilter}
+        updateGroup={updateGroup}
         dataSource={dataSource}
         hiddenCalls={hiddenCalls}
         isValid={isValid}
@@ -88,6 +93,7 @@ export default function FacetedSearch({
         entity={DESTINATION}
         tagFilterExpression={tagFilterExpression}
         updateFilter={updateFilter}
+        updateGroup={updateGroup}
         hiddenCalls={hiddenCalls}
         dataSource={dataSource}
         isValid={isValid}

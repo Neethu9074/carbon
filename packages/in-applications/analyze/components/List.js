@@ -43,6 +43,7 @@ export default function List({
   withoutPadding = false,
   isValid,
   updateFilter,
+  updateGroup,
   tableOnly = false,
   hiddenCalls,
   onChangeHiddenCalls,
@@ -111,6 +112,7 @@ export default function List({
       adjustedWindowSize={adjustedWindowSize}
       tagFilterExpression={tagFilterExpression}
       updateFilter={updateFilter}
+      updateGroup={updateGroup}
       columnDefinitions={columnDefinitions}
       optionalColumns={optionalColumns}
       numSkeletonRows={numSkeletonRows}
@@ -139,6 +141,7 @@ function Presenter({
   adjustedWindowSize,
   tagFilterExpression,
   updateFilter,
+  updateGroup,
   columnDefinitions,
   optionalColumns,
   numSkeletonRows,
@@ -166,6 +169,7 @@ function Presenter({
         <FacetedSearch
           tagFilterExpression={tagFilterExpression}
           updateFilter={updateFilter}
+          updateGroup={updateGroup}
           hiddenCalls={hiddenCalls}
           onChangeHiddenCalls={onChangeHiddenCalls}
           isValid={isValid}

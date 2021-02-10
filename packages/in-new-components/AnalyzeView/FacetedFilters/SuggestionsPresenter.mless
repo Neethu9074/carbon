@@ -38,7 +38,18 @@
     .ellipsis();
   }
 
+  .buttonRow {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
   .showMore {
+    font-size: 0.75rem;
+    padding: 0;
+  }
+
+  .useAsGroup {
     font-size: 0.75rem;
     padding: 0;
   }

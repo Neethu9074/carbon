@@ -46,7 +46,8 @@ export default function UngroupedAnalyzeView(props) {
     getFacetedSearchSuggestions,
     onFormModelChange,
     getHrefWithTagFilterExpression,
-    withSamplingTooltip
+    withSamplingTooltip,
+    getHrefToGroupedView
   } = props;
 
   const timeConfig = useTimeConfig();
@@ -128,6 +129,7 @@ export default function UngroupedAnalyzeView(props) {
             formModel={formModel}
             onFacetedSearchChange={onFacetedSearchChange}
             getUpdatedTagExpressionHref={getUpdatedTagExpressionHref}
+            getHrefToGroupedView={getHrefToGroupedView}
             dataSource={dataSource}
             isValid={isValid}
             getSuggestions={tag =>

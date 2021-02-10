@@ -56,9 +56,25 @@
     margin-top: 0.75rem;
   }
 
+  .buttonRow {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
   .showMore {
     margin-top: 0.75rem;
     font-size: 0.75rem;
+    padding: 0;
+  }
+
+  .useAsGroup {
+    margin-top: 0.75rem;
+    font-size: 0.75rem;
+    padding: 0;
+  }
+
+  div.search {
     padding: 0;
   }
 

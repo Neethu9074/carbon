@@ -25,6 +25,7 @@ export default function FacetedFilterGeneric({
   entity,
   hiddenCalls,
   getUpdatedTagExpressionHref,
+  getHrefToGroupedView,
   openByDefault,
   dataSource,
   getSuggestions
@@ -37,6 +38,7 @@ export default function FacetedFilterGeneric({
         entity={entity}
         hiddenCalls={hiddenCalls}
         getUpdatedTagExpressionHref={getUpdatedTagExpressionHref}
+        getHrefToGroupedView={getHrefToGroupedView}
         dataSource={dataSource}
         getSuggestions={getSuggestions}
       />
@@ -44,7 +46,17 @@ export default function FacetedFilterGeneric({
   );
 }
 
-function Body({ formModel, tag, entity, title, hiddenCalls, getUpdatedTagExpressionHref, dataSource, getSuggestions }) {
+function Body({
+  formModel,
+  tag,
+  entity,
+  title,
+  hiddenCalls,
+  getUpdatedTagExpressionHref,
+  getHrefToGroupedView,
+  dataSource,
+  getSuggestions
+}) {
   const [valueFilter, setValueFilter] = useState('');
   const selectedValues = getExistingValuesForTag(formModel, tag, entity);
   if (selectedValues.length > 0) {
@@ -64,6 +76,7 @@ function Body({ formModel, tag, entity, title, hiddenCalls, getUpdatedTagExpress
       hiddenCalls={hiddenCalls}
       tag={tag}
       getUpdatedTagExpressionHref={getUpdatedTagExpressionHref}
+      getHrefToGroupedView={getHrefToGroupedView}
       valueFilter={valueFilter}
       setValueFilter={setValueFilter}
       dataSource={dataSource}
@@ -101,6 +114,7 @@ function SearchAndSuggestions({
   hiddenCalls,
   tag,
   getUpdatedTagExpressionHref,
+  getHrefToGroupedView,
   valueFilter,
   setValueFilter,
   dataSource,
@@ -131,6 +145,7 @@ function SearchAndSuggestions({
           name: JSON.parse(item.name)
         }))}
         getUpdatedTagExpressionHref={getUpdatedTagExpressionHref}
+        getHrefToGroupedView={getHrefToGroupedView}
         tag={tag}
         dataSource={dataSource}
       />

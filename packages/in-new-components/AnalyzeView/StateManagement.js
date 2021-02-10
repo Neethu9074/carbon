@@ -276,6 +276,13 @@ function AnalyzeStateManagement({
         detailId: null
       });
     },
+    getHrefToGroupedView(groupValue) {
+      return getChangeAsUrl({
+        groupBy: {
+          groupbyTag: groupValue
+        }
+      });
+    },
     groupingTagCatalog: groupingTagCatalogResult.data,
 
     getHrefWithAdditionalTagFilter(newTagFilter) {
@@ -352,6 +359,7 @@ export const childrenArgsAsPropTypes = {
   }),
   onGroupByChange: rpt.func.isRequired,
   getHrefToUngroupedView: rpt.func.isRequired,
+  getHrefToGroupedView: rpt.func.isRequired,
   groupingTagCatalog: rpt.object,
 
   orderBy: rpt.shape({

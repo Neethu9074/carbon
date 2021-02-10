@@ -25,6 +25,7 @@ export default function FacetedFilterGeneric({
   entity,
   hiddenCalls,
   updateFilter,
+  updateGroup,
   dataSource,
   isValid
 }) {
@@ -36,6 +37,7 @@ export default function FacetedFilterGeneric({
         entity={entity}
         hiddenCalls={hiddenCalls}
         updateFilter={updateFilter}
+        updateGroup={updateGroup}
         dataSource={dataSource}
         isValid={isValid}
       />
@@ -43,7 +45,17 @@ export default function FacetedFilterGeneric({
   );
 }
 
-function Body({ tagFilterExpression, tag, entity, title, hiddenCalls, updateFilter, dataSource, isValid }) {
+function Body({
+  tagFilterExpression,
+  tag,
+  entity,
+  title,
+  hiddenCalls,
+  updateFilter,
+  updateGroup,
+  dataSource,
+  isValid
+}) {
   const [valueFilter, setValueFilter] = useState('');
 
   const selectedValues = existingValuesForTag(tagFilterExpression, tag, entity);
@@ -73,7 +85,9 @@ function Body({ tagFilterExpression, tag, entity, title, hiddenCalls, updateFilt
       tagFilterExpression={tagFilterExpression}
       hiddenCalls={hiddenCalls}
       tag={tag}
+      entity={entity}
       updateFilter={updateFilter}
+      updateGroup={updateGroup}
       valueFilter={valueFilter}
       setValueFilter={setValueFilter}
       dataSource={dataSource}
@@ -96,7 +110,9 @@ function SearchAndSuggestions({
   tagFilterExpression,
   hiddenCalls,
   tag,
+  entity,
   updateFilter,
+  updateGroup,
   valueFilter,
   setValueFilter,
   dataSource,
@@ -136,7 +152,9 @@ function SearchAndSuggestions({
         errors={suggestions?.errors}
         suggestions={suggestions?.data?.results}
         updateFilter={updateFilter}
+        updateGroup={updateGroup}
         tag={tag}
+        entity={entity}
         dataSource={dataSource}
         isValid={isValid}
       />

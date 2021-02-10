@@ -25,6 +25,7 @@ export default function SuggestionsPresenter({
   suggestions = [],
   tag,
   getUpdatedTagExpressionHref,
+  getHrefToGroupedView,
   dataSource
 }) {
   if (loading) {
@@ -39,6 +40,7 @@ export default function SuggestionsPresenter({
         suggestions={suggestions}
         tag={tag}
         getUpdatedTagExpressionHref={getUpdatedTagExpressionHref}
+        getHrefToGroupedView={getHrefToGroupedView}
         dataSource={dataSource}
       />
     );
@@ -67,7 +69,7 @@ function Errors({ errors }) {
   );
 }
 
-function Results({ suggestions, tag, getUpdatedTagExpressionHref }) {
+function Results({ suggestions, tag, getUpdatedTagExpressionHref, getHrefToGroupedView }) {
   const [showMore, setShowMore] = useState(DEFAULT_SUGGESTIONS_SIZE);
   const nextBatch = Math.min(suggestions.length - showMore, 20);
   return (
@@ -95,11 +97,17 @@ function Results({ suggestions, tag, getUpdatedTagExpressionHref }) {
           </Tooltip>
         </div>
       ))}
-      {nextBatch > 0 && (
-        <Button className={locals.showMore} kind="action" onClick={() => setShowMore(showMore + nextBatch)}>
-          {t('in-new-components:analyze.showMore', { count: nextBatch })}
+      <div className={locals.buttonRow}>
+        {nextBatch > 0 && (
+          <Button className={locals.showMore} kind="action" onClick={() => setShowMore(showMore + nextBatch)}>
+            {t('in-new-components:analyze.showMore', { count: nextBatch })}
+          </Button>
+        )}
+        <div />
+        <Button className={locals.useAsGroup} kind="action" href={getHrefToGroupedView(tag)}>
+          {t('in-new-components:analyze.useAsGroup')}
         </Button>
-      )}
+      </div>
     </Stack>
   );
 }
