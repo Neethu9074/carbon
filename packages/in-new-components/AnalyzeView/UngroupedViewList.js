@@ -5,13 +5,12 @@
 import rpt from 'prop-types';
 import React from 'react';
 
-import LoadingList from 'in-new-components/lists/List/sharedComponents/LoadingList';
-import ErrorList from 'in-new-components/lists/List/sharedComponents/ErrorList';
 export { detailViewProps, retrievalSize } from 'in-new-components/AnalyzeView/UngroupedView';
+import QueryProgressIndicator from 'in-new-components/AnalyzeView/QueryProgressIndicator';
+import LoadingList from 'in-new-components/lists/List/sharedComponents/LoadingList';
 import LoadMoreLi from 'in-new-components/lists/List/LoadMoreLi/LoadMoreLi';
 import { ColumnizedContent, Ul, Li } from 'in-new-components/lists/List';
 import UngroupedView from 'in-new-components/AnalyzeView/UngroupedView';
-import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import { generateStableHash } from 'in-services/util/id';
 
 export default function UngroupedAnalyzeViewList(props) {
@@ -29,7 +28,6 @@ UngroupedAnalyzeViewList.propTypes = {
 
 function List(props) {
   const {
-    hasErrors,
     getHrefToDetailId,
     result,
     hasItems,
@@ -42,11 +40,12 @@ function List(props) {
     columnDefinitions,
     renderNestedContent,
     loadMore,
-    withoutListItemLinkToDetails
+    withoutListItemLinkToDetails,
+    progress,
+    withEmbeddedLoadingIndicator = false
   } = props;
   return (
     <>
-      {hasErrors && <ErrorList errors={result.errors} />}
       {hasItems && (
         <Ul space="disabled">
           {items.map(item => {
@@ -66,8 +65,11 @@ function List(props) {
           {canLoadMore && <LoadMoreLi loadMore={loadMore} />}
         </Ul>
       )}
-      {isLoading && <LoadingList numSkeletonRows={3} />}
-      {!isLoading && !hasItems && <NoDataAvailable height={240} />}
+      {withEmbeddedLoadingIndicator && isLoading ? (
+        <LoadingList numSkeletonRows={3} />
+      ) : (
+        <QueryProgressIndicator progress={{ ...progress, loading: isLoading }} errors={result?.errors} items={items} />
+      )}
     </>
   );
 }

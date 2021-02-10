@@ -77,7 +77,7 @@ export default function List({
     [timeConfig, retrievalSize, tagFilterExpression, orderBy, isValid, hiddenCalls, dataSource, queryPrecision]
   );
 
-  const { items, progress, errors, canLoadMore, loadMore, loading, totalHits, adjustedWindowSize } = result;
+  const { items, progress, errors, canLoadMore, loadMore, totalHits, adjustedWindowSize } = result;
 
   const columnDefinitions = getColumnDefinitions(dataSource, linkFormModel);
 
@@ -107,7 +107,6 @@ export default function List({
       errors={errors}
       canLoadMore={canLoadMore}
       loadMore={loadMore}
-      loading={loading}
       totalHits={totalHits}
       adjustedWindowSize={adjustedWindowSize}
       tagFilterExpression={tagFilterExpression}
@@ -136,7 +135,6 @@ function Presenter({
   errors,
   canLoadMore,
   loadMore,
-  loading,
   totalHits,
   adjustedWindowSize,
   tagFilterExpression,
@@ -208,7 +206,7 @@ function Presenter({
             )}
           />
         )}
-        {isValid && <QueryProgressIndicator progress={progress} loading={loading} errors={errors} items={items} />}
+        {isValid && <QueryProgressIndicator progress={progress} errors={errors} items={items} />}
       </div>
     </div>
   );

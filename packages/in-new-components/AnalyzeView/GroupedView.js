@@ -17,15 +17,13 @@ import { joinExpressions, removeTopLevelFilters } from 'in-new-components/QueryB
 import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import { custom as customType, metric as metricType } from 'in-new-components/AnalyzeView/fieldTypes';
 import { addGroupingCriteriaToFormModel } from 'in-new-components/AnalyzeView/StateManagement';
+import QueryProgressIndicator from 'in-new-components/AnalyzeView/QueryProgressIndicator';
 import { childrenArgsAsPropTypes } from 'in-new-components/AnalyzeView/StateManagement';
-import LoadingList from 'in-new-components/lists/List/sharedComponents/LoadingList';
-import ErrorList from 'in-new-components/lists/List/sharedComponents/ErrorList';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import LoadMoreLi from 'in-new-components/lists/List/LoadMoreLi/LoadMoreLi';
 import { ColumnizedContent, Ul, Li } from 'in-new-components/lists/List';
 import FacetedSearch from 'in-new-components/AnalyzeView/FacetedSearch';
 import { getFormatter } from 'in-services/formatters/backendFormatter';
-import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import Header from 'in-new-components/QueryBuilder/components/Header';
 import useStableObjectIntance from 'in-hooks/useStableObjectIntance';
 import { getSparkChartGranularity } from 'in-applications/metrics';
@@ -219,7 +217,6 @@ export default function GroupedAnalyzeView(props) {
           />
         )}
         <div className={locals.resultContainer}>
-          {hasErrors && <ErrorList errors={errors} />}
           {hasItems && (
             <Ul space="xsmall">
               {items.map(item => {
@@ -241,6 +238,8 @@ export default function GroupedAnalyzeView(props) {
                           backendQueryModel={toBackendQueryModel(formModelForUnGroupedView)}
                           formModel={formModelForUnGroupedView}
                           facetedSearchItems={[]}
+                          withEmbeddedLoadingIndicator
+                          withEmbeddedNoDataIndicator
                         />
                       );
                     }}
@@ -270,8 +269,9 @@ export default function GroupedAnalyzeView(props) {
               {canLoadMore && <LoadMoreLi loadMore={loadMore} />}
             </Ul>
           )}
-          {isLoading && <LoadingList numSkeletonRows={3} />}
-          {!isLoading && !hasItems && <NoDataAvailable height={240} />}
+          {isValid && (
+            <QueryProgressIndicator progress={{ ...progress, loading: isLoading }} errors={errors} items={items} />
+          )}
         </div>
       </div>
     </>
