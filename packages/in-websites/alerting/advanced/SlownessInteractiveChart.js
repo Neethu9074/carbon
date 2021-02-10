@@ -26,6 +26,8 @@ import AlertingChartWithErrorMessage from 'in-new-components/Alerting/Chart/Aler
 import ThresholdConditionFormGroup from 'in-new-components/Alerting/advanced/ThresholdConditionFormGroup';
 import { ThresholdOperatorDropDown } from 'in-new-components/Alerting/advanced/ThresholdOperatorDropDown';
 import createThresholdForm, { defaultDeviationFactor } from 'in-websites/alerting/form/thresholdForm';
+import RecalculateBaselineButton from 'in-new-components/Alerting/advanced/RecalculateBaselineButton';
+import UseSuggestedValueButton from 'in-new-components/Alerting/advanced/UseSuggestedValueButton';
 import ChartViewConfigurator from 'in-new-components/Alerting/components/ChartViewConfigurator';
 import { thresholdTypeOptions } from 'in-new-components/Alerting/advanced/thresholdFormData';
 import ThresholdValueInput from 'in-new-components/Alerting/advanced/ThresholdValueInput';
@@ -44,13 +46,20 @@ export default function SlownessInteractiveChart({
   onChange,
   updateForm,
   onChartViewConfigChange,
-  selectedChartViewConfigIndex
+  selectedChartViewConfigIndex,
+  editMode
 }) {
   const alertConfigWithFormModel = alertConfigWithDefaultValues(form);
 
   return (
     <div className={locals.container}>
-      <ThresholdCondition form={form} blueprintConfig={blueprintConfig} updateForm={updateForm} onChange={onChange} />
+      <ThresholdCondition
+        form={form}
+        blueprintConfig={blueprintConfig}
+        updateForm={updateForm}
+        onChange={onChange}
+        editMode={editMode}
+      />
 
       <ChartViewConfigurator
         alertConfigWithFormModel={alertConfigWithFormModel}
@@ -72,7 +81,7 @@ export default function SlownessInteractiveChart({
   );
 }
 
-export function ThresholdCondition({ form, updateForm, onChange, blueprintConfig }) {
+export function ThresholdCondition({ form, updateForm, onChange, blueprintConfig, editMode }) {
   const metricName = form.get('rule').get('metricName').value;
   const thresholdType = form.get('threshold').get('type')?.value;
   const metricUnitPostfix = getMetricUnitPostfix(metricName);
@@ -146,10 +155,11 @@ export function ThresholdCondition({ form, updateForm, onChange, blueprintConfig
           <ThresholdValueInput
             max={maxValue}
             form={form}
-            onChange={onChange}
+            updateForm={updateForm}
             trackChange={websitesAlertingThresholdValueChanged}
             metricUnitPostfix={metricUnitPostfix}
           />
+          <UseSuggestedValueButton form={form} onChange={onChange} metricUnitPostfix={metricUnitPostfix} />
         </ThresholdConditionFormGroup>
       )}
 
@@ -161,6 +171,7 @@ export function ThresholdCondition({ form, updateForm, onChange, blueprintConfig
           defaultValue={defaultDeviationFactor}
         />
       )}
+      {thresholdType === 'historicBaseline' && <RecalculateBaselineButton onChange={onChange} editMode={editMode} />}
     </>
   );
 }
@@ -194,5 +205,6 @@ SlownessInteractiveChart.propTypes = {
   onChange: PropTypes.func.isRequired,
   updateForm: PropTypes.func.isRequired,
   onChartViewConfigChange: PropTypes.func.isRequired,
-  selectedChartViewConfigIndex: PropTypes.number.isRequired
+  selectedChartViewConfigIndex: PropTypes.number.isRequired,
+  editMode: PropTypes.bool
 };

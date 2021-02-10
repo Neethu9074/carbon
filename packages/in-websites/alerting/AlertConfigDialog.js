@@ -6,7 +6,7 @@ import { createLogger } from '@instana/logger';
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-import { AlertConfigDialogWithThreshold } from 'in-websites/alerting/alertConfigDialogWithThreshold/AlertConfigDialogWithThreshold';
+import AlertConfigDialogWithThreshold from 'in-websites/alerting/alertConfigDialogWithThreshold/AlertConfigDialogWithThreshold';
 import alertFormDefinition, { fieldNames } from 'in-websites/alerting/form/alertDialogFormDefinition';
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-websites/alerting/form/formUtils';
 import { createAlertConfig, updateAlertConfig } from 'in-websites/api/websiteAlertConfig';

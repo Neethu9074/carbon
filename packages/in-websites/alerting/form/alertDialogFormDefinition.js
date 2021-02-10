@@ -107,10 +107,23 @@ export default function alertFormDefinition(alertConfig) {
 }
 
 function createHiddenFieldsForm(calculateThresholdOnBackend = false) {
-  return createMapForm().put(
-    'calculateThresholdOnBackend',
-    createField({
-      value: calculateThresholdOnBackend
-    })
-  );
+  return createMapForm()
+    .put(
+      'calculateThresholdOnBackend',
+      createField({
+        value: calculateThresholdOnBackend
+      })
+    )
+    .put(
+      'suggestedThresholdValue',
+      createField({
+        value: null
+      })
+    )
+    .put(
+      'thresholdValueManuallyChanged',
+      createField({
+        value: false
+      })
+    );
 }

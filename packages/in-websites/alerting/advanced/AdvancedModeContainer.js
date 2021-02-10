@@ -9,7 +9,8 @@ import {
   websitesAlertingAdditionalPropsAlertLevelChanged,
   websitesAlertingAdditionalPropsDescriptionChanged,
   websitesAlertingAdditionalPropsTitleChanged,
-  websitesAlertingAdditionalPropsTriggerChanged
+  websitesAlertingAdditionalPropsTriggerChanged,
+  websitesAlertingBlueprintChanged
 } from 'in-websites/alerting/tracker';
 import {
   getFormValueOrDefault,
@@ -27,10 +28,11 @@ import BaselineErrorMessage from 'in-new-components/Alerting/components/Baseline
 import SelectAlertChannel from 'in-new-components/Alerting/components/SelectAlertChannel';
 import { alertingDialogItemPickerTimeframe } from 'in-new-components/Alerting/constants';
 import AlertLocationFilters from 'in-websites/alerting/components/AlertLocationFilters';
+import BlueprintSelection from 'in-new-components/Alerting/advanced/BlueprintSelection';
 import TimeThresholdConfig from 'in-websites/alerting/advanced/TimeThresholdConfig';
-import BlueprintSelection from 'in-websites/alerting/advanced/BlueprintSelection';
 import ProvideStatusCode from 'in-websites/alerting/components/ProvideStatusCode';
 import { fieldNames } from 'in-websites/alerting/form/alertDialogFormDefinition';
+import createBlueprintForm from 'in-websites/alerting/form/blueprintFormCreator';
 import AlertTypeSwitch from 'in-websites/alerting/components/AlertTypeSwitch';
 import ProvideJsError from 'in-websites/alerting/components/ProvideJsError';
 import { modeAdvanced } from 'in-websites/alerting/constants';
@@ -76,7 +78,15 @@ export default function AdvancedModeContainer(props) {
           checked: validateTrigger(form),
           content: (
             <>
-              <BlueprintSelection form={form} updateForm={updateForm} blueprintConfigs={blueprintConfigs} />
+              <BlueprintSelection
+                form={form}
+                updateForm={updateForm}
+                blueprintConfigs={blueprintConfigs}
+                createBlueprintForm={createBlueprintForm}
+                trackBlueprintChange={newBlueprint =>
+                  websitesAlertingBlueprintChanged({ newBlueprint, mode: 'advanced' })
+                }
+              />
               <AlertTypeSwitch
                 alertType={alertType}
                 renderJsErrors={() => (
