@@ -11,6 +11,7 @@ import TermsProgressIndicator from 'in-settings/terms/dialog/TermsProgressIndica
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import FormFooter from 'in-components/form/FormFooter/FormFooter';
 import SvgIcon from 'in-components/SvgIcon/SvgIcon';
+import Stack from 'in-new-components/layout/Stack';
 import Button from 'in-new-components/Button';
 
 import locals from './TermsPages.mless';
@@ -28,7 +29,7 @@ export default function TermsPage1({ form, onChange, onNext, nrPages }) {
           <h1 className={locals.heading}>Terms of Service and Privacy Policy</h1>
         </div>
 
-        <div>
+        <Stack>
           <p>
             Before moving forward, and before using Instana products and services, you need to read and agree to our
             Terms of Service and our Privacy Policy.
@@ -45,36 +46,36 @@ export default function TermsPage1({ form, onChange, onNext, nrPages }) {
               <PrivacyButton withIcon label="Instana's Privacy Policy" />
             </div>
           </div>
-        </div>
 
-        <div>
-          <span className={locals.flexRow}>
-            {form.get('tosAccepted').map(({ value }) => (
-              <Fragment>
-                <CheckboxFancy
-                  label="I have read and agree to Instana's&nbsp;" // Terms of Service
-                  checked={value}
-                  onChange={() => onChange(form, 'tosAccepted', !value)}
-                  size="large"
-                />
-                <TosButton />
-              </Fragment>
-            ))}
-          </span>
-          <span className={locals.flexRow}>
-            {form.get('privacyAgreementAccepted').map(({ value }) => (
-              <Fragment>
-                <CheckboxFancy
-                  label="I have read and agree to Instana's&nbsp;" // Privacy Policy
-                  checked={value}
-                  onChange={() => onChange(form, 'privacyAgreementAccepted', !value)}
-                  size="large"
-                />
-                <PrivacyButton />
-              </Fragment>
-            ))}
-          </span>
-        </div>
+          <div>
+            <span className={locals.flexRow}>
+              {form.get('tosAccepted').map(({ value }) => (
+                <Fragment>
+                  <CheckboxFancy
+                    label="I have read and agree to Instana's&nbsp;" // Terms of Service
+                    checked={value}
+                    onChange={() => onChange(form, 'tosAccepted', !value)}
+                    size="large"
+                  />
+                  <TosButton />
+                </Fragment>
+              ))}
+            </span>
+            <span className={locals.flexRow}>
+              {form.get('privacyAgreementAccepted').map(({ value }) => (
+                <Fragment>
+                  <CheckboxFancy
+                    label="I have read and agree to Instana's&nbsp;" // Privacy Policy
+                    checked={value}
+                    onChange={() => onChange(form, 'privacyAgreementAccepted', !value)}
+                    size="large"
+                  />
+                  <PrivacyButton />
+                </Fragment>
+              ))}
+            </span>
+          </div>
+        </Stack>
 
         {isCheckboxMessagePresent && (
           <div

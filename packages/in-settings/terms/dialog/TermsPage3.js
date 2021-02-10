@@ -10,6 +10,7 @@ import ExpandableCookieList from 'in-settings/terms/cookies/ExpandableCookieList
 import FormFooter from 'in-components/form/FormFooter/FormFooter';
 import TermsProgressIndicator from './TermsProgressIndicator';
 import Button from 'in-new-components/Button/Button';
+import Stack from 'in-new-components/layout/Stack';
 
 import locals from './TermsPages.mless';
 
@@ -21,19 +22,20 @@ export default function TermsPage3({ onBack, onNext, onChange, form, nrPages }) 
           <TermsProgressIndicator pageNumber={3} nrPages={nrPages} />
           <h1 className={locals.heading}>Cookies</h1>
 
-          <p>
-            When you use our product, Instana uses cookies and other tracking technologies (&quot;Cookies&quot;). In
-            addition to Cookies which are necessary for the proper functioning of the product, subject to your
-            preferences, Instana and its authorized partners may also use Cookies to analyze and optimize the product
-            funtionality.
-          </p>
+          <Stack>
+            <p>
+              When you use our product, Instana uses cookies and other tracking technologies (&quot;Cookies&quot;). In
+              addition to Cookies which are necessary for the proper functioning of the product, subject to your
+              preferences, Instana and its authorized partners may also use Cookies to analyze and optimize the product
+              funtionality.
+            </p>
 
-          <p>
-            For more information, please visit our <PrivacyButton fontSize={12} /> or{' '}
-            <CookiePolicyButton fontSize={12} />.
-          </p>
+            <p>
+              For more information, please visit our <PrivacyButton /> or <CookiePolicyButton />.
+            </p>
 
-          <ExpandableCookieList form={form} onChange={onChange} />
+            <ExpandableCookieList form={form} onChange={onChange} />
+          </Stack>
         </div>
       </div>
 

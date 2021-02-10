@@ -1,0 +1,16 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
+ @import '~in-themes/active.less';
+
+ :local {
+  .messageBox {
+    line-height: 1.4;
+    margin-top: 1.5rem;
+  }
+
+  .smallText {
+    font-size: 0.75rem;
+  }
+}
