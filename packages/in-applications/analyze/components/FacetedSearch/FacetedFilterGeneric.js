@@ -102,23 +102,6 @@ function SearchAndSuggestions({
   dataSource,
   isValid
 }) {
-  return (
-    <>
-      <SearchInput onChange={setValueFilter} query={valueFilter} className={locals.search} withoutIcon />
-      <Suggestions
-        tag={tag}
-        valueFilter={valueFilter}
-        tagFilterExpression={tagFilterExpression}
-        hiddenCalls={hiddenCalls}
-        updateFilter={updateFilter}
-        dataSource={dataSource}
-        isValid={isValid}
-      />
-    </>
-  );
-}
-
-function Suggestions({ tagFilterExpression, hiddenCalls, tag, updateFilter, valueFilter, dataSource, isValid }) {
   const timeConfig = useTimeConfig();
 
   const suggestionsFromServer = () =>
@@ -143,16 +126,20 @@ function Suggestions({ tagFilterExpression, hiddenCalls, tag, updateFilter, valu
     ),
     [tagFilterExpression, hiddenCalls, tag, valueFilter, dataSource, timeConfig]
   );
-
   return (
-    <SuggestionsPresenter
-      loading={suggestions?.progress.loading}
-      errors={suggestions?.errors}
-      suggestions={suggestions?.data?.results}
-      updateFilter={updateFilter}
-      tag={tag}
-      dataSource={dataSource}
-      isValid={isValid}
-    />
+    <>
+      {suggestions?.data?.results.length > 5 && (
+        <SearchInput onChange={setValueFilter} query={valueFilter} inputClassName={locals.search} withoutIcon />
+      )}
+      <SuggestionsPresenter
+        loading={suggestions?.progress.loading}
+        errors={suggestions?.errors}
+        suggestions={suggestions?.data?.results}
+        updateFilter={updateFilter}
+        tag={tag}
+        dataSource={dataSource}
+        isValid={isValid}
+      />
+    </>
   );
 }

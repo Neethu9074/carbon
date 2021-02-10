@@ -44,7 +44,7 @@ export default function UngroupedAnalyzeView(props) {
     dataSource,
     facetedSearchItems,
     getFacetedSearchSuggestions,
-    onTagFilterExpressionChange,
+    onFormModelChange,
     getHrefWithTagFilterExpression,
     withSamplingTooltip
   } = props;
@@ -69,7 +69,7 @@ export default function UngroupedAnalyzeView(props) {
   }
 
   const onFacetedSearchChange = ({ add = emptyArray, remove = emptyArray }) =>
-    onTagFilterExpressionChange(
+    onFormModelChange(
       joinExpressions({
         expressions: [removeTopLevelFilters(formModel, ...remove), ...add]
       })

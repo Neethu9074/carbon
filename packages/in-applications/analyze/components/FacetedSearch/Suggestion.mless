@@ -10,14 +10,17 @@
     box-shadow: none;
     background: none;
   }
+
   .facetedCardHeader {
-    margin: 0.5rem;
+    margin: 0.25rem 0.5rem;
     padding: 0.5rem;
     cursor: pointer;
   }
+
   .facetedCardBody {
-    margin-bottom: 1.5rem;
+    margin-bottom: 0.5rem;
   }
+
   .suggestion {
     margin-top: 0.75rem;
     &:first-child {
@@ -26,6 +29,7 @@
     cursor: pointer;
     display: flex;
     justify-content: space-between;
+    align-items: center;
     width: 100%;
     &:hover {
       color: @lib__colors__light-blue800;
@@ -40,34 +44,57 @@
       }
     }
   }
+
   .loading {
     margin-top: 0.75rem;
     width: 100%;
     display: flex;
     justify-content: center;
   }
+
   .noResult {
     margin-top: 0.75rem;
   }
+
   .showMore {
     margin-top: 0.75rem;
     font-size: 0.75rem;
     padding: 0;
   }
-  div.search {
-    padding: 0;
-  }
+
   .label {
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
     font-size: 0.75rem;
   }
-  .errorMessage {
-    margin-left: 0.75rem;
-    margin-right: 0.75rem;
+
+  .existingLabel {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    font-size: 0.75rem;
+    color: @lib__colors__primary1;
   }
+
+  .existingIcon {
+    fill: @lib__colors__primary1;
+  }
+
+  .errorMessage {
+    margin: 0 0.75rem;
+  }
+
   .latencyForm {
     margin-bottom: 0;
+  }
+
+  .latencyInput {
+    height: 1.75rem;
+  }
+
+  .search {
+    padding: 0 0.25rem;
+    height: 1.5rem;
   }
 }

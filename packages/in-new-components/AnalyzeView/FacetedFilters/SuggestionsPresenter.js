@@ -74,7 +74,7 @@ function Results({ suggestions, tag, getUpdatedTagExpressionHref }) {
     <Stack space="small">
       {suggestions.slice(0, showMore ? showMore : undefined).map((suggestion, i) => (
         <div key={i} className={locals.suggestion}>
-          <Tooltip content={suggestion.name} align="rightMiddle">
+          <Tooltip content={suggestion.name} align="rightMiddle" delay={1000}>
             <Link
               href={getUpdatedTagExpressionHref({
                 add: [

@@ -16,6 +16,7 @@ import locals from './SearchInput.mless';
 
 export default function SearchInput({
   className,
+  inputClassName,
   onChange,
   disabled = false,
   query,
@@ -53,7 +54,8 @@ export default function SearchInput({
         className={classNames({
           [locals.searchInput]: true,
           [locals.useTransparency]: hasError,
-          [className]: className
+          [className]: className,
+          [inputClassName]: inputClassName
         })}
         disabled={disabled}
         type="search"
@@ -103,6 +105,7 @@ export default function SearchInput({
 SearchInput.propTypes = {
   autoFocus: PropTypes.bool,
   className: PropTypes.string,
+  inputClassName: PropTypes.string,
   disabled: PropTypes.bool,
   withoutIcon: PropTypes.bool,
   hasError: PropTypes.bool,

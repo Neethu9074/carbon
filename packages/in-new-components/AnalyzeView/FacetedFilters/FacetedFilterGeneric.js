@@ -106,31 +106,6 @@ function SearchAndSuggestions({
   dataSource,
   getSuggestions
 }) {
-  return (
-    <Stack space="small">
-      <SearchInput onChange={setValueFilter} query={valueFilter} className={locals.search} withoutIcon />
-      <Suggestions
-        tag={tag}
-        valueFilter={valueFilter}
-        formModel={formModel}
-        hiddenCalls={hiddenCalls}
-        getUpdatedTagExpressionHref={getUpdatedTagExpressionHref}
-        dataSource={dataSource}
-        getSuggestions={getSuggestions}
-      />
-    </Stack>
-  );
-}
-
-function Suggestions({
-  formModel,
-  hiddenCalls,
-  tag,
-  getUpdatedTagExpressionHref,
-  valueFilter,
-  dataSource,
-  getSuggestions
-}) {
   const timeConfig = useTimeConfig();
   const valueRegex = new RegExp(valueFilter.split('').join('.*'), 'i');
   const suggestions =
@@ -144,16 +119,21 @@ function Suggestions({
       [formModel, hiddenCalls, tag, valueFilter, dataSource, timeConfig]
     ) ?? pendingResult;
   return (
-    <SuggestionsPresenter
-      loading={suggestions?.progress.loading}
-      errors={suggestions?.errors}
-      suggestions={suggestions?.data?.items.map(item => ({
-        ...item,
-        name: JSON.parse(item.name)
-      }))}
-      getUpdatedTagExpressionHref={getUpdatedTagExpressionHref}
-      tag={tag}
-      dataSource={dataSource}
-    />
+    <Stack space="small">
+      {suggestions?.data?.items.length > 5 && (
+        <SearchInput onChange={setValueFilter} query={valueFilter} inputClassName={locals.search} withoutIcon />
+      )}
+      <SuggestionsPresenter
+        loading={suggestions?.progress.loading}
+        errors={suggestions?.errors}
+        suggestions={suggestions?.data?.items.map(item => ({
+          ...item,
+          name: JSON.parse(item.name)
+        }))}
+        getUpdatedTagExpressionHref={getUpdatedTagExpressionHref}
+        tag={tag}
+        dataSource={dataSource}
+      />
+    </Stack>
   );
 }

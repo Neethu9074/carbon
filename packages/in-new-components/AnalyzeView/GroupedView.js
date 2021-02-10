@@ -62,7 +62,7 @@ export default function GroupedAnalyzeView(props) {
     dataSource,
     facetedSearchItems,
     getFacetedSearchSuggestions,
-    onTagFilterExpressionChange,
+    onFormModelChange,
     getHrefWithTagFilterExpression,
     groupedViewConfiguration,
     getItemLabel,
@@ -196,7 +196,7 @@ export default function GroupedAnalyzeView(props) {
             facetedSearchItems={facetedSearchItems}
             formModel={formModel}
             onFacetedSearchChange={updateAddAndRemove =>
-              onTagFilterExpressionChange(getNewTagFilterExpression(updateAddAndRemove))
+              onFormModelChange(getNewTagFilterExpression(updateAddAndRemove))
             }
             getUpdatedTagExpressionHref={updateAddAndRemove =>
               getHrefWithTagFilterExpression(getNewTagFilterExpression(updateAddAndRemove))

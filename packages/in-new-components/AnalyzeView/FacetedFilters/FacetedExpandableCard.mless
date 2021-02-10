@@ -12,12 +12,12 @@
   }
 
   .facetedCardHeader {
-    margin: 0.5rem;
+    margin: 0.25rem 0.5rem;
     padding: 0.5rem;
     cursor: pointer;
   }
 
   .facetedCardBody {
-    margin-bottom: 1.5rem;
+    margin-bottom: 0.5rem;
   }
 }

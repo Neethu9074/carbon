@@ -17,9 +17,9 @@ export default function ExistingValue({ value, remove }) {
   return (
     <div className={locals.suggestion}>
       <Tooltip content={value}>
-        <span className={locals.label}>{value}</span>
+        <span className={locals.existingLabel}>{value}</span>
       </Tooltip>
-      <SvgIcon type="lib_openclose_cancel" size="s" onClick={remove} />
+      <SvgIcon className={locals.existingIcon} type="lib_openclose_cancel" size="s" onClick={remove} />
     </div>
   );
 }

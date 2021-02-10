@@ -17,9 +17,6 @@
     display: flex;
     justify-content: space-between;
     width: 100%;
-    &:hover {
-      color: @lib__colors__light-blue800;
-    }
   }
 
   .addSuggestion {
@@ -28,6 +25,9 @@
     justify-content: space-between;
     width: 100%;
     color: @lib__colors__N900Primary;
+    &:hover {
+      color: @lib__colors__light-blue800;
+    }
   }
 
   .count {
