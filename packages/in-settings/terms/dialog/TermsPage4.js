@@ -11,6 +11,7 @@ import TermsProgressIndicator from './TermsProgressIndicator';
 import RolesSelector from 'in-settings/terms/RolesSelector';
 import Button from 'in-new-components/Button/Button';
 import SvgIcon from 'in-components/SvgIcon/SvgIcon';
+import Stack from 'in-new-components/layout/Stack';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 
@@ -33,10 +34,10 @@ export default function TermsPage4({
   return (
     <div className={locals.container}>
       <div className={locals.pageContent}>
-        <div>
-          <TermsProgressIndicator pageNumber={pageNumber} nrPages={nrPages} />
-          <h1 className={locals.heading}>Your Profile</h1>
+        <TermsProgressIndicator pageNumber={pageNumber} nrPages={nrPages} />
+        <h1 className={locals.heading}>Your Profile</h1>
 
+        <Stack>
           <p>
             Set up your profile so your teammates can find you easily. <br />
             You will always be able to change this later in the account settings.
@@ -47,7 +48,7 @@ export default function TermsPage4({
           <InputField label="Email address" value={userEmail} />
 
           <RolesSelector form={form} onChange={(fieldName, value) => onChange(form, fieldName, value)} />
-        </div>
+        </Stack>
 
         <div
           className={classNames({
