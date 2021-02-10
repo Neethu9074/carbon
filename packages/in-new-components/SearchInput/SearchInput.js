@@ -81,21 +81,14 @@ export default function SearchInput({
           onBlur?.();
         }}
       />
-      {!withoutIcon && (
+      {!withoutIcon && !isDirty && (
         <SvgIcon
           className={classNames({
             [locals.icon]: true,
             [locals.withoutIcon]: disabled
           })}
-          type={isDirty ? 'lib_openclose_cancel' : 'lib_actions_search'}
-          onClick={() => {
-            if (!disabled) {
-              inputRef?.current?.focus();
-              if (isDirty) {
-                onChange?.('');
-              }
-            }
-          }}
+          type="lib_actions_search"
+          onClick={disabled ? undefined : () => inputRef?.current?.focus()}
         />
       )}
     </div>
