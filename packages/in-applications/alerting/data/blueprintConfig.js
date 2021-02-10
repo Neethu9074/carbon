@@ -31,7 +31,7 @@ const baseBlueprint = Object.freeze({
 
   // QB1
   getEntityTagFilters: (alertConfig, serviceId, endpointId) => {
-    const tagFilters = [getApplicationIdTagFilter(alertConfig)];
+    const tagFilters = [getApplicationIdTagFilter(alertConfig.boundaryScope, alertConfig.applicationId)];
     if (serviceId) {
       tagFilters.push(tagFilter('service.id', 'EQUALS', serviceId));
     }
@@ -208,12 +208,8 @@ function createDisableList(disabledTagFilters = []) {
   return ['application.id', 'application.name', 'service.id', 'endpoint.id', ...disabledTagFilters];
 }
 
-function getApplicationIdTagFilter(alertConfig) {
-  return tagFilter(
-    alertConfig.boundaryScope === 'INBOUND' ? 'boundary.application.id' : 'application.id',
-    'EQUALS',
-    alertConfig.applicationId
-  );
+export function getApplicationIdTagFilter(boundaryScope, applicationId) {
+  return tagFilter(boundaryScope === 'INBOUND' ? 'boundary.application.id' : 'application.id', 'EQUALS', applicationId);
 }
 
 export function getApplicationNameTagFilter(boundaryScope, applicationName) {

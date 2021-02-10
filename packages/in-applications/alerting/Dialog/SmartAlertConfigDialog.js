@@ -2,12 +2,13 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { empty } from '@instana/observables';
 
 import { thresholdOrBaselineLoadingSignal$ } from 'in-new-components/Alerting/Chart/AlertingChartWrapper';
 import { getEnhancedTagFilterFormModel } from 'in-new-components/Alerting/utils/tagfilterEnrichmentUtil';
 import useIsTagFilterFormModelValid from 'in-applications/alerting/hooks/useIsTagFilterFormModelValid';
+import { createBoundedAlertQueryBuilder } from 'in-applications/alerting/components/AlertQueryBuilder';
 import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import AlertConfigDialogPresenter from 'in-new-components/Alerting/AlertConfigDialogPresenter';
 import { switchQB1orQB2Helper } from 'in-new-components/Alerting/components/WithQB1orQB2';
@@ -43,6 +44,14 @@ function SmartAlertConfigDialogWithQueryValidation({
 }) {
   const { form, updateForm, editMode } = props;
   const [simpleMode, setSimpleMode] = useState(!editMode);
+
+  const applicationId = form.get('applicationId').value;
+  const boundaryScope = form.get('boundaryScope').value;
+  const AlertQueryBuilder = useMemo(() => createBoundedAlertQueryBuilder(applicationId, boundaryScope), [
+    applicationId,
+    boundaryScope
+  ]);
+
   // we are validating only the user-defined part, not the whole enriched form model here,
   // because only that part can ever be invalid
   const isTagFilterFormModelValid = useIsTagFilterFormModelValid(alertConfigWithFormModel.tagFilterExpression);
@@ -72,6 +81,7 @@ function SmartAlertConfigDialogWithQueryValidation({
   return (
     <AlertConfigDialogPresenter
       {...props}
+      QueryBuilderComponent={AlertQueryBuilder}
       simpleMode={simpleMode}
       setSimpleMode={setSimpleMode}
       thresholdResult={thresholdResult}

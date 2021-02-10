@@ -39,7 +39,8 @@ export default function SimpleModeContainer({
   setSimpleModeStep,
   updateForm,
   onChartViewConfigChange,
-  selectedChartViewConfigIndex
+  selectedChartViewConfigIndex,
+  QueryBuilderComponent
 }) {
   return (
     <SimpleModePageNavigation
@@ -71,6 +72,7 @@ export default function SimpleModeContainer({
                 applicationLabel={applicationLabel}
                 onChartViewConfigChange={onChartViewConfigChange}
                 selectedChartViewConfigIndex={selectedChartViewConfigIndex}
+                QueryBuilderComponent={QueryBuilderComponent}
               />
             );
           case 2:

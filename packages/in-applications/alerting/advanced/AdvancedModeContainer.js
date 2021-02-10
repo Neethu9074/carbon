@@ -32,7 +32,6 @@ import { alertingDialogItemPickerTimeframe } from 'in-new-components/Alerting/co
 import BlueprintSelection from 'in-new-components/Alerting/advanced/BlueprintSelection';
 import ProvideLogMessage from 'in-applications/alerting/components/ProvideLogMessage';
 import ProvideStatusCode from 'in-applications/alerting/components/ProvideStatusCode';
-import AlertQueryBuilder from 'in-applications/alerting/components/AlertQueryBuilder';
 import createBlueprintForm from 'in-applications/alerting/form/blueprintFormCreator';
 import AlertTypeSwitch from 'in-applications/alerting/components/AlertTypeSwitch';
 import WithQB1orQB2 from 'in-new-components/Alerting/components/WithQB1orQB2';
@@ -49,7 +48,8 @@ export default function AdvancedModeContainer(props) {
     onChartViewConfigChange,
     selectedChartViewConfigIndex,
     thresholdResult,
-    editMode
+    editMode,
+    QueryBuilderComponent
   } = props;
   const alertType = form.get('rule').get('alertType').value;
   const blueprintConfig = getBlueprintConfig(alertType);
@@ -79,7 +79,7 @@ export default function AdvancedModeContainer(props) {
                     form={form}
                     updateForm={updateForm}
                     applicationLabel={applicationLabel}
-                    QueryBuilderComponent={AlertQueryBuilder}
+                    QueryBuilderComponent={QueryBuilderComponent}
                   />
                 )}
                 shouldFallbackToQB2={isQB2Config => isQB2Config(form.get('convertedTagFilterExpression').value)}
