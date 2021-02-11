@@ -4,9 +4,12 @@
  */
 import React from 'react';
 
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { number, percentage } from 'in-services/formatters/number';
-import Table from 'in-sdk/components/dashboard/Table';
+import Columize from 'in-sdk/components/dashboard/Columize';
 import { emptyMap } from 'in-services/fixedImmutables';
+import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
   {
@@ -97,5 +100,59 @@ export default function DLQueuesTable({ snapshot, timeConfig }) {
     };
   });
 
-  return <Table withoutPadding cardTitle={`Dead-Letter Queues (${rows.length})`} cols={cols} rows={rows} />;
+  return (
+    <Table
+      withoutPadding
+      cardTitle={`Dead-Letter Queues (${rows.length})`}
+      cols={cols}
+      rows={rows}
+      getRowDetails={getRowDetails}
+    />
+  );
+}
+
+function getRowDetails(row) {
+  const snapshotId = row.snapshotId;
+  const timeConfig = row.timeConfig;
+
+  return (
+    <div>
+      <Columize>
+        <Chart
+          snapshotId={snapshotId}
+          timeConfig={timeConfig}
+          y1={{
+            formatter: number.compact,
+            metrics: ['dlqueues.' + row.key + '.queueSize'],
+            labels: ['Queue Size'],
+            type: 'line'
+          }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
+        />
+        <Chart
+          snapshotId={snapshotId}
+          timeConfig={timeConfig}
+          y1={{
+            formatter: percentage.detailed,
+            metrics: ['dlqueues.' + row.key + '.memoryPercentage'],
+            labels: ['Memory Usage'],
+            type: 'line'
+          }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
+        />
+      </Columize>
+
+      <Chart
+        snapshotId={snapshotId}
+        timeConfig={timeConfig}
+        y1={{
+          formatter: number.compact,
+          metrics: ['dlqueues.' + row.key + '.enqueueCount', 'dlqueues.' + row.key + '.dequeueCount'],
+          labels: ['Messages Enqueued', 'Messages Dequeued'],
+          type: 'line'
+        }}
+        renderPostChartContent={PluginDashboardsMarkerLanes}
+      />
+    </div>
+  );
 }
