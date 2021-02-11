@@ -19,6 +19,7 @@ import { hours } from 'in-services/time';
 
 export default function PotentialProblemChart({
   applicationId,
+  boundaryScope,
   threshold,
   rule,
   tagFilters,
@@ -32,6 +33,7 @@ export default function PotentialProblemChart({
     rule,
     tagFilters: tagFilters.filter(({ name }) => name !== 'application.id'),
     applicationId,
+    boundaryScope,
     granularity: defaultGranularity,
     tagFilterExpression: fromBackendModel(tagFilterExpression)
   };
@@ -68,6 +70,7 @@ PotentialProblemChart.propTypes = {
   alert: alertPropType.isRequired,
   alertType: PropTypes.string.isRequired,
   applicationId: PropTypes.string.isRequired,
+  boundaryScope: PropTypes.string.isRequired,
   rule: rulePropType.isRequired,
   tagFilters: PropTypes.arrayOf(PropTypes.object).isRequired,
   tagFilterExpression: PropTypes.object.isRequired,
