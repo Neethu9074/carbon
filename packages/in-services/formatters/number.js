@@ -391,6 +391,15 @@ function formatTime(t, units, formatNumber) {
   return formatNumber(t) + units[units.length - 1].unit;
 }
 
+function isLatencyFormatter(numberFormatter) {
+  return (
+    numberFormatter === latency.compact ||
+    numberFormatter === latency.detailed ||
+    numberFormatter === latencyFixed.compact ||
+    numberFormatter === latencyFixed.detailed
+  );
+}
+
 function isMillisFormatter(numberFormatter) {
   return (
     numberFormatter === millis ||
@@ -461,7 +470,9 @@ function isKiloByteRateFormatter(numberFormatter) {
 }
 
 export function numberFormatterToFormatterType(numberFormatter) {
-  if (isMillisFormatter(numberFormatter)) {
+  if (isLatencyFormatter(numberFormatter)) {
+    return 'LATENCY';
+  } else if (isMillisFormatter(numberFormatter)) {
     return 'MILLIS';
   } else if (isMicrosFormatter(numberFormatter)) {
     return 'MICROS';

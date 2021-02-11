@@ -76,6 +76,7 @@ export function getEntityTypeOptions() {
 
 export function formatterTypeToDefinition(formatterType) {
   switch (formatterType) {
+    case 'LATENCY':
     case 'MILLIS':
       return 'Milliseconds';
     case 'MICROS':
