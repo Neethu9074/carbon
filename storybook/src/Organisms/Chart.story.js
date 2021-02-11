@@ -48,6 +48,7 @@ export function MissingDataWithoutTextInfo() {
         y1: {
           renderer: Renderer.line,
           labels: ['Calls'],
+          metricIds: [],
           metrics: [generateMetrics(0, 20, oneHour)]
         }
       }}
@@ -71,22 +72,26 @@ export function Simple() {
           y1: {
             renderer: Renderer.line,
             labels: ['Calls'],
+            metricIds: [],
             metrics: [generateMetrics(60, 20, oneHour)]
           }
         }}
       />
-      <ResultAwareChart
-        result={constructResult(null, false)}
-        config={{
-          granularity,
-          timeConfig: timeframe,
-          y1: {
-            renderer: Renderer.line,
-            labels: ['Calls'],
-            metrics: [generateMetrics(200, 20, oneHour)]
-          }
-        }}
-      />
+      {false && (
+        <ResultAwareChart
+          result={constructResult(null, false)}
+          config={{
+            granularity,
+            timeConfig: timeframe,
+            y1: {
+              renderer: Renderer.line,
+              labels: ['Calls'],
+              metricIds: [],
+              metrics: [generateMetrics(200, 20, oneHour)]
+            }
+          }}
+        />
+      )}
     </>
   );
 }
@@ -115,6 +120,7 @@ export function MultipleSeries() {
           y1: {
             renderer: Renderer.line,
             labels: ['Calls', 'Count'],
+            metricIds: [],
             metrics: [generateMetrics(60, 5, oneMinute), generateMetrics(60, 5, oneMinute)]
           }
         }}
@@ -142,6 +148,7 @@ export function LongSeriesLabels() {
               'ThisOneIsJustWayToLongToFitIntoThisTinyTooltip',
               'ThisOneUsesLineWrap > ButThisOneIsJustWayToLongToFitIntoThisTinyTooltip'
             ],
+            metricIds: [],
             metrics: [
               generateMetrics(60, 5, oneMinute),
               generateMetrics(60, 5, oneMinute),
@@ -168,11 +175,13 @@ export function DualAxis() {
           y1: {
             renderer: Renderer.line,
             labels: ['Calls', 'Count'],
+            metricIds: [],
             metrics: [generateMetrics(60, 10, oneMinute), generateMetrics(60, 5, oneMinute)]
           },
           y2: {
             renderer: Renderer.line,
             labels: ['Latency'],
+            metricIds: [],
             metrics: [generateMetrics(60, 1, oneMinute)],
             formatter: percentage
           }
@@ -196,11 +205,13 @@ export function DualAxisDifferentMetricCount() {
           y1: {
             renderer: Renderer.line,
             labels: ['Calls', 'Count'],
+            metricIds: [],
             metrics: [generateMetrics(60, 10, oneMinute), generateMetrics(40, 5, oneMinute)]
           },
           y2: {
             renderer: Renderer.line,
             labels: ['Latency'],
+            metricIds: [],
             metrics: [generateMetrics(30, 1, oneMinute)],
             formatter: percentage
           }
@@ -220,6 +231,7 @@ export function Gaps() {
           y1: {
             renderer: Renderer.line,
             labels: ['Calls'],
+            metricIds: [],
             metrics: [generateMetricsWithGaps(30, 10, oneMinute)]
           }
         }}
@@ -238,6 +250,7 @@ export function Bar() {
           y1: {
             renderer: Renderer.bar,
             labels: ['Calls'],
+            metricIds: [],
             metrics: [generateMetrics(12, 100, oneMinute)],
             aggregation: 'awesomeAggregation'
           }
@@ -269,6 +282,7 @@ export function BarWithThreshold() {
               theme.lib.colors.pink800
             ],
             renderer: AlertingRenderer.lineWithThreshold,
+            metricIds: [],
             metrics: metricsBarWithThreshold,
             labels: ['Data']
           }
@@ -311,6 +325,7 @@ export function BarWithBaseline() {
               theme.lib.colors.pink800
             ],
             renderer: AlertingRenderer.lineWithBaseline,
+            metricIds: [],
             metrics: metricsBarWithBaseline,
             baseline: baselineBarWithBaseline,
             operator: '>=',
@@ -343,6 +358,7 @@ export function Area() {
           y1: {
             renderer: Renderer.area,
             labels: ['Calls', 'Count'],
+            metricIds: [],
             metrics: [generateMetrics(30, 10, oneMinute), generateMetricsWithGaps(30, 10, oneMinute)]
           }
         }}
@@ -361,6 +377,7 @@ export function StackedArea() {
           y1: {
             renderer: Renderer.stackedArea,
             labels: ['foo', 'bar', 'baz'],
+            metricIds: [],
             metrics: generateMultipleMetrics(3, 30, 10, oneMinute)
           }
         }}
@@ -372,6 +389,7 @@ export function StackedArea() {
           y1: {
             renderer: Renderer.stackedArea,
             labels: ['1', '2', '3', '4', '5'],
+            metricIds: [],
             metrics: generateMultipleMetricsWithGaps(5, 30, 10, oneMinute)
           }
         }}
@@ -391,12 +409,9 @@ export function Pie() {
           y1: {
             renderer: Renderer.pie,
             labels: ['foo', 'bar', 'baz'],
+            metricIds: [],
             metrics: generateMultipleMetrics(3, 30, 10, oneMinute),
-            metricIds: [
-              [0, 30],
-              [0, 45],
-              [0, 50]
-            ],
+
             colors: ['#ff0000', '#00ff00', '#0000ff'],
             formatter: x => x
           }
@@ -416,6 +431,7 @@ export function StackedBar() {
           y1: {
             renderer: Renderer.stackedBar,
             labels: ['foo', 'bar', 'baz'],
+            metricIds: [],
             metrics: generateMultipleMetrics(3, 30, 10, oneMinute)
           }
         }}
@@ -434,6 +450,7 @@ export function Integral() {
           y1: {
             renderer: Renderer.integral,
             labels: ['foo', 'bar', 'baz'],
+            metricIds: [],
             metrics: generateMultipleMetrics(3, 100, 100, oneMinute)
           }
         }}
@@ -445,6 +462,7 @@ export function Integral() {
           y1: {
             renderer: Renderer.integral,
             labels: ['min', '25th', '50th', '75th', '95th', '98th', '99th', 'max'],
+            metricIds: [],
             metrics: generateMultipleMetrics(8, 30, 10, oneMinute)
           }
         }}
@@ -456,6 +474,7 @@ export function Integral() {
           y1: {
             renderer: Renderer.integral,
             labels: ['min', '25th', '50th', '75th', '95th', '98th', '99th', 'max'],
+            metricIds: [],
             metrics: generateMultipleMetricsWithGaps(8, 30, 10, oneMinute)
           }
         }}
@@ -467,6 +486,7 @@ export function Integral() {
           y1: {
             renderer: Renderer.integral,
             labels: ['min', '25th', '50th'],
+            metricIds: [],
             metrics: (() => {
               let s1 = generateMetrics(40, 10, oneMinute);
               let s2 = generateMetrics(40, 10, oneMinute);
@@ -504,6 +524,7 @@ export function MissingMetrics() {
           y1: {
             renderer: Renderer.line,
             labels: ['Metric A', 'Metric B'],
+            metricIds: [],
             metrics: [generateMetrics(60, 20, oneMinute)]
           }
         }}
@@ -515,6 +536,7 @@ export function MissingMetrics() {
           y1: {
             renderer: Renderer.stackedArea,
             labels: ['Metric A', 'Metric B', 'Metric C'],
+            metricIds: [],
             metrics: [generateMetrics(60, 20, oneMinute), generateMetrics(60, 20, oneMinute)]
           }
         }}
@@ -526,6 +548,7 @@ export function MissingMetrics() {
           y1: {
             renderer: Renderer.integral,
             labels: ['Metric A', 'Metric B', 'Metric C'],
+            metricIds: [],
             metrics: [generateMetrics(60, 20, oneMinute), generateMetrics(60, 20, oneMinute)]
           }
         }}
@@ -561,6 +584,7 @@ export function MissingDataPoint() {
           y1: {
             renderer: Renderer.line,
             labels: ['Metric A', 'Metric B'],
+            metricIds: [],
             metrics: [dataSeries1, dataSeries2]
           }
         }}
@@ -573,6 +597,7 @@ export function MissingDataPoint() {
           y1: {
             renderer: Renderer.area,
             labels: ['Metric A', 'Metric B'],
+            metricIds: [],
             metrics: [dataSeries1, dataSeries2]
           }
         }}
@@ -585,6 +610,7 @@ export function MissingDataPoint() {
           y1: {
             renderer: Renderer.bar,
             labels: ['Metric A', 'Metric B'],
+            metricIds: [],
             metrics: [dataSeries1, dataSeries2]
           }
         }}
@@ -597,6 +623,7 @@ export function MissingDataPoint() {
           y1: {
             renderer: Renderer.barOverlapping,
             labels: ['Metric A', 'Metric B'],
+            metricIds: [],
             metrics: [dataSeries1, dataSeries2]
           }
         }}
@@ -609,6 +636,7 @@ export function MissingDataPoint() {
           y1: {
             renderer: Renderer.integral,
             labels: ['Metric A', 'Metric B'],
+            metricIds: [],
             metrics: [dataSeries1, dataSeries2]
           }
         }}
@@ -621,6 +649,7 @@ export function MissingDataPoint() {
           y1: {
             renderer: Renderer.point,
             labels: ['Metric A', 'Metric B'],
+            metricIds: [],
             metrics: [dataSeries1, dataSeries2]
           }
         }}
@@ -633,6 +662,7 @@ export function MissingDataPoint() {
           y1: {
             renderer: Renderer.stackedArea,
             labels: ['Metric A', 'Metric B'],
+            metricIds: [],
             metrics: [dataSeries1, dataSeries2]
           }
         }}
@@ -645,6 +675,7 @@ export function MissingDataPoint() {
           y1: {
             renderer: Renderer.stackedBar,
             labels: ['Metric A', 'Metric B'],
+            metricIds: [],
             metrics: [dataSeries1, dataSeries2]
           }
         }}
@@ -657,6 +688,7 @@ export function MissingDataPoint() {
           y1: {
             renderer: Renderer.line,
             labels: ['Metric A'],
+            metricIds: [],
             metrics: [dataSeries1]
           }
         }}
@@ -675,11 +707,13 @@ export function SharedAxis() {
         y1: {
           renderer: Renderer.line,
           labels: ['A', 'B'],
+          metricIds: [],
           metrics: [generateMetrics(60, 10, oneMinute), generateMetrics(60, 5, oneMinute)]
         },
         y2: {
           renderer: Renderer.line,
           labels: ['C', 'D'],
+          metricIds: [],
           metrics: [generateMetrics(60, 50, oneMinute), generateMetrics(60, 70, oneMinute)]
         }
       }}
@@ -700,6 +734,7 @@ export function WithCustomIconsInLegend() {
             icons: {
               types: ['lib_flame', 'lib_release_rocket', 'lib_linux']
             },
+            metricIds: [],
             metrics: generateMultipleMetrics(3, 30, 10, oneMinute)
           }
         }}
@@ -716,6 +751,7 @@ export function WithCustomIconsInLegend() {
               types: ['lib_flame', 'lib_release_rocket', 'lib_linux'],
               colors: [theme.lib.colors.blue800, theme.lib.colors.pink800, theme.lib.colors.red800]
             },
+            metricIds: [],
             metrics: generateMultipleMetrics(3, 30, 10, oneMinute)
           }
         }}
@@ -736,6 +772,7 @@ export function WithLegendAlignedToLeftSideOfChart() {
           icons: {
             types: ['lib_flame', 'lib_release_rocket', 'lib_linux']
           },
+          metricIds: [],
           metrics: generateMultipleMetrics(3, 30, 10, oneMinute)
         }
       }}
@@ -752,6 +789,7 @@ export function Points() {
         y1: {
           renderer: Renderer.point,
           labels: ['Count'],
+          metricIds: [],
           metrics: [generateMetrics(30, 4, oneMinute)]
         }
       }}
@@ -763,7 +801,8 @@ export function Points() {
 export const Resize = connectTo(
   () => {
     return {
-      metrics: just(generateMetrics(20, 10, oneHour)),
+      metricIds: [],
+      metricIds: [],metrics: just(generateMetrics(20, 10, oneHour)),
       size: interval(1000)
         .map(() => ({ width: Math.max(200, Math.random() * 700) | 0, height: Math.max(60, (Math.random() * 200) | 0) }))
         .startWith({ width: 400, height: 150 })
@@ -782,7 +821,8 @@ export const Resize = connectTo(
             y1: {
               renderer: Renderer.line,
               labels: ['Calls'],
-              metrics: [metrics]
+              metricIds: [],
+              metricIds: [],metrics: [metrics]
             }
           }}
         />
