@@ -39,13 +39,13 @@ export default function ReadyStep({ websiteId, websiteName, websiteLink$, trackS
         <CopyToClipboard getText={() => eumSnippet}>
           {refSetter => (
             <Button kind="secondary" refSetter={refSetter}>
-              {t('in-websites:newWebsiteFlow.readyStepButtonGoToWebsiteDashboard')}
+              {t('in-websites:newWebsiteFlow.readyStepButtonCopyToClipboard')}
             </Button>
           )}
         </CopyToClipboard>
 
         <Button kind="primaryv2" href$={websiteLink$}>
-          {t('in-websites:newWebsiteFlow.readyStepButtonCopyToClipboard')}
+          {t('in-websites:newWebsiteFlow.readyStepButtonGoToWebsiteDashboard')}
         </Button>
       </Actions>
     </Frame>
