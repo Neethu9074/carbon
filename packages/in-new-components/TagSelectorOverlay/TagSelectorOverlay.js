@@ -10,15 +10,23 @@ import * as typeToLabelMapping from 'in-new-components/QueryBuilder/tagFilter/ty
 import SelectorOverlay from 'in-new-components/SelectorOverlay/SelectorOverlay';
 import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
 import { emptyArray } from 'in-services/fixedObjects';
+import useObservable from 'in-hooks/useObservable';
+import { settings$ } from 'in-services/settings';
 import SvgIcon from 'in-components/SvgIcon';
 import Pill from 'in-new-components/Pill';
+import { get } from 'lodash';
 
 import locals from './TagSelectorOverlay.mless';
 
 export default function TagSelectorOverlay({ tagCatalog, onChange, close, showTypeBadge }) {
-  const options = useMemo(() => toOptions(tagCatalog, tagCatalog.tagTree, [], showTypeBadge), [
+  const queryableOnly = useObservable(
+    settings$.map(settings => get(settings, ['use_queryable_tags_enabled'], true)),
+    []
+  );
+  const options = useMemo(() => toOptions(tagCatalog, tagCatalog.tagTree, [], showTypeBadge, queryableOnly), [
     showTypeBadge,
-    tagCatalog
+    tagCatalog,
+    queryableOnly
   ]);
 
   useDisabledBodyScroll();
@@ -35,31 +43,46 @@ export default function TagSelectorOverlay({ tagCatalog, onChange, close, showTy
   );
 }
 
-function toOptions(tagCatalog, tagTreeNodes, parentLabels = [], showTypeBadge) {
+function toOptions(tagCatalog, tagTreeNodes, parentLabels = [], showTypeBadge, queryableOnly) {
   const joinedParentLabels = parentLabels.join(' ');
-  return tagTreeNodes.map(tagTreeNode => {
-    return {
-      label: tagTreeNode.label,
-      badge: showTypeBadge && tagTreeNode.tagName && <Badge tagTreeNode={tagTreeNode} tagCatalog={tagCatalog} />,
-      breadcrumbAndLabel: (
-        <BreadcrumbAndLabel
-          path={parentLabels}
-          label={tagTreeNode.label}
-          hasChildren={tagTreeNode.children?.length > 0}
-        />
-      ),
-      searchable: true,
-      description: tagTreeNode.description,
-      keywords: [joinedParentLabels, tagTreeNode.label, tagTreeNode.description, tagTreeNode.tagName]
-        .filter(Boolean)
-        .join(' '),
-      tagName: tagTreeNode.tagName,
-      icon: tagTreeNode.icon,
-      children: tagTreeNode.children
-        ? toOptions(tagCatalog, tagTreeNode.children, parentLabels.concat(tagTreeNode.label), showTypeBadge)
-        : emptyArray
-    };
-  });
+  return tagTreeNodes
+    .filter(tagTreeNode => {
+      return !queryableOnly || tagTreeNode.type === 'LEVEL' || tagTreeNode.queryable !== false;
+    })
+    .map(tagTreeNode => {
+      const filteredChildren = tagTreeNode.children
+        ? toOptions(
+            tagCatalog,
+            tagTreeNode.children,
+            parentLabels.concat(tagTreeNode.label),
+            showTypeBadge,
+            queryableOnly
+          )
+        : emptyArray;
+      // filter empty category nodes
+      return tagTreeNode.type === 'LEVEL' && filteredChildren.length === 0
+        ? null
+        : {
+            label: tagTreeNode.label,
+            badge: showTypeBadge && tagTreeNode.tagName && <Badge tagTreeNode={tagTreeNode} tagCatalog={tagCatalog} />,
+            breadcrumbAndLabel: (
+              <BreadcrumbAndLabel
+                path={parentLabels}
+                label={tagTreeNode.label}
+                hasChildren={tagTreeNode.children?.length > 0}
+              />
+            ),
+            searchable: true,
+            description: tagTreeNode.description,
+            keywords: [joinedParentLabels, tagTreeNode.label, tagTreeNode.description, tagTreeNode.tagName]
+              .filter(Boolean)
+              .join(' '),
+            tagName: tagTreeNode.tagName,
+            icon: tagTreeNode.icon,
+            children: filteredChildren
+          };
+    })
+    .filter(Boolean);
 }
 
 function BreadcrumbAndLabel({ path, label, hasChildren }) {
