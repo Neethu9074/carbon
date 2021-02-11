@@ -14,6 +14,7 @@ import CreateSmartAlert from 'in-applications/alerting/components/CreateSmartAle
 import { applicationDashboard, summaryTab } from 'in-applications/navigation/paths';
 import AnalyzeCallsButton from 'in-applications/components/AnalyzeCallsButton';
 import TimeShiftDropdown from 'in-new-components/TimeShift/TimeShiftDropdown';
+import getEndpointTypes from 'in-applications/subscriptions/getEndpointTypes';
 import { applicationTimeShiftSelectTracker } from 'in-applications/tracker';
 import { applicationSmartAlertsEnabled } from 'in-services/featureFlags';
 import getApplication from 'in-subscription/application/getApplication';
@@ -25,6 +26,7 @@ import DashboardHeader from 'in-new-components/DashboardHeader';
 import { getTimeShiftLabel } from 'in-stores/time/shifting';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import useObservable from 'in-hooks/useObservable';
 import useUrlState from 'in-hooks/useUrlState';
 import { role } from 'in-stores/user';
 
@@ -36,6 +38,17 @@ export default function ApplicationDashboard({ location }) {
   const [{ appId, boundaryScope }, setUrlState] = useUrlState(urlStateDefinition);
   const timeConfig = useTimeConfig();
 
+  const endpointTypes = useObservable(
+    getEndpointTypes({
+      filter: {
+        application: appId,
+        timeConfig: timeConfig,
+        applicationBoundaryScope: boundaryScope
+      }
+    }).map(result => result?.data),
+    [appId, timeConfig, boundaryScope]
+  );
+
   const props = {
     applicationId: appId,
     viewPath: applicationDashboard,
@@ -44,7 +57,8 @@ export default function ApplicationDashboard({ location }) {
     onChange: setUrlState,
     location,
     currentTab: location.pathname.substr(location.pathname.lastIndexOf('/')),
-    onBoundaryStateChange: setUrlState
+    onBoundaryStateChange: setUrlState,
+    endpointTypes
   };
 
   return (
