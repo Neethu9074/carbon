@@ -62,6 +62,7 @@ import './graphql';
 import './grizzly';
 import './gwt';
 import './hangfire';
+import './haskell.wai.server';
 import './hbase';
 import './hc.nio';
 import './hc';
