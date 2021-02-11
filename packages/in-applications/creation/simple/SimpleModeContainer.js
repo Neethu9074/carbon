@@ -78,7 +78,9 @@ export default function SimpleModeContainer({
               <SimpleCreateStep1
                 selectedBlueprint={selectedBlueprint}
                 setSelectedBlueprint={selectedBlueprint => {
-                  updateForm(form.updateIn(['tagFilterExpression'], field => field.setValue([])));
+                  if (qb2InAPCreationEnabled) {
+                    updateForm(form.updateIn(['tagFilterExpression'], field => field.setValue([])));
+                  }
                   setSelectedBlueprint(selectedBlueprint);
                 }}
               />
