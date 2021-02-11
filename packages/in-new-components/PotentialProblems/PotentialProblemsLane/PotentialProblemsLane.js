@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 
 import PotentialProblemsLanePresenter from 'in-new-components/PotentialProblems/PotentialProblemsLane/PotentialProblemsLanePresenter';
 import getPotentialProblems from 'in-new-components/PotentialProblems/subscription/getPotentialProblems';
+import { addTagFilters } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import { switchQB1orQB2Helper } from 'in-new-components/Alerting/components/WithQB1orQB2';
 import { trackRequestLoadingTime } from 'in-new-components/PotentialProblems/tracker';
 import { tagFilter } from 'in-new-components/QueryBuilder/transformation/tagFilter';
@@ -26,17 +27,42 @@ const emptyPotentialProblems = {
   thresholds: {}
 };
 
-export default function PotentialProblemsLane({ clusterSizeMillis, chartName, ...props }) {
+export default function PotentialProblemsLane({
+  clusterSizeMillis,
+  chartName,
+  applicationId,
+  serviceId,
+  endpointId,
+  ...props
+}) {
   const globalTimeConfig = useTimeConfig();
-  if (isOutsideCallsShortTermStorage(globalTimeConfig)) return null;
+  const labels = useGetLabels(applicationId, serviceId, endpointId);
 
-  if (!props.applicationId || !applicationSmartAlertsEnabled) {
+  if (isOutsideCallsShortTermStorage(globalTimeConfig)) {
+    return null;
+  }
+
+  if (
+    (applicationId && !labels.applicationLabel) ||
+    (serviceId && !labels.serviceLabel) ||
+    (endpointId && !labels.endpointLabel)
+  ) {
+    // don't proceed when not all necessary labels are loaded, because otherwise we would request an additional
+    // unnecessary potential problem with an incomplete scope
+    return null;
+  }
+
+  if (!applicationId || !applicationSmartAlertsEnabled) {
     return null;
   }
 
   return (
     <PotentialProblemsLaneConnected
       {...props}
+      applicationId={applicationId}
+      labels={labels}
+      tagFilters={getTagFilters(labels.serviceLabel, labels.endpointLabel)}
+      tagFilterExpression={getTagFilterExpression(labels.serviceLabel, labels.endpointLabel)}
       chartName={chartName}
       globalTimeConfig={globalTimeConfig}
       clusterSizeMillis={clusterSizeMillis}
@@ -46,9 +72,10 @@ export default function PotentialProblemsLane({ clusterSizeMillis, chartName, ..
 
 function PotentialProblemsLaneConnected({
   applicationId,
-  serviceId,
-  endpointId,
   boundaryScope,
+  labels,
+  tagFilters,
+  tagFilterExpression,
   alertRules,
   chartName,
   clusterSizeMillis,
@@ -56,11 +83,6 @@ function PotentialProblemsLaneConnected({
   ...remainingProps
 }) {
   const startTime = useRef(null);
-
-  const labels = useGetLabels(applicationId, serviceId, endpointId);
-
-  const tagFilters = getTagFilters(labels.serviceLabel, labels.endpointLabel);
-  const tagFilterExpression = getTagFilterExpression(labels.serviceLabel, labels.endpointLabel);
 
   const potentialProblemsResult = useObservable(
     ([_globalTimeConfig, _alertRules]) =>
@@ -74,7 +96,7 @@ function PotentialProblemsLaneConnected({
         boundaryScope,
         applicationId
       ]),
-    [globalTimeConfig, alertRules, clusterSizeMillis]
+    [globalTimeConfig, alertRules, clusterSizeMillis, tagFilters, tagFilterExpression]
   );
 
   return (
@@ -130,7 +152,6 @@ function getTagFilterExpression(serviceLabel, endpointLabel) {
 
 function useGetLabels(applicationId, serviceId, endpointId) {
   return {
-    boundaryScope: useObservable(getBoundaryScopeObservable, [applicationId]),
     applicationLabel: useObservable(getApplicationLabelObservable, [applicationId]),
     serviceLabel: useObservable(getServiceLabelObservable, [serviceId]),
     endpointLabel: useObservable(getEndpointLabelObservable, [endpointId])
@@ -175,10 +196,6 @@ PotentialProblemsLane.propTypes = {
 
 function getApplicationLabelObservable([id]) {
   return id && getApplication({ id }).map(getLabel);
-}
-
-function getBoundaryScopeObservable([id]) {
-  return id && getApplication({ id }).map(({ data }) => data?.boundaryScope ?? null);
 }
 
 function getServiceLabelObservable([id]) {
@@ -233,18 +250,7 @@ function enhanceTagFilterExpression(tagFilterExpression, boundaryScope, applicat
     applicationId
   );
 
-  let enhancedTagFilterExpression = { ...tagFilterExpression };
-  if (enhancedTagFilterExpression.elements) {
-    if (enhancedTagFilterExpression.elements.length === 0) {
-      enhancedTagFilterExpression = appIdTagFilter;
-    } else {
-      enhancedTagFilterExpression.elements.push(appIdTagFilter);
-    }
-  } else {
-    enhancedTagFilterExpression = appIdTagFilter;
-  }
-
-  return enhancedTagFilterExpression;
+  return addTagFilters(tagFilterExpression, [appIdTagFilter]);
 }
 
 function enhanceTagFilters(tagFilters, boundaryScope, applicationId) {
