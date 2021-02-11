@@ -4,9 +4,11 @@
  */
 import React from 'react';
 
-import Table from 'in-sdk/components/dashboard/Table';
-import { emptyMap } from 'in-services/fixedImmutables';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { number } from 'in-services/formatters/number';
+import { emptyMap } from 'in-services/fixedImmutables';
+import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
   {
@@ -113,5 +115,32 @@ export default function QueuesTable({ snapshot, timeConfig }) {
     };
   });
 
-  return <Table withoutPadding cardTitle={`Queues (${rows.length})`} cols={cols} rows={rows} />;
+  return (
+    <Table withoutPadding cardTitle={`Queues (${rows.length})`} cols={cols} rows={rows} getRowDetails={getRowDetails} />
+  );
+}
+
+function getRowDetails(row) {
+  const snapshotId = row.snapshotId;
+  const timeConfig = row.timeConfig;
+
+  return (
+    <Chart
+      snapshotId={snapshotId}
+      timeConfig={timeConfig}
+      y1={{
+        formatter: number.compact,
+        metrics: [
+          'queues.' + row.key + '.messageCount',
+          'queues.' + row.key + '.messagesAdded',
+          'queues.' + row.key + '.messagesAcknowledged',
+          'queues.' + row.key + '.messagesExpired',
+          'queues.' + row.key + '.messagesKilled'
+        ],
+        labels: ['Count', 'Added', 'Acknowledged', 'Expired', 'Killed'],
+        type: 'line'
+      }}
+      renderPostChartContent={PluginDashboardsMarkerLanes}
+    />
+  );
 }
