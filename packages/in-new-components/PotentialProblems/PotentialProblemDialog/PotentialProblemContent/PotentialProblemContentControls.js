@@ -10,27 +10,27 @@ import {
   rulePropType,
   thresholdPropType
 } from 'in-new-components/PotentialProblems/PotentialProblemsLane/proptypes';
-import getConfigByDataSource, { groupByEndpointName, groupByServiceName } from 'in-analyze/AnalyzeView/dataSources';
 import { trackCreateSmartAlert, trackGotoAnalyze } from 'in-new-components/PotentialProblems/tracker';
+import { getLinkToUnboundAnalytics } from 'in-events/components/AnalyzeApplicationEventButton';
+import { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import { defaultGranularity } from 'in-new-components/PotentialProblems/constants';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
-import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
+import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import { close } from 'in-components/DialogPresenter/store';
 import Button from 'in-new-components/Button/Button';
 import { role } from 'in-stores/user';
 
 export default function PotentialProblemContentControls({
   applicationLabel,
-  serviceLabel,
-  endpointLabel,
   tagFilters,
+  tagFilterExpression,
   boundaryScope,
   alert,
-  alertType,
   rule,
   threshold,
   renderSmartAlertDialogComponent
 }) {
+  const tagCatalog = useTagCatalog(getTagCatalog);
   return (
     <>
       <Button
@@ -43,16 +43,22 @@ export default function PotentialProblemContentControls({
           close();
         }}
         icon="lib_analyze"
-        href$={getLinkToAnalyze({
-          dataSource: 'calls',
-          applicationName: applicationLabel,
-          serviceName: serviceLabel,
-          endpointName: endpointLabel,
-          boundaryScope: boundaryScope,
-          groupByTag: getGrouping(alertType, tagFilters),
-          focusedMetric: getFocusedMetric(alertType),
-          timeConfig: getTimeConfigForAnalayzeLink(alert)
-        })}
+        href$={getLinkToUnboundAnalytics(
+          applicationLabel,
+          null, // is already included in given tagFilters/tagFilterExpression
+          null, // is already included in given tagFilters/tagFilterExpression
+          {
+            boundaryScope,
+            rule,
+            threshold,
+            tagFilters,
+            tagFilterExpression,
+            granularity: defaultGranularity,
+            convertedTagFilterExpression: true
+          },
+          getTimeConfigForAnalyzeLink(alert),
+          tagCatalog
+        )}
       >
         Investigate
       </Button>
@@ -82,40 +88,7 @@ export default function PotentialProblemContentControls({
   );
 }
 
-function getFocusedMetric(alertType) {
-  if (alertType === 'slowness') {
-    return 'latency_DISTRIBUTION';
-  }
-  if (alertType === 'errorRate') {
-    return 'errors_MEAN';
-  }
-  // at the moment only 'latency_DISTRIBUTION' is available when no grouping is set. However, the analyze-view handles
-  // this case properly and then shows the latency-distribution chart instead.
-  return 'calls_SUM';
-}
-
-function getGrouping(alertType, filters) {
-  const alertTypeWithDisabledGrouping = ['errorRate', 'slowness'];
-  if (alertTypeWithDisabledGrouping.includes(alertType)) {
-    return {}; // no grouping
-  }
-
-  if (alertType === 'throughput') {
-    const needsGroupByEndpoint = filters.find(isEndpointOrServiceFilter);
-    return needsGroupByEndpoint ? groupByEndpointName : groupByServiceName;
-  }
-
-  return getConfigByDataSource('calls').defaultGrouping;
-}
-
-const isEndpointOrServiceFilter = filter =>
-  filter?.name &&
-  (filter.name === 'endpoint.name' ||
-    filter.name === 'service.name' ||
-    filter.name === 'endpoint.id' ||
-    filter.name === 'service.id');
-
-function getTimeConfigForAnalayzeLink({ start, end }) {
+function getTimeConfigForAnalyzeLink({ start, end }) {
   const eventDuration = end - start;
   const duration = eventDuration * 2;
   const to = end + eventDuration * 0.5;
@@ -128,12 +101,10 @@ function getTimeConfigForAnalayzeLink({ start, end }) {
 PotentialProblemContentControls.propTypes = {
   alert: alertPropType.isRequired,
   rule: rulePropType.isRequired,
-  alertType: PropTypes.string.isRequired,
   applicationLabel: PropTypes.string.isRequired,
-  serviceLabel: PropTypes.string,
-  endpointLabel: PropTypes.string,
   boundaryScope: PropTypes.string,
   renderSmartAlertDialogComponent: PropTypes.func.isRequired,
   tagFilters: PropTypes.arrayOf(PropTypes.object).isRequired,
+  tagFilterExpression: PropTypes.object.isRequired,
   threshold: thresholdPropType.isRequired
 };
