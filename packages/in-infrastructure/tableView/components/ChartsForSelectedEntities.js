@@ -15,9 +15,9 @@ import { getTableDefinition } from 'in-sdk/snapshot';
 import { getMetricDefinition } from 'in-sdk/metrics';
 import { timeConfig$ } from 'in-stores/time/config';
 import { getPlural } from 'in-sdk/pluginName';
+import Button from 'in-new-components/Button';
 import SvgIcon from 'in-components/SvgIcon';
 import { getLabel } from 'in-sdk/snapshot';
-import Button from 'in-new-components/Button';
 import connectTo from 'in-hoc/connectTo';
 
 import './ChartsForSelectedEntities.less';
@@ -103,7 +103,6 @@ export default connectTo(
   function ChartsForSelectedEntities({ metrics, snapshots, plugin, timeConfig, labels }) {
     metrics = metrics || [];
     snapshots = snapshots || [];
-    snapshots = snapshots.filter(snapshot => !!snapshot);
     labels = labels || [];
 
     if (snapshots.length === 0 && metrics.length === 0) {

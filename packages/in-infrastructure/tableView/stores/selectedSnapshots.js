@@ -56,7 +56,7 @@ export const selectedSnapshots$ = selectedSnapshotIds$.flatMap(snapshotIds => {
   return combineLatest(
     snapshotIds.map(id => getSnapshot(id)),
     false
-  );
+  ).map(snapshots => snapshots.filter(Boolean));
 });
 
 export function isSelected(snapshotId) {
