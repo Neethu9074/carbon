@@ -104,7 +104,6 @@ export default connectTo(
   function ChartsForSelectedEntities({ metrics, snapshots, plugin, timeConfig, labels }) {
     metrics = metrics || [];
     snapshots = snapshots || [];
-    snapshots = snapshots.filter(snapshot => !!snapshot);
     labels = labels || [];
 
     if (snapshots.length === 0 && metrics.length === 0) {
