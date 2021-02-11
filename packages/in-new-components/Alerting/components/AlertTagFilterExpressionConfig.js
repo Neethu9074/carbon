@@ -38,15 +38,7 @@ export default function AlertTagFilterExpressionConfig({
       className={removeBorderBottom && locals.removeContainerBorderBottom}
       header={
         form.get('tagFilterExpression').value.length > 0 && (
-          <Button
-            className={locals.clearButton}
-            kind="subtle"
-            icon="lib_openclose_cancel"
-            size="compact"
-            onClick={() => handleChangeTagFilterExpressionChange([], form, updateForm)}
-          >
-            {t('in-new-components:alerting.components.alertTagFilterExpressionConfigButtonClear')}
-          </Button>
+          <ClearTagFilterExpressionButton form={form} updateForm={updateForm} />
         )
       }
       darkFrame
@@ -64,3 +56,20 @@ AlertTagFilterExpressionConfig.propTypes = {
   updateForm: PropTypes.func.isRequired,
   removeBorderBottom: PropTypes.bool
 };
+
+export function ClearTagFilterExpressionButton({ form, updateForm, customFormUpdater }) {
+  return (
+    <Button
+      kind="subtle"
+      icon="lib_openclose_cancel"
+      size="compact"
+      onClick={() =>
+        typeof customFormUpdater === 'function'
+          ? customFormUpdater()
+          : handleChangeTagFilterExpressionChange([], form, updateForm)
+      }
+    >
+      {t('in-new-components:alerting.components.clearTagFilterExpressionButton')}
+    </Button>
+  );
+}

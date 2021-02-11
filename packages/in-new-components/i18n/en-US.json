@@ -83,7 +83,7 @@
       "alertPropertyInfosLabelAlertLevel": "Alert Level",
       "alertPropertyInfosLabelTriggersIncident": "Triggers Incident",
       "alertPropertyInfosLabelDescription": "Description",
-      "alertTagFilterExpressionConfigButtonClear": "Clear",
+      "clearTagFilterExpressionButton": "Clear",
       "baselineErrorMessageInsufficientDataToCompute": "Insufficient data to compute the selected baseline. Please select <i>Static Threshold</i> instead.",
       "baselineErrorMessageReason": "Reason:",
       "blueprintDescriptionButtonSelect": "Select",

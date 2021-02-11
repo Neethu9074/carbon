@@ -1,18 +1,21 @@
-import React, { useState } from 'react';
-
 /*
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import getEndpointsCursorPaginated from 'in-applications/subscriptions/getEndpointsCursorPaginated';
-import ServicesAndEndpointsListPresenter from './ServicesAndEndpointsListPresenter/ServicesAndEndpointsListPresenter';
+
+import React, { useState } from 'react';
+
+import ServicesAndEndpointsListPresenter from 'in-new-components/Alerting/components/scopeConfig/ServicesAndEndpointsListPresenter/ServicesAndEndpointsListPresenter';
+import { ClearTagFilterExpressionButton } from 'in-new-components/Alerting/components/AlertTagFilterExpressionConfig';
 import getApplicationsCursorPaginated from 'in-subscription/application/getApplicationsCursorPaginated';
+import getEndpointsCursorPaginated from 'in-applications/subscriptions/getEndpointsCursorPaginated';
 import AlertFilterConfigurator from 'in-new-components/Alerting/components/AlertFilterConfigurator';
 import getServicesCursorPaginated from 'in-subscription/application/getServicesCursorPaginated';
 import getApplication from 'in-subscription/application/getApplication';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
 import LightCard from 'in-new-components/Card/LightCard';
 import SearchInput from 'in-new-components/SearchInput';
+import Stack from 'in-new-components/layout/Stack';
 
 import locals from './ScopeConfig.mless';
 
@@ -33,25 +36,32 @@ export default function ScopeConfig({ form, updateForm, QueryBuilderComponent })
       framed
     >
       <div className={locals.scopeConfigContainer}>
-        <ServicesAndEndpointsListPresenter
-          apiSubscriptions={{
-            getApplication,
-            getApplicationsCursorPaginated,
-            getServicesCursorPaginated,
-            getEndpointsCursorPaginated
-          }}
-          applicationsSelection={applications}
-          onChange={applicationsSelection =>
-            updateForm(form.updateIn(['applications'], field => field.setValue(applicationsSelection).setTouched(true)))
-          }
-          alertApplicationId={alertApplicationId}
-          boundaryScope={boundaryScope}
-          searchQuery={query}
-          isGlobalSmartAlert={false}
-        />
-        <div className={locals.spacer} />
-
-        <AlertFilterConfigurator QueryBuilderComponent={QueryBuilderComponent} form={form} updateForm={updateForm} />
+        <Stack>
+          <ServicesAndEndpointsListPresenter
+            apiSubscriptions={{
+              getApplication,
+              getApplicationsCursorPaginated,
+              getServicesCursorPaginated,
+              getEndpointsCursorPaginated
+            }}
+            applicationsSelection={applications}
+            onChange={applicationsSelection =>
+              updateForm(
+                form.updateIn(['applications'], field => field.setValue(applicationsSelection).setTouched(true))
+              )
+            }
+            alertApplicationId={alertApplicationId}
+            boundaryScope={boundaryScope}
+            searchQuery={query}
+            isGlobalSmartAlert={false}
+          />
+          <AlertFilterConfigurator QueryBuilderComponent={QueryBuilderComponent} form={form} updateForm={updateForm} />
+        </Stack>
+        {form.get('tagFilterExpression').value.length > 0 && (
+          <div className={locals.clearButtonWrapper}>
+            <ClearTagFilterExpressionButton form={form} updateForm={updateForm} />
+          </div>
+        )}
       </div>
     </LightCard>
   );
