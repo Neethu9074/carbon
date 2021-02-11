@@ -4,12 +4,12 @@
  */
 import React from 'react';
 
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { number, percentage } from 'in-services/formatters/number';
+import Columize from 'in-sdk/components/dashboard/Columize';
 import { emptyMap } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
-import Columize from 'in-sdk/components/dashboard/Columize';
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
-import PluginDashboardsMarkerLanes from '../../../PluginDashboardsMarkerLanes';
 
 const cols = [
   {
