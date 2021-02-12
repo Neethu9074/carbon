@@ -137,7 +137,7 @@
     "groupedViewHeader": "Group",
     "resultHeaderLoading": "Loading…",
     "resultHeaderTooltip": "The query time range has been rounded up to nearest full minute to allow this view to load more quickly.",
-    "ungroupedViewNoGrouping": "no grouping",
+    "ungroupedViewNoGrouping": "No grouping",
     "queryProgress": {
       "preparing": "Preparing…",
       "preparingInfo": "Please don't reload - this page will update automatically.",
@@ -387,7 +387,7 @@
     "buttonDescending": "Descending"
   },
   "stack": {
-    "relationship":{
+    "relationship": {
       "CONTAINS": "Contains {{itemCount}} {{plugin}}",
       "DEFINED_IN": "Defined in {{itemCount}} {{plugin}}",
       "DEPLOYED_ON": "Deployed on {{itemCount}} {{plugin}}",

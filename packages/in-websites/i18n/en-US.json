@@ -991,13 +991,6 @@
     "subdivision": "Subdivision",
     "windowWidth": "Window Width"
   },
-  "fieldLabels": {
-    "onLoadTime": "onLoad Time",
-    "uniqueUsersOrSessions": "Unique Users / Sessions",
-    "retrievalTime": "Retrieval Time",
-    "errorCount": "Error Count",
-    "affectedUsersOrSessions": "Affected Users / Sessions"
-  },
   "beacons": {
     "website": "Website",
     "path": "Path",

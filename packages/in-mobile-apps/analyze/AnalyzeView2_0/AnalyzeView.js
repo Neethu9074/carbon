@@ -8,60 +8,64 @@ import { get } from 'lodash';
 import { t } from 'in-i18n';
 import React from 'react';
 
-import { isAnalyticsOneLocation } from 'in-websites/analyze/AnalyzeView2_0/components/AnalyzeOneToTwoViewParameterConversion/transformHelper';
-import AnalyzeOneToTwoViewParameterConversion from 'in-websites/analyze/AnalyzeView2_0/components/AnalyzeOneToTwoViewParameterConversion';
+import { isAnalyticsOneLocation } from 'in-mobile-apps/analyze/AnalyzeView2_0/components/AnalyzeOneToTwoViewParameterConversion/transformHelper';
+import AnalyzeOneToTwoViewParameterConversion from 'in-mobile-apps/analyze/AnalyzeView2_0/components/AnalyzeOneToTwoViewParameterConversion';
 import { createTableTimestampColumnDefinition } from 'in-new-components/AnalyzeView/commonTableColumnDefinitions';
 import { createListTimestampColumnDefinition } from 'in-new-components/AnalyzeView/commonListColumnDefinitions';
-import FacetedFilterRangeInput from 'in-new-components/AnalyzeView/FacetedFilters/FacetedFilterRangeInput';
+import GroupedMobileBeacons from 'in-mobile-apps/analyze/AnalyzeView2_0/components/GroupedMobileBeacons';
 import { custom as customType, metric as metricType } from 'in-new-components/AnalyzeView/fieldTypes';
 import FacetedFilterGeneric from 'in-new-components/AnalyzeView/FacetedFilters/FacetedFilterGeneric';
-import { addDataSourceToBackendQueryModel } from 'in-websites/analyze/AnalyzeView2_0/util';
-import GroupedBeacons from 'in-websites/analyze/AnalyzeView2_0/components/GroupedBeacons';
-import getWebsiteBeaconGroups from 'in-websites/subscriptions/getWebsiteBeaconGroups';
+import { addDataSourceToBackendQueryModel } from 'in-mobile-apps/analyze/AnalyzeView2_0/util';
+import getMobileAppBeaconGroups from 'in-mobile-apps/subscriptions/getMobileAppBeaconGroups';
+import MobileBeacons from 'in-mobile-apps/analyze/AnalyzeView2_0/components/MobileBeacons';
 import { getSingleNumberMetricId } from 'in-new-components/AnalyzeView/metrics';
 import StateManagement from 'in-new-components/AnalyzeView/StateManagement';
-import Beacons from 'in-websites/analyze/AnalyzeView2_0/components/Beacons';
-import { getMetricCatalog } from 'in-websites/api/metricCatalog';
-import { analyzePath } from 'in-websites/navigation/paths';
-import { beaconType } from 'in-websites/navigation/matrix';
-import { getTagCatalog } from 'in-websites/api/tagCatalog';
+import { getMetricCatalog } from 'in-mobile-apps/api/metricCatalog';
+import { analyzePath } from 'in-mobile-apps/navigation/paths';
+import { beaconType } from 'in-mobile-apps/navigation/matrix';
+import { getTagCatalog } from 'in-mobile-apps/api/tagCatalog';
 
 const facetedSearchItems = [
   {
     renderer: FacetedFilterGeneric,
-    title: t('in-websites:facetedSearch.website'),
-    tag: 'beacon.website.name',
+    title: t('in-mobile-apps:facetedSearch.mobileApp'),
+    tag: 'mobileBeacon.mobileApp.name',
     openByDefault: true
   },
   {
     renderer: FacetedFilterGeneric,
-    title: t('in-websites:facetedSearch.page'),
-    tag: 'beacon.page.name'
+    title: t('in-mobile-apps:facetedSearch.view'),
+    tag: 'mobileBeacon.view.name'
   },
   {
     renderer: FacetedFilterGeneric,
-    title: t('in-websites:facetedSearch.browser'),
-    tag: 'beacon.browser.name'
+    title: t('in-mobile-apps:facetedSearch.platform'),
+    tag: 'mobileBeacon.platform'
   },
   {
     renderer: FacetedFilterGeneric,
-    title: t('in-websites:facetedSearch.os'),
-    tag: 'beacon.os.name'
+    title: t('in-mobile-apps:facetedSearch.os'),
+    tag: 'mobileBeacon.os.name'
   },
   {
     renderer: FacetedFilterGeneric,
-    title: t('in-websites:facetedSearch.country'),
-    tag: 'beacon.geo.country'
+    title: t('in-mobile-apps:facetedSearch.bundle'),
+    tag: 'mobileBeacon.app.bundleIdentifier'
   },
   {
     renderer: FacetedFilterGeneric,
-    title: t('in-websites:facetedSearch.subdivision'),
-    tag: 'beacon.geo.subdivision'
+    title: t('in-mobile-apps:facetedSearch.version'),
+    tag: 'mobileBeacon.app.version'
   },
   {
-    renderer: FacetedFilterRangeInput,
-    title: t('in-websites:facetedSearch.windowWidth'),
-    tag: 'beacon.window.width'
+    renderer: FacetedFilterGeneric,
+    title: t('in-mobile-apps:facetedSearch.country'),
+    tag: 'mobileBeacon.geo.country'
+  },
+  {
+    renderer: FacetedFilterGeneric,
+    title: t('in-mobile-apps:facetedSearch.subdivision'),
+    tag: 'mobileBeacon.geo.subdivision'
   }
 ];
 
@@ -101,8 +105,8 @@ const fixedFields = [
 ];
 
 const dataSourceConfigurations = {
-  pageLoad: {
-    metricCatalogFilter: createMetricCatalogFilter('pageLoad'),
+  sessionStart: {
+    metricCatalogFilter: createMetricCatalogFilter('sessionStart'),
     facetedSearchItems,
     groupedView,
     ungroupedView,
@@ -110,27 +114,13 @@ const dataSourceConfigurations = {
     defaultSelectableFields: [
       {
         type: 'metric',
-        metric: 'onLoadTime',
-        aggregation: 'MEAN'
-      }
-    ]
-  },
-  pageChange: {
-    metricCatalogFilter: createMetricCatalogFilter('pageChange'),
-    facetedSearchItems,
-    groupedView,
-    ungroupedView,
-    fixedFields,
-    defaultSelectableFields: [
-      {
-        type: 'metric',
-        metric: 'uniqueUsersOrSessions',
+        metric: 'uniqueUsers',
         aggregation: 'DISTINCT_COUNT'
       }
     ]
   },
-  resourceLoad: {
-    metricCatalogFilter: createMetricCatalogFilter('resourceLoad'),
+  viewChange: {
+    metricCatalogFilter: createMetricCatalogFilter('viewChange'),
     facetedSearchItems,
     groupedView,
     ungroupedView,
@@ -138,8 +128,8 @@ const dataSourceConfigurations = {
     defaultSelectableFields: [
       {
         type: 'metric',
-        metric: 'beaconDuration',
-        aggregation: 'MEAN'
+        metric: 'uniqueUsers',
+        aggregation: 'DISTINCT_COUNT'
       }
     ]
   },
@@ -162,33 +152,12 @@ const dataSourceConfigurations = {
       }
     ]
   },
-  error: {
-    metricCatalogFilter: createMetricCatalogFilter('error'),
-    facetedSearchItems,
-    groupedView,
-    ungroupedView,
-    fixedFields,
-    defaultSelectableFields: [
-      {
-        type: 'metric',
-        metric: 'uniqueUsersOrSessions',
-        aggregation: 'DISTINCT_COUNT'
-      }
-    ]
-  },
   custom: {
     metricCatalogFilter: createMetricCatalogFilter('custom'),
     facetedSearchItems,
     groupedView,
     ungroupedView,
-    fixedFields,
-    defaultSelectableFields: [
-      {
-        type: 'metric',
-        metric: 'uniqueUsersOrSessions',
-        aggregation: 'DISTINCT_COUNT'
-      }
-    ]
+    fixedFields
   }
 };
 
@@ -197,7 +166,7 @@ const dataSourceParameter = {
   name: beaconType
 };
 
-export default function WebsiteAnalyzeView() {
+export default function MobileAnalyzeView() {
   const location = useLocation();
   if (isAnalyticsOneLocation(location)) {
     return <AnalyzeOneToTwoViewParameterConversion />;
@@ -206,7 +175,7 @@ export default function WebsiteAnalyzeView() {
   return (
     <StateManagement
       path={analyzePath}
-      defaultDataSource="pageLoad"
+      defaultDataSource="sessionStart"
       dataSourceParameter={dataSourceParameter}
       getTagCatalog={getTagCatalog}
       getMetricCatalog={getMetricCatalog}
@@ -214,13 +183,17 @@ export default function WebsiteAnalyzeView() {
     >
       {opts =>
         opts.isGrouped ? (
-          <GroupedBeacons
+          <GroupedMobileBeacons
             {...opts}
             getFacetedSearchSuggestions={getFacetedSearchSuggestions}
             useLastValidStateWhenErroneous
           />
         ) : (
-          <Beacons {...opts} getFacetedSearchSuggestions={getFacetedSearchSuggestions} useLastValidStateWhenErroneous />
+          <MobileBeacons
+            {...opts}
+            getFacetedSearchSuggestions={getFacetedSearchSuggestions}
+            useLastValidStateWhenErroneous
+          />
         )
       }
     </StateManagement>
@@ -232,7 +205,7 @@ function createMetricCatalogFilter(dataSource) {
 }
 
 function getFacetedSearchSuggestions({ timeConfig, backendQueryModel, group, metricKey, dataSource }) {
-  return getWebsiteBeaconGroups({
+  return getMobileAppBeaconGroups({
     pagination: {
       retrievalSize: 200
     },
