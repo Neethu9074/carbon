@@ -20,6 +20,8 @@ const helpTexts = {
   'entity.aws.rds': 'Relational Database Service',
   'entity.aws.s3': 'Simple Storage Service',
   'entity.aws.ebs': 'Elastic Block Storage',
+  'entity.aws.msk': 'AWS Managed Streaming for Apache Kafka',
+  'entity.aws.msk.broker': 'AWS MSK broker',
   'entity.aws.mq': 'Elastic MQ',
   'entity.aws.emr': 'Elastic MapReduce',
   'entity.aws.lambda': 'AWS Lambda',
