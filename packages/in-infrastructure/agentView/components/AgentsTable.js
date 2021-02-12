@@ -161,7 +161,7 @@ export default connectTo(
     const showDetailedAgentStatus = agentMonitoringIssuesEnabled || isInternalVisible;
 
     const rows = [];
-    agentSnapshots.get('online', emptyList).forEach(snapshot => {
+    agentSnapshots?.get('online', emptyList).forEach(snapshot => {
       const count = snapshot.get('monitoringIssuesTotalCount');
       rows.push({
         key: snapshot.get('id'),
@@ -172,7 +172,7 @@ export default connectTo(
           showDetailedAgentStatus && count && count > 0 ? ReportingStatus.DEGRADED : ReportingStatus.ONLINE
       });
     });
-    agentSnapshots.get('offline', emptyList).forEach(snapshot => {
+    agentSnapshots?.get('offline', emptyList).forEach(snapshot => {
       rows.push({
         key: snapshot.get('id'),
         snapshot: snapshot,
