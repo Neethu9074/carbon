@@ -2,8 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { Motion, spring } from 'react-motion';
-import { t } from 'in-i18n';
+import { motion } from 'framer-motion';
 import React from 'react';
 
 import { track, REQUEST_QUOTE_BUTTON_CLICKED } from 'in-services/tracking/tracking';
@@ -13,6 +12,7 @@ import RequestQuoteDialog from 'in-components/RequestQuoteDialog';
 import history from 'in-stores/navigation/history';
 import Button from 'in-new-components/Button';
 import SvgIcon from 'in-components/SvgIcon';
+import { t } from 'in-i18n';
 
 import locals from './UsageMessage.mless';
 
@@ -40,42 +40,37 @@ export default function UsageMessage({ message }) {
   }
 
   return (
-    <Motion defaultStyle={{ opacity: 0 }} style={{ opacity: spring(1) }}>
-      {interpolatedStyle => {
-        return (
-          <div
-            style={interpolatedStyle}
-            className={classes}
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      className={classes}
+      onClick={e => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (message.onClick) {
+          message.onClick();
+        }
+      }}
+    >
+      <SvgIcon type={message.icon} className={locals.icon} />
+      <div className={locals.msg}>
+        <Content content={message.content} />
+        {!onPremLicenseInformationEnabled && (
+          <Button
+            className={locals.button}
+            kind="warning"
             onClick={e => {
               e.preventDefault();
               e.stopPropagation();
-              if (message.onClick) {
-                message.onClick();
-              }
+              track(REQUEST_QUOTE_BUTTON_CLICKED, getPageType(history.location.pathname));
+              addActiveDialog(<RequestQuoteDialog />);
             }}
           >
-            <SvgIcon type={message.icon} className={locals.icon} />
-            <div className={locals.msg}>
-              <Content content={message.content} />
-              {!onPremLicenseInformationEnabled && (
-                <Button
-                  className={locals.button}
-                  kind="warning"
-                  onClick={e => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    track(REQUEST_QUOTE_BUTTON_CLICKED, getPageType(history.location.pathname));
-                    addActiveDialog(<RequestQuoteDialog />);
-                  }}
-                >
-                  {t('in-components:messageFlyout.requestQuoteBtn')}
-                </Button>
-              )}
-            </div>
-          </div>
-        );
-      }}
-    </Motion>
+            {t('in-components:messageFlyout.requestQuoteBtn')}
+          </Button>
+        )}
+      </div>
+    </motion.div>
   );
 }
 

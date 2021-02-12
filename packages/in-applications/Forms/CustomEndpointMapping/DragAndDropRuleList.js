@@ -70,7 +70,7 @@ export default class DragAndDropRuleList extends React.Component {
           {provided => (
             <div ref={provided.innerRef}>
               {rules.map((rule, index) => (
-                <Draggable key={index} draggableId={index} index={index}>
+                <Draggable key={index} draggableId={String(index)} index={index}>
                   {provided => (
                     <div
                       className={locals.item}

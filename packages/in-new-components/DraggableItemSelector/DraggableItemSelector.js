@@ -39,7 +39,7 @@ export default function DraggableItemSelector(props) {
               {provided => (
                 <div ref={provided.innerRef}>
                   {items.map((item, i) => (
-                    <Draggable key={i} draggableId={i} index={i}>
+                    <Draggable key={i} draggableId={String(i)} index={i}>
                       {provided => (
                         <div className={locals.item} ref={provided.innerRef} {...provided.draggableProps}>
                           <Tooltip content={t('in-new-components:draggableItemSelector.tooltipReorderMetrics')}>
@@ -59,6 +59,8 @@ export default function DraggableItemSelector(props) {
                       )}
                     </Draggable>
                   ))}
+
+                  {provided.placeholder}
                 </div>
               )}
             </Droppable>

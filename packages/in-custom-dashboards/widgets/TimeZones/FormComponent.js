@@ -66,7 +66,7 @@ export default function TimeZoneWidgetFormComponent({ form: timeZonesForm, onCha
           {provided => (
             <Stack space="xsmall" ref={provided.innerRef}>
               {timeZonesForm.map((timeZoneform, i) => (
-                <Draggable key={i} draggableId={i} index={i}>
+                <Draggable key={i} draggableId={String(i)} index={i}>
                   {provided => (
                     <Ul ref={provided.innerRef} {...provided.draggableProps}>
                       <Li noAlternatingBg className={locals.timeZone}>
@@ -140,6 +140,8 @@ export default function TimeZoneWidgetFormComponent({ form: timeZonesForm, onCha
                   Add Time Zone
                 </Button>
               </StackItem>
+
+              {provided.placeholder}
             </Stack>
           )}
         </Droppable>
