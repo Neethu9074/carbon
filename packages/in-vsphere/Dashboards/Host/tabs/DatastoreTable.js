@@ -5,8 +5,8 @@
 import React, { Fragment } from 'react';
 import { t } from 'in-i18n';
 
-import { number, bytesTwoDecimalPlaces, bytesZeroDecimalPlaces } from 'in-services/formatters/number';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import { number, bytes } from 'in-services/formatters/number';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import Table from 'in-sdk/components/dashboard/Table';
 
@@ -44,7 +44,7 @@ const maxFileSizeColumn = {
     getValue(row) {
       return row.filesystem.maxFileSize;
     },
-    getContent: bytesTwoDecimalPlaces
+    getContent: bytes.detailed
   }
 };
 const capacityColumn = {
@@ -54,17 +54,23 @@ const capacityColumn = {
     getValue(row) {
       return row.filesystem.capacity;
     },
-    getContent: bytesTwoDecimalPlaces
+    getContent: bytes.detailed
   }
 };
 const freeSpaceColumn = {
   title: t('in-vsphere:dashboards.freeSpace'),
-  type: 'number',
+  type: 'metric',
   typeArgs: {
-    getValue(row) {
-      return row.filesystem.freeSpace;
+    getSnapshotId(row) {
+      return row.snapshotId;
     },
-    getContent: bytesTwoDecimalPlaces
+    getMetricName(row) {
+      return 'datastore.freeSpace.' + row.filesystem.id;
+    },
+    getContent: bytes.detailed,
+    getTimeWindowAggregation() {
+      return 'mean';
+    }
   }
 };
 
@@ -100,6 +106,8 @@ export default function FilesystemsTable({ data, timeConfig }) {
 }
 
 function getDetails(row) {
+  const fsId = row.filesystem.id;
+
   return (
     <Fragment>
       <Columize>
@@ -111,9 +119,9 @@ function getDetails(row) {
             formatter: number.compact,
             tooltipFormatter: number.compact,
             metrics: [
-              'datastore.datastoreReadIops.number.latest.' + row.filesystem.id,
-              'datastore.datastoreWriteIops.number.latest.' + row.filesystem.id,
-              'datastore.datastoreTotalIops.number.latest.' + row.filesystem.id
+              'datastore.datastoreReadIops.number.latest.' + fsId,
+              'datastore.datastoreWriteIops.number.latest.' + fsId,
+              'datastore.datastoreTotalIops.number.latest.' + fsId
             ],
             labels: [
               t('in-vsphere:dashboards.iopsRead'),
@@ -131,19 +139,19 @@ function getDetails(row) {
             formatter: number.compact,
             tooltipFormatter: number.compact,
             metrics: [
-              'datastore.numberReadAveraged.number.average.' + row.filesystem.id,
-              'datastore.numberWriteAveraged.number.average.' + row.filesystem.id
+              'datastore.numberReadAveraged.number.average.' + fsId,
+              'datastore.numberWriteAveraged.number.average.' + fsId
             ],
             labels: [t('in-vsphere:dashboards.readPerSec'), t('in-vsphere:dashboards.writePerSec')],
             type: 'line'
           }}
           y2={{
             min: 0,
-            formatter: bytesZeroDecimalPlaces,
-            tooltipFormatter: bytesZeroDecimalPlaces,
+            formatter: bytes.compact,
+            tooltipFormatter: bytes.detailed,
             metrics: [
-              'datastore.datastoreReadBytes.number.latest.' + row.filesystem.id,
-              'datastore.datastoreWriteBytes.number.latest.' + row.filesystem.id
+              'datastore.datastoreReadBytes.number.latest.' + fsId,
+              'datastore.datastoreWriteBytes.number.latest.' + fsId
             ],
             labels: [t('in-vsphere:dashboards.byteReadPerSec'), t('in-vsphere:dashboards.byteWritePerSec')],
             type: 'line'
@@ -159,14 +167,28 @@ function getDetails(row) {
             formatter: number.compact,
             tooltipFormatter: number.compact,
             metrics: [
-              'datastore.datastoreNormalReadLatency.number.latest.' + row.filesystem.id,
-              'datastore.datastoreNormalWriteLatency.number.latest.' + row.filesystem.id,
-              'datastore.datastoreNormalTotalLatency.number.latest.' + row.filesystem.id
+              'datastore.datastoreNormalReadLatency.number.latest.' + fsId,
+              'datastore.datastoreNormalWriteLatency.number.latest.' + fsId,
+              'datastore.datastoreNormalTotalLatency.number.latest.' + fsId
             ],
             labels: [
               t('in-vsphere:dashboards.latencyRead'),
               t('in-vsphere:dashboards.latencyWrite'),
               t('in-vsphere:dashboards.latencyTotal')
+            ],
+            type: 'line'
+          }}
+        />
+        <Chart
+          snapshotId={row.data.id}
+          timeConfig={row.timeConfig}
+          y1={{
+            min: 0,
+            formatter: bytes.detailed,
+            tooltipFormatter: bytes.detailed,
+            metrics: ['datastore.freeSpace.' + fsId],
+            labels: [
+              t('in-vsphere:dashboards.freeSpace')
             ],
             type: 'line'
           }}
