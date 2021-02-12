@@ -47,8 +47,8 @@ function PageLoadView(props) {
     <>
       <ViewTrackingMeta
         data={{
-          productArea: t('in-websites:analyze.analyzeView.pageLoadView.viewTrackingMetaProductArea'),
-          pageRootName: t('in-websites:analyze.analyzeView.pageLoadView.viewTrackingMetaPageRootName')
+          productArea: 'EUM: Websites',
+          pageRootName: 'Analytics'
         }}
       />
 
