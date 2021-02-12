@@ -15,12 +15,16 @@ import {
 import ServicesAndEndpointsListPresenter from 'in-new-components/Alerting/components/scopeConfig/ServicesAndEndpointsListPresenter/ServicesAndEndpointsListPresenter';
 import { noop } from 'in-services/fixedObjects';
 
+const oneDayTimeConfig = Object.freeze({
+  windowSize: 86400000
+});
+
 export default {
   title: 'Organisms|smartAlerts|ServicesAndEndpointsListPresenter',
   component: ServicesAndEndpointsListPresenter
 };
 
-export function servicesAndEnpointsListGlobalAlerts() {
+export function servicesAndEndpointsListGlobalAlerts() {
   return (
     <ServicesAndEndpointsListPresenter
       apiSubscriptions={{
@@ -30,13 +34,14 @@ export function servicesAndEnpointsListGlobalAlerts() {
       }}
       applicationsSelection={{}}
       boundaryScope="INBOUND"
+      timeConfig={oneDayTimeConfig}
       onChange={noop}
       isGlobalSmartAlert
     />
   );
 }
 
-export function servicesAndEnpointsListIndividualAlerts() {
+export function servicesAndEndpointsListIndividualAlerts() {
   return (
     <ServicesAndEndpointsListPresenter
       apiSubscriptions={{
@@ -48,12 +53,13 @@ export function servicesAndEnpointsListIndividualAlerts() {
       alertApplicationId="btg-B701Rx6o9QNXUS4TVw"
       applicationsSelection={{}}
       boundaryScope="INBOUND"
+      timeConfig={oneDayTimeConfig}
       onChange={noop}
     />
   );
 }
 
-export function servicesAndEnpointsListAlertsWithStaleConfig() {
+export function servicesAndEndpointsListAlertsWithStaleConfig() {
   return (
     <ServicesAndEndpointsListPresenter
       apiSubscriptions={{
@@ -64,6 +70,7 @@ export function servicesAndEnpointsListAlertsWithStaleConfig() {
       }}
       applicationsSelection={storedApplicationsSelection}
       boundaryScope="INBOUND"
+      timeConfig={oneDayTimeConfig}
       onChange={noop}
       isGlobalSmartAlert
     />

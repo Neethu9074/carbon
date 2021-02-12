@@ -10,6 +10,7 @@ import React from 'react';
 import AlertFilterConfigurator, {
   handleChangeTagFilterExpressionChange
 } from 'in-new-components/Alerting/components/AlertFilterConfigurator';
+import { maxChartViewTimeConfig } from 'in-new-components/Alerting/Chart/chartViewConfig';
 import ScopeConfig from 'in-new-components/Alerting/components/scopeConfig/ScopeConfig';
 import { smartAlertsAdvancedEntitySelectionEnabled } from 'in-services/featureFlags';
 import IconLabel from 'in-new-components/Alerting/components/IconLabel';
@@ -27,7 +28,12 @@ export default function AlertTagFilterExpressionConfig({
   removeBorderBottom
 }) {
   return smartAlertsAdvancedEntitySelectionEnabled ? (
-    <ScopeConfig form={form} updateForm={updateForm} QueryBuilderComponent={QueryBuilderComponent} />
+    <ScopeConfig
+      form={form}
+      updateForm={updateForm}
+      QueryBuilderComponent={QueryBuilderComponent}
+      timeConfig={maxChartViewTimeConfig}
+    />
   ) : (
     <LightCard
       title={<IconLabel text={applicationLabel} type="lib_application" noBottomMargin />}
@@ -52,8 +58,8 @@ AlertTagFilterExpressionConfig.propTypes = {
   QueryBuilderComponent: PropTypes.func.isRequired,
   applicationLabel: PropTypes.string.isRequired,
   form: PropTypes.object.isRequired,
-  headerTransparent: PropTypes.bool,
   updateForm: PropTypes.func.isRequired,
+  headerTransparent: PropTypes.bool,
   removeBorderBottom: PropTypes.bool
 };
 

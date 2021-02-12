@@ -19,7 +19,7 @@ import Stack from 'in-new-components/layout/Stack';
 
 import locals from './ScopeConfig.mless';
 
-export default function ScopeConfig({ form, updateForm, QueryBuilderComponent }) {
+export default function ScopeConfig({ form, updateForm, QueryBuilderComponent, timeConfig }) {
   const { query, debouncedOnChange } = useDebouncedQuery();
 
   const applications = form.get('applications').value;
@@ -51,6 +51,7 @@ export default function ScopeConfig({ form, updateForm, QueryBuilderComponent })
               )
             }
             alertApplicationId={alertApplicationId}
+            timeConfig={timeConfig}
             boundaryScope={boundaryScope}
             searchQuery={query}
             isGlobalSmartAlert={false}

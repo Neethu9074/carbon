@@ -12,13 +12,14 @@ import {
 } from 'in-new-components/Alerting/components/scopeConfig/ServicesAndEndpointsListPresenter/listReducer';
 import { applicationsItemTreePropType } from 'in-new-components/Alerting/components/scopeConfig/ServicesAndEndpointsListPresenter/sharedPropTypes';
 import ApplicationsList from 'in-new-components/Alerting/components/scopeConfig/ServicesAndEndpointsListPresenter/ApplicationsList';
-import useTimeConfig from 'in-hooks/useTimeConfig';
+import { propTypeTimeConfig } from 'in-stores/time/config';
 
 export default function ServicesAndEndpointsListPresenter({
   apiSubscriptions,
   applicationsSelection = {},
   onChange,
   alertApplicationId,
+  timeConfig,
   isGlobalSmartAlert,
   ...props
 }) {
@@ -49,8 +50,6 @@ export default function ServicesAndEndpointsListPresenter({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state]);
 
-  const timeConfig = useTimeConfig();
-
   return (
     <ApplicationsList
       {...props}
@@ -74,5 +73,6 @@ ServicesAndEndpointsListPresenter.propTypes = {
   onChange: PropTypes.func.isRequired,
   applicationsSelection: applicationsItemTreePropType,
   alertApplicationId: PropTypes.string,
+  timeConfig: propTypeTimeConfig.isRequired,
   isGlobalSmartAlert: PropTypes.bool
 };
