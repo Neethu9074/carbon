@@ -18,11 +18,11 @@ export default function AgentViewKpis({ agentSnapshots }) {
         title={t('in-infrastructure:agentView.totalAgents')}
         value={
           <div className={locals.value}>
-            {`${agentSnapshots.get('online', emptyList).size + agentSnapshots.get('offline', emptyList).size}`}
+            {`${agentSnapshots?.get('online', emptyList).size + agentSnapshots?.get('offline', emptyList).size || 0}`}
             <div className={locals.twoValueBar}>
               <TwoValueBar
-                v1={agentSnapshots.get('online', emptyList).size}
-                v2={agentSnapshots.get('offline', emptyList).size}
+                v1={agentSnapshots?.get('online', emptyList).size}
+                v2={agentSnapshots?.get('offline', emptyList).size}
                 formatter={v => v}
                 v1Label={t('in-infrastructure:agentView.reporting')}
                 v2Label={t('in-infrastructure:agentView.notReporting')}
