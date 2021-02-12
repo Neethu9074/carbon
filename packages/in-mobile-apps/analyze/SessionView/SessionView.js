@@ -13,16 +13,19 @@ import {
 } from 'in-mobile-apps/navigation/urlParameters';
 import NavigatorSplitScreen from 'in-analyze/TraceDetail/components/NavigatorSplitScreen/NavigatorSplitScreen';
 import getMobileAppBeaconsForSession from 'in-mobile-apps/subscriptions/getMobileAppBeaconsForSession';
+import SplitScreenSessionContent from 'in-mobile-apps/analyze/SessionView/SplitScreenSessionContent';
+import SplitScreenList from 'in-new-components/AnalyzeView/SplitScreenList/SplitScreenList';
 import BeaconsNavigator from 'in-mobile-apps/analyze/AnalyzeView/Beacons/BeaconsNavigator';
 import { getHighlighterId } from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon';
 import { triggerHighlight } from 'in-new-components/SelectedElementHighlighter';
 import { closeSessionViewLink } from 'in-mobile-apps/navigation/paths';
+import { webMobileQb2AnalyzeEnabled } from 'in-services/featureFlags';
 import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import DashboardHeader from 'in-new-components/DashboardHeader';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
+import getTabs from 'in-mobile-apps/analyze/SessionView/tabs';
 import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
-import tabs from 'in-mobile-apps/analyze/SessionView/tabs';
 import { dataSourceTitles } from 'in-mobile-apps/tags';
 import { shorten } from 'in-services/util/string';
 import withUrlState from 'in-hoc/withUrlState';
@@ -40,8 +43,8 @@ export default withUrlState({
 })(SessionView);
 
 function SessionView(props) {
-  const { sessionId, items, beaconType, onChange, beaconTimestamp } = props;
-  const beaconId = props.beaconId || sessionId;
+  const content = webMobileQb2AnalyzeEnabled ? renderSplitScreenContent_v2(props) : renderSplitScreenContent(props);
+  const beaconType = webMobileQb2AnalyzeEnabled ? props.dataSource : props.beaconType;
   return (
     <>
       <ViewTrackingMeta
@@ -63,37 +66,7 @@ function SessionView(props) {
           />
         }
       >
-        <NavigatorSplitScreen
-          {...props}
-          navigator={<BeaconsNavigator {...props} beaconId={beaconId} />}
-          typeLabel={dataSourceTitles[beaconType]}
-          openItemIndex={findIndex(items, item => item.beacon.beaconId === beaconId)}
-          openItem={e => {
-            if (e.beacon.type !== 'sessionStart') {
-              triggerHighlight(getHighlighterId(e.beacon.beaconId));
-            }
-            onChange({
-              sessionId: e.beacon.sessionId,
-              beaconId: e.beacon.beaconId
-            });
-          }}
-        >
-          <TabView
-            // Discard all state when the session ID changes
-            key={sessionId}
-            HeaderComponent={Header}
-            location={location}
-            tabs={tabs}
-            result$={getMobileAppBeaconsForSession({ sessionId, beaconTimestamp })}
-            withProps={({ result }) => ({
-              beacons: result.data,
-              sessionLabel: shorten(calculateLabel(result))
-            })}
-            props={props}
-            withoutBreadcrumb
-            withoutPadding
-          />
-        </NavigatorSplitScreen>
+        {content}
       </Sticky>
     </>
   );
@@ -127,6 +100,73 @@ function Header(props) {
         hideUrlShortener
       />
     </>
+  );
+}
+
+function renderSplitScreenContent_v2(props) {
+  const {
+    detailId: { sessionId, beaconTimestamp },
+    getHrefToDetailId
+  } = props;
+  return (
+    <SplitScreenList
+      {...props}
+      ListItemContent={SplitScreenSessionContent}
+      getHrefToDetailId={getHrefToDetailId}
+      isPageLoadView
+    >
+      <TabView
+        key={sessionId}
+        props={props}
+        HeaderComponent={Header}
+        location={location}
+        tabs={getTabs({ path: '/mobileAppMonitoring/analyzeBeacons' })}
+        result$={getMobileAppBeaconsForSession({ sessionId, beaconTimestamp })}
+        withoutBreadcrumb
+        withoutPadding
+        withProps={({ result }) => ({
+          beacons: result.data,
+          pageLoadLabel: shorten(calculateLabel(result))
+        })}
+      />
+    </SplitScreenList>
+  );
+}
+
+function renderSplitScreenContent(props) {
+  const { items, onChange, beaconTimestamp, beaconType, sessionId, beaconId } = props;
+  return (
+    <NavigatorSplitScreen
+      {...props}
+      navigator={<BeaconsNavigator {...props} beaconId={beaconId} />}
+      typeLabel={dataSourceTitles[beaconType]}
+      openItemIndex={findIndex(items, item => item.beacon.beaconId === beaconId)}
+      openItem={e => {
+        if (e.beacon.type !== 'sessionStart') {
+          triggerHighlight(getHighlighterId(e.beacon.beaconId));
+        }
+        onChange({
+          sessionId: e.beacon.sessionId,
+          beaconId: e.beacon.beaconId
+        });
+      }}
+    >
+      <TabView
+        // Discard all state when the session ID changes
+        key={sessionId}
+        HeaderComponent={Header}
+        location={location}
+        tabs={getTabs(props)}
+        result$={getMobileAppBeaconsForSession({ sessionId, beaconTimestamp })}
+        withProps={({ result }) => ({
+          beacons: result.data,
+          sessionLabel: shorten(calculateLabel(result))
+        })}
+        props={props}
+        withoutBreadcrumb
+        withoutPadding
+      />
+    </NavigatorSplitScreen>
   );
 }
 

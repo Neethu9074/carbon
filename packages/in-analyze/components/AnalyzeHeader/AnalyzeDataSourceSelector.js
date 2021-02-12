@@ -142,36 +142,40 @@ const productAreas = [
       {
         dataSource: 'sessionStart',
         ua2: webMobileQb2AnalyzeEnabled,
-        getHref$: ({ isGrouped }) =>
+        getHref$: ({ isGrouped, formModel }) =>
           getLinkToMobileAppAnalyze({
             group: isGrouped ? defaultMobileAppGroupings.sessionStart : emptyObject,
+            formModel,
             beaconType: 'sessionStart'
           })
       },
       {
         dataSource: 'viewChange',
         ua2: webMobileQb2AnalyzeEnabled,
-        getHref$: ({ isGrouped }) =>
+        getHref$: ({ isGrouped, formModel }) =>
           getLinkToMobileAppAnalyze({
             group: isGrouped ? defaultMobileAppGroupings.viewChange : emptyObject,
+            formModel,
             beaconType: 'viewChange'
           })
       },
       {
         dataSource: 'httpRequest',
         ua2: webMobileQb2AnalyzeEnabled,
-        getHref$: ({ isGrouped }) =>
+        getHref$: ({ isGrouped, formModel }) =>
           getLinkToMobileAppAnalyze({
             group: isGrouped ? defaultMobileAppGroupings.httpRequest : emptyObject,
+            formModel,
             beaconType: 'httpRequest'
           })
       },
       {
         dataSource: 'custom',
         ua2: webMobileQb2AnalyzeEnabled,
-        getHref$: ({ isGrouped }) =>
+        getHref$: ({ isGrouped, formModel }) =>
           getLinkToMobileAppAnalyze({
             group: isGrouped ? defaultMobileAppGroupings.custom : emptyObject,
+            formModel,
             beaconType: 'custom'
           })
       }

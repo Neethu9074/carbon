@@ -19,7 +19,7 @@ function create(beaconType) {
   });
 }
 
-function getSuggestions({ name, key, timeConfig, propose, tagFilterExpression, beaconType }) {
+export function getSuggestions({ name, key, timeConfig, propose, tagFilterExpression, beaconType }) {
   // Add beacon type to avoid presenting suggestions for other data sources
   tagFilterExpression = addTagFilters(tagFilterExpression, [
     {

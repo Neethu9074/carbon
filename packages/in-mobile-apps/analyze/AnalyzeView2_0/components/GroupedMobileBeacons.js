@@ -5,18 +5,18 @@
 
 import React from 'react';
 
-import QueryBuilderWorkspace from 'in-websites/analyze/AnalyzeView2_0/components/QueryBuilderWorkspace';
-import { addDataSourceToBackendQueryModel } from 'in-websites/analyze/AnalyzeView2_0/util';
-import getWebsiteBeaconGroups from 'in-websites/subscriptions/getWebsiteBeaconGroups';
-import Beacons from 'in-websites/analyze/AnalyzeView2_0/components/Beacons';
+import QueryBuilderWorkspace from 'in-mobile-apps/analyze/AnalyzeView2_0/components/QueryBuilderWorkspace';
+import { addDataSourceToBackendQueryModel } from 'in-mobile-apps/analyze/AnalyzeView2_0/util';
+import getMobileAppBeaconGroups from 'in-mobile-apps/subscriptions/getMobileAppBeaconGroups';
+import MobileBeacons from 'in-mobile-apps/analyze/AnalyzeView2_0/components/MobileBeacons';
 import GroupedView from 'in-new-components/AnalyzeView/GroupedView';
 
-export default function GroupedBeacons(props) {
+export default function GroupedMobileBeacons(props) {
   return (
     <QueryBuilderWorkspace {...props}>
       <GroupedView
         {...props}
-        itemName={`in-websites:dataSources.${props.dataSource}`}
+        itemName={`in-mobile-apps:dataSources.${props.dataSource}`}
         getItemLabel={getItemLabel}
         itemlabelColumnId="name"
         getData={({ timeConfig, backendQueryModel, orderByGroups, groupBy, cursor, metrics }) =>
@@ -31,8 +31,7 @@ export default function GroupedBeacons(props) {
           })
         }
         getLabel={getItemLabel}
-        UngroupedView={Beacons}
-        withSamplingTooltip
+        UngroupedView={MobileBeacons}
       />
     </QueryBuilderWorkspace>
   );
@@ -43,7 +42,7 @@ function getItemLabel(item) {
 }
 
 function getTableData({ timeConfig, backendQueryModel, groupBy, cursor, orderByGroups, metrics, dataSource }) {
-  return getWebsiteBeaconGroups({
+  return getMobileAppBeaconGroups({
     pagination: {
       cursor,
       retrievalSize: 20

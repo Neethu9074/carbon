@@ -331,5 +331,33 @@
     "workingTitle": "Working…",
     "workingMsg": "We are preparing everything to monitor your mobile app <strong>{{mobileAppName}}</strong>. While we do this, <linkToInstallation>add the agent to your mobile app</linkToInstallation>.",
     "enablingMonitoringBtn": "Enabling monitoring…"
-  }
+  },
+  "mobileBeacons": {
+    "mobileApp": "Mobile App",
+    "sessionId": "Session ID",
+    "viewName": "View Name",
+    "access": "Access",
+    "eventName": "Event Name"
+  },
+  "dataSources": {
+    "sessionStart": "{{formattedCount}} Session Start",
+    "sessionStart_plural": "{{formattedCount}} Session Starts",
+    "viewChange": "{{formattedCount}} View Transition",
+    "viewChange_plural": "{{formattedCount}} View Transitions",
+    "httpRequest": "{{formattedCount}} HTTP Request",
+    "httpRequest_plural": "{{formattedCount}} HTTP Requests",
+    "custom": "{{formattedCount}} Custom Event",
+    "custom_plural": "{{formattedCount}} Custom Events"
+  },
+  "facetedSearch": {
+    "mobileApp": "Mobile App",
+    "view": "View",
+    "platform": "Platform",
+    "os": "OS",
+    "bundle": "Bundle",
+    "version": "Version",
+    "country": "Country",
+    "subdivision": "Subdivision"
+  },
+  "queryInvalid": "The query configuration is invalid. Please address the validation failures before continuing."
 }
