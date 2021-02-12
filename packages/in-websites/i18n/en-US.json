@@ -480,8 +480,6 @@
         "summaryTitleClockSkewProblemsDetected": "Clock Skew Problems Detected",
         "summaryDescriptionClockSkewProblemsDetected": "Beacons sent to Instana from the end-user's device arrived with significant delays, most likely due to a poor client network. To prevent inconsistencies, the timestamps shown in this view were adapted to restore a meaningful activity timeline.",
         "indexLabelDetails": "Details",
-        "viewTrackingMetaProductArea": "EUM: Websites",
-        "viewTrackingMetaPageRootName": "Analytics",
         "labelAnalytics": "Analytics",
         "titlePageLoad": "Page Load",
         "buttonDownload": "Download",
