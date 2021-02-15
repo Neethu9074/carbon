@@ -120,7 +120,6 @@ function List({
   errorMessage,
   setErrorMessage,
   perCellLoadingIndicator,
-  scrollWrapperClassName,
   trackEvent
 }) {
   if (hideWhenEmpty && (!entities || entities.length === 0)) {
@@ -194,7 +193,6 @@ function List({
         renderNoDataAvailable={renderNoDataAvailable}
         cardTitle={cardTitle}
         tableInCard={tableInCard}
-        scrollWrapperClassName={scrollWrapperClassName}
         fixedLayout
         rightHeader={
           rightHeader

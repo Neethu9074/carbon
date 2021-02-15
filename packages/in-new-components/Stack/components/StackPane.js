@@ -5,13 +5,12 @@
 import React from 'react';
 
 import StackGroup from 'in-new-components/Stack/components/StackGroup';
-import ScrollHints from 'in-components/ScrollHints';
 
 import locals from './StackPane.mless';
 
 export default function StackPane({ applicationId, boundaryScope, serviceId, groups, tab }) {
   return (
-    <ScrollHints className={locals.pane} contentChangeMarker={groups.length}>
+    <div className={locals.pane}>
       {groups.map(group => (
         <StackGroup
           key={`${group.relationship}.${group.type}`}
@@ -22,6 +21,6 @@ export default function StackPane({ applicationId, boundaryScope, serviceId, gro
           tab={tab}
         />
       ))}
-    </ScrollHints>
+    </div>
   );
 }
