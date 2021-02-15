@@ -11,6 +11,54 @@ import { tagFilter } from 'in-new-components/QueryBuilder/transformation/tagFilt
 import { boundaryScopes } from 'in-applications/constants';
 
 /**
+ * Creates the entity selection model expected by the backend.
+ */
+export function getEntitySelection(applicationId, serviceId = null, endpointId = null) {
+  if (!serviceId && !endpointId) {
+    return {
+      [applicationId]: {
+        applicationId,
+        inclusive: true
+      }
+    };
+  }
+
+  if (!endpointId) {
+    return {
+      [applicationId]: {
+        applicationId,
+        inclusive: false,
+        services: {
+          [serviceId]: {
+            serviceId,
+            inclusive: true
+          }
+        }
+      }
+    };
+  }
+
+  return {
+    [applicationId]: {
+      applicationId,
+      inclusive: false,
+      services: {
+        [serviceId]: {
+          serviceId,
+          inclusive: false,
+          endpoints: {
+            [endpointId]: {
+              endpointId,
+              inclusive: true
+            }
+          }
+        }
+      }
+    }
+  };
+}
+
+/**
  * Converts an App/Service/Endpoint selection into a QB2 query in FormModel format.
  * @param applications    App/Service/Endpoint selection to be converted.
  * @param boundaryScope   The boundary scope applied to all Applications.

@@ -8,6 +8,8 @@ import React from 'react';
 
 import SmartAlertConfigDialogWrapper from 'in-applications/alerting/Dialog/SmartAlertConfigDialogWrapper';
 import FloatingActionButton from 'in-new-components/FloatingActionButton/FloatingActionButton';
+import { smartAlertsAdvancedEntitySelectionEnabled } from 'in-services/featureFlags';
+import { getEntitySelection } from 'in-applications/alerting/data/entitySelection';
 import { applicationsAlertingAddAlert } from 'in-applications/alerting/tracker';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import getEndpointInfo from 'in-subscription/application/getEndpointInfo';
@@ -38,9 +40,11 @@ function CreateSmartAlert({
   applicationLabel,
   boundaryScope: urlBoundaryScope,
   defaultBoundaryScope,
+  serviceId,
+  serviceLabel,
+  endpointId,
   endpointLabel,
-  location,
-  serviceLabel
+  location
 }) {
   if (location.pathname.includes('/application/configuration')) {
     return null;
@@ -58,10 +62,12 @@ function CreateSmartAlert({
           <SmartAlertConfigDialogWrapper
             applicationLabel={applicationLabel}
             formData={generateFormData({
+              boundaryScope: urlBoundaryScope || defaultBoundaryScope,
               applicationId,
+              serviceId,
               serviceLabel,
-              endpointLabel,
-              boundaryScope: urlBoundaryScope || defaultBoundaryScope
+              endpointId,
+              endpointLabel
             })}
             onClose={() => {
               close();
@@ -83,14 +89,27 @@ function CreateSmartAlert({
 CreateSmartAlert.propTypes = {
   applicationId: PropTypes.string,
   applicationLabel: PropTypes.string,
+  serviceId: PropTypes.string,
+  serviceLabel: PropTypes.string,
+  endpointId: PropTypes.string,
   endpointLabel: PropTypes.string,
   location: propTypeLocation.isRequired,
-  serviceLabel: PropTypes.string,
   boundaryScope: PropTypes.string,
   defaultBoundaryScope: PropTypes.string
 };
 
-export function generateFormData({ applicationId, serviceLabel, endpointLabel, boundaryScope }) {
+export function generateFormData({ boundaryScope, applicationId, serviceId, serviceLabel, endpointId, endpointLabel }) {
+  let entityScope;
+  if (smartAlertsAdvancedEntitySelectionEnabled) {
+    entityScope = {
+      applications: getEntitySelection(applicationId, serviceId, endpointId)
+    };
+  } else {
+    entityScope = {
+      tagFilterExpression: getTagFilterExpression(serviceLabel, endpointLabel)
+    };
+  }
+
   return {
     applicationId,
     boundaryScope,
@@ -119,7 +138,7 @@ export function generateFormData({ applicationId, serviceLabel, endpointLabel, b
       }
     ].filter(({ stringValue }) => Boolean(stringValue)),
     // QB2
-    tagFilterExpression: getTagFilterExpression(serviceLabel, endpointLabel)
+    ...entityScope
   };
 }
 

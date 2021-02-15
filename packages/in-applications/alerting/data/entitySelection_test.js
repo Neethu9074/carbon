@@ -5,9 +5,12 @@
 /* eslint-env mocha */
 import { expect } from 'chai';
 
+import {
+  getEntitySelectionAsTagFilterFormModel,
+  getEntitySelection
+} from 'in-applications/alerting/data/entitySelection';
 import { CONJUNCTION, OPEN_BRACKET, CLOSE_BRACKET } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { and, or } from 'in-new-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
-import { getEntitySelectionAsTagFilterFormModel } from 'in-applications/alerting/data/entitySelection';
 import { EQUALS, NOT_EQUAL } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import { tagFilter } from 'in-new-components/QueryBuilder/transformation/tagFilter';
 import { boundaryScopes } from 'in-applications/constants';
@@ -609,6 +612,59 @@ describe('in-applications/alerting/data/entitySelection', () => {
           { type: CLOSE_BRACKET },
           { type: CLOSE_BRACKET }
         ]);
+      });
+    });
+  });
+
+  describe('#getEntitySelection', () => {
+    it('should return application selection', () => {
+      const applications = getEntitySelection('app1');
+
+      expect(applications).to.deep.equal({
+        app1: {
+          applicationId: 'app1',
+          inclusive: true
+        }
+      });
+    });
+
+    it('should return application+service selection', () => {
+      const applications = getEntitySelection('app1', 'service1');
+
+      expect(applications).to.deep.equal({
+        app1: {
+          applicationId: 'app1',
+          inclusive: false,
+          services: {
+            service1: {
+              serviceId: 'service1',
+              inclusive: true
+            }
+          }
+        }
+      });
+    });
+
+    it('should return application+service+endpoint selection', () => {
+      const applications = getEntitySelection('app1', 'service1', 'endpoint1');
+
+      expect(applications).to.deep.equal({
+        app1: {
+          applicationId: 'app1',
+          inclusive: false,
+          services: {
+            service1: {
+              serviceId: 'service1',
+              inclusive: false,
+              endpoints: {
+                endpoint1: {
+                  endpointId: 'endpoint1',
+                  inclusive: true
+                }
+              }
+            }
+          }
+        }
       });
     });
   });
