@@ -5,7 +5,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { getApplicationIdTagFilter } from 'in-applications/alerting/data/blueprintConfig';
+import { getApplicationIdTagFilter } from 'in-applications/alerting/data/entitySelection';
+
 import locals from './FilterConfigurator.mless';
 
 export default function FilterConfigurator({

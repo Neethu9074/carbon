@@ -22,6 +22,7 @@ import Button from 'in-new-components/Button/Button';
 import { role } from 'in-stores/user';
 
 export default function PotentialProblemContentControls({
+  applicationId,
   applicationLabel,
   tagFilters,
   tagFilterExpression,
@@ -45,7 +46,10 @@ export default function PotentialProblemContentControls({
         }}
         icon="lib_analyze"
         href$={getLinkToUnboundAnalytics(
+          applicationId,
           applicationLabel,
+          null, // is already included in given tagFilters/tagFilterExpression
+          null, // is already included in given tagFilters/tagFilterExpression
           null, // is already included in given tagFilters/tagFilterExpression
           null, // is already included in given tagFilters/tagFilterExpression
           {
@@ -102,6 +106,7 @@ function getTimeConfigForAnalyzeLink({ start, end }) {
 PotentialProblemContentControls.propTypes = {
   alert: alertPropType.isRequired,
   rule: rulePropType.isRequired,
+  applicationId: PropTypes.string.isRequired,
   applicationLabel: PropTypes.string.isRequired,
   boundaryScope: PropTypes.string,
   renderSmartAlertDialogComponent: PropTypes.func.isRequired,

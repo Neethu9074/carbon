@@ -18,12 +18,16 @@ import ComboBox from 'in-components/ComboBox';
 
 export default function ChartSubEntitySelection({
   className,
+  applicationId,
   serviceId,
   setServiceId,
   alertConfigWithFormModel,
   queryWindowSize
 }) {
-  const { isQueryValid, enrichedTagFilters, enrichedTagFilterFormModel } = getEnrichedFilters(alertConfigWithFormModel);
+  const { isQueryValid, enrichedTagFilters, enrichedTagFilterFormModel } = getEnrichedFilters(
+    alertConfigWithFormModel,
+    applicationId
+  );
   const result =
     useServiceList(
       queryWindowSize,
@@ -64,7 +68,7 @@ export default function ChartSubEntitySelection({
   );
 }
 
-function getEnrichedFilters(alertConfigWithFormModel) {
+function getEnrichedFilters(alertConfigWithFormModel, applicationId) {
   const blueprintConfig = getBlueprintConfig(alertConfigWithFormModel.rule.alertType);
 
   return switchQB1orQB2Helper(
@@ -82,7 +86,7 @@ function getEnrichedFilters(alertConfigWithFormModel) {
         enrichedTagFilterFormModel: joinExpressions({
           expressions: [
             // don't define the subEntityId to get the results of all services in scope
-            blueprintConfig.getEntityTagFilterFormModel(alertConfigWithFormModel, null),
+            blueprintConfig.getEntityTagFilterFormModel(alertConfigWithFormModel, applicationId, null, null),
             // only use the user-defined filters, but not the rule-specific filters, to not exclude services that might not
             // match any call at the moment, but could do so in the future. Thus the user should be able to select them.
             alertConfigWithFormModel.tagFilterExpression

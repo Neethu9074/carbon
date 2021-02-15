@@ -6,7 +6,7 @@ import {
   createTagFilterExpression,
   OPERATOR_AND
 } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
-import { getApplicationIdTagFilter } from 'in-applications/alerting/data/blueprintConfig';
+import { getApplicationIdTagFilter } from 'in-applications/alerting/data/entitySelection';
 import getTagSuggestions from 'in-subscription/application/getTagSuggestions';
 import { getApplicationTagCatalog } from 'in-applications/api/catalog';
 import { createQueryBuilder } from 'in-new-components/QueryBuilder';

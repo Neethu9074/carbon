@@ -3,8 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 import getApplicationMetricsThresholdSuggestion from 'in-applications/alerting/subscriptions/getApplicationMetricsThresholdSuggestion';
+import {
+  getEntitySelectionAsTagFilterFormModel,
+  getApplicationIdTagFilter
+} from 'in-applications/alerting/data/entitySelection';
 import getApplicationMetricsAlertPreview from 'in-applications/alerting/subscriptions/getApplicationMetricsAlertsPreview';
-import { getEntitySelectionAsTagFilterFormModel } from 'in-applications/alerting/data/entitySelection';
 import { and } from 'in-new-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
 import getApplicationMetrics from 'in-applications/subscriptions/getApplicationMetrics';
@@ -43,11 +46,12 @@ const baseBlueprint = Object.freeze({
   getRuleTagFilters: () => [],
 
   // QB2
-  getEntityTagFilterFormModel: (alertConfig, serviceId) =>
+  getEntityTagFilterFormModel: (alertConfig, applicationId, applicationName, serviceId) =>
     getEntitySelectionAsTagFilterFormModel(
       alertConfig.applications,
       alertConfig.boundaryScope,
-      alertConfig.applicationId,
+      applicationId,
+      applicationName,
       serviceId
     ),
   getRuleTagFilterFormModel: () => [],
@@ -206,18 +210,6 @@ export function getSimpleModeBlueprintConfig(alertType, alertThreshold) {
 
 function createDisableList(disabledTagFilters = []) {
   return ['application.id', 'application.name', 'service.id', 'endpoint.id', ...disabledTagFilters];
-}
-
-export function getApplicationIdTagFilter(boundaryScope, applicationId) {
-  return tagFilter(boundaryScope === 'INBOUND' ? 'boundary.application.id' : 'application.id', 'EQUALS', applicationId);
-}
-
-export function getApplicationNameTagFilter(boundaryScope, applicationName) {
-  return tagFilter(
-    boundaryScope === 'INBOUND' ? 'call.inbound_of_application' : 'application.name',
-    'EQUALS',
-    applicationName
-  );
 }
 
 function getLogLevelTagFilters(alertRule) {

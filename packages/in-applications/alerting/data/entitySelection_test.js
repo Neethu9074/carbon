@@ -15,7 +15,7 @@ import { boundaryScopes } from 'in-applications/constants';
 describe('in-applications/alerting/data/entitySelection', () => {
   describe('#getEntitySelectionAsTagFilterFormModel', () => {
     it('should return applicationId filter for missing application selection for backward compatibility', () => {
-      const actualFormModel = getEntitySelectionAsTagFilterFormModel(null, boundaryScopes.all, 'app1', null);
+      const actualFormModel = getEntitySelectionAsTagFilterFormModel(null, boundaryScopes.all, 'app1', null, null);
 
       expect(actualFormModel).to.deep.equal([tagFilter('application.id', EQUALS, 'app1')]);
     });
@@ -28,7 +28,13 @@ describe('in-applications/alerting/data/entitySelection', () => {
           services: {}
         }
       };
-      const actualFormModel = getEntitySelectionAsTagFilterFormModel(applications, boundaryScopes.all, null, null);
+      const actualFormModel = getEntitySelectionAsTagFilterFormModel(
+        applications,
+        boundaryScopes.all,
+        'app1',
+        null,
+        null
+      );
 
       expect(actualFormModel).to.deep.equal([tagFilter('application.id', EQUALS, 'app1')]);
     });
@@ -46,7 +52,13 @@ describe('in-applications/alerting/data/entitySelection', () => {
           }
         }
       };
-      const actualFormModel = getEntitySelectionAsTagFilterFormModel(applications, boundaryScopes.all, null, null);
+      const actualFormModel = getEntitySelectionAsTagFilterFormModel(
+        applications,
+        boundaryScopes.all,
+        'app1',
+        null,
+        null
+      );
 
       expect(actualFormModel).to.deep.equal([
         tagFilter('application.id', EQUALS, 'app1'),
@@ -72,7 +84,13 @@ describe('in-applications/alerting/data/entitySelection', () => {
           }
         }
       };
-      const actualFormModel = getEntitySelectionAsTagFilterFormModel(applications, boundaryScopes.all, null, null);
+      const actualFormModel = getEntitySelectionAsTagFilterFormModel(
+        applications,
+        boundaryScopes.all,
+        'app1',
+        null,
+        null
+      );
 
       expect(actualFormModel).to.deep.equal([
         tagFilter('application.id', EQUALS, 'app1'),
@@ -150,10 +168,16 @@ describe('in-applications/alerting/data/entitySelection', () => {
           }
         }
       };
-      const actualFormModel = getEntitySelectionAsTagFilterFormModel(applications, boundaryScopes.all, null, null);
+      const actualFormModel = getEntitySelectionAsTagFilterFormModel(
+        applications,
+        boundaryScopes.all,
+        'app1',
+        'appName',
+        null
+      );
 
       expect(actualFormModel).to.deep.equal([
-        tagFilter('application.id', EQUALS, 'app1'),
+        tagFilter('application.name', EQUALS, 'appName'),
         { type: CONJUNCTION, logicalOperator: and },
         { type: OPEN_BRACKET },
         tagFilter('service.id', NOT_EQUAL, 'service1'),
@@ -264,7 +288,13 @@ describe('in-applications/alerting/data/entitySelection', () => {
           }
         }
       };
-      const actualFormModel = getEntitySelectionAsTagFilterFormModel(applications, boundaryScopes.all, null, null);
+      const actualFormModel = getEntitySelectionAsTagFilterFormModel(
+        applications,
+        boundaryScopes.all,
+        'app1',
+        null,
+        null
+      );
 
       expect(actualFormModel).to.deep.equal([
         tagFilter('application.id', EQUALS, 'app1'),
@@ -307,6 +337,7 @@ describe('in-applications/alerting/data/entitySelection', () => {
           null,
           boundaryScopes.inbound,
           'app1',
+          null,
           'service1'
         );
 
@@ -328,6 +359,7 @@ describe('in-applications/alerting/data/entitySelection', () => {
         const actualFormModel = getEntitySelectionAsTagFilterFormModel(
           applications,
           boundaryScopes.all,
+          'app1',
           null,
           'service1'
         );
@@ -359,6 +391,7 @@ describe('in-applications/alerting/data/entitySelection', () => {
         const actualFormModel = getEntitySelectionAsTagFilterFormModel(
           applications,
           boundaryScopes.inbound,
+          'app1',
           null,
           'service2'
         );
@@ -404,6 +437,7 @@ describe('in-applications/alerting/data/entitySelection', () => {
         const actualFormModel = getEntitySelectionAsTagFilterFormModel(
           applications,
           boundaryScopes.all,
+          'app1',
           null,
           'service1'
         );
@@ -453,6 +487,7 @@ describe('in-applications/alerting/data/entitySelection', () => {
         const actualFormModel = getEntitySelectionAsTagFilterFormModel(
           applications,
           boundaryScopes.all,
+          'app1',
           null,
           'service1'
         );
@@ -506,6 +541,7 @@ describe('in-applications/alerting/data/entitySelection', () => {
         const actualFormModel = getEntitySelectionAsTagFilterFormModel(
           applications,
           boundaryScopes.all,
+          'app1',
           null,
           'service1'
         );
@@ -555,6 +591,7 @@ describe('in-applications/alerting/data/entitySelection', () => {
         const actualFormModel = getEntitySelectionAsTagFilterFormModel(
           applications,
           boundaryScopes.all,
+          'app1',
           null,
           'service1'
         );

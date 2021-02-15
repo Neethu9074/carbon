@@ -45,7 +45,7 @@ function SmartAlertConfigDialogWithQueryValidation({
   const { form, updateForm, editMode } = props;
   const [simpleMode, setSimpleMode] = useState(!editMode);
 
-  const applicationId = form.get('applicationId').value;
+  const applicationId = form.get('applicationId').value; // TODO replace use of deprecated field with 'applications' field
   const boundaryScope = form.get('boundaryScope').value;
   const AlertQueryBuilder = useMemo(() => createBoundedAlertQueryBuilder(applicationId, boundaryScope), [
     applicationId,

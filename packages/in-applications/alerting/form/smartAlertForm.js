@@ -28,9 +28,15 @@ export function createSmartAlertForm(alertConfig) {
       })
     )
     .put(
-      'applicationId',
+      'applicationId', // deprecated: use 'applications' instead
       createField({
         value: alertConfig.applicationId ?? ''
+      })
+    )
+    .put(
+      'applications',
+      createField({
+        value: alertConfig.applications ?? {}
       })
     )
     .put(
@@ -111,12 +117,6 @@ export function createSmartAlertForm(alertConfig) {
       'enabled',
       createField({
         value: alertConfig.enabled ?? true
-      })
-    )
-    .put(
-      'applications',
-      createField({
-        value: alertConfig.applications ?? {}
       })
     )
     .put('rule', createRuleForm(alertConfig.rule ?? {}))
