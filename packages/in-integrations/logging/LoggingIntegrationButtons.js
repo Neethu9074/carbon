@@ -19,6 +19,7 @@ import { getIntegrationConfiguration } from 'in-integrations/logging/configurati
 import { integrationKey as elkIntegrationKey } from 'in-integrations/logging/elk/consts';
 import MultiButton from 'in-new-components/MultiButton';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 export default connectTo(getObservables())(LoggingIntegrationButtonsRenderer);
 
@@ -48,5 +49,5 @@ export function LoggingIntegrationButtonsRenderer(props) {
     showSplunkButton(props) && splunkIntegration && splunkIntegration.enabled && <SplunkButton {...props} />
   ].filter(Boolean);
 
-  return <MultiButton label="Go To Logs" kind="secondary" icon="lib_application_logging" buttons={integrations} />;
+  return <MultiButton label={t('in-integrations:logging.goToLogs')}  kind="secondary" icon="lib_application_logging" buttons={integrations} />;
 }

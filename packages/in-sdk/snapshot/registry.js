@@ -11,6 +11,8 @@ import { registerKpiDefinition } from 'in-sdk/metrics/kpis';
 import { registerMetricDefinition } from 'in-sdk/metrics';
 import { registerIconType } from 'in-sdk/iconType';
 import { addLabelFinder } from 'in-sdk/snapshot';
+import { t } from 'in-i18n';
+
 
 // maps plugin => snapshot definition
 export const registry = {
@@ -49,7 +51,7 @@ function enrichTableDefinition(snapshotDefinition) {
   snapshotDefinition.tableDefinition = clone(snapshotDefinition.tableDefinition);
   snapshotDefinition.tableDefinition.cols = snapshotDefinition.tableDefinition.cols.slice();
   snapshotDefinition.tableDefinition.cols.push({
-    title: 'Health',
+    title: t('in-sdk:snapshot.registryHealth'), 
     type: 'health',
     width: 64,
     typeArgs: {

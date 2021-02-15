@@ -14,25 +14,26 @@ import { days, hours, minutes, seconds } from 'in-services/time';
 import createMetricsObservable from 'in-subscription/metrics';
 import { timeConfig$ } from 'in-stores/time/config';
 import { createStore } from 'in-stores/store';
+import { t } from 'in-i18n';
 
 export const MINIMUM_ROLLUP = 1000;
 
 const MAX_NUMBER_OF_METRICS_FOR_CHARTS = 800;
 
 export const aggregationLabels = {
-  MEAN: 'mean',
-  MIN: 'min',
-  P25: '25th',
-  P50: '50th',
-  P75: '75th',
-  P90: '90th',
-  P95: '95th',
-  P98: '98th',
-  P99: '99th',
-  MAX: 'max',
-  DISTINCT_COUNT: 'distinct count',
-  SUM: 'sum',
-  DISTRIBUTION: 'distribution'
+  MEAN: t('in-store:metric.metric.MEAN'),
+  MIN: t('in-store:metric.metric.MIN'),
+  P25: t('in-store:metric.metric.P25'),
+  P50: t('in-store:metric.metric.P50'),
+  P75: t('in-store:metric.metric.P75'),
+  P90: t('in-store:metric.metric.P90'),
+  P95: t('in-store:metric.metric.P95'),
+  P98: t('in-store:metric.metric.P98'),
+  P99: t('in-store:metric.metric.P99'),
+  MAX: t('in-store:metric.metric.MAX'),
+  DISTINCT_COUNT: t('in-store:metric.metric.DISTINCT_COUNT'),
+  SUM: t('in-store:metric.metric.SUM'),
+  DISTRIBUTION: t('in-store:metric.metric.DISTRIBUTION')
 };
 
 // Ensure that this is kept in sync with the backend:
@@ -67,27 +68,27 @@ const rollupDurationThresholds = [
   {
     availableFor: days.toMillis(1),
     rollup: null, // 1s
-    label: '1s'
+    label: t('in-store:metric.metric.1s')
   },
   {
     availableFor: days.toMillis(1),
     rollup: seconds.toMillis(5),
-    label: '5s'
+    label: t('in-store:metric.metric.5s')
   },
   {
     availableFor: days.toMillis(31),
     rollup: minutes.toMillis(1),
-    label: '1min'
+    label: t('in-store:metric.metric.1min')
   },
   {
     availableFor: days.toMillis(31 * 3), // 3 months
     rollup: minutes.toMillis(5),
-    label: '5min'
+    label: t('in-store:metric.metric.5min')
   },
   {
     availableFor: Number.MAX_VALUE, // forever
     rollup: hours.toMillis(1),
-    label: '1h'
+    label: t('in-store:metric.metric.1h')
   }
 ];
 

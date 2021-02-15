@@ -15,6 +15,8 @@ const Enzyme = require('enzyme');
 const { JSDOM } = require('jsdom');
 const path = require('path');
 const chai = require('chai');
+// eslint-disable-next-line no-restricted-imports
+const i18n = require('i18next');
 
 chai.use(require('chai-string'));
 chai.use(require('chai-subset'));
@@ -98,3 +100,22 @@ global.window.WebSocket = function() {
 
 // react unit tests with enzyme
 Enzyme.configure({ adapter: new Adapter() });
+
+i18n.init({
+  lng: 'en-US',
+
+  defaultNS: 'common',
+
+  react: {
+    // Do not support language changes without reloading. This is unnecessary
+    // complexity we can save ourselves.
+    bindI18n: '',
+    useSuspense: false,
+    transKeepBasicHtmlNodesFor: ['br', 'strong', 'i', 'p', 'code']
+  },
+
+  interpolation: {
+    // React already escapes values
+    escapeValue: false
+  }
+});

@@ -4,6 +4,8 @@
  */
 import { formatDuration } from 'in-services/formatters/date';
 import { days, hours } from 'in-services/time';
+import { t } from 'in-i18n';
+
 
 const initialState = 0;
 
@@ -41,33 +43,33 @@ export const urlParameter = {
 
 export const defaultTimeShift = {
   offset: initialState,
-  label: `Off`,
-  description: `View data without time shift`
+  label: t('in-sdk:time.shiftingLabelOff'),
+  description: t('in-sdk:time.shiftingDescriptionOff')
 };
 
 export const previousHourTimeShift = {
   offset: -1 * hours.toMillis(1),
-  label: `Previous hour`,
-  description: `Compare with data recorded 1 hour before the selected time window`
+  label: t('in-sdk:time.shiftingLabelPreviousHour'),
+  description: t('in-sdk:time.shiftingDescriptionPreviousHour')
 };
 
 export const timeShifts = [
   defaultTimeShift,
   {
     offset: 'auto',
-    label: `Previous window`,
-    description: `Compare with data immediately before the selected time window`
-  },
+    label: t('in-sdk:time.shiftingLabelPreviousWindow'),
+    description: t('in-sdk:time.shiftingDescriptionPreviousWindow')
+    },
   previousHourTimeShift,
   {
     offset: -1 * days.toMillis(1),
-    label: `Yesterday`,
-    description: `Compare with data recorded 24 hours before the selected time window`
-  },
+    label: t('in-sdk:time.shiftingLabelYesterday'),
+    description: t('in-sdk:time.shiftingDescriptionYesterday')
+    },
   {
     offset: -1 * days.toMillis(7),
-    label: `Last week`,
-    description: `Compare with from one week before the selected time window`,
+    label: t('in-sdk:time.shiftingLabelLastWeek'),
+    description: t('in-sdk:time.shiftingDescriptionLastWeek'),
     disallowSelection: true
   }
 ];

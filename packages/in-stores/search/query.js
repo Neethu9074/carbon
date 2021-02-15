@@ -9,6 +9,7 @@ import { mutateUrl, navigationParameters$ } from 'in-stores/navigation';
 import { always } from 'in-services/fixedStreams';
 import { createStore } from 'in-stores/store';
 import { validate } from 'in-api/search';
+import { t } from 'in-i18n';
 
 const unvalidatedQueryStore = createStore({
   name: 'search/unvalidatedQuery',
@@ -93,7 +94,7 @@ unvalidatedQuery$
         query: contextQuery.query.trim(),
         searchContext: contextQuery.searchContext,
         parsedQuery: null,
-        error: 'Invalid lucene query.'
+        error: t('in-stores:search.queryInvalidLuceneQuery')
       };
     }
   })

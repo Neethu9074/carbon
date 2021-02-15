@@ -6,6 +6,7 @@ import { navigationParameters$, mutateUrl } from 'in-stores/navigation';
 import { days, hours, minutes, seconds } from 'in-services/time';
 import { fixateTimeConfig } from 'in-stores/time/config';
 import { createTrackingStore } from 'in-stores/store';
+import { t } from 'in-i18n';
 
 export const useBeeInstant$ = createTrackingStore({
   name: 'metric/useBeeInstant',
@@ -74,15 +75,15 @@ export function granularityForBeeInstantMetrics(desiredGranularity, timeConfig) 
 }
 
 export const aggregationLabels = {
-  MEAN: 'mean',
-  MIN: 'min',
-  P25: '25th',
-  P50: '50th',
-  P75: '75th',
-  P90: '90th',
-  P95: '95th',
-  P98: '98th',
-  P99: '99th',
-  MAX: 'max',
-  SUM: 'sum'
+  MEAN: t('in-store:metric.metric.MEAN'),
+  MIN: t('in-store:metric.metric.MIN'),
+  P25: t('in-store:metric.metric.P25'),
+  P50: t('in-store:metric.metric.P50'),
+  P75: t('in-store:metric.metric.P75'),
+  P90: t('in-store:metric.metric.P90'),
+  P95: t('in-store:metric.metric.P95'),
+  P98: t('in-store:metric.metric.P98'),
+  P99: t('in-store:metric.metric.P99'),
+  MAX: t('in-store:metric.metric.MAX'),
+  SUM: t('in-store:metric.metric.SUM')
 };
