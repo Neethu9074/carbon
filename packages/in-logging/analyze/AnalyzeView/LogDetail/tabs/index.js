@@ -11,8 +11,7 @@ export default function getTags({ path }) {
       label: 'Detail',
       path: path ?? logsPath,
       component: Summary,
-      hideTabLabelWhenAlone: true,
-      noTopPadding: true
+      hideTabLabelWhenAlone: true
     }
   ];
 }
