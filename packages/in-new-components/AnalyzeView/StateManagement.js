@@ -332,7 +332,7 @@ function AnalyzeStateManagement({
   function getStateChangeForUngroupedView(groupValue) {
     return {
       groupBy: emptyObject,
-      tagFilterExpression: addGroupingCriteriaToFormModel(groupBy, groupValue, formModel)
+      formModel: addGroupingCriteriaToFormModel(groupBy, groupValue, formModel)
     };
   }
 }
