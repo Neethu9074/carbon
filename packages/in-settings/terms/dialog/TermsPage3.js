@@ -2,8 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import React from 'react';
+import { t, Trans } from 'in-i18n';
 import PropTypes from 'prop-types';
+import React from 'react';
 
 import { CookiePolicyButton, PrivacyButton } from 'in-settings/terms/dialog/DocumentLinkButtons';
 import ExpandableCookieList from 'in-settings/terms/cookies/ExpandableCookieList';
@@ -20,18 +21,19 @@ export default function TermsPage3({ onBack, onNext, onChange, form, nrPages }) 
       <div className={locals.pageContent}>
         <div>
           <TermsProgressIndicator pageNumber={3} nrPages={nrPages} />
-          <h1 className={locals.heading}>Cookies</h1>
+          <h1 className={locals.heading}>{t('in-settings:termsDialog.termsPage3.heading')}</h1>
 
           <Stack>
-            <p>
-              When you use our product, Instana uses cookies and other tracking technologies (&quot;Cookies&quot;). In
-              addition to Cookies which are necessary for the proper functioning of the product, subject to your
-              preferences, Instana and its authorized partners may also use Cookies to analyze and optimize the product
-              funtionality.
-            </p>
+            <p>{t('in-settings:termsDialog.termsPage3.introduction')}</p>
 
             <p>
-              For more information, please visit our <PrivacyButton /> or <CookiePolicyButton />.
+              <Trans
+                i18nKey="in-settings:termsDialog.termsPage3.moreInformation"
+                components={{
+                  privacyButton: <PrivacyButton />,
+                  cookiePolicyButton: <CookiePolicyButton />
+                }}
+              />
             </p>
 
             <ExpandableCookieList form={form} onChange={onChange} />
@@ -41,9 +43,9 @@ export default function TermsPage3({ onBack, onNext, onChange, form, nrPages }) 
 
       <FormFooter className={locals.buttons}>
         <Button onClick={() => onBack(2)} kind="secondary">
-          Back
+          {t('in-settings:termsDialog.back')}
         </Button>
-        <Button onClick={() => onNext(4)}>Next</Button>
+        <Button onClick={() => onNext(4)}>{t('in-settings:termsDialog.next')}</Button>
       </FormFooter>
     </div>
   );

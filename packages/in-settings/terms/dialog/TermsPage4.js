@@ -4,6 +4,7 @@
  */
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import FormFooter from 'in-components/form/FormFooter/FormFooter';
@@ -35,17 +36,14 @@ export default function TermsPage4({
     <div className={locals.container}>
       <div className={locals.pageContent}>
         <TermsProgressIndicator pageNumber={pageNumber} nrPages={nrPages} />
-        <h1 className={locals.heading}>Your Profile</h1>
+        <h1 className={locals.heading}>{t('in-settings:termsDialog.termsPage4.heading')}</h1>
 
         <Stack>
-          <p>
-            Set up your profile so your teammates can find you easily. <br />
-            You will always be able to change this later in the account settings.
-          </p>
+          <p>{t('in-settings:termsDialog.termsPage4.introduction')}</p>
 
-          <InputField label="Name" value={userName} />
+          <InputField label={t('in-settings:termsDialog.termsPage4.name')} value={userName} />
 
-          <InputField label="Email address" value={userEmail} />
+          <InputField label={t('in-settings:termsDialog.termsPage4.email')} value={userEmail} />
 
           <RolesSelector form={form} onChange={(fieldName, value) => onChange(form, fieldName, value)} />
         </Stack>
@@ -57,7 +55,7 @@ export default function TermsPage4({
           })}
         >
           <SvgIcon className={locals.icon} type="lib_help_error_error_circle" size="s" />
-          <span>Sorry, we couldn&apos;t save your preferences right now. Please try again.</span>
+          <span>{t('in-settings:termsDialog.unableToSaveText')}</span>
         </div>
 
         {isRoleMessagePresent && (
@@ -68,7 +66,7 @@ export default function TermsPage4({
             })}
           >
             <SvgIcon className={locals.icon} type="lib_help_error_error_circle" size="s" />
-            <span>You need to type in a role.</span>
+            <span>{t('in-settings:termsDialog.roleNeededText')}</span>
           </div>
         )}
       </div>
@@ -78,10 +76,10 @@ export default function TermsPage4({
           onClick={() => handleBackClick(hasErrorOnSave, unsetSaveError, onBack, fullTermsConfigEnabled)}
           kind="secondary"
         >
-          Back
+          {t('in-settings:termsDialog.back')}
         </Button>
         <Button type="submit" disabled={isSubmitDisabled(form)}>
-          Save
+          {t('in-settings:termsDialog.save')}
         </Button>
       </FormFooter>
     </div>

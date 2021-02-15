@@ -2,9 +2,10 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import React, { Fragment, useState } from 'react';
+import React, { useState } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
+import { t, Trans } from 'in-i18n';
 
 import { TosButton, PrivacyButton } from 'in-settings/terms/dialog/DocumentLinkButtons';
 import TermsProgressIndicator from 'in-settings/terms/dialog/TermsProgressIndicator';
@@ -18,7 +19,6 @@ import locals from './TermsPages.mless';
 
 export default function TermsPage1({ form, onChange, onNext, nrPages }) {
   const [messageVisible, setMessageVisible] = useState(false);
-
   const isCheckboxMessagePresent = !form.get('tosAccepted').valid || !form.get('privacyAgreementAccepted').valid;
 
   return (
@@ -26,52 +26,57 @@ export default function TermsPage1({ form, onChange, onNext, nrPages }) {
       <div className={locals.pageContent}>
         <div>
           <TermsProgressIndicator pageNumber={1} nrPages={nrPages} />
-          <h1 className={locals.heading}>Terms of Service and Privacy Policy</h1>
+          <h1 className={locals.heading}>{t('in-settings:termsDialog.termsPage1.heading')}</h1>
         </div>
 
         <Stack>
-          <p>
-            Before moving forward, and before using Instana products and services, you need to read and agree to our
-            Terms of Service and our Privacy Policy.
-          </p>
+          <p>{t('in-settings:termsDialog.termsPage1.introduction')}</p>
 
-          <p>Please take a moment to read the following documents:</p>
+          <p>{t('in-settings:termsDialog.termsPage1.documents')}</p>
 
           <div>
             <div>
-              <TosButton withIcon label="Instana's Terms of Service" />
+              <TosButton withIcon label={t('in-settings:termsDialog.instanaTermsOfService')} />
             </div>
 
             <div>
-              <PrivacyButton withIcon label="Instana's Privacy Policy" />
+              <PrivacyButton withIcon label={t('in-settings:termsDialog.instanaPrivacyProductPolicy')} />
             </div>
           </div>
 
           <div>
             <span className={locals.flexRow}>
               {form.get('tosAccepted').map(({ value }) => (
-                <Fragment>
-                  <CheckboxFancy
-                    label="I have read and agree to Instana's&nbsp;" // Terms of Service
-                    checked={value}
-                    onChange={() => onChange(form, 'tosAccepted', !value)}
-                    size="large"
-                  />
-                  <TosButton />
-                </Fragment>
+                <CheckboxFancy
+                  label={
+                    <Trans
+                      i18nKey="in-settings:termsDialog.termsPage1.agreeToS"
+                      components={{
+                        tosButton: <TosButton />
+                      }}
+                    />
+                  }
+                  checked={value}
+                  onChange={() => onChange(form, 'tosAccepted', !value)}
+                  size="large"
+                />
               ))}
             </span>
             <span className={locals.flexRow}>
               {form.get('privacyAgreementAccepted').map(({ value }) => (
-                <Fragment>
-                  <CheckboxFancy
-                    label="I have read and agree to Instana's&nbsp;" // Privacy Policy
-                    checked={value}
-                    onChange={() => onChange(form, 'privacyAgreementAccepted', !value)}
-                    size="large"
-                  />
-                  <PrivacyButton />
-                </Fragment>
+                <CheckboxFancy
+                  label={
+                    <Trans
+                      i18nKey="in-settings:termsDialog.termsPage1.agreePrivacyAgreement"
+                      components={{
+                        privacyButton: <PrivacyButton />
+                      }}
+                    />
+                  }
+                  checked={value}
+                  onChange={() => onChange(form, 'privacyAgreementAccepted', !value)}
+                  size="large"
+                />
               ))}
             </span>
           </div>
@@ -106,7 +111,7 @@ export default function TermsPage1({ form, onChange, onNext, nrPages }) {
           })}
           onClick={() => handleNextClick(form, onNext, setMessageVisible)}
         >
-          Next
+          {t('in-settings:termsDialog.next')}
         </Button>
       </FormFooter>
     </div>

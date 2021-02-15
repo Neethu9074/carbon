@@ -1,5 +1,67 @@
 {
   "termsDialog": {
-    "onBoardingTips": "You can withdraw your marketing consent at any time by submitting an opt-out request (email to dataProtectionMailButton). Also you may unsubscribe from receiving marketing emails by clicking the unsubscribe link in each email. More information on our processing can be found in the Instana Privacy Product Policy."
+    "back": "Back",
+    "next": "Next",
+    "save": "Save",
+    "dataProtectionMail": "dataprotection@instana.com",
+    "cookiePolicy": "Cookie Policy",
+    "instanaTermsOfService": "Instana's Terms of Service",
+    "termsOfService": "Terms of Service",
+    "instanaPrivacyProductPolicy": "Instana's Privacy Product Policy",
+    "privacyProductPolicy": "Privacy Product Policy",
+    "productOnboarding": "Product onboarding & success tips",
+    "productOnboardingExplanation": "to help you make the most of Instana products",
+    "marketingMessages": "Marketing messages",
+    "marketingMessagesExplanation": "related to Instana products, services and offerings",
+    "marketingMessageBox": {
+      "firstParagraph": "You can withdraw your marketing consent at any time by submitting an opt-out request (email to <dataProtectionMailButton />). Also you may unsubscribe from receiving marketing emails by clicking the unsubscribe link in each email.",
+      "secondParagraph": "More information on our processing can be found in the Instana",
+      "thirdParagraph": "By submitting this form you acknowledge that you have read and understand the Instana"
+    },
+    "unableToSaveText": "Sorry, we couldn't save your preferences right now. Please try again.",
+    "roleNeededText": "You need to type in a role.",
+    "testingGroup": "User Testing Group",
+    "testingGroupExplanation": "to participate in optional interviews and survey with our product team",
+    "termsPage1": {
+      "heading": "Terms of Service and Privacy Policy",
+      "introduction": "Before moving forward, and before using Instana products and services, you need to read and agree to our Terms of Service and our Privacy Policy.",
+      "documents": "Please take a moment to read the following documents:",
+      "agreeToS": "I have read and agree to Instana's <tosButton />",
+      "agreePrivacyAgreement": "I have read and agree to Instana's <privacyButton />",
+      "checkBoxNotSetMessage": "You cannot use Instana until you have accepted the Terms of Service and Privacy Policy."
+    },
+    "termsPage2": {
+      "heading": "Messaging"
+    },
+    "termsPage3": {
+      "heading": "Cookies",
+      "introduction": "When you use our product, Instana uses cookies and other tracking technologies (\"Cookies\"). In addition to Cookies which are necessary for the proper functioning of the product, subject to your preferences, Instana and its authorized partners may also use Cookies to analyze and optimize the product funtionality.",
+      "moreInformation": "For more information, please visit our <privacyButton /> or <cookiePolicyButton />."
+    },
+    "termsPage4": {
+      "heading": "Your Profile",
+      "introduction": "Set up your profile so your teammates can find you easily. You will always be able to change this later in the account settings.",
+      "name": "Name",
+      "email": "Email address"
+    }
+  },
+  "cookies": {
+    "categories": {
+      "analyticalPerformance": "Analytical / Performance",
+      "functionality": "Functionality"
+    },
+    "expiration": {
+      "sevenDays": "Expires after 7 days",
+      "persistent": "Persistent",
+      "afterSession": "Expires after session"
+    },
+    "mixpanel": {
+      "title": "Product User Analytics",
+      "purpose": "Registers a unique ID that is used to generate statistical data on how the visitor uses the website."
+    },
+    "appcues": {
+      "title": "Tailored Onboarding Experience and NPS Surveys",
+      "purpose": "User Onboarding and NPS store survey."
+    }
   }
 }

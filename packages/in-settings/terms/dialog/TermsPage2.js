@@ -2,8 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import React from 'react';
 import PropTypes from 'prop-types';
+import { t } from 'in-i18n';
+import React from 'react';
 
 import TermsProgressIndicator from 'in-settings/terms/dialog/TermsProgressIndicator';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
@@ -20,14 +21,14 @@ export default function TermsPage2({ onBack, onNext, onChange, form, fullTermsCo
       <div className={locals.pageContent}>
         <div>
           <TermsProgressIndicator pageNumber={2} nrPages={nrPages} />
-          <h1 className={locals.heading}>Messaging</h1>
+          <h1 className={locals.heading}>{t('in-settings:termsDialog.termsPage2.heading')}</h1>
         </div>
 
         <Stack>
           {form.get('productTips').map(({ value }) => (
             <CheckboxFancy
-              label="Product onboarding & success tips"
-              explanation="to help you make the most of Instana products"
+              label={t('in-settings:termsDialog.productOnboarding')}
+              explanation={t('in-settings:termsDialog.productOnboardingExplanation')}
               checked={value}
               onChange={() => onChange(form, 'productTips', !value)}
               size="large"
@@ -35,8 +36,8 @@ export default function TermsPage2({ onBack, onNext, onChange, form, fullTermsCo
           ))}
           {form.get('marketingMessages').map(({ value }) => (
             <CheckboxFancy
-              label="Marketing messages"
-              explanation="related to Instana products, services and offerings"
+              label={t('in-settings:termsDialog.marketingMessages')}
+              explanation={t('in-settings:termsDialog.marketingMessagesExplanation')}
               checked={value}
               onChange={() => onChange(form, 'marketingMessages', !value)}
               size="large"
@@ -47,8 +48,8 @@ export default function TermsPage2({ onBack, onNext, onChange, form, fullTermsCo
               .get('testingGroup')
               .map(({ value }) => (
                 <CheckboxFancy
-                  label="User Testing Group"
-                  explanation="to participate in optional interviews and survey with our product team"
+                  label={t('in-settings:termsDialog.testingGroup')}
+                  explanation={t('in-settings:termsDialog.testingGroupExplanation')}
                   checked={value}
                   onChange={() => onChange(form, 'testingGroup', !value)}
                   size="large"
@@ -61,9 +62,9 @@ export default function TermsPage2({ onBack, onNext, onChange, form, fullTermsCo
 
       <FormFooter className={locals.buttons}>
         <Button onClick={() => onBack(1)} kind="secondary">
-          Back
+          {t('in-settings:termsDialog.back')}
         </Button>
-        <Button onClick={() => onNext(3)}>Next</Button>
+        <Button onClick={() => onNext(3)}>{t('in-settings:termsDialog.next')}</Button>
       </FormFooter>
     </div>
   );

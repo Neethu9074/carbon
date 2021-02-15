@@ -2,54 +2,56 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
+
 export const cookieDefinitions = [
   {
     key: 'allAnalyticsServices',
-    title: 'Product User Analytics',
+    title: t('in-settings:cookies.mixpanel.title'),
     cookieProduct: 'Mixpanel',
     details: [
       {
-        category: 'Analytical / Performance',
+        category: t('in-settings:cookies.categories.analyticalPerformance'),
         name: 'mp_[ID]_mixpanel',
-        purpose: 'Registers a unique ID that is used to generate statistical data on how the visitor uses the website.',
-        moreInformation: 'Expires after 7 days'
+        purpose: t('in-settings:cookies.mixpanel.purpose'),
+        moreInformation: t('in-settings:cookies.expiration.sevenDays')
       }
     ]
   },
   {
     key: 'allSupportAndResearchServices',
-    title: 'Tailored Onboarding Experience and NPS Surveys',
+    title: t('in-settings:cookies.appcues.title'),
     cookieProduct: 'Appcues',
     details: [
       {
-        category: 'Functionality',
+        category: t('in-settings:cookies.categories.functionality'),
         name: 'apc_local_id',
-        purpose: 'User Onboarding and NPS store survey.',
-        moreInformation: 'Persistent'
+        purpose: t('in-settings:cookies.appcues.purpose'),
+        moreInformation: t('in-settings:cookies.expiration.persistent')
       },
       {
-        category: 'Functionality',
+        category: t('in-settings:cookies.categories.functionality'),
         name: 'apc_user_id',
-        purpose: 'User Onboarding and NPS store survey.',
-        moreInformation: 'Persistent'
+        purpose: t('in-settings:cookies.appcues.purpose'),
+        moreInformation: t('in-settings:cookies.expiration.persistent')
       },
       {
-        category: 'Functionality',
+        category: t('in-settings:cookies.categories.functionality'),
         name: 'apc_my_id',
-        purpose: 'User Onboarding and NPS store survey.',
-        moreInformation: 'Expires after session'
+        purpose: t('in-settings:cookies.appcues.purpose'),
+        moreInformation: t('in-settings:cookies.expiration.afterSession')
       },
       {
-        category: 'Functionality',
+        category: t('in-settings:cookies.categories.functionality'),
         name: 'apc_my_id_ts',
-        purpose: 'User Onboarding and NPS store survey.',
-        moreInformation: 'Expires after session'
+        purpose: t('in-settings:cookies.appcues.purpose'),
+        moreInformation: t('in-settings:cookies.expiration.afterSession')
       },
       {
-        category: 'Functionality',
+        category: t('in-settings:cookies.categories.functionality'),
         name: 'apc_user',
-        purpose: 'User Onboarding and NPS store survey.',
-        moreInformation: 'Expires after session'
+        purpose: t('in-settings:cookies.appcues.purpose'),
+        moreInformation: t('in-settings:cookies.expiration.afterSession')
       }
     ]
   }
