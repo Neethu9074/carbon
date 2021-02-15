@@ -194,7 +194,7 @@ function renderContext({ getHrefToUngroupedView }) {
   if (!webMobileQb2AnalyzeEnabled) {
     return (
       <Link className={locals.analyticsLink} href$={closePageLoadViewLink}>
-        Analytics
+        {t('in-websites:analyze.analyzeView.pageLoadView.labelAnalytics')}
       </Link>
     );
   }

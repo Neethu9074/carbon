@@ -126,7 +126,7 @@ function renderSplitScreenContent_v2(props) {
         withoutPadding
         withProps={({ result }) => ({
           beacons: result.data,
-          pageLoadLabel: shorten(calculateLabel(result))
+          sessionLabel: shorten(calculateLabel(result))
         })}
       />
     </SplitScreenList>
@@ -170,9 +170,16 @@ function renderSplitScreenContent(props) {
   );
 }
 
-function renderContext() {
+function renderContext({ getHrefToUngroupedView }) {
+  if (!webMobileQb2AnalyzeEnabled) {
+    return (
+      <Link className={locals.analyticsLink} href$={closeSessionViewLink}>
+        {t('in-mobile-apps:sessionView.analyticsLink')}
+      </Link>
+    );
+  }
   return (
-    <Link className={locals.analyticsLink} href$={closeSessionViewLink}>
+    <Link className={locals.analyticsLink} href={getHrefToUngroupedView()}>
       {t('in-mobile-apps:sessionView.analyticsLink')}
     </Link>
   );
@@ -182,7 +189,8 @@ function calculateLabel(result) {
   return get(result, ['data', 0, 'sessionId'], null);
 }
 
-function renderButtonLine({ sessionId, sessionLabel, beaconTimestamp }) {
+function renderButtonLine({ sessionLabel, detailId }) {
+  const { sessionId, beaconTimestamp } = detailId;
   if (!sessionLabel) {
     return null;
   }
