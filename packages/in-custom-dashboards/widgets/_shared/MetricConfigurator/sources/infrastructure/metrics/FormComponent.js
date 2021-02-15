@@ -31,6 +31,7 @@ export default function FormComponent({
   onChange,
   dataSourceSection,
   labelSection,
+  formatterSection,
   timeShiftConfiguration,
   withGrouping = true
 }) {
@@ -95,6 +96,7 @@ export default function FormComponent({
             </>
           )}
         </SelectInSection>
+        {formatterSection}
       </Sections>
 
       <Sections>
