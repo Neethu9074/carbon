@@ -6,7 +6,6 @@ import { t } from 'in-i18n';
 
 import { pageLoadViewPathFullyQualified } from 'in-websites/navigation/paths';
 import Summary from 'in-websites/analyze/PageLoadView/tabs/Summary/Summary';
-import { webMobileQb2AnalyzeEnabled } from 'in-services/featureFlags';
 
 export default function getTabs({ path }) {
   return [
@@ -15,8 +14,7 @@ export default function getTabs({ path }) {
       label: t('in-websites:analyze.analyzeView.pageLoadView.indexLabelDetails'),
       path: path ?? `${pageLoadViewPathFullyQualified}/summary`,
       component: Summary,
-      hideTabLabelWhenAlone: true,
-      noTopPadding: webMobileQb2AnalyzeEnabled
+      hideTabLabelWhenAlone: true
     }
   ];
 }

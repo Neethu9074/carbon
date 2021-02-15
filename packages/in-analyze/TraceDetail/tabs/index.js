@@ -11,7 +11,6 @@ export default [
     label: 'Detail',
     path: `${traceDetailFullyQualified}/tree`,
     component: Summary,
-    hideTabLabelWhenAlone: true,
-    noTopPadding: true
+    hideTabLabelWhenAlone: true
   }
 ];
