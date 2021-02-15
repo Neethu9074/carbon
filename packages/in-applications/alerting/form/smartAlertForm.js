@@ -2,13 +2,14 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { createMapForm, createField } from 'formalistic';
+import { createField, createMapForm } from 'formalistic';
 
 import createTimeThresholdForm from 'in-new-components/Alerting/advanced/TimeThresholdConfig/form';
 import { PER_AP } from 'in-applications/alerting/advanced/EvaluationSwitch/alertEvaluationTypes';
 import { fromBackendModel } from 'in-new-components/QueryBuilder/transformation/formModel';
 import createThresholdForm from 'in-applications/alerting/form/thresholdForm';
 import createRuleForm from 'in-applications/alerting/form/ruleForm';
+import { isEntitySelectionValid } from './formUtils';
 
 const defaultSeverity = 5;
 const defaultGranularity = 600000;
@@ -117,6 +118,24 @@ export function createSmartAlertForm(alertConfig) {
       'enabled',
       createField({
         value: alertConfig.enabled ?? true
+      })
+    )
+    .put(
+      'applications',
+      createField({
+        value: alertConfig.applications,
+        validator: entitySelection => {
+          if (!isEntitySelectionValid(entitySelection)) {
+            return [
+              {
+                severity: 'error',
+                message: 'No entities selected'
+              }
+            ];
+          } else {
+            return null;
+          }
+        }
       })
     )
     .put('rule', createRuleForm(alertConfig.rule ?? {}))

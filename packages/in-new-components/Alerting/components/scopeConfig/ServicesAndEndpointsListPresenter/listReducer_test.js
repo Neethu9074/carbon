@@ -15,25 +15,25 @@ const endpointId = 'ghi-789';
 describe('in-new-components/Alerting/components/scopeConfig/ServicesAndEndpointsListPresenter/listReducer', () => {
   it('should add an application', () => {
     const state = createState();
-    const { userSelectionModel } = listReducer(state, { type: actionType.ADD_APPLICATION, applicationId });
+    const userSelectionModel = listReducer(state, { type: actionType.ADD_APPLICATION, applicationId });
     expect(userSelectionModel).to.have.own.property(applicationId);
   });
 
   it('should add a service to an existing application', () => {
     const state = createState(applicationId, serviceId);
-    const { userSelectionModel } = listReducer(state, { type: actionType.ADD_SERVICE, applicationId, serviceId });
+    const userSelectionModel = listReducer(state, { type: actionType.ADD_SERVICE, applicationId, serviceId });
     expect(userSelectionModel).to.have.nested.property(`${applicationId}.services.${serviceId}`);
   });
 
   it('should add a service and an application if parent application is not added yet', () => {
     const state = createState();
-    const { userSelectionModel } = listReducer(state, { type: actionType.ADD_SERVICE, applicationId, serviceId });
+    const userSelectionModel = listReducer(state, { type: actionType.ADD_SERVICE, applicationId, serviceId });
     expect(userSelectionModel).to.have.nested.property(`${applicationId}.services.${serviceId}`);
   });
 
   it('should add an endpoint to an existing service nested in an existing application', () => {
     const state = createState(applicationId, serviceId, endpointId);
-    const { userSelectionModel } = listReducer(state, {
+    const userSelectionModel = listReducer(state, {
       type: actionType.ADD_ENDPOINT,
       applicationId,
       serviceId,
@@ -46,7 +46,7 @@ describe('in-new-components/Alerting/components/scopeConfig/ServicesAndEndpoints
 
   it('should add an endpoint and a service and an application if parent service and application are not added yet', () => {
     const state = createState();
-    const { userSelectionModel } = listReducer(state, {
+    const userSelectionModel = listReducer(state, {
       type: actionType.ADD_ENDPOINT,
       applicationId,
       serviceId,
@@ -59,19 +59,19 @@ describe('in-new-components/Alerting/components/scopeConfig/ServicesAndEndpoints
 
   it('should remove an application', () => {
     const state = createState(applicationId);
-    const { userSelectionModel } = listReducer(state, { type: actionType.REMOVE_APPLICATION, applicationId });
+    const userSelectionModel = listReducer(state, { type: actionType.REMOVE_APPLICATION, applicationId });
     expect(userSelectionModel).to.not.have.own.property(applicationId);
   });
 
   it('should remove a service', () => {
     const state = createState(applicationId, serviceId);
-    const { userSelectionModel } = listReducer(state, { type: actionType.REMOVE_SERVICE, applicationId, serviceId });
+    const userSelectionModel = listReducer(state, { type: actionType.REMOVE_SERVICE, applicationId, serviceId });
     expect(userSelectionModel).to.not.have.nested.property(`${applicationId}.services.${serviceId}`);
   });
 
   it('should remove an endpoint', () => {
     const state = createState(applicationId, serviceId, endpointId);
-    const { userSelectionModel } = listReducer(state, {
+    const userSelectionModel = listReducer(state, {
       type: actionType.REMOVE_ENDPOINT,
       applicationId,
       serviceId,
@@ -84,16 +84,16 @@ describe('in-new-components/Alerting/components/scopeConfig/ServicesAndEndpoints
 });
 
 function createState(applicationId, serviceId, endpointId) {
-  const state = { inExplicitSelectionMode: new Set(), userSelectionModel: {} };
+  const state = {};
 
   if (applicationId != null) {
-    state.userSelectionModel[applicationId] = { applicationId, services: {} };
+    state[applicationId] = { applicationId, services: {} };
   }
   if (serviceId != null) {
-    state.userSelectionModel[applicationId].services[serviceId] = { serviceId, endpoints: {} };
+    state[applicationId].services[serviceId] = { serviceId, endpoints: {} };
   }
   if (endpointId != null) {
-    state.userSelectionModel[applicationId].services[serviceId].endpoints[endpointId] = { endpointId };
+    state[applicationId].services[serviceId].endpoints[endpointId] = { endpointId };
   }
 
   return state;

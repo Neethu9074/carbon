@@ -1,3 +1,6 @@
+import { isEmpty } from 'lodash';
+import { t } from 'in-i18n';
+
 /*
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
@@ -7,7 +10,6 @@ import { getValueRoundedToDecimals } from 'in-new-components/Alerting/utils/form
 import { getAggregationText } from 'in-new-components/Alerting/utils/formUtils';
 import { isGreaterOperator } from 'in-new-components/Alerting/utils/alertUtils';
 import { operators } from 'in-analyze/applicationFilter';
-import { t } from 'in-i18n';
 
 const operatorDescriptionContextValues = {
   [operators.EQUALS]: 'equal',
@@ -244,4 +246,14 @@ function getHigherOrLowerOperatorDescriptionContext(operatorDescription, operato
     default:
       throw Error('Unsupported operator: ' + operator);
   }
+}
+
+export function isEntitySelectionValid(entitySelection) {
+  const hasAtLeastOneValidApplicationSelection = Object.values(entitySelection ?? {}).some(
+    ({ inclusive, services }) => {
+      return inclusive === true || !isEmpty(services);
+    }
+  );
+
+  return entitySelection !== undefined && hasAtLeastOneValidApplicationSelection;
 }

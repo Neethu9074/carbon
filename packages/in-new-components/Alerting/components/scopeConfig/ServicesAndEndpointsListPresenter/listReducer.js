@@ -21,34 +21,37 @@ export const actionType = {
 };
 
 export function listReducer(state, action) {
-  const { type, applicationId, serviceId, endpointId, inclusive = true } = action;
+  const { type, applicationId, serviceId, endpointId } = action;
+
+  const applicationInclusive = Boolean(selectApplication(state, { applicationId })?.inclusive);
+  const serviceInclusive = Boolean(selectService(state, { applicationId, serviceId })?.inclusive);
+  const endpointInclusive = Boolean(selectEndpoint(state, { applicationId, serviceId, endpointId })?.inclusive);
 
   switch (type) {
     case actionType.ADD_APPLICATION: {
-      const stateWithApplication = addApplicationIfNotContained(state, action);
-      const applicationWithInclusiveValueToggled = toggleInclusiveValueForApplication(
-        stateWithApplication,
-        { applicationId },
-        inclusive
-      );
-      applicationWithInclusiveValueToggled.inExplicitSelectionMode.delete(applicationId);
-      return { ...applicationWithInclusiveValueToggled };
+      return addApplicationIfNotContained(state, action, !applicationInclusive);
     }
     case actionType.ADD_SERVICE: {
-      const stateWithApplication = addApplicationIfNotContained(state, action);
-      const stateWithService = addServiceIfNotContained(stateWithApplication, action);
-      return toggleInclusiveValueForService(stateWithService, { applicationId, serviceId }, inclusive);
+      const stateWithApplication = addApplicationIfNotContained(state, action, applicationInclusive);
+      const stateWithService = addServiceIfNotContained(stateWithApplication, action, !applicationInclusive);
+      return stateWithService;
     }
     case actionType.ADD_ENDPOINT: {
-      const stateWithApplication = addApplicationIfNotContained(state, action);
-      const stateWithService = addServiceIfNotContained(stateWithApplication, action);
-      const stateWithEndpoint = addEndpointIfNotContained(stateWithService, action);
-      return toggleInclusiveValueForEndpoint(stateWithEndpoint, { applicationId, serviceId, endpointId }, inclusive);
+      const stateWithApplication = addApplicationIfNotContained(state, action, applicationInclusive);
+      const stateWithService = addServiceIfNotContained(stateWithApplication, action, applicationInclusive);
+
+      const newServiceInclusiveValue = selectService(stateWithService, { applicationId, serviceId })?.inclusive;
+      const stateWithEndpoint = addEndpointIfNotContained(
+        stateWithService,
+        action,
+        !newServiceInclusiveValue || endpointInclusive
+      );
+
+      return stateWithEndpoint;
     }
     case actionType.REMOVE_APPLICATION: {
       const stateCopy = { ...state };
-      stateCopy.inExplicitSelectionMode.add(applicationId);
-      delete stateCopy.userSelectionModel[applicationId];
+      delete stateCopy[applicationId];
       return stateCopy;
     }
     case actionType.REMOVE_SERVICE: {
@@ -56,18 +59,11 @@ export function listReducer(state, action) {
       const servicesItemTreeCopy = { ...application?.services };
       delete servicesItemTreeCopy[serviceId];
 
-      if (isEmpty(servicesItemTreeCopy)) {
-        state.inExplicitSelectionMode.delete(applicationId);
-      }
-
       return {
         ...state,
-        userSelectionModel: {
-          ...state.userSelectionModel,
-          [applicationId]: {
-            ...application,
-            services: servicesItemTreeCopy
-          }
+        [applicationId]: {
+          ...application,
+          services: servicesItemTreeCopy
         }
       };
     }
@@ -78,26 +74,16 @@ export function listReducer(state, action) {
       const endpointsItemTreeCopy = { ...service.endpoints };
       delete endpointsItemTreeCopy[endpointId];
 
-      const endpointsCopyEmpty = isEmpty(endpointsItemTreeCopy);
+      if (applicationInclusive && serviceInclusive && isEmpty(endpointsItemTreeCopy)) {
+        const servicesCopy = { ...application.services };
+        delete servicesCopy[serviceId];
 
-      let servicesItemTreeCopy = null;
-      if (endpointsCopyEmpty) {
-        servicesItemTreeCopy = { ...application.services };
-        delete servicesItemTreeCopy[serviceId];
-      }
-
-      if (isEmpty(servicesItemTreeCopy)) {
-        state.inExplicitSelectionMode.delete(applicationId);
-      }
-
-      if (endpointsCopyEmpty) {
         return {
           ...state,
-          userSelectionModel: {
-            ...state.userSelectionModel,
-            [applicationId]: {
-              ...application,
-              services: servicesItemTreeCopy
+          [applicationId]: {
+            ...application,
+            services: {
+              ...servicesCopy
             }
           }
         };
@@ -105,16 +91,13 @@ export function listReducer(state, action) {
 
       return {
         ...state,
-        userSelectionModel: {
-          ...state.userSelectionModel,
-          [applicationId]: {
-            ...application,
-            services: {
-              ...application.services,
-              [serviceId]: {
-                ...service,
-                endpoints: endpointsItemTreeCopy
-              }
+        [applicationId]: {
+          ...application,
+          services: {
+            ...application.services,
+            [serviceId]: {
+              ...service,
+              endpoints: endpointsItemTreeCopy
             }
           }
         }
@@ -125,26 +108,27 @@ export function listReducer(state, action) {
   }
 }
 
-function addApplicationIfNotContained(state, { applicationId }) {
+function addApplicationIfNotContained(state, { applicationId }, inclusive) {
   const application = selectApplication(state, { applicationId });
-  if (isEmpty(application)) {
-    return cloneNewStateWithApplication(state, applicationId, { inclusive: true, services: {} });
+  if (isEmpty(application) || application?.inclusive !== inclusive) {
+    return cloneNewStateWithApplication(state, applicationId, { inclusive, services: {} });
   }
+
   return state;
 }
 
-function addServiceIfNotContained(state, { applicationId, serviceId }) {
+function addServiceIfNotContained(state, { applicationId, serviceId }, inclusive) {
   const service = selectService(state, { applicationId, serviceId });
   if (isEmpty(service)) {
-    return cloneNewStateWithService(state, applicationId, { serviceId, inclusive: true, endpoints: {} });
+    return cloneNewStateWithService(state, applicationId, { serviceId, inclusive, endpoints: {} });
   }
   return state;
 }
 
-function addEndpointIfNotContained(state, { applicationId, serviceId, endpointId }) {
+function addEndpointIfNotContained(state, { applicationId, serviceId, endpointId }, inclusive) {
   const endpoint = selectEndpoint(state, { applicationId, serviceId, endpointId });
   if (isEmpty(endpoint)) {
-    return cloneNewStateWithEndpoint(state, applicationId, serviceId, { endpointId, inclusive: true });
+    return cloneNewStateWithEndpoint(state, applicationId, serviceId, { endpointId, inclusive });
   }
   return state;
 }
@@ -153,13 +137,10 @@ export function cloneNewStateWithApplication(state, applicationId, applicationCo
   const { inclusive, services } = applicationConfig;
   return {
     ...state,
-    userSelectionModel: {
-      ...state.userSelectionModel,
-      [applicationId]: {
-        applicationId,
-        inclusive,
-        services: inclusive ? services : {}
-      }
+    [applicationId]: {
+      applicationId,
+      inclusive,
+      services: inclusive ? services : {}
     }
   };
 }
@@ -170,17 +151,14 @@ function cloneNewStateWithService(state, applicationId, serviceConfig) {
 
   return {
     ...state,
-    userSelectionModel: {
-      ...state.userSelectionModel,
-      [applicationId]: {
-        ...application,
-        services: {
-          ...application?.services,
-          [serviceId]: {
-            serviceId,
-            inclusive,
-            endpoints: inclusive ? endpoints : {}
-          }
+    [applicationId]: {
+      ...application,
+      services: {
+        ...application?.services,
+        [serviceId]: {
+          serviceId,
+          inclusive,
+          endpoints: inclusive ? endpoints : {}
         }
       }
     }
@@ -194,51 +172,21 @@ function cloneNewStateWithEndpoint(state, applicationId, serviceId, endpointConf
 
   return {
     ...state,
-    userSelectionModel: {
-      ...state.userSelectionModel,
-      [applicationId]: {
-        ...application,
-        services: {
-          ...application.services,
-          [serviceId]: {
-            ...service,
-            endpoints: {
-              ...service.endpoints,
-              [endpointId]: {
-                endpointId,
-                inclusive
-              }
+    [applicationId]: {
+      ...application,
+      services: {
+        ...application.services,
+        [serviceId]: {
+          ...service,
+          endpoints: {
+            ...service.endpoints,
+            [endpointId]: {
+              endpointId,
+              inclusive
             }
           }
         }
       }
     }
   };
-}
-
-function toggleInclusiveValueForApplication(state, itemTreeIds, inclusive) {
-  const { applicationId } = itemTreeIds;
-  const application = selectApplication(state, { applicationId });
-  if (application.inclusive !== inclusive) {
-    return cloneNewStateWithApplication(state, applicationId, { ...application, inclusive });
-  }
-  return state;
-}
-
-function toggleInclusiveValueForService(state, itemTreeIds, inclusive) {
-  const { applicationId } = itemTreeIds;
-  const service = selectService(state, itemTreeIds);
-  if (service.inclusive !== inclusive) {
-    return cloneNewStateWithService(state, applicationId, { ...service, inclusive });
-  }
-  return state;
-}
-
-function toggleInclusiveValueForEndpoint(state, itemTreeIds, inclusive) {
-  const { applicationId, serviceId, endpointId } = itemTreeIds;
-  const endpoint = selectEndpoint(state, itemTreeIds);
-  if (endpoint.inclusive !== inclusive) {
-    return cloneNewStateWithEndpoint(state, applicationId, serviceId, { endpointId, inclusive });
-  }
-  return state;
 }

@@ -18,7 +18,8 @@ export function getEntitySelection(applicationId, serviceId = null, endpointId =
     return {
       [applicationId]: {
         applicationId,
-        inclusive: true
+        inclusive: true,
+        services: {}
       }
     };
   }
@@ -31,7 +32,8 @@ export function getEntitySelection(applicationId, serviceId = null, endpointId =
         services: {
           [serviceId]: {
             serviceId,
-            inclusive: true
+            inclusive: true,
+            endpoints: {}
           }
         }
       }

@@ -18,6 +18,7 @@ import ServicesList from 'in-new-components/Alerting/components/scopeConfig/Serv
 import SharedList from 'in-new-components/Alerting/components/scopeConfig/ServicesAndEndpointsListPresenter/SharedList';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import { propTypeTimeConfig } from 'in-stores/time/config';
+import { isLoading } from 'in-services/util/result';
 
 export default function ApplicationsList({
   getApplicationsCursorPaginated,
@@ -45,9 +46,9 @@ export default function ApplicationsList({
             }
             // tagFilterExpression: searchQuery ? [] : [] // TODO: not usable yet since EP doesn't support tagFilterExpression.
           })
-        : getApplication({ id: alertApplicationId }).map(({ data }) => ({
-            items: data ? [{ application: data }] : []
-          })),
+        : getApplication({ id: alertApplicationId }).map(result => {
+            return { ...result, data: { items: result?.data ? [{ application: result.data }] : [] } };
+          }),
     [searchQuery, isGlobalSmartAlert]
   );
 
@@ -56,9 +57,7 @@ export default function ApplicationsList({
   const listData = useMemo(() => {
     if (items.length === 0) return [];
     const restructuredItems = items.map(({ application, ...rest }) => ({ ...rest, item: application }));
-    return searchQuery
-      ? restructuredItems
-      : enrichListWithStaleSelectionData(Object.entries(state.userSelectionModel), restructuredItems);
+    return searchQuery ? restructuredItems : enrichListWithStaleSelectionData(Object.entries(state), restructuredItems);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [items]);
 
@@ -66,6 +65,7 @@ export default function ApplicationsList({
     <SharedList
       {...props}
       {...tableProps}
+      isLoading={isLoading(tableProps)}
       listData={listData}
       renderSubList={({ applicationId }) => () => {
         return <ServicesList {...props} parentIds={{ applicationId }} />;
@@ -78,8 +78,9 @@ export default function ApplicationsList({
         enhanceParentIdsWithChildId(id) {
           return { applicationId: id };
         },
-        hasChildren(itemTreeIds) {
-          return !isEmpty(selectApplication(state, itemTreeIds)?.services);
+        isIndeterminate(itemTreeIds) {
+          const application = selectApplication(state, itemTreeIds);
+          return !isEmpty(application?.services) && application?.inclusive !== undefined;
         },
         isChecked(itemTreeIds) {
           return Boolean(selectApplication(state, itemTreeIds)?.inclusive);
@@ -96,6 +97,10 @@ export default function ApplicationsList({
         getNoDataCustomText() {
           return searchQuery ? createNoMatchingEntityText('Application') : undefined;
         },
+        shouldAdd() {
+          return true;
+        },
+        numSkeletonRows: 3,
         getLabel$: getApplication
       }}
       initiallyOpen={Boolean(searchQuery) && items.length > 0}

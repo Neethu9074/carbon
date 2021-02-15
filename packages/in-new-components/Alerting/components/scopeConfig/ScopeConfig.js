@@ -47,7 +47,9 @@ export default function ScopeConfig({ form, updateForm, QueryBuilderComponent, t
             applicationsSelection={applications}
             onChange={applicationsSelection =>
               updateForm(
-                form.updateIn(['applications'], field => field.setValue(applicationsSelection).setTouched(true))
+                form
+                  .updateIn(['applications'], field => field.setValue(applicationsSelection).setTouched(true))
+                  .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
               )
             }
             alertApplicationId={alertApplicationId}

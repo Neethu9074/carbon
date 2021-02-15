@@ -623,7 +623,8 @@ describe('in-applications/alerting/data/entitySelection', () => {
       expect(applications).to.deep.equal({
         app1: {
           applicationId: 'app1',
-          inclusive: true
+          inclusive: true,
+          services: {}
         }
       });
     });
@@ -638,7 +639,8 @@ describe('in-applications/alerting/data/entitySelection', () => {
           services: {
             service1: {
               serviceId: 'service1',
-              inclusive: true
+              inclusive: true,
+              endpoints: {}
             }
           }
         }

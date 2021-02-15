@@ -3,13 +3,13 @@
  * (c) Copyright Instana Inc. 2021
  */
 export function selectApplication(state, { applicationId }) {
-  return state.userSelectionModel?.[applicationId];
+  return state?.[applicationId];
 }
 
 export function selectService(state, { applicationId, serviceId }) {
-  return state.userSelectionModel?.[applicationId]?.services[serviceId];
+  return state?.[applicationId]?.services[serviceId];
 }
 
 export function selectEndpoint(state, { applicationId, serviceId, endpointId }) {
-  return state.userSelectionModel?.[applicationId]?.services[serviceId]?.endpoints[endpointId];
+  return state?.[applicationId]?.services[serviceId]?.endpoints[endpointId];
 }

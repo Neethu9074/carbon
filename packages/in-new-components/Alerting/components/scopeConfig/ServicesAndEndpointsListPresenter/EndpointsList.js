@@ -29,6 +29,7 @@ import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/f
 import getEndpointInfo from 'in-subscription/application/getEndpointInfo';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import { propTypeTimeConfig } from 'in-stores/time/config';
+import { isLoading } from 'in-services/util/result';
 
 export default function EndpointsList({ getEndpointsCursorPaginated, parentIds, ...props }) {
   const { boundaryScope } = props;
@@ -88,6 +89,7 @@ export default function EndpointsList({ getEndpointsCursorPaginated, parentIds, 
     <SharedList
       {...props}
       {...tableProps}
+      isLoading={isLoading(tableProps)}
       listData={listData}
       stateProcessors={{
         entityType: 'ENDPOINT',
@@ -97,7 +99,7 @@ export default function EndpointsList({ getEndpointsCursorPaginated, parentIds, 
         enhanceParentIdsWithChildId(id) {
           return { ...parentIds, endpointId: id };
         },
-        hasChildren() {
+        isIndeterminate() {
           return false;
         },
         isChecked(itemTreeIds) {
@@ -114,44 +116,27 @@ export default function EndpointsList({ getEndpointsCursorPaginated, parentIds, 
           const service = selectService(state, itemTreeIds);
           const endpoint = selectEndpoint(state, itemTreeIds);
 
-          const isApplicationDeselected = !application || application?.inclusive === false;
-          if (isApplicationDeselected) {
-            return false;
+          if (application?.inclusive === true) {
+            if (service?.inclusive === undefined || service?.inclusive === true) {
+              return endpoint?.inclusive === undefined;
+            }
           }
 
-          const isServiceDeselected = service && service?.inclusive === false;
-          if (isServiceDeselected) {
-            return false;
+          if (application?.inclusive === false) {
+            if (service?.inclusive === true) {
+              return endpoint?.inclusive === undefined;
+            }
           }
 
-          const isEndpointDeselected = endpoint && endpoint?.inclusive === false;
-          if (isEndpointDeselected) {
-            return false;
-          }
-
-          const inExplicitSelectionMode = state.inExplicitSelectionMode?.has(itemTreeIds.applicationId);
-          if (inExplicitSelectionMode) {
-            const parentServiceExplictlySelected = service?.inclusive === true;
-            if (!parentServiceExplictlySelected) return false;
-          }
-
-          if (endpoint?.inclusive) {
-            return false;
-          }
-
-          const serviceContainsExplictlySelectedEndpoints = Object.values(service?.endpoints ?? {}).some(
-            ({ inclusive }) => inclusive === true
-          );
-
-          if (serviceContainsExplictlySelectedEndpoints) {
-            return false;
-          }
-
-          return true;
+          return false;
         },
         getNoDataCustomText() {
           return searchQuery ? createNoMatchingEntityText('Endpoint') : undefined;
         },
+        shouldAdd(itemTreeIds) {
+          return selectEndpoint(state, itemTreeIds)?.inclusive === undefined;
+        },
+        numSkeletonRows: 1,
         getLabel$: getEndpointInfo
       }}
       initiallyOpen={Boolean(searchQuery) && items.length > 0}

@@ -42,7 +42,8 @@ export default function AdvancedModeContainer({ form, onClose, onCreate, editMod
       </div>
       <FormFooter className={locals.controls}>
         <CancelButton onClick={() => onClose()} />
-        <SaveButton onClick={() => onCreate()} isSaving={isSaving} form={form}>
+
+        <SaveButton onClick={() => onCreate()} isSaving={isSaving} form={form} disabled={!form.hierarchyValid}>
           {editMode
             ? t('in-new-components:alerting.advanced.buttonSave')
             : t('in-new-components:alerting.advanced.buttonCreate')}

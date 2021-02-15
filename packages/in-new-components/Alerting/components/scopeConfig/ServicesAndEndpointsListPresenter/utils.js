@@ -5,9 +5,9 @@
 
 export const DEFAULT_PAGE_SIZE = 5;
 
-export function enrichListWithStaleSelectionData(userSelectionModel, listData) {
+export function enrichListWithStaleSelectionData(entitySelection, listData) {
   const list = [...listData];
-  userSelectionModel.forEach(([key, value]) => {
+  entitySelection.forEach(([key, value]) => {
     if (!list.some(it => it.item.id == key)) {
       list.push({ item: { ...value, label: key, isStaleItem: true } });
     }

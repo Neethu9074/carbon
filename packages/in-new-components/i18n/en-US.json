@@ -50,6 +50,7 @@
       "alertingChartLabelViolations": "Violations",
       "alertingChartTooltipSmoothedMetric": "Smoothed metric",
       "alertingChartMessageInvalidFilterQuery": "Invalid filter query.",
+      "alertingChartMessageEntitySelectionInvalid": "No entities selected.",
       "chartViewConfigsLast24Hours": "Last 24 hours",
       "chartViewConfigsLast7Days": "Last 7 days"
     },

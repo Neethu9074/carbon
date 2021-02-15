@@ -2,10 +2,10 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
+import React, { useMemo } from 'react';
 import classNames from 'classnames';
-import React, { useMemo, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { t } from 'in-i18n';
 
 import { stateManagementPropType } from 'in-new-components/Alerting/components/scopeConfig/ServicesAndEndpointsListPresenter/sharedPropTypes';
 import LoadingList from 'in-new-components/lists/List/sharedComponents/LoadingList';
@@ -16,6 +16,7 @@ import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import useObservable from 'in-hooks/useObservable';
 import Tooltip from 'in-components/Tooltip';
+import { t } from 'in-i18n';
 
 import locals from './SharedList.mless';
 
@@ -74,17 +75,17 @@ export default function SharedList({
     getLabel$,
     getNoDataCustomText: noDataCustomText,
     getTooltipSettings,
-    hasChildren,
+    isIndeterminate,
     hasUserInteractedWithItem,
     isChecked,
-    isExplicitlyExcluded,
-    isImplicitlyChecked
+    isImplicitlyChecked,
+    numSkeletonRows,
+    shouldAdd
   },
   initiallyOpen
 }) {
   const { state, dispatch } = stateManagement;
-  const checkedObjectIdRef = useRef(null);
-  const list = useSortList(state.userSelectionModel, listData, enhanceParentIdsWithChildId, hasUserInteractedWithItem);
+  const list = useSortList(state, listData, enhanceParentIdsWithChildId, hasUserInteractedWithItem);
 
   return (
     <Ul>
@@ -92,7 +93,7 @@ export default function SharedList({
         list.map(({ item: { id, label, isStaleItem } }) => {
           const _id = isStaleItem ? label : id; // for stale items label is equal to id
           const itemTreeIds = enhanceParentIdsWithChildId(isStaleItem ? label : _id);
-          const _hasChildren = hasChildren(itemTreeIds);
+          const _isIndeterminate = isIndeterminate(itemTreeIds);
           const _isChecked = isChecked(itemTreeIds);
           const _isImplicitlyChecked = isImplicitlyChecked(itemTreeIds);
 
@@ -101,10 +102,7 @@ export default function SharedList({
               key={_id}
               renderNestedContent={renderSubList?.(itemTreeIds)}
               toggleContentOnRowClick={Boolean(renderSubList)}
-              className={classNames({
-                [locals.listItem]: true,
-                [locals.last]: _id === checkedObjectIdRef.current
-              })}
+              className={locals.listItem}
               initiallyOpen={initiallyOpen}
             >
               <StaleItemLabelPropInjector
@@ -120,21 +118,12 @@ export default function SharedList({
                     touched={hasUserInteractedWithItem(itemTreeIds)}
                     columnDefinitions={columnDefinitions}
                     tooltipSettings={getTooltipSettings()}
-                    checked={_hasChildren ? null : _isImplicitlyChecked || _isChecked}
-                    indeterminate={_hasChildren}
+                    checked={_isIndeterminate ? null : _isImplicitlyChecked || _isChecked}
+                    indeterminate={_isIndeterminate}
                     virtuallyChecked={!_isChecked && _isImplicitlyChecked}
                     onChange={() => {
-                      checkedObjectIdRef.current = _id;
-
-                      const implicit = !_isChecked && _isImplicitlyChecked;
-                      const unchecked = !_isChecked && !_isImplicitlyChecked;
-
-                      if ((implicit || unchecked) && !isExplicitlyExcluded(itemTreeIds)) {
-                        dispatch({
-                          type: `ADD_${entityType}`,
-                          ...itemTreeIds,
-                          inclusive: !_isImplicitlyChecked
-                        });
+                      if (shouldAdd(itemTreeIds)) {
+                        dispatch({ type: `ADD_${entityType}`, ...itemTreeIds });
                       } else {
                         dispatch({ type: `REMOVE_${entityType}`, ...itemTreeIds });
                       }
@@ -146,7 +135,7 @@ export default function SharedList({
           );
         })}
       {canLoadMore && <LoadMoreLi loadMore={loadMore} />}
-      {isLoading && <LoadingList numSkeletonRows={3} />}
+      {isLoading && <LoadingList numSkeletonRows={numSkeletonRows} />}
       {!isLoading && (!listData || listData.length === 0) && <NoDataAvailable text={noDataCustomText()} height={86} />}
     </Ul>
   );
@@ -164,7 +153,7 @@ function StaleItemLabelPropInjector({ getLabel$, isStaleItem, id, originalLabel,
   });
 }
 
-function useSortList(userSelectionModel, listData, enhanceParentIdsWithChildId, hasUserInteractedWithItem) {
+function useSortList(entitySelectionModel, listData, enhanceParentIdsWithChildId, hasUserInteractedWithItem) {
   const enhancedList = useMemo(() => {
     const itemsUserInteractedWith = listData.filter(({ item: { id, isStaleItem } }) => {
       const itemTreeIds = enhanceParentIdsWithChildId(id);
@@ -173,7 +162,7 @@ function useSortList(userSelectionModel, listData, enhanceParentIdsWithChildId, 
     const itemsInDefaultState = listData.filter(listItem => !itemsUserInteractedWith.includes(listItem));
     return [...itemsUserInteractedWith, ...itemsInDefaultState];
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userSelectionModel, listData]);
+  }, [entitySelectionModel, listData]);
 
   return enhancedList ?? listData;
 }
@@ -195,11 +184,12 @@ SharedList.propTypes = {
     getLabel$: PropTypes.func.isRequired,
     getNoDataCustomText: PropTypes.func.isRequired,
     getTooltipSettings: PropTypes.func.isRequired,
-    hasChildren: PropTypes.func.isRequired,
+    isIndeterminate: PropTypes.func.isRequired,
     hasUserInteractedWithItem: PropTypes.func.isRequired,
     isChecked: PropTypes.func.isRequired,
-    isExplicitlyExcluded: PropTypes.func.isRequired,
-    isImplicitlyChecked: PropTypes.func.isRequired
+    isImplicitlyChecked: PropTypes.func.isRequired,
+    numSkeletonRows: PropTypes.number.isRequired,
+    shouldAdd: PropTypes.func.isRequired
   }).isRequired,
   initiallyOpen: PropTypes.bool
 };

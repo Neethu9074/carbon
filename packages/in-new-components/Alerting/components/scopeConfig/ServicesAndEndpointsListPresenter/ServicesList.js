@@ -30,6 +30,7 @@ import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/f
 import getServiceLabel from 'in-subscription/application/getServiceLabel';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import { propTypeTimeConfig } from 'in-stores/time/config';
+import { isLoading } from 'in-services/util/result';
 
 export default function ServicesList({ getServicesCursorPaginated, parentIds, ...props }) {
   const { boundaryScope } = props;
@@ -85,6 +86,7 @@ export default function ServicesList({ getServicesCursorPaginated, parentIds, ..
     <SharedList
       {...props}
       {...tableProps}
+      isLoading={isLoading(tableProps)}
       listData={listData}
       renderSubList={({ applicationId, serviceId }) => () => (
         <EndpointsList {...props} parentIds={{ applicationId, serviceId }} />
@@ -97,8 +99,9 @@ export default function ServicesList({ getServicesCursorPaginated, parentIds, ..
         enhanceParentIdsWithChildId(id) {
           return { ...parentIds, serviceId: id };
         },
-        hasChildren(itemTreeIds) {
-          return !isEmpty(selectService(state, itemTreeIds)?.endpoints);
+        isIndeterminate(itemTreeIds) {
+          const service = selectService(state, itemTreeIds);
+          return !isEmpty(service?.endpoints) && service?.inclusive !== undefined;
         },
         isChecked(itemTreeIds) {
           return Boolean(selectService(state, itemTreeIds)?.inclusive);
@@ -111,30 +114,16 @@ export default function ServicesList({ getServicesCursorPaginated, parentIds, ..
         },
         isImplicitlyChecked(itemTreeIds) {
           const application = selectApplication(state, itemTreeIds);
-
-          const isApplicationDeselected = !application || application?.inclusive === false;
-          if (isApplicationDeselected) {
-            return false;
-          }
-
           const service = selectService(state, itemTreeIds);
-          const isServiceDeselected = service && service?.inclusive === false;
-          if (isServiceDeselected) {
-            return false;
-          }
-
-          const inExplicitSelectionMode = state.inExplicitSelectionMode?.has(itemTreeIds.applicationId);
-          const applicationContainsExplictlySelectedServices = Object.values(application?.services ?? {}).some(
-            ({ inclusive }) => inclusive === true
-          );
-          if (inExplicitSelectionMode && applicationContainsExplictlySelectedServices) {
-            return false;
-          }
-          return true;
+          return application?.inclusive === true && service?.inclusive === undefined;
         },
         getNoDataCustomText() {
           return searchQuery ? createNoMatchingEntityText('Service') : undefined;
         },
+        shouldAdd(itemTreeIds) {
+          return selectService(state, itemTreeIds)?.inclusive === undefined;
+        },
+        numSkeletonRows: 2,
         getLabel$: getServiceLabel
       }}
       initiallyOpen={Boolean(searchQuery) && items.length > 0}

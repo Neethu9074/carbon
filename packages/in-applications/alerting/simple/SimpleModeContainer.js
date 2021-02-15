@@ -22,7 +22,8 @@ const stepConfigs = [
     ]
   },
   {
-    title: t('in-applications:simple.step2Title')
+    title: t('in-applications:simple.step2Title'),
+    validateIntermediately: [['applications']]
   },
   {
     title: t('in-applications:simple.step3Title'),

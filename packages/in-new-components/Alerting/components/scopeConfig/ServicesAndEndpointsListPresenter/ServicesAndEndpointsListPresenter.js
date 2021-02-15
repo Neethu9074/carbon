@@ -2,9 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React, { useEffect, useReducer } from 'react';
 import PropTypes from 'prop-types';
-import { isEmpty } from 'lodash';
 
 import {
   cloneNewStateWithApplication,
@@ -16,7 +16,7 @@ import { propTypeTimeConfig } from 'in-stores/time/config';
 
 export default function ServicesAndEndpointsListPresenter({
   apiSubscriptions,
-  applicationsSelection = {},
+  applicationsSelection,
   onChange,
   alertApplicationId,
   timeConfig,
@@ -24,26 +24,14 @@ export default function ServicesAndEndpointsListPresenter({
   ...props
 }) {
   const [state, dispatch] = useReducer(listReducer, {}, () => {
-    if (isEmpty(applicationsSelection) && alertApplicationId && !isGlobalSmartAlert) {
-      return {
-        inExplicitSelectionMode: new Set(),
-        ...cloneNewStateWithApplication({}, alertApplicationId, {
-          inclusive: true,
-          services: {}
-        })
-      };
+    if (!applicationsSelection && alertApplicationId && !isGlobalSmartAlert) {
+      return cloneNewStateWithApplication({}, alertApplicationId, { inclusive: true, services: {} });
     }
-
-    const newState = {
-      inExplicitSelectionMode: new Set(Object.keys(applicationsSelection)),
-      userSelectionModel: { ...applicationsSelection }
-    };
-
-    return newState;
+    return applicationsSelection;
   });
 
   useEffect(() => {
-    onChange?.(state.userSelectionModel);
+    onChange?.(state);
     // since onChange func can be re-created when parent rerenders we only want to trigger the effect if  state changes
     // otherwise it could happen that we get an infinite rendering loop if parent forgets to use useCallback hook.
     // Since this can happen very likely it is better to disable the linter rule here.
@@ -56,7 +44,6 @@ export default function ServicesAndEndpointsListPresenter({
       {...apiSubscriptions}
       isGlobalSmartAlert={isGlobalSmartAlert}
       alertApplicationId={alertApplicationId}
-      initialApplicationSelection={applicationsSelection}
       stateManagement={{ state, dispatch }}
       timeConfig={timeConfig}
     />
