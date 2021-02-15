@@ -2,9 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import React, { useMemo, useEffect } from 'react';
 import { compose, withState } from 'recompose';
 import { find, debounce } from 'lodash';
-import React, { useMemo } from 'react';
 import { t } from 'in-i18n';
 
 import { fixClockSkewProblems } from 'in-mobile-apps/analyze/SessionView/tabs/Summary/fixClockSkewProblems';
@@ -13,7 +13,6 @@ import BeaconUserSummary from 'in-mobile-apps/analyze/BeaconUserSummary/BeaconUs
 import Activity from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Activity';
 import DateTimeKpiCard from 'in-new-components/KpiCard/DateTimeKpiCard';
 import { getLinkToMobileApp } from 'in-mobile-apps/navigation/paths';
-import LifecycleObserver from 'in-components/LifecycleObserver';
 import { warning } from 'in-new-components/Message/types';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import { number } from 'in-services/formatters/number';
@@ -37,17 +36,15 @@ function Summary({ beacons, filter, setFilter, sessionLabel, sessionId }) {
   const sessionStart = find(beacons, b => b.type === 'sessionStart');
   const firstBeacon = sessionStart || beacons[0];
 
+  useEffect(() => {
+    debouncedOpenSession({
+      sessionId,
+      sessionLabel
+    });
+  }, [sessionId, sessionLabel]);
+
   return (
     <ContentWrapper>
-      <LifecycleObserver
-        onDidMount={() => {
-          debouncedOpenSession({
-            sessionId,
-            sessionLabel
-          });
-        }}
-      />
-
       <Row>
         <Col xs>
           <DateTimeKpiCard

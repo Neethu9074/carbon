@@ -2,16 +2,16 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import React from 'react';
+import { useEffect } from 'react';
 
-import LifecycleObserver from 'in-components/LifecycleObserver';
+const originalbackgroundColor = document.documentElement.style.background;
 
 export default function SetBodyColor({ color }) {
-  const originalbackgroundColor = document.documentElement.style.background;
-  return (
-    <LifecycleObserver
-      onDidMount={() => (document.body.style.background = color)}
-      onWillUnmount={() => (document.body.style.background = originalbackgroundColor)}
-    />
-  );
+  useEffect(() => {
+    document.body.style.background = color;
+    return () => {
+      document.body.style.background = originalbackgroundColor;
+    };
+  }, [color]);
+  return null;
 }

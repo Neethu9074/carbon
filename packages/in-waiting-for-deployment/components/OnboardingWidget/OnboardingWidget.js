@@ -3,11 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 import { compose } from 'recompose';
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import OnboardingWidgetPresenter from 'in-waiting-for-deployment/components/OnboardingWidget/OnboardingWidgetPresenter';
 import { intParser } from 'in-stores/navigation/urlParameterUtils';
-import LifecycleObserver from 'in-components/LifecycleObserver';
 import createTracker from 'in-waiting-for-deployment/tracker';
 import withUrlState from 'in-hoc/withUrlState';
 
@@ -39,9 +38,13 @@ function OnboardingWidget(props) {
   const Renderer = props.Renderer || OnboardingWidgetPresenter;
   const trackingService = createTracker(props.trackingIdPrefix);
 
+  useEffect(() => {
+    trackingService.dialogOpened();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <>
-      <LifecycleObserver onWillMount={trackingService.dialogOpened} />
       <Renderer
         {...props}
         trackingService={trackingService}
