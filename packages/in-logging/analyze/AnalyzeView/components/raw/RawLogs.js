@@ -7,10 +7,10 @@ import classNames from 'classnames';
 
 // import getLogsForConsole from 'in-logging/subscriptions/getLogsForConsole';
 import QueryBuilderWorkspace from 'in-logging/analyze/AnalyzeView/components/raw/QueryBuilderWorkspace';
-import useStableObjectIntance from 'in-hooks/useStableObjectIntance';
 import { getUniqueErrors } from 'in-new-components/Errors/ErroneousResultPresenter';
 import LogDetail from 'in-logging/analyze/AnalyzeView/LogDetail/LogDetail';
 import { ColumnizedContent, Ul, Li } from 'in-new-components/lists/List';
+import useStableObjectInstance from 'in-hooks/useStableObjectInstance';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import { formatDateTime } from 'in-services/formatters/date';
@@ -60,7 +60,7 @@ export default function RawLogs(props) {
   const { detailId, orderBy, SplitScreenListItemContent } = props;
 
   const scrollContainerRef = useRef();
-  const backendQueryModel = useStableObjectIntance(props.backendQueryModel);
+  const backendQueryModel = useStableObjectInstance(props.backendQueryModel);
   const timeConfig = useTimeConfig();
   const cursorPaginationState = useCursorPagination(
     ({ cursor }) => getTableData({ timeConfig, backendQueryModel, orderBy, cursor }),

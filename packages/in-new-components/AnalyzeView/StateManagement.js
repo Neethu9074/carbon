@@ -17,7 +17,7 @@ import { NOT_APPLICABLE } from 'in-new-components/QueryBuilder/tagFilter/entitie
 import { emptyArray, emptyObject, pendingResult } from 'in-services/fixedObjects';
 import { createParameters } from 'in-new-components/AnalyzeView/parameters';
 import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
-import useStableObjectIntance from 'in-hooks/useStableObjectIntance';
+import useStableObjectInstance from 'in-hooks/useStableObjectInstance';
 import { getTagCatalogOnce } from 'in-services/tags/tagCatalog';
 import { noResultObservable } from 'in-services/util/result';
 import { aggregationLabels } from 'in-stores/metric/metric';
@@ -157,13 +157,13 @@ function AnalyzeStateManagement({
     metricCatalogFilter
   } = dataSourceConfigurations[dataSource];
 
-  const formModel = useStableObjectIntance(urlState.formModel);
+  const formModel = useStableObjectInstance(urlState.formModel);
   const onFormModelChange = formModel => onChange({ formModel });
 
-  const groupBy = useStableObjectIntance(urlState.groupBy);
-  const detailId = useStableObjectIntance(urlState.detailId);
-  const selectableFields = useStableObjectIntance(urlState.fields ?? defaultSelectableFields);
-  const chartedMetrics = useStableObjectIntance(urlState.chartedMetrics) || emptyArray;
+  const groupBy = useStableObjectInstance(urlState.groupBy);
+  const detailId = useStableObjectInstance(urlState.detailId);
+  const selectableFields = useStableObjectInstance(urlState.fields ?? defaultSelectableFields);
+  const chartedMetrics = useStableObjectInstance(urlState.chartedMetrics) || emptyArray;
 
   const filteringTagCatalogResult =
     useObservable(
@@ -208,12 +208,12 @@ function AnalyzeStateManagement({
 
   const backendQueryModel = useMemo(() => (isValid ? toBackendQueryModel(formModel) : null), [isValid, formModel]);
 
-  const orderBy = useStableObjectIntance({
+  const orderBy = useStableObjectInstance({
     by: urlState.orderBy?.by ?? defaultOrderBy,
     direction: urlState.orderBy?.direction ?? defaultOrderDirection
   });
 
-  const orderByGroups = useStableObjectIntance({
+  const orderByGroups = useStableObjectInstance({
     by: urlState.orderByGroups?.by ?? defaultOrderByGroups,
     direction: urlState.orderByGroups?.direction ?? defaultOrderDirectionGroups
   });

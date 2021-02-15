@@ -13,8 +13,8 @@ import { childrenArgsAsPropTypes } from 'in-new-components/AnalyzeView/StateMana
 import { metric as metricType } from 'in-new-components/AnalyzeView/fieldTypes';
 import { getAvailableMetrics } from 'in-new-components/AnalyzeView/metrics';
 import FacetedSearch from 'in-new-components/AnalyzeView/FacetedSearch';
+import useStableObjectInstance from 'in-hooks/useStableObjectInstance';
 import Header from 'in-new-components/QueryBuilder/components/Header';
-import useStableObjectIntance from 'in-hooks/useStableObjectIntance';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import { emptyArray } from 'in-services/fixedObjects';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -23,7 +23,7 @@ import locals from './UngroupedView.mless';
 
 export const retrievalSize = 20;
 export default function UngroupedAnalyzeView(props) {
-  const backendQueryModel = useStableObjectIntance(props.backendQueryModel);
+  const backendQueryModel = useStableObjectInstance(props.backendQueryModel);
 
   const {
     getData,

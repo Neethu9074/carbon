@@ -24,8 +24,8 @@ import LoadMoreLi from 'in-new-components/lists/List/LoadMoreLi/LoadMoreLi';
 import { ColumnizedContent, Ul, Li } from 'in-new-components/lists/List';
 import FacetedSearch from 'in-new-components/AnalyzeView/FacetedSearch';
 import { getFormatter } from 'in-services/formatters/backendFormatter';
+import useStableObjectInstance from 'in-hooks/useStableObjectInstance';
 import Header from 'in-new-components/QueryBuilder/components/Header';
-import useStableObjectIntance from 'in-hooks/useStableObjectIntance';
 import { getSparkChartGranularity } from 'in-applications/metrics';
 import { emptyObject, emptyArray } from 'in-services/fixedObjects';
 import IconButton from 'in-new-components/IconButton/IconButton';
@@ -94,7 +94,7 @@ export default function GroupedAnalyzeView(props) {
 
   const sparkChartGranularity = getSparkChartGranularity(timeConfig);
 
-  const backendMetrics = useStableObjectIntance(
+  const backendMetrics = useStableObjectInstance(
     fields
       .filter(({ type }) => type === metricType)
       .reduce((accumulator, metric) => {
