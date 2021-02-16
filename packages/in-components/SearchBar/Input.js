@@ -275,13 +275,10 @@ export default getElementDimensions(
         this.state.eventEmitter.dispose();
       }
 
-      UNSAFE_componentWillUpdate(nextProps) {
+      componentDidUpdate() {
         // update the editor state if the query gets manipulated from outside
-        if (
-          this.props.contextQuery.query !== nextProps.contextQuery.query &&
-          nextProps.contextQuery.query !== this.editor.getValue()
-        ) {
-          this.editor.setValue(nextProps.contextQuery.query);
+        if (this.props.contextQuery.query !== this.editor.getValue()) {
+          this.editor.setValue(this.props.contextQuery.query);
         }
       }
 
