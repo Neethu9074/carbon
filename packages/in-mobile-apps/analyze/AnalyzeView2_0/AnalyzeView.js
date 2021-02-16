@@ -102,7 +102,7 @@ const ungroupedView = {
 
 const fixedFields = [
   { type: customType, customFieldId: 'timestamp' },
-  { type: metricType, metric: 'beaconCount', aggregation: 'SUM' }
+  { type: metricType, metricId: 'beaconCount', aggregationId: 'SUM' }
 ];
 
 const defaultChartedMetrics = [{ metricId: 'beaconCount', aggregationId: 'SUM', rendererId: stackedBar.id }];
@@ -117,8 +117,8 @@ const dataSourceConfigurations = {
     defaultSelectableFields: [
       {
         type: 'metric',
-        metric: 'uniqueUsers',
-        aggregation: 'DISTINCT_COUNT'
+        metricId: 'uniqueUsers',
+        aggregationId: 'DISTINCT_COUNT'
       }
     ],
     defaultChartedMetrics
@@ -132,8 +132,8 @@ const dataSourceConfigurations = {
     defaultSelectableFields: [
       {
         type: 'metric',
-        metric: 'uniqueUsers',
-        aggregation: 'DISTINCT_COUNT'
+        metricId: 'uniqueUsers',
+        aggregationId: 'DISTINCT_COUNT'
       }
     ],
     defaultChartedMetrics
@@ -147,13 +147,13 @@ const dataSourceConfigurations = {
     defaultSelectableFields: [
       {
         type: 'metric',
-        metric: 'beaconDuration',
-        aggregation: 'MEAN'
+        metricId: 'beaconDuration',
+        aggregationId: 'MEAN'
       },
       {
         type: 'metric',
-        metric: 'beaconErrorRate',
-        aggregation: 'MEAN'
+        metricId: 'beaconErrorRate',
+        aggregationId: 'MEAN'
       }
     ],
     defaultChartedMetrics
@@ -237,7 +237,7 @@ function getOrderById({ metricCatalog, field }) {
     return field.customFieldId;
   }
   if (field.type === metricType) {
-    const metricDefinition = metricCatalog?.find(({ metricId }) => metricId === field.metric);
+    const metricDefinition = metricCatalog?.find(({ metricId }) => metricId === field.metricId);
     return metricDefinition?.tagName;
   }
   return null;

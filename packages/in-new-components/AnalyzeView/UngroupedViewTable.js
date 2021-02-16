@@ -49,7 +49,7 @@ function Table(props) {
     ...fields
       .map(field => {
         if (field.type === metricType) {
-          const metricDefinition = metricCatalog?.find(({ metricId }) => metricId === field.metric);
+          const metricDefinition = metricCatalog?.find(({ metricId }) => metricId === field.metricId);
           if (metricDefinition == null || ungroupedViewConfiguration.metricFieldExtractors == null) {
             // Ignore unknown metrics or if we don't know how to extract the respective values
             return null;
@@ -69,7 +69,6 @@ function Table(props) {
             shrink: true,
             getContent(params) {
               const value = getColumnValue({ metricDefinition, ...params });
-              // TODO: use "latency" formatter instead of "millis" formatter
               const formatter = wrapToDiscardNegativeValues(getFormatter(metricDefinition?.formatter)).compact;
               return <span>{formatter?.(value) ?? value}</span>;
             }
