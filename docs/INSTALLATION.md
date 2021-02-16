@@ -25,11 +25,8 @@ In order for cookies to be send to the backend you need to configure rules in `/
 
 ```sh
 sudo sh -c 'echo "127.0.0.1 local-instana.instana.io" >> /etc/hosts'
+sudo sh -c 'echo "127.0.0.1 local-instana.instana.rocks" >> /etc/hosts'
 sudo sh -c 'echo "127.0.0.1 local-instana.pink.instana.rocks" >> /etc/hosts'
-sudo sh -c 'echo "127.0.0.1 local-instana.peach.instana.rocks" >> /etc/hosts'
-sudo sh -c 'echo "127.0.0.1 local-instana.magenta.instana.rocks" >> /etc/hosts'
-sudo sh -c 'echo "127.0.0.1 local-instana.rose.instana.rocks" >> /etc/hosts'
-sudo sh -c 'echo "127.0.0.1 local-instana.melon.instana.rocks" >> /etc/hosts'
 ```
 
 ## Installation of Node.js and Yarn
@@ -108,11 +105,8 @@ The installation instructions will work out of the box, assuming that you are us
 
 ```
 127.0.0.1 local-instana.instana.io
+127.0.0.1 local-instana.instana.rocks
 127.0.0.1 local-instana.pink.instana.rocks
-127.0.0.1 local-instana.peach.instana.rocks
-127.0.0.1 local-instana.peach.instana.rocks
-127.0.0.1 local-instana.rose.instana.rocks
-127.0.0.1 local-instana.melon.instana.rocks
 ```
 
 Alternatively, you can install an XServer in your Windows environment and run your preferred browser from within WSL2.
