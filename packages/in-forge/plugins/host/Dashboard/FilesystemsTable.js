@@ -156,7 +156,7 @@ export default function FilesystemsTable({ snapshot, timeConfig }) {
 
 function getDetails(row) {
   return (
-    <div>
+    <>
       <Columize>
         <Chart
           snapshotId={row.snapshotId}
@@ -212,7 +212,6 @@ function getDetails(row) {
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
-
         <Chart
           snapshotId={row.snapshotId}
           timeConfig={row.timeConfig}
@@ -227,6 +226,6 @@ function getDetails(row) {
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </Columize>
-    </div>
+    </>
   );
 }
