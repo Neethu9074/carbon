@@ -103,6 +103,12 @@ function transformOrderByParameters(location) {
       analyzeTwoParameters.orderBy.name,
       analyzeTwoParameters.orderBy.serializer(orderBy)
     );
+    setOrDeleteMatrixKey(
+      location,
+      analyzeTwoParameters.orderByGroups.path,
+      analyzeTwoParameters.orderByGroups.name,
+      analyzeTwoParameters.orderByGroups.serializer(orderBy)
+    );
   }
 }
 

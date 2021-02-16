@@ -57,6 +57,7 @@ const cases = [
           tagFilters:
             '!(name~beacon.website.name~stringValue~Product~operator~EQUALS~entity~NOT*_APPLICABLE)(name~beacon.page.name~stringValue~*/home~operator~EQUALS~entity~NOT*_APPLICABLE)~',
           orderBy: 'timestamp',
+          orderByGroups: 'timestamp',
           orderDirection: 'ASC'
         }
       }
@@ -72,6 +73,7 @@ const cases = [
             '!(type~TAG*_FILTER~name~beacon.website.name~operator~EQUALS~entity~NOT*_APPLICABLE~value~Product)(type~CONJUNCTION~logicalOperator~AND)(type~TAG*_FILTER~name~beacon.page.name~operator~EQUALS~entity~NOT*_APPLICABLE~value~*/home)~',
           groupBy: '()~',
           orderBy: '(by~timestamp~direction~ASC)~',
+          orderByGroups: '(by~timestamp~direction~ASC)~',
           chartedMetrics: '!(metricId~beaconCount~aggregationId~SUM~rendererId~stackedBar)~'
         }
       }
