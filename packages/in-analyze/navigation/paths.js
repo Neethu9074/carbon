@@ -42,8 +42,12 @@ import {
   NOT_STARTS_WITH,
   STARTS_WITH
 } from 'in-new-components/QueryBuilder/tagFilter/operators';
+import {
+  toNewTagFilterFormat,
+  sanitizeTagFilter,
+  type as TAG_FILTER
+} from 'in-new-components/QueryBuilder/transformation/tagFilter';
 import { getTagFilterToUrlString, getGroupToUrlString, getTagFilterFromUrlString } from 'in-analyze/filterBuilder';
-import { toNewTagFilterFormat, type as TAG_FILTER } from 'in-new-components/QueryBuilder/transformation/tagFilter';
 import { setOrDeleteMatrixKey, getMatrixParameter, setOrDeleteMatrixParameter } from 'in-stores/navigation/matrix';
 import { dataSourceConstants, getMetricAndAggregationFromMetricKey } from 'in-applications/analyze/metrics';
 import { APPLICATION, APPLICATION_INBOUND, SERVICE, ENDPOINT } from 'in-analyze/applicationFilter';
@@ -303,7 +307,7 @@ export function setTagFilterExpressionAndHiddenCalls(location, tagCatalog, tagFi
         }
       } else {
         tagFilterExpression = joinExpressions({
-          expressions: [tagFilterExpression, toNewTagFilterFormat(tagFilter, tagCatalog)]
+          expressions: [tagFilterExpression, sanitizeTagFilter(toNewTagFilterFormat(tagFilter, tagCatalog))]
         });
       }
     }
