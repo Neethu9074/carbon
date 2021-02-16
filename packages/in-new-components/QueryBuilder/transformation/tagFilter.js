@@ -5,8 +5,9 @@
 import { createLogger } from '@instana/logger';
 import { pick } from 'lodash';
 
+import { EQUALS, NOT_EQUAL, NOT_STARTS_WITH, STARTS_WITH } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import { KEY_VALUE_PAIR, BOOLEAN, NUMBER } from 'in-new-components/QueryBuilder/tagFilter/types';
-import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
+import { STRING_MAX_LENGTH } from 'in-new-components/QueryBuilder/tagFilter/constraints';
 import { enrichTagCatalog } from 'in-services/tags/tagCatalog';
 import { isNotBlank } from 'in-services/util/string';
 
@@ -22,6 +23,26 @@ export function toTagFilter(tagFilterLike) {
     // Enforce valid type
     type
   };
+}
+
+// A tag filter with a string value exceeding the max length is invalid, to fix that
+// shorten the value and change the operator if needed.
+export function sanitizeTagFilter(tagFilter) {
+  if (typeof tagFilter.value === 'string' && tagFilter.value.length > STRING_MAX_LENGTH) {
+    // If a string value exceeds the max length, shorten the value and change the operator if needed.
+    const value = tagFilter.value.substring(0, 512);
+    let operator = tagFilter.operator;
+    if (operator === EQUALS) {
+      operator = STARTS_WITH;
+    } else if (operator === NOT_EQUAL) {
+      operator = NOT_STARTS_WITH;
+    }
+    tagFilter = { ...tagFilter, value };
+    if (operator != null) {
+      tagFilter.operator = operator;
+    }
+  }
+  return tagFilter;
 }
 
 export function toNewTagFilterFormat(tagFilter, tagCatalog) {

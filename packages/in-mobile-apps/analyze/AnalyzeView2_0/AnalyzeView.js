@@ -24,6 +24,7 @@ import { getMetricCatalog } from 'in-mobile-apps/api/metricCatalog';
 import { analyzePath } from 'in-mobile-apps/navigation/paths';
 import { beaconType } from 'in-mobile-apps/navigation/matrix';
 import { getTagCatalog } from 'in-mobile-apps/api/tagCatalog';
+import { stackedBar } from 'in-stores/metric/renderer';
 
 const facetedSearchItems = [
   {
@@ -104,6 +105,8 @@ const fixedFields = [
   { type: metricType, metric: 'beaconCount', aggregation: 'SUM' }
 ];
 
+const defaultChartedMetrics = [{ metricId: 'beaconCount', aggregationId: 'SUM', rendererId: stackedBar.id }];
+
 const dataSourceConfigurations = {
   sessionStart: {
     metricCatalogFilter: createMetricCatalogFilter('sessionStart'),
@@ -117,7 +120,8 @@ const dataSourceConfigurations = {
         metric: 'uniqueUsers',
         aggregation: 'DISTINCT_COUNT'
       }
-    ]
+    ],
+    defaultChartedMetrics
   },
   viewChange: {
     metricCatalogFilter: createMetricCatalogFilter('viewChange'),
@@ -131,7 +135,8 @@ const dataSourceConfigurations = {
         metric: 'uniqueUsers',
         aggregation: 'DISTINCT_COUNT'
       }
-    ]
+    ],
+    defaultChartedMetrics
   },
   httpRequest: {
     metricCatalogFilter: createMetricCatalogFilter('httpRequest'),
@@ -150,14 +155,16 @@ const dataSourceConfigurations = {
         metric: 'beaconErrorRate',
         aggregation: 'MEAN'
       }
-    ]
+    ],
+    defaultChartedMetrics
   },
   custom: {
     metricCatalogFilter: createMetricCatalogFilter('custom'),
     facetedSearchItems,
     groupedView,
     ungroupedView,
-    fixedFields
+    fixedFields,
+    defaultChartedMetrics
   }
 };
 

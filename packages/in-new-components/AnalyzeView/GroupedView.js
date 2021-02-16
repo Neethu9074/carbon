@@ -69,6 +69,7 @@ export default function GroupedAnalyzeView(props) {
     onChartableDataSeriesChange,
     withSamplingTooltip,
     withoutSorting = false,
+    withoutChartGroupMarkers = false,
     chartedMetrics
   } = props;
   const timeConfig = useTimeConfig();
@@ -76,7 +77,8 @@ export default function GroupedAnalyzeView(props) {
 
   const maxGroupsOnChart = Math.min(5, theme.lib.colors.chart.strokeColors100.length);
   const groupColors = range(maxGroupsOnChart).map(i => theme.lib.colors.chart.strokeColors100[i]);
-  const showChartGroupMarkers = chartedMetrics?.[0] && chartedMetrics[0].aggregationId !== 'DISTRIBUTION';
+  const showChartGroupMarkers =
+    !withoutChartGroupMarkers && chartedMetrics?.[0] && chartedMetrics[0].aggregationId !== 'DISTRIBUTION';
 
   const labelColumnDefinitions = labelColumns({
     itemlabelColumnId,

@@ -25,6 +25,7 @@ import { getMetricCatalog } from 'in-websites/api/metricCatalog';
 import { analyzePath } from 'in-websites/navigation/paths';
 import { beaconType } from 'in-websites/navigation/matrix';
 import { getTagCatalog } from 'in-websites/api/tagCatalog';
+import { stackedBar } from 'in-stores/metric/renderer';
 
 const facetedSearchItems = [
   {
@@ -100,6 +101,8 @@ const fixedFields = [
   { type: metricType, metric: 'beaconCount', aggregation: 'SUM' }
 ];
 
+const defaultChartedMetrics = [{ metricId: 'beaconCount', aggregationId: 'SUM', rendererId: stackedBar.id }];
+
 const dataSourceConfigurations = {
   pageLoad: {
     metricCatalogFilter: createMetricCatalogFilter('pageLoad'),
@@ -113,7 +116,8 @@ const dataSourceConfigurations = {
         metric: 'onLoadTime',
         aggregation: 'MEAN'
       }
-    ]
+    ],
+    defaultChartedMetrics
   },
   pageChange: {
     metricCatalogFilter: createMetricCatalogFilter('pageChange'),
@@ -127,7 +131,8 @@ const dataSourceConfigurations = {
         metric: 'uniqueUsersOrSessions',
         aggregation: 'DISTINCT_COUNT'
       }
-    ]
+    ],
+    defaultChartedMetrics
   },
   resourceLoad: {
     metricCatalogFilter: createMetricCatalogFilter('resourceLoad'),
@@ -141,7 +146,8 @@ const dataSourceConfigurations = {
         metric: 'beaconDuration',
         aggregation: 'MEAN'
       }
-    ]
+    ],
+    defaultChartedMetrics
   },
   httpRequest: {
     metricCatalogFilter: createMetricCatalogFilter('httpRequest'),
@@ -160,7 +166,8 @@ const dataSourceConfigurations = {
         metric: 'beaconErrorRate',
         aggregation: 'MEAN'
       }
-    ]
+    ],
+    defaultChartedMetrics
   },
   error: {
     metricCatalogFilter: createMetricCatalogFilter('error'),
@@ -174,7 +181,8 @@ const dataSourceConfigurations = {
         metric: 'uniqueUsersOrSessions',
         aggregation: 'DISTINCT_COUNT'
       }
-    ]
+    ],
+    defaultChartedMetrics
   },
   custom: {
     metricCatalogFilter: createMetricCatalogFilter('custom'),
@@ -188,7 +196,8 @@ const dataSourceConfigurations = {
         metric: 'uniqueUsersOrSessions',
         aggregation: 'DISTINCT_COUNT'
       }
-    ]
+    ],
+    defaultChartedMetrics
   }
 };
 

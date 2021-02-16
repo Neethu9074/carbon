@@ -21,6 +21,7 @@ import * as operatorKeyRequirement from 'in-new-components/QueryBuilder/tagFilte
 import * as typeToOperatorsMapping from 'in-new-components/QueryBuilder/tagFilter/typeToOperatorsMapping';
 import { EQUALS, NOT_EMPTY, IS_EMPTY } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import { stringMaxLengthValidator, notBlankValidator } from 'in-services/validators/string';
+import { STRING_MAX_LENGTH } from 'in-new-components/QueryBuilder/tagFilter/constraints';
 import { SOURCE, DESTINATION } from 'in-new-components/QueryBuilder/tagFilter/entities';
 import { NUMBER, BOOLEAN } from 'in-new-components/QueryBuilder/tagFilter/types';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
@@ -88,13 +89,17 @@ export function createTagForm(tagCatalog, tagFormModel) {
     // Special case: For IS_EMPTY, NOT_EMPTY the key is actually optional
     let validator;
     if (operator === IS_EMPTY || operator === NOT_EMPTY) {
-      validator = composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, stringMaxLengthValidator(512));
+      validator = composeAndShortCircuitOnError(
+        notUndefinedValidator,
+        stringValidator,
+        stringMaxLengthValidator(STRING_MAX_LENGTH)
+      );
     } else {
       validator = composeAndShortCircuitOnError(
         notUndefinedValidator,
         stringValidator,
         notBlankValidator,
-        stringMaxLengthValidator(512)
+        stringMaxLengthValidator(STRING_MAX_LENGTH)
       );
     }
 
@@ -221,7 +226,12 @@ function identifyFormRequirementsBasedOnPartialInput(tagCatalog, tagName, operat
     result.valueValidators = [notUndefinedValidator, booleanValidator];
     result.valueType = Boolean;
   } else {
-    result.valueValidators = [notUndefinedValidator, stringValidator, notBlankValidator, stringMaxLengthValidator(512)];
+    result.valueValidators = [
+      notUndefinedValidator,
+      stringValidator,
+      notBlankValidator,
+      stringMaxLengthValidator(STRING_MAX_LENGTH)
+    ];
     result.valueType = String;
   }
 

@@ -471,5 +471,9 @@
     "groupName": "Group Name"
   },
   "copyToClipboardButtonCopy": "Copy",
-  "withEmptyStateFallbackTitleNoDataAvailable": "No data available"
+  "withEmptyStateFallbackTitleNoDataAvailable": "No data available",
+  "queryBuilder": {
+    "sanitizedTagFilterValue": "The tag filter value was shortened to the maximum allowed length.",
+    "sanitizedTagFilterValueAndOperator": "The tag filter value was shortened to the maximum allowed length and the operator was adjusted accordingly."
+  }
 }

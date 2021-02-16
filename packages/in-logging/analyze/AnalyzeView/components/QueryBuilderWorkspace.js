@@ -27,12 +27,12 @@ export default function LoggingQueryBuilderWorkspace({
   formModel,
   backendQueryModel,
   onGroupByChange,
-  onMetricsChange,
+  onChartedMetricsChange,
   isGrouped,
   isInvalid,
   children,
   groupBy,
-  metrics
+  chartedMetrics
 }) {
   return (
     <Sticky header={<AnalyzeHeader isGrouped={isGrouped} />}>
@@ -59,8 +59,8 @@ export default function LoggingQueryBuilderWorkspace({
             />
 
             <LogsDistributionChartSection
-              metrics={metrics}
-              onMetricsChange={onMetricsChange}
+              chartedMetrics={chartedMetrics}
+              onChartedMetricsChange={onChartedMetricsChange}
               backendQueryModel={backendQueryModel}
             />
 

@@ -84,6 +84,14 @@ const fieldsPropTypes = rpt.arrayOf(
   })
 );
 
+const chartedMetricsPropTypes = rpt.arrayOf(
+  rpt.shape({
+    metricId: rpt.string.isRequired,
+    aggregationId: rpt.string.isRequired,
+    rendererId: rpt.string.isRequired
+  })
+);
+
 const groupedViewPropType = rpt.shape({
   defaultOrderBy: rpt.string.isRequired,
   defaultOrderDirection: rpt.oneOf(['ASC', 'DESC']).isRequired,
@@ -129,7 +137,8 @@ TimeFixatingAnalyzeStateManagement.propTypes = {
       groupedView: groupedViewPropType,
       ungroupedView: ungroupedViewPropType,
       fixedFields: fieldsPropTypes,
-      defaultSelectableFields: fieldsPropTypes
+      defaultSelectableFields: fieldsPropTypes,
+      defaultChartedMetrics: chartedMetricsPropTypes
     })
   ),
 
@@ -152,8 +161,9 @@ function AnalyzeStateManagement({
     facetedSearchItems,
     groupedView,
     ungroupedView,
-    fixedFields = [],
-    defaultSelectableFields = [],
+    fixedFields = emptyArray,
+    defaultSelectableFields = emptyArray,
+    defaultChartedMetrics = emptyArray,
     metricCatalogFilter
   } = dataSourceConfigurations[dataSource];
 
@@ -163,7 +173,7 @@ function AnalyzeStateManagement({
   const groupBy = useStableObjectInstance(urlState.groupBy);
   const detailId = useStableObjectInstance(urlState.detailId);
   const selectableFields = useStableObjectInstance(urlState.fields ?? defaultSelectableFields);
-  const chartedMetrics = useStableObjectInstance(urlState.chartedMetrics) || emptyArray;
+  const chartedMetrics = useStableObjectInstance(urlState.chartedMetrics ?? defaultChartedMetrics);
 
   const filteringTagCatalogResult =
     useObservable(

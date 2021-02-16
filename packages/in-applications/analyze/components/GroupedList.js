@@ -12,9 +12,9 @@ import { getGroupingTagCatalog as getCallGroupingTagCatalog } from 'in-applicati
 import MetricAndSortingConfigurator from 'in-new-components/MetricAndSortingConfigurator/MetricAndSortingConfigurator';
 import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import { UNSPECIFIED, NO_VALUE, UNSPECIFIED_LABEL, NO_VALUE_LABEL } from 'in-analyze/components/GroupedTraces/Group';
+import { sanitizeTagFilter, type as TAG_FILTER_TYPE } from 'in-new-components/QueryBuilder/transformation/tagFilter';
 import { EQUALS, IS_EMPTY, NOT_EMPTY, IS_BLANK } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import { aggregateMetricKey, sparkChartMetricKey, chartMetricKey } from 'in-applications/analyze/metrics';
-import { type as TAG_FILTER_TYPE } from 'in-new-components/QueryBuilder/transformation/tagFilter';
 import { addTagFilters } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import FacetedSearch from 'in-applications/analyze/components/FacetedSearch/FacetedSearch';
 import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
@@ -585,7 +585,7 @@ function groupingFilter({ groupBy, group, operator = EQUALS, groupByTagType }, t
       entity: groupBy.groupbyTagEntity
     };
   }
-  return addTagFilters(tagFilterExpression, [groupFilter]);
+  return addTagFilters(tagFilterExpression, [sanitizeTagFilter(groupFilter)]);
 }
 
 const convertMetricListToMetricObject = (metrics, sparkChartGranularity, chartGranularity) =>
