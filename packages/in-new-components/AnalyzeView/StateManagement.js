@@ -75,8 +75,8 @@ const fieldsPropTypes = rpt.arrayOf(
     type: rpt.oneOf([metricType, customType]),
 
     // required for type=metric
-    metric: rpt.string,
-    aggregation: rpt.oneOf(Object.keys(aggregationLabels)),
+    metricId: rpt.string,
+    aggregationId: rpt.oneOf(Object.keys(aggregationLabels)),
 
     // required for type=custom. Must match the object keys within
     // customFieldRenderingInstructions

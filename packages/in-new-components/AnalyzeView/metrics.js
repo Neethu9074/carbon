@@ -7,12 +7,12 @@ import { emptyArray } from 'in-services/fixedObjects';
 
 export const groupName = 'name';
 
-export function getSingleNumberMetricId({ metric, aggregation }) {
-  return metric + '_' + aggregation;
+export function getSingleNumberMetricId({ metricId, aggregationId }) {
+  return metricId + '_' + aggregationId;
 }
 
-export function getSparkChartTimeSeriesMetricId({ metric, aggregation }) {
-  return metric + '_' + aggregation + '_sparkChart';
+export function getSparkChartTimeSeriesMetricId({ metricId, aggregationId }) {
+  return metricId + '_' + aggregationId + '_sparkChart';
 }
 
 export function getAvailableMetrics({ metricCatalog, metricCatalogFilter, fixedFields }) {
@@ -22,8 +22,8 @@ export function getAvailableMetrics({ metricCatalog, metricCatalogFilter, fixedF
       .map(metric => {
         // Remove aggregations of fixed metrics
         const fixedAggregations = fixedFields
-          .filter(f => f.type === metricType && f.metric === metric.metricId)
-          .map(f => f.aggregation);
+          .filter(f => f.type === metricType && f.metricId === metric.metricId)
+          .map(f => f.aggregationId);
         const aggregations = metric.aggregations.filter(a => !fixedAggregations.includes(a));
         return aggregations.length > 0
           ? {

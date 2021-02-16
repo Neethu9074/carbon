@@ -100,9 +100,13 @@ export default function GroupedAnalyzeView(props) {
     fields
       .filter(({ type }) => type === metricType)
       .reduce((accumulator, metric) => {
-        accumulator[getSingleNumberMetricId(metric)] = metric;
+        const backendMetric = {
+          metric: metric.metricId,
+          aggregation: metric.aggregationId
+        };
+        accumulator[getSingleNumberMetricId(metric)] = backendMetric;
         accumulator[getSparkChartTimeSeriesMetricId(metric)] = {
-          ...metric,
+          ...backendMetric,
           granularity: sparkChartGranularity
         };
         return accumulator;
@@ -157,9 +161,9 @@ export default function GroupedAnalyzeView(props) {
         const fieldLabel = groupedViewConfiguration.customFieldRenderingInstructions[field.customFieldId]?.label;
         return { value, label: fieldLabel ?? field.customFieldId };
       }
-      const metricDefinition = metricCatalog?.find(({ metricId }) => metricId === field.metric);
-      const metricLabel = metricDefinition?.label ?? field.metric;
-      const aggregationLabel = aggregationLabels[field.aggregation] ?? field.aggregation;
+      const metricDefinition = metricCatalog?.find(({ metricId }) => metricId === field.metricId);
+      const metricLabel = metricDefinition?.label ?? field.metricId;
+      const aggregationLabel = aggregationLabels[field.aggregationId] ?? field.aggregationId;
       return { value, label: `${metricLabel} (${aggregationLabel})` };
     })
     .filter(Boolean);
@@ -175,7 +179,7 @@ export default function GroupedAnalyzeView(props) {
         hitName={t('in-new-components:analyzeView.groupedViewHeader')}
         sortOptions={withoutSorting ? undefined : sortOptions}
         availableMetrics={availableMetrics}
-        metrics={selectableFields}
+        metrics={selectableFields.map(m => ({ metric: m.metricId, aggregation: m.aggregationId }))}
         totalHits={totalHits}
         totalRepresentedItemCount={totalRepresentedItemCount}
         order={orderByGroups}
@@ -184,7 +188,8 @@ export default function GroupedAnalyzeView(props) {
           onSelectableFieldsChange(
             metrics.map(metric => ({
               // Converting metrics to fields by adding the type
-              ...metric,
+              metricId: metric.metric,
+              aggregationId: metric.aggregation,
               type: metricType
             }))
           )
@@ -338,18 +343,18 @@ function metricColumns({ columnDefinitions, fields, groupedViewConfiguration, me
           width: '16rem',
           minWidth: '9rem',
           getContent({ item: { metrics }, timeConfig, progress, sparkChartGranularity }) {
-            const metricDefinition = metricCatalog.find(({ metricId }) => metricId === field.metric);
+            const metricDefinition = metricCatalog.find(({ metricId }) => metricId === field.metricId);
             return (
               <div className={locals.sparkChartWrapper}>
                 <SparkChart
                   loading={progress?.loading}
                   rollup={sparkChartGranularity}
                   timeConfig={timeConfig}
-                  aggregation={field.aggregation}
+                  aggregation={field.aggregationId}
                   metrics={metrics[getSparkChartTimeSeriesMetricId(field)]}
                   metric={metrics[getSingleNumberMetricId(field)]}
                   tooltipFormatter={getFormatter(metricDefinition?.formatter)}
-                  label={metricDefinition?.label ?? field.metric}
+                  label={metricDefinition?.label ?? field.metricId}
                   valueTheme="blue"
                 />
               </div>

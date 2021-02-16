@@ -129,7 +129,7 @@ const cases = [
           groupBy: '()~',
           beaconType: 'sessionStart',
           fields:
-            '!(type~metric~metric~beaconDuration~aggregation~MEAN)(type~metric~metric~beaconDuration~aggregation~MIN)~',
+            '!(type~metric~metricId~beaconDuration~aggregationId~MEAN)(type~metric~metricId~beaconDuration~aggregationId~MIN)~',
           chartedMetrics: '!(metricId~beaconCount~aggregationId~SUM~rendererId~stackedBar)~'
         }
       }

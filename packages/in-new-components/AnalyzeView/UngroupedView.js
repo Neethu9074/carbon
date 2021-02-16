@@ -108,12 +108,13 @@ export default function UngroupedAnalyzeView(props) {
           totalRepresentedItemCount={totalHits ?? 0}
           setOrder={onOrderByChange}
           availableMetrics={availableMetrics}
-          metrics={selectableFields}
+          metrics={selectableFields.map(m => ({ metric: m.metricId, aggregation: m.aggregationId }))}
           setMetrics={metrics =>
             onSelectableFieldsChange(
               metrics.map(metric => ({
                 // Converting metrics to fields by adding the type
-                ...metric,
+                metricId: metric.metric,
+                aggregationId: metric.aggregation,
                 type: metricType
               }))
             )

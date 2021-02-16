@@ -14,6 +14,7 @@ import { analyzePath, analyzePathFullyQualified, pageLoadViewPath } from 'in-web
 import { fromTagFiltersArray } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { deserializeTagFilters, deserializeMetrics } from 'in-websites/navigation/matrix';
 import { setOrDeleteMatrixKey, getMatrixParameter } from 'in-stores/navigation/matrix';
+import { metric as metricType } from 'in-new-components/AnalyzeView/fieldTypes';
 import { createParameters } from 'in-new-components/AnalyzeView/parameters';
 
 export const analyzeTwoParameters = createParameters(analyzePath);
@@ -27,7 +28,7 @@ export function transformOneZeroToTwoZero(location, tagCatalog) {
 
   transformGroupByParameters(location);
 
-  tansformTagFiltersParameters(location, tagCatalog);
+  transformTagFiltersParameters(location, tagCatalog);
 
   transformOrderByParameters(location);
 
@@ -73,7 +74,7 @@ function transformGroupByParameters(location) {
   setOrDeleteMatrixKey(location, analyzePath, groupMatrixParameterName);
 }
 
-function tansformTagFiltersParameters(location, tagCatalog) {
+function transformTagFiltersParameters(location, tagCatalog) {
   const tagFilters = getMatrixParameter(location, analyzePath, tagFiltersMatrixParameterName);
   setOrDeleteMatrixKey(location, analyzePath, tagFiltersMatrixParameterName);
   if (tagFilters) {
@@ -110,8 +111,9 @@ function transformMetricParameters(location) {
   setOrDeleteMatrixKey(location, analyzePath, metricsMatrixParameterName);
   if (metrics) {
     const fields = deserializeMetrics(metrics).map(eachMetric => ({
-      type: 'metric',
-      ...eachMetric
+      type: metricType,
+      metricId: eachMetric.metric,
+      aggregationId: eachMetric.aggregation
     }));
     setOrDeleteMatrixKey(
       location,
