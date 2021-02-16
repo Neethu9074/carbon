@@ -193,6 +193,8 @@ const columnDefinitions = [
         url = getWebsiteAlertConfig(id, entityId);
       } else if (type === 'ApplicationSmartAlert') {
         url = getApplicationsAlertConfig(id, entityId);
+      } else if (type === 'GlobalApplicationSmartAlert') {
+        url = '';
       } else {
         url = getEntityIdView(teamSettingsAlertingConfigurations, id);
       }
