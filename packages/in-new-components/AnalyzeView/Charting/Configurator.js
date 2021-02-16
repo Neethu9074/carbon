@@ -12,17 +12,12 @@ import { aggregationLabels } from 'in-stores/metric/metric';
 import { emptyArray } from 'in-services/fixedObjects';
 
 export default function Configurator({ onChartedMetricsChange, chartedMetrics, metricCatalog, metricCatalogFilter }) {
-  // TODO loading state
-  if (!metricCatalog) {
-    return null;
-  }
-
   return (
     <ChartingConfiguratorSection
       value={chartedMetrics?.[0]}
       options={
         metricCatalog
-          .filter(metricDescription => metricCatalogFilter?.(metricDescription) ?? true)
+          ?.filter(metricDescription => metricCatalogFilter?.(metricDescription) ?? true)
           .map(({ metricId, label, description, aggregations }) => ({
             metricId,
             label,
@@ -36,6 +31,7 @@ export default function Configurator({ onChartedMetricsChange, chartedMetrics, m
       }
       onChange={metric => onChartedMetricsChange(metric ? [metric] : [])}
       hideRenderer
+      disableClose
     />
   );
 }
