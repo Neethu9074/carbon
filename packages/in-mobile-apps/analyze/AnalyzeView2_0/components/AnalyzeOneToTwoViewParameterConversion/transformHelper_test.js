@@ -57,6 +57,7 @@ const cases = [
           tagFilters:
             '!(name~mobileBeacon.mobileApp.name~stringValue~Demo~operator~EQUALS~entity~NOT*_APPLICABLE)(name~mobileBeacon.view.name~stringValue~Home~operator~EQUALS~entity~NOT*_APPLICABLE)~',
           orderBy: 'timestamp',
+          orderByGroups: 'timestamp',
           orderDirection: 'ASC'
         }
       }
@@ -72,6 +73,7 @@ const cases = [
             '!(type~TAG*_FILTER~name~mobileBeacon.mobileApp.name~operator~EQUALS~entity~NOT*_APPLICABLE~value~Demo)(type~CONJUNCTION~logicalOperator~AND)(type~TAG*_FILTER~name~mobileBeacon.view.name~operator~EQUALS~entity~NOT*_APPLICABLE~value~Home)~',
           groupBy: '()~',
           orderBy: '(by~timestamp~direction~ASC)~',
+          orderByGroups: '(by~timestamp~direction~ASC)~',
           chartedMetrics: '!(metricId~beaconCount~aggregationId~SUM~rendererId~stackedBar)~'
         }
       }
