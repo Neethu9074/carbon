@@ -166,7 +166,8 @@ function getEntityName(entity) {
 
 const typeLabels = Object.freeze({
   ApplicationSmartAlert: 'Application SmartAlert',
-  WebsiteSmartAlert: 'Website SmartAlert'
+  WebsiteSmartAlert: 'Website SmartAlert',
+  GlobalApplicationSmartAlert: 'Global Application SmartAlert'
 });
 
 const columnDefinitions = [
