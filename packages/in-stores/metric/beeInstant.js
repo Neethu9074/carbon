@@ -75,15 +75,15 @@ export function granularityForBeeInstantMetrics(desiredGranularity, timeConfig) 
 }
 
 export const aggregationLabels = {
-  MEAN: t('in-store:metric.metric.MEAN'),
-  MIN: t('in-store:metric.metric.MIN'),
-  P25: t('in-store:metric.metric.P25'),
-  P50: t('in-store:metric.metric.P50'),
-  P75: t('in-store:metric.metric.P75'),
-  P90: t('in-store:metric.metric.P90'),
-  P95: t('in-store:metric.metric.P95'),
-  P98: t('in-store:metric.metric.P98'),
-  P99: t('in-store:metric.metric.P99'),
-  MAX: t('in-store:metric.metric.MAX'),
-  SUM: t('in-store:metric.metric.SUM')
+  MEAN: t('in-stores:metric.metric.MEAN'),
+  MIN: t('in-stores:metric.metric.MIN'),
+  P25: t('in-stores:metric.metric.P25'),
+  P50: t('in-stores:metric.metric.P50'),
+  P75: t('in-stores:metric.metric.P75'),
+  P90: t('in-stores:metric.metric.P90'),
+  P95: t('in-stores:metric.metric.P95'),
+  P98: t('in-stores:metric.metric.P98'),
+  P99: t('in-stores:metric.metric.P99'),
+  MAX: t('in-stores:metric.metric.MAX'),
+  SUM: t('in-stores:metric.metric.SUM')
 };
