@@ -64,8 +64,11 @@ export default class extends React.Component {
       this.header.style.left = `${this.headerCoords.left}px`;
       this.header.style.width = `${this.headerWidth}px`;
       this.wrapper.style.paddingTop = `${this.headerHeight}px`;
-
-      this.contentWrapper.style.minHeight = `${window.innerHeight - this.headerCoords.top - this.headerHeight}px`;
+      if (this.props.children) {
+        // Sticky has header and children. On an ideal scenario, chindren must take the remaining height in the screen
+        // If a Sticky is being used without chindren, don't set min-height for the child wrapper
+        this.contentWrapper.style.minHeight = `${window.innerHeight - this.headerCoords.top - this.headerHeight}px`;
+      }
       if (this.props.useFixedLayout) {
         const { contentWidth } = this.props;
         this.contentWrapper.style.position = 'fixed';
