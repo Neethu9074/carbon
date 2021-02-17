@@ -6,6 +6,7 @@ import { t } from 'in-i18n';
 
 import { sessionViewPathFullyQualified } from 'in-mobile-apps/navigation/paths';
 import Summary from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Summary';
+import { webMobileQb2AnalyzeEnabled } from 'in-services/featureFlags';
 
 export default function getTabs({ path }) {
   return [
@@ -13,7 +14,8 @@ export default function getTabs({ path }) {
       label: t('in-mobile-apps:sessionView.tabsDetailLabel'),
       path: path ?? `${sessionViewPathFullyQualified}/summary`,
       component: Summary,
-      hideTabLabelWhenAlone: true
+      hideTabLabelWhenAlone: true,
+      noTopPadding: webMobileQb2AnalyzeEnabled
     }
   ];
 }
