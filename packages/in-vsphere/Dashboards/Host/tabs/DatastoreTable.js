@@ -62,10 +62,10 @@ const freeSpaceColumn = {
   type: 'metric',
   typeArgs: {
     getSnapshotId(row) {
-      return row.snapshotId;
+      return row.data.id;
     },
     getMetricName(row) {
-      return 'datastore.freeSpace.' + row.filesystem.id;
+      return 'datastore.freeSpace.' + row.key;
     },
     getContent: bytes.detailed,
     getTimeWindowAggregation() {
@@ -186,10 +186,8 @@ function getDetails(row) {
             min: 0,
             formatter: bytes.detailed,
             tooltipFormatter: bytes.detailed,
-            metrics: ['datastore.freeSpace.' + fsId],
-            labels: [
-              t('in-vsphere:dashboards.freeSpace')
-            ],
+            metrics: ['datastore.freeSpace.' + row.key],
+            labels: [t('in-vsphere:dashboards.freeSpace')],
             type: 'line'
           }}
         />
