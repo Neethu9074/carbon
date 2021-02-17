@@ -41,7 +41,7 @@ packages/in-kubernetes              @pr-approval @instana/eng-infrastructure @in
 packages/in-logging                 @pr-approval @instana/eng-logs @instana/eng-ui
 # No clear ownership: Fallback to eng-ui
 packages/in-map                     @pr-approval @instana/eng-ui
-packages/in-mobile-apps             @pr-approval @instana/eng-eum @instana/eng-ui
+packages/in-mobile-apps             @pr-approval @instana/eng-eum @instana/eng-application @instana/eng-ui
 packages/in-new-components          @pr-approval @instana/eng-ui
 packages/in-new-components/alerting @pr-approval @instana/eng-ui @instana/eng-stan
 # No clear ownership: Fallback to eng-ui
@@ -58,5 +58,5 @@ packages/in-themes                  @pr-approval @instana/eng-ui
 packages/in-vsphere                 @pr-approval @instana/eng-infrastructure @instana/eng-ui
 # Shared ownership
 # packages/in-waiting-for-deployment
-packages/in-websites                @pr-approval @instana/eng-eum @instana/eng-ui
+packages/in-websites                @pr-approval @instana/eng-eum @instana/eng-application @instana/eng-ui
 packages/in-websites/alerting       @pr-approval @instana/eng-eum @instana/eng-ui @instana/eng-stan
