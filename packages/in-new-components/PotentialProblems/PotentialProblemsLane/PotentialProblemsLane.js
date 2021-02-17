@@ -5,16 +5,24 @@
 import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 
+import {
+  addTagFilters,
+  EMPTY_EXPRESSION,
+  toBackendQueryModel
+} from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import PotentialProblemsLanePresenter from 'in-new-components/PotentialProblems/PotentialProblemsLane/PotentialProblemsLanePresenter';
+import {
+  getEntitySelection,
+  getEntitySelectionAsTagFilterFormModel
+} from 'in-applications/alerting/data/entitySelection';
+import { applicationSmartAlertsEnabled, smartAlertsAdvancedEntitySelectionEnabled } from 'in-services/featureFlags';
 import getPotentialProblems from 'in-new-components/PotentialProblems/subscription/getPotentialProblems';
-import { addTagFilters } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import { switchQB1orQB2Helper } from 'in-new-components/Alerting/components/WithQB1orQB2';
 import { trackRequestLoadingTime } from 'in-new-components/PotentialProblems/tracker';
 import { tagFilter } from 'in-new-components/QueryBuilder/transformation/tagFilter';
 import { defaultGranularity } from 'in-new-components/PotentialProblems/constants';
 import getServiceLabel from 'in-subscription/application/getServiceLabel';
 import getEndpointInfo from 'in-subscription/application/getEndpointInfo';
-import { applicationSmartAlertsEnabled } from 'in-services/featureFlags';
 import getApplication from 'in-subscription/application/getApplication';
 import { pendingResult } from 'in-services/fixedObjects';
 import { isLoading } from 'in-services/util/result';
@@ -56,13 +64,24 @@ export default function PotentialProblemsLane({
     return null;
   }
 
+  let applications = null;
+  let tagFilterExpression = EMPTY_EXPRESSION;
+  if (smartAlertsAdvancedEntitySelectionEnabled) {
+    applications = getEntitySelection(applicationId, serviceId, endpointId);
+  } else {
+    tagFilterExpression = getTagFilterExpression(labels.serviceLabel, labels.endpointLabel);
+  }
+
   return (
     <PotentialProblemsLaneConnected
       {...props}
+      applications={applications}
       applicationId={applicationId}
+      serviceId={serviceId}
+      endpointId={endpointId}
       labels={labels}
       tagFilters={getTagFilters(labels.serviceLabel, labels.endpointLabel)}
-      tagFilterExpression={getTagFilterExpression(labels.serviceLabel, labels.endpointLabel)}
+      tagFilterExpression={tagFilterExpression}
       chartName={chartName}
       globalTimeConfig={globalTimeConfig}
       clusterSizeMillis={clusterSizeMillis}
@@ -71,11 +90,12 @@ export default function PotentialProblemsLane({
 }
 
 function PotentialProblemsLaneConnected({
-  applicationId,
   boundaryScope,
-  labels,
+  applicationId,
   tagFilters,
   tagFilterExpression,
+  applications,
+  labels,
   alertRules,
   chartName,
   clusterSizeMillis,
@@ -91,12 +111,13 @@ function PotentialProblemsLaneConnected({
         _alertRules,
         tagFilters,
         tagFilterExpression,
+        applications,
         startTime,
         chartName,
         boundaryScope,
         applicationId
       ]),
-    [globalTimeConfig, alertRules, clusterSizeMillis, tagFilters, tagFilterExpression]
+    [globalTimeConfig, alertRules, clusterSizeMillis, tagFilters, tagFilterExpression, applications]
   );
 
   return (
@@ -108,7 +129,8 @@ function PotentialProblemsLaneConnected({
       boundaryScope={boundaryScope}
       potentialProblems={potentialProblemsResult?.data ?? emptyPotentialProblems}
       tagFilters={tagFilters} // QB1
-      tagFilterExpression={tagFilterExpression} // QB2
+      tagFilterExpression={tagFilterExpression} // QB2 without S/E selection
+      applications={applications} // QB2 with S/E selection
       isLoading={isLoading(potentialProblemsResult)}
     />
   );
@@ -211,6 +233,7 @@ function getPotentialProblemsObservable([
   alertRules,
   tagFilters,
   tagFilterExpression,
+  applications,
   startTime,
   chartName,
   boundaryScope,
@@ -221,7 +244,18 @@ function getPotentialProblemsObservable([
     alertRules,
     ...switchQB1orQB2Helper(
       () => ({ tagFilters: enhanceTagFilters(tagFilters, boundaryScope, applicationId) }),
-      () => ({ tagFilterExpression: enhanceTagFilterExpression(tagFilterExpression, boundaryScope, applicationId) })
+      () => {
+        if (smartAlertsAdvancedEntitySelectionEnabled) {
+          return {
+            tagFilterExpression: toBackendQueryModel(
+              getEntitySelectionAsTagFilterFormModel(applications, boundaryScope, applicationId)
+            )
+          };
+        }
+        return {
+          tagFilterExpression: enhanceTagFilterExpression(tagFilterExpression, boundaryScope, applicationId)
+        };
+      }
     )
   })
     .startWith(pendingResult)

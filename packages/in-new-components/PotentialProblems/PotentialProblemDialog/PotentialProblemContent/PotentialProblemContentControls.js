@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import { t } from 'in-i18n';
 import React from 'react';
 
+import { applicationsItemTreePropType } from 'in-new-components/Alerting/components/scopeConfig/ServicesAndEndpointsListPresenter/sharedPropTypes';
 import {
   alertPropType,
   rulePropType,
@@ -24,9 +25,10 @@ import { role } from 'in-stores/user';
 export default function PotentialProblemContentControls({
   applicationId,
   applicationLabel,
+  boundaryScope,
+  applications,
   tagFilters,
   tagFilterExpression,
-  boundaryScope,
   alert,
   rule,
   threshold,
@@ -49,11 +51,12 @@ export default function PotentialProblemContentControls({
           applicationId,
           applicationLabel,
           null, // is already included in given tagFilters/tagFilterExpression
+          null, // we don't want to override the service ID with its name
           null, // is already included in given tagFilters/tagFilterExpression
-          null, // is already included in given tagFilters/tagFilterExpression
-          null, // is already included in given tagFilters/tagFilterExpression
+          null, // we don't want to override the endpoint ID with its name
           {
             boundaryScope,
+            applications,
             rule,
             threshold,
             tagFilters,
@@ -108,9 +111,10 @@ PotentialProblemContentControls.propTypes = {
   rule: rulePropType.isRequired,
   applicationId: PropTypes.string.isRequired,
   applicationLabel: PropTypes.string.isRequired,
+  applications: applicationsItemTreePropType,
   boundaryScope: PropTypes.string,
   renderSmartAlertDialogComponent: PropTypes.func.isRequired,
   tagFilters: PropTypes.arrayOf(PropTypes.object).isRequired,
-  tagFilterExpression: PropTypes.object.isRequired,
+  tagFilterExpression: PropTypes.object,
   threshold: thresholdPropType.isRequired
 };
