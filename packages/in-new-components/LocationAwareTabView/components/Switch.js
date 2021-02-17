@@ -43,7 +43,8 @@ function ViewWrapper({ tab, data, location, props }) {
       className={classNames({
         [locals.content]: true,
         [locals.stickToHeader]: tab.stickToHeader,
-        [locals.stickToBottom]: tab.stickToBottom
+        [locals.stickToBottom]: tab.stickToBottom,
+        [locals.noTopPadding]: tab.noTopPadding
       })}
     >
       <ViewTrackingMeta
