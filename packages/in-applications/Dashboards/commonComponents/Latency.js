@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import theme from 'in-themes';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import UnifiedMetricsChart, { parseMetricId } from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
@@ -58,38 +59,38 @@ export default function Latency({
     {
       config: defaultMetricConfig,
       aggregation: 'P50',
-      label: '50th',
+      label: t('in-mobile-apps:dashboard.tabs.50thLabel'),
       color: theme.lib.colors.chart.strokeColors25[0]
     },
     {
       config: defaultMetricConfig,
       aggregation: 'P90',
-      label: '90th',
+      label: t('in-mobile-apps:dashboard.tabs.90thLabel'),
       color: theme.lib.colors.chart.strokeColors25[1]
     },
     {
       config: defaultMetricConfig,
       aggregation: 'P95',
-      label: '95th',
+      label: t('in-mobile-apps:dashboard.tabs.95thLabel'),
       color: theme.lib.colors.chart.strokeColors25[2]
     },
     {
       config: defaultMetricConfig,
       aggregation: 'P99',
-      label: '99th',
+      label: t('in-mobile-apps:dashboard.tabs.99thLabel'),
       color: theme.lib.colors.chart.strokeColors25[3]
     },
     {
       config: defaultMetricConfig,
       aggregation: 'MAX',
-      label: 'Max',
+      label: t('in-mobile-apps:dashboard.tabs.maxLabel'),
       color: theme.lib.colors.chart.strokeColors25[4],
       defaultDisabled: !timeShiftConfig.offset
     },
     {
       config: defaultMetricConfig,
       aggregation: 'MEAN',
-      label: 'Mean',
+      label: t('in-mobile-apps:dashboard.tabs.meanLabel'),
       color: theme.lib.colors.chart.strokeColors25[5],
       defaultDisabled: !timeShiftConfig.offset
     }
@@ -162,7 +163,7 @@ export default function Latency({
           {
             name: 'analyze',
             icon: 'lib_analyze',
-            label: 'View in Analyze',
+            label: t('in-applications:lineViewInAnalyze'),
             getHref$: (highlightedTime, metricsToAdd) =>
               tagCatalog &&
               getJumpToAnalyzeHref$(

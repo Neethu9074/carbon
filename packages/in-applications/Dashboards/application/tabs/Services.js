@@ -4,6 +4,7 @@
  */
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
+import { t } from 'in-i18n';
 
 import {
   applicationDashboardUrlParameters,
@@ -41,7 +42,7 @@ const technologiesUrlParameter = createEndpointTechnologiesUrlParameter(pathSegm
 const columnDefinitions = [
   {
     id: 'serviceLabel',
-    label: 'Name',
+    label: t('in-applications:labelName'),
     getContent(item, { applicationId, endpointId, boundaryScope }) {
       return (
         <SeverityAwareEntityLink
@@ -59,7 +60,7 @@ const columnDefinitions = [
   },
   {
     id: 'types',
-    label: 'Types',
+    label: t('in-applications:labelTypes'),
     defaultOrderDirection: 'DESC',
     noWrap: true,
     getContent(item) {
@@ -76,7 +77,7 @@ const columnDefinitions = [
   },
   {
     id: 'technologies',
-    label: 'Technologies',
+    label: t('in-applications:labelTechnologies'),
     defaultOrderDirection: 'DESC',
     noWrap: true,
     getContent(item) {
@@ -85,7 +86,7 @@ const columnDefinitions = [
   },
   {
     id: 'endpoints',
-    label: 'Endpoints',
+    label: t('in-applications:labelEndpoints'),
     defaultOrderDirection: 'DESC',
     getContent(item) {
       const count = get(item, ['metrics', 'endpoints', 0, 1], 0);
@@ -94,7 +95,7 @@ const columnDefinitions = [
   },
   {
     id: 'callsAgg',
-    label: 'Calls',
+    label: t('in-applications:labelCalls'),
     defaultOrderDirection: 'DESC',
     getContent(item, { result, timeConfig }) {
       return (
@@ -112,7 +113,7 @@ const columnDefinitions = [
   },
   {
     id: 'erroneousCallsAgg',
-    label: 'Erroneous Calls',
+    label: t('in-applications:titleErroneousCalls'),
     defaultOrderDirection: 'DESC',
     getContent(item, { result, timeConfig }) {
       return (
@@ -130,7 +131,7 @@ const columnDefinitions = [
   },
   {
     id: 'errorsAgg',
-    label: 'Erroneous Call Rate',
+    label: t('in-applications:titleErroneousCallRate'),
     defaultOrderDirection: 'DESC',
     getContent(item, { result, timeConfig }) {
       return (
@@ -149,7 +150,7 @@ const columnDefinitions = [
   },
   {
     id: 'latencyAgg',
-    label: 'Latency',
+    label: t('in-applications:labelLatency'),
     defaultOrderDirection: 'DESC',
     getContent(item, { result, timeConfig }) {
       return (
@@ -167,7 +168,7 @@ const columnDefinitions = [
   },
   {
     id: 'maxSeverity',
-    label: 'Health',
+    label: t('in-applications:labelHealth'),
     defaultOrderDirection: 'DESC',
     getContent(item, { result, timeConfig }) {
       return (
@@ -234,7 +235,7 @@ export default function ServiceList(props) {
       technologies={technologies}
       setFilter={setFilter}
       query={query}
-      buttonLabel="Services"
+      buttonLabel={t('in-applications:labelServices')}
       applicationName={applicationName}
       boundaryScope={boundaryScope}
       groupByTag={{ name: 'service.name', entity: entityTypes.DESTINATION }}

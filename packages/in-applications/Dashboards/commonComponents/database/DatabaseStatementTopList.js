@@ -5,6 +5,7 @@
 import React, { Fragment } from 'react';
 import theme from 'in-themes';
 import { get } from 'lodash';
+import { t } from 'in-i18n';
 
 import { TopListWithUrlState, trackTopListNavigation } from 'in-new-components/TopListWithUrlState';
 import getDatabaseStatementTopList from 'in-subscription/application/getDatabaseStatementTopList';
@@ -22,7 +23,11 @@ import connect from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
 
 const metrics = ['latency', 'calls', 'errors'];
-const labels = ['Latency', 'Calls', 'Erroneous Calls'];
+const labels = [
+  t('in-applications:labelLatency'),
+  t('in-applications:labelCalls'),
+  t('in-applications:titleErroneousCalls')
+];
 const aggregations = ['MEAN', 'SUM', 'SUM'];
 const formatters = [millis.fixedCompact, number.compact, number.compact];
 const colors = [null, null, theme.lib.colors.failure];
@@ -52,7 +57,7 @@ export default connect(({ applicationId, serviceId, endpointId }) => {
 }) {
   return (
     <TopListWithUrlState
-      title="Top Statements"
+      title={t('in-applications:titleTopStatements')}
       metrics={metrics}
       labels={labels}
       aggregations={aggregations}

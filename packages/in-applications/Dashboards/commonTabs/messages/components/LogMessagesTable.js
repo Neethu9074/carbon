@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import AnalyzeMessagesButton from 'in-applications/Dashboards/commonTabs/messages/components/AnalyzeMessagesButton';
@@ -27,7 +28,7 @@ const matrixPrefix = 'log.';
 const columnDefinitions = [
   {
     id: 'logMessage',
-    label: 'Log Message',
+    label: t('in-applications:labelLogMessage'),
     getContent(item, { applicationName, serviceName, endpointName, boundaryScope }) {
       return (
         <Message
@@ -44,14 +45,14 @@ const columnDefinitions = [
   },
   {
     id: 'logLevel',
-    label: 'Log Level',
+    label: t('in-applications:labelLogLevel'),
     getContent(item) {
       return <Pill kind="lighter">{item.level}</Pill>;
     }
   },
   {
     id: 'logsAgg',
-    label: 'Count',
+    label: t('in-applications:labelCount'),
     defaultOrderDirection: 'DESC',
     getContent(item, { result, timeConfig }) {
       return (
@@ -71,7 +72,7 @@ const columnDefinitions = [
 const ServerTableWithUrlState = createServerTableWithUrlState({
   Renderer: withEmptyTableState({
     columnDefinitions,
-    entityName: 'log messages'
+    entityName: t('in-applications:dashboards.logMessages')
   }),
   paginationResettingUrlParameters: [
     ...timeConfigUrlParameters,
@@ -195,7 +196,7 @@ function Message({ message, applicationName, serviceName, endpointName, boundary
         })
       }
     >
-      {message ? message : <div className={locals.italic}>No log message available</div>}
+      {message ? message : <div className={locals.italic}>{t('in-applications:dashboards.noLogMessage')}</div>}
     </Link>
   );
 }

@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { createField, createMapForm, createListForm } from 'formalistic';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import RuleTester from 'in-applications/Forms/CustomEndpointMapping/EndpointExtractionRuleDialog/RuleTester';
@@ -18,7 +19,7 @@ import Input from 'in-components/form/Input';
 import locals from './EndpointExtractionRuleDialog.mless';
 
 export default function EndpointExtractionRuleDialog(props) {
-  return <EditConfigDialog title="Custom HTTP Rule" content={<BasicDialog {...props} />} />;
+  return <EditConfigDialog title={t('in-applications:titleCustomHTTPRule')} content={<BasicDialog {...props} />} />;
 }
 
 class BasicDialog extends React.Component {
@@ -51,10 +52,8 @@ class BasicDialog extends React.Component {
                 autoFocus
               />
               <TouchedMessages field={field} />
-              <span className={locals.queryHelpText}>{`Specify the path to match, eg. /api/{version}/*`}</span>
-              <span
-                className={locals.queryHelpText}
-              >{`Optionally, add test cases below to ensure the rule works as expected, eg. /api/v2/anything`}</span>
+              <span className={locals.queryHelpText}>{t('in-applications:forms.helpSpecifyPathToMatch')}</span>
+              <span className={locals.queryHelpText}>{t('in-applications:forms.helpAddTestCaseToWork')}</span>
             </FormGroup>
           ))}
         </div>
@@ -71,7 +70,7 @@ class BasicDialog extends React.Component {
 
         <div className={locals.footer}>
           <Button kind="create" type="submit" disabled={!form.hierarchyValid}>
-            Save
+            {t('in-applications:buttonSave')}
           </Button>
           {onRemove && (
             <Button
@@ -84,7 +83,7 @@ class BasicDialog extends React.Component {
                 onRemove();
               }}
             >
-              Delete Rule
+              {t('in-applications:buttonDeleteRule')}
             </Button>
           )}
         </div>
@@ -171,7 +170,7 @@ function queryValidator(query) {
     return [
       {
         severity: 'error',
-        message: 'The value must not be blank.'
+        message: t('in-applications:forms.errorBlankValue')
       }
     ];
   }

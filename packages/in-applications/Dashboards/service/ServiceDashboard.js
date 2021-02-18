@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { get } from 'lodash';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import InstanaServiceToCloudfoundryApplicationButton from 'in-cloudfoundry/commonComponents/InstanaServiceToCloudfoundryApplicationButton';
@@ -75,8 +76,8 @@ export default function ServiceDashboard({ location }) {
     <>
       <ViewTrackingMeta
         data={{
-          productArea: 'Applications',
-          pageRootName: 'Service',
+          productArea: t('in-applications:labelApplications'),
+          pageRootName: t('in-applications:labelService'),
           inContextOfApplication: props.applicationId != null
         }}
       />
@@ -125,7 +126,7 @@ function Header(props) {
     <DashboardHeader
       {...props}
       icon="lib_application_service"
-      title="Service"
+      title={t('in-applications:labelService')}
       label={get(props.result, ['data', 'label'])}
       renderButtonLine={renderButtonLine}
       renderButtonLineSecondary={renderButtonLineSecondary}

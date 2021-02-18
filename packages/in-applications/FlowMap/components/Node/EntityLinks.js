@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import React, { forwardRef } from 'react';
+import { t } from 'in-i18n';
 
 import { getServiceDashboard, getEndpointDashboard } from 'in-applications/navigation/paths';
 import Tooltip from 'in-components/Tooltip';
@@ -17,7 +18,11 @@ export function ServiceLink({ serviceId, node, isOutofAppContext, boundaryScope,
       {children}
     </EntityLink>
   );
-  return isOutofAppContext ? <Tooltip content="The service is not in the current application.">{link}</Tooltip> : link;
+  return isOutofAppContext ? (
+    <Tooltip content={t('in-applications:flowMap.tooltipServiceNotInApplication')}>{link}</Tooltip>
+  ) : (
+    link
+  );
 }
 
 export const EndpointLink = connectTo(

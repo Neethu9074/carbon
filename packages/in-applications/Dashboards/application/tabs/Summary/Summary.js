@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import React, { Fragment } from 'react';
+import { t } from 'in-i18n';
 
 import ApplicationDashboardsMarkerLanes from 'in-applications/Dashboards/ApplicationDashboardsMarkerLanes';
 import LatencyAndDistribution from 'in-applications/Dashboards/commonComponents/LatencyAndDistribution';
@@ -66,7 +67,7 @@ export default function Summary({ timeConfig, applicationId, data: application, 
       <Row>
         <Col xs>
           <BigNumberKpiCard
-            title="Calls"
+            title={t('in-applications:labelCalls')}
             formatter={number.compact}
             config={{
               comparisonDecreaseColor: 'redish',
@@ -80,7 +81,7 @@ export default function Summary({ timeConfig, applicationId, data: application, 
               }
             }}
             iconAction={{
-              text: 'View in Analyze',
+              text: t('in-applications:lineViewInAnalyze'),
               kind: 'subtle',
               icon: 'lib_analyze',
               href$:
@@ -108,9 +109,13 @@ export default function Summary({ timeConfig, applicationId, data: application, 
         </Col>
         <Col xs>
           <BigNumberKpiCard
-            title="Erroneous Calls"
+            title={t('in-applications:titleErroneousCalls')}
             formatter={number.compact}
-            companionFormatter={v => `${percentage.detailed(v)} of all calls`}
+            companionFormatter={v =>
+              t('in-applications:dashboards.percentOfCalls', {
+                percentage: percentage.detailed(v)
+              })
+            }
             config={{
               comparisonDecreaseColor: 'greenish',
               comparisonIncreaseColor: 'redish',
@@ -130,7 +135,7 @@ export default function Summary({ timeConfig, applicationId, data: application, 
               }
             }}
             iconAction={{
-              text: 'View in Analyze',
+              text: t('in-applications:lineViewInAnalyze'),
               kind: 'subtle',
               icon: 'lib_analyze',
               href$:
@@ -155,9 +160,13 @@ export default function Summary({ timeConfig, applicationId, data: application, 
         </Col>
         <Col xs>
           <BigNumberKpiCard
-            title="Mean Latency"
+            title={t('in-applications:titleMeanLatency')}
             formatter={meanLatency.detailed}
-            companionFormatter={v => `${meanLatency.detailed(v)} for 90th`}
+            companionFormatter={v =>
+              t('in-applications:dashboards.meanLatencyFor90th', {
+                meanLatencyDetail: meanLatency.detailed(v)
+              })
+            }
             config={{
               comparisonDecreaseColor: 'greenish',
               comparisonIncreaseColor: 'redish',
@@ -176,7 +185,7 @@ export default function Summary({ timeConfig, applicationId, data: application, 
               }
             }}
             iconAction={{
-              text: 'View in Analyze',
+              text: t('in-applications:lineViewInAnalyze'),
               kind: 'subtle',
               icon: 'lib_analyze',
               href$:
@@ -199,7 +208,7 @@ export default function Summary({ timeConfig, applicationId, data: application, 
       <Row>
         <Col lg={4}>
           <CallsAndHttp
-            cardTitle="Calls"
+            cardTitle={t('in-applications:labelCalls')}
             applicationId={applicationId}
             tagFilters={tagFilters}
             boundaryScope={boundaryScope}
@@ -215,7 +224,7 @@ export default function Summary({ timeConfig, applicationId, data: application, 
         </Col>
         <Col lg={4}>
           <Errors
-            cardTitle="Erroneous Call Rate"
+            cardTitle={t('in-applications:titleErroneousCallRate')}
             applicationId={applicationId}
             timeConfig={timeConfig}
             boundaryScope={boundaryScope}
@@ -226,7 +235,7 @@ export default function Summary({ timeConfig, applicationId, data: application, 
         </Col>
         <Col lg={4}>
           <LatencyAndDistribution
-            cardTitle="Latency"
+            cardTitle={t('in-applications:labelLatency')}
             applicationId={applicationId}
             timeConfig={timeConfig}
             boundaryScope={boundaryScope}

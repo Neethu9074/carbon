@@ -2,12 +2,12 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import ComboBoxBehavior from 'in-components/form/ComboBox/ComboBoxBehavior';
 import DropdownButton from 'in-new-components/Button/DropdownButton';
 import { boundaryScopes } from 'in-applications/constants';
-import { capitalize } from 'in-services/formatters/string';
 import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
 
@@ -20,7 +20,10 @@ export default function InboundAllCallsDropdown(props) {
   if (!boundaryScope) {
     return null;
   }
-  const boundaryScopeLabel = capitalize(boundaryScope);
+  const boundaryScopeLabel =
+    boundaryScope === 'ALL'
+      ? t('in-applications:inboundOutboundCalls.config.all.text')
+      : t('in-applications:inboundOutboundCalls.config.inbound.text');
 
   return (
     <ComboBoxBehavior
@@ -35,7 +38,7 @@ export default function InboundAllCallsDropdown(props) {
         <DropdownButton {...elementProps} expanded={isOpen} kind="secondary" disabled={disabled}>
           <div className={locals.buttonContent}>
             <SvgIcon className={locals.icon} type={boundaryScopes.info[boundaryScope.toUpperCase()].icon} />
-            {boundaryScopeLabel} Calls
+            {boundaryScopeLabel}
             {defaultBoundaryScope && (
               <Tooltip
                 content={boundaryScopes.info[defaultBoundaryScope.toUpperCase()].overrideDefault}

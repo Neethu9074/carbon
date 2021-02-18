@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { get } from 'lodash';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
@@ -51,8 +52,8 @@ export default function ApplicationDashboard({ location }) {
     <>
       <ViewTrackingMeta
         data={{
-          productArea: 'Applications',
-          pageRootName: 'Application'
+          productArea: t('in-applications:labelApplications'),
+          pageRootName: t('in-applications:labelApplication')
         }}
       />
 
@@ -75,7 +76,7 @@ function Header(props) {
     <DashboardHeader
       {...props}
       icon="lib_application"
-      title="Application"
+      title={t('in-applications:labelApplication')}
       label={get(props.result, ['data', 'label'])}
       renderButtonLine={renderButtonLine}
       renderButtonLineSecondary={renderButtonLineSecondary}

@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import React, { Fragment } from 'react';
+import { t } from 'in-i18n';
 
 import HorizontalControlsPresenter from 'in-new-components/MapControls/HorizontalControlsPresenter';
 import VerticalControlsPresenter from 'in-new-components/MapControls/VerticalControlsPresenter';
@@ -92,17 +93,17 @@ const HeatmapButtons = connectTo(
       <ButtonGroup
         buttonPropsList={[
           {
-            text: 'Calls',
+            text: t('in-applications:labelCalls'),
             key: SIGNAL_VALUES.HEATMAP_CALLS,
             onClick: () => toggleHeatMapSignal(SIGNAL_VALUES.HEATMAP_CALLS)
           },
           {
-            text: 'Latency',
+            text: t('in-applications:labelLatency'),
             key: SIGNAL_VALUES.HEATMAP_LATENCY,
             onClick: () => toggleHeatMapSignal(SIGNAL_VALUES.HEATMAP_LATENCY)
           },
           {
-            text: 'Errors',
+            text: t('in-applications:labelErrors'),
             key: SIGNAL_VALUES.HEATMAP_ERRORRATE,
             onClick: () => toggleHeatMapSignal(SIGNAL_VALUES.HEATMAP_ERRORRATE)
           }

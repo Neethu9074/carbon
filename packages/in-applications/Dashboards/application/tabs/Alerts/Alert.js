@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import React, { useState } from 'react';
+import { t } from 'in-i18n';
 
 import {
   applicationsAlertingAlertRevisionChanged,
@@ -82,7 +83,7 @@ export default function Alert({ location, timeConfig }) {
 
   return (
     <>
-      <Title title="Alert Details" dynamic={alertConfig.name} />
+      <Title title={t('in-applications:titleAlertDetails')} dynamic={alertConfig.name} />
       <div>
         <AlertHeader
           alertConfig={alertConfig}

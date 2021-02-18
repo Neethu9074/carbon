@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { combineLatest } from '@instana/observables';
+import { Trans, t } from 'in-i18n';
 import React from 'react';
 
 import ScreenPositionWrapper from 'in-applications/FlowMap/components/Node/ScreenPositionWrapper';
@@ -65,9 +66,19 @@ export default connectTo(
               onClickCallback(props);
             }}
           >
-            Load {numRemainingNodes > pageSize ? pageSize : numRemainingNodes} more
-            {numRemainingNodes > pageSize && (
-              <span className={locals.totalReminaingNodesLabel}>(total: {numRemainingNodes})</span>
+            {numRemainingNodes > pageSize ? (
+              <Trans
+                i18nKey="in-applications:flowMap.buttonLoadMoreWithRemain"
+                values={{
+                  remainNumber: pageSize,
+                  nodeNumber: numRemainingNodes
+                }}
+                components={{ span: <span /> }}
+              />
+            ) : (
+              t('in-applications:flowMap.buttonLoadMore', {
+                remainNumber: numRemainingNodes
+              })
             )}
           </Button>
           {isLoading && <SvgIcon className={locals.loadingIcon} type="lib_actions_loading" spinning />}

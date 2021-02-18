@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
@@ -64,7 +65,7 @@ export default connectTo(
         <Row>
           <Col xs>
             <BigNumberKpiCard
-              title="Calls"
+              title={t('in-applications:labelCalls')}
               formatter={number.compact}
               config={{
                 comparisonDecreaseColor: 'redish',
@@ -78,7 +79,7 @@ export default connectTo(
                 }
               }}
               iconAction={{
-                text: 'View in Analyze',
+                text: t('in-applications:lineViewInAnalyze'),
                 kind: 'subtle',
                 icon: 'lib_analyze',
                 href$:
@@ -106,9 +107,13 @@ export default connectTo(
           </Col>
           <Col xs>
             <BigNumberKpiCard
-              title="Erroneous Calls"
+              title={t('in-applications:titleErroneousCalls')}
               formatter={number.compact}
-              companionFormatter={v => `${percentage.detailed(v)} of all calls`}
+              companionFormatter={v =>
+                t('in-applications:dashboards.percentOfCalls', {
+                  percentage: percentage.detailed(v)
+                })
+              }
               config={{
                 comparisonDecreaseColor: 'greenish',
                 comparisonIncreaseColor: 'redish',
@@ -127,7 +132,7 @@ export default connectTo(
                 }
               }}
               iconAction={{
-                text: 'View in Analyze',
+                text: t('in-applications:lineViewInAnalyze'),
                 kind: 'subtle',
                 icon: 'lib_analyze',
                 href$:
@@ -152,9 +157,13 @@ export default connectTo(
           </Col>
           <Col xs>
             <BigNumberKpiCard
-              title="Mean Latency"
+              title={t('in-applications:titleMeanLatency')}
               formatter={meanLatency.detailed}
-              companionFormatter={v => `${meanLatency.detailed(v)} for 90th`}
+              companionFormatter={v =>
+                t('in-applications:dashboards.meanLatencyFor90th', {
+                  meanLatencyDetail: meanLatency.detailed(v)
+                })
+              }
               config={{
                 comparisonDecreaseColor: 'greenish',
                 comparisonIncreaseColor: 'redish',
@@ -173,7 +182,7 @@ export default connectTo(
                 }
               }}
               iconAction={{
-                text: 'View in Analyze',
+                text: t('in-applications:lineViewInAnalyze'),
                 kind: 'subtle',
                 icon: 'lib_analyze',
                 href$:
@@ -197,7 +206,7 @@ export default connectTo(
         <Row>
           <Col lg={4}>
             <CallsAndHttp
-              cardTitle="Calls"
+              cardTitle={t('in-applications:labelCalls')}
               applicationId={applicationId}
               serviceId={serviceId}
               tagFilters={tagFilters}
@@ -213,7 +222,7 @@ export default connectTo(
           </Col>
           <Col lg={4}>
             <Errors
-              cardTitle="Erroneous Call Rate"
+              cardTitle={t('in-applications:titleErroneousCallRate')}
               applicationId={applicationId}
               serviceId={serviceId}
               boundaryScope={boundaryScope}
@@ -225,7 +234,7 @@ export default connectTo(
           </Col>
           <Col lg={4}>
             <LatencyAndDistribution
-              cardTitle="Latency"
+              cardTitle={t('in-applications:labelLatency')}
               applicationId={applicationId}
               serviceId={serviceId}
               boundaryScope={boundaryScope}

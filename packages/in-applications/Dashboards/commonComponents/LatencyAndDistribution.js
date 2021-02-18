@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { TimeShiftAwareChartSelectorWithUrlState } from 'in-applications/Dashboards/commonComponents/ChartSelectors';
@@ -10,55 +11,55 @@ import Latency from 'in-applications/Dashboards/commonComponents/Latency';
 
 const tabOverTime = {
   id: 'overTime',
-  label: 'Over Time'
+  label: t('in-applications:labelOverTime')
 };
 const tabDistribution = {
   id: 'dist',
-  label: 'Distribution'
+  label: t('in-applications:labelDistribution')
 };
 
 const tabs = [tabOverTime, tabDistribution];
 const metrics = [
   {
     id: 'p50',
-    label: '50th',
+    label: t('in-mobile-apps:dashboard.tabs.50thLabel'),
     value: 'P50',
     tab: tabOverTime.id,
     tabDefault: true
   },
   {
     id: 'p90',
-    label: '90th',
+    label: t('in-mobile-apps:dashboard.tabs.90thLabel'),
     value: 'P90',
     tab: tabOverTime.id
   },
   {
     id: 'p95',
-    label: '95th',
+    label: t('in-mobile-apps:dashboard.tabs.95thLabel'),
     value: 'P95',
     tab: tabOverTime.id
   },
   {
     id: 'p99',
-    label: '99th',
+    label: t('in-mobile-apps:dashboard.tabs.99thLabel'),
     value: 'P99',
     tab: tabOverTime.id
   },
   {
     id: 'max',
-    label: 'Max',
+    label: t('in-mobile-apps:dashboard.tabs.maxLabel'),
     value: 'MAX',
     tab: tabOverTime.id
   },
   {
     id: 'mean',
-    label: 'Mean',
+    label: t('in-mobile-apps:dashboard.tabs.meanLabel'),
     value: 'MEAN',
     tab: tabOverTime.id
   },
   {
     id: 'dist',
-    label: 'Distribution',
+    label: t('in-applications:labelDistribution'),
     value: 'DISTRIBUTION',
     tab: tabDistribution.id,
     tabDefault: true

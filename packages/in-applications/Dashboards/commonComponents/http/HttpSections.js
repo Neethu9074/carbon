@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import theme from 'in-themes';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { IS_EMPTY, NOT_EMPTY, NOT_STARTS_WITH, STARTS_WITH } from 'in-new-components/QueryBuilder/tagFilter/operators';
@@ -58,31 +59,31 @@ export default function HttpSections({
     {
       config: defaultMetricConfig,
       metric: 'http.1xx',
-      label: '1XX',
+      label: t('in-websites:websiteDashboard.tabs.ajax.xhrRequestLabel1XX'),
       color: theme.lib.colors.chart.strokeColors25[8]
     },
     {
       config: defaultMetricConfig,
       metric: 'http.2xx',
-      label: '2XX',
+      label: t('in-websites:websiteDashboard.tabs.ajax.xhrRequestLabel2XX'),
       color: theme.lib.colors.chart.strokeColors25[1]
     },
     {
       config: defaultMetricConfig,
       metric: 'http.3xx',
-      label: '3XX',
+      label: t('in-websites:websiteDashboard.tabs.ajax.xhrRequestLabel3XX'),
       color: theme.lib.colors.chart.strokeColors25[4]
     },
     {
       config: defaultMetricConfig,
       metric: 'http.4xx',
-      label: '4XX',
+      label: t('in-websites:websiteDashboard.tabs.ajax.xhrRequestLabel4XX'),
       color: theme.lib.colors.warning
     },
     {
       config: defaultMetricConfig,
       metric: 'http.5xx',
-      label: '5XX',
+      label: t('in-websites:websiteDashboard.tabs.ajax.xhrRequestLabel5XX'),
       color: theme.lib.colors.failure
     }
   ];
@@ -91,7 +92,7 @@ export default function HttpSections({
     chartMetrics.push({
       config: otherCallsMetricConfig,
       metric: 'calls',
-      label: 'Other',
+      label: t('in-applications:labelOther'),
       color: '#9aa5a9'
     });
   }
@@ -134,7 +135,7 @@ export default function HttpSections({
         renderPostChartContentHttpStatus({
           ...props,
           boundaryScope,
-          chartName: 'Calls',
+          chartName: t('in-applications:labelCalls'),
           alertRules: {
             throughputHigh: {
               rule: {
@@ -185,7 +186,7 @@ export default function HttpSections({
           {
             name: 'analyze',
             icon: 'lib_analyze',
-            label: 'View in Analyze',
+            label: t('in-applications:lineViewInAnalyze'),
             getHref$: (highlightedTime, metricsToAdd) =>
               tagCatalog &&
               getJumpToAnalyzeHref$(
