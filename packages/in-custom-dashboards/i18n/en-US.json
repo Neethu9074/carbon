@@ -1,5 +1,16 @@
 {
   "editor": {
     "copyOf": "Copy of {{title}}"
+  },
+  "widgets": {
+    "chart": {
+      "axesConfigurator": {
+        "addSecondary": "Add secondary Y-axis",
+        "removeSecondary": "Remove",
+        "min": "Min",
+        "max": "Max",
+        "sharemaxValue": "Share the max values between the axes"
+      }
+    }
   }
 }

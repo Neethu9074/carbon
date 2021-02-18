@@ -9,7 +9,7 @@ import {
   createForm as createMetricConfigurationForm,
   migrate as migrateMetricConfiguration
 } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/form';
-import { stringValidator, numberValidator, arrayValidator } from 'in-services/validators/jsonType';
+import { stringValidator, numberValidator, arrayValidator, booleanValidator } from 'in-services/validators/jsonType';
 import { defaultRenderer, allRendererIds } from 'in-custom-dashboards/widgets/Chart/renderer';
 import { defaultFormatter, allFormatterIds } from 'in-stores/metric/formatters';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
@@ -35,7 +35,14 @@ export function createForm(savedState) {
       })
     )
     .put('y1', createAxisForm(savedState && savedState.y1, true))
-    .put('y2', createAxisForm(savedState && savedState.y2));
+    .put('y2', createAxisForm(savedState && savedState.y2))
+    .put(
+      'shareMaxAxisDomain',
+      createField({
+        value: savedState?.shareMaxAxisDomain ?? false,
+        validator: composeAndShortCircuitOnError(booleanValidator)
+      })
+    );
 }
 
 function createAxisForm(savedState, requiresAtLeastOneMetric = false) {
