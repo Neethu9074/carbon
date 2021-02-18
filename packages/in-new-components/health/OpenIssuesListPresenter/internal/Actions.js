@@ -5,14 +5,19 @@
 import { t } from 'in-i18n';
 import React from 'react';
 
+import { isLoading, hasError } from 'in-services/util/result';
 import { getButtonKindBySeverity } from 'in-stores/events';
 import Button from 'in-new-components/Button';
 
 import locals from './Actions.mless';
 
 export default function Actions({ openIssuesResult, analyzeLink$, getIssueLink, eventType }) {
+  if (isLoading(openIssuesResult) || hasError(openIssuesResult)) {
+    return null;
+  }
+
   const openIssues = openIssuesResult.data;
-  if (openIssues == null || openIssues.length === 0) {
+  if (openIssues.length === 0) {
     return (
       <div className={locals.actions}>
         <Button icon="lib_events_inverted" kind="primary" className={locals.button} asBlock href$={analyzeLink$}>
