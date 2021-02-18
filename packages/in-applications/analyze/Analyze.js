@@ -229,6 +229,7 @@ function ApplicationAnalyzeViewWithFixatedTimeConfig() {
         expressions: [removeTopLevelFilters(tagFilterExpression, ...remove), ...add]
       })
     });
+  const updateGroup = groupBy => onChange({ groupBy });
 
   const isGrouped = isNotBlank(groupBy?.groupbyTag);
 
@@ -324,6 +325,7 @@ function ApplicationAnalyzeViewWithFixatedTimeConfig() {
               previewEnabled={previewEnabled}
               isValid={isValid}
               updateFilter={updateFilter}
+              updateGroup={updateGroup}
               hiddenCalls={hiddenCalls}
               onChangeHiddenCalls={onChangeHiddenCalls}
               dataSource={dataSource}
@@ -340,6 +342,7 @@ function ApplicationAnalyzeViewWithFixatedTimeConfig() {
               onChangeOrderBy={onChangeOrderBy}
               isValid={isValid}
               updateFilter={updateFilter}
+              updateGroup={updateGroup}
               hiddenCalls={hiddenCalls}
               onChangeHiddenCalls={onChangeHiddenCalls}
               onChangePreviewEnabled={onChangePreviewEnabled}

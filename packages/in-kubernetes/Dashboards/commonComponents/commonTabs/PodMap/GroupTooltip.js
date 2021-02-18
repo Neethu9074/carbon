@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { fromJS } from 'immutable';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import Skeleton from 'in-new-components/Loading/Skeleton';
@@ -22,7 +23,7 @@ export default function DeplayedGroupTooltip(props) {
       <GroupTooltipComponent
         {...props}
         groupEntity={fromJS({
-          label: 'Unknown',
+          label: t('in-kubernetes:dashboards.unknown'),
           plugin: getPlugin(props.grouping)
         })}
       />
@@ -56,13 +57,13 @@ export function GroupTooltipComponent({ isMetricValuePresented, group, groupEnti
       <ul className={locals.list}>
         {!isMetricValuePresented && (
           <li className={locals.item}>
-            <span className={locals.key}>Value</span>
+            <span className={locals.key}>{t('in-kubernetes:dashboards.value')}</span>
             <span className={locals.value}>{group.data.valueLabel}</span>
           </li>
         )}
 
         <li className={locals.item}>
-          <span className={locals.key}>Pods</span>
+          <span className={locals.key}>{t('in-kubernetes:dashboards.pods')}</span>
           {group.children.length}
         </li>
       </ul>

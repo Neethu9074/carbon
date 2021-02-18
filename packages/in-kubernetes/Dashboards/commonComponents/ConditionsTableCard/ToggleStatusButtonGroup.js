@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import ButtonGroup from 'in-new-components/ButtonGroup';
@@ -11,22 +12,22 @@ export default function ToggleStatusButtonGroup({ setSelectedStatus, selectedSta
     <ButtonGroup
       buttonPropsList={[
         {
-          text: 'All Status',
+          text: t('in-kubernetes:dashboards.allStatus'),
           key: null,
           onClick: () => setSelectedStatus(null)
         },
         {
-          text: 'True',
+          text: t('in-kubernetes:dashboards.true'),
           key: 'true',
           onClick: () => setSelectedStatus('true')
         },
         {
-          text: 'False',
+          text: t('in-kubernetes:dashboards.false'),
           key: 'false',
           onClick: () => setSelectedStatus('false')
         },
         {
-          text: 'Unknown',
+          text: t('in-kubernetes:dashboards.unknown'),
           key: 'unknown',
           onClick: () => setSelectedStatus('unknown')
         }

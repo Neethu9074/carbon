@@ -13,14 +13,11 @@ import {
   tagNamesToUseEndpointGrouping
 } from 'in-events/components/AnalyzeApplicationEventButton';
 import { containsTagName, toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
-import { fromBackendModel, joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { applicationsAlertingEventDetailsGoToAnalyze } from 'in-applications/alerting/tracker';
 import { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import { groupByEndpointName, groupByServiceName } from 'in-analyze/AnalyzeView/dataSources';
-import { getApplicationNameTagFilter } from 'in-applications/alerting/data/blueprintConfig';
 import AffectedEntities from 'in-events/components/AffectedEntities/AffectedEntities';
 import { isQB2ModeEnabled } from 'in-new-components/Alerting/components/WithQB1orQB2';
-import { tagFilter } from 'in-new-components/QueryBuilder/transformation/tagFilter';
 import { tagFiltersForBoundaryScopeUA1 } from 'in-analyze/navigation/paths';
 import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import { convertToAnalyzeFilters } from 'in-applications/tags';
@@ -29,7 +26,16 @@ import { getTimeConfigFromEvent } from 'in-events/timeframe';
 import Card from 'in-new-components/Card';
 import Link from 'in-components/Link';
 
-export function SmartAlertAffectedEntities({ alertConfig, event, applicationName, serviceName, endpointName }) {
+export function SmartAlertAffectedEntities({
+  alertConfig,
+  event,
+  applicationId,
+  applicationName,
+  serviceId,
+  serviceName,
+  endpointId,
+  endpointName
+}) {
   const tagCatalog = useTagCatalog(getTagCatalog);
   const { rule, boundaryScope } = alertConfig;
 
@@ -50,10 +56,25 @@ export function SmartAlertAffectedEntities({ alertConfig, event, applicationName
   let needsGroupByEndpoint;
   if (isQB2ModeEnabled) {
     tagFilterExpression = toBackendQueryModel(
-      getEnrichedAnalyzeTagFilterFormModel(alertConfig, applicationName, serviceName, endpointName, timeConfig)
+      getEnrichedAnalyzeTagFilterFormModel(
+        alertConfig,
+        applicationId,
+        applicationName,
+        serviceId,
+        endpointId,
+        timeConfig
+      )
     );
     totalTagFilterExpression = toBackendQueryModel(
-      getEnrichedAnalyzeTotalTagFilterFormModel(alertConfig, applicationName, serviceName, endpointName)
+      getEnrichedAnalyzeTagFilterFormModel(
+        alertConfig,
+        applicationId,
+        applicationName,
+        serviceId,
+        endpointId,
+        timeConfig,
+        true
+      )
     );
     needsGroupByEndpoint =
       !isApplicationEntity(eventEntityType) ||
@@ -68,8 +89,11 @@ export function SmartAlertAffectedEntities({ alertConfig, event, applicationName
 
   const createItemLink$ = item => {
     return getLinkToUnboundAnalytics(
+      applicationId,
       applicationName,
+      needsGroupByEndpoint ? serviceId : item.id,
       needsGroupByEndpoint ? serviceName : item.name,
+      needsGroupByEndpoint ? item.id : null,
       needsGroupByEndpoint ? item.name : null,
       alertConfig,
       timeConfig,
@@ -81,8 +105,11 @@ export function SmartAlertAffectedEntities({ alertConfig, event, applicationName
     <Link
       onClick={() => applicationsAlertingEventDetailsGoToAnalyze()}
       href$={getLinkToUnboundAnalytics(
+        applicationId,
         applicationName,
+        serviceId,
         serviceName,
+        endpointId,
         endpointName,
         alertConfig,
         timeConfig,
@@ -110,16 +137,4 @@ export function SmartAlertAffectedEntities({ alertConfig, event, applicationName
       />
     </Card>
   );
-}
-
-function getEnrichedAnalyzeTotalTagFilterFormModel(alertConfig, applicationName, serviceName, endpointName) {
-  const { boundaryScope, tagFilterExpression } = alertConfig;
-  return joinExpressions({
-    expressions: [
-      getApplicationNameTagFilter(boundaryScope, applicationName),
-      serviceName ? tagFilter('service.name', 'EQUALS', serviceName) : [],
-      endpointName ? tagFilter('endpoint.name', 'EQUALS', endpointName) : [],
-      fromBackendModel(tagFilterExpression)
-    ]
-  });
 }

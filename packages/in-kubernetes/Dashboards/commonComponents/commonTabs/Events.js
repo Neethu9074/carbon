@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { get } from 'lodash';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import ViewWidthRestrictedColumn from 'in-infrastructure/tableView/components/Table/components/ViewWidthRestrictedColumn';
@@ -22,21 +23,21 @@ import Card from 'in-new-components/Card';
 const allColumns = [
   {
     id: 'type',
-    label: 'Type',
+    label: t('in-kubernetes:dashboards.type'),
     getContent(item) {
       return get(item, 'type') || valueMissingPlaceholder;
     }
   },
   {
     id: 'title',
-    label: 'Reason',
+    label: t('in-kubernetes:dashboards.reason'),
     getContent(item) {
       return get(item, 'title');
     }
   },
   {
     id: 'detailText',
-    label: 'Message',
+    label: t('in-kubernetes:dashboards.message'),
     getContent(item) {
       return (
         <Tooltip themeStyle="light" content={get(item, 'detailText')} align="topMiddle">
@@ -47,14 +48,14 @@ const allColumns = [
   },
   {
     id: 'namespace',
-    label: 'Namespace',
+    label: t('in-kubernetes:dashboards.namespace'),
     getContent(item) {
       return item.namespace || valueMissingPlaceholder;
     }
   },
   {
     id: 'name',
-    label: 'Involved Object',
+    label: t('in-kubernetes:dashboards.involvedObject'),
     getContent(
       item,
       { clusterId, daemonSetId, deploymentId, deploymentConfigId, namespaceId, serviceId, statefulSetId, podId }
@@ -89,14 +90,14 @@ const allColumns = [
   },
   {
     id: 'kind',
-    label: 'Kind',
+    label: t('in-kubernetes:dashboards.kind'),
     getContent(item) {
       return item.kind || valueMissingPlaceholder;
     }
   },
   {
     id: 'time',
-    label: 'Time',
+    label: t('in-kubernetes:dashboards.time'),
     getContent(item) {
       return <DateTime>{get(item, 'time')}</DateTime>;
     }

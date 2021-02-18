@@ -8,8 +8,9 @@ import termsFormDefinition, { addDynamicRoleField } from 'in-settings/terms/term
 import { formUserSettingsObject } from 'in-settings/terms/termsAndPrivaySettings';
 import TermsDialogPresenter from 'in-settings/terms/dialog/TermsDialogPresenter';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
+import { user } from 'in-stores/user';
 
-export default function TermsDialog({ onSkip, onSave, fullTermsConfigEnabled }) {
+export default function TermsDialog({ onSave, fullTermsConfigEnabled }) {
   const [saveError, setSaveError] = useState(false);
   const [form, setForm] = useState(termsFormDefinition(window.instana.termsAndPrivacySettings));
 
@@ -31,13 +32,14 @@ export default function TermsDialog({ onSkip, onSave, fullTermsConfigEnabled }) 
 
   return (
     <TermsDialogPresenter
-      onSkip={onSkip || onSaveHandler}
+      fullTermsConfigEnabled={fullTermsConfigEnabled}
       onSave={onSaveHandler}
       saveError={saveError}
       unsetSaveError={() => setSaveError(false)}
       onChange={onChange(setForm)}
       form={form}
-      fullTermsConfigEnabled={fullTermsConfigEnabled}
+      userName={user.fullName}
+      userEmail={user.email}
     />
   );
 }

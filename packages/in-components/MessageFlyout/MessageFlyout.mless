@@ -1,0 +1,15 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
+@import '~in-themes/active.less';
+
+:local {
+  .flyout {
+    position: fixed;
+    top: 6rem;
+    right: 1.25rem;
+
+    z-index: @z-index__message-flyout;
+  }
+}

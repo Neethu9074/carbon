@@ -10,6 +10,7 @@ import React from 'react';
 import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import FacetedSearch from 'in-applications/analyze/components/FacetedSearch/FacetedSearch';
 import { dataSourceConstants, getTypeTextByCount } from 'in-applications/analyze/metrics';
+import QueryProgressIndicator from 'in-new-components/AnalyzeView/QueryProgressIndicator';
 import CursorPaginatedTable from 'in-components/tables/ServerTable/CursorPaginatedTable';
 import BatchingIndicator from 'in-analyze/components/BatchingIndicator';
 import TableLinkWithIcon from 'in-analyze/components/TableLinkWithIcon';
@@ -42,6 +43,7 @@ export default function List({
   withoutPadding = false,
   isValid,
   updateFilter,
+  updateGroup,
   tableOnly = false,
   hiddenCalls,
   onChangeHiddenCalls,
@@ -75,7 +77,7 @@ export default function List({
     [timeConfig, retrievalSize, tagFilterExpression, orderBy, isValid, hiddenCalls, dataSource, queryPrecision]
   );
 
-  const { items, ...tableProps } = result;
+  const { items, progress, errors, canLoadMore, loadMore, totalHits, adjustedWindowSize } = result;
 
   const columnDefinitions = getColumnDefinitions(dataSource, linkFormModel);
 
@@ -84,26 +86,36 @@ export default function List({
   return tableOnly ? (
     <TableOnlyPresenter
       items={items}
+      progress={progress}
+      errors={errors}
+      canLoadMore={canLoadMore}
+      loadMore={loadMore}
       columnDefinitions={columnDefinitions}
       withoutPadding={withoutPadding}
       optionalColumns={optionalColumns}
       numSkeletonRows={numSkeletonRows}
       onChangeOrderBy={onChangeOrderBy}
-      tableProps={tableProps}
       order={order}
       retrievalSize={retrievalSize}
       filterBy={filterBy}
+      isValid={isValid}
     />
   ) : (
     <Presenter
       items={items}
+      progress={progress}
+      errors={errors}
+      canLoadMore={canLoadMore}
+      loadMore={loadMore}
+      totalHits={totalHits}
+      adjustedWindowSize={adjustedWindowSize}
       tagFilterExpression={tagFilterExpression}
       updateFilter={updateFilter}
+      updateGroup={updateGroup}
       columnDefinitions={columnDefinitions}
       optionalColumns={optionalColumns}
       numSkeletonRows={numSkeletonRows}
       onChangeOrderBy={onChangeOrderBy}
-      tableProps={tableProps}
       order={order}
       retrievalSize={retrievalSize}
       filterBy={filterBy}
@@ -119,13 +131,19 @@ export default function List({
 
 function Presenter({
   items,
+  progress,
+  errors,
+  canLoadMore,
+  loadMore,
+  totalHits,
+  adjustedWindowSize,
   tagFilterExpression,
   updateFilter,
+  updateGroup,
   columnDefinitions,
   optionalColumns,
   numSkeletonRows,
   onChangeOrderBy,
-  tableProps,
   order,
   retrievalSize,
   filterBy,
@@ -142,13 +160,14 @@ function Presenter({
       <div className={locals.hitsAndFacetedSearch}>
         <ResultHeader
           itemName={dataSourceConstants[dataSource].metricLabel}
-          totalRepresentedItemCount={tableProps?.totalHits}
-          adjustedWindowSize={tableProps?.adjustedWindowSize}
+          totalRepresentedItemCount={totalHits}
+          adjustedWindowSize={adjustedWindowSize}
           withSamplingTooltip
         />
         <FacetedSearch
           tagFilterExpression={tagFilterExpression}
           updateFilter={updateFilter}
+          updateGroup={updateGroup}
           hiddenCalls={hiddenCalls}
           onChangeHiddenCalls={onChangeHiddenCalls}
           isValid={isValid}
@@ -164,24 +183,30 @@ function Presenter({
             </div>
           </div>
         )}
-        <CursorPaginatedTable
-          columnDefinitions={columnDefinitions}
-          optionalColumns={optionalColumns}
-          numSkeletonRows={numSkeletonRows}
-          onChange={onChangeOrderBy}
-          {...tableProps}
-          items={items}
-          fixedLayout
-          orderBy={order.by}
-          orderDirection={order.direction}
-          loadMoreLabel={t('in-applications:analyze.listLoadMore', {
-            retrievalSize: retrievalSize
-          })}
-          filterBy={filterBy}
-          renderNoDataAvailable={noDataMessage => (
-            <NoDataAvailable className={locals.noData} text={noDataMessage} height={80} />
-          )}
-        />
+        {items?.length > 0 && (
+          <CursorPaginatedTable
+            columnDefinitions={columnDefinitions}
+            optionalColumns={optionalColumns}
+            numSkeletonRows={numSkeletonRows}
+            onChange={onChangeOrderBy}
+            progress={progress}
+            errors={errors}
+            canLoadMore={canLoadMore}
+            loadMore={loadMore}
+            items={items}
+            fixedLayout
+            orderBy={order.by}
+            orderDirection={order.direction}
+            loadMoreLabel={t('in-applications:analyze.listLoadMore', {
+              retrievalSize: retrievalSize
+            })}
+            filterBy={filterBy}
+            renderNoDataAvailable={noDataMessage => (
+              <NoDataAvailable className={locals.noData} text={noDataMessage} height={80} />
+            )}
+          />
+        )}
+        {isValid && <QueryProgressIndicator progress={progress} errors={errors} items={items} />}
       </div>
     </div>
   );
@@ -193,7 +218,10 @@ function TableOnlyPresenter({
   optionalColumns,
   numSkeletonRows,
   onChangeOrderBy,
-  tableProps,
+  progress,
+  errors,
+  canLoadMore,
+  loadMore,
   order,
   retrievalSize,
   withoutPadding,
@@ -206,21 +234,28 @@ function TableOnlyPresenter({
         [locals.tableWithoutPadding]: withoutPadding
       })}
     >
-      <CursorPaginatedTable
-        columnDefinitions={columnDefinitions}
-        optionalColumns={optionalColumns}
-        numSkeletonRows={numSkeletonRows}
-        onChange={onChangeOrderBy}
-        {...tableProps}
-        items={items}
-        fixedLayout
-        orderBy={order.by}
-        orderDirection={order.direction}
-        loadMoreLabel={t('in-applications:analyze.listLoadMore', {
-          retrievalSize: retrievalSize
-        })}
-        filterBy={filterBy}
-      />
+      {progress.loading === false && errors.length > 0 ? (
+        <QueryProgressIndicator progress={progress} errors={errors} />
+      ) : (
+        <CursorPaginatedTable
+          columnDefinitions={columnDefinitions}
+          optionalColumns={optionalColumns}
+          numSkeletonRows={numSkeletonRows}
+          onChange={onChangeOrderBy}
+          progress={progress}
+          canLoadMore={canLoadMore}
+          loadMore={loadMore}
+          items={items}
+          fixedLayout
+          orderBy={order.by}
+          orderDirection={order.direction}
+          loadMoreLabel={t('in-applications:analyze.listLoadMore', {
+            retrievalSize: retrievalSize
+          })}
+          renderNoDataAvailable={() => <NoDataAvailable className={locals.noData} icon={'lib_bar_chart'} />}
+          filterBy={filterBy}
+        />
+      )}
     </div>
   );
 }

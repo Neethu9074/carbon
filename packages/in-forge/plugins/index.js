@@ -25,6 +25,8 @@ import './awsKinesis';
 import './awsLambda';
 import './awsLambdaFunction';
 import './awsLambdaVersion';
+import './awsMskCluster';
+import './awsMskBroker';
 import './awsMq';
 import './awsRds';
 import './awsS3';

@@ -16,7 +16,6 @@ import IssuesAndEvents from 'in-applications/Dashboards/commonComponents/IssuesA
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
 import CallsAndHttp from 'in-applications/Dashboards/commonComponents/CallsAndHttp';
 import { number, meanLatency, percentage } from 'in-services/formatters/number';
-import getEndpointTypes from 'in-applications/subscriptions/getEndpointTypes';
 import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import BigNumberKpiCard from 'in-new-components/KpiCard/BigNumberKpiCard';
 import Errors from 'in-applications/Dashboards/commonComponents/Errors';
@@ -27,23 +26,17 @@ import { entityTypes } from 'in-analyze/applicationFilter';
 import { boundaryScopes } from 'in-applications/constants';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import Footer from 'in-new-components/Footer/Footer';
-import useObservable from 'in-hooks/useObservable';
 
-export default function Summary({ timeConfig, applicationId, data: application, boundaryScope: urlBoundaryScope }) {
+export default function Summary({
+  timeConfig,
+  applicationId,
+  data: application,
+  boundaryScope: urlBoundaryScope,
+  endpointTypes: types
+}) {
   const timeShiftConfig = useTimeShiftConfig();
   const tagCatalog = useTagCatalog(getTagCatalog);
   const boundaryScope = urlBoundaryScope || application.boundaryScope;
-
-  const types = useObservable(
-    getEndpointTypes({
-      filter: {
-        application: applicationId,
-        timeConfig: timeConfig,
-        applicationBoundaryScope: boundaryScope
-      }
-    }).map(result => result?.data),
-    [applicationId, timeConfig, urlBoundaryScope]
-  );
 
   let tagFilters = [
     boundaryScope === boundaryScopes.all

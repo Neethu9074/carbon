@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import DetailsNavigation, {
@@ -42,7 +43,7 @@ function ipNavigationItem(path) {
   return {
     path,
     icon: 'lib_kubernetes_ip',
-    label: 'IPs',
+    label: t('in-kubernetes:dashboards.iPs'),
     component: IPs
   };
 }

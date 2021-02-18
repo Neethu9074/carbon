@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import WithInfrastructureHealthIndicationBehaviour from 'in-components/health/WithHealthIndication/WithInfrastructureHealthIndicationBehaviour';
@@ -13,7 +14,7 @@ export default function CronJobBreadcrumb({ cronJobId, cronJob, href$ }) {
       snapshotId={cronJobId}
       render={healthInfo => (
         <Breadcrumb
-          label="CronJob"
+          label={t('in-kubernetes:breadcrumbs.cronJob')}
           icon="lib_kubernetes_workload"
           snapshotId={cronJobId}
           href$={href$}

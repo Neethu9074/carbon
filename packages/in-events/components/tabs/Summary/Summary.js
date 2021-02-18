@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import React, { useState } from 'react';
+import { t } from 'in-i18n';
 
 import EntityWithParentInformation from 'in-events/components/EntityInformation/EntityWithParentInformation';
 import AgentMonitoringIssueDescription from 'in-events/components/legacy/AgentMonitoringIssueDescription';
@@ -71,14 +72,14 @@ function EventContent({ event }) {
     <>
       <ViewTrackingMeta
         data={{
-          productArea: 'Events',
-          pageRootName: 'Event'
+          productArea: t('in-events:productAreaEvents'),
+          pageRootName: t('in-events:pageRootNameEvent')
         }}
       />
 
       <Row withoutSideMargin>
         <Col xs>
-          <Card title="Description">
+          <Card title={t('in-events:titleDescription')}>
             <EntityWithParentInformation
               entityId={event.get('entityId')}
               entityType={event.get('entityType')}
@@ -107,7 +108,7 @@ function EventContent({ event }) {
       {isOfflineEvent(event) ? (
         <Row withoutSideMargin>
           <Col xs>
-            <Card title="Last process">
+            <Card title={t('in-events:titleLastProcess')}>
               <OfflineEventDescription event={event} />
             </Card>
           </Col>
@@ -117,7 +118,7 @@ function EventContent({ event }) {
           {hasAtLeastOneMetric(event) && (
             <Row withoutSideMargin>
               <Col xs>
-                <Card title="Metrics">
+                <Card title={t('in-events:titleMetrics')}>
                   <EventChart event={event} />
                 </Card>
               </Col>
@@ -166,7 +167,9 @@ const IncidentContent = connectTo(
             kind={isExpanded ? 'primaryv2' : 'secondary'}
             onClick={() => setIsExpanded(!isExpanded)}
           >
-            {isExpanded ? 'Collapse' : `Expand (${recentEvents.length})`}
+            {isExpanded
+              ? t('in-events:buttonCollapse')
+              : t('in-events:buttonExpandEvents', { eventsLength: recentEvents.length })}
           </Button>
         )}
         {shouldRenderShowChangesButton(numChanges) && (
@@ -175,7 +178,7 @@ const IncidentContent = connectTo(
             kind={changesAreVisible ? 'primaryv2' : 'secondary'}
             onClick={() => setChangesAreVisible(!changesAreVisible)}
           >
-            {changesAreVisible ? 'Hide Changes' : 'Show Changes'}
+            {changesAreVisible ? t('in-events:buttonHideChanges') : t('in-events:buttonShowChanges')}
           </Button>
         )}
       </>
@@ -185,7 +188,7 @@ const IncidentContent = connectTo(
       <>
         <Row withoutSideMargin>
           <Col xs>
-            <Card title="Incident Timeline" header={header}>
+            <Card title={t('in-events:titleIncidentTimeline')} header={header}>
               <PopulationChart
                 incidentId={incident.get('id')}
                 recentEvents={recentEvents}

@@ -14,6 +14,7 @@ import KeyValue from 'in-new-components/lists/KeyValue';
 import { number, isPercentageFormatter } from 'in-services/formatters/number';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
+import { t } from 'in-i18n';
 
 import locals from './SparkChart.mless';
 
@@ -50,7 +51,14 @@ function SparkChartReactComponent(props) {
   } else if (noMetricsAvailable && !showNullValuesChartOnEmptyMetrics && !hideChartOnEmptyMetrics) {
     sparkChart = <NoDataAvailable width={width} height={height} />;
   } else {
-    sparkChart = <SparkChartReactWrapper {...props} percentageMetric={props.percentageMetric ?? isPercentageFormatter(props.tooltipFormatter)} timeConfig={timeConfig} metrics={metrics} />;
+    sparkChart = (
+      <SparkChartReactWrapper
+        {...props}
+        percentageMetric={props.percentageMetric ?? isPercentageFormatter(props.tooltipFormatter)}
+        timeConfig={timeConfig}
+        metrics={metrics}
+      />
+    );
   }
 
   if (horizontalMetricValue !== undefined) {
@@ -92,6 +100,21 @@ function SparkChartReactComponent(props) {
   return sparkChart;
 }
 
+const aggregationMapping = {
+  MEAN: {
+    label: t('in-components:sparkChart.mean'),
+    icon: 'lib_mean'
+  },
+  SUM: {
+    label: t('in-components:sparkChart.sum'),
+    icon: 'lib_sum'
+  },
+  DISTINCT_COUNT: {
+    label: t('in-components:sparkChart.distinctCount'),
+    icon: 'lib_sum'
+  }
+};
+
 function AggregationSymbol({ aggregation }) {
   if (aggregation.startsWith('P')) {
     return (
@@ -103,10 +126,10 @@ function AggregationSymbol({ aggregation }) {
       </Tooltip>
     );
   }
-  if (aggregation === 'MEAN' || aggregation === 'SUM') {
+  if (aggregation === 'MEAN' || aggregation === 'SUM' || aggregation === 'DISTINCT_COUNT') {
     return (
-      <Tooltip content={aggregation.toLowerCase()} align="mousePosition">
-        <SvgIcon className={locals.aggregationIcon} type={aggregation === 'SUM' ? 'lib_sum' : 'lib_mean'} size="xxs" />
+      <Tooltip content={aggregationMapping[aggregation].label} align="mousePosition">
+        <SvgIcon className={locals.aggregationIcon} type={aggregationMapping[aggregation].icon} size="xxs" />
       </Tooltip>
     );
   }

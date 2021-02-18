@@ -90,7 +90,7 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
   Renderer: withEmptyTableState({
     columnDefinitions,
     plugin: plugins.vsphereVM,
-    entityName: t('in-vsphere:entityName.vSphereVMs')
+    entityName: 'vSphere VMs'
   }),
   paginationResettingUrlParameters: [...timeConfigUrlParameters, datacenterIdUrlParameter],
   columnDefinitions,

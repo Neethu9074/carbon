@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import WorkloadControllerDashboard from 'in-kubernetes/Dashboards/commonComponents/WorkloadController/WorkloadControllerDashboard';
@@ -24,8 +25,8 @@ export default function StatefulSetDashboard({ location }) {
       BreadCrumbComponent={WorkloadControllerBreadcrumbs}
       workloadControllerSubscriptionName={getKubernetesWorkloadController}
       tabChangeTracker={statefulSetTabChange}
-      headerTitle="Kubernetes StatefulSet"
-      badgeType="K8s StatefulSet"
+      headerTitle={t('in-kubernetes:dashboards.kubernetesStatefulSet')}
+      badgeType={t('in-kubernetes:dashboards.k8SStatefulSet')}
       tabs={tabs}
     />
   );

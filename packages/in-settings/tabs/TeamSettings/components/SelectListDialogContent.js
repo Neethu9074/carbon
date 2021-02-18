@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 import { compose, withState } from 'recompose';
-import classNames from 'classnames';
 import React from 'react';
 
 import ValidationBlock from 'in-components/form/ValidationBlock';
@@ -35,8 +34,6 @@ function SelectListDialogContent({
   setErrorMessage,
   limit = Number.MAX_VALUE, // unlimited by default
   pageSize = 7,
-  listFormGroupClassOverwrites,
-  tableScrollWrapperClassOverwrites,
   preventCloseOnSubmit
 }) {
   limit = limit - hiddenIds.length; // take the items that are already selected into account
@@ -56,44 +53,41 @@ function SelectListDialogContent({
       autoComplete="off"
     >
       <FormGroup>
-        <div className={listFormGroupClassOverwrites}>
-          <ListComponent
-            setTitle={false}
-            scrollWrapperClassName={classNames(locals.tableScrollWrapper, tableScrollWrapperClassOverwrites)}
-            pageSize={pageSize}
-            hiddenIds={hiddenIds}
-            hasRowNavigation={false}
-            noDataMessage="No items available."
-            onRowClick={entity => toggle(selectedItems, setSelectedItems, entity, limit, setErrorMessage)}
-            tableActions={{
-              selectCheckbox: {
-                get(entity) {
-                  return get(selectedItems, entity);
-                },
-                setAllOnCurrentPage(entities, selected, page, pageSize) {
-                  setAllOnCurrentPage(
-                    selectedItems,
-                    setSelectedItems,
-                    entities,
-                    selected,
-                    limit,
-                    setErrorMessage,
-                    page,
-                    pageSize
-                  );
-                },
-                setAllOnAllPages(entities, selected) {
-                  setAllOnAllPages(selectedItems, setSelectedItems, entities, selected, limit, setErrorMessage);
-                },
-                toggle(entity) {
-                  toggle(selectedItems, setSelectedItems, entity, limit, setErrorMessage);
-                }
+        <ListComponent
+          setTitle={false}
+          pageSize={pageSize}
+          hiddenIds={hiddenIds}
+          hasRowNavigation={false}
+          noDataMessage="No items available."
+          onRowClick={entity => toggle(selectedItems, setSelectedItems, entity, limit, setErrorMessage)}
+          tableActions={{
+            selectCheckbox: {
+              get(entity) {
+                return get(selectedItems, entity);
+              },
+              setAllOnCurrentPage(entities, selected, page, pageSize) {
+                setAllOnCurrentPage(
+                  selectedItems,
+                  setSelectedItems,
+                  entities,
+                  selected,
+                  limit,
+                  setErrorMessage,
+                  page,
+                  pageSize
+                );
+              },
+              setAllOnAllPages(entities, selected) {
+                setAllOnAllPages(selectedItems, setSelectedItems, entities, selected, limit, setErrorMessage);
+              },
+              toggle(entity) {
+                toggle(selectedItems, setSelectedItems, entity, limit, setErrorMessage);
               }
-            }}
-            rightHeader={listComponentRightHeader}
-            inSelectListDialog
-          />
-        </div>
+            }
+          }}
+          rightHeader={listComponentRightHeader}
+          inSelectListDialog
+        />
         {errorMessage && <ValidationBlock className={locals.errorMessage}>{errorMessage}</ValidationBlock>}
       </FormGroup>
 

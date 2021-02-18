@@ -16,9 +16,10 @@
 
   .label {
     .ellipsis();
+    color: @lib__colors__primary1;
   }
 
   .icon {
-    fill: @lib__colors__N600Light;
+    fill: @lib__colors__primary1;
   }
 }

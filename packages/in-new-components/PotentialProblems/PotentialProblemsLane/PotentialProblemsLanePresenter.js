@@ -4,6 +4,7 @@
  */
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
+import { t } from 'in-i18n';
 
 import PotentialProblemsDialogPresenter from 'in-new-components/PotentialProblems/PotentialProblemDialog/PotentialProblemsDialogPresenter';
 import PotentialProblemsHoverArea from 'in-new-components/PotentialProblems/PotentialProblemsLane/PotentialProblemsHoverArea';
@@ -97,11 +98,11 @@ export default function PotentialProblemsLanePresenter({ potentialProblems, aler
       {...remainingProps}
       events={events}
       isClustered={false}
-      label="Potential Problems"
+      label={t('in-new-components:potentialProblems.titlePotentialProblems')}
       tooltipContent={({ alerts }) => {
         let text = '';
         if (alerts.length > 1) {
-          text = `${alerts.length} Potential Problems`;
+          text = t('in-new-components:potentialProblems.labelNumbersOfPotentialProblem', { count: alerts.length });
         } else {
           const { thresholds } = potentialProblems;
           const key = alerts[0].key;

@@ -70,7 +70,12 @@ async function determineNamespaceName(localizationDir, packageDirName) {
 
 async function addLocaleFileContent(combined, namespace, localeFilePath) {
   const fileContent = await fs.readFile(localeFilePath, { encoding: 'utf8' });
-  const localization = JSON.parse(fileContent);
+  let localization;
+  try {
+    localization = JSON.parse(fileContent);
+  } catch (e) {
+    throw new Error(`Failed to parse '${localeFilePath}' content as JSON.`, e);
+  }
   const localeName = path.basename(localeFilePath).replace(/\.json$/, '');
   combined[localeName] = combined[localeName] || {};
   combined[localeName][namespace] = localization;

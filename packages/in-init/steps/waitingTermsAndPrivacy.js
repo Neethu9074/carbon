@@ -37,7 +37,7 @@ export function init() {
   return observable;
 }
 
-function App({ observable }) {
+function App() {
   useDisabledBodyScroll();
 
   return (
@@ -45,7 +45,7 @@ function App({ observable }) {
       <DialogPresenter />
 
       <FullViewWrapper>
-        <TermsDialog onSave={onSave} onSkip={() => observable.emit(true)} />
+        <TermsDialog onSave={onSave} />
       </FullViewWrapper>
     </ErrorBoundary>
   );

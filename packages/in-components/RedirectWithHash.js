@@ -27,6 +27,12 @@ export default connectTo(
       const toUrl = props.resolvedTo.substring(2);
       return <Redirect push={props.push} from={props.from} to={parseUrl(toUrl)} />;
     }
+    if (props.href) {
+      // Remove the leading /# from the URL. React router is expecting the path irrespective of the
+      // used routing mechanism.
+      const toUrl = props.href.substring(2);
+      return <Redirect push={props.push} from={props.from} to={parseUrl(toUrl)} />;
+    }
     return null;
   }
 );

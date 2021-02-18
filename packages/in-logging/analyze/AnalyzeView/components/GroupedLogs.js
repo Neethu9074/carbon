@@ -20,6 +20,11 @@ const columnDefinitions = [
     }
   }
 ];
+
+function getItemLabel(item) {
+  return item.group.label;
+}
+
 export default function GroupedLogs(props) {
   const { filteringTagCatalog } = props;
 
@@ -30,16 +35,18 @@ export default function GroupedLogs(props) {
       <GroupedView
         {...props}
         itemName="Log"
-        getItemLabel={item => item.group.label}
+        getItemLabel={getItemLabel}
         itemlabelColumnId="label"
         columnDefinitions={columnDefinitions}
         getData={({ timeConfig, backendQueryModel, orderBy, groupBy, cursor }) =>
           getTableData({ timeConfig, backendQueryModel, groupbyTag: groupBy.groupbyTag, cursor, orderBy })
         }
-        getLabel={item => item.group.label}
+        getLabel={getItemLabel}
         iconMap={iconMap}
         UngroupedView={Logs}
         CustomHeaderActions={TagSelector}
+        withoutChartGroupMarkers
+        withoutSorting
       />
     </QueryBuilderWorkspace>
   );

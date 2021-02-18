@@ -5,6 +5,7 @@
 import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
+import { t } from 'in-i18n';
 
 import PotentialProblemContent from 'in-new-components/PotentialProblems/PotentialProblemDialog/PotentialProblemContent/PotentialProblemContent';
 import {
@@ -27,7 +28,9 @@ export default function PotentialProblemsDialogPresenterAlertChecker(props) {
 
 function PotentialProblemsDialogPresenter({ alertRules, thresholds, alerts, ...remainingProps }) {
   const isCluster = alerts.length > 1;
-  const title = `Potential Problem${isCluster ? `s (${alerts.length})` : ''}`;
+  const title = isCluster
+    ? t('in-new-components:potentialProblems.titlePotentialProblemWithCount', { count: alerts.length })
+    : t('in-new-components:potentialProblems.titlePotentialProblem');
 
   const [selectedItem, setSelectedItem] = useState(alerts[0]);
   const ruleSelected = alertRules[selectedItem.key].rule;

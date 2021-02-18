@@ -7,6 +7,7 @@ import React from 'react';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import ComboBox from 'in-components/ComboBox/ComboBox';
 import { roles } from 'in-settings/terms/rolesConfig';
+import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 
 import locals from './RolesSelector.mless';
@@ -14,7 +15,7 @@ import locals from './RolesSelector.mless';
 export default function RolesSelector({ form, onChange }) {
   return (
     <>
-      <p>What role is closest to your role in your organisation?</p>
+      <Label>Role</Label>
       {form.get('role').map(({ value }) => (
         <>
           <ComboBox

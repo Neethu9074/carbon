@@ -48,8 +48,8 @@ export default connectTo(
 function MapNotMonitoring(props) {
   return (
     <MapMessage
-      title="Not Monitoring"
-      explanation={() => <ArticleContent markdownContent={t('in-map:notMonitoring')} />}
+      title={t('in-map:notMonitoringTitle')}
+      explanation={() => <ArticleContent markdownContent={t('in-map:notMonitoringText')} />}
       {...props}
     />
   );
@@ -58,7 +58,7 @@ function MapNotMonitoring(props) {
 function MapNoDataForTimerange(props) {
   return (
     <MapMessage
-      title="No Monitoring Data Found"
+      title={t('in-map:noDataTitle')}
       explanation={() => <ArticleContent markdownContent={t('in-map:noData')} />}
       {...props}
     />

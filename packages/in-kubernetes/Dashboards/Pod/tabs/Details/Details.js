@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import React, { Fragment } from 'react';
+import { t } from 'in-i18n';
 
 import DetailsNavigation, {
   labelsNavigationItem,
@@ -44,7 +45,7 @@ function ipNavigationItem(path) {
   return {
     path,
     icon: 'lib_kubernetes_ip',
-    label: 'IPs',
+    label: t('in-kubernetes:dashboards.iPs'),
     component: IPs
   };
 }

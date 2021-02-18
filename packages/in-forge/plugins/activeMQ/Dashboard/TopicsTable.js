@@ -4,9 +4,12 @@
  */
 import React from 'react';
 
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { number, percentage } from 'in-services/formatters/number';
-import Table from 'in-sdk/components/dashboard/Table';
+import Columize from 'in-sdk/components/dashboard/Columize';
 import { emptyMap } from 'in-services/fixedImmutables';
+import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
   {
@@ -19,7 +22,7 @@ const cols = [
     }
   },
   {
-    title: 'Producer Count',
+    title: 'Producers',
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -35,7 +38,7 @@ const cols = [
     }
   },
   {
-    title: 'Consumer Count',
+    title: 'Consumers',
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -113,5 +116,52 @@ export default function TopicsTable({ snapshot, timeConfig }) {
     };
   });
 
-  return <Table withoutPadding cardTitle={`Topics (${rows.length})`} cols={cols} rows={rows} />;
+  return (
+    <Table withoutPadding cardTitle={`Topics (${rows.length})`} cols={cols} rows={rows} getRowDetails={getRowDetails} />
+  );
+}
+
+function getRowDetails(row) {
+  const snapshotId = row.snapshotId;
+  const timeConfig = row.timeConfig;
+
+  return (
+    <div>
+      <Columize>
+        <Chart
+          snapshotId={snapshotId}
+          timeConfig={timeConfig}
+          y1={{
+            formatter: number.compact,
+            metrics: ['topics.' + row.key + '.producerCount', 'topics.' + row.key + '.consumerCount'],
+            labels: ['Producers', 'Consumers'],
+            type: 'line'
+          }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
+        />
+        <Chart
+          snapshotId={snapshotId}
+          timeConfig={timeConfig}
+          y1={{
+            formatter: number.compact,
+            metrics: ['topics.' + row.key + '.enqueueCount', 'topics.' + row.key + '.dequeueCount'],
+            labels: ['Messages Enqueued', 'Messages Dequeued'],
+            type: 'line'
+          }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
+        />
+      </Columize>
+      <Chart
+        snapshotId={snapshotId}
+        timeConfig={timeConfig}
+        y1={{
+          formatter: percentage.detailed,
+          metrics: ['topics.' + row.key + '.memoryPercentage'],
+          labels: ['Memory Usage'],
+          type: 'line'
+        }}
+        renderPostChartContent={PluginDashboardsMarkerLanes}
+      />
+    </div>
+  );
 }

@@ -4,6 +4,7 @@
  */
 import React, { Fragment } from 'react';
 import theme from 'in-themes';
+import { t } from 'in-i18n';
 
 import MissingK8sPermissions from 'in-kubernetes/Dashboards/commonComponents/MissingK8sPermissions';
 import ConditionsTableCard from 'in-kubernetes/Dashboards/commonComponents/ConditionsTableCard';
@@ -31,19 +32,19 @@ export default function Summary({ timeConfig, data: node }) {
 
       <KpiGridRow sizes={[4, 4, 4]}>
         <KpiCard
-          title="Status"
+          title={t('in-kubernetes:dashboards.status')}
           value={<Capitalize>{node.status || valueMissingPlaceholder}</Capitalize>}
           raw
           borderless
         />
         <KpiCard
-          title="Roles"
+          title={t('in-kubernetes:dashboards.roles')}
           value={<Capitalize>{node.roles || valueMissingPlaceholder}</Capitalize>}
           raw
           borderless
         />
         <KpiCard
-          title="Age"
+          title={t('in-kubernetes:dashboards.age')}
           value={<Capitalize>{node.age ? formatDuration(node.age) : valueMissingPlaceholder}</Capitalize>}
           raw
           borderless
@@ -53,7 +54,7 @@ export default function Summary({ timeConfig, data: node }) {
       <Row>
         <Col lg={2}>
           <InfraMetricKpiCard
-            title="CPU Requests Alloc."
+            title={t('in-kubernetes:dashboards.cpuRequestsAlloc')}
             snapshotId={snapshotId}
             metric="required_cpu_percentage"
             formatter={percentage.detailed}
@@ -61,7 +62,7 @@ export default function Summary({ timeConfig, data: node }) {
         </Col>
         <Col lg={2}>
           <InfraMetricKpiCard
-            title="CPU Limits Alloc."
+            title={t('in-kubernetes:dashboards.cpuLimitsAlloc')}
             snapshotId={snapshotId}
             metric="limit_cpu_percentage"
             formatter={percentage.detailed}
@@ -69,7 +70,7 @@ export default function Summary({ timeConfig, data: node }) {
         </Col>
         <Col lg={2}>
           <InfraMetricKpiCard
-            title="Memory Requests Alloc."
+            title={t('in-kubernetes:dashboards.memoryRequestsAlloc')}
             snapshotId={snapshotId}
             metric="required_mem_percentage"
             formatter={percentage.detailed}
@@ -77,7 +78,7 @@ export default function Summary({ timeConfig, data: node }) {
         </Col>
         <Col lg={2}>
           <InfraMetricKpiCard
-            title="Memory Limits"
+            title={t('in-kubernetes:dashboards.memoryLimits')}
             snapshotId={snapshotId}
             metric="limit_mem_percentage"
             formatter={percentage.detailed}
@@ -85,7 +86,7 @@ export default function Summary({ timeConfig, data: node }) {
         </Col>
         <Col lg={2}>
           <InfraMetricKpiCard
-            title="Pods Alloc."
+            title={t('in-kubernetes:dashboards.podsAlloc')}
             snapshotId={snapshotId}
             metric="alloc_pods_percentage"
             formatter={percentage.detailed}
@@ -95,14 +96,19 @@ export default function Summary({ timeConfig, data: node }) {
 
       <Row>
         <Col lg={4}>
-          <Card title="CPU Resources">
+          <Card title={t('in-kubernetes:dashboards.cpuResources')}>
             <Chart
               snapshotId={snapshotId}
               timeConfig={timeConfig}
               y1={{
                 formatter: resourceQuotaNumber,
                 metrics: ['cpu.total_usage', 'required_cpu', 'limit_cpu', 'cap_cpu'].filter(Boolean),
-                labels: ['Usage', 'Requests', 'Limits', 'Capacity'].filter(Boolean),
+                labels: [
+                  t('in-kubernetes:dashboards.usage'),
+                  t('in-kubernetes:dashboards.requests'),
+                  t('in-kubernetes:dashboards.limits'),
+                  t('in-kubernetes:dashboards.capacity')
+                ].filter(Boolean),
                 type: 'line',
                 colors: [usage, requests, limits, capacity].filter(Boolean)
               }}
@@ -111,14 +117,19 @@ export default function Summary({ timeConfig, data: node }) {
           </Card>
         </Col>
         <Col lg={4}>
-          <Card title="Memory Resources">
+          <Card title={t('in-kubernetes:dashboards.memoryResources')}>
             <Chart
               snapshotId={snapshotId}
               timeConfig={timeConfig}
               y1={{
                 formatter: resourceQuotaBytes,
                 metrics: ['memory.usage', 'required_mem', 'limit_mem', 'cap_mem'].filter(Boolean),
-                labels: ['Usage', 'Requests', 'Limits', 'Capacity'].filter(Boolean),
+                labels: [
+                  t('in-kubernetes:dashboards.usage'),
+                  t('in-kubernetes:dashboards.requests'),
+                  t('in-kubernetes:dashboards.limits'),
+                  t('in-kubernetes:dashboards.capacity')
+                ].filter(Boolean),
                 type: 'line',
                 colors: [usage, requests, limits, capacity].filter(Boolean)
               }}
@@ -127,14 +138,14 @@ export default function Summary({ timeConfig, data: node }) {
           </Card>
         </Col>
         <Col lg={4}>
-          <Card title="Pods Allocation">
+          <Card title={t('in-kubernetes:dashboards.podsAllocation')}>
             <Chart
               snapshotId={snapshotId}
               timeConfig={timeConfig}
               y1={{
                 formatter: zeroDecimalPlaces,
                 metrics: ['allocatedPods', 'cap_pods'],
-                labels: ['Allocated', 'Capacity'],
+                labels: [t('in-kubernetes:dashboards.allocated'), t('in-kubernetes:dashboards.capacity')],
                 type: 'line'
               }}
               renderPostChartContent={K8DashboardsMarkerLanes}

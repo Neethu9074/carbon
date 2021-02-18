@@ -25,6 +25,7 @@ export default function FacetedFilterGeneric({
   entity,
   hiddenCalls,
   updateFilter,
+  updateGroup,
   dataSource,
   isValid
 }) {
@@ -36,6 +37,7 @@ export default function FacetedFilterGeneric({
         entity={entity}
         hiddenCalls={hiddenCalls}
         updateFilter={updateFilter}
+        updateGroup={updateGroup}
         dataSource={dataSource}
         isValid={isValid}
       />
@@ -43,7 +45,17 @@ export default function FacetedFilterGeneric({
   );
 }
 
-function Body({ tagFilterExpression, tag, entity, title, hiddenCalls, updateFilter, dataSource, isValid }) {
+function Body({
+  tagFilterExpression,
+  tag,
+  entity,
+  title,
+  hiddenCalls,
+  updateFilter,
+  updateGroup,
+  dataSource,
+  isValid
+}) {
   const [valueFilter, setValueFilter] = useState('');
 
   const selectedValues = existingValuesForTag(tagFilterExpression, tag, entity);
@@ -73,7 +85,9 @@ function Body({ tagFilterExpression, tag, entity, title, hiddenCalls, updateFilt
       tagFilterExpression={tagFilterExpression}
       hiddenCalls={hiddenCalls}
       tag={tag}
+      entity={entity}
       updateFilter={updateFilter}
+      updateGroup={updateGroup}
       valueFilter={valueFilter}
       setValueFilter={setValueFilter}
       dataSource={dataSource}
@@ -96,29 +110,14 @@ function SearchAndSuggestions({
   tagFilterExpression,
   hiddenCalls,
   tag,
+  entity,
   updateFilter,
+  updateGroup,
   valueFilter,
   setValueFilter,
   dataSource,
   isValid
 }) {
-  return (
-    <>
-      <SearchInput onChange={setValueFilter} query={valueFilter} className={locals.search} withoutIcon />
-      <Suggestions
-        tag={tag}
-        valueFilter={valueFilter}
-        tagFilterExpression={tagFilterExpression}
-        hiddenCalls={hiddenCalls}
-        updateFilter={updateFilter}
-        dataSource={dataSource}
-        isValid={isValid}
-      />
-    </>
-  );
-}
-
-function Suggestions({ tagFilterExpression, hiddenCalls, tag, updateFilter, valueFilter, dataSource, isValid }) {
   const timeConfig = useTimeConfig();
 
   const suggestionsFromServer = () =>
@@ -143,16 +142,22 @@ function Suggestions({ tagFilterExpression, hiddenCalls, tag, updateFilter, valu
     ),
     [tagFilterExpression, hiddenCalls, tag, valueFilter, dataSource, timeConfig]
   );
-
   return (
-    <SuggestionsPresenter
-      loading={suggestions?.progress.loading}
-      errors={suggestions?.errors}
-      suggestions={suggestions?.data?.results}
-      updateFilter={updateFilter}
-      tag={tag}
-      dataSource={dataSource}
-      isValid={isValid}
-    />
+    <>
+      {suggestions?.data?.results.length > 5 && (
+        <SearchInput onChange={setValueFilter} query={valueFilter} inputClassName={locals.search} withoutIcon />
+      )}
+      <SuggestionsPresenter
+        loading={suggestions?.progress.loading}
+        errors={suggestions?.errors}
+        suggestions={suggestions?.data?.results}
+        updateFilter={updateFilter}
+        updateGroup={updateGroup}
+        tag={tag}
+        entity={entity}
+        dataSource={dataSource}
+        isValid={isValid}
+      />
+    </>
   );
 }

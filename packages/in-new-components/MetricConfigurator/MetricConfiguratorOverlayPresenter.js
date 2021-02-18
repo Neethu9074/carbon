@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import PaginatedMetricList from 'in-new-components/MetricConfigurator/PaginatedMetricList';
@@ -46,7 +47,7 @@ export default function MetricConfiguratorOverlayPresenter({
           }}
         />
       )}
-      slideInContentTitle="Add a metric"
+      slideInContentTitle={t('in-new-components:metricConfigurator.titleAddAMetric')}
     />
   );
 
@@ -101,7 +102,7 @@ function Content({ i, options, item: metric, onChangeAggregation, getPossibleAgg
                 hasError={!field.valid && field.touched}
               >
                 <option value="" disabled>
-                  Please Select
+                  {t('in-new-components:metricConfigurator.labelPleaseSelect')}
                 </option>
                 {options
                   .find(option => option.metric === metric.get('metric').value)

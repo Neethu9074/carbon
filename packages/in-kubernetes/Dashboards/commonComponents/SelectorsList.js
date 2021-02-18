@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { Table, Thead, Tbody, Th, Tr, Td } from 'in-components/tables/sharedComponents';
@@ -14,13 +15,13 @@ export default function SelectorsList({ resource, defaultOperator = '=' }) {
   }
 
   return (
-    <Card title="Selector">
+    <Card title={t('in-kubernetes:dashboards.selector')}>
       <Table tableInCard>
         <Thead>
           <Tr>
-            <Th>Key</Th>
-            <Th>Operator</Th>
-            <Th>Value</Th>
+            <Th>{t('in-kubernetes:dashboards.key')}</Th>
+            <Th>{t('in-kubernetes:dashboards.operator')}</Th>
+            <Th>{t('in-kubernetes:dashboards.value')}</Th>
           </Tr>
         </Thead>
         <Tbody>

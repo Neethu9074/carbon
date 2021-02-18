@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { SecondLevelNavigation, SecondLevelNavigationItem } from 'in-new-components/SecondLevelNavigation';
@@ -23,8 +24,8 @@ export default connectTo(
       <>
         <DashboardHeader
           icon="lib_kubernetes_inverted"
-          label="Kubernetes"
-          title="Kubernetes"
+          label={t('in-kubernetes:kubernetesHeader')}
+          title={t('in-kubernetes:kubernetesHeader')}
           renderTopLevelButtonLine={UseBeeInstantToggle}
         />
         <DashboardHeaderModule theme={themes.light}>
@@ -32,13 +33,13 @@ export default connectTo(
             <SecondLevelNavigationItem
               href$={getModifiedUrlStream(p => (p.pathname = clusterListFullyQualified))}
               icon="lib_kubernetes_cluster"
-              label="Clusters"
+              label={t('in-kubernetes:clusters')}
               isActive={isClusterViewActive}
             />
             <SecondLevelNavigationItem
               href$={getModifiedUrlStream(p => (p.pathname = namespaceListFullyQualified))}
               icon="lib_kubernetes_namespace"
-              label="Namespaces"
+              label={t('in-kubernetes:namespaces')}
               isActive={isNamespaceViewActive}
             />
           </SecondLevelNavigation>

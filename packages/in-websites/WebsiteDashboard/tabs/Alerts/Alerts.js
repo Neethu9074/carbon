@@ -68,14 +68,14 @@ export default function Alerts({ websiteLabel, websiteId }) {
             role.canConfigureCustomAlerts && {
               delete: {
                 deleteEntity: config =>
-                  deleteAlertConfig(config.id).tap(() => websitesAlertingListAlertDeleted(config.id))
+                  deleteAlertConfig(config.id).tap(() => websitesAlertingListAlertDeleted({ id: config.id }))
               },
               toggleEnabled: {
                 get: config => config.enabled,
                 toggle: config =>
                   config.enabled
-                    ? disableAlertConfig(config.id).tap(() => websitesAlertingListAlertPaused(config.id))
-                    : enableAlertConfig(config.id).tap(() => websitesAlertingListAlertResumed(config.id))
+                    ? disableAlertConfig(config.id).tap(() => websitesAlertingListAlertPaused({ id: config.id }))
+                    : enableAlertConfig(config.id).tap(() => websitesAlertingListAlertResumed({ id: config.id }))
               }
             }
           }

@@ -1,0 +1,82 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
+@import '~in-themes/active.less';
+
+:local {
+  .stateWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .progressText {
+    font-size: 1.125rem;
+    padding-bottom: 0.5rem;
+  }
+
+  .infoBlock {
+    display: flex;
+    align-items: center;
+  }
+
+  .icon {
+    margin-right: .5rem;
+    fill: @lib__colors__N600Light;
+  }
+
+  .description {
+    margin: 1rem;
+  }
+
+  .bigIconContainer {
+    position: relative;
+    height: 6.25rem;
+    width: 6.25rem;
+    margin: 1rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .spinningIcon {
+    fill: @lib__colors__light-blue800;
+  }
+
+  .traceIcon {
+    fill: @lib__colors__N500;
+    position: absolute;
+    top: calc(50% - 1.5rem);
+    left: calc(50% - 1.5rem);
+  }
+
+  .loadingSpinnerContainer {
+    position: relative;
+    height: 6.25rem;
+    width: 6.25rem;
+  }
+
+  .loadingBarContainer {
+    width: 15rem;
+    height: 0.625rem;
+    margin: 1rem 0 .5rem;
+  }
+
+  .horizontalIndicator {
+    height: 0.5rem;
+    border-radius: 0.3125rem;
+  }
+
+  .warnIcon {
+    fill: @lib__colors__warning;
+  }
+
+  .errorIcon {
+    fill: @lib__colors__failure
+  }
+
+  .noData {
+    background: transparent;
+  }
+}

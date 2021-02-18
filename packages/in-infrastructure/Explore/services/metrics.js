@@ -3,12 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 import { just } from '@instana/observables';
+import { t } from 'in-i18n';
 
 import { percentageZeroDecimalPlaces, bytesTwoDecimalPlaces, twoDecimalPlaces } from 'in-services/formatters/number';
-import { getFormatter } from 'in-services/formatters/backendFormatter';
-import { numberFormatterToFormatterType } from 'in-services/formatters/number';
 import getAvailableMetrics from 'in-infrastructure/subscriptions/getAvailableMetrics';
+import { numberFormatterToFormatterType } from 'in-services/formatters/number';
 import { granularityForBeeInstantMetrics } from 'in-stores/metric/beeInstant';
+import { getFormatter } from 'in-services/formatters/backendFormatter';
 import { hasError, isLoading } from 'in-services/util/result';
 import { getKpiDefinitions } from 'in-sdk/metrics/kpis';
 
@@ -90,12 +91,12 @@ export function getKpis(type) {
   if (type === 'host') {
     return [
       {
-        label: 'CPU (user)',
+        label: t('in-infrastructure:explore.cpuUser'),
         metric: 'cpu.user',
         formatter: percentageZeroDecimalPlaces
       },
       {
-        label: 'Memory Free',
+        label: t('in-infrastructure:explore.memoryFree'),
         metric: 'memory.free',
         formatter: bytesTwoDecimalPlaces
       }

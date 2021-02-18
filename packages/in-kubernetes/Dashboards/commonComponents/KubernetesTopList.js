@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { get } from 'lodash';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { TopListWithUrlState, trackTopListNavigation } from 'in-new-components/TopListWithUrlState';
@@ -11,7 +12,7 @@ import { number } from 'in-services/formatters/number';
 import Link from 'in-components/Link';
 
 const metrics = ['pods'];
-const labels = ['Pods'];
+const labels = [t('in-kubernetes:dashboards.pods')];
 const aggregations = ['MEAN'];
 const formatters = [number.compact];
 
@@ -67,12 +68,18 @@ function getList({
   });
 }
 
-function ViewAll({ viewAllEntityName, allItemsHref$, items }, className) {
-  const entityName = viewAllEntityName || '';
+function ViewAll({ entityNameKey, allItemsHref$, items }, className) {
+  const key = entityNameKey || 'unknownEntity';
   return (
     <Link className={className} href$={allItemsHref$}>
-      {items.length > 1 && `View all ${entityName}s`}
-      {items.length === 1 && ` View ${entityName}`}
+      {items.length > 1 &&
+        t('in-kubernetes:dashboards.viewEntity', {
+          entityName: t('in-kubernetes:viewEntityName.all.' + key, { count: items.length })
+        })}
+      {items.length === 1 &&
+        t('in-kubernetes:dashboards.viewEntity', {
+          entityName: t('in-kubernetes:viewEntityName.' + key)
+        })}
     </Link>
   );
 }

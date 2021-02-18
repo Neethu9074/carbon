@@ -32,6 +32,10 @@ export default function ChartViewConfigurator({
   const selectedChartViewConfig = chartViewConfigs[selectedChartViewConfigIndex];
   const [serviceId, setServiceId] = useState();
   const showEntitySelection = alertConfigWithFormModel?.evaluationType === PER_AP_SERVICE;
+
+  // TODO AP ID must be provided via selection as well for Global SmartAlerts. Furthermore, this field is deprecated
+  const { applicationId } = alertConfigWithFormModel;
+
   return (
     <>
       <LightCard
@@ -62,6 +66,7 @@ export default function ChartViewConfigurator({
                 <span className={locals.labelWithGap}>Preview for Service:</span>
                 <div className={locals.expanding}>
                   <ChartSubEntitySelection
+                    applicationId={applicationId}
                     serviceId={serviceId}
                     setServiceId={setServiceId}
                     alertConfigWithFormModel={alertConfigWithFormModel}
@@ -87,6 +92,9 @@ ChartViewConfigurator.propTypes = {
   title: PropTypes.string,
   headerTransparent: PropTypes.bool,
   framed: PropTypes.bool,
-  alertConfigWithFormModel: PropTypes.shape({ evaluationType: PropTypes.string }),
+  alertConfigWithFormModel: PropTypes.shape({
+    applicationId: PropTypes.string.isRequired,
+    evaluationType: PropTypes.string
+  }),
   onChartViewConfigChange: PropTypes.func.isRequired
 };

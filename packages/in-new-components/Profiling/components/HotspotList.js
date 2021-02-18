@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import FileNameAndLine from 'in-new-components/Profiling/components/FileNameAndLine';
@@ -16,12 +17,12 @@ const headerColumnDefinitions = [
   {
     width: '6rem',
     getContent() {
-      return <span className={locals.headerText}>Used</span>;
+      return <span className={locals.headerText}>{t('in-new-components:profiling.headerColumnDefinitionsUsed')}</span>;
     }
   },
   {
     getContent() {
-      return <span className={locals.headerText}>Code</span>;
+      return <span className={locals.headerText}>{t('in-new-components:profiling.headerColumnDefinitionsCode')}</span>;
     }
   }
 ];

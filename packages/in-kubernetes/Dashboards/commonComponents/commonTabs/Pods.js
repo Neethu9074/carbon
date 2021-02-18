@@ -2,10 +2,11 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import React from 'react';
+import { t } from 'in-i18n';
 import { get, filter } from 'lodash';
 import { compose } from 'recompose';
 import theme from 'in-themes';
+import React from 'react';
 
 import {
   clusterIdUrlParameter,
@@ -50,7 +51,7 @@ const matrixPrefix = 'pod.';
 const allColumnDefinitions = [
   {
     id: 'label',
-    label: 'Name',
+    label: t('in-kubernetes:dashboards.name'),
     getContent(item, { deploymentId, serviceId, nodeId }) {
       return (
         <SeverityAwareEntityLink
@@ -64,7 +65,7 @@ const allColumnDefinitions = [
   },
   {
     id: 'namespace',
-    label: 'Namespace',
+    label: t('in-kubernetes:dashboards.namespace'),
     optional: true,
     getContent(item) {
       return item.pod.namespace;
@@ -72,7 +73,7 @@ const allColumnDefinitions = [
   },
   {
     id: 'status',
-    label: 'Status',
+    label: t('in-kubernetes:dashboards.status'),
     optional: true,
     getContent(item) {
       return <span>{get(item, ['pod', 'status', 'statusSummary'], valueMissingPlaceholder)}</span>;
@@ -80,7 +81,7 @@ const allColumnDefinitions = [
   },
   {
     id: 'phase',
-    label: 'Phase',
+    label: t('in-kubernetes:dashboards.phase'),
     optional: true,
     getContent(item) {
       return <span>{get(item, ['pod', 'status', 'phase'], valueMissingPlaceholder)}</span>;
@@ -88,7 +89,7 @@ const allColumnDefinitions = [
   },
   {
     id: 'ready',
-    label: 'Ready',
+    label: t('in-kubernetes:dashboards.ready'),
     optional: true,
     sortable: false,
     getContent(item) {
@@ -100,8 +101,8 @@ const allColumnDefinitions = [
           v2={containerStatuses.length}
           v1Color={theme.lib.colors.lightBlue800}
           v2Color={podStatusSummary === 'Completed' ? theme.lib.colors.N400 : theme.lib.colors.red800}
-          v1Label="Ready"
-          v2Label="Total"
+          v1Label={t('in-kubernetes:dashboards.ready')}
+          v2Label={t('in-kubernetes:dashboards.total')}
           fullDomain={containerStatuses.length}
           formatter={v => v}
         />
@@ -110,7 +111,7 @@ const allColumnDefinitions = [
   },
   {
     id: 'restartCount',
-    label: 'Restarts',
+    label: t('in-kubernetes:dashboards.restarts'),
     optional: true,
     sortable: true,
     getContent(item, props, columnId) {
@@ -126,7 +127,7 @@ const allColumnDefinitions = [
   },
   {
     id: 'age',
-    label: 'Age',
+    label: t('in-kubernetes:dashboards.age'),
     optional: true,
     getContent(item) {
       return item.pod.age && formatDuration(item.pod.age);
@@ -134,7 +135,7 @@ const allColumnDefinitions = [
   },
   {
     id: 'cpuRequests',
-    label: 'CPU Requests',
+    label: t('in-kubernetes:dashboards.cpuRequests'),
     optional: true,
     sortable: true,
     getContent(item) {
@@ -143,7 +144,7 @@ const allColumnDefinitions = [
   },
   {
     id: 'cpuLimits',
-    label: 'CPU Limits',
+    label: t('in-kubernetes:dashboards.cpuLimits'),
     optional: true,
     sortable: true,
     getContent(item) {
@@ -152,7 +153,7 @@ const allColumnDefinitions = [
   },
   {
     id: 'memoryRequests',
-    label: 'Memory Requests',
+    label: t('in-kubernetes:dashboards.memoryRequests'),
     optional: true,
     sortable: true,
     getContent(item) {
@@ -161,7 +162,7 @@ const allColumnDefinitions = [
   },
   {
     id: 'memoryLimits',
-    label: 'Memory Limits',
+    label: t('in-kubernetes:dashboards.memoryLimits'),
     optional: true,
     sortable: true,
     getContent(item) {
@@ -171,7 +172,7 @@ const allColumnDefinitions = [
 
   {
     id: 'health',
-    label: 'Health',
+    label: t('in-kubernetes:dashboards.health'),
     getContent(item, { timeConfig }) {
       return (
         <EntityHealthIndicator

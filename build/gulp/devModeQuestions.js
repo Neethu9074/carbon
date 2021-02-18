@@ -131,24 +131,12 @@ function getQuestions() {
           value: 'instana.io'
         },
         {
+          name: 'instana.rocks',
+          value: 'instana.rocks'
+        },
+        {
           name: 'pink.instana.rocks',
           value: 'pink.instana.rocks'
-        },
-        {
-          name: 'peach.instana.rocks',
-          value: 'peach.instana.rocks'
-        },
-        {
-          name: 'magenta.instana.rocks',
-          value: 'magenta.instana.rocks'
-        },
-        {
-          name: 'rose.instana.rocks',
-          value: 'rose.instana.rocks'
-        },
-        {
-          name: 'melon.instana.rocks',
-          value: 'melon.instana.rocks'
         }
       ]
     },

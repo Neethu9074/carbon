@@ -24,11 +24,6 @@ class Jail extends React.Component {
     error: null
   };
 
-  UNSAFE_componentWillReceiveProps() {
-    // TODO check for difference?
-    this.setState({ error: null });
-  }
-
   componentDidCatch(error, info) {
     ineum('reportError', error, {
       componentStack: info.componentStack

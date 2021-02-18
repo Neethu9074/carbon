@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import React, { isValidElement } from 'react';
+import { t } from 'in-i18n';
 
 import EntityPageMainNotification from 'in-new-components/EntityPageMainNotification/EntityPageMainNotification';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
@@ -30,7 +31,7 @@ export default connectTo(
     const notFoundComponent = (
       <EntityPageMainNotification
         icon="lib_missing_data"
-        title={title || 'No data available'}
+        title={title || t('in-new-components:withEmptyStateFallbackTitleNoDataAvailable')}
         explanation={explanation}
         changeExplanation={changeExplanation}
       />

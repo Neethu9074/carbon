@@ -94,7 +94,7 @@ export const Body = ({ beacon }) => {
     <Fragment>
       <Row>
         <Col lg={6}>
-          <BodyHeader>{t('resourceLoadBeaconHeaderAsset')}</BodyHeader>
+          <BodyHeader>{t('in-websites:analyze.analyzeView.pageLoadView.resourceLoadBeaconHeaderAsset')}</BodyHeader>
           <Dl>
             <Di title={t('in-websites:analyze.analyzeView.pageLoadView.resourceLoadBeaconTitleWindowLocation')}>
               <a href={beacon.locationUrl} rel="noopener noreferrer" target="_blank">
@@ -120,7 +120,7 @@ export const Body = ({ beacon }) => {
 
         {Object.keys(beacon.meta).length > 0 && (
           <Col lg={6}>
-            <BodyHeader>{t('resourceLoadBeaconHeaderMeta')}</BodyHeader>
+            <BodyHeader>{t('in-websites:analyze.analyzeView.pageLoadView.resourceLoadBeaconHeaderMeta')}</BodyHeader>
             <Meta beacon={beacon} />
           </Col>
         )}
@@ -129,7 +129,9 @@ export const Body = ({ beacon }) => {
       {!hasResourceTimings && !hasNetworkInsights && (
         <Row>
           <Col lg={6}>
-            <BodyHeader>{t('resourceLoadBeaconHeaderResourceTiming')}</BodyHeader>
+            <BodyHeader>
+              {t('in-websites:analyze.analyzeView.pageLoadView.resourceLoadBeaconHeaderResourceTiming')}
+            </BodyHeader>
             <LearnMore explanation={explanation} href={learnMoreHref} buttonLabel={learnMoreLabel} />
           </Col>
         </Row>
@@ -138,7 +140,9 @@ export const Body = ({ beacon }) => {
       <Row>
         {hasResourceTimings && (
           <Col lg={6}>
-            <BodyHeader>{t('resourceLoadBeaconHeaderResourceTiming')}</BodyHeader>
+            <BodyHeader>
+              {t('in-websites:analyze.analyzeView.pageLoadView.resourceLoadBeaconHeaderResourceTiming')}
+            </BodyHeader>
             <Timings
               timings={resourceTimings}
               totalDuration={beacon.duration}
@@ -151,7 +155,9 @@ export const Body = ({ beacon }) => {
 
         {hasNetworkInsights && (
           <Col lg={6}>
-            <BodyHeader>{t('resourceLoadBeaconHeaderNetworkInsights')}</BodyHeader>
+            <BodyHeader>
+              {t('in-websites:analyze.analyzeView.pageLoadView.resourceLoadBeaconHeaderNetworkInsights')}
+            </BodyHeader>
             <Dl>
               <Di title={t('in-websites:analyze.analyzeView.pageLoadView.resourceLoadBeaconTitleCacheInteraction')}>
                 {explanations[beacon.cacheInteraction]}

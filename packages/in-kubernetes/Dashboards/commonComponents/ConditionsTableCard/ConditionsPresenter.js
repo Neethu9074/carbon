@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { Table, Thead, Tbody, Tr, Th, Td } from 'in-components/tables/sharedComponents';
@@ -12,11 +13,11 @@ export default function NodeConditionsPresenter({ conditions }) {
     <Table tableInCard>
       <Thead>
         <Tr size="compact">
-          <Th>Condition</Th>
-          <Th>Status</Th>
-          <Th>Last Transition Time</Th>
-          <Th>Reason</Th>
-          <Th>Message</Th>
+          <Th>{t('in-kubernetes:dashboards.condition')}</Th>
+          <Th>{t('in-kubernetes:dashboards.status')}</Th>
+          <Th>{t('in-kubernetes:dashboards.lastTransitionTime')}</Th>
+          <Th>{t('in-kubernetes:dashboards.reason')}</Th>
+          <Th>{t('in-kubernetes:dashboards.message')}</Th>
         </Tr>
       </Thead>
       <Tbody>

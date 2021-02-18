@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import K8sAgentMonitoringIssueNotifications from 'in-kubernetes/Dashboards/commonComponents/K8sAgentMonitoringIssueNotifications';
@@ -23,7 +24,7 @@ const matrixPrefix = 'cronjob.';
 const columnDefinitions = [
   {
     id: 'name',
-    label: 'Name',
+    label: t('in-kubernetes:dashboards.name'),
     getContent(item) {
       return (
         <SeverityAwareEntityLink
@@ -36,28 +37,28 @@ const columnDefinitions = [
   },
   {
     id: 'schedule',
-    label: 'Schedule',
+    label: t('in-kubernetes:dashboards.schedule'),
     getContent(item) {
       return item.cronJob.schedule;
     }
   },
   {
     id: 'lastScheduled',
-    label: 'Last Scheduled',
+    label: t('in-kubernetes:dashboards.lastScheduled'),
     getContent(item) {
       return item.cronJob.lastScheduled;
     }
   },
   {
     id: 'concurrencyPolicy',
-    label: 'Concurrency Policy',
+    label: t('in-kubernetes:dashboards.concurrencyPolicy'),
     getContent(item) {
       return item.cronJob.concurrencyPolicy;
     }
   },
   {
     id: 'health',
-    label: 'Health',
+    label: t('in-kubernetes:dashboards.health'),
     getContent(item, { timeConfig }) {
       return (
         <EntityHealthIndicator
@@ -89,7 +90,7 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
 export default function CronJobs(props) {
   return (
     <>
-      <K8sAgentMonitoringIssueNotifications {...props} entityName="cronjobs" />
+      <K8sAgentMonitoringIssueNotifications {...props} entityName={'cronjobs'} />
       <Card>
         <ServerTableWithUrlState get={getTableData} {...props} />
       </Card>

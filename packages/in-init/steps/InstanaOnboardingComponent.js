@@ -33,7 +33,7 @@ function InstanaOnboardingComponent({ onDialogSkip, apiCallSatisfied, agentKey =
     <ErrorBoundary name="Instana onboarding dialog">
       <DialogPresenter />
 
-      <MessageFlyout filterRegularMessages />
+      <MessageFlyout onlyShowUsageRelatedMessages />
 
       <FullViewOnboardingWidget
         isAgentDeployed={apiCallSatisfied}

@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
@@ -25,7 +26,7 @@ export default connectTo(
     }
 
     return (
-      <DashboardSection title="Reporting Agents">
+      <DashboardSection title={t('in-infrastructure:agentView.reportingAgents')}>
         <Chart
           snapshotId={ID_OF_PROCESSING_STATISTICS}
           timeConfig={timeConfig}

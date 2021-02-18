@@ -32,7 +32,7 @@ export const LeftHeader = ({ beacon, earliestTimestamp }) => (
     <KeyValueHeader
       label={
         <Fragment>
-          {t('customEventBeaconHeaderCustomEvent')}
+          {t('in-websites:analyze.analyzeView.pageLoadView.customEventBeaconHeaderCustomEvent')}
           <BatchIndicator batchCount={beacon.batchSize} />
         </Fragment>
       }
@@ -57,7 +57,9 @@ export const Body = ({ beacon }) => {
     <Fragment>
       <Row>
         <Col lg={6}>
-          <BodyHeader>{t('customEventBeaconHeaderCustomEvent')}</BodyHeader>
+          <BodyHeader>
+            {t('in-websites:analyze.analyzeView.pageLoadView.customEventBeaconHeaderCustomEvent')}
+          </BodyHeader>
 
           <Dl>
             <Di title={t('in-websites:analyze.analyzeView.pageLoadView.customEventBeaconTitleWindowLocation')}>
@@ -74,7 +76,7 @@ export const Body = ({ beacon }) => {
 
         {Object.keys(beacon.meta).length > 0 && (
           <Col lg={6}>
-            <BodyHeader>{t('customEventBeaconHeaderMeta')}</BodyHeader>
+            <BodyHeader>{t('in-websites:analyze.analyzeView.pageLoadView.customEventBeaconHeaderMeta')}</BodyHeader>
             <Meta beacon={beacon} />
           </Col>
         )}
@@ -86,7 +88,9 @@ export const Body = ({ beacon }) => {
         <Fragment>
           <Row>
             <Col lg={6}>
-              <BodyHeader>{t('customEventBeaconHeaderErrorDetails')}</BodyHeader>
+              <BodyHeader>
+                {t('in-websites:analyze.analyzeView.pageLoadView.customEventBeaconHeaderErrorDetails')}
+              </BodyHeader>
 
               {!isScriptError(beacon.errorMessage) && (
                 <Dl>
@@ -116,7 +120,9 @@ export const Body = ({ beacon }) => {
           <Row>
             {isNotBlank(beacon.componentStack) && (
               <Col lg={12}>
-                <BodyHeader>{t('customEventBeaconHeaderComponentStack')}</BodyHeader>
+                <BodyHeader>
+                  {t('in-websites:analyze.analyzeView.pageLoadView.customEventBeaconHeaderComponentStack')}
+                </BodyHeader>
                 <RawStack stack={beacon.componentStack} />
               </Col>
             )}

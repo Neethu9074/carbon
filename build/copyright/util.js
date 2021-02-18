@@ -4,19 +4,19 @@
  */
 
 /* eslint-env node */
-/* eslint-disable no-console */
 
 const { containsCopyrightHeader } = require('./copyrightHeader.js');
 const Promise = require('bluebird');
-const path = require('path');
 const fs = require('fs');
 
 const glob = Promise.promisify(require('glob'));
 Promise.promisifyAll(fs);
 
 module.exports = function getFilesWithoutCopyright(fileType) {
-  return glob(path.join(__dirname, '../..', '/packages/**/*' + fileType))
-    .then(files => files.filter(isNotInsideNodeModules))
+  return glob(`${__dirname}/../../packages/**/*${fileType}`, {
+    ignore: ['**/node_modules/**']
+  })
+    .then(files => files.filter(isNotIgnored))
     .then(getFiles)
     .then(files => files.filter(doesNotHavecopyrightHeader));
 };
@@ -35,14 +35,14 @@ async function getFiles(files) {
   return readFiles;
 }
 
-function isNotInsideNodeModules(path) {
-  return path.indexOf('/node_modules/') === -1 && path.indexOf('in-themes/active.less') === -1;
+function isNotIgnored(_path) {
+  return _path.indexOf('in-themes/active.less') === -1;
 }
 
-function getContent(path) {
-  return fs.readFileAsync(path, { encoding: 'utf8' }).then(content => ({
+function getContent(_path) {
+  return fs.readFileAsync(_path, { encoding: 'utf8' }).then(content => ({
     content,
-    path
+    path: _path
   }));
 }
 

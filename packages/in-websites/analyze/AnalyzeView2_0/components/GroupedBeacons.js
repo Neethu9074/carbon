@@ -16,23 +16,23 @@ export default function GroupedBeacons(props) {
     <QueryBuilderWorkspace {...props}>
       <GroupedView
         {...props}
-        // TODO: Item name based on configured data source
-        itemName="TODOOOOO"
+        itemName={`in-websites:dataSources.${props.dataSource}`}
         getItemLabel={getItemLabel}
         itemlabelColumnId="name"
-        getData={({ timeConfig, backendQueryModel, orderBy, groupBy, cursor, metrics }) =>
+        getData={({ timeConfig, backendQueryModel, orderByGroups, groupBy, cursor, metrics }) =>
           getTableData({
             timeConfig,
             backendQueryModel,
             groupBy,
             cursor,
-            orderBy,
+            orderByGroups,
             metrics,
             dataSource: props.dataSource
           })
         }
-        getLabel={item => JSON.parse(item.name)}
+        getLabel={getItemLabel}
         UngroupedView={Beacons}
+        withSamplingTooltip
       />
     </QueryBuilderWorkspace>
   );
@@ -42,7 +42,7 @@ function getItemLabel(item) {
   return JSON.parse(item.name);
 }
 
-function getTableData({ timeConfig, backendQueryModel, groupBy, cursor, orderBy, metrics, dataSource }) {
+function getTableData({ timeConfig, backendQueryModel, groupBy, cursor, orderByGroups, metrics, dataSource }) {
   return getWebsiteBeaconGroups({
     pagination: {
       cursor,
@@ -51,7 +51,7 @@ function getTableData({ timeConfig, backendQueryModel, groupBy, cursor, orderBy,
     timeConfig,
     tagFilterExpression: addDataSourceToBackendQueryModel({ backendQueryModel, dataSource }),
     group: groupBy,
-    order: orderBy,
+    order: orderByGroups,
     metrics
   });
 }

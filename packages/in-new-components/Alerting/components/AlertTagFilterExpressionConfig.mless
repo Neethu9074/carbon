@@ -13,16 +13,7 @@
     background-color: transparent;
   }
 
-  .clearButton {
-    margin-left: auto;
-  }
-
   .removeContainerBorderBottom {
     border-bottom: transparent !important;
-  }
-
-  .scopeConfigContainer {
-    border: 1px solid @lib__colors__N300;
-    padding: 0.5rem;
   }
 }

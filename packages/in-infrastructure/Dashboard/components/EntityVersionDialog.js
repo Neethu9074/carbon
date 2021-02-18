@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import React, { useState } from 'react';
+import { t } from 'in-i18n';
 
 import { getSnapshotVersions } from 'in-internal/thisUnit/SnapshotVersions/SnapshotVersions';
 import EntityVersionListing from 'in-new-components/EntityVersionList/EntityVersionListing';
@@ -25,7 +26,7 @@ export default connectTo(
     const [selectedSnapshot, setSelectedSnapshot] = useState(null);
 
     return (
-      <Dialog title="Entity Versions" onClose={close}>
+      <Dialog title={t('in-infrastructure:dashboard.entityVersions')} onClose={close}>
         <div className={locals.content}>
           {snapshotVersionsResponse ? (
             <VersionTimeline
@@ -39,7 +40,7 @@ export default connectTo(
               getTooltip={snapshot => <DiffTootltipContent snapshot={snapshot} />}
             />
           ) : (
-            <LoadingIndicator text="Loading data" height={100} />
+            <LoadingIndicator text={t('in-infrastructure:dashboard.loadingData')} height={100} />
           )}
           <div className={locals.details}>
             <Row>

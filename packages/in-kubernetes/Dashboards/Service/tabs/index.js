@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import {
@@ -13,33 +14,33 @@ import {
 import WorkloadControllers from 'in-kubernetes/Dashboards/commonComponents/commonTabs/WorkloadControllers';
 import getOpenShiftDeploymentConfigs from 'in-subscription/kubernetes/getOpenShiftDeploymentConfigs';
 import { EventsWithoutNamespace } from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Events';
-import { ServiceTab } from 'in-kubernetes/Dashboards/commonComponents/Tabs';
+import getKubernetesStatefulSets from 'in-subscription/kubernetes/getKubernetesStatefulSets';
 import getKubernetesDeployments from 'in-subscription/kubernetes/getKubernetesDeployments';
 import getKubernetesDaemonSets from 'in-subscription/kubernetes/getKubernetesDaemonSets';
-import getKubernetesStatefulSets from 'in-subscription/kubernetes/getKubernetesStatefulSets';
 import { serviceDashboardFullyQualified } from 'in-kubernetes/navigation/paths';
 import Pods from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Pods';
+import { ServiceTab } from 'in-kubernetes/Dashboards/commonComponents/Tabs';
 import Summary from 'in-kubernetes/Dashboards/Service/tabs/Summary/Summary';
 import Details from 'in-kubernetes/Dashboards/Service/tabs/Details';
 
 export default [
   {
-    label: 'Summary',
+    label: t('in-kubernetes:dashboards.summary'),
     path: `${serviceDashboardFullyQualified}/summary`,
     component: Summary
   },
   {
-    label: 'Details',
+    label: t('in-kubernetes:dashboards.details'),
     path: `${serviceDashboardFullyQualified}/details`,
     component: Details
   },
   {
-    label: 'Events',
+    label: t('in-kubernetes:dashboards.events'),
     path: `${serviceDashboardFullyQualified}/events`,
     component: EventsWithoutNamespace
   },
   {
-    label: 'Deployments',
+    label: t('in-kubernetes:dashboards.deployments'),
     path: `${serviceDashboardFullyQualified}/deployments`,
     component: props =>
       WorkloadControllers({
@@ -53,7 +54,7 @@ export default [
     header: props => getCounterComponent(props, v => v.workloads.deployments)
   },
   {
-    label: 'Deployment Configs',
+    label: t('in-kubernetes:dashboards.deploymentConfigs'),
     path: `${serviceDashboardFullyQualified}/deploymentconfigs`,
     component: props =>
       WorkloadControllers({
@@ -62,12 +63,12 @@ export default [
         getWorkloadControllers$: getOpenShiftDeploymentConfigs,
         getWorkloadControllerDashboard: getDeploymentConfigDashboard,
         pathSegment: '/deploymentconfigs',
-        entityName: 'deployment configs'
+        entityName: 'deploymentConfigs'
       }),
     header: props => getCounterComponent(props, v => v.workloads.deploymentConfigs)
   },
   {
-    label: 'DaemonSets',
+    label: t('in-kubernetes:dashboards.daemonSets'),
     path: `${serviceDashboardFullyQualified}/daemonsets`,
     component: props =>
       WorkloadControllers({
@@ -81,7 +82,7 @@ export default [
     header: props => getCounterComponent(props, v => v.workloads.daemonSets)
   },
   {
-    label: 'StatefulSets',
+    label: t('in-kubernetes:dashboards.statefulSets'),
     path: `${serviceDashboardFullyQualified}/statefulsets`,
     component: props =>
       WorkloadControllers({
@@ -95,7 +96,7 @@ export default [
     header: props => getCounterComponent(props, v => v.workloads.statefulSets)
   },
   {
-    label: 'Pods',
+    label: t('in-kubernetes:dashboards.pods'),
     path: `${serviceDashboardFullyQualified}/pods`,
     component: Pods,
     header: props => getCounterComponent(props, v => v.workloads.pods)

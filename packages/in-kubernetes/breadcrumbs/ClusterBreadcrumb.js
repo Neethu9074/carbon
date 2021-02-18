@@ -3,12 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 import { get } from 'lodash';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import WithInfrastructureHealthIndicationBehaviour from 'in-components/health/WithHealthIndication/WithInfrastructureHealthIndicationBehaviour';
 import getKubernetesCluster from 'in-subscription/kubernetes/getKubernetesCluster';
 import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
-
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
@@ -26,7 +26,12 @@ export default connectTo(
       <WithInfrastructureHealthIndicationBehaviour
         snapshotId={clusterId}
         render={healthInfo => (
-          <Breadcrumb label="Cluster" icon={clusterIcon} href$={href$} healthInfo={healthInfo}>
+          <Breadcrumb
+            label={t('in-kubernetes:breadcrumbs.cluster')}
+            icon={clusterIcon}
+            href$={href$}
+            healthInfo={healthInfo}
+          >
             {cluster && cluster.label}
           </Breadcrumb>
         )}

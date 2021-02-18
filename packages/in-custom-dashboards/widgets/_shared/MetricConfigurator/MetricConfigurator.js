@@ -65,6 +65,7 @@ export default function MetricConfigurator({
           onChange={e => onChange(['label'], field => field.setValue(e.target.value).setTouched(true))}
           hasError={!field.valid && field.touched}
           additionalContent={<TouchedMessages field={field} />}
+          maxLength={256}
         />
       </Sections>
     ));
@@ -87,5 +88,5 @@ export default function MetricConfigurator({
     );
   }
 
-  return dataSourceSection;
+  return <Sections>{dataSourceSection}</Sections>;
 }

@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import rpt from 'prop-types';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { trackingProps as metricConfiguratorTrackingProps } from 'in-new-components/MetricConfigurator/MetricConfigurator';
@@ -101,7 +102,7 @@ function getTableData({ timeConfig, retrievalSize, backendQueryModel, type, orde
 function getLabelColumn({ timeConfig }, onNavigateToEntity) {
   return {
     id: 'label',
-    label: 'Name',
+    label: t('in-infrastructure:explore.name'),
     getContent(item) {
       const offlineTime = item.time < timeConfig.to ? item.time : undefined;
       return (
@@ -114,7 +115,7 @@ function getLabelColumn({ timeConfig }, onNavigateToEntity) {
           />
           {offlineTime && (
             <Pill className={locals.pill} kind="lighter">
-              offline
+              {t('in-infrastructure:explore.offline')}
             </Pill>
           )}
         </div>

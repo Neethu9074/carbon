@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import { number, bytes, percentage, millis, seconds, micros } from 'in-services/formatters/number';
+import { number, bytes, percentage, millis, seconds, micros, latency } from 'in-services/formatters/number';
 
 const mappings = {
   NUMBER: createFormatterWithDefault(number, 'compact'),
@@ -13,6 +13,8 @@ const mappings = {
 
   BYTES: createFormatterWithDefault(bytes, 'detailed'),
   BYTE_RATE: createFormatterWithDefault(bytes.perSecond, 'detailed'),
+
+  LATENCY: createFormatterWithDefault(latency, 'compact'),
 
   MICROS: createFormatterWithDefault(micros, 'compact'),
   MILLIS: createFormatterWithDefault(millis, 'compact'),

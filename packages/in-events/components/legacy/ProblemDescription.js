@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 /* eslint-disable react/no-danger */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
@@ -18,7 +19,7 @@ export default function EventProblem({ event }) {
 
   return (
     <DescriptionList className={block}>
-      <DescriptionItem title="Description">
+      <DescriptionItem title={t('in-events:titleDescription')}>
         <DangerousHtmlPresenter className={`${block}__suggestion`} html={fixSuggestion} />
       </DescriptionItem>
     </DescriptionList>

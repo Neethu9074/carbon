@@ -31,17 +31,21 @@ export default function LoggingAnalyzeView() {
       defaultDataSource="logs"
       dataSourceParameter={logIdMatrixParameter}
       getTagCatalog={getTagCatalog}
-      groupedView={{
-        defaultOrderBy: 'count',
-        defaultOrderDirection: 'DESC',
-        customFieldRenderingInstructions: {}
+      dataSourceConfigurations={{
+        logs: {
+          groupedView: {
+            defaultOrderBy: 'count',
+            defaultOrderDirection: 'DESC',
+            customFieldRenderingInstructions: {}
+          },
+          ungroupedView: {
+            defaultOrderBy: 'timestamp',
+            defaultOrderDirection: 'DESC',
+            customFieldRenderingInstructions: {}
+          },
+          defaultSelectableFields: []
+        }
       }}
-      ungroupedView={{
-        defaultOrderBy: 'timestamp',
-        defaultOrderDirection: 'DESC',
-        customFieldRenderingInstructions: {}
-      }}
-      defaultFields={[]}
     >
       {opts => (opts.isGrouped ? <GroupedLogs {...opts} {...furtherProps} /> : <Logs {...opts} {...furtherProps} />)}
     </StateManagement>

@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import WorkloadControllerDashboard from 'in-kubernetes/Dashboards/commonComponents/WorkloadController/WorkloadControllerDashboard';
@@ -24,8 +25,8 @@ export default function DaemonSetDashboard({ location }) {
       BreadCrumbComponent={WorkloadControllerBreadcrumbs}
       workloadControllerSubscriptionName={getKubernetesWorkloadController}
       tabChangeTracker={daemonSetTabChange}
-      headerTitle="Kubernetes DaemonSet"
-      badgeType="K8s DaemonSet"
+      headerTitle={t('in-kubernetes:dashboards.kubernetesDaemonSet')}
+      badgeType={t('in-kubernetes:dashboards.k8SDaemonSet')}
       tabs={tabs}
     />
   );

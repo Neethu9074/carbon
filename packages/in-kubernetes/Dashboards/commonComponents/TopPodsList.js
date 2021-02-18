@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { get } from 'lodash';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import KubernetesTopList from 'in-kubernetes/Dashboards/commonComponents/KubernetesTopList';
@@ -12,12 +13,12 @@ import { getPodDashboard } from 'in-kubernetes/navigation/paths';
 export default function TopPodsList(props) {
   return (
     <KubernetesTopList
-      title="Top Pods"
-      viewAllEntityName="pod"
+      title={t('in-kubernetes:dashboards.topPods')}
+      entityNameKey="pod"
       {...props}
       metrics={['status']}
       metricOrderDirection="ASC"
-      labels={['Status']}
+      labels={[t('in-kubernetes:dashboards.status')]}
       getItems={getKubernetesPods}
       getItemHref$={item =>
         getPodDashboard(item.pod.id, {

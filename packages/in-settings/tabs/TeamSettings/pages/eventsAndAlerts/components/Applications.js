@@ -14,7 +14,6 @@ import locals from './Applications.mless';
 
 export default function Applications({
   setTitle = true,
-  scrollWrapperClassName,
   tableActions = defaultTableActions,
   loadEntities,
   noDataMessage,
@@ -33,7 +32,6 @@ export default function Applications({
       getHeader={getHeader}
       getEntityName={getEntityName}
       columnDefinitions={columnDefinitions(hasRowNavigation)}
-      scrollWrapperClassName={scrollWrapperClassName}
       tableActions={tableActions}
       loadEntities={loadEntities ? loadEntities : getApplicationConfigs}
       noDataMessage={noDataMessage}

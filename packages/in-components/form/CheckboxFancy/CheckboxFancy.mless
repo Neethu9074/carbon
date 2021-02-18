@@ -36,6 +36,8 @@
   .explanation {
     grid-column-start: 2;
     grid-row-start: 2;
+
+    color: @lib__colors__N600Light;
   }
 
   .sizeDefault {

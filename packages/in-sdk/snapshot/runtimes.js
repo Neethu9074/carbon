@@ -2,36 +2,38 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
+
 const runtimes = [
   {
     key: 'dotnetcore',
-    label: '.NET Core'
+    label: t('in-sdk:snapshot.runtimeLabelNet')
   },
   {
     key: 'go',
-    label: 'Go'
+    label: t('in-sdk:snapshot.runtimeLabelGo')
   },
   {
     key: 'java',
-    label: 'Java'
+    label: t('in-sdk:snapshot.runtimeLabelJava')
   },
   {
     key: 'node',
-    label: 'Node.js'
+    label: t('in-sdk:snapshot.runtimeLabelNodeJS')
   },
   {
     key: 'python',
-    label: 'Python'
+    label: t('in-sdk:snapshot.runtimeLabelPython')
   },
   {
     key: 'ruby',
-    label: 'Ruby'
+    label: t('in-sdk:snapshot.runtimeLabelRuby')
   }
 ];
 
 const unknownRuntime = {
   key: 'unknown',
-  label: 'Unknown Runtime'
+  label: t('in-sdk:snapshot.runtimeLabelUnknown')
 };
 
 export function getRuntimeByKey(key) {

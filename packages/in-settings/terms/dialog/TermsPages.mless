@@ -24,11 +24,17 @@
   }
 
   .container {
-    .flexColumn();
-    justify-content: space-between;
+    height: 100%;
+    position: relative;
+  }
+
+  .pageContent {
     height: 100%;
     color: @lib__colors__N700Medium;
     font-size: @lib__typography__body-bold__font-size;
+    padding: 0 1.5rem 5rem;
+    overflow-y: auto;
+    line-height: 1.6;
   }
 
   .indentedImage {
@@ -69,9 +75,18 @@
     }
   }
 
-  .buttons {
+  .inputField {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    margin-bottom: 1rem;
+    width: 21.25rem;
+  }
+
+  .buttons {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
 
     button {
       width: 6.25rem;

@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { toInteractiveElement } from 'in-new-components/interactiveCustomElement';
@@ -32,7 +33,7 @@ export default function PotentialProblemMarker({ eventData, xScale, onClick }) {
       }}
       onClick={clickHandler}
       {...toInteractiveElement({
-        ariaLabel: 'Potential Problem,',
+        ariaLabel: t('in-new-components:potentialProblems.labelPotentialProblem'),
         onDefaultInteraction: clickHandler
       })}
     />

@@ -5,6 +5,7 @@
 import { containerPath } from 'in-stores/navigation/paths/mainPaths';
 import { navigationParameters$ } from 'in-stores/navigation';
 import { createTrackingStore } from 'in-stores/store';
+import { t } from 'in-i18n';
 
 const viewGroupings = Object.freeze({
   compose: 'DOCKER_COMPOSE_PROJECT_NAME',
@@ -27,25 +28,25 @@ const viewGroupings = Object.freeze({
 });
 
 export const humanReadableDescriptions = Object.freeze({
-  compose: 'Docker Compose project name',
-  custom_container: 'Container labels',
-  custom_physical: 'Tag prefix',
-  docker: 'Docker image',
-  ecs: 'Amazon ECS task definition family',
-  host: 'Host',
-  kube: 'Kubernetes namespace',
-  cfApp: 'Cloud Foundry Application',
-  cfSpace: 'Cloud Foundry Space',
-  marathon: 'Marathon application ID',
-  nomad: 'Nomad task name',
+  compose: t('in-stores:view.viewGroupingsCompose'),
+  custom_container: t('in-stores:view.viewGroupingsCustom_container'),
+  custom_physical: t('in-stores:view.viewGroupingsCustom_physical'),
+  docker: t('in-stores:view.viewGroupingsDocker'),
+  ecs: t('in-stores:view.viewGroupingsEcs'),
+  host: t('in-stores:view.viewGroupingsHost'),
+  kube: t('in-stores:view.viewGroupingsKube'),
+  cfApp: t('in-stores:view.viewGroupingsCfApp'),
+  cfSpace: t('in-stores:view.viewGroupingsCfSpace'),
+  marathon: t('in-stores:view.viewGroupingsMarathon'),
+  nomad: t('in-stores:view.viewGroupingsNomad'),
 
-  infraZone: 'Zone',
-  instanceType: 'Instance type',
+  infraZone: t('in-stores:view.viewGroupingsInfraZone'),
+  instanceType: t('in-stores:view.viewGroupingsInstanceType'),
 
-  cpuCount: 'CPU count',
-  cpuModel: 'CPU model',
-  osArc: 'OS architecture',
-  osName: 'OS name'
+  cpuCount: t('in-stores:view.viewGroupingsCpuCount'),
+  cpuModel: t('in-stores:view.viewGroupingsCpuModel'),
+  osArc: t('in-stores:view.viewGroupingsOsArc'),
+  osName: t('in-stores:view.viewGroupingsOsName')
 });
 
 export const availableGroupings = Object.freeze({

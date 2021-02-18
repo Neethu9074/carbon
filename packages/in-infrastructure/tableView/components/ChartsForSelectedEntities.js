@@ -4,6 +4,7 @@
  */
 import { just, combineLatest } from '@instana/observables';
 import React, { Fragment } from 'react';
+import { t } from 'in-i18n';
 
 import MetricChartDownloadView from 'in-components/DownloadButton/components/MetricChartDownloadView';
 import { selectedSnapshots$ } from 'in-infrastructure/tableView/stores/selectedSnapshots';
@@ -15,9 +16,9 @@ import { getTableDefinition } from 'in-sdk/snapshot';
 import { getMetricDefinition } from 'in-sdk/metrics';
 import { timeConfig$ } from 'in-stores/time/config';
 import { getPlural } from 'in-sdk/pluginName';
+import Button from 'in-new-components/Button';
 import SvgIcon from 'in-components/SvgIcon';
 import { getLabel } from 'in-sdk/snapshot';
-import Button from 'in-new-components/Button';
 import connectTo from 'in-hoc/connectTo';
 
 import './ChartsForSelectedEntities.less';
@@ -63,7 +64,7 @@ function SelectedChart({ metric, snapshots, timeConfig, labels }) {
           </DownloadButton>
 
           <Button onClick={() => removeMetric(metric)} kind="secondary" size="compact" className={`${block}__button`}>
-            Remove
+            {t('in-infrastructure:tableView.remove')}
           </Button>
         </div>
       </h2>
@@ -103,7 +104,6 @@ export default connectTo(
   function ChartsForSelectedEntities({ metrics, snapshots, plugin, timeConfig, labels }) {
     metrics = metrics || [];
     snapshots = snapshots || [];
-    snapshots = snapshots.filter(snapshot => !!snapshot);
     labels = labels || [];
 
     if (snapshots.length === 0 && metrics.length === 0) {
@@ -111,13 +111,17 @@ export default connectTo(
     } else if (snapshots.length === 0 && metrics.length > 0) {
       return (
         <div className={`${block}__incomplete-selection`}>
-          Please select {getPlural(plugin)} for which to visualize the chosen metrics.
+          {t('in-infrastructure:tableView.pleaseSelectForWhichToVisualizeTheChosenMetrics', {
+            plugins: getPlural(plugin)
+          })}
         </div>
       );
     } else if (snapshots.length > 0 && metrics.length === 0) {
       return (
         <div className={`${block}__incomplete-selection`}>
-          Please select metrics to visualize for the selected {getPlural(plugin)}.
+          {t('in-infrastructure:tableView.pleaseSelectMetricsToVisualizeForTheSelected', {
+            plugins: getPlural(plugin)
+          })}
         </div>
       );
     }

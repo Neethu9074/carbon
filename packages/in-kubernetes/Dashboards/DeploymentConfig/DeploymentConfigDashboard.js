@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import WorkloadControllerDashboard from 'in-kubernetes/Dashboards/commonComponents/WorkloadController/WorkloadControllerDashboard';
@@ -24,8 +25,8 @@ export default function DeploymentConfigDashboard({ location }) {
       BreadCrumbComponent={WorkloadControllerBreadcrumbs}
       workloadControllerSubscriptionName={getKubernetesWorkloadController}
       tabChangeTracker={deploymentConfigTabChange}
-      headerTitle="Kubernetes Deployment Config"
-      badgeType="K8s Deployment Config"
+      headerTitle={t('in-kubernetes:dashboards.kubernetesDeploymentConfig')}
+      badgeType={t('in-kubernetes:dashboards.k8SDeploymentConfig')}
       tabs={tabs}
     />
   );

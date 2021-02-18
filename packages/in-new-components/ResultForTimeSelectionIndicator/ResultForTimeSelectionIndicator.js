@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import classNames from 'classnames';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { clearHighlightedTimeframe } from 'in-stores/timeline/highlightedTimeframe';
@@ -16,10 +17,11 @@ export default function ResultForTimeSelectionIndicator({ className, entityName,
     <div className={classNames(locals.wrapper, className)}>
       <div className={locals.notificationWrapper}>
         <SvgIcon className={locals.icon} type="lib_help_error_info_outline" />
-        {message ?? `Showing ${entityName} for selection`}
+        {message ??
+          t('in-new-components:resultForTimeSelectionIndicator.labelShowingForSelection', { entityName: entityName })}
       </div>
       <Button size="compact" kind="action" icon="lib_openclose_circle" onClick={clearHighlightedTimeframe}>
-        Clear selection
+        {t('in-new-components:resultForTimeSelectionIndicator.buttonClearSelection')}
       </Button>
     </div>
   );

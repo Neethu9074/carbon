@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { uiNeedsRefresh$ } from 'in-services/uiClientVersion';
@@ -34,11 +35,13 @@ const updateUiSection = (
   <div className={locals.updateSection}>
     <div className={locals.headerWrapper}>
       <SvgIcon className={locals.updateIconExpanded} size="l" type="lib_help_error_info_outline" />
-      <div className={locals.label}>New version of Instana UI available</div>
+      <div className={locals.label}>
+        {t('in-new-components:mainNavigation.newUiClientVersionAvailableLabelNewVersionOfInstanaUIAvailable')}
+      </div>
     </div>
     <div className={locals.buttonWrapper}>
       <Button onClick={() => window.location.reload()} kind="primary">
-        Reload to update
+        {t('in-new-components:mainNavigation.newUiClientVersionAvailableButtonReloadToUpdate')}
       </Button>
     </div>
   </div>

@@ -201,6 +201,8 @@ const Content = getElementDimensions(function Content({ itemOrder, width, applic
                       </Draggable>
                     );
                   })}
+
+                  {provided.placeholder}
                 </div>
               )}
             </Droppable>

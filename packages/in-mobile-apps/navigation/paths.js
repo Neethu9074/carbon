@@ -20,9 +20,11 @@ import {
   serializeMetrics
 } from 'in-mobile-apps/navigation/matrix';
 import { getModifiedUrlStream, navigationParameters$ } from 'in-stores/navigation/navigation';
+import { type as TAG_FILTER } from 'in-new-components/QueryBuilder/transformation/tagFilter';
 import { setOrDeleteMatrixKey, getMatrixParameter } from 'in-stores/navigation/matrix';
-import { emptyObject } from 'in-services/fixedObjects';
+import { webMobileQb2AnalyzeEnabled } from 'in-services/featureFlags';
 import { availableFilterTags } from 'in-mobile-apps/tags';
+import { emptyObject } from 'in-services/fixedObjects';
 import { setTimeConfig } from 'in-stores/time/config';
 
 export const mobileAppMonitoringPath = '/mobileAppMonitoring';
@@ -91,6 +93,7 @@ export function getLinkToMobileApp(
 export function getLinkToAnalyze({
   tagFilters,
   group,
+  formModel,
   beaconType,
   showGraph = false,
   metrics,
@@ -106,44 +109,70 @@ export function getLinkToAnalyze({
     setOrDeleteMatrixKey(params, analyzePath, groupMatrixParameter, serializeGroup(group));
     setOrDeleteMatrixKey(params, analyzePath, beaconTypeMatrixParameter, beaconType);
 
-    // reset sorting
-    setOrDeleteMatrixKey(params, analyzePath, 'orderBy');
-    setOrDeleteMatrixKey(params, analyzePath, 'orderDirection');
-
-    // reset metrics
-    setOrDeleteMatrixKey(params, analyzePath, 'metrics');
-
-    if (showGraph) {
-      setOrDeleteMatrixKey(params, analyzePath, 'showGraph', true);
-    }
-
-    if (metrics !== undefined) {
-      setOrDeleteMatrixKey(params, analyzePath, 'metrics', serializeMetrics(metrics));
-    }
-
-    if (focusedMetric !== undefined && focusedMetricAggregation !== undefined) {
-      if (focusedMetric && focusedMetricAggregation) {
-        setOrDeleteMatrixKey(params, analyzePath, 'focusedMetric', `${focusedMetric}_${focusedMetricAggregation}`);
-      } else {
-        setOrDeleteMatrixKey(params, analyzePath, 'focusedMetric');
-      }
-    }
-
     const filterableTags = availableFilterTags[beaconType];
-    if (tagFilters != null) {
-      const onlyAllowedTagFilters = tagFilters.filter(t => filterableTags.indexOf(t.name) !== -1);
-      setOrDeleteMatrixKey(params, analyzePath, tagFiltersMatrixParameter, serializeTagFilters(onlyAllowedTagFilters));
+
+    if (webMobileQb2AnalyzeEnabled) {
+      // UA2
+      setOrDeleteMatrixKey(params, analyzePath, 'groupBy', serializeGroup(group));
+      setOrDeleteMatrixKey(params, analyzePath, 'orderBy');
+      setOrDeleteMatrixKey(params, analyzePath, 'orderByGroups');
+      setOrDeleteMatrixKey(params, analyzePath, 'fields');
+      if (formModel?.length > 0) {
+        const isFormModelValid = formModel
+          .filter(element => element.type === TAG_FILTER)
+          .every(tagFilter => filterableTags.includes(tagFilter.name));
+        if (!isFormModelValid) {
+          // reset query builder
+          setOrDeleteMatrixKey(params, analyzePath, 'tagFilterExpression');
+        }
+      }
+      setOrDeleteMatrixKey(params, analyzePath, 'chartedMetrics');
     } else {
-      const existingTagFiltersStr = getMatrixParameter(params, analyzePath, tagFiltersMatrixParameter);
-      if (existingTagFiltersStr) {
-        const existingTagFilters = deserializeTagFilters(existingTagFiltersStr);
-        const onlyAllowedTagFilters = existingTagFilters.filter(t => filterableTags.indexOf(t.name) !== -1);
+      // UA1
+
+      // reset sorting
+      setOrDeleteMatrixKey(params, analyzePath, 'orderBy');
+      setOrDeleteMatrixKey(params, analyzePath, 'orderDirection');
+
+      // reset metrics
+      setOrDeleteMatrixKey(params, analyzePath, 'metrics');
+
+      if (showGraph) {
+        setOrDeleteMatrixKey(params, analyzePath, 'showGraph', true);
+      }
+
+      if (metrics !== undefined) {
+        setOrDeleteMatrixKey(params, analyzePath, 'metrics', serializeMetrics(metrics));
+      }
+
+      if (focusedMetric !== undefined && focusedMetricAggregation !== undefined) {
+        if (focusedMetric && focusedMetricAggregation) {
+          setOrDeleteMatrixKey(params, analyzePath, 'focusedMetric', `${focusedMetric}_${focusedMetricAggregation}`);
+        } else {
+          setOrDeleteMatrixKey(params, analyzePath, 'focusedMetric');
+        }
+      }
+
+      if (tagFilters != null) {
+        const onlyAllowedTagFilters = tagFilters.filter(t => filterableTags.indexOf(t.name) !== -1);
         setOrDeleteMatrixKey(
           params,
           analyzePath,
           tagFiltersMatrixParameter,
           serializeTagFilters(onlyAllowedTagFilters)
         );
+      } else {
+        const existingTagFiltersStr = getMatrixParameter(params, analyzePath, tagFiltersMatrixParameter);
+        if (existingTagFiltersStr) {
+          const existingTagFilters = deserializeTagFilters(existingTagFiltersStr);
+          const onlyAllowedTagFilters = existingTagFilters.filter(t => filterableTags.indexOf(t.name) !== -1);
+          setOrDeleteMatrixKey(
+            params,
+            analyzePath,
+            tagFiltersMatrixParameter,
+            serializeTagFilters(onlyAllowedTagFilters)
+          );
+        }
       }
     }
   });

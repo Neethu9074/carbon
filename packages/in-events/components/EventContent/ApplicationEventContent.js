@@ -67,9 +67,8 @@ export default function ApplicationEventContent({ event }) {
             <DescriptionButtons>
               <ApplicationAlertConfigButton alertConfig={alertConfig} />
               <AnalyzeApplicationEventButton
+                {...eventEntity}
                 alertConfig={alertConfig}
-                applicationName={eventEntity.applicationName}
-                serviceName={eventEntity.serviceName}
                 timeConfig={analyzeTimeConfig}
               />
             </DescriptionButtons>
@@ -120,13 +119,7 @@ export default function ApplicationEventContent({ event }) {
 
       <Row withoutSideMargin>
         <Col xs>
-          <SmartAlertAffectedEntities
-            alertConfig={alertConfig}
-            event={event}
-            applicationName={eventEntity.applicationName}
-            serviceName={eventEntity.serviceName}
-            endpointName={eventEntity.endpointName}
-          />
+          <SmartAlertAffectedEntities {...eventEntity} alertConfig={alertConfig} event={event} />
         </Col>
       </Row>
     </>

@@ -9,15 +9,11 @@ import { initReactI18next } from 'react-i18next';
 import i18n from 'i18next';
 import { combineLatest, fromPromise } from '@instana/observables';
 
-import { getUserSettings } from 'in-services/userSettings';
+import { activeLanguage, fallbackLanguage } from 'in-i18n/language';
 import { build } from 'in-services/config';
 import http from 'in-services/http';
 
-const fallbackLanguage = 'en-US';
-
 export function init() {
-  const activeLanguage = getUserSettings().preferredLanguage ?? fallbackLanguage;
-
   return getLanguageBundles(activeLanguage).flatMap(languageBundles =>
     fromPromise(
       i18n.use(initReactI18next).init({

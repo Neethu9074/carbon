@@ -74,6 +74,7 @@ function Body({ dataSource, tagFilterExpression, updateFilter, isValid }) {
           </Label>
           <Input
             id="latency-min"
+            className={locals.latencyInput}
             value={minInput}
             type="number"
             hasError={isError}
@@ -98,6 +99,7 @@ function Body({ dataSource, tagFilterExpression, updateFilter, isValid }) {
           </Label>
           <Input
             id="latency-max"
+            className={locals.latencyInput}
             value={maxInput}
             type="number"
             hasError={isError}

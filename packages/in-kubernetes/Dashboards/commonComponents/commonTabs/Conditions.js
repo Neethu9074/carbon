@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import {
@@ -23,35 +24,35 @@ const matrixPrefix = 'condition.';
 const columnDefinitions = [
   {
     id: 'type',
-    label: 'Name',
+    label: t('in-kubernetes:dashboards.name'),
     getContent(item) {
       return item.type;
     }
   },
   {
     id: 'status',
-    label: 'Status',
+    label: t('in-kubernetes:dashboards.status'),
     getContent(item) {
       return item.status;
     }
   },
   {
     id: 'lastTransitionTime',
-    label: 'Last Transition Time',
+    label: t('in-kubernetes:dashboards.lastTransitionTime'),
     getContent(item) {
       return item.lastTransitionTime || valueMissingPlaceholder;
     }
   },
   {
     id: 'reason',
-    label: 'Reason',
+    label: t('in-kubernetes:dashboards.reason'),
     getContent(item) {
       return item.reason || valueMissingPlaceholder;
     }
   },
   {
     id: 'message',
-    label: 'Message',
+    label: t('in-kubernetes:dashboards.message'),
     getContent(item) {
       return item.message || valueMissingPlaceholder;
     }

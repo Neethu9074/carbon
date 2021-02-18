@@ -103,7 +103,7 @@ const columnDefinitions = [
 const ServerTableWithUrlState = createServerTableWithUrlState({
   Renderer: withEmptyTableState({
     columnDefinitions,
-    entityName: t('in-cloudfoundry:entityName.containers')
+    entityName: 'containers'
   }),
   paginationResettingUrlParameters: [...timeConfigUrlParameters, applicationIdUrlParameter],
   defaultOrderBy: 'cfInstanceIndex',

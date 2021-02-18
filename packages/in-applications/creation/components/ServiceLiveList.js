@@ -57,7 +57,7 @@ export default function ServiceLiveList({ servicesLiveList, headerText, isValidT
       {isLoading === true ? (
         <LoadingIndicator size="xxxl" />
       ) : (
-        <Ul className={locals.listContainer} framed={false}>
+        <Ul framed={false}>
           {servicesLiveList?.data &&
             servicesLiveList.data.items.map(item => <ServiceLiveListItem item={item} key={item.id} />)}
         </Ul>

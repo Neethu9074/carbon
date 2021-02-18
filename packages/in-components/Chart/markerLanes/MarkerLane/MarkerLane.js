@@ -73,10 +73,13 @@ function MarkersLanePresenter({
   trackMarkerHoverEvent,
   ...remainingProps
 }) {
-  const xScale = useObservable(renderScheduler.xScaleBackBuffer$.nextFrame(), [], { pure: false });
+  const { timeConfig, clusterSizeMillis } = remainingProps;
+  const xScale = useObservable(renderScheduler.xScaleBackBuffer$.nextFrame(), [timeConfig.autoRefresh], {
+    pure: !timeConfig.autoRefresh
+  });
   const [hoveredEventData, setHoveredEventData] = useState(null);
 
-  const clusterAreaWidth = xScale?.getRangeArea(remainingProps.clusterSizeMillis);
+  const clusterAreaWidth = xScale?.getRangeArea(clusterSizeMillis);
 
   return (
     <>
@@ -203,7 +206,7 @@ function getCommonOverlayStyles({ chartContentPosition, color }) {
 }
 
 export const commonOverlayStylesPropType = PropTypes.shape({
-  zIndex: PropTypes.number,
+  zIndex: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   color: PropTypes.string
 });
 

@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
@@ -26,7 +27,7 @@ export default connectTo(
         <SecondLevelNavigation>
           <SecondLevelNavigationItem
             href$={getModifiedUrlStream(location => setOrDeleteMatrixKey(location, eventsPath, 'view', null))}
-            label="All"
+            label={t('in-events:labelAll')}
             isActive={!selectedEventType}
             darkTheme
           />

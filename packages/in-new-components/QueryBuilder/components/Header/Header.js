@@ -24,7 +24,8 @@ export default function Header(props) {
     hitName,
     metrics,
     order,
-    tracking
+    tracking,
+    withSamplingTooltip
   } = props;
 
   return (
@@ -35,11 +36,12 @@ export default function Header(props) {
         itemName={itemName}
         topText={topText}
         hitName={hitName}
+        withSamplingTooltip={withSamplingTooltip}
       />
 
       <HorizontalFlexWrapper>
         {CustomHeaderActions && <CustomHeaderActions {...props} />}
-        {sortOptions && <MetricAndSortingConfigurator
+        <MetricAndSortingConfigurator
           sortOptions={sortOptions}
           order={order}
           setOrder={setOrder}
@@ -47,7 +49,7 @@ export default function Header(props) {
           metrics={metrics}
           setMetrics={setMetrics}
           tracking={tracking}
-        />}
+        />
       </HorizontalFlexWrapper>
     </div>
   );

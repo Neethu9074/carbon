@@ -12,19 +12,24 @@ import {
   createTagForm,
   getFormPresentationInformation
 } from 'in-new-components/QueryBuilder/validation/tagForm';
+import { EQUALS, NOT_EQUAL, NOT_STARTS_WITH, STARTS_WITH } from 'in-new-components/QueryBuilder/tagFilter/operators';
+import { KEY_VALUE_PAIR, STRING, STRING_LIST, STRING_SET } from 'in-new-components/QueryBuilder/tagFilter/types';
 import { getSuggestionsTagFilterExpression } from 'in-new-components/QueryBuilder/tagFilter/tagSuggestions';
 import SimpleValueSelector from 'in-new-components/QueryBuilder/SimpleValueSelector/SimpleValueSelector';
 import BooleanSelector from 'in-new-components/QueryBuilder/components/Tag/BooleanSelector';
+import { STRING_MAX_LENGTH } from 'in-new-components/QueryBuilder/tagFilter/constraints';
 import { onElementKeyUp } from 'in-new-components/QueryBuilder/keyboardInteraction';
 import NumberInput from 'in-new-components/QueryBuilder/components/Tag/NumberInput';
 import Operator from 'in-new-components/QueryBuilder/components/Tag/Operator';
 import { TAG } from 'in-new-components/QueryBuilder/transformation/formModel';
 import Entity from 'in-new-components/QueryBuilder/components/Tag/Entity';
 import Remove from 'in-new-components/QueryBuilder/components/Tag/Remove';
+import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import Name from 'in-new-components/QueryBuilder/components/Tag/Name';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
 import useThemedLocals from 'in-hooks/useThemedLocals';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import { t } from 'in-i18n';
 
 import styleDefs from './Tag.mless';
 
@@ -36,7 +41,8 @@ export default function Tag(props) {
     tagCatalog,
     element,
     getSuggestions,
-    formModel
+    formModel,
+    autoFocusInput = false
   } = props;
   const { renderModelIndex, formModelIndex } = element;
   const form = createTagForm(tagCatalog, element);
@@ -110,6 +116,7 @@ export default function Tag(props) {
           getSuggestions={getSuggestions}
           formModel={formModel}
           formModelIndex={formModelIndex}
+          autoFocus={autoFocusInput}
         />
       </SuspendDraggable>
 
@@ -130,7 +137,7 @@ export default function Tag(props) {
         <ValueInput
           valueType={valueType}
           form={form}
-          onChange={onChange}
+          onValueChange={onValueChange}
           tagType={tagType}
           focusField={focusField}
           booleanSelectorRef={autoFocusTargets.booleanSelector}
@@ -139,6 +146,7 @@ export default function Tag(props) {
           formModel={formModel}
           formModelIndex={formModelIndex}
           minNumValue={0}
+          autoFocus={autoFocusInput && !form.get('key')}
         />
       </SuspendDraggable>
 
@@ -154,6 +162,44 @@ export default function Tag(props) {
 
     if (executeForcedRerender) {
       forceRerender(Date.now());
+    }
+  }
+
+  function onValueChange(value) {
+    const stringValueMaxLengthExceeded =
+      (tagType === STRING || tagType === STRING_SET || tagType === STRING_LIST || tagType === KEY_VALUE_PAIR) &&
+      value?.length > STRING_MAX_LENGTH;
+    if (stringValueMaxLengthExceeded) {
+      // shorten the value and change the operator if needed
+      let operator = form.items.operator.value;
+      if (operator === EQUALS) {
+        operator = STARTS_WITH;
+      } else if (operator === NOT_EQUAL) {
+        operator = NOT_STARTS_WITH;
+      }
+      const message =
+        operator === form.items.operator.value
+          ? t('in-new-components:queryBuilder.sanitizedTagFilterValue')
+          : t('in-new-components:queryBuilder.sanitizedTagFilterValueAndOperator');
+      onChangeInFormModel(
+        {
+          ...form.toJS(),
+          value: value.substring(0, STRING_MAX_LENGTH),
+          operator
+        },
+        // keep focus
+        false
+      );
+      addMessage(
+        {
+          type: 'info',
+          timeout: 5000,
+          content: message
+        },
+        'sanitizedTagFilter'
+      );
+    } else {
+      onChange('value', value);
     }
   }
 
@@ -190,7 +236,7 @@ function RemoveIcon({ form, element, tagType, onRemove }) {
   return <Remove element={element} onRemove={onRemove} nextToBooleanSelector />;
 }
 
-function KeyInput({ form, onChange, tagType, getSuggestions, formModel, formModelIndex }) {
+function KeyInput({ form, onChange, tagType, getSuggestions, formModel, formModelIndex, autoFocus }) {
   const timeConfig = useTimeConfig();
   const field = form.get('key');
   if (!field) {
@@ -218,6 +264,7 @@ function KeyInput({ form, onChange, tagType, getSuggestions, formModel, formMode
           propose: 'KEYS'
         })
       }
+      autoFocus={autoFocus}
     />
   );
 }
@@ -225,13 +272,14 @@ function KeyInput({ form, onChange, tagType, getSuggestions, formModel, formMode
 function ValueInput({
   valueType,
   form,
-  onChange,
+  onValueChange,
   getSuggestions,
   focusField,
   booleanSelectorRef,
   formModel,
   formModelIndex,
-  minNumValue
+  minNumValue,
+  autoFocus
 }) {
   const timeConfig = useTimeConfig();
   const field = form.get('value');
@@ -244,7 +292,7 @@ function ValueInput({
       <BooleanSelector
         onChange={value => {
           focusField('booleanSelector', false);
-          onChange('value', value === 'true');
+          onValueChange(value === 'true');
         }}
         focus={() => focusField('booleanSelector', true)}
         value={field.value}
@@ -259,7 +307,7 @@ function ValueInput({
         value={field.value}
         valid={field.valid}
         placeholder="Value"
-        onChange={value => onChange('value', value)}
+        onChange={onValueChange}
         minValue={minNumValue}
       />
     );
@@ -270,7 +318,7 @@ function ValueInput({
 
   const inputProps = {
     placeholder: 'Value',
-    onChange: value => onChange('value', value),
+    onChange: onValueChange,
     valid: field.valid,
     fieldsToWatch: [entity, timeConfig, field.value, key],
     getSuggestions: () =>
@@ -286,10 +334,10 @@ function ValueInput({
       })
   };
 
-  return <Input type="text" value={field.value || ''} {...inputProps} />;
+  return <Input type="text" value={field.value || ''} {...inputProps} autoFocus={autoFocus} />;
 }
 
-function Input({ value, fieldsToWatch, placeholder, onChange, getSuggestions, valid }) {
+function Input({ value, fieldsToWatch, placeholder, onChange, getSuggestions, valid, autoFocus }) {
   const result = useDebouncedValue(value, onChange, 500);
 
   return (
@@ -305,6 +353,7 @@ function Input({ value, fieldsToWatch, placeholder, onChange, getSuggestions, va
         placeholder,
         hideValidityInformationOnFocus: true
       }}
+      autoFocus={autoFocus}
     />
   );
 }

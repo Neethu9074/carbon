@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
@@ -10,10 +11,10 @@ import Card from 'in-new-components/Card';
 
 export default function IPs({ resource: pod }) {
   return (
-    <Card title="IPs">
+    <Card title={t('in-kubernetes:dashboards.iPs')}>
       <Dl>
-        <Di title="Host IP">{pod.hostIp || valueMissingPlaceholder}</Di>
-        <Di title="Pod IP">{pod.podIp || valueMissingPlaceholder}</Di>
+        <Di title={t('in-kubernetes:dashboards.hostIp')}>{pod.hostIp || valueMissingPlaceholder}</Di>
+        <Di title={t('in-kubernetes:dashboards.podIp')}>{pod.podIp || valueMissingPlaceholder}</Di>
       </Dl>
     </Card>
   );

@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import React, { useState } from 'react';
+import { t } from 'in-i18n';
 
 import SimpleModePageNavigation from 'in-new-components/BlueprintFormMultistep/SimpleModePageNavigation';
 import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
@@ -19,7 +20,8 @@ import { successObservable } from 'in-services/util/result';
 import { pendingResult } from 'in-services/fixedObjects';
 import { CALLS } from 'in-applications/analyze/metrics';
 import useObservable from 'in-hooks/useObservable';
-import { t } from 'in-i18n';
+
+import locals from './SimpleModeContainer.mless';
 
 const stepConfigs = [
   {
@@ -62,59 +64,63 @@ export default function SimpleModeContainer({
     ) ?? pendingResult;
 
   return (
-    <SimpleModePageNavigation
-      form={form}
-      updateForm={updateForm}
-      onClose={onClose}
-      setSimpleModeStep={setSimpleModeStep}
-      simpleModeStep={simpleModeStep}
-      stepConfigs={stepConfigs}
-      onCreate={onCreate}
-      onStepChanged={(oldStep, nextStep) => applicationCreationStepSwitch({ oldStep, nextStep })}
-      renderStep={step => {
-        switch (step) {
-          case 0:
-            return (
-              <SimpleCreateStep1
-                selectedBlueprint={selectedBlueprint}
-                setSelectedBlueprint={selectedBlueprint => {
-                  updateForm(form.updateIn(['tagFilterExpression'], field => field.setValue([])));
-                  setSelectedBlueprint(selectedBlueprint);
-                }}
-              />
-            );
-          case 1:
-            return (
-              <SimpleCreateStep2
-                selectedBlueprint={selectedBlueprint}
-                timeConfig={timeConfig}
-                form={form}
-                updateForm={updateForm}
-                servicesLiveList={servicesLiveList}
-                blueprintCatalogResult={blueprintCatalogResult}
-                isValidTagFilterExpression={isValidTagFilterExpression}
-              />
-            );
-          case 2:
-            return (
-              <SimpleCreateStep3
-                selectedBlueprint={selectedBlueprint}
-                form={form}
-                updateForm={updateForm}
-                servicesLiveList={servicesLiveList}
-                errorMessage={errorMessage}
-                isValidTagFilterExpression={isValidTagFilterExpression}
-              />
-            );
-        }
-      }}
-      additionalStepCheck={step => {
-        if (step !== 0 && newAnalyticsEnabled && qb2InAPCreationEnabled) {
-          return isValidTagFilterExpression;
-        }
-        return true;
-      }}
-    />
+    <div className={locals.container}>
+      <SimpleModePageNavigation
+        form={form}
+        updateForm={updateForm}
+        onClose={onClose}
+        setSimpleModeStep={setSimpleModeStep}
+        simpleModeStep={simpleModeStep}
+        stepConfigs={stepConfigs}
+        onCreate={onCreate}
+        onStepChanged={(oldStep, nextStep) => applicationCreationStepSwitch({ oldStep, nextStep })}
+        renderStep={step => {
+          switch (step) {
+            case 0:
+              return (
+                <SimpleCreateStep1
+                  selectedBlueprint={selectedBlueprint}
+                  setSelectedBlueprint={selectedBlueprint => {
+                    if (qb2InAPCreationEnabled) {
+                      updateForm(form.updateIn(['tagFilterExpression'], field => field.setValue([])));
+                    }
+                    setSelectedBlueprint(selectedBlueprint);
+                  }}
+                />
+              );
+            case 1:
+              return (
+                <SimpleCreateStep2
+                  selectedBlueprint={selectedBlueprint}
+                  timeConfig={timeConfig}
+                  form={form}
+                  updateForm={updateForm}
+                  servicesLiveList={servicesLiveList}
+                  blueprintCatalogResult={blueprintCatalogResult}
+                  isValidTagFilterExpression={isValidTagFilterExpression}
+                />
+              );
+            case 2:
+              return (
+                <SimpleCreateStep3
+                  selectedBlueprint={selectedBlueprint}
+                  form={form}
+                  updateForm={updateForm}
+                  servicesLiveList={servicesLiveList}
+                  errorMessage={errorMessage}
+                  isValidTagFilterExpression={isValidTagFilterExpression}
+                />
+              );
+          }
+        }}
+        additionalStepCheck={step => {
+          if (step !== 0 && newAnalyticsEnabled && qb2InAPCreationEnabled) {
+            return isValidTagFilterExpression;
+          }
+          return true;
+        }}
+      />
+    </div>
   );
 }
 

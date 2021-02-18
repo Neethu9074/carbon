@@ -7,8 +7,9 @@
 :local {
   .dialog {
     width: 66.25rem;
-    max-height: 90vh;
+    height: 530px;
     &.advancedMode {
+      max-height: 90vh;
       height: calc(100vh - 14rem);
     }
   }

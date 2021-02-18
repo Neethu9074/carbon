@@ -2,8 +2,22 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
+@import '~in-themes/active.less';
+
 :local {
-  .spacer {
-    margin-bottom: 1rem;
+  .header {
+    border-bottom: 1px solid @lib__colors__N300;
+    padding: 0.5rem;
+  }
+
+  .scopeConfigContainer {
+    padding: 0.5rem;
+    background: @lib__colors__N100;
+  }
+
+  .clearButtonWrapper {
+    display: flex;
+    flex-direction: row-reverse;
   }
 }

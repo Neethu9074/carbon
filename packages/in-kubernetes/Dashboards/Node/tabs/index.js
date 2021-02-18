@@ -2,6 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
+
 import { NodeConditionsTab, NodePodTab } from 'in-kubernetes/Dashboards/commonComponents/Tabs';
 import Conditions from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Conditions';
 import Infrastructure from 'in-kubernetes/Dashboards/Node/tabs/Infrastructure';
@@ -12,29 +14,29 @@ import Summary from 'in-kubernetes/Dashboards/Node/tabs/Summary';
 
 export default [
   {
-    label: 'Summary',
+    label: t('in-kubernetes:dashboards.summary'),
     path: `${nodeDashboardFullyQualified}/summary`,
     component: Summary
   },
   {
-    label: 'Details',
+    label: t('in-kubernetes:dashboards.details'),
     path: `${nodeDashboardFullyQualified}/details`,
     component: Details
   },
   {
-    label: 'Conditions',
+    label: t('in-kubernetes:dashboards.conditions'),
     path: `${nodeDashboardFullyQualified}/conditions`,
     component: Conditions,
     header: NodeConditionsTab
   },
   {
-    label: 'Pods',
+    label: t('in-kubernetes:dashboards.pods'),
     path: `${nodeDashboardFullyQualified}/pods`,
     component: Pods,
     header: NodePodTab
   },
   {
-    label: 'Infrastructure',
+    label: t('in-kubernetes:dashboards.infrastructure'),
     path: `${nodeDashboardFullyQualified}/infrastructure`,
     component: Infrastructure
   }

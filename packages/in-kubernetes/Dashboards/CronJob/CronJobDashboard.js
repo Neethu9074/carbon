@@ -4,6 +4,7 @@
  */
 import theme from 'in-themes';
 import { get } from 'lodash';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import DashboardButtonLine from 'in-kubernetes/Dashboards/commonComponents/DashboardButtonLine';
@@ -40,7 +41,9 @@ export default function CronJobDashboard({ location }) {
       <ViewTrackingMeta
         data={{
           productArea: 'Kubernetes',
-          pageRootName: 'Kubernetes CronJob'
+          pageRootName: t('in-kubernetes:kubernetesPageRootName', {
+            objectType: t('in-kubernetes:dashboards.cronJob')
+          })
         }}
       />
 
@@ -91,7 +94,7 @@ function Header(props) {
   return (
     <DashboardHeader
       {...props}
-      title="Kubernetes CronJob"
+      title={t('in-kubernetes:dashboards.kubernetesCronJob')}
       icon="lib_kubernetes_workload"
       label={get(props.result, ['data', 'name'])}
       renderButtonLine={renderButtonLine}
@@ -120,7 +123,7 @@ function renderMetaInformation({ result }) {
   return (
     <>
       {version && <BadgeList type={version} getColor={() => theme.lib.colors.N700Medium} />}
-      <TypesBadgeList type="K8s CronJob" />
+      <TypesBadgeList type={t('in-kubernetes:dashboards.k8SCronJob')} />
       <KubernetesIndicator result={result} />
     </>
   );

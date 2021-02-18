@@ -65,6 +65,7 @@ function Body({ tag, formModel, updateFilter, isValid, unit }) {
           </Label>
           <Input
             id="range-min"
+            className={locals.rangeInput}
             value={minInput}
             type="number"
             hasError={isError}
@@ -89,6 +90,7 @@ function Body({ tag, formModel, updateFilter, isValid, unit }) {
           </Label>
           <Input
             id="range-max"
+            className={locals.rangeInput}
             value={maxInput}
             type="number"
             hasError={isError}

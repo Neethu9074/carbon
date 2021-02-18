@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
@@ -27,7 +28,7 @@ import locals from './AgentsTable.mless';
 
 const cols = [
   {
-    title: 'FQDN',
+    title: t('in-infrastructure:agentView.fqdn'),
     type: 'custom',
     typeArgs: {
       comparator: compareIgnoreCase,
@@ -62,7 +63,7 @@ const cols = [
     }
   },
   {
-    title: 'Agent Version',
+    title: t('in-infrastructure:agentView.agentVersion'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -71,7 +72,7 @@ const cols = [
     }
   },
   {
-    title: 'Boot Version',
+    title: t('in-infrastructure:agentView.bootVersion'),
     type: 'string',
     width: 100,
     typeArgs: {
@@ -81,7 +82,7 @@ const cols = [
     }
   },
   {
-    title: 'Origin',
+    title: t('in-infrastructure:agentView.origin'),
     type: 'string',
     width: 125,
     typeArgs: {
@@ -91,7 +92,7 @@ const cols = [
     }
   },
   {
-    title: 'Update Mode',
+    title: t('in-infrastructure:agentView.updateMode'),
     type: 'string',
     width: 100,
     typeArgs: {
@@ -101,7 +102,7 @@ const cols = [
     }
   },
   {
-    title: 'Mode',
+    title: t('in-infrastructure:agentView.mode'),
     type: 'string',
     width: 130,
     typeArgs: {
@@ -111,7 +112,7 @@ const cols = [
     }
   },
   {
-    title: 'Log Level',
+    title: t('in-infrastructure:agentView.logLevel'),
     type: 'string',
     width: 80,
     typeArgs: {
@@ -121,7 +122,7 @@ const cols = [
     }
   },
   {
-    title: 'Java Runtime',
+    title: t('in-infrastructure:agentView.javaRuntime'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -130,7 +131,7 @@ const cols = [
     }
   },
   {
-    title: 'Status',
+    title: t('in-infrastructure:agentView.status'),
     type: 'custom',
     width: 120,
     typeArgs: {
@@ -161,7 +162,7 @@ export default connectTo(
     const showDetailedAgentStatus = agentMonitoringIssuesEnabled || isInternalVisible;
 
     const rows = [];
-    agentSnapshots.get('online', emptyList).forEach(snapshot => {
+    agentSnapshots?.get('online', emptyList).forEach(snapshot => {
       const count = snapshot.get('monitoringIssuesTotalCount');
       rows.push({
         key: snapshot.get('id'),
@@ -172,7 +173,7 @@ export default connectTo(
           showDetailedAgentStatus && count && count > 0 ? ReportingStatus.DEGRADED : ReportingStatus.ONLINE
       });
     });
-    agentSnapshots.get('offline', emptyList).forEach(snapshot => {
+    agentSnapshots?.get('offline', emptyList).forEach(snapshot => {
       rows.push({
         key: snapshot.get('id'),
         snapshot: snapshot,
@@ -181,6 +182,14 @@ export default connectTo(
       });
     });
 
-    return <Table cardTitle="Agent Details" maxItemsPerPage={16} cols={cols} rows={rows} initialSortColumn={0} />;
+    return (
+      <Table
+        cardTitle={t('in-infrastructure:agentView.agentDetails')}
+        maxItemsPerPage={16}
+        cols={cols}
+        rows={rows}
+        initialSortColumn={0}
+      />
+    );
   }
 );

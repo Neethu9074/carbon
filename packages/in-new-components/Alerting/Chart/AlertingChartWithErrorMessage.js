@@ -2,9 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { t } from 'in-i18n';
 
 import {
   getEnhancedTagFilterFormModel,
@@ -18,9 +18,10 @@ import AlertingChart from 'in-new-components/Alerting/Chart/AlertingChart';
 import { pendingResult } from 'in-services/fixedObjects';
 import useObservable from 'in-hooks/useObservable';
 import Message from 'in-new-components/Message';
+import { t } from 'in-i18n';
 
-export default function AlertingChartWithErrorMessage(props) {
-  const { alertConfigWithFormModel, blueprintConfig, viewConfig, subEntityId } = props;
+export default function AlertingChartWithErrorMessage({ getErrorMessage, customValidators, ...remainingProps }) {
+  const { alertConfigWithFormModel, blueprintConfig, viewConfig, subEntityId } = remainingProps;
 
   const { numeratorFilter, enrichedTagFilters, enrichedTagFilterFormModel } = switchQB1orQB2Helper(
     () => getEnhancedTagFilters(alertConfigWithFormModel, blueprintConfig, subEntityId),
@@ -49,15 +50,21 @@ export default function AlertingChartWithErrorMessage(props) {
     [isValid, enrichedTagFilterFormModel]
   );
 
-  return isValidDependingOnMode ? (
+  const customValidationValid = customValidators?.(isValidDependingOnMode) ?? true;
+
+  const errorMessage =
+    getErrorMessage?.(isValidDependingOnMode) ??
+    t('in-new-components:alerting.chart.alertingChartMessageInvalidFilterQuery');
+
+  return isValidDependingOnMode && customValidationValid ? (
     <AlertingChart
-      {...props}
+      {...remainingProps}
       numeratorFilter={numeratorFilter}
       enrichedTagFilters={enrichedTagFilters}
       enrichedTagFilterExpression={enrichedTagFilterExpression}
     />
   ) : (
-    <Message withIcon>{t('in-new-components:alerting.chart.alertingChartMessageInvalidFilterQuery')}</Message>
+    <Message withIcon>{errorMessage}</Message>
   );
 }
 
@@ -72,5 +79,7 @@ AlertingChartWithErrorMessage.propTypes = {
   subEntityId: PropTypes.string,
   alertsPreviewEnabled: PropTypes.bool,
   canReload: PropTypes.bool,
-  isQB1only: PropTypes.bool
+  isQB1only: PropTypes.bool,
+  getErrorMessage: PropTypes.func,
+  customValidators: PropTypes.func
 };

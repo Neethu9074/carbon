@@ -13,6 +13,7 @@ import AlertingChartWithErrorMessage from 'in-new-components/Alerting/Chart/Aler
 import IncompleteChartPlaceholder from 'in-new-components/Alerting/components/IncompleteChartPlaceholder';
 import ThresholdConditionFormGroup from 'in-new-components/Alerting/advanced/ThresholdConditionFormGroup';
 import { ThresholdOperatorDropDown } from 'in-new-components/Alerting/advanced/ThresholdOperatorDropDown';
+import UseSuggestedValueButton from 'in-new-components/Alerting/advanced/UseSuggestedValueButton';
 import ChartViewConfigurator from 'in-new-components/Alerting/components/ChartViewConfigurator';
 import { alertConfigWithDefaultThreshold } from 'in-new-components/Alerting/utils/formUtils';
 import ThresholdValueInput from 'in-new-components/Alerting/advanced/ThresholdValueInput';
@@ -98,10 +99,16 @@ export function ThresholdCondition({ form, onChange, blueprintConfig, updateForm
       <ThresholdValueInput
         max={maxValue}
         form={form}
-        onChange={onChange}
+        updateForm={updateForm}
         percentageMetric={percentageMetric}
         trackChange={websitesAlertingThresholdValueChanged}
         metricUnitPostfix={metricUnitPostfix}
+      />
+      <UseSuggestedValueButton
+        form={form}
+        onChange={onChange}
+        metricUnitPostfix={metricUnitPostfix}
+        percentageMetric={percentageMetric}
       />
     </ThresholdConditionFormGroup>
   );

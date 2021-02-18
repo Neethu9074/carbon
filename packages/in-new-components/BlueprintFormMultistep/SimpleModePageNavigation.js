@@ -9,6 +9,7 @@ import { t } from 'in-i18n';
 import { thresholdOrBaselineLoadingSignal$ } from 'in-new-components/Alerting/Chart/AlertingChartWrapper';
 import StepProgressBar from 'in-new-components/StepProgressBar/StepProgressBar';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
+import FormFooter from 'in-components/form/FormFooter/FormFooter';
 import SaveButton from 'in-components/form/SaveButton';
 import Button from 'in-new-components/Button/Button';
 import useObservable from 'in-hooks/useObservable';
@@ -80,7 +81,7 @@ export default function SimpleModePageNavigation({
       <form onSubmit={e => handleSubmit(e, step)}>
         {renderStep(step)}
 
-        <div className={locals.controls}>
+        <FormFooter className={locals.controls}>
           <Button className={locals.button} kind="secondary" onClick={() => backOrCancel(step)}>
             {step === 0
               ? t('in-new-components:blueprintFormMultistep.buttonCancel')
@@ -98,7 +99,7 @@ export default function SimpleModePageNavigation({
               ? t('in-new-components:blueprintFormMultistep.buttonCreate')
               : t('in-new-components:blueprintFormMultistep.buttonNext')}
           </SaveButton>
-        </div>
+        </FormFooter>
       </form>
     </>
   );

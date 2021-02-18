@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
@@ -10,10 +11,10 @@ import Card from 'in-new-components/Card';
 
 export default function IPs({ resource: service }) {
   return (
-    <Card title="IPs">
+    <Card title={t('in-kubernetes:dashboards.iPs')}>
       <Dl>
-        <Di title="Cluster IP">{service.location || valueMissingPlaceholder}</Di>
-        <Di title="External IP">{service.externalIP || valueMissingPlaceholder}</Di>
+        <Di title={t('in-kubernetes:dashboards.clusterIp')}>{service.location || valueMissingPlaceholder}</Di>
+        <Di title={t('in-kubernetes:dashboards.externalIp')}>{service.externalIP || valueMissingPlaceholder}</Di>
       </Dl>
     </Card>
   );

@@ -52,12 +52,7 @@ export default function ApplicationEventListItemContent({ event }) {
       <ProblemDescription event={event} />
       <DescriptionButtons>
         <ApplicationAlertConfigButton alertConfig={alertConfig} />
-        <AnalyzeApplicationEventButton
-          alertConfig={alertConfig}
-          applicationName={eventEntity.applicationName}
-          serviceName={eventEntity.serviceName}
-          timeConfig={analyzeTimeConfig}
-        />
+        <AnalyzeApplicationEventButton {...eventEntity} alertConfig={alertConfig} timeConfig={analyzeTimeConfig} />
       </DescriptionButtons>
       <div className={locals.sectionWrapper}>
         <ApplicationAlertingChartWithErrorMessage

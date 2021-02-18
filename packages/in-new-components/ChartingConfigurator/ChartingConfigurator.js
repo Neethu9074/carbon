@@ -14,7 +14,7 @@ import Button from 'in-new-components/Button';
 import locals from './ChartingConfigurator.mless';
 
 export default function ChartingConfigurator({ options, value, onChange, hideRenderer, disableClose }) {
-  if (!value) {
+  if (!value && options?.length > 0) {
     return (
       <Button
         className={locals.addChartButton}
@@ -32,6 +32,10 @@ export default function ChartingConfigurator({ options, value, onChange, hideRen
         {t('in-new-components:chartingConfigurator.buttonAddChart')}
       </Button>
     );
+  }
+
+  if (!options?.length > 0) {
+    return null;
   }
 
   return (

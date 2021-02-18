@@ -34,7 +34,7 @@ export default function FormComponent({
   const aggregators = getAggregations(beaconTypeField.value, metricField.value);
   const isSingleAggregator = aggregators?.length < 2;
 
-  const tagCatalogResult = useObservable(getTagCatalog, []) ?? pendingResult;
+  const tagCatalogResult = useObservable(getTagCatalog, [beaconTypeField.value]) ?? pendingResult;
   const [tagFilterExpression, setTagFilterExpression] = useTagFilterExpressionState({
     tagCatalogResult,
     form,

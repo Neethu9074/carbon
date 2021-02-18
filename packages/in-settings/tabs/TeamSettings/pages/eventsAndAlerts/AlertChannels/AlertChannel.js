@@ -166,7 +166,8 @@ function getEntityName(entity) {
 
 const typeLabels = Object.freeze({
   ApplicationSmartAlert: 'Application SmartAlert',
-  WebsiteSmartAlert: 'Website SmartAlert'
+  WebsiteSmartAlert: 'Website SmartAlert',
+  GlobalApplicationSmartAlert: 'Global Application SmartAlert'
 });
 
 const columnDefinitions = [
@@ -193,6 +194,8 @@ const columnDefinitions = [
         url = getWebsiteAlertConfig(id, entityId);
       } else if (type === 'ApplicationSmartAlert') {
         url = getApplicationsAlertConfig(id, entityId);
+      } else if (type === 'GlobalApplicationSmartAlert') {
+        url = '';
       } else {
         url = getEntityIdView(teamSettingsAlertingConfigurations, id);
       }

@@ -11,30 +11,13 @@ import { userSelectableRenderer } from 'in-custom-dashboards/widgets/Chart/rende
 import { aggregationLabels } from 'in-stores/metric/metric';
 import { emptyArray } from 'in-services/fixedObjects';
 
-export default function Configurator({
-  onChartedMetricsChange,
-  chartedMetrics,
-  metricCatalog,
-  dataSource,
-  metricCatalogFilter
-}) {
-  // TODO loading state
-  if (!metricCatalog) {
-    return null;
-  }
-
+export default function Configurator({ onChartedMetricsChange, chartedMetrics, metricCatalog, metricCatalogFilter }) {
   return (
     <ChartingConfiguratorSection
       value={chartedMetrics?.[0]}
       options={
         metricCatalog
-          .filter(
-            metricDescription =>
-              metricCatalogFilter?.({
-                metricDescription,
-                dataSource
-              }) ?? true
-          )
+          ?.filter(metricDescription => metricCatalogFilter?.(metricDescription) ?? true)
           .map(({ metricId, label, description, aggregations }) => ({
             metricId,
             label,
@@ -48,6 +31,7 @@ export default function Configurator({
       }
       onChange={metric => onChartedMetricsChange(metric ? [metric] : [])}
       hideRenderer
+      disableClose
     />
   );
 }

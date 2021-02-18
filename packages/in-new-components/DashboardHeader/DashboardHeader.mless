@@ -43,6 +43,11 @@
     .flexbox();
   }
 
+  .leftContent {
+    // Let the left content area shrink so that both the left+right content fit the viewport
+    overflow: hidden;
+  }
+
   .rightContent {
     justify-content: flex-end;
   }

@@ -3,15 +3,16 @@
  * (c) Copyright Instana Inc.
  */
 import { fromPromise, timeout, combineLatest } from '@instana/observables';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import AgentMonitoringIssueNotifications from 'in-infrastructure/Dashboard/components/AgentMonitoringIssueNotifications';
 import { selectedSnapshot$, selectedSnapshotId$, getSnapshotVersions } from 'in-stores/snapshot';
-import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
-import { alwaysFalse, alwaysEmptyImmutableList } from 'in-services/fixedStreams';
 import DashboardHeader from 'in-infrastructure/Dashboard/components/DashboardHeader';
+import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import SidebarContent from 'in-map/components/MapSidebar/components/SidebarContent';
 import NotFoundDialog from 'in-infrastructure/Dashboard/components/NotFoundDialog';
+import { alwaysFalse, alwaysEmptyImmutableList } from 'in-services/fixedStreams';
 import { timeConfig$, getTimeConfigAtMoment } from 'in-stores/time/config';
 import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import { getForgeComponent } from 'in-services/getForgeComponent';
@@ -87,11 +88,11 @@ export default connectTo(
 
     return (
       <div>
-        <Title title="Infrastructure" />
+        <Title title={t('in-infrastructure:dashboard.infrastructure')} />
         <ViewTrackingMeta
           data={{
-            productArea: 'Infrastructure',
-            pageRootName: 'Infrastructure'
+            productArea: t('in-infrastructure:dashboard.infrastructure'),
+            pageRootName: t('in-infrastructure:dashboard.infrastructure')
           }}
         />
 

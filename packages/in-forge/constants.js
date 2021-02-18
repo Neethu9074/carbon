@@ -31,6 +31,8 @@ export const nonServicePlugins = {
   // legacy AWS Lambda plug-in
   awsLambda: 'awsLambda',
   awsMq: 'awsMq',
+  awsMskCluster: 'awsMskCluster',
+  awsMskBroker: 'awsMskBroker',
   awsRds: 'awsRds',
   awsSqs: 'awsSqs',
   awsS3: 'awsS3',
@@ -229,6 +231,8 @@ export const fullyQualifiedPlugins = {
   awsLambdaFunction: 'com.instana.forge.hardware.virtual.aws.lambda.function.AwsLambdaFunction',
   awsLambda: 'com.instana.forge.hardware.virtual.aws.lambda.AwsLambda',
   awsMq: 'com.instana.forge.hardware.virtual.aws.mq.AwsMq',
+  awsMskCluster: 'com.instana.forge.hardware.virtual.aws.msk.derivedentity.cluster.AwsMskCluster',
+  awsMskBroker: 'com.instana.forge.hardware.virtual.aws.msk.derivedentity.broker.AwsMskBroker',
   awsRds: 'com.instana.forge.hardware.virtual.aws.rds.AwsRds',
   awsSqs: 'com.instana.forge.hardware.virtual.aws.sqs.AwsSqs',
   awsS3: 'com.instana.forge.hardware.virtual.aws.sqs.AwsS3',

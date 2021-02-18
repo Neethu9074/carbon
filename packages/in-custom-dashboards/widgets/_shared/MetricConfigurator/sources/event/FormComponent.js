@@ -38,6 +38,7 @@ export default function FormComponent({
           hasError={!dynamicFocusQueryField.valid && dynamicFocusQueryField.touched}
           additionalContent={<TouchedMessages field={dynamicFocusQueryField} />}
           actions={<HelpAction>A Dynamic Focus Query (DFQ) as you would use it within the event view.</HelpAction>}
+          maxLength={512}
         />
       </Sections>
 

@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { Trans } from 'in-i18n';
 import { get } from 'lodash';
 import React from 'react';
 
@@ -31,23 +32,24 @@ function WarningMessage(props) {
       <Row>
         <Col lg={12}>
           <Message type={warning} withIcon small>
-            The Instana Agent is missing permissions for {props.debuggingInfo['Missing Resource Watches']}. Please
-            update to the latest version of the Instana Agent YAML, Helm chart or Operator to ensure it has the right
-            permissions. See our{' '}
-            <Link
-              href="https://instana.com/docs/setup_and_manage/host_agent/on/kubernetes/#current-versions-of-installation-methods"
-              external
-            >
-              Kubernetes
-            </Link>{' '}
-            or{' '}
-            <Link
-              href="https://instana.com/docs/setup_and_manage/host_agent/on/openshift/#current-versions-of-installation-methods"
-              external
-            >
-              OpenShift
-            </Link>{' '}
-            documentation for more information.
+            <Trans
+              i18nKey="in-kubernetes:dashboards.missingPermissionMessage"
+              values={{ target: props.debuggingInfo['Missing Resource Watches'] }}
+              components={{
+                linkK8s: (
+                  <Link
+                    href="https://instana.com/docs/setup_and_manage/host_agent/on/kubernetes/#current-versions-of-installation-methods"
+                    external
+                  />
+                ),
+                linkOpenShift: (
+                  <Link
+                    href="https://instana.com/docs/setup_and_manage/host_agent/on/openshift/#current-versions-of-installation-methods"
+                    external
+                  />
+                )
+              }}
+            />
           </Message>
         </Col>
       </Row>

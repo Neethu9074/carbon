@@ -16,9 +16,9 @@ import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformati
 import { createAlertConfig, updateAlertConfig } from 'in-applications/api/applicationAlertConfig';
 import { SmartAlertConfigDialog } from 'in-applications/alerting/Dialog/SmartAlertConfigDialog';
 import AdvancedModeContainer from 'in-applications/alerting/advanced/AdvancedModeContainer';
-import { smartAlertsServicesAndEndpointsSelectionEnabled } from 'in-services/featureFlags';
 import { switchQB1orQB2Helper } from 'in-new-components/Alerting/components/WithQB1orQB2';
 import SimpleModeContainer from 'in-applications/alerting/simple/SimpleModeContainer';
+import { smartAlertsAdvancedEntitySelectionEnabled } from 'in-services/featureFlags';
 import { chartViewConfigs } from 'in-new-components/Alerting/Chart/chartViewConfig';
 import { createSmartAlertForm } from 'in-applications/alerting/form/smartAlertForm';
 import { getTrackingObject } from 'in-new-components/Alerting/trackingHelpers';
@@ -145,7 +145,7 @@ function toAlertConfig(form) {
         .toJS()
   );
 
-  if (!smartAlertsServicesAndEndpointsSelectionEnabled) {
+  if (!smartAlertsAdvancedEntitySelectionEnabled) {
     delete alertConfig.applications;
   }
 

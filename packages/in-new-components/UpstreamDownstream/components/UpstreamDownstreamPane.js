@@ -7,7 +7,6 @@ import React from 'react';
 import UpstreamDownstreamGroup from 'in-new-components/UpstreamDownstream/components/UpstreamDownstreamGroup';
 import { relationships } from 'in-new-components/UpstreamDownstream/constants';
 import SvgIcon from 'in-components/SvgIcon/SvgIcon';
-import ScrollHints from 'in-components/ScrollHints';
 
 import locals from './UpstreamDownstreamPane.mless';
 
@@ -34,7 +33,7 @@ export default function UpstreamDownstreamPane({
   }
 
   return (
-    <ScrollHints className={locals.pane} contentChangeMarker={items.length}>
+    <div className={locals.pane}>
       {items?.length > 0 && (
         <UpstreamDownstreamGroup
           applicationId={applicationId}
@@ -69,7 +68,7 @@ export default function UpstreamDownstreamPane({
           plugin={plugin}
         />
       )}
-    </ScrollHints>
+    </div>
   );
 }
 

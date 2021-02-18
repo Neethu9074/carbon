@@ -4,6 +4,7 @@
  */
 import theme from 'in-themes';
 import { get } from 'lodash';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import AnalyzeCallsButton, { getFilters } from 'in-kubernetes/Dashboards/commonComponents/AnalyzeCallsButton';
@@ -42,7 +43,9 @@ export default function ClusterDashboard({ location }) {
       <ViewTrackingMeta
         data={{
           productArea: 'Kubernetes',
-          pageRootName: 'Kubernetes Cluster'
+          pageRootName: t('in-kubernetes:kubernetesPageRootName', {
+            objectType: t('in-kubernetes:dashboards.cluster')
+          })
         }}
       />
 
@@ -60,7 +63,7 @@ export default function ClusterDashboard({ location }) {
         filterTabByResult={result => {
           return tab => {
             if (isOpenshift(get(result, ['data', 'clusterDistribution'], 'kubernetes'))) return true;
-            else return tab.label !== 'Deployment Configs';
+            else return !tab.path.endsWith('/deploymentconfigs');
           };
         }}
         props={props}
@@ -87,7 +90,7 @@ function Header(props) {
   return (
     <DashboardHeader
       {...props}
-      title="Kubernetes Cluster"
+      title={t('in-kubernetes:dashboards.kubernetesCluster')}
       icon={`lib_${clusterDistribution}`}
       label={get(props.result, ['data', 'label'])}
       renderButtonLine={renderButtonLine}
@@ -128,7 +131,11 @@ function renderMetaInformation({ result }) {
   return (
     <>
       {version && <BadgeList type={version} getColor={() => theme.lib.colors.N700Medium} />}
-      <TypesBadgeList type={`${clusterBadgeName(clusterDistribution)} Cluster`} />
+      <TypesBadgeList
+        type={t('in-kubernetes:dashboards.clusterDistributionBadgeType', {
+          clusterDistributionName: clusterBadgeName(clusterDistribution)
+        })}
+      />
       <ClusterManagedByWithIcon clusterManagement={clusterManagement} />
     </>
   );
@@ -139,7 +146,9 @@ function ClusterManagedByWithIcon({ clusterManagement }) {
     return (
       <EntityWithTypeAndIcon
         iconType={`lib_${clusterManagement.shortName}`}
-        label={`Managed by ${clusterManagement.fullName}`}
+        label={t('in-kubernetes:dashboards.managedby', {
+          name: clusterManagement.fullName
+        })}
       />
     );
   }

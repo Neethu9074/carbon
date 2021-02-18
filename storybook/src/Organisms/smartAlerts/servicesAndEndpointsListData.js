@@ -8,6 +8,11 @@ export const getApplicationResult = {
     label: 'All Services',
     boundaryScope: 'INBOUND',
     entityType: 'APPLICATION'
+  },
+  progress: {
+    percentage: null,
+    loading: false,
+    note: null
   }
 };
 

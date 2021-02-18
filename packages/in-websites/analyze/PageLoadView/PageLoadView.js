@@ -47,8 +47,8 @@ function PageLoadView(props) {
     <>
       <ViewTrackingMeta
         data={{
-          productArea: t('in-websites:analyze.analyzeView.pageLoadView.viewTrackingMetaProductArea'),
-          pageRootName: t('in-websites:analyze.analyzeView.pageLoadView.viewTrackingMetaPageRootName')
+          productArea: 'EUM: Websites',
+          pageRootName: 'Analytics'
         }}
       />
 
@@ -194,7 +194,7 @@ function renderContext({ getHrefToUngroupedView }) {
   if (!webMobileQb2AnalyzeEnabled) {
     return (
       <Link className={locals.analyticsLink} href$={closePageLoadViewLink}>
-        Analytics
+        {t('in-websites:analyze.analyzeView.pageLoadView.labelAnalytics')}
       </Link>
     );
   }

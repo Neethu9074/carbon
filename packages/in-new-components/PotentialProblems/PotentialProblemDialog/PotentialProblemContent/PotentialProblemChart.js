@@ -5,6 +5,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import { applicationsItemTreePropType } from 'in-new-components/Alerting/components/scopeConfig/ServicesAndEndpointsListPresenter/sharedPropTypes';
 import {
   alertPropType,
   rulePropType,
@@ -19,6 +20,8 @@ import { hours } from 'in-services/time';
 
 export default function PotentialProblemChart({
   applicationId,
+  boundaryScope,
+  applications,
   threshold,
   rule,
   tagFilters,
@@ -32,6 +35,8 @@ export default function PotentialProblemChart({
     rule,
     tagFilters: tagFilters.filter(({ name }) => name !== 'application.id'),
     applicationId,
+    boundaryScope,
+    applications,
     granularity: defaultGranularity,
     tagFilterExpression: fromBackendModel(tagFilterExpression)
   };
@@ -68,8 +73,10 @@ PotentialProblemChart.propTypes = {
   alert: alertPropType.isRequired,
   alertType: PropTypes.string.isRequired,
   applicationId: PropTypes.string.isRequired,
+  boundaryScope: PropTypes.string.isRequired,
   rule: rulePropType.isRequired,
   tagFilters: PropTypes.arrayOf(PropTypes.object).isRequired,
-  tagFilterExpression: PropTypes.object.isRequired,
+  tagFilterExpression: PropTypes.object,
+  applications: applicationsItemTreePropType,
   threshold: thresholdPropType.isRequired
 };

@@ -15,7 +15,6 @@ import Row from 'in-components/tables/ServerTable/internalComponents/Row';
 import { pendingResult } from 'in-services/fixedObjects';
 import SearchInput from 'in-new-components/SearchInput';
 import Pagination from 'in-new-components/Pagination';
-import ScrollHints from 'in-components/ScrollHints';
 import Card from 'in-new-components/Card';
 
 import locals from './ServerTablePresenter.mless';
@@ -37,7 +36,6 @@ export default function ServerTablePresenter(props) {
     result = pendingResult,
     renderPagination,
     fixedLayout,
-    scrollWrapperClassName,
     rightHeader,
     leftHeader,
     numSkeletonRows = 3,
@@ -111,22 +109,6 @@ export default function ServerTablePresenter(props) {
       <Tbody>{body}</Tbody>
     </Table>
   );
-  let content = scrollWrapperClassName ? (
-    <ScrollHints
-      className={scrollWrapperClassName}
-      contentChangeMarker={
-        /*
-         * Triggers a re-render when the number of rows change (which is necessary because the height of the content
-         * will change).
-         */
-        result.data && result.data.items ? result.data.items.length : 0
-      }
-    >
-      {tableElement}
-    </ScrollHints>
-  ) : (
-    tableElement
-  );
 
   let header;
   if (isSearchable || rightHeader) {
@@ -183,7 +165,7 @@ export default function ServerTablePresenter(props) {
     }
     return (
       <Card title={cardTitle} header={header} withoutPadding>
-        {content}
+        {tableElement}
         {pagination}
       </Card>
     );
@@ -197,7 +179,7 @@ export default function ServerTablePresenter(props) {
         </div>
       )}
       {scope}
-      {content}
+      {tableElement}
       {pagination}
     </Fragment>
   );

@@ -17,8 +17,9 @@ import locals from './BlueprintSelection.mless';
 export default function BlueprintSelection({
   blueprintConfigs,
   trackBlueprintChange,
-  updateFormForSelectedBlueprint,
-  form
+  form,
+  updateForm,
+  createBlueprintForm
 }) {
   const alertType = form.get('rule').get('alertType').value;
   const selectedBlueprintConfig = blueprintConfigs.find(item => item.type === alertType);
@@ -51,7 +52,12 @@ export default function BlueprintSelection({
               selectButtonDisabled={selectButtonDisabled}
               onSelectBlueprint={blueprintConfig => {
                 setSelectButtonDisabled(true);
-                updateFormForSelectedBlueprint(blueprintConfig);
+                updateForm(
+                  createBlueprintForm(form, blueprintConfig.type, blueprintConfig.thresholdDefaults)
+                    .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
+                    .updateIn(['hiddenFields', 'thresholdValueManuallyChanged'], f => f.setValue(false))
+                    .updateIn(['hiddenFields', 'suggestedThresholdValue'], f => f.setValue(null))
+                );
               }}
             />
           </div>
@@ -72,5 +78,6 @@ BlueprintSelection.propTypes = {
   ),
   form: PropTypes.object.isRequired,
   trackBlueprintChange: PropTypes.func,
-  updateFormForSelectedBlueprint: PropTypes.func.isRequired
+  updateForm: PropTypes.func.isRequired,
+  createBlueprintForm: PropTypes.func.isRequired
 };

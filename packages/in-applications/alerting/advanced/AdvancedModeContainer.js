@@ -3,12 +3,14 @@
  * (c) Copyright Instana Inc.
  */
 import React from 'react';
+import { t } from 'in-i18n';
 
 import {
   applicationsAlertingAdditionalPropsAlertLevelChanged,
   applicationsAlertingAdditionalPropsDescriptionChanged,
   applicationsAlertingAdditionalPropsTitleChanged,
-  applicationsAlertingAdditionalPropsTriggerChanged
+  applicationsAlertingAdditionalPropsTriggerChanged,
+  applicationsAlertingBlueprintChanged
 } from 'in-applications/alerting/tracker';
 import TimeThresholdConfigPresenter from 'in-new-components/Alerting/advanced/TimeThresholdConfig/TimeThresholdConfigPresenter';
 import AlertPropertiesContainer from 'in-new-components/Alerting/advanced/AlertProperties/AlertPropertiesContainer';
@@ -27,14 +29,13 @@ import AlertLocationFilters from 'in-applications/alerting/components/AlertLocat
 import LogsInteractiveChart from 'in-applications/alerting/advanced/LogsInteractiveChart';
 import SelectAlertChannel from 'in-new-components/Alerting/components/SelectAlertChannel';
 import { alertingDialogItemPickerTimeframe } from 'in-new-components/Alerting/constants';
-import BlueprintSelection from 'in-applications/alerting/advanced/BlueprintSelection';
+import BlueprintSelection from 'in-new-components/Alerting/advanced/BlueprintSelection';
 import ProvideLogMessage from 'in-applications/alerting/components/ProvideLogMessage';
 import ProvideStatusCode from 'in-applications/alerting/components/ProvideStatusCode';
-import AlertQueryBuilder from 'in-applications/alerting/components/AlertQueryBuilder';
+import createBlueprintForm from 'in-applications/alerting/form/blueprintFormCreator';
 import AlertTypeSwitch from 'in-applications/alerting/components/AlertTypeSwitch';
 import WithQB1orQB2 from 'in-new-components/Alerting/components/WithQB1orQB2';
 import LightCard from 'in-new-components/Card/LightCard';
-import { t } from 'in-i18n';
 
 export default function AdvancedModeContainer(props) {
   const {
@@ -47,7 +48,8 @@ export default function AdvancedModeContainer(props) {
     onChartViewConfigChange,
     selectedChartViewConfigIndex,
     thresholdResult,
-    editMode
+    editMode,
+    QueryBuilderComponent
   } = props;
   const alertType = form.get('rule').get('alertType').value;
   const blueprintConfig = getBlueprintConfig(alertType);
@@ -77,7 +79,7 @@ export default function AdvancedModeContainer(props) {
                     form={form}
                     updateForm={updateForm}
                     applicationLabel={applicationLabel}
-                    QueryBuilderComponent={AlertQueryBuilder}
+                    QueryBuilderComponent={QueryBuilderComponent}
                   />
                 )}
                 shouldFallbackToQB2={isQB2Config => isQB2Config(form.get('convertedTagFilterExpression').value)}
@@ -94,7 +96,15 @@ export default function AdvancedModeContainer(props) {
           checked: true,
           content: (
             <>
-              <BlueprintSelection form={form} updateForm={updateForm} blueprintConfigs={blueprintConfigs} />
+              <BlueprintSelection
+                form={form}
+                updateForm={updateForm}
+                blueprintConfigs={blueprintConfigs}
+                createBlueprintForm={createBlueprintForm}
+                trackBlueprintChange={newBlueprint =>
+                  applicationsAlertingBlueprintChanged({ newBlueprint, mode: 'advanced' })
+                }
+              />
               <AlertTypeSwitch
                 alertType={alertType}
                 renderErrorRate={() => (

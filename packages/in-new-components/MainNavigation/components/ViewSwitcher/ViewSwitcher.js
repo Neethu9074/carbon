@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import classNames from 'classnames';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import {
@@ -104,7 +105,7 @@ export default function ViewSwitcher({
       <Spacer />
       <View
         id="main-nav-settings"
-        label="Settings"
+        label={t('in-new-components:mainNavigation.viewSwitcherLabelSettings')}
         icon="lib_actions_settings_inverted"
         isActive$={isView(settingsPath)}
         href$={getView(settingsPath)}
@@ -113,7 +114,7 @@ export default function ViewSwitcher({
       <InternalView sidebarIsExpanded={isExpanded} onClick={onViewSwitched} onMouseLeave={onMouseLeave} />
       <View
         id="main-nav-more"
-        label="More"
+        label={t('in-new-components:mainNavigation.viewSwitcherLabelMore')}
         icon="lib_menu_additional_resources"
         expandedSubMenu={expandedSubMenu}
         setExpandedSubMenu={setExpandedSubMenu}
@@ -123,11 +124,16 @@ export default function ViewSwitcher({
         onMouseLeave={onMouseLeave}
       >
         {tenantSwitcherEnabled && (
-          <SubViewItem label="Tenants" href={tenantSwitcherLink} external id="main-nav-tenants" />
+          <SubViewItem
+            label={t('in-new-components:mainNavigation.viewSwitcherLabelTenants')}
+            href={tenantSwitcherLink}
+            external
+            id="main-nav-tenants"
+          />
         )}
         {role.canConfigureAgents && (
           <SubViewItem
-            label="Agents"
+            label={t('in-new-components:mainNavigation.viewSwitcherLabelAgents')}
             href$={getView(agentsPath)}
             isActive$={isView(agentsPath)}
             onClick={onViewSwitched}
@@ -136,27 +142,32 @@ export default function ViewSwitcher({
         )}
         {releaseNotesEnabled && (
           <SubViewItem
-            label="Release Notes"
+            label={t('in-new-components:mainNavigation.viewSwitcherLabelReleaseNotes')}
             onClick={e => {
               showReleaseNotes();
-              onViewSwitched(e, 'Release Notes');
+              onViewSwitched(e, t('in-new-components:mainNavigation.viewSwitcherLabelReleaseNotes'));
             }}
             id="main-nav-release-notes"
           />
         )}
-        <SubViewItem label="Documentation" href="https://docs.instana.com" external id="main-nav-documentation" />
         <SubViewItem
-          label="Support"
+          label={t('in-new-components:mainNavigation.viewSwitcherLabelDocumentation')}
+          href="https://docs.instana.com"
+          external
+          id="main-nav-documentation"
+        />
+        <SubViewItem
+          label={t('in-new-components:mainNavigation.viewSwitcherLabelSupport')}
           className={locals.linkElement}
           href="https://support.instana.com"
           external
           id="main-nav-support"
         />
         <SubViewItem
-          label="About Instana"
+          label={t('in-new-components:mainNavigation.viewSwitcherLabelAboutInstana')}
           onClick={e => {
             addActiveDialog(<AboutInstanaDialog />);
-            onViewSwitched(e, 'About Instana');
+            onViewSwitched(e, t('in-new-components:mainNavigation.viewSwitcherLabelAboutInstana'));
           }}
           id="main-nav-about"
         />
@@ -178,7 +189,7 @@ const InternalView = connectTo({ isInternalVisible: isInternalVisible$ }, functi
 
   return (
     <View
-      label="Internal"
+      label={t('in-new-components:mainNavigation.viewSwitcherLabelInternal')}
       icon="lib_actions_lock"
       isActive$={isView('/internal')}
       href$={getModifiedUrlStream(p => (p.pathname = '/internal'))}
@@ -207,7 +218,7 @@ const Incidents = connectTo(
       <div className={locals.incidentMenu}>
         <View
           id="main-nav-events"
-          label="Events"
+          label={t('in-new-components:mainNavigation.viewSwitcherLabelEvents')}
           icon="lib_events_inverted"
           href$={getEventsViewFilteredBy({ eventTypeFilter: 'incident' })}
           isActive={isActive}
@@ -235,7 +246,7 @@ function SignOut() {
       <SubViewItem
         renderLabel={className => (
           <button className={classNames(locals.signOutButton, className)} type="submit">
-            Sign Out
+            {t('in-new-components:mainNavigation.viewSwitcherButtonSignOut')}
             <span className={locals.userEmail}>{user.email}</span>
           </button>
         )}
@@ -248,7 +259,7 @@ function Infrastructure(props) {
   return (
     <View
       id="main-nav-infrastructure"
-      label="Infrastructure"
+      label={t('in-new-components:mainNavigation.viewSwitcherlabelInfrastructure')}
       icon="lib_infrastructure_inverted"
       isActive$={any(isView(physicalPath), isView(containerPath), isTableView('physical'))}
       href$={getView(physicalPath)}
@@ -265,7 +276,7 @@ function Applications(props) {
   return (
     <View
       id="main-nav-application"
-      label="Applications"
+      label={t('in-new-components:mainNavigation.viewSwitcherLabelApplications')}
       icon="lib_application_invert"
       isActive$={isView(isApplicationsView)}
       href$={getView(applicationsList)}
@@ -282,7 +293,7 @@ function Analyze(props) {
   return (
     <View
       id="main-nav-analyze"
-      label="Analytics"
+      label={t('in-new-components:mainNavigation.viewSwitcherLabelAnalytics')}
       icon="lib_analyze_inverted"
       isActive$={any(
         isView(isAnalyzeView),
@@ -332,7 +343,7 @@ function WebsiteMobileAppView(props) {
     return (
       <View
         id="main-nav-websites"
-        label="Websites & Mobile Apps"
+        label={t('in-new-components:mainNavigation.viewSwitcherLabelWebsitesAndMobileApps')}
         icon="lib_website_mobile_app_inverted"
         href$={getView(websiteMonitoringPath)}
         isActive$={any(isWebsiteView$, isMobileAppView$)}
@@ -345,7 +356,7 @@ function WebsiteMobileAppView(props) {
     return (
       <View
         id="main-nav-websites"
-        label="Websites"
+        label={t('in-new-components:mainNavigation.viewSwitcherLabelWebsites')}
         icon="lib_website_inverted"
         href$={getView(websiteMonitoringPath)}
         isActive$={isWebsiteView$}
@@ -358,7 +369,7 @@ function WebsiteMobileAppView(props) {
     return (
       <View
         id="main-nav-mobile-apps"
-        label="Mobile Apps"
+        label={t('in-new-components:mainNavigation.viewSwitcherLabelMobileApps')}
         icon="lib_mobile_app_inverted"
         href$={getView(mobileAppMonitoringPath)}
         isActive$={isMobileAppView$}
@@ -387,7 +398,7 @@ function Platforms(props) {
       {hasKubernetesAccess && (
         <ViewItemForPlatforms
           id="main-nav-kubernetes"
-          label="Kubernetes"
+          label={t('in-new-components:mainNavigation.viewSwitcherLabelKubernetes')}
           icon="lib_kubernetes_inverted"
           href$={getView(kubernetesClusterList)}
           isActive$={isView(kubernetes)}
@@ -398,7 +409,7 @@ function Platforms(props) {
       {pcfEnabled && (
         <ViewItemForPlatforms
           id="main-nav-cloudfoundry"
-          label="Cloud Foundry"
+          label={t('in-new-components:mainNavigation.viewSwitcherLabelCloudFoundry')}
           icon="lib_cloudfoundry_inverted"
           href$={getView(cloudfoundryApplicationList)}
           isActive$={isView(cloudfoundry)}
@@ -409,7 +420,7 @@ function Platforms(props) {
       {vsphereEnabled && (
         <ViewItemForPlatforms
           id="main-nav-vsphere"
-          label="vSphere"
+          label={t('in-new-components:mainNavigation.viewSwitcherLabelvSphere')}
           icon="lib_vsphere_inverted"
           href$={getView(datacenterListFullyQualified)}
           isActive$={isView(vsphere)}
@@ -423,7 +434,7 @@ function Platforms(props) {
     return (
       <View
         id="main-nav-platforms"
-        label="Platforms"
+        label={t('in-new-components:mainNavigation.viewSwitcherLabelPlatforms')}
         icon="lib_platforms_inverted"
         isActive$={any(isView(kubernetes), isView(cloudfoundry), isView(vsphere))}
         expandedSubMenu={expandedSubMenu}

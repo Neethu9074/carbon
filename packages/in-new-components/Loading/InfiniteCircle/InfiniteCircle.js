@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import BasicWrapper from 'in-new-components/Errors/BasicWrapper';
@@ -17,7 +18,7 @@ export default function InfiniteCircle({ width, height, percentage, customText, 
       className={className}
       width={width}
       height={height}
-      text={customText || 'Loading data'}
+      text={customText || t('in-new-components:loading.labelLoadingData')}
       renderIcon={size => (
         <SvgIcon
           className={locals.icon}

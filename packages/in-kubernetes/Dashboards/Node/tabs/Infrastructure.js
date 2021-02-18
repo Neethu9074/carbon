@@ -4,6 +4,7 @@
  */
 import { fromJS } from 'immutable';
 import { get } from 'lodash';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { LoadingSkeletonRows, Table, Thead, Tbody, Tr, Th, Td } from 'in-components/tables/sharedComponents';
@@ -55,8 +56,8 @@ export default connectTo(
         <LeftRightPadding>
           <NoDataAvailable
             icon="lib_infrastructure"
-            title="Unmonitored Host"
-            text="The host is unmonitored on a Kubernetes master node"
+            title={t('in-kubernetes:dashboards.unmonitoredHost')}
+            text={t('in-kubernetes:dashboards.theHostIsUnmonitoredOnAKubernetesMasterNode')}
             height={140}
           />
         </LeftRightPadding>
@@ -64,13 +65,13 @@ export default connectTo(
     }
 
     return (
-      <Card title="Host" withoutPadding>
+      <Card title={t('in-kubernetes:dashboards.host')} withoutPadding>
         <Table>
           <Thead>
             <Tr size="compact">
-              <Th>Name</Th>
-              <Th>CPU Usage</Th>
-              <Th>Memory Usage</Th>
+              <Th>{t('in-kubernetes:dashboards.name')}</Th>
+              <Th>{t('in-kubernetes:dashboards.cpuUsage')}</Th>
+              <Th>{t('in-kubernetes:dashboards.memoryUsage')}</Th>
             </Tr>
           </Thead>
           <Tbody>

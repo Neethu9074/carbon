@@ -8,6 +8,7 @@ import React from 'react';
 import Button from 'in-new-components/Button';
 
 import './ClasspathLayouter.less';
+import { t } from 'in-i18n';
 
 const block = 'in-classpath-layouter';
 
@@ -52,7 +53,9 @@ export default class extends React.Component {
       <div className={block}>
         {cpEntries.length > 5 ? (
           <Button onClick={this.toggleVisibility} kind="secondary" className={`${block}__toggle`}>
-            {this.state.visible ? 'Hide Classpath' : 'Show Classpath'}
+            {this.state.visible
+              ? t('in-sdk:sidebar.classpath.classpathHide')
+              : t('in-sdk:sidebar.classpath.classpathShow')}
           </Button>
         ) : null}
 

@@ -2,10 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { compose, withProps, withState } from 'recompose';
 import { empty } from '@instana/observables';
+import React, { useState } from 'react';
 import { t } from 'in-i18n';
-import React from 'react';
 
 import {
   websitesAlertingCloseDialog,
@@ -14,6 +13,7 @@ import {
 } from 'in-websites/alerting/tracker';
 import { thresholdOrBaselineLoadingSignal$ } from 'in-new-components/Alerting/Chart/AlertingChartWrapper';
 import AlertConfigDialogPresenter from 'in-new-components/Alerting/AlertConfigDialogPresenter';
+import { updateThresholdInForm } from 'in-new-components/Alerting/dialog/sharedFunctions';
 import AdvancedModeContainer from 'in-websites/alerting/advanced/AdvancedModeContainer';
 import SimpleModeContainer from 'in-websites/alerting/simple/SimpleModeContainer';
 import FeatureFeedback from 'in-new-components/FeatureFeedback/FeatureFeedback';
@@ -21,47 +21,28 @@ import { getBlueprintConfig } from 'in-websites/alerting/data/blueprintConfig';
 import { getTrackingObject } from 'in-new-components/Alerting/trackingHelpers';
 import { modeAdvanced, modeSimple } from 'in-websites/alerting/constants';
 import createThresholdForm from 'in-websites/alerting/form/thresholdForm';
-import connectTo from 'in-hoc/connectTo';
+import useObservable from 'in-hooks/useObservable';
 
-export const AlertConfigDialogWithThreshold = compose(
-  withState('simpleMode', 'setSimpleMode', props => !props.editMode),
-  connectTo(({ form, updateForm, simpleMode }) => {
-    const calculateThresholdOnBackend = form.get('hiddenFields').get('calculateThresholdOnBackend').value;
-    thresholdOrBaselineLoadingSignal$.emit(calculateThresholdOnBackend);
+export default function AlertConfigDialogWithThreshold(props) {
+  const { form, updateForm, onClose, onCreate } = props;
 
-    return {
-      thresholdResult: resolveThresholdRequest(form, simpleMode)
-        .filter(resp => resp && !resp.progress.loading)
-        .tap(({ data, errors, time }) => {
-          updateThresholdInForm(form, updateForm, data, errors, time);
-        })
-    };
-  }),
-  withProps(({ onClose, onCreate, form }) => ({
-    withTrackClose: trackingConfig => {
-      if (trackingConfig) {
-        websitesAlertingCloseDialog(getTrackingObject(form, { step: trackingConfig }));
-      } else {
-        websitesAlertingCloseDialog(getTrackingObject(form, { mode: modeAdvanced }));
-      }
-      onClose();
-    },
-    trackModeSwitch: (simpleMode, step) => {
-      if (simpleMode) {
-        websitesAlertingSwitchMode(getTrackingObject(form, { destinationMode: modeAdvanced, step }));
-      } else {
-        websitesAlertingSwitchMode(getTrackingObject(form, { destinationMode: modeSimple }));
-      }
-    },
-    withTrackCreate: simpleMode => {
-      websitesAlertingAlertCreated(getTrackingObject(form, { mode: simpleMode ? modeSimple : modeAdvanced }));
-      onCreate();
-    }
-  }))
-)(function connectedAlertDialog(props) {
+  const [simpleMode, setSimpleMode] = useState(!props.editMode);
+
+  const thresholdResult = useObservable(() => {
+    thresholdOrBaselineLoadingSignal$.emit(form.get('hiddenFields').get('calculateThresholdOnBackend').value);
+    return resolveThresholdRequest(form, simpleMode)
+      .filter(resp => resp && !resp.progress.loading)
+      .tap(({ data, errors, time }) => {
+        updateThresholdInForm(createThresholdForm, form, updateForm, data, errors, time, simpleMode);
+      });
+  }, [form, simpleMode]);
+
   return (
     <AlertConfigDialogPresenter
       {...props}
+      thresholdResult={thresholdResult}
+      simpleMode={simpleMode}
+      setSimpleMode={setSimpleMode}
       SimpleModeElement={SimpleModeContainer}
       AdvancedModeElement={AdvancedModeContainer}
       featureFeedbackElement={
@@ -74,9 +55,28 @@ export const AlertConfigDialogWithThreshold = compose(
           }}
         />
       }
+      withTrackClose={trackingConfig => {
+        if (trackingConfig) {
+          websitesAlertingCloseDialog(getTrackingObject(form, { step: trackingConfig }));
+        } else {
+          websitesAlertingCloseDialog(getTrackingObject(form, { mode: modeAdvanced }));
+        }
+        onClose();
+      }}
+      trackModeSwitch={(simpleMode, step) => {
+        if (simpleMode) {
+          websitesAlertingSwitchMode(getTrackingObject(form, { destinationMode: modeAdvanced, step }));
+        } else {
+          websitesAlertingSwitchMode(getTrackingObject(form, { destinationMode: modeSimple }));
+        }
+      }}
+      withTrackCreate={simpleMode => {
+        websitesAlertingAlertCreated(getTrackingObject(form, { mode: simpleMode ? modeSimple : modeAdvanced }));
+        onCreate();
+      }}
     />
   );
-});
+}
 
 function resolveThresholdRequest(form, fallbackOnError) {
   const alertConfig = form.toJS();
@@ -130,43 +130,4 @@ function resolveThresholdRequest(form, fallbackOnError) {
     seasonality: getSeasonality(),
     fallbackOnError
   });
-}
-
-function updateThresholdInForm(form, updateForm, data, errors, time) {
-  const calculateThresholdOnBackend = form.get('hiddenFields').get('calculateThresholdOnBackend').value;
-
-  if (calculateThresholdOnBackend) {
-    thresholdOrBaselineLoadingSignal$.emit(false);
-
-    const alertType = form.get('rule').get('alertType').value;
-    const currentThreshold = form.get('threshold').toJS();
-
-    let thresholdData;
-    if (errors.length === 0) {
-      thresholdData = {
-        ...currentThreshold,
-        ...data
-      };
-    } else {
-      // set empty baseline in case of error
-      thresholdData = {
-        ...currentThreshold,
-        baseline: []
-      };
-    }
-
-    const updatedThresholdForm = createThresholdForm(
-      {
-        lastUpdated: time,
-        ...thresholdData
-      },
-      alertType
-    );
-
-    updateForm(
-      form
-        .put('threshold', updatedThresholdForm)
-        .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(false))
-    );
-  }
 }

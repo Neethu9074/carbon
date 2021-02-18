@@ -84,6 +84,7 @@ export default function CreateApplicationFilterExpression({
               <CreateApplicationQueryBuilder
                 value={tagFilterExpressionField.value}
                 onChange={tagFilterExpression => setTagFilterExpression(tagFilterExpression, form, updateForm)}
+                autoFocusInput
               />
             </div>
 

@@ -479,16 +479,10 @@ export default connectTo({ timeConfig: timeConfig$, isInternalVisible: isInterna
                           description="Unit monitoring the Blue (AWS EU) SaaS installation."
                         />
                         <LinkListItem
-                          label="🇪🇺 EU (deprecated)"
-                          href="https://eu-instanaops.instana.io"
+                          label="Internal"
+                          href="https://internal-instanaops.instana.io"
                           external
-                          description="Deprecated: Unit monitoring the EU SaaS installation, as well as the environment-wide components Groundskeeper, Butler and CockroachDB."
-                        />
-                        <LinkListItem
-                          label="🇺🇸 US (deprecated)"
-                          href="https://us-instanaops.instana.io"
-                          external
-                          description="Deprecated: Unit monitoring the US SaaS installation."
+                          description="A SaaS unit monitoring the internal development units."
                         />
                       </LinkList>
                     </LinkListItem>
@@ -512,39 +506,21 @@ export default connectTo({ timeConfig: timeConfig$, isInternalVisible: isInterna
                         />
                         <LinkListItem
                           label="Staging"
-                          href="https://staging-instana.peach.instana.rocks"
+                          href="https://staging-instana.instana.rocks"
                           external
                           description="Auto-deployed from the release-XYZ branch on every commit."
                         />
                         <LinkListItem
                           label="Preview"
-                          href="https://preview-instana.peach.instana.rocks"
+                          href="https://preview-instana.instana.rocks"
                           external
                           description="Manually deployed latest release-XYZ branch 1 week before the SaaS release. Sales / CS / SE / PM has access to this unit."
                         />
                         <LinkListItem
                           label="Release"
-                          href="https://release-instana.magenta.instana.rocks"
+                          href="https://release-instana.instana.rocks"
                           external
                           description="Manually deployed latest release-XYZ on demand."
-                        />
-                        <LinkListItem
-                          label="Load"
-                          href="https://load-instana.rose.instana.rocks"
-                          external
-                          description="Manually deployed from any branch on demand."
-                        />
-                        <LinkListItem
-                          label="SRE"
-                          href="https://sre-instana.melon.instana.rocks"
-                          external
-                          description="Manually deployed from any branch on demand. Used by SRE to develop instanactl."
-                        />
-                        <LinkListItem
-                          label="Internal"
-                          href="https://internal-instanaops.instana.io"
-                          external
-                          description="A SaaS unit monitoring the internal development units."
                         />
                       </LinkList>
                     </LinkListItem>

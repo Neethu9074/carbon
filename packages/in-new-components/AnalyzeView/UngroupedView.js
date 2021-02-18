@@ -10,9 +10,11 @@ import React from 'react';
 import { joinExpressions, removeTopLevelFilters } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { optionsPropType } from 'in-new-components/SortingConfigurator/SortingConfigurator';
 import { childrenArgsAsPropTypes } from 'in-new-components/AnalyzeView/StateManagement';
+import { metric as metricType } from 'in-new-components/AnalyzeView/fieldTypes';
+import { getAvailableMetrics } from 'in-new-components/AnalyzeView/metrics';
 import FacetedSearch from 'in-new-components/AnalyzeView/FacetedSearch';
+import useStableObjectInstance from 'in-hooks/useStableObjectInstance';
 import Header from 'in-new-components/QueryBuilder/components/Header';
-import useStableObjectIntance from 'in-hooks/useStableObjectIntance';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import { emptyArray } from 'in-services/fixedObjects';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -21,7 +23,7 @@ import locals from './UngroupedView.mless';
 
 export const retrievalSize = 20;
 export default function UngroupedAnalyzeView(props) {
-  const backendQueryModel = useStableObjectIntance(props.backendQueryModel);
+  const backendQueryModel = useStableObjectInstance(props.backendQueryModel);
 
   const {
     getData,
@@ -32,13 +34,20 @@ export default function UngroupedAnalyzeView(props) {
     SplitScreenListItemContent,
     DetailView,
     isValid,
+    selectableFields,
+    fixedFields,
+    onSelectableFieldsChange,
+    metricCatalog,
+    metricCatalogFilter,
     Presenter,
     formModel,
     dataSource,
     facetedSearchItems,
     getFacetedSearchSuggestions,
-    onTagFilterExpressionChange,
-    getHrefWithTagFilterExpression
+    onFormModelChange,
+    getHrefWithTagFilterExpression,
+    withSamplingTooltip,
+    getHrefToGroupedView
   } = props;
 
   const timeConfig = useTimeConfig();
@@ -61,7 +70,7 @@ export default function UngroupedAnalyzeView(props) {
   }
 
   const onFacetedSearchChange = ({ add = emptyArray, remove = emptyArray }) =>
-    onTagFilterExpressionChange(
+    onFormModelChange(
       joinExpressions({
         expressions: [removeTopLevelFilters(formModel, ...remove), ...add]
       })
@@ -87,6 +96,8 @@ export default function UngroupedAnalyzeView(props) {
     );
   }
 
+  const availableMetrics = getAvailableMetrics({ metricCatalog, metricCatalogFilter, fixedFields });
+
   return (
     <>
       {!withoutHeader && (
@@ -96,6 +107,19 @@ export default function UngroupedAnalyzeView(props) {
           topText={t('in-new-components:analyzeView.ungroupedViewNoGrouping')}
           totalRepresentedItemCount={totalHits ?? 0}
           setOrder={onOrderByChange}
+          availableMetrics={availableMetrics}
+          metrics={selectableFields.map(m => ({ metric: m.metricId, aggregation: m.aggregationId }))}
+          setMetrics={metrics =>
+            onSelectableFieldsChange(
+              metrics.map(metric => ({
+                // Converting metrics to fields by adding the type
+                metricId: metric.metric,
+                aggregationId: metric.aggregation,
+                type: metricType
+              }))
+            )
+          }
+          withSamplingTooltip={withSamplingTooltip}
         />
       )}
 
@@ -106,6 +130,7 @@ export default function UngroupedAnalyzeView(props) {
             formModel={formModel}
             onFacetedSearchChange={onFacetedSearchChange}
             getUpdatedTagExpressionHref={getUpdatedTagExpressionHref}
+            getHrefToGroupedView={getHrefToGroupedView}
             dataSource={dataSource}
             isValid={isValid}
             getSuggestions={tag =>

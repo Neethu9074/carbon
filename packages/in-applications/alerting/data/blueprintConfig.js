@@ -3,12 +3,17 @@
  * (c) Copyright Instana Inc.
  */
 import getApplicationMetricsThresholdSuggestion from 'in-applications/alerting/subscriptions/getApplicationMetricsThresholdSuggestion';
+import {
+  getEntitySelectionAsTagFilterFormModel,
+  getApplicationIdTagFilter
+} from 'in-applications/alerting/data/entitySelection';
 import getApplicationMetricsAlertPreview from 'in-applications/alerting/subscriptions/getApplicationMetricsAlertsPreview';
+import { and } from 'in-new-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
+import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
 import getApplicationMetrics from 'in-applications/subscriptions/getApplicationMetrics';
 import { toTagFilterNumberOperator } from 'in-new-components/Alerting/utils/alertUtils';
 import { tagFilter } from 'in-new-components/QueryBuilder/transformation/tagFilter';
 import { getBaselineValue } from 'in-new-components/Alerting/utils/baselineUtils';
-import { AND_CONJUNCTION } from 'in-new-components/Alerting/utils/queryUtils';
 import { percentage, millis, number } from 'in-services/formatters/number';
 import { getAnalyzeFilterTagKeys } from 'in-applications/tags';
 import { isNotBlank } from 'in-services/util/string';
@@ -29,7 +34,7 @@ const baseBlueprint = Object.freeze({
 
   // QB1
   getEntityTagFilters: (alertConfig, serviceId, endpointId) => {
-    const tagFilters = [getApplicationIdTagFilter(alertConfig)];
+    const tagFilters = [getApplicationIdTagFilter(alertConfig.boundaryScope, alertConfig.applicationId)];
     if (serviceId) {
       tagFilters.push(tagFilter('service.id', 'EQUALS', serviceId));
     }
@@ -41,22 +46,14 @@ const baseBlueprint = Object.freeze({
   getRuleTagFilters: () => [],
 
   // QB2
-  getEntityTagFilterFormModel: (alertConfig, serviceId, endpointId) => {
-    const formModel = [getApplicationIdTagFilter(alertConfig)];
-    if (!serviceId && !endpointId) {
-      return formModel;
-    }
-
-    if (serviceId) {
-      formModel.push(AND_CONJUNCTION);
-      formModel.push(tagFilter('service.id', 'EQUALS', serviceId));
-    }
-    if (endpointId) {
-      formModel.push(AND_CONJUNCTION);
-      formModel.push(tagFilter('endpoint.id', 'EQUALS', endpointId));
-    }
-    return formModel;
-  },
+  getEntityTagFilterFormModel: (alertConfig, applicationId, applicationName, serviceId) =>
+    getEntitySelectionAsTagFilterFormModel(
+      alertConfig.applications,
+      alertConfig.boundaryScope,
+      applicationId,
+      applicationName,
+      serviceId
+    ),
   getRuleTagFilterFormModel: () => [],
   getExtraAnalyzeLinkTagFilterFormModel: () => []
 });
@@ -215,22 +212,6 @@ function createDisableList(disabledTagFilters = []) {
   return ['application.id', 'application.name', 'service.id', 'endpoint.id', ...disabledTagFilters];
 }
 
-function getApplicationIdTagFilter(alertConfig) {
-  return tagFilter(
-    alertConfig.boundaryScope === 'INBOUND' ? 'boundary.application.id' : 'application.id',
-    'EQUALS',
-    alertConfig.applicationId
-  );
-}
-
-export function getApplicationNameTagFilter(boundaryScope, applicationName) {
-  return tagFilter(
-    boundaryScope === 'INBOUND' ? 'call.inbound_of_application' : 'application.name',
-    'EQUALS',
-    applicationName
-  );
-}
-
 function getLogLevelTagFilters(alertRule) {
   const tagFilters = [tagFilter('log.message', alertRule.operator, alertRule.message)];
   if (alertRule.level !== 'ANY') {
@@ -240,13 +221,17 @@ function getLogLevelTagFilters(alertRule) {
 }
 
 function getLogLevelFormModel(alertRule) {
-  const formModel = [tagFilter('log.message', alertRule.operator, alertRule.message)];
-  if (alertRule.level !== 'ANY') {
-    formModel.push(AND_CONJUNCTION);
-    formModel.push(tagFilter('log.level', 'EQUALS', alertRule.level));
+  if (alertRule.level === 'ANY') {
+    return [tagFilter('log.message', alertRule.operator, alertRule.message)];
   }
 
-  return formModel;
+  return joinExpressions({
+    logicalOperator: and,
+    expressions: [
+      tagFilter('log.message', alertRule.operator, alertRule.message),
+      tagFilter('log.level', 'EQUALS', alertRule.level)
+    ]
+  });
 }
 
 function getStatusCodeTagFilters(alertRule) {
@@ -261,17 +246,17 @@ function getStatusCodeTagFilters(alertRule) {
 }
 
 function getStatusCodeFormModel(alertRule) {
-  const formModel = [];
-
   if (alertRule.statusCodeStart === alertRule.statusCodeEnd) {
-    formModel.push(tagFilter('call.http.status', 'EQUALS', alertRule.statusCodeStart));
-  } else {
-    formModel.push(tagFilter('call.http.status', 'GREATER_OR_EQUAL_THAN', alertRule.statusCodeStart));
-    formModel.push(AND_CONJUNCTION);
-    formModel.push(tagFilter('call.http.status', 'LESS_OR_EQUAL_THAN', alertRule.statusCodeEnd));
+    return [tagFilter('call.http.status', 'EQUALS', alertRule.statusCodeStart)];
   }
 
-  return formModel;
+  return joinExpressions({
+    logicalOperator: and,
+    expressions: [
+      tagFilter('call.http.status', 'GREATER_OR_EQUAL_THAN', alertRule.statusCodeStart),
+      tagFilter('call.http.status', 'LESS_OR_EQUAL_THAN', alertRule.statusCodeEnd)
+    ]
+  });
 }
 
 function getExtraSlownessAnalyzeLinkTagFilterFormModel(alertConfig, timeConfig) {

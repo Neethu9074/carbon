@@ -29,23 +29,25 @@ export function getEnhancedTagFilters(alertConfigWithFormModel, blueprintConfig,
 }
 
 export function getEnhancedTagFilterFormModel(alertConfigWithFormModel, blueprintConfig, subEntityId) {
+  // TODO AP ID must be provided via selection as well for Global SmartAlerts, and also as a separate parameter
+  //      for non-global SmartAlerts, because this field is deprecated.
+  const { applicationId } = alertConfigWithFormModel;
+
   const { tagFilterExpression: tagFilterFormModel, rule } = alertConfigWithFormModel;
   const metricName = blueprintConfig.getMetricName(rule);
   const ruleTagFilterFormModel = blueprintConfig.getRuleTagFilterFormModel(rule);
 
   let numeratorFilter;
 
-  const expressionsToCombine = [];
+  const expressionsToCombine = [
+    blueprintConfig.getEntityTagFilterFormModel(alertConfigWithFormModel, applicationId, null, subEntityId)
+  ];
   if (blueprintConfig.isCustomRateMetric(metricName)) {
     // at the moment, we only support a single numerator filter. All such blueprints have
     // a single rule-specific tag-filter only
     numeratorFilter = ruleTagFilterFormModel[0];
-    expressionsToCombine.push(blueprintConfig.getEntityTagFilterFormModel(alertConfigWithFormModel, subEntityId));
-  } else {
-    expressionsToCombine.push(blueprintConfig.getEntityTagFilterFormModel(alertConfigWithFormModel, subEntityId));
-    if (ruleTagFilterFormModel.length > 0) {
-      expressionsToCombine.push(ruleTagFilterFormModel);
-    }
+  } else if (ruleTagFilterFormModel.length > 0) {
+    expressionsToCombine.push(ruleTagFilterFormModel);
   }
   if (tagFilterFormModel?.length > 0) {
     expressionsToCombine.push(tagFilterFormModel);

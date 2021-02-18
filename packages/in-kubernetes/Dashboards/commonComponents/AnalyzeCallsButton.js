@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
@@ -44,7 +45,7 @@ export default function AnalyzeCallsButton({
         })
       }
     >
-      Analyze Calls
+      {t('in-kubernetes:dashboards.analyzeCalls')}
     </Button>
   );
 }

@@ -14,6 +14,7 @@ import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { setTimeConfig } from 'in-stores/time/config';
 import withUrlState from 'in-hoc/withUrlState';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 export default compose(
   withUrlState({
@@ -44,7 +45,7 @@ function IntegrationLandingPage({ flattenedConfig, references }) {
     <Fragment>
       <HeaderWithTimeSelection>
         <SecondLevelNavigation>
-          <SecondLevelNavigationItem isActive icon="lib_actions_search" label="Results" />
+          <SecondLevelNavigationItem isActive icon="lib_actions_search" label={t('in-integrations:landing.results')} />
         </SecondLevelNavigation>
       </HeaderWithTimeSelection>
       <LeftRightPadding>

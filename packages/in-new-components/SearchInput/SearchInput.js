@@ -5,6 +5,7 @@
 import React, { useRef, useState } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
+import { t } from 'in-i18n';
 
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import keyCodes from 'in-components/keyCodes';
@@ -15,6 +16,7 @@ import locals from './SearchInput.mless';
 
 export default function SearchInput({
   className,
+  inputClassName,
   onChange,
   disabled = false,
   query,
@@ -34,6 +36,7 @@ export default function SearchInput({
   inputRef = inputRef ?? fallbackRef;
 
   const [hasFocus, setHasFocus] = useState(false);
+  const isDirty = query?.trim();
 
   return (
     <div
@@ -51,11 +54,12 @@ export default function SearchInput({
         className={classNames({
           [locals.searchInput]: true,
           [locals.useTransparency]: hasError,
-          [className]: className
+          [className]: className,
+          [inputClassName]: inputClassName
         })}
         disabled={disabled}
         type="search"
-        placeholder={placeholder ?? 'Search…'}
+        placeholder={placeholder ?? t('in-new-components:searchInput.placeholderSearch')}
         value={query}
         onChange={e => onChange(e.target.value)}
         autoFocus={autoFocus}
@@ -77,7 +81,7 @@ export default function SearchInput({
           onBlur?.();
         }}
       />
-      {!withoutIcon && (
+      {!withoutIcon && !isDirty && (
         <SvgIcon
           className={classNames({
             [locals.icon]: true,
@@ -94,6 +98,7 @@ export default function SearchInput({
 SearchInput.propTypes = {
   autoFocus: PropTypes.bool,
   className: PropTypes.string,
+  inputClassName: PropTypes.string,
   disabled: PropTypes.bool,
   withoutIcon: PropTypes.bool,
   hasError: PropTypes.bool,

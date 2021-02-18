@@ -2,9 +2,14 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { isEmpty } from 'lodash';
 
-import { getApplication, getEndpoint, getService } from './utils';
+import {
+  selectApplication,
+  selectEndpoint,
+  selectService
+} from 'in-new-components/Alerting/components/scopeConfig/ServicesAndEndpointsListPresenter/selectors';
 
 export const actionType = {
   ADD_APPLICATION: 'ADD_APPLICATION',
@@ -16,58 +21,71 @@ export const actionType = {
 };
 
 export function listReducer(state, action) {
-  const { type, applicationId, serviceId, endpointId, inclusive = true, explicitSelectionOnly } = action;
+  const { type, applicationId, serviceId, endpointId } = action;
+
+  const applicationInclusive = Boolean(selectApplication(state, { applicationId })?.inclusive);
+  const serviceInclusive = Boolean(selectService(state, { applicationId, serviceId })?.inclusive);
+  const endpointInclusive = Boolean(selectEndpoint(state, { applicationId, serviceId, endpointId })?.inclusive);
 
   switch (type) {
     case actionType.ADD_APPLICATION: {
-      const stateWithApplication = addApplicationIfNotContained(state, action);
-      return toggleInclusiveValueForApplication(stateWithApplication, { applicationId }, inclusive);
+      return addApplicationIfNotContained(state, action, !applicationInclusive);
     }
     case actionType.ADD_SERVICE: {
-      const stateWithApplication = addApplicationIfNotContained(state, action, explicitSelectionOnly);
-      const stateWithService = addServiceIfNotContained(stateWithApplication, action);
-      return toggleInclusiveValueForService(stateWithService, { applicationId, serviceId }, inclusive);
+      const stateWithApplication = addApplicationIfNotContained(state, action, applicationInclusive);
+      const stateWithService = addServiceIfNotContained(stateWithApplication, action, !applicationInclusive);
+      return stateWithService;
     }
     case actionType.ADD_ENDPOINT: {
-      const stateWithApplication = addApplicationIfNotContained(state, action, explicitSelectionOnly);
-      const stateWithService = addServiceIfNotContained(stateWithApplication, action);
-      const stateWithEndpoint = addEndpointIfNotContained(stateWithService, action);
-      return toggleInclusiveValueForEndpoint(stateWithEndpoint, { applicationId, serviceId, endpointId }, inclusive);
+      const stateWithApplication = addApplicationIfNotContained(state, action, applicationInclusive);
+      const stateWithService = addServiceIfNotContained(stateWithApplication, action, applicationInclusive);
+
+      const newServiceInclusiveValue = selectService(stateWithService, { applicationId, serviceId })?.inclusive;
+      const stateWithEndpoint = addEndpointIfNotContained(
+        stateWithService,
+        action,
+        !newServiceInclusiveValue || endpointInclusive
+      );
+
+      return stateWithEndpoint;
     }
     case actionType.REMOVE_APPLICATION: {
-      const itemTreeCopy = { ...state };
-      delete itemTreeCopy[applicationId];
-      return itemTreeCopy;
+      const stateCopy = { ...state };
+      delete stateCopy[applicationId];
+      return stateCopy;
     }
     case actionType.REMOVE_SERVICE: {
-      const application = getApplication(state, applicationId) ?? {};
+      const application = selectApplication(state, { applicationId }) ?? {};
       const servicesItemTreeCopy = { ...application?.services };
       delete servicesItemTreeCopy[serviceId];
 
       return {
         ...state,
-        [applicationId]: { ...application, services: servicesItemTreeCopy }
+        [applicationId]: {
+          ...application,
+          services: servicesItemTreeCopy
+        }
       };
     }
     case actionType.REMOVE_ENDPOINT: {
-      const application = getApplication(state, applicationId) ?? {};
-      const service = getService(application, serviceId) ?? {};
+      const application = selectApplication(state, { applicationId }) ?? {};
+      const service = selectService(state, { applicationId, serviceId }) ?? {};
 
       const endpointsItemTreeCopy = { ...service.endpoints };
       delete endpointsItemTreeCopy[endpointId];
 
-      const endpointsCopyEmpty = isEmpty(endpointsItemTreeCopy);
+      if (applicationInclusive && serviceInclusive && isEmpty(endpointsItemTreeCopy)) {
+        const servicesCopy = { ...application.services };
+        delete servicesCopy[serviceId];
 
-      let servicesItemTreeCopy = null;
-      if (endpointsCopyEmpty) {
-        servicesItemTreeCopy = { ...application.services };
-        delete servicesItemTreeCopy[serviceId];
-      }
-
-      if (endpointsCopyEmpty) {
         return {
           ...state,
-          [applicationId]: { ...application, services: servicesItemTreeCopy }
+          [applicationId]: {
+            ...application,
+            services: {
+              ...servicesCopy
+            }
+          }
         };
       }
 
@@ -90,46 +108,46 @@ export function listReducer(state, action) {
   }
 }
 
-function addApplicationIfNotContained(state, { applicationId }, explicitSelectionOnly = false) {
-  const application = getApplication(state, applicationId);
-  if (isEmpty(application)) {
-    return getNewStateWithApplication(state, applicationId, { inclusive: true, services: {}, explicitSelectionOnly });
+function addApplicationIfNotContained(state, { applicationId }, inclusive) {
+  const application = selectApplication(state, { applicationId });
+  if (isEmpty(application) || application?.inclusive !== inclusive) {
+    return cloneNewStateWithApplication(state, applicationId, { inclusive, services: {} });
   }
+
   return state;
 }
 
-function addServiceIfNotContained(state, { applicationId, serviceId }) {
-  const service = getService(getApplication(state, applicationId), serviceId);
+function addServiceIfNotContained(state, { applicationId, serviceId }, inclusive) {
+  const service = selectService(state, { applicationId, serviceId });
   if (isEmpty(service)) {
-    return getNewStateWithService(state, applicationId, { serviceId, inclusive: true, endpoints: {} });
+    return cloneNewStateWithService(state, applicationId, { serviceId, inclusive, endpoints: {} });
   }
   return state;
 }
 
-function addEndpointIfNotContained(state, { applicationId, serviceId, endpointId }) {
-  const endpoint = getEndpoint(getService(getApplication(state, applicationId), serviceId), endpointId);
+function addEndpointIfNotContained(state, { applicationId, serviceId, endpointId }, inclusive) {
+  const endpoint = selectEndpoint(state, { applicationId, serviceId, endpointId });
   if (isEmpty(endpoint)) {
-    return getNewStateWithEndpoint(state, applicationId, serviceId, { endpointId, inclusive: true });
+    return cloneNewStateWithEndpoint(state, applicationId, serviceId, { endpointId, inclusive });
   }
   return state;
 }
 
-export function getNewStateWithApplication(state, applicationId, applicationConfig) {
-  const { inclusive, services, explicitSelectionOnly } = applicationConfig;
+export function cloneNewStateWithApplication(state, applicationId, applicationConfig) {
+  const { inclusive, services } = applicationConfig;
   return {
     ...state,
     [applicationId]: {
       applicationId,
       inclusive,
-      explicitSelectionOnly,
       services: inclusive ? services : {}
     }
   };
 }
 
-function getNewStateWithService(state, applicationId, serviceConfig) {
+function cloneNewStateWithService(state, applicationId, serviceConfig) {
   const { serviceId, inclusive, endpoints } = serviceConfig;
-  const application = getApplication(state, applicationId);
+  const application = selectApplication(state, { applicationId });
 
   return {
     ...state,
@@ -147,10 +165,10 @@ function getNewStateWithService(state, applicationId, serviceConfig) {
   };
 }
 
-function getNewStateWithEndpoint(state, applicationId, serviceId, endpointConfig) {
+function cloneNewStateWithEndpoint(state, applicationId, serviceId, endpointConfig) {
   const { endpointId, inclusive } = endpointConfig;
-  const application = getApplication(state, applicationId);
-  const service = getService(application, serviceId);
+  const application = selectApplication(state, { applicationId });
+  const service = selectService(state, { applicationId, serviceId });
 
   return {
     ...state,
@@ -171,31 +189,4 @@ function getNewStateWithEndpoint(state, applicationId, serviceId, endpointConfig
       }
     }
   };
-}
-
-function toggleInclusiveValueForApplication(state, itemTreeIds, inclusive) {
-  const { applicationId } = itemTreeIds;
-  const application = getApplication(state, applicationId);
-  if (application.inclusive !== inclusive) {
-    return getNewStateWithApplication(state, applicationId, { ...application, inclusive });
-  }
-  return state;
-}
-
-function toggleInclusiveValueForService(state, itemTreeIds, inclusive) {
-  const { applicationId, serviceId } = itemTreeIds;
-  const service = getService(getApplication(state, applicationId), serviceId);
-  if (service.inclusive !== inclusive) {
-    return getNewStateWithService(state, applicationId, { ...service, inclusive });
-  }
-  return state;
-}
-
-function toggleInclusiveValueForEndpoint(state, itemTreeIds, inclusive) {
-  const { applicationId, serviceId, endpointId } = itemTreeIds;
-  const endpoint = getEndpoint(getService(getApplication(state, applicationId), serviceId), endpointId);
-  if (endpoint.inclusive !== inclusive) {
-    return getNewStateWithEndpoint(state, applicationId, serviceId, { endpointId, inclusive });
-  }
-  return state;
 }

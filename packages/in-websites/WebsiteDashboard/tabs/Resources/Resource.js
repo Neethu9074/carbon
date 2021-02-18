@@ -133,7 +133,7 @@ function ResourceTab({ resourceId, result, websiteId, websiteLabel, pageId, tagF
               metricIds={getResourceTypes()}
               metrics={[
                 {
-                  label: t('in-websites:websiteDashboard.tabs.resources.'),
+                  label: t('in-websites:websiteDashboard.tabs.resources.resourceLabelResourceLoads'),
                   metric: 'beaconCount',
                   aggregation: 'SUM',
                   formatter: number.forcedCompact,

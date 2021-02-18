@@ -11,24 +11,18 @@ import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './KeyValueOverlay.mless';
 
-export default compose(
-  withState(
-    'query',
-    'setQuery',
-    ''
-  )(function KeyValueOverlay(props) {
-    const data = props.data;
-    if (data == null || data.size === 0) {
-      return null;
-    }
+export default compose(withState('query', 'setQuery', ''))(function KeyValueOverlay(props) {
+  const data = props.data;
+  if (data == null || data.size === 0) {
+    return null;
+  }
 
-    return (
-      <Overlay props={props} content={KeyValueDialogWrapper} withoutWrapper withoutArrow>
-        {KeyValueButtonWrapper}
-      </Overlay>
-    );
-  })
-);
+  return (
+    <Overlay props={props} content={KeyValueDialogWrapper} withoutWrapper withoutArrow>
+      {KeyValueButtonWrapper}
+    </Overlay>
+  );
+});
 
 function KeyValueButtonWrapper(props) {
   const { header, toggle, isOpen, refSetter } = props;

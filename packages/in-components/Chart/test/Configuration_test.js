@@ -99,7 +99,7 @@ describe('in-components/Chart/Configuration', () => {
       it('should enrich config with further properties', () => {
         const config = new Config(defaultProps);
         expect(config.rollup).to.equal(1000);
-        expect(config.rollupLabel).to.equal('1s');
+        expect(config.rollupLabel).to.equal('metric.metric.1s');
         expect(config.y1).not.to.equal(undefined);
 
         config.update({ y1: {}, timeConfig: { windowSize: 60000, to: 20000 } });

@@ -18,8 +18,6 @@ import TouchedMessages from 'in-components/form/TouchedMessages';
 import { alwaysEmptyArray } from 'in-services/fixedStreams';
 import Button from 'in-new-components/Button/Button';
 
-import locals from './SelectAlertChannel.mless';
-
 export default function SelectAlertChannel({ form, onChange, setAlertChannelsVisible }) {
   return (
     <>
@@ -77,8 +75,6 @@ function SelectListDialogContent({ form, onSubmit, reloadKey }) {
         numberOfItems > 0 ? `Add ${numberOfItems} Channel${numberOfItems > 1 ? 's' : ''}` : 'Add'
       }
       pageSize={5}
-      listFormGroupClassOverwrites={locals.alertChannelsList}
-      tableScrollWrapperClassOverwrites={locals.alertChannelsList}
       preventCloseOnSubmit
     />
   );

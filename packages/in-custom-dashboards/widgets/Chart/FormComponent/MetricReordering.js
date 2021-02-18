@@ -122,7 +122,7 @@ export function MetricsForAxis({
         {provided => (
           <Stack space="xxsmall" ref={provided.innerRef}>
             {metricsForm.map((metricForm, indexInAxis) => (
-              <Draggable key={indexInAxis} draggableId={startIndex + indexInAxis} index={indexInAxis}>
+              <Draggable key={indexInAxis} draggableId={String(startIndex + indexInAxis)} index={indexInAxis}>
                 {provided => (
                   <Ul ref={provided.innerRef} {...provided.draggableProps}>
                     <Li noAlternatingBg>
@@ -144,6 +144,7 @@ export function MetricsForAxis({
             ))}
 
             {showHelpText && <p className={locals.dragAndDropHelpText}>{helpText}</p>}
+            {provided.placeholder}
           </Stack>
         )}
       </Droppable>

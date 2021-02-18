@@ -25,6 +25,7 @@ export default function FacetedFilterGeneric({
   entity,
   hiddenCalls,
   getUpdatedTagExpressionHref,
+  getHrefToGroupedView,
   openByDefault,
   dataSource,
   getSuggestions
@@ -37,6 +38,7 @@ export default function FacetedFilterGeneric({
         entity={entity}
         hiddenCalls={hiddenCalls}
         getUpdatedTagExpressionHref={getUpdatedTagExpressionHref}
+        getHrefToGroupedView={getHrefToGroupedView}
         dataSource={dataSource}
         getSuggestions={getSuggestions}
       />
@@ -44,7 +46,17 @@ export default function FacetedFilterGeneric({
   );
 }
 
-function Body({ formModel, tag, entity, title, hiddenCalls, getUpdatedTagExpressionHref, dataSource, getSuggestions }) {
+function Body({
+  formModel,
+  tag,
+  entity,
+  title,
+  hiddenCalls,
+  getUpdatedTagExpressionHref,
+  getHrefToGroupedView,
+  dataSource,
+  getSuggestions
+}) {
   const [valueFilter, setValueFilter] = useState('');
   const selectedValues = getExistingValuesForTag(formModel, tag, entity);
   if (selectedValues.length > 0) {
@@ -64,6 +76,7 @@ function Body({ formModel, tag, entity, title, hiddenCalls, getUpdatedTagExpress
       hiddenCalls={hiddenCalls}
       tag={tag}
       getUpdatedTagExpressionHref={getUpdatedTagExpressionHref}
+      getHrefToGroupedView={getHrefToGroupedView}
       valueFilter={valueFilter}
       setValueFilter={setValueFilter}
       dataSource={dataSource}
@@ -101,33 +114,9 @@ function SearchAndSuggestions({
   hiddenCalls,
   tag,
   getUpdatedTagExpressionHref,
+  getHrefToGroupedView,
   valueFilter,
   setValueFilter,
-  dataSource,
-  getSuggestions
-}) {
-  return (
-    <Stack space="small">
-      <SearchInput onChange={setValueFilter} query={valueFilter} className={locals.search} withoutIcon />
-      <Suggestions
-        tag={tag}
-        valueFilter={valueFilter}
-        formModel={formModel}
-        hiddenCalls={hiddenCalls}
-        getUpdatedTagExpressionHref={getUpdatedTagExpressionHref}
-        dataSource={dataSource}
-        getSuggestions={getSuggestions}
-      />
-    </Stack>
-  );
-}
-
-function Suggestions({
-  formModel,
-  hiddenCalls,
-  tag,
-  getUpdatedTagExpressionHref,
-  valueFilter,
   dataSource,
   getSuggestions
 }) {
@@ -144,16 +133,22 @@ function Suggestions({
       [formModel, hiddenCalls, tag, valueFilter, dataSource, timeConfig]
     ) ?? pendingResult;
   return (
-    <SuggestionsPresenter
-      loading={suggestions?.progress.loading}
-      errors={suggestions?.errors}
-      suggestions={suggestions?.data?.items.map(item => ({
-        ...item,
-        name: JSON.parse(item.name)
-      }))}
-      getUpdatedTagExpressionHref={getUpdatedTagExpressionHref}
-      tag={tag}
-      dataSource={dataSource}
-    />
+    <Stack space="small">
+      {suggestions?.data?.items.length > 5 && (
+        <SearchInput onChange={setValueFilter} query={valueFilter} inputClassName={locals.search} withoutIcon />
+      )}
+      <SuggestionsPresenter
+        loading={suggestions?.progress.loading}
+        errors={suggestions?.errors}
+        suggestions={suggestions?.data?.items.map(item => ({
+          ...item,
+          name: JSON.parse(item.name)
+        }))}
+        getUpdatedTagExpressionHref={getUpdatedTagExpressionHref}
+        getHrefToGroupedView={getHrefToGroupedView}
+        tag={tag}
+        dataSource={dataSource}
+      />
+    </Stack>
   );
 }

@@ -4,6 +4,7 @@
  */
 import React, { Fragment } from 'react';
 import { get, find } from 'lodash';
+import { t } from 'in-i18n';
 
 import KubernetesNoDataNotification from 'in-kubernetes/lists/components/KubernetesNoDataNotification';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
@@ -28,7 +29,7 @@ const matrixPrefix = 'k8Namespace.';
 const columnDefinitions = [
   {
     id: 'label',
-    label: 'Name',
+    label: t('in-kubernetes:name'),
     getContent(item) {
       return (
         <SeverityAwareEntityLink
@@ -42,56 +43,56 @@ const columnDefinitions = [
   },
   {
     id: 'clusterName',
-    label: 'Cluster Name',
+    label: t('in-kubernetes:clusterName'),
     getContent(item) {
       return get(item, ['namespace', 'clusterName']);
     }
   },
   {
     id: 'services',
-    label: 'Services',
+    label: t('in-kubernetes:services'),
     getContent(item) {
       return <EntityCounter icon="lib_kubernetes_service" count={item.services} />;
     }
   },
   {
     id: 'pods',
-    label: 'Pods',
+    label: t('in-kubernetes:pods'),
     getContent({ workloads }) {
       return <EntityCounter icon="lib_kubernetes_pod" count={workloads.pods} />;
     }
   },
   {
     id: 'workloads.deployments',
-    label: 'Deployments',
+    label: t('in-kubernetes:deployments'),
     getContent({ workloads }) {
       return <EntityCounter icon="lib_kubernetes_workload" count={workloads.deployments} />;
     }
   },
   {
     id: 'workloads.deploymentConfigs',
-    label: 'Deployment Configs',
+    label: t('in-kubernetes:deploymentConfigs'),
     getContent({ workloads }) {
       return <EntityCounter icon="lib_kubernetes_workload" count={workloads.deploymentConfigs} />;
     }
   },
   {
     id: 'workloads.daemonSets',
-    label: 'DaemonSets',
+    label: t('in-kubernetes:daemonSets'),
     getContent({ workloads }) {
       return <EntityCounter icon="lib_kubernetes_workload" count={workloads.daemonSets} />;
     }
   },
   {
     id: 'workloads.statefulSets',
-    label: 'StatefulSets',
+    label: t('in-kubernetes:statefulSets'),
     getContent({ workloads }) {
       return <EntityCounter icon="lib_kubernetes_workload" count={workloads.statefulSets} />;
     }
   },
   {
     id: 'health',
-    label: 'Health',
+    label: t('in-kubernetes:health'),
     getContent(item, { timeConfig }) {
       return (
         <EntityHealthIndicator
@@ -123,11 +124,13 @@ export default connectTo(
   function NamespaceList({ timeConfig }) {
     return (
       <Fragment>
-        <Title title="Namespaces" />
+        <Title title={t('in-kubernetes:namespaces')} />
         <ViewTrackingMeta
           data={{
             productArea: 'Kubernetes',
-            pageRootName: 'Kubernetes Namespaces'
+            pageRootName: t('in-kubernetes:kubernetesPageRootName', {
+              objectType: t('in-kubernetes:namespaces')
+            })
           }}
         />
 
@@ -154,11 +157,11 @@ function createColumnFilter({ result }) {
     find(items, item => isOpenshift(get(item, ['namespace', 'clusterDistribution'], 'kubernetes')))
   );
 
-  return ({ label }) => {
+  return ({ id }) => {
     if (anyOpenshift) {
       return true;
     }
-    return label !== 'Deployment Configs';
+    return id !== 'workloads.deploymentConfigs';
   };
 }
 

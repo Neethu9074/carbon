@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import theme from 'in-themes';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { getBlockSizeMillis, getPredefinedBlockSizeMillisForBlockSize } from 'in-services/util/dynamicAggregation';
@@ -50,7 +51,7 @@ function EventsChart({ width, timeConfig, query, eventType }) {
 
   return (
     <OpenEventsCountChartWrapper
-      cardTitle="Open events"
+      cardTitle={t('in-events:titleOpenEvents')}
       timeConfig={timeConfig}
       granularity={granularity}
       includeFirstDataPoint
@@ -72,7 +73,7 @@ function EventsChart({ width, timeConfig, query, eventType }) {
 }
 
 function getIncidentConfigs(labels, metrics, colors, metricsConfiguration, granularity, query) {
-  labels.push('Incidents');
+  labels.push(t('in-events:labelIncidents'));
   metrics.push('incidents');
   colors.push(theme.lib.colors.orange800);
   metricsConfiguration.incidents = {
@@ -82,7 +83,7 @@ function getIncidentConfigs(labels, metrics, colors, metricsConfiguration, granu
 }
 
 function getIssueConfigs(labels, metrics, colors, metricsConfiguration, granularity, query) {
-  labels.push('Critical', 'Warning');
+  labels.push(t('in-events:labelCritical'), t('in-events:labelWarning'));
   metrics.push('critical', 'warning');
   colors.push(theme.lib.colors.red800, theme.lib.colors.yellow800);
   metricsConfiguration.critical = {
@@ -96,7 +97,7 @@ function getIssueConfigs(labels, metrics, colors, metricsConfiguration, granular
 }
 
 function getChangeConfigs(labels, metrics, colors, metricsConfiguration, granularity, query) {
-  labels.push('Offline', 'Online', 'Changes');
+  labels.push(t('in-events:labelOffline'), t('in-events:labelOnline'), t('in-events:labelChanges'));
   metrics.push('offline', 'online', 'changes');
   colors.push('#9aa5a9', '#99e1e1', '#cdbcf0');
   metricsConfiguration.offline = {
@@ -114,7 +115,7 @@ function getChangeConfigs(labels, metrics, colors, metricsConfiguration, granula
 }
 
 function getAgentMonitoringConfigs(labels, metrics, colors, metricsConfiguration, granularity, query) {
-  labels.push('Critical', 'Warning');
+  labels.push(t('in-events:labelCritical'), t('in-events:labelWarning'));
   metrics.push('agent_monitoring_issue_critical', 'agent_monitoring_issue_warning');
   colors.push(theme.lib.colors.red800, theme.lib.colors.yellow800);
   metricsConfiguration.agent_monitoring_issue_critical = {

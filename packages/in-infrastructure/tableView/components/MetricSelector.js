@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { getCategories } from 'in-sdk/metrics';
@@ -23,7 +24,7 @@ export default function MetricSelector({ id, className, plugin, label, onChange,
 
   const select = (
     <select id={id} className={`${block}__selection`} value={value} onChange={onChange}>
-      <option value="-1">Please select</option>
+      <option value="-1">{t('in-infrastructure:tableView.pleaseSelect')}</option>
 
       {categoryTree.map((categoryNode, i) => (
         <MetricNode key={i} categoryNode={categoryNode} selectedMetrics={selectedMetrics} />

@@ -44,7 +44,7 @@ function PercentileMenuContent({ percentilesShown, onChange }) {
           onChange={() =>
             percentilesShown.count() === ALL_PERCENTILES.count() ? onChange(List()) : onChange(ALL_PERCENTILES)
           }
-          label={t('in-new-components:latencyDistributionBase10Chart.')}
+          label={t('in-new-components:latencyDistributionBase10Chart.percentileMenuLabelAll')}
         />
       </li>
       {ALL_PERCENTILES.map(percentile => {

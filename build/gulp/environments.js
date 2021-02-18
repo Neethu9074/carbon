@@ -30,6 +30,11 @@ exports = module.exports = {
     unit: 'nightly',
     baseDomain: 'pink.instana.rocks'
   },
+  'K8s Release (magenta)': {
+    tenant: 'instana',
+    unit: 'release',
+    baseDomain: 'instana.rocks'
+  },
   'K8s Staging (peach)': {
     tenant: 'instana',
     unit: 'staging',
@@ -38,11 +43,6 @@ exports = module.exports = {
   'K8s Preview (peach)': {
     tenant: 'instana',
     unit: 'preview',
-    baseDomain: 'instana.rocks'
-  },
-  'K8s Release (magenta)': {
-    tenant: 'instana',
-    unit: 'release',
     baseDomain: 'instana.rocks'
   },
   'blue-instanaops (EU AWS)': {

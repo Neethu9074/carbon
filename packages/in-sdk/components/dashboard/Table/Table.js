@@ -14,6 +14,7 @@ import shallowEquals from 'fbjs/lib/shallowEqual';
 import Card from 'in-new-components/Card';
 
 import locals from './Table.mless';
+import { t } from 'in-i18n';
 
 const tableElement = locals.table;
 const cellElement = locals.cell;
@@ -96,7 +97,7 @@ export default class Table extends React.Component {
       rows.push(
         <tr key="no-data">
           <td colSpan={colCount} className={cellElement}>
-            {this.props.noDataText || 'No data.'}
+            {this.props.noDataText || t('in-sdk:dashboard.table.tableNoData')}
           </td>
         </tr>
       );
@@ -149,7 +150,7 @@ export default class Table extends React.Component {
                 size: 'compact',
                 onClick: () => this.store.setExpansionStateForAll(true),
                 className: locals.expansionSwitch,
-                text: 'Expand All'
+                text: t('in-sdk:dashboard.table.tableExpandAll')
               },
               {
                 key: 'collapse',
@@ -157,7 +158,7 @@ export default class Table extends React.Component {
                 size: 'compact',
                 onClick: () => this.store.setExpansionStateForAll(false),
                 className: locals.expansionSwitch,
-                text: 'Collapse All'
+                text: t('in-sdk:dashboard.table.tableCollapseAll')
               }
             ]}
           />

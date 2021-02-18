@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { just } from '@instana/observables';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
@@ -40,13 +41,13 @@ export default connectTo(
         items={[
           ...getDashboardHeaderActions(props),
           isInternalVisible && {
-            label: 'Snapshot versions',
+            label: t('in-infrastructure:dashboard.snapshotVersions'),
             icon: 'lib_views_list',
             onClick: ({ snapshotId, timeConfig }) =>
               addActiveDialog(<EntityVersionDialog snapshotId={snapshotId} timeConfig={timeConfig} />)
           },
           profilesAvailable && {
-            label: 'Analyze Profiles',
+            label: t('in-infrastructure:dashboard.analyzeProfiles'),
             icon: 'lib_profiling',
             href$: getLinkToProfiles({ processSnapshotId })
           }

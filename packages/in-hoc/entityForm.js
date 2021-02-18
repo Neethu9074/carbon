@@ -9,8 +9,9 @@ import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicat
 import { getDisplayName } from 'in-hoc/internal/getDisplayName';
 import { scrollToTopSmoothly } from 'in-services/util/dom';
 import Title from 'in-components/Title';
+import { t } from 'in-i18n';
 
-export const savingMessage = 'Saving…';
+export const savingMessage = t('in-hoc:entityFormSaving');
 
 export default function entityForm(ComposedComponent) {
   return class extends React.Component {
@@ -21,7 +22,7 @@ export default function entityForm(ComposedComponent) {
       error: false,
       form: null,
       entity: null,
-      message: 'Loading…',
+      message: t('in-hoc:entityFormLoading'),
       saveEnabled: true
     };
 
@@ -95,7 +96,7 @@ export default function entityForm(ComposedComponent) {
       this.setState({
         loading: true,
         error: false,
-        message: 'Loading…',
+        message: t('in-hoc:entityFormLoading'),
         isCreate: false,
         form: null
       });
@@ -116,7 +117,7 @@ export default function entityForm(ComposedComponent) {
         this.setState({
           loading: false,
           error: true,
-          message: 'Failed to load data.'
+          message: t('in-hoc:entityFormFailedToLoadData')
         });
       });
     };
@@ -156,7 +157,7 @@ export default function entityForm(ComposedComponent) {
         this.setState({
           loading: false,
           error: true,
-          message: `Failed to save: ${message}`
+          message: t('in-hoc:entityFormFailedToSave', { SaveFailureMessage: message })
         });
       });
     };

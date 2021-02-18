@@ -4,6 +4,7 @@
  */
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
+import { t } from 'in-i18n';
 
 import {
   bytesTwoDecimalPlaces,
@@ -47,13 +48,13 @@ export default connectTo(
         <Table>
           <Thead>
             <Tr size="compact">
-              <Th>Name</Th>
-              <Th>Ready</Th>
-              <Th>Status</Th>
-              <Th>Message</Th>
-              <Th>CPU Total %</Th>
-              <Th>Memory Usage</Th>
-              <Th>Health</Th>
+              <Th>{t('in-kubernetes:dashboards.name')}</Th>
+              <Th>{t('in-kubernetes:dashboards.ready')}</Th>
+              <Th>{t('in-kubernetes:dashboards.status')}</Th>
+              <Th>{t('in-kubernetes:dashboards.message')}</Th>
+              <Th>{t('in-kubernetes:dashboards.cpuTotalPercentage')}</Th>
+              <Th>{t('in-kubernetes:dashboards.memoryUsage')}</Th>
+              <Th>{t('in-kubernetes:dashboards.health')}</Th>
             </Tr>
           </Thead>
           <Tbody>
@@ -75,7 +76,7 @@ export default connectTo(
                         severity={get(containerSnapshot, ['entityHealthInfo', 'maxSeverity'])}
                       />
                     </Td>
-                    <Td>{status.ready ? 'Yes' : 'No'}</Td>
+                    <Td>{status.ready ? t('in-kubernetes:dashboards.yes') : t('in-kubernetes:dashboards.no')}</Td>
                     <Td>
                       <Capitalize>{status.state.status}</Capitalize>
                     </Td>
@@ -121,7 +122,7 @@ export default connectTo(
               return (
                 <Tr key={i}>
                   <Td className={locals.labelColumn}>{status.name}</Td>
-                  <Td>{status.ready ? 'Yes' : 'No'}</Td>
+                  <Td>{status.ready ? t('in-kubernetes:dashboards.yes') : t('in-kubernetes:dashboards.no')}</Td>
                   <Td>
                     <Capitalize>{status.state.status}</Capitalize>
                   </Td>
@@ -173,7 +174,9 @@ export default connectTo(
 function ViewAll({ viewAllHref$, presentedStates }, className) {
   return (
     <Link className={className} href$={viewAllHref$}>
-      {presentedStates.length > 1 ? 'View all containers' : 'View container'}
+      {presentedStates.length > 1
+        ? t('in-kubernetes:dashboards.viewAllContainers', { count: presentedStates.length })
+        : t('in-kubernetes:dashboards.viewAllContainers')}
     </Link>
   );
 }

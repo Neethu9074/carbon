@@ -194,7 +194,7 @@ export default function MetricSelectorPresenter({
                   {selectedMetricsForm.value.map((metric, i) => {
                     const definition = find(availableMetrics, m => m.metric === metric.metric);
                     return (
-                      <Draggable key={i} draggableId={i} index={i}>
+                      <Draggable key={i} draggableId={String(i)} index={i}>
                         {provided => (
                           <li
                             className={locals.metric}

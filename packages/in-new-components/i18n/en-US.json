@@ -50,6 +50,7 @@
       "alertingChartLabelViolations": "Violations",
       "alertingChartTooltipSmoothedMetric": "Smoothed metric",
       "alertingChartMessageInvalidFilterQuery": "Invalid filter query.",
+      "alertingChartMessageEntitySelectionInvalid": "No entities selected.",
       "chartViewConfigsLast24Hours": "Last 24 hours",
       "chartViewConfigsLast7Days": "Last 7 days"
     },
@@ -83,7 +84,7 @@
       "alertPropertyInfosLabelAlertLevel": "Alert Level",
       "alertPropertyInfosLabelTriggersIncident": "Triggers Incident",
       "alertPropertyInfosLabelDescription": "Description",
-      "alertTagFilterExpressionConfigButtonClear": "Clear",
+      "clearTagFilterExpressionButton": "Clear",
       "baselineErrorMessageInsufficientDataToCompute": "Insufficient data to compute the selected baseline. Please select <i>Static Threshold</i> instead.",
       "baselineErrorMessageReason": "Reason:",
       "blueprintDescriptionButtonSelect": "Select",
@@ -137,7 +138,20 @@
     "groupedViewHeader": "Group",
     "resultHeaderLoading": "Loading…",
     "resultHeaderTooltip": "The query time range has been rounded up to nearest full minute to allow this view to load more quickly.",
-    "ungroupedViewNoGrouping": "no grouping"
+    "ungroupedViewNoGrouping": "No grouping",
+    "queryProgress": {
+      "preparing": "Preparing…",
+      "preparingInfo": "Please don't reload - this page will update automatically.",
+      "runningQuery": "Running query…",
+      "timeout": "This query has timed out.",
+      "timeoutEstimated": "The query would take too long to run.",
+      "timeoutInfo": "Select a shorter timeframe or issue a more specific query by applying more filters.",
+      "inputError": "There was an input error.",
+      "tooManyRequests": "Too many requests",
+      "tooManyRequestsInfo": "Our system is currently busy. Please try again later.",
+      "serverError": "Server Error",
+      "serverErrorInfo": "An unexpected error occurred. Please try again later or contact support to report the error."
+    }
   },
   "aboutInstanaDialog": {
     "columnizedContentDeployment": "Deployment",
@@ -270,12 +284,166 @@
   "layout": {
     "sideNavigationAndContentRouteNotFound": "Not Found"
   },
+  "list": {
+    "labelLoadMore": "Load More",
+    "labelInitiateDefaultAction": "Initiate default action",
+    "labelToggleExtraContent": "Toggle extra content",
+    "labelMoreItems": "+{{numMoreItems}} more..."
+  },
+  "loading": {
+    "labelLoadingData": "Loading data"
+  },
+  "mainNavigation": {
+    "viewSwitcherLabelSettings": "Settings",
+    "viewSwitcherLabelMore": "More",
+    "viewSwitcherLabelTenants": "Tenants",
+    "viewSwitcherLabelAgents": "Agents",
+    "viewSwitcherLabelReleaseNotes": "Release Notes",
+    "viewSwitcherLabelDocumentation": "Documentation",
+    "viewSwitcherLabelSupport": "Support",
+    "viewSwitcherLabelAboutInstana": "About Instana",
+    "viewSwitcherLabelInternal": "Internal",
+    "viewSwitcherLabelEvents": "Events",
+    "viewSwitcherlabelInfrastructure": "Infrastructure",
+    "viewSwitcherLabelApplications": "Applications",
+    "viewSwitcherLabelAnalytics": "Analytics",
+    "viewSwitcherLabelWebsitesAndMobileApps": "Websites & Mobile Apps",
+    "viewSwitcherLabelWebsites": "Websites",
+    "viewSwitcherLabelMobileApps": "Mobile Apps",
+    "viewSwitcherLabelKubernetes": "Kubernetes",
+    "viewSwitcherLabelCloudFoundry": "Cloud Foundry",
+    "viewSwitcherLabelvSphere": "vSphere",
+    "viewSwitcherLabelPlatforms": "Platforms",
+    "viewSwitcherButtonSignOut": "Sign Out",
+    "newUiClientVersionAvailableLabelNewVersionOfInstanaUIAvailable": "New version of Instana UI available",
+    "newUiClientVersionAvailableButtonReloadToUpdate": "Reload to update"
+  },
+  "metricConfigurator": {
+    "buttonSelectMetrics": "Select metrics",
+    "messagePleaseSelectAtMostMetrics": "Please select at most {{maximumNumberOfMetrics}} metrics.",
+    "titleAddAMetric": "Add a metric",
+    "labelPleaseSelect": "Please Select",
+    "labelAlreadySelected": "Already selected"
+  },
+  "potentialProblems": {
+    "buttonInvestigate": "Investigate",
+    "buttonAddSmartAlert": "Add Smart Alert",
+    "titlePotentialProblem": "Potential Problem",
+    "titlePotentialProblems": "Potential Problems",
+    "titlePotentialProblemWithCount": "Potential Problem ({{count}})",
+    "titlePotentialProblemWithCount_plural": "Potential Problems ({{count}})",
+    "titlePotentialProblemWithCount_0": "Potential Problems ({{count}})",
+    "titlePotentialProblemWithCount_1": "Potential Problem ({{count}})",
+    "titlePotentialProblemWithCount_2": "Potential Problems ({{count}})",
+    "labelPotentialProblem": "Potential Problem,",
+    "labelNumbersOfPotentialProblem": "{{count}} Potential Problem",
+    "labelNumbersOfPotentialProblem_plural": "{{count}} Potential Problems",
+    "labelNumbersOfPotentialProblem_0": "{{count}} Potential Problems",
+    "labelNumbersOfPotentialProblem_1": "{{count}} Potential Problem",
+    "labelNumbersOfPotentialProblem_2": "{{count}} Potential Problems",
+    "titleErrorRate": "Erroneous call rate is higher than normal",
+    "titleSlowness": "Calls (Latency {{aggregation}}) are slower than usual",
+    "titlethroughputHigh": "Number of calls is anomalously high",
+    "titlethroughputLow": "Number of calls is anomalously low",
+    "descriptionErrorIsHigherThan": "The erroneous call rate is higher than {{callRate}}%.",
+    "descriptionErrorIsHigherOrEqualTo": "The erroneous call rate is higher or equal to {{callRate}}%.",
+    "descriptionErrorIsLowerThan": "The erroneous call rate is lower than {{callRate}}%.",
+    "descriptionErrorIsLowerThanOrEqualTo": "The erroneous call rate is lower than or equal to {{callRate}}%.",
+    "descriptionThroughputStaticThresholdIsHigherThan": "The number of calls is higher than {{thresholdValue}} calls.",
+    "descriptionThroughputStaticThresholdIsHigherOrEqualTo": "The number of calls is higher or equal to {{thresholdValue}} calls.",
+    "descriptionThroughputStaticThresholdIsLowerThan": "The number of calls is lower than {{thresholdValue}} calls.",
+    "descriptionThroughputStaticThresholdIsLowerThanOrEqualTo": "The number of calls is lower than or equal to {{thresholdValue}} calls.",
+    "descriptionThroughputIsHigherThan": "The number of calls is higher than expected.",
+    "descriptionThroughputIsHigherOrEqualThan": "The number of calls is higher or equal than expected.",
+    "descriptionThroughputIsLowerThan": "The number of calls is lower than expected.",
+    "descriptionThroughputIsLowerThanOrEqualTo": "The number of calls is lower or equal than expected.",
+    "descriptionSlownessStaticThresholdAreSlowerThan": "Calls are slower than {{thresholdValue}} ms based on latency ({{aggregation}}).",
+    "descriptionSlownessStaticThresholdAreSlowerThanOrEqualTo": "Calls are slower than or equal to {{thresholdValue}} ms based on latency ({{aggregation}}).",
+    "descriptionSlownessStaticThresholdAreBelow": "Calls are below {{thresholdValue}} ms based on latency ({{aggregation}}).",
+    "descriptionSlownessStaticThresholdAreBelowOrEqualTo": "Calls are below or equal to {{thresholdValue}} ms based on latency ({{aggregation}}).",
+    "descriptionSlownessAreSlowerThan": "Calls are slower than the expectation based on latency ({{aggregation}}).",
+    "descriptionSlownessAreSlowerThanOrEqualTo": "Calls are slower than or equal to the expectation based on latency ({{aggregation}}).",
+    "descriptionSlownessAreBelow": "Calls are below the expectation based on latency ({{aggregation}}).",
+    "descriptionSlownessAreBelowOrEqualTo": "Calls are below or equal to the expectation based on latency ({{aggregation}}).",
+    "descriptionUnsupportedOperator": "Unsupported operator: {{operator}}"
+  },
+  "profiling": {
+    "headerColumnDefinitionsUsed": "Used",
+    "headerColumnDefinitionsCode": "Code"
+  },
+  "resultForTimeSelectionIndicator": {
+    "labelShowingForSelection": "Showing {{entityName}} for selection",
+    "buttonClearSelection": "Clear selection"
+  },
+  "searchInput": {
+    "placeholderSearch": "Search…"
+  },
+  "selectorOverlay": {
+    "placeholderSearch": "Search",
+    "loadingIndicatorLoadingCatalog": "Loading catalog"
+  },
+  "sortingConfigurator": {
+    "labelNA": "N/A",
+    "buttonAscending": "Ascending",
+    "buttonDescending": "Descending"
+  },
+  "stack": {
+    "relationship": {
+      "CONTAINS": "Contains {{itemCount}} {{plugin}}",
+      "DEFINED_IN": "Defined in {{itemCount}} {{plugin}}",
+      "DEPLOYED_ON": "Deployed on {{itemCount}} {{plugin}}",
+      "DEPLOYED_WITHIN": "Deployed within {{itemCount}} {{plugin}}",
+      "EXECUTED_BY": "Executed by {{itemCount}} {{plugin}}",
+      "EXECUTING": "Executing {{itemCount}} {{plugin}}",
+      "EXPOSED_BY": "Exposed by {{itemCount}} {{plugin}}",
+      "EXPOSED_THROUGH": "Exposed through {{itemCount}} {{plugin}}",
+      "EXPOSES": "Exposes {{itemCount}} {{plugin}}",
+      "EXPOSING": "Exposing {{itemCount}} {{plugin}}",
+      "ORCHESTRATED_IN": "Orchestrated in {{itemCount}} {{plugin}}",
+      "ORCHESTRATED_ON": "Orchestrated on {{itemCount}} {{plugin}}",
+      "ORCHESTRATING": "Orchestrating {{itemCount}} {{plugin}}",
+      "PART_OF": "Part of {{itemCount}} {{plugin}}",
+      "PROVIDED_BY": "Provided by {{itemCount}} {{plugin}}",
+      "PROVIDED_FROM": "Provided from {{itemCount}} {{plugin}}",
+      "PROVIDED_ON": "Provided on {{itemCount}} {{plugin}}",
+      "PROVIDED_WITHIN": "Provided within {{itemCount}} {{plugin}}",
+      "PROVIDES": "Provides {{itemCount}} {{plugin}}",
+      "RUNS": "Runs {{itemCount}} {{plugin}}",
+      "RUNS_IN": "Runs in {{itemCount}} {{plugin}}",
+      "RUNS_ON": "Runs on {{itemCount}} {{plugin}}",
+      "RUNS_WITHIN": "Runs within {{itemCount}} {{plugin}}",
+      "SCHEDULED": "Scheduled {{itemCount}} {{plugin}}",
+      "SCHEDULED_BY": "Scheduled by {{itemCount}} {{plugin}}",
+      "SCHEDULED_ON": "Scheduled on {{itemCount}} {{plugin}}",
+      "SCHEDULED_WITHIN": "Scheduled within {{itemCount}} {{plugin}}",
+      "SCHEDULES": "Schedules {{itemCount}} {{plugin}}",
+      "SCHEDULING_IN": "Scheduling in {{itemCount}} {{plugin}}",
+      "SCHEDULING_ON": "Scheduling on {{itemCount}} {{plugin}}",
+      "SERVED_BY": "Served by {{itemCount}} {{plugin}}",
+      "SERVED_THROUGH": "Served through {{itemCount}} {{plugin}}",
+      "SERVES": "Serves {{itemCount}} {{plugin}}",
+      "SERVES_ON": "Serves on {{itemCount}} {{plugin}}",
+      "SERVES_WITHIN": "Serves within {{itemCount}} {{plugin}}",
+      "SPANS_ACROSS": "Spans across {{itemCount}} {{plugin}}",
+      "WITHIN": "Within {{itemCount}} {{plugin}}"
+    },
+    "apkpisLabelCalls": "Calls",
+    "apkpisLabelErroneousCalls": "Erroneous Calls",
+    "buttonStack": "Stack",
+    "stackPresenterEmptyMessage": "Instana was not able to find any related items",
+    "stackPresenterDetailMessage": "We don't have enough information to relate this {{itemText}} to any other items",
+    "tabsLabelApplication": "Application",
+    "tabsEmptyMessageApplication": "There are no related Instana Applications or Services",
+    "tabsLabelKubernetes": "Kubernetes",
+    "tabsEmptyMessageKubernetes": "There are no related Kubernetes resources",
+    "tabsLabelInfrastructure": "Infrastructure",
+    "tabsEmptyMessageInfrastructure": "There is no related Infrastructure"
+  },
   "time": {
     "lastMinute": "Last minute",
     "lastMinute_plural": "Last {{count}} minutes",
     "lastHour": "Last hour",
     "lastHour_plural": "Last {{count}} hours",
-
     "yesterday": "Yesterday",
     "twoDaysAgo": "Two days ago",
     "lastSevenDays": "Last seven days",
@@ -284,6 +452,7 @@
   "analyze": {
     "loadMore": "Load {{count}} more",
     "showMore": "Show {{count}} more",
+    "useAsGroup": "Use as Group",
     "noResults": "No results",
     "from": "From",
     "fromUnit": "From ({{unit}})",
@@ -298,7 +467,13 @@
         "prev": "View previous {{ itemName }} (shortcut: left arrow key)",
         "next": "View next {{ itemName }} (shortcut: left right key)"
       }
-    }
+    },
+    "groupName": "Group Name"
   },
-  "copyToClipboardButtonCopy": "Copy"
+  "copyToClipboardButtonCopy": "Copy",
+  "withEmptyStateFallbackTitleNoDataAvailable": "No data available",
+  "queryBuilder": {
+    "sanitizedTagFilterValue": "The tag filter value was shortened to the maximum allowed length.",
+    "sanitizedTagFilterValueAndOperator": "The tag filter value was shortened to the maximum allowed length and the operator was adjusted accordingly."
+  }
 }

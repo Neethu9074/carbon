@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { get } from 'lodash';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import AnalyzeCallsButton, { getFilters } from 'in-kubernetes/Dashboards/commonComponents/AnalyzeCallsButton';
@@ -41,7 +42,9 @@ export default function ServiceDashboard({ location }) {
       <ViewTrackingMeta
         data={{
           productArea: 'Kubernetes',
-          pageRootName: 'Kubernetes Service'
+          pageRootName: t('in-kubernetes:kubernetesPageRootName', {
+            objectType: t('in-kubernetes:dashboards.service')
+          })
         }}
       />
 
@@ -71,7 +74,7 @@ export default function ServiceDashboard({ location }) {
         filterTabByResult={result => {
           return tab => {
             if (isOpenshift(get(result, ['data', 'clusterDistribution'], 'kubernetes'))) return true;
-            else return tab.label !== 'Deployment Configs';
+            else return !tab.path.endsWith('/deploymentconfigs');
           };
         }}
         props={props}
@@ -96,7 +99,7 @@ function Header(props) {
   return (
     <DashboardHeader
       {...props}
-      title="Kubernetes Service"
+      title={t('in-kubernetes:dashboards.kubernetesService')}
       icon="lib_kubernetes_service"
       label={get(props.result, ['data', 'name'])}
       renderButtonLine={renderButtonLine}
@@ -108,7 +111,7 @@ function Header(props) {
 function renderMetaInformation({ result }) {
   return (
     <>
-      <TypesBadgeList type="K8s Service" />
+      <TypesBadgeList type={t('in-kubernetes:dashboards.k8SService')} />
       <KubernetesIndicator result={result} />
     </>
   );

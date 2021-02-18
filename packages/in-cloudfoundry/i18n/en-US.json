@@ -28,9 +28,6 @@
     "createdAt": "Created at",
     "analyzeCalls": "Analyze Calls"
   },
-  "entityName": {
-    "containers": "containers"
-  },
   "name": "Name",
   "requestedState": "Requested State",
   "instances": "Instances",

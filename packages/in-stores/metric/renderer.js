@@ -5,50 +5,51 @@
 import PropTypes from 'prop-types';
 
 import Renderer from 'in-components/Chart/renderer/Renderer';
+import { t } from 'in-i18n';
 
 export const area = {
   id: 'area',
-  label: 'Area',
+  label: t('in-stores:metric.rendererLabelArea'),
   renderer: Renderer.area
 };
 export const stackedArea = {
   id: 'stackedArea',
-  label: 'Area (stacked)',
+  label: t('in-stores:metric.rendererLabelAreaStacked'),
   renderer: Renderer.stackedArea
 };
 export const bar = {
   id: 'bar',
-  label: 'Bar',
+  label: t('in-stores:metric.rendererLabelBar'),
   renderer: Renderer.bar
 };
 export const stackedBar = {
   id: 'stackedBar',
-  label: 'Bar (stacked)',
+  label: t('in-stores:metric.rendererLabelBarStacked'),
   renderer: Renderer.stackedBar
 };
 export const barOverlapping = {
   id: 'barOverlapping',
-  label: 'Bar (overlapping)',
+  label: t('in-stores:metric.rendererLabelBarOverlapping'),
   renderer: Renderer.barOverlapping
 };
 export const integral = {
   id: 'integral',
-  label: 'Integral',
+  label: t('in-stores:metric.rendererLabelIntegral'),
   renderer: Renderer.integral
 };
 export const line = {
   id: 'line',
-  label: 'Line',
+  label: t('in-stores:metric.rendererLabelLine'),
   renderer: Renderer.line
 };
 export const point = {
   id: 'point',
-  label: 'Point',
+  label: t('in-stores:metric.rendererLabelPoint'),
   renderer: Renderer.point
 };
 export const pie = {
   id: 'pie',
-  label: 'Pie',
+  label: t('in-stores:metric.rendererLabelPie'),
   renderer: Renderer.pie
 };
 

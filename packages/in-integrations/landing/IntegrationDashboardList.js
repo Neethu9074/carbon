@@ -12,19 +12,23 @@ import { Ul, Li } from 'in-new-components/lists/List';
 import PluginIcon from 'in-components/PluginIcon';
 
 import locals from './IntegrationDashboardList.mless';
+import { t } from 'in-i18n';
 
 export default function IntegrationDashboardList({ entities, query }) {
   if (!entities) {
-    return <LoadingIndicator text="Loading Data" />;
+    return <LoadingIndicator text={t('in-integrations:landing.loadingData')} />;
   }
 
   if (entities.length === 0) {
-    const explanation = query && query.length > 0 ? `No entities found for ${query}` : `No entities found`;
+    const explanation =
+      query && query.length > 0
+        ? t('in-integrations:landing.noEntitiesFoundFor', { landingQueryCount: query })
+        : t('in-integrations:landing.noEntitiesFound');
     return (
       <CenterAlignmentColumn>
         <EntityPageMainNotification
           icon="lib_actions_search"
-          title="No matching entities found"
+          title={t('in-integrations:landing.noMatchingEntitiesFoundTitle')}
           explanation={explanation}
         />
       </CenterAlignmentColumn>

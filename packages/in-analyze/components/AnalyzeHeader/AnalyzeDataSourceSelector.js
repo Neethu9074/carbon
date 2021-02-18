@@ -21,8 +21,8 @@ import { getLinkToAnalyze as getLinkToMobileAppAnalyze } from 'in-mobile-apps/na
 import { getLinkToAnalyze as getLinkToWebsiteAnalyze } from 'in-websites/navigation/paths';
 import { defaultGroupings as defaultMobileAppGroupings } from 'in-mobile-apps/tags';
 import { defaultGroupings as defaultWebsiteGroupings } from 'in-websites/tags';
+import { emptyArray, emptyObject } from 'in-services/fixedObjects';
 import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
-import { emptyObject } from 'in-services/fixedObjects';
 import { Li, Ul } from 'in-new-components/lists/List';
 import useObservable from 'in-hooks/useObservable';
 import SvgIcon from 'in-components/SvgIcon';
@@ -57,11 +57,13 @@ const productAreas = [
       },
       {
         dataSource: 'logs',
+        ua2: newAnalyticsEnabled,
         enabled: loggingEnabled,
         getHref$: getLinkToLogsAnalyze
       },
       {
         dataSource: 'rawlogs',
+        ua2: newAnalyticsEnabled,
         getHref$: getLinkToRawLogs,
         enabled$: isInternalVisible$.map(isInternalVisible => isInternalVisible && loggingEnabled)
       }
@@ -74,54 +76,60 @@ const productAreas = [
       {
         dataSource: 'pageLoad',
         ua2: webMobileQb2AnalyzeEnabled,
-        getHref$: ({ isGrouped }) =>
+        getHref$: ({ isGrouped, formModel }) =>
           getLinkToWebsiteAnalyze({
             group: isGrouped ? defaultWebsiteGroupings.pageLoad : emptyObject,
+            formModel,
             beaconType: 'pageLoad'
           })
       },
       {
         dataSource: 'pageChange',
         ua2: webMobileQb2AnalyzeEnabled,
-        getHref$: ({ isGrouped }) =>
+        getHref$: ({ isGrouped, formModel }) =>
           getLinkToWebsiteAnalyze({
             group: isGrouped ? defaultWebsiteGroupings.pageChange : emptyObject,
+            formModel,
             beaconType: 'pageChange'
           })
       },
       {
         dataSource: 'resourceLoad',
         ua2: webMobileQb2AnalyzeEnabled,
-        getHref$: ({ isGrouped }) =>
+        getHref$: ({ isGrouped, formModel }) =>
           getLinkToWebsiteAnalyze({
             group: isGrouped ? defaultWebsiteGroupings.resourceLoad : emptyObject,
+            formModel,
             beaconType: 'resourceLoad'
           })
       },
       {
         dataSource: 'httpRequest',
         ua2: webMobileQb2AnalyzeEnabled,
-        getHref$: ({ isGrouped }) =>
+        getHref$: ({ isGrouped, formModel }) =>
           getLinkToWebsiteAnalyze({
             group: isGrouped ? defaultWebsiteGroupings.httpRequest : emptyObject,
+            formModel,
             beaconType: 'httpRequest'
           })
       },
       {
         dataSource: 'error',
         ua2: webMobileQb2AnalyzeEnabled,
-        getHref$: ({ isGrouped }) =>
+        getHref$: ({ isGrouped, formModel }) =>
           getLinkToWebsiteAnalyze({
             group: isGrouped ? defaultWebsiteGroupings.error : emptyObject,
+            formModel,
             beaconType: 'error'
           })
       },
       {
         dataSource: 'custom',
         ua2: webMobileQb2AnalyzeEnabled,
-        getHref$: ({ isGrouped }) =>
+        getHref$: ({ isGrouped, formModel }) =>
           getLinkToWebsiteAnalyze({
             group: isGrouped ? defaultWebsiteGroupings.custom : emptyObject,
+            formModel,
             beaconType: 'custom'
           })
       }
@@ -133,33 +141,41 @@ const productAreas = [
     dataSources: [
       {
         dataSource: 'sessionStart',
-        getHref$: ({ isGrouped }) =>
+        ua2: webMobileQb2AnalyzeEnabled,
+        getHref$: ({ isGrouped, formModel }) =>
           getLinkToMobileAppAnalyze({
             group: isGrouped ? defaultMobileAppGroupings.sessionStart : emptyObject,
+            formModel,
             beaconType: 'sessionStart'
           })
       },
       {
         dataSource: 'viewChange',
-        getHref$: ({ isGrouped }) =>
+        ua2: webMobileQb2AnalyzeEnabled,
+        getHref$: ({ isGrouped, formModel }) =>
           getLinkToMobileAppAnalyze({
             group: isGrouped ? defaultMobileAppGroupings.viewChange : emptyObject,
+            formModel,
             beaconType: 'viewChange'
           })
       },
       {
         dataSource: 'httpRequest',
-        getHref$: ({ isGrouped }) =>
+        ua2: webMobileQb2AnalyzeEnabled,
+        getHref$: ({ isGrouped, formModel }) =>
           getLinkToMobileAppAnalyze({
             group: isGrouped ? defaultMobileAppGroupings.httpRequest : emptyObject,
+            formModel,
             beaconType: 'httpRequest'
           })
       },
       {
         dataSource: 'custom',
-        getHref$: ({ isGrouped }) =>
+        ua2: webMobileQb2AnalyzeEnabled,
+        getHref$: ({ isGrouped, formModel }) =>
           getLinkToMobileAppAnalyze({
             group: isGrouped ? defaultMobileAppGroupings.custom : emptyObject,
+            formModel,
             beaconType: 'custom'
           })
       }
@@ -177,7 +193,7 @@ const productAreas = [
   }
 ];
 
-export default function AnalyzeDataSourceSelector({ activeConfiguration, isGrouped, close }) {
+export default function AnalyzeDataSourceSelector({ activeConfiguration, isGrouped, formModel = emptyArray, close }) {
   return (
     <Ul className={locals.wrapper}>
       {productAreas
@@ -191,6 +207,7 @@ export default function AnalyzeDataSourceSelector({ activeConfiguration, isGroup
                 {...config}
                 close={close}
                 isGrouped={isGrouped}
+                formModel={formModel}
                 productArea={productArea}
                 ua2={config.ua2}
                 activeConfiguration={activeConfiguration}
@@ -221,14 +238,29 @@ export default function AnalyzeDataSourceSelector({ activeConfiguration, isGroup
   );
 }
 
-function ProductAreaEntry({ dataSource, getHref$, enabled$, isGrouped, close, productArea, activeConfiguration, ua2 }) {
+function ProductAreaEntry({
+  dataSource,
+  getHref$,
+  enabled$,
+  isGrouped,
+  formModel,
+  close,
+  productArea,
+  activeConfiguration,
+  ua2
+}) {
   const isEnabled = useObservable(enabled$, []) ?? !enabled$;
   if (!isEnabled) {
     return null;
   }
 
   return (
-    <Li key={dataSource} noAlternatingBg href$={getHref$({ isGrouped })} onDefaultHrefInteractionSideEffect={close}>
+    <Li
+      key={dataSource}
+      noAlternatingBg
+      href$={getHref$({ isGrouped, formModel })}
+      onDefaultHrefInteractionSideEffect={close}
+    >
       <div
         className={classNames({
           [locals.iconAndType]: true,

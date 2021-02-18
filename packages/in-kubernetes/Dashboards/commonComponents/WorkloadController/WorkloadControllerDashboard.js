@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { get } from 'lodash';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import AnalyzeCallsButton, { getFilters } from 'in-kubernetes/Dashboards/commonComponents/AnalyzeCallsButton';
@@ -52,7 +53,9 @@ export default function WorkloadControllerDashboard({
       <ViewTrackingMeta
         data={{
           productArea: 'Kubernetes',
-          pageRootName: `Kubernetes ${props.headerTitle}`
+          pageRootName: t('in-kubernetes:kubernetesPageRootName', {
+            objectType: props.headerTitle
+          })
         }}
       />
 

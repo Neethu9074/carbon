@@ -2,25 +2,27 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
+
 export default [
   {
     value: 'Running',
-    label: 'Running'
+    label: t('in-kubernetes:running')
   },
   {
     value: 'Pending',
-    label: 'Pending'
+    label: t('in-kubernetes:pending')
   },
   {
     value: 'Succeeded',
-    label: 'Succeeded'
+    label: t('in-kubernetes:succeeded')
   },
   {
     value: 'Failed',
-    label: 'Failed'
+    label: t('in-kubernetes:failed')
   },
   {
     value: 'Unknown',
-    label: 'Unknown'
+    label: t('in-kubernetes:unknown')
   }
 ];

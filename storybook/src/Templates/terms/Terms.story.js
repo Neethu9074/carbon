@@ -5,11 +5,13 @@
 import { action } from '@storybook/addon-actions';
 import React, { useState } from 'react';
 
+import termsFormDefinition, { addDynamicRoleField } from 'in-settings/terms/termsFormDefinition';
 import TermsProgressIndicator from 'in-settings/terms/dialog/TermsProgressIndicator';
 import TermsDialogPresenter from 'in-settings/terms/dialog/TermsDialogPresenter';
-import termsFormDefinition from 'in-settings/terms/termsFormDefinition';
 import TermsPage1 from 'in-settings/terms/dialog/TermsPage1';
 import TermsPage2 from 'in-settings/terms/dialog/TermsPage2';
+import TermsPage3 from 'in-settings/terms/dialog/TermsPage3';
+import TermsPage4 from 'in-settings/terms/dialog/TermsPage4';
 
 export default {
   title: 'Templates|terms/TermsDialog',
@@ -18,31 +20,41 @@ export default {
 };
 
 const userSettings = {
-  allAnalyticsServices: true,
-  allSupportAndResearchServices: true,
+  allAnalyticsServices: false,
+  allSupportAndResearchServices: false,
   lastUpdated: 0,
   marketingMessages: false,
-  productTips: true,
+  productTips: false,
   testingGroup: false,
   userId: 'sakhjsgakhjgahj'
 };
 
 function onChange(setForm) {
   return (form, fieldName, fieldValue) => {
-    setForm(form.updateIn([fieldName], field => field.setValue(fieldValue)));
+    let updatedForm = form.updateIn([fieldName], field => field.setValue(fieldValue));
+    if (fieldName === 'role') {
+      updatedForm = addDynamicRoleField(updatedForm, window.instana.termsAndPrivacySettings);
+    }
+
+    setForm(updatedForm);
   };
 }
 
 export const Dialog = () => {
-  const [form, setForm] = useState(termsFormDefinition(userSettings));
+  const initialForm = termsFormDefinition(userSettings);
+  const [form, setForm] = useState(initialForm);
   return (
     <TermsDialogPresenter
       userSettings={userSettings}
       onSave={action('onSwitchMetricPosition')}
       saveError={false}
       unsetSaveError={() => action('unsetSaveError')}
-      onChange={onChange(setForm)}
+      onChange={(form, fieldName, fieldValue) =>
+        setForm(form.updateIn([fieldName], field => field.setValue(fieldValue)))
+      }
       form={form}
+      userEmail="cesar@salad.de"
+      userName="Cesar Salad"
     />
   );
 };
@@ -58,6 +70,8 @@ export const FullDialog = () => {
       onChange={onChange(setForm)}
       form={form}
       fullTermsConfigEnabled
+      userEmail="cesar@salad.de"
+      userName="Cesar Salad"
     />
   );
 };
@@ -75,6 +89,8 @@ export const DialogOnPrem = () => {
       onChange={onChange(setForm)}
       form={form}
       fullTermsConfigEnabled={false}
+      userEmail="cesar@salad.de"
+      userName="Cesar Salad"
     />
   );
 };
@@ -83,20 +99,23 @@ export const ProgessIndicator = () => {
   return (
     <>
       <div>
-        <TermsProgressIndicator />
+        <TermsProgressIndicator pageNumber={1} nrPages={3} />
       </div>
       <div style={{ marginTop: '2rem' }}>
-        <TermsProgressIndicator pageNumber={2} />
+        <TermsProgressIndicator pageNumber={2} nrPages={3} />
       </div>
-      ,
+      <div style={{ marginTop: '2rem' }}>
+        <TermsProgressIndicator pageNumber={3} nrPages={3} />
+      </div>
     </>
   );
 };
 
 export const Page1 = () => {
   const [form, setForm] = useState(termsFormDefinition(userSettings));
+
   return (
-    <div style={{ height: '515px', width: '650px' }}>
+    <div style={{ height: '520px', width: '650px' }}>
       <TermsPage1 form={form} onChange={onChange(setForm)} />
     </div>
   );
@@ -104,9 +123,30 @@ export const Page1 = () => {
 
 export const Page2 = () => {
   const [form, setForm] = useState(termsFormDefinition(userSettings));
+
   return (
-    <div style={{ height: '515px', width: '650px' }}>
-      <TermsPage2 form={form} onChange={onChange(setForm)} hasErrorOnSave />
+    <div style={{ height: '520px', width: '650px' }}>
+      <TermsPage2 form={form} onChange={onChange(setForm)} />
+    </div>
+  );
+};
+
+export const Page3 = () => {
+  const [form, setForm] = useState(termsFormDefinition(userSettings));
+
+  return (
+    <div style={{ height: '520px', width: '650px' }}>
+      <TermsPage3 form={form} onChange={onChange(setForm)} />
+    </div>
+  );
+};
+
+export const Page4 = () => {
+  const [form, setForm] = useState(termsFormDefinition(userSettings));
+
+  return (
+    <div style={{ height: '520px', width: '650px' }}>
+      <TermsPage4 form={form} onChange={onChange(setForm)} userEmail="cesar@salad.de" userName="Cesar Salad" />
     </div>
   );
 };

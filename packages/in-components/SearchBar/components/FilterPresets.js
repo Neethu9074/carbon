@@ -13,7 +13,6 @@ import SaveDialog from 'in-components/SearchBar/components/SaveDialog';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import throttleNextFrame from 'in-services/util/throttleNextFrame';
 import { setValues } from 'in-components/SearchBar/stores/dialog';
-import LifecycleObserver from 'in-components/LifecycleObserver';
 import connectTo from 'in-hoc/connectTo';
 
 import './FilterPresets.less';
@@ -37,6 +36,8 @@ export default connectTo(
         window.addEventListener('click', this.onMouseUp, false);
         this.registered = true;
       }, 0);
+
+      refresh();
     }
 
     componentWillUnmount() {
@@ -47,7 +48,6 @@ export default connectTo(
       const { filters } = this.props;
       return (
         <section className={block} ref={menu => (this.menu = menu)}>
-          <LifecycleObserver onWillMount={refresh} />
           <MenuHeading className={`${block}__heading`}>
             {t('in-components:searchBar.filterPresetsMenuHeading')}
           </MenuHeading>

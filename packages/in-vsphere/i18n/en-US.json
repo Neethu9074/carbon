@@ -10,10 +10,6 @@
     "cpuResources": "CPU Resources",
     "memoryUsage": "Memory Usage",
     "memoryResources": "Memory Resources",
-    "entityName": {
-      "vSphereVMs": "vSphere VMs",
-      "esXiHosts": "ESXi Hosts"
-    },
     "dashboards": {
       "vSphereDatacenter": "vSphere Datacenter",
       "summary": "Summary",

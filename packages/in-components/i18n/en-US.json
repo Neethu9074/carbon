@@ -111,5 +111,10 @@
   "reloadUiDialogTitle": "New User Interface Version Available",
   "reloadUiDialogP1": "An error has occurred while trying to navigate because the user interface version loaded within the browser is out of date.",
   "reloadUiDialogP2": "Please reload the browser window to get the latest version and continue.",
-  "reloadUiDialogReloadBtn": "Reload"
+  "reloadUiDialogReloadBtn": "Reload",
+  "sparkChart": {
+    "mean": "Mean",
+    "sum": "Sum",
+    "distinctCount": "Distinct Count"
+  }
 }

@@ -40,6 +40,7 @@ export default function FormComponent({
             <HelpAction>A Dynamic Focus Query (DFQ) as you would use it within the infrastructure map.</HelpAction>
           }
           additionalContent={<TouchedMessages field={dynamicFocusQueryField} />}
+          maxLength={512}
         />
       </Sections>
 

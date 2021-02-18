@@ -6,6 +6,7 @@ import { createLogger } from '@instana/logger';
 
 import genericLogSpanDefinition from 'in-forge/tracing/log/genericLogSpanDefinition';
 import { ensurTracingPluginsAreEvaluated } from 'in-sdk/asyncEvaluation';
+import { t } from 'in-i18n';
 
 let missingSpanDefinitionReported = false;
 
@@ -18,8 +19,8 @@ function defaultSpanDefinition(span) {
     category: 'generic',
 
     typeName: {
-      singular: 'Call',
-      plural: 'Calls'
+      singular: t('in-sdk:tracing.registryCall'),
+      plural: t('in-sdk:tracing.registryCall_plural')
     },
 
     detailView: 'GenericSpanDetailView',

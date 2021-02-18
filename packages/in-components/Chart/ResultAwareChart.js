@@ -25,7 +25,7 @@ export default function ResultAwareChart({ result, config, renderLegend = true }
     withoutPadding = true;
   } else {
     if (!timeConfig || !y1 || !y1.metrics || (showNoDataInfoWhenEmpty && containsOnlyEmptyData(y1.metrics))) {
-      content = <NoDataAvailable width={frontBufferWidth} height={height} />;
+      content = <NoDataAvailable width={frontBufferWidth} height={height} icon={'lib_bar_chart'} />;
     } else {
       if (config.y1.renderer.id === Renderer.pie.id) {
         content = <PieChart renderLegend={renderLegend} config={config} />;

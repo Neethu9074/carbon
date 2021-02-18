@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React, { Fragment } from 'react';
 import theme from 'in-themes';
 
@@ -16,7 +17,7 @@ import { getDeploymentDashboard } from 'in-kubernetes/navigation/paths';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import Card from 'in-new-components/Card';
 
-const noActivity = 'No activity';
+const noActivity = t('in-kubernetes:dashboards.noActivity');
 const msFormatter = d => (d < 0 ? noActivity : timeByMillisTwoDecimalPlaces(d));
 
 export default function Summary({ timeConfig, data: deployment }) {
@@ -38,7 +39,7 @@ export default function Summary({ timeConfig, data: deployment }) {
       <Row>
         <Col lg={2}>
           <InfraMetricKpiCard
-            title="CPU Requests"
+            title={t('in-kubernetes:dashboards.cpuRequests')}
             snapshotId={snapshotId}
             metric="pods.required_cpu"
             formatter={resourceQuotaNumber}
@@ -46,7 +47,7 @@ export default function Summary({ timeConfig, data: deployment }) {
         </Col>
         <Col lg={2}>
           <InfraMetricKpiCard
-            title="CPU Limits"
+            title={t('in-kubernetes:dashboards.cpuLimits')}
             snapshotId={snapshotId}
             metric="pods.limit_cpu"
             formatter={resourceQuotaNumber}
@@ -54,7 +55,7 @@ export default function Summary({ timeConfig, data: deployment }) {
         </Col>
         <Col lg={2}>
           <InfraMetricKpiCard
-            title="Memory Requests"
+            title={t('in-kubernetes:dashboards.memoryRequests')}
             snapshotId={snapshotId}
             metric="pods.required_mem"
             formatter={resourceQuotaBytes}
@@ -62,7 +63,7 @@ export default function Summary({ timeConfig, data: deployment }) {
         </Col>
         <Col lg={2}>
           <InfraMetricKpiCard
-            title="Memory Limits"
+            title={t('in-kubernetes:dashboards.memoryLimits')}
             snapshotId={snapshotId}
             metric="pods.limit_mem"
             formatter={resourceQuotaBytes}
@@ -70,7 +71,7 @@ export default function Summary({ timeConfig, data: deployment }) {
         </Col>
         <Col lg={4}>
           <InfraMetricKpiCard
-            title="Pods Alloc."
+            title={t('in-kubernetes:dashboards.podsAlloc')}
             snapshotId={snapshotId}
             metric="pods.count"
             formatter={zeroDecimalPlaces}
@@ -80,14 +81,18 @@ export default function Summary({ timeConfig, data: deployment }) {
 
       <Row>
         <Col lg={4}>
-          <Card title="CPU Resources">
+          <Card title={t('in-kubernetes:dashboards.cpuResources')}>
             <Chart
               snapshotId={snapshotId}
               timeConfig={timeConfig}
               y1={{
                 formatter: resourceQuotaNumber,
                 metrics: ['cpu.total_usage', 'pods.required_cpu', 'pods.limit_cpu'].filter(Boolean),
-                labels: ['Usage', 'Requests', 'Limits'].filter(Boolean),
+                labels: [
+                  t('in-kubernetes:dashboards.usage'),
+                  t('in-kubernetes:dashboards.requests'),
+                  t('in-kubernetes:dashboards.limits')
+                ].filter(Boolean),
                 type: 'line',
                 colors: [usage, requests, limits].filter(Boolean)
               }}
@@ -96,14 +101,18 @@ export default function Summary({ timeConfig, data: deployment }) {
           </Card>
         </Col>
         <Col lg={4}>
-          <Card title="Memory Resources">
+          <Card title={t('in-kubernetes:dashboards.memoryResources')}>
             <Chart
               snapshotId={snapshotId}
               timeConfig={timeConfig}
               y1={{
                 formatter: resourceQuotaBytes,
                 metrics: ['memory.usage', 'pods.required_mem', 'pods.limit_mem'].filter(Boolean),
-                labels: ['Usage', 'Requests', 'Limits'].filter(Boolean),
+                labels: [
+                  t('in-kubernetes:dashboards.usage'),
+                  t('in-kubernetes:dashboards.requests'),
+                  t('in-kubernetes:dashboards.limits')
+                ].filter(Boolean),
                 type: 'line',
                 colors: [usage, requests, limits].filter(Boolean)
               }}
@@ -112,7 +121,7 @@ export default function Summary({ timeConfig, data: deployment }) {
           </Card>
         </Col>
         <Col lg={4}>
-          <Card title="Pods">
+          <Card title={t('in-kubernetes:dashboards.pods')}>
             <Chart
               snapshotId={snapshotId}
               timeConfig={timeConfig}
@@ -125,7 +134,12 @@ export default function Summary({ timeConfig, data: deployment }) {
                   'conditions.PodScheduled.False',
                   'conditions.Ready.False'
                 ],
-                labels: ['Allocated', 'Pending', 'Unscheduled', 'Unready'],
+                labels: [
+                  t('in-kubernetes:dashboards.allocated'),
+                  t('in-kubernetes:dashboards.pending'),
+                  t('in-kubernetes:dashboards.unscheduled'),
+                  t('in-kubernetes:dashboards.unready')
+                ],
                 type: 'line',
                 colors: [allocated, pending, unscheduled, unready]
               }}
@@ -136,7 +150,7 @@ export default function Summary({ timeConfig, data: deployment }) {
       </Row>
       <Row>
         <Col lg={6}>
-          <Card title="Replicas">
+          <Card title={t('in-kubernetes:dashboards.replicas')}>
             <Chart
               snapshotId={snapshotId}
               timeConfig={timeConfig}
@@ -144,7 +158,7 @@ export default function Summary({ timeConfig, data: deployment }) {
                 min: 0,
                 formatter: zeroDecimalPlaces,
                 metrics: ['availableReplicas', 'desiredReplicas'],
-                labels: ['Available', 'Desired'],
+                labels: [t('in-kubernetes:dashboards.available'), t('in-kubernetes:dashboards.desired')],
                 type: 'line'
               }}
               renderPostChartContent={K8DashboardsMarkerLanes}
@@ -152,14 +166,14 @@ export default function Summary({ timeConfig, data: deployment }) {
           </Card>
         </Col>
         <Col lg={6}>
-          <Card title="Pending phase duration">
+          <Card title={t('in-kubernetes:dashboards.pendingPhaseDuration')}>
             <Chart
               snapshotId={snapshotId}
               timeConfig={timeConfig}
               y1={{
                 formatter: msFormatter,
                 metrics: ['duration'],
-                labels: ['Pending phase duration'],
+                labels: [t('in-kubernetes:dashboards.pendingPhaseDuration')],
                 type: 'line'
               }}
               renderPostChartContent={K8DashboardsMarkerLanes}

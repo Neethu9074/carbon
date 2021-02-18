@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { just } from '@instana/observables';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import {
@@ -66,7 +67,11 @@ export default function EventRow({ selectedEventId, onItemClicked, isDenseList, 
       </Td>
       <Td>
         <span className={locals.text}>
-          {event.state === 'open' ? 'active' : start !== end ? formatDateTime(end) : valueMissingPlaceholder}
+          {event.state === 'open'
+            ? t('in-events:active')
+            : start !== end
+            ? formatDateTime(end)
+            : valueMissingPlaceholder}
         </span>
       </Td>
       <Td>

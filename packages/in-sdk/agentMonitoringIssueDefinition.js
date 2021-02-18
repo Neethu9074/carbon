@@ -5,22 +5,23 @@
 import React from 'react';
 
 import { getOptionalSnapshotDefinition } from 'in-sdk/snapshot/registry';
+import { t } from 'in-i18n';
 
 export const SENSOR = {
-  suffix: 'not monitored',
-  alert_prefix: 'Monitoring issue'
+  suffix: t('in-sdk:agentMonitoringSuffix01'),
+  alert_prefix: t('in-sdk:agentMonitoringAlert_prefix01')
 };
 export const TRACER = {
-  suffix: 'not traced',
-  alert_prefix: 'Missing tracing'
+  suffix: t('in-sdk:agentMonitoringSuffix02'),
+  alert_prefix: t('in-sdk:agentMonitoringAlert_prefix02')
 };
 export const PROFILER = {
-  suffix: 'not profiled',
-  alert_prefix: 'Missing profiles'
+  suffix: t('in-sdk:agentMonitoringSuffix03'),
+  alert_prefix: t('in-sdk:agentMonitoringAlert_prefix03')
 };
 export const UNKNOWN = {
-  suffix: 'not monitored',
-  alert_prefix: 'Monitoring issue'
+  suffix: t('in-sdk:agentMonitoringSuffix04'),
+  alert_prefix: t('in-sdk:agentMonitoringAlert_prefix04')
 };
 
 function fallbackAgentMonitoringIssueDefinition(code) {
@@ -34,8 +35,8 @@ function fallbackAgentMonitoringIssueDefinition(code) {
         );
       }
     },
-    explanationLinkLabel: `Troubleshooting docs`,
-    explanationLinkHref: `https://instana.com/docs/`
+    explanationLinkLabel: t('in-sdk:agentMonitoringExplanationLinkLabel'),
+    explanationLinkHref: t('in-sdk:agentMonitoringExplanationLinkHref')
   };
 }
 

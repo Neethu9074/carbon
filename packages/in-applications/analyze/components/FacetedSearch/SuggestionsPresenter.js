@@ -25,7 +25,9 @@ export default function SuggestionsPresenter({
   errors = [],
   suggestions = [],
   tag,
+  entity,
   updateFilter,
+  updateGroup,
   dataSource,
   isValid = true
 }) {
@@ -40,7 +42,9 @@ export default function SuggestionsPresenter({
       <Results
         suggestions={suggestions}
         tag={tag}
+        entity={entity}
         updateFilter={updateFilter}
+        updateGroup={updateGroup}
         dataSource={dataSource}
         isValid={isValid}
       />
@@ -70,7 +74,7 @@ function Errors({ errors }) {
   );
 }
 
-function Results({ suggestions, tag, updateFilter, dataSource, isValid }) {
+function Results({ suggestions, tag, entity, updateFilter, updateGroup, dataSource, isValid }) {
   const [showMore, setShowMore] = useState(DEFAULT_SUGGESTIONS_SIZE);
   const nextBatch = Math.min(suggestions.length - showMore, 20);
 
@@ -84,7 +88,7 @@ function Results({ suggestions, tag, updateFilter, dataSource, isValid }) {
         .slice(0, showMore ? showMore : undefined)
         .map((suggestion, i) => (
           <div key={i} className={locals.suggestion}>
-            <Tooltip content={suggestion.label} align="rightMiddle">
+            <Tooltip content={suggestion.label} align="rightMiddle" delay={1000}>
               <Link
                 onClick={() =>
                   updateFilter({
@@ -108,11 +112,26 @@ function Results({ suggestions, tag, updateFilter, dataSource, isValid }) {
             </Tooltip>
           </div>
         ))}
-      {nextBatch > 0 && (
-        <Button className={locals.showMore} kind="action" onClick={() => setShowMore(showMore + nextBatch)}>
-          {t('in-applications:analyze.showBatchMore', { nextBatch: nextBatch })}
+      <div className={locals.buttonRow}>
+        {nextBatch > 0 && (
+          <Button className={locals.showMore} kind="action" onClick={() => setShowMore(showMore + nextBatch)}>
+            {t('in-applications:analyze.showBatchMore', { nextBatch: nextBatch })}
+          </Button>
+        )}
+        <div />
+        <Button
+          className={locals.useAsGroup}
+          kind="action"
+          onClick={() =>
+            updateGroup({
+              groupbyTag: tag,
+              ...(entity && { groupbyTagEntity: entity })
+            })
+          }
+        >
+          {t('in-new-components:analyze.useAsGroup')}
         </Button>
-      )}
+      </div>
     </>
   );
 }

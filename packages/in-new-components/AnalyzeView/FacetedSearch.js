@@ -11,6 +11,7 @@ export default function FacetedSearch({
   formModel,
   onFacetedSearchChange,
   getUpdatedTagExpressionHref,
+  getHrefToGroupedView,
   dataSource,
   isValid,
   getSuggestions
@@ -28,6 +29,7 @@ export default function FacetedSearch({
             formModel={formModel}
             updateFilter={onFacetedSearchChange}
             getUpdatedTagExpressionHref={getUpdatedTagExpressionHref}
+            getHrefToGroupedView={getHrefToGroupedView}
             isValid={isValid}
             openByDefault={facetedSearchItem.openByDefault}
             dataSource={dataSource}

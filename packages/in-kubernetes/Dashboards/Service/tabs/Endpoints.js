@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { get } from 'lodash';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
@@ -21,42 +22,42 @@ const matrixPrefix = 'endpoints.';
 const columnDefinitions = [
   {
     id: 'address',
-    label: 'Address',
+    label: t('in-kubernetes:dashboards.address'),
     getContent(item) {
       return <WithIcon icon="lib_kubernetes_endpoint">{get(item, 'address')}</WithIcon>;
     }
   },
   {
     id: 'port',
-    label: 'Port',
+    label: t('in-kubernetes:dashboards.port'),
     getContent(item) {
       return get(item, 'port');
     }
   },
   {
     id: 'portName',
-    label: 'Port Name',
+    label: t('in-kubernetes:dashboards.portName'),
     getContent(item) {
       return get(item, 'portName') || valueMissingPlaceholder;
     }
   },
   {
     id: 'protocol',
-    label: 'Protocol',
+    label: t('in-kubernetes:dashboards.protocol'),
     getContent(item) {
       return get(item, 'protocol');
     }
   },
   {
     id: 'ready',
-    label: 'Status',
+    label: t('in-kubernetes:dashboards.status'),
     getContent(item) {
-      return get(item, 'ready') ? 'Ready' : 'Not Ready';
+      return get(item, 'ready') ? t('in-kubernetes:dashboards.ready') : t('in-kubernetes:dashboards.notReady');
     }
   },
   {
     id: 'podName',
-    label: 'Target',
+    label: t('in-kubernetes:dashboards.target'),
     getContent(item) {
       return item.podName && item.podSnapshotId ? (
         <EntityLink icon="lib_kubernetes_pod" label={item.podName} href$={getPodDashboard(item.podSnapshotId)} />

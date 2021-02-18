@@ -23,7 +23,7 @@ export const LeftHeader = ({ beacon, earliestTimestamp }) => (
     <KeyValueHeader
       label={
         <Fragment>
-          {t('pageChangeBeaconHeaderPageTransition')}
+          {t('in-websites:analyze.analyzeView.pageLoadView.pageChangeBeaconHeaderPageTransition')}
           <BatchIndicator batchCount={beacon.batchSize} />
         </Fragment>
       }
@@ -42,7 +42,9 @@ export const Body = ({ beacon }) => {
     <Fragment>
       <Row>
         <Col lg={6}>
-          <BodyHeader>{t('pageChangeBeaconHeaderPageTransition')}</BodyHeader>
+          <BodyHeader>
+            {t('in-websites:analyze.analyzeView.pageLoadView.pageChangeBeaconHeaderPageTransition')}
+          </BodyHeader>
 
           <Dl>
             <Di title={t('in-websites:analyze.analyzeView.pageLoadView.pageChangeBeaconTitleWindowLocation')}>
@@ -55,7 +57,7 @@ export const Body = ({ beacon }) => {
 
         {Object.keys(beacon.meta).length > 0 && (
           <Col lg={6}>
-            <BodyHeader>{t('pageChangeBeaconHeaderMeta')}</BodyHeader>
+            <BodyHeader>{t('in-websites:analyze.analyzeView.pageLoadView.pageChangeBeaconHeaderMeta')}</BodyHeader>
             <Meta beacon={beacon} />
           </Col>
         )}

@@ -28,7 +28,7 @@ export const LeftHeader = ({ beacon, earliestTimestamp }) => (
     <KeyValueHeader
       label={
         <Fragment>
-          {t('errorBeaconHeaderJSError')}
+          {t('in-websites:analyze.analyzeView.pageLoadView.errorBeaconHeaderJSError')}
           <BatchIndicator batchCount={beacon.batchSize} />
         </Fragment>
       }
@@ -47,11 +47,11 @@ export const Body = ({ beacon }) => {
     <Fragment>
       <Row>
         <Col lg={6}>
-          <BodyHeader>{t('errorBeaconHeaderErrorDetails')}</BodyHeader>
+          <BodyHeader>{t('in-websites:analyze.analyzeView.pageLoadView.errorBeaconHeaderErrorDetails')}</BodyHeader>
 
           {!isScriptError(beacon.errorMessage) && (
             <Dl>
-              <Di title="Window Location">
+              <Di title={t('in-websites:analyze.analyzeView.pageLoadView.errorBeaconTitleWindowLocation')}>
                 <a href={beacon.locationUrl} rel="noopener noreferrer" target="_blank">
                   {beacon.locationUrl}
                 </a>
@@ -72,7 +72,7 @@ export const Body = ({ beacon }) => {
 
         {Object.keys(beacon.meta).length > 0 && (
           <Col lg={6}>
-            <BodyHeader>{t('errorBeaconHeaderMeta')}</BodyHeader>
+            <BodyHeader>{t('in-websites:analyze.analyzeView.pageLoadView.errorBeaconHeaderMeta')}</BodyHeader>
             <Meta beacon={beacon} />
           </Col>
         )}
@@ -88,7 +88,7 @@ export const Body = ({ beacon }) => {
       <Row>
         {isNotBlank(beacon.componentStack) && (
           <Col lg={12}>
-            <BodyHeader>{t('errorBeaconHeaderComponentStack')}</BodyHeader>
+            <BodyHeader>{t('in-websites:analyze.analyzeView.pageLoadView.errorBeaconHeaderComponentStack')}</BodyHeader>
             <RawStack stack={beacon.componentStack} />
           </Col>
         )}

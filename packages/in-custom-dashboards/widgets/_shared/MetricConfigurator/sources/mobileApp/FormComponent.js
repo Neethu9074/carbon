@@ -35,7 +35,7 @@ export default function FormComponent({
 
   const { QueryBuilder, getTagCatalog } = queryBuildersPerDataSource[beaconTypeField.value] || emptyObject;
 
-  const tagCatalogResult = useObservable(getTagCatalog, []) ?? pendingResult;
+  const tagCatalogResult = useObservable(getTagCatalog, [beaconTypeField.value]) ?? pendingResult;
   const [tagFilterExpression, setTagFilterExpression] = useTagFilterExpressionState({
     tagCatalogResult,
     form,

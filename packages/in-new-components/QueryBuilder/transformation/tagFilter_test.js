@@ -6,9 +6,22 @@
 
 import { expect } from 'chai';
 
-import { toNewTagFilterFormat, type, toTagFilter } from 'in-new-components/QueryBuilder/transformation/tagFilter';
+import {
+  toNewTagFilterFormat,
+  type,
+  toTagFilter,
+  sanitizeTagFilter
+} from 'in-new-components/QueryBuilder/transformation/tagFilter';
 import { KEY_VALUE_PAIR, STRING, BOOLEAN, NUMBER } from 'in-new-components/QueryBuilder/tagFilter/types';
-import { EQUALS, LESS_OR_EQUAL_THAN } from 'in-new-components/QueryBuilder/tagFilter/operators';
+import {
+  CONTAINS,
+  EQUALS,
+  LESS_OR_EQUAL_THAN,
+  NOT_EQUAL,
+  NOT_STARTS_WITH,
+  STARTS_WITH
+} from 'in-new-components/QueryBuilder/tagFilter/operators';
+import { STRING_MAX_LENGTH } from '../tagFilter/constraints';
 
 describe('in-new-components/QueryBuilder/transformation/tagFilter#toNewTagFilterFormat', () => {
   let tagCatalog;
@@ -189,6 +202,59 @@ describe('in-new-components/QueryBuilder/transformation/tagFilter#toNewTagFilter
       operator: EQUALS,
       key: undefined,
       value: 'shop'
+    });
+  });
+});
+
+describe('in-new-components/QueryBuilder/transformation/tagFilter#sanitizeTagFilter', () => {
+  it('must not change if sanitization not needed', () => {
+    const tagFilter = Object.freeze({
+      type,
+      name: 'service.name',
+      operator: EQUALS,
+      value: 'shop'
+    });
+    expect(sanitizeTagFilter(tagFilter)).to.equal(tagFilter);
+  });
+
+  it('must sanitize string values exceeding length limit', () => {
+    const tagFilter = Object.freeze({
+      type,
+      name: 'log.message',
+      operator: EQUALS,
+      value: 'a'.repeat(STRING_MAX_LENGTH + 10)
+    });
+    expect(sanitizeTagFilter(tagFilter)).to.deep.equal({
+      ...tagFilter,
+      operator: STARTS_WITH,
+      value: 'a'.repeat(STRING_MAX_LENGTH)
+    });
+  });
+
+  it('must sanitize string values exceeding length limit and use negative operator', () => {
+    const tagFilter = Object.freeze({
+      type,
+      name: 'log.message',
+      operator: NOT_EQUAL,
+      value: 'a'.repeat(STRING_MAX_LENGTH + 10)
+    });
+    expect(sanitizeTagFilter(tagFilter)).to.deep.equal({
+      ...tagFilter,
+      operator: NOT_STARTS_WITH,
+      value: 'a'.repeat(STRING_MAX_LENGTH)
+    });
+  });
+
+  it('must sanitize string values exceeding length limit without changing the operator if not needed', () => {
+    const tagFilter = Object.freeze({
+      type,
+      name: 'log.message',
+      operator: CONTAINS,
+      value: 'a'.repeat(STRING_MAX_LENGTH + 10)
+    });
+    expect(sanitizeTagFilter(tagFilter)).to.deep.equal({
+      ...tagFilter,
+      value: 'a'.repeat(STRING_MAX_LENGTH)
     });
   });
 });

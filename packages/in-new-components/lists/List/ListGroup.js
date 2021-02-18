@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import classNames from 'classnames';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { Li } from 'in-new-components/lists/List';
@@ -24,7 +25,7 @@ export default function ListGroup({ numMoreItems, label, children, sticky = fals
       {children}
       {numMoreItems > 0 && (
         <Li className={locals.moreItems} noAlternatingBg>
-          +{numMoreItems} more...
+          {t('in-new-components:list.labelMoreItems', { numMoreItems: numMoreItems })}
         </Li>
       )}
     </>

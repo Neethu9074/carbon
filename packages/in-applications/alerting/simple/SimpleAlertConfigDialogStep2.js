@@ -8,7 +8,6 @@ import AlertTagFilterExpressionConfig from 'in-new-components/Alerting/component
 import SimpleModeStepContentWrapper from 'in-new-components/BlueprintFormMultistep/SimpleModeStepContentWrapper';
 import SimpleAlertConfigDialogChart from 'in-applications/alerting/simple/SimpleAlertConfigDialogChart';
 import AlertLocationFilters from 'in-applications/alerting/components/AlertLocationFilters';
-import AlertQueryBuilder from 'in-applications/alerting/components/AlertQueryBuilder';
 import WithQB1orQB2 from 'in-new-components/Alerting/components/WithQB1orQB2';
 import { t } from 'in-i18n';
 
@@ -20,7 +19,8 @@ export default function SimpleAlertConfigDialogStep2({
   applicationLabel,
   updateForm,
   onChartViewConfigChange,
-  selectedChartViewConfigIndex
+  selectedChartViewConfigIndex,
+  QueryBuilderComponent
 }) {
   return (
     <SimpleModeStepContentWrapper headline={t('in-applications:simple.simpleAlertStep2Headline')}>
@@ -40,7 +40,7 @@ export default function SimpleAlertConfigDialogStep2({
               form={form}
               updateForm={updateForm}
               applicationLabel={applicationLabel}
-              QueryBuilderComponent={AlertQueryBuilder}
+              QueryBuilderComponent={QueryBuilderComponent}
               headerTransparent
             />
           )}
@@ -48,11 +48,13 @@ export default function SimpleAlertConfigDialogStep2({
         />
       </div>
 
-      <SimpleAlertConfigDialogChart
-        form={form}
-        onChartViewConfigChange={onChartViewConfigChange}
-        selectedChartViewConfigIndex={selectedChartViewConfigIndex}
-      />
+      <div className={locals.stickyChart}>
+        <SimpleAlertConfigDialogChart
+          form={form}
+          onChartViewConfigChange={onChartViewConfigChange}
+          selectedChartViewConfigIndex={selectedChartViewConfigIndex}
+        />
+      </div>
     </SimpleModeStepContentWrapper>
   );
 }

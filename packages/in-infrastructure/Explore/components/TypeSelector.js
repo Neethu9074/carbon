@@ -5,9 +5,10 @@
 import React, { useCallback, useMemo, useState, useRef } from 'react';
 import { isEmpty, isEqual } from 'lodash';
 import classNames from 'classnames';
+import { t } from 'in-i18n';
 
-import { allInfrastructureType, defaultAllInfraGroup, allTypes } from 'in-infrastructure/Explore/constants';
 import { groupMatrixParameter, typeMatrixParameter, getLinkToExplore } from 'in-infrastructure/navigation/paths';
+import { allInfrastructureType, defaultAllInfraGroup, allTypes } from 'in-infrastructure/Explore/constants';
 import { EMPTY_EXPRESSION } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import DashboardHeaderButton from 'in-new-components/DashboardHeader/DashboardHeaderButton';
 import getAvailablePlugins from 'in-infrastructure/subscriptions/getAvailablePlugins';
@@ -80,7 +81,7 @@ function Dropdown({ getParamsForType, types, close, onTypeSelected }) {
     <div className={locals.dropdown}>
       <div className={locals.searchWrapper}>
         <SearchInput
-          placeholder="Search"
+          placeholder={t('in-infrastructure:explore.search')}
           query={query}
           onChange={setQuery}
           autoFocus

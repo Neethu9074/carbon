@@ -12,7 +12,7 @@ export default function KubernetesNoDataNotification(props) {
   return (
     <EntityPageMainNotification
       icon="lib_kubernetes"
-      title="No Monitoring Data Found"
+      title={t('in-kubernetes:noMonitoringDataFound')}
       explanation={() => <ArticleContent markdownContent={t('in-cockpit:websites.noData')} />}
       {...props}
     />

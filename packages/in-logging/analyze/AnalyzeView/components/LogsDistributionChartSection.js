@@ -24,19 +24,14 @@ const options = [
   }
 ];
 
-export default function LogsDistributionChartSection({ metrics, onMetricsChange, backendQueryModel }) {
-  const metric = metrics && metrics[0];
+export default function LogsDistributionChartSection({ chartedMetrics, onChartedMetricsChange, backendQueryModel }) {
+  const metric = chartedMetrics && chartedMetrics[0];
 
   return (
     <div className={locals.wrapper}>
       <ChartingConfiguratorSection
-        value={
-          metrics?.map(metricState => ({
-            metricId: metricState.metric,
-            aggregationId: metricState.aggregation
-          }))[0]
-        }
-        onChange={m => onMetricChange(m, onMetricsChange)}
+        value={chartedMetrics?.[0]}
+        onChange={metric => onChartedMetricsChange(metric ? [metric] : [])}
         options={options}
         hideRenderer
       />
@@ -49,7 +44,8 @@ export default function LogsDistributionChartSection({ metrics, onMetricsChange,
               y1: {
                 metrics: [
                   {
-                    ...metric,
+                    metric: metric.metricId,
+                    aggregation: metric.aggregationId,
                     label: 'Logs over time',
                     source: 'DISTRIBUTED_LOGS',
                     tagFilterExpression: backendQueryModel
@@ -65,18 +61,5 @@ export default function LogsDistributionChartSection({ metrics, onMetricsChange,
         </div>
       )}
     </div>
-  );
-}
-
-function onMetricChange(metric, onMetricsChange) {
-  onMetricsChange(
-    metric
-      ? [
-          {
-            metric: metric.metricId,
-            aggregation: metric.aggregationId
-          }
-        ]
-      : []
   );
 }

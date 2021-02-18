@@ -20,8 +20,8 @@ import { getLogMessageRuleOperatorLabel } from 'in-applications/alerting/form/ru
 import ApplicationScopePath from 'in-applications/alerting/components/ApplicationScopePath';
 import { fromBackendModel } from 'in-new-components/QueryBuilder/transformation/formModel';
 import AlertPropertyInfos from 'in-new-components/Alerting/components/AlertPropertyInfos';
-import AlertQueryBuilder from 'in-applications/alerting/components/AlertQueryBuilder';
 import AlertDetailsCard from 'in-new-components/Alerting/components/AlertDetailsCard';
+import AlertQueryBuilder from 'in-applications/alerting/components/AlertQueryBuilder';
 import { getBlueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
 import LocallyChangedTheme from 'in-themes/LocallyChangedTheme';
 import ExpandableCard from 'in-new-components/ExpandableCard';

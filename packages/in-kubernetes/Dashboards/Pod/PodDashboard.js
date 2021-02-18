@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { get } from 'lodash';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import AnalyzeCallsButton, { getFilters } from 'in-kubernetes/Dashboards/commonComponents/AnalyzeCallsButton';
@@ -40,7 +41,9 @@ export default function PodDashboard({ location }) {
       <ViewTrackingMeta
         data={{
           productArea: 'Kubernetes',
-          pageRootName: 'Kubernetes Pod'
+          pageRootName: t('in-kubernetes:kubernetesPageRootName', {
+            objectType: t('in-kubernetes:dashboards.pod')
+          })
         }}
       />
 
@@ -91,7 +94,7 @@ function Header(props) {
   return (
     <DashboardHeader
       {...props}
-      title="Kubernetes Pod"
+      title={t('in-kubernetes:dashboards.kubernetesPod')}
       icon="lib_kubernetes_pod"
       label={get(props.result, ['data', 'label'])}
       renderButtonLine={renderButtonLine}
@@ -126,7 +129,7 @@ function renderButtonLine({ podId, timeConfig, result }) {
 function renderMetaInformation({ result }) {
   return (
     <>
-      <TypesBadgeList type="K8s Pod" />
+      <TypesBadgeList type={t('in-kubernetes:dashboards.k8SPod')} />
       <KubernetesIndicator result={result} />
     </>
   );

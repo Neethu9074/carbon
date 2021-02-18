@@ -4,6 +4,7 @@
  */
 import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
+import { t } from 'in-i18n';
 
 import MetricConfiguratorOverlay from 'in-new-components/MetricConfigurator/MetricConfiguratorOverlay';
 import DropdownButton from 'in-new-components/Button/DropdownButton';
@@ -28,7 +29,7 @@ export default function MetricConfigurator({ values, options, onChange, tracking
           refSetter={compositeRef(refSetter, ref)}
           onClick={toggle}
         >
-          Select metrics
+          {t('in-new-components:metricConfigurator.buttonSelectMetrics')}
         </DropdownButton>
       )}
     </Overlay>
