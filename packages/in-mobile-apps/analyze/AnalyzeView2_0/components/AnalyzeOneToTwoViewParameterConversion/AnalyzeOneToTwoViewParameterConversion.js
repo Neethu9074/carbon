@@ -10,6 +10,7 @@ import { transformOneZeroToTwoZero } from 'in-mobile-apps/analyze/AnalyzeView2_0
 import { beaconType as beaconTypeMatrixParameterName } from 'in-mobile-apps/navigation/matrix';
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import { createParameters } from 'in-new-components/AnalyzeView/parameters';
+import { getMetricCatalog } from 'in-mobile-apps/api/metricCatalog';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { getModifiedUrl } from 'in-stores/navigation/navigation';
 import AnalyzeHeader from 'in-analyze/components/AnalyzeHeader';
@@ -25,10 +26,13 @@ export default function AnalyzeOneToTwoViewParameterConversion() {
   const location = useLocation();
   const beaconType = getMatrixParameter(location, analyzePath, beaconTypeMatrixParameterName) || 'sessionStart';
   const tagCatalogResult = useObservable(() => getTagCatalog({ beaconType, useCase: 'FILTERING' }), [beaconType]);
+  const metricCatalogResult = useObservable(() => getMetricCatalog(), []);
 
   let redirectHref;
-  if (tagCatalogResult?.data) {
-    redirectHref = getModifiedUrl(location, location => transformOneZeroToTwoZero(location, tagCatalogResult.data));
+  if (tagCatalogResult?.data && metricCatalogResult?.data) {
+    redirectHref = getModifiedUrl(location, location =>
+      transformOneZeroToTwoZero(location, tagCatalogResult.data, metricCatalogResult.data)
+    );
   }
 
   return (
