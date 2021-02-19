@@ -40,7 +40,6 @@ export default function FacetedSearch({
         updateFilter={updateFilter}
         dataSource={dataSource}
         hiddenCalls={hiddenCalls}
-        isValid={isValid}
         openByDefault
       />
       <FacetedFilterGeneric
@@ -52,7 +51,6 @@ export default function FacetedSearch({
         updateGroup={updateGroup}
         dataSource={dataSource}
         hiddenCalls={hiddenCalls}
-        isValid={isValid}
       />
 
       <FacetedFilterGeneric
@@ -64,7 +62,6 @@ export default function FacetedSearch({
         updateGroup={updateGroup}
         dataSource={dataSource}
         hiddenCalls={hiddenCalls}
-        isValid={isValid}
       />
       <FacetedFilterGeneric
         title={t('in-applications:analyze.endpoints')}
@@ -75,7 +72,6 @@ export default function FacetedSearch({
         updateGroup={updateGroup}
         dataSource={dataSource}
         hiddenCalls={hiddenCalls}
-        isValid={isValid}
       />
       <FacetedFilterGeneric
         title={t('in-applications:analyze.types')}
@@ -85,7 +81,6 @@ export default function FacetedSearch({
         updateGroup={updateGroup}
         dataSource={dataSource}
         hiddenCalls={hiddenCalls}
-        isValid={isValid}
       />
       <FacetedFilterGeneric
         title={t('in-applications:analyze.technologies')}
@@ -96,7 +91,6 @@ export default function FacetedSearch({
         updateGroup={updateGroup}
         hiddenCalls={hiddenCalls}
         dataSource={dataSource}
-        isValid={isValid}
       />
       <FacetedFilterHttpStatusCodes
         title={t('in-applications:analyze.httpStatusCode')}

@@ -140,8 +140,8 @@ function SearchAndSuggestions({
           onChange={setValueFilter}
           query={valueFilter}
           inputClassName={locals.search}
-          withoutIcon
           disabled={suggestions?.progress.loading}
+          withoutIcon
         />
       )}
       <SuggestionsPresenter
@@ -154,7 +154,6 @@ function SearchAndSuggestions({
         getUpdatedTagExpressionHref={getUpdatedTagExpressionHref}
         getHrefToGroupedView={getHrefToGroupedView}
         tag={tag}
-        dataSource={dataSource}
       />
     </Stack>
   );

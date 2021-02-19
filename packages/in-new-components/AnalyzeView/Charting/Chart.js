@@ -12,6 +12,8 @@ import { childrenArgsAsPropTypes } from 'in-new-components/AnalyzeView/StateMana
 import { getUiInternalFormatterName } from 'in-services/formatters/backendFormatter';
 import { identity } from 'in-services/util/function';
 
+import locals from './Chart.mless';
+
 export default function Chart({
   isGrouped,
   metricCatalog,
@@ -70,7 +72,7 @@ export default function Chart({
   }
 
   return (
-    <Li noAlternatingBg>
+    <Li className={locals.chartWrapper} noAlternatingBg>
       <UnifiedMetricsChart renderLegend={false} config={chartConfig} />
     </Li>
   );

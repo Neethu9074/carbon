@@ -27,8 +27,7 @@ export default function FacetedFilterGeneric({
   hiddenCalls,
   updateFilter,
   updateGroup,
-  dataSource,
-  isValid
+  dataSource
 }) {
   return (
     <FacetedExpandableCard title={title}>
@@ -40,23 +39,12 @@ export default function FacetedFilterGeneric({
         updateFilter={updateFilter}
         updateGroup={updateGroup}
         dataSource={dataSource}
-        isValid={isValid}
       />
     </FacetedExpandableCard>
   );
 }
 
-function Body({
-  tagFilterExpression,
-  tag,
-  entity,
-  title,
-  hiddenCalls,
-  updateFilter,
-  updateGroup,
-  dataSource,
-  isValid
-}) {
+function Body({ tagFilterExpression, tag, entity, title, hiddenCalls, updateFilter, updateGroup, dataSource }) {
   const [valueFilter, setValueFilter] = useState('');
 
   const selectedValues = existingValuesForTag(tagFilterExpression, tag, entity);
@@ -92,7 +80,6 @@ function Body({
       valueFilter={valueFilter}
       setValueFilter={setValueFilter}
       dataSource={dataSource}
-      isValid={isValid}
     />
   );
 }
@@ -116,11 +103,9 @@ function SearchAndSuggestions({
   updateGroup,
   valueFilter,
   setValueFilter,
-  dataSource,
-  isValid
+  dataSource
 }) {
   const timeConfig = useTimeConfig();
-
   const suggestionsFromServer = () =>
     getTagSuggestions({
       tagFilterExpression,
@@ -150,8 +135,8 @@ function SearchAndSuggestions({
           onChange={setValueFilter}
           query={valueFilter}
           inputClassName={locals.search}
-          withoutIcon
           disabled={suggestions?.progress.loading}
+          withoutIcon
         />
       )}
       <SuggestionsPresenter
@@ -163,7 +148,6 @@ function SearchAndSuggestions({
         tag={tag}
         entity={entity}
         dataSource={dataSource}
-        isValid={isValid}
       />
     </>
   );

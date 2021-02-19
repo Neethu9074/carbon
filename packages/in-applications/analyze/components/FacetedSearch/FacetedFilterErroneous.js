@@ -12,7 +12,7 @@ import getTagSuggestions from 'in-subscription/application/getTagSuggestions';
 import { TAG } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import { dataSourceConstants } from 'in-applications/analyze/metrics';
-import InfiniteCircle from 'in-new-components/Loading/InfiniteCircle';
+import Skeleton from 'in-new-components/Loading/Skeleton';
 import { pendingResult } from 'in-services/fixedObjects';
 import { number } from 'in-services/formatters/number';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -29,8 +29,7 @@ export default function FacetedFilterErroneous({
   hiddenCalls,
   updateFilter,
   dataSource,
-  openByDefault,
-  isValid
+  openByDefault
 }) {
   return (
     <FacetedExpandableCard title={title} openByDefault={openByDefault}>
@@ -39,13 +38,12 @@ export default function FacetedFilterErroneous({
         hiddenCalls={hiddenCalls}
         updateFilter={updateFilter}
         dataSource={dataSource}
-        isValid={isValid}
       />
     </FacetedExpandableCard>
   );
 }
 
-function Body({ tagFilterExpression, updateFilter, hiddenCalls, dataSource, isValid }) {
+function Body({ tagFilterExpression, updateFilter, hiddenCalls, dataSource }) {
   if (existingErroneousFilter(tagFilterExpression)) {
     return (
       <ExistingValue
@@ -71,12 +69,11 @@ function Body({ tagFilterExpression, updateFilter, hiddenCalls, dataSource, isVa
       tagFilterExpression={tagFilterExpression}
       hiddenCalls={hiddenCalls}
       dataSource={dataSource}
-      isValid={isValid}
     />
   );
 }
 
-function Suggestion({ updateFilter, tagFilterExpression, hiddenCalls, dataSource, isValid }) {
+function Suggestion({ updateFilter, tagFilterExpression, hiddenCalls, dataSource }) {
   const timeConfig = useTimeConfig();
 
   const suggestions =
@@ -96,14 +93,12 @@ function Suggestion({ updateFilter, tagFilterExpression, hiddenCalls, dataSource
       [tagFilterExpression, hiddenCalls, dataSource, timeConfig]
     ) ?? pendingResult;
 
-  if (!isValid) {
-    return null;
-  }
-
   if (suggestions.progress?.loading) {
     return (
-      <div className={locals.loading}>
-        <InfiniteCircle width={72} height={24} />
+      <div className={locals.suggestion}>
+        <div className={locals.addSuggestion}>
+          <Skeleton className={locals.skeletonContainer} darkMode />
+        </div>
       </div>
     );
   }
