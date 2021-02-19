@@ -4,6 +4,7 @@
  */
 import React, { useState } from 'react';
 import rpt from 'prop-types';
+import { t } from 'in-i18n';
 
 import { trackingProps as queryBuilderTrackingProps } from 'in-new-components/QueryBuilder/QueryBuilder';
 import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';
@@ -27,12 +28,12 @@ export default function QueryBuilderSection({
   return (
     <Section
       icon={withoutIcon ? undefined : 'lib_actions_filter'}
-      title="Filter"
+      title={t('in-new-components:queryBuilder.workspaceTitleFilter')}
       actions={
         <HorizontalFlexWrapper>
           {(tagFilterExpression.length > 0 || queryHasErrors) && (
             <Button kind="subtle" icon="lib_openclose_cancel" size="compact" onClick={onClear}>
-              Clear
+              {t('in-new-components:queryBuilder.workspaceButtonClear')}
             </Button>
           )}
           {actions}

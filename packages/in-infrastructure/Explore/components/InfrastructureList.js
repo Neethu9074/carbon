@@ -53,7 +53,7 @@ export default function InfrastructureList({
           setMetrics={setMetrics}
           totalHits={totalHits}
           metrics={metrics}
-          hitName="Result"
+          hitName="in-infrastructure:explore.hitNameResult"
           tracking={tracking}
         />
       )}

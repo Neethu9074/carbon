@@ -142,10 +142,12 @@ export function format(windowSize) {
   const result = `Last ${formatDurationAccurately(windowSize, 60000, false)}`;
   const match = result.match(/^Last 1 ([a-z]+)$/i);
   if (match && match[1] === 'day') {
-    return 'Last 24 hours';
+    return t('in-new-components:time.timePresetsLast24Hours');
   } else if (match) {
-    return `Last ${match[1]}`;
+    return t('in-new-components:time.timePresetsLast', { duration: match[1] });
   } else {
-    return result;
+    return t('in-new-components:time.timePresetsLast', {
+      duration: formatDurationAccurately(windowSize, 60000, false)
+    });
   }
 }

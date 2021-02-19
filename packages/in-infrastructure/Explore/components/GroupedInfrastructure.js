@@ -127,8 +127,8 @@ function Presenter({
         totalHits={totalHits}
         setOrder={setOrder}
         metrics={metrics}
-        itemName="Result"
-        hitName="Group"
+        itemName="in-infrastructure:explore.itemNameResult"
+        hitName="in-infrastructure:explore.hitNameGroup"
         order={order}
         tracking={tracking}
       />

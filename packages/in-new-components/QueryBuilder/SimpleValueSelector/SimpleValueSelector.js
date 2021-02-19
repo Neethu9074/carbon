@@ -4,6 +4,7 @@
  */
 import AutosizeInput from 'react-input-autosize';
 import classNames from 'classnames';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import LoadingList from 'in-new-components/lists/List/sharedComponents/LoadingList';
@@ -123,7 +124,7 @@ function SuggestionsList({
       })}
       {totalHits > suggestions.length && (
         <Li className={locals.moreOptionsLabel} size="compact">
-          {number.compact(totalHits - suggestions.length)} More
+          {number.compact(totalHits - suggestions.length)} {t('in-new-components:queryBuilder.simpleValueSelectorMore')}
         </Li>
       )}
     </Ul>

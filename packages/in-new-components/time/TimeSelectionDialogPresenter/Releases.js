@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import React, { useState } from 'react';
+import { t } from 'in-i18n';
 
 import convertToScopes from 'in-new-components/time/TimeSelectionDialogPresenter/convertToScopes';
 import ReleaseScope from 'in-new-components/time/TimeSelectionDialogPresenter/ReleaseScope';
@@ -21,7 +22,7 @@ import locals from './Releases.mless';
 const columnDefinitions = [
   {
     id: 'name',
-    label: 'Name',
+    label: t('in-new-components:time.releasesLabelName'),
     getContent({ name }) {
       return (
         <div className={locals.iconAndType}>
@@ -33,11 +34,11 @@ const columnDefinitions = [
   },
   {
     id: 'scope',
-    label: 'Scope',
+    label: t('in-new-components:time.releasesLabelScope'),
     sortable: false,
     getContent(item) {
       if (!item.services && !item.applications) {
-        return <span>Global</span>;
+        return <span>{t('in-new-components:time.releasesLabelGlobal')}</span>;
       }
       const itemScopes = convertToScopes(item);
       const scopes = itemScopes.map((scope, i) => (
@@ -65,7 +66,9 @@ const columnDefinitions = [
                   setShowItems(showItems + stepSize);
                 }}
               >
-                … show {Math.min(stepSize, scopes.length - showItems)} more
+                {t('in-new-components:time.releasesLabelShowMore', {
+                  stepSize: Math.min(stepSize, scopes.length - showItems)
+                })}
               </Button>
             </span>
           )}
@@ -75,7 +78,7 @@ const columnDefinitions = [
   },
   {
     id: 'start',
-    label: 'Release time',
+    label: t('in-new-components:time.releasesLabelReleaseTime'),
     getContent({ start }) {
       return <span>{formatDateTime(start)}</span>;
     }
@@ -105,7 +108,7 @@ export default function Presets({ timeConfig, onChange, closeOverlay }) {
           onChange({ windowSize: timeConfig.windowSize, to });
           closeOverlay();
         }}
-        noDataMessage="No releases found"
+        noDataMessage={t('in-new-components:time.releasesLabelNoDataMessage')}
         defaultOrderBy="start"
         defaultOrderDirection="DESC"
         rightHeader={RightHeader}
@@ -121,7 +124,7 @@ function RightHeader({ query, onChange, orderBy, orderDirection, pageSize }) {
     <SearchInput
       className={locals.searchInput}
       query={query}
-      placeholder="Filter..."
+      placeholder={t('in-new-components:time.releasesLabelPlaceholderFilter')}
       onChange={query => onChange({ query, orderBy, orderDirection, page: 1, pageSize })}
     />
   );

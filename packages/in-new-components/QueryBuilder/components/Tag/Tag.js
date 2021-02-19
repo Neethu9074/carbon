@@ -5,6 +5,7 @@
 /* eslint-disable react/display-name */
 import React, { useRef, useLayoutEffect, useState } from 'react';
 import classNames from 'classnames';
+import { t } from 'in-i18n';
 
 import {
   changeOperator,
@@ -29,7 +30,6 @@ import Name from 'in-new-components/QueryBuilder/components/Tag/Name';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
 import useThemedLocals from 'in-hooks/useThemedLocals';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import { t } from 'in-i18n';
 
 import styleDefs from './Tag.mless';
 
@@ -249,7 +249,7 @@ function KeyInput({ form, onChange, tagType, getSuggestions, formModel, formMode
     <Input
       value={field.value || ''}
       onChange={value => onChange('key', value)}
-      placeholder="Key"
+      placeholder={t('in-new-components:queryBuilder.components.tagPlaceholderKey')}
       valid={field.valid}
       hideValidityInformationOnFocus
       fieldsToWatch={[tagType, entity, timeConfig]}
@@ -306,7 +306,7 @@ function ValueInput({
       <NumberInput
         value={field.value}
         valid={field.valid}
-        placeholder="Value"
+        placeholder={t('in-new-components:queryBuilder.components.tagPlaceholderValue')}
         onChange={onValueChange}
         minValue={minNumValue}
       />
@@ -317,7 +317,7 @@ function ValueInput({
   const key = form.get('key')?.value;
 
   const inputProps = {
-    placeholder: 'Value',
+    placeholder: t('in-new-components:queryBuilder.components.tagPlaceholderValue'),
     onChange: onValueChange,
     valid: field.valid,
     fieldsToWatch: [entity, timeConfig, field.value, key],

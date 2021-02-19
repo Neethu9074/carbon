@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
@@ -50,7 +51,7 @@ export default function TopListCard(props) {
   const height = 160;
 
   if (result.progress.loading) {
-    content = <LoadingIndicator text="Loading Data" height={height} />;
+    content = <LoadingIndicator text={t('in-new-components:topListCard.loadingData')} height={height} />;
     withoutPadding = true;
   } else if (result.errors.length > 0) {
     content = <NoDataAvailable height={height} />;

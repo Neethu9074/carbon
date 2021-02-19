@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import classNames from 'classnames';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import {
@@ -23,7 +24,7 @@ export default function Bracket(props) {
     <ConjunctionOrBracketBehavior
       element={element}
       value={element.type === OPEN_BRACKET ? openBracket : closeBracket}
-      aria-label="Chosen bracket. Click to change the bracket, to select a conjunction or to remove the bracket."
+      aria-label={t('in-new-components:queryBuilder.components.bracketLabelChosenBracket')}
       data-render-model-index={renderModelIndex}
       {...props}
     >

@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { and } from 'in-new-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
@@ -29,7 +30,7 @@ export default function Suggestion({ toggle, suggestions, onAddToFormModel }) {
         className={locals.addSuggestionIndicator}
         onClick={() => onAddToFormModel(translateSuggestionToNewFormModelElement(suggestion))}
       >
-        AND
+        {t('in-new-components:queryBuilder.components.spacingSuggestionAnd')}
       </div>
     );
   }

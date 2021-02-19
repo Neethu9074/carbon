@@ -25,14 +25,16 @@ export default function CountHeader({
   if (!totalHits && !topText) {
     return <Placeholder itemName={itemName} />;
   }
-  const hitPlural = `${hitName}s`;
+  const hitPlural = t(hitName, {
+    count: totalHits
+  });
   const itemPlural = t(itemName, {
     count: totalRepresentedItemCount,
     formattedCount: number.compact(totalRepresentedItemCount)
   });
   return (
     <Presenter
-      topText={topText ?? `${number.compact(totalHits)} ${totalHits != 1 ? hitPlural : hitName}`}
+      topText={topText ?? `${number.compact(totalHits)} ${hitPlural}`}
       bottomText={itemPlural}
       withSamplingTooltip={withSamplingTooltip}
     />

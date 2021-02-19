@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import PropTypes from 'prop-types';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { Li, ColumnizedContent } from 'in-new-components/lists/List/List';
@@ -20,7 +21,9 @@ const columnDefinitions = [
   },
   {
     getContent({ filter }) {
-      return <KeyValue value="Use previous filters" label={filter} inverted accentuated />;
+      return (
+        <KeyValue value={t('in-new-components:queryBuilder.usePreviousFilters')} label={filter} inverted accentuated />
+      );
     }
   }
 ];

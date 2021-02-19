@@ -5,7 +5,9 @@
 import { empty } from '@instana/observables';
 import React, { useEffect } from 'react';
 import { range } from 'lodash';
+import theme from 'in-themes';
 import rpt from 'prop-types';
+import { t } from 'in-i18n';
 
 import {
   getAvailableMetrics,
@@ -35,8 +37,6 @@ import { aggregationLabels } from 'in-stores/metric';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import SvgIcon from 'in-components/SvgIcon';
-import theme from 'in-themes';
-import { t } from 'in-i18n';
 
 import locals from './GroupedView.mless';
 
@@ -176,7 +176,7 @@ export default function GroupedAnalyzeView(props) {
     <>
       <Header
         {...props}
-        hitName={t('in-new-components:analyzeView.groupedViewHeader')}
+        hitName="in-new-components:analyzeView.groupedViewHeader"
         sortOptions={withoutSorting ? undefined : sortOptions}
         availableMetrics={availableMetrics}
         metrics={selectableFields.map(m => ({ metric: m.metricId, aggregation: m.aggregationId }))}

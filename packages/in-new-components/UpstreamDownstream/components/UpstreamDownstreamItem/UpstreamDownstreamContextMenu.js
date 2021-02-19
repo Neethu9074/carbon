@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { getServiceDashboard, getApplicationDashboard } from 'in-applications/navigation/paths';
@@ -43,7 +44,7 @@ export default function ContextMenu({
             : getApplicationDashboard(itemId, { boundaryScope })
         }
       >
-        Go to Dashboard
+        {t('in-new-components:upstreamDownstream.buttonGoToDashboard')}
       </Button>
 
       <Button
@@ -65,7 +66,7 @@ export default function ContextMenu({
           })
         }
       >
-        Go to Analytics
+        {t('in-new-components:upstreamDownstream.buttonGoToAnalytics')}
       </Button>
     </div>
   );

@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import classNames from 'classnames';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import ConjunctionOrBracketBehavior from 'in-new-components/QueryBuilder/components/ConjunctionOrBracketBehavior';
@@ -19,7 +20,7 @@ export default function Conjunction(props) {
     <ConjunctionOrBracketBehavior
       element={element}
       value={logicalOperator}
-      aria-label="Chosen conjunction. Click to change the conjunction, to select a bracket or to remove the conjunction."
+      aria-label={t('in-new-components:queryBuilder.components.conjunctionLabelChosenConjunction')}
       {...props}
     >
       {({ refSetter, elementProps }) => (

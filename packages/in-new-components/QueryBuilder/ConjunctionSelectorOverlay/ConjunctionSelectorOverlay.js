@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import PropTypes from 'prop-types';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import {
@@ -29,7 +30,7 @@ export default function ConjunctionSelectorOverlay({
   return (
     <Ul framed={false} className={locals.list} borderRadius="medium" onKeyDown={onArrowKeyDownFocusSiblings}>
       <OverlayOption className={locals.clear} onChange={onChange} close={close} selectedValue={value} value={clear}>
-        <SvgIcon size="s" type="lib_openclose_cancel" /> Clear
+        <SvgIcon size="s" type="lib_openclose_cancel" /> {t('in-new-components:queryBuilder.selectorOverlayClear')}
       </OverlayOption>
       <OverlayOption
         autoFocus={value == null || value === and}
@@ -38,11 +39,11 @@ export default function ConjunctionSelectorOverlay({
         selectedValue={value}
         value={and}
       >
-        AND
+        {t('in-new-components:queryBuilder.selectorOverlayAnd')}
       </OverlayOption>
       {!withoutOrConjunction && (
         <OverlayOption onChange={onChange} close={close} selectedValue={value} value={or}>
-          OR
+          {t('in-new-components:queryBuilder.selectorOverlayOr')}
         </OverlayOption>
       )}
       {!withoutBrackets && (

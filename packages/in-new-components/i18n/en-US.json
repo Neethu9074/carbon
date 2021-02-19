@@ -136,6 +136,10 @@
     "splitScreenListTooltipCloseSidebar": "Close sidebar",
     "splitScreenListTooltipOpenSidebar": "Open sidebar",
     "groupedViewHeader": "Group",
+    "groupedViewHeader_plural": "Groups",
+    "groupedViewHeader_0": "Groups",
+    "groupedViewHeader_1": "Group",
+    "groupedViewHeader_2": "Groups",
     "resultHeaderLoading": "Loading…",
     "resultHeaderTooltip": "The query time range has been rounded up to nearest full minute to allow this view to load more quickly.",
     "ungroupedViewNoGrouping": "No grouping",
@@ -439,6 +443,10 @@
     "tabsLabelInfrastructure": "Infrastructure",
     "tabsEmptyMessageInfrastructure": "There is no related Infrastructure"
   },
+  "stackTrace": {
+    "fillerTextIn": " in ",
+    "fillerTextAt": " at "
+  },
   "time": {
     "lastMinute": "Last minute",
     "lastMinute_plural": "Last {{count}} minutes",
@@ -447,7 +455,76 @@
     "yesterday": "Yesterday",
     "twoDaysAgo": "Two days ago",
     "lastSevenDays": "Last seven days",
-    "previousWeek": "Previous week"
+    "previousWeek": "Previous week",
+    "dashboardHeaderButtonLive": "Live",
+    "customTimeTitleTimeRange": "Time Range",
+    "customTimeButtonSetTime": "Set Time",
+    "customTimeLabelYesterday": "Yesterday",
+    "customTimeLabelToday": "Today",
+    "customTimeLabelNow": "Now",
+    "customTimeMessageTheStartDateCannotBeGreaterThanTheEndDate": "The start date cannot be greater than the end date.",
+    "customTimeMessageTheLargestSelectableTimespanIsOneMonth": "The largest selectable timespan is one month.",
+    "presetsTitlePresets": "Presets",
+    "releasesLabelName": "Name",
+    "releasesLabelScope": "Scope",
+    "releasesLabelGlobal": "Global",
+    "releasesLabelShowMore": "… show {{stepSize}} more",
+    "releasesLabelReleaseTime": "Release time",
+    "releasesLabelNoDataMessage": "No releases found",
+    "releasesLabelPlaceholderFilter": "Filter...",
+    "timeSelectionDialogPresenterLabelTimeRange": "Time Range",
+    "timeSelectionDialogPresenterLabelReleases": "Releases",
+    "timeFrameFormatterStarting": "Starting {{fromTime}}",
+    "timeFrameFormatterLast": "Last {{duration}}",
+    "timeFrameFormatterLast24Hours": "Last 24 hours",
+    "timeIconHistoricDataMessage": "You are viewing approximate data due to the data retention settings. Precise data is available within the last {{retention}} days.",
+    "timeIconLargeDataMessage": "You are viewing approximate data due to a large data set. Please reduce the time range for precise data.",
+    "timePresetsLast": "Last {{duration}}",
+    "timePresetsLast24Hours": "Last 24 hours"
+  },
+  "timeShift": {
+    "changeSelectedTimeShift": "Change selected time shift",
+    "timeShiftValue": "Time Shift: {{valueLabel}}",
+    "compareToTimeShiftTimeConfig": "Compare to {{timeShiftTimeConfig}}"
+  },
+  "topListCard": {
+    "loadingData": "Loading Data"
+  },
+  "uiClinetUpdateMessage": {
+    "newVersionOfInstanaAvailable": "New version of Instana available",
+    "buttonReloadToUpdate": "Reload to update"
+  },
+  "upstreamDownstream": {
+    "buttonGoToDashboard": "Go to Dashboard",
+    "buttonGoToAnalytics": "Go to Analytics",
+    "companionMetricLabelErroneousCallRate": "Erroneous Call Rate: ",
+    "metricLabelCallsAndErroneousCalls": "Calls and Erroneous Calls",
+    "metricLabelCallsAndLatency": "Calls and Latency",
+    "linkSeeAllApplications": "See all {{count}} {{activeTab}} Application",
+    "linkSeeAllApplications_plural": "See all {{count}} {{activeTab}} Applications",
+    "linkSeeAllApplications_0": "See all {{count}} {{activeTab}} Applications",
+    "linkSeeAllApplications_1": "See all {{count}} {{activeTab}} Application",
+    "linkSeeAllApplications_2": "See all {{count}} {{activeTab}} Applications",
+    "linkSeeApplication": "See Application",
+    "linkSeeAllServices": "See all {{count}} {{activeTab}} Service",
+    "linkSeeAllServices_plural": "See all {{count}} {{activeTab}} Services",
+    "linkSeeAllServices_0": "See all {{count}} {{activeTab}} Services",
+    "linkSeeAllServices_1": "See all {{count}} {{activeTab}} Service",
+    "linkSeeAllServices_2": "See all {{count}} {{activeTab}} Services",
+    "linkSeeService": "See Service",
+    "labelMetric": "Metric:",
+    "upstreamServiceText": "Directly Called by",
+    "upstreamApplicationText": "Directly Called from Within",
+    "upstreamMessage": "didn’t receive any calls",
+    "downstreamServiceText": "Directly Calling",
+    "downstreamApplicationText": "Directly Calling Services Within",
+    "downstreamMessage": "didn’t initiate any downstream calls",
+    "tabsUpstream": "Upstream",
+    "tabsDownstream": "Downstream",
+    "buttonUpstreamDownstream": "Upstream / Downstream"
+  },
+  "withTvMode": {
+    "setEnabledMessagePressESCToDisableTVMode": "Press ESC to disable TV mode."
   },
   "analyze": {
     "loadMore": "Load {{count}} more",
@@ -473,6 +550,26 @@
   "copyToClipboardButtonCopy": "Copy",
   "withEmptyStateFallbackTitleNoDataAvailable": "No data available",
   "queryBuilder": {
+    "components": {
+      "tagBooleanSelectorFalse": "false",
+      "tagBooleanSelectorTrue": "true",
+      "tagPlaceholderKey": "Key",
+      "tagPlaceholderValue": "Value",
+      "spacingSuggestionAnd": "AND",
+      "bracketLabelChosenBracket": "Chosen bracket. Click to change the bracket, to select a conjunction or to remove the bracket.",
+      "conjunctionLabelChosenConjunction": "Chosen conjunction. Click to change the conjunction, to select a bracket or to remove the conjunction.",
+      "filterButtonAddFilter": "Add filter"
+    },
+    "selectorOverlayClear": "Clear",
+    "selectorOverlayAnd": "AND",
+    "selectorOverlayOr": "OR",
+    "usePreviousFilters": "Use previous filters",
+    "simpleValueSelectorMore": "More",
+    "workspaceAPIQuery": "API query",
+    "workspaceUseThisExpressionToQueryOurAPI": "Use this expression to query our API",
+    "workspaceTitleFilter": "Filter",
+    "workspaceButtonClear": "Clear",
+    "errorWithDataYourDefinedQueryIsTooComplex": "Your defined query is too complex, reduce the amount of nesting.",
     "sanitizedTagFilterValue": "The tag filter value was shortened to the maximum allowed length.",
     "sanitizedTagFilterValueAndOperator": "The tag filter value was shortened to the maximum allowed length and the operator was adjusted accordingly."
   }

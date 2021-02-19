@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import locals from './UpstreamDownstreamMetric.mless';
@@ -10,7 +11,7 @@ export default function UpstreamDownstreamMetric({ metrics, selectedMetric, onCh
   return (
     <div className={locals.wrapper}>
       <label className={locals.label} htmlFor="metricSelect">
-        Metric:
+        {t('in-new-components:upstreamDownstream.labelMetric')}
       </label>
       <select
         className={locals.select}
