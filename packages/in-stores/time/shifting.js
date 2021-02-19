@@ -43,33 +43,33 @@ export const urlParameter = {
 
 export const defaultTimeShift = {
   offset: initialState,
-  label: t('in-sdk:time.shiftingLabelOff'),
-  description: t('in-sdk:time.shiftingDescriptionOff')
+  label: t('in-stores:time.shiftingLabelOff'),
+  description: t('in-stores:time.shiftingDescriptionOff')
 };
 
 export const previousHourTimeShift = {
   offset: -1 * hours.toMillis(1),
-  label: t('in-sdk:time.shiftingLabelPreviousHour'),
-  description: t('in-sdk:time.shiftingDescriptionPreviousHour')
+  label: t('in-stores:time.shiftingLabelPreviousHour'),
+  description: t('in-stores:time.shiftingDescriptionPreviousHour')
 };
 
 export const timeShifts = [
   defaultTimeShift,
   {
     offset: 'auto',
-    label: t('in-sdk:time.shiftingLabelPreviousWindow'),
-    description: t('in-sdk:time.shiftingDescriptionPreviousWindow')
+    label: t('in-stores:time.shiftingLabelPreviousWindow'),
+    description: t('in-stores:time.shiftingDescriptionPreviousWindow')
     },
   previousHourTimeShift,
   {
     offset: -1 * days.toMillis(1),
-    label: t('in-sdk:time.shiftingLabelYesterday'),
-    description: t('in-sdk:time.shiftingDescriptionYesterday')
+    label: t('in-stores:time.shiftingLabelYesterday'),
+    description: t('in-stores:time.shiftingDescriptionYesterday')
     },
   {
     offset: -1 * days.toMillis(7),
-    label: t('in-sdk:time.shiftingLabelLastWeek'),
-    description: t('in-sdk:time.shiftingDescriptionLastWeek'),
+    label: t('in-stores:time.shiftingLabelLastWeek'),
+    description: t('in-stores:time.shiftingDescriptionLastWeek'),
     disallowSelection: true
   }
 ];
