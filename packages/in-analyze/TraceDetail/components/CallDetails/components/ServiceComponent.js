@@ -25,6 +25,7 @@ import { getResolvedTimeConfig } from 'in-applications/metrics';
 import ExpandableGroup from 'in-new-components/ExpandableGroup';
 import Skeleton from 'in-new-components/Loading/Skeleton';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import { isBlank } from 'in-services/util/string';
 import { find } from 'in-services/arrayUtils';
 import Tooltip from 'in-components/Tooltip';
 import { role } from 'in-stores/user';
@@ -55,6 +56,7 @@ export default function ServiceComponent({ call, websiteBeacon, mobileAppBeacon 
   const batchCallWithoutSource = sourceService?.id === 'ROOT' && sourceSnapshotId == null && endpoint?.type === 'BATCH';
 
   const isSyntheticBatchSpan = entrySpan && entrySpan.name === 'batch-synthetic';
+  const foreignParentId = entrySpan?.foreignParentId;
 
   const logs = call.logs;
   const errorLogs = logs.filter(log => log.errorCount === 1);
@@ -203,8 +205,11 @@ export default function ServiceComponent({ call, websiteBeacon, mobileAppBeacon 
                   defaultExpanded
                 >
                   <p>
-                    The source of this call has not been traced and as a result no information can be provided about the
-                    source. All information shown about this call is provided by the destination.
+                    {isBlank(foreignParentId)
+                      ? t('in-analyze:traceDetail.callDetails.serviceComponent.sourceUnmonitored')
+                      : t('in-analyze:traceDetail.callDetails.serviceComponent.sourceMonitoredByAnotherProvider', {
+                          foreignParentId
+                        })}
                   </p>
                 </ExpandableGroup>
               )}
