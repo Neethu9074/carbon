@@ -4,6 +4,7 @@
  */
 import classNames from 'classnames';
 import { get } from 'lodash';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import {
@@ -73,21 +74,21 @@ export default function MatchedSyntheticEndpoints({ tagFilters }) {
   const hasErrors = errors?.length > 0;
 
   if (isInitialLoading) {
-    return <LoadingIndicator text="Loading data" height={100} />;
+    return <LoadingIndicator text={t('in-applications:loadingData')} height={100} />;
   } else if (hasErrors) {
     return <ErroneousResultPresenter errors={errors} />;
   }
 
   if (items.length === 0) {
-    return <div className={locals.message}>No endpoint matches this rule.</div>;
+    return <div className={locals.message}>{t('in-applications:forms.customSyntheticRule.messageNoMatchRule')}</div>;
   }
 
   return (
     <Table>
       <Thead>
         <Tr size="compact" className={locals.tr}>
-          <Th className={locals.th}>Endpoints</Th>
-          <Th className={classNames(locals.th, locals.alignRight)}>Services Affected</Th>
+          <Th className={locals.th}>{t('in-applications:labelEndpoints')}</Th>
+          <Th className={classNames(locals.th, locals.alignRight)}>{t('in-applications:labelServicesAffected')}</Th>
         </Tr>
       </Thead>
 

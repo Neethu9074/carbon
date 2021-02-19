@@ -97,8 +97,8 @@ export default function EndpointDashboard({ location }) {
     <>
       <ViewTrackingMeta
         data={{
-          productArea: t('in-applications:labelApplications'),
-          pageRootName: t('in-applications:labelEndpoint'),
+          productArea: 'Applications',
+          pageRootName: 'Endpoint',
           inContextOfApplication: props.applicationId != null
         }}
       />

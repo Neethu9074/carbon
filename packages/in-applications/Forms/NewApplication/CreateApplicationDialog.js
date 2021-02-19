@@ -6,6 +6,7 @@ import { createField, createMapForm, createListForm, notBlankValidator } from 'f
 import { just } from '@instana/observables';
 import React, { Fragment } from 'react';
 import classNames from 'classnames';
+import { Trans, t } from 'in-i18n';
 import { get } from 'lodash';
 
 import {
@@ -49,9 +50,15 @@ import locals from './CreateApplicationDialog.mless';
 export default function CreateApplicationDialog({ timeConfig, applicationId, onCancelHref$, getOnSavePath }) {
   return (
     <MaxWidthFullscreenContainer className={locals.maxWidthFullscreenContainer}>
-      <Card title={applicationId ? 'Update Application Perspective' : 'Create Application Perspective'}>
+      <Card
+        title={
+          applicationId
+            ? t('in-applications:titleUpdateApplicationPerspective')
+            : t('in-applications:titleCreateApplicationPerspective')
+        }
+      >
         <BasicForm
-          saveButtonLabel={applicationId ? 'Save' : 'Create'}
+          saveButtonLabel={applicationId ? t('in-applications:buttonSave') : t('in-applications:buttonCreate')}
           onCancelHref$={onCancelHref$}
           getOnSavePath={getOnSavePath}
           getEntity={() =>
@@ -89,18 +96,15 @@ export default function CreateApplicationDialog({ timeConfig, applicationId, onC
             };
             return (
               <Fragment>
-                <HelpText>
-                  Application perspectives provide a means to model environments, sets of services, tenants, or just
-                  about anything.
-                </HelpText>
+                <HelpText>{t('in-applications:forms.newApplication.helpApplicationPerspectives')}</HelpText>
                 <Steps
                   steps={[
                     {
-                      stepTitle: 'Define a name for your application perspective.',
+                      stepTitle: t('in-applications:forms.newApplication.stepTitleDefineApplicationName'),
                       content: form.get('label').map(field => (
                         <FormGroup>
                           <Label htmlFor="label" hasError={!field.valid && field.touched}>
-                            Application Perspective Name
+                            {t('in-applications:creation.simple.step3.apName')}
                           </Label>
                           <Input
                             type="text"
@@ -115,40 +119,38 @@ export default function CreateApplicationDialog({ timeConfig, applicationId, onC
 
                           {applicationId && (
                             <HelpText>
-                              Renaming an application is an eventually consistent action within the Instana system. For
-                              this reason, a change to an application name may take <em>up to a few minutes</em> until
-                              it has populated throughout the whole system.
+                              <Trans
+                                i18nKey="in-applications:forms.newApplication.helpRenameApplication"
+                                components={{ italic: <em /> }}
+                              />
                             </HelpText>
                           )}
 
                           <DescriptionText className={locals.applicationNameText}>
-                            {`Application perspective names should have a well established definition within an organization. For example,
-                      to model an environment: "Production Blue", to model a set of services: "Payment", or to model a
-                      tenant: "ACME Customer".`}
+                            {t('in-applications:forms.newApplication.descriptionApplicationName')}
                           </DescriptionText>
                         </FormGroup>
                       ))
                     },
                     {
-                      stepTitle: 'Define the application perspective using one or more tags.',
+                      stepTitle: t('in-applications:forms.newApplication.stepTitleDefineApplicationName'),
                       content: (
                         <Fragment>
                           <DescriptionText>
-                            {`For example where key is "docker.label" and value is "environment=Production Blue",
-                            or key is "call.http.params" and value is "tenant=ACMECustomer". Note that any calls to a`}
-                            <Pill color={getColor('DATABASE')} kind="light">
-                              DATABASE
-                            </Pill>
-                            service or
-                            <Pill color={getColor('MESSAGING')} kind="light">
-                              MESSAGING
-                            </Pill>
-                            service from services matching this definition will automatically be included.
+                            <Trans
+                              i18nKey="in-applications:forms.newApplication.descriptionTags"
+                              components={{
+                                pillDatabase: <Pill color={getColor('DATABASE')} kind="light" />,
+                                pillMessage: <Pill color={getColor('MESSAGING')} kind="light" />
+                              }}
+                            />
                             <br />
                             <br />
-                            <strong>{`AND operators take precedence and are evaluated before OR operators${newAnalyticsEnabled &&
-                              qb2InAPCreationEnabled &&
-                              ' if not grouped in brackets'}`}</strong>
+                            <strong>
+                              {newAnalyticsEnabled && qb2InAPCreationEnabled
+                                ? t('in-applications:forms.newApplication.descriptionOperatorsCreationEnabled')
+                                : t('in-applications:forms.newApplication.descriptionOperators')}
+                            </strong>
                           </DescriptionText>
                           {newAnalyticsEnabled && qb2InAPCreationEnabled ? (
                             <div className={locals.queryBuilder}>
@@ -192,7 +194,7 @@ export default function CreateApplicationDialog({ timeConfig, applicationId, onC
                                   }
                                   icon="lib_openclose_add_circle_outline"
                                 >
-                                  Add Tag
+                                  {t('in-applications:buttonAddTag')}
                                 </Button>
                               </div>
                               <TagFilterList
@@ -260,7 +262,7 @@ export default function CreateApplicationDialog({ timeConfig, applicationId, onC
                       )
                     },
                     {
-                      stepTitle: 'Downstream services.',
+                      stepTitle: t('in-applications:forms.newApplication.stepTitleDownstreamServices'),
                       content: form.get('scope').map(field => (
                         <FormGroup>
                           <OptionBox
@@ -268,7 +270,7 @@ export default function CreateApplicationDialog({ timeConfig, applicationId, onC
                               [locals.optionBox]: true,
                               [locals.optionBoxUnchecked]: field.value !== 'INCLUDE_NO_DOWNSTREAM'
                             })}
-                            title="No downstream services"
+                            title={t('in-applications:forms.newApplication.optionNoDownstreamServices')}
                             asRadioButton
                             checked={field.value == 'INCLUDE_NO_DOWNSTREAM'}
                             onChange={() => setValue(['scope'], 'INCLUDE_NO_DOWNSTREAM', form)}
@@ -279,7 +281,7 @@ export default function CreateApplicationDialog({ timeConfig, applicationId, onC
                               [locals.optionBoxUnchecked]:
                                 field.value !== 'INCLUDE_IMMEDIATE_DOWNSTREAM_DATABASE_AND_MESSAGING'
                             })}
-                            title="Immediate downstream database and messaging services"
+                            title={t('in-applications:forms.newApplication.optionImmediateDownstreamServices')}
                             asRadioButton
                             checked={field.value == 'INCLUDE_IMMEDIATE_DOWNSTREAM_DATABASE_AND_MESSAGING'}
                             onChange={() =>
@@ -291,7 +293,7 @@ export default function CreateApplicationDialog({ timeConfig, applicationId, onC
                               [locals.optionBox]: true,
                               [locals.optionBoxUnchecked]: field.value !== 'INCLUDE_ALL_DOWNSTREAM'
                             })}
-                            title="All downstream services"
+                            title={t('in-applications:forms.newApplication.optionAllDownstreamServices')}
                             asRadioButton
                             checked={field.value == 'INCLUDE_ALL_DOWNSTREAM'}
                             onChange={() => setValue(['scope'], 'INCLUDE_ALL_DOWNSTREAM', form)}
@@ -300,7 +302,7 @@ export default function CreateApplicationDialog({ timeConfig, applicationId, onC
                       ))
                     },
                     {
-                      stepTitle: 'Application scope.',
+                      stepTitle: t('in-applications:forms.newApplication.stepTitleApplicationScope'),
                       content: form.get('boundaryScope').map(field => {
                         return (
                           <FormGroup>
@@ -426,7 +428,7 @@ function applicationLabelValidator(name) {
     return [
       {
         severity: 'error',
-        message: 'The application perspective name must not be blank.'
+        message: t('in-applications:forms.newApplication.errorApplicationNameBlank')
       }
     ];
   }
@@ -435,7 +437,7 @@ function applicationLabelValidator(name) {
     return [
       {
         severity: 'error',
-        message: 'The application perspective name must not be larger than 128 characters.'
+        message: t('in-applications:forms.newApplication.errorNameLengthExceeded')
       }
     ];
   }
@@ -452,7 +454,7 @@ function tagFilterExpressionValidator(tagFilterExpression) {
     return [
       {
         severity: 'error',
-        message: 'The query is not valid.'
+        message: t('in-applications:forms.newApplication.errorInvalidQuery')
       }
     ];
   }

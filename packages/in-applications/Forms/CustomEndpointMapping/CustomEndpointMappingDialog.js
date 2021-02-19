@@ -40,7 +40,7 @@ function PathTemplateRule({ form, setValue }) {
     <Tooltip
       align="topMiddle"
       themeStyle="light"
-      content={t('in-applications.forms.tooltipExtractsEndpointsAsSpecified')}
+      content={t('in-applications:forms.tooltipExtractsEndpointsAsSpecified')}
     >
       <ExtractionRule
         rule={{
@@ -130,8 +130,8 @@ export default function CustomEndpointMappingDialog({ location }) {
             <>
               <ViewTrackingMeta
                 data={{
-                  productArea: t('in-applications:labelApplications'),
-                  pageRootName: t('in-applications:labelService')
+                  productArea: 'Applications',
+                  pageRootName: 'Service'
                 }}
               />
 

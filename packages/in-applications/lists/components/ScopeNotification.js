@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { Trans, t } from 'in-i18n';
 import { get } from 'lodash';
 import React from 'react';
 
@@ -71,22 +72,67 @@ export default connectTo(
       <div className={locals.wrapper}>
         <SvgIcon size="s" className={locals.icon} type={icon} />
         <div className={locals.notificationText}>
-          Showing {productArea}s <span className={locals.bold}>{contextScope.toLowerCase()}</span> of{' '}
-          <Link className={locals.bold} href$={href}>
-            {entityLabel}
-          </Link>
-          {applicationLabel && (serviceLabel || endpointLabel) && (
-            <>
-              <span> in context of </span>
-              <Link className={locals.bold} href$={getApplicationDashboard(applicationId)}>
-                {applicationLabel}
-              </Link>
-            </>
+          {applicationLabel && (serviceLabel || endpointLabel) ? (
+            productArea.toLowerCase() === 'application' ? (
+              <Trans
+                i18nKey="in-applications:list.showApplicationsScopeWithApplicationLabel"
+                values={{
+                  contextScope: contextScope.toLowerCase(),
+                  entityLabel: entityLabel,
+                  applicationLabel: applicationLabel
+                }}
+                components={{
+                  bold: <span className={locals.bold} />,
+                  linkToEntity: <Link className={locals.bold} href$={href} />,
+                  linkToApplication: <Link className={locals.bold} href$={getApplicationDashboard(applicationId)} />
+                }}
+              />
+            ) : (
+              <Trans
+                i18nKey="in-applications:list.showServicesScopeWithServiceLabel"
+                values={{
+                  contextScope: contextScope.toLowerCase(),
+                  entityLabel: entityLabel,
+                  applicationLabel: applicationLabel
+                }}
+                components={{
+                  bold: <span className={locals.bold} />,
+                  linkToEntity: <Link className={locals.bold} href$={href} />,
+                  linkToApplication: <Link className={locals.bold} href$={getApplicationDashboard(applicationId)} />
+                }}
+              />
+            )
+          ) : productArea.toLowerCase() === 'application' ? (
+            <Trans
+              i18nKey="in-applications:list.showApplicationsScope"
+              values={{
+                contextScope: contextScope.toLowerCase(),
+                entityLabel: entityLabel
+              }}
+              components={{
+                bold: <span className={locals.bold} />,
+                linkToEntity: <Link className={locals.bold} href$={href} />
+              }}
+            />
+          ) : (
+            <Trans
+              i18nKey="in-applications:list.showServicesScope"
+              values={{
+                contextScope: contextScope.toLowerCase(),
+                entityLabel: entityLabel
+              }}
+              components={{
+                bold: <span className={locals.bold} />,
+                linkToEntity: <Link className={locals.bold} href$={href} />
+              }}
+            />
           )}
         </div>
         <div>
           <Button icon="lib_openclose_circle" size="compact" onClick={onClose}>
-            Show all {productArea}s
+            {productArea.toLowerCase() === 'application'
+              ? t('in-applications:buttonShowAllApplications')
+              : t('in-applications:buttonShowAllServices')}
           </Button>
         </div>
       </div>

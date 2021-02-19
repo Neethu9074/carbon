@@ -5,6 +5,7 @@
 import { composeValidators, createField, createListForm, createMapForm, notBlankValidator } from 'formalistic';
 import React, { Fragment } from 'react';
 import { assign, get } from 'lodash';
+import { Trans, t } from 'in-i18n';
 
 import { createNewServiceConfigs, getServiceConfigs, replaceAllServiceConfigs } from 'in-api/serviceConfiguration';
 import DragAndDropRuleList from 'in-applications/Forms/CustomServiceMapping/DragAndDropRuleList';
@@ -23,8 +24,8 @@ import locals from './CustomServiceMappingDialog.mless';
 export default function CustomServiceMappingDialog() {
   return (
     <BasicForm
-      title="Configure Custom Service Rules"
-      saveButtonLabel="Save"
+      title={t('in-applications:titleConfigureCustomServiceRules')}
+      saveButtonLabel={t('in-applications:buttonSave')}
       onCancelHref$={getModifiedUrlStream(p => (p.pathname = servicesList))}
       getOnSavePath={() => servicesList}
       getEntity={() =>
@@ -48,30 +49,29 @@ export default function CustomServiceMappingDialog() {
             <Steps
               steps={[
                 {
-                  stepTitle: 'Extend the automatic service mapping by adding a custom service rule.',
+                  stepTitle: t('in-applications:forms.customService.stepTitle'),
                   content: (
                     <div>
                       <DescriptionText>
-                        Instana automatically maps services based on an extensive set of predefined rules. For example,
-                        if the tag nodejs.app.name is found, and there are calls tagged with
-                        <strong>{` "nodejs.app.name=user service" `}</strong>
-                        and with
-                        <strong>{` "nodejs.app.name=cart service"`}</strong>, then
-                        <strong>{` "user service" `}</strong> and
-                        <strong>{` "cart service" `}</strong> will appear as services.
+                        <Trans
+                          i18nKey="in-applications:forms.customService.descriptionTextFirstLine"
+                          components={{ bold: <strong /> }}
+                        />
                         <br />
                         <br />
-                        Please visit the{' '}
-                        <strong>
-                          <a
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            href="https://instana.com/docs/application_monitoring/services/"
-                          >
-                            Docs on Application and Service Management{' '}
-                          </a>
-                        </strong>{' '}
-                        to learn more on the predefined rules.
+                        <Trans
+                          i18nKey="in-applications:forms.customService.descriptionVisit"
+                          components={{
+                            bold: <strong />,
+                            linkToDoc: (
+                              <a
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                href="https://instana.com/docs/application_monitoring/services/"
+                              />
+                            )
+                          }}
+                        />
                       </DescriptionText>
 
                       <DragAndDropRuleList
@@ -92,7 +92,7 @@ export default function CustomServiceMappingDialog() {
                           onClick={() => updateForm(form.push(getServiceConfigForm(serviceConfigs)))}
                           icon="lib_openclose_add_circle_outline"
                         >
-                          Add Custom Service Rule
+                          {t('in-applications:buttonAddCustomServiceRule')}
                         </Button>
                       </div>
                     </div>

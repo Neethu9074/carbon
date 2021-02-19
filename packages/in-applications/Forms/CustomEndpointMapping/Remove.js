@@ -4,6 +4,7 @@
  */
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
+import { t } from 'in-i18n';
 
 import { serviceDashboard } from 'in-applications/navigation/paths';
 import { deleteEndpointConfig } from 'in-api/endpointConfiguration';
@@ -43,12 +44,9 @@ export default class Remove extends React.PureComponent {
     return (
       <Fragment>
         <Spacer type="light" />
-        <DescriptionText>
-          If you wish to reset to default extractions rules, please use the button below. Resetting may take up to a few
-          minutes to register.
-        </DescriptionText>
-        <input type="checkbox" checked={this.state.checkboxChecked} onChange={this.onTickChange} disabled={loading} /> I
-        understand that this action cannot be undone.
+        <DescriptionText>{t('in-applications:forms.descriptionResetToDefaultRule')}</DescriptionText>
+        <input type="checkbox" checked={this.state.checkboxChecked} onChange={this.onTickChange} disabled={loading} />
+        {t('in-applications:forms.understandCheckboxResetToDefaultRule')}
         {removeError && <SaveError>{removeError}</SaveError>}
         <Button
           kind="danger"
@@ -56,7 +54,7 @@ export default class Remove extends React.PureComponent {
           onClick={this.remove}
           className={locals.removeButton}
         >
-          Reset to default
+          {t('in-applications:buttonResetToDefault')}
         </Button>
       </Fragment>
     );

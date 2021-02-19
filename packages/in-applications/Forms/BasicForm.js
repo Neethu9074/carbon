@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import React, { useState, useEffect } from 'react';
+import { t } from 'in-i18n';
 
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
@@ -88,8 +89,8 @@ class BasicForm extends React.Component {
       generalHelpText,
       onCancelHref$,
       form,
-      savingStateName = 'Saving…',
-      saveButtonLabel = 'Save'
+      savingStateName = t('in-applications:labelSaving'),
+      saveButtonLabel = t('in-applications:buttonSave')
     } = this.props;
     const updateForm = form => this.props.updateForm(form.setTouched(true, { recurse: false }));
     const { saving, error, success } = this.state;
@@ -99,7 +100,7 @@ class BasicForm extends React.Component {
 
     let content;
     if (isLoading) {
-      content = <LoadingIndicator text="Loading data" height={100} />;
+      content = <LoadingIndicator text={t('in-applications:loadingData')} height={100} />;
     } else if (hasErrors) {
       content = <ErroneousResultPresenter errors={entityResult.errors} />;
     } else {
@@ -111,7 +112,7 @@ class BasicForm extends React.Component {
           <div className={locals.footer}>
             {onCancelHref$ && (
               <Button kind="subtle" size="compact" href$={onCancelHref$}>
-                cancel
+                {t('in-applications:buttonCancel')}
               </Button>
             )}
             {!onCancelHref$ && <div />}
@@ -146,8 +147,8 @@ class BasicForm extends React.Component {
           </div>
         )}
 
-        {success && <TemporaryMessage message="Successfully saved." type="success" />}
-        {error && <TemporaryMessage message="An error occurred, please try again." type="error" />}
+        {success && <TemporaryMessage message={t('in-applications:messageSuccessfullySaved')} type="success" />}
+        {error && <TemporaryMessage message={t('in-applications:messageErrorOccurred')} type="error" />}
 
         {title && <Spacer type="dark" />}
 
@@ -166,7 +167,7 @@ export function matchSpecificationValidator(items) {
     return [
       {
         severity: 'error',
-        message: 'At least one match condition is required.'
+        message: t('in-applications:forms.customSyntheticRule.errorConditionRequired')
       }
     ];
   }

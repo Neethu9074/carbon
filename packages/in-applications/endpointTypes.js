@@ -4,22 +4,23 @@
  */
 import invariant from 'invariant';
 import theme from 'in-themes';
+import { t } from 'in-i18n';
 
 import { addTransparency } from 'in-themes/utils';
 
 export const endpointNameTranslations = {
-  BATCH: 'Batch',
-  SHELL: 'Shell',
-  DATABASE: 'Database',
-  HTTP: 'Http',
-  MESSAGING: 'Messaging',
-  RPC: 'Rpc',
-  EVENT: 'Event',
-  GRAPHQL: 'GraphQL',
-  INTERNAL: 'Internal',
-  UNDEFINED: 'Undefined',
-  SELF: 'Self',
-  SDK: 'SDK'
+  BATCH: t('in-applications:endpointTypes.batch'),
+  SHELL: t('in-applications:endpointTypes.shell'),
+  DATABASE: t('in-applications:endpointTypes.database'),
+  HTTP: t('in-applications:endpointTypes.http'),
+  MESSAGING: t('in-applications:endpointTypes.messaging'),
+  RPC: t('in-applications:endpointTypes.rpc'),
+  EVENT: t('in-applications:endpointTypes.event'),
+  GRAPHQL: t('in-applications:endpointTypes.graphQL'),
+  INTERNAL: t('in-applications:endpointTypes.internal'),
+  UNDEFINED: t('in-applications:endpointTypes.undefined'),
+  SELF: t('in-applications:endpointTypes.self'),
+  SDK: t('in-applications:endpointTypes.sdk')
 };
 
 export const colorTranslation = {

@@ -4,6 +4,7 @@
  */
 import { createField, createMapForm, notBlankValidator } from 'formalistic';
 import { get } from 'lodash';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import EditConfigDialog from 'in-applications/Forms/components/EditConfigDialog';
@@ -23,7 +24,9 @@ import locals from './CustomSyntheticRuleDialog.mless';
 const DEFAULT_KEY = 'endpoint.name';
 
 export default function CustomSyntheticRuleDialog(props) {
-  return <EditConfigDialog title="Custom Synthetic Rule" content={<EditRuleForm {...props} />} />;
+  return (
+    <EditConfigDialog title={t('in-applications:titleCustomSyntheticRule')} content={<EditRuleForm {...props} />} />
+  );
 }
 
 class EditRuleForm extends React.Component {
@@ -53,11 +56,11 @@ class EditRuleForm extends React.Component {
       <form onSubmit={e => this.onSubmit(e, form)}>
         <div className={locals.nameSection}>
           <FormGroup>
-            <div className={locals.helpText}>{'Name Rule'}</div>
+            <div className={locals.helpText}>{t('in-applications:labelNameRule')}</div>
             <Input
               type="text"
               id="name"
-              placeholder="Name your rule"
+              placeholder={t('in-applications:forms.customSyntheticRule.placeholderNameRule')}
               value={nameField.value}
               onChange={e => this.onChange('name', e.target.value)}
               hasError={!nameField.valid && nameField.touched}
@@ -71,7 +74,7 @@ class EditRuleForm extends React.Component {
               <FormTextArea
                 type="text"
                 id="description"
-                placeholder="Add a description for your rule"
+                placeholder={t('in-applications:forms.customSyntheticRule.placeholderAddDescriptionForRule')}
                 rows="3"
                 value={descriptionField.value}
                 onChange={e => this.onChange('description', e.target.value)}
@@ -79,16 +82,16 @@ class EditRuleForm extends React.Component {
             ) : (
               <div>
                 <Button kind="action" className={locals.addDescriptionButton} onClick={this.onAddDescription}>
-                  Add description
+                  {t('in-applications:buttonAddDescription')}
                 </Button>
-                <span className={locals.helpText}>(optional)</span>
+                <span className={locals.helpText}>{t('in-applications:helpOptional')}</span>
               </div>
             )}
           </FormGroup>
         </div>
 
         <div className={locals.conditionSection}>
-          <div className={locals.helpText}>{'Specify the rules to match, eg. endpoint.name contains health'}</div>
+          <div className={locals.helpText}>{t('in-applications:forms.customSyntheticRule.helpSpecifyRule')}</div>
 
           <TagFilterEditor
             keys={['endpoint.name']}
@@ -105,7 +108,7 @@ class EditRuleForm extends React.Component {
 
         <div className={locals.footer}>
           <Button kind="create" type="submit" disabled={!form.hierarchyValid}>
-            Save
+            {t('in-applications:buttonSave')}
           </Button>
           {onRemove && (
             <Button
@@ -118,7 +121,7 @@ class EditRuleForm extends React.Component {
                 onRemove();
               }}
             >
-              Delete Rule
+              {t('in-applications:buttonDeleteRule')}
             </Button>
           )}
         </div>

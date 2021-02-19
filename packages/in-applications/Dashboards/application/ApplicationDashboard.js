@@ -66,8 +66,8 @@ export default function ApplicationDashboard({ location }) {
     <>
       <ViewTrackingMeta
         data={{
-          productArea: t('in-applications:labelApplications'),
-          pageRootName: t('in-applications:labelApplication')
+          productArea: 'Applications',
+          pageRootName: 'Application'
         }}
       />
 

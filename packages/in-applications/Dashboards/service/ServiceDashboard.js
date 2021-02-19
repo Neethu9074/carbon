@@ -76,8 +76,8 @@ export default function ServiceDashboard({ location }) {
     <>
       <ViewTrackingMeta
         data={{
-          productArea: t('in-applications:labelApplications'),
-          pageRootName: t('in-applications:labelService'),
+          productArea: 'Applications',
+          pageRootName: 'Service',
           inContextOfApplication: props.applicationId != null
         }}
       />

@@ -24,32 +24,32 @@ const callsOnlyTab = [tabCallCount];
 const allMetrics = [
   {
     id: '1xx',
-    label: t('in-websites:websitedashboard.tabs.ajax.xhrRequestLabel1XX'),
+    label: t('in-websites:websiteDashboard.tabs.ajax.xhrRequestLabel1XX'),
     value: 'http.1xx',
     tab: tabHttpStatusCodes.id
   },
   {
     id: '2xx',
-    label: t('in-websites:websitedashboard.tabs.ajax.xhrRequestLabel2XX'),
+    label: t('in-websites:websiteDashboard.tabs.ajax.xhrRequestLabel2XX'),
     value: 'http.2xx',
     tab: tabHttpStatusCodes.id,
     tabDefault: true
   },
   {
     id: '3xx',
-    label: t('in-websites:websitedashboard.tabs.ajax.xhrRequestLabel3XX'),
+    label: t('in-websites:websiteDashboard.tabs.ajax.xhrRequestLabel3XX'),
     value: 'http.3xx',
     tab: tabHttpStatusCodes.id
   },
   {
     id: '4xx',
-    label: t('in-websites:websitedashboard.tabs.ajax.xhrRequestLabel4XX'),
+    label: t('in-websites:websiteDashboard.tabs.ajax.xhrRequestLabel4XX'),
     value: 'http.4xx',
     tab: tabHttpStatusCodes.id
   },
   {
     id: '5xx',
-    label: t('in-websites:websitedashboard.tabs.ajax.xhrRequestLabel1XX'),
+    label: t('in-websites:websiteDashboard.tabs.ajax.xhrRequestLabel5XX'),
     value: 'http.5xx',
     tab: tabHttpStatusCodes.id
   },

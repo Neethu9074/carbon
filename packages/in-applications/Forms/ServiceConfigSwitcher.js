@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { newServiceView, configureSyntheticEndpointsView } from 'in-applications/navigation/paths';
@@ -16,17 +17,17 @@ export default connectTo(
   },
   function ServiceConfigSwitcher({ isNewServiceViewActive, isConfigureSyntheticEndpointsViewActive }) {
     return (
-      <SideNavigation title="Configure">
+      <SideNavigation title={t('in-applications:titleConfigure')}>
         <SideNavigationItem
           href$={getModifiedUrlStream(p => (p.pathname = newServiceView))}
           icon="lib_application_service"
-          label="Custom Service Rules"
+          label={t('in-applications:labelCustomServiceRules')}
           isActive={isNewServiceViewActive}
         />
         <SideNavigationItem
           href$={getModifiedUrlStream(p => (p.pathname = configureSyntheticEndpointsView))}
           icon="lib_application_endpoint"
-          label="Synthetic Endpoints"
+          label={t('in-applications:labelSyntheticEndpoints')}
           isActive={isConfigureSyntheticEndpointsViewActive}
         />
       </SideNavigation>

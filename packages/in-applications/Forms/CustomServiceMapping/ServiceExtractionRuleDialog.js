@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { createField, notBlankValidator } from 'formalistic';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import EditConfigDialog from 'in-applications/Forms/components/EditConfigDialog';
@@ -23,7 +24,7 @@ import theme from 'in-themes';
 import locals from './ServiceExtractionRuleDialog.mless';
 
 export default function ServiceExtractionRuleDialog(props) {
-  return <EditConfigDialog title="Custom Service Rule" content={<BasicDialog {...props} />} />;
+  return <EditConfigDialog title={t('in-applications:titleCustomServiceRule')} content={<BasicDialog {...props} />} />;
 }
 
 export function getPreview(serviceConfig) {
@@ -55,14 +56,11 @@ class BasicDialog extends React.Component {
       <form onSubmit={e => this.onSubmit(e, form, serviceConfigIndex)}>
         <div className={locals.queryFormSection}>
           <div className={locals.description}>
-            <DescriptionText>
-              Define a custom rule by selecting a series of tags below. If all tags are present on a call, it will be
-              mapped to that service.
-            </DescriptionText>
+            <DescriptionText>{t('in-applications:forms.customService.descriptionCustomServiceRule')}</DescriptionText>
           </div>
           {serviceConfiguration.get('name').map(field => (
             <FormGroup>
-              <Label htmlFor={'name'}>Name Rule</Label>
+              <Label htmlFor={'name'}>{t('in-applications:labelNameRule')}</Label>
               <Input
                 type="text"
                 id="name"
@@ -90,7 +88,7 @@ class BasicDialog extends React.Component {
                   {matchSpecification.get('key').map(field => (
                     <FormGroup className={locals.matchSpecificationGroupKey}>
                       <Label htmlFor={`match-${matchSpecificationIndex}-key`} hasError={!field.valid && field.touched}>
-                        Tag
+                        {t('in-applications:labelTag')}
                       </Label>
                       <Select
                         id={`match-${matchSpecificationIndex}-key`}
@@ -144,7 +142,7 @@ class BasicDialog extends React.Component {
                             htmlFor={`match-${matchSpecificationIndex}-secondLevelName`}
                             hasError={!field.valid && field.touched}
                           >
-                            Key
+                            {t('in-applications:labelKey')}
                           </Label>
                           <Input
                             type="text"
@@ -165,7 +163,7 @@ class BasicDialog extends React.Component {
                     })}
 
                   {serviceConfiguration.get('matchSpecification').size > 1 && (
-                    <Tooltip content="Remove this match condition">
+                    <Tooltip content={t('in-applications:forms.customService.tooltipRemoveCondition')}>
                       <SvgIcon
                         className={locals.removeMatchRuleIcon}
                         type="lib_openclose_cancel"
@@ -180,7 +178,7 @@ class BasicDialog extends React.Component {
                           })
                         }
                         tabIndex={0}
-                        aria-label="Remove this match condition"
+                        aria-label={t('in-applications:forms.customService.tooltipRemoveCondition')}
                       />
                     </Tooltip>
                   )}
@@ -198,18 +196,18 @@ class BasicDialog extends React.Component {
               }
               icon="lib_openclose_add_circle_outline"
             >
-              Add Tag
+              {t('in-applications:buttonAddTag')}
             </Button>
           </div>
         </div>
 
         <div className={locals.preview}>
-          <div className={locals.label}>Preview</div>
+          <div className={locals.label}>{t('in-applications:labelPreview')}</div>
           <div className={locals.render}>{getPreview(serviceConfiguration)}</div>
         </div>
         <div className={locals.footer}>
           <Button kind="create" type="submit" disabled={!form.get(serviceConfigIndex).hierarchyValid}>
-            OK
+            {t('in-applications:buttonOK')}
           </Button>
           {onRemove && (
             <Button
@@ -222,7 +220,7 @@ class BasicDialog extends React.Component {
                 onRemove();
               }}
             >
-              Delete Rule
+              {t('in-applications:buttonDeleteRule')}
             </Button>
           )}
         </div>
@@ -255,7 +253,7 @@ class BasicDialog extends React.Component {
 }
 
 function getCustomServiceMappingTagValuesAsOptions() {
-  return [{ value: '', label: 'Please select' }]
+  return [{ value: '', label: t('in-applications:labelPleaseSelect') }]
     .concat(customServiceMappingTagKeys.sort().map(key => ({ label: key, value: key })))
     .map(tag => (
       <option key={tag.label} value={tag.value}>
