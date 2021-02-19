@@ -15,6 +15,7 @@ import { mapDataHO } from 'in-services/util/result';
 import Stack from 'in-new-components/layout/Stack';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import useObservable from 'in-hooks/useObservable';
+import { isBlank } from 'in-services/util/string';
 
 import locals from './FacetedFilterGeneric.mless';
 
@@ -134,8 +135,14 @@ function SearchAndSuggestions({
     ) ?? pendingResult;
   return (
     <Stack space="small">
-      {suggestions?.data?.items.length > 5 && (
-        <SearchInput onChange={setValueFilter} query={valueFilter} inputClassName={locals.search} withoutIcon />
+      {(!isBlank(valueFilter) || suggestions?.data?.items.length > 5 || suggestions?.progress.loading) && (
+        <SearchInput
+          onChange={setValueFilter}
+          query={valueFilter}
+          inputClassName={locals.search}
+          withoutIcon
+          disabled={suggestions?.progress.loading}
+        />
       )}
       <SuggestionsPresenter
         loading={suggestions?.progress.loading}

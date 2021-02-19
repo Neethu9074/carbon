@@ -15,6 +15,7 @@ import SuggestionsPresenter from './SuggestionsPresenter';
 import { mapDataHO } from 'in-services/util/result';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import useObservable from 'in-hooks/useObservable';
+import { isBlank } from 'in-services/util/string';
 
 import locals from './Suggestion.mless';
 
@@ -144,8 +145,14 @@ function SearchAndSuggestions({
   );
   return (
     <>
-      {suggestions?.data?.results.length > 5 && (
-        <SearchInput onChange={setValueFilter} query={valueFilter} inputClassName={locals.search} withoutIcon />
+      {(!isBlank(valueFilter) || suggestions?.data?.results.length > 5 || suggestions?.progress.loading) && (
+        <SearchInput
+          onChange={setValueFilter}
+          query={valueFilter}
+          inputClassName={locals.search}
+          withoutIcon
+          disabled={suggestions?.progress.loading}
+        />
       )}
       <SuggestionsPresenter
         loading={suggestions?.progress.loading}
