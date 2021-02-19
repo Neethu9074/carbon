@@ -23,6 +23,7 @@ export default function createBlueprintForm(form, alertType, alertThreshold = {}
     alertType
   );
 
+  const metricName = blueprintConfig.defaultMetric;
   const newRuleForm = createRuleForm({
     ...form
       .get('rule')
@@ -30,12 +31,13 @@ export default function createBlueprintForm(form, alertType, alertThreshold = {}
       .remove('value')
       .toJS(),
     alertType,
-    metricName: blueprintConfig.defaultMetric
+    metricName
   });
 
-  const isNotDisabled = filter => !blueprintConfig.disabledTagFilters.includes(filter.name);
+  const availableTagFilters = blueprintConfig.getAvailableTags(metricName);
+  const isAllowedFilter = filter => availableTagFilters.includes(filter.name);
   let updatedForm = form
-    .updateIn(['tagFilters'], f => f.setValue(tagFilters.filter(isNotDisabled)))
+    .updateIn(['tagFilters'], f => f.setValue(tagFilters.filter(isAllowedFilter)))
     .put('rule', newRuleForm)
     .put('threshold', newThresholdForm);
 
