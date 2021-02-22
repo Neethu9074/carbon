@@ -4,6 +4,7 @@
  */
 import { combineLatest } from '@instana/observables';
 import { get } from 'lodash';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import {
@@ -156,7 +157,7 @@ const columnDefinitions = [
       if (item.isPcf || item.isKubernetes) {
         return null;
       }
-      return <KeyValue label="ESXi Hosts" value={item.hosts} accentuated />;
+      return <KeyValue label={t('in-cockpit:component.platformsTopList.esXiHost')} value={item.hosts} accentuated />;
     }
   },
   {
@@ -166,9 +167,9 @@ const columnDefinitions = [
         return null;
       }
       return item.isKubernetes ? (
-        <KeyValue label="Nodes" value={item.nodes} accentuated />
+        <KeyValue label={t('in-cockpit:component.platformsTopList.Nodes')} value={item.nodes} accentuated />
       ) : (
-        <KeyValue label="VMs" value={item.vms} accentuated />
+        <KeyValue label={t('in-cockpit:component.platformsTopList.VMs')} value={item.vms} accentuated />
       );
     }
   },
@@ -176,16 +177,16 @@ const columnDefinitions = [
     width: '12rem',
     getContent({ item }) {
       if (item.isPcf) {
-        return <KeyValue label="Instances" value={<InstanceMetric applicationId={item.id} />} accentuated />;
+        return <KeyValue label={t('in-cockpit:component.platformsTopList.instances')} value={<InstanceMetric applicationId={item.id} />} accentuated />;
       }
       return item.isKubernetes ? (
-        <KeyValue label="Namespaces" value={item.namespaces} accentuated />
+        <KeyValue label={t('in-cockpit:component.platformsTopList.Namespaces')} value={item.namespaces} accentuated />
       ) : (
         <SparkChartWithMetricValue
           snapshotId={item.id}
           formatter={percentage.compact}
           metric="cpu.usage.percent.maximum.*"
-          label="CPU Usage"
+          label={t('in-cockpit:component.platformsTopList.cpuUsage')}
           aggregation="mean"
         />
       );
@@ -195,16 +196,16 @@ const columnDefinitions = [
     width: '12rem',
     getContent({ item }) {
       if (item.isPcf) {
-        return <KeyValue label="Memory Limit" value={bytesZeroDecimalPlaces(item.memoryLimit)} accentuated />;
+        return <KeyValue label={t('in-cockpit:component.platformsTopList.memoryLimit')} value={bytesZeroDecimalPlaces(item.memoryLimit)} accentuated />;
       }
       return item.isKubernetes ? (
-        <KeyValue label="Pods" value={item.workloads.pods} accentuated />
+        <KeyValue label={t('in-cockpit:component.platformsTopList.Pods')} value={item.workloads.pods} accentuated />
       ) : (
         <SparkChartWithMetricValue
           snapshotId={item.id}
           formatter={percentage.compact}
           metric="mem.usage.average.percent"
-          label="Memory Usage"
+          label={t('in-cockpit:component.platformsTopList.memoryUsage')}
           aggregation="mean"
         />
       );
@@ -235,9 +236,9 @@ function getSubTitle(item) {
     } Pod${item.workloads.pods > 1 ? 's' : ''}`;
   }
   if (item.isPcf) {
-    return 'Cloud Foundry Application';
+    return t('in-cockpit:component.platformsTopList.cloudFoundryApplication');
   }
-  return 'vSphere Datacenter';
+  return t('in-cockpit:component.platformsTopList.vSphereDatacenter');
 }
 
 const SparkChartWithMetricValue = connectTo(

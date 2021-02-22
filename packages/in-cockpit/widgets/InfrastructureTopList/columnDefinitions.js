@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import WithInfrastructureHealthIndicationBehaviour from 'in-components/health/WithHealthIndication/WithInfrastructureHealthIndicationBehaviour';
@@ -56,13 +57,13 @@ export default {
       width: '20rem',
       getContent({ item }) {
         const data = item.snapshot.get('data');
-        return <KeyValue label="OS" value={`${data.get('os.name', '')} ${data.get('os.version', '')}`} accentuated />;
+        return <KeyValue label={t('in-cockpit:widgets.columnDefinitions.OS')} value={`${data.get('os.name', '')} ${data.get('os.version', '')}`} accentuated />;
       }
     },
     {
       width: '5rem',
       getContent({ item }) {
-        return <KeyValue label="# of CPUs" value={item.snapshot.getIn(['data', 'cpu.count'], '')} accentuated />;
+        return <KeyValue label={t('in-cockpit:widgets.columnDefinitions.numCpU')} value={item.snapshot.getIn(['data', 'cpu.count'], '')} accentuated />;
       }
     },
     {
@@ -73,7 +74,7 @@ export default {
             snapshotId={item.snapshot.get('id')}
             formatter={percentage}
             metric="cpu.used"
-            label="CPU Usage"
+            label={t('in-cockpit:widgets.columnDefinitions.cpuUsage')}
             aggregation="mean"
           />
         );
@@ -99,7 +100,7 @@ export default {
       getContent({ item }) {
         return (
           <KeyValue
-            label="Created"
+            label={t('in-cockpit:widgets.columnDefinitions.Created')}
             value={formatDateTime(item.snapshot.getIn(['data', 'Created'], ''))}
             theme={themes.blue}
             accentuated
@@ -112,7 +113,7 @@ export default {
       getContent({ item }) {
         return (
           <KeyValue
-            label="Started"
+            label={t('in-cockpit:widgets.columnDefinitions.Started')}
             value={formatDateTime(item.snapshot.getIn(['data', 'Started'], ''))}
             theme={themes.blue}
             accentuated
@@ -128,7 +129,7 @@ export default {
             snapshotId={item.snapshot.get('id')}
             formatter={percentage}
             metric="cpu.total_usage"
-            label="CPU Usage"
+            label={t('in-cockpit:widgets.columnDefinitions.cpuUsage')}
             aggregation="mean"
           />
         );
@@ -157,7 +158,7 @@ export default {
             snapshotId={item.snapshot.get('id')}
             formatter={percentage}
             metric="cpu.user"
-            label="CPU Usage"
+            label={t('in-cockpit:widgets.columnDefinitions.cpuUsage')}
             aggregation="mean"
           />
         );

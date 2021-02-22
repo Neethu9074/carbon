@@ -5,6 +5,7 @@
 import { combineLatest } from '@instana/observables';
 import theme from 'in-themes';
 import { get } from 'lodash';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import WithApplicationHealthIndicationBehaviour from 'in-components/health/WithHealthIndication/WithApplicationHealthIndicationBehaviour';
@@ -55,17 +56,17 @@ export default function ApplicationsTopList({ applicationId, config }) {
             editMode
           />
         );
-        applicationCreationOpenDialogClick({ status: 'Open Creation Dialog' });
+        applicationCreationOpenDialogClick({ status: t('in-cockpit:component.applTopList.openCreationDialog') });
       }}
     >
-      New Application Perspective
+      {t('in-cockpit:component.applTopList.newAppPerspect')}
     </Button>
   );
 
   return (
     <TopListWidget
       {...config}
-      fullListViewLinkTitle="All Applications"
+      fullListViewLinkTitle={t('in-cockpit:component.applTopList.allApps')}
       header={header}
       getItem={getItem}
       pinnedItemTypes={[applicationType]}
@@ -211,7 +212,7 @@ const columnDefinitions = [
           aggregation="SUM"
           metrics={get(item, ['metrics', 'calls'])}
           metric={get(item, ['metrics', 'callsAgg'])}
-          label="Calls"
+          label={t('in-cockpit:component.applTopList.calls')}
           tooltipFormatter={number.compact}
           showNullValuesChartOnEmptyMetrics
         />
@@ -229,7 +230,7 @@ const columnDefinitions = [
           aggregation="MEAN"
           metrics={get(item, ['metrics', 'latency'])}
           metric={get(item, ['metrics', 'latencyAgg'])}
-          label="Latency"
+          label={t('in-cockpit:component.applTopList.Latency')}
           tooltipFormatter={meanLatencyFixed.compact}
           showDashOnMissingOrNullMetric
           hideChartOnEmptyMetrics
@@ -248,7 +249,7 @@ const columnDefinitions = [
           aggregation="MEAN"
           metrics={get(item, ['metrics', 'errors'])}
           metric={get(item, ['metrics', 'errorsAgg'])}
-          label="Erroneous Call Rate"
+          label={t('in-cockpit:component.applTopList.errCallRate')}
           tooltipFormatter={percentage.detailed}
           showDashOnMissingOrNullMetric
           hideChartOnEmptyMetrics

@@ -1,6 +1,81 @@
 {
-  "deployAgent": "Deploy Agent",
-  "websites": {
-    "noData": "Get started with website monitoring to better understand how your website performance impacts user experience. Configuration is simple!"
+  "component": {
+    "applTopList": {
+      "openCreationDialog":"Open Creation Dialog",
+      "allApps":"All Applications",
+      "errCallRate":"Erroneous Call Rate",
+      "latency":"Latency",
+      "calls":"Calls",
+      "newAppPerspect":"New Application Perspective"
+    },
+    "eventChartCard": {
+      "allEvents":"All Events",
+      "incidents":"Incidents",
+      "critical":"Critical",
+      "warning":"Warning",
+      "viewEvents":"View Events"
+    },
+    "infrastructureTopList": {
+      "allHosts":"All Hosts",
+      "allContainers":"All Containers",
+      "allProcesses":"All Processes"
+    },
+    "platformsTopList": {
+      "esXiHosts":"ESXi Host",
+      "nodes":"Nodes",
+      "vMs":"VMs",
+      "instances":"Instances",
+      "namespaces":"Namespaces",
+      "cpuUsage":"CPU Usage",
+      "memoryLimit":"Memory Limit",
+      "pods":"Pods",
+      "memoryUsage":"Memory Usage",
+      "cloudFoundryApplication":"Cloud Foundry Application",
+      "vSphereDatacenter":"vSphere Datacenter"
+    },
+    "websiteMobileTopList": {
+      "addWebsite":"Add Website",
+      "addMobileApp":"Add Mobile App",
+      "allWebsites":"All Websites",
+      "allMobileApps":"All Mobile Apps",
+      "allWebsitesMobileApps":"All Websites & Mobile Apps",
+      "pageViews":"Page Views",
+      "sessions":"Sessions",
+      "onLoadTime":"onLoad Time",
+      "views":"Views",
+      "website":"Website",
+      "mobileApp":"Mobile App"
+    }
+  }, 
+  "cockpit": {
+    "deployAgent": "Deploy Agent",
+    "applications":"Applications",
+    "infrastructure":"Infrastructure",
+    "events":"Events",
+    "home":"Home",
+    "addUser":"Add User",
+    "platforms":"Platforms",
+    "cloudFoundry":"Cloud Foundry",
+    "websites":"Websites",
+    "mobileApps":"Mobile Apps",
+    "websitesMobileApps":"Websites & Mobile Apps"
+  },
+  "widgets": {
+    "columnDefinitions": {
+      "numCpU":"# of CPUs",
+      "cpuUsage":"CPU Usage",
+      "created":"Created",
+      "started":"Started",
+      "os":"OS"
+    },
+    "topListWidget": {
+      "noLabelYet":"No {{nolabel}} yet"
+    },
+    "websites": {
+      "noData": "Get started with website monitoring to better understand how your website performance impacts user experience. Configuration is simple!",
+      "createWebsite":"Create Website",
+      "createMobileApp":"Create Mobile App",
+      "noLabelYet":"No {{nolabel}} yet"
+    }
   }
 }

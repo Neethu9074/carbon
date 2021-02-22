@@ -16,16 +16,16 @@ export default function EmptyStateContent({ cardIcon, label }) {
   return (
     <EntityPageMainNotification
       icon={cardIcon}
-      title={`No ${label} yet`}
+      title={t('in-cockpit:widgets.websites.noLabelYet', { nolabel: label })}
       explanation={() => (
         <>
-          <ArticleContent markdownContent={t('in-cockpit:websites.noData')} />
+          <ArticleContent markdownContent={t('in-cockpit:widgets.websites.noData')} />
           <div style={{ display: 'flex' }}>
             <Button kind="create" href$={getModifiedUrlStream(p => (p.pathname = newWebsitePathFullyQualified))}>
-              Create Website
+              {t('in-cockpit:widgets.websites.createWebsite')}
             </Button>
             <Button kind="create" href$={linkToNewMobileApp$}>
-              Create Mobile App
+              {t('in-cockpit:widgets.websites.createMobileApp')}
             </Button>
           </div>
         </>

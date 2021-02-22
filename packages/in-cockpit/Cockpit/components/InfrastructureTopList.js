@@ -4,6 +4,7 @@
  */
 import { combineLatest, just } from '@instana/observables';
 import React, { useState } from 'react';
+import { t } from 'in-i18n';
 
 import { host as hostType, container as containerType, process as processType } from 'in-stores/starredItems/types';
 import { entityTypeToFullyQualifiedPlugin } from 'in-infrastructure/tableView/stores/snapshotIds';
@@ -56,7 +57,7 @@ export default function InfrastructureTopList({ config }) {
             type: hostType
           })
         }
-        fullListViewLinkTitle="All Hosts"
+        fullListViewLinkTitle={t('in-cockpit:component.infrastructureTopList.allHosts')}
       />
     );
   }
@@ -73,7 +74,8 @@ export default function InfrastructureTopList({ config }) {
             type: containerType
           })
         }
-        fullListViewLinkTitle="All Containers"
+        fullListViewLinkTitle={t('in-cockpit:component.infrastructureTopList.allContainers')
+}
       />
     );
   }
@@ -89,7 +91,8 @@ export default function InfrastructureTopList({ config }) {
           type: processType
         })
       }
-      fullListViewLinkTitle="All Processes"
+      fullListViewLinkTitle={t('in-cockpit:component.infrastructureTopList.allProcesses')
+}
     />
   );
 }
