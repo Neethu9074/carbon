@@ -189,11 +189,12 @@ function calculateLabel(result) {
   return get(result, ['data', 0, 'sessionId'], null);
 }
 
-function renderButtonLine({ sessionLabel, detailId }) {
-  const { sessionId, beaconTimestamp } = detailId;
+function renderButtonLine({ sessionLabel, detailId, sessionId, beaconTimestamp }) {
   if (!sessionLabel) {
     return null;
   }
+  // In UA2 'sessionId' are 'beaconTimestamp' are nested inside of 'detailId'
+  ({ sessionId, beaconTimestamp } = detailId ?? { sessionId, beaconTimestamp });
   return (
     <Button
       icon="lib_actions_download"
