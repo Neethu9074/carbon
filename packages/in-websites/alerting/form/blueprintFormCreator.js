@@ -37,6 +37,9 @@ export default function createBlueprintForm(form, alertType, alertThreshold = {}
   const availableTagFilters = blueprintConfig.getAvailableTags(metricName);
   const isAllowedFilter = filter => availableTagFilters.includes(filter.name);
   let updatedForm = form
+    // TODO when QB2 is introduced for Website SmartAlerts, we need to properly cleanup unsupported filters from the
+    //      query, by recursively traversing the query. This is needed for Website SmartAlerts, but not for
+    //      AP SmartAlerts because the website area has a different catalog for each beacon type.
     .updateIn(['tagFilters'], f => f.setValue(tagFilters.filter(isAllowedFilter)))
     .put('rule', newRuleForm)
     .put('threshold', newThresholdForm);
