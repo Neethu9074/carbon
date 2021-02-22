@@ -23,7 +23,7 @@ if (!configFileContent) {
       `Checked: ${possibleConfigFileLocations.join(', ')}`
   );
 }
-module.exports = yaml.safeLoad(configFileContent);
+module.exports = yaml.load(configFileContent);
 
 function getConfigFileContent() {
   for (let i = 0; i < possibleConfigFileLocations.length; i++) {

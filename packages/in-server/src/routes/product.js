@@ -2,9 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+const { v4: uuidv4 } = require('uuid');
 const Handlebars = require('handlebars');
 const express = require('express');
-const uuid = require('node-uuid');
 const fs = require('fs');
 
 const { getCurrentUser, isRequestCarryingAValidSeemingCookie } = require('../auth');
@@ -104,7 +104,7 @@ router.get('/', async (req, res) => {
     const [statusCode, userStr] = await getCurrentUser(req);
     if (statusCode === 401) {
       const uiClientBaseUrl = await configResolver.getBaseUrl(req.tenant, req.unit);
-      const nonce = uuid.v4();
+      const nonce = uuidv4();
       res
         .status(401)
         .set('Content-Security-Policy', `default-src 'self'; script-src 'self' 'nonce-${nonce}'`)
@@ -140,7 +140,7 @@ router.get('/', async (req, res) => {
       clientConfig
     ] = await (subRequestPromises || initializeSubRequestPromises(req));
 
-    const nonce = uuid.v4();
+    const nonce = uuidv4();
     res.set('Content-Security-Policy', getCsp(nonce));
 
     const termsAndPrivacy = JSON.parse(termsAndPrivacySettings);

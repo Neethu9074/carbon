@@ -2,9 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+const { v4: uuidv4 } = require('uuid');
 const Handlebars = require('handlebars');
 const express = require('express');
-const uuid = require('node-uuid');
 const fs = require('fs');
 
 const getNumberLocaleDefinition = require('../services/numberLocale');
@@ -27,7 +27,7 @@ const waitingJsChecksum = checkSumMod.getChecksumForFile(paths.waitingJs);
 const stringifiedBuildInformation = JSON.stringify(buildInformation);
 
 router.get('/waiting', (req, res) => {
-  const nonce = uuid.v4();
+  const nonce = uuidv4();
 
   res.vary('*');
   res.set('cache-control', 'private, no-cache, no-store, must-revalidate, max-age=0');
