@@ -4,6 +4,7 @@
  */
 import { createLogger } from '@instana/logger';
 import SockJS from 'sockjs-client';
+import { t } from 'in-i18n';
 
 import { addMessage, removeMessage } from 'in-components/MessageFlyout/stores/messages';
 import AbstractState from 'in-connection/states/AbstractState';
@@ -80,8 +81,8 @@ export default class ConnectionLostState extends AbstractState {
       addMessage(
         {
           type: 'warning',
-          title: 'Connecting…',
-          content: `Connection attempt ${this.connectionAttempts} failed. Continuing to retry to establish persistent backend connection.`
+          title: t('in-connection:stat.connectLostState.connecting'),
+          content: t('in-connection:stat.connectLostState.connectingMsg', { connectAttempt: this.connectionAttempts })
         },
         'connectionStatus'
       );
@@ -89,8 +90,8 @@ export default class ConnectionLostState extends AbstractState {
       addMessage(
         {
           type: 'warning',
-          title: 'Connecting…',
-          content: `Connection lost. Attempting reconnect…`
+          title: t('in-connection:stat.connectLostState.connecting'),
+          content: t('in-connection:stat.connectLostState.connectLostAttempReconnect')
         },
         'connectionStatus'
       );
@@ -104,8 +105,8 @@ export default class ConnectionLostState extends AbstractState {
         addMessage(
           {
             type: 'danger',
-            title: 'Unauthorized…',
-            content: `Cannot establish persistent backend connection as you are unauthorized. Please refresh the page to continue.`
+            title: t('in-connection:stat.connectLostState.unauthorized'),
+            content: t('in-connection:stat.connectLostState.unauthorizedMsg')
           },
           'connectionStatus'
         );

@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { createLogger } from '@instana/logger';
+import { t } from 'in-i18n';
 
 import { getInitializationCallStack, getSubscriptionPayload } from 'in-connection';
 import createSubscription from 'in-subscription/subscription';
@@ -17,7 +18,7 @@ export function init() {
 
 function onNewMessage(msg) {
   const args = [
-    'Technical client message (most likely error details) from backend',
+    t('in-connection:clientErrMsg.techClientMsgeErrFromBackend'),
     msg,
     getInitializationCallStack(msg.subscriptionId),
     {
