@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import TypeAndMetricConfigurator from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/TypeAndMetricConfigurator';
@@ -60,7 +61,7 @@ export default function FormComponent({
     <Stack space="xsmall">
       <Sections>{dataSourceSection}</Sections>
       <Sections>
-        <Section title="Metric">
+        <Section title={t('in-custom-dashboards:widgets.srcInfrastructure.metricsFormComponent.metric')}>
           <TypeAndMetricConfigurator
             type={typeField.value}
             metric={metricField.value}
@@ -72,22 +73,22 @@ export default function FormComponent({
                   .updateIn(['type'], field => field.setValue(type).setTouched(true))
               )
             }
-            label="Select metric"
+            label={t('in-custom-dashboards:widgets.srcInfrastructure.metricsFormComponent.selectMetric')}
           />
           <TouchedMessages field={metricField} />
         </Section>
         <SelectInSection
-          label="Aggregation"
+          label={t('in-custom-dashboards:widgets.srcInfrastructure.metricsFormComponent.aggregation')}
           id="metric-configurator-infra-aggregation"
           value={aggregationField.value}
           onChange={e => onChange(['aggregation'], field => field.setValue(e.target.value).setTouched(true))}
           additionalContent={<TouchedMessages field={aggregationField} />}
           useAlternateBg
         >
-          {!metricField.valid && <option value="">Please select a metric</option>}
+          {!metricField.valid && <option value="">{t('in-custom-dashboards:widgets.srcInfrastructure.metricsFormComponent.pleaseSelectMetric')}</option>}
           {metricField.valid && (
             <>
-              <option value="">Please select</option>
+              <option value="">{t('in-custom-dashboards:widgets.srcInfrastructure.metricsFormComponent.pleaseSelect')}</option>
               {Object.keys(aggregationLabels).map(aggregation => (
                 <option key={aggregation} value={aggregation}>
                   {aggregationLabels[aggregation]}

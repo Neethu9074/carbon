@@ -4,6 +4,7 @@
  */
 import { just } from '@instana/observables';
 import React, { useState } from 'react';
+import { t } from 'in-i18n';
 
 import { trackSliNewCreated, trackSLICloned, trackSLIEditAbort } from 'in-custom-dashboards/widgets/Slo/tracker';
 import { resetFormForSliType, createForm, sliFieldNames } from 'in-custom-dashboards/widgets/Slo/sli/sliForm';
@@ -64,8 +65,8 @@ export default function CreateNewSLIForm({ apName, applicationId, apDefaultBound
             {
               type: 'info',
               timeout: 4000,
-              title: 'SLI created successfully',
-              content: `SLI "${enrichedSliConfiguration.sliName}" has been created.`
+              title: t('in-custom-dashboards:widgets.slo.createSliForm.sliCreateSuccess'),
+              content: t('in-custom-dashboards:widgets.slo.createSliForm.sliCreated', { sliName: enrichedSliConfiguration.sliName })
             },
             'custom-dashboard-sli'
           );
@@ -81,8 +82,8 @@ export default function CreateNewSLIForm({ apName, applicationId, apDefaultBound
             {
               type: 'danger',
               timeout: 4000,
-              title: 'Failed to create the SLI.',
-              content: `There was a problem creating this SLI: "${enrichedSliConfiguration.sliName}"`
+              title: t('in-custom-dashboards:widgets.slo.createSliForm.failCreateSli'),
+              content: t('in-custom-dashboards:widgets.slo.createSliForm.problemCreateSli', { sliName: enrichedSliConfiguration.sliName })
             },
             'custom-dashboard-error'
           );
@@ -94,8 +95,8 @@ export default function CreateNewSLIForm({ apName, applicationId, apDefaultBound
     }
   };
 
-  const savingStateName = sliConfig?.id ? 'Cloning…' : 'Creating…';
-  const saveButtonLabel = sliConfig?.id ? 'Clone' : 'Create';
+  const savingStateName = sliConfig?.id ? t('in-custom-dashboards:widgets.slo.createSliForm.cloning') : t('in-custom-dashboards:widgets.slo.createSliForm.creating');
+  const saveButtonLabel = sliConfig?.id ? t('in-custom-dashboards:widgets.slo.createSliForm.clone') : t('in-custom-dashboards:widgets.slo.createSliForm.create');
   const isValid = useValidateExpressions(form, timeConfig);
 
   return (
@@ -105,8 +106,7 @@ export default function CreateNewSLIForm({ apName, applicationId, apDefaultBound
 
         {sliConfig?.id && (
           <Message>
-            The parameters of the SLI cannot be modified to prevent invalidation of the calculated spent budgets. This
-            is why the SLI needs to be cloned when you change any parameter.
+            {t('in-custom-dashboards:widgets.slo.createSliForm.sliConfigMsg')}
           </Message>
         )}
 

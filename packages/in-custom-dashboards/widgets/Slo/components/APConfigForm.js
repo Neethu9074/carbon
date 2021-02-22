@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { OverridingTextTouchedMessage } from 'in-custom-dashboards/widgets/Slo/components/OverridingTextTouchedMessage';
@@ -16,7 +17,7 @@ export default function APConfigForm({ apConfigIdField: field, apConfigs, onUpda
     <Sections>
       <SelectInSection
         label={
-          <SectionLabelWithSubtext subtext="User Journey / Offering">Application Perspective</SectionLabelWithSubtext>
+          <SectionLabelWithSubtext subtext={t('in-custom-dashboards:widgets.slo.apConfigFormComp.userJourneyOffering')}>{t('in-custom-dashboards:widgets.slo.apConfigFormComp.appnPerspective')}</SectionLabelWithSubtext>
         }
         id="sli-config-ap"
         value={field?.value}
@@ -26,17 +27,16 @@ export default function APConfigForm({ apConfigIdField: field, apConfigs, onUpda
         }}
         hasError={!field.valid && field.touched}
         additionalContent={
-          <OverridingTextTouchedMessage field={field} message="Please select an Application Perspective." />
+          <OverridingTextTouchedMessage field={field} message={t('in-custom-dashboards:widgets.slo.apConfigFormComp.electAppPerspect')} />
         }
         actions={
           <HelpAction>
-            Set up user journeys / offerings by modeling them as an Application Perspective in the Applications area of
-            the product.
+            {t('in-custom-dashboards:widgets.slo.apConfigFormComp.appPerspectHelpAction')}
           </HelpAction>
         }
       >
-        {(apConfigs?.length ?? 0) === 0 && <option value="">No Application Perspectives!</option>}
-        {apConfigs?.length > 0 && <option value="">Please select</option>}
+        {(apConfigs?.length ?? 0) === 0 && <option value="">{t('in-custom-dashboards:widgets.slo.apConfigFormComp.noAppPerspect')}</option>}
+        {apConfigs?.length > 0 && <option value="">{t('in-custom-dashboards:widgets.slo.apConfigFormComp.pleaseSelect')}</option>}
         {[...(apConfigs ?? [])] // need to clone: readonly array may not be sorted
           .sort((a, b) => compareIgnoreCase(a.label, b.label))
           .map(({ label, id }) => (

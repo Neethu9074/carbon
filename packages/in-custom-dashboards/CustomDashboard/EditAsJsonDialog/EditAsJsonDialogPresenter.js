@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import TouchedMessages from 'in-components/form/TouchedMessages';
@@ -39,7 +40,7 @@ export default function EditAsJsonDialogPresenter({ onSubmit, field, setField, r
 
         <Actions>
           <CancelButton onClick={close} />
-          <SaveButton form={field}>Confirm</SaveButton>
+          <SaveButton form={field}>{t('in-custom-dashboards:customDashboard.editJsonDialog.editJsonDialogPresenter.confirmBt')}</SaveButton>
         </Actions>
       </form>
     );
@@ -48,7 +49,7 @@ export default function EditAsJsonDialogPresenter({ onSubmit, field, setField, r
   return (
     <Dialog
       titleIconType="lib_views_grid"
-      title={readOnly ? 'Dashboard as JSON' : 'Edit Dashboard'}
+      title={readOnly ? t('in-custom-dashboards:customDashboard.editJsonDialog.editJsonDialogPresenter.dashboardAJson') : t('in-custom-dashboards:customDashboard.editJsonDialog.editJsonDialogPresenter.editDashboard')}
       onClose={close}
       doNotCloseOnOutsideClick
     >

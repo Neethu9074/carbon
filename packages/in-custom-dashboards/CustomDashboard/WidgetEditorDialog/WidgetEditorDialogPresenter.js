@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import React, { useState } from 'react';
+import { t } from 'in-i18n';
 
 import WidgetTypeSelector from 'in-custom-dashboards/CustomDashboard/WidgetEditorDialog/WidgetTypeSelector/WidgetTypeSelector';
 import IndeterminateLoadingIndicator from 'in-new-components/LoadingIndicators/IndeterminateLoadingIndicator';
@@ -31,7 +32,7 @@ export default function WidgetEditorDialogPresenter({
 }) {
   const subSlideState = useState(null);
 
-  let title = isEditing ? 'Edit Widget' : 'Add Widget';
+  let title = isEditing ? t('in-custom-dashboards:customDashboard.widgetEditorDialog.widgetEditorDialogPresenter.editWidget') : t('in-custom-dashboards:customDashboard.widgetEditorDialog.widgetEditorDialogPresenter.addWidget');
   if (!showWidgetSelector && !isMigrating) {
     title += ` – ${widgets[form.get('type').value].label}`;
   }
@@ -57,11 +58,11 @@ export default function WidgetEditorDialogPresenter({
             {isEditing && <CancelButton onClick={onClose} />}
             {!isEditing && showWidgetSelector && <CancelButton onClick={onClose} />}
             {!isEditing && !showWidgetSelector && (
-              <CancelButton onClick={() => setShowWidgetSelector(true)}>Back</CancelButton>
+              <CancelButton onClick={() => setShowWidgetSelector(true)}>{t('in-custom-dashboards:customDashboard.widgetEditorDialog.widgetEditorDialogPresenter.back')}</CancelButton>
             )}
             <SaveButton formId={formId} form={form}>
-              {showWidgetSelector && 'Next'}
-              {!showWidgetSelector && (isEditing ? 'Confirm' : 'Create')}
+              {showWidgetSelector && t('in-custom-dashboards:customDashboard.widgetEditorDialog.widgetEditorDialogPresenter.next')}
+              {!showWidgetSelector && (isEditing ? t('in-custom-dashboards:customDashboard.widgetEditorDialog.widgetEditorDialogPresenter.confirm') : t('in-custom-dashboards:customDashboard.widgetEditorDialog.widgetEditorDialogPresenter.create'))}
             </SaveButton>
           </FormFooter>
         )

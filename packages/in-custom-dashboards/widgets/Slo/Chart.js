@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import theme from 'in-themes';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { trackJumpToUnboundedAnalyticsFromSloWidget } from 'in-custom-dashboards/widgets/Slo/tracker';
@@ -53,7 +54,7 @@ export default function Chart({
         timeConfig,
         y1: {
           metricIds: ['consumed', hourlyBudgetMetricId],
-          labels: ['Spent', 'Budget'],
+          labels: [t('in-custom-dashboards:widgets.slo.chart.spent'), t('in-custom-dashboards:widgets.slo.chart.budget')],
           icons: {
             types: ['lib_flame', 'lib_actions_stop']
           },
@@ -84,7 +85,7 @@ function getCustomAnalyzeContextMenuProperties(sliConfig, disableZooming, tagCat
       {
         name: 'analyze',
         icon: 'lib_analyze',
-        label: 'View in Analyze',
+        label: t('in-custom-dashboards:widgets.slo.chart.viewInAnalyze'),
         allowClickPropagationAndDefault: true,
         onClick() {
           trackJumpToUnboundedAnalyticsFromSloWidget({

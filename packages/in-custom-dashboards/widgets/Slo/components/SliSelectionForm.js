@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { OverridingTextTouchedMessage } from 'in-custom-dashboards/widgets/Slo/components/OverridingTextTouchedMessage';
@@ -21,7 +22,7 @@ export default function SliSelectionForm({ form, onChange, applicationId, openMa
   return (
     <Sections>
       <SelectInSection
-        label="Service Level Indicator"
+        label={t('in-custom-dashboards:widgets.slo.sliSelectionFormComp.srvLevelIndicator')}
         id="sli-selection"
         disabled={!applicationId}
         value={field?.value}
@@ -30,11 +31,11 @@ export default function SliSelectionForm({ form, onChange, applicationId, openMa
           trackSliChanged({ sliConfigId: e.target.value });
         }}
         hasError={!field.valid && field.touched}
-        additionalContent={<OverridingTextTouchedMessage field={field} message="Please select a SLI." />}
+        additionalContent={<OverridingTextTouchedMessage field={field} message={t('in-custom-dashboards:widgets.slo.sliSelectionFormComp.selectASli')} />}
         actions={openManageSLIComponent}
       >
-        {filteredSLIs.length === 0 && <option value="">None available, please create one.</option>}
-        {filteredSLIs.length !== 0 && <option value="">Please select</option>}
+        {filteredSLIs.length === 0 && <option value="">{t('in-custom-dashboards:widgets.slo.sliSelectionFormComp.noneAvailCreateOne')}</option>}
+        {filteredSLIs.length !== 0 && <option value="">{t('in-custom-dashboards:widgets.slo.sliSelectionFormComp.pleaseSelect')}</option>}
         {filteredSLIs
           .sort((a, b) => compareIgnoreCase(a.sliName, b.sliName))
           .map(({ id, sliName }) => (

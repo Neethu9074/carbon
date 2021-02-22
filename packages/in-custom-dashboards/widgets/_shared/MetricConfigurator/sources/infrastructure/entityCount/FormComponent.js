@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import SelectInSection from 'in-components/form/Select/SelectInSection';
@@ -30,14 +31,14 @@ export default function FormComponent({
 
       <Sections>
         <InputInSection
-          label="Query"
+          label={t('in-custom-dashboards:widgets.srcInfrastructure.entityCountFormComponent.query')}
           id="metic-configurator-infra-dynamic-focus-query"
           type="text"
           value={dynamicFocusQueryField.value}
           onChange={e => onChange(['dynamicFocusQuery'], field => field.setValue(e.target.value).setTouched(true))}
           hasError={!dynamicFocusQueryField.valid && dynamicFocusQueryField.touched}
           actions={
-            <HelpAction>A Dynamic Focus Query (DFQ) as you would use it within the infrastructure map.</HelpAction>
+            <HelpAction>{t('in-custom-dashboards:widgets.srcInfrastructure.entityCountFormComponent.helpAction')}</HelpAction>
           }
           additionalContent={<TouchedMessages field={dynamicFocusQueryField} />}
           maxLength={512}
@@ -46,26 +47,26 @@ export default function FormComponent({
 
       <Sections>
         <SelectInSection
-          label="Metric"
+          label={t('in-custom-dashboards:widgets.srcInfrastructure.entityCountFormComponent.metric')}
           id="metic-configurator-infra-metric"
           value={metricField.value}
           disabled
           additionalContent={<TouchedMessages field={metricField} />}
         >
-          <option value="count">Count</option>
+          <option value="count">{t('in-custom-dashboards:widgets.srcInfrastructure.entityCountFormComponent.count')}</option>
         </SelectInSection>
         <SelectInSection
-          label="Aggregation"
+          label={t('in-custom-dashboards:widgets.srcInfrastructure.entityCountFormComponent.aggregation')}
           id="metic-configurator-infra-aggregation"
           value={aggregationField.value}
           disabled
           additionalContent={<TouchedMessages field={aggregationField} />}
           useAlternateBg
         >
-          {!metricField.valid && <option value="">Please select a metric</option>}
+          {!metricField.valid && <option value="">{t('in-custom-dashboards:widgets.srcInfrastructure.entityCountFormComponent.pleaseSelectMetric')}</option>}
           {metricField.valid && (
             <>
-              <option value="">Please select</option>
+              <option value="">{t('in-custom-dashboards:widgets.srcInfrastructure.entityCountFormComponent.pleaseSelect')}</option>
               {Object.keys(aggregationLabels).map(aggregation => (
                 <option key={aggregation} value={aggregation}>
                   {aggregationLabels[aggregation]}

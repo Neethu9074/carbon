@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import classNames from 'classnames';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import groupedColorChoice from 'in-custom-dashboards/widgets/Chart/FormComponent/groupedColorChoice.png';
@@ -17,12 +18,12 @@ export default function ColorConfigurator({ metricForm, index, indexInAxis, onCh
   const isGrouped = metricForm.get('grouping')?.size > 0;
   if (isGrouped) {
     return (
-      <Tooltip content="Colors for datasets leveraging groupings cannot be configured.">
+      <Tooltip content={t('in-custom-dashboards:widgets.formCompChart.colorConfiguratorChart.colorDsGrpNotConfig')}>
         <DropdownButton disabled kind="secondary">
           <img
             className={locals.groupedColorChoice}
             src={groupedColorChoice}
-            alt="Icon depicting automatic color selection."
+            alt={t('in-custom-dashboards:widgets.formCompChart.colorConfiguratorChart.iconDepicAutoColorSelect')}
           />
         </DropdownButton>
       </Tooltip>
@@ -76,7 +77,7 @@ function Color({ id, withLabel, addAutomaticColorIndication }) {
   );
 
   if (addAutomaticColorIndication) {
-    content = <Tooltip content="Color is automatically chosen">{content}</Tooltip>;
+    content = <Tooltip content={t('in-custom-dashboards:widgets.formCompChart.colorConfiguratorChart.colorAutoChose')}>{content}</Tooltip>;
   }
 
   if (withLabel) {

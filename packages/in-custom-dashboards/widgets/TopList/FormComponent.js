@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { entityCount as infrastructureEntityCount } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure';
@@ -20,7 +21,7 @@ import Header from 'in-new-components/workspace/Header';
 export default function ListWidgetFormComponent({ form, onChange }) {
   return (
     <>
-      <Header>What would you like to show?</Header>
+      <Header>{t('in-custom-dashboards:widgets.topList.formComp.whatULikeShow')}</Header>
       <MetricConfigurator
         form={form.get('metricConfiguration')}
         onChange={(path, fn) => onChange(['metricConfiguration', ...path], fn)}
@@ -34,7 +35,7 @@ export default function ListWidgetFormComponent({ form, onChange }) {
         formatterSection={form.get('formatter').map(field => (
           <SelectInSection
             id="big-number-formatter"
-            label="Formatter"
+            label={t('in-custom-dashboards:widgets.topList.formComp.formatter')}
             value={field.value}
             onChange={e => onChange(['formatter'], field => field.setValue(e.target.value).setTouched(true))}
             hasError={!field.valid && field.touched}

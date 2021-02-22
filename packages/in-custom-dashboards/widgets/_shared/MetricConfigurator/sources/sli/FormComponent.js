@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { Trans, t } from 'in-i18n';
 import React from 'react';
 
 import * as serviceLevelIndicators from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/sli/serviceLevelIndicators';
@@ -32,7 +33,7 @@ export default function FormComponent({
       {form.get('sliConfigId').map(field => (
         <Sections>
           <SelectInSection
-            label="Configured SLI"
+            label={t('in-custom-dashboards:widgets.srcSli.formComp.configSli')}
             id="metric-configurator-sli-id"
             value={field.value}
             onChange={e =>
@@ -41,10 +42,10 @@ export default function FormComponent({
               )
             }
             hasError={!field.valid && field.touched}
-            actions={<HelpAction>SLI configuration used to compute error budget and SLI values</HelpAction>}
+            actions={<HelpAction>{t('in-custom-dashboards:widgets.srcSli.formComp.sliConfigComputeErrBudgetSliVal')}</HelpAction>}
             additionalContent={<TouchedMessages field={field} />}
           >
-            <option value="">Please select</option>
+            <option value="">{t('in-custom-dashboards:widgets.srcSli.formComp.pleaseSelect')}</option>
             {sliConfigurations &&
               sliConfigurations.map(({ id, sliName }) => (
                 <option key={id} value={id}>
@@ -79,8 +80,10 @@ export default function FormComponent({
             step="any"
             actions={
               <HelpAction>
-                Type in your desired SLO threshold from <code>{percentage.compact(0)}</code> to{' '}
-                <code>{percentage.detailed(0.9999)}</code>.
+                <Trans
+                i18nKey="in-custom-dashboards:widgets.srcSli.formComp.typeSloThreshold"
+                values={{ compact: percentage.compact(0), detailed: percentage.detailed(0.9999) }}
+                />
               </HelpAction>
             }
             additionalContent={<TouchedMessages field={field} />}
@@ -91,7 +94,7 @@ export default function FormComponent({
       {form.get('metric').map(field => (
         <Sections>
           <SelectInSection
-            label="Value Type"
+            label={t('in-custom-dashboards:widgets.srcSli.formComp.valType')}
             id="metric-configurator-metric"
             value={field.value}
             onChange={e =>
@@ -100,7 +103,7 @@ export default function FormComponent({
             hasError={!field.valid && field.touched}
             additionalContent={<TouchedMessages field={field} />}
           >
-            <option value="">Please select</option>
+            <option value="">{t('in-custom-dashboards:widgets.srcSli.formComp.pleaseSelect')}</option>
             {Object.keys(serviceLevelIndicators)
               .sort((a, b) => compareIgnoreCase(serviceLevelIndicators[a], serviceLevelIndicators[b]))
               .map(key => (

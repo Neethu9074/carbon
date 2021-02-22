@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import PropTypes from 'prop-types';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import GroupingConfiguratorSection from 'in-new-components/GroupingConfigurator/GroupingConfiguratorSection';
@@ -51,8 +52,8 @@ export default function GroupingConfiguration({
                     onDirectionChange(e.target.value);
                   }}
                 >
-                  <option value="DESC">Top 5</option>
-                  <option value="ASC">Bottom 5</option>
+                  <option value="DESC">{t('in-custom-dashboards:widgets.metricConfig.groupingConfig.top5')}</option>
+                  <option value="ASC">{t('in-custom-dashboards:widgets.metricConfig.groupingConfig.bottom5')}</option>
                 </Select>
                 <Toggle
                   className={locals.toggle}
@@ -60,7 +61,7 @@ export default function GroupingConfiguration({
                   checked={grouping.includeOthers}
                   onChange={e => onIncludeOthersChange(e.target.checked)}
                 />
-                Show remaining groups aggregated as &quot;Other&quot;
+                {t('in-custom-dashboards:widgets.metricConfig.groupingConfig.showRemainingGroupsAggregOther')}
               </div>
             </Section>
           )}

@@ -2,6 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
+
 import { createForm as createOldForm } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/website/oldForm';
 import {
   createForm as createNewForm,
@@ -15,5 +17,5 @@ export const migrate = qb2InCustomDashboardsEnabled ? migrateToNewForm : null;
 export const createForm = qb2InCustomDashboardsEnabled ? createNewForm : createOldForm;
 export const Form = qb2InCustomDashboardsEnabled ? NewFormComponent : OldFormComponent;
 export const source = 'WEBSITE';
-export const label = 'Websites (Beacons)';
+export const label = t('in-custom-dashboards:widgets.srcWebSite.index.websitesBeacons');
 export const visible = true;

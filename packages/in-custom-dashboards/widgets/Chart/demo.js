@@ -2,6 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
+
 export const demo = {
   type: 'TIME_SERIES',
 
@@ -11,7 +13,7 @@ export const demo = {
     min: 0,
     metrics: [
       {
-        label: 'Page Loads',
+        label: t('in-custom-dashboards:widgets.demo.pageLoads'),
         metric: 'pageLoads',
         source: 'WEBSITE',
         aggregation: 'SUM',
@@ -26,7 +28,7 @@ export const demo = {
     min: 0,
     metrics: [
       {
-        label: 'OnLoad Time',
+        label: t('in-custom-dashboards:widgets.demo.onLoadTime'),
         metric: 'onLoadTime',
         source: 'WEBSITE',
         aggregation: 'MEAN',

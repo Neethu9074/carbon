@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import React, { useState } from 'react';
+import { Trans, t } from 'in-i18n';
 
 import { trackSliCreate, trackSliViewSLI } from 'in-custom-dashboards/widgets/Slo/tracker';
 import SlideInView, { NoHeader } from 'in-new-components/SlideInView/SlideInView';
@@ -39,8 +40,10 @@ export default function SliManageList({ applicationId, apName, apDefaultBoundary
     <div>
       {!role.canConfigureServiceLevelIndicators && (
         <Message className={locals.message} withIcon>
-          You are not having the required <i>CAN_CONFIGURE_SERVICE_LEVEL_INDICATORS</i> permission to create or edit
-          SLIs.
+          <Trans
+          i18nKey="in-custom-dashboards:widgets.slo.sliManageList.configSrvLevelIndicatorsMsg"
+          components={{ italic: <i />, bold: <strong /> }}
+          />
         </Message>
       )}
       <SliList
@@ -61,7 +64,7 @@ export default function SliManageList({ applicationId, apName, apDefaultBoundary
               icon="lib_openclose_add_circle_outline"
               className={locals.createButton}
             >
-              Create SLI
+              {t('in-custom-dashboards:widgets.slo.sliManageList.createSli')}
             </Button>
           )
         }
@@ -80,7 +83,7 @@ export default function SliManageList({ applicationId, apName, apDefaultBoundary
       showSlideInContent={!!sliSelected}
       HeaderComponent={NoHeader}
       slideTransitionDurationMillis={500}
-      slideInContentTitle={'SLI List'}
+      slideInContentTitle={t('in-custom-dashboards:widgets.slo.sliManageList.sliList')}
       slideInContent={sliDetailsViewSlideIn}
       staticContent={sliManageListMain}
       enforceMaxHeightForStaticContent

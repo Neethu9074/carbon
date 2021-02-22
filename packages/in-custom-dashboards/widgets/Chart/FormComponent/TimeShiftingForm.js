@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { Trans, t } from 'in-i18n';
 import React from 'react';
 
 import { timeShifts, defaultTimeShift, previousHourTimeShift } from 'in-stores/time/shifting';
@@ -22,7 +23,7 @@ export default function TimeShiftingForm({ axisName, index, indexInAxis, onChang
 
   return (
     <Sections>
-      <Section titleHtmlFor={`metic-configurator-${index}-time-shift-enabler`} title="Time Shift">
+      <Section titleHtmlFor={`metic-configurator-${index}-time-shift-enabler`} title={t('in-custom-dashboards:widgets.formCompChart.timeShiftingFormChart.timeShift')}>
         <div className={locals.timeShiftHelpText}>
           <Toggle
             id={`metic-configurator-${index}-time-shift-enabler`}
@@ -37,7 +38,7 @@ export default function TimeShiftingForm({ axisName, index, indexInAxis, onChang
               );
             }}
           />
-          Apply a time shift to this data series
+          {t('in-custom-dashboards:widgets.formCompChart.timeShiftingFormChart.applyTimeShiftDs')}
         </div>
       </Section>
 
@@ -46,9 +47,7 @@ export default function TimeShiftingForm({ axisName, index, indexInAxis, onChang
           useAlternateBg
           actions={
             <HelpAction>
-              Selecting <strong>Display current values</strong> will automatically duplicate this data series onto the
-              same axis. The first data series will have time shifting disabled, the second one will have time shifting
-              enabled.
+              <Trans i18nKey="in-custom-dashboards:widgets.formCompChart.timeShiftingFormChart.timeShiftHelpAction" components={{ italic: <i />, bold: <strong /> }} />
             </HelpAction>
           }
         >
@@ -94,7 +93,7 @@ export default function TimeShiftingForm({ axisName, index, indexInAxis, onChang
                   )
                 }
               />
-              Display current values
+              {t('in-custom-dashboards:widgets.formCompChart.timeShiftingFormChart.displayCurrentValues')}
             </div>
           </HorizontalFlexWrapper>
 

@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import WidgetPreview from 'in-custom-dashboards/CustomDashboard/WidgetEditorDialog/WidgetPreview';
@@ -32,7 +33,7 @@ export default function WidgetConfiguration({ form, onChange, setSlideInView }) 
       <Divider />
 
       <Stack space="normal">
-        <Header>Widget Name</Header>
+        <Header>{t('in-custom-dashboards:customDashboard.widgetEditorDialog.widgetConfiguration.widgetName')}</Header>
         <Sections>
           <WidgetTitleInput form={form} onChange={onChange} />
         </Sections>
@@ -49,13 +50,13 @@ function WidgetTitleInput({ form, onChange }) {
     <InputInSection
       id="widget-title"
       hasError={!field.valid && field.touched}
-      label={<SectionLabelWithSubtext subtext="Optional">Name</SectionLabelWithSubtext>}
+      label={<SectionLabelWithSubtext subtext="Optional">{t('in-custom-dashboards:customDashboard.widgetEditorDialog.widgetConfiguration.name')}</SectionLabelWithSubtext>}
       type="text"
       value={field.value}
       onChange={e => onChange(['title'], field => field.setValue(e.target.value).setTouched(true))}
       actions={
         <HelpAction>
-          Choose an optional name for this widget that will be presented above the widget content.
+          {t('in-custom-dashboards:customDashboard.widgetEditorDialog.widgetConfiguration.helpAction')}
         </HelpAction>
       }
       maxLength={256}

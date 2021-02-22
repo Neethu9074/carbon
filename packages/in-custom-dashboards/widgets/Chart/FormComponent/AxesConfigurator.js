@@ -37,7 +37,7 @@ export default function AxesConfigurator({ form, onChange, getShortMetricKey }) 
           form={form}
           onChange={onChange}
           axisName="y1"
-          title="Primary Y-Axis"
+          title={t('in-custom-dashboards:widgets.chart.axesConfigurator.primaryYAxis')}
           startIndex={0}
           getShortMetricKey={getShortMetricKey}
         />
@@ -47,7 +47,7 @@ export default function AxesConfigurator({ form, onChange, getShortMetricKey }) 
             form={form}
             onChange={onChange}
             axisName="y2"
-            title="Secondary Y-Axis"
+            title={t('in-custom-dashboards:widgets.chart.axesConfigurator.secondaryYAxis')}
             startIndex={form.getIn(['y1', 'metrics']).size}
             getShortMetricKey={getShortMetricKey}
             isSecondary
@@ -134,7 +134,7 @@ function AxisConfigurator({
             {axisForm.get('renderer').map(field => (
               <SelectInSection
                 id={`axis-${axisName}-renderer`}
-                label="Chart"
+                label={t('in-custom-dashboards:widgets.chart.axesConfigurator.chart')}
                 value={field.value}
                 onChange={e =>
                   onChange([axisName, 'renderer'], field => field.setValue(e.target.value).setTouched(true))
@@ -153,7 +153,7 @@ function AxisConfigurator({
             {axisForm.get('formatter').map(field => (
               <SelectInSection
                 id={`axis-${axisName}-formatter`}
-                label="Formatter"
+                label={t('in-custom-dashboards:widgets.chart.axesConfigurator.formatter')}
                 value={field.value}
                 onChange={e =>
                   onChange([axisName, 'formatter'], field => field.setValue(e.target.value).setTouched(true))

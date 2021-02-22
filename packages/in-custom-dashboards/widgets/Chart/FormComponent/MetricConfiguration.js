@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import classNames from 'classnames';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import MetricConfigurator from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/MetricConfigurator';
@@ -37,7 +38,7 @@ export const columnDefinitions = [
       let title = getMetricLabel(metricForm.toJS());
       if (metricForm.get('timeShift').value !== 0) {
         title = (
-          <Tooltip content="Dataset is time shifted">
+          <Tooltip content={t('in-custom-dashboards:widgets.formCompChart.metricConfigChart.datasetTimeShift')}>
             <span className={locals.timeShifted}>
               {title} <SvgIcon className={locals.timeShiftIndicator} size="xs" type="lib_datetime_time" />
             </span>
@@ -67,14 +68,14 @@ export const columnDefinitions = [
               onChange([axisName, 'metrics'], f => f.insert(indexInAxis + 1, duplicate(metricForm)).setTouched(true))
             }
           >
-            Duplicate
+            {t('in-custom-dashboards:widgets.formCompChart.metricConfigChart.duplicate')}
           </MoreMenuButton>
 
           <MoreMenuButton
             icon="lib_actions_delete"
             onClick={() => onChange([axisName, 'metrics'], f => f.remove(indexInAxis).setTouched(true))}
           >
-            Remove dataset
+            {t('in-custom-dashboards:widgets.formCompChart.metricConfigChart.removeDataset')}
           </MoreMenuButton>
         </MoreMenu>
       );

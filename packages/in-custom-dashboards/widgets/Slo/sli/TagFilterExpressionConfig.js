@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import PropTypes from 'prop-types';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import FilterConfigurator from 'in-custom-dashboards/widgets/Slo/sli/FilterConfigurator';
@@ -32,7 +33,7 @@ export default function TagFilterExpressionConfig({
             size="compact"
             onClick={() => updateForm(form.updateIn([formFieldName], f => f.setValue([]).setTouched(true)))}
           >
-            Clear
+            {t('in-custom-dashboards:widgets.slo.tagFilterExpressConfig.clear')}
           </Button>
         )
       }

@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import WidgetTypeSidebar from 'in-custom-dashboards/CustomDashboard/WidgetEditorDialog/WidgetTypeSelector/WidgetTypeSidebar';
@@ -21,7 +22,7 @@ export default function WidgetTypeSelector({ form, onChangeType }) {
           <img
             className={locals.img}
             src={widget.showCase}
-            alt={`Show case of the ${widget.label} widget`}
+            alt={t('in-custom-dashboards:customDashboard.widgetEditorDialog.widgetTypeSelector.showWidgetLabel', { label: widget.label })}
             key={selectedType} // Added to notify react about the image has changed to avoid from displaying old image
           />
         </div>

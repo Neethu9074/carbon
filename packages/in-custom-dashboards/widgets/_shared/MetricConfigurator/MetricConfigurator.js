@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import SectionLabelWithSubtext from 'in-new-components/workspace/SectionLabelWithSubtext';
@@ -31,13 +32,13 @@ export default function MetricConfigurator({
   const dataSourceSection = (
     <SelectInSection
       id="metic-configurator-source"
-      label="Data Source"
+      label={t('in-custom-dashboards:widgets.metricConfigurator.ds')}
       value={sourceField.value}
       onChange={e => onChangeSource(e.target.value)}
       hasError={!sourceField.valid && sourceField.touched}
       additionalContent={<TouchedMessages field={sourceField} />}
     >
-      <option value="">Please select</option>
+      <option value="">{t('in-custom-dashboards:widgets.metricConfigurator.pleaseSelect')}</option>
       {Object.values(sources)
         .filter(
           ({ source, visible }) =>
@@ -57,7 +58,7 @@ export default function MetricConfigurator({
     labelSection = form.get('label').map(field => (
       <Sections>
         <InputInSection
-          label={<SectionLabelWithSubtext subtext="Optional">Name</SectionLabelWithSubtext>}
+          label={<SectionLabelWithSubtext subtext="Optional">{t('in-custom-dashboards:widgets.metricConfigurator.name')}</SectionLabelWithSubtext>}
           id="metic-configurator-label"
           type="text"
           value={field.value}

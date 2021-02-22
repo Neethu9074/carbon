@@ -4,6 +4,7 @@
  */
 import React, { useState } from 'react';
 import rpt from 'prop-types';
+import { t } from 'in-i18n';
 
 import { isLandingPage as isCustomDashboardLandingPage } from 'in-client/js/LandingPage/supportedLandingPages/customDashboards';
 import { isLandingPage as isCockpitLandingPage } from 'in-client/js/LandingPage/supportedLandingPages/cockpit';
@@ -50,7 +51,7 @@ function DashboardSwitcherOverlayPresenter({
               close();
             }}
           >
-            Create Dashboard
+            {t('in-custom-dashboards:dashboardSwitcher.dashboardSwitcherOverlayPresenter.createDashboard')}
           </Button>
         </Li>
 
@@ -100,7 +101,7 @@ function DashboardList({ customDashboards, query, activeLandingPageConfiguration
       <>
         <Lettering className={locals.lettering} />
         <Pill color={theme.lib.colors.deepPurple800} className={locals.leftMargin}>
-          built-in
+        {t('in-custom-dashboards:dashboardSwitcher.dashboardSwitcherOverlayPresenter.builtIn')}
         </Pill>
       </>
     ),
@@ -119,7 +120,7 @@ function DashboardList({ customDashboards, query, activeLandingPageConfiguration
             {titleElement || title}
             {isDefault && (
               <Pill color={theme.lib.colors.blue800} className={locals.leftMargin}>
-                default
+                {t('in-custom-dashboards:dashboardSwitcher.dashboardSwitcherOverlayPresenter.default')}
               </Pill>
             )}
           </div>

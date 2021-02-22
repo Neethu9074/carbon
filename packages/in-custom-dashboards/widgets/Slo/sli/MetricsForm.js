@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { OverridingTextTouchedMessage } from 'in-custom-dashboards/widgets/Slo/components/OverridingTextTouchedMessage';
@@ -34,13 +35,13 @@ export const MetricsForm = ({ form, onChange }) => {
       <Divider />
 
       <Stack space="normal">
-        <Header>Metric & Threshold</Header>
+        <Header>{t('in-custom-dashboards:widgets.slo.metricsForm.metricThreshold')}</Header>
 
         <Stack space="xsmall">
           {metricConfiguration.get('metricName').map(field => (
             <Sections>
               <SelectInSection
-                label="Metric"
+                label={t('in-custom-dashboards:widgets.slo.metricsForm.metric')}
                 id="new-sli-metric"
                 value={field.value ?? ''}
                 hasError={!field.valid && field.touched}
@@ -76,7 +77,7 @@ export const MetricsForm = ({ form, onChange }) => {
           {metricConfiguration.get('metricAggregation').map(field => (
             <Sections>
               <SelectInSection
-                label="Aggregation"
+                label={t('in-custom-dashboards:widgets.slo.metricsForm.aggregation')}
                 id="new-sli-aggregation"
                 value={aggregationValue ?? aggregationData.defaultValue}
                 hasError={!field.valid && field.touched}
@@ -123,7 +124,7 @@ export const MetricsForm = ({ form, onChange }) => {
                     />
                     <OverridingTextTouchedMessage
                       field={field}
-                      message="The value of threshold must not be invalid or empty."
+                      message={t('in-custom-dashboards:widgets.slo.metricsForm.valThresholdNotInvalidEmpty')}
                     />
                   </>
                 )}
@@ -138,9 +139,9 @@ export const MetricsForm = ({ form, onChange }) => {
 
 function getThresholdLabelWithUnit(metricName) {
   if (metricName === 'latency') {
-    return 'Threshold (ms)';
+    return t('in-custom-dashboards:widgets.slo.metricsForm.thresholdMs');
   } else if (metricName === 'errors') {
-    return 'Threshold (%)';
+    return t('in-custom-dashboards:widgets.slo.metricsForm.thresholdPercent');
   }
-  return 'Threshold (count)';
+  return t('in-custom-dashboards:widgets.slo.metricsForm.thresholdCount');
 }

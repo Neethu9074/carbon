@@ -4,6 +4,7 @@
  */
 import { compose, withProps } from 'recompose';
 import { find, isEqual } from 'lodash';
+import { Trans, t } from 'in-i18n';
 import React from 'react';
 
 import {
@@ -160,12 +161,16 @@ function CustomDashboardLoader(props) {
   function onDeleteCustomDashboard() {
     addActiveDialog(
       <ConfirmationDialog
-        header="Confirm Dashboard Deletion"
+        header={t('in-custom-dashboards:customDashboard.customDashboard.confirmDashboardDel')}
         headerIcon="lib_views_grid"
-        confirmButtonLabel="Delete Dashboard"
+        confirmButtonLabel={t('in-custom-dashboards:customDashboard.customDashboard.delDashboard')}
         description={
           <span>
-            Are you sure you want to delete the dashboard <strong>{config.title}</strong>?
+            <Trans
+              i18nKey="in-custom-dashboards:customDashboard.customDashboard.uWantDelDashboardConfig"
+              values={{ title: config.title}}
+              components={{ italic: <i />, bold: <strong /> }}
+            />
           </span>
         }
         onSubmit={() => {
@@ -181,7 +186,7 @@ function CustomDashboardLoader(props) {
                 {
                   type: 'danger',
                   timeout: 3000,
-                  content: 'Failed to delete the dashboard.'
+                  content: t('in-custom-dashboards:customDashboard.customDashboard.failDelDashboard')
                 },
                 'custom-dashboard-error'
               );
@@ -198,10 +203,10 @@ function CustomDashboardLoader(props) {
   function onRenameDashboard(config, setConfig) {
     addActiveDialog(
       <Prompt
-        header="Rename Dashboard"
+        header={t('in-custom-dashboards:customDashboard.customDashboard.renameDashboard')}
         headerIcon="lib_views_grid"
-        inputLabel="Dashboard Name"
-        confirmButtonLabel="Rename"
+        inputLabel={t('in-custom-dashboards:customDashboard.customDashboard.dashboardName')}
+        confirmButtonLabel={t('in-custom-dashboards:customDashboard.customDashboard.rename')}
         initialValue={config.title}
         onSubmit={title => {
           const newConfig = deepCopy(config);
@@ -230,7 +235,7 @@ function CustomDashboardLoader(props) {
           {
             type: 'danger',
             timeout: 5000,
-            content: 'Failed to save the dashboard.'
+            content: t('in-custom-dashboards:customDashboard.customDashboard.failSaveDashboard')
           },
           'custom-dashboard-error'
         );

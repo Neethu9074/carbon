@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import DataSeriesConfigurator from 'in-custom-dashboards/widgets/Chart/FormComponent/DataSeriesConfigurator';
@@ -15,14 +16,14 @@ export default function ChartWidgetFormComponent({ form, onChange }) {
   return (
     <Stack space="large">
       <Stack space="normal">
-        <Header>Datasets</Header>
+        <Header>{t('in-custom-dashboards:widgets.formCompChart.indexChart.datasets')}</Header>
         <DataSeriesConfigurator form={form} onChange={onChange} getShortMetricKey={getShortMetricKey} />
       </Stack>
 
       <Divider />
 
       <Stack space="normal">
-        <Header>Axis Configuration</Header>
+        <Header>{t('in-custom-dashboards:widgets.formCompChart.indexChart.axisConfig')}</Header>
         <AxesConfigurator form={form} onChange={onChange} getShortMetricKey={getShortMetricKey} />
       </Stack>
     </Stack>

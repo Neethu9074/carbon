@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc. 2021
  */
 import theme from 'in-themes';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { getSliFormatter } from 'in-custom-dashboards/widgets/Slo/sliFormatter';
@@ -26,45 +27,45 @@ export function WidgetHeader({ slo, budget, isDynamic, isRolling, fromTimestamp,
     <>
       <div className={locals.tilesContainer}>
         <SloTile
-          title="Status"
+          title={t('in-custom-dashboards:widgets.slo.widgetHeader.status')}
           value={sli && percentage.detailed(sli)}
-          targetInfo="Target:"
+          targetInfo={t('in-custom-dashboards:widgets.slo.widgetHeader.target')}
           targetValue={slo && percentage.detailed(slo)}
           color={sliColor}
         />
         <SloTile
-          title="Error Budget Spent"
+          title={t('in-custom-dashboards:widgets.slo.widgetHeader.errorBudgetSpent')}
           value={spent && sliFormatter(spent)}
-          targetInfo="Error Budget:"
+          targetInfo={t('in-custom-dashboards:widgets.slo.widgetHeader.errorBudget')}
           targetValue={budget && sliFormatter(budget)}
           color={budgetColor}
         />
         <SloTimeTile
-          title="Time Window"
-          info={isDynamic ? 'Dynamic time window' : isRolling ? 'Rolling time window' : 'Fixed time window'}
+          title={t('in-custom-dashboards:widgets.slo.widgetHeader.timeWindow')}
+          info={isDynamic ? t('in-custom-dashboards:widgets.slo.widgetHeader.dynamicTimeWindow') : isRolling ? t('in-custom-dashboards:widgets.slo.widgetHeader.rollingTimeWindow') : t('in-custom-dashboards:widgets.slo.widgetHeader.fixedTimeWindow')}
           fromTimestamp={fromTimestamp}
           toTimestamp={toTimestamp}
         />
       </div>
       <div className={locals.listContainer}>
         <SloTile
-          title="Status"
+          title={t('in-custom-dashboards:widgets.slo.widgetHeader.status')}
           value={sli && percentage.detailed(sli)}
-          targetInfo="Target:"
+          targetInfo={t('in-custom-dashboards:widgets.slo.widgetHeader.target')}
           targetValue={slo && percentage.detailed(slo)}
           color={sliColor}
           smallRowStyle
         />
         <SloTile
-          title="Error Budget Spent"
+          title={t('in-custom-dashboards:widgets.slo.widgetHeader.errorBudgetSpent')}
           value={spent && sliFormatter(spent)}
-          targetInfo="Error Budget:"
+          targetInfo={t('in-custom-dashboards:widgets.slo.widgetHeader.errorBudget')}
           targetValue={budget && sliFormatter(budget)}
           color={budgetColor}
           smallRowStyle
         />
         <SloTimeTile
-          info={isDynamic ? 'Dynamic time window' : isRolling ? 'Rolling time window' : 'Fixed time window'}
+          info={isDynamic ? t('in-custom-dashboards:widgets.slo.widgetHeader.dynamicTimeWindow') : isRolling ? t('in-custom-dashboards:widgets.slo.widgetHeader.rollingTimeWindow') : t('in-custom-dashboards:widgets.slo.widgetHeader.fixedTimeWindow')}
           fromTimestamp={fromTimestamp}
           toTimestamp={toTimestamp}
           smallRowStyle

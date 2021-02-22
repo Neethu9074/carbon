@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { Trans, t } from 'in-i18n';
 import { get } from 'lodash';
 import rpt from 'prop-types';
 import React from 'react';
@@ -35,7 +36,7 @@ export default function SliList(props) {
     <ServerTablePresenter
       getRowProps={getRowProps}
       orderDirection="ASC"
-      cardTitle="Service Level Indicators"
+      cardTitle={t('in-custom-dashboards:widgets.slo.sliList.serviceLevelIndicators')}
       {...props}
       result={result}
       onRowClick={role.canConfigureServiceLevelIndicators ? props.selectSli : undefined}
@@ -66,7 +67,7 @@ const deleteSliConfig = id => {
         {
           type: 'info',
           timeout: 2000,
-          content: 'SLI configuration was successfully deleted.'
+          content: t('in-custom-dashboards:widgets.slo.sliList.sliConfigDeleted')
         },
         'custom-dashboard-info'
       );
@@ -76,7 +77,7 @@ const deleteSliConfig = id => {
         {
           type: 'danger',
           timeout: 3000,
-          content: 'Failed to delete the sli.'
+          content: t('in-custom-dashboards:widgets.slo.sliList.failedDelSli')
         },
         'custom-dashboard-error'
       );
@@ -105,7 +106,7 @@ const columnDefinitions = [
   {
     id: 'metric',
     sortable: false,
-    label: 'SLI Type',
+    label: t('in-custom-dashboards:widgets.slo.sliList.sliType'),
     width: 20,
     getContent(item) {
       const metric = metricConfiguration => {
@@ -140,7 +141,7 @@ const columnDefinitions = [
       }
       return (
         <div className={locals.controls}>
-          <Tooltip content="View/Clone SLI Configuration">
+          <Tooltip content={t('in-custom-dashboards:widgets.slo.sliList.viewCloneSliConfig')}>
             <SvgIcon type="lib_actions_edit" className={locals.iconButton} onClick={() => selectSli(item)} />
           </Tooltip>
         </div>
@@ -157,20 +158,24 @@ const columnDefinitions = [
       }
       return (
         <div className={locals.controls}>
-          <Tooltip content="Delete SLI Configuration">
+          <Tooltip content={t('in-custom-dashboards:widgets.slo.sliList.delSliConfig')}>
             <SvgIcon
               type="lib_actions_delete"
               className={locals.iconButton}
               onClick={() => {
                 addActiveDialog(
                   <ConfirmationDialog
-                    header="Please Confirm"
+                    header={t('in-custom-dashboards:widgets.slo.sliList.pleaseConfirm')}
                     description={
                       <span>
-                        Are you sure you want to delete <strong>{item.sliName}</strong>?
+                        <Trans
+                        i18nKey="in-custom-dashboards:widgets.slo.sliList.pleaseConfirmMsg"
+                        values={{ sliName: item.sliName }}
+                        components={{ italic: <i />, bold: <strong /> }}
+                        />
                       </span>
                     }
-                    confirmButtonLabel="Delete"
+                    confirmButtonLabel={t('in-custom-dashboards:widgets.slo.sliList.delete')}
                     onSubmit={() => {
                       close();
                       deleteSliConfig(item.id);

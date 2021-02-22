@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import React, { useEffect } from 'react';
+import { t } from 'in-i18n';
 
 import MetricConfiguration from 'in-custom-dashboards/widgets/Chart/FormComponent/MetricConfiguration';
 import { autoOpen } from 'in-custom-dashboards/widgets/Chart/FormComponent/autoOpenHelper';
@@ -58,7 +59,7 @@ export default function DataSeriesConfigurator({ form, onChange, getShortMetricK
             onChange([axisName, 'metrics'], f => f.push(createMetricForm()));
           }}
         >
-          Add dataset
+          {t('in-custom-dashboards:widgets.formCompChart.dataConfigChart.addDataset')}
         </Button>
       </Li>
     </Ul>

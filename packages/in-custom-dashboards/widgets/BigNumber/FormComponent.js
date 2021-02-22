@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import MetricConfigurator from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/MetricConfigurator';
@@ -17,7 +18,7 @@ import Stack from 'in-new-components/layout/Stack';
 export default function BigNumberWidgetFormComponent({ form, onChange }) {
   return (
     <Stack space="normal">
-      <Header>What would you like to show?</Header>
+      <Header>{t('in-custom-dashboards:widgets.bigNumber.formComponent.whatULikeShow')}</Header>
 
       <MetricConfigurator
         form={form.get('metricConfiguration')}
@@ -33,7 +34,7 @@ export default function BigNumberWidgetFormComponent({ form, onChange }) {
           <Sections>
             <SelectInSection
               id="big-number-formatter"
-              label="Formatter"
+              label={t('in-custom-dashboards:widgets.bigNumber.formComponent.formatter')}
               value={field.value}
               onChange={e => onChange(['formatter'], field => field.setValue(e.target.value).setTouched(true))}
               hasError={!field.valid && field.touched}

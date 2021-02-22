@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import TagFilterExpressionConfig from 'in-custom-dashboards/widgets/Slo/sli/TagFilterExpressionConfig';
@@ -85,7 +86,7 @@ export default function GoodBadEvents({ applicationName, onChange, QueryBuilderC
             <Divider />
 
             <Stack space="normal">
-              <Header>Good Events</Header>
+              <Header>{t('in-custom-dashboards:widgets.slo.goodBadEventsForm.goodEvents')}</Header>
               <WithQB1orQB2
                 onUsesQB1={() => (
                   <>
@@ -124,7 +125,7 @@ export default function GoodBadEvents({ applicationName, onChange, QueryBuilderC
             <Divider />
 
             <Stack space="normal">
-              <Header>Bad Events</Header>
+              <Header>{t('in-custom-dashboards:widgets.slo.goodBadEventsForm.badEvents')}</Header>
               <WithQB1orQB2
                 onUsesQB1={() => (
                   <>
