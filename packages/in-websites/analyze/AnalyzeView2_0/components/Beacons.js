@@ -14,11 +14,17 @@ import { getLinkToWebsite } from 'in-websites/navigation/paths';
 import Link from 'in-components/Link';
 import { t } from 'in-i18n';
 
+import locals from './Beacons.mless';
+
 const websiteColumnDefinition = {
   id: 'website',
   label: t('in-websites:beacons.website'),
   getContent({ beacon }) {
-    return <Link href$={getLinkToWebsite(beacon.websiteId)}>{beacon.websiteLabel}</Link>;
+    return (
+      <Link className={locals.link} href$={getLinkToWebsite(beacon.websiteId)}>
+        {beacon.websiteLabel}
+      </Link>
+    );
   }
 };
 
@@ -170,6 +176,7 @@ function getTableData({ timeConfig, backendQueryModel, orderBy, cursor, dataSour
 function LinkToDetailPage({ beacon, getHrefToDetailId, linkLabel, groupLabel }) {
   return (
     <Link
+      className={locals.link}
       href={getHrefToDetailId(
         {
           pageLoadId: beacon.pageLoadId,

@@ -14,11 +14,17 @@ import { getLinkToMobileApp } from 'in-mobile-apps/navigation/paths';
 import Link from 'in-components/Link';
 import { t } from 'in-i18n';
 
+import locals from './MobileBeacons.mless';
+
 const mobileAppColumnDefinition = {
   id: 'mobileApp',
   label: t('in-mobile-apps:mobileBeacons.mobileApp'),
   getContent({ beacon }) {
-    return <Link href$={getLinkToMobileApp(beacon.mobileAppId)}>{beacon.mobileAppLabel}</Link>;
+    return (
+      <Link className={locals.link} href$={getLinkToMobileApp(beacon.mobileAppId)}>
+        {beacon.mobileAppLabel}
+      </Link>
+    );
   }
 };
 
@@ -132,6 +138,7 @@ function getTableData({ timeConfig, backendQueryModel, orderBy, cursor, dataSour
 function LinkToDetailPage({ beacon, getHrefToDetailId, linkLabel, groupLabel }) {
   return (
     <Link
+      className={locals.link}
       href={getHrefToDetailId(
         {
           sessionId: beacon.sessionId,
