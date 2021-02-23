@@ -9,6 +9,8 @@ import createObservable from 'in-services/http/observableHttpResult';
 import memoize from 'in-services/util/memoizingObservableGenerator';
 import http from 'in-services/http';
 
+const basePath = '/api/settings/rbac/groups';
+
 const refreshSignalTeams = create().emit(true);
 export function refresh() {
   refreshSignalTeams.emit(true);
@@ -23,7 +25,7 @@ function getGroupsAsResultObservableInternal() {
       http({
         method: 'GET',
         maxRetries: 3,
-        url: `/api/settings/groups`
+        url: basePath
       })
     )
   );
@@ -36,7 +38,7 @@ function getGroupAsResultObservableInternal(groupId) {
       http({
         method: 'GET',
         maxRetries: 3,
-        url: `/api/settings/groups/${groupId}`
+        url: `${basePath}/${groupId}`
       })
     )
   );
@@ -49,7 +51,7 @@ function getGroupsOfASingleUserInternal(email) {
       http({
         method: 'GET',
         maxRetries: 3,
-        url: `/api/settings/groups/user/${email}`
+        url: `${basePath}/user/${email}`
       })
     )
   );
@@ -66,24 +68,7 @@ function getStrippedGroupsAsResultObservableInternal() {
       http({
         method: 'GET',
         maxRetries: 3,
-        url: `/api/settings/groups/stripped`
-      })
-    )
-  );
-}
-
-export const getStrippedGroupAsResultObservable = memoize(
-  getStrippedGroupAsResultObservableInternal,
-  groupId => groupId,
-  60000
-);
-function getStrippedGroupAsResultObservableInternal(groupId) {
-  return refreshSignalTeams.flatMap(() =>
-    createObservable(
-      http({
-        method: 'GET',
-        maxRetries: 3,
-        url: `/api/settings/groups/stripped/${groupId}`
+        url: `${basePath}/stripped`
       })
     )
   );
@@ -96,7 +81,7 @@ export function saveGroup(group) {
     method: group.id ? 'PUT' : 'POST',
     maxRetries: 3,
     headers: getCsrfHeader(),
-    url: group.id ? `/api/settings/groups/${group.id}` : '/api/settings/groups',
+    url: group.id ? `${basePath}/${group.id}` : basePath,
     data: group
   }).map(mapAndRefresh);
 }
@@ -106,7 +91,7 @@ export function saveGroups(groups) {
     method: 'PUT',
     maxRetries: 3,
     headers: getCsrfHeader(),
-    url: '/api/settings/groups',
+    url: basePath,
     data: groups
   }).map(mapAndRefresh);
 }
@@ -116,7 +101,7 @@ export function deleteGroup(id) {
     method: 'DELETE',
     maxRetries: 3,
     headers: getCsrfHeader(),
-    url: `/api/settings/groups/${id}`
+    url: `${basePath}/${id}`
   }).map(mapAndRefresh);
 }
 
@@ -125,7 +110,7 @@ export function removeUserFromGroup(groupId, userId) {
     method: 'DELETE',
     maxRetries: 3,
     headers: getCsrfHeader(),
-    url: `/api/settings/groups/${groupId}/user/${userId}`
+    url: `${basePath}/${groupId}/user/${userId}`
   }).map(mapAndRefresh);
 }
 
@@ -153,6 +138,6 @@ function createPermissionSet() {
     kubernetesNamespaceUIDs: [],
     websiteIds: [],
     mobileAppIds: [],
-    infraDfqFilter: ''
+    infraDfqFilter: { scopeId: '', scopeRoleId: '-1' }
   };
 }

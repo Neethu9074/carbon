@@ -12,54 +12,60 @@ export const types = {
 };
 
 export function mapApplications(applicationIds, getAdditionalProperties) {
-  return applicationIds.map(id => ({
-    id,
+  return applicationIds.map(({ scopeId, scopeRoleId }) => ({
+    id: scopeId,
+    scopeRoleId,
     type: types.APPLICATION,
     icon: 'lib_application',
-    ...getAdditionalProperties(id)
+    ...getAdditionalProperties(scopeId)
   }));
 }
 
 export function mapKubernetesClusters(kubernetesClusterUUIDs, getAdditionalProperties) {
-  return kubernetesClusterUUIDs.map(id => ({
-    id,
+  return kubernetesClusterUUIDs.map(({ scopeId, scopeRoleId }) => ({
+    id: scopeId,
+    scopeRoleId,
     type: types.K8S_CLUSTER,
     icon: 'lib_kubernetes_cluster',
-    ...getAdditionalProperties(id)
+    ...getAdditionalProperties(scopeId)
   }));
 }
 
 export function mapKubernetesNamespaces(kubernetesNamespaceUIDs, getAdditionalProperties) {
-  return kubernetesNamespaceUIDs.map(id => ({
-    id,
+  return kubernetesNamespaceUIDs.map(({ scopeId, scopeRoleId }) => ({
+    id: scopeId,
+    scopeRoleId,
     type: types.K8S_NAMESPACE,
     icon: 'lib_kubernetes_namespace',
-    ...getAdditionalProperties(id)
+    ...getAdditionalProperties(scopeId)
   }));
 }
 
 export function mapWebsites(websiteIds, getAdditionalProperties) {
-  return websiteIds.map(id => ({
-    id,
+  return websiteIds.map(({ scopeId, scopeRoleId }) => ({
+    id: scopeId,
+    scopeRoleId,
     type: types.WEBSITE,
     icon: 'lib_website',
-    ...getAdditionalProperties(id)
+    ...getAdditionalProperties(scopeId)
   }));
 }
 
 export function mapMobileApps(mobileAppIds, getAdditionalProperties) {
-  return mobileAppIds.map(id => ({
-    id,
+  return mobileAppIds.map(({ scopeId, scopeRoleId }) => ({
+    id: scopeId,
+    scopeRoleId,
     type: types.MOBILE_APP,
     icon: 'lib_mobile_app',
-    ...getAdditionalProperties(id)
+    ...getAdditionalProperties(scopeId)
   }));
 }
 
-export function mapInfraDfq(infraDfqFilter, getAdditionalProperties) {
+export function mapInfraDfq({ scopeId, scopeRoleId }, getAdditionalProperties) {
   return {
     id: 'infraDfq',
-    label: infraDfqFilter,
+    label: scopeId,
+    scopeRoleId,
     type: types.INFRA_DFQ,
     icon: 'lib_infrastructure_inverted',
     ...getAdditionalProperties()

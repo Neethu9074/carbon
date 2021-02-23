@@ -204,28 +204,68 @@ function togglePermission(form, setForm, value) {
   setForm(form.updateIn(['permissionSet'], f => f.setValue(modifiedPermissionSet).setTouched(true)));
 }
 
-function update(ids, infraDfqFilter, form, setForm) {
+function update(ids, infraDfqFilterString, form, setForm) {
   const modifiedPermissionSet = copyPermissionSet(form);
 
-  modifiedPermissionSet.applicationIds = ids.filter(item => item.type === types.APPLICATION).map(mapToId);
-  modifiedPermissionSet.kubernetesClusterUUIDs = ids.filter(item => item.type === types.K8S_CLUSTER).map(mapToId);
-  modifiedPermissionSet.kubernetesNamespaceUIDs = ids.filter(item => item.type === types.K8S_NAMESPACE).map(mapToId);
-  modifiedPermissionSet.websiteIds = ids.filter(item => item.type === types.WEBSITE).map(mapToId);
-  modifiedPermissionSet.mobileAppIds = ids.filter(item => item.type === types.MOBILE_APP).map(mapToId);
+  modifiedPermissionSet.applicationIds = mapToScopeBindings(
+    ids.filter(item => item.type === types.APPLICATION).map(mapToId),
+    modifiedPermissionSet.applicationIds
+  );
+  modifiedPermissionSet.kubernetesClusterUUIDs = mapToScopeBindings(
+    ids.filter(item => item.type === types.K8S_CLUSTER).map(mapToId),
+    modifiedPermissionSet.kubernetesClusterUUIDs
+  );
+  modifiedPermissionSet.kubernetesNamespaceUIDs = mapToScopeBindings(
+    ids.filter(item => item.type === types.K8S_NAMESPACE).map(mapToId),
+    modifiedPermissionSet.kubernetesNamespaceUIDs
+  );
+  modifiedPermissionSet.websiteIds = mapToScopeBindings(
+    ids.filter(item => item.type === types.WEBSITE).map(mapToId),
+    modifiedPermissionSet.websiteIds
+  );
+  modifiedPermissionSet.mobileAppIds = mapToScopeBindings(
+    ids.filter(item => item.type === types.MOBILE_APP).map(mapToId),
+    modifiedPermissionSet.mobileAppIds
+  );
 
-  modifiedPermissionSet.infraDfqFilter = infraDfqFilter;
+  modifiedPermissionSet.infraDfqFilter = {
+    scopeId: infraDfqFilterString,
+    scopeRoleId: modifiedPermissionSet.infraDfqFilter.scopeRoleId
+  };
+
   setForm(form.updateIn(['permissionSet'], f => f.setValue(modifiedPermissionSet).setTouched(true)));
+}
+
+function mapToId(item) {
+  return item.id;
+}
+
+export function mapToScopeBindings(currentIds, currentScopes) {
+  // keep entries which are still listed, remove the rest
+  currentScopes = currentScopes.filter(({ scopeId }) => currentIds.indexOf(scopeId) >= 0);
+
+  // add all other ids with a default role
+  const lookUpIds = new Set(currentScopes.map(({ scopeId }) => scopeId));
+  currentScopes = [
+    ...currentScopes,
+    ...currentIds.filter(id => !lookUpIds.has(id)).map(scopeId => ({ scopeId, scopeRoleId: '-1' }))
+  ];
+
+  return currentScopes;
 }
 
 function removeId(id, propertyName, form, setForm) {
   const modifiedPermissionSet = copyPermissionSet(form);
-  modifiedPermissionSet[propertyName] = modifiedPermissionSet[propertyName].filter(v => v !== id);
+  modifiedPermissionSet[propertyName] = modifiedPermissionSet[propertyName].filter(({ scopeId }) => scopeId !== id);
   setForm(form.updateIn(['permissionSet'], f => f.setValue(modifiedPermissionSet).setTouched(true)));
 }
 
 function removeDfq(form, setForm) {
   const modifiedPermissionSet = copyPermissionSet(form);
-  modifiedPermissionSet.infraDfqFilter = '';
+  modifiedPermissionSet.infraDfqFilter = {
+    scopeId: '',
+    scopeRoleId: '-1'
+  };
   setForm(form.updateIn(['permissionSet'], f => f.setValue(modifiedPermissionSet).setTouched(true)));
 }
 
@@ -237,10 +277,6 @@ function addUsers(users, form, setForm) {
         .setTouched(true)
     )
   );
-}
-
-function mapToId(item) {
-  return item.id;
 }
 
 function copyPermissionSet(form) {

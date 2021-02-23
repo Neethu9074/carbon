@@ -33,7 +33,7 @@ import { light } from 'in-themes/themes';
 
 import locals from './Areas.mless';
 
-export default function AreasList({ update, permissionSet, removeId, removeDfq, readOnly }) {
+export default function Areas({ update, permissionSet, removeId, removeDfq, readOnly }) {
   const [page, setPage] = useState(1);
 
   return (
@@ -131,7 +131,7 @@ function AddAreaButton({ preSelectedItems, infraDfqFilter, update }) {
 const SelectableDialog = withSelectableItems(function Selectable(props) {
   const { update, selectedEntities, infraDfqFilter } = props;
 
-  const [dfq, setDfq] = useState(infraDfqFilter);
+  const [dfq, setDfq] = useState(infraDfqFilter.scopeId);
   const [activeTabIndex, setActiveTabIndex] = useState(0);
   return (
     <Dialog className={locals.dialog} title="Add areas to group" onClose={close}>
@@ -158,7 +158,7 @@ const SelectableDialog = withSelectableItems(function Selectable(props) {
           className={locals.button}
           kind="primary"
           type="submit"
-          disabled={selectedEntities.size === 0 && dfq === infraDfqFilter}
+          disabled={selectedEntities.size === 0 && dfq === infraDfqFilter.scopeId}
         >
           Add to group
         </Button>
