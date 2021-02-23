@@ -72,4 +72,8 @@
     color: @lib__colors__N600Light;
     margin-right: 0.2rem;
   }
+
+  .noData {
+    background-color: transparent;
+  }
 }

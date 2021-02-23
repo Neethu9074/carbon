@@ -115,6 +115,7 @@
   "sparkChart": {
     "mean": "Mean",
     "sum": "Sum",
-    "distinctCount": "Distinct Count"
+    "distinctCount": "Distinct Count",
+    "notAvailable": "N/A"
   }
 }
