@@ -63,12 +63,12 @@ const configEnrichmentLookUpTable = {
   },
 
   '4': {
-    label: t('in-cockpit:cockpit.Infrastructure'),
+    label: t('in-cockpit:cockpit.infrastructure'),
     icon: 'lib_infrastructure',
     cardIcon: 'lib_infrastructure_inverted'
   },
   '5': {
-    label: t('in-cockpit:cockpit.Events'),
+    label: t('in-cockpit:cockpit.events'),
     icon: 'lib_events_inverted',
     cardIcon: 'lib_events_inverted'
   }
@@ -81,7 +81,7 @@ export default connectTo(
   function Cockpit({ settings }) {
     return (
       <>
-        <Title title={t('in-cockpit:cockpit.Home')} />
+        <Title title={t('in-cockpit:cockpit.home')} />
         <ViewTrackingMeta
           data={{
             productArea: 'Home',
@@ -266,7 +266,7 @@ function getPlatformsTitle() {
   if (pcfEnabled) numPlatformsAvailable++;
   if (vsphereEnabled) numPlatformsAvailable++;
   if (numPlatformsAvailable > 1) {
-    return t('in-cockpit:cockpit.Platforms');
+    return t('in-cockpit:cockpit.platforms');
   }
 
   if (pcfEnabled) {
@@ -307,7 +307,7 @@ function getWebsiteAndMobileIcon() {
 
 function getWebsiteAndMobileLabel() {
   if (!hasMobileAppsAccess) {
-    return t('in-cockpit:cockpit.Websites');
+    return t('in-cockpit:cockpit.websites');
   }
   if (!hasWebsitesAccess) {
     return t('in-cockpit:cockpit.mobileApps');

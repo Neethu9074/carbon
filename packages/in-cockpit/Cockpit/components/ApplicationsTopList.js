@@ -230,7 +230,7 @@ const columnDefinitions = [
           aggregation="MEAN"
           metrics={get(item, ['metrics', 'latency'])}
           metric={get(item, ['metrics', 'latencyAgg'])}
-          label={t('in-cockpit:component.applTopList.Latency')}
+          label={t('in-cockpit:component.applTopList.latency')}
           tooltipFormatter={meanLatencyFixed.compact}
           showDashOnMissingOrNullMetric
           hideChartOnEmptyMetrics

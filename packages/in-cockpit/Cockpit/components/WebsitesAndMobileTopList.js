@@ -265,7 +265,11 @@ const columnDefinitions = [
       const { isWebsite } = item;
       return (
         <KeyValue
-          label={isWebsite ? t('in-cockpit:component.websiteMobileTopList.Website') : t('in-cockpit:component.websiteMobileTopList.mobileApp')}
+          label={
+            isWebsite
+              ? t('in-cockpit:component.websiteMobileTopList.website')
+              : t('in-cockpit:component.websiteMobileTopList.mobileApp')
+          }
           value={isWebsite ? item.website.label : item.mobileApp.label}
           inverted
           accentuated
@@ -285,7 +289,11 @@ const columnDefinitions = [
           aggregation="SUM"
           metrics={isWebsite ? metrics.pageViews : metrics.sessions}
           metric={isWebsite ? metrics.pageViewsAgg : metrics.sessionsAgg}
-          label={isWebsite ? t('in-cockpit:component.websiteMobileTopList.pageViews') : t('in-cockpit:component.websiteMobileTopList.Sessions')}
+          label={
+            isWebsite
+              ? t('in-cockpit:component.websiteMobileTopList.pageViews')
+              : t('in-cockpit:component.websiteMobileTopList.sessions')
+          }
           tooltipFormatter={number.compact}
           showNullValuesChartOnEmptyMetrics
         />
@@ -305,7 +313,11 @@ const columnDefinitions = [
           aggregation={isWebsite ? 'MEAN' : 'SUM'}
           metrics={isWebsite ? metrics.onLoadTime : metrics.views}
           metric={isWebsite ? metrics.onLoadTimeAgg : metrics.viewsAgg}
-          label={isWebsite ? t('in-cockpit:component.websiteMobileTopList.onLoadTime') : t('in-cockpit:component.websiteMobileTopList.Views')}
+          label={
+            isWebsite
+              ? t('in-cockpit:component.websiteMobileTopList.onLoadTime')
+              : t('in-cockpit:component.websiteMobileTopList.views')
+          }
           tooltipFormatter={isWebsite ? meanLatencyFixed.compact : number.compact}
           showDashOnMissingOrNullMetric
           hideChartOnEmptyMetrics

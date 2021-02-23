@@ -39,7 +39,7 @@ export default function EventChartCardWidget({ config }) {
                 metric: 'eventCount',
                 timeShift: 0,
                 aggregation: 'DISTINCT_COUNT',
-                label: t('in-cockpit:component.eventChartCard.Critical'),
+                label: t('in-cockpit:component.eventChartCard.critical'),
                 source: 'EVENT'
               },
               {
@@ -47,7 +47,7 @@ export default function EventChartCardWidget({ config }) {
                 metric: 'eventCount',
                 timeShift: 0,
                 aggregation: 'DISTINCT_COUNT',
-                label: t('in-cockpit:component.eventChartCard.Warning'),
+                label: t('in-cockpit:component.eventChartCard.warning'),
                 source: 'EVENT'
               }
             ]

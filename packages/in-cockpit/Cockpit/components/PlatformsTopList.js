@@ -167,9 +167,9 @@ const columnDefinitions = [
         return null;
       }
       return item.isKubernetes ? (
-        <KeyValue label={t('in-cockpit:component.platformsTopList.Nodes')} value={item.nodes} accentuated />
+        <KeyValue label={t('in-cockpit:component.platformsTopList.nodes')} value={item.nodes} accentuated />
       ) : (
-        <KeyValue label={t('in-cockpit:component.platformsTopList.VMs')} value={item.vms} accentuated />
+        <KeyValue label={t('in-cockpit:component.platformsTopList.vMs')} value={item.vms} accentuated />
       );
     }
   },
@@ -177,10 +177,16 @@ const columnDefinitions = [
     width: '12rem',
     getContent({ item }) {
       if (item.isPcf) {
-        return <KeyValue label={t('in-cockpit:component.platformsTopList.instances')} value={<InstanceMetric applicationId={item.id} />} accentuated />;
+        return (
+          <KeyValue
+            label={t('in-cockpit:component.platformsTopList.instances')}
+            value={<InstanceMetric applicationId={item.id} />}
+            accentuated
+          />
+        );
       }
       return item.isKubernetes ? (
-        <KeyValue label={t('in-cockpit:component.platformsTopList.Namespaces')} value={item.namespaces} accentuated />
+        <KeyValue label={t('in-cockpit:component.platformsTopList.namespaces')} value={item.namespaces} accentuated />
       ) : (
         <SparkChartWithMetricValue
           snapshotId={item.id}
@@ -196,10 +202,16 @@ const columnDefinitions = [
     width: '12rem',
     getContent({ item }) {
       if (item.isPcf) {
-        return <KeyValue label={t('in-cockpit:component.platformsTopList.memoryLimit')} value={bytesZeroDecimalPlaces(item.memoryLimit)} accentuated />;
+        return (
+          <KeyValue
+            label={t('in-cockpit:component.platformsTopList.memoryLimit')}
+            value={bytesZeroDecimalPlaces(item.memoryLimit)}
+            accentuated
+          />
+        );
       }
       return item.isKubernetes ? (
-        <KeyValue label={t('in-cockpit:component.platformsTopList.Pods')} value={item.workloads.pods} accentuated />
+        <KeyValue label={t('in-cockpit:component.platformsTopList.pods')} value={item.workloads.pods} accentuated />
       ) : (
         <SparkChartWithMetricValue
           snapshotId={item.id}
