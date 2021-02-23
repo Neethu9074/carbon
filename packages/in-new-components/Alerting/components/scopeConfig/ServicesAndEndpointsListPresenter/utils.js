@@ -18,3 +18,11 @@ export function enrichListWithStaleSelectionData(entitySelection, listData) {
 export function createNoMatchingEntityText(entityType) {
   return `No matching ${entityType}`;
 }
+
+export function getFilteredListBySelectionState(listData, enhanceParentIdsWithChildId, hasUserInteractedWithItem) {
+  const itemsUserInteractedWith = listData.filter(({ item: { id, isStaleItem } }) => {
+    const itemTreeIds = enhanceParentIdsWithChildId(id);
+    return hasUserInteractedWithItem(itemTreeIds) || isStaleItem; // a stale item is an item the user has interacted with, so it's also sorted to the top of the list
+  });
+  return itemsUserInteractedWith;
+}

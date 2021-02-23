@@ -10,7 +10,8 @@ import { isEmpty } from 'lodash';
 import {
   DEFAULT_PAGE_SIZE,
   enrichListWithStaleSelectionData,
-  createNoMatchingEntityText
+  createNoMatchingEntityText,
+  getFilteredListBySelectionState
 } from 'in-new-components/Alerting/components/scopeConfig/ServicesAndEndpointsListPresenter/utils';
 import { stateManagementPropType } from 'in-new-components/Alerting/components/scopeConfig/ServicesAndEndpointsListPresenter/sharedPropTypes';
 import { selectApplication } from 'in-new-components/Alerting/components/scopeConfig/ServicesAndEndpointsListPresenter/selectors';
@@ -53,20 +54,27 @@ export default function ApplicationsList({
   );
 
   const { state } = props.stateManagement;
+  const { showInteractedItemsOnly, editMode } = props;
 
   const listData = useMemo(() => {
     if (items.length === 0) return [];
     const restructuredItems = items.map(({ application, ...rest }) => ({ ...rest, item: application }));
-    return searchQuery ? restructuredItems : enrichListWithStaleSelectionData(Object.entries(state), restructuredItems);
+    return searchQuery || (editMode && !showInteractedItemsOnly)
+      ? restructuredItems
+      : enrichListWithStaleSelectionData(Object.entries(state), restructuredItems);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [items]);
+  }, [items, editMode, showInteractedItemsOnly, state]);
 
   return (
     <SharedList
       {...props}
       {...tableProps}
       isLoading={isLoading(tableProps)}
-      listData={listData}
+      listData={
+        showInteractedItemsOnly
+          ? getFilteredListBySelectionState(listData, enhanceParentIdsWithChildId, hasUserInteractedWithItem(state))
+          : listData
+      }
       renderSubList={({ applicationId }) => () => {
         return <ServicesList {...props} parentIds={{ applicationId }} />;
       }}
@@ -75,9 +83,7 @@ export default function ApplicationsList({
         getTooltipSettings() {
           return { name: 'Application', iconType: 'lib_application' };
         },
-        enhanceParentIdsWithChildId(id) {
-          return { applicationId: id };
-        },
+        enhanceParentIdsWithChildId,
         isIndeterminate(itemTreeIds) {
           const application = selectApplication(state, itemTreeIds);
           return !isEmpty(application?.services) && application?.inclusive !== undefined;
@@ -89,7 +95,7 @@ export default function ApplicationsList({
           return selectApplication(state, itemTreeIds)?.inclusive === false;
         },
         hasUserInteractedWithItem(itemTreeIds) {
-          return Boolean(selectApplication(state, itemTreeIds));
+          return hasUserInteractedWithItem(state)(itemTreeIds);
         },
         isImplicitlyChecked() {
           return false;
@@ -104,8 +110,17 @@ export default function ApplicationsList({
         getLabel$: getApplication
       }}
       initiallyOpen={Boolean(searchQuery) && items.length > 0}
+      isFramed={false}
     />
   );
+}
+
+function enhanceParentIdsWithChildId(id) {
+  return { applicationId: id };
+}
+
+function hasUserInteractedWithItem(state) {
+  return itemTreeIds => Boolean(selectApplication(state, itemTreeIds));
 }
 
 ApplicationsList.propTypes = {
@@ -116,5 +131,7 @@ ApplicationsList.propTypes = {
   stateManagement: stateManagementPropType.isRequired,
   timeConfig: propTypeTimeConfig.isRequired,
   searchQuery: PropTypes.string,
-  boundaryScope: PropTypes.string.isRequired
+  boundaryScope: PropTypes.string.isRequired,
+  showInteractedItemsOnly: PropTypes.bool,
+  editMode: PropTypes.bool
 };

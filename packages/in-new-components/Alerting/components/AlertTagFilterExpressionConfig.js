@@ -19,48 +19,73 @@ import Button from 'in-new-components/Button';
 
 import locals from './AlertTagFilterExpressionConfig.mless';
 
+export const inPackages = Object.freeze({
+  IN_APPLICATIONS: 'in-applications',
+  IN_WEBSITES: 'in-websites'
+});
+
 export default function AlertTagFilterExpressionConfig({
-  applicationLabel,
+  label,
   form,
   updateForm,
   QueryBuilderComponent,
   headerTransparent,
-  removeBorderBottom
+  removeBorderBottom,
+  inPackage,
+  ...remaingProps
 }) {
-  return smartAlertsAdvancedEntitySelectionEnabled ? (
-    <ScopeConfig
-      form={form}
-      updateForm={updateForm}
-      QueryBuilderComponent={QueryBuilderComponent}
-      timeConfig={maxChartViewTimeConfig}
-    />
-  ) : (
-    <LightCard
-      title={<IconLabel text={applicationLabel} type="lib_application" noBottomMargin />}
-      headerClassName={classNames({
-        [locals.header]: true,
-        [locals.headerTransparent]: headerTransparent
-      })}
-      className={removeBorderBottom && locals.removeContainerBorderBottom}
-      header={
-        form.get('tagFilterExpression').value.length > 0 && (
-          <ClearTagFilterExpressionButton form={form} updateForm={updateForm} />
-        )
-      }
-      darkFrame
-    >
-      <AlertFilterConfigurator QueryBuilderComponent={QueryBuilderComponent} form={form} updateForm={updateForm} />
-    </LightCard>
-  );
+  let element = null;
+
+  if (inPackage === inPackages.IN_APPLICATIONS && smartAlertsAdvancedEntitySelectionEnabled) {
+    element = (
+      <ScopeConfig
+        {...remaingProps}
+        form={form}
+        updateForm={updateForm}
+        QueryBuilderComponent={QueryBuilderComponent}
+        timeConfig={maxChartViewTimeConfig}
+      />
+    );
+  }
+
+  if (inPackage === inPackages.IN_WEBSITES) {
+    element = (
+      <LightCard
+        title={<IconLabel text={label} type="lib_application" noBottomMargin />}
+        headerClassName={classNames({
+          [locals.header]: true,
+          [locals.headerTransparent]: headerTransparent
+        })}
+        className={removeBorderBottom && locals.removeContainerBorderBottom}
+        header={
+          form.get('tagFilterExpression').value.length > 0 && (
+            <ClearTagFilterExpressionButton form={form} updateForm={updateForm} />
+          )
+        }
+        darkFrame
+      >
+        <AlertFilterConfigurator QueryBuilderComponent={QueryBuilderComponent} form={form} updateForm={updateForm} />
+      </LightCard>
+    );
+  }
+
+  return element;
 }
 
 AlertTagFilterExpressionConfig.propTypes = {
   QueryBuilderComponent: PropTypes.func.isRequired,
-  applicationLabel: PropTypes.string.isRequired,
+  /**
+   * Website or Application label
+   */
+  label: PropTypes.string.isRequired,
   form: PropTypes.object.isRequired,
   updateForm: PropTypes.func.isRequired,
   headerTransparent: PropTypes.bool,
-  removeBorderBottom: PropTypes.bool
+  removeBorderBottom: PropTypes.bool,
+  /**
+   * Defines in which area we use this component
+   */
+  inPackage: PropTypes.oneOf(Object.values(inPackages)).isRequired
 };
 
 export function ClearTagFilterExpressionButton({ form, updateForm, customFormUpdater }) {

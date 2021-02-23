@@ -140,13 +140,13 @@ export function createSmartAlertForm(alertConfig) {
     )
     .put('rule', createRuleForm(alertConfig.rule ?? {}))
     .put('timeThreshold', createTimeThresholdForm(alertConfig.timeThreshold ?? {}))
-    .put('hiddenFields', createHiddenFieldsForm(alertConfig.calculateThresholdOnBackend));
+    .put('hiddenFields', createHiddenFieldsForm(alertConfig.calculateThresholdOnBackend, alertConfig));
 
   const alertType = alertConfig.rule?.alertType ?? 'errorRate';
   return form.put('threshold', createThresholdForm(alertConfig.threshold, alertType));
 }
 
-function createHiddenFieldsForm(calculateThresholdOnBackend = false) {
+function createHiddenFieldsForm(calculateThresholdOnBackend = false, alertConfig) {
   return createMapForm()
     .put(
       'calculateThresholdOnBackend',
@@ -164,6 +164,12 @@ function createHiddenFieldsForm(calculateThresholdOnBackend = false) {
       'thresholdValueManuallyChanged',
       createField({
         value: false
+      })
+    )
+    .put(
+      'initialApplicationsState',
+      createField({
+        value: alertConfig.applications
       })
     );
 }

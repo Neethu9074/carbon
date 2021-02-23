@@ -12,9 +12,11 @@ import {
   applicationsAlertingAdditionalPropsTriggerChanged,
   applicationsAlertingBlueprintChanged
 } from 'in-applications/alerting/tracker';
+import AlertTagFilterExpressionConfig, {
+  inPackages
+} from 'in-new-components/Alerting/components/AlertTagFilterExpressionConfig';
 import TimeThresholdConfigPresenter from 'in-new-components/Alerting/advanced/TimeThresholdConfig/TimeThresholdConfigPresenter';
 import AlertPropertiesContainer from 'in-new-components/Alerting/advanced/AlertProperties/AlertPropertiesContainer';
-import AlertTagFilterExpressionConfig from 'in-new-components/Alerting/components/AlertTagFilterExpressionConfig';
 import AlertEvaluationControl from 'in-applications/alerting/advanced/EvaluationSwitch/AlertEvaluationControl';
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-applications/alerting/form/formUtils';
 import StatusCodeInteractiveChart from 'in-applications/alerting/advanced/StatusCodeInteractiveChart';
@@ -78,8 +80,10 @@ export default function AdvancedModeContainer(props) {
                   <AlertTagFilterExpressionConfig
                     form={form}
                     updateForm={updateForm}
-                    applicationLabel={applicationLabel}
+                    label={applicationLabel}
+                    inPackage={inPackages.IN_APPLICATIONS}
                     QueryBuilderComponent={QueryBuilderComponent}
+                    editMode={editMode}
                   />
                 )}
                 shouldFallbackToQB2={isQB2Config => isQB2Config(form.get('convertedTagFilterExpression').value)}

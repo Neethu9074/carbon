@@ -92,6 +92,8 @@
       "scopeConfigPresenterHelpTextAdditionalFilters": "Additional Filters",
       "selectAlertChannelButtonTitle": "Select alert channels",
       "selectAlertChannelButton": "Select Alert Channels",
+      "scopeConfigTitle": "Select Services/Endpoints",
+      "filterBySelectedEntitiesLabel": "Show changed entities",
       "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage": "At least {{count}} user and {{userPercentage}} of users impacted within {{formattedTimeWindow}}",
       "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_plural": "At least {{count}} users and {{userPercentage}} of users impacted within {{formattedTimeWindow}}",
       "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_0": "At least {{count}} users and {{userPercentage}} of users impacted within {{formattedTimeWindow}}",

@@ -3,9 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useMemo } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
+import { t } from 'in-i18n';
+import React from 'react';
 
 import { stateManagementPropType } from 'in-new-components/Alerting/components/scopeConfig/ServicesAndEndpointsListPresenter/sharedPropTypes';
 import LoadingList from 'in-new-components/lists/List/sharedComponents/LoadingList';
@@ -16,7 +17,6 @@ import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import useObservable from 'in-hooks/useObservable';
 import Tooltip from 'in-components/Tooltip';
-import { t } from 'in-i18n';
 
 import locals from './SharedList.mless';
 
@@ -82,15 +82,16 @@ export default function SharedList({
     numSkeletonRows,
     shouldAdd
   },
-  initiallyOpen
+  initiallyOpen,
+  showInteractedItemsOnly,
+  isFramed = true
 }) {
-  const { state, dispatch } = stateManagement;
-  const list = useSortList(state, listData, enhanceParentIdsWithChildId, hasUserInteractedWithItem);
+  const { dispatch } = stateManagement;
 
   return (
-    <Ul>
+    <Ul framed={isFramed}>
       {!isLoading &&
-        list.map(({ item: { id, label, isStaleItem } }) => {
+        listData.map(({ item: { id, label, isStaleItem } }) => {
           const _id = isStaleItem ? label : id; // for stale items label is equal to id
           const itemTreeIds = enhanceParentIdsWithChildId(isStaleItem ? label : _id);
           const _isIndeterminate = isIndeterminate(itemTreeIds);
@@ -134,7 +135,7 @@ export default function SharedList({
             </Li>
           );
         })}
-      {canLoadMore && <LoadMoreLi loadMore={loadMore} />}
+      {canLoadMore && !showInteractedItemsOnly && <LoadMoreLi loadMore={loadMore} />}
       {isLoading && <LoadingList numSkeletonRows={numSkeletonRows} />}
       {!isLoading && (!listData || listData.length === 0) && <NoDataAvailable text={noDataCustomText()} height={86} />}
     </Ul>
@@ -151,20 +152,6 @@ function StaleItemLabelPropInjector({ getLabel$, isStaleItem, id, originalLabel,
     resolvedLabel: staleItemLabel ?? originalLabel,
     itemExistsInBackend: Boolean(isStaleItem && staleItemLabel)
   });
-}
-
-function useSortList(entitySelectionModel, listData, enhanceParentIdsWithChildId, hasUserInteractedWithItem) {
-  const enhancedList = useMemo(() => {
-    const itemsUserInteractedWith = listData.filter(({ item: { id, isStaleItem } }) => {
-      const itemTreeIds = enhanceParentIdsWithChildId(id);
-      return hasUserInteractedWithItem(itemTreeIds) || isStaleItem; // a stale item is an item the user has interacted with, so it's also sorted to the top of the list
-    });
-    const itemsInDefaultState = listData.filter(listItem => !itemsUserInteractedWith.includes(listItem));
-    return [...itemsUserInteractedWith, ...itemsInDefaultState];
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [entitySelectionModel, listData]);
-
-  return enhancedList ?? listData;
 }
 
 SharedList.propTypes = {
@@ -191,5 +178,7 @@ SharedList.propTypes = {
     numSkeletonRows: PropTypes.number.isRequired,
     shouldAdd: PropTypes.func.isRequired
   }).isRequired,
-  initiallyOpen: PropTypes.bool
+  initiallyOpen: PropTypes.bool,
+  showInteractedItemsOnly: PropTypes.bool,
+  isFramed: PropTypes.bool
 };
