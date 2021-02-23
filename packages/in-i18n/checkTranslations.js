@@ -39,7 +39,7 @@ for (let i = 0; i < i18nKeys.length; i++) {
 
 if (findings.length > 0) {
   console.error(
-    `The following keys don't have an entry inside the corresponding language file:\n ${findings.join(',\n')}`
+    `The following keys don't have an entry inside the corresponding language file:\n${findings.join(',\n')}`
   );
   process.exit(1);
 }
@@ -66,7 +66,10 @@ function getAllLanguages() {
     const content = fs.readFileSync(filePath, { encoding: 'utf8' });
     const pathInsidePackage = path.relative(path.join(__dirname, '..'), filePath);
     const namespace = pathInsidePackage.slice(0, pathInsidePackage.match('/').index);
-    languagesMap.set(namespace, JSON.parse(content));
+
+    const jsonTree = JSON.parse(content);
+    clearUpContextKeys(jsonTree);
+    languagesMap.set(namespace, jsonTree);
   }
   return languagesMap;
 }
@@ -75,4 +78,20 @@ function getAllFiles(filePattern) {
   return glob.sync(`${__dirname}/../../packages/**/${filePattern}`, {
     ignore: ['**/node_modules/**']
   });
+}
+
+function clearUpContextKeys(jsonTree) {
+  const keys = Object.keys(jsonTree);
+  for (let i = 0; i < keys.length; i++) {
+    const key = keys[i];
+    const value = jsonTree[key];
+    if (typeof value === 'string') {
+      const parts = key.split('_');
+      if (parts.length === 2) {
+        jsonTree[parts[0]] = jsonTree[key];
+      }
+    } else {
+      clearUpContextKeys(value);
+    }
+  }
 }
