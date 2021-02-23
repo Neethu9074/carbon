@@ -62,12 +62,14 @@ function SparkChartReactComponent(props) {
     );
   }
 
-  if (horizontalMetricValue !== undefined) {
+  if (horizontalMetricValue != null) {
     if (label) {
       const value = aggregation ? (
         <div className={locals.iconValueWrapper}>
           <AggregationSymbol aggregation={aggregation} />
-          {isBlank(horizontalMetricValue) ? t('in-components:sparkChart.notAvailable') : horizontalMetricValue}
+          {isBlank(horizontalMetricValue.toString())
+            ? t('in-components:sparkChart.notAvailable')
+            : horizontalMetricValue}
         </div>
       ) : (
         horizontalMetricValue
