@@ -43,19 +43,23 @@ export default function Chart({
     }
   };
 
-  if (isGrouped && chartableDataSeries?.length > 0) {
-    chartConfig.y1.metrics = chartableDataSeries.map(({ label, formModel }) =>
-      mapMetricConfiguration(
-        {
-          metric: metricId,
-          tagFilterExpression: toBackendQueryModel(formModel),
-          aggregation: aggregationId,
-          label: label,
-          source: unifiedMetricsSource
-        },
-        { dataSource }
-      )
-    );
+  if (isGrouped) {
+    if (chartableDataSeries?.length > 0) {
+      chartConfig.y1.metrics = chartableDataSeries.map(({ label, formModel }) =>
+        mapMetricConfiguration(
+          {
+            metric: metricId,
+            tagFilterExpression: toBackendQueryModel(formModel),
+            aggregation: aggregationId,
+            label: label,
+            source: unifiedMetricsSource
+          },
+          { dataSource }
+        )
+      );
+    } else {
+      return null;
+    }
   } else {
     chartConfig.y1.metrics.push(
       mapMetricConfiguration(
