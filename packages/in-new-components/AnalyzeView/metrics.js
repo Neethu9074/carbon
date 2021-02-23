@@ -24,7 +24,9 @@ export function getAvailableMetrics({ metricCatalog, metricCatalogFilter, fixedF
         const fixedAggregations = fixedFields
           .filter(f => f.type === metricType && f.metricId === metric.metricId)
           .map(f => f.aggregationId);
-        const aggregations = metric.aggregations.filter(a => !fixedAggregations.includes(a));
+        const aggregations = metric.aggregations
+          .filter(a => !fixedAggregations.includes(a))
+          .sort((agg1, agg2) => agg1.localeCompare(agg2));
         return aggregations.length > 0
           ? {
               metric: metric.metricId,

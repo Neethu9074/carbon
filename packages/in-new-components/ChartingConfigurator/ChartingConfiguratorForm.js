@@ -60,7 +60,9 @@ export default function ChartingConfiguratorForm({ value, options, onChange, hid
 
       {multipleAggregations ? (
         <ComboBoxBehavior
-          options={activeMetric.aggregations.map(({ id, label }) => ({ value: id, label }))}
+          options={activeMetric.aggregations
+            .map(({ id, label }) => ({ value: id, label }))
+            .sort((agg1, agg2) => agg1.label.localeCompare(agg2.label))}
           value={activeAggregation.id}
           disableAutomaticOptionSorting
           onChange={aggregationId => {
