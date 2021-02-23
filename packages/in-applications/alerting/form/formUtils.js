@@ -89,7 +89,7 @@ export function getDescriptionPlaceholder(form) {
   switch (alertType) {
     case 'errorRate': {
       const thresholdValue = thresholdForm.get('value').value;
-      return t('in-applications:formUtils.descriptionPlaceholder.errorRate', {
+      return t('in-applications:formUtils.titlePlaceholder.errorRate', {
         context: getHigherOrLowerOperatorContext(thresholdOperator),
         valueRoundedToDecimals: getValueRoundedToDecimals(thresholdValue, true)
       });
@@ -233,16 +233,16 @@ function getHigherOrLowerOperatorDescriptionContext(operatorDescription, operato
   switch (operator) {
     case '>':
       // "higher than"
-      return (returnContext += 'HigherThan');
+      return returnContext + 'HigherThan';
     case '>=':
       // "higher or equal to"
-      return (returnContext += 'HigherEqual');
+      return returnContext + 'HigherEqual';
     case '<':
       // "lower than"
-      return (returnContext += 'LowerThan');
+      return returnContext + 'LowerThan';
     case '<=':
       // "lower or equal to"
-      return (returnContext += 'LowerEqual');
+      return returnContext + 'LowerEqual';
     default:
       throw Error('Unsupported operator: ' + operator);
   }

@@ -30,7 +30,7 @@
   "buttonAnalyzeWithLabel": "Analyze {{buttonLabel}}",
   "buttonClear": "Clear",
   "placeholderType": "Type…",
-  "placeholderTechnology":"Technology…",
+  "placeholderTechnology": "Technology…",
   "Rendering": "Rendering",
   "loadingData": "Loading Data",
   "UnexpectedErrorOccurred": "An unexpected error occurred",
@@ -53,6 +53,9 @@
   },
   "applications": {
     "noData": "Application perspectives provide a means to model environments, sets of services, tenants, or just about anything."
+  },
+  "services": {
+    "noData": "No service calls are available for the selected time range."
   },
   "alert": {
     "individual": "Individual Alerts",
@@ -204,11 +207,11 @@
     "typeCall_0": "calls",
     "typeCall_1": "call",
     "typeCall_2": "calls",
-    "typeTrace" : "trace",
-    "typeTrace_plural" : "traces",
-    "typeTrace_0" : "traces",
-    "typeTrace_1" : "trace",
-    "typeTrace_2" : "traces"
+    "typeTrace": "trace",
+    "typeTrace_plural": "traces",
+    "typeTrace_0": "traces",
+    "typeTrace_1": "trace",
+    "typeTrace_2": "traces"
   },
   "blueprintConfig": {
     "slowness": {
