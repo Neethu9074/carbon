@@ -52,6 +52,20 @@ export default function SimpleModeContainer({
   const [selectedBlueprint, setSelectedBlueprint] = useState(blueprintConfig[0]);
   const servicesLiveList = useObservable(getStreamData, [form, isValidTagFilterExpression]);
 
+  const handleChangeBluePrint = blueprint => {
+    const applicationScope = blueprint.presetFormFields?.applicationScope;
+    const boundaryScope = blueprint.presetFormFields?.boundaryScope;
+    let updatedForm = form;
+    if (applicationScope) {
+      updatedForm = form.updateIn(['scope'], field => field.setValue(applicationScope).setTouched(true));
+    }
+    if (boundaryScope) {
+      updatedForm = form.updateIn(['boundaryScope'], field => field.setValue(boundaryScope).setTouched(true));
+    }
+    updateForm(updatedForm);
+    setSelectedBlueprint(blueprint);
+  };
+
   const blueprintCatalogResult =
     useObservable(
       getApplicationTagCatalog({
@@ -84,7 +98,7 @@ export default function SimpleModeContainer({
                     if (qb2InAPCreationEnabled) {
                       updateForm(form.updateIn(['tagFilterExpression'], field => field.setValue([])));
                     }
-                    setSelectedBlueprint(selectedBlueprint);
+                    handleChangeBluePrint(selectedBlueprint);
                   }}
                 />
               );
