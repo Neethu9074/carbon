@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { LinkList, LinkListItem } from 'in-internal/components/LinkList/LinkList';
@@ -19,7 +20,7 @@ export default connectTo(
   }),
   function StanStatistics({ components, tenant, unit }) {
     return (
-      <Card title="Processing Components">
+      <Card title={t('in-internal:monitoringUnit.unit.processComp.processingComp')}>
         <LinkList>
           <DashboardLinkItem tenant={tenant} unit={unit} components={components} componentName="appdata-processor" />
           <DashboardLinkItem

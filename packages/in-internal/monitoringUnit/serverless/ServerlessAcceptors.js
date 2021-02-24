@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import React, { Fragment } from 'react';
+import { t } from 'in-i18n';
 
 import { percentage, percentageZeroDecimalPlaces } from 'in-services/formatters/number';
 import { getDropwizardWithContext } from 'in-internal/monitoringUnit/dataRetrieval';
@@ -19,7 +20,7 @@ import connectTo from 'in-hoc/connectTo';
 
 const cols = [
   {
-    title: 'Host',
+    title: t('in-internal:monitoringUnit.serverless.serverlessAcceptors.host'),
     type: 'snapshotLink',
     typeArgs: {
       pathname: physicalDashboardPath,
@@ -29,7 +30,7 @@ const cols = [
     }
   },
   {
-    title: 'User',
+    title: t('in-internal:monitoringUnit.serverless.serverlessAcceptors.user'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -45,7 +46,7 @@ const cols = [
     }
   },
   {
-    title: 'System',
+    title: t('in-internal:monitoringUnit.serverless.serverlessAcceptors.system'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -61,7 +62,7 @@ const cols = [
     }
   },
   {
-    title: 'Wait',
+    title: t('in-internal:monitoringUnit.serverless.serverlessAcceptors.wait'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -77,7 +78,7 @@ const cols = [
     }
   },
   {
-    title: 'Nice',
+    title: t('in-internal:monitoringUnit.serverless.serverlessAcceptors.nice'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -93,7 +94,7 @@ const cols = [
     }
   },
   {
-    title: 'Steal',
+    title: t('in-internal:monitoringUnit.serverless.serverlessAcceptors.steal'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -126,7 +127,7 @@ export default connectTo(
     return (
       <div>
         <Columize>
-          <DashboardSection title={'Messages'}>
+          <DashboardSection title={t('in-internal:monitoringUnit.serverless.serverlessAcceptors.messages')}>
             <Chart
               snapshotIds={serverlessacceptors.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -140,7 +141,7 @@ export default connectTo(
             />
           </DashboardSection>
 
-          <DashboardSection title={'Dropped/denied messages'}>
+          <DashboardSection title={t('in-internal:monitoringUnit.serverless.serverlessAcceptors.dropDeniedMsg')}>
             <Chart
               snapshotIds={serverlessacceptors.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -154,7 +155,7 @@ export default connectTo(
             />
           </DashboardSection>
 
-          <DashboardSection title={'IP filtered messages (should be 0)'}>
+          <DashboardSection title={t('in-internal:monitoringUnit.serverless.serverlessAcceptors.ipFilterMsgBe0')}>
             <Chart
               snapshotIds={serverlessacceptors.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -170,7 +171,7 @@ export default connectTo(
         </Columize>
 
         <Columize>
-          <DashboardSection title={'Trace Messages'}>
+          <DashboardSection title={t('in-internal:monitoringUnit.serverless.serverlessAcceptors.traceMsg')}>
             <Chart
               snapshotIds={serverlessacceptors.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -184,7 +185,7 @@ export default connectTo(
             />
           </DashboardSection>
 
-          <DashboardSection title={'Trace dropped/denied messages'}>
+          <DashboardSection title={t('in-internal:monitoringUnit.serverless.serverlessAcceptors.traceDropDeniedMsg')}>
             <Chart
               snapshotIds={serverlessacceptors.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -200,7 +201,7 @@ export default connectTo(
         </Columize>
 
         <Columize>
-          <DashboardSection title={'Bundle Messages'}>
+          <DashboardSection title={t('in-internal:monitoringUnit.serverless.serverlessAcceptors.bundleMsg')}>
             <Chart
               snapshotIds={serverlessacceptors.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -214,7 +215,7 @@ export default connectTo(
             />
           </DashboardSection>
 
-          <DashboardSection title={'Bundle dropped/denied messages'}>
+          <DashboardSection title={t('in-internal:monitoringUnit.serverless.serverlessAcceptors.bundleDropDeniedMsg')}>
             <Chart
               snapshotIds={serverlessacceptors.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -230,7 +231,7 @@ export default connectTo(
         </Columize>
 
         <Columize>
-          <DashboardSection title={'Network - data received'}>
+          <DashboardSection title={t('in-internal:monitoringUnit.serverless.serverlessAcceptors.networkDataReceive')}>
             <Chart
               snapshotIds={serverlessacceptors.map(r => r.host.get('id'))}
               timeConfig={timeConfig}
@@ -244,7 +245,7 @@ export default connectTo(
             />
           </DashboardSection>
 
-          <DashboardSection title={'Network - data transmitted'}>
+          <DashboardSection title={t('in-internal:monitoringUnit.serverless.serverlessAcceptors.networkDataTransmit')}>
             <Chart
               snapshotIds={serverlessacceptors.map(r => r.host.get('id'))}
               timeConfig={timeConfig}
@@ -260,7 +261,7 @@ export default connectTo(
         </Columize>
 
         <Columize>
-          <DashboardSection title={'CPU load'}>
+          <DashboardSection title={t('in-internal:monitoringUnit.serverless.serverlessAcceptors.cpuLoad')}>
             <Chart
               snapshotIds={serverlessacceptors.map(r => r.host.get('id'))}
               timeConfig={timeConfig}
@@ -276,7 +277,7 @@ export default connectTo(
             />
           </DashboardSection>
 
-          <DashboardSection title={`Hosts (${serverlessacceptors.length})`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.serverless.serverlessAcceptors.hostsLength', { length: serverlessacceptors.length })}>
             <Table cols={cols} rows={serverlessacceptors} getRowDetails={getRowDetails} />
           </DashboardSection>
         </Columize>
@@ -296,7 +297,7 @@ function getLabels(rows, regexp) {
 function getRowDetails(row) {
   return (
     <Fragment>
-      <DashboardSection title="CPU Usage">
+      <DashboardSection title={t('in-internal:monitoringUnit.serverless.serverlessAcceptors.cpuUsage')}>
         <Chart
           snapshotId={row.host.get('id')}
           timeConfig={row.timeConfig}
@@ -305,7 +306,7 @@ function getRowDetails(row) {
             max: 1,
             formatter: percentageZeroDecimalPlaces,
             metrics: ['cpu.user', 'cpu.sys', 'cpu.wait', 'cpu.nice', 'cpu.steal'],
-            labels: ['User', 'System', 'Wait', 'Nice', 'Steal'],
+            labels: [t('in-internal:monitoringUnit.serverless.serverlessAcceptors.user'), t('in-internal:monitoringUnit.serverless.serverlessAcceptors.system'), t('in-internal:monitoringUnit.serverless.serverlessAcceptors.wait'), t('in-internal:monitoringUnit.serverless.serverlessAcceptors.nice'), t('in-internal:monitoringUnit.serverless.serverlessAcceptors.steal')],
             type: 'stackedArea'
           }}
         />

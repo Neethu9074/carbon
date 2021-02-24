@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import React, { Fragment } from 'react';
+import { t } from 'in-i18n';
 
 import {
   hostTableCols,
@@ -37,9 +38,9 @@ export default connectTo(
 
     return (
       <div>
-        <h1>BeeInstana Aggregators ({aggregators.length})</h1>
+        <h1>{t('in-internal:monitoringUnit.sre.beeInstanaAggregator.beeInstanaAggreg', { aggregatorLen: aggregators.length })}</h1>
         <Columize>
-          <DashboardSection title={`Metrics`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.sre.beeInstanaAggregator.metrics')}>
             <Chart
               snapshotIds={aggregators.map(r => r.beeinstana.get('id'))}
               timeConfig={timeConfig}
@@ -54,7 +55,7 @@ export default connectTo(
           </DashboardSection>
         </Columize>
         <Columize>
-          <DashboardSection title={`Metric pruning durations - 10s period`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.sre.beeInstanaAggregator.metricPruningDurations10S')}>
             <Chart
               snapshotIds={aggregators.map(r => r.beeinstana.get('id'))}
               timeConfig={timeConfig}
@@ -67,7 +68,7 @@ export default connectTo(
               }}
             />
           </DashboardSection>
-          <DashboardSection title={`Metric pruning durations - 60s period`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.sre.beeInstanaAggregator.metricPrunDurations60S')}>
             <Chart
               snapshotIds={aggregators.map(r => r.beeinstana.get('id'))}
               timeConfig={timeConfig}
@@ -82,7 +83,7 @@ export default connectTo(
           </DashboardSection>
         </Columize>
         <Columize>
-          <DashboardSection title={`Metric pruning durations - 5m period`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.sre.beeInstanaAggregator.metricPrunDurations5M')}>
             <Chart
               snapshotIds={aggregators.map(r => r.beeinstana.get('id'))}
               timeConfig={timeConfig}
@@ -95,7 +96,7 @@ export default connectTo(
               }}
             />
           </DashboardSection>
-          <DashboardSection title={`Metric pruning durations - 1h period`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.sre.beeInstanaAggregator.metricPrunDurations1H')}>
             <Chart
               snapshotIds={aggregators.map(r => r.beeinstana.get('id'))}
               timeConfig={timeConfig}
@@ -110,10 +111,10 @@ export default connectTo(
           </DashboardSection>
         </Columize>
         <Columize>
-          <DashboardSection title={`Hosts (${aggregators.length})`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.sre.beeInstanaAggregator.hostsAggregatorLen', { aggregatorLen: aggregators.length })}>
             <Table cols={hostTableCols} rows={aggregators} getRowDetails={getRowDetails} />
           </DashboardSection>
-          <DashboardSection title="Data mounts">
+          <DashboardSection title={t('in-internal:monitoringUnit.sre.beeInstanaAggregator.dataMounts')}>
             <Table
               cols={volumeTableCols}
               rows={getPersistentStorageMountRows(aggregators, timeConfig)}
@@ -134,7 +135,7 @@ function sort(rows) {
 function getRowDetails(row) {
   return (
     <Fragment>
-      <DashboardSection title="CPU Usage">
+      <DashboardSection title={t('in-internal:monitoringUnit.sre.beeInstanaAggregator.cpuUsage')}>
         <Chart
           snapshotId={row.host.get('id')}
           timeConfig={row.timeConfig}
@@ -143,7 +144,7 @@ function getRowDetails(row) {
             max: 1,
             formatter: percentageZeroDecimalPlaces,
             metrics: ['cpu.user', 'cpu.sys', 'cpu.wait', 'cpu.nice', 'cpu.steal'],
-            labels: ['User', 'System', 'Wait', 'Nice', 'Steal'],
+            labels: [t('in-internal:monitoringUnit.sre.user'), t('in-internal:monitoringUnit.sre.system'), t('in-internal:monitoringUnit.sre.wait'), t('in-internal:monitoringUnit.sre.nice'), t('in-internal:monitoringUnit.sre.steal')],
             type: 'stackedArea'
           }}
         />

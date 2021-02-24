@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { getLabel as getJsStackTraceTranslatorLabel } from 'in-internal/monitoringUnit/eum/JsStackTraceTranslator';
@@ -62,10 +63,10 @@ export default connectTo(
       <div>
         {eumLoadbalancers?.length > 0 && (
           <>
-            <h1>loadbalancer-eum (edge)</h1>
+            <h1>{t('in-internal:monitoringUnit.eum.overview.loadbalancerEumEdge')}</h1>
 
             <Columize>
-              <DashboardSection title={`Requests`}>
+              <DashboardSection title={t('in-internal:monitoringUnit.eum.overview.requests')}>
                 <Chart
                   snapshotIds={eumLoadbalancers.map(r => r.nginx.get('id'))}
                   timeConfig={timeConfig}
@@ -79,7 +80,7 @@ export default connectTo(
                 />
               </DashboardSection>
 
-              <DashboardSection title={`Dropped connections`}>
+              <DashboardSection title={t('in-internal:monitoringUnit.eum.overview.dropConnection')}>
                 <Chart
                   snapshotIds={eumLoadbalancers.map(r => r.nginx.get('id'))}
                   timeConfig={timeConfig}
@@ -95,7 +96,7 @@ export default connectTo(
             </Columize>
 
             <Columize>
-              <DashboardSection title={`CPU load`}>
+              <DashboardSection title={t('in-internal:monitoringUnit.eum.overview.cpuLoad')}>
                 <Chart
                   snapshotIds={eumLoadbalancers.map(r => r.host.get('id'))}
                   timeConfig={timeConfig}
@@ -112,7 +113,7 @@ export default connectTo(
               </DashboardSection>
 
               <Table
-                cardTitle="CPU Usage"
+                cardTitle={t('in-internal:monitoringUnit.eum.overview.cpuUsage')}
                 cols={hostTableCols}
                 rows={eumLoadbalancers}
                 getRowDetails={getHostDetails}
@@ -122,10 +123,10 @@ export default connectTo(
           </>
         )}
 
-        <h1>eum-acceptor (data collection)</h1>
+        <h1>{t('in-internal:monitoringUnit.eum.overview.eumAcceptorDataCollection')}</h1>
 
         <Columize>
-          <DashboardSection title={`Beacon Requests`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.eum.overview.beaconRequest')}>
             <Chart
               snapshotIds={eumAcceptors.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -139,7 +140,7 @@ export default connectTo(
             />
           </DashboardSection>
 
-          <DashboardSection title={`Young generation GC time`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.eum.overview.youngGenGcTime')}>
             <Chart
               snapshotIds={eumAcceptors.map(r => r.jvm.get('id'))}
               timeConfig={timeConfig}
@@ -156,10 +157,10 @@ export default connectTo(
           </DashboardSection>
         </Columize>
 
-        <h1>js-stack-trace-translator (data pre-processing)</h1>
+        <h1>{t('in-internal:monitoringUnit.eum.overview.jsStackTraceTrxDataPreProc')}</h1>
 
         <Columize>
-          <DashboardSection title={`Incoming Website Beacons`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.eum.overview.incomingWebsiteBeacons')}>
             <Chart
               snapshotIds={jsStackTraceTranslators.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -173,7 +174,7 @@ export default connectTo(
             />
           </DashboardSection>
 
-          <DashboardSection title={`Failed Incoming Website Beacons`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.eum.overview.failIncomingWebsiteBeacon')}>
             <Chart
               snapshotIds={jsStackTraceTranslators.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -189,7 +190,7 @@ export default connectTo(
         </Columize>
 
         <Columize>
-          <DashboardSection title={`Outgoing Beacons`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.eum.overview.outgoingBeacon')}>
             <Chart
               snapshotIds={jsStackTraceTranslators.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -203,7 +204,7 @@ export default connectTo(
             />
           </DashboardSection>
 
-          <DashboardSection title={`Failed Outgoing Beacons`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.eum.overview.failOutgoingBeacon')}>
             <Chart
               snapshotIds={jsStackTraceTranslators.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -218,10 +219,10 @@ export default connectTo(
           </DashboardSection>
         </Columize>
 
-        <h1>eum-processor (data processing)</h1>
+        <h1>{t('in-internal:monitoringUnit.eum.overview.eumProcDataProc')}</h1>
 
         <Columize>
-          <DashboardSection title={`Incoming Website Beacons`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.eum.overview.incomingWebsiteBeacon')}>
             <Chart
               snapshotIds={eumProcessors.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -235,7 +236,7 @@ export default connectTo(
             />
           </DashboardSection>
 
-          <DashboardSection title={`Failed Incoming Website Beacons`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.eum.overview.failIncomingWebsiteBeacon')}>
             <Chart
               snapshotIds={eumProcessors.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -251,7 +252,7 @@ export default connectTo(
         </Columize>
 
         <Columize>
-          <DashboardSection title={`Outgoing Processed Website Beacons`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.eum.overview.outgoingProcessWebsiteBeacon')}>
             <Chart
               snapshotIds={eumProcessors.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -267,7 +268,7 @@ export default connectTo(
             />
           </DashboardSection>
 
-          <DashboardSection title={`Failed Outgoing Processed Website Beacons`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.eum.overview.failOutgoingProcessWebsiteBeacon')}>
             <Chart
               snapshotIds={eumProcessors.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -284,10 +285,10 @@ export default connectTo(
           </DashboardSection>
         </Columize>
 
-        <h1>appdata-writer (data ingestion)</h1>
+        <h1>{t('in-internal:monitoringUnit.eum.overview.appdataWriterDataIngest')}</h1>
 
         <Columize>
-          <DashboardSection title={`Incoming Processed Website Beacons`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.eum.overview.incomingProcessWebsiteBeacon')}>
             <Chart
               snapshotIds={appdataWriters.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -303,7 +304,7 @@ export default connectTo(
             />
           </DashboardSection>
 
-          <DashboardSection title={`Failed Incoming Processed Website Beacons`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.eum.overview.failIncomingProcessWebsiteBeacon')}>
             <Chart
               snapshotIds={appdataWriters.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -321,7 +322,7 @@ export default connectTo(
         </Columize>
 
         <Columize>
-          <DashboardSection title={`Short Term Beacon Batch Writes`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.eum.overview.shortBeaconBatchWrite')}>
             <Chart
               snapshotIds={appdataWriters.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -335,7 +336,7 @@ export default connectTo(
             />
           </DashboardSection>
 
-          <DashboardSection title={`Short Term Beacon Batch Write Failures`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.eum.overview.shortBeaconBatchWriteFail')}>
             <Chart
               snapshotIds={appdataWriters.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -351,7 +352,7 @@ export default connectTo(
         </Columize>
 
         <Columize>
-          <DashboardSection title={`Long Term Beacon Batch Writes`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.eum.overview.longBeaconBatchWrite')}>
             <Chart
               snapshotIds={appdataWriters.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -365,7 +366,7 @@ export default connectTo(
             />
           </DashboardSection>
 
-          <DashboardSection title={`Long Term Beacon Batch Write Failures`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.eum.overview.longBeaconBatchWriteFail')}>
             <Chart
               snapshotIds={appdataWriters.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}

@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import React, { Fragment } from 'react';
+import { t } from 'in-i18n';
 
 import { getDropwizardWithContext } from 'in-internal/monitoringUnit/dataRetrieval';
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
@@ -19,7 +20,7 @@ import connectTo from 'in-hoc/connectTo';
 
 const hostViewCols = [
   {
-    title: 'Host',
+    title: t('in-internal:monitoringUnit.appdata.appDataAggregator.host'),
     type: 'snapshotLink',
     typeArgs: {
       pathname: physicalDashboardPath,
@@ -29,7 +30,7 @@ const hostViewCols = [
     }
   },
   {
-    title: 'Host CPU load',
+    title: t('in-internal:monitoringUnit.appdata.appDataAggregator.hostCpuLoad'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -64,7 +65,7 @@ export default connectTo({
           <h1>appdata-live-aggregator</h1>
 
           <Columize>
-            <DashboardSection title={`Host CPU load`}>
+            <DashboardSection title={t('in-internal:monitoringUnit.appdata.appDataAggregator.hostCpuLoad')}>
               <Chart
                 snapshotIds={rows.map(r => r.host.get('id'))}
                 timeConfig={timeConfig}
@@ -79,7 +80,7 @@ export default connectTo({
               />
             </DashboardSection>
 
-            <DashboardSection title={`Active registrations`}>
+            <DashboardSection title={t('in-internal:monitoringUnit.appdata.appDataAggregator.activeReg')}>
               <Chart
                 snapshotIds={rows.map(r => r.dropwizard.get('id'))}
                 timeConfig={timeConfig}
@@ -99,7 +100,7 @@ export default connectTo({
           </Columize>
 
           <Columize>
-            <DashboardSection title={`State Store Sync Time (mean)`}>
+            <DashboardSection title={t('in-internal:monitoringUnit.appdata.appDataAggregator.stateStoreSyncTime')}>
               <Chart
                 snapshotIds={rows.map(r => r.dropwizard.get('id'))}
                 timeConfig={timeConfig}
@@ -116,7 +117,7 @@ export default connectTo({
                 }}
               />
             </DashboardSection>
-            <DashboardSection title={`State Store Sync Time (p99)`}>
+            <DashboardSection title={t('in-internal:monitoringUnit.appdata.appDataAggregator.stateStoreSyncTime')}>
               <Chart
                 snapshotIds={rows.map(r => r.dropwizard.get('id'))}
                 timeConfig={timeConfig}
@@ -136,7 +137,7 @@ export default connectTo({
           </Columize>
 
           <Columize>
-            <DashboardSection title={`Incoming Calls`}>
+            <DashboardSection title={t('in-internal:monitoringUnit.appdata.appDataAggregator.incomingCalls')}>
               <Chart
                 snapshotIds={rows.map(r => r.dropwizard.get('id'))}
                 timeConfig={timeConfig}
@@ -151,7 +152,7 @@ export default connectTo({
               />
             </DashboardSection>
 
-            <DashboardSection title={`Dropped Incoming Calls`}>
+            <DashboardSection title={t('in-internal:monitoringUnit.appdata.appDataAggregator.droppedIncomingCalls')}>
               <Chart
                 snapshotIds={rows.map(r => r.dropwizard.get('id'))}
                 timeConfig={timeConfig}
@@ -168,7 +169,7 @@ export default connectTo({
           </Columize>
 
           <Columize>
-            <DashboardSection title={`Deserializing Calls`}>
+            <DashboardSection title={t('in-internal:monitoringUnit.appdata.appDataAggregator.deserializingCalls')}>
               <Chart
                 snapshotIds={rows.map(r => r.dropwizard.get('id'))}
                 timeConfig={timeConfig}
@@ -183,7 +184,7 @@ export default connectTo({
               />
             </DashboardSection>
 
-            <DashboardSection title={`Deserializing Calls errors`}>
+            <DashboardSection title={t('in-internal:monitoringUnit.appdata.appDataAggregator.deserializingCallsErrors')}>
               <Chart
                 snapshotIds={rows.map(r => r.dropwizard.get('id'))}
                 timeConfig={timeConfig}
@@ -200,7 +201,7 @@ export default connectTo({
           </Columize>
 
           <Columize>
-            <DashboardSection title={`gRPC calls`}>
+            <DashboardSection title={t('in-internal:monitoringUnit.appdata.appDataAggregator.gRPCCalls')}>
               <Chart
                 snapshotIds={rows.map(r => r.dropwizard.get('id'))}
                 timeConfig={timeConfig}
@@ -215,7 +216,7 @@ export default connectTo({
               />
             </DashboardSection>
 
-            <DashboardSection title={`gRPC errors`}>
+            <DashboardSection title={t('in-internal:monitoringUnit.appdata.appDataAggregator.gRPCErrors')}>
               <Chart
                 snapshotIds={rows.map(r => r.dropwizard.get('id'))}
                 timeConfig={timeConfig}
@@ -232,7 +233,7 @@ export default connectTo({
           </Columize>
 
           <Columize>
-            <DashboardSection title={`GetApplicationMetricsRetriever requested metrics`}>
+            <DashboardSection title={t('in-internal:monitoringUnit.appdata.appDataAggregator.appMetricsRetrieverReq')}>
               <Chart
                 snapshotIds={rows.map(r => r.dropwizard.get('id'))}
                 timeConfig={timeConfig}
@@ -250,7 +251,7 @@ export default connectTo({
               />
             </DashboardSection>
 
-            <DashboardSection title={`GetApplicationMetricsRetriever answered metric requests`}>
+            <DashboardSection title={t('in-internal:monitoringUnit.appdata.appDataAggregator.getAppMetricsRetriever')}>
               <Chart
                 snapshotIds={rows.map(r => r.dropwizard.get('id'))}
                 timeConfig={timeConfig}
@@ -270,7 +271,7 @@ export default connectTo({
           </Columize>
 
           <Columize>
-            <DashboardSection title={`GetMetricsRetriever requested metrics`}>
+            <DashboardSection title={t('in-internal:monitoringUnit.appdata.appDataAggregator.getMetricsRetriever')}>
               <Chart
                 snapshotIds={rows.map(r => r.dropwizard.get('id'))}
                 timeConfig={timeConfig}
@@ -288,7 +289,7 @@ export default connectTo({
               />
             </DashboardSection>
 
-            <DashboardSection title={`GetMetricsRetriever answered metric requests`}>
+            <DashboardSection title={t('in-internal:monitoringUnit.appdata.appDataAggregator.getMetricsRetrieverMetricReq')}>
               <Chart
                 snapshotIds={rows.map(r => r.dropwizard.get('id'))}
                 timeConfig={timeConfig}
@@ -319,7 +320,7 @@ export default connectTo({
 function getRowDetails(row) {
   return (
     <Fragment>
-      <DashboardSection title="Host Load">
+      <DashboardSection title={t('in-internal:monitoringUnit.appdata.appDataAggregator.hostLoad')}>
         <Chart
           snapshotId={row.host.get('id')}
           timeConfig={row.timeConfig}
@@ -329,14 +330,14 @@ function getRowDetails(row) {
             formatter: number.detailed,
             tooltipFormatter: number.detailed,
             metrics: ['load.1min'],
-            labels: ['Host CPU Load'],
+            labels: [t('in-internal:monitoringUnit.appdata.appDataAggregator.hostCpuLoad')],
             type: 'stackedArea'
           }}
         />
       </DashboardSection>
 
       {row.jvm.getIn(['data', 'jvm.collectors']) ? (
-        <DashboardSection title="Garbage Collection">
+        <DashboardSection title={t('in-internal:monitoringUnit.appdata.appDataAggregator.garbageCollection')}>
           <Chart
             snapshotId={row.jvm.get('id')}
             timeConfig={row.timeConfig}

@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { number, millis, timeByMillisTwoDecimalPlaces } from 'in-services/formatters/number';
@@ -36,9 +37,9 @@ export default connectTo(
 
     return (
       <div>
-        <h2>Cashier Acceptors</h2>
+        <h2>{t('in-internal:monitoringUnit.cashier.cashierAcceptors')}</h2>
         <Columize>
-          <DashboardSection title={'Writes'}>
+          <DashboardSection title={t('in-internal:monitoringUnit.cashier.writes')}>
             <Chart
               snapshotIds={cashieracceptors.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -52,7 +53,7 @@ export default connectTo(
             />
           </DashboardSection>
 
-          <DashboardSection title={'Outgoing calls'}>
+          <DashboardSection title={t('in-internal:monitoringUnit.cashier.outgoingCalls')}>
             <Chart
               snapshotIds={cashieracceptors.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -67,10 +68,10 @@ export default connectTo(
           </DashboardSection>
         </Columize>
 
-        <h2>Cashier Usage Transfers</h2>
+        <h2>{t('in-internal:monitoringUnit.cashier.cashierUsageTransfer')}</h2>
         <Columize>
-          <DashboardSection title={'Consumed cashier reports'}>
-            <p>Verify that every minute data is read from Kafka</p>
+          <DashboardSection title={t('in-internal:monitoringUnit.cashier.consumedCashierReports')}>
+            <p>{t('in-internal:monitoringUnit.cashier.verifyMinDataReadFromKafka')}</p>
             <Chart
               snapshotIds={cashierusagetransfers.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -87,8 +88,8 @@ export default connectTo(
             />
           </DashboardSection>
 
-          <DashboardSection title={'Forward payload to acceptor timer (rate)'}>
-            <p>Time going up requires potentially scaleout of cashier-acceptor</p>
+          <DashboardSection title={t('in-internal:monitoringUnit.cashier.fwdPayloadAcceptorTimeRate')}>
+            <p>{t('in-internal:monitoringUnit.cashier.timeUpReqPotentialScaleoutCashierAcceptor')}</p>
             <Chart
               snapshotIds={cashierusagetransfers.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -105,7 +106,7 @@ export default connectTo(
           </DashboardSection>
         </Columize>
         <Columize>
-          <DashboardSection title={'Forward payload to acceptor timer (mean)'}>
+          <DashboardSection title={t('in-internal:monitoringUnit.cashier.fwdPayloadAcceptorTimerMean')}>
             <Chart
               snapshotIds={cashierusagetransfers.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -120,7 +121,7 @@ export default connectTo(
               }}
             />
           </DashboardSection>
-          <DashboardSection title={'Forward payload to acceptor timer (50th)'}>
+          <DashboardSection title={t('in-internal:monitoringUnit.cashier.fwdPayloadAcceptorTimer50')}>
             <Chart
               snapshotIds={cashierusagetransfers.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -135,7 +136,7 @@ export default connectTo(
               }}
             />
           </DashboardSection>
-          <DashboardSection title={'Forward payload to acceptor timer (99th)'}>
+          <DashboardSection title={t('in-internal:monitoringUnit.cashier.fwdPayloadAcceptorTimer99')}>
             <Chart
               snapshotIds={cashierusagetransfers.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -152,7 +153,7 @@ export default connectTo(
           </DashboardSection>
         </Columize>
         <Columize>
-          <DashboardSection title={'Kafka Lag Timer (99th)'}>
+          <DashboardSection title={t('in-internal:monitoringUnit.cashier.kafkaLagTimer99th')}>
             <Chart
               snapshotIds={cashierusagetransfers.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -168,7 +169,7 @@ export default connectTo(
               }}
             />
           </DashboardSection>
-          <DashboardSection title={'Kafka Lag Timer (Mean)'}>
+          <DashboardSection title={t('in-internal:monitoringUnit.cashier.kafkaLagTimerMean')}>
             <Chart
               snapshotIds={cashierusagetransfers.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -186,7 +187,7 @@ export default connectTo(
           </DashboardSection>
         </Columize>
         <Columize>
-          <DashboardSection title={'GenericReactorKafkaConsumer available capacity'}>
+          <DashboardSection title={t('in-internal:monitoringUnit.cashier.genReactorKafkaConsumerAvailCapacity')}>
             <Chart
               snapshotIds={cashierusagetransfers.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -204,9 +205,9 @@ export default connectTo(
           </DashboardSection>
         </Columize>
 
-        <h2>Cashier Ingest</h2>
+        <h2>{t('in-internal:monitoringUnit.cashier.cashierIngest')}</h2>
         <Columize>
-          <DashboardSection title={'Consumed cashier reports'}>
+          <DashboardSection title={t('in-internal:monitoringUnit.cashier.consumedCashierReport')}>
             <Chart
               snapshotIds={cashieringests.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -223,7 +224,7 @@ export default connectTo(
             />
           </DashboardSection>
 
-          <DashboardSection title={'Add Rollup Data (rate)'}>
+          <DashboardSection title={t('in-internal:monitoringUnit.cashier.addRollupDataRate')}>
             <Chart
               snapshotIds={cashieringests.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -239,7 +240,7 @@ export default connectTo(
           </DashboardSection>
         </Columize>
         <Columize>
-          <DashboardSection title={'Add Rollup Data (mean)'}>
+          <DashboardSection title={t('in-internal:monitoringUnit.cashier.addRollupDataMean')}>
             <Chart
               snapshotIds={cashieringests.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -253,7 +254,7 @@ export default connectTo(
               }}
             />
           </DashboardSection>
-          <DashboardSection title={'Add Rollup Data (50th)'}>
+          <DashboardSection title={t('in-internal:monitoringUnit.cashier.addRollupData50th')}>
             <Chart
               snapshotIds={cashieringests.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -267,7 +268,7 @@ export default connectTo(
               }}
             />
           </DashboardSection>
-          <DashboardSection title={'Add Rollup Data (99th)'}>
+          <DashboardSection title={t('in-internal:monitoringUnit.cashier.addRollupData99th')}>
             <Chart
               snapshotIds={cashieringests.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -283,7 +284,7 @@ export default connectTo(
           </DashboardSection>
         </Columize>
         <Columize>
-          <DashboardSection title={'Kafka Lag Timer (99th)'}>
+          <DashboardSection title={t('in-internal:monitoringUnit.cashier.kafkaLagTimer99th')}>
             <Chart
               snapshotIds={cashieringests.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -299,7 +300,7 @@ export default connectTo(
               }}
             />
           </DashboardSection>
-          <DashboardSection title={'Kafka Lag Timer (Mean)'}>
+          <DashboardSection title={t('in-internal:monitoringUnit.cashier.kafkaLagTimerMean')}>
             <Chart
               snapshotIds={cashieringests.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -316,9 +317,9 @@ export default connectTo(
             />
           </DashboardSection>
         </Columize>
-        <h2>Cashier Rollups</h2>
+        <h2>{t('in-internal:monitoringUnit.cashier.cashierRollups')}</h2>
         <Columize>
-          <DashboardSection title={'Create And Insert Hourly Payload Rollups (rate)'}>
+        <DashboardSection title={t('in-internal:monitoringUnit.cashier.createInsertHourlyPayloadRollupsRate')}>
             <Chart
               snapshotIds={cashierrollups.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -335,7 +336,7 @@ export default connectTo(
           </DashboardSection>
         </Columize>
         <Columize>
-          <DashboardSection title={'Create And Insert Hourly Payload Rollups (mean)'}>
+          <DashboardSection title={t('in-internal:monitoringUnit.cashier.createInsertHourlyPayloadRollupsMean')}>
             <Chart
               snapshotIds={cashierrollups.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -350,7 +351,7 @@ export default connectTo(
               }}
             />
           </DashboardSection>
-          <DashboardSection title={'Create And Insert Hourly Payload Rollups (50th)'}>
+          <DashboardSection title={t('in-internal:monitoringUnit.cashier.createInsertHourlyPayloadRollups50')}>
             <Chart
               snapshotIds={cashierrollups.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -365,7 +366,7 @@ export default connectTo(
               }}
             />
           </DashboardSection>
-          <DashboardSection title={'Create And Insert Hourly Payload Rollups (99th)'}>
+          <DashboardSection title={t('in-internal:monitoringUnit.cashier.createInsertHourlyPayloadRollups99')}>
             <Chart
               snapshotIds={cashierrollups.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}

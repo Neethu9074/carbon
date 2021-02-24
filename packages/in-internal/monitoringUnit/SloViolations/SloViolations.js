@@ -4,6 +4,7 @@
  */
 import { interval } from '@instana/observables';
 import { groupBy, chunk } from 'lodash';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
@@ -72,7 +73,7 @@ function SloViolations({ events, timeConfig }) {
 
   return (
     <div className={locals.wrapper}>
-      <h1 className={locals.header}>SLO Violations Grouped By Process</h1>
+      <h1 className={locals.header}>{t('in-internal:monitoringUnit.sloViolations.sloViolateGroupedProc')}</h1>
       <Row>
         <Col lg={12}>
           <SloViolationsChart timeConfig={timeConfig} />
@@ -160,7 +161,7 @@ const Event = connect(({ event }) => ({
         color={getColorBySeverity(event.severity)}
       />
 
-      <Tooltip align="topMiddle" content="How long the issue is open (doesn't auto update, sorry mate!)">
+      <Tooltip align="topMiddle" content={t('in-internal:monitoringUnit.sloViolations.issueOpenNotAutoUpdate')}>
         <span className={locals.duration}>{formatDurationAccurately(Date.now() - event.start)}</span>
       </Tooltip>
 

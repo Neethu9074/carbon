@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { combineLatest } from '@instana/observables';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { getClickhouseWithContext } from 'in-internal/monitoringUnit/dataRetrieval';
@@ -14,7 +15,7 @@ import connectTo from 'in-hoc/connectTo';
 
 export const cols = [
   {
-    title: 'Table',
+    title: t('in-internal:monitoringUnit.sre.clickhouseTotalTblSize.table'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -23,7 +24,7 @@ export const cols = [
     }
   },
   {
-    title: 'Total Bytes On Disk (cluster wide)',
+    title: t('in-internal:monitoringUnit.sre.clickhouseTotalTblSize.totalByteDiskClusterWide'),
     type: 'number',
     typeArgs: {
       getValue(row) {
@@ -33,7 +34,7 @@ export const cols = [
     }
   },
   {
-    title: 'Max Bytes On Disk (single node)',
+    title: t('in-internal:monitoringUnit.sre.clickhouseTotalTblSize.maxByteDiskSingleNode'),
     type: 'number',
     typeArgs: {
       getValue(row) {
@@ -43,7 +44,7 @@ export const cols = [
     }
   },
   {
-    title: 'Min Bytes On Disk (single node)',
+    title: t('in-internal:monitoringUnit.sre.clickhouseTotalTblSize.minByteDiskSingleNode'),
     type: 'number',
     typeArgs: {
       getValue(row) {
@@ -53,7 +54,7 @@ export const cols = [
     }
   },
   {
-    title: 'Nodes Reporting Size for Table',
+    title: t('in-internal:monitoringUnit.sre.clickhouseTotalTblSize.nodesReportingSizeForTbl'),
     type: 'number',
     typeArgs: {
       getValue(row) {
@@ -96,7 +97,7 @@ function ClickhouseTotalTableSizes({ nodes }) {
 
   return (
     <Table
-      cardTitle="ClickHouse Table Size Analysis"
+      cardTitle={t('in-internal:monitoringUnit.sre.clickhouseTotalTblSize.clickHouseTblSizeAnalysis')}
       cols={cols}
       rows={rows}
       maxItemsPerPage={100}

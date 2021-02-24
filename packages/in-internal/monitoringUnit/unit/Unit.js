@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { Route } from 'react-router-dom';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import InfrastructureDataStatistics from 'in-internal/monitoringUnit/unit/InfrastructureDataStatistics';
@@ -61,7 +62,7 @@ export default connectTo(({ location }) => {
               setOrDeleteMatrixKey(params, '/unit', 'tenant', tenant);
               setOrDeleteMatrixKey(params, '/unit', 'unit', unit);
             })}
-            label="Tenant Unit"
+            label={t('in-internal:monitoringUnit.unit.tenantUnit.tenantUnitLabel')}
           >
             {tenant}-{unit}
           </Breadcrumb>
@@ -141,37 +142,37 @@ export default connectTo(({ location }) => {
 function Navigation({ tenant, unit }) {
   return (
     <LinkList>
-      <LinkListItem label="Home" href$={getModifiedUrlStream(p => (p.pathname = '/internal/monitoringUnit/unit'))} />
+      <LinkListItem label={t('in-internal:monitoringUnit.unit.tenantUnit.home')} href$={getModifiedUrlStream(p => (p.pathname = '/internal/monitoringUnit/unit'))} />
       <LinkListItem
-        label="Agents"
+        label={t('in-internal:monitoringUnit.unit.tenantUnit.agents')}
         external
         href$={getModifiedUrlStream(params => (params.pathname = '/internal/thisUnit/agents')).map(href =>
           linkToTenantUnit(href, tenant, unit)
         )}
       />
       <LinkListItem
-        label="Application"
+        label={t('in-internal:monitoringUnit.unit.tenantUnit.application')}
         href$={getModifiedUrlStream(p => (p.pathname = '/internal/monitoringUnit/unit/applicationDataStatistics'))}
       />
       <LinkListItem
-        label="End-User Monitoring"
+        label={t('in-internal:monitoringUnit.unit.tenantUnit.endUserMonitor')}
         href$={getModifiedUrlStream(p => (p.pathname = '/internal/monitoringUnit/unit/eum'))}
       />
       <LinkListItem
-        label="Entity Statistics"
+        label={t('in-internal:monitoringUnit.unit.tenantUnit.entityStatistic')}
         href$={getModifiedUrlStream(p => (p.pathname = '/internal/monitoringUnit/unit/entityStatistics'))}
       />
       <LinkListItem
-        label="Infrastructure"
+        label={t('in-internal:monitoringUnit.unit.tenantUnit.infrastructure')}
         href$={getModifiedUrlStream(p => (p.pathname = '/internal/monitoringUnit/unit/infrastructureDataStatistics'))}
       />
       <LinkListItem
-        label="Profile"
+        label={t('in-internal:monitoringUnit.unit.tenantUnit.profile')}
         href$={getModifiedUrlStream(p => (p.pathname = '/internal/monitoringUnit/unit/profileDataStatistics'))}
       />
       {isInstanaEmail && (
         <LinkListItem
-          label="SLO Violations"
+          label={t('in-internal:monitoringUnit.unit.tenantUnit.sloViolations')}
           href$={getModifiedUrlStream(p => {
             p.pathname = '/events';
             p.query.q = `(event.text:"[SLO]" OR event.text:"[experimental SLO]") AND event.state:open entity.label:"${tenant}-${unit}-*"`;
@@ -179,7 +180,7 @@ function Navigation({ tenant, unit }) {
         />
       )}
       <LinkListItem
-        label="Stan"
+        label={t('in-internal:monitoringUnit.unit.tenantUnit.stan')}
         href$={getModifiedUrlStream(p => (p.pathname = '/internal/monitoringUnit/unit/stan'))}
       />
     </LinkList>

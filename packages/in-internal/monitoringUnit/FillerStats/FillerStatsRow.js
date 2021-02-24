@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { combineLatest } from '@instana/observables';
+import { t } from 'in-i18n';
 import moment from 'moment';
 import React from 'react';
 
@@ -13,22 +14,22 @@ import connectTo from 'in-hoc/connectTo';
 export const DROPWIZARD_STATS = [
   {
     id: 'spanMessageReceived',
-    label: 'Span Message Received',
+    label: t('in-internal:monitoringUnit.fillerStats.fillerStatsRow.spanMsgReceive'),
     metric: 'KPI.incoming.span_messages.calls'
   },
   {
     id: 'spanMessageDropped',
-    label: 'Span Message Dropped',
+    label: t('in-internal:monitoringUnit.fillerStats.fillerStatsRow.spanMsgDrop'),
     metric: 'KPI.incoming.span_messages.errors'
   },
   {
     id: 'spanProcessed',
-    label: 'Span Processed',
+    label: t('in-internal:monitoringUnit.fillerStats.fillerStatsRow.spanProc'),
     metric: 'KPI.processing.spans.calls'
   },
   {
     id: 'spanStored',
-    label: 'Span Stored',
+    label: t('in-internal:monitoringUnit.fillerStats.fillerStatsRow.spanStored'),
     metric: 'KPI.outgoing.spans.calls'
   }
 ];

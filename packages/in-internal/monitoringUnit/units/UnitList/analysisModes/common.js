@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
@@ -10,7 +11,7 @@ import Link from 'in-components/Link';
 
 export const unitColumn = {
   id: 'unit',
-  title: 'Unit',
+  title: t('in-internal:monitoringUnit.units.common.unit'),
   type: 'string',
   typeArgs: {
     getValue(row) {

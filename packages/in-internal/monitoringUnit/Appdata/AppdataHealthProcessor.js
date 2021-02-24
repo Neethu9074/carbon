@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import React, { Fragment } from 'react';
+import { t } from 'in-i18n';
 
 import { getDropwizardWithContext } from 'in-internal/monitoringUnit/dataRetrieval';
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
@@ -19,7 +20,7 @@ import connectTo from 'in-hoc/connectTo';
 
 const hostViewCols = [
   {
-    title: 'Host',
+    title: t('in-internal:monitoringUnit.appdata.appdataHealthProcessor.host'),
     type: 'snapshotLink',
     typeArgs: {
       pathname: physicalDashboardPath,
@@ -29,7 +30,7 @@ const hostViewCols = [
     }
   },
   {
-    title: 'Host CPU load',
+    title: t('in-internal:monitoringUnit.appdata.appdataHealthProcessor.hostCpuLoad'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -63,7 +64,7 @@ export default connectTo({
         <div>
           <h1>appdata-health-processor</h1>
 
-          <DashboardSection title={`Host CPU load`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.appdata.appdataHealthProcessor.hostCpuLoad')}>
             <Chart
               snapshotIds={rows.map(r => r.host.get('id'))}
               timeConfig={timeConfig}
@@ -79,7 +80,7 @@ export default connectTo({
           </DashboardSection>
 
           <Columize>
-            <DashboardSection title={`Processed Intervals`}>
+            <DashboardSection title={t('in-internal:monitoringUnit.appdata.appdataHealthProcessor.processedIntervals')}>
               <Chart
                 snapshotIds={rows.map(r => r.dropwizard.get('id'))}
                 timeConfig={timeConfig}
@@ -94,7 +95,7 @@ export default connectTo({
               />
             </DashboardSection>
 
-            <DashboardSection title={`Skipped Intervals`}>
+            <DashboardSection title={t('in-internal:monitoringUnit.appdata.appdataHealthProcessor.skippedIntervals')}>
               <Chart
                 snapshotIds={rows.map(r => r.dropwizard.get('id'))}
                 timeConfig={timeConfig}
@@ -109,7 +110,7 @@ export default connectTo({
               />
             </DashboardSection>
 
-            <DashboardSection title={`Failed Processed Intervals`}>
+            <DashboardSection title={t('in-internal:monitoringUnit.appdata.appdataHealthProcessor.failedProcessedInterval')}>
               <Chart
                 snapshotIds={rows.map(r => r.dropwizard.get('id'))}
                 timeConfig={timeConfig}
@@ -126,7 +127,7 @@ export default connectTo({
           </Columize>
 
           <Columize>
-            <DashboardSection title={`Processed Configs`}>
+            <DashboardSection title={t('in-internal:monitoringUnit.appdata.appdataHealthProcessor.processedConfig')}>
               <Chart
                 snapshotIds={rows.map(r => r.dropwizard.get('id'))}
                 timeConfig={timeConfig}
@@ -141,7 +142,7 @@ export default connectTo({
               />
             </DashboardSection>
 
-            <DashboardSection title={`Failed Processed Configs`}>
+            <DashboardSection title={t('in-internal:monitoringUnit.appdata.appdataHealthProcessor.failProcessedConfig')}>
               <Chart
                 snapshotIds={rows.map(r => r.dropwizard.get('id'))}
                 timeConfig={timeConfig}
@@ -158,7 +159,7 @@ export default connectTo({
           </Columize>
 
           <Columize>
-            <DashboardSection title={`Outgoing Events`}>
+            <DashboardSection title={t('in-internal:monitoringUnit.appdata.appdataHealthProcessor.outgoingEvent')}>
               <Chart
                 snapshotIds={rows.map(r => r.dropwizard.get('id'))}
                 timeConfig={timeConfig}
@@ -173,7 +174,7 @@ export default connectTo({
               />
             </DashboardSection>
 
-            <DashboardSection title={`Failed Outgoing Events`}>
+            <DashboardSection title={t('in-internal:monitoringUnit.appdata.appdataHealthProcessor.failOutgoingEvent')}>
               <Chart
                 snapshotIds={rows.map(r => r.dropwizard.get('id'))}
                 timeConfig={timeConfig}
@@ -190,7 +191,7 @@ export default connectTo({
           </Columize>
 
           <Columize>
-            <DashboardSection title={`Appdata Live Aggregator GetApplicationMetrics Requests`}>
+            <DashboardSection title={t('in-internal:monitoringUnit.appdata.appdataHealthProcessor.appdataLiveAggreApplMetricsReq')}>
               <Chart
                 snapshotIds={rows.map(r => r.dropwizard.get('id'))}
                 timeConfig={timeConfig}
@@ -207,7 +208,7 @@ export default connectTo({
               />
             </DashboardSection>
 
-            <DashboardSection title={`No Result Appdata Live Aggregator GetApplicationMetrics Requests`}>
+            <DashboardSection title={t('in-internal:monitoringUnit.appdata.appdataHealthProcessor.noResultAppdataAggreAppMetricsReq')}>
               <Chart
                 snapshotIds={rows.map(r => r.dropwizard.get('id'))}
                 timeConfig={timeConfig}
@@ -222,7 +223,7 @@ export default connectTo({
               />
             </DashboardSection>
 
-            <DashboardSection title={`Failed Appdata Live Aggregator GetApplicationMetrics Requests`}>
+            <DashboardSection title={t('in-internal:monitoringUnit.appdata.appdataHealthProcessor.failAppdataLiveAggreAppMetricsReqs')}>
               <Chart
                 snapshotIds={rows.map(r => r.dropwizard.get('id'))}
                 timeConfig={timeConfig}
@@ -241,7 +242,7 @@ export default connectTo({
           </Columize>
 
           <Columize>
-            <DashboardSection title={`Appdata Reader GetApplicationMetrics Requests`}>
+            <DashboardSection title={t('in-internal:monitoringUnit.appdata.appdataHealthProcessor.appdataReaderAppMetricsReq')}>
               <Chart
                 snapshotIds={rows.map(r => r.dropwizard.get('id'))}
                 timeConfig={timeConfig}
@@ -258,7 +259,7 @@ export default connectTo({
               />
             </DashboardSection>
 
-            <DashboardSection title={`Failed Appdata Reader GetApplicationMetrics Requests`}>
+            <DashboardSection title={t('in-internal:monitoringUnit.appdata.appdataHealthProcessor.failAppdReaderAppMetricsReq')}>
               <Chart
                 snapshotIds={rows.map(r => r.dropwizard.get('id'))}
                 timeConfig={timeConfig}
@@ -277,7 +278,7 @@ export default connectTo({
           </Columize>
 
           <Columize>
-            <DashboardSection title={`Appdata Reader GetCallGroups Requests`}>
+            <DashboardSection title={t('in-internal:monitoringUnit.appdata.appdataHealthProcessor.appReaderCallGroupsReq')}>
               <Chart
                 snapshotIds={rows.map(r => r.dropwizard.get('id'))}
                 timeConfig={timeConfig}
@@ -294,7 +295,7 @@ export default connectTo({
               />
             </DashboardSection>
 
-            <DashboardSection title={`Failed Appdata Reader GetCallGroups Requests`}>
+            <DashboardSection title={t('in-internal:monitoringUnit.appdata.appdataHealthProcessor.failAppdataReaderCallGroupsReq')}>
               <Chart
                 snapshotIds={rows.map(r => r.dropwizard.get('id'))}
                 timeConfig={timeConfig}
@@ -312,7 +313,7 @@ export default connectTo({
             </DashboardSection>
           </Columize>
 
-          <DashboardSection title={`processes (${rows.length})`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.appdata.appdataHealthProcessor.processesCount', { length: rows.length })}>
             <Table cols={hostViewCols} rows={rows} getRowDetails={getRowDetails} />
           </DashboardSection>
         </div>
@@ -324,7 +325,7 @@ export default connectTo({
 function getRowDetails(row) {
   return (
     <Fragment>
-      <DashboardSection title="Host Load">
+      <DashboardSection title={t('in-internal:monitoringUnit.appdata.appdataHealthProcessor.hostLoad')}>
         <Chart
           snapshotId={row.host.get('id')}
           timeConfig={row.timeConfig}
@@ -334,14 +335,14 @@ function getRowDetails(row) {
             formatter: number.detailed,
             tooltipFormatter: number.detailed,
             metrics: ['load.1min'],
-            labels: ['Host CPU Load'],
+            labels: [t('in-internal:monitoringUnit.appdata.appdataHealthProcessor.hostCpuLoadLabel')],
             type: 'stackedArea'
           }}
         />
       </DashboardSection>
 
       {row.jvm.getIn(['data', 'jvm.collectors']) ? (
-        <DashboardSection title="Garbage Collection">
+        <DashboardSection title={t('in-internal:monitoringUnit.appdata.appdataHealthProcessor.garbageCollection')}>
           <Chart
             snapshotId={row.jvm.get('id')}
             timeConfig={row.timeConfig}

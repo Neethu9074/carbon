@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { getDropwizardWithContext } from 'in-internal/monitoringUnit/dataRetrieval';
@@ -14,7 +15,7 @@ import connectTo from 'in-hoc/connectTo';
 
 const cols = [
   {
-    title: 'Customer',
+    title: t('in-internal:monitoringUnit.infrastructureMetrics.filler.customer'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -23,7 +24,7 @@ const cols = [
     }
   },
   {
-    title: 'Dropped Kafka Metric Writes',
+    title: t('in-internal:monitoringUnit.infrastructureMetrics.filler.dropKafkaMetricWrite'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -40,7 +41,7 @@ const cols = [
     }
   },
   {
-    title: '#Metrics',
+    title: t('in-internal:monitoringUnit.infrastructureMetrics.filler.numMetrics'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -90,7 +91,7 @@ function getRowDetails(row) {
           metrics: [
             `metrics.meters.com.instana.filler.topology.FilledMetricsDownstreamInitializer.dropped-metrics-kafka`
           ],
-          labels: ['Dropped Kafka Metric Writes'],
+          labels: [t('in-internal:monitoringUnit.infrastructureMetrics.filler.dropKafkaMetricWrite')],
           type: 'stackedArea'
         }}
       />
@@ -102,7 +103,7 @@ function getRowDetails(row) {
           min: 0,
           formatter: number.detailed,
           metrics: [`metrics.meters.com.instana.filler.service.processingStatistics.ProcessingStatistics.metrics`],
-          labels: ['#Metrics'],
+          labels: [t('in-internal:monitoringUnit.infrastructureMetrics.filler.numMetrics')],
           type: 'stackedArea'
         }}
       />

@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import {
@@ -55,10 +56,10 @@ export default connectTo(
     }
 
     if (kafkaNodes.length < 1) {
-      return <div>Statistics provider not found.</div>;
+      return <div>{t('in-internal:monitoringUnit.sre.kafka.statisticsProviderNotFound')}</div>;
     }
     if (jvmNodes.length < 1) {
-      return <div>Statistics provider not found.</div>;
+      return <div>{t('in-internal:monitoringUnit.sre.kafka.statisticsProviderNotFound')}</div>;
     }
 
     kafkaNodes = sort(kafkaNodes);
@@ -66,10 +67,10 @@ export default connectTo(
 
     return (
       <div>
-        <h2>Kafka ({kafkaNodes.length} nodes)</h2>
+        <h2>{t('in-internal:monitoringUnit.sre.kafka.kafkaNodes', { count: kafkaNodes.length})}</h2>
 
         <Columize>
-          <DashboardSection title={`Broker Traffic Bytes In`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.sre.kafka.brokerTrafficBytesIn')}>
             <Chart
               snapshotIds={kafkaNodes.map(r => r.kafka.get('id'))}
               timeConfig={timeConfig}
@@ -82,7 +83,7 @@ export default connectTo(
               }}
             />
           </DashboardSection>
-          <DashboardSection title={`Broker Traffic Bytes Out`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.sre.kafka.brokerTrafficBytesOut')}>
             <Chart
               snapshotIds={kafkaNodes.map(r => r.kafka.get('id'))}
               timeConfig={timeConfig}
@@ -95,7 +96,7 @@ export default connectTo(
               }}
             />
           </DashboardSection>
-          <DashboardSection title={`Broker Traffic Bytes Rejected`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.sre.kafka.brokerTrafficByteReject')}>
             <Chart
               snapshotIds={kafkaNodes.map(r => r.kafka.get('id'))}
               timeConfig={timeConfig}
@@ -111,7 +112,7 @@ export default connectTo(
         </Columize>
 
         <Columize>
-          <DashboardSection title={`Messages In`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.sre.kafka.messagesIn')}>
             <Chart
               snapshotIds={kafkaNodes.map(r => r.kafka.get('id'))}
               timeConfig={timeConfig}
@@ -124,7 +125,7 @@ export default connectTo(
               }}
             />
           </DashboardSection>
-          <DashboardSection title={`Produce Requests`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.sre.kafka.produceReq')}>
             <Chart
               snapshotIds={kafkaNodes.map(r => r.kafka.get('id'))}
               timeConfig={timeConfig}
@@ -140,7 +141,7 @@ export default connectTo(
         </Columize>
 
         <Columize>
-          <DashboardSection title="Network Processor Idle">
+          <DashboardSection title={t('in-internal:monitoringUnit.sre.kafka.networkProcessorIdle')}>
             <Chart
               snapshotIds={kafkaNodes.map(r => r.kafka.get('id'))}
               timeConfig={timeConfig}
@@ -153,7 +154,7 @@ export default connectTo(
               }}
             />
           </DashboardSection>
-          <DashboardSection title="Request Handler Idle">
+          <DashboardSection title={t('in-internal:monitoringUnit.sre.kafka.reqHandlerIdle')}>
             <Chart
               snapshotIds={kafkaNodes.map(r => r.kafka.get('id'))}
               timeConfig={timeConfig}
@@ -169,7 +170,7 @@ export default connectTo(
         </Columize>
 
         <Columize>
-          <DashboardSection title={`G1 Young Generation`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.sre.kafka.g1YoungGeneration')}>
             <Chart
               snapshotIds={jvmNodes.map(r => r.jvmRuntimePlatform.get('id'))}
               timeConfig={timeConfig}
@@ -183,10 +184,9 @@ export default connectTo(
               }}
             />
           </DashboardSection>
-          <DashboardSection title="Suspension">
+          <DashboardSection title={t('in-internal:monitoringUnit.sre.kafka.suspension')}>
             <ChartExplanation>
-              Suspension is an indication of how much application execution might have been delayed by the JVM, OS or
-              CPU during the last second. This is predominantly caused by GC activations.
+              {t('in-internal:monitoringUnit.sre.kafka.suspensionChartExplanation')}
             </ChartExplanation>
             <Chart
               snapshotIds={jvmNodes.map(r => r.jvmRuntimePlatform.get('id'))}
@@ -203,7 +203,7 @@ export default connectTo(
         </Columize>
 
         <Columize>
-          <DashboardSection title={`Network - data received`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.sre.kafka.networkDataReceive')}>
             <Chart
               snapshotIds={kafkaNodes.map(r => r.host.get('id'))}
               timeConfig={timeConfig}
@@ -217,7 +217,7 @@ export default connectTo(
             />
           </DashboardSection>
 
-          <DashboardSection title={`Network - data transmitted`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.sre.kafka.networkDataTransmit')}>
             <Chart
               snapshotIds={kafkaNodes.map(r => r.host.get('id'))}
               timeConfig={timeConfig}
@@ -233,7 +233,7 @@ export default connectTo(
         </Columize>
 
         <Columize>
-          <DashboardSection title={`CPU Usage`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.sre.kafka.cpuUsage')}>
             <Table
               cols={hostTableCols}
               rows={kafkaNodes.map(node => ({ key: node.kafka.get('id'), timeConfig, ...node }))}
@@ -241,7 +241,7 @@ export default connectTo(
               maxItemsPerPage={15}
             />
           </DashboardSection>
-          <DashboardSection title="Data mounts">
+          <DashboardSection title={t('in-internal:monitoringUnit.sre.kafka.dataMount')}>
             <Table
               cols={volumeTableCols}
               rows={getDataMountRows(

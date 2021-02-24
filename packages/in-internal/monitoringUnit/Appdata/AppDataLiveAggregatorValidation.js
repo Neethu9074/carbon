@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { getDropwizardWithContext } from 'in-internal/monitoringUnit/dataRetrieval';
@@ -32,7 +33,7 @@ export default connectTo({
         <div>
           <h1>Validation</h1>
           <Columize>
-            <DashboardSection title={`Validated metrics`}>
+            <DashboardSection title={t('in-internal:monitoringUnit.appdata.appDataLiveAggreValid.validMetrics')}>
               <Chart
                 snapshotIds={rows.map(r => r.dropwizard.get('id'))}
                 timeConfig={timeConfig}
@@ -47,7 +48,7 @@ export default connectTo({
               />
             </DashboardSection>
 
-            <DashboardSection title={`Critical deviations`}>
+            <DashboardSection title={t('in-internal:monitoringUnit.appdata.appDataLiveAggreValid.criticalDeviations')}>
               <Chart
                 snapshotIds={rows.map(r => r.dropwizard.get('id'))}
                 timeConfig={timeConfig}

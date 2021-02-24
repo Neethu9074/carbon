@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import classNames from 'classnames';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { serverTime$ } from 'in-stores/serverTime';
@@ -13,14 +14,14 @@ import locals from './TimeZones.mless';
 export default function TimeZones() {
   return (
     <dl className={locals.zones}>
-      <TimeZone timeZone="America/Los_Angeles" label="San Francisco" />
-      <TimeZone timeZone="America/Chicago" label="Austin" />
-      <TimeZone timeZone="America/New_York" label="New York City" />
-      <TimeZone timeZone="UTC" label="UTC" />
-      <TimeZone timeZone="Europe/Berlin" label="Solingen" />
-      <TimeZone timeZone="Europe/Belgrade" label="Novi Sad" />
-      <TimeZone timeZone="Asia/Tokyo" label="Tokyo" />
-      <TimeZone timeZone="Australia/Sydney" label="Sydney" />
+      <TimeZone timeZone="America/Los_Angeles" label={t('in-internal:components.timeZones.sanFrancisco')} />
+      <TimeZone timeZone="America/Chicago" label={t('in-internal:components.timeZones.austin')} />
+      <TimeZone timeZone="America/New_York" label={t('in-internal:components.timeZones.newYorkCity')} />
+      <TimeZone timeZone="UTC" label={t('in-internal:components.timeZones.uTC')} />
+      <TimeZone timeZone="Europe/Berlin" label={t('in-internal:components.timeZones.solingen')} />
+      <TimeZone timeZone="Europe/Belgrade" label={t('in-internal:components.timeZones.noviSad')} />
+      <TimeZone timeZone="Asia/Tokyo" label={t('in-internal:components.timeZones.tokyo')} />
+      <TimeZone timeZone="Australia/Sydney" label={t('in-internal:components.timeZones.sydney')} />
     </dl>
   );
 }

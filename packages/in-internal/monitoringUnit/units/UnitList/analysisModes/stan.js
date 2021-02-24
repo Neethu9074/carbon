@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import React, { Fragment } from 'react';
+import { t } from 'in-i18n';
 
 import { unitColumn } from 'in-internal/monitoringUnit/units/UnitList/analysisModes/common';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
@@ -17,7 +18,7 @@ export default {
     unitColumn,
     {
       id: 'Processor Instances',
-      title: 'Processor Instances',
+      title: t('in-internal:monitoringUnit.units.stan.processorInstance'),
       type: 'metric',
       typeArgs: {
         getSnapshotId(row) {
@@ -35,7 +36,7 @@ export default {
     },
     {
       id: 'Metric Drop Rate (max)',
-      title: 'Metric Drop Rate (max)',
+      title: t('in-internal:monitoringUnit.units.stan.metricDropRateMax'),
       type: 'metric',
       typeArgs: {
         getSnapshotId(row) {
@@ -53,7 +54,7 @@ export default {
     },
     {
       id: 'Metric Drop Rate (mean)',
-      title: 'Metric Drop Rate (mean)',
+      title: t('in-internal:monitoringUnit.units.stan.metricDropRateMean'),
       type: 'metric',
       typeArgs: {
         getSnapshotId(row) {
@@ -71,7 +72,7 @@ export default {
     },
     {
       id: 'Application Entity (Call) Drop Rate',
-      title: 'Application Entity (Call) Drop Rate',
+      title: t('in-internal:monitoringUnit.units.stan.appEntityCallDropRate'),
       type: 'metric',
       typeArgs: {
         getSnapshotId(row) {
@@ -100,7 +101,7 @@ export default {
               max: 1,
               formatter: percentage.detailed,
               metrics: [`processor.metricDropRate.max`],
-              labels: ['Metric Drop Rate (max)'],
+              labels: [t('in-internal:monitoringUnit.units.stan.metricDropRateMax')],
               type: 'stackedArea'
             }}
           />
@@ -112,7 +113,7 @@ export default {
               max: 1,
               formatter: percentage.detailed,
               metrics: [`processor.metricDropRate.mean`],
-              labels: ['Metric Drop Rate (mean)'],
+              labels: [t('in-internal:monitoringUnit.units.stan.metricDropRateMean')],
               type: 'stackedArea'
             }}
           />
@@ -126,7 +127,7 @@ export default {
               min: 0,
               formatter: number.compact,
               metrics: [`processor.instances`],
-              labels: ['Processor Instances'],
+              labels: [t('in-internal:monitoringUnit.units.stan.processorInstances')],
               type: 'stackedArea'
             }}
           />
@@ -138,7 +139,7 @@ export default {
               max: 1,
               formatter: percentage.detailed,
               metrics: [`appdata-legacy-converter.callsTotalDropRate`],
-              labels: ['Application Entity (Call) Drop Rate'],
+              labels: [t('in-internal:monitoringUnit.units.stan.appEntityCallDropRate')],
               type: 'stackedArea'
             }}
           />

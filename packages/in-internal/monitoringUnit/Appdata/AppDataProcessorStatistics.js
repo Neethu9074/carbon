@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { getDropwizardWithContext } from 'in-internal/monitoringUnit/dataRetrieval';
@@ -14,7 +15,7 @@ import connectTo from 'in-hoc/connectTo';
 
 const cols = [
   {
-    title: 'Customer',
+    title: t('in-internal:monitoringUnit.appdata.appDataProcStatistic.customer'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -23,7 +24,7 @@ const cols = [
     }
   },
   {
-    title: 'Host CPU load',
+    title: t('in-internal:monitoringUnit.appdata.appDataProcStatistic.hostCPULoad'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -40,7 +41,7 @@ const cols = [
     }
   },
   {
-    title: 'Incoming span messages (KPI.incoming.span_messages)',
+    title: t('in-internal:monitoringUnit.appdata.appDataProcStatistic.incomingSpanMsg'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -57,7 +58,7 @@ const cols = [
     }
   },
   {
-    title: 'Dropped Span messages (KPI.incoming.span_messages)',
+    title: t('in-internal:monitoringUnit.appdata.appDataProcStatistic.droppSpanMsg'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -74,7 +75,7 @@ const cols = [
     }
   },
   {
-    title: 'Time diff with acceptor (ms)',
+    title: t('in-internal:monitoringUnit.appdata.appDataProcStatistic.timeDiffAcceptor'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -91,7 +92,7 @@ const cols = [
     }
   },
   {
-    title: 'Processed spans during span enrichment (KPI.processing.spans)',
+    title: t('in-internal:monitoringUnit.appdata.appDataProcStatistic.processSpansEnrichment'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -108,7 +109,7 @@ const cols = [
     }
   },
   {
-    title: 'Complete traces (ReducedSpanBuffer)',
+    title: t('in-internal:monitoringUnit.appdata.appDataProcStatistic.completeTraces'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -125,7 +126,7 @@ const cols = [
     }
   },
   {
-    title: 'Incomplete traces (ReducedSpanBuffer)',
+    title: t('in-internal:monitoringUnit.appdata.appDataProcStatistic.incompleteTraces'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -142,7 +143,7 @@ const cols = [
     }
   },
   {
-    title: 'Processed spans during call extraction (TraceWithRawCallExtractor.total-spans)',
+    title: t('in-internal:monitoringUnit.appdata.appDataProcStatistic.processedSpansCallExtraction'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -159,7 +160,7 @@ const cols = [
     }
   },
   {
-    title: 'Downstream spans (KPI.outgoing.raw_spans)',
+    title: t('in-internal:monitoringUnit.appdata.appDataProcStatistic.downstreamSpans'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -176,7 +177,7 @@ const cols = [
     }
   },
   {
-    title: 'Downstream calls (KPI.outgoing.calls)',
+    title: t('in-internal:monitoringUnit.appdata.appDataProcStatistic.downstreamCalls'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -193,7 +194,7 @@ const cols = [
     }
   },
   {
-    title: 'Downstream logs (KPI.outgoing.logs)',
+    title: t('in-internal:monitoringUnit.appdata.appDataProcStatistic.downstreamLogs'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {

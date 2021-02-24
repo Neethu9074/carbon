@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { unitColumn } from 'in-internal/monitoringUnit/units/UnitList/analysisModes/common';
@@ -16,7 +17,7 @@ export default {
     unitColumn,
     {
       id: 'website-beacons',
-      title: 'Website Beacons',
+      title: t('in-internal:monitoringUnit.units.eum.websiteBeacons'),
       type: 'metric',
       typeArgs: {
         getSnapshotId(row) {
@@ -34,7 +35,7 @@ export default {
     },
     {
       id: 'mobile-beacons',
-      title: 'Mobile App Beacons',
+      title: t('in-internal:monitoringUnit.units.eum.mobileAppBeacons'),
       type: 'metric',
       typeArgs: {
         getSnapshotId(row) {
@@ -60,7 +61,7 @@ export default {
           min: 0,
           formatter: number.compact,
           metrics: [`eum-acceptor.websiteBeacons`, `eum-acceptor.mobileAppBeacons`],
-          labels: ['Website Beacons', 'Mobile App Beacons'],
+          labels: [t('in-internal:monitoringUnit.units.eum.websiteBeacons'), t('in-internal:monitoringUnit.units.eum.mobileAppBeacons')],
           type: 'stackedArea'
         }}
       />

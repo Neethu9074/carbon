@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
@@ -10,7 +11,7 @@ import { getModifiedUrlStream } from 'in-stores/navigation';
 export default function UnitsBreadcrumb() {
   return (
     <Breadcrumb href$={getModifiedUrlStream(params => (params.pathname = '/internal/monitoringUnit/units'))}>
-      Units
+      {t('in-internal:monitoringUnit.units.unitsBreadcrumb.units')}
     </Breadcrumb>
   );
 }

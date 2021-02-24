@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { getDropwizardWithContext } from 'in-internal/monitoringUnit/dataRetrieval';
@@ -36,7 +37,7 @@ export default connectTo(
       <div>
         <h1>EUM for appdata-writer</h1>
 
-        <DashboardSection title={`Host CPU load`}>
+        <DashboardSection title={t('in-internal:monitoringUnit.eum.appDataWriter.hostCpuLoad')}>
           <Chart
             snapshotIds={rows.map(r => r.host.get('id'))}
             timeConfig={timeConfig}
@@ -52,7 +53,7 @@ export default connectTo(
         </DashboardSection>
 
         <Columize>
-          <DashboardSection title={`Incoming Processed Website Beacons`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.eum.appDataWriter.incomingProcessWebsiteBeacon')}>
             <Chart
               snapshotIds={rows.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -66,7 +67,7 @@ export default connectTo(
             />
           </DashboardSection>
 
-          <DashboardSection title={`Failed Incoming Processed Website Beacons`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.eum.appDataWriter.failIncomingProcessWebsiteBeacon')}>
             <Chart
               snapshotIds={rows.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -82,7 +83,7 @@ export default connectTo(
         </Columize>
 
         <Columize>
-          <DashboardSection title={`Short term Beacon Batch Writes`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.eum.appDataWriter.shortTermBeaconBatchWrite')}>
             <Chart
               snapshotIds={rows.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -96,7 +97,7 @@ export default connectTo(
             />
           </DashboardSection>
 
-          <DashboardSection title={`Short term Beacon Batch Write Failures`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.eum.appDataWriter.shortBeaconBatchWriteFail')}>
             <Chart
               snapshotIds={rows.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -112,7 +113,7 @@ export default connectTo(
         </Columize>
 
         <Columize>
-          <DashboardSection title={`Long Term Beacon Batch Writes`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.eum.appDataWriter.longBeaconBatchWrite')}>
             <Chart
               snapshotIds={rows.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -126,7 +127,7 @@ export default connectTo(
             />
           </DashboardSection>
 
-          <DashboardSection title={`Long Term Beacon Batch Write Failures`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.eum.appDataWriter.longBeaconBatchWriteFail')}>
             <Chart
               snapshotIds={rows.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}

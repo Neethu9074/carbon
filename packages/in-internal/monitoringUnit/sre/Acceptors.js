@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import React, { Fragment } from 'react';
+import { t } from 'in-i18n';
 
 import { percentage, percentageZeroDecimalPlaces } from 'in-services/formatters/number';
 import { getDropwizardWithContext } from 'in-internal/monitoringUnit/dataRetrieval';
@@ -19,7 +20,7 @@ import connectTo from 'in-hoc/connectTo';
 
 const cols = [
   {
-    title: 'Host',
+    title: t('in-internal:monitoringUnit.sre.host'),
     type: 'snapshotLink',
     typeArgs: {
       pathname: physicalDashboardPath,
@@ -29,7 +30,7 @@ const cols = [
     }
   },
   {
-    title: 'User',
+    title: t('in-internal:monitoringUnit.sre.user'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -45,7 +46,7 @@ const cols = [
     }
   },
   {
-    title: 'System',
+    title: t('in-internal:monitoringUnit.sre.system'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -61,7 +62,7 @@ const cols = [
     }
   },
   {
-    title: 'Wait',
+    title: t('in-internal:monitoringUnit.sre.wait'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -77,7 +78,7 @@ const cols = [
     }
   },
   {
-    title: 'Nice',
+    title: t('in-internal:monitoringUnit.sre.nice'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -93,7 +94,7 @@ const cols = [
     }
   },
   {
-    title: 'Steal',
+    title: t('in-internal:monitoringUnit.sre.steal'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -126,7 +127,7 @@ export default connectTo(
     return (
       <div>
         <Columize>
-          <DashboardSection title={`Messages`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.sre.acceptors.messages')}>
             <Chart
               snapshotIds={acceptors.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -140,7 +141,7 @@ export default connectTo(
             />
           </DashboardSection>
 
-          <DashboardSection title={`Dropped/denied messages`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.sre.acceptors.droppedDeniedMsg')}>
             <Chart
               snapshotIds={acceptors.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -154,7 +155,7 @@ export default connectTo(
             />
           </DashboardSection>
 
-          <DashboardSection title={`IP filtered messages (should be 0)`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.sre.acceptors.ipFilterMsg0')}>
             <Chart
               snapshotIds={acceptors.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -170,7 +171,7 @@ export default connectTo(
         </Columize>
 
         <Columize>
-          <DashboardSection title={`Kafka - span messages error rate`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.sre.acceptors.kafkaSpanMsgErrRate')}>
             <Chart
               snapshotIds={acceptors.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -184,7 +185,7 @@ export default connectTo(
             />
           </DashboardSection>
 
-          <DashboardSection title={`Kafka - # span message errors`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.sre.acceptors.kafkaSpanMsgErr')}>
             <Chart
               snapshotIds={acceptors.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -200,7 +201,7 @@ export default connectTo(
         </Columize>
 
         <Columize>
-          <DashboardSection title={`Network - data received`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.sre.acceptors.networkDataReceived')}>
             <Chart
               snapshotIds={acceptors.map(r => r.host.get('id'))}
               timeConfig={timeConfig}
@@ -214,7 +215,7 @@ export default connectTo(
             />
           </DashboardSection>
 
-          <DashboardSection title={`Network - data transmitted`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.sre.acceptors.networkDataTransmit')}>
             <Chart
               snapshotIds={acceptors.map(r => r.host.get('id'))}
               timeConfig={timeConfig}
@@ -230,7 +231,7 @@ export default connectTo(
         </Columize>
 
         <Columize>
-          <DashboardSection title={`CPU load`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.sre.acceptors.cpuLoad')}>
             <Chart
               snapshotIds={acceptors.map(r => r.host.get('id'))}
               timeConfig={timeConfig}
@@ -246,7 +247,7 @@ export default connectTo(
             />
           </DashboardSection>
 
-          <DashboardSection title={`Hosts (${acceptors.length})`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.sre.acceptors.hostsAcceptorsLen', { acceptorLen: acceptors.length})}>
             <Table cols={cols} rows={acceptors} getRowDetails={getRowDetails} />
           </DashboardSection>
         </Columize>
@@ -266,7 +267,7 @@ function getLabels(rows, regexp) {
 function getRowDetails(row) {
   return (
     <Fragment>
-      <DashboardSection title="CPU Usage">
+      <DashboardSection title={t('in-internal:monitoringUnit.sre.acceptors.cpuUsage')}>
         <Chart
           snapshotId={row.host.get('id')}
           timeConfig={row.timeConfig}
@@ -275,7 +276,7 @@ function getRowDetails(row) {
             max: 1,
             formatter: percentageZeroDecimalPlaces,
             metrics: ['cpu.user', 'cpu.sys', 'cpu.wait', 'cpu.nice', 'cpu.steal'],
-            labels: ['User', 'System', 'Wait', 'Nice', 'Steal'],
+            labels: [t('in-internal:monitoringUnit.sre.user'), t('in-internal:monitoringUnit.sre.system'), t('in-internal:monitoringUnit.sre.wait'), t('in-internal:monitoringUnit.sre.nice'), t('in-internal:monitoringUnit.sre.steal')],
             type: 'stackedArea'
           }}
         />

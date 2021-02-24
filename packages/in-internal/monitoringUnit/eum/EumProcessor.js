@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { getDropwizardWithContext } from 'in-internal/monitoringUnit/dataRetrieval';
@@ -32,7 +33,7 @@ export default connectTo(
       <div>
         <h1>eum-processor</h1>
 
-        <DashboardSection title={`Host CPU load`}>
+        <DashboardSection title={t('in-internal:monitoringUnit.eum.eumProcessor.hostCpuLoad')}>
           <Chart
             snapshotIds={rows.map(r => r.host.get('id'))}
             timeConfig={timeConfig}
@@ -48,7 +49,7 @@ export default connectTo(
         </DashboardSection>
 
         <Columize>
-          <DashboardSection title={`Incoming Website Beacons`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.eum.eumProcessor.incomingWebsiteBeacon')}>
             <Chart
               snapshotIds={rows.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -62,7 +63,7 @@ export default connectTo(
             />
           </DashboardSection>
 
-          <DashboardSection title={`Failed Incoming Website Beacons`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.eum.eumProcessor.failIncomingWebsiteBeacon')}>
             <Chart
               snapshotIds={rows.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -78,7 +79,7 @@ export default connectTo(
         </Columize>
 
         <Columize>
-          <DashboardSection title={`Outgoing Processed Website Beacons`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.eum.eumProcessor.outgoingProcessWebsiteBeacon')}>
             <Chart
               snapshotIds={rows.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -92,7 +93,7 @@ export default connectTo(
             />
           </DashboardSection>
 
-          <DashboardSection title={`Failed Outgoing Processed Website Beacons`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.eum.eumProcessor.failOutgoingProcessedWebsiteBeacon')}>
             <Chart
               snapshotIds={rows.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}

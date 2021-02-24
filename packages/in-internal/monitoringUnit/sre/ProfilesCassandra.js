@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import {
@@ -38,9 +39,9 @@ export default connectTo(
     return (
       <Row>
         <Col xs={12}>
-          <h2>Profiles Cassandra ({profilesNodes.length} nodes)</h2>
+          <h2>{t('in-internal:monitoringUnit.sre.commonCassandra.profilesCassandraNode', { count: profilesNodes.length})}</h2>
 
-          <DashboardSection title={`Writes`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.sre.commonCassandra.writes')}>
             <Chart
               snapshotIds={profilesNodes.map(r => r.cassandra.get('id'))}
               timeConfig={timeConfig}
@@ -55,7 +56,7 @@ export default connectTo(
             />
           </DashboardSection>
 
-          <DashboardSection title={`Reads`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.sre.commonCassandra.reads')}>
             <Chart
               snapshotIds={profilesNodes.map(r => r.cassandra.get('id'))}
               timeConfig={timeConfig}
@@ -70,7 +71,7 @@ export default connectTo(
             />
           </DashboardSection>
 
-          <DashboardSection title="Pending Compactions">
+          <DashboardSection title={t('in-internal:monitoringUnit.sre.commonCassandra.pendingCompactions')}>
             <Chart
               snapshotIds={profilesNodes.map(r => r.cassandra.get('id'))}
               timeConfig={timeConfig}
@@ -84,7 +85,7 @@ export default connectTo(
             />
           </DashboardSection>
 
-          <DashboardSection title={`Network - data received`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.sre.commonCassandra.networkDataRecv')}>
             <Chart
               snapshotIds={profilesNodes.map(r => r.host.get('id'))}
               timeConfig={timeConfig}
@@ -98,7 +99,7 @@ export default connectTo(
             />
           </DashboardSection>
 
-          <DashboardSection title={`Network - data transmitted`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.sre.commonCassandra.networkDataTransmit')}>
             <Chart
               snapshotIds={profilesNodes.map(r => r.host.get('id'))}
               timeConfig={timeConfig}
@@ -112,7 +113,7 @@ export default connectTo(
             />
           </DashboardSection>
 
-          <DashboardSection title={`CPU load`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.sre.commonCassandra.cpuLoad')}>
             <Chart
               snapshotIds={profilesNodes.map(r => r.host.get('id'))}
               timeConfig={timeConfig}
@@ -128,11 +129,11 @@ export default connectTo(
             />
           </DashboardSection>
 
-          <DashboardSection title={`CPU Usage`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.sre.commonCassandra.cpuLoad')}>
             <Table cols={hostTableCols} rows={profilesNodes} getRowDetails={getHostDetails} maxItemsPerPage={15} />
           </DashboardSection>
 
-          <DashboardSection title="Data mounts">
+          <DashboardSection title={t('in-internal:monitoringUnit.sre.commonCassandra.dataMount')}>
             <Table
               cols={volumeTableCols}
               rows={getDataMountRows(profilesNodes, timeConfig)}

@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import React, { Fragment } from 'react';
+import { t } from 'in-i18n';
 import { compose } from 'recompose';
 
 import EntityWithParentInformation from 'in-events/components/EntityInformation/EntityWithParentInformation';
@@ -55,7 +56,7 @@ function InternalEventsList(props) {
 
   return (
     <div className={locals.wrapper}>
-      <h1 className={locals.header}>Internal Events</h1>
+      <h1 className={locals.header}>{t('in-internal:monitoringUnit.thisUnit.internalEvents.internalEvent')}</h1>
 
       {items.map(event => (
         <Row key={event.id} verticallyStretchColumns>
@@ -75,7 +76,7 @@ function InternalEventsList(props) {
               loadMore();
             }}
           >
-            Load More
+            {t('in-internal:monitoringUnit.thisUnit.internalEvents.loadMore')}
           </Button>
         </div>
       )}
@@ -86,7 +87,7 @@ function InternalEventsList(props) {
 function Event({ event, timeConfig }) {
   const cardPreview = (
     <>
-      <Tooltip align="topMiddle" content="Triggering time of issue">
+      <Tooltip align="topMiddle" content={t('in-internal:monitoringUnit.thisUnit.internalEvents.triggerTimeIssue')}>
         <span className={locals.duration}>{formatDateTime(event.triggeringTime)}</span>
       </Tooltip>
       <span className={locals.title}>{event.type + ' - ' + event.state}</span>
@@ -97,7 +98,7 @@ function Event({ event, timeConfig }) {
     <ExpandableCard title={cardPreview} framed openByDefault={false}>
       <Row verticallyStretchColumns>
         <Col lg={1}>
-          <span className={locals.title}>Issue link:</span>
+          <span className={locals.title}>{t('in-internal:monitoringUnit.thisUnit.internalEvents.issueLink')}</span>
         </Col>
         <Col>
           <Link
@@ -126,7 +127,7 @@ function Event({ event, timeConfig }) {
         <Fragment>
           <Row verticallyStretchColumns>
             <Col lg={1}>
-              <span className={locals.title}>Category:</span>
+              <span className={locals.title}>{t('in-internal:monitoringUnit.thisUnit.internalEvents.category')}</span>
             </Col>
             <Col>
               <span className={locals.text}>{event.metadata['agent_monitoring_category']}</span>
@@ -134,7 +135,7 @@ function Event({ event, timeConfig }) {
           </Row>
           <Row verticallyStretchColumns>
             <Col lg={1}>
-              <span className={locals.title}>Code:</span>
+              <span className={locals.title}>{t('in-internal:monitoringUnit.thisUnit.internalEvents.code')}</span>
             </Col>
             <Col>
               <span className={locals.text}>{event.metadata['agent_monitoring_code']}</span>

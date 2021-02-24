@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import React, { Fragment } from 'react';
+import { Trans, t } from 'in-i18n';
 import theme from 'in-themes';
 
 import { getDropwizardWithContext } from 'in-internal/monitoringUnit/dataRetrieval';
@@ -23,46 +24,41 @@ export default connectTo(
 
     return (
       <Fragment>
-        <DashboardSection title={`AppData-Processor Instances`}>
+        <DashboardSection title={t('in-internal:monitoringUnit.unit.appDataStatistic.appDataProcessorInstance')}>
           <Chart
             snapshotId={tenantUnitId}
             timeConfig={timeConfig}
             y1={{
               formatter: number.compact,
               metrics: [`appdata-processor.instances`],
-              labels: ['AppData-Processor Processor Instances'],
+              labels: [t('in-internal:monitoringUnit.unit.appDataStatistic.appDataProcessorInst')],
               type: 'stackedArea'
             }}
           />
         </DashboardSection>
 
-        <DashboardSection title={`Backend Span Dropping (sum across instances)`}>
+        <DashboardSection title={t('in-internal:monitoringUnit.unit.appDataStatistic.backendSpanDropSumAInstance')}>
           <ChartExplanation>
             <div>
-              Shows whether spans are being dropped and why:
+              {t('in-internal:monitoringUnit.unit.appDataStatistic.spanDropSumChartExplanation_1')}
               <ul>
                 <li>
-                  <b>Processed:</b> how many spans got successfully processed.
+                  <Trans i18nKey="in-internal:monitoringUnit.unit.appDataStatistic.spanDropSumChartExplanation_2" components={{ italic: <i />, bold: <strong /> }} />
                 </li>
                 <li>
-                  <b>Dropped due to global throttler:</b> dropped due to a global rate limiter (
-                  <i>config.hard.spans.rate.drop.threshold</i>).
+                  <Trans i18nKey="in-internal:monitoringUnit.unit.appDataStatistic.spanDropSumChartExplanation_3" components={{ italic: <i />, bold: <strong /> }} />
                 </li>
                 <li>
-                  <b>Dropped due to consistent dropping:</b> dropped because other spans of the same trace got dropped
-                  in the past , e.g. due to backpressure (ensure we drop all spans of a trace or none).
+                  <Trans i18nKey="in-internal:monitoringUnit.unit.appDataStatistic.spanDropSumChartExplanation_4" components={{ italic: <i />, bold: <strong /> }} />
                 </li>
                 <li>
-                  <b>Dropped due to backpressure:</b> dropped because of resource exhaustion (e.g. high CPU usage or one
-                  step of the pipeline is a bottleneck).
+                  <Trans i18nKey="in-internal:monitoringUnit.unit.appDataStatistic.spanDropSumChartExplanation_5" components={{ italic: <i />, bold: <strong /> }} />
                 </li>
                 <li>
-                  <b>Dropped hard due to backpressure (random dropping):</b> dropped because Kafka record is older than
-                  5 seconds.
+                  <Trans i18nKey="in-internal:monitoringUnit.unit.appDataStatistic.spanDropSumChartExplanation_6" components={{ italic: <i />, bold: <strong /> }} />
                 </li>
                 <li>
-                  <b>Dropped due to trace throttler:</b> dropped due to a rate limiter per trace (
-                  <i>config.hard.spans.per.trace.rate.drop.threshold</i>){' '}
+                  <Trans i18nKey="in-internal:monitoringUnit.unit.appDataStatistic.spanDropSumChartExplanation_7" components={{ italic: <i />, bold: <strong /> }} />{' '}
                 </li>
               </ul>
             </div>
@@ -75,7 +71,7 @@ export default connectTo(
               max: 1,
               formatter: percentage.detailed,
               metrics: [`appdata-processor.spanDropping`],
-              labels: ['Dropping rate'],
+              labels: [t('in-internal:monitoringUnit.unit.appDataStatistic.droppingRate')],
               type: 'line'
             }}
             y2={{
@@ -90,12 +86,12 @@ export default connectTo(
                 `appdata-processor.droppedSpansDueToPerTraceConfiguration`
               ],
               labels: [
-                'Processed',
-                'Dropped due to global throttler',
-                'Dropped due to consistent dropping',
-                'Dropped due to backpressure',
-                'Dropped hard due to backpressure (random dropping)',
-                'Dropped due to trace throttler'
+                t('in-internal:monitoringUnit.unit.appDataStatistic.processed'),
+                t('in-internal:monitoringUnit.unit.appDataStatistic.dropGlobalThrottler'),
+                t('in-internal:monitoringUnit.unit.appDataStatistic.dropConsistent'),
+                t('in-internal:monitoringUnit.unit.appDataStatistic.dropBackpressure'),
+                t('in-internal:monitoringUnit.unit.appDataStatistic.dropHardBackpressureRandom'),
+                t('in-internal:monitoringUnit.unit.appDataStatistic.dropTraceThrottler')
               ],
               colors: [
                 theme.lib.colors.success,
@@ -111,21 +107,20 @@ export default connectTo(
         </DashboardSection>
 
         {appdata_processor_instances.length > 1 && (
-          <DashboardSection title={`Backend Span Dropping (per instance)`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.unit.appDataStatistic.backendSpanDropPerInstance')}>
             <ChartExplanation>
-              <div>
-                When spans are dropped, it is important to look at individual instances.
+            <div>
+                {t('in-internal:monitoringUnit.unit.appDataStatistic.backendSpanDropInstChartExplanation_1')}
                 <ul>
-                  <li>All of the instances are dropping: scale out.</li>
+                  <li>{t('in-internal:monitoringUnit.unit.appDataStatistic.backendSpanDropInstChartExplanation_2')}</li>
                   <li>
-                    One or several instances are dropping (but not all): scaling out will not help.
+                    {t('in-internal:monitoringUnit.unit.appDataStatistic.backendSpanDropInstChartExplanation_3')}
                     <ul>
                       <li>
-                        Traces with a high throughput are being processed (sharding key is the trace id): adjust{' '}
-                        <i>config.hard.spans.per.trace.rate.drop.threshold</i>.
+                        <Trans i18nKey="in-internal:monitoringUnit.unit.appDataStatistic.backendSpanDropInstChartExplanation_4" components={{ italic: <i />, bold: <strong /> }} />
                       </li>
                       <li>
-                        CPU load is too high on the underlying host(s): assign instance to a less overloaded host.
+                        {t('in-internal:monitoringUnit.unit.appDataStatistic.backendSpanDropInstChartExplanation_5')}
                       </li>
                     </ul>
                   </li>
@@ -148,11 +143,10 @@ export default connectTo(
           </DashboardSection>
         )}
 
-        <DashboardSection title={`Span latency (mean across instances)`}>
+        <DashboardSection title={t('in-internal:monitoringUnit.unit.appDataStatistic.spanLatencyMeanInstance')}>
           <ChartExplanation>
             <div>
-              Delay in the agent: delay between the time a span was ended and the time it was sent from the agent to
-              acceptor.
+              {t('in-internal:monitoringUnit.unit.appDataStatistic.spanLatencyMeanInstChartExplanation')}
             </div>
           </ChartExplanation>
           <Chart
@@ -172,11 +166,10 @@ export default connectTo(
           />
         </DashboardSection>
 
-        <DashboardSection title={`Acceptor Rate-Limited Span Messages`}>
+        <DashboardSection title={t('in-internal:monitoringUnit.unit.appDataStatistic.acceptorRateLimitSpanMsg')}>
           <ChartExplanation>
             <div>
-              Number of span messages (a message contains multiple spans) dropped due to a rate per-tenant-unit limiter.
-              See <i>config.span.publish.rate.limit</i> (default: 25,000).
+            <Trans i18nKey="in-internal:monitoringUnit.unit.appDataStatistic.acceptorRateLimitSpanhartExplan" components={{ italic: <i />, bold: <strong /> }} />
             </div>
           </ChartExplanation>
           <Chart
@@ -185,17 +178,16 @@ export default connectTo(
             y1={{
               formatter: number.compact,
               metrics: [`acceptor.droppedSpanMessagesRateLimited`],
-              labels: ['Acceptor Dropped Span Messages'],
+              labels: [t('in-internal:monitoringUnit.unit.appDataStatistic.acceptorDropSpanMsg')],
               type: 'stackedArea'
             }}
           />
         </DashboardSection>
 
-        <DashboardSection title={`Serverless Acceptor Rate-Limited Span Messages`}>
+        <DashboardSection title={t('in-internal:monitoringUnit.unit.appDataStatistic.srvlessAcceptorRateLimitSpanMsg')}>
           <ChartExplanation>
             <div>
-              Number of span messages (a message contains multiple spans) dropped due to a rate per-tenant-unit limiter.
-              See <i>config.span.publish.rate.limit</i> (default: 25,000).
+            {t('in-internal:monitoringUnit.unit.appDataStatistic.acceptorRateLimitSpanhartExplan')}
             </div>
           </ChartExplanation>
           <Chart
@@ -204,7 +196,7 @@ export default connectTo(
             y1={{
               formatter: number.compact,
               metrics: [`serverless-acceptor.droppedSpanMessagesRateLimited`],
-              labels: ['Serverless Acceptor Dropped Span Messages'],
+              labels: [t('in-internal:monitoringUnit.unit.appDataStatistic.srvlessAcceptorDropSpanMsg')],
               type: 'stackedArea'
             }}
           />

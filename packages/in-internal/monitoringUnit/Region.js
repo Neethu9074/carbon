@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import React, { Fragment } from 'react';
+import { t } from 'in-i18n';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
@@ -19,7 +20,7 @@ export default connectTo(
   function Region({ timeConfig }) {
     return (
       <Fragment>
-        <DashboardSection title="Units">
+        <DashboardSection title={t('in-internal:monitoringUnit.region.units')}>
           <Chart
             snapshotId={ID_OF_REGION}
             timeConfig={timeConfig}
@@ -27,7 +28,7 @@ export default connectTo(
               min: 0,
               formatter: number.compact,
               metrics: ['units'],
-              labels: ['Units'],
+              labels: [t('in-internal:monitoringUnit.region.units')],
               type: 'stackedArea'
             }}
           />
@@ -35,7 +36,7 @@ export default connectTo(
 
         <Row>
           <Col lg={6}>
-            <DashboardSection title="Infrastructure Entity Monitoring">
+            <DashboardSection title={t('in-internal:monitoringUnit.region.infraEntityMonitor')}>
               <Chart
                 snapshotId={ID_OF_REGION}
                 timeConfig={timeConfig}
@@ -43,21 +44,21 @@ export default connectTo(
                   min: 0,
                   formatter: number.compact,
                   metrics: ['entities'],
-                  labels: ['Entities'],
+                  labels: [t('in-internal:monitoringUnit.region.entities')],
                   type: 'stackedArea'
                 }}
                 y2={{
                   min: 0,
                   formatter: number.compact,
                   metrics: ['hosts', 'processes', 'containers'],
-                  labels: ['Hosts', 'Processes', 'Containers'],
+                  labels: [t('in-internal:monitoringUnit.region.hosts'), t('in-internal:monitoringUnit.region.processes'), t('in-internal:monitoringUnit.region.containers')],
                   type: 'line'
                 }}
               />
             </DashboardSection>
           </Col>
           <Col lg={6}>
-            <DashboardSection title="Infrastructure Metric Monitoring">
+            <DashboardSection title={t('in-internal:monitoringUnit.region.infraMetricMonitoring')}>
               <Chart
                 snapshotId={ID_OF_REGION}
                 timeConfig={timeConfig}
@@ -65,7 +66,7 @@ export default connectTo(
                   min: 0,
                   formatter: number.compact,
                   metrics: ['metrics'],
-                  labels: ['Metrics'],
+                  labels: [t('in-internal:monitoringUnit.region.metrics')],
                   type: 'stackedArea'
                 }}
               />
@@ -73,7 +74,7 @@ export default connectTo(
           </Col>
         </Row>
 
-        <DashboardSection title="Application Monitoring">
+        <DashboardSection title={t('in-internal:monitoringUnit.region.appMonitoring')}>
           <Chart
             snapshotId={ID_OF_REGION}
             timeConfig={timeConfig}
@@ -81,7 +82,7 @@ export default connectTo(
               min: 0,
               formatter: number.compact,
               metrics: ['acceptedSpans', 'processedSpans'],
-              labels: ['Accepted Spans', 'Processed Spans'],
+              labels: [t('in-internal:monitoringUnit.region.acceptedSpans'), t('in-internal:monitoringUnit.region.processedSpans')],
               type: 'line'
             }}
           />
@@ -89,7 +90,7 @@ export default connectTo(
 
         <Row>
           <Col lg={6}>
-            <DashboardSection title="Website Monitoring">
+            <DashboardSection title={t('in-internal:monitoringUnit.region.websiteMonitoring')}>
               <Chart
                 snapshotId={ID_OF_REGION}
                 timeConfig={timeConfig}
@@ -97,14 +98,14 @@ export default connectTo(
                   min: 0,
                   formatter: number.compact,
                   metrics: ['acceptedBeacons', 'processedBeacons'],
-                  labels: ['Accepted Beacons', 'Processed Beacons'],
+                  labels: [t('in-internal:monitoringUnit.region.acceptedBeacons'), t('in-internal:monitoringUnit.region.processedBeacons')],
                   type: 'line'
                 }}
               />
             </DashboardSection>
           </Col>
           <Col lg={6}>
-            <DashboardSection title="Mobile App Monitoring">
+            <DashboardSection title={t('in-internal:monitoringUnit.region.mobileAppMonitoring')}>
               <Chart
                 snapshotId={ID_OF_REGION}
                 timeConfig={timeConfig}
@@ -112,7 +113,7 @@ export default connectTo(
                   min: 0,
                   formatter: number.compact,
                   metrics: ['acceptedMobileBeacons', 'processedMobileBeacons'],
-                  labels: ['Accepted Beacons', 'Processed Beacons'],
+                  labels: [t('in-internal:monitoringUnit.region.acceptedBeacons'), t('in-internal:monitoringUnit.region.processedBeacons')],
                   type: 'line'
                 }}
               />
@@ -120,7 +121,7 @@ export default connectTo(
           </Col>
         </Row>
 
-        <DashboardSection title="Profile Monitoring">
+        <DashboardSection title={t('in-internal:monitoringUnit.region.profileMonitoring')}>
           <Chart
             snapshotId={ID_OF_REGION}
             timeConfig={timeConfig}
@@ -128,7 +129,7 @@ export default connectTo(
               min: 0,
               formatter: number.compact,
               metrics: ['acceptedProfiles'],
-              labels: ['Accepted Profiles'],
+              labels: [t('in-internal:monitoringUnit.region.acceptedProfiles')],
               type: 'line'
             }}
           />

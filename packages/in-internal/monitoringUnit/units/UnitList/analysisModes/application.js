@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import React, { Fragment } from 'react';
+import { t } from 'in-i18n';
 
 import { unitColumn } from 'in-internal/monitoringUnit/units/UnitList/analysisModes/common';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
@@ -18,7 +19,7 @@ export default {
     unitColumn,
     {
       id: 'Appdata-processor Instances',
-      title: 'Appdata-processor Instances',
+      title: t('in-internal:monitoringUnit.units.application.appdataProcessorInstance'),
       type: 'metric',
       typeArgs: {
         getSnapshotId(row) {
@@ -36,7 +37,7 @@ export default {
     },
     {
       id: 'spanDropping',
-      title: 'Backend Dropped Spans',
+      title: t('in-internal:monitoringUnit.units.application.backendDropSpans'),
       type: 'metric',
       typeArgs: {
         getSnapshotId(row) {
@@ -54,7 +55,7 @@ export default {
     },
     {
       id: 'processedSpans',
-      title: 'Processed Spans',
+      title: t('in-internal:monitoringUnit.units.application.processSpan'),
       type: 'metric',
       typeArgs: {
         getSnapshotId(row) {
@@ -72,7 +73,7 @@ export default {
     },
     {
       id: 'droppedSpansDueToConfiguration',
-      title: 'Dropped Spans Due To Configuration',
+      title: t('in-internal:monitoringUnit.units.application.dropSpansConfig'),
       type: 'metric',
       typeArgs: {
         getSnapshotId(row) {
@@ -90,7 +91,7 @@ export default {
     },
     {
       id: 'droppedSpansDueToBackpressure',
-      title: 'Dropped Spans Due To Backpressure',
+      title: t('in-internal:monitoringUnit.units.application.dropSpansBackpressure'),
       type: 'metric',
       typeArgs: {
         getSnapshotId(row) {
@@ -108,7 +109,7 @@ export default {
     },
     {
       id: 'droppedSpansDueToHardBackpressure',
-      title: 'Dropped Spans Due To Backpressure (lag hard drop)',
+      title: t('in-internal:monitoringUnit.units.application.dropSpansBackpressureLagHardDrop'),
       type: 'metric',
       typeArgs: {
         getSnapshotId(row) {
@@ -126,7 +127,7 @@ export default {
     },
     {
       id: 'droppedSpansDueToConsistentDropping',
-      title: 'Dropped Spans Due To Consistent Dropping',
+      title: t('in-internal:monitoringUnit.units.application.dropSpansDConsistentDrop'),
       type: 'metric',
       typeArgs: {
         getSnapshotId(row) {
@@ -144,7 +145,7 @@ export default {
     },
     {
       id: 'spanLatencyMean',
-      title: 'Span Latency (Mean)',
+      title: t('in-internal:monitoringUnit.units.application.spanLatencyMean'),
       type: 'metric',
       typeArgs: {
         getSnapshotId(row) {
@@ -162,7 +163,7 @@ export default {
     },
     {
       id: 'spanLatency99th',
-      title: 'Span Latency (99th)',
+      title: t('in-internal:monitoringUnit.units.application.spanLatency99'),
       type: 'metric',
       typeArgs: {
         getSnapshotId(row) {
@@ -180,7 +181,7 @@ export default {
     },
     {
       id: 'acceptorDroppedSpanMessagesRateLimited',
-      title: 'Acceptor Dropped Span Messages (Rate Limit)',
+      title: t('in-internal:monitoringUnit.units.application.acceptorDropSpanMsgRateLimit'),
       type: 'metric',
       typeArgs: {
         getSnapshotId(row) {
@@ -198,7 +199,7 @@ export default {
     },
     {
       id: 'serverlessAcceptorDroppedSpanMessagesRateLimited',
-      title: 'Serverless-Acceptor Dropped Span Messages (Rate Limit)',
+      title: t('in-internal:monitoringUnit.units.application.srvlessAcceptorDropSpanMsgRateLimit'),
       type: 'metric',
       typeArgs: {
         getSnapshotId(row) {
@@ -227,7 +228,7 @@ export default {
               max: 1,
               formatter: percentage.detailed,
               metrics: [`appdata-processor.spanDropping`],
-              labels: ['Dropping rate'],
+              labels: [t('in-internal:monitoringUnit.units.application.dropRate')],
               type: 'line'
             }}
             y2={{
@@ -242,12 +243,12 @@ export default {
                 `appdata-processor.droppedSpansDueToPerTraceConfiguration`
               ],
               labels: [
-                'Processed',
-                'Dropped due to global throttler',
-                'Dropped due to consistent dropping',
-                'Dropped due to backpressure',
-                'Dropped hard due to backpressure (random dropping)',
-                'Dropped due to trace throttler'
+                t('in-internal:monitoringUnit.units.application.processed'),
+                t('in-internal:monitoringUnit.units.application.dropGlobalThrottler'),
+                t('in-internal:monitoringUnit.units.application.dropConsistentDrop'),
+                t('in-internal:monitoringUnit.units.application.dropBackpressure'),
+                t('in-internal:monitoringUnit.units.application.droppedHardBackpressureRandomDrop'),
+                t('in-internal:monitoringUnit.units.application.dropTraceThrottler')
               ],
               colors: [
                 theme.lib.colors.success,
@@ -273,7 +274,7 @@ export default {
                 `appdata-processor.spanLatency.50th`,
                 `appdata-processor.spanLatency.99th`
               ],
-              labels: ['Span Latency (mean)', 'Span Latency (50th)', 'Span Latency (99th)'],
+              labels: [t('in-internal:monitoringUnit.units.application.spanLatencyMean'), t('in-internal:monitoringUnit.units.application.spanLatency50t'), t('in-internal:monitoringUnit.units.application.spanLatency99')],
               type: 'lines'
             }}
           />
@@ -290,8 +291,8 @@ export default {
                 `serverless-acceptor.droppedSpanMessagesRateLimited`
               ],
               labels: [
-                'Acceptor Dropped Span Messages (Rate Limit)',
-                'Serverless-Acceptor Dropped Span Messages (Rate Limit)'
+                t('in-internal:monitoringUnit.units.application.acceptorDropSpanMsgsRateLimit'),
+                t('in-internal:monitoringUnit.units.application.serverlessAcceptorDropSpanMsgRateLimit')
               ],
               colors: [theme.lib.colors.red800, theme.lib.colors.orange800],
               type: 'stackedArea'
