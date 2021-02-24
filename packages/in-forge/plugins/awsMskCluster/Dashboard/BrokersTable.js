@@ -22,24 +22,6 @@ const cols = [
     }
   },
   {
-    title: 'Type',
-    type: 'string',
-    typeArgs: {
-      getValue(row) {
-        return row.broker.getIn(['data', 'nodeType']);
-      }
-    }
-  },
-  {
-    title: 'Instance',
-    type: 'string',
-    typeArgs: {
-      getValue(row) {
-        return row.broker.getIn(['data', 'instanceType']);
-      }
-    }
-  },
-  {
     title: 'Leaders',
     type: 'sparkChart',
     typeArgs: {
