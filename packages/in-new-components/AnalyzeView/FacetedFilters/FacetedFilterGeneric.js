@@ -11,6 +11,7 @@ import { TAG } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import SearchInput from 'in-new-components/SearchInput/SearchInput';
 import { pendingResult } from 'in-services/fixedObjects';
+import { identity } from 'in-services/util/function';
 import { mapDataHO } from 'in-services/util/result';
 import Stack from 'in-new-components/layout/Stack';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -29,7 +30,8 @@ export default function FacetedFilterGeneric({
   getHrefToGroupedView,
   openByDefault,
   dataSource,
-  getSuggestions
+  getSuggestions,
+  customLabelMapper
 }) {
   return (
     <FacetedExpandableCard title={title} openByDefault={openByDefault}>
@@ -42,6 +44,7 @@ export default function FacetedFilterGeneric({
         getHrefToGroupedView={getHrefToGroupedView}
         dataSource={dataSource}
         getSuggestions={getSuggestions}
+        customLabelMapper={customLabelMapper}
       />
     </FacetedExpandableCard>
   );
@@ -56,7 +59,8 @@ function Body({
   getUpdatedTagExpressionHref,
   getHrefToGroupedView,
   dataSource,
-  getSuggestions
+  getSuggestions,
+  customLabelMapper
 }) {
   const [valueFilter, setValueFilter] = useState('');
   const selectedValues = getExistingValuesForTag(formModel, tag, entity);
@@ -68,6 +72,7 @@ function Body({
         tag={tag}
         entity={entity}
         getUpdatedTagExpressionHref={getUpdatedTagExpressionHref}
+        customLabelMapper={customLabelMapper}
       />
     );
   }
@@ -82,17 +87,18 @@ function Body({
       setValueFilter={setValueFilter}
       dataSource={dataSource}
       getSuggestions={getSuggestions}
+      customLabelMapper={customLabelMapper}
     />
   );
 }
 
-function ExistingFilters({ selectedValues, tag, entity, getUpdatedTagExpressionHref }) {
+function ExistingFilters({ selectedValues, tag, entity, getUpdatedTagExpressionHref, customLabelMapper = identity }) {
   return (
     <Stack space="small">
       {selectedValues.map((value, i) => (
         <ExistingValue
           key={i}
-          value={value}
+          value={customLabelMapper(value)}
           removeLink={getUpdatedTagExpressionHref({
             remove: [
               {
@@ -119,7 +125,8 @@ function SearchAndSuggestions({
   valueFilter,
   setValueFilter,
   dataSource,
-  getSuggestions
+  getSuggestions,
+  customLabelMapper = identity
 }) {
   const timeConfig = useTimeConfig();
   const valueRegex = new RegExp(valueFilter.split('').join('.*'), 'i');
@@ -128,7 +135,7 @@ function SearchAndSuggestions({
       getSuggestions(tag).map(
         mapDataHO(data => ({
           ...data,
-          items: data.items.filter(suggestion => valueRegex.test(suggestion.name))
+          items: data.items.filter(suggestion => valueRegex.test(customLabelMapper(suggestion.name)))
         }))
       ),
       [formModel, hiddenCalls, tag, valueFilter, dataSource, timeConfig]
@@ -148,6 +155,7 @@ function SearchAndSuggestions({
         getUpdatedTagExpressionHref={getUpdatedTagExpressionHref}
         getHrefToGroupedView={getHrefToGroupedView}
         tag={tag}
+        customLabelMapper={customLabelMapper}
       />
     </Stack>
   );

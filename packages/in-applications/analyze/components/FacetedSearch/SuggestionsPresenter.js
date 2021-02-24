@@ -10,6 +10,7 @@ import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import { dataSourceConstants } from 'in-applications/analyze/metrics';
 import Skeleton from 'in-new-components/Loading/Skeleton';
 import { number } from 'in-services/formatters/number';
+import { identity } from 'in-services/util/function';
 import Message from 'in-new-components/Message';
 import Button from 'in-new-components/Button';
 import Tooltip from 'in-components/Tooltip';
@@ -29,7 +30,8 @@ export default function SuggestionsPresenter({
   entity,
   updateFilter,
   updateGroup,
-  dataSource
+  dataSource,
+  customLabelMapper
 }) {
   const [numberOfPresentedRows, setNumberOfPresentedRows] = useState(DEFAULT_SUGGESTIONS_SIZE);
   if (loading) {
@@ -48,6 +50,7 @@ export default function SuggestionsPresenter({
         updateGroup={updateGroup}
         dataSource={dataSource}
         setNumberOfPresentedRows={setNumberOfPresentedRows}
+        customLabelMapper={customLabelMapper}
       />
     );
   } else {
@@ -73,7 +76,16 @@ function Errors({ errors }) {
   ));
 }
 
-function Results({ suggestions, tag, entity, updateFilter, updateGroup, dataSource, setNumberOfPresentedRows }) {
+function Results({
+  suggestions,
+  tag,
+  entity,
+  updateFilter,
+  updateGroup,
+  dataSource,
+  setNumberOfPresentedRows,
+  customLabelMapper = identity
+}) {
   const [showMore, setShowMore] = useState(DEFAULT_SUGGESTIONS_SIZE);
   const nextBatch = Math.min(suggestions.length - showMore, 20);
   const presentedSuggestions = sortBy(
@@ -89,7 +101,15 @@ function Results({ suggestions, tag, entity, updateFilter, updateGroup, dataSour
     <>
       {presentedSuggestions.map((suggestion, i) => (
         <div key={i} className={locals.suggestion}>
-          <Tooltip content={suggestion.label} align="rightMiddle" delay={1000}>
+          <Tooltip
+            content={
+              customLabelMapper === identity
+                ? customLabelMapper(suggestion.label)
+                : `${customLabelMapper(suggestion.label)} (${suggestion.label})`
+            }
+            align="rightMiddle"
+            delay={1000}
+          >
             <Link
               onClick={() =>
                 updateFilter({
@@ -105,7 +125,7 @@ function Results({ suggestions, tag, entity, updateFilter, updateGroup, dataSour
               }
               className={locals.addSuggestion}
             >
-              <span className={locals.label}>{suggestion.label}</span>
+              <span className={locals.label}>{customLabelMapper(suggestion.label)}</span>
               <span className={locals.count}>
                 {number.compact(suggestion.metrics[dataSourceConstants[dataSource].metricKey][0][1])}
               </span>

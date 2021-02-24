@@ -12,6 +12,7 @@ import { dataSourceConstants } from 'in-applications/analyze/metrics';
 import ExistingValue, { existingValuesForTag } from './ExistingValue';
 import SearchInput from 'in-new-components/SearchInput/SearchInput';
 import SuggestionsPresenter from './SuggestionsPresenter';
+import { identity } from 'in-services/util/function';
 import { mapDataHO } from 'in-services/util/result';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import useObservable from 'in-hooks/useObservable';
@@ -27,7 +28,8 @@ export default function FacetedFilterGeneric({
   hiddenCalls,
   updateFilter,
   updateGroup,
-  dataSource
+  dataSource,
+  customLabelMapper
 }) {
   return (
     <FacetedExpandableCard title={title}>
@@ -39,12 +41,23 @@ export default function FacetedFilterGeneric({
         updateFilter={updateFilter}
         updateGroup={updateGroup}
         dataSource={dataSource}
+        customLabelMapper={customLabelMapper}
       />
     </FacetedExpandableCard>
   );
 }
 
-function Body({ tagFilterExpression, tag, entity, title, hiddenCalls, updateFilter, updateGroup, dataSource }) {
+function Body({
+  tagFilterExpression,
+  tag,
+  entity,
+  title,
+  hiddenCalls,
+  updateFilter,
+  updateGroup,
+  dataSource,
+  customLabelMapper
+}) {
   const [valueFilter, setValueFilter] = useState('');
 
   const selectedValues = existingValuesForTag(tagFilterExpression, tag, entity);
@@ -66,6 +79,7 @@ function Body({ tagFilterExpression, tag, entity, title, hiddenCalls, updateFilt
             ]
           })
         }
+        customLabelMapper={customLabelMapper}
       />
     );
   }
@@ -80,15 +94,16 @@ function Body({ tagFilterExpression, tag, entity, title, hiddenCalls, updateFilt
       valueFilter={valueFilter}
       setValueFilter={setValueFilter}
       dataSource={dataSource}
+      customLabelMapper={customLabelMapper}
     />
   );
 }
 
-function ExistingFilters({ selectedValues, remove }) {
+function ExistingFilters({ selectedValues, remove, customLabelMapper = identity }) {
   return (
     <>
       {selectedValues.map((value, i) => (
-        <ExistingValue key={i} value={value} remove={() => remove(value)} />
+        <ExistingValue key={i} value={customLabelMapper(value)} remove={() => remove(value)} />
       ))}
     </>
   );
@@ -103,7 +118,8 @@ function SearchAndSuggestions({
   updateGroup,
   valueFilter,
   setValueFilter,
-  dataSource
+  dataSource,
+  customLabelMapper
 }) {
   const timeConfig = useTimeConfig();
   const suggestionsFromServer = () =>
@@ -123,7 +139,7 @@ function SearchAndSuggestions({
     suggestionsFromServer().map(
       mapDataHO(data => ({
         ...data,
-        results: data.results.filter(suggestion => valueRegex.test(suggestion.label))
+        results: data.results.filter(suggestion => valueRegex.test(customLabelMapper(suggestion.label)))
       }))
     ),
     [tagFilterExpression, hiddenCalls, tag, valueFilter, dataSource, timeConfig]
@@ -142,6 +158,7 @@ function SearchAndSuggestions({
         tag={tag}
         entity={entity}
         dataSource={dataSource}
+        customLabelMapper={customLabelMapper}
       />
     </>
   );
