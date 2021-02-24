@@ -107,7 +107,10 @@ export default connectTo({ timeConfig: timeConfig$, isInternalVisible: isInterna
                     description={t('in-internal:components.landing.sloCheckCompDatastoresExpectedBounds')}
                   >
                     <LinkList>
-                      <LinkListItem label={t('in-internal:components.landing.violations')} description={t('in-internal:components.landing.inspectSLObreakingViolating')}>
+                      <LinkListItem
+                        label={t('in-internal:components.landing.violations')}
+                        description={t('in-internal:components.landing.inspectSLObreakingViolating')}
+                      >
                         <LinkList>
                           <LinkListItem
                             label={t('in-internal:components.landing.groupedView')}
@@ -369,7 +372,7 @@ export default connectTo({ timeConfig: timeConfig$, isInternalVisible: isInterna
                       <LinkListItem
                         label="ElasticsearchNG"
                         href$={getModifiedUrlStream(
-                        params => (params.pathname = '/internal/monitoringUnit/sre/elasticng')
+                          params => (params.pathname = '/internal/monitoringUnit/sre/elasticng')
                         )}
                       />
                       <LinkListItem
@@ -401,9 +404,7 @@ export default connectTo({ timeConfig: timeConfig$, isInternalVisible: isInterna
             <Row>
               <Col lg={12}>
                 <Card title={t('in-internal:components.landing.tip')}>
-                  <p className={locals.tip}>
-                    {t('in-internal:components.landing.internalMonitoringUnitInstanaEmail')}
-                  </p>
+                  <p className={locals.tip}>{t('in-internal:components.landing.internalMonitoringUnitInstanaEmail')}</p>
                 </Card>
               </Col>
             </Row>
@@ -411,7 +412,12 @@ export default connectTo({ timeConfig: timeConfig$, isInternalVisible: isInterna
 
           <Row>
             <Col lg={12}>
-              <Card title={t('in-internal:components.landing.thisTenantUnit',{configTenant: config.tenant, configTenantUnit: config.tenantUnit})}> 
+              <Card
+                title={t('in-internal:components.landing.thisTenantUnit', {
+                  configTenant: config.tenant,
+                  configTenantUnit: config.tenantUnit
+                })}
+              >
                 <LinkList>
                   <LinkListItem
                     label={t('in-internal:components.landing.entityStatistics')}

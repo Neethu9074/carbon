@@ -1,7 +1,4 @@
 {
-  "productAreaEvents": "Events",
-  "pageRootNameEvent": "Event",
-  "pageRootNameEventsList": "Events List",
   "affectedEntities": {
     "name": "Name",
     "violatedCalls": "Violated Calls",

@@ -106,7 +106,8 @@ export function MetricsForAxis({
   axisName,
   startIndex,
   getShortMetricKey,
-  helpText = t('in-custom-dashboards:widgets.formCompChart.metricReorderingChart.dragDropDataset2Axes')}) {
+  helpText = t('in-custom-dashboards:widgets.formCompChart.metricReorderingChart.dragDropDataset2Axes')
+}) {
   const axisForm = form.get(axisName);
   const metricsForm = axisForm.get('metrics');
 
@@ -114,8 +115,7 @@ export function MetricsForAxis({
 
   return (
     <Stack space="normal">
-      <Header>{t('in-custom-dashboards:widgets.formCompChart.metricReorderingChart.datasets')
-      }</Header>
+      <Header>{t('in-custom-dashboards:widgets.formCompChart.metricReorderingChart.datasets')}</Header>
 
       <TouchedMessages field={metricsForm} />
 

@@ -54,7 +54,10 @@ export function SliForm({ form, onChange, onChangeType, apName }) {
                 hasError={!field.valid && field.touched}
                 maxLength={256}
                 additionalContent={
-                  <OverridingTextTouchedMessage field={field} message={t('in-custom-dashboards:widgets.slo.sliFormPresenter.sliNameNotEmpty')} />
+                  <OverridingTextTouchedMessage
+                    field={field}
+                    message={t('in-custom-dashboards:widgets.slo.sliFormPresenter.sliNameNotEmpty')}
+                  />
                 }
               />
             ))}
@@ -100,7 +103,12 @@ export function SliForm({ form, onChange, onChangeType, apName }) {
         <Stack space="xsmall">
           {!isQB2ModeEnabled && (
             <Sections>
-              <InputInSection id="sli-form-ap" label={t('in-custom-dashboards:widgets.slo.sliFormPresenter.appPerspective')} disabled value={apName} />
+              <InputInSection
+                id="sli-form-ap"
+                label={t('in-custom-dashboards:widgets.slo.sliFormPresenter.appPerspective')}
+                disabled
+                value={apName}
+              />
             </Sections>
           )}
 

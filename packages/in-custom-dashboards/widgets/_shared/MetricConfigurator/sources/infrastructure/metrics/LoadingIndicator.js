@@ -9,7 +9,9 @@ import IndeterminateLoadingIndicator from 'in-new-components/LoadingIndicators/I
 
 import locals from './LoadingIndicator.mless';
 
-export default function LoadingIndicator({ text = t('in-custom-dashboards:widgets.srcInfrastructure.metricsLoadIndicator.loadingMetrics') }) {
+export default function LoadingIndicator({
+  text = t('in-custom-dashboards:widgets.srcInfrastructure.metricsLoadIndicator.loadingMetrics')
+}) {
   return (
     <div className={locals.wrapper}>
       {/* Use the same vertical height as the active grouping indication */}

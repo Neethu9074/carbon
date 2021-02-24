@@ -74,8 +74,7 @@ export default function InfrastructureTopList({ config }) {
             type: containerType
           })
         }
-        fullListViewLinkTitle={t('in-cockpit:component.infrastructureTopList.allContainers')
-}
+        fullListViewLinkTitle={t('in-cockpit:component.infrastructureTopList.allContainers')}
       />
     );
   }
@@ -91,8 +90,7 @@ export default function InfrastructureTopList({ config }) {
           type: processType
         })
       }
-      fullListViewLinkTitle={t('in-cockpit:component.infrastructureTopList.allProcesses')
-}
+      fullListViewLinkTitle={t('in-cockpit:component.infrastructureTopList.allProcesses')}
     />
   );
 }

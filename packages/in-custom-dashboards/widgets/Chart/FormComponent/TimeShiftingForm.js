@@ -23,7 +23,10 @@ export default function TimeShiftingForm({ axisName, index, indexInAxis, onChang
 
   return (
     <Sections>
-      <Section titleHtmlFor={`metic-configurator-${index}-time-shift-enabler`} title={t('in-custom-dashboards:widgets.formCompChart.timeShiftingFormChart.timeShift')}>
+      <Section
+        titleHtmlFor={`metic-configurator-${index}-time-shift-enabler`}
+        title={t('in-custom-dashboards:widgets.formCompChart.timeShiftingFormChart.timeShift')}
+      >
         <div className={locals.timeShiftHelpText}>
           <Toggle
             id={`metic-configurator-${index}-time-shift-enabler`}
@@ -47,7 +50,10 @@ export default function TimeShiftingForm({ axisName, index, indexInAxis, onChang
           useAlternateBg
           actions={
             <HelpAction>
-              <Trans i18nKey="in-custom-dashboards:widgets.formCompChart.timeShiftingFormChart.timeShiftHelpAction" components={{ italic: <i />, bold: <strong /> }} />
+              <Trans
+                i18nKey="in-custom-dashboards:widgets.formCompChart.timeShiftingFormChart.timeShiftHelpAction"
+                components={{ italic: <i />, bold: <strong /> }}
+              />
             </HelpAction>
           }
         >

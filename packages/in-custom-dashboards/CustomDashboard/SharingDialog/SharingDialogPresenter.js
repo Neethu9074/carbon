@@ -20,23 +20,35 @@ export default function SharingDialogPresenter(props) {
   const { isPrivate, setPrivate, onSubmit, isUsingAdvancedAccessRules } = props;
 
   return (
-    <Dialog title={t('in-custom-dashboards:customDashboard.sharingDialog.sharingDialogPresenter.share')} titleIconType="lib_actions_share" onClose={close} className={locals.dialog}>
+    <Dialog
+      title={t('in-custom-dashboards:customDashboard.sharingDialog.sharingDialogPresenter.share')}
+      titleIconType="lib_actions_share"
+      onClose={close}
+      className={locals.dialog}
+    >
       <form onSubmit={onSubmit}>
         {isUsingAdvancedAccessRules && (
           <Message type={neutral} withIcon className={locals.message}>
-          {t('in-custom-dashboards:customDashboard.sharingDialog.sharingDialogPresenter.shareMsg')}
+            {t('in-custom-dashboards:customDashboard.sharingDialog.sharingDialogPresenter.shareMsg')}
           </Message>
         )}
 
         <Option
-          label={t('in-custom-dashboards:customDashboard.sharingDialog.sharingDialogPresenter.privateDashboardDefault')} titleIconType="lib_actions_share" onClose={close} className={locals.dialog}
-          explanation={t('in-custom-dashboards:customDashboard.sharingDialog.sharingDialogPresenter.privateDashboardDefaultExplain')}
+          label={t('in-custom-dashboards:customDashboard.sharingDialog.sharingDialogPresenter.privateDashboardDefault')}
+          titleIconType="lib_actions_share"
+          onClose={close}
+          className={locals.dialog}
+          explanation={t(
+            'in-custom-dashboards:customDashboard.sharingDialog.sharingDialogPresenter.privateDashboardDefaultExplain'
+          )}
           checked={isPrivate}
           onChange={checked => setPrivate(checked)}
         />
         <Option
           label={t('in-custom-dashboards:customDashboard.sharingDialog.sharingDialogPresenter.publicDashboard')}
-          explanation={t('in-custom-dashboards:customDashboard.sharingDialog.sharingDialogPresenter.publicDashboardExplain')}
+          explanation={t(
+            'in-custom-dashboards:customDashboard.sharingDialog.sharingDialogPresenter.publicDashboardExplain'
+          )}
           checked={!isPrivate}
           onChange={checked => setPrivate(!checked)}
         />

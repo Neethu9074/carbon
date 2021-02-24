@@ -50,7 +50,7 @@ export default connectTo({
                     })
                   }
                 >
-                {t('in-internal:monitoringUnit.appdata.appDataQueryPerformance.analyze')}
+                  {t('in-internal:monitoringUnit.appdata.appDataQueryPerformance.analyze')}
                 </Button>
                 &nbsp;
               </Fragment>
@@ -105,7 +105,7 @@ export default connectTo({
                     orderDirection: 'DESC'
                   })}
                 >
-                {t('in-internal:monitoringUnit.appdata.appDataQueryPerformance.analyze')}
+                  {t('in-internal:monitoringUnit.appdata.appDataQueryPerformance.analyze')}
                 </Button>
                 &nbsp;
               </Fragment>

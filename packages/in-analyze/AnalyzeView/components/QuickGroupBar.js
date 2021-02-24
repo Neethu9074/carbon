@@ -24,11 +24,31 @@ export default function QuickGroupBar(props) {
   const isNotExcluded = tagFilter => !excludedTagFilters.includes(tagFilter);
 
   const groupTags = [
-    { tag: 'application.name', label: t('in-analyze:analyzeView.quickGroupBarLabelApplication'), entityType: entityTypes.DESTINATION },
-    { tag: 'service.name', label: t('in-analyze:analyzeView.quickGroupBarLabelService'), entityType: entityTypes.DESTINATION },
-    { tag: 'endpoint.name', label: t('in-analyze:analyzeView.quickGroupBarLabelEndpoint'), entityType: entityTypes.DESTINATION },
-    { tag: 'call.type', label: t('in-analyze:analyzeView.quickGroupBarLabelType'), entityType: entityTypes.NOT_APPLICABLE },
-    { tag: 'technology', label: t('in-analyze:analyzeView.quickGroupBarLabelTechnology'), entityType: entityTypes.DESTINATION }
+    {
+      tag: 'application.name',
+      label: t('in-analyze:analyzeView.quickGroupBarLabelApplication'),
+      entityType: entityTypes.DESTINATION
+    },
+    {
+      tag: 'service.name',
+      label: t('in-analyze:analyzeView.quickGroupBarLabelService'),
+      entityType: entityTypes.DESTINATION
+    },
+    {
+      tag: 'endpoint.name',
+      label: t('in-analyze:analyzeView.quickGroupBarLabelEndpoint'),
+      entityType: entityTypes.DESTINATION
+    },
+    {
+      tag: 'call.type',
+      label: t('in-analyze:analyzeView.quickGroupBarLabelType'),
+      entityType: entityTypes.NOT_APPLICABLE
+    },
+    {
+      tag: 'technology',
+      label: t('in-analyze:analyzeView.quickGroupBarLabelTechnology'),
+      entityType: entityTypes.DESTINATION
+    }
   ];
 
   return (
@@ -49,7 +69,9 @@ export default function QuickGroupBar(props) {
           )
         );
       })}
-      {onMoreClick && <MoreBarItem {...props} onClick={onMoreClick} label={t('in-analyze:analyzeView.quickGroupBarLabelAllGroups')} />}
+      {onMoreClick && (
+        <MoreBarItem {...props} onClick={onMoreClick} label={t('in-analyze:analyzeView.quickGroupBarLabelAllGroups')} />
+      )}
     </Bar>
   );
 }

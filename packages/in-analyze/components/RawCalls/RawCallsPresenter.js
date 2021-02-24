@@ -100,7 +100,7 @@ export default function RawCallsPresenter(props) {
                   {item.call.label}
                   <BatchingIndicator
                     batchCount={item.call.batchCount}
-                    tooltipContent={t('in-analyze:rawCalls.tooltipBatched', {batchCount: item.call.batchCount})}
+                    tooltipContent={t('in-analyze:rawCalls.tooltipBatched', { batchCount: item.call.batchCount })}
                   />
                 </Link>
               </Td>
@@ -119,7 +119,7 @@ export default function RawCallsPresenter(props) {
                 {latencyFixed.compact(item.call.duration)}
                 <BatchingIndicator
                   batchCount={item.call.batchCount}
-                  tooltipContent={t('in-analyze:rawCalls.tooltipLatency', {batchCount: item.call.batchCount})}
+                  tooltipContent={t('in-analyze:rawCalls.tooltipLatency', { batchCount: item.call.batchCount })}
                 />
               </Td>
             </Tr>

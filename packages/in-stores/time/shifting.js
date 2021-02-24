@@ -6,7 +6,6 @@ import { formatDuration } from 'in-services/formatters/date';
 import { days, hours } from 'in-services/time';
 import { t } from 'in-i18n';
 
-
 const initialState = 0;
 
 export const urlParameter = {
@@ -59,13 +58,13 @@ export const timeShifts = [
     offset: 'auto',
     label: t('in-stores:time.shiftingLabelPreviousWindow'),
     description: t('in-stores:time.shiftingDescriptionPreviousWindow')
-    },
+  },
   previousHourTimeShift,
   {
     offset: -1 * days.toMillis(1),
     label: t('in-stores:time.shiftingLabelYesterday'),
     description: t('in-stores:time.shiftingDescriptionYesterday')
-    },
+  },
   {
     offset: -1 * days.toMillis(7),
     label: t('in-stores:time.shiftingLabelLastWeek'),

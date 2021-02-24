@@ -66,7 +66,9 @@ export default function CreateNewSLIForm({ apName, applicationId, apDefaultBound
               type: 'info',
               timeout: 4000,
               title: t('in-custom-dashboards:widgets.slo.createSliForm.sliCreateSuccess'),
-              content: t('in-custom-dashboards:widgets.slo.createSliForm.sliCreated', { sliName: enrichedSliConfiguration.sliName })
+              content: t('in-custom-dashboards:widgets.slo.createSliForm.sliCreated', {
+                sliName: enrichedSliConfiguration.sliName
+              })
             },
             'custom-dashboard-sli'
           );
@@ -83,7 +85,9 @@ export default function CreateNewSLIForm({ apName, applicationId, apDefaultBound
               type: 'danger',
               timeout: 4000,
               title: t('in-custom-dashboards:widgets.slo.createSliForm.failCreateSli'),
-              content: t('in-custom-dashboards:widgets.slo.createSliForm.problemCreateSli', { sliName: enrichedSliConfiguration.sliName })
+              content: t('in-custom-dashboards:widgets.slo.createSliForm.problemCreateSli', {
+                sliName: enrichedSliConfiguration.sliName
+              })
             },
             'custom-dashboard-error'
           );
@@ -95,8 +99,12 @@ export default function CreateNewSLIForm({ apName, applicationId, apDefaultBound
     }
   };
 
-  const savingStateName = sliConfig?.id ? t('in-custom-dashboards:widgets.slo.createSliForm.cloning') : t('in-custom-dashboards:widgets.slo.createSliForm.creating');
-  const saveButtonLabel = sliConfig?.id ? t('in-custom-dashboards:widgets.slo.createSliForm.clone') : t('in-custom-dashboards:widgets.slo.createSliForm.create');
+  const savingStateName = sliConfig?.id
+    ? t('in-custom-dashboards:widgets.slo.createSliForm.cloning')
+    : t('in-custom-dashboards:widgets.slo.createSliForm.creating');
+  const saveButtonLabel = sliConfig?.id
+    ? t('in-custom-dashboards:widgets.slo.createSliForm.clone')
+    : t('in-custom-dashboards:widgets.slo.createSliForm.create');
   const isValid = useValidateExpressions(form, timeConfig);
 
   return (
@@ -104,11 +112,7 @@ export default function CreateNewSLIForm({ apName, applicationId, apDefaultBound
       <Stack space="large">
         <SliForm form={form} onChange={onChange} onChangeType={onChangeType} apName={apName} />
 
-        {sliConfig?.id && (
-          <Message>
-            {t('in-custom-dashboards:widgets.slo.createSliForm.sliConfigMsg')}
-          </Message>
-        )}
+        {sliConfig?.id && <Message>{t('in-custom-dashboards:widgets.slo.createSliForm.sliConfigMsg')}</Message>}
 
         {state?.errors && <ErroneousResultPresenter errors={state.errors} />}
 

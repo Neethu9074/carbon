@@ -153,7 +153,7 @@ export default connectTo(
 
     return (
       <div>
-        <h2>{t('in-internal:monitoringUnit.sre.metaElastic.metaElasticNode', { count: metaEsNodes.length})}</h2>
+        <h2>{t('in-internal:monitoringUnit.sre.metaElastic.metaElasticNode', { count: metaEsNodes.length })}</h2>
         <DashboardSection title={t('in-internal:monitoringUnit.sre.metaElastic.numQueries')}>
           <Row>{indicesQueryCount}</Row>
         </DashboardSection>

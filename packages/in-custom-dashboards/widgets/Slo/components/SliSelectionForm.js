@@ -31,11 +31,20 @@ export default function SliSelectionForm({ form, onChange, applicationId, openMa
           trackSliChanged({ sliConfigId: e.target.value });
         }}
         hasError={!field.valid && field.touched}
-        additionalContent={<OverridingTextTouchedMessage field={field} message={t('in-custom-dashboards:widgets.slo.sliSelectionFormComp.selectASli')} />}
+        additionalContent={
+          <OverridingTextTouchedMessage
+            field={field}
+            message={t('in-custom-dashboards:widgets.slo.sliSelectionFormComp.selectASli')}
+          />
+        }
         actions={openManageSLIComponent}
       >
-        {filteredSLIs.length === 0 && <option value="">{t('in-custom-dashboards:widgets.slo.sliSelectionFormComp.noneAvailCreateOne')}</option>}
-        {filteredSLIs.length !== 0 && <option value="">{t('in-custom-dashboards:widgets.slo.sliSelectionFormComp.pleaseSelect')}</option>}
+        {filteredSLIs.length === 0 && (
+          <option value="">{t('in-custom-dashboards:widgets.slo.sliSelectionFormComp.noneAvailCreateOne')}</option>
+        )}
+        {filteredSLIs.length !== 0 && (
+          <option value="">{t('in-custom-dashboards:widgets.slo.sliSelectionFormComp.pleaseSelect')}</option>
+        )}
         {filteredSLIs
           .sort((a, b) => compareIgnoreCase(a.sliName, b.sliName))
           .map(({ id, sliName }) => (

@@ -49,5 +49,12 @@ export function LoggingIntegrationButtonsRenderer(props) {
     showSplunkButton(props) && splunkIntegration && splunkIntegration.enabled && <SplunkButton {...props} />
   ].filter(Boolean);
 
-  return <MultiButton label={t('in-integrations:logging.goToLogs')}  kind="secondary" icon="lib_application_logging" buttons={integrations} />;
+  return (
+    <MultiButton
+      label={t('in-integrations:logging.goToLogs')}
+      kind="secondary"
+      icon="lib_application_logging"
+      buttons={integrations}
+    />
+  );
 }

@@ -22,7 +22,9 @@ export default function WidgetTypeSelector({ form, onChangeType }) {
           <img
             className={locals.img}
             src={widget.showCase}
-            alt={t('in-custom-dashboards:customDashboard.widgetEditorDialog.widgetTypeSelector.showWidgetLabel', { label: widget.label })}
+            alt={t('in-custom-dashboards:customDashboard.widgetEditorDialog.widgetTypeSelector.showWidgetLabel', {
+              label: widget.label
+            })}
             key={selectedType} // Added to notify react about the image has changed to avoid from displaying old image
           />
         </div>

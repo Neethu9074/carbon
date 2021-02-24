@@ -15,7 +15,9 @@ export const issueMessages = {
   duplicated_spans: t('in-analyze:tabs.summary.messageDuplicated_spans'),
   too_many_spans: t('in-analyze:tabs.summary.messageToo_many_spans'),
   missing_parent_span: t('in-analyze:tabs.summary.messageMissing_parent_span'),
-  exit_spans_followed_by_intermediate_spans: t('in-analyze:tabs.summary.messageExit_spans_followed_by_intermediate_spans')
+  exit_spans_followed_by_intermediate_spans: t(
+    'in-analyze:tabs.summary.messageExit_spans_followed_by_intermediate_spans'
+  )
 };
 
 export default function TraceValidationResult({ issues }) {

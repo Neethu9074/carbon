@@ -66,8 +66,8 @@ export default class extends React.Component {
       <div ref={table => (this.table = table)}>
         <ViewTrackingMeta
           data={{
-            productArea: t('in-events:productAreaEvents'),
-            pageRootName: t('in-events:pageRootNameEventsList')
+            productArea: 'Events',
+            pageRootName: 'Events List'
           }}
         />
 

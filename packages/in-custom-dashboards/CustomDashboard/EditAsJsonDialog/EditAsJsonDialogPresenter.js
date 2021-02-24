@@ -40,7 +40,9 @@ export default function EditAsJsonDialogPresenter({ onSubmit, field, setField, r
 
         <Actions>
           <CancelButton onClick={close} />
-          <SaveButton form={field}>{t('in-custom-dashboards:customDashboard.editJsonDialog.editJsonDialogPresenter.confirmBt')}</SaveButton>
+          <SaveButton form={field}>
+            {t('in-custom-dashboards:customDashboard.editJsonDialog.editJsonDialogPresenter.confirmBt')}
+          </SaveButton>
         </Actions>
       </form>
     );
@@ -49,7 +51,11 @@ export default function EditAsJsonDialogPresenter({ onSubmit, field, setField, r
   return (
     <Dialog
       titleIconType="lib_views_grid"
-      title={readOnly ? t('in-custom-dashboards:customDashboard.editJsonDialog.editJsonDialogPresenter.dashboardAJson') : t('in-custom-dashboards:customDashboard.editJsonDialog.editJsonDialogPresenter.editDashboard')}
+      title={
+        readOnly
+          ? t('in-custom-dashboards:customDashboard.editJsonDialog.editJsonDialogPresenter.dashboardAJson')
+          : t('in-custom-dashboards:customDashboard.editJsonDialog.editJsonDialogPresenter.editDashboard')
+      }
       onClose={close}
       doNotCloseOnOutsideClick
     >

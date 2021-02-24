@@ -90,7 +90,7 @@ export default function RawCallsNavigator({
                             {' '}
                             <Tooltip
                               themeStyle="light"
-                              content={t('in-analyze:rawCalls.tooltipBatched', {batchCount: item.call.batchCount})}
+                              content={t('in-analyze:rawCalls.tooltipBatched', { batchCount: item.call.batchCount })}
                             >
                               <Pill kind="lighter">{item.call.batchCount}</Pill>
                             </Tooltip>

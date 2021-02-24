@@ -319,7 +319,7 @@ export default connectTo(
         </Columize>
         <h2>{t('in-internal:monitoringUnit.cashier.cashierRollups')}</h2>
         <Columize>
-        <DashboardSection title={t('in-internal:monitoringUnit.cashier.createInsertHourlyPayloadRollupsRate')}>
+          <DashboardSection title={t('in-internal:monitoringUnit.cashier.createInsertHourlyPayloadRollupsRate')}>
             <Chart
               snapshotIds={cashierrollups.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}

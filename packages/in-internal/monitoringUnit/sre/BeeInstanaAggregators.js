@@ -38,7 +38,11 @@ export default connectTo(
 
     return (
       <div>
-        <h1>{t('in-internal:monitoringUnit.sre.beeInstanaAggregator.beeInstanaAggreg', { aggregatorLen: aggregators.length })}</h1>
+        <h1>
+          {t('in-internal:monitoringUnit.sre.beeInstanaAggregator.beeInstanaAggreg', {
+            aggregatorLen: aggregators.length
+          })}
+        </h1>
         <Columize>
           <DashboardSection title={t('in-internal:monitoringUnit.sre.beeInstanaAggregator.metrics')}>
             <Chart
@@ -111,7 +115,11 @@ export default connectTo(
           </DashboardSection>
         </Columize>
         <Columize>
-          <DashboardSection title={t('in-internal:monitoringUnit.sre.beeInstanaAggregator.hostsAggregatorLen', { aggregatorLen: aggregators.length })}>
+          <DashboardSection
+            title={t('in-internal:monitoringUnit.sre.beeInstanaAggregator.hostsAggregatorLen', {
+              aggregatorLen: aggregators.length
+            })}
+          >
             <Table cols={hostTableCols} rows={aggregators} getRowDetails={getRowDetails} />
           </DashboardSection>
           <DashboardSection title={t('in-internal:monitoringUnit.sre.beeInstanaAggregator.dataMounts')}>
@@ -144,7 +152,13 @@ function getRowDetails(row) {
             max: 1,
             formatter: percentageZeroDecimalPlaces,
             metrics: ['cpu.user', 'cpu.sys', 'cpu.wait', 'cpu.nice', 'cpu.steal'],
-            labels: [t('in-internal:monitoringUnit.sre.user'), t('in-internal:monitoringUnit.sre.system'), t('in-internal:monitoringUnit.sre.wait'), t('in-internal:monitoringUnit.sre.nice'), t('in-internal:monitoringUnit.sre.steal')],
+            labels: [
+              t('in-internal:monitoringUnit.sre.user'),
+              t('in-internal:monitoringUnit.sre.system'),
+              t('in-internal:monitoringUnit.sre.wait'),
+              t('in-internal:monitoringUnit.sre.nice'),
+              t('in-internal:monitoringUnit.sre.steal')
+            ],
             type: 'stackedArea'
           }}
         />

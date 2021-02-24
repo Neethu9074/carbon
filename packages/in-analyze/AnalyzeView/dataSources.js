@@ -11,7 +11,6 @@ import { entityTypes } from 'in-analyze/applicationFilter';
 import { deepFreeze } from 'in-services/util/object';
 import { t } from 'in-i18n';
 
-
 let configs;
 export default function getByDataSource(dataSource) {
   if (!configs) {

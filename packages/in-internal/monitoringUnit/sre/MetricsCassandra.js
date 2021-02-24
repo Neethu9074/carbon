@@ -39,7 +39,9 @@ export default connectTo(
     return (
       <Row>
         <Col xs={12}>
-          <h2>{t('in-internal:monitoringUnit.sre.commonCassandra.metricsCassandraNode', { count: metricsNodes.length})}</h2>
+          <h2>
+            {t('in-internal:monitoringUnit.sre.commonCassandra.metricsCassandraNode', { count: metricsNodes.length })}
+          </h2>
 
           <DashboardSection title={t('in-internal:monitoringUnit.sre.commonCassandra.writes')}>
             <Chart

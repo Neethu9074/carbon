@@ -16,7 +16,6 @@ import Card from 'in-new-components/Card';
 import locals from './Table.mless';
 import { t } from 'in-i18n';
 
-
 const tableElement = locals.table;
 const cellElement = locals.cell;
 const expandedCellElement = `${cellElement} ${locals.expanded}`;
@@ -99,7 +98,7 @@ export default class Table extends React.Component {
         <tr key="no-data">
           <td colSpan={colCount} className={cellElement}>
             {this.props.noDataText || t('in-sdk:dashboard.table.tableNoData')}
-            </td>
+          </td>
         </tr>
       );
     } else {

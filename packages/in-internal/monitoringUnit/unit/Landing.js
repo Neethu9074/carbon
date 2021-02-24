@@ -19,7 +19,10 @@ export default function Landing({ timeConfig, tenant, unit }) {
             <SloViolationsChart
               timeConfig={timeConfig}
               query={`entity.label:"${tenant}-${unit}-*"`}
-              cardTitle={t('in-internal:monitoringUnit.unit.landing.sloViolations',{sloTenant: tenant,sloUnit: unit })}
+              cardTitle={t('in-internal:monitoringUnit.unit.landing.sloViolations', {
+                sloTenant: tenant,
+                sloUnit: unit
+              })}
             />
           </Col>
         </Row>

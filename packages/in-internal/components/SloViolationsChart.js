@@ -10,7 +10,10 @@ import { MINIMUM_ROLLUP, getDefaultMetricRollupDuration } from 'in-stores/metric
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { number } from 'in-services/formatters/number';
 
-export default function SloViolationsChart({ timeConfig, cardTitle = t('in-internal:components.sloViolationsChart.sLOViolations') }) {
+export default function SloViolationsChart({
+  timeConfig,
+  cardTitle = t('in-internal:components.sloViolationsChart.sLOViolations')
+}) {
   const granularity = getDefaultMetricRollupDuration(timeConfig).rollup || MINIMUM_ROLLUP;
 
   return (
@@ -20,7 +23,11 @@ export default function SloViolationsChart({ timeConfig, cardTitle = t('in-inter
       y1={{
         renderer: Renderer.stackedArea,
         formatter: number.forcedCompact,
-        labels: ['SREInfaSLO/SRESLO/TUSLO', t('in-internal:components.sloViolationsChart.devTUSLOs'), t('in-internal:components.sloViolationsChart.expTUSLOs')],
+        labels: [
+          'SREInfaSLO/SRESLO/TUSLO',
+          t('in-internal:components.sloViolationsChart.devTUSLOs'),
+          t('in-internal:components.sloViolationsChart.expTUSLOs')
+        ],
         metricIds: ['slo', 'experimentalSlo', 'developmentSlo']
       }}
       metricsConfiguration={{

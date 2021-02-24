@@ -39,15 +39,27 @@ export default function SelectBarOverlay({
       <SearchInput onChange={onQueryChange} query={query} autoFocus />
 
       {selectedItem && (
-        <Tooltip content={t('in-analyze:filterBar.selectBarOverlay.tooltip', {selectedItemLabel: selectedItem.label})}>
+        <Tooltip
+          content={t('in-analyze:filterBar.selectBarOverlay.tooltip', { selectedItemLabel: selectedItem.label })}
+        >
           <Item item={selectedItem} selected onClick={() => onSelectItem(null)} itemLabelRenderer={itemLabelRenderer} />
         </Tooltip>
       )}
 
-      {loading && <LoadingIndicator text={t('in-analyze:filterBar.selectBarOverlay.loadingFilters')} className={locals.loading} height={100} />}
+      {loading && (
+        <LoadingIndicator
+          text={t('in-analyze:filterBar.selectBarOverlay.loadingFilters')}
+          className={locals.loading}
+          height={100}
+        />
+      )}
 
       {!loading && items.length === 0 && (
-        <NoDataAvailable className={locals.loading} text={t('in-analyze:filterBar.selectBarOverlay.noFiltersFound')} height={100} />
+        <NoDataAvailable
+          className={locals.loading}
+          text={t('in-analyze:filterBar.selectBarOverlay.noFiltersFound')}
+          height={100}
+        />
       )}
 
       {!loading && items.length > 0 && (
@@ -65,7 +77,7 @@ export default function SelectBarOverlay({
             )
             .map((item, i) => (
               <li key={`${item.key}${i}`}>
-                <Tooltip content={t('in-analyze:filterBar.selectBarOverlay.clickToFilter', {itemLabel: item.label})}>
+                <Tooltip content={t('in-analyze:filterBar.selectBarOverlay.clickToFilter', { itemLabel: item.label })}>
                   <Item item={item} onClick={onSelectItem} itemLabelRenderer={itemLabelRenderer} />
                 </Tooltip>
               </li>

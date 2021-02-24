@@ -153,7 +153,7 @@ export default connectTo(
 
     return (
       <div>
-        <h2>{t('in-internal:monitoringUnit.sre.metaElastic.metaElasticNode', { count: metaEsNgNodes.length})}</h2>
+        <h2>{t('in-internal:monitoringUnit.sre.metaElastic.metaElasticNode', { count: metaEsNgNodes.length })}</h2>
         <DashboardSection title={t('in-internal:monitoringUnit.sre.metaElastic.numQueries')}>
           <Row>{indicesQueryCount}</Row>
         </DashboardSection>
@@ -177,7 +177,7 @@ export default connectTo(
         <Columize>
           <DashboardSection title={t('in-internal:monitoringUnit.sre.metaElastic.suspension')}>
             <ChartExplanation>
-            {t('in-internal:monitoringUnit.sre.metaElastic.suspensionChartExplanation')}
+              {t('in-internal:monitoringUnit.sre.metaElastic.suspensionChartExplanation')}
             </ChartExplanation>
             <Chart
               snapshotIds={jvmNodes.map(r => r.jvmRuntimePlatform.get('id'))}

@@ -157,7 +157,7 @@ export default function entityForm(ComposedComponent) {
         this.setState({
           loading: false,
           error: true,
-          message: t('in-hoc:entityFormFailedToSave', {SaveFailureMessage: message})
+          message: t('in-hoc:entityFormFailedToSave', { SaveFailureMessage: message })
         });
       });
     };

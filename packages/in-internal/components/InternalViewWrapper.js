@@ -16,7 +16,10 @@ export default function InternalViewWrapper({ children }) {
   return (
     <Sticky
       header={
-        <DashboardHeader title={t('in-internal:components.internalViewWrapper.internal')} contextConfigurations={[{ renderContext, contextIcon: 'lib_flame' }]} />
+        <DashboardHeader
+          title={t('in-internal:components.internalViewWrapper.internal')}
+          contextConfigurations={[{ renderContext, contextIcon: 'lib_flame' }]}
+        />
       }
     >
       <div className={locals.body}>{children}</div>

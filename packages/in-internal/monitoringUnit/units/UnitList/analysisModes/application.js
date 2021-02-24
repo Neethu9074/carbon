@@ -274,7 +274,11 @@ export default {
                 `appdata-processor.spanLatency.50th`,
                 `appdata-processor.spanLatency.99th`
               ],
-              labels: [t('in-internal:monitoringUnit.units.application.spanLatencyMean'), t('in-internal:monitoringUnit.units.application.spanLatency50t'), t('in-internal:monitoringUnit.units.application.spanLatency99')],
+              labels: [
+                t('in-internal:monitoringUnit.units.application.spanLatencyMean'),
+                t('in-internal:monitoringUnit.units.application.spanLatency50t'),
+                t('in-internal:monitoringUnit.units.application.spanLatency99')
+              ],
               type: 'lines'
             }}
           />

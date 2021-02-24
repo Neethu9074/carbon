@@ -85,7 +85,8 @@ export default compose(
             </span>
             <span>
               <Button onClick={() => setShowDetails(!showDetails)} kind="secondary" size="compact">
-                {showDetails ? t('in-analyze:tabs.summary.hide') : t('in-analyze:tabs.summary.show')} Mobile App Information
+                {showDetails ? t('in-analyze:tabs.summary.hide') : t('in-analyze:tabs.summary.show')} Mobile App
+                Information
               </Button>
               <Button
                 onClick={() => navigateToSessionFromBackendTrace()}

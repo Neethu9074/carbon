@@ -277,7 +277,11 @@ export default connectTo(
             />
           </DashboardSection>
 
-          <DashboardSection title={t('in-internal:monitoringUnit.serverless.serverlessAcceptors.hostsLength', { length: serverlessacceptors.length })}>
+          <DashboardSection
+            title={t('in-internal:monitoringUnit.serverless.serverlessAcceptors.hostsLength', {
+              length: serverlessacceptors.length
+            })}
+          >
             <Table cols={cols} rows={serverlessacceptors} getRowDetails={getRowDetails} />
           </DashboardSection>
         </Columize>
@@ -306,7 +310,13 @@ function getRowDetails(row) {
             max: 1,
             formatter: percentageZeroDecimalPlaces,
             metrics: ['cpu.user', 'cpu.sys', 'cpu.wait', 'cpu.nice', 'cpu.steal'],
-            labels: [t('in-internal:monitoringUnit.serverless.serverlessAcceptors.user'), t('in-internal:monitoringUnit.serverless.serverlessAcceptors.system'), t('in-internal:monitoringUnit.serverless.serverlessAcceptors.wait'), t('in-internal:monitoringUnit.serverless.serverlessAcceptors.nice'), t('in-internal:monitoringUnit.serverless.serverlessAcceptors.steal')],
+            labels: [
+              t('in-internal:monitoringUnit.serverless.serverlessAcceptors.user'),
+              t('in-internal:monitoringUnit.serverless.serverlessAcceptors.system'),
+              t('in-internal:monitoringUnit.serverless.serverlessAcceptors.wait'),
+              t('in-internal:monitoringUnit.serverless.serverlessAcceptors.nice'),
+              t('in-internal:monitoringUnit.serverless.serverlessAcceptors.steal')
+            ],
             type: 'stackedArea'
           }}
         />

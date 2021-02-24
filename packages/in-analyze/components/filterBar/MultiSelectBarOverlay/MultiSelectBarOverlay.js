@@ -63,10 +63,20 @@ export default function MultiSelectBarOverlay({
 
       {!loading && moreDataAvailable && <div className={locals.more}>{moreDataMessage}</div>}
 
-      {loading && <LoadingIndicator text={t('in-analyze:filterBar.multiSelectBarOverlay.loadingFilters')} className={locals.loading} height={100} />}
+      {loading && (
+        <LoadingIndicator
+          text={t('in-analyze:filterBar.multiSelectBarOverlay.loadingFilters')}
+          className={locals.loading}
+          height={100}
+        />
+      )}
 
       {!loading && items.length === 0 && (
-        <NoDataAvailable className={locals.loading} text={t('in-analyze:filterBar.multiSelectBarOverlay.noFiltersFound')} height={100} />
+        <NoDataAvailable
+          className={locals.loading}
+          text={t('in-analyze:filterBar.multiSelectBarOverlay.noFiltersFound')}
+          height={100}
+        />
       )}
 
       {!loading && items.length > 0 && (
@@ -80,7 +90,9 @@ export default function MultiSelectBarOverlay({
             .filter(item => !filterSuggestionsClientSide || containsIgnoreCase(item.key, query))
             .map((item, i) => (
               <li key={`${item.key}${i}`}>
-                <Tooltip content={t('in-analyze:filterBar.multiSelectBarOverlay.clickToFilter', {itemLabel: item.label})}>
+                <Tooltip
+                  content={t('in-analyze:filterBar.multiSelectBarOverlay.clickToFilter', { itemLabel: item.label })}
+                >
                   <Item item={item} onClick={onSelectItem} itemLabelRenderer={itemLabelRenderer} />
                 </Tooltip>
               </li>

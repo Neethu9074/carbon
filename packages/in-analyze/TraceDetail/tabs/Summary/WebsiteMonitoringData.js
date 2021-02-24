@@ -62,7 +62,8 @@ export default compose(
             </span>
             <span>
               <Button onClick={() => setShowDetails(!showDetails)} kind="secondary" size="compact">
-                {showDetails ? t('in-analyze:tabs.summary.hide') : t('in-analyze:tabs.summary.show')} Website Information
+                {showDetails ? t('in-analyze:tabs.summary.hide') : t('in-analyze:tabs.summary.show')} Website
+                Information
               </Button>
               <Button
                 onClick={() => navigateToPageLoadFromBackendTrace()}

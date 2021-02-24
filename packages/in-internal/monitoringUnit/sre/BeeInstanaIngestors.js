@@ -33,7 +33,9 @@ export default connectTo(
 
     return (
       <div>
-        <h1>{t('in-internal:monitoringUnit.sre.beeInstanaIngestor.beeInstanaIngest', { ingestorsLen: ingestors.length })}</h1>
+        <h1>
+          {t('in-internal:monitoringUnit.sre.beeInstanaIngestor.beeInstanaIngest', { ingestorsLen: ingestors.length })}
+        </h1>
         <Columize>
           <DashboardSection title={t('in-internal:monitoringUnit.sre.beeInstanaIngestor.metrics')}>
             <Chart
@@ -119,7 +121,11 @@ export default connectTo(
           </DashboardSection>
         </Columize>
         <Columize>
-          <DashboardSection title={t('in-internal:monitoringUnit.sre.beeInstanaIngestor.hostsIngestorsLen', { ingestorsLen: ingestors.length })}>
+          <DashboardSection
+            title={t('in-internal:monitoringUnit.sre.beeInstanaIngestor.hostsIngestorsLen', {
+              ingestorsLen: ingestors.length
+            })}
+          >
             <Table cols={hostTableCols} rows={ingestors} getRowDetails={getRowDetails} />
           </DashboardSection>
         </Columize>
@@ -144,7 +150,13 @@ function getRowDetails(row) {
             max: 1,
             formatter: percentageZeroDecimalPlaces,
             metrics: ['cpu.user', 'cpu.sys', 'cpu.wait', 'cpu.nice', 'cpu.steal'],
-            labels: [t('in-internal:monitoringUnit.sre.user'), t('in-internal:monitoringUnit.sre.system'), t('in-internal:monitoringUnit.sre.wait'), t('in-internal:monitoringUnit.sre.nice'), t('in-internal:monitoringUnit.sre.steal')],
+            labels: [
+              t('in-internal:monitoringUnit.sre.user'),
+              t('in-internal:monitoringUnit.sre.system'),
+              t('in-internal:monitoringUnit.sre.wait'),
+              t('in-internal:monitoringUnit.sre.nice'),
+              t('in-internal:monitoringUnit.sre.steal')
+            ],
             type: 'stackedArea'
           }}
         />

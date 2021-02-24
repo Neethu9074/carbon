@@ -26,7 +26,11 @@ export default function EndpointSelectBox({ applicationId, field, serviceId, bou
       onChange={({ target }) => onChange?.(target?.value)}
       hasError={!field.valid && field.touched}
     >
-      {isLoading(result) ? <option value="">{t('in-custom-dashboards:widgets.slo.endpointSelectBox.loading')}</option> : <option value="">{t('in-custom-dashboards:widgets.slo.endpointSelectBox.allServices')}</option>}
+      {isLoading(result) ? (
+        <option value="">{t('in-custom-dashboards:widgets.slo.endpointSelectBox.loading')}</option>
+      ) : (
+        <option value="">{t('in-custom-dashboards:widgets.slo.endpointSelectBox.allServices')}</option>
+      )}
       {result.data?.items?.map(({ endpoint }) => (
         <option value={endpoint.id} key={endpoint.id}>
           {endpoint.label}

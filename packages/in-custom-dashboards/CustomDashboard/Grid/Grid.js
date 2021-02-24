@@ -149,7 +149,12 @@ function Grid({
             id={getWidgetId(widget.id)}
             style={disabledTransitions ? disabledTransitionStyle : undefined}
           >
-            <ErrorBoundary name={t('in-custom-dashboards:customDashboard.grid.grid.customDashboardWidgetTitle', { title: widget.title })} meta={widget}>
+            <ErrorBoundary
+              name={t('in-custom-dashboards:customDashboard.grid.grid.customDashboardWidgetTitle', {
+                title: widget.title
+              })}
+              meta={widget}
+            >
               {content}
             </ErrorBoundary>
           </div>

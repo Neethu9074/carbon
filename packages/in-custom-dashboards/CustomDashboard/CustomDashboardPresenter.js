@@ -110,7 +110,10 @@ function CustomDashboardPresenter(props) {
                     {result && <HorizontalIndicator progress={result.progress} />}
                     <DashboardHeaderShadowModule />
 
-                    <Title title={t('in-custom-dashboards:customDashboard.customDashboardPresenter.customDashboard')} dynamic={config && config.title} />
+                    <Title
+                      title={t('in-custom-dashboards:customDashboard.customDashboardPresenter.customDashboard')}
+                      dynamic={config && config.title}
+                    />
                     <ViewTrackingMeta
                       data={{
                         productArea: 'Custom Dashboard',
@@ -241,7 +244,9 @@ function TopLevelButtonLine({ editable, onShare, canCreatePublicCustomDashboards
 
   if (!canCreatePublicCustomDashboards) {
     shareButton = (
-      <Tooltip content={t('in-custom-dashboards:customDashboard.customDashboardPresenter.shareButtonTooltip')}>{shareButton}</Tooltip>
+      <Tooltip content={t('in-custom-dashboards:customDashboard.customDashboardPresenter.shareButtonTooltip')}>
+        {shareButton}
+      </Tooltip>
     );
   }
 

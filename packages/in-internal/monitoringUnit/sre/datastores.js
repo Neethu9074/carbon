@@ -216,7 +216,13 @@ export function getHostDetails(row) {
             max: 1,
             formatter: percentageZeroDecimalPlaces,
             metrics: ['cpu.user', 'cpu.sys', 'cpu.wait', 'cpu.nice', 'cpu.steal'],
-            labels: [t('in-internal:monitoringUnit.sre.user'), t('in-internal:monitoringUnit.sre.system'), t('in-internal:monitoringUnit.sre.wait'), t('in-internal:monitoringUnit.sre.nice'), t('in-internal:monitoringUnit.sre.steal')],
+            labels: [
+              t('in-internal:monitoringUnit.sre.user'),
+              t('in-internal:monitoringUnit.sre.system'),
+              t('in-internal:monitoringUnit.sre.wait'),
+              t('in-internal:monitoringUnit.sre.nice'),
+              t('in-internal:monitoringUnit.sre.steal')
+            ],
             type: 'stackedArea'
           }}
         />
@@ -258,7 +264,10 @@ export function getFsDetails(row) {
           formatter: bytesZeroDecimalPlaces,
           tooltipFormatter: bytesTwoDecimalPlaces,
           metrics: ['fs.' + row.device + '.readBytes', 'fs.' + row.device + '.writeBytes'],
-          labels: [t('in-internal:monitoringUnit.sre.bytesReadPerSec'), t('in-internal:monitoringUnit.sre.bytesWritePerSec')],
+          labels: [
+            t('in-internal:monitoringUnit.sre.bytesReadPerSec'),
+            t('in-internal:monitoringUnit.sre.bytesWritePerSec')
+          ],
           type: 'line'
         }}
       />

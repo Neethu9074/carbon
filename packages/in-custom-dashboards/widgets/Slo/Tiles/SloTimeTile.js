@@ -33,12 +33,8 @@ export default function SloTimeTile({ smallRowStyle, title, fromTimestamp, toTim
           <Trans
             i18nKey="in-custom-dashboards:widgets.slo.sloTimeTile.sloTime"
             components={{
-              'datetime-from': (
-                <DateTime timeStamp={fromTimestamp} />
-              ),
-              'datetime-to': (
-                <DateTime timeStamp={toTimestamp} />
-              )
+              'datetime-from': <DateTime timeStamp={fromTimestamp} />,
+              'datetime-to': <DateTime timeStamp={toTimestamp} />
             }}
           />
         </div>

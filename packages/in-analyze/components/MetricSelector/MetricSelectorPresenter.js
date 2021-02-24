@@ -219,7 +219,7 @@ export default function MetricSelectorPresenter({
                                 </Tooltip>
                               )}
                             </div>
-                            <Tooltip content= {t('in-analyze:metricSelector.tooltipRemove')}>
+                            <Tooltip content={t('in-analyze:metricSelector.tooltipRemove')}>
                               <SvgIcon
                                 type="lib_openclose_cancel"
                                 size="xs"

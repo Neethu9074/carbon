@@ -20,9 +20,15 @@ export default withState(
 
   return (
     <Fragment>
-      <Button onClick={() => setTimeout(triggerError, 100)}>{t('in-internal:monitoringUnit.eum.errorSimulator.triggerErrOutsideReact')}</Button>
-      <Button onClick={triggerError}>{t('in-internal:monitoringUnit.eum.errorSimulator.triggerErrReactClickHandler')}</Button>
-      <Button onClick={() => setThrowError(true)}>{t('in-internal:monitoringUnit.eum.errorSimulator.triggerErrReactRenderLifecycle')}</Button>
+      <Button onClick={() => setTimeout(triggerError, 100)}>
+        {t('in-internal:monitoringUnit.eum.errorSimulator.triggerErrOutsideReact')}
+      </Button>
+      <Button onClick={triggerError}>
+        {t('in-internal:monitoringUnit.eum.errorSimulator.triggerErrReactClickHandler')}
+      </Button>
+      <Button onClick={() => setThrowError(true)}>
+        {t('in-internal:monitoringUnit.eum.errorSimulator.triggerErrReactRenderLifecycle')}
+      </Button>
     </Fragment>
   );
 });

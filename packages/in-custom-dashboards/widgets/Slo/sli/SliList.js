@@ -169,9 +169,9 @@ const columnDefinitions = [
                     description={
                       <span>
                         <Trans
-                        i18nKey="in-custom-dashboards:widgets.slo.sliList.pleaseConfirmMsg"
-                        values={{ sliName: item.sliName }}
-                        components={{ italic: <i />, bold: <strong /> }}
+                          i18nKey="in-custom-dashboards:widgets.slo.sliList.pleaseConfirmMsg"
+                          values={{ sliName: item.sliName }}
+                          components={{ italic: <i />, bold: <strong /> }}
                         />
                       </span>
                     }

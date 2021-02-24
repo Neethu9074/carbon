@@ -104,7 +104,9 @@ export default function FormComponent({
           disabled={!metricField.valid}
           additionalContent={<TouchedMessages field={metricField} />}
         >
-          {!metricField.valid && <option value="">{t('in-custom-dashboards:widgets.srcApp.oldFormComponent.pleaseSelectMetric')}</option>}
+          {!metricField.valid && (
+            <option value="">{t('in-custom-dashboards:widgets.srcApp.oldFormComponent.pleaseSelectMetric')}</option>
+          )}
           {metricField.valid && (
             <>
               <option value="">{t('in-custom-dashboards:widgets.srcApp.oldFormComponent.pleaseSelect')}</option>

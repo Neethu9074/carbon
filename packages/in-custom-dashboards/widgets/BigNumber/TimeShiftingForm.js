@@ -21,7 +21,10 @@ export default function TimeShiftingForm({ form, onChange }) {
 
   return (
     <Sections>
-      <Section titleHtmlFor="metric-configurator-time-shift-enabler" title={t('in-custom-dashboards:widgets.bigNumber.timeShiftingForm.timeShift')}>
+      <Section
+        titleHtmlFor="metric-configurator-time-shift-enabler"
+        title={t('in-custom-dashboards:widgets.bigNumber.timeShiftingForm.timeShift')}
+      >
         <div className={locals.timeShiftHelpText}>
           <Toggle
             id="metric-configurator-time-shift-enabler"

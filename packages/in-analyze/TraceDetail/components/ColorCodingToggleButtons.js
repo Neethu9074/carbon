@@ -20,7 +20,11 @@ export default function ColorCodingToggleButtons({ setColorCodeMechanism, colorC
             key: 'byServiceAndEndpoint',
             onClick: () => setColorCodeMechanism('byServiceAndEndpoint')
           },
-          { text: t('in-analyze:traceDetails.buttonTechnology'), key: 'byEndpointType', onClick: () => setColorCodeMechanism('byEndpointType') }
+          {
+            text: t('in-analyze:traceDetails.buttonTechnology'),
+            key: 'byEndpointType',
+            onClick: () => setColorCodeMechanism('byEndpointType')
+          }
         ]}
         activeKey={colorCodeType}
       />

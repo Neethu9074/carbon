@@ -26,7 +26,11 @@ export default function ServicesSelectBox({ field, applicationId, boundaryScope,
       onChange={({ target }) => onChange?.(target?.value)}
       hasError={!field.valid && field.touched}
     >
-      {isLoading(result) ? <option value="">{t('in-custom-dashboards:widgets.slo.servicesSelectBox.loading')}</option> : <option value="">{t('in-custom-dashboards:widgets.slo.servicesSelectBox.allServices')}</option>}
+      {isLoading(result) ? (
+        <option value="">{t('in-custom-dashboards:widgets.slo.servicesSelectBox.loading')}</option>
+      ) : (
+        <option value="">{t('in-custom-dashboards:widgets.slo.servicesSelectBox.allServices')}</option>
+      )}
       {result.data?.items?.map(({ service }) => (
         <option value={service.id} key={service.id}>
           {service.label}

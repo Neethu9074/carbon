@@ -247,7 +247,9 @@ export default connectTo(
             />
           </DashboardSection>
 
-          <DashboardSection title={t('in-internal:monitoringUnit.sre.acceptors.hostsAcceptorsLen', { acceptorLen: acceptors.length})}>
+          <DashboardSection
+            title={t('in-internal:monitoringUnit.sre.acceptors.hostsAcceptorsLen', { acceptorLen: acceptors.length })}
+          >
             <Table cols={cols} rows={acceptors} getRowDetails={getRowDetails} />
           </DashboardSection>
         </Columize>
@@ -276,7 +278,13 @@ function getRowDetails(row) {
             max: 1,
             formatter: percentageZeroDecimalPlaces,
             metrics: ['cpu.user', 'cpu.sys', 'cpu.wait', 'cpu.nice', 'cpu.steal'],
-            labels: [t('in-internal:monitoringUnit.sre.user'), t('in-internal:monitoringUnit.sre.system'), t('in-internal:monitoringUnit.sre.wait'), t('in-internal:monitoringUnit.sre.nice'), t('in-internal:monitoringUnit.sre.steal')],
+            labels: [
+              t('in-internal:monitoringUnit.sre.user'),
+              t('in-internal:monitoringUnit.sre.system'),
+              t('in-internal:monitoringUnit.sre.wait'),
+              t('in-internal:monitoringUnit.sre.nice'),
+              t('in-internal:monitoringUnit.sre.steal')
+            ],
             type: 'stackedArea'
           }}
         />

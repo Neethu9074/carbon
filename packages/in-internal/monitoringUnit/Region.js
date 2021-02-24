@@ -51,7 +51,11 @@ export default connectTo(
                   min: 0,
                   formatter: number.compact,
                   metrics: ['hosts', 'processes', 'containers'],
-                  labels: [t('in-internal:monitoringUnit.region.hosts'), t('in-internal:monitoringUnit.region.processes'), t('in-internal:monitoringUnit.region.containers')],
+                  labels: [
+                    t('in-internal:monitoringUnit.region.hosts'),
+                    t('in-internal:monitoringUnit.region.processes'),
+                    t('in-internal:monitoringUnit.region.containers')
+                  ],
                   type: 'line'
                 }}
               />
@@ -82,7 +86,10 @@ export default connectTo(
               min: 0,
               formatter: number.compact,
               metrics: ['acceptedSpans', 'processedSpans'],
-              labels: [t('in-internal:monitoringUnit.region.acceptedSpans'), t('in-internal:monitoringUnit.region.processedSpans')],
+              labels: [
+                t('in-internal:monitoringUnit.region.acceptedSpans'),
+                t('in-internal:monitoringUnit.region.processedSpans')
+              ],
               type: 'line'
             }}
           />
@@ -98,7 +105,10 @@ export default connectTo(
                   min: 0,
                   formatter: number.compact,
                   metrics: ['acceptedBeacons', 'processedBeacons'],
-                  labels: [t('in-internal:monitoringUnit.region.acceptedBeacons'), t('in-internal:monitoringUnit.region.processedBeacons')],
+                  labels: [
+                    t('in-internal:monitoringUnit.region.acceptedBeacons'),
+                    t('in-internal:monitoringUnit.region.processedBeacons')
+                  ],
                   type: 'line'
                 }}
               />
@@ -113,7 +123,10 @@ export default connectTo(
                   min: 0,
                   formatter: number.compact,
                   metrics: ['acceptedMobileBeacons', 'processedMobileBeacons'],
-                  labels: [t('in-internal:monitoringUnit.region.acceptedBeacons'), t('in-internal:monitoringUnit.region.processedBeacons')],
+                  labels: [
+                    t('in-internal:monitoringUnit.region.acceptedBeacons'),
+                    t('in-internal:monitoringUnit.region.processedBeacons')
+                  ],
                   type: 'line'
                 }}
               />

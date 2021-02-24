@@ -50,7 +50,11 @@ function WidgetTitleInput({ form, onChange }) {
     <InputInSection
       id="widget-title"
       hasError={!field.valid && field.touched}
-      label={<SectionLabelWithSubtext subtext="Optional">{t('in-custom-dashboards:customDashboard.widgetEditorDialog.widgetConfiguration.name')}</SectionLabelWithSubtext>}
+      label={
+        <SectionLabelWithSubtext subtext="Optional">
+          {t('in-custom-dashboards:customDashboard.widgetEditorDialog.widgetConfiguration.name')}
+        </SectionLabelWithSubtext>
+      }
       type="text"
       value={field.value}
       onChange={e => onChange(['title'], field => field.setValue(e.target.value).setTouched(true))}

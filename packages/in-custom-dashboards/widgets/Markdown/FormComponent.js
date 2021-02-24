@@ -25,11 +25,7 @@ export default function MarkdownWidgetFormComponent({ form: field, onChange }) {
           value={field.value}
           onChange={e => onChange([], field => field.setValue(e.target.value).setTouched(true))}
           hasError={!field.valid && field.touched}
-          actions={
-            <HelpAction>
-              {t('in-custom-dashboards:widgets.markdown.formComp.markdownHelpAction')}
-            </HelpAction>
-          }
+          actions={<HelpAction>{t('in-custom-dashboards:widgets.markdown.formComp.markdownHelpAction')}</HelpAction>}
           additionalContent={<TouchedMessages field={field} />}
         />
       </Sections>

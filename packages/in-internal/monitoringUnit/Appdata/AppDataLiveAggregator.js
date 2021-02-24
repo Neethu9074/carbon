@@ -184,7 +184,9 @@ export default connectTo({
               />
             </DashboardSection>
 
-            <DashboardSection title={t('in-internal:monitoringUnit.appdata.appDataAggregator.deserializingCallsErrors')}>
+            <DashboardSection
+              title={t('in-internal:monitoringUnit.appdata.appDataAggregator.deserializingCallsErrors')}
+            >
               <Chart
                 snapshotIds={rows.map(r => r.dropwizard.get('id'))}
                 timeConfig={timeConfig}
@@ -289,7 +291,9 @@ export default connectTo({
               />
             </DashboardSection>
 
-            <DashboardSection title={t('in-internal:monitoringUnit.appdata.appDataAggregator.getMetricsRetrieverMetricReq')}>
+            <DashboardSection
+              title={t('in-internal:monitoringUnit.appdata.appDataAggregator.getMetricsRetrieverMetricReq')}
+            >
               <Chart
                 snapshotIds={rows.map(r => r.dropwizard.get('id'))}
                 timeConfig={timeConfig}

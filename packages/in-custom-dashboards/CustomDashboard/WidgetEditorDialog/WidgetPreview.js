@@ -29,7 +29,9 @@ export default function WidgetPreview({ form, onChange }) {
   } else {
     content = (
       <p className={locals.invalidConfig}>
-        {t('in-custom-dashboards:customDashboard.widgetEditorDialog.widgetPreview.previewNotAvailWidgetConfigIncomplete')}
+        {t(
+          'in-custom-dashboards:customDashboard.widgetEditorDialog.widgetPreview.previewNotAvailWidgetConfigIncomplete'
+        )}
         <Button
           kind="action"
           className={locals.button}
@@ -42,7 +44,12 @@ export default function WidgetPreview({ form, onChange }) {
   }
 
   return (
-    <ErrorBoundary name={t('in-custom-dashboards:customDashboard.widgetEditorDialog.widgetPreview.customDashboardPreviewTitle', { title: widget.title })}  meta={config}>
+    <ErrorBoundary
+      name={t('in-custom-dashboards:customDashboard.widgetEditorDialog.widgetPreview.customDashboardPreviewTitle', {
+        title: widget.title
+      })}
+      meta={config}
+    >
       <div className={locals.preview}>
         <Stack space="normal">
           <Header>{t('in-custom-dashboards:customDashboard.widgetEditorDialog.widgetPreview.preview')}</Header>

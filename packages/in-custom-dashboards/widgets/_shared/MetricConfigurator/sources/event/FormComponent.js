@@ -61,7 +61,9 @@ export default function FormComponent({
           additionalContent={<TouchedMessages field={aggregationField} />}
           useAlternateBg
         >
-          {!metricField.valid && <option value="">{t('in-custom-dashboards:widgets.srcEvent.formComponent.pleaseSelectMetric')}</option>}
+          {!metricField.valid && (
+            <option value="">{t('in-custom-dashboards:widgets.srcEvent.formComponent.pleaseSelectMetric')}</option>
+          )}
           {metricField.valid && (
             <>
               <option value="">{t('in-custom-dashboards:widgets.srcEvent.formComponent.pleaseSelect')}</option>

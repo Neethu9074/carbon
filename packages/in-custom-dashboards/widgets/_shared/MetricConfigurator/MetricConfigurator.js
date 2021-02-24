@@ -58,7 +58,11 @@ export default function MetricConfigurator({
     labelSection = form.get('label').map(field => (
       <Sections>
         <InputInSection
-          label={<SectionLabelWithSubtext subtext="Optional">{t('in-custom-dashboards:widgets.metricConfigurator.name')}</SectionLabelWithSubtext>}
+          label={
+            <SectionLabelWithSubtext subtext="Optional">
+              {t('in-custom-dashboards:widgets.metricConfigurator.name')}
+            </SectionLabelWithSubtext>
+          }
           id="metic-configurator-label"
           type="text"
           value={field.value}

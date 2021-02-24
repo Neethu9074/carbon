@@ -63,8 +63,12 @@ export default connect(({ snapshot, timeConfig }) => ({
               autoFocus
             >
               <option value="">{t('in-internal:monitoringUnit.dropwizardDashboardExt.cacheDataSelectOne')}</option>
-              <option value={`${adminUrl}/admin/snapshots`}>{t('in-internal:monitoringUnit.dropwizardDashboardExt.snapshotsDepend')}</option>
-              <option value={`${adminUrl}/admin/search-snapshots`}>{t('in-internal:monitoringUnit.dropwizardDashboardExt.searchSnapshots')}</option>
+              <option value={`${adminUrl}/admin/snapshots`}>
+                {t('in-internal:monitoringUnit.dropwizardDashboardExt.snapshotsDepend')}
+              </option>
+              <option value={`${adminUrl}/admin/search-snapshots`}>
+                {t('in-internal:monitoringUnit.dropwizardDashboardExt.searchSnapshots')}
+              </option>
             </Select>
           </Fragment>
         )}
@@ -84,9 +88,15 @@ export default connect(({ snapshot, timeConfig }) => ({
             autoFocus
           >
             <option value="">{t('in-internal:monitoringUnit.dropwizardDashboardExt.tagDataSelectOne')}</option>
-            <option value={`${adminUrl}/admin/physicalAttributeStore`}>{t('in-internal:monitoringUnit.dropwizardDashboardExt.allTags')}</option>
-            <option value={`${adminUrl}/admin/physicalAttributeStore/cluster`}>{t('in-internal:monitoringUnit.dropwizardDashboardExt.clusterTags')}</option>
-            <option value={`${adminUrl}/admin/physicalAttributeStore/alternatives`}>{t('in-internal:monitoringUnit.dropwizardDashboardExt.hostPortRef')}</option>
+            <option value={`${adminUrl}/admin/physicalAttributeStore`}>
+              {t('in-internal:monitoringUnit.dropwizardDashboardExt.allTags')}
+            </option>
+            <option value={`${adminUrl}/admin/physicalAttributeStore/cluster`}>
+              {t('in-internal:monitoringUnit.dropwizardDashboardExt.clusterTags')}
+            </option>
+            <option value={`${adminUrl}/admin/physicalAttributeStore/alternatives`}>
+              {t('in-internal:monitoringUnit.dropwizardDashboardExt.hostPortRef')}
+            </option>
           </Select>
         )}
 
@@ -99,10 +109,18 @@ export default connect(({ snapshot, timeConfig }) => ({
             autoFocus
           >
             <option value="">{t('in-internal:monitoringUnit.dropwizardDashboardExt.resilientMapSelectOne')}</option>
-            <option value={`${adminUrl}/admin/appCacheEntries?size=50&minEntities=0`}>{t('in-internal:monitoringUnit.dropwizardDashboardExt.appMapping')}</option>
-            <option value={`${adminUrl}/admin/serviceCacheEntries?size=50&minEntities=0`}>{t('in-internal:monitoringUnit.dropwizardDashboardExt.serviceMapping')}</option>
-            <option value={`${adminUrl}/admin/pathTemplateEntries`}>{t('in-internal:monitoringUnit.dropwizardDashboardExt.endpointMapPathTemplateCache')}</option>
-            <option value={`${adminUrl}/admin/invalidPathTemplates`}>{t('in-internal:monitoringUnit.dropwizardDashboardExt.endpointMapInvalidPathTemplates')}</option>
+            <option value={`${adminUrl}/admin/appCacheEntries?size=50&minEntities=0`}>
+              {t('in-internal:monitoringUnit.dropwizardDashboardExt.appMapping')}
+            </option>
+            <option value={`${adminUrl}/admin/serviceCacheEntries?size=50&minEntities=0`}>
+              {t('in-internal:monitoringUnit.dropwizardDashboardExt.serviceMapping')}
+            </option>
+            <option value={`${adminUrl}/admin/pathTemplateEntries`}>
+              {t('in-internal:monitoringUnit.dropwizardDashboardExt.endpointMapPathTemplateCache')}
+            </option>
+            <option value={`${adminUrl}/admin/invalidPathTemplates`}>
+              {t('in-internal:monitoringUnit.dropwizardDashboardExt.endpointMapInvalidPathTemplates')}
+            </option>
           </Select>
         )}
 

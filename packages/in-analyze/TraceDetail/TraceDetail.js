@@ -156,9 +156,7 @@ function renderMetaInformation({ traceId, result }) {
       // available in ClickHouse yet, even though some trace information from Cassandra
       // may be shown already.
       result.data && !result.data.id && (
-        <Tooltip
-          content={t('in-analyze:traceDetails.tooltipData')}
-        >
+        <Tooltip content={t('in-analyze:traceDetails.tooltipData')}>
           <SvgIcon className={locals.icon} type="lib_help_error_info_outline" size="xs" />
         </Tooltip>
       )}
@@ -177,7 +175,7 @@ function renderContext({ filters }) {
 function renderTimeSelection({ filters }) {
   return (
     <Link href$={getLinkToAnalyze({ dataSource: filters.dataSource })}>
-      <Tooltip content= {t('in-analyze:traceDetails.tooltipClose')}>
+      <Tooltip content={t('in-analyze:traceDetails.tooltipClose')}>
         <SvgIcon className={locals.closeIcon} aria-label="Close trace detail" type="lib_openclose_cancel" />
       </Tooltip>
     </Link>

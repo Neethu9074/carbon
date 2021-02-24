@@ -8,7 +8,6 @@ import genericLogSpanDefinition from 'in-forge/tracing/log/genericLogSpanDefinit
 import { ensurTracingPluginsAreEvaluated } from 'in-sdk/asyncEvaluation';
 import { t } from 'in-i18n';
 
-
 let missingSpanDefinitionReported = false;
 
 // maps type => spanDefinition

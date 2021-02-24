@@ -267,7 +267,10 @@ function getRowDetails(row) {
           min: 0,
           formatter: number.compact,
           metrics: [`log.counts.byLevel.ERROR.total`, `log.counts.byLevel.WARN.total`],
-          labels: [t('in-internal:monitoringUnit.thisUnit.agent.errCount'), t('in-internal:monitoringUnit.thisUnit.agent.warningCount')],
+          labels: [
+            t('in-internal:monitoringUnit.thisUnit.agent.errCount'),
+            t('in-internal:monitoringUnit.thisUnit.agent.warningCount')
+          ],
           type: 'line'
         }}
       />
@@ -278,7 +281,12 @@ function getRowDetails(row) {
           min: 0,
           formatter: number.compact,
           metrics: [`spans.opened`, `spans.closed`, `spans.filtered`, `spans.dropped`],
-          labels: [t('in-internal:monitoringUnit.thisUnit.agent.spansOpened'), t('in-internal:monitoringUnit.thisUnit.agent.spansClosed'), t('in-internal:monitoringUnit.thisUnit.agent.spansFilter'), t('in-internal:monitoringUnit.thisUnit.agent.spansDropped')],
+          labels: [
+            t('in-internal:monitoringUnit.thisUnit.agent.spansOpened'),
+            t('in-internal:monitoringUnit.thisUnit.agent.spansClosed'),
+            t('in-internal:monitoringUnit.thisUnit.agent.spansFilter'),
+            t('in-internal:monitoringUnit.thisUnit.agent.spansDropped')
+          ],
           type: 'line'
         }}
       />

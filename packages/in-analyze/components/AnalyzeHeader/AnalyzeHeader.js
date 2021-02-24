@@ -77,7 +77,7 @@ export default function AnalyzeHeader({ renderQuickFilterBar, isGrouped, formMod
             )}
           </Overlay>
         }
-        title={t('in-analyze:analyzeHeader.title')} 
+        title={t('in-analyze:analyzeHeader.title')}
       />
       <Title title={getLabelByType(activeConfiguration.dataSource)} />
       <ViewTrackingMeta

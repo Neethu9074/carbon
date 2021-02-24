@@ -27,7 +27,8 @@ export default function DashboardSwitcherPresenter(props) {
           className={locals.button}
         >
           {isCockpit && <Lettering className={locals.lettering} />}
-          {!isCockpit && (activeDashboardTitle || t('in-custom-dashboards:dashboardSwitcher.dashboardSwitcherPresenter.loading'))}
+          {!isCockpit &&
+            (activeDashboardTitle || t('in-custom-dashboards:dashboardSwitcher.dashboardSwitcherPresenter.loading'))}
         </DropdownButton>
       )}
     </Overlay>

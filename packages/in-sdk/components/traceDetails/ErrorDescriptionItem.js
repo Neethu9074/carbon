@@ -10,7 +10,6 @@ import Code from 'in-components/Code';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 
-
 export default function ErrorDescriptionItem({ error }) {
   if (typeof error !== 'string' || isBlank(error)) {
     return null;

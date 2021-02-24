@@ -27,9 +27,7 @@ export default compose(
     header: t('in-custom-dashboards:newDashboardDialog.createNewDashboard'),
     headerIcon: 'lib_views_grid',
     inputLabel: t('in-custom-dashboards:newDashboardDialog.dashboardName'),
-    additionalFields: (
-      <p>{t('in-custom-dashboards:newDashboardDialog.additionalFields')}</p>
-    ),
+    additionalFields: <p>{t('in-custom-dashboards:newDashboardDialog.additionalFields')}</p>,
     confirmButtonLabel: t('in-custom-dashboards:newDashboardDialog.create'),
     ...state,
     onChange: newValue =>

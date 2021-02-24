@@ -87,10 +87,16 @@ function NavigatorSplitScreen({
 
                 <div className={locals.actions}>
                   {hasPrev && (
-                    <Tooltip content={t('in-analyze:traceDetails.navigatorSplitScreen.tooltipViewPrevious', {viewType: typeLabel.toLowerCase()})}>
+                    <Tooltip
+                      content={t('in-analyze:traceDetails.navigatorSplitScreen.tooltipViewPrevious', {
+                        viewType: typeLabel.toLowerCase()
+                      })}
+                    >
                       <SvgIcon
                         type="lib_arrow_drop_left"
-                        aria-label={t('in-analyze:traceDetails.navigatorSplitScreen.tooltipViewPrevious', {viewType: typeLabel.toLowerCase()})}
+                        aria-label={t('in-analyze:traceDetails.navigatorSplitScreen.tooltipViewPrevious', {
+                          viewType: typeLabel.toLowerCase()
+                        })}
                         size="s"
                         className={locals.prev}
                         id={leftArrowId}
@@ -102,10 +108,16 @@ function NavigatorSplitScreen({
                   )}
 
                   {hasNext && (
-                    <Tooltip content={t('in-analyze:traceDetails.navigatorSplitScreen.tooltipViewNext', {viewType: typeLabel.toLowerCase()})}>
+                    <Tooltip
+                      content={t('in-analyze:traceDetails.navigatorSplitScreen.tooltipViewNext', {
+                        viewType: typeLabel.toLowerCase()
+                      })}
+                    >
                       <SvgIcon
                         type="lib_arrow_drop_right"
-                        aria-label={t('in-analyze:traceDetails.navigatorSplitScreen.tooltipViewNext', {viewType: typeLabel.toLowerCase()})}
+                        aria-label={t('in-analyze:traceDetails.navigatorSplitScreen.tooltipViewNext', {
+                          viewType: typeLabel.toLowerCase()
+                        })}
                         size="s"
                         className={locals.next}
                         id={rightArrowId}
@@ -116,10 +128,20 @@ function NavigatorSplitScreen({
                     </Tooltip>
                   )}
 
-                  <Tooltip content={expanded ? t('in-analyze:traceDetails.navigatorSplitScreen.tooltipCloseSidebar') : t('in-analyze:traceDetails.navigatorSplitScreen.tooltipOpenSidebar')}>
+                  <Tooltip
+                    content={
+                      expanded
+                        ? t('in-analyze:traceDetails.navigatorSplitScreen.tooltipCloseSidebar')
+                        : t('in-analyze:traceDetails.navigatorSplitScreen.tooltipOpenSidebar')
+                    }
+                  >
                     <SvgIcon
                       type={expanded ? 'lib_sidebar_to_left' : 'lib_sidebar_to_right'}
-                      aria-label={expanded ? t('in-analyze:traceDetails.navigatorSplitScreen.tooltipCloseSidebar') : t('in-analyze:traceDetails.navigatorSplitScreen.tooltipOpenSidebar')}
+                      aria-label={
+                        expanded
+                          ? t('in-analyze:traceDetails.navigatorSplitScreen.tooltipCloseSidebar')
+                          : t('in-analyze:traceDetails.navigatorSplitScreen.tooltipOpenSidebar')
+                      }
                       size="s"
                       className={locals.toggle}
                       onClick={() => setExpanded(!expanded)}
@@ -141,10 +163,20 @@ function NavigatorSplitScreen({
           <Sticky
             header={
               <div className={locals.toggleWrapper}>
-                <Tooltip content={expanded ? t('in-analyze:traceDetails.navigatorSplitScreen.tooltipCloseSidebar') : t('in-analyze:traceDetails.navigatorSplitScreen.tooltipOpenSidebar')}>
+                <Tooltip
+                  content={
+                    expanded
+                      ? t('in-analyze:traceDetails.navigatorSplitScreen.tooltipCloseSidebar')
+                      : t('in-analyze:traceDetails.navigatorSplitScreen.tooltipOpenSidebar')
+                  }
+                >
                   <SvgIcon
                     type={expanded ? 'lib_sidebar_to_left' : 'lib_sidebar_to_right'}
-                    aria-label={expanded ? t('in-analyze:traceDetails.navigatorSplitScreen.tooltipCloseSidebar') : t('in-analyze:traceDetails.navigatorSplitScreen.tooltipOpenSidebar')}
+                    aria-label={
+                      expanded
+                        ? t('in-analyze:traceDetails.navigatorSplitScreen.tooltipCloseSidebar')
+                        : t('in-analyze:traceDetails.navigatorSplitScreen.tooltipOpenSidebar')
+                    }
                     size="s"
                     className={`${locals.toggleInBar} ${locals.toggle}`}
                     onClick={() => setExpanded(!expanded)}

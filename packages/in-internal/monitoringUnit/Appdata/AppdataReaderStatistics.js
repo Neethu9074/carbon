@@ -105,7 +105,9 @@ export default connectTo({
         />
       </DashboardSection>
 
-      <DashboardSection title={t('in-internal:monitoringUnit.appdata.appdataReaderStatistics.clickHouseQueryLatency50')}>
+      <DashboardSection
+        title={t('in-internal:monitoringUnit.appdata.appdataReaderStatistics.clickHouseQueryLatency50')}
+      >
         <Chart
           snapshotIds={rows.map(r => r.dropwizard.get('id'))}
           timeConfig={timeConfig}
@@ -118,7 +120,9 @@ export default connectTo({
         />
       </DashboardSection>
 
-      <DashboardSection title={t('in-internal:monitoringUnit.appdata.appdataReaderStatistics.clickHouseQueryLatency99')}>
+      <DashboardSection
+        title={t('in-internal:monitoringUnit.appdata.appdataReaderStatistics.clickHouseQueryLatency99')}
+      >
         <Chart
           snapshotIds={rows.map(r => r.dropwizard.get('id'))}
           timeConfig={timeConfig}
@@ -159,7 +163,9 @@ export default connectTo({
         />
       </DashboardSection>
 
-      <DashboardSection title={t('in-internal:monitoringUnit.appdata.appdataReaderStatistics.newlyQueuedClickHouseCalls')}>
+      <DashboardSection
+        title={t('in-internal:monitoringUnit.appdata.appdataReaderStatistics.newlyQueuedClickHouseCalls')}
+      >
         <Chart
           snapshotIds={rows.map(r => r.dropwizard.get('id'))}
           timeConfig={timeConfig}

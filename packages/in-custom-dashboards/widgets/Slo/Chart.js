@@ -54,7 +54,10 @@ export default function Chart({
         timeConfig,
         y1: {
           metricIds: ['consumed', hourlyBudgetMetricId],
-          labels: [t('in-custom-dashboards:widgets.slo.chart.spent'), t('in-custom-dashboards:widgets.slo.chart.budget')],
+          labels: [
+            t('in-custom-dashboards:widgets.slo.chart.spent'),
+            t('in-custom-dashboards:widgets.slo.chart.budget')
+          ],
           icons: {
             types: ['lib_flame', 'lib_actions_stop']
           },

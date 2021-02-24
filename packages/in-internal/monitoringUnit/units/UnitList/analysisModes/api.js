@@ -41,20 +41,18 @@ export default {
       <>
         <ChartExplanation>
           <p>
-            <Trans i18nKey="in-internal:monitoringUnit.units.api.apiChartExplanation_1" components={{ italic: <i />, bold: <strong /> }} />
+            <Trans
+              i18nKey="in-internal:monitoringUnit.units.api.apiChartExplanation_1"
+              components={{ italic: <i />, bold: <strong /> }}
+            />
           </p>
           <p>
             <Trans
               i18nKey="in-internal:monitoringUnit.units.api.apiChartExplanation_2"
               components={{
-                linkToDocs: (
-                  <Link
-                    href="https://developer.github.com/v3/#rate-limiting"
-                    external
-                  />
-                )
+                linkToDocs: <Link href="https://developer.github.com/v3/#rate-limiting" external />
               }}
-            />            
+            />
             <ul>
               <li>X-RateLimit-Zone</li>
               <li>X-RateLimit-Limit</li>
@@ -63,13 +61,22 @@ export default {
             </ul>
           </p>
           <p>
-            <Trans i18nKey="in-internal:monitoringUnit.units.api.apiChartExplanation_3" components={{ italic: <i />, bold: <strong /> }} />
+            <Trans
+              i18nKey="in-internal:monitoringUnit.units.api.apiChartExplanation_3"
+              components={{ italic: <i />, bold: <strong /> }}
+            />
           </p>
           <p>
-            <Trans i18nKey="in-internal:monitoringUnit.units.api.apiChartExplanation_4" components={{ italic: <i />, bold: <strong /> }} />
+            <Trans
+              i18nKey="in-internal:monitoringUnit.units.api.apiChartExplanation_4"
+              components={{ italic: <i />, bold: <strong /> }}
+            />
           </p>
           <p>
-            <Trans i18nKey="in-internal:monitoringUnit.units.api.apiChartExplanation_5" components={{ italic: <i />, bold: <strong /> }} />
+            <Trans
+              i18nKey="in-internal:monitoringUnit.units.api.apiChartExplanation_5"
+              components={{ italic: <i />, bold: <strong /> }}
+            />
           </p>
         </ChartExplanation>
         <Chart

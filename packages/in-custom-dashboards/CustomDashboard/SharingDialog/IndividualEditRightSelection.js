@@ -36,7 +36,12 @@ const columnDefinitions = [
     width: '2rem',
     getContent({ user, removeEditor }) {
       return (
-        <Tooltip content={t('in-custom-dashboards:customDashboard.sharingDialog.individualEditRightSelect.removeEditRightUserName', { fullName: user.fullName })}>
+        <Tooltip
+          content={t(
+            'in-custom-dashboards:customDashboard.sharingDialog.individualEditRightSelect.removeEditRightUserName',
+            { fullName: user.fullName }
+          )}
+        >
           <SvgIcon className={locals.delete} type="lib_actions_delete" onClick={() => removeEditor(user.id)} />
         </Tooltip>
       );
@@ -74,13 +79,17 @@ export default function IndividualEditRightSelection({
     <div className={locals.wrapper}>
       <div className={locals.addWrapper}>
         <FormGroup withoutBottomMargin className={locals.addInput}>
-          <Label htmlFor="dashboard-edit-right-selection">{t('in-custom-dashboards:customDashboard.sharingDialog.individualEditRightSelect.addEditors')}</Label>
+          <Label htmlFor="dashboard-edit-right-selection">
+            {t('in-custom-dashboards:customDashboard.sharingDialog.individualEditRightSelect.addEditors')}
+          </Label>
           <Select
             id="dashboard-edit-right-selection"
             value={selectedUserId}
             onChange={e => setSelectedUserId(e.target.value)}
           >
-            <option value="">{t('in-custom-dashboards:customDashboard.sharingDialog.individualEditRightSelect.pleaseSelect')}</option>
+            <option value="">
+              {t('in-custom-dashboards:customDashboard.sharingDialog.individualEditRightSelect.pleaseSelect')}
+            </option>
 
             {usersResult.data
               .filter(({ id }) => id !== user.id)
@@ -93,7 +102,7 @@ export default function IndividualEditRightSelection({
           </Select>
         </FormGroup>
         <Button kind="primary" disabled={isBlank(selectedUserId)} className={locals.addButton} onClick={addEditor}>
-        {t('in-custom-dashboards:customDashboard.sharingDialog.individualEditRightSelect.add')}
+          {t('in-custom-dashboards:customDashboard.sharingDialog.individualEditRightSelect.add')}
         </Button>
       </div>
 

@@ -7,7 +7,6 @@ import { navigationParameters$ } from 'in-stores/navigation';
 import { createTrackingStore } from 'in-stores/store';
 import { t } from 'in-i18n';
 
-
 const viewGroupings = Object.freeze({
   compose: 'DOCKER_COMPOSE_PROJECT_NAME',
   docker: 'DOCKER_IMAGE',

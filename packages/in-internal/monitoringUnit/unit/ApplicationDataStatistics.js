@@ -43,22 +43,40 @@ export default connectTo(
               {t('in-internal:monitoringUnit.unit.appDataStatistic.spanDropSumChartExplanation_1')}
               <ul>
                 <li>
-                  <Trans i18nKey="in-internal:monitoringUnit.unit.appDataStatistic.spanDropSumChartExplanation_2" components={{ italic: <i />, bold: <strong /> }} />
+                  <Trans
+                    i18nKey="in-internal:monitoringUnit.unit.appDataStatistic.spanDropSumChartExplanation_2"
+                    components={{ italic: <i />, bold: <strong /> }}
+                  />
                 </li>
                 <li>
-                  <Trans i18nKey="in-internal:monitoringUnit.unit.appDataStatistic.spanDropSumChartExplanation_3" components={{ italic: <i />, bold: <strong /> }} />
+                  <Trans
+                    i18nKey="in-internal:monitoringUnit.unit.appDataStatistic.spanDropSumChartExplanation_3"
+                    components={{ italic: <i />, bold: <strong /> }}
+                  />
                 </li>
                 <li>
-                  <Trans i18nKey="in-internal:monitoringUnit.unit.appDataStatistic.spanDropSumChartExplanation_4" components={{ italic: <i />, bold: <strong /> }} />
+                  <Trans
+                    i18nKey="in-internal:monitoringUnit.unit.appDataStatistic.spanDropSumChartExplanation_4"
+                    components={{ italic: <i />, bold: <strong /> }}
+                  />
                 </li>
                 <li>
-                  <Trans i18nKey="in-internal:monitoringUnit.unit.appDataStatistic.spanDropSumChartExplanation_5" components={{ italic: <i />, bold: <strong /> }} />
+                  <Trans
+                    i18nKey="in-internal:monitoringUnit.unit.appDataStatistic.spanDropSumChartExplanation_5"
+                    components={{ italic: <i />, bold: <strong /> }}
+                  />
                 </li>
                 <li>
-                  <Trans i18nKey="in-internal:monitoringUnit.unit.appDataStatistic.spanDropSumChartExplanation_6" components={{ italic: <i />, bold: <strong /> }} />
+                  <Trans
+                    i18nKey="in-internal:monitoringUnit.unit.appDataStatistic.spanDropSumChartExplanation_6"
+                    components={{ italic: <i />, bold: <strong /> }}
+                  />
                 </li>
                 <li>
-                  <Trans i18nKey="in-internal:monitoringUnit.unit.appDataStatistic.spanDropSumChartExplanation_7" components={{ italic: <i />, bold: <strong /> }} />{' '}
+                  <Trans
+                    i18nKey="in-internal:monitoringUnit.unit.appDataStatistic.spanDropSumChartExplanation_7"
+                    components={{ italic: <i />, bold: <strong /> }}
+                  />{' '}
                 </li>
               </ul>
             </div>
@@ -109,7 +127,7 @@ export default connectTo(
         {appdata_processor_instances.length > 1 && (
           <DashboardSection title={t('in-internal:monitoringUnit.unit.appDataStatistic.backendSpanDropPerInstance')}>
             <ChartExplanation>
-            <div>
+              <div>
                 {t('in-internal:monitoringUnit.unit.appDataStatistic.backendSpanDropInstChartExplanation_1')}
                 <ul>
                   <li>{t('in-internal:monitoringUnit.unit.appDataStatistic.backendSpanDropInstChartExplanation_2')}</li>
@@ -117,7 +135,10 @@ export default connectTo(
                     {t('in-internal:monitoringUnit.unit.appDataStatistic.backendSpanDropInstChartExplanation_3')}
                     <ul>
                       <li>
-                        <Trans i18nKey="in-internal:monitoringUnit.unit.appDataStatistic.backendSpanDropInstChartExplanation_4" components={{ italic: <i />, bold: <strong /> }} />
+                        <Trans
+                          i18nKey="in-internal:monitoringUnit.unit.appDataStatistic.backendSpanDropInstChartExplanation_4"
+                          components={{ italic: <i />, bold: <strong /> }}
+                        />
                       </li>
                       <li>
                         {t('in-internal:monitoringUnit.unit.appDataStatistic.backendSpanDropInstChartExplanation_5')}
@@ -145,9 +166,7 @@ export default connectTo(
 
         <DashboardSection title={t('in-internal:monitoringUnit.unit.appDataStatistic.spanLatencyMeanInstance')}>
           <ChartExplanation>
-            <div>
-              {t('in-internal:monitoringUnit.unit.appDataStatistic.spanLatencyMeanInstChartExplanation')}
-            </div>
+            <div>{t('in-internal:monitoringUnit.unit.appDataStatistic.spanLatencyMeanInstChartExplanation')}</div>
           </ChartExplanation>
           <Chart
             snapshotId={tenantUnitId}
@@ -169,7 +188,10 @@ export default connectTo(
         <DashboardSection title={t('in-internal:monitoringUnit.unit.appDataStatistic.acceptorRateLimitSpanMsg')}>
           <ChartExplanation>
             <div>
-            <Trans i18nKey="in-internal:monitoringUnit.unit.appDataStatistic.acceptorRateLimitSpanhartExplan" components={{ italic: <i />, bold: <strong /> }} />
+              <Trans
+                i18nKey="in-internal:monitoringUnit.unit.appDataStatistic.acceptorRateLimitSpanhartExplan"
+                components={{ italic: <i />, bold: <strong /> }}
+              />
             </div>
           </ChartExplanation>
           <Chart
@@ -186,9 +208,7 @@ export default connectTo(
 
         <DashboardSection title={t('in-internal:monitoringUnit.unit.appDataStatistic.srvlessAcceptorRateLimitSpanMsg')}>
           <ChartExplanation>
-            <div>
-            {t('in-internal:monitoringUnit.unit.appDataStatistic.acceptorRateLimitSpanhartExplan')}
-            </div>
+            <div>{t('in-internal:monitoringUnit.unit.appDataStatistic.acceptorRateLimitSpanhartExplan')}</div>
           </ChartExplanation>
           <Chart
             snapshotId={tenantUnitId}

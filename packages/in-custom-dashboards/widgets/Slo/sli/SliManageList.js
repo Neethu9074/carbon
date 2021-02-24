@@ -41,8 +41,8 @@ export default function SliManageList({ applicationId, apName, apDefaultBoundary
       {!role.canConfigureServiceLevelIndicators && (
         <Message className={locals.message} withIcon>
           <Trans
-          i18nKey="in-custom-dashboards:widgets.slo.sliManageList.configSrvLevelIndicatorsMsg"
-          components={{ italic: <i />, bold: <strong /> }}
+            i18nKey="in-custom-dashboards:widgets.slo.sliManageList.configSrvLevelIndicatorsMsg"
+            components={{ italic: <i />, bold: <strong /> }}
           />
         </Message>
       )}

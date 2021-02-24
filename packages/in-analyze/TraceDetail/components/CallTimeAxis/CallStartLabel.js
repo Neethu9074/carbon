@@ -19,7 +19,7 @@ export default getElementDimensions(({ startTime, call, className }) => {
   return (
     <span className={classNames(locals.callStartLabel, className)}>
       <SvgIcon className={locals.icon} type="lib_datetime_time" />
-      {t('in-analyze:traceDetails.callTimeAxis.started', {startedTime: formatDateTime(startTime)})}
+      {t('in-analyze:traceDetails.callTimeAxis.started', { startedTime: formatDateTime(startTime) })}
     </span>
   );
 });

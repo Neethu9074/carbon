@@ -69,7 +69,9 @@ const cols = [
     }
   },
   {
-    title: t('in-internal:monitoringUnit.appdata.callExtraction.entrySpanMissingParentTraceCallEntrySpansMissingParent'),
+    title: t(
+      'in-internal:monitoringUnit.appdata.callExtraction.entrySpanMissingParentTraceCallEntrySpansMissingParent'
+    ),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {

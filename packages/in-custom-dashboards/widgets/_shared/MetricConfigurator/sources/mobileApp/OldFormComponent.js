@@ -99,7 +99,9 @@ export default function FormComponent({
           disabled={!beaconTypeField.valid}
           additionalContent={<TouchedMessages field={metricField} />}
         >
-          {!beaconTypeField.valid && <option value="">{t('in-custom-dashboards:widgets.srcMobileApp.oldFormComp.pleaseSelectDs')}</option>}
+          {!beaconTypeField.valid && (
+            <option value="">{t('in-custom-dashboards:widgets.srcMobileApp.oldFormComp.pleaseSelectDs')}</option>
+          )}
           {beaconTypeField.valid && (
             <>
               <option value="">{t('in-custom-dashboards:widgets.srcMobileApp.oldFormComp.pleaseSelect')}</option>
@@ -137,7 +139,9 @@ export default function FormComponent({
           disabled={!metricField.valid}
           additionalContent={<TouchedMessages field={aggregationField} />}
         >
-          {!metricField.valid && <option value="">{t('in-custom-dashboards:widgets.srcMobileApp.oldFormComp.pleaseSelectMetric')}</option>}
+          {!metricField.valid && (
+            <option value="">{t('in-custom-dashboards:widgets.srcMobileApp.oldFormComp.pleaseSelectMetric')}</option>
+          )}
           {metricField.valid && (
             <>
               <option value="">{t('in-custom-dashboards:widgets.srcMobileApp.oldFormComp.pleaseSelect')}</option>

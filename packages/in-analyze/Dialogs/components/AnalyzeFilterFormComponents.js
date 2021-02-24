@@ -249,11 +249,7 @@ export function AutoCompletedSelect({ value, onChange, tagSuggestionResult }) {
           <SvgIcon className={locals.loadingIcon} type="lib_actions_loading" spinning />
         )}
         {get(tagSuggestionResult, ['errors', 'length']) > 0 && (
-          <Tooltip
-            themeStyle="light"
-            align="bottomMiddle"
-            content={t('in-analyze:dialogs.tooltip')}
-          >
+          <Tooltip themeStyle="light" align="bottomMiddle" content={t('in-analyze:dialogs.tooltip')}>
             <SvgIcon className={locals.errorIcon} type="lib_help_error_error_outline" />
           </Tooltip>
         )}

@@ -10,7 +10,6 @@ import { DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
 import { plugins } from 'in-forge/constants';
 import { t } from 'in-i18n';
 
-
 export default getSnapshotFromHierarchyByPlugin(plugins.process, function ProcessStartedAtDescriptionItem({
   processSnapshot
 }) {

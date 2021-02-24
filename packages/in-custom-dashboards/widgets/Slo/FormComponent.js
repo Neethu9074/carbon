@@ -94,7 +94,8 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
     trackTimeWindowTypeChanged({ type: value });
   };
 
-  const timeWindowDurationUnitValue = form.get(timeWindowDurationUnit)?.value ?? t('in-custom-dashboards:widgets.slo.formComponent.weeks');
+  const timeWindowDurationUnitValue =
+    form.get(timeWindowDurationUnit)?.value ?? t('in-custom-dashboards:widgets.slo.formComponent.weeks');
 
   const onChangeTimeDurationUnit = value => {
     onChange([], form => {
@@ -116,7 +117,9 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
         if (sliSelected === null) {
           return t('in-custom-dashboards:widgets.slo.formComponent.sliManagement');
         }
-        return sliSelected?.id ? t('in-custom-dashboards:widgets.slo.formComponent.editSli') : t('in-custom-dashboards:widgets.slo.formComponent.createSli');
+        return sliSelected?.id
+          ? t('in-custom-dashboards:widgets.slo.formComponent.editSli')
+          : t('in-custom-dashboards:widgets.slo.formComponent.createSli');
       },
       slideOutHandler(slideOut, [sliSelected, selectSli]) {
         return () => {
@@ -183,7 +186,11 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
 
         <Sections>
           {form.get(sloTarget).map(field => (
-            <Section title={t('in-custom-dashboards:widgets.slo.formComponent.sloTarget')} titleHtmlFor={sloTarget} hasError={!field.valid && field.touched}>
+            <Section
+              title={t('in-custom-dashboards:widgets.slo.formComponent.sloTarget')}
+              titleHtmlFor={sloTarget}
+              hasError={!field.valid && field.touched}
+            >
               <PercentageFormInput
                 form={form}
                 id={sloTarget}
@@ -209,20 +216,20 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
             actions={
               <HelpAction>
                 <Trans
-                i18nKey="in-custom-dashboards:widgets.slo.formComponent.helpActionMsg1"
-                components={{ italic: <i />, bold: <strong /> }}
+                  i18nKey="in-custom-dashboards:widgets.slo.formComponent.helpActionMsg1"
+                  components={{ italic: <i />, bold: <strong /> }}
                 />
                 <br />
                 <br />
                 <Trans
-                i18nKey="in-custom-dashboards:widgets.slo.formComponent.helpActionMsg2"
-                components={{ italic: <i />, bold: <strong /> }}
+                  i18nKey="in-custom-dashboards:widgets.slo.formComponent.helpActionMsg2"
+                  components={{ italic: <i />, bold: <strong /> }}
                 />
                 <br />
                 <br />
                 <Trans
-                i18nKey="in-custom-dashboards:widgets.slo.formComponent.helpActionMsg3"
-                components={{ italic: <i />, bold: <strong /> }}
+                  i18nKey="in-custom-dashboards:widgets.slo.formComponent.helpActionMsg3"
+                  components={{ italic: <i />, bold: <strong /> }}
                 />
               </HelpAction>
             }
@@ -233,7 +240,11 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
           </SelectInSection>
 
           {(isRolling || isFixed) && (
-            <Section title={t('in-custom-dashboards:widgets.slo.formComponent.length')} titleHtmlFor="time-window-size" useAlternateBg>
+            <Section
+              title={t('in-custom-dashboards:widgets.slo.formComponent.length')}
+              titleHtmlFor="time-window-size"
+              useAlternateBg
+            >
               <HorizontalFlexWrapper>
                 {form.get(timeWindowDuration).map(field => (
                   <Input
@@ -267,7 +278,9 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
               <TouchedMessages field={form.get(timeWindowDuration)} />
               <OverridingTextTouchedMessage
                 field={form.get(timeWindowDuration)}
-                message={t('in-custom-dashboards:widgets.slo.formComponent.pleaseSpecifyTheNumber', { timeValue: timeWindowDurationUnitValue })}
+                message={t('in-custom-dashboards:widgets.slo.formComponent.pleaseSpecifyTheNumber', {
+                  timeValue: timeWindowDurationUnitValue
+                })}
               />
               <TouchedMessages field={form} />
             </Section>
@@ -302,8 +315,14 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
                 )}
               </HorizontalFlexWrapper>
 
-              <OverridingTextTouchedMessage field={dateField} message={t('in-custom-dashboards:widgets.slo.formComponent.enterDateFormatYyyyMmDd')} />
-              <OverridingTextTouchedMessage field={timeField} message={t('in-custom-dashboards:widgets.slo.formComponent.enterTimeInFormatHhMmSs')} />
+              <OverridingTextTouchedMessage
+                field={dateField}
+                message={t('in-custom-dashboards:widgets.slo.formComponent.enterDateFormatYyyyMmDd')}
+              />
+              <OverridingTextTouchedMessage
+                field={timeField}
+                message={t('in-custom-dashboards:widgets.slo.formComponent.enterTimeInFormatHhMmSs')}
+              />
             </Section>
           )}
         </Sections>

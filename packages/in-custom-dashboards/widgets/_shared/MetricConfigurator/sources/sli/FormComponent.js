@@ -42,7 +42,11 @@ export default function FormComponent({
               )
             }
             hasError={!field.valid && field.touched}
-            actions={<HelpAction>{t('in-custom-dashboards:widgets.srcSli.formComp.sliConfigComputeErrBudgetSliVal')}</HelpAction>}
+            actions={
+              <HelpAction>
+                {t('in-custom-dashboards:widgets.srcSli.formComp.sliConfigComputeErrBudgetSliVal')}
+              </HelpAction>
+            }
             additionalContent={<TouchedMessages field={field} />}
           >
             <option value="">{t('in-custom-dashboards:widgets.srcSli.formComp.pleaseSelect')}</option>
@@ -81,8 +85,8 @@ export default function FormComponent({
             actions={
               <HelpAction>
                 <Trans
-                i18nKey="in-custom-dashboards:widgets.srcSli.formComp.typeSloThreshold"
-                values={{ compact: percentage.compact(0), detailed: percentage.detailed(0.9999) }}
+                  i18nKey="in-custom-dashboards:widgets.srcSli.formComp.typeSloThreshold"
+                  values={{ compact: percentage.compact(0), detailed: percentage.detailed(0.9999) }}
                 />
               </HelpAction>
             }

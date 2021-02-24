@@ -77,7 +77,11 @@ function Color({ id, withLabel, addAutomaticColorIndication }) {
   );
 
   if (addAutomaticColorIndication) {
-    content = <Tooltip content={t('in-custom-dashboards:widgets.formCompChart.colorConfiguratorChart.colorAutoChose')}>{content}</Tooltip>;
+    content = (
+      <Tooltip content={t('in-custom-dashboards:widgets.formCompChart.colorConfiguratorChart.colorAutoChose')}>
+        {content}
+      </Tooltip>
+    );
   }
 
   if (withLabel) {

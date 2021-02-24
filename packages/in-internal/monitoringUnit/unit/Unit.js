@@ -142,7 +142,10 @@ export default connectTo(({ location }) => {
 function Navigation({ tenant, unit }) {
   return (
     <LinkList>
-      <LinkListItem label={t('in-internal:monitoringUnit.unit.tenantUnit.home')} href$={getModifiedUrlStream(p => (p.pathname = '/internal/monitoringUnit/unit'))} />
+      <LinkListItem
+        label={t('in-internal:monitoringUnit.unit.tenantUnit.home')}
+        href$={getModifiedUrlStream(p => (p.pathname = '/internal/monitoringUnit/unit'))}
+      />
       <LinkListItem
         label={t('in-internal:monitoringUnit.unit.tenantUnit.agents')}
         external

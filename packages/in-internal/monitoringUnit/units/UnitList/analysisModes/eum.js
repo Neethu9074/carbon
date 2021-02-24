@@ -61,7 +61,10 @@ export default {
           min: 0,
           formatter: number.compact,
           metrics: [`eum-acceptor.websiteBeacons`, `eum-acceptor.mobileAppBeacons`],
-          labels: [t('in-internal:monitoringUnit.units.eum.websiteBeacons'), t('in-internal:monitoringUnit.units.eum.mobileAppBeacons')],
+          labels: [
+            t('in-internal:monitoringUnit.units.eum.websiteBeacons'),
+            t('in-internal:monitoringUnit.units.eum.mobileAppBeacons')
+          ],
           type: 'stackedArea'
         }}
       />

@@ -85,10 +85,16 @@ export default function FormComponent({
           additionalContent={<TouchedMessages field={aggregationField} />}
           useAlternateBg
         >
-          {!metricField.valid && <option value="">{t('in-custom-dashboards:widgets.srcInfrastructure.metricsFormComponent.pleaseSelectMetric')}</option>}
+          {!metricField.valid && (
+            <option value="">
+              {t('in-custom-dashboards:widgets.srcInfrastructure.metricsFormComponent.pleaseSelectMetric')}
+            </option>
+          )}
           {metricField.valid && (
             <>
-              <option value="">{t('in-custom-dashboards:widgets.srcInfrastructure.metricsFormComponent.pleaseSelect')}</option>
+              <option value="">
+                {t('in-custom-dashboards:widgets.srcInfrastructure.metricsFormComponent.pleaseSelect')}
+              </option>
               {Object.keys(aggregationLabels).map(aggregation => (
                 <option key={aggregation} value={aggregation}>
                   {aggregationLabels[aggregation]}

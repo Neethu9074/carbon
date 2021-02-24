@@ -38,7 +38,9 @@ export default function FormComponent({
           onChange={e => onChange(['dynamicFocusQuery'], field => field.setValue(e.target.value).setTouched(true))}
           hasError={!dynamicFocusQueryField.valid && dynamicFocusQueryField.touched}
           actions={
-            <HelpAction>{t('in-custom-dashboards:widgets.srcInfrastructure.entityCountFormComponent.helpAction')}</HelpAction>
+            <HelpAction>
+              {t('in-custom-dashboards:widgets.srcInfrastructure.entityCountFormComponent.helpAction')}
+            </HelpAction>
           }
           additionalContent={<TouchedMessages field={dynamicFocusQueryField} />}
           maxLength={512}
@@ -53,7 +55,9 @@ export default function FormComponent({
           disabled
           additionalContent={<TouchedMessages field={metricField} />}
         >
-          <option value="count">{t('in-custom-dashboards:widgets.srcInfrastructure.entityCountFormComponent.count')}</option>
+          <option value="count">
+            {t('in-custom-dashboards:widgets.srcInfrastructure.entityCountFormComponent.count')}
+          </option>
         </SelectInSection>
         <SelectInSection
           label={t('in-custom-dashboards:widgets.srcInfrastructure.entityCountFormComponent.aggregation')}
@@ -63,10 +67,16 @@ export default function FormComponent({
           additionalContent={<TouchedMessages field={aggregationField} />}
           useAlternateBg
         >
-          {!metricField.valid && <option value="">{t('in-custom-dashboards:widgets.srcInfrastructure.entityCountFormComponent.pleaseSelectMetric')}</option>}
+          {!metricField.valid && (
+            <option value="">
+              {t('in-custom-dashboards:widgets.srcInfrastructure.entityCountFormComponent.pleaseSelectMetric')}
+            </option>
+          )}
           {metricField.valid && (
             <>
-              <option value="">{t('in-custom-dashboards:widgets.srcInfrastructure.entityCountFormComponent.pleaseSelect')}</option>
+              <option value="">
+                {t('in-custom-dashboards:widgets.srcInfrastructure.entityCountFormComponent.pleaseSelect')}
+              </option>
               {Object.keys(aggregationLabels).map(aggregation => (
                 <option key={aggregation} value={aggregation}>
                   {aggregationLabels[aggregation]}

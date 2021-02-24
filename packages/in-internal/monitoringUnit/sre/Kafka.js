@@ -67,7 +67,7 @@ export default connectTo(
 
     return (
       <div>
-        <h2>{t('in-internal:monitoringUnit.sre.kafka.kafkaNodes', { count: kafkaNodes.length})}</h2>
+        <h2>{t('in-internal:monitoringUnit.sre.kafka.kafkaNodes', { count: kafkaNodes.length })}</h2>
 
         <Columize>
           <DashboardSection title={t('in-internal:monitoringUnit.sre.kafka.brokerTrafficBytesIn')}>
@@ -185,9 +185,7 @@ export default connectTo(
             />
           </DashboardSection>
           <DashboardSection title={t('in-internal:monitoringUnit.sre.kafka.suspension')}>
-            <ChartExplanation>
-              {t('in-internal:monitoringUnit.sre.kafka.suspensionChartExplanation')}
-            </ChartExplanation>
+            <ChartExplanation>{t('in-internal:monitoringUnit.sre.kafka.suspensionChartExplanation')}</ChartExplanation>
             <Chart
               snapshotIds={jvmNodes.map(r => r.jvmRuntimePlatform.get('id'))}
               timeConfig={timeConfig}

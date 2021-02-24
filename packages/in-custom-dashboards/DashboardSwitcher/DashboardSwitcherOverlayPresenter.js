@@ -101,7 +101,7 @@ function DashboardList({ customDashboards, query, activeLandingPageConfiguration
       <>
         <Lettering className={locals.lettering} />
         <Pill color={theme.lib.colors.deepPurple800} className={locals.leftMargin}>
-        {t('in-custom-dashboards:dashboardSwitcher.dashboardSwitcherOverlayPresenter.builtIn')}
+          {t('in-custom-dashboards:dashboardSwitcher.dashboardSwitcherOverlayPresenter.builtIn')}
         </Pill>
       </>
     ),

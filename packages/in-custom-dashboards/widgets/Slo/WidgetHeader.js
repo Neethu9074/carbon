@@ -42,7 +42,13 @@ export function WidgetHeader({ slo, budget, isDynamic, isRolling, fromTimestamp,
         />
         <SloTimeTile
           title={t('in-custom-dashboards:widgets.slo.widgetHeader.timeWindow')}
-          info={isDynamic ? t('in-custom-dashboards:widgets.slo.widgetHeader.dynamicTimeWindow') : isRolling ? t('in-custom-dashboards:widgets.slo.widgetHeader.rollingTimeWindow') : t('in-custom-dashboards:widgets.slo.widgetHeader.fixedTimeWindow')}
+          info={
+            isDynamic
+              ? t('in-custom-dashboards:widgets.slo.widgetHeader.dynamicTimeWindow')
+              : isRolling
+              ? t('in-custom-dashboards:widgets.slo.widgetHeader.rollingTimeWindow')
+              : t('in-custom-dashboards:widgets.slo.widgetHeader.fixedTimeWindow')
+          }
           fromTimestamp={fromTimestamp}
           toTimestamp={toTimestamp}
         />
@@ -65,7 +71,13 @@ export function WidgetHeader({ slo, budget, isDynamic, isRolling, fromTimestamp,
           smallRowStyle
         />
         <SloTimeTile
-          info={isDynamic ? t('in-custom-dashboards:widgets.slo.widgetHeader.dynamicTimeWindow') : isRolling ? t('in-custom-dashboards:widgets.slo.widgetHeader.rollingTimeWindow') : t('in-custom-dashboards:widgets.slo.widgetHeader.fixedTimeWindow')}
+          info={
+            isDynamic
+              ? t('in-custom-dashboards:widgets.slo.widgetHeader.dynamicTimeWindow')
+              : isRolling
+              ? t('in-custom-dashboards:widgets.slo.widgetHeader.rollingTimeWindow')
+              : t('in-custom-dashboards:widgets.slo.widgetHeader.fixedTimeWindow')
+          }
           fromTimestamp={fromTimestamp}
           toTimestamp={toTimestamp}
           smallRowStyle

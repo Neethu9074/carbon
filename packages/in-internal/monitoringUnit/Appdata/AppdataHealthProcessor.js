@@ -110,7 +110,9 @@ export default connectTo({
               />
             </DashboardSection>
 
-            <DashboardSection title={t('in-internal:monitoringUnit.appdata.appdataHealthProcessor.failedProcessedInterval')}>
+            <DashboardSection
+              title={t('in-internal:monitoringUnit.appdata.appdataHealthProcessor.failedProcessedInterval')}
+            >
               <Chart
                 snapshotIds={rows.map(r => r.dropwizard.get('id'))}
                 timeConfig={timeConfig}
@@ -142,7 +144,9 @@ export default connectTo({
               />
             </DashboardSection>
 
-            <DashboardSection title={t('in-internal:monitoringUnit.appdata.appdataHealthProcessor.failProcessedConfig')}>
+            <DashboardSection
+              title={t('in-internal:monitoringUnit.appdata.appdataHealthProcessor.failProcessedConfig')}
+            >
               <Chart
                 snapshotIds={rows.map(r => r.dropwizard.get('id'))}
                 timeConfig={timeConfig}
@@ -191,7 +195,9 @@ export default connectTo({
           </Columize>
 
           <Columize>
-            <DashboardSection title={t('in-internal:monitoringUnit.appdata.appdataHealthProcessor.appdataLiveAggreApplMetricsReq')}>
+            <DashboardSection
+              title={t('in-internal:monitoringUnit.appdata.appdataHealthProcessor.appdataLiveAggreApplMetricsReq')}
+            >
               <Chart
                 snapshotIds={rows.map(r => r.dropwizard.get('id'))}
                 timeConfig={timeConfig}
@@ -208,7 +214,9 @@ export default connectTo({
               />
             </DashboardSection>
 
-            <DashboardSection title={t('in-internal:monitoringUnit.appdata.appdataHealthProcessor.noResultAppdataAggreAppMetricsReq')}>
+            <DashboardSection
+              title={t('in-internal:monitoringUnit.appdata.appdataHealthProcessor.noResultAppdataAggreAppMetricsReq')}
+            >
               <Chart
                 snapshotIds={rows.map(r => r.dropwizard.get('id'))}
                 timeConfig={timeConfig}
@@ -223,7 +231,9 @@ export default connectTo({
               />
             </DashboardSection>
 
-            <DashboardSection title={t('in-internal:monitoringUnit.appdata.appdataHealthProcessor.failAppdataLiveAggreAppMetricsReqs')}>
+            <DashboardSection
+              title={t('in-internal:monitoringUnit.appdata.appdataHealthProcessor.failAppdataLiveAggreAppMetricsReqs')}
+            >
               <Chart
                 snapshotIds={rows.map(r => r.dropwizard.get('id'))}
                 timeConfig={timeConfig}
@@ -242,7 +252,9 @@ export default connectTo({
           </Columize>
 
           <Columize>
-            <DashboardSection title={t('in-internal:monitoringUnit.appdata.appdataHealthProcessor.appdataReaderAppMetricsReq')}>
+            <DashboardSection
+              title={t('in-internal:monitoringUnit.appdata.appdataHealthProcessor.appdataReaderAppMetricsReq')}
+            >
               <Chart
                 snapshotIds={rows.map(r => r.dropwizard.get('id'))}
                 timeConfig={timeConfig}
@@ -259,7 +271,9 @@ export default connectTo({
               />
             </DashboardSection>
 
-            <DashboardSection title={t('in-internal:monitoringUnit.appdata.appdataHealthProcessor.failAppdReaderAppMetricsReq')}>
+            <DashboardSection
+              title={t('in-internal:monitoringUnit.appdata.appdataHealthProcessor.failAppdReaderAppMetricsReq')}
+            >
               <Chart
                 snapshotIds={rows.map(r => r.dropwizard.get('id'))}
                 timeConfig={timeConfig}
@@ -278,7 +292,9 @@ export default connectTo({
           </Columize>
 
           <Columize>
-            <DashboardSection title={t('in-internal:monitoringUnit.appdata.appdataHealthProcessor.appReaderCallGroupsReq')}>
+            <DashboardSection
+              title={t('in-internal:monitoringUnit.appdata.appdataHealthProcessor.appReaderCallGroupsReq')}
+            >
               <Chart
                 snapshotIds={rows.map(r => r.dropwizard.get('id'))}
                 timeConfig={timeConfig}
@@ -295,7 +311,9 @@ export default connectTo({
               />
             </DashboardSection>
 
-            <DashboardSection title={t('in-internal:monitoringUnit.appdata.appdataHealthProcessor.failAppdataReaderCallGroupsReq')}>
+            <DashboardSection
+              title={t('in-internal:monitoringUnit.appdata.appdataHealthProcessor.failAppdataReaderCallGroupsReq')}
+            >
               <Chart
                 snapshotIds={rows.map(r => r.dropwizard.get('id'))}
                 timeConfig={timeConfig}
@@ -313,7 +331,11 @@ export default connectTo({
             </DashboardSection>
           </Columize>
 
-          <DashboardSection title={t('in-internal:monitoringUnit.appdata.appdataHealthProcessor.processesCount', { length: rows.length })}>
+          <DashboardSection
+            title={t('in-internal:monitoringUnit.appdata.appdataHealthProcessor.processesCount', {
+              length: rows.length
+            })}
+          >
             <Table cols={hostViewCols} rows={rows} getRowDetails={getRowDetails} />
           </DashboardSection>
         </div>

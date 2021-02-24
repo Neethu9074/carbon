@@ -53,7 +53,9 @@ export default class extends React.Component {
       <div className={block}>
         {cpEntries.length > 5 ? (
           <Button onClick={this.toggleVisibility} kind="secondary" className={`${block}__toggle`}>
-            {this.state.visible ? t('in-sdk:sidebar.classpath.classpathHide') : t('in-sdk:sidebar.classpath.classpathShow')}
+            {this.state.visible
+              ? t('in-sdk:sidebar.classpath.classpathHide')
+              : t('in-sdk:sidebar.classpath.classpathShow')}
           </Button>
         ) : null}
 

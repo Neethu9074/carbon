@@ -168,7 +168,7 @@ function CustomDashboardLoader(props) {
           <span>
             <Trans
               i18nKey="in-custom-dashboards:customDashboard.customDashboard.uWantDelDashboardConfig"
-              values={{ title: config.title}}
+              values={{ title: config.title }}
               components={{ italic: <i />, bold: <strong /> }}
             />
           </span>

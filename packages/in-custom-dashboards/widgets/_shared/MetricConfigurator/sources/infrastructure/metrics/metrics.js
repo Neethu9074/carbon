@@ -12,10 +12,10 @@ export const Form = FormComponent;
 
 export const source = 'INFRASTRUCTURE_METRICS';
 export const label =
-  t('in-custom-dashboards:widgets.srcInfrastructure.metrics.infrastructurePlatforms') + 
+  t('in-custom-dashboards:widgets.srcInfrastructure.metrics.infrastructurePlatforms') +
   ' ' +
   (entityCountWidgetEnabled ? 'Metrics ' : '') +
-  (infraMetricsWidgetEnabled ? '(Beta)' : t('in-custom-dashboards:widgets.srcInfrastructure.metrics.comingSoon') );
+  (infraMetricsWidgetEnabled ? '(Beta)' : t('in-custom-dashboards:widgets.srcInfrastructure.metrics.comingSoon'));
 export const disabled = !infraMetricsWidgetEnabled;
 export const visible = true;
 export const minGranularity = 10000;

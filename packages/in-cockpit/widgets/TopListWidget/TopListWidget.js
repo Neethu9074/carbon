@@ -190,5 +190,10 @@ export function getFlattenedIds(idsByType) {
 }
 
 function DefaultEmptyStateContent({ cardIcon, label }) {
-  return <EntityPageMainNotification icon={cardIcon} title={t('in-cockpit:widgets.topListWidget.noLabelYet', { nolabel: label })} />;
+  return (
+    <EntityPageMainNotification
+      icon={cardIcon}
+      title={t('in-cockpit:widgets.topListWidget.noLabelYet', { nolabel: label })}
+    />
+  );
 }

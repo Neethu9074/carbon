@@ -72,8 +72,8 @@ function EventContent({ event }) {
     <>
       <ViewTrackingMeta
         data={{
-          productArea: t('in-events:productAreaEvents'),
-          pageRootName: t('in-events:pageRootNameEvent')
+          productArea: 'Events',
+          pageRootName: 'Event'
         }}
       />
 

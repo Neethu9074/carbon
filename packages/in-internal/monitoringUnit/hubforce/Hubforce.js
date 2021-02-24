@@ -49,7 +49,11 @@ export default connectTo(
                   'metrics.timers.com.instana.hubforce.io.butler.ButlerIo.Butler Data Reload time.mean',
                   'metrics.timers.com.instana.hubforce.jobs.migration.MigrationJob.Migration.mean'
                 ],
-                labels: [t('in-internal:monitoringUnit.hubforce.companyListLoadTime'), t('in-internal:monitoringUnit.hubforce.butlerDataReloadTime'), t('in-internal:monitoringUnit.hubforce.migrationTime')],
+                labels: [
+                  t('in-internal:monitoringUnit.hubforce.companyListLoadTime'),
+                  t('in-internal:monitoringUnit.hubforce.butlerDataReloadTime'),
+                  t('in-internal:monitoringUnit.hubforce.migrationTime')
+                ],
                 type: 'line'
               }}
             />
@@ -68,7 +72,10 @@ export default connectTo(
                   'metrics.meters.io.dropwizard.jetty.MutableServletContextHandler.4xx-responses',
                   'metrics.meters.io.dropwizard.jetty.MutableServletContextHandler.5xx-responses'
                 ],
-                labels: [t('in-internal:monitoringUnit.hubforce.numOf4xx'), t('in-internal:monitoringUnit.hubforce.numOf5xx')],
+                labels: [
+                  t('in-internal:monitoringUnit.hubforce.numOf4xx'),
+                  t('in-internal:monitoringUnit.hubforce.numOf5xx')
+                ],
                 type: 'line'
               }}
             />
@@ -116,7 +123,10 @@ export default connectTo(
                   'metrics.counters.Internal SQS Message Receiver Counter',
                   'metrics.counters.Marketplace SQS Message Receiver Counter'
                 ],
-                labels: [t('in-internal:monitoringUnit.hubforce.numOfInternalSqsMsg'), t('in-internal:monitoringUnit.hubforce.numOfMarketplaceSqsMsg')],
+                labels: [
+                  t('in-internal:monitoringUnit.hubforce.numOfInternalSqsMsg'),
+                  t('in-internal:monitoringUnit.hubforce.numOfMarketplaceSqsMsg')
+                ],
                 type: 'line'
               }}
             />
@@ -136,7 +146,10 @@ export default connectTo(
                   'metrics.timers.salesforce-fetch-with-soql.mean',
                   'metrics.timers.salesforce-single-update.mean'
                 ],
-                labels: [t('in-internal:monitoringUnit.hubforce.soqlFetchDuration'), t('in-internal:monitoringUnit.hubforce.singlePopretyUpdateDuration')],
+                labels: [
+                  t('in-internal:monitoringUnit.hubforce.soqlFetchDuration'),
+                  t('in-internal:monitoringUnit.hubforce.singlePopretyUpdateDuration')
+                ],
                 type: 'line'
               }}
             />
@@ -164,7 +177,10 @@ export default connectTo(
                 min: 0,
                 formatter: number.perSecond.compact,
                 metrics: ['metrics.meters.salesforce-rest-errors', 'metrics.meters.salesforce-soql-errors'],
-                labels: [t('in-internal:monitoringUnit.hubforce.numOfRestApiErrors'), t('in-internal:monitoringUnit.hubforce.numOfSoqlApiErrors')],
+                labels: [
+                  t('in-internal:monitoringUnit.hubforce.numOfRestApiErrors'),
+                  t('in-internal:monitoringUnit.hubforce.numOfSoqlApiErrors')
+                ],
                 type: 'line'
               }}
             />

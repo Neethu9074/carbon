@@ -153,7 +153,11 @@ function getRowDetails(row, fqn) {
             `metrics.meters.${fqn}.cache-hits`,
             `metrics.meters.${fqn}.cache-hits-with-disambiguation``metrics.meters.${fqn}.cache-misses-caused-by-multiple-entities`
           ],
-          labels: [t('in-internal:monitoringUnit.appdata.resilientMapping.firstLevelCacheHits'), t('in-internal:monitoringUnit.appdata.resilientMapping.secondLevelCacheHits'), t('in-internal:monitoringUnit.appdata.resilientMapping.cacheMissMultiple')],
+          labels: [
+            t('in-internal:monitoringUnit.appdata.resilientMapping.firstLevelCacheHits'),
+            t('in-internal:monitoringUnit.appdata.resilientMapping.secondLevelCacheHits'),
+            t('in-internal:monitoringUnit.appdata.resilientMapping.cacheMissMultiple')
+          ],
           type: 'line'
         }}
       />
