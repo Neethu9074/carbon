@@ -64,7 +64,7 @@ function MatchingRules({ form, onChange, addMatchingRule, removeMatchingRule, di
         <p>{t('in-websites:websiteDashboard.tabs.configuration.fileDownloadConfigurationDialogMatchingRuleHelp1')}</p>
         <p>
           <Trans
-            i18nKey="in-websites:websiteDashboard.tab.fileDownloadConfigurationDialogMatchingRuleHelp2"
+            i18nKey="in-websites:websiteDashboard.tabs.configuration.fileDownloadConfigurationDialogMatchingRuleHelp2"
             values={{ http: markAsSecureString('https://') }}
           />
         </p>
@@ -120,7 +120,7 @@ function MatchingRules({ form, onChange, addMatchingRule, removeMatchingRule, di
                     />
                     <HelpText>
                       <Trans
-                        i18nKey="in-websites:websiteDashboard.tab.fileDownloadConfigurationDialogLabelHostHelpText"
+                        i18nKey="in-websites:websiteDashboard.tabs.configuration.fileDownloadConfigurationDialogLabelHostHelpText"
                         values={{ asterisks: markAsSecureString('*') }}
                       />
                     </HelpText>
@@ -143,7 +143,7 @@ function MatchingRules({ form, onChange, addMatchingRule, removeMatchingRule, di
                     />
                     <HelpText>
                       <Trans
-                        i18nKey="in-websites:websiteDashboard.tab.fileDownloadConfigurationDialogLabelPathHelpText"
+                        i18nKey="in-websites:websiteDashboard.tabs.configuration.fileDownloadConfigurationDialogLabelPathHelpText"
                         values={{ asterisks: markAsSecureString('*') }}
                       />
                     </HelpText>
@@ -185,7 +185,7 @@ function BasicAuth({ form, onChange }) {
       <SectionHelp>
         <p>
           <Trans
-            i18nKey="in-websites:websiteDashboard.components.fileDownloadConfigurationDialogHTTPBasicAuthenticationHelp"
+            i18nKey="in-websites:websiteDashboard.tabs.configuration.fileDownloadConfigurationDialogHTTPBasicAuthenticationHelp"
             components={{
               linkToDocs: (
                 <Link

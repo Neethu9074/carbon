@@ -13,7 +13,11 @@ const fs = require('fs');
 
 const DEFAULT_NAMESPACE = 'in-i18n';
 
-describe('in-i18n/translations', () => {
+// Not using a lambda so that we can adapt the test timeout.
+// parseTransFromString takes quite some time
+describe('in-i18n/translations', function() {
+  this.timeout(1000 * 60);
+
   it('must have a translation for each translation key in en-US', () => {
     const i18nKeys = getAllI18nKeys();
     const languages = getAllLanguages();
@@ -48,11 +52,12 @@ function getAllI18nKeys() {
   const parser = new Parser({});
   const keys = new Set();
 
-  const files = getAllFiles('*.js');
+  const files = getAllFiles('*.js').filter(file => !file.endsWith('_test.js'));
   for (let i = 0; i < files.length; i++) {
     const filePath = files[i];
     const content = fs.readFileSync(filePath, { encoding: 'utf8' });
     parser.parseFuncFromString(content, { list: ['t'] }, key => keys.add(key));
+    parser.parseTransFromString(content, key => keys.add(key));
   }
 
   return Array.from(keys);
