@@ -62,3 +62,19 @@ import { Trans } from 'in-i18n';
 />
 ```
 
+## Tips/Gotchas
+
+ - Merge in the latest changes from `develop` to ensure that you have the latest and
+   greatest automatic checks. This is also a good opportunity to fix conflicts.
+ - Before/during/after: Check for consistency between the JavaScript files and the
+   `en-US.json` files via `yarn test`. In case of detected issues, the output will
+   list the unknown translation keys.
+ - Carefully validate the used i18next [context] and [interpolation parameters] across the
+   JSON and JS files as these cannot be automatically verified in our tests.
+ - Do not translate logger statements.
+ - Do not translate Mixpanel API calls and `in-services/tracking/ViewTrackingMeta` usages.
+ - Do not translate `in-server`.
+ - Translation of `in-internal` is optional.
+
+[context]: https://www.i18next.com/translation-function/context
+[interpolation parameters]: https://www.i18next.com/translation-function/interpolation
