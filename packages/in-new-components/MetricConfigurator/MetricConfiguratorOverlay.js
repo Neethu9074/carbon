@@ -44,7 +44,7 @@ export default function MetricConfiguratorOverlay({
     />
   );
 
-  function onRemoveItem(index, metric) {
+  function onRemoveItem(metric, index) {
     onChange([], form => form.remove(index).setTouched(false));
     tracking?.onMetricRemoved?.(metric);
   }

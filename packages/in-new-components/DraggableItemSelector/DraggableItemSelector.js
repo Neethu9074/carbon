@@ -53,7 +53,7 @@ export default function DraggableItemSelector(props) {
                           <SvgIcon
                             className={locals.removeButton}
                             type="lib_actions_delete"
-                            onClick={() => onRemove(item)}
+                            onClick={() => onRemove(item, i)}
                           />
                         </div>
                       )}
