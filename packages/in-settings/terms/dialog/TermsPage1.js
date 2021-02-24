@@ -7,9 +7,9 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import { t, Trans } from 'in-i18n';
 
-import { TosButton, PrivacyButton } from 'in-settings/terms/dialog/DocumentLinkButtons';
 import TermsProgressIndicator from 'in-settings/terms/dialog/TermsProgressIndicator';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
+import { TosButton } from 'in-settings/terms/dialog/DocumentLinkButtons';
 import FormFooter from 'in-components/form/FormFooter/FormFooter';
 import SvgIcon from 'in-components/SvgIcon/SvgIcon';
 import Stack from 'in-new-components/layout/Stack';
@@ -19,7 +19,7 @@ import locals from './TermsPages.mless';
 
 export default function TermsPage1({ form, onChange, onNext, nrPages }) {
   const [messageVisible, setMessageVisible] = useState(false);
-  const isCheckboxMessagePresent = !form.get('tosAccepted').valid || !form.get('privacyAgreementAccepted').valid;
+  const isCheckboxMessagePresent = !form.get('tosAccepted').valid;
 
   return (
     <div className={locals.container}>
@@ -35,13 +35,7 @@ export default function TermsPage1({ form, onChange, onNext, nrPages }) {
           <p>{t('in-settings:termsDialog.termsPage1.documents')}</p>
 
           <div>
-            <div>
-              <TosButton withIcon label={t('in-settings:termsDialog.instanaTermsOfService')} />
-            </div>
-
-            <div>
-              <PrivacyButton withIcon label={t('in-settings:termsDialog.instanaPrivacyProductPolicy')} />
-            </div>
+            <TosButton withIcon label={t('in-settings:termsDialog.instanaTermsOfService')} />
           </div>
 
           <div>
@@ -58,23 +52,6 @@ export default function TermsPage1({ form, onChange, onNext, nrPages }) {
                   }
                   checked={value}
                   onChange={() => onChange(form, 'tosAccepted', !value)}
-                  size="large"
-                />
-              ))}
-            </span>
-            <span className={locals.flexRow}>
-              {form.get('privacyAgreementAccepted').map(({ value }) => (
-                <CheckboxFancy
-                  label={
-                    <Trans
-                      i18nKey="in-settings:termsDialog.termsPage1.agreePrivacyAgreement"
-                      components={{
-                        privacyButton: <PrivacyButton />
-                      }}
-                    />
-                  }
-                  checked={value}
-                  onChange={() => onChange(form, 'privacyAgreementAccepted', !value)}
                   size="large"
                 />
               ))}
@@ -106,8 +83,7 @@ export default function TermsPage1({ form, onChange, onNext, nrPages }) {
       <FormFooter className={locals.buttons}>
         <Button
           className={classNames({
-            [locals.disabled]:
-              !form.get('privacyAgreementAccepted').hierarchyValid || !form.get('tosAccepted').hierarchyValid
+            [locals.disabled]: !form.get('tosAccepted').hierarchyValid
           })}
           onClick={() => handleNextClick(form, onNext, setMessageVisible)}
         >
@@ -126,7 +102,7 @@ TermsPage1.propTypes = {
 };
 
 function handleNextClick(form, onNext, setMessageVisible) {
-  if (form.get('privacyAgreementAccepted').hierarchyValid && form.get('tosAccepted').hierarchyValid) {
+  if (form.get('tosAccepted').hierarchyValid) {
     setMessageVisible(false);
     onNext(2);
   } else {

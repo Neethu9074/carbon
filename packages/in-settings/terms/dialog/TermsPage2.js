@@ -64,7 +64,7 @@ export default function TermsPage2({ onBack, onNext, onChange, form, fullTermsCo
         <Button onClick={() => onBack(1)} kind="secondary">
           {t('in-settings:termsDialog.back')}
         </Button>
-        <Button onClick={() => onNext(3)}>{t('in-settings:termsDialog.next')}</Button>
+        <Button onClick={() => handleNextClick(form, onNext, onChange)}>{t('in-settings:termsDialog.next')}</Button>
       </FormFooter>
     </div>
   );
@@ -78,3 +78,8 @@ TermsPage2.propTypes = {
   fullTermsConfigEnabled: PropTypes.bool,
   nrPages: PropTypes.number
 };
+
+function handleNextClick(form, onNext, onChange) {
+  onChange(form, 'privacyAgreementAccepted', true);
+  onNext(3);
+}
