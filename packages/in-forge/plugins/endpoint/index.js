@@ -9,10 +9,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.endpoint,
-  pluginName: {
-    singular: 'Endpoint',
-    plural: 'Endpoints'
-  },
+
   kpiDefinitions,
   metricDefinitions,
   chartWiggleRoom: 20000,

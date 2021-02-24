@@ -2,6 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
+
 import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 import { number, percentage } from 'in-services/formatters/number';
 
@@ -17,13 +19,13 @@ export default [
       'totalProducerCount'
     ],
     labels: [
-      'All Queues Messages Enqueue',
-      'All Queues Messages Dequeue',
-      'All Topics Messages Dequeue',
-      'All Topics Messages Enqueue',
-      'Total Connections',
-      'Total Consumers',
-      'Total Producers'
+      t('in-forge:plugins.activeMQ.allQueuesMessagesEnqueue'),
+      t('in-forge:plugins.activeMQ.allQueuesMessagesDequeue'),
+      t('in-forge:plugins.activeMQ.allTopicsMessagesDequeue'),
+      t('in-forge:plugins.activeMQ.allTopicsMessagesEnqueue'),
+      t('in-forge:plugins.activeMQ.totalConnections'),
+      t('in-forge:plugins.activeMQ.totalConsumers'),
+      t('in-forge:plugins.activeMQ.totalProducers')
     ],
     min: 0,
     formatter: number
@@ -35,8 +37,13 @@ export default [
       getDynamicMetricMatch('topics', 'enqueueCount', 'Topic'),
       getDynamicMetricMatch('topics', 'dequeueCount', 'Topic')
     ],
-    labels: ['Producer Count', 'Consumer Count', 'Messages Enqueued', 'Messages Dequeued'],
-    category: ['Topics'],
+    labels: [
+      t('in-forge:plugins.activeMQ.producerCount'),
+      t('in-forge:plugins.activeMQ.consumerCount'),
+      t('in-forge:plugins.activeMQ.messagesEnqueued'),
+      t('in-forge:plugins.activeMQ.messagesDequeued')
+    ],
+    category: [t('in-forge:plugins.activeMQ.topics')],
     min: 0,
     formatter: number
   },
@@ -46,8 +53,12 @@ export default [
       getDynamicMetricMatch('queues', 'dequeueCount', 'Queue'),
       getDynamicMetricMatch('queues', 'queueSize', 'Queue')
     ],
-    labels: ['Messages Enqueued', 'Messages Dequeued', 'Queue Size'],
-    category: ['Queues'],
+    labels: [
+      t('in-forge:plugins.activeMQ.messagesEnqueued'),
+      t('in-forge:plugins.activeMQ.messagesDequeued'),
+      t('in-forge:plugins.activeMQ.queueSize')
+    ],
+    category: [t('in-forge:plugins.activeMQ.queues')],
     min: 0,
     formatter: number
   },
@@ -57,38 +68,42 @@ export default [
       getDynamicMetricMatch('dlqueues', 'dequeueCount', 'DL Queue'),
       getDynamicMetricMatch('dlqueues', 'queueSize', 'DL Queue')
     ],
-    labels: ['Messages Enqueued', 'Messages Dequeued', 'Queue Size'],
-    category: ['DL Queues'],
+    labels: [
+      t('in-forge:plugins.activeMQ.messagesEnqueued'),
+      t('in-forge:plugins.activeMQ.messagesDequeued'),
+      t('in-forge:plugins.activeMQ.queueSize')
+    ],
+    category: [t('in-forge:plugins.activeMQ.dlQueues')],
     min: 0,
     formatter: number
   },
   {
     metrics: ['memoryPercentage', 'storePercentage'],
-    labels: ['Memory Usage', 'Store Usage'],
+    labels: [t('in-forge:plugins.activeMQ.memoryUsage'), t('in-forge:plugins.activeMQ.storeUsage')],
     min: 0,
     max: 1,
     formatter: percentage
   },
   {
     metric: getDynamicMetricMatch('topics', 'memoryPercentage', 'Topic'),
-    labels: 'Memory Usage',
-    category: ['Topics'],
+    labels: t('in-forge:plugins.activeMQ.memoryUsage'),
+    category: [t('in-forge:plugins.activeMQ.topics')],
     min: 0,
     max: 1,
     formatter: percentage
   },
   {
     metric: getDynamicMetricMatch('queues', 'memoryPercentage', 'Queue'),
-    label: 'Memory Usage',
-    category: ['Queues'],
+    label: t('in-forge:plugins.activeMQ.memoryUsage'),
+    category: [t('in-forge:plugins.activeMQ.queues')],
     min: 0,
     max: 1,
     formatter: percentage
   },
   {
     metrics: getDynamicMetricMatch('dlqueues', 'memoryPercentage', 'DL Queue'),
-    label: 'Memory Usage',
-    category: ['DL Queues'],
+    label: t('in-forge:plugins.activeMQ.memoryUsage'),
+    category: [t('in-forge:plugins.activeMQ.dlQueues')],
     min: 0,
     max: 1,
     formatter: percentage

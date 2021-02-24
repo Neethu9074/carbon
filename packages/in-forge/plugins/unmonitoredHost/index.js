@@ -9,10 +9,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.unmonitoredHost,
-  pluginName: {
-    singular: 'Unmonitored Host',
-    plural: 'Unmonitored Hosts'
-  },
+
   kpiDefinitions,
   metricDefinitions
 });

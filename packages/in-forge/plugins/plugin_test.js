@@ -15,6 +15,7 @@ import fs from 'fs';
 import { getOptionalSnapshotDefinition } from 'in-sdk/snapshot/registry';
 import { metricDefinitions } from 'in-sdk/metrics/metricDefinitions';
 import { plugins, fullyQualifiedPlugins } from 'in-forge/constants';
+import enUsLocalizations from 'in-forge/i18n/en-US.json';
 import { getKpiDefinitions } from 'in-sdk/metrics/kpis';
 import { getChartWiggleRoom } from 'in-sdk/snapshot';
 
@@ -33,6 +34,17 @@ describe('in-forge/plugins', () => {
     describe(`plugin directory ${dirName}`, () => {
       it('must be registered as a plugin', () => {
         expect(getOptionalSnapshotDefinition(dirName)).not.to.equal(undefined);
+      });
+
+      it('must register a singular/plural variant of the plugin name in the en-US.json file', () => {
+        expect(enUsLocalizations[`pluginName_${dirName}`]).to.be.a(
+          'string',
+          `Expecting a key 'pluginName_${dirName}' in the 'in-forge/i18n/en-US.json'`
+        );
+        expect(enUsLocalizations[`pluginName_${dirName}_plural`]).to.be.a(
+          'string',
+          `Expecting a key 'pluginName_${dirName}_plural' in the 'in-forge/i18n/en-US.json'`
+        );
       });
     });
   });

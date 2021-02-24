@@ -9,10 +9,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.oracleDB,
-  pluginName: {
-    singular: 'OracleDB',
-    plural: 'OracleDBs'
-  },
+
   kpiDefinitions,
   metricDefinitions,
   technologyDescriptor: {

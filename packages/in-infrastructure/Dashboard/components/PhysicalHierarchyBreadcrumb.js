@@ -9,8 +9,8 @@ import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { getIconType } from 'in-components/SvgIcon/infrastructureIconType';
 import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
 import Skeleton from 'in-new-components/Loading/Skeleton';
+import { getPluginName } from 'in-sdk/pluginName';
 import { getSnapshot } from 'in-stores/snapshot';
-import { getSingular } from 'in-sdk/pluginName';
 import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
 
@@ -37,7 +37,7 @@ export default connectTo(
           <Breadcrumb
             className={className}
             href$={asLink && getDashboardLink(snapshotId)}
-            label={getSingular(plugin)}
+            label={getPluginName(plugin, 1)}
             icon={getIconType(snapshot)}
             isActive={isActive}
             healthInfo={healthInfo}

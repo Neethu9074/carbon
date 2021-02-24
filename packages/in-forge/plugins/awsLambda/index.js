@@ -17,10 +17,7 @@ import { plugins } from 'in-forge/constants';
 // technology tag).
 registerSnapshotDefinition({
   plugin: plugins.awsLambda,
-  pluginName: {
-    singular: 'AWS Lambda',
-    plural: 'AWS Lambdas'
-  },
+
   kpiDefinitions,
   metricDefinitions,
   technologyDescriptor: {

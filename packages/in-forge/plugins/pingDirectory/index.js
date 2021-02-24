@@ -10,10 +10,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.pingDirectory,
-  pluginName: {
-    singular: 'PingIdentity Directory Server',
-    plural: 'PingIdentity Directory Servers'
-  },
+
   kpiDefinitions,
   metricDefinitions,
   getCodeView,

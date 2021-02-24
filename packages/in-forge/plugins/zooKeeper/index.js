@@ -9,10 +9,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.zooKeeper,
-  pluginName: {
-    singular: 'ZooKeeper',
-    plural: 'ZooKeepers'
-  },
+
   kpiDefinitions,
   metricDefinitions
 });

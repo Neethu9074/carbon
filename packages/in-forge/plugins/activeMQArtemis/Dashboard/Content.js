@@ -2,13 +2,14 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
+import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
-import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import { number, percentage } from 'in-services/formatters/number';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { emptyList } from 'in-services/fixedImmutables';
@@ -20,7 +21,9 @@ export default function ActiveMQDashboard({ snapshot, timeConfig }) {
   if (!version) {
     return (
       <DashboardNotification type="info">
-        Jmx is not enabled. You can enable it in activemq config by setting the broker property useJmx to true.
+        {t(
+          'in-forge:plugins.activeMQArtemis.jmxIsNotEnabledYouCanEnableItInActivemqConfigBySettingTheBrokerPropertyUseJmxToTrue'
+        )}
       </DashboardNotification>
     );
   }
@@ -29,18 +32,22 @@ export default function ActiveMQDashboard({ snapshot, timeConfig }) {
   return (
     <div>
       <KpiSection>
-        <KpiKeyValue label="Addresses">{snapshot.getIn(['data', 'addressNames'], emptyList).size}</KpiKeyValue>
-        <KpiKeyValue label="Queues">{snapshot.getIn(['data', 'queueNames'], emptyList).size}</KpiKeyValue>
-        <KpiKeyValue label="All Queues Messages Count">
+        <KpiKeyValue label={t('in-forge:plugins.activeMQArtemis.addresses')}>
+          {snapshot.getIn(['data', 'addressNames'], emptyList).size}
+        </KpiKeyValue>
+        <KpiKeyValue label={t('in-forge:plugins.activeMQArtemis.queues')}>
+          {snapshot.getIn(['data', 'queueNames'], emptyList).size}
+        </KpiKeyValue>
+        <KpiKeyValue label={t('in-forge:plugins.activeMQArtemis.allQueuesMessagesCount')}>
           <MetricValue snapshotId={snapshotId} metric="totalMessageCount" formatter={number.compact} />
         </KpiKeyValue>
-        <KpiKeyValue label="Address Memory Usage">
+        <KpiKeyValue label={t('in-forge:plugins.activeMQArtemis.addressMemoryUsage')}>
           <MetricValue snapshotId={snapshotId} metric="addressMemoryPercentage" formatter={percentage.compact} />
         </KpiKeyValue>
       </KpiSection>
 
       <Columize>
-        <DashboardSection title="Broker wide messages">
+        <DashboardSection title={t('in-forge:plugins.activeMQArtemis.brokerWideMessages')}>
           <Chart
             snapshotId={snapshot.get('id')}
             timeConfig={timeConfig}
@@ -52,20 +59,25 @@ export default function ActiveMQDashboard({ snapshot, timeConfig }) {
                 'totalMessagesExpired',
                 'totalMessagesKilled'
               ],
-              labels: ['Added', 'Acknowledged', 'Expired', 'Killed'],
+              labels: [
+                t('in-forge:plugins.activeMQArtemis.added'),
+                t('in-forge:plugins.activeMQArtemis.acknowledged'),
+                t('in-forge:plugins.activeMQArtemis.expired'),
+                t('in-forge:plugins.activeMQArtemis.killed')
+              ],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
-        <DashboardSection title="Broker wide message">
+        <DashboardSection title={t('in-forge:plugins.activeMQArtemis.brokerWideMessage')}>
           <Chart
             snapshotId={snapshot.get('id')}
             timeConfig={timeConfig}
             y1={{
               formatter: number.compact,
               metrics: ['totalMessageCount'],
-              labels: ['Count'],
+              labels: [t('in-forge:plugins.activeMQArtemis.count')],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -74,7 +86,7 @@ export default function ActiveMQDashboard({ snapshot, timeConfig }) {
       </Columize>
 
       <Columize>
-        <DashboardSection title="Broker wide connections and consumers">
+        <DashboardSection title={t('in-forge:plugins.activeMQArtemis.brokerWideConnectionsAndConsumers')}>
           <Chart
             snapshotId={snapshot.get('id')}
             timeConfig={timeConfig}
@@ -82,13 +94,16 @@ export default function ActiveMQDashboard({ snapshot, timeConfig }) {
               formatter: number.compact,
               tooltipFormatter: number.compact,
               metrics: ['totalConnectionCount', 'totalConsumerCount'],
-              labels: ['Total Connections', 'Total Consumers'],
+              labels: [
+                t('in-forge:plugins.activeMQArtemis.totalConnections'),
+                t('in-forge:plugins.activeMQArtemis.totalConsumers')
+              ],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
-        <DashboardSection title="Memory usage">
+        <DashboardSection title={t('in-forge:plugins.activeMQArtemis.memoryUsage')}>
           <Chart
             snapshotId={snapshot.get('id')}
             timeConfig={timeConfig}
@@ -97,7 +112,7 @@ export default function ActiveMQDashboard({ snapshot, timeConfig }) {
               min: 0,
               max: 1,
               metrics: ['addressMemoryPercentage'],
-              labels: ['Address Memory Usage'],
+              labels: [t('in-forge:plugins.activeMQArtemis.addressMemoryUsage')],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}

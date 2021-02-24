@@ -8,10 +8,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.phpRuntimePlatform,
-  pluginName: {
-    singular: 'PHP Runtime',
-    plural: 'PHP Runtimes'
-  },
+
   kpiDefinitions,
   technologyDescriptor: {
     label: 'PHP'

@@ -72,6 +72,7 @@ import { Trans } from 'in-i18n';
  - Carefully validate the used i18next [context] and [interpolation parameters] across the
    JSON and JS files as these cannot be automatically verified in our tests.
  - Do not translate logger statements.
+ - Do not translate JavaScript error messages, e.g. `new Error(…)`.
  - Do not translate Mixpanel API calls and `in-services/tracking/ViewTrackingMeta` usages.
  - Do not translate `in-server`.
  - Translation of `in-internal` is optional.

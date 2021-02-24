@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
@@ -13,7 +14,7 @@ import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
   {
-    title: 'Name',
+    title: t('in-forge:plugins.activeMQ.name'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -22,7 +23,7 @@ const cols = [
     }
   },
   {
-    title: 'Producers',
+    title: t('in-forge:plugins.activeMQ.producers'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -38,7 +39,7 @@ const cols = [
     }
   },
   {
-    title: 'Consumers',
+    title: t('in-forge:plugins.activeMQ.consumers'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -54,7 +55,7 @@ const cols = [
     }
   },
   {
-    title: 'Messages Enqueued',
+    title: t('in-forge:plugins.activeMQ.messagesEnqueued'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -70,7 +71,7 @@ const cols = [
     }
   },
   {
-    title: 'Messages Dequeued',
+    title: t('in-forge:plugins.activeMQ.messagesDequeued'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -86,7 +87,7 @@ const cols = [
     }
   },
   {
-    title: 'Memory Usage',
+    title: t('in-forge:plugins.activeMQ.memoryUsage'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -117,7 +118,13 @@ export default function TopicsTable({ snapshot, timeConfig }) {
   });
 
   return (
-    <Table withoutPadding cardTitle={`Topics (${rows.length})`} cols={cols} rows={rows} getRowDetails={getRowDetails} />
+    <Table
+      withoutPadding
+      cardTitle={t('in-forge:plugins.activeMQ.topicsNumber', { number: rows.length })}
+      cols={cols}
+      rows={rows}
+      getRowDetails={getRowDetails}
+    />
   );
 }
 
@@ -134,7 +141,7 @@ function getRowDetails(row) {
           y1={{
             formatter: number.compact,
             metrics: ['topics.' + row.key + '.producerCount', 'topics.' + row.key + '.consumerCount'],
-            labels: ['Producers', 'Consumers'],
+            labels: [t('in-forge:plugins.activeMQ.producers'), t('in-forge:plugins.activeMQ.consumers')],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -145,7 +152,7 @@ function getRowDetails(row) {
           y1={{
             formatter: number.compact,
             metrics: ['topics.' + row.key + '.enqueueCount', 'topics.' + row.key + '.dequeueCount'],
-            labels: ['Messages Enqueued', 'Messages Dequeued'],
+            labels: [t('in-forge:plugins.activeMQ.messagesEnqueued'), t('in-forge:plugins.activeMQ.messagesDequeued')],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -157,7 +164,7 @@ function getRowDetails(row) {
         y1={{
           formatter: percentage.detailed,
           metrics: ['topics.' + row.key + '.memoryPercentage'],
-          labels: ['Memory Usage'],
+          labels: [t('in-forge:plugins.activeMQ.memoryUsage')],
           type: 'line'
         }}
         renderPostChartContent={PluginDashboardsMarkerLanes}

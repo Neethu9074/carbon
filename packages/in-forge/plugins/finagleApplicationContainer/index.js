@@ -10,10 +10,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.finagleApplicationContainer,
-  pluginName: {
-    singular: 'Finagle App',
-    plural: 'Finagle Apps'
-  },
+
   kpiDefinitions,
   metricDefinitions,
   getCodeView,

@@ -9,10 +9,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.golangRuntimePlatform,
-  pluginName: {
-    singular: 'Go App',
-    plural: 'Go Apps'
-  },
+
   kpiDefinitions,
   metricDefinitions,
   technologyDescriptor: {

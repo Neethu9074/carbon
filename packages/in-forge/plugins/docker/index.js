@@ -20,10 +20,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.docker,
-  pluginName: {
-    singular: 'Docker Container',
-    plural: 'Docker Containers'
-  },
+
   kpiDefinitions,
   metricDefinitions,
   tableDefinition,

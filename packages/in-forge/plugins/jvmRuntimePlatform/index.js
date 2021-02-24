@@ -13,10 +13,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.jvmRuntimePlatform,
-  pluginName: {
-    singular: 'JVM',
-    plural: 'JVMs'
-  },
+
   kpiDefinitions,
   metricDefinitions,
   agentMonitoringIssueDefinitions,

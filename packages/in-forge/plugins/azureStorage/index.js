@@ -9,10 +9,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.azureStorage,
-  pluginName: {
-    singular: 'Azure Storage Service',
-    plural: 'Azure Storage Services'
-  },
+
   kpiDefinitions,
   metricDefinitions
 });

@@ -9,10 +9,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.glassfishApplicationContainer,
-  pluginName: {
-    singular: 'Glassfish',
-    plural: 'Glassfish'
-  },
+
   kpiDefinitions,
   metricDefinitions,
   technologyDescriptor: {

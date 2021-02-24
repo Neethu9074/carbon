@@ -9,10 +9,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.azure,
-  pluginName: {
-    singular: 'Azure Instance',
-    plural: 'Azure Instances'
-  },
+
   kpiDefinitions,
   metricDefinitions
 });

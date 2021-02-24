@@ -9,10 +9,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.etcd,
-  pluginName: {
-    singular: 'Etcd Node',
-    plural: 'Etcd Nodes'
-  },
+
   kpiDefinitions,
   metricDefinitions
 });

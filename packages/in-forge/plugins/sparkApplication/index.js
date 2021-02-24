@@ -9,10 +9,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.sparkApplication,
-  pluginName: {
-    singular: 'Spark Application',
-    plural: 'Spark Applications'
-  },
+
   kpiDefinitions,
   metricDefinitions
 });

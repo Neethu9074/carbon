@@ -2,18 +2,17 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
+
 import kpiDefinitions from 'in-forge/plugins/aerospike/kpiDefinitions';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.aerospike,
-  pluginName: {
-    singular: 'Aerospike',
-    plural: 'Aerospike'
-  },
+
   kpiDefinitions,
   technologyDescriptor: {
-    label: 'Aerospike'
+    label: t('in-forge:plugins.aerospike.aerospike')
   }
 });

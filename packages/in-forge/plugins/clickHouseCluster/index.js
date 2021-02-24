@@ -9,10 +9,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.clickHouseCluster,
-  pluginName: {
-    singular: 'ClickHouse Cluster',
-    plural: 'ClickHouse Clusters'
-  },
+
   kpiDefinitions,
   metricDefinitions,
   technologyDescriptor: {

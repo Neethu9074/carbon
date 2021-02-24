@@ -9,10 +9,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.memcached,
-  pluginName: {
-    singular: 'Memcached Nodes',
-    plural: 'Memcached Nodes'
-  },
+
   kpiDefinitions,
   technologyDescriptor: {
     label: 'Memcached'

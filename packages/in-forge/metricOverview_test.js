@@ -10,7 +10,7 @@ import fs from 'fs';
 
 import { metricDefinitions as allMetricDefinitions } from 'in-sdk/metrics/metricDefinitions';
 import { plugins as allPlugins, applicationPlugins } from 'in-forge/constants';
-import { getPlural } from 'in-sdk/pluginName';
+import { getPluginName } from 'in-sdk/pluginName';
 
 const oneZeroEntitiesDeprecationReason =
   'Deprecated: Entities of this type are only available to environments still running Classic Mode.';
@@ -21,7 +21,9 @@ if (process.env.GENERATE_METRIC_OVERVIEW) {
 
 function doGenerate() {
   it('must generate a metric overview for docs', () => {
-    const plugins = Object.keys(allMetricDefinitions).sort((a, b) => getPlural(a).localeCompare(getPlural(b)));
+    const plugins = Object.keys(allMetricDefinitions).sort((a, b) =>
+      getPluginName(a, 2).localeCompare(getPluginName(b, 2))
+    );
 
     let str = '';
 
@@ -34,7 +36,7 @@ function doGenerate() {
         return;
       }
 
-      str += `**${getPlural(plugin)}** *(${plugin})*\n\n`;
+      str += `**${getPluginName(plugin, 2)}** *(${plugin})*\n\n`;
 
       if (!allPlugins[plugin]) {
         str += `${oneZeroEntitiesDeprecationReason}\n\n`;
@@ -66,7 +68,7 @@ function doGenerate() {
         }, {});
       const deprecated = Boolean(!allPlugins[pluginName]);
       plugins[pluginName.toLowerCase()] = {
-        label: getPlural(pluginName),
+        label: getPluginName(pluginName, 2),
         deprecated: Boolean(!allPlugins[pluginName]),
         deprecationReason: deprecated ? oneZeroEntitiesDeprecationReason : undefined,
         metrics
@@ -87,7 +89,7 @@ function doGenerate() {
         .map(metric => {
           return {
             formatter: 'UNDEFINED',
-            label: getPlural(pluginName) + ' ' + metric.label,
+            label: getPluginName(pluginName, 2) + ' ' + metric.label,
             description: metric.label,
             metricId: metric.metric,
             pluginId: pluginName,

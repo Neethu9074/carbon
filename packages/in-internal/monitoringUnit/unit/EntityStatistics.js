@@ -11,7 +11,7 @@ import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';
-import { getSingular } from 'in-sdk/pluginName';
+import { getPluginName } from 'in-sdk/pluginName';
 import { plugins } from 'in-forge/constants';
 import search from 'in-subscription/search';
 import connectTo from 'in-hoc/connectTo';
@@ -22,7 +22,7 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return getSingular(row.plugin);
+        return getPluginName(row.plugin, 1);
       }
     }
   },

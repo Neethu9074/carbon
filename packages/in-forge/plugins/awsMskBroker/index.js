@@ -9,10 +9,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.awsMskBroker,
-  pluginName: {
-    singular: 'AWS MSK Broker',
-    plural: 'AWS MSK Brokers'
-  },
+
   technologyDescriptor: {
     label: 'AWS MSK Broker'
   },

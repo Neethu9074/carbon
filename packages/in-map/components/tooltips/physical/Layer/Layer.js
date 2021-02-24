@@ -9,8 +9,8 @@ import { getMostImportantEventAtFocusedMoment } from 'in-stores/events';
 import createTooltip from 'in-map/components/tooltips/Tooltip';
 import EventDescription from 'in-events/components/EventDescription';
 import Content from 'in-components/Tooltips/Content';
+import { getPluginName } from 'in-sdk/pluginName';
 import { getSnapshot } from 'in-stores/snapshot';
-import { getSingular } from 'in-sdk/pluginName';
 import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
 
@@ -39,7 +39,7 @@ export default createTooltip(
 
       return (
         <Content>
-          {getSingular(snapshot.get('plugin'))}: {getLabel(snapshot)}
+          {getPluginName(snapshot.get('plugin', 1))}: {getLabel(snapshot)}
           {containerLabel && <span className={locals.container}>Container: {containerLabel}</span>}
         </Content>
       );

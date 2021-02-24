@@ -9,10 +9,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.jenkins,
-  pluginName: {
-    singular: 'Jenkins',
-    plural: 'Jenkins'
-  },
+
   kpiDefinitions,
   metricDefinitions
 });

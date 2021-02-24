@@ -9,10 +9,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.mongoDbCluster,
-  pluginName: {
-    singular: 'MongoDB Atlas Cluster',
-    plural: 'MongoDB Atlas Cluster'
-  },
+
   kpiDefinitions,
   metricDefinitions
 });

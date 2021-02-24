@@ -10,10 +10,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.solrCloudCluster,
-  pluginName: {
-    singular: 'Solr Cloud Cluster',
-    plural: 'Solr Cloud Clusters'
-  },
+
   kpiDefinitions,
   metricDefinitions,
   getCodeView,

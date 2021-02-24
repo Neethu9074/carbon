@@ -8,13 +8,13 @@ import { getLabel, getShowZoneInSidebarHeader } from 'in-sdk/snapshot';
 import ZoneTag from 'in-map/components/MapSidebar/components/ZoneTag';
 import { shorten } from 'in-services/util/string';
 import PluginIcon from 'in-components/PluginIcon';
-import { getSingular } from 'in-sdk/pluginName';
+import { getPluginName } from 'in-sdk/pluginName';
 
 import locals from './SidebarHeader.mless';
 
 export default function SidebarHeader({ snapshot }) {
   const plugin = snapshot.get('plugin');
-  const entityType = getSingular(plugin);
+  const entityType = getPluginName(plugin, 1);
 
   return (
     <div className={locals.sidebarHeader}>

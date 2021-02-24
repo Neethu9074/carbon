@@ -11,10 +11,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.prometheus,
-  pluginName: {
-    singular: 'Prometheus App',
-    plural: 'Prometheus Apps'
-  },
+
   kpiDefinitions,
   metricDefinitions,
   getCodeView,

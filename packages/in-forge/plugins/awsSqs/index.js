@@ -9,10 +9,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.awsSqs,
-  pluginName: {
-    singular: 'AWS SQS',
-    plural: 'AWS SQSs'
-  },
+
   technologyDescriptor: {
     label: 'AWS SQS'
   },

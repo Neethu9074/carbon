@@ -10,10 +10,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.hBase,
-  pluginName: {
-    singular: 'HBase',
-    plural: 'HBase'
-  },
+
   kpiDefinitions,
   metricDefinitions,
   getCodeView,

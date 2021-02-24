@@ -10,10 +10,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.solr,
-  pluginName: {
-    singular: 'Solr Node',
-    plural: 'Solr Nodes'
-  },
+
   kpiDefinitions,
   metricDefinitions,
   getCodeView,

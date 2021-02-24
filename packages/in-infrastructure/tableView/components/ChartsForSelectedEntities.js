@@ -15,7 +15,7 @@ import DownloadButton from 'in-components/DownloadButton';
 import { getTableDefinition } from 'in-sdk/snapshot';
 import { getMetricDefinition } from 'in-sdk/metrics';
 import { timeConfig$ } from 'in-stores/time/config';
-import { getPlural } from 'in-sdk/pluginName';
+import { getPluginName } from 'in-sdk/pluginName';
 import Button from 'in-new-components/Button';
 import SvgIcon from 'in-components/SvgIcon';
 import { getLabel } from 'in-sdk/snapshot';
@@ -112,7 +112,7 @@ export default connectTo(
       return (
         <div className={`${block}__incomplete-selection`}>
           {t('in-infrastructure:tableView.pleaseSelectForWhichToVisualizeTheChosenMetrics', {
-            plugins: getPlural(plugin)
+            plugins: getPluginName(plugin, 0)
           })}
         </div>
       );
@@ -120,7 +120,7 @@ export default connectTo(
       return (
         <div className={`${block}__incomplete-selection`}>
           {t('in-infrastructure:tableView.pleaseSelectMetricsToVisualizeForTheSelected', {
-            plugins: getPlural(plugin)
+            plugins: getPluginName(plugin, snapshots.length)
           })}
         </div>
       );

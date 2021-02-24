@@ -4,7 +4,7 @@
  */
 import { plugins, customIssuesDisabledForPlugins } from 'in-forge/constants';
 import { compareIgnoreCase } from 'in-services/util/string';
-import { getSingular } from 'in-sdk/pluginName';
+import { getPluginName } from 'in-sdk/pluginName';
 import { hasCategory } from 'in-sdk/metrics';
 
 // event specification type enum names that the back end uses
@@ -65,11 +65,11 @@ export function getEntityTypeOptions() {
     .map(k => plugins[k])
     .filter(plugin => hasCategory(plugin))
     .filter(plugin => customIssuesDisabledForPlugins.indexOf(plugin) < 0)
-    .sort((a, b) => compareIgnoreCase(getSingular(a), getSingular(b)))
+    .sort((a, b) => compareIgnoreCase(getPluginName(a, 1), getPluginName(b, 1)))
     .map(plugin => {
       return {
         value: plugin,
-        label: getSingular(plugin)
+        label: getPluginName(plugin, 1)
       };
     });
 }

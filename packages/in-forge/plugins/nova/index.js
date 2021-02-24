@@ -9,10 +9,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.nova,
-  pluginName: {
-    singular: 'OpenStack Compute Instance',
-    plural: 'OpenStack Compute Instances'
-  },
+
   kpiDefinitions,
   metricDefinitions
 });

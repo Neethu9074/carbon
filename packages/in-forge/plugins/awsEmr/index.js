@@ -9,10 +9,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.awsEmr,
-  pluginName: {
-    singular: 'AWS EMR',
-    plural: 'AWS EMRs'
-  },
+
   kpiDefinitions,
   metricDefinitions
 });

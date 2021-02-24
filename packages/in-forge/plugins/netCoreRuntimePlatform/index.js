@@ -10,10 +10,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.netCoreRuntimePlatform,
-  pluginName: {
-    singular: '.NET Core App',
-    plural: '.NET Core Apps'
-  },
+
   kpiDefinitions,
   metricDefinitions,
   agentMonitoringIssueDefinitions,

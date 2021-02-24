@@ -9,10 +9,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.genericHardware,
-  pluginName: {
-    singular: 'Generic Hardware',
-    plural: 'Generic Hardware'
-  },
+
   kpiDefinitions,
   metricDefinitions
 });

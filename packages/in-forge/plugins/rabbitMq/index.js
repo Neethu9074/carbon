@@ -9,10 +9,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.rabbitMq,
-  pluginName: {
-    singular: 'RabbitMQ',
-    plural: 'RabbitMQ'
-  },
+
   kpiDefinitions,
   metricDefinitions,
   technologyDescriptor: {

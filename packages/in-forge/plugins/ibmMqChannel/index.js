@@ -9,10 +9,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.ibmMqChannel,
-  pluginName: {
-    singular: 'IBM MQ Channel',
-    plural: 'IBM MQ Channels'
-  },
+
   kpiDefinitions,
   metricDefinitions
 });

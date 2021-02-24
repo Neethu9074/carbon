@@ -9,10 +9,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.awsEc,
-  pluginName: {
-    singular: 'AWS EC',
-    plural: 'AWS ECs'
-  },
+
   kpiDefinitions,
   metricDefinitions,
   technologyDescriptor: {

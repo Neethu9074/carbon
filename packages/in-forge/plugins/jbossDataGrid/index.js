@@ -9,10 +9,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.jbossDataGrid,
-  pluginName: {
-    singular: 'JBoss Data Grid',
-    plural: 'JBoss Data Grids'
-  },
+
   kpiDefinitions,
   metricDefinitions
 });

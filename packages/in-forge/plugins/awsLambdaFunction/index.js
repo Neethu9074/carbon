@@ -12,9 +12,6 @@ import { plugins } from 'in-forge/constants';
  */
 registerSnapshotDefinition({
   plugin: plugins.awsLambdaFunction,
-  pluginName: {
-    singular: 'AWS Lambda Function',
-    plural: 'AWS Lambda Functions'
-  },
+
   kpiDefinitions
 });

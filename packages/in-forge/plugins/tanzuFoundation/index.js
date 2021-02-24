@@ -8,9 +8,6 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.tanzuFoundation,
-  pluginName: {
-    singular: 'Tanzu Foundation',
-    plural: 'Tanzu Foundations'
-  },
+
   kpiDefinitions
 });

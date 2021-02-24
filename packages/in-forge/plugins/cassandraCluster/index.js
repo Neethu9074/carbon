@@ -9,10 +9,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.cassandraCluster,
-  pluginName: {
-    singular: 'Cassandra Cluster',
-    plural: 'Cassandra Clusters'
-  },
+
   kpiDefinitions,
   metricDefinitions,
   technologyDescriptor: {

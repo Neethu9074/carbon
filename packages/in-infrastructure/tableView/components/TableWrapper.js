@@ -14,7 +14,7 @@ import { plugin$ } from 'in-infrastructure/tableView/stores/snapshotIds';
 import { supportTableView, getTableDefinition } from 'in-sdk/snapshot';
 import { data$ } from 'in-infrastructure/tableView/stores/snapshotIds';
 import Table from 'in-infrastructure/tableView/components/Table';
-import { getPlural } from 'in-sdk/pluginName';
+import { getPluginName } from 'in-sdk/pluginName';
 import connectTo from 'in-hoc/connectTo';
 
 import './Table.less';
@@ -35,7 +35,9 @@ export default connectTo(
     if (!supportTableView(plugin)) {
       return (
         <div className={`${block}__unsupported`}>
-          {t('in-infrastructure:tableView.weDoNotYetSupportTablesFor', { plugins: getPlural(plugin) })}
+          {t('in-infrastructure:tableView.weDoNotYetSupportTablesFor', {
+            plugins: getPluginName(plugin, data.snapshots.length)
+          })}
         </div>
       );
     }

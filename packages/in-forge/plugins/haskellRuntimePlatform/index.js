@@ -9,10 +9,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.haskellRuntimePlatform,
-  pluginName: {
-    singular: 'Haskell Application',
-    plural: 'Haskell Applications'
-  },
+
   kpiDefinitions,
   metricDefinitions,
   technologyDescriptor: {

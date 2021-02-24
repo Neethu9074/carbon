@@ -10,10 +10,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.postgreSqlDatabase,
-  pluginName: {
-    singular: 'PostgreSQL DB',
-    plural: 'PostgreSQL DBs'
-  },
+
   kpiDefinitions,
   metricDefinitions,
   agentMonitoringIssueDefinitions,

@@ -10,10 +10,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.jBossAsApplicationContainer,
-  pluginName: {
-    singular: 'JBoss',
-    plural: 'JBoss'
-  },
+
   kpiDefinitions,
   metricDefinitions,
   getCodeView,

@@ -9,10 +9,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.mongoDb,
-  pluginName: {
-    singular: 'MongoDB Node',
-    plural: 'MongoDB Nodes'
-  },
+
   kpiDefinitions,
   metricDefinitions,
   technologyDescriptor: {

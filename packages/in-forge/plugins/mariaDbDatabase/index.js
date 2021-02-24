@@ -9,10 +9,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.mariaDbDatabase,
-  pluginName: {
-    singular: 'MariaDB',
-    plural: 'MariaDBs'
-  },
+
   kpiDefinitions,
   metricDefinitions,
   technologyDescriptor: {

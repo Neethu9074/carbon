@@ -9,10 +9,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.awsS3,
-  pluginName: {
-    singular: 'AWS S3 Bucket',
-    plural: 'AWS S3 Buckets'
-  },
+
   kpiDefinitions,
   metricDefinitions,
   technologyDescriptor: {

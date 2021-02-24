@@ -9,10 +9,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.consulCluster,
-  pluginName: {
-    singular: 'Consul Cluster',
-    plural: 'Consul Clusters'
-  },
+
   kpiDefinitions,
   metricDefinitions,
   technologyDescriptor: {

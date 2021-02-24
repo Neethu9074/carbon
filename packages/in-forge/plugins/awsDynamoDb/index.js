@@ -9,10 +9,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.awsDynamoDb,
-  pluginName: {
-    singular: 'AWS DynamoDB Table',
-    plural: 'AWS DynamoDB Tables'
-  },
+
   kpiDefinitions,
   metricDefinitions,
 

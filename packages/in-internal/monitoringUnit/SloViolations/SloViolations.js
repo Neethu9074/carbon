@@ -22,7 +22,7 @@ import getRawEvents from 'in-subscription/getRawEvents';
 import { getColorBySeverity } from 'in-stores/events';
 import { timeConfig$ } from 'in-stores/time/config';
 import MetricValue from 'in-components/MetricValue';
-import { getSingular } from 'in-sdk/pluginName';
+import { getPluginName } from 'in-sdk/pluginName';
 import getEvent from 'in-subscription/event';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
@@ -116,14 +116,14 @@ const ViolationsForEntity = connect(({ snapshotId }) => ({
   return (
     <div className={locals.violationsForEntity}>
       <Dl>
-        <Di title={getSingular(context.mostSpecific.get('plugin'))}>
+        <Di title={getPluginName(context.mostSpecific.get('plugin'), 1)}>
           <Link href$={getDashboardLink(context.mostSpecific.get('id'), { pathname: physicalDashboardPath })}>
             {context.mostSpecific.get('label')}
           </Link>
         </Di>
 
         {context.docker && (
-          <Di title={getSingular(context.docker.get('plugin'))}>
+          <Di title={getPluginName(context.docker.get('plugin'), 1)}>
             <Link href$={getDashboardLink(context.docker.get('id'), { pathname: physicalDashboardPath })}>
               {context.docker.get('label')}
             </Link>
@@ -131,7 +131,7 @@ const ViolationsForEntity = connect(({ snapshotId }) => ({
         )}
 
         {context.host && (
-          <Di title={getSingular(context.host.get('plugin'))}>
+          <Di title={getPluginName(context.host.get('plugin'), 1)}>
             <Link href$={getDashboardLink(context.host.get('id'), { pathname: physicalDashboardPath })}>
               {context.host.get('label')}
             </Link>

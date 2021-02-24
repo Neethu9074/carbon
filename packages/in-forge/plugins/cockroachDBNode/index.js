@@ -10,10 +10,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.cockroachDBNode,
-  pluginName: {
-    singular: 'CockroachDB Node',
-    plural: 'CockroachDB Nodes'
-  },
+
   kpiDefinitions,
   metricDefinitions,
   getCodeView,

@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
@@ -13,7 +14,7 @@ import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
   {
-    title: 'Name',
+    title: t('in-forge:plugins.activeMQ.name'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -22,7 +23,7 @@ const cols = [
     }
   },
   {
-    title: 'Queue Size',
+    title: t('in-forge:plugins.activeMQ.queueSize'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -38,7 +39,7 @@ const cols = [
     }
   },
   {
-    title: 'Messages Enqueued',
+    title: t('in-forge:plugins.activeMQ.messagesEnqueued'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -54,7 +55,7 @@ const cols = [
     }
   },
   {
-    title: 'Messages Dequeued',
+    title: t('in-forge:plugins.activeMQ.messagesDequeued'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -70,7 +71,7 @@ const cols = [
     }
   },
   {
-    title: 'Memory Usage',
+    title: t('in-forge:plugins.activeMQ.memoryUsage'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -103,7 +104,7 @@ export default function DLQueuesTable({ snapshot, timeConfig }) {
   return (
     <Table
       withoutPadding
-      cardTitle={`Dead-Letter Queues (${rows.length})`}
+      cardTitle={t('in-forge:plugins.activeMQ.deadLetterQueuesNumber', { number: rows.length })}
       cols={cols}
       rows={rows}
       getRowDetails={getRowDetails}
@@ -124,7 +125,7 @@ function getRowDetails(row) {
           y1={{
             formatter: number.compact,
             metrics: ['dlqueues.' + row.key + '.queueSize'],
-            labels: ['Queue Size'],
+            labels: [t('in-forge:plugins.activeMQ.queueSize')],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -135,7 +136,7 @@ function getRowDetails(row) {
           y1={{
             formatter: percentage.detailed,
             metrics: ['dlqueues.' + row.key + '.memoryPercentage'],
-            labels: ['Memory Usage'],
+            labels: [t('in-forge:plugins.activeMQ.memoryUsage')],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -148,7 +149,7 @@ function getRowDetails(row) {
         y1={{
           formatter: number.compact,
           metrics: ['dlqueues.' + row.key + '.enqueueCount', 'dlqueues.' + row.key + '.dequeueCount'],
-          labels: ['Messages Enqueued', 'Messages Dequeued'],
+          labels: [t('in-forge:plugins.activeMQ.messagesEnqueued'), t('in-forge:plugins.activeMQ.messagesDequeued')],
           type: 'line'
         }}
         renderPostChartContent={PluginDashboardsMarkerLanes}

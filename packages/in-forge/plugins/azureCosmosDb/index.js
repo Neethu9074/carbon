@@ -9,10 +9,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.azureCosmosDb,
-  pluginName: {
-    singular: 'Azure CosmosDb',
-    plural: 'Azure CosmosDb'
-  },
+
   kpiDefinitions,
   metricDefinitions
 });

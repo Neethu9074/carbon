@@ -8,10 +8,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.natsStreaming,
-  pluginName: {
-    singular: 'NATS Streaming',
-    plural: 'NATS Streaming'
-  },
+
   kpiDefinitions,
   technologyDescriptor: {
     label: 'NATS Streaming'

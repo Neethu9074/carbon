@@ -21,10 +21,7 @@ const solarisPlugin = plugins.host + '_solaris';
 
 registerSnapshotDefinition({
   plugin: plugins.host,
-  pluginName: {
-    singular: 'Host',
-    plural: 'Hosts'
-  },
+
   showZoneInSidebarHeader: true,
   tableDefinition,
   kpiDefinitions,

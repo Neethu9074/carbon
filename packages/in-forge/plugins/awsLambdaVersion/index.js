@@ -9,10 +9,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.awsLambdaVersion,
-  pluginName: {
-    singular: 'AWS Lambda Version',
-    plural: 'AWS Lambda Versions'
-  },
+
   kpiDefinitions,
   metricDefinitions,
   supportsInfrastructureTabSubscript: true

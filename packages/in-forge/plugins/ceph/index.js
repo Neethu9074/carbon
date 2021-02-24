@@ -9,10 +9,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.ceph,
-  pluginName: {
-    singular: 'Ceph instance',
-    plural: 'Ceph instances'
-  },
+
   kpiDefinitions,
   metricDefinitions
 });

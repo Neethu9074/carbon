@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import ProcessStartedAtDescriptionItem from 'in-sdk/components/sidebar/ProcessStartedAtDescriptionItem';
@@ -14,19 +15,27 @@ export default function ActiveMQArtemisInfo({ snapshot }) {
 
   return (
     <DescriptionList>
-      <DescriptionItem title="Version">{data.get('version')}</DescriptionItem>
-      <DescriptionItem title="Broker Name">{data.get('brokerName')}</DescriptionItem>
-      <DescriptionItem title="Node ID">{data.get('nodeId')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.activeMQArtemis.version')}>{data.get('version')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.activeMQArtemis.brokerName')}>
+        {data.get('brokerName')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.activeMQArtemis.nodeId')}>{data.get('nodeId')}</DescriptionItem>
       <ProcessStartedAtDescriptionItem snapshotId={snapshot.get('id')} />
-      <DescriptionItem title="Ports">
+      <DescriptionItem title={t('in-forge:plugins.activeMQArtemis.ports')}>
         {data
           .get('ports', emptyList)
           .sort()
           .join(', ')}
       </DescriptionItem>
-      <DescriptionItem title="Memory Limit">{bytesTwoDecimalPlaces(data.get('memoryLimit'))}</DescriptionItem>
-      <DescriptionItem title="Addresses">{data.get('addressNames', emptyList).size}</DescriptionItem>
-      <DescriptionItem title="Queues">{data.get('queueNames', emptyList).size}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.activeMQArtemis.memoryLimit')}>
+        {bytesTwoDecimalPlaces(data.get('memoryLimit'))}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.activeMQArtemis.addresses')}>
+        {data.get('addressNames', emptyList).size}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.activeMQArtemis.queues')}>
+        {data.get('queueNames', emptyList).size}
+      </DescriptionItem>
     </DescriptionList>
   );
 }

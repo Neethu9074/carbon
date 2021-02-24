@@ -31,7 +31,7 @@ import { openEventSubmitFormTracker, viewEventTracker } from 'in-settings/tracke
 import WithSubscript from 'in-settings/components/WithSubscript';
 import { intersperse } from 'in-services/arrayUtils';
 import WithIcon from 'in-new-components/WithIcon';
-import { getSingular } from 'in-sdk/pluginName';
+import { getPluginName } from 'in-sdk/pluginName';
 import ComboBox from 'in-components/ComboBox';
 import Tooltip from 'in-components/Tooltip';
 import Link from 'in-components/Link';
@@ -191,9 +191,9 @@ function columnDefinitions(hasRowNavigation) {
           return '';
         }
         return (
-          <Tooltip content={getSingular(entity.entityType)} align="topLeft" delay={500}>
+          <Tooltip content={getPluginName(entity.entityType, 1)} align="topLeft" delay={500}>
             <WithIcon plugin={entity.entityType} iconColor={theme.lib.colors.N700Medium}>
-              {getSingular(entity.entityType)}
+              {getPluginName(entity.entityType, 1)}
             </WithIcon>
           </Tooltip>
         );
@@ -261,7 +261,7 @@ function getEntityType(entity) {
   if (entity.entityType === 'any') {
     return '';
   }
-  return getSingular(entity.entityType);
+  return getPluginName(entity.entityType, 1);
 }
 
 function getSubscript(entity) {

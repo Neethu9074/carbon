@@ -13,7 +13,7 @@ import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import { compareIgnoreCase } from 'in-services/util/string';
 import PluginIcon from 'in-components/PluginIcon';
 import { getSnapshots } from 'in-stores/snapshot';
-import { getPlural } from 'in-sdk/pluginName';
+import { getPluginName } from 'in-sdk/pluginName';
 import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
 
@@ -32,7 +32,9 @@ export default connectTo(
       return null;
     }
     const groups = getSnapshotsGroupedByPlugin(snapshots);
-    const groupPlugins = Object.keys(groups).sort((a, b) => compareIgnoreCase(getPlural(a), getPlural(b)));
+    const groupPlugins = Object.keys(groups).sort((a, b) =>
+      compareIgnoreCase(getPluginName(a, groups[a].length), getPluginName(b, groups[b].length))
+    );
 
     return (
       <div>
@@ -48,7 +50,7 @@ export default connectTo(
                   </Fragment>
 
                   <span>
-                    {getPlural(plugin)} ({groups[plugin].length})
+                    {getPluginName(plugin, groups[plugin].length)} ({groups[plugin].length})
                   </span>
                 </div>
               </Collapsible.Header>

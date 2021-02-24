@@ -9,10 +9,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.statsd,
-  pluginName: {
-    singular: 'Statsd',
-    plural: 'Statsd'
-  },
+
   kpiDefinitions,
   metricDefinitions
 });

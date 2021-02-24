@@ -10,10 +10,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.cassandraNode,
-  pluginName: {
-    singular: 'Cassandra Node',
-    plural: 'Cassandra Nodes'
-  },
+
   kpiDefinitions,
   metricDefinitions,
   getCodeView,

@@ -9,10 +9,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.kubernetesCronJob,
-  pluginName: {
-    singular: 'Kubernetes CronJob',
-    plural: 'Kubernetes CronJobs'
-  },
+
   kpiDefinitions,
   metricDefinitions
 });

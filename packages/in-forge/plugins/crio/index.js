@@ -15,10 +15,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.crio,
-  pluginName: {
-    singular: 'CRI-O Container',
-    plural: 'CRI-O Containers'
-  },
+
   kpiDefinitions,
   metricDefinitions,
   tableDefinition,

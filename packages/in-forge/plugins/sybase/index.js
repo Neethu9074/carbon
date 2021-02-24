@@ -9,10 +9,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.sybase,
-  pluginName: {
-    singular: 'Sybase Server',
-    plural: 'Sybase Servers'
-  },
+
   kpiDefinitions,
   metricDefinitions,
   technologyDescriptor: {

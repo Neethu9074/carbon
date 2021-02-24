@@ -9,10 +9,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.ec2,
-  pluginName: {
-    singular: 'EC2 Instance',
-    plural: 'EC2 Instances'
-  },
+
   kpiDefinitions,
   metricDefinitions
 });

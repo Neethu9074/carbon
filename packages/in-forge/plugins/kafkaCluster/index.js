@@ -9,10 +9,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.kafkaCluster,
-  pluginName: {
-    singular: 'Kafka Cluster',
-    plural: 'Kafka Cluster'
-  },
+
   kpiDefinitions,
   metricDefinitions,
   technologyDescriptor: {

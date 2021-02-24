@@ -9,10 +9,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.application,
-  pluginName: {
-    singular: 'Application',
-    plural: 'Applications'
-  },
+
   kpiDefinitions,
   metricDefinitions,
   chartWiggleRoom: 20000,

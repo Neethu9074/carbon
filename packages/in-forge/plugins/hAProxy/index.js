@@ -9,10 +9,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.hAProxy,
-  pluginName: {
-    singular: 'HAProxy',
-    plural: 'HAProxy'
-  },
+
   kpiDefinitions,
   metricDefinitions
 });

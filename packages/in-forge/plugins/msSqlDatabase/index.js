@@ -9,10 +9,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.msSqlDatabase,
-  pluginName: {
-    singular: 'MS SQL Instance',
-    plural: 'MS SQL Instances'
-  },
+
   kpiDefinitions,
   metricDefinitions,
   technologyDescriptor: {

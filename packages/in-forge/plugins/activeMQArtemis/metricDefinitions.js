@@ -2,8 +2,10 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { number, percentage } from 'in-services/formatters/number';
+import { t } from 'in-i18n';
+
 import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
+import { number, percentage } from 'in-services/formatters/number';
 
 export default [
   {
@@ -17,13 +19,13 @@ export default [
       'totalMessagesKilled'
     ],
     labels: [
-      'Total Connections',
-      'Total Consumers',
-      'All Queues Message Count',
-      'All Queues Messages Added',
-      'All Queues Messages Acknowledged',
-      'All Queues Messages Expired',
-      'All Queues Messages Killed'
+      t('in-forge:plugins.activeMQArtemis.totalConnections'),
+      t('in-forge:plugins.activeMQArtemis.totalConsumers'),
+      t('in-forge:plugins.activeMQArtemis.allQueuesMessageCount'),
+      t('in-forge:plugins.activeMQArtemis.allQueuesMessagesAdded'),
+      t('in-forge:plugins.activeMQArtemis.allQueuesMessagesAcknowledged'),
+      t('in-forge:plugins.activeMQArtemis.allQueuesMessagesExpired'),
+      t('in-forge:plugins.activeMQArtemis.allQueuesMessagesKilled')
     ],
     min: 0,
     formatter: number
@@ -36,14 +38,20 @@ export default [
       getDynamicMetricMatch('queues', 'messagesExpired', 'Queue'),
       getDynamicMetricMatch('queues', 'messagesKilled', 'Queue')
     ],
-    labels: ['Message Count', 'Messages Added', 'Messages Acknowledged', 'Messages Expired', 'Messages Killed'],
-    category: ['Queues'],
+    labels: [
+      t('in-forge:plugins.activeMQArtemis.messageCount'),
+      t('in-forge:plugins.activeMQArtemis.messagesAdded'),
+      t('in-forge:plugins.activeMQArtemis.messagesAcknowledged'),
+      t('in-forge:plugins.activeMQArtemis.messagesExpired'),
+      t('in-forge:plugins.activeMQArtemis.messagesKilled')
+    ],
+    category: [t('in-forge:plugins.activeMQArtemis.queues')],
     min: 0,
     formatter: number
   },
   {
     metrics: ['addressMemoryPercentage'],
-    labels: ['Address Memory Usage'],
+    labels: [t('in-forge:plugins.activeMQArtemis.addressMemoryUsage')],
     min: 0,
     max: 1,
     formatter: percentage

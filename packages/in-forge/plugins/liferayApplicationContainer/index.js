@@ -9,10 +9,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.liferayApplicationContainer,
-  pluginName: {
-    singular: 'Liferay App',
-    plural: 'Liferay Apps'
-  },
+
   kpiDefinitions,
   getCodeView,
   supportsCodeView
