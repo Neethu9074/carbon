@@ -22,7 +22,7 @@ const iconColumnDefinition = {
 
 const labelColumnDefinition = {
   getContent({ node }) {
-    return <KeyValue inverted accentuated value={node.label} label={node.description} />;
+    return <KeyValue inverted accentuated value={node.label} label={node.description} multiline />;
   }
 };
 

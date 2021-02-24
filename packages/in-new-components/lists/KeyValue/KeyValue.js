@@ -17,11 +17,11 @@ export const themes = {
 };
 
 const KeyValue = forwardRef(function KeyValue(
-  { className, label, value, customValue, theme = themes.default, inverted, accentuated },
+  { className, label, value, customValue, theme = themes.default, inverted, accentuated, multiline },
   ref
 ) {
   const k = <Key label={label} />;
-  const v = <Value value={customValue ?? value} theme={theme} accentuated={accentuated} />;
+  const v = <Value value={customValue ?? value} theme={theme} accentuated={accentuated} multiline={multiline} />;
 
   return (
     <div
@@ -54,5 +54,6 @@ KeyValue.propTypes = {
   customValue: PropTypes.any,
   inverted: PropTypes.bool,
   accentuated: PropTypes.bool,
+  multiline: PropTypes.bool,
   theme: PropTypes.oneOf(Object.keys(themes))
 };

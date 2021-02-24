@@ -7,7 +7,7 @@ import React from 'react';
 
 import locals from './Value.mless';
 
-export default function Value({ value, theme, accentuated }) {
+export default function Value({ value, theme, accentuated, multiline }) {
   if (value === undefined) {
     return null;
   }
@@ -17,7 +17,9 @@ export default function Value({ value, theme, accentuated }) {
       className={classNames({
         [locals.value]: true,
         [locals.accentuated]: accentuated,
-        [locals[theme]]: true
+        [locals[theme]]: true,
+        [locals.ellipsis]: !multiline,
+        [locals.multiline]: multiline
       })}
     >
       {value}
