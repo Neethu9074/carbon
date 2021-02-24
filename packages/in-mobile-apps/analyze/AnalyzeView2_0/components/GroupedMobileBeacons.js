@@ -32,6 +32,7 @@ export default function GroupedMobileBeacons(props) {
         }
         getLabel={getItemLabel}
         UngroupedView={MobileBeacons}
+        withSamplingTooltip
       />
     </QueryBuilderWorkspace>
   );
