@@ -2,12 +2,13 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import theme from 'in-themes';
+
 import React from 'react';
 
 import Overlay from 'in-new-components/overlays/Overlay';
 import SvgIcon from 'in-components/SvgIcon';
 import Pill from 'in-new-components/Pill';
+import theme from 'in-themes';
 
 import locals from './FilterOperator.mless';
 

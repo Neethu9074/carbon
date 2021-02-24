@@ -2035,6 +2035,13 @@
   resolved "https://registry.yarnpkg.com/@icons/material/-/material-0.2.4.tgz#e90c9f71768b3736e76d7dd6783fc6c2afa88bc8"
   integrity sha512-QPcGmICAPbGLGb6F/yNf/KzKqvFx8z5qx3D1yFqVAjoFmXK35EgyW+cJ57Te3CNsmzblwtzakLGFqHPqrfb4Tw==
 
+"@instana/import-sort-style-simon@^1.1.0":
+  version "1.1.0"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@instana/import-sort-style-simon/-/@instana/import-sort-style-simon-1.1.0.tgz#ce806f765897090b0287da2075985beb0e432f1f"
+  integrity sha1-zoBvdliXCQsCh9ogdZhb6w5DLx8=
+  dependencies:
+    import-sort "^6.0.0"
+
 "@instana/logger@^1.0.0":
   version "1.0.0"
   resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@instana/logger/-/@instana/logger-1.0.0.tgz#e44d0c88515da38da8bcb5bc7f4519d768a88457"
@@ -10079,13 +10086,6 @@ import-sort-parser@^6.0.0:
   version "6.0.0"
   resolved "https://registry.yarnpkg.com/import-sort-parser/-/import-sort-parser-6.0.0.tgz#0d901f264d98ed7caaae71f66128a686f828f2f4"
   integrity sha512-H5L+d6HnqHvThB0GmAA3/43Sv74oCwL0iMk3/ixOv0LRJ69rCyHXeG/+UadMHrD2FefEmgPIWboEPAG7gsQrkA==
-
-import-sort-style-simon-sort@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/import-sort-style-simon-sort/-/import-sort-style-simon-sort-1.0.0.tgz#9bc8b7136b9f7c9e2a9597346709da86a92b2364"
-  integrity sha512-FkUH8O1/eB0+C2o69+yF7e/kdEM22FJOW5x9oFsFa4W1cchxXQUpoZa1WsY9/nQkSEkbz4bub1jXGEwdSYRATA==
-  dependencies:
-    import-sort "^6.0.0"
 
 import-sort-style@^6.0.0:
   version "6.0.0"
