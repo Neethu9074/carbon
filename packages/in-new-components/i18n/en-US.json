@@ -137,8 +137,8 @@
   "analyzeView": {
     "splitScreenListTooltipCloseSidebar": "Close sidebar",
     "splitScreenListTooltipOpenSidebar": "Open sidebar",
-    "groupedViewHeader": "Group",
-    "groupedViewHeader_plural": "Groups",
+    "groupedViewHeader": "{{formattedCount}} Group",
+    "groupedViewHeader_plural": "{{formattedCount}} Groups",
     "groupedViewHeader_0": "Groups",
     "groupedViewHeader_1": "Group",
     "groupedViewHeader_2": "Groups",

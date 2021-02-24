@@ -8,7 +8,6 @@ import React from 'react';
 
 import { historicOrLargeDataResult$ } from 'in-new-components/time/TimeSelection/TimeSelection';
 import { samplingIndicatorEnabled } from 'in-services/featureFlags';
-import { number } from 'in-services/formatters/number';
 import TimeIcon from 'in-new-components/time/TimeIcon';
 import { emptyObject } from 'in-services/fixedObjects';
 import useObservable from 'in-hooks/useObservable';
@@ -19,7 +18,7 @@ import locals from './ResultHeader.mless';
 
 export default function ResultHeader({
   label,
-  itemName,
+  getItemName,
   totalRepresentedItemCount,
   adjustedWindowSize,
   withSamplingTooltip = false,
@@ -40,7 +39,7 @@ export default function ResultHeader({
         </span>
       ) : (
         <>
-          <span className={locals.number}>{formatCounter(totalRepresentedItemCount, t(itemName))}</span>
+          <span className={locals.number}>{getItemName({ count: totalRepresentedItemCount })}</span>
           {containsHistoricData && (
             <TimeIcon
               theme="light"
@@ -63,13 +62,9 @@ export default function ResultHeader({
 
 ResultHeader.propTypes = {
   label: rpt.string,
-  itemName: rpt.string.isRequired,
+  getItemName: rpt.func.isRequired,
   totalRepresentedItemCount: rpt.number,
   adjustedWindowSize: rpt.number,
   withSamplingTooltip: rpt.bool,
   isValid: rpt.bool
 };
-
-function formatCounter(count, itemName) {
-  return `${number.compact(count)} ${itemName}${count === 1 ? '' : 's'}`;
-}

@@ -12,6 +12,7 @@ import getWebsiteBeacons from 'in-websites/subscriptions/getWebsiteBeacons';
 import PageLoadView from 'in-websites/analyze/PageLoadView/PageLoadView';
 import { getLinkToWebsite } from 'in-websites/navigation/paths';
 import HealthDot from 'in-new-components/health/HealthDot';
+import { number } from 'in-services/formatters/number';
 import Tooltip from 'in-components/Tooltip';
 import Link from 'in-components/Link';
 import { t } from 'in-i18n';
@@ -165,7 +166,13 @@ export default function Beacons(props) {
   let content = (
     <UngroupedViewTable
       {...props}
-      itemName={`in-websites:dataSources.${props.dataSource}`}
+      getItemName={({ count }) =>
+        t('in-websites:dataSource', {
+          context: props.dataSource,
+          count,
+          formattedCount: number.compact(count)
+        })
+      }
       columnDefinitions={columnsPerDataSource[props.dataSource]}
       getData={({ timeConfig, backendQueryModel, orderBy, cursor }) =>
         getTableData({ timeConfig, backendQueryModel, orderBy, cursor, dataSource: props.dataSource })

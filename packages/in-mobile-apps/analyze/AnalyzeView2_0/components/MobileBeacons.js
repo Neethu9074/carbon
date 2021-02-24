@@ -12,6 +12,7 @@ import getMobileAppBeacons from 'in-mobile-apps/subscriptions/getMobileAppBeacon
 import SessionView from 'in-mobile-apps/analyze/SessionView/SessionView';
 import { getLinkToMobileApp } from 'in-mobile-apps/navigation/paths';
 import HealthDot from 'in-new-components/health/HealthDot';
+import { number } from 'in-services/formatters/number';
 import Tooltip from 'in-components/Tooltip';
 import Link from 'in-components/Link';
 import { t } from 'in-i18n';
@@ -130,7 +131,13 @@ export default function MobileBeacons(props) {
   let content = (
     <UngroupedViewTable
       {...props}
-      itemName={`in-mobile-apps:dataSources.${props.dataSource}`}
+      getItemName={({ count }) =>
+        t('in-mobile-apps:dataSource', {
+          context: props.dataSource,
+          count,
+          formattedCount: number.compact(count)
+        })
+      }
       columnDefinitions={columnsPerDataSource[props.dataSource]}
       getData={({ timeConfig, backendQueryModel, orderBy, cursor }) =>
         getTableData({ timeConfig, backendQueryModel, orderBy, cursor, dataSource: props.dataSource })
