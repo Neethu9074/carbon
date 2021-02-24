@@ -22,18 +22,22 @@ export default function ResultHeader({
   itemName,
   totalRepresentedItemCount,
   adjustedWindowSize,
-  withSamplingTooltip = false
+  withSamplingTooltip = false,
+  isValid = true
 }) {
   const historicOrLargeDataResult = useObservable(
     withSamplingTooltip && !samplingIndicatorEnabled ? historicOrLargeDataResult$ : null,
     []
   );
   const { containsHistoricData, retention } = historicOrLargeDataResult ?? emptyObject;
+
   return (
     <div className={locals.wrapper}>
       {label && <span className={locals.result}>{label}</span>}
       {totalRepresentedItemCount == null ? (
-        <span className={locals.number}>{t('in-new-components:analyzeView.resultHeaderLoading')}</span>
+        <span className={locals.number}>
+          {isValid ? t('in-new-components:analyzeView.resultHeaderLoading') : t('in-new-components:analyze.noResults')}
+        </span>
       ) : (
         <>
           <span className={locals.number}>{formatCounter(totalRepresentedItemCount, t(itemName))}</span>
@@ -62,7 +66,8 @@ ResultHeader.propTypes = {
   itemName: rpt.string.isRequired,
   totalRepresentedItemCount: rpt.number,
   adjustedWindowSize: rpt.number,
-  withSamplingTooltip: rpt.bool
+  withSamplingTooltip: rpt.bool,
+  isValid: rpt.bool
 };
 
 function formatCounter(count, itemName) {

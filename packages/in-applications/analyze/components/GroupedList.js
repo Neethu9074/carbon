@@ -189,6 +189,7 @@ function Presenter({
           totalRepresentedItemCount={totalHits}
           adjustedWindowSize={adjustedWindowSize}
           withSamplingTooltip
+          isValid={isValid}
         />
         <FacetedSearch
           tagFilterExpression={tagFilterExpression}
