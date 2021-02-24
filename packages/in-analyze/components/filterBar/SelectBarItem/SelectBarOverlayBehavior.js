@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import { timeout } from '@instana/observables';
 import { compose, withState } from 'recompose';
 import { find } from 'lodash';
@@ -116,7 +117,7 @@ function SelectBarOverlayBehavior({
         close();
       }}
       moreDataAvailable={result.data && result.data.canLoadMore}
-      moreDataMessage={`More ${pluralLabel} available. Only the top 200 ${pluralLabel} shown. Use the filter to drill down further.`}
+      moreDataMessage={t('in-analyze:filterBar.selectBarItem.moreDataMessage', { pluralLabel })}
       itemLabelRenderer={itemLabelRenderer}
     />
   );

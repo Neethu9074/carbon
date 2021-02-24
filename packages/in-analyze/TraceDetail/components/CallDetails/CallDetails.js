@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import { compose } from 'recompose';
 import { get } from 'lodash';
 import React from 'react';
@@ -101,11 +102,11 @@ function CallDetails(props) {
 
 function CloseButton({ onClick }) {
   return (
-    <Tooltip content="Close call details">
+    <Tooltip content={t('in-analyze:traceDetails.callDetails.tooltipCloseCallDetails')}>
       <SvgIcon
         className={locals.closeIcon}
         onClick={onClick}
-        aria-label="Close call details"
+        aria-label={t('in-analyze:traceDetails.callDetails.tooltipCloseCallDetails')}
         type="lib_openclose_cancel"
       />
     </Tooltip>

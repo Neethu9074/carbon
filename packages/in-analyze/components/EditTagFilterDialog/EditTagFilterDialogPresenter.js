@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import CreatableSelect from 'react-select/lib/Creatable';
 import classNames from 'classnames';
 import React from 'react';
@@ -51,16 +52,16 @@ export default function EditTagFilterDialogPresenter({
 }) {
   return (
     <Dialog
-      title={editMode ? 'Edit Filter' : `Add ${categoryTitle ? categoryTitle : ''} Filter`}
+      title={
+        editMode
+          ? t('in-analyze:editTagFilterDialog.dialogTitleEdit')
+          : t('in-analyze:editTagFilterDialog.dialogTitleAdd', { filterCategory: categoryTitle || '' })
+      }
       onClose={onClose}
       showOverflow
     >
       <form onSubmit={onSubmit} autoComplete="off">
-        <Message
-          small
-          className={locals.help}
-          title="Select a tag by which your data should be filtered. Tags are case-sensitive."
-        />
+        <Message small className={locals.help} title={t('in-analyze:editTagFilterDialog.messageTitle')} />
 
         {form.get('tag').map(field => (
           <FormGroup>
@@ -143,7 +144,7 @@ export default function EditTagFilterDialogPresenter({
                   options={valueSuggestions || emptyArray}
                   resultsToShow={100}
                   value={field.value}
-                  placeholder="Type to filter the results…"
+                  placeholder={t('in-analyze:editTagFilterDialog.placeholder')}
                   onChange={e => onValueChange(e.value.trim())}
                 />
               )}
@@ -203,7 +204,7 @@ export default function EditTagFilterDialogPresenter({
             kind={editMode ? 'primaryv2' : 'create'}
             disabled={form.touched && !form.hierarchyValid}
           >
-            {editMode ? 'Save Filter' : 'Add Filter'}
+            {editMode ? t('in-analyze:editTagFilterDialog.saveFilter') : t('in-analyze:editTagFilterDialog.addFilter')}
           </Button>
         </div>
       </form>

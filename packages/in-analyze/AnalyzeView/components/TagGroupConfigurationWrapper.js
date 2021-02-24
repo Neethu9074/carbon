@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import classNames from 'classnames';
 import React from 'react';
 
@@ -12,7 +13,7 @@ import Label from 'in-components/form/Label';
 
 import locals from './TagGroupConfigurationWrapper.mless';
 
-const emptyMessage = 'No group defined.';
+const emptyMessage = t('in-analyze:analyzeView.tagGroupEmptyMessage');
 
 /**
  * The presentational part of the grouping in the metric configurator.

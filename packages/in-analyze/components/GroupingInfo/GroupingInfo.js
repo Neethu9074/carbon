@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React, { Fragment } from 'react';
 
 import EntityIndicator from 'in-analyze/components/EntityIndicator';
@@ -51,7 +52,7 @@ export default function GroupingInfo({ group, disableGrouping }) {
           <Tooltip content="Remove grouping" align="bottomMiddle">
             <SvgIcon
               className={locals.removeGrouping}
-              aria-label="Remove grouping"
+              aria-label={t('in-analyze:groupingInfo.removeGrouping')}
               type="lib_openclose_circle_outline"
               onClick={disableGrouping}
               size="s"

@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React, { Fragment } from 'react';
 import classNames from 'classnames';
 
@@ -13,16 +14,16 @@ import locals from './RadioGroup.mless';
 
 const RadioGroup = ({ disabled, onChange, value, sourceEntityAvailability }) => {
   if (!sourceEntityAvailability) {
-    return <Message small title="Filtering and grouping on source is not available for the selected timeframe" />;
+    return <Message small title={t('in-analyze:radioButtons.messageFilering')} />;
   } else if (disabled && value !== entityTypes.SOURCE) {
-    return <Message small title="This tag is independent of source and destination" />;
+    return <Message small title={t('in-analyze:radioButtons.messageIndependent')} />;
   }
   return (
     <Fragment>
       <span className={locals.textLabel}>
         {disabled && value === entityTypes.SOURCE
-          ? 'Applies only to the source of the call'
-          : 'Apply to call source or destination'}
+          ? t('in-analyze:radioButtons.fragmentSource')
+          : t('in-analyze:radioButtons.fragmentCall')}
       </span>
       <div className={locals.inputGroup}>
         <label

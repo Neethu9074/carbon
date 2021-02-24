@@ -157,7 +157,7 @@ const columnDefinitions = [
       if (item.isPcf || item.isKubernetes) {
         return null;
       }
-      return <KeyValue label={t('in-cockpit:component.platformsTopList.esXiHost')} value={item.hosts} accentuated />;
+      return <KeyValue label={t('in-cockpit:component.platformsTopList.esXiHosts')} value={item.hosts} accentuated />;
     }
   },
   {

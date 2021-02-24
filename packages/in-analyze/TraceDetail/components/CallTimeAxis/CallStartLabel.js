@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import classNames from 'classnames';
 import React from 'react';
 
@@ -18,7 +19,7 @@ export default getElementDimensions(({ startTime, call, className }) => {
   return (
     <span className={classNames(locals.callStartLabel, className)}>
       <SvgIcon className={locals.icon} type="lib_datetime_time" />
-      {`Started: ${formatDateTime(startTime)}`}
+      {t('in-analyze:traceDetails.callTimeAxis.started', {startedTime: formatDateTime(startTime)})}
     </span>
   );
 });

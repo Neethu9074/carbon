@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import CreatableSelect from 'react-select/lib/Creatable';
 import React from 'react';
 
@@ -62,7 +63,7 @@ export default function KeyValueBarOverlayPresenter({
                     <Segment>{value}</Segment>
                   </span>
                 </Tooltip>
-                <Tooltip content="Remove filter">
+                <Tooltip content={t('in-analyze:filterBar.keyValueBarItem.tooltip')}>
                   <SvgIcon
                     type="lib_openclose_cancel"
                     size="xs"

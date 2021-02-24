@@ -9,6 +9,8 @@ import { dataSourceTitles as mobileAppDataSourceTitles } from 'in-mobile-apps/ta
 import { dataSourceTitles as websiteDataSourceTitles } from 'in-websites/tags';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import { deepFreeze } from 'in-services/util/object';
+import { t } from 'in-i18n';
+
 
 let configs;
 export default function getByDataSource(dataSource) {
@@ -21,7 +23,7 @@ export default function getByDataSource(dataSource) {
         errorneousTagPreset: 'trace.erroneous',
         latencyTagPreset: 'trace.latency',
         isSyntheticTagPreset: 'call.is_synthetic',
-        countMetricText: 'Traces',
+        countMetricText: t('in-analyze:analyzeView.traces'),
         countMetricKey: 'traces',
         defaultGrouping: { name: 'trace.endpoint.name', value: '', entity: entityTypes.NOT_APPLICABLE },
         defaultFilters: [],
@@ -37,7 +39,7 @@ export default function getByDataSource(dataSource) {
         errorneousTagPreset: 'call.erroneous',
         latencyTagPreset: 'call.latency',
         isSyntheticTagPreset: 'call.is_synthetic',
-        countMetricText: 'Calls',
+        countMetricText: t('in-analyze:analyzeView.calls'),
         countMetricKey: 'calls',
         defaultGrouping: groupByEndpointName,
         defaultFilters: [],

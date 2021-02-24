@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import {
@@ -70,7 +71,7 @@ export default connectTo({ isInternalVisible: isInternalVisible$ }, function Raw
               onChangeOrder={onChangeOrder}
               defaultDirection="DESC"
               technicalName="timestamp"
-              label="Timestamp"
+              label={t('in-analyze:rawTraces.labelTimestamp')}
             />
 
             <SortableColumn
@@ -79,7 +80,7 @@ export default connectTo({ isInternalVisible: isInternalVisible$ }, function Raw
               onChangeOrder={onChangeOrder}
               defaultDirection="DESC"
               technicalName="latency"
-              label="Latency"
+              label={t('in-analyze:rawTraces.labelLatency')}
             />
           </Tr>
         </Thead>

@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import { withProps } from 'recompose';
 import React from 'react';
 
@@ -25,7 +26,7 @@ export default withProps(({ filters, metrics, availableMetrics, onFocusedMetricC
   const latencyTag = dataSource === 'traces' ? 'trace.latency' : 'call.latency';
   const countChartDefinitions = [
     {
-      label: 'Count',
+      label: t('in-analyze:metricsChart.count'),
       key: dataSource === 'traces' ? 'traces_SUM' : 'calls_SUM',
       renderer: Renderer.stackedBar,
       aggregation: 'SUM',

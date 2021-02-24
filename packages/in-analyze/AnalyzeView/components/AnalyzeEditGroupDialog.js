@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { getTagFilterListForBackendSubscription } from 'in-analyze/applicationFilter';
@@ -16,7 +17,7 @@ export default function AnalyzeEditDialog(props) {
   const { filters, tagFilters, timeConfig } = props;
 
   const tagSuggestions = getConfigByDataSource(filters.dataSource).groupTagKeys;
-  const help = 'Select a tag by which calls and traces should be grouped.';
+  const help = t('in-analyze:analyzeView.analyzeEditGroupHelp');
   const getKeySuggestions = getSecondLevelKeySuggestions(tagFilters, timeConfig);
 
   return (

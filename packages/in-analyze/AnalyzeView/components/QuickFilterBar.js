@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React, { Fragment } from 'react';
 
 import NumberBarItem from 'in-analyze/components/filterBar/NumberBarItemBehavior/NumberBarItemBehavior';
@@ -45,8 +46,8 @@ export default function QuickFilterBar(props) {
           timeConfig={timeConfig}
           tagFilters={tagFilters}
           tag="application.name"
-          singularLabel="Application"
-          pluralLabel="Application"
+          singularLabel={t('in-analyze:analyzeView.quickFilterBarLabel.application')}
+          pluralLabel={t('in-analyze:analyzeView.quickFilterBarLabel.application_plural')}
           itemLabelRenderer={renderApplicationServiceEndpointItem('lib_application')}
           withoutTextTransform
         />
@@ -57,8 +58,8 @@ export default function QuickFilterBar(props) {
           timeConfig={timeConfig}
           tagFilters={tagFilters}
           tag="service.name"
-          singularLabel="Service"
-          pluralLabel="Services"
+          singularLabel={t('in-analyze:analyzeView.quickFilterBarLabel.service')}
+          pluralLabel={t('in-analyze:analyzeView.quickFilterBarLabel.service_plural')}
           itemLabelRenderer={renderApplicationServiceEndpointItem('lib_application_service')}
           withoutTextTransform
         />
@@ -69,8 +70,8 @@ export default function QuickFilterBar(props) {
           timeConfig={timeConfig}
           tagFilters={tagFilters}
           tag="endpoint.name"
-          singularLabel="Endpoint"
-          pluralLabel="Endpoints"
+          singularLabel={t('in-analyze:analyzeView.quickFilterBarLabel.endpoint')}
+          pluralLabel={t('in-analyze:analyzeView.quickFilterBarLabel.endpoint_plural')}
           itemLabelRenderer={renderApplicationServiceEndpointItem('lib_application_endpoint')}
           precondition={() => !!getTagFromList(tagFilters, { name: 'service.name' })}
           preconditionFailedTooltip="Please select a service before selecting an endpoint."
@@ -83,8 +84,8 @@ export default function QuickFilterBar(props) {
           timeConfig={timeConfig}
           tagFilters={tagFilters}
           tag="call.type"
-          singularLabel="Type"
-          pluralLabel="Types"
+          singularLabel={t('in-analyze:analyzeView.quickFilterBarLabel.type')}
+          pluralLabel={t('in-analyze:analyzeView.quickFilterBarLabel.type_plural')}
           selectedItemRenderer={renderType}
           itemLabelRenderer={renderType}
         />
@@ -95,8 +96,8 @@ export default function QuickFilterBar(props) {
           timeConfig={timeConfig}
           tagFilters={tagFilters}
           tag="technology"
-          singularLabel="Technology"
-          pluralLabel="Technologies"
+          singularLabel={t('in-analyze:analyzeView.quickFilterBarLabel.technology')}
+          pluralLabel={t('in-analyze:analyzeView.quickFilterBarLabel.technology_plural')}
           selectedItemRenderer={getTechnologyLabel}
           itemLabelRenderer={itemLabel => (
             <EntityWithTypeAndIcon plugin={itemLabel} label={getTechnologyLabel(itemLabel)} />
@@ -108,7 +109,7 @@ export default function QuickFilterBar(props) {
           {...props}
           tagFilters={tagFilters}
           tag={dataSourceConfig.latencyTagPreset}
-          singularLabel="Latency"
+          singularLabel={t('in-analyze:analyzeView.quickFilterBarLabel.latency')}
           formatter={millis.fixedCompact}
           unit="ms"
           showRange
@@ -121,7 +122,7 @@ export default function QuickFilterBar(props) {
           timeConfig={timeConfig}
           tagFilters={tagFilters}
           tag={dataSourceConfig.errorneousTagPreset}
-          singularLabel="Erroneous"
+          singularLabel={t('in-analyze:analyzeView.quickFilterBarLabel.erroneous')}
         />
       )}
       {showHiddenCallsSelector && (
@@ -130,7 +131,7 @@ export default function QuickFilterBar(props) {
           timeConfig={timeConfig}
           tagFilters={tagFilters}
           tag={{ synthetic: 'include_synthetic', internal: 'include_internal' }}
-          singularLabel="Hidden Calls"
+          singularLabel={t('in-analyze:analyzeView.quickFilterBarLabel.hiddenCalls')}
         />
       )}
 

@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { getServiceDashboard, getEndpointDashboard } from 'in-applications/navigation/paths';
@@ -17,7 +18,7 @@ export default function ServiceEndpointList({ traceId, getColor, onListItemMouse
   const columnDefinitions = [
     {
       id: 'serviceLabel',
-      label: 'Service',
+      label: t('in-analyze:traceDetails.labelService'),
       getContent(item) {
         return (
           <div className={locals.cell}>
@@ -32,7 +33,7 @@ export default function ServiceEndpointList({ traceId, getColor, onListItemMouse
     },
     {
       id: 'endpointLabel',
-      label: 'Endpoint',
+      label: t('in-analyze:traceDetails.labelEndpoint'),
       ellipsis: '1vw',
       getContent(item) {
         if (!item.endpoint) {
@@ -54,7 +55,7 @@ export default function ServiceEndpointList({ traceId, getColor, onListItemMouse
     },
     {
       id: 'aggregatedTime',
-      label: 'Aggregated Time',
+      label: t('in-analyze:traceDetails.labelAggregatedTime'),
       getContent(item) {
         return <span className={locals.aggregatedTime}>{latencyFixed.compact(item.aggregatedTime)}</span>;
       }
@@ -62,7 +63,7 @@ export default function ServiceEndpointList({ traceId, getColor, onListItemMouse
 
     {
       id: 'errorCount',
-      label: 'Erroneous Calls',
+      label: t('in-analyze:traceDetails.labelErroneousCalls'),
       getContent(item) {
         return <span>{item.errorCount ? item.errorCount : null}</span>;
       }

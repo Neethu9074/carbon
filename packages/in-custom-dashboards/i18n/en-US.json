@@ -55,7 +55,8 @@
       "widgetPreview": {
         "previewNotAvailWidgetConfigIncomplete": "Preview not available because the widget configuration is incomplete.",
         "highlightMissingConfig": "Highlight missing configuration",
-        "preview": "Preview"
+        "preview": "Preview",
+        "customDashboardPreviewTitle": "Custom dashboard widget preview: {{title}}"
       }
     },
     "customDashboard": {
@@ -125,6 +126,9 @@
       }
     },
     "srcEvent": {
+      "index": {
+        "events": "Events"
+      },
       "formComponent": {
         "metric":"Metric",
         "eventCount": "Event Count",
@@ -252,7 +256,7 @@
           "primaryYAxis":"Primary Y-Axis",
           "secondaryYAxis":"Secondary Y-Axis",
           "chart":"Chart",
-          "formatter":"Formatter",            
+          "formatter":"Formatter",
           "addSecondary": "Add secondary Y-axis",
           "removeSecondary": "Remove",
           "min": "Min",
@@ -267,6 +271,7 @@
         "colorAutoChose":"Color is automatically chosen"
       },
       "color": {
+        "lightBlue": "Light Blue",
         "green":"Green",
         "red":"Red",
         "yellow":"Yellow",

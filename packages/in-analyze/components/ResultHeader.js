@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import classNames from 'classnames';
 import React from 'react';
 
@@ -66,10 +67,7 @@ export default connectTo(
           <TimeIcon theme="light" containsHistoricData retention={retention} />
         )}
         {adjustedWindowSize && (
-          <Tooltip
-            content="The query time range has been rounded up to nearest full minute to allow this view to load more quickly."
-            align="bottomMiddle"
-          >
+          <Tooltip content={t('in-analyze:resultHeaderTooltip')} align="bottomMiddle">
             <SvgIcon className={locals.adjustmentIcon} type="lib_approximately_equal" />
           </Tooltip>
         )}

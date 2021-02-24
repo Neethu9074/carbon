@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React, { Fragment } from 'react';
 
 import { LoadMoreRow, Table, Thead, Tbody, Tr } from 'in-components/tables/sharedComponents';
@@ -26,7 +27,7 @@ export default function TraceGroupsTable(props) {
               onChangeOrder={onChangeOrder}
               defaultDirection="ASC"
               technicalName="group"
-              label="Group"
+              label={t('in-analyze:groupedTraces.labelGroup')}
               noWrap
             />
             <SortableColumn
@@ -35,7 +36,7 @@ export default function TraceGroupsTable(props) {
               onChangeOrder={onChangeOrder}
               defaultDirection="DESC"
               technicalName="count"
-              label="Count"
+              label={t('in-analyze:groupedTraces.labelCount')}
               noWrap
             />
             <SortableColumn
@@ -44,7 +45,7 @@ export default function TraceGroupsTable(props) {
               onChangeOrder={onChangeOrder}
               defaultDirection="DESC"
               technicalName="firstTimestamp"
-              label="Earliest Timestamp"
+              label={t('in-analyze:groupedTraces.labelEarliestTimestamp')}
               noWrap
             />
 

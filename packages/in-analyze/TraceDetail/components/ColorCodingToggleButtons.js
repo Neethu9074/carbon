@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import ButtonGroup from 'in-new-components/ButtonGroup';
@@ -19,7 +20,7 @@ export default function ColorCodingToggleButtons({ setColorCodeMechanism, colorC
             key: 'byServiceAndEndpoint',
             onClick: () => setColorCodeMechanism('byServiceAndEndpoint')
           },
-          { text: 'Technology', key: 'byEndpointType', onClick: () => setColorCodeMechanism('byEndpointType') }
+          { text: t('in-analyze:traceDetails.buttonTechnology'), key: 'byEndpointType', onClick: () => setColorCodeMechanism('byEndpointType') }
         ]}
         activeKey={colorCodeType}
       />
