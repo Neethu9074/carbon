@@ -71,7 +71,8 @@ export default function GroupedAnalyzeView(props) {
     withSamplingTooltip,
     withoutSorting = false,
     withoutChartGroupMarkers = false,
-    chartedMetrics
+    chartedMetrics,
+    groupingTagCatalog
   } = props;
   const timeConfig = useTimeConfig();
   const fields = [...fixedFields, ...selectableFields];
@@ -239,7 +240,12 @@ export default function GroupedAnalyzeView(props) {
                     key={label}
                     toggleContentOnRowClick
                     renderNestedContent={() => {
-                      const formModelForUnGroupedView = addGroupingCriteriaToFormModel(groupBy, label, formModel);
+                      const formModelForUnGroupedView = addGroupingCriteriaToFormModel(
+                        groupBy,
+                        label,
+                        formModel,
+                        groupingTagCatalog
+                      );
                       return (
                         // tagFilterExpression / backendQueryModel must be separately memoized based on hash
                         // within the ungrouped view.
