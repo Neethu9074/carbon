@@ -33,7 +33,9 @@ sudo sh -c 'echo "127.0.0.1 local-instana.pink.instana.rocks" >> /etc/hosts'
 
 You need to have Node.js installed in order to execute the build, tests and the development mode. OS X and Linux users should install Node.js via the [Node Version Manager](https://github.com/nvm-sh/nvm) (NVM). NVM makes it easy to switch between installed Node.js versions and allows installation of global modules without super-user privileges.
 
-Make sure that you have Git and cURL installed before starting with the following instructions. Execute the instructions in the root directory of the ui-client project.
+Make sure that you have Git and cURL installed before starting with the following instructions.
+
+Execute these instructions in the _root directory_ of the `ui-client` project:
 
 ```sh
 # Ensure that you have build and compiler tools available on your system:
