@@ -211,7 +211,9 @@
     "typeTrace_plural": "traces",
     "typeTrace_0": "traces",
     "typeTrace_1": "trace",
-    "typeTrace_2": "traces"
+    "typeTrace_2": "traces",
+    "containsErrors": "Contains Errors",
+    "noErrors": "No Errors"
   },
   "blueprintConfig": {
     "slowness": {

@@ -11,6 +11,8 @@ import { addDataSourceToBackendQueryModel } from 'in-websites/analyze/AnalyzeVie
 import getWebsiteBeacons from 'in-websites/subscriptions/getWebsiteBeacons';
 import PageLoadView from 'in-websites/analyze/PageLoadView/PageLoadView';
 import { getLinkToWebsite } from 'in-websites/navigation/paths';
+import HealthDot from 'in-new-components/health/HealthDot';
+import Tooltip from 'in-components/Tooltip';
 import Link from 'in-components/Link';
 import { t } from 'in-i18n';
 
@@ -28,8 +30,27 @@ const websiteColumnDefinition = {
   }
 };
 
+const erroneousColumnDefinition = {
+  id: 'erroneous',
+  label: <div className={locals.dot} />,
+  sortable: false,
+  getContent(item) {
+    const severity = item.beacon.errorCount;
+    return (
+      <Tooltip content={severity > 0 ? t('in-websites:containsErrors') : t('in-websites:noErrors')} align="rightMiddle">
+        <div className={locals.erroneous}>
+          <HealthDot severity={severity} iconSize={10} />
+        </div>
+      </Tooltip>
+    );
+  },
+  widthInAbsoluteUnit: true,
+  width: '3rem'
+};
+
 const columnsPerDataSource = {
   pageLoad: [
+    erroneousColumnDefinition,
     {
       id: 'path',
       label: t('in-websites:beacons.path'),
@@ -49,6 +70,7 @@ const columnsPerDataSource = {
     websiteColumnDefinition
   ],
   pageChange: [
+    erroneousColumnDefinition,
     {
       id: 'page',
       label: t('in-websites:beacons.page'),
@@ -66,6 +88,7 @@ const columnsPerDataSource = {
     websiteColumnDefinition
   ],
   resourceLoad: [
+    erroneousColumnDefinition,
     {
       id: 'uri',
       label: t('in-websites:beacons.uri'),
@@ -83,6 +106,7 @@ const columnsPerDataSource = {
     websiteColumnDefinition
   ],
   httpRequest: [
+    erroneousColumnDefinition,
     {
       id: 'access',
       label: t('in-websites:beacons.access'),
@@ -100,6 +124,7 @@ const columnsPerDataSource = {
     websiteColumnDefinition
   ],
   error: [
+    erroneousColumnDefinition,
     {
       id: 'errorMessage',
       label: t('in-websites:beacons.errorMessage'),
@@ -117,6 +142,7 @@ const columnsPerDataSource = {
     websiteColumnDefinition
   ],
   custom: [
+    erroneousColumnDefinition,
     {
       id: 'eventName',
       label: t('in-websites:beacons.eventName'),

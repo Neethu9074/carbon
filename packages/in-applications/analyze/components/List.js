@@ -25,6 +25,7 @@ import { latencyFixed } from 'in-services/formatters/number';
 import HealthDot from 'in-new-components/health/HealthDot';
 import useObservable from 'in-hooks/useObservable';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
 import { t } from 'in-i18n';
 
@@ -279,9 +280,14 @@ const getColumnDefinitions = (dataSource, linkFormModel) => {
       getContent(item) {
         const severity = item[type].errorCount;
         return (
-          <div className={locals.erroneous}>
-            <HealthDot severity={severity} iconSize={10} />
-          </div>
+          <Tooltip
+            content={severity > 0 ? t('in-applications:analyze.containsErrors') : t('in-applications:analyze.noErrors')}
+            align="rightMiddle"
+          >
+            <div className={locals.erroneous}>
+              <HealthDot severity={severity} iconSize={10} />
+            </div>
+          </Tooltip>
         );
       },
       widthInAbsoluteUnit: true,
