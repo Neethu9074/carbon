@@ -2,10 +2,10 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import { t } from 'in-i18n';
+import pluralize from 'pluralize';
 
 import {
   websitesAlertingListAlertResumed,
@@ -18,12 +18,11 @@ import {
   enableAlertConfig,
   deleteAlertConfig
 } from 'in-websites/api/websiteAlertConfig';
-import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
+import { alertCreated as alertCreatedMatrixParam, alertId as alertIdMatrixParam } from 'in-websites/navigation/matrix';
+import { createBoundedAlertQueryBuilder } from 'in-websites/alerting/components/AlertQueryBuilder';
 import { fromBackendModel } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { alertsTab, alertsTabDetailsFullyQualified } from 'in-websites/navigation/paths';
-import { alertCreated as alertCreatedMatrixParam } from 'in-websites/navigation/matrix';
 import { getBlueprintConfig } from 'in-websites/alerting/data/blueprintConfig';
-import { alertId as alertIdMatrixParam } from 'in-websites/navigation/matrix';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { mutateUrl } from 'in-stores/navigation/navigation';
 import Footer from 'in-new-components/Footer/Footer';
@@ -32,6 +31,7 @@ import SvgIcon from 'in-components/SvgIcon/SvgIcon';
 import List from 'in-settings/components/List';
 import Card from 'in-new-components/Card';
 import { role } from 'in-stores/user';
+import { t } from 'in-i18n';
 
 import locals from './Alerts.mless';
 
@@ -43,14 +43,9 @@ function getColumnDefinitions(websiteLabel) {
       getContent: getNameContent
     },
     {
-      id: 'filters',
-      label: t('in-websites:websiteDashboard.tabs.alerts.alertsLabelFilters'),
-      getContent: entity => getFiltersContent(entity, websiteLabel)
-    },
-    {
       id: 'filters2',
       label: t('in-websites:websiteDashboard.tabs.alerts.alertsLabelFilters'),
-      getContent: entity => getFiltersContentQB2(entity, websiteLabel)
+      getContent: entity => getFiltersContent(entity, websiteLabel)
     }
   ];
 }
@@ -141,9 +136,22 @@ function getSubtitle(alertConfig) {
 }
 
 function getFiltersContent(config, websiteLabel) {
-  /* remove, replace by #getFilterContentQB2 */
-  const pages = config.tagFilters.filter(filter => filter.name === 'beacon.page.name');
-  const otherTagFiltersCount = config.tagFilters.length - pages.length;
+  const tagFilterExpression = fromBackendModel(config.tagFilterExpression ?? []);
+  const pages = tagFilterExpression.filter(filter => filter.name === 'beacon.page.name');
+  const otherTagFiltersCount = tagFilterExpression.length - pages.length;
+
+  const filterCount = getFiltersCount(tagFilterExpression);
+
+  const maxFilterToDisplay = 3;
+  const filtersToDisplay = getLimitedNumberOfFilters(tagFilterExpression, maxFilterToDisplay);
+
+  const blueprintConfig = getBlueprintConfig(config.rule.alertType);
+  const websiteId = config.websiteId;
+  const beaconType = blueprintConfig.getBeaconType(config.rule.metricName);
+  const { QueryBuilder } = useMemo(() => createBoundedAlertQueryBuilder(websiteId, beaconType), [
+    websiteId,
+    beaconType
+  ]);
 
   return (
     <div className={locals.filters}>
@@ -166,71 +174,51 @@ function getFiltersContent(config, websiteLabel) {
             {page.stringValue}
           </span>
         ))}
-      {otherTagFiltersCount >= 1 && (
+      {otherTagFiltersCount >= 1 && tagFilterExpression.length > 0 && (
         <Tooltip
           themeStyle="light"
           content={
-            <TagFilterListPresenter
-              tagFilters={config.tagFilters.filter(({ name }) => name !== 'beacon.page.name')}
-              readonly
-            />
+            <div>
+              <QueryBuilder value={filtersToDisplay} readOnly />
+              <span className={locals.moreFilters}>
+                {filterCount > maxFilterToDisplay &&
+                  `+${filterCount - maxFilterToDisplay} more ${pluralize('filter', filterCount, false)}`}
+              </span>
+            </div>
           }
           align="topMiddle"
           delay={500}
         >
           <span className={locals.centered}>
             <SvgIcon className={locals.filterIcon} type="lib_actions_filter" />
-            {t('in-websites:websiteDashboard.tabs.alerts.alertsNumberOfFilters', { count: otherTagFiltersCount })}
+            {pluralize('filter', filterCount, true)}
           </span>
         </Tooltip>
       )}
     </div>
   );
 }
-function getFiltersContentQB2(config, websiteLabel) {
-  const tagFilterExpressions = fromBackendModel(config.tagFilterExpression);
-  const pages = tagFilterExpressions.filter(filter => filter.name === 'beacon.page.name');
-  const otherTagFiltersCount = tagFilterExpressions.length - pages.length;
 
-  return (
-    <div className={locals.filters}>
-      {websiteLabel && (
-        <span
-          className={classNames({
-            [locals.centered]: true,
-            [locals.space]: pages.length === 0,
-            [locals.devider]: pages.length > 0
-          })}
-        >
-          <SvgIcon className={locals.filterIcon} type="lib_website" />
-          {websiteLabel}
-        </span>
-      )}
-      {pages &&
-        pages.map((page, i) => (
-          <span className={classNames(locals.centered, locals.space)} key={i}>
-            <SvgIcon className={locals.filterIcon} type="lib_website_page_load" />
-            {page.stringValue}
-          </span>
-        ))}
-      {otherTagFiltersCount >= 1 && (
-        <Tooltip
-          themeStyle="light"
-          content={
-            <TagFilterListPresenter
-              tagFilters={tagFilterExpressions.filter(({ name }) => name !== 'beacon.page.name')}
-              readonly
-            />
-          }
-          align="topMiddle"
-          delay={500}
-        >
-          <span className={locals.centered}>
-            <SvgIcon className={locals.filterIcon} type="lib_actions_filter" />
-            {t('in-websites:websiteDashboard.tabs.alerts.alertsNumberOfFilters', { count: otherTagFiltersCount })}
-          </span>
-        </Tooltip>
-      )}
-    </div>
-  );
+function getFiltersCount(tagFilterExpression) {
+  return tagFilterExpression.reduce((count, element) => {
+    return element.type === 'TAG_FILTER' ? count + 1 : count;
+  }, 0);
+}
+
+function getLimitedNumberOfFilters(tagFilterExpression, maxFilterToDisplay) {
+  const filtersToDisplay = [];
+  let tagFilterCount = 0;
+
+  for (const item of tagFilterExpression) {
+    if (tagFilterCount === maxFilterToDisplay) {
+      break;
+    }
+    filtersToDisplay.push(item);
+
+    if (item.type === 'TAG_FILTER') {
+      tagFilterCount++;
+    }
+  }
+
+  return filtersToDisplay;
 }
