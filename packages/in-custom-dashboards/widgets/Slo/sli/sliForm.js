@@ -6,9 +6,9 @@ import { createMapForm, createField } from 'formalistic';
 
 import { availabilityType, applicationType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import { fromBackendModel } from 'in-new-components/QueryBuilder/transformation/formModel';
-import { isQB2ModeEnabled } from 'in-new-components/Alerting/components/WithQB1orQB2';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
+import { isQB2ModeInSmartAlertsEnabled } from 'in-services/featureFlags';
 import { notBlankValidator } from 'in-services/validators/string';
 import { buildEnumValidator } from 'in-services/validators/enum';
 import { numericValidator } from 'in-services/validators/number';
@@ -98,28 +98,28 @@ function addGoodBadEventsForm(form, sliEntity) {
     .put(
       'goodEventFilters',
       createField({
-        validator: isQB2ModeEnabled ? undefined : noEmptyFilterListValidator,
+        validator: isQB2ModeInSmartAlertsEnabled ? undefined : noEmptyFilterListValidator,
         value: sliEntity?.goodEventFilters ?? []
       })
     )
     .put(
       sliFieldNames.goodEventFilterExpression,
       createField({
-        validator: isQB2ModeEnabled ? noEmptyFilterExpressionValidator : undefined,
+        validator: isQB2ModeInSmartAlertsEnabled ? noEmptyFilterExpressionValidator : undefined,
         value: fromBackendModel(sliEntity?.goodEventFilterExpression)
       })
     )
     .put(
       sliFieldNames.badEventFilterExpression,
       createField({
-        validator: isQB2ModeEnabled ? noEmptyFilterExpressionValidator : undefined,
+        validator: isQB2ModeInSmartAlertsEnabled ? noEmptyFilterExpressionValidator : undefined,
         value: fromBackendModel(sliEntity?.badEventFilterExpression)
       })
     )
     .put(
       'badEventFilters',
       createField({
-        validator: isQB2ModeEnabled ? undefined : noEmptyFilterListValidator,
+        validator: isQB2ModeInSmartAlertsEnabled ? undefined : noEmptyFilterListValidator,
         value: sliEntity?.badEventFilters ?? []
       })
     );

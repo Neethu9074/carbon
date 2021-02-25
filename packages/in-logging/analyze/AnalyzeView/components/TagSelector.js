@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import DraggableItemSelector from 'in-new-components/DraggableItemSelector';
@@ -34,7 +35,7 @@ export default function TagSelector({
           <Button size="compact" kind="secondary" icon="lib_actions_settings" refSetter={refSetter} onClick={toggle} />
         ) : (
           <DropdownButton kind="secondary" icon="lib_actions_settings" refSetter={refSetter} onClick={toggle}>
-            Select tags
+            {t('in-logging:selectTags')}
           </DropdownButton>
         )
       }
@@ -56,7 +57,7 @@ function TagSelectorOverlay({ selectedTags, onSelectedTagsChange, maxSelectableT
       tagCatalog={tagCatalog}
       onRemove={({ name }) => onSelectedTagsChange(selectedTags.filter(_tag => _tag !== name))}
       SlideInContent={TagList}
-      slideInContentTitle="Add a tag"
+      slideInContentTitle={t('in-logging:addATag')}
       disabled={remainingTags.length === 0 || selectedTags.length >= maxSelectableTags}
       onSelectedTagsChange={onSelectedTagsChange}
       remainingTags={remainingTags}

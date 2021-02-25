@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import ChartingConfiguratorSection from 'in-new-components/ChartingConfigurator/ChartingConfiguratorSection';
@@ -12,13 +13,13 @@ import locals from './LogsDistributionChartSection.mless';
 const options = [
   {
     metricId: 'logs_distribution',
-    label: 'Logs',
+    label: t('in-logging:logs'),
     formatter: 'number.compact',
     aggregations: [
       {
         id: 'SUM',
-        label: 'sum',
-        renderers: [{ id: 'bar', label: 'Bar' }]
+        label: t('in-logging:sum'),
+        renderers: [{ id: 'bar', label: t('in-logging:bar') }]
       }
     ]
   }
@@ -46,7 +47,7 @@ export default function LogsDistributionChartSection({ chartedMetrics, onCharted
                   {
                     metric: metric.metricId,
                     aggregation: metric.aggregationId,
-                    label: 'Logs over time',
+                    label: t('in-logging:logsOverTime'),
                     source: 'DISTRIBUTED_LOGS',
                     tagFilterExpression: backendQueryModel
                   }

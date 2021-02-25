@@ -2,12 +2,14 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
+
 import { isBlank } from 'in-services/util/string';
 
 const failureMessage = [
   {
     severity: 'error',
-    message: `Please type in a number.`
+    message: t('in-services:validators.pleaseTypeInANumber')
   }
 ];
 
@@ -42,7 +44,7 @@ export function numericValidator(v) {
 const positiveNumberFailureMessage = [
   {
     severity: 'error',
-    message: `Please type in a positive number.`
+    message: t('in-services:validators.pleaseTypeInAPositiveNumber')
   }
 ];
 
@@ -52,7 +54,7 @@ export function minValidator(minInclusive) {
       return [
         {
           severity: 'error',
-          message: `Value must be larger or equal to ${minInclusive}.`
+          message: t('in-services:validators.valueMustBeLargerOrEqualToMinInclusive', { minInclusive: minInclusive })
         }
       ];
     }
@@ -65,7 +67,7 @@ export function maxValidator(maxInclusive) {
       return [
         {
           severity: 'error',
-          message: `Value must be smaller or equal to ${maxInclusive}.`
+          message: t('in-services:validators.valueMustBeSmallerOrEqualToMinInclusive', { maxInclusive: maxInclusive })
         }
       ];
     }
@@ -89,7 +91,7 @@ export function notANumberValidator(v) {
     return [
       {
         severity: 'error',
-        message: `The provided number is invalid.`
+        message: t('in-services:validators.theProvidedNumberIsInvalid')
       }
     ];
   }

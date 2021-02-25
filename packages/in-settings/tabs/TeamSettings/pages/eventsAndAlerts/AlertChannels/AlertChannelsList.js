@@ -14,11 +14,15 @@ import WithSubscript from 'in-settings/components/WithSubscript';
 import Tooltip from 'in-components/Tooltip';
 import Link from 'in-components/Link';
 
-import locals from './AlertChannels.mless';
+import locals from './AlertChannelsList.mless';
 
-export default function AlertChannelsOverview({
+/**
+ * A searchable list of all configured alert channels that does not reveal confidential or pure configuration related
+ * properties, but only information that helps to better understand what this alert channel is about.
+ */
+export default function AlertChannelsList({
   setTitle = true,
-  tableActions = defaultTableActions,
+  tableActions = {},
   loadEntities,
   noDataMessage,
   renderNoDataAvailable,
@@ -61,7 +65,7 @@ function columnDefinitions(hasRowNavigation) {
     {
       id: 'name',
       label: 'Name',
-      width: 35,
+      width: 50,
       getContent(entity) {
         return (
           <Tooltip content={entity.name} align="topLeft" delay={500}>
@@ -85,7 +89,7 @@ function columnDefinitions(hasRowNavigation) {
       id: 'properties',
       label: 'Properties',
       sortable: false,
-      width: 65,
+      width: 50,
       getContent(entity) {
         if (!entity.properties) {
           return null;
@@ -103,8 +107,6 @@ function columnDefinitions(hasRowNavigation) {
     }
   ];
 }
-
-const defaultTableActions = {};
 
 function defaultGetHeader(inSelectListDialog, tableActions) {
   return leftHeaderWithSelectAll('Alert Channels', inSelectListDialog, tableActions);

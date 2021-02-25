@@ -5,7 +5,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import AlertingChartWithErrorMessage from 'in-new-components/Alerting/Chart/AlertingChartWithErrorMessage';
+import WebsitesAlertingChartWithErrorMessage from 'in-websites/alerting/chart/WebsitesAlertingChartWithErrorMessage';
 import IncompleteChartPlaceholder from 'in-new-components/Alerting/components/IncompleteChartPlaceholder';
 import ChartViewConfigurator from 'in-new-components/Alerting/components/ChartViewConfigurator';
 import { getBlueprintConfig } from 'in-websites/alerting/data/blueprintConfig';
@@ -30,7 +30,7 @@ export default function SimpleAlertConfigDialogChart({ form, onChartViewConfigCh
         <>
           {isRuleComplete ? (
             <div className={locals.placeholder}>
-              <AlertingChartWithErrorMessage
+              <WebsitesAlertingChartWithErrorMessage
                 alertConfigWithFormModel={alertConfigWithFormModel}
                 viewConfig={chartViewConfig}
                 blueprintConfig={blueprintConfig}

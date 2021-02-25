@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import GetMetricStatisticsInUse from 'in-forge/plugins/awsDynamoDb/GetMetricStatisticsInUse';
@@ -17,19 +18,22 @@ export default function AwsRdsDashboard({ snapshot, timeConfig }) {
   return (
     <div>
       <GetMetricStatisticsInUse snapshot={snapshot} />
-      <DashboardSection title="CPU Usage">
+      <DashboardSection title={t('in-forge:plugins.awsRds.dashboard.cpuUsage')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             metrics: ['cpu_utilization'],
-            labels: ['CPU Utilization'],
+            labels: [t('in-forge:plugins.awsRds.dashboard.cpuUtilization')],
             formatter: percentage.detailed,
             type: 'line'
           }}
           y2={{
             metrics: ['cpu_credit_usage', 'cpu_credit_balance'],
-            labels: ['CPU Credit Usage', 'CPU Credit Balance'],
+            labels: [
+              t('in-forge:plugins.awsRds.dashboard.cpuCreditUsage'),
+              t('in-forge:plugins.awsRds.dashboard.cpuCreditBalance')
+            ],
             formatter: number.compact,
             type: 'line'
           }}
@@ -37,19 +41,19 @@ export default function AwsRdsDashboard({ snapshot, timeConfig }) {
         />
       </DashboardSection>
 
-      <DashboardSection title="Disk">
+      <DashboardSection title={t('in-forge:plugins.awsRds.dashboard.disk')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             metrics: ['disk_queue_depth'],
-            labels: ['Disk queue depth'],
+            labels: [t('in-forge:plugins.awsRds.dashboard.diskQueueDepth')],
             formatter: number.detailed,
             type: 'line'
           }}
           y2={{
             metrics: ['burst_balance'],
-            labels: ['Burst Balance'],
+            labels: [t('in-forge:plugins.awsRds.dashboard.burstBalance')],
             formatter: percentage.detailed,
             type: 'line'
           }}
@@ -60,7 +64,7 @@ export default function AwsRdsDashboard({ snapshot, timeConfig }) {
           timeConfig={timeConfig}
           y1={{
             metrics: ['free_storage_space'],
-            labels: ['Available storage space'],
+            labels: [t('in-forge:plugins.awsRds.dashboard.availableStorageSpace')],
             formatter: bytes.detailed,
             type: 'line'
           }}
@@ -68,13 +72,13 @@ export default function AwsRdsDashboard({ snapshot, timeConfig }) {
         />
       </DashboardSection>
 
-      <DashboardSection title="DB Connections">
+      <DashboardSection title={t('in-forge:plugins.awsRds.dashboard.dbConnections')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             metrics: ['db_connections'],
-            labels: ['Connections'],
+            labels: [t('in-forge:plugins.awsRds.dashboard.connections')],
             formatter: number.compact,
             type: 'line'
           }}
@@ -82,13 +86,16 @@ export default function AwsRdsDashboard({ snapshot, timeConfig }) {
         />
       </DashboardSection>
 
-      <DashboardSection title="Memory">
+      <DashboardSection title={t('in-forge:plugins.awsRds.dashboard.memory')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             metrics: ['freeable_memory', 'swap_usage'],
-            labels: ['Freeable RAM', 'Swap usage'],
+            labels: [
+              t('in-forge:plugins.awsRds.dashboard.freeableRam'),
+              t('in-forge:plugins.awsRds.dashboard.swapUsage')
+            ],
             formatter: bytes.compact,
             type: 'line'
           }}
@@ -96,19 +103,22 @@ export default function AwsRdsDashboard({ snapshot, timeConfig }) {
         />
       </DashboardSection>
 
-      <DashboardSection title="IO operations">
+      <DashboardSection title={t('in-forge:plugins.awsRds.dashboard.ioOperations')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             metrics: ['read_iops', 'write_iops'],
-            labels: ['Read ops', 'Write ops'],
+            labels: [t('in-forge:plugins.awsRds.dashboard.readOps'), t('in-forge:plugins.awsRds.dashboard.writeOps')],
             formatter: number.perSecond.compact,
             type: 'line'
           }}
           y2={{
             metrics: ['read_latency', 'write_latency'],
-            labels: ['Read latency', 'Write latency'],
+            labels: [
+              t('in-forge:plugins.awsRds.dashboard.readLatency'),
+              t('in-forge:plugins.awsRds.dashboard.writeLatency')
+            ],
             formatter: millis.compact,
             type: 'line'
           }}
@@ -116,13 +126,16 @@ export default function AwsRdsDashboard({ snapshot, timeConfig }) {
         />
       </DashboardSection>
 
-      <DashboardSection title="IO Throughput">
+      <DashboardSection title={t('in-forge:plugins.awsRds.dashboard.ioThroughput')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             metrics: ['read_throughput', 'write_throughput'],
-            labels: ['Read throughput', 'Write throughput'],
+            labels: [
+              t('in-forge:plugins.awsRds.dashboard.readThroughput'),
+              t('in-forge:plugins.awsRds.dashboard.writeThroughput')
+            ],
             formatter: bytes.perSecond.compact,
             type: 'line'
           }}
@@ -130,13 +143,16 @@ export default function AwsRdsDashboard({ snapshot, timeConfig }) {
         />
       </DashboardSection>
 
-      <DashboardSection title="Network Traffic">
+      <DashboardSection title={t('in-forge:plugins.awsRds.dashboard.networkTraffic')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             metrics: ['net_receive_throughput', 'net_transmit_throughput'],
-            labels: ['Receive throughput', 'Transmit throughput'],
+            labels: [
+              t('in-forge:plugins.awsRds.dashboard.receiveThroughput'),
+              t('in-forge:plugins.awsRds.dashboard.transmitThroughput')
+            ],
             formatter: bytes.perSecond.compact,
             type: 'line'
           }}
@@ -144,13 +160,13 @@ export default function AwsRdsDashboard({ snapshot, timeConfig }) {
         />
       </DashboardSection>
 
-      <DashboardSection title="Read Replica DB">
+      <DashboardSection title={t('in-forge:plugins.awsRds.dashboard.readReplicaDb')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             metrics: ['replica_lag'],
-            labels: ['Replica lag'],
+            labels: [t('in-forge:plugins.awsRds.dashboard.replicaLag')],
             formatter: millis.compact,
             type: 'line'
           }}
@@ -159,14 +175,14 @@ export default function AwsRdsDashboard({ snapshot, timeConfig }) {
       </DashboardSection>
 
       {snapshot.getIn(['data', 'db_engine']) === 'aurora' && (
-        <DashboardSection title="Volume Bytes Used">
+        <DashboardSection title={t('in-forge:plugins.awsRds.dashboard.volumeBytesUsed')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               min: 0,
               metrics: ['volume_bytes_used_avg'],
-              labels: ['Volume Bytes Used'],
+              labels: [t('in-forge:plugins.awsRds.dashboard.volumeBytesUsed')],
               type: 'line',
               formatter: bytes.compact
             }}

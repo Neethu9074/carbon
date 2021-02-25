@@ -37,6 +37,7 @@ export default function SimpleModeContainer({
   setSimpleModeStep,
   updateForm,
   isSaving,
+  QueryBuilderComponent,
   onChartViewConfigChange,
   selectedChartViewConfigIndex
 }) {
@@ -68,6 +69,7 @@ export default function SimpleModeContainer({
             return (
               <SimpleAlertConfigDialogStep2
                 form={form}
+                QueryBuilderComponent={QueryBuilderComponent}
                 timeConfig={timeConfig}
                 updateForm={updateForm}
                 websiteLabel={websiteLabel}

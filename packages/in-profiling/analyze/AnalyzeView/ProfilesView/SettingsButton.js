@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import DebouncedDistinctSlider from 'in-new-components/Slider/DebouncedDistinctSlider';
@@ -19,7 +20,7 @@ export default function SettingsButton(props) {
     <Overlay align="bottomMiddle" content={SettingsContent} props={props}>
       {({ toggle }) => (
         <Button kind="secondary" icon="lib_actions_settings" onClick={toggle}>
-          Settings
+          {t('in-profiling:settings')}
         </Button>
       )}
     </Overlay>
@@ -39,11 +40,11 @@ function SettingsContent({
       <Li>
         <KeyValue
           className={locals.keyValue}
-          value="Threshold"
+          value={t('in-profiling:threshold')}
           label={
             <div>
-              <div>Only show method</div>
-              <div>above this threshold</div>
+              <div>{t('in-profiling:onlyShowMethod')}</div>
+              <div>{t('in-profiling:aboveThisThreshold')}</div>
             </div>
           }
           accentuated
@@ -51,7 +52,7 @@ function SettingsContent({
         />
         <div className={locals.thresholdSliderWrapper}>
           <DebouncedDistinctSlider
-            valueLabelDisplay="on"
+            valueLabelDisplay={t('in-profiling:on')}
             valueLabelFormat={v => percentage.detailed(v / 100)}
             marks={[0, 20, 40, 60, 80, 100].map(value => ({ value, label: percentage.compact(value / 100) }))}
             min={0}
@@ -64,15 +65,15 @@ function SettingsContent({
       </Li>
       <Li>
         <KeyValue
-          value="Highlight Self CPU"
-          label="On Flame Graph, highlight time spent on methods themselves"
+          value={t('in-profiling:highlightSelfCpu')}
+          label={t('in-profiling:onFlameGraphHighlightTimeSpentOnMethodsThemselves')}
           accentuated
           inverted
         />
         <Toggle checked={selfTimeHighlighted} onChange={() => setSelfTimeHighlighted(!selfTimeHighlighted)} />
       </Li>
       <Li>
-        <KeyValue value="CPU Graph" label="Show CPU over time" accentuated inverted />
+        <KeyValue value={t('in-profiling:cpuGraph')} label={t('in-profiling:showCpuOverTime')} accentuated inverted />
         <Toggle checked={showGraph} onChange={() => setShowGraph(!showGraph)} />
       </Li>
     </Ul>

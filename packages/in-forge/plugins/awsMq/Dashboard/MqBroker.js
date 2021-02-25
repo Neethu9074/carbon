@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { KpiSection, KpiHeading } from 'in-sdk/components/dashboard/KpiSection';
@@ -26,7 +27,7 @@ export default function AwsMqBrokerDashboard({ snapshot, timeConfig, type }) {
       </KpiSection>
 
       <Columize>
-        <DashboardSection title="CPU">
+        <DashboardSection title={t('in-forge:plugins.awsMq.dashboard.cpu')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
@@ -34,7 +35,7 @@ export default function AwsMqBrokerDashboard({ snapshot, timeConfig, type }) {
               min: 0,
               max: 1,
               metrics: [broker + 'cpu_utilization'],
-              labels: ['Utilization'],
+              labels: [t('in-forge:plugins.awsMq.dashboard.utilization')],
               type: 'line',
               formatter: percentage.detailed
             }}
@@ -42,14 +43,14 @@ export default function AwsMqBrokerDashboard({ snapshot, timeConfig, type }) {
           />
         </DashboardSection>
         {instanceType === 'mq.t2.micro' && (
-          <DashboardSection title="CPU Credit">
+          <DashboardSection title={t('in-forge:plugins.awsMq.dashboard.cpuCredit')}>
             <Chart
               snapshotId={snapshotId}
               timeConfig={timeConfig}
               y1={{
                 min: 0,
                 metrics: [broker + 'cpu_credit_balance'],
-                labels: ['CpuCreditBalance'],
+                labels: [t('in-forge:plugins.awsMq.dashboard.cpuCreditBalance')],
                 type: 'line',
                 formatter: number.compact
               }}
@@ -60,7 +61,7 @@ export default function AwsMqBrokerDashboard({ snapshot, timeConfig, type }) {
       </Columize>
 
       <Columize>
-        <DashboardSection title="Store Percent Usage">
+        <DashboardSection title={t('in-forge:plugins.awsMq.dashboard.storePercentUsage')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
@@ -68,14 +69,14 @@ export default function AwsMqBrokerDashboard({ snapshot, timeConfig, type }) {
               min: 0,
               max: 1,
               metrics: [broker + 'store_percent_usage'],
-              labels: ['Usage'],
+              labels: [t('in-forge:plugins.awsMq.dashboard.usage')],
               type: 'line',
               formatter: percentage.detailed
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
-        <DashboardSection title="Heap Usage">
+        <DashboardSection title={t('in-forge:plugins.awsMq.dashboard.heapUsage')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
@@ -83,7 +84,7 @@ export default function AwsMqBrokerDashboard({ snapshot, timeConfig, type }) {
               min: 0,
               max: 1,
               metrics: [broker + 'heap_usage'],
-              labels: ['Usage'],
+              labels: [t('in-forge:plugins.awsMq.dashboard.usage')],
               type: 'line',
               formatter: percentage.detailed
             }}
@@ -93,28 +94,28 @@ export default function AwsMqBrokerDashboard({ snapshot, timeConfig, type }) {
       </Columize>
 
       <Columize>
-        <DashboardSection title="Messages">
+        <DashboardSection title={t('in-forge:plugins.awsMq.dashboard.messages')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               min: 0,
               metrics: [broker + 'total_message_count'],
-              labels: ['Count'],
+              labels: [t('in-forge:plugins.awsMq.dashboard.count')],
               type: 'line',
               formatter: number.detailed
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
-        <DashboardSection title="Open Transactions">
+        <DashboardSection title={t('in-forge:plugins.awsMq.dashboard.openTransactions')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               min: 0,
               metrics: [broker + 'open_transactions_count'],
-              labels: ['Count'],
+              labels: [t('in-forge:plugins.awsMq.dashboard.count')],
               type: 'line',
               formatter: number.detailed
             }}
@@ -123,14 +124,14 @@ export default function AwsMqBrokerDashboard({ snapshot, timeConfig, type }) {
         </DashboardSection>
       </Columize>
 
-      <DashboardSection title="Network">
+      <DashboardSection title={t('in-forge:plugins.awsMq.dashboard.network')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: [broker + 'network_in', broker + 'network_out'],
-            labels: ['In', 'Out'],
+            labels: [t('in-forge:plugins.awsMq.dashboard.in'), t('in-forge:plugins.awsMq.dashboard.out')],
             type: 'line',
             formatter: bytes.detailed
           }}
@@ -138,7 +139,7 @@ export default function AwsMqBrokerDashboard({ snapshot, timeConfig, type }) {
         />
       </DashboardSection>
 
-      <DashboardSection title="Connections, Consumers and Producers Count">
+      <DashboardSection title={t('in-forge:plugins.awsMq.dashboard.connectionsConsumersAndProducersCount')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
@@ -149,21 +150,25 @@ export default function AwsMqBrokerDashboard({ snapshot, timeConfig, type }) {
               broker + 'total_producer_count',
               broker + 'total_consumer_count'
             ],
-            labels: ['Connections', 'Producers', 'Consumers'],
+            labels: [
+              t('in-forge:plugins.awsMq.dashboard.connections'),
+              t('in-forge:plugins.awsMq.dashboard.producers'),
+              t('in-forge:plugins.awsMq.dashboard.consumers')
+            ],
             type: 'line',
             formatter: number.compact
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Journal Files For Recovery">
+      <DashboardSection title={t('in-forge:plugins.awsMq.dashboard.journalFilesForRecovery')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: [broker + 'journal_files_for_fast_recovery', broker + 'journal_files_for_full_recovery'],
-            labels: ['Fast', 'Full'],
+            labels: [t('in-forge:plugins.awsMq.dashboard.fast'), t('in-forge:plugins.awsMq.dashboard.full')],
             type: 'line',
             formatter: number.compact
           }}

@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import globalHighlightAction from 'in-components/Chart/components/ContextMenu/actions/globalHighlight';
@@ -57,7 +58,7 @@ export function OverviewProfileChart(props) {
 function getCpuMetrics() {
   return {
     metrics: ['cpu.user', 'cpu.sys'],
-    labels: ['CPU User', 'CPU System'],
+    labels: [t('in-profiling:cpuUser'), t('in-profiling:cpuSystem')],
     formatter: percentage,
     type: 'line'
   };
@@ -66,7 +67,7 @@ function getCpuMetrics() {
 function getMemoryMetrics() {
   return {
     metrics: ['mem.virtual', 'mem.resident', 'mem.share'],
-    labels: ['Virtual', 'Resident', 'Share'],
+    labels: [t('in-profiling:virtual'), t('in-profiling:resident'), t('in-profiling:share')],
     formatter: bytesTwoDecimalPlaces,
     type: 'line'
   };

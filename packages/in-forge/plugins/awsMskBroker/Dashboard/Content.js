@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { number, bytes, millis, percentage } from 'in-services/formatters/number';
@@ -18,22 +19,22 @@ export default function AwsMskBrokerDashboard({ snapshot, timeConfig }) {
   return (
     <div>
       <KpiSection>
-        <KpiKeyValue label="Partitions">
+        <KpiKeyValue label={t('in-forge:plugins.awsMskBroker.dashboard.partitions')}>
           <MetricValue snapshotId={snapshotId} metric="partition_count" formatter={number.compact} />
         </KpiKeyValue>
-        <KpiKeyValue label="Under-replicated Partition Count">
+        <KpiKeyValue label={t('in-forge:plugins.awsMskBroker.dashboard.underReplicatedPartitionCount')}>
           <MetricValue snapshotId={snapshotId} metric="under_replicated_partitions" formatter={number.compact} />
         </KpiKeyValue>
       </KpiSection>
 
-      <DashboardSection title="Partitions">
+      <DashboardSection title={t('in-forge:plugins.awsMskBroker.dashboard.partitions')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['partition_count'],
-            labels: ['Count'],
+            labels: [t('in-forge:plugins.awsMskBroker.dashboard.count')],
             formatter: number.compact,
             type: 'line'
           }}
@@ -47,14 +48,14 @@ export default function AwsMskBrokerDashboard({ snapshot, timeConfig }) {
         />
       </DashboardSection>
 
-      <DashboardSection title="Leaders">
+      <DashboardSection title={t('in-forge:plugins.awsMskBroker.dashboard.leaders')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['leader_count'],
-            labels: ['Count'],
+            labels: [t('in-forge:plugins.awsMskBroker.dashboard.count')],
             formatter: number.compact,
             type: 'line'
           }}
@@ -62,42 +63,45 @@ export default function AwsMskBrokerDashboard({ snapshot, timeConfig }) {
       </DashboardSection>
 
       <Columize>
-        <DashboardSection title="Broker Traffic">
+        <DashboardSection title={t('in-forge:plugins.awsMskBroker.dashboard.brokerTraffic')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               min: 0,
               metrics: ['bytes_in_ser_sec', 'bytes_out_per_sec'],
-              labels: ['In', 'Out'],
+              labels: [
+                t('in-forge:plugins.awsMskBroker.dashboard.in'),
+                t('in-forge:plugins.awsMskBroker.dashboard.out')
+              ],
               formatter: bytes.compact,
               type: 'line'
             }}
           />
         </DashboardSection>
 
-        <DashboardSection title="Request">
+        <DashboardSection title={t('in-forge:plugins.awsMskBroker.dashboard.request')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               min: 0,
               metrics: ['request_bytes_mean'],
-              labels: ['Bytes'],
+              labels: [t('in-forge:plugins.awsMskBroker.dashboard.bytes')],
               formatter: bytes.compact,
               type: 'line'
             }}
           />
         </DashboardSection>
 
-        <DashboardSection title="Broker Message In">
+        <DashboardSection title={t('in-forge:plugins.awsMskBroker.dashboard.brokerMessageIn')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               min: 0,
               metrics: ['messages_in_per_sec'],
-              labels: ['Count'],
+              labels: [t('in-forge:plugins.awsMskBroker.dashboard.count')],
               formatter: number.compact,
               type: 'line'
             }}
@@ -105,7 +109,7 @@ export default function AwsMskBrokerDashboard({ snapshot, timeConfig }) {
         </DashboardSection>
       </Columize>
 
-      <DashboardSection title="CPU">
+      <DashboardSection title={t('in-forge:plugins.awsMskBroker.dashboard.cpu')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
@@ -113,7 +117,11 @@ export default function AwsMskBrokerDashboard({ snapshot, timeConfig }) {
             min: 0,
             max: 1,
             metrics: ['cpu_user', 'cpu_system', 'cpu_idle'],
-            labels: ['User', 'System', 'Idle'],
+            labels: [
+              t('in-forge:plugins.awsMskBroker.dashboard.user'),
+              t('in-forge:plugins.awsMskBroker.dashboard.system'),
+              t('in-forge:plugins.awsMskBroker.dashboard.idle')
+            ],
             formatter: percentage.compact,
             type: 'line'
           }}
@@ -178,14 +186,14 @@ export default function AwsMskBrokerDashboard({ snapshot, timeConfig }) {
       </Columize>
 
       {clusterEnhancedMonitoring !== 'DEFAULT' && (
-        <DashboardSection title="Produce Time">
+        <DashboardSection title={t('in-forge:plugins.awsMskBroker.dashboard.produceTime')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               min: 0,
               metrics: ['produce_total_time'],
-              labels: ['Mean'],
+              labels: [t('in-forge:plugins.awsMskBroker.dashboard.mean')],
               formatter: millis,
               type: 'line'
             }}
@@ -193,14 +201,18 @@ export default function AwsMskBrokerDashboard({ snapshot, timeConfig }) {
         </DashboardSection>
       )}
       {clusterEnhancedMonitoring !== 'DEFAULT' && (
-        <DashboardSection title="Throttle Time">
+        <DashboardSection title={t('in-forge:plugins.awsMskBroker.dashboard.throttleTime')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               min: 0,
               metrics: ['produce_throttle_time', 'fetch_throttle_time', 'request_throttle_time'],
-              labels: ['Produce', 'Fetch', 'Request'],
+              labels: [
+                t('in-forge:plugins.awsMskBroker.dashboard.produce'),
+                t('in-forge:plugins.awsMskBroker.dashboard.fetch'),
+                t('in-forge:plugins.awsMskBroker.dashboard.request')
+              ],
               formatter: millis,
               type: 'line'
             }}
@@ -215,7 +227,10 @@ export default function AwsMskBrokerDashboard({ snapshot, timeConfig }) {
             y1={{
               min: 0,
               metrics: ['produce_throttle_byte_rate', 'fetch_throttle_byte_rate'],
-              labels: ['Produce', 'Fetch'],
+              labels: [
+                t('in-forge:plugins.awsMskBroker.dashboard.produce'),
+                t('in-forge:plugins.awsMskBroker.dashboard.fetch')
+              ],
               formatter: bytes.perSecond.compact,
               type: 'line'
             }}
@@ -223,14 +238,17 @@ export default function AwsMskBrokerDashboard({ snapshot, timeConfig }) {
         </DashboardSection>
       )}
       {clusterEnhancedMonitoring !== 'DEFAULT' && (
-        <DashboardSection title="Fetch Time">
+        <DashboardSection title={t('in-forge:plugins.awsMskBroker.dashboard.fetchTime')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               min: 0,
               metrics: ['fetch_consumer_total_time', 'fetch_follower_total_time'],
-              labels: ['Consumer', 'Follower'],
+              labels: [
+                t('in-forge:plugins.awsMskBroker.dashboard.consumer'),
+                t('in-forge:plugins.awsMskBroker.dashboard.follower')
+              ],
               formatter: millis,
               type: 'line'
             }}
@@ -238,7 +256,7 @@ export default function AwsMskBrokerDashboard({ snapshot, timeConfig }) {
         </DashboardSection>
       )}
       {clusterEnhancedMonitoring !== 'DEFAULT' && (
-        <DashboardSection title="Idle Time">
+        <DashboardSection title={t('in-forge:plugins.awsMskBroker.dashboard.idleTime')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
@@ -246,7 +264,10 @@ export default function AwsMskBrokerDashboard({ snapshot, timeConfig }) {
               min: 0,
               max: 1,
               metrics: ['network_processor_idle', 'request_handler_idle'],
-              labels: ['Network', 'Request'],
+              labels: [
+                t('in-forge:plugins.awsMskBroker.dashboard.network'),
+                t('in-forge:plugins.awsMskBroker.dashboard.request')
+              ],
               formatter: percentage.compact,
               type: 'line'
             }}

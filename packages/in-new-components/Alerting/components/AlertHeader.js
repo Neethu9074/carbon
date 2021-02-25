@@ -8,15 +8,12 @@ import PropTypes from 'prop-types';
 import { Trans, t } from 'in-i18n';
 import theme from 'in-themes';
 
-import {
-  isQB2Config,
-  isQB2ModeEnabled,
-  switchQB1orQB2Helper
-} from 'in-new-components/Alerting/components/WithQB1orQB2';
+import { isQB2Config, switchQB1orQB2Helper } from 'in-new-components/Alerting/components/WithQB1orQB2';
 import RevisionDropdown, { toAlertRevision } from 'in-new-components/Alerting/components/RevisionDropdown';
 import { getModifiedUrlStream, mutateUrl } from 'in-stores/navigation/navigation';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-new-components/Dialog/ConfirmationDialog';
+import { isQB2ModeInSmartAlertsEnabled } from 'in-services/featureFlags';
 import TemporaryMessage from 'in-components/TemporaryMessage';
 import { warning } from 'in-new-components/Message/types';
 import BackButton from 'in-new-components/BackButton';
@@ -305,7 +302,7 @@ AlertHeader.propTypes = {
 };
 
 function EditButton({ openDialog, convertedTagFilterExpression }) {
-  const isQB1Mode = !isQB2ModeEnabled;
+  const isQB1Mode = !isQB2ModeInSmartAlertsEnabled;
   const isDisabled = isQB2Config(convertedTagFilterExpression) && isQB1Mode;
   return (
     <Tooltip

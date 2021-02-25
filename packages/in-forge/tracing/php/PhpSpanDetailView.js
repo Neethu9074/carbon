@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { kiloBytesTwoDecimalPlaces, millis } from 'in-services/formatters/number';
@@ -17,41 +18,41 @@ export default function HttpSpanDetailView({ span }) {
   return (
     <div>
       <Dl>
-        <Di title="SAPI Type">{span.getIn(['data', 'php', 'sapi'])}</Di>
-        <Di title="PHP Version">{span.getIn(['data', 'php', 'version'])}</Di>
-        <Di title="Script">{span.getIn(['data', 'php', 'script'])}</Di>
-        <Di title="Script Arguments">{span.getIn(['data', 'php', 'argv'])}</Di>
-        <Di title="Host Header">{span.getIn(['data', 'http', 'host'])}</Di>
-        <Di title="Remote Address">{span.getIn(['data', 'peer', 'ip'])}</Di>
-        <Di title="Request URI">{span.getIn(['data', 'http', 'url'])}</Di>
-        {params && <Di title="Parameters">{isBlank(params) ? '<no query parameters>' : params}</Di>}
-        <Di title="Request Method">{span.getIn(['data', 'http', 'method'])}</Di>
-        <Di title="HTTP Status Code">
+        <Di title={t('in-forge:tracing.php.sapiType')}>{span.getIn(['data', 'php', 'sapi'])}</Di>
+        <Di title={t('in-forge:tracing.php.phpVersion')}>{span.getIn(['data', 'php', 'version'])}</Di>
+        <Di title={t('in-forge:tracing.php.script')}>{span.getIn(['data', 'php', 'script'])}</Di>
+        <Di title={t('in-forge:tracing.php.scriptArguments')}>{span.getIn(['data', 'php', 'argv'])}</Di>
+        <Di title={t('in-forge:tracing.php.hostHeader')}>{span.getIn(['data', 'http', 'host'])}</Di>
+        <Di title={t('in-forge:tracing.php.remoteAddress')}>{span.getIn(['data', 'peer', 'ip'])}</Di>
+        <Di title={t('in-forge:tracing.php.requestUri')}>{span.getIn(['data', 'http', 'url'])}</Di>
+        {params && <Di title={t('in-forge:tracing.php.parameters')}>{isBlank(params) ? t('in-forge:tracing.php.noQueryParameters') : params}</Di>}
+        <Di title={t('in-forge:tracing.php.requestMethod')}>{span.getIn(['data', 'http', 'method'])}</Di>
+        <Di title={t('in-forge:tracing.php.httpStatusCode')}>
           {span.getIn(['data', 'http', 'status'], span.getIn(['data', 'http', 'status_code']))}
         </Di>
-        <Di title="Wordpress Version">{span.getIn(['data', 'wp', 'version'])}</Di>
-        <Di title="Wordpress Cache Hits">{span.getIn(['data', 'wp', 'cache_hits'])}</Di>
-        <Di title="Wordpress Cache Misses">{span.getIn(['data', 'wp', 'cache_misses'])}</Di>
-        <Di title="Wordpress Current User">{mapUserId(span.getIn(['data', 'wp', 'user_id']))}</Di>
-        <Di title="Peak Memory Usage">{kiloBytesTwoDecimalPlaces(span.getIn(['data', 'php', 'memory']))}</Di>
-        <Di title="Total Compile Time">
+        <Di title={t('in-forge:tracing.php.wordpressVersion')}>{span.getIn(['data', 'wp', 'version'])}</Di>
+        <Di title={t('in-forge:tracing.php.wordpressCacheHits')}>{span.getIn(['data', 'wp', 'cache_hits'])}</Di>
+        <Di title={t('in-forge:tracing.php.wordpressCacheMisses')}>{span.getIn(['data', 'wp', 'cache_misses'])}</Di>
+        <Di title={t('in-forge:tracing.php.wordpressCurrentUser')}>{mapUserId(span.getIn(['data', 'wp', 'user_id']))}</Di>
+        <Di title={t('in-forge:tracing.php.peakMemoryUsage')}>{kiloBytesTwoDecimalPlaces(span.getIn(['data', 'php', 'memory']))}</Di>
+        <Di title={t('in-forge:tracing.php.totalCompileTime')}>
           {span.getIn(['data', 'compile', 'time']) &&
             millis.detailed(parseFloat(span.getIn(['data', 'compile', 'time']) / 1000))}
         </Di>
         {opcache && (
           <>
-            <Di title="OPcache Enabled">{opcache.get('enabled')}</Di>
-            <Di title="OPcache Cache Full">{opcache.get('cache_full')}</Di>
-            <Di title="OPcache Hit Rate">{opcache.get('hit_rate')}</Di>
-            <Di title="OPcache Cached Keys">{opcache.get('num_cached_keys')}</Di>
+            <Di title={t('in-forge:tracing.php.oPcacheEnabled')}>{opcache.get('enabled')}</Di>
+            <Di title={t('in-forge:tracing.php.oPcacheCacheFull')}>{opcache.get('cache_full')}</Di>
+            <Di title={t('in-forge:tracing.php.oPcacheHitRate')}>{opcache.get('hit_rate')}</Di>
+            <Di title={t('in-forge:tracing.php.oPcacheCachedKeys')}>{opcache.get('num_cached_keys')}</Di>
           </>
         )}
         {error && (
           <>
-            <Di title="Error Message">{error.get('msg')}</Di>
-            <Di title="Error Type">{error.get('type')}</Di>
-            <Di title="Error File">{error.get('file')}</Di>
-            <Di title="Error Line">{error.get('line')}</Di>
+            <Di title={t('in-forge:tracing.php.errorMessage')}>{error.get('msg')}</Di>
+            <Di title={t('in-forge:tracing.php.errorType')}>{error.get('type')}</Di>
+            <Di title={t('in-forge:tracing.php.errorFile')}>{error.get('file')}</Di>
+            <Di title={t('in-forge:tracing.php.errorLine')}>{error.get('line')}</Di>
           </>
         )}
         {getCustomHeaders(span)}
@@ -69,7 +70,7 @@ function getCustomHeaders(span) {
     .getIn(['data', 'http', 'header'], emptyMap)
     .map((v, k) => {
       return (
-        <Di title={`Header: ${k}`} key={`header-${k}`}>
+        <Di title={t('in-forge:tracing.php.customHeaders', { header: k })} key={`header-${k}`}>
           {v}
         </Di>
       );

@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import ErrorDescriptionItem from 'in-sdk/components/traceDetails/ErrorDescriptionItem';
@@ -15,14 +16,14 @@ export default function OCI8SpanDetailView({ span }) {
   return (
     <div>
       <Dl>
-        <Di title="Connection">{span.getIn(['data', 'oci8', 'conn'])}</Di>
+        <Di title={t('in-forge:tracing.oci8.connection')}>{span.getIn(['data', 'oci8', 'conn'])}</Di>
         {statement ? (
-          <Di title="Query" verticalDisplay>
+          <Di title={t('in-forge:tracing.oci8.query')} verticalDisplay>
             <Code code={formatSql(statement)} lang="sql" showLineNumbers={false} />
           </Di>
         ) : null}
         <ErrorDescriptionItem error={span.getIn(['data', 'oci8', 'error'])} />
-        <Di title="Error Code">{span.getIn(['data', 'oci8', 'error_code'])}</Di>
+        <Di title={t('in-forge:tracing.oci8.errorCode')}>{span.getIn(['data', 'oci8', 'error_code'])}</Di>
       </Dl>
     </div>
   );

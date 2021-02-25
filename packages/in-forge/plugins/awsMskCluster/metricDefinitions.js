@@ -2,37 +2,39 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
+
 import { number, percentage } from 'in-services/formatters/number';
 
 export default [
   {
     metric: 'active_controller_count',
-    label: 'Active controller count',
-    category: ['Controller'],
+    label: t('in-forge:plugins.awsMskCluster.activeControllerCount'),
+    category: [t('in-forge:plugins.awsMskCluster.controller')],
     formatter: number
   },
   {
     metric: 'global_topic_count',
-    label: 'Topic count',
-    category: ['Topic'],
+    label: t('in-forge:plugins.awsMskCluster.topicCount'),
+    category: [t('in-forge:plugins.awsMskCluster.topic')],
     formatter: number
   },
   {
     metric: 'global_partition_count',
-    label: 'Partition count',
-    category: ['Partition'],
+    label: t('in-forge:plugins.awsMskCluster.partitionCount'),
+    category: [t('in-forge:plugins.awsMskCluster.partition')],
     formatter: number
   },
   {
     metric: 'offline_partitions_count',
-    label: 'Offline partition count',
-    category: ['Partition'],
+    label: t('in-forge:plugins.awsMskCluster.offlinePartitionCount'),
+    category: [t('in-forge:plugins.awsMskCluster.partition')],
     formatter: number
   },
   {
     metric: 'kafka_data_logs_disk_used',
-    label: 'Data logs',
-    category: ['Partition'],
+    label: t('in-forge:plugins.awsMskCluster.dataLogs'),
+    category: [t('in-forge:plugins.awsMskCluster.partition')],
     formatter: percentage
   }
 ];

@@ -4,6 +4,7 @@
  */
 import React, { useState, useEffect } from 'react';
 import { just } from '@instana/observables';
+import { t } from 'in-i18n';
 
 import { processIdUrlParameter, timeUrlParameter, thresholdUrlParameter } from 'in-profiling/navigation/urlParameters';
 import { closeProfilesViewLink } from 'in-new-components/Profiling/navigation/paths';
@@ -133,14 +134,16 @@ function ProfilesView(props) {
 }
 
 function Header(props) {
-  const label = `Profiles of Process ${props.deepestTechSnapshot ? getLabel(props.deepestTechSnapshot) : ''}`;
+  const label = t('in-profiling:profilesOfProcessDeepestTechSnapshot', {
+    deepestTechSnapshot: props.deepestTechSnapshot ? getLabel(props.deepestTechSnapshot) : ''
+  });
 
   return (
     <DashboardHeader
       {...props}
       icon="lib_profiling"
       label={label}
-      title="Profiles"
+      title={t('in-profiling:profiles')}
       labelForTitle=""
       renderButtonLine={renderButtonLine}
       contextConfigurations={[{ renderContext, contextIcon: 'lib_analyze_inverted' }]}
@@ -169,7 +172,7 @@ function renderButtonLine({ processId, timeConfig }) {
 function renderContext() {
   return (
     <Link className={locals.contextLink} href$={closeProfilesViewLink}>
-      Analyze profiles
+      {t('in-profiling:analyzeProfiles')}
     </Link>
   );
 }

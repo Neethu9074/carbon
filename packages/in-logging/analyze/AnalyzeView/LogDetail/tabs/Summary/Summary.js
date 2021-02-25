@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import classNames from 'classnames';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import ContentWrapper from 'in-new-components/LocationAwareTabView/components/ContentWrapper';
@@ -24,7 +25,7 @@ export default function Summary({ data: log }) {
     <ContentWrapper>
       <Row withoutSideMargin>
         <Col lg={4}>
-          <KpiCard title="Log time" renderValue={formatDateTime} value={log.timestamp} />
+          <KpiCard title={t('in-logging:logTime')} renderValue={formatDateTime} value={log.timestamp} />
         </Col>
         <Col lg={4}>
           <KpiCard
@@ -32,7 +33,7 @@ export default function Summary({ data: log }) {
               [locals.type]: true,
               [locals[logLevel.toLowerCase()]]: true
             })}
-            title="Type"
+            title={t('in-logging:type')}
             value={logLevel}
             raw
           />
@@ -41,7 +42,7 @@ export default function Summary({ data: log }) {
 
       <Row withoutSideMargin>
         <Col lg={12}>
-          <Card title="Message" withoutPadding>
+          <Card title={t('in-logging:message')} withoutPadding>
             {log.content}
           </Card>
         </Col>
@@ -49,7 +50,7 @@ export default function Summary({ data: log }) {
 
       <Row withoutSideMargin>
         <Col lg={12}>
-          <Card title="Tags">
+          <Card title={t('in-logging:tags')}>
             <HorizontalFlexWrapper>
               <TagList tags={log.tags} />
             </HorizontalFlexWrapper>

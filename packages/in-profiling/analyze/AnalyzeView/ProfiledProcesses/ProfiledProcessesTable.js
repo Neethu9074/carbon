@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { Table, Thead, Tbody, Tr, LoadMoreRow } from 'in-components/tables/sharedComponents';
@@ -16,8 +17,8 @@ export default function ProfiledProcessesTable(props) {
     <Table>
       <Thead>
         <Tr size="compact">
-          <Th noWrap>Process</Th>
-          <Th noWrap>Host</Th>
+          <Th noWrap>{t('in-profiling:process')}</Th>
+          <Th noWrap>{t('in-profiling:host')}</Th>
         </Tr>
       </Thead>
       <Tbody>

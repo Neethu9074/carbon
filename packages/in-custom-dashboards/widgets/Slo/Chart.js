@@ -14,9 +14,9 @@ import { toNewTagFilterFormat } from 'in-new-components/QueryBuilder/transformat
 import { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import { groupByEndpointName, groupByServiceName } from 'in-analyze/AnalyzeView/dataSources';
 import { EQUALS, GREATER_THAN } from 'in-new-components/QueryBuilder/tagFilter/operators';
-import { isQB2ModeEnabled } from 'in-new-components/Alerting/components/WithQB1orQB2';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
 import { getSliFormatter } from 'in-custom-dashboards/widgets/Slo/sliFormatter';
+import { isQB2ModeInSmartAlertsEnabled } from 'in-services/featureFlags';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import { convertToAnalyzeFilters } from 'in-applications/tags';
@@ -108,7 +108,7 @@ function getCustomAnalyzeContextMenuProperties(sliConfig, disableZooming, tagCat
 function getLinkToUnboundAnalytics(sliConfig, tagCatalog, highlightedTime) {
   const sliEntity = sliConfig.sliEntity;
   const boundaryScope = sliEntity.boundaryScope;
-  if (isQB2ModeEnabled) {
+  if (isQB2ModeInSmartAlertsEnabled) {
     let tagFilterExpression;
     let filters;
     if (sliEntity.sliType === availabilityType) {

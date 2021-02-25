@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import LocallyChangedTheme from 'in-themes/LocallyChangedTheme';
@@ -12,7 +13,7 @@ import { light } from 'in-themes/themes';
 export default function HelpAndSupport({ trackingService }) {
   return (
     <LocallyChangedTheme theme={light}>
-      <ExpandableCard title="Help & Support" framed={false} openByDefault={false}>
+      <ExpandableCard title={t('in-waiting-for-deployment:helpSupport')} framed={false} openByDefault={false}>
         <Button
           kind="secondary"
           icon="lib_help_error_help_outline"
@@ -20,7 +21,7 @@ export default function HelpAndSupport({ trackingService }) {
           href="https://instana.com/docs/"
           onClick={() => trackingService.helpAndSupportClicked()}
         >
-          Help & Documentation
+          {t('in-waiting-for-deployment:helpDocumentation')}
         </Button>
       </ExpandableCard>
     </LocallyChangedTheme>

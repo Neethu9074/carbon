@@ -5,14 +5,14 @@
 import React, { Fragment } from 'react';
 import { fromJS } from 'immutable';
 
-import AlertChannels, {
-  noRightHeader
-} from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannels';
 import createMemoizedObservableForReferencedEntities from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/memoizeReferencedEntitiesObservable';
+import AlertChannelsList, {
+  noRightHeader
+} from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannelsList';
 import { limitForConnectedAlertChannels } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/Alert';
 import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/SelectListDialogButton';
+import { getAlertChannelsInfosMutable } from 'in-api/alertChannels';
 import SectionHeading from 'in-settings/components/SectionHeading';
-import { getAlertChannelsByIdsMutable } from 'in-api/alertChannels';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { alwaysEmptyArray } from 'in-services/fixedStreams';
 
@@ -23,7 +23,7 @@ export default function Step4({ form, setForm }) {
     <Fragment>
       <div style={{ marginTop: '2rem' }} />
       <SectionHeading>4. Alerting</SectionHeading>
-      <AlertChannels
+      <AlertChannelsList
         setTitle={false}
         loadEntities={() => getSelectedAlertChannels(selectedChannels)}
         hasRowNavigation={false}
@@ -35,7 +35,7 @@ export default function Step4({ form, setForm }) {
             onSubmit={selectedIds => submitChannelSelection(form, setForm, selectedIds)}
             title="Add Alert Channels"
             label={'Add Alert Channels'}
-            listComponent={AlertChannels}
+            listComponent={AlertChannelsList}
             listComponentRightHeader={noRightHeader}
             hiddenIds={form.get('selectedAlertChannels').value.toJS()}
             limit={limitForConnectedAlertChannels}
@@ -56,7 +56,7 @@ const getSelectedAlertChannels = createMemoizedObservableForReferencedEntities(f
     return alwaysEmptyArray;
   }
   // null is treated as a pending result when converting the HTTP response into a result
-  return getAlertChannelsByIdsMutable(selectedChannels).startWith(null);
+  return getAlertChannelsInfosMutable(selectedChannels).startWith(null);
 });
 
 function alertChannelSelectionTableActions(form, setForm) {

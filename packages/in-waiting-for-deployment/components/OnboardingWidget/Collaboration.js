@@ -5,6 +5,7 @@
 import { createMapForm, createField, notBlankValidator } from 'formalistic';
 import React, { useState } from 'react';
 import classNames from 'classnames';
+import { t } from 'in-i18n';
 
 import CopyToClipboardButton from 'in-new-components/CopyToClipboardButton';
 import TouchedMessages from 'in-components/form/TouchedMessages';
@@ -43,7 +44,7 @@ export default function Collaboration({ isRestricted, agentKey }) {
     <LocallyChangedTheme theme={light}>
       <ExpandableCard
         className={locals.card}
-        title="Need a colleague to install the Instana agent?"
+        title={t('in-waiting-for-deployment:needAColleagueToInstallTheInstanaAgent')}
         framed={false}
         openByDefault={false}
       >
@@ -57,7 +58,9 @@ export default function Collaboration({ isRestricted, agentKey }) {
             {form.get('email').map(field => (
               <Tooltip
                 themeStyle="light"
-                content={isRestricted ? 'This will be available once your instance is ready' : undefined}
+                content={
+                  isRestricted ? t('in-waiting-for-deployment:thisWillBeAvailableOnceYourInstanceIsReady') : undefined
+                }
                 align="bottomMiddle"
               >
                 <FormGroup
@@ -66,13 +69,13 @@ export default function Collaboration({ isRestricted, agentKey }) {
                     [locals.disabledUserInvideFormGroup]: isRestricted
                   })}
                 >
-                  <Label>Add a colleague to your Instana account</Label>
+                  <Label>{t('in-waiting-for-deployment:addAColleagueToYourInstanaAccount')}</Label>
                   <div className={locals.flexWrapper}>
                     <Input
                       className={locals.input}
                       disabled={isRestricted}
                       type="email"
-                      placeholder="email"
+                      placeholder={t('in-waiting-for-deployment:email')}
                       onChange={e => setEmail(e.target.value)}
                       value={field.value}
                       hasError={!field.valid && field.touched}
@@ -85,7 +88,7 @@ export default function Collaboration({ isRestricted, agentKey }) {
                       type="submit"
                       disabled={isRestricted || isInvitingUser}
                     >
-                      {isInvitingUser ? '' : 'Invite'}
+                      {isInvitingUser ? '' : t('in-waiting-for-deployment:invite')}
                     </Button>
                   </div>
                   <TouchedMessages field={field} />
@@ -94,7 +97,7 @@ export default function Collaboration({ isRestricted, agentKey }) {
             ))}
 
             <FormGroup>
-              <Label>Send your agent key & guide to a colleague</Label>
+              <Label>{t('in-waiting-for-deployment:sendYourAgentKeyGuideToAColleague')}</Label>
               <div className={locals.flexWrapper}>
                 <Input className={locals.input} type="text" onChange={() => {}} value={agentKey} />
                 <CopyToClipboardButton kind="secondary" getText={() => agentKey} />

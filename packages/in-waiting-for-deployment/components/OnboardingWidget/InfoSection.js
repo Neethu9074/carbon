@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import Button from 'in-new-components/Button';
@@ -14,11 +15,13 @@ export default function InfoSection({ trackingService }) {
     <div className={locals.section}>
       <div className={locals.leftContent}>
         <SvgIcon className={locals.icon} type="lib_datetime_timer" size="xl" />
-        <span className={locals.description}>While we get you started, would you like to…</span>
+        <span className={locals.description}>{t('in-waiting-for-deployment:whileWeGetYouStartedWouldYouLikeTo')}</span>
       </div>
 
       <div className={locals.rightContent}>
-        <span className={locals.subText}>Get a feeling for Instana with highlights of what it can do</span>
+        <span className={locals.subText}>
+          {t('in-waiting-for-deployment:getAFeelingForInstanaWithHighlightsOfWhatItCanDo')}
+        </span>
         <Button
           className={locals.button}
           kind="secondary"
@@ -28,7 +31,7 @@ export default function InfoSection({ trackingService }) {
           href="https://support.instana.com/hc/en-us/articles/360020285271-Instana-Videos-for-Beginners"
           onClick={() => trackingService.beginnerVideosClicked()}
         >
-          Watch example videos
+          {t('in-waiting-for-deployment:watchExampleVideos')}
         </Button>
       </div>
     </div>

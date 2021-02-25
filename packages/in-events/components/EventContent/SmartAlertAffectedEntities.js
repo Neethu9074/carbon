@@ -17,8 +17,8 @@ import { applicationsAlertingEventDetailsGoToAnalyze } from 'in-applications/ale
 import { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import { groupByEndpointName, groupByServiceName } from 'in-analyze/AnalyzeView/dataSources';
 import AffectedEntities from 'in-events/components/AffectedEntities/AffectedEntities';
-import { isQB2ModeEnabled } from 'in-new-components/Alerting/components/WithQB1orQB2';
 import { tagFiltersForBoundaryScopeUA1 } from 'in-analyze/navigation/paths';
+import { isQB2ModeInSmartAlertsEnabled } from 'in-services/featureFlags';
 import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import { convertToAnalyzeFilters } from 'in-applications/tags';
 import { isApplicationEntity } from 'in-services/entityUtils';
@@ -54,7 +54,7 @@ export function SmartAlertAffectedEntities({
   let tagFilterExpression;
   let totalTagFilterExpression;
   let needsGroupByEndpoint;
-  if (isQB2ModeEnabled) {
+  if (isQB2ModeInSmartAlertsEnabled) {
     tagFilterExpression = toBackendQueryModel(
       getEnrichedAnalyzeTagFilterFormModel(
         alertConfig,

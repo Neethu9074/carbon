@@ -43,8 +43,9 @@ function validateClusterName(clusterName) {
 
 const clusterNameValidator = {
   validator: validateClusterName,
-  validationMessage:
-    'The cluster name must be a combination of letters, dashes and underscores, up to 20 characters long'
+  validationMessage: t(
+    'in-waiting-for-deployment:content.theClusterNameMustBeACombinationOfLettersDashesAndUnderscoresUpTo20CharactersLong'
+  )
 };
 
 const agentReleaseVersionRegex = new RegExp(/^\d\.\d{1,3}\.\d+$/);
@@ -60,229 +61,233 @@ function validateNotEmpty(value) {
 export default function getEntries({ disableAwsSensorDocumentation }) {
   return [
     {
-      label: 'AWS',
+      label: t('in-waiting-for-deployment:content.aws'),
       icon: 'lib_aws',
-      fullLabel: 'Amazon Web Services',
-      category: 'Platform',
+      fullLabel: t('in-waiting-for-deployment:content.amazonWebServices'),
+      category: t('in-waiting-for-deployment:content.platform'),
       subTechnologies: [
         {
-          label: 'Instana AWS Sensor',
+          label: t('in-waiting-for-deployment:content.instanaAwsSensor'),
           keyWords: 'aws',
           Content: AwsSensorContent
         },
         {
-          label: 'Elastic Computing (EC2) - Linux',
+          label: t('in-waiting-for-deployment:content.elasticComputingEc2Linux'),
           keyWords: 'elasticcomputeec2linux',
           Content: ElasticComputingLinuxContent
         },
         {
-          label: 'Elastic Computing (EC2) - Windows 64Bit',
+          label: t('in-waiting-for-deployment:content.elasticComputingEc2Windows64Bit'),
           keyWords: 'elasticcomputeec2windows',
           Content: ElasticComputingWindowsContent
         },
         {
-          label: 'Elastic Container Service for Kubernetes (EKS)',
+          label: t('in-waiting-for-deployment:content.elasticContainerServiceForKubernetesEks'),
           keyWords: 'elasticcontainerkubernetesk8s',
           Content: K8sDaemonSetContent
         },
         {
-          label: 'AWS Fargate',
+          label: t('in-waiting-for-deployment:content.awsFargate'),
           keyWords: 'awsfargate',
           Content: AWSFargateContent
         },
         {
-          label: 'AWS Lambda',
+          label: t('in-waiting-for-deployment:content.awsLambda'),
           keyWords: 'awslambda',
           Content: AWSLambdaContent
         }
-      ].filter(subTechnology => (disableAwsSensorDocumentation ? subTechnology.label !== 'Instana AWS Sensor' : true))
+      ].filter(subTechnology =>
+        disableAwsSensorDocumentation
+          ? subTechnology.label !== t('in-waiting-for-deployment:content.instanaAwsSensor')
+          : true
+      )
     },
     {
-      label: 'Azure',
+      label: t('in-waiting-for-deployment:content.azure'),
       icon: 'lib_azure',
-      fullLabel: 'Microsoft Azure',
-      category: 'Platform',
+      fullLabel: t('in-waiting-for-deployment:content.microsoftAzure'),
+      category: t('in-waiting-for-deployment:content.platform'),
       subTechnologies: [
         {
-          label: 'Azure Kubernetes Service (AKS)',
+          label: t('in-waiting-for-deployment:content.azureKubernetesServiceAks'),
           keyWords: 'azurekubernetesk8s',
           Content: K8sDaemonSetContent
         }
       ]
     },
     {
-      label: 'Google Cloud',
+      label: t('in-waiting-for-deployment:content.googleCloud'),
       icon: 'lib_google_cloud',
-      fullLabel: 'Google Cloud Platform',
-      category: 'Platform',
+      fullLabel: t('in-waiting-for-deployment:content.googleCloudPlatform'),
+      category: t('in-waiting-for-deployment:content.platform'),
       subTechnologies: [
         {
-          label: 'Google Compute Engine (GCE) - Linux',
+          label: t('in-waiting-for-deployment:content.googleComputeEngineGceLinux'),
           keyWords: 'googlecloudplatformcomputeenginelinuxgce',
           Content: GoogleComputeEngineContent
         },
         {
-          label: 'Google Kubernetes Engine (GKE)',
+          label: t('in-waiting-for-deployment:content.googleKubernetesEngineGke'),
           keyWords: 'googlekubernetesenginegkek8s',
           Content: K8sGoogleKubernetesEngineContent
         },
         {
-          label: 'Google Cloud Run',
+          label: t('in-waiting-for-deployment:content.googleCloudRun'),
           keyWords: 'googlecloudrun',
           Content: GoogleCloudRunContent
         }
       ]
     },
     {
-      label: 'Docker',
+      label: t('in-waiting-for-deployment:content.docker'),
       icon: 'lib_container_docker',
-      category: 'Platform',
+      category: t('in-waiting-for-deployment:content.platform'),
       keyWords: 'dockercontainer',
       Content: DockerContent
     },
     {
-      label: 'Kubernetes',
+      label: t('in-waiting-for-deployment:content.kubernetes'),
       icon: 'lib_kubernetes',
-      category: 'Platform',
+      category: t('in-waiting-for-deployment:content.platform'),
       subTechnologies: [
         {
-          label: 'Helm chart',
+          label: t('in-waiting-for-deployment:content.helmChart'),
           keyWords: 'kuberneteshelmchartk8s',
           Content: K8sHelmChartContent
         },
         {
-          label: 'YAML',
+          label: t('in-waiting-for-deployment:content.yaml'),
           keyWords: 'kubernetesdeamonsetk8s',
           Content: K8sDaemonSetContent
         },
         {
-          label: 'Operator',
+          label: t('in-waiting-for-deployment:content.operator'),
           keywords: 'kubernetesoperatork8s',
           Content: K8sOperatorContent
         },
         {
-          label: 'Azure Kubernetes Service (AKS)',
+          label: t('in-waiting-for-deployment:content.azureKubernetesServiceAks'),
           keyWords: 'azurekubernetesserviceaksk8s',
           Content: K8sDaemonSetContent
         },
         {
-          label: 'AWS Elastic Kubernetes Service (EKS)',
+          label: t('in-waiting-for-deployment:content.awsElasticKubernetesServiceEks'),
           keyWords: 'awselastickubernetesserviceeksk8s',
           Content: K8sDaemonSetContent
         },
         {
-          label: 'Google Kubernetes Engine (GKE)',
+          label: t('in-waiting-for-deployment:content.googleKubernetesEngineGke'),
           keyWords: 'googlekubernetesenginegkek8s',
           Content: K8sGoogleKubernetesEngineContent
         }
       ]
     },
     {
-      label: 'OpenShift',
+      label: t('in-waiting-for-deployment:content.openShift'),
       icon: 'lib_openshift',
-      category: 'Platform',
+      category: t('in-waiting-for-deployment:content.platform'),
       subTechnologies: [
         {
-          label: 'YAML',
+          label: t('in-waiting-for-deployment:content.yaml'),
           keyWords: 'kubernetesdeamonsetk8s',
           Content: OpenShiftDaemonSetContent
         },
         {
-          label: 'Helm chart',
+          label: t('in-waiting-for-deployment:content.helmChart'),
           keyWords: 'openshifthelmchartk8s',
           Content: OpenShiftHelmContent
         },
         {
-          label: 'Operator',
+          label: t('in-waiting-for-deployment:content.operator'),
           keywords: 'kubernetesoperatork8s',
           Content: OpenShiftOperatorContent
         }
       ]
     },
     {
-      label: 'Cloud Foundry and BOSH',
-      fullLabel: 'Cloud Foundry and other BOSH-based deployments',
+      label: t('in-waiting-for-deployment:content.cloudFoundryAndBosh'),
+      fullLabel: t('in-waiting-for-deployment:content.cloudFoundryAndOtherBoshBasedDeployments'),
       icon: 'lib_cloudfoundry',
-      category: 'Platform',
+      category: t('in-waiting-for-deployment:content.platform'),
       keyWords: 'cloudfoundryboshcf',
       Content: CfAndBoshContent
     },
     {
-      label: 'VMware Tanzu',
+      label: t('in-waiting-for-deployment:content.vMwareTanzu'),
       icon: 'lib_vmware_tanzu',
-      fullLabel: 'VMware Tanzu (formerly known as Pivotal Cloud Foundry)',
-      category: 'Platform',
+      fullLabel: t('in-waiting-for-deployment:content.vMwareTanzuFormerlyKnownAsPivotalCloudFoundry'),
+      category: t('in-waiting-for-deployment:content.platform'),
       keyWords: 'pivotalplatformpivotalcloudfoundrypcf',
       Content: PcfContent
     },
     {
-      label: 'Linux',
+      label: t('in-waiting-for-deployment:content.linux'),
       icon: 'lib_linux',
-      category: 'OS',
+      category: t('in-waiting-for-deployment:content.os'),
       subTechnologies: [
         {
-          label: 'Automatic Installation (One-liner)',
+          label: t('in-waiting-for-deployment:content.automaticInstallationOneLiner'),
           keyWords: 'linuxautomaticoneliner',
           Content: OneLinerContent
         },
         {
-          label: 'Packages (DEB, RPM)',
+          label: t('in-waiting-for-deployment:content.packagesDebRpm'),
           keyWords: 'linuxpackagesdebrpm',
           Content: PackagesContent
         },
         {
-          label: 'Archive (tar.gz)',
+          label: t('in-waiting-for-deployment:content.archiveTarGz'),
           keyWords: 'linuxmanualtarball',
           Content: ManualLinuxContent
         },
         {
-          label: 'AWS Elastic Computing (EC2)',
+          label: t('in-waiting-for-deployment:content.awsElasticComputingEc2'),
           keyWords: 'linuxawselasticcomputingec2',
           Content: ElasticComputingLinuxContent
         },
         {
-          label: 'Google Compute Engine (GCE)',
+          label: t('in-waiting-for-deployment:content.googleComputeEngineGce'),
           keyWords: 'linuxgooglecomputeenginegce',
           Content: GoogleComputeEngineContent
         }
       ]
     },
     {
-      label: 'Mac OS',
-      category: 'OS',
+      label: t('in-waiting-for-deployment:content.macOs'),
+      category: t('in-waiting-for-deployment:content.os'),
       keyWords: 'macosx',
       icon: 'lib_apple',
       Content: ManualMacOsContent
     },
     {
-      label: 'Unix',
-      category: 'OS',
+      label: t('in-waiting-for-deployment:content.unix'),
+      category: t('in-waiting-for-deployment:content.os'),
       keyWords: 'unixtarball',
       icon: 'lib_unix',
       Content: ManualUnixContent
     },
     {
-      label: 'Windows',
+      label: t('in-waiting-for-deployment:content.windows'),
       icon: 'lib_windows',
-      category: 'OS',
+      category: t('in-waiting-for-deployment:content.os'),
       subTechnologies: [
         {
-          label: 'Windows Installer 64Bit',
+          label: t('in-waiting-for-deployment:content.windowsInstaller64Bit'),
           keyWords: 'windowsexe',
           Content: WindowsInstallerContent
         },
         {
-          label: 'Windows Installer 64Bit (Unattended)',
+          label: t('in-waiting-for-deployment:content.windowsInstaller64BitUnattended'),
           keyWords: 'windowsexe',
           Content: WindowsInstallerUnattendedContent
         },
         {
-          label: 'ZIP Archives',
+          label: t('in-waiting-for-deployment:content.zipArchives'),
           keyWords: 'windowszip',
           Content: ManualWindowsContent
         },
         {
-          label: 'Elastic Computing (EC2) - Windows 64Bit',
+          label: t('in-waiting-for-deployment:content.elasticComputingEc2Windows64Bit'),
           keyWords: 'elasticcomputeec2windows',
           Content: ElasticComputingWindowsContent
         }
@@ -358,7 +363,10 @@ function AwsSensorContent({ agentKey, agentEndpoint, agentEndpointPort }) {
 
   const iamPermissions = (
     <Fragment>
-      <JSONFile title="IAM permissions" content={JSON.stringify(permissions, 0, 2)} />
+      <JSONFile
+        title={t('in-waiting-for-deployment:content.iamPermissions')}
+        content={JSON.stringify(permissions, 0, 2)}
+      />
     </Fragment>
   );
 
@@ -399,7 +407,10 @@ function AwsSensorContent({ agentKey, agentEndpoint, agentEndpointPort }) {
         {iamPermissions}
         <Spacer />
         <Description lines={[t('in-waiting-for-deployment:aws.secText.line2')]} />
-        <JSONFile title="Trust Relationship" content={JSON.stringify(trustRelationship, 0, 2)} />
+        <JSONFile
+          title={t('in-waiting-for-deployment:content.trustRelationship')}
+          content={JSON.stringify(trustRelationship, 0, 2)}
+        />
       </Fragment>
     );
   } else if (selectedPlatform === platformOptions[1]) {
@@ -437,26 +448,37 @@ function AwsSensorContent({ agentKey, agentEndpoint, agentEndpointPort }) {
 
     content = (
       <Fragment>
-        <HelpBox title="ECS supported runtimes">
+        <HelpBox title={t('in-waiting-for-deployment:content.ecsSupportedRuntimes')}>
           <Description
             lines={[
-              'The AWS Agent can run on both ECS on EC2 and Fargate on ECS using the ECS platforms version 1.3 and version 1.4.'
+              t(
+                'in-waiting-for-deployment:content.theAwsAgentCanRunOnBothEcsOnEc2AndFargateOnEcsUsingTheEcsPlatformsVersion13AndVersion14'
+              )
             ]}
           />
         </HelpBox>
         <Spacer />
-        <Description lines={['Create an ECS Task Definition using this template:']} />
-        <JSONFile title="Task Definition" content={JSON.stringify(taskDefinition, 0, 2)} />
+        <Description lines={[t('in-waiting-for-deployment:content.createAnEcsTaskDefinitionUsingThisTemplate')]} />
+        <JSONFile
+          title={t('in-waiting-for-deployment:content.taskDefinition')}
+          content={JSON.stringify(taskDefinition, 0, 2)}
+        />
         <Spacer />
         <Description
-          lines={['Assign to the ECS Task Definition a role with at least the following IAM permissions:']}
+          lines={[
+            t(
+              'in-waiting-for-deployment:content.assignToTheEcsTaskDefinitionARoleWithAtLeastTheFollowingIamPermissions'
+            )
+          ]}
         />
         {iamPermissions}
         <Spacer />
-        <HelpBox title="ECS Service Definition">
+        <HelpBox title={t('in-waiting-for-deployment:content.ecsServiceDefinition')}>
           <Description
             lines={[
-              'Create a service using the above Task Definition and run only one instance to avoid unnecessary charges for the CloudWatch API.'
+              t(
+                'in-waiting-for-deployment:content.createAServiceUsingTheAboveTaskDefinitionAndRunOnlyOneInstanceToAvoidUnnecessaryChargesForTheCloudWatchApi'
+              )
             ]}
           />
         </HelpBox>
@@ -468,8 +490,10 @@ function AwsSensorContent({ agentKey, agentEndpoint, agentEndpointPort }) {
     <>
       <HelpBox>
         <TextWithLink
-          text="The AWS Agent monitors lots of different AWS technologies in one single package. For the full list, refer to the "
-          linkText="supported AWS Services list."
+          text={t(
+            'in-waiting-for-deployment:content.theAwsAgentMonitorsLotsOfDifferentAwsTechnologiesInOneSinglePackageForTheFullListReferToThe'
+          )}
+          linkText={t('in-waiting-for-deployment:content.supportedAwsServicesList')}
           href="https://instana.com/docs/ecosystem/aws/#monitored-services"
         />
       </HelpBox>
@@ -477,7 +501,7 @@ function AwsSensorContent({ agentKey, agentEndpoint, agentEndpointPort }) {
       <Spacer />
 
       <Row>
-        Run your AWS Agent on:
+        {t('in-waiting-for-deployment:content.runYourAwsAgentOn')}
         <DropDown value={selectedPlatform} options={platformOptions} onChange={setPlatform} />
       </Row>
 
@@ -504,12 +528,16 @@ function AWSFargateContent({ agentKey, serverlessEndpoint }) {
         <Spacer />
 
         <TextWithLink
-          text="The support for Go on Fargate on ECS works the same way as with any Go application. Follow the instructions of the "
-          linkText="Go documentation."
+          text={t(
+            'in-waiting-for-deployment:content.theSupportForGoOnFargateOnEcsWorksTheSameWayAsWithAnyGoApplicationFollowTheInstructionsOfThe'
+          )}
+          linkText={t('in-waiting-for-deployment:content.goDocumentation')}
           href="https://instana.com/docs/ecosystem/go"
         />
         <Spacer />
-        <Description lines={['Set the following environment variables in the ECS Task Definition:']} />
+        <Description
+          lines={[t('in-waiting-for-deployment:content.setTheFollowingEnvironmentVariablesInTheEcsTaskDefinition')]}
+        />
         <GridRow>
           <Col xs={6}>
             <Description lines={['INSTANA_ENDPOINT_URL']} />
@@ -528,7 +556,11 @@ function AWSFargateContent({ agentKey, serverlessEndpoint }) {
         <Spacer />
 
         <Description
-          lines={['Add the following lines to your Docker file before the ENTRYPOINT or the last CMD command:']}
+          lines={[
+            t(
+              'in-waiting-for-deployment:content.addTheFollowingLinesToYourDockerFileBeforeTheEntrypointOrTheLastCmdCommand'
+            )
+          ]}
         />
         <Dockerfile
           lines={[
@@ -544,13 +576,19 @@ function AWSFargateContent({ agentKey, serverlessEndpoint }) {
         <Spacer />
 
         <Description
-          lines={['The Docker build process needs to log into containers.instana.io using the following credentials:']}
+          lines={[
+            t(
+              'in-waiting-for-deployment:content.theDockerBuildProcessNeedsToLogIntoContainersInstanaIoUsingTheFollowingCredentials'
+            )
+          ]}
         />
         <Bash lines={[`docker login containers.instana.io --username _ --password ${agentKey}`]} />
 
         <Spacer />
 
-        <Description lines={['Set the following environment variables in the ECS Task Definition:']} />
+        <Description
+          lines={[t('in-waiting-for-deployment:content.setTheFollowingEnvironmentVariablesInTheEcsTaskDefinition')]}
+        />
         <GridRow>
           <Col xs={6}>
             <Description lines={['INSTANA_ENDPOINT_URL']} />
@@ -567,7 +605,7 @@ function AWSFargateContent({ agentKey, serverlessEndpoint }) {
     steps = (
       <Fragment>
         <Spacer />
-        Linux base image: &nbsp;
+        {t('in-waiting-for-deployment:content.linuxBaseImage')} &nbsp;
         <DropDown value={baseImageName} options={baseImageOptions} onChange={setBaseImageName} />
         <Spacer />
         <Bash
@@ -578,11 +616,20 @@ function AWSFargateContent({ agentKey, serverlessEndpoint }) {
           ]}
         />
         <Spacer />
-        <Description lines={['Set the following environment variables in the ECS Task Definition:']} />
+        <Description
+          lines={[t('in-waiting-for-deployment:content.setTheFollowingEnvironmentVariablesInTheEcsTaskDefinition')]}
+        />
         <Spacer />
-        Your application directory in the container (you usually set this as the WORKDIR directory in the Dockerfile):
+        {t(
+          'in-waiting-for-deployment:content.yourApplicationDirectoryInTheContainerYouUsuallySetThisAsTheWorkdirDirectoryInTheDockerfile'
+        )}
         <Spacer />
-        <Input id="app-dir" value={appDirName} onChange={setAppDirName} placeholder="Application directory" />
+        <Input
+          id="app-dir"
+          value={appDirName}
+          onChange={setAppDirName}
+          placeholder={t('in-waiting-for-deployment:content.applicationDirectory')}
+        />
         <GridRow>
           <Col xs={4}>
             <Description lines={['INSTANA_ENDPOINT_URL']} />
@@ -617,7 +664,11 @@ function AWSFargateContent({ agentKey, serverlessEndpoint }) {
         <Spacer />
 
         <Description
-          lines={['Add the following lines to your Docker file before the ENTRYPOINT or the last CMD command:']}
+          lines={[
+            t(
+              'in-waiting-for-deployment:content.addTheFollowingLinesToYourDockerFileBeforeTheEntrypointOrTheLastCmdCommand'
+            )
+          ]}
         />
         <Dockerfile
           lines={[
@@ -633,7 +684,9 @@ function AWSFargateContent({ agentKey, serverlessEndpoint }) {
 
         <Spacer />
 
-        <Description lines={['Set the following environment variables in the ECS Task Definition:']} />
+        <Description
+          lines={[t('in-waiting-for-deployment:content.setTheFollowingEnvironmentVariablesInTheEcsTaskDefinition')]}
+        />
         <GridRow>
           <Col xs={6}>
             <Description lines={['INSTANA_ENDPOINT_URL']} />
@@ -650,12 +703,16 @@ function AWSFargateContent({ agentKey, serverlessEndpoint }) {
     steps = (
       <Fragment>
         <TextWithLink
-          text="The support for Python on Fargate on ECS works the same way as with any Python application. Follow the instructions of the "
-          linkText="Python documentation."
+          text={t(
+            'in-waiting-for-deployment:content.theSupportForPythonOnFargateOnEcsWorksTheSameWayAsWithAnyPythonApplicationFollowTheInstructionsOfThe'
+          )}
+          linkText={t('in-waiting-for-deployment:content.pythonDocumentation')}
           href="https://instana.com/docs/ecosystem/python"
         />
         <Spacer />
-        <Description lines={['Set the following environment variables in the ECS Task Definition:']} />
+        <Description
+          lines={[t('in-waiting-for-deployment:content.setTheFollowingEnvironmentVariablesInTheEcsTaskDefinition')]}
+        />
         <GridRow>
           <Col xs={6}>
             <Description lines={['INSTANA_ENDPOINT_URL']} />
@@ -675,7 +732,9 @@ function AWSFargateContent({ agentKey, serverlessEndpoint }) {
       <HelpBox>
         <Description
           lines={[
-            'Support for AWS Fargate is designed to work with AWS Fargate on the Elastic Container Service (ECS).'
+            t(
+              'in-waiting-for-deployment:content.supportForAwsFargateIsDesignedToWorkWithAwsFargateOnTheElasticContainerServiceEcs'
+            )
           ]}
         />
       </HelpBox>
@@ -683,7 +742,7 @@ function AWSFargateContent({ agentKey, serverlessEndpoint }) {
       <Spacer />
 
       <Row>
-        Select your application runtime:
+        {t('in-waiting-for-deployment:content.selectYourApplicationRuntime')}
         <DropDown value={selectedRuntime} options={runtimeOptions} onChange={setRuntime} />
       </Row>
 
@@ -735,14 +794,18 @@ function AWSLambdaContent({ agentKey, serverlessEndpoint }) {
         <Spacer />
 
         <TextWithLink
-          text="AWS Lambda functions written in Go need to be manually instrumented in order to collect trace data. Follow the instructions of the "
-          linkText="AWS Lambda Go documentation."
+          text={t(
+            'in-waiting-for-deployment:content.awsLambdaFunctionsWrittenInGoNeedToBeManuallyInstrumentedInOrderToCollectTraceDataFollowTheInstructionsOfThe'
+          )}
+          linkText={t('in-waiting-for-deployment:content.awsLambdaGoDocumentation')}
           href="https://instana.com/docs/ecosystem/aws-lambda/go"
         />
         <Spacer />
         <Description
           lines={[
-            'Set the following environment variables in the "Environment Variables" section at AWS Lambda configuration page:'
+            t(
+              'in-waiting-for-deployment:content.setTheFollowingEnvironmentVariablesInTheEnvironmentVariablesSectionAtAwsLambdaConfigurationPage'
+            )
           ]}
         />
         <GridRow>
@@ -761,38 +824,44 @@ function AWSLambdaContent({ agentKey, serverlessEndpoint }) {
     // Java
     steps = (
       <Fragment>
-        <HelpBox title="Configuring Your AWS Lambda Function">
+        <HelpBox title={t('in-waiting-for-deployment:content.configuringYourAwsLambdaFunction')}>
           <Description
             lines={[
-              'Note that the `java8` runtime is not supported. Currently only supported runtimes are `java8.a12` and `java11`.'
+              t(
+                'in-waiting-for-deployment:content.noteThatTheJava8RuntimeIsNotSupportedCurrentlyOnlySupportedRuntimesAreJava8A12AndJava11'
+              )
             ]}
           />
           <Description
             lines={[
-              'The preferred way to configure AWS Lambda functions based on Java for tracing is the Instana Lambda layer with AutoTrace.',
-              'There a number of ways to configure this:'
+              t(
+                'in-waiting-for-deployment:content.thePreferredWayToConfigureAwsLambdaFunctionsBasedOnJavaForTracingIsTheInstanaLambdaLayerWithAutoTrace'
+              ),
+              t('in-waiting-for-deployment:content.thereANumberOfWaysToConfigureThis')
             ]}
           />
           <Listing
             items={[
-              'AWS Web Console',
-              'AWS Command Line Interface',
-              'AWS Serverless Application Model (AWS SAM)',
-              'Your preferred tool to manage AWS Lambda functions'
+              t('in-waiting-for-deployment:content.awsWebConsole'),
+              t('in-waiting-for-deployment:content.awsCommandLineInterface'),
+              t('in-waiting-for-deployment:content.awsServerlessApplicationModelAwsSam'),
+              t('in-waiting-for-deployment:content.yourPreferredToolToManageAwsLambdaFunctions')
             ]}
           />
         </HelpBox>
         <Spacer />
-        <HelpBox title="AWS Web Console">
+        <HelpBox title={t('in-waiting-for-deployment:content.awsWebConsole')}>
           <TextWithLink
-            text="A detailed guide (including screenshots) on how to configure your Lambda function for AutoTrace using the AWS Web Console can be found in our "
-            linkText="documentation for Lambda AutoTrace"
+            text={t(
+              'in-waiting-for-deployment:content.aDetailedGuideIncludingScreenshotsOnHowToConfigureYourLambdaFunctionForAutoTraceUsingTheAwsWebConsoleCanBeFoundInOur'
+            )}
+            linkText={t('in-waiting-for-deployment:content.documentationForLambdaAutoTrace')}
             href="https://instana.com/docs/ecosystem/aws-lambda/#autotrace-aws-lambdas"
           />
-          <Description lines={['In short, the steps are as follows']} />
+          <Description lines={[t('in-waiting-for-deployment:content.inShortTheStepsAreAsFollows')]} />
           <GridRow>
             <Col xs={4}>
-              Select your AWS region:
+              {t('in-waiting-for-deployment:content.selectYourAwsRegion')}
               <Spacer />
               <DropDown value={awsRegion} options={awsRegionOptions} onChange={setAwsRegion} />
             </Col>
@@ -801,20 +870,20 @@ function AWSLambdaContent({ agentKey, serverlessEndpoint }) {
           <Listing
             items={[
               <Fragment>
-                Add the Instana Lambda layer with the ARN
+                {t('in-waiting-for-deployment:content.addTheInstanaLambdaLayerWithTheArn')}
                 <Spacer />
                 <Script lines={[javaLayerArn]} />
                 (
                 <TextWithLink
-                  text="See"
-                  linkText="AWS docs"
+                  text={t('in-waiting-for-deployment:content.see')}
+                  linkText={t('in-waiting-for-deployment:content.awsDocs')}
                   href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-functions.html"
                 />
                 )<Spacer />
               </Fragment>,
               <Fragment>
                 <Spacer />
-                Set the following environment variables in your Lambda function:
+                {t('in-waiting-for-deployment:content.setTheFollowingEnvironmentVariablesInYourLambdaFunction')}
                 <Spacer />
                 <GridRow>
                   <Col xs={4}>
@@ -837,26 +906,28 @@ function AWSLambdaContent({ agentKey, serverlessEndpoint }) {
 
         <Spacer />
 
-        <HelpBox title="AWS Command Line Interface">
+        <HelpBox title={t('in-waiting-for-deployment:content.awsCommandLineInterface')}>
           <Description
             lines={[
-              'To use the AWS Command Line Interface, please provide the following values and use a command similar to the one below:'
+              t(
+                'in-waiting-for-deployment:content.toUseTheAwsCommandLineInterfacePleaseProvideTheFollowingValuesAndUseACommandSimilarToTheOneBelow'
+              )
             ]}
           />
           <GridRow>
             <Col xs={6}>
-              Select your AWS region:
+              {t('in-waiting-for-deployment:content.selectYourAwsRegion')}
               <Spacer />
               <DropDown value={awsRegion} options={awsRegionOptions} onChange={setAwsRegion} />
             </Col>
             <Col xs={6}>
-              Lambda Function Name:
+              {t('in-waiting-for-deployment:content.lambdaFunctionName')}
               <Spacer />
               <Input
                 id="lambda-function-name"
                 value={lambdaFunctionName}
                 onChange={setLambdaFunctionName}
-                placeholder="The name of your Lambda function"
+                placeholder={t('in-waiting-for-deployment:content.theNameOfYourLambdaFunction')}
               />
             </Col>
           </GridRow>
@@ -878,44 +949,48 @@ function AWSLambdaContent({ agentKey, serverlessEndpoint }) {
     // Node.js >= 10.x
     steps = (
       <Fragment>
-        <HelpBox title="Configuring Your AWS Lambda Function">
+        <HelpBox title={t('in-waiting-for-deployment:content.configuringYourAwsLambdaFunction')}>
           <Description
             lines={[
-              'The preferred way to configure AWS Lambda functions based on Node.js 10.x (or newer) for tracing is the Instana Lambda layer with AutoTrace.',
-              'There a number of ways to configure this:'
+              t(
+                'in-waiting-for-deployment:content.thePreferredWayToConfigureAwsLambdaFunctionsBasedOnNodeJs10XOrNewerForTracingIsTheInstanaLambdaLayerWithAutoTrace'
+              ),
+              t('in-waiting-for-deployment:content.thereANumberOfWaysToConfigureThis')
             ]}
           />
           <Listing
             items={[
-              'AWS Web Console',
-              'AWS Command Line Interface',
-              'AWS Serverless Application Model (AWS SAM)',
-              'Your preferred tool to manage AWS Lambda functions'
+              t('in-waiting-for-deployment:content.awsWebConsole'),
+              t('in-waiting-for-deployment:content.awsCommandLineInterface'),
+              t('in-waiting-for-deployment:content.awsServerlessApplicationModelAwsSam'),
+              t('in-waiting-for-deployment:content.yourPreferredToolToManageAwsLambdaFunctions')
             ]}
           />
         </HelpBox>
         <Spacer />
-        <HelpBox title="AWS Web Console">
+        <HelpBox title={t('in-waiting-for-deployment:content.awsWebConsole')}>
           <TextWithLink
-            text="A detailed guide (including screenshots) on how to configure your Lambda function for AutoTrace using the AWS Web Console can be found in our "
-            linkText="documentation for Lambda AutoTrace"
+            text={t(
+              'in-waiting-for-deployment:content.aDetailedGuideIncludingScreenshotsOnHowToConfigureYourLambdaFunctionForAutoTraceUsingTheAwsWebConsoleCanBeFoundInOur'
+            )}
+            linkText={t('in-waiting-for-deployment:content.documentationForLambdaAutoTrace')}
             href="https://instana.com/docs/ecosystem/aws-lambda/#autotrace-aws-lambdas"
           />
-          <Description lines={['In short, the steps are as follows']} />
+          <Description lines={[t('in-waiting-for-deployment:content.inShortTheStepsAreAsFollows')]} />
           <GridRow>
             <Col xs={6}>
-              Select your AWS region:
+              {t('in-waiting-for-deployment:content.selectYourAwsRegion')}
               <Spacer />
               <DropDown value={awsRegion} options={awsRegionOptions} onChange={setAwsRegion} />
             </Col>
             <Col xs={6}>
-              Current Lambda Handler:
+              {t('in-waiting-for-deployment:content.currentLambdaHandler')}
               <Spacer />
               <Input
                 id="lambda-handler"
                 value={lambdaHandler}
                 onChange={setHandler}
-                placeholder="Your Current Lambda Handler"
+                placeholder={t('in-waiting-for-deployment:content.yourCurrentLambdaHandler')}
               />
             </Col>
           </GridRow>
@@ -923,32 +998,32 @@ function AWSLambdaContent({ agentKey, serverlessEndpoint }) {
           <Listing
             items={[
               <Fragment>
-                Add the Instana Lambda layer with the ARN
+                {t('in-waiting-for-deployment:content.addTheInstanaLambdaLayerWithTheArn')}
                 <Spacer />
                 <Script lines={[nodejsLayerArn]} />
                 (
                 <TextWithLink
-                  text="See"
-                  linkText="AWS docs"
+                  text={t('in-waiting-for-deployment:content.see')}
+                  linkText={t('in-waiting-for-deployment:content.awsDocs')}
                   href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-functions.html"
                 />
                 )
               </Fragment>,
               <Fragment>
                 <Spacer />
-                Set Instana auto-wrap handler as the handler for your Lambda function.
+                {t('in-waiting-for-deployment:content.setInstanaAutoWrapHandlerAsTheHandlerForYourLambdaFunction')}
                 <Spacer />
                 <Script lines={['instana-aws-lambda-auto-wrap.handler']} />(
                 <TextWithLink
-                  text="See"
-                  linkText="AWS docs"
+                  text={t('in-waiting-for-deployment:content.see')}
+                  linkText={t('in-waiting-for-deployment:content.awsDocs')}
                   href="https://docs.aws.amazon.com/lambda/latest/dg/env_variables.html"
                 />
                 )
               </Fragment>,
               <Fragment>
                 <Spacer />
-                Set the following environment variables in your Lambda function:
+                {t('in-waiting-for-deployment:content.setTheFollowingEnvironmentVariablesInYourLambdaFunction')}
                 <Spacer />
                 <GridRow>
                   <Col xs={4}>
@@ -971,36 +1046,38 @@ function AWSLambdaContent({ agentKey, serverlessEndpoint }) {
 
         <Spacer />
 
-        <HelpBox title="AWS Command Line Interface">
+        <HelpBox title={t('in-waiting-for-deployment:content.awsCommandLineInterface')}>
           <Description
             lines={[
-              'To use the AWS Command Line Interface, please provide the following values and use a command similar to the one below:'
+              t(
+                'in-waiting-for-deployment:content.toUseTheAwsCommandLineInterfacePleaseProvideTheFollowingValuesAndUseACommandSimilarToTheOneBelow'
+              )
             ]}
           />
           <GridRow>
             <Col xs={3}>
-              Select your AWS region:
+              {t('in-waiting-for-deployment:content.selectYourAwsRegion')}
               <Spacer />
               <DropDown value={awsRegion} options={awsRegionOptions} onChange={setAwsRegion} />
             </Col>
             <Col xs={3}>
-              Lambda Function Name:
+              {t('in-waiting-for-deployment:content.lambdaFunctionName')}
               <Spacer />
               <Input
                 id="lambda-function-name"
                 value={lambdaFunctionName}
                 onChange={setLambdaFunctionName}
-                placeholder="The name of your Lambda function"
+                placeholder={t('in-waiting-for-deployment:content.theNameOfYourLambdaFunction')}
               />
             </Col>
             <Col xs={3}>
-              Current Lambda Handler (optional):
+              {t('in-waiting-for-deployment:content.currentLambdaHandlerOptional')}
               <Spacer />
               <Input
                 id="current-lambda-function-handler"
                 value={lambdaHandler}
                 onChange={setHandler}
-                placeholder="Your Current Lambda Handler"
+                placeholder={t('in-waiting-for-deployment:content.yourCurrentLambdaHandler')}
               />
             </Col>
           </GridRow>
@@ -1024,8 +1101,10 @@ function AWSLambdaContent({ agentKey, serverlessEndpoint }) {
     // Node.js 8.x
     steps = (
       <TextWithLink
-        text="The preferred way to configure AWS Lambda functions based on Node.js 8.x is to use the "
-        linkText="Instana Lambda layer with manual wrapping."
+        text={t(
+          'in-waiting-for-deployment:content.thePreferredWayToConfigureAwsLambdaFunctionsBasedOnNodeJs8XIsToUseThe'
+        )}
+        linkText={t('in-waiting-for-deployment:content.instanaLambdaLayerWithManualWrapping')}
         href="https://instana.com/docs/ecosystem/aws-lambda#manual-wrapping"
       />
     );
@@ -1033,46 +1112,50 @@ function AWSLambdaContent({ agentKey, serverlessEndpoint }) {
     // Python
     steps = (
       <Fragment>
-        <HelpBox title="Configuring Your AWS Lambda Function">
+        <HelpBox title={t('in-waiting-for-deployment:content.configuringYourAwsLambdaFunction')}>
           <Description
             lines={[
-              'The preferred way to configure AWS Lambda functions based on Python for tracing is the Instana Lambda layer with AutoTrace.',
-              'There a number of ways to configure this:'
+              t(
+                'in-waiting-for-deployment:content.thePreferredWayToConfigureAwsLambdaFunctionsBasedOnPythonForTracingIsTheInstanaLambdaLayerWithAutoTrace'
+              ),
+              t('in-waiting-for-deployment:content.thereANumberOfWaysToConfigureThis')
             ]}
           />
           <Listing
             items={[
-              'AWS Web Console',
-              'AWS Command Line Interface',
-              'AWS Serverless Application Model (AWS SAM)',
-              'Your preferred tool to manage AWS Lambda functions'
+              t('in-waiting-for-deployment:content.awsWebConsole'),
+              t('in-waiting-for-deployment:content.awsCommandLineInterface'),
+              t('in-waiting-for-deployment:content.awsServerlessApplicationModelAwsSam'),
+              t('in-waiting-for-deployment:content.yourPreferredToolToManageAwsLambdaFunctions')
             ]}
           />
         </HelpBox>
 
         <Spacer />
 
-        <HelpBox title="AWS Web Console">
+        <HelpBox title={t('in-waiting-for-deployment:content.awsWebConsole')}>
           <TextWithLink
-            text="A detailed guide (including screenshots) on how to configure your Lambda function for AutoTrace using the AWS Web Console can be found in our "
-            linkText="documentation for Lambda AutoTrace"
+            text={t(
+              'in-waiting-for-deployment:content.aDetailedGuideIncludingScreenshotsOnHowToConfigureYourLambdaFunctionForAutoTraceUsingTheAwsWebConsoleCanBeFoundInOur'
+            )}
+            linkText={t('in-waiting-for-deployment:content.documentationForLambdaAutoTrace')}
             href="https://instana.com/docs/ecosystem/aws-lambda#instana-autotrace"
           />
-          <Description lines={['In short, the steps are as follows']} />
+          <Description lines={[t('in-waiting-for-deployment:content.inShortTheStepsAreAsFollows')]} />
           <GridRow>
             <Col xs={6}>
-              Select your AWS region:&nbsp;
+              {t('in-waiting-for-deployment:content.selectYourAwsRegion')}&nbsp;
               <Spacer />
               <DropDown value={awsRegion} options={awsRegionOptions} onChange={setAwsRegion} />
             </Col>
             <Col xs={6}>
-              Current Lambda Handler:&nbsp;
+              {t('in-waiting-for-deployment:content.currentLambdaHandler')}&nbsp;
               <Spacer />
               <Input
                 id="lambda-handler"
                 value={lambdaHandler}
                 onChange={setHandler}
-                placeholder="Your Current Lambda Handler"
+                placeholder={t('in-waiting-for-deployment:content.yourCurrentLambdaHandler')}
               />
             </Col>
           </GridRow>
@@ -1080,32 +1163,32 @@ function AWSLambdaContent({ agentKey, serverlessEndpoint }) {
           <Listing
             items={[
               <Fragment>
-                Add the Instana Lambda layer with the ARN
+                {t('in-waiting-for-deployment:content.addTheInstanaLambdaLayerWithTheArn')}
                 <Spacer />
                 <Script lines={[pythonLayerArn]} />
                 (
                 <TextWithLink
-                  text="See"
-                  linkText="AWS docs"
+                  text={t('in-waiting-for-deployment:content.see')}
+                  linkText={t('in-waiting-for-deployment:content.awsDocs')}
                   href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-functions.html"
                 />
                 )
               </Fragment>,
               <Fragment>
                 <Spacer />
-                Set Instana auto-wrap handler as the handler for your Lambda function.
+                {t('in-waiting-for-deployment:content.setInstanaAutoWrapHandlerAsTheHandlerForYourLambdaFunction')}
                 <Spacer />
                 <Script lines={['instana.lambda_handler']} />(
                 <TextWithLink
-                  text="See"
-                  linkText="AWS docs"
+                  text={t('in-waiting-for-deployment:content.see')}
+                  linkText={t('in-waiting-for-deployment:content.awsDocs')}
                   href="https://docs.aws.amazon.com/lambda/latest/dg/env_variables.html"
                 />
                 )
               </Fragment>,
               <Fragment>
                 <Spacer />
-                Set the following environment variables in your Lambda function:
+                {t('in-waiting-for-deployment:content.setTheFollowingEnvironmentVariablesInYourLambdaFunction')}
                 <Spacer />
                 <GridRow>
                   <Col xs={4}>
@@ -1128,33 +1211,35 @@ function AWSLambdaContent({ agentKey, serverlessEndpoint }) {
 
         <Spacer />
 
-        <HelpBox title="AWS Command Line Interface">
+        <HelpBox title={t('in-waiting-for-deployment:content.awsCommandLineInterface')}>
           <Description
             lines={[
-              'To use the AWS Command Line Interface, please provide the following values and use a command similar to the one below:'
+              t(
+                'in-waiting-for-deployment:content.toUseTheAwsCommandLineInterfacePleaseProvideTheFollowingValuesAndUseACommandSimilarToTheOneBelow'
+              )
             ]}
           />
           <GridRow>
             <Col xs={3}>
-              Select your AWS region:
+              {t('in-waiting-for-deployment:content.selectYourAwsRegion')}
               <DropDown value={awsRegion} options={awsRegionOptions} onChange={setAwsRegion} />
             </Col>
             <Col xs={3}>
-              Lambda Function Name:
+              {t('in-waiting-for-deployment:content.lambdaFunctionName')}
               <Input
                 id="lambda-function-name"
                 value={lambdaFunctionName}
                 onChange={setLambdaFunctionName}
-                placeholder="The name of your Lambda function"
+                placeholder={t('in-waiting-for-deployment:content.theNameOfYourLambdaFunction')}
               />
             </Col>
             <Col xs={3}>
-              Current Lambda Handler (optional):
+              {t('in-waiting-for-deployment:content.currentLambdaHandlerOptional')}
               <Input
                 id="current-lambda-function-handler"
                 value={lambdaHandler}
                 onChange={setHandler}
-                placeholder="Your Current Lambda Handler"
+                placeholder={t('in-waiting-for-deployment:content.yourCurrentLambdaHandler')}
               />
             </Col>
           </GridRow>
@@ -1179,20 +1264,24 @@ function AWSLambdaContent({ agentKey, serverlessEndpoint }) {
   return (
     <>
       <Row>
-        Select your Lambda runtime:
+        {t('in-waiting-for-deployment:content.selectYourLambdaRuntime')}
         <DropDown value={selectedRuntime} options={runtimeOptions} onChange={setRuntime} />
       </Row>
 
       <TextWithLink
-        text="Make sure you have an Instana AWS Sensor running in your AWS region. For details on setting up the Instana AWS Sensor, refer to the "
-        linkText="AWS Service documentation."
+        text={t(
+          'in-waiting-for-deployment:content.makeSureYouHaveAnInstanaAwsSensorRunningInYourAwsRegionForDetailsOnSettingUpTheInstanaAwsSensorReferToThe'
+        )}
+        linkText={t('in-waiting-for-deployment:content.awsServiceDocumentation')}
         href="https://instana.com/docs/ecosystem/aws"
       />
       <Spacer />
 
       <TextWithLink
-        text="Next, configure your AWS Lambda functions for native tracing as described in the steps below. Other options to set up native Lambda tracing and more details about this feature are available in the"
-        linkText="documentation."
+        text={t(
+          'in-waiting-for-deployment:content.nextConfigureYourAwsLambdaFunctionsForNativeTracingAsDescribedInTheStepsBelowOtherOptionsToSetUpNativeLambdaTracingAndMoreDetailsAboutThisFeatureAreAvailableInThe'
+        )}
+        linkText={t('in-waiting-for-deployment:content.documentation')}
         href="https://instana.com/docs/ecosystem/aws-lambda"
       />
       <Spacer />
@@ -1219,7 +1308,10 @@ function AWSLambdaContent({ agentKey, serverlessEndpoint }) {
 }
 
 function ElasticComputingWindowsContent({ agentKey, agentEndpoint, agentEndpointPort, tenant, tenantUnit }) {
-  const agentModeOptions = ['Dynamic agent', 'Static agent'];
+  const agentModeOptions = [
+    t('in-waiting-for-deployment:content.dynamicAgent'),
+    t('in-waiting-for-deployment:content.staticAgent')
+  ];
   const [agentMode, setMode] = useState(agentModeOptions[0]);
 
   return (
@@ -1228,7 +1320,7 @@ function ElasticComputingWindowsContent({ agentKey, agentEndpoint, agentEndpoint
         <DropDown value={agentMode} options={agentModeOptions} onChange={setMode} />
       </Row>
       <Spacer />
-      <Description lines={['Use the following script as "User Data" for the EC2 instance:']} />
+      <Description lines={[t('in-waiting-for-deployment:content.useTheFollowingScriptAsUserDataForTheEc2Instance')]} />
       <PowershellEC2
         lines={[
           `Invoke-WebRequest -OutFile "$env:TEMP\\AgentBootstrap.exe" -Uri "https://instana.io/assets/agent/${tenant}/${tenantUnit}?agentKey=${agentKey}&type=exe64"`,
@@ -1237,14 +1329,18 @@ function ElasticComputingWindowsContent({ agentKey, agentEndpoint, agentEndpoint
       />
       <Description
         lines={[
-          'The "User Data" script above will download the host agent, install it on the virtual machine as a Windows Service and then automatically start it.'
+          t(
+            'in-waiting-for-deployment:content.theUserDataScriptAboveWillDownloadTheHostAgentInstallItOnTheVirtualMachineAsAWindowsServiceAndThenAutomaticallyStartIt'
+          )
         ]}
       />
       <Spacer />
-      <HelpBox title="User Data in AWS EC2">
+      <HelpBox title={t('in-waiting-for-deployment:content.userDataInAwsEc2')}>
         <TextWithLink
-          text="For more information on how to use the script above with User Data in AWS EC2, refer to the "
-          linkText='"Running commands on your Windows instance at launch" page.'
+          text={t(
+            'in-waiting-for-deployment:content.forMoreInformationOnHowToUseTheScriptAboveWithUserDataInAwsEc2ReferToThe'
+          )}
+          linkText={t('in-waiting-for-deployment:content.runningCommandsOnYourWindowsInstanceAtLaunchPage')}
           href="https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/ec2-windows-user-data.html#user-data-scripts"
         />
       </HelpBox>
@@ -1255,17 +1351,19 @@ function ElasticComputingWindowsContent({ agentKey, agentEndpoint, agentEndpoint
 function ElasticComputingLinuxContent({ agentKey, agentEndpoint, agentEndpointPort }) {
   return (
     <>
-      <Description lines={['Use the following script as "User Data" for the EC2 instance:']} />
+      <Description lines={[t('in-waiting-for-deployment:content.useTheFollowingScriptAsUserDataForTheEc2Instance')]} />
       <Bash
         lines={[
           `curl -o setup_agent.sh https://setup.instana.io/agent && chmod 700 ./setup_agent.sh && sudo ./setup_agent.sh -a ${agentKey} -t dynamic -e ${agentEndpoint}:${agentEndpointPort} -s -y`
         ]}
       />
       <Spacer />
-      <HelpBox title="User Data in AWS EC2">
+      <HelpBox title={t('in-waiting-for-deployment:content.userDataInAwsEc2')}>
         <TextWithLink
-          text="For more information on how to use the script above with User Data in AWS EC2, refer to the "
-          linkText='"Running Commands on Your Linux Instance at Launch" page.'
+          text={t(
+            'in-waiting-for-deployment:content.forMoreInformationOnHowToUseTheScriptAboveWithUserDataInAwsEc2ReferToThe'
+          )}
+          linkText={t('in-waiting-for-deployment:content.runningCommandsOnYourLinuxInstanceAtLaunchPage')}
           href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html"
         />
       </HelpBox>
@@ -1299,7 +1397,12 @@ function DockerContent({ agentKey, agentEndpoint, agentEndpointPort }) {
 
   return (
     <>
-      <Input id="zone-name" value={zoneName} onChange={onZoneNameChange} placeholder="Agent zone (Optional)" />
+      <Input
+        id="zone-name"
+        value={zoneName}
+        onChange={onZoneNameChange}
+        placeholder={t('in-waiting-for-deployment:content.agentZoneOptional')}
+      />
       <Bash lines={lines} />
     </>
   );
@@ -1321,7 +1424,7 @@ function OneLinerContent({ agentKey, agentEndpoint, agentEndpointPort }) {
         <DropDown value={installMode} options={installModeOptions} onChange={setInstallMode} />
       </Row>
       <CheckBox
-        label="Install and start as service (only supported for SystemD-based systems)"
+        label={t('in-waiting-for-deployment:content.installAndStartAsServiceOnlySupportedForSystemDBasedSystems')}
         checked={isService}
         setChecked={setIsService}
       />
@@ -1335,15 +1438,15 @@ function OneLinerContent({ agentKey, agentEndpoint, agentEndpointPort }) {
         ]}
       />
       <Spacer />
-      <HelpBox title="Supported Operating Systems">
+      <HelpBox title={t('in-waiting-for-deployment:content.supportedOperatingSystems')}>
         <Listing
           items={[
-            'Ubuntu Linux (14.04 / 16.04 / 18.04 / 20.04)',
-            'CentOS (6 / 7 / 8)',
-            'Debian (9 / 10)',
-            'Suse Linux Enterprise Server (SLES) (12)',
-            'Redhat Enterprise Linux (RHEL) (6 / 7 / 8)',
-            'Amazon Linux (1 / 2)'
+            t('in-waiting-for-deployment:content.ubuntuLinux1404160418042004'),
+            t('in-waiting-for-deployment:content.centOs678'),
+            t('in-waiting-for-deployment:content.debian910'),
+            t('in-waiting-for-deployment:content.suseLinuxEnterpriseServerSles12'),
+            t('in-waiting-for-deployment:content.redhatEnterpriseLinuxRhel678'),
+            t('in-waiting-for-deployment:content.amazonLinux12')
           ]}
         />
       </HelpBox>
@@ -1354,17 +1457,21 @@ function OneLinerContent({ agentKey, agentEndpoint, agentEndpointPort }) {
 function GoogleComputeEngineContent({ agentKey, agentEndpoint, agentEndpointPort }) {
   return (
     <>
-      <Description lines={['Use the following script as "Startup Script" for the GCE instance:']} />
+      <Description
+        lines={[t('in-waiting-for-deployment:content.useTheFollowingScriptAsStartupScriptForTheGceInstance')]}
+      />
       <Bash
         lines={[
           `curl -o setup_agent.sh https://setup.instana.io/agent && chmod 700 ./setup_agent.sh && sudo apt-get install apt-transport-https ca-certificates && sudo ./setup_agent.sh -a ${agentKey} -t dynamic -e ${agentEndpoint}:${agentEndpointPort} -s -y`
         ]}
       />
       <Spacer />
-      <HelpBox title="Startup Scripts in Google Compute Engine">
+      <HelpBox title={t('in-waiting-for-deployment:content.startupScriptsInGoogleComputeEngine')}>
         <TextWithLink
-          text="For more information on how to use the script above as a startup script in GCE, refer to the "
-          linkText='"Running startup scripts" page.'
+          text={t(
+            'in-waiting-for-deployment:content.forMoreInformationOnHowToUseTheScriptAboveAsAStartupScriptInGceReferToThe'
+          )}
+          linkText={t('in-waiting-for-deployment:content.runningStartupScriptsPage')}
           href="https://cloud.google.com/compute/docs/startupscript"
         />
       </HelpBox>
@@ -1376,36 +1483,40 @@ function K8sGoogleKubernetesEngineContent({ agentKey, agentEndpoint, agentEndpoi
   return (
     <>
       <TextWithLink
-        text="Installing the Instana agent on Google Kubernetes Engine is integrated in the"
+        text={t('in-waiting-for-deployment:content.installingTheInstanaAgentOnGoogleKubernetesEngineIsIntegratedInThe')}
         href="https://console.cloud.google.com/marketplace/details/instana-public/instana?q=instana"
-        linkText="Google Cloud Marketplace."
+        linkText={t('in-waiting-for-deployment:content.googleCloudMarketplace')}
       />
       <Spacer />
       <Description
         lines={[
-          'Click on "Configure" and select the Organization or Project containing the Kubernetes Cluster you want to deploy Instana to. The following configurations have to be applied during the "Configure" step in the Google Cloud Platform console.'
+          t(
+            'in-waiting-for-deployment:content.clickOnConfigureAndSelectTheOrganizationOrProjectContainingTheKubernetesClusterYouWantToDeployInstanaToTheFollowingConfigurationsHaveToBeAppliedDuringTheConfigureStepInTheGoogleCloudPlatformConsole'
+          )
         ]}
       />
       <Spacer />
       <GridRow>
         <Col xs={4}>
-          <Description lines={['Instana Service Endpoint']} />
+          <Description lines={[t('in-waiting-for-deployment:content.instanaServiceEndpoint')]} />
           <Script lines={[agentEndpoint]} />
         </Col>
         <Col xs={4}>
-          <Description lines={['Instana Service port']} />
+          <Description lines={[t('in-waiting-for-deployment:content.instanaServicePort')]} />
           <Script lines={[agentEndpointPort]} />
         </Col>
         <Col xs={4}>
-          <Description lines={['Instana Application Key']} />
+          <Description lines={[t('in-waiting-for-deployment:content.instanaApplicationKey')]} />
           <Script lines={[agentKey]} />
         </Col>
       </GridRow>
       <Spacer />
-      <HelpBox title="Name your GKE cluster">
+      <HelpBox title={t('in-waiting-for-deployment:content.nameYourGkeCluster')}>
         <Description
           lines={[
-            'You likely want to provide a descriptive name for your cluster, like "prod-eu" or "dev", rather than the default "kubernetes-cluster" via the "Instana Zone" setting in the "Configure" step.'
+            t(
+              'in-waiting-for-deployment:content.youLikelyWantToProvideADescriptiveNameForYourClusterLikeProdEuOrDevRatherThanTheDefaultKubernetesClusterViaTheInstanaZoneSettingInTheConfigureStep'
+            )
           ]}
         />
       </HelpBox>
@@ -1430,14 +1541,18 @@ function GoogleCloudRunContent({ agentKey, serverlessEndpoint }) {
       <Fragment>
         <Spacer />
         <TextWithLink
-          text="The Instana Google Buildpack is a Cloud Native Buildpack designed to work with the Google Cloud Run Buildpack Builder. For more information on the Google Cloud Run Buildpack Builder, refer to the "
-          linkText="Google Cloud Run Buildpack Builder documentation."
+          text={t(
+            'in-waiting-for-deployment:content.theInstanaGoogleBuildpackIsACloudNativeBuildpackDesignedToWorkWithTheGoogleCloudRunBuildpackBuilderForMoreInformationOnTheGoogleCloudRunBuildpackBuilderReferToThe'
+          )}
+          linkText={t('in-waiting-for-deployment:content.googleCloudRunBuildpackBuilderDocumentation')}
           href="https://github.com/GoogleCloudPlatform/buildpacks"
         />
         <Spacer />
         <Description
           lines={[
-            'The Instana Google Buildpack adds the Instana in-process collectors for Cloud Run to the Docker images of your .NET Core, Node.js and Java applications:'
+            t(
+              'in-waiting-for-deployment:content.theInstanaGoogleBuildpackAddsTheInstanaInProcessCollectorsForCloudRunToTheDockerImagesOfYourNetCoreNodeJsAndJavaApplications'
+            )
           ]}
         />
         <Spacer />
@@ -1449,13 +1564,17 @@ function GoogleCloudRunContent({ agentKey, serverlessEndpoint }) {
         />
         <Spacer />
         <TextWithLink
-          text="The pack utility is provided by the "
-          linkText="Cloud Native Buildpacks project."
+          text={t('in-waiting-for-deployment:content.thePackUtilityIsProvidedByThe')}
+          linkText={t('in-waiting-for-deployment:content.cloudNativeBuildpacksProject')}
           href="https://buildpacks.io/docs/tools/pack/"
         />
         <Spacer />
 
-        <Description lines={['Set the following environment variables in the Cloud Run Service Revision:']} />
+        <Description
+          lines={[
+            t('in-waiting-for-deployment:content.setTheFollowingEnvironmentVariablesInTheCloudRunServiceRevision')
+          ]}
+        />
         <GridRow>
           <Col xs={6}>
             <Description lines={['INSTANA_ENDPOINT_URL']} />
@@ -1472,7 +1591,7 @@ function GoogleCloudRunContent({ agentKey, serverlessEndpoint }) {
     steps = (
       <Fragment>
         <Spacer />
-        <Description lines={['Linux base image:']} />
+        <Description lines={[t('in-waiting-for-deployment:content.linuxBaseImage')]} />
         <DropDown value={baseImageName} options={baseImageOptions} onChange={setBaseImageName} />
         <Spacer />
         <Bash
@@ -1483,15 +1602,26 @@ function GoogleCloudRunContent({ agentKey, serverlessEndpoint }) {
           ]}
         />
         <Spacer />
-        <Description lines={['Set the following environment variables on the Cloud Run Service Definition:']} />
-        <Spacer />
         <Description
           lines={[
-            'Your application directory in the container (you usually set this as the WORKDIR directory in the Dockerfile):'
+            t('in-waiting-for-deployment:content.setTheFollowingEnvironmentVariablesOnTheCloudRunServiceDefinition')
           ]}
         />
         <Spacer />
-        <Input id="app-dir" value={appDirName} onChange={setAppDirName} placeholder="Application directory" />
+        <Description
+          lines={[
+            t(
+              'in-waiting-for-deployment:content.yourApplicationDirectoryInTheContainerYouUsuallySetThisAsTheWorkdirDirectoryInTheDockerfile'
+            )
+          ]}
+        />
+        <Spacer />
+        <Input
+          id="app-dir"
+          value={appDirName}
+          onChange={setAppDirName}
+          placeholder={t('in-waiting-for-deployment:content.applicationDirectory')}
+        />
         <GridRow>
           <Col xs={4}>
             <Description lines={['INSTANA_ENDPOINT_URL']} />
@@ -1526,12 +1656,18 @@ function GoogleCloudRunContent({ agentKey, serverlessEndpoint }) {
         <Spacer />
 
         <TextWithLink
-          text="The support for Go on Google Cloud Run (fully managed) works the same way as with any Go application. Follow the instructions of the "
-          linkText="Go documentation."
+          text={t(
+            'in-waiting-for-deployment:content.theSupportForGoOnGoogleCloudRunFullyManagedWorksTheSameWayAsWithAnyGoApplicationFollowTheInstructionsOfThe'
+          )}
+          linkText={t('in-waiting-for-deployment:content.goDocumentation')}
           href="https://instana.com/docs/ecosystem/go"
         />
         <Spacer />
-        <Description lines={['Set the following environment variables in the Cloud Run Service Revision:']} />
+        <Description
+          lines={[
+            t('in-waiting-for-deployment:content.setTheFollowingEnvironmentVariablesInTheCloudRunServiceRevision')
+          ]}
+        />
         <GridRow>
           <Col xs={6}>
             <Description lines={['INSTANA_ENDPOINT_URL']} />
@@ -1550,7 +1686,11 @@ function GoogleCloudRunContent({ agentKey, serverlessEndpoint }) {
         <Spacer />
 
         <Description
-          lines={['Add the following lines to your Docker file before the ENTRYPOINT or the last CMD command:']}
+          lines={[
+            t(
+              'in-waiting-for-deployment:content.addTheFollowingLinesToYourDockerFileBeforeTheEntrypointOrTheLastCmdCommand'
+            )
+          ]}
         />
         <Dockerfile
           lines={[
@@ -1566,13 +1706,21 @@ function GoogleCloudRunContent({ agentKey, serverlessEndpoint }) {
         <Spacer />
 
         <Description
-          lines={['The Docker build process needs to log into containers.instana.io using the following credentials:']}
+          lines={[
+            t(
+              'in-waiting-for-deployment:content.theDockerBuildProcessNeedsToLogIntoContainersInstanaIoUsingTheFollowingCredentials'
+            )
+          ]}
         />
         <Bash lines={[`docker login containers.instana.io --username _ --password ${agentKey}`]} />
 
         <Spacer />
 
-        <Description lines={['Set the following environment variables in the Cloud Run Service Revision:']} />
+        <Description
+          lines={[
+            t('in-waiting-for-deployment:content.setTheFollowingEnvironmentVariablesInTheCloudRunServiceRevision')
+          ]}
+        />
         <GridRow>
           <Col xs={6}>
             <Description lines={['INSTANA_ENDPOINT_URL']} />
@@ -1591,7 +1739,11 @@ function GoogleCloudRunContent({ agentKey, serverlessEndpoint }) {
         <Spacer />
 
         <Description
-          lines={['Add the following lines to your Docker file before the ENTRYPOINT or the last CMD command:']}
+          lines={[
+            t(
+              'in-waiting-for-deployment:content.addTheFollowingLinesToYourDockerFileBeforeTheEntrypointOrTheLastCmdCommand'
+            )
+          ]}
         />
         <Dockerfile
           lines={[
@@ -1607,7 +1759,11 @@ function GoogleCloudRunContent({ agentKey, serverlessEndpoint }) {
 
         <Spacer />
 
-        <Description lines={['Set the following environment variables in the Cloud Run Service Revision:']} />
+        <Description
+          lines={[
+            t('in-waiting-for-deployment:content.setTheFollowingEnvironmentVariablesInTheCloudRunServiceRevision')
+          ]}
+        />
         <GridRow>
           <Col xs={6}>
             <Description lines={['INSTANA_ENDPOINT_URL']} />
@@ -1628,7 +1784,7 @@ function GoogleCloudRunContent({ agentKey, serverlessEndpoint }) {
     runtimeSelection = (
       <Fragment>
         <Row>
-          Select your application runtime:
+          {t('in-waiting-for-deployment:content.selectYourApplicationRuntime')}
           <DropDown value={selectedRuntime} options={runtimeOptions} onChange={setRuntime} />
         </Row>
       </Fragment>
@@ -1642,15 +1798,19 @@ function GoogleCloudRunContent({ agentKey, serverlessEndpoint }) {
       <HelpBox>
         <Description
           lines={[
-            'Support for Google Cloud Run is designed to work with the fully managed Google Cloud Run platform. Cloud Run on Anthos/GKE is currently not supported.'
+            t(
+              'in-waiting-for-deployment:content.supportForGoogleCloudRunIsDesignedToWorkWithTheFullyManagedGoogleCloudRunPlatformCloudRunOnAnthosGkeIsCurrentlyNotSupported'
+            )
           ]}
         />
       </HelpBox>
 
       <HelpBox>
         <TextWithLink
-          text="Make sure you have an Instana agent set up to monitor your GCP project. For details on setting up the Instana agent for GCP, refer to the "
-          linkText="Instana GCP support documentation."
+          text={t(
+            'in-waiting-for-deployment:content.makeSureYouHaveAnInstanaAgentSetUpToMonitorYourGcpProjectForDetailsOnSettingUpTheInstanaAgentForGcpReferToThe'
+          )}
+          linkText={t('in-waiting-for-deployment:content.instanaGcpSupportDocumentation')}
           href="https://instana.com/docs/ecosystem/gcp"
         />
       </HelpBox>
@@ -1658,7 +1818,7 @@ function GoogleCloudRunContent({ agentKey, serverlessEndpoint }) {
       <Spacer />
 
       <Row>
-        Select the installation method:
+        {t('in-waiting-for-deployment:content.selectTheInstallationMethod')}
         <DropDown value={selectedInstallationMethod} options={installationMethods} onChange={setInstallationMethod} />
       </Row>
 
@@ -1669,8 +1829,10 @@ function GoogleCloudRunContent({ agentKey, serverlessEndpoint }) {
       <Spacer />
 
       <TextWithLink
-        text="Integrate the Instana in-process collector for Google Cloud Run as described below. More details are available in the"
-        linkText="documentation for Google Cloud Run."
+        text={t(
+          'in-waiting-for-deployment:content.integrateTheInstanaInProcessCollectorForGoogleCloudRunAsDescribedBelowMoreDetailsAreAvailableInThe'
+        )}
+        linkText={t('in-waiting-for-deployment:content.documentationForGoogleCloudRun')}
         href="https://instana.com/docs/ecosystem/google-cloud-run"
       />
       <Spacer />
@@ -1696,7 +1858,12 @@ function K8sHelmChartContent({ agentKey, agentEndpoint, agentEndpointPort }) {
         <>
           <Row>
             {clusterNameInput}
-            <Input id="zone-name" value={zoneName} onChange={onZoneNameChange} placeholder="Agent zone (Optional)" />
+            <Input
+              id="zone-name"
+              value={zoneName}
+              onChange={onZoneNameChange}
+              placeholder={t('in-waiting-for-deployment:content.agentZoneOptional')}
+            />
           </Row>
           <Bash
             disabledErrorMessage={clusterNameValidationMessage}
@@ -1716,9 +1883,9 @@ function K8sHelmChartContent({ agentKey, agentEndpoint, agentEndpointPort }) {
           <Spacer />
           <HelpBox>
             <TextWithLink
-              text="Helm version 3 is required. For more information visit the"
+              text={t('in-waiting-for-deployment:content.helmVersion3IsRequiredForMoreInformationVisitThe')}
               href="https://instana.com/docs/ecosystem/kubernetes/"
-              linkText="Instana Kubernetes documentation."
+              linkText={t('in-waiting-for-deployment:content.instanaKubernetesDocumentation')}
             />
           </HelpBox>
         </>
@@ -1735,7 +1902,7 @@ function K8sDaemonSetContent({ agentKey, agentEndpoint, agentEndpointPort }) {
       fields={[
         {
           name: 'clusterName',
-          placeholder: "Cluster name, e.g., 'prod'",
+          placeholder: t('in-waiting-for-deployment:content.clusterNameEGProd'),
           validate: clusterNameValidator
         }
       ]}
@@ -1743,10 +1910,15 @@ function K8sDaemonSetContent({ agentKey, agentEndpoint, agentEndpointPort }) {
         <>
           <Row>
             {clusterNameInput}
-            <Input id="zone-name" value={zoneName} onChange={onZoneNameChange} placeholder="Agent zone (Optional)" />
+            <Input
+              id="zone-name"
+              value={zoneName}
+              onChange={onZoneNameChange}
+              placeholder={t('in-waiting-for-deployment:content.agentZoneOptional')}
+            />
           </Row>
           <YAMLFile
-            title="instana-agent"
+            title={t('in-waiting-for-deployment:content.instanaAgent')}
             disabledErrorMessage={clusterNameValidationMessage}
             content={getKubernetesYamlConfig(
               agentKey,
@@ -1759,9 +1931,9 @@ function K8sDaemonSetContent({ agentKey, agentEndpoint, agentEndpointPort }) {
           />
           <HelpBox>
             <TextWithLink
-              text="For more information visit the"
+              text={t('in-waiting-for-deployment:content.forMoreInformationVisitThe')}
               href="https://instana.com/docs/ecosystem/kubernetes/"
-              linkText="Instana Kubernetes documentation."
+              linkText={t('in-waiting-for-deployment:content.instanaKubernetesDocumentation')}
             />
           </HelpBox>
         </>
@@ -1778,7 +1950,7 @@ function OpenShiftDaemonSetContent({ agentKey, agentEndpoint, agentEndpointPort 
       fields={[
         {
           name: 'clusterName',
-          placeholder: "Cluster name, e.g., 'prod'",
+          placeholder: t('in-waiting-for-deployment:content.clusterNameEGProd'),
           validate: clusterNameValidator
         }
       ]}
@@ -1786,7 +1958,12 @@ function OpenShiftDaemonSetContent({ agentKey, agentEndpoint, agentEndpointPort 
         <>
           <Row>
             {clusterNameInput}
-            <Input id="zone-name" value={zoneName} onChange={onZoneNameChange} placeholder="Agent zone (Optional)" />
+            <Input
+              id="zone-name"
+              value={zoneName}
+              onChange={onZoneNameChange}
+              placeholder={t('in-waiting-for-deployment:content.agentZoneOptional')}
+            />
           </Row>
           <YAMLFile
             title="instana-agent.yaml"
@@ -1802,9 +1979,9 @@ function OpenShiftDaemonSetContent({ agentKey, agentEndpoint, agentEndpointPort 
           />
           <HelpBox>
             <TextWithLink
-              text="For more information visit the"
+              text={t('in-waiting-for-deployment:content.forMoreInformationVisitThe')}
               href="https://instana.com/docs/ecosystem/openshift/"
-              linkText="Instana OpenShift documentation."
+              linkText={t('in-waiting-for-deployment:content.instanaOpenShiftDocumentation')}
             />
           </HelpBox>
         </>
@@ -1821,7 +1998,7 @@ function OpenShiftHelmContent({ agentKey, agentEndpoint, agentEndpointPort }) {
       fields={[
         {
           name: 'clusterName',
-          placeholder: "Cluster name, e.g., 'prod'",
+          placeholder: t('in-waiting-for-deployment:content.clusterNameEGProd'),
           validate: clusterNameValidator
         }
       ]}
@@ -1829,7 +2006,12 @@ function OpenShiftHelmContent({ agentKey, agentEndpoint, agentEndpointPort }) {
         <>
           <Row>
             {clusterNameInput}
-            <Input id="zone-name" value={zoneName} onChange={onZoneNameChange} placeholder="Agent zone (Optional)" />
+            <Input
+              id="zone-name"
+              value={zoneName}
+              onChange={onZoneNameChange}
+              placeholder={t('in-waiting-for-deployment:content.agentZoneOptional')}
+            />
           </Row>
           <Bash
             disabledErrorMessage={clusterNameValidationMessage}
@@ -1850,9 +2032,9 @@ function OpenShiftHelmContent({ agentKey, agentEndpoint, agentEndpointPort }) {
           <Spacer />
           <HelpBox>
             <TextWithLink
-              text="Helm version 3 is required. For more information visit the"
+              text={t('in-waiting-for-deployment:content.helmVersion3IsRequiredForMoreInformationVisitThe')}
               href="https://instana.com/docs/ecosystem/openshift/"
-              linkText="Instana OpenShift documentation."
+              linkText={t('in-waiting-for-deployment:content.instanaOpenShiftDocumentation')}
             />
           </HelpBox>
         </>
@@ -1865,37 +2047,39 @@ function K8sOperatorContent({ agentKey, agentEndpoint, agentEndpointPort }) {
   return (
     <>
       <TextWithLink
-        text="Installing the Instana agent using the Kubernetes operator is described in"
+        text={t('in-waiting-for-deployment:content.installingTheInstanaAgentUsingTheKubernetesOperatorIsDescribedIn')}
         href="https://instana.com/docs/setup_and_manage/host_agent/on/kubernetes/#install-using-the-operator"
-        linkText="the Instana Kubernetes documentation."
+        linkText={t('in-waiting-for-deployment:content.theInstanaKubernetesDocumentation')}
       />
       <Spacer />
       <TextWithLink
-        text="The following configuration values will be needed to be populated in the"
+        text={t('in-waiting-for-deployment:content.theFollowingConfigurationValuesWillBeNeededToBePopulatedInThe')}
         href="https://github.com/instana/instana-agent-operator/blob/master/deploy/instana-agent.customresource.yaml"
-        linkText="Instana agent custom resource file"
+        linkText={t('in-waiting-for-deployment:content.instanaAgentCustomResourceFile')}
       />
       <Spacer />
       <GridRow>
         <Col xs={4}>
-          <Description lines={['Instana Service Endpoint']} />
+          <Description lines={[t('in-waiting-for-deployment:content.instanaServiceEndpoint')]} />
           <Script lines={[agentEndpoint]} />
         </Col>
         <Col xs={4}>
-          <Description lines={['Instana Service port']} />
+          <Description lines={[t('in-waiting-for-deployment:content.instanaServicePort')]} />
           <Script lines={[agentEndpointPort]} />
         </Col>
         <Col xs={4}>
-          <Description lines={['Instana Application Key']} />
+          <Description lines={[t('in-waiting-for-deployment:content.instanaApplicationKey')]} />
           <Script lines={[agentKey]} />
         </Col>
       </GridRow>
       <Spacer />
-      <HelpBox title="Name your Kubernetes cluster">
+      <HelpBox title={t('in-waiting-for-deployment:content.nameYourKubernetesCluster')}>
         <TextWithLink
-          text="You will also want to provide a descriptive name for your cluster, like 'prod-eu' or 'dev' using the 'cluster.name' option in the"
+          text={t(
+            'in-waiting-for-deployment:content.youWillAlsoWantToProvideADescriptiveNameForYourClusterLikeProdEuOrDevUsingTheClusterNameOptionInThe'
+          )}
           href="https://github.com/instana/instana-agent-operator/blob/master/deploy/instana-agent.customresource.yaml"
-          linkText="Instana agent custom resource file"
+          linkText={t('in-waiting-for-deployment:content.instanaAgentCustomResourceFile')}
         />
       </HelpBox>
     </>
@@ -1906,37 +2090,39 @@ function OpenShiftOperatorContent({ agentKey, agentEndpoint, agentEndpointPort }
   return (
     <>
       <TextWithLink
-        text="Installing the Instana agent using the OpenShift operator is described in"
+        text={t('in-waiting-for-deployment:content.installingTheInstanaAgentUsingTheOpenShiftOperatorIsDescribedIn')}
         href="https://instana.com/docs/setup_and_manage/host_agent/on/openshift/#install-using-the-operator"
-        linkText="the Instana OpenShift documentation."
+        linkText={t('in-waiting-for-deployment:content.theInstanaOpenShiftDocumentation')}
       />
       <Spacer />
       <TextWithLink
-        text="The following configuration values will be needed to be populated in the"
+        text={t('in-waiting-for-deployment:content.theFollowingConfigurationValuesWillBeNeededToBePopulatedInThe')}
         href="https://github.com/instana/instana-agent-operator/blob/master/deploy/instana-agent.customresource.yaml"
-        linkText="Instana agent custom resource file"
+        linkText={t('in-waiting-for-deployment:content.instanaAgentCustomResourceFile')}
       />
       <Spacer />
       <GridRow>
         <Col xs={4}>
-          <Description lines={['Instana Service Endpoint']} />
+          <Description lines={[t('in-waiting-for-deployment:content.instanaServiceEndpoint')]} />
           <Script lines={[agentEndpoint]} />
         </Col>
         <Col xs={4}>
-          <Description lines={['Instana Service port']} />
+          <Description lines={[t('in-waiting-for-deployment:content.instanaServicePort')]} />
           <Script lines={[agentEndpointPort]} />
         </Col>
         <Col xs={4}>
-          <Description lines={['Instana Application Key']} />
+          <Description lines={[t('in-waiting-for-deployment:content.instanaApplicationKey')]} />
           <Script lines={[agentKey]} />
         </Col>
       </GridRow>
       <Spacer />
-      <HelpBox title="Name your OpenShift cluster">
+      <HelpBox title={t('in-waiting-for-deployment:content.nameYourOpenShiftCluster')}>
         <TextWithLink
-          text="You will also want to provide a descriptive name for your cluster, like 'prod-eu' or 'dev' using the 'cluster.name' option in the"
+          text={t(
+            'in-waiting-for-deployment:content.youWillAlsoWantToProvideADescriptiveNameForYourClusterLikeProdEuOrDevUsingTheClusterNameOptionInThe'
+          )}
           href="https://github.com/instana/instana-agent-operator/blob/master/deploy/instana-agent.customresource.yaml"
-          linkText="Instana agent custom resource file"
+          linkText={t('in-waiting-for-deployment:content.instanaAgentCustomResourceFile')}
         />
       </HelpBox>
     </>
@@ -1953,7 +2139,9 @@ function CfAndBoshContent({ agentKey, agentEndpoint }) {
             placeholder: "Release version, e.g. '0.0.1'",
             validate: {
               validator: validateAgentReleaseVersion,
-              validationMessage: 'The agent release version must be a valid semantic version'
+              validationMessage: t(
+                'in-waiting-for-deployment:content.theAgentReleaseVersionMustBeAValidSemanticVersion'
+              )
             }
           },
           {
@@ -1961,8 +2149,9 @@ function CfAndBoshContent({ agentKey, agentEndpoint }) {
             placeholder: "Foundation name, e.g., 'prod'",
             validate: {
               validator: validateClusterName,
-              validationMessage:
-                'The foundation name must be a combination of letters, dashes and underscores, up to 20 characters long'
+              validationMessage: t(
+                'in-waiting-for-deployment:content.theFoundationNameMustBeACombinationOfLettersDashesAndUnderscoresUpTo20CharactersLong'
+              )
             }
           },
           {
@@ -1970,7 +2159,7 @@ function CfAndBoshContent({ agentKey, agentEndpoint }) {
             placeholder: "UAA client id, e.g., 'my-client-id'",
             validate: {
               validator: validateNotEmpty,
-              validationMessage: 'The UAA client id cannot be blank'
+              validationMessage: t('in-waiting-for-deployment:content.theUaaClientIdCannotBeBlank')
             }
           },
           {
@@ -1978,7 +2167,7 @@ function CfAndBoshContent({ agentKey, agentEndpoint }) {
             placeholder: "UAA client secret, e.g., 'my-client-secret'",
             validate: {
               validator: validateNotEmpty,
-              validationMessage: 'The UAA client secret cannot be blank'
+              validationMessage: t('in-waiting-for-deployment:content.theUaaClientSecretCannotBeBlank')
             }
           }
         ]}
@@ -1997,26 +2186,30 @@ function CfAndBoshContent({ agentKey, agentEndpoint }) {
           clientSecretValidationMessage
         }) => (
           <>
-            <HelpBox title="Supported Stemcells">
+            <HelpBox title={t('in-waiting-for-deployment:content.supportedStemcells')}>
               <Listing items={['Ubuntu Trusty', 'Ubuntu Xenial']} />
             </HelpBox>
             <Spacer />
-            <HelpBox title="Instana BOSH agent version">
-              <Description lines={['Please provide the Instana BOSH release version you want to use:']} />
+            <HelpBox title={t('in-waiting-for-deployment:content.instanaBoshAgentVersion')}>
+              <Description
+                lines={[t('in-waiting-for-deployment:content.pleaseProvideTheInstanaBoshReleaseVersionYouWantToUse')]}
+              />
               <Row>{agentReleaseVersionInput}</Row>
             </HelpBox>
-            <HelpBox title="Upload the Instana BOSH releases to the BOSH director">
-              <Description lines={['Download the following BOSH releases']} />
+            <HelpBox title={t('in-waiting-for-deployment:content.uploadTheInstanaBoshReleasesToTheBoshDirector')}>
+              <Description lines={[t('in-waiting-for-deployment:content.downloadTheFollowingBoshReleases')]} />
               <DownloadButton
-                title="Download 'instana-agent' release"
+                title={t('in-waiting-for-deployment:content.downloadInstanaAgentRelease')}
                 href={`https://_:${agentKey}@artifact-public.instana.io/artifactory/shared/com/instana/bosh/agent-bosh/${agentReleaseVersion}/agent-bosh-${agentReleaseVersion}.tar.gz`}
               />
               <DownloadButton
-                title="Download 'instana-leadership-election' release"
+                title={t('in-waiting-for-deployment:content.downloadInstanaLeadershipElectionRelease')}
                 href={`https://_:${agentKey}@artifact-public.instana.io/artifactory/shared/com/instana/bosh/leadership-election/${agentReleaseVersion}/leadership-election-${agentReleaseVersion}.tar.gz`}
               />
               <Spacer />
-              <Description lines={['Upload the Instana BOSH releases to your BOSH director']} />
+              <Description
+                lines={[t('in-waiting-for-deployment:content.uploadTheInstanaBoshReleasesToYourBoshDirector')]}
+              />
               <Bash
                 lines={[
                   `bosh upload-release agent-bosh-${agentReleaseVersion}.tar.gz`,
@@ -2025,10 +2218,12 @@ function CfAndBoshContent({ agentKey, agentEndpoint }) {
               />
             </HelpBox>
             <Spacer />
-            <HelpBox title="Create the Instana UAA client">
+            <HelpBox title={t('in-waiting-for-deployment:content.createTheInstanaUaaClient')}>
               <Description
                 lines={[
-                  "Create in the foundation's User Account and Authentication (UAA), a client with 'cloud_controller.admin_read_only' authority:"
+                  t(
+                    'in-waiting-for-deployment:content.createInTheFoundationSUserAccountAndAuthenticationUaaAClientWithCloudControllerAdminReadOnlyAuthority'
+                  )
                 ]}
               />
               <Row>
@@ -2036,13 +2231,15 @@ function CfAndBoshContent({ agentKey, agentEndpoint }) {
                 {clientSecretInput}
               </Row>
               <TextWithLink
-                text="The easiest way to create the required UAA client, is to use the "
-                linkText="uaac tool."
+                text={t('in-waiting-for-deployment:content.theEasiestWayToCreateTheRequiredUaaClientIsToUseThe')}
+                linkText={t('in-waiting-for-deployment:content.uaacTool')}
                 href="https://github.com/cloudfoundry/cf-uaac"
               />
               <Description
                 lines={[
-                  "Replace in the commands below '<uaa-api-endpoint>' with your UAA API endpoint and '<clients.admin-secret>' with your UAA client with 'clients.admin' or 'clients.write' authority"
+                  t(
+                    'in-waiting-for-deployment:content.replaceInTheCommandsBelowUaaApiEndpointWithYourUaaApiEndpointAndClientsAdminSecretWithYourUaaClientWithClientsAdminOrClientsWriteAuthority'
+                  )
                 ]}
               />
               <Bash
@@ -2059,20 +2256,26 @@ function CfAndBoshContent({ agentKey, agentEndpoint }) {
               />
             </HelpBox>
             <Spacer />
-            <HelpBox title="Instana BOSH addon">
+            <HelpBox title={t('in-waiting-for-deployment:content.instanaBoshAddon')}>
               <TextWithLink
-                text="BOSH addons are runtime configurations for BOSH that allow you to declare additional jobs to be run in your deployments. For more information on BOSH runtime configurations and addons, refer to the "
-                linkText='"BOSH Runtime Configurations" documentation.'
+                text={t(
+                  'in-waiting-for-deployment:content.boshAddonsAreRuntimeConfigurationsForBoshThatAllowYouToDeclareAdditionalJobsToBeRunInYourDeploymentsForMoreInformationOnBoshRuntimeConfigurationsAndAddonsReferToThe'
+                )}
+                linkText={t('in-waiting-for-deployment:content.boshRuntimeConfigurationsDocumentation')}
                 href="https://bosh.io/docs/runtime-config/"
               />
               <Spacer />
-              <Description lines={['Pick a name for your Cloud Foundry foundation:']} />
+              <Description lines={[t('in-waiting-for-deployment:content.pickANameForYourCloudFoundryFoundation')]} />
               <Row>{foundationNameInput}</Row>
               <Spacer />
-              <Description lines={['Apply the following as BOSH runtime configurations to your BOSH director:']} />
+              <Description
+                lines={[
+                  t('in-waiting-for-deployment:content.applyTheFollowingAsBoshRuntimeConfigurationsToYourBoshDirector')
+                ]}
+              />
               <Row>
                 <YAMLFile
-                  title="runtime-config.yml"
+                  title={t('in-waiting-for-deployment:content.runtimeConfigYml')}
                   disabledErrorMessage={
                     foundationNameValidationMessage ||
                     agentReleaseVersionValidationMessage ||
@@ -2112,23 +2315,31 @@ function CfAndBoshContent({ agentKey, agentEndpoint }) {
                 />
               </Row>
               <TextWithLink
-                text="For more information on how to set up BOSH runtime configurations, refer to the "
-                linkText='"Applying the Instana agent runtime configurations" page.'
+                text={t(
+                  'in-waiting-for-deployment:content.forMoreInformationOnHowToSetUpBoshRuntimeConfigurationsReferToThe'
+                )}
+                linkText={t('in-waiting-for-deployment:content.applyingTheInstanaAgentRuntimeConfigurationsPage')}
                 href="https://instana.com/docs/setup_and_manage/host_agent/on/cloud-foundry#applying-the-instana-agent-runtime-configurations"
               />
             </HelpBox>
             <Spacer />
-            <HelpBox title="Dynamic agents, proxies and other settings">
+            <HelpBox title={t('in-waiting-for-deployment:content.dynamicAgentsProxiesAndOtherSettings')}>
               <Description
                 lines={[
-                  'The BOSH release will by default install static host agents, but it can be configure to install dynamic host agents instead.',
-                  'Similarly, the BOSH release can be configured so that the installed host agents will talk to the Instana backend over a proxy.'
+                  t(
+                    'in-waiting-for-deployment:content.theBoshReleaseWillByDefaultInstallStaticHostAgentsButItCanBeConfigureToInstallDynamicHostAgentsInstead'
+                  ),
+                  t(
+                    'in-waiting-for-deployment:content.similarlyTheBoshReleaseCanBeConfiguredSoThatTheInstalledHostAgentsWillTalkToTheInstanaBackendOverAProxy'
+                  )
                 ]}
               />
               <TextWithLink
-                text="For more information on host configurations that you can apply over the 'instana-agent' BOSH release, consult the "
+                text={t(
+                  'in-waiting-for-deployment:content.forMoreInformationOnHostConfigurationsThatYouCanApplyOverTheInstanaAgentBoshReleaseConsultThe'
+                )}
                 href="https://instana.com/docs/ecosystem/cloudfoundry/"
-                linkText="Instana Cloud Foundry documentation."
+                linkText={t('in-waiting-for-deployment:content.instanaCloudFoundryDocumentation')}
               />
             </HelpBox>
           </>
@@ -2142,49 +2353,59 @@ function PcfContent({ agentKey, agentEndpoint, agentEndpointPort }) {
   return (
     <>
       <TextWithLink
-        text='Download the "Instana Microservices Application Monitoring" tile from '
+        text={t('in-waiting-for-deployment:content.downloadTheInstanaMicroservicesApplicationMonitoringTileFrom')}
         href="https://network.pivotal.io/products/instana-microservices-application-monitoring"
-        linkText="VMware Tanzu Network."
+        linkText={t('in-waiting-for-deployment:content.vMwareTanzuNetwork')}
       />
       <Spacer />
       <TextWithLink
-        text='Upload the "Instana Microservices Application Monitoring" tile to your Ops Manager as described in the'
+        text={t(
+          'in-waiting-for-deployment:content.uploadTheInstanaMicroservicesApplicationMonitoringTileToYourOpsManagerAsDescribedInThe'
+        )}
         href="https://docs.pivotal.io/partners/instana/installing.html"
-        linkText="Instana tile documentation on VMware Tanzu Network."
+        linkText={t('in-waiting-for-deployment:content.instanaTileDocumentationOnVMwareTanzuNetwork')}
       />
       <Description
         lines={[
-          'The following configurations have to be applied to the "Backend configuration" tab of the "Instana Microservices Application Monitoring" tile in Ops Manager.'
+          t(
+            'in-waiting-for-deployment:content.theFollowingConfigurationsHaveToBeAppliedToTheBackendConfigurationTabOfTheInstanaMicroservicesApplicationMonitoringTileInOpsManager'
+          )
         ]}
       />
       <Spacer />
       <GridRow>
         <Col xs={4}>
-          <Description lines={['Endpoint host']} />
+          <Description lines={[t('in-waiting-for-deployment:content.endpointHost')]} />
           <Script lines={[agentEndpoint]} />
         </Col>
         <Col xs={4}>
-          <Description lines={['Endpoint port']} />
+          <Description lines={[t('in-waiting-for-deployment:content.endpointPort')]} />
           <Script lines={[agentEndpointPort]} />
         </Col>
         <Col xs={4}>
-          <Description lines={['Agent key']} />
+          <Description lines={[t('in-waiting-for-deployment:content.agentKey')]} />
           <Script lines={[agentKey]} />
         </Col>
       </GridRow>
       <Spacer />
       <Description
         lines={[
-          'Finally, you will need to give your VMware Tanzu foundation a name, for example "prod-eu" or "dev01", via the Agent Zone setting in the Agent Configuration tab.'
+          t(
+            'in-waiting-for-deployment:content.finallyYouWillNeedToGiveYourVMwareTanzuFoundationANameForExampleProdEuOrDev01ViaTheAgentZoneSettingInTheAgentConfigurationTab'
+          )
         ]}
       />
-      <TextWithLink text='Apply the changes introduced by the "Instana Microservices Application Monitoring" tile to all tiles in the Ops Manager. Tiles that are not selected for the "Apply changes" step in Ops Manager will not be visible in Instana.' />
+      <TextWithLink
+        text={t(
+          'in-waiting-for-deployment:content.applyTheChangesIntroducedByTheInstanaMicroservicesApplicationMonitoringTileToAllTilesInTheOpsManagerTilesThatAreNotSelectedForTheApplyChangesStepInOpsManagerWillNotBeVisibleInInstana'
+        )}
+      />
       <Spacer />
-      <HelpBox title="Supported Ops Manager versions">
+      <HelpBox title={t('in-waiting-for-deployment:content.supportedOpsManagerVersions')}>
         <Listing items={['2.3+']} />
       </HelpBox>
       <Spacer />
-      <HelpBox title="Supported Stemcells">
+      <HelpBox title={t('in-waiting-for-deployment:content.supportedStemcells')}>
         <Listing items={['Ubuntu Trusty', 'Ubuntu Xenial']} />
       </HelpBox>
     </>
@@ -2194,7 +2415,11 @@ function PcfContent({ agentKey, agentEndpoint, agentEndpointPort }) {
 function PackagesContent({ agentKey }) {
   return (
     <>
-      <Description lines={['We make available regularly-updated RPM and DEB packages at the following address']} />
+      <Description
+        lines={[
+          t('in-waiting-for-deployment:content.weMakeAvailableRegularlyUpdatedRpmAndDebPackagesAtTheFollowingAddress')
+        ]}
+      />
       <Script lines={[`https://_:${agentKey}@packages.instana.io/agent/download`]} />
     </>
   );
@@ -2209,7 +2434,7 @@ function WindowsInstallerContent({ agentKey, agentEndpoint, agentEndpointPort, b
       <Row>
         <DropDown value={agentMode} options={agentModeOptions} onChange={setMode} />
         <DownloadButton
-          title="Download"
+          title={t('in-waiting-for-deployment:content.download')}
           href={getAgentDownloadURL(
             tenant,
             tenantUnit,
@@ -2220,19 +2445,23 @@ function WindowsInstallerContent({ agentKey, agentEndpoint, agentEndpointPort, b
         />
       </Row>
       <Spacer />
-      <Description lines={['Launch the installer as an application and supply the following configuration:']} />
+      <Description
+        lines={[
+          t('in-waiting-for-deployment:content.launchTheInstallerAsAnApplicationAndSupplyTheFollowingConfiguration')
+        ]}
+      />
       <Spacer />
       <GridRow>
         <Col xs={4}>
-          <Description lines={['Instana Backend Address']} />
+          <Description lines={[t('in-waiting-for-deployment:content.instanaBackendAddress')]} />
           <Script lines={[agentEndpoint]} />
         </Col>
         <Col xs={4}>
-          <Description lines={['Instana Backend Port']} />
+          <Description lines={[t('in-waiting-for-deployment:content.instanaBackendPort')]} />
           <Script lines={[agentEndpointPort]} />
         </Col>
         <Col xs={4}>
-          <Description lines={['Instana Agent key']} />
+          <Description lines={[t('in-waiting-for-deployment:content.instanaAgentKey')]} />
           <Script lines={[agentKey]} />
         </Col>
       </GridRow>
@@ -2257,7 +2486,9 @@ function WindowsInstallerUnattendedContent({
         <DropDown value={agentMode} options={agentModeOptions} onChange={setMode} />
       </Row>
 
-      <Description lines={['The latest Windows installer (64Bit) is available at the following address:']} />
+      <Description
+        lines={[t('in-waiting-for-deployment:content.theLatestWindowsInstaller64BitIsAvailableAtTheFollowingAddress')]}
+      />
       <Script
         lines={[
           getAgentDownloadURL(
@@ -2272,7 +2503,9 @@ function WindowsInstallerUnattendedContent({
       <Spacer />
       <Description
         lines={[
-          "The following command line installation will Install the Instana agent without opening the installer's user interface:"
+          t(
+            'in-waiting-for-deployment:content.theFollowingCommandLineInstallationWillInstallTheInstanaAgentWithoutOpeningTheInstallerSUserInterface'
+          )
         ]}
       />
       <Cmd
@@ -2286,14 +2519,14 @@ function WindowsInstallerUnattendedContent({
 
 function ManualLinuxContent({ butlerDomain, agentKey, tenant, tenantUnit }) {
   const agentOptions = [
-    { key: 'linux64', label: 'Linux (64Bit)' },
-    { key: 'linux32', label: 'Linux (32Bit)' },
-    { key: 'linuxarm64', label: 'Linux (64Bit - ARM)' },
-    { key: 'linuxarm32', label: 'Linux (32Bit - ARM)' },
-    { key: 'linuxppc64', label: 'Linux (64Bit - PowerPC)' },
-    { key: 'linuxppc32', label: 'Linux (32Bit - PowerPC)' },
-    { key: 'linuxppcle64', label: 'Linux (64Bit - PowerPC Little Endian)' },
-    { key: 'linuxs390x', label: 'Linux (s390x)' }
+    { key: 'linux64', label: t('in-waiting-for-deployment:content.linux64Bit') },
+    { key: 'linux32', label: t('in-waiting-for-deployment:content.linux32Bit') },
+    { key: 'linuxarm64', label: t('in-waiting-for-deployment:content.linux64BitArm') },
+    { key: 'linuxarm32', label: t('in-waiting-for-deployment:content.linux32BitArm') },
+    { key: 'linuxppc64', label: t('in-waiting-for-deployment:content.linux64BitPowerPc') },
+    { key: 'linuxppc32', label: t('in-waiting-for-deployment:content.linux32BitPowerPc') },
+    { key: 'linuxppcle64', label: t('in-waiting-for-deployment:content.linux64BitPowerPcLittleEndian') },
+    { key: 'linuxs390x', label: t('in-waiting-for-deployment:content.linuxS390X') }
   ];
   const [option, setOption] = useState(agentOptions[0].key);
 
@@ -2303,21 +2536,23 @@ function ManualLinuxContent({ butlerDomain, agentKey, tenant, tenantUnit }) {
         <DropDown value={option} options={agentOptions} onChange={setOption} />
         <DownloadButton href={getAgentDownloadURL(tenant, tenantUnit, agentKey, option, butlerDomain)} />
       </Row>
-      <HelpBox title="Requires a Java 8 Runtime">
+      <HelpBox title={t('in-waiting-for-deployment:content.requiresAJava8Runtime')}>
         <Listing
           items={[
-            'Azul Zulu JDK 8 (Preferred)',
-            'Oracle Hotspot JDK 8',
-            'IBM J9 8',
-            'OpenJDK 8',
-            'Amazon Corretto JDK 8'
+            t('in-waiting-for-deployment:content.azulZuluJdk8Preferred'),
+            t('in-waiting-for-deployment:content.oracleHotspotJdk8'),
+            t('in-waiting-for-deployment:content.ibmJ98'),
+            t('in-waiting-for-deployment:content.openJdk8'),
+            t('in-waiting-for-deployment:content.amazonCorrettoJdk8')
           ]}
         />
         <Spacer />
         <Description
           lines={[
-            'We recommend to use a JDK from the same vendor as monitored JVMs on the same host.',
-            'To extract make sure to use a GNU tar that is capable of extracting paths longer than 100 characters.'
+            t('in-waiting-for-deployment:content.weRecommendToUseAJdkFromTheSameVendorAsMonitoredJvMsOnTheSameHost'),
+            t(
+              'in-waiting-for-deployment:content.toExtractMakeSureToUseAGnuTarThatIsCapableOfExtractingPathsLongerThan100Characters'
+            )
           ]}
         />
       </HelpBox>
@@ -2326,7 +2561,7 @@ function ManualLinuxContent({ butlerDomain, agentKey, tenant, tenantUnit }) {
 }
 
 function ManualMacOsContent({ butlerDomain, agentKey, tenant, tenantUnit }) {
-  const agentOptions = [{ key: 'mac', label: 'Mac OS (64bit - Intel)' }];
+  const agentOptions = [{ key: 'mac', label: t('in-waiting-for-deployment:content.macOs64BitIntel') }];
   const [option, setOption] = useState(agentOptions[0].key);
 
   return (
@@ -2335,18 +2570,22 @@ function ManualMacOsContent({ butlerDomain, agentKey, tenant, tenantUnit }) {
         <DropDown value={option} options={agentOptions} onChange={setOption} />
         <DownloadButton href={getAgentDownloadURL(tenant, tenantUnit, agentKey, option, butlerDomain)} />
       </Row>
-      <HelpBox title="Requires a Java 8 Runtime">
+      <HelpBox title={t('in-waiting-for-deployment:content.requiresAJava8Runtime')}>
         <Listing
           items={[
-            'Azul Zulu JDK 8 (Preferred)',
-            'Oracle Hotspot JDK 8',
-            'IBM J9 8',
-            'OpenJDK 8',
-            'Amazon Corretto JDK 8'
+            t('in-waiting-for-deployment:content.azulZuluJdk8Preferred'),
+            t('in-waiting-for-deployment:content.oracleHotspotJdk8'),
+            t('in-waiting-for-deployment:content.ibmJ98'),
+            t('in-waiting-for-deployment:content.openJdk8'),
+            t('in-waiting-for-deployment:content.amazonCorrettoJdk8')
           ]}
         />
         <Spacer />
-        <Description lines={['We recommend to use a JDK from the same vendor as monitored JVMs on the same host.']} />
+        <Description
+          lines={[
+            t('in-waiting-for-deployment:content.weRecommendToUseAJdkFromTheSameVendorAsMonitoredJvMsOnTheSameHost')
+          ]}
+        />
       </HelpBox>
     </>
   );
@@ -2354,10 +2593,10 @@ function ManualMacOsContent({ butlerDomain, agentKey, tenant, tenantUnit }) {
 
 function ManualUnixContent({ agentKey, butlerDomain, tenant, tenantUnit }) {
   const agentOptions = [
-    { key: 'sparc64', label: 'Solaris (64bit - SPARC)' },
-    { key: 'sparc32', label: 'Solaris (32bit - SPARC)' },
-    { key: 'aix64', label: 'AIX (64bit - PowerPC)' },
-    { key: 'aix32', label: 'AIX (32bit - PowerPC)' }
+    { key: 'sparc64', label: t('in-waiting-for-deployment:content.solaris64BitSparc') },
+    { key: 'sparc32', label: t('in-waiting-for-deployment:content.solaris32BitSparc') },
+    { key: 'aix64', label: t('in-waiting-for-deployment:content.aix64BitPowerPc') },
+    { key: 'aix32', label: t('in-waiting-for-deployment:content.aix32BitPowerPc') }
   ];
   const [option, setOption] = useState(agentOptions[0].key);
 
@@ -2367,21 +2606,23 @@ function ManualUnixContent({ agentKey, butlerDomain, tenant, tenantUnit }) {
         <DropDown value={option} options={agentOptions} onChange={setOption} />
         <DownloadButton href={getAgentDownloadURL(tenant, tenantUnit, agentKey, option, butlerDomain)} />
       </Row>
-      <HelpBox title="Requires a Java 8 Runtime">
+      <HelpBox title={t('in-waiting-for-deployment:content.requiresAJava8Runtime')}>
         <Listing
           items={[
-            'Azul Zulu JDK 8 (Preferred)',
-            'Oracle Hotspot JDK 8',
-            'IBM J9 8',
-            'OpenJDK 8',
-            'Amazon Corretto JDK 8'
+            t('in-waiting-for-deployment:content.azulZuluJdk8Preferred'),
+            t('in-waiting-for-deployment:content.oracleHotspotJdk8'),
+            t('in-waiting-for-deployment:content.ibmJ98'),
+            t('in-waiting-for-deployment:content.openJdk8'),
+            t('in-waiting-for-deployment:content.amazonCorrettoJdk8')
           ]}
         />
         <Spacer />
         <Description
           lines={[
-            'We recommend to use a JDK from the same vendor as monitored JVMs on the same host.',
-            'To extract make sure to use a GNU tar that is capable of extracting paths longer than 100 characters.'
+            t('in-waiting-for-deployment:content.weRecommendToUseAJdkFromTheSameVendorAsMonitoredJvMsOnTheSameHost'),
+            t(
+              'in-waiting-for-deployment:content.toExtractMakeSureToUseAGnuTarThatIsCapableOfExtractingPathsLongerThan100Characters'
+            )
           ]}
         />
       </HelpBox>
@@ -2391,10 +2632,10 @@ function ManualUnixContent({ agentKey, butlerDomain, tenant, tenantUnit }) {
 
 function ManualWindowsContent({ butlerDomain, agentKey, tenant, tenantUnit }) {
   const agentOptions = [
-    { key: 'win64', label: 'Windows Zip (64bit)' },
-    { key: 'win32', label: 'Windows Zip (32bit)' },
-    { key: 'win64offline', label: 'Windows Zip (64bit, static)' },
-    { key: 'win32offline', label: 'Windows Zip (32bit, static)' }
+    { key: 'win64', label: t('in-waiting-for-deployment:content.windowsZip64Bit') },
+    { key: 'win32', label: t('in-waiting-for-deployment:content.windowsZip32Bit') },
+    { key: 'win64offline', label: t('in-waiting-for-deployment:content.windowsZip64BitStatic') },
+    { key: 'win32offline', label: t('in-waiting-for-deployment:content.windowsZip32BitStatic') }
   ];
   const [option, setOption] = useState(agentOptions[0].key);
 
@@ -2404,18 +2645,22 @@ function ManualWindowsContent({ butlerDomain, agentKey, tenant, tenantUnit }) {
         <DropDown value={option} options={agentOptions} onChange={setOption} />
         <DownloadButton href={getAgentDownloadURL(tenant, tenantUnit, agentKey, option, butlerDomain)} />
       </Row>
-      <HelpBox title="Requires a Java 8 Runtime">
+      <HelpBox title={t('in-waiting-for-deployment:content.requiresAJava8Runtime')}>
         <Listing
           items={[
-            'Azul Zulu JDK 8 (Preferred)',
-            'Oracle Hotspot JDK 8',
-            'IBM J9 8',
-            'OpenJDK 8',
-            'Amazon Corretto JDK 8'
+            t('in-waiting-for-deployment:content.azulZuluJdk8Preferred'),
+            t('in-waiting-for-deployment:content.oracleHotspotJdk8'),
+            t('in-waiting-for-deployment:content.ibmJ98'),
+            t('in-waiting-for-deployment:content.openJdk8'),
+            t('in-waiting-for-deployment:content.amazonCorrettoJdk8')
           ]}
         />
         <Spacer />
-        <Description lines={['We recommend to use a JDK from the same vendor as monitored JVMs on the same host.']} />
+        <Description
+          lines={[
+            t('in-waiting-for-deployment:content.weRecommendToUseAJdkFromTheSameVendorAsMonitoredJvMsOnTheSameHost')
+          ]}
+        />
       </HelpBox>
     </>
   );

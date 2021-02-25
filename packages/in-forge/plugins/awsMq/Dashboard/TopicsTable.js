@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
@@ -13,7 +14,7 @@ import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
   {
-    title: 'Name',
+    title: t('in-forge:plugins.awsMq.dashboard.name'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -22,7 +23,7 @@ const cols = [
     }
   },
   {
-    title: 'Messages Enqueued',
+    title: t('in-forge:plugins.awsMq.dashboard.messagesEnqueued'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -38,7 +39,7 @@ const cols = [
     }
   },
   {
-    title: 'Messages Dequeued',
+    title: t('in-forge:plugins.awsMq.dashboard.messagesDequeued'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -54,7 +55,7 @@ const cols = [
     }
   },
   {
-    title: 'Memory Usage',
+    title: t('in-forge:plugins.awsMq.dashboard.memoryUsage'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -87,7 +88,13 @@ export default function TopicsTable({ snapshot, timeConfig, type }) {
     })
     .toArray();
   return (
-    <Table withoutPadding cardTitle={`Topics (${rows.length})`} cols={cols} rows={rows} getRowDetails={getDetails} />
+    <Table
+      withoutPadding
+      cardTitle={t('in-forge:plugins.awsMq.dashboard.topicsRows', { rows: rows.length })}
+      cols={cols}
+      rows={rows}
+      getRowDetails={getDetails}
+    />
   );
 }
 
@@ -101,7 +108,7 @@ function getDetails(row) {
           min: 0,
           max: 1,
           metrics: [row.metricPrefix + '.memory_usage'],
-          labels: ['Memory Usage'],
+          labels: [t('in-forge:plugins.awsMq.dashboard.memoryUsage')],
           type: 'line',
           formatter: percentage.detailed
         }}
@@ -113,7 +120,7 @@ function getDetails(row) {
         y1={{
           min: 0,
           metrics: [row.metricPrefix + '.producer_count', row.metricPrefix + '.consumer_count'],
-          labels: ['Producer Count', 'Consumer Count'],
+          labels: ['Producer Count', t('in-forge:plugins.awsMq.dashboard.consumerCount')],
           type: 'line',
           formatter: number.compact
         }}
@@ -130,7 +137,7 @@ function getDetails(row) {
               row.metricPrefix + '.dispatch_count',
               row.metricPrefix + '.dequeue_count'
             ],
-            labels: ['Enqueue Count', 'Dispatch Count', 'Dequeue Count'],
+            labels: ['Enqueue Count', 'Dispatch Count', t('in-forge:plugins.awsMq.dashboard.dequeueCount')],
             type: 'line',
             formatter: number.compact
           }}
@@ -142,7 +149,7 @@ function getDetails(row) {
           y1={{
             min: 0,
             metrics: [row.metricPrefix + '.expired_count'],
-            labels: ['ExpiredCount'],
+            labels: [t('in-forge:plugins.awsMq.dashboard.expiredCount')],
             type: 'line',
             formatter: number.detailed
           }}
@@ -155,7 +162,7 @@ function getDetails(row) {
         y1={{
           min: 0,
           metrics: [row.metricPrefix + '.enqueue_time'],
-          labels: ['EnqueueTime'],
+          labels: [t('in-forge:plugins.awsMq.dashboard.enqueueTime')],
           type: 'line',
           formatter: millis.detailed
         }}

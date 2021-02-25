@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { format as defaultLocaleFormat, formatLocale as createCustomLocaleFormat } from 'd3-format';
+import { t } from 'in-i18n';
 
 import { getSingle } from 'in-services/settings';
 
@@ -19,8 +20,8 @@ export const number = {
   compact: zeroDecimalPlaces,
   detailed: twoDecimalPlaces,
   perSecond: {
-    compact: v => zeroDecimalPlaces(v) + '/s',
-    detailed: v => twoDecimalPlaces(v) + '/s'
+    compact: v => t('in-services:formatters.perSec', { num: zeroDecimalPlaces(v) }),
+    detailed: v => t('in-services:formatters.perSec', { num: twoDecimalPlaces(v) })
   },
   forcedCompact: {
     compact: zeroDecimalPlaces,
@@ -34,25 +35,26 @@ export const number = {
 
 export const positiveNumber = v => (v > 0 ? v : '-');
 
-export const activityZeroDecimalPlaces = d => (d < 0 ? 'No activity' : zeroDecimalPlaces(d));
-export const activityTwoDecimalPlaces = d => (d < 0 ? 'No activity' : twoDecimalPlaces(d));
+export const activityZeroDecimalPlaces = d => (d < 0 ? t('in-services:formatters.noActivity') : zeroDecimalPlaces(d));
+export const activityTwoDecimalPlaces = d => (d < 0 ? t('in-services:formatters.noActivity') : twoDecimalPlaces(d));
 export const activity = {
   compact: activityZeroDecimalPlaces,
   detailed: activityTwoDecimalPlaces
 };
 
-export const zeroDecimalPlacesPerSecond = d => zeroDecimalPlaces(d) + '/s';
-export const twoDecimalPlacesPerSecond = d => twoDecimalPlaces(d) + '/s';
+export const zeroDecimalPlacesPerSecond = d => t('in-services:formatters.perSec', { num: zeroDecimalPlaces(d) });
+export const twoDecimalPlacesPerSecond = d => t('in-services:formatters.perSec', { num: twoDecimalPlaces(d) });
 
-export const percentageZeroDecimalPlaces = d => zeroDecimalPlaces(d * 100) + '%';
-export const percentageTwoDecimalPlaces = d => twoDecimalPlaces(d * 100) + '%';
+export const percentageZeroDecimalPlaces = d =>
+  t('in-services:formatters.percent', { num: zeroDecimalPlaces(d * 100) });
+export const percentageTwoDecimalPlaces = d => t('in-services:formatters.percent', { num: twoDecimalPlaces(d * 100) });
 export const percentage = {
   compact: percentageZeroDecimalPlaces,
   detailed: percentageTwoDecimalPlaces
 };
 
-export const percentagePlainZeroDecimalPlaces = d => zeroDecimalPlaces(d) + '%';
-export const percentagePlainTwoDecimalPlaces = d => twoDecimalPlaces(d) + '%';
+export const percentagePlainZeroDecimalPlaces = d => t('in-services:formatters.percent', { num: zeroDecimalPlaces(d) });
+export const percentagePlainTwoDecimalPlaces = d => t('in-services:formatters.percent', { num: twoDecimalPlaces(d) });
 export const percentagePlain = {
   compact: percentagePlainZeroDecimalPlaces,
   detailed: percentagePlainTwoDecimalPlaces
@@ -63,10 +65,14 @@ export const bytesTwoDecimalPlaces = d => formatBytes(d, twoDecimalPlaces);
 export const bytes = {
   compact: bytesZeroDecimalPlaces,
   detailed: bytesTwoDecimalPlaces,
-  detailedWithRaw: v => `${bytesTwoDecimalPlaces(v)} (${number.compact(v)} B)`,
+  detailedWithRaw: v =>
+    t('in-services:formatters.detailedBytes', {
+      bytesTwoDecimalPlaces: bytesTwoDecimalPlaces(v),
+      numCompact: number.compact(v)
+    }),
   perSecond: {
-    compact: v => bytesZeroDecimalPlaces(v) + '/s',
-    detailed: v => bytesTwoDecimalPlaces(v) + '/s'
+    compact: v => t('in-services:formatters.perSec', { num: bytesZeroDecimalPlaces(v) }),
+    detailed: v => t('in-services:formatters.perSec', { num: bytesTwoDecimalPlaces(v) })
   }
 };
 
@@ -78,52 +84,58 @@ export const timeBySecondsTwoDecimalPlaces = t => formatTime(t, timeSecondUnits,
 export const timeByMinutesTwoDecimalPlaces = t => formatTime(t, timeMinuteUnits, number.detailed);
 export const micros = {
   compact: t => formatTime(t, timeMicroUnits, number.compact),
-  fixedCompact: t => number.compact(t) + 'µs',
+  fixedCompact: t => t('in-services:formatters.timeUnits.us', { num: number.compact(t) }),
   detailed: timeByMicroTwoDecimalPlaces
 };
 export const millis = {
-  compact: t => formatTime(t, timeMilliUnits, number.compact),
-  fixedCompact: t => number.compact(t) + 'ms',
+  compact: v => formatTime(v, timeMilliUnits, number.compact),
+  fixedCompact: v => t('in-services:formatters.timeUnits.ms', { num: number.compact(v) }),
   detailed: timeByMillisTwoDecimalPlaces,
-  fixedDetailed: t => number.detailed(t) + 'ms',
+  fixedDetailed: v => t('in-services:formatters.timeUnits.ms', { num: number.detailed(v) }),
   fixed: {
-    compact: t => number.compact(t) + 'ms',
-    detailed: t => number.detailed(t) + 'ms'
+    compact: v => t('in-services:formatters.timeUnits.ms', { num: number.compact(v) }),
+    detailed: v => t('in-services:formatters.timeUnits.ms', { num: number.detailed(v) })
   },
   forcedFixedCompact: {
-    compact: t => number.compact(t) + 'ms',
-    detailed: t => number.compact(t) + 'ms'
+    compact: v => t('in-services:formatters.timeUnits.ms', { num: number.compact(v) }),
+    detailed: v => t('in-services:formatters.timeUnits.ms', { num: number.compact(v) })
   },
   // 'ms' are always formatted to compact zero decimal format,
   // 's' and 'min' can have both compact and detailed formats
   forcedCompactOnMs: {
-    compact: t => formatTime(t, timeMilliUnits, number.compact),
-    detailed: t => (t < 1000 ? formatTime(t, timeMilliUnits, number.compact) : timeByMillisTwoDecimalPlaces(t))
+    compact: v => formatTime(v, timeMilliUnits, number.compact),
+    detailed: v => (v < 1000 ? formatTime(v, timeMilliUnits, number.compact) : timeByMillisTwoDecimalPlaces(v))
   },
   // t < 999,999 - in milliseconds, always formatted to compact zero decimal format
   // t >= 1,000,000 - in seconds, can have both compact and detailed formats
   largeInSeconds: {
-    compact: t => (t < 1000000 ? number.compact(t) + 'ms' : number.compact(t / 1000) + 's'),
-    detailed: t => (t < 1000000 ? number.compact(t) + 'ms' : number.detailed(t / 1000) + 's')
+    compact: v =>
+      v < 1000000
+        ? t('in-services:formatters.timeUnits.ms', { num: number.compact(v) })
+        : t('in-services:formatters.timeUnits.s', { num: number.compact(v / 1000) }),
+    detailed: v =>
+      v < 1000000
+        ? t('in-services:formatters.timeUnits.ms', { num: number.compact(v) })
+        : t('in-services:formatters.timeUnits.s', { num: number.detailed(v / 1000) })
   }
 };
 export const seconds = {
-  detailed: t => formatTime(t, timeSecondUnits, number.detailed),
-  fromMillisFixedDetailed: t => number.detailed(t / 1000) + 's',
-  fixedDetailed: t => number.detailed(t) + 's',
-  fixedCompact: t => number.compact(t) + 's'
+  detailed: v => formatTime(v, timeSecondUnits, number.detailed),
+  fromMillisFixedDetailed: v => t('in-services:formatters.timeUnits.s', { num: number.detailed(v / 1000) }),
+  fixedDetailed: v => t('in-services:formatters.timeUnits.s', { num: number.detailed(v) }),
+  fixedCompact: v => t('in-services:formatters.timeUnits.s', { num: number.compact(v) })
 };
 export const minutes = {
-  compact: t => formatTime(t, timeMinuteUnits, number.compact),
+  compact: v => formatTime(v, timeMinuteUnits, number.compact),
   detailed: timeByMinutesTwoDecimalPlaces
 };
-export const millisToTwoDecimalSeconds = value => (value > 1000 ? millis.detailed(value) : millis.compact(value));
+export const millisToTwoDecimalSeconds = v => (v > 1000 ? millis.detailed(v) : millis.compact(v));
 
 // call and beacon latency can be 0ms, we want to show '< 1ms' instead
 function latencyFormatterWrapper(formatter) {
   return {
-    compact: v => (v < 1 ? '< 1ms' : formatter.compact(v)),
-    detailed: v => (v < 1 ? '< 1ms' : formatter.detailed(v))
+    compact: v => (v < 1 ? t('in-services:formatters.lt1ms') : formatter.compact(v)),
+    detailed: v => (v < 1 ? t('in-services:formatters.lt1ms') : formatter.detailed(v))
   };
 }
 
@@ -134,8 +146,8 @@ export const latencyFixed = latencyFormatterWrapper(millis.forcedFixedCompact);
 // exclude 0 because mean latency can be 0 when there are no calls
 export function meanLatencyFormatterWrapper(formatter) {
   return {
-    compact: t => (t > 0 && t < 1 ? '< 1ms' : formatter.compact(t)),
-    detailed: t => (t > 0 && t < 1 ? '< 1ms' : formatter.detailed(t))
+    compact: v => (v > 0 && v < 1 ? t('in-services:formatters.lt1ms') : formatter.compact(v)),
+    detailed: v => (v > 0 && v < 1 ? t('in-services:formatters.lt1ms') : formatter.detailed(v))
   };
 }
 
@@ -143,8 +155,10 @@ export const meanLatency = meanLatencyFormatterWrapper(millis.forcedCompactOnMs)
 export const meanLatencyFixed = meanLatencyFormatterWrapper(millis.forcedFixedCompact);
 export const meanLatencyLargeInSeconds = meanLatencyFormatterWrapper(millis.largeInSeconds);
 
-export const bytesPerSecondZeroDecimalPlaces = d => formatBytes(d, zeroDecimalPlaces) + '/s';
-export const bytesPerSecondTwoDecimalPlaces = d => formatBytes(d, twoDecimalPlaces) + '/s';
+export const bytesPerSecondZeroDecimalPlaces = d =>
+  t('in-services:formatters.perSec', { num: formatBytes(d, zeroDecimalPlaces) });
+export const bytesPerSecondTwoDecimalPlaces = d =>
+  t('in-services:formatters.perSec', { num: formatBytes(d, twoDecimalPlaces) });
 
 export const kiloBytesZeroDecimalPlaces = d => formatBytes(d * byteBase, zeroDecimalPlaces);
 export const kiloBytesTwoDecimalPlaces = d => formatBytes(d * byteBase, twoDecimalPlaces);
@@ -160,7 +174,8 @@ export const megaBytes = {
   detailed: megaBytesTwoDecimalPlaces
 };
 
-export const millisPerSecondZeroDecimalPlaces = d => millis.fixedCompact(d * 1000) + '/s';
+export const millisPerSecondZeroDecimalPlaces = d =>
+  t('in-services:formatters.perSec', { num: millis.fixedCompact(d * 1000) });
 
 const siPrefixZeroDecimalPlacesFormatRule = format(',.3s');
 const siPrefixZeroDecimalPlacesFormatRuleForSmallValues = format(',.0s');
@@ -209,8 +224,8 @@ export const siPrefix = {
 };
 
 export const siPrefixPerSecond = {
-  compact: d => withSiPrefixZeroDecimalPlaces(d) + ' / sec',
-  detailed: d => withSiPrefixThreeDecimalPlaces(d) + ' / sec'
+  compact: d => t('in-services:formatters.perSec2', { num: withSiPrefixZeroDecimalPlaces(d) }),
+  detailed: d => t('in-services:formatters.perSec2', { num: withSiPrefixThreeDecimalPlaces(d) })
 };
 
 export const withSiMultiplyPrefixZeroDecimalPlaces = d => withSiPrefixZeroDecimalPlaces(d | 0);
@@ -229,24 +244,28 @@ export const siMultiplyPrefix = {
 };
 
 // deprecated in favor of millis
-export const msZeroDecimalPlaces = d => zeroDecimalPlaces(d) + 'ms';
-export const msTwoDecimalPlaces = d => twoDecimalPlaces(d) + 'ms';
+export const msZeroDecimalPlaces = d => t('in-services:formatters.timeUnits.ms', { num: zeroDecimalPlaces(d) });
+export const msTwoDecimalPlaces = d => t('in-services:formatters.timeUnits.ms', { num: twoDecimalPlaces(d) });
 export const ms = {
   compact: msZeroDecimalPlaces,
   detailed: msTwoDecimalPlaces
 };
 
-export const muSecondsZeroDecimalPlaces = d => zeroDecimalPlaces(d) + 'µs';
-export const muSecondsTwoDecimalPlaces = d => twoDecimalPlaces(d) + 'µs';
-export const muSecondsToMillisZeroDecimalPlaces = d => zeroDecimalPlaces(d / 1000) + 'ms';
-export const muSecondsToMillisTwoDecimalPlaces = d => twoDecimalPlaces(d / 1000) + 'ms';
+export const muSecondsZeroDecimalPlaces = d => t('in-services:formatters.timeUnits.us', { num: zeroDecimalPlaces(d) });
+export const muSecondsTwoDecimalPlaces = d => t('in-services:formatters.timeUnits.us', { num: twoDecimalPlaces(d) });
+export const muSecondsToMillisZeroDecimalPlaces = d =>
+  t('in-services:formatters.timeUnits.ms', { num: zeroDecimalPlaces(d / 1000) });
+export const muSecondsToMillisTwoDecimalPlaces = d =>
+  t('in-services:formatters.timeUnits.ms', { num: twoDecimalPlaces(d / 1000) });
 export const muSecondsToMillis = {
   compact: muSecondsToMillisZeroDecimalPlaces,
   detailed: muSecondsToMillisTwoDecimalPlaces
 };
 
-export const hitRateZeroDecimalPlaces = d => (d < 0 ? 'No activity' : percentageZeroDecimalPlaces(d));
-export const hitRateTwoDecimalPlaces = d => (d < 0 ? 'No activity' : percentageTwoDecimalPlaces(d));
+export const hitRateZeroDecimalPlaces = d =>
+  d < 0 ? t('in-services:formatters.noActivity') : percentageZeroDecimalPlaces(d);
+export const hitRateTwoDecimalPlaces = d =>
+  d < 0 ? t('in-services:formatters.noActivity') : percentageTwoDecimalPlaces(d);
 export const hitRate = {
   compact: hitRateZeroDecimalPlaces,
   detailed: hitRateTwoDecimalPlaces
@@ -268,10 +287,10 @@ export const nanos = {
   detailed: timeNs
 };
 
-export const bitReadableString = v => (v > 0 ? 'Yes' : 'No');
+export const bitReadableString = v => (v > 0 ? t('in-services:formatters.yes') : t('in-services:formatters.no'));
 
-export const temperatureZeroDecimalPlaces = d => zeroDecimalPlaces(d) + '°C';
-export const temperatureTwoDecimalPlaces = d => twoDecimalPlaces(d) + '°C';
+export const temperatureZeroDecimalPlaces = d => t('in-services:formatters.temperature', { num: zeroDecimalPlaces(d) });
+export const temperatureTwoDecimalPlaces = d => t('in-services:formatters.temperature', { num: twoDecimalPlaces(d) });
 export const temperature = {
   compact: temperatureZeroDecimalPlaces,
   detailed: temperatureTwoDecimalPlaces
@@ -280,17 +299,17 @@ export const temperature = {
 export const health = {
   compact(v) {
     if (v === 1) {
-      return 'Healthy';
+      return t('in-services:formatters.healthy');
     } else if (v === 0) {
-      return 'Unhealthy';
+      return t('in-services:formatters.unhealthy');
     }
     return twoDecimalPlaces(v);
   },
   detailed(v) {
     if (v === 1) {
-      return 'Healthy';
+      return t('in-services:formatters.healthy');
     } else if (v === 0) {
-      return 'Unhealthy';
+      return t('in-services:formatters.unhealthy');
     }
     return twoDecimalPlaces(v);
   }
@@ -308,7 +327,7 @@ export const health = {
  */
 function formatBytes(num, numberFormatter) {
   if (typeof num !== 'number' || isNaN(num)) {
-    return numberFormatter(0) + ' B';
+    return t('in-services:formatters.byteUnits.B', { num: numberFormatter(0) });
   }
   let exponent;
   let unit;
@@ -320,14 +339,14 @@ function formatBytes(num, numberFormatter) {
   }
 
   if (num < 1) {
-    return (neg ? '-' : '') + numberFormatter(num) + ' B';
+    return t('in-services:formatters.byteUnits.B', { num: (neg ? '-' : '') + numberFormatter(num) });
   }
 
   exponent = Math.min(Math.floor(Math.log(num) / Math.log(byteBase)), units.length - 1);
   num = numberFormatter(num / Math.pow(byteBase, exponent));
   unit = units[exponent];
 
-  return (neg ? '-' : '') + num + ' ' + unit;
+  return t('in-services:formatters.byteUnits.' + unit, { num: (neg ? '-' : '') + num });
 }
 
 const timeNanoUnits = [
@@ -373,22 +392,22 @@ const timeMinuteUnits = timeNanoUnits.slice(4);
  * @returns {string} Human readable amount of time
  * @throws An error when the time are NaN
  */
-function formatTime(t, units, formatNumber) {
-  if (typeof t !== 'number' || isNaN(t)) {
-    return '0µs';
+function formatTime(v, units, formatNumber) {
+  if (typeof v !== 'number' || isNaN(v)) {
+    return t('in-services:formatters.timeUnits.us', { num: 0 });
   }
 
   for (let i = 0; i < units.length; i++) {
     const unit = units[i];
 
-    if (t < unit.range) {
-      return formatNumber(t) + unit.unit;
+    if (v < unit.range) {
+      return t('in-services:formatters.timeUnits.' + unit.unit, { num: formatNumber(v) });
     }
 
-    t /= unit.range;
+    v /= unit.range;
   }
 
-  return formatNumber(t) + units[units.length - 1].unit;
+  return t('in-services:formatters.timeUnits.' + units[units.length - 1].unit, { num: formatNumber(v) });
 }
 
 function isLatencyFormatter(numberFormatter) {

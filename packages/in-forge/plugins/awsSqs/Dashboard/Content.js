@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import GetMetricStatisticsInUse from 'in-forge/plugins/awsDynamoDb/GetMetricStatisticsInUse';
@@ -16,7 +17,7 @@ export default function AwsSqsDashboard({ snapshot, timeConfig }) {
   return (
     <div>
       <GetMetricStatisticsInUse snapshot={snapshot} />
-      <DashboardSection title="Messages">
+      <DashboardSection title={t('in-forge:plugins.awsSqs.dashboard.messages')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
@@ -29,7 +30,14 @@ export default function AwsSqsDashboard({ snapshot, timeConfig }) {
               'num_of_msg_received',
               'num_of_msg_sent'
             ],
-            labels: ['Delayed', 'Not Visible', 'Visible', 'Empty Receives', 'Received', 'Sent'],
+            labels: [
+              t('in-forge:plugins.awsSqs.dashboard.delayed'),
+              t('in-forge:plugins.awsSqs.dashboard.notVisible'),
+              t('in-forge:plugins.awsSqs.dashboard.visible'),
+              t('in-forge:plugins.awsSqs.dashboard.emptyReceives'),
+              t('in-forge:plugins.awsSqs.dashboard.received'),
+              t('in-forge:plugins.awsSqs.dashboard.sent')
+            ],
             formatter: number.detailed,
             type: 'line'
           }}
@@ -37,13 +45,13 @@ export default function AwsSqsDashboard({ snapshot, timeConfig }) {
         />
       </DashboardSection>
 
-      <DashboardSection title="Old Messages (Average)">
+      <DashboardSection title={t('in-forge:plugins.awsSqs.dashboard.oldMessagesAverage')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             metrics: ['age_of_oldest_msg'],
-            labels: ['Age of oldest message'],
+            labels: [t('in-forge:plugins.awsSqs.dashboard.ageOfOldestMessage')],
             formatter: seconds.fixedCompact,
             type: 'line'
           }}
@@ -51,13 +59,13 @@ export default function AwsSqsDashboard({ snapshot, timeConfig }) {
         />
       </DashboardSection>
 
-      <DashboardSection title="Sent Messages Size">
+      <DashboardSection title={t('in-forge:plugins.awsSqs.dashboard.sentMessagesSize')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             metrics: ['sent_message_size'],
-            labels: ['Sent message size'],
+            labels: [t('in-forge:plugins.awsSqs.dashboard.sentMessageSize')],
             formatter: bytes.compact,
             type: 'line'
           }}

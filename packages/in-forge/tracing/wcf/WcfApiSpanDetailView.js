@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import ErrorDescriptionItem from 'in-sdk/components/traceDetails/ErrorDescriptionItem';
@@ -14,10 +15,10 @@ export default function WebApiSpanDetailView({ span }) {
   return (
     <div>
       <Dl>
-        <Di title="Service-Class">{span.getIn(['data', 'wcf', 'svcclass'])}</Di>
-        <Di title="Action">{span.getIn(['data', 'wcf', 'svcmethod'])}</Di>
-        <Di title="Binding">{binding ? binding : 'unknown'}</Di>
-        <Di title="Url">{span.getIn(['data', 'wcf', 'localaddress'])}</Di>
+        <Di title={t('in-forge:tracing.wcf.serviceClass')}>{span.getIn(['data', 'wcf', 'svcclass'])}</Di>
+        <Di title={t('in-forge:tracing.wcf.action')}>{span.getIn(['data', 'wcf', 'svcmethod'])}</Di>
+        <Di title={t('in-forge:tracing.wcf.binding')}>{binding ? binding : 'unknown'}</Di>
+        <Di title={t('in-forge:tracing.wcf.url')}>{span.getIn(['data', 'wcf', 'localaddress'])}</Di>
         <ErrorDescriptionItem error={error} />
       </Dl>
     </div>

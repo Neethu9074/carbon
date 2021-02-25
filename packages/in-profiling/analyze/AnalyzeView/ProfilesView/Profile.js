@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import React, { useState, useEffect } from 'react';
+import { t } from 'in-i18n';
 
 import {
   cpuTreeViewOpened,
@@ -37,14 +38,16 @@ export default function ProfileErrorHandler(props) {
   if (!props.profile) {
     return (
       <Message type={error} withIcon>
-        There are no profiles in the selected timeframe.
+        {t('in-profiling:thereAreNoProfilesInTheSelectedTimeframe')}
       </Message>
     );
   }
   if (hasError(props.profileForHighlightedTimeframeResult)) {
     return (
       <Message type={error} withIcon>
-        Error while loading profiles for the highlighted time: + profileForHighlightedTimeframeResult.errors[0]
+        {t('in-profiling:errorWhileLoadingProfilesForTheHighlightedTime', {
+          error: props.profileForHighlightedTimeframeResult.errors[0]
+        })}
       </Message>
     );
   }
@@ -143,7 +146,7 @@ function Profile({
             segmented
             buttonPropsList={[
               {
-                text: 'Tree view',
+                text: t('in-profiling:treeView'),
                 icon: 'lib_application_trace',
                 key: viewTypes.tree,
                 onClick: () => {
@@ -157,7 +160,7 @@ function Profile({
                 }
               },
               {
-                text: 'Flame graph',
+                text: t('in-profiling:flameGraph'),
                 icon: 'lib_flame',
                 key: viewTypes.flameGraph,
                 onClick: () => setViewType(viewTypes.flameGraph)
@@ -201,18 +204,20 @@ function Profile({
           entityName="profiles"
           message={
             !profileForHighlightedTimeframeResult.data
-              ? `There are no profiles in the selected timeframe (${formatTime(highlightedTimeframe[0])} - ${formatTime(
-                  highlightedTimeframe[1]
-                )}). Showing all instead.`
-              : `Showing profiles for selection (${formatTime(highlightedTimeframe[0])} - ${formatTime(
-                  highlightedTimeframe[1]
-                )})`
+              ? t('in-profiling:thereAreNoProfilesInTheSelectedTimeframeshowingAllInstead', {
+                  startTime: formatTime(highlightedTimeframe[0]),
+                  endTime: formatTime(highlightedTimeframe[1])
+                })
+              : t('in-profiling:showingProfilesForSelection', {
+                  startTime: formatTime(highlightedTimeframe[0]),
+                  endTime: formatTime(highlightedTimeframe[1])
+                })
           }
         />
       )}
       {isLoadingProfileForHighlightedTimeframe ? (
         <HorizontalFlexWrapper className={locals.contentLoadingWrapper}>
-          <LoadingIndicator width={150} height={150} text="Loading profiles" />
+          <LoadingIndicator width={150} height={150} text={t('in-profiling:loadingProfiles')} />
         </HorizontalFlexWrapper>
       ) : (
         profilesVisualisation
@@ -235,13 +240,15 @@ function ProfilesIndicator({
     <>
       {profileForHighlightedTimeframeOrDefault && (
         <span className={locals.numProfilesLabel}>
-          {numberOfProfiles} Profile
-          {numberOfProfiles > 1 ? 's' : ''}
+          {t('in-profiling:numberdOfProfiles', { count: numberOfProfiles })}
         </span>
       )}
       {totalNumSamples > 0 && totalNumSamples < 100 && (
         <Tooltip
-          content={`Statistical confidence in percentage distribution is low, because not enough samples were collected (${totalNumSamples} samples) in the selected Timeframe.`}
+          content={t(
+            'in-profiling:statisticalConfidenceInPercentageDistributionIsLowBecauseNotEnoughSamplesWereCollectedSamplesInTheSelectedTimeframe',
+            { totalNumSamples: totalNumSamples }
+          )}
           align="rightMiddle"
         >
           <SvgIcon className={locals.icon} type="lib_approximately_equal" />

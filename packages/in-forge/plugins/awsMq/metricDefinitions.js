@@ -2,6 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
+
 import { number, percentage, millis } from 'in-services/formatters/number';
 import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 
@@ -27,23 +29,23 @@ export default [
       'broker2.total_producer_count'
     ],
     labels: [
-      'CpuCreditBalance',
-      'CurrentConnectionsCount',
-      'JournalFilesForFastRecovery',
-      'JournalFilesForFullRecovery',
-      'OpenTransactionsCount',
-      'TotalConsumerCount',
-      'TotalMessageCount',
-      'TotalProducerCount',
+      t('in-forge:plugins.awsMq.cpuCreditBalance'),
+      t('in-forge:plugins.awsMq.currentConnectionsCount'),
+      t('in-forge:plugins.awsMq.journalFilesForFastRecovery'),
+      t('in-forge:plugins.awsMq.journalFilesForFullRecovery'),
+      t('in-forge:plugins.awsMq.openTransactionsCount'),
+      t('in-forge:plugins.awsMq.totalConsumerCount'),
+      t('in-forge:plugins.awsMq.totalMessageCount'),
+      t('in-forge:plugins.awsMq.totalProducerCount'),
 
-      'CpuCreditBalance (2nd Broker)',
-      'CurrentConnectionsCount (2nd Broker)',
-      'JournalFilesForFastRecovery (2nd Broker)',
-      'JournalFilesForFullRecovery (2nd Broker)',
-      'OpenTransactionsCount (2nd Broker)',
-      'TotalConsumerCount (2nd Broker)',
-      'TotalMessageCount (2nd Broker)',
-      'TotalProducerCount (2nd Broker)'
+      t('in-forge:plugins.awsMq.cpuCreditBalance2ndBroker'),
+      t('in-forge:plugins.awsMq.currentConnectionsCount2ndBroker'),
+      t('in-forge:plugins.awsMq.journalFilesForFastRecovery2ndBroker'),
+      t('in-forge:plugins.awsMq.journalFilesForFullRecovery2ndBroker'),
+      t('in-forge:plugins.awsMq.openTransactionsCount2ndBroker'),
+      t('in-forge:plugins.awsMq.totalConsumerCount2ndBroker'),
+      t('in-forge:plugins.awsMq.totalMessageCount2ndBroker'),
+      t('in-forge:plugins.awsMq.totalProducerCount2ndBroker')
     ],
     min: 0,
     formatter: number
@@ -67,23 +69,23 @@ export default [
       getDynamicMetricMatch('queueMetrics2', 'queue_size', 'Queue')
     ],
     labels: [
-      'ConsumerCount',
-      'EnqueueCount',
-      'ExpiredCount',
-      'DispatchCount',
-      'DequeueCount',
-      'ProducerCount',
-      'QueueSize',
+      t('in-forge:plugins.awsMq.consumerCount'),
+      t('in-forge:plugins.awsMq.enqueueCount'),
+      t('in-forge:plugins.awsMq.expiredCount'),
+      t('in-forge:plugins.awsMq.dispatchCount'),
+      t('in-forge:plugins.awsMq.DequeueCount'),
+      t('in-forge:plugins.awsMq.producerCount'),
+      t('in-forge:plugins.awsMq.queueSize'),
 
-      'ConsumerCount(2nd Broker)',
-      'EnqueueCount (2nd Broker)',
-      'ExpiredCount (2nd Broker)',
-      'DispatchCount (2nd Broker)',
-      'DequeueCount (2nd Broker)',
-      'ProducerCount (2nd Broker)',
-      'QueueSize (2nd Broker)'
+      t('in-forge:plugins.awsMq.consumerCount2ndBroker'),
+      t('in-forge:plugins.awsMq.enqueueCount2ndBroker'),
+      t('in-forge:plugins.awsMq.expiredCount2ndBroker'),
+      t('in-forge:plugins.awsMq.dispatchCount2ndBroker'),
+      t('in-forge:plugins.awsMq.dequeueCount2ndBroker'),
+      t('in-forge:plugins.awsMq.producerCount2ndBroker'),
+      t('in-forge:plugins.awsMq.queueSize2ndBroker')
     ],
-    category: ['Queues'],
+    category: [t('in-forge:plugins.awsMq.queues')],
     min: 0,
     formatter: number
   },
@@ -104,21 +106,21 @@ export default [
       getDynamicMetricMatch('topicMetrics2', 'producer_count', 'Topic')
     ],
     labels: [
-      'ConsumerCount',
-      'EnqueueCount',
-      'ExpiredCount',
-      'DispatchCount',
-      'DequeueCount',
-      'ProducerCount',
+      t('in-forge:plugins.awsMq.consumerCount'),
+      t('in-forge:plugins.awsMq.enqueueCount'),
+      t('in-forge:plugins.awsMq.expiredCount'),
+      t('in-forge:plugins.awsMq.dispatchCount'),
+      t('in-forge:plugins.awsMq.dequeueCount'),
+      t('in-forge:plugins.awsMq.producerCount'),
 
-      'ConsumerCount (2nd Broker)',
-      'EnqueueCount (2nd Broker)',
-      'ExpiredCount (2nd Broker)',
-      'DispatchCount (2nd Broker)',
-      'DequeueCount (2nd Broker)',
-      'ProducerCount (2nd Broker)'
+      t('in-forge:plugins.awsMq.consumerCount2ndBroker'),
+      t('in-forge:plugins.awsMq.enqueueCount2ndBroker'),
+      t('in-forge:plugins.awsMq.expiredCount2ndBroker'),
+      t('in-forge:plugins.awsMq.dispatchCount2ndBroker'),
+      t('in-forge:plugins.awsMq.dequeueCount2ndBroker'),
+      t('in-forge:plugins.awsMq.producerCount2ndBroker')
     ],
-    category: ['Topics'],
+    category: [t('in-forge:plugins.awsMq.topics')],
     min: 0,
     formatter: number
   },
@@ -133,13 +135,13 @@ export default [
       'broker2.store_percent_usage'
     ],
     labels: [
-      'CpuUtilization',
-      'HeapUsage',
-      'StorePercentUsage',
+      t('in-forge:plugins.awsMq.cpuUtilization'),
+      t('in-forge:plugins.awsMq.heapUsage'),
+      t('in-forge:plugins.awsMq.storePercentUsage'),
 
-      'CpuUtilization (2nd Broker)',
-      'HeapUsage (2nd Broker)',
-      'StorePercentUsage (2nd Broker)'
+      t('in-forge:plugins.awsMq.cpuUtilization2ndBroker'),
+      t('in-forge:plugins.awsMq.heapUsage2ndBroker'),
+      t('in-forge:plugins.awsMq.storePercentUsage2ndBroker')
     ],
     min: 0,
     max: 1,
@@ -150,8 +152,8 @@ export default [
       getDynamicMetricMatch('queueMetrics', 'memory_usage', 'Queue'),
       getDynamicMetricMatch('queueMetrics2', 'memory_usage', 'Queue')
     ],
-    labels: ['MemoryUsage', 'MemoryUsage (2nd Broker)'],
-    category: ['Queues'],
+    labels: [t('in-forge:plugins.awsMq.memoryUsage'), t('in-forge:plugins.awsMq.memoryUsage2ndBroker')],
+    category: [t('in-forge:plugins.awsMq.queues')],
     min: 0,
     max: 1,
     formatter: percentage
@@ -161,8 +163,8 @@ export default [
       getDynamicMetricMatch('topicMetrics', 'memory_usage', 'Topic'),
       getDynamicMetricMatch('topicMetrics2', 'memory_usage', 'Topic')
     ],
-    labels: ['MemoryUsage', 'MemoryUsage (2nd Broker)'],
-    category: ['Topics'],
+    labels: [t('in-forge:plugins.awsMq.memoryUsage'), t('in-forge:plugins.awsMq.memoryUsage2ndBroker')],
+    category: [t('in-forge:plugins.awsMq.topics')],
     min: 0,
     max: 1,
     formatter: percentage
@@ -172,8 +174,8 @@ export default [
       getDynamicMetricMatch('queueMetrics', 'enqueue_time', 'Queue'),
       getDynamicMetricMatch('queueMetrics2', 'enqueue_time', 'Queue')
     ],
-    labels: ['EnqueueTime', 'EnqueueTime (2nd Broker)'],
-    category: ['Queues'],
+    labels: [t('in-forge:plugins.awsMq.enqueueTime'), t('in-forge:plugins.awsMq.enqueueTime2ndBroker')],
+    category: [t('in-forge:plugins.awsMq.queues')],
     min: 0,
     formatter: millis
   },
@@ -182,8 +184,8 @@ export default [
       getDynamicMetricMatch('topicMetrics', 'enqueue_time', 'Topic'),
       getDynamicMetricMatch('topicMetrics2', 'enqueue_time', 'Topic')
     ],
-    labels: ['EnqueueTime', 'EnqueueTime (2nd Broker)'],
-    category: ['Topics'],
+    labels: [t('in-forge:plugins.awsMq.enqueueTime'), t('in-forge:plugins.awsMq.enqueueTime2ndBroker')],
+    category: [t('in-forge:plugins.awsMq.topics')],
     min: 0,
     formatter: millis
   }

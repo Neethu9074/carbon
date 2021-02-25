@@ -1,4 +1,25 @@
 {
-  "log": "{{formattedCount}} Log",
-  "log_plural": "{{formattedCount}} Logs"
+  "time": "Time",
+  "logs": "Logs",
+  "sum": "sum",
+  "bar": "Bar",
+  "logsOverTime": "Logs over time",
+  "thisIsAnAlphaVersionOfANewProductCapabilityWeAdviseYouNotToRelyOnTheDataPresented": "This is an alpha version of a new product capability. We advise you not to rely on the data presented.",
+  "theQueryConfigurationIsInvalidPleaseAddressTheValidationFailuresBeforeContinuing": "The query configuration is invalid. Please address the validation failures before continuing.",
+  "log": "Log",
+  "selectTags": "Select tags",
+  "addATag": "Add a tag",
+  "download": "Download",
+  "analytics": "Analytics",
+  "closeLogDetails": "Close log details",
+  "detail": "Detail",
+  "logTime": "Log time",
+  "type": "Type",
+  "message": "Message",
+  "tags": "Tags",
+  "logCount": "{{formattedCount}} Log",
+  "logCount_plural": "{{formattedCount}} Logs",
+  "logCount_0": "{{formattedCount}} Logs",
+  "logCount_1": "{{formattedCount}} Log",
+  "logCount_2": "{{formattedCount}} Logs"
 }

@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import QueryBuilderSection from 'in-new-components/QueryBuilder/workspace/QueryBuilderSection';
@@ -33,7 +34,7 @@ export default function LoggingQueryBuilderWorkspace(props) {
         </Sections>
         {isInvalid && (
           <Message type={error} withIcon small>
-            The query configuration is invalid. Please address the validation failures before continuing.
+            {t('in-logging:theQueryConfigurationIsInvalidPleaseAddressTheValidationFailuresBeforeContinuing')}
           </Message>
         )}
         {children}

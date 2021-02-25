@@ -8,13 +8,14 @@ import { t } from 'in-i18n';
 
 import { trackSliNewCreated, trackSLICloned, trackSLIEditAbort } from 'in-custom-dashboards/widgets/Slo/tracker';
 import { resetFormForSliType, createForm, sliFieldNames } from 'in-custom-dashboards/widgets/Slo/sli/sliForm';
-import { switchQB1orQB2Helper, isQB2ModeEnabled } from 'in-new-components/Alerting/components/WithQB1orQB2';
 import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import { isSliEventsQueryValid } from 'in-custom-dashboards/widgets/Slo/sli/SliEventsQueryBuilder';
 import FormFooter, { SaveButton, CancelButton } from 'in-components/form/FormFooter/FormFooter';
+import { switchQB1orQB2Helper } from 'in-new-components/Alerting/components/WithQB1orQB2';
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
 import { SliForm } from 'in-custom-dashboards/widgets/Slo/sli/SliFormPresenter';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
+import { isQB2ModeInSmartAlertsEnabled } from 'in-services/featureFlags';
 import { createSliConfiguration } from 'in-custom-dashboards/api';
 import { generateUniqueShortId } from 'in-services/util/id';
 import { pendingResult } from 'in-services/fixedObjects';
@@ -161,7 +162,7 @@ function useValidateExpressions(form, timeConfig) {
   const goodEventFilterExpression = sliEntityForm?.get(sliFieldNames.goodEventFilterExpression)?.value;
   const badEventFilterExpression = sliEntityForm?.get(sliFieldNames.badEventFilterExpression)?.value;
   const isSliTypeUsingQB2 = sliType === 'availability';
-  const requiresQueryValidation = isQB2ModeEnabled && isSliTypeUsingQB2;
+  const requiresQueryValidation = isQB2ModeInSmartAlertsEnabled && isSliTypeUsingQB2;
 
   const goodEventsValidationResult = useValidateExpression(goodEventFilterExpression);
   const badEventsValidationResult = useValidateExpression(badEventFilterExpression);

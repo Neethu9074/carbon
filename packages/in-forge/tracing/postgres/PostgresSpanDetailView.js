@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import ErrorDescriptionItem from 'in-sdk/components/traceDetails/ErrorDescriptionItem';
@@ -14,14 +15,14 @@ export default function PostgresSpanDetailView({ span }) {
 
   return (
     <Dl>
-      <Di title="Host">{span.getIn(['data', 'pg', 'host'])}</Di>
-      <Di title="Port">{span.getIn(['data', 'pg', 'port'])}</Di>
-      <Di title="Database">{span.getIn(['data', 'pg', 'db'])}</Di>
-      <Di title="User">{span.getIn(['data', 'pg', 'user'])}</Di>
+      <Di title={t('in-forge:tracing.postgres.host')}>{span.getIn(['data', 'pg', 'host'])}</Di>
+      <Di title={t('in-forge:tracing.postgres.port')}>{span.getIn(['data', 'pg', 'port'])}</Di>
+      <Di title={t('in-forge:tracing.postgres.database')}>{span.getIn(['data', 'pg', 'db'])}</Di>
+      <Di title={t('in-forge:tracing.postgres.user')}>{span.getIn(['data', 'pg', 'user'])}</Di>
       <ErrorDescriptionItem error={span.getIn(['data', 'pg', 'error'])} />
 
       {statement ? (
-        <Di title="Query" verticalDisplay>
+        <Di title={t('in-forge:tracing.postgres.query')} verticalDisplay>
           <Code code={formatSql(statement)} lang="sql" showLineNumbers={false} />
         </Di>
       ) : null}

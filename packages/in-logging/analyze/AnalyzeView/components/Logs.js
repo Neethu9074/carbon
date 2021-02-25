@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import IndeterminateLoadingIndicator from 'in-new-components/LoadingIndicators/IndeterminateLoadingIndicator';
@@ -22,7 +23,6 @@ import getLogs from 'in-logging/subscriptions/getLogs';
 import { number } from 'in-services/formatters/number';
 import getLog from 'in-logging/subscriptions/getLog';
 import useObservable from 'in-hooks/useObservable';
-import { t } from 'in-i18n';
 
 import locals from './Logs.mless';
 
@@ -62,7 +62,7 @@ export default function Logs(props) {
       {...props}
       classNames={{ listItem: locals.listItem }}
       getItemName={({ count }) =>
-        t('in-logging:log', {
+        t('in-logging:logCount', {
           count,
           formattedCount: number.compact(count)
         })
@@ -70,7 +70,7 @@ export default function Logs(props) {
       sortOptions={[
         {
           value: 'timestamp',
-          label: 'Time'
+          label: t('in-logging:time')
         }
       ]}
       columnDefinitions={columnDefinitions}

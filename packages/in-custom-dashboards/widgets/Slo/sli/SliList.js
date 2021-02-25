@@ -9,13 +9,13 @@ import React from 'react';
 
 import { availabilityType, applicationType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
-import { isQB2ModeEnabled } from 'in-new-components/Alerting/components/WithQB1orQB2';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-new-components/Dialog/ConfirmationDialog';
 import { trackSliDeleted } from 'in-custom-dashboards/widgets/Slo/tracker';
 import getServiceLabel from 'in-subscription/application/getServiceLabel';
 import getEndpointInfo from 'in-subscription/application/getEndpointInfo';
+import { isQB2ModeInSmartAlertsEnabled } from 'in-services/featureFlags';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import getApplication from 'in-subscription/application/getApplication';
 import { deleteSliConfiguration } from 'in-custom-dashboards/api';
@@ -135,7 +135,9 @@ const columnDefinitions = [
     getContent(item, { selectSli }) {
       if (
         !role.canConfigureServiceLevelIndicators ||
-        (!isQB2ModeEnabled && item.sliEntity.sliType === 'availability' && !item.convertedTagFilterExpression)
+        (!isQB2ModeInSmartAlertsEnabled &&
+          item.sliEntity.sliType === 'availability' &&
+          !item.convertedTagFilterExpression)
       ) {
         return null;
       }

@@ -4,6 +4,7 @@
  */
 import React, { useMemo } from 'react';
 import theme from 'in-themes';
+import { t } from 'in-i18n';
 
 import {
   highlightedTimeframe$,
@@ -31,7 +32,7 @@ export default function ProfilesLane(props) {
       events={clusteredProfiles.map((clusteredTimestamps, i) =>
         mapClusterToMarkerLaneEvents(props.timeConfig, clusteredTimestamps, clusteredProfiles[i - 1])
       )}
-      label="Profiles"
+      label={t('in-profiling:profiles')}
       iconConfig={{
         type: 'lib_datetime_timer',
         typeCluster: 'lib_datetime_timer_multiple',
@@ -92,12 +93,12 @@ function TooltipContent({ timestamp, from, to, count }) {
             from: <time dateTime={new Date(from).toISOString()}>{formatDateTime(from)}</time>
             <br />
             to: <time dateTime={new Date(to).toISOString()}>{formatDateTime(to)}</time>
-            <div className={locals.name}>{`${count} profiles collected`}</div>
+            <div className={locals.name}>{t('in-profiling:numbersOfProfilesCollected', { count: count })}</div>
           </>
         ) : (
           <>
             <time dateTime={new Date(timestamp).toISOString()}>{formatDateTime(timestamp)}</time>
-            <div className={locals.name}>profile collected</div>
+            <div className={locals.name}>{t('in-profiling:profileCollected')}</div>
           </>
         )}
       </div>

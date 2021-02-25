@@ -31,6 +31,9 @@ export function getEnhancedTagFilters(alertConfigWithFormModel, blueprintConfig,
 export function getEnhancedTagFilterFormModel(alertConfigWithFormModel, blueprintConfig, subEntityId) {
   // TODO AP ID must be provided via selection as well for Global SmartAlerts, and also as a separate parameter
   //      for non-global SmartAlerts, because this field is deprecated.
+  // TODO this function is currently also used for Website SmartAlerts. applicationId will in that case be undefined,
+  //      which works, because the Website-blueprintConfig considers only the first parameter in
+  //      getEntityTagFilterFormModel. But his should be refactored later.
   const { applicationId } = alertConfigWithFormModel;
 
   const { tagFilterExpression: tagFilterFormModel, rule } = alertConfigWithFormModel;

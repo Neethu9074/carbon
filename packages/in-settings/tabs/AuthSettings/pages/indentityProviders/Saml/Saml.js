@@ -241,6 +241,6 @@ function enrichForm(form, { setCanDeleteItem, result: { config } }) {
     .put('samlSignInCallbackUrl', createField({ value: config.samlSignInCallbackUrl || '' }))
     .put('samlSignOutCallbackUrl', createField({ value: config.samlSignOutCallbackUrl || '' }))
     .put('spEntityId', createField({ value: config.spEntityId || '' }))
-    .put('ownerEmail', createField({ value: config.spEntityId || '' }))
+    .put('ownerEmail', createField({ value: '' }))
     .put('nameIdFormat', createField({ value: config.nameIdFormat || '' }));
 }

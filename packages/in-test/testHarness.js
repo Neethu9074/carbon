@@ -103,6 +103,9 @@ Enzyme.configure({ adapter: new Adapter() });
 
 i18n.init({
   lng: 'en-US',
+  resources: {
+    'en-US': require('../../target/assets/i18n/en-US.json')
+  },
 
   defaultNS: 'common',
 

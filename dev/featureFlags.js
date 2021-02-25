@@ -40,5 +40,6 @@ module.exports = {
   loggingEnabled: true,
   smartAlertsAdvancedEntitySelectionEnabled: true,
   qb2InAPCreationEnabled: true,
-  languageSelectorEnabled: true
+  languageSelectorEnabled: true,
+  oidcEnabled: true
 };

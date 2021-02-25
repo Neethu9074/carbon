@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import EntityPageMainNotification from 'in-new-components/EntityPageMainNotification/EntityPageMainNotification';
@@ -17,8 +18,8 @@ export default function EmptyAnalyzeView({ type }) {
       <CenterAlignmentColumn>
         <EntityPageMainNotification
           icon={getIconByType(type, 'profiling')}
-          explanation="No profiles are available for the selected time range."
-          title={`No ${entityName} found`}
+          explanation={t('in-profiling:noProfilesAreAvailableForTheSelectedTimeRange')}
+          title={t('in-profiling:noEntityFound', { entityName: entityName })}
         />
       </CenterAlignmentColumn>
     </Sticky>

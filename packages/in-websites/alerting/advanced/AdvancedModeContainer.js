@@ -19,6 +19,9 @@ import {
 } from 'in-websites/alerting/form/formUtils';
 import AlertPropertiesContainer from 'in-new-components/Alerting/advanced/AlertProperties/AlertPropertiesContainer';
 import { default as GlobalAdvancedModeContainer } from 'in-new-components/Alerting/advanced/AdvancedModeContainer';
+import AlertTagFilterExpressionConfig, {
+  inPackages
+} from 'in-new-components/Alerting/components/AlertTagFilterExpressionConfig';
 import StatusCodeInteractiveChart from 'in-websites/alerting/advanced/StatusCodeInteractiveChart';
 import ThroughputInteractiveChart from 'in-websites/alerting/advanced/ThroughputInteractiveChart';
 import { blueprintConfigs, getBlueprintConfig } from 'in-websites/alerting/data/blueprintConfig';
@@ -34,6 +37,7 @@ import ProvideStatusCode from 'in-websites/alerting/components/ProvideStatusCode
 import { fieldNames } from 'in-websites/alerting/form/alertDialogFormDefinition';
 import createBlueprintForm from 'in-websites/alerting/form/blueprintFormCreator';
 import AlertTypeSwitch from 'in-websites/alerting/components/AlertTypeSwitch';
+import WithQB1orQB2 from 'in-new-components/Alerting/components/WithQB1orQB2';
 import ProvideJsError from 'in-websites/alerting/components/ProvideJsError';
 import { modeAdvanced } from 'in-websites/alerting/constants';
 import LightCard from 'in-new-components/Card/LightCard';
@@ -48,7 +52,8 @@ export default function AdvancedModeContainer(props) {
     updateForm,
     onChartViewConfigChange,
     selectedChartViewConfigIndex,
-    thresholdResult
+    thresholdResult,
+    QueryBuilderComponent
   } = props;
   const alertType = form.get('rule').get('alertType').value;
   const blueprintConfig = getBlueprintConfig(alertType);
@@ -62,12 +67,28 @@ export default function AdvancedModeContainer(props) {
           label: t('in-websites:alerting.advanced.scopeLabel'),
           title: t('in-websites:alerting.advanced.scopeTitle'),
           content: (
-            <AlertLocationFilters
-              form={form}
-              websiteLabel={websiteLabel}
-              timeConfig={timeConfig}
-              updateForm={updateForm}
-            />
+            <>
+              <WithQB1orQB2
+                onUsesQB1={() => (
+                  <AlertLocationFilters
+                    form={form}
+                    websiteLabel={websiteLabel}
+                    timeConfig={timeConfig}
+                    updateForm={updateForm}
+                  />
+                )}
+                onUsesQB2={() => (
+                  <AlertTagFilterExpressionConfig
+                    form={form}
+                    updateForm={updateForm}
+                    label={websiteLabel}
+                    inPackage={inPackages.IN_WEBSITES}
+                    QueryBuilderComponent={QueryBuilderComponent}
+                  />
+                )}
+                shouldFallbackToQB2={isQB2Config => isQB2Config(form.get('convertedTagFilterExpression').value)}
+              />
+            </>
           ),
           checked: true
         },

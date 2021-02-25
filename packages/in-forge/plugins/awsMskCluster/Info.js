@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
@@ -11,10 +12,14 @@ export default function Info({ snapshot }) {
 
   return (
     <DescriptionList>
-      <DescriptionItem title="Name">{data.get('clusterName')}</DescriptionItem>
-      <DescriptionItem title="ARN">{data.get('clusterArn')}</DescriptionItem>
-      <DescriptionItem title="Enhanced Monitoring">{data.get('clusterEnhancedMonitoring')}</DescriptionItem>
-      <DescriptionItem title="Kafka Version">{data.get('kafkaVersion')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.awsMskCluster.name')}>{data.get('clusterName')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.awsMskCluster.arn')}>{data.get('clusterArn')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.awsMskCluster.enhancedMonitoring')}>
+        {data.get('clusterEnhancedMonitoring')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.awsMskCluster.kafkaVersion')}>
+        {data.get('kafkaVersion')}
+      </DescriptionItem>
     </DescriptionList>
   );
 }

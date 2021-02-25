@@ -5,10 +5,6 @@
 @import '~in-themes/active.less';
 
 :local {
-  .filterList {
-    padding: 1rem;
-  }
-
   .alertChannelsWrapper {
     margin: -1px;
   }

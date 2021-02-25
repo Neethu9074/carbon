@@ -3,13 +3,15 @@
  * (c) Copyright Instana Inc.
  */
 import { createViolationsInSequenceForm } from 'in-new-components/Alerting/advanced/TimeThresholdConfig/form';
+import { switchQB1orQB2Helper } from 'in-new-components/Alerting/components/WithQB1orQB2';
 import { getBlueprintConfig } from 'in-websites/alerting/data/blueprintConfig';
 import createThresholdForm from 'in-websites/alerting/form/thresholdForm';
 import createRuleForm from 'in-websites/alerting/form/ruleForm';
 
 export default function createBlueprintForm(form, alertType, alertThreshold = {}) {
   const threshold = form.get('threshold').toJS();
-  const tagFilters = form.get('tagFilters').value;
+  const tagFilters = form.get('tagFilters').value; // QB1
+  const tagFilterExpression = form.get('tagFilterExpression').value; // QB2
 
   const blueprintConfig = getBlueprintConfig(alertType);
   const newThresholdForm = createThresholdForm(
@@ -36,11 +38,18 @@ export default function createBlueprintForm(form, alertType, alertThreshold = {}
 
   const availableTagFilters = blueprintConfig.getAvailableTags(metricName);
   const isAllowedFilter = filter => availableTagFilters.includes(filter.name);
-  let updatedForm = form
-    // TODO when QB2 is introduced for Website SmartAlerts, we need to properly cleanup unsupported filters from the
-    //      query, by recursively traversing the query. This is needed for Website SmartAlerts, but not for
-    //      AP SmartAlerts because the website area has a different catalog for each beacon type.
-    .updateIn(['tagFilters'], f => f.setValue(tagFilters.filter(isAllowedFilter)))
+  let updatedForm = switchQB1orQB2Helper(
+    () => form.updateIn(['tagFilters'], f => f.setValue(tagFilters.filter(isAllowedFilter))),
+    () => {
+      const filteredTagFilterExpression = (tagFilterExpression ?? []).filter(isAllowedFilter);
+      const firstTagFilterItemIndex = filteredTagFilterExpression.findIndex(({ type }) => type === 'TAG_FILTER');
+
+      return form.updateIn(['tagFilterExpression'], f =>
+        f.setValue(filteredTagFilterExpression.slice(firstTagFilterItemIndex))
+      );
+    },
+    isQB2Config => isQB2Config(form.get('convertedTagFilterExpression')?.value)
+  )
     .put('rule', newRuleForm)
     .put('threshold', newThresholdForm);
 

@@ -2,6 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
+
 export function buildEnumValidator(allowedValues) {
   const sortedAllowedValues = allowedValues.slice().sort();
 
@@ -15,7 +17,10 @@ export function buildEnumValidator(allowedValues) {
       return [
         {
           severity: 'error',
-          message: `Value '${v}' is not one of the supported values. Expected one of: ${sortedAllowedValues.join(', ')}`
+          message: t('in-services:validators.valueIsNotOneOfTheSupportedValuesExpectedOneOf', {
+            v: v,
+            allowedValues: sortedAllowedValues.join(', ')
+          })
         }
       ];
     }

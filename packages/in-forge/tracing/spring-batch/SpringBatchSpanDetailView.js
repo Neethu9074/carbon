@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import ErrorDescriptionItem from 'in-sdk/components/traceDetails/ErrorDescriptionItem';
@@ -13,11 +14,11 @@ export default function SpringBatchSpanDetailView({ span }) {
   return (
     <div>
       <Dl>
-        <Di title="Job">{span.getIn(['data', 'batch', 'job'])}</Di>
-        <Di title="Parameters">{span.getIn(['data', 'batch', 'parameters'])}</Di>
-        <Di title="Exit Status">{span.getIn(['data', 'batch', 'status'])}</Di>
+        <Di title={t('in-forge:tracing.springBatch.job')}>{span.getIn(['data', 'batch', 'job'])}</Di>
+        <Di title={t('in-forge:tracing.springBatch.parameters')}>{span.getIn(['data', 'batch', 'parameters'])}</Di>
+        <Di title={t('in-forge:tracing.springBatch.exitStatus')}>{span.getIn(['data', 'batch', 'status'])}</Di>
         {error ? (
-          <Di title="Error" verticalDisplay>
+          <Di title={t('in-forge:tracing.springBatch.error')} verticalDisplay>
             <ErrorDescriptionItem error={error} />
           </Di>
         ) : null}
