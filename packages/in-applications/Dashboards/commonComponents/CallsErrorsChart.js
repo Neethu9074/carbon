@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import theme from 'in-themes';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
@@ -46,14 +47,14 @@ export default function CallsErrorsChart({
       config: defaultMetricConfig,
       id: 'calls.all',
       metric: 'calls',
-      label: 'Calls',
+      label: t('in-applications:labelCalls'),
       color: theme.lib.colors.chart.strokeColors25[0]
     },
     {
       config: defaultMetricConfig,
       id: 'erroneousCalls',
       metric: 'erroneousCalls',
-      label: 'Erroneous Calls',
+      label: t('in-applications:titleErroneousCalls'),
       color: theme.lib.colors.failure
     }
   ];
@@ -96,7 +97,7 @@ export default function CallsErrorsChart({
         renderPostChartContent({
           ...props,
           boundaryScope,
-          chartName: cardTitle ?? 'Calls',
+          chartName: cardTitle ?? t('in-applications:labelCalls'),
           alertRules: {
             throughputHigh: {
               rule: {
@@ -146,7 +147,7 @@ export default function CallsErrorsChart({
           {
             name: 'analyze',
             icon: 'lib_analyze',
-            label: 'View in Analyze',
+            label: t('in-applications:lineViewInAnalyze'),
             getHref$: (highlightedTime, config) =>
               tagCatalog &&
               getJumpToAnalyzeHref$(

@@ -4,6 +4,7 @@
  */
 import theme from 'in-themes';
 import { get } from 'lodash';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
@@ -48,7 +49,7 @@ const pathSegment = applicationsList;
 const columnDefinitions = [
   {
     id: 'applicationLabel',
-    label: 'Name',
+    label: t('in-applications:labelName'),
     getContent(item) {
       return (
         <SeverityIndicatorCellContentWrapper severity={get(item, ['metrics', 'maxSeverity', 0, 1], 0)}>
@@ -59,7 +60,7 @@ const columnDefinitions = [
   },
   {
     id: 'boundaryScope',
-    label: 'Scope',
+    label: t('in-applications:labelScope'),
     sortable: false,
     getContent(item) {
       const href$ = getApplicationDashboard(item.application.id);
@@ -76,7 +77,7 @@ const columnDefinitions = [
   },
   {
     id: 'services',
-    label: 'Services',
+    label: t('in-applications:labelServices'),
     defaultOrderDirection: 'DESC',
     getContent(item) {
       const count = get(item, ['metrics', 'services', 0, 1], 0);
@@ -85,7 +86,7 @@ const columnDefinitions = [
   },
   {
     id: 'callsAgg',
-    label: 'Calls',
+    label: t('in-applications:labelCalls'),
     defaultOrderDirection: 'DESC',
     getContent(item, { result, timeConfig }) {
       return (
@@ -103,7 +104,7 @@ const columnDefinitions = [
   },
   {
     id: 'latencyAgg',
-    label: 'Latency',
+    label: t('in-applications:labelLatency'),
     defaultOrderDirection: 'DESC',
     getContent(item, { result, timeConfig }) {
       return (
@@ -121,7 +122,7 @@ const columnDefinitions = [
   },
   {
     id: 'errorsAgg',
-    label: 'Erroneous Call Rate',
+    label: t('in-applications:titleErroneousCallRate'),
     defaultOrderDirection: 'DESC',
     getContent(item, { result, timeConfig }) {
       return (
@@ -140,7 +141,7 @@ const columnDefinitions = [
   },
   {
     id: 'maxSeverity',
-    label: 'Health',
+    label: t('in-applications:labelHealth'),
     defaultOrderDirection: 'DESC',
     getContent(item, { result, timeConfig }) {
       return (
@@ -178,7 +179,7 @@ const rightHeader = role.canConfigureApplications && (
         onClick={() => applicationOpenSubmitFormTracker()}
         icon="lib_openclose_add_circle_outline"
       >
-        Create Application Perspective
+        {t('in-applications:titleCreateApplicationPerspective')}
       </Button>
     )}
   </>
@@ -223,7 +224,7 @@ export default function ApplicationsLisPresenter({
   return (
     <Sticky header={<ViewSwitcher />}>
       <LeftRightPadding>
-        <Title title="Applications" />
+        <Title title={t('in-applications:labelApplications')} />
         <ViewTrackingMeta
           data={{
             productArea: 'Applications',

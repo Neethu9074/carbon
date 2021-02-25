@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import theme from 'in-themes';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
@@ -33,7 +34,7 @@ export default function Errors({
 
   const errorRate = {
     metric: 'errors',
-    label: 'Erroneous Call Rate',
+    label: t('in-applications:titleErroneousCallRate'),
     aggregation: 'MEAN',
     source: 'APPLICATION',
     tagFilters: tagFilters,
@@ -101,7 +102,7 @@ export default function Errors({
           {
             name: 'analyze',
             icon: 'lib_analyze',
-            label: 'View in Analyze',
+            label: t('in-applications:lineViewInAnalyze'),
             getHref$: highlightedTime =>
               tagCatalog &&
               getJumpToAnalyzeHref$(

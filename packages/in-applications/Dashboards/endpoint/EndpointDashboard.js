@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { get } from 'lodash';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
@@ -89,7 +90,7 @@ export default function EndpointDashboard({ location }) {
 
   const filterTabByResult = result =>
     get(result, ['data', 'syntheticType'], 'NON_SYNTHETIC') === 'SYNTHETIC'
-      ? tab => tab.label === 'Summary'
+      ? tab => tab.label === t('in-applications:labelSummary')
       : () => true;
 
   return (
@@ -147,7 +148,7 @@ function Header(props) {
     <DashboardHeader
       {...props}
       icon="lib_application_endpoint"
-      title="Endpoint"
+      title={t('in-applications:labelEndpoint')}
       label={get(props.result, ['data', 'label'])}
       renderButtonLine={renderButtonLine}
       renderButtonLineSecondary={renderButtonLineSecondary}

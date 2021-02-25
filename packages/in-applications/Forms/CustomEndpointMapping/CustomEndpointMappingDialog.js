@@ -6,6 +6,7 @@ import { createField, createMapForm, createListForm } from 'formalistic';
 import { just } from '@instana/observables';
 import React, { useState } from 'react';
 import { get } from 'lodash';
+import { t } from 'in-i18n';
 
 import EndpointExtractionRuleDialog from 'in-applications/Forms/CustomEndpointMapping/EndpointExtractionRuleDialog/EndpointExtractionRuleDialog';
 import {
@@ -39,10 +40,13 @@ function PathTemplateRule({ form, setValue }) {
     <Tooltip
       align="topMiddle"
       themeStyle="light"
-      content="Extracts endpoints as specified in detected framework (if accessible)"
+      content={t('in-applications:forms.tooltipExtractsEndpointsAsSpecified')}
     >
       <ExtractionRule
-        rule={{ query: 'Path Template', enabled: form.get('endpointNameByCollectedPathTemplateRuleEnabled').value }}
+        rule={{
+          query: t('in-applications:forms.rulePathTemplate'),
+          enabled: form.get('endpointNameByCollectedPathTemplateRuleEnabled').value
+        }}
         onToggleEnable={enabled => setValue(['endpointNameByCollectedPathTemplateRuleEnabled'], enabled, form)}
         reorderable={false}
         isInstanaDefaultRule
@@ -53,9 +57,16 @@ function PathTemplateRule({ form, setValue }) {
 
 function FirstParameterRule({ form, setValue }) {
   return (
-    <Tooltip align="topMiddle" themeStyle="light" content="Extracts endpoints based on first path parameter">
+    <Tooltip
+      align="topMiddle"
+      themeStyle="light"
+      content={t('in-applications:forms.tooltipExtractsEndpointsOnFirstPath')}
+    >
       <ExtractionRule
-        rule={{ query: 'First Path Segment', enabled: form.get('endpointNameByFirstPathSegmentRuleEnabled').value }}
+        rule={{
+          query: t('in-applications:forms.ruleFirstPathSegment'),
+          enabled: form.get('endpointNameByFirstPathSegmentRuleEnabled').value
+        }}
         onToggleEnable={enabled => setValue(['endpointNameByFirstPathSegmentRuleEnabled'], enabled, form)}
         reorderable={false}
         isInstanaDefaultRule
@@ -66,8 +77,16 @@ function FirstParameterRule({ form, setValue }) {
 
 function RouteIdRule() {
   return (
-    <Tooltip align="topMiddle" themeStyle="light" content="Extracts endpoints based on route ID">
-      <ExtractionRule rule={{ query: 'Route ID', enabled: true }} reorderable={false} isInstanaDefaultRule />
+    <Tooltip
+      align="topMiddle"
+      themeStyle="light"
+      content={t('in-applications:forms.tooltipExtractsEndpointsOnRouteId')}
+    >
+      <ExtractionRule
+        rule={{ query: t('in-applications:forms.ruleRouteId'), enabled: true }}
+        reorderable={false}
+        isInstanaDefaultRule
+      />
     </Tooltip>
   );
 }
@@ -79,8 +98,8 @@ export default function CustomEndpointMappingDialog({ location }) {
   return (
     <MaxWidthFullscreenContainer className={locals.maxWidthFullscreenContainer}>
       <BasicForm
-        title="Configure Endpoint Extraction"
-        saveButtonLabel={isNewConfig ? 'Add' : 'Save'}
+        title={t('in-applications:forms.titleConfigureEndpointExtraction')}
+        saveButtonLabel={isNewConfig ? t('in-applications:buttonAdd') : t('in-applications:buttonSave')}
         onCancelHref$={getModifiedUrlStream(p => (p.pathname = `${serviceDashboard}/endpoints`))}
         getOnSavePath={() => `${serviceDashboard}/endpoints`}
         getEntity={() => {
@@ -119,12 +138,11 @@ export default function CustomEndpointMappingDialog({ location }) {
               <Steps
                 steps={[
                   {
-                    stepTitle: 'Configure how endpoints are extracted from the underlying calls to this service.',
+                    stepTitle: t('in-applications:forms.titleConfigureEndpointsExtract'),
                     content: (
                       <>
                         <DescriptionText>
-                          Endpoint rules are evaluated sequentially, from top to bottom, and a call is assigned to the
-                          first rule it matches. Once configured, new calls will be assigned according to updated rules.
+                          {t('in-applications:forms.descriptionConfigureEndpointsExtract')}
                         </DescriptionText>
 
                         <div className={locals.addRuleButtonWrapper}>
@@ -147,7 +165,7 @@ export default function CustomEndpointMappingDialog({ location }) {
                             }
                             icon="lib_openclose_add_circle_outline"
                           >
-                            Add Custom HTTP Rule
+                            {t('in-applications:buttonAddCustomHTTPRule')}
                           </Button>
                         </div>
 
@@ -177,7 +195,7 @@ export default function CustomEndpointMappingDialog({ location }) {
                         <Tooltip
                           align="topMiddle"
                           themeStyle="light"
-                          content="Calls that do not match a preceding rule are assigned to this endpoint"
+                          content={t('in-applications:forms.tooltipEndpointCallsNotMatch')}
                         >
                           <UnspecifiedExtractionRule />
                         </Tooltip>

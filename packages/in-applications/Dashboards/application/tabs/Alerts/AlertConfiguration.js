@@ -4,6 +4,7 @@
  */
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { t } from 'in-i18n';
 
 import ApplicationAlertingChartWithErrorMessage from 'in-applications/alerting/chart/ApplicationAlertingChartWithErrorMessage';
 import ReadOnlyInboundOrAllCalls from 'in-applications/alerting/advanced/InboundOutboundCallsSwitch/ReadOnlyInboundOrAllCalls';
@@ -61,14 +62,14 @@ export default function AlertConfiguration({ alertConfig, applicationName }) {
           }}
           onChartViewConfigChange={index => setSelectedChartViewConfigIndex(index)}
           selectedChartViewConfigIndex={selectedChartViewConfigIndex}
-          title="Trigger"
+          title={t('in-applications:alert.advancedModeContainer.trigger.label')}
           framed
         >
           {(chartViewConfig, serviceId) => (
             <>
               {alertType === 'logs' && (
                 <SelectedAlertTypeInfo
-                  title="Log Message"
+                  title={t('in-applications:alert.advancedModeContainer.trigger.logMessageCardTitle')}
                   description={getDescription(operator, message)}
                   badges={getLogLevelAsList(level)}
                 />
@@ -89,7 +90,7 @@ export default function AlertConfiguration({ alertConfig, applicationName }) {
 
         <ExpandableCard
           className={locals.filterListContainer}
-          title="Scope"
+          title={t('in-applications:alert.advancedModeContainer.scope.label')}
           useMaxAvailableHeight={false}
           openByDefault
           bodyWithoutPadding
@@ -120,18 +121,30 @@ export default function AlertConfiguration({ alertConfig, applicationName }) {
           </div>
         </ExpandableCard>
 
-        <ExpandableCard title="Time Threshold" useMaxAvailableHeight={false} bodyWithoutPadding openByDefault darkFrame>
+        <ExpandableCard
+          title={t('in-applications:alert.advancedModeContainer.timeThreshold.label')}
+          useMaxAvailableHeight={false}
+          bodyWithoutPadding
+          openByDefault
+          darkFrame
+        >
           <TimeThresholdDescription timeThreshold={timeThreshold} />
         </ExpandableCard>
 
-        <ExpandableCard title="Alert Channels" useMaxAvailableHeight={false} bodyWithoutPadding openByDefault darkFrame>
+        <ExpandableCard
+          title={t('in-applications:alert.advancedModeContainer.alertChannel.label')}
+          useMaxAvailableHeight={false}
+          bodyWithoutPadding
+          openByDefault
+          darkFrame
+        >
           <div className={locals.alertChannelsWrapper}>
             <AlertChannelsViewer alertChannelIds={alertChannelIds} />
           </div>
         </ExpandableCard>
 
         <ExpandableCard
-          title="Alert Properties"
+          title={t('in-applications:alert.titleAlertProperties')}
           useMaxAvailableHeight={false}
           bodyWithoutPadding
           openByDefault
@@ -152,7 +165,10 @@ AlertConfiguration.propTypes = {
 function getDescription(operator, message) {
   let description = getLogMessageRuleOperatorLabel(operator);
   if (operator !== operators.NOT_EMPTY) {
-    description = `${description}: "${message}"`;
+    description = t('in-applications:alert.descriptionMessage', {
+      description: description,
+      message: message
+    });
   }
   return description;
 }

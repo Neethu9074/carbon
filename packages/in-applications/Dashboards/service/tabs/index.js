@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 /* eslint-disable react/display-name */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import ErrorMessagesTab from 'in-applications/Dashboards/commonTabs/messages/ErrorMessages';
@@ -16,12 +17,12 @@ import { role } from 'in-stores/user';
 
 export default [
   {
-    label: 'Summary',
+    label: t('in-applications:labelSummary'),
     path: `${serviceDashboard}/summary`,
     component: wrapWithMessage(Summary)
   },
   {
-    label: 'Flow',
+    label: t('in-applications:labelFlow'),
     path: `${serviceDashboard}/flowMap`,
     component: FlowMap,
     stickToHeader: true,
@@ -29,22 +30,22 @@ export default [
     isFullWidth: true
   },
   {
-    label: 'Endpoints',
+    label: t('in-applications:labelEndpoints'),
     path: `${serviceDashboard}/endpoints`,
     component: wrapWithMessage(Endpoints)
   },
   role.canViewLogs && {
-    label: 'Error Messages',
+    label: t('in-applications:labelErrorMessages'),
     path: `${serviceDashboard}/errorMessages`,
     component: wrapWithMessage(ErrorMessagesTab)
   },
   role.canViewLogs && {
-    label: 'Log Messages',
+    label: t('in-applications:labelLogMessages'),
     path: `${serviceDashboard}/logMessages`,
     component: wrapWithMessage(LogMessagesTab)
   },
   {
-    label: 'Infrastructure',
+    label: t('in-applications:labelInfrastructure'),
     path: `${serviceDashboard}/infrastructure`,
     component: wrapWithMessage(InfrastructureTab)
   }

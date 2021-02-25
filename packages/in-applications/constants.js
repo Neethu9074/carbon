@@ -2,6 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
+
 export const boundaryScopes = {
   default: 'INBOUND',
   inbound: 'INBOUND',
@@ -9,19 +11,16 @@ export const boundaryScopes = {
 
   info: {
     INBOUND: {
-      text: 'Inbound Calls',
+      text: t('in-applications:inboundOutboundCalls.config.inbound.text'),
       icon: 'lib_application_boundary_inbound_calls',
-      dashboard:
-        'The dashboard is displaying information based only on the calls that are performed by the consumers of this application.',
-      overrideDefault:
-        'The default scope for this application is Inbound Calls only. You can change this in Configuration.'
+      dashboard: t('in-applications:inboundOutboundCalls.constants.inboundDashboard'),
+      overrideDefault: t('in-applications:inboundOutboundCalls.constants.inboundOverrideDefault')
     },
     ALL: {
-      text: 'All Calls',
+      text: t('in-applications:inboundOutboundCalls.config.all.text'),
       icon: 'lib_application_boundary_all_calls',
-      dashboard:
-        'The dashboard is displaying information based on all calls that are performed within this application, by both consumers as well as internally.',
-      overrideDefault: 'The default scope for this application is All Calls. You can change this in Configuration.'
+      dashboard: t('in-applications:inboundOutboundCalls.constants.allDashboard'),
+      overrideDefault: t('in-applications:inboundOutboundCalls.constants.allOverrideDefault')
     }
   }
 };

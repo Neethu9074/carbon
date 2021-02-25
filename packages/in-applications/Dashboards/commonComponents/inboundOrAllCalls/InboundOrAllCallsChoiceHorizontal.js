@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import InboundOrAllCallsOptionBox from 'in-applications/Dashboards/commonComponents/inboundOrAllCalls/InboundOrAllCallsOptionBox';
@@ -43,7 +44,7 @@ export default function InboundOrAllCallsChoiceHorizontal({
       className={locals.card}
       bodyWithoutPadding
       preview={cardPreview}
-      titleSubContent="Select only inbound calls or all calls"
+      titleSubContent={t('in-applications:dashboards.selectInboundCalls')}
       framed
       openByDefault={false}
     >

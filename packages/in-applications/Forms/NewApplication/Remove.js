@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { Trans, t } from 'in-i18n';
 import { get } from 'lodash';
 import React from 'react';
 
@@ -44,14 +45,16 @@ export default class Remove extends React.PureComponent {
 
     return (
       <MaxWidthFullscreenContainer className={locals.maxWidthFullscreenContainer}>
-        <Card title="Remove Application Perspective">
+        <Card title={t('in-applications:titleRemoveApplicationPerspective')}>
           <DescriptionText>
-            If you no longer wish to monitor the application perspective <strong>{application.label}</strong>, please
-            use the button below to remove it. Removing an application perspective may take up to a few minutes.
+            <Trans
+              i18nKey="in-applications:forms.newApplication.descriptionRemoveApplicationPerspective"
+              values={{ application: application.label }}
+            />
           </DescriptionText>
           <CheckboxFancy
             wrapperClassName={locals.checkbox}
-            label="I understand that this action cannot be undone"
+            label={t('in-applications:forms.understandCheckboxResetToDefaultRule')}
             checked={this.state.checkboxChecked}
             onChange={this.onTickChange}
             disabled={loading}
@@ -64,7 +67,7 @@ export default class Remove extends React.PureComponent {
               onClick={this.remove}
               className={locals.removeButton}
             >
-              Remove Application Perspective
+              {t('in-applications:buttonRemoveApplicationPerspective')}
             </Button>
           </div>
         </Card>

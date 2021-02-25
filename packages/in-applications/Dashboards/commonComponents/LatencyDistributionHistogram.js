@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import React, { useState } from 'react';
+import { t } from 'in-i18n';
 
 import LatencyDistributionBase10Chart from 'in-new-components/LatencyDistributionBase10Chart/LatencyDistributionBase10Chart';
 import { EQUALS, GREATER_OR_EQUAL_THAN, LESS_THAN } from 'in-new-components/QueryBuilder/tagFilter/operators';
@@ -110,7 +111,7 @@ export default function LatencyDistributionHistogram({
         {
           name: 'analyze',
           icon: 'lib_analyze',
-          label: 'View in Analyze',
+          label: t('in-applications:lineViewInAnalyze'),
           getHref$: () =>
             tagCatalog &&
             getJumpToAnalyzeHref$(

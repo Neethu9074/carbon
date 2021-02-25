@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { TimeShiftAwareChartSelectorWithUrlState } from 'in-applications/Dashboards/commonComponents/ChartSelectors';
@@ -10,11 +11,11 @@ import HttpSections from 'in-applications/Dashboards/commonComponents/http/HttpS
 
 const tabCallCount = {
   id: 'call',
-  label: 'Call count'
+  label: t('in-applications:labelCallCount')
 };
 const tabHttpStatusCodes = {
   id: 'http',
-  label: 'HTTP status codes'
+  label: t('in-applications:labelHTTPStatusCodes')
 };
 
 const allTabs = [tabHttpStatusCodes, tabCallCount];
@@ -23,51 +24,51 @@ const callsOnlyTab = [tabCallCount];
 const allMetrics = [
   {
     id: '1xx',
-    label: '1XX',
+    label: t('in-websites:websiteDashboard.tabs.ajax.xhrRequestLabel1XX'),
     value: 'http.1xx',
     tab: tabHttpStatusCodes.id
   },
   {
     id: '2xx',
-    label: '2XX',
+    label: t('in-websites:websiteDashboard.tabs.ajax.xhrRequestLabel2XX'),
     value: 'http.2xx',
     tab: tabHttpStatusCodes.id,
     tabDefault: true
   },
   {
     id: '3xx',
-    label: '3XX',
+    label: t('in-websites:websiteDashboard.tabs.ajax.xhrRequestLabel3XX'),
     value: 'http.3xx',
     tab: tabHttpStatusCodes.id
   },
   {
     id: '4xx',
-    label: '4XX',
+    label: t('in-websites:websiteDashboard.tabs.ajax.xhrRequestLabel4XX'),
     value: 'http.4xx',
     tab: tabHttpStatusCodes.id
   },
   {
     id: '5xx',
-    label: '5XX',
+    label: t('in-websites:websiteDashboard.tabs.ajax.xhrRequestLabel5XX'),
     value: 'http.5xx',
     tab: tabHttpStatusCodes.id
   },
   {
     id: 'nonHttp',
-    label: 'Other',
+    label: t('in-applications:labelOther'),
     value: 'calls',
     tab: tabHttpStatusCodes.id
   },
   {
     id: 'calls',
-    label: 'Calls',
+    label: t('in-applications:labelCalls'),
     value: 'calls',
     tab: tabCallCount.id,
     tabDefault: true
   },
   {
     id: 'erroneousCalls',
-    label: 'Erroneous Calls',
+    label: t('in-applications:titleErroneousCalls'),
     value: 'erroneousCalls',
     tab: tabCallCount.id
   }

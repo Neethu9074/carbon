@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { get } from 'lodash';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import {
@@ -51,7 +52,7 @@ const pathSegment = servicesList;
 const columnDefinitions = [
   {
     id: 'serviceLabel',
-    label: 'Name',
+    label: t('in-applications:labelName'),
     getContent(item) {
       return (
         <SeverityIndicatorCellContentWrapper severity={get(item, ['metrics', 'maxSeverity', 0, 1], 0)}>
@@ -64,7 +65,7 @@ const columnDefinitions = [
   },
   {
     id: 'types',
-    label: 'Types',
+    label: t('in-applications:labelTypes'),
     noWrap: true,
     getContent(item) {
       return <EndpointTypeBadgeList types={item.service.types.filter(type => type !== 'UNDEFINED')} />;
@@ -72,7 +73,7 @@ const columnDefinitions = [
   },
   {
     id: 'technologies',
-    label: 'Technologies',
+    label: t('in-applications:labelTechnologies'),
     noWrap: true,
     getContent(item) {
       return <TechnologyIndicatorList technologies={item.service.technologies} />;
@@ -80,7 +81,7 @@ const columnDefinitions = [
   },
   {
     id: 'applications',
-    label: 'Applications',
+    label: t('in-applications:labelApplications'),
     defaultOrderDirection: 'DESC',
     getContent(item) {
       const count = get(item, ['metrics', 'applications', 0, 1], 0);
@@ -89,7 +90,7 @@ const columnDefinitions = [
   },
   {
     id: 'endpoints',
-    label: 'Endpoints',
+    label: t('in-applications:labelEndpoints'),
     defaultOrderDirection: 'DESC',
     getContent(item) {
       const count = get(item, ['metrics', 'endpoints', 0, 1], 0);
@@ -98,7 +99,7 @@ const columnDefinitions = [
   },
   {
     id: 'callsAgg',
-    label: 'Calls',
+    label: t('in-applications:labelCalls'),
     defaultOrderDirection: 'DESC',
     getContent(item, { result, timeConfig }) {
       return (
@@ -116,7 +117,7 @@ const columnDefinitions = [
   },
   {
     id: 'latencyAgg',
-    label: 'Latency',
+    label: t('in-applications:labelLatency'),
     defaultOrderDirection: 'DESC',
     getContent(item, { result, timeConfig }) {
       return (
@@ -134,7 +135,7 @@ const columnDefinitions = [
   },
   {
     id: 'errorsAgg',
-    label: 'Erroneous Call Rate',
+    label: t('in-applications:titleErroneousCallRate'),
     defaultOrderDirection: 'DESC',
     getContent(item, { result, timeConfig }) {
       return (
@@ -153,7 +154,7 @@ const columnDefinitions = [
   },
   {
     id: 'maxSeverity',
-    label: 'Health',
+    label: t('in-applications:labelHealth'),
     defaultOrderDirection: 'DESC',
     getContent(item, { result, timeConfig }) {
       return (
@@ -205,7 +206,7 @@ export default function ServicesList({
           kind="action"
           href$={getModifiedUrlStream(p => (p.pathname = newServiceView))}
         >
-          Configure Services
+          {t('in-applications:buttonConfigureServices')}
         </Button>
       )}
       <Filters
@@ -248,7 +249,7 @@ export default function ServicesList({
   return (
     <Sticky header={<ViewSwitcher />}>
       <LeftRightPadding>
-        <Title title="Services" />
+        <Title title={t('in-applications:labelService')} />
         <ViewTrackingMeta
           data={{
             productArea: 'Applications',

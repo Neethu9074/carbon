@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import theme from 'in-themes';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import OpenEventsCountChartWrapper from 'in-events/components/OpenEventsCountChartWrapper';
@@ -23,7 +24,12 @@ export default function EventsChart({ timeConfig, applicationId, serviceId, endp
   const colors = [];
   const metricsConfiguration = {};
 
-  labels.push('Infra Issues', 'Offline', 'Online', 'Changes');
+  labels.push(
+    t('in-applications:labelInfraIssues'),
+    t('in-applications:labelOffline'),
+    t('in-applications:labelOnline'),
+    t('in-applications:labelChanges')
+  );
   metricIds.push('infraIssues', 'offline', 'online', 'changes');
   colors.push(theme.lib.colors.pink800, '#9aa5a9', '#99e1e1', '#cdbcf0');
 
@@ -47,7 +53,7 @@ export default function EventsChart({ timeConfig, applicationId, serviceId, endp
   return (
     <OpenEventsCountChartWrapper
       renderPostChartContent={renderPostChartContent}
-      cardTitle="Infrastructure Issues &amp; Changes"
+      cardTitle={t('in-applications:dashboards.infrastructureIssuesChanges')}
       timeConfig={timeConfig}
       granularity={granularity}
       includeFirstDataPoint
@@ -67,7 +73,7 @@ export default function EventsChart({ timeConfig, applicationId, serviceId, endp
         {
           name: 'showEvents',
           icon: 'lib_events_inverted',
-          label: 'View Events',
+          label: t('in-applications:labelViewEvents'),
           getHref$: highlightedTime =>
             getEventsViewFilteredBy({
               query: 'event.source:infra',

@@ -5,7 +5,7 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import pluralize from 'pluralize';
+import { t } from 'in-i18n';
 
 import {
   applicationsAlertingListAlertResumed,
@@ -42,7 +42,7 @@ function getColumnDefinitions(applicationName) {
   return [
     {
       id: 'name',
-      label: 'Name',
+      label: t('in-applications:labelName'),
       getContent: getNameContent
     },
     {
@@ -53,7 +53,7 @@ function getColumnDefinitions(applicationName) {
         const evaluationInfo = alertEvaluationTypes[evaluationType];
         return (
           <div className={locals.column}>
-            <div className={locals.name}>Application Smart Alert</div>
+            <div className={locals.name}>{t('in-applications:alert.applicationSmartAlert')}</div>
             {evaluationInfo && <div className={locals.nameSubtext}>{evaluationInfo.columnText}</div>}
           </div>
         );
@@ -61,7 +61,7 @@ function getColumnDefinitions(applicationName) {
     },
     {
       id: 'filters',
-      label: 'Filters',
+      label: t('in-applications:labelFilters'),
       getContent: entity => getFiltersContent(entity, applicationName)
     }
   ];
@@ -70,9 +70,12 @@ function getColumnDefinitions(applicationName) {
 export default function Alerts({ applicationName, applicationId }) {
   const [alertsSize, setAlertsSize] = useState(null);
 
-  let header = 'Configured Alerts';
+  let header = t('in-applications:alert.headerConfiguredAlerts');
   if (alertsSize != null) {
-    header = `${header} (${alertsSize})`;
+    header = t('in-applications:alert.headerConfiguredAlertsNum', {
+      headerConfigAlerts: header,
+      alertsSize: alertsSize
+    });
   }
 
   return (
@@ -112,7 +115,7 @@ export default function Alerts({ applicationName, applicationId }) {
           loadEntities={() => getAllAlertConfigs(applicationId).tap(alerts => setAlertsSize(alerts.length))}
           pageSize={15}
           searchAttributes={[entity => entity.name]}
-          noDataMessage="No alert configured."
+          noDataMessage={t('in-applications:alert.noAlertConfigured')}
           onRowClick={config =>
             mutateUrl(location => {
               location.pathname = alertsTabDetailsFullyQualified;
@@ -133,7 +136,9 @@ Alerts.propTypes = {
 };
 
 function getEntityName(entity) {
-  return `alert "${entity.name}"`;
+  return t('in-applications:alert.getEntityName', {
+    entityName: entity.name
+  });
 }
 
 function getNameContent(config) {
@@ -161,7 +166,10 @@ function getSubtitle(alertConfig) {
   const alertType = alertConfig.rule.alertType;
   const blueprintConfig = getBlueprintConfig(alertType);
   const metricLabel = blueprintConfig.getMetricLabel(alertConfig.rule.metricName);
-  return `${blueprintConfig.name}, ${metricLabel}`;
+  return t('in-applications:alert.getSubtitle', {
+    blueprintConfigName: blueprintConfig.name,
+    metricLabel: metricLabel
+  });
 }
 
 function getFiltersContent(config, applicationName) {
@@ -190,7 +198,9 @@ function getFiltersContent(config, applicationName) {
             >
               <span className={locals.centered}>
                 <SvgIcon className={locals.filterIcon} type="lib_actions_filter" />
-                {config.tagFilters.length} filter(s)
+                {t('in-applications:alert.tooltipFilter', {
+                  count: config.tagFilters.length
+                })}
               </span>
             </Tooltip>
           ) : null
@@ -211,7 +221,10 @@ function getFiltersContent(config, applicationName) {
                     <AlertQueryBuilder value={filtersToDisplay} readOnly />
                     <span className={locals.moreFilters}>
                       {filterCount > maxFilterToDisplay &&
-                        `+${filterCount - maxFilterToDisplay} more ${pluralize('filter', filterCount, false)}`}
+                        t('in-applications:alert.tooltipMoreFilter', {
+                          count: filterCount,
+                          moreFilterCount: filterCount - maxFilterToDisplay
+                        })}
                     </span>
                   </div>
                 }
@@ -220,7 +233,9 @@ function getFiltersContent(config, applicationName) {
               >
                 <span className={locals.centered}>
                   <SvgIcon className={locals.filterIcon} type="lib_actions_filter" />
-                  {pluralize('filter', filterCount, true)}
+                  {t('in-applications:alert.filter', {
+                    count: filterCount
+                  })}
                 </span>
               </Tooltip>
             )

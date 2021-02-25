@@ -4,6 +4,7 @@
  */
 import { fromPromise } from '@instana/observables';
 import React, { Fragment } from 'react';
+import { Trans, t } from 'in-i18n';
 
 import {
   getClusterDashboard,
@@ -82,7 +83,7 @@ const InfrastructureEntityLink = connectTo(({ entity }) => ({
     <EntityLink
       plugin={plugin}
       snapshot={snapshot}
-      label={entity.label || `Unknown at ${formatDateTime(entity.time)}`}
+      label={entity.label || t('in-applications:dashboards.unknownTime', { entityTime: formatDateTime(entity.time) })}
       href$={shouldStayInCurrentTimeModeForNavigationToSnapshot(entity.id).flatMap(stay =>
         stay
           ? getDashboardLink(entity.id, { pathname: '/physical/dashboard' })
@@ -113,14 +114,38 @@ function WithKubernetesPhysicalContext({
         {children}
         <div className={locals.metaRow}>
           {inEntity && (
-            <MetaEntityLink entity={inEntity} icon={inIcon} getDashboard={getInEntityDashboard}>
-              in
-            </MetaEntityLink>
+            <Fragment>
+              <Trans
+                i18nKey="in-applications:dashboards.infrastructure.inEntity"
+                values={{ entityLabel: inEntity.label }}
+                components={{
+                  icon: <SvgIcon className={locals.entitiyIcon} type={inIcon} />,
+                  entityLink: (
+                    <Link
+                      className={locals.entityLink}
+                      href$={getInEntityDashboard ? getInEntityDashboard(inEntity.id) : null}
+                    />
+                  )
+                }}
+              />
+            </Fragment>
           )}
           {ofEntity && (
-            <MetaEntityLink entity={ofEntity} icon={onIcon} getDashboard={getOfEntityDashboard}>
-              of
-            </MetaEntityLink>
+            <Fragment>
+              <Trans
+                i18nKey="in-applications:dashboards.infrastructure.ofEntity"
+                values={{ entityLabel: ofEntity.label }}
+                components={{
+                  icon: <SvgIcon className={locals.entitiyIcon} type={onIcon} />,
+                  entityLink: (
+                    <Link
+                      className={locals.entityLink}
+                      href$={getOfEntityDashboard ? getOfEntityDashboard(ofEntity.id) : null}
+                    />
+                  )
+                }}
+              />
+            </Fragment>
           )}
         </div>
       </div>
@@ -135,23 +160,45 @@ function WithCloudfoundryPhysicalContext({ children, application, space, organiz
       {children}
       <div className={locals.metaRow}>
         {application && (
-          <MetaEntityLink
-            entity={application}
-            icon="lib_cloudfoundry_application"
-            getDashboard={pcfEnabled && getApplicationDashboard}
-          >
-            instance {cfInstanceIndex} of
-          </MetaEntityLink>
+          <Fragment>
+            <Trans
+              i18nKey="in-applications:dashboards.infrastructure.instanceIndexOfEntity"
+              values={{ cfInstanceIndex: cfInstanceIndex, entityLabel: application.label }}
+              components={{
+                icon: <SvgIcon className={locals.entitiyIcon} type="lib_cloudfoundry_application" />,
+                entityLink: (
+                  <Link
+                    className={locals.entityLink}
+                    href$={pcfEnabled ? getApplicationDashboard(application.id) : null}
+                  />
+                )
+              }}
+            />
+          </Fragment>
         )}
         {space && (
-          <MetaEntityLink entity={space} icon="lib_cloudfoundry_space">
-            in
-          </MetaEntityLink>
+          <Fragment>
+            <Trans
+              i18nKey="in-applications:dashboards.infrastructure.inEntity"
+              values={{ entityLabel: space.label }}
+              components={{
+                icon: <SvgIcon className={locals.entitiyIcon} type="lib_cloudfoundry_space" />,
+                entityLink: <Link className={locals.entityLink} href$={null} />
+              }}
+            />
+          </Fragment>
         )}
         {organization && (
-          <MetaEntityLink entity={organization} icon="lib_cloudfoundry_organization">
-            of
-          </MetaEntityLink>
+          <Fragment>
+            <Trans
+              i18nKey="in-applications:dashboards.infrastructure.ofEntity"
+              values={{ entityLabel: organization.label }}
+              components={{
+                icon: <SvgIcon className={locals.entitiyIcon} type="lib_cloudfoundry_organization" />,
+                entityLink: <Link className={locals.entityLink} href$={null} />
+              }}
+            />
+          </Fragment>
         )}
       </div>
     </div>
@@ -164,13 +211,21 @@ function WithVSpherePhysicalContext({ children, datacenter }) {
       {children}
       <div className={locals.metaRow}>
         {datacenter && (
-          <MetaEntityLink
-            entity={datacenter}
-            icon="lib_vsphere"
-            getDashboard={vsphereEnabled && getVsphereDatacenterDashboard}
-          >
-            instance of
-          </MetaEntityLink>
+          <Fragment>
+            <Trans
+              i18nKey="in-applications:dashboards.infrastructure.instanceOfEntity"
+              values={{ entityLabel: datacenter.label }}
+              components={{
+                icon: <SvgIcon className={locals.entitiyIcon} type="lib_vsphere" />,
+                entityLink: (
+                  <Link
+                    className={locals.entityLink}
+                    href$={vsphereEnabled ? getVsphereDatacenterDashboard(datacenter.id) : null}
+                  />
+                )
+              }}
+            />
+          </Fragment>
         )}
       </div>
     </div>
@@ -203,31 +258,79 @@ export default function Infrastructure({
   // in the application infra view, show all tabs, because we do not know the type of all entities
   if (entity.entityType == 'APPLICATION') {
     selectedType = selectedType || 'PROCESS';
-    buttonPropsList.push({ text: 'Cluster', key: 'CLUSTER', onClick: () => setType('CLUSTER') });
-    buttonPropsList.push({ text: 'Process', key: 'PROCESS', onClick: () => setType('PROCESS') });
-    buttonPropsList.push({ text: 'Container', key: 'CONTAINER', onClick: () => setType('CONTAINER') });
-    buttonPropsList.push({ text: 'Host', key: 'HOST', onClick: () => setType('HOST') });
+    buttonPropsList.push({
+      text: t('in-applications:buttonCluster'),
+      key: 'CLUSTER',
+      onClick: () => setType('CLUSTER')
+    });
+    buttonPropsList.push({
+      text: t('in-applications:buttonProcess'),
+      key: 'PROCESS',
+      onClick: () => setType('PROCESS')
+    });
+    buttonPropsList.push({
+      text: t('in-applications:buttonContainer'),
+      key: 'CONTAINER',
+      onClick: () => setType('CONTAINER')
+    });
+    buttonPropsList.push({
+      text: t('in-applications:buttonHost'),
+      key: 'HOST',
+      onClick: () => setType('HOST')
+    });
 
     // TODO: using technologies to detect whether the underlying entity is a cluster is not reliable.
     // One service may have the 'kafkaCluster' technology assigned, not because it's a kafka cluster
     // but because it's a service that reads or writes from/to to a Kafka topic.
   } else if (hasSomeClusterTechnologies(entity)) {
     selectedType = selectedType || 'CLUSTER';
-    buttonPropsList.push({ text: 'Cluster', key: 'CLUSTER', onClick: () => setType('CLUSTER') });
+    buttonPropsList.push({
+      text: t('in-applications:buttonCluster'),
+      key: 'CLUSTER',
+      onClick: () => setType('CLUSTER')
+    });
 
     if (!isDatabase(entity) && hasSomeNonClusterTechnologies(entity)) {
-      buttonPropsList.push({ text: 'Process', key: 'PROCESS', onClick: () => setType('PROCESS') });
-      buttonPropsList.push({ text: 'Container', key: 'CONTAINER', onClick: () => setType('CONTAINER') });
-      buttonPropsList.push({ text: 'Host', key: 'HOST', onClick: () => setType('HOST') });
+      buttonPropsList.push({
+        text: t('in-applications:buttonProcess'),
+        key: 'PROCESS',
+        onClick: () => setType('PROCESS')
+      });
+      buttonPropsList.push({
+        text: t('in-applications:buttonContainer'),
+        key: 'CONTAINER',
+        onClick: () => setType('CONTAINER')
+      });
+      buttonPropsList.push({
+        text: t('in-applications:buttonHost'),
+        key: 'HOST',
+        onClick: () => setType('HOST')
+      });
     }
   } else if (hasSomeNonClusterTechnologies(entity)) {
     selectedType = selectedType || 'PROCESS';
-    buttonPropsList.push({ text: 'Process', key: 'PROCESS', onClick: () => setType('PROCESS') });
-    buttonPropsList.push({ text: 'Container', key: 'CONTAINER', onClick: () => setType('CONTAINER') });
-    buttonPropsList.push({ text: 'Host', key: 'HOST', onClick: () => setType('HOST') });
+    buttonPropsList.push({
+      text: t('in-applications:buttonProcess'),
+      key: 'PROCESS',
+      onClick: () => setType('PROCESS')
+    });
+    buttonPropsList.push({
+      text: t('in-applications:buttonContainer'),
+      key: 'CONTAINER',
+      onClick: () => setType('CONTAINER')
+    });
+    buttonPropsList.push({
+      text: t('in-applications:buttonHost'),
+      key: 'HOST',
+      onClick: () => setType('HOST')
+    });
   } else {
     selectedType = selectedType || 'HOST';
-    buttonPropsList.push({ text: 'Host', key: 'HOST', onClick: () => setType('HOST') });
+    buttonPropsList.push({
+      text: t('in-applications:buttonHost'),
+      key: 'HOST',
+      onClick: () => setType('HOST')
+    });
   }
 
   const rightHeader = <ButtonGroup buttonPropsList={buttonPropsList} activeKey={selectedType} />;
@@ -246,7 +349,7 @@ export default function Infrastructure({
         size="compact"
         isSearchable={false}
         rightHeader={rightHeader}
-        cardTitle="Infrastructure"
+        cardTitle={t('in-applications:labelInfrastructure')}
       />
       <Footer />
     </Fragment>
@@ -367,7 +470,7 @@ function getColumnDefinitions(type) {
   if (type == 'PROCESS') {
     infraColumnDefinition = {
       id: 'process',
-      label: 'Process',
+      label: t('in-applications:buttonProcess'),
       sortable: false,
       getContent(item) {
         return item.physicalContext.process ? (
@@ -383,7 +486,7 @@ function getColumnDefinitions(type) {
   } else if (type == 'CONTAINER') {
     infraColumnDefinition = {
       id: 'container',
-      label: 'Container',
+      label: t('in-applications:buttonContainer'),
       sortable: false,
       getContent(item) {
         const link = item.physicalContext.container ? (
@@ -431,7 +534,7 @@ function getColumnDefinitions(type) {
   } else if (type == 'HOST') {
     infraColumnDefinition = {
       id: 'host',
-      label: 'Host',
+      label: t('in-applications:buttonHost'),
       sortable: false,
       getContent(item) {
         const link = item.physicalContext.host ? (
@@ -461,7 +564,7 @@ function getColumnDefinitions(type) {
   } else if (type == 'CLUSTER') {
     infraColumnDefinition = {
       id: 'cluster',
-      label: 'Cluster',
+      label: t('in-applications:buttonCluster'),
       sortable: false,
       getContent(item) {
         if (!item.physicalContext.cluster) {
@@ -487,7 +590,7 @@ function getColumnDefinitions(type) {
     infraColumnDefinition,
     {
       id: 'callsAgg',
-      label: 'Calls',
+      label: t('in-applications:labelCalls'),
       getContent(item, { result, timeConfig }) {
         return (
           <SparkChart
@@ -503,7 +606,7 @@ function getColumnDefinitions(type) {
     },
     {
       id: 'latencyAgg',
-      label: 'Latency',
+      label: t('in-applications:labelLatency'),
       getContent(item, { result, timeConfig }) {
         return (
           <SparkChart
@@ -519,7 +622,7 @@ function getColumnDefinitions(type) {
     },
     {
       id: 'errorsAgg',
-      label: 'Errors',
+      label: t('in-applications:labelErrors'),
       getContent(item, { result, timeConfig }) {
         return (
           <SparkChart
@@ -536,24 +639,12 @@ function getColumnDefinitions(type) {
   ];
 }
 
-function MetaEntityLink({ icon, getDashboard, entity, children }) {
-  return (
-    <Fragment>
-      {children}
-      <SvgIcon className={locals.entitiyIcon} type={icon} />
-      <Link className={locals.entityLink} href$={getDashboard ? getDashboard(entity.id) : null}>
-        {entity.label}
-      </Link>
-    </Fragment>
-  );
-}
-
 function UnmonitoredEntity() {
   return (
-    <Tooltip content={'Unmonitored infrastructure due to information outside the purview of running agents'}>
+    <Tooltip content={t('in-applications:dashboards.infrastructure.tooltipUnmonitored')}>
       <div className={locals.cell}>
         <PluginIcon className={locals.simplePluginIcon} />
-        Unmonitored
+        {t('in-applications:labelUnmonitored')}
       </div>
     </Tooltip>
   );

@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import theme from 'in-themes';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { TopListWithUrlState, trackTopListNavigation } from 'in-new-components/TopListWithUrlState';
@@ -15,7 +16,11 @@ import Link from 'in-components/Link';
 import locals from './EndpointTopList.mless';
 
 const metrics = ['latency', 'calls', 'erroneousCalls'];
-const labels = ['Latency', 'Calls', 'Erroneous Calls'];
+const labels = [
+  t('in-applications:labelLatency'),
+  t('in-applications:labelCalls'),
+  t('in-applications:titleErroneousCalls')
+];
 const aggregations = ['MEAN', 'SUM', 'SUM'];
 const formatters = [meanLatencyLargeInSeconds.compact, number.compact, number.compact];
 const companionMetrics = [null, null, 'errors'];
@@ -26,7 +31,7 @@ const colors = [null, null, theme.lib.colors.failure];
 export default function EndpointTopList({ applicationId, serviceId, boundaryScope, timeConfig, urlMatrixParamConfig }) {
   return (
     <TopListWithUrlState
-      title="Top Endpoints"
+      title={t('in-applications:titleTopEndpoints')}
       metrics={metrics}
       labels={labels}
       aggregations={aggregations}
@@ -106,7 +111,7 @@ function ViewAll({ applicationId, serviceId, boundaryScope, selectedMetric }, cl
         }
       })}
     >
-      View all endpoints
+      {t('in-applications:linkViewAllEndpoints')}
     </Link>
   );
 }

@@ -5,6 +5,7 @@
 import { createField, createMapForm, createListForm } from 'formalistic';
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
+import { t } from 'in-i18n';
 
 import CustomSyntheticRuleDialog, {
   getInitialForm as getConfigRuleForm
@@ -25,8 +26,8 @@ import locals from './SyntheticCallConfigView.mless';
 export default function SyntheticCallConfigDialog() {
   return (
     <BasicForm
-      title="Configure Synthetic Endpoints"
-      saveButtonLabel="Save"
+      title={t('in-applications:titleConfigureSyntheticEndpoints')}
+      saveButtonLabel={t('in-applications:buttonSave')}
       onCancelHref$={getModifiedUrlStream(p => (p.pathname = servicesList))}
       getEntity={() =>
         getSyntheticCallConfig().map(result => {
@@ -45,13 +46,11 @@ export default function SyntheticCallConfigDialog() {
             <Steps
               steps={[
                 {
-                  stepTitle: 'Configure synthetic endpoints to ignore calls to them from service and application KPIs',
+                  stepTitle: t('in-applications:forms.customSyntheticRule.stepTitleConfigureSyntheticEndpoints'),
                   content: (
                     <Fragment>
                       <DescriptionText>
-                        Calls to synthetic endpoints will continue to be captured, but will not contribute to service
-                        and application KPIs. Our built-in rule will auto-detect and ignore your health checks, but
-                        additional endpoints can be manually added with new rules
+                        {t('in-applications:forms.customSyntheticRule.descriptionConfigureSyntheticEndpoints')}
                       </DescriptionText>
 
                       <div className={locals.addRuleButtonWrapper}>
@@ -73,7 +72,7 @@ export default function SyntheticCallConfigDialog() {
                           }
                           icon="lib_openclose_add_circle_outline"
                         >
-                          Add Synthetic Endpoint Rule
+                          {t('in-applications:buttonAddSyntheticEndpointRule')}
                         </Button>
                       </div>
 
@@ -82,7 +81,9 @@ export default function SyntheticCallConfigDialog() {
                           key="default"
                           name="Auto-Detected Health/Ping Checks"
                           content={
-                            <RuleDescription description="Calls to the endpoints matching this auto-generated rule do not contribute to your application, or service KPIs within Instana and are disregarded." />
+                            <RuleDescription
+                              description={t('in-applications:forms.customSyntheticRule.descriptionEndpointsRule')}
+                            />
                           }
                           expandableContent={
                             defaultRulesEnabled ? (
@@ -171,7 +172,7 @@ function ExpandableContent({ matchSpecifications }) {
   );
 
   if (tagFilters.length === 0) {
-    return <div className={locals.message}>No rules are specified.</div>;
+    return <div className={locals.message}>{t('in-applications:forms.customSyntheticRule.messageNoRule')}</div>;
   } else {
     return <MatchedSyntheticEndpoints tagFilters={tagFilters} />;
   }

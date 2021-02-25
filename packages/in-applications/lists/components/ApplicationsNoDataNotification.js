@@ -22,7 +22,7 @@ export default function ApplicationsNoDataNotification() {
   return (
     <EntityPageMainNotification
       plugin={applicationPlugins.application}
-      title="No Application Perspectives yet"
+      title={t('in-applications:titleNoApplicationPerspectives')}
       explanation={() => (
         <>
           <ArticleContent markdownContent={t('in-applications:applications.noData')} />
@@ -35,11 +35,11 @@ export default function ApplicationsNoDataNotification() {
                 href$={getModifiedUrlStream(p => (p.pathname = newApplicationView))}
                 onClick={() => applicationOpenSubmitFormTracker()}
               >
-                Create Application Perspective
+                {t('in-applications:titleCreateApplicationPerspective')}
               </Button>
             )
           ) : (
-            <p className={locals.text}>They will appear here once an account administrator creates them.</p>
+            <p className={locals.text}>{t('in-applications:list.textNewApplicationPerspective')}</p>
           )}
         </>
       )}

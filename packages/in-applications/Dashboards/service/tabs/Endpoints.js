@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { get } from 'lodash';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import {
@@ -47,14 +48,14 @@ const technologiesUrlParameter = createEndpointTechnologiesUrlParameter(pathSegm
 const columnDefinitions = [
   {
     id: 'endpointLabel',
-    label: 'Name',
+    label: t('in-applications:labelName'),
     getContent(item, { applicationId, serviceId, boundaryScope }) {
       return (
         <SeverityAwareEntityLink
           severity={get(item, ['metrics', 'maxSeverity', 0, 1], 0)}
           icon="lib_application_endpoint"
           label={item.endpoint.label}
-          tooltip={item.endpoint.synthetic ? 'Synthetic Endpoint' : null}
+          tooltip={item.endpoint.synthetic ? t('in-applications:labelSyntheticEndpoint') : null}
           specialIndicator={item.endpoint.synthetic ? true : false}
           href$={getEndpointDashboard(item.endpoint.id, { applicationId, serviceId, boundaryScope })}
         />
@@ -77,7 +78,7 @@ const columnDefinitions = [
   },
   {
     id: 'callsAgg',
-    label: 'Calls',
+    label: t('in-applications:labelCalls'),
     defaultOrderDirection: 'DESC',
     getContent(item, { result, timeConfig }) {
       return (
@@ -95,7 +96,7 @@ const columnDefinitions = [
   },
   {
     id: 'erroneousCallsAgg',
-    label: 'Erroneous Calls',
+    label: t('in-applications:titleErroneousCalls'),
     defaultOrderDirection: 'DESC',
     getContent(item, { result, timeConfig }) {
       return (
@@ -113,7 +114,7 @@ const columnDefinitions = [
   },
   {
     id: 'errorsAgg',
-    label: 'Erroneous Call Rate',
+    label: t('in-applications:titleErroneousCallRate'),
     defaultOrderDirection: 'DESC',
     getContent(item, { result, timeConfig }) {
       return (
@@ -132,7 +133,7 @@ const columnDefinitions = [
   },
   {
     id: 'latencyAgg',
-    label: 'Latency',
+    label: t('in-applications:labelLatency'),
     defaultOrderDirection: 'DESC',
     getContent(item, { result, timeConfig }) {
       return (
@@ -150,7 +151,7 @@ const columnDefinitions = [
   },
   {
     id: 'maxSeverity',
-    label: 'Health',
+    label: t('in-applications:labelHealth'),
     defaultOrderDirection: 'DESC',
     getContent(item, { result, timeConfig }) {
       return (
@@ -213,7 +214,7 @@ export default function Endpoints(props) {
           kind="action"
           href$={getModifiedUrlStream(p => (p.pathname = configureEndpointsView))}
         >
-          Configure Endpoints
+          {t('in-applications:buttonConfigureEndpoints')}
         </Button>
       )}
 
@@ -226,7 +227,7 @@ export default function Endpoints(props) {
         query={query}
         applicationName={applicationLabel}
         serviceName={serviceLabel}
-        buttonLabel="Endpoints"
+        buttonLabel={t('in-applications:labelEndpoints')}
         boundaryScope={boundaryScope}
         groupByTag={{ name: 'endpoint.name', entity: entityTypes.DESTINATION }}
       />

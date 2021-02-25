@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import React, { forwardRef } from 'react';
+import { Trans, t } from 'in-i18n';
 
 import Rule from 'in-applications/Forms/components/Rule';
 import { build } from 'in-services/validators/urlPath';
@@ -35,7 +36,7 @@ function TestResult({ testResult, rule }) {
   }
 
   if (rule.testCases.length === 0) {
-    return <span className={locals.notTestedTestResult}>No tests defined</span>;
+    return <span className={locals.notTestedTestResult}>{t('in-applications:forms.noTestDefined')}</span>;
   }
 
   if (!testResult) {
@@ -51,17 +52,27 @@ function TestResult({ testResult, rule }) {
   let numFailedTests = testResult.length - numSucceededTests;
 
   if (numSucceededTests === testResult.length) {
-    return <span className={locals.successTestResult}>All tests passed</span>;
+    return <span className={locals.successTestResult}>{t('in-applications:forms.allTestsPassed')}</span>;
   }
 
   if (numFailedTests === testResult.length) {
-    return <span className={locals.failedTestResult}>All tests failed</span>;
+    return <span className={locals.failedTestResult}>{t('in-applications:forms.allTestsFailed')}</span>;
   }
 
   return (
     <div className={locals.labelRow}>
-      <span className={locals.failedTestResult}>{`Tests failed: ${numFailedTests}`}</span>
-      <span className={locals.notTestedTestResult}>{`, passed: ${numSucceededTests} out of ${testResult.length}`}</span>
+      <Trans
+        i18nKey="in-applications:forms.testResultWithNumber"
+        values={{
+          numFailedTests: numFailedTests,
+          numSucceededTests: numSucceededTests,
+          resultLength: testResult.length
+        }}
+        components={{
+          failTag: <span className={locals.failedTestResult} />,
+          passTag: <span className={locals.notTestedTestResult} />
+        }}
+      />
     </div>
   );
 }

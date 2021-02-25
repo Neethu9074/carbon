@@ -13,8 +13,8 @@ export default function ServicesNoDataNotification() {
   return (
     <EntityPageMainNotification
       plugin={applicationPlugins.service}
-      title="No Services yet"
-      explanation={() => <ArticleContent markdownContent={t('in-applications:services.noData')} />}
+      title={t('in-applications:list.titleNoService')}
+      explanation={() => <ArticleContent markdownContent={t('in-applications:list.servicesNoData')} />}
     />
   );
 }

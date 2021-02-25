@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import theme from 'in-themes';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
@@ -46,7 +47,7 @@ export default connectTo(
   }) {
     const tagCatalog = useTagCatalog(getTagCatalog);
     let config = {
-      cardTitle: 'Processing Time'
+      cardTitle: t('in-applications:titleProcessingTime')
     };
     if (result.data) {
       const endpointTypes = Object.keys(result.data).sort((a, b) => {
@@ -84,7 +85,7 @@ export default connectTo(
           {
             name: 'analyze',
             icon: 'lib_analyze',
-            label: 'View in Analyze',
+            label: t('in-applications:lineViewInAnalyze'),
             getHref$: (highlightedTime, config) =>
               tagCatalog &&
               getJumpToAnalyzeHref$(

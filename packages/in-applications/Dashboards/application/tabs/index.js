@@ -2,6 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
+
 import ErrorMessagesTab from 'in-applications/Dashboards/commonTabs/messages/ErrorMessages';
 import LogMessagesTab from 'in-applications/Dashboards/commonTabs/messages/LogMessages';
 import Configuration from 'in-applications/Dashboards/application/tabs/Configuration';
@@ -16,12 +18,12 @@ import { role } from 'in-stores/user';
 
 export default [
   {
-    label: 'Summary',
+    label: t('in-applications:labelSummary'),
     path: `${applicationDashboard}/summary`,
     component: Summary
   },
   {
-    label: 'Dependencies',
+    label: t('in-applications:labelDependencies'),
     path: `${applicationDashboard}/map`,
     component: Map,
     stickToHeader: true,
@@ -29,32 +31,32 @@ export default [
     isFullWidth: true
   },
   {
-    label: 'Services',
+    label: t('in-applications:labelServices'),
     path: `${applicationDashboard}/services`,
     component: Services
   },
   role.canViewLogs && {
-    label: 'Error Messages',
+    label: t('in-applications:labelErrorMessages'),
     path: `${applicationDashboard}/errorMessages`,
     component: ErrorMessagesTab
   },
   role.canViewLogs && {
-    label: 'Log Messages',
+    label: t('in-applications:labelLogMessages'),
     path: `${applicationDashboard}/logMessages`,
     component: LogMessagesTab
   },
   {
-    label: 'Infrastructure',
+    label: t('in-applications:labelInfrastructure'),
     path: `${applicationDashboard}/infrastructure`,
     component: InfrastructureTab
   },
   applicationSmartAlertsEnabled && {
-    label: 'Alerts',
+    label: t('in-applications:labelAlerts'),
     path: `${applicationDashboard}/alerts`,
     component: Alerts
   },
   role.canConfigureApplications && {
-    label: 'Configuration',
+    label: t('in-applications:labelConfiguration'),
     path: `${applicationDashboard}/configuration`,
     component: Configuration
   }

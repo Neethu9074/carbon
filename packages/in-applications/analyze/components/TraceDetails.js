@@ -111,8 +111,8 @@ export default function TraceDetails({
     <>
       <ViewTrackingMeta
         data={{
-          productArea: t('in-applications:labelApplications'),
-          pageRootName: t('in-applications:labelAnalytic')
+          productArea: 'Applications',
+          pageRootName: 'Analytics'
         }}
       />
       <Sticky

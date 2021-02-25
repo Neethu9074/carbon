@@ -4,6 +4,7 @@
  */
 import { create } from '@instana/observables';
 import { get } from 'lodash';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { build, parse, validate } from 'in-services/validators/urlPath';
@@ -64,9 +65,9 @@ export default class RuleTester extends React.Component {
     return (
       <div className={locals.ruleTesterWrapper}>
         <div className={locals.header}>
-          <h4 className={locals.title}>Rule Tester</h4>
+          <h4 className={locals.title}>{t('in-applications:titleRuleTester')}</h4>
           <Button kind="action" icon="lib_openclose_add" onClick={addTestCase}>
-            Add Test
+            {t('in-applications:buttonAddTest')}
           </Button>
         </div>
         <ul className={locals.list}>
@@ -187,17 +188,23 @@ export default class RuleTester extends React.Component {
       if (resultAtRule == true) {
         const query = build(this.props.rules.get(i).get('pathSegments').value);
         return (
-          <span className={locals.failedTestResult}>{'Passed an earlier rule' + (query ? ` "${query}"` : '')}</span>
+          <span className={locals.failedTestResult}>
+            {query
+              ? t('in-applications:forms.earlyRuleResultWithQuery', {
+                  query: query
+                })
+              : t('in-applications:forms.earlyRuleResult')}
+          </span>
         );
       }
     }
 
     const result = get(testResult, [ruleIndex, testCaseIndex]);
     if (result === false) {
-      return <span className={locals.failedTestResult}>Test Failed</span>;
+      return <span className={locals.failedTestResult}>{t('in-applications:forms.testFailed')}</span>;
     }
     if (result === true) {
-      return <span className={locals.successTestResult}>Test Passed</span>;
+      return <span className={locals.successTestResult}>{t('in-applications:forms.testPassed')}</span>;
     }
     return null;
   };

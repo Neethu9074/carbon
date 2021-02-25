@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { SecondLevelNavigation, SecondLevelNavigationItem } from 'in-new-components/SecondLevelNavigation';
@@ -19,19 +20,23 @@ export default connectTo(
   function AppViewSwitcher({ isServiceViewActive }) {
     return (
       <>
-        <DashboardHeader icon="lib_application_invert" label="Applications" title="Applications" />
+        <DashboardHeader
+          icon="lib_application_invert"
+          label={t('in-applications:labelApplications')}
+          title={t('in-applications:labelApplications')}
+        />
         <DashboardHeaderModule theme={themes.light}>
           <SecondLevelNavigation>
             <SecondLevelNavigationItem
               href$={getModifiedUrlStream(p => (p.pathname = applicationsList))}
               icon="lib_application"
-              label="Applications"
+              label={t('in-applications:labelApplications')}
               isActive={!isServiceViewActive}
             />
             <SecondLevelNavigationItem
               href$={getModifiedUrlStream(p => (p.pathname = servicesList))}
               icon="lib_application_service"
-              label="Services"
+              label={t('in-applications:labelServices')}
               isActive={isServiceViewActive}
             />
           </SecondLevelNavigation>

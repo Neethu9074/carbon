@@ -4,6 +4,7 @@
  */
 import { interval, just } from '@instana/observables';
 import { Redirect } from 'react-router-dom';
+import { Trans, t } from 'in-i18n';
 import React from 'react';
 
 import FullHeightWrapper from 'in-applications/Dashboards/commonComponents/FullHeightWrapper';
@@ -48,10 +49,13 @@ export default connectTo(
         render={() => (
           <div className={locals.wrapper}>
             <SvgIcon className={locals.icon} type="lib_application" size="xxl" />
-            <h1 className={locals.title}>Application perspective is being created…</h1>
+            <h1 className={locals.title}>{t('in-applications:forms.newApplication.titleApplicationCreating')}</h1>
             <p className={locals.text}>
-              We are preparing everything to monitor your application perspective{' '}
-              <strong>{decodeURIComponent(label)}</strong>.
+              <Trans
+                i18nKey="in-applications:forms.newApplication.descriptionPrepareToMonitor"
+                values={{ decodedLabel: decodeURIComponent(label) }}
+                components={{ bold: <strong /> }}
+              />
             </p>
             <SvgIcon spinning type="lib_actions_loading" size="l" className={locals.loadingIcon} />
           </div>

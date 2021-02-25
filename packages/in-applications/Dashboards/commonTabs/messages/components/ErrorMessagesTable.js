@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import AnalyzeMessagesButton from 'in-applications/Dashboards/commonTabs/messages/components/AnalyzeMessagesButton';
@@ -27,7 +28,7 @@ const matrixPrefix = 'error.';
 const columnDefinitions = [
   {
     id: 'errorMessage',
-    label: 'Error Message',
+    label: t('in-applications:labelErrorMessage'),
     getContent(item, { applicationName, serviceName, endpointName, boundaryScope }) {
       return (
         <Message
@@ -44,7 +45,7 @@ const columnDefinitions = [
   },
   {
     id: 'erroneousCallsAgg',
-    label: 'Erroneous Call Count',
+    label: t('in-applications:labelErroneousCallCount'),
     defaultOrderDirection: 'DESC',
     getContent(item, { result, timeConfig }) {
       return (
@@ -64,7 +65,7 @@ const columnDefinitions = [
 const ServerTableWithUrlState = createServerTableWithUrlState({
   Renderer: withEmptyTableState({
     columnDefinitions,
-    entityName: 'error messages'
+    entityName: t('in-applications:dashboards.errorMessages')
   }),
   paginationResettingUrlParameters: [
     ...timeConfigUrlParameters,
@@ -172,7 +173,7 @@ function Message({ message, applicationName, serviceName, endpointName, boundary
   const includeSyntheticFilter = { name: 'include_synthetic', value: 'true', operator: 'EQUALS' };
 
   if (!message || message === '') {
-    displayedMessage = 'Erroneous call without error message';
+    displayedMessage = t('in-applications:dashboards.errorCallWithoutMessage');
     errorMessageFilter = { name: 'call.error.message', operator: operators.IS_EMPTY };
   } else {
     displayedMessage = message;
