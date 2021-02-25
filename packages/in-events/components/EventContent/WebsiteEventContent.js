@@ -5,21 +5,22 @@
 import { t } from 'in-i18n';
 import React from 'react';
 
-import { getChartTimeConfigByEvent, getTimeConfigFromEvent } from 'in-events/timeframe';
-import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
-import { getEnhancedTagFilters } from 'in-new-components/Alerting/utils/tagfilterEnrichmentUtil';
+import WebsitesAlertingChartWithErrorMessage from 'in-websites/alerting/chart/WebsitesAlertingChartWithErrorMessage';
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
+import ScopeConfigPresenter from 'in-new-components/Alerting/components/ScopeConfigPresenter';
 import { createDefaultChartConfig } from 'in-new-components/Alerting/Chart/chartViewConfig';
+import { fromBackendModel } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { alertingEventDetailsChartTimeframe } from 'in-new-components/Alerting/constants';
 import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
+import { getChartTimeConfigByEvent, getTimeConfigFromEvent } from 'in-events/timeframe';
 import AnalyzeWebsiteEventButton from 'in-events/components/AnalyzeWebsiteEventButton';
 import WebsiteAlertConfigButton from 'in-events/components/WebsiteAlertConfigButton';
 import useWebsiteEventAlertConfig from 'in-events/hooks/useWebsiteEventAlertConfig';
+import AlertQueryBuilder from 'in-websites/alerting/components/AlertQueryBuilder';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import WebsiteScopePath from 'in-websites/alerting/components/WebsiteScopePath';
 import { getBlueprintConfig } from 'in-websites/alerting/data/blueprintConfig';
-import AlertingChart from 'in-new-components/Alerting/Chart/AlertingChart';
 import useWebsiteEventEntity from 'in-events/hooks/useWebsiteEventEntity';
 import { getSmartAlertAnalyzeTimeframe } from 'in-events/timeframe';
 import { Row, Col } from 'in-new-components/layout/Grid';
@@ -35,22 +36,18 @@ export default function WebsiteEventContent({ event }) {
     return null;
   }
 
-  const tagFilters = alertConfig.tagFilters;
-  const alertType = alertConfig.rule.alertType;
+  const { tagFilters, tagFilterExpression, rule, convertedTagFilterExpression } = alertConfig;
+  const alertType = rule.alertType;
+
+  const blueprintConfig = getBlueprintConfig(alertType);
   const timeConfig = {
     ...getChartTimeConfigByEvent({ event }),
     windowSize: alertingEventDetailsChartTimeframe
   };
   const analyzeTimeConfig = getSmartAlertAnalyzeTimeframe(event, alertConfig);
   const chartViewConfig = createDefaultChartConfig(timeConfig);
-  const blueprintConfig = getBlueprintConfig(alertType);
 
-  // TODO enrichedTagFilterFormModel is always undefined here at the moment. In Website SmartAlerts, we don't
-  //      fully support QB2 yet.
-  const { numeratorFilter, enrichedTagFilters, enrichedTagFilterFormModel } = getEnhancedTagFilters(
-    alertConfig,
-    blueprintConfig
-  );
+  const tagFilterFormModel = fromBackendModel(tagFilterExpression);
 
   return (
     <>
@@ -75,17 +72,13 @@ export default function WebsiteEventContent({ event }) {
       <Row withoutSideMargin>
         <Col xs>
           <Card title={t('in-events:titleMetrics')}>
-            <AlertingChart
+            <WebsitesAlertingChartWithErrorMessage
               alertConfigWithFormModel={{
                 ...alertConfig,
-                tagFilterExpression: enrichedTagFilterFormModel
+                tagFilterExpression: tagFilterFormModel
               }}
               viewConfig={chartViewConfig}
               blueprintConfig={blueprintConfig}
-              numeratorFilter={numeratorFilter}
-              enrichedTagFilters={enrichedTagFilters}
-              enrichedTagFilterExpression={toBackendQueryModel(enrichedTagFilterFormModel)}
-              isQB1only
             />
           </Card>
         </Col>
@@ -94,13 +87,21 @@ export default function WebsiteEventContent({ event }) {
       <Row withoutSideMargin>
         <Col xs>
           <Card title={t('in-events:titleScope')}>
-            <div className={locals.filterList}>
-              <TagFilterListPresenter
-                tagFilters={translateDemocratisationTagFiltersToAnalyzeTagFilters({
-                  tagFilters: [...blueprintConfig.getEntityTagFilters(alertConfig), ...tagFilters],
-                  websiteLabel: eventEntity.websiteName
-                })}
-                disabled
+            <div className={locals.alertFiltersWrapper}>
+              <ScopeConfigPresenter
+                tagFilterList={
+                  <TagFilterListPresenter
+                    tagFilters={translateDemocratisationTagFiltersToAnalyzeTagFilters({
+                      tagFilters: [...blueprintConfig.getEntityTagFilters(alertConfig), ...tagFilters],
+                      websiteLabel: eventEntity.websiteName
+                    })}
+                    disabled
+                  />
+                }
+                tagFilterFormModel={tagFilterFormModel}
+                queryBuilder={<AlertQueryBuilder value={tagFilterFormModel} readOnly />}
+                convertedTagFilterExpression={convertedTagFilterExpression}
+                scopePath={<WebsiteScopePath {...eventEntity} />}
               />
             </div>
           </Card>

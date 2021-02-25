@@ -193,6 +193,8 @@ export function getLinkToAnalyze({
         if (!isFormModelValid) {
           // reset query builder
           setOrDeleteMatrixKey(params, analyzePath, 'tagFilterExpression');
+        } else {
+          setOrDeleteMatrixKey(params, analyzePath, 'tagFilterExpression', serializeTagFilters(formModel));
         }
       }
       setOrDeleteMatrixKey(params, analyzePath, 'chartedMetrics');
